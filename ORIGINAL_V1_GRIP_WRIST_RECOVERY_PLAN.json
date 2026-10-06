@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "status": "PREPARED_GRIP_WRIST_RECOVERY_PLAN",
+  "asset": "HomeGymPT_Male_ORIGINAL_v1",
+  "production_approved": false,
+  "issue_ids": [
+    "WB-GRP-009",
+    "WB-WRI-010"
+  ],
+  "transition_zones": [
+    "WBZ-07",
+    "WBZ-08",
+    "WBZ-09"
+  ],
+  "current_architecture_observation": {
+    "source": "scripts/pose_test_original_v1_o4_candidate_blender.py",
+    "observations": [
+      "grip() applies the same MCP/PIP/DIP target angles to index, middle, ring and pinky chains (70/88/55 degrees times one amount).",
+      "The thumb uses fixed flexion targets rather than an object-size/position-driven opposition solve.",
+      "close_on_handle() performs contact-limited closure along one parallel hinge axis per chain and uses one shared handle radius of 0.017 m.",
+      "curl_handle and pullup_bar both use the same handle-placement/contact machinery even though grip orientation/load path differ."
+    ],
+    "interpretation": "These are implementation facts, not proof of the visible defect by themselves. The owner-rejected r95 grip images and issue ledger remain the visual defect authority."
+  },
+  "human_evidence_ids": [
+    "HE-GRP-001",
+    "HE-GRP-002",
+    "HE-WRI-001",
+    "HE-WRI-002",
+    "HE-PULL-001",
+    "HE-UPPER-001"
+  ],
+  "design_requirements": [
+    "Finger closure must be contact/equipment-geometry driven and allow inter-digit differences; do not preserve one uniform four-finger curl profile merely for symmetry.",
+    "Thumb opposition, CMC/abduction behaviour and flexion must adapt to object geometry/relative position and produce a plausible opposing contact rather than only extra hinge flexion.",
+    "Forearm pronation/supination and wrist orientation are part of the grip/load path; avoid solving fingers independently of wrist/forearm configuration.",
+    "The same first-party solver must generalise across dumbbell handle, pull-up bar and other cylindrical equipment sizes without exercise-name-specific anatomy patches.",
+    "Joint limits remain deterministic and biomechanically bounded; contact convergence may stop a joint before its nominal target.",
+    "Left/right behaviour is mirror-consistent while permitting the measured/posed load path to differ when the task is asymmetric.",
+    "Palm arch/thenar and digit soft-tissue deformation must remain continuous with the wrist/forearm and must not rely on rigid bone motion alone."
+  ],
+  "required_probe_families": [
+    {
+      "id": "GW-01",
+      "name": "cylindrical_diameter_response",
+      "configurations": [
+        "small_handle",
+        "current_34mm_handle",
+        "medium_handle",
+        "large_handle"
+      ],
+      "purpose": "Prove that digit flexion/opposition responds to equipment diameter instead of replaying one fixed curl."
+    },
+    {
+      "id": "GW-02",
+      "name": "forearm_orientation_response",
+      "configurations": [
+        "pronated",
+        "neutral",
+        "supinated"
+      ],
+      "purpose": "Prove wrist/forearm/grip coupling and reject a detached hand solution."
+    },
+    {
+      "id": "GW-03",
+      "name": "loaded_pushup_wrist",
+      "configurations": [
+        "production_pushup_floor_contact",
+        "neutral_wrist_reference_where_supported"
+      ],
+      "purpose": "Prove the wrist/load path and palm-floor transition under closed-chain loading."
+    },
+    {
+      "id": "GW-04",
+      "name": "curl_handle",
+      "configurations": [
+        "curl_handle_start",
+        "curl_handle_mid",
+        "curl_handle_peak"
+      ],
+      "purpose": "Prove dumbbell contact, sequential digit wrap, thumb opposition and stable wrist through the motion."
+    },
+    {
+      "id": "GW-05",
+      "name": "pullup_bar",
+      "configurations": [
+        "hang",
+        "intermediate_pull",
+        "top",
+        "return"
+      ],
+      "purpose": "Prove pronated/supinated bar variants where supported, no contact drift and plausible wrist/forearm coupling."
+    }
+  ],
+  "evidence_requirements": {
+    "temporal_classes": [
+      "start",
+      "outbound_intermediate",
+      "peak_or_contact_max",
+      "return_intermediate",
+      "end_or_loop_close",
+      "turnaround_neighbourhood"
+    ],
+    "views": [
+      "palm_oblique",
+      "dorsal_oblique",
+      "thumb_side",
+      "ulnar_side",
+      "wrist_forearm_context"
+    ],
+    "numerical": [
+      "contact/penetration metrics using the existing production contact model",
+      "joint-limit compliance",
+      "left/right mirror audit where the task is symmetric",
+      "wrist/forearm rotation continuity",
+      "whole-body regression comparison against the accepted parent candidate"
+    ],
+    "visual": [
+      "non-uniform but anatomically plausible digit wrap",
+      "thumb opposition/contact",
+      "palm/thenar continuity",
+      "no handle through skin or visibly floating grip",
+      "wrist alignment with forearm and equipment force path",
+      "no forearm candy-wrapper twist or abrupt wrist seam"
+    ]
+  },
+  "implementation_order": [
+    "Reproduce the current candidate grip/wrist evidence and hash-bind it before edits.",
+    "Instrument per-digit joint angles, handle distance/contact and wrist/forearm orientation throughout the probe families.",
+    "Separate nominal human grasp intent from contact convergence so equipment geometry can stop each digit independently.",
+    "Add object-size/relative-position-aware thumb opposition before tuning cosmetic hand surface behaviour.",
+    "Validate the forearm/wrist load path in curl, pull-up and push-up before fitting any hand corrective.",
+    "Only after skeletal/contact behaviour is plausible, fit local first-party soft-tissue/palm correctives if evidence still requires them.",
+    "Run candidate-bound visual, numerical and whole-body regression evidence; close WB-GRP-009/WB-WRI-010 only with structured issue receipts."
+  ],
+  "forbidden_shortcuts": [
+    "Do not close the issues because old numerical grip gates pass.",
+    "Do not use exercise-name-specific finger angles to imitate one screenshot.",
+    "Do not copy third-party hand meshes, rigs, animation clips or reference media into production assets.",
+    "Do not solve penetration by moving the equipment away from the anatomically intended hand contact.",
+    "Do not proceed to Phase 4 while either WB-GRP-009 or WB-WRI-010 remains a Critical/High blocker."
+  ]
+}

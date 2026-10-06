@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "status": "prepared_blocked_on_final_model_and_renderer",
+  "created_utc": "2026-10-06",
+  "producer": {
+    "repository": "anyangle1409-code/animation-software",
+    "branch": "work/pt-app-export-bridge-20261006",
+    "required_character": "HomeGymPT_Male_ORIGINAL_v1",
+    "required_rig": "hgpt_canonical_v4_original",
+    "manifest_schema": 2,
+    "direct_confirmed_exercise_count": 17
+  },
+  "consumer": {
+    "repository": "anyangle1409-code/PT-App",
+    "branch": "work/animation-intake-hardening-20261006",
+    "required_character": "HomeGymPT_Male_ORIGINAL_v1",
+    "required_rig": "hgpt_canonical_v4_original"
+  },
+  "completed": [
+    "producer manifest schema",
+    "producer promotion-contract gate",
+    "approved character hash binding",
+    "direct-confirmed exercise identity map",
+    "media SHA computation",
+    "consumer exact character/rig validation",
+    "consumer read-only readiness hardening",
+    "dry-run/promotion infrastructure already present in PT-App"
+  ],
+  "blocked": [
+    "final ORIGINAL-v1 production approval",
+    "deterministic final-character video renderer/encoder",
+    "candidate-bound end-to-end bundle execution",
+    "PT-App playback regression using real first-party output"
+  ],
+  "next_after_model_approval": [
+    "resolve exact approved character hash and source commit",
+    "bind deterministic render profile to approved deformation runtime",
+    "render one direct-confirmed exercise",
+    "build schema-v2 manifest",
+    "run PT-App validator and readiness",
+    "dry-run one exercise promotion",
+    "run playback/regression acceptance",
+    "expand exercise-by-exercise"
+  ],
+  "production_approved": false
+}

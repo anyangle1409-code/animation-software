@@ -5,6 +5,7 @@ import argparse, json, re
 from pathlib import Path
 from original_v1_production_control import ROOT, CAND, build, digest, read
 from original_v1_whole_body_issues import blocking_issues, validate_ledger
+from original_v1_anatomy_issue_closure import verify_closed_issues
 
 ISSUE_LEDGER = "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json"
 
@@ -64,6 +65,14 @@ def assess(state, control, root=ROOT, require_local_blend=False, issue_ledger=No
                     f"whole-body blocker {row['id']} [{row['severity']}] {row['state']}"
                     for row in blockers
                 )
+            elif issue_ledger is None:
+                human = json.loads(
+                    (root / "ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json").read_text(encoding="utf-8-sig")
+                )
+                closure_errors = verify_closed_issues(root, ledger, human)
+                if closure_errors:
+                    issues.append("Critical/High anatomy closure evidence is invalid")
+                    issues.extend("anatomy closure: " + error for error in closure_errors)
     except (OSError,ValueError,TypeError,json.JSONDecodeError) as exc:
         issues.append("whole-body issue ledger unavailable/invalid: " + str(exc))
 
@@ -81,7 +90,7 @@ def assess(state, control, root=ROOT, require_local_blend=False, issue_ledger=No
         "eligibility":"ELIGIBLE_FOR_PHASE4_VALIDATION" if not issues else "PHASE4_BLOCKED",
         "issues":list(dict.fromkeys(issues)),
         "production_approved":False,
-        "note":"Read-only eligibility preflight. Critical/High whole-body anatomy blockers now fail closed; this still does not create a freeze record, execute replay/audits, or approve production.",
+        "note":"Read-only eligibility preflight. Critical/High whole-body anatomy blockers fail closed, and closed Critical/High rows require structured candidate-bound closure receipts; this still does not create a freeze record, execute replay/audits, or approve production.",
     }
 
 def main():

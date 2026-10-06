@@ -4,8 +4,17 @@ from __future__ import annotations
 import argparse, json, re
 from pathlib import Path
 from original_v1_production_control import ROOT, CAND, build, digest, read
+from original_v1_whole_body_issues import blocking_issues, validate_ledger
 
-def assess(state, control, root=ROOT, require_local_blend=False):
+ISSUE_LEDGER = "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json"
+
+
+def _load_issue_ledger(root):
+    path = root / ISSUE_LEDGER
+    return json.loads(path.read_text(encoding="utf-8-sig"))
+
+
+def assess(state, control, root=ROOT, require_local_blend=False, issue_ledger=None):
     issues=[]
     rev=state.get("current_candidate")
     sha=state.get("last_known_candidate_sha256")
@@ -40,6 +49,24 @@ def assess(state, control, root=ROOT, require_local_blend=False):
             issues.append("verified full-evidence receipt missing from current evidence")
         if baseline and f"ORIGINAL_V1_WORK/candidates/repair_checks/full_{rev}_comparison_vs_{baseline}.json" not in refs:
             issues.append("active epoch-baseline comparison missing from current evidence")
+
+    try:
+        ledger = issue_ledger if issue_ledger is not None else _load_issue_ledger(root)
+        ledger_errors = validate_ledger(ledger, None if issue_ledger is not None else root)
+        if ledger_errors:
+            issues.append("whole-body issue ledger invalid")
+            issues.extend("whole-body issue ledger: " + error for error in ledger_errors)
+        else:
+            blockers = blocking_issues(ledger)
+            if blockers:
+                issues.append("Critical/High whole-body anatomy issues remain")
+                issues.extend(
+                    f"whole-body blocker {row['id']} [{row['severity']}] {row['state']}"
+                    for row in blockers
+                )
+    except (OSError,ValueError,TypeError,json.JSONDecodeError) as exc:
+        issues.append("whole-body issue ledger unavailable/invalid: " + str(exc))
+
     if require_local_blend and rev and sha:
         blend=root/CAND/f"HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_{rev}.blend"
         if not blend.is_file():
@@ -47,14 +74,14 @@ def assess(state, control, root=ROOT, require_local_blend=False):
         elif digest(blend)!=sha:
             issues.append("local candidate Blend hash differs from committed identity")
     return {
-        "schema_version":1,
+        "schema_version":2,
         "candidate":rev,
         "candidate_sha256":sha,
         "active_pinned_baseline":baseline,
         "eligibility":"ELIGIBLE_FOR_PHASE4_VALIDATION" if not issues else "PHASE4_BLOCKED",
         "issues":list(dict.fromkeys(issues)),
         "production_approved":False,
-        "note":"Read-only eligibility preflight. It does not create a freeze record, execute replay/audits, or approve production.",
+        "note":"Read-only eligibility preflight. Critical/High whole-body anatomy blockers now fail closed; this still does not create a freeze record, execute replay/audits, or approve production.",
     }
 
 def main():

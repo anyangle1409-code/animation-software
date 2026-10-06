@@ -52,6 +52,7 @@ class AnatomyIssueClosureTests(unittest.TestCase):
         receipt = {
             "schema_version": 1,
             "status": closure.CLOSURE_STATUS,
+            "closure_type": "model_anatomy",
             "production_approved": False,
             "issue_id": issue["id"],
             "candidate_revision": "r99",
@@ -119,6 +120,47 @@ class AnatomyIssueClosureTests(unittest.TestCase):
             ledger["issues"][0]["closure_evidence"] = []
             self.assertEqual(closure.verify_closed_issues(root, ledger, human), [])
             # The separate issue-ledger blocker gate is responsible for Open state.
+
+    def test_qa_process_issue_uses_process_control_contract(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            ledger, human, receipt = self.fixture(root)
+            issue = ledger["issues"][0]
+            issue["id"] = "WB-QA-011"
+            issue["region"] = "validation process"
+            issue["human_evidence_ids"] = ["HE-TEST-001"]
+            process = root / "process.json"
+            process.write_text("{}")
+            receipt = {
+                "schema_version": 1,
+                "status": closure.CLOSURE_STATUS,
+                "closure_type": "process_control",
+                "production_approved": False,
+                "issue_id": "WB-QA-011",
+                "candidate_revision": "r99",
+                "candidate_sha256": "a" * 64,
+                "source_git_commit": "b" * 40,
+                "closure_decision": "Fixed",
+                "process_regression_tests_passed": True,
+                "fail_closed_visual_blocking_verified": True,
+                "historical_records_preserved": True,
+                "production_approval_not_inferred": True,
+                "process_evidence": [{"path": "process.json", "sha256": closure.digest(process), "passed": True}],
+                "test_command": "python -m unittest discover",
+                "review_note": "Fixture process controls explicitly verified.",
+            }
+            (root / "closure.json").write_text(json.dumps(receipt))
+            self.assertEqual(closure.verify_closed_issues(root, ledger, human), [])
+
+    def test_qa_process_issue_cannot_use_model_anatomy_receipt(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            ledger, human, receipt = self.fixture(root)
+            ledger["issues"][0]["id"] = "WB-QA-011"
+            receipt["issue_id"] = "WB-QA-011"
+            (root / "closure.json").write_text(json.dumps(receipt))
+            errors = "\n".join(closure.verify_closed_issues(root, ledger, human))
+            self.assertIn("WB-QA issue requires process_control closure", errors)
 
 
 if __name__ == "__main__":

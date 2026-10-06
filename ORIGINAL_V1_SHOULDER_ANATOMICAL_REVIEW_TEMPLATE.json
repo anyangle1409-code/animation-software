@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "candidate_revision": null,
+  "candidate_sha256": null,
+  "parent_sha256": null,
+  "machine_gates": [
+    {
+      "id": "SH-M01",
+      "pass": false,
+      "evidence_paths": [],
+      "note": "candidate identity/hash binding"
+    },
+    {
+      "id": "SH-M02",
+      "pass": false,
+      "evidence_paths": [],
+      "note": "declared-scope audit"
+    },
+    {
+      "id": "SH-M03",
+      "pass": false,
+      "evidence_paths": [],
+      "note": "protected-zone self-intersection"
+    },
+    {
+      "id": "SH-M04",
+      "pass": false,
+      "evidence_paths": [],
+      "note": "activation arc continuity"
+    },
+    {
+      "id": "SH-M05",
+      "pass": false,
+      "evidence_paths": [],
+      "note": "mirrored-pose symmetry"
+    },
+    {
+      "id": "SH-M06",
+      "pass": false,
+      "evidence_paths": [],
+      "note": "axial-rotation surface response"
+    },
+    {
+      "id": "SH-M07",
+      "pass": false,
+      "evidence_paths": [],
+      "note": "weights-only foundation before correctives"
+    },
+    {
+      "id": "SH-M08",
+      "pass": false,
+      "evidence_paths": [],
+      "note": "corrective magnitude regression"
+    },
+    {
+      "id": "SH-M09",
+      "pass": false,
+      "evidence_paths": [],
+      "note": "full arc regression"
+    }
+  ],
+  "visual_gates": [
+    {
+      "id": "SH-V01",
+      "pass": false,
+      "evidence_paths": [],
+      "human_evidence_ids": [],
+      "review_note": ""
+    },
+    {
+      "id": "SH-V02",
+      "pass": false,
+      "evidence_paths": [],
+      "human_evidence_ids": [],
+      "review_note": ""
+    },
+    {
+      "id": "SH-V03",
+      "pass": false,
+      "evidence_paths": [],
+      "human_evidence_ids": [],
+      "review_note": ""
+    },
+    {
+      "id": "SH-V04",
+      "pass": false,
+      "evidence_paths": [],
+      "human_evidence_ids": [],
+      "review_note": ""
+    },
+    {
+      "id": "SH-V05",
+      "pass": false,
+      "evidence_paths": [],
+      "human_evidence_ids": [],
+      "review_note": ""
+    },
+    {
+      "id": "SH-V06",
+      "pass": false,
+      "evidence_paths": [],
+      "human_evidence_ids": [],
+      "review_note": ""
+    },
+    {
+      "id": "SH-V07",
+      "pass": false,
+      "evidence_paths": [],
+      "human_evidence_ids": [],
+      "review_note": ""
+    },
+    {
+      "id": "SH-V08",
+      "pass": false,
+      "evidence_paths": [],
+      "human_evidence_ids": [],
+      "review_note": ""
+    },
+    {
+      "id": "SH-V09",
+      "pass": false,
+      "evidence_paths": [],
+      "human_evidence_ids": [],
+      "review_note": ""
+    },
+    {
+      "id": "SH-V10",
+      "pass": false,
+      "evidence_paths": [],
+      "human_evidence_ids": [],
+      "review_note": ""
+    }
+  ],
+  "weights_only_foundation_pass": false,
+  "movement_matrix_complete": false,
+  "human_anatomical_review_recorded": false,
+  "open_critical_high_linked_issues": [
+    "WB-AX-001",
+    "WB-PEC-002",
+    "WB-PEC-003",
+    "WB-AX-004",
+    "WB-SHO-005",
+    "WB-SHO-006",
+    "WB-CLV-007",
+    "WB-SYM-008"
+  ],
+  "residual_corrective_fitted": false,
+  "production_approved": false,
+  "note": "Template defaults fail closed. Copy to candidate-specific evidence; never edit this template into a pass."
+}

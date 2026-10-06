@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import {buildManifest,validatePromotionContract} from './build-pt-app-export-manifest.mjs';
+const approved=()=>({mode:'approved_for_promotion',source_track:{approved_source_commit:'a'.repeat(40)},required_runtime_metadata:{rigId:'hgpt_canonical_v4_original'},production_targets:{bare:{sha256:'b'.repeat(64)},dressed:{sha256:'c'.repeat(64)}}});
+const input=()=>({schema_version:2,generator_version:'test',rig_version:'hgpt_canonical_v4_original',character_version:'HomeGymPT_Male_ORIGINAL_v1',character_sha256:'d'.repeat(64),character_approval_status:'production_approved',render_profile_version:'render-v1',assets:[{exercise_id:'db-shoulder-press',source_exercise_id:'dumbbell-shoulder-press',filename:'db-shoulder-press.webm',source_animation_sha256:'e'.repeat(64),provenance_classification:'FIRST_PARTY_CONFIRMED',generated_by_first_party_animation_software:true,validation_status:'passed'}]});
+assert.ok(validatePromotionContract({}).length);
+const dir=fs.mkdtempSync(path.join(os.tmpdir(),'hgpt-export-'));fs.writeFileSync(path.join(dir,'db-shoulder-press.webm'),'fixture');
+assert.equal(buildManifest(input(),dir,approved()).schema_version,2);
+assert.throws(()=>buildManifest(input(),dir,{}),/promotion contract/);
+const bad=input();bad.character_approval_status='candidate';assert.throws(()=>buildManifest(bad,dir,approved()),/production_approved/);
+const bad2=input();bad2.assets[0].validation_status='failed';assert.throws(()=>buildManifest(bad2,dir,approved()),/validation not passed/);
+console.log('PT app export manifest tests passed');

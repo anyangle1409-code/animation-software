@@ -11,21 +11,13 @@ import { MUSCLE_GROUPS } from '../muscles/groups';
 export const ANIMATION_FORMAT = 'hgpt-animation';
 export const METADATA_FORMAT = 'hgpt-exercise';
 /**
- * The skeleton exported rotations are written against — structurally frozen
- * at v3 (see `docs/CANONICAL_SKELETON_FREEZE.md` and `rig/frozen.test.ts`).
+ * Canonical skeleton identity written into animation JSON and exercise metadata.
  *
- *   v1  53 bones
- *   v2  55: scapulae between clavicles and upper arms, so an upper arm's local
- *       rotation became relative to its scapula
- *   v3  63: a metacarpal between each hand and finger, so a finger root's
- *       local rotation is relative to its metacarpal; the thumb base gains an
- *       axial axis
- *
- * World motion is the same across all three — each version's rest × the new
- * local reproduces the old local — but a reader bound to an earlier hierarchy
- * would misapply the changed tracks, which is why the identifier changes.
+ * The live standalone runtime uses the first-party ORIGINAL-v1 v4 canonical
+ * hierarchy. Export metadata must name the rig actually used; retaining the
+ * historical v3 label would make PT-App provenance ambiguous and unsafe.
  */
-export const SKELETON_ID = 'hgpt_canonical_v3';
+export const SKELETON_ID = 'hgpt_canonical_v4_original';
 
 export interface AnimationJson {
   format: typeof ANIMATION_FORMAT;

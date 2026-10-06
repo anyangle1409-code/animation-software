@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "ANATOMICAL_RECOVERY_TASK7_PREPARED",
+  "status": "PREPARED_EXECUTION_ORCHESTRATION",
   "production_approved": false,
   "phase_complete": false,
   "purpose": "Single non-executing orchestration map for recovery after the owner's r95 anatomical rejection. It never launches Blender, edits a model, promotes a phase, or closes a visual issue without committed evidence.",
@@ -22,7 +22,10 @@
     "topology_only_r96_sha256": "6934594dde9140193882c0e293f8b404fb24bed8b1b1b2722267ff97d13844dd",
     "next_action": "EXECUTE r96 Task 7 generic elevation-driven residual corrective",
     "command": null,
-    "note": "Task 6 proved that more support loops, broader arm-follow weights and Blender-only Preserve Volume are not viable delivery fixes. Declare a fresh r96 Task 7 morph mask from the exact topology-only intermediate, fit one residual anatomical behaviour at a time, and keep r95 immutable."
+    "note": "Task 6 proved that more support loops, broader arm-follow weights and Blender-only Preserve Volume are not viable delivery fixes. Declare a fresh r96 Task 7 morph mask from the exact topology-only intermediate, fit one residual anatomical behaviour at a time, and keep r95 immutable.",
+    "active": true,
+    "selector_node": "3A_axilla_local",
+    "release_condition": "Deactivate this recovery override only after the r96 Task 7 shoulder gate passes with committed evidence; then point orchestration to the next unresolved Critical/High whole-body issue, not Phase 5."
   },
   "blocking_issue_ledger": {
     "path": "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json",
@@ -46,7 +49,8 @@
     "No legacy V-series implementation data or third-party character content may enter ORIGINAL v1.",
     "Routine owner review snapshots are non-blocking; final owner acceptance/freeze authorization remain explicit later gates.",
     "Every candidate/output uses a fresh revision/label/path; never overwrite historical evidence.",
-    "Prepared tooling is not phase completion. Actual execution evidence controls progression."
+    "Prepared tooling is not phase completion. Actual execution evidence controls progression.",
+    "A live anatomical-recovery override takes precedence over historically generated phase-complete fields until its evidence-bound release condition is satisfied."
   ],
   "prepared_support_stages": [
     {
@@ -280,7 +284,7 @@
         "whole-body regression evidence passes and no unrelated Critical/High blocker is hidden or auto-closed",
         "candidate disposition and exact hashes are committed; production approval remains false"
       ],
-      "next_on_pass": "Continue whole-body Critical/High recovery (including grip/wrist) until issue ledger is clear, then 4_freeze",
+      "next_on_pass": "Update current_expected_state to the next unresolved Critical/High whole-body recovery stage (grip/wrist is already prepared) and continue until the issue ledger is clear; only then select 4_freeze.",
       "next_on_tradeoff": "Preserve evidence and create a new declared Task 7 experiment from the exact r96 parent; never auto-promote or fall back to r95 corrective data.",
       "parallel_safe": [
         "read-only human-evidence coverage validation",
@@ -536,5 +540,6 @@
       ],
       "boundary": "Phase 5 only after verified Phase 4 freeze; review capture is evidence, never regional/phase acceptance."
     }
-  }
+  },
+  "recovery_status": "ANATOMICAL_RECOVERY_TASK7_PREPARED"
 }

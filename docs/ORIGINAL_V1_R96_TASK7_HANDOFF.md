@@ -52,18 +52,33 @@ Task 7 is not complete on metrics alone. Production-path renders must explicitly
 - `WB-CLV-007` clavicle/scapula/trapezius surface coupling
 - `WB-SYM-008` bilateral shoulder-complex symmetry
 
-Required evidence flags for the final Task 7 review record:
+Use `ORIGINAL_V1_R96_TASK7_VISUAL_REVIEW_TEMPLATE.json` as the shape only; copy it to a fresh candidate-specific evidence path. Required final review fields include:
 
-- `production_path_rendered: true`
-- `visual_pass: true`
-- `symmetry_pass: true`
-- `arc_continuity_pass: true`
-- `whole_body_regression_pass: true`
-- `real_human_reference_checked: true`
-- `critical_high_remaining: 0`
-- `reviewed_issue_ids` contains all eight IDs above
+- exact `source_candidate_sha256` = the topology-only r96 parent;
+- exact candidate SHA-256 and source Git commit;
+- real production-path render path/SHA/pose/view rows;
+- one explicit PASS row for each of the eight issue IDs above, with committed render paths, human-evidence IDs and a written review note;
+- `production_path_rendered: true`;
+- `visual_pass: true`;
+- `symmetry_pass: true`;
+- `arc_continuity_pass: true`;
+- `whole_body_regression_pass: true`;
+- `real_human_reference_checked: true`;
+- `critical_high_remaining: 0`.
 
-## Prepared gate
+## Prepared gates
+
+`scripts/original_v1_r96_task7_arc_gate.py` compares baseline and candidate continuous-arc audits for `press_top`, `press_top_rhythm`, `pullup_hang` and `pullup_hang_rhythm`. It uses only the already-approved repository comparison tolerances for blocking numerical drift; torso-drift and adjacent-sample continuity values without an existing sanctioned threshold are reported as measurements rather than turned into invented pass criteria.
+
+Run it after generating matching baseline/candidate arc JSON:
+
+```text
+python scripts/original_v1_r96_task7_arc_gate.py \
+  <baseline_arc.json> <candidate_arc.json> \
+  --out <task7_arc_gate.json>
+```
+
+A green numeric arc result does **not** establish human anatomy; the production-path images still require explicit review.
 
 `scripts/original_v1_r96_task7_gate.py` is Blender-free and intentionally fail-closed. It combines:
 
@@ -94,3 +109,14 @@ Stop and preserve evidence instead of promoting if:
 - any unrelated body region regresses.
 
 This handoff performs no Blender edit and claims no r96 model improvement by itself. Its purpose is to make the next laptop/Work run deterministic and harder to falsely promote.
+
+## Whole-body continuation after the shoulder candidate
+
+The shoulder fix is not permission to jump to Phase 5. The repository now has:
+
+- `ORIGINAL_V1_HUMAN_EVIDENCE_COVERAGE.json` — explicit evidence coverage for every category in the movement envelope;
+- `ORIGINAL_V1_WHOLE_BODY_DEFORMATION_AUDIT_PLAN.json` — 16 anatomical transition zones and start/intermediate/end/reversal sampling requirements;
+- `scripts/original_v1_whole_body_audit_readiness.py` — checks audit infrastructure separately from unresolved model blockers;
+- a hardened `scripts/original_v1_phase4_preflight.py` that refuses a new development freeze while any Critical/High whole-body anatomy issue remains open/in-progress/pending review.
+
+Therefore, after a shoulder Task 7 candidate passes, continue through the blocking whole-body ledger (including grip/wrist) and the transition-zone audit. Only an empty Critical/High blocker list plus the normal candidate evidence makes Phase 4 re-freeze eligible.

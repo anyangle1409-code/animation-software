@@ -10,7 +10,9 @@
     "ORIGINAL_V1_HUMAN_EVIDENCE_MANIFEST.json and ORIGINAL_V1_HUMAN_EVIDENCE_COVERAGE.json validate with no missing movement category.",
     "Use the exact production deformation path for every visual decision.",
     "Do not weaken ORIGINAL_V1_DEFORMATION_ACCEPTANCE.json thresholds or comparison tolerances.",
-    "Any Critical/High visual defect is entered in ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json and blocks Phase 4 refreeze until closed with committed evidence."
+    "Any Critical/High visual defect is entered in ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json and blocks Phase 4 refreeze until closed with committed evidence.",
+    "ORIGINAL_V1_SHOULDER_ANATOMICAL_ACCEPTANCE_CONTRACT.json validates and remains fail-closed.",
+    "Shoulder-complex recovery must prove the weights-only foundation before any residual corrective can contribute to acceptance."
   ],
   "temporal_sampling": {
     "required_classes": [
@@ -416,7 +418,7 @@
         "WBZ-04",
         "WBZ-05"
       ],
-      "note": "Complete r96 Task 7 first; this is the current active work."
+      "note": "Complete the shoulder foundation rebuild under ORIGINAL_V1_SHOULDER_ANATOMICAL_ACCEPTANCE_CONTRACT.json. Existing r96 screening is diagnostic/rejected for promotion; do not proceed directly to the superseded residual-corrective route."
     },
     {
       "stage": 2,

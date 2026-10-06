@@ -284,7 +284,7 @@
         "whole-body regression evidence passes and no unrelated Critical/High blocker is hidden or auto-closed",
         "candidate disposition and exact hashes are committed; production approval remains false"
       ],
-      "next_on_pass": "Update current_expected_state to the next unresolved Critical/High whole-body recovery stage (grip/wrist is already prepared) and continue until the issue ledger is clear; only then select 4_freeze.",
+      "next_on_pass": "3CD_grip_wrist_recovery",
       "next_on_tradeoff": "Preserve evidence and create a new declared Task 7 experiment from the exact r96 parent; never auto-promote or fall back to r95 corrective data.",
       "parallel_safe": [
         "read-only human-evidence coverage validation",
@@ -293,11 +293,75 @@
       ]
     },
     {
+      "id": "3CD_grip_wrist_recovery",
+      "roadmap": "Reopened Phase 3C/3D grip, thumb, wrist and forearm load-path recovery",
+      "entry": [
+        "r96 Task 7 shoulder-complex gate has passed on the selected descendant candidate",
+        "WB-GRP-009 and/or WB-WRI-010 remains a Critical/High ledger blocker",
+        "ORIGINAL_V1_GRIP_WRIST_RECOVERY_PLAN.json and verified human evidence are present",
+        "candidate identity is hash-bound before any edit"
+      ],
+      "action": "Execute ORIGINAL_V1_GRIP_WRIST_RECOVERY_PLAN.json: run the read-only grip/wrist diagnostic, repair first-party grasp/thumb/wrist behaviour without exercise-specific anatomy hacks, render the production path, then run the fail-closed grip/wrist gate.",
+      "support_stages": [
+        1,
+        2,
+        9
+      ],
+      "exit": [
+        "grip/wrist diagnostic is complete and bound to the exact candidate",
+        "whole-candidate comparison reports zero material regression",
+        "WB-GRP-009 and WB-WRI-010 visual reviews pass against real-human evidence",
+        "structured closure receipts are committed for any Fixed/Accepted issue",
+        "production approval remains false"
+      ],
+      "next_on_pass": "whole_body_recovery_audit",
+      "next_on_tradeoff": "Preserve evidence and create a new candidate-bound grip/wrist experiment; do not weaken contact, anatomy or whole-body gates.",
+      "parallel_safe": [
+        "read-only whole-body audit preparation",
+        "human-evidence validation",
+        "Phase 4 preflight tooling only"
+      ]
+    },
+    {
+      "id": "whole_body_recovery_audit",
+      "roadmap": "Whole-body human deformation recovery audit before development refreeze",
+      "entry": [
+        "shoulder and grip/wrist stage-specific blockers have candidate-bound evidence",
+        "human-evidence manifest and 19-category coverage map validate",
+        "16-zone whole-body audit plan is present",
+        "current candidate identity is immutable for the audit run"
+      ],
+      "action": "Execute ORIGINAL_V1_WHOLE_BODY_DEFORMATION_AUDIT_PLAN.json across all 16 anatomical transitions and 19 movement categories, record start/intermediate/peak/return/reversal evidence, repair newly discovered Critical/High defects, and run the candidate-bound whole-body audit gate.",
+      "support_stages": [
+        1,
+        2,
+        3,
+        4,
+        9,
+        11
+      ],
+      "exit": [
+        "all 16 transition-zone rows PASS with hashed numerical and production-path visual evidence",
+        "all 19 movement-category rows PASS with verified human-evidence binding",
+        "whole-body regression passes",
+        "Critical/High issue ledger is empty of Open/In Progress/Pending Review blockers",
+        "all closed Critical/High rows have valid structured closure evidence"
+      ],
+      "next_on_pass": "4_freeze",
+      "next_on_tradeoff": "Record the new defect in the whole-body ledger, repair it on a fresh candidate, and repeat the affected zone plus whole-body regressions.",
+      "parallel_safe": [
+        "read-only evidence inventory",
+        "candidate-independent test preparation"
+      ]
+    },
+    {
       "id": "4_freeze",
       "roadmap": "Phase 4 development deformation freeze",
       "entry": [
-        "Phase 3 zero blockers",
-        "required regressions resolved",
+        "whole-body recovery audit gate passes on the current candidate",
+        "no Critical/High whole-body issue remains Open/In Progress/Pending Review",
+        "structured closure evidence validates for every closed Critical/High issue",
+        "zero development blockers and required regressions resolved",
         "complete replay/source lineage"
       ],
       "action": "Execute Phase 4 work package and verified exit report; pin development freeze without replacing R2",
@@ -539,7 +603,47 @@
         "RUN_ORIGINAL_V1_PHASE5_REGION_REVIEW.bat"
       ],
       "boundary": "Phase 5 only after verified Phase 4 freeze; review capture is evidence, never regional/phase acceptance."
+    },
+    "grip_wrist_recovery": {
+      "command": "Follow ORIGINAL_V1_GRIP_WRIST_RECOVERY_PLAN.json; run scripts/audit_original_v1_grip_wrist_blender.py on the exact candidate, then the grip/wrist gate after real render evidence exists",
+      "artifacts": [
+        "ORIGINAL_V1_GRIP_WRIST_RECOVERY_PLAN.json",
+        "ORIGINAL_V1_GRIP_WRIST_VISUAL_REVIEW_TEMPLATE.json",
+        "scripts/audit_original_v1_grip_wrist_blender.py",
+        "scripts/original_v1_grip_wrist_gate.py"
+      ]
+    },
+    "whole_body_recovery_audit": {
+      "command": "Follow ORIGINAL_V1_WHOLE_BODY_DEFORMATION_AUDIT_PLAN.json and complete ORIGINAL_V1_WHOLE_BODY_AUDIT_TEMPLATE.json on the current candidate before running scripts/original_v1_whole_body_audit_gate.py",
+      "artifacts": [
+        "ORIGINAL_V1_WHOLE_BODY_DEFORMATION_AUDIT_PLAN.json",
+        "ORIGINAL_V1_WHOLE_BODY_AUDIT_TEMPLATE.json",
+        "scripts/original_v1_whole_body_audit_readiness.py",
+        "scripts/original_v1_whole_body_audit_gate.py"
+      ]
     }
   },
-  "recovery_status": "ANATOMICAL_RECOVERY_TASK7_PREPARED"
+  "recovery_status": "ANATOMICAL_RECOVERY_TASK7_PREPARED",
+  "recovery_sequence": [
+    {
+      "node": "3A_axilla_local",
+      "phase": "phase_3A_r96_task7_residual_corrective",
+      "exit": "r96 Task 7 shoulder-complex gate passes with committed candidate-bound evidence"
+    },
+    {
+      "node": "3CD_grip_wrist_recovery",
+      "phase": "phase_3C_3D_grip_wrist_recovery",
+      "exit": "WB-GRP-009 and WB-WRI-010 are closed with structured candidate-bound evidence and no new whole-body regression"
+    },
+    {
+      "node": "whole_body_recovery_audit",
+      "phase": "whole_body_deformation_recovery_audit",
+      "exit": "all 16 transition zones and all 19 movement categories pass and no Critical/High blocker remains"
+    },
+    {
+      "node": "4_freeze",
+      "phase": "phase_4_refreeze_validation",
+      "exit": "new Phase 4 candidate-bound freeze validation passes"
+    }
+  ]
 }

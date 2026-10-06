@@ -51,6 +51,8 @@ Do not overwrite r96. Before editing, create a fresh numbered descendant candida
 - linked issue IDs;
 - stop conditions.
 
+Start from `ORIGINAL_V1_SHOULDER_FOUNDATION_DECLARATION_TEMPLATE.json`, copy it to a fresh candidate-specific evidence path, fill the exact parent/hash and scope, then validate it with `scripts/original_v1_shoulder_foundation_declaration.py` before Blender edits. The repository template is intentionally incomplete/fail-closed.
+
 If declaration identity or parent identity does not match, stop.
 
 ## Required movement proof

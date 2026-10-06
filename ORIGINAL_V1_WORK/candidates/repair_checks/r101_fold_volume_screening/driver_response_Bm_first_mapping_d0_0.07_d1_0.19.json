@@ -1,0 +1,296 @@
+{
+"abduction_000_-40": {
+"helper_offset_mm": {
+"axvol_ant_l": 0.0,
+"axvol_post_l": 0.0
+},
+"max_vertex_shift_mm": 0.0
+},
+"abduction_000_+0": {
+"helper_offset_mm": {
+"axvol_ant_l": 0.0,
+"axvol_post_l": 0.0
+},
+"max_vertex_shift_mm": 0.0
+},
+"abduction_000_+40": {
+"helper_offset_mm": {
+"axvol_ant_l": 0.0,
+"axvol_post_l": 0.0
+},
+"max_vertex_shift_mm": 0.0
+},
+"abduction_030_-40": {
+"helper_offset_mm": {
+"axvol_ant_l": 2.62,
+"axvol_post_l": 2.62
+},
+"max_vertex_shift_mm": 1.41
+},
+"abduction_030_+0": {
+"helper_offset_mm": {
+"axvol_ant_l": 2.62,
+"axvol_post_l": 2.62
+},
+"max_vertex_shift_mm": 1.41
+},
+"abduction_030_+40": {
+"helper_offset_mm": {
+"axvol_ant_l": 2.62,
+"axvol_post_l": 2.62
+},
+"max_vertex_shift_mm": 1.41
+},
+"abduction_060_-40": {
+"helper_offset_mm": {
+"axvol_ant_l": 23.07,
+"axvol_post_l": 23.07
+},
+"max_vertex_shift_mm": 12.43
+},
+"abduction_060_+0": {
+"helper_offset_mm": {
+"axvol_ant_l": 23.07,
+"axvol_post_l": 23.07
+},
+"max_vertex_shift_mm": 12.43
+},
+"abduction_060_+40": {
+"helper_offset_mm": {
+"axvol_ant_l": 23.07,
+"axvol_post_l": 23.07
+},
+"max_vertex_shift_mm": 12.43
+},
+"abduction_090_-40": {
+"helper_offset_mm": {
+"axvol_ant_l": 30.0,
+"axvol_post_l": 30.0
+},
+"max_vertex_shift_mm": 16.16
+},
+"abduction_090_+0": {
+"helper_offset_mm": {
+"axvol_ant_l": 30.0,
+"axvol_post_l": 30.0
+},
+"max_vertex_shift_mm": 16.16
+},
+"abduction_090_+40": {
+"helper_offset_mm": {
+"axvol_ant_l": 30.0,
+"axvol_post_l": 30.0
+},
+"max_vertex_shift_mm": 16.16
+},
+"abduction_120_-40": {
+"helper_offset_mm": {
+"axvol_ant_l": 30.0,
+"axvol_post_l": 30.0
+},
+"max_vertex_shift_mm": 16.16
+},
+"abduction_120_+0": {
+"helper_offset_mm": {
+"axvol_ant_l": 30.0,
+"axvol_post_l": 30.0
+},
+"max_vertex_shift_mm": 16.16
+},
+"abduction_120_+40": {
+"helper_offset_mm": {
+"axvol_ant_l": 30.0,
+"axvol_post_l": 30.0
+},
+"max_vertex_shift_mm": 16.16
+},
+"abduction_150_-40": {
+"helper_offset_mm": {
+"axvol_ant_l": 30.0,
+"axvol_post_l": 30.0
+},
+"max_vertex_shift_mm": 16.16
+},
+"abduction_150_+0": {
+"helper_offset_mm": {
+"axvol_ant_l": 30.0,
+"axvol_post_l": 30.0
+},
+"max_vertex_shift_mm": 16.16
+},
+"abduction_150_+40": {
+"helper_offset_mm": {
+"axvol_ant_l": 30.0,
+"axvol_post_l": 30.0
+},
+"max_vertex_shift_mm": 16.16
+},
+"abduction_170_-40": {
+"helper_offset_mm": {
+"axvol_ant_l": 30.0,
+"axvol_post_l": 30.0
+},
+"max_vertex_shift_mm": 16.16
+},
+"abduction_170_+0": {
+"helper_offset_mm": {
+"axvol_ant_l": 30.0,
+"axvol_post_l": 30.0
+},
+"max_vertex_shift_mm": 16.16
+},
+"abduction_170_+40": {
+"helper_offset_mm": {
+"axvol_ant_l": 30.0,
+"axvol_post_l": 30.0
+},
+"max_vertex_shift_mm": 16.16
+},
+"flexion_000_-40": {
+"helper_offset_mm": {
+"axvol_ant_l": 0.0,
+"axvol_post_l": 0.0
+},
+"max_vertex_shift_mm": 0.0
+},
+"flexion_000_+0": {
+"helper_offset_mm": {
+"axvol_ant_l": 0.0,
+"axvol_post_l": 0.0
+},
+"max_vertex_shift_mm": 0.0
+},
+"flexion_000_+40": {
+"helper_offset_mm": {
+"axvol_ant_l": 0.0,
+"axvol_post_l": 0.0
+},
+"max_vertex_shift_mm": 0.0
+},
+"flexion_030_-40": {
+"helper_offset_mm": {
+"axvol_ant_l": 5.68,
+"axvol_post_l": 5.68
+},
+"max_vertex_shift_mm": 3.06
+},
+"flexion_030_+0": {
+"helper_offset_mm": {
+"axvol_ant_l": 5.68,
+"axvol_post_l": 5.68
+},
+"max_vertex_shift_mm": 3.06
+},
+"flexion_030_+40": {
+"helper_offset_mm": {
+"axvol_ant_l": 5.68,
+"axvol_post_l": 5.68
+},
+"max_vertex_shift_mm": 3.06
+},
+"flexion_060_-40": {
+"helper_offset_mm": {
+"axvol_ant_l": 30.0,
+"axvol_post_l": 30.0
+},
+"max_vertex_shift_mm": 16.16
+},
+"flexion_060_+0": {
+"helper_offset_mm": {
+"axvol_ant_l": 30.0,
+"axvol_post_l": 30.0
+},
+"max_vertex_shift_mm": 16.16
+},
+"flexion_060_+40": {
+"helper_offset_mm": {
+"axvol_ant_l": 30.0,
+"axvol_post_l": 30.0
+},
+"max_vertex_shift_mm": 16.16
+},
+"flexion_090_-40": {
+"helper_offset_mm": {
+"axvol_ant_l": 30.0,
+"axvol_post_l": 30.0
+},
+"max_vertex_shift_mm": 16.16
+},
+"flexion_090_+0": {
+"helper_offset_mm": {
+"axvol_ant_l": 30.0,
+"axvol_post_l": 30.0
+},
+"max_vertex_shift_mm": 16.16
+},
+"flexion_090_+40": {
+"helper_offset_mm": {
+"axvol_ant_l": 30.0,
+"axvol_post_l": 30.0
+},
+"max_vertex_shift_mm": 16.16
+},
+"flexion_120_-40": {
+"helper_offset_mm": {
+"axvol_ant_l": 30.0,
+"axvol_post_l": 30.0
+},
+"max_vertex_shift_mm": 16.16
+},
+"flexion_120_+0": {
+"helper_offset_mm": {
+"axvol_ant_l": 30.0,
+"axvol_post_l": 30.0
+},
+"max_vertex_shift_mm": 16.16
+},
+"flexion_120_+40": {
+"helper_offset_mm": {
+"axvol_ant_l": 30.0,
+"axvol_post_l": 30.0
+},
+"max_vertex_shift_mm": 16.16
+},
+"flexion_150_-40": {
+"helper_offset_mm": {
+"axvol_ant_l": 30.0,
+"axvol_post_l": 30.0
+},
+"max_vertex_shift_mm": 16.16
+},
+"flexion_150_+0": {
+"helper_offset_mm": {
+"axvol_ant_l": 30.0,
+"axvol_post_l": 30.0
+},
+"max_vertex_shift_mm": 16.16
+},
+"flexion_150_+40": {
+"helper_offset_mm": {
+"axvol_ant_l": 30.0,
+"axvol_post_l": 30.0
+},
+"max_vertex_shift_mm": 16.16
+},
+"flexion_170_-40": {
+"helper_offset_mm": {
+"axvol_ant_l": 30.0,
+"axvol_post_l": 30.0
+},
+"max_vertex_shift_mm": 16.16
+},
+"flexion_170_+0": {
+"helper_offset_mm": {
+"axvol_ant_l": 30.0,
+"axvol_post_l": 30.0
+},
+"max_vertex_shift_mm": 16.16
+},
+"flexion_170_+40": {
+"helper_offset_mm": {
+"axvol_ant_l": 30.0,
+"axvol_post_l": 30.0
+},
+"max_vertex_shift_mm": 16.16
+}
+}

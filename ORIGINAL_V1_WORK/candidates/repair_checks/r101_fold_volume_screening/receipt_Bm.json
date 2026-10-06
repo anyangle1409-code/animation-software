@@ -1,0 +1,64 @@
+{
+ "params": {
+  "folds": {
+   "ant": {
+    "origin": [
+     -0.11,
+     -0.06,
+     1.32
+    ],
+    "insertion": [
+     -0.205,
+     0.0,
+     1.43
+    ],
+    "radius": 0.05,
+    "side": [
+     "y_lt",
+     0.03
+    ]
+   },
+   "post": {
+    "origin": [
+     -0.12,
+     0.11,
+     1.28
+    ],
+    "insertion": [
+     -0.205,
+     0.06,
+     1.43
+    ],
+    "radius": 0.05,
+    "side": [
+     "y_gt",
+     0.03
+    ]
+   }
+  },
+  "band_max": 0.8,
+  "a_max": 0.03,
+  "d0": 0.14,
+  "d1": 0.33
+ },
+ "band_vertices_per_side": {
+  "ant": 96,
+  "post": 110
+ },
+ "band_normals": {
+  "ant": [
+   -0.4459,
+   -0.707,
+   -0.5489
+  ],
+  "post": [
+   -0.0805,
+   0.7885,
+   -0.6098
+  ]
+ },
+ "changed_vertices": 478,
+ "max_influences": 4,
+ "nondeclared_unchanged": true,
+ "out_sha256": "59f1fd58af6c46c3713ed988fb5d3fb5fa60c67687316eec06fbb1db6660a03a"
+}

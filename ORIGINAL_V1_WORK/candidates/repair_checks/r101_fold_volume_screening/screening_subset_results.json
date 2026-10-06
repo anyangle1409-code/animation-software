@@ -1,0 +1,605 @@
+{
+ "L5": {
+  "subset_self_intersections": 346,
+  "edge_ratio_max": 4.331,
+  "edge_ratio_p99": 3.183,
+  "per_pose": {
+   "abduction_000_external": [
+    4,
+    1.95
+   ],
+   "abduction_090_neutral": [
+    0,
+    2.44
+   ],
+   "abduction_120_neutral": [
+    2,
+    2.93
+   ],
+   "abduction_150_neutral": [
+    30,
+    3.4
+   ],
+   "abduction_170_neutral": [
+    36,
+    3.69
+   ],
+   "flexion_030_external": [
+    10,
+    1.93
+   ],
+   "flexion_060_external": [
+    146,
+    2.62
+   ],
+   "flexion_090_neutral": [
+    0,
+    3.05
+   ],
+   "flexion_120_neutral": [
+    0,
+    3.69
+   ],
+   "flexion_150_internal": [
+    2,
+    4.08
+   ],
+   "flexion_150_neutral": [
+    6,
+    4.19
+   ],
+   "flexion_150_external": [
+    20,
+    4.33
+   ],
+   "flexion_170_neutral": [
+    32,
+    4.33
+   ],
+   "horizontal_adduction_90": [
+    2,
+    3.31
+   ],
+   "arm_behind_torso": [
+    56,
+    2.34
+   ]
+  }
+ },
+ "r99P": {
+  "subset_self_intersections": 196,
+  "edge_ratio_max": 5.19,
+  "edge_ratio_p99": 3.232,
+  "per_pose": {
+   "abduction_000_external": [
+    0,
+    1.95
+   ],
+   "abduction_090_neutral": [
+    0,
+    2.71
+   ],
+   "abduction_120_neutral": [
+    2,
+    3.48
+   ],
+   "abduction_150_neutral": [
+    30,
+    4.07
+   ],
+   "abduction_170_neutral": [
+    36,
+    4.33
+   ],
+   "flexion_030_external": [
+    0,
+    2.03
+   ],
+   "flexion_060_external": [
+    2,
+    2.89
+   ],
+   "flexion_090_neutral": [
+    2,
+    3.63
+   ],
+   "flexion_120_neutral": [
+    16,
+    4.55
+   ],
+   "flexion_150_internal": [
+    2,
+    5.14
+   ],
+   "flexion_150_neutral": [
+    6,
+    5.05
+   ],
+   "flexion_150_external": [
+    34,
+    4.98
+   ],
+   "flexion_170_neutral": [
+    36,
+    5.19
+   ],
+   "horizontal_adduction_90": [
+    24,
+    3.55
+   ],
+   "arm_behind_torso": [
+    6,
+    2.34
+   ]
+  }
+ },
+ "r100Am": {
+  "subset_self_intersections": 414,
+  "edge_ratio_max": 4.331,
+  "edge_ratio_p99": 3.184,
+  "per_pose": {
+   "abduction_000_external": [
+    4,
+    1.95
+   ],
+   "abduction_090_neutral": [
+    0,
+    2.44
+   ],
+   "abduction_120_neutral": [
+    2,
+    2.93
+   ],
+   "abduction_150_neutral": [
+    30,
+    3.4
+   ],
+   "abduction_170_neutral": [
+    36,
+    3.69
+   ],
+   "flexion_030_external": [
+    10,
+    1.93
+   ],
+   "flexion_060_external": [
+    150,
+    2.62
+   ],
+   "flexion_090_neutral": [
+    4,
+    3.05
+   ],
+   "flexion_120_neutral": [
+    6,
+    3.69
+   ],
+   "flexion_150_internal": [
+    0,
+    4.08
+   ],
+   "flexion_150_neutral": [
+    6,
+    4.19
+   ],
+   "flexion_150_external": [
+    20,
+    4.33
+   ],
+   "flexion_170_neutral": [
+    32,
+    4.33
+   ],
+   "horizontal_adduction_90": [
+    54,
+    3.31
+   ],
+   "arm_behind_torso": [
+    60,
+    2.34
+   ]
+  }
+ },
+ "r101Ac": {
+  "subset_self_intersections": 346,
+  "edge_ratio_max": 4.331,
+  "edge_ratio_p99": 3.183,
+  "per_pose": {
+   "abduction_000_external": [
+    4,
+    1.95
+   ],
+   "abduction_090_neutral": [
+    0,
+    2.44
+   ],
+   "abduction_120_neutral": [
+    2,
+    2.93
+   ],
+   "abduction_150_neutral": [
+    30,
+    3.4
+   ],
+   "abduction_170_neutral": [
+    36,
+    3.69
+   ],
+   "flexion_030_external": [
+    10,
+    1.93
+   ],
+   "flexion_060_external": [
+    146,
+    2.62
+   ],
+   "flexion_090_neutral": [
+    0,
+    3.05
+   ],
+   "flexion_120_neutral": [
+    0,
+    3.69
+   ],
+   "flexion_150_internal": [
+    2,
+    4.08
+   ],
+   "flexion_150_neutral": [
+    6,
+    4.19
+   ],
+   "flexion_150_external": [
+    20,
+    4.33
+   ],
+   "flexion_170_neutral": [
+    32,
+    4.33
+   ],
+   "horizontal_adduction_90": [
+    2,
+    3.31
+   ],
+   "arm_behind_torso": [
+    56,
+    2.34
+   ]
+  }
+ },
+ "r101Am": {
+  "subset_self_intersections": 348,
+  "edge_ratio_max": 4.331,
+  "edge_ratio_p99": 3.183,
+  "per_pose": {
+   "abduction_000_external": [
+    4,
+    1.95
+   ],
+   "abduction_090_neutral": [
+    0,
+    2.44
+   ],
+   "abduction_120_neutral": [
+    2,
+    2.93
+   ],
+   "abduction_150_neutral": [
+    30,
+    3.4
+   ],
+   "abduction_170_neutral": [
+    36,
+    3.69
+   ],
+   "flexion_030_external": [
+    10,
+    1.93
+   ],
+   "flexion_060_external": [
+    146,
+    2.62
+   ],
+   "flexion_090_neutral": [
+    0,
+    3.05
+   ],
+   "flexion_120_neutral": [
+    0,
+    3.69
+   ],
+   "flexion_150_internal": [
+    2,
+    4.08
+   ],
+   "flexion_150_neutral": [
+    8,
+    4.19
+   ],
+   "flexion_150_external": [
+    20,
+    4.33
+   ],
+   "flexion_170_neutral": [
+    32,
+    4.33
+   ],
+   "horizontal_adduction_90": [
+    2,
+    3.31
+   ],
+   "arm_behind_torso": [
+    56,
+    2.34
+   ]
+  }
+ },
+ "r101Pc": {
+  "subset_self_intersections": 362,
+  "edge_ratio_max": 4.331,
+  "edge_ratio_p99": 3.204,
+  "per_pose": {
+   "abduction_000_external": [
+    4,
+    1.95
+   ],
+   "abduction_090_neutral": [
+    0,
+    2.44
+   ],
+   "abduction_120_neutral": [
+    2,
+    2.93
+   ],
+   "abduction_150_neutral": [
+    30,
+    3.4
+   ],
+   "abduction_170_neutral": [
+    36,
+    3.69
+   ],
+   "flexion_030_external": [
+    10,
+    1.93
+   ],
+   "flexion_060_external": [
+    146,
+    2.62
+   ],
+   "flexion_090_neutral": [
+    0,
+    3.06
+   ],
+   "flexion_120_neutral": [
+    0,
+    3.69
+   ],
+   "flexion_150_internal": [
+    2,
+    4.08
+   ],
+   "flexion_150_neutral": [
+    6,
+    4.19
+   ],
+   "flexion_150_external": [
+    20,
+    4.33
+   ],
+   "flexion_170_neutral": [
+    32,
+    4.33
+   ],
+   "horizontal_adduction_90": [
+    18,
+    3.32
+   ],
+   "arm_behind_torso": [
+    56,
+    2.34
+   ]
+  }
+ },
+ "r101Pm": {
+  "subset_self_intersections": 378,
+  "edge_ratio_max": 4.331,
+  "edge_ratio_p99": 3.218,
+  "per_pose": {
+   "abduction_000_external": [
+    4,
+    1.95
+   ],
+   "abduction_090_neutral": [
+    0,
+    2.44
+   ],
+   "abduction_120_neutral": [
+    2,
+    3.02
+   ],
+   "abduction_150_neutral": [
+    30,
+    3.68
+   ],
+   "abduction_170_neutral": [
+    36,
+    3.98
+   ],
+   "flexion_030_external": [
+    10,
+    1.93
+   ],
+   "flexion_060_external": [
+    142,
+    2.62
+   ],
+   "flexion_090_neutral": [
+    0,
+    3.07
+   ],
+   "flexion_120_neutral": [
+    0,
+    3.69
+   ],
+   "flexion_150_internal": [
+    2,
+    4.08
+   ],
+   "flexion_150_neutral": [
+    6,
+    4.21
+   ],
+   "flexion_150_external": [
+    20,
+    4.33
+   ],
+   "flexion_170_neutral": [
+    32,
+    4.33
+   ],
+   "horizontal_adduction_90": [
+    38,
+    3.33
+   ],
+   "arm_behind_torso": [
+    56,
+    2.34
+   ]
+  }
+ },
+ "r101Bc": {
+  "subset_self_intersections": 362,
+  "edge_ratio_max": 4.331,
+  "edge_ratio_p99": 3.204,
+  "per_pose": {
+   "abduction_000_external": [
+    4,
+    1.95
+   ],
+   "abduction_090_neutral": [
+    0,
+    2.44
+   ],
+   "abduction_120_neutral": [
+    2,
+    2.93
+   ],
+   "abduction_150_neutral": [
+    30,
+    3.4
+   ],
+   "abduction_170_neutral": [
+    36,
+    3.69
+   ],
+   "flexion_030_external": [
+    10,
+    1.93
+   ],
+   "flexion_060_external": [
+    146,
+    2.62
+   ],
+   "flexion_090_neutral": [
+    0,
+    3.06
+   ],
+   "flexion_120_neutral": [
+    0,
+    3.69
+   ],
+   "flexion_150_internal": [
+    2,
+    4.08
+   ],
+   "flexion_150_neutral": [
+    6,
+    4.19
+   ],
+   "flexion_150_external": [
+    20,
+    4.33
+   ],
+   "flexion_170_neutral": [
+    32,
+    4.33
+   ],
+   "horizontal_adduction_90": [
+    18,
+    3.32
+   ],
+   "arm_behind_torso": [
+    56,
+    2.34
+   ]
+  }
+ },
+ "r101Bm": {
+  "subset_self_intersections": 380,
+  "edge_ratio_max": 4.331,
+  "edge_ratio_p99": 3.218,
+  "per_pose": {
+   "abduction_000_external": [
+    4,
+    1.95
+   ],
+   "abduction_090_neutral": [
+    0,
+    2.44
+   ],
+   "abduction_120_neutral": [
+    2,
+    3.02
+   ],
+   "abduction_150_neutral": [
+    30,
+    3.68
+   ],
+   "abduction_170_neutral": [
+    36,
+    3.98
+   ],
+   "flexion_030_external": [
+    10,
+    1.93
+   ],
+   "flexion_060_external": [
+    142,
+    2.62
+   ],
+   "flexion_090_neutral": [
+    0,
+    3.07
+   ],
+   "flexion_120_neutral": [
+    0,
+    3.69
+   ],
+   "flexion_150_internal": [
+    2,
+    4.08
+   ],
+   "flexion_150_neutral": [
+    8,
+    4.21
+   ],
+   "flexion_150_external": [
+    20,
+    4.33
+   ],
+   "flexion_170_neutral": [
+    32,
+    4.33
+   ],
+   "horizontal_adduction_90": [
+    38,
+    3.33
+   ],
+   "arm_behind_torso": [
+    56,
+    2.34
+   ]
+  }
+ }
+}

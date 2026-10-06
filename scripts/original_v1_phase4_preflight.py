@@ -74,6 +74,22 @@ def assess(state, control, root=ROOT, require_local_blend=False, issue_ledger=No
                 if closure_errors:
                     issues.append("Critical/High anatomy closure evidence is invalid")
                     issues.extend("anatomy closure: " + error for error in closure_errors)
+                shoulder_acceptance_path = (
+                    root / "ORIGINAL_V1_WORK/candidates/repair_checks"
+                    / f"shoulder_acceptance_{rev}" / "shoulder_acceptance_result.json"
+                )
+                if not shoulder_acceptance_path.is_file():
+                    issues.append("candidate-bound shoulder acceptance receipt is missing")
+                else:
+                    shoulder_acceptance = json.loads(shoulder_acceptance_path.read_text(encoding="utf-8-sig"))
+                    if shoulder_acceptance.get("candidate_revision") != rev:
+                        issues.append("shoulder acceptance receipt candidate revision mismatch")
+                    if shoulder_acceptance.get("pass") is not True:
+                        issues.append("shoulder anatomical acceptance gate has not passed")
+                    if shoulder_acceptance.get("production_approved") is not False:
+                        issues.append("shoulder acceptance receipt improperly claims production approval")
+                    if shoulder_acceptance.get("causal_order_violation") is not False:
+                        issues.append("shoulder acceptance receipt reports causal-order violation")
                 audit_path = (
                     root / "ORIGINAL_V1_WORK/candidates/repair_checks"
                     / f"whole_body_audit_{rev}" / "whole_body_audit_record.json"
@@ -113,7 +129,7 @@ def assess(state, control, root=ROOT, require_local_blend=False, issue_ledger=No
         "eligibility":"ELIGIBLE_FOR_PHASE4_VALIDATION" if not issues else "PHASE4_BLOCKED",
         "issues":list(dict.fromkeys(issues)),
         "production_approved":False,
-        "note":"Read-only eligibility preflight. Critical/High whole-body anatomy blockers fail closed; closed Critical/High rows require structured candidate-bound closure receipts; and the current candidate requires a complete 16-zone/19-movement whole-body audit record before Phase 4 validation. This still does not create a freeze record or approve production.",
+        "note":"Read-only eligibility preflight. Critical/High whole-body anatomy blockers fail closed; closed Critical/High rows require structured candidate-bound closure receipts; the current candidate requires a passing shoulder anatomical acceptance receipt; and the current candidate requires a complete 16-zone/19-movement whole-body audit record before Phase 4 validation. This still does not create a freeze record or approve production.",
     }
 
 def main():

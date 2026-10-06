@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "status": "GRIP_WRIST_VISUAL_REVIEW_TEMPLATE_ONLY",
+  "production_approved": false,
+  "candidate_sha256": null,
+  "source_git_commit": null,
+  "production_path_rendered": null,
+  "visual_pass": null,
+  "grip_contact_pass": null,
+  "thumb_opposition_pass": null,
+  "wrist_load_path_pass": null,
+  "whole_body_regression_pass": null,
+  "real_human_reference_checked": null,
+  "required_issue_failures_remaining": null,
+  "renders": [
+    {
+      "pose": "curl_handle",
+      "view": "palm_oblique",
+      "path": null,
+      "sha256": null
+    },
+    {
+      "pose": "curl_handle",
+      "view": "thumb_side",
+      "path": null,
+      "sha256": null
+    },
+    {
+      "pose": "curl_handle",
+      "view": "wrist_forearm_context",
+      "path": null,
+      "sha256": null
+    },
+    {
+      "pose": "pullup_bar",
+      "view": "palm_oblique",
+      "path": null,
+      "sha256": null
+    },
+    {
+      "pose": "pullup_bar",
+      "view": "thumb_side",
+      "path": null,
+      "sha256": null
+    },
+    {
+      "pose": "pullup_bar",
+      "view": "wrist_forearm_context",
+      "path": null,
+      "sha256": null
+    },
+    {
+      "pose": "pushup_bottom",
+      "view": "side",
+      "path": null,
+      "sha256": null
+    },
+    {
+      "pose": "pushup_bottom",
+      "view": "wrist_forearm_context",
+      "path": null,
+      "sha256": null
+    }
+  ],
+  "issue_reviews": [
+    {
+      "id": "WB-GRP-009",
+      "status": null,
+      "evidence_paths": [],
+      "human_evidence_ids": [
+        "HE-GRP-001",
+        "HE-GRP-002",
+        "HE-PULL-001"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "WB-WRI-010",
+      "status": null,
+      "evidence_paths": [],
+      "human_evidence_ids": [
+        "HE-WRI-001",
+        "HE-WRI-002",
+        "HE-PULL-001",
+        "HE-UPPER-001"
+      ],
+      "review_note": null
+    }
+  ],
+  "instructions": [
+    "Template only: copy to a fresh candidate-specific evidence path.",
+    "Every render row must point to a real production-path image and exact SHA-256.",
+    "Review digit sequencing, thumb opposition, palm/equipment contact and wrist/forearm load path against the listed verified human evidence.",
+    "Do not mark PASS because legacy contact metrics are green; the visual issue itself must be resolved.",
+    "Other Critical/High whole-body issues remain independent Phase 4 blockers even if this grip/wrist gate passes."
+  ]
+}

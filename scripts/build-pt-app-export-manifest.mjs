@@ -1,6 +1,7 @@
 import fs from 'node:fs';import path from 'node:path';import crypto from 'node:crypto';
 const ROOT=path.resolve(path.dirname(new URL(import.meta.url).pathname),'..');
 const ID_MAP_PATH=path.join(ROOT,'contracts','pt-app-exercise-id-map.json');
+const RENDER_PROFILE_PATH=path.join(ROOT,'contracts','pt-app-render-profile-v1.json');
 const hex64=x=>typeof x==='string'&&/^[0-9a-f]{64}$/.test(x);
 const sha=p=>crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
 export function loadExerciseMap(){const m=JSON.parse(fs.readFileSync(ID_MAP_PATH,'utf8'));return new Map((m.entries??[]).filter(x=>x.status==='direct_confirmed').map(x=>[x.source_exercise_id,x.pt_exercise_id]));}
@@ -11,7 +12,7 @@ export function validatePromotionContract(c){
  for(const k of ['bare','dressed'])if(!hex64(c?.production_targets?.[k]?.sha256))e.push(k+' production character SHA-256 missing');
  return e;
 }
-export function buildManifest(input,dir,promotion,idMap=loadExerciseMap()){
+export function buildManifest(input,dir,promotion,idMap=loadExerciseMap(),renderProfile=JSON.parse(fs.readFileSync(RENDER_PROFILE_PATH,'utf8'))){
  const e=validatePromotionContract(promotion);
  if(input?.schema_version!==2)e.push('input schema_version must be 2');
  if(input?.rig_version!=='hgpt_canonical_v4_original')e.push('rig_version must be hgpt_canonical_v4_original');
@@ -20,7 +21,7 @@ export function buildManifest(input,dir,promotion,idMap=loadExerciseMap()){
  if(!hex64(input?.character_sha256))e.push('character_sha256 invalid');
  const approvedHashes=new Set(['bare','dressed'].map(k=>promotion?.production_targets?.[k]?.sha256).filter(hex64));
  if(hex64(input?.character_sha256)&&approvedHashes.size&& !approvedHashes.has(input.character_sha256))e.push('character_sha256 does not match an approved production target');
- if(!input?.generator_version)e.push('generator_version missing');if(!input?.render_profile_version)e.push('render_profile_version missing');
+ if(!input?.generator_version)e.push('generator_version missing');if(input?.render_profile_version!==renderProfile?.render_profile_version)e.push('render_profile_version must be '+renderProfile?.render_profile_version);
  if(!Array.isArray(input?.assets)||!input.assets.length)e.push('assets missing');
  const seenE=new Set(),seenF=new Set(),assets=[];
  for(const [i,a] of (input?.assets??[]).entries()){

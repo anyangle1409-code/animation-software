@@ -25,9 +25,10 @@
   ],
   "instructions": [
     "Template only. Do not add this path to WB-QA-011 closure_evidence.",
-    "After running the relevant regression tests on the laptop, copy this to a new evidence path and change status to ANATOMY_ISSUE_CLOSURE_EVIDENCE.",
+    "After running `python scripts/run_original_v1_recovery_control_tests.py` on the laptop, copy this to a new evidence path and change status to ANATOMY_ISSUE_CLOSURE_EVIDENCE.",
     "Set source_git_commit to the exact tested commit and test_command to the exact command actually executed.",
     "process_evidence must contain real committed test/output receipts with path, SHA-256 and passed=true.",
     "Set closure_decision to Fixed only after every required process check is demonstrated. Then update the ledger state and closure_evidence in the same reviewed change."
-  ]
+  ],
+  "recommended_test_command": "python scripts/run_original_v1_recovery_control_tests.py"
 }

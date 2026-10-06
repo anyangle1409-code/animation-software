@@ -1,0 +1,175 @@
+{
+  "schema_version": 1,
+  "id": "original_v1_shoulder_anatomical_acceptance_v1",
+  "status": "blocking",
+  "purpose": "Fail-closed acceptance contract for connected human shoulder/axilla/chest/back deformation. Existing r96 screening evidence is diagnostic only.",
+  "applies_to": {
+    "model": "HomeGymPT_Male_ORIGINAL_v1",
+    "rig": "hgpt_canonical_v4_original",
+    "baseline_comparator": "r95",
+    "current_screening_candidate": "r96"
+  },
+  "causal_order": [
+    "skeleton_mechanics",
+    "support_topology",
+    "weights_first_transfer",
+    "rotation_aware_anatomical_deformation",
+    "minimal_residual_correctives"
+  ],
+  "forbidden_shortcuts": [
+    "exercise_name_driven_shape_keys",
+    "corrective_used_to_conceal_failed_weights_only_foundation",
+    "baseline_or_tolerance_relaxation_to_obtain_pass",
+    "promotion_from_numerical_evidence_without_visual_review"
+  ],
+  "movement_matrix": {
+    "shoulder_elevation_degrees": [
+      0,
+      30,
+      60,
+      90,
+      120,
+      150,
+      "maximum_valid"
+    ],
+    "planes": [
+      "flexion",
+      "abduction"
+    ],
+    "axial_rotation": [
+      "internal",
+      "neutral",
+      "external"
+    ],
+    "views": [
+      "front",
+      "front_three_quarter",
+      "side",
+      "rear_three_quarter",
+      "rear",
+      "shoulder_axilla_closeup"
+    ],
+    "temporal_samples": [
+      "start",
+      "intermediate",
+      "end",
+      "reversal",
+      "repeated_cycle"
+    ]
+  },
+  "machine_reject_gates": [
+    {
+      "id": "SH-M01",
+      "check": "candidate_identity_and_hash_binding",
+      "rule": "required",
+      "severity": "critical"
+    },
+    {
+      "id": "SH-M02",
+      "check": "out_of_scope_topology_or_weight_change",
+      "rule": "must_be_zero",
+      "severity": "critical"
+    },
+    {
+      "id": "SH-M03",
+      "check": "self_intersection_in_protected_shoulder_axilla_chest_back_zones",
+      "rule": "must_be_zero",
+      "severity": "critical"
+    },
+    {
+      "id": "SH-M04",
+      "check": "activation_arc_continuity",
+      "rule": "no_unexplained_discontinuity_or_nonmonotone_jump",
+      "severity": "high"
+    },
+    {
+      "id": "SH-M05",
+      "check": "left_right_symmetry_for_mirrored_test_pose",
+      "rule": "within_committed_baseline_tolerance",
+      "severity": "high"
+    },
+    {
+      "id": "SH-M06",
+      "check": "axial_rotation_surface_response",
+      "rule": "matched_elevation_internal_neutral_external_variants_must_not_be_identical_when_anatomically_expected_to_differ",
+      "severity": "critical"
+    },
+    {
+      "id": "SH-M07",
+      "check": "corrective_dependency",
+      "rule": "weights_only_must_pass_foundation_visual_gate_before_residual_correctives_may_be_fit",
+      "severity": "critical"
+    },
+    {
+      "id": "SH-M08",
+      "check": "corrective_magnitude_regression",
+      "rule": "must_not_require_r95_scale_compensatory_displacement_to_hide_foundation_failure",
+      "severity": "critical"
+    },
+    {
+      "id": "SH-M09",
+      "check": "arc_regression",
+      "rule": "no_new_critical_or_high_failure_at_any_sampled_frame_or_view",
+      "severity": "critical"
+    }
+  ],
+  "mandatory_visual_reject_gates": [
+    {
+      "id": "SH-V01",
+      "failure": "deltoid_volume_collapse_or_unanatomical_elongation"
+    },
+    {
+      "id": "SH-V02",
+      "failure": "deep_axillary_trench_knife_edge_membrane_or_pointed_flap"
+    },
+    {
+      "id": "SH-V03",
+      "failure": "pectoral_tissue_dragged_into_narrow_vertical_band"
+    },
+    {
+      "id": "SH-V04",
+      "failure": "broken_neck_to_elevated_shoulder_to_upper_arm_continuity"
+    },
+    {
+      "id": "SH-V05",
+      "failure": "deformation_generated_scapular_or_upper_back_groove"
+    },
+    {
+      "id": "SH-V06",
+      "failure": "visible_tissue_volume_disappearance_at_shoulder_axilla_chest_junction"
+    },
+    {
+      "id": "SH-V07",
+      "failure": "torso_or_chest_translation_substitutes_for_shoulder_girdle_mechanics"
+    },
+    {
+      "id": "SH-V08",
+      "failure": "anatomically_implausible_anterior_or_posterior_axillary_fold_migration"
+    },
+    {
+      "id": "SH-V09",
+      "failure": "visible_surface_pinching_stretching_or_fold_discontinuity"
+    },
+    {
+      "id": "SH-V10",
+      "failure": "overhead_pose_remains_arm_rotation_inside_effectively_static_torso"
+    }
+  ],
+  "promotion_rule": {
+    "fail_closed": true,
+    "requirements": [
+      "all_machine_reject_gates_pass",
+      "all_mandatory_visual_reject_gates_pass",
+      "weights_only_foundation_passes_before_correctives",
+      "all_required_movement_matrix_samples_exist_and_are_candidate_bound",
+      "no_open_critical_or_high_linked_issue",
+      "human_anatomical_review_recorded"
+    ],
+    "note": "A numerical pass cannot override a visible anatomical failure."
+  },
+  "current_evidence_disposition": {
+    "r96_support_rest_length_screening": "rejected_for_promotion_diagnostic_only",
+    "r96_weights_only_screening": "diagnostic_only",
+    "reason": "Owner-confirmed overhead shoulder/axilla deformation failure"
+  }
+}

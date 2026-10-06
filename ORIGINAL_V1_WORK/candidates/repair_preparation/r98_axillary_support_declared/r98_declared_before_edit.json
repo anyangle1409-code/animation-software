@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "declared_before_edit": true,
+  "target_revision": "r98",
+  "parent": {
+    "revision": "r97",
+    "status": "failed diagnostic candidate (GPT FAIL); kept unmodified",
+    "candidate_commit": "2ec9f7ae2da76202773ef7e889013d9b2b8d4f84",
+    "candidate_path": "ORIGINAL_V1_WORK/candidates/r97/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r97.blend",
+    "sha256": "8b2fbe50781dfcf9123178615efc926945847959ed2b897def920f0b3c48962f",
+    "lineage_root": {
+      "revision": "r95",
+      "sha256": "c4b8e388e624a4a3d22510b40c1fc45017b3374b1ff9de2cae79f2dbb0797c85",
+      "working_reconstruction": "ORIGINAL_V1_WORK/candidates/repair_preparation/r97_shoulder_foundation_declared/r95_reconstructed.blend"
+    }
+  },
+  "build_rule": "r98 is rebuilt reproducibly from the r95 working reconstruction: (1) declared topology, (2) declared rest-shape, (3) r97 mechanics re-applied unchanged (scripts/r97/scapula_pivot.py, add_gh_helper.py, helper_swing_half2.py), (4) r97 weight solver re-run on the new mesh (scripts/r97/solve_weights.py, r97 parameters as starting point). r97 itself is never opened for writing.",
+  "acceptance_contract": "ORIGINAL_V1_SHOULDER_ANATOMICAL_ACCEPTANCE_CONTRACT.json",
+  "targets_from_gpt_fail": [
+    "SH-M03",
+    "SH-M07",
+    "SH-M09",
+    "SH-V01",
+    "SH-V02",
+    "SH-V05",
+    "SH-V09"
+  ],
+  "diagnosis": {
+    "rest_slit": "At rest the arm's inner wall lies ~2 cm from the lateral chest/back wall over ~12 cm; the walls meet at a sharp V apex near z=1.41 m. Overhead, the 1-2 quad rows at that apex must span the opened fossa (knife-edge membrane, SH-V02); at low/mid elevation with external rotation, horizontal adduction or arm-behind-torso the 2 cm gap closes and the walls interpenetrate.",
+    "self_intersections_r97_by_region": {
+      "anterior_axilla_pec": 650,
+      "posterior_axilla_back": 682,
+      "superior_shoulder_trapezius": 204
+    },
+    "stretch": "edges with ratio>2.5 at flexion 170 have normal rest length (median 15 mm vs zone median 14 mm): an area deficit at the apex, not compressed rest rows.",
+    "r96_lesson": "interpolated support rows alone regressed (r96 lower-support-rows screening); rest offsets of 8-12 mm on r96 support rows regressed squat. r98 therefore pairs topology with a rest-shape change and a re-solved (not interpolated) skin."
+  },
+  "causal_order": [
+    "skeleton_mechanics (r97, preserved)",
+    "support_topology",
+    "rest_shape",
+    "weights_first_transfer (localized re-skin)",
+    "minimal_residual_correctives (not authorised)"
+  ],
+  "scope": {
+    "topology": {
+      "operation": "closed all-quad edge rings split once at their midpoints (bmesh subdivide_edges, cuts=1)",
+      "permitted_rings": [
+        "torso rows through the left/right axillary apex band (closed 64-edge torso rings with rest z in [1.33, 1.43] m)",
+        "arm-root rings around the left/right humerus at the axillary junction (closed rings with rest z in [1.33, 1.45] m and |x| >= 0.15 m)"
+      ],
+      "max_new_vertices": 400,
+      "invariants": [
+        "original vertex ids, original rest positions outside the rest-shape band, original weights and original shape-key points unchanged",
+        "all faces quads",
+        "exact left/right mirror symmetry (map rebuilt, max error < 1e-5 m)",
+        "new vertex weights/shape-key points interpolated, at most 4 deform influences"
+      ]
+    },
+    "rest_shape": {
+      "operation": "open the axillary slit and round its apex: slit-wall vertices displaced along -normal with smooth falloff (trunk wall and arm inner wall), displacement diffused over the surface, apex band Laplacian-relaxed; left computed and mirrored; identical delta applied to Basis and every shape key",
+      "region": "rest |x| >= 0.09 m, z in [1.15, 1.46] m, vertices facing the opposite wall of the slit within 4 cm, plus a diffusion band",
+      "max_displacement_m": 0.012
+    },
+    "weights": {
+      "permitted_bones": [
+        "spine_02",
+        "spine_03",
+        "clavicle_l",
+        "clavicle_r",
+        "scapula_l",
+        "scapula_r",
+        "upperarm_l",
+        "upperarm_r",
+        "glenohumeral_half_l",
+        "glenohumeral_half_r"
+      ],
+      "rule": "localized re-skin with the r97 solver on the new topology; non-declared bone weights equal r95 (interpolated on new vertices); no broad weight-only retuning (solver parameters may only change for the new rows/apex band and must be recorded)"
+    },
+    "mechanics": "r97 AC-joint scapula pivot and glenohumeral half-swing helpers preserved unchanged",
+    "correctives": "r95 keys retained at value 0, drivers removed; no corrective fit authorised"
+  },
+  "regression_gates": {
+    "compare_against": [
+      "r95 weights-only (reconstructed)",
+      "r97"
+    ],
+    "no_regression_vs_r95": [
+      "repo pose test squat_bottom, pullup_top, pullup_hang, pullup_hang_rhythm, press_top, press_top_rhythm, press_bottom self_intersecting_face_pairs (tolerance 5)"
+    ],
+    "required_runs": [
+      "56-pose movement matrix with renders",
+      "all 15 repository poses"
+    ],
+    "note": "edge-count based metrics are compared with the topology change stated; the repo pose-test counts are reported as-is"
+  },
+  "protected_zones": [
+    "neck_boundary",
+    "pelvis_boundary",
+    "hands",
+    "feet",
+    "head",
+    "clothing",
+    "unrelated_correctives"
+  ],
+  "stop_conditions": [
+    "out_of_scope_edit",
+    "material_regression vs r95 on squat/pull-up/press",
+    "asymmetry",
+    "non-quad topology",
+    "weights_only_visual_failure (reported honestly; candidate not promoted)"
+  ],
+  "production_approved": false,
+  "source_git_commit": "518f297f20222aede4eb7b8876f524344bf2aeb1"
+}

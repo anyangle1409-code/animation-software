@@ -78,21 +78,31 @@ No development freeze or later phase may be treated as anatomically accepted unt
 - fixes preserve already accepted movement, contact and symmetry behaviour;
 - evidence, issue status, model hashes and restart instructions are committed and pushed.
 
+## Owner-confirmed r96 overhead rejection — 2026-10-06
+
+The later r96 overhead screening renders were reviewed by the owner and rejected as structurally non-human. The deltoid/axilla/pec/scapular transition still fails as a connected shoulder complex. This supersedes the previously prepared instruction to proceed directly to an elevation-driven residual corrective.
+
+Active rule: repair and prove the shoulder-girdle mechanics/topology/weights-first foundation on a fresh declared descendant candidate before any residual corrective fitting. The fail-closed authority is `ORIGINAL_V1_SHOULDER_ANATOMICAL_ACCEPTANCE_CONTRACT.json`; the execution handoff is `docs/ORIGINAL_V1_SHOULDER_FOUNDATION_REBUILD_HANDOFF.md`.
+
+Existing r95 and r96 evidence remains immutable diagnostic/comparator evidence. No visible model fix is claimed by this documentation update.
+
 ## Immediate restart point
 
-The original r95 reproduction/isolation step below is complete historical evidence. **Do not restart the investigation from r95.** r95 remains the immutable rejected comparator.
+The r95 reproduction/isolation and r96 screening work are historical evidence. Do not restart from r95 and do not execute the superseded r96 residual-corrective handoff as the next edit.
 
 Current restart sequence:
 
-1. fetch the live recovery branch and preserve any newer work;
-2. read `docs/ORIGINAL_V1_R96_TASK7_HANDOFF.md`;
-3. open/hash-verify the topology-only r96 intermediate SHA-256 `6934594dde9140193882c0e293f8b404fb24bed8b1b1b2722267ff97d13844dd`;
-4. reproduce its comparator metrics/renders without editing;
-5. declare a fresh r96 Task 7 corrective mask before any solve;
-6. author the generic elevation-driven morph correction one residual anatomical behaviour at a time;
-7. run the continuous-arc gate, full candidate regression, production-path visual review and fail-closed Task 7 gate.
+1. fetch the live recovery branch and preserve newer work;
+2. read `docs/ORIGINAL_V1_SHOULDER_FOUNDATION_REBUILD_HANDOFF.md`;
+3. validate `ORIGINAL_V1_SHOULDER_ANATOMICAL_ACCEPTANCE_CONTRACT.json`;
+4. preserve r95 and existing r96 screening as immutable comparator/diagnostic evidence;
+5. declare a fresh numbered descendant candidate and exact repair scope before editing;
+6. verify shoulder-girdle mechanics and repair the first failed causal layer;
+7. prove the weights-only elevation × axial-rotation movement matrix;
+8. only after that gate passes, fit minimal generic residual correctives if required;
+9. run candidate-bound machine, visual and whole-body regression gates.
 
-Do not reuse r95's failed displacement field, add more support loops/broad arm-follow weighting, or use Blender-only Preserve Volume as the delivery mechanism.
+Do not rescue a failed foundation with a large corrective, copied displacement field, threshold relaxation or exercise-specific shape key.
 
 ## Investigation checkpoint — production-path reproduction
 
@@ -186,7 +196,7 @@ The viable path remains the already owner-authorized, generic elevation-driven m
 - Correctives stayed disabled for every Task 6 numerical and visual screen.
 - Generated probes remain under ignored `work/r96/`; all decisions, declarations, comparison reports and authoring receipts needed to reproduce them are committed.
 
-Next laptop action: begin the already-approved Task 7 residual-corrective declaration from the topology-only r96 intermediate. Keep r96 fail-closed and promote nothing until the complete numerical and visual gates pass.
+Historical note: this next action was superseded on 2026-10-06 after owner review of the r96 overhead screening renders. Do not execute Task 7 residual-corrective authoring directly. Use the shoulder foundation rebuild handoff and weights-only acceptance contract.
 
 ## Non-Blender recovery preparation checkpoint — 2026-10-06
 
@@ -199,6 +209,6 @@ While Blender is unavailable, the repository has been prepared so the next model
 - `ORIGINAL_V1_WHOLE_BODY_DEFORMATION_AUDIT_PLAN.json` defines 16 anatomical transition zones and requires start/intermediate/peak/return/reversal inspection rather than exercise endpoints alone;
 - the human-evidence validator now cross-checks the coverage map against the live movement envelope and verified evidence identities;
 - the Phase 4 preflight now reads the whole-body issue ledger and refuses re-freeze while any Critical/High anatomy issue is Open, In Progress or Pending Review;
-- orchestration now points to the r96 Task 7 architecture instead of the obsolete r95 axilla-pit shortcut.
+- orchestration is now further hardened after owner review: it points to a weights-first shoulder foundation rebuild and explicitly supersedes direct r96 Task 7 residual-corrective execution.
 
 These are preparation/guardrail changes only. They do not claim that r96 has been authored or that any visible model defect is fixed. Production approval remains false.

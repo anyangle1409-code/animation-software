@@ -64,7 +64,7 @@ Use `ORIGINAL_V1_R96_TASK7_VISUAL_REVIEW_TEMPLATE.json` as the shape only; copy 
 - `arc_continuity_pass: true`;
 - `whole_body_regression_pass: true`;
 - `real_human_reference_checked: true`;
-- `critical_high_remaining: 0`.
+- `required_issue_failures_remaining: 0` for the eight Task 7 shoulder-complex issues.
 
 ## Prepared gates
 

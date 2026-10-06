@@ -17,6 +17,7 @@ from original_v1_production_control import ROOT, build, digest, ensure_finite
 
 PLAN = "ORIGINAL_V1_EXECUTION_ORCHESTRATION.json"
 HELPER = "scripts/original_v1_execution_orchestration.py"
+RECOVERY_BRANCH = "codex/whole-body-deformation-recovery-20261004"
 
 
 def validate_plan(root: Path, plan: dict) -> dict:
@@ -24,8 +25,20 @@ def validate_plan(root: Path, plan: dict) -> dict:
         raise ValueError("unexpected orchestration contract")
     if plan.get("production_approved") is not False or plan.get("phase_complete") is not False:
         raise ValueError("orchestration plan cannot claim approval or phase completion")
-    if plan.get("branch") != "claude/original-v1-blender-o2-20260929":
+    if plan.get("branch") != RECOVERY_BRANCH:
         raise ValueError("orchestration branch identity differs")
+    recovery = plan.get("current_expected_state")
+    if not isinstance(recovery, dict):
+        raise ValueError("current recovery state missing")
+    if recovery.get("active") is True:
+        if recovery.get("selector_node") != "3A_axilla_local":
+            raise ValueError("active recovery selector must target 3A_axilla_local")
+        if recovery.get("phase") != "phase_3A_r96_task7_residual_corrective":
+            raise ValueError("active recovery phase differs from r96 Task 7")
+        if recovery.get("topology_only_r96_sha256") != "6934594dde9140193882c0e293f8b404fb24bed8b1b1b2722267ff97d13844dd":
+            raise ValueError("r96 topology-only parent identity differs")
+        if not isinstance(recovery.get("release_condition"), str) or not recovery["release_condition"].strip():
+            raise ValueError("active recovery release condition missing")
 
     stages = plan.get("prepared_support_stages")
     if not isinstance(stages, list) or not stages:
@@ -95,6 +108,12 @@ def validate_plan(root: Path, plan: dict) -> dict:
 
 def select_node(plan: dict, state: dict) -> dict:
     nodes = {row["id"]: row for row in plan["critical_path"]}
+    recovery = plan.get("current_expected_state") or {}
+    if recovery.get("active") is True:
+        node_id = recovery.get("selector_node")
+        if node_id not in nodes:
+            raise ValueError("active recovery selector node missing from critical path")
+        return nodes[node_id]
     phases = state.get("phases", {})
     if phases.get("3", {}).get("state") != "complete":
         sub = state.get("current_subphase")

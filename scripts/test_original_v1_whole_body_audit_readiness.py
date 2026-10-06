@@ -30,6 +30,20 @@ class WholeBodyAuditReadinessTests(unittest.TestCase):
         self.assertFalse(result["phase4_clear"])
         self.assertGreater(result["critical_high_blocker_count"], 0)
 
+    def test_live_shoulder_acceptance_contract_is_part_of_readiness(self):
+        inputs = self.live_inputs()
+        contract = load("ORIGINAL_V1_SHOULDER_ANATOMICAL_ACCEPTANCE_CONTRACT.json")
+        result = readiness.assess(*inputs, contract)
+        self.assertTrue(result["audit_support_ready"], result["support_errors"])
+
+    def test_invalid_shoulder_acceptance_contract_blocks_infrastructure(self):
+        inputs = self.live_inputs()
+        contract = load("ORIGINAL_V1_SHOULDER_ANATOMICAL_ACCEPTANCE_CONTRACT.json")
+        contract["promotion_rule"]["fail_closed"] = False
+        result = readiness.assess(*inputs, contract)
+        self.assertFalse(result["audit_support_ready"])
+        self.assertTrue(any("shoulder acceptance contract" in x for x in result["support_errors"]))
+
     def test_missing_transition_zone_blocks_infrastructure(self):
         plan, manifest, coverage, envelope, ledger = self.live_inputs()
         plan["transition_zones"].pop()

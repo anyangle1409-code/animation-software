@@ -1,0 +1,888 @@
+{
+ "blend": "/home/user/r97/r95_reconstructed.blend",
+ "correctives": false,
+ "poses": {
+  "abduction_000_internal": {
+   "plane": "abduction",
+   "theta": 0,
+   "axial": "internal",
+   "self_intersections": 42,
+   "edge_ratio_min": 0.7398487512555959,
+   "edge_ratio_p1": 0.7928623809876515,
+   "edge_ratio_p99": 1.2075013143066682,
+   "edge_ratio_max": 1.4946182720226442,
+   "transition_shrink_min": {
+    "l": 0.9397764993807817,
+    "r": 0.9397764993807817
+   },
+   "symmetry_max_m": 7.450580596923828e-09
+  },
+  "abduction_000_neutral": {
+   "plane": "abduction",
+   "theta": 0,
+   "axial": "neutral",
+   "self_intersections": 0,
+   "edge_ratio_min": 0.9999976150351935,
+   "edge_ratio_p1": 0.9999987283097456,
+   "edge_ratio_p99": 1.0000013808451733,
+   "edge_ratio_max": 1.0000027061288632,
+   "transition_shrink_min": {
+    "l": 0.9999995386861946,
+    "r": 0.9999995386861946
+   },
+   "symmetry_max_m": 5.0579318511267957e-11
+  },
+  "abduction_000_external": {
+   "plane": "abduction",
+   "theta": 0,
+   "axial": "external",
+   "self_intersections": 30,
+   "edge_ratio_min": 0.40867885868340853,
+   "edge_ratio_p1": 0.7271215874905143,
+   "edge_ratio_p99": 1.1802596666153093,
+   "edge_ratio_max": 1.2955631256049882,
+   "transition_shrink_min": {
+    "l": 0.9397764838718228,
+    "r": 0.9397764838718228
+   },
+   "symmetry_max_m": 7.450580596923828e-09
+  },
+  "abduction_030_internal": {
+   "plane": "abduction",
+   "theta": 30,
+   "axial": "internal",
+   "self_intersections": 0,
+   "edge_ratio_min": 0.6461655825091186,
+   "edge_ratio_p1": 0.8257661620322589,
+   "edge_ratio_p99": 1.3767168291639063,
+   "edge_ratio_max": 1.6767987372063684,
+   "transition_shrink_min": {
+    "l": 0.9110705287486137,
+    "r": 0.9110701807734864
+   },
+   "symmetry_max_m": 1.4951132470741868e-05
+  },
+  "abduction_030_neutral": {
+   "plane": "abduction",
+   "theta": 30,
+   "axial": "neutral",
+   "self_intersections": 0,
+   "edge_ratio_min": 0.7932089608913101,
+   "edge_ratio_p1": 0.9118610081996438,
+   "edge_ratio_p99": 1.258531270549921,
+   "edge_ratio_max": 1.3807616820352098,
+   "transition_shrink_min": {
+    "l": 0.9586715080839573,
+    "r": 0.9586752916268713
+   },
+   "symmetry_max_m": 1.4951132470741868e-05
+  },
+  "abduction_030_external": {
+   "plane": "abduction",
+   "theta": 30,
+   "axial": "external",
+   "self_intersections": 0,
+   "edge_ratio_min": 0.6225892321956159,
+   "edge_ratio_p1": 0.8106336363512937,
+   "edge_ratio_p99": 1.4110746716613598,
+   "edge_ratio_max": 1.7920170659503547,
+   "transition_shrink_min": {
+    "l": 0.9142590042984716,
+    "r": 0.9142646404126802
+   },
+   "symmetry_max_m": 1.4951132470741868e-05
+  },
+  "abduction_060_internal": {
+   "plane": "abduction",
+   "theta": 60,
+   "axial": "internal",
+   "self_intersections": 0,
+   "edge_ratio_min": 0.5072894378971755,
+   "edge_ratio_p1": 0.7890616613628906,
+   "edge_ratio_p99": 1.5009782180655715,
+   "edge_ratio_max": 1.7758694460820332,
+   "transition_shrink_min": {
+    "l": 0.7138292308632839,
+    "r": 0.7138383748337193
+   },
+   "symmetry_max_m": 3.0077178962528706e-05
+  },
+  "abduction_060_neutral": {
+   "plane": "abduction",
+   "theta": 60,
+   "axial": "neutral",
+   "self_intersections": 0,
+   "edge_ratio_min": 0.6562764330702843,
+   "edge_ratio_p1": 0.8017162248286006,
+   "edge_ratio_p99": 1.5516160010135767,
+   "edge_ratio_max": 2.006888321109018,
+   "transition_shrink_min": {
+    "l": 0.7031321180507368,
+    "r": 0.7031412140717852
+   },
+   "symmetry_max_m": 3.0077178962528706e-05
+  },
+  "abduction_060_external": {
+   "plane": "abduction",
+   "theta": 60,
+   "axial": "external",
+   "self_intersections": 0,
+   "edge_ratio_min": 0.48510071063825433,
+   "edge_ratio_p1": 0.7247044844003255,
+   "edge_ratio_p99": 1.7076503016915507,
+   "edge_ratio_max": 2.5554976317412117,
+   "transition_shrink_min": {
+    "l": 0.6937491101992773,
+    "r": 0.6937579393145632
+   },
+   "symmetry_max_m": 3.0077178962528706e-05
+  },
+  "abduction_090_internal": {
+   "plane": "abduction",
+   "theta": 90,
+   "axial": "internal",
+   "self_intersections": 0,
+   "edge_ratio_min": 0.5499926903659372,
+   "edge_ratio_p1": 0.6765196751104946,
+   "edge_ratio_p99": 1.725688371010451,
+   "edge_ratio_max": 2.3051690177626436,
+   "transition_shrink_min": {
+    "l": 0.4654414165201799,
+    "r": 0.46544359729055773
+   },
+   "symmetry_max_m": 4.529696889221668e-05
+  },
+  "abduction_090_neutral": {
+   "plane": "abduction",
+   "theta": 90,
+   "axial": "neutral",
+   "self_intersections": 0,
+   "edge_ratio_min": 0.5499926903659372,
+   "edge_ratio_p1": 0.678083167392131,
+   "edge_ratio_p99": 1.8314680262243412,
+   "edge_ratio_max": 2.6819727684883348,
+   "transition_shrink_min": {
+    "l": 0.4141495287949307,
+    "r": 0.4141522281153176
+   },
+   "symmetry_max_m": 4.529696889221668e-05
+  },
+  "abduction_090_external": {
+   "plane": "abduction",
+   "theta": 90,
+   "axial": "external",
+   "self_intersections": 0,
+   "edge_ratio_min": 0.42093143583148324,
+   "edge_ratio_p1": 0.6565176913377238,
+   "edge_ratio_p99": 2.0530699977909412,
+   "edge_ratio_max": 3.18653433704445,
+   "transition_shrink_min": {
+    "l": 0.4308842036613709,
+    "r": 0.43088979615398326
+   },
+   "symmetry_max_m": 4.529696889221668e-05
+  },
+  "abduction_120_internal": {
+   "plane": "abduction",
+   "theta": 120,
+   "axial": "internal",
+   "self_intersections": 0,
+   "edge_ratio_min": 0.3725160474541868,
+   "edge_ratio_p1": 0.5263589155262297,
+   "edge_ratio_p99": 2.0260759998258804,
+   "edge_ratio_max": 2.923553145666444,
+   "transition_shrink_min": {
+    "l": 0.16778743904525867,
+    "r": 0.16779020037299
+   },
+   "symmetry_max_m": 6.061280146241188e-05
+  },
+  "abduction_120_neutral": {
+   "plane": "abduction",
+   "theta": 120,
+   "axial": "neutral",
+   "self_intersections": 0,
+   "edge_ratio_min": 0.3191089601517647,
+   "edge_ratio_p1": 0.527179403186673,
+   "edge_ratio_p99": 2.053092890726796,
+   "edge_ratio_max": 2.8198162244656135,
+   "transition_shrink_min": {
+    "l": 0.2476575631175526,
+    "r": 0.24765951943699613
+   },
+   "symmetry_max_m": 6.061280146241188e-05
+  },
+  "abduction_120_external": {
+   "plane": "abduction",
+   "theta": 120,
+   "axial": "external",
+   "self_intersections": 28,
+   "edge_ratio_min": 0.23245271054340816,
+   "edge_ratio_p1": 0.5011377413205175,
+   "edge_ratio_p99": 2.139318020852626,
+   "edge_ratio_max": 2.898026555191482,
+   "transition_shrink_min": {
+    "l": 0.18171173998297868,
+    "r": 0.1817144539256612
+   },
+   "symmetry_max_m": 6.061280146241188e-05
+  },
+  "abduction_150_internal": {
+   "plane": "abduction",
+   "theta": 150,
+   "axial": "internal",
+   "self_intersections": 0,
+   "edge_ratio_min": 0.12505223504221727,
+   "edge_ratio_p1": 0.38824788859203685,
+   "edge_ratio_p99": 2.3882596141841126,
+   "edge_ratio_max": 3.438463618817665,
+   "transition_shrink_min": {
+    "l": 0.16145316886232014,
+    "r": 0.16145106359511063
+   },
+   "symmetry_max_m": 7.596518844366074e-05
+  },
+  "abduction_150_neutral": {
+   "plane": "abduction",
+   "theta": 150,
+   "axial": "neutral",
+   "self_intersections": 12,
+   "edge_ratio_min": 0.12375777926927115,
+   "edge_ratio_p1": 0.40929966188101996,
+   "edge_ratio_p99": 2.4215630830420483,
+   "edge_ratio_max": 3.4693103906443996,
+   "transition_shrink_min": {
+    "l": 0.2032496793279545,
+    "r": 0.203248209113809
+   },
+   "symmetry_max_m": 7.596518844366074e-05
+  },
+  "abduction_150_external": {
+   "plane": "abduction",
+   "theta": 150,
+   "axial": "external",
+   "self_intersections": 16,
+   "edge_ratio_min": 0.10650330964292176,
+   "edge_ratio_p1": 0.4209358132749997,
+   "edge_ratio_p99": 2.4498813369219192,
+   "edge_ratio_max": 3.5115401618234943,
+   "transition_shrink_min": {
+    "l": 0.1978599539830212,
+    "r": 0.19785643667858643
+   },
+   "symmetry_max_m": 7.596518844366074e-05
+  },
+  "abduction_170_internal": {
+   "plane": "abduction",
+   "theta": 170,
+   "axial": "internal",
+   "self_intersections": 50,
+   "edge_ratio_min": 0.04290972467654161,
+   "edge_ratio_p1": 0.3220245893866705,
+   "edge_ratio_p99": 2.678376439881738,
+   "edge_ratio_max": 3.779728946914285,
+   "transition_shrink_min": {
+    "l": 0.22229086490777838,
+    "r": 0.22228949253447458
+   },
+   "symmetry_max_m": 8.450914174318314e-05
+  },
+  "abduction_170_neutral": {
+   "plane": "abduction",
+   "theta": 170,
+   "axial": "neutral",
+   "self_intersections": 94,
+   "edge_ratio_min": 0.031141415962563472,
+   "edge_ratio_p1": 0.3393524772891531,
+   "edge_ratio_p99": 2.6870762034652884,
+   "edge_ratio_max": 3.822916675004822,
+   "transition_shrink_min": {
+    "l": 0.23648839683714146,
+    "r": 0.23648847329903902
+   },
+   "symmetry_max_m": 8.450914174318314e-05
+  },
+  "abduction_170_external": {
+   "plane": "abduction",
+   "theta": 170,
+   "axial": "external",
+   "self_intersections": 82,
+   "edge_ratio_min": 0.052639230944772436,
+   "edge_ratio_p1": 0.36370105506636213,
+   "edge_ratio_p99": 2.699370146792226,
+   "edge_ratio_max": 3.841627205905426,
+   "transition_shrink_min": {
+    "l": 0.25165132951684216,
+    "r": 0.2516500773074935
+   },
+   "symmetry_max_m": 8.450914174318314e-05
+  },
+  "flexion_000_internal": {
+   "plane": "flexion",
+   "theta": 0,
+   "axial": "internal",
+   "self_intersections": 42,
+   "edge_ratio_min": 0.7398487512555959,
+   "edge_ratio_p1": 0.7928623809876515,
+   "edge_ratio_p99": 1.2075013143066682,
+   "edge_ratio_max": 1.4946182720226442,
+   "transition_shrink_min": {
+    "l": 0.9397764993807817,
+    "r": 0.9397764993807817
+   },
+   "symmetry_max_m": 7.450580596923828e-09
+  },
+  "flexion_000_neutral": {
+   "plane": "flexion",
+   "theta": 0,
+   "axial": "neutral",
+   "self_intersections": 0,
+   "edge_ratio_min": 0.9999976150351935,
+   "edge_ratio_p1": 0.9999987283097456,
+   "edge_ratio_p99": 1.0000013808451733,
+   "edge_ratio_max": 1.0000027061288632,
+   "transition_shrink_min": {
+    "l": 0.9999995386861946,
+    "r": 0.9999995386861946
+   },
+   "symmetry_max_m": 5.0579318511267957e-11
+  },
+  "flexion_000_external": {
+   "plane": "flexion",
+   "theta": 0,
+   "axial": "external",
+   "self_intersections": 30,
+   "edge_ratio_min": 0.40867885868340853,
+   "edge_ratio_p1": 0.7271215874905143,
+   "edge_ratio_p99": 1.1802596666153093,
+   "edge_ratio_max": 1.2955631256049882,
+   "transition_shrink_min": {
+    "l": 0.9397764838718228,
+    "r": 0.9397764838718228
+   },
+   "symmetry_max_m": 7.450580596923828e-09
+  },
+  "flexion_030_internal": {
+   "plane": "flexion",
+   "theta": 30,
+   "axial": "internal",
+   "self_intersections": 0,
+   "edge_ratio_min": 0.5841120407319939,
+   "edge_ratio_p1": 0.7676384868027778,
+   "edge_ratio_p99": 1.378122225036399,
+   "edge_ratio_max": 1.6984347347588304,
+   "transition_shrink_min": {
+    "l": 0.902786063886506,
+    "r": 0.9027835849224178
+   },
+   "symmetry_max_m": 5.711487028747797e-05
+  },
+  "flexion_030_neutral": {
+   "plane": "flexion",
+   "theta": 30,
+   "axial": "neutral",
+   "self_intersections": 2,
+   "edge_ratio_min": 0.5311098456303465,
+   "edge_ratio_p1": 0.7842474013245728,
+   "edge_ratio_p99": 1.3737527477229137,
+   "edge_ratio_max": 1.6898191227454604,
+   "transition_shrink_min": {
+    "l": 0.9567542259062831,
+    "r": 0.9567490195912349
+   },
+   "symmetry_max_m": 5.711487028747797e-05
+  },
+  "flexion_030_external": {
+   "plane": "flexion",
+   "theta": 30,
+   "axial": "external",
+   "self_intersections": 56,
+   "edge_ratio_min": 0.4829990189293549,
+   "edge_ratio_p1": 0.7127465903953838,
+   "edge_ratio_p99": 1.4689733137131593,
+   "edge_ratio_max": 2.000274801855552,
+   "transition_shrink_min": {
+    "l": 0.9068386400858414,
+    "r": 0.9068382465269232
+   },
+   "symmetry_max_m": 5.711487028747797e-05
+  },
+  "flexion_060_internal": {
+   "plane": "flexion",
+   "theta": 60,
+   "axial": "internal",
+   "self_intersections": 0,
+   "edge_ratio_min": 0.5210249636113136,
+   "edge_ratio_p1": 0.6413384484376395,
+   "edge_ratio_p99": 1.6553109909653139,
+   "edge_ratio_max": 1.9983429244843325,
+   "transition_shrink_min": {
+    "l": 0.6797824586250019,
+    "r": 0.6797934422062454
+   },
+   "symmetry_max_m": 0.00011437106877565384
+  },
+  "flexion_060_neutral": {
+   "plane": "flexion",
+   "theta": 60,
+   "axial": "neutral",
+   "self_intersections": 18,
+   "edge_ratio_min": 0.577452303153402,
+   "edge_ratio_p1": 0.6814062675628677,
+   "edge_ratio_p99": 1.7574465370239323,
+   "edge_ratio_max": 2.495302061125219,
+   "transition_shrink_min": {
+    "l": 0.7481119771481793,
+    "r": 0.7481238676269054
+   },
+   "symmetry_max_m": 0.00011437106877565384
+  },
+  "flexion_060_external": {
+   "plane": "flexion",
+   "theta": 60,
+   "axial": "external",
+   "self_intersections": 92,
+   "edge_ratio_min": 0.4139769221228911,
+   "edge_ratio_p1": 0.6526824204198947,
+   "edge_ratio_p99": 1.869928593158743,
+   "edge_ratio_max": 2.764795379282507,
+   "transition_shrink_min": {
+    "l": 0.7470908458168681,
+    "r": 0.7471063885186957
+   },
+   "symmetry_max_m": 0.00011437106877565384
+  },
+  "flexion_090_internal": {
+   "plane": "flexion",
+   "theta": 90,
+   "axial": "internal",
+   "self_intersections": 0,
+   "edge_ratio_min": 0.3413577689021092,
+   "edge_ratio_p1": 0.5081985801650898,
+   "edge_ratio_p99": 1.9963693756880685,
+   "edge_ratio_max": 2.5319042859853624,
+   "transition_shrink_min": {
+    "l": 0.4465197502441036,
+    "r": 0.4465280298999086
+   },
+   "symmetry_max_m": 0.00017136894166469574
+  },
+  "flexion_090_neutral": {
+   "plane": "flexion",
+   "theta": 90,
+   "axial": "neutral",
+   "self_intersections": 10,
+   "edge_ratio_min": 0.383424503764095,
+   "edge_ratio_p1": 0.5471325197167181,
+   "edge_ratio_p99": 2.101132661685829,
+   "edge_ratio_max": 3.0622036720080414,
+   "transition_shrink_min": {
+    "l": 0.5329923518545974,
+    "r": 0.5329972277518299
+   },
+   "symmetry_max_m": 0.00017136894166469574
+  },
+  "flexion_090_external": {
+   "plane": "flexion",
+   "theta": 90,
+   "axial": "external",
+   "self_intersections": 78,
+   "edge_ratio_min": 0.2923204115632376,
+   "edge_ratio_p1": 0.557032027929319,
+   "edge_ratio_p99": 2.198025641114463,
+   "edge_ratio_max": 3.3348619171803437,
+   "transition_shrink_min": {
+    "l": 0.5630421280154204,
+    "r": 0.5630464312928632
+   },
+   "symmetry_max_m": 0.00017136894166469574
+  },
+  "flexion_120_internal": {
+   "plane": "flexion",
+   "theta": 120,
+   "axial": "internal",
+   "self_intersections": 0,
+   "edge_ratio_min": 0.15807423732615195,
+   "edge_ratio_p1": 0.3884558033268417,
+   "edge_ratio_p99": 2.366528563577362,
+   "edge_ratio_max": 2.9797115139977755,
+   "transition_shrink_min": {
+    "l": 0.1961736887793761,
+    "r": 0.1961719018522553
+   },
+   "symmetry_max_m": 0.0002277623862028122
+  },
+  "flexion_120_neutral": {
+   "plane": "flexion",
+   "theta": 120,
+   "axial": "neutral",
+   "self_intersections": 0,
+   "edge_ratio_min": 0.1882912582336523,
+   "edge_ratio_p1": 0.4627224138778131,
+   "edge_ratio_p99": 2.4471186597666805,
+   "edge_ratio_max": 3.2144182103948813,
+   "transition_shrink_min": {
+    "l": 0.26050942285298,
+    "r": 0.26050806487609746
+   },
+   "symmetry_max_m": 0.0002277623862028122
+  },
+  "flexion_120_external": {
+   "plane": "flexion",
+   "theta": 120,
+   "axial": "external",
+   "self_intersections": 8,
+   "edge_ratio_min": 0.26433608867940167,
+   "edge_ratio_p1": 0.45284434832399784,
+   "edge_ratio_p99": 2.5145689282102612,
+   "edge_ratio_max": 3.5611074256232578,
+   "transition_shrink_min": {
+    "l": 0.34717122201265477,
+    "r": 0.34717242395757125
+   },
+   "symmetry_max_m": 0.0002277623862028122
+  },
+  "flexion_150_internal": {
+   "plane": "flexion",
+   "theta": 150,
+   "axial": "internal",
+   "self_intersections": 64,
+   "edge_ratio_min": 0.09063385404408393,
+   "edge_ratio_p1": 0.2995457534825232,
+   "edge_ratio_p99": 2.789486668620733,
+   "edge_ratio_max": 3.661900303964729,
+   "transition_shrink_min": {
+    "l": 0.18397121877860806,
+    "r": 0.18397410836686284
+   },
+   "symmetry_max_m": 0.0002831406891345978
+  },
+  "flexion_150_neutral": {
+   "plane": "flexion",
+   "theta": 150,
+   "axial": "neutral",
+   "self_intersections": 82,
+   "edge_ratio_min": 0.03176874074005876,
+   "edge_ratio_p1": 0.304817620827833,
+   "edge_ratio_p99": 2.8552733857016817,
+   "edge_ratio_max": 3.661900303964729,
+   "transition_shrink_min": {
+    "l": 0.22235669436377598,
+    "r": 0.22235702968714505
+   },
+   "symmetry_max_m": 0.0002831406891345978
+  },
+  "flexion_150_external": {
+   "plane": "flexion",
+   "theta": 150,
+   "axial": "external",
+   "self_intersections": 106,
+   "edge_ratio_min": 0.099894750784044,
+   "edge_ratio_p1": 0.3181936785318107,
+   "edge_ratio_p99": 2.8748962142824137,
+   "edge_ratio_max": 3.661900303964729,
+   "transition_shrink_min": {
+    "l": 0.22026553732071202,
+    "r": 0.22026637118767142
+   },
+   "symmetry_max_m": 0.0002831406891345978
+  },
+  "flexion_170_internal": {
+   "plane": "flexion",
+   "theta": 170,
+   "axial": "internal",
+   "self_intersections": 109,
+   "edge_ratio_min": 0.08681631323659574,
+   "edge_ratio_p1": 0.29218758280738355,
+   "edge_ratio_p99": 3.2470627301561694,
+   "edge_ratio_max": 4.088606803655153,
+   "transition_shrink_min": {
+    "l": 0.2502674314493958,
+    "r": 0.2502658973995866
+   },
+   "symmetry_max_m": 0.0003133416175842285
+  },
+  "flexion_170_neutral": {
+   "plane": "flexion",
+   "theta": 170,
+   "axial": "neutral",
+   "self_intersections": 119,
+   "edge_ratio_min": 0.059161807230397295,
+   "edge_ratio_p1": 0.3215642129346881,
+   "edge_ratio_p99": 3.2470627301561694,
+   "edge_ratio_max": 4.088606803655153,
+   "transition_shrink_min": {
+    "l": 0.2690360969379601,
+    "r": 0.2690345484769807
+   },
+   "symmetry_max_m": 0.0003133416175842285
+  },
+  "flexion_170_external": {
+   "plane": "flexion",
+   "theta": 170,
+   "axial": "external",
+   "self_intersections": 133,
+   "edge_ratio_min": 0.09394026851222588,
+   "edge_ratio_p1": 0.3213347225936617,
+   "edge_ratio_p99": 3.2470627301561694,
+   "edge_ratio_max": 4.088606803655153,
+   "transition_shrink_min": {
+    "l": 0.2728658294444017,
+    "r": 0.2728661427824613
+   },
+   "symmetry_max_m": 0.0003133416175842285
+  },
+  "horizontal_adduction_90": {
+   "self_intersections": 241,
+   "edge_ratio_min": 0.2448160078750286,
+   "edge_ratio_p1": 0.47691750249799114,
+   "edge_ratio_p99": 2.2704543977816996,
+   "edge_ratio_max": 3.2566864093723233,
+   "transition_shrink_min": {
+    "l": 0.5177809264133443,
+    "r": 0.5177942495854702
+   },
+   "symmetry_max_m": 0.00024940306320786476
+  },
+  "horizontal_abduction_90": {
+   "self_intersections": 0,
+   "edge_ratio_min": 0.28298856034339476,
+   "edge_ratio_p1": 0.6290408985217246,
+   "edge_ratio_p99": 1.9273482310915613,
+   "edge_ratio_max": 2.7807473142541186,
+   "transition_shrink_min": {
+    "l": 0.39157610031962026,
+    "r": 0.3915814705869739
+   },
+   "symmetry_max_m": 2.73421173915267e-05
+  },
+  "arm_behind_torso": {
+   "self_intersections": 200,
+   "edge_ratio_min": 0.39806587940062005,
+   "edge_ratio_p1": 0.6701430668735329,
+   "edge_ratio_p99": 1.4828872662761154,
+   "edge_ratio_max": 1.7353011808218342,
+   "transition_shrink_min": {
+    "l": 0.896357267412579,
+    "r": 0.8963626096045916
+   },
+   "symmetry_max_m": 1.998117659240961e-05
+  },
+  "bent_elbow_elevation_120": {
+   "self_intersections": 0,
+   "edge_ratio_min": 0.17178284843866937,
+   "edge_ratio_p1": 0.45710506389858446,
+   "edge_ratio_p99": 2.151330712208971,
+   "edge_ratio_max": 2.7259051961656744,
+   "transition_shrink_min": {
+    "l": 0.16706808194982103,
+    "r": 0.16707098353207783
+   },
+   "symmetry_max_m": 0.00014467351138591766
+  },
+  "lateral_raise_top": {
+   "self_intersections": 0,
+   "edge_ratio_min": 0.5499926903659372,
+   "edge_ratio_p1": 0.6788232040994678,
+   "edge_ratio_p99": 1.8005580110056016,
+   "edge_ratio_max": 2.58202001110337,
+   "transition_shrink_min": {
+    "l": 0.4214587713179205,
+    "r": 0.4214613975669393
+   },
+   "symmetry_max_m": 4.529696889221668e-05
+  },
+  "front_raise_top": {
+   "self_intersections": 0,
+   "edge_ratio_min": 0.31512964000010324,
+   "edge_ratio_p1": 0.5076243809367625,
+   "edge_ratio_p99": 2.1217210794180223,
+   "edge_ratio_max": 2.871812072049558,
+   "transition_shrink_min": {
+    "l": 0.44634694558340615,
+    "r": 0.4463523389791613
+   },
+   "symmetry_max_m": 0.00018081022426486015
+  },
+  "press_bottom_like": {
+   "self_intersections": 0,
+   "edge_ratio_min": 0.25842871631551473,
+   "edge_ratio_p1": 0.6183722866351774,
+   "edge_ratio_p99": 2.072247578881698,
+   "edge_ratio_max": 3.3287315933444432,
+   "transition_shrink_min": {
+    "l": 0.5154630669723805,
+    "r": 0.5154760940382488
+   },
+   "symmetry_max_m": 8.353777229785919e-05
+  },
+  "press_top_like": {
+   "self_intersections": 80,
+   "edge_ratio_min": 0.05695834176651156,
+   "edge_ratio_p1": 0.37533979537798473,
+   "edge_ratio_p99": 2.774912473235169,
+   "edge_ratio_max": 3.7085197805231926,
+   "transition_shrink_min": {
+    "l": 0.2461087443519152,
+    "r": 0.2461031908025619
+   },
+   "symmetry_max_m": 0.00014343392103910446
+  },
+  "pullup_hang_like": {
+   "self_intersections": 102,
+   "edge_ratio_min": 0.07597617541639248,
+   "edge_ratio_p1": 0.3537640211482879,
+   "edge_ratio_p99": 2.9058512260228304,
+   "edge_ratio_max": 3.73802688914998,
+   "transition_shrink_min": {
+    "l": 0.26204885216416235,
+    "r": 0.2620519744266007
+   },
+   "symmetry_max_m": 0.00018481165170669556
+  },
+  "pullup_top_like": {
+   "self_intersections": 0,
+   "edge_ratio_min": 0.7404872573491941,
+   "edge_ratio_p1": 0.8020988769118502,
+   "edge_ratio_p99": 1.5850032353166226,
+   "edge_ratio_max": 2.1594694369778864,
+   "transition_shrink_min": {
+    "l": 0.7044950700600159,
+    "r": 0.7045120251768134
+   },
+   "symmetry_max_m": 4.468823317438364e-05
+  },
+  "bench_bottom_like": {
+   "self_intersections": 5,
+   "edge_ratio_min": 0.2266745008257913,
+   "edge_ratio_p1": 0.5648063788975758,
+   "edge_ratio_p99": 2.0604195335200277,
+   "edge_ratio_max": 3.1983746728473075,
+   "transition_shrink_min": {
+    "l": 0.49156770850483483,
+    "r": 0.4915682954345742
+   },
+   "symmetry_max_m": 4.679107223637402e-05
+  },
+  "pushup_bottom_like": {
+   "self_intersections": 0,
+   "edge_ratio_min": 0.4291934611225899,
+   "edge_ratio_p1": 0.7979725652581292,
+   "edge_ratio_p99": 1.579053427014425,
+   "edge_ratio_max": 2.1999341156867245,
+   "transition_shrink_min": {
+    "l": 0.7492294327917374,
+    "r": 0.7492415068003095
+   },
+   "symmetry_max_m": 1.732376404106617e-05
+  },
+  "row_top_like": {
+   "self_intersections": 0,
+   "edge_ratio_min": 0.3600741804880979,
+   "edge_ratio_p1": 0.6176190679218578,
+   "edge_ratio_p99": 1.4284600258842333,
+   "edge_ratio_max": 1.7157409140169688,
+   "transition_shrink_min": {
+    "l": 0.837000003085538,
+    "r": 0.836996199708447
+   },
+   "symmetry_max_m": 2.249522367492318e-05
+  },
+  "curl_top_like": {
+   "self_intersections": 0,
+   "edge_ratio_min": 0.7210291109741528,
+   "edge_ratio_p1": 0.8736126686953021,
+   "edge_ratio_p99": 1.1828597219691437,
+   "edge_ratio_max": 1.329084233442348,
+   "transition_shrink_min": {
+    "l": 0.9846585033407734,
+    "r": 0.9846614597008165
+   },
+   "symmetry_max_m": 2.8516864404082298e-05
+  }
+ },
+ "axial_response": {
+  "abduction_000": {
+   "transition_rms_mm": 41.580222338524315,
+   "zone_rms_mm": 37.41232542702578,
+   "torso_side_rms_mm": 14.275644221955941
+  },
+  "abduction_030": {
+   "transition_rms_mm": 41.58020762218256,
+   "zone_rms_mm": 37.41230989029016,
+   "torso_side_rms_mm": 14.275635965905947
+  },
+  "abduction_060": {
+   "transition_rms_mm": 41.58021440560677,
+   "zone_rms_mm": 37.4123256839667,
+   "torso_side_rms_mm": 14.275638585060346
+  },
+  "abduction_090": {
+   "transition_rms_mm": 41.5802281740395,
+   "zone_rms_mm": 37.41233869712415,
+   "torso_side_rms_mm": 14.275640962890078
+  },
+  "abduction_120": {
+   "transition_rms_mm": 41.580225545116555,
+   "zone_rms_mm": 37.412324601809615,
+   "torso_side_rms_mm": 14.275644837365737
+  },
+  "abduction_150": {
+   "transition_rms_mm": 26.31073106733846,
+   "zone_rms_mm": 23.67342419639559,
+   "torso_side_rms_mm": 9.03319599083817
+  },
+  "abduction_170": {
+   "transition_rms_mm": 26.310699466017084,
+   "zone_rms_mm": 23.673388061280082,
+   "torso_side_rms_mm": 9.033191225124366
+  },
+  "flexion_000": {
+   "transition_rms_mm": 41.580222338524315,
+   "zone_rms_mm": 37.41232542702578,
+   "torso_side_rms_mm": 14.275644221955941
+  },
+  "flexion_030": {
+   "transition_rms_mm": 41.580215672342725,
+   "zone_rms_mm": 37.412316471003464,
+   "torso_side_rms_mm": 14.275643371169645
+  },
+  "flexion_060": {
+   "transition_rms_mm": 41.58022457637028,
+   "zone_rms_mm": 37.41232150478717,
+   "torso_side_rms_mm": 14.27564723280263
+  },
+  "flexion_090": {
+   "transition_rms_mm": 41.58022933696944,
+   "zone_rms_mm": 37.41233603982085,
+   "torso_side_rms_mm": 14.27564274761875
+  },
+  "flexion_120": {
+   "transition_rms_mm": 41.58023830734346,
+   "zone_rms_mm": 37.41233043367529,
+   "torso_side_rms_mm": 14.275648257532985
+  },
+  "flexion_150": {
+   "transition_rms_mm": 26.310716928920296,
+   "zone_rms_mm": 23.67338777207251,
+   "torso_side_rms_mm": 9.03320054357008
+  },
+  "flexion_170": {
+   "transition_rms_mm": 26.310720386462172,
+   "zone_rms_mm": 23.67339820288896,
+   "torso_side_rms_mm": 9.033198569278728
+  }
+ },
+ "arc_continuity": {
+  "abduction": {
+   "max_second_difference_ratio": 0.6561303414689678,
+   "at_theta": 120
+  },
+  "flexion": {
+   "max_second_difference_ratio": 0.8287672329212667,
+   "at_theta": 150
+  }
+ },
+ "zone_vertices": 2619,
+ "seconds": 94.77652382850647
+}

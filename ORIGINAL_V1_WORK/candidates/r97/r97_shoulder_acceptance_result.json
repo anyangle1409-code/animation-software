@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "contract_id": "original_v1_shoulder_anatomical_acceptance_v1",
+  "candidate_revision": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r97",
+  "pass": false,
+  "production_approved": false,
+  "errors": [],
+  "missing_machine_gates": [],
+  "failed_machine_gates": [
+    "SH-M03",
+    "SH-M07",
+    "SH-M08",
+    "SH-M09"
+  ],
+  "missing_visual_gates": [],
+  "failed_visual_gates": [
+    "SH-V01",
+    "SH-V02",
+    "SH-V03",
+    "SH-V04",
+    "SH-V05",
+    "SH-V06",
+    "SH-V07",
+    "SH-V08",
+    "SH-V09",
+    "SH-V10"
+  ],
+  "weights_only_foundation_pass": false,
+  "movement_matrix_complete": true,
+  "human_anatomical_review_recorded": false,
+  "no_open_linked_blockers": false,
+  "causal_order_violation": false,
+  "disposition": "BLOCKED"
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "candidate_id": "r97",
+  "candidate_revision": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r97",
+  "model": "HomeGymPT_Male_ORIGINAL_v1",
+  "lineage": "ORIGINAL-v1 (not legacy V-series)",
+  "candidate_path": "ORIGINAL_V1_WORK/candidates/r97/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r97.blend",
+  "candidate_sha256": "8b2fbe50781dfcf9123178615efc926945847959ed2b897def920f0b3c48962f",
+  "parent_candidate_id": "r95",
+  "parent_sha256": "c4b8e388e624a4a3d22510b40c1fc45017b3374b1ff9de2cae79f2dbb0797c85",
+  "working_parent": "ORIGINAL_V1_WORK/candidates/repair_preparation/r97_shoulder_foundation_declared/r95_reconstructed.blend",
+  "declarations": [
+    "ORIGINAL_V1_WORK/candidates/repair_preparation/r97_shoulder_foundation_declared/r97_declared_before_edit.json",
+    "ORIGINAL_V1_WORK/candidates/repair_preparation/r97_shoulder_foundation_declared/r97_mechanics_and_scope_amendment_declared_before_candidate.json"
+  ],
+  "build_chain": [
+    "scripts/r97/scapula_pivot.py",
+    "scripts/r97/add_gh_helper.py",
+    "scripts/r97/helper_swing_half2.py",
+    "scripts/r97/solve_weights.py (params ORIGINAL_V1_WORK/candidates/r97/r97_weight_solve_params.json)",
+    "scripts/r97/apply_weights.py",
+    "scripts/r97/finalize_r97.py"
+  ],
+  "rig_revision": "rev2e_scapula_ac_pivot_gh_helpers",
+  "bones": 71,
+  "deform_bones": 68,
+  "helper_runtime_rule": "glenohumeral_half_{l,r}: world rotation = slerp(identity, swing(upperarm), 0.5) * twist(upperarm) (Blender: COPY_ROTATION world + DAMPED_TRACK to glenohumeral_ref tail at 0.5). Constraints do not export to GLB; a runtime must drive the helper with this rule.",
+  "correctives": "r95's six shoulder/flexion/scapular keys retained at value 0; driver configs moved to scene property hgpt_disabled_r95_corrective_specs. No new correctives.",
+  "weights_only": true,
+  "production_approved": false,
+  "accepted": false,
+  "evidence": {
+    "scope_audit": "ORIGINAL_V1_WORK/candidates/r97/r97_scope_audit.json",
+    "shoulder_review": "ORIGINAL_V1_WORK/candidates/r97/r97_shoulder_review.json",
+    "shoulder_acceptance_result": "ORIGINAL_V1_WORK/candidates/r97/r97_shoulder_acceptance_result.json",
+    "movement_matrix": "ORIGINAL_V1_WORK/candidates/review_images/r97_shoulder_weights_only_matrix",
+    "r95_comparator_matrix": "ORIGINAL_V1_WORK/candidates/review_images/r95_reconstructed_weights_only_matrix",
+    "comparison_sheets": "ORIGINAL_V1_WORK/candidates/review_images/r97_comparison_sheets",
+    "repo_pose_test": "ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only"
+  },
+  "self_acceptance_disposition": "BLOCKED"
+}

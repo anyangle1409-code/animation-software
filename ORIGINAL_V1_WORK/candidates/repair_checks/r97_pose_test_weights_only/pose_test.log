@@ -1,0 +1,105 @@
+00:00.503  blend            | Read blend: "/home/user/wb/ORIGINAL_V1_WORK/candidates/r97/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r97.blend"
+POSE {"pose": "neutral", "volume_ratio": 1.0, "compressed_edges_lt_0_6": 0, "stretched_edges_gt_1_6": 0, "self_intersecting_face_pairs": 0}
+EGL Error (0x3009): EGL_BAD_MATCH: Arguments are inconsistent (for example, a valid context requires buffers not supplied by a valid surface).
+EGL Error (0x3009): EGL_BAD_MATCH: Arguments are inconsistent (for example, a valid context requires buffers not supplied by a valid surface).
+EGL Error (0x3009): EGL_BAD_MATCH: Arguments are inconsistent (for example, a valid context requires buffers not supplied by a valid surface).
+00:03.100  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_neutral_front.png'
+00:03.778  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_neutral_side.png'
+00:04.487  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_neutral_three_quarter.png'
+POSE {"pose": "curl_peak", "volume_ratio": 0.9935, "compressed_edges_lt_0_6": 468, "stretched_edges_gt_1_6": 104, "self_intersecting_face_pairs": 134}
+00:06.105  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_curl_peak_front.png'
+00:06.825  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_curl_peak_side.png'
+00:07.600  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_curl_peak_three_quarter.png'
+00:08.527  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_curl_peak_close_elbow_a.png'
+00:09.255  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_curl_peak_close_elbow_b.png'
+00:10.241  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_curl_peak_close_hand_a.png'
+00:10.871  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_curl_peak_close_hand_b.png'
+POSE {"pose": "press_bottom", "volume_ratio": 1.048, "compressed_edges_lt_0_6": 468, "stretched_edges_gt_1_6": 522, "self_intersecting_face_pairs": 84}
+00:12.417  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_press_bottom_front.png'
+00:13.080  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_press_bottom_side.png'
+00:13.802  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_press_bottom_three_quarter.png'
+POSE {"pose": "press_top", "volume_ratio": 1.0448, "compressed_edges_lt_0_6": 436, "stretched_edges_gt_1_6": 1104, "self_intersecting_face_pairs": 4}
+00:15.331  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_press_top_front.png'
+00:15.964  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_press_top_side.png'
+00:16.659  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_press_top_three_quarter.png'
+00:17.700  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_press_top_close_shoulder_a.png'
+00:18.547  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_press_top_close_shoulder_b.png'
+POSE {"pose": "press_top_rhythm", "volume_ratio": 1.0404, "compressed_edges_lt_0_6": 444, "stretched_edges_gt_1_6": 1147, "self_intersecting_face_pairs": 0}
+00:20.146  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_press_top_rhythm_front.png'
+00:20.831  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_press_top_rhythm_side.png'
+00:21.560  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_press_top_rhythm_three_quarter.png'
+00:22.675  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_press_top_rhythm_close_shoulder_a.png'
+00:23.587  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_press_top_rhythm_close_shoulder_b.png'
+POSE {"pose": "squat_bottom", "volume_ratio": 0.9704, "compressed_edges_lt_0_6": 238, "stretched_edges_gt_1_6": 624, "self_intersecting_face_pairs": 99}
+00:25.047  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_squat_bottom_front.png'
+00:25.908  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_squat_bottom_side.png'
+00:26.786  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_squat_bottom_three_quarter.png'
+00:27.750  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_squat_bottom_close_hip_a.png'
+00:28.712  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_squat_bottom_close_hip_b.png'
+00:29.495  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_squat_bottom_close_knee_a.png'
+00:30.227  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_squat_bottom_close_knee_b.png'
+POSE {"pose": "pushup_bottom", "volume_ratio": 1.0153, "compressed_edges_lt_0_6": 180, "stretched_edges_gt_1_6": 116, "self_intersecting_face_pairs": 162}
+00:32.417  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_pushup_bottom_front.png'
+00:33.141  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_pushup_bottom_side.png'
+00:33.891  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_pushup_bottom_three_quarter.png'
+00:34.701  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_pushup_bottom_close_shoulder_a.png'
+00:35.422  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_pushup_bottom_close_shoulder_b.png'
+00:36.114  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_pushup_bottom_close_hand_a.png'
+00:36.839  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_pushup_bottom_close_hand_b.png'
+POSE {"pose": "pullup_hang", "volume_ratio": 1.0686, "compressed_edges_lt_0_6": 388, "stretched_edges_gt_1_6": 1008, "self_intersecting_face_pairs": 8}
+00:38.379  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_pullup_hang_front.png'
+00:39.008  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_pullup_hang_side.png'
+00:39.761  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_pullup_hang_three_quarter.png'
+00:40.714  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_pullup_hang_close_shoulder_a.png'
+00:41.510  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_pullup_hang_close_shoulder_b.png'
+POSE {"pose": "pullup_hang_rhythm", "volume_ratio": 1.0666, "compressed_edges_lt_0_6": 406, "stretched_edges_gt_1_6": 1073, "self_intersecting_face_pairs": 0}
+00:43.054  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_pullup_hang_rhythm_front.png'
+00:43.802  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_pullup_hang_rhythm_side.png'
+00:44.569  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_pullup_hang_rhythm_three_quarter.png'
+00:45.510  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_pullup_hang_rhythm_close_shoulder_a.png'
+00:46.299  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_pullup_hang_rhythm_close_shoulder_b.png'
+POSE {"pose": "pullup_top", "volume_ratio": 1.0382, "compressed_edges_lt_0_6": 494, "stretched_edges_gt_1_6": 418, "self_intersecting_face_pairs": 110}
+00:47.808  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_pullup_top_front.png'
+00:48.581  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_pullup_top_side.png'
+00:49.355  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_pullup_top_three_quarter.png'
+00:50.365  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_pullup_top_close_shoulder_a.png'
+00:51.233  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_pullup_top_close_shoulder_b.png'
+00:52.337  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_pullup_top_close_hand_a.png'
+00:52.970  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_pullup_top_close_hand_b.png'
+POSE {"pose": "lunge", "volume_ratio": 0.9843, "compressed_edges_lt_0_6": 126, "stretched_edges_gt_1_6": 116, "self_intersecting_face_pairs": 7}
+00:54.465  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_lunge_front.png'
+00:55.254  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_lunge_side.png'
+00:56.031  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_lunge_three_quarter.png'
+00:57.127  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_lunge_close_hip_a.png'
+00:58.184  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_lunge_close_hip_b.png'
+00:58.952  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_lunge_close_knee_a.png'
+00:59.632  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_lunge_close_knee_b.png'
+POSE {"pose": "row", "volume_ratio": 0.9873, "compressed_edges_lt_0_6": 521, "stretched_edges_gt_1_6": 135, "self_intersecting_face_pairs": 0}
+01:01.204  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_row_front.png'
+01:01.918  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_row_side.png'
+01:02.710  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_row_three_quarter.png'
+01:03.820  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_row_close_shoulder_a.png'
+01:04.501  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_row_close_shoulder_b.png'
+01:05.716  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_row_close_hip_a.png'
+01:06.728  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_row_close_hip_b.png'
+POSE {"pose": "grip", "volume_ratio": 0.9965, "compressed_edges_lt_0_6": 418, "stretched_edges_gt_1_6": 112, "self_intersecting_face_pairs": 42}
+01:08.317  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_grip_front.png'
+01:09.008  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_grip_side.png'
+01:09.754  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_grip_three_quarter.png'
+01:10.687  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_grip_close_hand_a.png'
+01:11.295  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_grip_close_hand_b.png'
+POSE {"pose": "curl_handle", "volume_ratio": 0.9937, "compressed_edges_lt_0_6": 318, "stretched_edges_gt_1_6": 24, "self_intersecting_face_pairs": 134}
+01:13.652  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_curl_handle_front.png'
+01:14.340  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_curl_handle_side.png'
+01:15.055  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_curl_handle_three_quarter.png'
+01:16.025  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_curl_handle_close_hand_a.png'
+01:16.620  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_curl_handle_close_hand_b.png'
+01:17.582  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_curl_handle_close_elbow_a.png'
+01:18.265  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_curl_handle_close_elbow_b.png'
+POSE {"pose": "pullup_bar", "volume_ratio": 1.0688, "compressed_edges_lt_0_6": 238, "stretched_edges_gt_1_6": 928, "self_intersecting_face_pairs": 8}
+01:20.538  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_pullup_bar_front.png'
+01:21.270  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_pullup_bar_side.png'
+01:22.059  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_pullup_bar_three_quarter.png'
+01:23.022  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_pullup_bar_close_hand_a.png'
+01:23.677  render           | Saved: '/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_checks/r97_pose_test_weights_only/pose_pullup_bar_close_hand_b.png'
+POSE TESTS DONE 15

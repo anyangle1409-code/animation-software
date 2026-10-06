@@ -1,0 +1,29 @@
+{
+    "parent": "/home/user/wb/ORIGINAL_V1_WORK/candidates/repair_preparation/r97_shoulder_foundation_declared/r95_reconstructed.blend",
+    "candidate": "/home/user/wb/ORIGINAL_V1_WORK/candidates/r97/HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r97.blend",
+    "vertex_count": [
+        17946,
+        17946
+    ],
+    "rest_positions_max_diff_m": 0.0,
+    "faces_identical": true,
+    "nondeclared_weight_max_diff": 0.0,
+    "nondeclared_bone_rest_changes": [],
+    "added_bones": [
+        "glenohumeral_half_l",
+        "glenohumeral_half_r",
+        "glenohumeral_ref_l",
+        "glenohumeral_ref_r"
+    ],
+    "removed_bones": [],
+    "declared_bones_changed": [
+        "scapula_l",
+        "scapula_r"
+    ],
+    "shape_keys_identical": true,
+    "added_vertex_groups": [
+        "glenohumeral_half_l",
+        "glenohumeral_half_r"
+    ],
+    "pass": true
+}

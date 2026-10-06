@@ -1,0 +1,653 @@
+{
+  "schema_version": 1,
+  "status": "WHOLE_BODY_AUDIT_TEMPLATE_ONLY",
+  "production_approved": false,
+  "candidate_revision": null,
+  "candidate_sha256": null,
+  "source_git_commit": null,
+  "production_path_rendered": null,
+  "whole_body_regression_pass": null,
+  "transition_zones": [
+    {
+      "id": "WBZ-01",
+      "status": null,
+      "candidate_sha256": null,
+      "temporal_classes": [
+        "start",
+        "outbound_intermediate",
+        "peak_or_bottom",
+        "return_intermediate",
+        "end_or_loop_close",
+        "turnaround_neighbourhood"
+      ],
+      "visual_evidence": [],
+      "numerical_evidence": [],
+      "human_evidence_ids": [
+        "HE-SH-001",
+        "HE-SH-002",
+        "HE-VIS-001",
+        "HE-VIS-002",
+        "HE-PULL-001",
+        "HE-VIS-003",
+        "HE-TRUNK-001"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "WBZ-02",
+      "status": null,
+      "candidate_sha256": null,
+      "temporal_classes": [
+        "start",
+        "outbound_intermediate",
+        "peak_or_bottom",
+        "return_intermediate",
+        "end_or_loop_close",
+        "turnaround_neighbourhood"
+      ],
+      "visual_evidence": [],
+      "numerical_evidence": [],
+      "human_evidence_ids": [
+        "HE-SH-001",
+        "HE-SH-002",
+        "HE-VIS-001",
+        "HE-VIS-002",
+        "HE-PUSH-001",
+        "HE-CHEST-001",
+        "HE-WRI-001",
+        "HE-VIS-003"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "WBZ-03",
+      "status": null,
+      "candidate_sha256": null,
+      "temporal_classes": [
+        "start",
+        "outbound_intermediate",
+        "peak_or_bottom",
+        "return_intermediate",
+        "end_or_loop_close",
+        "turnaround_neighbourhood"
+      ],
+      "visual_evidence": [],
+      "numerical_evidence": [],
+      "human_evidence_ids": [
+        "HE-SH-001",
+        "HE-SH-002",
+        "HE-VIS-001",
+        "HE-VIS-002",
+        "HE-PULL-001",
+        "HE-VIS-003",
+        "HE-UPPER-001",
+        "HE-WRI-002"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "WBZ-04",
+      "status": null,
+      "candidate_sha256": null,
+      "temporal_classes": [
+        "start",
+        "outbound_intermediate",
+        "peak_or_bottom",
+        "return_intermediate",
+        "end_or_loop_close",
+        "turnaround_neighbourhood"
+      ],
+      "visual_evidence": [],
+      "numerical_evidence": [],
+      "human_evidence_ids": [
+        "HE-SH-001",
+        "HE-SH-002",
+        "HE-VIS-001",
+        "HE-VIS-002",
+        "HE-PULL-001",
+        "HE-PUSH-001",
+        "HE-CHEST-001",
+        "HE-WRI-001",
+        "HE-VIS-003"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "WBZ-05",
+      "status": null,
+      "candidate_sha256": null,
+      "temporal_classes": [
+        "start",
+        "outbound_intermediate",
+        "peak_or_bottom",
+        "return_intermediate",
+        "end_or_loop_close",
+        "turnaround_neighbourhood"
+      ],
+      "visual_evidence": [],
+      "numerical_evidence": [],
+      "human_evidence_ids": [
+        "HE-PULL-001",
+        "HE-PUSH-001",
+        "HE-CHEST-001",
+        "HE-WRI-001",
+        "HE-SH-001",
+        "HE-SH-002",
+        "HE-VIS-001",
+        "HE-VIS-002",
+        "HE-VIS-003"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "WBZ-06",
+      "status": null,
+      "candidate_sha256": null,
+      "temporal_classes": [
+        "start",
+        "outbound_intermediate",
+        "peak_or_bottom",
+        "return_intermediate",
+        "end_or_loop_close",
+        "turnaround_neighbourhood"
+      ],
+      "visual_evidence": [],
+      "numerical_evidence": [],
+      "human_evidence_ids": [
+        "HE-UPPER-001",
+        "HE-CHEST-001",
+        "HE-PUSH-001",
+        "HE-WRI-001",
+        "HE-PULL-001"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "WBZ-07",
+      "status": null,
+      "candidate_sha256": null,
+      "temporal_classes": [
+        "start",
+        "outbound_intermediate",
+        "peak_or_bottom",
+        "return_intermediate",
+        "end_or_loop_close",
+        "turnaround_neighbourhood"
+      ],
+      "visual_evidence": [],
+      "numerical_evidence": [],
+      "human_evidence_ids": [
+        "HE-UPPER-001",
+        "HE-WRI-002",
+        "HE-WRI-001",
+        "HE-PUSH-001",
+        "HE-GRP-001",
+        "HE-GRP-002",
+        "HE-PULL-001"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "WBZ-08",
+      "status": null,
+      "candidate_sha256": null,
+      "temporal_classes": [
+        "start",
+        "outbound_intermediate",
+        "peak_or_bottom",
+        "return_intermediate",
+        "end_or_loop_close",
+        "turnaround_neighbourhood"
+      ],
+      "visual_evidence": [],
+      "numerical_evidence": [],
+      "human_evidence_ids": [
+        "HE-WRI-001",
+        "HE-PUSH-001",
+        "HE-GRP-001",
+        "HE-GRP-002",
+        "HE-PULL-001"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "WBZ-09",
+      "status": null,
+      "candidate_sha256": null,
+      "temporal_classes": [
+        "start",
+        "outbound_intermediate",
+        "peak_or_bottom",
+        "return_intermediate",
+        "end_or_loop_close",
+        "turnaround_neighbourhood"
+      ],
+      "visual_evidence": [],
+      "numerical_evidence": [],
+      "human_evidence_ids": [
+        "HE-GRP-001",
+        "HE-GRP-002",
+        "HE-PULL-001"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "WBZ-10",
+      "status": null,
+      "candidate_sha256": null,
+      "temporal_classes": [
+        "start",
+        "outbound_intermediate",
+        "peak_or_bottom",
+        "return_intermediate",
+        "end_or_loop_close",
+        "turnaround_neighbourhood"
+      ],
+      "visual_evidence": [],
+      "numerical_evidence": [],
+      "human_evidence_ids": [
+        "HE-TRUNK-001",
+        "HE-ANTI-001"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "WBZ-11",
+      "status": null,
+      "candidate_sha256": null,
+      "temporal_classes": [
+        "start",
+        "outbound_intermediate",
+        "peak_or_bottom",
+        "return_intermediate",
+        "end_or_loop_close",
+        "turnaround_neighbourhood"
+      ],
+      "visual_evidence": [],
+      "numerical_evidence": [],
+      "human_evidence_ids": [
+        "HE-TRUNK-001",
+        "HE-HINGE-001",
+        "HE-SQUAT-001",
+        "HE-LUNGE-001"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "WBZ-12",
+      "status": null,
+      "candidate_sha256": null,
+      "temporal_classes": [
+        "start",
+        "outbound_intermediate",
+        "peak_or_bottom",
+        "return_intermediate",
+        "end_or_loop_close",
+        "turnaround_neighbourhood"
+      ],
+      "visual_evidence": [],
+      "numerical_evidence": [],
+      "human_evidence_ids": [
+        "HE-HINGE-001",
+        "HE-SQUAT-001",
+        "HE-LUNGE-001"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "WBZ-13",
+      "status": null,
+      "candidate_sha256": null,
+      "temporal_classes": [
+        "start",
+        "outbound_intermediate",
+        "peak_or_bottom",
+        "return_intermediate",
+        "end_or_loop_close",
+        "turnaround_neighbourhood"
+      ],
+      "visual_evidence": [],
+      "numerical_evidence": [],
+      "human_evidence_ids": [
+        "HE-HINGE-001",
+        "HE-SQUAT-001",
+        "HE-LUNGE-001"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "WBZ-14",
+      "status": null,
+      "candidate_sha256": null,
+      "temporal_classes": [
+        "start",
+        "outbound_intermediate",
+        "peak_or_bottom",
+        "return_intermediate",
+        "end_or_loop_close",
+        "turnaround_neighbourhood"
+      ],
+      "visual_evidence": [],
+      "numerical_evidence": [],
+      "human_evidence_ids": [
+        "HE-SQUAT-001",
+        "HE-LUNGE-001",
+        "HE-ANKLE-001"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "WBZ-15",
+      "status": null,
+      "candidate_sha256": null,
+      "temporal_classes": [
+        "start",
+        "outbound_intermediate",
+        "peak_or_bottom",
+        "return_intermediate",
+        "end_or_loop_close",
+        "turnaround_neighbourhood"
+      ],
+      "visual_evidence": [],
+      "numerical_evidence": [],
+      "human_evidence_ids": [
+        "HE-ANKLE-001",
+        "HE-SQUAT-001",
+        "HE-LUNGE-001"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "WBZ-16",
+      "status": null,
+      "candidate_sha256": null,
+      "temporal_classes": [
+        "start",
+        "outbound_intermediate",
+        "peak_or_bottom",
+        "return_intermediate",
+        "end_or_loop_close",
+        "turnaround_neighbourhood"
+      ],
+      "visual_evidence": [],
+      "numerical_evidence": [],
+      "human_evidence_ids": [
+        "HE-ANKLE-001",
+        "HE-SQUAT-001",
+        "HE-LUNGE-001"
+      ],
+      "review_note": null
+    }
+  ],
+  "movement_categories": [
+    {
+      "id": "trunk_flexion",
+      "status": null,
+      "transition_zone_ids": [
+        "WBZ-10",
+        "WBZ-11"
+      ],
+      "human_evidence_ids": [
+        "HE-TRUNK-001"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "trunk_extension",
+      "status": null,
+      "transition_zone_ids": [
+        "WBZ-10"
+      ],
+      "human_evidence_ids": [
+        "HE-TRUNK-001"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "trunk_rotation",
+      "status": null,
+      "transition_zone_ids": [
+        "WBZ-01",
+        "WBZ-10"
+      ],
+      "human_evidence_ids": [
+        "HE-TRUNK-001"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "lateral_flexion",
+      "status": null,
+      "transition_zone_ids": [
+        "WBZ-10"
+      ],
+      "human_evidence_ids": [
+        "HE-TRUNK-001"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "anti_rotation",
+      "status": null,
+      "transition_zone_ids": [
+        "WBZ-10"
+      ],
+      "human_evidence_ids": [
+        "HE-ANTI-001"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "hip_hinge",
+      "status": null,
+      "transition_zone_ids": [
+        "WBZ-11",
+        "WBZ-12",
+        "WBZ-13"
+      ],
+      "human_evidence_ids": [
+        "HE-HINGE-001"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "deep_squat",
+      "status": null,
+      "transition_zone_ids": [
+        "WBZ-11",
+        "WBZ-12",
+        "WBZ-13",
+        "WBZ-14",
+        "WBZ-15",
+        "WBZ-16"
+      ],
+      "human_evidence_ids": [
+        "HE-SQUAT-001"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "unilateral_lunge",
+      "status": null,
+      "transition_zone_ids": [
+        "WBZ-11",
+        "WBZ-12",
+        "WBZ-13",
+        "WBZ-14",
+        "WBZ-15",
+        "WBZ-16"
+      ],
+      "human_evidence_ids": [
+        "HE-LUNGE-001"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "ankle_calf",
+      "status": null,
+      "transition_zone_ids": [
+        "WBZ-14",
+        "WBZ-15",
+        "WBZ-16"
+      ],
+      "human_evidence_ids": [
+        "HE-ANKLE-001"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "horizontal_push",
+      "status": null,
+      "transition_zone_ids": [
+        "WBZ-02",
+        "WBZ-04",
+        "WBZ-05",
+        "WBZ-06"
+      ],
+      "human_evidence_ids": [
+        "HE-PUSH-001",
+        "HE-CHEST-001",
+        "HE-WRI-001"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "vertical_push",
+      "status": null,
+      "transition_zone_ids": [
+        "WBZ-01",
+        "WBZ-02",
+        "WBZ-03",
+        "WBZ-04",
+        "WBZ-05"
+      ],
+      "human_evidence_ids": [
+        "HE-SH-001",
+        "HE-SH-002",
+        "HE-VIS-001",
+        "HE-VIS-002"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "vertical_pull",
+      "status": null,
+      "transition_zone_ids": [
+        "WBZ-01",
+        "WBZ-03",
+        "WBZ-04",
+        "WBZ-05",
+        "WBZ-06"
+      ],
+      "human_evidence_ids": [
+        "HE-PULL-001"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "shoulder_raise",
+      "status": null,
+      "transition_zone_ids": [
+        "WBZ-01",
+        "WBZ-02",
+        "WBZ-03",
+        "WBZ-04",
+        "WBZ-05"
+      ],
+      "human_evidence_ids": [
+        "HE-SH-001",
+        "HE-SH-002",
+        "HE-VIS-001",
+        "HE-VIS-002",
+        "HE-VIS-003"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "elbow_flexion",
+      "status": null,
+      "transition_zone_ids": [
+        "WBZ-06"
+      ],
+      "human_evidence_ids": [
+        "HE-UPPER-001",
+        "HE-CHEST-001"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "elbow_extension",
+      "status": null,
+      "transition_zone_ids": [
+        "WBZ-06"
+      ],
+      "human_evidence_ids": [
+        "HE-UPPER-001",
+        "HE-PUSH-001",
+        "HE-CHEST-001"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "forearm_rotation",
+      "status": null,
+      "transition_zone_ids": [
+        "WBZ-03",
+        "WBZ-07"
+      ],
+      "human_evidence_ids": [
+        "HE-UPPER-001",
+        "HE-WRI-002"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "wrist_floor_load",
+      "status": null,
+      "transition_zone_ids": [
+        "WBZ-07",
+        "WBZ-08"
+      ],
+      "human_evidence_ids": [
+        "HE-WRI-001",
+        "HE-PUSH-001"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "hand_grip",
+      "status": null,
+      "transition_zone_ids": [
+        "WBZ-07",
+        "WBZ-08",
+        "WBZ-09"
+      ],
+      "human_evidence_ids": [
+        "HE-GRP-001",
+        "HE-GRP-002",
+        "HE-PULL-001"
+      ],
+      "review_note": null
+    },
+    {
+      "id": "thumb_opposition",
+      "status": null,
+      "transition_zone_ids": [
+        "WBZ-08",
+        "WBZ-09"
+      ],
+      "human_evidence_ids": [
+        "HE-GRP-002"
+      ],
+      "review_note": null
+    }
+  ],
+  "instructions": [
+    "Template only: copy to a fresh candidate-specific evidence path; never edit this template into a PASS record.",
+    "Change status to WHOLE_BODY_AUDIT_EVIDENCE only after every required zone/category has real candidate-bound evidence.",
+    "Every visual and numerical evidence ref must include repository path, SHA-256 and passed=true.",
+    "The six temporal classes are mandatory for every transition zone; add actual evidence that proves them rather than treating the labels as proof.",
+    "Human evidence IDs are seeded from the verified coverage map and may be supplemented only with verified manifest entries.",
+    "The whole-body audit gate also reads the live issue ledger; any Critical/High Open/In Progress/Pending Review issue blocks PASS."
+  ]
+}

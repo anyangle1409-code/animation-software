@@ -1,0 +1,2 @@
+Am RETAIN {"ridge_vertices": 17, "rest_offset_mm_mean": 4.347995291086218, "abduction:0:0": 1.0, "abduction:90:0": 0.992, "flexion:60:40": 0.974, "abduction:150:0": 0.966, "flexion:170:0": 0.959}
+Pm RETAIN {"ridge_vertices": 14, "rest_offset_mm_mean": 4.760879058797345, "abduction:0:0": 1.0, "abduction:90:0": 0.97, "flexion:60:40": 0.995, "abduction:150:0": 0.996, "flexion:170:0": 0.994}

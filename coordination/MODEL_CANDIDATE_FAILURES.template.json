@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "state": "failed",
+  "candidate_id": "REQUIRED",
+  "candidate_commit": "40_HEX_REQUIRED",
+  "candidate_sha256": "64_HEX_REQUIRED",
+  "validator": "gpt_work",
+  "failures": [
+    {
+      "severity": "critical",
+      "gate_id": "REQUIRED",
+      "region": "REQUIRED",
+      "observation": "REQUIRED",
+      "evidence_paths": [],
+      "required_next_causal_layer": "skeleton_mechanics|topology|weights|connected_deformation|minimal_corrective"
+    }
+  ],
+  "production_approved": false
+}

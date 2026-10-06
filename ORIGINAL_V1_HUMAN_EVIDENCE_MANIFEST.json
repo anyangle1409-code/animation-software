@@ -445,6 +445,339 @@
       "uncertainty": "The marker set emphasizes shoulder/upper-limb kinematics and does not directly quantify individual finger contact or skin deformation around the bar.",
       "development_only": true,
       "review_status": "verified"
+    },
+    {
+      "id": "HE-TRUNK-001",
+      "region": "thoracolumbar_trunk",
+      "movement_primitive": "flexion_extension_lateral_flexion_axial_rotation",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7898317/",
+        "citation": "3D trunk orientation measured using inertial measurement units during anatomical and dynamic sports motions (2021), PMCID PMC7898317.",
+        "license_use_note": "Link and derived observations only for development review; do not redistribute participant imagery beyond the article terms."
+      },
+      "movement_phase": "maximal_voluntary_isolated_flexion_extension_lateral_flexion_and_axial_rotation",
+      "view": [
+        "3d_motion_capture",
+        "imu",
+        "isolated_anatomical_motion",
+        "dynamic_sports_motion"
+      ],
+      "diversity": {
+        "subject_count": 10,
+        "notes": "Ten healthy male participants performed isolated anatomical trunk motions and dynamic sports motions. Useful for segment coupling and continuity; sex and morphology diversity is limited."
+      },
+      "observable_landmarks": [
+        "thorax orientation",
+        "pelvis-relative trunk motion",
+        "flexion-extension",
+        "lateral flexion",
+        "axial rotation"
+      ],
+      "permissible_conclusions": [
+        "trunk_kinematics",
+        "movement_coupling",
+        "motion_continuity",
+        "multi_plane_rotation"
+      ],
+      "uncertainty": "Voluntary ROM trials are not loaded resistance exercises and do not define soft-tissue bulge or one universal range. Use them to constrain plausible segment motion and continuity.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-ANTI-001",
+      "region": "trunk_under_asymmetric_load",
+      "movement_primitive": "anti_rotation_asymmetric_lifting",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/27194401/",
+        "citation": "Estimation of lumbar spinal loading and trunk muscle forces during asymmetric lifting tasks: application of whole-body musculoskeletal modelling in OpenSim (2016), PMID 27194401.",
+        "license_use_note": "Link and derived observations only for development review; do not redistribute publisher media."
+      },
+      "movement_phase": "symmetric_and_asymmetric_7_and_12kg_lifts",
+      "view": [
+        "motion_capture",
+        "ground_reaction_force",
+        "whole_body_musculoskeletal_analysis"
+      ],
+      "diversity": {
+        "subject_count": 13,
+        "notes": "Thirteen healthy men performed symmetric and asymmetric lifting. This constrains anti-rotation/asymmetric loading behaviour but is not a Pallof-press-specific surface reference."
+      },
+      "observable_landmarks": [
+        "trunk orientation",
+        "lumbar load direction",
+        "lateral shear",
+        "asymmetric muscle demand"
+      ],
+      "permissible_conclusions": [
+        "anti_rotation_loading",
+        "asymmetric_trunk_coupling",
+        "load_response"
+      ],
+      "uncertainty": "Model-derived spinal loads and controlled lifting do not establish exterior skin shape or a single anti-rotation pose. Candidate visual evidence is still required.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-HINGE-001",
+      "region": "hip_trunk_posterior_chain",
+      "movement_primitive": "hip_hinge_loaded_and_unloaded",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10366834/",
+        "citation": "Effect of the Law Enforcement Duty Belt on Muscle Activation during Hip Hinging Movements in Young, Healthy Adults (2023), PMCID PMC10366834.",
+        "license_use_note": "Link, figures and derived observations only for development review; do not copy participant imagery into production assets."
+      },
+      "movement_phase": "bodyweight_hip_hinge_then_20kg_and_43kg_ground_lifts",
+      "view": [
+        "protocol_figure",
+        "surface_emg",
+        "loaded_and_unloaded_hip_hinge"
+      ],
+      "diversity": {
+        "subject_count": 24,
+        "notes": "Thirteen men and eleven women, young healthy recreationally active adults familiar with deadlifting. The study includes bodyweight and loaded hinge tasks and a visual methods figure."
+      },
+      "observable_landmarks": [
+        "hip hinge",
+        "trunk inclination",
+        "knee flexion restraint",
+        "posterior chain loading"
+      ],
+      "permissible_conclusions": [
+        "hip_hinge_pattern",
+        "load_response",
+        "posterior_chain_coupling",
+        "movement_timing"
+      ],
+      "uncertainty": "Primary outcomes are muscle activity rather than detailed joint-surface deformation; use the movement protocol/visuals with separate candidate kinematic checks.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-SQUAT-001",
+      "region": "pelvis_hip_knee_ankle",
+      "movement_primitive": "deep_bodyweight_squat",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12157334/",
+        "citation": "Squat Kinematics Analysis Using Vicon and Affordable Motion-Capture Solutions (2025), PMCID PMC12157334.",
+        "license_use_note": "Link and derived observations only for development review; do not redistribute participant imagery beyond the article terms."
+      },
+      "movement_phase": "repeated_bodyweight_squat",
+      "view": [
+        "vicon_3d_motion_capture",
+        "whole_lower_limb_kinematics",
+        "participant_setup_figure"
+      ],
+      "diversity": {
+        "subject_count": 10,
+        "notes": "Ten healthy injury-free adults, four women and six men, were recorded with an eight-camera Vicon system."
+      },
+      "observable_landmarks": [
+        "pelvis",
+        "hip",
+        "knee",
+        "ankle",
+        "foot",
+        "squat_depth"
+      ],
+      "permissible_conclusions": [
+        "lower_limb_kinematics",
+        "joint_coupling",
+        "squat_timing",
+        "bilateral_alignment"
+      ],
+      "uncertainty": "Small healthy cohort and bodyweight task; use as movement evidence, not a universal depth, stance width or soft-tissue contour.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-LUNGE-001",
+      "region": "pelvis_hip_knee_ankle",
+      "movement_primitive": "forward_lunge",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7052707/",
+        "citation": "The Effects of Compression Garments on Stability and Lower Limb Kinematics During a Forward Lunge (2020), PMCID PMC7052707.",
+        "license_use_note": "Link and derived observations only for development review; do not redistribute participant imagery beyond the article terms."
+      },
+      "movement_phase": "repeated_forward_lunge",
+      "view": [
+        "12_camera_motion_capture",
+        "pressure_mat",
+        "lower_body_joint_kinematics"
+      ],
+      "diversity": {
+        "subject_count": 16,
+        "notes": "Seven women and nine men, healthy young adults, completed forward lunges under multiple garment conditions; control trials provide uncompressed reference motion."
+      },
+      "observable_landmarks": [
+        "pelvic tilt",
+        "hip",
+        "knee valgus/alignment",
+        "ankle inversion-eversion",
+        "lead foot stability"
+      ],
+      "permissible_conclusions": [
+        "unilateral_lunge_kinematics",
+        "pelvis_leg_coupling",
+        "frontal_plane_alignment",
+        "movement_stability"
+      ],
+      "uncertainty": "Garment-condition study and limited age range; use control/overall motion evidence rather than garment effects or one exact lunge length.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-ANKLE-001",
+      "region": "ankle_calf_lower_limb",
+      "movement_primitive": "loaded_heel_raise",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4738962/",
+        "citation": "Analysis of Heel Raise Exercise with Three Foot Positions (2016), PMCID PMC4738962.",
+        "license_use_note": "Link and derived observations only for development review; do not redistribute participant imagery beyond the article terms."
+      },
+      "movement_phase": "twelve_loaded_heel_raise_repetitions_neutral_internal_external_foot_positions",
+      "view": [
+        "electromagnetic_kinematics",
+        "forceplates",
+        "resistance_training_heel_raise"
+      ],
+      "diversity": {
+        "subject_count": 20,
+        "notes": "Eleven men and nine women with resistance-training experience performed free-weight heel raises at 135% body mass."
+      },
+      "observable_landmarks": [
+        "ankle flexion-extension",
+        "knee",
+        "hip",
+        "foot rotation",
+        "concentric_eccentric_transition"
+      ],
+      "permissible_conclusions": [
+        "plantarflexion_kinematics",
+        "ankle_knee_hip_coupling",
+        "loaded_calf_raise_timing",
+        "foot_position_effect"
+      ],
+      "uncertainty": "One training protocol and experienced cohort; do not infer one universal ankle ROM or calf surface bulge.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-PUSH-001",
+      "region": "shoulder_elbow_wrist_closed_chain",
+      "movement_primitive": "traditional_pushup",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3867095/",
+        "citation": "Scapular Kinematics and Shoulder Elevation in a Traditional Push-Up (2013), PMCID PMC3867095.",
+        "license_use_note": "Link and derived observations only for development review; do not redistribute participant imagery beyond the article terms."
+      },
+      "movement_phase": "concentric_pushup_range_across_three_shoulder_positions",
+      "view": [
+        "electromagnetic_tracking",
+        "sternum_ulna_scapula_tracking",
+        "closed_chain_upper_limb"
+      ],
+      "diversity": {
+        "subject_count": 16,
+        "notes": "Sixteen healthy participants without upper-extremity or spine injury history performed traditional push-ups in three shoulder-position conditions."
+      },
+      "observable_landmarks": [
+        "sternum",
+        "scapula",
+        "ulna",
+        "elbow extension",
+        "shoulder elevation",
+        "scapular tilt_rotation"
+      ],
+      "permissible_conclusions": [
+        "horizontal_push_kinematics",
+        "closed_chain_shoulder_motion",
+        "elbow_shoulder_coupling",
+        "movement_timing"
+      ],
+      "uncertainty": "Instrumentation emphasizes scapular kinematics and does not directly measure finger/palm deformation or all wrist degrees of freedom.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-CHEST-001",
+      "region": "shoulder_elbow_wrist_open_chain_push",
+      "movement_primitive": "bench_press_and_cable_chest_push",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8877248/",
+        "citation": "Chest Exercises: Movement and Loading of Shoulder, Elbow and Wrist Joints (2022), PMCID PMC8877248.",
+        "license_use_note": "Link and derived observations only for development review; do not redistribute participant imagery beyond the article terms."
+      },
+      "movement_phase": "loaded_bench_press_and_cable_exercise_cycles",
+      "view": [
+        "3d_motion_capture",
+        "force_plate",
+        "load_cell",
+        "upper_limb_inverse_dynamics"
+      ],
+      "diversity": {
+        "subject_count": 20,
+        "notes": "Twenty healthy adults were recorded across loaded chest exercises at controlled relative loads."
+      },
+      "observable_landmarks": [
+        "shoulder",
+        "elbow",
+        "wrist",
+        "joint_range_of_motion",
+        "joint_moments"
+      ],
+      "permissible_conclusions": [
+        "horizontal_push_kinematics",
+        "elbow_flexion_extension",
+        "wrist_alignment",
+        "loaded_upper_limb_coupling"
+      ],
+      "uncertainty": "Exercise set is broader than the Home Gym PT library and focuses joint motion/loading rather than skin deformation. Use as biomechanical constraint only.",
+      "development_only": true,
+      "review_status": "verified"
+    },
+    {
+      "id": "HE-UPPER-001",
+      "region": "shoulder_elbow_forearm",
+      "movement_primitive": "isolated_upper_limb_joint_motion",
+      "source_type": "primary_study",
+      "source": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11536617/",
+        "citation": "Role of joint interactions in upper limb joint movements: a disability simulation study using wearable inertial sensors for 3D motion capture (2024), PMCID PMC11536617.",
+        "license_use_note": "Link and derived observations only for development review; do not redistribute participant imagery beyond the article terms."
+      },
+      "movement_phase": "unrestricted_then_artificially_restricted_shoulder_elbow_forearm_rom_tasks",
+      "view": [
+        "wearable_inertial_3d_motion_capture",
+        "isolated_joint_tasks"
+      ],
+      "diversity": {
+        "subject_count": 20,
+        "notes": "Twenty healthy individuals performed shoulder, elbow flexion-extension and forearm pronation-supination movements before simulated restrictions."
+      },
+      "observable_landmarks": [
+        "shoulder flexion-extension",
+        "shoulder abduction-adduction",
+        "shoulder internal-external rotation",
+        "elbow flexion-extension",
+        "forearm pronation-supination"
+      ],
+      "permissible_conclusions": [
+        "elbow_kinematics",
+        "forearm_rotation",
+        "joint_interaction",
+        "compensatory_coupling"
+      ],
+      "uncertainty": "Restriction simulation is not an exercise load case. Use unrestricted trials and coupling trends to reject rigid or isolated-joint behaviour.",
+      "development_only": true,
+      "review_status": "verified"
     }
   ]
 }

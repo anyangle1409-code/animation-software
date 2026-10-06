@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "state": "passed",
+  "candidate_id": "REQUIRED",
+  "candidate_commit": "40_HEX_REQUIRED",
+  "candidate_sha256": "64_HEX_REQUIRED",
+  "validator": "gpt_work",
+  "machine_gates_passed": [],
+  "visual_gates_passed": [],
+  "evidence_paths": [],
+  "freeze_ready": true,
+  "production_approved": false
+}

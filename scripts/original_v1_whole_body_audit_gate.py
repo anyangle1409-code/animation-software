@@ -20,6 +20,7 @@ from typing import Any
 from original_v1_anatomy_issue_closure import verify_closed_issues
 from original_v1_production_control import digest
 from original_v1_whole_body_issues import blocking_issues, validate_ledger
+from original_v1_whole_body_audit_readiness import validate_plan
 from validate_original_v1_human_evidence import validate_coverage, validate_manifest
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -115,6 +116,8 @@ def verify_audit(
     if record.get("whole_body_regression_pass") is not True:
         errors.append("whole_body_regression_pass must be true")
 
+    plan_errors = validate_plan(plan, envelope)
+    errors += ["audit plan: " + x for x in plan_errors]
     manifest_errors = validate_manifest(manifest)
     errors += ["human evidence: " + x for x in manifest_errors]
     coverage_errors = validate_coverage(coverage, manifest, envelope)

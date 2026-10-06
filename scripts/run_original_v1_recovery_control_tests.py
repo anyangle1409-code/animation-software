@@ -23,6 +23,7 @@ TEST_MODULES = (
     "test_original_v1_human_evidence",
     "test_original_v1_r96_task7_gate",
     "test_original_v1_r96_task7_arc_gate",
+    "test_original_v1_grip_wrist_gate",
     "test_original_v1_whole_body_issues",
     "test_original_v1_anatomy_issue_closure",
     "test_original_v1_whole_body_audit_readiness",

@@ -6,6 +6,7 @@ from pathlib import Path
 from original_v1_production_control import ROOT, CAND, build, digest, read
 from original_v1_whole_body_issues import blocking_issues, validate_ledger
 from original_v1_anatomy_issue_closure import verify_closed_issues
+from original_v1_whole_body_audit_gate import verify_audit
 
 ISSUE_LEDGER = "ORIGINAL_V1_WHOLE_BODY_ISSUE_LEDGER.json"
 
@@ -73,6 +74,28 @@ def assess(state, control, root=ROOT, require_local_blend=False, issue_ledger=No
                 if closure_errors:
                     issues.append("Critical/High anatomy closure evidence is invalid")
                     issues.extend("anatomy closure: " + error for error in closure_errors)
+                audit_path = (
+                    root / "ORIGINAL_V1_WORK/candidates/repair_checks"
+                    / f"whole_body_audit_{rev}" / "whole_body_audit_record.json"
+                )
+                if not audit_path.is_file():
+                    issues.append("candidate-bound whole-body deformation audit record is missing")
+                elif isinstance(rev, str) and isinstance(sha, str):
+                    audit_record = json.loads(audit_path.read_text(encoding="utf-8-sig"))
+                    audit_errors = verify_audit(
+                        root,
+                        audit_record,
+                        json.loads((root / "ORIGINAL_V1_WHOLE_BODY_DEFORMATION_AUDIT_PLAN.json").read_text(encoding="utf-8-sig")),
+                        json.loads((root / "ORIGINAL_V1_MOVEMENT_ENVELOPE.json").read_text(encoding="utf-8-sig")),
+                        human,
+                        json.loads((root / "ORIGINAL_V1_HUMAN_EVIDENCE_COVERAGE.json").read_text(encoding="utf-8-sig")),
+                        ledger,
+                        expected_revision=rev,
+                        expected_candidate_sha256=sha,
+                    )
+                    if audit_errors:
+                        issues.append("candidate-bound whole-body deformation audit is incomplete/invalid")
+                        issues.extend("whole-body audit: " + error for error in audit_errors)
     except (OSError,ValueError,TypeError,json.JSONDecodeError) as exc:
         issues.append("whole-body issue ledger unavailable/invalid: " + str(exc))
 
@@ -90,7 +113,7 @@ def assess(state, control, root=ROOT, require_local_blend=False, issue_ledger=No
         "eligibility":"ELIGIBLE_FOR_PHASE4_VALIDATION" if not issues else "PHASE4_BLOCKED",
         "issues":list(dict.fromkeys(issues)),
         "production_approved":False,
-        "note":"Read-only eligibility preflight. Critical/High whole-body anatomy blockers fail closed, and closed Critical/High rows require structured candidate-bound closure receipts; this still does not create a freeze record, execute replay/audits, or approve production.",
+        "note":"Read-only eligibility preflight. Critical/High whole-body anatomy blockers fail closed; closed Critical/High rows require structured candidate-bound closure receipts; and the current candidate requires a complete 16-zone/19-movement whole-body audit record before Phase 4 validation. This still does not create a freeze record or approve production.",
     }
 
 def main():

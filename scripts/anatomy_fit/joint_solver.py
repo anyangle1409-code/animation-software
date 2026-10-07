@@ -58,18 +58,22 @@ def yxy_angles(R):
 
 
 SIDE_SIGN = {'left': -1.0, 'right': 1.0, 'midline': 1.0}
+# Flexion is -Z when the moving segment's distal motion is posterior for +Z: the knee (tibia below), and spinal
+# motion segments where the moving vertebra is SUPERIOR (+Z tilts the superior segment backward = extension).
+# For 'spine' (midline): adduction (+X) = right lateral bending; internal (+Y) = axial rotation to the left.
+DISTAL_SUPERIOR_OR_KNEE = ('knee', 'spine')
 
 
 def clinical_to_zxy(joint, side, flexion=0.0, adduction=0.0, internal=0.0):
     """Clinical angles -> Cardan (z, x, y) for the ISB frames used here."""
     s = SIDE_SIGN[side]
-    z = -flexion if joint in ('knee',) else flexion
+    z = -flexion if joint in DISTAL_SUPERIOR_OR_KNEE else flexion
     return z, s * adduction, s * internal
 
 
 def zxy_to_clinical(joint, side, z, x, y):
     s = SIDE_SIGN[side]
-    return {'flexion': -z if joint in ('knee',) else z, 'adduction': s * x, 'internal_rotation': s * y}
+    return {'flexion': -z if joint in DISTAL_SUPERIOR_OR_KNEE else z, 'adduction': s * x, 'internal_rotation': s * y}
 
 
 def gh_command(side, plane, elevation, internal=0.0):

@@ -1,0 +1,42 @@
+{
+ "source_blend": "HGPT_ANATOMICAL_AUDIT_r95_a003_isolated_tests_v6.blend",
+ "clips": {
+  "c1_c2_axial_rotation": {
+   "gif": "c1_c2_axial_rotation.gif",
+   "frames": [
+    4651,
+    4731
+   ],
+   "step": 2,
+   "view": "top"
+  },
+  "lumbar_l4_l5_extension": {
+   "gif": "lumbar_l4_l5_extension.gif",
+   "frames": [
+    5126,
+    5166
+   ],
+   "step": 2,
+   "view": "left"
+  },
+  "tmj_opening": {
+   "gif": "tmj_opening.gif",
+   "frames": [
+    4991,
+    5031
+   ],
+   "step": 2,
+   "view": "left"
+  },
+  "cervical_c4_c5_flexion": {
+   "gif": "cervical_c4_c5_flexion.gif",
+   "frames": [
+    4736,
+    4816
+   ],
+   "step": 2,
+   "view": "left"
+  }
+ },
+ "note": "Bone-only: master bones are reference anatomy and are not skinned; colours = placement class."
+}

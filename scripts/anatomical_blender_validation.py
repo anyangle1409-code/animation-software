@@ -71,11 +71,13 @@ def rigid_matrix(m):
     if any(type(v) not in (int,float) or not math.isfinite(v) for r in m for v in r):
         raise ValueError('Nonfinite matrix')
     if any(abs(m[3][i]-[0,0,0,1][i])>1e-8 for i in range(4)): raise ValueError('Invalid affine row')
-    cols=[]
+    cols=[];lengths=[]
     for c in range(3):
         vec=[m[r][c] for r in range(3)];length=math.sqrt(sum(v*v for v in vec))
         if length<=1e-12:raise ValueError('Degenerate matrix axis')
-        cols.append([v/length for v in vec])
+        cols.append([v/length for v in vec]);lengths.append(length)
+    # A uniform object scale is allowed (positions are converted separately); non-uniform scale is not rigid.
+    if max(lengths)-min(lengths)>RIGID_TOLERANCE*max(lengths):raise ValueError('Non-uniform axis scale is not a rigid rotation')
     if any(abs(sum(x*y for x,y in zip(cols[a],cols[b])))>RIGID_TOLERANCE for a,b in [(0,1),(0,2),(1,2)]):
         raise ValueError('Sheared axes are not a rigid rotation')
     x,y,z=cols

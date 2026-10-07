@@ -116,9 +116,10 @@ Blender was available in the cloud session as Blender 5.2.1 LTS, imported as the
 | Audit copy | `python3 scripts/anatomy_fit/build_audit_copy.py --glb <r95 BARE> --sha256 c4b8e388… --out-blend <new> --receipt <new>` | `audit/HGPT_ANATOMICAL_AUDIT_r95_a001.blend` |
 | Fit and master (Phases 6–7) | `python3 scripts/anatomy_fit/build_anatomical_master_blender.py --source-blend audit/…a001.blend --out-blend <new> --record <new>.json` | a003 + `character_fit_r95_a003.json` (a002 superseded) |
 | Independent capture | `python3 scripts/capture_anatomical_validation_blender.py --blend <a003> --armature HGPT_ANATOMICAL_MASTER --metres-per-unit 1 --plan ORIGINAL_V1_WORK/anatomy/blender_validation_plan.json --out-directory <new>` | `audit/runs/master_static_002` |
-| Isolated sweeps (Phase 9) | `python3 scripts/anatomy_fit/run_isolated_tests_blender.py --source-blend <a003> --record character_fit_r95_a003.json --out-blend <new> --out-dir <new>` | `audit/runs/isolated_bone_only_003` |
+| Isolated sweeps (Phase 9) | `python3 scripts/anatomy_fit/run_isolated_tests_blender.py --source-blend <a003> --record character_fit_r95_a003.json --out-blend <new> --out-dir <new>` | `audit/runs/isolated_bone_only_006` (current; earlier runs retained) |
 | Review images / clips | `scripts/anatomy_fit/render_master_review.py`, `render_test_clips.py` | `audit/review/…` |
-| Tests | `python -m unittest scripts/test_blender_anatomical_validation.py scripts/test_anatomy_fit.py` | 26 + 13 |
+| Review addendum | `python3 scripts/anatomy_fit/recheck_fit_record.py --record character_fit_r95_a003.json --out <new>` | corrected Trotter–Gleser, pre-snap midline, parallel-segment check |
+| Tests | `python -m unittest scripts/test_blender_anatomical_validation.py scripts/test_anatomy_fit.py` | 27 + 17 (includes absolute world-direction tests for every spec) |
 
 All outputs are new files; every script refuses to overwrite. The meaning of PASS is unchanged: it records numerical integrity only.
 

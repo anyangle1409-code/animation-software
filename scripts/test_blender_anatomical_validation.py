@@ -249,3 +249,11 @@ class ValidationPackageTests(unittest.TestCase):
             self.assertEqual(mod.analyze_capture(bad,mod.build_plan())['checks']['landmark_integrity']['status'],'FAIL')
 
 if __name__=='__main__':unittest.main()
+
+
+class RigidScaleTests(unittest.TestCase):
+    def test_non_uniform_scale_is_not_rigid_but_uniform_object_scale_is_allowed(self):
+        mod = ValidationPackageTests().module()
+        with self.assertRaises(ValueError):
+            mod.rigid_matrix([[1, 0, 0, 0], [0, 2, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
+        mod.rigid_matrix([[0.01, 0, 0, 0], [0, 0.01, 0, 0], [0, 0, 0.01, 0], [0, 0, 0, 1]])

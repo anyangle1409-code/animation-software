@@ -18,7 +18,8 @@ CLIPS = {  # test id: (camera direction, target bone for framing, ortho size)
     'elbow_flexion_at_pronation_60_left': ('left', 'ulna_left', 0.8), 'forearm_rotation_at_elbow_90_left': ('front', 'radius_left', 0.7),
     'wrist_flexion_left': ('front', 'capitate_left', 0.45), 'digit3_flexion_left': ('front', 'digit3_proximal_phalanx_left', 0.3),
     'c1_c2_axial_rotation': ('top', 'c1', 0.5), 'lumbar_l4_l5_extension': ('left', 'l4', 1.4),
-    'shoulder_complex_scapular_plane_left': ('front', 'scapula_left', 1.1), 'knee_flexion_with_screw_home_left': ('front', 'tibia_left', 1.0)}
+    'shoulder_complex_scapular_plane_left': ('front', 'scapula_left', 1.1), 'knee_flexion_with_screw_home_left': ('front', 'tibia_left', 1.0),
+    'tmj_opening': ('left', 'mandible', 0.3), 'cervical_c4_c5_flexion': ('left', 'c4', 0.4), 'thoracic_t6_t7_flexion': ('left', 't6', 0.6)}
 DIRS = {'left': Vector((1, 0, 0)), 'front': Vector((0, -1, 0)), 'back': Vector((0, 1, 0)), 'top': Vector((0, 0, 1))}
 
 

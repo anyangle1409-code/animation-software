@@ -232,3 +232,154 @@ class ShoulderComplexMirrorTests(unittest.TestCase):
             posed[side] = {k: (Gs @ np.append(t['landmarks'][k], 1.0))[:3] for k in ('AC', 'GH', 'AI', 'TS')}
         for k in posed['left']:
             self.assertLess(np.linalg.norm(posed['left'][k] * [-1, 1, 1] - posed['right'][k]), 1e-3, k)
+
+
+@unittest.skipIf(np is None, 'numpy unavailable')
+class AbsoluteDirectionTests(unittest.TestCase):
+    """Every isolated test spec must move its bones in the anatomically named direction in WORLD space.
+
+    Integrity checks inside the Blender run compare commands with measurements through mutually inverse
+    mappings, so they cannot detect a sign-convention error; these assertions can.
+    """
+    @classmethod
+    def setUpClass(cls):
+        import isolated_tests as it
+        cls.it = it
+        cls.rec = json.loads(RECORD.read_text())
+        cls.atlas = json.loads((ROOT / 'ORIGINAL_V1_WORK/anatomy/whole_body_movement_atlas.json').read_text())
+        cls.F = it.frames(cls.rec)
+        cls.specs = it.specs(cls.rec, cls.atlas)
+
+    def pose(self, t, cmd):
+        """World 4x4 of every moved bone, composing ancestor deltas as Blender does."""
+        it = self.it
+        cmd = it.derive(t, cmd)
+        G = it.deltas(t, cmd, self.F)
+        bones = self.rec['bones']
+        def world(b):
+            M, cur, chain = np.eye(4), b, []
+            while cur is not None:
+                chain.append(cur)
+                cur = bones[cur]['parent']
+            for a in reversed(chain):
+                M = M @ G.get(a, np.eye(4))
+            return M
+        return world
+
+    def check(self, t):
+        it, B, side = self.it, self.rec['bones'], t['side']
+        ant, up = np.array([0, -1.0, 0]), np.array([0, 0, 1.0])
+        lat = np.array([1.0 if side == 'left' else -1.0, 0, 0]); med = -lat
+        right = np.array([-1.0, 0, 0])
+        tid, prim = t['id'], t['primary']
+        peak = max(t['keys'], key=lambda k: k.get(prim, 0.0))
+        trough = min(t['keys'], key=lambda k: k.get(prim, 0.0))
+        def moved(cmd, bone, pt='tail'):
+            w = self.pose(t, cmd)(bone)
+            p = np.append(B[bone][pt + '_m'], 1.0)
+            return (w @ p)[:3] - p[:3]
+        def vec(cmd, bone, v):
+            return self.pose(t, cmd)(bone)[:3, :3] @ np.asarray(v, float)
+        hand = self.F.get(f'capitate_{side}')
+        if hand is not None:
+            palmar = hand[:, 0]
+            radial = hand[:, 2] * (1.0 if side == 'right' else -1.0)
+        if tid.startswith('hip_flexion'):
+            return moved(peak, f'femur_{side}') @ ant > 0.05 and moved(trough, f'femur_{side}') @ ant < -0.01
+        if tid.startswith('hip_abduction'):
+            return moved(peak, f'femur_{side}') @ med > 0.05 and moved(trough, f'femur_{side}') @ lat > 0.05
+        if tid.startswith('hip_rotation_at_0'):
+            return vec(peak, f'femur_{side}', ant) @ med > 0.3
+        if tid.startswith('hip_rotation_at_90'):
+            base = dict(peak, internal=0.0)
+            return (vec(peak, f'femur_{side}', ant) - vec(base, f'femur_{side}', ant)) @ med > 0.3
+        if tid.startswith('knee_flexion'):
+            return moved(peak, f'tibia_{side}') @ ant < -0.1
+        if tid.startswith('talocrural'):
+            return vec(peak, f'talus_{side}', ant)[2] > 0.2 and vec(trough, f'talus_{side}', ant)[2] < -0.2
+        if tid.startswith('subtalar'):
+            return vec(peak, f'calcaneus_{side}', -up) @ med > 0.1
+        if tid.startswith('gh_elevation_plane_0'):
+            d = moved(peak, f'humerus_{side}'); return d @ lat > 0.1 and d[2] > 0.1
+        if tid.startswith('gh_elevation_plane_40'):
+            d = moved(peak, f'humerus_{side}'); return d @ lat > 0.05 and d @ ant > 0.05 and d[2] > 0.1
+        if tid.startswith('gh_elevation_plane_90'):
+            d = moved(peak, f'humerus_{side}'); return d @ ant > 0.1 and abs(d @ lat) < 0.02
+        if tid.startswith('gh_axial_rotation_at_0'):
+            return vec(peak, f'humerus_{side}', ant) @ med > 0.3
+        if tid.startswith('gh_axial_rotation_at_90'):
+            base = dict(peak, internal=0.0)
+            return (vec(peak, f'humerus_{side}', ant) - vec(base, f'humerus_{side}', ant)) @ (-up) > 0.3
+        if tid.startswith('elbow_flexion'):
+            return moved(peak, f'ulna_{side}') @ ant > 0.15
+        if tid.startswith('forearm_rotation'):
+            base = dict(peak, pronation=0.0)
+            return (vec(peak, f'radius_{side}', self.F[f'scaphoid_{side}'][:, 0]) - vec(base, f'radius_{side}', self.F[f'scaphoid_{side}'][:, 0])) @ (-ant if not peak.get('angle') else -up) > 0.3
+        if tid.startswith('wrist_flexion'):
+            return moved(peak, f'capitate_{side}') @ palmar > 0.003
+        if tid.startswith('wrist_adduction'):
+            return moved(peak, f'capitate_{side}') @ (-radial) > 0.003
+        if tid.startswith('digit'):
+            d = int(tid[5]); return moved(peak, f'digit{d}_distal_phalanx_{side}') @ palmar > 0.01
+        if tid.startswith('thumb_flexion'):
+            return moved(peak, f'thumb_distal_phalanx_{side}') @ (-radial) > 0.005
+        if tid.startswith('thumb_cmc_radial'):
+            return moved(peak, f'metacarpal_1_{side}') @ radial > 0.003
+        if tid.startswith('thumb_cmc_ante'):
+            return moved(peak, f'metacarpal_1_{side}') @ palmar > 0.003
+        if tid.startswith('hallux'):
+            return moved(peak, f'hallux_proximal_phalanx_{side}')[2] > 0.005
+        if tid.startswith('sacroiliac'):
+            return moved(peak, f'hip_bone_{side}')[2] > 0.0005
+        if tid.startswith('c1_c2'):
+            return vec(peak, 'c1', ant)[0] > 0.3
+        if tid.startswith(('cervical', 'thoracic', 'lumbar')):
+            b = t['moving'][0]
+            if tid.endswith('_flexion'):
+                return moved(peak, b) @ ant > 0.0003 and moved(trough, b) @ ant < -0.0003
+            if tid.endswith('_extension'):
+                return moved(trough, b) @ ant < -0.0003
+            if tid.endswith('_adduction'):
+                return moved(peak, b) @ right > 0.0003
+            if tid.endswith('_internal'):
+                return vec(peak, b, ant)[0] > 0.02
+        if tid == 'tmj_opening':
+            inc = np.append(t['incisor'], 1.0)
+            return (self.pose(t, peak)('mandible') @ inc)[2] - inc[2] < -0.01
+        if tid.startswith('shoulder_complex'):
+            hum = moved(peak, f'humerus_{side}')
+            ai = np.append(t['landmarks']['AI'], 1.0)
+            ai_d = (self.pose(t, peak)(f'scapula_{side}') @ ai)[:3] - ai[:3]
+            return hum[2] > 0.3 and ai_d @ lat > 0.03
+        return None
+
+    def test_every_spec_moves_in_its_named_direction(self):
+        missing, wrong = [], []
+        for t in self.specs:
+            r = self.check(t)
+            if r is None:
+                missing.append(t['id'])
+            elif not r:
+                wrong.append(t['id'])
+        self.assertEqual(missing, [], 'Specs without a world-space direction assertion')
+        self.assertEqual(wrong, [], 'Specs moving opposite to their anatomical label')
+
+    def test_paired_specs_are_exact_mirrors_in_the_solver(self):
+        Mx = np.diag([-1.0, 1.0, 1.0, 1.0])
+        by = {t['id']: t for t in self.specs}
+        for tid, t in by.items():
+            if not tid.endswith('_left') or tid[:-5] + '_right' not in by:
+                continue
+            r = by[tid[:-5] + '_right']
+            for cmd in t['keys']:
+                GL = self.it.deltas(t, self.it.derive(t, cmd), self.F)
+                GR = self.it.deltas(r, self.it.derive(r, cmd), self.F)
+                for b, g in GL.items():
+                    rb = b[:-5] + '_right' if b.endswith('_left') else b
+                    self.assertLess(np.linalg.norm(Mx @ g @ Mx - GR[rb]), 2e-3, f'{tid} {b} {cmd}')
+
+    def test_wrist_half_rotation_is_exact(self):
+        import joint_solver as js
+        R = js.zxy_matrix(30, 15, -10)
+        H = self.it.half_rotation(R)
+        self.assertTrue(np.allclose(H @ H, R, atol=1e-12))

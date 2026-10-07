@@ -221,6 +221,69 @@
         }
       },
       "smoke_after_fixes": "PASS (22/22)"
+    },
+    {
+      "date": "2026-10-07",
+      "reason": "Independent read-only code review of the Phase 6-9 tools; every material finding re-measured before fixing.",
+      "defects_found_and_fixed": [
+        {
+          "id": "TOOL-007",
+          "defect": "rigid_matrix accepted non-uniform axis scale (diag(1,2,1)).",
+          "fix": "Uniform scale allowed; non-uniform rejected.",
+          "regression": [
+            "unit: RigidScaleTests"
+          ],
+          "observed_failing_before_fix": true
+        },
+        {
+          "id": "TEST-001",
+          "defect": "TMJ opening test closed the mouth (axis sign); reported incisor displacement looked plausible.",
+          "fix": "Axis to the character left.",
+          "regression": [
+            "unit: AbsoluteDirectionTests (red on old axis)"
+          ],
+          "observed_failing_before_fix": true
+        },
+        {
+          "id": "TEST-002",
+          "defect": "Spinal flexion sign inverted for superior moving segments; lumbar extension tests flexed.",
+          "fix": "spine uses -Z for flexion.",
+          "regression": [
+            "unit: AbsoluteDirectionTests (red on old sign)"
+          ],
+          "observed_failing_before_fix": true
+        },
+        {
+          "id": "TEST-003",
+          "defect": "Integrity/mirror checks could not detect sign errors; side-specific mirror and static markers passed vacuously; missing values passed.",
+          "fix": "Absolute direction test for every spec; reflected-transform mirror; moving distal markers with minimum travel; unmeasured = FAIL; extra gates.",
+          "regression": [
+            "unit: AbsoluteDirectionTests, test_paired_specs_are_exact_mirrors_in_the_solver",
+            "run 005 recorded failing (non-informative spinal axial markers), run 006 PASS"
+          ],
+          "observed_failing_before_fix": true
+        },
+        {
+          "id": "TEST-004",
+          "defect": "Trotter-Gleser tibia/radius derivations biased.",
+          "fix": "Corrected; addendum character_fit_r95_a003_review_addendum.json (radius now also outside 2 SE).",
+          "regression": [
+            "addendum recomputation"
+          ],
+          "observed_failing_before_fix": null
+        }
+      ],
+      "tests": {
+        "tool_tests": {
+          "run": 27,
+          "passed": 27
+        },
+        "fit_tests": {
+          "run": 17,
+          "passed": 17
+        }
+      },
+      "current_isolated_run": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_006"
     }
   ]
 }

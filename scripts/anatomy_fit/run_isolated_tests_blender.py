@@ -28,7 +28,10 @@ import isolated_tests as it  # noqa: E402
 
 MASTER = 'HGPT_ANATOMICAL_MASTER'
 INTEGRITY = {'angle_error_deg': 1e-3, 'centre_drift_m': 1e-6, 'off_axis_deg': 1e-3, 'mirror_angle_deg': 1e-3,
-             'mirror_position_m': 1e-3, 'continuity_second_difference_deg': 1e-3, 'radius_variation_m': 1e-6}
+             'mirror_position_m': 1e-3, 'continuity_second_difference_deg': 1e-3, 'radius_variation_m': 1e-6,
+             'mirror_rotation_frobenius': 1e-5, 'min_distal_marker_travel_m': 5e-4}
+# Channels that may legitimately have no measurement: GH plane of elevation is undefined below 1 deg elevation.
+MAY_BE_UNMEASURED = {'plane'}
 
 
 def sha(p):
@@ -125,6 +128,8 @@ def main():
                 pose = {n: mat(ev.matrix_world @ ev.pose.bones['anat_' + n].matrix) for n in needed}
                 mk = {}
                 for name in (t['marker'], t['distal_marker']):
+                    if not name:
+                        continue
                     obj = bpy.data.objects.get('HGPT_JOINT_' + name)
                     if obj is not None:
                         mk[name] = list(obj.evaluated_get(dg).matrix_world.translation)
@@ -195,7 +200,18 @@ def main():
         for r in rows:
             if r['distal_marker_m'] is not None and r['marker_m'] is not None:
                 radii.append(float(np.linalg.norm(np.asarray(r['distal_marker_m']) - np.asarray(r['marker_m']))))
+        travel = [float(np.linalg.norm(np.asarray(r['distal_marker_m']) - np.asarray(rows[0]['distal_marker_m'])))
+                  for r in rows if r['distal_marker_m'] is not None and rows[0]['distal_marker_m'] is not None]
+        extra = {}
+        for key in ('humeroradial_drift_m', 'midcarpal_centre_drift_m', 'marker_vs_proximal_carried_centre_m'):
+            vals = [r[key] for r in rows if r.get(key) is not None]
+            if vals:
+                extra[key] = max(vals)
+        xt = [v for r in rows for k, v in r.items() if k.endswith('_cross_talk_deg')]
+        if xt:
+            extra['max_digit_cross_talk_deg'] = max(xt)
         s = {'frames': [ranges[t['id']][0], ranges[t['id']][1]], 'samples': len(rows), 'channels': chans,
+             'max_distal_marker_travel_m': max(travel) if travel else None, 'gated_extras': extra,
              'max_abs_error_deg': errs, 'max_uncommanded_jcs_deg': cross, 'max_centre_drift_m': drift,
              'max_off_axis_deg': offax, 'max_marker_vs_carried_centre_m': max(mvc) if mvc else None,
              'continuity_max_second_difference_mismatch_deg': float(np.max(np.abs(d2m - d2c))) if len(d2m) else None,
@@ -204,13 +220,23 @@ def main():
              'distal_marker_radius_range_m': (max(radii) - min(radii)) if radii else None,
              'max_incisor_displacement_m': max((r.get('incisor_displacement_m') or 0.0) for r in rows) if t['kind'] == 'tmj' else None,
              'max_condylar_displacement_m': max((r.get('condylar_displacement_m') or 0.0) for r in rows) if t['kind'] == 'tmj' else None,
+             'intermetacarpal': ({'rest_deg': t['intermetacarpal']['rest_angle_deg'], 'target_deg': t['intermetacarpal']['target_deg'],
+                                  'peak_measured_deg': max(r['intermetacarpal_angle_deg'] for r in rows)} if 'intermetacarpal' in t else None),
              'primary_channel': prim, 'primary_range_measured_deg': [float(min(meas_prim)), float(max(meas_prim))],
              'context': t['context'], 'amplitude_basis': t['amplitude_basis'], 'profile': t['profile'], 'side': t['side'],
              'plane': t['plane'], 'kind': t['kind']}
-        ok = all(v is None or v <= INTEGRITY['angle_error_deg'] for v in errs.values()) and cross <= INTEGRITY['angle_error_deg'] \
+        missing = [c for c, v in errs.items() if v is None and c not in MAY_BE_UNMEASURED]
+        if t.get('distal_marker') and not travel:
+            missing.append('distal_marker')
+        s['unmeasured'] = missing
+        ok = not missing and all(v is None or v <= INTEGRITY['angle_error_deg'] for v in errs.values()) and cross <= INTEGRITY['angle_error_deg'] \
+            and all(v <= (INTEGRITY['angle_error_deg'] if k.endswith('_deg') else INTEGRITY['centre_drift_m']) for k, v in extra.items()) \
+            and (not t.get('distal_marker') or (travel and max(travel) >= INTEGRITY['min_distal_marker_travel_m'])) \
             and drift <= INTEGRITY['centre_drift_m'] and offax <= INTEGRITY['off_axis_deg'] \
             and (s['continuity_max_second_difference_mismatch_deg'] is None or s['continuity_max_second_difference_mismatch_deg'] <= INTEGRITY['continuity_second_difference_deg']) \
             and rev_c == rev_m and (s['distal_marker_radius_range_m'] is None or s['distal_marker_radius_range_m'] <= INTEGRITY['radius_variation_m'] or t['kind'] in ('elbow', 'wrist', 'digit', 'tmj'))
+        if s['intermetacarpal'] is not None:
+            ok = ok and abs(s['intermetacarpal']['peak_measured_deg'] - s['intermetacarpal']['target_deg']) <= INTEGRITY['angle_error_deg']
         s['integrity_status'] = 'PASS' if ok else 'FAIL'
         summary[t['id']] = s
     mirror = {}
@@ -222,16 +248,18 @@ def main():
             key = {'internal': 'internal_rotation', 'plane': 'plane_of_elevation'}.get(ch, ch)
             same_cmd = all(l['commanded'] == r['commanded'] for l, r in zip(L, R))
             if same_cmd:
-                da = max(abs((l.get(key) or 0) - (r.get(key) or 0)) for l, r in zip(L, R))
+                Mx = np.diag([-1.0, 1.0, 1.0, 1.0])
+                drot = max(float(np.linalg.norm(Mx @ np.asarray(l['moving_delta']) @ Mx - np.asarray(r['moving_delta']))) for l, r in zip(L, R))
+                da = max(abs(l[key] - r[key]) for l, r in zip(L, R))
                 dp = max(float(np.linalg.norm(np.asarray(l['distal_marker_m']) * [-1, 1, 1] - np.asarray(r['distal_marker_m'])))
-                         for l, r in zip(L, R) if l['distal_marker_m'] and r['distal_marker_m'])
-                basis = 'identical commands: measured angles and mirrored distal-marker paths compared'
+                         for l, r in zip(L, R) if l['distal_marker_m'] and r['distal_marker_m']) if L[0]['distal_marker_m'] else None
+                basis = 'identical commands: reflected moving-bone world transforms (M R_left M vs R_right), clinical angles and mirrored distal-marker paths'
+                ok = drot <= INTEGRITY['mirror_rotation_frobenius'] and da <= INTEGRITY['mirror_angle_deg'] and (dp is None or dp <= INTEGRITY['mirror_position_m'])
+                mirror[tid[:-5]] = {'max_reflected_transform_difference': drot, 'max_angle_difference_deg': da,
+                                    'max_mirrored_distal_marker_difference_m': dp, 'basis': basis, 'status': 'PASS' if ok else 'FAIL'}
             else:
-                da = max(abs(((l.get(key) or 0) - l['commanded'].get(ch, 0.0)) - ((r.get(key) or 0) - r['commanded'].get(ch, 0.0))) for l, r in zip(L, R))
-                dp = None
-                basis = 'side-specific source amplitudes: measured-minus-commanded errors compared; positions not mirror-comparable'
-            mirror[tid[:-5]] = {'max_angle_difference_deg': da, 'max_mirrored_distal_marker_difference_m': dp, 'basis': basis,
-                                'status': 'PASS' if da <= INTEGRITY['mirror_angle_deg'] and (dp is None or dp <= INTEGRITY['mirror_position_m']) else 'FAIL'}
+                mirror[tid[:-5]] = {'basis': 'side-specific source amplitudes: not mirror-comparable in Blender; the solver mirror is covered by test_paired_specs_are_exact_mirrors_in_the_solver',
+                                    'status': 'SOLVER_TEST'}
     out_dir.mkdir(parents=True, exist_ok=True)
     report = {'schema_version': 1, 'phase': 9,
               'scope': 'Isolated bone-only sweeps on the fitted master: implementation integrity of commands, JCS measurement, centres, continuity and symmetry. Not an anatomical acceptance; contact mechanics, translations and follower couplings are not exercised.',
@@ -242,7 +270,8 @@ def main():
               'integrity_thresholds': INTEGRITY, 'couplings': it.js.FOLLOWER_COUPLINGS,
               'summary': summary, 'mirror': mirror,
               'counts': {'tests': len(summary), 'integrity_pass': sum(1 for s in summary.values() if s['integrity_status'] == 'PASS'),
-                         'mirror_pairs': len(mirror), 'mirror_pass': sum(1 for m in mirror.values() if m['status'] == 'PASS')},
+                         'mirror_pairs': len(mirror), 'mirror_pass': sum(1 for m in mirror.values() if m['status'] == 'PASS'),
+                         'mirror_solver_test_only': sum(1 for m in mirror.values() if m['status'] == 'SOLVER_TEST')},
               'character_accepted': False, 'completed_tracker_gates': []}
     with (out_dir / 'isolated_report.json').open('x') as f:
         json.dump(report, f, indent=1, default=float)
@@ -253,7 +282,7 @@ def main():
         if s['integrity_status'] != 'PASS':
             print('FAIL', tid, {k: s[k] for k in ('max_abs_error_deg', 'max_uncommanded_jcs_deg', 'max_centre_drift_m', 'max_off_axis_deg', 'continuity_max_second_difference_mismatch_deg', 'distal_marker_radius_range_m')}, s['commanded_reversal_frames'], s['measured_reversal_frames'])
     for k, m in mirror.items():
-        if m['status'] != 'PASS':
+        if m['status'] == 'FAIL':
             print('MIRROR FAIL', k, m)
 
 

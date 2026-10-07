@@ -29,7 +29,10 @@ def segment_closest(p0, p1, q0, q1):
     a, e, f = d1 @ d1, d2 @ d2, d2 @ r
     c, b = d1 @ r, d1 @ d2
     denom = a * e - b * b
-    s = np.clip((b * f - c * e) / denom, 0, 1) if denom > 1e-12 else 0.0
+    if denom > 1e-12:
+        s = np.clip((b * f - c * e) / denom, 0, 1)
+    else:                                             # parallel: s = 0 with p0's projection is a valid closest pair (Ericson 5.1.9)
+        s = 0.0
     t = (b * s + f) / e
     if t < 0:
         t, s = 0.0, np.clip(-c / a, 0, 1)
@@ -202,10 +205,10 @@ def anatomical_lengths(L, s, bones):
     foot = P['foot']
     return {
         'femur': (np.linalg.norm(g('HJC') - g('KJC')) + 0.0247 + jl_off, 'HJC-KJC + head radius (24.7 mm) + epicondyle-to-joint-line offset'),
-        'tibia': (np.linalg.norm(g('tibial_plateau') - g('AJC')) + 0.010, 'plateau to ankle centre + ~10 mm to the malleolar tip'),
+        'tibia': (np.linalg.norm(g('tibial_plateau') - g('AJC')), 'plateau to ankle centre (Trotter & Gleser measured the tibia excluding the malleolus)'),
         'fibula': (np.linalg.norm(g('fibular_head') - g('lateral_malleolus_bone')) + 0.015, 'fibular head to lateral malleolus + tip/apex allowance'),
         'humerus': (np.linalg.norm(g('GH') - g('EJC')) + 0.0247 + 0.012, 'GH-EJC + head radius + trochlea below the epicondyles'),
-        'radius': (np.linalg.norm(g('humeroradial') - g('radial_styloid_bone')) + 0.008, 'radial head to styloid + articular allowance'),
+        'radius': (np.linalg.norm(g('humeroradial') - g('radial_styloid_bone')) - 0.010, 'capitulum centre to styloid minus ~10 mm capitulum radius (radial-head surface)'),
         'ulna': (np.linalg.norm(g('humeroulnar') - g('ulnar_styloid_bone')) + 0.025, 'trochlear notch to styloid + olecranon height'),
     }
 

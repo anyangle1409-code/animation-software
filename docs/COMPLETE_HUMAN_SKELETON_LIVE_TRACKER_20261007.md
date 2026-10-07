@@ -95,7 +95,7 @@ Gate 5: ✅ PASSED — source-pinned static comparison: 206 bone rows, 427 artic
 - [x] ✅ Prerequisite: isolated audit copy `ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a001.blend` (sha256 `0655dae1…`) from the pinned r95 BARE export (sha256 `c4b8e388…`, r95 dev-freeze candidate `8a39a22d…`); 1 BU = 1 m.
 - [x] ✅ Fit complete skeleton to HomeGymPT_Male_ORIGINAL_v1 proportions. All 206 placed (`character_fit_r95_a002.json`); per-bone class and confidence recorded. 115 proportional placements are low confidence.
 - [x] ✅ Place joint centres from character landmarks. Hip: 4 regressions. GH: 3 methods. Knee: 2. Ankle: 2. Elbow and wrist: ISB section centres. 427 markers.
-- [ ] ❌ Verify bilateral symmetry and segment lengths. Symmetry PASS (0.38 mm). Segment lengths FAIL: humerus −13.2 cm and femur −10.0 cm against Trotter–Gleser stature (F-PROP-001); owner decision required.
+- [ ] ❌ Verify bilateral symmetry and segment lengths. Symmetry PASS (0.38 mm; pre-snap midline ≤ 2.4 mm). Segment lengths FAIL against Trotter–Gleser stature after the reviewed corrections: humerus −13.2 cm, radius −9.5 cm, femur −10.0 cm (F-PROP-001). Owner decision required.
 - [x] ✅ Verify no distinct anatomical joint centres are accidentally collapsed. AC–GH 41.8 mm, talocrural–subtalar 31 mm; no two of the 427 markers are within 0.1 mm.
 Gate 6: ⛔ NOT PASSED. The fit is produced and verified, but the femur/humerus proportion conflict (F-PROP-001, F-HJC-001, F-GH-001) needs an owner decision. Placement accuracy for proportional bones is low.
 
@@ -119,7 +119,7 @@ Shared conventions: ISB JCS solver and measurement (`scripts/anatomy_fit/joint_s
 Gate 8: ⛔ NOT PASSED (follower/contact mechanics incomplete; several couplings lack accessible source magnitudes).
 
 ## PHASE 9 — ISOLATED BONE-ONLY MOVEMENT TESTS
-Current run `audit/runs/isolated_bone_only_004` on fit a003: 66 tests, all integrity PASS, 27/27 mirror pairs PASS (the mirror check caught and fixed a clavicle-retraction sign defect). Independent capture-tool cross-check agrees within 1.1e-5°.
+Current run `audit/runs/isolated_bone_only_006` on fit a003: 70 tests, all PASS; 27 mirror pairs PASS on reflected world transforms, 2 side-specific pairs covered by a solver mirror test. An independent code review found two sign defects (TMJ opening, spinal flexion) that the earlier integrity checks could not detect. They are now fixed, and an absolute world-direction test covers every spec (red/green verified). Capture-tool cross-check agrees within 1.1e-5°.
 - [x] ✅ Neutral → intermediate → near-limit sweeps, for the implemented joints. Source-context amplitudes are attached; amplitudes without a joint-specific source are labelled TEST AMPLITUDE.
 - [x] ✅ Both sides (mirror-checked).
 - [x] ✅ Ascent / descent / reversal; commanded and measured reversal frames match.

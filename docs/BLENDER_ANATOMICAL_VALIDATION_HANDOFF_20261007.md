@@ -112,14 +112,14 @@ Blender was available in the cloud session as Blender 5.2.1 LTS, imported as the
 
 | Step | Command (repo root) | Output |
 |---|---|---|
-| Toolchain smoke | `python3 scripts/blender_smoke_anatomical_capture.py --out <new dir>` | 22 analytic checks (`audit/runs/blender_smoke_001`) |
+| Toolchain smoke | `python3 scripts/blender_smoke_anatomical_capture.py --out <new dir>` | 22 analytic checks (`audit/runs/blender_smoke_001`, re-run `blender_smoke_002` after the scale check) |
 | Audit copy | `python3 scripts/anatomy_fit/build_audit_copy.py --glb <r95 BARE> --sha256 c4b8e388… --out-blend <new> --receipt <new>` | `audit/HGPT_ANATOMICAL_AUDIT_r95_a001.blend` |
 | Fit and master (Phases 6–7) | `python3 scripts/anatomy_fit/build_anatomical_master_blender.py --source-blend audit/…a001.blend --out-blend <new> --record <new>.json` | a003 + `character_fit_r95_a003.json` (a002 superseded) |
-| Independent capture | `python3 scripts/capture_anatomical_validation_blender.py --blend <a003> --armature HGPT_ANATOMICAL_MASTER --metres-per-unit 1 --plan ORIGINAL_V1_WORK/anatomy/blender_validation_plan.json --out-directory <new>` | `audit/runs/master_static_002` |
-| Isolated sweeps (Phase 9) | `python3 scripts/anatomy_fit/run_isolated_tests_blender.py --source-blend <a003> --record character_fit_r95_a003.json --out-blend <new> --out-dir <new>` | `audit/runs/isolated_bone_only_006` (current; earlier runs retained) |
-| Review images / clips | `scripts/anatomy_fit/render_master_review.py`, `render_test_clips.py` | `audit/review/…` |
+| Independent capture | `python3 scripts/capture_anatomical_validation_blender.py --blend <a003> --armature HGPT_ANATOMICAL_MASTER --metres-per-unit 1 --plan ORIGINAL_V1_WORK/anatomy/blender_validation_plan.json --out-directory <new>` | `audit/runs/master_static_003` (adds `bone_scale`) |
+| Isolated sweeps (Phase 9) | `python3 scripts/anatomy_fit/run_isolated_tests_blender.py --source-blend <a003> --record character_fit_r95_a003.json --out-blend <new> --out-dir <new>` | `audit/runs/isolated_bone_only_007` (current; earlier runs retained) |
+| Review images / clips | `scripts/anatomy_fit/render_master_review.py`, `render_test_clips.py` | `audit/review/…` (current clips: `isolated_clips_005`, all 19 from the run-006 test file; authoring code is unchanged in run 007) |
 | Review addendum | `python3 scripts/anatomy_fit/recheck_fit_record.py --record character_fit_r95_a003.json --out <new>` | corrected Trotter–Gleser, pre-snap midline, parallel-segment check |
-| Tests | `python -m unittest scripts/test_blender_anatomical_validation.py scripts/test_anatomy_fit.py` | 27 + 17 (includes absolute world-direction tests for every spec) |
+| Tests | `python -m unittest scripts/test_blender_anatomical_validation.py scripts/test_anatomy_fit.py` | 28 + 17 (includes absolute world-direction tests for every spec and coupled follower) |
 
 All outputs are new files; every script refuses to overwrite. The meaning of PASS is unchanged: it records numerical integrity only.
 
@@ -127,6 +127,6 @@ All outputs are new files; every script refuses to overwrite. The meaning of PAS
 
 1. Fetch the live branch head and read the tracker and findings report (sections “Phase 6–7” and “Phase 8–9”).
 2. Ask the owner to decide F-PROP-001 / F-GH-001 / F-HJC-001: either the shoulder and pelvic surfaces are raised, or the shorter proximal segments are accepted. If geometry changes, re-run the fit as a new audit revision (a004) and repeat Phases 6–9.
-3. Obtain full-text magnitudes for the missing followers: patellar tracking, tibiofibular motion, midfoot/TMT, wrist stage split, SC elevation/retraction and rhythm plane dependence. This session's egress policy blocked journal hosts. Add each to `FOLLOWER_COUPLINGS` with its source and a regression test, then extend `isolated_tests.specs`.
+3. Obtain full-text magnitudes for the missing followers: patellar tracking, tibiofibular motion, midfoot/TMT, wrist stage split, SC elevation and rhythm plane dependence (retraction 15° is now sourced). This session's egress policy blocked journal hosts. Add each to `FOLLOWER_COUPLINGS` with its source and a regression test, then extend `isolated_tests.specs`.
 4. Add the untested joints (thumb CMC opposition, remaining spinal levels, ribs, finger abduction), then Phase 10 using the project's authored exercise definitions.
 5. Production assets are untouched. Do not promote any audit file.

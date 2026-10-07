@@ -119,7 +119,7 @@ Shared conventions: ISB JCS solver and measurement (`scripts/anatomy_fit/joint_s
 Gate 8: ⛔ NOT PASSED (follower/contact mechanics incomplete; several couplings lack accessible source magnitudes).
 
 ## PHASE 9 — ISOLATED BONE-ONLY MOVEMENT TESTS
-Current run `audit/runs/isolated_bone_only_006` on fit a003: 70 tests, all PASS; 27 mirror pairs PASS on reflected world transforms, 2 side-specific pairs covered by a solver mirror test. An independent code review found two sign defects (TMJ opening, spinal flexion) that the earlier integrity checks could not detect. They are now fixed, and an absolute world-direction test covers every spec (red/green verified). Capture-tool cross-check agrees within 1.1e-5°.
+Current run `audit/runs/isolated_bone_only_007` on fit a003: 70 tests, all PASS, none unmeasured; 27 mirror pairs PASS on the reflected world transforms of every commanded bone, 2 side-specific pairs covered by a solver mirror test. An independent code review found two sign defects (TMJ opening, spinal flexion) that the earlier integrity checks could not detect. They are now fixed, and an absolute world-direction test covers every spec (red/green verified). A second review of the fixes found no critical defect; its gaps (mirror check on the first bone only, uniform pose-bone scale, coupled-follower directions, missing-marker gate, TMJ glide direction, point-query closest point) are fixed with tests and re-run as run 007. Capture-tool cross-check agrees within 1.1e-5°.
 - [x] ✅ Neutral → intermediate → near-limit sweeps, for the implemented joints. Source-context amplitudes are attached; amplitudes without a joint-specific source are labelled TEST AMPLITUDE.
 - [x] ✅ Both sides (mirror-checked).
 - [x] ✅ Ascent / descent / reversal; commanded and measured reversal frames match.
@@ -176,7 +176,7 @@ Gate 13: ⬜ NOT PASSED
 
 ## CURRENT POSITION
 Completed: Phases 0–5 (reference definitions, evidence compilation and static gap comparison); Blender toolchain verification.
-Done: Phase 6 fit and Phase 7 master structure (fit revision a003); Phase 8 solver core; Phase 9 isolated tests (66, run 003).
+Done: Phase 6 fit and Phase 7 master structure (fit revision a003); Phase 8 solver core; Phase 9 isolated tests (70, run 007).
 Not passed: Gate 6 (proportion conflict needs an owner decision), Gate 8 (followers/contacts), Gate 9 (coverage).
 Next: implement the remaining followers where source magnitudes can be obtained (full texts were blocked here); resolve F-PROP-001 with the owner; then run Phase 10 from authored exercise definitions.
 Resume: see the "Resume instructions" section of `docs/BLENDER_ANATOMICAL_VALIDATION_HANDOFF_20261007.md`.
@@ -184,4 +184,4 @@ Gates 6–13 remain unpassed.
 Production model, recovery work, geometry, weights and motion drivers unchanged.
 Comprehensive findings, source register, verification and local acceptance checklist: `docs/COMPLETE_SKELETON_FINDINGS_AND_VERIFICATION_20261007.md`.
 
-Local validation preparation is available in `docs/BLENDER_ANATOMICAL_VALIDATION_HANDOFF_20261007.md`: read-only capture, source-bound test requests and offline numerical reports. Prepared tools do not complete Gates6–10; their Blender adapter still requires a local smoke test.
+Local validation preparation is available in `docs/BLENDER_ANATOMICAL_VALIDATION_HANDOFF_20261007.md`: read-only capture, source-bound test requests and offline numerical reports. Prepared tools do not complete Gates 6–10. The Blender adapter passed a live smoke test here (Blender 5.2.1 `bpy`, runs `blender_smoke_001`/`002`); a laptop run with the Blender application is still advisable.

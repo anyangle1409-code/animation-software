@@ -63,6 +63,12 @@ class GeometryTests(unittest.TestCase):
         from joint_markers import segment_closest
         p, q = segment_closest(np.array([0., 0, 0]), np.array([1., 0, 0]), np.array([0.5, 1, -1]), np.array([0.5, 1, 1]))
         self.assertTrue(np.allclose(p, [0.5, 0, 0]) and np.allclose(q, [0.5, 1, 0]))
+        # point query (the 1e-6 "segment" used for locators) must return the projection, not p0
+        q0 = np.array([0.05, 0.1, -0.1500015])     # t lands inside the 1e-6 "segment": the old code returned p0 here
+        p, _ = segment_closest(np.array([0., 0, 0]), np.array([0.1, 0, 0]), q0, q0 + 1e-6)
+        self.assertTrue(np.allclose(p, [0.05, 0, 0], atol=1e-12))
+        p, _ = segment_closest(np.array([0., 0, 0]), np.array([0.1, 0, 0]), np.array([0.3, 0.2, 0.1]), np.array([0.3, 0.2, 0.1]) + 1e-6)
+        self.assertTrue(np.allclose(p, [0.1, 0, 0], atol=1e-12))
 
 
 class RecordTests(unittest.TestCase):
@@ -250,10 +256,10 @@ class AbsoluteDirectionTests(unittest.TestCase):
         cls.F = it.frames(cls.rec)
         cls.specs = it.specs(cls.rec, cls.atlas)
 
-    def pose(self, t, cmd):
+    def pose(self, t, cmd, derive=True):
         """World 4x4 of every moved bone, composing ancestor deltas as Blender does."""
         it = self.it
-        cmd = it.derive(t, cmd)
+        cmd = it.derive(t, cmd) if derive else dict(cmd)
         G = it.deltas(t, cmd, self.F)
         bones = self.rec['bones']
         def world(b):
@@ -293,6 +299,12 @@ class AbsoluteDirectionTests(unittest.TestCase):
         if tid.startswith('hip_rotation_at_90'):
             base = dict(peak, internal=0.0)
             return (vec(peak, f'femur_{side}', ant) - vec(base, f'femur_{side}', ant)) @ med > 0.3
+        if tid.startswith('knee_flexion_with_screw_home'):
+            # coupled follower: the tibia rotates internally as the knee flexes out of terminal extension
+            cmd = it.derive(t, {'flexion': 20.0})
+            tib_ant = lambda c: self.pose(t, c, derive=False)(f'tibia_{side}')[:3, :3] @ ant
+            return cmd['internal'] > 3.0 and moved(peak, f'tibia_{side}') @ ant < -0.1 \
+                and (tib_ant(cmd) - tib_ant(dict(cmd, internal=0.0))) @ med > 0.03
         if tid.startswith('knee_flexion'):
             return moved(peak, f'tibia_{side}') @ ant < -0.1
         if tid.startswith('talocrural'):
@@ -350,7 +362,18 @@ class AbsoluteDirectionTests(unittest.TestCase):
             hum = moved(peak, f'humerus_{side}')
             ai = np.append(t['landmarks']['AI'], 1.0)
             ai_d = (self.pose(t, peak)(f'scapula_{side}') @ ai)[:3] - ai[:3]
-            return hum[2] > 0.3 and ai_d @ lat > 0.03
+            c = it.derive(t, peak)
+            if not all(c[k] > 0 for k in ('upward', 'tilt', 'scap_er', 'clav_post', 'clav_ret')):
+                return False
+            raw = lambda cmd, bone: self.pose(t, cmd, derive=False)(bone)
+            L = {k: np.append(v, 1.0) for k, v in t['landmarks'].items()}
+            ai_tilt = (raw({'tilt': 30.0}, f'scapula_{side}') @ L['AI'])[:3] - L['AI'][:3]     # posterior tilt: inferior angle forward
+            aa = L['AA'] + np.append(0.05 * lat, 0.0)
+            aa_er = (raw({'scap_er': 24.0}, f'scapula_{side}') @ aa)[:3] - aa[:3]              # external rotation: lateral end posterior
+            clav_ant = raw({'clav_post': 31.0}, f'clavicle_{side}')[:3, :3] @ ant                 # posterior rotation: anterior surface up
+            ac_ret = (raw({'clav_ret': 15.0}, f'clavicle_{side}') @ L['AC'])[:3] - L['AC'][:3]  # retraction: lateral end posterior
+            return hum[2] > 0.3 and ai_d @ lat > 0.03 and ai_tilt @ ant > 0.01 and aa_er @ ant < -0.01 \
+                and clav_ant[2] > 0.3 and ac_ret @ ant < -0.01
         return None
 
     def test_every_spec_moves_in_its_named_direction(self):

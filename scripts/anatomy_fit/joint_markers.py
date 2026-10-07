@@ -24,12 +24,19 @@ def unit(a):
 
 
 def segment_closest(p0, p1, q0, q1):
-    """Closest points between segments p0p1 and q0q1."""
+    """Closest points between segments p0p1 and q0q1 (Ericson 5.1.9, including degenerate point segments)."""
     d1, d2, r = p1 - p0, q1 - q0, p0 - q0
     a, e, f = d1 @ d1, d2 @ d2, d2 @ r
     c, b = d1 @ r, d1 @ d2
+    eps = 1e-10                                       # squared length: segments shorter than 10 micrometres are points
+    if a <= eps and e <= eps:
+        return p0, q0
+    if e <= eps:                                      # point query: project q0 onto p0p1
+        return p0 + d1 * np.clip(-c / a, 0, 1), q0
+    if a <= eps:
+        return p0, q0 + d2 * np.clip(f / e, 0, 1)
     denom = a * e - b * b
-    if denom > 1e-12:
+    if denom > 1e-12 * a * e:                         # relative test: collinear chain joints are not flagged as parallel
         s = np.clip((b * f - c * e) / denom, 0, 1)
     else:                                             # parallel: s = 0 with p0's projection is a valid closest pair (Ericson 5.1.9)
         s = 0.0

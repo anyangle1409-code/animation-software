@@ -228,6 +228,13 @@ def main():
         missing = [c for c, v in errs.items() if v is None and c not in MAY_BE_UNMEASURED]
         if t.get('distal_marker') and not travel:
             missing.append('distal_marker')
+        if t.get('marker') and any(r['marker_m'] is None for r in rows):
+            missing.append('marker')                 # an absent HGPT_JOINT_ object must not drop its gate silently
+        if t['kind'] == 'tmj':
+            ant = [r['condylar_glide_anterior_m'] for r in rows]; inf = [r['condylar_glide_inferior_m'] for r in rows]
+            s['tmj_glide_direction'] = {'min_anterior_m': min(ant), 'min_inferior_m': min(inf), 'peak_anterior_m': max(ant), 'peak_inferior_m': max(inf)}
+            if min(ant) < -INTEGRITY['centre_drift_m'] or min(inf) < -INTEGRITY['centre_drift_m'] or max(ant) <= 0.001 or max(inf) <= 0.001:
+                missing.append('tmj_glide_direction')
         s['unmeasured'] = missing
         ok = not missing and all(v is None or v <= INTEGRITY['angle_error_deg'] for v in errs.values()) and cross <= INTEGRITY['angle_error_deg'] \
             and all(v <= (INTEGRITY['angle_error_deg'] if k.endswith('_deg') else INTEGRITY['centre_drift_m']) for k, v in extra.items()) \
@@ -249,13 +256,18 @@ def main():
             same_cmd = all(l['commanded'] == r['commanded'] for l, r in zip(L, R))
             if same_cmd:
                 Mx = np.diag([-1.0, 1.0, 1.0, 1.0])
-                drot = max(float(np.linalg.norm(Mx @ np.asarray(l['moving_delta']) @ Mx - np.asarray(r['moving_delta']))) for l, r in zip(L, R))
+                bones = sorted(L[0]['moving_deltas'])
+                pairs = [(b, b[:-5] + '_right') for b in bones if b.endswith('_left')]
+                if not pairs or any(rb not in R[0]['moving_deltas'] for _, rb in pairs):
+                    raise RuntimeError('Mirror pair without matching moved bones: ' + tid)
+                drot = max(float(np.linalg.norm(Mx @ np.asarray(l['moving_deltas'][lb]) @ Mx - np.asarray(r['moving_deltas'][rb])))
+                           for l, r in zip(L, R) for lb, rb in pairs)
                 da = max(abs(l[key] - r[key]) for l, r in zip(L, R))
                 dp = max(float(np.linalg.norm(np.asarray(l['distal_marker_m']) * [-1, 1, 1] - np.asarray(r['distal_marker_m'])))
                          for l, r in zip(L, R) if l['distal_marker_m'] and r['distal_marker_m']) if L[0]['distal_marker_m'] else None
-                basis = 'identical commands: reflected moving-bone world transforms (M R_left M vs R_right), clinical angles and mirrored distal-marker paths'
+                basis = 'identical commands: reflected world transforms of every commanded bone (M R_left M vs R_right), clinical angles and mirrored distal-marker paths'
                 ok = drot <= INTEGRITY['mirror_rotation_frobenius'] and da <= INTEGRITY['mirror_angle_deg'] and (dp is None or dp <= INTEGRITY['mirror_position_m'])
-                mirror[tid[:-5]] = {'max_reflected_transform_difference': drot, 'max_angle_difference_deg': da,
+                mirror[tid[:-5]] = {'bones_compared': [lb for lb, _ in pairs], 'max_reflected_transform_difference': drot, 'max_angle_difference_deg': da,
                                     'max_mirrored_distal_marker_difference_m': dp, 'basis': basis, 'status': 'PASS' if ok else 'FAIL'}
             else:
                 mirror[tid[:-5]] = {'basis': 'side-specific source amplitudes: not mirror-comparable in Blender; the solver mirror is covered by test_paired_specs_are_exact_mirrors_in_the_solver',

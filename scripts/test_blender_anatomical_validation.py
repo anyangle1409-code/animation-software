@@ -257,3 +257,20 @@ class RigidScaleTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             mod.rigid_matrix([[1, 0, 0, 0], [0, 2, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
         mod.rigid_matrix([[0.01, 0, 0, 0], [0, 0.01, 0, 0], [0, 0, 0.01, 0], [0, 0, 0, 1]])
+
+    def test_uniform_pose_bone_scale_fails_against_the_armature_object_scale(self):
+        mod = ValidationPackageTests().module()
+        scaled = [[1.5, 0, 0, 0], [0, 1.5, 0, 0], [0, 0, 1.5, 0], [0, 0, 0, 1]]
+        with self.assertRaises(ValueError):
+            mod.rigid_matrix(scaled, 1.0)
+        mod.rigid_matrix(scaled, 1.5)
+        fixture = ValidationPackageTests()
+        for recorded, uniform, status in ((1.0, True, 'PASS'), (None, None, 'UNVERIFIED'), (1.0, False, 'FAIL')):
+            cap = fixture.capture()
+            if recorded is not None:
+                cap['provenance'].update(armature_world_scale=recorded, armature_world_scale_uniform=uniform)
+            self.assertEqual(mod.analyze_capture(cap, mod.build_plan())['checks']['bone_scale']['status'], status)
+        cap = fixture.capture()
+        cap['provenance'].update(armature_world_scale=1.0, armature_world_scale_uniform=True)
+        cap['rest_bones']['anat_femur_left']['matrix_world'] = [r[:3] + [0] for r in scaled[:3]] + [[0, 0, 0, 1]]
+        self.assertEqual(mod.analyze_capture(cap, mod.build_plan())['checks']['geometry_integrity']['status'], 'FAIL')

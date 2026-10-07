@@ -65,7 +65,9 @@ def point(v):
 RIGID_TOLERANCE=1e-5
 
 
-def rigid_matrix(m):
+def rigid_matrix(m,expected_scale=None):
+    """Normalised rigid copy of a 4x4 world matrix. With expected_scale (the armature object's uniform world
+    scale), each axis must have exactly that length, so pose-bone scale cannot hide inside a rigid transform."""
     if not isinstance(m,list) or len(m)!=4 or any(not isinstance(r,list) or len(r)!=4 for r in m):
         raise ValueError('4x4 matrix required')
     if any(type(v) not in (int,float) or not math.isfinite(v) for r in m for v in r):
@@ -78,6 +80,8 @@ def rigid_matrix(m):
         cols.append([v/length for v in vec]);lengths.append(length)
     # A uniform object scale is allowed (positions are converted separately); non-uniform scale is not rigid.
     if max(lengths)-min(lengths)>RIGID_TOLERANCE*max(lengths):raise ValueError('Non-uniform axis scale is not a rigid rotation')
+    if expected_scale is not None and any(abs(l-expected_scale)>RIGID_TOLERANCE*expected_scale for l in lengths):
+        raise ValueError('Bone axis scale differs from the armature object scale (pose-bone scale is not rigid)')
     if any(abs(sum(x*y for x,y in zip(cols[a],cols[b])))>RIGID_TOLERANCE for a,b in [(0,1),(0,2),(1,2)]):
         raise ValueError('Sheared axes are not a rigid rotation')
     x,y,z=cols
@@ -86,8 +90,8 @@ def rigid_matrix(m):
     return [[cols[c][r] for c in range(3)]+[m[r][3]] for r in range(3)]+[[0,0,0,1]]
 
 
-def relative_transform(parent,child):
-    a,b=rigid_matrix(parent),rigid_matrix(child)
+def relative_transform(parent,child,expected_scale=None):
+    a,b=rigid_matrix(parent,expected_scale),rigid_matrix(child,expected_scale)
     rotation=[[sum(a[k][i]*b[k][j] for k in range(3)) for j in range(3)] for i in range(3)]
     delta=[b[i][3]-a[i][3] for i in range(3)]
     return [rotation[i]+[sum(a[k][i]*delta[k] for k in range(3))] for i in range(3)]+[[0,0,0,1]]
@@ -157,9 +161,19 @@ def analyze_capture(capture,plan):
     present=set(counts)&set(expected);missing=sorted(set(expected)-present)
     check('bone_coverage','FAIL' if missing else 'PASS',{'represented':len(present),'expected':len(expected),'missing':missing})
     lengths={};geometry_errors=[]
+    def object_scale(value):
+        if value is None:return None
+        if type(value) not in (int,float) or not math.isfinite(value) or value<=0:raise ValueError('Invalid armature world scale')
+        return float(value)
+    try:rest_scale=object_scale(provenance.get('armature_world_scale'))
+    except ValueError as e:rest_scale=None;geometry_errors.append('provenance: '+str(e))
+    check('bone_scale','PASS' if provenance.get('armature_world_scale_uniform') is True and rest_scale is not None else
+          ('FAIL' if provenance.get('armature_world_scale_uniform') is False else 'UNVERIFIED'),
+          'Bone axes must equal the uniform armature object scale.' if rest_scale is not None else
+          'Capture has no armature world scale: uniform pose-bone scale cannot be excluded.')
     for name,b in bones.items():
         try:
-            h,t=point(b['head_world_m']),point(b['tail_world_m']);rigid_matrix(b['matrix_world'])
+            h,t=point(b['head_world_m']),point(b['tail_world_m']);rigid_matrix(b['matrix_world'],rest_scale)
             length=math.dist(h,t)
             if length<=1e-9:raise ValueError('Zero/unresolved bone length')
             if b.get('anatomical_id') in expected:lengths[b['anatomical_id']]=length
@@ -198,15 +212,17 @@ def analyze_capture(capture,plan):
             except (KeyError,TypeError,ValueError) as e:landmark_errors.append(f'{index}/{name}: {e}')
         for image in s.get('evidence_images',[]):
             images.append({'sample':index,'test_id':tid,'attachment':image,'scene_correspondence':'UNVERIFIED'})
+        try:sample_scale=object_scale(s.get('armature_world_scale',rest_scale))
+        except ValueError as e:sample_scale=None;pose_errors.append(f'{index}: {e}')
         for name,b in s.get('bones',{}).items():
             pose_count+=1
             try:
-                point(b['head_world_m']);point(b['tail_world_m']);rigid_matrix(b['matrix_world'])
+                point(b['head_world_m']);point(b['tail_world_m']);rigid_matrix(b['matrix_world'],sample_scale)
                 parent=b.get('parent')
                 if parent is not None:
                     parent_matrix=s['bones'][parent]['matrix_world']
-                    relative=relative_transform(parent_matrix,b['matrix_world'])
-                else:relative=rigid_matrix(b['matrix_world'])
+                    relative=relative_transform(parent_matrix,b['matrix_world'],sample_scale)
+                else:relative=rigid_matrix(b['matrix_world'],sample_scale)
                 relative_rotations.setdefault(name,[]).append({'sample':index,'matrix':relative,'context':context})
             except (KeyError,TypeError,ValueError,OverflowError) as e:pose_errors.append(f'{index}/{name}: {e}')
         sample_centres={}

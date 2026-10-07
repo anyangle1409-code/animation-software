@@ -509,6 +509,9 @@ def measure(spec, pose, rest, F, markers_world):
         m['incisor_displacement_m'] = float(np.linalg.norm((Dm @ inc)[:3] - inc[:3]))
         cnd = np.append(np.asarray(spec['centre']), 1.0)
         m['condylar_displacement_m'] = float(np.linalg.norm((Dm @ cnd)[:3] - cnd[:3]))
+        disp = (Dm @ cnd)[:3] - cnd[:3]
+        m['condylar_glide_anterior_m'] = float(disp @ ANT)          # glide must be anterior...
+        m['condylar_glide_inferior_m'] = float(-(disp @ UP))        # ...and inferior (down the articular eminence)
         m['glide'] = m['condylar_displacement_m']
     elif kind == 'shoulder_complex':
         L = {k: np.asarray(v, float) for k, v in spec['landmarks'].items()}
@@ -547,7 +550,15 @@ def measure(spec, pose, rest, F, markers_world):
         m['marker_vs_proximal_carried_centre_m'] = float(np.linalg.norm(np.asarray(markers_world[spec['marker']]) - cp[:3]))
     mov = spec['moving'][0] if kind != 'digit' else spec['chain'][0]['moving']
     m['moving_delta'] = D(mov).tolist()
+    m['moving_deltas'] = {b: D(b).tolist() for b in moved_bones(spec)}   # every commanded bone, for the mirror check
     return m
+
+
+def moved_bones(spec):
+    """Every bone a spec commands: top-level moving bones, the second wrist stage and digit chain links."""
+    out = list(spec.get('moving', [])) + list(spec.get('stage2', []))
+    out += [link['moving'] for link in spec.get('chain', [])]
+    return list(dict.fromkeys(out))
 
 
 def retraction_angle(Rc, clav_axis):

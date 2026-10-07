@@ -1,0 +1,1216 @@
+{
+  "schema_version": 1,
+  "scope": "Numerical integrity and descriptive measurements only; no Blender gate acceptance.",
+  "checks": {
+    "provenance": {
+      "status": "PASS",
+      "detail": "Atlas hashes match; saved source identified. This does not prove fitted geometry."
+    },
+    "units": {
+      "status": "PASS",
+      "detail": "Explicit conversion matches the scene unit scale; character physical scale still needs independent confirmation."
+    },
+    "identity": {
+      "status": "PASS",
+      "detail": "Unique stable anatomical names; untagged helper controls excluded."
+    },
+    "bone_coverage": {
+      "status": "FAIL",
+      "detail": {
+        "represented": 2,
+        "expected": 206,
+        "missing": [
+          "c1",
+          "c2",
+          "c3",
+          "c4",
+          "c5",
+          "c6",
+          "c7",
+          "calcaneus_left",
+          "calcaneus_right",
+          "capitate_left",
+          "capitate_right",
+          "clavicle_left",
+          "clavicle_right",
+          "coccyx",
+          "cuboid_left",
+          "cuboid_right",
+          "digit2_distal_phalanx_left",
+          "digit2_distal_phalanx_right",
+          "digit2_middle_phalanx_left",
+          "digit2_middle_phalanx_right",
+          "digit2_proximal_phalanx_left",
+          "digit2_proximal_phalanx_right",
+          "digit3_distal_phalanx_left",
+          "digit3_distal_phalanx_right",
+          "digit3_middle_phalanx_left",
+          "digit3_middle_phalanx_right",
+          "digit3_proximal_phalanx_left",
+          "digit3_proximal_phalanx_right",
+          "digit4_distal_phalanx_left",
+          "digit4_distal_phalanx_right",
+          "digit4_middle_phalanx_left",
+          "digit4_middle_phalanx_right",
+          "digit4_proximal_phalanx_left",
+          "digit4_proximal_phalanx_right",
+          "digit5_distal_phalanx_left",
+          "digit5_distal_phalanx_right",
+          "digit5_middle_phalanx_left",
+          "digit5_middle_phalanx_right",
+          "digit5_proximal_phalanx_left",
+          "digit5_proximal_phalanx_right",
+          "ethmoid",
+          "femur_right",
+          "fibula_left",
+          "fibula_right",
+          "frontal",
+          "hallux_distal_phalanx_left",
+          "hallux_distal_phalanx_right",
+          "hallux_proximal_phalanx_left",
+          "hallux_proximal_phalanx_right",
+          "hamate_left",
+          "hamate_right",
+          "hip_bone_left",
+          "hip_bone_right",
+          "humerus_left",
+          "humerus_right",
+          "hyoid",
+          "incus_left",
+          "incus_right",
+          "inferior_nasal_concha_left",
+          "inferior_nasal_concha_right",
+          "intermediate_cuneiform_left",
+          "intermediate_cuneiform_right",
+          "l1",
+          "l2",
+          "l3",
+          "l4",
+          "l5",
+          "lacrimal_left",
+          "lacrimal_right",
+          "lateral_cuneiform_left",
+          "lateral_cuneiform_right",
+          "lunate_left",
+          "lunate_right",
+          "malleus_left",
+          "malleus_right",
+          "mandible",
+          "maxilla_left",
+          "maxilla_right",
+          "medial_cuneiform_left",
+          "medial_cuneiform_right",
+          "metacarpal_1_left",
+          "metacarpal_1_right",
+          "metacarpal_2_left",
+          "metacarpal_2_right",
+          "metacarpal_3_left",
+          "metacarpal_3_right",
+          "metacarpal_4_left",
+          "metacarpal_4_right",
+          "metacarpal_5_left",
+          "metacarpal_5_right",
+          "metatarsal_1_left",
+          "metatarsal_1_right",
+          "metatarsal_2_left",
+          "metatarsal_2_right",
+          "metatarsal_3_left",
+          "metatarsal_3_right",
+          "metatarsal_4_left",
+          "metatarsal_4_right",
+          "metatarsal_5_left",
+          "metatarsal_5_right",
+          "nasal_left",
+          "nasal_right",
+          "navicular_left",
+          "navicular_right",
+          "occipital",
+          "palatine_left",
+          "palatine_right",
+          "parietal_left",
+          "parietal_right",
+          "patella_left",
+          "patella_right",
+          "pisiform_left",
+          "pisiform_right",
+          "radius_left",
+          "radius_right",
+          "rib_01_left",
+          "rib_01_right",
+          "rib_02_left",
+          "rib_02_right",
+          "rib_03_left",
+          "rib_03_right",
+          "rib_04_left",
+          "rib_04_right",
+          "rib_05_left",
+          "rib_05_right",
+          "rib_06_left",
+          "rib_06_right",
+          "rib_07_left",
+          "rib_07_right",
+          "rib_08_left",
+          "rib_08_right",
+          "rib_09_left",
+          "rib_09_right",
+          "rib_10_left",
+          "rib_10_right",
+          "rib_11_left",
+          "rib_11_right",
+          "rib_12_left",
+          "rib_12_right",
+          "sacrum",
+          "scaphoid_left",
+          "scaphoid_right",
+          "scapula_left",
+          "scapula_right",
+          "sphenoid",
+          "stapes_left",
+          "stapes_right",
+          "sternum",
+          "t1",
+          "t10",
+          "t11",
+          "t12",
+          "t2",
+          "t3",
+          "t4",
+          "t5",
+          "t6",
+          "t7",
+          "t8",
+          "t9",
+          "talus_left",
+          "talus_right",
+          "temporal_left",
+          "temporal_right",
+          "thumb_distal_phalanx_left",
+          "thumb_distal_phalanx_right",
+          "thumb_proximal_phalanx_left",
+          "thumb_proximal_phalanx_right",
+          "tibia_right",
+          "toe2_distal_phalanx_left",
+          "toe2_distal_phalanx_right",
+          "toe2_middle_phalanx_left",
+          "toe2_middle_phalanx_right",
+          "toe2_proximal_phalanx_left",
+          "toe2_proximal_phalanx_right",
+          "toe3_distal_phalanx_left",
+          "toe3_distal_phalanx_right",
+          "toe3_middle_phalanx_left",
+          "toe3_middle_phalanx_right",
+          "toe3_proximal_phalanx_left",
+          "toe3_proximal_phalanx_right",
+          "toe4_distal_phalanx_left",
+          "toe4_distal_phalanx_right",
+          "toe4_middle_phalanx_left",
+          "toe4_middle_phalanx_right",
+          "toe4_proximal_phalanx_left",
+          "toe4_proximal_phalanx_right",
+          "toe5_distal_phalanx_left",
+          "toe5_distal_phalanx_right",
+          "toe5_middle_phalanx_left",
+          "toe5_middle_phalanx_right",
+          "toe5_proximal_phalanx_left",
+          "toe5_proximal_phalanx_right",
+          "trapezium_left",
+          "trapezium_right",
+          "trapezoid_left",
+          "trapezoid_right",
+          "triquetrum_left",
+          "triquetrum_right",
+          "ulna_left",
+          "ulna_right",
+          "vomer",
+          "zygomatic_left",
+          "zygomatic_right"
+        ]
+      }
+    },
+    "bone_scale": {
+      "status": "PASS",
+      "detail": "Bone axes must equal the uniform armature object scale."
+    },
+    "geometry_integrity": {
+      "status": "PASS",
+      "detail": "Finite nonzero segments, proper unsheared axes, existing parents and no cycles."
+    },
+    "bilateral_lengths": {
+      "status": "UNVERIFIED",
+      "detail": "Differences measured; no universal symmetry tolerance or fit inferred."
+    },
+    "landmark_integrity": {
+      "status": "PASS",
+      "detail": "Only supplied landmark IDs/coordinates checked; anatomical placement unverified."
+    },
+    "joint_marker_coverage": {
+      "status": "UNVERIFIED",
+      "detail": {
+        "measured": 2,
+        "expected": 427,
+        "missing": [
+          "acromioclavicular_left",
+          "acromioclavicular_right",
+          "atlantoaxial_lateral_left",
+          "atlantoaxial_lateral_right",
+          "atlantoaxial_median",
+          "atlantooccipital_left",
+          "atlantooccipital_right",
+          "calcaneocuboid_left",
+          "calcaneocuboid_right",
+          "cmc_1_left",
+          "cmc_1_right",
+          "cmc_2_left",
+          "cmc_2_right",
+          "cmc_3_left",
+          "cmc_3_right",
+          "cmc_4_left",
+          "cmc_4_right",
+          "cmc_5_left",
+          "cmc_5_right",
+          "costochondral_01_left",
+          "costochondral_01_right",
+          "costochondral_02_left",
+          "costochondral_02_right",
+          "costochondral_03_left",
+          "costochondral_03_right",
+          "costochondral_04_left",
+          "costochondral_04_right",
+          "costochondral_05_left",
+          "costochondral_05_right",
+          "costochondral_06_left",
+          "costochondral_06_right",
+          "costochondral_07_left",
+          "costochondral_07_right",
+          "costochondral_08_left",
+          "costochondral_08_right",
+          "costochondral_09_left",
+          "costochondral_09_right",
+          "costochondral_10_left",
+          "costochondral_10_right",
+          "costotransverse_01_left",
+          "costotransverse_01_right",
+          "costotransverse_02_left",
+          "costotransverse_02_right",
+          "costotransverse_03_left",
+          "costotransverse_03_right",
+          "costotransverse_04_left",
+          "costotransverse_04_right",
+          "costotransverse_05_left",
+          "costotransverse_05_right",
+          "costotransverse_06_left",
+          "costotransverse_06_right",
+          "costotransverse_07_left",
+          "costotransverse_07_right",
+          "costotransverse_08_left",
+          "costotransverse_08_right",
+          "costotransverse_09_left",
+          "costotransverse_09_right",
+          "costotransverse_10_left",
+          "costotransverse_10_right",
+          "costovertebral_01_left",
+          "costovertebral_01_right",
+          "costovertebral_02_left",
+          "costovertebral_02_right",
+          "costovertebral_03_left",
+          "costovertebral_03_right",
+          "costovertebral_04_left",
+          "costovertebral_04_right",
+          "costovertebral_05_left",
+          "costovertebral_05_right",
+          "costovertebral_06_left",
+          "costovertebral_06_right",
+          "costovertebral_07_left",
+          "costovertebral_07_right",
+          "costovertebral_08_left",
+          "costovertebral_08_right",
+          "costovertebral_09_left",
+          "costovertebral_09_right",
+          "costovertebral_10_left",
+          "costovertebral_10_right",
+          "costovertebral_11_left",
+          "costovertebral_11_right",
+          "costovertebral_12_left",
+          "costovertebral_12_right",
+          "cuboideonavicular_left",
+          "cuboideonavicular_right",
+          "cuneonavicular_intermediate_left",
+          "cuneonavicular_intermediate_right",
+          "cuneonavicular_lateral_left",
+          "cuneonavicular_lateral_right",
+          "cuneonavicular_medial_left",
+          "cuneonavicular_medial_right",
+          "digit2_dip_left",
+          "digit2_dip_right",
+          "digit2_mcp_left",
+          "digit2_mcp_right",
+          "digit2_pip_left",
+          "digit2_pip_right",
+          "digit3_dip_left",
+          "digit3_dip_right",
+          "digit3_mcp_left",
+          "digit3_mcp_right",
+          "digit3_pip_left",
+          "digit3_pip_right",
+          "digit4_dip_left",
+          "digit4_dip_right",
+          "digit4_mcp_left",
+          "digit4_mcp_right",
+          "digit4_pip_left",
+          "digit4_pip_right",
+          "digit5_dip_left",
+          "digit5_dip_right",
+          "digit5_mcp_left",
+          "digit5_mcp_right",
+          "digit5_pip_left",
+          "digit5_pip_right",
+          "disc_c2_c3",
+          "disc_c3_c4",
+          "disc_c4_c5",
+          "disc_c5_c6",
+          "disc_c6_c7",
+          "disc_c7_t1",
+          "disc_l1_l2",
+          "disc_l2_l3",
+          "disc_l3_l4",
+          "disc_l4_l5",
+          "disc_l5_sacrum",
+          "disc_t10_t11",
+          "disc_t11_t12",
+          "disc_t12_l1",
+          "disc_t1_t2",
+          "disc_t2_t3",
+          "disc_t3_t4",
+          "disc_t4_t5",
+          "disc_t5_t6",
+          "disc_t6_t7",
+          "disc_t7_t8",
+          "disc_t8_t9",
+          "disc_t9_t10",
+          "distal_radioulnar_left",
+          "distal_radioulnar_right",
+          "distal_tibiofibular_left",
+          "distal_tibiofibular_right",
+          "facet_c2_c3_left",
+          "facet_c2_c3_right",
+          "facet_c3_c4_left",
+          "facet_c3_c4_right",
+          "facet_c4_c5_left",
+          "facet_c4_c5_right",
+          "facet_c5_c6_left",
+          "facet_c5_c6_right",
+          "facet_c6_c7_left",
+          "facet_c6_c7_right",
+          "facet_c7_t1_left",
+          "facet_c7_t1_right",
+          "facet_l1_l2_left",
+          "facet_l1_l2_right",
+          "facet_l2_l3_left",
+          "facet_l2_l3_right",
+          "facet_l3_l4_left",
+          "facet_l3_l4_right",
+          "facet_l4_l5_left",
+          "facet_l4_l5_right",
+          "facet_l5_sacrum_left",
+          "facet_l5_sacrum_right",
+          "facet_t10_t11_left",
+          "facet_t10_t11_right",
+          "facet_t11_t12_left",
+          "facet_t11_t12_right",
+          "facet_t12_l1_left",
+          "facet_t12_l1_right",
+          "facet_t1_t2_left",
+          "facet_t1_t2_right",
+          "facet_t2_t3_left",
+          "facet_t2_t3_right",
+          "facet_t3_t4_left",
+          "facet_t3_t4_right",
+          "facet_t4_t5_left",
+          "facet_t4_t5_right",
+          "facet_t5_t6_left",
+          "facet_t5_t6_right",
+          "facet_t6_t7_left",
+          "facet_t6_t7_right",
+          "facet_t7_t8_left",
+          "facet_t7_t8_right",
+          "facet_t8_t9_left",
+          "facet_t8_t9_right",
+          "facet_t9_t10_left",
+          "facet_t9_t10_right",
+          "glenohumeral_left",
+          "glenohumeral_right",
+          "hallux_ip_left",
+          "hallux_ip_right",
+          "hallux_sesamoid_lateral_tracking_left",
+          "hallux_sesamoid_lateral_tracking_right",
+          "hallux_sesamoid_medial_tracking_left",
+          "hallux_sesamoid_medial_tracking_right",
+          "hip_left",
+          "hip_right",
+          "humeroradial_left",
+          "humeroradial_right",
+          "humeroulnar_left",
+          "humeroulnar_right",
+          "hyoid_body_greater_horn_left",
+          "hyoid_body_greater_horn_right",
+          "hyoid_body_lesser_horn_left",
+          "hyoid_body_lesser_horn_right",
+          "incudomalleolar_left",
+          "incudomalleolar_right",
+          "incudostapedial_left",
+          "incudostapedial_right",
+          "intercarpal_capitate_hamate_left",
+          "intercarpal_capitate_hamate_right",
+          "intercarpal_lunate_triquetrum_left",
+          "intercarpal_lunate_triquetrum_right",
+          "intercarpal_scaphoid_lunate_left",
+          "intercarpal_scaphoid_lunate_right",
+          "intercarpal_trapezium_trapezoid_left",
+          "intercarpal_trapezium_trapezoid_right",
+          "intercarpal_trapezoid_capitate_left",
+          "intercarpal_trapezoid_capitate_right",
+          "interchondral_6_7_left",
+          "interchondral_6_7_right",
+          "interchondral_7_8_left",
+          "interchondral_7_8_right",
+          "interchondral_8_9_left",
+          "interchondral_8_9_right",
+          "interchondral_9_10_left",
+          "interchondral_9_10_right",
+          "intercoccygeal_1_2",
+          "intercoccygeal_2_3",
+          "intercoccygeal_3_4",
+          "intermetacarpal_2_3_left",
+          "intermetacarpal_2_3_right",
+          "intermetacarpal_3_4_left",
+          "intermetacarpal_3_4_right",
+          "intermetacarpal_4_5_left",
+          "intermetacarpal_4_5_right",
+          "intermetatarsal_2_3_left",
+          "intermetatarsal_2_3_right",
+          "intermetatarsal_3_4_left",
+          "intermetatarsal_3_4_right",
+          "intermetatarsal_4_5_left",
+          "intermetatarsal_4_5_right",
+          "intertarsal_intermediate_cuneiform_lateral_cuneiform_left",
+          "intertarsal_intermediate_cuneiform_lateral_cuneiform_right",
+          "intertarsal_lateral_cuneiform_cuboid_left",
+          "intertarsal_lateral_cuneiform_cuboid_right",
+          "intertarsal_medial_cuneiform_intermediate_cuneiform_left",
+          "intertarsal_medial_cuneiform_intermediate_cuneiform_right",
+          "manubriosternal",
+          "midcarpal_lunate_capitate_left",
+          "midcarpal_lunate_capitate_right",
+          "midcarpal_lunate_hamate_left",
+          "midcarpal_lunate_hamate_right",
+          "midcarpal_scaphoid_capitate_left",
+          "midcarpal_scaphoid_capitate_right",
+          "midcarpal_scaphoid_trapezium_left",
+          "midcarpal_scaphoid_trapezium_right",
+          "midcarpal_scaphoid_trapezoid_left",
+          "midcarpal_scaphoid_trapezoid_right",
+          "midcarpal_triquetrum_hamate_left",
+          "midcarpal_triquetrum_hamate_right",
+          "mtp_1_left",
+          "mtp_1_right",
+          "mtp_2_left",
+          "mtp_2_right",
+          "mtp_3_left",
+          "mtp_3_right",
+          "mtp_4_left",
+          "mtp_4_right",
+          "mtp_5_left",
+          "mtp_5_right",
+          "patellofemoral_right",
+          "pisotriquetral_left",
+          "pisotriquetral_right",
+          "proximal_radioulnar_left",
+          "proximal_radioulnar_right",
+          "proximal_tibiofibular_left",
+          "proximal_tibiofibular_right",
+          "pubic_symphysis",
+          "radiocarpal_left",
+          "radiocarpal_right",
+          "radioulnar_interosseous_left",
+          "radioulnar_interosseous_right",
+          "sacrococcygeal",
+          "sacroiliac_anterior_left",
+          "sacroiliac_anterior_right",
+          "sacroiliac_posterior_left",
+          "sacroiliac_posterior_right",
+          "scapulothoracic_left",
+          "scapulothoracic_right",
+          "skull_ethmoid_frontal",
+          "skull_ethmoid_inferior_nasal_concha_left",
+          "skull_ethmoid_inferior_nasal_concha_right",
+          "skull_ethmoid_lacrimal_left",
+          "skull_ethmoid_lacrimal_right",
+          "skull_ethmoid_maxilla_left",
+          "skull_ethmoid_maxilla_right",
+          "skull_ethmoid_nasal_left",
+          "skull_ethmoid_nasal_right",
+          "skull_ethmoid_palatine_left",
+          "skull_ethmoid_palatine_right",
+          "skull_ethmoid_sphenoid",
+          "skull_ethmoid_vomer",
+          "skull_frontal_lacrimal_left",
+          "skull_frontal_lacrimal_right",
+          "skull_frontal_maxilla_left",
+          "skull_frontal_maxilla_right",
+          "skull_frontal_nasal_left",
+          "skull_frontal_nasal_right",
+          "skull_frontal_parietal_left",
+          "skull_frontal_parietal_right",
+          "skull_frontal_sphenoid",
+          "skull_frontal_zygomatic_left",
+          "skull_frontal_zygomatic_right",
+          "skull_inferior_nasal_concha_left_lacrimal_left",
+          "skull_inferior_nasal_concha_left_maxilla_left",
+          "skull_inferior_nasal_concha_left_palatine_left",
+          "skull_inferior_nasal_concha_right_lacrimal_right",
+          "skull_inferior_nasal_concha_right_maxilla_right",
+          "skull_inferior_nasal_concha_right_palatine_right",
+          "skull_lacrimal_left_maxilla_left",
+          "skull_lacrimal_right_maxilla_right",
+          "skull_maxilla_left_maxilla_right",
+          "skull_maxilla_left_nasal_left",
+          "skull_maxilla_left_palatine_left",
+          "skull_maxilla_left_vomer",
+          "skull_maxilla_left_zygomatic_left",
+          "skull_maxilla_right_nasal_right",
+          "skull_maxilla_right_palatine_right",
+          "skull_maxilla_right_vomer",
+          "skull_maxilla_right_zygomatic_right",
+          "skull_nasal_left_nasal_right",
+          "skull_occipital_parietal_left",
+          "skull_occipital_parietal_right",
+          "skull_occipital_sphenoid",
+          "skull_occipital_temporal_left",
+          "skull_occipital_temporal_right",
+          "skull_palatine_left_palatine_right",
+          "skull_palatine_left_sphenoid",
+          "skull_palatine_left_vomer",
+          "skull_palatine_right_sphenoid",
+          "skull_palatine_right_vomer",
+          "skull_parietal_left_parietal_right",
+          "skull_parietal_left_sphenoid",
+          "skull_parietal_left_temporal_left",
+          "skull_parietal_right_sphenoid",
+          "skull_parietal_right_temporal_right",
+          "skull_sphenoid_temporal_left",
+          "skull_sphenoid_temporal_right",
+          "skull_sphenoid_vomer",
+          "skull_sphenoid_zygomatic_left",
+          "skull_sphenoid_zygomatic_right",
+          "skull_temporal_left_zygomatic_left",
+          "skull_temporal_right_zygomatic_right",
+          "stapedio_oval_window_left",
+          "stapedio_oval_window_right",
+          "sternoclavicular_left",
+          "sternoclavicular_right",
+          "sternocostal_01_left",
+          "sternocostal_01_right",
+          "sternocostal_02_left",
+          "sternocostal_02_right",
+          "sternocostal_03_left",
+          "sternocostal_03_right",
+          "sternocostal_04_left",
+          "sternocostal_04_right",
+          "sternocostal_05_left",
+          "sternocostal_05_right",
+          "sternocostal_06_left",
+          "sternocostal_06_right",
+          "sternocostal_07_left",
+          "sternocostal_07_right",
+          "subtalar_posterior_left",
+          "subtalar_posterior_right",
+          "talocalcaneonavicular_left",
+          "talocalcaneonavicular_right",
+          "talocrural_left",
+          "talocrural_right",
+          "thumb_ip_left",
+          "thumb_ip_right",
+          "thumb_mcp_left",
+          "thumb_mcp_right",
+          "tibiofemoral_right",
+          "tibiofibular_interosseous_left",
+          "tibiofibular_interosseous_right",
+          "tmj_left",
+          "tmj_right",
+          "tmt_1_left",
+          "tmt_1_right",
+          "tmt_2_left",
+          "tmt_2_right",
+          "tmt_3_left",
+          "tmt_3_right",
+          "tmt_4_left",
+          "tmt_4_right",
+          "tmt_5_left",
+          "tmt_5_right",
+          "toe2_dip_left",
+          "toe2_dip_right",
+          "toe2_pip_left",
+          "toe2_pip_right",
+          "toe3_dip_left",
+          "toe3_dip_right",
+          "toe3_pip_left",
+          "toe3_pip_right",
+          "toe4_dip_left",
+          "toe4_dip_right",
+          "toe4_pip_left",
+          "toe4_pip_right",
+          "toe5_dip_left",
+          "toe5_dip_right",
+          "toe5_pip_left",
+          "toe5_pip_right",
+          "uncovertebral_c2_c3_left",
+          "uncovertebral_c2_c3_right",
+          "uncovertebral_c3_c4_left",
+          "uncovertebral_c3_c4_right",
+          "uncovertebral_c4_c5_left",
+          "uncovertebral_c4_c5_right",
+          "uncovertebral_c5_c6_left",
+          "uncovertebral_c5_c6_right",
+          "uncovertebral_c6_c7_left",
+          "uncovertebral_c6_c7_right",
+          "xiphisternal"
+        ]
+      }
+    },
+    "distinct_centres": {
+      "status": "UNVERIFIED",
+      "detail": "No exact collision detected in supplied pairs; source-fitted separations still unverified."
+    },
+    "trajectory_integrity": {
+      "status": "PASS",
+      "detail": "No invalid provided time sequence; absent/short tracks do not establish motion."
+    },
+    "sample_integrity": {
+      "status": "PASS",
+      "detail": "Provided transforms structurally valid; omitted pose data is not evidence."
+    },
+    "test_execution": {
+      "status": "UNVERIFIED",
+      "detail": {
+        "sampled_test_ids": [
+          "isolated_knee"
+        ],
+        "missing_context_samples": [],
+        "note": "Labels are not proof of complete sides, stages, planes or reversal. Inspect local test evidence."
+      }
+    },
+    "anatomical_placement": {
+      "status": "UNVERIFIED",
+      "detail": "Requires character landmarks/contact surfaces and reviewed fitting evidence. Bone names/matrices are insufficient."
+    },
+    "joint_operation": {
+      "status": "UNVERIFIED",
+      "detail": "Requires sourced relative contact/axis/coupling tests in Blender; raw principal rotations are not clinical JCS angles."
+    }
+  },
+  "bone_lengths_m": {
+    "femur_left": 0.8,
+    "tibia_left": 0.8
+  },
+  "bilateral_lengths": {},
+  "joint_centres": {
+    "tibiofemoral_left": [
+      {
+        "sample": 0,
+        "position_m": [
+          0.96,
+          -1.748455531469517e-09,
+          1.0
+        ]
+      },
+      {
+        "sample": 1,
+        "position_m": [
+          0.96,
+          -1.748455531469517e-09,
+          1.0
+        ]
+      },
+      {
+        "sample": 2,
+        "position_m": [
+          0.96,
+          -1.748455531469517e-09,
+          1.0
+        ]
+      }
+    ],
+    "patellofemoral_left": [
+      {
+        "sample": 0,
+        "position_m": [
+          1.0,
+          0.06,
+          1.0
+        ]
+      },
+      {
+        "sample": 1,
+        "position_m": [
+          0.7727877044677735,
+          0.05999999046325684,
+          1.0329441833496094
+        ]
+      },
+      {
+        "sample": 2,
+        "position_m": [
+          0.6,
+          0.05999998092651367,
+          1.1071797180175782
+        ]
+      }
+    ]
+  },
+  "trajectories": [
+    {
+      "joint_id": "tibiofemoral_left",
+      "context": [
+        "isolated_knee",
+        "left",
+        "sagittal",
+        "outbound",
+        "synthetic",
+        "unloaded",
+        "smoke"
+      ],
+      "metrics": {
+        "speeds_m_per_s": [
+          0.0,
+          0.0
+        ],
+        "acceleration_m_per_s2": [
+          0.0
+        ],
+        "interpretation": "Finite-difference descriptive metrics; no physiological threshold or pass inferred."
+      },
+      "status": "UNVERIFIED"
+    },
+    {
+      "joint_id": "patellofemoral_left",
+      "context": [
+        "isolated_knee",
+        "left",
+        "sagittal",
+        "outbound",
+        "synthetic",
+        "unloaded",
+        "smoke"
+      ],
+      "metrics": {
+        "speeds_m_per_s": [
+          1.2510482239916259,
+          1.2524797638569902
+        ],
+        "acceleration_m_per_s2": [
+          1.958719397855726
+        ],
+        "interpretation": "Finite-difference descriptive metrics; no physiological threshold or pass inferred."
+      },
+      "status": "UNVERIFIED"
+    }
+  ],
+  "relative_bone_transforms": {
+    "anat_femur_left": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            -4.371138828673789e-08,
+            0.0,
+            -0.9999999999999991,
+            1.0
+          ],
+          [
+            0.9999999999999991,
+            0.0,
+            -4.371138828673789e-08,
+            0.0
+          ],
+          [
+            0.0,
+            -1.0,
+            0.0,
+            1.8
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "isolated_knee",
+          "left",
+          "sagittal",
+          "outbound",
+          "synthetic",
+          "unloaded",
+          "smoke"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      },
+      {
+        "sample": 1,
+        "matrix": [
+          [
+            -4.371138828673789e-08,
+            -0.28401535316675147,
+            -0.9588197323613882,
+            1.0
+          ],
+          [
+            0.9999999999999991,
+            -1.2414705518731628e-08,
+            -4.1911341313915324e-08,
+            0.0
+          ],
+          [
+            0.0,
+            -0.9588197323613887,
+            0.2840153531667513,
+            1.8
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "isolated_knee",
+          "left",
+          "sagittal",
+          "outbound",
+          "synthetic",
+          "unloaded",
+          "smoke"
+        ],
+        "principal_rotation_from_first_deg": 16.50000050570958
+      },
+      {
+        "sample": 2,
+        "matrix": [
+          [
+            -4.371138828673789e-08,
+            -0.5000000067305868,
+            -0.8660253998985318,
+            1.0
+          ],
+          [
+            0.9999999999999991,
+            -2.1855694437572257e-08,
+            -3.785517372787915e-08,
+            0.0
+          ],
+          [
+            0.0,
+            -0.8660253998985323,
+            0.5000000067305865,
+            1.8
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "isolated_knee",
+          "left",
+          "sagittal",
+          "outbound",
+          "synthetic",
+          "unloaded",
+          "smoke"
+        ],
+        "principal_rotation_from_first_deg": 30.000000445292034
+      }
+    ],
+    "anat_tibia_left": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            1.0000000000000002,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.8
+          ],
+          [
+            0.0,
+            0.0,
+            1.0000000000000002,
+            0.0
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "isolated_knee",
+          "left",
+          "sagittal",
+          "outbound",
+          "synthetic",
+          "unloaded",
+          "smoke"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      },
+      {
+        "sample": 1,
+        "matrix": [
+          [
+            1.0000000000000002,
+            -2.7672142870324365e-16,
+            -7.069557107089003e-16,
+            -2.6122170845905767e-16
+          ],
+          [
+            -1.3706475228796152e-16,
+            0.6494480238820981,
+            -0.7604059864806674,
+            0.8000000331863878
+          ],
+          [
+            3.0431945619068326e-16,
+            0.7604059864806684,
+            0.6494480238820983,
+            3.726854963446058e-09
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "isolated_knee",
+          "left",
+          "sagittal",
+          "outbound",
+          "synthetic",
+          "unloaded",
+          "smoke"
+        ],
+        "principal_rotation_from_first_deg": 49.500001842137166
+      },
+      {
+        "sample": 2,
+        "matrix": [
+          [
+            1.0000000000000002,
+            -1.2067369033982922e-15,
+            -8.290449155263221e-16,
+            -5.684341858287533e-16
+          ],
+          [
+            0.0,
+            -5.16191346941901e-08,
+            -0.9999999999999988,
+            0.7999999644538759
+          ],
+          [
+            -1.2067369364855167e-15,
+            0.9999999999999988,
+            -5.161913623787003e-08,
+            1.430511558783078e-08
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "isolated_knee",
+          "left",
+          "sagittal",
+          "outbound",
+          "synthetic",
+          "unloaded",
+          "smoke"
+        ],
+        "principal_rotation_from_first_deg": 90.0000029575586
+      }
+    ],
+    "ctrl_knee_helper": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            -4.371138828673789e-08,
+            0.0,
+            -0.9999999999999991,
+            1.0
+          ],
+          [
+            0.9999999999999991,
+            0.0,
+            -4.371138828673789e-08,
+            0.2
+          ],
+          [
+            0.0,
+            -1.0,
+            0.0,
+            1.0
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "isolated_knee",
+          "left",
+          "sagittal",
+          "outbound",
+          "synthetic",
+          "unloaded",
+          "smoke"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      },
+      {
+        "sample": 1,
+        "matrix": [
+          [
+            -4.371138828673789e-08,
+            -0.7604059929301396,
+            -0.6494480163307357,
+            1.0
+          ],
+          [
+            0.9999999999999991,
+            -3.323840296374246e-08,
+            -2.8388273932042203e-08,
+            0.2
+          ],
+          [
+            0.0,
+            -0.6494480163307357,
+            0.7604059929301396,
+            1.0
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "isolated_knee",
+          "left",
+          "sagittal",
+          "outbound",
+          "synthetic",
+          "unloaded",
+          "smoke"
+        ],
+        "principal_rotation_from_first_deg": 49.50000241112424
+      },
+      {
+        "sample": 2,
+        "matrix": [
+          [
+            -4.371138828673789e-08,
+            -0.9999999999999982,
+            4.371138828673789e-08,
+            1.0
+          ],
+          [
+            0.9999999999999991,
+            -4.371138828673785e-08,
+            1.9106854651647034e-15,
+            0.2
+          ],
+          [
+            0.0,
+            4.371138828673785e-08,
+            0.9999999999999991,
+            1.0
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "isolated_knee",
+          "left",
+          "sagittal",
+          "outbound",
+          "synthetic",
+          "unloaded",
+          "smoke"
+        ],
+        "principal_rotation_from_first_deg": 90.00000250447806
+      }
+    ]
+  },
+  "landmark_positions": {
+    "femur_left/femoral_head_centre": [
+      {
+        "sample": 0,
+        "object_name": "LM_femoral_head_left",
+        "position_m": [
+          0.01,
+          0.02,
+          0.03
+        ],
+        "anatomical_fit": "UNVERIFIED"
+      },
+      {
+        "sample": 1,
+        "object_name": "LM_femoral_head_left",
+        "position_m": [
+          0.01,
+          0.02,
+          0.03
+        ],
+        "anatomical_fit": "UNVERIFIED"
+      },
+      {
+        "sample": 2,
+        "object_name": "LM_femoral_head_left",
+        "position_m": [
+          0.01,
+          0.02,
+          0.03
+        ],
+        "anatomical_fit": "UNVERIFIED"
+      }
+    ]
+  },
+  "evidence_images": [],
+  "overall_status": "FAIL",
+  "character_accepted": false,
+  "production_approved": false,
+  "completed_tracker_gates": []
+}

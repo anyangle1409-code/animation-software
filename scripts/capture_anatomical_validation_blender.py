@@ -45,8 +45,12 @@ def capture_character(bpy,armature_name,plan,scale):
         for r in range(3):result[r][3]*=scale
         return result
     def point_world_m(matrix,local):return [float(v)*scale for v in matrix@local]
+    def object_scale(matrix):
+        lengths=[math.sqrt(sum(float(matrix[r][c])**2 for r in range(3))) for c in range(3)]
+        return sum(lengths)/3,max(lengths)-min(lengths)<=1e-5*max(lengths)
     depsgraph=bpy.context.evaluated_depsgraph_get()
     evaluated=rig.evaluated_get(depsgraph)
+    rest_scale,rest_uniform=object_scale(evaluated.matrix_world)
     rest={}
     for bone in rig.data.bones:
         anatomical_id=bone.get('hgpt_anatomical_id',reverse_names.get(bone.name))
@@ -92,7 +96,8 @@ def capture_character(bpy,armature_name,plan,scale):
             if not path.is_absolute() or not path.is_file():raise ValueError('Evidence images must identify existing absolute paths')
             images.append({'path':str(path),'sha256':hashlib.sha256(path.read_bytes()).hexdigest()})
         metadata={key:request.get(key) for key in plan['sample_fields']}
-        return dict(metadata,time_seconds=(request['frame']+request.get('subframe',0))/fps,bones=bones,joint_frames=markers,
+        return dict(metadata,time_seconds=(request['frame']+request.get('subframe',0))/fps,
+                    armature_world_scale=object_scale(obj.matrix_world)[0],bones=bones,joint_frames=markers,
                     landmarks=landmarks,evidence_images=images)
     samples=sample_with_frame_restore(scene,requests,collect)
     after=hashlib.sha256(source.read_bytes()).hexdigest()
@@ -104,6 +109,7 @@ def capture_character(bpy,armature_name,plan,scale):
             'automatic_python_execution_failed':bool(bpy.app.autoexec_fail),
             'scene_fps':fps,'scene_unit_system':unit_system,
             'scene_scale_length':scale_length,'unit_scale_consistent':unit_consistent,
+            'armature_world_scale':rest_scale,'armature_world_scale_uniform':rest_uniform,
             'initial_frame':initial_frame,'initial_subframe':initial_subframe,
             'rest_world_basis':'Rest bone geometry transformed by evaluated object matrix at initial scene frame.',
             'frame_restored':scene.frame_current==initial_frame and scene.frame_subframe==initial_subframe},

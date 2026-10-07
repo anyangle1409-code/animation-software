@@ -30,9 +30,9 @@ Gate 0: ✅ PASSED
 - [x] ✅ Verify total conventional count = 206 (206 unique IDs; 80 axial + 126 appendicular).
 - [x] ✅ Classify every bone: axial/appendicular, region, side, paired/unpaired.
 - [x] ✅ Mark fused adult structures explicitly (e.g. sacrum, coccyx, hip bones).
-- [ ] ⬜ Add anatomical aliases needed by Blender/code.
+- [x] ✅ Add anatomical aliases needed by Blender/code; all 206 now have stable `anat_<id>` names plus explicit current-rig mappings.
 - [x] ✅ Check unique IDs and left/right pairing: 206 unique IDs, zero duplicates, zero pairing failures; regional totals match the conventional 206 breakdown.
-Gate 1: ⬜ NOT PASSED
+Gate 1: ✅ PASSED — 206 entries, 206 unique IDs, 80 axial + 126 appendicular, no duplicate IDs or left/right pairing failures.
 
 ## PHASE 2 — COMPLETE ARTICULATION / JOINT INVENTORY
 - [ ] ⬜ Map every mechanically relevant articulation between the bones.
@@ -174,5 +174,5 @@ Gate 13: ⬜ NOT PASSED
 
 ## CURRENT POSITION
 Completed: Phase 0.
-Active now: Phase 1 aliases/code-name mapping + Phase 4 shoulder evidence + Phase 5 shoulder gap analysis.
-Next hard gate: Gate 1 — prove the complete conventional adult bone inventory has exactly 206 entries with no duplicates or omissions.
+Active now: Phase 2 complete articulation/joint inventory + Phase 4 shoulder evidence + Phase 5 shoulder gap analysis.
+Next hard gate: Gate 2 — classify every mechanically relevant articulation and prove that none is silently omitted.

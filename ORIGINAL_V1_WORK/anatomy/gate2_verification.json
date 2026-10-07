@@ -1,0 +1,33 @@
+{
+  "gate": 2,
+  "scope": "inventory classification; no dynamic acceptance",
+  "articulations": 427,
+  "families": {
+    "skull": 64,
+    "tmj": 2,
+    "ossicles": 6,
+    "cervical": 33,
+    "thoracic": 36,
+    "lumbar": 15,
+    "pelvis": 9,
+    "ribs": 44,
+    "anterior_thorax": 44,
+    "shoulder": 8,
+    "elbow": 4,
+    "forearm": 6,
+    "wrist": 26,
+    "thumb": 6,
+    "fingers": 38,
+    "hip": 2,
+    "knee": 2,
+    "patella": 2,
+    "tibiofibular": 6,
+    "ankle": 2,
+    "hindfoot": 4,
+    "midfoot": 32,
+    "toes": 32,
+    "hyoid": 4
+  },
+  "unclassified_or_invalid": [],
+  "passed": true
+}

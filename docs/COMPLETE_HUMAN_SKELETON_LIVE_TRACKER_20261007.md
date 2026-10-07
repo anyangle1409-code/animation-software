@@ -35,59 +35,59 @@ Gate 0: ✅ PASSED
 Gate 1: ✅ PASSED — 206 entries, 206 unique IDs, 80 axial + 126 appendicular, no duplicate IDs or left/right pairing failures.
 
 ## PHASE 2 — COMPLETE ARTICULATION / JOINT INVENTORY
-- [ ] ⬜ Map every mechanically relevant articulation between the bones.
-- [ ] ⬜ Classify joint type: synovial/fibrous/cartilaginous/functional.
-- [ ] ⬜ Mark joints with effectively zero adult exercise-motion DOF.
-- [ ] ⬜ Mark joints requiring active/follower mechanics.
-- [ ] ⬜ Explicitly cover skull/TMJ, spine, ribs, SI, shoulder, elbow, forearm, wrist, hand, hip, knee, tib-fib, ankle, foot and toes.
-- [ ] ⬜ Check for zero unclassified articulations.
-Gate 2: ⬜ NOT PASSED
+- [x] ✅ Map every mechanically relevant articulation between the bones.
+- [x] ✅ Classify joint type: synovial/fibrous/cartilaginous/functional.
+- [x] ✅ Mark joints with effectively zero adult exercise-motion DOF.
+- [x] ✅ Mark joints requiring active/follower mechanics.
+- [x] ✅ Explicitly cover skull/TMJ, spine, ribs, SI, shoulder, elbow, forearm, wrist, hand, hip, knee, tib-fib, ankle, foot and toes.
+- [x] ✅ Check for zero unclassified articulations.
+Gate 2: ✅ PASSED — 427 named articulation/contact complexes, 24 classified families; all 206 bones accounted for (hyoid explicitly has no osseous articulation). See `ORIGINAL_V1_WORK/anatomy/gate2_verification.json` and `docs/ANATOMICAL_ATLAS_EVIDENCE_AND_LIMITATIONS_20261007.md`. Inventory acceptance only; no joint motion is locked.
 
 ## PHASE 3 — ANATOMICAL LANDMARK / JOINT-FRAME ATLAS
-- [ ] ⬜ Define landmarks for skull/cervical spine.
-- [ ] ⬜ Define thoracic/lumbar/sacral and rib-cage landmarks.
-- [ ] ⬜ Define SC/AC/scapula/GH landmarks.
-- [ ] ⬜ Define elbow/radius/ulna/wrist landmarks.
-- [ ] ⬜ Define hand/thumb/finger landmarks.
-- [ ] ⬜ Define pelvis/hip landmarks.
-- [ ] ⬜ Define femoral condyle/patella/tibial landmarks.
-- [ ] ⬜ Define malleoli/talus/calcaneus/forefoot/toe landmarks.
-- [ ] ⬜ Adopt consistent joint coordinate conventions.
-Gate 3: ⬜ NOT PASSED
+- [x] ✅ Define landmarks for skull/cervical spine.
+- [x] ✅ Define thoracic/lumbar/sacral and rib-cage landmarks.
+- [x] ✅ Define SC/AC/scapula/GH landmarks.
+- [x] ✅ Define elbow/radius/ulna/wrist landmarks.
+- [x] ✅ Define hand/thumb/finger landmarks.
+- [x] ✅ Define pelvis/hip landmarks.
+- [x] ✅ Define femoral condyle/patella/tibial landmarks.
+- [x] ✅ Define malleoli/talus/calcaneus/forefoot/toe landmarks.
+- [x] ✅ Adopt consistent joint coordinate conventions.
+Gate 3: ✅ PASSED — 30 sourced semantic frame definitions, 206 bone-frame assignments, 427 joint-frame assignments. Numerical character fitting remains Phase 6. Frame mathematics and degeneracy tests pass; current-rig anatomical axis adapter is explicitly deferred until character orientation is measured.
 
 ## PHASE 4 — WHOLE-BODY MOVEMENT / ROM EVIDENCE ATLAS
 For every moving articulation record: axes, DOF, active/passive ROM, coupling, translations, posture/load dependence, movement-plane dependence, source, confidence.
-- [ ] ⬜ TMJ / skull.
-- [ ] ⬜ C0-C1 / C1-C2 / C2-C7 cervical spine.
-- [ ] ⬜ Thoracic spine.
-- [ ] ⬜ Lumbar spine.
-- [ ] ⬜ Sacroiliac / pelvis.
-- [ ] 🟡 Shoulder complex: SC / AC / scapulothoracic / GH.
-- [ ] ⬜ Elbow.
-- [ ] ⬜ Proximal + distal radioulnar / forearm.
-- [ ] ⬜ Wrist / carpal functional stages.
-- [ ] ⬜ Thumb.
-- [ ] ⬜ Fingers / metacarpals.
-- [ ] ⬜ Hip including rotation at different flexion angles.
-- [ ] ⬜ Knee including translation / screw-home.
-- [ ] ⬜ Patellofemoral tracking.
-- [ ] ⬜ Tibiofibular mechanics.
-- [ ] ⬜ Talocrural ankle.
-- [ ] ⬜ Subtalar / hindfoot.
-- [ ] ⬜ Midfoot / forefoot.
-- [ ] ⬜ Hallux / lesser toes.
-Gate 4: ⬜ NOT PASSED
+- [x] ✅ TMJ / skull.
+- [x] ✅ C0-C1 / C1-C2 / C2-C7 cervical spine.
+- [x] ✅ Thoracic spine.
+- [x] ✅ Lumbar spine.
+- [x] ✅ Sacroiliac / pelvis.
+- [x] ✅ Shoulder complex: SC / AC / scapulothoracic / GH.
+- [x] ✅ Elbow.
+- [x] ✅ Proximal + distal radioulnar / forearm.
+- [x] ✅ Wrist / carpal functional stages.
+- [x] ✅ Thumb.
+- [x] ✅ Fingers / metacarpals.
+- [x] ✅ Hip including rotation at different flexion angles.
+- [x] ✅ Knee including translation / screw-home.
+- [x] ✅ Patellofemoral tracking.
+- [x] ✅ Tibiofibular mechanics.
+- [x] ✅ Talocrural ankle.
+- [x] ✅ Subtalar / hindfoot.
+- [x] ✅ Midfoot / forefoot.
+- [x] ✅ Hallux / lesser toes.
+Gate 4: ✅ PASSED — reference evidence compilation: 44 mechanics profiles, 427 assignments, 62 contextual observations and 86 registered sources across the programme. Active/passive evidence availability and study limitations remain explicit; no numerical production envelope or character motion is accepted. See `gate4_verification.json`.
 
 ## PHASE 5 — CURRENT RIG VS ANATOMICAL MASTER GAP ANALYSIS
-- [ ] 🟡 Shoulder gap analysis.
-- [ ] ⬜ Neck/spine gap analysis.
-- [ ] ⬜ Elbow/forearm gap analysis.
-- [ ] ⬜ Wrist/hand/thumb/fingers gap analysis.
-- [ ] ⬜ Pelvis/hip gap analysis.
-- [ ] ⬜ Knee/patella gap analysis.
-- [ ] ⬜ Ankle/foot/toe gap analysis.
-- [ ] ⬜ Produce one final “real anatomy vs current rig vs required change” matrix.
-Gate 5: ⬜ NOT PASSED
+- [x] ✅ Shoulder gap analysis.
+- [x] ✅ Neck/spine gap analysis.
+- [x] ✅ Elbow/forearm gap analysis.
+- [x] ✅ Wrist/hand/thumb/fingers gap analysis.
+- [x] ✅ Pelvis/hip gap analysis.
+- [x] ✅ Knee/patella gap analysis.
+- [x] ✅ Ankle/foot/toe gap analysis.
+- [x] ✅ Produce one final “real anatomy vs current rig vs required change” matrix.
+Gate 5: ✅ PASSED — source-pinned static comparison: 206 bone rows, 427 articulation rows, 44 mechanics-profile rows. See `current_rig_anatomical_gap_matrix.json` and `docs/COMPLETE_SKELETON_FINDINGS_AND_VERIFICATION_20261007.md`. Local-character motion remains unverified.
 
 ## PHASE 6 — CHARACTER-SPECIFIC FITTING
 - [ ] ⛔ Fit complete skeleton to HomeGymPT_Male_ORIGINAL_v1 proportions.
@@ -173,6 +173,8 @@ Gate 12: ⬜ NOT PASSED
 Gate 13: ⬜ NOT PASSED
 
 ## CURRENT POSITION
-Completed: Phase 0.
-Active now: Phase 2 complete articulation/joint inventory + Phase 4 shoulder evidence + Phase 5 shoulder gap analysis.
-Next hard gate: Gate 2 — classify every mechanically relevant articulation and prove that none is silently omitted.
+Completed: Phases 0–5 (reference definitions, evidence compilation and static gap comparison).
+Next: Phase 6 — character-specific proportions, measured landmarks and distinct joint centres.
+Stopped at the genuine local Blender dependency; Gates 6–13 remain unpassed.
+Production model, recovery work, geometry, weights and motion drivers unchanged.
+Comprehensive findings, source register, verification and local acceptance checklist: `docs/COMPLETE_SKELETON_FINDINGS_AND_VERIFICATION_20261007.md`.

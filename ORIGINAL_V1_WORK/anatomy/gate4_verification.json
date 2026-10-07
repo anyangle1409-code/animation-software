@@ -1,0 +1,122 @@
+{
+  "gate": 4,
+  "passed": true,
+  "scope": "Reference evidence compilation only; quantitative gaps explicitly classified, no fitted envelope or dynamic acceptance.",
+  "regions": {
+    "TMJ / skull": [
+      "fixed",
+      "tmj"
+    ],
+    "C0-C1 / C1-C2 / C2-C7 cervical spine": [
+      "c0_c1",
+      "c1_c2",
+      "cervical"
+    ],
+    "Thoracic spine": [
+      "thoracic",
+      "ribs",
+      "anterior_thorax"
+    ],
+    "Lumbar spine": [
+      "lumbar"
+    ],
+    "Sacroiliac / pelvis": [
+      "si",
+      "pubis",
+      "coccyx"
+    ],
+    "Shoulder complex: SC / AC / scapulothoracic / GH": [
+      "sc",
+      "ac",
+      "st",
+      "gh"
+    ],
+    "Elbow": [
+      "elbow"
+    ],
+    "Proximal + distal radioulnar / forearm": [
+      "radioulnar",
+      "ru_iom"
+    ],
+    "Wrist / carpal functional stages": [
+      "radiocarpal",
+      "carpal",
+      "pisiform"
+    ],
+    "Thumb": [
+      "thumb_cmc",
+      "thumb_mcp",
+      "thumb_ip"
+    ],
+    "Fingers / metacarpals": [
+      "metacarpal",
+      "mcp",
+      "pip",
+      "dip"
+    ],
+    "Hip including rotation at different flexion angles": [
+      "hip"
+    ],
+    "Knee including translation / screw-home": [
+      "knee"
+    ],
+    "Patellofemoral tracking": [
+      "patella"
+    ],
+    "Tibiofibular mechanics": [
+      "ptf",
+      "dtf",
+      "tf_iom"
+    ],
+    "Talocrural ankle": [
+      "ankle"
+    ],
+    "Subtalar / hindfoot": [
+      "subtalar",
+      "tcn"
+    ],
+    "Midfoot / forefoot": [
+      "midfoot",
+      "tmt"
+    ],
+    "Hallux / lesser toes": [
+      "hallux",
+      "lesser_mtp",
+      "toe_ip",
+      "sesamoid"
+    ]
+  },
+  "counts": {
+    "profiles": 44,
+    "articulation_assignments": 427,
+    "observations": 62
+  },
+  "verification": [
+    "Multiple independent source works checked per mechanics profile; articulation-specific anatomy sources retained per joint.",
+    "Active/passive qualitative availability explicitly classified; accessible numerical observations retain scope, mode, statistics, posture and load.",
+    "Composite wrist/ankle/shoulder statistics excluded from individual-contact envelopes; clinical thumb mode left unspecified.",
+    "Mutation tests reject missing joints, mixed modes/scopes, another digit or lumbar level, CI misuse and premature motion acceptance.",
+    "Explicit contact command groups prevent doubled paired-contact DOFs and preserve one proposed functional hindfoot input per side. Anatomical compatibility rejects equal-DOF profile swaps."
+  ],
+  "limitations": [
+    {
+      "id": "cervical_review_AR_typo",
+      "source": "CERVICAL_REVIEW",
+      "issue": "Maximal-ROM prose gives C1/C2 AR values inconsistent with its AR discussion and figure. Do not transcribe conflicting numbers; use primary segment study before selecting numerical curves.",
+      "effect": "Conflicting review numbers excluded; three primary MRI observations retained instead. No fitted C1/C2 curve accepted."
+    },
+    {
+      "id": "finger_table_consistency",
+      "source": "FINGER_ACTIVE",
+      "issue": "National means not consistently between geographic-zone means; reliability prose inconsistent with claimed good ICC. Values retained as reported, reduced numerical confidence.",
+      "effect": "Do not turn reported means/SD into anatomical acceptance limits."
+    },
+    {
+      "id": "cdc_protocol_missing",
+      "source": "CDC_ROM",
+      "issue": "Linked methods PDF returns404; posture/extension sign missing in accessed summary.",
+      "effect": "Clinical descriptive statistics retained with context unavailable; no numeric solver acceptance."
+    }
+  ],
+  "next_gate": 5
+}

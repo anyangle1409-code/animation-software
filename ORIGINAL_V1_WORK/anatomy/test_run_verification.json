@@ -1,0 +1,82 @@
+{
+  "checked_on": "2026-10-07",
+  "atlas_tests": {
+    "command": "python -m unittest discover -s scripts -p test_complete_anatomical_atlas.py",
+    "run": 16,
+    "passed": 16
+  },
+  "repository_tests": {
+    "command": "python -m unittest discover -s scripts -p \"test_*.py\"",
+    "run": 550,
+    "passed": 541,
+    "failures": 5,
+    "errors": 4,
+    "elapsed_seconds": 34.671,
+    "passed_entire_suite": false,
+    "baseline_failures_preserved": [
+      [
+        "ERROR",
+        "test_live_plan_covers_support_and_selects_active_r96_recovery (test_original_v1_execution_orchestration.ExecutionOrchestrationTests.test_live_plan_covers_support_and_selects_active_r96_recovery)"
+      ],
+      [
+        "ERROR",
+        "test_operational_tool_artifacts_are_validated (test_original_v1_execution_orchestration.ExecutionOrchestrationTests.test_operational_tool_artifacts_are_validated)"
+      ],
+      [
+        "ERROR",
+        "test_future_candidate_with_verified_sources_is_selected (test_original_v1_production_control.ControlTests.test_future_candidate_with_verified_sources_is_selected)"
+      ],
+      [
+        "ERROR",
+        "test_owner_accepted_regression_is_bound_to_exact_candidate_and_values (test_original_v1_production_control.ControlTests.test_owner_accepted_regression_is_bound_to_exact_candidate_and_values)"
+      ],
+      [
+        "FAIL",
+        "test_unknown_support_stage_refused (test_original_v1_execution_orchestration.ExecutionOrchestrationTests.test_unknown_support_stage_refused)"
+      ],
+      [
+        "FAIL",
+        "test_next_action_requires_both_source_bound_diagnostics (test_original_v1_production_control.ControlTests.test_next_action_requires_both_source_bound_diagnostics)"
+      ],
+      [
+        "FAIL",
+        "test_wrist_repair_precedes_grip_and_lunge_after_hand_recovery (test_original_v1_production_control.ControlTests.test_wrist_repair_precedes_grip_and_lunge_after_hand_recovery)"
+      ],
+      [
+        "FAIL",
+        "test_zero_blockers_cannot_hide_inherited_regressions (test_original_v1_production_control.ControlTests.test_zero_blockers_cannot_hide_inherited_regressions)"
+      ],
+      [
+        "FAIL",
+        "test_current_candidate_status_matches_repository_evidence (test_verify_original_v1_candidate_status.CandidateStatusTests.test_current_candidate_status_matches_repository_evidence)"
+      ]
+    ],
+    "additional_failures": 0
+  },
+  "protected_inputs": {
+    "ORIGINAL_V1_WORK/hgpt_canonical_v4_original_rev2c.json": {
+      "sha256": "ed5f9699e1bfe2a200af80eae6b92a985b482a2fdf1007c55f097841a590045b",
+      "unchanged_from_baseline": true
+    },
+    "scripts/pose_test_original_v1_o4_candidate_blender.py": {
+      "sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+      "unchanged_from_baseline": true
+    },
+    "scripts/r97/scapula_pivot.py": {
+      "sha256": "89bd2bf3dd49db5aabe8daed02c8fde00e185313411d2fdfadbff444c3942e65",
+      "unchanged_from_baseline": true
+    },
+    "scripts/r97/add_gh_helper.py": {
+      "sha256": "b5dd671ffd52e3e051dc89273f0c8c7e0c904746af7af275d1c3d389fd047b1c",
+      "unchanged_from_baseline": true
+    }
+  },
+  "character_validated": false,
+  "review": {
+    "critical": 0,
+    "important": 3,
+    "important_fixed": 3,
+    "deferred_minors": 0,
+    "method": "Fresh read-only reviewer; regression mutations observed RED then GREEN; full suite preserved baseline failure set."
+  }
+}

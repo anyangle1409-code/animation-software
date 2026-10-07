@@ -1,0 +1,701 @@
+{
+  "schema_version": 1,
+  "sources": {
+    "OS_SKULL": {
+      "title": "OpenStax: The Skull",
+      "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-2-the-skull",
+      "kind": "anatomy_textbook",
+      "access": "full_text",
+      "locator": "Structure and function / articulations",
+      "checked_on": "2026-10-07",
+      "independent_work_id": "OpenStax_Anatomy_Physiology_2e"
+    },
+    "OS_FIBROUS": {
+      "title": "OpenStax: Fibrous Joints",
+      "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/9-2-fibrous-joints",
+      "kind": "anatomy_textbook",
+      "access": "full_text",
+      "locator": "Structure and function / articulations",
+      "checked_on": "2026-10-07",
+      "independent_work_id": "OpenStax_Anatomy_Physiology_2e"
+    },
+    "OS_CARTILAGE": {
+      "title": "OpenStax: Cartilaginous Joints",
+      "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/9-3-cartilaginous-joints",
+      "kind": "anatomy_textbook",
+      "access": "full_text",
+      "locator": "Structure and function / articulations",
+      "checked_on": "2026-10-07",
+      "independent_work_id": "OpenStax_Anatomy_Physiology_2e"
+    },
+    "OS_SELECTED": {
+      "title": "OpenStax: Anatomy of Selected Synovial Joints",
+      "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/9-6-anatomy-of-selected-synovial-joints",
+      "kind": "anatomy_textbook",
+      "access": "full_text",
+      "locator": "Structure and function / articulations",
+      "checked_on": "2026-10-07",
+      "independent_work_id": "OpenStax_Anatomy_Physiology_2e"
+    },
+    "SP_SKULL": {
+      "title": "StatPearls: Skull",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK499834/",
+      "kind": "anatomy_textbook",
+      "access": "full_text",
+      "locator": "Structure and function / articulations",
+      "checked_on": "2026-10-07"
+    },
+    "SP_CARPAL": {
+      "title": "StatPearls: Hand Carpal Bones",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK535382/",
+      "kind": "anatomy_textbook",
+      "access": "full_text",
+      "locator": "Structure and function / articulations",
+      "checked_on": "2026-10-07"
+    },
+    "SP_PELVIS": {
+      "title": "StatPearls: Pelvic Joints",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK538523/",
+      "kind": "anatomy_textbook",
+      "access": "full_text",
+      "locator": "Structure and function / articulations",
+      "checked_on": "2026-10-07"
+    },
+    "SP_THORACIC": {
+      "title": "StatPearls: Thoracic Vertebrae",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK459153/",
+      "kind": "anatomy_textbook",
+      "access": "full_text",
+      "locator": "Structure and function / articulations",
+      "checked_on": "2026-10-07"
+    },
+    "SP_FOOT": {
+      "title": "StatPearls: Foot Joints",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK536941/",
+      "kind": "anatomy_textbook",
+      "access": "full_text",
+      "locator": "Structure and function / articulations",
+      "checked_on": "2026-10-07"
+    },
+    "SP_OSSICLE": {
+      "title": "StatPearls: Ossicular-Chain Dislocation",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK560621/",
+      "kind": "anatomy_textbook",
+      "access": "full_text",
+      "locator": "Structure and function / articulations",
+      "checked_on": "2026-10-07"
+    },
+    "SP_SC": {
+      "title": "StatPearls: Sternoclavicular Joint",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK537258/",
+      "kind": "anatomy_textbook",
+      "access": "full_text",
+      "locator": "Structure and function / articulations",
+      "checked_on": "2026-10-07"
+    },
+    "SP_CERVICAL": {
+      "title": "StatPearls: Cervical Vertebrae",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK459200/",
+      "kind": "anatomy_textbook",
+      "access": "full_text",
+      "locator": "Structure and function / articulations",
+      "checked_on": "2026-10-07"
+    },
+    "DART_FOOT": {
+      "title": "Dartmouth: O'Rahilly Basic Human Anatomy, chapter 17",
+      "url": "https://humananatomy.host.dartmouth.edu/BHA/public_html/part_3/chapter_17.html",
+      "kind": "anatomy_textbook",
+      "access": "full_text",
+      "locator": "Structure and function / articulations",
+      "checked_on": "2026-10-07"
+    },
+    "GRAY_WRIST": {
+      "title": "Gray's Anatomy: wrist and hand",
+      "url": "https://elsevier-elibrary.com/contents/fullcontent/58750/epubcontent_v2/OEBPS/B9780443066849500585.htm",
+      "kind": "anatomy_textbook",
+      "access": "indexed_excerpt",
+      "locator": "Structure and function / articulations",
+      "checked_on": "2026-10-07"
+    },
+    "GRAY_HEAD": {
+      "title": "Gray's Anatomy for Students: head",
+      "url": "https://elsevier-elibrary.com/contents/fullcontent/58090/epubcontent_v2/OEBPS/B9780443069529000138.htm",
+      "kind": "anatomy_textbook",
+      "access": "indexed_excerpt",
+      "locator": "Structure and function / articulations",
+      "checked_on": "2026-10-07"
+    },
+    "ISB_I": {
+      "title": "Wu et al. 2002: ISB joint coordinate systems, ankle, hip, spine",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/11934426/",
+      "kind": "peer_reviewed",
+      "access": "full_text",
+      "locator": "Sections 3-5; ISB-hosted PDF",
+      "checked_on": "2026-10-07",
+      "full_text_url": "https://media.isbweb.org/images/documents/standards/Wu%20et%20al%20J%20Biomech%2035%20(2002)%20543%E2%80%93548.pdf"
+    },
+    "ISB_II": {
+      "title": "Wu et al. 2005: ISB joint coordinate systems, shoulder, elbow, wrist, hand",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/15844264/",
+      "kind": "peer_reviewed",
+      "access": "full_text",
+      "locator": "Sections 2-4; ISB-hosted PDF",
+      "checked_on": "2026-10-07",
+      "full_text_url": "https://media.isbweb.org/images/documents/standards/Wu%20et%20al%20J%20Biomech%2038%20(2005)%20981%E2%80%93992.pdf"
+    },
+    "OSSICLE_MORPH": {
+      "title": "Morphological study of human tympanic ossicular articulations",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/9376136/",
+      "kind": "peer_reviewed",
+      "access": "indexed_abstract",
+      "locator": "Structure and function / articulations",
+      "checked_on": "2026-10-07"
+    },
+    "PELVIC_ANATOMY": {
+      "title": "Anatomy of the pelvic joints: a review",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/2011709/",
+      "kind": "peer_reviewed",
+      "access": "indexed_abstract",
+      "locator": "Structure and function / articulations",
+      "checked_on": "2026-10-07"
+    },
+    "UNCOVERTEBRAL": {
+      "title": "Anatomy and clinical significance of uncinate process / uncovertebral joint",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/24453021/",
+      "kind": "peer_reviewed",
+      "access": "indexed_abstract",
+      "locator": "Structure and function / articulations",
+      "checked_on": "2026-10-07"
+    },
+    "UNCOVERTEBRAL_HISTO": {
+      "title": "Histological study of human uncovertebral joints",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/19455000/",
+      "kind": "peer_reviewed",
+      "access": "indexed_abstract",
+      "locator": "Structure and function / articulations",
+      "checked_on": "2026-10-07"
+    },
+    "PTF_ANATOMY": {
+      "title": "Anatomy of the proximal tibiofibular joint",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/16374587/",
+      "kind": "peer_reviewed",
+      "access": "indexed_abstract",
+      "locator": "Structure and function / articulations",
+      "checked_on": "2026-10-07"
+    },
+    "PTF_CADAVER": {
+      "title": "The proximal tibiofibular joint: an anatomic study",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/12579012/",
+      "kind": "peer_reviewed",
+      "access": "indexed_abstract",
+      "locator": "Structure and function / articulations",
+      "checked_on": "2026-10-07"
+    },
+    "STERNOCOSTAL_CADAVER": {
+      "title": "Sternocostal joints in adult cadavers",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/2777528/",
+      "kind": "peer_reviewed",
+      "access": "indexed_abstract",
+      "locator": "Structure and function / articulations",
+      "checked_on": "2026-10-07"
+    },
+    "ANTERIOR_THORAX": {
+      "title": "Anterior joints of the thoracic cage",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/6364977/",
+      "kind": "peer_reviewed",
+      "access": "indexed_abstract",
+      "locator": "Structure and function / articulations",
+      "checked_on": "2026-10-07"
+    },
+    "RIB_LIGAMENTS": {
+      "title": "Ligaments of the costovertebral joints: comprehensive review",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5154401/",
+      "kind": "peer_reviewed",
+      "access": "indexed_excerpt",
+      "locator": "Structure and function / articulations",
+      "checked_on": "2026-10-07"
+    },
+    "HYOID_CT": {
+      "title": "Hyoid growth and relationship to mandible: CT study",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8349784/",
+      "kind": "peer_reviewed",
+      "access": "indexed_excerpt",
+      "locator": "Structure and function / articulations",
+      "checked_on": "2026-10-07"
+    },
+    "HYOID_KIN": {
+      "title": "Sagittal plane kinematics of the adult hyoid",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3295612/",
+      "kind": "peer_reviewed",
+      "access": "indexed_excerpt",
+      "locator": "Structure and function / articulations",
+      "checked_on": "2026-10-07"
+    },
+    "COCCYX_CT": {
+      "title": "CT morphology and morphometry of the normal adult coccyx",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3631051/",
+      "kind": "peer_reviewed",
+      "access": "indexed_abstract",
+      "locator": "Abstract: structural variation",
+      "checked_on": "2026-10-07"
+    },
+    "COCCYX_MRI": {
+      "title": "MRI anatomy of adult coccyx",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/28091426/",
+      "kind": "peer_reviewed",
+      "access": "indexed_abstract",
+      "locator": "Abstract: structural variation",
+      "checked_on": "2026-10-07"
+    },
+    "HYOID_FUSION": {
+      "title": "Hyoid fusion and bone density across lifespan",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/27114259/",
+      "kind": "peer_reviewed",
+      "access": "indexed_abstract",
+      "locator": "Abstract: structural variation",
+      "checked_on": "2026-10-07"
+    },
+    "HYOID_JUNCTION": {
+      "title": "Hyoid body-greater horn synchondrosis: radiological assessment",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/2097227/",
+      "kind": "peer_reviewed",
+      "access": "indexed_abstract",
+      "locator": "Abstract: structural variation",
+      "checked_on": "2026-10-07"
+    },
+    "LUNATE_FACET": {
+      "title": "MR imaging of type II lunate",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/10430130/",
+      "kind": "peer_reviewed",
+      "access": "indexed_abstract",
+      "locator": "Abstract: structural variation",
+      "checked_on": "2026-10-07"
+    },
+    "LUNATE_POPULATION": {
+      "title": "Population variation in medial hamate facet of lunate",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/16623089/",
+      "kind": "peer_reviewed",
+      "access": "indexed_abstract",
+      "locator": "Abstract: structural variation",
+      "checked_on": "2026-10-07"
+    },
+    "TARSAL_VARIANTS": {
+      "title": "Cadaveric tarsal joint variants and coalitions",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/12903063/",
+      "kind": "peer_reviewed",
+      "access": "indexed_abstract",
+      "locator": "Abstract: structural variation",
+      "checked_on": "2026-10-07"
+    },
+    "SP_SHOULDER": {
+      "title": "StatPearls: Shoulder",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK536933/",
+      "kind": "anatomy_textbook",
+      "access": "full_text",
+      "locator": "Structure and Function",
+      "checked_on": "2026-10-07"
+    },
+    "SP_KNEE": {
+      "title": "StatPearls: Knee",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK500017/",
+      "kind": "anatomy_textbook",
+      "access": "full_text",
+      "locator": "Structure and Function",
+      "checked_on": "2026-10-07"
+    },
+    "SP_PATELLA": {
+      "title": "StatPearls: Knee Patella",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK519534/",
+      "kind": "anatomy_textbook",
+      "access": "full_text",
+      "locator": "Structure and Function",
+      "checked_on": "2026-10-07"
+    },
+    "ISB_FOOT_2021": {
+      "title": "Leardini et al. 2021: ISB multi-segment foot kinematics",
+      "url": "https://media.isbweb.org/images/documents/standards/leardinietal2021.pdf",
+      "kind": "peer_reviewed",
+      "access": "full_text",
+      "locator": "Segment landmarks and reporting recommendations",
+      "checked_on": "2026-10-07"
+    },
+    "TMJ_EM": {
+      "title": "Yoon et al.: Kinematic study of the mandible using an electromagnetic tracking device and custom dental appliance",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/16125713/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "TMJ_OPTICAL": {
+      "title": "Ferrario et al.: Translation and rotation movements of the mandible during mouth opening and closing",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/19173245/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "CERVICAL_NORMAL": {
+      "title": "Bogduk and Mercer: Biomechanics of the cervical spine. I: Normal kinematics",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/10946096/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "biomechanics_review",
+      "checked_on": "2026-10-07"
+    },
+    "CERVICAL_REVIEW": {
+      "title": "Lindenmann et al.: Kinematics of the Cervical Spine Under Healthy and Degenerative Conditions",
+      "url": "https://link.springer.com/article/10.1007/s10439-022-03088-8",
+      "access": "full_text",
+      "locator": "Healthy conditions: active movement only; Fig 2 / Maximal ROM / Coupling / COR",
+      "kind": "systematic_review",
+      "checked_on": "2026-10-07"
+    },
+    "THORACIC_CADAVER": {
+      "title": "Borkowski et al.: Challenging the Conventional Standard for Thoracic Spine Range of Motion",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/27487429/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "systematic_review",
+      "checked_on": "2026-10-07"
+    },
+    "THORACIC_LB": {
+      "title": "Fujimori et al.: Kinematics of the thoracic spine in trunk lateral bending: in vivo three-dimensional analysis",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/24333460/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "LUMBAR_REVIEW": {
+      "title": "Widmer et al.: Kinematics of the Spine Under Healthy and Degenerative Conditions",
+      "url": "https://link.springer.com/article/10.1007/s10439-019-02252-x",
+      "access": "indexed_abstract",
+      "locator": "Abstract; full content requires subscription",
+      "kind": "systematic_review",
+      "checked_on": "2026-10-07"
+    },
+    "LUMBAR_QF": {
+      "title": "A Reference Database of Standardised Continuous Lumbar Intervertebral Motion Analysis for Conducting Patient-Specific Comparisons",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/34646820/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "RIB_4D": {
+      "title": "Movement of the ribs in supine humans for small and large changes in lung volume",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/34013751/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "RIB_GEOMETRY": {
+      "title": "Geometry and respiratory displacement of human ribs",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/3597261/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "SI_HEALTHY": {
+      "title": "The mobility of the sacroiliac joints in healthy volunteers between 20 and 50 years of age",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/11415579/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "SI_REVIEW": {
+      "title": "Three-dimensional movements of the sacroiliac joint: a systematic review of the literature and assessment of clinical utility",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/19119382/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "systematic_review",
+      "checked_on": "2026-10-07"
+    },
+    "SC_ELEVATION": {
+      "title": "Ludewig et al.: Three-dimensional clavicular motion during arm elevation: reliability and descriptive data",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/15089027/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "SHOULDER_PINS": {
+      "title": "Ludewig et al.: Motion of the shoulder complex during multiplanar humeral elevation",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/19181982/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "GH_DYNAMIC": {
+      "title": "In vivo kinematic analysis of the glenohumeral joint during dynamic full axial rotation and scapular plane full abduction in healthy shoulders",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/27511218/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "ELBOW_ANATOMY": {
+      "title": "Clinical anatomy and biomechanics of the elbow",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/34262850/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "biomechanics_review",
+      "checked_on": "2026-10-07"
+    },
+    "FOREARM_DYNAMIC": {
+      "title": "Matsuki et al.: In vivo 3D kinematics of normal forearms: analysis of dynamic forearm rotation",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/20696507/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "FOREARM_BIPLANE": {
+      "title": "Reproduction of forearm rotation dynamic using intensity-based biplane 2D-3D registration matching method",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38448504/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "WRIST_RC": {
+      "title": "Crisco et al.: In vivo radiocarpal kinematics and the dart thrower's motion",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/16322624/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "WRIST_MC": {
+      "title": "In vivo three-dimensional kinematics of the midcarpal joint of the wrist",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/16510829/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "WRIST_ACTIVE": {
+      "title": "Pourahmadi et al.: Reliability and concurrent validity of a new iPhone goniometric application for measuring active wrist range of motion",
+      "url": "https://onlinelibrary.wiley.com/doi/10.1111/joa.12568",
+      "access": "full_text",
+      "locator": "Procedure; Table 2 universal goniometer rater A",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "THUMB_OPPOSITION": {
+      "title": "Li and Tang: Coordination of thumb joints during opposition",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/16643926/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "THUMB_BASE_CT": {
+      "title": "Sciacca et al.: In vivo quantification of the 3D kinematics and coupling of the thumb base joints",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/35926959/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "THUMB_ROM": {
+      "title": "Barakat et al.: The Range of Movement of the Thumb",
+      "url": "https://journals.sagepub.com/doi/10.1007/s11552-013-9492-y",
+      "access": "indexed_abstract",
+      "locator": "Results; examination mode not explicit in accessible abstract",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "FINGER_GRIP": {
+      "title": "Li et al.: Finger Kinematics during Human Hand Grip and Release",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/37366839/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "FINGER_WRIST": {
+      "title": "Influence of Wrist Position on the Metacarpophalangeal Joint Motion of the Index Through Small Finger",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/29072491/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "FINGER_ACTIVE": {
+      "title": "Ibrahim et al.: The Normal Active Range of Motion of the Index, Middle, Ring, and Little Fingers in a Sample of Indian Population",
+      "url": "https://www.thieme-connect.com/products/ejournals/pdf/10.1055/s-0044-1788593.pdf",
+      "access": "full_text",
+      "locator": "Table 2 national means; Methods; national/zone summaries and text contain inconsistencies",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "HIP_POSITION": {
+      "title": "Han et al.: Hip rotation range of motion in sitting and prone positions in healthy Japanese adults",
+      "url": "https://www.jstage.jst.go.jp/article/jpts/27/2/27_jpts-2014-454/_pdf/-char/en",
+      "access": "full_text",
+      "locator": "Methods passive; Table 2 male left/right sitting/prone",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "HIP_ACTIVE": {
+      "title": "Simoneau et al.: Influence of hip position and gender on active hip internal and external rotation",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/9742472/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "KNEE_SHM": {
+      "title": "Jeon and Hong: Comparison of screw-home mechanism in the unloaded living knee subjected to active and passive movements",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/33554884/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "PF_LUNGE": {
+      "title": "Nha et al.: In vivo patellar tracking: clinical motions and patellofemoral indices",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/18327809/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "PF_DYNAMIC": {
+      "title": "In vivo and noninvasive six degrees of freedom patellar tracking during voluntary knee movement",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/12763436/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "PTF_MOTION": {
+      "title": "Kinematics of the proximal tibiofibular joint is influenced by ligament integrity, knee and ankle mobility: an exploratory cadaver study",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/30056605/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "DISTAL_TF": {
+      "title": "Kinematics of the distal tibiofibular syndesmosis: radiostereometry in 11 normal ankles",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/12899556/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "ANKLE_WB": {
+      "title": "Yamaguchi et al.: Ankle and Subtalar Kinematics during Dorsiflexion-Plantarflexion Activities",
+      "url": "https://journals.sagepub.com/doi/10.3113/FAI.2009.0361",
+      "access": "indexed_abstract",
+      "locator": "Methods/results: seven healthy subjects; task span is not joint-specific ROM",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "ANKLE_GEOMETRY": {
+      "title": "The relation between geometry and function of the ankle joint complex: a biomechanical review",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/20300732/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "biomechanics_review",
+      "checked_on": "2026-10-07"
+    },
+    "FOOT_PINS": {
+      "title": "Lundgren et al.: Invasive in vivo measurement of rear-, mid- and forefoot motion during walking",
+      "url": "https://www.sciencedirect.com/science/article/pii/S0966636207002640",
+      "access": "indexed_excerpt",
+      "locator": "Bone-pin walking study; segment pairs do not isolate all individual contacts",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "FOOT_REVIEW": {
+      "title": "Nester: Lessons from dynamic cadaver and invasive bone pin studies: do we know how the foot really moves during gait?",
+      "url": "https://link.springer.com/article/10.1186/1757-1146-2-18",
+      "access": "full_text",
+      "locator": "Intrinsic motion / implications / between-subject variation",
+      "kind": "biomechanics_review",
+      "checked_on": "2026-10-07"
+    },
+    "HALLUX_GAIT": {
+      "title": "Nawoczenski et al.: Relationship between clinical measurements and motion of the first metatarsophalangeal joint during gait",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/10199275/",
+      "access": "indexed_abstract",
+      "locator": "Methods/results abstract",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "HALLUX_REVIEW": {
+      "title": "Embaby and Elalfy: First metatarsophalangeal joint: Embryology, anatomy and biomechanics",
+      "url": "https://www.wjgnet.com/2218-5836/full/v16/i4/102506.htm",
+      "access": "full_text",
+      "locator": "Anatomy; ROM variability; Table 1 reproduced values not used as primary observations",
+      "kind": "biomechanics_review",
+      "checked_on": "2026-10-07"
+    },
+    "CDC_ROM": {
+      "title": "CDC: Joint Range of Motion Study public summary",
+      "url": "https://archive.cdc.gov/www_cdc_gov/ncbddd/jointrom/index.html",
+      "access": "full_text",
+      "locator": "20\u201344 year male summary, means and 95% confidence intervals; same study as SOUCIE_ROM",
+      "kind": "official_study_summary",
+      "checked_on": "2026-10-07",
+      "independent_work_id": "Soucie_2011_ROM"
+    },
+    "SOUCIE_ROM": {
+      "title": "Soucie et al.: Range of motion measurements: reference values and a database for comparison studies",
+      "url": "https://onlinelibrary.wiley.com/doi/10.1111/j.1365-2516.2010.02399.x",
+      "access": "indexed_abstract",
+      "locator": "Methods: bilateral passive universal goniometry; protocol PDF unavailable",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07",
+      "independent_work_id": "Soucie_2011_ROM"
+    },
+    "C1C2_MRI": {
+      "title": "Roche et al.: The atlanto-axial joint: physiological range of rotation on MRI and CT",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/11977941/",
+      "access": "indexed_abstract",
+      "locator": "Methods and Results",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "LUMBAR_LIFT": {
+      "title": "Aiyangar et al.: Apportionment of lumbar L2\u2013S1 rotation across individual motion segments during a dynamic lifting task",
+      "url": "https://stacks.cdc.gov/view/cdc/203201/cdc_203201_DS1.pdf",
+      "access": "full_text",
+      "locator": "Methods 2.1; Results; Table 2; Limitations",
+      "kind": "biomechanics_study",
+      "checked_on": "2026-10-07"
+    },
+    "SP_PRUJ": {
+      "title": "StatPearls: Anatomy, Shoulder and Upper Limb, Proximal Radio-Ulnar Joint",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK551614/",
+      "access": "full_text",
+      "locator": "Introduction; Structure and Function: radial head/radial notch, annular ligament, PRUJ/DRUJ coordination",
+      "kind": "anatomy_textbook",
+      "checked_on": "2026-10-07"
+    },
+    "SP_DRUJ": {
+      "title": "StatPearls: Anatomy, Shoulder and Upper Limb, Distal Radio-Ulnar Joint",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK547720/",
+      "access": "full_text",
+      "locator": "Introduction; Structure and Function: DRUJ surfaces, TFCC and forearm ring",
+      "kind": "anatomy_textbook",
+      "checked_on": "2026-10-07"
+    },
+    "DRUJ_FUNCTIONAL": {
+      "title": "Haugstvedt et al.: Distal radioulnar joint: functional anatomy, including pathomechanics",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/28399788/",
+      "access": "indexed_abstract",
+      "locator": "Abstract: distal radius\u2013ulna function and stabilizing structures",
+      "kind": "biomechanics_review",
+      "checked_on": "2026-10-07"
+    }
+  }
+}

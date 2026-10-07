@@ -1,0 +1,3468 @@
+{
+  "schema_version": 1,
+  "scope": "Numerical integrity and descriptive measurements only; no Blender gate acceptance.",
+  "checks": {
+    "provenance": {
+      "status": "PASS",
+      "detail": "Atlas hashes match; saved source identified. This does not prove fitted geometry."
+    },
+    "units": {
+      "status": "PASS",
+      "detail": "Explicit conversion matches the scene unit scale; character physical scale still needs independent confirmation."
+    },
+    "identity": {
+      "status": "PASS",
+      "detail": "Unique stable anatomical names; untagged helper controls excluded."
+    },
+    "bone_coverage": {
+      "status": "FAIL",
+      "detail": {
+        "represented": 0,
+        "expected": 206,
+        "missing": [
+          "c1",
+          "c2",
+          "c3",
+          "c4",
+          "c5",
+          "c6",
+          "c7",
+          "calcaneus_left",
+          "calcaneus_right",
+          "capitate_left",
+          "capitate_right",
+          "clavicle_left",
+          "clavicle_right",
+          "coccyx",
+          "cuboid_left",
+          "cuboid_right",
+          "digit2_distal_phalanx_left",
+          "digit2_distal_phalanx_right",
+          "digit2_middle_phalanx_left",
+          "digit2_middle_phalanx_right",
+          "digit2_proximal_phalanx_left",
+          "digit2_proximal_phalanx_right",
+          "digit3_distal_phalanx_left",
+          "digit3_distal_phalanx_right",
+          "digit3_middle_phalanx_left",
+          "digit3_middle_phalanx_right",
+          "digit3_proximal_phalanx_left",
+          "digit3_proximal_phalanx_right",
+          "digit4_distal_phalanx_left",
+          "digit4_distal_phalanx_right",
+          "digit4_middle_phalanx_left",
+          "digit4_middle_phalanx_right",
+          "digit4_proximal_phalanx_left",
+          "digit4_proximal_phalanx_right",
+          "digit5_distal_phalanx_left",
+          "digit5_distal_phalanx_right",
+          "digit5_middle_phalanx_left",
+          "digit5_middle_phalanx_right",
+          "digit5_proximal_phalanx_left",
+          "digit5_proximal_phalanx_right",
+          "ethmoid",
+          "femur_left",
+          "femur_right",
+          "fibula_left",
+          "fibula_right",
+          "frontal",
+          "hallux_distal_phalanx_left",
+          "hallux_distal_phalanx_right",
+          "hallux_proximal_phalanx_left",
+          "hallux_proximal_phalanx_right",
+          "hamate_left",
+          "hamate_right",
+          "hip_bone_left",
+          "hip_bone_right",
+          "humerus_left",
+          "humerus_right",
+          "hyoid",
+          "incus_left",
+          "incus_right",
+          "inferior_nasal_concha_left",
+          "inferior_nasal_concha_right",
+          "intermediate_cuneiform_left",
+          "intermediate_cuneiform_right",
+          "l1",
+          "l2",
+          "l3",
+          "l4",
+          "l5",
+          "lacrimal_left",
+          "lacrimal_right",
+          "lateral_cuneiform_left",
+          "lateral_cuneiform_right",
+          "lunate_left",
+          "lunate_right",
+          "malleus_left",
+          "malleus_right",
+          "mandible",
+          "maxilla_left",
+          "maxilla_right",
+          "medial_cuneiform_left",
+          "medial_cuneiform_right",
+          "metacarpal_1_left",
+          "metacarpal_1_right",
+          "metacarpal_2_left",
+          "metacarpal_2_right",
+          "metacarpal_3_left",
+          "metacarpal_3_right",
+          "metacarpal_4_left",
+          "metacarpal_4_right",
+          "metacarpal_5_left",
+          "metacarpal_5_right",
+          "metatarsal_1_left",
+          "metatarsal_1_right",
+          "metatarsal_2_left",
+          "metatarsal_2_right",
+          "metatarsal_3_left",
+          "metatarsal_3_right",
+          "metatarsal_4_left",
+          "metatarsal_4_right",
+          "metatarsal_5_left",
+          "metatarsal_5_right",
+          "nasal_left",
+          "nasal_right",
+          "navicular_left",
+          "navicular_right",
+          "occipital",
+          "palatine_left",
+          "palatine_right",
+          "parietal_left",
+          "parietal_right",
+          "patella_left",
+          "patella_right",
+          "pisiform_left",
+          "pisiform_right",
+          "radius_left",
+          "radius_right",
+          "rib_01_left",
+          "rib_01_right",
+          "rib_02_left",
+          "rib_02_right",
+          "rib_03_left",
+          "rib_03_right",
+          "rib_04_left",
+          "rib_04_right",
+          "rib_05_left",
+          "rib_05_right",
+          "rib_06_left",
+          "rib_06_right",
+          "rib_07_left",
+          "rib_07_right",
+          "rib_08_left",
+          "rib_08_right",
+          "rib_09_left",
+          "rib_09_right",
+          "rib_10_left",
+          "rib_10_right",
+          "rib_11_left",
+          "rib_11_right",
+          "rib_12_left",
+          "rib_12_right",
+          "sacrum",
+          "scaphoid_left",
+          "scaphoid_right",
+          "scapula_left",
+          "scapula_right",
+          "sphenoid",
+          "stapes_left",
+          "stapes_right",
+          "sternum",
+          "t1",
+          "t10",
+          "t11",
+          "t12",
+          "t2",
+          "t3",
+          "t4",
+          "t5",
+          "t6",
+          "t7",
+          "t8",
+          "t9",
+          "talus_left",
+          "talus_right",
+          "temporal_left",
+          "temporal_right",
+          "thumb_distal_phalanx_left",
+          "thumb_distal_phalanx_right",
+          "thumb_proximal_phalanx_left",
+          "thumb_proximal_phalanx_right",
+          "tibia_left",
+          "tibia_right",
+          "toe2_distal_phalanx_left",
+          "toe2_distal_phalanx_right",
+          "toe2_middle_phalanx_left",
+          "toe2_middle_phalanx_right",
+          "toe2_proximal_phalanx_left",
+          "toe2_proximal_phalanx_right",
+          "toe3_distal_phalanx_left",
+          "toe3_distal_phalanx_right",
+          "toe3_middle_phalanx_left",
+          "toe3_middle_phalanx_right",
+          "toe3_proximal_phalanx_left",
+          "toe3_proximal_phalanx_right",
+          "toe4_distal_phalanx_left",
+          "toe4_distal_phalanx_right",
+          "toe4_middle_phalanx_left",
+          "toe4_middle_phalanx_right",
+          "toe4_proximal_phalanx_left",
+          "toe4_proximal_phalanx_right",
+          "toe5_distal_phalanx_left",
+          "toe5_distal_phalanx_right",
+          "toe5_middle_phalanx_left",
+          "toe5_middle_phalanx_right",
+          "toe5_proximal_phalanx_left",
+          "toe5_proximal_phalanx_right",
+          "trapezium_left",
+          "trapezium_right",
+          "trapezoid_left",
+          "trapezoid_right",
+          "triquetrum_left",
+          "triquetrum_right",
+          "ulna_left",
+          "ulna_right",
+          "vomer",
+          "zygomatic_left",
+          "zygomatic_right"
+        ]
+      }
+    },
+    "geometry_integrity": {
+      "status": "PASS",
+      "detail": "Finite nonzero segments, proper unsheared axes, existing parents and no cycles."
+    },
+    "bilateral_lengths": {
+      "status": "UNVERIFIED",
+      "detail": "Differences measured; no universal symmetry tolerance or fit inferred."
+    },
+    "sample_integrity": {
+      "status": "PASS",
+      "detail": "Provided transforms structurally valid; omitted pose data is not evidence."
+    },
+    "landmark_integrity": {
+      "status": "UNVERIFIED",
+      "detail": "Only supplied landmark IDs/coordinates checked; anatomical placement unverified."
+    },
+    "joint_marker_coverage": {
+      "status": "UNVERIFIED",
+      "detail": {
+        "measured": 0,
+        "expected": 427,
+        "missing": [
+          "acromioclavicular_left",
+          "acromioclavicular_right",
+          "atlantoaxial_lateral_left",
+          "atlantoaxial_lateral_right",
+          "atlantoaxial_median",
+          "atlantooccipital_left",
+          "atlantooccipital_right",
+          "calcaneocuboid_left",
+          "calcaneocuboid_right",
+          "cmc_1_left",
+          "cmc_1_right",
+          "cmc_2_left",
+          "cmc_2_right",
+          "cmc_3_left",
+          "cmc_3_right",
+          "cmc_4_left",
+          "cmc_4_right",
+          "cmc_5_left",
+          "cmc_5_right",
+          "costochondral_01_left",
+          "costochondral_01_right",
+          "costochondral_02_left",
+          "costochondral_02_right",
+          "costochondral_03_left",
+          "costochondral_03_right",
+          "costochondral_04_left",
+          "costochondral_04_right",
+          "costochondral_05_left",
+          "costochondral_05_right",
+          "costochondral_06_left",
+          "costochondral_06_right",
+          "costochondral_07_left",
+          "costochondral_07_right",
+          "costochondral_08_left",
+          "costochondral_08_right",
+          "costochondral_09_left",
+          "costochondral_09_right",
+          "costochondral_10_left",
+          "costochondral_10_right",
+          "costotransverse_01_left",
+          "costotransverse_01_right",
+          "costotransverse_02_left",
+          "costotransverse_02_right",
+          "costotransverse_03_left",
+          "costotransverse_03_right",
+          "costotransverse_04_left",
+          "costotransverse_04_right",
+          "costotransverse_05_left",
+          "costotransverse_05_right",
+          "costotransverse_06_left",
+          "costotransverse_06_right",
+          "costotransverse_07_left",
+          "costotransverse_07_right",
+          "costotransverse_08_left",
+          "costotransverse_08_right",
+          "costotransverse_09_left",
+          "costotransverse_09_right",
+          "costotransverse_10_left",
+          "costotransverse_10_right",
+          "costovertebral_01_left",
+          "costovertebral_01_right",
+          "costovertebral_02_left",
+          "costovertebral_02_right",
+          "costovertebral_03_left",
+          "costovertebral_03_right",
+          "costovertebral_04_left",
+          "costovertebral_04_right",
+          "costovertebral_05_left",
+          "costovertebral_05_right",
+          "costovertebral_06_left",
+          "costovertebral_06_right",
+          "costovertebral_07_left",
+          "costovertebral_07_right",
+          "costovertebral_08_left",
+          "costovertebral_08_right",
+          "costovertebral_09_left",
+          "costovertebral_09_right",
+          "costovertebral_10_left",
+          "costovertebral_10_right",
+          "costovertebral_11_left",
+          "costovertebral_11_right",
+          "costovertebral_12_left",
+          "costovertebral_12_right",
+          "cuboideonavicular_left",
+          "cuboideonavicular_right",
+          "cuneonavicular_intermediate_left",
+          "cuneonavicular_intermediate_right",
+          "cuneonavicular_lateral_left",
+          "cuneonavicular_lateral_right",
+          "cuneonavicular_medial_left",
+          "cuneonavicular_medial_right",
+          "digit2_dip_left",
+          "digit2_dip_right",
+          "digit2_mcp_left",
+          "digit2_mcp_right",
+          "digit2_pip_left",
+          "digit2_pip_right",
+          "digit3_dip_left",
+          "digit3_dip_right",
+          "digit3_mcp_left",
+          "digit3_mcp_right",
+          "digit3_pip_left",
+          "digit3_pip_right",
+          "digit4_dip_left",
+          "digit4_dip_right",
+          "digit4_mcp_left",
+          "digit4_mcp_right",
+          "digit4_pip_left",
+          "digit4_pip_right",
+          "digit5_dip_left",
+          "digit5_dip_right",
+          "digit5_mcp_left",
+          "digit5_mcp_right",
+          "digit5_pip_left",
+          "digit5_pip_right",
+          "disc_c2_c3",
+          "disc_c3_c4",
+          "disc_c4_c5",
+          "disc_c5_c6",
+          "disc_c6_c7",
+          "disc_c7_t1",
+          "disc_l1_l2",
+          "disc_l2_l3",
+          "disc_l3_l4",
+          "disc_l4_l5",
+          "disc_l5_sacrum",
+          "disc_t10_t11",
+          "disc_t11_t12",
+          "disc_t12_l1",
+          "disc_t1_t2",
+          "disc_t2_t3",
+          "disc_t3_t4",
+          "disc_t4_t5",
+          "disc_t5_t6",
+          "disc_t6_t7",
+          "disc_t7_t8",
+          "disc_t8_t9",
+          "disc_t9_t10",
+          "distal_radioulnar_left",
+          "distal_radioulnar_right",
+          "distal_tibiofibular_left",
+          "distal_tibiofibular_right",
+          "facet_c2_c3_left",
+          "facet_c2_c3_right",
+          "facet_c3_c4_left",
+          "facet_c3_c4_right",
+          "facet_c4_c5_left",
+          "facet_c4_c5_right",
+          "facet_c5_c6_left",
+          "facet_c5_c6_right",
+          "facet_c6_c7_left",
+          "facet_c6_c7_right",
+          "facet_c7_t1_left",
+          "facet_c7_t1_right",
+          "facet_l1_l2_left",
+          "facet_l1_l2_right",
+          "facet_l2_l3_left",
+          "facet_l2_l3_right",
+          "facet_l3_l4_left",
+          "facet_l3_l4_right",
+          "facet_l4_l5_left",
+          "facet_l4_l5_right",
+          "facet_l5_sacrum_left",
+          "facet_l5_sacrum_right",
+          "facet_t10_t11_left",
+          "facet_t10_t11_right",
+          "facet_t11_t12_left",
+          "facet_t11_t12_right",
+          "facet_t12_l1_left",
+          "facet_t12_l1_right",
+          "facet_t1_t2_left",
+          "facet_t1_t2_right",
+          "facet_t2_t3_left",
+          "facet_t2_t3_right",
+          "facet_t3_t4_left",
+          "facet_t3_t4_right",
+          "facet_t4_t5_left",
+          "facet_t4_t5_right",
+          "facet_t5_t6_left",
+          "facet_t5_t6_right",
+          "facet_t6_t7_left",
+          "facet_t6_t7_right",
+          "facet_t7_t8_left",
+          "facet_t7_t8_right",
+          "facet_t8_t9_left",
+          "facet_t8_t9_right",
+          "facet_t9_t10_left",
+          "facet_t9_t10_right",
+          "glenohumeral_left",
+          "glenohumeral_right",
+          "hallux_ip_left",
+          "hallux_ip_right",
+          "hallux_sesamoid_lateral_tracking_left",
+          "hallux_sesamoid_lateral_tracking_right",
+          "hallux_sesamoid_medial_tracking_left",
+          "hallux_sesamoid_medial_tracking_right",
+          "hip_left",
+          "hip_right",
+          "humeroradial_left",
+          "humeroradial_right",
+          "humeroulnar_left",
+          "humeroulnar_right",
+          "hyoid_body_greater_horn_left",
+          "hyoid_body_greater_horn_right",
+          "hyoid_body_lesser_horn_left",
+          "hyoid_body_lesser_horn_right",
+          "incudomalleolar_left",
+          "incudomalleolar_right",
+          "incudostapedial_left",
+          "incudostapedial_right",
+          "intercarpal_capitate_hamate_left",
+          "intercarpal_capitate_hamate_right",
+          "intercarpal_lunate_triquetrum_left",
+          "intercarpal_lunate_triquetrum_right",
+          "intercarpal_scaphoid_lunate_left",
+          "intercarpal_scaphoid_lunate_right",
+          "intercarpal_trapezium_trapezoid_left",
+          "intercarpal_trapezium_trapezoid_right",
+          "intercarpal_trapezoid_capitate_left",
+          "intercarpal_trapezoid_capitate_right",
+          "interchondral_6_7_left",
+          "interchondral_6_7_right",
+          "interchondral_7_8_left",
+          "interchondral_7_8_right",
+          "interchondral_8_9_left",
+          "interchondral_8_9_right",
+          "interchondral_9_10_left",
+          "interchondral_9_10_right",
+          "intercoccygeal_1_2",
+          "intercoccygeal_2_3",
+          "intercoccygeal_3_4",
+          "intermetacarpal_2_3_left",
+          "intermetacarpal_2_3_right",
+          "intermetacarpal_3_4_left",
+          "intermetacarpal_3_4_right",
+          "intermetacarpal_4_5_left",
+          "intermetacarpal_4_5_right",
+          "intermetatarsal_2_3_left",
+          "intermetatarsal_2_3_right",
+          "intermetatarsal_3_4_left",
+          "intermetatarsal_3_4_right",
+          "intermetatarsal_4_5_left",
+          "intermetatarsal_4_5_right",
+          "intertarsal_intermediate_cuneiform_lateral_cuneiform_left",
+          "intertarsal_intermediate_cuneiform_lateral_cuneiform_right",
+          "intertarsal_lateral_cuneiform_cuboid_left",
+          "intertarsal_lateral_cuneiform_cuboid_right",
+          "intertarsal_medial_cuneiform_intermediate_cuneiform_left",
+          "intertarsal_medial_cuneiform_intermediate_cuneiform_right",
+          "manubriosternal",
+          "midcarpal_lunate_capitate_left",
+          "midcarpal_lunate_capitate_right",
+          "midcarpal_lunate_hamate_left",
+          "midcarpal_lunate_hamate_right",
+          "midcarpal_scaphoid_capitate_left",
+          "midcarpal_scaphoid_capitate_right",
+          "midcarpal_scaphoid_trapezium_left",
+          "midcarpal_scaphoid_trapezium_right",
+          "midcarpal_scaphoid_trapezoid_left",
+          "midcarpal_scaphoid_trapezoid_right",
+          "midcarpal_triquetrum_hamate_left",
+          "midcarpal_triquetrum_hamate_right",
+          "mtp_1_left",
+          "mtp_1_right",
+          "mtp_2_left",
+          "mtp_2_right",
+          "mtp_3_left",
+          "mtp_3_right",
+          "mtp_4_left",
+          "mtp_4_right",
+          "mtp_5_left",
+          "mtp_5_right",
+          "patellofemoral_left",
+          "patellofemoral_right",
+          "pisotriquetral_left",
+          "pisotriquetral_right",
+          "proximal_radioulnar_left",
+          "proximal_radioulnar_right",
+          "proximal_tibiofibular_left",
+          "proximal_tibiofibular_right",
+          "pubic_symphysis",
+          "radiocarpal_left",
+          "radiocarpal_right",
+          "radioulnar_interosseous_left",
+          "radioulnar_interosseous_right",
+          "sacrococcygeal",
+          "sacroiliac_anterior_left",
+          "sacroiliac_anterior_right",
+          "sacroiliac_posterior_left",
+          "sacroiliac_posterior_right",
+          "scapulothoracic_left",
+          "scapulothoracic_right",
+          "skull_ethmoid_frontal",
+          "skull_ethmoid_inferior_nasal_concha_left",
+          "skull_ethmoid_inferior_nasal_concha_right",
+          "skull_ethmoid_lacrimal_left",
+          "skull_ethmoid_lacrimal_right",
+          "skull_ethmoid_maxilla_left",
+          "skull_ethmoid_maxilla_right",
+          "skull_ethmoid_nasal_left",
+          "skull_ethmoid_nasal_right",
+          "skull_ethmoid_palatine_left",
+          "skull_ethmoid_palatine_right",
+          "skull_ethmoid_sphenoid",
+          "skull_ethmoid_vomer",
+          "skull_frontal_lacrimal_left",
+          "skull_frontal_lacrimal_right",
+          "skull_frontal_maxilla_left",
+          "skull_frontal_maxilla_right",
+          "skull_frontal_nasal_left",
+          "skull_frontal_nasal_right",
+          "skull_frontal_parietal_left",
+          "skull_frontal_parietal_right",
+          "skull_frontal_sphenoid",
+          "skull_frontal_zygomatic_left",
+          "skull_frontal_zygomatic_right",
+          "skull_inferior_nasal_concha_left_lacrimal_left",
+          "skull_inferior_nasal_concha_left_maxilla_left",
+          "skull_inferior_nasal_concha_left_palatine_left",
+          "skull_inferior_nasal_concha_right_lacrimal_right",
+          "skull_inferior_nasal_concha_right_maxilla_right",
+          "skull_inferior_nasal_concha_right_palatine_right",
+          "skull_lacrimal_left_maxilla_left",
+          "skull_lacrimal_right_maxilla_right",
+          "skull_maxilla_left_maxilla_right",
+          "skull_maxilla_left_nasal_left",
+          "skull_maxilla_left_palatine_left",
+          "skull_maxilla_left_vomer",
+          "skull_maxilla_left_zygomatic_left",
+          "skull_maxilla_right_nasal_right",
+          "skull_maxilla_right_palatine_right",
+          "skull_maxilla_right_vomer",
+          "skull_maxilla_right_zygomatic_right",
+          "skull_nasal_left_nasal_right",
+          "skull_occipital_parietal_left",
+          "skull_occipital_parietal_right",
+          "skull_occipital_sphenoid",
+          "skull_occipital_temporal_left",
+          "skull_occipital_temporal_right",
+          "skull_palatine_left_palatine_right",
+          "skull_palatine_left_sphenoid",
+          "skull_palatine_left_vomer",
+          "skull_palatine_right_sphenoid",
+          "skull_palatine_right_vomer",
+          "skull_parietal_left_parietal_right",
+          "skull_parietal_left_sphenoid",
+          "skull_parietal_left_temporal_left",
+          "skull_parietal_right_sphenoid",
+          "skull_parietal_right_temporal_right",
+          "skull_sphenoid_temporal_left",
+          "skull_sphenoid_temporal_right",
+          "skull_sphenoid_vomer",
+          "skull_sphenoid_zygomatic_left",
+          "skull_sphenoid_zygomatic_right",
+          "skull_temporal_left_zygomatic_left",
+          "skull_temporal_right_zygomatic_right",
+          "stapedio_oval_window_left",
+          "stapedio_oval_window_right",
+          "sternoclavicular_left",
+          "sternoclavicular_right",
+          "sternocostal_01_left",
+          "sternocostal_01_right",
+          "sternocostal_02_left",
+          "sternocostal_02_right",
+          "sternocostal_03_left",
+          "sternocostal_03_right",
+          "sternocostal_04_left",
+          "sternocostal_04_right",
+          "sternocostal_05_left",
+          "sternocostal_05_right",
+          "sternocostal_06_left",
+          "sternocostal_06_right",
+          "sternocostal_07_left",
+          "sternocostal_07_right",
+          "subtalar_posterior_left",
+          "subtalar_posterior_right",
+          "talocalcaneonavicular_left",
+          "talocalcaneonavicular_right",
+          "talocrural_left",
+          "talocrural_right",
+          "thumb_ip_left",
+          "thumb_ip_right",
+          "thumb_mcp_left",
+          "thumb_mcp_right",
+          "tibiofemoral_left",
+          "tibiofemoral_right",
+          "tibiofibular_interosseous_left",
+          "tibiofibular_interosseous_right",
+          "tmj_left",
+          "tmj_right",
+          "tmt_1_left",
+          "tmt_1_right",
+          "tmt_2_left",
+          "tmt_2_right",
+          "tmt_3_left",
+          "tmt_3_right",
+          "tmt_4_left",
+          "tmt_4_right",
+          "tmt_5_left",
+          "tmt_5_right",
+          "toe2_dip_left",
+          "toe2_dip_right",
+          "toe2_pip_left",
+          "toe2_pip_right",
+          "toe3_dip_left",
+          "toe3_dip_right",
+          "toe3_pip_left",
+          "toe3_pip_right",
+          "toe4_dip_left",
+          "toe4_dip_right",
+          "toe4_pip_left",
+          "toe4_pip_right",
+          "toe5_dip_left",
+          "toe5_dip_right",
+          "toe5_pip_left",
+          "toe5_pip_right",
+          "uncovertebral_c2_c3_left",
+          "uncovertebral_c2_c3_right",
+          "uncovertebral_c3_c4_left",
+          "uncovertebral_c3_c4_right",
+          "uncovertebral_c4_c5_left",
+          "uncovertebral_c4_c5_right",
+          "uncovertebral_c5_c6_left",
+          "uncovertebral_c5_c6_right",
+          "uncovertebral_c6_c7_left",
+          "uncovertebral_c6_c7_right",
+          "xiphisternal"
+        ]
+      }
+    },
+    "distinct_centres": {
+      "status": "UNVERIFIED",
+      "detail": "No exact collision detected in supplied pairs; source-fitted separations still unverified."
+    },
+    "trajectory_integrity": {
+      "status": "UNVERIFIED",
+      "detail": "No invalid provided time sequence; absent/short tracks do not establish motion."
+    },
+    "test_execution": {
+      "status": "UNVERIFIED",
+      "detail": {
+        "sampled_test_ids": [],
+        "missing_context_samples": [],
+        "note": "Labels are not proof of complete sides, stages, planes or reversal. Inspect local test evidence."
+      }
+    },
+    "anatomical_placement": {
+      "status": "UNVERIFIED",
+      "detail": "Requires character landmarks/contact surfaces and reviewed fitting evidence. Bone names/matrices are insufficient."
+    },
+    "joint_operation": {
+      "status": "UNVERIFIED",
+      "detail": "Requires sourced relative contact/axis/coupling tests in Blender; raw principal rotations are not clinical JCS angles."
+    }
+  },
+  "bone_lengths_m": {},
+  "bilateral_lengths": {},
+  "joint_centres": {},
+  "trajectories": [],
+  "relative_bone_transforms": {
+    "root": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999964,
+            0.0,
+            8.498073152104209e-08,
+            0.0
+          ],
+          [
+            8.498073356122374e-08,
+            3.4228543818882666e-08,
+            -0.9999999999999892,
+            0.0
+          ],
+          [
+            -2.908766833287539e-15,
+            0.9999999999999993,
+            1.1920929665620773e-07,
+            0.0
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "pelvis": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999989,
+            8.092291022960523e-22,
+            -5.075218263691334e-08,
+            -1.1770538346539352e-22
+          ],
+          [
+            4.312957736577561e-15,
+            0.9999999999999999,
+            8.498076704818118e-08,
+            0.9899998307228093
+          ],
+          [
+            5.0752171978771924e-08,
+            8.498073862646979e-08,
+            0.9999999999999986,
+            8.413093148362635e-08
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "spine_01": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            1.0000000000000002,
+            4.3129571639004055e-15,
+            -2.9934243388744524e-14,
+            3.4503662712420303e-16
+          ],
+          [
+            4.3129605539074376e-15,
+            0.9999999999999999,
+            8.498072441561449e-08,
+            0.0799999833106995
+          ],
+          [
+            1.2698322027411403e-14,
+            8.498078125903674e-08,
+            0.9999999999999999,
+            6.7984568374865034e-09
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "spine_02": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            1.0000000000000002,
+            4.312960333157839e-15,
+            9.145608136852621e-15,
+            5.175551998806914e-16
+          ],
+          [
+            4.312957677570951e-15,
+            0.9999999999999999,
+            8.498076704818118e-08,
+            0.12000000476837164
+          ],
+          [
+            -2.6381529709943945e-14,
+            8.498073862647006e-08,
+            0.9999999999999999,
+            1.0197690727409116e-08
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "spine_03": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            1.0000000000000002,
+            4.312958266174155e-15,
+            -1.217067414770895e-14,
+            6.038141013792787e-16
+          ],
+          [
+            4.312958490234098e-15,
+            0.9999999999999999,
+            8.498075283732562e-08,
+            0.13999998569488534
+          ],
+          [
+            -5.06524657834966e-15,
+            8.498075283732563e-08,
+            0.9999999999999999,
+            1.1897303693331061e-08
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "clavicle_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.21461075717632438,
+            -0.9748294078182486,
+            0.06041439662035106,
+            -0.01999999996370677
+          ],
+          [
+            0.06041451942365403,
+            0.07498667836712128,
+            0.9953527352046705,
+            0.1699999566739136
+          ],
+          [
+            -0.974829369037127,
+            -0.2099633802457775,
+            0.07498697144999808,
+            0.012000005604625651
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "scapula_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            -0.19768750843440905,
+            0.45879915368708346,
+            0.8662697102064925,
+            0.04295317635936468
+          ],
+          [
+            -0.9285497066429568,
+            -0.37088553691584214,
+            -0.015469603939023517,
+            0.16531233500430925
+          ],
+          [
+            0.3141895603064915,
+            -0.8074325576096998,
+            0.4993369724184014,
+            -0.07559256854761358
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "upperarm_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.881733171181472,
+            -0.23115744062135485,
+            -0.411233195582214,
+            7.337873354773539e-08
+          ],
+          [
+            0.4112328940596211,
+            0.8037735164405676,
+            0.42992528618278064,
+            -0.0936207794552141
+          ],
+          [
+            0.2311581657413747,
+            -0.5481917289279366,
+            0.8037734329360442,
+            -4.2647791518787836e-08
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "forearm_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999927,
+            4.470349063763668e-08,
+            9.813110390944708e-08,
+            -3.781170088146333e-08
+          ],
+          [
+            -1.0430814904502541e-07,
+            0.9999999999999969,
+            6.622743602291462e-08,
+            0.32499980926514105
+          ],
+          [
+            2.8929920998583117e-07,
+            1.1258658670786563e-07,
+            0.9999999999999953,
+            2.8684727126914084e-08
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "forearm_tw0_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            1.0,
+            -2.980232536641287e-08,
+            1.9371516459111544e-07,
+            -1.4901161193846966e-08
+          ],
+          [
+            -2.980234224180196e-08,
+            1.0,
+            8.940703279198237e-08,
+            3.3306726472961364e-16
+          ],
+          [
+            1.9371518590739733e-07,
+            8.940700437026979e-08,
+            1.0000000000000002,
+            1.6463576107874384e-15
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "forearm_tw1_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            1.0,
+            -2.980232536641287e-08,
+            1.9371516459111544e-07,
+            -1.5906987776476463e-08
+          ],
+          [
+            -2.980234224180196e-08,
+            1.0,
+            8.940703279198237e-08,
+            0.13499999046325734
+          ],
+          [
+            1.9371518590739733e-07,
+            8.940700437026979e-08,
+            1.0000000000000002,
+            1.236796791428181e-08
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "hand_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            1.0,
+            -2.9802328541334624e-08,
+            1.992240168155998e-07,
+            -3.1813975997042375e-08
+          ],
+          [
+            -2.980233542824151e-08,
+            0.9999999999999997,
+            6.480739656294587e-08,
+            0.27000004053115945
+          ],
+          [
+            1.8820634643528803e-07,
+            1.1400664696139438e-07,
+            0.9999999999999998,
+            2.473593799966767e-08
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 1.2074182697257333e-06
+      }
+    ],
+    "metacarpal_index_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999956,
+            -1.0471733826868884e-07,
+            8.987065816501614e-08,
+            -0.0010000227885289831
+          ],
+          [
+            1.880098379274613e-08,
+            0.9670916412491218,
+            0.2544283216685622,
+            0.017303644144371987
+          ],
+          [
+            2.738741994692684e-07,
+            -0.25442820878964983,
+            0.9670916570476061,
+            -0.019189989815994717
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "index_01_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.999852428673283,
+            -0.011995133168550592,
+            -0.0122977001161941,
+            -3.961428136621442e-09
+          ],
+          [
+            0.008841132996324825,
+            0.9730782935219184,
+            -0.2303051261716342,
+            0.07000003623412798
+          ],
+          [
+            0.014729533744986655,
+            0.2301624741827342,
+            0.9730407486045779,
+            5.1738121148448e-09
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "index_02_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.999999999999935,
+            -3.110782599680768e-07,
+            -2.296954066749804e-08,
+            -4.5314651701738114e-10
+          ],
+          [
+            2.549110784487289e-07,
+            0.9999999999999597,
+            8.057355012900703e-09,
+            0.04499984502269937
+          ],
+          [
+            4.2312938349739785e-07,
+            6.472713670968122e-08,
+            0.9999999999999748,
+            -4.507177086951117e-09
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "index_03_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999996,
+            -2.9498237905599932e-08,
+            1.7595298372854225e-07,
+            -9.80717341038235e-10
+          ],
+          [
+            -2.569094357260729e-08,
+            1.0000000000000002,
+            3.417288864645336e-08,
+            0.02699995479091276
+          ],
+          [
+            2.2446120439493632e-07,
+            3.7998922298895484e-08,
+            0.9999999999999998,
+            -2.3784796566484622e-09
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "metacarpal_middle_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999999,
+            -5.514442264838247e-08,
+            1.8179865149307376e-07,
+            -0.001500013038284611
+          ],
+          [
+            -1.9413675308831068e-08,
+            0.9966937612003351,
+            0.08124996776136295,
+            0.015238105652001462
+          ],
+          [
+            2.0175229927602802e-07,
+            -0.0812498117151555,
+            0.996693763008162,
+            -0.008149994199571011
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "middle_01_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999999,
+            -1.9413687214827766e-08,
+            1.9175838078102152e-07,
+            -1.58351734949202e-09
+          ],
+          [
+            -5.595640368699741e-08,
+            0.9966937560020055,
+            -0.08124986805719968,
+            0.07199995503396012
+          ],
+          [
+            1.9175953980069806e-07,
+            0.08125003152932474,
+            0.9966937584151907,
+            1.1934257696660788e-09
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "middle_02_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999999,
+            -2.9802314137523947e-08,
+            1.9206549967246346e-07,
+            -3.650758424957842e-10
+          ],
+          [
+            -2.980231664799896e-08,
+            0.9999999999999999,
+            8.940687828737065e-08,
+            0.04900008440017755
+          ],
+          [
+            1.953648698732892e-07,
+            1.0430826681805454e-07,
+            0.9999999999999999,
+            5.260106171967075e-09
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "middle_03_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            1.0,
+            -2.9802313003524496e-08,
+            1.9371518144457592e-07,
+            -2.235159198697407e-10
+          ],
+          [
+            -2.9802314779880654e-08,
+            0.9999999999999999,
+            9.685753659993167e-08,
+            0.030000030994415495
+          ],
+          [
+            1.9371518144457573e-07,
+            9.685758633794742e-08,
+            0.9999999999999999,
+            2.160663252755474e-09
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "metacarpal_pinky_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999992,
+            6.232474238163187e-08,
+            1.7082915724999536e-07,
+            0.0019999929777343357
+          ],
+          [
+            -6.731730279537733e-08,
+            0.9531221589349774,
+            -0.30258565760560024,
+            0.025718987986836302
+          ],
+          [
+            2.0575075124897414e-07,
+            0.3025858584225647,
+            0.953122168581347,
+            0.0134500005293011
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 1.2074182697257333e-06
+      }
+    ],
+    "pinky_01_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9996874309118774,
+            0.01798607082513245,
+            0.017365105695294532,
+            -1.1933660298319884e-08
+          ],
+          [
+            -0.02199318131738597,
+            0.9629670734434392,
+            0.26872057510180647,
+            0.05800001042122652
+          ],
+          [
+            -0.01188842228061134,
+            -0.26901831360042217,
+            0.9630616673696942,
+            -2.2272557951739565e-08
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 1.2074182697257333e-06
+      }
+    ],
+    "pinky_02_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999998043,
+            -5.019144293690048e-07,
+            -2.3397437159239885e-07,
+            1.4544279815699326e-08
+          ],
+          [
+            4.3390707885255543e-07,
+            0.9999999999998888,
+            1.1170298828239947e-07,
+            0.03599996834371776
+          ],
+          [
+            5.980645784948785e-07,
+            1.0518049378617673e-08,
+            0.9999999999999124,
+            8.45960836221333e-09
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "pinky_03_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999993647,
+            6.435880874271042e-07,
+            1.08170662093429e-06,
+            -1.5190643210574424e-08
+          ],
+          [
+            -7.126771626805731e-07,
+            0.9999999999997582,
+            2.1446488697338074e-07,
+            0.022000046444968075
+          ],
+          [
+            -7.184971439177503e-07,
+            -9.481332247579044e-08,
+            0.9999999999995831,
+            9.319157064579479e-09
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "metacarpal_ring_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999988,
+            -2.921643373471705e-09,
+            1.4729466665030243e-07,
+            -0.0010000162081746657
+          ],
+          [
+            -4.305963738843823e-08,
+            0.9957056357923273,
+            -0.09257573126879008,
+            0.01928353334287614
+          ],
+          [
+            2.4103873015561297e-07,
+            0.09257593280209653,
+            0.9957056379760462,
+            0.00288999859017495
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "ring_01_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999371518868314,
+            0.007998647711811179,
+            0.007855979681269078,
+            -1.4147856497408381e-08
+          ],
+          [
+            -0.00856251374483578,
+            0.9971785549973801,
+            0.0745763031155036,
+            0.0659999933577814
+          ],
+          [
+            -0.007236920499894874,
+            -0.07463868867507403,
+            0.9971843753561568,
+            9.826254255405623e-09
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "ring_02_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999997222,
+            -5.35129417114416e-07,
+            -3.588570428447594e-07,
+            -6.366226182448083e-10
+          ],
+          [
+            4.775520593213009e-07,
+            0.9999999999998682,
+            -2.4255303059968333e-09,
+            0.04600004410749112
+          ],
+          [
+            7.350389261226865e-07,
+            1.6372530011902814e-07,
+            0.999999999999847,
+            2.2017857372563885e-10
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "ring_03_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999333,
+            -3.0204032725947424e-08,
+            5.531549811083568e-07,
+            -2.997998370885609e-08
+          ],
+          [
+            -2.7945622437604203e-08,
+            1.0,
+            8.032484001042634e-08,
+            0.02800006295271179
+          ],
+          [
+            -1.770720091835503e-07,
+            8.032896068243742e-08,
+            0.9999999999999332,
+            6.703347132860127e-09
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "thumb_01_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.3002697149523016,
+            0.5010029631706633,
+            0.8116857203308879,
+            0.00799997871933862
+          ],
+          [
+            -0.8116855538003305,
+            0.5811632101533359,
+            -0.058446262290682956,
+            0.03000008848070825
+          ],
+          [
+            -0.5010036816171415,
+            -0.6412839820124322,
+            0.5811630626152785,
+            -0.0249999850250897
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "thumb_02_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999958298,
+            -1.0638126254070013e-06,
+            -2.8559347077863895e-06,
+            4.0720146469129526e-08
+          ],
+          [
+            8.68175160817497e-07,
+            0.9999999999995011,
+            -3.289187527205639e-07,
+            0.04800001305441564
+          ],
+          [
+            2.5881863307472552e-06,
+            -5.121195955845592e-07,
+            0.9999999999963171,
+            -9.637817913969032e-09
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "thumb_03_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999964438,
+            3.092330755904982e-07,
+            2.509943942435866e-06,
+            9.308141752685517e-08
+          ],
+          [
+            -5.364477751734764e-07,
+            0.9999999999999044,
+            -5.157029769539689e-07,
+            0.030999955127044725
+          ],
+          [
+            -2.759754308447049e-06,
+            -3.838803630251686e-07,
+            0.9999999999965259,
+            5.161583787553076e-09
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "clavicle_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.21461071635418705,
+            0.9748294221917325,
+            -0.06041440894084433,
+            0.019999999142223505
+          ],
+          [
+            -0.06041458212790068,
+            0.07498667836712128,
+            0.9953527308639418,
+            0.16999995667391357
+          ],
+          [
+            0.9748293741381339,
+            -0.20996331351179479,
+            0.07498701914125926,
+            0.012000007905089947
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "scapula_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            -0.1976873340016005,
+            -0.458798970093185,
+            -0.8662697918417304,
+            -0.04295316464125174
+          ],
+          [
+            0.9285497322561252,
+            -0.37088552925428314,
+            -0.01546958494345163,
+            0.16531231173465483
+          ],
+          [
+            -0.31418959503237526,
+            -0.8074326563614628,
+            0.4993368456586041,
+            -0.0755926914985284
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 1.2074182697257333e-06
+      }
+    ],
+    "upperarm_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.8817332834081821,
+            0.2311574022309283,
+            0.4112329841305829,
+            -6.891298484634767e-08
+          ],
+          [
+            -0.4112327237456663,
+            0.8037736313481741,
+            0.42992500850275334,
+            -0.09362078105680596
+          ],
+          [
+            -0.23115815810134802,
+            -0.5481916355411459,
+            0.80377361569478,
+            -5.346518756020602e-08
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "forearm_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999938,
+            7.450581751555655e-08,
+            -5.34276219106711e-08,
+            6.16535487385485e-08
+          ],
+          [
+            1.0430815970317493e-07,
+            0.9999999999999998,
+            -1.1258653007841399e-07,
+            0.3249999284744278
+          ],
+          [
+            -2.7439804501722634e-07,
+            -1.2583203780182205e-07,
+            0.9999999999999938,
+            -3.911554458113538e-08
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "forearm_tw0_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999999,
+            8.940699657650938e-08,
+            -1.6391285306272026e-07,
+            1.4901161193847176e-08
+          ],
+          [
+            8.940699835286643e-08,
+            0.9999999999999999,
+            -1.192092788655903e-07,
+            3.3306715885048296e-16
+          ],
+          [
+            -1.6391286016814847e-07,
+            -1.192092788655906e-07,
+            0.9999999999999999,
+            1.2022683325006877e-15
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "forearm_tw1_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999999,
+            8.940699657650938e-08,
+            -1.6391285306272026e-07,
+            2.3953617766273402e-08
+          ],
+          [
+            8.940699835286643e-08,
+            0.9999999999999999,
+            -1.192092788655903e-07,
+            0.13499999046325717
+          ],
+          [
+            -1.6391286016814847e-07,
+            -1.192092788655906e-07,
+            0.9999999999999999,
+            -1.5497205028116195e-08
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "hand_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999999,
+            8.940699233589099e-08,
+            -1.694217074101659e-07,
+            4.79072399849459e-08
+          ],
+          [
+            8.940699848055986e-08,
+            0.9999999999999996,
+            -1.4380895355427274e-07,
+            0.27000004053115906
+          ],
+          [
+            -1.5840399227432085e-07,
+            -9.460960252368293e-08,
+            0.9999999999999997,
+            -3.285706369250153e-08
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "metacarpal_index_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999956,
+            1.5477794713620653e-07,
+            -4.588393761679249e-08,
+            0.0010000226760934771
+          ],
+          [
+            4.080368755562968e-08,
+            0.9670916418824816,
+            0.25442823855977753,
+            0.017303644716277742
+          ],
+          [
+            -2.440718245294503e-07,
+            -0.25442840813330597,
+            0.9670916258344757,
+            -0.019189992939931563
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "index_01_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9998524287183109,
+            0.011995192196417313,
+            0.012297731969865581,
+            6.9348948030134985e-09
+          ],
+          [
+            -0.008841081220282895,
+            0.9730782838866706,
+            -0.23030532380835914,
+            0.07000003718194693
+          ],
+          [
+            -0.01472948700447657,
+            0.23016243370764827,
+            0.9730407210377469,
+            -2.358304294902691e-09
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "index_02_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999354,
+            3.7371531620299017e-07,
+            5.5680081462064317e-08,
+            3.1378069775752786e-09
+          ],
+          [
+            -1.95275109903751e-07,
+            0.9999999999999595,
+            -1.2341321382270862e-07,
+            0.04499984499942516
+          ],
+          [
+            -3.8355803706947465e-07,
+            -1.2403710070396602e-07,
+            0.9999999999999758,
+            -1.1502251729399159e-08
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "index_03_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999997,
+            8.951405232608851e-08,
+            -1.3956458297663572e-07,
+            2.5705699120376986e-09
+          ],
+          [
+            8.916587062603697e-08,
+            1.0,
+            -1.2297206145655214e-07,
+            0.0269999547909128
+          ],
+          [
+            -1.8800362618776175e-07,
+            -1.2512445337790412e-07,
+            0.9999999999999998,
+            -6.330664602756802e-09
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "metacarpal_middle_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999998,
+            1.1213058066381715e-07,
+            -1.4725197018592317e-07,
+            0.0015000134607693113
+          ],
+          [
+            7.901833917873725e-08,
+            0.9966937612083383,
+            0.0812497774792124,
+            0.01523810589488992
+          ],
+          [
+            -1.719499595912396e-07,
+            -0.08125001954354742,
+            0.9966937615697995,
+            -0.008149998831706739
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "middle_01_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999999,
+            7.901835305700202e-08,
+            -1.6195603126194907e-07,
+            5.512175198106576e-09
+          ],
+          [
+            1.1294256696329504e-07,
+            0.9966937554046519,
+            -0.08125008331149268,
+            0.07199995518529984
+          ],
+          [
+            -1.5721288673562334e-07,
+            0.08124984867309007,
+            0.9966937563714716,
+            -1.2263050194229186e-08
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "middle_02_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999999,
+            8.940698409968308e-08,
+            -1.6226318736340796e-07,
+            3.2857102455875013e-09
+          ],
+          [
+            8.94069843471386e-08,
+            0.9999999999999999,
+            -1.1175881226248529e-07,
+            0.0490000844001773
+          ],
+          [
+            -1.6556255071096843e-07,
+            -1.1175860624192086e-07,
+            1.0,
+            -5.729517300159378e-09
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "middle_03_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999999,
+            8.940698301485241e-08,
+            -1.639128691355212e-07,
+            2.0116578654949476e-09
+          ],
+          [
+            8.940698390302543e-08,
+            0.9999999999999999,
+            -1.1175871989190554e-07,
+            0.030000030994415505
+          ],
+          [
+            -1.6391286913552024e-07,
+            -1.1175870568103311e-07,
+            1.0,
+            -3.2037606123625574e-09
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "metacarpal_pinky_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999991,
+            3.5035399403404305e-09,
+            -1.6045939294709947e-07,
+            -0.0019999906430784365
+          ],
+          [
+            1.269219614553748e-07,
+            0.9531221499172269,
+            -0.3025858828330089,
+            0.025718987585995234
+          ],
+          [
+            -1.759484201300241e-07,
+            0.30258568799097135,
+            0.9531221602031806,
+            0.013449990402054728
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "pinky_01_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9996874311100138,
+            -0.017986008092079682,
+            -0.017365074405865696,
+            1.6274730979884912e-08
+          ],
+          [
+            0.02199324008966694,
+            0.9629670810773202,
+            0.26872039895654215,
+            0.0580000104212264
+          ],
+          [
+            0.011888424459708303,
+            -0.269018485272243,
+            0.9630616610927092,
+            -3.4249709881703503e-08
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "pinky_02_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999998035,
+            5.546873402797938e-07,
+            2.612818140290251e-07,
+            -1.2533175327404542e-08
+          ],
+          [
+            -3.729450017803896e-07,
+            0.999999999999887,
+            1.273904466566082e-08,
+            0.0359999683437179
+          ],
+          [
+            -5.811666326847962e-07,
+            -1.9626406017801646e-07,
+            0.999999999999906,
+            1.892884533861102e-09
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "pinky_03_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999993631,
+            -5.874221498581743e-07,
+            -1.0618469628847094e-06,
+            1.6430248164318458e-08
+          ],
+          [
+            7.69042186651598e-07,
+            0.9999999999997573,
+            7.093024243480387e-08,
+            0.022000046314684295
+          ],
+          [
+            7.419507003239784e-07,
+            -2.5327109228558175e-07,
+            0.9999999999995803,
+            2.8106612883899683e-09
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "metacarpal_ring_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999987,
+            6.502931889407993e-08,
+            -1.2313823828509177e-07,
+            0.0010000175298210093
+          ],
+          [
+            1.0266430775824199e-07,
+            0.9957056364672641,
+            -0.09257594921307014,
+            0.0192835332567475
+          ],
+          [
+            -2.1123639469905595e-07,
+            0.09257571782234038,
+            0.9957056370254826,
+            0.0028899932495610897
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "ring_01_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999371519238694,
+            -0.007998587504911574,
+            -0.007855949082168356,
+            1.8429055799072916e-08
+          ],
+          [
+            0.008562573463156035,
+            0.9971785554801709,
+            0.07457608569854864,
+            0.06599999335778123
+          ],
+          [
+            0.00723694042303104,
+            -0.07463890777000874,
+            0.9971843747636077,
+            -2.653153871956531e-09
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "ring_02_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999997217,
+            5.932407879498673e-07,
+            3.8703846761800175e-07,
+            3.30947577163367e-09
+          ],
+          [
+            -4.186026171202348e-07,
+            0.9999999999998677,
+            -2.233260689331264e-07,
+            0.04600004404044932
+          ],
+          [
+            -7.105259355548032e-07,
+            -4.039979265989431e-08,
+            0.9999999999998452,
+            -1.1816990925981549e-08
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "ring_03_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999334,
+            8.922793533360407e-08,
+            -5.2686723642017e-07,
+            3.165021086059952e-08
+          ],
+          [
+            8.695461929398565e-08,
+            1.0,
+            -1.3498886376057918e-07,
+            0.028000062952711666
+          ],
+          [
+            2.033744273997819e-07,
+            -1.312601768778881e-07,
+            0.9999999999999333,
+            1.3823571049894725e-09
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "thumb_01_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.3002696610245581,
+            -0.5010029985911321,
+            -0.8116858083631191,
+            -0.007999978421309999
+          ],
+          [
+            0.8116856439995358,
+            0.58116312791323,
+            -0.05844640254380589,
+            0.03000008922576529
+          ],
+          [
+            0.5010034364184774,
+            -0.6412841379788781,
+            0.5811629184276322,
+            -0.024999989685446228
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "thumb_02_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999951947,
+            1.269313981228093e-06,
+            2.87488014256293e-06,
+            -3.4837383547370315e-08
+          ],
+          [
+            -9.81611788242187e-07,
+            0.9999999999993452,
+            -1.951294498550582e-07,
+            0.04800001693649547
+          ],
+          [
+            -2.9275289383581815e-06,
+            -4.2678060672290963e-07,
+            0.9999999999957626,
+            -8.214347291127591e-09
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "thumb_03_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999965081,
+            -3.378737861714498e-07,
+            -2.6257731432360876e-06,
+            -9.271113165978256e-08
+          ],
+          [
+            5.878606080256255e-07,
+            0.9999999999998773,
+            -3.130057332559333e-07,
+            0.030999955127042466
+          ],
+          [
+            2.588662369365502e-06,
+            -3.400784236093357e-07,
+            0.9999999999966014,
+            9.531004039383534e-09
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "neck": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            1.0000000000000002,
+            4.312958792138429e-15,
+            -1.5125326877909223e-15,
+            7.332027782733137e-16
+          ],
+          [
+            4.31295775250366e-15,
+            0.9999999999999999,
+            8.498075283732563e-08,
+            0.16999995708465584
+          ],
+          [
+            -1.5723387826509526e-14,
+            8.498074928461174e-08,
+            0.9999999999999999,
+            1.4446724136973554e-08
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "head": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            1.0000000000000002,
+            4.312957976555702e-15,
+            -8.61796004539205e-15,
+            4.744254523744585e-16
+          ],
+          [
+            4.312957976555702e-15,
+            0.9999999999999999,
+            8.498074928461174e-08,
+            0.1100000143051148
+          ],
+          [
+            -8.61796004539205e-15,
+            8.498074928461174e-08,
+            0.9999999999999999,
+            9.34788324968857e-09
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "thigh_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999888,
+            -4.312960060862429e-15,
+            -1.5099578869931901e-07,
+            -0.09199999272823342
+          ],
+          [
+            -8.518775017206323e-15,
+            -0.9999999999999999,
+            -8.498072441561309e-08,
+            -0.030000030994415297
+          ],
+          [
+            -1.509957862770493e-07,
+            -8.498077914845555e-08,
+            -0.9999999999999885,
+            -5.698450858817205e-09
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "shin_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999636,
+            8.518776378063718e-15,
+            2.702051113549657e-07,
+            3.790853755601272e-15
+          ],
+          [
+            -1.4443458850841964e-14,
+            0.9999999999999999,
+            8.498076493759971e-08,
+            0.4449996352195742
+          ],
+          [
+            -2.702050889082392e-07,
+            8.498073651588069e-08,
+            0.9999999999999634,
+            3.781640284472736e-08
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "foot_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999531,
+            8.101573157376794e-08,
+            2.953257309966635e-07,
+            -6.2106826543351296e-15
+          ],
+          [
+            -3.060042070984576e-07,
+            0.30189168947366307,
+            0.953342140680792,
+            0.4299997985363009
+          ],
+          [
+            -1.1920664782597146e-08,
+            -0.9533422045156548,
+            0.30189205308865114,
+            3.6541705163982157e-08
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "toe_l": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999988939,
+            6.780138490108666e-08,
+            1.4858340775118157e-06,
+            1.5010540959233234e-14
+          ],
+          [
+            -3.8012627547300055e-07,
+            0.9774359899954487,
+            0.21123173070435958,
+            0.1888093419750944
+          ],
+          [
+            -1.4379838026853476e-06,
+            -0.21123211845477824,
+            0.9774359485593962,
+            -5.447291180626923e-08
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "thigh_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999888,
+            -4.312959744459049e-15,
+            -1.5099578869931901e-07,
+            0.09199999272823317
+          ],
+          [
+            -8.518775017206323e-15,
+            -0.9999999999999999,
+            -8.498073152104087e-08,
+            -0.030000030994415297
+          ],
+          [
+            -1.509957862770493e-07,
+            -8.498077559573997e-08,
+            -0.9999999999999885,
+            5.995984607381225e-10
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "shin_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999636,
+            8.518776050897857e-15,
+            2.702051113549657e-07,
+            3.790853426576754e-15
+          ],
+          [
+            -1.444345641685595e-14,
+            0.9999999999999999,
+            8.498076138488413e-08,
+            0.4449996352195742
+          ],
+          [
+            -2.702050889082392e-07,
+            8.498074362130847e-08,
+            0.9999999999999634,
+            3.7816404230283286e-08
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "foot_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999999531,
+            8.101573157376845e-08,
+            2.953257309966651e-07,
+            -6.210681925887136e-15
+          ],
+          [
+            -3.060042070984579e-07,
+            0.30189168947366307,
+            0.953342140680792,
+            0.4299997985363009
+          ],
+          [
+            -1.1920664782597146e-08,
+            -0.9533422045156548,
+            0.30189205308865114,
+            3.6541705163982157e-08
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ],
+    "toe_r": [
+      {
+        "sample": 0,
+        "matrix": [
+          [
+            0.9999999999988939,
+            6.780138490108666e-08,
+            1.4858340775118157e-06,
+            1.5010541131286802e-14
+          ],
+          [
+            -3.8012627547300055e-07,
+            0.9774359899954487,
+            0.21123173070435958,
+            0.18880934197509613
+          ],
+          [
+            -1.4379838026853476e-06,
+            -0.21123211845477824,
+            0.9774359485593962,
+            -5.447291234056406e-08
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "context": [
+          "unassigned_current_pose",
+          "unspecified",
+          "unspecified",
+          "static",
+          "current saved scene",
+          "unspecified",
+          "unspecified"
+        ],
+        "principal_rotation_from_first_deg": 0.0
+      }
+    ]
+  },
+  "landmark_positions": {},
+  "evidence_images": [],
+  "overall_status": "FAIL",
+  "character_accepted": false,
+  "production_approved": false,
+  "completed_tracker_gates": []
+}

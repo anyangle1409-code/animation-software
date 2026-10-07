@@ -1,0 +1,276 @@
+{
+  "blender_version": "5.2.1 LTS",
+  "binary": "bpy module",
+  "adapter_sha256": "b9d4c1af66599e0cee4feab87a9c599ddda71b262359972489bbd69db7f4a15e",
+  "core_sha256": "c2ae70a5c29deb785cabb13910ec4170fd3b59df482d001189ec3343174da0eb",
+  "fixture_sha256": "bd2cb42fbfa1e35f94727d800b45312488094a1eceaf081ee83f35f5c4cf27d9",
+  "checks": {
+    "saved_initial_frame": {
+      "status": "PASS",
+      "detail": {
+        "frame": 3,
+        "subframe": 0.25
+      }
+    },
+    "armature_selection": {
+      "status": "PASS",
+      "detail": {
+        "captured_bones": [
+          "anat_femur_left",
+          "anat_tibia_left",
+          "ctrl_knee_helper"
+        ],
+        "femur_head_m": [
+          1.0,
+          0.0,
+          1.8
+        ],
+        "expected_m": [
+          1.0,
+          0.0,
+          1.8
+        ],
+        "decoy_femur_head_m_if_wrong": [
+          0.0,
+          0.0,
+          0.7
+        ]
+      }
+    },
+    "rest_world_unit_conversion": {
+      "status": "PASS",
+      "detail": {
+        "tibia_tail_m": [
+          1.0,
+          0.0,
+          0.2
+        ],
+        "expected_m": [
+          1.0,
+          0.0,
+          0.2
+        ],
+        "derivation": "R_z(90deg) * 2 * (0,0,10)BU + (100,0,0)BU, times 0.01 m/BU"
+      }
+    },
+    "offset_marker_not_bone_head": {
+      "status": "PASS",
+      "detail": {
+        "marker_m": [
+          0.96,
+          -1.748455531469517e-09,
+          1.0
+        ],
+        "expected_m": [
+          0.96,
+          0.0,
+          1.0
+        ],
+        "tibia_head_m": [
+          1.0,
+          0.0,
+          1.0
+        ],
+        "expected_offset_m": 0.04
+      }
+    },
+    "bone_parented_marker_follows_evaluated_pose": {
+      "status": "PASS",
+      "detail": {
+        "marker_m": [
+          0.6,
+          0.05999998092651367,
+          1.1071797180175782
+        ],
+        "femur_tail_m": [
+          0.5999999237060547,
+          3.019916903213016e-08,
+          1.1071797180175782
+        ],
+        "expected_distance_m": 0.06,
+        "derivation": "3 BU bone-space X offset times object scale 2 times 0.01"
+      }
+    },
+    "evaluated_pose_start": {
+      "status": "PASS",
+      "detail": {
+        "tibia_tail_m": [
+          1.0,
+          0.0,
+          0.2
+        ],
+        "expected_m": [
+          1.0,
+          0.0,
+          0.2
+        ],
+        "knee_deg": 0.0,
+        "hip_deg": 0.0
+      }
+    },
+    "evaluated_pose_subframe": {
+      "status": "PASS",
+      "detail": {
+        "tibia_tail_m": [
+          0.0419512939453125,
+          -4.1877638068399396e-08,
+          0.707554931640625
+        ],
+        "expected_m": [
+          0.0419512939453125,
+          7.233066753542517e-08,
+          0.707554931640625
+        ],
+        "knee_deg": 49.50000000000001,
+        "hip_deg": 16.5
+      }
+    },
+    "evaluated_pose_end": {
+      "status": "PASS",
+      "detail": {
+        "tibia_tail_m": [
+          -0.09282028198242187,
+          -4.776868991029915e-08,
+          1.507179718017578
+        ],
+        "expected_m": [
+          -0.09282035827636718,
+          8.250564860645681e-08,
+          1.507179718017578
+        ],
+        "knee_deg": 90.0,
+        "hip_deg": 29.999999999999996
+      }
+    },
+    "rest_differs_from_evaluated_pose": {
+      "status": "PASS",
+      "detail": "Rest geometry stays rest; frame-11 evaluated tibia differs."
+    },
+    "known_90_degree_rotation_via_constraint": {
+      "status": "PASS",
+      "detail": {
+        "tibia_relative_to_femur_deg": {
+          "0": 0.0,
+          "1": 49.500001842137166,
+          "2": 90.0000029575586
+        },
+        "expected": {
+          "1": 49.5,
+          "2": 90.0
+        },
+        "mechanism": "COPY_ROTATION constraint from untagged keyed helper"
+      }
+    },
+    "driver_evaluation": {
+      "status": "PASS",
+      "detail": {
+        "femur_world_rotation_change_deg": {
+          "0": 0.0,
+          "1": 16.50000050570958,
+          "2": 30.000000445292034
+        },
+        "expected": {
+          "1": 16.5,
+          "2": 30.0
+        },
+        "mechanism": "simple-expression driver from keyed object property"
+      }
+    },
+    "sample_times_use_fps_base": {
+      "status": "PASS",
+      "detail": {
+        "times_s": [
+          0.03336666822433472,
+          0.21688334345817567,
+          0.3670333504676819
+        ],
+        "expected_s": [
+          0.03336666666666666,
+          0.21688333333333332,
+          0.3670333333333333
+        ],
+        "fps": 29.970029970029973
+      }
+    },
+    "landmarks_only_from_active_scene": {
+      "status": "PASS",
+      "detail": {
+        "captured_landmark_ids": [
+          "femur_left/femoral_head_centre"
+        ]
+      }
+    },
+    "frame_restored_after_success": {
+      "status": "PASS",
+      "detail": {
+        "frame": 3,
+        "subframe": 0.25
+      }
+    },
+    "unit_scale_consistency_recorded": {
+      "status": "PASS",
+      "detail": {
+        "scene_unit_system": "METRIC",
+        "scene_scale_length": 0.009999999776482582,
+        "unit_scale_consistent": true
+      }
+    },
+    "unit_scale_mismatch_detected": {
+      "status": "PASS",
+      "detail": {
+        "units_check": {
+          "status": "FAIL",
+          "detail": "Supplied metres-per-world-unit contradicts the scene unit scale."
+        }
+      }
+    },
+    "frame_restored_after_failure": {
+      "status": "PASS",
+      "detail": {
+        "raised": "Evidence images must identify existing absolute paths",
+        "frame": 3,
+        "subframe": 0.25
+      }
+    },
+    "non_armature_names_refused": {
+      "status": "PASS",
+      "detail": {
+        "NOT_PRESENT": "Explicit armature name does not identify an armature",
+        "HGPT_JOINT_tibiofemoral_left": "Explicit armature name does not identify an armature"
+      }
+    },
+    "marker_outside_scene_refused": {
+      "status": "PASS",
+      "detail": {
+        "raised": "Joint marker exists outside the active scene: HGPT_JOINT_talocrural_left"
+      }
+    },
+    "source_preserved": {
+      "status": "PASS",
+      "detail": {
+        "sha256": "bd2cb42fbfa1e35f94727d800b45312488094a1eceaf081ee83f35f5c4cf27d9",
+        "after": "bd2cb42fbfa1e35f94727d800b45312488094a1eceaf081ee83f35f5c4cf27d9"
+      }
+    },
+    "report_scope": {
+      "status": "PASS",
+      "detail": {
+        "overall_status": "FAIL"
+      }
+    },
+    "python_driver_failure_not_silent": {
+      "status": "PASS",
+      "detail": {
+        "driver_evaluated": false,
+        "reported_failed": true,
+        "provenance_check": {
+          "status": "UNVERIFIED",
+          "detail": "Automatic Python/driver execution failed; evaluated motion is incomplete."
+        },
+        "autoexec_enabled": false
+      }
+    }
+  },
+  "overall": "PASS",
+  "scope": "Synthetic adapter mechanics only; no anatomical fit or gate acceptance."
+}

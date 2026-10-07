@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "purpose": "Isolated anatomical audit copy; never a production or candidate asset.",
+  "source": {
+    "path": "ORIGINAL_V1_WORK/candidates/exports/r95_phase4_freeze/HomeGymPT_Male_ORIGINAL_v1_CANDIDATE_r95_BARE.glb",
+    "sha256_before": "c4b8e388e624a4a3d22510b40c1fc45017b3374b1ff9de2cae79f2dbb0797c85",
+    "sha256_after": "c4b8e388e624a4a3d22510b40c1fc45017b3374b1ff9de2cae79f2dbb0797c85",
+    "unchanged": true,
+    "bytes": 1496696
+  },
+  "audit_blend": {
+    "path": "ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a001.blend",
+    "sha256": "0655dae13eaa5586b72675f76eb6ce78b85c32559e4a7e5a37cd66689a096da4",
+    "bytes": 1574547
+  },
+  "blender_version": "5.2.1 LTS",
+  "importer": "io_scene_gltf2 (glTF Y-up metres -> Blender Z-up)",
+  "scene_units": {
+    "system": "METRIC",
+    "scale_length": 1.0
+  },
+  "objects": [
+    {
+      "name": "HGPT_CANONICAL_V4_ORIGINAL",
+      "type": "ARMATURE",
+      "parent": null,
+      "matrix_world_is_identity": true,
+      "bones": 67
+    },
+    {
+      "name": "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE",
+      "type": "MESH",
+      "parent": "HGPT_CANONICAL_V4_ORIGINAL",
+      "matrix_world_is_identity": true,
+      "vertices": 17946,
+      "polygons": 35888,
+      "vertex_groups": 67,
+      "shape_keys": [
+        "Basis",
+        "HGPT_SHOULDER_CORR_L",
+        "HGPT_SHOULDER_CORR_R",
+        "HGPT_SHOULDER_FLEX_L",
+        "HGPT_SHOULDER_FLEX_R",
+        "HGPT_SHOULDER_SCAP_L",
+        "HGPT_SHOULDER_SCAP_R"
+      ],
+      "modifiers": [
+        "ARMATURE"
+      ]
+    },
+    {
+      "name": "Icosphere",
+      "type": "MESH",
+      "parent": null,
+      "matrix_world_is_identity": true,
+      "vertices": 42,
+      "polygons": 80,
+      "vertex_groups": 0,
+      "shape_keys": [],
+      "modifiers": []
+    }
+  ]
+}

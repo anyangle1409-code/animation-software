@@ -135,7 +135,11 @@ def analyze_capture(capture,plan):
     else:check('provenance','PASS','Atlas hashes match; saved source identified. This does not prove fitted geometry.')
     scale=capture.get('metres_per_world_unit')
     unit_ok=capture.get('units')=='metres' and type(scale) in (int,float) and math.isfinite(scale) and scale>0
-    check('units','PASS' if unit_ok else 'FAIL','Explicit metres-per-world-unit conversion required; physical scale still needs local confirmation.')
+    consistent=provenance.get('unit_scale_consistent')
+    if not unit_ok:check('units','FAIL','Explicit positive metres-per-world-unit conversion required.')
+    elif consistent is False:check('units','FAIL','Supplied metres-per-world-unit contradicts the scene unit scale.')
+    elif consistent is True:check('units','PASS','Explicit conversion matches the scene unit scale; character physical scale still needs independent confirmation.')
+    else:check('units','UNVERIFIED','Scene declares no physical unit; confirm the conversion from character provenance.')
     plan=canonical_plan
     bones=capture.get('rest_bones',{})
     counts=Counter(b.get('anatomical_id') for b in bones.values() if b.get('anatomical_id'))

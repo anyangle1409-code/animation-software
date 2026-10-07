@@ -1,0 +1,361 @@
+{
+  "schema_version": 1,
+  "units": "metres",
+  "metres_per_world_unit": 0.01,
+  "provenance": {
+    "blend_path": "/home/user/bio/ORIGINAL_V1_WORK/anatomy/audit/runs/blender_smoke_001/smoke_python_driver.blend",
+    "blend_sha256": "9cc81b302058867a6f1dcbd4ce6b74725bb8c933690d10fbc4d60d718c036bc8",
+    "blend_sha256_after": "9cc81b302058867a6f1dcbd4ce6b74725bb8c933690d10fbc4d60d718c036bc8",
+    "source_file_unchanged": true,
+    "dirty_before_capture": false,
+    "dirty_after_capture": false,
+    "blender_version": "5.2.1 LTS",
+    "armature": "HGPT_SMOKE_RIG",
+    "atlas_sha256": {
+      "adult_bone_inventory_206.json": "ee41f914a9b442378f1e5210bb8eb2138edc3a82bae705858e83b41d22cc2051",
+      "adult_bone_blender_aliases_206.json": "35e5a93deb3bb600eb1db946fa9915490238f208abe336ea081c48ca36d28db5",
+      "adult_articulation_inventory.json": "86fa2f981feb3df13be8b7e3322b38d3345c9992f8d15b563dc2d19845e2701c",
+      "joint_landmark_frame_atlas.json": "24b1219650ef97fc6b3e514162beaa8f898934269da1270192f2fd5126f6ec33",
+      "whole_body_movement_atlas.json": "8bd1ca2957577c1aeff032ae2e9974eea6dabc9e1f75e8d49da66c6d9ce6bf49",
+      "anatomy_sources.json": "89fde3cd9d5604c07254c3a25e66e0a806e57a0b030fbd2eeddf6095eea4e7eb"
+    },
+    "automatic_python_execution_failed": true,
+    "scene_fps": 29.970028570928392,
+    "scene_unit_system": "METRIC",
+    "scene_scale_length": 0.009999999776482582,
+    "unit_scale_consistent": true,
+    "initial_frame": 3,
+    "initial_subframe": 0.25,
+    "rest_world_basis": "Rest bone geometry transformed by evaluated object matrix at initial scene frame.",
+    "frame_restored": true
+  },
+  "rest_bones": {
+    "anat_femur_left": {
+      "anatomical_id": "femur_left",
+      "parent": null,
+      "head_world_m": [
+        1.0,
+        0.0,
+        1.8
+      ],
+      "tail_world_m": [
+        1.0,
+        0.0,
+        1.0
+      ],
+      "matrix_world": [
+        [
+          -8.742277657347586e-08,
+          0.0,
+          -2.0,
+          1.0
+        ],
+        [
+          2.0,
+          0.0,
+          -8.742277657347586e-08,
+          0.0
+        ],
+        [
+          0.0,
+          -2.0,
+          0.0,
+          1.8
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    "anat_tibia_left": {
+      "anatomical_id": "tibia_left",
+      "parent": "anat_femur_left",
+      "head_world_m": [
+        1.0,
+        0.0,
+        1.0
+      ],
+      "tail_world_m": [
+        1.0,
+        0.0,
+        0.2
+      ],
+      "matrix_world": [
+        [
+          -8.742277657347586e-08,
+          0.0,
+          -2.0,
+          1.0
+        ],
+        [
+          2.0,
+          0.0,
+          -8.742277657347586e-08,
+          0.0
+        ],
+        [
+          0.0,
+          -2.0,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    "ctrl_knee_helper": {
+      "anatomical_id": null,
+      "parent": null,
+      "head_world_m": [
+        1.0,
+        0.2,
+        1.0
+      ],
+      "tail_world_m": [
+        1.0,
+        0.2,
+        0.8
+      ],
+      "matrix_world": [
+        [
+          -8.742277657347586e-08,
+          0.0,
+          -2.0,
+          1.0
+        ],
+        [
+          2.0,
+          0.0,
+          -8.742277657347586e-08,
+          0.2
+        ],
+        [
+          0.0,
+          -2.0,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    }
+  },
+  "samples": [
+    {
+      "test_id": "isolated_knee",
+      "frame": 11,
+      "subframe": 0,
+      "side": "left",
+      "plane": "sagittal",
+      "direction": "outbound",
+      "posture": "synthetic",
+      "load": "unloaded",
+      "measurement_mode": "smoke",
+      "time_seconds": 0.3670333504676819,
+      "bones": {
+        "anat_femur_left": {
+          "parent": null,
+          "head_world_m": [
+            1.0,
+            0.0,
+            1.8
+          ],
+          "tail_world_m": [
+            1.0,
+            0.0,
+            1.0
+          ],
+          "matrix_world": [
+            [
+              -8.742277657347586e-08,
+              0.0,
+              -2.0,
+              1.0
+            ],
+            [
+              2.0,
+              0.0,
+              -8.742277657347586e-08,
+              0.0
+            ],
+            [
+              0.0,
+              -2.0,
+              0.0,
+              1.8
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        },
+        "anat_tibia_left": {
+          "parent": "anat_femur_left",
+          "head_world_m": [
+            1.0,
+            0.0,
+            1.0
+          ],
+          "tail_world_m": [
+            0.2,
+            -3.496911176625872e-08,
+            1.0
+          ],
+          "matrix_world": [
+            [
+              -8.742277657347586e-08,
+              -2.0,
+              8.742277657347586e-08,
+              1.0
+            ],
+            [
+              2.0,
+              -8.742277657347586e-08,
+              3.82137093032941e-15,
+              0.0
+            ],
+            [
+              0.0,
+              8.742277657347586e-08,
+              2.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        },
+        "ctrl_knee_helper": {
+          "parent": null,
+          "head_world_m": [
+            1.0,
+            0.2,
+            1.0
+          ],
+          "tail_world_m": [
+            0.8,
+            0.2,
+            1.0
+          ],
+          "matrix_world": [
+            [
+              -8.742277657347586e-08,
+              -2.0,
+              8.742277657347586e-08,
+              1.0
+            ],
+            [
+              2.0,
+              -8.742277657347586e-08,
+              3.82137093032941e-15,
+              0.2
+            ],
+            [
+              0.0,
+              8.742277657347586e-08,
+              2.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        }
+      },
+      "joint_frames": {
+        "tibiofemoral_left": {
+          "object_name": "HGPT_JOINT_tibiofemoral_left",
+          "frame_id": "femur",
+          "matrix_world": [
+            [
+              -8.742277657347586e-08,
+              -2.0,
+              0.0,
+              0.96
+            ],
+            [
+              2.0,
+              -8.742277657347586e-08,
+              0.0,
+              -1.748455531469517e-09
+            ],
+            [
+              0.0,
+              0.0,
+              2.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        },
+        "patellofemoral_left": {
+          "object_name": "HGPT_JOINT_patellofemoral_left",
+          "frame_id": "patella",
+          "matrix_world": [
+            [
+              -8.742277657347586e-08,
+              0.0,
+              -2.0,
+              1.0
+            ],
+            [
+              2.0,
+              0.0,
+              -8.742277657347586e-08,
+              0.06
+            ],
+            [
+              0.0,
+              -2.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        }
+      },
+      "landmarks": {
+        "LM_femoral_head_left": {
+          "landmark_id": "femur_left/femoral_head_centre",
+          "position_world_m": [
+            0.01,
+            0.02,
+            0.03
+          ]
+        }
+      },
+      "evidence_images": []
+    }
+  ],
+  "character_accepted": false
+}

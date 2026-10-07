@@ -181,6 +181,24 @@ class ValidationPackageTests(unittest.TestCase):
         mod=self.module();cap=self.capture();cap['provenance']['automatic_python_execution_failed']=True
         self.assertEqual(mod.analyze_capture(cap,mod.build_plan())['checks']['provenance']['status'],'UNVERIFIED')
 
+    def test_unit_conversion_must_agree_with_scene_unit_scale(self):
+        mod=self.module()
+        for consistent,status in [(True,'PASS'),(False,'FAIL'),(None,'UNVERIFIED')]:
+            cap=self.capture();cap['provenance']['unit_scale_consistent']=consistent
+            self.assertEqual(mod.analyze_capture(cap,mod.build_plan())['checks']['units']['status'],status)
+        cap=self.capture();del cap['provenance']['blend_sha256']
+        self.assertEqual(mod.analyze_capture(cap,mod.build_plan())['checks']['units']['status'],'UNVERIFIED')
+        cap=self.capture();cap['provenance']['unit_scale_consistent']=True;cap['metres_per_world_unit']=0
+        self.assertEqual(mod.analyze_capture(cap,mod.build_plan())['checks']['units']['status'],'FAIL')
+
+    def test_blender_exporter_reads_only_active_scene_objects(self):
+        text=(ROOT/'scripts/capture_anatomical_validation_blender.py').read_text()
+        self.assertNotIn('for marker in bpy.data.objects',text,'Landmarks from other scenes would leak into the capture')
+        self.assertIn('for marker in scene.objects',text)
+        self.assertIn('Joint marker exists outside the active scene',text)
+        self.assertIn('Armature is not in the active scene',text)
+        self.assertIn("'unit_scale_consistent':unit_consistent",text)
+
     def test_requested_subframe_is_measured_and_original_restored(self):
         mod=self.module()
         class Scene:

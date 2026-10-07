@@ -87,15 +87,17 @@ Gate 4: ✅ PASSED — reference evidence compilation: 44 mechanics profiles, 42
 - [x] ✅ Knee/patella gap analysis.
 - [x] ✅ Ankle/foot/toe gap analysis.
 - [x] ✅ Produce one final “real anatomy vs current rig vs required change” matrix.
+- [ ] 🔁 REOPEN — current-rig side binding. Measured r95 geometry faces −Y with +Z up, so the character’s anatomical left is +X; runtime `*_l` bones lie on −X (anatomical right). Hand chirality and facing were independently verified (F-SIDE-001). The static matrix’s name-based `*_left → *_l` mapping must be read as anatomical-left ↔ runtime `*_r` until the owner decides runtime naming.
 Gate 5: ✅ PASSED — source-pinned static comparison: 206 bone rows, 427 articulation rows, 44 mechanics-profile rows. See `current_rig_anatomical_gap_matrix.json` and `docs/COMPLETE_SKELETON_FINDINGS_AND_VERIFICATION_20261007.md`. Local-character motion remains unverified.
 
 ## PHASE 6 — CHARACTER-SPECIFIC FITTING
-- [ ] ⛔ Fit complete skeleton to HomeGymPT_Male_ORIGINAL_v1 proportions.
-- [ ] ⛔ Place joint centres from character landmarks.
-- [ ] ⛔ Verify bilateral symmetry and segment lengths.
-- [ ] ⛔ Verify no distinct anatomical joint centres are accidentally collapsed.
-Requires Blender/laptop.
-Gate 6: ⛔ BLOCKED
+- [x] ✅ Prerequisite: Blender toolchain verified live (Blender 5.2.1 LTS `bpy` module). 22/22 smoke checks; three adapter defects fixed with regression tests (TOOL-001..003). Evidence: `ORIGINAL_V1_WORK/anatomy/blender_toolchain_verification_20261007.json`.
+- [x] ✅ Prerequisite: isolated audit copy `ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a001.blend` (sha256 `0655dae1…`) from the pinned r95 BARE export (sha256 `c4b8e388…`, r95 dev-freeze candidate `8a39a22d…`); 1 BU = 1 m.
+- [ ] 🟡 Fit complete skeleton to HomeGymPT_Male_ORIGINAL_v1 proportions.
+- [ ] 🟡 Place joint centres from character landmarks.
+- [ ] ⬜ Verify bilateral symmetry and segment lengths.
+- [ ] ⬜ Verify no distinct anatomical joint centres are accidentally collapsed.
+Gate 6: 🟡 IN PROGRESS (Blender available in this environment as the `bpy` module)
 
 ## PHASE 7 — BUILD HGPT_ANATOMICAL_MASTER
 - [ ] ⛔ Create complete anatomical armature/reference collection.
@@ -173,9 +175,9 @@ Gate 12: ⬜ NOT PASSED
 Gate 13: ⬜ NOT PASSED
 
 ## CURRENT POSITION
-Completed: Phases 0–5 (reference definitions, evidence compilation and static gap comparison).
-Next: Phase 6 — character-specific proportions, measured landmarks and distinct joint centres.
-Stopped at the genuine local Blender dependency; Gates 6–13 remain unpassed.
+Completed: Phases 0–5 (reference definitions, evidence compilation and static gap comparison); Blender toolchain verification.
+Active: Phase 6 — character-specific landmarks and joint centres on the isolated r95 audit copy.
+Gates 6–13 remain unpassed.
 Production model, recovery work, geometry, weights and motion drivers unchanged.
 Comprehensive findings, source register, verification and local acceptance checklist: `docs/COMPLETE_SKELETON_FINDINGS_AND_VERIFICATION_20261007.md`.
 

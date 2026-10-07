@@ -1,0 +1,171 @@
+{
+  "checked_on": "2026-10-07",
+  "scope": "Live Blender execution of the read-only capture adapter; tool mechanics only. No anatomical fit, motion or gate acceptance.",
+  "blender": {
+    "version": "5.2.1 LTS",
+    "form": "Blender 5.2.1 LTS as the bpy Python module (python3.13, PYTHONPATH=/tmp/claude-0/bpy52); no standalone blender binary in this container",
+    "equivalence_note": "Same Blender release as recorded for the laptop in earlier V11 receipts; the CLI form `blender --background --python` was not executed here. The adapter now also accepts --blend for bpy-module use."
+  },
+  "smoke": {
+    "harness": "scripts/blender_smoke_anatomical_capture.py",
+    "run_directory": "ORIGINAL_V1_WORK/anatomy/audit/runs/blender_smoke_001",
+    "overall": "PASS",
+    "checks": {
+      "saved_initial_frame": "PASS",
+      "armature_selection": "PASS",
+      "rest_world_unit_conversion": "PASS",
+      "offset_marker_not_bone_head": "PASS",
+      "bone_parented_marker_follows_evaluated_pose": "PASS",
+      "evaluated_pose_start": "PASS",
+      "evaluated_pose_subframe": "PASS",
+      "evaluated_pose_end": "PASS",
+      "rest_differs_from_evaluated_pose": "PASS",
+      "known_90_degree_rotation_via_constraint": "PASS",
+      "driver_evaluation": "PASS",
+      "sample_times_use_fps_base": "PASS",
+      "landmarks_only_from_active_scene": "PASS",
+      "frame_restored_after_success": "PASS",
+      "unit_scale_consistency_recorded": "PASS",
+      "unit_scale_mismatch_detected": "PASS",
+      "frame_restored_after_failure": "PASS",
+      "non_armature_names_refused": "PASS",
+      "marker_outside_scene_refused": "PASS",
+      "source_preserved": "PASS",
+      "report_scope": "PASS",
+      "python_driver_failure_not_silent": "PASS"
+    },
+    "adapter_sha256": "b9d4c1af66599e0cee4feab87a9c599ddda71b262359972489bbd69db7f4a15e",
+    "core_sha256": "c2ae70a5c29deb785cabb13910ec4170fd3b59df482d001189ec3343174da0eb",
+    "verified_items": {
+      "armature_selection": "Decoy armature with identical bone names ignored; explicit name selects the intended rig; mesh/absent names refused.",
+      "world_coordinates_and_units": "Armature object translated, rotated 90 deg and scaled x2; scene unit scale 0.01; rest and evaluated points match hand-derived world metres to 1e-6 m.",
+      "rest_vs_evaluated": "Rest geometry unchanged while evaluated pose differs; evaluated tibia tail matches an independent FK chain at frames 1, 6.5 (subframe) and 11 to 1e-5 m.",
+      "offset_marker": "Armature-parented joint marker deliberately 40 mm from the tibia head measured at its own position (0.96,0,1.00) m, not at a bone head; bone-parented marker follows the evaluated femur at the expected 60 mm.",
+      "known_90deg_rotation": "Tibia rotation relative to femur measures 90.000 deg at frame 11 and 49.5 deg at subframe 6.5 (linear keys) through a COPY_ROTATION constraint from an untagged helper.",
+      "drivers": "Simple-expression driver from a keyed property evaluated (femur 30 deg / 16.5 deg). A Python-expression driver is blocked without auto-execution; the capture reports automatic_python_execution_failed=True and provenance is not PASS.",
+      "frame_restoration": "Saved frame 3 subframe 0.25 restored after successful sampling and after a mid-sampling failure (invalid evidence image).",
+      "source_preservation": "Fixture .blend SHA-256 and mtime unchanged; capture records equal before/after hashes.",
+      "time_base": "Sample times use fps/fps_base (29.97 fps); Blender stores fps_base in single precision, compared at 1e-7 relative."
+    }
+  },
+  "defects_found_and_fixed": [
+    {
+      "id": "TOOL-001",
+      "defect": "Landmark objects were read from bpy.data.objects, so landmarks from other scenes in the same file leaked into captures.",
+      "fix": "Landmarks read from the active scene only; armature and joint markers outside the active scene are refused.",
+      "regression": [
+        "smoke: landmarks_only_from_active_scene",
+        "smoke: marker_outside_scene_refused",
+        "unit: test_blender_exporter_reads_only_active_scene_objects"
+      ],
+      "observed_failing_before_fix": true
+    },
+    {
+      "id": "TOOL-002",
+      "defect": "Explicit metres-per-unit was never compared with the scene unit scale; a wrong conversion (1.0 for a 0.01 m/BU scene) still produced units PASS.",
+      "fix": "Capture records unit_scale_consistent (single-precision relative comparison; None when the scene declares no unit). Analyser: inconsistent -> FAIL, unknown -> UNVERIFIED.",
+      "regression": [
+        "smoke: unit_scale_mismatch_detected",
+        "unit: test_unit_conversion_must_agree_with_scene_unit_scale"
+      ],
+      "observed_failing_before_fix": true
+    },
+    {
+      "id": "TOOL-003",
+      "defect": "Adapter could only run inside the Blender CLI (no way to open the audit file from the bpy module; argv parsing assumed a \"--\" separator).",
+      "fix": "Optional --blend opens the saved audit copy; argv falls back to sys.argv[1:].",
+      "regression": [
+        "static_runtime_rig_001 executed through --blend"
+      ],
+      "observed_failing_before_fix": true
+    }
+  ],
+  "character_static_capture": {
+    "audit_copy": {
+      "path": "ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a001.blend",
+      "sha256": "0655dae13eaa5586b72675f76eb6ce78b85c32559e4a7e5a37cd66689a096da4",
+      "bytes": 1574547
+    },
+    "source": {
+      "path": "ORIGINAL_V1_WORK/candidates/exports/r95_phase4_freeze/HomeGymPT_Male_ORIGINAL_v1_CANDIDATE_r95_BARE.glb",
+      "sha256_before": "c4b8e388e624a4a3d22510b40c1fc45017b3374b1ff9de2cae79f2dbb0797c85",
+      "sha256_after": "c4b8e388e624a4a3d22510b40c1fc45017b3374b1ff9de2cae79f2dbb0797c85",
+      "unchanged": true,
+      "bytes": 1496696
+    },
+    "armature": "HGPT_CANONICAL_V4_ORIGINAL",
+    "metres_per_unit": 1.0,
+    "scale_evidence": [
+      "glTF 2.0 linear unit is the metre; importer produced scene METRIC scale_length 1.0 (unit_scale_consistent=True)",
+      "Mesh stature 1.8200 m with soles at z=0 matches the generator TARGET_HEIGHT finish step; not used as primary evidence"
+    ],
+    "report": "ORIGINAL_V1_WORK/anatomy/audit/runs/static_runtime_rig_001/report.json",
+    "overall_status": "FAIL",
+    "checks": {
+      "provenance": "PASS",
+      "units": "PASS",
+      "identity": "PASS",
+      "bone_coverage": "FAIL",
+      "geometry_integrity": "PASS",
+      "bilateral_lengths": "UNVERIFIED",
+      "sample_integrity": "PASS",
+      "landmark_integrity": "UNVERIFIED",
+      "joint_marker_coverage": "UNVERIFIED",
+      "distinct_centres": "UNVERIFIED",
+      "trajectory_integrity": "UNVERIFIED",
+      "test_execution": "UNVERIFIED",
+      "anatomical_placement": "UNVERIFIED",
+      "joint_operation": "UNVERIFIED"
+    },
+    "interpretation": "Expected reference gap: the 67-control runtime rig contains none of the 206 anat_ reference bones (coverage 0/206). Provenance, units, identity and geometry integrity pass.",
+    "additional_object_finding": "The r95 BARE export also contains an unparented 42-vertex \"Icosphere\" mesh object (unit radius at the origin); it is not part of the character and should be reviewed before any runtime promotion."
+  },
+  "tests": {
+    "tool_tests": {
+      "command": "python3 -m unittest discover -s scripts -p test_blender_anatomical_validation.py",
+      "run": 23,
+      "passed": 23
+    },
+    "atlas_tests": {
+      "run": 16,
+      "passed": 16
+    },
+    "repository_tests": {
+      "command": "PYTHONPATH=<bpy52 numpy> python3.13 -m unittest discover -s scripts -p \"test_*.py\"",
+      "run": 573,
+      "passed": 564,
+      "failures": 5,
+      "errors": 4,
+      "baseline_identities_unchanged": true,
+      "note": "System python3.11 lacks numpy; running with it adds four import errors (o2_body, axilla_edge_localization, shoulder_yoke_probe, shoulder_yoke_rest_length) that are environment-only."
+    }
+  },
+  "protected_inputs": {
+    "ORIGINAL_V1_WORK/hgpt_canonical_v4_original_rev2c.json": {
+      "sha256": "ed5f9699e1bfe2a200af80eae6b92a985b482a2fdf1007c55f097841a590045b",
+      "unchanged_from_baseline": true
+    },
+    "scripts/pose_test_original_v1_o4_candidate_blender.py": {
+      "sha256": "78a5da50a63fcf7f63a5b7be42e919949c75e4e2a08b7887379c112fb81e12d3",
+      "unchanged_from_baseline": true
+    },
+    "scripts/r97/scapula_pivot.py": {
+      "sha256": "89bd2bf3dd49db5aabe8daed02c8fde00e185313411d2fdfadbff444c3942e65",
+      "unchanged_from_baseline": true
+    },
+    "scripts/r97/add_gh_helper.py": {
+      "sha256": "b5dd671ffd52e3e051dc89273f0c8c7e0c904746af7af275d1c3d389fd047b1c",
+      "unchanged_from_baseline": true
+    },
+    "ORIGINAL_V1_WORK/candidates/exports/r95_phase4_freeze/HomeGymPT_Male_ORIGINAL_v1_CANDIDATE_r95_BARE.glb": {
+      "sha256": "c4b8e388e624a4a3d22510b40c1fc45017b3374b1ff9de2cae79f2dbb0797c85",
+      "unchanged_from_baseline": true
+    },
+    "ORIGINAL_V1_WORK/candidates/exports/r95_phase4_freeze/HomeGymPT_Male_ORIGINAL_v1_CANDIDATE_r95_DRESSED.glb": {
+      "sha256": "12ba867ed80e54d9e6b6f626ff584f69e996c1437ffaa15bf2f6ae158e00dcbe",
+      "unchanged_from_baseline": true
+    }
+  },
+  "character_accepted": false,
+  "completed_tracker_gates": []
+}

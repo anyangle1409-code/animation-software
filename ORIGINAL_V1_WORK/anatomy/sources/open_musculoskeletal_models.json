@@ -1,0 +1,83 @@
+{
+ "schema_version": 1,
+ "purpose": "Open musculoskeletal models used only as independent joint-centre geometry checks (F-GH-001, F-PROP-001). Values are copied verbatim from the model files.",
+ "models": {
+  "Rajagopal2016": {
+   "url": "https://raw.githubusercontent.com/opensim-org/opensim-models/master/Models/Rajagopal/Rajagopal2016.osim",
+   "sha256": "3f5c5f23e486073f2ad2aa4a4967ffe2fcdd582b1e355512bc54f70c36376bf4",
+   "reference": "Rajagopal et al. (2016) IEEE TBME, full-body model; generic 75 kg, 170 cm male (confirmed by several search snippets)",
+   "stature_m": 1.7,
+   "values_m": {
+    "acromial_joint_in_torso": [
+     0.003155,
+     0.3715,
+     0.17
+    ],
+    "RACR_marker_in_torso": [
+     -0.003,
+     0.425,
+     0.13
+    ],
+    "elbow_joint_in_humerus": [
+     0.013144,
+     -0.286273,
+     -0.009595
+    ],
+    "RLEL_marker_in_humerus": [
+     0.015,
+     -0.28,
+     0.04
+    ],
+    "RMEL_marker_in_humerus": [
+     0.00225,
+     -0.286,
+     -0.046
+    ],
+    "knee_in_femur": [
+     -0.00809,
+     -0.40796,
+     -0.00275
+    ],
+    "hip_in_pelvis": [
+     -0.056276,
+     -0.07849,
+     0.07726
+    ],
+    "ankle_in_tibia": [
+     -0.01,
+     -0.4,
+     0.0
+    ]
+   }
+  },
+  "Arm26": {
+   "url": "https://raw.githubusercontent.com/opensim-org/opensim-models/master/Models/Arm26/arm26.osim",
+   "sha256": "e2224d0044eb393b05d64926c3fa1682c451a9adc7f510e5517ef9958d3d41b9",
+   "reference": "Holzbaur, Murray & Delp (2005) Ann Biomed Eng, adapted by the OpenSim team (CC BY 3.0)",
+   "stature_m": null,
+   "values_m": {
+    "r_shoulder_in_base": [
+     -0.017545,
+     -0.007,
+     0.17
+    ],
+    "r_acromion_marker_in_base": [
+     -0.01256,
+     0.04,
+     0.17
+    ],
+    "r_elbow_in_humerus": [
+     0.0061,
+     -0.2904,
+     -0.0123
+    ]
+   }
+  },
+  "Gait2354": {
+   "url": "https://raw.githubusercontent.com/opensim-org/opensim-models/master/Models/Gait2354_Simbody/gait2354_simbody.osim",
+   "sha256": "b96156dcd721777c4d1ac5fbc2706fac7ee23be64c9c1669dcca39556a416702",
+   "reference": "Delp et al. (1990); Anderson & Pandy (1999)",
+   "stature_m": null
+  }
+ }
+}

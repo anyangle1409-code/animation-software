@@ -431,3 +431,77 @@ The same read-only reviewer re-checked commit `c0f8561b`. It found no critical d
 | Hip-rotation pairs are solver-tested only. | Correct and reported honestly. | Not changed: their source amplitudes differ by side. | Exact solver mirror test. |
 
 Current evidence: `audit/runs/isolated_bone_only_007` (test file `HGPT_ANATOMICAL_AUDIT_r95_a003_isolated_tests_v7.blend`, sha256 `7604c857…`). Repository suite: 595 tests, with the same 9 inherited failures/errors as the baseline. Clips: `audit/review/isolated_clips_005` (19 clips from the run 006 test file; command authoring is identical in run 007).
+
+## F-PROP-001 / F-GH-001 / F-HJC-001 investigation: stylised body or method mismatch? (fit a003 retained)
+
+**Question.** The stature-equation check (Trotter–Gleser) fails for the femur (−10.0 cm), humerus (−13.2 cm) and radius (−9.5 cm). Is the character's skeleton really short, is the body stylised, or is the check itself mismatched with a joint-centre fit?
+
+**Evidence used (all reachable from this session).**
+- **ANSUR II male public data** (US Army 2012 survey; 4,082 men). The file is committed as `ORIGINAL_V1_WORK/anatomy/sources/ansur2/ANSUR_II_MALE_Public.csv` (sha256 `e468eb57…`). It was retrieved from a GitHub copy because the Penn State and Army hosts are blocked here. Integrity check: radiale–stylion length mean 267.9 mm, SD 15.4 mm, exactly as published.
+- **Open musculoskeletal models** (OpenSim models on GitHub): Rajagopal 2016 (generic 1.70 m, 75 kg male), Arm26 (Holzbaur 2005 derived) and Gait2354. URLs, hashes and the values used are in `sources/open_musculoskeletal_models.json`.
+- **Radiographic relation** (two independent search snippets): the greater-trochanter tip lies on average 8 mm above the femoral head centre on neutral AP radiographs (100 hips: 75% above, 15% below, 10% level).
+- **New surface measurements** of the r95 body (`scripts/anatomy_fit/proportion_audit.py measure`). These use sections and loop splits, not the fitted joint centres; values that do depend on the fit are labelled. The audit file hash is unchanged before and after.
+
+Evidence: `ORIGINAL_V1_WORK/anatomy/audit/proportion_audit_001/` (`character_surface.json`, `proportion_report.json`).
+
+### 1. The stature-equation chain fails on real men too (method bias)
+
+The fit's own conversion was applied to every ANSUR subject, using ANSUR landmarks in place of fitted centres: surface → joint centre → osteometric length (head radius, condyle and trochlea allowances) → Trotter–Gleser.
+
+| Bone | ANSUR mean bias | ANSUR men beyond −2 SE | Character | Character's percentile among ANSUR men |
+|---|---|---|---|---|
+| Femur | −6.4 cm (SD 5.6) | 50% | −10.0 cm | 26th: within normal spread |
+| Humerus | −9.7 cm (SD 4.2) | 65% | −13.2 cm | 20th: within normal spread |
+| Radius | +4.6 cm (SD 4.9) | 0.2% | −9.5 cm | **0.15th: outside the central 95%** |
+
+Second estimator for the femur: Feldesman's femur/stature ratio (26.74%) gives −6.2 cm on ANSUR men and −8.3 cm for the character, the same pattern. The ratio is reported to overestimate stature for femurs over 50 cm.
+
+So the femur and humerus "failures" are what this chain produces for ordinary men. They are **not evidence of short bones**. Which link is biased (the stature equations, an allowance, or both) cannot be separated without osteometric data on living subjects. The check therefore cannot be used as an acceptance test for a joint-centre fit.
+
+### 2. Fitted joint centres against independent landmarks
+
+| Centre | Fitted height | Independent expectation | Difference |
+|---|---|---|---|
+| HJC (F-HJC-001) | 0.930 m | ANSUR trochanterion at 1.82 m (0.940 m) − 8 mm radiographic offset = 0.932 m | **−2 mm** (trochanterion residual SD 26 mm) |
+| KJC | 0.517 m | ANSUR lateral femoral epicondyle height 0.513 m | +4 mm (SD 14 mm) |
+| Tibial joint line | 0.490 m | ANSUR tibial height 0.490 m | 0 mm |
+| EJC (from the character's own acromion) | acromion → EJC 0.3295 m | ANSUR acromion–radiale at 1.82 m − 15 mm = 0.3332 m | −3.7 mm (SD 10.6 mm) |
+| GH depth below acromion skin (F-GH-001) | 47.1 mm | Acromion marker → GH: Arm26 47 mm; Rajagopal 53.5 mm (57 mm scaled), with marker radius and skin above the skin surface | within 10 mm of both |
+
+A weak, soft-tissue check also fits. The new lateral hip profile has a small local prominence at z ≈ 0.92 m, which is consistent with a greater trochanter just below a ~0.93–0.94 m tip; the bony trochanter is not modelled.
+
+**F-HJC-001 reading.** The selected HJC (Harrington + Hara mean) is corroborated by an independent route. The runtime thigh head (~0.96 m, about 30 mm higher) is not. The fit keeps its HJC; the runtime offset remains a runtime-rig finding.
+
+**F-GH-001 reading.** The fitted GH depth is corroborated by two open models. The runtime GH sits above the acromion skin (1.515 m vs 1.5095 m), which cannot be a joint centre. The runtime finding stands.
+
+### 3. What is genuinely character-specific (authored surface proportions)
+
+These are stature-conditioned z-scores against ANSUR men (regression on stature, residual SD):
+
+| Measure | Character | ANSUR at 1.82 m | z |
+|---|---|---|---|
+| Acromion to fingertip (arm hanging) | 779.5 mm | 825.8 mm | **−2.18** |
+| Acromion to wrist | 590.5 mm | 617.0 mm | −1.40 |
+| Hand length | 189 mm | 200 mm | −1.43 |
+| Wrist height | 919 mm | 881 mm | +1.78 |
+| Crotch height | 839 mm | 883 mm | −1.85 |
+| Axilla height | 1411 mm | 1383 mm | +1.92 |
+| Sternal notch height | 1519 mm | 1495 mm | +2.10 |
+| Foot length | 305 mm | 280 mm | +2.77 |
+| Bideltoid breadth | 575 mm | 520 mm | +1.79 |
+| Acromial height | 1510 mm | 1498 mm | +0.73 |
+| Knee, tibial and malleolus heights | — | — | +0.30 / +0.03 / +0.52 |
+
+Second measurement of the arm length. The fingertip height (0.730 m, loop tracking) agrees with the runtime middle-finger tip (0.724 m, which lies 1.5–5.4 mm outside the skin per F-HAND-001). The runtime wrist (0.920 m) agrees with the wrist section (0.919 m).
+
+The body has population-typical leg joint heights and a typical upper arm. The forearm and hand are short (the arm is about 46 mm shorter than expected, z −2.2, about the 1st percentile). The trunk is long above a low crotch, the feet are long, and the shoulders are broad. These are properties of the authored body surface, and the fitted skeleton follows them. The short radius (0.15th percentile in the chain) is the skeletal reflection of the short forearm surface, not a fitting error.
+
+**Wrist placement uncertainty.** The WJC sits at the minimum-area wrist section. The narrowest part of the distal forearm usually lies proximal to the styloid tips (direction only; no accessible magnitude). The hand widens from about 0.905 m, so the styloid level is probably within about 10 mm of the fitted centre. Even with a lower wrist, elbow-to-fingertip stays short, because the fingertip height is fixed by the surface.
+
+### Decision
+
+- **No a004.** The evidence does not support changing skeleton geometry. Femur, humerus, hip, knee, elbow and GH placements are each corroborated by an independent route. The remaining discrepancy (forearm and hand) is in the authored body, and moving bones would place them outside the skin.
+- **a003 is retained unchanged** (sha256 `670a37bf…`).
+- **F-PROP-001 reclassified.** It is no longer "femur/humerus/radius too short". It now reads: the stature-equation check is method-biased for this pipeline (femur, humerus), and the authored forearm and hand are short (character-specific limitation). The stature-equation check stays recorded as FAIL. **No bone is declared anatomically correct by this investigation**; the proportional placements remain low confidence.
+- **The owner decision narrows** to one question: is the short forearm and hand (and the long feet) intended character styling, or should the production body change? Changing the body is a production change and outside this audit.
+- **Recorded defect F-HJC-002.** The stored trochanterion landmark (z 0.86 m) is a search-range boundary artefact (thigh bulge). It feeds only the Davis HJC method (low confidence, not selected), so the selected HJC is unaffected. The new lateral-profile measurement replaces it as evidence.

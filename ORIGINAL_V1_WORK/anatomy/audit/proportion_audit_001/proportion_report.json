@@ -1,0 +1,353 @@
+{
+ "schema_version": 1,
+ "purpose": "F-PROP-001 / F-GH-001 / F-HJC-001 independent proportion evidence (read-only).",
+ "sources": {
+  "ANSUR_II_MALE": {
+   "file_sha256": "e468eb5787b8ba6c716a86378cf476ba9bd8c57e09493f0fc65b1b8f33e48db8",
+   "subjects": 4082,
+   "origin": "US Army ANSUR II public release (2012 survey), male working file; copy retrieved from raw.githubusercontent.com/hkair/anthropometric-stats (data/ansur/ANSUR II MALE Public.csv). Integrity check: radialestylionlength mean 267.9 mm, SD 15.4 mm, as published."
+  },
+  "TROCHANTER_HEAD_LEVEL": "Greater-trochanter tip on average 8 mm above the femoral head centre in 100 AP radiographs (search snippets of two reports).",
+  "TROTTER_GLESER_1952": "White male equations: femur 2.38F+61.41 (SE 3.27); humerus 3.08H+70.45 (SE 4.05); radius 3.78R+79.01 (SE 4.32)."
+ },
+ "character_stature_m": 1.8200002908706665,
+ "surface_vs_ansur": {
+  "acromial_height": {
+   "ansur_column": "acromialheight",
+   "character_m": 1.5094810069672104,
+   "ansur_predicted_at_stature_m": 1.4976729008056855,
+   "residual_sd_m": 0.016161569250536086,
+   "z": 0.7306286894840528,
+   "residual_percentile": 76.38412542871141,
+   "character_basis": "surface (recorded acromion skin corner)"
+  },
+  "axilla_height": {
+   "ansur_column": "axillaheight",
+   "character_m": 1.4110002262501695,
+   "ansur_predicted_at_stature_m": 1.3827446390165514,
+   "residual_sd_m": 0.014704722927811805,
+   "z": 1.9215314271700312,
+   "residual_percentile": 97.42773150416463,
+   "character_basis": "surface (section loop split)"
+  },
+  "suprasternale_height": {
+   "ansur_column": "suprasternaleheight",
+   "character_m": 1.5191669901302225,
+   "ansur_predicted_at_stature_m": 1.4945263849311003,
+   "residual_sd_m": 0.011728126855262465,
+   "z": 2.1009838572871327,
+   "residual_percentile": 98.13816756491916,
+   "character_basis": "authored sternal-notch ring"
+  },
+  "crotch_height": {
+   "ansur_column": "crotchheight",
+   "character_m": 0.8390002262501651,
+   "ansur_predicted_at_stature_m": 0.8830580047694342,
+   "residual_sd_m": 0.023878117296205526,
+   "z": -1.8451110685460235,
+   "residual_percentile": 2.8417442430181286,
+   "character_basis": "surface (section loop split)"
+  },
+  "wrist_height": {
+   "ansur_column": "wristheight",
+   "character_m": 0.919,
+   "ansur_predicted_at_stature_m": 0.8807040051141348,
+   "residual_sd_m": 0.02151287828332629,
+   "z": 1.7801427768755054,
+   "residual_percentile": 96.08035276825085,
+   "character_basis": "surface (minimum-area wrist section, fit record)"
+  },
+  "hand_length": {
+   "ansur_column": "handlength",
+   "character_m": 0.188999773749835,
+   "ansur_predicted_at_stature_m": 0.19950794748615092,
+   "residual_sd_m": 0.007356292822056377,
+   "z": -1.4284605018453376,
+   "residual_percentile": 6.98187163155316,
+   "character_basis": "surface (wrist section to lowest fingertip vertex)"
+  },
+  "acromion_to_dactylion (ARL+RSL+hand)": {
+   "ansur_column": "_arm_total",
+   "character_m": 0.7794807807170454,
+   "ansur_predicted_at_stature_m": 0.8258256376011522,
+   "residual_sd_m": 0.02130510699736408,
+   "z": -2.175293317693299,
+   "residual_percentile": 0.7594316511513963,
+   "character_basis": "surface (acromion corner to lowest fingertip, arm hanging)"
+  },
+  "acromion_to_wrist (acromial - wrist height)": {
+   "ansur_column": "_acr_to_wrist",
+   "character_m": 0.5904810069672104,
+   "ansur_predicted_at_stature_m": 0.6169688956915513,
+   "residual_sd_m": 0.01885581656506375,
+   "z": -1.4047595675818128,
+   "residual_percentile": 7.496325330720236,
+   "character_basis": "surface"
+  },
+  "lateral_femoral_epicondyle_height": {
+   "ansur_column": "lateralfemoralepicondyleheight",
+   "character_m": 0.5169554166666667,
+   "ansur_predicted_at_stature_m": 0.5128979651136362,
+   "residual_sd_m": 0.013623720320460131,
+   "z": 0.29782258132068457,
+   "residual_percentile": 62.077413032827046,
+   "character_basis": "fit_dependent (soft-tissue joint line + sourced offset)"
+  },
+  "tibial_height": {
+   "ansur_column": "tibialheight",
+   "character_m": 0.49000000000000005,
+   "ansur_predicted_at_stature_m": 0.4895393592752387,
+   "residual_sd_m": 0.013514877390685267,
+   "z": 0.03408397364217727,
+   "residual_percentile": 52.572268495835374,
+   "character_basis": "surface (minimum-area knee section)"
+  },
+  "lateral_malleolus_height": {
+   "ansur_column": "lateralmalleolusheight",
+   "character_m": 0.0779999999999999,
+   "ansur_predicted_at_stature_m": 0.07537137925424509,
+   "residual_sd_m": 0.005009102178465903,
+   "z": 0.5247688412217344,
+   "residual_percentile": 70.25967662910338,
+   "character_basis": "surface (leg-foot junction; malleolus not modelled)"
+  },
+  "foot_length": {
+   "ansur_column": "footlength",
+   "character_m": 0.30523210763931274,
+   "ansur_predicted_at_stature_m": 0.2799330826397305,
+   "residual_sd_m": 0.009119960622171235,
+   "z": 2.774027876620282,
+   "residual_percentile": 99.63253307202352,
+   "character_basis": "surface"
+  },
+  "biacromial_breadth": {
+   "ansur_column": "biacromialbreadth",
+   "character_m": 0.5253938993665297,
+   "ansur_predicted_at_stature_m": 0.42515656060295987,
+   "residual_sd_m": 0.01623003710606048,
+   "z": 6.176038792057972,
+   "residual_percentile": 100.0,
+   "character_basis": "surface corner (ANSUR is bony, caliper)"
+  },
+  "bideltoid_breadth": {
+   "ansur_column": "bideltoidbreadth",
+   "character_m": 0.5751221429481995,
+   "ansur_predicted_at_stature_m": 0.5198898336583992,
+   "residual_sd_m": 0.030876809221459592,
+   "z": 1.7887958854055892,
+   "residual_percentile": 95.78637922586967,
+   "character_basis": "surface"
+  }
+ },
+ "joint_centres_vs_ansur_landmarks": {
+  "HJC": {
+   "fitted_z_m": 0.9296919266934183,
+   "ansur_trochanterion_pred_m": 0.9398244199556408,
+   "trochanterion_residual_sd_m": 0.02590047996513663,
+   "relation": "Greater-trochanter tip lies on average 8 mm above the femoral head centre on neutral AP radiographs (75% above, 15% below, 10% level; two reports).",
+   "implied_hjc_z_m": 0.9318244199556408,
+   "difference_m": -0.0021324932622225345,
+   "z_vs_trochanterion_spread": -0.08233412141755594
+  },
+  "KJC": {
+   "fitted_z_m": 0.5169554166666667,
+   "ansur_lateral_femoral_epicondyle_pred_m": 0.5128979651136362,
+   "residual_sd_m": 0.013623720320460131,
+   "difference_m": 0.0040574515530305,
+   "relation": "ISB knee centre = epicondyle midpoint, so its height equals epicondyle height."
+  },
+  "EJC": {
+   "fitted_z_m": 1.18,
+   "ansur_radiale_height_pred_m": 1.149491606212401,
+   "residual_sd_m": 0.016542096603192388,
+   "character_radiale_from_own_acromion_m": 1.1612997123739262,
+   "relation": "Radiale (radial-head top) lies below the epicondylar axis; the fit assumes 15 mm (capitulum centre 5 mm below the EJC, radius 10 mm).",
+   "implied_ejc_z_m": 1.1644916062124009,
+   "difference_m": 0.01550839378759905
+  },
+  "WJC": {
+   "fitted_z_m": 0.919,
+   "ansur_wrist_height_pred_m": 0.8807040051141348,
+   "residual_sd_m": 0.02151287828332629,
+   "difference_m": 0.038295994885865214
+  },
+  "GH": {
+   "fitted_z_m": 1.4624307807170451,
+   "character_acromion_skin_m": 1.5094810069672104,
+   "ansur_acromial_pred_m": 1.4976729008056855,
+   "acromial_residual_sd_m": 0.016161569250536086,
+   "depth_below_acromion_skin_m": 0.047050226250165306,
+   "note": "ANSUR has no glenohumeral landmark; the depth chain (skin + acromion thickness + AHD + head radius) is the only sourced vertical relation used.",
+   "open_model_marker_offsets": {
+    "Rajagopal2016 (1.70 m generic)": {
+     "acromion_marker_minus_gh_vertical_m": 0.05349999999999999,
+     "scaled_to_character_m": 0.057276479742106264
+    },
+    "Arm26 (Holzbaur 2005 derived)": {
+     "acromion_marker_minus_gh_vertical_m": 0.047
+    },
+    "note": "Marker centres lie a marker radius plus skin above the bony landmark; the fitted depth is measured from the skin."
+   }
+  },
+  "upper_arm_surface_check": {
+   "character_acromion_skin_to_EJC_m": 0.3294810069672105,
+   "ansur_ARL_pred_minus_15mm_m": 0.3331812945932844,
+   "difference_m": -0.0037002876260738837,
+   "arl_residual_sd_m": 0.010600724100567479
+  }
+ },
+ "stature_equation_chain_on_ansur": {
+  "femur": {
+   "conversion": "(trochanterion - 8 mm) - lateral femoral epicondyle + head radius 24.7 mm + epicondyle-to-joint-line offset",
+   "ansur_mean_bias_cm": -6.414577712314234,
+   "ansur_sd_cm": 5.552022795287572,
+   "ansur_p5_p95_cm": [
+    -15.369610833333367,
+    2.8172891666666477
+   ],
+   "fraction_of_ansur_beyond_minus_2se": 0.4990200881920627,
+   "character_difference_cm": -10.030168869830213,
+   "character_percentile_in_ansur_chain": 25.967662910338067,
+   "character_z_in_ansur_chain": -0.6512205174274156,
+   "reading": "within the central 95% of real men processed by the same chain: the stature-equation shortfall is not evidence of a short bone",
+   "feldesman_ratio_check": {
+    "ansur_mean_bias_cm": -6.23923227232413,
+    "ansur_sd_cm": 7.915188974577347,
+    "character_difference_cm": -8.27630889128713,
+    "note": "Ratio reported to overestimate stature for long femurs (>50 cm); shown as a second estimator only."
+   }
+  },
+  "humerus": {
+   "conversion": "acromion-radiale - GH depth below acromion skin - 15 mm (radiale below EJC) + 24.7 mm + 12 mm (fit allowances)",
+   "ansur_mean_bias_cm": -9.724027450851983,
+   "ansur_sd_cm": 4.156617134408464,
+   "ansur_p5_p95_cm": [
+    -16.5416696850509,
+    -2.9780696850509054
+   ],
+   "fraction_of_ansur_beyond_minus_2se": 0.6479666829985301,
+   "character_difference_cm": -13.237729639249206,
+   "character_percentile_in_ansur_chain": 19.965703086722193,
+   "character_z_in_ansur_chain": -0.8453273599126577,
+   "reading": "within the central 95% of real men processed by the same chain: the stature-equation shortfall is not evidence of a short bone"
+  },
+  "radius": {
+   "conversion": "radiale-stylion (radial-head surface to styloid, as the fit measures the radius)",
+   "ansur_mean_bias_cm": 4.648183733463991,
+   "ansur_sd_cm": 4.883131617424406,
+   "ansur_p5_p95_cm": [
+    -3.272999999999973,
+    12.743599999999999
+   ],
+   "fraction_of_ansur_beyond_minus_2se": 0.002449779519843214,
+   "character_difference_cm": -9.466561960983878,
+   "character_percentile_in_ansur_chain": 0.14698677119059284,
+   "character_z_in_ansur_chain": -2.8905110081576404,
+   "reading": "outside the central 95% of real men processed by the same chain: a character-specific difference remains"
+  }
+ },
+ "character_trotter_gleser_corrected": {
+  "femur_left": {
+   "length_m": 0.4645372278035145,
+   "derivation": "HJC-KJC + head radius (24.7 mm) + epicondyle-to-joint-line offset",
+   "predicted_stature_m": 1.7196986021723644,
+   "difference_m": -0.10030168869830214,
+   "se_m": 0.0327,
+   "within_2se": false
+  },
+  "tibia_left": {
+   "length_m": 0.41220102925485413,
+   "derivation": "plateau to ankle centre (Trotter & Gleser measured the tibia excluding the malleolus)",
+   "predicted_stature_m": 1.8249465937222324,
+   "difference_m": 0.004946302851565942,
+   "se_m": 0.0337,
+   "within_2se": true
+  },
+  "fibula_left": {
+   "length_m": 0.41542968939208896,
+   "derivation": "fibular head to lateral malleolus + tip/apex allowance",
+   "predicted_stature_m": 1.8311515675707986,
+   "difference_m": 0.011151276700132051,
+   "se_m": 0.0329,
+   "within_2se": true
+  },
+  "humerus_left": {
+   "length_m": 0.3191957774279787,
+   "derivation": "GH-EJC + head radius + trochlea below the epicondyles",
+   "predicted_stature_m": 1.6876229944781744,
+   "difference_m": -0.13237729639249207,
+   "se_m": 0.0405,
+   "within_2se": false
+  },
+  "radius_left": {
+   "length_m": 0.24741657969863168,
+   "derivation": "capitulum centre to styloid minus ~10 mm capitulum radius (radial-head surface)",
+   "predicted_stature_m": 1.7253346712608277,
+   "difference_m": -0.09466561960983877,
+   "se_m": 0.0432,
+   "within_2se": false
+  },
+  "ulna_left": {
+   "length_m": 0.28239934802673305,
+   "derivation": "trochlear notch to styloid + olecranon height",
+   "predicted_stature_m": 1.7853775876989124,
+   "difference_m": -0.03462270317175409,
+   "se_m": 0.0432,
+   "within_2se": true
+  },
+  "femur_right": {
+   "length_m": 0.4645372278035145,
+   "derivation": "HJC-KJC + head radius (24.7 mm) + epicondyle-to-joint-line offset",
+   "predicted_stature_m": 1.7196986021723644,
+   "difference_m": -0.10030168869830214,
+   "se_m": 0.0327,
+   "within_2se": false
+  },
+  "tibia_right": {
+   "length_m": 0.41220102925485413,
+   "derivation": "plateau to ankle centre (Trotter & Gleser measured the tibia excluding the malleolus)",
+   "predicted_stature_m": 1.8249465937222324,
+   "difference_m": 0.004946302851565942,
+   "se_m": 0.0337,
+   "within_2se": true
+  },
+  "fibula_right": {
+   "length_m": 0.41542968939208896,
+   "derivation": "fibular head to lateral malleolus + tip/apex allowance",
+   "predicted_stature_m": 1.8311515675707986,
+   "difference_m": 0.011151276700132051,
+   "se_m": 0.0329,
+   "within_2se": true
+  },
+  "humerus_right": {
+   "length_m": 0.3191957774279788,
+   "derivation": "GH-EJC + head radius + trochlea below the epicondyles",
+   "predicted_stature_m": 1.6876229944781747,
+   "difference_m": -0.13237729639249185,
+   "se_m": 0.0405,
+   "within_2se": false
+  },
+  "radius_right": {
+   "length_m": 0.24741657969863168,
+   "derivation": "capitulum centre to styloid minus ~10 mm capitulum radius (radial-head surface)",
+   "predicted_stature_m": 1.7253346712608277,
+   "difference_m": -0.09466561960983877,
+   "se_m": 0.0432,
+   "within_2se": false
+  },
+  "ulna_right": {
+   "length_m": 0.28239934802673305,
+   "derivation": "trochlear notch to styloid + olecranon height",
+   "predicted_stature_m": 1.7853775876989124,
+   "difference_m": -0.03462270317175409,
+   "se_m": 0.0432,
+   "within_2se": true
+  }
+ },
+ "inputs": {
+  "surface": "character_surface.json",
+  "surface_sha256": "b951ba716fc47953e7f30c7bc558fcae9b2e11625d832406271a81f422486c33",
+  "record_sha256": "11712ba3e105aa8844b07572315d58ccace1d23d2f0cdf101218a3a507a1a1e3",
+  "addendum_sha256": "6848a088b6787f0cab9e3b7a26fbb250309338e5df6b272d60dc35bcb1b70c26"
+ }
+}

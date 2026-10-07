@@ -406,3 +406,48 @@ class AbsoluteDirectionTests(unittest.TestCase):
         R = js.zxy_matrix(30, 15, -10)
         H = self.it.half_rotation(R)
         self.assertTrue(np.allclose(H @ H, R, atol=1e-12))
+
+
+@unittest.skipIf(np is None, 'numpy unavailable')
+class ProportionEvidenceTests(unittest.TestCase):
+    """F-PROP-001 / F-GH-001 / F-HJC-001 evidence is bound to committed data and stays honest."""
+    REPORT = ROOT / 'ORIGINAL_V1_WORK/anatomy/audit/proportion_audit_001/proportion_report.json'
+    ANSUR = ROOT / 'ORIGINAL_V1_WORK/anatomy/sources/ansur2/ANSUR_II_MALE_Public.csv'
+
+    @classmethod
+    def setUpClass(cls):
+        import hashlib
+        cls.r = json.loads(cls.REPORT.read_text())
+        cls.ansur_sha = hashlib.sha256(cls.ANSUR.read_bytes()).hexdigest()
+
+    def test_report_is_bound_to_the_committed_ansur_file_and_published_values(self):
+        import csv
+        self.assertEqual(self.r['sources']['ANSUR_II_MALE']['file_sha256'], self.ansur_sha)
+        rows = list(csv.DictReader(open(self.ANSUR, encoding='cp1252')))
+        self.assertEqual(len(rows), 4082)
+        rsl = np.array([float(r['radialestylionlength']) for r in rows])
+        self.assertAlmostEqual(rsl.mean(), 267.9, delta=0.1)          # published male mean
+        self.assertAlmostEqual(rsl.std(ddof=1), 15.4, delta=0.1)
+
+    def test_stature_equation_chain_is_biased_on_real_men(self):
+        c = self.r['stature_equation_chain_on_ansur']
+        for bone in ('femur', 'humerus'):
+            self.assertLess(c[bone]['ansur_mean_bias_cm'], -5.0, bone)
+            self.assertGreater(c[bone]['fraction_of_ansur_beyond_minus_2se'], 0.4, bone)
+            self.assertTrue(2.5 <= c[bone]['character_percentile_in_ansur_chain'] <= 97.5, bone)
+        self.assertLess(c['radius']['character_percentile_in_ansur_chain'], 2.5, 'forearm shortness must stay visible')
+
+    def test_fitted_joint_centres_agree_with_ansur_landmarks(self):
+        j = self.r['joint_centres_vs_ansur_landmarks']
+        self.assertLess(abs(j['HJC']['difference_m']), j['HJC']['trochanterion_residual_sd_m'])
+        self.assertLess(abs(j['KJC']['difference_m']), j['KJC']['residual_sd_m'])
+        self.assertLess(abs(j['upper_arm_surface_check']['difference_m']), j['upper_arm_surface_check']['arl_residual_sd_m'])
+        depth = j['GH']['depth_below_acromion_skin_m']
+        for v in (j['GH']['open_model_marker_offsets']['Arm26 (Holzbaur 2005 derived)']['acromion_marker_minus_gh_vertical_m'],
+                  j['GH']['open_model_marker_offsets']['Rajagopal2016 (1.70 m generic)']['scaled_to_character_m']):
+            self.assertLess(abs(v - depth), 0.012)
+
+    def test_character_specific_proportions_are_reported_not_hidden(self):
+        s = self.r['surface_vs_ansur']
+        self.assertLess(s['acromion_to_dactylion (ARL+RSL+hand)']['z'], -2.0)
+        self.assertGreater(s['foot_length']['z'], 2.0)

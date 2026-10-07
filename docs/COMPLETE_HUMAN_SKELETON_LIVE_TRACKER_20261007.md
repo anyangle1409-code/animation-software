@@ -108,27 +108,28 @@ Gate 6: ⛔ NOT PASSED. The fit is produced and verified, but the femur/humerus 
 Gate 7: 🟡 STRUCTURE VERIFIED. Not passed for placement while Gate 6 is not passed.
 
 ## PHASE 8 — JOINT SOLVERS
-- [ ] ⛔ Spine / cervical solvers.
-- [ ] ⛔ Shoulder-complex solver.
-- [ ] ⛔ Elbow / forearm solver.
-- [ ] ⛔ Wrist / hand / thumb / finger solver.
-- [ ] ⛔ Hip / pelvis solver.
-- [ ] ⛔ Knee / patella solver.
-- [ ] ⛔ Ankle / hindfoot / forefoot / toe solver.
-Requires Blender for final validation, although solver specifications can be written earlier.
-Gate 8: ⛔ BLOCKED FOR FINAL PASS
+Shared conventions: ISB JCS solver and measurement (`scripts/anatomy_fit/joint_solver.py`, `isolated_tests.py`).
+- [ ] 🟡 Spine / cervical solvers. Segmental Z-X-Y about disc markers, plus C1/C2 axial. Moving COR, ribs/costal and per-level coupling are not implemented.
+- [ ] 🟡 Shoulder-complex solver. GH swing–twist plus sourced ST rhythm (0.43/°; McClure end values) and clavicular posterior rotation (31°). SC elevation/retraction and plane dependence are unsourced, so not applied.
+- [ ] 🟡 Elbow / forearm solver. Flexion about the trochlea–capitulum axis; pronation about the radial-head → ulnar-head axis. Carrying-angle obliquity is not measurable on this surface.
+- [ ] 🟡 Wrist / hand / thumb / finger solver. Two-stage wrist (stage split UNVERIFIED: sources conflict); digit MCP/PIP/DIP; thumb MCP/IP. Thumb CMC opposition, finger abduction and individual carpals are missing.
+- [ ] 🟡 Hip / pelvis solver. Hip 3-DOF JCS; SI nutation ±0.85° (sourced 1.7° total). Pubic symphysis and pelvic-ring compliance are not implemented.
+- [ ] 🟡 Knee / patella solver. Flexion with the screw-home coupling (3.6° sourced magnitude; shape approximate). Patellar tracking and tibiofibular followers are not implemented (no accessible magnitudes).
+- [ ] 🟡 Ankle / hindfoot / forefoot / toe solver. Talocrural axis (obliquity not measurable); subtalar Inman axis; hallux MTP. Midfoot, TMT and lesser toes are not implemented.
+Gate 8: ⛔ NOT PASSED (follower/contact mechanics incomplete; several couplings lack accessible source magnitudes).
 
 ## PHASE 9 — ISOLATED BONE-ONLY MOVEMENT TESTS
-- [ ] ⛔ Neutral → intermediate → near-limit sweeps.
-- [ ] ⛔ Both sides.
-- [ ] ⛔ Ascent / descent / reversal.
-- [ ] ⛔ Multi-plane and coupled motions.
-- [ ] ⛔ Joint-centre trajectory checks.
-- [ ] ⛔ Continuity / acceleration checks.
-Requires Blender/laptop.
-Gate 9: ⛔ BLOCKED
+Run `audit/runs/isolated_bone_only_003` on fit a003: 66 tests, all integrity PASS, 27/27 mirror pairs PASS. Independent capture-tool cross-check agrees within 1.1e-5°.
+- [x] ✅ Neutral → intermediate → near-limit sweeps, for the implemented joints. Source-context amplitudes are attached; amplitudes without a joint-specific source are labelled TEST AMPLITUDE.
+- [x] ✅ Both sides (mirror-checked).
+- [x] ✅ Ascent / descent / reversal; commanded and measured reversal frames match.
+- [ ] 🟡 Multi-plane and coupled motions. Hip at 0°/90° flexion; GH in 3 planes and axial rotation at 2 elevations; elbow at 2 pronations; forearm at 2 elbow angles. Couplings tested: shoulder complex, knee screw-home, TMJ glide. Other followers are untested.
+- [x] ✅ Joint-centre trajectory checks: drift ≤ 6e-8 m; distal-marker radius constancy; GH-centre path with the scapula.
+- [x] ✅ Continuity / acceleration checks: second differences match commands within 1e-3°.
+Gate 9: ⛔ NOT PASSED. Joint coverage and follower/contact behaviour are incomplete (see the findings report), and the Gate 6 proportion conflict is unresolved.
 
 ## PHASE 10 — WHOLE-BODY FUNCTIONAL MOVEMENT TESTS
+Not started. The tracker order requires isolated Gate 9 first, and the atlas holds no task kinematics (`task_expected_range` is null for every profile), so functional sweeps would be invented. Next route: drive the master from the project's authored exercise definitions after Gates 6/9, and report joint angles against the context observations.
 - [ ] ⛔ Squat.
 - [ ] ⛔ Split squat / lunge.
 - [ ] ⛔ Hip hinge.
@@ -175,8 +176,10 @@ Gate 13: ⬜ NOT PASSED
 
 ## CURRENT POSITION
 Completed: Phases 0–5 (reference definitions, evidence compilation and static gap comparison); Blender toolchain verification.
-Done: Phase 6 fit and Phase 7 master structure on the r95 audit copy (a002). Gate 6 is not passed (F-PROP-001); Gate 7 structure is verified.
-Next: Phase 8 joint-solver specifications and isolated tests on the a002 master (audit only).
+Done: Phase 6 fit and Phase 7 master structure (fit revision a003); Phase 8 solver core; Phase 9 isolated tests (66, run 003).
+Not passed: Gate 6 (proportion conflict needs an owner decision), Gate 8 (followers/contacts), Gate 9 (coverage).
+Next: implement the remaining followers where source magnitudes can be obtained (full texts were blocked here); resolve F-PROP-001 with the owner; then run Phase 10 from authored exercise definitions.
+Resume: see the "Resume instructions" section of `docs/BLENDER_ANATOMICAL_VALIDATION_HANDOFF_20261007.md`.
 Gates 6–13 remain unpassed.
 Production model, recovery work, geometry, weights and motion drivers unchanged.
 Comprehensive findings, source register, verification and local acceptance checklist: `docs/COMPLETE_SKELETON_FINDINGS_AND_VERIFICATION_20261007.md`.

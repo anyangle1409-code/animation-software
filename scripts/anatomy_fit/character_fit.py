@@ -651,7 +651,9 @@ def fit_character(V, T, features, rig):
             'AA': (acr + np.array([-sg * 0.005, 0.035, -0.010])).tolist(),
             'TS': TS.tolist(), 'AI': AI.tolist(), 'GH': gh.tolist(), 'glenoid': (gh - lat * 0.025).tolist(),
             'EJC': ejc.tolist(), 'WJC': wjc.tolist(),
-            'humeroulnar': (ejc - lat * 0.008 - UP * 0.005).tolist(), 'humeroradial': (ejc + lat * 0.015 - UP * 0.015).tolist(),
+            # Trochlea and capitulum centres both lie on the (near-mediolateral) flexion axis through the elbow centre;
+            # valgus/rotational obliquity of that axis is not measurable on this surface (left unmodelled).
+            'humeroulnar': (ejc - lat * 0.008 - UP * 0.005).tolist(), 'humeroradial': (ejc + lat * 0.015 - UP * 0.005).tolist(),
             'ulnar_styloid_bone': (us + unit_np(wjc - us) * 0.006).tolist(), 'radial_styloid_bone': (rs + unit_np(wjc - rs) * 0.006).tolist(),
             'carpals': carpals(wjc, mcp, sg), 'hand': hand,
             'SI': si.tolist(), 'pubic_symphysis_side': (sym + np.array([sg * 0.004, 0, 0])).tolist(),

@@ -1,0 +1,182 @@
+[
+ {
+  "test": "knee_flexion_extension_left",
+  "bone": "tibia_left",
+  "channel": "flexion",
+  "peak_cmd": 137.7,
+  "trough_cmd": -1.0,
+  "sample_index_peak": 1,
+  "sample_index_return": 3
+ },
+ {
+  "test": "knee_flexion_extension_right",
+  "bone": "tibia_right",
+  "channel": "flexion",
+  "peak_cmd": 137.7,
+  "trough_cmd": -1.0,
+  "sample_index_peak": 5,
+  "sample_index_return": 7
+ },
+ {
+  "test": "hip_flexion_extension_left",
+  "bone": "femur_left",
+  "channel": "flexion",
+  "peak_cmd": 130.4,
+  "trough_cmd": -17.4,
+  "sample_index_peak": 9,
+  "sample_index_return": 11
+ },
+ {
+  "test": "hip_flexion_extension_right",
+  "bone": "femur_right",
+  "channel": "flexion",
+  "peak_cmd": 130.4,
+  "trough_cmd": -17.4,
+  "sample_index_peak": 13,
+  "sample_index_return": 15
+ },
+ {
+  "test": "elbow_flexion_at_pronation_0_left",
+  "bone": "ulna_left",
+  "channel": "angle",
+  "peak_cmd": 144.6,
+  "trough_cmd": -0.8,
+  "sample_index_peak": 17,
+  "sample_index_return": 19
+ },
+ {
+  "test": "elbow_flexion_at_pronation_0_right",
+  "bone": "ulna_right",
+  "channel": "angle",
+  "peak_cmd": 144.6,
+  "trough_cmd": -0.8,
+  "sample_index_peak": 21,
+  "sample_index_return": 23
+ },
+ {
+  "test": "forearm_rotation_at_elbow_0_left",
+  "bone": "radius_left",
+  "channel": "pronation",
+  "peak_cmd": 76.9,
+  "trough_cmd": -85.0,
+  "sample_index_peak": 25,
+  "sample_index_return": 27
+ },
+ {
+  "test": "forearm_rotation_at_elbow_0_right",
+  "bone": "radius_right",
+  "channel": "pronation",
+  "peak_cmd": 76.9,
+  "trough_cmd": -85.0,
+  "sample_index_peak": 29,
+  "sample_index_return": 31
+ },
+ {
+  "test": "gh_elevation_plane_0_left",
+  "bone": "humerus_left",
+  "channel": "elevation",
+  "peak_cmd": 120.0,
+  "trough_cmd": 0.0,
+  "sample_index_peak": 33,
+  "sample_index_return": 35
+ },
+ {
+  "test": "gh_elevation_plane_0_right",
+  "bone": "humerus_right",
+  "channel": "elevation",
+  "peak_cmd": 120.0,
+  "trough_cmd": 0.0,
+  "sample_index_peak": 37,
+  "sample_index_return": 39
+ },
+ {
+  "test": "talocrural_dorsi_plantarflexion_left",
+  "bone": "talus_left",
+  "channel": "angle",
+  "peak_cmd": 20.0,
+  "trough_cmd": -40.0,
+  "sample_index_peak": 41,
+  "sample_index_return": 43
+ },
+ {
+  "test": "talocrural_dorsi_plantarflexion_right",
+  "bone": "talus_right",
+  "channel": "angle",
+  "peak_cmd": 20.0,
+  "trough_cmd": -40.0,
+  "sample_index_peak": 45,
+  "sample_index_return": 47
+ },
+ {
+  "test": "hip_rotation_at_0_flexion_left",
+  "bone": "femur_left",
+  "channel": "internal",
+  "peak_cmd": 44.2,
+  "trough_cmd": -53.2,
+  "sample_index_peak": 49,
+  "sample_index_return": 51
+ },
+ {
+  "test": "hip_rotation_at_0_flexion_right",
+  "bone": "femur_right",
+  "channel": "internal",
+  "peak_cmd": 45.6,
+  "trough_cmd": -51.7,
+  "sample_index_peak": 53,
+  "sample_index_return": 55
+ },
+ {
+  "test": "subtalar_inversion_eversion_left",
+  "bone": "calcaneus_left",
+  "channel": "angle",
+  "peak_cmd": 20.0,
+  "trough_cmd": -10.0,
+  "sample_index_peak": 57,
+  "sample_index_return": 59
+ },
+ {
+  "test": "subtalar_inversion_eversion_right",
+  "bone": "calcaneus_right",
+  "channel": "angle",
+  "peak_cmd": 20.0,
+  "trough_cmd": -10.0,
+  "sample_index_peak": 61,
+  "sample_index_return": 63
+ },
+ {
+  "test": "wrist_flexion_left",
+  "bone": "capitate_left",
+  "channel": "flexion",
+  "peak_cmd": 73.57,
+  "trough_cmd": -67.98,
+  "sample_index_peak": 65,
+  "sample_index_return": 67
+ },
+ {
+  "test": "wrist_flexion_right",
+  "bone": "capitate_right",
+  "channel": "flexion",
+  "peak_cmd": 73.57,
+  "trough_cmd": -67.98,
+  "sample_index_peak": 69,
+  "sample_index_return": 71
+ },
+ {
+  "test": "digit3_flexion_left",
+  "bone": "digit3_proximal_phalanx_left",
+  "channel": "mcp",
+  "peak_cmd": 86.6,
+  "trough_cmd": -8.66,
+  "sample_index_peak": 73,
+  "sample_index_return": 75
+ },
+ {
+  "test": "digit3_flexion_right",
+  "bone": "digit3_proximal_phalanx_right",
+  "channel": "mcp",
+  "peak_cmd": 86.6,
+  "trough_cmd": -8.66,
+  "sample_index_peak": 77,
+  "sample_index_return": 79
+ }
+]

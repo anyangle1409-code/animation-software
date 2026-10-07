@@ -13,7 +13,7 @@ try:
 except ImportError:  # pragma: no cover - system python without numpy
     np = None
 
-RECORD = ROOT / 'ORIGINAL_V1_WORK/anatomy/character_fit_r95_a002.json'
+RECORD = ROOT / 'ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json'
 
 
 def cylinder(r=0.05, h=0.2, n=64):
@@ -134,3 +134,81 @@ class RecordTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+@unittest.skipIf(np is None, 'numpy unavailable')
+class SolverConventionTests(unittest.TestCase):
+    def test_zxy_round_trip_and_clinical_signs(self):
+        import joint_solver as js
+        rng = np.random.default_rng(7)
+        for _ in range(200):
+            z, x, y = rng.uniform(-170, 170), rng.uniform(-80, 80), rng.uniform(-170, 170)
+            self.assertTrue(np.allclose(js.zxy_angles(js.zxy_matrix(z, x, y)), (z, x, y), atol=1e-9))
+        ant = np.array([0, -1.0, 0]); right = np.array([-1.0, 0, 0]); down = np.array([0, 0, -1.0])
+        P0 = js.WORLD_FRAME
+        # hip flexion moves the distal femur anteriorly on both sides; adduction moves it medially
+        for side, medial in (('right', -right), ('left', right)):
+            R = js.zxy_matrix(*js.clinical_to_zxy('hip', side, flexion=30))
+            self.assertGreater((js.world_delta(P0, R) @ down) @ ant, 0.4)
+            R = js.zxy_matrix(*js.clinical_to_zxy('hip', side, adduction=20))
+            self.assertGreater((js.world_delta(P0, R) @ down) @ medial, 0.3)
+            # internal rotation turns the anterior surface medially
+            R = js.zxy_matrix(*js.clinical_to_zxy('hip', side, internal=30))
+            self.assertGreater((js.world_delta(P0, R) @ ant) @ medial, 0.4)
+            # knee flexion moves the distal tibia posteriorly
+            R = js.zxy_matrix(*js.clinical_to_zxy('knee', side, flexion=40))
+            self.assertLess((js.world_delta(P0, R) @ down) @ ant, -0.5)
+            back = js.zxy_to_clinical('knee', side, *js.zxy_angles(R))
+            self.assertAlmostEqual(back['flexion'], 40, places=9)
+
+    def test_gh_swing_twist_round_trip_and_directions(self):
+        import joint_solver as js
+        ant = np.array([0, -1.0, 0]); down = np.array([0, 0, -1.0])
+        for side, lateral in (('right', np.array([-1.0, 0, 0])), ('left', np.array([1.0, 0, 0]))):
+            R = js.gh_command(side, 0, 90)
+            self.assertGreater((js.WORLD_FRAME @ R @ js.WORLD_FRAME.T @ down) @ lateral, 0.999, 'plane 0 abducts')
+            R = js.gh_command(side, 90, 90)
+            self.assertGreater((js.WORLD_FRAME @ R @ js.WORLD_FRAME.T @ down) @ ant, 0.999, 'plane 90 flexes forward')
+            for plane, elev, ir in [(0, 0, 30), (30, 60, -20), (90, 120, 45), (-30, 45, 10), (60, 150, -60)]:
+                m = js.gh_measure(side, js.gh_command(side, plane, elev, ir))
+                self.assertAlmostEqual(m['elevation'], elev, places=7)
+                self.assertAlmostEqual(m['internal_rotation'], ir, places=7)
+                if elev:
+                    self.assertAlmostEqual(m['plane_of_elevation'], plane, places=7)
+
+
+@unittest.skipIf(np is None, 'numpy unavailable')
+class IsolatedTestDirectionTests(unittest.TestCase):
+    """Command directions checked on the committed r95 fit, independent of Blender."""
+    @classmethod
+    def setUpClass(cls):
+        import isolated_tests as it
+        cls.it = it
+        cls.rec = json.loads(RECORD.read_text())
+        cls.atlas = json.loads((ROOT / 'ORIGINAL_V1_WORK/anatomy/whole_body_movement_atlas.json').read_text())
+        cls.F = it.frames(cls.rec)
+        cls.T = {t['id']: t for t in it.specs(cls.rec, cls.atlas)}
+
+    def moved(self, test_id, cmd, bone, vec):
+        G = self.it.deltas(self.T[test_id], cmd, self.F)[bone]
+        return G[:3, :3] @ np.asarray(vec, float)
+
+    def test_subtalar_positive_is_inversion_on_both_feet(self):
+        for side, medial in (('left', np.array([-1.0, 0, 0])), ('right', np.array([1.0, 0, 0]))):
+            sole = self.moved(f'subtalar_inversion_eversion_{side}', {'angle': 20}, f'calcaneus_{side}', [0, 0, -1.0])
+            self.assertGreater(sole @ medial, 0.1, side + ': inversion turns the sole medially')
+
+    def test_elbow_flexion_forearm_pronation_and_ankle_directions(self):
+        for side, medial in (('left', np.array([-1.0, 0, 0])), ('right', np.array([1.0, 0, 0]))):
+            fore = self.moved(f'elbow_flexion_at_pronation_0_{side}', {'angle': 90}, f'ulna_{side}', [0, 0, -1.0])
+            self.assertGreater(fore @ np.array([0, -1.0, 0]), 0.99, 'elbow flexion brings the forearm forward')
+            palm0 = self.F[f'scaphoid_{side}'][:, 0]
+            self.assertGreater(palm0 @ medial, 0.8, 'palms face medially at rest')
+            palm = self.moved(f'forearm_rotation_at_elbow_0_{side}', {'pronation': 60}, f'radius_{side}', palm0)
+            self.assertGreater(palm @ np.array([0, 1.0, 0]), 0.6, 'pronation turns the palm posteriorly')
+            toes = self.moved(f'talocrural_dorsi_plantarflexion_{side}', {'angle': 20}, f'talus_{side}', [0, -1.0, 0])
+            self.assertGreater(toes[2], 0.3, 'dorsiflexion lifts the toes')
+            wrist = self.moved(f'wrist_flexion_{side}', {'flexion': 60}, f'lunate_{side}', [0, 0, -1.0])
+            self.assertGreater(wrist @ palm0, 0.4, 'wrist flexion moves the hand toward the palm side')
+        face = self.moved('c1_c2_axial_rotation', {'angle': 30}, 'c1', [0, -1.0, 0])
+        self.assertGreater(face[0], 0.4, 'positive C1/C2 angle turns the face to the character left (+X)')

@@ -96,8 +96,8 @@ def compute(bones, L, plan):
         return h + (tl - h) * t
     for s in ('left', 'right'):
         r, u, t_, f = f'radius_{s}', f'ulna_{s}', f'tibia_{s}', f'fibula_{s}'
-        explicit[f'proximal_radioulnar_{s}'] = ((along(r, 0.04) + along(u, 0.07)) / 2, 'Radial head in the radial notch (proximal ends of radius/ulna)')
-        explicit[f'distal_radioulnar_{s}'] = ((along(r, 0.96) + along(u, 0.95)) / 2, 'Ulnar head in the sigmoid notch (distal ends)')
+        explicit[f'proximal_radioulnar_{s}'] = (along(r, 0.03), 'Radial head centre in the radial notch (proximal end of the forearm rotation axis)')
+        explicit[f'distal_radioulnar_{s}'] = (along(u, 0.96), 'Ulnar head centre in the sigmoid notch (distal end of the forearm rotation axis)')
         explicit[f'radioulnar_interosseous_{s}'] = ((along(r, 0.5) + along(u, 0.5)) / 2, 'Interosseous membrane mid-shaft locator (fibrous follower, not a hinge)')
         explicit[f'proximal_tibiofibular_{s}'] = ((along(f, 0.02) + along(t_, 0.06)) / 2, 'Fibular head facet under the lateral tibial condyle')
         explicit[f'distal_tibiofibular_{s}'] = ((along(f, 0.93) + along(t_, 0.97)) / 2, 'Distal syndesmosis above the talocrural joint')

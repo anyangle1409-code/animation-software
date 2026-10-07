@@ -103,3 +103,29 @@ Blender is not installed in this environment. Before relying on local output:
 No universal bilateral tolerance, acceleration limit or physiological angle limit is invented by these tools. Anatomical operation, fitting, deformation and performance remain unaccepted until the local evidence passes review.
 
 Final tool verification: 21 synthetic tool tests and 16 atlas tests pass. The full repository runs 571 tests: 562 pass, with the same five failures and four errors recorded before this extension; no additional failures. Protected production input hashes match the prior baseline. Independent review found and verified fixes for incomplete/contradictory provenance reporting and absent geometry reporting. Machine-readable evidence: `ORIGINAL_V1_WORK/anatomy/blender_validation_tools_verification.json`. These results do not execute Blender or accept any character fitting/motion gate.
+
+## Live execution update (7 October 2026) and resume instructions
+
+Blender was available in the cloud session as Blender 5.2.1 LTS, imported as the `bpy` module (`PYTHONPATH=<bpy dir> python3.13 …`). On the laptop, run the same scripts with `blender --background --python <script> -- <args>`; every script accepts the `--` argument separator.
+
+### What now exists
+
+| Step | Command (repo root) | Output |
+|---|---|---|
+| Toolchain smoke | `python3 scripts/blender_smoke_anatomical_capture.py --out <new dir>` | 22 analytic checks (`audit/runs/blender_smoke_001`) |
+| Audit copy | `python3 scripts/anatomy_fit/build_audit_copy.py --glb <r95 BARE> --sha256 c4b8e388… --out-blend <new> --receipt <new>` | `audit/HGPT_ANATOMICAL_AUDIT_r95_a001.blend` |
+| Fit and master (Phases 6–7) | `python3 scripts/anatomy_fit/build_anatomical_master_blender.py --source-blend audit/…a001.blend --out-blend <new> --record <new>.json` | a003 + `character_fit_r95_a003.json` (a002 superseded) |
+| Independent capture | `python3 scripts/capture_anatomical_validation_blender.py --blend <a003> --armature HGPT_ANATOMICAL_MASTER --metres-per-unit 1 --plan ORIGINAL_V1_WORK/anatomy/blender_validation_plan.json --out-directory <new>` | `audit/runs/master_static_002` |
+| Isolated sweeps (Phase 9) | `python3 scripts/anatomy_fit/run_isolated_tests_blender.py --source-blend <a003> --record character_fit_r95_a003.json --out-blend <new> --out-dir <new>` | `audit/runs/isolated_bone_only_003` |
+| Review images / clips | `scripts/anatomy_fit/render_master_review.py`, `render_test_clips.py` | `audit/review/…` |
+| Tests | `python -m unittest scripts/test_blender_anatomical_validation.py scripts/test_anatomy_fit.py` | 26 + 13 |
+
+All outputs are new files; every script refuses to overwrite. The meaning of PASS is unchanged: it records numerical integrity only.
+
+### Resume order
+
+1. Fetch the live branch head and read the tracker and findings report (sections “Phase 6–7” and “Phase 8–9”).
+2. Ask the owner to decide F-PROP-001 / F-GH-001 / F-HJC-001: either the shoulder and pelvic surfaces are raised, or the shorter proximal segments are accepted. If geometry changes, re-run the fit as a new audit revision (a004) and repeat Phases 6–9.
+3. Obtain full-text magnitudes for the missing followers: patellar tracking, tibiofibular motion, midfoot/TMT, wrist stage split, SC elevation/retraction and rhythm plane dependence. This session's egress policy blocked journal hosts. Add each to `FOLLOWER_COUPLINGS` with its source and a regression test, then extend `isolated_tests.specs`.
+4. Add the untested joints (thumb CMC opposition, remaining spinal levels, ribs, finger abduction), then Phase 10 using the project's authored exercise definitions.
+5. Production assets are untouched. Do not promote any audit file.

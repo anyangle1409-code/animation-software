@@ -1,0 +1,132 @@
+{
+ "source_blend": "HGPT_ANATOMICAL_AUDIT_r95_a003_isolated_tests.blend",
+ "clips": {
+  "hip_flexion_extension_left": {
+   "gif": "hip_flexion_extension_left.gif",
+   "frames": [
+    1,
+    81
+   ],
+   "step": 2,
+   "view": "left"
+  },
+  "hip_rotation_at_90_flexion_left": {
+   "gif": "hip_rotation_at_90_flexion_left.gif",
+   "frames": [
+    256,
+    356
+   ],
+   "step": 2,
+   "view": "top"
+  },
+  "knee_flexion_extension_left": {
+   "gif": "knee_flexion_extension_left.gif",
+   "frames": [
+    361,
+    441
+   ],
+   "step": 2,
+   "view": "left"
+  },
+  "talocrural_dorsi_plantarflexion_left": {
+   "gif": "talocrural_dorsi_plantarflexion_left.gif",
+   "frames": [
+    446,
+    526
+   ],
+   "step": 2,
+   "view": "left"
+  },
+  "subtalar_inversion_eversion_left": {
+   "gif": "subtalar_inversion_eversion_left.gif",
+   "frames": [
+    531,
+    611
+   ],
+   "step": 2,
+   "view": "back"
+  },
+  "gh_elevation_plane_0_left": {
+   "gif": "gh_elevation_plane_0_left.gif",
+   "frames": [
+    616,
+    696
+   ],
+   "step": 2,
+   "view": "front"
+  },
+  "gh_elevation_plane_90_left": {
+   "gif": "gh_elevation_plane_90_left.gif",
+   "frames": [
+    786,
+    866
+   ],
+   "step": 2,
+   "view": "left"
+  },
+  "gh_axial_rotation_at_90_elevation_left": {
+   "gif": "gh_axial_rotation_at_90_elevation_left.gif",
+   "frames": [
+    956,
+    1056
+   ],
+   "step": 2,
+   "view": "front"
+  },
+  "elbow_flexion_at_pronation_60_left": {
+   "gif": "elbow_flexion_at_pronation_60_left.gif",
+   "frames": [
+    1146,
+    1246
+   ],
+   "step": 2,
+   "view": "left"
+  },
+  "forearm_rotation_at_elbow_90_left": {
+   "gif": "forearm_rotation_at_elbow_90_left.gif",
+   "frames": [
+    1336,
+    1436
+   ],
+   "step": 2,
+   "view": "front"
+  },
+  "wrist_flexion_left": {
+   "gif": "wrist_flexion_left.gif",
+   "frames": [
+    1441,
+    1521
+   ],
+   "step": 2,
+   "view": "front"
+  },
+  "digit3_flexion_left": {
+   "gif": "digit3_flexion_left.gif",
+   "frames": [
+    1676,
+    1736
+   ],
+   "step": 2,
+   "view": "front"
+  },
+  "c1_c2_axial_rotation": {
+   "gif": "c1_c2_axial_rotation.gif",
+   "frames": [
+    3911,
+    3991
+   ],
+   "step": 2,
+   "view": "top"
+  },
+  "lumbar_l4_l5_extension": {
+   "gif": "lumbar_l4_l5_extension.gif",
+   "frames": [
+    4086,
+    4126
+   ],
+   "step": 2,
+   "view": "left"
+  }
+ },
+ "note": "Bone-only: master bones are reference anatomy and are not skinned; colours = placement class."
+}

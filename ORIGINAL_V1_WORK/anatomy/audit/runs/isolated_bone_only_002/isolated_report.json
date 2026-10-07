@@ -1,0 +1,3995 @@
+{
+ "schema_version": 1,
+ "phase": 9,
+ "scope": "Isolated bone-only sweeps on the fitted master: implementation integrity of commands, JCS measurement, centres, continuity and symmetry. Not an anatomical acceptance; contact mechanics, translations and follower couplings are not exercised.",
+ "provenance": {
+  "source_blend": "ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a003.blend",
+  "source_sha256": "670a37bfd206d702928de721032e2b942725389dc6906df0d866eba8d8cbbe56",
+  "source_sha256_after": "670a37bfd206d702928de721032e2b942725389dc6906df0d866eba8d8cbbe56",
+  "fit_record": "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json",
+  "test_blend": "ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a003_isolated_tests_v2.blend",
+  "test_blend_sha256": "bc9eefbc8f5e2ccdf3e5499a4fa929e6c6ca1feed3bde204bc76e81cc02654b3",
+  "test_blend_sha256_after_measurement": "bc9eefbc8f5e2ccdf3e5499a4fa929e6c6ca1feed3bde204bc76e81cc02654b3",
+  "frame_restored": true,
+  "blender_version": "5.2.1 LTS",
+  "fps": 24.0,
+  "scripts": {
+   "scripts/anatomy_fit/run_isolated_tests_blender.py": "b7eaf2beaf55b92cf1be8a945be2ac51fa2364132a2bec40bc797cb7af9bd69e",
+   "scripts/anatomy_fit/isolated_tests.py": "b67fc315570ed54dc065e227e70e0964f03abaa957e3c5232465c3c638ee08fe",
+   "scripts/anatomy_fit/joint_solver.py": "560a169f62e1d1627500296b0ceffd42205a7b7a902b229c5bd408c9e670d37e"
+  }
+ },
+ "integrity_thresholds": {
+  "angle_error_deg": 0.001,
+  "centre_drift_m": 1e-06,
+  "off_axis_deg": 0.001,
+  "mirror_angle_deg": 0.001,
+  "mirror_position_m": 0.001,
+  "continuity_second_difference_deg": 0.001,
+  "radius_variation_m": 1e-06
+ },
+ "couplings": {
+  "subtalar_axis": {
+   "inclination_deg": 42.0,
+   "medial_deviation_deg": 23.0,
+   "variation": "+/-9 deg inclination",
+   "source": "Inman (as reported in search snippets); ANKLE_GEOMETRY review",
+   "use": "Inversion/eversion command axis from posterior-plantar-lateral to anterior-dorsal-medial."
+  },
+  "shoulder_girdle": {
+   "directions": "Elevation couples clavicular elevation, retraction and posterior axial rotation; scapular upward rotation, internal rotation and posterior tilt (SHOULDER_PINS, Ludewig 2009).",
+   "magnitudes": {
+    "sc_posterior_rotation_mean_deg": 31,
+    "ac_posterior_tilt_mean_deg": 19
+   },
+   "unverified": "Rate curves, upward rotation magnitude and plane dependence are not sourced here."
+  },
+  "knee_screw_home": {
+   "direction": "Tibial external rotation in terminal extension (KNEE_SHM).",
+   "magnitude_deg": 3.6,
+   "source": "Fluoroscopic dynamic knee study: tibia externally rotated 3.6 deg relative to the femur as the knee extended (search snippet); stair ascent 4 deg over 57 deg (second snippet)",
+   "shape": "Applied linearly over the last 20 deg of extension (shape not sourced; terminal-extension locking described over the last ~10 deg).",
+   "used_in": "coupled test knee_flexion_with_screw_home only"
+  },
+  "scapulothoracic_rhythm": {
+   "upward_rotation_per_gh_deg": 0.43,
+   "max_scapular_plane": {
+    "upward_rotation_deg": 50,
+    "posterior_tilt_deg": 30,
+    "external_rotation_deg": 24
+   },
+   "gh_at_max_deg": 117.5,
+   "sources": [
+    "Bone-pin study, active scapular-plane elevation (McClure et al. 2001; search snippet): 50 (SD 4.8) upward, 30 (13.0) posterior tilt, 24 (12.8) external rotation",
+    "GH-relative rate 0.43 deg scapular upward rotation per deg GH elevation (search snippet)",
+    "SHOULDER_PINS: clavicular posterior rotation 31 deg"
+   ],
+   "cross_check": "0.43 x 117.5 = 50.5 deg upward rotation; 117.5 + 50.5 = 168 deg, matching the CDC humerothoracic flexion mean (168.8).",
+   "unverified": "Tilt/external-rotation/clavicle curves scaled linearly with GH elevation; clavicular elevation and retraction magnitudes not sourced (not applied); plane dependence not applied."
+  },
+  "wrist_stage_split": {
+   "radiocarpal_fraction": null,
+   "evidence_conflict": "Accessible snippets disagree (radiocarpal and midcarpal contribute almost equally to flexion versus midcarpal 65-72 percent of flexion; radiocarpal predominates flexion and midcarpal extension).",
+   "unverified": "Gross wrist commands are split equally between radiocarpal and midcarpal and labelled unverified."
+  }
+ },
+ "summary": {
+  "hip_flexion_extension_left": {
+   "frames": [
+    1,
+    81
+   ],
+   "samples": 81,
+   "channels": [
+    "flexion"
+   ],
+   "max_abs_error_deg": {
+    "flexion": 3.378662370323582e-05
+   },
+   "max_uncommanded_jcs_deg": 2.009764959561387e-05,
+   "max_centre_drift_m": 2.9658033571564628e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 8.18279083624547e-08,
+   "continuity_max_second_difference_mismatch_deg": 4.336701445595281e-05,
+   "max_step_deg_per_frame": 10.07397683630748,
+   "commanded_reversal_frames": [
+    20,
+    60
+   ],
+   "measured_reversal_frames": [
+    20,
+    60
+   ],
+   "distal_marker_radius_range_m": 1.802271440976e-07,
+   "primary_channel": "flexion",
+   "primary_range_measured_deg": [
+    -17.399997930718797,
+    130.40001325810584
+   ],
+   "context": [
+    {
+     "id": "cdc_hip_flexion",
+     "value": {
+      "mean": 130.4,
+      "ci95_of_mean": [
+       129,
+       131.8
+      ]
+     },
+     "mode": "passive",
+     "scope": "hip",
+     "sources": [
+      "CDC_ROM",
+      "SOUCIE_ROM"
+     ],
+     "population": "Males age 20\u201344 subgroup of 674 healthy subjects"
+    },
+    {
+     "id": "cdc_hip_extension",
+     "value": {
+      "mean": 17.4,
+      "ci95_of_mean": [
+       16.3,
+       18.5
+      ]
+     },
+     "mode": "passive",
+     "scope": "hip",
+     "sources": [
+      "CDC_ROM",
+      "SOUCIE_ROM"
+     ],
+     "population": "Males age 20\u201344 subgroup of 674 healthy subjects"
+    }
+   ],
+   "amplitude_basis": "CDC passive mean (male 20-44); amplitude only, not a character limit",
+   "profile": "hip",
+   "side": "left",
+   "plane": "sagittal",
+   "kind": "zxy",
+   "integrity_status": "PASS"
+  },
+  "hip_abduction_adduction_left": {
+   "frames": [
+    86,
+    166
+   ],
+   "samples": 81,
+   "channels": [
+    "adduction"
+   ],
+   "max_abs_error_deg": {
+    "adduction": 7.673290475906924e-06
+   },
+   "max_uncommanded_jcs_deg": 3.1761339232384604e-06,
+   "max_centre_drift_m": 4.591062538871028e-09,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 8.18279083624547e-08,
+   "continuity_max_second_difference_mismatch_deg": 1.2116259181738087e-05,
+   "max_step_deg_per_frame": 2.3176273865646104,
+   "commanded_reversal_frames": [
+    20,
+    60
+   ],
+   "measured_reversal_frames": [
+    20,
+    60
+   ],
+   "distal_marker_radius_range_m": 1.8342518159908394e-07,
+   "primary_channel": "adduction",
+   "primary_range_measured_deg": [
+    -30.000000059054223,
+    19.999993517249557
+   ],
+   "context": [],
+   "amplitude_basis": "TEST AMPLITUDE (no hip ab/adduction observation in the atlas): +20 adduction / -30 abduction",
+   "profile": "hip",
+   "side": "left",
+   "plane": "frontal",
+   "kind": "zxy",
+   "integrity_status": "PASS"
+  },
+  "hip_rotation_at_0_flexion_left": {
+   "frames": [
+    171,
+    251
+   ],
+   "samples": 81,
+   "channels": [
+    "internal"
+   ],
+   "max_abs_error_deg": {
+    "internal": 1.172424733653088e-05
+   },
+   "max_uncommanded_jcs_deg": 1.013194660168397e-05,
+   "max_centre_drift_m": 3.6346160254625697e-09,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 8.18279083624547e-08,
+   "continuity_max_second_difference_mismatch_deg": 1.8825537139832704e-05,
+   "max_step_deg_per_frame": 4.109932361450291,
+   "commanded_reversal_frames": [
+    20,
+    60
+   ],
+   "measured_reversal_frames": [
+    20,
+    60
+   ],
+   "distal_marker_radius_range_m": 6.279067965575535e-08,
+   "primary_channel": "internal",
+   "primary_range_measured_deg": [
+    -53.20000278556771,
+    44.2000001224586
+   ],
+   "context": [
+    {
+     "id": "hip_prone_ir_left",
+     "value": {
+      "mean": 44.2,
+      "sd": 10.1
+     },
+     "mode": "passive",
+     "scope": "hip",
+     "sources": [
+      "HIP_POSITION"
+     ],
+     "population": "117 male Japanese participants; age 21.9\u00b14.4, range20\u201353"
+    },
+    {
+     "id": "hip_prone_er_left",
+     "value": {
+      "mean": 53.2,
+      "sd": 11.2
+     },
+     "mode": "passive",
+     "scope": "hip",
+     "sources": [
+      "HIP_POSITION"
+     ],
+     "population": "117 male Japanese participants; age 21.9\u00b14.4, range20\u201353"
+    }
+   ],
+   "amplitude_basis": "Prone (hip 0 deg) passive means, side-specific",
+   "profile": "hip",
+   "side": "left",
+   "plane": "transverse",
+   "kind": "zxy",
+   "integrity_status": "PASS"
+  },
+  "hip_rotation_at_90_flexion_left": {
+   "frames": [
+    256,
+    356
+   ],
+   "samples": 101,
+   "channels": [
+    "flexion",
+    "internal"
+   ],
+   "max_abs_error_deg": {
+    "flexion": 2.508441770032732e-05,
+    "internal": 2.9321197576592795e-05
+   },
+   "max_uncommanded_jcs_deg": 2.0345728324895842e-05,
+   "max_centre_drift_m": 2.5038772318253737e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 8.18279083624547e-08,
+   "continuity_max_second_difference_mismatch_deg": 4.739100135708885e-05,
+   "max_step_deg_per_frame": 3.337385709301472,
+   "commanded_reversal_frames": [
+    30,
+    70
+   ],
+   "measured_reversal_frames": [
+    30,
+    70
+   ],
+   "distal_marker_radius_range_m": 1.1719456360914648e-07,
+   "primary_channel": "internal",
+   "primary_range_measured_deg": [
+    -43.20001932200238,
+    40.59998280586606
+   ],
+   "context": [
+    {
+     "id": "hip_sitting_ir_left",
+     "value": {
+      "mean": 40.6,
+      "sd": 8.0
+     },
+     "mode": "passive",
+     "scope": "hip",
+     "sources": [
+      "HIP_POSITION"
+     ],
+     "population": "117 male Japanese participants; age 21.9\u00b14.4, range20\u201353"
+    },
+    {
+     "id": "hip_sitting_er_left",
+     "value": {
+      "mean": 43.2,
+      "sd": 8.1
+     },
+     "mode": "passive",
+     "scope": "hip",
+     "sources": [
+      "HIP_POSITION"
+     ],
+     "population": "117 male Japanese participants; age 21.9\u00b14.4, range20\u201353"
+    }
+   ],
+   "amplitude_basis": "Sitting (hip 90 deg) passive means, side-specific",
+   "profile": "hip",
+   "side": "left",
+   "plane": "transverse_at_90_flexion",
+   "kind": "zxy",
+   "integrity_status": "PASS"
+  },
+  "knee_flexion_extension_left": {
+   "frames": [
+    361,
+    441
+   ],
+   "samples": 81,
+   "channels": [
+    "flexion"
+   ],
+   "max_abs_error_deg": {
+    "flexion": 2.444410955604326e-05
+   },
+   "max_uncommanded_jcs_deg": 2.083741598427388e-05,
+   "max_centre_drift_m": 2.9339677408489725e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 7.844035297237831e-08,
+   "continuity_max_second_difference_mismatch_deg": 3.376564187362874e-05,
+   "max_step_deg_per_frame": 10.637939180810292,
+   "commanded_reversal_frames": [
+    20,
+    60
+   ],
+   "measured_reversal_frames": [
+    20,
+    60
+   ],
+   "distal_marker_radius_range_m": 3.369824637666774e-07,
+   "primary_channel": "flexion",
+   "primary_range_measured_deg": [
+    -1.0000000710647194,
+    137.70001240971646
+   ],
+   "context": [
+    {
+     "id": "cdc_knee_flexion",
+     "value": {
+      "mean": 137.7,
+      "ci95_of_mean": [
+       136.5,
+       138.9
+      ]
+     },
+     "mode": "passive",
+     "scope": "knee",
+     "sources": [
+      "CDC_ROM",
+      "SOUCIE_ROM"
+     ],
+     "population": "Males age 20\u201344 subgroup of 674 healthy subjects"
+    },
+    {
+     "id": "cdc_knee_extension",
+     "value": {
+      "mean": 1.0,
+      "ci95_of_mean": [
+       0.6,
+       1.4
+      ]
+     },
+     "mode": "passive",
+     "scope": "knee",
+     "sources": [
+      "CDC_ROM",
+      "SOUCIE_ROM"
+     ],
+     "population": "Males age 20\u201344 subgroup of 674 healthy subjects"
+    }
+   ],
+   "amplitude_basis": "CDC passive knee complex means; screw-home coupling not applied (no sourced magnitude)",
+   "profile": "knee",
+   "side": "left",
+   "plane": "sagittal",
+   "kind": "zxy",
+   "integrity_status": "PASS"
+  },
+  "talocrural_dorsi_plantarflexion_left": {
+   "frames": [
+    446,
+    526
+   ],
+   "samples": 81,
+   "channels": [
+    "angle"
+   ],
+   "max_abs_error_deg": {
+    "angle": 1.0582227858435544e-05
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 4.092628064385541e-09,
+   "max_off_axis_deg": 3.1564392681869322e-06,
+   "max_marker_vs_carried_centre_m": 6.822016508744743e-09,
+   "continuity_max_second_difference_mismatch_deg": 1.1497442947927539e-05,
+   "max_step_deg_per_frame": 3.090177062736416,
+   "commanded_reversal_frames": [
+    20,
+    60
+   ],
+   "measured_reversal_frames": [
+    20,
+    60
+   ],
+   "distal_marker_radius_range_m": 1.6680522102463513e-08,
+   "primary_channel": "angle",
+   "primary_range_measured_deg": [
+    -40.000003790105694,
+    19.999998082329256
+   ],
+   "context": [
+    {
+     "id": "cdc_ankle_dorsiflexion",
+     "value": {
+      "mean": 12.7,
+      "ci95_of_mean": [
+       11.6,
+       13.8
+      ]
+     },
+     "mode": "passive",
+     "scope": "ankle_foot_complex",
+     "sources": [
+      "CDC_ROM",
+      "SOUCIE_ROM"
+     ],
+     "population": "Males age 20\u201344 subgroup of 674 healthy subjects"
+    },
+    {
+     "id": "cdc_ankle_plantarflexion",
+     "value": {
+      "mean": 54.6,
+      "ci95_of_mean": [
+       53.2,
+       56
+      ]
+     },
+     "mode": "passive",
+     "scope": "ankle_foot_complex",
+     "sources": [
+      "CDC_ROM",
+      "SOUCIE_ROM"
+     ],
+     "population": "Males age 20\u201344 subgroup of 674 healthy subjects"
+    }
+   ],
+   "amplitude_basis": "TEST AMPLITUDE +20 DF / -40 PF for the talocrural stage; CDC values are the ankle-foot complex and are not assigned to this joint",
+   "profile": "ankle",
+   "side": "left",
+   "plane": "sagittal",
+   "kind": "axis",
+   "integrity_status": "PASS"
+  },
+  "subtalar_inversion_eversion_left": {
+   "frames": [
+    531,
+    611
+   ],
+   "samples": 81,
+   "channels": [
+    "angle"
+   ],
+   "max_abs_error_deg": {
+    "angle": 3.3188377344117725e-06
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 3.795102132404547e-09,
+   "max_off_axis_deg": 2.8833021585896323e-06,
+   "max_marker_vs_carried_centre_m": 1.5329055707379034e-08,
+   "continuity_max_second_difference_mismatch_deg": 4.592626879684758e-06,
+   "max_step_deg_per_frame": 1.5450875920328997,
+   "commanded_reversal_frames": [
+    20,
+    60
+   ],
+   "measured_reversal_frames": [
+    20,
+    60
+   ],
+   "distal_marker_radius_range_m": 8.820774395623676e-09,
+   "primary_channel": "angle",
+   "primary_range_measured_deg": [
+    -10.000000055339058,
+    19.999999814889577
+   ],
+   "context": [],
+   "amplitude_basis": "TEST AMPLITUDE +20 inversion / -10 eversion about the Inman axis (42 deg / 23 deg); midfoot followers not driven",
+   "profile": "subtalar",
+   "side": "left",
+   "plane": "oblique_inman_axis",
+   "kind": "axis",
+   "integrity_status": "PASS"
+  },
+  "gh_elevation_plane_0_left": {
+   "frames": [
+    616,
+    696
+   ],
+   "samples": 81,
+   "channels": [
+    "plane",
+    "elevation",
+    "internal"
+   ],
+   "max_abs_error_deg": {
+    "plane": 8.329802643685478e-06,
+    "elevation": 1.6028591787176083e-05,
+    "internal": 1.7145359617578828e-05
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 5.828980982614206e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 7.24309922905206e-08,
+   "continuity_max_second_difference_mismatch_deg": 3.070059339904674e-05,
+   "max_step_deg_per_frame": 4.635260792155677,
+   "commanded_reversal_frames": [
+    40
+   ],
+   "measured_reversal_frames": [
+    40
+   ],
+   "distal_marker_radius_range_m": 2.2409380356913644e-07,
+   "primary_channel": "elevation",
+   "primary_range_measured_deg": [
+    7.633938756690635e-17,
+    120.00000058586554
+   ],
+   "context": [],
+   "amplitude_basis": "TEST AMPLITUDE to 120 deg GH elevation with the scapula fixed; CDC 168.8 deg is humerothoracic and is not assigned to GH",
+   "profile": "gh",
+   "side": "left",
+   "plane": "elevation_plane_0",
+   "kind": "gh",
+   "integrity_status": "PASS"
+  },
+  "gh_elevation_plane_40_left": {
+   "frames": [
+    701,
+    781
+   ],
+   "samples": 81,
+   "channels": [
+    "plane",
+    "elevation",
+    "internal"
+   ],
+   "max_abs_error_deg": {
+    "plane": 2.219863403496447e-05,
+    "elevation": 1.723339369164023e-05,
+    "internal": 5.513763726936655e-05
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 5.9520771181107136e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 7.24309922905206e-08,
+   "continuity_max_second_difference_mismatch_deg": 2.790609780589648e-05,
+   "max_step_deg_per_frame": 4.635259472929491,
+   "commanded_reversal_frames": [
+    40
+   ],
+   "measured_reversal_frames": [
+    40
+   ],
+   "distal_marker_radius_range_m": 2.424944430257092e-07,
+   "primary_channel": "elevation",
+   "primary_range_measured_deg": [
+    7.633938756690635e-17,
+    119.99998461395647
+   ],
+   "context": [],
+   "amplitude_basis": "TEST AMPLITUDE to 120 deg GH elevation with the scapula fixed; CDC 168.8 deg is humerothoracic and is not assigned to GH",
+   "profile": "gh",
+   "side": "left",
+   "plane": "elevation_plane_40",
+   "kind": "gh",
+   "integrity_status": "PASS"
+  },
+  "gh_elevation_plane_90_left": {
+   "frames": [
+    786,
+    866
+   ],
+   "samples": 81,
+   "channels": [
+    "plane",
+    "elevation",
+    "internal"
+   ],
+   "max_abs_error_deg": {
+    "plane": 1.1732202068515107e-05,
+    "elevation": 2.5215909452924734e-05,
+    "internal": 1.1490162378471314e-05
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 5.940958804716763e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 7.24309922905206e-08,
+   "continuity_max_second_difference_mismatch_deg": 4.057089802245173e-05,
+   "max_step_deg_per_frame": 4.6352633414037285,
+   "commanded_reversal_frames": [
+    40
+   ],
+   "measured_reversal_frames": [
+    40
+   ],
+   "distal_marker_radius_range_m": 1.5257343688457325e-07,
+   "primary_channel": "elevation",
+   "primary_range_measured_deg": [
+    7.633938756690635e-17,
+    119.9999934549488
+   ],
+   "context": [],
+   "amplitude_basis": "TEST AMPLITUDE to 120 deg GH elevation with the scapula fixed; CDC 168.8 deg is humerothoracic and is not assigned to GH",
+   "profile": "gh",
+   "side": "left",
+   "plane": "elevation_plane_90",
+   "kind": "gh",
+   "integrity_status": "PASS"
+  },
+  "gh_axial_rotation_at_0_elevation_left": {
+   "frames": [
+    871,
+    951
+   ],
+   "samples": 81,
+   "channels": [
+    "plane",
+    "elevation",
+    "internal"
+   ],
+   "max_abs_error_deg": {
+    "plane": null,
+    "elevation": 5.92156065844766e-06,
+    "internal": 2.2502407851732187e-05
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 7.031827153289474e-09,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 7.24309922905206e-08,
+   "continuity_max_second_difference_mismatch_deg": 1.5818033745063076e-05,
+   "max_step_deg_per_frame": 3.862721043416677,
+   "commanded_reversal_frames": [
+    20,
+    60
+   ],
+   "measured_reversal_frames": [
+    20,
+    60
+   ],
+   "distal_marker_radius_range_m": 3.875435528044591e-09,
+   "primary_channel": "internal",
+   "primary_range_measured_deg": [
+    -50.00001951187746,
+    50.00000814231558
+   ],
+   "context": [],
+   "amplitude_basis": "TEST AMPLITUDE +/-50 deg axial rotation at stated elevation",
+   "profile": "gh",
+   "side": "left",
+   "plane": "axial_at_0",
+   "kind": "gh",
+   "integrity_status": "PASS"
+  },
+  "gh_axial_rotation_at_90_elevation_left": {
+   "frames": [
+    956,
+    1056
+   ],
+   "samples": 101,
+   "channels": [
+    "plane",
+    "elevation",
+    "internal"
+   ],
+   "max_abs_error_deg": {
+    "plane": 8.136701603158052e-06,
+    "elevation": 1.740006649697534e-05,
+    "internal": 2.6964703039311644e-05
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 5.9541803884869755e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 7.24309922905206e-08,
+   "continuity_max_second_difference_mismatch_deg": 1.938093639708427e-05,
+   "max_step_deg_per_frame": 3.8627206175030864,
+   "commanded_reversal_frames": [
+    30,
+    70
+   ],
+   "measured_reversal_frames": [
+    30,
+    70
+   ],
+   "distal_marker_radius_range_m": 1.9960489772152812e-07,
+   "primary_channel": "internal",
+   "primary_range_measured_deg": [
+    -50.00001112871722,
+    50.00002696470304
+   ],
+   "context": [],
+   "amplitude_basis": "TEST AMPLITUDE +/-50 deg axial rotation at stated elevation",
+   "profile": "gh",
+   "side": "left",
+   "plane": "axial_at_90",
+   "kind": "gh",
+   "integrity_status": "PASS"
+  },
+  "elbow_flexion_at_pronation_0_left": {
+   "frames": [
+    1061,
+    1141
+   ],
+   "samples": 81,
+   "channels": [
+    "angle",
+    "pronation"
+   ],
+   "max_abs_error_deg": {
+    "angle": 3.9585305614764366e-05,
+    "pronation": 1.6279228987059469e-06
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 5.789994937007699e-08,
+   "max_off_axis_deg": 2.237463364675526e-05,
+   "max_marker_vs_carried_centre_m": null,
+   "continuity_max_second_difference_mismatch_deg": 6.47738323351632e-05,
+   "max_step_deg_per_frame": 11.170990829701395,
+   "commanded_reversal_frames": [
+    20,
+    60
+   ],
+   "measured_reversal_frames": [
+    20,
+    60
+   ],
+   "distal_marker_radius_range_m": 7.165806935049979e-07,
+   "primary_channel": "angle",
+   "primary_range_measured_deg": [
+    -0.8000001710781817,
+    144.59999834449934
+   ],
+   "context": [
+    {
+     "id": "cdc_elbow_flexion",
+     "value": {
+      "mean": 144.6,
+      "ci95_of_mean": [
+       143.6,
+       145.6
+      ]
+     },
+     "mode": "passive",
+     "scope": "elbow",
+     "sources": [
+      "CDC_ROM",
+      "SOUCIE_ROM"
+     ],
+     "population": "Males age 20\u201344 subgroup of 674 healthy subjects"
+    },
+    {
+     "id": "cdc_elbow_extension",
+     "value": {
+      "mean": 0.8,
+      "ci95_of_mean": [
+       0.1,
+       1.5
+      ]
+     },
+     "mode": "passive",
+     "scope": "elbow",
+     "sources": [
+      "CDC_ROM",
+      "SOUCIE_ROM"
+     ],
+     "population": "Males age 20\u201344 subgroup of 674 healthy subjects"
+    }
+   ],
+   "amplitude_basis": "CDC passive elbow means at the stated forearm rotation",
+   "profile": "elbow",
+   "side": "left",
+   "plane": "sagittal",
+   "kind": "elbow",
+   "integrity_status": "PASS"
+  },
+  "elbow_flexion_at_pronation_60_left": {
+   "frames": [
+    1146,
+    1246
+   ],
+   "samples": 101,
+   "channels": [
+    "angle",
+    "pronation"
+   ],
+   "max_abs_error_deg": {
+    "angle": 3.9585305614764366e-05,
+    "pronation": 2.448204543270549e-05
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 5.789994937007699e-08,
+   "max_off_axis_deg": 2.463699137553719e-05,
+   "max_marker_vs_carried_centre_m": null,
+   "continuity_max_second_difference_mismatch_deg": 6.47738323351632e-05,
+   "max_step_deg_per_frame": 11.170990829701395,
+   "commanded_reversal_frames": [
+    30,
+    70
+   ],
+   "measured_reversal_frames": [
+    30,
+    70
+   ],
+   "distal_marker_radius_range_m": 0.0019441038474827255,
+   "primary_channel": "angle",
+   "primary_range_measured_deg": [
+    -0.8000001710781817,
+    144.59999834449934
+   ],
+   "context": [
+    {
+     "id": "cdc_elbow_flexion",
+     "value": {
+      "mean": 144.6,
+      "ci95_of_mean": [
+       143.6,
+       145.6
+      ]
+     },
+     "mode": "passive",
+     "scope": "elbow",
+     "sources": [
+      "CDC_ROM",
+      "SOUCIE_ROM"
+     ],
+     "population": "Males age 20\u201344 subgroup of 674 healthy subjects"
+    },
+    {
+     "id": "cdc_elbow_extension",
+     "value": {
+      "mean": 0.8,
+      "ci95_of_mean": [
+       0.1,
+       1.5
+      ]
+     },
+     "mode": "passive",
+     "scope": "elbow",
+     "sources": [
+      "CDC_ROM",
+      "SOUCIE_ROM"
+     ],
+     "population": "Males age 20\u201344 subgroup of 674 healthy subjects"
+    }
+   ],
+   "amplitude_basis": "CDC passive elbow means at the stated forearm rotation",
+   "profile": "elbow",
+   "side": "left",
+   "plane": "sagittal",
+   "kind": "elbow",
+   "integrity_status": "PASS"
+  },
+  "forearm_rotation_at_elbow_0_left": {
+   "frames": [
+    1251,
+    1331
+   ],
+   "samples": 81,
+   "channels": [
+    "angle",
+    "pronation"
+   ],
+   "max_abs_error_deg": {
+    "angle": 0.0,
+    "pronation": 1.712399978259782e-05
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 4.449557262054371e-16,
+   "max_off_axis_deg": 6.664003167730456e-06,
+   "max_marker_vs_carried_centre_m": null,
+   "continuity_max_second_difference_mismatch_deg": 3.808382774650454e-05,
+   "max_step_deg_per_frame": 6.566629823702755,
+   "commanded_reversal_frames": [
+    20,
+    60
+   ],
+   "measured_reversal_frames": [
+    20,
+    60
+   ],
+   "distal_marker_radius_range_m": 1.7860344095343983e-07,
+   "primary_channel": "pronation",
+   "primary_range_measured_deg": [
+    -84.9999885793505,
+    76.90000245002398
+   ],
+   "context": [
+    {
+     "id": "cdc_forearm_pronation",
+     "value": {
+      "mean": 76.9,
+      "ci95_of_mean": [
+       75.6,
+       78.2
+      ]
+     },
+     "mode": "passive",
+     "scope": "radioulnar_complex",
+     "sources": [
+      "CDC_ROM",
+      "SOUCIE_ROM"
+     ],
+     "population": "Males age 20\u201344 subgroup of 674 healthy subjects"
+    },
+    {
+     "id": "cdc_forearm_supination",
+     "value": {
+      "mean": 85.0,
+      "ci95_of_mean": [
+       83.8,
+       86.2
+      ]
+     },
+     "mode": "passive",
+     "scope": "radioulnar_complex",
+     "sources": [
+      "CDC_ROM",
+      "SOUCIE_ROM"
+     ],
+     "population": "Males age 20\u201344 subgroup of 674 healthy subjects"
+    },
+    {
+     "id": "forearm_pronation",
+     "value": {
+      "mean": 68.8,
+      "sd": 12.5
+     },
+     "mode": "active",
+     "scope": "radioulnar_complex",
+     "sources": [
+      "FOREARM_BIPLANE"
+     ],
+     "population": "10 healthy participants / 20 limbs; dominant-side result"
+    },
+    {
+     "id": "forearm_supination",
+     "value": {
+      "mean": 82.4,
+      "sd": 14.2
+     },
+     "mode": "active",
+     "scope": "radioulnar_complex",
+     "sources": [
+      "FOREARM_BIPLANE"
+     ],
+     "population": "10 healthy participants / 20 limbs; dominant-side result"
+    }
+   ],
+   "amplitude_basis": "CDC passive forearm means; dynamic biplane active means retained as a second context",
+   "profile": "radioulnar",
+   "side": "left",
+   "plane": "axial",
+   "kind": "elbow",
+   "integrity_status": "PASS"
+  },
+  "forearm_rotation_at_elbow_90_left": {
+   "frames": [
+    1336,
+    1436
+   ],
+   "samples": 101,
+   "channels": [
+    "angle",
+    "pronation"
+   ],
+   "max_abs_error_deg": {
+    "angle": 9.800746511245961e-06,
+    "pronation": 3.0179850412537235e-05
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 5.555852403321061e-08,
+   "max_off_axis_deg": 2.6474271307620163e-05,
+   "max_marker_vs_carried_centre_m": null,
+   "continuity_max_second_difference_mismatch_deg": 2.650082626587391e-05,
+   "max_step_deg_per_frame": 6.566616302000028,
+   "commanded_reversal_frames": [
+    30,
+    70
+   ],
+   "measured_reversal_frames": [
+    30,
+    70
+   ],
+   "distal_marker_radius_range_m": 1.1676925512627001e-07,
+   "primary_channel": "pronation",
+   "primary_range_measured_deg": [
+    -84.99998474245531,
+    76.89997763993551
+   ],
+   "context": [
+    {
+     "id": "cdc_forearm_pronation",
+     "value": {
+      "mean": 76.9,
+      "ci95_of_mean": [
+       75.6,
+       78.2
+      ]
+     },
+     "mode": "passive",
+     "scope": "radioulnar_complex",
+     "sources": [
+      "CDC_ROM",
+      "SOUCIE_ROM"
+     ],
+     "population": "Males age 20\u201344 subgroup of 674 healthy subjects"
+    },
+    {
+     "id": "cdc_forearm_supination",
+     "value": {
+      "mean": 85.0,
+      "ci95_of_mean": [
+       83.8,
+       86.2
+      ]
+     },
+     "mode": "passive",
+     "scope": "radioulnar_complex",
+     "sources": [
+      "CDC_ROM",
+      "SOUCIE_ROM"
+     ],
+     "population": "Males age 20\u201344 subgroup of 674 healthy subjects"
+    },
+    {
+     "id": "forearm_pronation",
+     "value": {
+      "mean": 68.8,
+      "sd": 12.5
+     },
+     "mode": "active",
+     "scope": "radioulnar_complex",
+     "sources": [
+      "FOREARM_BIPLANE"
+     ],
+     "population": "10 healthy participants / 20 limbs; dominant-side result"
+    },
+    {
+     "id": "forearm_supination",
+     "value": {
+      "mean": 82.4,
+      "sd": 14.2
+     },
+     "mode": "active",
+     "scope": "radioulnar_complex",
+     "sources": [
+      "FOREARM_BIPLANE"
+     ],
+     "population": "10 healthy participants / 20 limbs; dominant-side result"
+    }
+   ],
+   "amplitude_basis": "CDC passive forearm means; dynamic biplane active means retained as a second context",
+   "profile": "radioulnar",
+   "side": "left",
+   "plane": "axial",
+   "kind": "elbow",
+   "integrity_status": "PASS"
+  },
+  "wrist_flexion_left": {
+   "frames": [
+    1441,
+    1521
+   ],
+   "samples": 81,
+   "channels": [
+    "flexion"
+   ],
+   "max_abs_error_deg": {
+    "flexion": 1.640603218788783e-05
+   },
+   "max_uncommanded_jcs_deg": 6.614468442952329e-06,
+   "max_centre_drift_m": 2.8114011224864017e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": null,
+   "continuity_max_second_difference_mismatch_deg": 2.0984732259421435e-05,
+   "max_step_deg_per_frame": 5.683602081388052,
+   "commanded_reversal_frames": [
+    20,
+    60
+   ],
+   "measured_reversal_frames": [
+    20,
+    60
+   ],
+   "distal_marker_radius_range_m": 0.0016357738922415516,
+   "primary_channel": "flexion",
+   "primary_range_measured_deg": [
+    -67.97998425121816,
+    73.57000206406104
+   ],
+   "context": [
+    {
+     "id": "wrist_flexion",
+     "value": {
+      "mean": 73.57,
+      "sd": 4.53,
+      "observed_range": [
+       63.53,
+       82.33
+      ]
+     },
+     "mode": "active",
+     "scope": "wrist_complex",
+     "sources": [
+      "WRIST_ACTIVE"
+     ],
+     "population": "70 asymptomatic adults age18\u201340 / 120 wrists"
+    },
+    {
+     "id": "wrist_extension",
+     "value": {
+      "mean": 67.98,
+      "sd": 4.25,
+      "observed_range": [
+       60.39,
+       75.68
+      ]
+     },
+     "mode": "active",
+     "scope": "wrist_complex",
+     "sources": [
+      "WRIST_ACTIVE"
+     ],
+     "population": "70 asymptomatic adults age18\u201340 / 120 wrists"
+    }
+   ],
+   "amplitude_basis": "Active wrist-complex means (flexion / extension); split equally between radiocarpal and midcarpal stages (split unverified)",
+   "profile": "radiocarpal",
+   "side": "left",
+   "plane": "flexion",
+   "kind": "wrist",
+   "integrity_status": "PASS"
+  },
+  "wrist_adduction_left": {
+   "frames": [
+    1526,
+    1606
+   ],
+   "samples": 81,
+   "channels": [
+    "adduction"
+   ],
+   "max_abs_error_deg": {
+    "adduction": 8.620475067999678e-06
+   },
+   "max_uncommanded_jcs_deg": 2.893368053313506e-06,
+   "max_centre_drift_m": 2.770160705651658e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": null,
+   "continuity_max_second_difference_mismatch_deg": 1.3418435848677746e-05,
+   "max_step_deg_per_frame": 2.4172874070457375,
+   "commanded_reversal_frames": [
+    20,
+    60
+   ],
+   "measured_reversal_frames": [
+    20,
+    60
+   ],
+   "distal_marker_radius_range_m": 0.00024554880369383886,
+   "primary_channel": "adduction",
+   "primary_range_measured_deg": [
+    -18.560006562083903,
+    31.290007317383743
+   ],
+   "context": [
+    {
+     "id": "wrist_ulnar_deviation",
+     "value": {
+      "mean": 31.29,
+      "sd": 3.28,
+      "observed_range": [
+       25.91,
+       38.64
+      ]
+     },
+     "mode": "active",
+     "scope": "wrist_complex",
+     "sources": [
+      "WRIST_ACTIVE"
+     ],
+     "population": "70 asymptomatic adults age18\u201340 / 120 wrists"
+    },
+    {
+     "id": "wrist_radial_deviation",
+     "value": {
+      "mean": 18.56,
+      "sd": 1.66,
+      "observed_range": [
+       14.82,
+       22.54
+      ]
+     },
+     "mode": "active",
+     "scope": "wrist_complex",
+     "sources": [
+      "WRIST_ACTIVE"
+     ],
+     "population": "70 asymptomatic adults age18\u201340 / 120 wrists"
+    }
+   ],
+   "amplitude_basis": "Active wrist-complex means (ulnar deviation / radial deviation); split equally between radiocarpal and midcarpal stages (split unverified)",
+   "profile": "radiocarpal",
+   "side": "left",
+   "plane": "adduction",
+   "kind": "wrist",
+   "integrity_status": "PASS"
+  },
+  "digit2_flexion_left": {
+   "frames": [
+    1611,
+    1671
+   ],
+   "samples": 61,
+   "channels": [
+    "mcp",
+    "pip",
+    "dip"
+   ],
+   "max_abs_error_deg": {
+    "mcp": 1.9158912436978426e-05,
+    "pip": 3.077894542258264e-05,
+    "dip": 4.081861325033742e-05
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 2.907584843304522e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 1.3981194233512022e-08,
+   "continuity_max_second_difference_mismatch_deg": 2.4635734718003732e-05,
+   "max_step_deg_per_frame": 6.643876003572515,
+   "commanded_reversal_frames": [
+    20,
+    50
+   ],
+   "measured_reversal_frames": [
+    20,
+    50
+   ],
+   "distal_marker_radius_range_m": 0.022508176901135636,
+   "primary_channel": "mcp",
+   "primary_range_measured_deg": [
+    -8.599998573027195,
+    86.00001337921528
+   ],
+   "context": [
+    {
+     "id": "digit2_mcp_flexion",
+     "value": {
+      "mean": 86,
+      "sd": 9.2
+     },
+     "mode": "active",
+     "scope": "finger_mcp",
+     "sources": [
+      "FINGER_ACTIVE"
+     ],
+     "population": "195 healthy adults / 390 hands; age18\u201360, 116 male/79 female"
+    },
+    {
+     "id": "digit2_pip_flexion",
+     "value": {
+      "mean": 97.2,
+      "sd": 16.9
+     },
+     "mode": "active",
+     "scope": "finger_pip",
+     "sources": [
+      "FINGER_ACTIVE"
+     ],
+     "population": "195 healthy adults / 390 hands; age18\u201360, 116 male/79 female"
+    },
+    {
+     "id": "digit2_dip_flexion",
+     "value": {
+      "mean": 81.6,
+      "sd": 13.9
+     },
+     "mode": "active",
+     "scope": "finger_dip",
+     "sources": [
+      "FINGER_ACTIVE"
+     ],
+     "population": "195 healthy adults / 390 hands; age18\u201360, 116 male/79 female"
+    }
+   ],
+   "amplitude_basis": "Digit-specific active means (reduced numerical confidence, see finger_table_consistency); -10% of each mean as a small extension reversal (TEST AMPLITUDE)",
+   "profile": "mcp",
+   "side": "left",
+   "plane": "flexion",
+   "kind": "digit",
+   "integrity_status": "PASS"
+  },
+  "digit3_flexion_left": {
+   "frames": [
+    1676,
+    1736
+   ],
+   "samples": 61,
+   "channels": [
+    "mcp",
+    "pip",
+    "dip"
+   ],
+   "max_abs_error_deg": {
+    "mcp": 1.7168075295614926e-05,
+    "pip": 2.5974949899421063e-05,
+    "dip": 2.890069524852379e-05
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 2.879485346786365e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 1.2198548269254882e-07,
+   "continuity_max_second_difference_mismatch_deg": 3.413071947733215e-05,
+   "max_step_deg_per_frame": 6.69022262221381,
+   "commanded_reversal_frames": [
+    20,
+    50
+   ],
+   "measured_reversal_frames": [
+    20,
+    50
+   ],
+   "distal_marker_radius_range_m": 0.02437898638850685,
+   "primary_channel": "mcp",
+   "primary_range_measured_deg": [
+    -8.660000002956055,
+    86.60001095215955
+   ],
+   "context": [
+    {
+     "id": "digit3_mcp_flexion",
+     "value": {
+      "mean": 86.6,
+      "sd": 10.4
+     },
+     "mode": "active",
+     "scope": "finger_mcp",
+     "sources": [
+      "FINGER_ACTIVE"
+     ],
+     "population": "195 healthy adults / 390 hands; age18\u201360, 116 male/79 female"
+    },
+    {
+     "id": "digit3_pip_flexion",
+     "value": {
+      "mean": 96.2,
+      "sd": 15.8
+     },
+     "mode": "active",
+     "scope": "finger_pip",
+     "sources": [
+      "FINGER_ACTIVE"
+     ],
+     "population": "195 healthy adults / 390 hands; age18\u201360, 116 male/79 female"
+    },
+    {
+     "id": "digit3_dip_flexion",
+     "value": {
+      "mean": 84.5,
+      "sd": 13.1
+     },
+     "mode": "active",
+     "scope": "finger_dip",
+     "sources": [
+      "FINGER_ACTIVE"
+     ],
+     "population": "195 healthy adults / 390 hands; age18\u201360, 116 male/79 female"
+    }
+   ],
+   "amplitude_basis": "Digit-specific active means (reduced numerical confidence, see finger_table_consistency); -10% of each mean as a small extension reversal (TEST AMPLITUDE)",
+   "profile": "mcp",
+   "side": "left",
+   "plane": "flexion",
+   "kind": "digit",
+   "integrity_status": "PASS"
+  },
+  "digit4_flexion_left": {
+   "frames": [
+    1741,
+    1801
+   ],
+   "samples": 61,
+   "channels": [
+    "mcp",
+    "pip",
+    "dip"
+   ],
+   "max_abs_error_deg": {
+    "mcp": 1.985344763966168e-05,
+    "pip": 2.7704530779715242e-05,
+    "dip": 4.595771263637971e-05
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 1.785283906726862e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 5.9633741614422e-08,
+   "continuity_max_second_difference_mismatch_deg": 2.5368186825858174e-05,
+   "max_step_deg_per_frame": 6.504812858205909,
+   "commanded_reversal_frames": [
+    20,
+    50
+   ],
+   "measured_reversal_frames": [
+    20,
+    50
+   ],
+   "distal_marker_radius_range_m": 0.02270946378367618,
+   "primary_channel": "mcp",
+   "primary_range_measured_deg": [
+    -8.41999889058867,
+    84.20000950178269
+   ],
+   "context": [
+    {
+     "id": "digit4_mcp_flexion",
+     "value": {
+      "mean": 84.2,
+      "sd": 8.6
+     },
+     "mode": "active",
+     "scope": "finger_mcp",
+     "sources": [
+      "FINGER_ACTIVE"
+     ],
+     "population": "195 healthy adults / 390 hands; age18\u201360, 116 male/79 female"
+    },
+    {
+     "id": "digit4_pip_flexion",
+     "value": {
+      "mean": 96,
+      "sd": 15.9
+     },
+     "mode": "active",
+     "scope": "finger_pip",
+     "sources": [
+      "FINGER_ACTIVE"
+     ],
+     "population": "195 healthy adults / 390 hands; age18\u201360, 116 male/79 female"
+    },
+    {
+     "id": "digit4_dip_flexion",
+     "value": {
+      "mean": 82.1,
+      "sd": 14.6
+     },
+     "mode": "active",
+     "scope": "finger_dip",
+     "sources": [
+      "FINGER_ACTIVE"
+     ],
+     "population": "195 healthy adults / 390 hands; age18\u201360, 116 male/79 female"
+    }
+   ],
+   "amplitude_basis": "Digit-specific active means (reduced numerical confidence, see finger_table_consistency); -10% of each mean as a small extension reversal (TEST AMPLITUDE)",
+   "profile": "mcp",
+   "side": "left",
+   "plane": "flexion",
+   "kind": "digit",
+   "integrity_status": "PASS"
+  },
+  "digit5_flexion_left": {
+   "frames": [
+    1806,
+    1866
+   ],
+   "samples": 61,
+   "channels": [
+    "mcp",
+    "pip",
+    "dip"
+   ],
+   "max_abs_error_deg": {
+    "mcp": 1.330348931816161e-05,
+    "pip": 2.8616751393428785e-05,
+    "dip": 3.456964741843649e-05
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 2.648926661245226e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 6.047616232995763e-08,
+   "continuity_max_second_difference_mismatch_deg": 2.0209522290315363e-05,
+   "max_step_deg_per_frame": 6.566617561224287,
+   "commanded_reversal_frames": [
+    20,
+    50
+   ],
+   "measured_reversal_frames": [
+    20,
+    50
+   ],
+   "distal_marker_radius_range_m": 0.01640381360713148,
+   "primary_channel": "mcp",
+   "primary_range_measured_deg": [
+    -8.499998335459145,
+    85.00000256797024
+   ],
+   "context": [
+    {
+     "id": "digit5_mcp_flexion",
+     "value": {
+      "mean": 85,
+      "sd": 8.4
+     },
+     "mode": "active",
+     "scope": "finger_mcp",
+     "sources": [
+      "FINGER_ACTIVE"
+     ],
+     "population": "195 healthy adults / 390 hands; age18\u201360, 116 male/79 female"
+    },
+    {
+     "id": "digit5_pip_flexion",
+     "value": {
+      "mean": 91.8,
+      "sd": 12.7
+     },
+     "mode": "active",
+     "scope": "finger_pip",
+     "sources": [
+      "FINGER_ACTIVE"
+     ],
+     "population": "195 healthy adults / 390 hands; age18\u201360, 116 male/79 female"
+    },
+    {
+     "id": "digit5_dip_flexion",
+     "value": {
+      "mean": 84.6,
+      "sd": 12.9
+     },
+     "mode": "active",
+     "scope": "finger_dip",
+     "sources": [
+      "FINGER_ACTIVE"
+     ],
+     "population": "195 healthy adults / 390 hands; age18\u201360, 116 male/79 female"
+    }
+   ],
+   "amplitude_basis": "Digit-specific active means (reduced numerical confidence, see finger_table_consistency); -10% of each mean as a small extension reversal (TEST AMPLITUDE)",
+   "profile": "mcp",
+   "side": "left",
+   "plane": "flexion",
+   "kind": "digit",
+   "integrity_status": "PASS"
+  },
+  "hallux_mtp_dorsiflexion_left": {
+   "frames": [
+    1871,
+    1951
+   ],
+   "samples": 81,
+   "channels": [
+    "angle"
+   ],
+   "max_abs_error_deg": {
+    "angle": 7.660966105049738e-06
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 6.997036260431893e-09,
+   "max_off_axis_deg": 3.648574278375134e-06,
+   "max_marker_vs_carried_centre_m": 6.310133081132113e-09,
+   "continuity_max_second_difference_mismatch_deg": 1.3726367122046668e-05,
+   "max_step_deg_per_frame": 3.399189072727893,
+   "commanded_reversal_frames": [
+    20,
+    60
+   ],
+   "measured_reversal_frames": [
+    20,
+    60
+   ],
+   "distal_marker_radius_range_m": 4.086665149338753e-08,
+   "primary_channel": "angle",
+   "primary_range_measured_deg": [
+    -19.999999557394176,
+    44.00000097438311
+   ],
+   "context": [
+    {
+     "id": "hallux_active",
+     "value": {
+      "mean": 44
+     },
+     "mode": "active",
+     "scope": "hallux_mtp",
+     "sources": [
+      "HALLUX_GAIT"
+     ],
+     "population": "33 subjects without foot/ankle pathology"
+    }
+   ],
+   "amplitude_basis": "Standing active DF mean (task-specific); -20 plantarflexion TEST AMPLITUDE",
+   "profile": "hallux",
+   "side": "left",
+   "plane": "sagittal",
+   "kind": "axis",
+   "integrity_status": "PASS"
+  },
+  "hip_flexion_extension_right": {
+   "frames": [
+    1956,
+    2036
+   ],
+   "samples": 81,
+   "channels": [
+    "flexion"
+   ],
+   "max_abs_error_deg": {
+    "flexion": 1.7208260686629728e-05
+   },
+   "max_uncommanded_jcs_deg": 1.778187224954715e-05,
+   "max_centre_drift_m": 2.8226002916121684e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 8.477846256516257e-08,
+   "continuity_max_second_difference_mismatch_deg": 2.7414921902391143e-05,
+   "max_step_deg_per_frame": 10.073960253056548,
+   "commanded_reversal_frames": [
+    20,
+    60
+   ],
+   "measured_reversal_frames": [
+    20,
+    60
+   ],
+   "distal_marker_radius_range_m": 2.917208865027554e-07,
+   "primary_channel": "flexion",
+   "primary_range_measured_deg": [
+    -17.400001345565364,
+    130.4000059290805
+   ],
+   "context": [
+    {
+     "id": "cdc_hip_flexion",
+     "value": {
+      "mean": 130.4,
+      "ci95_of_mean": [
+       129,
+       131.8
+      ]
+     },
+     "mode": "passive",
+     "scope": "hip",
+     "sources": [
+      "CDC_ROM",
+      "SOUCIE_ROM"
+     ],
+     "population": "Males age 20\u201344 subgroup of 674 healthy subjects"
+    },
+    {
+     "id": "cdc_hip_extension",
+     "value": {
+      "mean": 17.4,
+      "ci95_of_mean": [
+       16.3,
+       18.5
+      ]
+     },
+     "mode": "passive",
+     "scope": "hip",
+     "sources": [
+      "CDC_ROM",
+      "SOUCIE_ROM"
+     ],
+     "population": "Males age 20\u201344 subgroup of 674 healthy subjects"
+    }
+   ],
+   "amplitude_basis": "CDC passive mean (male 20-44); amplitude only, not a character limit",
+   "profile": "hip",
+   "side": "right",
+   "plane": "sagittal",
+   "kind": "zxy",
+   "integrity_status": "PASS"
+  },
+  "hip_abduction_adduction_right": {
+   "frames": [
+    2041,
+    2121
+   ],
+   "samples": 81,
+   "channels": [
+    "adduction"
+   ],
+   "max_abs_error_deg": {
+    "adduction": 4.9353442470589926e-06
+   },
+   "max_uncommanded_jcs_deg": 1.116267514638843e-06,
+   "max_centre_drift_m": 1.030636504777307e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 8.477846256516257e-08,
+   "continuity_max_second_difference_mismatch_deg": 1.2467093419843422e-05,
+   "max_step_deg_per_frame": 2.317635893528724,
+   "commanded_reversal_frames": [
+    20,
+    60
+   ],
+   "measured_reversal_frames": [
+    20,
+    60
+   ],
+   "distal_marker_radius_range_m": 1.4069106535341547e-07,
+   "primary_channel": "adduction",
+   "primary_range_measured_deg": [
+    -30.000000884622487,
+    19.99999630005491
+   ],
+   "context": [],
+   "amplitude_basis": "TEST AMPLITUDE (no hip ab/adduction observation in the atlas): +20 adduction / -30 abduction",
+   "profile": "hip",
+   "side": "right",
+   "plane": "frontal",
+   "kind": "zxy",
+   "integrity_status": "PASS"
+  },
+  "hip_rotation_at_0_flexion_right": {
+   "frames": [
+    2126,
+    2206
+   ],
+   "samples": 81,
+   "channels": [
+    "internal"
+   ],
+   "max_abs_error_deg": {
+    "internal": 1.1491867169866055e-05
+   },
+   "max_uncommanded_jcs_deg": 8.467510542571417e-06,
+   "max_centre_drift_m": 3.5583653890637303e-09,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 8.477846256516257e-08,
+   "continuity_max_second_difference_mismatch_deg": 2.7130179915957342e-05,
+   "max_step_deg_per_frame": 3.9940485983465503,
+   "commanded_reversal_frames": [
+    20,
+    60
+   ],
+   "measured_reversal_frames": [
+    20,
+    60
+   ],
+   "distal_marker_radius_range_m": 1.7166162380455319e-09,
+   "primary_channel": "internal",
+   "primary_range_measured_deg": [
+    -51.70000055582275,
+    45.60001149186717
+   ],
+   "context": [
+    {
+     "id": "hip_prone_ir_right",
+     "value": {
+      "mean": 45.6,
+      "sd": 8.5
+     },
+     "mode": "passive",
+     "scope": "hip",
+     "sources": [
+      "HIP_POSITION"
+     ],
+     "population": "117 male Japanese participants; age 21.9\u00b14.4, range20\u201353"
+    },
+    {
+     "id": "hip_prone_er_right",
+     "value": {
+      "mean": 51.7,
+      "sd": 10.9
+     },
+     "mode": "passive",
+     "scope": "hip",
+     "sources": [
+      "HIP_POSITION"
+     ],
+     "population": "117 male Japanese participants; age 21.9\u00b14.4, range20\u201353"
+    }
+   ],
+   "amplitude_basis": "Prone (hip 0 deg) passive means, side-specific",
+   "profile": "hip",
+   "side": "right",
+   "plane": "transverse",
+   "kind": "zxy",
+   "integrity_status": "PASS"
+  },
+  "hip_rotation_at_90_flexion_right": {
+   "frames": [
+    2211,
+    2311
+   ],
+   "samples": 101,
+   "channels": [
+    "flexion",
+    "internal"
+   ],
+   "max_abs_error_deg": {
+    "flexion": 1.927239502208522e-05,
+    "internal": 2.233280659069692e-05
+   },
+   "max_uncommanded_jcs_deg": 1.759559204868153e-05,
+   "max_centre_drift_m": 2.8189960048007637e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 8.477846256516257e-08,
+   "continuity_max_second_difference_mismatch_deg": 2.9050530925833762e-05,
+   "max_step_deg_per_frame": 3.329658063352028,
+   "commanded_reversal_frames": [
+    30,
+    70
+   ],
+   "measured_reversal_frames": [
+    30,
+    70
+   ],
+   "distal_marker_radius_range_m": 2.01991590842443e-07,
+   "primary_channel": "internal",
+   "primary_range_measured_deg": [
+    -43.10002228676731,
+    42.099990538432
+   ],
+   "context": [
+    {
+     "id": "hip_sitting_ir_right",
+     "value": {
+      "mean": 42.1,
+      "sd": 7.0
+     },
+     "mode": "passive",
+     "scope": "hip",
+     "sources": [
+      "HIP_POSITION"
+     ],
+     "population": "117 male Japanese participants; age 21.9\u00b14.4, range20\u201353"
+    },
+    {
+     "id": "hip_sitting_er_right",
+     "value": {
+      "mean": 43.1,
+      "sd": 9.1
+     },
+     "mode": "passive",
+     "scope": "hip",
+     "sources": [
+      "HIP_POSITION"
+     ],
+     "population": "117 male Japanese participants; age 21.9\u00b14.4, range20\u201353"
+    }
+   ],
+   "amplitude_basis": "Sitting (hip 90 deg) passive means, side-specific",
+   "profile": "hip",
+   "side": "right",
+   "plane": "transverse_at_90_flexion",
+   "kind": "zxy",
+   "integrity_status": "PASS"
+  },
+  "knee_flexion_extension_right": {
+   "frames": [
+    2316,
+    2396
+   ],
+   "samples": 81,
+   "channels": [
+    "flexion"
+   ],
+   "max_abs_error_deg": {
+    "flexion": 1.8507652711718947e-05
+   },
+   "max_uncommanded_jcs_deg": 1.8052676546068035e-05,
+   "max_centre_drift_m": 2.97357984420117e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 1.953664348533605e-08,
+   "continuity_max_second_difference_mismatch_deg": 3.578106634449796e-05,
+   "max_step_deg_per_frame": 10.637934181863201,
+   "commanded_reversal_frames": [
+    20,
+    60
+   ],
+   "measured_reversal_frames": [
+    20,
+    60
+   ],
+   "distal_marker_radius_range_m": 1.861570408934199e-07,
+   "primary_channel": "flexion",
+   "primary_range_measured_deg": [
+    -1.0000001764993838,
+    137.70000960824535
+   ],
+   "context": [
+    {
+     "id": "cdc_knee_flexion",
+     "value": {
+      "mean": 137.7,
+      "ci95_of_mean": [
+       136.5,
+       138.9
+      ]
+     },
+     "mode": "passive",
+     "scope": "knee",
+     "sources": [
+      "CDC_ROM",
+      "SOUCIE_ROM"
+     ],
+     "population": "Males age 20\u201344 subgroup of 674 healthy subjects"
+    },
+    {
+     "id": "cdc_knee_extension",
+     "value": {
+      "mean": 1.0,
+      "ci95_of_mean": [
+       0.6,
+       1.4
+      ]
+     },
+     "mode": "passive",
+     "scope": "knee",
+     "sources": [
+      "CDC_ROM",
+      "SOUCIE_ROM"
+     ],
+     "population": "Males age 20\u201344 subgroup of 674 healthy subjects"
+    }
+   ],
+   "amplitude_basis": "CDC passive knee complex means; screw-home coupling not applied (no sourced magnitude)",
+   "profile": "knee",
+   "side": "right",
+   "plane": "sagittal",
+   "kind": "zxy",
+   "integrity_status": "PASS"
+  },
+  "talocrural_dorsi_plantarflexion_right": {
+   "frames": [
+    2401,
+    2481
+   ],
+   "samples": 81,
+   "channels": [
+    "angle"
+   ],
+   "max_abs_error_deg": {
+    "angle": 1.0774310453598446e-05
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 4.139479551971989e-09,
+   "max_off_axis_deg": 3.4858728501256797e-06,
+   "max_marker_vs_carried_centre_m": 1.8317730837586347e-09,
+   "continuity_max_second_difference_mismatch_deg": 2.7061830508046114e-05,
+   "max_step_deg_per_frame": 3.0901784405833723,
+   "commanded_reversal_frames": [
+    20,
+    60
+   ],
+   "measured_reversal_frames": [
+    20,
+    60
+   ],
+   "distal_marker_radius_range_m": 1.2468085282962837e-08,
+   "primary_channel": "angle",
+   "primary_range_measured_deg": [
+    -40.00000787087018,
+    19.99999914739709
+   ],
+   "context": [
+    {
+     "id": "cdc_ankle_dorsiflexion",
+     "value": {
+      "mean": 12.7,
+      "ci95_of_mean": [
+       11.6,
+       13.8
+      ]
+     },
+     "mode": "passive",
+     "scope": "ankle_foot_complex",
+     "sources": [
+      "CDC_ROM",
+      "SOUCIE_ROM"
+     ],
+     "population": "Males age 20\u201344 subgroup of 674 healthy subjects"
+    },
+    {
+     "id": "cdc_ankle_plantarflexion",
+     "value": {
+      "mean": 54.6,
+      "ci95_of_mean": [
+       53.2,
+       56
+      ]
+     },
+     "mode": "passive",
+     "scope": "ankle_foot_complex",
+     "sources": [
+      "CDC_ROM",
+      "SOUCIE_ROM"
+     ],
+     "population": "Males age 20\u201344 subgroup of 674 healthy subjects"
+    }
+   ],
+   "amplitude_basis": "TEST AMPLITUDE +20 DF / -40 PF for the talocrural stage; CDC values are the ankle-foot complex and are not assigned to this joint",
+   "profile": "ankle",
+   "side": "right",
+   "plane": "sagittal",
+   "kind": "axis",
+   "integrity_status": "PASS"
+  },
+  "subtalar_inversion_eversion_right": {
+   "frames": [
+    2486,
+    2566
+   ],
+   "samples": 81,
+   "channels": [
+    "angle"
+   ],
+   "max_abs_error_deg": {
+    "angle": 7.004221970419167e-06
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 4.074334783051852e-09,
+   "max_off_axis_deg": 2.779203256315612e-06,
+   "max_marker_vs_carried_centre_m": 1.1880935346351327e-08,
+   "continuity_max_second_difference_mismatch_deg": 1.017529251612359e-05,
+   "max_step_deg_per_frame": 1.5450869906862295,
+   "commanded_reversal_frames": [
+    20,
+    60
+   ],
+   "measured_reversal_frames": [
+    20,
+    60
+   ],
+   "distal_marker_radius_range_m": 1.2562760616507962e-08,
+   "primary_channel": "angle",
+   "primary_range_measured_deg": [
+    -10.000000636800564,
+    20.00000700422197
+   ],
+   "context": [],
+   "amplitude_basis": "TEST AMPLITUDE +20 inversion / -10 eversion about the Inman axis (42 deg / 23 deg); midfoot followers not driven",
+   "profile": "subtalar",
+   "side": "right",
+   "plane": "oblique_inman_axis",
+   "kind": "axis",
+   "integrity_status": "PASS"
+  },
+  "gh_elevation_plane_0_right": {
+   "frames": [
+    2571,
+    2651
+   ],
+   "samples": 81,
+   "channels": [
+    "plane",
+    "elevation",
+    "internal"
+   ],
+   "max_abs_error_deg": {
+    "plane": 1.0316131022859414e-05,
+    "elevation": 1.3966435020051904e-05,
+    "internal": 1.3270431794173349e-05
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 5.67007420915348e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 1.2327933695560283e-07,
+   "continuity_max_second_difference_mismatch_deg": 3.356274263666137e-05,
+   "max_step_deg_per_frame": 4.635262443871724,
+   "commanded_reversal_frames": [
+    40
+   ],
+   "measured_reversal_frames": [
+    40
+   ],
+   "distal_marker_radius_range_m": 3.188591073399749e-07,
+   "primary_channel": "elevation",
+   "primary_range_measured_deg": [
+    1.412062239423046e-16,
+    119.99999760434542
+   ],
+   "context": [],
+   "amplitude_basis": "TEST AMPLITUDE to 120 deg GH elevation with the scapula fixed; CDC 168.8 deg is humerothoracic and is not assigned to GH",
+   "profile": "gh",
+   "side": "right",
+   "plane": "elevation_plane_0",
+   "kind": "gh",
+   "integrity_status": "PASS"
+  },
+  "gh_elevation_plane_40_right": {
+   "frames": [
+    2656,
+    2736
+   ],
+   "samples": 81,
+   "channels": [
+    "plane",
+    "elevation",
+    "internal"
+   ],
+   "max_abs_error_deg": {
+    "plane": 2.3378744472779545e-05,
+    "elevation": 2.754584470210375e-05,
+    "internal": 5.179215928106413e-05
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 5.956578675389822e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 1.2327933695560283e-07,
+   "continuity_max_second_difference_mismatch_deg": 4.1212189529460375e-05,
+   "max_step_deg_per_frame": 4.635272611302668,
+   "commanded_reversal_frames": [
+    40
+   ],
+   "measured_reversal_frames": [
+    40
+   ],
+   "distal_marker_radius_range_m": 2.5930444774724393e-07,
+   "primary_channel": "elevation",
+   "primary_range_measured_deg": [
+    1.412062239423046e-16,
+    119.99998745673017
+   ],
+   "context": [],
+   "amplitude_basis": "TEST AMPLITUDE to 120 deg GH elevation with the scapula fixed; CDC 168.8 deg is humerothoracic and is not assigned to GH",
+   "profile": "gh",
+   "side": "right",
+   "plane": "elevation_plane_40",
+   "kind": "gh",
+   "integrity_status": "PASS"
+  },
+  "gh_elevation_plane_90_right": {
+   "frames": [
+    2741,
+    2821
+   ],
+   "samples": 81,
+   "channels": [
+    "plane",
+    "elevation",
+    "internal"
+   ],
+   "max_abs_error_deg": {
+    "plane": 9.13148168990574e-06,
+    "elevation": 2.880342173483541e-05,
+    "internal": 5.913933737923961e-06
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 5.880457673470381e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 1.2327933695560283e-07,
+   "continuity_max_second_difference_mismatch_deg": 2.7814773510215218e-05,
+   "max_step_deg_per_frame": 4.635263950020516,
+   "commanded_reversal_frames": [
+    40
+   ],
+   "measured_reversal_frames": [
+    40
+   ],
+   "distal_marker_radius_range_m": 1.779865637097089e-07,
+   "primary_channel": "elevation",
+   "primary_range_measured_deg": [
+    1.412062239423046e-16,
+    120.00000148782706
+   ],
+   "context": [],
+   "amplitude_basis": "TEST AMPLITUDE to 120 deg GH elevation with the scapula fixed; CDC 168.8 deg is humerothoracic and is not assigned to GH",
+   "profile": "gh",
+   "side": "right",
+   "plane": "elevation_plane_90",
+   "kind": "gh",
+   "integrity_status": "PASS"
+  },
+  "gh_axial_rotation_at_0_elevation_right": {
+   "frames": [
+    2826,
+    2906
+   ],
+   "samples": 81,
+   "channels": [
+    "plane",
+    "elevation",
+    "internal"
+   ],
+   "max_abs_error_deg": {
+    "plane": null,
+    "elevation": 5.7348207837687995e-06,
+    "internal": 1.587303160022202e-05
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 7.364289971771583e-09,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 1.2327933695560283e-07,
+   "continuity_max_second_difference_mismatch_deg": 1.2679256471415101e-05,
+   "max_step_deg_per_frame": 3.86271605396381,
+   "commanded_reversal_frames": [
+    20,
+    60
+   ],
+   "measured_reversal_frames": [
+    20,
+    60
+   ],
+   "distal_marker_radius_range_m": 5.972518146712957e-09,
+   "primary_channel": "internal",
+   "primary_range_measured_deg": [
+    -50.00000923279977,
+    50.00001004519883
+   ],
+   "context": [],
+   "amplitude_basis": "TEST AMPLITUDE +/-50 deg axial rotation at stated elevation",
+   "profile": "gh",
+   "side": "right",
+   "plane": "axial_at_0",
+   "kind": "gh",
+   "integrity_status": "PASS"
+  },
+  "gh_axial_rotation_at_90_elevation_right": {
+   "frames": [
+    2911,
+    3011
+   ],
+   "samples": 101,
+   "channels": [
+    "plane",
+    "elevation",
+    "internal"
+   ],
+   "max_abs_error_deg": {
+    "plane": 8.113965232312792e-06,
+    "elevation": 2.1696921635339095e-05,
+    "internal": 3.4687560813040363e-05
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 5.950282992108147e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 1.2327933695560283e-07,
+   "continuity_max_second_difference_mismatch_deg": 1.9465795187301183e-05,
+   "max_step_deg_per_frame": 3.862725839657074,
+   "commanded_reversal_frames": [
+    30,
+    70
+   ],
+   "measured_reversal_frames": [
+    30,
+    70
+   ],
+   "distal_marker_radius_range_m": 3.558505438649995e-07,
+   "primary_channel": "internal",
+   "primary_range_measured_deg": [
+    -50.000012215086315,
+    50.00003468756081
+   ],
+   "context": [],
+   "amplitude_basis": "TEST AMPLITUDE +/-50 deg axial rotation at stated elevation",
+   "profile": "gh",
+   "side": "right",
+   "plane": "axial_at_90",
+   "kind": "gh",
+   "integrity_status": "PASS"
+  },
+  "elbow_flexion_at_pronation_0_right": {
+   "frames": [
+    3016,
+    3096
+   ],
+   "samples": 81,
+   "channels": [
+    "angle",
+    "pronation"
+   ],
+   "max_abs_error_deg": {
+    "angle": 4.10147910656633e-05,
+    "pronation": 2.5802982293043897e-06
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 5.574200734746438e-08,
+   "max_off_axis_deg": 2.0764840419592544e-05,
+   "max_marker_vs_carried_centre_m": null,
+   "continuity_max_second_difference_mismatch_deg": 6.729345905398532e-05,
+   "max_step_deg_per_frame": 11.170992713135604,
+   "commanded_reversal_frames": [
+    20,
+    60
+   ],
+   "measured_reversal_frames": [
+    20,
+    60
+   ],
+   "distal_marker_radius_range_m": 4.5893993794177135e-07,
+   "primary_channel": "angle",
+   "primary_range_measured_deg": [
+    -0.800000055433685,
+    144.599999183072
+   ],
+   "context": [
+    {
+     "id": "cdc_elbow_flexion",
+     "value": {
+      "mean": 144.6,
+      "ci95_of_mean": [
+       143.6,
+       145.6
+      ]
+     },
+     "mode": "passive",
+     "scope": "elbow",
+     "sources": [
+      "CDC_ROM",
+      "SOUCIE_ROM"
+     ],
+     "population": "Males age 20\u201344 subgroup of 674 healthy subjects"
+    },
+    {
+     "id": "cdc_elbow_extension",
+     "value": {
+      "mean": 0.8,
+      "ci95_of_mean": [
+       0.1,
+       1.5
+      ]
+     },
+     "mode": "passive",
+     "scope": "elbow",
+     "sources": [
+      "CDC_ROM",
+      "SOUCIE_ROM"
+     ],
+     "population": "Males age 20\u201344 subgroup of 674 healthy subjects"
+    }
+   ],
+   "amplitude_basis": "CDC passive elbow means at the stated forearm rotation",
+   "profile": "elbow",
+   "side": "right",
+   "plane": "sagittal",
+   "kind": "elbow",
+   "integrity_status": "PASS"
+  },
+  "elbow_flexion_at_pronation_60_right": {
+   "frames": [
+    3101,
+    3201
+   ],
+   "samples": 101,
+   "channels": [
+    "angle",
+    "pronation"
+   ],
+   "max_abs_error_deg": {
+    "angle": 4.10147910656633e-05,
+    "pronation": 2.1342311839589456e-05
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 5.574200734746438e-08,
+   "max_off_axis_deg": 2.4956756734982483e-05,
+   "max_marker_vs_carried_centre_m": null,
+   "continuity_max_second_difference_mismatch_deg": 6.729345905398532e-05,
+   "max_step_deg_per_frame": 11.170992713135604,
+   "commanded_reversal_frames": [
+    30,
+    70
+   ],
+   "measured_reversal_frames": [
+    30,
+    70
+   ],
+   "distal_marker_radius_range_m": 0.0019441639034387115,
+   "primary_channel": "angle",
+   "primary_range_measured_deg": [
+    -0.800000055433685,
+    144.599999183072
+   ],
+   "context": [
+    {
+     "id": "cdc_elbow_flexion",
+     "value": {
+      "mean": 144.6,
+      "ci95_of_mean": [
+       143.6,
+       145.6
+      ]
+     },
+     "mode": "passive",
+     "scope": "elbow",
+     "sources": [
+      "CDC_ROM",
+      "SOUCIE_ROM"
+     ],
+     "population": "Males age 20\u201344 subgroup of 674 healthy subjects"
+    },
+    {
+     "id": "cdc_elbow_extension",
+     "value": {
+      "mean": 0.8,
+      "ci95_of_mean": [
+       0.1,
+       1.5
+      ]
+     },
+     "mode": "passive",
+     "scope": "elbow",
+     "sources": [
+      "CDC_ROM",
+      "SOUCIE_ROM"
+     ],
+     "population": "Males age 20\u201344 subgroup of 674 healthy subjects"
+    }
+   ],
+   "amplitude_basis": "CDC passive elbow means at the stated forearm rotation",
+   "profile": "elbow",
+   "side": "right",
+   "plane": "sagittal",
+   "kind": "elbow",
+   "integrity_status": "PASS"
+  },
+  "forearm_rotation_at_elbow_0_right": {
+   "frames": [
+    3206,
+    3286
+   ],
+   "samples": 81,
+   "channels": [
+    "angle",
+    "pronation"
+   ],
+   "max_abs_error_deg": {
+    "angle": 0.0,
+    "pronation": 2.491587676445306e-05
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 2.2336880404788363e-16,
+   "max_off_axis_deg": 5.027954235778799e-06,
+   "max_marker_vs_carried_centre_m": null,
+   "continuity_max_second_difference_mismatch_deg": 5.1390668062367695e-05,
+   "max_step_deg_per_frame": 6.566617304384096,
+   "commanded_reversal_frames": [
+    20,
+    60
+   ],
+   "measured_reversal_frames": [
+    20,
+    60
+   ],
+   "distal_marker_radius_range_m": 1.842121175321676e-07,
+   "primary_channel": "pronation",
+   "primary_range_measured_deg": [
+    -84.99999072620028,
+    76.89999219788444
+   ],
+   "context": [
+    {
+     "id": "cdc_forearm_pronation",
+     "value": {
+      "mean": 76.9,
+      "ci95_of_mean": [
+       75.6,
+       78.2
+      ]
+     },
+     "mode": "passive",
+     "scope": "radioulnar_complex",
+     "sources": [
+      "CDC_ROM",
+      "SOUCIE_ROM"
+     ],
+     "population": "Males age 20\u201344 subgroup of 674 healthy subjects"
+    },
+    {
+     "id": "cdc_forearm_supination",
+     "value": {
+      "mean": 85.0,
+      "ci95_of_mean": [
+       83.8,
+       86.2
+      ]
+     },
+     "mode": "passive",
+     "scope": "radioulnar_complex",
+     "sources": [
+      "CDC_ROM",
+      "SOUCIE_ROM"
+     ],
+     "population": "Males age 20\u201344 subgroup of 674 healthy subjects"
+    },
+    {
+     "id": "forearm_pronation",
+     "value": {
+      "mean": 68.8,
+      "sd": 12.5
+     },
+     "mode": "active",
+     "scope": "radioulnar_complex",
+     "sources": [
+      "FOREARM_BIPLANE"
+     ],
+     "population": "10 healthy participants / 20 limbs; dominant-side result"
+    },
+    {
+     "id": "forearm_supination",
+     "value": {
+      "mean": 82.4,
+      "sd": 14.2
+     },
+     "mode": "active",
+     "scope": "radioulnar_complex",
+     "sources": [
+      "FOREARM_BIPLANE"
+     ],
+     "population": "10 healthy participants / 20 limbs; dominant-side result"
+    }
+   ],
+   "amplitude_basis": "CDC passive forearm means; dynamic biplane active means retained as a second context",
+   "profile": "radioulnar",
+   "side": "right",
+   "plane": "axial",
+   "kind": "elbow",
+   "integrity_status": "PASS"
+  },
+  "forearm_rotation_at_elbow_90_right": {
+   "frames": [
+    3291,
+    3391
+   ],
+   "samples": 101,
+   "channels": [
+    "angle",
+    "pronation"
+   ],
+   "max_abs_error_deg": {
+    "angle": 9.778153582828963e-06,
+    "pronation": 2.1524001653006053e-05
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 5.920514767513857e-08,
+   "max_off_axis_deg": 3.778062816845249e-05,
+   "max_marker_vs_carried_centre_m": null,
+   "continuity_max_second_difference_mismatch_deg": 1.912801894121685e-05,
+   "max_step_deg_per_frame": 6.566615553051179,
+   "commanded_reversal_frames": [
+    30,
+    70
+   ],
+   "measured_reversal_frames": [
+    30,
+    70
+   ],
+   "distal_marker_radius_range_m": 1.4056889105495962e-07,
+   "primary_channel": "pronation",
+   "primary_range_measured_deg": [
+    -84.99998640350964,
+    76.89997847599835
+   ],
+   "context": [
+    {
+     "id": "cdc_forearm_pronation",
+     "value": {
+      "mean": 76.9,
+      "ci95_of_mean": [
+       75.6,
+       78.2
+      ]
+     },
+     "mode": "passive",
+     "scope": "radioulnar_complex",
+     "sources": [
+      "CDC_ROM",
+      "SOUCIE_ROM"
+     ],
+     "population": "Males age 20\u201344 subgroup of 674 healthy subjects"
+    },
+    {
+     "id": "cdc_forearm_supination",
+     "value": {
+      "mean": 85.0,
+      "ci95_of_mean": [
+       83.8,
+       86.2
+      ]
+     },
+     "mode": "passive",
+     "scope": "radioulnar_complex",
+     "sources": [
+      "CDC_ROM",
+      "SOUCIE_ROM"
+     ],
+     "population": "Males age 20\u201344 subgroup of 674 healthy subjects"
+    },
+    {
+     "id": "forearm_pronation",
+     "value": {
+      "mean": 68.8,
+      "sd": 12.5
+     },
+     "mode": "active",
+     "scope": "radioulnar_complex",
+     "sources": [
+      "FOREARM_BIPLANE"
+     ],
+     "population": "10 healthy participants / 20 limbs; dominant-side result"
+    },
+    {
+     "id": "forearm_supination",
+     "value": {
+      "mean": 82.4,
+      "sd": 14.2
+     },
+     "mode": "active",
+     "scope": "radioulnar_complex",
+     "sources": [
+      "FOREARM_BIPLANE"
+     ],
+     "population": "10 healthy participants / 20 limbs; dominant-side result"
+    }
+   ],
+   "amplitude_basis": "CDC passive forearm means; dynamic biplane active means retained as a second context",
+   "profile": "radioulnar",
+   "side": "right",
+   "plane": "axial",
+   "kind": "elbow",
+   "integrity_status": "PASS"
+  },
+  "wrist_flexion_right": {
+   "frames": [
+    3396,
+    3476
+   ],
+   "samples": 81,
+   "channels": [
+    "flexion"
+   ],
+   "max_abs_error_deg": {
+    "flexion": 1.2693722666767826e-05
+   },
+   "max_uncommanded_jcs_deg": 9.599817594499953e-06,
+   "max_centre_drift_m": 2.8683967226721435e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": null,
+   "continuity_max_second_difference_mismatch_deg": 2.2674807013345344e-05,
+   "max_step_deg_per_frame": 5.68359916330391,
+   "commanded_reversal_frames": [
+    20,
+    60
+   ],
+   "measured_reversal_frames": [
+    20,
+    60
+   ],
+   "distal_marker_radius_range_m": 0.0016357516431139765,
+   "primary_channel": "flexion",
+   "primary_range_measured_deg": [
+    -67.97999910402345,
+    73.56999851578472
+   ],
+   "context": [
+    {
+     "id": "wrist_flexion",
+     "value": {
+      "mean": 73.57,
+      "sd": 4.53,
+      "observed_range": [
+       63.53,
+       82.33
+      ]
+     },
+     "mode": "active",
+     "scope": "wrist_complex",
+     "sources": [
+      "WRIST_ACTIVE"
+     ],
+     "population": "70 asymptomatic adults age18\u201340 / 120 wrists"
+    },
+    {
+     "id": "wrist_extension",
+     "value": {
+      "mean": 67.98,
+      "sd": 4.25,
+      "observed_range": [
+       60.39,
+       75.68
+      ]
+     },
+     "mode": "active",
+     "scope": "wrist_complex",
+     "sources": [
+      "WRIST_ACTIVE"
+     ],
+     "population": "70 asymptomatic adults age18\u201340 / 120 wrists"
+    }
+   ],
+   "amplitude_basis": "Active wrist-complex means (flexion / extension); split equally between radiocarpal and midcarpal stages (split unverified)",
+   "profile": "radiocarpal",
+   "side": "right",
+   "plane": "flexion",
+   "kind": "wrist",
+   "integrity_status": "PASS"
+  },
+  "wrist_adduction_right": {
+   "frames": [
+    3481,
+    3561
+   ],
+   "samples": 81,
+   "channels": [
+    "adduction"
+   ],
+   "max_abs_error_deg": {
+    "adduction": 1.981513030102633e-05
+   },
+   "max_uncommanded_jcs_deg": 2.726077124508858e-06,
+   "max_centre_drift_m": 2.919391209040867e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": null,
+   "continuity_max_second_difference_mismatch_deg": 1.4646207965540725e-05,
+   "max_step_deg_per_frame": 2.4172885352225677,
+   "commanded_reversal_frames": [
+    20,
+    60
+   ],
+   "measured_reversal_frames": [
+    20,
+    60
+   ],
+   "distal_marker_radius_range_m": 0.0002455046740395331,
+   "primary_channel": "adduction",
+   "primary_range_measured_deg": [
+    -18.560014386113448,
+    31.29001779896242
+   ],
+   "context": [
+    {
+     "id": "wrist_ulnar_deviation",
+     "value": {
+      "mean": 31.29,
+      "sd": 3.28,
+      "observed_range": [
+       25.91,
+       38.64
+      ]
+     },
+     "mode": "active",
+     "scope": "wrist_complex",
+     "sources": [
+      "WRIST_ACTIVE"
+     ],
+     "population": "70 asymptomatic adults age18\u201340 / 120 wrists"
+    },
+    {
+     "id": "wrist_radial_deviation",
+     "value": {
+      "mean": 18.56,
+      "sd": 1.66,
+      "observed_range": [
+       14.82,
+       22.54
+      ]
+     },
+     "mode": "active",
+     "scope": "wrist_complex",
+     "sources": [
+      "WRIST_ACTIVE"
+     ],
+     "population": "70 asymptomatic adults age18\u201340 / 120 wrists"
+    }
+   ],
+   "amplitude_basis": "Active wrist-complex means (ulnar deviation / radial deviation); split equally between radiocarpal and midcarpal stages (split unverified)",
+   "profile": "radiocarpal",
+   "side": "right",
+   "plane": "adduction",
+   "kind": "wrist",
+   "integrity_status": "PASS"
+  },
+  "digit2_flexion_right": {
+   "frames": [
+    3566,
+    3626
+   ],
+   "samples": 61,
+   "channels": [
+    "mcp",
+    "pip",
+    "dip"
+   ],
+   "max_abs_error_deg": {
+    "mcp": 1.5489856103556576e-05,
+    "pip": 1.9883017067456876e-05,
+    "dip": 1.978767282651006e-05
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 2.816899786179824e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 1.3772269933084436e-08,
+   "continuity_max_second_difference_mismatch_deg": 1.6364268880408872e-05,
+   "max_step_deg_per_frame": 6.643868117683468,
+   "commanded_reversal_frames": [
+    20,
+    50
+   ],
+   "measured_reversal_frames": [
+    20,
+    50
+   ],
+   "distal_marker_radius_range_m": 0.022508118619917264,
+   "primary_channel": "mcp",
+   "primary_range_measured_deg": [
+    -8.600001062940457,
+    86.00001329094934
+   ],
+   "context": [
+    {
+     "id": "digit2_mcp_flexion",
+     "value": {
+      "mean": 86,
+      "sd": 9.2
+     },
+     "mode": "active",
+     "scope": "finger_mcp",
+     "sources": [
+      "FINGER_ACTIVE"
+     ],
+     "population": "195 healthy adults / 390 hands; age18\u201360, 116 male/79 female"
+    },
+    {
+     "id": "digit2_pip_flexion",
+     "value": {
+      "mean": 97.2,
+      "sd": 16.9
+     },
+     "mode": "active",
+     "scope": "finger_pip",
+     "sources": [
+      "FINGER_ACTIVE"
+     ],
+     "population": "195 healthy adults / 390 hands; age18\u201360, 116 male/79 female"
+    },
+    {
+     "id": "digit2_dip_flexion",
+     "value": {
+      "mean": 81.6,
+      "sd": 13.9
+     },
+     "mode": "active",
+     "scope": "finger_dip",
+     "sources": [
+      "FINGER_ACTIVE"
+     ],
+     "population": "195 healthy adults / 390 hands; age18\u201360, 116 male/79 female"
+    }
+   ],
+   "amplitude_basis": "Digit-specific active means (reduced numerical confidence, see finger_table_consistency); -10% of each mean as a small extension reversal (TEST AMPLITUDE)",
+   "profile": "mcp",
+   "side": "right",
+   "plane": "flexion",
+   "kind": "digit",
+   "integrity_status": "PASS"
+  },
+  "digit3_flexion_right": {
+   "frames": [
+    3631,
+    3691
+   ],
+   "samples": 61,
+   "channels": [
+    "mcp",
+    "pip",
+    "dip"
+   ],
+   "max_abs_error_deg": {
+    "mcp": 2.3305662665507043e-05,
+    "pip": 2.514647849238827e-05,
+    "dip": 2.175602928389253e-05
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 2.7900732864332685e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 1.2225537762909992e-07,
+   "continuity_max_second_difference_mismatch_deg": 2.9408769748329178e-05,
+   "max_step_deg_per_frame": 6.690227914799451,
+   "commanded_reversal_frames": [
+    20,
+    50
+   ],
+   "measured_reversal_frames": [
+    20,
+    50
+   ],
+   "distal_marker_radius_range_m": 0.02437891880738162,
+   "primary_channel": "mcp",
+   "primary_range_measured_deg": [
+    -8.66000108701811,
+    86.60002027804215
+   ],
+   "context": [
+    {
+     "id": "digit3_mcp_flexion",
+     "value": {
+      "mean": 86.6,
+      "sd": 10.4
+     },
+     "mode": "active",
+     "scope": "finger_mcp",
+     "sources": [
+      "FINGER_ACTIVE"
+     ],
+     "population": "195 healthy adults / 390 hands; age18\u201360, 116 male/79 female"
+    },
+    {
+     "id": "digit3_pip_flexion",
+     "value": {
+      "mean": 96.2,
+      "sd": 15.8
+     },
+     "mode": "active",
+     "scope": "finger_pip",
+     "sources": [
+      "FINGER_ACTIVE"
+     ],
+     "population": "195 healthy adults / 390 hands; age18\u201360, 116 male/79 female"
+    },
+    {
+     "id": "digit3_dip_flexion",
+     "value": {
+      "mean": 84.5,
+      "sd": 13.1
+     },
+     "mode": "active",
+     "scope": "finger_dip",
+     "sources": [
+      "FINGER_ACTIVE"
+     ],
+     "population": "195 healthy adults / 390 hands; age18\u201360, 116 male/79 female"
+    }
+   ],
+   "amplitude_basis": "Digit-specific active means (reduced numerical confidence, see finger_table_consistency); -10% of each mean as a small extension reversal (TEST AMPLITUDE)",
+   "profile": "mcp",
+   "side": "right",
+   "plane": "flexion",
+   "kind": "digit",
+   "integrity_status": "PASS"
+  },
+  "digit4_flexion_right": {
+   "frames": [
+    3696,
+    3756
+   ],
+   "samples": 61,
+   "channels": [
+    "mcp",
+    "pip",
+    "dip"
+   ],
+   "max_abs_error_deg": {
+    "mcp": 2.4361716015164347e-05,
+    "pip": 1.9816378845405325e-05,
+    "dip": 2.3391282411466818e-05
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 2.9810911787764486e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 5.96337415043208e-08,
+   "continuity_max_second_difference_mismatch_deg": 2.2043702081475658e-05,
+   "max_step_deg_per_frame": 6.504814987679806,
+   "commanded_reversal_frames": [
+    20,
+    50
+   ],
+   "measured_reversal_frames": [
+    20,
+    50
+   ],
+   "distal_marker_radius_range_m": 0.022709196235570217,
+   "primary_channel": "mcp",
+   "primary_range_measured_deg": [
+    -8.420002040321103,
+    84.2000122710288
+   ],
+   "context": [
+    {
+     "id": "digit4_mcp_flexion",
+     "value": {
+      "mean": 84.2,
+      "sd": 8.6
+     },
+     "mode": "active",
+     "scope": "finger_mcp",
+     "sources": [
+      "FINGER_ACTIVE"
+     ],
+     "population": "195 healthy adults / 390 hands; age18\u201360, 116 male/79 female"
+    },
+    {
+     "id": "digit4_pip_flexion",
+     "value": {
+      "mean": 96,
+      "sd": 15.9
+     },
+     "mode": "active",
+     "scope": "finger_pip",
+     "sources": [
+      "FINGER_ACTIVE"
+     ],
+     "population": "195 healthy adults / 390 hands; age18\u201360, 116 male/79 female"
+    },
+    {
+     "id": "digit4_dip_flexion",
+     "value": {
+      "mean": 82.1,
+      "sd": 14.6
+     },
+     "mode": "active",
+     "scope": "finger_dip",
+     "sources": [
+      "FINGER_ACTIVE"
+     ],
+     "population": "195 healthy adults / 390 hands; age18\u201360, 116 male/79 female"
+    }
+   ],
+   "amplitude_basis": "Digit-specific active means (reduced numerical confidence, see finger_table_consistency); -10% of each mean as a small extension reversal (TEST AMPLITUDE)",
+   "profile": "mcp",
+   "side": "right",
+   "plane": "flexion",
+   "kind": "digit",
+   "integrity_status": "PASS"
+  },
+  "digit5_flexion_right": {
+   "frames": [
+    3761,
+    3821
+   ],
+   "samples": 61,
+   "channels": [
+    "mcp",
+    "pip",
+    "dip"
+   ],
+   "max_abs_error_deg": {
+    "mcp": 1.58400069523168e-05,
+    "pip": 2.14518157761745e-05,
+    "dip": 1.864306730325893e-05
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 2.816885408828321e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 5.277058571482505e-09,
+   "continuity_max_second_difference_mismatch_deg": 2.234998370198582e-05,
+   "max_step_deg_per_frame": 6.566622036419016,
+   "commanded_reversal_frames": [
+    20,
+    50
+   ],
+   "measured_reversal_frames": [
+    20,
+    50
+   ],
+   "distal_marker_radius_range_m": 0.016403762009787097,
+   "primary_channel": "mcp",
+   "primary_range_measured_deg": [
+    -8.49999992923277,
+    85.00000197485697
+   ],
+   "context": [
+    {
+     "id": "digit5_mcp_flexion",
+     "value": {
+      "mean": 85,
+      "sd": 8.4
+     },
+     "mode": "active",
+     "scope": "finger_mcp",
+     "sources": [
+      "FINGER_ACTIVE"
+     ],
+     "population": "195 healthy adults / 390 hands; age18\u201360, 116 male/79 female"
+    },
+    {
+     "id": "digit5_pip_flexion",
+     "value": {
+      "mean": 91.8,
+      "sd": 12.7
+     },
+     "mode": "active",
+     "scope": "finger_pip",
+     "sources": [
+      "FINGER_ACTIVE"
+     ],
+     "population": "195 healthy adults / 390 hands; age18\u201360, 116 male/79 female"
+    },
+    {
+     "id": "digit5_dip_flexion",
+     "value": {
+      "mean": 84.6,
+      "sd": 12.9
+     },
+     "mode": "active",
+     "scope": "finger_dip",
+     "sources": [
+      "FINGER_ACTIVE"
+     ],
+     "population": "195 healthy adults / 390 hands; age18\u201360, 116 male/79 female"
+    }
+   ],
+   "amplitude_basis": "Digit-specific active means (reduced numerical confidence, see finger_table_consistency); -10% of each mean as a small extension reversal (TEST AMPLITUDE)",
+   "profile": "mcp",
+   "side": "right",
+   "plane": "flexion",
+   "kind": "digit",
+   "integrity_status": "PASS"
+  },
+  "hallux_mtp_dorsiflexion_right": {
+   "frames": [
+    3826,
+    3906
+   ],
+   "samples": 81,
+   "channels": [
+    "angle"
+   ],
+   "max_abs_error_deg": {
+    "angle": 5.973684153559589e-06
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 7.369465652705152e-09,
+   "max_off_axis_deg": 2.8780688587210554e-06,
+   "max_marker_vs_carried_centre_m": 1.1499626757071143e-08,
+   "continuity_max_second_difference_mismatch_deg": 1.4110801288325092e-05,
+   "max_step_deg_per_frame": 3.3991951777696556,
+   "commanded_reversal_frames": [
+    20,
+    60
+   ],
+   "measured_reversal_frames": [
+    20,
+    60
+   ],
+   "distal_marker_radius_range_m": 3.159225824694856e-08,
+   "primary_channel": "angle",
+   "primary_range_measured_deg": [
+    -20.000002533352358,
+    43.999996610775895
+   ],
+   "context": [
+    {
+     "id": "hallux_active",
+     "value": {
+      "mean": 44
+     },
+     "mode": "active",
+     "scope": "hallux_mtp",
+     "sources": [
+      "HALLUX_GAIT"
+     ],
+     "population": "33 subjects without foot/ankle pathology"
+    }
+   ],
+   "amplitude_basis": "Standing active DF mean (task-specific); -20 plantarflexion TEST AMPLITUDE",
+   "profile": "hallux",
+   "side": "right",
+   "plane": "sagittal",
+   "kind": "axis",
+   "integrity_status": "PASS"
+  },
+  "knee_flexion_with_screw_home_left": {
+   "frames": [
+    3911,
+    3971
+   ],
+   "samples": 61,
+   "channels": [
+    "flexion",
+    "internal"
+   ],
+   "max_abs_error_deg": {
+    "flexion": 1.7854273067996473e-05,
+    "internal": 1.2006512411399939e-05
+   },
+   "max_uncommanded_jcs_deg": 1.3013263108492967e-06,
+   "max_centre_drift_m": 2.4615727988808418e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 7.844035297237831e-08,
+   "continuity_max_second_difference_mismatch_deg": 1.6481874041573974e-05,
+   "max_step_deg_per_frame": 4.635265600447745,
+   "commanded_reversal_frames": [
+    20,
+    40,
+    50
+   ],
+   "measured_reversal_frames": [
+    20,
+    40,
+    50
+   ],
+   "distal_marker_radius_range_m": 1.5238124839722644e-07,
+   "primary_channel": "flexion",
+   "primary_range_measured_deg": [
+    -1.551070409662931e-16,
+    59.999988877562835
+   ],
+   "context": [],
+   "amplitude_basis": "TEST AMPLITUDE 0-60 deg knee flexion; coupled tibial internal rotation 3.6 deg over the first 20 deg of flexion (screw-home reversed)",
+   "profile": "knee",
+   "side": "left",
+   "plane": "sagittal_with_axial_coupling",
+   "kind": "zxy",
+   "integrity_status": "PASS"
+  },
+  "shoulder_complex_scapular_plane_left": {
+   "frames": [
+    3976,
+    4036
+   ],
+   "samples": 61,
+   "channels": [
+    "elevation",
+    "upward",
+    "tilt",
+    "scap_er",
+    "clav_post"
+   ],
+   "max_abs_error_deg": {
+    "elevation": 2.8932276450177596e-05,
+    "upward": 5.407870282581051e-06,
+    "tilt": 9.34404704366898e-06,
+    "scap_er": 1.2524583400619349e-05,
+    "clav_post": 7.627209367200294e-06
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 1.275713747676404e-07,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 0.041843322375466806,
+   "continuity_max_second_difference_mismatch_deg": 2.908946845536775e-05,
+   "max_step_deg_per_frame": 9.270509587920838,
+   "commanded_reversal_frames": [
+    20,
+    40,
+    50
+   ],
+   "measured_reversal_frames": [
+    20,
+    40,
+    50
+   ],
+   "distal_marker_radius_range_m": 3.234427740431145e-07,
+   "primary_channel": "elevation",
+   "primary_range_measured_deg": [
+    1.0330603815222455e-14,
+    117.49998450479663
+   ],
+   "context": [],
+   "amplitude_basis": "GH elevation 0-117.5 deg in the 40 deg plane with sourced scapulothoracic rhythm (0.43 upward rotation per GH degree; McClure end values) and clavicular posterior rotation 31 deg",
+   "profile": "st",
+   "side": "left",
+   "plane": "scapular_plane_40",
+   "kind": "shoulder_complex",
+   "integrity_status": "PASS"
+  },
+  "knee_flexion_with_screw_home_right": {
+   "frames": [
+    4041,
+    4101
+   ],
+   "samples": 61,
+   "channels": [
+    "flexion",
+    "internal"
+   ],
+   "max_abs_error_deg": {
+    "flexion": 9.117527966395755e-06,
+    "internal": 1.0328728297981371e-05
+   },
+   "max_uncommanded_jcs_deg": 2.9425790876959918e-06,
+   "max_centre_drift_m": 2.9202912557036066e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 1.953664348533605e-08,
+   "continuity_max_second_difference_mismatch_deg": 1.45049788429219e-05,
+   "max_step_deg_per_frame": 4.635265368611286,
+   "commanded_reversal_frames": [
+    20,
+    40,
+    50
+   ],
+   "measured_reversal_frames": [
+    20,
+    40,
+    50
+   ],
+   "distal_marker_radius_range_m": 1.2327592874283866e-07,
+   "primary_channel": "flexion",
+   "primary_range_measured_deg": [
+    4.4113561616299895e-16,
+    59.99999670541224
+   ],
+   "context": [],
+   "amplitude_basis": "TEST AMPLITUDE 0-60 deg knee flexion; coupled tibial internal rotation 3.6 deg over the first 20 deg of flexion (screw-home reversed)",
+   "profile": "knee",
+   "side": "right",
+   "plane": "sagittal_with_axial_coupling",
+   "kind": "zxy",
+   "integrity_status": "PASS"
+  },
+  "shoulder_complex_scapular_plane_right": {
+   "frames": [
+    4106,
+    4166
+   ],
+   "samples": 61,
+   "channels": [
+    "elevation",
+    "upward",
+    "tilt",
+    "scap_er",
+    "clav_post"
+   ],
+   "max_abs_error_deg": {
+    "elevation": 3.280836205021842e-05,
+    "upward": 1.1624651001795883e-05,
+    "tilt": 4.284022637079943e-06,
+    "scap_er": 8.98819541106377e-06,
+    "clav_post": 6.006779663891848e-06
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 1.7985521836158409e-07,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 0.04184331832222006,
+   "continuity_max_second_difference_mismatch_deg": 4.324906132069373e-05,
+   "max_step_deg_per_frame": 9.270513615707046,
+   "commanded_reversal_frames": [
+    20,
+    40,
+    50
+   ],
+   "measured_reversal_frames": [
+    20,
+    40,
+    50
+   ],
+   "distal_marker_radius_range_m": 2.9576671439074387e-07,
+   "primary_channel": "elevation",
+   "primary_range_measured_deg": [
+    5.375685364086229e-15,
+    117.49997813438824
+   ],
+   "context": [],
+   "amplitude_basis": "GH elevation 0-117.5 deg in the 40 deg plane with sourced scapulothoracic rhythm (0.43 upward rotation per GH degree; McClure end values) and clavicular posterior rotation 31 deg",
+   "profile": "st",
+   "side": "right",
+   "plane": "scapular_plane_40",
+   "kind": "shoulder_complex",
+   "integrity_status": "PASS"
+  },
+  "c1_c2_axial_rotation": {
+   "frames": [
+    4171,
+    4251
+   ],
+   "samples": 81,
+   "channels": [
+    "angle"
+   ],
+   "max_abs_error_deg": {
+    "angle": 6.598961292070271e-06
+   },
+   "max_uncommanded_jcs_deg": 0.0,
+   "max_centre_drift_m": 4.5768028777153145e-10,
+   "max_off_axis_deg": 9.104133850641687e-07,
+   "max_marker_vs_carried_centre_m": 3.5004989904373353e-08,
+   "continuity_max_second_difference_mismatch_deg": 9.60223030688212e-06,
+   "max_step_deg_per_frame": 2.642095276361374,
+   "commanded_reversal_frames": [
+    20,
+    60
+   ],
+   "measured_reversal_frames": [
+    20,
+    60
+   ],
+   "distal_marker_radius_range_m": 4.635348094944591e-09,
+   "primary_channel": "angle",
+   "primary_range_measured_deg": [
+    -32.40000337851956,
+    34.200006598961295
+   ],
+   "context": [
+    {
+     "id": "c1c2_left",
+     "value": {
+      "mean": 34.2,
+      "observed_range": [
+       13,
+       52.75
+      ]
+     },
+     "mode": "active",
+     "scope": "c1_c2",
+     "sources": [
+      "C1C2_MRI"
+     ],
+     "population": "28 healthy volunteers"
+    },
+    {
+     "id": "c1c2_right",
+     "value": {
+      "mean": 32.4,
+      "observed_range": [
+       20,
+       48.5
+      ]
+     },
+     "mode": "active",
+     "scope": "c1_c2",
+     "sources": [
+      "C1C2_MRI"
+     ],
+     "population": "28 healthy volunteers"
+    }
+   ],
+   "amplitude_basis": "MRI maximal voluntary rotation means (left/right)",
+   "profile": "c1_c2",
+   "side": "midline",
+   "plane": "transverse",
+   "kind": "axis",
+   "integrity_status": "PASS"
+  },
+  "lumbar_l2_l3_extension": {
+   "frames": [
+    4256,
+    4296
+   ],
+   "samples": 41,
+   "channels": [
+    "flexion"
+   ],
+   "max_abs_error_deg": {
+    "flexion": 5.034028239592203e-06
+   },
+   "max_uncommanded_jcs_deg": 8.030388158278114e-13,
+   "max_centre_drift_m": 9.176038772874764e-10,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 2.4075892291452148e-08,
+   "continuity_max_second_difference_mismatch_deg": 6.394714208823871e-06,
+   "max_step_deg_per_frame": 0.7648181336532036,
+   "commanded_reversal_frames": [
+    20
+   ],
+   "measured_reversal_frames": [
+    20
+   ],
+   "distal_marker_radius_range_m": 0.0,
+   "primary_channel": "flexion",
+   "primary_range_measured_deg": [
+    -9.90000503402824,
+    -3.389808143083496e-15
+   ],
+   "context": [
+    {
+     "id": "lumbar_lift_l2_l3",
+     "value": {
+      "mean": 9.9,
+      "ci95_of_mean": [
+       8.4,
+       11.4
+      ]
+     },
+     "mode": "active",
+     "scope": "lumbar_segment",
+     "sources": [
+      "LUMBAR_LIFT"
+     ],
+     "population": "11 analyzed healthy participants, 7 male/4 female, recruited ages19\u201330"
+    }
+   ],
+   "amplitude_basis": "Level-specific extension during a lift (task context, not maximum flexibility); rotation about the disc marker as a fixed COR (moving COR not modelled)",
+   "profile": "lumbar",
+   "side": "midline",
+   "plane": "sagittal",
+   "kind": "zxy",
+   "integrity_status": "PASS"
+  },
+  "lumbar_l3_l4_extension": {
+   "frames": [
+    4301,
+    4341
+   ],
+   "samples": 41,
+   "channels": [
+    "flexion"
+   ],
+   "max_abs_error_deg": {
+    "flexion": 2.88871799902779e-06
+   },
+   "max_uncommanded_jcs_deg": 7.867521116284031e-13,
+   "max_centre_drift_m": 3.9288216324103136e-10,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 1.4103418921658927e-09,
+   "continuity_max_second_difference_mismatch_deg": 5.009124190991088e-06,
+   "max_step_deg_per_frame": 0.8266220194236542,
+   "commanded_reversal_frames": [
+    20
+   ],
+   "measured_reversal_frames": [
+    20
+   ],
+   "distal_marker_radius_range_m": 0.0,
+   "primary_channel": "flexion",
+   "primary_range_measured_deg": [
+    -10.700000810637242,
+    5.815677730110053e-16
+   ],
+   "context": [
+    {
+     "id": "lumbar_lift_l3_l4",
+     "value": {
+      "mean": 10.7,
+      "ci95_of_mean": [
+       9.3,
+       12.1
+      ]
+     },
+     "mode": "active",
+     "scope": "lumbar_segment",
+     "sources": [
+      "LUMBAR_LIFT"
+     ],
+     "population": "11 analyzed healthy participants, 7 male/4 female, recruited ages19\u201330"
+    }
+   ],
+   "amplitude_basis": "Level-specific extension during a lift (task context, not maximum flexibility); rotation about the disc marker as a fixed COR (moving COR not modelled)",
+   "profile": "lumbar",
+   "side": "midline",
+   "plane": "sagittal",
+   "kind": "zxy",
+   "integrity_status": "PASS"
+  },
+  "lumbar_l4_l5_extension": {
+   "frames": [
+    4346,
+    4386
+   ],
+   "samples": 41,
+   "channels": [
+    "flexion"
+   ],
+   "max_abs_error_deg": {
+    "flexion": 2.668747386636028e-06
+   },
+   "max_uncommanded_jcs_deg": 4.831675794674501e-13,
+   "max_centre_drift_m": 2.6967864917116304e-10,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 2.2965183105357405e-08,
+   "continuity_max_second_difference_mismatch_deg": 4.638913139842771e-06,
+   "max_step_deg_per_frame": 0.9347785611375286,
+   "commanded_reversal_frames": [
+    20
+   ],
+   "measured_reversal_frames": [
+    20
+   ],
+   "distal_marker_radius_range_m": 0.0,
+   "primary_channel": "flexion",
+   "primary_range_measured_deg": [
+    -12.099998064925405,
+    -2.0268182108172993e-15
+   ],
+   "context": [
+    {
+     "id": "lumbar_lift_l4_l5",
+     "value": {
+      "mean": 12.1,
+      "ci95_of_mean": [
+       10.1,
+       14.1
+      ]
+     },
+     "mode": "active",
+     "scope": "lumbar_segment",
+     "sources": [
+      "LUMBAR_LIFT"
+     ],
+     "population": "11 analyzed healthy participants, 7 male/4 female, recruited ages19\u201330"
+    }
+   ],
+   "amplitude_basis": "Level-specific extension during a lift (task context, not maximum flexibility); rotation about the disc marker as a fixed COR (moving COR not modelled)",
+   "profile": "lumbar",
+   "side": "midline",
+   "plane": "sagittal",
+   "kind": "zxy",
+   "integrity_status": "PASS"
+  },
+  "lumbar_l5_sacrum_extension": {
+   "frames": [
+    4391,
+    4431
+   ],
+   "samples": 41,
+   "channels": [
+    "flexion"
+   ],
+   "max_abs_error_deg": {
+    "flexion": 3.60408208344154e-06
+   },
+   "max_uncommanded_jcs_deg": 1.738734153027227e-12,
+   "max_centre_drift_m": 5.9228450875823747e-08,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 1.330465566023901e-08,
+   "continuity_max_second_difference_mismatch_deg": 8.723204082627944e-06,
+   "max_step_deg_per_frame": 0.7416445886415604,
+   "commanded_reversal_frames": [
+    20
+   ],
+   "measured_reversal_frames": [
+    20
+   ],
+   "distal_marker_radius_range_m": 0.0,
+   "primary_channel": "flexion",
+   "primary_range_measured_deg": [
+    -9.600001161965928,
+    -1.1659592931937272e-14
+   ],
+   "context": [
+    {
+     "id": "lumbar_lift_l5_sacrum",
+     "value": {
+      "mean": 9.6,
+      "ci95_of_mean": [
+       7.5,
+       11.7
+      ]
+     },
+     "mode": "active",
+     "scope": "lumbar_segment",
+     "sources": [
+      "LUMBAR_LIFT"
+     ],
+     "population": "11 analyzed healthy participants, 7 male/4 female, recruited ages19\u201330"
+    }
+   ],
+   "amplitude_basis": "Level-specific extension during a lift (task context, not maximum flexibility); rotation about the disc marker as a fixed COR (moving COR not modelled)",
+   "profile": "lumbar",
+   "side": "midline",
+   "plane": "sagittal",
+   "kind": "zxy",
+   "integrity_status": "PASS"
+  },
+  "thoracic_t6_t7_flexion": {
+   "frames": [
+    4436,
+    4516
+   ],
+   "samples": 81,
+   "channels": [
+    "flexion"
+   ],
+   "max_abs_error_deg": {
+    "flexion": 9.163276204482429e-07
+   },
+   "max_uncommanded_jcs_deg": 1.2582244138102521e-14,
+   "max_centre_drift_m": 1.2169201508264023e-09,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 3.735091395382923e-08,
+   "continuity_max_second_difference_mismatch_deg": 1.7613396288140848e-06,
+   "max_step_deg_per_frame": 0.14678378168698614,
+   "commanded_reversal_frames": [
+    20,
+    60
+   ],
+   "measured_reversal_frames": [
+    20,
+    60
+   ],
+   "distal_marker_radius_range_m": 0.0,
+   "primary_channel": "flexion",
+   "primary_range_measured_deg": [
+    -1.9000008245522182,
+    1.9000001485200262
+   ],
+   "context": [
+    {
+     "id": "thoracic_fe",
+     "value": {
+      "range_of_segment_pooled_means": [
+       1.9,
+       3.8
+      ]
+     },
+     "mode": "cadaver_passive",
+     "scope": "thoracic_segment",
+     "sources": [
+      "THORACIC_CADAVER"
+     ],
+     "population": "33 unique intact cadaver studies"
+    }
+   ],
+   "amplitude_basis": "Half of the upper pooled cadaver total (3.8 deg) each way; cadaver passive context",
+   "profile": "thoracic",
+   "side": "midline",
+   "plane": "flexion",
+   "kind": "zxy",
+   "integrity_status": "PASS"
+  },
+  "thoracic_t6_t7_adduction": {
+   "frames": [
+    4521,
+    4601
+   ],
+   "samples": 81,
+   "channels": [
+    "adduction"
+   ],
+   "max_abs_error_deg": {
+    "adduction": 3.8068603669394463e-07
+   },
+   "max_uncommanded_jcs_deg": 8.350691502948794e-07,
+   "max_centre_drift_m": 2.6622174045917783e-11,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 3.735091395382923e-08,
+   "continuity_max_second_difference_mismatch_deg": 7.133223800526167e-07,
+   "max_step_deg_per_frame": 0.16995946948766072,
+   "commanded_reversal_frames": [
+    20,
+    60
+   ],
+   "measured_reversal_frames": [
+    20,
+    60
+   ],
+   "distal_marker_radius_range_m": 0.0,
+   "primary_channel": "adduction",
+   "primary_range_measured_deg": [
+    -2.2000001614985973,
+    2.2000001661936093
+   ],
+   "context": [
+    {
+     "id": "thoracic_lb",
+     "value": {
+      "range_of_segment_pooled_means": [
+       2.1,
+       4.4
+      ]
+     },
+     "mode": "cadaver_passive",
+     "scope": "thoracic_segment",
+     "sources": [
+      "THORACIC_CADAVER"
+     ],
+     "population": "33 unique intact cadaver studies"
+    }
+   ],
+   "amplitude_basis": "Half of the upper pooled cadaver total (4.4 deg) each way; cadaver passive context",
+   "profile": "thoracic",
+   "side": "midline",
+   "plane": "adduction",
+   "kind": "zxy",
+   "integrity_status": "PASS"
+  },
+  "thoracic_t6_t7_internal": {
+   "frames": [
+    4606,
+    4686
+   ],
+   "samples": 81,
+   "channels": [
+    "internal"
+   ],
+   "max_abs_error_deg": {
+    "internal": 5.293314537802019e-07
+   },
+   "max_uncommanded_jcs_deg": 1.1779893371535685e-06,
+   "max_centre_drift_m": 6.709056416140818e-12,
+   "max_off_axis_deg": 0.0,
+   "max_marker_vs_carried_centre_m": 3.735091395382923e-08,
+   "continuity_max_second_difference_mismatch_deg": 1.1538110094022613e-06,
+   "max_step_deg_per_frame": 0.20086122931578032,
+   "commanded_reversal_frames": [
+    20,
+    60
+   ],
+   "measured_reversal_frames": [
+    20,
+    60
+   ],
+   "distal_marker_radius_range_m": 0.0,
+   "primary_channel": "internal",
+   "primary_range_measured_deg": [
+    -2.5999999671173515,
+    2.5999999601627035
+   ],
+   "context": [
+    {
+     "id": "thoracic_ar",
+     "value": {
+      "range_of_segment_pooled_means": [
+       2.4,
+       5.2
+      ]
+     },
+     "mode": "cadaver_passive",
+     "scope": "thoracic_segment",
+     "sources": [
+      "THORACIC_CADAVER"
+     ],
+     "population": "33 unique intact cadaver studies"
+    }
+   ],
+   "amplitude_basis": "Half of the upper pooled cadaver total (5.2 deg) each way; cadaver passive context",
+   "profile": "thoracic",
+   "side": "midline",
+   "plane": "internal",
+   "kind": "zxy",
+   "integrity_status": "PASS"
+  }
+ },
+ "mirror": {
+  "hip_flexion_extension": {
+   "max_angle_difference_deg": 2.742333909111494e-05,
+   "max_mirrored_distal_marker_difference_m": 4.0011768287711e-07,
+   "basis": "identical commands: measured angles and mirrored distal-marker paths compared",
+   "status": "PASS"
+  },
+  "hip_abduction_adduction": {
+   "max_angle_difference_deg": 1.2184877679288775e-05,
+   "max_mirrored_distal_marker_difference_m": 1.8907453925087333e-07,
+   "basis": "identical commands: measured angles and mirrored distal-marker paths compared",
+   "status": "PASS"
+  },
+  "hip_rotation_at_0_flexion": {
+   "max_angle_difference_deg": 1.136940857549007e-05,
+   "max_mirrored_distal_marker_difference_m": null,
+   "basis": "side-specific source amplitudes: measured-minus-commanded errors compared; positions not mirror-comparable",
+   "status": "PASS"
+  },
+  "hip_rotation_at_90_flexion": {
+   "max_angle_difference_deg": 2.160234952237457e-05,
+   "max_mirrored_distal_marker_difference_m": null,
+   "basis": "side-specific source amplitudes: measured-minus-commanded errors compared; positions not mirror-comparable",
+   "status": "PASS"
+  },
+  "knee_flexion_extension": {
+   "max_angle_difference_deg": 3.13525410504667e-05,
+   "max_mirrored_distal_marker_difference_m": 2.7486483373786085e-07,
+   "basis": "identical commands: measured angles and mirrored distal-marker paths compared",
+   "status": "PASS"
+  },
+  "talocrural_dorsi_plantarflexion": {
+   "max_angle_difference_deg": 1.1243517462844466e-05,
+   "max_mirrored_distal_marker_difference_m": 1.5472292644750466e-08,
+   "basis": "identical commands: measured angles and mirrored distal-marker paths compared",
+   "status": "PASS"
+  },
+  "subtalar_inversion_eversion": {
+   "max_angle_difference_deg": 7.189332393409131e-06,
+   "max_mirrored_distal_marker_difference_m": 1.7071424778386354e-08,
+   "basis": "identical commands: measured angles and mirrored distal-marker paths compared",
+   "status": "PASS"
+  },
+  "gh_elevation_plane_0": {
+   "max_angle_difference_deg": 1.2421291380348976e-05,
+   "max_mirrored_distal_marker_difference_m": 2.4578447942743725e-07,
+   "basis": "identical commands: measured angles and mirrored distal-marker paths compared",
+   "status": "PASS"
+  },
+  "gh_elevation_plane_40": {
+   "max_angle_difference_deg": 1.9457488200202988e-05,
+   "max_mirrored_distal_marker_difference_m": 2.4755668231600746e-07,
+   "basis": "identical commands: measured angles and mirrored distal-marker paths compared",
+   "status": "PASS"
+  },
+  "gh_elevation_plane_90": {
+   "max_angle_difference_deg": 1.4438127884375263e-05,
+   "max_mirrored_distal_marker_difference_m": 1.9314112360500873e-07,
+   "basis": "identical commands: measured angles and mirrored distal-marker paths compared",
+   "status": "PASS"
+  },
+  "gh_axial_rotation_at_0_elevation": {
+   "max_angle_difference_deg": 1.0675261485459941e-05,
+   "max_mirrored_distal_marker_difference_m": 1.2338530392705795e-07,
+   "basis": "identical commands: measured angles and mirrored distal-marker paths compared",
+   "status": "PASS"
+  },
+  "gh_axial_rotation_at_90_elevation": {
+   "max_angle_difference_deg": 1.4772301177856662e-05,
+   "max_mirrored_distal_marker_difference_m": 4.0094924113374084e-07,
+   "basis": "identical commands: measured angles and mirrored distal-marker paths compared",
+   "status": "PASS"
+  },
+  "elbow_flexion_at_pronation_0": {
+   "max_angle_difference_deg": 9.633271417897049e-06,
+   "max_mirrored_distal_marker_difference_m": 2.6066386229598374e-07,
+   "basis": "identical commands: measured angles and mirrored distal-marker paths compared",
+   "status": "PASS"
+  },
+  "elbow_flexion_at_pronation_60": {
+   "max_angle_difference_deg": 9.633271417897049e-06,
+   "max_mirrored_distal_marker_difference_m": 3.7133502347401117e-07,
+   "basis": "identical commands: measured angles and mirrored distal-marker paths compared",
+   "status": "PASS"
+  },
+  "forearm_rotation_at_elbow_0": {
+   "max_angle_difference_deg": 2.443724478951026e-05,
+   "max_mirrored_distal_marker_difference_m": 1.861527226663975e-07,
+   "basis": "identical commands: measured angles and mirrored distal-marker paths compared",
+   "status": "PASS"
+  },
+  "forearm_rotation_at_elbow_90": {
+   "max_angle_difference_deg": 2.8428453859419278e-05,
+   "max_mirrored_distal_marker_difference_m": 2.927613661347106e-07,
+   "basis": "identical commands: measured angles and mirrored distal-marker paths compared",
+   "status": "PASS"
+  },
+  "wrist_flexion": {
+   "max_angle_difference_deg": 1.4852805293230631e-05,
+   "max_mirrored_distal_marker_difference_m": 1.2293457984924316e-07,
+   "basis": "identical commands: measured angles and mirrored distal-marker paths compared",
+   "status": "PASS"
+  },
+  "wrist_adduction": {
+   "max_angle_difference_deg": 1.1194655233026651e-05,
+   "max_mirrored_distal_marker_difference_m": 1.7947240874835705e-07,
+   "basis": "identical commands: measured angles and mirrored distal-marker paths compared",
+   "status": "PASS"
+  },
+  "digit2_flexion": {
+   "max_angle_difference_deg": 1.0760785748686885e-05,
+   "max_mirrored_distal_marker_difference_m": 1.229277446687386e-07,
+   "basis": "identical commands: measured angles and mirrored distal-marker paths compared",
+   "status": "PASS"
+  },
+  "digit3_flexion": {
+   "max_angle_difference_deg": 1.793743599876052e-05,
+   "max_mirrored_distal_marker_difference_m": 1.273292017036125e-07,
+   "basis": "identical commands: measured angles and mirrored distal-marker paths compared",
+   "status": "PASS"
+  },
+  "digit4_flexion": {
+   "max_angle_difference_deg": 1.4210998784847106e-05,
+   "max_mirrored_distal_marker_difference_m": 1.201947465904182e-07,
+   "basis": "identical commands: measured angles and mirrored distal-marker paths compared",
+   "status": "PASS"
+  },
+  "digit5_flexion": {
+   "max_angle_difference_deg": 1.0430685811968488e-05,
+   "max_mirrored_distal_marker_difference_m": 1.3348812510944096e-07,
+   "basis": "identical commands: measured angles and mirrored distal-marker paths compared",
+   "status": "PASS"
+  },
+  "hallux_mtp_dorsiflexion": {
+   "max_angle_difference_deg": 8.405562027746782e-06,
+   "max_mirrored_distal_marker_difference_m": 0.000232642281581244,
+   "basis": "identical commands: measured angles and mirrored distal-marker paths compared",
+   "status": "PASS"
+  },
+  "knee_flexion_with_screw_home": {
+   "max_angle_difference_deg": 1.5202185188911699e-05,
+   "max_mirrored_distal_marker_difference_m": 1.6203942277231475e-07,
+   "basis": "identical commands: measured angles and mirrored distal-marker paths compared",
+   "status": "PASS"
+  },
+  "shoulder_complex_scapular_plane": {
+   "max_angle_difference_deg": 1.60150378576418e-05,
+   "max_mirrored_distal_marker_difference_m": 2.548762929901082e-07,
+   "basis": "identical commands: measured angles and mirrored distal-marker paths compared",
+   "status": "PASS"
+  }
+ },
+ "counts": {
+  "tests": 58,
+  "integrity_pass": 58,
+  "mirror_pairs": 25,
+  "mirror_pass": 25
+ },
+ "character_accepted": false,
+ "completed_tracker_gates": []
+}

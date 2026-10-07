@@ -303,3 +303,87 @@ Running the capture on the real master exposed three more tool defects, fixed wi
 ### Sources added in this phase
 
 Harrington et al. 2007 and Sangeux 2015 (pyCGM2 implementation), Bell et al. 1990 (snippets; the pyCGM2 SI coefficient −0.19 conflicts with the published 30% and is not used), Hara et al. 2016 and Davis et al. 1991 (pyCGM2 and pyCGM code), standing pelvic tilt (IJSPT review), epicondyle-to-joint-line studies (Brazilian and Thai MRI, MRI n=130, cadaver n=40), Drillis & Contini proportions (knee and ankle labels only; 0.530H label conflicts), Trotter & Gleser stature equations, acromiohumeral distance (J Orthop Surg Res 2020), acromion thickness studies, humeral head radius studies, and surface-anatomy vertebral levels. General web hosts were blocked by the session's egress policy. Access was limited to search snippets and GitHub-hosted source code; this is recorded per source in `character_fit_r95_a002.json:sources`.
+
+## Phase 8–9 joint solvers and isolated bone-only tests (fit revision a003)
+
+### Fit revision a003 (supersedes a002)
+
+A direction regression test on the a002 fit found that the elbow flexion axis was tilted about 23° from mediolateral. The cause was an unsourced 10 mm vertical offset between the capitulum and trochlea centres; 90° of elbow flexion moved the forearm only 0.917 forward. In a003 both centres lie on a near-mediolateral axis; valgus obliquity is unmodelled because it is not measurable on this surface. The forearm rotation axis now runs from the radial head centre to the ulnar head centre; previously it ran between radius–ulna midpoints. a002 is retained as the superseded revision. a003 (`HGPT_ANATOMICAL_AUDIT_r95_a003.blend`, record `character_fit_r95_a003.json`) passes the same Phase 6/7 checks; its independent capture is `runs/master_static_002`.
+
+### Solver conventions (`scripts/anatomy_fit/joint_solver.py`)
+
+- Segment frames use the ISB pattern: X anterior/palmar, Y proximal, Z to the character's right. The forearm, hand and digits use landmark frames (styloids, elbow centre, metacarpal heads), because the palms face medially at rest. The thumb flexes across the palm, so its X axis is ulnar.
+- Joint coordinate systems: Z-X-Y for hip, knee, ankle, elbow, wrist, spine and digits (Grood & Suntay; ISB 2002/2005); Y-X-Y for the glenohumeral joint, commanded as swing–twist so that zero elevation is not gimbal-locked, with raw ISB angles also reported.
+- Clinical signs: flexion, adduction and internal rotation positive on both sides; knee flexion is −Z.
+- Verification: unit tests round-trip 200 random Z-X-Y triples and GH commands. Direction tests on the committed fit cover hip, knee, GH plane, elbow, pronation, ankle, subtalar inversion, wrist and C1/C2.
+- Sourced couplings (`FOLLOWER_COUPLINGS`):
+  - Subtalar axis: 42° inclination, 23° medial deviation (Inman).
+  - Scapulothoracic rhythm: 0.43° upward rotation per GH degree, plus McClure 2001 end values (50° upward rotation, 30° posterior tilt, 24° external rotation).
+  - Clavicular posterior rotation: 31° (Ludewig 2009).
+  - Knee screw-home: 3.6° tibial external rotation into terminal extension (magnitude sourced; spread over the last 20° as an approximation).
+  - Wrist stage split: the accessible sources conflict, so the equal split is UNVERIFIED.
+
+### Isolated tests (`runs/isolated_bone_only_003`)
+
+66 tests: 31 paired on both sides plus 4 midline. Every test runs neutral → intermediate → context reference → return → reversal → return with C1 easing, keyed in a new audit file and measured from Blender's evaluated pose. The integrity thresholds (1e-3°, 1e-6 m) check the implementation only.
+
+| Test | Profile | Measured primary range | Max angle error | Max centre drift | Integrity | Amplitude basis |
+|---|---|---|---|---|---|---|
+| `hip_flexion_extension_{left,right}` | hip | flexion -17.4…130.4° | 3.4e-05° | 3.0e-08 m | PASS | CDC passive mean (male 20-44); amplitude only, not a character limit |
+| `hip_abduction_adduction_{left,right}` | hip | adduction -30.0…20.0° | 7.7e-06° | 4.6e-09 m | PASS | TEST AMPLITUDE (no hip ab/adduction observation in the atlas): +20 adduction / -30 abduction |
+| `hip_rotation_at_0_flexion_{left,right}` | hip | internal -53.2…44.2° | 1.2e-05° | 3.6e-09 m | PASS | Prone (hip 0 deg) passive means, side-specific |
+| `hip_rotation_at_90_flexion_{left,right}` | hip | internal -43.2…40.6° | 2.9e-05° | 2.5e-08 m | PASS | Sitting (hip 90 deg) passive means, side-specific |
+| `knee_flexion_extension_{left,right}` | knee | flexion -1.0…137.7° | 2.4e-05° | 2.9e-08 m | PASS | CDC passive knee complex means; screw-home coupling not applied (no sourced magnitude) |
+| `talocrural_dorsi_plantarflexion_{left,right}` | ankle | angle -40.0…20.0° | 1.1e-05° | 4.1e-09 m | PASS | TEST AMPLITUDE +20 DF / -40 PF for the talocrural stage; CDC values are the ankle-foot complex and are not ass |
+| `subtalar_inversion_eversion_{left,right}` | subtalar | angle -10.0…20.0° | 3.3e-06° | 3.8e-09 m | PASS | TEST AMPLITUDE +20 inversion / -10 eversion about the Inman axis (42 deg / 23 deg); midfoot followers not driv |
+| `gh_elevation_plane_0_{left,right}` | gh | elevation 0.0…120.0° | 1.7e-05° | 5.8e-08 m | PASS | TEST AMPLITUDE to 120 deg GH elevation with the scapula fixed; CDC 168.8 deg is humerothoracic and is not assi |
+| `gh_elevation_plane_40_{left,right}` | gh | elevation 0.0…120.0° | 5.5e-05° | 6.0e-08 m | PASS | TEST AMPLITUDE to 120 deg GH elevation with the scapula fixed; CDC 168.8 deg is humerothoracic and is not assi |
+| `gh_elevation_plane_90_{left,right}` | gh | elevation 0.0…120.0° | 2.5e-05° | 5.9e-08 m | PASS | TEST AMPLITUDE to 120 deg GH elevation with the scapula fixed; CDC 168.8 deg is humerothoracic and is not assi |
+| `gh_axial_rotation_at_0_elevation_{left,right}` | gh | internal -50.0…50.0° | 2.3e-05° | 7.0e-09 m | PASS | TEST AMPLITUDE +/-50 deg axial rotation at stated elevation |
+| `gh_axial_rotation_at_90_elevation_{left,right}` | gh | internal -50.0…50.0° | 2.7e-05° | 6.0e-08 m | PASS | TEST AMPLITUDE +/-50 deg axial rotation at stated elevation |
+| `elbow_flexion_at_pronation_0_{left,right}` | elbow | angle -0.8…144.6° | 4.0e-05° | 5.8e-08 m | PASS | CDC passive elbow means at the stated forearm rotation |
+| `elbow_flexion_at_pronation_60_{left,right}` | elbow | angle -0.8…144.6° | 4.0e-05° | 5.8e-08 m | PASS | CDC passive elbow means at the stated forearm rotation |
+| `forearm_rotation_at_elbow_0_{left,right}` | radioulnar | pronation -85.0…76.9° | 1.7e-05° | 4.4e-16 m | PASS | CDC passive forearm means; dynamic biplane active means retained as a second context |
+| `forearm_rotation_at_elbow_90_{left,right}` | radioulnar | pronation -85.0…76.9° | 3.0e-05° | 5.6e-08 m | PASS | CDC passive forearm means; dynamic biplane active means retained as a second context |
+| `wrist_flexion_{left,right}` | radiocarpal | flexion -68.0…73.6° | 1.6e-05° | 2.8e-08 m | PASS | Active wrist-complex means (flexion / extension); split equally between radiocarpal and midcarpal stages (spli |
+| `wrist_adduction_{left,right}` | radiocarpal | adduction -18.6…31.3° | 8.6e-06° | 2.8e-08 m | PASS | Active wrist-complex means (ulnar deviation / radial deviation); split equally between radiocarpal and midcarp |
+| `digit2_flexion_{left,right}` | mcp | mcp -8.6…86.0° | 4.1e-05° | 2.9e-08 m | PASS | Digit-specific active means (reduced numerical confidence, see finger_table_consistency); -10% of each mean as |
+| `digit3_flexion_{left,right}` | mcp | mcp -8.7…86.6° | 2.9e-05° | 2.9e-08 m | PASS | Digit-specific active means (reduced numerical confidence, see finger_table_consistency); -10% of each mean as |
+| `digit4_flexion_{left,right}` | mcp | mcp -8.4…84.2° | 4.6e-05° | 1.8e-08 m | PASS | Digit-specific active means (reduced numerical confidence, see finger_table_consistency); -10% of each mean as |
+| `digit5_flexion_{left,right}` | mcp | mcp -8.5…85.0° | 3.5e-05° | 2.6e-08 m | PASS | Digit-specific active means (reduced numerical confidence, see finger_table_consistency); -10% of each mean as |
+| `thumb_flexion_{left,right}` | thumb_mcp | mcp -8.1…60.0° | 3.8e-05° | 9.6e-09 m | PASS | Clinical thumb means (examination mode unspecified in the accessible abstract); flexion axis normal to the thu |
+| `sacroiliac_rotation_{left,right}` | si | angle -0.8…0.9° | 2.2e-06° | 5.7e-08 m | PASS | Functional total SI rotation 1.7 deg (healthy volunteers), split +/-0.85 about a mediolateral axis through the |
+| `hallux_mtp_dorsiflexion_{left,right}` | hallux | angle -20.0…44.0° | 7.7e-06° | 7.0e-09 m | PASS | Standing active DF mean (task-specific); -20 plantarflexion TEST AMPLITUDE |
+| `knee_flexion_with_screw_home_{left,right}` | knee | flexion -0.0…60.0° | 1.8e-05° | 2.5e-08 m | PASS | TEST AMPLITUDE 0-60 deg knee flexion; coupled tibial internal rotation 3.6 deg over the first 20 deg of flexio |
+| `shoulder_complex_scapular_plane_{left,right}` | st | elevation 0.0…117.5° | 2.9e-05° | 1.3e-07 m | PASS | GH elevation 0-117.5 deg in the 40 deg plane with sourced scapulothoracic rhythm (0.43 upward rotation per GH  |
+| `c1_c2_axial_rotation` | c1_c2 | angle -32.4…34.2° | 6.6e-06° | 4.6e-10 m | PASS | MRI maximal voluntary rotation means (left/right) |
+| `cervical_c4_c5_flexion` | cervical | flexion -5.0…5.0° | 1.6e-06° | 9.6e-10 m | PASS | TEST AMPLITUDE +/-5 deg (cervical review values excluded: cervical_review_AR_typo; no per-level transferable v |
+| `cervical_c4_c5_adduction` | cervical | adduction -5.0…5.0° | 8.5e-07° | 1.4e-10 m | PASS | TEST AMPLITUDE +/-5 deg (cervical review values excluded: cervical_review_AR_typo; no per-level transferable v |
+| `cervical_c4_c5_internal` | cervical | internal -5.0…5.0° | 1.3e-06° | 3.8e-11 m | PASS | TEST AMPLITUDE +/-5 deg (cervical review values excluded: cervical_review_AR_typo; no per-level transferable v |
+| `tmj_opening` | tmj | angle 0.0…25.0° | 2.6e-06° | 2.5e-08 m | PASS | TEST AMPLITUDE 25 deg rotation with 16 mm anteroinferior condylar glide (within the observed 7.5-25.3 mm condy |
+| `lumbar_l2_l3_extension` | lumbar | flexion -9.9…-0.0° | 5.0e-06° | 9.2e-10 m | PASS | Level-specific extension during a lift (task context, not maximum flexibility); rotation about the disc marker |
+| `lumbar_l3_l4_extension` | lumbar | flexion -10.7…0.0° | 2.9e-06° | 3.9e-10 m | PASS | Level-specific extension during a lift (task context, not maximum flexibility); rotation about the disc marker |
+| `lumbar_l4_l5_extension` | lumbar | flexion -12.1…-0.0° | 2.7e-06° | 2.7e-10 m | PASS | Level-specific extension during a lift (task context, not maximum flexibility); rotation about the disc marker |
+| `lumbar_l5_sacrum_extension` | lumbar | flexion -9.6…-0.0° | 3.6e-06° | 5.9e-08 m | PASS | Level-specific extension during a lift (task context, not maximum flexibility); rotation about the disc marker |
+| `thoracic_t6_t7_flexion` | thoracic | flexion -1.9…1.9° | 9.2e-07° | 1.2e-09 m | PASS | Half of the upper pooled cadaver total (3.8 deg) each way; cadaver passive context |
+| `thoracic_t6_t7_adduction` | thoracic | adduction -2.2…2.2° | 3.8e-07° | 2.7e-11 m | PASS | Half of the upper pooled cadaver total (4.4 deg) each way; cadaver passive context |
+| `thoracic_t6_t7_internal` | thoracic | internal -2.6…2.6° | 5.3e-07° | 6.7e-12 m | PASS | Half of the upper pooled cadaver total (5.2 deg) each way; cadaver passive context |
+**Results**
+- **Integrity:** 66/66 tests pass. All 27 left/right mirror pairs pass; side-specific source amplitudes (hip rotation) are compared as errors, not raw angles.
+- **Commanded vs measured:** the reversal frames match between commands and measurements, and the joint-centre markers follow their proximal segments.
+- **Second measurement:** the verified capture tool sampled peak and reversal frames independently (`runs/isolated_bone_only_001/crosscheck_result.json`). Its parent-relative principal rotations reproduce every commanded amplitude to within 1.1e-5° on both sides: knee 137.7/1.0°, hip 130.4/17.4°, hip rotation 44.2/53.2° (left) and 45.6/51.7° (right), elbow 144.6/0.8°, pronation/supination 76.9/85.0°, GH 120°, talocrural 20/40°, subtalar 20/10°, digit 3 MCP 86.6°, and the midcarpal stage (half of the 73.57° wrist flexion).
+
+**Context checks inside the tests** (consistency with source observations, not acceptance):
+- *Shoulder complex.* GH 117.5° in the 40° plane with the sourced rhythm gives 174.1° humerothoracic elevation, against the CDC humerothoracic flexion mean of 168.8°. The contexts differ: active scapular plane versus passive flexion. AC closure is exact. The GH centre travels 39 mm with the scapula and keeps its 41.8 mm separation from AC.
+- *TMJ.* A 25° opening with a 16 mm condylar glide moves the fitted incisor point 43.3 mm, inside the observed 34.9–54.3 mm range. The 16 mm glide is inside the observed 7.5–25.3 mm condylar range.
+- *Hip rotation.* Side-specific prone (0° flexion) and sitting (90° flexion) passive means are applied separately, never averaged.
+
+**Movement clips:** `audit/review/isolated_clips_001/` (14 isolated sweeps, left side; bone-only, coloured by placement class) and `isolated_clips_002/` (shoulder complex, knee screw-home).
+
+### What these tests do not establish (remaining UNVERIFIED)
+
+- **Contact behaviour.** Articular contact paths, rolling/sliding, moving centres of rotation and capsular translations are not modelled. Every joint except the TMJ glide rotates about a fixed fitted centre.
+- **Follower mechanics not implemented.** No source magnitudes were accessible for: patellar tracking, proximal/distal tibiofibular motion, midfoot and tarsometatarsal motion, lesser toes, individual carpal kinematics, rib and costal motion, pubic symphysis, coccyx, hyoid, SC elevation and retraction, and the plane dependence of scapular rhythm.
+- **Joints with no isolated test yet.** Thumb CMC (saddle) and opposition; C0–C1; C2–C3 to C7–T1 apart from the sampled C4/C5; T1–T5 and T8–T12 apart from the sampled T6/T7; L1/L2; individual ribs; finger abduction; and wrist dart-thrower paths.
+- **Amplitudes that are not limits.** Test amplitudes without a joint-specific source are labelled as such. CDC ankle and humerothoracic values are complex-level and are not assigned to single joints. No result is a character ROM limit.
+- **Inherited fit uncertainty.** Placement uncertainty from Gate 6 (F-PROP-001, F-HJC-001) carries into every sweep.

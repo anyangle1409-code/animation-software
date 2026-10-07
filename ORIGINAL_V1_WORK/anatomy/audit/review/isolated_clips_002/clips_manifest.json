@@ -1,0 +1,24 @@
+{
+ "source_blend": "HGPT_ANATOMICAL_AUDIT_r95_a003_isolated_tests_v2.blend",
+ "clips": {
+  "shoulder_complex_scapular_plane_left": {
+   "gif": "shoulder_complex_scapular_plane_left.gif",
+   "frames": [
+    3976,
+    4036
+   ],
+   "step": 2,
+   "view": "front"
+  },
+  "knee_flexion_with_screw_home_left": {
+   "gif": "knee_flexion_with_screw_home_left.gif",
+   "frames": [
+    3911,
+    3971
+   ],
+   "step": 2,
+   "view": "front"
+  }
+ },
+ "note": "Bone-only: master bones are reference anatomy and are not skinned; colours = placement class."
+}

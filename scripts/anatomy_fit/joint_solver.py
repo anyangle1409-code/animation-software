@@ -150,7 +150,9 @@ FOLLOWER_COUPLINGS = {
                                'sources': ['Bone-pin study, active scapular-plane elevation (McClure et al. 2001; search snippet): 50 (SD 4.8) upward, 30 (13.0) posterior tilt, 24 (12.8) external rotation',
                                            'GH-relative rate 0.43 deg scapular upward rotation per deg GH elevation (search snippet)', 'SHOULDER_PINS: clavicular posterior rotation 31 deg'],
                                'cross_check': '0.43 x 117.5 = 50.5 deg upward rotation; 117.5 + 50.5 = 168 deg, matching the CDC humerothoracic flexion mean (168.8).',
-                               'unverified': 'Tilt/external-rotation/clavicle curves scaled linearly with GH elevation; clavicular elevation and retraction magnitudes not sourced (not applied); plane dependence not applied.'},
+                               'clavicle_retraction_deg': 15.0,
+                               'clavicle_retraction_source': 'Secondary review snippet: clavicle retracts about 15 deg at the SC joint during elevation; elevation typically below 10 deg (bound only, not applied); posterior rotation about 30 deg (consistent with SHOULDER_PINS 31 deg)',
+                               'unverified': 'Tilt/external-rotation/clavicle curves scaled linearly with GH elevation; clavicular elevation not applied (only an upper bound is sourced); plane dependence not applied.'},
     'wrist_stage_split': {'radiocarpal_fraction': None, 'evidence_conflict': 'Accessible snippets disagree (radiocarpal and midcarpal contribute almost equally to flexion versus midcarpal 65-72 percent of flexion; radiocarpal predominates flexion and midcarpal extension).',
                           'unverified': 'Gross wrist commands are split equally between radiocarpal and midcarpal and labelled unverified.'},
 }

@@ -308,7 +308,7 @@ def derive(spec, cmd):
         e = cmd.get('elevation', 0.0)
         k = e / c['gh_at_max_deg']
         cmd.update(upward=c['upward_rotation_per_gh_deg'] * e, tilt=c['max_scapular_plane']['posterior_tilt_deg'] * k,
-                   scap_er=c['max_scapular_plane']['external_rotation_deg'] * k, clav_post=31.0 * k)
+                   scap_er=c['max_scapular_plane']['external_rotation_deg'] * k, clav_post=31.0 * k, clav_ret=c['clavicle_retraction_deg'] * k)
     return cmd
 
 
@@ -334,13 +334,14 @@ def scapular_axes(spec):
     er_s = signed(Ys, ac, L['AA'] + 0.05 * lat, -ANT)   # external rotation moves the lateral end posteriorly
     clav_axis = unit(L['AC'] - L['SC'])
     clav_s = 1.0 if (rodrigues(clav_axis, 5.0) @ ANT)[2] > 0 else -1.0   # posterior rotation lifts the anterior surface
-    return {'Xs': Xs, 'Ys': Ys, 'Zs': Zs, 'up': up_s, 'tilt': tilt_s, 'er': er_s, 'clav_axis': clav_axis, 'clav': clav_s}
+    ret_s = 1.0 if (rodrigues(UP, 5.0) @ clav_axis - clav_axis) @ (-ANT) > 0 else -1.0   # retraction moves the lateral clavicle posteriorly (test the change)
+    return {'Xs': Xs, 'Ys': Ys, 'Zs': Zs, 'up': up_s, 'tilt': tilt_s, 'er': er_s, 'clav_axis': clav_axis, 'clav': clav_s, 'ret': ret_s}
 
 
 def shoulder_rotations(spec, cmd):
     a = scapular_axes(spec)
     R_scap = rodrigues(a['Ys'], a['er'] * cmd.get('scap_er', 0.0)) @ rodrigues(a['Xs'], a['up'] * cmd.get('upward', 0.0)) @ rodrigues(a['Zs'], a['tilt'] * cmd.get('tilt', 0.0))
-    R_clav = rodrigues(a['clav_axis'], a['clav'] * cmd.get('clav_post', 0.0))
+    R_clav = rodrigues(UP, a['ret'] * cmd.get('clav_ret', 0.0)) @ rodrigues(a['clav_axis'], a['clav'] * cmd.get('clav_post', 0.0))
     return R_clav, R_scap, a
 
 
@@ -391,7 +392,9 @@ def deltas(spec, cmd, F):
         R_clav, R_scap, a = shoulder_rotations(spec, cmd)
         L = spec['landmarks']
         G_clav = rigid(R_clav, L['SC'])
-        G_target = rigid(R_scap, L['AC'])            # scapula about the AC joint (AC lies on the clavicle axis)
+        ac_new = (G_clav @ np.append(L['AC'], 1.0))[:3]
+        G_target = rigid(R_scap, L['AC'])            # thorax-relative scapular orientation about the AC joint...
+        G_target[:3, 3] += ac_new - np.asarray(L['AC'])   # ...carried with the AC point as the clavicle retracts
         out[spec['moving'][0]] = G_clav
         out[spec['moving'][1]] = np.linalg.inv(G_clav) @ G_target
         R_gh = js.world_delta(js.WORLD_FRAME, js.gh_command(side, 40.0, cmd.get('elevation', 0.0), 0.0))
@@ -457,7 +460,10 @@ def measure(spec, pose, rest, F, markers_world):
         S0 = np.stack([a['Xs'], a['Ys'], a['Zs']], axis=1)
         er, up, tilt = yxz_angles(S0.T @ rel_scap @ S0)      # exact inverse of Ry(er) Rx(up) Rz(tilt) in the scapular frame
         m['scap_er_about_axis'], m['upward_about_axis'], m['tilt_about_axis'] = a['er'] * er, a['up'] * up, a['tilt'] * tilt
-        m['clav_post'] = a['clav'] * axis_component(Dc[:3, :3], a['clav_axis'])[0]
+        Rc = Dc[:3, :3]
+        theta = retraction_angle(Rc, a['clav_axis'])          # exact: the axial rotation leaves the clavicle axis fixed
+        m['clav_ret'] = a['ret'] * theta
+        m['clav_post'] = a['clav'] * axis_component(rodrigues(UP, theta).T @ Rc, a['clav_axis'])[0]
         Rgh = js.WORLD_FRAME.T @ (Ds[:3, :3].T @ Dh[:3, :3]) @ js.WORLD_FRAME
         g = js.gh_measure(side, Rgh)
         m['elevation'] = g['elevation']
@@ -482,6 +488,13 @@ def measure(spec, pose, rest, F, markers_world):
     if spec.get('marker') in markers_world:
         m['marker_vs_proximal_carried_centre_m'] = None if kind in ('elbow', 'wrist') else float(np.linalg.norm(np.asarray(markers_world[spec['marker']]) - cp[:3]))
     return m
+
+
+def retraction_angle(Rc, clav_axis):
+    """Signed rotation about vertical carrying the rest clavicle axis to its posed direction (Rc = R_up R_axis)."""
+    a0, a1 = np.asarray(clav_axis), Rc @ np.asarray(clav_axis)
+    h0, h1 = a0 - (a0 @ UP) * UP, a1 - (a1 @ UP) * UP
+    return math.degrees(math.atan2(np.cross(h0, h1) @ UP, h0 @ h1))
 
 
 def yxz_angles(R):
@@ -546,7 +559,7 @@ def commanded_channels(spec):
     if k == 'elbow':
         return ['angle', 'pronation']
     if k == 'shoulder_complex':
-        return ['elevation', 'upward', 'tilt', 'scap_er', 'clav_post']
+        return ['elevation', 'upward', 'tilt', 'scap_er', 'clav_post', 'clav_ret']
     if k == 'tmj':
         return ['angle']
     return [link['joint'] for link in spec['chain']]

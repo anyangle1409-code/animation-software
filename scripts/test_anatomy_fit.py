@@ -212,3 +212,23 @@ class IsolatedTestDirectionTests(unittest.TestCase):
             self.assertGreater(wrist @ palm0, 0.4, 'wrist flexion moves the hand toward the palm side')
         face = self.moved('c1_c2_axial_rotation', {'angle': 30}, 'c1', [0, -1.0, 0])
         self.assertGreater(face[0], 0.4, 'positive C1/C2 angle turns the face to the character left (+X)')
+
+
+@unittest.skipIf(np is None, 'numpy unavailable')
+class ShoulderComplexMirrorTests(unittest.TestCase):
+    def test_girdle_motion_is_mirror_symmetric_and_retracts_both_clavicles(self):
+        import isolated_tests as it
+        rec = json.loads(RECORD.read_text())
+        atlas = json.loads((ROOT / 'ORIGINAL_V1_WORK/anatomy/whole_body_movement_atlas.json').read_text())
+        F = it.frames(rec)
+        T = {t['id']: t for t in it.specs(rec, atlas)}
+        posed = {}
+        for side in ('left', 'right'):
+            t = T['shoulder_complex_scapular_plane_' + side]
+            G = it.deltas(t, it.derive(t, {'elevation': 117.5}), F)
+            Gs = G['clavicle_' + side] @ G['scapula_' + side]
+            ac0 = np.append(t['landmarks']['AC'], 1.0)
+            self.assertGreater((G['clavicle_' + side] @ ac0)[1] - ac0[1], 0.02, side + ': clavicle retraction moves AC posteriorly')
+            posed[side] = {k: (Gs @ np.append(t['landmarks'][k], 1.0))[:3] for k in ('AC', 'GH', 'AI', 'TS')}
+        for k in posed['left']:
+            self.assertLess(np.linalg.norm(posed['left'][k] * [-1, 1, 1] - posed['right'][k]), 1e-3, k)

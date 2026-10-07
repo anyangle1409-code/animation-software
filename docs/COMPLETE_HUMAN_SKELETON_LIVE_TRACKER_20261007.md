@@ -110,7 +110,7 @@ Gate 7: 🟡 STRUCTURE VERIFIED. Not passed for placement while Gate 6 is not pa
 ## PHASE 8 — JOINT SOLVERS
 Shared conventions: ISB JCS solver and measurement (`scripts/anatomy_fit/joint_solver.py`, `isolated_tests.py`).
 - [ ] 🟡 Spine / cervical solvers. Segmental Z-X-Y about disc markers, plus C1/C2 axial. Moving COR, ribs/costal and per-level coupling are not implemented.
-- [ ] 🟡 Shoulder-complex solver. GH swing–twist plus sourced ST rhythm (0.43/°; McClure end values) and clavicular posterior rotation (31°). SC elevation/retraction and plane dependence are unsourced, so not applied.
+- [ ] 🟡 Shoulder-complex solver. GH swing–twist plus sourced ST rhythm (0.43/°; McClure end values), clavicular posterior rotation (31°) and retraction (15°). SC elevation (bound only) and plane dependence are not applied.
 - [ ] 🟡 Elbow / forearm solver. Flexion about the trochlea–capitulum axis; pronation about the radial-head → ulnar-head axis. Carrying-angle obliquity is not measurable on this surface.
 - [ ] 🟡 Wrist / hand / thumb / finger solver. Two-stage wrist (stage split UNVERIFIED: sources conflict); digit MCP/PIP/DIP; thumb MCP/IP. Thumb CMC opposition, finger abduction and individual carpals are missing.
 - [ ] 🟡 Hip / pelvis solver. Hip 3-DOF JCS; SI nutation ±0.85° (sourced 1.7° total). Pubic symphysis and pelvic-ring compliance are not implemented.
@@ -119,7 +119,7 @@ Shared conventions: ISB JCS solver and measurement (`scripts/anatomy_fit/joint_s
 Gate 8: ⛔ NOT PASSED (follower/contact mechanics incomplete; several couplings lack accessible source magnitudes).
 
 ## PHASE 9 — ISOLATED BONE-ONLY MOVEMENT TESTS
-Run `audit/runs/isolated_bone_only_003` on fit a003: 66 tests, all integrity PASS, 27/27 mirror pairs PASS. Independent capture-tool cross-check agrees within 1.1e-5°.
+Current run `audit/runs/isolated_bone_only_004` on fit a003: 66 tests, all integrity PASS, 27/27 mirror pairs PASS (the mirror check caught and fixed a clavicle-retraction sign defect). Independent capture-tool cross-check agrees within 1.1e-5°.
 - [x] ✅ Neutral → intermediate → near-limit sweeps, for the implemented joints. Source-context amplitudes are attached; amplitudes without a joint-specific source are labelled TEST AMPLITUDE.
 - [x] ✅ Both sides (mirror-checked).
 - [x] ✅ Ascent / descent / reversal; commanded and measured reversal frames match.

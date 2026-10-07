@@ -323,7 +323,7 @@ A direction regression test on the a002 fit found that the elbow flexion axis wa
   - Knee screw-home: 3.6° tibial external rotation into terminal extension (magnitude sourced; spread over the last 20° as an approximation).
   - Wrist stage split: the accessible sources conflict, so the equal split is UNVERIFIED.
 
-### Isolated tests (`runs/isolated_bone_only_003`)
+### Isolated tests (`runs/isolated_bone_only_003`; current run `isolated_bone_only_004`)
 
 66 tests: 31 paired on both sides plus 4 midline. Every test runs neutral → intermediate → context reference → return → reversal → return with C1 easing, keyed in a new audit file and measured from Blender's evaluated pose. The integrity thresholds (1e-3°, 1e-6 m) check the implementation only.
 
@@ -387,3 +387,9 @@ A direction regression test on the a002 fit found that the elbow flexion axis wa
 - **Joints with no isolated test yet.** Thumb CMC (saddle) and opposition; C0–C1; C2–C3 to C7–T1 apart from the sampled C4/C5; T1–T5 and T8–T12 apart from the sampled T6/T7; L1/L2; individual ribs; finger abduction; and wrist dart-thrower paths.
 - **Amplitudes that are not limits.** Test amplitudes without a joint-specific source are labelled as such. CDC ankle and humerothoracic values are complex-level and are not assigned to single joints. No result is a character ROM limit.
 - **Inherited fit uncertainty.** Placement uncertainty from Gate 6 (F-PROP-001, F-HJC-001) carries into every sweep.
+
+### Run 004 update: clavicular retraction and a defect caught by the mirror check
+
+Clavicular retraction of 15° (secondary review snippet, consistent with Ludewig's 31° posterior rotation) was added to the shoulder-complex coupling. Clavicular elevation is not applied, because only a bound (<10°) is sourced. The scapula keeps its thorax-relative target orientation and is carried with the moving AC point, so the AC joint absorbs the remainder; AC closure remains exact.
+
+The first run with retraction failed the left/right mirror check. The angle errors matched between sides (1.6e-5°), but the GH centre travelled 32 mm on the left and 90 mm on the right. The cause was a retraction-sign probe that tested the rotated clavicle axis instead of its change: on the right side, the axis's own 0.22 posterior component outweighed the change, so that clavicle protracted. Fixed, with a regression test (`ShoulderComplexMirrorTests`). Run 004: 66/66 integrity and 27/27 mirror pairs. The GH centre travels 32 mm on both sides with 15° retraction and 31° posterior rotation; humerothoracic elevation stays 174.1°. Clip: `audit/review/isolated_clips_003/`.

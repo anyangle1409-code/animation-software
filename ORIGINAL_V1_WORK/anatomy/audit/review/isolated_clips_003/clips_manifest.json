@@ -1,0 +1,15 @@
+{
+ "source_blend": "HGPT_ANATOMICAL_AUDIT_r95_a003_isolated_tests_v4.blend",
+ "clips": {
+  "shoulder_complex_scapular_plane_left": {
+   "gif": "shoulder_complex_scapular_plane_left.gif",
+   "frames": [
+    4276,
+    4336
+   ],
+   "step": 2,
+   "view": "front"
+  }
+ },
+ "note": "Bone-only: master bones are reference anatomy and are not skinned; colours = placement class."
+}

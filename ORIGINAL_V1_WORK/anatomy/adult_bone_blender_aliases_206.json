@@ -1,0 +1,1664 @@
+{
+  "schema_version": 1,
+  "purpose": "Stable anatomical-master naming plus explicit mapping to the current canonical rig. Empty/current-collapsed mappings are intentional audit findings, not errors.",
+  "naming_rule": "Reference skeleton bones use anat_<anatomical_id>.",
+  "aliases": [
+    {
+      "anatomical_id": "frontal",
+      "reference_blender_name": "anat_frontal",
+      "current_rig": [],
+      "relationship": "no_current_explicit_equivalent"
+    },
+    {
+      "anatomical_id": "parietal_left",
+      "reference_blender_name": "anat_parietal_left",
+      "current_rig": [],
+      "relationship": "no_current_explicit_equivalent"
+    },
+    {
+      "anatomical_id": "parietal_right",
+      "reference_blender_name": "anat_parietal_right",
+      "current_rig": [],
+      "relationship": "no_current_explicit_equivalent"
+    },
+    {
+      "anatomical_id": "temporal_left",
+      "reference_blender_name": "anat_temporal_left",
+      "current_rig": [],
+      "relationship": "no_current_explicit_equivalent"
+    },
+    {
+      "anatomical_id": "temporal_right",
+      "reference_blender_name": "anat_temporal_right",
+      "current_rig": [],
+      "relationship": "no_current_explicit_equivalent"
+    },
+    {
+      "anatomical_id": "occipital",
+      "reference_blender_name": "anat_occipital",
+      "current_rig": [],
+      "relationship": "no_current_explicit_equivalent"
+    },
+    {
+      "anatomical_id": "sphenoid",
+      "reference_blender_name": "anat_sphenoid",
+      "current_rig": [],
+      "relationship": "no_current_explicit_equivalent"
+    },
+    {
+      "anatomical_id": "ethmoid",
+      "reference_blender_name": "anat_ethmoid",
+      "current_rig": [],
+      "relationship": "no_current_explicit_equivalent"
+    },
+    {
+      "anatomical_id": "mandible",
+      "reference_blender_name": "anat_mandible",
+      "current_rig": [],
+      "relationship": "no_current_explicit_equivalent"
+    },
+    {
+      "anatomical_id": "vomer",
+      "reference_blender_name": "anat_vomer",
+      "current_rig": [],
+      "relationship": "no_current_explicit_equivalent"
+    },
+    {
+      "anatomical_id": "maxilla_left",
+      "reference_blender_name": "anat_maxilla_left",
+      "current_rig": [],
+      "relationship": "no_current_explicit_equivalent"
+    },
+    {
+      "anatomical_id": "maxilla_right",
+      "reference_blender_name": "anat_maxilla_right",
+      "current_rig": [],
+      "relationship": "no_current_explicit_equivalent"
+    },
+    {
+      "anatomical_id": "zygomatic_left",
+      "reference_blender_name": "anat_zygomatic_left",
+      "current_rig": [],
+      "relationship": "no_current_explicit_equivalent"
+    },
+    {
+      "anatomical_id": "zygomatic_right",
+      "reference_blender_name": "anat_zygomatic_right",
+      "current_rig": [],
+      "relationship": "no_current_explicit_equivalent"
+    },
+    {
+      "anatomical_id": "nasal_left",
+      "reference_blender_name": "anat_nasal_left",
+      "current_rig": [],
+      "relationship": "no_current_explicit_equivalent"
+    },
+    {
+      "anatomical_id": "nasal_right",
+      "reference_blender_name": "anat_nasal_right",
+      "current_rig": [],
+      "relationship": "no_current_explicit_equivalent"
+    },
+    {
+      "anatomical_id": "lacrimal_left",
+      "reference_blender_name": "anat_lacrimal_left",
+      "current_rig": [],
+      "relationship": "no_current_explicit_equivalent"
+    },
+    {
+      "anatomical_id": "lacrimal_right",
+      "reference_blender_name": "anat_lacrimal_right",
+      "current_rig": [],
+      "relationship": "no_current_explicit_equivalent"
+    },
+    {
+      "anatomical_id": "palatine_left",
+      "reference_blender_name": "anat_palatine_left",
+      "current_rig": [],
+      "relationship": "no_current_explicit_equivalent"
+    },
+    {
+      "anatomical_id": "palatine_right",
+      "reference_blender_name": "anat_palatine_right",
+      "current_rig": [],
+      "relationship": "no_current_explicit_equivalent"
+    },
+    {
+      "anatomical_id": "inferior_nasal_concha_left",
+      "reference_blender_name": "anat_inferior_nasal_concha_left",
+      "current_rig": [],
+      "relationship": "no_current_explicit_equivalent"
+    },
+    {
+      "anatomical_id": "inferior_nasal_concha_right",
+      "reference_blender_name": "anat_inferior_nasal_concha_right",
+      "current_rig": [],
+      "relationship": "no_current_explicit_equivalent"
+    },
+    {
+      "anatomical_id": "malleus_left",
+      "reference_blender_name": "anat_malleus_left",
+      "current_rig": [],
+      "relationship": "no_current_explicit_equivalent"
+    },
+    {
+      "anatomical_id": "malleus_right",
+      "reference_blender_name": "anat_malleus_right",
+      "current_rig": [],
+      "relationship": "no_current_explicit_equivalent"
+    },
+    {
+      "anatomical_id": "incus_left",
+      "reference_blender_name": "anat_incus_left",
+      "current_rig": [],
+      "relationship": "no_current_explicit_equivalent"
+    },
+    {
+      "anatomical_id": "incus_right",
+      "reference_blender_name": "anat_incus_right",
+      "current_rig": [],
+      "relationship": "no_current_explicit_equivalent"
+    },
+    {
+      "anatomical_id": "stapes_left",
+      "reference_blender_name": "anat_stapes_left",
+      "current_rig": [],
+      "relationship": "no_current_explicit_equivalent"
+    },
+    {
+      "anatomical_id": "stapes_right",
+      "reference_blender_name": "anat_stapes_right",
+      "current_rig": [],
+      "relationship": "no_current_explicit_equivalent"
+    },
+    {
+      "anatomical_id": "hyoid",
+      "reference_blender_name": "anat_hyoid",
+      "current_rig": [],
+      "relationship": "no_current_explicit_equivalent"
+    },
+    {
+      "anatomical_id": "c1",
+      "reference_blender_name": "anat_c1",
+      "current_rig": [
+        "neck"
+      ],
+      "relationship": "collapsed_reference"
+    },
+    {
+      "anatomical_id": "c2",
+      "reference_blender_name": "anat_c2",
+      "current_rig": [
+        "neck"
+      ],
+      "relationship": "collapsed_reference"
+    },
+    {
+      "anatomical_id": "c3",
+      "reference_blender_name": "anat_c3",
+      "current_rig": [
+        "neck"
+      ],
+      "relationship": "collapsed_reference"
+    },
+    {
+      "anatomical_id": "c4",
+      "reference_blender_name": "anat_c4",
+      "current_rig": [
+        "neck"
+      ],
+      "relationship": "collapsed_reference"
+    },
+    {
+      "anatomical_id": "c5",
+      "reference_blender_name": "anat_c5",
+      "current_rig": [
+        "neck"
+      ],
+      "relationship": "collapsed_reference"
+    },
+    {
+      "anatomical_id": "c6",
+      "reference_blender_name": "anat_c6",
+      "current_rig": [
+        "neck"
+      ],
+      "relationship": "collapsed_reference"
+    },
+    {
+      "anatomical_id": "c7",
+      "reference_blender_name": "anat_c7",
+      "current_rig": [
+        "neck"
+      ],
+      "relationship": "collapsed_reference"
+    },
+    {
+      "anatomical_id": "t1",
+      "reference_blender_name": "anat_t1",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "distributed_approximation"
+    },
+    {
+      "anatomical_id": "t2",
+      "reference_blender_name": "anat_t2",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "distributed_approximation"
+    },
+    {
+      "anatomical_id": "t3",
+      "reference_blender_name": "anat_t3",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "distributed_approximation"
+    },
+    {
+      "anatomical_id": "t4",
+      "reference_blender_name": "anat_t4",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "distributed_approximation"
+    },
+    {
+      "anatomical_id": "t5",
+      "reference_blender_name": "anat_t5",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "distributed_approximation"
+    },
+    {
+      "anatomical_id": "t6",
+      "reference_blender_name": "anat_t6",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "distributed_approximation"
+    },
+    {
+      "anatomical_id": "t7",
+      "reference_blender_name": "anat_t7",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "distributed_approximation"
+    },
+    {
+      "anatomical_id": "t8",
+      "reference_blender_name": "anat_t8",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "distributed_approximation"
+    },
+    {
+      "anatomical_id": "t9",
+      "reference_blender_name": "anat_t9",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "distributed_approximation"
+    },
+    {
+      "anatomical_id": "t10",
+      "reference_blender_name": "anat_t10",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "distributed_approximation"
+    },
+    {
+      "anatomical_id": "t11",
+      "reference_blender_name": "anat_t11",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "distributed_approximation"
+    },
+    {
+      "anatomical_id": "t12",
+      "reference_blender_name": "anat_t12",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "distributed_approximation"
+    },
+    {
+      "anatomical_id": "l1",
+      "reference_blender_name": "anat_l1",
+      "current_rig": [
+        "spine_01",
+        "spine_02"
+      ],
+      "relationship": "distributed_approximation"
+    },
+    {
+      "anatomical_id": "l2",
+      "reference_blender_name": "anat_l2",
+      "current_rig": [
+        "spine_01",
+        "spine_02"
+      ],
+      "relationship": "distributed_approximation"
+    },
+    {
+      "anatomical_id": "l3",
+      "reference_blender_name": "anat_l3",
+      "current_rig": [
+        "spine_01",
+        "spine_02"
+      ],
+      "relationship": "distributed_approximation"
+    },
+    {
+      "anatomical_id": "l4",
+      "reference_blender_name": "anat_l4",
+      "current_rig": [
+        "spine_01",
+        "spine_02"
+      ],
+      "relationship": "distributed_approximation"
+    },
+    {
+      "anatomical_id": "l5",
+      "reference_blender_name": "anat_l5",
+      "current_rig": [
+        "spine_01",
+        "spine_02"
+      ],
+      "relationship": "distributed_approximation"
+    },
+    {
+      "anatomical_id": "sacrum",
+      "reference_blender_name": "anat_sacrum",
+      "current_rig": [
+        "pelvis"
+      ],
+      "relationship": "collapsed_reference"
+    },
+    {
+      "anatomical_id": "coccyx",
+      "reference_blender_name": "anat_coccyx",
+      "current_rig": [
+        "pelvis"
+      ],
+      "relationship": "collapsed_reference"
+    },
+    {
+      "anatomical_id": "sternum",
+      "reference_blender_name": "anat_sternum",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "no_explicit_bone_reference"
+    },
+    {
+      "anatomical_id": "rib_01_left",
+      "reference_blender_name": "anat_rib_01_left",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "no_explicit_bone_reference"
+    },
+    {
+      "anatomical_id": "rib_01_right",
+      "reference_blender_name": "anat_rib_01_right",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "no_explicit_bone_reference"
+    },
+    {
+      "anatomical_id": "rib_02_left",
+      "reference_blender_name": "anat_rib_02_left",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "no_explicit_bone_reference"
+    },
+    {
+      "anatomical_id": "rib_02_right",
+      "reference_blender_name": "anat_rib_02_right",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "no_explicit_bone_reference"
+    },
+    {
+      "anatomical_id": "rib_03_left",
+      "reference_blender_name": "anat_rib_03_left",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "no_explicit_bone_reference"
+    },
+    {
+      "anatomical_id": "rib_03_right",
+      "reference_blender_name": "anat_rib_03_right",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "no_explicit_bone_reference"
+    },
+    {
+      "anatomical_id": "rib_04_left",
+      "reference_blender_name": "anat_rib_04_left",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "no_explicit_bone_reference"
+    },
+    {
+      "anatomical_id": "rib_04_right",
+      "reference_blender_name": "anat_rib_04_right",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "no_explicit_bone_reference"
+    },
+    {
+      "anatomical_id": "rib_05_left",
+      "reference_blender_name": "anat_rib_05_left",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "no_explicit_bone_reference"
+    },
+    {
+      "anatomical_id": "rib_05_right",
+      "reference_blender_name": "anat_rib_05_right",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "no_explicit_bone_reference"
+    },
+    {
+      "anatomical_id": "rib_06_left",
+      "reference_blender_name": "anat_rib_06_left",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "no_explicit_bone_reference"
+    },
+    {
+      "anatomical_id": "rib_06_right",
+      "reference_blender_name": "anat_rib_06_right",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "no_explicit_bone_reference"
+    },
+    {
+      "anatomical_id": "rib_07_left",
+      "reference_blender_name": "anat_rib_07_left",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "no_explicit_bone_reference"
+    },
+    {
+      "anatomical_id": "rib_07_right",
+      "reference_blender_name": "anat_rib_07_right",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "no_explicit_bone_reference"
+    },
+    {
+      "anatomical_id": "rib_08_left",
+      "reference_blender_name": "anat_rib_08_left",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "no_explicit_bone_reference"
+    },
+    {
+      "anatomical_id": "rib_08_right",
+      "reference_blender_name": "anat_rib_08_right",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "no_explicit_bone_reference"
+    },
+    {
+      "anatomical_id": "rib_09_left",
+      "reference_blender_name": "anat_rib_09_left",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "no_explicit_bone_reference"
+    },
+    {
+      "anatomical_id": "rib_09_right",
+      "reference_blender_name": "anat_rib_09_right",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "no_explicit_bone_reference"
+    },
+    {
+      "anatomical_id": "rib_10_left",
+      "reference_blender_name": "anat_rib_10_left",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "no_explicit_bone_reference"
+    },
+    {
+      "anatomical_id": "rib_10_right",
+      "reference_blender_name": "anat_rib_10_right",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "no_explicit_bone_reference"
+    },
+    {
+      "anatomical_id": "rib_11_left",
+      "reference_blender_name": "anat_rib_11_left",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "no_explicit_bone_reference"
+    },
+    {
+      "anatomical_id": "rib_11_right",
+      "reference_blender_name": "anat_rib_11_right",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "no_explicit_bone_reference"
+    },
+    {
+      "anatomical_id": "rib_12_left",
+      "reference_blender_name": "anat_rib_12_left",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "no_explicit_bone_reference"
+    },
+    {
+      "anatomical_id": "rib_12_right",
+      "reference_blender_name": "anat_rib_12_right",
+      "current_rig": [
+        "spine_02",
+        "spine_03"
+      ],
+      "relationship": "no_explicit_bone_reference"
+    },
+    {
+      "anatomical_id": "clavicle_left",
+      "reference_blender_name": "anat_clavicle_left",
+      "current_rig": [
+        "clavicle_l"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "clavicle_right",
+      "reference_blender_name": "anat_clavicle_right",
+      "current_rig": [
+        "clavicle_r"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "scapula_left",
+      "reference_blender_name": "anat_scapula_left",
+      "current_rig": [
+        "scapula_l"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "scapula_right",
+      "reference_blender_name": "anat_scapula_right",
+      "current_rig": [
+        "scapula_r"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "humerus_left",
+      "reference_blender_name": "anat_humerus_left",
+      "current_rig": [
+        "upperarm_l"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "humerus_right",
+      "reference_blender_name": "anat_humerus_right",
+      "current_rig": [
+        "upperarm_r"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "radius_left",
+      "reference_blender_name": "anat_radius_left",
+      "current_rig": [
+        "forearm_l",
+        "forearm_tw0_l",
+        "forearm_tw1_l"
+      ],
+      "relationship": "radius_ulna_collapsed_with_twist_helpers"
+    },
+    {
+      "anatomical_id": "radius_right",
+      "reference_blender_name": "anat_radius_right",
+      "current_rig": [
+        "forearm_r",
+        "forearm_tw0_r",
+        "forearm_tw1_r"
+      ],
+      "relationship": "radius_ulna_collapsed_with_twist_helpers"
+    },
+    {
+      "anatomical_id": "ulna_left",
+      "reference_blender_name": "anat_ulna_left",
+      "current_rig": [
+        "forearm_l",
+        "forearm_tw0_l",
+        "forearm_tw1_l"
+      ],
+      "relationship": "radius_ulna_collapsed_with_twist_helpers"
+    },
+    {
+      "anatomical_id": "ulna_right",
+      "reference_blender_name": "anat_ulna_right",
+      "current_rig": [
+        "forearm_r",
+        "forearm_tw0_r",
+        "forearm_tw1_r"
+      ],
+      "relationship": "radius_ulna_collapsed_with_twist_helpers"
+    },
+    {
+      "anatomical_id": "scaphoid_left",
+      "reference_blender_name": "anat_scaphoid_left",
+      "current_rig": [
+        "hand_l"
+      ],
+      "relationship": "carpals_collapsed"
+    },
+    {
+      "anatomical_id": "scaphoid_right",
+      "reference_blender_name": "anat_scaphoid_right",
+      "current_rig": [
+        "hand_r"
+      ],
+      "relationship": "carpals_collapsed"
+    },
+    {
+      "anatomical_id": "lunate_left",
+      "reference_blender_name": "anat_lunate_left",
+      "current_rig": [
+        "hand_l"
+      ],
+      "relationship": "carpals_collapsed"
+    },
+    {
+      "anatomical_id": "lunate_right",
+      "reference_blender_name": "anat_lunate_right",
+      "current_rig": [
+        "hand_r"
+      ],
+      "relationship": "carpals_collapsed"
+    },
+    {
+      "anatomical_id": "triquetrum_left",
+      "reference_blender_name": "anat_triquetrum_left",
+      "current_rig": [
+        "hand_l"
+      ],
+      "relationship": "carpals_collapsed"
+    },
+    {
+      "anatomical_id": "triquetrum_right",
+      "reference_blender_name": "anat_triquetrum_right",
+      "current_rig": [
+        "hand_r"
+      ],
+      "relationship": "carpals_collapsed"
+    },
+    {
+      "anatomical_id": "pisiform_left",
+      "reference_blender_name": "anat_pisiform_left",
+      "current_rig": [
+        "hand_l"
+      ],
+      "relationship": "carpals_collapsed"
+    },
+    {
+      "anatomical_id": "pisiform_right",
+      "reference_blender_name": "anat_pisiform_right",
+      "current_rig": [
+        "hand_r"
+      ],
+      "relationship": "carpals_collapsed"
+    },
+    {
+      "anatomical_id": "trapezium_left",
+      "reference_blender_name": "anat_trapezium_left",
+      "current_rig": [
+        "hand_l"
+      ],
+      "relationship": "carpals_collapsed"
+    },
+    {
+      "anatomical_id": "trapezium_right",
+      "reference_blender_name": "anat_trapezium_right",
+      "current_rig": [
+        "hand_r"
+      ],
+      "relationship": "carpals_collapsed"
+    },
+    {
+      "anatomical_id": "trapezoid_left",
+      "reference_blender_name": "anat_trapezoid_left",
+      "current_rig": [
+        "hand_l"
+      ],
+      "relationship": "carpals_collapsed"
+    },
+    {
+      "anatomical_id": "trapezoid_right",
+      "reference_blender_name": "anat_trapezoid_right",
+      "current_rig": [
+        "hand_r"
+      ],
+      "relationship": "carpals_collapsed"
+    },
+    {
+      "anatomical_id": "capitate_left",
+      "reference_blender_name": "anat_capitate_left",
+      "current_rig": [
+        "hand_l"
+      ],
+      "relationship": "carpals_collapsed"
+    },
+    {
+      "anatomical_id": "capitate_right",
+      "reference_blender_name": "anat_capitate_right",
+      "current_rig": [
+        "hand_r"
+      ],
+      "relationship": "carpals_collapsed"
+    },
+    {
+      "anatomical_id": "hamate_left",
+      "reference_blender_name": "anat_hamate_left",
+      "current_rig": [
+        "hand_l"
+      ],
+      "relationship": "carpals_collapsed"
+    },
+    {
+      "anatomical_id": "hamate_right",
+      "reference_blender_name": "anat_hamate_right",
+      "current_rig": [
+        "hand_r"
+      ],
+      "relationship": "carpals_collapsed"
+    },
+    {
+      "anatomical_id": "metacarpal_1_left",
+      "reference_blender_name": "anat_metacarpal_1_left",
+      "current_rig": [
+        "thumb_01_l"
+      ],
+      "relationship": "mapped_to_thumb_chain_base"
+    },
+    {
+      "anatomical_id": "metacarpal_2_left",
+      "reference_blender_name": "anat_metacarpal_2_left",
+      "current_rig": [
+        "metacarpal_index_l"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "metacarpal_3_left",
+      "reference_blender_name": "anat_metacarpal_3_left",
+      "current_rig": [
+        "metacarpal_middle_l"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "metacarpal_4_left",
+      "reference_blender_name": "anat_metacarpal_4_left",
+      "current_rig": [
+        "metacarpal_ring_l"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "metacarpal_5_left",
+      "reference_blender_name": "anat_metacarpal_5_left",
+      "current_rig": [
+        "metacarpal_pinky_l"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "thumb_proximal_phalanx_left",
+      "reference_blender_name": "anat_thumb_proximal_phalanx_left",
+      "current_rig": [
+        "thumb_02_l"
+      ],
+      "relationship": "direct_semantic"
+    },
+    {
+      "anatomical_id": "thumb_distal_phalanx_left",
+      "reference_blender_name": "anat_thumb_distal_phalanx_left",
+      "current_rig": [
+        "thumb_03_l"
+      ],
+      "relationship": "direct_semantic"
+    },
+    {
+      "anatomical_id": "digit2_proximal_phalanx_left",
+      "reference_blender_name": "anat_digit2_proximal_phalanx_left",
+      "current_rig": [
+        "index_01_l"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "digit2_middle_phalanx_left",
+      "reference_blender_name": "anat_digit2_middle_phalanx_left",
+      "current_rig": [
+        "index_02_l"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "digit2_distal_phalanx_left",
+      "reference_blender_name": "anat_digit2_distal_phalanx_left",
+      "current_rig": [
+        "index_03_l"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "digit3_proximal_phalanx_left",
+      "reference_blender_name": "anat_digit3_proximal_phalanx_left",
+      "current_rig": [
+        "middle_01_l"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "digit3_middle_phalanx_left",
+      "reference_blender_name": "anat_digit3_middle_phalanx_left",
+      "current_rig": [
+        "middle_02_l"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "digit3_distal_phalanx_left",
+      "reference_blender_name": "anat_digit3_distal_phalanx_left",
+      "current_rig": [
+        "middle_03_l"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "digit4_proximal_phalanx_left",
+      "reference_blender_name": "anat_digit4_proximal_phalanx_left",
+      "current_rig": [
+        "ring_01_l"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "digit4_middle_phalanx_left",
+      "reference_blender_name": "anat_digit4_middle_phalanx_left",
+      "current_rig": [
+        "ring_02_l"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "digit4_distal_phalanx_left",
+      "reference_blender_name": "anat_digit4_distal_phalanx_left",
+      "current_rig": [
+        "ring_03_l"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "digit5_proximal_phalanx_left",
+      "reference_blender_name": "anat_digit5_proximal_phalanx_left",
+      "current_rig": [
+        "pinky_01_l"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "digit5_middle_phalanx_left",
+      "reference_blender_name": "anat_digit5_middle_phalanx_left",
+      "current_rig": [
+        "pinky_02_l"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "digit5_distal_phalanx_left",
+      "reference_blender_name": "anat_digit5_distal_phalanx_left",
+      "current_rig": [
+        "pinky_03_l"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "metacarpal_1_right",
+      "reference_blender_name": "anat_metacarpal_1_right",
+      "current_rig": [
+        "thumb_01_r"
+      ],
+      "relationship": "mapped_to_thumb_chain_base"
+    },
+    {
+      "anatomical_id": "metacarpal_2_right",
+      "reference_blender_name": "anat_metacarpal_2_right",
+      "current_rig": [
+        "metacarpal_index_r"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "metacarpal_3_right",
+      "reference_blender_name": "anat_metacarpal_3_right",
+      "current_rig": [
+        "metacarpal_middle_r"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "metacarpal_4_right",
+      "reference_blender_name": "anat_metacarpal_4_right",
+      "current_rig": [
+        "metacarpal_ring_r"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "metacarpal_5_right",
+      "reference_blender_name": "anat_metacarpal_5_right",
+      "current_rig": [
+        "metacarpal_pinky_r"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "thumb_proximal_phalanx_right",
+      "reference_blender_name": "anat_thumb_proximal_phalanx_right",
+      "current_rig": [
+        "thumb_02_r"
+      ],
+      "relationship": "direct_semantic"
+    },
+    {
+      "anatomical_id": "thumb_distal_phalanx_right",
+      "reference_blender_name": "anat_thumb_distal_phalanx_right",
+      "current_rig": [
+        "thumb_03_r"
+      ],
+      "relationship": "direct_semantic"
+    },
+    {
+      "anatomical_id": "digit2_proximal_phalanx_right",
+      "reference_blender_name": "anat_digit2_proximal_phalanx_right",
+      "current_rig": [
+        "index_01_r"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "digit2_middle_phalanx_right",
+      "reference_blender_name": "anat_digit2_middle_phalanx_right",
+      "current_rig": [
+        "index_02_r"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "digit2_distal_phalanx_right",
+      "reference_blender_name": "anat_digit2_distal_phalanx_right",
+      "current_rig": [
+        "index_03_r"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "digit3_proximal_phalanx_right",
+      "reference_blender_name": "anat_digit3_proximal_phalanx_right",
+      "current_rig": [
+        "middle_01_r"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "digit3_middle_phalanx_right",
+      "reference_blender_name": "anat_digit3_middle_phalanx_right",
+      "current_rig": [
+        "middle_02_r"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "digit3_distal_phalanx_right",
+      "reference_blender_name": "anat_digit3_distal_phalanx_right",
+      "current_rig": [
+        "middle_03_r"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "digit4_proximal_phalanx_right",
+      "reference_blender_name": "anat_digit4_proximal_phalanx_right",
+      "current_rig": [
+        "ring_01_r"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "digit4_middle_phalanx_right",
+      "reference_blender_name": "anat_digit4_middle_phalanx_right",
+      "current_rig": [
+        "ring_02_r"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "digit4_distal_phalanx_right",
+      "reference_blender_name": "anat_digit4_distal_phalanx_right",
+      "current_rig": [
+        "ring_03_r"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "digit5_proximal_phalanx_right",
+      "reference_blender_name": "anat_digit5_proximal_phalanx_right",
+      "current_rig": [
+        "pinky_01_r"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "digit5_middle_phalanx_right",
+      "reference_blender_name": "anat_digit5_middle_phalanx_right",
+      "current_rig": [
+        "pinky_02_r"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "digit5_distal_phalanx_right",
+      "reference_blender_name": "anat_digit5_distal_phalanx_right",
+      "current_rig": [
+        "pinky_03_r"
+      ],
+      "relationship": "direct"
+    },
+    {
+      "anatomical_id": "hip_bone_left",
+      "reference_blender_name": "anat_hip_bone_left",
+      "current_rig": [
+        "pelvis"
+      ],
+      "relationship": "bilateral_pelvis_collapsed"
+    },
+    {
+      "anatomical_id": "hip_bone_right",
+      "reference_blender_name": "anat_hip_bone_right",
+      "current_rig": [
+        "pelvis"
+      ],
+      "relationship": "bilateral_pelvis_collapsed"
+    },
+    {
+      "anatomical_id": "femur_left",
+      "reference_blender_name": "anat_femur_left",
+      "current_rig": [
+        "thigh_l"
+      ],
+      "relationship": "direct_gross_segment"
+    },
+    {
+      "anatomical_id": "femur_right",
+      "reference_blender_name": "anat_femur_right",
+      "current_rig": [
+        "thigh_r"
+      ],
+      "relationship": "direct_gross_segment"
+    },
+    {
+      "anatomical_id": "patella_left",
+      "reference_blender_name": "anat_patella_left",
+      "current_rig": [],
+      "relationship": "missing_explicit_control"
+    },
+    {
+      "anatomical_id": "patella_right",
+      "reference_blender_name": "anat_patella_right",
+      "current_rig": [],
+      "relationship": "missing_explicit_control"
+    },
+    {
+      "anatomical_id": "tibia_left",
+      "reference_blender_name": "anat_tibia_left",
+      "current_rig": [
+        "shin_l"
+      ],
+      "relationship": "tibia_fibula_collapsed"
+    },
+    {
+      "anatomical_id": "tibia_right",
+      "reference_blender_name": "anat_tibia_right",
+      "current_rig": [
+        "shin_r"
+      ],
+      "relationship": "tibia_fibula_collapsed"
+    },
+    {
+      "anatomical_id": "fibula_left",
+      "reference_blender_name": "anat_fibula_left",
+      "current_rig": [
+        "shin_l"
+      ],
+      "relationship": "tibia_fibula_collapsed"
+    },
+    {
+      "anatomical_id": "fibula_right",
+      "reference_blender_name": "anat_fibula_right",
+      "current_rig": [
+        "shin_r"
+      ],
+      "relationship": "tibia_fibula_collapsed"
+    },
+    {
+      "anatomical_id": "talus_left",
+      "reference_blender_name": "anat_talus_left",
+      "current_rig": [
+        "foot_l"
+      ],
+      "relationship": "tarsals_collapsed"
+    },
+    {
+      "anatomical_id": "talus_right",
+      "reference_blender_name": "anat_talus_right",
+      "current_rig": [
+        "foot_r"
+      ],
+      "relationship": "tarsals_collapsed"
+    },
+    {
+      "anatomical_id": "calcaneus_left",
+      "reference_blender_name": "anat_calcaneus_left",
+      "current_rig": [
+        "foot_l"
+      ],
+      "relationship": "tarsals_collapsed"
+    },
+    {
+      "anatomical_id": "calcaneus_right",
+      "reference_blender_name": "anat_calcaneus_right",
+      "current_rig": [
+        "foot_r"
+      ],
+      "relationship": "tarsals_collapsed"
+    },
+    {
+      "anatomical_id": "navicular_left",
+      "reference_blender_name": "anat_navicular_left",
+      "current_rig": [
+        "foot_l"
+      ],
+      "relationship": "tarsals_collapsed"
+    },
+    {
+      "anatomical_id": "navicular_right",
+      "reference_blender_name": "anat_navicular_right",
+      "current_rig": [
+        "foot_r"
+      ],
+      "relationship": "tarsals_collapsed"
+    },
+    {
+      "anatomical_id": "cuboid_left",
+      "reference_blender_name": "anat_cuboid_left",
+      "current_rig": [
+        "foot_l"
+      ],
+      "relationship": "tarsals_collapsed"
+    },
+    {
+      "anatomical_id": "cuboid_right",
+      "reference_blender_name": "anat_cuboid_right",
+      "current_rig": [
+        "foot_r"
+      ],
+      "relationship": "tarsals_collapsed"
+    },
+    {
+      "anatomical_id": "medial_cuneiform_left",
+      "reference_blender_name": "anat_medial_cuneiform_left",
+      "current_rig": [
+        "foot_l"
+      ],
+      "relationship": "tarsals_collapsed"
+    },
+    {
+      "anatomical_id": "medial_cuneiform_right",
+      "reference_blender_name": "anat_medial_cuneiform_right",
+      "current_rig": [
+        "foot_r"
+      ],
+      "relationship": "tarsals_collapsed"
+    },
+    {
+      "anatomical_id": "intermediate_cuneiform_left",
+      "reference_blender_name": "anat_intermediate_cuneiform_left",
+      "current_rig": [
+        "foot_l"
+      ],
+      "relationship": "tarsals_collapsed"
+    },
+    {
+      "anatomical_id": "intermediate_cuneiform_right",
+      "reference_blender_name": "anat_intermediate_cuneiform_right",
+      "current_rig": [
+        "foot_r"
+      ],
+      "relationship": "tarsals_collapsed"
+    },
+    {
+      "anatomical_id": "lateral_cuneiform_left",
+      "reference_blender_name": "anat_lateral_cuneiform_left",
+      "current_rig": [
+        "foot_l"
+      ],
+      "relationship": "tarsals_collapsed"
+    },
+    {
+      "anatomical_id": "lateral_cuneiform_right",
+      "reference_blender_name": "anat_lateral_cuneiform_right",
+      "current_rig": [
+        "foot_r"
+      ],
+      "relationship": "tarsals_collapsed"
+    },
+    {
+      "anatomical_id": "metatarsal_1_left",
+      "reference_blender_name": "anat_metatarsal_1_left",
+      "current_rig": [
+        "foot_l"
+      ],
+      "relationship": "forefoot_collapsed"
+    },
+    {
+      "anatomical_id": "metatarsal_2_left",
+      "reference_blender_name": "anat_metatarsal_2_left",
+      "current_rig": [
+        "foot_l"
+      ],
+      "relationship": "forefoot_collapsed"
+    },
+    {
+      "anatomical_id": "metatarsal_3_left",
+      "reference_blender_name": "anat_metatarsal_3_left",
+      "current_rig": [
+        "foot_l"
+      ],
+      "relationship": "forefoot_collapsed"
+    },
+    {
+      "anatomical_id": "metatarsal_4_left",
+      "reference_blender_name": "anat_metatarsal_4_left",
+      "current_rig": [
+        "foot_l"
+      ],
+      "relationship": "forefoot_collapsed"
+    },
+    {
+      "anatomical_id": "metatarsal_5_left",
+      "reference_blender_name": "anat_metatarsal_5_left",
+      "current_rig": [
+        "foot_l"
+      ],
+      "relationship": "forefoot_collapsed"
+    },
+    {
+      "anatomical_id": "hallux_proximal_phalanx_left",
+      "reference_blender_name": "anat_hallux_proximal_phalanx_left",
+      "current_rig": [
+        "toe_l"
+      ],
+      "relationship": "all_toes_collapsed"
+    },
+    {
+      "anatomical_id": "hallux_distal_phalanx_left",
+      "reference_blender_name": "anat_hallux_distal_phalanx_left",
+      "current_rig": [
+        "toe_l"
+      ],
+      "relationship": "all_toes_collapsed"
+    },
+    {
+      "anatomical_id": "toe2_proximal_phalanx_left",
+      "reference_blender_name": "anat_toe2_proximal_phalanx_left",
+      "current_rig": [
+        "toe_l"
+      ],
+      "relationship": "all_toes_collapsed"
+    },
+    {
+      "anatomical_id": "toe2_middle_phalanx_left",
+      "reference_blender_name": "anat_toe2_middle_phalanx_left",
+      "current_rig": [
+        "toe_l"
+      ],
+      "relationship": "all_toes_collapsed"
+    },
+    {
+      "anatomical_id": "toe2_distal_phalanx_left",
+      "reference_blender_name": "anat_toe2_distal_phalanx_left",
+      "current_rig": [
+        "toe_l"
+      ],
+      "relationship": "all_toes_collapsed"
+    },
+    {
+      "anatomical_id": "toe3_proximal_phalanx_left",
+      "reference_blender_name": "anat_toe3_proximal_phalanx_left",
+      "current_rig": [
+        "toe_l"
+      ],
+      "relationship": "all_toes_collapsed"
+    },
+    {
+      "anatomical_id": "toe3_middle_phalanx_left",
+      "reference_blender_name": "anat_toe3_middle_phalanx_left",
+      "current_rig": [
+        "toe_l"
+      ],
+      "relationship": "all_toes_collapsed"
+    },
+    {
+      "anatomical_id": "toe3_distal_phalanx_left",
+      "reference_blender_name": "anat_toe3_distal_phalanx_left",
+      "current_rig": [
+        "toe_l"
+      ],
+      "relationship": "all_toes_collapsed"
+    },
+    {
+      "anatomical_id": "toe4_proximal_phalanx_left",
+      "reference_blender_name": "anat_toe4_proximal_phalanx_left",
+      "current_rig": [
+        "toe_l"
+      ],
+      "relationship": "all_toes_collapsed"
+    },
+    {
+      "anatomical_id": "toe4_middle_phalanx_left",
+      "reference_blender_name": "anat_toe4_middle_phalanx_left",
+      "current_rig": [
+        "toe_l"
+      ],
+      "relationship": "all_toes_collapsed"
+    },
+    {
+      "anatomical_id": "toe4_distal_phalanx_left",
+      "reference_blender_name": "anat_toe4_distal_phalanx_left",
+      "current_rig": [
+        "toe_l"
+      ],
+      "relationship": "all_toes_collapsed"
+    },
+    {
+      "anatomical_id": "toe5_proximal_phalanx_left",
+      "reference_blender_name": "anat_toe5_proximal_phalanx_left",
+      "current_rig": [
+        "toe_l"
+      ],
+      "relationship": "all_toes_collapsed"
+    },
+    {
+      "anatomical_id": "toe5_middle_phalanx_left",
+      "reference_blender_name": "anat_toe5_middle_phalanx_left",
+      "current_rig": [
+        "toe_l"
+      ],
+      "relationship": "all_toes_collapsed"
+    },
+    {
+      "anatomical_id": "toe5_distal_phalanx_left",
+      "reference_blender_name": "anat_toe5_distal_phalanx_left",
+      "current_rig": [
+        "toe_l"
+      ],
+      "relationship": "all_toes_collapsed"
+    },
+    {
+      "anatomical_id": "metatarsal_1_right",
+      "reference_blender_name": "anat_metatarsal_1_right",
+      "current_rig": [
+        "foot_r"
+      ],
+      "relationship": "forefoot_collapsed"
+    },
+    {
+      "anatomical_id": "metatarsal_2_right",
+      "reference_blender_name": "anat_metatarsal_2_right",
+      "current_rig": [
+        "foot_r"
+      ],
+      "relationship": "forefoot_collapsed"
+    },
+    {
+      "anatomical_id": "metatarsal_3_right",
+      "reference_blender_name": "anat_metatarsal_3_right",
+      "current_rig": [
+        "foot_r"
+      ],
+      "relationship": "forefoot_collapsed"
+    },
+    {
+      "anatomical_id": "metatarsal_4_right",
+      "reference_blender_name": "anat_metatarsal_4_right",
+      "current_rig": [
+        "foot_r"
+      ],
+      "relationship": "forefoot_collapsed"
+    },
+    {
+      "anatomical_id": "metatarsal_5_right",
+      "reference_blender_name": "anat_metatarsal_5_right",
+      "current_rig": [
+        "foot_r"
+      ],
+      "relationship": "forefoot_collapsed"
+    },
+    {
+      "anatomical_id": "hallux_proximal_phalanx_right",
+      "reference_blender_name": "anat_hallux_proximal_phalanx_right",
+      "current_rig": [
+        "toe_r"
+      ],
+      "relationship": "all_toes_collapsed"
+    },
+    {
+      "anatomical_id": "hallux_distal_phalanx_right",
+      "reference_blender_name": "anat_hallux_distal_phalanx_right",
+      "current_rig": [
+        "toe_r"
+      ],
+      "relationship": "all_toes_collapsed"
+    },
+    {
+      "anatomical_id": "toe2_proximal_phalanx_right",
+      "reference_blender_name": "anat_toe2_proximal_phalanx_right",
+      "current_rig": [
+        "toe_r"
+      ],
+      "relationship": "all_toes_collapsed"
+    },
+    {
+      "anatomical_id": "toe2_middle_phalanx_right",
+      "reference_blender_name": "anat_toe2_middle_phalanx_right",
+      "current_rig": [
+        "toe_r"
+      ],
+      "relationship": "all_toes_collapsed"
+    },
+    {
+      "anatomical_id": "toe2_distal_phalanx_right",
+      "reference_blender_name": "anat_toe2_distal_phalanx_right",
+      "current_rig": [
+        "toe_r"
+      ],
+      "relationship": "all_toes_collapsed"
+    },
+    {
+      "anatomical_id": "toe3_proximal_phalanx_right",
+      "reference_blender_name": "anat_toe3_proximal_phalanx_right",
+      "current_rig": [
+        "toe_r"
+      ],
+      "relationship": "all_toes_collapsed"
+    },
+    {
+      "anatomical_id": "toe3_middle_phalanx_right",
+      "reference_blender_name": "anat_toe3_middle_phalanx_right",
+      "current_rig": [
+        "toe_r"
+      ],
+      "relationship": "all_toes_collapsed"
+    },
+    {
+      "anatomical_id": "toe3_distal_phalanx_right",
+      "reference_blender_name": "anat_toe3_distal_phalanx_right",
+      "current_rig": [
+        "toe_r"
+      ],
+      "relationship": "all_toes_collapsed"
+    },
+    {
+      "anatomical_id": "toe4_proximal_phalanx_right",
+      "reference_blender_name": "anat_toe4_proximal_phalanx_right",
+      "current_rig": [
+        "toe_r"
+      ],
+      "relationship": "all_toes_collapsed"
+    },
+    {
+      "anatomical_id": "toe4_middle_phalanx_right",
+      "reference_blender_name": "anat_toe4_middle_phalanx_right",
+      "current_rig": [
+        "toe_r"
+      ],
+      "relationship": "all_toes_collapsed"
+    },
+    {
+      "anatomical_id": "toe4_distal_phalanx_right",
+      "reference_blender_name": "anat_toe4_distal_phalanx_right",
+      "current_rig": [
+        "toe_r"
+      ],
+      "relationship": "all_toes_collapsed"
+    },
+    {
+      "anatomical_id": "toe5_proximal_phalanx_right",
+      "reference_blender_name": "anat_toe5_proximal_phalanx_right",
+      "current_rig": [
+        "toe_r"
+      ],
+      "relationship": "all_toes_collapsed"
+    },
+    {
+      "anatomical_id": "toe5_middle_phalanx_right",
+      "reference_blender_name": "anat_toe5_middle_phalanx_right",
+      "current_rig": [
+        "toe_r"
+      ],
+      "relationship": "all_toes_collapsed"
+    },
+    {
+      "anatomical_id": "toe5_distal_phalanx_right",
+      "reference_blender_name": "anat_toe5_distal_phalanx_right",
+      "current_rig": [
+        "toe_r"
+      ],
+      "relationship": "all_toes_collapsed"
+    }
+  ],
+  "summary": {
+    "entries": 206,
+    "relationship_counts": {
+      "no_current_explicit_equivalent": 29,
+      "collapsed_reference": 9,
+      "distributed_approximation": 17,
+      "no_explicit_bone_reference": 25,
+      "direct": 38,
+      "radius_ulna_collapsed_with_twist_helpers": 4,
+      "carpals_collapsed": 16,
+      "mapped_to_thumb_chain_base": 2,
+      "direct_semantic": 4,
+      "bilateral_pelvis_collapsed": 2,
+      "direct_gross_segment": 2,
+      "missing_explicit_control": 2,
+      "tibia_fibula_collapsed": 4,
+      "tarsals_collapsed": 14,
+      "forefoot_collapsed": 10,
+      "all_toes_collapsed": 28
+    }
+  }
+}

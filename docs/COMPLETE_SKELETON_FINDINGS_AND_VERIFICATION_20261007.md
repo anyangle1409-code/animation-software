@@ -250,3 +250,11 @@ Every articulation retains anatomy source IDs; every mechanics profile retains i
 | `SP_PRUJ` | [StatPearls: Anatomy, Shoulder and Upper Limb, Proximal Radio-Ulnar Joint](https://www.ncbi.nlm.nih.gov/sites/books/NBK551614/) | full_text — Introduction; Structure and Function: radial head/radial notch, annular ligament, PRUJ/DRUJ coordination |
 | `SP_DRUJ` | [StatPearls: Anatomy, Shoulder and Upper Limb, Distal Radio-Ulnar Joint](https://www.ncbi.nlm.nih.gov/sites/books/NBK547720/) | full_text — Introduction; Structure and Function: DRUJ surfaces, TFCC and forearm ring |
 | `DRUJ_FUNCTIONAL` | [Haugstvedt et al.: Distal radioulnar joint: functional anatomy, including pathomechanics](https://pubmed.ncbi.nlm.nih.gov/28699788/) | indexed_abstract — Abstract: distal radius–ulna function and stabilizing structures |
+
+## Additional validation preparation
+
+At the owner's request, read-only local measurement and reporting tools have been prepared. See `BLENDER_ANATOMICAL_VALIDATION_HANDOFF_20261007.md` and `blender_validation_plan.json`. They provide all reference names/joint-marker requests, profile case specifications and functional task IDs, with explicit missing-evidence statuses. They do not author poses, fit bones or approve any Blender gate.
+
+A fresh static inspection of the 67-control canonical export found no zero-length segments, missing parents or bilateral segment-length differences at numerical resolution. Those checks describe the exported hierarchy/lengths, not anatomical position, joint contact or correct operation. Physical scale, orientation/roll and live Blender geometry remain unverified.
+
+Final tool verification: 21 synthetic tool tests and 16 atlas tests pass. The full repository runs 571 tests: 562 pass, with the same five failures and four errors recorded before this extension; no additional failures. Protected production input hashes match the prior baseline. Independent review found and verified fixes for incomplete/contradictory provenance reporting and absent geometry reporting. Machine-readable evidence: `ORIGINAL_V1_WORK/anatomy/blender_validation_tools_verification.json`. These results do not execute Blender or accept any character fitting/motion gate.

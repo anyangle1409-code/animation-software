@@ -178,3 +178,5 @@ Next: Phase 6 — character-specific proportions, measured landmarks and distinc
 Stopped at the genuine local Blender dependency; Gates 6–13 remain unpassed.
 Production model, recovery work, geometry, weights and motion drivers unchanged.
 Comprehensive findings, source register, verification and local acceptance checklist: `docs/COMPLETE_SKELETON_FINDINGS_AND_VERIFICATION_20261007.md`.
+
+Local validation preparation is available in `docs/BLENDER_ANATOMICAL_VALIDATION_HANDOFF_20261007.md`: read-only capture, source-bound test requests and offline numerical reports. Prepared tools do not complete Gates6–10; their Blender adapter still requires a local smoke test.

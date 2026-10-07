@@ -154,6 +154,8 @@ The reviewer did not exhaustively endorse every source or numerical extraction; 
 6. Run every Phase10 functional task, including loaded grip/pinch, wrist support, calf raise and forefoot loading. Save bone-only views and machine-readable kinematics.
 7. Derive runtime grouping only after quantitative master/runtime comparison passes; then address skin/deformation and export/performance in tracker order.
 
+Execution probe: the r97/r98 candidate `.blend` files are present (5,234,876 / 5,201,002 bytes), but `shutil.which("blender")` returns `None`. Files alone do not verify the fitted character; this environment cannot execute the Phase6 Blender checks. The recorded probe is in `test_run_verification.json`.
+
 Final acceptance requires the recorded local results. The deliverable here removes the need to reconstruct inventories or repeat the same static audit. New evidence, a changed character or failed motion tests can still require targeted revision.
 
 ## Source register and access verification

@@ -78,5 +78,13 @@
     "important_fixed": 3,
     "deferred_minors": 0,
     "method": "Fresh read-only reviewer; regression mutations observed RED then GREEN; full suite preserved baseline failure set."
+  },
+  "phase6_execution_probe": {
+    "blender_executable": null,
+    "candidate_blend_files_present": {
+      "r97_bytes": 5234876,
+      "r98_bytes": 5201002
+    },
+    "blocked_reason": "Candidate files are present, but no Blender executable is available to inspect, fit and dynamically verify the local character."
   }
 }

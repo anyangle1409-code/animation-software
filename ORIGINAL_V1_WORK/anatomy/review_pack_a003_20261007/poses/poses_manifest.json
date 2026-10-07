@@ -1,0 +1,72 @@
+{
+ "neutral_front": {
+  "test_id": null,
+  "frame": 1,
+  "primary_value_deg": null,
+  "view": "front",
+  "upper_limb_hidden": false
+ },
+ "neutral_left_side": {
+  "test_id": null,
+  "frame": 1,
+  "primary_value_deg": null,
+  "view": "left",
+  "upper_limb_hidden": false
+ },
+ "shoulder_complex_scapular_plane_left": {
+  "test_id": "shoulder_complex_scapular_plane_left",
+  "frame": 5716,
+  "primary_value_deg": 117.49998264528378,
+  "view": "front",
+  "upper_limb_hidden": false
+ },
+ "gh_elevation_plane_90_left": {
+  "test_id": "gh_elevation_plane_90_left",
+  "frame": 826,
+  "primary_value_deg": 119.9999934549488,
+  "view": "left",
+  "upper_limb_hidden": false
+ },
+ "hip_flexion_extension_left": {
+  "test_id": "hip_flexion_extension_left",
+  "frame": 21,
+  "primary_value_deg": 130.40001325810584,
+  "view": "left",
+  "upper_limb_hidden": false
+ },
+ "knee_flexion_with_patellar_follower_left": {
+  "test_id": "knee_flexion_with_patellar_follower_left",
+  "frame": 5781,
+  "primary_value_deg": 89.99999907295096,
+  "view": "left",
+  "upper_limb_hidden": false
+ },
+ "elbow_flexion_at_pronation_0_left": {
+  "test_id": "elbow_flexion_at_pronation_0_left",
+  "frame": 1081,
+  "primary_value_deg": 144.59999834449934,
+  "view": "left",
+  "upper_limb_hidden": false
+ },
+ "thumb_opposition_left": {
+  "test_id": "thumb_opposition_left",
+  "frame": 2189,
+  "primary_value_deg": 20.6818707859357,
+  "view": "front",
+  "upper_limb_hidden": false
+ },
+ "c0_c1_flexion_extension": {
+  "test_id": "c0_c1_flexion_extension",
+  "frame": 6296,
+  "primary_value_deg": -8.95000043052994,
+  "view": "left",
+  "upper_limb_hidden": true
+ },
+ "lumbar_l4_l5_extension": {
+  "test_id": "lumbar_l4_l5_extension",
+  "frame": 6986,
+  "primary_value_deg": -12.099998609623029,
+  "view": "left",
+  "upper_limb_hidden": true
+ }
+}

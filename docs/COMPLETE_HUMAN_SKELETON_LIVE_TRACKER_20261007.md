@@ -179,6 +179,7 @@ Completed: Phases 0–5 (reference definitions, evidence compilation and static 
 Done: Phase 6 fit and Phase 7 master structure (fit revision a003); Phase 8 solver core; Phase 9 isolated tests (135, run 014).
 Not passed: Gate 6 (proportion conflict needs an owner decision), Gate 8 (followers/contacts), Gate 9 (coverage).
 Next: implement the remaining followers where source magnitudes can be obtained (full texts were blocked here); resolve F-PROP-001 with the owner; then run Phase 10 from authored exercise definitions.
+Morning review pack (current a003, read-only renders, links, hashes, defects, owner questions): `ORIGINAL_V1_WORK/anatomy/review_pack_a003_20261007/README.md`.
 Resume: see the "Resume instructions" section of `docs/BLENDER_ANATOMICAL_VALIDATION_HANDOFF_20261007.md`.
 Gates 6–13 remain unpassed.
 Production model, recovery work, geometry, weights and motion drivers unchanged.

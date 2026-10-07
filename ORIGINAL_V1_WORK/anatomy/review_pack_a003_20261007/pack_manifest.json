@@ -1,0 +1,51 @@
+{
+ "candidate": {
+  "audit_blend": "ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a003.blend",
+  "sha256": "670a37bfd206d702928de721032e2b942725389dc6906df0d866eba8d8cbbe56"
+ },
+ "pose_source": {
+  "test_blend": "ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a003_isolated_tests_v14.blend",
+  "sha256": "46db1e81b953378dcb8528ee1f328b221c7c9f20f8e15478d3d611eb254869bd",
+  "run": "audit/runs/isolated_bone_only_014"
+ },
+ "generator": {
+  "script": "scripts/anatomy_fit/render_review_pack.py",
+  "sha256": "838dcabe6fb3ed04f4783984e8a6844c3a3d3e10beddd1675e9abf790f6639d6"
+ },
+ "branch": "codex/whole-body-biomechanics-audit-20261007",
+ "rendered_at_commit": "fe91f3fbb9c154466b98d525b08be5715e14bc85",
+ "files": {
+  "poses/pose_c0_c1_flexion_extension.jpg": "66a28def2a63d289d9c5aed1e8cbcdae6864d895a7a98177ddccb3498f0fe22d",
+  "poses/pose_elbow_flexion_at_pronation_0_left.jpg": "62a11098b67babc9db03bfe6a924ba73dbff6b01025399677f0b64317c6e17fc",
+  "poses/pose_gh_elevation_plane_90_left.jpg": "07796c5dde1fca4710ccbb1c1bc85b2aea69b3246432dbca38c0111cb9aa08ee",
+  "poses/pose_hip_flexion_extension_left.jpg": "42406e57debb94d85cc343b61a5fe3b1a4eb527ae4feca02a9bd427cbb7fd09a",
+  "poses/pose_knee_flexion_with_patellar_follower_left.jpg": "901ebcaf5539047917fa8deb6c8e31a03ca02127d124e425784518fbf77114d7",
+  "poses/pose_lumbar_l4_l5_extension.jpg": "8d0e377f8f4c5ef6785db6d0b82cf555968eb09f50e17e0e7b42cbdd07cff6f6",
+  "poses/pose_neutral_front.jpg": "2171b72a2cfec904a81b2242c0256650a505ef5685f0f16789eb80c63a12e6c1",
+  "poses/pose_neutral_left_side.jpg": "9606740eb15684f7b2e211d966c4d7122d8ed4946f848817bc21264bdcc1865a",
+  "poses/pose_shoulder_complex_scapular_plane_left.jpg": "10b50362168229792f6f0f62a16a874333d6dd5de13b6939c9d88755c5805117",
+  "poses/pose_thumb_opposition_left.jpg": "e02da29f8cd52280df9bf6952a76577950d9cc9982da36b35d8441e2f4edf0f1",
+  "poses/poses_manifest.json": "77486980ffa9a80fa074853f3160adf935c99e7d500ac85a7c8492b733e43511",
+  "sheets/sheet_full_body_views.jpg": "59c86d9f79fcc7280142cab2941602aebbb187ef97db588fb1bd17b8a57eb283",
+  "sheets/sheet_poses_neutral_and_movement.jpg": "b939570918e70c41a2962511b3c20076e78c891ddeaf91f98eeb1183f0da41bc",
+  "sheets/sheet_shoulder_axilla_left.jpg": "1baafd6fc399171372126333642226655296e100969449458b34bf2200e04f26",
+  "sheets/sheet_shoulder_axilla_right.jpg": "84ac9f2f8d46ec4d022888dd5b53f75aafe0d20ec52e29855e7d2506b2dda91d",
+  "views/axilla_left_from_below_front.jpg": "7225434ce449f31c4c9ad3126d05892aa774adad70f3300362d6e8e42ed79265",
+  "views/axilla_right_from_below_front.jpg": "47043e6afecdec31027f24e64419da1ddf9066d194abefbabd71911379df2d96",
+  "views/full_back.jpg": "8b404c71d35a2a642d4dcac204dbf7dcb4828ebacd62131702622ecd80778d07",
+  "views/full_back_left_three_quarter.jpg": "38ad16064d2d8675220b79985ca55726b6821c1e21084bef4036750a5028fb7f",
+  "views/full_front.jpg": "d062fe516e1776b9723dec58d8580503c63f3739d15f386c32af94ae4b0eb9fe",
+  "views/full_front_left_three_quarter.jpg": "7ac4f22f01ade696753a1217f62bd621aa8dfe23c6f637e5550f6406266b5dd1",
+  "views/full_front_right_three_quarter.jpg": "8cf3db3ead88ecf257c02a3104d03fceada234d319413009c153a741588b9ff7",
+  "views/full_left_side.jpg": "b6252ee5ddbb5d859d2e52317274d7f87753402e1338d0ec6426ee74dce0dd0f",
+  "views/full_right_side.jpg": "5eccc5847e0c20e8f69d636d301ba2662f27e324cdcb222be8a3b494defaedb0",
+  "views/shoulder_axilla_left_front.jpg": "0c30ffa5ae3ef41d6a8b38df2a1dbc44d5ad46333186b4914a2fadb6d56b7f9b",
+  "views/shoulder_axilla_left_rear.jpg": "fbd2ca2b19dce1c19e083147eb14ff0dcb0d0645a6d82fa6246595597667bde5",
+  "views/shoulder_axilla_left_side.jpg": "d25de854a4ed7efa89011db0507c6fe363c0859b71abc11a4200e5da3989f6b4",
+  "views/shoulder_axilla_right_front.jpg": "41ec6f0cf1e5ad0bc836d0c33c6386860b5bf10ff37c5370b1c75f4df01e59f2",
+  "views/shoulder_axilla_right_rear.jpg": "24d2377408c661448a44d869f5c014c816ba972d44da44d68fcd7b409f1da53a",
+  "views/shoulder_axilla_right_side.jpg": "dde1cb2774423fadf4aaffcdad5208d140205949ab9bb2107bb4999e60443ec1",
+  "views/shoulder_left_overhead.jpg": "e121d30a40859d62a8d8f7e4475902ec3c0f16ad1a3a07923b15d9ccf39c8eae",
+  "views/shoulder_right_overhead.jpg": "815efdf0299c1f534151a4b4a7815e74743d5cb811013d2c6ced842d7f32a008"
+ }
+}

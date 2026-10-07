@@ -1,0 +1,27 @@
+Continue the Home Gym PT complete anatomical skeleton programme autonomously.
+
+REPOSITORY
+anyangle1409-code/animation-software
+
+ACTIVE BRANCH
+codex/whole-body-biomechanics-audit-20261007
+
+LIVE TRACKER
+docs/COMPLETE_HUMAN_SKELETON_LIVE_TRACKER_20261007.md
+
+INSTRUCTIONS
+1. Check the LIVE branch HEAD before doing anything. Read and preserve all newer work. Never overwrite, revert, force-push, or duplicate newer work.
+2. Follow the live tracker strictly and work through phases in order. Mark items complete only when genuinely verified.
+3. Continue all work that is possible without user intervention. Use Blender/bpy when available in the environment.
+4. Use multiple authoritative anatomy/biomechanics sources for every joint or follower mechanic. Do not invent magnitudes when evidence is unavailable.
+5. Keep all production geometry, weights, motion drivers and recovery candidates unchanged until the audit gates explicitly permit production work.
+6. Keep the complete 206-bone anatomical master as the reference standard. Preserve all evidence files, failed runs, audit history and independent-review findings.
+7. Re-run validators and relevant tests after each change. Retain failed runs that expose weaknesses in the test system.
+8. Commit and push coherent verified progress to this branch.
+9. Continue autonomously until genuinely blocked by missing evidence, an owner-only decision, or an unavailable capability. If blocked, update the tracker and findings with the exact blocker, evidence needed, and safest next action.
+10. Do not stop merely to ask whether to continue.
+
+CURRENT OWNER INTENT
+The skeleton must be fully revalidated so this is the last foundational skeleton pass. Accuracy is more important than speed. The current unresolved character-style question (short forearm/hand and long feet) must not be silently changed in production without explicit owner approval.
+
+Start by reading the current LIVE tracker, latest findings, current branch HEAD and latest audit artifacts, then continue from the first genuinely incomplete item.

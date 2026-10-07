@@ -202,9 +202,13 @@ def main():
         rev_c = reversals(vel_c, 1e-9)
         rev_m = reversals(vel_m, 1e-4)   # noise floor for single-precision evaluation
         radii = []
+        # radius invariant: about the primary marker when it is the centre; for a fixed-axis rotation whose primary
+        # marker is off-centre, about the commanded rotation centre (distance to a point on the axis is preserved)
+        use_centre = t['kind'] == 'axis' and not t.get('marker_is_centre')
         for r in rows:
-            if r['distal_marker_m'] is not None and r['marker_m'] is not None:
-                radii.append(float(np.linalg.norm(np.asarray(r['distal_marker_m']) - np.asarray(r['marker_m']))))
+            ref = t['centre'] if use_centre else r['marker_m']
+            if r['distal_marker_m'] is not None and ref is not None:
+                radii.append(float(np.linalg.norm(np.asarray(r['distal_marker_m']) - np.asarray(ref))))
         travel = [float(np.linalg.norm(np.asarray(r['distal_marker_m']) - np.asarray(rows[0]['distal_marker_m'])))
                   for r in rows if r['distal_marker_m'] is not None and rows[0]['distal_marker_m'] is not None]
         extra = {}

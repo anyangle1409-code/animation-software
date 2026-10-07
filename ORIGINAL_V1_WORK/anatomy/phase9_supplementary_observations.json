@@ -3,46 +3,289 @@
  "purpose": "Phase 8-9 supplementary source observations gathered on 7 October 2026 to extend isolated and follower tests. The Phase 4 atlas is not modified; these entries are merged at test-spec time. Full texts were not reachable (session egress policy blocks journal hosts): every value is transcribed from search-result abstracts/snippets and is labelled as such. Values are context for test amplitudes and follower magnitudes, never character range-of-motion limits.",
  "retrieval": "WebSearch snippets of abstracts/tables; second-source agreement noted where available.",
  "sources": {
-  "C0C1_BIPLANE_2024": {"citation": "Dynamic in vivo 3D atlantooccipital kinematics during multiplanar physiologic motions, J Biomech 2024 (ScienceDirect S0021929024003142)", "url": "https://www.sciencedirect.com/science/article/pii/S0021929024003142", "access": "abstract snippet"},
-  "ANDERST_2013_JBJS": {"citation": "Anderst WJ et al. 2013, J Bone Joint Surg: cervical motion after single-level anterior arthrodesis vs asymptomatic controls, Table II", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3748975/table/tbl2", "access": "table snippet"},
-  "YU_2017_JBE": {"citation": "Yu Y et al. 2017, J Biomech Eng: Ranges of cervical intervertebral disc deformation during an in vivo dynamic flexion-extension of the neck", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5444210", "access": "abstract snippet"},
-  "MCP_ABDUCTION_CLINICAL": {"citation": "Goniometry: finger metacarpophalangeal abduction (Physiopedia); MCP joint anatomy (Kenhub)", "url": "https://www.physio-pedia.com/Goniometry:_Finger_Metacarpophalangeal_Joint_Abduction", "access": "secondary clinical references"},
-  "BEYER_2014_CVJ": {"citation": "Beyer B et al. 2014, Clin Biomech: In vivo thorax 3D modelling from costovertebral joint complex kinematics", "url": "https://www.sciencedirect.com/science/article/abs/pii/S0268003314000114", "access": "abstract snippet"},
-  "THUMB_OPPOSITION_3DCT": {"citation": "Motion analysis of the trapeziometacarpal joint using three-dimensional computed tomography, J Hand Surg Asian Pac Vol 2016 (World Scientific S2424835516500120)", "url": "https://www.worldscientific.com/doi/abs/10.1142/S2424835516500120", "access": "abstract snippet"},
-  "KAWANISHI_2017": {"citation": "Kawanishi Y et al. 2017, J Hand Surg: In vivo 3-dimensional kinematics of thumb carpometacarpal joint during thumb opposition", "url": "https://pubmed.ncbi.nlm.nih.gov/28888568/", "access": "abstract snippet (direction only)"},
-  "PATELLA_LUNGE": {"citation": "Physiological sagittal plane patellar kinematics during dynamic deep knee flexion (PMC3728417)", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3728417/", "access": "abstract/discussion snippet"},
-  "FIBULA_RSA_1989": {"citation": "In vivo fibular motions during various movements of the ankle, Clin Biomech 1989", "url": "https://www.sciencedirect.com/science/article/abs/pii/0268003389900193", "access": "abstract snippet"}
+  "C0C1_BIPLANE_2024": {
+   "citation": "Dynamic in vivo 3D atlantooccipital kinematics during multiplanar physiologic motions, J Biomech 2024 (ScienceDirect S0021929024003142)",
+   "url": "https://www.sciencedirect.com/science/article/pii/S0021929024003142",
+   "access": "abstract snippet"
+  },
+  "ANDERST_2013_JBJS": {
+   "citation": "Anderst WJ et al. 2013, J Bone Joint Surg: cervical motion after single-level anterior arthrodesis vs asymptomatic controls, Table II",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3748975/table/tbl2",
+   "access": "table snippet"
+  },
+  "YU_2017_JBE": {
+   "citation": "Yu Y et al. 2017, J Biomech Eng: Ranges of cervical intervertebral disc deformation during an in vivo dynamic flexion-extension of the neck",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5444210",
+   "access": "abstract snippet"
+  },
+  "MCP_ABDUCTION_CLINICAL": {
+   "citation": "Goniometry: finger metacarpophalangeal abduction (Physiopedia); MCP joint anatomy (Kenhub)",
+   "url": "https://www.physio-pedia.com/Goniometry:_Finger_Metacarpophalangeal_Joint_Abduction",
+   "access": "secondary clinical references"
+  },
+  "BEYER_2014_CVJ": {
+   "citation": "Beyer B et al. 2014, Clin Biomech: In vivo thorax 3D modelling from costovertebral joint complex kinematics",
+   "url": "https://www.sciencedirect.com/science/article/abs/pii/S0268003314000114",
+   "access": "abstract snippet"
+  },
+  "THUMB_OPPOSITION_3DCT": {
+   "citation": "Motion analysis of the trapeziometacarpal joint using three-dimensional computed tomography, J Hand Surg Asian Pac Vol 2016 (World Scientific S2424835516500120)",
+   "url": "https://www.worldscientific.com/doi/abs/10.1142/S2424835516500120",
+   "access": "abstract snippet"
+  },
+  "KAWANISHI_2017": {
+   "citation": "Kawanishi Y et al. 2017, J Hand Surg: In vivo 3-dimensional kinematics of thumb carpometacarpal joint during thumb opposition",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/28888568/",
+   "access": "abstract snippet (direction only)"
+  },
+  "PATELLA_LUNGE": {
+   "citation": "Physiological sagittal plane patellar kinematics during dynamic deep knee flexion (PMC3728417)",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3728417/",
+   "access": "abstract/discussion snippet"
+  },
+  "FIBULA_RSA_1989": {
+   "citation": "In vivo fibular motions during various movements of the ankle, Clin Biomech 1989",
+   "url": "https://www.sciencedirect.com/science/article/abs/pii/0268003389900193",
+   "access": "abstract snippet"
+  },
+  "TARSAL_FLUORO_2016": {
+   "citation": "In vivo kinematic study of the tarsal joints complex based on fluoroscopic 3D-2D registration technique (PubMed 27380141)",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/27380141/",
+   "access": "abstract snippet"
+  },
+  "OUZOUNIAN_SHEREFF": {
+   "citation": "Ouzounian & Shereff, in vitro midfoot arcs (as quoted by a secondary source)",
+   "url": "https://www.sciencedirect.com/science/article/abs/pii/S1083751504001135",
+   "access": "secondary quotation; measurement method not stated"
+  }
  },
  "observations": {
-  "c0c1_fe_total": {"motion": "C0-C1 flexion-extension range during physiologic motion", "value": {"mean": 17.9, "sd": 6.9}, "mode": "active", "measured_scope": "occiput relative to C1 (biplane radiography, 30 fps)", "sources": ["C0C1_BIPLANE_2024"], "population": "20 young adults",
-                     "conflicts": "Other reports: in vivo 6.3 deg (cited by the same paper), cadaver 24-27 deg, a 2026 facet study 25.6 +/- 5.9 deg. Flexion/extension split not accessible.",
-                     "note": "Motion almost exclusively in-plane; lateral bending and axial rotation not used."},
-  "cervical_ctrl_c3_c4_flexion": {"motion": "C3/C4 flexion", "value": {"mean": 7.9}, "mode": "active", "measured_scope": "C3/C4 segment, dynamic flexion-extension", "sources": ["ANDERST_2013_JBJS"], "population": "20 asymptomatic controls"},
-  "cervical_ctrl_c3_c4_extension": {"motion": "C3/C4 extension", "value": {"mean": 6.3}, "mode": "active", "measured_scope": "C3/C4 segment", "sources": ["ANDERST_2013_JBJS"], "population": "20 asymptomatic controls"},
-  "cervical_ctrl_c4_c5_flexion": {"motion": "C4/C5 flexion", "value": {"mean": 8.0, "sd": 2.6}, "mode": "active", "measured_scope": "C4/C5 segment", "sources": ["ANDERST_2013_JBJS"], "population": "20 asymptomatic controls"},
-  "cervical_ctrl_c4_c5_extension": {"motion": "C4/C5 extension", "value": {"mean": 7.9, "sd": 3.3}, "mode": "active", "measured_scope": "C4/C5 segment", "sources": ["ANDERST_2013_JBJS"], "population": "20 asymptomatic controls"},
-  "cervical_ctrl_c5_c6_flexion": {"motion": "C5/C6 flexion", "value": {"mean": 7.4, "sd": 2.9}, "mode": "active", "measured_scope": "C5/C6 segment", "sources": ["ANDERST_2013_JBJS"], "population": "20 asymptomatic controls"},
-  "cervical_ctrl_c5_c6_extension": {"motion": "C5/C6 extension", "value": {"mean": 7.3, "sd": 3.8}, "mode": "active", "measured_scope": "C5/C6 segment", "sources": ["ANDERST_2013_JBJS"], "population": "20 asymptomatic controls"},
-  "cervical_ctrl_c6_c7_flexion": {"motion": "C6/C7 flexion", "value": {"mean": 7.1, "sd": 3.9}, "mode": "active", "measured_scope": "C6/C7 segment", "sources": ["ANDERST_2013_JBJS"], "population": "20 asymptomatic controls"},
-  "cervical_ctrl_c6_c7_extension": {"motion": "C6/C7 extension", "value": {"mean": 5.4, "sd": 2.3}, "mode": "active", "measured_scope": "C6/C7 segment", "sources": ["ANDERST_2013_JBJS"], "population": "20 asymptomatic controls",
-                                    "second_source": "YU_2017_JBE: totals 14-17 deg at C3/4-C5/6 and 9.4 +/- 4.2 deg at C6/7 (10 asymptomatic volunteers), consistent with the Anderst totals 14.2/15.9/14.7/12.5 within one SD."},
-  "mcp_abduction_clinical": {"motion": "Finger MCP abduction (MCP extended)", "value": {"expected": 25}, "mode": "clinical_unspecified", "measured_scope": "MCP joint, goniometry", "sources": ["MCP_ABDUCTION_CLINICAL"], "population": "clinical expected value (not digit-specific)",
-                             "note": "Kenhub gives a 25-30 deg abduction-adduction arc, mostly abduction; abduction is lost with the MCP flexed. Per-digit normative values not accessible."},
-  "rib_cvj_range": {"motion": "Rib rotation at the costovertebral joint between functional residual and total lung capacity", "value": {"dominant_axis_range_of_level_means": [4.6, 8.9], "second_axis_range_of_level_means": [5.7, 12.2], "long_axis_range_of_level_means": [2.4, 4.8]}, "mode": "active", "measured_scope": "ribs 1-10 relative to their vertebra (CT at FRC, MIC, TLC)", "sources": ["BEYER_2014_CVJ"], "population": "8 asymptomatic volunteers, mean age about 30",
-                    "note": "Range decreases with rib number (smallest at rib 7 in the reported set); motion mainly about mediolateral and anteroposterior axes; lung volume and rib angle are not proportional. Axis labels of the decomposition are not transcribed."},
-  "thumb_opposition_tmc": {"motion": "Trapeziometacarpal palmar abduction at maximal opposition", "value": {"mean": 37, "sd": 5}, "mode": "active", "measured_scope": "TMC joint (3D-CT)", "sources": ["THUMB_OPPOSITION_3DCT", "KAWANISHI_2017"], "population": "30 volunteers (3D-CT); 9 volunteers (direction)",
-                           "note": "Pronation reported as 42 +/- 9 deg in radial abduction and 99 +/- 3 deg in opposition in Cheema's frame; the zero of that frame is not transferable to the fitted rest pose, so the pronation magnitude stays unresolved. Kawanishi: the first metacarpal abducts, rotates internally and flexes from radial abduction to opposition."},
-  "patellar_flexion_ratio": {"motion": "Patellar flexion relative to the femur per degree of knee flexion", "value": {"ratio": 0.66, "r2": 0.992}, "mode": "active_weight_bearing", "measured_scope": "patella vs femur, single-leg lunge 0-165 deg (lateral radiographs)", "sources": ["PATELLA_LUNGE"], "population": "healthy knees",
-                             "second_source": "Same ratio (0.66) reported by a cadaver study up to 100 deg of flexion (cited in the same paper).",
-                             "note": "Task: lunge; the patellar translation path is not sourced."},
-  "fibula_ankle_rsa": {"motion": "Distal fibula relative to the tibia from 30 deg plantarflexion to 30 deg dorsiflexion", "value": {"mortise_widening_mm": 1.04, "posterior_translation_mm": 1.03, "vertical_mm_max": 0.1, "arc_deg": [-30, 30]}, "mode": "active", "measured_scope": "fibula vs tibia (roentgen stereophotogrammetry)", "sources": ["FIBULA_RSA_1989"], "population": "8 healthy volunteers",
-                       "conflicts": "A physical-therapy text describes proximal fibular migration in dorsiflexion; gait studies report up to 4 mm superior-inferior translation during stance (different task). Fibular rotation: small, unquantified in the accessible abstract (not applied)."}
+  "c0c1_fe_total": {
+   "motion": "C0-C1 flexion-extension range during physiologic motion",
+   "value": {
+    "mean": 17.9,
+    "sd": 6.9
+   },
+   "mode": "active",
+   "measured_scope": "occiput relative to C1 (biplane radiography, 30 fps)",
+   "sources": [
+    "C0C1_BIPLANE_2024"
+   ],
+   "population": "20 young adults",
+   "conflicts": "Other reports: in vivo 6.3 deg (cited by the same paper), cadaver 24-27 deg, a 2026 facet study 25.6 +/- 5.9 deg. Flexion/extension split not accessible.",
+   "note": "Motion almost exclusively in-plane; lateral bending and axial rotation not used."
+  },
+  "cervical_ctrl_c3_c4_flexion": {
+   "motion": "C3/C4 flexion",
+   "value": {
+    "mean": 7.9
+   },
+   "mode": "active",
+   "measured_scope": "C3/C4 segment, dynamic flexion-extension",
+   "sources": [
+    "ANDERST_2013_JBJS"
+   ],
+   "population": "20 asymptomatic controls"
+  },
+  "cervical_ctrl_c3_c4_extension": {
+   "motion": "C3/C4 extension",
+   "value": {
+    "mean": 6.3
+   },
+   "mode": "active",
+   "measured_scope": "C3/C4 segment",
+   "sources": [
+    "ANDERST_2013_JBJS"
+   ],
+   "population": "20 asymptomatic controls"
+  },
+  "cervical_ctrl_c4_c5_flexion": {
+   "motion": "C4/C5 flexion",
+   "value": {
+    "mean": 8.0,
+    "sd": 2.6
+   },
+   "mode": "active",
+   "measured_scope": "C4/C5 segment",
+   "sources": [
+    "ANDERST_2013_JBJS"
+   ],
+   "population": "20 asymptomatic controls"
+  },
+  "cervical_ctrl_c4_c5_extension": {
+   "motion": "C4/C5 extension",
+   "value": {
+    "mean": 7.9,
+    "sd": 3.3
+   },
+   "mode": "active",
+   "measured_scope": "C4/C5 segment",
+   "sources": [
+    "ANDERST_2013_JBJS"
+   ],
+   "population": "20 asymptomatic controls"
+  },
+  "cervical_ctrl_c5_c6_flexion": {
+   "motion": "C5/C6 flexion",
+   "value": {
+    "mean": 7.4,
+    "sd": 2.9
+   },
+   "mode": "active",
+   "measured_scope": "C5/C6 segment",
+   "sources": [
+    "ANDERST_2013_JBJS"
+   ],
+   "population": "20 asymptomatic controls"
+  },
+  "cervical_ctrl_c5_c6_extension": {
+   "motion": "C5/C6 extension",
+   "value": {
+    "mean": 7.3,
+    "sd": 3.8
+   },
+   "mode": "active",
+   "measured_scope": "C5/C6 segment",
+   "sources": [
+    "ANDERST_2013_JBJS"
+   ],
+   "population": "20 asymptomatic controls"
+  },
+  "cervical_ctrl_c6_c7_flexion": {
+   "motion": "C6/C7 flexion",
+   "value": {
+    "mean": 7.1,
+    "sd": 3.9
+   },
+   "mode": "active",
+   "measured_scope": "C6/C7 segment",
+   "sources": [
+    "ANDERST_2013_JBJS"
+   ],
+   "population": "20 asymptomatic controls"
+  },
+  "cervical_ctrl_c6_c7_extension": {
+   "motion": "C6/C7 extension",
+   "value": {
+    "mean": 5.4,
+    "sd": 2.3
+   },
+   "mode": "active",
+   "measured_scope": "C6/C7 segment",
+   "sources": [
+    "ANDERST_2013_JBJS"
+   ],
+   "population": "20 asymptomatic controls",
+   "second_source": "YU_2017_JBE: totals 14-17 deg at C3/4-C5/6 and 9.4 +/- 4.2 deg at C6/7 (10 asymptomatic volunteers), consistent with the Anderst totals 14.2/15.9/14.7/12.5 within one SD."
+  },
+  "mcp_abduction_clinical": {
+   "motion": "Finger MCP abduction (MCP extended)",
+   "value": {
+    "expected": 25
+   },
+   "mode": "clinical_unspecified",
+   "measured_scope": "MCP joint, goniometry",
+   "sources": [
+    "MCP_ABDUCTION_CLINICAL"
+   ],
+   "population": "clinical expected value (not digit-specific)",
+   "note": "Kenhub gives a 25-30 deg abduction-adduction arc, mostly abduction; abduction is lost with the MCP flexed. Per-digit normative values not accessible."
+  },
+  "rib_cvj_range": {
+   "motion": "Rib rotation at the costovertebral joint between functional residual and total lung capacity",
+   "value": {
+    "dominant_axis_range_of_level_means": [
+     4.6,
+     8.9
+    ],
+    "second_axis_range_of_level_means": [
+     5.7,
+     12.2
+    ],
+    "long_axis_range_of_level_means": [
+     2.4,
+     4.8
+    ]
+   },
+   "mode": "active",
+   "measured_scope": "ribs 1-10 relative to their vertebra (CT at FRC, MIC, TLC)",
+   "sources": [
+    "BEYER_2014_CVJ"
+   ],
+   "population": "8 asymptomatic volunteers, mean age about 30",
+   "note": "Range decreases with rib number (smallest at rib 7 in the reported set); motion mainly about mediolateral and anteroposterior axes; lung volume and rib angle are not proportional. Axis labels of the decomposition are not transcribed."
+  },
+  "thumb_opposition_tmc": {
+   "motion": "Trapeziometacarpal palmar abduction at maximal opposition",
+   "value": {
+    "mean": 37,
+    "sd": 5
+   },
+   "mode": "active",
+   "measured_scope": "TMC joint (3D-CT)",
+   "sources": [
+    "THUMB_OPPOSITION_3DCT",
+    "KAWANISHI_2017"
+   ],
+   "population": "30 volunteers (3D-CT); 9 volunteers (direction)",
+   "note": "Pronation reported as 42 +/- 9 deg in radial abduction and 99 +/- 3 deg in opposition in Cheema's frame; the zero of that frame is not transferable to the fitted rest pose, so the pronation magnitude stays unresolved. Kawanishi: the first metacarpal abducts, rotates internally and flexes from radial abduction to opposition."
+  },
+  "patellar_flexion_ratio": {
+   "motion": "Patellar flexion relative to the femur per degree of knee flexion",
+   "value": {
+    "ratio": 0.66,
+    "r2": 0.992
+   },
+   "mode": "active_weight_bearing",
+   "measured_scope": "patella vs femur, single-leg lunge 0-165 deg (lateral radiographs)",
+   "sources": [
+    "PATELLA_LUNGE"
+   ],
+   "population": "healthy knees",
+   "second_source": "Same ratio (0.66) reported by a cadaver study up to 100 deg of flexion (cited in the same paper).",
+   "note": "Task: lunge; the patellar translation path is not sourced."
+  },
+  "fibula_ankle_rsa": {
+   "motion": "Distal fibula relative to the tibia from 30 deg plantarflexion to 30 deg dorsiflexion",
+   "value": {
+    "mortise_widening_mm": 1.04,
+    "posterior_translation_mm": 1.03,
+    "vertical_mm_max": 0.1,
+    "arc_deg": [
+     -30,
+     30
+    ]
+   },
+   "mode": "active",
+   "measured_scope": "fibula vs tibia (roentgen stereophotogrammetry)",
+   "sources": [
+    "FIBULA_RSA_1989"
+   ],
+   "population": "8 healthy volunteers",
+   "conflicts": "A physical-therapy text describes proximal fibular migration in dorsiflexion; gait studies report up to 4 mm superior-inferior translation during stance (different task). Fibular rotation: small, unquantified in the accessible abstract (not applied)."
+  },
+  "talonavicular_df_pf": {
+   "motion": "Talonavicular dorsi/plantarflexion range during walking",
+   "value": {
+    "mean": 7.39,
+    "sd": 2.75
+   },
+   "mode": "active_gait",
+   "measured_scope": "navicular relative to talus (fluoroscopic 3D-2D registration)",
+   "sources": [
+    "TARSAL_FLUORO_2016",
+    "OUZOUNIAN_SHEREFF"
+   ],
+   "population": "healthy volunteers (number not in the snippet)",
+   "second_source": "Ouzounian & Shereff: about 7 deg sagittal arc at the talonavicular joint (method not stated in the quotation).",
+   "note": "Same study: inversion/eversion 21.12 +/- 4.68 deg and internal/external rotation 16.11 +/- 4.44 deg (not used: axis frame not transcribed). Split of the arc into DF and PF not sourced."
+  }
  },
  "unresolved": {
   "l1_l2": "No accessible in vivo L1/L2 value (lifting studies image L2-S1). No test added.",
   "c2_c3_and_c7_t1": "Control values not in the accessible table rows. No test added.",
   "sc_elevation": "Clavicular elevation during humeral elevation: a review gives below 10 deg; a bone-pin study in a systematic review 13 deg; bony-sensor studies 6.5-11 deg; another study 25-28 deg (method-dependent). Conflict: not applied.",
-  "midfoot_tmt_lesser_toes": "Not searched successfully in this round; no follower added.",
+  "midfoot_tmt_lesser_toes": "First TMT: only an approximately 3 deg arc quoted from a secondary source with an unstated method; naviculocuneiform about 5 deg (same quotation); calcaneocuboid and lesser toes not sourced. Talonavicular DF/PF is tested (two sources); its inversion/eversion and rotation are not (frame not transcribed).",
   "rib_8_to_12": "Lower-rib values not in the accessible abstract. Only ribs 1-7 are tested.",
   "thumb_pronation_magnitude": "Frame-dependent; see thumb_opposition_tmc.",
   "patellar_translation_path": "Not sourced; patella is rotated about the fitted knee axis (circular trochlea assumption) and the path is reported as unvalidated."

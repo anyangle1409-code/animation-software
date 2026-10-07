@@ -341,6 +341,16 @@ def specs(rec, atlas):
                 keys=sweep('angle', amp_rib, 0.0), context=[obs(O, 'rib_cvj_range')],
                 amplitude_basis=f'TEST AMPLITUDE {amp_rib} deg: no larger than the smallest reported level mean of either major component (Beyer 2014, 8 volunteers, FRC-TLC). Mediolateral axis through the rib head: the costovertebral-costotransverse axis is collinear with the straight fitted rib (F-RIB-001); costal cartilage and sternal coupling not modelled',
                 marker=f'costovertebral_{n:02d}_{side}', distal_marker=f'costochondral_{n:02d}_{side}')
+        # ---- talonavicular dorsi/plantarflexion (midfoot), about the mediolateral axis through the talar head
+        th = np.array(P['foot']['talar_head'])
+        cn = np.array(M[f'cuneonavicular_medial_{side}']['centre_m'])
+        sgn = 1.0 if ((rodrigues(lat, 5.0) @ (cn - th)) - (cn - th))[2] > 0 else -1.0
+        tn = O['talonavicular_df_pf']['value']['mean']
+        add(id=f'talonavicular_dorsi_plantarflexion_{side}', profile='midfoot', side=side, kind='axis', joint='talonavicular', proximal=f'talus_{side}',
+            moving=[f'navicular_{side}'], centre=th.tolist(), axis=(lat * sgn).tolist(), positive='dorsiflexion (navicular and medial rays rise)', plane='sagittal',
+            keys=sweep('angle', tn / 2, tn / 2), context=[obs(O, 'talonavicular_df_pf')],
+            amplitude_basis=f'Gait talonavicular DF/PF range {tn} deg (fluoroscopy; second source about 7 deg) split equally (split unsourced); the lateral rays stay with the cuboid in this isolated test',
+            marker=f'talocalcaneonavicular_{side}', distal_marker=f'cuneonavicular_medial_{side}')
         # ---- sacroiliac nutation (functional total rotation)
         add(id=f'sacroiliac_rotation_{side}', profile='si', side=side, kind='axis', joint='si', proximal='sacrum', moving=[f'hip_bone_{side}'],
             centre=M[f'sacroiliac_anterior_{side}']['centre_m'], axis=[-1.0, 0, 0], positive='posterior rotation of the innominate',

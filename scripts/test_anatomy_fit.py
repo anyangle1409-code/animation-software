@@ -295,6 +295,10 @@ class AbsoluteDirectionTests(unittest.TestCase):
             inc = np.append(B['mandible']['tail_m'], 1.0)
             dz = lambda c: (self.pose(t, c)('mandible') @ inc)[2] - inc[2]
             return dz(peak) < -0.003 and dz(trough) > 0.003          # flexion (nodding) lowers the chin; extension raises it
+        if tid.startswith('talonavicular'):
+            cun = moved(peak, f'medial_cuneiform_{side}', 'head')
+            cun_pf = moved(trough, f'medial_cuneiform_{side}', 'head')
+            return cun[2] > 0.001 and cun_pf[2] < -0.001                # dorsiflexion lifts the medial column; plantarflexion lowers it
         if tid.startswith('rib_'):
             return moved(peak, t['moving'][0])[2] > 0.005            # inspiration: the anterior end rises (about 12 mm expected)
         if '_mcp_abduction' in tid:
@@ -508,6 +512,8 @@ class SupplementarySourceBindingTests(unittest.TestCase):
         self.assertAlmostEqual(abs(per[0]), O['fibula_ankle_rsa']['value']['mortise_widening_mm'])
         self.assertAlmostEqual(per[1], O['fibula_ankle_rsa']['value']['posterior_translation_mm'])
         self.assertAlmostEqual(per[2], 0.0)
+        k = self.T['talonavicular_dorsi_plantarflexion_left']['keys']
+        self.assertAlmostEqual(max(x['angle'] for x in k) - min(x['angle'] for x in k), O['talonavicular_df_pf']['value']['mean'])
         import isolated_tests as it
         for side in ('left', 'right'):            # opposition never exceeds the clinical anteposition maximum
             t = self.T[f'thumb_opposition_{side}']

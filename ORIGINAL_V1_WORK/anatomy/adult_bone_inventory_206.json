@@ -1,0 +1,1685 @@
+{
+  "schema_version": 1,
+  "summary": {
+    "conventional_adult_count": 206,
+    "axial_count": 80,
+    "appendicular_count": 126,
+    "notes": [
+      "This follows the conventional adult count of 206 bones.",
+      "Adult fused structures such as the sacrum, coccyx and each hip bone are counted as one bone in the conventional total.",
+      "Subcomponents and variable accessory bones will be tracked separately as anatomical reference structures and will not alter the conventional 206 total."
+    ]
+  },
+  "bones": [
+    {
+      "id": "frontal",
+      "name": "Frontal bone",
+      "region": "skull",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "parietal_left",
+      "name": "Parietal bone (left)",
+      "region": "skull",
+      "division": "axial",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "parietal_right",
+      "name": "Parietal bone (right)",
+      "region": "skull",
+      "division": "axial",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "temporal_left",
+      "name": "Temporal bone (left)",
+      "region": "skull",
+      "division": "axial",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "temporal_right",
+      "name": "Temporal bone (right)",
+      "region": "skull",
+      "division": "axial",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "occipital",
+      "name": "Occipital bone",
+      "region": "skull",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "sphenoid",
+      "name": "Sphenoid bone",
+      "region": "skull",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "ethmoid",
+      "name": "Ethmoid bone",
+      "region": "skull",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "mandible",
+      "name": "Mandible",
+      "region": "facial_skeleton",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "vomer",
+      "name": "Vomer",
+      "region": "facial_skeleton",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "maxilla_left",
+      "name": "Maxilla (left)",
+      "region": "facial_skeleton",
+      "division": "axial",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "maxilla_right",
+      "name": "Maxilla (right)",
+      "region": "facial_skeleton",
+      "division": "axial",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "zygomatic_left",
+      "name": "Zygomatic bone (left)",
+      "region": "facial_skeleton",
+      "division": "axial",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "zygomatic_right",
+      "name": "Zygomatic bone (right)",
+      "region": "facial_skeleton",
+      "division": "axial",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "nasal_left",
+      "name": "Nasal bone (left)",
+      "region": "facial_skeleton",
+      "division": "axial",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "nasal_right",
+      "name": "Nasal bone (right)",
+      "region": "facial_skeleton",
+      "division": "axial",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "lacrimal_left",
+      "name": "Lacrimal bone (left)",
+      "region": "facial_skeleton",
+      "division": "axial",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "lacrimal_right",
+      "name": "Lacrimal bone (right)",
+      "region": "facial_skeleton",
+      "division": "axial",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "palatine_left",
+      "name": "Palatine bone (left)",
+      "region": "facial_skeleton",
+      "division": "axial",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "palatine_right",
+      "name": "Palatine bone (right)",
+      "region": "facial_skeleton",
+      "division": "axial",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "inferior_nasal_concha_left",
+      "name": "Inferior nasal concha (left)",
+      "region": "facial_skeleton",
+      "division": "axial",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "inferior_nasal_concha_right",
+      "name": "Inferior nasal concha (right)",
+      "region": "facial_skeleton",
+      "division": "axial",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "malleus_left",
+      "name": "Malleus (left)",
+      "region": "auditory_ossicles",
+      "division": "axial",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "malleus_right",
+      "name": "Malleus (right)",
+      "region": "auditory_ossicles",
+      "division": "axial",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "incus_left",
+      "name": "Incus (left)",
+      "region": "auditory_ossicles",
+      "division": "axial",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "incus_right",
+      "name": "Incus (right)",
+      "region": "auditory_ossicles",
+      "division": "axial",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "stapes_left",
+      "name": "Stapes (left)",
+      "region": "auditory_ossicles",
+      "division": "axial",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "stapes_right",
+      "name": "Stapes (right)",
+      "region": "auditory_ossicles",
+      "division": "axial",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "hyoid",
+      "name": "Hyoid bone",
+      "region": "neck",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "c1",
+      "name": "Cervical vertebra C1",
+      "region": "vertebral_column",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "c2",
+      "name": "Cervical vertebra C2",
+      "region": "vertebral_column",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "c3",
+      "name": "Cervical vertebra C3",
+      "region": "vertebral_column",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "c4",
+      "name": "Cervical vertebra C4",
+      "region": "vertebral_column",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "c5",
+      "name": "Cervical vertebra C5",
+      "region": "vertebral_column",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "c6",
+      "name": "Cervical vertebra C6",
+      "region": "vertebral_column",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "c7",
+      "name": "Cervical vertebra C7",
+      "region": "vertebral_column",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "t1",
+      "name": "Thoracic vertebra T1",
+      "region": "vertebral_column",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "t2",
+      "name": "Thoracic vertebra T2",
+      "region": "vertebral_column",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "t3",
+      "name": "Thoracic vertebra T3",
+      "region": "vertebral_column",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "t4",
+      "name": "Thoracic vertebra T4",
+      "region": "vertebral_column",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "t5",
+      "name": "Thoracic vertebra T5",
+      "region": "vertebral_column",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "t6",
+      "name": "Thoracic vertebra T6",
+      "region": "vertebral_column",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "t7",
+      "name": "Thoracic vertebra T7",
+      "region": "vertebral_column",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "t8",
+      "name": "Thoracic vertebra T8",
+      "region": "vertebral_column",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "t9",
+      "name": "Thoracic vertebra T9",
+      "region": "vertebral_column",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "t10",
+      "name": "Thoracic vertebra T10",
+      "region": "vertebral_column",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "t11",
+      "name": "Thoracic vertebra T11",
+      "region": "vertebral_column",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "t12",
+      "name": "Thoracic vertebra T12",
+      "region": "vertebral_column",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "l1",
+      "name": "Lumbar vertebra L1",
+      "region": "vertebral_column",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "l2",
+      "name": "Lumbar vertebra L2",
+      "region": "vertebral_column",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "l3",
+      "name": "Lumbar vertebra L3",
+      "region": "vertebral_column",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "l4",
+      "name": "Lumbar vertebra L4",
+      "region": "vertebral_column",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "l5",
+      "name": "Lumbar vertebra L5",
+      "region": "vertebral_column",
+      "division": "axial",
+      "side": "midline",
+      "paired": false
+    },
+    {
+      "id": "sacrum",
+      "name": "Sacrum",
+      "region": "vertebral_column",
+      "division": "axial",
+      "side": "midline",
+      "paired": false,
+      "adult_fused": true,
+      "fused_from": "Usually 5 sacral vertebrae"
+    },
+    {
+      "id": "coccyx",
+      "name": "Coccyx",
+      "region": "vertebral_column",
+      "division": "axial",
+      "side": "midline",
+      "paired": false,
+      "adult_fused": true,
+      "fused_from": "Usually 3–5 coccygeal vertebrae, commonly 4"
+    },
+    {
+      "id": "sternum",
+      "name": "Sternum",
+      "region": "thoracic_cage",
+      "division": "axial",
+      "side": "midline",
+      "paired": false,
+      "adult_fused_or_partly_fused": true,
+      "subparts": [
+        "manubrium",
+        "body",
+        "xiphoid process"
+      ]
+    },
+    {
+      "id": "rib_01_left",
+      "name": "Rib 1 (left)",
+      "region": "thoracic_cage",
+      "division": "axial",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "rib_01_right",
+      "name": "Rib 1 (right)",
+      "region": "thoracic_cage",
+      "division": "axial",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "rib_02_left",
+      "name": "Rib 2 (left)",
+      "region": "thoracic_cage",
+      "division": "axial",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "rib_02_right",
+      "name": "Rib 2 (right)",
+      "region": "thoracic_cage",
+      "division": "axial",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "rib_03_left",
+      "name": "Rib 3 (left)",
+      "region": "thoracic_cage",
+      "division": "axial",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "rib_03_right",
+      "name": "Rib 3 (right)",
+      "region": "thoracic_cage",
+      "division": "axial",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "rib_04_left",
+      "name": "Rib 4 (left)",
+      "region": "thoracic_cage",
+      "division": "axial",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "rib_04_right",
+      "name": "Rib 4 (right)",
+      "region": "thoracic_cage",
+      "division": "axial",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "rib_05_left",
+      "name": "Rib 5 (left)",
+      "region": "thoracic_cage",
+      "division": "axial",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "rib_05_right",
+      "name": "Rib 5 (right)",
+      "region": "thoracic_cage",
+      "division": "axial",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "rib_06_left",
+      "name": "Rib 6 (left)",
+      "region": "thoracic_cage",
+      "division": "axial",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "rib_06_right",
+      "name": "Rib 6 (right)",
+      "region": "thoracic_cage",
+      "division": "axial",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "rib_07_left",
+      "name": "Rib 7 (left)",
+      "region": "thoracic_cage",
+      "division": "axial",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "rib_07_right",
+      "name": "Rib 7 (right)",
+      "region": "thoracic_cage",
+      "division": "axial",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "rib_08_left",
+      "name": "Rib 8 (left)",
+      "region": "thoracic_cage",
+      "division": "axial",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "rib_08_right",
+      "name": "Rib 8 (right)",
+      "region": "thoracic_cage",
+      "division": "axial",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "rib_09_left",
+      "name": "Rib 9 (left)",
+      "region": "thoracic_cage",
+      "division": "axial",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "rib_09_right",
+      "name": "Rib 9 (right)",
+      "region": "thoracic_cage",
+      "division": "axial",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "rib_10_left",
+      "name": "Rib 10 (left)",
+      "region": "thoracic_cage",
+      "division": "axial",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "rib_10_right",
+      "name": "Rib 10 (right)",
+      "region": "thoracic_cage",
+      "division": "axial",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "rib_11_left",
+      "name": "Rib 11 (left)",
+      "region": "thoracic_cage",
+      "division": "axial",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "rib_11_right",
+      "name": "Rib 11 (right)",
+      "region": "thoracic_cage",
+      "division": "axial",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "rib_12_left",
+      "name": "Rib 12 (left)",
+      "region": "thoracic_cage",
+      "division": "axial",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "rib_12_right",
+      "name": "Rib 12 (right)",
+      "region": "thoracic_cage",
+      "division": "axial",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "clavicle_left",
+      "name": "Clavicle (left)",
+      "region": "pectoral_girdle",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "clavicle_right",
+      "name": "Clavicle (right)",
+      "region": "pectoral_girdle",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "scapula_left",
+      "name": "Scapula (left)",
+      "region": "pectoral_girdle",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "scapula_right",
+      "name": "Scapula (right)",
+      "region": "pectoral_girdle",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "humerus_left",
+      "name": "Humerus (left)",
+      "region": "upper_limb",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "humerus_right",
+      "name": "Humerus (right)",
+      "region": "upper_limb",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "radius_left",
+      "name": "Radius (left)",
+      "region": "upper_limb",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "radius_right",
+      "name": "Radius (right)",
+      "region": "upper_limb",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "ulna_left",
+      "name": "Ulna (left)",
+      "region": "upper_limb",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "ulna_right",
+      "name": "Ulna (right)",
+      "region": "upper_limb",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "scaphoid_left",
+      "name": "Scaphoid (left)",
+      "region": "wrist",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "scaphoid_right",
+      "name": "Scaphoid (right)",
+      "region": "wrist",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "lunate_left",
+      "name": "Lunate (left)",
+      "region": "wrist",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "lunate_right",
+      "name": "Lunate (right)",
+      "region": "wrist",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "triquetrum_left",
+      "name": "Triquetrum (left)",
+      "region": "wrist",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "triquetrum_right",
+      "name": "Triquetrum (right)",
+      "region": "wrist",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "pisiform_left",
+      "name": "Pisiform (left)",
+      "region": "wrist",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "pisiform_right",
+      "name": "Pisiform (right)",
+      "region": "wrist",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "trapezium_left",
+      "name": "Trapezium (left)",
+      "region": "wrist",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "trapezium_right",
+      "name": "Trapezium (right)",
+      "region": "wrist",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "trapezoid_left",
+      "name": "Trapezoid (left)",
+      "region": "wrist",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "trapezoid_right",
+      "name": "Trapezoid (right)",
+      "region": "wrist",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "capitate_left",
+      "name": "Capitate (left)",
+      "region": "wrist",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "capitate_right",
+      "name": "Capitate (right)",
+      "region": "wrist",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "hamate_left",
+      "name": "Hamate (left)",
+      "region": "wrist",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "hamate_right",
+      "name": "Hamate (right)",
+      "region": "wrist",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "metacarpal_1_left",
+      "name": "Metacarpal 1 (left)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "metacarpal_2_left",
+      "name": "Metacarpal 2 (left)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "metacarpal_3_left",
+      "name": "Metacarpal 3 (left)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "metacarpal_4_left",
+      "name": "Metacarpal 4 (left)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "metacarpal_5_left",
+      "name": "Metacarpal 5 (left)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "thumb_proximal_phalanx_left",
+      "name": "Proximal phalanx of thumb (left)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "thumb_distal_phalanx_left",
+      "name": "Distal phalanx of thumb (left)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "digit2_proximal_phalanx_left",
+      "name": "Proximal phalanx of digit 2 (left)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "digit2_middle_phalanx_left",
+      "name": "Middle phalanx of digit 2 (left)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "digit2_distal_phalanx_left",
+      "name": "Distal phalanx of digit 2 (left)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "digit3_proximal_phalanx_left",
+      "name": "Proximal phalanx of digit 3 (left)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "digit3_middle_phalanx_left",
+      "name": "Middle phalanx of digit 3 (left)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "digit3_distal_phalanx_left",
+      "name": "Distal phalanx of digit 3 (left)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "digit4_proximal_phalanx_left",
+      "name": "Proximal phalanx of digit 4 (left)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "digit4_middle_phalanx_left",
+      "name": "Middle phalanx of digit 4 (left)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "digit4_distal_phalanx_left",
+      "name": "Distal phalanx of digit 4 (left)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "digit5_proximal_phalanx_left",
+      "name": "Proximal phalanx of digit 5 (left)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "digit5_middle_phalanx_left",
+      "name": "Middle phalanx of digit 5 (left)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "digit5_distal_phalanx_left",
+      "name": "Distal phalanx of digit 5 (left)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "metacarpal_1_right",
+      "name": "Metacarpal 1 (right)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "metacarpal_2_right",
+      "name": "Metacarpal 2 (right)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "metacarpal_3_right",
+      "name": "Metacarpal 3 (right)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "metacarpal_4_right",
+      "name": "Metacarpal 4 (right)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "metacarpal_5_right",
+      "name": "Metacarpal 5 (right)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "thumb_proximal_phalanx_right",
+      "name": "Proximal phalanx of thumb (right)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "thumb_distal_phalanx_right",
+      "name": "Distal phalanx of thumb (right)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "digit2_proximal_phalanx_right",
+      "name": "Proximal phalanx of digit 2 (right)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "digit2_middle_phalanx_right",
+      "name": "Middle phalanx of digit 2 (right)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "digit2_distal_phalanx_right",
+      "name": "Distal phalanx of digit 2 (right)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "digit3_proximal_phalanx_right",
+      "name": "Proximal phalanx of digit 3 (right)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "digit3_middle_phalanx_right",
+      "name": "Middle phalanx of digit 3 (right)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "digit3_distal_phalanx_right",
+      "name": "Distal phalanx of digit 3 (right)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "digit4_proximal_phalanx_right",
+      "name": "Proximal phalanx of digit 4 (right)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "digit4_middle_phalanx_right",
+      "name": "Middle phalanx of digit 4 (right)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "digit4_distal_phalanx_right",
+      "name": "Distal phalanx of digit 4 (right)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "digit5_proximal_phalanx_right",
+      "name": "Proximal phalanx of digit 5 (right)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "digit5_middle_phalanx_right",
+      "name": "Middle phalanx of digit 5 (right)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "digit5_distal_phalanx_right",
+      "name": "Distal phalanx of digit 5 (right)",
+      "region": "hand",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "hip_bone_left",
+      "name": "Hip bone / os coxae (left)",
+      "region": "pelvic_girdle",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true,
+      "adult_fused": true,
+      "fused_from": [
+        "ilium",
+        "ischium",
+        "pubis"
+      ]
+    },
+    {
+      "id": "hip_bone_right",
+      "name": "Hip bone / os coxae (right)",
+      "region": "pelvic_girdle",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true,
+      "adult_fused": true,
+      "fused_from": [
+        "ilium",
+        "ischium",
+        "pubis"
+      ]
+    },
+    {
+      "id": "femur_left",
+      "name": "Femur (left)",
+      "region": "lower_limb",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "femur_right",
+      "name": "Femur (right)",
+      "region": "lower_limb",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "patella_left",
+      "name": "Patella (left)",
+      "region": "lower_limb",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "patella_right",
+      "name": "Patella (right)",
+      "region": "lower_limb",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "tibia_left",
+      "name": "Tibia (left)",
+      "region": "lower_limb",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "tibia_right",
+      "name": "Tibia (right)",
+      "region": "lower_limb",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "fibula_left",
+      "name": "Fibula (left)",
+      "region": "lower_limb",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "fibula_right",
+      "name": "Fibula (right)",
+      "region": "lower_limb",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "talus_left",
+      "name": "Talus (left)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "talus_right",
+      "name": "Talus (right)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "calcaneus_left",
+      "name": "Calcaneus (left)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "calcaneus_right",
+      "name": "Calcaneus (right)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "navicular_left",
+      "name": "Navicular (left)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "navicular_right",
+      "name": "Navicular (right)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "cuboid_left",
+      "name": "Cuboid (left)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "cuboid_right",
+      "name": "Cuboid (right)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "medial_cuneiform_left",
+      "name": "Medial cuneiform (left)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "medial_cuneiform_right",
+      "name": "Medial cuneiform (right)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "intermediate_cuneiform_left",
+      "name": "Intermediate cuneiform (left)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "intermediate_cuneiform_right",
+      "name": "Intermediate cuneiform (right)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "lateral_cuneiform_left",
+      "name": "Lateral cuneiform (left)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "lateral_cuneiform_right",
+      "name": "Lateral cuneiform (right)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "metatarsal_1_left",
+      "name": "Metatarsal 1 (left)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "metatarsal_2_left",
+      "name": "Metatarsal 2 (left)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "metatarsal_3_left",
+      "name": "Metatarsal 3 (left)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "metatarsal_4_left",
+      "name": "Metatarsal 4 (left)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "metatarsal_5_left",
+      "name": "Metatarsal 5 (left)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "hallux_proximal_phalanx_left",
+      "name": "Proximal phalanx of hallux (left)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "hallux_distal_phalanx_left",
+      "name": "Distal phalanx of hallux (left)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "toe2_proximal_phalanx_left",
+      "name": "Proximal phalanx of toe 2 (left)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "toe2_middle_phalanx_left",
+      "name": "Middle phalanx of toe 2 (left)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "toe2_distal_phalanx_left",
+      "name": "Distal phalanx of toe 2 (left)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "toe3_proximal_phalanx_left",
+      "name": "Proximal phalanx of toe 3 (left)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "toe3_middle_phalanx_left",
+      "name": "Middle phalanx of toe 3 (left)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "toe3_distal_phalanx_left",
+      "name": "Distal phalanx of toe 3 (left)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "toe4_proximal_phalanx_left",
+      "name": "Proximal phalanx of toe 4 (left)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "toe4_middle_phalanx_left",
+      "name": "Middle phalanx of toe 4 (left)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "toe4_distal_phalanx_left",
+      "name": "Distal phalanx of toe 4 (left)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "toe5_proximal_phalanx_left",
+      "name": "Proximal phalanx of toe 5 (left)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "toe5_middle_phalanx_left",
+      "name": "Middle phalanx of toe 5 (left)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "toe5_distal_phalanx_left",
+      "name": "Distal phalanx of toe 5 (left)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "left",
+      "paired": true
+    },
+    {
+      "id": "metatarsal_1_right",
+      "name": "Metatarsal 1 (right)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "metatarsal_2_right",
+      "name": "Metatarsal 2 (right)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "metatarsal_3_right",
+      "name": "Metatarsal 3 (right)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "metatarsal_4_right",
+      "name": "Metatarsal 4 (right)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "metatarsal_5_right",
+      "name": "Metatarsal 5 (right)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "hallux_proximal_phalanx_right",
+      "name": "Proximal phalanx of hallux (right)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "hallux_distal_phalanx_right",
+      "name": "Distal phalanx of hallux (right)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "toe2_proximal_phalanx_right",
+      "name": "Proximal phalanx of toe 2 (right)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "toe2_middle_phalanx_right",
+      "name": "Middle phalanx of toe 2 (right)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "toe2_distal_phalanx_right",
+      "name": "Distal phalanx of toe 2 (right)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "toe3_proximal_phalanx_right",
+      "name": "Proximal phalanx of toe 3 (right)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "toe3_middle_phalanx_right",
+      "name": "Middle phalanx of toe 3 (right)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "toe3_distal_phalanx_right",
+      "name": "Distal phalanx of toe 3 (right)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "toe4_proximal_phalanx_right",
+      "name": "Proximal phalanx of toe 4 (right)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "toe4_middle_phalanx_right",
+      "name": "Middle phalanx of toe 4 (right)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "toe4_distal_phalanx_right",
+      "name": "Distal phalanx of toe 4 (right)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "toe5_proximal_phalanx_right",
+      "name": "Proximal phalanx of toe 5 (right)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "toe5_middle_phalanx_right",
+      "name": "Middle phalanx of toe 5 (right)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    },
+    {
+      "id": "toe5_distal_phalanx_right",
+      "name": "Distal phalanx of toe 5 (right)",
+      "region": "foot",
+      "division": "appendicular",
+      "side": "right",
+      "paired": true
+    }
+  ]
+}

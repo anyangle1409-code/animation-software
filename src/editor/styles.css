@@ -600,12 +600,58 @@ code {
 }
 
 @media (max-width: 820px) {
-  .studio__body {
-    grid-template-columns: 1fr;
+  /*
+   * Phones: one scrolling column — the viewport first and large, the timeline
+   * under it, then every panel (joint, align, character, exercise, …) below,
+   * instead of hiding the panels altogether.
+   */
+  .studio {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 100%;
   }
 
-  .studio__side {
-    display: none;
+  .studio__body {
+    display: contents;
+  }
+
+  .studio > .toolbar {
+    order: 0;
+  }
+
+  .studio__viewport {
+    order: 1;
+    height: 62vh;
+    min-height: 320px;
+  }
+
+  .studio > .timeline {
+    order: 2;
+  }
+
+  .studio__side,
+  .studio--focus .studio__side {
+    display: flex;
+    order: 3;
+    border: none;
+    border-top: 1px solid var(--line);
+  }
+
+  .studio__side--right {
+    order: 4;
+  }
+
+  .studio__side .tabs {
+    flex-wrap: wrap;
+  }
+
+  .studio__side .tabs button {
+    flex: 1 0 auto;
+  }
+
+  .studio__side-body {
+    overflow: visible;
   }
 
   .studio__panel-toggle {
@@ -1181,4 +1227,85 @@ code {
   width: 100%;
   text-align: left;
   font-size: 11px;
+}
+
+/* ---------- view layers ---------- */
+
+.layers {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.layers__toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.layer-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.layer-toggle__box {
+  display: inline-grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.layer-toggle.is-active .layer-toggle__box {
+  background: var(--accent);
+  border-color: transparent;
+  color: var(--bg);
+}
+
+.layers--character {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.field--slider input[type='range'] {
+  width: 100%;
+  min-width: 140px;
+}
+
+.layer-status {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.layer-status--error {
+  color: #ffb4a8;
+  background: rgba(255, 90, 70, 0.14);
+}
+
+/* ---------- bone alignment ---------- */
+
+.align-panel__list {
+  width: 100%;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+}
+
+.align-panel textarea {
+  width: 100%;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+}
+
+@media (max-width: 820px) {
+  .toolbar {
+    flex-wrap: wrap;
+  }
 }

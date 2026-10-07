@@ -16,9 +16,10 @@ import { EquipmentPanel } from './panels/EquipmentPanel';
 import { CorrectivePanel } from './panels/CorrectivePanel';
 import { ReviewPanel } from './panels/ReviewPanel';
 import { GeneratePanel } from './panels/GeneratePanel';
+import { AlignPanel } from './panels/AlignPanel';
 import { useStudio } from './store';
 
-type LeftTab = 'joint' | 'grip' | 'ik' | 'contacts' | 'equipment' | 'character';
+type LeftTab = 'joint' | 'grip' | 'ik' | 'contacts' | 'equipment' | 'character' | 'align';
 type RightTab = 'generate' | 'exercise' | 'muscles' | 'technique' | 'correctives' | 'compare' | 'review' | 'export';
 
 export function App() {
@@ -110,6 +111,13 @@ export function App() {
             >
               Character
             </button>
+            <button
+              type="button"
+              className={leftTab === 'align' ? 'is-active' : ''}
+              onClick={() => setLeftTab('align')}
+            >
+              Align
+            </button>
           </nav>
           <div className="studio__side-body">
             {leftTab === 'joint' && <JointPanel />}
@@ -118,6 +126,7 @@ export function App() {
             {leftTab === 'contacts' && <ContactPanel />}
             {leftTab === 'equipment' && <EquipmentPanel />}
             {leftTab === 'character' && <CharacterPanel />}
+            {leftTab === 'align' && <AlignPanel />}
           </div>
         </aside>
 

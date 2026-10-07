@@ -40,6 +40,36 @@ export const showsMuscleBellies = (mode: ViewMode): boolean =>
   mode === 'muscles' || mode === 'combined';
 
 /**
+ * What the viewport draws, layer by layer. Any combination can be on at once,
+ * so the skeleton, the muscle bellies and the character can be reviewed
+ * together — the character see-through when the others should show inside it.
+ */
+export interface ViewLayers {
+  skeleton: boolean;
+  muscles: boolean;
+  character: boolean;
+}
+
+/** The character's surface: plain skin, or the écorché anatomy surface. */
+export type CharacterStyle = 'skin' | 'anatomy';
+
+/** The layers a legacy single view mode stands for. */
+export function layersForViewMode(mode: ViewMode): { layers: ViewLayers; characterStyle?: CharacterStyle; characterOpacity?: number } {
+  switch (mode) {
+    case 'skeleton':
+      return { layers: { skeleton: true, muscles: false, character: false } };
+    case 'muscles':
+      return { layers: { skeleton: false, muscles: true, character: true }, characterStyle: 'skin', characterOpacity: 0.24 };
+    case 'combined':
+      return { layers: { skeleton: true, muscles: true, character: false } };
+    case 'character':
+      return { layers: { skeleton: false, muscles: false, character: true }, characterStyle: 'skin', characterOpacity: 1 };
+    case 'anatomy':
+      return { layers: { skeleton: false, muscles: false, character: true }, characterStyle: 'anatomy', characterOpacity: 1 };
+  }
+}
+
+/**
  * The studio's own dark stage, or a clean light one. The light backdrop is what
  * app-facing captures use, so a demonstration frame does not arrive in Home Gym
  * PT with the editor's chrome colours behind it.
@@ -147,6 +177,10 @@ interface StudioState {
 
   selection: Selection;
   viewMode: ViewMode;
+  layers: ViewLayers;
+  characterStyle: CharacterStyle;
+  /** 1 is solid; lower lets the skeleton and muscles show through the body. */
+  characterOpacity: number;
   showJoints: boolean;
   showEquipment: boolean;
   showIkHandles: boolean;
@@ -178,6 +212,9 @@ interface StudioState {
   selectEquipment: (id: string | null) => void;
   selectSocket: (equipmentId: string, socketId: string | null) => void;
   setViewMode: (mode: ViewMode) => void;
+  toggleLayer: (layer: keyof ViewLayers) => void;
+  setCharacterStyle: (style: CharacterStyle) => void;
+  setCharacterOpacity: (opacity: number) => void;
   setCamera: (preset: CameraPresetId) => void;
   toggle: (key: 'showJoints' | 'showEquipment' | 'showIkHandles' | 'showGrid') => void;
   setBackdrop: (backdrop: Backdrop) => void;
@@ -306,6 +343,11 @@ export const useStudio = create<StudioState>((set, get) => {
 
     selection: { bone: null, handle: null, equipmentId: null, socketId: null },
     viewMode: 'combined',
+    // The character is on from the start, see-through, with the skeleton inside
+    // it: the review view, rather than a mode the character has to be found in.
+    layers: { skeleton: true, muscles: false, character: true },
+    characterStyle: 'skin',
+    characterOpacity: 0.55,
     showJoints: true,
     showEquipment: true,
     showIkHandles: true,
@@ -358,7 +400,18 @@ export const useStudio = create<StudioState>((set, get) => {
       set({ selection: { bone: null, handle: null, equipmentId, socketId: null } }),
     selectSocket: (equipmentId, socketId) =>
       set({ selection: { bone: null, handle: null, equipmentId, socketId } }),
-    setViewMode: (viewMode) => set({ viewMode }),
+    setViewMode: (viewMode) => {
+      const preset = layersForViewMode(viewMode);
+      set({
+        viewMode,
+        layers: preset.layers,
+        ...(preset.characterStyle ? { characterStyle: preset.characterStyle } : {}),
+        ...(preset.characterOpacity !== undefined ? { characterOpacity: preset.characterOpacity } : {}),
+      });
+    },
+    toggleLayer: (layer) => set({ layers: { ...get().layers, [layer]: !get().layers[layer] } }),
+    setCharacterStyle: (characterStyle) => set({ characterStyle }),
+    setCharacterOpacity: (characterOpacity) => set({ characterOpacity: Math.max(0.05, Math.min(1, characterOpacity)) }),
     setBackdrop: (backdrop) => set({ backdrop }),
     setCamera: (camera) => set({ camera }),
     toggle: (key) => set({ [key]: !get()[key] } as Partial<StudioState>),

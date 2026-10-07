@@ -3,7 +3,9 @@ import { Grid, OrbitControls, TransformControls } from '@react-three/drei';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Euler, Matrix4, Object3D, Quaternion, Vector3 } from 'three';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
-import { BACKDROPS, currentAnchors, showsMuscleBellies, skeleton, useStudio } from '../editor/store';
+import { BACKDROPS, currentAnchors, skeleton, useStudio } from '../editor/store';
+import { useAlignment } from '../editor/alignmentStore';
+import { CharacterBonesView } from './CharacterBonesView';
 import { activeCapabilities, useCharacter } from '../editor/characterStore';
 import { resolveFrame } from '../animation/pipeline';
 import { EULER_ORDER } from '../rig/types';
@@ -311,28 +313,32 @@ function sampleGoal(
 }
 
 function Figure() {
-  const viewMode = useStudio((state) => state.viewMode);
+  const layers = useStudio((state) => state.layers);
+  const characterStyle = useStudio((state) => state.characterStyle);
+  const characterOpacity = useStudio((state) => state.characterOpacity);
   const showEquipment = useStudio((state) => state.showEquipment);
   const showIkHandles = useStudio((state) => state.showIkHandles);
+  const showCharacterBones = useAlignment((state) => state.showCharacterBones);
   // Asked, not assumed: a textured import carries no écorché mapping, and the
-  // anatomy view falls back to the plain surface rather than rendering noise.
+  // anatomy surface falls back to the plain skin rather than rendering noise.
   const anatomy = activeCapabilities(useCharacter((state) => state.sourceId)).anatomy;
+  const solid = characterOpacity >= 0.99;
 
   return (
     <>
-      {(viewMode === 'skeleton' || viewMode === 'combined') && (
-        <SkeletonView ghosted={viewMode === 'combined'} />
+      {/* Layers are independent: any of them can be on with any other. */}
+      {layers.skeleton && <SkeletonView ghosted={layers.muscles} />}
+      {layers.muscles && <MuscleView />}
+      {layers.character && (
+        <CharacterFigure
+          variant={characterStyle === 'anatomy' && anatomy ? 'ecorche' : 'skin'}
+          opacity={characterOpacity}
+          // A see-through body must not write depth, or it hides the skeleton
+          // and muscles inside it — the reason it was made see-through.
+          depthWrite={solid}
+        />
       )}
-      {showsMuscleBellies(viewMode) && <MuscleView />}
-      {viewMode === 'character' && <CharacterFigure />}
-      {/*
-        The anatomy view is one continuous surface and nothing else: the muscle
-        bellies are never mounted beside it, at any activation, because a
-        balloon floating inside the arm is exactly what this view exists to
-        replace.
-      */}
-      {viewMode === 'anatomy' && <CharacterFigure variant={anatomy ? 'ecorche' : 'skin'} />}
-      {viewMode === 'muscles' && <CharacterFigure opacity={0.24} depthWrite={false} />}
+      {layers.character && showCharacterBones && <CharacterBonesView />}
       {showEquipment && <EquipmentView />}
       {showIkHandles && <IKHandles />}
     </>

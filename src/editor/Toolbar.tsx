@@ -1,15 +1,14 @@
 import { EXERCISES, EXERCISE_BY_ID } from '../exercises/library';
 import { CAMERA_LABELS } from '../viewer/cameras';
 import { CAMERA_PRESET_IDS } from '../viewer/cameraTypes';
-import type { ViewMode } from './store';
+import type { ViewLayers } from './store';
 import { useStudio } from './store';
+import { useCharacter } from './characterStore';
 
-const VIEW_MODES: { id: ViewMode; label: string }[] = [
+const LAYERS: { id: keyof ViewLayers; label: string }[] = [
   { id: 'skeleton', label: 'Skeleton' },
   { id: 'muscles', label: 'Muscles' },
-  { id: 'combined', label: 'Combined' },
   { id: 'character', label: 'Character' },
-  { id: 'anatomy', label: 'Anatomy' },
 ];
 
 export function Toolbar() {
@@ -19,8 +18,13 @@ export function Toolbar() {
   // its own so the selector does not claim a library exercise is showing.
   const candidate = !EXERCISE_BY_ID.has(exerciseId);
   const loadExercise = useStudio((state) => state.loadExercise);
-  const viewMode = useStudio((state) => state.viewMode);
-  const setViewMode = useStudio((state) => state.setViewMode);
+  const layers = useStudio((state) => state.layers);
+  const toggleLayer = useStudio((state) => state.toggleLayer);
+  const characterStyle = useStudio((state) => state.characterStyle);
+  const setCharacterStyle = useStudio((state) => state.setCharacterStyle);
+  const characterOpacity = useStudio((state) => state.characterOpacity);
+  const setCharacterOpacity = useStudio((state) => state.setCharacterOpacity);
+  const characterStatus = useCharacter((state) => state.status);
   const camera = useStudio((state) => state.camera);
   const setCamera = useStudio((state) => state.setCamera);
   const backdrop = useStudio((state) => state.backdrop);
@@ -50,18 +54,51 @@ export function Toolbar() {
         </select>
       </label>
 
-      <div className="segmented" role="group" aria-label="View mode">
-        {VIEW_MODES.map((mode) => (
-          <button
-            key={mode.id}
-            type="button"
-            className={viewMode === mode.id ? 'is-active' : ''}
-            onClick={() => setViewMode(mode.id)}
-          >
-            {mode.label}
-          </button>
-        ))}
+      <div className="layers" role="group" aria-label="Show layers">
+        <span className="field__label">Show</span>
+        <div className="layers__toggles">
+          {LAYERS.map((layer) => (
+            <button
+              key={layer.id}
+              type="button"
+              aria-pressed={layers[layer.id]}
+              className={`layer-toggle ${layers[layer.id] ? 'is-active' : ''}`}
+              onClick={() => toggleLayer(layer.id)}
+            >
+              <span className="layer-toggle__box" aria-hidden="true">{layers[layer.id] ? '✓' : ''}</span>
+              {layer.label}
+            </button>
+          ))}
+        </div>
       </div>
+
+      {layers.character && (
+        <div className="layers layers--character">
+          <label className="field">
+            <span className="field__label">Surface</span>
+            <select value={characterStyle} onChange={(event) => setCharacterStyle(event.target.value as never)}>
+              <option value="skin">Skin</option>
+              <option value="anatomy">Anatomy</option>
+            </select>
+          </label>
+          <label className="field field--slider">
+            <span className="field__label">See-through {Math.round((1 - characterOpacity) * 100)}%</span>
+            <input
+              type="range"
+              min={0.05}
+              max={1}
+              step={0.05}
+              value={characterOpacity}
+              onChange={(event) => setCharacterOpacity(Number(event.target.value))}
+            />
+          </label>
+          {characterStatus.kind !== 'idle' && (
+            <span className={`layer-status layer-status--${characterStatus.kind}`}>
+              {characterStatus.kind === 'loading' ? 'Loading character…' : `Character failed to load: ${characterStatus.message ?? 'unknown error'}`}
+            </span>
+          )}
+        </div>
+      )}
 
       <label className="field">
         <span className="field__label">Backdrop</span>

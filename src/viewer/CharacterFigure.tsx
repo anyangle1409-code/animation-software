@@ -1,5 +1,5 @@
 import { useFrame } from '@react-three/fiber';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { MeshStandardMaterial } from 'three';
 import { skeleton, useStudio } from '../editor/store';
 import { useCharacter } from '../editor/characterStore';
@@ -8,6 +8,8 @@ import { applyCharacterPose, characterSource } from '../character';
 import type { CharacterBuild, CharacterVariant } from '../character';
 import { suppressCorrectives } from '../character/correctiveDiagnostics';
 import { useSceneState } from './sceneState';
+import { useAlignment } from '../editor/alignmentStore';
+import { BoneCorrector } from '../character/alignment';
 
 export interface CharacterFigureProps {
   opacity?: number;
@@ -43,6 +45,13 @@ export function CharacterFigure({
   const sourceId = useCharacter((state) => state.sourceId);
   const build = useCharacterBuild(sourceId, variant);
   const correctivesPreview = useCharacter((state) => state.correctivesPreview);
+  const loadAlignment = useAlignment((state) => state.load);
+  // One corrector per build: it remembers what it left on each bone.
+  const corrector = useMemo(() => new BoneCorrector(), [build]);
+
+  useEffect(() => {
+    loadAlignment(sourceId);
+  }, [sourceId, loadAlignment]);
 
   // Which muscles the exercise works is data, and it can change under the view,
   // so the scalar the shader reads is rebuilt rather than baked once.
@@ -72,6 +81,8 @@ export function CharacterFigure({
       grip: { kind: hands.grip, closure: hands.closure },
     });
     if (!correctivesPreview) suppressCorrectives(build.meshes);
+    // The reviewer's bone-alignment corrections, on top of the driven pose.
+    corrector.apply(build.bones, useAlignment.getState().corrections, build.root);
   });
 
   if (!build) return null;

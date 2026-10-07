@@ -199,6 +199,31 @@ class ValidationPackageTests(unittest.TestCase):
         self.assertIn('Armature is not in the active scene',text)
         self.assertIn("'unit_scale_consistent':unit_consistent",text)
 
+    def test_single_precision_blender_matrices_are_rigid_but_real_shear_fails(self):
+        mod=self.module()
+        e=2.5e-6   # observed on a 5 mm Blender bone stored in float32
+        near=[[1,e,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]
+        mod.rigid_matrix(near)
+        self.assertLess(mod.rotation_difference_degrees(self.matrix(),near),0.01)
+        with self.assertRaises(ValueError):mod.rigid_matrix([[1,0.01,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]])
+        with self.assertRaises(ValueError):mod.rigid_matrix([[-1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]])
+
+    def test_invalid_pose_matrix_is_reported_not_raised(self):
+        mod=self.module();cap=self.capture()
+        good={'parent':None,'head_world_m':[0,0,0],'tail_world_m':[0,1,0],'matrix_world':self.matrix()}
+        bad=dict(good,parent='anat_femur_left',matrix_world=[[1,0.2,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]])
+        base={'test_id':'isolated_knee','side':'left','plane':'sagittal','direction':'outbound','posture':'p','load':'l','measurement_mode':'m'}
+        cap['samples']=[dict(base,time_seconds=0.0,bones={'anat_femur_left':good,'anat_tibia_left':bad}),
+                        dict(base,time_seconds=0.1,bones={'anat_femur_left':good,'anat_tibia_left':bad})]
+        r=mod.analyze_capture(cap,mod.build_plan())
+        self.assertEqual(r['checks']['sample_integrity']['status'],'FAIL')
+
+    def test_capture_is_saved_before_analysis(self):
+        text=(ROOT/'scripts/capture_anatomical_validation_blender.py').read_text()
+        main=text[text.index('def main'):]
+        self.assertLess(main.index("write_new_json(out/'capture.json'"),main.index('analyze_capture(capture'),
+                        'A crash during analysis must not lose the captured Blender evidence')
+
     def test_requested_subframe_is_measured_and_original_restored(self):
         mod=self.module()
         class Scene:

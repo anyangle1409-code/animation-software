@@ -93,20 +93,19 @@ Gate 5: ✅ PASSED — source-pinned static comparison: 206 bone rows, 427 artic
 ## PHASE 6 — CHARACTER-SPECIFIC FITTING
 - [x] ✅ Prerequisite: Blender toolchain verified live (Blender 5.2.1 LTS `bpy` module). 22/22 smoke checks; three adapter defects fixed with regression tests (TOOL-001..003). Evidence: `ORIGINAL_V1_WORK/anatomy/blender_toolchain_verification_20261007.json`.
 - [x] ✅ Prerequisite: isolated audit copy `ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a001.blend` (sha256 `0655dae1…`) from the pinned r95 BARE export (sha256 `c4b8e388…`, r95 dev-freeze candidate `8a39a22d…`); 1 BU = 1 m.
-- [ ] 🟡 Fit complete skeleton to HomeGymPT_Male_ORIGINAL_v1 proportions.
-- [ ] 🟡 Place joint centres from character landmarks.
-- [ ] ⬜ Verify bilateral symmetry and segment lengths.
-- [ ] ⬜ Verify no distinct anatomical joint centres are accidentally collapsed.
-Gate 6: 🟡 IN PROGRESS (Blender available in this environment as the `bpy` module)
+- [x] ✅ Fit complete skeleton to HomeGymPT_Male_ORIGINAL_v1 proportions. All 206 placed (`character_fit_r95_a002.json`); per-bone class and confidence recorded. 115 proportional placements are low confidence.
+- [x] ✅ Place joint centres from character landmarks. Hip: 4 regressions. GH: 3 methods. Knee: 2. Ankle: 2. Elbow and wrist: ISB section centres. 427 markers.
+- [ ] ❌ Verify bilateral symmetry and segment lengths. Symmetry PASS (0.38 mm). Segment lengths FAIL: humerus −13.2 cm and femur −10.0 cm against Trotter–Gleser stature (F-PROP-001); owner decision required.
+- [x] ✅ Verify no distinct anatomical joint centres are accidentally collapsed. AC–GH 41.8 mm, talocrural–subtalar 31 mm; no two of the 427 markers are within 0.1 mm.
+Gate 6: ⛔ NOT PASSED. The fit is produced and verified, but the femur/humerus proportion conflict (F-PROP-001, F-HJC-001, F-GH-001) needs an owner decision. Placement accuracy for proportional bones is low.
 
 ## PHASE 7 — BUILD HGPT_ANATOMICAL_MASTER
-- [ ] ⛔ Create complete anatomical armature/reference collection.
-- [ ] ⛔ Represent every conventional adult bone.
-- [ ] ⛔ Tag each bone ACTIVE / FOLLOWER / FIXED / REFERENCE.
-- [ ] ⛔ Add required non-deforming anatomical landmarks/joint frames.
-- [ ] ⛔ Validate hierarchy, naming and symmetry.
-Requires Blender/laptop.
-Gate 7: ⛔ BLOCKED
+- [x] ✅ Create complete anatomical armature/reference collection. `HGPT_ANATOMICAL_MASTER` in `HGPT_ANATOMICAL_REFERENCE`, audit file a002 (`f172720b…`).
+- [x] ✅ Represent every conventional adult bone. Independent capture: coverage 206/206 and identity PASS.
+- [x] ✅ Tag each bone ACTIVE / FOLLOWER / FIXED / REFERENCE (92 / 87 / 26 / 1), as Blender custom properties.
+- [x] ✅ Add required non-deforming anatomical landmarks/joint frames: 427 joint markers and 51 landmarks, round trip ≤ 2.9e-7 m.
+- [x] ✅ Validate hierarchy, naming and symmetry. 201 articular parents, 3 explicit carriers, 2 roots; no cycles; symmetry PASS.
+Gate 7: 🟡 STRUCTURE VERIFIED. Not passed for placement while Gate 6 is not passed.
 
 ## PHASE 8 — JOINT SOLVERS
 - [ ] ⛔ Spine / cervical solvers.
@@ -176,7 +175,8 @@ Gate 13: ⬜ NOT PASSED
 
 ## CURRENT POSITION
 Completed: Phases 0–5 (reference definitions, evidence compilation and static gap comparison); Blender toolchain verification.
-Active: Phase 6 — character-specific landmarks and joint centres on the isolated r95 audit copy.
+Done: Phase 6 fit and Phase 7 master structure on the r95 audit copy (a002). Gate 6 is not passed (F-PROP-001); Gate 7 structure is verified.
+Next: Phase 8 joint-solver specifications and isolated tests on the a002 master (audit only).
 Gates 6–13 remain unpassed.
 Production model, recovery work, geometry, weights and motion drivers unchanged.
 Comprehensive findings, source register, verification and local acceptance checklist: `docs/COMPLETE_SKELETON_FINDINGS_AND_VERIFICATION_20261007.md`.

@@ -1,0 +1,32 @@
+{
+ "audit_blend": "ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a002.blend",
+ "audit_blend_sha256": "f172720b178f22e5ac80426cecbbf86ddf90cfb3912ecf6f7429cb8bf2fbe218",
+ "renderer": "scripts/anatomy_fit/render_master_review.py (Workbench, X-ray alpha 0.25, orthographic)",
+ "legend": {
+  "red sticks": "regression placement (femur, humerus)",
+  "orange": "surface-landmark placement",
+  "blue": "surface stations inherited from generator finger stations",
+  "grey": "proportional (low confidence)",
+  "green spheres": "joint markers (large = major synovial joints)",
+  "magenta spheres": "runtime rig joint heads (side-bound: anatomical left = runtime _r)"
+ },
+ "images": {
+  "foot_lateral.jpg": "476dc285dcb65d6bbff908e748b9149b2d25de5877d7e48d4c6e24dc6b32d16a",
+  "foot_top.jpg": "bc8215051005352d394a85f73cd42eaab4e48c03d9d605c6cb2fdb7beeef0bb8",
+  "full_back.jpg": "3e5d469c6872f008cb7b82e623075a0e8c34a292e9facfa51014c9ade11f1b4d",
+  "full_front.jpg": "7b2de985342a247a7c6a71d7dab936302e5afdf0b19a357587734f2ee3a5c9ea",
+  "full_left_lateral.jpg": "0be5bb133e40492b14d6e29218cc7497b9a84e44e5fc3a4ade7c7a01d522a0f9",
+  "hand_lateral.jpg": "02e5f52443b16da790d30912b55b830109a8f52839d07c1097d99fc20d65ab3c",
+  "head_front.jpg": "2f965831834a706ea35b55f520e2ab36f7df6a2eb63fd96ba4e69a69aab4a7bf",
+  "head_lateral.jpg": "8440057f9a049c4b6b08745499bca3941e58975d719cc37098f991216f89cf92",
+  "knee_front.jpg": "0f5a45ebc2690ad8ba9426d2f33dce0cbd4065e7e069eb1ae9ad57b1a51ab784",
+  "knee_lateral.jpg": "5a2e52c2245c679c98248c54e7fe85193c21b4aae34a341d2abb61792604aab6",
+  "pelvis_front.jpg": "4787797b1d823e8d10ff15a6f66c0d581bfc3a2ac7d4654b6437e9d827227f76",
+  "pelvis_lateral.jpg": "6a4c4c957754e447fcdde969381ac187fe228ae5828d967ad645757951796f76",
+  "sheet_close.jpg": "57d1a753878f3abf0b884d1ce926de2264a5bd5506a0c75cdc800b41b87e0f67",
+  "sheet_full.jpg": "4300b12786114f913ccf06663e588f2b5c64a5178e73ba6e973a8c31782ff381",
+  "shoulder_front.jpg": "f62c8203508297790ab00d2acbffec1fb21f72ced04185be9e1e50118007a2aa",
+  "shoulder_lateral.jpg": "cd308b32495373e21393cfedea325994155e77991972f03bb52a2b7f4f11c899",
+  "spine_lateral.jpg": "c08b20ad6686b1d46aba4ec407204af736114e1308ada8a1779255fad1de5898"
+ }
+}

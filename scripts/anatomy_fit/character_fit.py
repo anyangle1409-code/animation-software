@@ -353,3 +353,330 @@ def elbow_wrist(V, T, sign):
         'styloid_ulnar_skin': entry(ulnar, 'Posterior extreme of the same section.', ['ISB_II'], '+/-10 mm', 'moderate'),
         'WJC': entry(cw, 'Midpoint between styloids (ISB) approximated by the wrist section centre.', ['ISB_II'], '+/-10 mm', 'moderate'),
     }
+
+
+# ---------------------------------------------------------------------------
+# Trunk, head, girdle, hand and foot recipes (lower confidence; see each recipe)
+# ---------------------------------------------------------------------------
+
+def midline_profile(V, T, z):
+    pts = np.concatenate([l for l in plane_section(V, T, (0, 0, z), UP) if len(l) > 20])
+    m = pts[np.abs(pts[:, 0]) < 0.006]
+    return (float(m[:, 1].min()), float(m[:, 1].max())) if len(m) else (np.nan, np.nan)
+
+
+def head_surface(V, T, z, sign):
+    pts = np.concatenate([l for l in plane_section(V, T, (0, 0, z), UP) if abs(l[:, 0].mean()) < 0.05 and len(l) > 20])
+    return pts
+
+
+def trunk_and_head(V, T, features, hips):
+    ij, d_ij = closest_surface_point(V, T, np.array(features['ij']))
+    px, d_px = closest_surface_point(V, T, np.array(features['px']))
+    mid_asis = (np.array(hips['left']['asis_skin']['value_m']) + np.array(hips['right']['asis_skin']['value_m'])) / 2
+    # L5/S1: posterior to the ASIS plane at the sacral promontory (anatomical approximation)
+    l5s1 = mid_asis + np.array([0.0, 0.115, 0.045])
+    # vertebral levels: T2/T3 disc at the jugular-notch height, L5/S1 at the pelvic estimate;
+    # thoracic and lumbar motion-segment heights in a 2.55:4.0 ratio (typical adult proportions).
+    names = [f't{i}' for i in range(3, 13)] + [f'l{i}' for i in range(1, 6)]
+    weights = np.array([2.55] * 10 + [4.0] * 5)
+    z_top, z_bot = ij[2], l5s1[2]
+    unit_h = (z_top - z_bot) / weights.sum()
+    centres, z = {}, z_top
+    depth = {'c': 0.055, 't': 0.070, 'l': 0.080}
+    for name, w in zip(names, weights):
+        zc = z - w * unit_h / 2
+        back = midline_profile(V, T, zc)[1]
+        centres[name] = [0.0, back - depth[name[0]], zc]
+        z -= w * unit_h
+    t_step = 2.55 * unit_h
+    # cervical: C7/T1 one thoracic step above T2 centre; C1..C7 evenly to the C0-C1 estimate
+    t2z = z_top + t_step / 2
+    t1z = t2z + t_step
+    eye_z = features['eye_ring_z']
+    c0c1_z = features['palate_z'] + 0.005
+    head_pts = head_surface(V, T, c0c1_z, 1)
+    front, back = head_pts[:, 1].min(), head_pts[:, 1].max()
+    c0c1 = np.array([0.0, front + 0.62 * (back - front), c0c1_z])
+    centres['t2'] = [0.0, midline_profile(V, T, t2z)[1] - depth['t'], t2z]
+    centres['t1'] = [0.0, midline_profile(V, T, t1z)[1] - depth['t'], t1z]
+    c_top, c_bot = c0c1, np.array(centres['t1']) + np.array([0, 0, t_step / 2])
+    for k, i in enumerate(range(7, 0, -1)):
+        f = (k + 0.5) / 7
+        p = c_bot + (c_top - c_bot) * f
+        centres[f'c{i}'] = [0.0, p[1], p[2]]
+    sacrum_apex = l5s1 + np.array([0.0, 0.025, -0.10])
+    xiphi_level = {n: c[2] for n, c in centres.items()}
+    px_check = (xiphi_level['t8'] + xiphi_level['t9']) / 2
+    # head landmarks
+    vertex = V[np.argmax(V[:, 2])]
+    nasion, _ = closest_surface_point(V, T, np.array([0.0, -0.106, eye_z]))
+    chin, _ = closest_surface_point(V, T, np.array(features['chin']))
+    hp = head_surface(V, T, eye_z - 0.012, 1)
+    hf, hb = hp[:, 1].min(), hp[:, 1].max()
+    porion = {}
+    tmj = {}
+    for s, sg in SIDES.items():
+        y_p = hf + 0.60 * (hb - hf)
+        row = hp[np.abs(hp[:, 1] - y_p) < 0.01]
+        x_out = (sg * row[:, 0]).max() if len(row) else 0.07
+        porion[s] = [sg * (x_out - 0.012), y_p, eye_z - 0.012]
+        tmj[s] = [sg * (x_out - 0.02), y_p - 0.013, eye_z - 0.022]
+    cranium = V[V[:, 2] > eye_z]
+    cranial_centre = cranium.mean(0)
+    cranial_centre[0] = 0.0
+    occ = np.array([0.0, hb - 0.03, eye_z - 0.01])
+    neck_front = midline_profile(V, T, chin[2] - 0.045)[0]
+    hyoid = np.array([0.0, neck_front + 0.012, chin[2] - 0.045])
+    # ribs
+    ribs = {}
+    drops = {1: 0.03, 2: 0.045, 3: 0.06, 4: 0.07, 5: 0.08, 6: 0.09, 7: 0.10, 8: 0.10, 9: 0.10, 10: 0.10, 11: 0.06, 12: 0.04}
+    for i in range(1, 13):
+        cv = np.array(centres[f't{i}'])
+        za = cv[2] - drops[i]
+        sec = [l for l in plane_section(V, T, (0, 0, za), UP) if abs(l[:, 0].mean()) < 0.06 and len(l) > 40]
+        P = max(sec, key=len)
+        ribs[f'{i:02d}'] = {}
+        for s, sg in SIDES.items():
+            if i <= 7:
+                xa, region = 0.03 + 0.006 * i, 'front'
+            elif i <= 10:
+                xa, region = 0.07 + 0.012 * (i - 8), 'front'
+            else:
+                xa, region = 0.11 + 0.01 * (i - 11), 'side'
+            cand = P[(sg * P[:, 0] > xa - 0.01) & (sg * P[:, 0] < xa + 0.01)]
+            if region == 'front':
+                skin = cand[np.argmin(cand[:, 1])]
+            else:
+                skin = cand[np.argmax(cand[:, 1])]
+            c_sec = P.mean(0)
+            inward = (c_sec - skin)
+            inward[2] = 0
+            anterior_end = skin + unit_np(inward) * 0.015
+            cvj = cv + np.array([sg * 0.022, 0.008, 0.005])
+            ribs[f'{i:02d}'][s] = {'costovertebral': cvj.tolist(), 'anterior_end': anterior_end.tolist()}
+    return {
+        'ij_skin': entry(ij, 'Front centre of the authored "sternal notch" shoulder ring (generator S3), projected to the surface.', ['SP_THORACIC'], '+/-10 mm', 'moderate', projection_distance_m=d_ij),
+        'px_skin': entry(px, 'Lower end of the authored sternal groove, projected to the surface.', [], '+/-20 mm; xiphoid not modelled', 'low', projection_distance_m=d_px),
+        'ij_bone': (ij + np.array([0, 0.012, 0])).tolist(), 'px_bone': (px + np.array([0, 0.015, 0])).tolist(),
+        'vertebral_body_centres': centres, 'sacrum_s1_endplate': l5s1.tolist(),
+        'sacrum_apex': sacrum_apex.tolist(), 'c0_c1_centre': c0c1.tolist(), 'hyoid_est': hyoid,
+        'level_model': {'anchors': {'T2/T3': float(z_top), 'L5/S1': float(z_bot)}, 'thoracic_segment_m': float(2.55 * unit_h),
+                        'lumbar_segment_m': float(4.0 * unit_h), 'xiphisternal_check': {'px_skin_z_m': float(px[2]), 'model_T8_T9_z_m': float(px_check),
+                        'difference_m': float(px[2] - px_check), 'source_level': 'xiphisternal joint T8/T9 (surface-anatomy references)'},
+                        'depth_from_posterior_skin_m': depth, 'confidence': 'low'},
+        'ribs': ribs,
+        'head': {'vertex_skin': vertex.tolist(), 'nasion_skin': nasion.tolist(), 'chin_skin': chin.tolist(),
+                 'cranial_centre': cranial_centre.tolist(), 'occipital_centre': occ.tolist(), 'porion_est': porion,
+                 'tmj_est': tmj, 'note': 'The head has no modelled ears; porion/TMJ are proportional estimates at 60% head length behind the face, 12 mm below the authored eye ring.'},
+    }
+
+
+def unit_np(a):
+    n = np.linalg.norm(a)
+    return a / n if n > 0 else a
+
+
+RUNTIME_SUFFIX = {'left': '_r', 'right': '_l'}  # anatomical side -> runtime suffix (F-SIDE-001)
+
+
+def foot(V, T, sign, ajc):
+    sel = (sign * V[:, 0] > 0.02) & (V[:, 2] < 0.10)
+    Fv = V[sel]
+    low = Fv[Fv[:, 2] < 0.05]
+    heel = low[np.argmax(low[:, 1])]
+    tip_y = Fv[:, 1].min()
+    track = []
+    for yy in np.arange(tip_y + 0.001, tip_y + 0.12, 0.002):
+        loops = [l for l in plane_section(V, T, (0, yy, 0), (0, 1, 0)) if sign * l[:, 0].mean() > 0.02 and l[:, 2].max() < 0.07]
+        track.append((yy, sorted(loops, key=lambda l: sign * l[:, 0].mean())))
+    five = [t for t in track if len(t[1]) == 5]
+    if not five:
+        raise ValueError('Five separate toes not found in coronal foot sections')
+    web_y = max(t[0] for t in five)          # most posterior level where all five toes are separate
+    base = [t for t in five if t[0] == web_y][0][1]
+    toes = {}
+    forward = [t for t in track if t[0] <= web_y][::-1]   # from the web toward the tips
+    for k, loop in enumerate(base):           # medial (hallux) -> lateral
+        c = loop.mean(0)
+        last = loop
+        for yy, loops in forward[1:]:
+            if not loops:
+                break
+            cand = min(loops, key=lambda l: np.linalg.norm(l.mean(0)[[0, 2]] - last.mean(0)[[0, 2]]))
+            if np.linalg.norm(cand.mean(0)[[0, 2]] - last.mean(0)[[0, 2]]) > 0.008:
+                break                          # this toe's sections have ended
+            last = cand
+        tip = last.mean(0)
+        tip[1] = last[:, 1].min()             # most anterior section centroid (deterministic, mirror-safe)
+        toes[k + 1] = {'web_centre': c, 'tip': tip}
+    widths = []
+    for yy in np.arange(web_y, web_y + 0.10, 0.002):
+        pts = [l for l in plane_section(V, T, (0, yy, 0), (0, 1, 0)) if sign * l[:, 0].mean() > 0.02 and l[:, 2].max() < 0.09]
+        if pts:
+            P = np.concatenate(pts)
+            widths.append((yy, P[:, 0].max() - P[:, 0].min()))
+    ball_y = max(widths, key=lambda w: w[1])[0]
+    fdir = toes[2]['web_centre'] - heel
+    fdir[2] = 0
+    fdir = unit_np(fdir)
+    lat = np.array([sign, 0.0, 0.0])
+    scale = float(heel[1] - tip_y) / 0.265
+    mt_len = [0.063, 0.075, 0.070, 0.068, 0.068]
+    out = {'heel_skin': heel.tolist(), 'toe_tip_y_m': float(tip_y), 'web_y_m': float(web_y), 'ball_widest_y_m': float(ball_y),
+           'foot_length_m': float(heel[1] - tip_y), 'length_scale_vs_265mm': scale}
+    mtp = {}
+    behind_web = {1: 0.025, 2: 0.022, 3: 0.025, 4: 0.030, 5: 0.037}   # oblique metatarsal-head line (approximation)
+    for t in range(1, 6):
+        c = toes[t]['web_centre']
+        mtp[t] = np.array([c[0], web_y, 0.0]) - fdir * behind_web[t] + np.array([0, 0, 0.022])
+    bases = {t: mtp[t] - unit_np(np.array([mtp[t][0] - heel[0], mtp[t][1] - heel[1], 0.0])) * mt_len[t - 1] * scale for t in mtp}
+    for t in range(1, 6):
+        out[f'mt{t}'] = (bases[t].tolist(), mtp[t].tolist())
+        tip = toes[t]['tip']
+        L = mtp[t]
+        if t == 1:
+            ip = L + (tip - L) * 0.58
+            out['hx_pp'] = (L.tolist(), ip.tolist())
+            out['hx_dp'] = (ip.tolist(), (tip - unit_np(tip - L) * 0.004).tolist())
+        else:
+            p1 = L + (tip - L) * 0.50
+            p2 = L + (tip - L) * 0.77
+            out[f't{t}_pp'] = (L.tolist(), p1.tolist())
+            out[f't{t}_mp'] = (p1.tolist(), p2.tolist())
+            out[f't{t}_dp'] = (p2.tolist(), (tip - unit_np(tip - L) * 0.004).tolist())
+    ajc = np.asarray(ajc)
+    talar_head = ajc + 0.045 * fdir - 0.012 * UP - 0.005 * lat
+    out['talar_head'] = talar_head.tolist()
+    out['subtalar'] = (ajc - 0.030 * UP - 0.008 * fdir).tolist()
+    out['heel_bone'] = [heel[0], heel[1] - 0.012, 0.035]
+    nav_h = talar_head + 0.006 * fdir - 0.010 * lat
+    nav_t = nav_h + 0.016 * fdir
+    out['navicular'] = (nav_h.tolist(), nav_t.tolist())
+    for name, t, f in (('medial', 1, 0.15), ('intermediate', 2, 0.2), ('lateral', 3, 0.2)):
+        out[name] = ((nav_t + (bases[t] - nav_t) * f).tolist(), bases[t].tolist())
+    b45 = (bases[4] + bases[5]) / 2
+    out['cuboid'] = ((np.array(out['heel_bone']) + (b45 - np.array(out['heel_bone'])) * 0.6).tolist(), b45.tolist())
+    out['toes_measured'] = {t: {'web_centre': toes[t]['web_centre'].tolist(), 'tip': toes[t]['tip'].tolist()} for t in toes}
+    return out
+
+
+def hand_from_stations(rig, side, wjc):
+    sfx = RUNTIME_SUFFIX[side]
+    R = {k[:-2]: v for k, v in rig.items() if k.endswith(sfx)}
+    wjc = np.asarray(wjc)
+    out = {}
+    names = {2: 'index', 3: 'middle', 4: 'ring', 5: 'pinky'}
+    mcp = {d: np.asarray(R[f'metacarpal_{n}'][1]) for d, n in names.items()}
+    for d, n in names.items():
+        axis = unit_np(mcp[d] - wjc)
+        base = wjc + axis * 0.033     # carpus height between radiocarpal centre and CMC (approximation)
+        out[f'mc{d}'] = (base.tolist(), mcp[d].tolist())
+        out[f'd{d}_pp'] = (list(R[f'{n}_01'][0]), list(R[f'{n}_01'][1]))
+        out[f'd{d}_mp'] = (list(R[f'{n}_02'][0]), list(R[f'{n}_02'][1]))
+        out[f'd{d}_dp'] = (list(R[f'{n}_03'][0]), list(R[f'{n}_03'][1]))
+    out['mc1'] = (list(R['thumb_01'][0]), list(R['thumb_01'][1]))
+    out['th_pp'] = (list(R['thumb_02'][0]), list(R['thumb_02'][1]))
+    out['th_dp'] = (list(R['thumb_03'][0]), list(R['thumb_03'][1]))
+    return out, mcp
+
+
+def carpals(wjc, mcp, sign):
+    wjc = np.asarray(wjc)
+    d = unit_np(mcp[3] - wjc)
+    r = mcp[2] - mcp[5]
+    r = unit_np(r - (r @ d) * d)          # radial (thumb side)
+    p = np.cross(d, r) * (1 if sign > 0 else -1)
+    def seg(off_d, off_r, off_p=0.0, length=0.011):
+        h = wjc + d * off_d + r * off_r + p * off_p
+        return (h.tolist(), (h + d * length).tolist())
+    return {'scaphoid': seg(0.006, 0.012), 'lunate': seg(0.006, 0.0), 'triquetrum': seg(0.007, -0.011),
+            'pisiform': seg(0.010, -0.012, 0.008, 0.007),
+            'trapezium': seg(0.020, 0.016), 'trapezoid': seg(0.020, 0.007), 'capitate': seg(0.018, -0.001, 0.0, 0.015),
+            'hamate': seg(0.019, -0.011)}
+
+
+def fit_character(V, T, features, rig):
+    """Run every recipe. Returns (landmark report, skeleton input dictionary)."""
+    G = global_checks(V)
+    H = G['stature_m']
+    report = {'global': G, 'chirality': {s: hand_chirality(V, sg) for s, sg in SIDES.items()}, 'sides': {}}
+    sides = {}
+    hips = {}
+    for s, sg in SIDES.items():
+        a = ankle(V, T, sg, H)
+        k = knee(V, T, sg, H)
+        hp = pelvis_and_hip(V, T, features, sg, a, H)
+        sh = shoulder(V, T, sg, H, features)
+        ew = elbow_wrist(V, T, sg)
+        hips[s] = hp
+        report['sides'][s] = {'ankle': a, 'knee': k, 'hip': hp, 'shoulder': sh, 'elbow_wrist': ew}
+    tr = trunk_and_head(V, T, features, hips)
+    report['trunk'] = {k: v for k, v in tr.items() if k not in ('ribs', 'head')}
+    report['head'] = tr['head']
+    ij = np.array(tr['ij_skin']['value_m'])
+    for s, sg in SIDES.items():
+        R = report['sides'][s]
+        lat = np.array([sg, 0.0, 0.0])
+        ghm = np.array([m['value_m'] for m in R['shoulder']['GH_methods'].values()])
+        gh = np.array([ghm[:, 0].mean(), ghm[:, 1].mean(), R['shoulder']['GH_methods']['acromion_depth_chain']['value_m'][2]])
+        R['shoulder']['GH_selected'] = entry(gh, 'Height from the sourced acromion depth chain; mediolateral/anteroposterior from the mean of the three methods.',
+                                             ['AHD', 'ACROMION_THICKNESS', 'HUMERAL_HEAD_RADIUS'], f'Method spread {np.ptp(ghm, axis=0).round(4).tolist()} m (x,y,z)', 'moderate')
+        acr = np.array(R['shoulder']['acromion_lateral_skin']['value_m'])
+        kjc = np.array(R['knee']['KJC_methods']['joint_line_plus_epicondyle_offset']['value_m'])
+        ajc = np.array(R['ankle']['AJC_methods']['surface_junction']['value_m'])
+        hjc = np.array(R['hip']['HJC_selected']['value_m'])
+        ejc = np.array(R['elbow_wrist']['EJC']['value_m'])
+        wjc = np.array(R['elbow_wrist']['WJC']['value_m'])
+        jl = kjc - np.array([0, 0, R['knee']['epicondyle_offset_m']['used']])
+        ts_u, ai_l = np.array([sg * 0.045, 0.150, 1.470]), np.array([sg * 0.080, 0.155, 1.320])
+        TS = ts_u + 0.2 * (ai_l - ts_u) + np.array([0, -0.015, 0])
+        AI = ai_l + np.array([0, -0.015, 0])
+        hand, mcp = hand_from_stations(rig, s, wjc)
+        sec = _leg_loop(V, T, jl[2] - 0.02, sg)
+        lat_pt = sec[np.argmax(sg * sec[:, 0])]
+        knee_front = _leg_loop(V, T, kjc[2], sg)
+        front_y = knee_front[:, 1].min()
+        pc = np.array([kjc[0], front_y + 0.014, kjc[2] + 0.005])
+        lm = np.array(R['ankle']['malleolus_lateral_skin']['value_m'])
+        rs = np.array(R['elbow_wrist']['styloid_radial_skin']['value_m'])
+        us = np.array(R['elbow_wrist']['styloid_ulnar_skin']['value_m'])
+        asis = np.array(hips[s]['asis_skin']['value_m'])
+        mid_asis = (np.array(hips['left']['asis_skin']['value_m']) + np.array(hips['right']['asis_skin']['value_m'])) / 2
+        si = mid_asis + np.array([sg * 0.045, 0.125, 0.035])
+        sym = np.array([0.0, mid_asis[1] + 0.01, mid_asis[2] - 0.085])
+        sides[s] = {
+            'SC': (ij + np.array([sg * 0.025, 0.015, -0.005])).tolist(),
+            'AC': (acr + np.array([-sg * 0.022, 0.0, -0.012])).tolist(),
+            'AA': (acr + np.array([-sg * 0.005, 0.035, -0.010])).tolist(),
+            'TS': TS.tolist(), 'AI': AI.tolist(), 'GH': gh.tolist(), 'glenoid': (gh - lat * 0.025).tolist(),
+            'EJC': ejc.tolist(), 'WJC': wjc.tolist(),
+            'humeroulnar': (ejc - lat * 0.008 - UP * 0.005).tolist(), 'humeroradial': (ejc + lat * 0.015 - UP * 0.015).tolist(),
+            'ulnar_styloid_bone': (us + unit_np(wjc - us) * 0.006).tolist(), 'radial_styloid_bone': (rs + unit_np(wjc - rs) * 0.006).tolist(),
+            'carpals': carpals(wjc, mcp, sg), 'hand': hand,
+            'SI': si.tolist(), 'pubic_symphysis_side': (sym + np.array([sg * 0.004, 0, 0])).tolist(),
+            'HJC': hjc.tolist(), 'KJC': kjc.tolist(), 'AJC': ajc.tolist(),
+            'patella': ((pc + UP * 0.022).tolist(), (pc - UP * 0.022).tolist()),
+            'tibial_plateau': jl.tolist(), 'fibular_head': (lat_pt - lat * 0.012 + np.array([0, 0.012, 0])).tolist(),
+            'lateral_malleolus_bone': (lm - lat * 0.006 - UP * 0.008).tolist(),
+            'foot': foot(V, T, sg, ajc),
+        }
+        R['derived_points'] = {k: v for k, v in sides[s].items() if k not in ('carpals', 'hand', 'foot')}
+        R['foot'] = {k: v for k, v in sides[s]['foot'].items() if not isinstance(v, tuple)}
+    skeleton_input = {'trunk': {**{k: v for k, v in tr.items() if k != 'head'}}, 'head': tr['head'], 'sides': sides}
+    return report, skeleton_input
+
+
+def make_clearance(V, T):
+    """Signed distance to the skin: positive inside (generalised winding number), negative outside."""
+    from scipy.spatial import cKDTree
+    from joint_markers import winding_inside
+    tree = cKDTree(V)
+
+    def clearance(p):
+        p = np.asarray(p, float)
+        d0, _ = tree.query(p)
+        q, d = closest_surface_point(V, T, p, radius=max(0.02, d0 * 1.5 + 0.01))
+        inside = winding_inside(p[None, :], V, T)[0] > 0.5
+        return d if inside else -d
+    return clearance

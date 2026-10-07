@@ -167,5 +167,60 @@
     }
   },
   "character_accepted": false,
-  "completed_tracker_gates": []
+  "completed_tracker_gates": [],
+  "addenda": [
+    {
+      "date": "2026-10-07",
+      "reason": "Running the capture on the real 206-bone master exposed further defects.",
+      "defects_found_and_fixed": [
+        {
+          "id": "TOOL-004",
+          "defect": "rigid_matrix orthogonality tolerance 1e-6 rejected valid single-precision Blender bone matrices (2.5e-6 measured on 5 mm bones).",
+          "fix": "RIGID_TOLERANCE = 1e-5 for orthogonality and determinant; real shear (1e-2) and reflections still fail.",
+          "regression": [
+            "unit: test_single_precision_blender_matrices_are_rigid_but_real_shear_fails"
+          ],
+          "observed_failing_before_fix": true
+        },
+        {
+          "id": "TOOL-005",
+          "defect": "A derived relative-rotation error raised out of analyze_capture instead of failing sample_integrity.",
+          "fix": "Errors recorded as pose errors; sample_integrity evaluated after the rotation loop.",
+          "regression": [
+            "unit: test_invalid_pose_matrix_is_reported_not_raised"
+          ],
+          "observed_failing_before_fix": false,
+          "note": "The guard test passed before the fix because invalid inputs are caught earlier; the crash path was reproduced live on the a002 capture."
+        },
+        {
+          "id": "TOOL-006",
+          "defect": "capture.json was written only after analysis, so an analysis crash discarded the Blender evidence.",
+          "fix": "Capture written before analysis.",
+          "regression": [
+            "unit: test_capture_is_saved_before_analysis"
+          ],
+          "observed_failing_before_fix": true
+        }
+      ],
+      "tests": {
+        "tool_tests": {
+          "run": 26,
+          "passed": 26
+        },
+        "fit_tests": {
+          "command": "python -m unittest scripts/test_anatomy_fit.py",
+          "run": 9,
+          "passed": 9
+        },
+        "repository_tests": {
+          "run": 585,
+          "passed": 576,
+          "failures": 5,
+          "errors": 4,
+          "baseline_identities_unchanged": true
+        }
+      },
+      "smoke_after_fixes": "PASS (22/22)"
+    }
+  ]
 }

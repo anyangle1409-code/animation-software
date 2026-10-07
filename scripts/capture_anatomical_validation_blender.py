@@ -124,8 +124,9 @@ def main():
     plan=json.loads(Path(options.plan).read_text()) if options.plan else build_plan()
     if options.blend:bpy.ops.wm.open_mainfile(filepath=str(Path(options.blend).resolve()))
     capture=capture_character(bpy,options.armature,plan,options.metres_per_unit)
+    write_new_json(out/'capture.json',capture)   # keep the Blender evidence even if analysis fails
     result=analyze_capture(capture,plan)
-    write_new_json(out/'capture.json',capture);write_new_json(out/'report.json',result)
+    write_new_json(out/'report.json',result)
     with (out/'report.md').open('x',encoding='utf-8') as stream:stream.write(report_markdown(result))
     print('Anatomical capture written:',out,'status:',result['overall_status'],'character remains unaccepted')
     return 1 if result['overall_status']=='FAIL' else 0

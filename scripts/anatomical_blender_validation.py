@@ -60,6 +60,11 @@ def point(v):
     return list(v)
 
 
+# Blender stores bone/object matrices in single precision; short bones show orthogonality errors of a few 1e-6.
+# Real shear or non-uniform scale is orders of magnitude larger.
+RIGID_TOLERANCE=1e-5
+
+
 def rigid_matrix(m):
     if not isinstance(m,list) or len(m)!=4 or any(not isinstance(r,list) or len(r)!=4 for r in m):
         raise ValueError('4x4 matrix required')
@@ -71,11 +76,11 @@ def rigid_matrix(m):
         vec=[m[r][c] for r in range(3)];length=math.sqrt(sum(v*v for v in vec))
         if length<=1e-12:raise ValueError('Degenerate matrix axis')
         cols.append([v/length for v in vec])
-    if any(abs(sum(x*y for x,y in zip(cols[a],cols[b])))>1e-6 for a,b in [(0,1),(0,2),(1,2)]):
+    if any(abs(sum(x*y for x,y in zip(cols[a],cols[b])))>RIGID_TOLERANCE for a,b in [(0,1),(0,2),(1,2)]):
         raise ValueError('Sheared axes are not a rigid rotation')
     x,y,z=cols
     det=x[0]*(y[1]*z[2]-y[2]*z[1])-x[1]*(y[0]*z[2]-y[2]*z[0])+x[2]*(y[0]*z[1]-y[1]*z[0])
-    if det<0.999999:raise ValueError('Reflected/improper frame')
+    if det<1-RIGID_TOLERANCE:raise ValueError('Reflected/improper frame')
     return [[cols[c][r] for c in range(3)]+[m[r][3]] for r in range(3)]+[[0,0,0,1]]
 
 
@@ -217,7 +222,6 @@ def analyze_capture(capture,plan):
                 a,b=a+'_'+side,b+'_'+side
                 if a in sample_centres and b in sample_centres and math.dist(sample_centres[a],sample_centres[b])<=1e-9:
                     centre_errors.append(f'Sample {index}: {a} and {b} coincide to numerical resolution; distinct anatomical centres required.')
-    check('sample_integrity','FAIL' if pose_errors else 'PASS' if pose_count else 'UNVERIFIED',pose_errors or 'Provided transforms structurally valid; omitted pose data is not evidence.')
     check('landmark_integrity','FAIL' if landmark_errors else 'PASS' if landmarks else 'UNVERIFIED',landmark_errors or 'Only supplied landmark IDs/coordinates checked; anatomical placement unverified.')
     check('joint_marker_coverage','PASS' if set(centres)==set(plan['joint_markers']) else 'UNVERIFIED',
           {'measured':len(centres),'expected':len(plan['joint_markers']),'missing':sorted(set(plan['joint_markers'])-set(centres))})
@@ -234,7 +238,10 @@ def analyze_capture(capture,plan):
         for row in rows:
             group=json.dumps(row['context'],sort_keys=True)
             first.setdefault(group,row['matrix'])
-            row['principal_rotation_from_first_deg']=rotation_difference_degrees(first[group],row['matrix'])
+            try:row['principal_rotation_from_first_deg']=rotation_difference_degrees(first[group],row['matrix'])
+            except (ValueError,TypeError,OverflowError) as e:
+                row['principal_rotation_from_first_deg']=None;pose_errors.append(f"{row['sample']}: relative rotation: {e}")
+    check('sample_integrity','FAIL' if pose_errors else 'PASS' if pose_count else 'UNVERIFIED',pose_errors or 'Provided transforms structurally valid; omitted pose data is not evidence.')
     check('test_execution','UNVERIFIED',{'sampled_test_ids':sorted(executed),'missing_context_samples':context_missing,
           'note':'Labels are not proof of complete sides, stages, planes or reversal. Inspect local test evidence.'})
     check('anatomical_placement','UNVERIFIED','Requires character landmarks/contact surfaces and reviewed fitting evidence. Bone names/matrices are insufficient.')

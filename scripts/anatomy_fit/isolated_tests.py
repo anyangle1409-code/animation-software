@@ -9,11 +9,16 @@ residuals, continuity (finite-difference velocity/acceleration) and left/right m
 Amplitudes come from the atlas observations with their context attached. Where no joint-specific
 source exists, the amplitude is a labelled TEST AMPLITUDE and is never a range-of-motion claim.
 """
+import json
 import math
+from pathlib import Path
 
 import numpy as np
 
 import joint_solver as js
+
+# Phase 8-9 supplementary sourced observations (the Phase 4 atlas itself is not modified)
+SUPPLEMENT = Path(__file__).resolve().parents[2] / 'ORIGINAL_V1_WORK/anatomy/phase9_supplementary_observations.json'
 
 UP = np.array([0, 0, 1.0])
 ANT = np.array([0, -1.0, 0])
@@ -141,7 +146,7 @@ def obs(rec_obs, key):
 def specs(rec, atlas):
     B = rec['bones']
     sk = rec['skeleton_input']
-    O = atlas['observations']
+    O = {**atlas['observations'], **json.loads(SUPPLEMENT.read_text())['observations']}
     M = rec['joint_markers']
     F = frames(rec)
     T = []
@@ -282,6 +287,60 @@ def specs(rec, atlas):
                 plane=motion, keys=sweep('angle', target - rest_angle, 0.0), context=[obs(O, obs_key)],
                 amplitude_basis=f'Command = clinical intermetacarpal mean {target} deg minus the fitted rest angle {rest_angle:.1f} deg (examination mode unspecified); measured angle reported',
                 marker=f'cmc_1_{side}', distal_marker=f'thumb_mcp_{side}', intermetacarpal={'plane_normal': list(plane_normal), 'mc2_dir': list(d2), 'rest_angle_deg': rest_angle, 'target_deg': target})
+        # ---- finger spreading: MCP abduction away from the middle finger (MCP extended)
+        ab = O['mcp_abduction_clinical']['value']['expected']
+        for d, away in ((2, radial), (4, -radial), (5, -radial)):
+            mcp = np.array(M[f'digit{d}_mcp_{side}']['centre_m'])
+            tipv = np.array(B[f'digit{d}_proximal_phalanx_{side}']['tail_m']) - mcp
+            sgn = 1.0 if ((rodrigues(palmar, 5.0) @ tipv) - tipv) @ away > 0 else -1.0
+            add(id=f'digit{d}_mcp_abduction_{side}', profile='mcp', side=side, kind='axis', joint='digit_mcp', proximal=f'metacarpal_{d}_{side}',
+                moving=[f'digit{d}_proximal_phalanx_{side}'], centre=mcp.tolist(), axis=(palmar * sgn).tolist(), positive='abduction away from the middle finger',
+                plane='finger_spread', keys=sweep('angle', ab, 0.0), context=[obs(O, 'mcp_abduction_clinical')],
+                amplitude_basis=f'Clinical expected MCP abduction {ab} deg (secondary goniometry references; not digit-specific) about the hand dorsal-palmar axis through the fitted MCP centre',
+                marker=f'digit{d}_mcp_{side}', distal_marker=f'digit{d}_pip_{side}')
+        # ---- thumb opposition: TMC palmar abduction (sourced at opposition) then first-metacarpal pronation
+        d0 = unit(np.array(mc1['tail_m']) - np.array(mc1['head_m']))
+        ab_axis = unit(radial - (radial @ d0) * d0)            # perpendicular to the metacarpal: exact swing-twist split
+        ab_axis = ab_axis if ((rodrigues(ab_axis, 5.0) @ d0) - d0) @ palmar > 0 else -ab_axis
+        pulp = unit(-radial - (-radial @ d0) * d0)             # thumb flexion/pulp side, normal to the metacarpal
+        p_sgn = 1.0 if ((rodrigues(d0, 5.0) @ pulp) - pulp) @ (-palmar) > 0 else -1.0
+        # The fitted rest already sits at the CMC anteposition test's rest angle, so the 3D-CT joint value (37 deg)
+        # cannot be added on top of it. Palmar abduction is driven until the intermetacarpal anteposition reaches
+        # the clinical maximum (thumb_cmc_anteposition), so the opposition pose never exceeds the sourced range.
+        d2 = unit(np.array(mc2['tail_m']) - np.array(mc2['head_m']))
+        ante_target = O['thumb_cmc_anteposition']['value']['mean']
+        ante_rest = intermetacarpal_angle(d0, d2, radial)
+        lo_a, hi_a = 0.0, 90.0
+        for _ in range(80):                                     # bisection: anteposition rises monotonically with abduction here
+            mid = (lo_a + hi_a) / 2
+            if intermetacarpal_angle(rodrigues(ab_axis, mid) @ d0, d2, radial) < ante_target:
+                lo_a = mid
+            else:
+                hi_a = mid
+        op = (lo_a + hi_a) / 2
+        if not ante_rest + 1.0 < ante_target:
+            raise ValueError('opposition: anteposition target must exceed the rest angle')
+        tip = np.array(B[f'thumb_distal_phalanx_{side}']['tail_m'])
+        add(id=f'thumb_opposition_{side}', profile='thumb_cmc', side=side, kind='opposition', joint='thumb_cmc', proximal=f'trapezium_{side}',
+            moving=[f'metacarpal_1_{side}'], centre=M[f'cmc_1_{side}']['centre_m'], abduction_axis=ab_axis.tolist(), mc_axis=(d0 * p_sgn).tolist(),
+            positive='palmar abduction, then pronation (pulp turns toward the fingers)', plane='opposition',
+            keys=[{'abduction': a, 'pronation': pr} for a, pr in ((0, 0), (op / 2, 0), (op, 0), (op, 15.0), (op, 30.0), (op, 15.0), (op, 0), (op / 2, 0), (0, 0))],
+            context=[obs(O, 'thumb_cmc_anteposition'), obs(O, 'thumb_opposition_tmc')],
+            amplitude_basis=f'Palmar abduction {op:.1f} deg: driven from the fitted rest anteposition ({ante_rest:.1f} deg) to the clinical maximum ({ante_target} deg). The 3D-CT TMC value at opposition (37 deg) is in a joint frame whose zero is not the fitted rest and is not added. Pronation 30 deg is a TEST AMPLITUDE (sourced values are frame-dependent; unresolved). Abduction then pronation, sequentially',
+            intermetacarpal={'plane_normal': list(radial), 'mc2_dir': list(d2), 'rest_angle_deg': ante_rest, 'target_deg': ante_target},
+            marker=f'cmc_1_{side}', distal_marker=f'thumb_mcp_{side}', thumb_tip=tip.tolist(), opposition_target=M[f'digit5_mcp_{side}']['centre_m'])
+        # ---- ribs 1-7: pump-handle component about the mediolateral axis through the rib head
+        amp_rib = min(O['rib_cvj_range']['value']['dominant_axis_range_of_level_means'][0], O['rib_cvj_range']['value']['second_axis_range_of_level_means'][0])
+        for n in range(1, 8):
+            rb = f'rib_{n:02d}_{side}'
+            cv = np.array(M[f'costovertebral_{n:02d}_{side}']['centre_m'])
+            tipr = np.array(B[rb]['tail_m'])
+            sgn = 1.0 if ((rodrigues(lat, 5.0) @ (tipr - cv)) - (tipr - cv))[2] > 0 else -1.0
+            add(id=f'rib_{n:02d}_inspiration_{side}', profile='rib', side=side, kind='axis', joint='costovertebral', proximal=f't{n}', moving=[rb],
+                centre=cv.tolist(), axis=(lat * sgn).tolist(), positive='inspiration (anterior end rises)', plane='pump_handle',
+                keys=sweep('angle', amp_rib, 0.0), context=[obs(O, 'rib_cvj_range')],
+                amplitude_basis=f'TEST AMPLITUDE {amp_rib} deg: no larger than the smallest reported level mean of either major component (Beyer 2014, 8 volunteers, FRC-TLC). Mediolateral axis through the rib head: the costovertebral-costotransverse axis is collinear with the straight fitted rib (F-RIB-001); costal cartilage and sternal coupling not modelled',
+                marker=f'costovertebral_{n:02d}_{side}', distal_marker=f'costochondral_{n:02d}_{side}')
         # ---- sacroiliac nutation (functional total rotation)
         add(id=f'sacroiliac_rotation_{side}', profile='si', side=side, kind='axis', joint='si', proximal='sacrum', moving=[f'hip_bone_{side}'],
             centre=M[f'sacroiliac_anterior_{side}']['centre_m'], axis=[-1.0, 0, 0], positive='posterior rotation of the innominate',
@@ -306,12 +365,42 @@ def specs(rec, atlas):
             amplitude_basis='GH elevation 0-117.5 deg in the 40 deg plane with sourced scapulothoracic rhythm (0.43 upward rotation per GH degree; McClure end values) and clavicular posterior rotation 31 deg',
             marker=f'acromioclavicular_{side}', distal_marker=f'glenohumeral_{side}', coupled=True,
             landmarks={k: P[k] for k in ('TS', 'AA', 'AI', 'AC', 'SC', 'GH')})
+        pr = O['patellar_flexion_ratio']['value']['ratio']
+        add(id=f'knee_flexion_with_patellar_follower_{side}', profile='knee', side=side, kind='zxy', joint='knee', proximal=f'femur_{side}', moving=[f'tibia_{side}'],
+            centre=P['KJC'], plane='sagittal_with_patellar_follower', keys=sweep('flexion', 90.0, 0.0),
+            follower={'type': 'patella', 'bone': f'patella_{side}', 'ratio': pr}, context=[obs(O, 'patellar_flexion_ratio')],
+            amplitude_basis=f'TEST AMPLITUDE 0-90 deg knee flexion; patella flexes {pr} deg per knee degree relative to the femur (sourced, lunge), rotated about the fitted knee axis (translation path unsourced)',
+            marker=f'tibiofemoral_{side}', distal_marker=f'talocrural_{side}', coupled=True)
+        fib = O['fibula_ankle_rsa']['value']
+        tc = next(t for t in T if t['id'] == f'talocrural_dorsi_plantarflexion_{side}')
+        arc = fib['arc_deg']                                  # [plantarflexion, dorsiflexion] of the measured arc
+        per_deg = (np.array([S[side], 0, 0]) * fib['mortise_widening_mm'] + (-ANT) * fib['posterior_translation_mm']) / 1000.0 / (arc[1] - arc[0])
+        add(id=f'talocrural_with_fibular_follower_{side}', profile='ankle', side=side, kind='axis', joint='ankle', proximal=f'tibia_{side}', moving=[f'talus_{side}'],
+            centre=P['AJC'], axis=tc['axis'], positive='dorsiflexion', plane='sagittal_with_fibular_follower', keys=sweep('angle', arc[1], -arc[0]),
+            follower={'type': 'fibula', 'bone': f'fibula_{side}', 'per_degree_m': per_deg.tolist()}, context=[obs(O, 'fibula_ankle_rsa')],
+            amplitude_basis='Sourced arc 30 PF to 30 DF; distal fibula moves laterally 1.04 mm and posteriorly 1.03 mm over the arc (8 volunteers, RSA), applied linearly (shape unsourced) as a translation of the whole fibula (proximal motion unsourced); fibular rotation not applied (unquantified) and gated to zero',
+            marker=f'talocrural_{side}', distal_marker=f'talocalcaneonavicular_{side}', coupled=True)
     # ---- midline: C1/C2 axial rotation, lumbar segmental extension, thoracic segment FE/LB/AR
     add(id='c1_c2_axial_rotation', profile='c1_c2', side='midline', kind='axis', joint='c1_c2', proximal='c2', moving=['c1'],
         centre=M['atlantoaxial_median']['centre_m'], axis=[0, 0, 1.0], positive='rotation to the character left (counter-clockwise viewed from above)',
         plane='transverse', keys=sweep('angle', O['c1c2_left']['value']['mean'], O['c1c2_right']['value']['mean']),
         context=[obs(O, 'c1c2_left'), obs(O, 'c1c2_right')], amplitude_basis='MRI maximal voluntary rotation means (left/right)', marker='atlantoaxial_median', distal_marker='atlantooccipital_left')
-    for ch in ('flexion', 'adduction', 'internal'):
+    aol, aor = np.array(M['atlantooccipital_left']['centre_m']), np.array(M['atlantooccipital_right']['centre_m'])
+    c0 = O['c0c1_fe_total']['value']['mean']
+    add(id='c0_c1_flexion_extension', profile='c0_c1', side='midline', kind='axis', joint='c0_c1', proximal='c1', moving=['occipital'],
+        centre=((aol + aor) / 2).tolist(), axis=unit(aol - aor).tolist(), positive='flexion (nodding: chin down)', plane='sagittal',
+        keys=sweep('angle', c0 / 2, c0 / 2), context=[obs(O, 'c0c1_fe_total')],
+        amplitude_basis=f'Sourced total {c0} deg (biplane, 20 young adults) split equally (split unsourced; conflicting reports 6.3-27 deg recorded); axis through the paired occipital-condyle markers',
+        marker='atlantooccipital_left', distal_marker='tmj_left')
+    cerv = ['c2_c3', 'c3_c4', 'c4_c5', 'c5_c6', 'c6_c7']
+    for i, lv in enumerate(cerv[1:], 1):
+        sup, inf = lv.split('_')
+        fk, ek = f'cervical_ctrl_{lv}_flexion', f'cervical_ctrl_{lv}_extension'
+        add(id=f'cervical_{lv}_flexion', profile='cervical', side='midline', kind='zxy', joint='spine', proximal=inf, moving=[sup], centre=M[f'disc_{lv}']['centre_m'],
+            plane='flexion', keys=sweep('flexion', O[fk]['value']['mean'], O[ek]['value']['mean']), context=[obs(O, fk), obs(O, ek)],
+            amplitude_basis='Asymptomatic control means, dynamic biplane radiography (Anderst 2013, 20 controls); rotation about the disc marker (fixed COR; moving COR not modelled)',
+            marker=f'disc_{lv}', distal_marker=f'disc_{cerv[i - 1]}')
+    for ch in ('adduction', 'internal'):
         add(id=f'cervical_c4_c5_{ch}', profile='cervical', side='midline', kind='zxy', joint='spine', proximal='c5', moving=['c4'], centre=M['disc_c4_c5']['centre_m'],
             plane=ch, keys=sweep(ch, 5.0, 5.0), context=[],
             amplitude_basis='TEST AMPLITUDE +/-5 deg (cervical review values excluded: cervical_review_AR_typo; no per-level transferable value)', marker='disc_c4_c5',
@@ -330,6 +419,17 @@ def specs(rec, atlas):
             centre=M[f'disc_{lv}']['centre_m'], plane='sagittal', keys=sweep('flexion', 0.0001, O[key]['value']['mean'])[4:],
             context=[obs(O, key)], amplitude_basis='Level-specific extension during a lift (task context, not maximum flexibility); rotation about the disc marker as a fixed COR (moving COR not modelled)',
             marker=f'disc_{lv}', distal_marker=DISC_ABOVE[lv])
+    thor = ['c7_t1'] + [f't{n}_t{n + 1}' for n in range(1, 12)] + ['t12_l1']
+    for i, lv in enumerate(thor[1:], 1):
+        if lv == 't6_t7':
+            continue
+        sup, inf = lv.split('_')
+        for ch, key in (('flexion', 'thoracic_fe'), ('adduction', 'thoracic_lb'), ('internal', 'thoracic_ar')):
+            lo = O[key]['value']['range_of_segment_pooled_means'][0]
+            add(id=f'thoracic_{lv}_{ch}', profile='thoracic', side='midline', kind='zxy', joint='spine', proximal=inf, moving=[sup], centre=M[f'disc_{lv}']['centre_m'],
+                plane=ch, keys=sweep(ch, lo / 2, lo / 2), context=[obs(O, key)],
+                amplitude_basis=f'Half of the lower pooled cadaver total ({lo} deg) each way: within every level\'s pooled mean (cadaver passive; level-specific values not accessible)',
+                marker=f'disc_{lv}', distal_marker=f'facet_{thor[i - 1]}_left' if ch == 'internal' else f'disc_{thor[i - 1]}')
     for ch, key in (('flexion', 'thoracic_fe'), ('adduction', 'thoracic_lb'), ('internal', 'thoracic_ar')):
         hi = O[key]['value']['range_of_segment_pooled_means'][1]
         add(id=f'thoracic_t6_t7_{ch}', profile='thoracic', side='midline', kind='zxy', joint='spine', proximal='t7', moving=['t6'], centre=M['disc_t6_t7']['centre_m'],
@@ -340,7 +440,10 @@ def specs(rec, atlas):
                'elbow_flexion': 'angle', 'digit': 'mcp', 'wrist_adduction': 'adduction', 'hip_abduction': 'adduction', 'thoracic_t6_t7_adduction': 'adduction',
                'thoracic_t6_t7_internal': 'internal'}
     for t in T:
-        t['primary'] = next((v for k, v in primary.items() if t['id'].startswith(k)), None) or commanded_channels(t)[0]
+        if t['kind'] in ('axis', 'tmj', 'opposition'):          # single-command kinds: never resolved by id prefix
+            t['primary'] = commanded_channels(t)[0]
+        else:
+            t['primary'] = next((v for k, v in primary.items() if t['id'].startswith(k)), None) or commanded_channels(t)[0]
         c = t['centre'] if t['kind'] != 'digit' else t['chain'][0]['centre']
         t['marker_is_centre'] = bool(t.get('marker') in M and np.linalg.norm(np.asarray(M[t['marker']]['centre_m']) - np.asarray(c)) < 1e-9)
     return T
@@ -405,6 +508,9 @@ def deltas(spec, cmd, F):
         R = js.world_delta(P0, js.zxy_matrix(z, x, y))
         for b in spec['moving']:
             out[b] = rigid(R, spec['centre'])
+        fol = spec.get('follower')
+        if fol and fol['type'] == 'patella':               # patellar flexion = ratio x knee flexion, about the same femoral axis
+            out[fol['bone']] = rigid(js.world_delta(P0, js.zxy_matrix(fol['ratio'] * z, 0.0, 0.0)), spec['centre'])
     elif kind == 'gh':
         R = js.world_delta(js.WORLD_FRAME, js.gh_command(side, cmd.get('plane', 0.0), cmd.get('elevation', 0.0), cmd.get('internal', 0.0)))
         out[spec['moving'][0]] = rigid(R, spec['centre'])
@@ -412,6 +518,14 @@ def deltas(spec, cmd, F):
         R = rodrigues(spec['axis'], cmd.get('angle', 0.0))
         for b in spec['moving']:
             out[b] = rigid(R, spec['centre'])
+        fol = spec.get('follower')
+        if fol and fol['type'] == 'fibula':                # distal fibula translation proportional to the talocrural angle
+            G = np.eye(4)
+            G[:3, 3] = np.asarray(fol['per_degree_m']) * cmd.get('angle', 0.0)
+            out[fol['bone']] = G
+    elif kind == 'opposition':                             # R = R_abduction @ R_pronation(about the rest metacarpal axis)
+        R = rodrigues(spec['abduction_axis'], cmd.get('abduction', 0.0)) @ rodrigues(spec['mc_axis'], cmd.get('pronation', 0.0))
+        out[spec['moving'][0]] = rigid(R, spec['centre'])
     elif kind == 'elbow':
         Rf = rigid(rodrigues(spec['axis'], cmd.get('angle', 0.0)), spec['centre'])
         Rp = rigid(rodrigues(spec['pron_axis'], cmd.get('pronation', 0.0) * (1 if side == 'right' else -1) * -1.0), spec['pron_centre'])
@@ -468,6 +582,14 @@ def measure(spec, pose, rest, F, markers_world):
         Dd, D0 = seg(dist)
         R = js.relative_rotation(P, Dd, P0, D0)
         m.update(js.zxy_to_clinical(spec['joint'], side if side != 'midline' else 'right', *js.zxy_angles(R)))
+        fol = spec.get('follower')
+        if fol and fol['type'] == 'patella':
+            Rrel = D(spec['proximal'])[:3, :3].T @ D(fol['bone'])[:3, :3]
+            ang, res = axis_component(Rrel, P0[:, 2])                 # rest-frame axis: Rrel is a rest-space delta
+            zk = js.zxy_angles(R)[0]
+            m['patellar_flexion_deg'] = -ang
+            m['follower_error_deg'] = abs(ang - fol['ratio'] * zk)
+            m['patella_off_axis_deg'] = res
         if kind == 'wrist':
             c2 = np.append(np.asarray(spec['centre2']), 1.0)
             m['midcarpal_centre_drift_m'] = float(np.linalg.norm((D(spec['stage2'][2]) @ c2)[:3] - (D(spec['moving'][1]) @ c2)[:3]))
@@ -494,6 +616,26 @@ def measure(spec, pose, rest, F, markers_world):
         ang, res = axis_component(Rw, np.asarray(spec['axis']))
         m['angle'] = ang
         m['off_axis_deg'] = res
+        fol = spec.get('follower')
+        if fol and fol['type'] == 'fibula':
+            h = np.asarray(rest[fol['bone']])[:3, 3]              # pure translation: any carried point gives the displacement
+            t_f = (D(fol['bone']) @ np.append(h, 1.0))[:3] - h
+            m['fibula_displacement_m'] = t_f.tolist()
+            m['follower_error_m'] = float(np.linalg.norm(t_f - np.asarray(fol['per_degree_m']) * ang))
+            Rf = D(fol['bone'])[:3, :3]
+            m['follower_error_deg'] = math.degrees(math.acos(max(-1.0, min(1.0, (np.trace(Rf) - 1) / 2))))   # no fibular rotation is commanded
+    elif kind == 'opposition':
+        Rw = D(spec['moving'][0])[:3, :3]
+        d0 = unit(np.asarray(spec['mc_axis']))
+        d1 = Rw @ d0
+        ab = np.asarray(spec['abduction_axis'])
+        m['abduction'] = math.degrees(math.atan2(np.cross(d0, d1) @ ab, d0 @ d1))
+        swing = rodrigues(ab, m['abduction'])
+        m['pronation'], m['off_axis_deg'] = axis_component(swing.T @ Rw, d0)
+        im = spec['intermetacarpal']
+        m['intermetacarpal_angle_deg'] = intermetacarpal_angle(d1 * np.sign(d0 @ unit(np.asarray(pose_dir(rest, spec['moving'][0])))), np.asarray(im['mc2_dir']), np.asarray(im['plane_normal']))
+        tip = (D(spec['moving'][0]) @ np.append(np.asarray(spec['thumb_tip']), 1.0))[:3]
+        m['thumb_tip_to_digit5_mcp_m'] = float(np.linalg.norm(tip - np.asarray(spec['opposition_target'])))
     elif kind == 'digit':
         for link in spec['chain']:
             P, P0 = seg(link['proximal'])
@@ -555,8 +697,10 @@ def measure(spec, pose, rest, F, markers_world):
 
 
 def moved_bones(spec):
-    """Every bone a spec commands: top-level moving bones, the second wrist stage and digit chain links."""
+    """Every bone a spec commands: moving bones, the second wrist stage, digit chain links and followers."""
     out = list(spec.get('moving', [])) + list(spec.get('stage2', []))
+    if spec.get('follower'):
+        out.append(spec['follower']['bone'])
     out += [link['moving'] for link in spec.get('chain', [])]
     return list(dict.fromkeys(out))
 
@@ -638,4 +782,6 @@ def commanded_channels(spec):
         return ['elevation', 'upward', 'tilt', 'scap_er', 'clav_post', 'clav_ret']
     if k == 'tmj':
         return ['angle']
+    if k == 'opposition':
+        return ['abduction', 'pronation']
     return [link['joint'] for link in spec['chain']]

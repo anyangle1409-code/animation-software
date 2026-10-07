@@ -29,7 +29,9 @@ import isolated_tests as it  # noqa: E402
 MASTER = 'HGPT_ANATOMICAL_MASTER'
 INTEGRITY = {'angle_error_deg': 1e-3, 'centre_drift_m': 1e-6, 'off_axis_deg': 1e-3, 'mirror_angle_deg': 1e-3,
              'mirror_position_m': 1e-3, 'continuity_second_difference_deg': 1e-3, 'radius_variation_m': 1e-6,
-             'mirror_rotation_frobenius': 1e-5, 'min_distal_marker_travel_m': 5e-4}
+             'mirror_rotation_frobenius': 1e-5, 'min_distal_marker_lever_m': 0.01}
+# A distal marker proves the moving bone carries it off the rotation axis: its lever arm (peak travel / peak
+# primary angle) must be at least 10 mm. A static or on-axis marker gives zero whatever the amplitude.
 # Channels that may legitimately have no measurement: GH plane of elevation is undefined below 1 deg elevation.
 MAY_BE_UNMEASURED = {'plane'}
 
@@ -118,6 +120,8 @@ def main():
                 if t.get(k) and t[k] != 'world':
                     needed.add(t[k])
             needed |= set(t.get('moving', [])) | set(t.get('stage2', []))
+            if t.get('follower'):
+                needed.add(t['follower']['bone'])
             for link in t.get('chain', []):
                 needed |= {link['moving'], link['proximal']}
             rows = []
@@ -144,6 +148,7 @@ def main():
     finally:
         sc.frame_set(initial[0], subframe=initial[1])
     restored = (sc.frame_current, sc.frame_subframe) == initial
+    carriers = {o['hgpt_joint_id']: o.get('hgpt_carrier_bone') for o in bpy.data.objects if o.get('hgpt_joint_id')}
     after_hash = sha(out_blend)
     # ---------------------------------------------------------------- analysis
     summary = {}
@@ -175,7 +180,7 @@ def main():
             drift = max(abs(r['centre_drift_m'] - r['commanded'].get('glide', 0.0)) for r in rows)
         else:
             drift = max(r['centre_drift_m'] for r in rows)
-        offax = max([r.get('off_axis_deg', 0.0) or 0.0 for r in rows] + [r.get('pronation_off_axis_deg', 0.0) or 0.0 for r in rows])
+        offax = max([r.get(k, 0.0) or 0.0 for r in rows for k in ('off_axis_deg', 'pronation_off_axis_deg', 'patella_off_axis_deg')])
         mvc = [r.get('marker_vs_proximal_carried_centre_m') for r in rows if r.get('marker_vs_proximal_carried_centre_m') is not None]
         prim = t['primary']
         mkey = {'internal': 'internal_rotation', 'plane': 'plane_of_elevation'}.get(prim, prim)
@@ -203,7 +208,7 @@ def main():
         travel = [float(np.linalg.norm(np.asarray(r['distal_marker_m']) - np.asarray(rows[0]['distal_marker_m'])))
                   for r in rows if r['distal_marker_m'] is not None and rows[0]['distal_marker_m'] is not None]
         extra = {}
-        for key in ('humeroradial_drift_m', 'midcarpal_centre_drift_m', 'marker_vs_proximal_carried_centre_m'):
+        for key in ('humeroradial_drift_m', 'midcarpal_centre_drift_m', 'marker_vs_proximal_carried_centre_m', 'follower_error_deg', 'follower_error_m'):
             vals = [r[key] for r in rows if r.get(key) is not None]
             if vals:
                 extra[key] = max(vals)
@@ -228,6 +233,9 @@ def main():
         missing = [c for c, v in errs.items() if v is None and c not in MAY_BE_UNMEASURED]
         if t.get('distal_marker') and not travel:
             missing.append('distal_marker')
+        if t.get('follower'):                       # a follower must report its error on every frame
+            need = ['follower_error_deg'] + (['follower_error_m'] if t['follower']['type'] == 'fibula' else [])
+            missing += [k for k in need if any(r.get(k) is None for r in rows)]
         if t.get('marker') and any(r['marker_m'] is None for r in rows):
             missing.append('marker')                 # an absent HGPT_JOINT_ object must not drop its gate silently
         if t['kind'] == 'tmj':
@@ -235,10 +243,32 @@ def main():
             s['tmj_glide_direction'] = {'min_anterior_m': min(ant), 'min_inferior_m': min(inf), 'peak_anterior_m': max(ant), 'peak_inferior_m': max(inf)}
             if min(ant) < -INTEGRITY['centre_drift_m'] or min(inf) < -INTEGRITY['centre_drift_m'] or max(ant) <= 0.001 or max(inf) <= 0.001:
                 missing.append('tmj_glide_direction')
+        # Lever arm of the distal marker for the PRIMARY channel only: frame pairs in which the primary command
+        # changes while every other authored channel is held (derived couplings count as part of the primary).
+        authored = set().union(*[set(k) for k in t['keys']]) - {prim}
+        def proportional(c):          # chain channels keyed as a fixed multiple of the primary move with it by design
+            pairs = [(k.get(prim, 0.0), k.get(c, 0.0)) for k in t['keys']]
+            ref = next(((a, b) for a, b in pairs if abs(a) > 1e-9), None)
+            return ref is not None and all(abs(b * ref[0] - a * ref[1]) < 1e-9 for a, b in pairs)
+        authored = {c for c in authored if not proportional(c)}
+        host = carriers.get(t['distal_marker'])
+        if t['kind'] == 'digit' and host:          # a chain joint distal to the marker's carrier cannot move it
+            chain_up, cur = set(), host
+            while cur is not None:
+                chain_up.add(cur)
+                cur = rec['bones'][cur]['parent']
+            authored = {c for c in authored if next(l['moving'] for l in t['chain'] if l['joint'] == c) in chain_up}
+        ratios = []
+        for r0, r1 in zip(rows, rows[1:]):
+            dp = abs(r1['commanded'].get(prim, 0.0) - r0['commanded'].get(prim, 0.0))
+            held = all(abs(r1['commanded'].get(c, 0.0) - r0['commanded'].get(c, 0.0)) < 1e-9 for c in authored)
+            if held and dp >= 0.05 and r0['distal_marker_m'] is not None and r1['distal_marker_m'] is not None:
+                ratios.append(float(np.linalg.norm(np.asarray(r1['distal_marker_m']) - np.asarray(r0['distal_marker_m']))) / math.radians(dp))
+        s['distal_marker_lever_m'] = float(np.median(ratios)) if ratios else None
         s['unmeasured'] = missing
         ok = not missing and all(v is None or v <= INTEGRITY['angle_error_deg'] for v in errs.values()) and cross <= INTEGRITY['angle_error_deg'] \
             and all(v <= (INTEGRITY['angle_error_deg'] if k.endswith('_deg') else INTEGRITY['centre_drift_m']) for k, v in extra.items()) \
-            and (not t.get('distal_marker') or (travel and max(travel) >= INTEGRITY['min_distal_marker_travel_m'])) \
+            and (not t.get('distal_marker') or (s['distal_marker_lever_m'] or 0.0) >= INTEGRITY['min_distal_marker_lever_m']) \
             and drift <= INTEGRITY['centre_drift_m'] and offax <= INTEGRITY['off_axis_deg'] \
             and (s['continuity_max_second_difference_mismatch_deg'] is None or s['continuity_max_second_difference_mismatch_deg'] <= INTEGRITY['continuity_second_difference_deg']) \
             and rev_c == rev_m and (s['distal_marker_radius_range_m'] is None or s['distal_marker_radius_range_m'] <= INTEGRITY['radius_variation_m'] or t['kind'] in ('elbow', 'wrist', 'digit', 'tmj'))

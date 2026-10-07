@@ -1,0 +1,69 @@
+{
+ "source_blend": "HGPT_ANATOMICAL_AUDIT_r95_a003_isolated_tests_v12.blend",
+ "clips": {
+  "c0_c1_flexion_extension": {
+   "gif": "c0_c1_flexion_extension.gif",
+   "frames": [
+    6066,
+    6146
+   ],
+   "step": 2,
+   "view": "left"
+  },
+  "cervical_c3_c4_flexion": {
+   "gif": "cervical_c3_c4_flexion.gif",
+   "frames": [
+    6151,
+    6231
+   ],
+   "step": 2,
+   "view": "left"
+  },
+  "rib_04_inspiration_left": {
+   "gif": "rib_04_inspiration_left.gif",
+   "frames": [
+    2381,
+    2421
+   ],
+   "step": 2,
+   "view": "left"
+  },
+  "digit2_mcp_abduction_left": {
+   "gif": "digit2_mcp_abduction_left.gif",
+   "frames": [
+    2026,
+    2066
+   ],
+   "step": 2,
+   "view": "left"
+  },
+  "digit5_mcp_abduction_left": {
+   "gif": "digit5_mcp_abduction_left.gif",
+   "frames": [
+    2116,
+    2156
+   ],
+   "step": 2,
+   "view": "left"
+  },
+  "thumb_opposition_left": {
+   "gif": "thumb_opposition_left.gif",
+   "frames": [
+    2161,
+    2241
+   ],
+   "step": 2,
+   "view": "front"
+  },
+  "knee_flexion_with_patellar_follower_left": {
+   "gif": "knee_flexion_with_patellar_follower_left.gif",
+   "frames": [
+    5591,
+    5631
+   ],
+   "step": 2,
+   "view": "left"
+  }
+ },
+ "note": "Bone-only: master bones are reference anatomy and are not skinned; colours = placement class."
+}

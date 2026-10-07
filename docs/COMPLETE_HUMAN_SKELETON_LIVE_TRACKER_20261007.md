@@ -109,21 +109,21 @@ Gate 7: 🟡 STRUCTURE VERIFIED. Not passed for placement while Gate 6 is not pa
 
 ## PHASE 8 — JOINT SOLVERS
 Shared conventions: ISB JCS solver and measurement (`scripts/anatomy_fit/joint_solver.py`, `isolated_tests.py`).
-- [ ] 🟡 Spine / cervical solvers. Segmental Z-X-Y about disc markers, plus C1/C2 axial. Moving COR, ribs/costal and per-level coupling are not implemented.
+- [ ] 🟡 Spine / cervical solvers. Segmental Z-X-Y about disc markers at every level C3/4–T12/L1 plus L2–S1; C1/C2 axial; C0–C1 flexion/extension (sourced 17.9° total, conflicting reports recorded); cervical C3/4–C6/7 from asymptomatic controls (Anderst 2013). Ribs 1–7: pump-handle component only (F-RIB-001: straight-rib axis degenerate). Moving centres of rotation, per-level coupling, ribs 8–12, C2/3, C7/T1 and L1/L2 values are not implemented (no accessible source).
 - [ ] 🟡 Shoulder-complex solver. GH swing–twist plus sourced ST rhythm (0.43/°; McClure end values), clavicular posterior rotation (31°) and retraction (15°). SC elevation (bound only) and plane dependence are not applied.
 - [ ] 🟡 Elbow / forearm solver. Flexion about the trochlea–capitulum axis; pronation about the radial-head → ulnar-head axis. Carrying-angle obliquity is not measurable on this surface.
-- [ ] 🟡 Wrist / hand / thumb / finger solver. Two-stage wrist (stage split UNVERIFIED: sources conflict); digit MCP/PIP/DIP; thumb MCP/IP. Thumb CMC opposition, finger abduction and individual carpals are missing.
+- [ ] 🟡 Wrist / hand / thumb / finger solver. Two-stage wrist (stage split UNVERIFIED: sources conflict); digit MCP/PIP/DIP; MCP abduction (finger spreading, clinical 25°); thumb MCP/IP; thumb CMC radial abduction and anteposition; opposition components (TMC palmar abduction 37° sourced, pronation TEST AMPLITUDE). Full opposition (TMC/MCP/IP flexion), individual carpals and the pronation magnitude are unresolved.
 - [ ] 🟡 Hip / pelvis solver. Hip 3-DOF JCS; SI nutation ±0.85° (sourced 1.7° total). Pubic symphysis and pelvic-ring compliance are not implemented.
-- [ ] 🟡 Knee / patella solver. Flexion with the screw-home coupling (3.6° sourced magnitude; shape approximate). Patellar tracking and tibiofibular followers are not implemented (no accessible magnitudes).
+- [ ] 🟡 Knee / patella solver. Flexion with the screw-home coupling (3.6°) and a sourced patellar follower (0.66 × knee flexion vs the femur). The patellar translation path is unsourced (rotation about the fitted knee axis). Tibiofibular: distal fibular follower (1.04 mm lateral, 1.03 mm posterior over the 60° ankle arc); fibular rotation and proximal motion unquantified.
 - [ ] 🟡 Ankle / hindfoot / forefoot / toe solver. Talocrural axis (obliquity not measurable); subtalar Inman axis; hallux MTP. Midfoot, TMT and lesser toes are not implemented.
 Gate 8: ⛔ NOT PASSED (follower/contact mechanics incomplete; several couplings lack accessible source magnitudes).
 
 ## PHASE 9 — ISOLATED BONE-ONLY MOVEMENT TESTS
-Current run `audit/runs/isolated_bone_only_007` on fit a003: 70 tests, all PASS, none unmeasured; 27 mirror pairs PASS on the reflected world transforms of every commanded bone, 2 side-specific pairs covered by a solver mirror test. An independent code review found two sign defects (TMJ opening, spinal flexion) that the earlier integrity checks could not detect. They are now fixed, and an absolute world-direction test covers every spec (red/green verified). A second review of the fixes found no critical defect; its gaps (mirror check on the first bone only, uniform pose-bone scale, coupled-follower directions, missing-marker gate, TMJ glide direction, point-query closest point) are fixed with tests and re-run as run 007. Capture-tool cross-check agrees within 1.1e-5°.
+Current run `audit/runs/isolated_bone_only_012` on fit a003: 133 tests (70 earlier + 63 newly sourced), all PASS, none unmeasured. 40/42 mirror pairs pass on reflected transforms of every commanded bone (followers included); 2 side-specific pairs are covered by the solver mirror test. Three independent reviews found and fixed sign defects and check gaps. Every spec has an absolute world-direction assertion, verified by sign mutation. The distal-marker gate is a primary-channel lever arm of at least 10 mm. Runs 008, 010 and 011 are kept as the runs that exposed gate weaknesses.
 - [x] ✅ Neutral → intermediate → near-limit sweeps, for the implemented joints. Source-context amplitudes are attached; amplitudes without a joint-specific source are labelled TEST AMPLITUDE.
 - [x] ✅ Both sides (mirror-checked).
 - [x] ✅ Ascent / descent / reversal; commanded and measured reversal frames match.
-- [ ] 🟡 Multi-plane and coupled motions. Hip at 0°/90° flexion; GH in 3 planes and axial rotation at 2 elevations; elbow at 2 pronations; forearm at 2 elbow angles. Couplings tested: shoulder complex, knee screw-home, TMJ glide. Other followers are untested.
+- [ ] 🟡 Multi-plane and coupled motions. Hip at 0°/90° flexion; GH in 3 planes and axial rotation at 2 elevations; elbow at 2 pronations; forearm at 2 elbow angles. Couplings: shoulder complex, knee screw-home, patellar follower, fibular follower, TMJ rotation + glide, thumb opposition components. Run 012: 133 tests. Full opposition, rib–sternum coupling and midfoot remain untested.
 - [x] ✅ Joint-centre trajectory checks: drift ≤ 6e-8 m; distal-marker radius constancy; GH-centre path with the scapula.
 - [x] ✅ Continuity / acceleration checks: second differences match commands within 1e-3°.
 Gate 9: ⛔ NOT PASSED. Joint coverage and follower/contact behaviour are incomplete (see the findings report), and the Gate 6 proportion conflict is unresolved.
@@ -176,7 +176,7 @@ Gate 13: ⬜ NOT PASSED
 
 ## CURRENT POSITION
 Completed: Phases 0–5 (reference definitions, evidence compilation and static gap comparison); Blender toolchain verification.
-Done: Phase 6 fit and Phase 7 master structure (fit revision a003); Phase 8 solver core; Phase 9 isolated tests (70, run 007).
+Done: Phase 6 fit and Phase 7 master structure (fit revision a003); Phase 8 solver core; Phase 9 isolated tests (133, run 012).
 Not passed: Gate 6 (proportion conflict needs an owner decision), Gate 8 (followers/contacts), Gate 9 (coverage).
 Next: implement the remaining followers where source magnitudes can be obtained (full texts were blocked here); resolve F-PROP-001 with the owner; then run Phase 10 from authored exercise definitions.
 Resume: see the "Resume instructions" section of `docs/BLENDER_ANATOMICAL_VALIDATION_HANDOFF_20261007.md`.

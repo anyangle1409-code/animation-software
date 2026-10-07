@@ -290,6 +290,34 @@ class AbsoluteDirectionTests(unittest.TestCase):
         if hand is not None:
             palmar = hand[:, 0]
             radial = hand[:, 2] * (1.0 if side == 'right' else -1.0)
+        # ---- Phase 9 supplementary specs (anatomical definitions, written independently of the solver's sign probes)
+        if tid.startswith('c0_c1'):
+            inc = np.append(B['mandible']['tail_m'], 1.0)
+            dz = lambda c: (self.pose(t, c)('mandible') @ inc)[2] - inc[2]
+            return dz(peak) < -0.003 and dz(trough) > 0.003          # flexion (nodding) lowers the chin; extension raises it
+        if tid.startswith('rib_'):
+            return moved(peak, t['moving'][0])[2] > 0.005            # inspiration: the anterior end rises (about 12 mm expected)
+        if '_mcp_abduction' in tid:
+            d = int(tid[5])
+            away = radial if d == 2 else -radial                     # index spreads radially; ring and little ulnarly
+            return moved(peak, f'digit{d}_proximal_phalanx_{side}') @ away > 0.01    # about 15-20 mm expected
+        if tid.startswith('thumb_opposition'):
+            mc1 = B[f'metacarpal_1_{side}']
+            d0 = np.asarray(mc1['tail_m']) - np.asarray(mc1['head_m']); d0 /= np.linalg.norm(d0)
+            pulp = -radial - (-radial @ d0) * d0; pulp /= np.linalg.norm(pulp)
+            top = max(t['keys'], key=lambda k: (k['abduction'], k['pronation']))
+            tip = np.append(t['thumb_tip'], 1.0)
+            def facing(cmd):          # pulp normal against the direction from the thumb tip to the little-finger MCP
+                W = self.pose(t, cmd)(f'metacarpal_1_{side}')
+                to5 = np.asarray(t['opposition_target']) - (W @ tip)[:3]
+                return (W[:3, :3] @ pulp) @ (to5 / np.linalg.norm(to5))
+            return moved(top, f'metacarpal_1_{side}') @ palmar > 0.003 and facing(top) > facing(dict(top, pronation=0.0)) + 0.01
+        if tid.startswith('knee_flexion_with_patellar'):
+            pole = moved(peak, f'patella_{side}')                  # inferior pole (bone tail) rides down the trochlea in flexion
+            return moved(peak, f'tibia_{side}') @ ant < -0.1 and pole[2] < -0.01 and pole @ ant < -0.005
+        if tid.startswith('talocrural_with_fibular'):
+            G = self.pose(t, peak)(f'fibula_{side}')
+            return vec(peak, f'talus_{side}', ant)[2] > 0.2 and G[:3, 3] @ lat > 0.0004 and G[:3, 3] @ (-ant) > 0.0004   # DF: mortise widens, fibula back (0.52 mm each)
         if tid.startswith('hip_flexion'):
             return moved(peak, f'femur_{side}') @ ant > 0.05 and moved(trough, f'femur_{side}') @ ant < -0.01
         if tid.startswith('hip_abduction'):
@@ -353,8 +381,8 @@ class AbsoluteDirectionTests(unittest.TestCase):
                 return moved(trough, b) @ ant < -0.0003
             if tid.endswith('_adduction'):
                 return moved(peak, b) @ right > 0.0003
-            if tid.endswith('_internal'):
-                return vec(peak, b, ant)[0] > 0.02
+            if tid.endswith('_internal'):          # axial rotation to the left: the anterior surface turns to +X (amplitude-relative)
+                return vec(peak, b, ant)[0] > 0.5 * np.sin(np.radians(peak['internal']))
         if tid == 'tmj_opening':
             inc = np.append(t['incisor'], 1.0)
             return (self.pose(t, peak)('mandible') @ inc)[2] - inc[2] < -0.01
@@ -451,3 +479,48 @@ class ProportionEvidenceTests(unittest.TestCase):
         s = self.r['surface_vs_ansur']
         self.assertLess(s['acromion_to_dactylion (ARL+RSL+hand)']['z'], -2.0)
         self.assertGreater(s['foot_length']['z'], 2.0)
+
+
+@unittest.skipIf(np is None, 'numpy unavailable')
+class SupplementarySourceBindingTests(unittest.TestCase):
+    """New Phase 9 amplitudes and follower magnitudes are taken from the recorded sources, not typed in."""
+    @classmethod
+    def setUpClass(cls):
+        import isolated_tests as it
+        cls.sup = json.loads(it.SUPPLEMENT.read_text())
+        rec = json.loads(RECORD.read_text())
+        atlas = json.loads((ROOT / 'ORIGINAL_V1_WORK/anatomy/whole_body_movement_atlas.json').read_text())
+        cls.T = {t['id']: t for t in it.specs(rec, atlas)}
+
+    def test_amplitudes_and_followers_match_their_sources(self):
+        O = self.sup['observations']
+        c0 = self.T['c0_c1_flexion_extension']['keys']
+        self.assertAlmostEqual(max(k['angle'] for k in c0) - min(k['angle'] for k in c0), O['c0c1_fe_total']['value']['mean'])
+        for lv in ('c3_c4', 'c4_c5', 'c5_c6', 'c6_c7'):
+            k = self.T[f'cervical_{lv}_flexion']['keys']
+            self.assertAlmostEqual(max(x['flexion'] for x in k), O[f'cervical_ctrl_{lv}_flexion']['value']['mean'])
+            self.assertAlmostEqual(-min(x['flexion'] for x in k), O[f'cervical_ctrl_{lv}_extension']['value']['mean'])
+        self.assertEqual(self.T['knee_flexion_with_patellar_follower_left']['follower']['ratio'], O['patellar_flexion_ratio']['value']['ratio'])
+        arc = O['fibula_ankle_rsa']['value']['arc_deg']
+        k = self.T['talocrural_with_fibular_follower_left']['keys']
+        self.assertEqual([min(x['angle'] for x in k), max(x['angle'] for x in k)], arc)
+        per = np.asarray(self.T['talocrural_with_fibular_follower_left']['follower']['per_degree_m']) * (arc[1] - arc[0]) * 1000
+        self.assertAlmostEqual(abs(per[0]), O['fibula_ankle_rsa']['value']['mortise_widening_mm'])
+        self.assertAlmostEqual(per[1], O['fibula_ankle_rsa']['value']['posterior_translation_mm'])
+        self.assertAlmostEqual(per[2], 0.0)
+        import isolated_tests as it
+        for side in ('left', 'right'):            # opposition never exceeds the clinical anteposition maximum
+            t = self.T[f'thumb_opposition_{side}']
+            im = t['intermetacarpal']
+            a = max(k['abduction'] for k in t['keys'])
+            mc = json.loads(RECORD.read_text())['bones'][f'metacarpal_1_{side}']
+            d0 = np.asarray(mc['tail_m']) - np.asarray(mc['head_m']); d0 /= np.linalg.norm(d0)
+            peak = it.intermetacarpal_angle(it.rodrigues(t['abduction_axis'], a) @ d0, np.asarray(im['mc2_dir']), np.asarray(im['plane_normal']))
+            self.assertAlmostEqual(peak, im['target_deg'], places=6)
+            self.assertEqual(im['target_deg'], 61.2)
+
+    def test_unresolved_items_stay_untested(self):
+        self.assertNotIn('lumbar_l1_l2_extension', self.T)
+        self.assertFalse([t for t in self.T if t.startswith(('rib_08', 'rib_09', 'rib_10', 'rib_11', 'rib_12'))])
+        for key in ('l1_l2', 'sc_elevation', 'thumb_pronation_magnitude', 'patellar_translation_path'):
+            self.assertIn(key, self.sup['unresolved'])

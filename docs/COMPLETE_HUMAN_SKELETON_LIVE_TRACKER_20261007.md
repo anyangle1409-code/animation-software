@@ -26,12 +26,12 @@ Create a complete adult-human anatomical reference skeleton, account for every c
 Gate 0: ✅ PASSED
 
 ## PHASE 1 — COMPLETE ADULT BONE INVENTORY
-- [ ] 🟡 Create machine-readable conventional adult bone inventory.
-- [ ] ⬜ Verify total conventional count = 206.
-- [ ] ⬜ Classify every bone: axial/appendicular, region, side, paired/unpaired.
-- [ ] ⬜ Mark fused adult structures explicitly (e.g. sacrum, coccyx, hip bones).
+- [x] ✅ Create machine-readable conventional adult bone inventory.
+- [x] ✅ Verify total conventional count = 206 (206 unique IDs; 80 axial + 126 appendicular).
+- [x] ✅ Classify every bone: axial/appendicular, region, side, paired/unpaired.
+- [x] ✅ Mark fused adult structures explicitly (e.g. sacrum, coccyx, hip bones).
 - [ ] ⬜ Add anatomical aliases needed by Blender/code.
-- [ ] ⬜ Check for zero missing/duplicate bones.
+- [x] ✅ Check unique IDs and left/right pairing: 206 unique IDs, zero duplicates, zero pairing failures; regional totals match the conventional 206 breakdown.
 Gate 1: ⬜ NOT PASSED
 
 ## PHASE 2 — COMPLETE ARTICULATION / JOINT INVENTORY
@@ -174,5 +174,5 @@ Gate 13: ⬜ NOT PASSED
 
 ## CURRENT POSITION
 Completed: Phase 0.
-Active now: Phase 1 complete bone inventory + Phase 4 shoulder evidence + Phase 5 shoulder gap analysis.
+Active now: Phase 1 aliases/code-name mapping + Phase 4 shoulder evidence + Phase 5 shoulder gap analysis.
 Next hard gate: Gate 1 — prove the complete conventional adult bone inventory has exactly 206 entries with no duplicates or omissions.

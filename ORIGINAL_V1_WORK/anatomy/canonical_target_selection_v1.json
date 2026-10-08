@@ -104,16 +104,19 @@
         "radius": "B",
         "ulna": "C"
       },
-      "freeze_state": "NOT_SELECTED",
+      "freeze_state": "PARTIAL_RADIUS_DIRECTION_CONFIRMED_ENDPOINT_TARGET_OPEN",
       "selected": {
         "radius_endpoint_length_mm": null,
         "ulna_endpoint_length_mm": null,
         "wrist_centre": null,
         "DRUJ_frame": null,
-        "direct_ansur_report_builder": "scripts/anatomy_fit/build_forearm_target_report.py"
+        "direct_ansur_report_builder": "scripts/anatomy_fit/build_forearm_target_report.py",
+        "direct_ansur_report": "ORIGINAL_V1_WORK/anatomy/canonical_forearm_ansur_direct_report_v1.json",
+        "radius_ansur_radiale_stylion_prediction_mm": 278.1363955217166,
+        "radius_ansur_residual_sd_mm": 10.783470258896081
       },
       "blockers": [
-        "run direct committed-dataset radiale-stylion regression and register residual corridor",
+        "endpoint-compatible male CT/osteometric radius evidence before freezing the ANSUR radiale–stylion value as a canonical bone endpoint",
         "ulna endpoint corridor",
         "wrist/DRUJ geometry"
       ]

@@ -108,7 +108,8 @@ def add_geometry(rec, coll, arm=None):
         L = math.dist(b['head_m'], b['tail_m'])
         is_sh = bid in SHOULDER_BONES
         mat = hi if is_sh else mats.get(b['placement'], mats['proportional'])
-        sticks[bid] = stick('B_' + bid, b['head_m'], b['tail_m'], (0.006 if is_sh else max(0.0012, min(0.006, L * 0.03))), mat, coll)
+        stick('B_' + bid, b['head_m'], b['tail_m'], (0.006 if is_sh else max(0.0012, min(0.006, L * 0.03))), mat, coll)
+        sticks[bid] = bpy.data.objects['B_' + bid]   # render_master_review.stick returns None
     for jid, m in rec['joint_markers'].items():
         kind = jid.split('_')[0]
         mat, r = {'sternoclavicular': (jsc, 0.011), 'acromioclavicular': (jac, 0.011), 'glenohumeral': (jgh, 0.013)}.get(kind, (jm, 0.0022))
@@ -179,7 +180,7 @@ def poses(o):
             R0 = arm.matrix_world @ pb.bone.matrix_local
             pb.matrix_basis = R0.inverted() @ G @ R0
         bpy.context.view_layer.update()
-        dirs = {'front': (Vector((0, -1, 0)), (0, 0, 1.3), 1.25), 'left': (Vector((1, 0, 0)), (0, 0, 1.3), 1.25)}
+        dirs = {'front': (Vector((0, -1, 0)), (0, 0, 1.25), 2.0), 'left': (Vector((1, 0, 0)), (0, -0.25, 1.25), 2.0)}
         d, centre, size = dirs[view]
         shoot(sc, cam, Vector(centre) + d * 3, centre, size, (1000, 1000), out / f'pose_{name}.png')
         manifest[name] = {'rotation': axis, 'angle_deg': ang, 'view': view, 'note': 'illustrative humerus-subtree rotation about GH; not a validated movement test'}

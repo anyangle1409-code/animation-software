@@ -48,13 +48,17 @@ class CanonicalSkeletonRebuildTests(unittest.TestCase):
         self.assertLess(b["metacarpal_4"]["difference_from_2025_ct_mean_mm"], -5.0)
         self.assertEqual(self.hand["status"], "PROVISIONAL_HAND_TARGET_EVIDENCE_NOT_FROZEN")
 
-    def test_foot_defect_is_directly_confirmed_in_metatarsals(self):
+    def test_foot_surface_defect_and_metatarsal_source_conflict_are_both_retained(self):
         b = self.foot["bones"]
         for key in [f"metatarsal_{i}" for i in range(1, 6)]:
             self.assertGreater(b[key]["z_vs_male_mean"], 2.0, key)
+        x = self.foot["stature_conditioned_crosscheck"]
+        self.assertGreater(x["spanish_male_M1_max_predicted_mm"], 75.0)
+        self.assertGreater(x["portuguese_M2_max_predicted_mm"], 85.0)
+        self.assertGreater(self.foot["surface_context"]["z"], 2.0)
         self.assertEqual(
             self.foot["status"],
-            "FOOT_PROPORTION_DEFECT_CONFIRMED_CANONICAL_TARGET_NOT_FROZEN",
+            "FOOT_SURFACE_PROPORTION_DEFECT_CONFIRMED_SKELETAL_FOREFOOT_TARGET_REOPENED_NOT_FROZEN",
         )
 
     def test_forearm_radius_and_ulna_are_not_forced_to_same_solution(self):

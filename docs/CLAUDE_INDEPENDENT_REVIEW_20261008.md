@@ -141,3 +141,42 @@ Each finding was rechecked against independent published measurements of real sk
 ## Builder fixes (owner-approved, rehearsal 002)
 
 `build_anatomical_master_blender.py` now gives every bone a defined roll: anterior, or superior where the frame puts anterior along the bone (74 bones). It also stores marker rotations as quaternions, after the rehearsal found that Euler storage lost up to 3.6e-4 in marker frames near gimbal lock. Both fixes were rehearsed in Blender on a003's data and on an exactly mirrored copy: the round trip passes, rolls match the rule within 0.024°, and mirrored rolls agree within 0.027°. Details are in `audit/runs/claude_cp3_rehearsal_002/`.
+
+## Sweep of GPT's registered values against real-skeleton data (owner request, step 2)
+
+All 106 records in `canonical_proportion_sources_v1.json` were scanned for numeric male values and compared with standard osteometric and CT norms; outliers were rechecked by web search (abstract level). Public data repositories were read through the session's anonymous git lane: human-atlas, BMClab/BMC and RibSeg.
+
+**Consistent with real skeletons (no action):**
+- metacarpal lengths (three sources agree; M2 is longest);
+- clavicle lengths (149–155 mm chord, 166.8 mm centreline);
+- scapula (148–155 mm height; glenoid 37–40 × 27–30 mm; acromion and glenoid offsets);
+- sacrum (breadth 103 mm, length 108 mm, S1 47 × 30 mm);
+- patella (MRI 47 × 23 mm; the dry-bone Roman series is smaller, as expected without cartilage);
+- fibula (374–387 mm);
+- sternum segments (manubrium 46–55 mm, body 95–108 mm);
+- SC joint space (8.2–8.7 mm, which matches an independent CT figure of 7.6–9.0 mm);
+- pelvic anterior plane (238 × 93 mm);
+- spinal sagittal angles (Hasegawa, Reinhold, Kim).
+
+**Flagged:**
+
+| Record | Problem | Real-skeleton evidence | Used in a target? | Suggested action |
+|---|---|---|---|---|
+| ZHANG_2018_TALUS_MALE | "talus_length" of 44.4 mm is not a whole-talus length | Male talus 53–58 mm (dry bone) | Yes: `canonical_tarsal_geometry_audit_v1` lists it as a whole-bone reference | Relabel it as a dome or partial measure and remove it from the whole-bone references |
+| C2_VBH_CT_2008 | SD 0.66 mm is implausibly small | Dry-bone C2 anterior body height 23.2 ± 2.4 mm (n = 80) | Yes: carried as `male_CT_sd` in the spine stack and target selection | Treat it as a probable standard error until the source is reread, and do not use it as a corridor width |
+| MANDIBLE_POSTMORTEM_INDIA_2023 | Bigonial 124.4 mm, gonion–gnathion 129.3 mm and condylion–gonion 43 mm are outside dry-mandible norms | Male bigonial breadth 95.7 ± 5.2 mm (about 5 SD away); the Iranian CT ramus in the same register is 60.8 mm | Listed only; the TMJ check uses a 3D-CT bicondylar breadth (121.9 mm, consistent) | Quarantine it as probably soft-tissue or method-inconsistent |
+| RAUSCH_2018_RADIAL_HEAD_FOREARM | Ulna (231 mm) is shorter than the radius (238 mm) | Abstract: ulna measured styloid to *coronoid base*, mixed sex; real full ulna exceeds radius (Mall male 265 vs 246 mm; TG 283 vs 271 mm) | Listed only | Record the endpoint definition in the register |
+| PATIL_2017_METATARSAL_PHALANGE | M1 56.4 mm (articular-landmark radiographic definition); M4 (66.5) listed longer than M3 (65.9) | Transcription confirmed by abstract; osteometric M1 is longer | Foot audit context | Keep its definition separate from osteometric lengths; the M3/M4 order stays unverified |
+
+**a003 limb segments against real joint-centre proportions.** a003 is built from joint-centre spans, so maximum bone lengths (Trotter–Gleser) are the wrong yardstick; I nearly drew a wrong conclusion from them. de Leva 1996 gives male joint-centre segment lengths at stature 1,741 mm. Its thigh value of 0.4222 m is corroborated by a code-review snippet citing the paper's table; the other three values are as I recall them from the paper, unverified here. Scaled proportionally to 1.82 m:
+
+| Segment | de Leva, scaled | a003 | Difference |
+|---|---|---|---|
+| Thigh, HJC–KJC | 441 mm | 412.9 mm | **−6.5%** |
+| Shank, KJC–AJC | 454 mm | 439.1 mm | −3.2% |
+| Upper arm, GH–EJC | 295 mm | 287.7 mm | −2.3% |
+| Forearm, EJC–WJC | 281 mm | 256.2 mm | **−8.9%** |
+| Shank/thigh ratio | 1.028 | 1.064 | thigh short relative to shank |
+| Forearm/upper-arm ratio | 0.955 | 0.890 | forearm short relative to upper arm |
+
+**Reading:** this is real-skeleton support for the owner's standing caution not to accept the short femur and forearm as correct. The forearm agrees with F-PROP-001 (ANSUR z −2.85). The thigh is short by this measure, which conflicts with the lower-limb audit's "no gross proportion failure" reading of the femur. The humerus is close to the de Leva proportion. Caveats: de Leva's sample is 100 young male athletes, scaling is proportional, and there are no per-segment SDs here, so these are percentages, not z-scores. **Nothing changes:** these remain open proportion questions for CP1, and nothing is promoted.

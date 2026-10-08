@@ -1,0 +1,273 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Skeleton-first spine audit. Separate vertebral body geometry from intervertebral disc spacing and test the a003 interpolated spine against adult anatomical morphometry.",
+  "baseline": "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json",
+  "sources": [
+    "YUKAWA_2012_CERVICAL_MORPHOMETRY",
+    "THORACIC_BODY_DISC_2011",
+    "THORACIC_CT_2016_INDIA",
+    "LUMBAR_CT_2026_BODY",
+    "LUMBAR_DISC_CT_2018"
+  ],
+  "current_a003_body_stick_lengths_mm": {
+    "c3": 15.50528788447363,
+    "c4": 15.50528788447341,
+    "c5": 15.50528788447363,
+    "c6": 15.50528788447363,
+    "c7": 18.19032671322531,
+    "t1": 24.47165080891148,
+    "t2": 28.60359606131906,
+    "t3": 28.680485818845142,
+    "t4": 28.301632155254048,
+    "t5": 27.376237200407033,
+    "t6": 26.73990331191654,
+    "t7": 26.52083836484615,
+    "t8": 26.588068507014366,
+    "t9": 26.53716276120396,
+    "t10": 26.65755115779453,
+    "t11": 27.297316967963138,
+    "t12": 34.89763953708991,
+    "l1": 44.49013307630341,
+    "l2": 45.31432717981918,
+    "l3": 42.84350665600403,
+    "l4": 41.60083282458409,
+    "l5": 38.505156961342244
+  },
+  "comparisons": {
+    "c3": {
+      "a003_mm": 15.50528788447363,
+      "male_mean_mm": 14.4,
+      "sd_mm": 1.5,
+      "z": 0.7368585896490861
+    },
+    "c4": {
+      "a003_mm": 15.50528788447341,
+      "male_mean_mm": 13.9,
+      "sd_mm": 1.5,
+      "z": 1.0701919229822725
+    },
+    "c5": {
+      "a003_mm": 15.50528788447363,
+      "male_mean_mm": 13.7,
+      "sd_mm": 1.4,
+      "z": 1.2894913460525932
+    },
+    "c6": {
+      "a003_mm": 15.50528788447363,
+      "male_mean_mm": 13.4,
+      "sd_mm": 1.4,
+      "z": 1.5037770603383067
+    },
+    "c7": {
+      "a003_mm": 18.19032671322531,
+      "male_mean_mm": 14.9,
+      "sd_mm": 1.5,
+      "z": 2.193551142150207
+    },
+    "t1": {
+      "a003_mm": 24.47165080891148,
+      "sourceA_mean_mm": 14.88,
+      "sourceB_mean_mm": 19.36,
+      "ratio_vs_A": 1.6446001887709327,
+      "ratio_vs_B": 1.2640315500470807
+    },
+    "t2": {
+      "a003_mm": 28.60359606131906,
+      "sourceA_mean_mm": 15.56,
+      "sourceB_mean_mm": 19.55,
+      "ratio_vs_A": 1.8382773818328444,
+      "ratio_vs_B": 1.4630995427784685
+    },
+    "t3": {
+      "a003_mm": 28.680485818845142,
+      "sourceA_mean_mm": 16.53,
+      "sourceB_mean_mm": 20.729999999999997,
+      "ratio_vs_A": 1.7350566133602625,
+      "ratio_vs_B": 1.383525606311874
+    },
+    "t4": {
+      "a003_mm": 28.301632155254048,
+      "sourceA_mean_mm": 16.79,
+      "sourceB_mean_mm": 21.66,
+      "ratio_vs_A": 1.6856243094254943,
+      "ratio_vs_B": 1.3066312167707317
+    },
+    "t5": {
+      "a003_mm": 27.376237200407033,
+      "sourceA_mean_mm": 16.59,
+      "sourceB_mean_mm": 23.05,
+      "ratio_vs_A": 1.6501649909829434,
+      "ratio_vs_B": 1.1876892494753593
+    },
+    "t6": {
+      "a003_mm": 26.73990331191654,
+      "sourceA_mean_mm": 17.13,
+      "sourceB_mean_mm": 23.095,
+      "ratio_vs_A": 1.5609984420266516,
+      "ratio_vs_B": 1.1578221828065183
+    },
+    "t7": {
+      "a003_mm": 26.52083836484615,
+      "sourceA_mean_mm": 17.31,
+      "sourceB_mean_mm": 24.71,
+      "ratio_vs_A": 1.5321108240812336,
+      "ratio_vs_B": 1.073283624639666
+    },
+    "t8": {
+      "a003_mm": 26.588068507014366,
+      "sourceA_mean_mm": 18.52,
+      "sourceB_mean_mm": 25.235,
+      "ratio_vs_A": 1.4356408481109268,
+      "ratio_vs_B": 1.053618724272414
+    },
+    "t9": {
+      "a003_mm": 26.53716276120396,
+      "sourceA_mean_mm": 19.26,
+      "sourceB_mean_mm": 26.04,
+      "ratio_vs_A": 1.377838149595221,
+      "ratio_vs_B": 1.019092271935636
+    },
+    "t10": {
+      "a003_mm": 26.65755115779453,
+      "sourceA_mean_mm": 19.67,
+      "sourceB_mean_mm": 28.42,
+      "ratio_vs_A": 1.3552390014130415,
+      "ratio_vs_B": 0.9379856142784845
+    },
+    "t11": {
+      "a003_mm": 27.297316967963138,
+      "sourceA_mean_mm": 21.14,
+      "sourceB_mean_mm": 28.895000000000003,
+      "ratio_vs_A": 1.291263811161927,
+      "ratio_vs_B": 0.9447072838886705
+    },
+    "t12": {
+      "a003_mm": 34.89763953708991,
+      "sourceA_mean_mm": 21.96,
+      "sourceB_mean_mm": 29.66,
+      "ratio_vs_A": 1.5891456984102872,
+      "ratio_vs_B": 1.1765893303132133
+    },
+    "l1": {
+      "a003_mm": 44.49013307630341,
+      "source_middle_body_mean_mm": 23.5,
+      "ratio": 1.8931971521831237
+    },
+    "l2": {
+      "a003_mm": 45.31432717981918,
+      "source_middle_body_mean_mm": 24.3,
+      "ratio": 1.86478712674153
+    },
+    "l3": {
+      "a003_mm": 42.84350665600403,
+      "source_middle_body_mean_mm": 24.4,
+      "ratio": 1.7558814203280342
+    },
+    "l4": {
+      "a003_mm": 41.60083282458409,
+      "source_middle_body_mean_mm": 23.7,
+      "ratio": 1.7553094018811852
+    },
+    "l5": {
+      "a003_mm": 38.505156961342244,
+      "source_middle_body_mean_mm": 23,
+      "ratio": 1.6741372591887933
+    }
+  },
+  "current_interlevel_contact_check": [
+    {
+      "pair": "c2-c3",
+      "gap_between_parent_tail_and_child_head_mm": 0
+    },
+    {
+      "pair": "c3-c4",
+      "gap_between_parent_tail_and_child_head_mm": 0
+    },
+    {
+      "pair": "c4-c5",
+      "gap_between_parent_tail_and_child_head_mm": 0
+    },
+    {
+      "pair": "c5-c6",
+      "gap_between_parent_tail_and_child_head_mm": 0
+    },
+    {
+      "pair": "c6-c7",
+      "gap_between_parent_tail_and_child_head_mm": 0
+    },
+    {
+      "pair": "c7-t1",
+      "gap_between_parent_tail_and_child_head_mm": 0
+    },
+    {
+      "pair": "t12-l1",
+      "gap_between_parent_tail_and_child_head_mm": 0
+    },
+    {
+      "pair": "l1-l2",
+      "gap_between_parent_tail_and_child_head_mm": 0
+    },
+    {
+      "pair": "l2-l3",
+      "gap_between_parent_tail_and_child_head_mm": 0
+    },
+    {
+      "pair": "l3-l4",
+      "gap_between_parent_tail_and_child_head_mm": 0
+    },
+    {
+      "pair": "l4-l5",
+      "gap_between_parent_tail_and_child_head_mm": 0
+    }
+  ],
+  "expected_disc_gaps_mm": {
+    "cervical_male": {
+      "c2_c3": 6.4,
+      "c3_c4": 6.5,
+      "c4_c5": 6.2,
+      "c5_c6": 6.1,
+      "c6_c7": 6.6,
+      "c7_t1": 6.1
+    },
+    "lumbar_male": {
+      "t12_l1": 5.6,
+      "l1_l2": 6.9,
+      "l2_l3": 8.1,
+      "l3_l4": 8.7,
+      "l4_l5": 9.2,
+      "l5_s1": 8.8
+    }
+  },
+  "findings": [
+    "The a003 vertebral chain collapses adjacent vertebral bodies onto shared endpoints: for the tested cervical, thoracic-lumbar and lumbar pairs the parent tail and child head coincide at 0 mm. Real intervertebral discs therefore have no explicit geometric thickness in the current master.",
+    "The current cervical C3-C6 body-stick lengths are near but generally above male reference body heights; C7 is more clearly long.",
+    "Thoracic a003 body-stick lengths are consistently longer than published thoracic body heights, especially in the upper/mid thoracic region. Two independent studies differ materially, so a source corridor rather than one fixed mean is required.",
+    "Lumbar a003 body-stick lengths (~38.5-45.3 mm) are far larger than the CT middle vertebral-body heights (~23-24 mm). This strongly suggests the interpolation has absorbed disc/motion-segment spacing into the bone sticks rather than representing vertebral bodies anatomically.",
+    "The canonical skeleton must therefore split 'bone body height' from 'non-bone disc gap' while keeping the conventional 26 vertebral bones unchanged. Disc spaces are joint/contact geometry, not added bones."
+  ],
+  "canonical_rebuild_rules": [
+    "Each C2-L5 vertebral bone gets evidence-backed superior/inferior endplate centres and a true vertebral-body height corridor.",
+    "Each C2/3 through L5/S1 motion segment gets an explicit non-bone disc/contact gap with level-specific height and orientation.",
+    "C1/C2 is handled separately: no intervertebral disc is created there.",
+    "C0/C1 is handled as atlanto-occipital articulation, not a disc.",
+    "Thoracic rib-head and transverse-process contacts must be refit after thoracic vertebral geometry changes.",
+    "Sagittal curvature (lordosis/kyphosis) is represented by vertebral/endplate orientation and interlevel spacing, not by stretching vertebral bodies."
+  ],
+  "provisional_decisions": {
+    "cervical_C3_C6": "RETAIN_ONLY_AS_ROUGH_SCALE_REBUILD_WITH_EXPLICIT_DISCS",
+    "cervical_C7": "REOPEN_BODY_HEIGHT_AND_C7_T1_GAP",
+    "thoracic_T1_T12": "REOPEN_BODY_HEIGHT_AND_INTERLEVEL_SPACING",
+    "lumbar_L1_L5": "REBUILD_BODY_HEIGHT_AND_DISC_SPACING",
+    "sacrum": "REOPEN_SEPARATELY_WITH_PELVIC_GEOMETRY"
+  },
+  "acceptance_tests": [
+    "Every disc-bearing motion segment has a non-zero evidence-backed intervertebral gap.",
+    "C1/C2 has no disc and C0/C1 has no disc.",
+    "Vertebral-body heights are tested separately from disc heights.",
+    "Total C2-S1 stature/curve is reconstructed from body heights + disc gaps + sacral geometry, not by distributing torso surface height across bone sticks.",
+    "Thoracic rib attachments remain level-correct after vertebral retargeting.",
+    "Existing motion tests are rerun because changed centre spacing alters lever arms and coupled kinematics."
+  ],
+  "status": "SPINE_GEOMETRY_DEFECT_CONFIRMED_CANONICAL_REBUILD_REQUIRED"
+}

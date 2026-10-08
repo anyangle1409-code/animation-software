@@ -3,7 +3,7 @@
 
 Owner policy 2026-10-08: the canonical skeleton uses normal 1.82 m male proportions; the mesh is refitted to it.
 Each span is computed per subject from the committed ANSUR II male file with the landmark-to-joint conversions
-already used and corroborated in proportion_audit.py, then regressed on stature and evaluated at 1.82 m (prediction
+already used as provisional proxies in proportion_audit.py, then regressed on stature and evaluated at 1.82 m (prediction
 and residual SD). Trotter-Gleser (bone maximum lengths) and de Leva 1996 (joint-centre proportions) are recorded as
 cross-checks with their own definitions; disagreements are reported, never averaged.
 
@@ -24,11 +24,13 @@ HUMERUS_FIT_ALLOWANCE = 0.012
 # Trotter & Gleser 1952/1958 white male: stature_cm = a * length_cm + b, SEE (cm)
 TG = {'femur': (2.38, 61.41, 3.27), 'tibia': (2.52, 78.62, 3.37), 'humerus': (2.89, 78.10, 4.57), 'radius': (3.79, 79.42, 4.66),
       'ulna': (3.76, 75.55, 4.72)}
-# de Leva 1996 Table 1, male joint-centre segment lengths (mm) at stature 1741 mm. Only the thigh value is corroborated
-# in this session (0.4222 m); the others are recorded from the paper as remembered and must be reread before use.
+# de Leva 1996 PRIMARY Table 4, male longitudinal spans at stature 1741 mm.
+# Table 1 uses original bony landmarks, not these adjusted joint-centre spans.
+# 434.0 is KJC--LMAL; the separate KJC--AJC alternative is 440.3.
 DE_LEVA_STATURE = 1741.0
-DE_LEVA = {'thigh_HJC_KJC': (422.2, 'corroborated'), 'shank_KJC_AJC': (434.0, 'UNVERIFIED_RECALL'),
-           'upper_arm_GH_EJC': (281.7, 'UNVERIFIED_RECALL'), 'forearm_EJC_WJC': (268.9, 'UNVERIFIED_RECALL')}
+DE_LEVA_STATUS = 'PRIMARY_TABLE4_VERIFIED_CONTEXT_ONLY'
+DE_LEVA = {'thigh_HJC_KJC': (422.2, DE_LEVA_STATUS), 'shank_KJC_AJC': (440.3, DE_LEVA_STATUS),
+           'upper_arm_GH_EJC': (281.7, DE_LEVA_STATUS), 'forearm_EJC_WJC': (268.9, DE_LEVA_STATUS)}
 
 
 def audit_module():
@@ -86,6 +88,7 @@ def build():
         dl_scaled = dl * H * 1000 / DE_LEVA_STATURE
         tgv, tgdef = tg_span[k]
         row = {'proposed_mm': round(pred * 1000, 1), 'ansur_residual_sd_mm': round(sd * 1000, 1),
+               'ansur_residual_sd_excludes_joint_conversion_uncertainty': True,
                'proposed_band_1sd_mm': [round((pred - sd) * 1000, 1), round((pred + sd) * 1000, 1)],
                'stature_slope_mm_per_m': round(slope * 1000, 1), 'definition': definition, 'caveat': caveat,
                'n': int(len(vals)),
@@ -111,6 +114,8 @@ def build():
         'HJC_at_trochanterion_level (classic Nelaton relation, offset 0)': round(pred(A['trochanterionheight'] - kjc), 1),
         'HJC 8 mm below trochanterion (used here, 7 Oct radiographic relation)': round(pred(hjc - kjc), 1),
         'HJC 8 mm above trochanterion': round(pred(A['trochanterionheight'] + 0.008 - kjc), 1),
+        'de Leva Table 2 HJC 3.2 mm proximal at 1.741 m, scaled; longitudinal-to-vertical approximation only':
+            round(pred(A['trochanterionheight'] + 0.0032 * H / 1.741 - kjc), 1),
         'trotter_gleser_inversion': tg_inv['femur']}
     out['forearm_EJC_WJC']['sensitivity_mm'] = {
         'WJC at stylion (used here)': out['forearm_EJC_WJC']['proposed_mm'],
@@ -120,10 +125,10 @@ def build():
         'GH depth 47 mm (Arm26, used here)': out['upper_arm_GH_EJC']['proposed_mm'],
         'GH depth 56 mm (Rajagopal scaled to 1.82 m)': round(out['upper_arm_GH_EJC']['proposed_mm'] - 9, 1)}
     readings = {
-        'forearm_EJC_WJC': 'ROBUST: ANSUR, Trotter-Gleser and de Leva lie within about 1 SD of each other (281-293 mm); a003 is 25-37 mm short under every method. Lengthen.',
+        'forearm_EJC_WJC': 'ROBUST shortness signal under the provisional endpoint conversions (281-293 mm), but methods do not yet measure identical endpoints. de Leva is outside the unshifted ANSUR 1-SD band. Select radius and ulna separately only after endpoint mapping; no numerical target selected.',
         'thigh_HJC_KJC': 'CONTESTED: ANSUR 419 (a003 within 0.3 SD) against de Leva 441 and Trotter-Gleser 455 (inflated by inversion). The HJC-trochanterion relation moves ANSUR by up to 16 mm. Resolve endpoint definitions before selecting; a003 is not established as short.',
         'upper_arm_GH_EJC': 'CONSISTENT: ANSUR and de Leva agree within 1 SD and a003 matches; the Trotter-Gleser conversion (+37 mm) depends on an uncertain distal allowance and the inversion bias.',
-        'shank_KJC_AJC': 'CONSISTENT: a003 matches ANSUR; de Leva is +16 mm (about 1.1 SD, unverified value).'}
+        'shank_KJC_AJC': 'CONSISTENT with the provisional ANSUR proxy; no gross shank defect established. Primary de Leva KJC-AJC is 440.3 mm at 1.741 m, not the 434.0 mm KJC-LMAL row. Proportional scaling and lateral-malleolus/midpoint definitions remain distinct.'}
     for k, v in readings.items():
         out[k]['reading'] = v
     return {
@@ -133,10 +138,11 @@ def build():
         'owner_policy': 'PROPORTION_POLICY_182CM_MALE (canonical_target_selection_v1.json owner_decisions)',
         'stature_m': H,
         'primary_method': 'Per-subject joint-centre spans from the committed ANSUR II male file (n = 4,082), using the landmark-to-joint '
-                          'conversions corroborated in proportion_audit.py, regressed on stature and evaluated at 1.82 m.',
+                          'conversions used as provisional proxies in proportion_audit.py, regressed on stature and evaluated at 1.82 m. Residual SD excludes conversion uncertainty.',
         'why_ansur_primary': 'Stature-conditioned, large, committed and recomputable; its HJC/KJC/EJC conversions were independently '
-                             'corroborated on 7 October. Trotter-Gleser measures dry-bone maximum lengths (1950s US white men) and needs '
-                             'endpoint allowances; de Leva is a 100-athlete proportion table scaled linearly, three of four values unverified here.',
+                             'reviewed as provisional offsets on 7 October, not direct per-subject joint centres. Trotter-Gleser measures dry-bone maximum lengths and needs '
+                             'endpoint allowances; inversion is not an independently fitted bone-on-stature prediction. de Leva Table 4 is now primary-verified but uses estimated longitudinal spans and proportional scaling.',
+        'de_leva_source_review': 'canonical_de_leva_primary_endpoint_review_v1.json',
         'spans': out,
         'not_decided_here': ['endpoint mapping of each span onto the canonical bone geometry (head, condyles, trochlea, styloids)',
                              'separate ulna target (olecranon/coronoid endpoints)', 'left/right identical by policy unless evidence says otherwise',

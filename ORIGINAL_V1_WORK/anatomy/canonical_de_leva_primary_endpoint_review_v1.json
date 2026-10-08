@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "status": "CONFIRMED_PRIMARY_TABLE_TRANSCRIPTION_CONTEXT_ONLY",
+  "freeze_ready": false,
+  "source_id": "DE_LEVA_1996_PRIMARY_ADJUSTED_SEGMENTS",
+  "checked_pages": [
+    "1223 definitions",
+    "1224 estimation procedure",
+    "1225 Tables 1/2",
+    "1228 Table 4, visually checked in original PDF"
+  ],
+  "male_Table4_longitudinal_lengths_mm": {
+    "SJC_EJC": 281.7,
+    "EJC_WJC": 268.9,
+    "HJC_KJC": 422.2,
+    "KJC_LMAL": 434.0,
+    "KJC_AJC": 440.3,
+    "EJC_STYL": 266.9
+  },
+  "male_Table2_offsets_mm": {
+    "EJC_proximal_of_RAD_from_upperarm": 14.3,
+    "EJC_proximal_of_RAD_from_forearm": 16.8,
+    "WJC_proximal_of_STYL_from_forearm": -1.5,
+    "WJC_proximal_of_STYL_from_hand": -2.4,
+    "HJC_proximal_of_trochanterion": 3.2
+  },
+  "sign_rule": "Positive means proximal; the negative WJC offsets are distal to STYL. They are not the 5-10 mm proximal ISB-midpoint sensitivity assumption.",
+  "historical_corrections": {
+    "table_reference": "Recalled adjusted values are Table 4, not Table 1.",
+    "shank_KJC_AJC_mm": {
+      "old": 434,
+      "corrected": 440.3,
+      "why": "434 remains valid for KJC-LMAL; endpoints were mislabeled."
+    },
+    "unverified_recalls": "Upper arm 281.7 and forearm 268.9 confirmed; statuses now PRIMARY_TABLE4_VERIFIED_CONTEXT_ONLY.",
+    "claimed_all_forearm_methods_within_one_sd": "False for unshifted ANSUR: 293.1 minus 281.1 = 12.0 mm exceeds 10.8 mm residual SD. Direction agrees under assumptions; endpoints do not yet match."
+  },
+  "thigh_relation": "Primary HJC offset is 3.2 mm proximal of trochanterion along the segment axis. This differs from the proposal\u2019s 8 mm below assumption. An additional explicitly approximate sensitivity gives about 430 mm from ANSUR; it is not an accepted global HJC correction. a003 is not established as short.",
+  "limits": [
+    "Estimated mean joint spans are not individual 3D bone-envelope lengths.",
+    "ANSUR conditional residual SD excludes uncertainty in landmark-to-joint conversion.",
+    "Trotter-Gleser inversion is not direct length-on-stature regression; no unconditional claim of actual inversion bias without original distribution/covariance.",
+    "Source adjustment uses prior anthropometry/cadaver relations; do not count each derived table as independent cohort replication."
+  ],
+  "source_access": {
+    "date": "2026-10-08",
+    "bytes": 1416599,
+    "sha256": "db58e482760d5dbdab78c42045c29330799c23af1eb4337a6de802323018e2e9",
+    "full_text_storage": "Inspected in scratch; linked/hashed, not redistributed."
+  }
+}

@@ -33,10 +33,12 @@ class LimbLengthProposal(unittest.TestCase):
         self.assertGreater(t['crosscheck_de_leva_scaled_mm'] - t['proposed_mm'], t['ansur_residual_sd_mm'])
         self.assertTrue(t['reading'].startswith('CONTESTED'))
 
-    def test_unverified_de_leva_values_are_labelled(self):
+    def test_primary_de_leva_endpoint_rows_replace_recalled_values(self):
+        self.assertEqual(m.DE_LEVA['shank_KJC_AJC'][0], 440.3)
         status = {k: v['de_leva_status'] for k, v in STORED['spans'].items()}
-        self.assertEqual(status['thigh_HJC_KJC'], 'corroborated')
-        self.assertEqual({v for k, v in status.items() if k != 'thigh_HJC_KJC'}, {'UNVERIFIED_RECALL'})
+        self.assertEqual(set(status.values()), {'PRIMARY_TABLE4_VERIFIED_CONTEXT_ONLY'})
+        self.assertEqual(STORED['de_leva_source_review'], 'canonical_de_leva_primary_endpoint_review_v1.json')
+        self.assertTrue(STORED['spans']['forearm_EJC_WJC']['ansur_residual_sd_excludes_joint_conversion_uncertainty'])
 
 
 if __name__ == '__main__':

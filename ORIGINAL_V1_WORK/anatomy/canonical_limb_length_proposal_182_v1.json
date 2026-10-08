@@ -5,12 +5,14 @@
  "freeze_ready": false,
  "owner_policy": "PROPORTION_POLICY_182CM_MALE (canonical_target_selection_v1.json owner_decisions)",
  "stature_m": 1.82,
- "primary_method": "Per-subject joint-centre spans from the committed ANSUR II male file (n = 4,082), using the landmark-to-joint conversions corroborated in proportion_audit.py, regressed on stature and evaluated at 1.82 m.",
- "why_ansur_primary": "Stature-conditioned, large, committed and recomputable; its HJC/KJC/EJC conversions were independently corroborated on 7 October. Trotter-Gleser measures dry-bone maximum lengths (1950s US white men) and needs endpoint allowances; de Leva is a 100-athlete proportion table scaled linearly, three of four values unverified here.",
+ "primary_method": "Per-subject joint-centre spans from the committed ANSUR II male file (n = 4,082), using the landmark-to-joint conversions used as provisional proxies in proportion_audit.py, regressed on stature and evaluated at 1.82 m. Residual SD excludes conversion uncertainty.",
+ "why_ansur_primary": "Stature-conditioned, large, committed and recomputable; its HJC/KJC/EJC conversions were independently reviewed as provisional offsets on 7 October, not direct per-subject joint centres. Trotter-Gleser measures dry-bone maximum lengths and needs endpoint allowances; inversion is not an independently fitted bone-on-stature prediction. de Leva Table 4 is now primary-verified but uses estimated longitudinal spans and proportional scaling.",
+ "de_leva_source_review": "canonical_de_leva_primary_endpoint_review_v1.json",
  "spans": {
   "thigh_HJC_KJC": {
    "proposed_mm": 418.9,
    "ansur_residual_sd_mm": 21.2,
+   "ansur_residual_sd_excludes_joint_conversion_uncertainty": true,
    "proposed_band_1sd_mm": [
     397.8,
     440.1
@@ -22,7 +24,7 @@
    "crosscheck_trotter_gleser_mm": 455.0,
    "trotter_gleser_conversion": "femur max - head radius 24.7 mm - KJC-to-plateau 27.0 mm",
    "crosscheck_de_leva_scaled_mm": 441.4,
-   "de_leva_status": "corroborated",
+   "de_leva_status": "PRIMARY_TABLE4_VERIFIED_CONTEXT_ONLY",
    "a003_mm": 412.9,
    "a003_minus_proposed_mm": -6.0,
    "a003_z_vs_ansur": -0.29,
@@ -36,6 +38,7 @@
     "HJC_at_trochanterion_level (classic Nelaton relation, offset 0)": 426.9,
     "HJC 8 mm below trochanterion (used here, 7 Oct radiographic relation)": 418.9,
     "HJC 8 mm above trochanterion": 434.9,
+    "de Leva Table 2 HJC 3.2 mm proximal at 1.741 m, scaled; longitudinal-to-vertical approximation only": 430.3,
     "trotter_gleser_inversion": "inverting stature-on-bone overstates bone length above the sample mean stature"
    },
    "reading": "CONTESTED: ANSUR 419 (a003 within 0.3 SD) against de Leva 441 and Trotter-Gleser 455 (inflated by inversion). The HJC-trochanterion relation moves ANSUR by up to 16 mm. Resolve endpoint definitions before selecting; a003 is not established as short."
@@ -43,6 +46,7 @@
   "shank_KJC_AJC": {
    "proposed_mm": 437.5,
    "ansur_residual_sd_mm": 14.0,
+   "ansur_residual_sd_excludes_joint_conversion_uncertainty": true,
    "proposed_band_1sd_mm": [
     423.5,
     451.6
@@ -53,22 +57,23 @@
    "n": 4082,
    "crosscheck_trotter_gleser_mm": null,
    "trotter_gleser_conversion": "TG white-male tibia omits the malleolus (Jantz 1995); no defensible joint-span conversion here",
-   "crosscheck_de_leva_scaled_mm": 453.7,
-   "de_leva_status": "UNVERIFIED_RECALL",
+   "crosscheck_de_leva_scaled_mm": 460.3,
+   "de_leva_status": "PRIMARY_TABLE4_VERIFIED_CONTEXT_ONLY",
    "a003_mm": 439.1,
    "a003_minus_proposed_mm": 1.6,
    "a003_z_vs_ansur": 0.12,
    "agreement": {
     "tg_minus_proposed_mm": null,
-    "de_leva_minus_proposed_mm": 16.2,
+    "de_leva_minus_proposed_mm": 22.8,
     "tg_within_1sd": null,
     "de_leva_within_1sd": false
    },
-   "reading": "CONSISTENT: a003 matches ANSUR; de Leva is +16 mm (about 1.1 SD, unverified value)."
+   "reading": "CONSISTENT with the provisional ANSUR proxy; no gross shank defect established. Primary de Leva KJC-AJC is 440.3 mm at 1.741 m, not the 434.0 mm KJC-LMAL row. Proportional scaling and lateral-malleolus/midpoint definitions remain distinct."
   },
   "upper_arm_GH_EJC": {
    "proposed_mm": 286.2,
    "ansur_residual_sd_mm": 10.6,
+   "ansur_residual_sd_excludes_joint_conversion_uncertainty": true,
    "proposed_band_1sd_mm": [
     275.6,
     296.8
@@ -80,7 +85,7 @@
    "crosscheck_trotter_gleser_mm": 322.8,
    "trotter_gleser_conversion": "humerus max - 24.7 mm head - 12 mm distal allowance",
    "crosscheck_de_leva_scaled_mm": 294.5,
-   "de_leva_status": "UNVERIFIED_RECALL",
+   "de_leva_status": "PRIMARY_TABLE4_VERIFIED_CONTEXT_ONLY",
    "a003_mm": 287.7,
    "a003_minus_proposed_mm": 1.5,
    "a003_z_vs_ansur": 0.14,
@@ -99,6 +104,7 @@
   "forearm_EJC_WJC": {
    "proposed_mm": 293.1,
    "ansur_residual_sd_mm": 10.8,
+   "ansur_residual_sd_excludes_joint_conversion_uncertainty": true,
    "proposed_band_1sd_mm": [
     282.4,
     303.9
@@ -110,7 +116,7 @@
    "crosscheck_trotter_gleser_mm": 285.7,
    "trotter_gleser_conversion": "radius max + 15 mm (radial head top is about radiale)",
    "crosscheck_de_leva_scaled_mm": 281.1,
-   "de_leva_status": "UNVERIFIED_RECALL",
+   "de_leva_status": "PRIMARY_TABLE4_VERIFIED_CONTEXT_ONLY",
    "a003_mm": 256.2,
    "a003_minus_proposed_mm": -37.0,
    "a003_z_vs_ansur": -3.43,
@@ -125,7 +131,7 @@
     "WJC 5 mm proximal of stylion": 288.1,
     "WJC 10 mm proximal of stylion": 283.1
    },
-   "reading": "ROBUST: ANSUR, Trotter-Gleser and de Leva lie within about 1 SD of each other (281-293 mm); a003 is 25-37 mm short under every method. Lengthen."
+   "reading": "ROBUST shortness signal under the provisional endpoint conversions (281-293 mm), but methods do not yet measure identical endpoints. de Leva is outside the unshifted ANSUR 1-SD band. Select radius and ulna separately only after endpoint mapping; no numerical target selected."
   }
  },
  "not_decided_here": [

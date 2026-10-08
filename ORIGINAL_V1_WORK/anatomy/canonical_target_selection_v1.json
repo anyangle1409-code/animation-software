@@ -165,7 +165,8 @@
         "endpoint-compatible male CT/osteometric radius evidence before freezing the ANSUR radiale\u2013stylion value as a canonical bone endpoint",
         "ulna endpoint corridor",
         "wrist/DRUJ geometry"
-      ]
+      ],
+      "endpoint_review": "canonical_forearm_endpoint_decision_v1.json"
     },
     "carpus_hand": {
       "evidence_grade": {
@@ -229,7 +230,8 @@
       "blockers": [
         "endpoint-compatible fibula check",
         "patellar contact/translation geometry"
-      ]
+      ],
+      "primary_endpoint_review": "canonical_de_leva_primary_endpoint_review_v1.json"
     },
     "tarsus_forefoot": {
       "evidence_grade": {

@@ -1,0 +1,27 @@
+{
+  "primary_source": {
+    "id": "DE_LEVA_1996_PRIMARY_ADJUSTED_SEGMENTS",
+    "citation": "de Leva P. Adjustments to Zatsiorsky-Seluyanov\u2019s segment inertia parameters. J Biomech. 1996;29(9):1223-1230.",
+    "doi": "10.1016/0021-9290(95)00178-6",
+    "pmid": "8872282",
+    "primary_pdf_url": "https://ebm.ufabc.edu.br/wp-content/uploads/2013/12/Leva-1996.pdf",
+    "type": "estimated_longitudinal_segment_parameters",
+    "population": "100 male and 15 female Caucasian subjects underlying Zatsiorsky parameters; mean ages 24/19. Segment lengths/joint offsets estimated from multiple inputs, not directly remeasured in this paper.",
+    "male_reference_stature_mm": 1741,
+    "measurement_definition": "Adjusted longitudinal segment endpoints in Table 4; original landmark spans are in Table 1. Surface landmarks normally projected onto the segment axis.",
+    "use": [
+      "endpoint-qualified proportion and joint-offset context"
+    ],
+    "limitation": "No individual length distribution or direct bone-on-stature regression; linear stature scaling is diagnostic only. Cross-cohort joint-offset assumptions remain distinct from ISB styloid-midpoint geometry.",
+    "audit": "canonical_de_leva_primary_endpoint_review_v1.json"
+  },
+  "source_access": {
+    "date": "2026-10-08",
+    "bytes": 1416599,
+    "sha256": "db58e482760d5dbdab78c42045c29330799c23af1eb4337a6de802323018e2e9",
+    "full_text_storage": "Inspected in scratch; linked/hashed, not redistributed."
+  },
+  "figure_inspection": "Original Table 4 visually checked; Tables 1/2 and main text reread.",
+  "essential_unavailable": "Compatible radius/ulna endpoint offsets plus independent stature-conditioned geometry remain open.",
+  "target_selected": false
+}

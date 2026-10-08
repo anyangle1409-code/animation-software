@@ -1,0 +1,16 @@
+..F/workspace/scratch/fa618947168c/animation-software/scripts/anatomy_fit/proportion_audit.py:146: ResourceWarning: unclosed file <_io.TextIOWrapper name='/workspace/scratch/fa618947168c/animation-software/ORIGINAL_V1_WORK/anatomy/sources/ansur2/ANSUR_II_MALE_Public.csv' mode='r' encoding='cp1252'>
+  rows = list(csv.DictReader(open(path, encoding='cp1252')))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+..
+======================================================================
+FAIL: test_primary_de_leva_endpoint_rows_replace_recalled_values (test_limb_length_proposal.LimbLengthProposal.test_primary_de_leva_endpoint_rows_replace_recalled_values)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_limb_length_proposal.py", line 37, in test_primary_de_leva_endpoint_rows_replace_recalled_values
+    self.assertEqual(m.DE_LEVA['shank_KJC_AJC'][0], 440.3)
+AssertionError: 434.0 != 440.3
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.177s
+
+FAILED (failures=1)

@@ -1,0 +1,8 @@
+.../workspace/scratch/fa618947168c/animation-software/scripts/anatomy_fit/proportion_audit.py:146: ResourceWarning: unclosed file <_io.TextIOWrapper name='/workspace/scratch/fa618947168c/animation-software/ORIGINAL_V1_WORK/anatomy/sources/ansur2/ANSUR_II_MALE_Public.csv' mode='r' encoding='cp1252'>
+  rows = list(csv.DictReader(open(path, encoding='cp1252')))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+..
+----------------------------------------------------------------------
+Ran 5 tests in 0.167s
+
+OK

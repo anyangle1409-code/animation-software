@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "status": "REOPENED_ENDPOINT_MAPPING_NO_RADIUS_OR_ULNA_SELECTION",
+  "freeze_ready": false,
+  "owner_stature_mm": 1820,
+  "proposal": "canonical_limb_length_proposal_182_v1.json",
+  "primary_review": "canonical_de_leva_primary_endpoint_review_v1.json",
+  "radius": {
+    "evidence_grade": "B",
+    "ANSUR_RAD_STYL_context_mm": {
+      "prediction": 278.1363955217166,
+      "conditional_residual_sd": 10.783470258896081,
+      "definition": "Most proximal lateral radial-head landmark to distal radial styloid surface landmark; ANSUR surface measurement, not automatic articular-centre chord."
+    },
+    "selected_bone_length_mm": null,
+    "selected_EJC_WJC_mm": null,
+    "blockers": [
+      "Map RAD surface landmark to proximal radius articular/head centre in source-compatible geometry.",
+      "Map STYL tip to distal radius articular centre and separately to the chosen wrist centre.",
+      "Independent endpoint-compatible stature context and PRUJ/DRUJ contact solve."
+    ]
+  },
+  "ulna": {
+    "evidence_grade": "C",
+    "selected_bone_length_mm": null,
+    "selected_EJC_distal_ulna_centre_mm": null,
+    "policy": "Do not infer a lengthening amount or a fixed radius ratio.",
+    "blockers": [
+      "Separate olecranon tip, trochlear-notch reference and coronoid base.",
+      "Separate distal ulnar head/contact centre from ulnar styloid tip and radial wrist centre.",
+      "Resolve independent ulna dimensions/variance and proximal/distal contact congruence."
+    ]
+  },
+  "joint_span_context": {
+    "ANSUR_proposal_at_STYL_mm": 293.1,
+    "assumed_RAD_to_EJC_mm": 15,
+    "proximal_wrist_sensitivity_mm": [
+      283.1,
+      288.1
+    ],
+    "de_Leva_EJC_WJC_scaled_1820_mm": 281.1016657093624,
+    "interpretation": "These values use different wrist definitions. Agreement in directional shortness is not an endpoint-matched numerical target."
+  },
+  "mechanical_invariants": [
+    "Keep PRUJ, DRUJ and separate radius/ulna identities.",
+    "Pronation-supination reference passes between proximal radial-head and distal ulnar-head/contact references; it is not automatically either bone\u2019s head-tail line.",
+    "Whole-bone ulna length and EJC-WJC span are different dimensions."
+  ],
+  "next_safe_action": "Acquire matched radial/ulnar articular and surface landmarks, then solve radius, ulna, DRUJ and wrist together with independently selected bone dimensions. Keep production/a003 unchanged."
+}

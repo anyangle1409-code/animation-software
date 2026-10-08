@@ -91,9 +91,11 @@
         "endpoint-compatible canonical radius corridor",
         "endpoint-compatible ulna corridor",
         "revised DRUJ/wrist centre after retarget",
-        "owner policy 2026-10-08: radius/ulna follow normal 1.82 m male proportions; EJC-WJC should be about 283-293 mm (ANSUR, Trotter-Gleser and de Leva agree within 1 SD) against a003 256.2 mm (z -3.4); see canonical_limb_length_proposal_182_v1.json"
+        "owner policy retained: normal 1.82 m male proportions. ANSUR/TG/de Leva shortness direction remains supported under provisional conversions, but unshifted de Leva is outside ANSUR 1-SD and wrist definitions differ; 283-293 mm is a sensitivity family, not an endpoint-matched selected radius/ulna target."
       ],
-      "next_action": "Resolve radius/ulna endpoints independently, then rebuild wrist centre and pronation axis."
+      "next_action": "Resolve radius/ulna endpoints independently, then rebuild wrist centre and pronation axis.",
+      "reviewed_historical_2026_10_08": "owner policy 2026-10-08: radius/ulna follow normal 1.82 m male proportions; EJC-WJC should be about 283-293 mm (ANSUR, Trotter-Gleser and de Leva agree within 1 SD) against a003 256.2 mm (z -3.4); see canonical_limb_length_proposal_182_v1.json",
+      "endpoint_review": "canonical_forearm_endpoint_decision_v1.json"
     },
     "carpus": {
       "readiness": "BLOCKED",
@@ -151,7 +153,8 @@
         "patella width/thickness/trochlear contact path",
         "femur: methods disagree for a 1.82 m male HJC-KJC span: ANSUR 418.9 +/- 21.2 mm (a003 412.9, z -0.3; 427 mm if HJC is level with trochanterion) against de Leva 441 mm and Trotter-Gleser-derived 455 mm (inflated by inversion). Resolve the HJC endpoint relation before selecting; see canonical_limb_length_proposal_182_v1.json"
       ],
-      "next_action": "Refine fibula and patellofemoral geometry and select endpoint-defined femur/tibia targets for a 1.82 m male; agreement with the r95 surface alone no longer justifies keeping a003 lengths (owner proportion policy 2026-10-08)."
+      "next_action": "Refine fibula and patellofemoral geometry and select endpoint-defined femur/tibia targets for a 1.82 m male; agreement with the r95 surface alone no longer justifies keeping a003 lengths (owner proportion policy 2026-10-08).",
+      "primary_endpoint_review": "canonical_de_leva_primary_endpoint_review_v1.json"
     },
     "tarsus": {
       "readiness": "BLOCKED",
@@ -207,7 +210,8 @@
         "endpoint-defined humerus target (GH to EJC and maximum length) for a 1.82 m male under the owner proportion policy",
         "humeral head, trochlea and capitulum geometry consistent with the GH and elbow centres"
       ],
-      "next_action": "Select an endpoint-matched humerus length for 1.82 m; a003 GH-EJC (287.7 mm) agrees with the ANSUR-derived 286.2 +/- 10.6 mm and de Leva 294.5 mm (canonical_limb_length_proposal_182_v1.json)."
+      "next_action": "Select an endpoint-matched humerus length for 1.82 m; a003 GH-EJC (287.7 mm) agrees with the ANSUR-derived 286.2 +/- 10.6 mm and de Leva 294.5 mm (canonical_limb_length_proposal_182_v1.json).",
+      "primary_endpoint_review": "canonical_de_leva_primary_endpoint_review_v1.json"
     }
   },
   "region_counts": {

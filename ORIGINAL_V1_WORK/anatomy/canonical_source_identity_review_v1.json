@@ -2,8 +2,8 @@
   "schema_version": 1,
   "status": "BIBLIOGRAPHIC_ALIAS_SCAN_ONLY",
   "source_register": "canonical_proportion_sources_v1.json",
-  "records": 110,
-  "identifier_groups": 105,
+  "records": 111,
+  "identifier_groups": 106,
   "aliases": [
     [
       "BARR\u00d4CO_2011_332_NORMAL_FEET",

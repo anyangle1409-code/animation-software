@@ -220,3 +220,16 @@ This corrects the earlier "thigh 6.5% short" note. The proposal does not select 
   - mapping bracket +4.5 mm;
   - thorax pitch sensitivity;
   - mesh refit and forearm length.
+
+### Arm chain under the ANSUR shoulder (8 October, Claude; audit only)
+
+- **What:** `audit/arm_chain_ansur_audit_v1.json` (script `arm_chain_ansur_audit.py`; 4 tests) compares a003, c001, c002 and c003 against ANSUR at 1.82 m, recomputed from the raw CSV: acromial height 1497.7, radiale height 1149.5, wrist (stylion) height 880.7, acromion–radiale 348.2, radiale–stylion 278.1 mm.
+- **Proxies** (labelled): radiale = elbow centre − 15 mm (project convention, unsourced); stylion = radiocarpal marker.
+- **c003 results:**
+  - acromion exact;
+  - acromion–radiale proxy 328.9 mm (z −1.82);
+  - radiale height z +1.17; wrist height z +2.19;
+  - forearm z −3.44, a003's and unchanged by any shoulder candidate.
+- **Reading:** with the shoulder on ANSUR, the a003 arm hung from the bony GH places the elbow about 19 mm high. Causes are unresolved (a003 GH–EJC length vs bony GH depth; the unsourced 15 mm convention). No arm target was selected.
+- **No collision:** the shallow GH depth below the ANSUR acromion point (26.5 mm) is due to the point lying near LM25 (the low posterolateral corner). Every acromion landmark clears the 24 mm head sphere by 17–25 mm, and the glenoid rim sits 0–6 mm outside it.
+- **Next arm step** (source-blocked from the cloud): matched radial/ulnar landmarks (GPT's forearm requirements), then an endpoint-defined humerus/forearm solve on top of c003.

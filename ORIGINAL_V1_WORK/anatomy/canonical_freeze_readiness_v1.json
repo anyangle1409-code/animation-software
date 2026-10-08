@@ -250,11 +250,13 @@
       "blockers": [
         "endpoint-defined humerus target (GH to EJC and maximum length) for a 1.82 m male under the owner proportion policy",
         "humeral head, trochlea and capitulum geometry consistent with the GH and elbow centres",
-        "joint-span sources (ANSUR, de Leva: GH-EJC 277-295 mm) and inverted Trotter-Gleser maximum length (359.5 mm) are inconsistent through the head/distal end geometry by about 20-40 mm; needs a known-stature male sample with maximum length plus head and distal geometry, or a direct length-on-stature regression"
+        "joint-span sources (ANSUR, de Leva: GH-EJC 277-295 mm) and inverted Trotter-Gleser maximum length (359.5 mm) are inconsistent through the head/distal end geometry by about 20-40 mm; needs a known-stature male sample with maximum length plus head and distal geometry, or a direct length-on-stature regression",
+        "arm chain under the ANSUR shoulder (audit/arm_chain_ansur_audit_v1.json): on c003 (acromion exactly at ANSUR) the a003 arm hung from the bony GH gives acromion-radiale proxy 328.9 mm vs ANSUR 348.2 +/- 10.6 (z -1.82), radiale height z +1.17, wrist height z +2.19; forearm radiale-stylion z -3.44 unchanged. Causes unresolved (a003 GH-EJC length vs bony GH depth; unsourced 15 mm radiale convention). No head-acromion collision (landmark clearance 17-25 mm)."
       ],
       "next_action": "Select an endpoint-matched humerus length for 1.82 m; a003 GH-EJC (287.7 mm) agrees with the ANSUR-derived 286.2 +/- 10.6 mm and de Leva 294.5 mm (canonical_limb_length_proposal_182_v1.json).",
       "primary_endpoint_review": "canonical_de_leva_primary_endpoint_review_v1.json",
-      "target_review": "canonical_humerus_target_review_v1.json"
+      "target_review": "canonical_humerus_target_review_v1.json",
+      "arm_chain_audit": "audit/arm_chain_ansur_audit_v1.json"
     }
   },
   "region_counts": {

@@ -1,0 +1,138 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-08",
+ "status": "AUDIT_ONLY_NO_TARGET_SELECTED",
+ "inputs_sha256": {
+  "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json": "11712ba3e105aa8844b07572315d58ccace1d23d2f0cdf101218a3a507a1a1e3",
+  "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/candidate_record.json": "08e9f2e1187dbedad680ce88595c565f7449773789fd597d96df05c0612fc778",
+  "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/candidate_record.json": "aa344a6819dde7631f85bd806f87fb876db0e2e4762bff28ea9c754d8c6e2978",
+  "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/candidate_record.json": "3eb4fa1e2f7d815ec664af93fc4ece89db87a36a5201452447b161fbdcc46f3a",
+  "ORIGINAL_V1_WORK/anatomy/sources/ansur2/ANSUR_II_MALE_Public.csv": "e468eb5787b8ba6c716a86378cf476ba9bd8c57e09493f0fc65b1b8f33e48db8"
+ },
+ "ansur_at_182_mm": {
+  "acromial_height": {
+   "mean": 1497.7,
+   "residual_sd": 16.2
+  },
+  "radiale_height": {
+   "mean": 1149.5,
+   "residual_sd": 16.5
+  },
+  "stylion_height_wristheight": {
+   "mean": 880.7,
+   "residual_sd": 21.5
+  },
+  "acromion_radiale": {
+   "mean": 348.2,
+   "residual_sd": 10.6
+  },
+  "radiale_stylion": {
+   "mean": 278.1,
+   "residual_sd": 10.8
+  },
+  "_n": 4082
+ },
+ "proxies": {
+  "radiale": "elbow centre (humeroulnar) - 15.0 mm in z (project convention, proportion_audit.py; unsourced here)",
+  "stylion": "radiocarpal marker height",
+  "note": "vertical differences with the arm hanging; ANSUR lengths are caliper spans parallel to the segment"
+ },
+ "candidates": {
+  "a003": {
+   "acromion_definition": "a003 authored-mesh acromion skin point (AC + 12 mm generator rule); not a bony landmark",
+   "landmark_clearance_from_24mm_head_sphere_mm": null,
+   "acromion_z_mm": 1509.5,
+   "acromion_z_vs_ANSUR": 0.73,
+   "GH_depth_below_acromion_mm": 47.1,
+   "EJC_z_mm": 1175.0,
+   "radiale_proxy_z_mm": 1160.0,
+   "radiale_z_vs_ANSUR": 0.64,
+   "radiale_z_vs_ANSUR_without_15mm_offset": 1.55,
+   "acromion_minus_radiale_proxy_mm": 349.5,
+   "acromion_radiale_z": 0.12,
+   "WJC_z_mm": 919.0,
+   "stylion_z_vs_ANSUR_wristheight": 1.78,
+   "radiale_proxy_minus_WJC_mm": 241.0,
+   "radiale_stylion_z": -3.44
+  },
+  "c001": {
+   "acromion_definition": "Lee LM25-LM27 lateral-border crossing of the clavicle-axis line (t = 0.072)",
+   "landmark_clearance_from_24mm_head_sphere_mm": {
+    "LM15": 1.5,
+    "LM16": 4.3,
+    "LM17": 3.8,
+    "LM18": 6.4,
+    "LM19": 0.0,
+    "LM25": 23.9,
+    "LM26": 24.7,
+    "LM27": 17.4
+   },
+   "acromion_z_mm": 1547.5,
+   "acromion_z_vs_ANSUR": 3.07,
+   "GH_depth_below_acromion_mm": 27.4,
+   "EJC_z_mm": 1232.7,
+   "radiale_proxy_z_mm": 1217.7,
+   "radiale_z_vs_ANSUR": 4.13,
+   "radiale_z_vs_ANSUR_without_15mm_offset": 5.04,
+   "acromion_minus_radiale_proxy_mm": 329.8,
+   "acromion_radiale_z": -1.73,
+   "WJC_z_mm": 976.7,
+   "stylion_z_vs_ANSUR_wristheight": 4.46,
+   "radiale_proxy_minus_WJC_mm": 241.0,
+   "radiale_stylion_z": -3.44
+  },
+  "c002": {
+   "acromion_definition": "Lee LM25-LM27 lateral-border crossing of the clavicle-axis line (t = 0.072)",
+   "landmark_clearance_from_24mm_head_sphere_mm": {
+    "LM15": 1.5,
+    "LM16": 4.3,
+    "LM17": 3.8,
+    "LM18": 6.4,
+    "LM19": 0.0,
+    "LM25": 23.9,
+    "LM26": 24.7,
+    "LM27": 17.4
+   },
+   "acromion_z_mm": 1484.5,
+   "acromion_z_vs_ANSUR": -0.81,
+   "GH_depth_below_acromion_mm": 27.4,
+   "EJC_z_mm": 1169.7,
+   "radiale_proxy_z_mm": 1154.7,
+   "radiale_z_vs_ANSUR": 0.31,
+   "radiale_z_vs_ANSUR_without_15mm_offset": 1.22,
+   "acromion_minus_radiale_proxy_mm": 329.8,
+   "acromion_radiale_z": -1.73,
+   "WJC_z_mm": 913.7,
+   "stylion_z_vs_ANSUR_wristheight": 1.53,
+   "radiale_proxy_minus_WJC_mm": 241.0,
+   "radiale_stylion_z": -3.44
+  },
+  "c003": {
+   "acromion_definition": "Lee LM25-LM27 lateral-border crossing of the clavicle-axis line (t = 0.083)",
+   "landmark_clearance_from_24mm_head_sphere_mm": {
+    "LM15": 1.5,
+    "LM16": 4.3,
+    "LM17": 3.8,
+    "LM18": 6.4,
+    "LM19": -0.0,
+    "LM25": 23.9,
+    "LM26": 24.7,
+    "LM27": 17.4
+   },
+   "acromion_z_mm": 1497.7,
+   "acromion_z_vs_ANSUR": -0.0,
+   "GH_depth_below_acromion_mm": 26.5,
+   "EJC_z_mm": 1183.8,
+   "radiale_proxy_z_mm": 1168.8,
+   "radiale_z_vs_ANSUR": 1.17,
+   "radiale_z_vs_ANSUR_without_15mm_offset": 2.08,
+   "acromion_minus_radiale_proxy_mm": 328.9,
+   "acromion_radiale_z": -1.82,
+   "WJC_z_mm": 927.8,
+   "stylion_z_vs_ANSUR_wristheight": 2.19,
+   "radiale_proxy_minus_WJC_mm": 241.0,
+   "radiale_stylion_z": -3.44
+  }
+ },
+ "reading": "Raising the shoulder to bony-model geometry (c001) or lowering it to ANSUR (c003) moves the whole a003 arm with GH, so elbow/wrist heights follow GH while the a003 arm lengths are kept. Compare acromion-radiale (upper-arm drop) and radiale-stylion (forearm) z across candidates; the forearm shortness belongs to a003 and is unchanged by any shoulder candidate. No arm target is selected here. In c003 the shoulder is on ANSUR but the elbow (radiale proxy) sits high (acromion-radiale about 19 mm short, z -1.82): candidate causes are the a003 humerus GH-EJC length with the bony GH, and the unsourced 15 mm radiale convention; unresolved. The shallow GH depth below the ANSUR acromion point (26.5 mm) is not a collision: the point lies near the low posterolateral corner LM25, and every acromion landmark clears the 24 mm head sphere by 17-25 mm while the glenoid rim lies 0-6 mm outside it (seated head)."
+}

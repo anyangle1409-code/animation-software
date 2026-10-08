@@ -28,19 +28,23 @@ def load(path):
 
 
 def _contains_unresolved_grade(value):
-    """Return True if an evidence-grade field still contains a C/D grade.
+    """Fail closed unless every leaf explicitly carries grade A or B.
 
-    Grades are sometimes stored as strings and sometimes as region sub-maps.
-    Prefix matching deliberately accepts qualified A/B labels while rejecting
-    unresolved C/D states when freeze_ready is asserted.
+    Empty maps/lists and missing or unknown labels cannot establish evidence.
+    Qualified labels use an underscore boundary; APPROVED is not grade A.
     """
     if isinstance(value, dict):
-        return any(_contains_unresolved_grade(v) for v in value.values())
+        return not value or any(_contains_unresolved_grade(v) for v in value.values())
     if isinstance(value, list):
-        return any(_contains_unresolved_grade(v) for v in value)
+        return not value or any(_contains_unresolved_grade(v) for v in value)
     if isinstance(value, str):
-        return value.startswith("C") or value.startswith("D")
-    return False
+        return not (value in ("A", "B") or value.startswith(("A_", "B_")))
+    return True
+
+
+def _positive_measurement(value):
+    return (not isinstance(value, bool) and isinstance(value, (int, float))
+            and math.isfinite(value) and value > 0)
 
 
 def _null_paths(obj, path="selected"):
@@ -58,12 +62,15 @@ def validate(s, conv, corr, shoulder_constraint=None, shoulder_source=None):
     errors = []
     warnings = []
 
+    if type(s["freeze_ready"]) is not bool:
+        errors.append("freeze_ready must be a boolean")
+
     if set(s["regions"]) != REQUIRED_REGIONS:
         errors.append(f"region set mismatch: {set(s['regions']) ^ REQUIRED_REGIONS}")
 
     # freeze_ready is a deliberately hard gate. A future promotion must clear
     # blockers, null target fields and unresolved C/D evidence in every region.
-    if s["freeze_ready"]:
+    if s["freeze_ready"] is True:
         for name, region in s["regions"].items():
             blockers = region.get("blockers", [])
             if blockers:
@@ -77,24 +84,23 @@ def validate(s, conv, corr, shoulder_constraint=None, shoulder_source=None):
                 )
             grades = {k: v for k, v in region.items() if k.startswith("evidence_grade")}
             if _contains_unresolved_grade(grades):
-                errors.append(f"freeze_ready=true with unresolved C/D evidence in {name}")
+                errors.append(f"freeze_ready=true with unresolved C/D or missing/unsupported evidence grade in {name}")
 
     # Hard invariants that can be checked from currently stored scaffold data.
     sg = s["regions"]["shoulder_girdle"]["selected"]
     for key in ("bilateral_AC_breadth_mm", "stature_conditioned_biacromial_scaffold_mm",
                 "clavicle_curved_length_mm", "clavicle_SC_AC_chord_mm"):
         value = sg.get(key)
-        if value is not None and (
-            isinstance(value, bool) or not isinstance(value, (int, float))
-            or not math.isfinite(value) or value <= 0
-        ):
+        if value is not None and not _positive_measurement(value):
             errors.append(f"{key} must be a finite positive measurement")
-    if sg["bilateral_AC_breadth_mm"] is not None:
+    if (_positive_measurement(sg["bilateral_AC_breadth_mm"])
+            and _positive_measurement(sg["stature_conditioned_biacromial_scaffold_mm"])):
         biac = sg["stature_conditioned_biacromial_scaffold_mm"]
         if not sg["bilateral_AC_breadth_mm"] < biac:
             errors.append("bilateral AC breadth must be less than biacromial breadth")
 
-    if sg["clavicle_curved_length_mm"] is not None and sg["clavicle_SC_AC_chord_mm"] is not None:
+    if (_positive_measurement(sg["clavicle_curved_length_mm"])
+            and _positive_measurement(sg["clavicle_SC_AC_chord_mm"])):
         if not sg["clavicle_SC_AC_chord_mm"] < sg["clavicle_curved_length_mm"]:
             errors.append("clavicle straight chord must be shorter than curved length")
 

@@ -74,6 +74,54 @@ class CanonicalTargetSelectionValidatorTests(unittest.TestCase):
         report = self.run_live(selection=sel)
         self.assertTrue(any("finite positive" in e for e in report["errors"]))
 
+    def test_malformed_measurements_report_failure_without_crashing(self):
+        for key in ("bilateral_AC_breadth_mm", "clavicle_SC_AC_chord_mm"):
+            with self.subTest(key=key):
+                sel = copy.deepcopy(self.selection)
+                selected = sel["regions"]["shoulder_girdle"]["selected"]
+                selected[key] = "invalid"
+                selected["clavicle_curved_length_mm"] = 166.8
+                report = self.run_live(selection=sel)
+                self.assertEqual(report["result"], "FAIL")
+                self.assertTrue(any("finite positive" in e for e in report["errors"]))
+
+    def test_freeze_flag_requires_actual_boolean(self):
+        for value in (0, "", [], None):
+            with self.subTest(value=value):
+                sel = copy.deepcopy(self.selection)
+                sel["freeze_ready"] = value
+                self.assertEqual(self.run_live(selection=sel)["result"], "FAIL")
+
+    def test_unknown_empty_or_missing_grades_cannot_freeze(self):
+        # Synthetic input only: isolate the grading gate after clearing
+        # other blockers. This fixture is not proposed anatomical data.
+        def fill(obj):
+            if isinstance(obj, dict):
+                return {k: fill(v) for k, v in obj.items()}
+            if isinstance(obj, list):
+                return [fill(v) for v in obj]
+            return 1.0 if obj is None else obj
+        base = fill(copy.deepcopy(self.selection))
+        base["freeze_ready"] = True
+        for region in base["regions"].values():
+            region["blockers"] = []
+            for key in list(region):
+                if key.startswith("evidence_grade"):
+                    region[key] = "B"
+        base["regions"]["shoulder_girdle"]["evidence_grade"] = {
+            "clavicle": "A", "scapula": "A_TRANSVERSE_DEFECT_EXACT_3D_TARGET_OPEN"}
+        base["regions"]["shoulder_girdle"]["selected"].update({
+            "clavicle_SC_AC_chord_mm": 153.0,
+            "clavicle_curved_length_mm": 167.0})
+        self.assertEqual(self.run_live(selection=base)["result"], "PASS")
+        for grade in ("E", "APPROVED", "", [], {}, None):
+            with self.subTest(grade=grade):
+                sel = copy.deepcopy(base)
+                sel["regions"]["head_neck"]["evidence_grade"] = grade
+                self.assertEqual(self.run_live(selection=sel)["result"], "FAIL")
+        del base["regions"]["head_neck"]["evidence_grade"]
+        self.assertEqual(self.run_live(selection=base)["result"], "FAIL")
+
     def test_premature_freeze_is_rejected(self):
         sel = copy.deepcopy(self.selection)
         sel["freeze_ready"] = True

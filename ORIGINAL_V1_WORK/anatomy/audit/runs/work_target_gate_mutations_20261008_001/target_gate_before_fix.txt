@@ -1,0 +1,156 @@
+...FFFF.EE.....FFFFFFF.
+======================================================================
+ERROR: test_malformed_measurements_report_failure_without_crashing (scripts.test_canonical_target_selection_validator.CanonicalTargetSelectionValidatorTests.test_malformed_measurements_report_failure_without_crashing) (key='bilateral_AC_breadth_mm')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_canonical_target_selection_validator.py", line 84, in test_malformed_measurements_report_failure_without_crashing
+    report = self.run_live(selection=sel)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_canonical_target_selection_validator.py", line 24, in run_live
+    return v.validate(
+           ^^^^^^^^^^^
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/validate_canonical_target_selection.py", line 94, in validate
+    if not sg["bilateral_AC_breadth_mm"] < biac:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'str' and 'float'
+
+======================================================================
+ERROR: test_malformed_measurements_report_failure_without_crashing (scripts.test_canonical_target_selection_validator.CanonicalTargetSelectionValidatorTests.test_malformed_measurements_report_failure_without_crashing) (key='clavicle_SC_AC_chord_mm')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_canonical_target_selection_validator.py", line 84, in test_malformed_measurements_report_failure_without_crashing
+    report = self.run_live(selection=sel)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_canonical_target_selection_validator.py", line 24, in run_live
+    return v.validate(
+           ^^^^^^^^^^^
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/validate_canonical_target_selection.py", line 98, in validate
+    if not sg["clavicle_SC_AC_chord_mm"] < sg["clavicle_curved_length_mm"]:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'str' and 'float'
+
+======================================================================
+FAIL: test_freeze_flag_requires_actual_boolean (scripts.test_canonical_target_selection_validator.CanonicalTargetSelectionValidatorTests.test_freeze_flag_requires_actual_boolean) (value=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_canonical_target_selection_validator.py", line 93, in test_freeze_flag_requires_actual_boolean
+    self.assertEqual(self.run_live(selection=sel)["result"], "FAIL")
+AssertionError: 'PASS' != 'FAIL'
+- PASS
++ FAIL
+
+
+======================================================================
+FAIL: test_freeze_flag_requires_actual_boolean (scripts.test_canonical_target_selection_validator.CanonicalTargetSelectionValidatorTests.test_freeze_flag_requires_actual_boolean) (value='')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_canonical_target_selection_validator.py", line 93, in test_freeze_flag_requires_actual_boolean
+    self.assertEqual(self.run_live(selection=sel)["result"], "FAIL")
+AssertionError: 'PASS' != 'FAIL'
+- PASS
++ FAIL
+
+
+======================================================================
+FAIL: test_freeze_flag_requires_actual_boolean (scripts.test_canonical_target_selection_validator.CanonicalTargetSelectionValidatorTests.test_freeze_flag_requires_actual_boolean) (value=[])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_canonical_target_selection_validator.py", line 93, in test_freeze_flag_requires_actual_boolean
+    self.assertEqual(self.run_live(selection=sel)["result"], "FAIL")
+AssertionError: 'PASS' != 'FAIL'
+- PASS
++ FAIL
+
+
+======================================================================
+FAIL: test_freeze_flag_requires_actual_boolean (scripts.test_canonical_target_selection_validator.CanonicalTargetSelectionValidatorTests.test_freeze_flag_requires_actual_boolean) (value=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_canonical_target_selection_validator.py", line 93, in test_freeze_flag_requires_actual_boolean
+    self.assertEqual(self.run_live(selection=sel)["result"], "FAIL")
+AssertionError: 'PASS' != 'FAIL'
+- PASS
++ FAIL
+
+
+======================================================================
+FAIL: test_unknown_empty_or_missing_grades_cannot_freeze (scripts.test_canonical_target_selection_validator.CanonicalTargetSelectionValidatorTests.test_unknown_empty_or_missing_grades_cannot_freeze) (grade='E')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_canonical_target_selection_validator.py", line 121, in test_unknown_empty_or_missing_grades_cannot_freeze
+    self.assertEqual(self.run_live(selection=sel)["result"], "FAIL")
+AssertionError: 'PASS' != 'FAIL'
+- PASS
++ FAIL
+
+
+======================================================================
+FAIL: test_unknown_empty_or_missing_grades_cannot_freeze (scripts.test_canonical_target_selection_validator.CanonicalTargetSelectionValidatorTests.test_unknown_empty_or_missing_grades_cannot_freeze) (grade='APPROVED')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_canonical_target_selection_validator.py", line 121, in test_unknown_empty_or_missing_grades_cannot_freeze
+    self.assertEqual(self.run_live(selection=sel)["result"], "FAIL")
+AssertionError: 'PASS' != 'FAIL'
+- PASS
++ FAIL
+
+
+======================================================================
+FAIL: test_unknown_empty_or_missing_grades_cannot_freeze (scripts.test_canonical_target_selection_validator.CanonicalTargetSelectionValidatorTests.test_unknown_empty_or_missing_grades_cannot_freeze) (grade='')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_canonical_target_selection_validator.py", line 121, in test_unknown_empty_or_missing_grades_cannot_freeze
+    self.assertEqual(self.run_live(selection=sel)["result"], "FAIL")
+AssertionError: 'PASS' != 'FAIL'
+- PASS
++ FAIL
+
+
+======================================================================
+FAIL: test_unknown_empty_or_missing_grades_cannot_freeze (scripts.test_canonical_target_selection_validator.CanonicalTargetSelectionValidatorTests.test_unknown_empty_or_missing_grades_cannot_freeze) (grade=[])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_canonical_target_selection_validator.py", line 121, in test_unknown_empty_or_missing_grades_cannot_freeze
+    self.assertEqual(self.run_live(selection=sel)["result"], "FAIL")
+AssertionError: 'PASS' != 'FAIL'
+- PASS
++ FAIL
+
+
+======================================================================
+FAIL: test_unknown_empty_or_missing_grades_cannot_freeze (scripts.test_canonical_target_selection_validator.CanonicalTargetSelectionValidatorTests.test_unknown_empty_or_missing_grades_cannot_freeze) (grade={})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_canonical_target_selection_validator.py", line 121, in test_unknown_empty_or_missing_grades_cannot_freeze
+    self.assertEqual(self.run_live(selection=sel)["result"], "FAIL")
+AssertionError: 'PASS' != 'FAIL'
+- PASS
++ FAIL
+
+
+======================================================================
+FAIL: test_unknown_empty_or_missing_grades_cannot_freeze (scripts.test_canonical_target_selection_validator.CanonicalTargetSelectionValidatorTests.test_unknown_empty_or_missing_grades_cannot_freeze) (grade=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_canonical_target_selection_validator.py", line 121, in test_unknown_empty_or_missing_grades_cannot_freeze
+    self.assertEqual(self.run_live(selection=sel)["result"], "FAIL")
+AssertionError: 'PASS' != 'FAIL'
+- PASS
++ FAIL
+
+
+======================================================================
+FAIL: test_unknown_empty_or_missing_grades_cannot_freeze (scripts.test_canonical_target_selection_validator.CanonicalTargetSelectionValidatorTests.test_unknown_empty_or_missing_grades_cannot_freeze)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_canonical_target_selection_validator.py", line 123, in test_unknown_empty_or_missing_grades_cannot_freeze
+    self.assertEqual(self.run_live(selection=base)["result"], "FAIL")
+AssertionError: 'PASS' != 'FAIL'
+- PASS
++ FAIL
+
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.021s
+
+FAILED (failures=11, errors=2)

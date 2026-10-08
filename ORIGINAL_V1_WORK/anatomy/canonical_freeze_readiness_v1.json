@@ -25,7 +25,8 @@
         "landmark-compatible 3D scapular envelope and AC/acromion/coracoid placement",
         "absolute SC/AC/GH centres, neutral thorax pose and independent endpoint-matched confirmation remain open",
         "Standing-alignment SC/AC surface landmarks are not articular centres; match source length endpoints and map the IJ/C7/PX/T8 thorax frame before using the historical relative vector or sweep.",
-        "Fontana pooled stature correlation is quarantined; surface-end vs articular-centre chord mapping and male covariance remain unresolved. SC bone-head, cartilage-patch and kinematic centres must be distinguished; new MRI diameters do not supply bilateral SC-centre breadth."
+        "Fontana pooled stature correlation is quarantined; surface-end vs articular-centre chord mapping and male covariance remain unresolved. SC bone-head, cartilage-patch and kinematic centres must be distinguished; new MRI diameters do not supply bilateral SC-centre breadth.",
+        "standing thorax pitch conflict: 4,082 standing men put C7 80.7 +/- 11.4 mm above IJ at 1.82 m, bony models 33-46 mm (IJ-C7 line about 20 deg); resolve before global ISB thorax axes. Provisional SC height 1500.5 mm (band 1486-1514) is IJ-dominated; a003 IJ is 24.7 mm (z +2.1) above the 1.82 m standard"
       ],
       "next_action": "Resolve source endpoint mappings and neutral thorax pose before selecting absolute SC/AC/GH centres; measured relative envelope is provisional.",
       "source_review_2026_10_08": {
@@ -33,7 +34,8 @@
         "SC_contacts": "canonical_SC_contact_semantics_v1.json",
         "status": "PROVISIONAL; no numerical target selected"
       },
-      "primary_SC_model_reference": "canonical_sc_primary_model_reference_v1.json"
+      "primary_SC_model_reference": "canonical_sc_primary_model_reference_v1.json",
+      "thorax_frame_review": "canonical_thorax_frame_182_review_v1.json"
     },
     "spine": {
       "readiness": "PARTIAL",

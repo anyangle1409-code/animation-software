@@ -1,0 +1,93 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-08",
+ "status": "REVIEW_PROVISIONAL_NOT_SELECTED",
+ "freeze_ready": false,
+ "owner_policy": "PROPORTION_POLICY_182CM_MALE",
+ "stature_m": 1.82,
+ "ansur_standing_anchors_at_182_mm": {
+  "definitions": "standing living skin landmarks above the floor; prediction and residual SD",
+  "suprasternaleheight": {
+   "mean": 1494.5,
+   "residual_sd": 11.7
+  },
+  "cervicaleheight": {
+   "mean": 1575.2,
+   "residual_sd": 11.2
+  },
+  "acromialheight": {
+   "mean": 1497.7,
+   "residual_sd": 16.2
+  },
+  "chestheight": {
+   "mean": 1341.4,
+   "residual_sd": 18.1
+  },
+  "tenthribheight": {
+   "mean": 1166.8,
+   "residual_sd": 20.3
+  },
+  "C7_minus_IJ_vertical": {
+   "mean": 80.7,
+   "residual_sd": 11.4
+  },
+  "acromion_minus_IJ_vertical": {
+   "mean": 3.1,
+   "residual_sd": 13.9
+  }
+ },
+ "thorax_pitch_conflict": {
+  "living_ANSUR_C7_above_IJ_mm": 80.7,
+  "seth_holzbaur_model_frame_C7_above_IJ_mm": 32.8,
+  "bodyparts3d_specimen_C7_above_IJ_mm": 45.5,
+  "IJ_to_C7_line_elevation_deg": {
+   "seth_model_frame": 20.0,
+   "bodyparts3d_specimen": 20.9,
+   "living_vertical_with_bony_depth_90_120mm": [
+    33.9,
+    41.9
+   ]
+  },
+  "reading": "Both bony models put C7 about 33-46 mm above IJ (IJ-C7 line about 20 deg); 4,082 standing men put the skin landmarks 80.7 +/- 11.4 mm apart. Either the generic/specimen thoraces are pitched differently from standing men, or skin landmarks differ from the bony points. The standing thorax pitch, and therefore the global ISB thorax axes, stays OPEN."
+ },
+ "SC_relative_to_IJ": {
+  "source_ISB_mm": {
+   "anterior": 7.2,
+   "superior": 6.0,
+   "lateral": 25.5
+  },
+  "source": "SETH_2016_SCAPULOTHORACIC_MODEL (Holzbaur-derived generic model, unscaled)",
+  "bilateral_SC_centre_breadth_mm": 50.9,
+  "SC_height_above_IJ_vs_thorax_pitch_mm": {
+   "-20 deg": 3.2,
+   "-10 deg": 4.7,
+   "0 deg": 6.0,
+   "10 deg": 7.2,
+   "20 deg": 8.1
+  },
+  "reading": "SC is close to IJ, so pitch uncertainty of +/-20 deg moves its height relative to IJ by only a few mm; its absolute height is dominated by the IJ height."
+ },
+ "provisional_SC_height_mm": {
+  "value": 1500.5,
+  "band": [
+   1486.0,
+   1514.3
+  ],
+  "basis": "ANSUR suprasternale at 1.82 m (skin; bony notch taken at the same height) plus Seth SC-above-IJ"
+ },
+ "a003": {
+  "IJ_bone_height_mm": 1519.2,
+  "IJ_minus_standard_mm": 24.7,
+  "IJ_z": 2.11,
+  "SC_height_mm": 1514.2,
+  "SC_minus_provisional_mm": 13.7,
+  "bilateral_SC_breadth_mm": 50.0,
+  "reading": "a003 IJ (and SC with it) sits about 2 SD above the 1.82 m standard because it follows the authored r95 sternal notch; under the owner policy the canonical IJ follows the standard. a003 SC breadth matches the model breadth."
+ },
+ "still_open": [
+  "IJ-C7 horizontal depth and standing thorax pitch for a 1.82 m male (resolves the ISB axes)",
+  "whether ANSUR skin suprasternale equals the bony notch height (expected within a few mm; unmeasured here)",
+  "scaling of the generic SC offset to 1.82 m (model stature not established)",
+  "SC bone-head vs cartilage-patch vs kinematic centre semantics (canonical_SC_contact_semantics_v1.json)"
+ ]
+}

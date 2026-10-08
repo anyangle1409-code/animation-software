@@ -115,6 +115,21 @@
     "proportion_report": "ORIGINAL_V1_WORK/anatomy/audit/proportion_audit_001/proportion_report.json",
     "ansur_file": "ORIGINAL_V1_WORK/anatomy/sources/ansur2/ANSUR_II_MALE_Public.csv",
     "open_models": "ORIGINAL_V1_WORK/anatomy/sources/open_musculoskeletal_models.json",
-    "policy": "docs/SKELETON_FIRST_PRODUCTION_POLICY_20261008.md"
+    "policy": "docs/SKELETON_FIRST_PRODUCTION_POLICY_20261008.md",
+    "canonical_proportion_sources": "ORIGINAL_V1_WORK/anatomy/canonical_proportion_sources_v1.json"
+  },
+  "progress_2026_10_08": {
+    "completed": [
+      "Separated corroborated proximal joint-centre anchors from mesh-driven distal proportions.",
+      "Recorded population-conditioned surface references for distal upper limb and foot.",
+      "Registered independent hand and foot morphometry sources for later absolute and internal-ray targets.",
+      "Updated Claude auto-resume prompt and Blender handoff to enforce skeleton-first policy."
+    ],
+    "still_open": [
+      "Direct bony radius/ulna target with stature relation.",
+      "Numerical full hand metacarpal/phalange target formulas.",
+      "Numerical tarsal/metatarsal/phalange linear target set.",
+      "Spine/rib canonical proportional anchors."
+    ]
   }
 }

@@ -32,15 +32,24 @@
       "L5/S1": 24.123564356435644
     },
     "sum_deg": 56.4,
-    "rationale": "The Kim cohort PI mean (50.5°) closely matches the male Hasegawa PI mean (50.1°). Its level distribution is therefore used as a shape template and scaled to the Hasegawa male L1-S1 mean of 56.4°.",
-    "guard": "These are reference-pose segmental targets, not ROM limits. They must remain within source SD corridors and may be adjusted when the final S1/endplate geometry is solved."
+    "rationale": "The 2022 asymptomatic cohort PI mean (50.5\u00b0) closely matches the male Hasegawa PI mean (50.1\u00b0). Its level distribution is therefore used as a shape template and scaled to the Hasegawa male L1-S1 mean of 56.4\u00b0.",
+    "guard": "These are reference-pose segmental targets, not ROM limits. They must remain within source SD corridors and may be adjusted when the final S1/endplate geometry is solved.",
+    "measurement_semantics": {
+      "endplates": "superior-to-superior",
+      "disc_only_angle": false,
+      "includes": "upper vertebral body wedging plus intervening disc",
+      "verified_definition": "Figure 5C of DOI 10.1038/s41598-022-21840-x depicts adjacent superior endplate lines; Fig 5B and methods define L1/L4/S1 superior endplate reference chain.",
+      "verified_url": "https://d-nb.info/127884676X/34",
+      "verified_pdf_page": 6,
+      "author_note": "Legacy KIM_2022 identifier retained for compatibility; DOI/title identify the source. Original PDF first author Fei-Li Fang; do not infer Kim authorship from the identifier."
+    }
   },
   "cervical_policy": {
     "selected_numeric_curve": null,
     "state": "NORMAL_SOURCE_FAMILY_CONFLICT",
     "evidence": [
-      "Hasegawa male C2-C7 global mean is near neutral (source convention +lordosis: -0.6 ±8.6°).",
-      "Reinhold/DGOU segmental means sum to 9.6° lordosis under their opposite sign convention."
+      "Hasegawa male C2-C7 global mean is near neutral (source convention +lordosis: -0.6 \u00b18.6\u00b0).",
+      "Reinhold/DGOU segmental means sum to 9.6\u00b0 lordosis under their opposite sign convention."
     ],
     "rule": "Do not average signed cervical values. Choose the final cervical neutral family after C7/T1 and head-over-pelvis constraints are assembled."
   },
@@ -48,7 +57,7 @@
     "global_T1_T12_kyphosis_deg": 43.7,
     "sd_deg": 9,
     "state": "GLOBAL_SELECTED_PER_LEVEL_DISTRIBUTION_OPEN",
-    "rule": "Do not distribute 43.7° uniformly. Per-level curvature must respect thoracic body/endplate geometry and rib attachment levels."
+    "rule": "Do not distribute 43.7\u00b0 uniformly. Per-level curvature must respect thoracic body/endplate geometry and rib attachment levels."
   },
   "construction_dependencies": [
     "canonical_spine_level_stack_v1.json",

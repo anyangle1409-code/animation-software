@@ -1,0 +1,266 @@
+{
+  "schema_version": 1,
+  "status": "EXACT_CANONICAL_TARGET_FREEZE_BLOCKED",
+  "scope": "Next canonical anatomical skeleton only; production geometry/weights/drivers and a003 unchanged",
+  "verified_progress": [
+    "Measured scapular relative envelope; no absolute joint centres",
+    "Superior-to-superior lumbar endplate orientation chain; no invented centres or inferior endplate wedges",
+    "Rib demographic invalid-input rejection",
+    "Direct ANSUR regression independently recomputed"
+  ],
+  "technical_capability": {
+    "bpy": "5.2.1 LTS verified available",
+    "new_canonical_blender_candidate": "withheld by explicit numerical target gate, not unavailable Blender"
+  },
+  "source_access_blockers": [
+    {
+      "region": "ribs",
+      "required": "unambiguous proximal spiral feasibility/branch constraint Eq 2.18",
+      "checked": [
+        "University of Michigan thesis handle",
+        "bitstream/handle PDF",
+        "bitstream legacy PDF path",
+        "indexed equation transcription"
+      ],
+      "result": "three live HTTP 403 responses; indexed inequality ambiguous",
+      "needed": "legible primary equation or author reconstruction implementation",
+      "safest_next_action": "recover source; do not choose a visually plausible branch"
+    }
+  ],
+  "regions": {
+    "shoulder_girdle": {
+      "status": "PARTIAL",
+      "why": [
+        "stature-aware final clavicle endpoint/centreline selection",
+        "landmark-compatible 3D scapular envelope and AC/acromion/coracoid placement",
+        "absolute SC/AC/GH centres, neutral thorax pose and independent endpoint-matched confirmation remain open"
+      ],
+      "evidence_checked": [
+        "clavicle gross defect confirmed",
+        "distinct SC/AC/GH topology",
+        "multi-source clavicle and glenoid scale evidence",
+        "source-bound 29-landmark relative scapular envelope from 125 subjects with direct male stature regression"
+      ],
+      "needed": [
+        "stature-aware final clavicle endpoint/centreline selection",
+        "landmark-compatible 3D scapular envelope and AC/acromion/coracoid placement",
+        "absolute SC/AC/GH centres, neutral thorax pose and independent endpoint-matched confirmation remain open"
+      ],
+      "safest_next_action": "Resolve source endpoint mappings and neutral thorax pose before selecting absolute SC/AC/GH centres; measured relative envelope is provisional."
+    },
+    "spine": {
+      "status": "PARTIAL",
+      "why": [
+        "L5-S1 through upper-lumbar 3D endplate/frame chain",
+        "thoracic per-level curvature/endplate distribution",
+        "cervical neutral family selection and head-over-pelvis check",
+        "mixed-method thoracic body/disc reconciliation before exact 3D freeze",
+        "inferior endplate wedges and disc-only rotations cannot be inferred from full superior-to-superior segment angles"
+      ],
+      "evidence_checked": [
+        "cervical body/disc corridors",
+        "lumbar body/disc corridors",
+        "zero-disc-gap defect confirmed",
+        "complete level-by-level C3-L5 body-height and C2/S1-connected disc-gap evidence stack",
+        "full direct-anatomical thoracic disc table C7/T1 through T11/T12",
+        "C2 adult body-height evidence",
+        "provisional male global spinopelvic reference family P1",
+        "provisional P1 S1 centre/endplate frame from retained HA + male PTh/PT/SS",
+        "provisional P1 superior-endplate orientations with superior-to-superior source semantics verified"
+      ],
+      "needed": [
+        "L5-S1 through upper-lumbar 3D endplate/frame chain",
+        "thoracic per-level curvature/endplate distribution",
+        "cervical neutral family selection and head-over-pelvis check",
+        "mixed-method thoracic body/disc reconciliation before exact 3D freeze",
+        "inferior endplate wedges and disc-only rotations cannot be inferred from full superior-to-superior segment angles"
+      ],
+      "safest_next_action": "Resolve inferior-endplate/body-wedge geometry and method-matched disc heights before deriving absolute lumbar centres; retain verified superior-endplate orientations."
+    },
+    "ribs": {
+      "status": "BLOCKED",
+      "why": [
+        "reference age/weight selection or explicit envelope",
+        "2016 logarithmic-spiral 2D reconstruction",
+        "3D thoracic-frame mapping and rib head/tubercle/anterior contact coordinates"
+      ],
+      "evidence_checked": [
+        "24 identities and articulation exceptions",
+        "population rib-shape evidence",
+        "curved-centreline representation policy",
+        "Holcombe 2017 Table A1/A2 demographic parameter model transcribed for all 12 rib levels",
+        "source-scaled evaluator and regression tests added"
+      ],
+      "needed": [
+        "reference age/weight selection or explicit envelope",
+        "2016 logarithmic-spiral 2D reconstruction",
+        "3D thoracic-frame mapping and rib head/tubercle/anterior contact coordinates"
+      ],
+      "safest_next_action": "Create rib-level non-bone centreline/contact dataset before any new Blender master."
+    },
+    "forearm": {
+      "status": "PARTIAL",
+      "why": [
+        "endpoint-compatible canonical radius corridor",
+        "endpoint-compatible ulna corridor",
+        "revised DRUJ/wrist centre after retarget"
+      ],
+      "evidence_checked": [
+        "separate radius/ulna policy",
+        "radius shortness direction supported",
+        "elbow centre retained provisionally"
+      ],
+      "needed": [
+        "endpoint-compatible canonical radius corridor",
+        "endpoint-compatible ulna corridor",
+        "revised DRUJ/wrist centre after retarget"
+      ],
+      "safest_next_action": "Resolve radius/ulna endpoints independently, then rebuild wrist centre and pronation axis."
+    },
+    "carpus": {
+      "status": "BLOCKED",
+      "why": [
+        "all eight 3D centroids in one canonical wrist frame",
+        "intercarpal/radiocarpal contact-centre layout",
+        "pisiform line axis and envelope-axis mapping into HGPT"
+      ],
+      "evidence_checked": [
+        "size hierarchy",
+        "selected centroid spacing ratios",
+        "neutral axis corridors",
+        "seven neutral carpal line axes mapped to HGPT anatomical world basis",
+        "adult-male 3D envelope dimensions for all eight carpal bones"
+      ],
+      "needed": [
+        "all eight 3D centroids in one canonical wrist frame",
+        "intercarpal/radiocarpal contact-centre layout",
+        "pisiform line axis and envelope-axis mapping into HGPT"
+      ],
+      "safest_next_action": "Create a canonical wrist frame and solve centroids/axes before touching hand mesh."
+    },
+    "hand": {
+      "status": "PARTIAL",
+      "why": [
+        "carpal/wrist layout",
+        "exact M2-M4 target values not frozen",
+        "thumb CMC local geometry"
+      ],
+      "evidence_checked": [
+        "M2-M4 shortness supported by three evidence streams",
+        "M1/M5 and most phalanges provisionally plausible"
+      ],
+      "needed": [
+        "carpal/wrist layout",
+        "exact M2-M4 target values not frozen",
+        "thumb CMC local geometry"
+      ],
+      "safest_next_action": "Freeze wrist/carpus first, then choose M2-M4 values inside cross-source corridors."
+    },
+    "pelvis": {
+      "status": "PARTIAL",
+      "why": [
+        "landmark-rich os coxae envelope around retained HJC",
+        "SI auricular geometry tied to canonical sacrum/os coxae",
+        "pubic symphysis contact and pelvic-ring closure",
+        "final sacral width/curvature"
+      ],
+      "evidence_checked": [
+        "HJC provisionally corroborated",
+        "sacral length provisionally plausible",
+        "pelvic scale/HJC source framework",
+        "P1 S1 centre/endplate frame from retained HJC and male standing pelvic geometry"
+      ],
+      "needed": [
+        "landmark-rich os coxae envelope around retained HJC",
+        "SI auricular geometry tied to canonical sacrum/os coxae",
+        "pubic symphysis contact and pelvic-ring closure",
+        "final sacral width/curvature"
+      ],
+      "safest_next_action": "Use the new S1 frame as the sacral-base anchor while constructing os coxae/SI/pubis geometry; do not alter HJC just to fit r95."
+    },
+    "lower_limb_long_bones": {
+      "status": "PARTIAL",
+      "why": [
+        "fibula endpoint semantics",
+        "patella width/thickness/trochlear contact path"
+      ],
+      "evidence_checked": [
+        "femur/tibia chain provisionally credible",
+        "patella size plausible"
+      ],
+      "needed": [
+        "fibula endpoint semantics",
+        "patella width/thickness/trochlear contact path"
+      ],
+      "safest_next_action": "Refine fibula and patellofemoral geometry; do not rescale femur/tibia without new evidence."
+    },
+    "tarsus": {
+      "status": "BLOCKED",
+      "why": [
+        "bone centroids/envelopes in common frame",
+        "subtalar/talonavicular/calcaneocuboid/naviculocuneiform contact centres",
+        "TMT base layout"
+      ],
+      "evidence_checked": [
+        "whole-bone size hierarchy",
+        "talocrural/subtalar/talonavicular identities",
+        "measurement-semantic separation"
+      ],
+      "needed": [
+        "bone centroids/envelopes in common frame",
+        "subtalar/talonavicular/calcaneocuboid/naviculocuneiform contact centres",
+        "TMT base layout"
+      ],
+      "safest_next_action": "Construct hindfoot/midfoot contact chain before deciding final foot length."
+    },
+    "forefoot_toes": {
+      "status": "PARTIAL",
+      "why": [
+        "M3-M5 stature-aware reconciliation",
+        "toe phalanx stature-aware targets",
+        "partition of excess surface length across skeletal chain vs soft tissue"
+      ],
+      "evidence_checked": [
+        "surface foot is confirmed too long",
+        "M1/M2 stature-aware evidence added",
+        "Patil radiographic set retained as one endpoint-defined dataset"
+      ],
+      "needed": [
+        "M3-M5 stature-aware reconciliation",
+        "toe phalanx stature-aware targets",
+        "partition of excess surface length across skeletal chain vs soft tissue"
+      ],
+      "safest_next_action": "Do not shorten all metatarsals; reconcile bone definitions first, then partition final heel-to-toe length."
+    },
+    "head_neck_fixed": {
+      "status": "PARTIAL",
+      "why": [
+        "cranial/facial envelope target coordinates",
+        "mandible full landmark target",
+        "adult hyoid numeric target"
+      ],
+      "evidence_checked": [
+        "TMJ breadth provisionally plausible",
+        "mandible/hyoid required landmark sets defined",
+        "206 topology complete"
+      ],
+      "needed": [
+        "cranial/facial envelope target coordinates",
+        "mandible full landmark target",
+        "adult hyoid numeric target"
+      ],
+      "safest_next_action": "Finish low-kinematic-priority reference geometry after shoulder/spine/limb blockers."
+    }
+  },
+  "verification": {
+    "canonical_tests": 48,
+    "scapula_tests": 13,
+    "rib_tests": 6,
+    "full_python_tests": 685,
+    "full_python_failures": 5,
+    "full_python_errors": 4,
+    "remaining_failure_scope": "existing production/recovery fixtures; full details python_suite_685_tests.txt",
+    "atlas_structure": "206 bones / 427 contacts / 30 semantic frames / 44 profiles",
+    "dynamic_canonical_acceptance": false
+  }
+}

@@ -9,6 +9,7 @@ HGPT thoracic-frame mapping are independently implemented and tested.
 from __future__ import annotations
 
 import json
+import math
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -24,14 +25,23 @@ def predict_parameter(model: dict, rib: int, parameter: str, *, age_years: float
         raise ValueError("rib must be 1..12")
     if sex not in (0, 1):
         raise ValueError("sex must use source coding: 0=male, 1=female")
+    if not all(math.isfinite(v) for v in (age_years, height_m, weight_kg)):
+        raise ValueError("demographic predictors must be finite")
     if age_years < 18:
         raise ValueError("adult reference model: age_years must be >= 18")
     if height_m <= 0 or weight_kg <= 0:
         raise ValueError("height_m and weight_kg must be positive")
     scales = model["scales"][parameter]
     raw = model["levels"][str(rib)]["coefficients_raw"][parameter]
+    if len(raw) != 5 or len(scales) != 5:
+        raise ValueError("each parameter requires five coefficients and scales")
+    if not all(math.isfinite(float(v)) for v in [*raw, *scales]):
+        raise ValueError("coefficients and scales must be finite")
     predictors = [1.0, age_years, float(sex), height_m, weight_kg]
-    return sum(float(c) * float(s) * x for c, s, x in zip(raw, scales, predictors))
+    result = sum(float(c) * float(s) * x for c, s, x in zip(raw, scales, predictors))
+    if not math.isfinite(result):
+        raise ValueError("nonfinite rib prediction")
+    return result
 
 
 def predict_rib(model: dict, rib: int, *, age_years: float, sex: int, height_m: float, weight_kg: float) -> dict:

@@ -36,15 +36,17 @@
         "full direct-anatomical thoracic disc table C7/T1 through T11/T12",
         "C2 adult body-height evidence",
         "provisional male global spinopelvic reference family P1",
-        "provisional P1 S1 centre/endplate frame from retained HA + male PTh/PT/SS"
+        "provisional P1 S1 centre/endplate frame from retained HA + male PTh/PT/SS",
+        "provisional P1 superior-endplate orientations with superior-to-superior source semantics verified"
       ],
       "blockers": [
         "L5-S1 through upper-lumbar 3D endplate/frame chain",
         "thoracic per-level curvature/endplate distribution",
         "cervical neutral family selection and head-over-pelvis check",
-        "mixed-method thoracic body/disc reconciliation before exact 3D freeze"
+        "mixed-method thoracic body/disc reconciliation before exact 3D freeze",
+        "inferior endplate wedges and disc-only rotations cannot be inferred from full superior-to-superior segment angles"
       ],
-      "next_action": "Build the audit-only lumbar endplate/frame chain upward from the P1 S1 frame using explicit vertebral body and disc heights; then verify T12/L1 against thoracolumbar angle evidence."
+      "next_action": "Resolve inferior-endplate/body-wedge geometry and method-matched disc heights before deriving absolute lumbar centres; retain verified superior-endplate orientations."
     },
     "ribs": {
       "readiness": "BLOCKED",

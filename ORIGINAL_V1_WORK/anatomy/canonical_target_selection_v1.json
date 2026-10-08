@@ -101,7 +101,8 @@
           -0.0021886170125062013,
           1.0353155070562279
         ],
-        "S1_sacral_slope_deg": 40.9
+        "S1_sacral_slope_deg": 40.9,
+        "lumbar_superior_endplate_orientations": "ORIGINAL_V1_WORK/anatomy/canonical_lumbar_superior_endplate_frames_p1.json"
       },
       "blockers": [
         "build audit-only L5/S1\u2192L1/L2 endplate/frame coordinates from the explicit body+disc stack and P1 S1 plane",

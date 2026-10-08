@@ -48,7 +48,7 @@
     "geometry_definitions": {
       "hip_axis": "midpoint between left/right femoral head centres",
       "pelvic_thickness": "distance from hip axis to centre of S1 superior endplate",
-      "pelvic_tilt": "angle of HA↔S1-centre line relative to vertical",
+      "pelvic_tilt": "angle of HA\u2194S1-centre line relative to vertical",
       "sacral_slope": "angle of S1 superior endplate relative to horizontal",
       "pelvic_incidence": "PI = PT + SS"
     }
@@ -115,7 +115,16 @@
       }
     },
     "sum_of_means_deg": 50.5,
-    "relationship": "Distal lordosis dominates; L5/S1 contributes the largest share. This pattern should be preserved even if the canonical total LL is selected nearer the male Hasegawa mean of 56.4°."
+    "relationship": "Distal lordosis dominates; L5/S1 contributes the largest share. This pattern should be preserved even if the canonical total LL is selected nearer the male Hasegawa mean of 56.4\u00b0.",
+    "measurement_semantics": {
+      "endplates": "superior-to-superior",
+      "disc_only_angle": false,
+      "includes": "upper vertebral body wedging plus intervening disc",
+      "verified_definition": "Figure 5C of DOI 10.1038/s41598-022-21840-x depicts adjacent superior endplate lines; Fig 5B and methods define L1/L4/S1 superior endplate reference chain.",
+      "verified_url": "https://d-nb.info/127884676X/34",
+      "verified_pdf_page": 6,
+      "author_note": "Legacy KIM_2022 identifier retained for compatibility; DOI/title identify the source. Original PDF first author Fei-Li Fang; do not infer Kim authorship from the identifier."
+    }
   },
   "thoracolumbar_wedge_crosscheck": {
     "source": "CRAWFORD_2009_T12_L1_ENDPLATE",
@@ -138,7 +147,7 @@
   "canonical_rules": [
     "Neutral standing alignment is not one rigid universal curve. The master stores a canonical reference pose plus evidence corridors.",
     "Pelvic incidence is a morphological parameter; select PI/SS/PT coherently rather than setting lumbar lordosis independently.",
-    "For a typical reference male, the Hasegawa male PI (~50°), SS (~41°), thoracic kyphosis (~44°) and lumbar lordosis (~56°) form a mutually plausible global family.",
+    "For a typical reference male, the Hasegawa male PI (~50\u00b0), SS (~41\u00b0), thoracic kyphosis (~44\u00b0) and lumbar lordosis (~56\u00b0) form a mutually plausible global family.",
     "Distribute lumbar lordosis distally, with L4/5 and L5/S1 carrying the majority, consistent with asymptomatic segmental data.",
     "Cervical source conflict remains explicit. Do not force the sum of Reinhold segmental means onto the Hasegawa global male mean without choosing a reference posture/population and sign convention.",
     "Every level orientation must be derived from endplate frames, not from rotating stretched a003 bone sticks.",

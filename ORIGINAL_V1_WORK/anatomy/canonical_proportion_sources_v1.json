@@ -376,9 +376,9 @@
       "limitation": "Volume and articular area relationships are not length ratios."
     },
     {
-      "id": "BARRÔCO_2011_332_NORMAL_FEET",
+      "id": "BARR\u00d4CO_2011_332_NORMAL_FEET",
       "type": "weight_bearing_radiographic_forefoot",
-      "citation": "Barrôco R et al. Evaluation of metatarsal relationships in the biomechanics of 332 normal feet using the method of measuring relative lengths. Rev Bras Ortop. 2011/2015.",
+      "citation": "Barr\u00f4co R et al. Evaluation of metatarsal relationships in the biomechanics of 332 normal feet using the method of measuring relative lengths. Rev Bras Ortop. 2011/2015.",
       "pmid": "27027034",
       "pmcid": "PMC4799308",
       "doi": "10.1016/S2255-4971(15)30258-5",
@@ -1153,7 +1153,7 @@
         "anterior/posterior wedging geometry"
       ],
       "limitation": "Older mixed-sex donor cohort; use as a complete level pattern and direct-anatomical disc reference, then cross-check scale against CT/sex/stature evidence before freeze.",
-      "population": "72 thoracic spine segments from 30 donors; mean age 57.43 ± 11.27 years",
+      "population": "72 thoracic spine segments from 30 donors; mean age 57.43 \u00b1 11.27 years",
       "measurement_definition": {
         "vertebral_body": "anterior and posterior vertebral body heights; average = mean of anterior/posterior",
         "disc": "direct anatomical anterior and posterior disc heights; average = mean of anatomical anterior/posterior heights; middle height measured separately"
@@ -1475,7 +1475,7 @@
           "mean": 166.8,
           "sd": 7.3
         },
-        "endpoint_length_note": "overall sample endpoint length 149.4 ± 10.3 mm; male-specific endpoint mean not exposed in abstract"
+        "endpoint_length_note": "overall sample endpoint length 149.4 \u00b1 10.3 mm; male-specific endpoint mean not exposed in abstract"
       },
       "use": [
         "independent clavicle curved-vs-endpoint length distinction",
@@ -2423,7 +2423,7 @@
         "jugular-notch to xiphisternal/corpus endpoint plausibility",
         "independent male sternum scale"
       ],
-      "limitation": "Population-specific; reported total-sternum definition and xiphoid morphology require care. Use manubrium + corpus definitions for comparison to the a003 jugular→xiphisternal stick."
+      "limitation": "Population-specific; reported total-sternum definition and xiphoid morphology require care. Use manubrium + corpus definitions for comparison to the a003 jugular\u2192xiphisternal stick."
     },
     {
       "id": "STERNUM_CT_IRAN_2022",
@@ -2602,7 +2602,7 @@
       "citation": "Kang N, Brassett C. Scapular morphometrics inform anatomic landmark distances for arthroscopic suprascapular nerve decompression. JSES Int. 2026.",
       "pmid": "42164106",
       "pmcid": "PMC13184462",
-      "population": "20 shoulders from 10 White British cadavers; 5 male, 5 female; mean age 80.8 ± 8.9 years",
+      "population": "20 shoulders from 10 White British cadavers; 5 male, 5 female; mean age 80.8 \u00b1 8.9 years",
       "values_mm": {
         "lateral_acromion_to_AC_joint": {
           "mean": 34,
@@ -2663,7 +2663,7 @@
           "sd": 3.6
         }
       },
-      "measurement_note": "The paper describes manubrial shape using the least breadth and the breadth between clavicular notches; Table 2 reports the male maximum breadth as 68.2 ± 8.0 mm. Treat this as an outer manubrial/clavicular-notch breadth constraint, not a direct SC-centre-to-centre measure.",
+      "measurement_note": "The paper describes manubrial shape using the least breadth and the breadth between clavicular notches; Table 2 reports the male maximum breadth as 68.2 \u00b1 8.0 mm. Treat this as an outer manubrial/clavicular-notch breadth constraint, not a direct SC-centre-to-centre measure.",
       "use": [
         "outer SC/manubrial transverse plausibility envelope"
       ],
@@ -2734,7 +2734,7 @@
     {
       "id": "C2_AXIS_MORPHOMETRY_2015",
       "type": "dry_axis_morphometry",
-      "citation": "Singla M et al. Morphometric Analysis of Axis and Its Clinical Significance—An Anatomical Study of Indian Human Axis Vertebrae. J Clin Diagn Res. 2015.",
+      "citation": "Singla M et al. Morphometric Analysis of Axis and Its Clinical Significance\u2014An Anatomical Study of Indian Human Axis Vertebrae. J Clin Diagn Res. 2015.",
       "pmcid": "PMC4484059",
       "values_mm": {
         "anterior_C2_body_height": 19.67,
@@ -2888,7 +2888,17 @@
         "level distribution of lumbar lordosis around a PI close to the male Hasegawa mean",
         "S1/lumbosacral orientation family"
       ],
-      "limitation": "Not male-only; lordosis distribution varies with pelvic incidence. Use percentages/level pattern with the male PI family rather than one immutable posture."
+      "limitation": "Not male-only; lordosis distribution varies with pelvic incidence. Use percentages/level pattern with the male PI family rather than one immutable posture.",
+      "doi": "10.1038/s41598-022-21840-x",
+      "measurement_semantics": {
+        "endplates": "superior-to-superior",
+        "disc_only_angle": false,
+        "includes": "upper vertebral body wedging plus intervening disc",
+        "verified_definition": "Figure 5C of DOI 10.1038/s41598-022-21840-x depicts adjacent superior endplate lines; Fig 5B and methods define L1/L4/S1 superior endplate reference chain.",
+        "verified_url": "https://d-nb.info/127884676X/34",
+        "verified_pdf_page": 6,
+        "author_note": "Legacy KIM_2022 identifier retained for compatibility; DOI/title identify the source. Original PDF first author Fei-Li Fang; do not infer Kim authorship from the identifier."
+      }
     },
     {
       "id": "CRAWFORD_2009_T12_L1_ENDPLATE",
@@ -2927,6 +2937,50 @@
         "independent confirmation of PTh landmark definition used to reconstruct the S1 endplate centre from retained bilateral HJC"
       ],
       "limitation": "Used here for measurement semantics, not to replace Hasegawa's male PTh/PT/SS numeric reference."
+    },
+    {
+      "id": "LEE_2024_SCAPULA_RAW_3D",
+      "citation": "Lee ECS, Lawrence RL, Rainbow MJ. Sexual dimorphism and allometry in human scapula shape. Journal of Anatomy (2024).",
+      "doi": "10.1111/joa.14124",
+      "dataset_doi": "10.5683/SP3/PHVS3D",
+      "dataset_url": "https://borealisdata.ca/dataset.xhtml?persistentId=doi:10.5683/SP3/PHVS3D",
+      "license": "CC BY 4.0",
+      "workbook": "ORIGINAL_V1_WORK/anatomy/sources/scapula_lee2024/SubjectDemographicsAndLandmarks.xlsx",
+      "sha256": "c8d9bd697014f350e2145d781bcf37162a9e1377a2d3c20b288c10844bb0b976",
+      "published_file_id": 714668,
+      "published_md5": "c0adeb1dbed8a83e61572640de345a0b",
+      "sample": {
+        "total": 125,
+        "male": 45,
+        "male_height_available": 42,
+        "asymptomatic_no_FTT_male": 34,
+        "asymptomatic_no_FTT_male_height_available": 33
+      },
+      "units": {
+        "coordinates": "mm",
+        "stature": "cm"
+      },
+      "landmark_mapping_1based": {
+        "3": "superior vertebral-border angle",
+        "5": "intersection of spine with vertebral border; medial spine landmark",
+        "7": "inferior vertebral-border angle",
+        "14": "root of spine; distinct from medial-border point 5",
+        "15": "inferior glenoid rim extent",
+        "16": "posterior glenoid rim extent",
+        "17": "anterior glenoid rim extent",
+        "18": "superior glenoid rim extent",
+        "19": "shallowest glenoid midline point, not GH sphere centre",
+        "25": "exterior acromial angle",
+        "26": "interior acromial angle",
+        "27": "lateral distal acromial extent"
+      },
+      "use": "Provisional rigidly aligned relative 29-landmark envelope and direct stature regression; no absolute joint centres.",
+      "limitations": [
+        "Independent endpoint-matched confirmation required before exact freeze.",
+        "2022 d1 is tubercle-to-tubercle, not this dataset glenoid-rim chord.",
+        "Exterior and interior acromial angles must not be substituted to force agreement.",
+        "Sparse measured landmarks are evidence, not a complete production bone surface."
+      ]
     }
   ],
   "unresolved_source_needs": [

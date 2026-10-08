@@ -25,3 +25,5 @@
 - Baseline: Python discovery 658 tests, 8 failures and 4 errors; canonical subset 35 tests, 3 failures. Full details will be retained in the verification report. `bpy` not currently installed; package discovery could not resolve it.
 
 - Preflight reconciliation published at f601ce44; newer S1 work preserved. Blender 5.2.1 LTS bpy installed and 22 live synthetic checks passed. Added source-bound measured scapula relative envelope, 13 tests and bilateral Blender roundtrip; absolute joint target remains blocked.
+
+- Scapula source/Blender checks published ead7588d. Verified spine upper-endplate semantics and derived orientations only; inferior endplate/body wedges block centres. Rib finite/malformed input mutation now fails closed; full proximal branch blocked by source access. Forearm report independently recomputed; ulna remains independent. Full discovery 685 tests with nine known legacy production/recovery failures/errors. Essential region blockers recorded in machine-readable target_blockers.json.

@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "status": "PROVISIONAL_P1_SUPERIOR_ENDPLATE_ORIENTATIONS_ONLY",
+  "freeze_ready": false,
+  "reference": "canonical_spine_reference_pose_p1.json",
+  "source_semantics": {
+    "endplates": "superior-to-superior",
+    "disc_only_angle": false,
+    "includes": "upper vertebral body wedging plus intervening disc",
+    "verified_definition": "Figure 5C of DOI 10.1038/s41598-022-21840-x depicts adjacent superior endplate lines; Fig 5B and methods define L1/L4/S1 superior endplate reference chain.",
+    "verified_url": "https://d-nb.info/127884676X/34",
+    "verified_pdf_page": 6,
+    "author_note": "Legacy KIM_2022 identifier retained for compatibility; DOI/title identify the source. Original PDF first author Fei-Li Fang; do not infer Kim authorship from the identifier."
+  },
+  "frames": {
+    "S1": {
+      "slope_deg": 40.9,
+      "left_axis": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "AP_axis": [
+        0.0,
+        0.7558534691676395,
+        0.6547408137173397
+      ],
+      "normal": [
+        0.0,
+        -0.6547408137173397,
+        0.7558534691676395
+      ],
+      "centre_m": null,
+      "endplate": "superior"
+    },
+    "L5": {
+      "slope_deg": 16.776435643564355,
+      "left_axis": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "AP_axis": [
+        0.0,
+        0.9574382882919752,
+        0.28863805035464835
+      ],
+      "normal": [
+        0.0,
+        -0.28863805035464835,
+        0.9574382882919752
+      ],
+      "centre_m": null,
+      "endplate": "superior"
+    },
+    "L4": {
+      "slope_deg": 2.5926732673267328,
+      "left_axis": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "AP_axis": [
+        0.0,
+        0.9989763624427432,
+        0.04523524378916278
+      ],
+      "normal": [
+        0.0,
+        -0.04523524378916278,
+        0.9989763624427432
+      ],
+      "centre_m": null,
+      "endplate": "superior"
+    },
+    "L3": {
+      "slope_deg": -7.570495049504949,
+      "left_axis": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "AP_axis": [
+        0.0,
+        0.9912835153786762,
+        -0.1317459378443743
+      ],
+      "normal": [
+        0.0,
+        0.1317459378443743,
+        0.9912835153786762
+      ],
+      "centre_m": null,
+      "endplate": "superior"
+    },
+    "L2": {
+      "slope_deg": -14.159801980198019,
+      "left_axis": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "AP_axis": [
+        0.0,
+        0.9696172159569701,
+        -0.2446271745327044
+      ],
+      "normal": [
+        0.0,
+        0.2446271745327044,
+        0.9696172159569701
+      ],
+      "centre_m": null,
+      "endplate": "superior"
+    },
+    "L1": {
+      "slope_deg": -15.499999999999998,
+      "left_axis": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "AP_axis": [
+        0.0,
+        0.963630453208623,
+        -0.26723837607825685
+      ],
+      "normal": [
+        0.0,
+        0.26723837607825685,
+        0.963630453208623
+      ],
+      "centre_m": null,
+      "endplate": "superior"
+    }
+  },
+  "limitations": [
+    "No absolute vertebral centres derived.",
+    "Each superior-to-superior angle includes upper vertebral body wedging and intervening disc; inferior endplates and disc wedges remain unresolved.",
+    "No parallel-endplate assumption or body-height/disc-mean substitution is permitted.",
+    "P1 scaling combines separate cohorts as a provisional shape family, not an individual measured spine."
+  ]
+}

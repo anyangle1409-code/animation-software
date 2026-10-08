@@ -18,7 +18,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_ANSUR = ROOT / "ORIGINAL_V1_WORK/anatomy/sources/ansur2/ANSUR_II_MALE_Public.csv"
-DEFAULT_SURFACE = ROOT / "ORIGINAL_V1_WORK/anatomy/audit/proportion_audit_001/surface_measurements.json"
+DEFAULT_SURFACE = ROOT / "ORIGINAL_V1_WORK/anatomy/audit/proportion_audit_001/character_surface.json"
 DEFAULT_ADDENDUM = ROOT / "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003_review_addendum.json"
 DEFAULT_OUT = ROOT / "ORIGINAL_V1_WORK/anatomy/canonical_forearm_target_report_v1.json"
 

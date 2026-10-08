@@ -52,6 +52,20 @@ class RibDemographicModelTests(unittest.TestCase):
         self.assertEqual(policy["unresolved_inputs"], ["age_years", "weight_kg"])
         self.assertIn("NOT_YET_FROZEN", self.m["status"])
 
+    def test_nonfinite_predictors_and_malformed_coefficients_fail_closed(self):
+        import copy
+        for field in ('age_years', 'height_m', 'weight_kg'):
+            for value in (float('nan'), float('inf'), -float('inf')):
+                kwargs=dict(age_years=40, sex=0, height_m=1.82, weight_kg=80)
+                kwargs[field]=value
+                with self.assertRaises(ValueError):
+                    self.mod.predict_rib(self.m, 6, **kwargs)
+        for replacement in ([1, 2], [0, 0, float('nan'), 0, 0]):
+            bad=copy.deepcopy(self.m)
+            bad['levels']['6']['coefficients_raw']['Sx']=replacement
+            with self.assertRaises(ValueError):
+                self.mod.predict_rib(bad, 6, age_years=40, sex=0, height_m=1.82, weight_kg=80)
+
     def test_invalid_inputs_fail(self):
         with self.assertRaises(ValueError):
             self.mod.predict_rib(self.m, 0, age_years=40, sex=0, height_m=1.82, weight_kg=80)

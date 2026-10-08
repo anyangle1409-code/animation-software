@@ -63,7 +63,7 @@
     },
     "spine": {
       "evidence_grade": "A_STRUCTURAL_DEFECT",
-      "freeze_state": "SOURCE_LEVELS_AVAILABLE_TARGET_CURVE_NOT_SELECTED",
+      "freeze_state": "SOURCE_LEVELS_NUMERICALLY_COMPLETE_3D_ALIGNMENT_NOT_SELECTED",
       "selected": {
         "cervical_body_heights_mm": null,
         "cervical_disc_heights_mm": null,
@@ -72,12 +72,25 @@
         "lumbar_body_heights_mm": null,
         "lumbar_disc_heights_mm": null,
         "sagittal_endplate_frame_sequence": null,
-        "level_height_stack": "ORIGINAL_V1_WORK/anatomy/canonical_spine_level_stack_v1.json"
+        "level_height_stack": "ORIGINAL_V1_WORK/anatomy/canonical_spine_level_stack_v1.json",
+        "C2_body_geometry": {
+          "anterior_male_CT_mm": {
+            "mean": 20.8,
+            "sd": 0.66,
+            "source": "C2_VBH_CT_2008"
+          },
+          "posterior_crosscheck_mm": {
+            "value": 16.67,
+            "source": "C2_AXIS_MORPHOMETRY_2015"
+          },
+          "status": "DIMENSIONS_AVAILABLE_WEDGE_FRAME_OPEN"
+        }
       },
       "blockers": [
-        "C2 vertebral body height with compatible adult reference",
-        "select level-specific values inside source corridors where methods conflict",
-        "reconstruct sagittal endplate/frame sequence and S1 transition without stretching bones"
+        "select per-level anterior/posterior/endplate wedge geometry consistently across cervical/thoracic/lumbar regions",
+        "reconstruct canonical sagittal lordosis/kyphosis and per-level endplate orientation",
+        "define S1 superior endplate geometry and lumbosacral angle",
+        "resolve mixed-method/stature-sex normalization before exact thoracic freeze"
       ]
     },
     "ribs": {

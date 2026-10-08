@@ -4,9 +4,30 @@
   "sources": {
     "SCAPULAR_LANDMARK_CADAVER_2026": {
       "citation": "Scapular morphometrics inform anatomic landmark distances for arthroscopic suprascapular nerve decompression: a cadaveric study.",
-      "evidence": "Mean lateral-acromion to AC-joint distance 3.4 ± 0.8 cm, range 2.3-5.2 cm.",
-      "use": "AC joint medial offset from the lateral acromial landmark.",
-      "caveat": "Cadaveric sample; use as a geometric corridor rather than exact target."
+      "pmid": "42164106",
+      "publication_year": 2026,
+      "verified_access": "PubMed abstract checked 2026-10-08",
+      "actual_reported_measurements_mm": {
+        "lateral_STSL_to_lateral_acromion": {
+          "mean": 77,
+          "sd": 10,
+          "range": [
+            62,
+            92
+          ]
+        },
+        "lateral_STSL_to_AC_joint": {
+          "mean": 45,
+          "sd": 6,
+          "range": [
+            31,
+            55
+          ]
+        }
+      },
+      "invalid_inference_withdrawn": "The paper does NOT directly report lateral-acromion-to-AC distance. The difference between two 3-D distances to STSL cannot be treated as the direct AC↔acromion distance because the landmarks need not be collinear.",
+      "use": "Do not use this paper to set transverse AC offset. Retain only as suprascapular-notch/STSL surgical-landmark evidence.",
+      "status": "CORRECTED_NOT_USED_FOR_CANONICAL_AC_OFFSET"
     },
     "CLAVICLE_LENGTH_CT_SYMMETRY_2018": {
       "citation": "Quantifying shortening of the fractured clavicle assuming clavicular symmetry is unreliable. 2018.",
@@ -30,5 +51,10 @@
       "all_endpoint_sd_mm": 10.3,
       "use": "Curved centreline vs straight endpoint invariant and adult-male true-length corridor."
     }
+  },
+  "audit_correction_2026_10_08": {
+    "issue": "Earlier source transcription incorrectly registered lateral-acromion→AC as 34±8 mm (23-52).",
+    "verified_source_result": "Actual abstract reports lateral STSL→lateral acromion 77±10 mm and lateral STSL→AC 45±6 mm.",
+    "consequence": "All shoulder target logic that used a direct 34±8 mm AC offset has been withdrawn. Exact AC transverse offset remains open."
   }
 }

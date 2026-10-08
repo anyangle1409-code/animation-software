@@ -2586,6 +2586,79 @@
         "evidence-weighting rule against overinterpreting either unconditioned means or inverted stature equations"
       ],
       "limitation": "Correlation meta-analysis does not provide one universal dimensional target."
+    },
+    {
+      "id": "SCAPULA_AC_LATERAL_2026",
+      "type": "cadaveric_scapular_landmark_morphometry",
+      "citation": "Kang N, Brassett C. Scapular morphometrics inform anatomic landmark distances for arthroscopic suprascapular nerve decompression. JSES Int. 2026.",
+      "pmid": "42164106",
+      "pmcid": "PMC13184462",
+      "population": "20 shoulders from 10 White British cadavers; 5 male, 5 female; mean age 80.8 ± 8.9 years",
+      "values_mm": {
+        "lateral_acromion_to_AC_joint": {
+          "mean": 34,
+          "sd": 8,
+          "range": [
+            23,
+            52
+          ]
+        },
+        "scapular_height": {
+          "mean": 146,
+          "sd": 15,
+          "range": [
+            111,
+            167
+          ]
+        },
+        "scapular_spine_length": {
+          "mean": 140,
+          "sd": 14,
+          "range": [
+            114,
+            161
+          ]
+        },
+        "scapular_width": {
+          "mean": 108,
+          "sd": 12,
+          "range": [
+            85,
+            130
+          ]
+        }
+      },
+      "measurement_definition": "The full text explicitly reports the direct distance from the lateral acromion to the AC joint; this result is distinct from the two separately measured distances to the STSL.",
+      "use": [
+        "direct AC-to-lateral-acromion transverse shoulder constraint",
+        "scapular scale cross-check"
+      ],
+      "limitation": "Small mixed-sex elderly cadaver sample. Use with uncertainty and independent biacromial/clavicle evidence, not as the sole final target."
+    },
+    {
+      "id": "STERNUM_SELTHOFER_2006",
+      "type": "adult_sternum_osteology",
+      "citation": "Selthofer R et al. Morphometric Analysis of the Sternum. Coll Antropol. 2006;30(1):43-47.",
+      "population": "90 adult sterna; 55 male, 35 female; mean age about 65 years",
+      "male_values_mm": {
+        "manubrium_max_breadth": {
+          "mean": 68.2,
+          "sd": 8
+        },
+        "manubrium_min_breadth": {
+          "mean": 36.8,
+          "sd": 5.5
+        },
+        "manubrium_length": {
+          "mean": 55.2,
+          "sd": 3.6
+        }
+      },
+      "measurement_note": "The paper describes manubrial shape using the least breadth and the breadth between clavicular notches; Table 2 reports the male maximum breadth as 68.2 ± 8.0 mm. Treat this as an outer manubrial/clavicular-notch breadth constraint, not a direct SC-centre-to-centre measure.",
+      "use": [
+        "outer SC/manubrial transverse plausibility envelope"
+      ],
+      "limitation": "Older osteological sample and the reported maximum breadth is not a direct bilateral SC joint-centre distance."
     }
   ],
   "unresolved_source_needs": [

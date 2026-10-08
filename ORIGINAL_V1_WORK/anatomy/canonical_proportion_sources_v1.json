@@ -1149,9 +1149,144 @@
       },
       "use": [
         "thoracic vertebral-body height trend",
-        "body-vs-disc separation"
+        "complete direct-anatomical C7/T1 through T11/T12 disc-gap table",
+        "anterior/posterior wedging geometry"
       ],
-      "limitation": "Sample/method differs from CT studies and values are generally smaller than some population CT datasets; use as one corridor bound, not sole target."
+      "limitation": "Older mixed-sex donor cohort; use as a complete level pattern and direct-anatomical disc reference, then cross-check scale against CT/sex/stature evidence before freeze.",
+      "population": "72 thoracic spine segments from 30 donors; mean age 57.43 ± 11.27 years",
+      "measurement_definition": {
+        "vertebral_body": "anterior and posterior vertebral body heights; average = mean of anterior/posterior",
+        "disc": "direct anatomical anterior and posterior disc heights; average = mean of anatomical anterior/posterior heights; middle height measured separately"
+      },
+      "body_average_height_mm": {
+        "C7": 14.14,
+        "T1": 14.88,
+        "T2": 15.56,
+        "T3": 16.53,
+        "T4": 16.79,
+        "T5": 16.59,
+        "T6": 17.13,
+        "T7": 17.31,
+        "T8": 18.52,
+        "T9": 19.26,
+        "T10": 19.67,
+        "T11": 21.14,
+        "T12": 21.96
+      },
+      "disc_average_height_mm": {
+        "C7/T1": 4.5,
+        "T1/T2": 4.4,
+        "T2/T3": 3.5,
+        "T3/T4": 3.3,
+        "T4/T5": 3.2,
+        "T5/T6": 3.5,
+        "T6/T7": 4.1,
+        "T7/T8": 3.9,
+        "T8/T9": 5.3,
+        "T9/T10": 4.8,
+        "T10/T11": 6.5,
+        "T11/T12": 5.4
+      },
+      "disc_anterior_mean_sd_mm": {
+        "C7/T1": [
+          4.5,
+          0.79
+        ],
+        "T1/T2": [
+          4.5,
+          0.77
+        ],
+        "T2/T3": [
+          3.4,
+          0.97
+        ],
+        "T3/T4": [
+          3.3,
+          0.3
+        ],
+        "T4/T5": [
+          3,
+          0.74
+        ],
+        "T5/T6": [
+          3.5,
+          0.37
+        ],
+        "T6/T7": [
+          4.1,
+          0.35
+        ],
+        "T7/T8": [
+          4.2,
+          0.97
+        ],
+        "T8/T9": [
+          5.6,
+          1.17
+        ],
+        "T9/T10": [
+          5.4,
+          1.74
+        ],
+        "T10/T11": [
+          7.2,
+          1.21
+        ],
+        "T11/T12": [
+          6,
+          1.14
+        ]
+      },
+      "disc_posterior_mean_sd_mm": {
+        "C7/T1": [
+          4.5,
+          0.51
+        ],
+        "T1/T2": [
+          4.3,
+          0.62
+        ],
+        "T2/T3": [
+          3.5,
+          0.99
+        ],
+        "T3/T4": [
+          3.2,
+          0.49
+        ],
+        "T4/T5": [
+          3.3,
+          0.45
+        ],
+        "T5/T6": [
+          3.6,
+          0.47
+        ],
+        "T6/T7": [
+          4.1,
+          0.65
+        ],
+        "T7/T8": [
+          3.6,
+          0.9
+        ],
+        "T8/T9": [
+          5,
+          0.91
+        ],
+        "T9/T10": [
+          4.2,
+          1.1
+        ],
+        "T10/T11": [
+          5.8,
+          1
+        ],
+        "T11/T12": [
+          4.8,
+          1.26
+        ]
+      }
     },
     {
       "id": "THORACIC_CT_2016_INDIA",
@@ -2100,6 +2235,37 @@
         "stature-aware direction check for short a003 M2-M4"
       ],
       "limitation": "Full regression coefficients are not transcribed into the source register yet; Terry sample is historical and population-specific, so these means are cross-checks rather than canonical targets."
+    },
+    {
+      "id": "THORACIC_DISC_CT_2015",
+      "type": "adult_thoracic_disc_CT_morphometry",
+      "citation": "CT morphometry of adult thoracic intervertebral discs. Eur Spine J. 2015.",
+      "pmid": "25862653",
+      "population": "128 recently deceased adults without known spinal pathology; 70 male, 58 female; ages 20-79",
+      "findings": {
+        "male_anterior_disc_height_overall_mm": [
+          4,
+          1.4
+        ],
+        "male_posterior_disc_height_overall_mm": [
+          3.6,
+          0.9
+        ],
+        "male_T4_T5_anterior_height_mm": [
+          2.7,
+          0.7
+        ],
+        "male_T10_T11_anterior_height_mm": [
+          5.4,
+          1.2
+        ],
+        "male_greater_than_female": true
+      },
+      "use": [
+        "sex-specific independent thoracic disc scale cross-check",
+        "level trend cross-check"
+      ],
+      "limitation": "Accessible abstract exposes selected level values rather than the full male level table."
     }
   ],
   "unresolved_source_needs": [

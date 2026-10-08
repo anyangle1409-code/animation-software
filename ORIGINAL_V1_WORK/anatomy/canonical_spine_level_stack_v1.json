@@ -2,7 +2,7 @@
   "schema_version": 1,
   "created": "2026-10-08",
   "purpose": "Level-by-level evidence stack for a skeleton-first C2-S1 spine. Separates vertebral body height from non-bone disc/contact gaps and makes unresolved levels/orientations explicit.",
-  "status": "LEVEL_HEIGHT_STACK_COMPLETE_EXCEPT_C2_BODY_AND_3D_ALIGNMENT_NOT_FROZEN",
+  "status": "LEVEL_HEIGHT_STACK_NUMERIC_BODY_DISC_EVIDENCE_COMPLETE_3D_ALIGNMENT_NOT_FROZEN",
   "policy": [
     "Vertebral body heights and disc gaps are stored separately; a disc is not part of a bone stick.",
     "C0/C1 and C1/C2 do not receive intervertebral discs.",
@@ -17,14 +17,25 @@
     "thoracic_disc": "THORACIC_BODY_DISC_2011",
     "thoracic_disc_second": "THORACIC_DISC_CT_2015",
     "lumbar_body": "LUMBAR_CT_2026_BODY",
-    "lumbar_disc": "LUMBAR_DISC_CT_2018"
+    "lumbar_disc": "LUMBAR_DISC_CT_2018",
+    "c2_body_primary": "C2_VBH_CT_2008",
+    "c2_body_secondary": "C2_AXIS_MORPHOMETRY_2015"
   },
   "vertebral_bodies_mm": {
     "C2": {
       "candidate": null,
-      "source": null,
-      "status": "BLOCKED_NUMERIC_BODY_HEIGHT",
-      "note": "C2 body is morphologically distinct; do not copy C3 height."
+      "anterior_height_mm": {
+        "male_CT_mean": 20.8,
+        "male_CT_sd": 0.66,
+        "source": "C2_VBH_CT_2008"
+      },
+      "independent_anatomical_crosscheck_mm": {
+        "anterior": 19.67,
+        "posterior": 16.67,
+        "source": "C2_AXIS_MORPHOMETRY_2015"
+      },
+      "status": "C2_NUMERIC_BODY_DIMENSIONS_AVAILABLE_ENDPLATE_FRAME_NOT_FROZEN",
+      "definition": "C2 is wedge/axis-specific; retain anterior and posterior body heights separately rather than collapsing to a copied C3 centre-height."
     },
     "C3": {
       "candidate": 14.4,
@@ -282,11 +293,11 @@
     "C1/C2"
   ],
   "unresolved": [
-    "C2 vertebral body height with adult-male compatible definition",
+    "C2 superior/inferior endplate orientation and posterior-height selection for the canonical 3D wedge; numeric body-height evidence is now available",
     "level-specific endplate anterior/posterior heights needed to reconstruct wedge geometry consistently across cervical/thoracic/lumbar regions",
     "canonical sagittal lordosis/kyphosis target and per-level endplate orientation",
     "S1 superior endplate geometry and lumbosacral angle",
     "stature/sex normalization of mixed-sex thoracic body/disc source before exact freeze"
   ],
-  "next_step": "Use this stack to generate a source-bounded C2-S1 endplate-centre solver once the C2 body and sagittal orientation targets are resolved; do not instantiate a new Blender candidate yet."
+  "next_step": "Build the sagittal/endplate frame sequence from C2 through S1 using the recorded body/disc dimensions, then reconcile mixed-method thoracic values and lumbosacral angle before selecting final 3D coordinates."
 }

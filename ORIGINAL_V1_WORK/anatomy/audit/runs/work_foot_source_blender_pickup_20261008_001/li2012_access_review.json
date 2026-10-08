@@ -1,0 +1,24 @@
+{
+  "status": "BLOCKED_PRIMARY_FULL_TABLE_ACCESS",
+  "source_id": "SCJ_CT_LI_2012",
+  "pmid": "22340551",
+  "publisher_doi": "10.3760/cma.j.issn.0366-6999.2012.02.013",
+  "checked_on": "2026-10-08",
+  "routes": [
+    {
+      "url": "https://mednexus.org/doi/pdf/10.3760/cma.j.issn.0366-6999.2012.02.013",
+      "http_status": 403,
+      "pdf_obtained": false
+    },
+    {
+      "url": "https://journals.lww.com/cmj/_layouts/15/oaks.journals/downloadpdf.aspx?an=00029330-201201020-00014",
+      "http_status": 402,
+      "pdf_obtained": false
+    }
+  ],
+  "abstract_confirmed": "53 healthy Chinese volunteers; axial bilateral clavicle distance measured but no numerical distance reported in the abstract. SC spaces reported left 8.2 and right 8.7 mm.",
+  "measurement_limit": "Joint space and bilateral medial-clavicle distance are not automatically bilateral joint-centre breadth; full figure/table endpoint definitions remain essential.",
+  "selected_SC_centre": null,
+  "needed": "Authorized full article/table/figure access and compatible endpoint definitions, or independent verified clavicular-notch/contact geometry.",
+  "safe_next_action": "Inspect the already acquired Seth source model separately while retaining generic model and anatomical target distinctions."
+}

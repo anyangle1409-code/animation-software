@@ -1,0 +1,45 @@
+{
+  "status": "CONFIRMED_SOURCE_ONLY_SAVE_RELOAD",
+  "bpy_version": "5.2.1 LTS",
+  "scenes": [
+    {
+      "scene": "SOURCE_ONLY_M02_L_Calc",
+      "object": "M02_L_Calc",
+      "source_sha256": "0bb31fe230b68d249b6e205faab4963dee6a6f5fb118444cebb1c0a1ee287ea1",
+      "mesh_sha256": "a776dc8db79231157aaf98904d5a600fea3d83cd8a638a04b8252be6e14dd3a9",
+      "vertices": 6008,
+      "triangles": 12012,
+      "object_transform_identity": true
+    },
+    {
+      "scene": "SOURCE_ONLY_M02_L_Talus",
+      "object": "M02_L_Talus",
+      "source_sha256": "1dc30fc305ef5c94c2bca7e40840b60f289abb86be11f2f5956cd60afef76e93",
+      "mesh_sha256": "b668fdc1cd7304b96c778f4c93aa75aa3cedacd563e95d9c1dd875e4ad423088",
+      "vertices": 3525,
+      "triangles": 7046,
+      "object_transform_identity": true
+    },
+    {
+      "scene": "SOURCE_ONLY_M02_L_1Met",
+      "object": "M02_L_1Met",
+      "source_sha256": "935b3232f7ee96c7a3b17c3667bb174d552383f86931b89b9ab3b7e7bfab6114",
+      "mesh_sha256": "37416e1733ef60545ccf5985fa55016fd26f389c3e4dc2318f0108166497dd00",
+      "vertices": 2432,
+      "triangles": 4860,
+      "object_transform_identity": true
+    },
+    {
+      "scene": "SOURCE_ONLY_M02_L_Midfoot",
+      "object": "M02_L_Midfoot",
+      "source_sha256": "b39818c398110481d83d5685834eb5f0e5a2c42be47bc1270ac77f6d74752182",
+      "mesh_sha256": "c0e3b9ee649572e0455b83ecb924fddf9c7aa5878559a54d94e6bfd21e89c891",
+      "vertices": 15910,
+      "triangles": 31752,
+      "object_transform_identity": true
+    }
+  ],
+  "canonical_candidate": false,
+  "production_modified": false,
+  "blend_sha256": "8b7a075c8863b07d66bac31a8307bac00a3c348795763527df3ae37b0d728cec"
+}

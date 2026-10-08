@@ -31,3 +31,5 @@
 - Owner requested Claude inspection handoff and kept anatomy fixes ahead of runtime exercise checks. Fresh bpy recheck: unchanged a003 135/135 integrity tests, 41 mirror passes plus two SOLVER_TEST exceptions. Eight independent distal spiral tests and 24 non-bone bilateral bpy curves verified; no full rib/canonical candidate claimed. Engine dependencies prepared locally, but engine checks deferred per owner priority; runtime/production source unchanged.
 
 - Added provisional body/disc lumbar orientation decomposition with explicit source SE/subset limits and independent trapezoid sign. Live bpy 11 orientation fixtures roundtrip verified; CT2026 sample-count and width semantics reopened. Absolute geometry remains blocked.
+
+- Added independent MRI edge body/disc heights without mixing middle/edge/normal definitions or supine/standing. Impossible source SD is quarantined and bounded sample-variance checks verified. Current readiness updated; target geometry remains open.

@@ -67,3 +67,5 @@ Resolve essential numeric targets before generating the next immutable canonical
 ## Latest lumbar continuation
 
 Review canonical_lumbar_wedge_evidence_v1.json, canonical_lumbar_body_disc_frames_p1.json and canonical_lumbar_ct_source_review_v1.json. Five inferior orientations are provisional only. Check posterior-positive wedge signs independently, SE/SD distinction, cross-cohort closure, CT source count inconsistency and unresolved width plane. No absolute centres or new canonical master exist. Run scripts/test_canonical_lumbar_wedge_decomposition.py and the local bpy fixture command from audit/runs/work_bpy_lumbar_orientation_20261008_001/README.md.
+
+Independent edge-height review now in canonical_lumbar_edge_height_crosscheck_v1.json. Recheck Table 4 L1 posterior printed SD against its observed range; usable SD is deliberately null. Run scripts/test_anatomical_source_statistics.py. Do not convert supine edge-gap means into standing centre spacing.

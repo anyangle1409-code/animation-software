@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "status": "PROVISIONAL_INDEPENDENT_EDGE_HEIGHT_CONTEXT",
+  "freeze_ready": false,
+  "source": {
+    "id": "HEGAZY_2014_LUMBAR_MRI",
+    "doi": "10.1155/2014/370852",
+    "url": "https://onlinelibrary.wiley.com/doi/10.1155/2014/370852",
+    "location": "Methods/Table 1; total male rows Tables 4/5",
+    "male_n": 46,
+    "age_years": [
+      25,
+      57
+    ],
+    "posture": "supine with flexed hips and knees",
+    "selection": "Normal radiologist-read MRI; clinically referred cohort, not uniformly asymptomatic.",
+    "verified": "2026-10-08"
+  },
+  "definition": "Maximum anterior/posterior border distance in midsagittal image. Not central height, plane-normal thickness or disc wedge angle.",
+  "body_edge_heights": {
+    "L1": {
+      "anterior_mean_mm": 25.23,
+      "anterior_SD_mm": 1.97,
+      "posterior_mean_mm": 26.3,
+      "posterior_SD_mm": null,
+      "posterior_printed_SD_mm": 26.3,
+      "posterior_printed_range_mm": [
+        20,
+        30
+      ],
+      "posterior_SD_status": "QUARANTINED_IMPOSSIBLE_PRINTED_STATISTIC_DO_NOT_REPAIR_BY_GUESSING"
+    },
+    "L2": {
+      "anterior_mean_mm": 26.84,
+      "anterior_SD_mm": 1.87,
+      "posterior_mean_mm": 27.13,
+      "posterior_SD_mm": 1.89
+    },
+    "L3": {
+      "anterior_mean_mm": 27.29,
+      "anterior_SD_mm": 1.72,
+      "posterior_mean_mm": 26.9,
+      "posterior_SD_mm": 1.96
+    },
+    "L4": {
+      "anterior_mean_mm": 27.88,
+      "anterior_SD_mm": 1.56,
+      "posterior_mean_mm": 25.87,
+      "posterior_SD_mm": 1.84
+    },
+    "L5": {
+      "anterior_mean_mm": 29.31,
+      "anterior_SD_mm": 1.74,
+      "posterior_mean_mm": 24.09,
+      "posterior_SD_mm": 1.82
+    }
+  },
+  "disc_edge_gaps": {
+    "L1/L2": {
+      "anterior_mean_mm": 8.91,
+      "anterior_SD_mm": 1.2,
+      "posterior_mean_mm": 6.6,
+      "posterior_SD_mm": 1.1
+    },
+    "L2/L3": {
+      "anterior_mean_mm": 10,
+      "anterior_SD_mm": 1.23,
+      "posterior_mean_mm": 7.03,
+      "posterior_SD_mm": 0.92
+    },
+    "L3/L4": {
+      "anterior_mean_mm": 11.3,
+      "anterior_SD_mm": 1.41,
+      "posterior_mean_mm": 7.73,
+      "posterior_SD_mm": 1.35
+    },
+    "L4/L5": {
+      "anterior_mean_mm": 12.76,
+      "anterior_SD_mm": 1.27,
+      "posterior_mean_mm": 7.87,
+      "posterior_SD_mm": 1.22
+    },
+    "L5/S1": {
+      "anterior_mean_mm": 14.41,
+      "anterior_SD_mm": 1.55,
+      "posterior_mean_mm": 6.82,
+      "posterior_SD_mm": 0.96
+    }
+  },
+  "limitations": [
+    "No stature conditioning. Supine disc dimensions cannot silently become standing gaps.",
+    "No AP depth supplied here; height difference cannot uniquely determine wedge angle.",
+    "Do not average edge heights with CT middle-body heights or three-point mean disc heights.",
+    "Printed L1 posterior SD is impossible for range 20\u201330 and n=46; retain mean as provisional context but quarantine SD.",
+    "Other table/subgroup consistency has not been fully audited; this is not acceptance of every statistic."
+  ]
+}

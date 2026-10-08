@@ -3020,6 +3020,17 @@
         "separate body/disc wedge orientation semantics"
       ],
       "limitation": "SE not SD; pooled body and posture-specific disc groups; independent endpoint-matched numerical corroboration required."
+    },
+    {
+      "id": "HEGAZY_2014_LUMBAR_MRI",
+      "type": "midsagittal_MRI_morphometry",
+      "doi": "10.1155/2014/370852",
+      "url": "https://onlinelibrary.wiley.com/doi/10.1155/2014/370852",
+      "evidence_file": "canonical_lumbar_edge_height_crosscheck_v1.json",
+      "use": [
+        "independent endpoint-defined body/disc edge-height context"
+      ],
+      "limitation": "Supine flexed-hip/knee posture; no stature regression. L1 posterior SD quarantined as impossible; other source-table issues remain unreviewed."
     }
   ],
   "unresolved_source_needs": [

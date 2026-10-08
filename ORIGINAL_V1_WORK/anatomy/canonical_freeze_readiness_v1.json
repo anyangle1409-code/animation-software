@@ -37,16 +37,19 @@
         "C2 adult body-height evidence",
         "provisional male global spinopelvic reference family P1",
         "provisional P1 S1 centre/endplate frame from retained HA + male PTh/PT/SS",
-        "provisional P1 superior-endplate orientations with superior-to-superior source semantics verified"
+        "provisional P1 superior-endplate orientations with superior-to-superior source semantics verified",
+        "provisional separate lumbar body/inferior endplate and disc-wedge orientations, with posterior-positive sign and local bpy roundtrip verified",
+        "independent male MRI anterior/posterior body and disc edge-height context; invalid printed SD quarantined"
       ],
       "blockers": [
         "L5-S1 through upper-lumbar 3D endplate/frame chain",
         "thoracic per-level curvature/endplate distribution",
         "cervical neutral family selection and head-over-pelvis check",
         "mixed-method thoracic body/disc reconciliation before exact 3D freeze",
-        "inferior endplate wedges and disc-only rotations cannot be inferred from full superior-to-superior segment angles"
+        "independent endpoint-matched lumbar body-wedge corroboration before freeze",
+        "lumbar middle/edge/normal height and standing/supine disc definitions require geometric reconciliation; CT2026 count and width-plane issues remain open"
       ],
-      "next_action": "Resolve inferior-endplate/body-wedge geometry and method-matched disc heights before deriving absolute lumbar centres; retain verified superior-endplate orientations."
+      "next_action": "Reconcile body/disc surface and height definitions and independent evidence before deriving absolute centres; provisional inferior and superior orientations now available."
     },
     "ribs": {
       "readiness": "BLOCKED",

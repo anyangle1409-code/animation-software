@@ -560,6 +560,152 @@
         "confirm whether a003 long foot is skeletal as well as surface"
       ],
       "limitation": "Single regional sample and 2D radiographs. Distal phalanx comparison to a003 is weaker because the current armature distal tip can include a surface-tip allowance."
+    },
+    {
+      "id": "PATTERSON_1995_CARPAL_3D_CT",
+      "type": "3D_CT_carpal_morphometry",
+      "citation": "Patterson RM et al. Carpal bone anatomy measured by computer analysis of three-dimensional reconstructions of computed tomography images. J Hand Surg Am. 1995.",
+      "pmid": "8583063",
+      "doi": "10.1016/S0363-5023(05)80138-8",
+      "population": "35 wrists",
+      "accessible_findings": {
+        "maximum_length_order": [
+          "capitate",
+          "hamate",
+          "scaphoid",
+          "trapezium",
+          "lunate",
+          "trapezoid",
+          "triquetrum",
+          "pisiform"
+        ],
+        "male_wrists_larger_than_female": true,
+        "side_relative_dimensions_difference": "not significant"
+      },
+      "use": [
+        "carpal size hierarchy",
+        "reject equal-length schematic carpal row as freeze-ready geometry"
+      ],
+      "limitation": "Accessible abstract gives ordering but not all numerical maximum lengths."
+    },
+    {
+      "id": "CANOVAS_2004_CARPAL_3D_CT",
+      "type": "3D_CT_carpal_centroids",
+      "citation": "Canovas F et al. Study of carpal bone morphology and position in three dimensions by image analysis from computed tomography scans of the wrist. Surg Radiol Anat. 2004.",
+      "pmid": "15173959",
+      "doi": "10.1007/s00276-003-0207-x",
+      "population": "18 normal adults",
+      "accessible_findings": {
+        "capitate_triquetrum_centroid_distance_as_percent_capitate_axis_length": {
+          "mean": 157.6,
+          "sd": 8.4
+        },
+        "hamate_triquetrum_centroid_distance_as_percent_capitate_axis_length": {
+          "mean": 91.4,
+          "sd": 7.3
+        }
+      },
+      "use": [
+        "carpal centroid layout",
+        "relative 3D spacing independent of surface mesh"
+      ],
+      "limitation": "Small sample; only selected normalized distances exposed in abstract."
+    },
+    {
+      "id": "CARPAL_ALIGNMENT_2023_CT",
+      "type": "3D_CT_carpal_alignment",
+      "citation": "Three-dimensional carpal alignment: computer-aided CT analysis of carpal axes and normal ranges. J Hand Surg Eur Vol. 2023.",
+      "pmid": "36927212",
+      "population": "121 neutrally positioned asymptomatic wrists",
+      "accessible_sagittal_angles_deg": {
+        "scaphoid": [
+          58,
+          10
+        ],
+        "lunate": [
+          0,
+          11
+        ],
+        "triquetrum": [
+          12,
+          8
+        ],
+        "trapezium": [
+          17,
+          8
+        ],
+        "trapezoid": [
+          -10,
+          7
+        ],
+        "capitate": [
+          -17,
+          9
+        ],
+        "hamate": [
+          2,
+          7
+        ]
+      },
+      "accessible_coronal_angles_deg": {
+        "scaphoid": [
+          -42,
+          9
+        ],
+        "lunate": [
+          -20,
+          4
+        ],
+        "triquetrum": [
+          -49,
+          4
+        ],
+        "trapezium": [
+          -32,
+          6
+        ],
+        "trapezoid": [
+          -16,
+          5
+        ],
+        "capitate": [
+          2,
+          7
+        ],
+        "hamate": [
+          8,
+          6
+        ]
+      },
+      "use": [
+        "neutral carpal axis orientation corridors",
+        "wrist master-frame placement"
+      ],
+      "limitation": "Angles depend on the study's radial coordinate system; must map frames explicitly before applying."
+    },
+    {
+      "id": "CARPAL_RADIOGRAPHIC_DATABASE_1998",
+      "type": "wrist_radiographic_morphometry",
+      "citation": "Postero-anterior radiography of the wrist. Normal database of carpal measurements. Surg Radiol Anat. 1998.",
+      "pmid": "9706683",
+      "accessible_findings": {
+        "scaphoid_length_mm": [
+          22,
+          3
+        ],
+        "lunate_anterior_horn_mm": [
+          11,
+          1
+        ],
+        "lunate_posterior_horn_mm": [
+          16,
+          2
+        ]
+      },
+      "use": [
+        "secondary carpal length plausibility"
+      ],
+      "limitation": "2D radiographic lengths and horn dimensions are not directly identical to 3D maximum-length or centroid-axis definitions."
     }
   ],
   "unresolved_source_needs": [

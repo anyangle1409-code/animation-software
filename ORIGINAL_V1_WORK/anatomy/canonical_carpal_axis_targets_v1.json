@@ -1,0 +1,169 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Map published neutral 3D carpal alignment into the HGPT anatomical world basis without using the r95 mesh. These are line-axis targets, not carpal centroids or final contact geometry.",
+  "status": "SEVEN_CARPAL_AXIS_TARGETS_MAPPED_PISIFORM_AND_CENTROIDS_UNRESOLVED",
+  "source": {
+    "primary": "CARPAL_ALIGNMENT_2023_CT",
+    "supporting": "CARPAL_ALIGNMENT_2021_CT",
+    "population": "121 neutrally positioned asymptomatic wrists",
+    "source_coordinate_semantics": "radiocarpal sagittal angle positive palmar; coronal angle positive ulnar. Geometric axis used for radius/scaphoid/capitate; surface-normal axis used for the other reported carpals."
+  },
+  "HGPT_world_basis": {
+    "character_faces": "-Y",
+    "proximal": "+Z",
+    "palmar": "-Y",
+    "dorsal": "+Y",
+    "left_radial": "+X",
+    "left_ulnar": "-X",
+    "right_radial": "-X",
+    "right_ulnar": "+X"
+  },
+  "conversion": {
+    "rule": "Treat source sagittal and coronal angles as projected line-axis angles relative to the radial/proximal axis. Build components proportional to [tan(coronal)*ulnar_dir, tan(sagittal)*palmar_dir, proximal], then normalize. Axis sign is chosen proximal-positive because the source reports undirected alignment lines.",
+    "limitation": "This maps neutral axis orientation only. It does not locate the carpal centroid or contact surfaces, and it does not imply intercarpal motion coupling."
+  },
+  "source_angles_deg": {
+    "scaphoid": {
+      "sagittal_mean": 58,
+      "sagittal_sd": 10,
+      "coronal_mean": -42,
+      "coronal_sd": 9
+    },
+    "lunate": {
+      "sagittal_mean": 0,
+      "sagittal_sd": 11,
+      "coronal_mean": -20,
+      "coronal_sd": 4
+    },
+    "triquetrum": {
+      "sagittal_mean": 12,
+      "sagittal_sd": 8,
+      "coronal_mean": -49,
+      "coronal_sd": 4
+    },
+    "trapezium": {
+      "sagittal_mean": 17,
+      "sagittal_sd": 8,
+      "coronal_mean": -32,
+      "coronal_sd": 6
+    },
+    "trapezoid": {
+      "sagittal_mean": -10,
+      "sagittal_sd": 7,
+      "coronal_mean": -16,
+      "coronal_sd": 5
+    },
+    "capitate": {
+      "sagittal_mean": -17,
+      "sagittal_sd": 9,
+      "coronal_mean": 2,
+      "coronal_sd": 7
+    },
+    "hamate": {
+      "sagittal_mean": 2,
+      "sagittal_sd": 7,
+      "coronal_mean": 8,
+      "coronal_sd": 6
+    }
+  },
+  "HGPT_axis_unit_vectors": {
+    "left": {
+      "scaphoid": [
+        0.430633083072588,
+        -0.7653863802065545,
+        0.47826649135989574
+      ],
+      "lunate": [
+        0.34202014332566877,
+        0,
+        0.9396926207859084
+      ],
+      "triquetrum": [
+        0.7474767800911745,
+        -0.13811322816850877,
+        0.6497716517588341
+      ],
+      "trapezium": [
+        0.5129583269442591,
+        -0.2509758213894914,
+        0.820904922568026
+      ],
+      "trapezoid": [
+        0.271761279993001,
+        0.16711287558412513,
+        0.947744213124285
+      ],
+      "capitate": [
+        -0.033376292191688965,
+        0.2922088116855449,
+        0.9557719568458036
+      ],
+      "hamate": [
+        -0.13908996112237074,
+        -0.03456026486007353,
+        0.9896764980577134
+      ]
+    },
+    "right": {
+      "scaphoid": [
+        -0.430633083072588,
+        -0.7653863802065545,
+        0.47826649135989574
+      ],
+      "lunate": [
+        -0.34202014332566877,
+        0,
+        0.9396926207859084
+      ],
+      "triquetrum": [
+        -0.7474767800911745,
+        -0.13811322816850877,
+        0.6497716517588341
+      ],
+      "trapezium": [
+        -0.5129583269442591,
+        -0.2509758213894914,
+        0.820904922568026
+      ],
+      "trapezoid": [
+        -0.271761279993001,
+        0.16711287558412513,
+        0.947744213124285
+      ],
+      "capitate": [
+        0.033376292191688965,
+        0.2922088116855449,
+        0.9557719568458036
+      ],
+      "hamate": [
+        0.13908996112237074,
+        -0.03456026486007353,
+        0.9896764980577134
+      ]
+    }
+  },
+  "bone_axis_definitions": {
+    "scaphoid": "geometric axis",
+    "lunate": "normal to distal articular surface",
+    "triquetrum": "normal to distal articular surface",
+    "trapezium": "normal to proximal articular surface",
+    "trapezoid": "normal to proximal articular surface",
+    "capitate": "geometric axis",
+    "hamate": "normal to distal articular surface",
+    "pisiform": "UNRESOLVED_NOT_REPORTED_IN_PRIMARY_ALIGNMENT_SOURCE"
+  },
+  "invariants": [
+    "left/right vectors are exact mirrors across world X",
+    "all stored axis vectors are unit length",
+    "source positive palmar maps toward -Y on both sides",
+    "source positive ulnar maps toward -X on the left and +X on the right",
+    "pisiform remains unresolved rather than copied from another carpal"
+  ],
+  "blockers": [
+    "eight carpal centroids/3D positions in one canonical wrist frame",
+    "pisiform axis/reference geometry",
+    "radiocarpal/midcarpal/intercarpal contact-centre geometry",
+    "bone-envelope dimensions separate from line axes"
+  ]
+}

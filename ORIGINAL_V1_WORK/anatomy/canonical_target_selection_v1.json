@@ -19,20 +19,24 @@
     "shoulder_girdle": {
       "evidence_grade": {
         "clavicle": "A",
-        "scapula": "C"
+        "scapula": "A_TRANSVERSE_DEFECT_EXACT_3D_TARGET_OPEN"
       },
-      "freeze_state": "PARTIAL_ONLY",
+      "freeze_state": "PARTIAL_CONSTRAINT_FAMILY_READY",
       "selected": {
         "stature_conditioned_biacromial_scaffold_mm": 425.15656060295987,
         "acromial_height_scaffold_mm": 1497.6729008056855,
         "clavicle_curved_length_mm": null,
         "clavicle_SC_AC_chord_mm": null,
         "bilateral_AC_breadth_mm": null,
-        "scapula_landmark_frame": null
+        "scapula_landmark_frame": null,
+        "shoulder_constraint_file": "ORIGINAL_V1_WORK/anatomy/canonical_shoulder_target_constraints_v1.json",
+        "neutral_feasible_family": "ORIGINAL_V1_WORK/anatomy/canonical_shoulder_feasible_family_v1.json",
+        "scapular_landmark_audit": "ORIGINAL_V1_WORK/anatomy/canonical_scapula_landmark_audit_v1.json"
       },
       "blockers": [
-        "stature/definition-compatible clavicle target selection",
-        "landmark-compatible 3D scapular geometry"
+        "choose one SC/AC/clavicle coordinate solution inside the feasible family after source-frame mapping",
+        "construct landmark-compatible 3D scapular local frame using AA/TS/AI/glenoid/acromion constraints",
+        "freeze superior-inferior scapular length only after measurement-compatible cross-source reconciliation"
       ]
     },
     "spine": {

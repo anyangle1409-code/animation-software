@@ -1,0 +1,152 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Define the skeleton-first carpal rebuild target as 3D centroid/axis/contact geometry, not arbitrary equal Blender-stick lengths.",
+  "baseline": "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json",
+  "status": "CARPAL_REBUILD_SPECIFIED_NOT_FROZEN",
+  "current_a003_reference_sticks_mm": {
+    "scaphoid": 11,
+    "lunate": 11,
+    "triquetrum": 11,
+    "pisiform": 7,
+    "trapezium": 11,
+    "trapezoid": 11,
+    "capitate": 15,
+    "hamate": 11
+  },
+  "current_problem": [
+    "Six of eight carpal reference sticks are exactly 11 mm in a003, showing that the row is a schematic layout rather than anatomically proportioned 3D carpal geometry.",
+    "The equal-stick pattern is incompatible with CT evidence showing a consistent size hierarchy: capitate > hamate > scaphoid > trapezium > lunate > trapezoid > triquetrum > pisiform.",
+    "Because these Blender bones are functional reference sticks, simply replacing each stick with the published maximum whole-bone length would also be wrong."
+  ],
+  "canonical_representation": {
+    "required_per_carpal": [
+      "3D centroid/reference centre",
+      "principal/geometric axis orientation in the neutral wrist",
+      "proximal/distal and radial/ulnar contact relationships",
+      "bone-specific reference dimensions stored separately from rig-stick length",
+      "explicit parent/follower mechanics only after contact/kinematic evidence is mapped"
+    ],
+    "frame_policy": "Map published carpal axes into the HGPT radial/wrist frame explicitly; never copy signed angles until coordinate handedness and axis definitions are reconciled.",
+    "size_policy": "Use 3D maximum-length/volume ordering as a plausibility constraint on anatomical geometry, not as a mandatory control-bone length."
+  },
+  "source_constraints": {
+    "size_hierarchy": {
+      "source_id": "PATTERSON_1995_CARPAL_3D_CT",
+      "order": [
+        "capitate",
+        "hamate",
+        "scaphoid",
+        "trapezium",
+        "lunate",
+        "trapezoid",
+        "triquetrum",
+        "pisiform"
+      ]
+    },
+    "centroid_spacing": {
+      "source_id": "CANOVAS_2004_CARPAL_3D_CT",
+      "capitate_triquetrum_distance_over_capitate_axis": [
+        157.6,
+        8.4
+      ],
+      "hamate_triquetrum_distance_over_capitate_axis": [
+        91.4,
+        7.3
+      ],
+      "units": "percent, mean ± SD"
+    },
+    "neutral_axis_corridors": {
+      "source_id": "CARPAL_ALIGNMENT_2023_CT",
+      "sagittal_deg_mean_sd": {
+        "scaphoid": [
+          58,
+          10
+        ],
+        "lunate": [
+          0,
+          11
+        ],
+        "triquetrum": [
+          12,
+          8
+        ],
+        "trapezium": [
+          17,
+          8
+        ],
+        "trapezoid": [
+          -10,
+          7
+        ],
+        "capitate": [
+          -17,
+          9
+        ],
+        "hamate": [
+          2,
+          7
+        ]
+      },
+      "coronal_deg_mean_sd": {
+        "scaphoid": [
+          -42,
+          9
+        ],
+        "lunate": [
+          -20,
+          4
+        ],
+        "triquetrum": [
+          -49,
+          4
+        ],
+        "trapezium": [
+          -32,
+          6
+        ],
+        "trapezoid": [
+          -16,
+          5
+        ],
+        "capitate": [
+          2,
+          7
+        ],
+        "hamate": [
+          8,
+          6
+        ]
+      }
+    },
+    "secondary_length_check": {
+      "source_id": "CARPAL_RADIOGRAPHIC_DATABASE_1998",
+      "scaphoid_length_mm": [
+        22,
+        3
+      ],
+      "lunate_anterior_horn_mm": [
+        11,
+        1
+      ],
+      "lunate_posterior_horn_mm": [
+        16,
+        2
+      ]
+    }
+  },
+  "acceptance_tests": [
+    "No arbitrary equal-length template may remain unless an evidence-backed measurement definition justifies it.",
+    "All eight carpal centres must be distinct and ordered consistently with the hand/wrist anatomy.",
+    "Neutral axes must fall within mapped source corridors or carry a documented reason for deviation.",
+    "Published source-frame signs must be transformed into the HGPT frame and unit-tested for world-space anatomical direction.",
+    "Wrist motion tests must distinguish radiocarpal from midcarpal contribution; carpal geometry may not be accepted solely because the hand tip follows the commanded wrist angle.",
+    "Mesh shape must later be fit around the canonical carpal/metacarpal skeleton; current r95 wrist/palm width is not a freeze criterion."
+  ],
+  "sources": [
+    "PATTERSON_1995_CARPAL_3D_CT",
+    "CANOVAS_2004_CARPAL_3D_CT",
+    "CARPAL_ALIGNMENT_2023_CT",
+    "CARPAL_RADIOGRAPHIC_DATABASE_1998"
+  ]
+}

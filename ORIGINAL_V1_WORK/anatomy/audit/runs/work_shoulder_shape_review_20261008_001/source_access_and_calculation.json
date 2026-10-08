@@ -38,5 +38,16 @@
       "HTTP": 500,
       "effect": "No new assertion from inaccessible full text; existing source record preserved."
     }
-  ]
+  ],
+  "additional_excluded_source": {
+    "pmid": "41659779",
+    "pmcid": "PMC12876668",
+    "doi": "10.1016/j.xrrt.2025.100650",
+    "primary_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12876668/fullTextXML",
+    "bytes": 45070,
+    "sha256": "bbf9200e71af4be57ba3f0a829c3f567e44692ddf1353afd0465a43ecd1264c0",
+    "checked": "Methods, Results and Table I",
+    "excluded_reason": "Portal-to-capsule/neurovascular distances have incompatible endpoints; no SC-centre coordinate or bilateral articular breadth supplied.",
+    "target_used": false
+  }
 }

@@ -24,34 +24,56 @@ def load(path):
     return json.loads(path.read_text())
 
 
-def main():
-    s, conv, corr = load(SEL), load(CONV), load(CORR)
+def _contains_unresolved_grade(value):
+    """Return True if an evidence-grade field still contains a C/D grade.
+
+    Grades are sometimes stored as strings and sometimes as region sub-maps.
+    Prefix matching deliberately accepts qualified A/B labels while rejecting
+    unresolved C/D states when freeze_ready is asserted.
+    """
+    if isinstance(value, dict):
+        return any(_contains_unresolved_grade(v) for v in value.values())
+    if isinstance(value, list):
+        return any(_contains_unresolved_grade(v) for v in value)
+    if isinstance(value, str):
+        return value.startswith("C") or value.startswith("D")
+    return False
+
+
+def _null_paths(obj, path="selected"):
+    if isinstance(obj, dict):
+        for k, v in obj.items():
+            yield from _null_paths(v, f"{path}.{k}")
+    elif isinstance(obj, list):
+        for i, v in enumerate(obj):
+            yield from _null_paths(v, f"{path}[{i}]")
+    elif obj is None:
+        yield path
+
+
+def validate(s, conv, corr):
     errors = []
     warnings = []
 
     if set(s["regions"]) != REQUIRED_REGIONS:
         errors.append(f"region set mismatch: {set(s['regions']) ^ REQUIRED_REGIONS}")
 
+    # freeze_ready is a deliberately hard gate. A future promotion must clear
+    # blockers, null target fields and unresolved C/D evidence in every region.
     if s["freeze_ready"]:
-        unresolved = [
-            name for name, region in s["regions"].items()
-            if "NOT_SELECTED" in region["freeze_state"]
-            or "GEOMETRY_MODEL_REQUIRED" in region["freeze_state"]
-            or region["freeze_state"] == "LOW_PRIORITY_NOT_SELECTED"
-        ]
-        if unresolved:
-            errors.append("freeze_ready=true with unresolved regions: " + ", ".join(unresolved))
-
-    # C/D evidence may be tracked, but exact numeric target values must not be silently frozen.
-    def walk(obj, path=""):
-        if isinstance(obj, dict):
-            for k, v in obj.items():
-                yield from walk(v, f"{path}.{k}" if path else k)
-        elif isinstance(obj, list):
-            for i, v in enumerate(obj):
-                yield from walk(v, f"{path}[{i}]")
-        else:
-            yield path, obj
+        for name, region in s["regions"].items():
+            blockers = region.get("blockers", [])
+            if blockers:
+                errors.append(
+                    f"freeze_ready=true with blockers in {name}: " + "; ".join(blockers)
+                )
+            nulls = list(_null_paths(region.get("selected", {})))
+            if nulls:
+                errors.append(
+                    f"freeze_ready=true with unset targets in {name}: " + ", ".join(nulls)
+                )
+            if _contains_unresolved_grade(region.get("evidence_grade")):
+                errors.append(f"freeze_ready=true with unresolved C/D evidence in {name}")
 
     # Hard invariants that can be checked from currently stored scaffold data.
     sg = s["regions"]["shoulder_girdle"]["selected"]
@@ -77,13 +99,26 @@ def main():
             if sp[k] is None:
                 errors.append(f"frozen spine missing {k}")
 
-    # Preserve the explicit evidence corrections.
+    # Preserve evidence corrections exactly. These checks intentionally encode
+    # the current corrected conclusions so an older audit state cannot silently
+    # return during concurrent work.
     foot = conv["region_findings"]["metatarsals"]
     if foot["grade"] != "C" or foot["state"] != "REOPEN_SOURCE_CONFLICT":
         errors.append("metatarsal source conflict was lost")
+
     scap = conv["region_findings"]["scapula"]
-    if scap["grade"] != "C":
-        errors.append("scapular method conflict was lost")
+    if (
+        scap["grade"] != "A"
+        or scap["state"] != "CONFIRMED_TRANSVERSE_GEOMETRY_DEFECT_EXACT_3D_TARGET_OPEN"
+    ):
+        errors.append("corrected scapular transverse-defect state was lost")
+    if "DO_NOT_FREEZE_VERTICAL_LENGTH_YET" not in scap.get("action", ""):
+        errors.append("scapular exact 3D/vertical target was prematurely treated as frozen")
+
+    # Target-selection shoulder state must agree with the evidence gate.
+    sg_grade = s["regions"]["shoulder_girdle"]["evidence_grade"].get("scapula")
+    if sg_grade != "A_TRANSVERSE_DEFECT_EXACT_3D_TARGET_OPEN":
+        errors.append("shoulder selection does not reflect corrected scapular evidence grade")
 
     # Corridor file must remain explicitly non-final.
     if corr["status"] != "EVIDENCE_CORRIDORS_NOT_FINAL_TARGETS":
@@ -92,15 +127,19 @@ def main():
     if not s["freeze_ready"]:
         warnings.append("canonical target remains NOT FREEZE READY; Blender c001 must not be created yet")
 
-    report = {
+    return {
         "selection": str(SEL.relative_to(ROOT)),
         "freeze_ready": s["freeze_ready"],
         "errors": errors,
         "warnings": warnings,
         "result": "PASS" if not errors else "FAIL",
     }
+
+
+def main():
+    report = validate(load(SEL), load(CONV), load(CORR))
     print(json.dumps(report, indent=2))
-    return 0 if not errors else 1
+    return 0 if report["result"] == "PASS" else 1
 
 
 if __name__ == "__main__":

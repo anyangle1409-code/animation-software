@@ -2266,6 +2266,137 @@
         "level trend cross-check"
       ],
       "limitation": "Accessible abstract exposes selected level values rather than the full male level table."
+    },
+    {
+      "id": "ASSELN_2024_CARPAL_SIZE",
+      "type": "open_database_3D_carpal_morphometry",
+      "citation": "Asseln M et al. Sex-Specific Size Analysis of Carpal Bones: Implications for Orthopedic Biomedical Device Design and Therapy Planning. Life. 2024;14(1):140.",
+      "pmid": "38255755",
+      "pmcid": "PMC10820598",
+      "doi": "10.3390/life14010140",
+      "dataset": "Open Source Carpal Database (OSCD); 117 wrist datasets analysed",
+      "male_n": 55,
+      "measurement_definition": "axis-aligned bounding-box dimensions in the study's anatomical directions; authors explicitly distinguish these anatomical axes from principal-axis dimensions used by Crisco et al.",
+      "male_mean_sd_mm": {
+        "scaphoid": {
+          "X": [
+            23.3,
+            2.74
+          ],
+          "Y": [
+            18.23,
+            1.67
+          ],
+          "Z": [
+            23.07,
+            3.34
+          ]
+        },
+        "lunate": {
+          "X": [
+            15.27,
+            1.72
+          ],
+          "Y": [
+            19.13,
+            1.98
+          ],
+          "Z": [
+            19.43,
+            1.41
+          ]
+        },
+        "triquetrum": {
+          "X": [
+            17.97,
+            1.91
+          ],
+          "Y": [
+            15.27,
+            1.37
+          ],
+          "Z": [
+            15.37,
+            1.54
+          ]
+        },
+        "pisiform": {
+          "X": [
+            13.5,
+            1.17
+          ],
+          "Y": [
+            11.56,
+            1.15
+          ],
+          "Z": [
+            12.21,
+            1.3
+          ]
+        },
+        "trapezium": {
+          "X": [
+            17.23,
+            2.38
+          ],
+          "Y": [
+            17.63,
+            1.68
+          ],
+          "Z": [
+            23.11,
+            1.78
+          ]
+        },
+        "trapezoid": {
+          "X": [
+            15.36,
+            1.69
+          ],
+          "Y": [
+            14.12,
+            1.44
+          ],
+          "Z": [
+            18.91,
+            2.22
+          ]
+        },
+        "capitate": {
+          "X": [
+            24.02,
+            2.28
+          ],
+          "Y": [
+            17.76,
+            1.68
+          ],
+          "Z": [
+            24.33,
+            3.27
+          ]
+        },
+        "hamate": {
+          "X": [
+            25.56,
+            2.32
+          ],
+          "Y": [
+            17.85,
+            1.43
+          ],
+          "Z": [
+            23.7,
+            2.32
+          ]
+        }
+      },
+      "use": [
+        "sex-specific 3D carpal envelope dimensions",
+        "reject schematic equal-sized carpal geometry",
+        "bone-specific scale constraints"
+      ],
+      "limitation": "The raw X/Y/Z directions must be mapped from the paper's anatomical coordinate convention into HGPT before coordinates are generated; bounding boxes do not locate centroids or contact surfaces."
     }
   ],
   "unresolved_source_needs": [

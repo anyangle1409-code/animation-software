@@ -27,7 +27,8 @@
         "male CT true clavicle length ~150 mm",
         "male 3D centreline mean ~167 mm",
         "independent CT male endpoint mean ~155 mm, range to ~175 mm",
-        "hard invariant: straight endpoint chord cannot exceed its own curved centreline length"
+        "hard invariant: straight endpoint chord cannot exceed its own curved centreline length",
+        "a003 bilateral AC-joint breadth ~481 mm exceeds stature-conditioned male biacromial breadth ~425±16 mm; AC joints should lie medial to the lateral acromial points, so this is a conservative width failure"
       ],
       "action": "REBUILD_LENGTH_CURVATURE_AND_SC_AC_PLACEMENT"
     },
@@ -38,7 +39,8 @@
       "evidence": [
         "dry-bone male height/width sample ~148/108 mm",
         "Italian male CT stature equation predicts longitudinal scapular length ~208 mm at 1.82 m",
-        "a003 measurement endpoints do not match either published longitudinal definition"
+        "a003 measurement endpoints do not match either published longitudinal definition",
+        "global shoulder breadth must be rebuilt inside the ANSUR-conditioned biacromial scaffold, regardless of the unresolved exact scapular longitudinal length"
       ],
       "action": "REBUILD_LANDMARK_FRAME_FIRST_NO_EXACT_SHORTENING_YET"
     },

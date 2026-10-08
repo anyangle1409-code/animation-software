@@ -1,0 +1,10 @@
+{
+  "scope": "source data and final code; no canonical skeleton",
+  "sha256": {
+    "scripts/anatomy_fit/glenoid_rim_frame.py": "27f8ef4debd0787078b6c7b01dc692a255828cbfbf523b9621640bdf5d461894",
+    "scripts/anatomy_fit/check_glenoid_frames_blender.py": "2783cf685a56951ce701fad5258d9a62bbc8279a7fb1dac046cdd91294f62996",
+    "scripts/test_canonical_glenoid_rim_frame.py": "5438fa842006ea98dd98ac87abb92ac04ee27981e07f04ef6ef38b092435a8a4",
+    "ORIGINAL_V1_WORK/anatomy/canonical_glenoid_rim_frame_v1.json": "8654fa25477baaf2ee1440f032952e4166083bd87020dc8b9cca9a698a041852",
+    "ORIGINAL_V1_WORK/anatomy/sources/scapula_lee2024/SubjectDemographicsAndLandmarks.xlsx": "c8d9bd697014f350e2145d781bcf37162a9e1377a2d3c20b288c10844bb0b976"
+  }
+}

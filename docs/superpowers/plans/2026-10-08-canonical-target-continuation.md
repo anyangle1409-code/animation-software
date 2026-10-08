@@ -35,3 +35,5 @@
 - Added independent MRI edge body/disc heights without mixing middle/edge/normal definitions or supine/standing. Impossible source SD is quarantined and bounded sample-variance checks verified. Current readiness updated; target geometry remains open.
 
 - Independent standing lumbar body-angle evidence supports pattern; two P1 source families and 22 bpy orientation fixtures verified. Registry source identity scan found four aliases and corrected Bernat/Daruwalla misattribution without removing legacy IDs. Exact shoulder source/coordinate dependencies remain blocked.
+
+- Added measured glenoid rim orientation and source-separated subject/mean-shape context; null GH centre/global pose retained. Proper bilateral frames and live bpy verified. Isotropic rim false-pass mutation retained and corrected; 107 relevant tests pass.

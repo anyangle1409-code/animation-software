@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "status": "PROVISIONAL_MEASURED_RIM_ORIENTATION_ONLY",
+  "freeze_ready": false,
+  "source": "LEE_2024_SCAPULA_RAW_3D",
+  "source_shape_file": "canonical_scapula_measured_landmark_model_v1.json",
+  "source_workbook_sha256": "c8d9bd697014f350e2145d781bcf37162a9e1377a2d3c20b288c10844bb0b976",
+  "definition": "Least-squares plane through LM15 inferior, LM16 posterior, LM17 anterior, LM18 superior rim; centroid is arithmetic rim landmark centroid, not joint or GH centre.",
+  "local_axes": [
+    "anterior",
+    "superior",
+    "lateral_right_scapula"
+  ],
+  "subject_count": 34,
+  "subject_summary": {
+    "normal_anterior_projection_deg": {
+      "mean": 11.852368526623634,
+      "SD": 5.538545298793326,
+      "range": [
+        0.88187380379272,
+        28.92796792010715
+      ]
+    },
+    "normal_superior_projection_deg": {
+      "mean": -6.005732197617068,
+      "SD": 4.982695803173616,
+      "range": [
+        -15.902782299569532,
+        3.660527283834884
+      ]
+    },
+    "rim_plane_rms_mm": {
+      "mean": 1.5441864981921571,
+      "SD": 0.45063146330552184,
+      "range": [
+        0.4182979299151598,
+        2.372093704846795
+      ]
+    }
+  },
+  "stature_conditioned_shape_rim_frame": {
+    "rim_centroid_local_mm": [
+      37.02134943686861,
+      -20.451503894189276,
+      -24.012673243973047
+    ],
+    "axes_local": [
+      [
+        0.950353573583204,
+        0.22904681739837845,
+        0.2106315280704856
+      ],
+      [
+        -0.2098098149029632,
+        0.9715520176551397,
+        -0.10984770621461128
+      ],
+      [
+        -0.22979975358563426,
+        0.06020159823377688,
+        0.9713742022630006
+      ]
+    ],
+    "axis_columns": [
+      "anterior_tangent",
+      "superior_tangent",
+      "lateral_facing_rim_normal"
+    ],
+    "rim_plane_rms_mm": 1.5742750720462033,
+    "landmark_19_signed_offset_mm": -2.4526996143666344,
+    "normal_anterior_projection_deg": 12.234537649247335,
+    "normal_superior_projection_deg": -6.451875225028324,
+    "GH_centre_local_mm": null
+  },
+  "bilateral_relative_frames": {
+    "right": {
+      "axes_HGPT": [
+        [
+          0.22979975358563426,
+          -0.06020159823377688,
+          -0.9713742022630006
+        ],
+        [
+          -0.950353573583204,
+          -0.22904681739837845,
+          -0.2106315280704856
+        ],
+        [
+          -0.2098098149029632,
+          0.9715520176551397,
+          -0.10984770621461128
+        ]
+      ],
+      "rim_centroid_relative_mm": [
+        24.012673243973047,
+        -37.02134943686861,
+        -20.451503894189276
+      ],
+      "axis_columns": [
+        "anterior_tangent",
+        "superior_tangent",
+        "outward_normal"
+      ]
+    },
+    "left": {
+      "axes_HGPT": [
+        [
+          0.22979975358563426,
+          0.06020159823377688,
+          0.9713742022630006
+        ],
+        [
+          0.950353573583204,
+          -0.22904681739837845,
+          -0.2106315280704856
+        ],
+        [
+          0.2098098149029632,
+          0.9715520176551397,
+          -0.10984770621461128
+        ]
+      ],
+      "rim_centroid_relative_mm": [
+        -24.012673243973047,
+        -37.02134943686861,
+        -20.451503894189276
+      ],
+      "axis_columns": [
+        "posterior_tangent",
+        "superior_tangent",
+        "outward_normal"
+      ]
+    },
+    "pose": "Relative basis fixture only; no standing thorax rotation or translation.",
+    "left_policy": "Reflect geometry then reverse first tangent to retain determinant +1; anatomical anterior vector is negative first axis on left."
+  },
+  "absolute_SC_AC_GH_centres_m": {
+    "SC": null,
+    "AC": null,
+    "GH": null
+  },
+  "limitations": [
+    "Rim landmarks are nonplanar; residual is reported, not forced to zero.",
+    "Projection angles use the measured scapular landmark basis, not clinical Friedman/version/inclination definitions.",
+    "Frame of stature-conditioned mean landmarks differs from mean subject orientation; both are retained.",
+    "No articular cartilage, sphere fit, complete bone envelope or independent numerical freeze.",
+    "Neutral thorax pose and global centres remain unresolved."
+  ]
+}

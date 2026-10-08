@@ -1,0 +1,14 @@
+F
+======================================================================
+FAIL: test_isotropic_rim_has_no_unique_plane_and_must_fail (scripts.test_canonical_glenoid_rim_frame.GlenoidRimTests.test_isotropic_rim_has_no_unique_plane_and_must_fail)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_canonical_glenoid_rim_frame.py", line 37, in test_isotropic_rim_has_no_unique_plane_and_must_fail
+    with self.assertRaises(ValueError):m.derive(p)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)

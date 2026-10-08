@@ -17,7 +17,8 @@
         "clavicle gross defect confirmed",
         "distinct SC/AC/GH topology",
         "multi-source clavicle and glenoid scale evidence",
-        "source-bound 29-landmark relative scapular envelope from 125 subjects with direct male stature regression"
+        "source-bound 29-landmark relative scapular envelope from 125 subjects with direct male stature regression",
+        "measured glenoid rim local orientation, nonplanarity and proper bilateral relative frames; GH centre still undefined"
       ],
       "blockers": [
         "stature-aware final clavicle endpoint/centreline selection",

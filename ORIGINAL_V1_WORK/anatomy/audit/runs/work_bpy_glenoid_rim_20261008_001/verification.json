@@ -1,0 +1,15 @@
+{
+  "status": "VERIFIED_RELATIVE_RIM_FIXTURE_ONLY",
+  "blender_version": "5.2.1 LTS",
+  "source_sha256": "8654fa25477baaf2ee1440f032952e4166083bd87020dc8b9cca9a698a041852",
+  "fixture_sha256": "d9a338de2f8d568c3431bfb68fbc1eb53065f51eb0f56719235c0030beeab0e6",
+  "frame_count": 2,
+  "max_matrix_error": 1.0058283805847168e-07,
+  "max_determinant_error": 0.0,
+  "max_position_error_m": 0.0,
+  "bilateral_centroid_error_m": 0.0,
+  "canonical_candidate_created": false,
+  "GH_centres_defined": false,
+  "absolute_thorax_pose_defined": false,
+  "completed_gates": []
+}

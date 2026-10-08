@@ -170,14 +170,16 @@
       "hard_invariant": "control-stick length is never treated as whole-bone length"
     },
     "forefoot_toes": {
-      "status": "RED_RETARGET",
+      "status": "RED_REOPEN_TARGET_CONFLICT",
       "evidence": "ORIGINAL_V1_WORK/anatomy/canonical_foot_proportion_audit_v1.json",
-      "rebuild": [
-        "all five metatarsal lengths",
-        "toe proximal/middle segments",
-        "distal tips with explicit soft-tissue allowance"
+      "retain": [
+        "confirmed surface finding: r95/a003 heel-to-toe skin length is long for stature"
       ],
-      "hard_invariant": "final heel-to-toe mesh length comes from canonical bone chain plus soft tissue, not from r95 surface length"
+      "rebuild_or_retarget": [
+        "forefoot/toe chain only after endpoint-matched, stature-aware source triangulation"
+      ],
+      "caution": "Patil 2017 means alone cannot justify shortening every metatarsal; Spanish/Portuguese/Korean stature regressions imply materially larger M1/M2 at 1.82 m under different definitions.",
+      "hard_invariant": "final heel-to-toe mesh length comes from canonical hindfoot + midfoot + forefoot chain plus explicit soft-tissue allowances, not from r95 surface length"
     },
     "head_neck_fixed_bones": {
       "status": "AMBER_REBUILD_REFERENCE_GEOMETRY",

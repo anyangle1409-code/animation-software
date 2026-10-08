@@ -109,8 +109,11 @@ def distal_curve(Xpk: float, Ypk: float, Bd: float, *, samples: int = 101) -> li
     for i in range(samples):
         u = i / (samples - 1)
         theta = t["theta_pk"] + u * (t["theta_end"] - t["theta_pk"])
-        x, y = distal_point(theta, Xpk, Ypk, Bd)
-        out.append([x, y])
+        x, y = distal_unscaled(theta, Bd)
+        out.append([
+            (x - t["xpk_u"]) * t["scale"] + Xpk,
+            (y - t["ypk_u"]) * t["scale"] + Ypk,
+        ])
     return out
 
 

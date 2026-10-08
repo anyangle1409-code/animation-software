@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Sagittal alignment family for the skeleton-first C2-S1 rebuild. Keeps source sign conventions explicit and avoids forcing one population mean into every individual.",
+  "status": "REFERENCE_ALIGNMENT_FAMILY_NOT_FROZEN",
+  "sources": [
+    "HASEGAWA_2017_WHOLE_SPINE_MALE",
+    "REINHOLD_CERVICAL_SEGMENTAL_ANGLES",
+    "KIM_2022_LUMBOSACRAL_SEGMENTAL",
+    "CRAWFORD_2009_T12_L1_ENDPLATE"
+  ],
+  "standing_male_global_reference": {
+    "source": "HASEGAWA_2017_WHOLE_SPINE_MALE",
+    "C2_C7_lordosis_deg": {
+      "mean": -0.6,
+      "sd": 8.6,
+      "source_sign": "positive lordosis; therefore the mean is near neutral/slightly opposite in that convention"
+    },
+    "T1_T12_kyphosis_deg": {
+      "mean": 43.7,
+      "sd": 9
+    },
+    "L1_S1_lordosis_deg": {
+      "mean": 56.4,
+      "sd": 12.7
+    },
+    "sacral_slope_deg": {
+      "mean": 40.9,
+      "sd": 9.6
+    },
+    "pelvic_tilt_deg": {
+      "mean": 9.2,
+      "sd": 6.2
+    },
+    "pelvic_incidence_deg": {
+      "mean": 50.1,
+      "sd": 11.2
+    },
+    "SVA_cm": {
+      "mean": -0.6,
+      "sd": 2.3
+    }
+  },
+  "cervical_segment_family": {
+    "source": "REINHOLD_CERVICAL_SEGMENTAL_ANGLES",
+    "source_sign": "negative = lordosis",
+    "levels": {
+      "C2/C3": {
+        "mean": -1.9,
+        "sd": 5.2
+      },
+      "C3/C4": {
+        "mean": -1.5,
+        "sd": 5
+      },
+      "C4/C5": {
+        "mean": -0.6,
+        "sd": 4.4
+      },
+      "C5/C6": {
+        "mean": -1.1,
+        "sd": 5.1
+      },
+      "C6/C7": {
+        "mean": -4.5,
+        "sd": 4.3
+      }
+    },
+    "total_C2_C7_deg": -9.6,
+    "note": "This source gives a visibly more lordotic mean than the Hasegawa male global average. Treat this as a legitimate normal-shape family/source conflict, not a value to average blindly."
+  },
+  "lumbar_segment_family": {
+    "source": "KIM_2022_LUMBOSACRAL_SEGMENTAL",
+    "population_PI_deg": {
+      "mean": 50.5,
+      "sd": 11.4
+    },
+    "levels": {
+      "L1/L2": {
+        "mean": 1.2,
+        "sd": 3.6,
+        "share_percent": 2.3
+      },
+      "L2/L3": {
+        "mean": 5.9,
+        "sd": 4.1,
+        "share_percent": 11.7
+      },
+      "L3/L4": {
+        "mean": 9.1,
+        "sd": 4.2,
+        "share_percent": 18.1
+      },
+      "L4/L5": {
+        "mean": 12.7,
+        "sd": 5.1,
+        "share_percent": 25.2
+      },
+      "L5/S1": {
+        "mean": 21.6,
+        "sd": 7.7,
+        "share_percent": 42.7
+      }
+    },
+    "sum_of_means_deg": 50.5,
+    "relationship": "Distal lordosis dominates; L5/S1 contributes the largest share. This pattern should be preserved even if the canonical total LL is selected nearer the male Hasegawa mean of 56.4°."
+  },
+  "thoracolumbar_wedge_crosscheck": {
+    "source": "CRAWFORD_2009_T12_L1_ENDPLATE",
+    "T12_endplate_deg": {
+      "mean": 4.34,
+      "approx_normal_range": [
+        -0.16,
+        8.84
+      ]
+    },
+    "L1_endplate_deg": {
+      "mean": 4.48,
+      "approx_normal_range": [
+        0.22,
+        8.74
+      ]
+    },
+    "note": "Use only after source-frame/sign mapping."
+  },
+  "canonical_rules": [
+    "Neutral standing alignment is not one rigid universal curve. The master stores a canonical reference pose plus evidence corridors.",
+    "Pelvic incidence is a morphological parameter; select PI/SS/PT coherently rather than setting lumbar lordosis independently.",
+    "For a typical reference male, the Hasegawa male PI (~50°), SS (~41°), thoracic kyphosis (~44°) and lumbar lordosis (~56°) form a mutually plausible global family.",
+    "Distribute lumbar lordosis distally, with L4/5 and L5/S1 carrying the majority, consistent with asymptomatic segmental data.",
+    "Cervical source conflict remains explicit. Do not force the sum of Reinhold segmental means onto the Hasegawa global male mean without choosing a reference posture/population and sign convention.",
+    "Every level orientation must be derived from endplate frames, not from rotating stretched a003 bone sticks."
+  ],
+  "next_coordinate_solve": [
+    "Choose a provisional canonical PI inside the male standing corridor and derive SS/PT consistently.",
+    "Choose the global L1-S1 lordosis within the male corridor and distribute it using the level pattern, then verify T12/L1 endplate angles.",
+    "Build T1-T12 kyphosis using the global male corridor plus rib/thoracic attachment constraints.",
+    "Choose the cervical reference family explicitly (near-neutral versus more lordotic normal family), then map C2-C7 endplate signs into HGPT coordinates.",
+    "Check global SVA/head-over-pelvis after the complete stack is reconstructed."
+  ]
+}

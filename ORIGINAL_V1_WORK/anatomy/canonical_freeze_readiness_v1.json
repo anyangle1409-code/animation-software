@@ -79,7 +79,8 @@
         "mixed-method thoracic body/disc reconciliation before exact 3D freeze",
         "independent endpoint-matched lumbar wedge pattern is supported; reconcile posture/sex and contact-envelope definitions before numerical freeze",
         "lumbar middle/edge/normal height and standing/supine disc definitions require geometric reconciliation; CT2026 count and width-plane issues remain open",
-        "actual disc-facing endplate envelopes and continuous nonzero clearance over their overlap, not centre-only gap"
+        "actual disc-facing endplate envelopes and continuous nonzero clearance over their overlap, not centre-only gap",
+        "thoracic per-level kyphosis distribution (sequence item 2): committed data hold per-level DISC anterior/posterior heights but only AVERAGE body heights (no per-level body anterior/posterior split or AP depth), while vertebral bodies carry nearly all thoracic kyphosis; no per-level standing segmental table is committed. Source acquisition needed (cloud literature hosts denied by network policy 2026-10-08): PMC3171774 full body table; Eur Spine J 2025 doi 10.1007/s00586-025-09392-w Table 6; Eur Spine J 2021 doi 10.1007/s00586-020-06670-7; Bernhardt & Bridwell 1989 Spine 14:717 doi 10.1097/00007632-198907000-00012. Do not distribute 43.7 deg uniformly meanwhile."
       ],
       "next_action": "Reconcile body/disc surface and height definitions and independent evidence before deriving absolute centres; provisional inferior and superior orientations now available."
     },

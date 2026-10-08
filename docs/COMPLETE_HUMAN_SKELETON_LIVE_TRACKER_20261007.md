@@ -491,3 +491,22 @@ Full proximal curves remain BLOCKED pending verified intended conventions or an 
 - **Evidence** (`b83d7b5a`): 80 captioned JPEGs (c001-vs-c002 and a003-vs-c002 pairs, c002 views and poses, contact sheets) with a sha256 manifest.
 - **Tests** (`63732056`): `scripts/test_shoulder_proposal_c002.py`, 16 tests. Readiness: shoulder stays PARTIAL with an SC-closure blocker.
 - **Naming:** the audit IDs `…shoulder_proposal_c001/c002` are unrelated to the reserved `HGPT_CANONICAL_SKELETON_FIRST_c001`, which has not been created (test-enforced).
+
+### Next priority after the shoulder: spine thoracic distribution blocked on source access (8 October, Claude)
+
+- **Sequence status:**
+  - Item 1 (shoulder): blocked on the c002 owner decision.
+  - Item 2 (C2–S1 stack): next unblocked by dependency. Lumbar provisional frames exist (GPT). The thoracic per-level distribution of the selected 43.7° T1–T12 kyphosis (Hasegawa male, SD 9°) is the open step.
+- **Why it can't be closed from the repo:**
+  - `canonical_proportion_sources_v1.json` (THORACIC_BODY_DISC_2011, PMC3171774) stores per-level *disc* anterior/posterior heights.
+  - It stores only *average* body heights: no per-level anterior/posterior split and no AP depth.
+  - Vertebral-body wedging carries nearly all thoracic kyphosis, and no per-level standing segmental table is committed.
+  - Rule kept: do not distribute 43.7° uniformly.
+- **Network:** literature hosts are denied by this cloud environment's network policy (PMC, PubMed, Crossref, Springer, Europe PMC, DTIC, archive.org, Zenodo, MDPI, PLOS).
+- **Laptop acquisition list:**
+  - PMC3171774: full per-level body anterior/posterior and depth table;
+  - Eur Spine J 2025, doi 10.1007/s00586-025-09392-w (disc vs body contribution in healthy volunteers): Table 6 segmental alignment;
+  - Eur Spine J 2021, doi 10.1007/s00586-020-06670-7 (normative thoracic sagittal curve);
+  - Bernhardt & Bridwell 1989, Spine 14:717, doi 10.1097/00007632-198907000-00012 (segmental T1–S1);
+  - for c002: the ANSUR II Measurer's Handbook (NATICK/TR-11/017, DTIC ADA548497), acromion landmark section.
+- **Remaining sequence items** are BLOCKED or need sources/decisions: ribs (proximal equation, sternum), radius/ulna corridors (GPT-preserved blockers), carpus, tarsus, pelvis/os coxae and head envelopes. No further target can be closed defensibly from the cloud without new sources or owner decisions.

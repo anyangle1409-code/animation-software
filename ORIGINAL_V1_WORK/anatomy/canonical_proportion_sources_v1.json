@@ -977,6 +977,92 @@
         "sex-specific plausibility"
       ],
       "limitation": "Accessible abstract exposes ordering but not linear dimensions."
+    },
+    {
+      "id": "HOLCOMBE_DERSTINE_2017_RIB_SHAPE",
+      "type": "population_CT_rib_centroidal_paths",
+      "citation": "Holcombe SA, Wang SC, Grotberg JB. The effect of age and demographics on rib shape. J Anat. 2017.",
+      "pmid": "28612467",
+      "pmcid": "PMC5522896",
+      "population": "1042 live adults; 535 male and 507 female CT scans; ages 20-99",
+      "coverage": "20,627 ribs; centroidal path geometry with six-parameter shape and three-parameter orientation models",
+      "findings": [
+        "height and sex strongly associated with rib size",
+        "weight strongly associated with pump-handle angle",
+        "age affects rib aspect ratio/end-to-end separation more than arc length"
+      ],
+      "use": [
+        "canonical curved rib centreline/orientation target",
+        "stature/sex-aware rib cage geometry"
+      ],
+      "limitation": "Requires the paper/model parameter mapping to reconstruct exact rib-level curves; not reducible to one universal rib length."
+    },
+    {
+      "id": "STIZEL_2013_RIB_CENTROIDAL_GEOMETRY",
+      "type": "male_CT_rib_centroidal_model",
+      "citation": "Characterization of the centroidal geometry of human ribs. J Biomech. 2013.",
+      "pmid": "24008370",
+      "population": "16 adult male cadavers; rib levels 2-10; 144 CT-extracted ribs",
+      "findings": [
+        "upper ribs 2-5 are closer to circular",
+        "lower ribs 6-10 are more elliptical",
+        "posterior curvature is less pronounced in lower ribs"
+      ],
+      "use": [
+        "rib-level curvature topology and curved-centreline validation"
+      ],
+      "limitation": "Male cadaver sample is small; rib 1, 11 and 12 are not covered."
+    },
+    {
+      "id": "SHI_2016_PARAMETRIC_RIBCAGE",
+      "type": "population_CT_parametric_ribcage",
+      "citation": "A parametric ribcage geometry model accounting for variations among the adult population. J Biomech. 2016.",
+      "pmid": "27397797",
+      "population": "101 adults",
+      "geometry": "12 rib pairs + sternum + thoracic spine, 1016 landmarks/subject, symmetry adjusted",
+      "use": [
+        "whole ribcage landmark topology",
+        "sternum/thoracic/rib relationship cross-check"
+      ],
+      "limitation": "Exact coefficients/landmarks must be transcribed before a numeric canonical chest can be generated."
+    },
+    {
+      "id": "HOLCOMBE_HU_2014_STATISTICAL_RIBCAGE",
+      "type": "statistical_CT_ribcage",
+      "citation": "A statistical human rib cage geometry model accounting for variations by age, sex, stature and body mass index. J Biomech. 2014.",
+      "pmid": "24861634",
+      "population": "89 adult CT scans approximately balanced by age and sex",
+      "geometry": "464 landmarks on left rib cage",
+      "use": [
+        "demographic rib-cage geometry corridor",
+        "stature-specific thoracic shape"
+      ],
+      "limitation": "Model coefficients required before direct reconstruction."
+    },
+    {
+      "id": "WEAVER_2014_RIB_MORPHOMETRY",
+      "type": "CT_3D_rib_morphometry",
+      "citation": "Morphometric analysis of variation in the ribs with age and sex. J Anat. 2014.",
+      "pmid": "24917069",
+      "pmcid": "PMC4111931",
+      "population": "339 subjects, ages 0-100, both sexes",
+      "geometry": "2700-10400 homologous landmarks per rib set",
+      "use": [
+        "age/sex variation and rib-level orientation cross-check"
+      ],
+      "limitation": "Focuses on statistical shape variation rather than simple bone lengths."
+    },
+    {
+      "id": "HOLCOMBE_HUANG_2023_RIB_CROSS_SECTIONS",
+      "type": "population_CT_rib_cross_sections",
+      "citation": "Cross-sectional properties of rib geometry from an adult population. Front Bioeng Biotechnol. 2023.",
+      "pmid": "37284235",
+      "pmcid": "PMC10239965",
+      "population": "240 adults, ribs 2-11, sex-specific",
+      "use": [
+        "rib envelope/cortical geometry after centreline reconstruction"
+      ],
+      "limitation": "Cross-section geometry alone does not define centreline or joint axis."
     }
   ],
   "unresolved_source_needs": [

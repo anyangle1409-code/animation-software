@@ -1,0 +1,2010 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-08",
+ "status": "SINGLE_SPECIMEN_LAYOUT_CROSSCHECK_NOT_A_TARGET",
+ "evidence_grade_note": "Same single BodyParts3D 4.0 male as bodyparts3d_single_specimen_crosscheck_v1.json. Grade D: plausibility and topology only. Never freeze a value from it.",
+ "source_access_path": "https://github.com/ashemag/human-atlas at 1c38bf35c254a891200d3cedecfd57abebe83d8d, public/models (hashes in the companion file)",
+ "frame": "HGPT axes (left +X, anterior -Y, superior +Z), mm, arbitrary origin.",
+ "methods": {
+  "disc": "Disc mesh normal = its thinnest principal axis; rays along it at 70% of the posterior half-depth, the centre and 70% of the anterior half-depth. Disc thickness = outer crossings of the disc mesh; bone gap = first upper-vertebra and lower-vertebra surfaces along the same line. Mean of three is a stand-in for the sources' average heights.",
+  "endplate_surfaces": "Planes fitted to the bone surfaces hit by a 7x7 ray grid inside 60% of the disc footprint; fed to endplate_clearance.clearance() exactly as cp2_preflight.py would. The footprint is a conservative XY box.",
+  "contact_proxies": "SC/AC/glenoid proxies = mean of the bone vertices within (closest distance + threshold) of the partner bone; thresholds 1/2/3 mm reported as a sensitivity. They are articular-region centres, not rotation centres.",
+  "clavicle": "Max vertex chord (extremal-point chord) and a centreline from 24 bins along the first principal axis (a geodesic centreline zigzags on this coarse mesh and was rejected: 253-263 mm).",
+  "scapula": "Inferior angle = lowest vertex; superior angle = highest vertex in the medial half of the blade.",
+  "hyoid": "Geodesic centreline between the two farthest surface points (greater-horn tips)."
+ },
+ "spine": {
+  "C2/C3": {
+   "disc_centroid_mm": [
+    -1.01,
+    23.07,
+    1524.79
+   ],
+   "disc_normal": [
+    0.0076,
+    -0.17,
+    0.9854
+   ],
+   "disc_half_depth_width_mm": [
+    9.23,
+    12.54
+   ],
+   "posterior": {
+    "disc_thickness_mm": 3.98,
+    "bone_to_bone_gap_mm": null
+   },
+   "centre": {
+    "disc_thickness_mm": 4.78,
+    "bone_to_bone_gap_mm": 4.82
+   },
+   "anterior": {
+    "disc_thickness_mm": 3.13,
+    "bone_to_bone_gap_mm": 3.11
+   },
+   "mean_of_three_disc_thickness_mm": 3.96,
+   "endplate_plane_fit_max_residual_mm": [
+    0.8,
+    0.75
+   ],
+   "clearance_minimum_projected_gap_mm": 3.42,
+   "samples": 28
+  },
+  "C3/C4": {
+   "disc_centroid_mm": [
+    -0.68,
+    19.91,
+    1507.92
+   ],
+   "disc_normal": [
+    -0.0082,
+    0.0186,
+    0.9998
+   ],
+   "disc_half_depth_width_mm": [
+    8.02,
+    11.31
+   ],
+   "posterior": {
+    "disc_thickness_mm": 4.34,
+    "bone_to_bone_gap_mm": 6.35
+   },
+   "centre": {
+    "disc_thickness_mm": 3.66,
+    "bone_to_bone_gap_mm": 3.44
+   },
+   "anterior": {
+    "disc_thickness_mm": 3.57,
+    "bone_to_bone_gap_mm": 3.29
+   },
+   "mean_of_three_disc_thickness_mm": 3.86,
+   "endplate_plane_fit_max_residual_mm": [
+    0.57,
+    0.52
+   ],
+   "clearance_minimum_projected_gap_mm": 2.88,
+   "samples": 29
+  },
+  "C4/C5": {
+   "disc_centroid_mm": [
+    -0.66,
+    17.74,
+    1493.24
+   ],
+   "disc_normal": [
+    -0.0013,
+    0.0206,
+    0.9998
+   ],
+   "disc_half_depth_width_mm": [
+    8.5,
+    12.73
+   ],
+   "posterior": {
+    "disc_thickness_mm": 3.6,
+    "bone_to_bone_gap_mm": 8.71
+   },
+   "centre": {
+    "disc_thickness_mm": 4.43,
+    "bone_to_bone_gap_mm": 4.06
+   },
+   "anterior": {
+    "disc_thickness_mm": 5.46,
+    "bone_to_bone_gap_mm": 5.86
+   },
+   "mean_of_three_disc_thickness_mm": 4.5,
+   "endplate_plane_fit_max_residual_mm": [
+    0.74,
+    1.92
+   ],
+   "clearance_minimum_projected_gap_mm": 2.74,
+   "samples": 29
+  },
+  "C5/C6": {
+   "disc_centroid_mm": [
+    -0.3,
+    16.39,
+    1476.74
+   ],
+   "disc_normal": [
+    -0.0077,
+    -0.2531,
+    0.9674
+   ],
+   "disc_half_depth_width_mm": [
+    8.74,
+    14.14
+   ],
+   "posterior": {
+    "disc_thickness_mm": 3.23,
+    "bone_to_bone_gap_mm": null
+   },
+   "centre": {
+    "disc_thickness_mm": 4.27,
+    "bone_to_bone_gap_mm": 3.3
+   },
+   "anterior": {
+    "disc_thickness_mm": 4.07,
+    "bone_to_bone_gap_mm": 4.21
+   },
+   "mean_of_three_disc_thickness_mm": 3.86,
+   "endplate_plane_fit_max_residual_mm": [
+    7.19,
+    0.68
+   ],
+   "clearance_minimum_projected_gap_mm": 1.02,
+   "samples": 28
+  },
+  "C6/C7": {
+   "disc_centroid_mm": [
+    -1.29,
+    19.02,
+    1461.3
+   ],
+   "disc_normal": [
+    -0.0132,
+    -0.3171,
+    0.9483
+   ],
+   "disc_half_depth_width_mm": [
+    8.9,
+    14.09
+   ],
+   "posterior": {
+    "disc_thickness_mm": 2.25,
+    "bone_to_bone_gap_mm": null
+   },
+   "centre": {
+    "disc_thickness_mm": 4.87,
+    "bone_to_bone_gap_mm": 4.42
+   },
+   "anterior": {
+    "disc_thickness_mm": 4.53,
+    "bone_to_bone_gap_mm": 4.22
+   },
+   "mean_of_three_disc_thickness_mm": 3.88,
+   "endplate_plane_fit_max_residual_mm": [
+    0.34,
+    0.8
+   ],
+   "clearance_minimum_projected_gap_mm": 3.24,
+   "samples": 29
+  },
+  "C7/T1": {
+   "disc_centroid_mm": [
+    -0.6,
+    22.06,
+    1444.59
+   ],
+   "disc_normal": [
+    0.0099,
+    -0.4056,
+    0.914
+   ],
+   "disc_half_depth_width_mm": [
+    9.71,
+    15.64
+   ],
+   "posterior": {
+    "disc_thickness_mm": 4.01,
+    "bone_to_bone_gap_mm": 11.48
+   },
+   "centre": {
+    "disc_thickness_mm": 4.84,
+    "bone_to_bone_gap_mm": 3.68
+   },
+   "anterior": {
+    "disc_thickness_mm": 4.85,
+    "bone_to_bone_gap_mm": 4.79
+   },
+   "mean_of_three_disc_thickness_mm": 4.57,
+   "endplate_plane_fit_max_residual_mm": [
+    0.36,
+    0.22
+   ],
+   "clearance_minimum_projected_gap_mm": 3.41,
+   "samples": 29
+  },
+  "T1/T2": {
+   "disc_centroid_mm": [
+    -1.04,
+    27.46,
+    1426.97
+   ],
+   "disc_normal": [
+    0.0104,
+    -0.4165,
+    0.9091
+   ],
+   "disc_half_depth_width_mm": [
+    11.13,
+    16.29
+   ],
+   "posterior": {
+    "disc_thickness_mm": 1.56,
+    "bone_to_bone_gap_mm": null
+   },
+   "centre": {
+    "disc_thickness_mm": 4.48,
+    "bone_to_bone_gap_mm": 4.26
+   },
+   "anterior": {
+    "disc_thickness_mm": 3.97,
+    "bone_to_bone_gap_mm": 4.08
+   },
+   "mean_of_three_disc_thickness_mm": 3.34,
+   "endplate_plane_fit_max_residual_mm": [
+    0.42,
+    7.57
+   ],
+   "clearance_minimum_projected_gap_mm": 2.65,
+   "samples": 29
+  },
+  "T2/T3": {
+   "disc_centroid_mm": [
+    -0.13,
+    34.32,
+    1406.61
+   ],
+   "disc_normal": [
+    0.0073,
+    -0.3828,
+    0.9238
+   ],
+   "disc_half_depth_width_mm": [
+    12.26,
+    15.96
+   ],
+   "posterior": {
+    "disc_thickness_mm": 1.47,
+    "bone_to_bone_gap_mm": null
+   },
+   "centre": {
+    "disc_thickness_mm": 6.64,
+    "bone_to_bone_gap_mm": 6.55
+   },
+   "anterior": {
+    "disc_thickness_mm": 4.58,
+    "bone_to_bone_gap_mm": 4.55
+   },
+   "mean_of_three_disc_thickness_mm": 4.23,
+   "endplate_plane_fit_max_residual_mm": [
+    0.86,
+    0.3
+   ],
+   "clearance_minimum_projected_gap_mm": 5.28,
+   "samples": 29
+  },
+  "T3/T4": {
+   "disc_centroid_mm": [
+    -1.05,
+    41.59,
+    1384.86
+   ],
+   "disc_normal": [
+    -0.0125,
+    -0.4149,
+    0.9098
+   ],
+   "disc_half_depth_width_mm": [
+    13.69,
+    14.88
+   ],
+   "posterior": {
+    "disc_thickness_mm": null,
+    "bone_to_bone_gap_mm": null
+   },
+   "centre": {
+    "disc_thickness_mm": 5.88,
+    "bone_to_bone_gap_mm": 5.66
+   },
+   "anterior": {
+    "disc_thickness_mm": 3.69,
+    "bone_to_bone_gap_mm": 3.95
+   },
+   "mean_of_three_disc_thickness_mm": null,
+   "endplate_plane_fit_max_residual_mm": [
+    0.58,
+    0.66
+   ],
+   "clearance_minimum_projected_gap_mm": 5.25,
+   "samples": 29
+  },
+  "T4/T5": {
+   "disc_centroid_mm": [
+    0.04,
+    49.24,
+    1362.58
+   ],
+   "disc_normal": [
+    -0.0082,
+    -0.2569,
+    0.9664
+   ],
+   "disc_half_depth_width_mm": [
+    15.23,
+    14.87
+   ],
+   "posterior": {
+    "disc_thickness_mm": null,
+    "bone_to_bone_gap_mm": null
+   },
+   "centre": {
+    "disc_thickness_mm": 6.21,
+    "bone_to_bone_gap_mm": 6.03
+   },
+   "anterior": {
+    "disc_thickness_mm": 5.06,
+    "bone_to_bone_gap_mm": 4.76
+   },
+   "mean_of_three_disc_thickness_mm": null,
+   "endplate_plane_fit_max_residual_mm": [
+    0.38,
+    0.32
+   ],
+   "clearance_minimum_projected_gap_mm": 5.1,
+   "samples": 28
+  },
+  "T5/T6": {
+   "disc_centroid_mm": [
+    -0.0,
+    52.39,
+    1337.87
+   ],
+   "disc_normal": [
+    -0.0032,
+    -0.1148,
+    0.9934
+   ],
+   "disc_half_depth_width_mm": [
+    16.05,
+    15.28
+   ],
+   "posterior": {
+    "disc_thickness_mm": null,
+    "bone_to_bone_gap_mm": null
+   },
+   "centre": {
+    "disc_thickness_mm": 5.18,
+    "bone_to_bone_gap_mm": 5.69
+   },
+   "anterior": {
+    "disc_thickness_mm": 5.61,
+    "bone_to_bone_gap_mm": 5.2
+   },
+   "mean_of_three_disc_thickness_mm": null,
+   "endplate_plane_fit_max_residual_mm": [
+    0.26,
+    0.17
+   ],
+   "clearance_minimum_projected_gap_mm": 5.12,
+   "samples": 28
+  },
+  "T6/T7": {
+   "disc_centroid_mm": [
+    -0.12,
+    54.42,
+    1312.35
+   ],
+   "disc_normal": [
+    0.0001,
+    0.0318,
+    0.9995
+   ],
+   "disc_half_depth_width_mm": [
+    17.79,
+    16.98
+   ],
+   "posterior": {
+    "disc_thickness_mm": null,
+    "bone_to_bone_gap_mm": null
+   },
+   "centre": {
+    "disc_thickness_mm": 6.39,
+    "bone_to_bone_gap_mm": 6.27
+   },
+   "anterior": {
+    "disc_thickness_mm": 6.52,
+    "bone_to_bone_gap_mm": 6.01
+   },
+   "mean_of_three_disc_thickness_mm": null,
+   "endplate_plane_fit_max_residual_mm": [
+    0.75,
+    0.35
+   ],
+   "clearance_minimum_projected_gap_mm": 5.56,
+   "samples": 28
+  },
+  "T7/T8": {
+   "disc_centroid_mm": [
+    -1.09,
+    49.91,
+    1284.98
+   ],
+   "disc_normal": [
+    -0.0118,
+    0.1027,
+    0.9946
+   ],
+   "disc_half_depth_width_mm": [
+    18.3,
+    16.95
+   ],
+   "posterior": {
+    "disc_thickness_mm": 5.82,
+    "bone_to_bone_gap_mm": null
+   },
+   "centre": {
+    "disc_thickness_mm": 7.32,
+    "bone_to_bone_gap_mm": 7.06
+   },
+   "anterior": {
+    "disc_thickness_mm": 7.56,
+    "bone_to_bone_gap_mm": 6.81
+   },
+   "mean_of_three_disc_thickness_mm": 6.9,
+   "endplate_plane_fit_max_residual_mm": [
+    0.64,
+    0.42
+   ],
+   "clearance_minimum_projected_gap_mm": 6.89,
+   "samples": 29
+  },
+  "T8/T9": {
+   "disc_centroid_mm": [
+    -1.19,
+    43.37,
+    1259.45
+   ],
+   "disc_normal": [
+    -0.0151,
+    0.2135,
+    0.9768
+   ],
+   "disc_half_depth_width_mm": [
+    18.17,
+    17.81
+   ],
+   "posterior": {
+    "disc_thickness_mm": 5.18,
+    "bone_to_bone_gap_mm": 5.22
+   },
+   "centre": {
+    "disc_thickness_mm": 5.62,
+    "bone_to_bone_gap_mm": 5.53
+   },
+   "anterior": {
+    "disc_thickness_mm": 5.93,
+    "bone_to_bone_gap_mm": 5.89
+   },
+   "mean_of_three_disc_thickness_mm": 5.58,
+   "endplate_plane_fit_max_residual_mm": [
+    0.48,
+    0.48
+   ],
+   "clearance_minimum_projected_gap_mm": 5.85,
+   "samples": 29
+  },
+  "T9/T10": {
+   "disc_centroid_mm": [
+    -0.95,
+    35.57,
+    1233.82
+   ],
+   "disc_normal": [
+    0.029,
+    0.2516,
+    0.9674
+   ],
+   "disc_half_depth_width_mm": [
+    18.36,
+    18.93
+   ],
+   "posterior": {
+    "disc_thickness_mm": 6.54,
+    "bone_to_bone_gap_mm": 6.46
+   },
+   "centre": {
+    "disc_thickness_mm": 4.9,
+    "bone_to_bone_gap_mm": 4.97
+   },
+   "anterior": {
+    "disc_thickness_mm": 4.84,
+    "bone_to_bone_gap_mm": 4.99
+   },
+   "mean_of_three_disc_thickness_mm": 5.43,
+   "endplate_plane_fit_max_residual_mm": [
+    0.54,
+    0.59
+   ],
+   "clearance_minimum_projected_gap_mm": 5.93,
+   "samples": 29
+  },
+  "T10/T11": {
+   "disc_centroid_mm": [
+    -1.0,
+    31.02,
+    1205.36
+   ],
+   "disc_normal": [
+    0.0044,
+    0.211,
+    0.9775
+   ],
+   "disc_half_depth_width_mm": [
+    19.02,
+    19.32
+   ],
+   "posterior": {
+    "disc_thickness_mm": 6.34,
+    "bone_to_bone_gap_mm": 6.49
+   },
+   "centre": {
+    "disc_thickness_mm": 4.64,
+    "bone_to_bone_gap_mm": 5.79
+   },
+   "anterior": {
+    "disc_thickness_mm": 6.16,
+    "bone_to_bone_gap_mm": 5.57
+   },
+   "mean_of_three_disc_thickness_mm": 5.71,
+   "endplate_plane_fit_max_residual_mm": [
+    0.65,
+    0.41
+   ],
+   "clearance_minimum_projected_gap_mm": 4.69,
+   "samples": 29
+  },
+  "T11/T12": {
+   "disc_centroid_mm": [
+    -1.48,
+    24.35,
+    1176.97
+   ],
+   "disc_normal": [
+    -0.0177,
+    0.2642,
+    0.9643
+   ],
+   "disc_half_depth_width_mm": [
+    19.9,
+    20.1
+   ],
+   "posterior": {
+    "disc_thickness_mm": 5.76,
+    "bone_to_bone_gap_mm": 5.56
+   },
+   "centre": {
+    "disc_thickness_mm": 4.75,
+    "bone_to_bone_gap_mm": 5.14
+   },
+   "anterior": {
+    "disc_thickness_mm": 7.33,
+    "bone_to_bone_gap_mm": 7.19
+   },
+   "mean_of_three_disc_thickness_mm": 5.95,
+   "endplate_plane_fit_max_residual_mm": [
+    0.86,
+    0.86
+   ],
+   "clearance_minimum_projected_gap_mm": 5.18,
+   "samples": 29
+  },
+  "T12/L1": {
+   "disc_centroid_mm": [
+    0.68,
+    15.66,
+    1147.99
+   ],
+   "disc_normal": [
+    -0.0252,
+    0.3357,
+    0.9416
+   ],
+   "disc_half_depth_width_mm": [
+    19.31,
+    21.11
+   ],
+   "posterior": {
+    "disc_thickness_mm": 4.69,
+    "bone_to_bone_gap_mm": 4.97
+   },
+   "centre": {
+    "disc_thickness_mm": 6.73,
+    "bone_to_bone_gap_mm": 6.75
+   },
+   "anterior": {
+    "disc_thickness_mm": 6.04,
+    "bone_to_bone_gap_mm": 5.58
+   },
+   "mean_of_three_disc_thickness_mm": 5.82,
+   "endplate_plane_fit_max_residual_mm": [
+    1.05,
+    0.8
+   ],
+   "clearance_minimum_projected_gap_mm": 6.26,
+   "samples": 29
+  },
+  "L1/L2": {
+   "disc_centroid_mm": [
+    -0.82,
+    6.15,
+    1117.93
+   ],
+   "disc_normal": [
+    -0.0156,
+    0.2,
+    0.9797
+   ],
+   "disc_half_depth_width_mm": [
+    18.79,
+    21.25
+   ],
+   "posterior": {
+    "disc_thickness_mm": 4.88,
+    "bone_to_bone_gap_mm": 4.98
+   },
+   "centre": {
+    "disc_thickness_mm": 6.56,
+    "bone_to_bone_gap_mm": 6.68
+   },
+   "anterior": {
+    "disc_thickness_mm": 6.61,
+    "bone_to_bone_gap_mm": 6.32
+   },
+   "mean_of_three_disc_thickness_mm": 6.02,
+   "endplate_plane_fit_max_residual_mm": [
+    0.9,
+    1.0
+   ],
+   "clearance_minimum_projected_gap_mm": 6.07,
+   "samples": 29
+  },
+  "L2/L3": {
+   "disc_centroid_mm": [
+    -1.16,
+    3.96,
+    1085.75
+   ],
+   "disc_normal": [
+    -0.0132,
+    -0.0692,
+    0.9975
+   ],
+   "disc_half_depth_width_mm": [
+    18.97,
+    22.3
+   ],
+   "posterior": {
+    "disc_thickness_mm": 5.98,
+    "bone_to_bone_gap_mm": 6.12
+   },
+   "centre": {
+    "disc_thickness_mm": 10.37,
+    "bone_to_bone_gap_mm": 9.84
+   },
+   "anterior": {
+    "disc_thickness_mm": 9.21,
+    "bone_to_bone_gap_mm": 7.73
+   },
+   "mean_of_three_disc_thickness_mm": 8.52,
+   "endplate_plane_fit_max_residual_mm": [
+    1.4,
+    1.02
+   ],
+   "clearance_minimum_projected_gap_mm": 7.37,
+   "samples": 29
+  },
+  "L3/L4": {
+   "disc_centroid_mm": [
+    -1.3,
+    8.55,
+    1051.77
+   ],
+   "disc_normal": [
+    0.0177,
+    -0.2466,
+    0.969
+   ],
+   "disc_half_depth_width_mm": [
+    19.06,
+    22.37
+   ],
+   "posterior": {
+    "disc_thickness_mm": 4.18,
+    "bone_to_bone_gap_mm": 4.37
+   },
+   "centre": {
+    "disc_thickness_mm": 5.01,
+    "bone_to_bone_gap_mm": 4.59
+   },
+   "anterior": {
+    "disc_thickness_mm": 5.93,
+    "bone_to_bone_gap_mm": 6.12
+   },
+   "mean_of_three_disc_thickness_mm": 5.04,
+   "endplate_plane_fit_max_residual_mm": [
+    0.27,
+    0.84
+   ],
+   "clearance_minimum_projected_gap_mm": 4.19,
+   "samples": 29
+  },
+  "L4/L5": {
+   "disc_centroid_mm": [
+    -0.98,
+    13.92,
+    1020.37
+   ],
+   "disc_normal": [
+    0.0078,
+    -0.3767,
+    0.9263
+   ],
+   "disc_half_depth_width_mm": [
+    18.97,
+    24.56
+   ],
+   "posterior": {
+    "disc_thickness_mm": 7.99,
+    "bone_to_bone_gap_mm": 8.27
+   },
+   "centre": {
+    "disc_thickness_mm": 11.64,
+    "bone_to_bone_gap_mm": 10.91
+   },
+   "anterior": {
+    "disc_thickness_mm": 6.5,
+    "bone_to_bone_gap_mm": 6.42
+   },
+   "mean_of_three_disc_thickness_mm": 8.71,
+   "endplate_plane_fit_max_residual_mm": [
+    1.95,
+    0.5
+   ],
+   "clearance_minimum_projected_gap_mm": 8.06,
+   "samples": 29
+  },
+  "L5/S1": {
+   "disc_centroid_mm": [
+    -0.93,
+    27.82,
+    987.35
+   ],
+   "disc_normal": [
+    0.0099,
+    -0.5096,
+    0.8604
+   ],
+   "disc_half_depth_width_mm": [
+    20.03,
+    23.67
+   ],
+   "posterior": {
+    "disc_thickness_mm": 11.82,
+    "bone_to_bone_gap_mm": 11.84
+   },
+   "centre": {
+    "disc_thickness_mm": 13.19,
+    "bone_to_bone_gap_mm": 13.29
+   },
+   "anterior": {
+    "disc_thickness_mm": 10.55,
+    "bone_to_bone_gap_mm": 10.68
+   },
+   "mean_of_three_disc_thickness_mm": 11.85,
+   "endplate_plane_fit_max_residual_mm": [
+    1.84,
+    1.08
+   ],
+   "clearance_minimum_projected_gap_mm": 11.74,
+   "samples": 29
+  }
+ },
+ "disc_surfaces_for_cp2_preflight": {
+  "disc_c2_c3": {
+   "upper_origin_mm": [
+    -1.0036,
+    22.6436,
+    1526.0873
+   ],
+   "upper_normal": [
+    -0.008071,
+    -0.20199,
+    0.979354
+   ],
+   "lower_origin_mm": [
+    -1.0384,
+    23.4199,
+    1521.5866
+   ],
+   "lower_normal": [
+    0.000729,
+    0.006743,
+    0.999977
+   ],
+   "footprint_centre_xy_mm": [
+    -1.0137,
+    23.0689
+   ],
+   "footprint_radii_xy_mm": [
+    7.5317,
+    5.4598
+   ]
+  },
+  "disc_c3_c4": {
+   "upper_origin_mm": [
+    -0.6938,
+    19.9311,
+    1509.1587
+   ],
+   "upper_normal": [
+    -0.012593,
+    0.077722,
+    0.996896
+   ],
+   "lower_origin_mm": [
+    -0.6668,
+    19.8697,
+    1505.8571
+   ],
+   "lower_normal": [
+    0.025696,
+    0.00896,
+    0.99963
+   ],
+   "footprint_centre_xy_mm": [
+    -0.6837,
+    19.9081
+   ],
+   "footprint_radii_xy_mm": [
+    6.7887,
+    4.8083
+   ]
+  },
+  "disc_c4_c5": {
+   "upper_origin_mm": [
+    -0.6588,
+    17.7579,
+    1493.8965
+   ],
+   "upper_normal": [
+    -0.008395,
+    0.051241,
+    0.998651
+   ],
+   "lower_origin_mm": [
+    -0.6537,
+    17.6758,
+    1489.9221
+   ],
+   "lower_normal": [
+    0.011736,
+    -0.183646,
+    0.982922
+   ],
+   "footprint_centre_xy_mm": [
+    -0.658,
+    17.7444
+   ],
+   "footprint_radii_xy_mm": [
+    7.6373,
+    5.1011
+   ]
+  },
+  "disc_c5_c6": {
+   "upper_origin_mm": [
+    -0.3077,
+    15.9467,
+    1477.6907
+   ],
+   "upper_normal": [
+    0.075292,
+    -0.757431,
+    0.648559
+   ],
+   "lower_origin_mm": [
+    -0.2777,
+    16.9298,
+    1473.9331
+   ],
+   "lower_normal": [
+    -0.011257,
+    -0.451536,
+    0.892182
+   ],
+   "footprint_centre_xy_mm": [
+    -0.3001,
+    16.3895
+   ],
+   "footprint_radii_xy_mm": [
+    8.4962,
+    5.0756
+   ]
+  },
+  "disc_c6_c7": {
+   "upper_origin_mm": [
+    -1.3066,
+    18.6299,
+    1462.4536
+   ],
+   "upper_normal": [
+    -0.002536,
+    -0.236969,
+    0.971514
+   ],
+   "lower_origin_mm": [
+    -1.2559,
+    19.8489,
+    1458.8078
+   ],
+   "lower_normal": [
+    0.000725,
+    -0.380235,
+    0.924889
+   ],
+   "footprint_centre_xy_mm": [
+    -1.2906,
+    19.0153
+   ],
+   "footprint_radii_xy_mm": [
+    8.4786,
+    5.0638
+   ]
+  },
+  "disc_c7_t1": {
+   "upper_origin_mm": [
+    -0.5814,
+    21.3588,
+    1446.1676
+   ],
+   "upper_normal": [
+    -0.010503,
+    -0.318504,
+    0.947863
+   ],
+   "lower_origin_mm": [
+    -0.6183,
+    22.877,
+    1442.7467
+   ],
+   "lower_normal": [
+    -0.009515,
+    -0.411523,
+    0.91135
+   ],
+   "footprint_centre_xy_mm": [
+    -0.5984,
+    22.0575
+   ],
+   "footprint_radii_xy_mm": [
+    9.4073,
+    5.3264
+   ]
+  },
+  "disc_t1_t2": {
+   "upper_origin_mm": [
+    -1.0259,
+    26.7184,
+    1428.5868
+   ],
+   "upper_normal": [
+    -0.041282,
+    -0.375114,
+    0.926059
+   ],
+   "lower_origin_mm": [
+    -1.0733,
+    28.6216,
+    1424.4333
+   ],
+   "lower_normal": [
+    -0.003368,
+    -0.096502,
+    0.995327
+   ],
+   "footprint_centre_xy_mm": [
+    -1.0444,
+    27.4604
+   ],
+   "footprint_radii_xy_mm": [
+    9.8069,
+    6.0707
+   ]
+  },
+  "disc_t2_t3": {
+   "upper_origin_mm": [
+    -0.1052,
+    33.2493,
+    1409.2082
+   ],
+   "upper_normal": [
+    0.009846,
+    -0.40067,
+    0.916169
+   ],
+   "lower_origin_mm": [
+    -0.1462,
+    35.4131,
+    1403.9864
+   ],
+   "lower_normal": [
+    0.003706,
+    -0.308739,
+    0.95114
+   ],
+   "footprint_centre_xy_mm": [
+    -0.1255,
+    34.3248
+   ],
+   "footprint_radii_xy_mm": [
+    9.5996,
+    6.7942
+   ]
+  },
+  "disc_t3_t4": {
+   "upper_origin_mm": [
+    -1.0881,
+    40.4062,
+    1387.448
+   ],
+   "upper_normal": [
+    -0.008417,
+    -0.343896,
+    0.93897
+   ],
+   "lower_origin_mm": [
+    -1.0164,
+    42.7879,
+    1382.2256
+   ],
+   "lower_normal": [
+    0.006283,
+    -0.261017,
+    0.965314
+   ],
+   "footprint_centre_xy_mm": [
+    -1.0525,
+    41.5883
+   ],
+   "footprint_radii_xy_mm": [
+    8.9742,
+    7.4725
+   ]
+  },
+  "disc_t4_t5": {
+   "upper_origin_mm": [
+    0.021,
+    48.1683,
+    1365.3611
+   ],
+   "upper_normal": [
+    0.00291,
+    -0.278513,
+    0.960428
+   ],
+   "lower_origin_mm": [
+    0.0691,
+    49.676,
+    1359.6892
+   ],
+   "lower_normal": [
+    0.014269,
+    -0.17876,
+    0.983789
+   ],
+   "footprint_centre_xy_mm": [
+    0.0445,
+    49.2441
+   ],
+   "footprint_radii_xy_mm": [
+    8.9394,
+    8.8296
+   ]
+  },
+  "disc_t5_t6": {
+   "upper_origin_mm": [
+    -0.0119,
+    51.7591,
+    1340.3244
+   ],
+   "upper_normal": [
+    0.007062,
+    -0.130218,
+    0.99146
+   ],
+   "lower_origin_mm": [
+    0.0062,
+    52.4155,
+    1334.6448
+   ],
+   "lower_normal": [
+    5.9e-05,
+    -0.064258,
+    0.997933
+   ],
+   "footprint_centre_xy_mm": [
+    -0.0041,
+    52.3892
+   ],
+   "footprint_radii_xy_mm": [
+    9.1704,
+    9.5652
+   ]
+  },
+  "disc_t6_t7": {
+   "upper_origin_mm": [
+    -0.1194,
+    54.1186,
+    1314.7115
+   ],
+   "upper_normal": [
+    0.006532,
+    -0.023999,
+    0.999691
+   ],
+   "lower_origin_mm": [
+    -0.1204,
+    53.9169,
+    1308.366
+   ],
+   "lower_normal": [
+    0.002789,
+    0.052769,
+    0.998603
+   ],
+   "footprint_centre_xy_mm": [
+    -0.1198,
+    54.4249
+   ],
+   "footprint_radii_xy_mm": [
+    10.1867,
+    10.6668
+   ]
+  },
+  "disc_t7_t8": {
+   "upper_origin_mm": [
+    -1.1318,
+    50.2534,
+    1288.3358
+   ],
+   "upper_normal": [
+    -0.000509,
+    0.143663,
+    0.989627
+   ],
+   "lower_origin_mm": [
+    -1.051,
+    49.5491,
+    1281.5133
+   ],
+   "lower_normal": [
+    -0.002796,
+    0.146036,
+    0.989275
+   ],
+   "footprint_centre_xy_mm": [
+    -1.0921,
+    49.9073
+   ],
+   "footprint_radii_xy_mm": [
+    10.183,
+    10.9219
+   ]
+  },
+  "disc_t8_t9": {
+   "upper_origin_mm": [
+    -1.2327,
+    44.0234,
+    1262.434
+   ],
+   "upper_normal": [
+    -0.004106,
+    0.204418,
+    0.978875
+   ],
+   "lower_origin_mm": [
+    -1.1452,
+    42.7857,
+    1256.7696
+   ],
+   "lower_normal": [
+    -0.002056,
+    0.199014,
+    0.979995
+   ],
+   "footprint_centre_xy_mm": [
+    -1.1866,
+    43.3709
+   ],
+   "footprint_radii_xy_mm": [
+    10.7226,
+    10.6481
+   ]
+  },
+  "disc_t9_t10": {
+   "upper_origin_mm": [
+    -0.8629,
+    36.3009,
+    1236.6385
+   ],
+   "upper_normal": [
+    0.004088,
+    0.229144,
+    0.973384
+   ],
+   "lower_origin_mm": [
+    -1.0354,
+    34.807,
+    1230.8955
+   ],
+   "lower_normal": [
+    -0.00335,
+    0.242685,
+    0.970099
+   ],
+   "footprint_centre_xy_mm": [
+    -0.9476,
+    35.5676
+   ],
+   "footprint_radii_xy_mm": [
+    11.4335,
+    10.6618
+   ]
+  },
+  "disc_t10_t11": {
+   "upper_origin_mm": [
+    -0.9853,
+    31.7068,
+    1208.5194
+   ],
+   "upper_normal": [
+    -0.014073,
+    0.158559,
+    0.987249
+   ],
+   "lower_origin_mm": [
+    -1.0102,
+    30.5228,
+    1203.0344
+   ],
+   "lower_normal": [
+    -0.002094,
+    0.244202,
+    0.969722
+   ],
+   "footprint_centre_xy_mm": [
+    -0.9996,
+    31.0242
+   ],
+   "footprint_radii_xy_mm": [
+    11.6021,
+    11.1526
+   ]
+  },
+  "disc_t11_t12": {
+   "upper_origin_mm": [
+    -1.5362,
+    25.1406,
+    1179.8649
+   ],
+   "upper_normal": [
+    -0.000719,
+    0.227557,
+    0.973764
+   ],
+   "lower_origin_mm": [
+    -1.4387,
+    23.682,
+    1174.5405
+   ],
+   "lower_normal": [
+    -0.011693,
+    0.266288,
+    0.963823
+   ],
+   "footprint_centre_xy_mm": [
+    -1.4831,
+    24.3465
+   ],
+   "footprint_radii_xy_mm": [
+    12.1175,
+    11.5133
+   ]
+  },
+  "disc_t12_l1": {
+   "upper_origin_mm": [
+    0.5952,
+    16.8231,
+    1151.2564
+   ],
+   "upper_normal": [
+    0.010776,
+    0.211843,
+    0.977244
+   ],
+   "lower_origin_mm": [
+    0.758,
+    14.6507,
+    1145.162
+   ],
+   "lower_normal": [
+    0.006923,
+    0.239766,
+    0.970806
+   ],
+   "footprint_centre_xy_mm": [
+    0.6825,
+    15.6578
+   ],
+   "footprint_radii_xy_mm": [
+    12.7648,
+    10.9158
+   ]
+  },
+  "disc_l1_l2": {
+   "upper_origin_mm": [
+    -0.8661,
+    6.7392,
+    1120.8147
+   ],
+   "upper_normal": [
+    0.004521,
+    0.184972,
+    0.982733
+   ],
+   "lower_origin_mm": [
+    -0.7682,
+    5.4879,
+    1114.6853
+   ],
+   "lower_normal": [
+    0.007887,
+    0.211367,
+    0.977375
+   ],
+   "footprint_centre_xy_mm": [
+    -0.8201,
+    6.1511
+   ],
+   "footprint_radii_xy_mm": [
+    12.7839,
+    11.047
+   ]
+  },
+  "disc_l2_l3": {
+   "upper_origin_mm": [
+    -1.2105,
+    3.7077,
+    1089.4049
+   ],
+   "upper_normal": [
+    -0.004899,
+    -0.02292,
+    0.999725
+   ],
+   "lower_origin_mm": [
+    -1.1056,
+    4.2573,
+    1081.4832
+   ],
+   "lower_normal": [
+    0.006831,
+    -0.071504,
+    0.997417
+   ],
+   "footprint_centre_xy_mm": [
+    -1.1622,
+    3.961
+   ],
+   "footprint_radii_xy_mm": [
+    13.3912,
+    11.3564
+   ]
+  },
+  "disc_l3_l4": {
+   "upper_origin_mm": [
+    -1.2476,
+    7.8877,
+    1054.3891
+   ],
+   "upper_normal": [
+    -0.011204,
+    -0.183982,
+    0.982866
+   ],
+   "lower_origin_mm": [
+    -1.3392,
+    9.1606,
+    1049.3871
+   ],
+   "lower_normal": [
+    -0.006667,
+    -0.275669,
+    0.961229
+   ],
+   "footprint_centre_xy_mm": [
+    -1.2956,
+    8.5537
+   ],
+   "footprint_radii_xy_mm": [
+    13.4686,
+    11.081
+   ]
+  },
+  "disc_l4_l5": {
+   "upper_origin_mm": [
+    -0.9451,
+    12.4792,
+    1023.9159
+   ],
+   "upper_normal": [
+    -0.011152,
+    -0.357029,
+    0.934027
+   ],
+   "lower_origin_mm": [
+    -1.0143,
+    15.7999,
+    1015.7498
+   ],
+   "lower_normal": [
+    -0.005092,
+    -0.262498,
+    0.964919
+   ],
+   "footprint_centre_xy_mm": [
+    -0.9751,
+    13.9194
+   ],
+   "footprint_radii_xy_mm": [
+    14.7739,
+    10.543
+   ]
+  },
+  "disc_l5_sacrum": {
+   "upper_origin_mm": [
+    -0.8664,
+    24.7585,
+    992.5199
+   ],
+   "upper_normal": [
+    -0.00324,
+    -0.646315,
+    0.763064
+   ],
+   "lower_origin_mm": [
+    -0.9927,
+    31.2298,
+    981.5941
+   ],
+   "lower_normal": [
+    0.006322,
+    -0.452841,
+    0.891569
+   ],
+   "footprint_centre_xy_mm": [
+    -0.9261,
+    27.8179
+   ],
+   "footprint_radii_xy_mm": [
+    14.2735,
+    10.3388
+   ]
+  }
+ },
+ "shoulder": {
+  "left": {
+   "clavicle_max_vertex_chord_mm": 153.0,
+   "clavicle_axial_bin_centreline_arc_mm": 176.2,
+   "contact_1mm": {
+    "SC_proxy_mm": [
+     17.65,
+     -40.81,
+     1395.76
+    ],
+    "AC_proxy_mm": [
+     140.86,
+     36.78,
+     1423.5
+    ],
+    "GH_glenoid_proxy_mm": [
+     146.6,
+     35.58,
+     1381.25
+    ],
+    "SC_AC_chord_mm": 148.2,
+    "closest_bone_distances_mm": {
+     "clavicle_manubrium": 0.43,
+     "clavicle_scapula": 2.8,
+     "scapula_humerus": 0.98
+    }
+   },
+   "contact_2mm": {
+    "SC_proxy_mm": [
+     15.28,
+     -36.95,
+     1393.33
+    ],
+    "AC_proxy_mm": [
+     140.66,
+     34.83,
+     1424.14
+    ],
+    "GH_glenoid_proxy_mm": [
+     144.53,
+     33.68,
+     1383.95
+    ],
+    "SC_AC_chord_mm": 147.7,
+    "closest_bone_distances_mm": {
+     "clavicle_manubrium": 0.43,
+     "clavicle_scapula": 2.8,
+     "scapula_humerus": 0.98
+    }
+   },
+   "contact_3mm": {
+    "SC_proxy_mm": [
+     15.62,
+     -36.94,
+     1392.67
+    ],
+    "AC_proxy_mm": [
+     140.78,
+     33.63,
+     1424.97
+    ],
+    "GH_glenoid_proxy_mm": [
+     143.97,
+     33.17,
+     1384.08
+    ],
+    "SC_AC_chord_mm": 147.3,
+    "closest_bone_distances_mm": {
+     "clavicle_manubrium": 0.43,
+     "clavicle_scapula": 2.8,
+     "scapula_humerus": 0.98
+    }
+   },
+   "scapula": {
+    "inferior_angle_proxy_mm": [
+     94.43,
+     94.74,
+     1262.06
+    ],
+    "superior_angle_proxy_mm": [
+     77.55,
+     69.9,
+     1416.21
+    ],
+    "superior_to_inferior_angle_mm": 157.0,
+    "glenoid_proxy_to_inferior_angle_mm": 145.2,
+    "principal_extents_mm": [
+     189.3,
+     104.7,
+     73.7
+    ]
+   }
+  },
+  "right": {
+   "clavicle_max_vertex_chord_mm": 152.9,
+   "clavicle_axial_bin_centreline_arc_mm": 177.2,
+   "contact_1mm": {
+    "SC_proxy_mm": [
+     -18.31,
+     -41.2,
+     1395.03
+    ],
+    "AC_proxy_mm": [
+     -142.38,
+     35.44,
+     1424.08
+    ],
+    "GH_glenoid_proxy_mm": [
+     -147.31,
+     34.28,
+     1377.08
+    ],
+    "SC_AC_chord_mm": 148.7,
+    "closest_bone_distances_mm": {
+     "clavicle_manubrium": 0.6,
+     "clavicle_scapula": 2.03,
+     "scapula_humerus": 0.64
+    }
+   },
+   "contact_2mm": {
+    "SC_proxy_mm": [
+     -16.89,
+     -36.91,
+     1392.1
+    ],
+    "AC_proxy_mm": [
+     -141.67,
+     35.16,
+     1423.82
+    ],
+    "GH_glenoid_proxy_mm": [
+     -143.71,
+     34.91,
+     1385.17
+    ],
+    "SC_AC_chord_mm": 147.6,
+    "closest_bone_distances_mm": {
+     "clavicle_manubrium": 0.6,
+     "clavicle_scapula": 2.03,
+     "scapula_humerus": 0.64
+    }
+   },
+   "contact_3mm": {
+    "SC_proxy_mm": [
+     -16.36,
+     -36.16,
+     1392.15
+    ],
+    "AC_proxy_mm": [
+     -141.95,
+     34.34,
+     1424.86
+    ],
+    "GH_glenoid_proxy_mm": [
+     -144.08,
+     33.28,
+     1384.35
+    ],
+    "SC_AC_chord_mm": 147.7,
+    "closest_bone_distances_mm": {
+     "clavicle_manubrium": 0.6,
+     "clavicle_scapula": 2.03,
+     "scapula_humerus": 0.64
+    }
+   },
+   "scapula": {
+    "inferior_angle_proxy_mm": [
+     -94.0,
+     94.63,
+     1262.15
+    ],
+    "superior_angle_proxy_mm": [
+     -77.08,
+     70.51,
+     1416.21
+    ],
+    "superior_to_inferior_angle_mm": 156.9,
+    "glenoid_proxy_to_inferior_angle_mm": 145.5,
+    "principal_extents_mm": [
+     189.3,
+     104.9,
+     73.8
+    ]
+   }
+  },
+  "bilateral_SC_proxy_separation_1mm": 36.0,
+  "bilateral_AC_proxy_separation_1mm": 283.2,
+  "bilateral_SC_proxy_separation_2mm": 32.2,
+  "bilateral_AC_proxy_separation_2mm": 282.3,
+  "bilateral_SC_proxy_separation_3mm": 32.0,
+  "bilateral_AC_proxy_separation_3mm": 282.7,
+  "manubrium_X_extent_mm": 54.9
+ },
+ "hyoid": {
+  "mesh_ids": [
+   "FJ2772",
+   "FJ3201"
+  ],
+  "duplicate_entries_identical": true,
+  "total_X_width_mm": 37.8,
+  "total_AP_Y_extent_mm": 34.6,
+  "tip_span_centreline_ends_mm": 34.9,
+  "horns": {
+   "first_half": {
+    "tip_abs_x_mm": 16.8,
+    "max_abs_x_mm": 16.8,
+    "max_at_fraction_from_body_to_tip": 1.0,
+    "inward_turn_mm": 0.0
+   },
+   "second_half": {
+    "tip_abs_x_mm": 18.1,
+    "max_abs_x_mm": 18.4,
+    "max_at_fraction_from_body_to_tip": 0.74,
+    "inward_turn_mm": 0.3
+   }
+  },
+  "note": "Tip span uses centreline bin means (inside the true tips). inward_turn_mm > 0 means the horn centreline reaches its widest point before the tip, i.e. the horn is not straight."
+ },
+ "crosschecks": {
+  "disc_heights": {
+   "C2/C3": {
+    "specimen_mean_of_three_mm": 3.96,
+    "source_candidate_mm": 6.4,
+    "source_sd_mm": 0.9,
+    "source_definition": "male radiographic disc height",
+    "z": -2.71
+   },
+   "C3/C4": {
+    "specimen_mean_of_three_mm": 3.86,
+    "source_candidate_mm": 6.5,
+    "source_sd_mm": 1,
+    "source_definition": "male radiographic disc height",
+    "z": -2.64
+   },
+   "C4/C5": {
+    "specimen_mean_of_three_mm": 4.5,
+    "source_candidate_mm": 6.2,
+    "source_sd_mm": 1.1,
+    "source_definition": "male radiographic disc height",
+    "z": -1.55
+   },
+   "C5/C6": {
+    "specimen_mean_of_three_mm": 3.86,
+    "source_candidate_mm": 6.1,
+    "source_sd_mm": 1.3,
+    "source_definition": "male radiographic disc height",
+    "z": -1.72
+   },
+   "C6/C7": {
+    "specimen_mean_of_three_mm": 3.88,
+    "source_candidate_mm": 6.6,
+    "source_sd_mm": 1.5,
+    "source_definition": "male radiographic disc height",
+    "z": -1.81
+   },
+   "C7/T1": {
+    "specimen_mean_of_three_mm": 4.57,
+    "source_candidate_mm": 4.5,
+    "source_sd_mm": null,
+    "source_definition": "direct anatomical mean of anterior/posterior disc heights",
+    "z": null
+   },
+   "T1/T2": {
+    "specimen_mean_of_three_mm": 3.34,
+    "source_candidate_mm": 4.4,
+    "source_sd_mm": null,
+    "source_definition": "direct anatomical average disc height",
+    "z": null
+   },
+   "T2/T3": {
+    "specimen_mean_of_three_mm": 4.23,
+    "source_candidate_mm": 3.5,
+    "source_sd_mm": null,
+    "source_definition": "direct anatomical average disc height",
+    "z": null
+   },
+   "T3/T4": {
+    "specimen_mean_of_three_mm": null,
+    "source_candidate_mm": 3.3,
+    "source_sd_mm": null,
+    "source_definition": "direct anatomical average disc height",
+    "z": null
+   },
+   "T4/T5": {
+    "specimen_mean_of_three_mm": null,
+    "source_candidate_mm": 3.2,
+    "source_sd_mm": null,
+    "source_definition": "direct anatomical average disc height",
+    "z": null
+   },
+   "T5/T6": {
+    "specimen_mean_of_three_mm": null,
+    "source_candidate_mm": 3.5,
+    "source_sd_mm": null,
+    "source_definition": "direct anatomical average disc height",
+    "z": null
+   },
+   "T6/T7": {
+    "specimen_mean_of_three_mm": null,
+    "source_candidate_mm": 4.1,
+    "source_sd_mm": null,
+    "source_definition": "direct anatomical average disc height",
+    "z": null
+   },
+   "T7/T8": {
+    "specimen_mean_of_three_mm": 6.9,
+    "source_candidate_mm": 3.9,
+    "source_sd_mm": null,
+    "source_definition": "direct anatomical average disc height",
+    "z": null
+   },
+   "T8/T9": {
+    "specimen_mean_of_three_mm": 5.58,
+    "source_candidate_mm": 5.3,
+    "source_sd_mm": null,
+    "source_definition": "direct anatomical average disc height",
+    "z": null
+   },
+   "T9/T10": {
+    "specimen_mean_of_three_mm": 5.43,
+    "source_candidate_mm": 4.8,
+    "source_sd_mm": null,
+    "source_definition": "direct anatomical average disc height",
+    "z": null
+   },
+   "T10/T11": {
+    "specimen_mean_of_three_mm": 5.71,
+    "source_candidate_mm": 6.5,
+    "source_sd_mm": null,
+    "source_definition": "direct anatomical average disc height",
+    "z": null
+   },
+   "T11/T12": {
+    "specimen_mean_of_three_mm": 5.95,
+    "source_candidate_mm": 5.4,
+    "source_sd_mm": null,
+    "source_definition": "direct anatomical average disc height",
+    "z": null
+   },
+   "T12/L1": {
+    "specimen_mean_of_three_mm": 5.82,
+    "source_candidate_mm": 5.6,
+    "source_sd_mm": 1.1,
+    "source_definition": "male CT average disc height",
+    "z": 0.2
+   },
+   "L1/L2": {
+    "specimen_mean_of_three_mm": 6.02,
+    "source_candidate_mm": 6.9,
+    "source_sd_mm": 1.3,
+    "source_definition": "male CT average disc height",
+    "z": -0.68,
+    "hegazy_supine_edge_gaps_mm": {
+     "anterior": 8.91,
+     "posterior": 6.6
+    },
+    "specimen_edge_thickness_mm": {
+     "anterior": 6.61,
+     "posterior": 4.88
+    }
+   },
+   "L2/L3": {
+    "specimen_mean_of_three_mm": 8.52,
+    "source_candidate_mm": 8.1,
+    "source_sd_mm": 1.4,
+    "source_definition": "male CT average disc height",
+    "z": 0.3,
+    "hegazy_supine_edge_gaps_mm": {
+     "anterior": 10,
+     "posterior": 7.03
+    },
+    "specimen_edge_thickness_mm": {
+     "anterior": 9.21,
+     "posterior": 5.98
+    }
+   },
+   "L3/L4": {
+    "specimen_mean_of_three_mm": 5.04,
+    "source_candidate_mm": 8.7,
+    "source_sd_mm": 1.5,
+    "source_definition": "male CT average disc height",
+    "z": -2.44,
+    "hegazy_supine_edge_gaps_mm": {
+     "anterior": 11.3,
+     "posterior": 7.73
+    },
+    "specimen_edge_thickness_mm": {
+     "anterior": 5.93,
+     "posterior": 4.18
+    }
+   },
+   "L4/L5": {
+    "specimen_mean_of_three_mm": 8.71,
+    "source_candidate_mm": 9.2,
+    "source_sd_mm": 1.6,
+    "source_definition": "male CT average disc height",
+    "z": -0.31,
+    "hegazy_supine_edge_gaps_mm": {
+     "anterior": 12.76,
+     "posterior": 7.87
+    },
+    "specimen_edge_thickness_mm": {
+     "anterior": 6.5,
+     "posterior": 7.99
+    }
+   },
+   "L5/S1": {
+    "specimen_mean_of_three_mm": 11.85,
+    "source_candidate_mm": 8.8,
+    "source_sd_mm": 1.6,
+    "source_definition": "male CT average disc height",
+    "z": 1.91,
+    "hegazy_supine_edge_gaps_mm": {
+     "anterior": 14.41,
+     "posterior": 6.82
+    },
+    "specimen_edge_thickness_mm": {
+     "anterior": 10.55,
+     "posterior": 11.82
+    }
+   }
+  },
+  "clavicle": {
+   "qiu_articular_centre_chord_male_mm": {
+    "mean": 152.9,
+    "sd": 9.3
+   },
+   "specimen_SC_AC_proxy_chord_mm_left_right": [
+    147.7,
+    147.6
+   ],
+   "centreline_male_cadaver_mm": {
+    "mean": 166.8,
+    "sd": 7.3
+   },
+   "specimen_centreline_arc_mm_left_right": [
+    176.2,
+    177.2
+   ],
+   "extremal_chord_CT_2018_mean_mm": 154.8,
+   "specimen_max_vertex_chord_mm_left_right": [
+    153.0,
+    152.9
+   ],
+   "a003_SC_AC_span_mm": 222.9
+  },
+  "scapula": {
+   "superior_to_inferior_angle_male_2018_mm": {
+    "mean": 148.2,
+    "sd": 10
+   },
+   "specimen_mm_left_right": [
+    157.0,
+    156.9
+   ],
+   "a003_GH_to_inferior_angle_mm": 211.7,
+   "specimen_glenoid_proxy_to_inferior_angle_mm_left_right": [
+    145.2,
+    145.5
+   ]
+  },
+  "bi_AC": {
+   "a003_mm": 481.4,
+   "specimen_proxy_mm": 282.3,
+   "ANSUR_biacromial_at_HGPT_stature_mm": 425.2,
+   "note": "Biacromial breadth is measured at the lateral acromia, lateral to the AC joints."
+  },
+  "SC": {
+   "specimen_bilateral_SC_proxy_mm_by_threshold": {
+    "1": 36.0,
+    "2": 32.2,
+    "3": 32.0
+   },
+   "manubrium_outer_breadth_context_mm": {
+    "mean": 68.2,
+    "sd": 8,
+    "source": "STERNUM_SELTHOFER_2006",
+    "semantics": "outer clavicular-notch breadth, not SC centres"
+   },
+   "specimen_manubrium_X_extent_mm": 54.9
+  },
+  "hyoid": {
+   "abdelkader_2025_male_mm": {
+    "overall_width_lateral_greater_horn_to_lateral_greater_horn": 42.85,
+    "greater_horn_center_distance": 39.65,
+    "greater_horn_posterior_end_distance": 35.32
+   },
+   "specimen_total_width_mm": 37.8,
+   "specimen_tip_span_mm": 34.9,
+   "specimen_inward_turn_mm": [
+    0.0,
+    0.3
+   ]
+  }
+ }
+}

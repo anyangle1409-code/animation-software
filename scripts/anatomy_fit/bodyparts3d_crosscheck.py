@@ -173,7 +173,8 @@ def build(models_dir, commit):
     out['ribs'] = {'method': 'Welded surface; the two geodesically farthest vertices define the ends; vertices binned (48) by the '
                              'difference of geodesic distances to the two ends; bin means form the centreline. Ends are bin means, not '
                              'head/tubercle/costochondral landmarks: the two end bins are biased by up to about the bone thickness (synthetic '
-                             'tube test: interior bins within 0.5 mm, ends within one radius), so arc and chord run short of true values.',
+                             'tube test: interior bins within 0.5 mm, ends within one radius), so arc and chord run short of true values. On coarse meshes the bin means also '
+                             'zigzag, which inflates arc length; the population comparison therefore uses end chords only.',
                    'per_rib': ribs}
     out['crosschecks'] = crosschecks(carp, tars, ribs)
     return out

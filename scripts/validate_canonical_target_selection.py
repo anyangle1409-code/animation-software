@@ -6,6 +6,8 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 SEL = ROOT / "ORIGINAL_V1_WORK/anatomy/canonical_target_selection_v1.json"
 CONV = ROOT / "ORIGINAL_V1_WORK/anatomy/canonical_evidence_convergence_v1.json"
 CORR = ROOT / "ORIGINAL_V1_WORK/anatomy/canonical_target_corridors_v1.json"
+SHOULDER_CONSTRAINT = ROOT / "ORIGINAL_V1_WORK/anatomy/canonical_shoulder_target_constraints_v1.json"
+SHOULDER_SOURCE = ROOT / "ORIGINAL_V1_WORK/anatomy/canonical_shoulder_constraint_sources_v1.json"
 
 REQUIRED_REGIONS = {
     "shoulder_girdle",
@@ -51,7 +53,7 @@ def _null_paths(obj, path="selected"):
         yield path
 
 
-def validate(s, conv, corr):
+def validate(s, conv, corr, shoulder_constraint=None, shoulder_source=None):
     errors = []
     warnings = []
 
@@ -120,6 +122,27 @@ def validate(s, conv, corr):
     if sg_grade != "A_TRANSVERSE_DEFECT_EXACT_3D_TARGET_OPEN":
         errors.append("shoulder selection does not reflect corrected scapular evidence grade")
 
+
+    # Preserve the 2026 shoulder-source correction. The paper reports two
+    # distances to lateral STSL, not a direct lateral-acromion->AC distance.
+    if shoulder_constraint is not None:
+        if "lateral_acromion_to_AC_joint_mm" in shoulder_constraint.get("inputs", {}):
+            errors.append("withdrawn direct acromion-to-AC source was reintroduced")
+        exact = shoulder_constraint.get("derived_constraints", {}).get("exact_AC_offset")
+        if exact != "UNRESOLVED_AFTER_SOURCE_CORRECTION":
+            errors.append("absolute AC offset was silently resolved after source correction")
+
+    if shoulder_source is not None:
+        corrected = shoulder_source.get("sources", {}).get("SCAPULAR_LANDMARK_CADAVER_2026", {})
+        if corrected.get("status") != "CORRECTED_NOT_USED_FOR_CANONICAL_AC_OFFSET":
+            errors.append("corrected 2026 scapular landmark source status was lost")
+        if "lateral_acromion_to_AC_joint_mm" in corrected:
+            errors.append("invalid direct acromion-to-AC value reappeared in source register")
+
+    sternum = conv["region_findings"].get("sternum")
+    if not sternum or sternum.get("grade") != "B" or sternum.get("state") != "STRONGLY_REOPENED_LONGITUDINAL_GEOMETRY":
+        errors.append("sternum rebuild evidence state was lost")
+
     # Corridor file must remain explicitly non-final.
     if corr["status"] != "EVIDENCE_CORRIDORS_NOT_FINAL_TARGETS":
         errors.append("evidence corridors were promoted to final targets without selection review")
@@ -137,7 +160,7 @@ def validate(s, conv, corr):
 
 
 def main():
-    report = validate(load(SEL), load(CONV), load(CORR))
+    report = validate(load(SEL), load(CONV), load(CORR), load(SHOULDER_CONSTRAINT), load(SHOULDER_SOURCE))
     print(json.dumps(report, indent=2))
     return 0 if report["result"] == "PASS" else 1
 

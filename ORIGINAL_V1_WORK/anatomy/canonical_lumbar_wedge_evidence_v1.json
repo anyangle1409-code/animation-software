@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "status": "PROVISIONAL_SOURCE_ANGLE_EVIDENCE",
+  "freeze_ready": false,
+  "source": {
+    "citation": "Bailey et al. J Anat 2016;229:82\u201391",
+    "doi": "10.1111/joa.12451",
+    "url": "https://onlinelibrary.wiley.com/doi/10.1111/joa.12451",
+    "verified": "2026-10-08",
+    "location": "Methods angular measurements; Table 2",
+    "sample": "200 adults age 18\u201356; standing and supine are separate subjects. Standing male n=73; supine male n=36; four total unknown posture. Moderate/severe degeneration, congenital abnormalities, injuries, surgery and unclear endplates excluded."
+  },
+  "angle_semantics": "Body: cranial versus caudal endplates of same vertebra; disc: facing endplates of adjacent bodies. Positive lordotic; negative kyphotic.",
+  "dispersion": "standard_error_of_mean_not_population_SD",
+  "body_posture": "standing_plus_supine",
+  "male_body_wedges": {
+    "L1": {
+      "mean_deg": -4.06,
+      "SE_deg": 0.27
+    },
+    "L2": {
+      "mean_deg": -1.28,
+      "SE_deg": 0.26
+    },
+    "L3": {
+      "mean_deg": 0.6,
+      "SE_deg": 0.23
+    },
+    "L4": {
+      "mean_deg": 2.45,
+      "SE_deg": 0.24
+    },
+    "L5": {
+      "mean_deg": 8.01,
+      "SE_deg": 0.32
+    }
+  },
+  "male_standing_disc_wedges": {
+    "L1/L2": {
+      "mean_deg": 5.51,
+      "SE_deg": 0.31
+    },
+    "L2/L3": {
+      "mean_deg": 6.76,
+      "SE_deg": 0.3
+    },
+    "L3/L4": {
+      "mean_deg": 8.11,
+      "SE_deg": 0.27
+    },
+    "L4/L5": {
+      "mean_deg": 11.35,
+      "SE_deg": 0.41
+    },
+    "L5/S1": {
+      "mean_deg": 15.06,
+      "SE_deg": 0.58
+    }
+  },
+  "source_mean_closure": {
+    "body_sum_deg": 5.72,
+    "standing_disc_sum_deg": 46.79,
+    "combined_deg": 52.51,
+    "reported_standing_lordosis_deg": 53.01,
+    "residual_deg": 0.5,
+    "interpretation": "Pooled body means and standing disc means are different subsets. Preserve residual; do not force closure or blend source means."
+  },
+  "corridor_SD_deg": null,
+  "limitations": [
+    "No stature matching or independent numerical target freeze.",
+    "Body and standing disc cohorts differ; SE cannot become individual variation."
+  ]
+}

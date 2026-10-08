@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "status": "REOPENED_SOURCE_INTERNAL_CONSISTENCY_AND_WIDTH_DEFINITION",
+  "source_id": "LUMBAR_CT_2026_BODY",
+  "doi": "10.3389/fphys.2026.1820186",
+  "url": "https://www.frontiersin.org/journals/physiology/articles/10.3389/fphys.2026.1820186/full",
+  "checked": "2026-10-08",
+  "table_1_age_groups": [
+    "20-30",
+    "31-40",
+    "41-50",
+    "51-60",
+    "61-70"
+  ],
+  "male_counts": [
+    10,
+    8,
+    6,
+    13,
+    9
+  ],
+  "female_counts": [
+    10,
+    12,
+    14,
+    7,
+    11
+  ],
+  "table_totals": {
+    "male": 46,
+    "female": 54
+  },
+  "stated_totals": {
+    "male": 50,
+    "female": 50
+  },
+  "height_semantics": "Anterior/posterior heights join corresponding endplate edges; middle height joins midpoints. Not automatically plane-normal thickness.",
+  "width_semantics": "UNRESOLVED: Methods first says mid-sagittal images, then defines width using lateral edges and later mentions mid-coronal planes. Figure 1B appears sagittal. Do not freeze AP or ML envelope dimensions from EPWu/EPWl until plane/endpoints are reconciled.",
+  "freeze_ready": false,
+  "existing_height_values_changed": false,
+  "required_next_action": "Seek author clarification or endpoint-matched independent CT/MRI measurements; retain existing source means as provisional context."
+}

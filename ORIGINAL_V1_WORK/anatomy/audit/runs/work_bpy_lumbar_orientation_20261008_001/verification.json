@@ -1,0 +1,12 @@
+{
+  "status": "VERIFIED_LOCAL_ORIENTATION_FIXTURE_ONLY",
+  "blender_version": "5.2.1 LTS",
+  "source_sha256": "57a645f470d67a82bfb32fa271d94e6b13903efb738b2ae1528fecc531a93b69",
+  "fixture_sha256": "b13f08e4c708ffec65674fe355c21f2adf03785aa2f12f835df2a09b1f5e5bd1",
+  "frame_count": 11,
+  "max_matrix_error": 5.960464477539063e-08,
+  "max_determinant_error": 1.7881393432617188e-07,
+  "canonical_candidate_created": false,
+  "absolute_centres_defined": false,
+  "completed_gates": []
+}

@@ -136,7 +136,7 @@
   },
   "limitations": [
     "No absolute vertebral centres derived.",
-    "Each superior-to-superior angle includes upper vertebral body wedging and intervening disc; inferior endplates and disc wedges remain unresolved.",
+    "Each superior-to-superior angle includes upper vertebral body wedging and intervening disc; provisional inferior/disc orientation decomposition is now stored separately in canonical_lumbar_body_disc_frames_p1.json; exact targets remain unresolved.",
     "No parallel-endplate assumption or body-height/disc-mean substitution is permitted.",
     "P1 scaling combines separate cohorts as a provisional shape family, not an individual measured spine."
   ]

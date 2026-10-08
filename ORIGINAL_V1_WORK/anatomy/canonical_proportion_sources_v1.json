@@ -376,9 +376,9 @@
       "limitation": "Volume and articular area relationships are not length ratios."
     },
     {
-      "id": "BARR\u00d4CO_2011_332_NORMAL_FEET",
+      "id": "BARRÔCO_2011_332_NORMAL_FEET",
       "type": "weight_bearing_radiographic_forefoot",
-      "citation": "Barr\u00f4co R et al. Evaluation of metatarsal relationships in the biomechanics of 332 normal feet using the method of measuring relative lengths. Rev Bras Ortop. 2011/2015.",
+      "citation": "Barrôco R et al. Evaluation of metatarsal relationships in the biomechanics of 332 normal feet using the method of measuring relative lengths. Rev Bras Ortop. 2011/2015.",
       "pmid": "27027034",
       "pmcid": "PMC4799308",
       "doi": "10.1016/S2255-4971(15)30258-5",
@@ -1154,7 +1154,7 @@
         "anterior/posterior wedging geometry"
       ],
       "limitation": "Older mixed-sex donor cohort; use as a complete level pattern and direct-anatomical disc reference, then cross-check scale against CT/sex/stature evidence before freeze.",
-      "population": "72 thoracic spine segments from 30 donors; mean age 57.43 \u00b1 11.27 years",
+      "population": "72 thoracic spine segments from 30 donors; mean age 57.43 ± 11.27 years",
       "measurement_definition": {
         "vertebral_body": "anterior and posterior vertebral body heights; average = mean of anterior/posterior",
         "disc": "direct anatomical anterior and posterior disc heights; average = mean of anatomical anterior/posterior heights; middle height measured separately"
@@ -1387,7 +1387,10 @@
       "use": [
         "lumbar vertebral-body height target corridor"
       ],
-      "limitation": "Sex-combined level table; body-height geometry only, not disc height."
+      "limitation": "Sex-combined level table; body-height geometry only, not disc height.",
+      "independent_review_status": "REOPENED_SOURCE_INTERNAL_CONSISTENCY",
+      "review_file": "canonical_lumbar_ct_source_review_v1.json",
+      "population_note": "Text states 50/50; Table 1 sums 46 male/54 female. Heights are mixed-sex provisional context, not male-only frozen targets."
     },
     {
       "id": "LUMBAR_DISC_CT_2018",
@@ -1476,7 +1479,7 @@
           "mean": 166.8,
           "sd": 7.3
         },
-        "endpoint_length_note": "overall sample endpoint length 149.4 \u00b1 10.3 mm; male-specific endpoint mean not exposed in abstract"
+        "endpoint_length_note": "overall sample endpoint length 149.4 ± 10.3 mm; male-specific endpoint mean not exposed in abstract"
       },
       "use": [
         "independent clavicle curved-vs-endpoint length distinction",
@@ -2424,7 +2427,7 @@
         "jugular-notch to xiphisternal/corpus endpoint plausibility",
         "independent male sternum scale"
       ],
-      "limitation": "Population-specific; reported total-sternum definition and xiphoid morphology require care. Use manubrium + corpus definitions for comparison to the a003 jugular\u2192xiphisternal stick."
+      "limitation": "Population-specific; reported total-sternum definition and xiphoid morphology require care. Use manubrium + corpus definitions for comparison to the a003 jugular→xiphisternal stick."
     },
     {
       "id": "STERNUM_CT_IRAN_2022",
@@ -2603,7 +2606,7 @@
       "citation": "Kang N, Brassett C. Scapular morphometrics inform anatomic landmark distances for arthroscopic suprascapular nerve decompression. JSES Int. 2026.",
       "pmid": "42164106",
       "pmcid": "PMC13184462",
-      "population": "20 shoulders from 10 White British cadavers; 5 male, 5 female; mean age 80.8 \u00b1 8.9 years",
+      "population": "20 shoulders from 10 White British cadavers; 5 male, 5 female; mean age 80.8 ± 8.9 years",
       "values_mm": {
         "lateral_acromion_to_AC_joint": {
           "mean": 34,
@@ -2664,7 +2667,7 @@
           "sd": 3.6
         }
       },
-      "measurement_note": "The paper describes manubrial shape using the least breadth and the breadth between clavicular notches; Table 2 reports the male maximum breadth as 68.2 \u00b1 8.0 mm. Treat this as an outer manubrial/clavicular-notch breadth constraint, not a direct SC-centre-to-centre measure.",
+      "measurement_note": "The paper describes manubrial shape using the least breadth and the breadth between clavicular notches; Table 2 reports the male maximum breadth as 68.2 ± 8.0 mm. Treat this as an outer manubrial/clavicular-notch breadth constraint, not a direct SC-centre-to-centre measure.",
       "use": [
         "outer SC/manubrial transverse plausibility envelope"
       ],
@@ -2735,7 +2738,7 @@
     {
       "id": "C2_AXIS_MORPHOMETRY_2015",
       "type": "dry_axis_morphometry",
-      "citation": "Singla M et al. Morphometric Analysis of Axis and Its Clinical Significance\u2014An Anatomical Study of Indian Human Axis Vertebrae. J Clin Diagn Res. 2015.",
+      "citation": "Singla M et al. Morphometric Analysis of Axis and Its Clinical Significance—An Anatomical Study of Indian Human Axis Vertebrae. J Clin Diagn Res. 2015.",
       "pmcid": "PMC4484059",
       "values_mm": {
         "anterior_C2_body_height": 19.67,
@@ -2995,7 +2998,7 @@
         "mean": 152.9,
         "sd": 9.3
       },
-      "population": "52 Chinese patients, 26 male/26 female; bilateral clavicles; mean age 49.8 \u00b118.2 y; no previous clavicle fracture",
+      "population": "52 Chinese patients, 26 male/26 female; bilateral clavicles; mean age 49.8 ±18.2 y; no previous clavicle fracture",
       "male_subject_n": 26,
       "male_bone_n": 52,
       "stature_adjustment": null,
@@ -3006,6 +3009,17 @@
         "No stature-conditioned regression; do not promote the mean to final anatomy.",
         "Do not average this centre chord with extremal-point chords or centreline true lengths."
       ]
+    },
+    {
+      "id": "BAILEY_2016_LUMBAR_WEDGES",
+      "type": "radiographic_angular_morphometry",
+      "doi": "10.1111/joa.12451",
+      "url": "https://onlinelibrary.wiley.com/doi/10.1111/joa.12451",
+      "evidence_file": "canonical_lumbar_wedge_evidence_v1.json",
+      "use": [
+        "separate body/disc wedge orientation semantics"
+      ],
+      "limitation": "SE not SD; pooled body and posture-specific disc groups; independent endpoint-matched numerical corroboration required."
     }
   ],
   "unresolved_source_needs": [

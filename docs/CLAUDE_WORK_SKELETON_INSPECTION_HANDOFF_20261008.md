@@ -63,3 +63,7 @@ Latest full Python baseline before the distal additions: 685 tests, five failure
 ## Acceptance boundary
 
 Resolve essential numeric targets before generating the next immutable canonical revision. Then verify all 206 bones, articulation exceptions, joint-centre separation, source definitions, bilateral signs, contact mechanics and isolated movement coverage. Render the actual new skeleton in six views, with old-mesh overlays, old/new comparison and anatomical close-ups only once it exists. Keep provenance/hashes and failed evidence, update both tracker and findings, commit and push coherent verified progress frequently.
+
+## Latest lumbar continuation
+
+Review canonical_lumbar_wedge_evidence_v1.json, canonical_lumbar_body_disc_frames_p1.json and canonical_lumbar_ct_source_review_v1.json. Five inferior orientations are provisional only. Check posterior-positive wedge signs independently, SE/SD distinction, cross-cohort closure, CT source count inconsistency and unresolved width plane. No absolute centres or new canonical master exist. Run scripts/test_canonical_lumbar_wedge_decomposition.py and the local bpy fixture command from audit/runs/work_bpy_lumbar_orientation_20261008_001/README.md.

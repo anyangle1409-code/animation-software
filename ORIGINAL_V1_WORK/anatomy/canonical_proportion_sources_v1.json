@@ -1537,6 +1537,128 @@
         "acetabular rim/fossa shape variability and sex-aware morphology"
       ],
       "limitation": "Shape model rather than a simple joint-centre target; HJC remains governed by separate regression/landmark evidence."
+    },
+    {
+      "id": "PATELLA_MRI_2025",
+      "type": "healthy_knee_MRI_patella_morphometry",
+      "citation": "MRI analysis of the physiological patellofemoral joint morphology of adult knees. Skeletal Radiol. 2025.",
+      "pmid": "39316123",
+      "pmcid": "PMC11953148",
+      "population": "409 healthy knee joints",
+      "male_values_mm": {
+        "sagittal_length": {
+          "mean": 47,
+          "sd": 3.72
+        },
+        "axial_thickness": {
+          "mean": 23.25,
+          "sd": 2.2
+        }
+      },
+      "all_values_mm": {
+        "sagittal_length": {
+          "mean": 44.01,
+          "sd": 4.44
+        },
+        "axial_width": {
+          "mean": 44.46,
+          "sd": 4.64
+        }
+      },
+      "use": [
+        "patellar size corridor",
+        "sex-aware patellar envelope"
+      ],
+      "limitation": "MRI soft-tissue/cartilage context differs from dry-bone dimensions; width male-specific value not exposed in snippet."
+    },
+    {
+      "id": "PATELLA_ROMAN_MALE_2025",
+      "type": "dry_patella_morphometry",
+      "citation": "Sex Estimation Using Patellar Morphometry: Evidence from a Late Roman Population in Anatolia. 2025.",
+      "pmcid": "PMC12478640",
+      "male_values_mm": {
+        "length": {
+          "mean": 39.9,
+          "sd": 3.83
+        },
+        "width": {
+          "mean": 41.7,
+          "sd": 3.75
+        },
+        "thickness": {
+          "mean": 18.4,
+          "sd": 3.39
+        }
+      },
+      "use": [
+        "independent dry-bone patellar corridor"
+      ],
+      "limitation": "Archaeological population; use as secondary morphology check."
+    },
+    {
+      "id": "FIBULA_CT_2015",
+      "type": "3D_CT_fibula_morphometry",
+      "citation": "Anatomical examination of the fibula: digital imaging study for osseointegrated implant installation. 2015.",
+      "pmcid": "PMC4349317",
+      "population": "20 adults; 10 men and 10 women; 40 fibulae",
+      "male_full_length_mm": {
+        "mean": 387.4,
+        "sd": 23.7
+      },
+      "measurement_definition": "apex of fibular head to apex of lateral malleolus",
+      "use": [
+        "male fibular maximum-length corridor"
+      ],
+      "limitation": "Small regional sample."
+    },
+    {
+      "id": "FIBULA_DRY_MALE_2023",
+      "type": "dry_fibula_morphometry",
+      "citation": "Sexual Dimorphism of the Nutrient Foramen of the Fibula and Its Importance in Vascularised Bone Grafting. 2023.",
+      "pmcid": "PMC10387001",
+      "male_full_length_mm": {
+        "mean": 373.9,
+        "sd": 13.3,
+        "range": [
+          352,
+          402
+        ]
+      },
+      "measurement_definition": "total dry fibula length",
+      "use": [
+        "independent male fibula length corridor"
+      ],
+      "limitation": "Regional dry-bone sample; exact endpoint wording should be preserved from full paper if used for final freeze."
+    },
+    {
+      "id": "LOWER_LIMB_SSM_2019",
+      "type": "CT_statistical_shape_model_lower_limb",
+      "citation": "Non-linear scaling of a musculoskeletal model of the lower limb using statistical shape models. 2019.",
+      "pmcid": "PMC6399126",
+      "male_examples": [
+        {
+          "height_cm": 183,
+          "femur_mm": 428.3,
+          "tibia_fibula_mm": 441.6,
+          "pelvis_width_mm": 227.9
+        },
+        {
+          "height_cm": 180,
+          "femur_mm": 418.4,
+          "tibia_fibula_mm": 425.5,
+          "pelvis_width_mm": 218.6
+        },
+        {
+          "height_cm": 192,
+          "femur_mm": 460.9,
+          "tibia_fibula_mm": 465.8,
+          "pelvis_width_mm": 245
+        }
+      ],
+      "use": [
+        "whole lower-limb proportion cross-check at similar statures"
+      ],
+      "limitation": "Small illustrative subject set, not a population target; segment definitions are model-specific."
     }
   ],
   "unresolved_source_needs": [

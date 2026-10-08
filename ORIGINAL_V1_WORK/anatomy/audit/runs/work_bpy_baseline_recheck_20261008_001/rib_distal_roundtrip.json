@@ -1,0 +1,15 @@
+{
+  "status": "VERIFIED_SYNTHETIC_DISTAL_CURVE_ROUNDTRIP_ONLY",
+  "blender_version": "5.2.1 LTS",
+  "source_sha256": "c2332a9078ed4e2fffa723c324b541a6892e8de8f3ad2cfd04ba3db3a2d798cb",
+  "fixture_sha256": "d656789c7cceb3a634e9bc872ac6f21f7c55510d576d77255f6db0ee6f3bd33f",
+  "curves": 24,
+  "points_per_curve": 101,
+  "max_abs_coordinate_error_m": 7.440036114969573e-09,
+  "bilateral_reflection_error_m": 0.0,
+  "floating_rib_costotransverse_exceptions_verified": true,
+  "nonbone_curves_only": true,
+  "full_ribs_constructed": false,
+  "canonical_candidate_created": false,
+  "completed_tracker_gates": []
+}

@@ -1,0 +1,1 @@
+Before fix, independent tests reproduced: physical_distal_curve(NaN/Infinity span) did not raise ValueError; noninteger samples=2.5 raised TypeError through range rather than being rejected by input validation. Finite span/parameters and integer non-boolean samples checks now reject these. Eight tests pass.

@@ -120,7 +120,8 @@
         "head_tubercle_landmarks": null,
         "anterior_contacts": null,
         "demographic_model": "ORIGINAL_V1_WORK/anatomy/rib_demographic_model_holcombe2017_v1.json",
-        "sternum_audit": "ORIGINAL_V1_WORK/anatomy/canonical_sternum_geometry_audit_v1.json"
+        "sternum_audit": "ORIGINAL_V1_WORK/anatomy/canonical_sternum_geometry_audit_v1.json",
+        "distal_source_mean_segments": "ORIGINAL_V1_WORK/anatomy/rib_distal_source_mean_curves_v1.json"
       },
       "blockers": [
         "choose or range-bound reference age/weight without silently inventing them",

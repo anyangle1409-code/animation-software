@@ -91,7 +91,7 @@
     "unresolved_OCR_constraint": "The second feasibility inequality in Eq. 2.18 is not sufficiently legible in the indexed text to transcribe safely; do not invent it."
   },
   "implementation_status": {
-    "distal": "READY_FOR_EXACT_IMPLEMENTATION",
+    "distal": "IMPLEMENTED_AND_INDEPENDENTLY_TESTED_SOURCE_MEANS_ONLY",
     "proximal_equations": "TRANSCRIBED",
     "proximal_branch_selection": "BLOCKED_PENDING_UNAMBIGUOUS_EQ_2_18_OR_EQUIVALENT_BRANCH_RULE",
     "full_curve": "NOT_YET_ACCEPTED"
@@ -101,5 +101,12 @@
     "Do not create a full canonical rib centreline until proximal branch selection and 3D orientation mapping are source-verified.",
     "A distal-segment implementation may be used now because Eq. 2.2-2.7 and its first-solution rule are unambiguous.",
     "Final rib 3D placement must still apply the sourced pump-handle, lateral-swing and bucket-handle orientation convention and thoracic attachment landmarks."
-  ]
+  ],
+  "distal_verification": {
+    "unit_tests": "scripts/test_rib_spiral_reconstruction.py",
+    "tests": 8,
+    "source_curves": "ORIGINAL_V1_WORK/anatomy/rib_distal_source_mean_curves_v1.json",
+    "blender_check": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_bpy_baseline_recheck_20261008_001/rib_distal_roundtrip.json",
+    "scope": "Only distal source-mean segments; no proximal branch, head/tubercle contacts or thorax mapping"
+  }
 }

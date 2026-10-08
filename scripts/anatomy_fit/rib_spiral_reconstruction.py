@@ -56,6 +56,8 @@ def _first_root_after(func, start: float, stop: float, *, steps: int = 20000) ->
 
 def distal_theta_end(Xpk: float, Ypk: float, Bd: float) -> tuple[float, float]:
     """Holcombe thesis Eqs. 2.4-2.5."""
+    if not all(math.isfinite(v) for v in (Xpk, Ypk, Bd)):
+        raise ValueError("rib peak and spiral rate must be finite")
     if not (0.0 < Xpk < 1.0 and Ypk > 0.0):
         raise ValueError("expected normalized peak with 0<Xpk<1 and Ypk>0")
     theta_pk = distal_theta_peak(Bd)
@@ -102,7 +104,7 @@ def distal_point(theta: float, Xpk: float, Ypk: float, Bd: float) -> tuple[float
 
 def distal_curve(Xpk: float, Ypk: float, Bd: float, *, samples: int = 101) -> list[list[float]]:
     """Sample the exact normalized distal segment from peak [Xpk,Ypk] to [1,0]."""
-    if samples < 2:
+    if isinstance(samples, bool) or not isinstance(samples, int) or samples < 2:
         raise ValueError("samples must be >= 2")
     t = distal_transform(Xpk, Ypk, Bd)
     out = []
@@ -119,6 +121,6 @@ def distal_curve(Xpk: float, Ypk: float, Bd: float, *, samples: int = 101) -> li
 
 def physical_distal_curve(Sx_mm: float, Xpk: float, Ypk: float, Bd: float, *, samples: int = 101) -> list[list[float]]:
     """Scale normalized coordinates by end-to-end rib span Sx (mm)."""
-    if Sx_mm <= 0.0:
+    if not math.isfinite(Sx_mm) or Sx_mm <= 0.0:
         raise ValueError("Sx_mm must be positive")
     return [[Sx_mm * x, Sx_mm * y] for x, y in distal_curve(Xpk, Ypk, Bd, samples=samples)]

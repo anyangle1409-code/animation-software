@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "status": "REVIEW_EVIDENCE_ONLY_CANONICAL_TARGET_OPEN",
+  "files": {
+    "ORIGINAL_V1_WORK/anatomy/canonical_scapula_measured_landmark_model_v1.json": "aa574f683b4ed48ae0ce45c87a729ae5c21308dd58df9977bfd685c26dccec23",
+    "ORIGINAL_V1_WORK/anatomy/canonical_lumbar_superior_endplate_frames_p1.json": "74a1fdda24d92e90e41f4478b038ed0e3ff80e491b59a6e9cda42bf8f6218fb0",
+    "ORIGINAL_V1_WORK/anatomy/rib_distal_source_mean_curves_v1.json": "c2332a9078ed4e2fffa723c324b541a6892e8de8f3ad2cfd04ba3db3a2d798cb",
+    "ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a003.blend": "670a37bfd206d702928de721032e2b942725389dc6906df0d866eba8d8cbbe56",
+    "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json": "11712ba3e105aa8844b07572315d58ccace1d23d2f0cdf101218a3a507a1a1e3",
+    "scripts/anatomy_fit/run_isolated_tests_blender.py": "1ba2110962b54d9a82cb7bc59348b33eae56bab4984d6a473352f5cccc162c6a",
+    "scripts/anatomy_fit/isolated_tests.py": "e36b878a2a0469b71fdbae87b38b3c12d896f61c7cb6ca15335a800295acf215",
+    "scripts/anatomy_fit/joint_solver.py": "4827490ea8e51c4f134b54fdcea9a33051709c1314c6635326cf17645c30ab85"
+  },
+  "blender": "5.2.1 LTS bpy",
+  "new_canonical_skeleton_exists": false,
+  "source_a003_retained": true,
+  "production_files_changed": false
+}

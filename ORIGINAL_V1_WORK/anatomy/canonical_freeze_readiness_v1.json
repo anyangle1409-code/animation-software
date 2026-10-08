@@ -55,7 +55,8 @@
         "population rib-shape evidence",
         "curved-centreline representation policy",
         "Holcombe 2017 Table A1/A2 demographic parameter model transcribed for all 12 rib levels",
-        "source-scaled evaluator and regression tests added"
+        "source-scaled evaluator and regression tests added",
+        "distal source-mean spiral segments independently tested at all 12 levels and mirrored non-bone Blender curve roundtrip verified"
       ],
       "blockers": [
         "reference age/weight selection or explicit envelope",

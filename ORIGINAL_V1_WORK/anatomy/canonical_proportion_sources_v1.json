@@ -2752,6 +2752,156 @@
         "independent C2 anterior/posterior body-height and dens/body relationship cross-check"
       ],
       "limitation": "Sex not separated in the study sample; use with the male CT source before target selection."
+    },
+    {
+      "id": "HASEGAWA_2017_WHOLE_SPINE_MALE",
+      "type": "standing_whole_body_sagittal_alignment",
+      "citation": "Hasegawa K et al. Standing sagittal alignment of the whole axial skeleton with reference to the gravity line in humans. J Anat. 2017.",
+      "population": "136 asymptomatic adults; 40 men, 96 women; male mean age 40.0 years",
+      "male_values_deg": {
+        "C2_C7_lordosis": {
+          "mean": -0.6,
+          "sd": 8.6,
+          "source_sign": "positive means lordosis in paper"
+        },
+        "T1_T12_kyphosis": {
+          "mean": 43.7,
+          "sd": 9
+        },
+        "L1_S1_lordosis": {
+          "mean": 56.4,
+          "sd": 12.7
+        },
+        "sacral_slope": {
+          "mean": 40.9,
+          "sd": 9.6
+        },
+        "pelvic_tilt": {
+          "mean": 9.2,
+          "sd": 6.2
+        },
+        "pelvic_incidence": {
+          "mean": 50.1,
+          "sd": 11.2
+        }
+      },
+      "male_values_other": {
+        "SVA_cm": {
+          "mean": -0.6,
+          "sd": 2.3
+        },
+        "T1_pelvic_angle_deg": {
+          "mean": 13.5,
+          "sd": 7.6
+        }
+      },
+      "use": [
+        "standing canonical whole-spine/pelvis sagittal family",
+        "male-specific regional curvature corridor"
+      ],
+      "limitation": "Cervical lordosis varies widely and sign conventions differ across studies; do not combine signed angles until frame conventions are mapped."
+    },
+    {
+      "id": "REINHOLD_CERVICAL_SEGMENTAL_ANGLES",
+      "type": "normal_segmental_cervical_endplate_angles",
+      "citation": "Normal segmental endplate angles summarized in DGOU subaxial cervical spine recommendations from Reinhold et al.",
+      "source_values_deg": {
+        "C2_C3": {
+          "mean": -1.9,
+          "sd": 5.2
+        },
+        "C3_C4": {
+          "mean": -1.5,
+          "sd": 5
+        },
+        "C4_C5": {
+          "mean": -0.6,
+          "sd": 4.4
+        },
+        "C5_C6": {
+          "mean": -1.1,
+          "sd": 5.1
+        },
+        "C6_C7": {
+          "mean": -4.5,
+          "sd": 4.3
+        },
+        "C2_C7": -9.6
+      },
+      "source_sign": "negative = lordosis, positive = kyphosis",
+      "use": [
+        "level-by-level neutral cervical intersegmental angle family"
+      ],
+      "limitation": "Different convention and sample context from Hasegawa; use as a segmental shape family, not a forced global angle."
+    },
+    {
+      "id": "KIM_2022_LUMBOSACRAL_SEGMENTAL",
+      "type": "standing_asymptomatic_lumbosacral_alignment",
+      "citation": "Quantitative evaluation of correlation between lumbosacral lordosis and pelvic incidence in standing position among asymptomatic Asian adults. Sci Rep. 2022.",
+      "population": "324 asymptomatic adults",
+      "total_segmental_lordosis_deg": {
+        "L1_L2": {
+          "mean": 1.2,
+          "sd": 3.6,
+          "contribution_percent": 2.3
+        },
+        "L2_L3": {
+          "mean": 5.9,
+          "sd": 4.1,
+          "contribution_percent": 11.7
+        },
+        "L3_L4": {
+          "mean": 9.1,
+          "sd": 4.2,
+          "contribution_percent": 18.1
+        },
+        "L4_L5": {
+          "mean": 12.7,
+          "sd": 5.1,
+          "contribution_percent": 25.2
+        },
+        "L5_S1": {
+          "mean": 21.6,
+          "sd": 7.7,
+          "contribution_percent": 42.7
+        }
+      },
+      "pelvic_incidence_deg": {
+        "mean": 50.5,
+        "sd": 11.4
+      },
+      "use": [
+        "level distribution of lumbar lordosis around a PI close to the male Hasegawa mean",
+        "S1/lumbosacral orientation family"
+      ],
+      "limitation": "Not male-only; lordosis distribution varies with pelvic incidence. Use percentages/level pattern with the male PI family rather than one immutable posture."
+    },
+    {
+      "id": "CRAWFORD_2009_T12_L1_ENDPLATE",
+      "type": "young_adult_CT_endplate_angulation",
+      "citation": "Defining normal vertebral angulation at the thoracolumbar junction. AJR Am J Roentgenol. 2009.",
+      "population": "200 CT lateral scouts; age 25 or 35",
+      "values_deg": {
+        "T12_endplate": {
+          "mean": 4.34,
+          "normal_approx_range": [
+            -0.16,
+            8.84
+          ]
+        },
+        "L1_endplate": {
+          "mean": 4.48,
+          "normal_approx_range": [
+            0.22,
+            8.74
+          ]
+        }
+      },
+      "finding": "No significant sex or age-group difference.",
+      "use": [
+        "thoracolumbar endplate wedge/orientation cross-check"
+      ],
+      "limitation": "Endplate angulation definition must be mapped into the canonical sagittal frame before assigning signed global orientation."
     }
   ],
   "unresolved_source_needs": [

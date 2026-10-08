@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "status": "PROVISIONAL_DISC_FACING_ENDPLATE_MORPHOLOGY_CONTEXT",
+  "freeze_ready": false,
+  "source": {
+    "id": "WANG_2012_LUMBAR_ENDPLATE_SHAPE",
+    "doi": "10.1007/s00586-012-2415-8",
+    "pmid": "22743647",
+    "url": "https://link.springer.com/article/10.1007/s00586-012-2415-8",
+    "sample": "591 endplates from 76 male lumbosacral spines; mean age 51.3 years",
+    "access": "publisher abstract available; level-specific full table not recovered",
+    "verified": "2026-10-08"
+  },
+  "disc_relative_mapping": {
+    "cranial_endplate": "inferior endplate of vertebra ABOVE disc",
+    "caudal_endplate": "superior endplate of vertebra BELOW disc",
+    "warning": "Cranial/caudal are relative to disc, not relative to the same vertebral body."
+  },
+  "source_pooled_mean_concavity_depth_mm": {
+    "cranial_disc_facing": 1.5,
+    "caudal_disc_facing": 0.7
+  },
+  "source_epiphyseal_rim_width_mm": [
+    3,
+    7
+  ],
+  "geometry_implications": [
+    "Both facing bone surfaces may be concave into their respective bones; central gap can differ from rim gap.",
+    "Do not collapse body height, central concavity, disc mean height and endplate-normal separation into one stick length.",
+    "A positive centre gap does not prove positive gap across contact footprint."
+  ],
+  "allowed_current_use": "Surface representation and measurement-semantics constraint; pooled source depths are not assigned level-specific targets.",
+  "required_next": "Level-specific endplate shape/footprint and height protocol before global vertebral centre placement."
+}

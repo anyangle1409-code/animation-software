@@ -41,7 +41,8 @@
         "provisional P1 superior-endplate orientations with superior-to-superior source semantics verified",
         "provisional separate lumbar body/inferior endplate and disc-wedge orientations, with posterior-positive sign and local bpy roundtrip verified",
         "independent male MRI anterior/posterior body and disc edge-height context; invalid printed SD quarantined",
-        "independent standing mixed-sex endplate-angle cross-check and source-separated P1 orientation sensitivity; no target averaging"
+        "independent standing mixed-sex endplate-angle cross-check and source-separated P1 orientation sensitivity; no target averaging",
+        "continuous planar common-footprint clearance invariant and independent bpy intersect/touch/separate fixtures; actual curved contacts unverified"
       ],
       "blockers": [
         "L5-S1 through upper-lumbar 3D endplate/frame chain",
@@ -49,7 +50,8 @@
         "cervical neutral family selection and head-over-pelvis check",
         "mixed-method thoracic body/disc reconciliation before exact 3D freeze",
         "independent endpoint-matched lumbar body-wedge corroboration before freeze",
-        "lumbar middle/edge/normal height and standing/supine disc definitions require geometric reconciliation; CT2026 count and width-plane issues remain open"
+        "lumbar middle/edge/normal height and standing/supine disc definitions require geometric reconciliation; CT2026 count and width-plane issues remain open",
+        "actual disc-facing endplate envelopes and continuous nonzero clearance over their overlap, not centre-only gap"
       ],
       "next_action": "Reconcile body/disc surface and height definitions and independent evidence before deriving absolute centres; provisional inferior and superior orientations now available."
     },

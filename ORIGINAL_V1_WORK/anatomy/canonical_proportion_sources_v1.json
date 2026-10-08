@@ -3056,6 +3056,18 @@
         "independent endpoint-compatible lumbar wedge trend and sensitivity context"
       ],
       "limitation": "Mixed sex; not stature-conditioned or final male target."
+    },
+    {
+      "id": "WANG_2012_LUMBAR_ENDPLATE_SHAPE",
+      "type": "male_cadaver_endplate_laser_morphometry",
+      "doi": "10.1007/s00586-012-2415-8",
+      "pmid": "22743647",
+      "url": "https://link.springer.com/article/10.1007/s00586-012-2415-8",
+      "evidence_file": "canonical_lumbar_endplate_surface_semantics_v1.json",
+      "use": [
+        "disc-relative upper/lower surface terminology and asymmetric concavity context"
+      ],
+      "limitation": "Pooled male cadaver means, not level-specific standing gap or individual shape."
     }
   ],
   "unresolved_source_needs": [

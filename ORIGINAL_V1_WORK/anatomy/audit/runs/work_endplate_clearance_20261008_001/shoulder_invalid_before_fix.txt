@@ -1,0 +1,30 @@
+FFF
+======================================================================
+FAIL: test_collapsed_chord_cannot_pass (scripts.test_shoulder_target_invalid_geometry.ShoulderInvalidGeometryTests.test_collapsed_chord_cannot_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_shoulder_target_invalid_geometry.py", line 12, in test_collapsed_chord_cannot_pass
+    self.assertFalse(m.endpoint_chord_is_anatomically_possible([0,0,0],[0,0,0],166.8))
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_infinite_curve_or_invalid_endpoints_cannot_pass (scripts.test_shoulder_target_invalid_geometry.ShoulderInvalidGeometryTests.test_infinite_curve_or_invalid_endpoints_cannot_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_shoulder_target_invalid_geometry.py", line 8, in test_infinite_curve_or_invalid_endpoints_cannot_pass
+    self.assertFalse(m.endpoint_chord_is_anatomically_possible([0,0,0],[150,0,0],length))
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_nonfinite_or_boolean_measurements_fail_closed (scripts.test_shoulder_target_invalid_geometry.ShoulderInvalidGeometryTests.test_nonfinite_or_boolean_measurements_fail_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_shoulder_target_invalid_geometry.py", line 16, in test_nonfinite_or_boolean_measurements_fail_closed
+    with self.assertRaises(ValueError):call()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+FAILED (failures=3)

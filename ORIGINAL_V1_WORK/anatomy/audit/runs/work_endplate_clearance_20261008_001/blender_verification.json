@@ -1,0 +1,17 @@
+{
+  "status": "VERIFIED_SYNTHETIC_PLANAR_MESH_CLEARANCE_ONLY",
+  "blender_version": "5.2.1 LTS",
+  "fixture_sha256": "6e0529588b29cbe09bd8eaa4fa4350099433f8ba9ef0c1fec28b33f146a54336",
+  "helper_meshes": 6,
+  "rim_points_per_mesh": 128,
+  "max_coordinate_error_m": 4.3777552416468524e-10,
+  "independent_mesh_minimum_projected_gap_mm": {
+    "INTERSECTING": -0.6568542448803782,
+    "SEPARATED": 6.000000052154064,
+    "TOUCHING": 0.0
+  },
+  "centre_and_four_cardinal_points_miss_intersection": true,
+  "canonical_candidate_created": false,
+  "anatomical_endplate_geometry_created": false,
+  "completed_gates": []
+}

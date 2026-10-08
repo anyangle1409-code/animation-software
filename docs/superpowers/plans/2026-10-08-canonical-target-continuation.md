@@ -37,3 +37,5 @@
 - Independent standing lumbar body-angle evidence supports pattern; two P1 source families and 22 bpy orientation fixtures verified. Registry source identity scan found four aliases and corrected Bernat/Daruwalla misattribution without removing legacy IDs. Exact shoulder source/coordinate dependencies remain blocked.
 
 - Added measured glenoid rim orientation and source-separated subject/mean-shape context; null GH centre/global pose retained. Proper bilateral frames and live bpy verified. Isotropic rim false-pass mutation retained and corrected; 107 relevant tests pass.
+
+- Continuous planar endplate clearance and six independent bpy synthetic meshes verified. Added disc-relative concavity terminology; actual envelopes/gaps still blocked. Shoulder infinite/NaN/collapsed endpoint false-passes reproduced, retained and corrected; 125 affected tests pass.

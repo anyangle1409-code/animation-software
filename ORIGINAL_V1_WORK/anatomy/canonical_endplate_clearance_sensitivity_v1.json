@@ -1,0 +1,1749 @@
+{
+  "schema_version": 1,
+  "status": "SYNTHETIC_PLANAR_CLEARANCE_SENSITIVITY_NOT_ANATOMICAL_PLACEMENT",
+  "freeze_ready": false,
+  "orientation_source": "canonical_lumbar_orientation_sensitivity_p1.json",
+  "families": {
+    "Bailey_male_pooled_body": {
+      "L1/L2": [
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": 4.763939970691461,
+            "maximum_projected_gap_mm": 7.236060029308539,
+            "minimum_witness_xy_mm": [
+              0.0,
+              12.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": 7.763939970691461,
+            "maximum_projected_gap_mm": 10.23606002930854,
+            "minimum_witness_xy_mm": [
+              0.0,
+              12.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 10.76393997069146,
+            "maximum_projected_gap_mm": 13.23606002930854,
+            "minimum_witness_xy_mm": [
+              0.0,
+              12.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": 4.145909956037191,
+            "maximum_projected_gap_mm": 7.854090043962809,
+            "minimum_witness_xy_mm": [
+              0.0,
+              17.999999999999996
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": 7.145909956037191,
+            "maximum_projected_gap_mm": 10.85409004396281,
+            "minimum_witness_xy_mm": [
+              0.0,
+              17.999999999999996
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 10.14590995603719,
+            "maximum_projected_gap_mm": 13.85409004396281,
+            "minimum_witness_xy_mm": [
+              0.0,
+              17.999999999999996
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": 3.527879941382922,
+            "maximum_projected_gap_mm": 8.472120058617078,
+            "minimum_witness_xy_mm": [
+              0.0,
+              24.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": 6.527879941382922,
+            "maximum_projected_gap_mm": 11.472120058617078,
+            "minimum_witness_xy_mm": [
+              0.0,
+              24.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 9.527879941382922,
+            "maximum_projected_gap_mm": 14.472120058617078,
+            "minimum_witness_xy_mm": [
+              0.0,
+              24.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        }
+      ],
+      "L2/L3": [
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": 4.280531784260454,
+            "maximum_projected_gap_mm": 7.719468215739546,
+            "minimum_witness_xy_mm": [
+              0.0,
+              12.000000000000002
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": 7.280531784260454,
+            "maximum_projected_gap_mm": 10.719468215739546,
+            "minimum_witness_xy_mm": [
+              0.0,
+              12.000000000000002
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 10.280531784260454,
+            "maximum_projected_gap_mm": 13.719468215739546,
+            "minimum_witness_xy_mm": [
+              0.0,
+              12.000000000000002
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": 3.420797676390681,
+            "maximum_projected_gap_mm": 8.57920232360932,
+            "minimum_witness_xy_mm": [
+              0.0,
+              18.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": 6.420797676390681,
+            "maximum_projected_gap_mm": 11.57920232360932,
+            "minimum_witness_xy_mm": [
+              0.0,
+              18.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 9.42079767639068,
+            "maximum_projected_gap_mm": 14.57920232360932,
+            "minimum_witness_xy_mm": [
+              0.0,
+              18.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": 2.5610635685209084,
+            "maximum_projected_gap_mm": 9.438936431479092,
+            "minimum_witness_xy_mm": [
+              0.0,
+              24.000000000000004
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": 5.561063568520908,
+            "maximum_projected_gap_mm": 12.438936431479092,
+            "minimum_witness_xy_mm": [
+              0.0,
+              24.000000000000004
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 8.561063568520908,
+            "maximum_projected_gap_mm": 15.438936431479092,
+            "minimum_witness_xy_mm": [
+              0.0,
+              24.000000000000004
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        }
+      ],
+      "L3/L4": [
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": 3.9894783892143737,
+            "maximum_projected_gap_mm": 8.010521610785627,
+            "minimum_witness_xy_mm": [
+              0.0,
+              11.999999999999998
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": 6.989478389214374,
+            "maximum_projected_gap_mm": 11.010521610785627,
+            "minimum_witness_xy_mm": [
+              0.0,
+              11.999999999999998
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 9.989478389214373,
+            "maximum_projected_gap_mm": 14.010521610785627,
+            "minimum_witness_xy_mm": [
+              0.0,
+              11.999999999999998
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": 2.984217583821561,
+            "maximum_projected_gap_mm": 9.015782416178439,
+            "minimum_witness_xy_mm": [
+              0.0,
+              18.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": 5.984217583821561,
+            "maximum_projected_gap_mm": 12.015782416178439,
+            "minimum_witness_xy_mm": [
+              0.0,
+              18.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 8.984217583821561,
+            "maximum_projected_gap_mm": 15.015782416178439,
+            "minimum_witness_xy_mm": [
+              0.0,
+              18.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": 1.9789567784287474,
+            "maximum_projected_gap_mm": 10.021043221571253,
+            "minimum_witness_xy_mm": [
+              0.0,
+              23.999999999999996
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": 4.978956778428747,
+            "maximum_projected_gap_mm": 13.021043221571253,
+            "minimum_witness_xy_mm": [
+              0.0,
+              23.999999999999996
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 7.978956778428747,
+            "maximum_projected_gap_mm": 16.021043221571254,
+            "minimum_witness_xy_mm": [
+              0.0,
+              23.999999999999996
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        }
+      ],
+      "L4/L5": [
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": 3.4412413381337355,
+            "maximum_projected_gap_mm": 8.558758661866264,
+            "minimum_witness_xy_mm": [
+              0.0,
+              12.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": 6.441241338133736,
+            "maximum_projected_gap_mm": 11.558758661866264,
+            "minimum_witness_xy_mm": [
+              0.0,
+              12.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 9.441241338133736,
+            "maximum_projected_gap_mm": 14.558758661866264,
+            "minimum_witness_xy_mm": [
+              0.0,
+              12.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": 2.161862007200603,
+            "maximum_projected_gap_mm": 9.838137992799396,
+            "minimum_witness_xy_mm": [
+              0.0,
+              18.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": 5.161862007200603,
+            "maximum_projected_gap_mm": 12.838137992799396,
+            "minimum_witness_xy_mm": [
+              0.0,
+              18.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 8.161862007200604,
+            "maximum_projected_gap_mm": 15.838137992799396,
+            "minimum_witness_xy_mm": [
+              0.0,
+              18.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": 0.8824826762674709,
+            "maximum_projected_gap_mm": 11.117517323732528,
+            "minimum_witness_xy_mm": [
+              0.0,
+              24.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": 3.882482676267471,
+            "maximum_projected_gap_mm": 14.117517323732528,
+            "minimum_witness_xy_mm": [
+              0.0,
+              24.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 6.882482676267471,
+            "maximum_projected_gap_mm": 17.117517323732528,
+            "minimum_witness_xy_mm": [
+              0.0,
+              24.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        }
+      ],
+      "L5/S1": [
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": 1.146605282065095,
+            "maximum_projected_gap_mm": 10.853394717934904,
+            "minimum_witness_xy_mm": [
+              0.0,
+              12.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": 4.146605282065095,
+            "maximum_projected_gap_mm": 13.853394717934904,
+            "minimum_witness_xy_mm": [
+              0.0,
+              12.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 7.146605282065095,
+            "maximum_projected_gap_mm": 16.853394717934904,
+            "minimum_witness_xy_mm": [
+              0.0,
+              12.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": -1.280092076902358,
+            "maximum_projected_gap_mm": 13.280092076902358,
+            "minimum_witness_xy_mm": [
+              0.0,
+              17.999999999999996
+            ],
+            "separated_everywhere": false,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": 1.719907923097642,
+            "maximum_projected_gap_mm": 16.280092076902356,
+            "minimum_witness_xy_mm": [
+              0.0,
+              17.999999999999996
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 4.719907923097642,
+            "maximum_projected_gap_mm": 19.280092076902356,
+            "minimum_witness_xy_mm": [
+              0.0,
+              17.999999999999996
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": -3.70678943586981,
+            "maximum_projected_gap_mm": 15.70678943586981,
+            "minimum_witness_xy_mm": [
+              0.0,
+              24.0
+            ],
+            "separated_everywhere": false,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": -0.7067894358698101,
+            "maximum_projected_gap_mm": 18.70678943586981,
+            "minimum_witness_xy_mm": [
+              0.0,
+              24.0
+            ],
+            "separated_everywhere": false,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 2.29321056413019,
+            "maximum_projected_gap_mm": 21.70678943586981,
+            "minimum_witness_xy_mm": [
+              0.0,
+              24.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        }
+      ]
+    },
+    "Been_mixed_sex_standing_body": {
+      "L1/L2": [
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": 5.012366451562632,
+            "maximum_projected_gap_mm": 6.987633548437368,
+            "minimum_witness_xy_mm": [
+              0.0,
+              11.999999999999998
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": 8.012366451562633,
+            "maximum_projected_gap_mm": 9.987633548437367,
+            "minimum_witness_xy_mm": [
+              0.0,
+              11.999999999999998
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 11.012366451562633,
+            "maximum_projected_gap_mm": 12.987633548437367,
+            "minimum_witness_xy_mm": [
+              0.0,
+              11.999999999999998
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": 4.518549677343948,
+            "maximum_projected_gap_mm": 7.481450322656052,
+            "minimum_witness_xy_mm": [
+              0.0,
+              18.000000000000004
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": 7.518549677343948,
+            "maximum_projected_gap_mm": 10.481450322656052,
+            "minimum_witness_xy_mm": [
+              0.0,
+              18.000000000000004
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 10.518549677343948,
+            "maximum_projected_gap_mm": 13.481450322656052,
+            "minimum_witness_xy_mm": [
+              0.0,
+              18.000000000000004
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": 4.024732903125264,
+            "maximum_projected_gap_mm": 7.975267096874736,
+            "minimum_witness_xy_mm": [
+              0.0,
+              23.999999999999996
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": 7.024732903125264,
+            "maximum_projected_gap_mm": 10.975267096874736,
+            "minimum_witness_xy_mm": [
+              0.0,
+              23.999999999999996
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 10.024732903125264,
+            "maximum_projected_gap_mm": 13.975267096874736,
+            "minimum_witness_xy_mm": [
+              0.0,
+              23.999999999999996
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        }
+      ],
+      "L2/L3": [
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": 4.343563729621563,
+            "maximum_projected_gap_mm": 7.656436270378437,
+            "minimum_witness_xy_mm": [
+              0.0,
+              12.000000000000002
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": 7.343563729621563,
+            "maximum_projected_gap_mm": 10.656436270378437,
+            "minimum_witness_xy_mm": [
+              0.0,
+              12.000000000000002
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 10.343563729621563,
+            "maximum_projected_gap_mm": 13.656436270378437,
+            "minimum_witness_xy_mm": [
+              0.0,
+              12.000000000000002
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": 3.5153455944323433,
+            "maximum_projected_gap_mm": 8.484654405567657,
+            "minimum_witness_xy_mm": [
+              0.0,
+              18.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": 6.515345594432343,
+            "maximum_projected_gap_mm": 11.484654405567657,
+            "minimum_witness_xy_mm": [
+              0.0,
+              18.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 9.515345594432343,
+            "maximum_projected_gap_mm": 14.484654405567657,
+            "minimum_witness_xy_mm": [
+              0.0,
+              18.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": 2.6871274592431247,
+            "maximum_projected_gap_mm": 9.312872540756874,
+            "minimum_witness_xy_mm": [
+              0.0,
+              24.000000000000004
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": 5.687127459243125,
+            "maximum_projected_gap_mm": 12.312872540756874,
+            "minimum_witness_xy_mm": [
+              0.0,
+              24.000000000000004
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 8.687127459243126,
+            "maximum_projected_gap_mm": 15.312872540756874,
+            "minimum_witness_xy_mm": [
+              0.0,
+              24.000000000000004
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        }
+      ],
+      "L3/L4": [
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": 3.861768087504792,
+            "maximum_projected_gap_mm": 8.138231912495208,
+            "minimum_witness_xy_mm": [
+              0.0,
+              12.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": 6.861768087504792,
+            "maximum_projected_gap_mm": 11.138231912495208,
+            "minimum_witness_xy_mm": [
+              0.0,
+              12.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 9.861768087504792,
+            "maximum_projected_gap_mm": 14.138231912495208,
+            "minimum_witness_xy_mm": [
+              0.0,
+              12.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": 2.7926521312571877,
+            "maximum_projected_gap_mm": 9.207347868742811,
+            "minimum_witness_xy_mm": [
+              0.0,
+              18.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": 5.792652131257188,
+            "maximum_projected_gap_mm": 12.207347868742811,
+            "minimum_witness_xy_mm": [
+              0.0,
+              18.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 8.792652131257189,
+            "maximum_projected_gap_mm": 15.207347868742811,
+            "minimum_witness_xy_mm": [
+              0.0,
+              18.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": 1.723536175009584,
+            "maximum_projected_gap_mm": 10.276463824990415,
+            "minimum_witness_xy_mm": [
+              0.0,
+              24.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": 4.723536175009584,
+            "maximum_projected_gap_mm": 13.276463824990415,
+            "minimum_witness_xy_mm": [
+              0.0,
+              24.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 7.723536175009584,
+            "maximum_projected_gap_mm": 16.276463824990415,
+            "minimum_witness_xy_mm": [
+              0.0,
+              24.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        }
+      ],
+      "L4/L5": [
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": 3.346323559635778,
+            "maximum_projected_gap_mm": 8.653676440364222,
+            "minimum_witness_xy_mm": [
+              0.0,
+              12.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": 6.346323559635778,
+            "maximum_projected_gap_mm": 11.653676440364222,
+            "minimum_witness_xy_mm": [
+              0.0,
+              12.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 9.346323559635778,
+            "maximum_projected_gap_mm": 14.653676440364222,
+            "minimum_witness_xy_mm": [
+              0.0,
+              12.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": 2.0194853394536674,
+            "maximum_projected_gap_mm": 9.980514660546334,
+            "minimum_witness_xy_mm": [
+              0.0,
+              18.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": 5.019485339453667,
+            "maximum_projected_gap_mm": 12.980514660546334,
+            "minimum_witness_xy_mm": [
+              0.0,
+              18.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 8.019485339453666,
+            "maximum_projected_gap_mm": 15.980514660546334,
+            "minimum_witness_xy_mm": [
+              0.0,
+              18.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": 0.6926471192715562,
+            "maximum_projected_gap_mm": 11.307352880728445,
+            "minimum_witness_xy_mm": [
+              0.0,
+              24.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": 3.692647119271556,
+            "maximum_projected_gap_mm": 14.307352880728445,
+            "minimum_witness_xy_mm": [
+              0.0,
+              24.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 6.692647119271556,
+            "maximum_projected_gap_mm": 17.307352880728445,
+            "minimum_witness_xy_mm": [
+              0.0,
+              24.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        }
+      ],
+      "L5/S1": [
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": 1.1440644859094498,
+            "maximum_projected_gap_mm": 10.85593551409055,
+            "minimum_witness_xy_mm": [
+              0.0,
+              12.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": 4.14406448590945,
+            "maximum_projected_gap_mm": 13.85593551409055,
+            "minimum_witness_xy_mm": [
+              0.0,
+              12.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            12.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 7.14406448590945,
+            "maximum_projected_gap_mm": 16.85593551409055,
+            "minimum_witness_xy_mm": [
+              0.0,
+              12.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": -1.2839032711358254,
+            "maximum_projected_gap_mm": 13.283903271135825,
+            "minimum_witness_xy_mm": [
+              0.0,
+              18.0
+            ],
+            "separated_everywhere": false,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": 1.7160967288641746,
+            "maximum_projected_gap_mm": 16.283903271135827,
+            "minimum_witness_xy_mm": [
+              0.0,
+              18.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            18.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 4.716096728864175,
+            "maximum_projected_gap_mm": 19.283903271135827,
+            "minimum_witness_xy_mm": [
+              0.0,
+              18.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 6.0,
+          "clearance": {
+            "centre_projected_gap_mm": 6.0,
+            "minimum_projected_gap_mm": -3.7118710281811005,
+            "maximum_projected_gap_mm": 15.7118710281811,
+            "minimum_witness_xy_mm": [
+              0.0,
+              24.0
+            ],
+            "separated_everywhere": false,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 9.0,
+          "clearance": {
+            "centre_projected_gap_mm": 9.0,
+            "minimum_projected_gap_mm": -0.7118710281811005,
+            "maximum_projected_gap_mm": 18.7118710281811,
+            "minimum_witness_xy_mm": [
+              0.0,
+              24.0
+            ],
+            "separated_everywhere": false,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        },
+        {
+          "synthetic_XY_radii_mm": [
+            25.0,
+            24.0
+          ],
+          "synthetic_centre_gap_mm": 12.0,
+          "clearance": {
+            "centre_projected_gap_mm": 12.0,
+            "minimum_projected_gap_mm": 2.2881289718188995,
+            "maximum_projected_gap_mm": 21.7118710281811,
+            "minimum_witness_xy_mm": [
+              0.0,
+              24.0
+            ],
+            "separated_everywhere": true,
+            "measurement": "HGPT +Z projected clearance, not shortest Euclidean or endplate-normal distance",
+            "scope": "planar surfaces over supplied common elliptical footprint only"
+          }
+        }
+      ]
+    }
+  },
+  "limitations": [
+    "All footprint radii and centre gaps here are explicitly synthetic sweep inputs, not population means or selected anatomy.",
+    "HGPT XY projected ellipse is not a measured native endplate envelope.",
+    "Normals are P1 provisional; upper and lower centres are fixture origins only.",
+    "Analytic clearance proves only separation of planes over supplied common domain; actual curved surfaces and footprint overlap still required.",
+    "No anatomical target or gate acceptance follows from a positive result."
+  ]
+}

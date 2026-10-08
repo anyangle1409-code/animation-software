@@ -1,0 +1,11 @@
+{
+  "scope": "final code and synthetic/source-context data",
+  "sha256": {
+    "scripts/anatomy_fit/endplate_clearance.py": "823e5aa86d3bb1d81ca87f4e128848f09d3c89d78470e6f207f40bb530f46594",
+    "scripts/anatomy_fit/build_endplate_clearance_sensitivity.py": "4238d326a7cf87b3f325621bc26f38daa1474694314641b2b8a911a303300c61",
+    "scripts/anatomy_fit/check_endplate_clearance_blender.py": "7e9c978db8643ff4e95f5887f0586bf3e194e92af3caa816481c83bf02950fc9",
+    "scripts/anatomy_fit/shoulder_target_constraints.py": "b5ab74fd71febdd3b5e9c2063728491b37214ff76813734353ea3f54dc988750",
+    "ORIGINAL_V1_WORK/anatomy/canonical_endplate_clearance_sensitivity_v1.json": "616116091aaf1dc4deaa196a2e1809edf050551c89e285e2dd77f589650f6ac5",
+    "ORIGINAL_V1_WORK/anatomy/canonical_lumbar_endplate_surface_semantics_v1.json": "2bdacf2c1cd772b1b35b65c791944cc5f14e23adf740be34b29c132cf1cecde0"
+  }
+}

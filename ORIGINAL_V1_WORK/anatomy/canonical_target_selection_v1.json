@@ -21,7 +21,7 @@
         "clavicle": "A",
         "scapula": "A_TRANSVERSE_DEFECT_EXACT_3D_TARGET_OPEN"
       },
-      "freeze_state": "PARTIAL_VERIFIED_CONSTRAINTS_AC_SC_GEOMETRY_OPEN",
+      "freeze_state": "PARTIAL_VERIFIED_CONSTRAINTS_DIRECT_AC_3D_READY_SC_FRAME_OPEN",
       "selected": {
         "stature_conditioned_biacromial_scaffold_mm": 425.15656060295987,
         "acromial_height_scaffold_mm": 1497.6729008056855,
@@ -33,15 +33,33 @@
         "scapular_landmark_audit": "ORIGINAL_V1_WORK/anatomy/canonical_scapula_landmark_audit_v1.json",
         "shoulder_frame_mapping": "ORIGINAL_V1_WORK/anatomy/canonical_shoulder_frame_mapping_v1.json",
         "neutral_parameter_sweep": "ORIGINAL_V1_WORK/anatomy/canonical_shoulder_feasible_family_v1.json",
-        "a003_landmark_provenance": "ORIGINAL_V1_WORK/anatomy/a003_shoulder_landmark_provenance_audit_v1.json"
+        "a003_landmark_provenance": "ORIGINAL_V1_WORK/anatomy/a003_shoulder_landmark_provenance_audit_v1.json",
+        "direct_AC_to_lateral_acromion_3D_mm": {
+          "mean": 34,
+          "sd": 8,
+          "range": [
+            23,
+            52
+          ],
+          "source": "SCAPULA_AC_LATERAL_2026",
+          "semantics": "3-D/anatomic distance, not pure transverse equality"
+        },
+        "transverse_family": "ORIGINAL_V1_WORK/anatomy/canonical_shoulder_feasible_family_v1.json",
+        "manubrium_outer_breadth_context_mm": {
+          "mean": 68.2,
+          "sd": 8,
+          "source": "STERNUM_SELTHOFER_2006",
+          "semantics": "outer manubrial/clavicular-notch breadth, not SC-centre breadth"
+        }
       },
       "blockers": [
-        "verified bilateral SC/manubrial landmark constraint or equivalent thorax-based SC placement",
-        "absolute AC coordinates from clavicle + scapular landmark solve; do not use withdrawn 34±8 mm direct AC-offset claim",
+        "verified bilateral SC-centre breadth or a thorax/manubrial solve that maps the outer manubrial/clavicular-notch evidence to SC joint centres",
+        "map the direct 3-D lateral-acromion→AC distance into the canonical scapular local frame to obtain its transverse/AP/superior components",
         "construct landmark-compatible 3D scapular local frame using AA/TS/AI/glenoid/acromion constraints",
-        "freeze superior-inferior scapular length only after measurement-compatible cross-source reconciliation"
+        "freeze superior-inferior scapular length only after measurement-compatible cross-source reconciliation",
+        "absolute AC coordinates remain open until the SC-centre and scapular-frame components close simultaneously"
       ],
-      "audit_note_2026_10_08": "A 2026 cadaver abstract was rechecked: it reports STSL→lateral-acromion and STSL→AC distances, not direct lateral-acromion→AC distance. The earlier 34±8 mm direct-offset transcription was withdrawn. The a003 width/clavicle failures remain confirmed independently. Generator provenance also confirms a003 SC=±25 mm is hard-coded, AC/AA inherit mesh acromion offsets, and TS/AI are provisional world-coordinate constructs; none may be promoted into c001."
+      "audit_note_2026_10_08": "The earlier subtraction-based 34±8 mm inference remains rejected. A subsequent full-text check found that the 2026 paper itself explicitly reports direct lateral-acromion→AC = 34±8 mm (23–52). It is restored only as a 3-D distance constraint; it is not treated as a pure transverse offset."
     },
     "spine": {
       "evidence_grade": "A_STRUCTURAL_DEFECT",

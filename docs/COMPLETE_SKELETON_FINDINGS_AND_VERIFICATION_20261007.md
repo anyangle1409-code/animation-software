@@ -667,3 +667,15 @@ Verification: 82 canonical + 47 source/scapula/rib/shoulder tests pass (129 rele
 ## 2026-10-08 checkpoint plan
 
 A reviewable checkpoint ladder now records the baseline, regional target closure, machine-readable preflight, new immutable Blender revision, visual review, contact/follower acceptance, isolated movement, exercises and downstream production/app stages. See `docs/superpowers/plans/2026-10-08-skeleton-verification-checkpoints.md`. Current position CP1/Gate 6; no numerical target, anatomy gate or production permission is promoted by this planning update.
+
+## 2026-10-08 independent review of Claude's 21 recent commits
+
+Reviewed live HEAD `6570e750fdf0b6fbd899b3ab594ba1a84bd248e4`; all newer work is preserved. Details: `docs/GPT_REVIEW_OF_CLAUDE_RESULTS_20261008.md`. CP2 ledger covers all 206 bones and catches a003's zero disc gaps; CP3 builder rehearsals and source-register corrections are useful within their limited scopes. They do not close CP1 or create an accepted canonical skeleton.
+
+**CONFIRMED validator weaknesses:** collapsing C3 crashes CP2 with division by zero; an unknown non-root parent-relation type passes; tiny positive disc planes 100 metres away from the candidate pass clearance. The axial specimen report also checks fitted planes over a partial footprint rather than full curved endplates. Read-only adversarial fixtures/results are retained in `audit/runs/work_claude_review_20261008_001/`; these implementation weaknesses remain unresolved at this review checkpoint.
+
+**REOPENED measurement claim:** Claude's review again compares oblique GH-to-inferior-angle span with vertical scapular height. That does not establish a matched numerical scapular shortening target. The existing corrected shoulder audit remains authoritative; clavicle rebuild is still justified. Forearm shortness is strongly supported, but exact radius/ulna endpoints remain open. The de-Leva-only thigh-shortness claim was withdrawn; three recalled de Leva values still need primary-table verification.
+
+Verification: 52 focused tests pass. Full discovery runs 787 tests with five failures/four errors; all nine names match the retained pre-Claude baseline. Static target/atlas validators pass within scope with `freeze_ready=false`, 206 bones, 427 articulations and 30 frames. Blender run-002 results were reviewed as archived observations, not freshly rerun; its raw captures/.blend were not retained. CP1 remains PROVISIONAL/BLOCKED, CP2 needs validation repair and anatomy closure, CP3 remains a builder rehearsal, CP4 is blocked. Gates 6/8/9 and Phase 10 remain open/deferred. Production geometry/weights/runtime and a003 are unchanged.
+
+Next safe action: fix and adversarially test CP2 rejection/geometry binding, then continue CP1a source-compatible shoulder mapping and regional target closure; fresh Blender rehearsal with retained captures precedes a new immutable canonical candidate.

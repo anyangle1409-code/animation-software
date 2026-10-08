@@ -1,0 +1,14 @@
+{
+  "zero_length_c3": {
+    "exception": "ZeroDivisionError",
+    "message": "float division by zero"
+  },
+  "unrelated_remote_disc_surfaces": {
+    "verdict": "STRUCTURE_PASS_EVIDENCE_REVIEW_STILL_REQUIRED",
+    "clearance_status": "PASS"
+  },
+  "unknown_parent_relation": {
+    "verdict": "STRUCTURE_PASS_EVIDENCE_REVIEW_STILL_REQUIRED",
+    "parent_status": "PASS"
+  }
+}

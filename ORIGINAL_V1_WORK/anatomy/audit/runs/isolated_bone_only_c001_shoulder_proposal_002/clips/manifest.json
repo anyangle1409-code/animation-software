@@ -1,0 +1,153 @@
+{
+ "note": "Phase 9 isolated test, solver-keyed (ST rhythm + clavicle followers); bones only, mesh not skinned; NOT CANONICAL; not a functional/Phase 10 test",
+ "a003_frames": "/tmp/claude-0/-home-user-animation-software/b0b01a8a-22fb-52cd-85ad-39c74496ecb2/scratchpad/clips/a003",
+ "c001_frames": "/tmp/claude-0/-home-user-animation-software/b0b01a8a-22fb-52cd-85ad-39c74496ecb2/scratchpad/clips/c001",
+ "renderer": "scripts/anatomy_fit/render_movement_clips.py",
+ "composer": "scripts/anatomy_fit/compose_movement_clips.py",
+ "tests": {
+  "shoulder_complex_scapular_plane_left/front": {
+   "frames": [
+    5696,
+    5700,
+    5704,
+    5708,
+    5712,
+    5716,
+    5720,
+    5724,
+    5728,
+    5732,
+    5736,
+    5740,
+    5744,
+    5748,
+    5752,
+    5756
+   ]
+  },
+  "shoulder_complex_scapular_plane_left/rear": {
+   "frames": [
+    5696,
+    5700,
+    5704,
+    5708,
+    5712,
+    5716,
+    5720,
+    5724,
+    5728,
+    5732,
+    5736,
+    5740,
+    5744,
+    5748,
+    5752,
+    5756
+   ]
+  },
+  "shoulder_complex_scapular_plane_right/front": {
+   "frames": [
+    5956,
+    5960,
+    5964,
+    5968,
+    5972,
+    5976,
+    5980,
+    5984,
+    5988,
+    5992,
+    5996,
+    6000,
+    6004,
+    6008,
+    6012,
+    6016
+   ]
+  },
+  "shoulder_complex_scapular_plane_right/rear": {
+   "frames": [
+    5956,
+    5960,
+    5964,
+    5968,
+    5972,
+    5976,
+    5980,
+    5984,
+    5988,
+    5992,
+    5996,
+    6000,
+    6004,
+    6008,
+    6012,
+    6016
+   ]
+  },
+  "gh_elevation_plane_90_left/front": {
+   "frames": [
+    786,
+    790,
+    794,
+    798,
+    802,
+    806,
+    810,
+    814,
+    818,
+    822,
+    826,
+    830,
+    834,
+    838,
+    842,
+    846,
+    850,
+    854,
+    858,
+    862,
+    866
+   ]
+  },
+  "gh_elevation_plane_90_left/rear": {
+   "frames": [
+    786,
+    790,
+    794,
+    798,
+    802,
+    806,
+    810,
+    814,
+    818,
+    822,
+    826,
+    830,
+    834,
+    838,
+    842,
+    846,
+    850,
+    854,
+    858,
+    862,
+    866
+   ]
+  }
+ },
+ "files_sha256": {
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_002/clips/shoulder_complex_scapular_plane_left__front.gif": "233603836c01b46a9621d0c5807dab3254402329d75350a8eae3a087971a3c33",
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_002/clips/shoulder_complex_scapular_plane_left__front__keyframes.jpg": "e6c99af78864fa712d350d98aef6c46913dbbdb4468ef2d929f54930e2128519",
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_002/clips/shoulder_complex_scapular_plane_left__rear.gif": "6f4250fb246dd8c6c22c1af1a56039a431cba3168d23cddaf1312fed12c3dd4e",
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_002/clips/shoulder_complex_scapular_plane_left__rear__keyframes.jpg": "65a86300ad143ac0be67a0299a075a4351c54c6ee3ff26f819313e47b622bf0d",
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_002/clips/shoulder_complex_scapular_plane_right__front.gif": "29035c23eb402e634522505972667a62cc20f03cbd157d21367791cebc6a783d",
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_002/clips/shoulder_complex_scapular_plane_right__front__keyframes.jpg": "8498036f14cd5fcf22e41a9c22466c5cf1debeb4680dfc8abbaff2d32c1ca8f8",
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_002/clips/shoulder_complex_scapular_plane_right__rear.gif": "aac3d77e7dd1513462b6d6950438f1b1c93fe291814447d82f21bce14c64b89a",
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_002/clips/shoulder_complex_scapular_plane_right__rear__keyframes.jpg": "bc22f1c492c87b79ae867f518aa11ab6f8605efa5f672c3ab26b7ca8135a8446",
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_002/clips/gh_elevation_plane_90_left__front.gif": "ef5879ef8d202fa26beb7619760bfc2cb68c4609e299a9fd64e2cca3126bd2d7",
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_002/clips/gh_elevation_plane_90_left__front__keyframes.jpg": "a3f0e9f45f9c3f88b27a5abf37b503d67cc216c2d5aebd29fdb70786ca697260",
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_002/clips/gh_elevation_plane_90_left__rear.gif": "675e84573760d002c9614abb77e40032f5bd351f92bc51687ec97cc07ff835cc",
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_002/clips/gh_elevation_plane_90_left__rear__keyframes.jpg": "e485a2a62ab92f064014c05a11b76de6b9400ad3c2935b7a9004e7eea5412410"
+ }
+}

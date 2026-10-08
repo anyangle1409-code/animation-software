@@ -96,3 +96,7 @@ The ANSUR-height shoulder candidate c002 is pushed, with SC closure FAIL recorde
 ## ANSUR acromion audit (Claude)
 
 No defensible c003. The absolute ANSUR acromial height cannot be met with SC closed on the retained a003 sternum and a sourced clavicle angle. The within-subject ANSUR relation does close, which leaves an owner decision: the absolute target vs the a003 sternum height. Evidence: `ORIGINAL_V1_WORK/anatomy/audit/shoulder_ansur_acromion_evidence/` (start with `chart_required_clavicle_elevation.png` and `sheet_shoulders_both_sides.jpg`).
+
+## Phase 9 on c001 (Claude)
+
+The movement suite passes on the c001 girdle (135/135; mirror 41/43, as a003). A mirror-check defect was found and fixed. Clips: `ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_002/clips/`.

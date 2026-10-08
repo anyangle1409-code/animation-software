@@ -878,3 +878,15 @@ Full proximal curves remain BLOCKED pending verified intended conventions or an 
   - No per-level angles; the stack is not solved.
   - Committed cadaveric disc heights agree in sign (anterior > posterior from T7/T8 to T11/T12).
   - Tests: `scripts/test_thoracic_qualitative_constraints.py` (3).
+
+### Phase 9 movement and follower verification on the shoulder proposal c001 (8 October, Claude)
+
+- **Why this item:** the Phase 8–9 items still open in the tracker lack accessible sources. Verifying the existing solver and followers on the corrected girdle geometry (not only a003's) was unblocked.
+- **Run 002** (`audit/runs/isolated_bone_only_c001_shoulder_proposal_002/`, README inside): **135/135 integrity PASS; 41/43 mirror PASS.** The two remaining pairs are the side-specific hip-rotation pairs, matching a003 run 014 exactly. The c001 blend is unchanged; the run input is a derived record copy (c001 itself not edited).
+- **Defect found and fixed:**
+  - Run 001 dropped three thumb CMC pairs from the Blender mirror comparison (38/43), because the runner required *exact* left/right command equality and c001's mirrored geometry carries about 1e-14° float noise.
+  - Fix: `isolated_tests.commands_match` (relative tolerance 1e-9).
+  - Regression: `scripts/test_isolated_mirror_comparability.py` (5 tests).
+  - The a003 recheck (`isolated_bone_only_a003_mirror_fix_recheck_001`) is unchanged at 41/2.
+- **Clips** (`…_002/clips/`): labelled a003-vs-c001 GIFs and keyframe sheets of the solver-keyed shoulder-complex scapular-plane elevation (scapulothoracic rhythm plus clavicle followers; both sides) and GH elevation, front and rear.
+- **Gate 9 stays NOT PASSED:** coverage gaps (full opposition, rib–sternum coupling, midfoot) still lack sources. Phase 10 has not started.

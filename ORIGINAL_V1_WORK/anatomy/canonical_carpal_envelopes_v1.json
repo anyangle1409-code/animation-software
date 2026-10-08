@@ -1,0 +1,331 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Bone-specific male carpal envelope constraints for the skeleton-first reference. These constrain anatomical bone geometry independently of r95 mesh and independently of control-stick length.",
+  "status": "ENVELOPE_DIMENSIONS_AVAILABLE_FRAME_MAPPING_AND_CENTROIDS_NOT_FROZEN",
+  "source_id": "ASSELN_2024_CARPAL_SIZE",
+  "male_n": 55,
+  "source_axis_note": "X/Y/Z are retained exactly as the source's anatomical bounding-box axes. Do not relabel them as HGPT radial/palmar/proximal until the source axis convention is mapped explicitly.",
+  "envelopes": {
+    "scaphoid": {
+      "X": {
+        "mean_mm": 23.3,
+        "sd_mm": 2.74,
+        "band_1sd_mm": [
+          20.560000000000002,
+          26.04
+        ],
+        "band_2sd_mm": [
+          17.82,
+          28.78
+        ]
+      },
+      "Y": {
+        "mean_mm": 18.23,
+        "sd_mm": 1.67,
+        "band_1sd_mm": [
+          16.560000000000002,
+          19.9
+        ],
+        "band_2sd_mm": [
+          14.89,
+          21.57
+        ]
+      },
+      "Z": {
+        "mean_mm": 23.07,
+        "sd_mm": 3.34,
+        "band_1sd_mm": [
+          19.73,
+          26.41
+        ],
+        "band_2sd_mm": [
+          16.39,
+          29.75
+        ]
+      }
+    },
+    "lunate": {
+      "X": {
+        "mean_mm": 15.27,
+        "sd_mm": 1.72,
+        "band_1sd_mm": [
+          13.549999999999999,
+          16.99
+        ],
+        "band_2sd_mm": [
+          11.83,
+          18.71
+        ]
+      },
+      "Y": {
+        "mean_mm": 19.13,
+        "sd_mm": 1.98,
+        "band_1sd_mm": [
+          17.15,
+          21.11
+        ],
+        "band_2sd_mm": [
+          15.169999999999998,
+          23.09
+        ]
+      },
+      "Z": {
+        "mean_mm": 19.43,
+        "sd_mm": 1.41,
+        "band_1sd_mm": [
+          18.02,
+          20.84
+        ],
+        "band_2sd_mm": [
+          16.61,
+          22.25
+        ]
+      }
+    },
+    "triquetrum": {
+      "X": {
+        "mean_mm": 17.97,
+        "sd_mm": 1.91,
+        "band_1sd_mm": [
+          16.06,
+          19.88
+        ],
+        "band_2sd_mm": [
+          14.149999999999999,
+          21.79
+        ]
+      },
+      "Y": {
+        "mean_mm": 15.27,
+        "sd_mm": 1.37,
+        "band_1sd_mm": [
+          13.899999999999999,
+          16.64
+        ],
+        "band_2sd_mm": [
+          12.53,
+          18.009999999999998
+        ]
+      },
+      "Z": {
+        "mean_mm": 15.37,
+        "sd_mm": 1.54,
+        "band_1sd_mm": [
+          13.829999999999998,
+          16.91
+        ],
+        "band_2sd_mm": [
+          12.29,
+          18.45
+        ]
+      }
+    },
+    "pisiform": {
+      "X": {
+        "mean_mm": 13.5,
+        "sd_mm": 1.17,
+        "band_1sd_mm": [
+          12.33,
+          14.67
+        ],
+        "band_2sd_mm": [
+          11.16,
+          15.84
+        ]
+      },
+      "Y": {
+        "mean_mm": 11.56,
+        "sd_mm": 1.15,
+        "band_1sd_mm": [
+          10.41,
+          12.71
+        ],
+        "band_2sd_mm": [
+          9.260000000000002,
+          13.86
+        ]
+      },
+      "Z": {
+        "mean_mm": 12.21,
+        "sd_mm": 1.3,
+        "band_1sd_mm": [
+          10.91,
+          13.510000000000002
+        ],
+        "band_2sd_mm": [
+          9.610000000000001,
+          14.81
+        ]
+      }
+    },
+    "trapezium": {
+      "X": {
+        "mean_mm": 17.23,
+        "sd_mm": 2.38,
+        "band_1sd_mm": [
+          14.850000000000001,
+          19.61
+        ],
+        "band_2sd_mm": [
+          12.47,
+          21.990000000000002
+        ]
+      },
+      "Y": {
+        "mean_mm": 17.63,
+        "sd_mm": 1.68,
+        "band_1sd_mm": [
+          15.95,
+          19.31
+        ],
+        "band_2sd_mm": [
+          14.27,
+          20.99
+        ]
+      },
+      "Z": {
+        "mean_mm": 23.11,
+        "sd_mm": 1.78,
+        "band_1sd_mm": [
+          21.33,
+          24.89
+        ],
+        "band_2sd_mm": [
+          19.55,
+          26.669999999999998
+        ]
+      }
+    },
+    "trapezoid": {
+      "X": {
+        "mean_mm": 15.36,
+        "sd_mm": 1.69,
+        "band_1sd_mm": [
+          13.67,
+          17.05
+        ],
+        "band_2sd_mm": [
+          11.98,
+          18.74
+        ]
+      },
+      "Y": {
+        "mean_mm": 14.12,
+        "sd_mm": 1.44,
+        "band_1sd_mm": [
+          12.68,
+          15.559999999999999
+        ],
+        "band_2sd_mm": [
+          11.239999999999998,
+          17
+        ]
+      },
+      "Z": {
+        "mean_mm": 18.91,
+        "sd_mm": 2.22,
+        "band_1sd_mm": [
+          16.69,
+          21.13
+        ],
+        "band_2sd_mm": [
+          14.469999999999999,
+          23.35
+        ]
+      }
+    },
+    "capitate": {
+      "X": {
+        "mean_mm": 24.02,
+        "sd_mm": 2.28,
+        "band_1sd_mm": [
+          21.74,
+          26.3
+        ],
+        "band_2sd_mm": [
+          19.46,
+          28.58
+        ]
+      },
+      "Y": {
+        "mean_mm": 17.76,
+        "sd_mm": 1.68,
+        "band_1sd_mm": [
+          16.080000000000002,
+          19.44
+        ],
+        "band_2sd_mm": [
+          14.400000000000002,
+          21.12
+        ]
+      },
+      "Z": {
+        "mean_mm": 24.33,
+        "sd_mm": 3.27,
+        "band_1sd_mm": [
+          21.06,
+          27.599999999999998
+        ],
+        "band_2sd_mm": [
+          17.79,
+          30.869999999999997
+        ]
+      }
+    },
+    "hamate": {
+      "X": {
+        "mean_mm": 25.56,
+        "sd_mm": 2.32,
+        "band_1sd_mm": [
+          23.24,
+          27.88
+        ],
+        "band_2sd_mm": [
+          20.919999999999998,
+          30.2
+        ]
+      },
+      "Y": {
+        "mean_mm": 17.85,
+        "sd_mm": 1.43,
+        "band_1sd_mm": [
+          16.42,
+          19.28
+        ],
+        "band_2sd_mm": [
+          14.990000000000002,
+          20.71
+        ]
+      },
+      "Z": {
+        "mean_mm": 23.7,
+        "sd_mm": 2.32,
+        "band_1sd_mm": [
+          21.38,
+          26.02
+        ],
+        "band_2sd_mm": [
+          19.06,
+          28.34
+        ]
+      }
+    }
+  },
+  "source_size_hierarchy_note": "These three anatomical-axis dimensions complement, rather than replace, the Patterson 1995 principal-axis size hierarchy.",
+  "canonical_usage": [
+    "Create non-deforming carpal bone-envelope/reference geometry around each future centroid.",
+    "Reject a canonical carpal geometry if a bone envelope lies grossly outside the adult-male source corridors without documented reason.",
+    "Keep control-bone length, axis line and whole-bone envelope as separate quantities.",
+    "Mirror envelopes left/right; do not mirror source axis labels until handedness mapping is explicit."
+  ],
+  "not_provided_by_this_source": [
+    "absolute centroid coordinates in a common wrist frame",
+    "intercarpal contact centres",
+    "radiocarpal contact centres",
+    "HGPT mapping of source X/Y/Z",
+    "pisiform neutral line-axis orientation"
+  ],
+  "linked_axis_targets": "ORIGINAL_V1_WORK/anatomy/canonical_carpal_axis_targets_v1.json",
+  "next_step": "Solve centroids/contact layout in a canonical radial frame, then place these envelopes around those centres and map the published neutral axes."
+}

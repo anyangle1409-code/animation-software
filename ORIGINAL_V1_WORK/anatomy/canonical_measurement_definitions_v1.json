@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Prevent invalid proportion comparisons by defining exactly what each Blender armature span represents and which external measurements are compatible.",
+  "principle": "A numerical match is meaningful only when the anatomical landmarks and measurement definition match. Surface, joint-centre, osteometric maximum and radiographic relative lengths are not interchangeable.",
+  "definitions": {
+    "humerus_armature": {
+      "blender_span": "GH joint centre to elbow joint centre",
+      "compatible_with": [
+        "joint-centre musculoskeletal models",
+        "surface chains only after explicit landmark offsets"
+      ],
+      "not_directly_compatible_with": [
+        "maximum dry-bone humerus length",
+        "Trotter-Gleser osteometric humerus without conversion"
+      ]
+    },
+    "radius_armature": {
+      "blender_span": "radial-head centre/surface region to radial styloid",
+      "compatible_with": [
+        "ANSUR radiale-stylion after matching radial-head landmark definition",
+        "3D CT radius length if endpoints match"
+      ],
+      "not_directly_compatible_with": [
+        "forearm skin length",
+        "ulnar styloid-to-olecranon length"
+      ]
+    },
+    "ulna_armature": {
+      "blender_span": "trochlear-notch region to distal ulna/styloid",
+      "compatible_with": [
+        "CT/radiographic ulna spans using matching trochlear/distal landmarks"
+      ],
+      "not_directly_compatible_with": [
+        "maximum ulna length including olecranon",
+        "percutaneous ulna length unless endpoint correction is defined"
+      ]
+    },
+    "metacarpal_armature": {
+      "blender_span": "CMC/base station to MCP/head station",
+      "compatible_with": [
+        "base-to-head CT/radiographic metacarpal length after endpoint review"
+      ],
+      "not_directly_compatible_with": [
+        "whole hand surface length",
+        "metacarpal relative ray position measured from a common carpal reference"
+      ]
+    },
+    "finger_phalanx_armature": {
+      "blender_span": "joint centre to next joint centre / tip station",
+      "compatible_with": [
+        "phalangeal base-to-head length if joint-centre offsets are accounted for"
+      ],
+      "not_directly_compatible_with": [
+        "surface finger segment length without soft-tissue correction"
+      ]
+    },
+    "metatarsal_armature": {
+      "blender_span": "TMT/base station to MTP/head station",
+      "compatible_with": [
+        "metatarsal base-to-head bone length after endpoint review"
+      ],
+      "not_directly_compatible_with": [
+        "Barrôco Chopart-line-to-metatarsal-head relative lengths"
+      ]
+    },
+    "tarsal_armature": {
+      "blender_span": "functional landmark-to-landmark rig segment, bone-specific",
+      "compatible_with": [
+        "only studies measuring the same landmarks"
+      ],
+      "not_directly_compatible_with": [
+        "maximum AP length",
+        "bone volume",
+        "surface area",
+        "bounding-box dimensions"
+      ],
+      "warning": "Current tarsal Blender bones are control/reference sticks, not geometric representations of the full tarsal bones."
+    },
+    "vertebral_armature": {
+      "blender_span": "inferior-to-superior vertebral body/endplate-centre segment on an interpolated spinal curve",
+      "compatible_with": [
+        "vertebral body height and endplate-centre spacing after verifying whether disc height is included"
+      ],
+      "not_directly_compatible_with": [
+        "skin trunk height",
+        "spinous-process distance",
+        "whole motion-segment height unless disc contribution is separated"
+      ]
+    },
+    "rib_armature": {
+      "blender_span": "costovertebral region to anterior rib end, currently represented as a straight segment",
+      "compatible_with": [
+        "only straight chord/endpoint studies using equivalent landmarks"
+      ],
+      "not_directly_compatible_with": [
+        "curved rib arc length",
+        "rib cross-sectional studies alone"
+      ],
+      "warning": "A curved centreline/neck-axis model is required before the rib armature can be treated as anatomical rib geometry."
+    },
+    "foot_surface_length": {
+      "measurement": "heel skin to longest toe skin",
+      "use": "body proportion diagnostic only",
+      "not_a_bone_target": true
+    },
+    "hand_surface_length": {
+      "measurement": "wrist surface station to lowest fingertip skin vertex",
+      "use": "body proportion diagnostic only",
+      "not_a_bone_target": true
+    }
+  },
+  "current_a003_examples_mm": {
+    "humerus_joint_centre_span": 282.4957774279788,
+    "radius_armature_span": 257.41657969863166,
+    "ulna_armature_span": 257.39934802673304,
+    "metacarpal_2_armature_span": 58.40737482460562,
+    "metacarpal_3_armature_span": 53.98434682000276,
+    "metatarsal_2_armature_span": 86.38644555829607,
+    "talus_reference_stick": 46.96554163333018,
+    "calcaneus_reference_stick": 19.339337839249385
+  },
+  "interpretation": [
+    "The current tarsal stick lengths are not valid evidence that the calcaneus or other tarsals are physically that length.",
+    "The metacarpal and phalanx armature spans are closer to anatomical segment lengths and can be checked against matching radiographic/CT definitions.",
+    "The current foot surface can be too long even while some internal rig-stick lengths are not directly interpretable as osteometric lengths.",
+    "Canonical target work must store the measurement definition beside every number."
+  ]
+}

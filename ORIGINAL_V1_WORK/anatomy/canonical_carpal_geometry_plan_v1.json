@@ -3,7 +3,7 @@
   "created": "2026-10-08",
   "purpose": "Define the skeleton-first carpal rebuild target as 3D centroid/axis/contact geometry, not arbitrary equal Blender-stick lengths.",
   "baseline": "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json",
-  "status": "CARPAL_REBUILD_SPECIFIED_NOT_FROZEN",
+  "status": "AXES_AND_ENVELOPES_ADVANCED_CENTROIDS_CONTACTS_NOT_FROZEN",
   "current_a003_reference_sticks_mm": {
     "scaphoid": 11,
     "lunate": 11,
@@ -148,5 +148,19 @@
     "CANOVAS_2004_CARPAL_3D_CT",
     "CARPAL_ALIGNMENT_2023_CT",
     "CARPAL_RADIOGRAPHIC_DATABASE_1998"
-  ]
+  ],
+  "progress_2026_10_08": {
+    "neutral_axis_targets": "ORIGINAL_V1_WORK/anatomy/canonical_carpal_axis_targets_v1.json",
+    "male_envelope_targets": "ORIGINAL_V1_WORK/anatomy/canonical_carpal_envelopes_v1.json",
+    "resolved": [
+      "neutral line-axis targets for scaphoid, lunate, triquetrum, trapezium, trapezoid, capitate and hamate mapped into HGPT world basis",
+      "adult-male bone-specific 3D bounding-box envelope constraints for all eight carpals"
+    ],
+    "still_blocked": [
+      "absolute 3D centroid positions for all eight bones in one canonical radial frame",
+      "pisiform neutral line-axis orientation",
+      "intercarpal/radiocarpal contact-centre layout",
+      "explicit source-X/Y/Z to HGPT envelope-axis mapping"
+    ]
+  }
 }

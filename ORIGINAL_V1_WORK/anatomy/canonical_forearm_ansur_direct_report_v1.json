@@ -63,16 +63,37 @@
     }
   },
   "decision": {
-    "radius": "GRADE_A_DIRECTIONAL_DEFECT_CONFIRMED_NUMERIC_CANONICAL_ENDPOINT_STILL_REQUIRES_LANDMARK_MAPPING",
+    "radius": "STRONG_STATURE_RELATIVE_SHORTNESS_CONFIRMED_ACROSS_ANTHROPOMETRIC_AND_FORENSIC_CHECKS_EXACT_BONE_TARGET_OPEN",
     "ulna": "UNCHANGED_REOPEN_ENDPOINT_COMPATIBLE_EVIDENCE_STILL_REQUIRED",
     "elbow_joint_centre": "RETAIN_PROVISIONALLY",
     "wrist_centre": "REBUILD_WITH_CANONICAL_RADIUS_ULNA_DRUJ_CARPAL_GEOMETRY"
   },
   "safeguards": [
+    "Do not conflate ANSUR radiale-stylion with maximum dry-bone radius length; preserve endpoint semantics.",
     "Do not set radius bone length blindly to 278.136 mm unless the canonical radius endpoints are defined exactly as ANSUR radiale and stylion.",
     "Do not derive ulna length from the radius regression.",
     "Do not move the retained elbow centre merely to preserve the short r95 forearm mesh.",
     "Use this direct dataset result together with CT/osteometric endpoint evidence before freezing the final radius coordinates."
   ],
-  "status": "DIRECT_ANSUR_RADIUS_SHORTNESS_CONFIRMED_CANONICAL_ENDPOINT_NOT_YET_FROZEN"
+  "status": "DIRECT_ANSUR_RADIUS_SHORTNESS_CONFIRMED_CANONICAL_ENDPOINT_NOT_YET_FROZEN",
+  "measurement_semantic_correction": {
+    "ansur_definition": "External/palpated radiale-to-stylion point-to-point forearm span measured with a beam caliper parallel to the forearm.",
+    "dry_bone_definition": "Maximum osteometric radius length uses dry-bone endpoints and is not measurement-identical to ANSUR radiale-stylion.",
+    "consequence": "The direct ANSUR regression confirms that the a003 distal forearm chain is short relative to the intended stature under the ANSUR landmark definition; it does not by itself set the maximum radius bone length to 278.14 mm."
+  },
+  "osteometric_crosschecks": {
+    "mall_2001_male_maximum_radius_mean_mm": 246,
+    "mall_population_note": "64 elderly German men within a mixed sample whose overall mean stature was only 161 cm; mean radius length is not a 1.82 m target.",
+    "trotter_gleser_white_male": {
+      "equation": "stature_cm = 3.78 * radius_cm + 79.01",
+      "SEE_cm": 4.32,
+      "a003_proxy_radius_cm": 24.741657969863166,
+      "predicted_stature_from_a003_radius_cm": 172.53346712608277,
+      "difference_from_intended_stature_cm": -9.466561960983881,
+      "outside_plus_minus_2SEE": true,
+      "algebraically_inverted_radius_at_182cm_mm": 272.46039441022924,
+      "inverse_warning": "Algebraic inversion is a plausibility check only; the regression was fit to predict stature from bone length."
+    },
+    "interpretation": "The generic dry-bone mean shows that 247 mm is not an intrinsically impossible adult male radius, but the stature-conditioned forensic equation and direct ANSUR chain both flag it as unusually short for a 1.82 m canonical male. Exact endpoint length remains open."
+  }
 }

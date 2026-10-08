@@ -1,0 +1,199 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Skeleton-first foot audit. Test the user's observed oversized-foot issue against measurement-compatible adult male metatarsal/phalangeal radiographic data.",
+  "baseline": "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json",
+  "sources": [
+    "PATIL_2017_METATARSAL_PHALANGE",
+    "BARRÔCO_2011_332_NORMAL_FEET",
+    "DOGAN_2007_METATARSAL_PHALANGE",
+    "ANSUR_II_MALE_2012"
+  ],
+  "measurement_compatibility": {
+    "metatarsals": "Strong. Patil 2017 measures distal metatarsal head to midpoint of base articular surface; a003 uses TMT/base to metatarsal head.",
+    "proximal_middle_phalanges": "Moderate-to-strong. Patil uses articular-surface midpoint to midpoint; a003 uses joint/station endpoints.",
+    "distal_phalanges": "Weaker. a003 distal segments terminate at a tip station that may include soft tissue beyond the distal phalanx."
+  },
+  "surface_context": {
+    "a003_foot_surface_length_mm": 305.23210763931274,
+    "stature_conditioned_ansur_foot_length_mm": 279.9330826397305,
+    "z": 2.774027876620282,
+    "difference_mm": 25.299024999582254
+  },
+  "bones": {
+    "metatarsal_1": {
+      "a003_mm": 72.56461426896868,
+      "patil2017_male_mean_mm": 56.42,
+      "patil2017_sd_mm": 4.41,
+      "z_vs_male_mean": 3.660910265072263,
+      "within_2sd": false
+    },
+    "metatarsal_2": {
+      "a003_mm": 86.38644555829607,
+      "patil2017_male_mean_mm": 67.61,
+      "patil2017_sd_mm": 3.49,
+      "z_vs_male_mean": 5.380070360543288,
+      "within_2sd": false
+    },
+    "metatarsal_3": {
+      "a003_mm": 80.62734918774301,
+      "patil2017_male_mean_mm": 65.88,
+      "patil2017_sd_mm": 4.41,
+      "z_vs_male_mean": 3.3440701105993225,
+      "within_2sd": false
+    },
+    "metatarsal_4": {
+      "a003_mm": 78.32371063952178,
+      "patil2017_male_mean_mm": 66.52,
+      "patil2017_sd_mm": 3.98,
+      "z_vs_male_mean": 2.9657564420909,
+      "within_2sd": false
+    },
+    "metatarsal_5": {
+      "a003_mm": 78.32371063952179,
+      "patil2017_male_mean_mm": 64.32,
+      "patil2017_sd_mm": 3.57,
+      "z_vs_male_mean": 3.9226080222750137,
+      "within_2sd": false
+    },
+    "hallux_proximal_phalanx": {
+      "a003_mm": 45.87183850313027,
+      "patil2017_male_mean_mm": 28,
+      "patil2017_sd_mm": 2.4,
+      "z_vs_male_mean": 7.446599376304279,
+      "within_2sd": false
+    },
+    "hallux_distal_phalanx": {
+      "a003_mm": 29.217538226404667,
+      "patil2017_male_mean_mm": 22.5,
+      "patil2017_sd_mm": 1.85,
+      "z_vs_male_mean": 3.6311017440025224,
+      "within_2sd": false,
+      "measurement_warning": "a003 distal phalanx tail may extend to a surface/toe-tip station; direct osteometric equivalence is weaker than for metatarsals/proximal/middle phalanges."
+    },
+    "toe2_proximal_phalanx": {
+      "a003_mm": 36.15106571611742,
+      "patil2017_male_mean_mm": 26.3,
+      "patil2017_sd_mm": 2.08,
+      "z_vs_male_mean": 4.736089286594914,
+      "within_2sd": false
+    },
+    "toe2_middle_phalanx": {
+      "a003_mm": 19.52157548670342,
+      "patil2017_male_mean_mm": 11.1,
+      "patil2017_sd_mm": 1.81,
+      "z_vs_male_mean": 4.652804136300231,
+      "within_2sd": false
+    },
+    "toe2_distal_phalanx": {
+      "a003_mm": 12.62949022941399,
+      "patil2017_male_mean_mm": 6.9,
+      "patil2017_sd_mm": 1.41,
+      "z_vs_male_mean": 4.063468247811341,
+      "within_2sd": false,
+      "measurement_warning": "a003 distal phalanx tail may extend to a surface/toe-tip station; direct osteometric equivalence is weaker than for metatarsals/proximal/middle phalanges."
+    },
+    "toe3_proximal_phalanx": {
+      "a003_mm": 32.68620720759615,
+      "patil2017_male_mean_mm": 24.6,
+      "patil2017_sd_mm": 1.77,
+      "z_vs_male_mean": 4.568478648359405,
+      "within_2sd": false
+    },
+    "toe3_middle_phalanx": {
+      "a003_mm": 17.65055189210192,
+      "patil2017_male_mean_mm": 9.7,
+      "patil2017_sd_mm": 2.07,
+      "z_vs_male_mean": 3.8408463246869182,
+      "within_2sd": false
+    },
+    "toe3_distal_phalanx": {
+      "a003_mm": 11.035655315494255,
+      "patil2017_male_mean_mm": 6.3,
+      "patil2017_sd_mm": 1.51,
+      "z_vs_male_mean": 3.1361955731750033,
+      "within_2sd": false,
+      "measurement_warning": "a003 distal phalanx tail may extend to a surface/toe-tip station; direct osteometric equivalence is weaker than for metatarsals/proximal/middle phalanges."
+    },
+    "toe4_proximal_phalanx": {
+      "a003_mm": 28.22947251503747,
+      "patil2017_male_mean_mm": 22.8,
+      "patil2017_sd_mm": 1.67,
+      "z_vs_male_mean": 3.251181146729025,
+      "within_2sd": false
+    },
+    "toe4_middle_phalanx": {
+      "a003_mm": 15.243915158120203,
+      "patil2017_male_mean_mm": 7.6,
+      "patil2017_sd_mm": 1.92,
+      "z_vs_male_mean": 3.981205811520939,
+      "within_2sd": false
+    },
+    "toe4_distal_phalanx": {
+      "a003_mm": 8.98555735691724,
+      "patil2017_male_mean_mm": 5.6,
+      "patil2017_sd_mm": 1.44,
+      "z_vs_male_mean": 2.3510814978591954,
+      "within_2sd": false,
+      "measurement_warning": "a003 distal phalanx tail may extend to a surface/toe-tip station; direct osteometric equivalence is weaker than for metatarsals/proximal/middle phalanges."
+    },
+    "toe5_proximal_phalanx": {
+      "a003_mm": 26.812924338745045,
+      "patil2017_male_mean_mm": 21.3,
+      "patil2017_sd_mm": 1.54,
+      "z_vs_male_mean": 3.5798209991850936,
+      "within_2sd": false
+    },
+    "toe5_middle_phalanx": {
+      "a003_mm": 14.47897914292234,
+      "patil2017_male_mean_mm": 5.8,
+      "patil2017_sd_mm": 0.97,
+      "z_vs_male_mean": 8.947401178270454,
+      "within_2sd": false
+    },
+    "toe5_distal_phalanx": {
+      "a003_mm": 8.333945195822716,
+      "patil2017_male_mean_mm": 5.2,
+      "patil2017_sd_mm": 1.33,
+      "z_vs_male_mean": 2.356349771295275,
+      "within_2sd": false,
+      "measurement_warning": "a003 distal phalanx tail may extend to a surface/toe-tip station; direct osteometric equivalence is weaker than for metatarsals/proximal/middle phalanges."
+    }
+  },
+  "findings": [
+    "All five a003 metatarsal spans are above the Patil 2017 male means by roughly 12-19 mm; every metatarsal is >2 SD high, and M2 is >5 SD high.",
+    "Hallux and lesser-toe proximal/middle phalanx spans are also substantially long versus the same adult male radiographic sample; many exceed 3 SD.",
+    "The direct bone-span evidence therefore confirms that the oversized-foot problem is not only skin/soft-tissue length: the a003 foot armature was itself stretched to fit the long r95 foot.",
+    "This is expected because a003 was deliberately a mesh-fit audit. Under the skeleton-first policy, metatarsals and toe phalanges must be re-targeted independently, then the mesh shortened around them.",
+    "Distal phalanx comparisons are not used alone for acceptance because the a003 tip station may include terminal soft tissue."
+  ],
+  "provisional_target_corridors_mm": {
+    "metatarsal_1": [
+      52.010000000000005,
+      60.83
+    ],
+    "metatarsal_2": [
+      64.12,
+      71.1
+    ],
+    "metatarsal_3": [
+      61.47,
+      70.28999999999999
+    ],
+    "metatarsal_4": [
+      62.54,
+      70.5
+    ],
+    "metatarsal_5": [
+      60.74999999999999,
+      67.88999999999999
+    ]
+  },
+  "status": "FOOT_PROPORTION_DEFECT_CONFIRMED_CANONICAL_TARGET_NOT_FROZEN",
+  "next_steps": [
+    "Cross-check metatarsal corridors against at least one additional measurement-compatible adult male sample before freezing exact lengths.",
+    "Derive hindfoot/midfoot joint-to-joint targets separately; do not compare current tarsal rig-stick lengths to whole-bone maximum dimensions.",
+    "Retarget toe proximal/middle phalanges from compatible radiographic data; model distal tips with a separate soft-tissue allowance.",
+    "Once the canonical foot chain is frozen, reduce the production mesh foot length around the skeleton and re-run ankle/subtalar/talonavicular/hallux tests."
+  ]
+}

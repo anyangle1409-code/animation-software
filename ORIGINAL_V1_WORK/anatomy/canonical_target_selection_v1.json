@@ -306,6 +306,18 @@
       "id": "PROPORTION_POLICY_182CM_MALE",
       "skeleton_precedence": "Once a skeleton element is confirmed anatomically correct, it is never changed to suit the mesh. The mesh, weights and deformation are adapted to the skeleton. A confirmed element may change only on new anatomical evidence, never on mesh fit.",
       "confirmed_by_owner": "2026-10-08 (restated)"
+    },
+    {
+      "date": "2026-10-08",
+      "owner": "project owner (via Claude session)",
+      "id": "SHOULDER_HEIGHT_ANCHOR_ANSUR_LIVING",
+      "decision": "Continue using the living standing ANSUR survey as the governing anchor for absolute shoulder height in the 1.82 m reference body. Retain the bony/model evidence for internal clavicle length, clavicle orientation, scapular geometry and AC-to-GH relationships. Keep the standing thorax/chest-angle disagreement explicitly open as a sensitivity variable.",
+      "caveat": "Owner modelling policy for a living exercise character, not proof that the unresolved skin-to-bone landmark relationship has been scientifically settled.",
+      "consequences": [
+        "Audit candidate r95_a003_shoulder_proposal_c002_ansur_height built under this policy (LM27 lateral distal acromion at ANSUR acromial height 1497.7 mm).",
+        "Measured consequence: with the bony clavicle orientation retained, the SC joints land 17-62 mm below their own jugular notch in every recorded pitch/IJ/landmark variant (c002: 56.2 mm below the retained a003 notch). The policy's two parts do not close at the SC; a further owner decision is needed. No numeric target selected; freeze_ready unchanged."
+      ],
+      "recorded_by": "docs/CLAUDE_INDEPENDENT_REVIEW_20261008.md"
     }
   ]
 }

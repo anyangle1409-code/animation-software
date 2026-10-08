@@ -8,17 +8,13 @@
     "Do not average measurements that use different endpoints or dimensional definitions.",
     "Population mean ±1 SD is stored as an evidence band where available, not as a mandatory target.",
     "Final target selection requires cross-source agreement, stature/sex context, and mechanical consistency.",
-    "Hard geometric invariants may be enforced before exact dimensions are frozen."
+    "Hard geometric invariants may be enforced before exact dimensions are frozen.",
+    "Scapular GH-to-inferior-angle span is a 3D oblique distance and must not be compared directly with superior-inferior height as a hard invariant."
   ],
   "hard_invariants": [
     {
       "id": "INV_CLAVICLE_CHORD",
       "rule": "SC_to_AC_straight_chord_mm < clavicle_curved_true_or_centerline_length_mm",
-      "region": "shoulder_girdle"
-    },
-    {
-      "id": "INV_SCAPULA_PART",
-      "rule": "GH_to_inferior_angle_mm < scapula_total_superior_inferior_height_mm",
       "region": "shoulder_girdle"
     },
     {
@@ -103,7 +99,18 @@
           29.5
         ],
         "source": "SCAPULA_MALE_2018"
-      }
+      },
+      "scapula_width_male_mm": {
+        "definition": "whole scapula width (source definition)",
+        "mean": 108.1,
+        "sd": 6.4,
+        "band_1sd": [
+          101.7,
+          114.5
+        ],
+        "source": "SCAPULA_MALE_2018"
+      },
+      "scapula_scale_note": "Use height + width + glenoid location to build a 3D envelope; do not force GH-to-inferior-angle below height alone."
     },
     "hand": {
       "metacarpal_1_mm": {

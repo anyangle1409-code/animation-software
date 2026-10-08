@@ -1289,6 +1289,140 @@
         "explicit lumbar intervertebral disc-gap corridors"
       ],
       "limitation": "Average of anterior/centre/posterior disc heights; age span broad."
+    },
+    {
+      "id": "CLAVICLE_CT_2020_MALE",
+      "type": "3D_CT_clavicle_morphometry",
+      "citation": "Morphometric Analysis of Clavicle and Its Medullary Canal: A Computed Tomographic Study. 2020.",
+      "pmid": "33194103",
+      "pmcid": "PMC7609512",
+      "population": "64 clavicles from 32 patients; 16 men, 16 women",
+      "male_values_mm": {
+        "true_length": {
+          "mean": 149.67,
+          "sd": 9.6
+        },
+        "sternal_end_width": {
+          "mean": 24.05,
+          "sd": 3.7
+        },
+        "acromial_end_width": {
+          "mean": 21.15,
+          "sd": 3.3
+        },
+        "narrowest_width": {
+          "mean": 12.26,
+          "sd": 1.2
+        },
+        "sternal_end_thickness": {
+          "mean": 24.98,
+          "sd": 3
+        },
+        "acromial_end_thickness": {
+          "mean": 12.91,
+          "sd": 1.6
+        }
+      },
+      "use": [
+        "male clavicle true-length corridor",
+        "clavicle envelope scale"
+      ],
+      "limitation": "Regional CT sample; true clavicle centreline/curved length, not straight SC-to-AC chord."
+    },
+    {
+      "id": "CLAVICLE_CADAVER_3D_2013",
+      "type": "3D_CT_cadaver_clavicle",
+      "citation": "The anatomy of the clavicle: a three-dimensional cadaveric study. Clin Anat. 2014.",
+      "pmid": "24142486",
+      "sample": "68 cadaver clavicles",
+      "male_values_mm": {
+        "centerline_length": {
+          "mean": 166.8,
+          "sd": 7.3
+        },
+        "endpoint_length_note": "overall sample endpoint length 149.4 ± 10.3 mm; male-specific endpoint mean not exposed in abstract"
+      },
+      "use": [
+        "independent clavicle curved-vs-endpoint length distinction",
+        "male true-length upper corridor"
+      ],
+      "limitation": "Cadaver sample older; endpoint and centreline definitions must not be mixed."
+    },
+    {
+      "id": "SCAPULA_OSSEOUS_2001",
+      "type": "cadaver_scapula_morphometry",
+      "citation": "Osseous anatomy of the scapula. Clin Orthop Relat Res. 2001.",
+      "pmid": "11210947",
+      "sample": "15 paired cadaver scapulae",
+      "values_mm": {
+        "superior_to_inferior_angle": {
+          "mean": 155,
+          "sd": 16
+        },
+        "scapular_spine_medial_to_acromion": {
+          "mean": 134,
+          "sd": 12
+        },
+        "acromion_length": {
+          "mean": 48,
+          "sd": 5
+        },
+        "acromion_width": {
+          "mean": 22,
+          "sd": 4
+        },
+        "glenoid_to_acromion": {
+          "mean": 16,
+          "sd": 2
+        },
+        "glenoid_AP": {
+          "mean": 29,
+          "sd": 3
+        },
+        "glenoid_SI": {
+          "mean": 36,
+          "sd": 4
+        }
+      },
+      "glenoid_retroversion_deg": {
+        "mean": 8,
+        "sd": 4
+      },
+      "use": [
+        "scapular height/width/envelope scale",
+        "glenoid-acromion relationship"
+      ],
+      "limitation": "Small cadaver sample; mixed sex."
+    },
+    {
+      "id": "SCAPULA_MALE_2018",
+      "type": "adult_scapula_morphometry",
+      "citation": "Predetermining glenoid dimensions using the scapular dimensions. 2018.",
+      "pmid": "30324222",
+      "sample": "264 scapulae; 166 male and 98 female",
+      "male_values_mm": {
+        "scapular_height": {
+          "mean": 148.2,
+          "sd": 10
+        },
+        "scapular_width": {
+          "mean": 108.1,
+          "sd": 6.4
+        },
+        "glenoid_SI": {
+          "mean": 37.1,
+          "sd": 2.2
+        },
+        "glenoid_AP": {
+          "mean": 27.4,
+          "sd": 2.1
+        }
+      },
+      "use": [
+        "male scapula size corridor",
+        "glenoid dimension cross-check"
+      ],
+      "limitation": "Dry/cadaveric morphology; population-specific."
     }
   ],
   "unresolved_source_needs": [

@@ -444,6 +444,122 @@
         "population-derived rib cross-sectional geometry by rib number and normalized rib position"
       ],
       "limitation": "Cross-section geometry does not by itself provide the full curved rib centreline or costovertebral axis."
+    },
+    {
+      "id": "PATIL_2017_METATARSAL_PHALANGE",
+      "type": "standardized_radiographic_morphometry",
+      "citation": "Patil S et al. Radiological Biometric Study of Metatarsals and Phalanges. J Clin Diagn Res. 2017;11(9):AC05-AC09.",
+      "pmid": "29207688",
+      "pmcid": "PMC5713710",
+      "doi": "10.7860/JCDR/2017/27887.10589",
+      "population": "60 healthy adults >21 years; 33 men and 27 women; male mean age 27.78 years",
+      "measurement_definition": "Metatarsal length: most distal head point to midpoint of base articular surface; fifth metatarsal excludes styloid process. Phalanges: midpoint of proximal articular surface to midpoint of distal articular surface on standardized AP radiographs.",
+      "male_mean_sd_mm": {
+        "metatarsal_1": {
+          "mean": 56.42,
+          "sd": 4.41
+        },
+        "metatarsal_2": {
+          "mean": 67.61,
+          "sd": 3.49
+        },
+        "metatarsal_3": {
+          "mean": 65.88,
+          "sd": 4.41
+        },
+        "metatarsal_4": {
+          "mean": 66.52,
+          "sd": 3.98
+        },
+        "metatarsal_5": {
+          "mean": 64.32,
+          "sd": 3.57
+        },
+        "hallux_proximal_phalanx": {
+          "mean": 28,
+          "sd": 2.4
+        },
+        "hallux_distal_phalanx": {
+          "mean": 22.5,
+          "sd": 1.85
+        },
+        "toe2_proximal_phalanx": {
+          "mean": 26.3,
+          "sd": 2.08
+        },
+        "toe2_middle_phalanx": {
+          "mean": 11.1,
+          "sd": 1.81
+        },
+        "toe2_distal_phalanx": {
+          "mean": 6.9,
+          "sd": 1.41
+        },
+        "toe3_proximal_phalanx": {
+          "mean": 24.6,
+          "sd": 1.77
+        },
+        "toe3_middle_phalanx": {
+          "mean": 9.7,
+          "sd": 2.07
+        },
+        "toe3_distal_phalanx": {
+          "mean": 6.3,
+          "sd": 1.51
+        },
+        "toe4_proximal_phalanx": {
+          "mean": 22.8,
+          "sd": 1.67
+        },
+        "toe4_middle_phalanx": {
+          "mean": 7.6,
+          "sd": 1.92
+        },
+        "toe4_distal_phalanx": {
+          "mean": 5.6,
+          "sd": 1.44
+        },
+        "toe5_proximal_phalanx": {
+          "mean": 21.3,
+          "sd": 1.54
+        },
+        "toe5_middle_phalanx": {
+          "mean": 5.8,
+          "sd": 0.97
+        },
+        "toe5_distal_phalanx": {
+          "mean": 5.2,
+          "sd": 1.33
+        }
+      },
+      "male_ranges_mm": {
+        "metatarsal_1": [
+          46.39,
+          66.1
+        ],
+        "metatarsal_2": [
+          60.54,
+          77.55
+        ],
+        "metatarsal_3": [
+          57.16,
+          77.85
+        ],
+        "metatarsal_4": [
+          58.7,
+          75.02
+        ],
+        "metatarsal_5": [
+          57.69,
+          72.72
+        ]
+      },
+      "use": [
+        "measurement-compatible metatarsal target corridor",
+        "toe phalanx cross-check",
+        "confirm whether a003 long foot is skeletal as well as surface"
+      ],
+      "limitation": "Single regional sample and 2D radiographs. Distal phalanx comparison to a003 is weaker because the current armature distal tip can include a surface-tip allowance."
     }
   ],
   "unresolved_source_needs": [

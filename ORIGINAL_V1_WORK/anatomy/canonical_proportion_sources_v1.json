@@ -3251,6 +3251,33 @@
       ],
       "limitation": "No individual length distribution or direct bone-on-stature regression; linear stature scaling is diagnostic only. Cross-cohort joint-offset assumptions remain distinct from ISB styloid-midpoint geometry.",
       "audit": "canonical_de_leva_primary_endpoint_review_v1.json"
+    },
+    {
+      "id": "HONG_2021_BILATERAL_FOREARM_CT",
+      "type": "bilateral_CT_morphology",
+      "citation": "Hong E, Kwak DS, Kim IB. Morphological symmetry of the radius and ulna. PLoS ONE. 2021;16:e0258232.",
+      "doi": "10.1371/journal.pone.0258232",
+      "primary_url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0258232",
+      "population": "132 Korean cadavers; manuscript 71 male/61 female, supplementary M/F IDs 75/57; metadata conflict unresolved. Male mean stature reported 164.14 cm.",
+      "use": [
+        "forearm torsion/bowing landmark semantics",
+        "bilateral geometry context only"
+      ],
+      "limitation": "No individual stature field identified in supplement; aligned proximal/distal extrema are not matched articular-centre endpoints. No 182 cm target selected. Supplement hash/access inspection retained."
+    },
+    {
+      "id": "THILLEMANN_2021_DRUJ_AUTORSA",
+      "type": "CT_landmark_radiostereometry",
+      "citation": "Thillemann JK et al. Distal radioulnar joint stabilization with open foveal reinsertion versus tendon graft reconstruction. J Exp Orthop. 2021;8:10.",
+      "doi": "10.1186/s40634-021-00329-y",
+      "pmcid": "PMC7862458",
+      "primary_url": "https://link.springer.com/article/10.1186/s40634-021-00329-y",
+      "population": "10 cadaver arms, 8 male, mean age 78 years; TFCC lesion/repair experiment.",
+      "use": [
+        "radial/ulnar surface landmark definitions",
+        "radioulnar axis and DRUJ measurement semantics"
+      ],
+      "limitation": "Not a normal 182 cm proportion cohort or healthy loaded-translation target. Three-point sphere-fit description underdetermined without extra constraints; cannot copy it as a validated centre fit."
     }
   ],
   "unresolved_source_needs": [

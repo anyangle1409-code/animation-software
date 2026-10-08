@@ -95,7 +95,8 @@
       ],
       "next_action": "Resolve radius/ulna endpoints independently, then rebuild wrist centre and pronation axis.",
       "reviewed_historical_2026_10_08": "owner policy 2026-10-08: radius/ulna follow normal 1.82 m male proportions; EJC-WJC should be about 283-293 mm (ANSUR, Trotter-Gleser and de Leva agree within 1 SD) against a003 256.2 mm (z -3.4); see canonical_limb_length_proposal_182_v1.json",
-      "endpoint_review": "canonical_forearm_endpoint_decision_v1.json"
+      "endpoint_review": "canonical_forearm_endpoint_decision_v1.json",
+      "landmark_requirements": "canonical_forearm_landmark_requirements_v1.json"
     },
     "carpus": {
       "readiness": "BLOCKED",

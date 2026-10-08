@@ -1,0 +1,9 @@
+{
+  "README.md": "36a549003b835abaca51d5b823054999b869e597d09e164f3e3f970d89db62a3",
+  "freeze_readiness_tests.txt": "d03ce458f2a6cd2b4f27522f3aacad03ce1872c028853507c3ad02ca621bdcad",
+  "hong_supplement_inspection.json": "c1ed6ad820e5602c9658ad9cfcf02763c85732fadeaa45515e6c7723ef27f5ed",
+  "owner_policy_tests.txt": "9f169aa04896ef0203477ff61d8d57406ec0dab00b71ec15cf38cdae22509147",
+  "source_identity_tests.txt": "74c03fc16fde9a2dfeff03db0ec8f472a5a8dfed04e9e982a912b4b7f64faee3",
+  "target_validation.json": "8860c2cc23b53129b0cf5c8f284ca5514834b9bad608a2e54f92be12f1012f1b",
+  "three_point_sphere_counterexample.json": "c0e40e537b8bc0aefdabd9643e0c7fc7dd7bd0cbebc68687398695d006c00ea3"
+}

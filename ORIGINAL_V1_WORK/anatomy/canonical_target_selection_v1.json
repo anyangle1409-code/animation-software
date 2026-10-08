@@ -166,7 +166,8 @@
         "ulna endpoint corridor",
         "wrist/DRUJ geometry"
       ],
-      "endpoint_review": "canonical_forearm_endpoint_decision_v1.json"
+      "endpoint_review": "canonical_forearm_endpoint_decision_v1.json",
+      "landmark_requirements": "canonical_forearm_landmark_requirements_v1.json"
     },
     "carpus_hand": {
       "evidence_grade": {

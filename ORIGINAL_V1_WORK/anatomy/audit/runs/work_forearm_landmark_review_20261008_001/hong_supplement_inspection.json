@@ -1,0 +1,65 @@
+{
+  "source_id": "HONG_2021_BILATERAL_FOREARM_CT",
+  "doi": "10.1371/journal.pone.0258232",
+  "supplement_url": "https://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0258232.s001&type=supplementary",
+  "bytes": 987799,
+  "sha256": "a406ecffc072cb039b4e7627b854eb9d4bf21b8325e70ce6530429839d5ca122",
+  "sheets": [
+    "Title",
+    "Length+volume_radius",
+    "Length+volume_ulna",
+    "Twisting&bowing",
+    "Shape diff_radius",
+    "Shape diff_ulna"
+  ],
+  "summaries": {
+    "radius": {
+      "donors": 132,
+      "male_donors": 75,
+      "female_donors": 57,
+      "male_length_mean_of_bilateral_mean": 228.59593316000002,
+      "column_headers": {
+        "A": "ID",
+        "B": "Right_length [mm2]",
+        "C": "Right_volume [mm3]",
+        "D": "Left_length [mm2]",
+        "E": "Left_volume [mm3]"
+      }
+    },
+    "ulna": {
+      "donors": 132,
+      "male_donors": 75,
+      "female_donors": 57,
+      "male_length_mean_of_bilateral_mean": 245.29450675333334,
+      "column_headers": {
+        "A": "ID",
+        "B": "Right_length [mm2]",
+        "C": "Right_volume [mm3]",
+        "D": "Left_length [mm2]",
+        "E": "Left_volume [mm3]"
+      }
+    }
+  },
+  "height_or_stature_text_labels": [],
+  "matched_donor_ids": true,
+  "limits": [
+    "Workbook length headers incorrectly say mm2; manuscript describes linear length in mm. Preserve raw label; do not reinterpret values as areas.",
+    "No individual stature field identified in any shared-string label or length-sheet header; no direct stature-conditioned regression performed.",
+    "Reported male mean stature 164.14 cm differs materially from owner 182 cm; no linear rescaling of cohort mean adopted.",
+    "Most proximal/distal point algorithm after model alignment is not an independently established mapping to radiale, stylion or articular centres."
+  ],
+  "target_selected": false,
+  "sex_label_conflict": {
+    "manuscript": {
+      "male": 71,
+      "female": 61
+    },
+    "workbook_ID_M_F_inference": {
+      "male": 75,
+      "female": 57
+    },
+    "status": "REOPENED_ID_LABELS_NOT_CONFIRMED_SEX",
+    "action": "Do not silently change study sex composition; resolve author metadata before sex-specific target selection."
+  },
+  "target_grade": "C_FOR_182CM_NUMERICAL_SELECTION"
+}

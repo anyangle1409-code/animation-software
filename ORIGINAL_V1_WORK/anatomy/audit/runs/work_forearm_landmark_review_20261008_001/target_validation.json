@@ -1,0 +1,9 @@
+{
+  "selection": "ORIGINAL_V1_WORK/anatomy/canonical_target_selection_v1.json",
+  "freeze_ready": false,
+  "errors": [],
+  "warnings": [
+    "canonical target remains NOT FREEZE READY; Blender c001 must not be created yet"
+  ],
+  "result": "PASS"
+}

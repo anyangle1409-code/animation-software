@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "status": "STRONGLY_SUPPORTED_LANDMARK_SEMANTICS_COORDINATES_UNSELECTED",
+  "freeze_ready": false,
+  "source_ids": [
+    "THILLEMANN_2021_DRUJ_AUTORSA",
+    "HONG_2021_BILATERAL_FOREARM_CT",
+    "PRETORIUS_2021_FOREARM_CT",
+    "TORIMITSU_2014_RADIUS_ULNA_3DCT"
+  ],
+  "radius_landmarks": {
+    "radial_head_rotation_centre": {
+      "kind": "fitted_articular_centre",
+      "distinct_from": "radiale surface point"
+    },
+    "radial_styloid_tip": {
+      "kind": "bone_surface_landmark",
+      "distinct_from": "wrist centre"
+    },
+    "sigmoid_notch_anterior_rim": {
+      "kind": "contact_surface_rim"
+    },
+    "sigmoid_notch_posterior_rim": {
+      "kind": "contact_surface_rim"
+    },
+    "sigmoid_notch_surface_centre": {
+      "kind": "contact_surface_reference",
+      "distinct_from": "ulnar-head centre"
+    },
+    "radial_tuberosity_reference": {
+      "kind": "torsion_landmark"
+    }
+  },
+  "ulna_landmarks": {
+    "ulnar_head_centre": {
+      "kind": "fitted_articular_centre",
+      "distinct_from": "ulnar styloid tip"
+    },
+    "ulnar_styloid_tip": {
+      "kind": "bone_surface_landmark"
+    },
+    "greater_sigmoid_notch_centre": {
+      "kind": "trochlear_contact_reference",
+      "distinct_from": "olecranon tip/coronoid base"
+    },
+    "olecranon_tip": {
+      "kind": "bone_surface_landmark"
+    },
+    "coronoid_process_reference": {
+      "kind": "bone_surface_landmark",
+      "distinct_from": "Rausch coronoid-base length endpoint"
+    },
+    "ulnar_fovea": {
+      "kind": "torsion/TFCC_attachment_reference"
+    }
+  },
+  "axis_reference": {
+    "proximal": "radial_head_rotation_centre",
+    "distal": "ulnar_head_centre",
+    "scope": "neutral radioulnar kinematic reference; motion-specific contact validation still required",
+    "forbidden_shortcuts": [
+      "radius bone head-tail axis",
+      "ulna bone head-tail axis",
+      "elbow centre to generic wrist centre without matched geometry"
+    ]
+  },
+  "DRUJ_contact_reference": {
+    "method": "project the radioulnar reference onto the separately defined anterior/posterior sigmoid-notch rim line",
+    "limits": [
+      "Projection is a kinematic measurement, not proof of congruent cartilage contact.",
+      "Do not collapse ulnar head, notch centre, projected point and radiocarpal wrist centre into one marker."
+    ]
+  },
+  "fitting_caution": {
+    "source_report": "Thillemann methods describes a sphere fit from three picked surface points.",
+    "independent_geometric_review": "Three points alone leave a family of sphere centres. Adopt no implementation of that description without additional constraints and fit-conditioning/coverage checks. A circle in a defined plane is a different model and must be labeled.",
+    "counterexample": "audit/runs/work_forearm_landmark_review_20261008_001/three_point_sphere_counterexample.json"
+  },
+  "numerical_targets": null,
+  "blockers": [
+    "Matched anatomical surface/centre coordinates in a documented neutral pose.",
+    "Independent radius and ulna length definitions with compatible 1.82 m male context.",
+    "Source sex-label discrepancy and aligned-extrema length semantics in Hong 2021.",
+    "Preserve radiocarpal/midcarpal separation and verify PRUJ/DRUJ congruence."
+  ]
+}

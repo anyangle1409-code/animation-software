@@ -1,0 +1,63 @@
+{
+  "status": "CONFIRMED_GEOMETRIC_UNDERDETERMINATION",
+  "synthetic_not_anatomical_coordinates": true,
+  "points": [
+    [
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0
+    ],
+    [
+      -1,
+      0,
+      0
+    ]
+  ],
+  "different_exact_spheres": [
+    {
+      "centre": [
+        0,
+        0,
+        0
+      ],
+      "radius": 1.0,
+      "residuals": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "centre": [
+        0,
+        0,
+        1
+      ],
+      "radius": 1.4142135623730951,
+      "residuals": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "centre": [
+        0,
+        0,
+        10
+      ],
+      "radius": 10.04987562112089,
+      "residuals": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "conclusion": "Three surface points alone do not determine a unique 3D sphere centre. Additional constraints or noncoplanar surface data are essential; a zero fitting residual alone is insufficient validation."
+}

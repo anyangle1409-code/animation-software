@@ -46,5 +46,7 @@
     "Pronation-supination reference passes between proximal radial-head and distal ulnar-head/contact references; it is not automatically either bone\u2019s head-tail line.",
     "Whole-bone ulna length and EJC-WJC span are different dimensions."
   ],
-  "next_safe_action": "Acquire matched radial/ulnar articular and surface landmarks, then solve radius, ulna, DRUJ and wrist together with independently selected bone dimensions. Keep production/a003 unchanged."
+  "next_safe_action": "Acquire matched radial/ulnar articular and surface landmarks, then solve radius, ulna, DRUJ and wrist together with independently selected bone dimensions. Keep production/a003 unchanged.",
+  "landmark_requirements": "canonical_forearm_landmark_requirements_v1.json",
+  "independent_source_review": "audit/runs/work_forearm_landmark_review_20261008_001/hong_supplement_inspection.json"
 }

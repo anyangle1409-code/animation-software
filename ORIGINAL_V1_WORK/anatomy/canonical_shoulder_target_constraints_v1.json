@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Landmark-compatible constraint system for selecting the canonical shoulder girdle without fitting back to the r95 mesh.",
+  "status": "CONSTRAINTS_READY_EXACT_COORDINATES_NOT_FROZEN",
+  "stature_m": 1.8200002908706665,
+  "baseline": "a003 audit only",
+  "inputs": {
+    "biacromial_breadth_mm": {
+      "mean": 425.15656060295987,
+      "residual_sd": 16.23003710606048,
+      "band_1sd": [
+        408.9265234968994,
+        441.38659770902035
+      ],
+      "definition": "bilateral lateral acromial breadth",
+      "source": "ANSUR_II_MALE_2012"
+    },
+    "lateral_acromion_to_AC_joint_mm": {
+      "mean": 34,
+      "sd": 8,
+      "range": [
+        23,
+        52
+      ],
+      "definition": "straight distance from lateral acromion to AC joint",
+      "source": "SCAPULAR_LANDMARK_CADAVER_2026"
+    },
+    "clavicle_endpoint_length_mm": {
+      "male_mean": 154.8,
+      "male_observed_range": [
+        130,
+        175
+      ],
+      "definition": "straight 3D distance between lateral-most clavicular point in AC joint and medial-most clavicular point in SC joint",
+      "source": "CLAVICLE_LENGTH_CT_SYMMETRY_2018"
+    },
+    "clavicle_centerline_length_mm": {
+      "male_mean": 166.8,
+      "male_sd": 7.3,
+      "definition": "3D centreline true length",
+      "source": "CLAVICLE_CADAVER_3D_2013"
+    }
+  },
+  "derived_constraints": {
+    "bilateral_AC_breadth_from_means_mm": 357.15656060295987,
+    "bilateral_AC_breadth_1sd_cross_product_range_mm": [
+      324.9265234968994,
+      389.38659770902035
+    ],
+    "derivation": "biacromial breadth minus 2 × lateral-acromion-to-AC distance",
+    "current_a003_bilateral_AC_breadth_mm": 481.3938993665297,
+    "current_a003_excess_over_derived_mean_mm": 124.23733876356984,
+    "current_a003_excess_over_derived_max_1sd_cross_product_mm": 92.00730165750934,
+    "symmetric_half_AC_lateral_coordinate_from_mean_mm": 178.57828030147994,
+    "implied_symmetric_bilateral_SC_breadth_if_clavicle_chord_were_purely_lateral_at_154_8mm": 47.55656060295989,
+    "note": "The last value is a consistency check only. Real SC-to-AC separation has AP and vertical components, so final SC/AC coordinates must satisfy the full 3D chord."
+  },
+  "hard_geometry_rules": [
+    "bilateral_AC_breadth < bilateral_lateral_acromion_breadth",
+    "each_SC_to_AC_3D_chord <= corresponding_clavicle_centerline_length",
+    "each_SC_to_AC_3D_chord should lie in an endpoint-length adult-male corridor after stature/sex context is reconciled",
+    "AC and GH remain distinct centres",
+    "lateral acromion remains lateral to AC joint",
+    "left/right canonical geometry is mirrored except where an explicit asymmetry policy is applied"
+  ],
+  "solver_variables": {
+    "fixed_or_scaffolded": [
+      "stature",
+      "global acromial height corridor",
+      "global biacromial breadth corridor"
+    ],
+    "select": [
+      "left/right lateral acromion points",
+      "left/right AC centres",
+      "left/right SC centres",
+      "clavicle centreline control points"
+    ],
+    "defer_until_scapula_frame": [
+      "GH lateral/AP refinement",
+      "inferior angle",
+      "medial border/spine root",
+      "coracoid"
+    ]
+  },
+  "acceptance_logic": [
+    "Reject any candidate whose bi-AC breadth exceeds the outer biacromial breadth.",
+    "Reject any candidate whose SC-to-AC straight chord exceeds the clavicle curved centreline length.",
+    "Reject any candidate requiring the lateral acromion-to-AC offset outside the registered adult range without a documented reason.",
+    "Do not force the scapular GH-to-inferior-angle span to a value until the 3D scapular landmark frame is solved.",
+    "Do not move the whole shoulder vertically just to repair width: acromial height is already close to the stature-conditioned scaffold."
+  ],
+  "interpretation": [
+    "The old a003 shoulder width is not just visually broad; the current bilateral AC breadth (~481 mm) is larger than the expected OUTER biacromial breadth (~425 mm), which is anatomically impossible as a normal target because AC joints sit medial to the lateral acromial points.",
+    "Using the population mean inputs gives a provisional bilateral AC breadth around 357 mm. This is a constraint-derived centre, not yet a frozen production target.",
+    "The mean inputs are internally coherent with a bilateral SC breadth around 48 mm if the clavicle chord were purely lateral; adding AP/Z offsets means the final target will need a slightly different combination inside the allowed corridors."
+  ],
+  "next_steps": [
+    "Solve SC/AC/acromion coordinates in 3D against the clavicle endpoint/centreline constraints and global shoulder-height scaffold.",
+    "Build the scapular local landmark frame independently, then place GH from the retained local depth and glenoid geometry.",
+    "Rerun shoulder-complex solver tests after the canonical girdle coordinates are instantiated."
+  ]
+}

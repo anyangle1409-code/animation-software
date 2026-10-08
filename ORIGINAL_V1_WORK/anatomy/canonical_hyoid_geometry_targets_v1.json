@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Skeleton-first adult male hyoid geometry target. Replace the a003 schematic reference stick with a landmark-rich single-bone reference while preserving the no-osseous-articulation rule.",
+  "baseline": "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json",
+  "status": "LOCAL_GEOMETRY_EVIDENCE_READY_POSITION_WAITS_FOR_CANONICAL_C3_FRAME",
+  "conventional_bone_count_policy": "The hyoid remains one conventional adult bone. Body and cornua are regions/landmarks of that one bone, not additional bones.",
+  "articulation_policy": "No osseous parent is created. The hyoid remains a suspended REFERENCE structure; motion coupling, if modeled later, is soft-tissue functional mechanics rather than a bone-to-bone joint.",
+  "source_evidence": [
+    {
+      "id": "FAKHRY_2013_HYOID_3D",
+      "citation": "Fakhry N et al. Analysis of hyoid bone using 3D geometric morphometrics. Dysphagia. 2013;28(3):435-445.",
+      "pmid": "23456326",
+      "doi": "10.1007/s00455-013-9457-x",
+      "sample": "88 cadaveric intact hyoids plus 92 living-adult CT hyoids",
+      "male_values_mm": {
+        "overall_length": 39.08,
+        "overall_width": 42.29
+      },
+      "male_greater_horn_angle_deg": 38.78,
+      "note": "Length and width were significantly larger in men; hyoid length correlated positively with stature (r=0.533) and weight (r=0.497). Exact endpoint definitions are not exposed in the PubMed abstract, so use these as gross cross-checks rather than direct coordinate equations."
+    },
+    {
+      "id": "ABDELKADER_2025_HYOID_MDCT",
+      "citation": "Abdelkader A et al. Hyoid bone-based sex discrimination among Egyptians using multidetector computed tomography. Sci Rep. 2025;15:2680.",
+      "pmid": "39837924",
+      "pmcid": "PMC11751384",
+      "doi": "10.1038/s41598-025-85518-w",
+      "population": "300 subjects plus 60 validation subjects; 3D MDCT",
+      "male_mean_mm": {
+        "body_major_axis_width": 24.3,
+        "body_minor_axis_length": 11.32,
+        "body_thickness_AP": 6.99,
+        "overall_width_lateral_greater_horn_to_lateral_greater_horn": 42.85,
+        "overall_length_anterior_body_to_line_through_distal_greater_horn_tips": 35.38,
+        "right_greater_horn_length": 27.63,
+        "left_greater_horn_length": 27,
+        "greater_horn_center_distance": 39.65,
+        "greater_horn_posterior_end_distance": 35.32,
+        "lesser_horn_distance": 26.33
+      },
+      "measurement_definitions": {
+        "body_major_axis_width": "major axis of hyoid body",
+        "body_minor_axis_length": "minor axis of hyoid body",
+        "body_thickness_AP": "anteroposterior thickness of hyoid body",
+        "overall_width": "linear distance between the most lateral points of the greater horns",
+        "overall_length": "perpendicular length from the most anterior edge of the hyoid body to the line joining the most distal points of the greater horns",
+        "greater_horn_lengths": "right/left greater horn lengths per the paper's 3D landmarks",
+        "greater_horn_center_distance": "distance between centers of greater horns",
+        "greater_horn_posterior_end_distance": "distance between posterior ends of greater horns",
+        "lesser_horn_distance": "distance between lesser horns"
+      }
+    },
+    {
+      "id": "DOGAN_2024_HYOID_POSITION_CT",
+      "citation": "Evaluation of hyoid bone position, shape, area, volume, and tongue volume. 2024/2025.",
+      "pmid": "39668232",
+      "population": "200 adults; 100 male, 100 female; cervical CT",
+      "finding": "Hyoid position was proportionally at the C3 vertebral level in both sexes.",
+      "male_volume_mm3": 2609.6,
+      "male_area_mm2": 2406.4,
+      "use": "Vertical-level anchor and whole-bone envelope plausibility after the canonical cervical spine is rebuilt."
+    }
+  ],
+  "current_a003": {
+    "control_stick_length_mm": 18.8,
+    "control_stick_semantics": "single AP-oriented reference stick with no measurement-compatible whole-bone endpoint definition",
+    "greater_horn_junction_marker_span_mm": 18,
+    "lesser_horn_junction_marker_span_mm": 8,
+    "marker_semantics_warning": "These markers are body↔cornu junction/contact markers, not the same landmarks as greater-horn centres, posterior horn ends, lateral-most horn points or lesser-horn tips in the cited morphometry.",
+    "current_z_m": 1.5761984586715698,
+    "current_recipe": "Anterior neck below the mandible near C3.",
+    "reading": "A003 is topologically correct (one unpaired hyoid, no osseous parent) but geometrically schematic; its stick/marker spans cannot be treated as whole-bone dimensions."
+  },
+  "local_frame": {
+    "origin": "centre of hyoid body",
+    "X": "anatomical left-right; +X left in HGPT",
+    "Y": "posterior direction after canonical head/neck frame mapping",
+    "Z": "superior",
+    "placement_rule": "Anchor the whole local hyoid frame near the canonical C3 level only after the C2-S1 spine/endplate frame is rebuilt. Do not preserve the old absolute Z merely to fit the r95 neck mesh."
+  },
+  "provisional_local_geometry": {
+    "status": "EVIDENCE_CONSTRAINED_NOT_FINAL_FREEZE",
+    "direct_2025_male_nominals_mm": {
+      "body_width": 24.3,
+      "body_AP_length": 11.32,
+      "body_thickness": 6.99,
+      "total_width": 42.85,
+      "total_AP_length": 35.38,
+      "greater_horn_length_left": 27,
+      "greater_horn_length_right": 27.63,
+      "greater_horn_center_span": 39.65,
+      "greater_horn_posterior_end_span": 35.32,
+      "lesser_horn_span": 26.33
+    },
+    "multi_source_gross_corridors_mm": {
+      "total_width": [
+        42.29,
+        42.85
+      ],
+      "total_length": [
+        35.38,
+        39.08
+      ]
+    },
+    "warning": "The 2013 and 2025 overall length definitions are not guaranteed identical and hyoid length is stature-sensitive. The gross corridor is a cross-check, not an instruction to average endpoints."
+  },
+  "hard_invariants": [
+    "hyoid_parent_relation remains root/no osseous articulation",
+    "body, greater cornua and lesser cornua belong to one conventional bone",
+    "left/right horn landmarks are distinct and mirror-consistent in the canonical neutral frame",
+    "overall width is measured at lateral-most greater-horn points, not body-cornu junctions",
+    "overall AP length is measured from anterior body edge to the distal-horn-tip line, not from the old control-stick endpoints"
+  ],
+  "acceptance_tests": [
+    "Store explicit 3D landmarks for body centre/axes, bilateral greater-horn centres and tips, and bilateral lesser-horn references.",
+    "Directly recomputed width/length from canonical landmarks agrees with the selected source corridor under matching definitions.",
+    "Canonical hyoid vertical level is checked against the rebuilt C3 frame rather than r95 surface height.",
+    "No skull/cervical bone is made an osseous parent of the hyoid.",
+    "Any future swallow/breathing hyoid motion remains outside the rigid osseous articulation solver unless separately sourced as functional soft-tissue mechanics."
+  ],
+  "decision": {
+    "topology": "RETAIN",
+    "old_control_stick_geometry": "REPLACE",
+    "local_hyoid_geometry": "READY_FOR_NONBLENDER_LOCAL_FRAME_CONSTRUCTION",
+    "absolute_position": "WAIT_FOR_CANONICAL_CERVICAL_SPINE_FRAME"
+  }
+}

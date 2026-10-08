@@ -158,6 +158,12 @@
       11.3,
       9.7
      ],
+     "girdle_rotation_about_SC_deg": 25.5326,
+     "scapula_angles_exact_deg": [
+      30.3452,
+      11.3338,
+      9.6768
+     ],
      "height_error_mm": 0.0,
      "z": {
       "clavicle_elevation": -5.62
@@ -171,6 +177,12 @@
       28.0,
       2.2,
       12.5
+     ],
+     "girdle_rotation_about_SC_deg": 22.8695,
+     "scapula_angles_exact_deg": [
+      27.9761,
+      2.1857,
+      12.4629
      ],
      "height_error_mm": 0.0,
      "z": {
@@ -192,6 +204,12 @@
       11.3,
       9.7
      ],
+     "girdle_rotation_about_SC_deg": 15.4972,
+     "scapula_angles_exact_deg": [
+      30.3452,
+      11.3338,
+      9.6768
+     ],
      "height_error_mm": 0.0,
      "z": {
       "clavicle_elevation": -3.24
@@ -205,6 +223,12 @@
       28.4,
       5.7,
       11.4
+     ],
+     "girdle_rotation_about_SC_deg": 13.9022,
+     "scapula_angles_exact_deg": [
+      28.4364,
+      5.6764,
+      11.3609
      ],
      "height_error_mm": 0.0,
      "z": {
@@ -228,6 +252,12 @@
       11.3,
       9.7
      ],
+     "girdle_rotation_about_SC_deg": 19.6839,
+     "scapula_angles_exact_deg": [
+      30.3452,
+      11.3338,
+      9.6768
+     ],
      "height_error_mm": 0.0,
      "z": {
       "clavicle_elevation": -4.23
@@ -241,6 +271,12 @@
       27.9,
       5.7,
       4.7
+     ],
+     "girdle_rotation_about_SC_deg": 17.2566,
+     "scapula_angles_exact_deg": [
+      27.8733,
+      5.7023,
+      4.6784
      ],
      "height_error_mm": 0.0,
      "z": {
@@ -262,6 +298,12 @@
       11.3,
       9.7
      ],
+     "girdle_rotation_about_SC_deg": 9.7784,
+     "scapula_angles_exact_deg": [
+      30.3452,
+      11.3338,
+      9.6768
+     ],
      "height_error_mm": 0.0,
      "z": {
       "clavicle_elevation": -1.88
@@ -275,6 +317,12 @@
       28.5,
       8.2,
       7.7
+     ],
+     "girdle_rotation_about_SC_deg": 8.6095,
+     "scapula_angles_exact_deg": [
+      28.5077,
+      8.1531,
+      7.6733
      ],
      "height_error_mm": 0.0,
      "z": {
@@ -298,6 +346,12 @@
       11.3,
       9.7
      ],
+     "girdle_rotation_about_SC_deg": 20.1753,
+     "scapula_angles_exact_deg": [
+      30.3452,
+      11.3338,
+      9.6768
+     ],
      "height_error_mm": 0.0,
      "z": {
       "clavicle_elevation": -4.35
@@ -311,6 +365,12 @@
       32.7,
       5.8,
       4.3
+     ],
+     "girdle_rotation_about_SC_deg": 17.5255,
+     "scapula_angles_exact_deg": [
+      32.6567,
+      5.7778,
+      4.3172
      ],
      "height_error_mm": 0.0,
      "z": {
@@ -332,6 +392,12 @@
       11.3,
       9.7
      ],
+     "girdle_rotation_about_SC_deg": 10.2913,
+     "scapula_angles_exact_deg": [
+      30.3452,
+      11.3338,
+      9.6768
+     ],
      "height_error_mm": 0.0,
      "z": {
       "clavicle_elevation": -2.0
@@ -345,6 +411,12 @@
       30.3,
       7.9,
       7.6
+     ],
+     "girdle_rotation_about_SC_deg": 9.1315,
+     "scapula_angles_exact_deg": [
+      30.2745,
+      7.9435,
+      7.6078
      ],
      "height_error_mm": 0.0,
      "z": {
@@ -368,6 +440,12 @@
       11.3,
       9.7
      ],
+     "girdle_rotation_about_SC_deg": 21.8895,
+     "scapula_angles_exact_deg": [
+      30.3452,
+      11.3338,
+      9.6768
+     ],
      "height_error_mm": 0.0,
      "z": {
       "clavicle_elevation": -4.75
@@ -381,6 +459,12 @@
       31.1,
       4.4,
       6.6
+     ],
+     "girdle_rotation_about_SC_deg": 19.8898,
+     "scapula_angles_exact_deg": [
+      31.0957,
+      4.3778,
+      6.5663
      ],
      "height_error_mm": 0.0,
      "z": {
@@ -402,6 +486,12 @@
       11.3,
       9.7
      ],
+     "girdle_rotation_about_SC_deg": 11.9472,
+     "scapula_angles_exact_deg": [
+      30.3452,
+      11.3338,
+      9.6768
+     ],
      "height_error_mm": 0.0,
      "z": {
       "clavicle_elevation": -2.39
@@ -415,6 +505,12 @@
       29.9,
       7.2,
       8.4
+     ],
+     "girdle_rotation_about_SC_deg": 10.9007,
+     "scapula_angles_exact_deg": [
+      29.9069,
+      7.2009,
+      8.395
      ],
      "height_error_mm": 0.0,
      "z": {
@@ -438,6 +534,12 @@
       11.3,
       9.7
      ],
+     "girdle_rotation_about_SC_deg": 27.1606,
+     "scapula_angles_exact_deg": [
+      30.3452,
+      11.3338,
+      9.6768
+     ],
      "height_error_mm": 0.0,
      "z": {
       "clavicle_elevation": -6.0
@@ -451,6 +553,12 @@
       30.7,
       1.5,
       12.9
+     ],
+     "girdle_rotation_about_SC_deg": 24.1742,
+     "scapula_angles_exact_deg": [
+      30.6823,
+      1.4763,
+      12.8768
      ],
      "height_error_mm": 0.0,
      "z": {
@@ -472,6 +580,12 @@
       11.3,
       9.7
      ],
+     "girdle_rotation_about_SC_deg": 16.9504,
+     "scapula_angles_exact_deg": [
+      30.3452,
+      11.3338,
+      9.6768
+     ],
      "height_error_mm": 0.0,
      "z": {
       "clavicle_elevation": -3.58
@@ -485,6 +599,12 @@
       30.0,
       5.1,
       11.7
+     ],
+     "girdle_rotation_about_SC_deg": 15.1396,
+     "scapula_angles_exact_deg": [
+      29.9806,
+      5.0621,
+      11.6726
      ],
      "height_error_mm": 0.0,
      "z": {
@@ -508,6 +628,12 @@
       11.3,
       9.7
      ],
+     "girdle_rotation_about_SC_deg": 27.3778,
+     "scapula_angles_exact_deg": [
+      30.3452,
+      11.3338,
+      9.6768
+     ],
      "height_error_mm": 0.0,
      "z": {
       "clavicle_elevation": -6.05
@@ -521,6 +647,12 @@
       31.7,
       4.0,
       1.8
+     ],
+     "girdle_rotation_about_SC_deg": 23.7126,
+     "scapula_angles_exact_deg": [
+      31.698,
+      3.9514,
+      1.8394
      ],
      "height_error_mm": 0.0,
      "z": {
@@ -542,6 +674,12 @@
       11.3,
       9.7
      ],
+     "girdle_rotation_about_SC_deg": 17.1596,
+     "scapula_angles_exact_deg": [
+      30.3452,
+      11.3338,
+      9.6768
+     ],
      "height_error_mm": 0.0,
      "z": {
       "clavicle_elevation": -3.63
@@ -555,6 +693,12 @@
       30.6,
       6.4,
       5.2
+     ],
+     "girdle_rotation_about_SC_deg": 15.0163,
+     "scapula_angles_exact_deg": [
+      30.5841,
+      6.3942,
+      5.1876
      ],
      "height_error_mm": 0.0,
      "z": {
@@ -578,6 +722,12 @@
       11.3,
       9.7
      ],
+     "girdle_rotation_about_SC_deg": 27.3616,
+     "scapula_angles_exact_deg": [
+      30.3452,
+      11.3338,
+      9.6768
+     ],
      "height_error_mm": 0.0,
      "z": {
       "clavicle_elevation": -6.05
@@ -591,6 +741,12 @@
       33.2,
       4.0,
       2.1
+     ],
+     "girdle_rotation_about_SC_deg": 23.6831,
+     "scapula_angles_exact_deg": [
+      33.204,
+      3.9854,
+      2.0507
      ],
      "height_error_mm": 0.0,
      "z": {
@@ -612,6 +768,12 @@
       11.3,
       9.7
      ],
+     "girdle_rotation_about_SC_deg": 17.1413,
+     "scapula_angles_exact_deg": [
+      30.3452,
+      11.3338,
+      9.6768
+     ],
      "height_error_mm": 0.0,
      "z": {
       "clavicle_elevation": -3.63
@@ -625,6 +787,12 @@
       31.1,
       6.3,
       5.5
+     ],
+     "girdle_rotation_about_SC_deg": 15.1088,
+     "scapula_angles_exact_deg": [
+      31.0618,
+      6.302,
+      5.5056
      ],
      "height_error_mm": 0.0,
      "z": {
@@ -648,6 +816,12 @@
       11.3,
       9.7
      ],
+     "girdle_rotation_about_SC_deg": 27.2953,
+     "scapula_angles_exact_deg": [
+      30.3452,
+      11.3338,
+      9.6768
+     ],
      "height_error_mm": 0.0,
      "z": {
       "clavicle_elevation": -6.03
@@ -661,6 +835,12 @@
       31.9,
       2.8,
       5.4
+     ],
+     "girdle_rotation_about_SC_deg": 24.6907,
+     "scapula_angles_exact_deg": [
+      31.9175,
+      2.8211,
+      5.4277
      ],
      "height_error_mm": 0.0,
      "z": {
@@ -682,6 +862,12 @@
       11.3,
       9.7
      ],
+     "girdle_rotation_about_SC_deg": 17.0801,
+     "scapula_angles_exact_deg": [
+      30.3452,
+      11.3338,
+      9.6768
+     ],
      "height_error_mm": 0.0,
      "z": {
       "clavicle_elevation": -3.61
@@ -695,6 +881,12 @@
       30.5,
       5.7,
       7.5
+     ],
+     "girdle_rotation_about_SC_deg": 15.5611,
+     "scapula_angles_exact_deg": [
+      30.4773,
+      5.7487,
+      7.4862
      ],
      "height_error_mm": 0.0,
      "z": {
@@ -719,6 +911,12 @@
     27.9,
     5.7,
     4.7
+   ],
+   "girdle_rotation_about_SC_deg": 17.2566,
+   "scapula_angles_exact_deg": [
+    27.8733,
+    5.7023,
+    4.6784
    ],
    "height_error_mm": 0.0,
    "z": {

@@ -1,0 +1,34 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-08",
+ "status": "QUALITATIVE_CONSTRAINTS_ONLY_NO_PER_LEVEL_VALUES",
+ "provenance": "Abstract-level summaries supplied by the project owner (8 October 2026). Level-by-level tables NOT obtained; no per-level angle may be derived from these entries.",
+ "sources": {
+  "PMID_41047402": {
+   "summary": "In healthy volunteers all thoracic vertebral bodies are kyphotically wedged; upper and middle thoracic discs are kyphotic, lower thoracic discs lordotic; vertebral bodies contribute on average 99.4% of total thoracic kyphosis and discs 0.6%.",
+   "constraints": [
+    "every thoracic vertebral body wedge is kyphotic (sign constraint per level)",
+    "upper/middle thoracic disc wedges kyphotic; lower thoracic disc wedges lordotic (sign pattern; transition level not given here)",
+    "sum of body wedges ~= total T1-T12 kyphosis; sum of disc wedges ~= 0 (0.6% on average)"
+   ]
+  },
+  "PMID_31513104": {
+   "summary": "Standing vertebral tilt: T7 approximately horizontal; T1 the most anteriorly tilted and L1 the most posteriorly tilted.",
+   "constraints": [
+    "T7 endplate tilt ~ 0 deg relative to horizontal in standing (apex region)",
+    "T1 has the largest anterior tilt and L1 the largest posterior tilt among T1-L1"
+   ]
+  }
+ },
+ "consistency_with_committed_data": {
+  "THORACIC_BODY_DISC_2011_disc_anterior_minus_posterior_mm": "committed cadaveric disc heights show anterior > posterior from T7/T8 to T11/T12 (lordotic disc wedge), consistent in sign with the lower-thoracic lordotic discs above; upper levels are near equal. Sign check only; cadaveric, mixed sex, no AP depths",
+  "global_target": "Hasegawa male T1-T12 kyphosis 43.7 +/- 9 deg (canonical_spine_reference_pose_p1.json) remains the selected global value"
+ },
+ "use": "Sign/pattern checks for any future per-level thoracic distribution; reject a distribution that violates them.",
+ "not_allowed": [
+  "inventing per-level wedge or tilt angles from these summaries",
+  "claiming a solved thoracic stack",
+  "distributing 43.7 deg uniformly"
+ ],
+ "still_needed": "level-by-level tables (PMID 41047402 Table 6 / appendix; PMC3171774 body anterior/posterior heights and depths; Bernhardt & Bridwell 1989) before any per-level coordinates"
+}

@@ -1,0 +1,22 @@
+{
+ "audit": "ORIGINAL_V1_WORK/anatomy/audit/shoulder_ansur_acromion_correspondence_v1.json",
+ "audit_sha256": "c637304510c0f17480faface2c90873e608a780c9c14cc0ba96698239a5e130f",
+ "status": "NO_DEFENSIBLE_C003",
+ "renderer": "scripts/anatomy_fit/render_ansur_acromion_evidence.py (geometry: python3; render: Blender Workbench on the c001 audit blend, read-only)",
+ "composer": "scripts/anatomy_fit/compose_ansur_acromion_evidence.py",
+ "c001_blend_sha256": "63ef703ef3a3b160dfcd894757ab7c9efba146cae19878d981af7986c5fe85d4",
+ "files_sha256": {
+  "ORIGINAL_V1_WORK/anatomy/audit/shoulder_ansur_acromion_evidence/both_front.jpg": "f62d3e2bbc3b86bef25fe100f77cca97ca5be3c0e7e9d27a2837f69828f68a3d",
+  "ORIGINAL_V1_WORK/anatomy/audit/shoulder_ansur_acromion_evidence/both_rear.jpg": "2c845c3057f6b5efd133541284b701a3900a3676a883d102d11d71e3d703ed61",
+  "ORIGINAL_V1_WORK/anatomy/audit/shoulder_ansur_acromion_evidence/left_front.jpg": "4364b7b424ae708faf79c607de9b5911203095f5e080f4c3219e1ebe19f72950",
+  "ORIGINAL_V1_WORK/anatomy/audit/shoulder_ansur_acromion_evidence/left_overhead.jpg": "6e3a7f7a04c80bd2fc628f7a56183f3046c08b87a9b6c35bc5ef5f4df861ae7d",
+  "ORIGINAL_V1_WORK/anatomy/audit/shoulder_ansur_acromion_evidence/left_rear.jpg": "55a566551ad19b15ecb9aa5155c6576b16f83790993d78b51253a8952eba3568",
+  "ORIGINAL_V1_WORK/anatomy/audit/shoulder_ansur_acromion_evidence/left_side.jpg": "f80b4d3d12827187705a517d8a780b56aeddae4eb4b906a5685ad6fa51d005ad",
+  "ORIGINAL_V1_WORK/anatomy/audit/shoulder_ansur_acromion_evidence/right_front.jpg": "9baf0595d6b3dd7fdc7d541a072e2fef2cb6aba53b06b0117236e3ae00405e18",
+  "ORIGINAL_V1_WORK/anatomy/audit/shoulder_ansur_acromion_evidence/right_overhead.jpg": "f28eccfeb0cb43b1a104f386f348b161f64adf68230e02074324c96888a8abf5",
+  "ORIGINAL_V1_WORK/anatomy/audit/shoulder_ansur_acromion_evidence/right_rear.jpg": "57663fbffd191451c2347709edf712313c6b411d1b4a1ceabb16d08d15a575a3",
+  "ORIGINAL_V1_WORK/anatomy/audit/shoulder_ansur_acromion_evidence/right_side.jpg": "3e94317fe2052cf84042fe25509ef436426ca430b80dae2559919f2828f194f4",
+  "ORIGINAL_V1_WORK/anatomy/audit/shoulder_ansur_acromion_evidence/chart_required_clavicle_elevation.png": "fe930bb8d10acd0bb545f3ed00d36f574096f779d795004ca4969796c83be84a",
+  "ORIGINAL_V1_WORK/anatomy/audit/shoulder_ansur_acromion_evidence/sheet_shoulders_both_sides.jpg": "23fdd7e44b9e4fc0dd8b66eca24ce60547781d8ac126b8ef02f327682cb95523"
+ }
+}

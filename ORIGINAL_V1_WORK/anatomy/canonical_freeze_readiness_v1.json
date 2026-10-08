@@ -29,7 +29,8 @@
         "Fontana pooled stature correlation is quarantined; surface-end vs articular-centre chord mapping and male covariance remain unresolved. SC bone-head, cartilage-patch and kinematic centres must be distinguished; new MRI diameters do not supply bilateral SC-centre breadth.",
         "standing thorax pitch conflict: 4,082 standing men put C7 80.7 +/- 11.4 mm above IJ at 1.82 m, bony models 33-46 mm (IJ-C7 line about 20 deg); resolve before global ISB thorax axes. Provisional SC height 1500.5 mm (band 1486-1514) is IJ-dominated; a003 IJ is 24.7 mm (z +2.1) above the 1.82 m standard",
         "absolute shoulder height relative to the trunk: bony sources put AC about 23-27 mm above IJ, ANSUR living skin puts the acromion 3.1 +/- 13.9 mm above the suprasternale. CORRECTED 2026-10-08 (was 'same direction as the C7 conflict'): it is the OPPOSITE direction, so no single suprasternale offset or thorax pitch fits both; IJ-independent, the solved AC sits >=35.7 mm higher relative to C7 than ANSUR acromion-cervicale (-77.5 mm). Unresolved; see audit/shoulder_vertical_relation_audit_v1.json",
-        "SC closure under owner policy SHOULDER_HEIGHT_ANCHOR_ANSUR_LIVING: placing the bony girdle so LM27 meets ANSUR acromial height leaves the SC joints 17-62 mm below their own jugular notch in all 8 recorded variants (source: 6.0 mm above); c002 FAIL (56.2 mm below the a003 notch). Needs an owner decision (lower thorax/sternum with the girdle, or accept a different clavicle orientation on evidence) or a skin-to-bone source."
+        "SC closure under owner policy SHOULDER_HEIGHT_ANCHOR_ANSUR_LIVING: placing the bony girdle so LM27 meets ANSUR acromial height leaves the SC joints 17-62 mm below their own jugular notch in all 8 recorded variants (source: 6.0 mm above); c002 FAIL (56.2 mm below the a003 notch). Needs an owner decision (lower thorax/sternum with the girdle, or accept a different clavicle orientation on evidence) or a skin-to-bone source.",
+        "ANSUR acromion correspondence audit (audit/shoulder_ansur_acromion_correspondence_v1.json): handbook landmark is a palpated bony point on the acromion lateral border at the trapezius-clavicle line (no skin offset); it maps to the Lee LM25-LM27 border at t 0.08-0.38 from LM25 (9-13 mm below LM27). With SC closed on the retained a003 notch, the absolute ANSUR acromial height needs clavicle elevation -6.6 to -13.7 deg (|z| 3.65-5.42) for every mapping and pitch: NO defensible c003. The ANSUR within-subject relation (acromion = suprasternale + 3.1 mm) closes on the a003 notch for bony pitch with LM25/clavicle-axis mappings (clavicle 1.1-1.6 deg); the a003 notch is 24.7 mm above ANSUR suprasternale. Owner decision needed on which governs; sternum not lowered."
       ],
       "next_action": "Resolve source endpoint mappings and neutral thorax pose before selecting absolute SC/AC/GH centres; measured relative envelope is provisional.",
       "source_review_2026_10_08": {
@@ -53,7 +54,8 @@
         "status": "AUDIT_PROPOSAL_NOT_CANONICAL_NOT_ACCEPTED",
         "closure_vs_retained_trunk": "FAIL",
         "owner_policy": "SHOULDER_HEIGHT_ANCHOR_ANSUR_LIVING"
-      }
+      },
+      "ansur_acromion_correspondence": "audit/shoulder_ansur_acromion_correspondence_v1.json"
     },
     "spine": {
       "readiness": "PARTIAL",
@@ -82,7 +84,8 @@
         "actual disc-facing endplate envelopes and continuous nonzero clearance over their overlap, not centre-only gap",
         "thoracic per-level kyphosis distribution (sequence item 2): committed data hold per-level DISC anterior/posterior heights but only AVERAGE body heights (no per-level body anterior/posterior split or AP depth), while vertebral bodies carry nearly all thoracic kyphosis; no per-level standing segmental table is committed. Source acquisition needed (cloud literature hosts denied by network policy 2026-10-08): PMC3171774 full body table; Eur Spine J 2025 doi 10.1007/s00586-025-09392-w Table 6; Eur Spine J 2021 doi 10.1007/s00586-020-06670-7; Bernhardt & Bridwell 1989 Spine 14:717 doi 10.1097/00007632-198907000-00012. Do not distribute 43.7 deg uniformly meanwhile."
       ],
-      "next_action": "Reconcile body/disc surface and height definitions and independent evidence before deriving absolute centres; provisional inferior and superior orientations now available."
+      "next_action": "Reconcile body/disc surface and height definitions and independent evidence before deriving absolute centres; provisional inferior and superior orientations now available.",
+      "thoracic_qualitative_constraints": "canonical_thoracic_qualitative_constraints_v1.json"
     },
     "ribs": {
       "readiness": "BLOCKED",

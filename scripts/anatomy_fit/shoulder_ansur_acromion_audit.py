@@ -128,6 +128,7 @@ def min_chi2_solution(rc, which, ij, pitch, target_z, el, a_mean, a_sd, free_sca
     if free_scapula:
         zs.update({k: round(float(v), 2) for k, v in zip(('scapula_IR', 'scapula_UR', 'scapula_AT'), r[1:4])})
     return {'clavicle_elevation_deg': r1(elevation(rc, ac)), 'scapula_angles_IR_UR_AT_deg': [r1(x) for x in ang],
+            'girdle_rotation_about_SC_deg': round(float(phi), 4), 'scapula_angles_exact_deg': [round(float(x), 4) for x in ang],
             'height_error_mm': round(float(r[-1] * 0.01), 3), 'z': zs, 'chi2': round(float(sum(v * v for v in zs.values())), 2),
             'max_abs_z': round(max(abs(v) for v in zs.values()), 2)}
 

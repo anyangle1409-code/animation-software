@@ -78,5 +78,18 @@ class Audit(unittest.TestCase):
         self.assertEqual(c2['closure_vs_retained_trunk']['status'], 'FAIL')
 
 
+class Evidence(unittest.TestCase):
+    def test_manifest_hashes(self):
+        man = json.loads((ANAT / 'audit/shoulder_ansur_acromion_evidence/manifest.json').read_text())
+        self.assertEqual(man['audit_sha256'], sha(ANAT / 'audit/shoulder_ansur_acromion_correspondence_v1.json'))
+        self.assertEqual(man['status'], 'NO_DEFENSIBLE_C003')
+        for rel, h in man['files_sha256'].items():
+            self.assertEqual(sha(ROOT / rel), h, rel)
+        names = {Path(k).stem for k in man['files_sha256']}
+        for v in ('left_front', 'left_side', 'left_rear', 'left_overhead', 'right_front', 'right_side', 'right_rear', 'right_overhead',
+                  'chart_required_clavicle_elevation', 'sheet_shoulders_both_sides'):
+            self.assertIn(v, names)
+
+
 if __name__ == '__main__':
     unittest.main()

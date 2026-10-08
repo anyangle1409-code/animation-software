@@ -853,3 +853,28 @@ Full proximal curves remain BLOCKED pending verified intended conventions or an 
   - Bernhardt & Bridwell 1989, Spine 14:717, doi 10.1097/00007632-198907000-00012 (segmental T1–S1);
   - for c002: the ANSUR II Measurer's Handbook (NATICK/TR-11/017, DTIC ADA548497), acromion landmark section.
 - **Remaining sequence items** are BLOCKED or need sources/decisions: ribs (proximal equation, sternum), radius/ulna corridors (GPT-preserved blockers), carpus, tarsus, pelvis/os coxae and head envelopes. No further target can be closed defensibly from the cloud without new sources or owner decisions.
+
+### ANSUR acromion correspondence audit: no defensible c003 (8 October, Claude)
+
+- **Definition (primary, owner-verified):** ANSUR II Measurer's Handbook, Hotzman et al. 2011, NATICK/TR-11/017, [DTIC ADA548497](https://apps.dtic.mil/sti/tr/pdf/ADA548497.pdf), §5.2.1 and §6.4.2.
+  - The acromion landmark is a **palpated bony point**: the intersection of the acromion's lateral border with the line from the trapezius point, over the clavicle point, toward the shoulder tip.
+  - Acromial height is floor to that drawn right acromion point.
+  - **No skin offset.** (The thorax review's "skin landmarks" label is corrected for the acromion in the audit; the hashed file is not edited.)
+- **Mapping decision** (`audit/shoulder_ansur_acromion_correspondence_v1.json`, `205f787e` and later):
+  - The ANSUR point is the Lee LM25–LM27 lateral-border point crossed by the trapezius–clavicle line. Two bracketing line constructions put it at **t 0.08–0.38 from LM25**, 9–13 mm below LM27 (which c002 used).
+  - LM27 alone (an extremal point) and LM25 alone (the posterior border end) are brackets, not the landmark.
+  - The a003/r95 skin acromion is an authored-mesh point: reported only.
+  - Limitation: the trapezius/clavicle point definitions are not in the repo, so the crossing is bracketed rather than exact.
+- **Feasibility** (SC closed on the retained a003 notch, sternum not lowered, height met exactly; minimum joint departure of clavicle elevation and the three scapular angles from Matsumura male standing means, as independent z):
+  - **Absolute ANSUR acromial height 1497.7 mm: INFEASIBLE** for every mapping and both pitches. The clavicle would need −6.6° to −13.7° (max |z| 3.65–5.42; χ² ≥ 15.2). **No c003 created.**
+  - ANSUR's own within-subject relation (acromion = suprasternale + 3.1 mm) applied to the a003 notch closes for bony pitch with the LM25 or clavicle-axis mappings: clavicle 1.6° / 1.1°, all |z| ≤ 1.72. The living pitch never closes (|z| ≥ 3.1).
+  - Reported, not applied: the a003 notch sits 24.7 mm above ANSUR suprasternale (z +2.1), and that trunk/acromion inconsistency is the root of the conflict. **Owner decision needed:** the absolute acromial target vs the retained a003 sternum height.
+- **Evidence** (`audit/shoulder_ansur_acromion_evidence/`): 8 labelled shoulder close-ups (both sides; front/side/rear/overhead) and 2 two-shoulder views, a required-elevation chart and a contact sheet, with a sha256 manifest.
+  - The views show LM25/LM27, the crossings, both lines, the target and notch planes, and red (absolute) and green (within-subject) ghost girdles.
+  - Rendered read-only on the c001 blend; c001/c002 unchanged.
+- **Tests:**
+  - `scripts/test_shoulder_ansur_acromion_audit.py` (9): reproduction, definition, crossings between LM25/LM27, independent crossing check, infeasibility with height actually met, no c003, within-subject reported not applied, pose consistency, c001/c002 hashes, evidence manifest.
+- **Thoracic stack:** `canonical_thoracic_qualitative_constraints_v1.json` records PMID 41047402 (all bodies kyphotic; upper/middle discs kyphotic, lower lordotic; bodies 99.4% of TK) and PMID 31513104 (T7 ≈ horizontal; T1 most anterior, L1 most posterior tilt) as **qualitative sign/pattern constraints only**.
+  - No per-level angles; the stack is not solved.
+  - Committed cadaveric disc heights agree in sign (anterior > posterior from T7/T8 to T11/T12).
+  - Tests: `scripts/test_thoracic_qualitative_constraints.py` (3).

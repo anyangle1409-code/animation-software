@@ -74,7 +74,14 @@ def shape(v, f):
     w, U = np.linalg.eigh(np.cov((v - centroid).T))
     U = U[:, ::-1]
     proj = (v - centroid) @ U
-    return {'closed': is_closed, 'boundary_edge_fraction': float(np.mean(n == 1)), 'centroid_mm': centroid,
+    # solid second moments about the volume centroid (tetrahedra from the centroid); semi-axes of the inertia-equivalent
+    # ellipsoid are sqrt(5 * eigenvalue) -- the "principal axis of inertia" length used by Canovas 2004
+    A, B, C = v[f[:, 0]] - centroid, v[f[:, 1]] - centroid, v[f[:, 2]] - centroid
+    det = np.einsum('ij,ij->i', A, np.cross(B, C)); Ssum = A + B + C
+    M = (np.einsum('i,ij,ik->jk', det, A, A) + np.einsum('i,ij,ik->jk', det, B, B) + np.einsum('i,ij,ik->jk', det, C, C)
+         + np.einsum('i,ij,ik->jk', det, Ssum, Ssum)) / 120
+    inertia_semi = np.sqrt(5 * np.linalg.eigvalsh(M / (det.sum() / 6))[::-1])
+    return {'inertia_semi_axes_mm': inertia_semi, 'closed': is_closed, 'boundary_edge_fraction': float(np.mean(n == 1)), 'centroid_mm': centroid,
             'volume_mm3': abs(volume), 'principal_axes': U.T, 'extents_mm': proj.max(0) - proj.min(0)}
 
 
@@ -154,7 +161,7 @@ def build(models_dir, commit):
     def table(d):
         return {side: {k: {'closed_mesh': s['closed'], 'boundary_edge_fraction': r(s['boundary_edge_fraction'], 4), 'centroid_mm': r(s['centroid_mm']),
                            'volume_mm3_approx': r(s['volume_mm3'], 0),
-                           'principal_extents_mm': r(s['extents_mm']),
+                           'principal_extents_mm': r(s['extents_mm']), 'inertia_semi_axes_mm': r(s['inertia_semi_axes_mm']),
                            'principal_axis_1': r(s['principal_axes'][0], 4)} for k, s in b.items()} for side, b in d.items()}
 
     out['carpals'] = table(carp)
@@ -186,7 +193,7 @@ def crosschecks(carp, tars, ribs):
     tar = json.loads((ANAT / 'canonical_tarsal_geometry_audit_v1.json').read_text())['direct_whole_bone_reference_examples_mm']
     res = {}
     for side, b in carp.items():
-        cap_axis = b['capitate']['extents_mm'][0]
+        cap_axis = b['capitate']['inertia_semi_axes_mm'][0]
         d = lambda x, y: float(np.linalg.norm(b[x]['centroid_mm'] - b[y]['centroid_mm']))
         ct, ht = 100 * d('capitate', 'triquetrum') / cap_axis, 100 * d('hamate', 'triquetrum') / cap_axis
         (m1, s1), (m2, s2) = (plan['centroid_spacing'][k] for k in ('capitate_triquetrum_distance_over_capitate_axis',
@@ -202,7 +209,10 @@ def crosschecks(carp, tars, ribs):
         res[f'carpal_{side}'] = {
             'canovas_capitate_triquetrum_pct': {'specimen': r(ct, 1), 'source_mean_sd': [m1, s1], 'z': r((ct - m1) / s1)},
             'canovas_hamate_triquetrum_pct': {'specimen': r(ht, 1), 'source_mean_sd': [m2, s2], 'z': r((ht - m2) / s2)},
-            'capitate_axis_definition': 'first principal extent of the capitate (stand-in for the source capitate axis length)',
+            'capitate_axis_definition': 'Semi-axis of the capitate inertia-equivalent ellipsoid along its first principal axis of inertia '
+                                        '(sqrt(5*lambda1)); the source normalises by the length of the first principal axis of inertia. '
+                                        'Using the full bone length instead gives z about -9 and -7 (recorded in the review).',
+            'capitate_first_principal_extent_mm': r(b['capitate']['extents_mm'][0]),
             'patterson_order': plan['size_hierarchy']['order'], 'specimen_order_by_volume': by_vol,
             'specimen_order_by_principal_length': by_len,
             'asseln_sorted_extent_z': sorted_dims,

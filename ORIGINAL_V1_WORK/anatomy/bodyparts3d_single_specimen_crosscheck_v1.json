@@ -44,6 +44,11 @@
      14.52,
      11.67
     ],
+    "inertia_semi_axes_mm": [
+     13.3,
+     6.32,
+     5.42
+    ],
     "principal_axis_1": [
      -0.9113,
      0.4042,
@@ -63,6 +68,11 @@
      17.17,
      18.08,
      11.46
+    ],
+    "inertia_semi_axes_mm": [
+     8.97,
+     7.45,
+     5.22
     ],
     "principal_axis_1": [
      -0.251,
@@ -84,6 +94,11 @@
      12.98,
      10.38
     ],
+    "inertia_semi_axes_mm": [
+     8.36,
+     6.34,
+     4.92
+    ],
     "principal_axis_1": [
      0.2472,
      0.8194,
@@ -103,6 +118,11 @@
      12.15,
      10.63,
      7.71
+    ],
+    "inertia_semi_axes_mm": [
+     6.06,
+     5.0,
+     3.74
     ],
     "principal_axis_1": [
      -0.164,
@@ -124,6 +144,11 @@
      16.3,
      12.82
     ],
+    "inertia_semi_axes_mm": [
+     10.22,
+     6.7,
+     6.1
+    ],
     "principal_axis_1": [
      -0.3433,
      -0.5376,
@@ -143,6 +168,11 @@
      16.96,
      12.54,
      10.85
+    ],
+    "inertia_semi_axes_mm": [
+     8.59,
+     5.44,
+     4.54
     ],
     "principal_axis_1": [
      -0.2358,
@@ -164,6 +194,11 @@
      17.57,
      14.97
     ],
+    "inertia_semi_axes_mm": [
+     12.29,
+     8.05,
+     6.28
+    ],
     "principal_axis_1": [
      0.0493,
      -0.2951,
@@ -183,6 +218,11 @@
      23.07,
      20.17,
      15.02
+    ],
+    "inertia_semi_axes_mm": [
+     9.97,
+     8.42,
+     6.6
     ],
     "principal_axis_1": [
      -0.1461,
@@ -206,6 +246,11 @@
      14.75,
      13.77
     ],
+    "inertia_semi_axes_mm": [
+     13.22,
+     6.4,
+     5.4
+    ],
     "principal_axis_1": [
      -0.8868,
      -0.4617,
@@ -225,6 +270,11 @@
      17.68,
      18.03,
      11.07
+    ],
+    "inertia_semi_axes_mm": [
+     8.85,
+     7.59,
+     5.15
     ],
     "principal_axis_1": [
      -0.5657,
@@ -246,6 +296,11 @@
      12.79,
      9.64
     ],
+    "inertia_semi_axes_mm": [
+     8.33,
+     6.2,
+     4.76
+    ],
     "principal_axis_1": [
      -0.369,
      0.8209,
@@ -265,6 +320,11 @@
      11.54,
      10.72,
      7.79
+    ],
+    "inertia_semi_axes_mm": [
+     6.03,
+     5.02,
+     3.72
     ],
     "principal_axis_1": [
      -0.0802,
@@ -286,6 +346,11 @@
      14.96,
      14.31
     ],
+    "inertia_semi_axes_mm": [
+     10.23,
+     6.83,
+     6.08
+    ],
     "principal_axis_1": [
      -0.3699,
      0.4149,
@@ -305,6 +370,11 @@
      16.81,
      12.31,
      11.26
+    ],
+    "inertia_semi_axes_mm": [
+     8.62,
+     5.37,
+     4.57
     ],
     "principal_axis_1": [
      -0.2636,
@@ -326,6 +396,11 @@
      17.98,
      13.71
     ],
+    "inertia_semi_axes_mm": [
+     12.25,
+     8.31,
+     6.25
+    ],
     "principal_axis_1": [
      -0.0163,
      -0.291,
@@ -345,6 +420,11 @@
      22.8,
      20.34,
      15.55
+    ],
+    "inertia_semi_axes_mm": [
+     10.05,
+     8.3,
+     6.57
     ],
     "principal_axis_1": [
      0.1704,
@@ -370,6 +450,11 @@
      40.42,
      35.2
     ],
+    "inertia_semi_axes_mm": [
+     28.4,
+     19.68,
+     15.48
+    ],
     "principal_axis_1": [
      -0.2113,
      0.9642,
@@ -389,6 +474,11 @@
      77.68,
      48.4,
      44.14
+    ],
+    "inertia_semi_axes_mm": [
+     41.03,
+     21.18,
+     17.5
     ],
     "principal_axis_1": [
      -0.4934,
@@ -410,6 +500,11 @@
      26.61,
      20.57
     ],
+    "inertia_semi_axes_mm": [
+     20.39,
+     12.06,
+     8.71
+    ],
     "principal_axis_1": [
      -0.9349,
      -0.3282,
@@ -429,6 +524,11 @@
      34.92,
      29.76,
      26.67
+    ],
+    "inertia_semi_axes_mm": [
+     17.36,
+     14.55,
+     12.06
     ],
     "principal_axis_1": [
      0.7655,
@@ -450,6 +550,11 @@
      31.62,
      22.27
     ],
+    "inertia_semi_axes_mm": [
+     17.84,
+     13.95,
+     8.8
+    ],
     "principal_axis_1": [
      0.6787,
      -0.5113,
@@ -470,6 +575,11 @@
      20.69,
      14.46
     ],
+    "inertia_semi_axes_mm": [
+     11.3,
+     9.88,
+     6.74
+    ],
     "principal_axis_1": [
      0.1065,
      0.1049,
@@ -489,6 +599,11 @@
      28.45,
      28.55,
      16.16
+    ],
+    "inertia_semi_axes_mm": [
+     13.37,
+     12.82,
+     7.29
     ],
     "principal_axis_1": [
      0.7072,
@@ -512,6 +627,11 @@
      41.15,
      37.53
     ],
+    "inertia_semi_axes_mm": [
+     28.29,
+     19.72,
+     15.54
+    ],
     "principal_axis_1": [
      -0.1725,
      -0.9634,
@@ -531,6 +651,11 @@
      78.08,
      46.48,
      43.53
+    ],
+    "inertia_semi_axes_mm": [
+     41.0,
+     21.22,
+     17.51
     ],
     "principal_axis_1": [
      -0.4505,
@@ -552,6 +677,11 @@
      26.77,
      19.86
     ],
+    "inertia_semi_axes_mm": [
+     20.25,
+     12.04,
+     8.74
+    ],
     "principal_axis_1": [
      -0.9072,
      0.4064,
@@ -571,6 +701,11 @@
      35.04,
      33.18,
      26.26
+    ],
+    "inertia_semi_axes_mm": [
+     17.49,
+     14.4,
+     12.08
     ],
     "principal_axis_1": [
      0.5965,
@@ -592,6 +727,11 @@
      32.19,
      21.15
     ],
+    "inertia_semi_axes_mm": [
+     17.88,
+     13.92,
+     8.82
+    ],
     "principal_axis_1": [
      -0.6277,
      -0.6165,
@@ -612,6 +752,11 @@
      20.46,
      14.94
     ],
+    "inertia_semi_axes_mm": [
+     11.28,
+     9.88,
+     6.74
+    ],
     "principal_axis_1": [
      -0.036,
      -0.0741,
@@ -631,6 +776,11 @@
      27.98,
      28.09,
      15.92
+    ],
+    "inertia_semi_axes_mm": [
+     13.37,
+     12.79,
+     7.23
     ],
     "principal_axis_1": [
      -0.7454,
@@ -6816,22 +6966,23 @@
  "crosschecks": {
   "carpal_left": {
    "canovas_capitate_triquetrum_pct": {
-    "specimen": 84.7,
+    "specimen": 164.7,
     "source_mean_sd": [
      157.6,
      8.4
     ],
-    "z": -8.68
+    "z": 0.85
    },
    "canovas_hamate_triquetrum_pct": {
-    "specimen": 42.6,
+    "specimen": 82.8,
     "source_mean_sd": [
      91.4,
      7.3
     ],
-    "z": -6.69
+    "z": -1.18
    },
-   "capitate_axis_definition": "first principal extent of the capitate (stand-in for the source capitate axis length)",
+   "capitate_axis_definition": "Semi-axis of the capitate inertia-equivalent ellipsoid along its first principal axis of inertia (sqrt(5*lambda1)); the source normalises by the length of the first principal axis of inertia. Using the full bone length instead gives z about -9 and -7 (recorded in the review).",
+   "capitate_first_principal_extent_mm": 23.9,
    "patterson_order": [
     "capitate",
     "hamate",
@@ -6908,22 +7059,23 @@
   },
   "carpal_right": {
    "canovas_capitate_triquetrum_pct": {
-    "specimen": 84.8,
+    "specimen": 164.6,
     "source_mean_sd": [
      157.6,
      8.4
     ],
-    "z": -8.67
+    "z": 0.84
    },
    "canovas_hamate_triquetrum_pct": {
-    "specimen": 43.0,
+    "specimen": 83.5,
     "source_mean_sd": [
      91.4,
      7.3
     ],
-    "z": -6.63
+    "z": -1.08
    },
-   "capitate_axis_definition": "first principal extent of the capitate (stand-in for the source capitate axis length)",
+   "capitate_axis_definition": "Semi-axis of the capitate inertia-equivalent ellipsoid along its first principal axis of inertia (sqrt(5*lambda1)); the source normalises by the length of the first principal axis of inertia. Using the full bone length instead gives z about -9 and -7 (recorded in the review).",
+   "capitate_first_principal_extent_mm": 23.78,
    "patterson_order": [
     "capitate",
     "hamate",

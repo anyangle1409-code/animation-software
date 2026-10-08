@@ -56,6 +56,7 @@ class Geometry(unittest.TestCase):
             self.assertAlmostEqual(s['volume_mm3'], 8.0, places=9)
             self.assertTrue(np.allclose(s['centroid_mm'], [3, 3, 3.5]))
             self.assertTrue(np.allclose(sorted(s['extents_mm']), [1, 2, 4]))
+            self.assertTrue(np.allclose(sorted(s['inertia_semi_axes_mm']), np.sqrt(5 * np.array([1, 4, 16]) / 12)))
 
     def test_open_mesh_is_reported(self):
         v, f = box((0, 0, 0), (1, 1, 1))
@@ -101,7 +102,7 @@ class CommittedReport(unittest.TestCase):
         c = REPORT['crosschecks']
         for side in ('left', 'right'):
             b = REPORT['carpals'][side]
-            cap = b['capitate']['principal_extents_mm'][0]
+            cap = b['capitate']['inertia_semi_axes_mm'][0]
             d = math.dist(b['capitate']['centroid_mm'], b['triquetrum']['centroid_mm'])
             self.assertAlmostEqual(c[f'carpal_{side}']['canovas_capitate_triquetrum_pct']['specimen'], 100 * d / cap, delta=0.2)
             vols = {k: v['volume_mm3_approx'] for k, v in b.items()}

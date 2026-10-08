@@ -74,7 +74,8 @@ def validate(s, conv, corr, shoulder_constraint=None, shoulder_source=None):
                 errors.append(
                     f"freeze_ready=true with unset targets in {name}: " + ", ".join(nulls)
                 )
-            if _contains_unresolved_grade(region.get("evidence_grade")):
+            grades = {k: v for k, v in region.items() if k.startswith("evidence_grade")}
+            if _contains_unresolved_grade(grades):
                 errors.append(f"freeze_ready=true with unresolved C/D evidence in {name}")
 
     # Hard invariants that can be checked from currently stored scaffold data.

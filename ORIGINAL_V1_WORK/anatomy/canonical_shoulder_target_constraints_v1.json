@@ -43,18 +43,19 @@
     }
   },
   "derived_constraints": {
-    "bilateral_AC_breadth_from_means_mm": 357.15656060295987,
-    "bilateral_AC_breadth_1sd_cross_product_range_mm": [
-      324.9265234968994,
-      389.38659770902035
-    ],
-    "derivation": "biacromial breadth minus 2 × lateral-acromion-to-AC distance",
+    "AC_breadth_from_mean_outer_breadth_and_mean_3D_offset_mm": {
+      "lower_bound_inclusive": 357.15656060295987,
+      "upper_bound_exclusive": 425.15656060295987,
+      "derivation": "If d is the 3D lateral-acromion→AC distance, its transverse component t satisfies 0<t<=d. Therefore biAC = biacromial - 2t and biacromial-2d <= biAC < biacromial.",
+      "warning": "The earlier version incorrectly treated the 3D distance as a purely transverse offset. That equality has been withdrawn."
+    },
+    "AC_breadth_conservative_1sd_bounds_mm": {
+      "lower_bound": 324.9265234968994,
+      "upper_bound_exclusive": 441.38659770902035,
+      "derivation": "lower = biacromial_1sd_low - 2*(AC-distance_1sd_high); upper remains below biacromial_1sd_high"
+    },
     "current_a003_bilateral_AC_breadth_mm": 481.3938993665297,
-    "current_a003_excess_over_derived_mean_mm": 124.23733876356984,
-    "current_a003_excess_over_derived_max_1sd_cross_product_mm": 92.00730165750934,
-    "symmetric_half_AC_lateral_coordinate_from_mean_mm": 178.57828030147994,
-    "implied_symmetric_bilateral_SC_breadth_if_clavicle_chord_were_purely_lateral_at_154_8mm": 47.55656060295989,
-    "note": "The last value is a consistency check only. Real SC-to-AC separation has AP and vertical components, so final SC/AC coordinates must satisfy the full 3D chord."
+    "current_a003_still_invalid_reason": "a003 bi-AC breadth exceeds even the outer biacromial breadth; this conclusion does not depend on decomposing the 3D acromion→AC distance."
   },
   "hard_geometry_rules": [
     "bilateral_AC_breadth < bilateral_lateral_acromion_breadth",
@@ -84,20 +85,25 @@
     ]
   },
   "acceptance_logic": [
-    "Reject any candidate whose bi-AC breadth exceeds the outer biacromial breadth.",
+    "Reject any candidate whose bi-AC breadth equals or exceeds its bilateral lateral-acromion (biacromial) breadth.",
+    "Treat the measured lateral-acromion→AC distance as a 3D distance. Its transverse component may be smaller; never subtract the full 3D distance from biacromial breadth as an equality unless source geometry proves the vector is purely transverse.",
+    "Reject any candidate whose required transverse acromion→AC offset exceeds the selected 3D acromion→AC distance.",
     "Reject any candidate whose SC-to-AC straight chord exceeds the clavicle curved centreline length.",
-    "Reject any candidate requiring the lateral acromion-to-AC offset outside the registered adult range without a documented reason.",
     "Do not force the scapular GH-to-inferior-angle span to a value until the 3D scapular landmark frame is solved.",
     "Do not move the whole shoulder vertically just to repair width: acromial height is already close to the stature-conditioned scaffold."
   ],
   "interpretation": [
-    "The old a003 shoulder width is not just visually broad; the current bilateral AC breadth (~481 mm) is larger than the expected OUTER biacromial breadth (~425 mm), which is anatomically impossible as a normal target because AC joints sit medial to the lateral acromial points.",
-    "Using the population mean inputs gives a provisional bilateral AC breadth around 357 mm. This is a constraint-derived centre, not yet a frozen production target.",
-    "The mean inputs are internally coherent with a bilateral SC breadth around 48 mm if the clavicle chord were purely lateral; adding AP/Z offsets means the final target will need a slightly different combination inside the allowed corridors."
+    "The old a003 shoulder width remains directly invalid: its bilateral AC breadth (~481 mm) is larger than the expected OUTER biacromial breadth (~425 mm), although AC joints must lie medial to the lateral acromial points.",
+    "The cadaveric 34±8 mm lateral-acromion→AC measurement is a 3D distance, so it constrains—not directly determines—the transverse AC offset.",
+    "Exact bilateral AC breadth must come from the combined clavicle orientation/endpoint solution plus the outer acromial scaffold."
   ],
   "next_steps": [
     "Solve SC/AC/acromion coordinates in 3D against the clavicle endpoint/centreline constraints and global shoulder-height scaffold.",
     "Build the scapular local landmark frame independently, then place GH from the retained local depth and glenoid geometry.",
     "Rerun shoulder-complex solver tests after the canonical girdle coordinates are instantiated."
-  ]
+  ],
+  "audit_correction_2026_10_08": {
+    "issue": "Earlier derivation subtracted a 3D acromion→AC distance as if it were purely transverse.",
+    "correction": "Use it only as an upper bound on the transverse medial offset. The a003 excessive-width conclusion is unchanged because bi-AC already exceeds outer biacromial breadth."
+  }
 }

@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Feasible neutral-standing shoulder-girdle family constrained by adult male clavicle endpoint length, neutral clavicle orientation, stature-conditioned biacromial breadth, and lateral-acromion-to-AC distance.",
+  "status": "FEASIBLE_FAMILY_NOT_FROZEN_TARGET",
+  "source_inputs": {
+    "clavicle_endpoint_length_mm": {
+      "value": 154.8,
+      "source": "CLAVICLE_LENGTH_CT_SYMMETRY_2018"
+    },
+    "standing_clavicle_elevation_deg": {
+      "mean": 7,
+      "sd": 4,
+      "source": "SHOULDER_STANDING_ALIGNMENT_2020"
+    },
+    "standing_clavicle_retraction_deg": {
+      "mean": 23,
+      "sd": 5,
+      "source": "SHOULDER_STANDING_ALIGNMENT_2020"
+    },
+    "biacromial_breadth_mm": {
+      "mean": 425.15656060295987,
+      "residual_sd": 16.23003710606048,
+      "source": "ANSUR_II_MALE_2012"
+    },
+    "lateral_acromion_to_AC_mm": {
+      "mean": 34,
+      "sd": 8,
+      "observed_range": [
+        23,
+        52
+      ],
+      "source": "SCAPULAR_LANDMARK_CADAVER_2026"
+    }
+  },
+  "mean_orientation_components_mm": {
+    "total_chord": 154.8,
+    "horizontal_projection": 153.64614427407665,
+    "mediolateral": 141.43202151854143,
+    "posterior": 60.03433134023574,
+    "superior": 18.86537435911683
+  },
+  "symmetric_solutions": [
+    {
+      "bilateral_SC_breadth_mm": 50,
+      "bilateral_AC_breadth_mm": 332.86404303708287,
+      "half_SC_x_mm": 25,
+      "half_AC_x_mm": 166.43202151854143,
+      "implied_lateral_acromion_to_AC_mm": 46.1462587829385,
+      "offset_z_vs_34mm_mean": 1.5182823478673124,
+      "status": "FEASIBLE_WITHIN_OBSERVED_ACROMION_AC_RANGE"
+    },
+    {
+      "bilateral_SC_breadth_mm": 60,
+      "bilateral_AC_breadth_mm": 342.86404303708287,
+      "half_SC_x_mm": 30,
+      "half_AC_x_mm": 171.43202151854143,
+      "implied_lateral_acromion_to_AC_mm": 41.1462587829385,
+      "offset_z_vs_34mm_mean": 0.8932823478673124,
+      "status": "FEASIBLE_WITHIN_1SD_ACROMION_AC_OFFSET"
+    },
+    {
+      "bilateral_SC_breadth_mm": 70,
+      "bilateral_AC_breadth_mm": 352.86404303708287,
+      "half_SC_x_mm": 35,
+      "half_AC_x_mm": 176.43202151854143,
+      "implied_lateral_acromion_to_AC_mm": 36.1462587829385,
+      "offset_z_vs_34mm_mean": 0.2682823478673124,
+      "status": "FEASIBLE_WITHIN_1SD_ACROMION_AC_OFFSET"
+    }
+  ],
+  "current_a003_for_comparison": {
+    "bilateral_SC_breadth_mm": 50,
+    "bilateral_AC_breadth_mm": 481.3938993665297,
+    "SC_to_AC_chord_mm": 222.85962735242768,
+    "reading": "a003 shares a plausible-scale SC breadth but places AC far too lateral and uses an excessive clavicle chord."
+  },
+  "interpretation": [
+    "A normal-proportion solution family exists without changing the whole shoulder height: with bilateral SC breadth 50-70 mm, mean adult-male clavicle length/orientation gives bilateral AC breadth about 333-353 mm.",
+    "Those solutions imply lateral-acromion-to-AC offsets about 36-46 mm, all inside the observed cadaveric range 23-52 mm and mostly within roughly 1 SD of the 34±8 mm mean.",
+    "This independently narrows the likely correction: most of the a003 shoulder-width error is lateral AC/clavicle placement, not a need to lower the entire shoulder.",
+    "The family does not freeze SC breadth or scapula geometry. It provides a defensible search corridor for the later 3D landmark solve."
+  ],
+  "coordinate_convention_note": "The component magnitudes are anatomical. HGPT world signs must be mapped using the established character basis (anatomical left +X, posterior direction verified separately) before writing Blender coordinates.",
+  "next_step": "Combine this feasible clavicle family with the scapular local frame and glenoid/acromion geometry; then choose a single canonical shoulder target and run invariants before c001."
+}

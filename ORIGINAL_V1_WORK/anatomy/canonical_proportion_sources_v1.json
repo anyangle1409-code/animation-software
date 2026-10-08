@@ -1997,6 +1997,75 @@
         "scapular local-geometry validation"
       ],
       "limitation": "Older donor cohort and small male subgroup; use as a cross-source corridor, not a sole target."
+    },
+    {
+      "id": "METATARSAL_STATURE_SPAIN_2013",
+      "type": "radiographic_metatarsal_stature_regression",
+      "citation": "Estimating adult stature from radiographically determined metatarsal length in a Spanish population. 2013.",
+      "pmid": "23312585",
+      "population": "228 healthy Caucasoid adults from Galicia, Spain",
+      "male_equation": "stature_mm = 819.88 + 12.79 * M1_max_mm",
+      "use": [
+        "stature-conditioned first-metatarsal plausibility"
+      ],
+      "limitation": "Population-specific; maximum radiographic M1 length is not guaranteed identical to the a003 TMT-centre-to-head span."
+    },
+    {
+      "id": "METATARSAL_STATURE_PORTUGAL_2009",
+      "type": "osteometric_metatarsal_stature_regression",
+      "citation": "Predicting adult stature from metatarsal length in a Portuguese population. 2009.",
+      "pmid": "19854594",
+      "population": "220 metatarsals from documented Portuguese cadavers",
+      "equation": "stature_mm = 790.041 + 11.689 * M2_max_mm",
+      "use": [
+        "stature-conditioned second-metatarsal plausibility"
+      ],
+      "limitation": "Population-specific; dry-bone maximum M2 is not identical to a joint-centre/control span."
+    },
+    {
+      "id": "METATARSAL_STATURE_KOREA_2022",
+      "type": "cadaveric_metatarsal_stature_regression",
+      "citation": "Estimating Adult Stature Using Metatarsal Length in the Korean Population: A Cadaveric Study. 2022.",
+      "pmcid": "PMC9690328",
+      "population": "81 adult cadavers; 51 men and 30 women",
+      "pooled_equation": "stature_mm = 1172.4913 + 7.3275 * M1_max_mm",
+      "use": [
+        "independent stature-conditioned M1 cross-check"
+      ],
+      "limitation": "Korean population and pooled-sex equation; study distinguishes physiological and maximal lengths, so endpoint mapping is required."
+    },
+    {
+      "id": "SCAPULA_STATURE_ITALY_2013",
+      "type": "CT_scapula_stature_regression",
+      "citation": "Stature estimation from scapular measurements by CT scan evaluation in an Italian population. Leg Med. 2013.",
+      "pmid": "23485524",
+      "population": "200 healthy Italian adults; 100 men and 100 women",
+      "male_equation": "stature_cm = 4.247 * longitudinal_scapular_length_cm + 93.74",
+      "male_r": 0.74,
+      "use": [
+        "stature-aware scapular longitudinal-length cross-check"
+      ],
+      "limitation": "Longitudinal scapular length definition must be mapped exactly before comparing with a003 GH-to-inferior-angle span; it is not the same measurement."
+    },
+    {
+      "id": "CLAVICLE_LENGTH_CT_SYMMETRY_2018",
+      "type": "adult_CT_clavicle_length",
+      "citation": "Quantifying shortening of the fractured clavicle assuming clavicular symmetry is unreliable. 2018.",
+      "pmcid": "PMC5958161",
+      "population": "100 CT scans; 42 men, 58 women",
+      "male_length_mm": {
+        "mean": 154.8,
+        "range": [
+          130,
+          175
+        ]
+      },
+      "finding": "Sex and side were associated with length; absolute side-to-side difference averaged 3.74 mm.",
+      "use": [
+        "independent adult male clavicle endpoint-length corridor",
+        "bilateral asymmetry tolerance"
+      ],
+      "limitation": "No stature-conditioned male equation in the accessible result."
     }
   ],
   "unresolved_source_needs": [

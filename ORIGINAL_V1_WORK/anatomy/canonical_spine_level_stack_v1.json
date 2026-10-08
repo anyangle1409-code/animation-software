@@ -1,0 +1,292 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Level-by-level evidence stack for a skeleton-first C2-S1 spine. Separates vertebral body height from non-bone disc/contact gaps and makes unresolved levels/orientations explicit.",
+  "status": "LEVEL_HEIGHT_STACK_COMPLETE_EXCEPT_C2_BODY_AND_3D_ALIGNMENT_NOT_FROZEN",
+  "policy": [
+    "Vertebral body heights and disc gaps are stored separately; a disc is not part of a bone stick.",
+    "C0/C1 and C1/C2 do not receive intervertebral discs.",
+    "Source means are candidate nominal references, not automatically final HGPT target values.",
+    "Sex/population/method differences are preserved rather than silently averaged.",
+    "Sagittal endplate orientation and 3D curve must be solved separately from scalar level heights."
+  ],
+  "sources": {
+    "cervical_body": "YUKAWA_2012_CERVICAL_MORPHOMETRY",
+    "cervical_disc": "YUKAWA_2012_CERVICAL_MORPHOMETRY",
+    "thoracic_body": "THORACIC_BODY_DISC_2011",
+    "thoracic_disc": "THORACIC_BODY_DISC_2011",
+    "thoracic_disc_second": "THORACIC_DISC_CT_2015",
+    "lumbar_body": "LUMBAR_CT_2026_BODY",
+    "lumbar_disc": "LUMBAR_DISC_CT_2018"
+  },
+  "vertebral_bodies_mm": {
+    "C2": {
+      "candidate": null,
+      "source": null,
+      "status": "BLOCKED_NUMERIC_BODY_HEIGHT",
+      "note": "C2 body is morphologically distinct; do not copy C3 height."
+    },
+    "C3": {
+      "candidate": 14.4,
+      "sd": 1.5,
+      "source": "YUKAWA_2012_CERVICAL_MORPHOMETRY",
+      "definition": "male radiographic vertebral body height"
+    },
+    "C4": {
+      "candidate": 13.9,
+      "sd": 1.5,
+      "source": "YUKAWA_2012_CERVICAL_MORPHOMETRY",
+      "definition": "male radiographic vertebral body height"
+    },
+    "C5": {
+      "candidate": 13.7,
+      "sd": 1.4,
+      "source": "YUKAWA_2012_CERVICAL_MORPHOMETRY",
+      "definition": "male radiographic vertebral body height"
+    },
+    "C6": {
+      "candidate": 13.4,
+      "sd": 1.4,
+      "source": "YUKAWA_2012_CERVICAL_MORPHOMETRY",
+      "definition": "male radiographic vertebral body height"
+    },
+    "C7": {
+      "candidate": 14.9,
+      "sd": 1.5,
+      "source": "YUKAWA_2012_CERVICAL_MORPHOMETRY",
+      "definition": "male radiographic vertebral body height"
+    },
+    "T1": {
+      "candidate": 14.88,
+      "source": "THORACIC_BODY_DISC_2011",
+      "definition": "mean of anterior/posterior anatomical body height; mixed-sex donor sample"
+    },
+    "T2": {
+      "candidate": 15.56,
+      "source": "THORACIC_BODY_DISC_2011",
+      "definition": "mean of anterior/posterior anatomical body height; mixed-sex donor sample"
+    },
+    "T3": {
+      "candidate": 16.53,
+      "source": "THORACIC_BODY_DISC_2011",
+      "definition": "mean of anterior/posterior anatomical body height; mixed-sex donor sample"
+    },
+    "T4": {
+      "candidate": 16.79,
+      "source": "THORACIC_BODY_DISC_2011",
+      "definition": "mean of anterior/posterior anatomical body height; mixed-sex donor sample"
+    },
+    "T5": {
+      "candidate": 16.59,
+      "source": "THORACIC_BODY_DISC_2011",
+      "definition": "mean of anterior/posterior anatomical body height; mixed-sex donor sample"
+    },
+    "T6": {
+      "candidate": 17.13,
+      "source": "THORACIC_BODY_DISC_2011",
+      "definition": "mean of anterior/posterior anatomical body height; mixed-sex donor sample"
+    },
+    "T7": {
+      "candidate": 17.31,
+      "source": "THORACIC_BODY_DISC_2011",
+      "definition": "mean of anterior/posterior anatomical body height; mixed-sex donor sample"
+    },
+    "T8": {
+      "candidate": 18.52,
+      "source": "THORACIC_BODY_DISC_2011",
+      "definition": "mean of anterior/posterior anatomical body height; mixed-sex donor sample"
+    },
+    "T9": {
+      "candidate": 19.26,
+      "source": "THORACIC_BODY_DISC_2011",
+      "definition": "mean of anterior/posterior anatomical body height; mixed-sex donor sample"
+    },
+    "T10": {
+      "candidate": 19.67,
+      "source": "THORACIC_BODY_DISC_2011",
+      "definition": "mean of anterior/posterior anatomical body height; mixed-sex donor sample"
+    },
+    "T11": {
+      "candidate": 21.14,
+      "source": "THORACIC_BODY_DISC_2011",
+      "definition": "mean of anterior/posterior anatomical body height; mixed-sex donor sample"
+    },
+    "T12": {
+      "candidate": 21.96,
+      "source": "THORACIC_BODY_DISC_2011",
+      "definition": "mean of anterior/posterior anatomical body height; mixed-sex donor sample"
+    },
+    "L1": {
+      "candidate": 23.5,
+      "source": "LUMBAR_CT_2026_BODY",
+      "definition": "sex-combined CT middle vertebral body height"
+    },
+    "L2": {
+      "candidate": 24.3,
+      "source": "LUMBAR_CT_2026_BODY",
+      "definition": "sex-combined CT middle vertebral body height"
+    },
+    "L3": {
+      "candidate": 24.4,
+      "source": "LUMBAR_CT_2026_BODY",
+      "definition": "sex-combined CT middle vertebral body height"
+    },
+    "L4": {
+      "candidate": 23.7,
+      "source": "LUMBAR_CT_2026_BODY",
+      "definition": "sex-combined CT middle vertebral body height"
+    },
+    "L5": {
+      "candidate": 23,
+      "source": "LUMBAR_CT_2026_BODY",
+      "definition": "sex-combined CT middle vertebral body height"
+    }
+  },
+  "disc_gaps_mm": {
+    "C2/C3": {
+      "candidate": 6.4,
+      "sd": 0.9,
+      "source": "YUKAWA_2012_CERVICAL_MORPHOMETRY",
+      "definition": "male radiographic disc height"
+    },
+    "C3/C4": {
+      "candidate": 6.5,
+      "sd": 1,
+      "source": "YUKAWA_2012_CERVICAL_MORPHOMETRY",
+      "definition": "male radiographic disc height"
+    },
+    "C4/C5": {
+      "candidate": 6.2,
+      "sd": 1.1,
+      "source": "YUKAWA_2012_CERVICAL_MORPHOMETRY",
+      "definition": "male radiographic disc height"
+    },
+    "C5/C6": {
+      "candidate": 6.1,
+      "sd": 1.3,
+      "source": "YUKAWA_2012_CERVICAL_MORPHOMETRY",
+      "definition": "male radiographic disc height"
+    },
+    "C6/C7": {
+      "candidate": 6.6,
+      "sd": 1.5,
+      "source": "YUKAWA_2012_CERVICAL_MORPHOMETRY",
+      "definition": "male radiographic disc height"
+    },
+    "C7/T1": {
+      "candidate": 4.5,
+      "source": "THORACIC_BODY_DISC_2011",
+      "definition": "direct anatomical mean of anterior/posterior disc heights",
+      "crosscheck_male_radiographic": 6.1,
+      "crosscheck_source": "YUKAWA_2012_CERVICAL_MORPHOMETRY",
+      "status": "SOURCE_METHOD_CONFLICT_RETAIN_RANGE"
+    },
+    "T1/T2": {
+      "candidate": 4.4,
+      "source": "THORACIC_BODY_DISC_2011",
+      "definition": "direct anatomical average disc height"
+    },
+    "T2/T3": {
+      "candidate": 3.5,
+      "source": "THORACIC_BODY_DISC_2011",
+      "definition": "direct anatomical average disc height"
+    },
+    "T3/T4": {
+      "candidate": 3.3,
+      "source": "THORACIC_BODY_DISC_2011",
+      "definition": "direct anatomical average disc height"
+    },
+    "T4/T5": {
+      "candidate": 3.2,
+      "source": "THORACIC_BODY_DISC_2011",
+      "definition": "direct anatomical average disc height",
+      "male_CT_anterior_crosscheck": 2.7,
+      "crosscheck_source": "THORACIC_DISC_CT_2015"
+    },
+    "T5/T6": {
+      "candidate": 3.5,
+      "source": "THORACIC_BODY_DISC_2011",
+      "definition": "direct anatomical average disc height"
+    },
+    "T6/T7": {
+      "candidate": 4.1,
+      "source": "THORACIC_BODY_DISC_2011",
+      "definition": "direct anatomical average disc height"
+    },
+    "T7/T8": {
+      "candidate": 3.9,
+      "source": "THORACIC_BODY_DISC_2011",
+      "definition": "direct anatomical average disc height"
+    },
+    "T8/T9": {
+      "candidate": 5.3,
+      "source": "THORACIC_BODY_DISC_2011",
+      "definition": "direct anatomical average disc height"
+    },
+    "T9/T10": {
+      "candidate": 4.8,
+      "source": "THORACIC_BODY_DISC_2011",
+      "definition": "direct anatomical average disc height"
+    },
+    "T10/T11": {
+      "candidate": 6.5,
+      "source": "THORACIC_BODY_DISC_2011",
+      "definition": "direct anatomical average disc height",
+      "male_CT_anterior_crosscheck": 5.4,
+      "crosscheck_source": "THORACIC_DISC_CT_2015"
+    },
+    "T11/T12": {
+      "candidate": 5.4,
+      "source": "THORACIC_BODY_DISC_2011",
+      "definition": "direct anatomical average disc height"
+    },
+    "T12/L1": {
+      "candidate": 5.6,
+      "sd": 1.1,
+      "source": "LUMBAR_DISC_CT_2018",
+      "definition": "male CT average disc height"
+    },
+    "L1/L2": {
+      "candidate": 6.9,
+      "sd": 1.3,
+      "source": "LUMBAR_DISC_CT_2018",
+      "definition": "male CT average disc height"
+    },
+    "L2/L3": {
+      "candidate": 8.1,
+      "sd": 1.4,
+      "source": "LUMBAR_DISC_CT_2018",
+      "definition": "male CT average disc height"
+    },
+    "L3/L4": {
+      "candidate": 8.7,
+      "sd": 1.5,
+      "source": "LUMBAR_DISC_CT_2018",
+      "definition": "male CT average disc height"
+    },
+    "L4/L5": {
+      "candidate": 9.2,
+      "sd": 1.6,
+      "source": "LUMBAR_DISC_CT_2018",
+      "definition": "male CT average disc height"
+    },
+    "L5/S1": {
+      "candidate": 8.8,
+      "sd": 1.6,
+      "source": "LUMBAR_DISC_CT_2018",
+      "definition": "male CT average disc height"
+    }
+  },
+  "explicit_no_disc_levels": [
+    "C0/C1",
+    "C1/C2"
+  ],
+  "unresolved": [
+    "C2 vertebral body height with adult-male compatible definition",
+    "level-specific endplate anterior/posterior heights needed to reconstruct wedge geometry consistently across cervical/thoracic/lumbar regions",
+    "canonical sagittal lordosis/kyphosis target and per-level endplate orientation",
+    "S1 superior endplate geometry and lumbosacral angle",
+    "stature/sex normalization of mixed-sex thoracic body/disc source before exact freeze"
+  ],
+  "next_step": "Use this stack to generate a source-bounded C2-S1 endplate-centre solver once the C2 body and sagittal orientation targets are resolved; do not instantiate a new Blender candidate yet."
+}

@@ -33,15 +33,16 @@
         "complete level-by-level C3-L5 body-height and C2/S1-connected disc-gap evidence stack",
         "full direct-anatomical thoracic disc table C7/T1 through T11/T12",
         "C2 adult body-height evidence",
-        "provisional male global spinopelvic reference family P1"
+        "provisional male global spinopelvic reference family P1",
+        "provisional P1 S1 centre/endplate frame from retained HA + male PTh/PT/SS"
       ],
       "blockers": [
-        "S1 superior endplate frame / lumbosacral orientation",
+        "L5-S1 through upper-lumbar 3D endplate/frame chain",
         "thoracic per-level curvature/endplate distribution",
         "cervical neutral family selection and head-over-pelvis check",
         "mixed-method thoracic body/disc reconciliation before exact 3D freeze"
       ],
-      "next_action": "Instantiate the provisional P1 pelvis/lumbar alignment into level frames, then solve thoracic and cervical distributions; keep all coordinates audit-only until invariants pass."
+      "next_action": "Build the audit-only lumbar endplate/frame chain upward from the P1 S1 frame using explicit vertebral body and disc heights; then verify T12/L1 against thoracolumbar angle evidence."
     },
     "ribs": {
       "readiness": "BLOCKED",
@@ -107,15 +108,16 @@
       "ready": [
         "HJC provisionally corroborated",
         "sacral length provisionally plausible",
-        "pelvic scale/HJC source framework"
+        "pelvic scale/HJC source framework",
+        "P1 S1 centre/endplate frame from retained HJC and male standing pelvic geometry"
       ],
       "blockers": [
-        "landmark-rich os coxae envelope",
-        "SI auricular geometry",
-        "pubic symphysis contact",
-        "sacral width/curvature"
+        "landmark-rich os coxae envelope around retained HJC",
+        "SI auricular geometry tied to canonical sacrum/os coxae",
+        "pubic symphysis contact and pelvic-ring closure",
+        "final sacral width/curvature"
       ],
-      "next_action": "Build pelvis landmark target set without shifting the corroborated HJC to fit r95."
+      "next_action": "Use the new S1 frame as the sacral-base anchor while constructing os coxae/SI/pubis geometry; do not alter HJC just to fit r95."
     },
     "lower_limb_long_bones": {
       "readiness": "PARTIAL",

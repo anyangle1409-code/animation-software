@@ -34,3 +34,9 @@ Still open: item 6 (rib proximal Eq 2.18, source blocked for both agents) and it
 All of them match to relative 1e-9. The committed residual percentiles use NumPy's **'lower'** percentile method (default 'linear' gives p95 19.008 instead of 18.970 mm). That was undocumented and is now recorded in the test. Injecting two value changes makes the test fail.
 
 Suggested for GPT: correct the `direct_ansur_report_builder` reference in `canonical_target_selection_v1.json`, and report the Qiu clavicle SD as per-bone (52 bilateral bones, 26 men).
+
+## CP1a SC-anchor evidence search (no value found; recorded to avoid repeat searches)
+
+- **Literature (search snippets):** no accessible bilateral SC-centre separation was found. Li 2012 (PMID 22340551, 53 volunteers) measured "the distance between bilateral clavicles" but the value is not in the abstract. Whole-manubrium width is available (male 58.2 ± 5.55 mm, Iranian CT, n = 98; 53.2–57.1 mm, Dutch CT, n = 49) but is **not** an SC-centre breadth and must not be substituted.
+- **Open models:** `opensim-org/opensim-models` (GitHub) contains no clavicle model; the listed models are Arm26, Rajagopal, gait and leg models, and Wrist. The models with an SC joint (MoBL-ARMS, Saul 2015; Seth thoracoscapular 2019) are distributed via SimTK, which this environment's network policy blocks.
+- **Status:** the CP1a blocker stands. Next accessible route: the full text of Li 2012, or a SimTK download made on the owner's laptop.

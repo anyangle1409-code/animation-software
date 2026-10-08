@@ -45,12 +45,13 @@
     "clavicle_vs_CT_male_z": 7.623919515877885,
     "clavicle_vs_male_centerline_difference_mm": 56.05962735242768,
     "scapula_span_vs_male_total_scapular_height_difference_mm": 63.5154772372883,
-    "scapula_span_vs_male_height_z": 6.351547723728831
+    "scapula_mean_height_width_diagonal_mm": 183.43622870087577,
+    "scapula_plus1sd_height_width_diagonal_mm": 195.28822289119228
   },
   "findings": [
     "The a003 clavicle SC-to-AC straight span (~223 mm) is anatomically implausible. It exceeds a male CT true curved clavicle mean (~150 mm) by ~73 mm and even exceeds a male cadaver 3D centreline mean (~167 mm) by ~56 mm. A straight endpoint chord cannot legitimately be longer than the true curved bone length.",
-    "The a003 scapular GH-to-inferior-angle span (~212 mm) is also implausible: it is ~64 mm longer than a male mean whole scapular superior-to-inferior height (~148 mm). Because GH-to-inferior-angle is only part of the scapula's total vertical extent, this is a conservative failure.",
-    "These defects explain why the current authored body appears very broad through the shoulders: the a003 audit skeleton was stretched to the mesh rather than representing plausible clavicle/scapula dimensions.",
+    "The a003 scapular GH-to-inferior-angle span (~212 mm) is strongly suspicious, but it must not be compared as if it were the same measurement as whole scapular height. In the male source, mean whole height/width are ~148/108 mm (bounding diagonal ~183.4 mm; even height+1SD and width+1SD give ~195.3 mm). The a003 GH-to-inferior span exceeds those scale checks, so scapular geometry remains a RED rebuild candidate, but the exact amount of shortening is not frozen.",
+    "The clavicle defect is directly confirmed by measurement semantics; the scapular scale check strongly supports the same broad-shoulder mesh-driven problem but requires landmark-compatible 3D retargeting before an exact correction is claimed.",
     "The previously corroborated GH depth relative to the acromion does not rescue the overall shoulder-girdle proportions. Local joint-depth placement can be reasonable while the global SC-AC and scapular spans are wrong.",
     "The final skeleton-first shoulder must therefore retarget SC, AC, scapular body, acromion and glenoid geometry independently of the r95 shoulder width, then the mesh must be narrowed/refit around it."
   ],
@@ -62,19 +63,24 @@
     "humerus": "REVIEW_AFTER_GIRDLE_RETARGET_DO_NOT_STRETCH_TO_MESH"
   },
   "canonical_requirements": [
+    "Define scapular superior angle, inferior angle, medial border/spine root, acromion, coracoid and glenoid centre from an evidence-backed local scapular frame before selecting any GH-to-inferior target.",
     "Represent clavicle with a curved centreline or equivalent non-bone reference geometry; SC and AC remain true endpoints.",
     "Use male clavicle endpoint/centreline corridors and preserve the fact that endpoint distance must be shorter than curved true length.",
-    "Define scapular superior angle, inferior angle, medial border/spine root, acromion, coracoid and glenoid centre from an evidence-backed local scapular frame.",
     "Keep AC and GH centres distinct and anatomically separated.",
     "After girdle retargeting, recompute shoulder breadth from skeleton plus realistic deltoid/soft-tissue thickness rather than preserving the old mesh breadth."
   ],
   "acceptance_tests": [
     "SC-to-AC endpoint distance is less than the corresponding clavicle curved centreline length.",
     "Clavicle centreline and endpoint measures fall inside a multi-source adult male corridor or have a documented stature-specific justification.",
-    "Scapular GH-to-inferior-angle distance cannot exceed total scapular superior-to-inferior height.",
+    "Scapular GH-to-inferior-angle distance must be checked against a landmark-compatible 3D scapular envelope (height + width + glenoid position), not against height alone.",
     "Glenoid size/orientation and glenoid-to-acromion relationship remain within source corridors.",
     "Bilateral mirror symmetry is preserved in the canonical skeleton.",
     "Shoulder-complex movement tests are rerun because changing SC/AC/scapular geometry changes GH path and lever arms."
   ],
-  "status": "SHOULDER_GIRDLE_PROPORTION_DEFECT_CONFIRMED_CANONICAL_REBUILD_REQUIRED"
+  "status": "CLAVICLE_DEFECT_CONFIRMED_SCAPULA_STRONGLY_REOPENED_CANONICAL_REBUILD_REQUIRED",
+  "audit_correction_2026_10_08": {
+    "reason": "Earlier wording treated GH-to-inferior-angle distance as if it must be less than superior-to-inferior scapular height. That is not a valid hard invariant because GH is laterally offset; the Euclidean span can exceed vertical height.",
+    "correction": "Use a 3D height/width/glenoid-position envelope. Clavicle chord-vs-centreline invariant remains valid.",
+    "result": "Scapula remains strongly suspicious but exact shortening is not claimed from a height-only comparison."
+  }
 }

@@ -2,14 +2,21 @@ import pathlib
 import sys
 import unittest
 
-import numpy as np
-
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from anatomy_fit.build_forearm_target_report import conditional
+try:
+    import numpy as np
+except ImportError:  # system Python in this repo may intentionally lack numpy
+    np = None
+
+if np is not None:
+    from anatomy_fit.build_forearm_target_report import conditional
+else:
+    conditional = None
 
 
+@unittest.skipIf(np is None, "numpy unavailable in this Python environment")
 class ForearmTargetReportTests(unittest.TestCase):
     def test_conditional_linear_regression_exact_line(self):
         x = np.array([1600.0, 1700.0, 1800.0, 1900.0])

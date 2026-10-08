@@ -61,3 +61,16 @@ The journal hosts (Wiley/Hindawi, PMC and Europe PMC, Crossref) were unreachable
 Suggested for GPT:
 - add `pmcid` (normalised as `PMC` plus digits) to `identity_groups` and regenerate the review; this should give 5 alias groups and 11 identifier-less records;
 - record the straight-horn infeasibility in the hyoid target before CP3.
+
+## CP2 preflight checker (new tool, owner request)
+
+`scripts/anatomy_fit/cp2_preflight.py` (tests: `scripts/test_cp2_preflight.py`, 13 tests, mutation-checked) runs the whole-skeleton hard invariants the CP2 plan asks for. It works on any candidate in the fit-record schema, which is what the CP3 builder consumes. It is read-only and invents no anatomical tolerance: gates are identity, finiteness, sign and strict `> 0`.
+
+- **Checks:** 206 bone identities against `adult_bone_inventory_206.json`; finite coordinates (a null target counts as a FAIL, never a fill); no zero-length bone; the parent tree (acyclic, each articular parent joined by the named inventory joint, hyoid without an osseous parent); anatomical left = +X; 427 joint identities; proper joint frames (orthonormal, det +1); distinct SC/AC/GH centres per side; a positive centre-line disc gap C2/C3–L5/S1; full endplate clearance via GPT's `endplate_clearance.py`, which is UNVERIFIED until endplate surfaces exist. Bilateral asymmetry is measured only.
+- **Ledger:** for each readiness region, it lists readiness, blockers, unselected (null) targets, bones and the a003 placement classes.
+
+**Baseline run on a003** (`audit/runs/claude_cp2_preflight_a003_001/`): verdict **FAIL**, with 8 PASS, 1 FAIL, 1 UNVERIFIED and 1 INFO.
+- The FAIL is the known zero-disc-gap defect, measured on all 22 levels from C2/C3 to L4/L5 (the gap is exactly 0.00 mm). L5/S1 is positive.
+- The tool confirms the structural integrity of a003: 206 bones, 427 joints, proper frames and correct sides. Bilateral asymmetry is at most 0.38 mm.
+
+**New finding from the ledger:** `humerus_left` and `humerus_right` are not covered by any region in `canonical_freeze_readiness_v1.json`. The text of every readiness region also omits the sternum, coccyx and ossicles (the ledger files these under ribs, spine and head as bookkeeping). The humerus matters because its length is one of the open F-PROP-001 proportion questions. Suggested for GPT: add humerus (and sternum) entries to readiness, or state where they are tracked.

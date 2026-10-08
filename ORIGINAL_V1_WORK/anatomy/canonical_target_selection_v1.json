@@ -51,7 +51,8 @@
           "source": "STERNUM_SELTHOFER_2006",
           "semantics": "outer manubrial/clavicular-notch breadth, not SC-centre breadth"
         },
-        "scapula_measured_relative_envelope": "ORIGINAL_V1_WORK/anatomy/canonical_scapula_measured_landmark_model_v1.json"
+        "scapula_measured_relative_envelope": "ORIGINAL_V1_WORK/anatomy/canonical_scapula_measured_landmark_model_v1.json",
+        "clavicle_endpoint_semantics_crosscheck": "ORIGINAL_V1_WORK/anatomy/canonical_clavicle_endpoint_crosscheck_v1.json"
       },
       "blockers": [
         "verified bilateral SC-centre breadth or a thorax/manubrial solve that maps the outer manubrial/clavicular-notch evidence to SC joint centres",

@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "status": "PROVISIONAL_ENDPOINT_SEMANTICS_CROSSCHECK",
+  "freeze_ready": false,
+  "source": {
+    "id": "CLAVICLE_QIU_2016_ARTICULAR_CENTRE_CHORD",
+    "citation": "Qiu XS et al. Anatomical Study of the Clavicles in a Chinese Population. Biomed Res Int. 2016:6219761.",
+    "doi": "10.1155/2016/6219761",
+    "pmcid": "PMC4819086",
+    "pmid": "27088088",
+    "verified_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4819086/",
+    "measurement_definition": "Straight 3D chord between central points of the two clavicular articular surfaces, source methods 2.1 item 1; not medial/lateral extrema or curved centreline.",
+    "male_chord_mm": {
+      "mean": 152.9,
+      "sd": 9.3
+    },
+    "population": "52 Chinese patients, 26 male/26 female; bilateral clavicles; mean age 49.8 \u00b118.2 y; no previous clavicle fracture",
+    "male_subject_n": 26,
+    "male_bone_n": 52,
+    "stature_adjustment": null,
+    "evidence_state": "STRONGLY_SUPPORTED_ENDPOINT_MATCHED_CONTEXT_EXACT_TARGET_OPEN",
+    "limitations": [
+      "Bilateral bones are not 52 independent subjects.",
+      "Articular surface centre is not automatically instantaneous joint rotation centre.",
+      "No stature-conditioned regression; do not promote the mean to final anatomy.",
+      "Do not average this centre chord with extremal-point chords or centreline true lengths."
+    ]
+  },
+  "male_reference_1sd_mm": [
+    143.6,
+    162.2
+  ],
+  "numerical_target_selected": null,
+  "comparison": {
+    "existing_extremal_chord_source": "CLAVICLE_LENGTH_CT_SYMMETRY_2018",
+    "existing_extremal_chord_mean_mm": 154.8,
+    "existing_centreline_source": "CLAVICLE_CADAVER_3D_2013",
+    "existing_centreline_mean_mm": 166.8,
+    "policy": "Keep all three endpoint definitions separate; no inferred extrema-to-centre correction or same-subject chord/curve ratio."
+  },
+  "SC_anchor_search": {
+    "LI_2012_PMID_22340551": "53 healthy volunteers; abstract confirms bilateral clavicle distance was measured but omits that numeric result and exact endpoints. Full table/figure required; not used to freeze SC breadth.",
+    "TUSCANO_2009_PMID_19308406": "104 CT cases; joint-space/head-diameter/anterior-offset variation, not bilateral SC-centre breadth. No SC anchor derived.",
+    "WIJERATNA_2013_PMID_22933016": "CT joint-plane study, 80 patients 25\u201340 y; manubrium/joint-plane orientation is not an SC-centre coordinate."
+  },
+  "required_next": "Endpoint-matched independent centre-chord evidence plus stature/context and manubrial articular landmarks; retain SC/AC/GH separation."
+}

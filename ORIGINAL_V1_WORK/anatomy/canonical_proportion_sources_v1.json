@@ -2981,6 +2981,30 @@
         "Exterior and interior acromial angles must not be substituted to force agreement.",
         "Sparse measured landmarks are evidence, not a complete production bone surface."
       ]
+    },
+    {
+      "id": "CLAVICLE_QIU_2016_ARTICULAR_CENTRE_CHORD",
+      "citation": "Qiu XS et al. Anatomical Study of the Clavicles in a Chinese Population. Biomed Res Int. 2016:6219761.",
+      "doi": "10.1155/2016/6219761",
+      "pmcid": "PMC4819086",
+      "pmid": "27088088",
+      "verified_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4819086/",
+      "measurement_definition": "Straight 3D chord between central points of the two clavicular articular surfaces, source methods 2.1 item 1; not medial/lateral extrema or curved centreline.",
+      "male_chord_mm": {
+        "mean": 152.9,
+        "sd": 9.3
+      },
+      "population": "52 Chinese patients, 26 male/26 female; bilateral clavicles; mean age 49.8 \u00b118.2 y; no previous clavicle fracture",
+      "male_subject_n": 26,
+      "male_bone_n": 52,
+      "stature_adjustment": null,
+      "evidence_state": "STRONGLY_SUPPORTED_ENDPOINT_MATCHED_CONTEXT_EXACT_TARGET_OPEN",
+      "limitations": [
+        "Bilateral bones are not 52 independent subjects.",
+        "Articular surface centre is not automatically instantaneous joint rotation centre.",
+        "No stature-conditioned regression; do not promote the mean to final anatomy.",
+        "Do not average this centre chord with extremal-point chords or centreline true lengths."
+      ]
     }
   ],
   "unresolved_source_needs": [

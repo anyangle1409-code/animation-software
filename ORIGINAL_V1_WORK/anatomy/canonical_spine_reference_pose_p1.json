@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Provisional skeleton-first neutral standing spinopelvic reference family P1. Provides a coherent male global target and a source-derived lumbar distribution without yet claiming final 3D endplate coordinates.",
+  "status": "P1_PROVISIONAL_GLOBAL_ALIGNMENT_SELECTED_3D_COORDINATES_OPEN",
+  "primary_global_source": "HASEGAWA_2017_WHOLE_SPINE_MALE",
+  "global_male_reference_deg": {
+    "pelvic_incidence": 50.1,
+    "sacral_slope": 40.9,
+    "pelvic_tilt": 9.2,
+    "lumbar_lordosis_L1_S1": 56.4,
+    "thoracic_kyphosis_T1_T12": 43.7,
+    "cervical_C2_C7_source_mean": -0.6
+  },
+  "invariant_checks": {
+    "PI_equals_SS_plus_PT": {
+      "lhs_PI": 50.1,
+      "rhs_SS_plus_PT": 50.1,
+      "error_deg": 0,
+      "pass": true
+    }
+  },
+  "lumbar_distribution": {
+    "source_pattern": "KIM_2022_LUMBOSACRAL_SEGMENTAL total asymptomatic level means",
+    "source_pattern_sum_deg": 50.5,
+    "scale_to_primary_male_LL": 1.1168316831683167,
+    "provisional_scaled_levels_deg": {
+      "L1/L2": 1.34019801980198,
+      "L2/L3": 6.589306930693069,
+      "L3/L4": 10.163168316831682,
+      "L4/L5": 14.183762376237622,
+      "L5/S1": 24.123564356435644
+    },
+    "sum_deg": 56.4,
+    "rationale": "The Kim cohort PI mean (50.5°) closely matches the male Hasegawa PI mean (50.1°). Its level distribution is therefore used as a shape template and scaled to the Hasegawa male L1-S1 mean of 56.4°.",
+    "guard": "These are reference-pose segmental targets, not ROM limits. They must remain within source SD corridors and may be adjusted when the final S1/endplate geometry is solved."
+  },
+  "cervical_policy": {
+    "selected_numeric_curve": null,
+    "state": "NORMAL_SOURCE_FAMILY_CONFLICT",
+    "evidence": [
+      "Hasegawa male C2-C7 global mean is near neutral (source convention +lordosis: -0.6 ±8.6°).",
+      "Reinhold/DGOU segmental means sum to 9.6° lordosis under their opposite sign convention."
+    ],
+    "rule": "Do not average signed cervical values. Choose the final cervical neutral family after C7/T1 and head-over-pelvis constraints are assembled."
+  },
+  "thoracic_policy": {
+    "global_T1_T12_kyphosis_deg": 43.7,
+    "sd_deg": 9,
+    "state": "GLOBAL_SELECTED_PER_LEVEL_DISTRIBUTION_OPEN",
+    "rule": "Do not distribute 43.7° uniformly. Per-level curvature must respect thoracic body/endplate geometry and rib attachment levels."
+  },
+  "construction_dependencies": [
+    "canonical_spine_level_stack_v1.json",
+    "canonical_spine_sagittal_alignment_v1.json",
+    "canonical_pelvis_geometry_audit_v1.json",
+    "canonical_rib_geometry_plan_v1.json"
+  ],
+  "acceptance_before_coordinate_freeze": [
+    "S1 superior endplate frame and sacral slope instantiated consistently.",
+    "Scaled lumbar segment angles remain within source-specific normal corridors.",
+    "T12/L1 endplate angles pass Crawford cross-check after frame mapping.",
+    "Thoracic per-level curve sums to selected T1-T12 target within tolerance and keeps rib-level attachments coherent.",
+    "Cervical reference family is explicitly selected and head-over-pelvis/global SVA is checked.",
+    "No intervertebral disc-bearing level collapses to zero gap."
+  ]
+}

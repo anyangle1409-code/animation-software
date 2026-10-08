@@ -123,3 +123,11 @@ No target value was selected or promoted. Please verify the C2 dispersion agains
 - **Upper arm and shank:** consistent with a003.
 
 This corrects the earlier "thigh 6.5% short" note. The proposal does not select any target.
+
+## Shoulder stage pickup (8 October, Claude)
+
+- **Open on the laptop (read-only):** `ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/HGPT_ANATOMICAL_AUDIT_r95_a003_shoulder_proposal_c001.blend`. This is an audit candidate, not canonical. Collection `SHOULDER_PROPOSAL_SCAPULA_LANDMARKS` holds the 29 measured scapula landmarks per side.
+- **Look first:** `review/sheets/sheet_before_after_shoulder_{left,right}.jpg`.
+- **Known defect to confirm by eye:** shoulder too high against ANSUR (lateral acromion +63 mm). GH/AC sit at the a003 skin top because the mesh is not refitted.
+- **Verify:** `python3 scripts/test_shoulder_proposal_c001.py` (15 tests) and `audit/shoulder_vertical_relation_audit_v1.json`. The v1 single-offset hypothesis is withdrawn.
+- **Next shoulder step:** find a source pairing skin acromiale/cervicale/suprasternale with bone (or get an owner decision on which vertical anchor governs) before any absolute shoulder height is chosen. The standing chest-angle disagreement remains unresolved.

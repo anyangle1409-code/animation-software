@@ -28,7 +28,7 @@
         "Standing-alignment SC/AC surface landmarks are not articular centres; match source length endpoints and map the IJ/C7/PX/T8 thorax frame before using the historical relative vector or sweep.",
         "Fontana pooled stature correlation is quarantined; surface-end vs articular-centre chord mapping and male covariance remain unresolved. SC bone-head, cartilage-patch and kinematic centres must be distinguished; new MRI diameters do not supply bilateral SC-centre breadth.",
         "standing thorax pitch conflict: 4,082 standing men put C7 80.7 +/- 11.4 mm above IJ at 1.82 m, bony models 33-46 mm (IJ-C7 line about 20 deg); resolve before global ISB thorax axes. Provisional SC height 1500.5 mm (band 1486-1514) is IJ-dominated; a003 IJ is 24.7 mm (z +2.1) above the 1.82 m standard",
-        "absolute shoulder height relative to the trunk: bony sources put AC about 23-27 mm above IJ, ANSUR living skin puts the acromion 3.1 +/- 13.9 mm above the suprasternale; same direction as the C7 conflict, unresolved"
+        "absolute shoulder height relative to the trunk: bony sources put AC about 23-27 mm above IJ, ANSUR living skin puts the acromion 3.1 +/- 13.9 mm above the suprasternale. CORRECTED 2026-10-08 (was 'same direction as the C7 conflict'): it is the OPPOSITE direction, so no single suprasternale offset or thorax pitch fits both; IJ-independent, the solved AC sits >=35.7 mm higher relative to C7 than ANSUR acromion-cervicale (-77.5 mm). Unresolved; see audit/shoulder_vertical_relation_audit_v1.json"
       ],
       "next_action": "Resolve source endpoint mappings and neutral thorax pose before selecting absolute SC/AC/GH centres; measured relative envelope is provisional.",
       "source_review_2026_10_08": {
@@ -38,7 +38,14 @@
       },
       "primary_SC_model_reference": "canonical_sc_primary_model_reference_v1.json",
       "thorax_frame_review": "canonical_thorax_frame_182_review_v1.json",
-      "girdle_solution": "canonical_shoulder_girdle_solution_182_v1.json"
+      "girdle_solution": "canonical_shoulder_girdle_solution_182_v1.json",
+      "vertical_relation_audit": "audit/shoulder_vertical_relation_audit_v1.json",
+      "audit_candidate": {
+        "id": "r95_a003_shoulder_proposal_c001",
+        "path": "audit/candidates/shoulder_proposal_c001/",
+        "status": "AUDIT_PROPOSAL_NOT_CANONICAL_NOT_ACCEPTED",
+        "known_defect": "lateral acromion 63.0 mm above ANSUR acromial height at 1.82 m (bony pitch, IJ at a003 bony IJ which is itself 24.7 mm above ANSUR suprasternale)"
+      }
     },
     "spine": {
       "readiness": "PARTIAL",

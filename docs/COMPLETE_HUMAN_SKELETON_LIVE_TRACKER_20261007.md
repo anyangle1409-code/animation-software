@@ -435,3 +435,36 @@ Full proximal curves remain BLOCKED pending verified intended conventions or an 
   - **SC:** the Seth SC is 7.2 mm anterior, 6.0 mm superior and 25.5 mm lateral of IJ (breadth 50.9 mm, now a primary-model value for the feasible family's assumed 50 mm). Provisional SC height is 1500.5 mm (band 1486–1514); it is IJ-dominated, with ±20° of pitch moving it by under 5 mm.
   - **a003:** IJ is 24.7 mm high (z +2.1) and SC 13.7 mm high; its SC breadth of 50.0 mm matches.
   - Nothing is selected.
+
+### Claude shoulder stage, 8 October (after `1d87ead4`; audit candidate, nothing selected)
+
+- **Solution** (`canonical_shoulder_girdle_solution_182_v1.json`, `1d87ead4`). Joint weighted least squares over Seth SC, Matsumura male standing CT, Qiu chord, Lee 182 cm scapula and the 2026 AC–lateral-acromion distance; published SDs only; χ² 3.38 on 2 dof, all |z| ≤ 1.06. Values are relative to the thorax:
+  - clavicle joint-centre chord 151.3 mm;
+  - clavicle elevation 9.8°, retraction 18.4°;
+  - scapula internal rotation / upward rotation / anterior tilt 30.3° / 11.3° / 9.7°;
+  - AC 39.7 mm from the lateral acromion;
+  - AC–GH 41.3–44.7 mm (Seth 42.0).
+  - Status PROVISIONAL, not frozen.
+- **Audit candidate `r95_a003_shoulder_proposal_c001`** (`89a9c3d5`), in `ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/` (see its README).
+  - Built: a003 with the clavicles and scapulae replaced and each humerus subtree translated rigidly with GH; a separately named blend.
+  - Integrity: a003 blend hash unchanged (`670a37bf…`); round trip PASS; CP2 verdicts identical to a003.
+  - Status `AUDIT_PROPOSAL_NOT_CANONICAL_NOT_ACCEPTED`.
+- **Review evidence** (`07c7b5e0`), in `review/`. Identical-camera a003 vs c001 renders, every image captioned with identity and status:
+  - 20 views: full body front/back/both sides/three-quarters, upper body front/back/overhead, and bilateral shoulder front/side/rear/overhead plus axilla;
+  - 4 illustrative GH poses (bones only);
+  - before/after pairs and contact sheets;
+  - `manifest.json` with sha256 of every file.
+- **Erratum and defect** (`12ed2774`, `audit/shoulder_vertical_relation_audit_v1.json`).
+  - Withdrawn: the v1 reading's single-offset hypothesis. The C7 relation needs the living suprasternale 35–48 mm *below* the bony IJ; the acromion relation needs it 23.5 mm *above*.
+  - Corrected: the readiness blocker's "same direction as the C7 conflict" wording now reads opposite direction.
+  - IJ-independent: even at the living-implied pitch, the solved AC sits ≥ 35.7 mm higher relative to C7 than ANSUR acromion−cervicale (−77.5 mm).
+  - **c001 known defect:** lateral acromion 63.0 mm above ANSUR acromial height at 1.82 m (z 3.89); the lowest variant is still +38.3 mm.
+  - Status AUDIT_OPEN_NOT_RESOLVED.
+- **Tests:** `scripts/test_shoulder_proposal_c001.py`, 15 tests covering identity and pinned hashes, scope of change, CP2 parity, solution match, mirror, the erratum sign check, defect recorded-not-passed, and manifest hashes.
+- **Still open:**
+  - absolute shoulder height relative to the trunk;
+  - acromiale/cervicale skin-to-bone offsets;
+  - standing chest/thorax pitch (bony 7.04° vs living-implied −11.3°; disagreement kept explicit);
+  - forearm length (not applied here);
+  - mesh refit.
+- **Shoulder region:** stays PARTIAL. Do not move to ribs/feet as if the shoulder were closed; the next shoulder step needs a source that pairs skin acromiale/cervicale/suprasternale with bone, or an owner decision on which vertical anchor governs.

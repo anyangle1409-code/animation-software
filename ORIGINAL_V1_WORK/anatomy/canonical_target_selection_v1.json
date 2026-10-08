@@ -143,7 +143,8 @@
         "select canonical sternum/manubrium-body geometry and bilateral SC/costal contact landmarks",
         "resolve stature-aware sternum target without inverse-regression bias"
       ],
-      "evidence_grade_sternum": "C_REOPEN_STATURE_METHOD_CONFLICT"
+      "evidence_grade_sternum": "C_REOPEN_STATURE_METHOD_CONFLICT",
+      "primary_equation_review": "ORIGINAL_V1_WORK/anatomy/rib_inplane_derivation_holcombe2016_v1.json"
     },
     "forearm": {
       "evidence_grade": {

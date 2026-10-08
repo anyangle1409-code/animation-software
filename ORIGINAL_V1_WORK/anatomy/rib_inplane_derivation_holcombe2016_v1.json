@@ -9,7 +9,8 @@
       "repository": "University of Michigan Deep Blue",
       "url": "https://deepblue.lib.umich.edu/bitstream/handle/2027.42/135879/svenho_1.pdf?sequence=1",
       "relevant_pages": "thesis pp. 33-39 / equations 2.2-2.18",
-      "note": "Search-indexed thesis text was used because the PDF endpoint returned 403 to direct fetch in this environment."
+      "note": "Original legacy route no longer returns a PDF here; current item-advertised bitstream acquired and visually reviewed. Historical OCR-only limitations are superseded by the primary notation review.",
+      "current_download_url": "https://deepblue.lib.umich.edu/bitstreams/fb403ba6-de9d-4d8c-a838-1234e9467f2f/download"
     },
     "paper_2016": {
       "title": "Modeling female and male rib geometry with logarithmic spirals",
@@ -88,12 +89,14 @@
       2.5
     ],
     "explicit_constraint_confirmed": "phi_pia > alpha",
-    "unresolved_OCR_constraint": "The second feasibility inequality in Eq. 2.18 is not sufficiently legible in the indexed text to transcribe safely; do not invent it."
+    "historical_OCR_constraint": "The second feasibility inequality in Eq. 2.18 is not sufficiently legible in the indexed text to transcribe safely; do not invent it.",
+    "printed_second_constraint": "theta_cut > y(2*atan(sqrt(Bp^2+1)+Bp)+pi)",
+    "eligibility": "NOT_ACCEPTED_PENDING_NOTATION_AND_BRANCH_RESOLUTION"
   },
   "implementation_status": {
     "distal": "IMPLEMENTED_AND_INDEPENDENTLY_TESTED_SOURCE_MEANS_ONLY",
-    "proximal_equations": "TRANSCRIBED",
-    "proximal_branch_selection": "BLOCKED_PENDING_UNAMBIGUOUS_EQ_2_18_OR_EQUIVALENT_BRANCH_RULE",
+    "proximal_equations": "PRINTED_TEXT_RECOVERED_NOTATION_CONFLICTS_UNRESOLVED",
+    "proximal_branch_selection": "BLOCKED_PENDING_VERIFIED_CORRECTED_NOTATION_OR_EQUIVALENT_BRANCH_RULE",
     "full_curve": "NOT_YET_ACCEPTED"
   },
   "hard_rules": [
@@ -108,5 +111,24 @@
     "source_curves": "ORIGINAL_V1_WORK/anatomy/rib_distal_source_mean_curves_v1.json",
     "blender_check": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_bpy_baseline_recheck_20261008_001/rib_distal_roundtrip.json",
     "scope": "Only distal source-mean segments; no proximal branch, head/tubercle contacts or thorax mapping"
+  },
+  "primary_visual_review_2026_10_08": {
+    "status": "CONFIRMED_PRIMARY_ACCESS_NOTATION_CONFLICTS_BLOCK_PROXIMAL_SOLVER",
+    "original_pdf_acquired": true,
+    "download_url": "https://deepblue.lib.umich.edu/bitstreams/fb403ba6-de9d-4d8c-a838-1234e9467f2f/download",
+    "pdf_bytes": 24996572,
+    "pdf_sha256": "5e8b8fc262ec75ffd13af749318dec4d5ba900c0e5d7cc4afcc70fb9f644dfe6",
+    "visually_checked": "PDF pages 52 and 54, printed pages 37 and 39; source text pp.35-38 also reviewed",
+    "printed_second_constraint": "theta_cut > y(2*atan(sqrt(Bp^2+1)+Bp)+pi)",
+    "printed_second_constraint_accepted": false,
+    "proximal_branch_accepted": false,
+    "conflicts": [
+      "At fixed peak/Bp the printed second inequality contains no phi_pia, although its prose describes an upper-angle restriction.",
+      "Eq2.16 uses row-vector translation/rotation and Eq2.17 prints premultiplication of a column vector. Those literal conventions do not give the same transformed origin.",
+      "Under standard atan2(y,x), literal Eq2.11 does not give a stationary transformed peak in an independent Bp=0 circle case."
+    ],
+    "counterexamples": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_rib_primary_equation_review_20261008_001/literal_equation_counterexamples.json",
+    "remaining_need": "Verified author implementation/corrected derivation or an independently justified equivalent branch rule. No source convention is silently repaired.",
+    "distal_scope": "Existing Eq2.2-2.7 implementation retained; acquisition alone does not add proximal ribs or contacts."
   }
 }

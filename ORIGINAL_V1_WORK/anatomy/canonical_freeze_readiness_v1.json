@@ -79,7 +79,8 @@
         "3D thoracic-frame mapping and rib head/tubercle/anterior contact coordinates",
         "sternum (manubrium, body, xiphoid) envelope and costal-notch layout compatible with the rib anterior contacts"
       ],
-      "next_action": "Create rib-level non-bone centreline/contact dataset before any new Blender master."
+      "next_action": "Create rib-level non-bone centreline/contact dataset before any new Blender master.",
+      "primary_equation_review": "ORIGINAL_V1_WORK/anatomy/rib_inplane_derivation_holcombe2016_v1.json"
     },
     "forearm": {
       "readiness": "PARTIAL",

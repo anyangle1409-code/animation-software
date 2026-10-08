@@ -18,6 +18,13 @@ class DistalRibTests(unittest.TestCase):
    self.assertEqual(v['costotransverse_joint_permitted'],int(k)<=10)
    self.assertIsNone(v['rib_head']);self.assertIsNone(v['tubercle'])
    self.assertFalse(v['full_rib_reconstructed'])
+ def test_primary_pdf_access_does_not_silently_accept_conflicted_proximal_equations(self):
+  d=json.loads((ROOT/'ORIGINAL_V1_WORK/anatomy/rib_inplane_derivation_holcombe2016_v1.json').read_text())
+  review=d['primary_visual_review_2026_10_08']
+  self.assertTrue(review['original_pdf_acquired'])
+  self.assertFalse(review['printed_second_constraint_accepted'])
+  self.assertFalse(review['proximal_branch_accepted'])
+  self.assertIn('BLOCKED',d['implementation_status']['proximal_branch_selection'])
  def test_all_published_level_means_have_correct_endpoints_and_no_loops(self):
   for level in self.model['levels'].values():
    p=level['population_mean'];curve=np.array(r.distal_curve(p['Xpk'],p['Ypk'],p['Bd']))

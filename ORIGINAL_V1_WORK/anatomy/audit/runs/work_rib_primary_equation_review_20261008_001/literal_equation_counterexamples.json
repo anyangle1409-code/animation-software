@@ -1,0 +1,49 @@
+{
+  "status": "CONFIRMED_LITERAL_NOTATION_COUNTEREXAMPLES_NOT_A_SOLVER",
+  "unit_circle_case": {
+    "Xpk": 0.3,
+    "Ypk": 0.32,
+    "Bp": 0,
+    "alpha_rad": 0.8176450458327023,
+    "literal_theta_cut_rad": 3.9592376994224954,
+    "literal_atan2_residual_rad": 1.1102230246251565e-16,
+    "rotated_Y_derivative_at_literal_cut": 0.06444906444906441,
+    "independent_stationary_Y_derivative": -1.6878739080651512e-17
+  },
+  "printed_second_constraint": {
+    "rhs": -1.0,
+    "phi_cases": [
+      {
+        "phi_pia_deg": 80,
+        "first_constraint": true,
+        "second_literal_constraint": true
+      },
+      {
+        "phi_pia_deg": 120,
+        "first_constraint": true,
+        "second_literal_constraint": true
+      },
+      {
+        "phi_pia_deg": 150,
+        "first_constraint": true,
+        "second_literal_constraint": true
+      }
+    ],
+    "warning": "Not phi-dependent; not accepted as the described upper-angle feasibility guard."
+  },
+  "matrix_convention": {
+    "row_origin_result": [
+      -2.7755575615628914e-17,
+      1.1102230246251565e-16,
+      1.0
+    ],
+    "printed_column_origin_result": [
+      0.7131226170469332,
+      -0.26354531499560585,
+      0.7674600161803479
+    ]
+  },
+  "source_typo_corrected_automatically": false,
+  "proximal_branch_accepted": false,
+  "anatomical_coordinates_selected": false
+}

@@ -1,0 +1,9 @@
+{
+  "README.md": "ccb8ecdf914cf7ca5c900559464be84d0c7f88323f9a6d2e27ef314f15b1222d",
+  "check_literal_equations.py": "fb63dcca14da40144f1a12f7e667875e2d0f730efe8d0183e620ba82f804c571",
+  "literal_equation_counterexamples.json": "5280148475c68510f8da9d36f6893487531a6acdb6b0eef108cde77329f21cdc",
+  "target_validation.json": "8860c2cc23b53129b0cf5c8f284ca5514834b9bad608a2e54f92be12f1012f1b",
+  "tests_after_fix.txt": "7183afa6c2bddc3f18ebf00fbfe95f091bec52e509b64266de2a55507e4fb9d2",
+  "tests_before_fix.txt": "445ce9413bb4b542593bd26042e36247aa58498a7a818db8fb8edb658f63b355",
+  "verification.json": "be172279d67c621e3cdca65c12467195a869b8222c6c1720030166c4f62d1284"
+}

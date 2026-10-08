@@ -1,0 +1,14 @@
+.......E.
+======================================================================
+ERROR: test_primary_pdf_access_does_not_silently_accept_conflicted_proximal_equations (scripts.test_rib_spiral_reconstruction.DistalRibTests.test_primary_pdf_access_does_not_silently_accept_conflicted_proximal_equations)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_rib_spiral_reconstruction.py", line 23, in test_primary_pdf_access_does_not_silently_accept_conflicted_proximal_equations
+    review=d['primary_visual_review_2026_10_08']
+           ~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'primary_visual_review_2026_10_08'
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.061s
+
+FAILED (errors=1)

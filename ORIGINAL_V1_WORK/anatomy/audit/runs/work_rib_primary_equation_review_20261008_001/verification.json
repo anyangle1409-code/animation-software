@@ -1,0 +1,9 @@
+{
+  "status": "CONFIRMED_PRIMARY_SOURCE_ACCESS_AND_LITERAL_COUNTEREXAMPLES",
+  "affected_tests": 33,
+  "target_validator": "PASS; freeze_ready false",
+  "proximal_solver_changed": false,
+  "distal_solver_changed": false,
+  "anatomical_geometry_changed": false,
+  "source_pdf_redistributed": false
+}

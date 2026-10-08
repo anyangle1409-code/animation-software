@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Skeleton-first lower-limb long-bone audit. Distinguish retained plausible long-bone geometry from regions that need reconstruction.",
+  "baseline": "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json",
+  "sources": [
+    "PATELLA_MRI_2025",
+    "PATELLA_ROMAN_MALE_2025",
+    "FIBULA_CT_2015",
+    "FIBULA_DRY_MALE_2023",
+    "LOWER_LIMB_SSM_2019",
+    "ANSUR_II_MALE_2012"
+  ],
+  "current_a003_mm": {
+    "femur_HJC_to_KJC_control_span": 412.8818111368478,
+    "tibia_KJC_to_ankle_control_span": 439.1441065752427,
+    "fibula_head_to_malleolus_control_span": 400.429689392089,
+    "patella_superior_to_inferior_pole_span": 44.00000000000004
+  },
+  "existing_osteometric_proxies_mm": {
+    "femur": 464.5372278035145,
+    "tibia": 412.2010292548541,
+    "fibula": 415.42968939208896
+  },
+  "checks": {
+    "patella": {
+      "a003_length_mm": 44,
+      "male_MRI_reference_mm": {
+        "mean": 47,
+        "sd": 3.72
+      },
+      "z_vs_male_MRI": -0.8064516129032258,
+      "dry_male_reference_mm": {
+        "mean": 39.9,
+        "sd": 3.83
+      },
+      "reading": "A003 patellar pole-to-pole length lies comfortably between two independent adult male reference sets. Size alone is not a reason to rebuild the patella."
+    },
+    "fibula": {
+      "a003_control_mm": 400.429689392089,
+      "a003_osteometric_proxy_mm": 415.42968939208896,
+      "male_CT_full_length_mm": {
+        "mean": 387.4,
+        "sd": 23.7
+      },
+      "male_dry_full_length_mm": {
+        "mean": 373.9,
+        "sd": 13.3
+      },
+      "reading": "The a003 fibular control span is plausible for a tall male, but the osteometric proxy is near/above the upper region of these samples. Endpoint semantics and stature conditioning must be reconciled before freezing exact length."
+    },
+    "lower_limb_subject_crosscheck": {
+      "note": "A 183 cm male SSM example has femur 428.3 mm and tibia/fibula segment 441.6 mm; a 180 cm male has femur 418.4 mm and tibia/fibula 425.5 mm. These model-specific segment definitions are broadly compatible with the current joint-centre lower-limb spans and do not indicate the dramatic proportional defects seen in the shoulder, spine, hand or foot."
+    }
+  },
+  "findings": [
+    "The lower-limb long-bone chain is not showing the same gross proportion failure as the shoulder girdle, lumbar spine or forefoot.",
+    "Patellar size is provisionally plausible: the current ~44 mm length is within independent adult male MRI/dry-bone corridors.",
+    "Femur and tibia joint-centre locations were already independently corroborated, so they should remain provisional anchors while the pelvis and foot are rebuilt.",
+    "Fibula geometry still needs endpoint-defined verification and proximal/distal contact refinement, but there is no evidence to justify a blanket lengthening or shortening now.",
+    "The patella still needs a true trochlear translation/contact path; a plausible bone size does not solve patellofemoral kinematics."
+  ],
+  "provisional_decisions": {
+    "femur": "RETAIN_PROVISIONALLY",
+    "tibia": "RETAIN_PROVISIONALLY",
+    "fibula": "RETAIN_LENGTH_PROVISIONALLY_REBUILD_CONTACT_ENDPOINTS",
+    "patella": "RETAIN_SIZE_PROVISIONALLY_REBUILD_TRACKING_CONTACT_GEOMETRY"
+  },
+  "acceptance_tests": [
+    "Femur and tibia centres remain compatible with retained HJC/KJC/ankle evidence.",
+    "Fibular head and lateral malleolus endpoints are checked against an endpoint-matched male source and preserve proximal/distal tibiofibular contacts.",
+    "Patella length/width/thickness and ridge orientation remain within adult male corridors.",
+    "Patellar translation through the trochlea is source-backed before Gate 8/9 pass.",
+    "Lower-limb mechanics are rerun after pelvis and foot canonical retargeting."
+  ],
+  "status": "LOWER_LIMB_LONG_BONES_PROVISIONALLY_PLAUSIBLE_CONTACT_GEOMETRY_STILL_OPEN"
+}

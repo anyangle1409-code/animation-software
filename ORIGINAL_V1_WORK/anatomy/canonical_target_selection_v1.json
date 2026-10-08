@@ -45,11 +45,13 @@
         "thoracic_disc_heights_mm": null,
         "lumbar_body_heights_mm": null,
         "lumbar_disc_heights_mm": null,
-        "sagittal_endplate_frame_sequence": null
+        "sagittal_endplate_frame_sequence": null,
+        "level_height_stack": "ORIGINAL_V1_WORK/anatomy/canonical_spine_level_stack_v1.json"
       },
       "blockers": [
-        "choose level-specific body/disc values inside source corridors",
-        "reconstruct sagittal curve without stretching bones"
+        "C2 vertebral body height with compatible adult reference",
+        "select level-specific values inside source corridors where methods conflict",
+        "reconstruct sagittal endplate/frame sequence and S1 transition without stretching bones"
       ]
     },
     "ribs": {
@@ -58,10 +60,13 @@
       "selected": {
         "centrelines": null,
         "head_tubercle_landmarks": null,
-        "anterior_contacts": null
+        "anterior_contacts": null,
+        "demographic_model": "ORIGINAL_V1_WORK/anatomy/rib_demographic_model_holcombe2017_v1.json"
       },
       "blockers": [
-        "transcribe/reconstruct rib-level population curve parameters"
+        "choose or range-bound reference age/weight without silently inventing them",
+        "implement the 2016 logarithmic-spiral reconstruction into a 2D centreline",
+        "map rib-plane orientation into the HGPT thoracic frame and create rib-level head/tubercle/anterior contact coordinates"
       ]
     },
     "forearm": {
@@ -91,14 +96,16 @@
       "freeze_state": "NOT_SELECTED",
       "selected": {
         "carpal_centroids": null,
-        "carpal_axes": null,
+        "carpal_axes": "ORIGINAL_V1_WORK/anatomy/canonical_carpal_axis_targets_v1.json",
         "metacarpal_lengths_mm": null,
-        "phalange_lengths_mm": null
+        "phalange_lengths_mm": null,
+        "carpal_envelopes": "ORIGINAL_V1_WORK/anatomy/canonical_carpal_envelopes_v1.json"
       },
       "blockers": [
-        "map carpal CT axes/centroids into HGPT frame",
-        "stature-aware metacarpal cross-check",
-        "digit-ratio cross-check"
+        "solve all eight carpal centroids/contact centres in a common wrist frame",
+        "pisiform neutral axis/reference geometry",
+        "map source envelope X/Y/Z into HGPT frame",
+        "freeze M2-M4 lengths only after wrist/carpal layout is fixed"
       ]
     },
     "pelvis": {

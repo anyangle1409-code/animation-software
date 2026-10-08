@@ -1,0 +1,364 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-08",
+ "status": "AUDIT_ONLY_NO_TARGET_SELECTED_NO_GEOMETRY_CHANGED",
+ "source": {
+  "citation": "Hotzman J, Gordon CC, Bradtmiller B, Corner BD, Mucher M, Kristensen S, Paquette S, Blackwell CL. Measurer's Handbook: US Army and Marine Corps Anthropometric Surveys, 2010-2011. NATICK/TR-11/017 (2011).",
+  "url": "https://apps.dtic.mil/sti/tr/pdf/ADA548497.pdf",
+  "dtic_accession": "ADA548497",
+  "retrieval_attempts_2026_10_08": [
+   "https://apps.dtic.mil/sti/tr/pdf/ADA548497.pdf",
+   "https://apps.dtic.mil/sti/pdfs/ADA548497.pdf",
+   "https://archive.org/download/DTIC_ADA548497/DTIC_ADA548497.pdf",
+   "https://web.archive.org/web/2020/https://apps.dtic.mil/sti/pdfs/ADA548497.pdf"
+  ],
+  "retrieval_result": "all denied by the cloud environment network policy (no bytes received)",
+  "pdf_sha256": null,
+  "definition_status": "OWNER_SUPPLIED_NOT_INDEPENDENTLY_VERIFIED"
+ },
+ "definitions_owner_supplied": {
+  "acromion": {
+   "section": "5.2.1 (owner-verified earlier)",
+   "text": "palpated bony point: intersection of the lateral border of the acromion with the line from the trapezius point over the clavicle point toward the shoulder tip"
+  },
+  "cervicale": {
+   "section": "5.2.5",
+   "text": "most prominent palpable point of the C7 spinous process"
+  },
+  "radiale": {
+   "section": "5.2.33",
+   "text": "superior point on the outside (lateral) edge of the radius"
+  },
+  "stylion": {
+   "section": "5.2.36",
+   "text": "inferior point at the bottom of the radius (radial styloid)"
+  },
+  "suprasternale": {
+   "section": "5.2.39",
+   "text": "inferior point of the jugular notch"
+  },
+  "radiale_stylion_length": {
+   "section": "6.4.68",
+   "text": "radiale to stylion measured directly with a beam caliper parallel to the forearm"
+  }
+ },
+ "inputs_sha256": {
+  "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json": "11712ba3e105aa8844b07572315d58ccace1d23d2f0cdf101218a3a507a1a1e3",
+  "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/candidate_record.json": "3eb4fa1e2f7d815ec664af93fc4ece89db87a36a5201452447b161fbdcc46f3a",
+  "ORIGINAL_V1_WORK/anatomy/sources/ansur2/ANSUR_II_MALE_Public.csv": "e468eb5787b8ba6c716a86378cf476ba9bd8c57e09493f0fc65b1b8f33e48db8"
+ },
+ "correspondence": {
+  "suprasternale": {
+   "model": "skeleton_input.trunk.ij_bone (sternum head)",
+   "axis_used": "height (z) only",
+   "class": "DEFENSIBLE",
+   "reason": "the model point is the bony jugular-notch point; c003 uses only its height"
+  },
+  "acromion": {
+   "model": "Lee LM25-LM27 lateral-border crossing of the trapezius-clavicle line (c001-c003)",
+   "class": "BRACKETED",
+   "reason": "line construction bracketed (clavicle-axis vs lateral line through AC: 1497.7 vs 1502.2 mm in c003); see shoulder_ansur_acromion_correspondence_v1.json"
+  },
+  "cervicale": {
+   "model": "none (only vertebral body centres exist; C7 body centre z 1579.8 mm)",
+   "class": "UNRESOLVED",
+   "reason": "no C7 spinous-tip landmark; spinous tip lies caudal/posterior of the body centre by an unsourced amount"
+  },
+  "radiale": {
+   "model": "radius head = humeroradial articular centre (a003 radius recipe \"Radial head to radial styloid\"; head coincides with humeroradial marker)",
+   "class": "UNRESOLVED",
+   "reason": "ANSUR radiale is the superior point of the lateral radial-head rim; the model point is an articular centre; vertical offset unsourced here. The 15 mm radiale-below-EJC rule is a project convention, not a definition"
+  },
+  "stylion": {
+   "model": "radius tail (recipe: radial styloid)",
+   "class": "UNRESOLVED",
+   "reason": "label matches, but the tail sits exactly at the radiocarpal wrist-centre height (a003: 919.0 vs 919.0 mm), i.e. a placement coincidence; the styloid tip lies distal to the radiocarpal centre by an unsourced amount"
+  },
+  "radiale_stylion_length": {
+   "model": "no direct model span; radius stick = articular centre to wrist-centre height (a003 256.0 mm)",
+   "class": "UNRESOLVED",
+   "reason": "both endpoints UNRESOLVED; EJC/WJC substitutes are not used as the measurement"
+  }
+ },
+ "sensitivity_bracket": "exploratory 0-15 mm for each UNRESOLVED arm endpoint (covers the existing 15 mm convention; not a sourced range)",
+ "sensitivity": {
+  "a003": {
+   "acromion_z_mm": 1509.5,
+   "rows": [
+    {
+     "radiale_offset_mm": 0.0,
+     "stylion_offset_mm": 0.0,
+     "acromion_radiale_z": -1.29,
+     "radiale_stylion_z": -2.05,
+     "stylion_height_z": 1.78
+    },
+    {
+     "radiale_offset_mm": 0.0,
+     "stylion_offset_mm": 5.0,
+     "acromion_radiale_z": -1.29,
+     "radiale_stylion_z": -1.58,
+     "stylion_height_z": 1.55
+    },
+    {
+     "radiale_offset_mm": 0.0,
+     "stylion_offset_mm": 10.0,
+     "acromion_radiale_z": -1.29,
+     "radiale_stylion_z": -1.12,
+     "stylion_height_z": 1.32
+    },
+    {
+     "radiale_offset_mm": 0.0,
+     "stylion_offset_mm": 15.0,
+     "acromion_radiale_z": -1.29,
+     "radiale_stylion_z": -0.66,
+     "stylion_height_z": 1.08
+    },
+    {
+     "radiale_offset_mm": 5.0,
+     "stylion_offset_mm": 0.0,
+     "acromion_radiale_z": -0.82,
+     "radiale_stylion_z": -2.51,
+     "stylion_height_z": 1.78
+    },
+    {
+     "radiale_offset_mm": 5.0,
+     "stylion_offset_mm": 5.0,
+     "acromion_radiale_z": -0.82,
+     "radiale_stylion_z": -2.05,
+     "stylion_height_z": 1.55
+    },
+    {
+     "radiale_offset_mm": 5.0,
+     "stylion_offset_mm": 10.0,
+     "acromion_radiale_z": -0.82,
+     "radiale_stylion_z": -1.58,
+     "stylion_height_z": 1.32
+    },
+    {
+     "radiale_offset_mm": 5.0,
+     "stylion_offset_mm": 15.0,
+     "acromion_radiale_z": -0.82,
+     "radiale_stylion_z": -1.12,
+     "stylion_height_z": 1.08
+    },
+    {
+     "radiale_offset_mm": 10.0,
+     "stylion_offset_mm": 0.0,
+     "acromion_radiale_z": -0.35,
+     "radiale_stylion_z": -2.97,
+     "stylion_height_z": 1.78
+    },
+    {
+     "radiale_offset_mm": 10.0,
+     "stylion_offset_mm": 5.0,
+     "acromion_radiale_z": -0.35,
+     "radiale_stylion_z": -2.51,
+     "stylion_height_z": 1.55
+    },
+    {
+     "radiale_offset_mm": 10.0,
+     "stylion_offset_mm": 10.0,
+     "acromion_radiale_z": -0.35,
+     "radiale_stylion_z": -2.05,
+     "stylion_height_z": 1.32
+    },
+    {
+     "radiale_offset_mm": 10.0,
+     "stylion_offset_mm": 15.0,
+     "acromion_radiale_z": -0.35,
+     "radiale_stylion_z": -1.58,
+     "stylion_height_z": 1.08
+    },
+    {
+     "radiale_offset_mm": 15.0,
+     "stylion_offset_mm": 0.0,
+     "acromion_radiale_z": 0.12,
+     "radiale_stylion_z": -3.44,
+     "stylion_height_z": 1.78
+    },
+    {
+     "radiale_offset_mm": 15.0,
+     "stylion_offset_mm": 5.0,
+     "acromion_radiale_z": 0.12,
+     "radiale_stylion_z": -2.97,
+     "stylion_height_z": 1.55
+    },
+    {
+     "radiale_offset_mm": 15.0,
+     "stylion_offset_mm": 10.0,
+     "acromion_radiale_z": 0.12,
+     "radiale_stylion_z": -2.51,
+     "stylion_height_z": 1.32
+    },
+    {
+     "radiale_offset_mm": 15.0,
+     "stylion_offset_mm": 15.0,
+     "acromion_radiale_z": 0.12,
+     "radiale_stylion_z": -2.05,
+     "stylion_height_z": 1.08
+    }
+   ],
+   "ranges": {
+    "acromion_radiale_z": [
+     -1.29,
+     0.12
+    ],
+    "radiale_stylion_z": [
+     -3.44,
+     -0.66
+    ],
+    "stylion_height_z": [
+     1.08,
+     1.78
+    ]
+   }
+  },
+  "c003": {
+   "acromion_z_mm": 1497.7,
+   "rows": [
+    {
+     "radiale_offset_mm": 0.0,
+     "stylion_offset_mm": 0.0,
+     "acromion_radiale_z": -3.24,
+     "radiale_stylion_z": -2.05,
+     "stylion_height_z": 2.19
+    },
+    {
+     "radiale_offset_mm": 0.0,
+     "stylion_offset_mm": 5.0,
+     "acromion_radiale_z": -3.24,
+     "radiale_stylion_z": -1.58,
+     "stylion_height_z": 1.96
+    },
+    {
+     "radiale_offset_mm": 0.0,
+     "stylion_offset_mm": 10.0,
+     "acromion_radiale_z": -3.24,
+     "radiale_stylion_z": -1.12,
+     "stylion_height_z": 1.73
+    },
+    {
+     "radiale_offset_mm": 0.0,
+     "stylion_offset_mm": 15.0,
+     "acromion_radiale_z": -3.24,
+     "radiale_stylion_z": -0.66,
+     "stylion_height_z": 1.49
+    },
+    {
+     "radiale_offset_mm": 5.0,
+     "stylion_offset_mm": 0.0,
+     "acromion_radiale_z": -2.76,
+     "radiale_stylion_z": -2.51,
+     "stylion_height_z": 2.19
+    },
+    {
+     "radiale_offset_mm": 5.0,
+     "stylion_offset_mm": 5.0,
+     "acromion_radiale_z": -2.76,
+     "radiale_stylion_z": -2.05,
+     "stylion_height_z": 1.96
+    },
+    {
+     "radiale_offset_mm": 5.0,
+     "stylion_offset_mm": 10.0,
+     "acromion_radiale_z": -2.76,
+     "radiale_stylion_z": -1.58,
+     "stylion_height_z": 1.73
+    },
+    {
+     "radiale_offset_mm": 5.0,
+     "stylion_offset_mm": 15.0,
+     "acromion_radiale_z": -2.76,
+     "radiale_stylion_z": -1.12,
+     "stylion_height_z": 1.49
+    },
+    {
+     "radiale_offset_mm": 10.0,
+     "stylion_offset_mm": 0.0,
+     "acromion_radiale_z": -2.29,
+     "radiale_stylion_z": -2.97,
+     "stylion_height_z": 2.19
+    },
+    {
+     "radiale_offset_mm": 10.0,
+     "stylion_offset_mm": 5.0,
+     "acromion_radiale_z": -2.29,
+     "radiale_stylion_z": -2.51,
+     "stylion_height_z": 1.96
+    },
+    {
+     "radiale_offset_mm": 10.0,
+     "stylion_offset_mm": 10.0,
+     "acromion_radiale_z": -2.29,
+     "radiale_stylion_z": -2.05,
+     "stylion_height_z": 1.73
+    },
+    {
+     "radiale_offset_mm": 10.0,
+     "stylion_offset_mm": 15.0,
+     "acromion_radiale_z": -2.29,
+     "radiale_stylion_z": -1.58,
+     "stylion_height_z": 1.49
+    },
+    {
+     "radiale_offset_mm": 15.0,
+     "stylion_offset_mm": 0.0,
+     "acromion_radiale_z": -1.82,
+     "radiale_stylion_z": -3.44,
+     "stylion_height_z": 2.19
+    },
+    {
+     "radiale_offset_mm": 15.0,
+     "stylion_offset_mm": 5.0,
+     "acromion_radiale_z": -1.82,
+     "radiale_stylion_z": -2.97,
+     "stylion_height_z": 1.96
+    },
+    {
+     "radiale_offset_mm": 15.0,
+     "stylion_offset_mm": 10.0,
+     "acromion_radiale_z": -1.82,
+     "radiale_stylion_z": -2.51,
+     "stylion_height_z": 1.73
+    },
+    {
+     "radiale_offset_mm": 15.0,
+     "stylion_offset_mm": 15.0,
+     "acromion_radiale_z": -1.82,
+     "radiale_stylion_z": -2.05,
+     "stylion_height_z": 1.49
+    }
+   ],
+   "ranges": {
+    "acromion_radiale_z": [
+     -3.24,
+     -1.82
+    ],
+    "radiale_stylion_z": [
+     -3.44,
+     -0.66
+    ],
+    "stylion_height_z": [
+     1.49,
+     2.19
+    ]
+   }
+  }
+ },
+ "robust_across_bracket": {
+  "forearm_radiale_stylion_short_on_c003": false,
+  "wrist_high_on_c003": true,
+  "upper_arm_drop_short_on_c003": true
+ },
+ "decision": {
+  "humerus_or_forearm_target": "NOT SELECTED: radiale and stylion correspondences are unresolved, so no endpoint mapping justifies a length change",
+  "c003_geometry": "unchanged",
+  "arm_chain_audit_status": "its EJC/WJC-proxy z-scores stay labelled as proxies; only the conclusions in robust_across_bracket hold whatever the unsourced offsets are"
+ },
+ "needed": [
+  "primary handbook PDF (hash and page numbers for 5.2.5, 5.2.33, 5.2.36, 5.2.39, 6.4.68 and the wrist-height landmark)",
+  "radial-head rim to humeroradial articular centre offset (source)",
+  "radial styloid tip to radiocarpal centre offset (source)",
+  "C7 spinous tip relative to the C7 body (source)"
+ ]
+}

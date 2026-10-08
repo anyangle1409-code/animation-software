@@ -7,7 +7,8 @@
   "sources": [
     "DOGAN_1998_HAND_RELATIONS",
     "BEREDJIKLIAN_2025_METACARPAL_HEIGHT",
-    "ANSUR_II_MALE_2012"
+    "ANSUR_II_MALE_2012",
+    "MEADOWS_JANTZ_1992_METACARPAL_STATURE"
   ],
   "surface_context": {
     "a003_hand_surface_length_mm": 188.99977374983501,
@@ -202,15 +203,44 @@
   "findings": [
     "Metacarpals 2 and 3 are about 2.4-2.5 SD shorter than the 1998 male radiographic means, and about 9-12 mm shorter than the independent 2025 CT means.",
     "Metacarpal 4 is also short (~1.6 SD; ~6.4 mm below both cited means).",
-    "Metacarpals 1 and 5 are close to the 1998 male means; metacarpal 5 is also close to the 2025 CT mean.",
-    "Most phalange spans are within 2 SD of the 1998 male sample; the hand-shortness signal is therefore concentrated much more strongly in metacarpals 2-4 than in the phalanges.",
-    "The current M2/M3/M4 shortening is consistent with the independently measured short hand surface, so these bones should be reopened for the canonical skeleton rather than preserved merely to fit r95."
+    "A third independent stature-oriented osteometric study supports the direction of the defect: a003 M2-M4 are below both Terry male group means, while the study's modern male sample was longer-statured and had longer metacarpals than the Terry males.",
+    "Metacarpals 1 and 5 are close to the 1998 male means; M5 is also close to the 2025 CT mean. They should not be lengthened merely because the overall hand is short.",
+    "Most phalange spans are within 2 SD of the 1998 male sample; the hand-shortness signal is concentrated much more strongly in metacarpals 2-4 and wrist-to-CMC/carpal layout than in the phalanges.",
+    "The current M2/M3/M4 shortening is consistent with the stature-conditioned short hand surface, so these bones remain REOPEN for the canonical skeleton."
   ],
   "status": "PROVISIONAL_HAND_TARGET_EVIDENCE_NOT_FROZEN",
   "next_steps": [
-    "Cross-check metacarpal target corridors against a stature-aware adult male dataset or model before freezing exact lengths.",
-    "Obtain/verify carpal row geometry so lengthening metacarpals does not simply shift MCP joints without correcting wrist-to-CMC structure.",
-    "Preserve current phalange proportions provisionally, but cross-check digit-specific ratios before final freeze.",
+    "Transcribe the Meadows/Jantz regression coefficients if an accessible full table can be verified; until then use it as a direction/scale cross-check, not an exact target equation.",
+    "Obtain/verify carpal row geometry so lengthening M2-M4 does not simply shift MCP joints without correcting wrist-to-CMC structure.",
+    "Preserve M1/M5 and current phalange proportions provisionally unless further evidence contradicts them.",
     "After canonical hand targets are frozen, reshape the mesh around the skeleton rather than moving the skeleton back into the short r95 hand."
-  ]
+  ],
+  "stature_direction_crosscheck": {
+    "source": "MEADOWS_JANTZ_1992_METACARPAL_STATURE",
+    "measurement_definition": "midline proximal-articular-midpoint to distal-articular-midpoint",
+    "Terry_male_left_means_mm": {
+      "white": {
+        "M1": 46.12,
+        "M2": 66.47,
+        "M3": 64.89,
+        "M4": 58.09,
+        "M5": 53.46
+      },
+      "black": {
+        "M1": 49.3,
+        "M2": 71.15,
+        "M3": 70.16,
+        "M4": 62.3,
+        "M5": 57.34
+      }
+    },
+    "a003_mm": {
+      "M1": 47.99997512953655,
+      "M2": 58.40737482460562,
+      "M3": 53.98434682000276,
+      "M4": 51.587330872635825,
+      "M5": 53.201580132340204
+    },
+    "reading": "A003 M2-M4 are shorter than both Terry male groups using a closely matching midline articular definition. The study also reports that its modern male sample had longer metacarpals and greater statures than the Terry males, so stature-aware direction strengthens rather than weakens the M2-M4 shortness finding."
+  }
 }

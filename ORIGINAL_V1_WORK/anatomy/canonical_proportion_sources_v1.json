@@ -784,6 +784,85 @@
         "second-population forearm plausibility cross-check"
       ],
       "limitation": "Reference-table source rather than the primary measurement publication; left side only. Use as corroboration, not the sole target."
+    },
+    {
+      "id": "PRETORIUS_2021_FOREARM_CT",
+      "type": "adult_forearm_CT_morphometry",
+      "citation": "Pretorius HS, Ferreira N, Burger MC. A computer tomography-based anthropomorphic study of forearm osteology: implications for prosthetic design. SA Orthop J. 2021;20(3).",
+      "doi": "10.17159/2309-8309/2021/v20n3a5",
+      "population": "97 adult forearm CT scans; 84% male; mean age 34.91 years",
+      "measurement_definition": {
+        "radius": "overall length from midpoint of wrist to centre of radial head",
+        "ulna": "overall length from midpoint of olecranon to centre of distal ulna"
+      },
+      "values_mm": {
+        "radius": {
+          "mean": 238.43,
+          "sd": 18.38,
+          "ci95": [
+            234.6,
+            241.74
+          ]
+        },
+        "ulna": {
+          "mean": 259.9,
+          "sd": 19.88,
+          "ci95": [
+            255.89,
+            263.91
+          ]
+        },
+        "radial_styloid_length": {
+          "mean": 10.55,
+          "sd": 2.13
+        },
+        "distal_radius_height": {
+          "mean": 23.06,
+          "sd": 2.8
+        }
+      },
+      "use": [
+        "measurement-defined adult CT cross-check for radius/ulna segment geometry",
+        "distal radius soft/landmark conversion sanity check"
+      ],
+      "limitation": "Predominantly male but not male-only; mean stature not reported; radius endpoint is wrist midpoint rather than radial styloid and ulna endpoint is olecranon midpoint rather than maximum olecranon tip."
+    },
+    {
+      "id": "RAUSCH_2018_RADIAL_HEAD_FOREARM",
+      "type": "cadaver_forearm_morphometry",
+      "citation": "Rausch V et al. The radial head size in relation to osseous landmarks of the forearm. Surg Radiol Anat. 2019.",
+      "pmid": "30542928",
+      "population": "cadaver forearms; mixed sex",
+      "values_mm": {
+        "radius_length": {
+          "mean": 238,
+          "sd": 16,
+          "range": [
+            201,
+            271
+          ]
+        },
+        "ulna_length": {
+          "mean": 231,
+          "sd": 16,
+          "range": [
+            193,
+            263
+          ]
+        },
+        "radial_head_largest_diameter": {
+          "mean": 24.2,
+          "sd": 2.2
+        },
+        "radial_head_smallest_diameter": {
+          "mean": 22.5,
+          "sd": 2
+        }
+      },
+      "use": [
+        "secondary forearm length and radial-head scale cross-check"
+      ],
+      "limitation": "Mixed-sex cadaver sample; accessible abstract does not fully expose endpoint definitions, so it cannot freeze canonical length."
     }
   ],
   "unresolved_source_needs": [

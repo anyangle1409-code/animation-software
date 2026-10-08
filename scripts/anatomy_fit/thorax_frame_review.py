@@ -49,6 +49,13 @@ def build():
     # SC height relative to IJ under thorax pitch uncertainty: rotate the ISB (anterior, superior) components by pitch
     pitches = (-20, -10, 0, 10, 20)
     sc_rel_up = {p: round(sc_isb[1] * math.cos(math.radians(p)) + sc_isb[0] * math.sin(math.radians(p)), 1) for p in pitches}
+    # third line: IJ vertebral level (CT, 1,035 patients, supine: notch at the T2-T3 bodies; Razzouk et al. 2023,
+    # J Clin Neurosci, abstract level) placed on the registered spine level stack.
+    stack = json.loads((ANAT / 'canonical_spine_level_stack_v1.json').read_text())
+    body = {k: v['candidate'] for k, v in stack['vertebral_bodies_mm'].items() if isinstance(v, dict) and v.get('candidate')}
+    disc = {k: v['candidate'] for k, v in stack['disc_gaps_mm'].items() if isinstance(v, dict) and v.get('candidate')}
+    to_t2t3 = body['C7'] / 2 + disc['C7/T1'] + body['T1'] + disc['T1/T2'] + body['T2'] + disc['T2/T3'] / 2
+    to_t3mid = to_t2t3 + disc['T2/T3'] / 2 + body['T3'] / 2
     ij = anchors['suprasternaleheight']
     rec = json.loads((ANAT / 'character_fit_r95_a003.json').read_text())
     a_ij = rec['skeleton_input']['trunk']['ij_bone'][2] * 1000
@@ -71,6 +78,14 @@ def build():
                        f'skin landmarks {c7_minus_ij[0]} +/- {c7_minus_ij[1]} mm apart. Either the generic/specimen thoraces are '
                        'pitched differently from standing men, or skin landmarks differ from the bony points. The standing thorax '
                        'pitch, and therefore the global ISB thorax axes, stays OPEN.'},
+        'vertebral_level_line': {
+            'source': 'Razzouk et al. 2023 (J Clin Neurosci): sternal notch at the T2-T3 vertebral bodies in CT of 1,035 patients (supine); abstract level',
+            'C7_body_centre_above_IJ_along_spine_mm': [round(to_t2t3, 1), round(to_t3mid, 1)],
+            'basis': 'registered level stack (C7, T1, T2, T3 bodies; C7/T1, T1/T2, T2/T3 discs)',
+            'reading': 'The C7 body centre sits about 48-58 mm above the notch along the spine. The C7 spinous tip lies below its body '
+                       'centre by an UNSOURCED amount (spinous processes slope caudally), so this line supports a bony C7-tip-above-IJ '
+                       'of well under 58 mm, in line with the bony models and against the 80.7 mm living skin value. It is supine '
+                       'CT; standing may lower the sternum relative to the spine. Not resolved.'},
         'SC_relative_to_IJ': {
             'source_ISB_mm': {'anterior': round(sc_isb[0], 1), 'superior': round(sc_isb[1], 1), 'lateral': round(sc_isb[2], 1)},
             'source': 'SETH_2016_SCAPULOTHORACIC_MODEL (Holzbaur-derived generic model, unscaled)',

@@ -50,6 +50,15 @@
   },
   "reading": "Both bony models put C7 about 33-46 mm above IJ (IJ-C7 line about 20 deg); 4,082 standing men put the skin landmarks 80.7 +/- 11.4 mm apart. Either the generic/specimen thoraces are pitched differently from standing men, or skin landmarks differ from the bony points. The standing thorax pitch, and therefore the global ISB thorax axes, stays OPEN."
  },
+ "vertebral_level_line": {
+  "source": "Razzouk et al. 2023 (J Clin Neurosci): sternal notch at the T2-T3 vertebral bodies in CT of 1,035 patients (supine); abstract level",
+  "C7_body_centre_above_IJ_along_spine_mm": [
+   48.5,
+   58.6
+  ],
+  "basis": "registered level stack (C7, T1, T2, T3 bodies; C7/T1, T1/T2, T2/T3 discs)",
+  "reading": "The C7 body centre sits about 48-58 mm above the notch along the spine. The C7 spinous tip lies below its body centre by an UNSOURCED amount (spinous processes slope caudally), so this line supports a bony C7-tip-above-IJ of well under 58 mm, in line with the bony models and against the 80.7 mm living skin value. It is supine CT; standing may lower the sternum relative to the spine. Not resolved."
+ },
  "SC_relative_to_IJ": {
   "source_ISB_mm": {
    "anterior": 7.2,

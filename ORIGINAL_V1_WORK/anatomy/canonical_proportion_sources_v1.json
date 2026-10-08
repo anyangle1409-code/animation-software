@@ -1659,6 +1659,147 @@
         "whole lower-limb proportion cross-check at similar statures"
       ],
       "limitation": "Small illustrative subject set, not a population target; segment definitions are model-specific."
+    },
+    {
+      "id": "MANDIBLE_3DCT_IRAN_2022",
+      "type": "adult_mandible_3D_CT_morphometry",
+      "citation": "The Diagnostic Value of 3-dimensional Computerized Tomography Scan Indicators of Mandible Bone in Sex Determination of Selected Individuals in Tehran. 2022.",
+      "pmcid": "PMC9884149",
+      "population": "197 adult mandible CT scans; 97 men, 100 women",
+      "male_values": {
+        "gonial_angle_deg": {
+          "mean": 120.14,
+          "sd": 5.97
+        },
+        "ramus_length_mm": {
+          "mean": 60.81,
+          "sd": 4.59
+        },
+        "minimum_ramus_breadth_mm": {
+          "mean": 31.2,
+          "sd": 3.09
+        },
+        "coronoid_height_mm": {
+          "mean": 66.89,
+          "sd": 4.35
+        },
+        "mandibular_length_mm": {
+          "mean": 75.41,
+          "sd": 4.29
+        },
+        "bicondylar_breadth_mm": {
+          "mean": 121.93,
+          "sd": 5.24
+        },
+        "bigonial_breadth_mm": {
+          "mean": 96.56,
+          "sd": 6.18
+        },
+        "symphyseal_height_mm": {
+          "mean": 31.53,
+          "sd": 4.05
+        }
+      },
+      "use": [
+        "TMJ intercondylar corridor",
+        "mandibular ramus/body envelope scale",
+        "gonial-angle plausibility"
+      ],
+      "limitation": "Population-specific forensic CT sample; measurement definitions must be matched before applying."
+    },
+    {
+      "id": "MANDIBLE_POSTMORTEM_INDIA_2023",
+      "type": "adult_mandible_postmortem_morphometry",
+      "citation": "Morphometric measurements of mandible to determine stature and sex: A postmortem study. 2023.",
+      "pmcid": "PMC10585390",
+      "population": "150 adult mandibles; 105 men, 45 women; age 18-65",
+      "male_values": {
+        "mandibular_arch_length_cm": {
+          "mean": 27.48,
+          "sd": 3.389
+        },
+        "bicondylar_width_cm": {
+          "mean": 13.77,
+          "sd": 1.417
+        },
+        "bigonial_distance_cm": {
+          "mean": 12.44,
+          "sd": 1.357
+        },
+        "condylion_gonion_cm": {
+          "mean": 4.3,
+          "sd": 0.846
+        },
+        "gonion_gnathion_cm": {
+          "mean": 12.93,
+          "sd": 2.52
+        },
+        "mandibular_angle_deg": {
+          "mean": 130.54,
+          "sd": 12.155
+        }
+      },
+      "use": [
+        "independent mandibular breadth/ramus corridor",
+        "stature-linked mandibular plausibility"
+      ],
+      "limitation": "Some values and methods differ materially from 3D CT studies; broad population corridor only."
+    },
+    {
+      "id": "CRANIAL_3D_ATLAS_US_WHITE_2014",
+      "type": "3D_CT_statistical_cranial_atlas",
+      "citation": "Improving sex estimation from crania using a novel three-dimensional quantitative method. J Forensic Sci. 2014.",
+      "pmid": "24502609",
+      "population": "222 cranial CT scans of U.S. White adults",
+      "findings": [
+        "size-related sex variables include bizygomatic breadth, maximum cranial length, cranial base length and mastoid height",
+        "shape variables include glabellar projection, frontal inclination and cranial-base flexion"
+      ],
+      "use": [
+        "cranial vault/base landmark topology",
+        "male cranial shape corridor"
+      ],
+      "limitation": "Accessible abstract does not expose numerical mean dimensions."
+    },
+    {
+      "id": "CRANIAL_JAPAN_3DCT_2024",
+      "type": "3D_CT_cranial_morphometry",
+      "citation": "Sex estimation from skull measurements of a contemporary Japanese population using three-dimensional computed tomography images. 2024.",
+      "pmcid": "PMC11732883",
+      "population": "263 postmortem CT scans; 142 men, 121 women",
+      "measurements": 21,
+      "finding": "19 measurements significantly larger in males; bizygomatic breadth was the strongest univariate discriminator.",
+      "use": [
+        "independent modern 3D cranial landmark framework",
+        "sex-aware shape validation"
+      ],
+      "limitation": "Population-specific; numerical target table must be transcribed before use."
+    },
+    {
+      "id": "HYOID_SEX_REVIEW_2021",
+      "type": "head_neck_bone_review",
+      "citation": "Contributions of anatomy to forensic sex estimation: focus on head and neck bones. 2021.",
+      "pmcid": "PMC8942509",
+      "finding": "Adult male hyoids are generally larger; common CT measures include greater-cornua width, anteroposterior length, greater-cornu length, body width and lesser-cornua distance.",
+      "use": [
+        "define canonical hyoid measurement set",
+        "avoid arbitrary one-stick representation"
+      ],
+      "limitation": "Review summarizes multiple populations; numerical male target values not registered yet."
+    },
+    {
+      "id": "HYOID_GROWTH_CT_2021",
+      "type": "3D_CT_hyoid_mandible_relationship",
+      "citation": "Growth and sexual dimorphism of the hyoid bone and its relationship to the mandible from birth to 19 years: A three-dimensional computed tomography study. Anat Rec. 2021.",
+      "pmid": "33580633",
+      "pmcid": "PMC8349784",
+      "doi": "10.1002/ar.24594",
+      "sample": "97 CT scans from 49 individuals through age 19",
+      "use": [
+        "hyoid landmark topology and hyomandibular relationship",
+        "late-adolescent dimensional maturation context"
+      ],
+      "limitation": "Not an adult male population target by itself."
     }
   ],
   "unresolved_source_needs": [

@@ -1,0 +1,2 @@
+00:00.294  blend            | Read blend: "/tmp/hgpt-cp3-independent-20261008/mirrored_rehearsal.blend"
+{"captured_bones": 206, "captured_markers": 427}

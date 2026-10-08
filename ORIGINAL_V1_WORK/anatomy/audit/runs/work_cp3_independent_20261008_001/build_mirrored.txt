@@ -1,0 +1,2 @@
+Info: Saved as "mirrored_rehearsal.blend"
+{"built": "/tmp/hgpt-cp3-independent-20261008/mirrored_rehearsal.blend", "bones": 206, "markers": 427, "sha256": "e865da0d2577c361abbe79d7590a47d979b81644c79ba15e0bd52405989b5750"}

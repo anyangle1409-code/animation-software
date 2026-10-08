@@ -23,7 +23,8 @@
       "blockers": [
         "stature-aware final clavicle endpoint/centreline selection",
         "landmark-compatible 3D scapular envelope and AC/acromion/coracoid placement",
-        "absolute SC/AC/GH centres, neutral thorax pose and independent endpoint-matched confirmation remain open"
+        "absolute SC/AC/GH centres, neutral thorax pose and independent endpoint-matched confirmation remain open",
+        "Standing-alignment SC/AC surface landmarks are not articular centres; match source length endpoints and map the IJ/C7/PX/T8 thorax frame before using the historical relative vector or sweep."
       ],
       "next_action": "Resolve source endpoint mappings and neutral thorax pose before selecting absolute SC/AC/GH centres; measured relative envelope is provisional."
     },

@@ -1,0 +1,56 @@
+{
+  "scope": "a003-data construction/movement rehearsal, not canonical anatomy acceptance",
+  "baseline_head": "60d103a0b1d97fab92bef1f92be0d29484e4062e",
+  "blender": "5.2.1 LTS",
+  "files": {
+    "a003_rehearsal.blend.gz": {
+      "uncompressed_sha256": "af5a8e9d20bf10ec181d5c0ce54a47fc98b7a295d90b44b8140f52c06a094406",
+      "gzip_sha256": "e92e599472358d22e03b18977f07a41464e7e15f64cadfaa82e2be70387ce03d",
+      "uncompressed_bytes": 213172,
+      "gzip_bytes": 212731
+    },
+    "mirrored_rehearsal.blend.gz": {
+      "uncompressed_sha256": "e865da0d2577c361abbe79d7590a47d979b81644c79ba15e0bd52405989b5750",
+      "gzip_sha256": "87bdf8f6316c85a7430edbf6f6f1d2aa3279e5d6e413d83b04f76b515deaaa20",
+      "uncompressed_bytes": 212623,
+      "gzip_bytes": 212223
+    },
+    "capture_a003.json.gz": {
+      "uncompressed_sha256": "3932c1a704f2e4f17396e7e74a9ca7771bae82a7c9620dc1be844d280dbfeb2f",
+      "gzip_sha256": "6f3000fe24391e2987919e73646e7e4eae5cce60a71cf5a62dcc373189368a30",
+      "uncompressed_bytes": 317415,
+      "gzip_bytes": 52845
+    },
+    "capture_mirrored.json.gz": {
+      "uncompressed_sha256": "4ab43d9e003206aa4073523701f6d107eff0d407e3d2b4c678d8cfb6c1e6eb6b",
+      "gzip_sha256": "91b84f17aa6bf3064d3115fc27824fb75286a1c50bbae03e888acd6928d03e72",
+      "uncompressed_bytes": 317440,
+      "gzip_bytes": 52221
+    },
+    "mirrored_record.json.gz": {
+      "uncompressed_sha256": "bb9555e747be38568dabc6ee3db235f93e6d8a069ce9e36244784235e71bdd4a",
+      "gzip_sha256": "bc2cdcb4fc80c409a1577c0eb146044fe9a5dfc47668de73f37779821d56fe08",
+      "uncompressed_bytes": 350087,
+      "gzip_bytes": 52386
+    },
+    "movement_record.json.gz": {
+      "uncompressed_sha256": "71c3837ea5b4a5c19ebc63511dd4ecf63ce5d9912c9c9f42a34fa934b1359ce2",
+      "gzip_sha256": "190e4d80c49975890100777a50394ab683d09e865cd2ea0ec72eed373909c177",
+      "uncompressed_bytes": 350192,
+      "gzip_bytes": 53122
+    },
+    "isolated_report.json.gz": {
+      "uncompressed_sha256": "d6e3103f8db805c6bfa8af2d20da9ecc9054edba68e388ac7559a636b5106cd7",
+      "gzip_sha256": "1fac9774e365d11536a02700c5fb6df4357185a8e9e37370652909c3d29decd1",
+      "uncompressed_bytes": 280061,
+      "gzip_bytes": 35645
+    },
+    "isolated_samples.json.gz": {
+      "uncompressed_sha256": "8bdec64ba53d85ae0d6ffae9e50a11ebaecd8744784f37b10bc73385f0a0a52a",
+      "gzip_sha256": "bc04145c71826ad29439c7455efcfdb369f313588ea0db43cde11743b38ad9b6",
+      "uncompressed_bytes": 11900669,
+      "gzip_bytes": 1781652
+    }
+  },
+  "a003_source_record_sha256": "11712ba3e105aa8844b07572315d58ccace1d23d2f0cdf101218a3a507a1a1e3"
+}

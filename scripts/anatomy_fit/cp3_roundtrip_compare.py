@@ -65,7 +65,8 @@ def compare(rec, cap):
     out['roundtrip_pass'] = bool(out['bone_ids_equal'] and out['marker_ids_equal'] and pos <= FLOAT32_M and cen <= FLOAT32_M
                                  and ax <= FLOAT32_AXIS and not out['parent_mismatches'] and not out['parent_relation_mismatches'])
     out['roll_note'] = ('Roll is reported, not gated: Blender align_roll reproduces the intended bone Z within the max_roll_error_deg '
-                        'shown, and bones whose roll target is parallel to the bone have no defined roll at all.')
+                        'shown. Horizontal bones use the perpendicular superior reference; roll errors remain '
+                        'reported measurements rather than an anatomical acceptance gate.')
     return out
 
 

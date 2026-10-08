@@ -1,0 +1,4 @@
+00:00.340  blend            | Read blend: "/tmp/hgpt-cp3-independent-20261008/a003_rehearsal.blend"
+00:01.979  blend            | Read blend: "/tmp/hgpt-cp3-independent-20261008/isolated_rehearsal.blend"
+Info: Saved as "isolated_rehearsal.blend"
+tests {'tests': 135, 'integrity_pass': 135, 'mirror_pairs': 43, 'mirror_pass': 41, 'mirror_solver_test_only': 2}

@@ -2,7 +2,7 @@
   "schema_version": 1,
   "created": "2026-10-08",
   "purpose": "Map neutral-standing shoulder-girdle orientation evidence into the established HGPT world basis without freezing absolute shoulder coordinates.",
-  "status": "RELATIVE_FRAME_MAPPING_READY_ABSOLUTE_COORDINATES_NOT_FROZEN",
+  "status": "REOPENED_ENDPOINT_AND_THORAX_MAPPING_NOT_FREEZE_READY",
   "hgpt_basis": {
     "up": "+Z",
     "anterior": "-Y",
@@ -32,12 +32,13 @@
       "mean": 30,
       "sd": 6
     },
-    "source": "SHOULDER_STANDING_ALIGNMENT_2020"
+    "source": "SHOULDER_STANDING_ALIGNMENT_2020",
+    "population": "pooled 100 volunteers / 200 shoulders; retained historical input, not male-only"
   },
   "clavicle_endpoint_length_for_relative_vector_mm": {
     "value": 154.8,
     "source": "CLAVICLE_LENGTH_CT_SYMMETRY_2018",
-    "note": "Used only to demonstrate an internally consistent mean neutral vector; final target may select another endpoint value inside the evidence corridor."
+    "note": "Historical illustrative length. Endpoint compatibility with Matsumura surface landmarks and articular-centre chord is not established; do not select joint coordinates from this vector."
   },
   "mean_SC_to_AC_relative_vector_mm": {
     "left": [
@@ -51,7 +52,8 @@
       18.86537435911683
     ],
     "derivation": "L*cos(elevation)*cos(retraction) lateral; L*cos(elevation)*sin(retraction) posterior; L*sin(elevation) superior",
-    "magnitude_mm": 154.8
+    "magnitude_mm": 154.8,
+    "scope": "Historical synthetic vector only; key name does not establish articular-centre endpoints or world-axis validity."
   },
   "sign_interpretation": {
     "retraction": "positive posterior (+Y) displacement of AC relative to SC in neutral standing",
@@ -73,5 +75,20 @@
     "elevation moves both AC points superiorly (+Z)",
     "relative-vector magnitude equals the selected straight SC-to-AC endpoint length",
     "scapular semantic rotations are never copied directly into Blender Euler channels without frame transformation"
-  ]
+  ],
+  "historical_status": "RELATIVE_FRAME_MAPPING_READY_ABSOLUTE_COORDINATES_NOT_FROZEN",
+  "freeze_eligible": false,
+  "source_semantics_review": {
+    "source": "SHOULDER_STANDING_ALIGNMENT_2020",
+    "confirmed_error": "The source SC/AC labels denote extremal surface landmarks, not articular centres; pooled means were also being used without male-only context.",
+    "thorax_frame_script": "scripts/anatomy_fit/thorax_source_frame.py",
+    "male_context_location": "canonical_proportion_sources_v1.json source record",
+    "selected_articular_SC_AC_vector_mm": null,
+    "required_before_selection": [
+      "Match length endpoints to source surface landmarks or explicitly derive surface-to-articular offsets.",
+      "Construct canonical IJ/C7/PX/T8 thorax frame before source-to-world mapping.",
+      "Resolve clinical rotation sequence/signs and stature context.",
+      "Independent endpoint-compatible corroboration."
+    ]
+  }
 }

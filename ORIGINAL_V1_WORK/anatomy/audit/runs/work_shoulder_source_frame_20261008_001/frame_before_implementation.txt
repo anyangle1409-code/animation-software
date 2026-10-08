@@ -1,0 +1,37 @@
+FFFF
+======================================================================
+FAIL: test_aligned_hgpt_basis_and_signed_coordinate_mapping (test_thorax_source_frame.ThoraxFrame.test_aligned_hgpt_basis_and_signed_coordinate_mapping)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_thorax_source_frame.py", line 15, in setUp
+    self.assertTrue(PATH.exists(), 'source-to-world thorax mapping is not implemented')
+AssertionError: False is not true : source-to-world thorax mapping is not implemented
+
+======================================================================
+FAIL: test_improper_or_nonfinite_mapping_frames_reject (test_thorax_source_frame.ThoraxFrame.test_improper_or_nonfinite_mapping_frames_reject)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_thorax_source_frame.py", line 15, in setUp
+    self.assertTrue(PATH.exists(), 'source-to-world thorax mapping is not implemented')
+AssertionError: False is not true : source-to-world thorax mapping is not implemented
+
+======================================================================
+FAIL: test_invalid_landmarks_and_degenerate_planes_reject (test_thorax_source_frame.ThoraxFrame.test_invalid_landmarks_and_degenerate_planes_reject)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_thorax_source_frame.py", line 15, in setUp
+    self.assertTrue(PATH.exists(), 'source-to-world thorax mapping is not implemented')
+AssertionError: False is not true : source-to-world thorax mapping is not implemented
+
+======================================================================
+FAIL: test_tilt_translation_and_scale_covariance (test_thorax_source_frame.ThoraxFrame.test_tilt_translation_and_scale_covariance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_thorax_source_frame.py", line 15, in setUp
+    self.assertTrue(PATH.exists(), 'source-to-world thorax mapping is not implemented')
+AssertionError: False is not true : source-to-world thorax mapping is not implemented
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.001s
+
+FAILED (failures=4)

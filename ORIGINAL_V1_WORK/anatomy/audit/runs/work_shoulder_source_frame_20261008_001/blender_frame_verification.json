@@ -1,0 +1,11 @@
+{
+  "scope": "synthetic source-coordinate transform fixture only",
+  "blender_version": "5.2.1 LTS",
+  "maximum_position_error_m": 2.0274890266820116e-08,
+  "maximum_frame_component_error": 3.576278706507452e-08,
+  "determinant_after_reload": 1.0,
+  "fixture_pass": true,
+  "blend_sha256": "0884caaf16dc373c02754f96d5c4e31bac659c50da11fc2f6be45fb58c274b62",
+  "script_sha256": "02261a10da4b8604b1371f506f7016d1252f16b5cc5aedfccdd7ceabcdd39c5f",
+  "canonical_target_selected": false
+}

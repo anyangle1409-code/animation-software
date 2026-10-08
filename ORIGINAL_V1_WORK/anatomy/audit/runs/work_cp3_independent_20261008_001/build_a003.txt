@@ -1,0 +1,2 @@
+Info: Saved as "a003_rehearsal.blend"
+{"built": "/tmp/hgpt-cp3-independent-20261008/a003_rehearsal.blend", "bones": 206, "markers": 427, "sha256": "af5a8e9d20bf10ec181d5c0ce54a47fc98b7a295d90b44b8140f52c06a094406"}

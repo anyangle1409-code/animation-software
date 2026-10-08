@@ -2,7 +2,7 @@
   "schema_version": 1,
   "created": "2026-10-08",
   "purpose": "Illustrative clavicle geometry sweep showing the relationship between an assumed bilateral SC breadth and the verified clavicle endpoint/orientation evidence. This is NOT an evidence-backed AC target family.",
-  "status": "EVIDENCE_FILTERED_TRANSVERSE_FAMILY_NOT_FROZEN",
+  "status": "ILLUSTRATIVE_UNMATCHED_ENDPOINT_FAMILY_NOT_FREEZE_ELIGIBLE",
   "source_inputs": {
     "clavicle_endpoint_length_mm": {
       "value": 154.8,
@@ -59,7 +59,7 @@
       "bilateral_AC_breadth_mm": 332.86404303708287,
       "half_SC_x_mm": 25,
       "half_AC_x_mm": 166.43202151854143,
-      "status": "EVIDENCE_FILTERED_NOT_FREEZE_ELIGIBLE",
+      "status": "ILLUSTRATIVE_UNMATCHED_ENDPOINTS_NOT_FREEZE_ELIGIBLE",
       "outer_biacromial_check": "PASS_VS_MEAN_OUTER_BREADTH",
       "direct_AC_lateral_check": "PASS_VS_OBSERVED_3D_MAX_RANGE_REQUIRES_INDIVIDUAL_D_AT_LEAST_THIS_LARGE",
       "manubrium_outer_breadth_context": {
@@ -68,14 +68,15 @@
         "warning": "SC-centre breadth is not definition-identical to either manubrial breadth; use only as plausibility context."
       },
       "required_transverse_lateral_acromion_to_AC_mm": 46.1462587829385,
-      "direct_distance_semantic_warning": "Required transverse offset is a component of the measured 3-D LA→AC distance, so it may be compared only as t <= d, not by z-scoring t against d."
+      "direct_distance_semantic_warning": "Required transverse offset is a component of the measured 3-D LA\u2192AC distance, so it may be compared only as t <= d, not by z-scoring t against d.",
+      "historical_status": "EVIDENCE_FILTERED_NOT_FREEZE_ELIGIBLE"
     },
     {
       "bilateral_SC_breadth_mm": 60,
       "bilateral_AC_breadth_mm": 342.86404303708287,
       "half_SC_x_mm": 30,
       "half_AC_x_mm": 171.43202151854143,
-      "status": "EVIDENCE_FILTERED_NOT_FREEZE_ELIGIBLE",
+      "status": "ILLUSTRATIVE_UNMATCHED_ENDPOINTS_NOT_FREEZE_ELIGIBLE",
       "outer_biacromial_check": "PASS_VS_MEAN_OUTER_BREADTH",
       "direct_AC_lateral_check": "PASS_VS_OBSERVED_3D_MAX_RANGE_REQUIRES_INDIVIDUAL_D_AT_LEAST_THIS_LARGE",
       "manubrium_outer_breadth_context": {
@@ -84,14 +85,15 @@
         "warning": "SC-centre breadth is not definition-identical to either manubrial breadth; use only as plausibility context."
       },
       "required_transverse_lateral_acromion_to_AC_mm": 41.1462587829385,
-      "direct_distance_semantic_warning": "Required transverse offset is a component of the measured 3-D LA→AC distance, so it may be compared only as t <= d, not by z-scoring t against d."
+      "direct_distance_semantic_warning": "Required transverse offset is a component of the measured 3-D LA\u2192AC distance, so it may be compared only as t <= d, not by z-scoring t against d.",
+      "historical_status": "EVIDENCE_FILTERED_NOT_FREEZE_ELIGIBLE"
     },
     {
       "bilateral_SC_breadth_mm": 70,
       "bilateral_AC_breadth_mm": 352.86404303708287,
       "half_SC_x_mm": 35,
       "half_AC_x_mm": 176.43202151854143,
-      "status": "EVIDENCE_FILTERED_NOT_FREEZE_ELIGIBLE",
+      "status": "ILLUSTRATIVE_UNMATCHED_ENDPOINTS_NOT_FREEZE_ELIGIBLE",
       "outer_biacromial_check": "PASS_VS_MEAN_OUTER_BREADTH",
       "direct_AC_lateral_check": "PASS_VS_OBSERVED_3D_MAX_RANGE_REQUIRES_INDIVIDUAL_D_AT_LEAST_THIS_LARGE",
       "manubrium_outer_breadth_context": {
@@ -100,7 +102,8 @@
         "warning": "SC-centre breadth is not definition-identical to either manubrial breadth; use only as plausibility context."
       },
       "required_transverse_lateral_acromion_to_AC_mm": 36.1462587829385,
-      "direct_distance_semantic_warning": "Required transverse offset is a component of the measured 3-D LA→AC distance, so it may be compared only as t <= d, not by z-scoring t against d."
+      "direct_distance_semantic_warning": "Required transverse offset is a component of the measured 3-D LA\u2192AC distance, so it may be compared only as t <= d, not by z-scoring t against d.",
+      "historical_status": "EVIDENCE_FILTERED_NOT_FREEZE_ELIGIBLE"
     }
   ],
   "current_a003_for_comparison": {
@@ -110,21 +113,21 @@
     "reading": "a003 shares a plausible-scale SC breadth but places AC far too lateral and uses an excessive clavicle chord."
   },
   "interpretation": [
-    "The 2026 full text provides a valid direct LA→AC distance, but it is an anatomic/3-D landmark distance rather than a proven pure mediolateral component.",
-    "Therefore it can rule out shoulder solutions whose required transverse AC→lateral-acromion offset exceeds the 3-D distance, but it cannot be subtracted from biacromial breadth as an exact equality.",
-    "The 50/60/70 mm SC sweep all remain possible against the reported 23–52 mm 3-D range; the 70 mm case requires the smallest transverse LA→AC component and is therefore less demanding.",
+    "The 2026 full text provides a valid direct LA\u2192AC distance, but it is an anatomic/3-D landmark distance rather than a proven pure mediolateral component.",
+    "Therefore it can rule out shoulder solutions whose required transverse AC\u2192lateral-acromion offset exceeds the 3-D distance, but it cannot be subtracted from biacromial breadth as an exact equality.",
+    "The 50/60/70 mm SC sweep all remain possible against the reported 23\u201352 mm 3-D range; the 70 mm case requires the smallest transverse LA\u2192AC component and is therefore less demanding.",
     "Independent manubrial breadth data provide additional scale context but are not direct SC-centre measurements. Exact SC/AC X coordinates are still not frozen."
   ],
   "coordinate_convention_note": "The component magnitudes are anatomical. HGPT world signs must be mapped using the established character basis (anatomical left +X, posterior direction verified separately) before writing Blender coordinates.",
   "next_step": "Use the evidence-filtered transverse family to solve candidate SC/AC X coordinates, then close AP/superior coordinates from manubrial notch geometry and the scapular local frame. Do not freeze c001 yet.",
   "audit_correction_2026_10_08": {
-    "issue": "The earlier file called the 50/60/70 mm SC sweep a feasible evidence family and compared required transverse AC offsets to an incorrectly transcribed 34±8 mm source.",
+    "issue": "The earlier file called the 50/60/70 mm SC sweep a feasible evidence family and compared required transverse AC offsets to an incorrectly transcribed 34\u00b18 mm source.",
     "correction": "The sweep is retained only as transparent geometry exploration. The invalid AC-offset source comparison is removed and no sample solution is freeze-eligible.",
     "full_text_followup": {
-      "issue": "Earlier recheck correctly rejected an inferred 34±8 mm offset obtained by subtracting STSL distances.",
-      "new_evidence": "The 2026 full text independently and explicitly reports lateral-acromion→AC distance = 3.4±0.8 cm (range 2.3–5.2 cm).",
-      "consequence": "The direct 34±8 mm relation is reinstated as a measured constraint, while the invalid subtraction inference remains rejected.",
-      "semantic_guard": "Reinstating the direct 34±8 mm measurement does not reinstate the old equality assumption. The valid relation is transverse_component <= measured_3D_distance."
+      "issue": "Earlier recheck correctly rejected an inferred 34\u00b18 mm offset obtained by subtracting STSL distances.",
+      "new_evidence": "The 2026 full text independently and explicitly reports lateral-acromion\u2192AC distance = 3.4\u00b10.8 cm (range 2.3\u20135.2 cm).",
+      "consequence": "The direct 34\u00b18 mm relation is reinstated as a measured constraint, while the invalid subtraction inference remains rejected.",
+      "semantic_guard": "Reinstating the direct 34\u00b18 mm measurement does not reinstate the old equality assumption. The valid relation is transverse_component <= measured_3D_distance."
     }
   },
   "derived_mean_consistency": {
@@ -133,7 +136,10 @@
     "lower_bound_on_biAC_if_transverse_component_reaches_full_mean_3D_distance_mm": 357.15656060295987,
     "with_154_8mm_clavicle_and_mean_orientation_minimum_biSC_if_biAC_at_that_lower_bound_mm": 74.292517565877,
     "required_clavicle_endpoint_length_if_biSC_68_2mm_and_biAC_at_lower_bound_mm": 158.13418736814887,
-    "semantic_warning": "These are conditional lower-bound consistency calculations. The direct LA→AC measurement is not proven to be purely transverse, so no exact AC or SC breadth is selected from subtraction.",
-    "reading": "The source now constrains the transverse family without fixing it. Solutions demanding a per-side transverse AC→lateral-acromion offset larger than the measured 3-D distance are impossible; solutions inside the observed 3-D range remain feasible."
-  }
+    "semantic_warning": "These are conditional lower-bound consistency calculations. The direct LA\u2192AC measurement is not proven to be purely transverse, so no exact AC or SC breadth is selected from subtraction.",
+    "reading": "The source now constrains the transverse family without fixing it. Solutions demanding a per-side transverse AC\u2192lateral-acromion offset larger than the measured 3-D distance are impossible; solutions inside the observed 3-D range remain feasible."
+  },
+  "historical_status": "EVIDENCE_FILTERED_TRANSVERSE_FAMILY_NOT_FROZEN",
+  "freeze_eligible": false,
+  "source_semantics_review": "Length/orientation endpoints are not matched. Existing computed rows are retained diagnostic arithmetic, not an evidence-filtered articular-centre target family."
 }

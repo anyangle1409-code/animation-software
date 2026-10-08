@@ -459,6 +459,26 @@ def specs(rec, atlas):
     return T
 
 
+COMMAND_MATCH_REL_TOL = 1e-9   # float noise only; side-specific source amplitudes differ by orders of magnitude more
+
+
+def commands_match(left_series, right_series, rel_tol=COMMAND_MATCH_REL_TOL):
+    """True when left/right command series are the same up to floating-point noise.
+
+    Exact equality wrongly classified mirror-identical commands as side-specific when the rest geometry carries
+    float noise (found on shoulder_proposal_c001: thumb CMC commands differed by ~1e-14 deg), which silently
+    skipped the Blender mirror comparison for those pairs."""
+    if len(left_series) != len(right_series):
+        return False
+    for l, r in zip(left_series, right_series):
+        if set(l) != set(r):
+            return False
+        for k in l:
+            if not math.isclose(l[k], r[k], rel_tol=rel_tol, abs_tol=1e-12):
+                return False
+    return True
+
+
 def derive(spec, cmd):
     cmd = dict(cmd)
     if spec.get('derive') == 'screw_home':

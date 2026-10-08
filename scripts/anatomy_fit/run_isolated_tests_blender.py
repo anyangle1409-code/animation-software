@@ -287,7 +287,7 @@ def main():
             L, R = results[tid], results[rid]
             ch = s['primary_channel']
             key = {'internal': 'internal_rotation', 'plane': 'plane_of_elevation'}.get(ch, ch)
-            same_cmd = all(l['commanded'] == r['commanded'] for l, r in zip(L, R))
+            same_cmd = it.commands_match([l['commanded'] for l in L], [r['commanded'] for r in R])
             if same_cmd:
                 Mx = np.diag([-1.0, 1.0, 1.0, 1.0])
                 bones = sorted(L[0]['moving_deltas'])

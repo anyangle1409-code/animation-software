@@ -31,7 +31,8 @@
         "scapula_landmark_frame": null,
         "shoulder_constraint_file": "ORIGINAL_V1_WORK/anatomy/canonical_shoulder_target_constraints_v1.json",
         "neutral_feasible_family": "ORIGINAL_V1_WORK/anatomy/canonical_shoulder_feasible_family_v1.json",
-        "scapular_landmark_audit": "ORIGINAL_V1_WORK/anatomy/canonical_scapula_landmark_audit_v1.json"
+        "scapular_landmark_audit": "ORIGINAL_V1_WORK/anatomy/canonical_scapula_landmark_audit_v1.json",
+        "shoulder_frame_mapping": "ORIGINAL_V1_WORK/anatomy/canonical_shoulder_frame_mapping_v1.json"
       },
       "blockers": [
         "choose one SC/AC/clavicle coordinate solution inside the feasible family after source-frame mapping",
@@ -83,10 +84,11 @@
         "radius_endpoint_length_mm": null,
         "ulna_endpoint_length_mm": null,
         "wrist_centre": null,
-        "DRUJ_frame": null
+        "DRUJ_frame": null,
+        "direct_ansur_report_builder": "scripts/anatomy_fit/build_forearm_target_report.py"
       },
       "blockers": [
-        "endpoint-compatible stature-aware radius corridor",
+        "run direct committed-dataset radiale-stylion regression and register residual corridor",
         "ulna endpoint corridor",
         "wrist/DRUJ geometry"
       ]
@@ -103,13 +105,14 @@
         "carpal_axes": "ORIGINAL_V1_WORK/anatomy/canonical_carpal_axis_targets_v1.json",
         "metacarpal_lengths_mm": null,
         "phalange_lengths_mm": null,
-        "carpal_envelopes": "ORIGINAL_V1_WORK/anatomy/canonical_carpal_envelopes_v1.json"
+        "carpal_envelopes": "ORIGINAL_V1_WORK/anatomy/canonical_carpal_envelopes_v1.json",
+        "hand_ray_constraints": "ORIGINAL_V1_WORK/anatomy/canonical_hand_ray_target_constraints_v1.json"
       },
       "blockers": [
         "solve all eight carpal centroids/contact centres in a common wrist frame",
         "pisiform neutral axis/reference geometry",
         "map source envelope X/Y/Z into HGPT frame",
-        "freeze M2-M4 lengths only after wrist/carpal layout is fixed"
+        "instantiate M2-M4 target lengths only after wrist/carpal layout is fixed"
       ]
     },
     "pelvis": {
@@ -195,5 +198,7 @@
     "new target coordinates are independently validated before Blender mesh fitting"
   ],
   "candidate_name_when_ready": "HGPT_CANONICAL_SKELETON_FIRST_c001",
-  "note": "Do not create c001 merely to show progress. Create it only when this file is promoted to freeze_ready=true by evidence-backed target selection."
+  "note": "Do not create c001 merely to show progress. Create it only when this file is promoted to freeze_ready=true by evidence-backed target selection. Surface envelope targets are downstream mesh checks and never override skeletal landmarks.",
+  "mesh_envelope_check": "ORIGINAL_V1_WORK/anatomy/canonical_mesh_envelope_targets_v1.json",
+  "delta_guide": "ORIGINAL_V1_WORK/anatomy/canonical_rebuild_delta_summary_v1.json"
 }

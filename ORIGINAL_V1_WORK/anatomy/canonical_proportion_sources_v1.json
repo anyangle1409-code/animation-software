@@ -2668,6 +2668,51 @@
         "outer SC/manubrial transverse plausibility envelope"
       ],
       "limitation": "Older osteological sample and the reported maximum breadth is not a direct bilateral SC joint-centre distance."
+    },
+    {
+      "id": "MALL_2001_ARM_LONG_BONES",
+      "type": "adult_dry_long_bone_morphometry",
+      "citation": "Mall G et al. Sex determination and estimation of stature from the long bones of the arm. Forensic Sci Int. 2001;117(1-2):23-30.",
+      "pmid": "11230943",
+      "doi": "10.1016/S0379-0738(00)00445-X",
+      "population": "143 German anatomical-institute individuals; 64 male, 79 female; mean age 79 years; overall mean stature 161 cm",
+      "male_values_cm": {
+        "maximum_humerus_length": 33.4,
+        "maximum_ulna_length": 26.5,
+        "maximum_radius_length": 24.6,
+        "radial_head_diameter": 2.6
+      },
+      "finding": "Bone-length-to-stature regressions in this elderly sample had large confidence intervals and high standard errors.",
+      "use": [
+        "endpoint-defined dry-bone upper-limb scale cross-check",
+        "guard against treating ANSUR surface-landmark length as identical to maximum dry-bone length"
+      ],
+      "limitation": "Old, elderly, short-stature population; male stature distribution and SD are not exposed in the accessible abstract. Do not use the male mean length as a 1.82 m target."
+    },
+    {
+      "id": "TROTTER_GLESER_1952_WHITE_MALE",
+      "type": "forensic_long_bone_stature_equation",
+      "citation": "Trotter M, Gleser GC. Estimation of stature from long bones of American Whites and Negroes. Am J Phys Anthropol. 1952.",
+      "male_equations_cm": {
+        "radius": "stature = 3.78 * radius + 79.01; SEE 4.32 cm",
+        "ulna": "stature = 3.70 * ulna + 74.05; SEE 4.32 cm",
+        "humerus": "stature = 3.08 * humerus + 70.45; SEE 4.05 cm"
+      },
+      "use": [
+        "osteometric plausibility cross-check for long-bone lengths",
+        "same equation already used by proportion_audit.py"
+      ],
+      "limitation": "Population-specific historical forensic regression predicts stature FROM bone length. Algebraic inversion is only a plausibility check and is not statistically identical to E[bone length | stature]."
+    },
+    {
+      "id": "FOREARM_ANTHROPOMETRY_STANDARD",
+      "type": "anthropometric_measurement_standard",
+      "citation": "ANSUR II measurer handbook / ISAK-compatible radiale-stylion procedure.",
+      "definition": "Radiale-stylion length is the point-to-point distance between the marked radiale landmark at the elbow and stylion at the wrist, measured with a beam caliper parallel to the long axis of the forearm.",
+      "use": [
+        "clarify why ANSUR radiale-stylion is an external landmark span rather than automatically identical to maximum dry-bone radius length"
+      ],
+      "limitation": "Bony landmarks are palpated through skin and endpoint definitions differ from osteometric maximum radius."
     }
   ],
   "unresolved_source_needs": [

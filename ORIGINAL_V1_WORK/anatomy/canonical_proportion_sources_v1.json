@@ -2473,12 +2473,21 @@
             133
           ]
         },
-        "manubrium_plus_body_mean_sum": 158.63
+        "manubrium_plus_body_mean_sum": 158.63,
+        "manubrium_width_first_costal_notch_midpoints": {
+          "mean": 78.01,
+          "sd": 12.45,
+          "range": [
+            51.2,
+            118.7
+          ]
+        }
       },
       "use": [
         "second modern CT male jugular-to-xiphisternal scale"
       ],
-      "limitation": "Population-specific; body and manubrium ranges are individual-variable and their separate maxima must not be summed as if from the same subject."
+      "limitation": "Population-specific; body and manubrium ranges are individual-variable and their separate maxima must not be summed as if from the same subject.",
+      "measurement_note": "Greek MDCT manubrium width is transverse distance between midpoints of the first costal notches; it is not the same as bilateral SC-centre breadth."
     },
     {
       "id": "STERNUM_GALLOWAY_OSTEOLOGY",

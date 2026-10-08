@@ -1,0 +1,184 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Gate the next skeleton-first Blender revision. A region is READY only when its geometry targets, measurement semantics and hard invariants are sufficiently defined to instantiate without relying on the r95 mesh.",
+  "overall_status": "NOT_READY_FOR_NEW_CANONICAL_BLENDER_REVISION",
+  "baseline": "a003 audit fit",
+  "rules": [
+    "READY means geometry can be instantiated from anatomy evidence without preserving the old mesh by default.",
+    "PARTIAL means some anchors are defensible but remaining geometry could still materially alter movement or proportions.",
+    "BLOCKED means at least one essential dimension/contact/axis is still undefined or source-incompatible.",
+    "No region becomes READY solely because an existing a003 dimension is plausible."
+  ],
+  "regions": {
+    "shoulder_girdle": {
+      "readiness": "PARTIAL",
+      "ready": [
+        "clavicle gross defect confirmed",
+        "distinct SC/AC/GH topology",
+        "multi-source clavicle and glenoid scale evidence"
+      ],
+      "blockers": [
+        "stature-aware final clavicle endpoint/centreline selection",
+        "landmark-compatible 3D scapular envelope and AC/acromion/coracoid placement"
+      ],
+      "next_action": "Select canonical clavicle corridor and reconstruct scapular local frame from height/width/glenoid constraints."
+    },
+    "spine": {
+      "readiness": "PARTIAL",
+      "ready": [
+        "cervical body/disc corridors",
+        "lumbar body/disc corridors",
+        "zero-disc-gap defect confirmed"
+      ],
+      "blockers": [
+        "complete thoracic body/disc target table with consistent definitions",
+        "endplate orientation/sagittal curve target",
+        "C2 and sacral transition geometry"
+      ],
+      "next_action": "Build per-level body+disc stack specification from C2 through S1."
+    },
+    "ribs": {
+      "readiness": "BLOCKED",
+      "ready": [
+        "24 identities and articulation exceptions",
+        "population rib-shape evidence",
+        "curved-centreline representation policy"
+      ],
+      "blockers": [
+        "rib-level centreline parameters/landmarks not yet transcribed into HGPT coordinates",
+        "true head/tubercle neck axes not instantiated",
+        "anterior cartilage/contact geometry unresolved"
+      ],
+      "next_action": "Create rib-level non-bone centreline/contact dataset before any new Blender master."
+    },
+    "forearm": {
+      "readiness": "PARTIAL",
+      "ready": [
+        "separate radius/ulna policy",
+        "radius shortness direction supported",
+        "elbow centre retained provisionally"
+      ],
+      "blockers": [
+        "endpoint-compatible canonical radius corridor",
+        "endpoint-compatible ulna corridor",
+        "revised DRUJ/wrist centre after retarget"
+      ],
+      "next_action": "Resolve radius/ulna endpoints independently, then rebuild wrist centre and pronation axis."
+    },
+    "carpus": {
+      "readiness": "BLOCKED",
+      "ready": [
+        "size hierarchy",
+        "selected centroid spacing ratios",
+        "neutral axis corridors"
+      ],
+      "blockers": [
+        "all eight 3D centroids in one canonical frame",
+        "contact-centre layout",
+        "mapping of source axes into HGPT handedness"
+      ],
+      "next_action": "Create a canonical wrist frame and solve centroids/axes before touching hand mesh."
+    },
+    "hand": {
+      "readiness": "PARTIAL",
+      "ready": [
+        "M2-M4 shortness supported by three evidence streams",
+        "M1/M5 and most phalanges provisionally plausible"
+      ],
+      "blockers": [
+        "carpal/wrist layout",
+        "exact M2-M4 target values not frozen",
+        "thumb CMC local geometry"
+      ],
+      "next_action": "Freeze wrist/carpus first, then choose M2-M4 values inside cross-source corridors."
+    },
+    "pelvis": {
+      "readiness": "PARTIAL",
+      "ready": [
+        "HJC provisionally corroborated",
+        "sacral length provisionally plausible",
+        "pelvic scale/HJC source framework"
+      ],
+      "blockers": [
+        "landmark-rich os coxae envelope",
+        "SI auricular geometry",
+        "pubic symphysis contact",
+        "sacral width/curvature"
+      ],
+      "next_action": "Build pelvis landmark target set without shifting the corroborated HJC to fit r95."
+    },
+    "lower_limb_long_bones": {
+      "readiness": "PARTIAL",
+      "ready": [
+        "femur/tibia chain provisionally credible",
+        "patella size plausible"
+      ],
+      "blockers": [
+        "fibula endpoint semantics",
+        "patella width/thickness/trochlear contact path"
+      ],
+      "next_action": "Refine fibula and patellofemoral geometry; do not rescale femur/tibia without new evidence."
+    },
+    "tarsus": {
+      "readiness": "BLOCKED",
+      "ready": [
+        "whole-bone size hierarchy",
+        "talocrural/subtalar/talonavicular identities",
+        "measurement-semantic separation"
+      ],
+      "blockers": [
+        "bone centroids/envelopes in common frame",
+        "subtalar/talonavicular/calcaneocuboid/naviculocuneiform contact centres",
+        "TMT base layout"
+      ],
+      "next_action": "Construct hindfoot/midfoot contact chain before deciding final foot length."
+    },
+    "forefoot_toes": {
+      "readiness": "PARTIAL",
+      "ready": [
+        "surface foot is confirmed too long",
+        "M1/M2 stature-aware evidence added",
+        "Patil radiographic set retained as one endpoint-defined dataset"
+      ],
+      "blockers": [
+        "M3-M5 stature-aware reconciliation",
+        "toe phalanx stature-aware targets",
+        "partition of excess surface length across skeletal chain vs soft tissue"
+      ],
+      "next_action": "Do not shorten all metatarsals; reconcile bone definitions first, then partition final heel-to-toe length."
+    },
+    "head_neck_fixed": {
+      "readiness": "PARTIAL",
+      "ready": [
+        "TMJ breadth provisionally plausible",
+        "mandible/hyoid required landmark sets defined",
+        "206 topology complete"
+      ],
+      "blockers": [
+        "cranial/facial envelope target coordinates",
+        "mandible full landmark target",
+        "adult hyoid numeric target"
+      ],
+      "next_action": "Finish low-kinematic-priority reference geometry after shoulder/spine/limb blockers."
+    }
+  },
+  "region_counts": {
+    "READY": 0,
+    "PARTIAL": 7,
+    "BLOCKED": 3
+  },
+  "next_global_sequence": [
+    "1 shoulder girdle target selection",
+    "2 C2-S1 vertebral body+disc stack",
+    "3 rib centreline/contact dataset",
+    "4 radius/ulna/wrist then carpal centroids",
+    "5 hand metacarpal target selection",
+    "6 hindfoot/midfoot contact chain then foot-length partition",
+    "7 pelvis/fibula/patella refinement",
+    "8 head/hyoid reference geometry",
+    "9 run all hard invariants and bilateral checks",
+    "10 only then instantiate a new isolated canonical Blender revision"
+  ],
+  "gate_rule": "Do not create a new canonical Blender audit revision while any region is BLOCKED unless the revision is explicitly partial/non-acceptance and cannot be mistaken for the next canonical candidate."
+}

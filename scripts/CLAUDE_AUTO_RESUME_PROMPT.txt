@@ -22,6 +22,6 @@ INSTRUCTIONS
 10. Do not stop merely to ask whether to continue.
 
 CURRENT OWNER INTENT
-The skeleton must be fully revalidated so this is the last foundational skeleton pass. Accuracy is more important than speed. The current unresolved character-style question (short forearm/hand and long feet) must not be silently changed in production without explicit owner approval.
+The skeleton must be fully revalidated so this is the last foundational skeleton pass. Accuracy is more important than speed. OWNER DECISION 2026-10-08: the anatomical skeleton is the source of truth and the production mesh/skin must later be refit around validated skeletal proportions. The current r95/a003 short forearm/hand and long feet are NOT accepted as intended final styling. Keep a003 as the audit baseline; do not reshape production geometry yet. First define and verify canonical skeletal proportions independently of the current mesh, then refit the mesh only after the skeleton gates permit it.
 
 Start by reading the current LIVE tracker, latest findings, current branch HEAD and latest audit artifacts, then continue from the first genuinely incomplete item.

@@ -1,0 +1,242 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Skeleton-first pelvis landmark target constraints. Preserve the independently corroborated hip-joint centres while rebuilding the os coxae and pelvic ring from bony landmarks rather than the r95 surface.",
+  "baseline": "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json",
+  "status": "LANDMARK_CORRIDORS_READY_OS_COXAE_3D_ENVELOPE_NOT_FROZEN",
+  "coordinate_policy": {
+    "origin": "pelvic midline reference to be re-established from bilateral ASIS/PSIS and pubic/sacral landmarks",
+    "X": "+X anatomical left",
+    "Y": "posterior positive in the canonical HGPT anatomical world basis",
+    "Z": "superior",
+    "note": "Do not preserve the a003 ASIS surface Y/Z merely to stay inside the current mesh."
+  },
+  "sources": [
+    {
+      "id": "ARAND_2019_PELVIC_RING_SSM",
+      "citation": "Arand C et al. 3D statistical model of the pelvic ring – a CT-based statistical evaluation of anatomical variation. J Anat. 2019;234:376-383.",
+      "pmid": "30575034",
+      "pmcid": "PMC6365482",
+      "population": "50 uninjured Japanese adults; 30 males, 20 females; sex-specific mean models",
+      "male_mean_model_mm": {
+        "promontory_to_symphysis": 107.3,
+        "inter_ischial_spine": 94.2,
+        "inter_ASIS": 234.1,
+        "inter_AIIS": 192.6
+      },
+      "male_sample_summary_mm": {
+        "inter_ASIS_median": 234.6,
+        "inter_ASIS_sd": 16.8,
+        "inter_ischial_spine_median": 94.9,
+        "inter_ischial_spine_sd": 9.4,
+        "promontory_symphysis_median": 108.6,
+        "promontory_symphysis_sd": 11.9,
+        "inter_AIIS_median": 192.2,
+        "inter_AIIS_sd": 10.6
+      },
+      "limitation": "Older Japanese male sample; use as one 3D pelvic-ring source, not a universal target."
+    },
+    {
+      "id": "MUSIELAK_2019_MODERN_MALE_PELVIS",
+      "citation": "Musielak B et al. Variation in pelvic shape and size in Eastern European males: a computed tomography comparative study. PeerJ. 2019;7:e6433.",
+      "pmid": "30809442",
+      "pmcid": "PMC6387581",
+      "population": "31 contemporary adult male pelves from Poland, 3D CT reconstructions",
+      "modern_male_mm": {
+        "inter_ASIS": {
+          "mean": 251.56,
+          "sd": 18.32,
+          "range": [
+            210.77,
+            295.94
+          ]
+        },
+        "intercristal": {
+          "mean": 275.06,
+          "sd": 18.25,
+          "range": [
+            226.14,
+            307.54
+          ]
+        },
+        "intertuberous": {
+          "mean": 105.91,
+          "sd": 11.5,
+          "range": [
+            82.14,
+            124.5
+          ]
+        },
+        "anatomic_conjugate": {
+          "mean": 125.71,
+          "sd": 14.41,
+          "range": [
+            98.4,
+            153.9
+          ]
+        },
+        "pelvic_height": {
+          "mean": 151.92,
+          "sd": 16.81,
+          "range": [
+            99.17,
+            184.95
+          ]
+        }
+      },
+      "angles_deg": {
+        "iliac_opening": {
+          "mean": 25.47,
+          "sd": 4.97
+        },
+        "iliac_tilt": {
+          "mean": 52.86,
+          "sd": 9.56
+        }
+      },
+      "limitation": "Population-specific; values demonstrate realistic adult-male variation and should not be averaged blindly with the Japanese sample."
+    },
+    {
+      "id": "TANNENBAUM_2011_PELVIMETRY",
+      "citation": "Multilevel Measurement of Acetabular Version Using 3-D CT-generated Models: Implications for Hip Preservation Surgery. Clin Orthop Relat Res. 2011.",
+      "pmcid": "PMC3018214",
+      "male_values_mm": {
+        "acetabular_cup_diameter": {
+          "mean": 51.1,
+          "sd": 2.5,
+          "range": [
+            47.1,
+            56.4
+          ]
+        },
+        "inter_ASIS": {
+          "mean": 228,
+          "sd": 14.7,
+          "range": [
+            205.5,
+            258.2
+          ]
+        },
+        "interacetabular_distance": {
+          "mean": 169.3,
+          "sd": 7.8,
+          "range": [
+            154,
+            183
+          ]
+        },
+        "interischial_spine": {
+          "mean": 90.2,
+          "sd": 8,
+          "range": [
+            74.8,
+            109.2
+          ]
+        }
+      },
+      "use": "Independent male 3D-CT check for acetabular and pelvic transverse scale."
+    },
+    {
+      "id": "GRAS_2015_ACETABULAR_DIAMETER",
+      "citation": "Sex-specific Differences of the Infraacetabular Corridor: A Biomorphometric CT-based Analysis on a Database of 523 Pelves. 2015.",
+      "pmcid": "PMC4390952",
+      "population": "523 pelves; 315 males; metadata subset male mean height 176 cm",
+      "male_acetabular_diameter_mm": {
+        "mean": 53,
+        "range": [
+          47,
+          59
+        ]
+      },
+      "use": "Large-sample independent acetabular diameter cross-check."
+    }
+  ],
+  "current_a003": {
+    "inter_ASIS_surface_mm": 216.6355816353002,
+    "inter_HJC_mm": 166.61168832389194,
+    "pubic_symphysis_side_marker_separation_mm": 8,
+    "HJC_left_m": [
+      0.08330584416194597,
+      -0.01929590409553253,
+      0.9296919266934183
+    ],
+    "HJC_right_m": [
+      -0.08330584416194597,
+      -0.01929590409553253,
+      0.9296919266934183
+    ],
+    "note": "ASIS points are low-confidence mesh/groove-derived skin proxies; HJC is independently corroborated and is treated differently."
+  },
+  "evidence_convergence": {
+    "inter_ASIS": {
+      "source_means_mm": [
+        228,
+        234.1,
+        251.56
+      ],
+      "a003_surface_proxy_mm": 216.6355816353002,
+      "interpretation": "A003 inter-ASIS is at the low end of adult-male 3D CT values but not a gross impossibility. Because its ASIS are surface/groove proxies, canonical ASIS breadth should be rebuilt from bone landmarks rather than simply widened to a population mean."
+    },
+    "interacetabular_HJC": {
+      "male_CT_mean_mm": 169.3,
+      "male_CT_sd_mm": 7.8,
+      "a003_inter_HJC_mm": 166.61168832389194,
+      "z_vs_Tannenbaum": -0.3446553430907784,
+      "interpretation": "The a003 bilateral HJC spacing is close to the male 3D-CT interacetabular mean and strongly supports retaining the HJC transverse scale provisionally."
+    },
+    "acetabular_diameter": {
+      "source_1_mm": {
+        "mean": 51.1,
+        "sd": 2.5
+      },
+      "source_2_mm": {
+        "mean": 53,
+        "range": [
+          47,
+          59
+        ]
+      },
+      "provisional_corridor_mm": [
+        47,
+        59
+      ],
+      "interpretation": "Use as the acetabular envelope scale around the retained HJC, not as a femoral-head diameter substitute."
+    }
+  },
+  "canonical_landmarks_required_per_side": [
+    "ASIS",
+    "AIIS",
+    "PSIS",
+    "PIIS",
+    "iliac crest lateral/high point",
+    "ischial spine",
+    "ischial tuberosity",
+    "pubic tubercle",
+    "pubic symphysis contact",
+    "acetabular centre/HJC",
+    "acetabular rim reference points",
+    "SI auricular-surface centre and local frame"
+  ],
+  "provisional_decisions": {
+    "HJC_transverse_spacing": "RETAIN_A003_PROVISIONALLY",
+    "HJC_absolute_3D_position": "RETAIN_PROVISIONALLY_PENDING_CANONICAL_PELVIC_FRAME",
+    "ASIS_surface_points": "DO_NOT_FREEZE_REBUILD_BONY_LANDMARKS",
+    "acetabular_diameter": "TARGET_CORRIDOR_READY_NOT_EXACT_FREEZE",
+    "ischial_spines": "TARGET_CORRIDOR_READY_NOT_EXACT_FREEZE",
+    "pubic_symphysis": "REBUILD_CONTACT_FRAME",
+    "SI_joint": "REBUILD_AURICULAR_CONTACT_FRAMES"
+  },
+  "hard_invariants": [
+    "left/right HJC remain distinct and lie inside their acetabular envelopes",
+    "pubic symphysis is a midline cartilaginous contact, not a merged left/right hip bone",
+    "sacrum remains distinct from both os coxae",
+    "each adult os coxae remains one conventional bone despite ilium/ischium/pubis landmark regions",
+    "pelvic frame is constructed from bony landmarks rather than r95 skin breadth"
+  ],
+  "next_steps": [
+    "Map a canonical male pelvic transverse family using inter-ASIS, inter-AIIS, interischial-spine and interacetabular corridors without forcing all measurements to one population mean.",
+    "Add AP depth via ASIS↔PSIS / promontory↔symphysis constraints with matching definitions.",
+    "Construct left/right os coxae local landmark frames around the retained HJC and acetabular-diameter corridor.",
+    "Then solve SI auricular contacts and pubic-symphysis closure before Blender instantiation."
+  ]
+}

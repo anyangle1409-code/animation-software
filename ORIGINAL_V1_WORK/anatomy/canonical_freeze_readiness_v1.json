@@ -31,14 +31,15 @@
         "lumbar body/disc corridors",
         "zero-disc-gap defect confirmed",
         "complete level-by-level C3-L5 body-height and C2/S1-connected disc-gap evidence stack",
-        "full direct-anatomical thoracic disc table C7/T1 through T11/T12"
+        "full direct-anatomical thoracic disc table C7/T1 through T11/T12",
+        "C2 adult body-height evidence"
       ],
       "blockers": [
-        "C2 body-height target",
-        "source-conflict selection for mixed-method levels",
-        "endplate orientation/sagittal curve target and S1 transition"
+        "C2 and remaining levels need final 3D wedge/endplate orientation selection",
+        "source-conflict selection for mixed-method thoracic levels",
+        "canonical sagittal lordosis/kyphosis target and S1 transition"
       ],
-      "next_action": "Build per-level body+disc stack specification from C2 through S1."
+      "next_action": "Build the C2-S1 sagittal/endplate frame sequence from the now-complete numeric level stack; do not revert to stretched a003 bone sticks."
     },
     "ribs": {
       "readiness": "BLOCKED",

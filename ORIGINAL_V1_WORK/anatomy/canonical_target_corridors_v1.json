@@ -110,7 +110,28 @@
         ],
         "source": "SCAPULA_MALE_2018"
       },
-      "scapula_scale_note": "Use height + width + glenoid location to build a 3D envelope; do not force GH-to-inferior-angle below height alone."
+      "scapula_scale_note": "Use height + width + glenoid location to build a 3D envelope; do not force GH-to-inferior-angle below height alone.",
+      "glenoid_SI_male_second_source_mm": {
+        "definition": "maximum glenoid superior-inferior height, male cadaver/3D-CT donor sample",
+        "mean": 39.5,
+        "sd": 3.5,
+        "band_1sd": [
+          36,
+          43
+        ],
+        "source": "GLENOID_MORPH_2017_MALE"
+      },
+      "glenoid_AP_male_second_source_mm": {
+        "definition": "maximum glenoid anteroposterior width, male cadaver/3D-CT donor sample",
+        "mean": 30.3,
+        "sd": 3.3,
+        "band_1sd": [
+          27,
+          33.6
+        ],
+        "source": "GLENOID_MORPH_2017_MALE"
+      },
+      "glenoid_cross_source_note": "Male glenoid size varies materially by population/method: 37.1×27.4 mm in one large dry-bone sample and 39.5×30.3 mm in a cadaver/3D-CT donor sample. Final canonical glenoid target must sit in a cross-source adult-male corridor rather than copy either mean."
     },
     "hand": {
       "metacarpal_1_mm": {
@@ -395,6 +416,34 @@
           117.58
         ],
         "source": "SACRUM_MALE_MORPHOMETRY_2023"
+      },
+      "anterior_pelvic_plane_width_mm": {
+        "definition": "adult anterior pelvic plane width, combined cadaver + CT cohort",
+        "mean": 238,
+        "sd": 20.1,
+        "band_1sd": [
+          217.9,
+          258.1
+        ],
+        "source": "DIMITRIOU_2018_PELVIC_DIMENSIONS"
+      },
+      "anterior_pelvic_plane_height_mm": {
+        "definition": "adult anterior pelvic plane height, combined cadaver + CT cohort",
+        "mean": 92.7,
+        "sd": 10.5,
+        "band_1sd": [
+          82.2,
+          103.2
+        ],
+        "source": "DIMITRIOU_2018_PELVIC_DIMENSIONS"
+      },
+      "hjc_relative_to_ASIS_percent": {
+        "definition": "HJC relative to ipsilateral ASIS using pelvic width/depth/height dimensions",
+        "medial_percent_of_width": 14,
+        "posterior_percent_of_depth": 34,
+        "inferior_percent_of_height": 79,
+        "source": "BELL_1990_HJC_CADAVER",
+        "note": "Use only after the matching pelvic width/depth/height landmark definitions are reconstructed."
       }
     },
     "lower_limb": {

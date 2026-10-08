@@ -2713,6 +2713,45 @@
         "clarify why ANSUR radiale-stylion is an external landmark span rather than automatically identical to maximum dry-bone radius length"
       ],
       "limitation": "Bony landmarks are palpated through skin and endpoint definitions differ from osteometric maximum radius."
+    },
+    {
+      "id": "C2_VBH_CT_2008",
+      "type": "adult_cervical_CT_morphometry",
+      "citation": "Koller H et al. Cervical anterior transpedicular screw fixation. Part I: Study on morphological feasibility, indications, and technical prerequisites. Eur Spine J. 2008.",
+      "pmcid": "PMC2295270",
+      "sample": "29 cervical CT scans / 203 vertebrae; sex-specific table",
+      "measurement_definition": "Anterior vertebral body height (aVBH): cephalad-to-caudad endplate distance at the mid-sagittal anterior vertebral body line.",
+      "male_C2_anterior_body_height_mm": {
+        "mean": 20.8,
+        "sd": 0.66
+      },
+      "use": [
+        "adult-male C2 body-height constraint",
+        "C2-specific geometry rather than copying C3"
+      ],
+      "limitation": "Anterior body height only; does not define posterior C2 body height or the endplate frame by itself."
+    },
+    {
+      "id": "C2_AXIS_MORPHOMETRY_2015",
+      "type": "dry_axis_morphometry",
+      "citation": "Singla M et al. Morphometric Analysis of Axis and Its Clinical Significance—An Anatomical Study of Indian Human Axis Vertebrae. J Clin Diagn Res. 2015.",
+      "pmcid": "PMC4484059",
+      "values_mm": {
+        "anterior_C2_body_height": 19.67,
+        "posterior_C2_body_height": 16.67,
+        "total_anterior_axis_height": {
+          "mean": 34.33,
+          "sd": 2.69
+        },
+        "odontoid_anterior_height": {
+          "mean": 14.66,
+          "sd": 1.37
+        }
+      },
+      "use": [
+        "independent C2 anterior/posterior body-height and dens/body relationship cross-check"
+      ],
+      "limitation": "Sex not separated in the study sample; use with the male CT source before target selection."
     }
   ],
   "unresolved_source_needs": [

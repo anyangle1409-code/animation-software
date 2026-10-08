@@ -1,0 +1,68 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-08",
+ "status": "EVIDENCE_REVIEW_NOT_SELECTED",
+ "freeze_ready": false,
+ "owner_policy": "PROPORTION_POLICY_182CM_MALE",
+ "stature_mm": 1820.0,
+ "joint_centre_span_evidence_mm": {
+  "ansur_GH_EJC": 286.2,
+  "ansur_GH_EJC_rajagopal_depth": 277.2,
+  "de_leva_SJC_EJC_scaled": 294.5
+ },
+ "joint_span_agreement": "ANSUR 286.2 +/- 10.6 and de Leva 294.5 agree within 1 SD; a003 287.7 lies inside both.",
+ "end_geometry_mm": {
+  "head_radius_of_curvature": {
+   "male_radiologic": {
+    "mean": 28.8,
+    "sd": 1.9,
+    "n": "30 male shoulders",
+    "source": "Korean radiologic study (J Korean Orthop Assoc 30(5)), modality unstated in abstract"
+   },
+   "mixed_cadaver_MRI": {
+    "mean": 24.0,
+    "sd": 2.1,
+    "n": "140 shoulders (96 cadaveric, 44 MRI), mixed sex",
+    "source": "coronal-plane head radius; size correlates with height"
+   }
+  },
+  "distal_allowance": {
+   "capitellum_sagittal_radius": {
+    "mean": 10.7,
+    "source": "CT lateral-column study, 50 elbows, mixed sex (Springer 2023)"
+   },
+   "trochlear_width": {
+    "mean": 22.0,
+    "sd": 3.0,
+    "source": "CT trochlea/capitellum study, mixed sex"
+   },
+   "note": "EJC (epicondyle midpoint, close to the trochlea-capitulum flexion axis) sits about one articular radius above the distal articular surface; a 10.7-13 mm allowance is used as a bracket, not a measured offset."
+  }
+ },
+ "maximum_length_evidence_mm": {
+  "trotter_gleser_inverted": 359.5,
+  "trotter_gleser_note": "Inversion of stature-on-bone regression overstates length above the sample mean; magnitude unknown without the original covariance.",
+  "mall_2001_german_male_mean": 334.0,
+  "mall_note": "Stature of the German anatomical-institute sample not stated here."
+ },
+ "consistency": {
+  "implied_maximum_length_from_joint_spans_mm": {
+   "lowest": 311.9,
+   "highest": 336.3
+  },
+  "implied_GH_EJC_from_trotter_gleser_mm": {
+   "lowest": 317.7,
+   "highest": 324.8
+  },
+  "reading": "INCONSISTENT AT THE MAXIMUM-LENGTH LEVEL: joint-span evidence implies a maximum humerus length of about 311.9-336.3 mm, consistent with Mall's 334 mm but below the inverted Trotter-Gleser 359.5 mm, which in turn implies GH-EJC 317.7-324.8 mm. Same pattern as the thigh: surface/joint-centre sources run shorter than inverted dry-bone stature equations. a003 is not established as short."
+ },
+ "what_would_close_it": [
+  "a known-stature adult male CT or dry-bone sample reporting maximum humerus length together with head radius and distal articular geometry (resolves the end allowances and the stature relation at once)",
+  "or a direct humerus-length-on-stature regression (not an inverted stature equation) for adult males",
+  "male-specific trochlear/capitellar radii (current distal values are mixed-sex)"
+ ],
+ "blockers_kept": [
+  "endpoint-defined humerus target for 1.82 m remains unselected",
+  "humeral head, trochlea and capitulum geometry consistent with the GH and elbow centres"
+ ]
+}

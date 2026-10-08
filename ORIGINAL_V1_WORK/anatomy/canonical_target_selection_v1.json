@@ -1,0 +1,188 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Pre-Blender canonical skeleton target selection state. It records what may be selected now and blocks premature construction from unresolved evidence.",
+  "status": "NOT_FREEZE_READY",
+  "freeze_ready": false,
+  "baseline": "a003 audit only",
+  "evidence_gate": "ORIGINAL_V1_WORK/anatomy/canonical_evidence_convergence_v1.json",
+  "corridors": "ORIGINAL_V1_WORK/anatomy/canonical_target_corridors_v1.json",
+  "measurement_semantics": "ORIGINAL_V1_WORK/anatomy/canonical_measurement_definitions_v1.json",
+  "global_scaffold": "ORIGINAL_V1_WORK/anatomy/canonical_global_landmark_targets_v1.json",
+  "selection_rules": [
+    "Grade C/D findings cannot receive a frozen exact target.",
+    "Grade A/B may receive a provisional target only if its measurement definition maps exactly to the intended canonical landmark.",
+    "A new Blender canonical-proportion candidate must not be generated while freeze_ready=false.",
+    "The first generated skeleton-first revision must have a new immutable identity distinct from mesh-fit a003."
+  ],
+  "regions": {
+    "shoulder_girdle": {
+      "evidence_grade": {
+        "clavicle": "A",
+        "scapula": "C"
+      },
+      "freeze_state": "PARTIAL_ONLY",
+      "selected": {
+        "stature_conditioned_biacromial_scaffold_mm": 425.15656060295987,
+        "acromial_height_scaffold_mm": 1497.6729008056855,
+        "clavicle_curved_length_mm": null,
+        "clavicle_SC_AC_chord_mm": null,
+        "bilateral_AC_breadth_mm": null,
+        "scapula_landmark_frame": null
+      },
+      "blockers": [
+        "stature/definition-compatible clavicle target selection",
+        "landmark-compatible 3D scapular geometry"
+      ]
+    },
+    "spine": {
+      "evidence_grade": "A_STRUCTURAL_DEFECT",
+      "freeze_state": "SOURCE_LEVELS_AVAILABLE_TARGET_CURVE_NOT_SELECTED",
+      "selected": {
+        "cervical_body_heights_mm": null,
+        "cervical_disc_heights_mm": null,
+        "thoracic_body_heights_mm": null,
+        "thoracic_disc_heights_mm": null,
+        "lumbar_body_heights_mm": null,
+        "lumbar_disc_heights_mm": null,
+        "sagittal_endplate_frame_sequence": null
+      },
+      "blockers": [
+        "choose level-specific body/disc values inside source corridors",
+        "reconstruct sagittal curve without stretching bones"
+      ]
+    },
+    "ribs": {
+      "evidence_grade": "A_STRUCTURAL_DEFECT",
+      "freeze_state": "GEOMETRY_MODEL_REQUIRED",
+      "selected": {
+        "centrelines": null,
+        "head_tubercle_landmarks": null,
+        "anterior_contacts": null
+      },
+      "blockers": [
+        "transcribe/reconstruct rib-level population curve parameters"
+      ]
+    },
+    "forearm": {
+      "evidence_grade": {
+        "radius": "B",
+        "ulna": "C"
+      },
+      "freeze_state": "NOT_SELECTED",
+      "selected": {
+        "radius_endpoint_length_mm": null,
+        "ulna_endpoint_length_mm": null,
+        "wrist_centre": null,
+        "DRUJ_frame": null
+      },
+      "blockers": [
+        "endpoint-compatible stature-aware radius corridor",
+        "ulna endpoint corridor",
+        "wrist/DRUJ geometry"
+      ]
+    },
+    "carpus_hand": {
+      "evidence_grade": {
+        "carpus": "A_REPRESENTATION_DEFECT",
+        "metacarpals_2_4": "B",
+        "other_phalanges": "B"
+      },
+      "freeze_state": "NOT_SELECTED",
+      "selected": {
+        "carpal_centroids": null,
+        "carpal_axes": null,
+        "metacarpal_lengths_mm": null,
+        "phalange_lengths_mm": null
+      },
+      "blockers": [
+        "map carpal CT axes/centroids into HGPT frame",
+        "stature-aware metacarpal cross-check",
+        "digit-ratio cross-check"
+      ]
+    },
+    "pelvis": {
+      "evidence_grade": {
+        "sacrum": "B",
+        "HJC": "A",
+        "os_coxae": "D"
+      },
+      "freeze_state": "PARTIAL_ONLY",
+      "selected": {
+        "HJC": "RETAIN_FROM_A003_PROVISIONALLY",
+        "sacral_length_mm": "RETAIN_A003_PROVISIONALLY",
+        "os_coxae_landmarks": null,
+        "SI_frames": null,
+        "pubic_frame": null
+      },
+      "blockers": [
+        "os coxae landmark geometry",
+        "SI/pubic contacts"
+      ]
+    },
+    "lower_limb_long": {
+      "evidence_grade": "B",
+      "freeze_state": "PROVISIONAL_RETAIN_VERIFY",
+      "selected": {
+        "femur": "RETAIN_A003_PROVISIONALLY",
+        "tibia": "RETAIN_A003_PROVISIONALLY",
+        "patella_size": "RETAIN_A003_PROVISIONALLY",
+        "fibula": null
+      },
+      "blockers": [
+        "endpoint-compatible fibula check",
+        "patellar contact/translation geometry"
+      ]
+    },
+    "tarsus_forefoot": {
+      "evidence_grade": {
+        "tarsus": "A_REPRESENTATION_DEFECT",
+        "metatarsals": "C",
+        "foot_surface": "A"
+      },
+      "freeze_state": "NOT_SELECTED",
+      "selected": {
+        "tarsal_centroids": null,
+        "tarsal_axes": null,
+        "metatarsal_lengths_mm": null,
+        "toe_phalanges_mm": null,
+        "soft_tissue_allowances_mm": null
+      },
+      "blockers": [
+        "tarsal contact-centre model",
+        "endpoint-matched stature-aware metatarsal evidence",
+        "toe phalanx triangulation"
+      ]
+    },
+    "head_neck": {
+      "evidence_grade": {
+        "TMJ_breadth": "B",
+        "fixed_cranium": "D",
+        "hyoid": "D"
+      },
+      "freeze_state": "LOW_PRIORITY_NOT_SELECTED",
+      "selected": {
+        "TMJ_breadth_mm": null,
+        "mandible_landmarks": null,
+        "cranial_envelopes": null,
+        "hyoid_geometry": null
+      },
+      "blockers": [
+        "landmark-rich mandible model",
+        "cranial envelope landmarks",
+        "adult hyoid numeric geometry"
+      ]
+    }
+  },
+  "required_for_freeze": [
+    "all movement-critical RED regions have selected landmark-compatible target geometry",
+    "all grade C conflicts resolved or explicitly excluded from the target with a justified neutral strategy",
+    "hard invariants pass",
+    "left/right symmetry policy passes",
+    "206 conventional bones remain accounted for",
+    "non-bone discs/cartilage/contact helpers are not counted as extra adult bones",
+    "new target coordinates are independently validated before Blender mesh fitting"
+  ],
+  "candidate_name_when_ready": "HGPT_CANONICAL_SKELETON_FIRST_c001",
+  "note": "Do not create c001 merely to show progress. Create it only when this file is promoted to freeze_ready=true by evidence-backed target selection."
+}

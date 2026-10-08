@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Skeleton-first sternum audit. Test the a003 jugular-notch to xiphisternal sternum reference against independent adult male manubrium + sternal-body morphometry.",
+  "baseline": "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json",
+  "status": "STERNUM_LONGITUDINAL_GEOMETRY_STRONGLY_REOPENED_TARGET_NOT_FROZEN",
+  "current_a003": {
+    "head_definition": "jugular notch / superior manubrial reference, inset from skin",
+    "tail_definition": "xiphisternal region, inset from skin; xiphoid itself not included",
+    "chord_length_mm": 213.22634318846016,
+    "vertical_component_mm": 203.0601793399906,
+    "placement": "surface_landmark",
+    "confidence": "moderate"
+  },
+  "compatible_reference_means_mm": {
+    "turkey_CT_2018": {
+      "manubrium": 51.2,
+      "body": 102.4,
+      "mean_sum": 153.6,
+      "source": "STERNUM_CT_TURKEY_2018"
+    },
+    "iran_CT_2022": {
+      "manubrium": 51.84,
+      "body": 100.57,
+      "mean_sum": 152.41,
+      "source": "STERNUM_CT_IRAN_2022"
+    },
+    "greece_CT_2025": {
+      "manubrium": 50.5,
+      "body": 108.13,
+      "mean_sum": 158.63,
+      "source": "STERNUM_CT_GREECE_2025"
+    },
+    "galloway_osteology": {
+      "manubrium": 46,
+      "body": 94.6,
+      "mean_sum": 140.6,
+      "source": "STERNUM_GALLOWAY_OSTEOLOGY"
+    }
+  },
+  "conservative_sample_check": {
+    "greek_manubrium_observed_max_mm": 59,
+    "greek_body_observed_max_mm": 133,
+    "sum_of_separate_observed_maxima_mm": 192,
+    "a003_vertical_component_excess_mm": 11.060179339990597,
+    "a003_chord_excess_mm": 21.22634318846016,
+    "warning": "The two maxima need not come from the same person. Their sum is used only as a conservative ceiling for the reported Greek sample, not as a population limit."
+  },
+  "findings": [
+    "The a003 sternum reference runs from the jugular notch to the xiphisternal region, so the closest comparison is manubrium length + sternal-body length; xiphoid length should not be added.",
+    "Across three modern CT studies, male manubrium+body mean sums are about 152-159 mm, while the a003 vertical component is ~203 mm and the 3D chord is ~213 mm.",
+    "Even the sum of the separate maximum manubrium and body lengths reported in the Greek male sample is 192 mm, below the a003 vertical component. This is a conservative sample-level warning, not a universal maximum.",
+    "The current sternum was placed from old mesh surface landmarks, so the discrepancy is consistent with the broader finding that the torso/shoulder mesh drove skeletal proportions.",
+    "Exact canonical sternum length is NOT frozen from these unconditioned population means. The final target must preserve the character's 1.82 m stature and be reconciled with thoracic vertebral levels, rib attachments, jugular notch and xiphisternal level."
+  ],
+  "canonical_actions": [
+    "REOPEN sternum longitudinal geometry.",
+    "Represent manubrium and sternal body landmark regions separately while retaining one conventional adult sternum bone in the 206 count.",
+    "Define jugular notch, bilateral clavicular notches/SC contacts, sternal angle, costal notch levels and xiphisternal junction in a thoracic frame.",
+    "Use modern male CT segment corridors plus thoracic/rib level constraints to select final length; do not simply scale the old sternum stick.",
+    "Refit anterior rib/costal-cartilage contacts after sternum and thoracic spine are rebuilt."
+  ],
+  "SC_joint_implications": {
+    "registered_source": "SCJ_CT_LI_2012",
+    "joint_space_mm": {
+      "left": [
+        8.2,
+        2.1
+      ],
+      "right": [
+        8.7,
+        2.2
+      ]
+    },
+    "bilateral_SC_distance": "MEASURED_BY_SOURCE_BUT_NUMERIC_VALUE_NOT_AVAILABLE_IN_ACCESSIBLE_ABSTRACT",
+    "rule": "Do not invent bilateral SC-centre breadth. Use the source table if obtained or an independently verified manubrial/clavicular-notch geometry."
+  },
+  "acceptance_tests": [
+    "jugular→xiphisternal geometry uses matching manubrium/body definitions and does not include xiphoid length",
+    "bilateral SC centres lie on reconstructed clavicular notches with explicit joint spaces",
+    "sternal angle and costal attachment levels remain compatible with the rebuilt thoracic spine/ribs",
+    "sternum remains one conventional adult bone; segment landmarks do not create extra bones",
+    "neutral shoulder and rib motion tests are rerun after SC/sternum changes"
+  ]
+}

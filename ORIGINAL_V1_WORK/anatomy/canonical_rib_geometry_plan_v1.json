@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Replace the a003 straight rib-stick approximation with anatomically curved rib reference geometry while preserving the conventional 206-bone count.",
+  "baseline": "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json",
+  "status": "RIB_GEOMETRY_REBUILD_REQUIRED",
+  "current_a003": {
+    "representation": "one straight Blender segment from costovertebral region to anterior rib endpoint",
+    "left_chord_lengths_mm": {
+      "rib_01": 80.23662620822252,
+      "rib_02": 124.24198214656,
+      "rib_03": 169.6579805214994,
+      "rib_04": 200.15017009194986,
+      "rib_05": 216.71223973258878,
+      "rib_06": 221.09401498899436,
+      "rib_07": 218.13572326354696,
+      "rib_08": 208.95256463541546,
+      "rib_09": 203.60566592359575,
+      "rib_10": 200.11541686566588,
+      "rib_11": 102.50390631921782,
+      "rib_12": 98.5278479303232
+    },
+    "known_failure": "F-RIB-001: costovertebral-to-costotransverse marker is collinear with the straight rib, so the anatomical rib-neck axis degenerates and rotation about it produces no meaningful rib motion."
+  },
+  "evidence_sources": [
+    "HOLCOMBE_DERSTINE_2017_RIB_SHAPE",
+    "STIZEL_2013_RIB_CENTROIDAL_GEOMETRY",
+    "SHI_2016_PARAMETRIC_RIBCAGE",
+    "HOLCOMBE_HU_2014_STATISTICAL_RIBCAGE",
+    "WEAVER_2014_RIB_MORPHOMETRY",
+    "HOLCOMBE_HUANG_2023_RIB_CROSS_SECTIONS"
+  ],
+  "anatomical_representation": {
+    "bone_count_policy": "Each left/right rib remains one conventional anatomical bone in the 206 inventory; curved geometry is represented by non-bone reference data/curve objects, not by inventing extra anatomical bones.",
+    "per_rib_required_data": [
+      "costovertebral head centre",
+      "costotransverse/tubercle contact centre for ribs 1-10 only",
+      "neck-axis vector from the true head/tubercle relationship",
+      "3D centroidal centreline from posterior head to anterior end",
+      "rib plane/best-fit plane and out-of-plane deviation",
+      "anterior endpoint/contact: costal cartilage/sternum for true ribs; costal arch for ribs 8-10; free anterior end for ribs 11-12",
+      "cross-sectional envelope samples along normalized centreline position",
+      "rib-level orientation relative to thoracic vertebra and sternum"
+    ],
+    "minimum_curve_resolution": "Use a parametric centreline or at least enough samples to preserve posterior curvature, lateral sweep and anterior turn; a two-point straight segment is not acceptable.",
+    "exception_policy": {
+      "ribs_11_12": "No costotransverse joint; do not create one. Floating-rib mechanics and endpoints must remain distinct from ribs 1-10.",
+      "rib_1": "Morphology differs from mid-level ribs and must not be inferred solely from ribs 2-10 population models.",
+      "rib_12": "Morphology differs from mid-level ribs and must not be inferred solely from ribs 2-11 cross-section models."
+    }
+  },
+  "movement_implications": [
+    "Pump-handle/bucket-handle motion must be generated about the actual rib-head/tubercle geometry and thoracic attachments, not an arbitrary mediolateral fallback axis.",
+    "The rib centreline and anterior contact must follow thoracic-level motion while preserving joint closure.",
+    "Rib-sternum/costal-cartilage coupling remains a separate follower/contact problem and is not solved by curve geometry alone."
+  ],
+  "acceptance_tests": [
+    "Rib centreline is curved in 3D and has non-zero posterior/lateral/anterior curvature appropriate to its level.",
+    "For ribs 1-10, costovertebral and costotransverse centres are distinct and define a non-degenerate neck axis.",
+    "For ribs 11-12, no costotransverse centre exists.",
+    "Left/right rib curves are mirror-consistent within the canonical symmetry policy.",
+    "Rib-level orientation and size fall within population/stature/sex corridors after source parameter mapping.",
+    "Breathing/exercise motion uses the anatomical neck axis and preserves posterior joint contacts.",
+    "The master keeps 24 rib bones total; any extra curve points are reference data, not added bones."
+  ],
+  "next_steps": [
+    "Transcribe or derive rib-level centroidal-path parameters from accessible population models.",
+    "Generate a non-deforming rib-centreline dataset for all 24 ribs.",
+    "Refit costovertebral/costotransverse/anterior contact landmarks to those curves.",
+    "Rebuild rib movement tests and remove the F-RIB-001 fallback axis only after the true neck axes exist."
+  ]
+}

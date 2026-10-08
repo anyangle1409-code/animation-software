@@ -2397,6 +2397,139 @@
         "bone-specific scale constraints"
       ],
       "limitation": "The raw X/Y/Z directions must be mapped from the paper's anatomical coordinate convention into HGPT before coordinates are generated; bounding boxes do not locate centroids or contact surfaces."
+    },
+    {
+      "id": "STERNUM_CT_TURKEY_2018",
+      "type": "adult_sternum_MDCT_morphometry",
+      "citation": "Evaluation of the morphological characteristic and sex differences of sternum by multi-detector computed tomography. Folia Morphol. 2018.",
+      "pmid": "29345718",
+      "population": "200 adults; 97 men, 103 women; age 18-87",
+      "male_values_mm": {
+        "manubrium_length": {
+          "mean": 51.2,
+          "sd": 6
+        },
+        "corpus_sterni_length": {
+          "mean": 102.4,
+          "sd": 13.3
+        },
+        "manubrium_plus_body_mean_sum": 153.6,
+        "total_sternum_length_including_xiphoid": {
+          "mean": 154.1,
+          "sd": 13.1
+        }
+      },
+      "use": [
+        "jugular-notch to xiphisternal/corpus endpoint plausibility",
+        "independent male sternum scale"
+      ],
+      "limitation": "Population-specific; reported total-sternum definition and xiphoid morphology require care. Use manubrium + corpus definitions for comparison to the a003 jugular→xiphisternal stick."
+    },
+    {
+      "id": "STERNUM_CT_IRAN_2022",
+      "type": "adult_sternum_CT_morphometry",
+      "citation": "Morphometric study of sternum by computed tomography in an Iranian population: A method to discriminate between male and female.",
+      "population": "98 adults; CT study 2020-2021",
+      "male_values_mm": {
+        "manubrium_length": {
+          "mean": 51.84,
+          "sd": 4.06
+        },
+        "body_length": {
+          "mean": 100.57,
+          "sd": 13.28
+        },
+        "manubrium_plus_body_mean_sum": 152.41,
+        "manubrium_width": {
+          "mean": 58.2,
+          "sd": 5.55
+        }
+      },
+      "use": [
+        "independent male jugular-to-xiphisternal scale",
+        "manubrial width plausibility"
+      ],
+      "limitation": "Population-specific forensic morphometry; mean-sum SD is not available and must not be fabricated."
+    },
+    {
+      "id": "STERNUM_CT_GREECE_2025",
+      "type": "adult_sternum_CT_morphometry",
+      "citation": "Assessing Sternal Dimensions for Sex Classification: Insights from a Greek Computed Tomography-Based Study. Diagnostics. 2025.",
+      "population": "100 adults; 50 men, 50 women",
+      "male_values_mm": {
+        "manubrium_length": {
+          "mean": 50.5,
+          "sd": 4.79,
+          "range": [
+            41.3,
+            59
+          ]
+        },
+        "sternal_body_length": {
+          "mean": 108.13,
+          "sd": 10.75,
+          "range": [
+            89.6,
+            133
+          ]
+        },
+        "manubrium_plus_body_mean_sum": 158.63
+      },
+      "use": [
+        "second modern CT male jugular-to-xiphisternal scale"
+      ],
+      "limitation": "Population-specific; body and manubrium ranges are individual-variable and their separate maxima must not be summed as if from the same subject."
+    },
+    {
+      "id": "STERNUM_GALLOWAY_OSTEOLOGY",
+      "type": "adult_dry_sternum_morphometry",
+      "citation": "A Morphometric Study of Adult Human Sterna from the Galloway Osteological Collection.",
+      "male_values_mm": {
+        "manubrium_length": {
+          "mean": 46,
+          "sd": 5
+        },
+        "sternal_body_length": {
+          "mean": 94.6,
+          "sd": 11.2
+        },
+        "xiphoid_length": {
+          "mean": 27.3,
+          "sd": 7.9
+        },
+        "manubrium_plus_body_mean_sum": 140.6
+      },
+      "use": [
+        "independent osteological sternum scale and segment definitions"
+      ],
+      "limitation": "Osteological collection and sample context differ from living CT populations; use as a broad cross-check."
+    },
+    {
+      "id": "SCJ_CT_LI_2012",
+      "type": "healthy_sternoclavicular_CT_morphometry",
+      "citation": "Li M et al. Imageological measurement of the sternoclavicular joint and its clinical application. Chin Med J (Engl). 2012;125(2):230-235.",
+      "pmid": "22340551",
+      "population": "53 healthy Chinese volunteers",
+      "accessible_values_mm": {
+        "left_SC_joint_space": {
+          "mean": 8.2,
+          "sd": 2.1
+        },
+        "right_SC_joint_space": {
+          "mean": 8.7,
+          "sd": 2.2
+        }
+      },
+      "measured_but_numeric_not_accessible_in_abstract": [
+        "distance between bilateral clavicles",
+        "clavicular notch length",
+        "sternal-head dimensions"
+      ],
+      "use": [
+        "SC joint-space/contact geometry",
+        "candidate source for future bilateral SC distance if full table becomes accessible"
+      ],
+      "limitation": "Do not invent the bilateral-clavicle distance; the abstract states it was measured but does not report its value."
     }
   ],
   "unresolved_source_needs": [

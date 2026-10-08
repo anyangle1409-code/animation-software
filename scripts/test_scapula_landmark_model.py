@@ -11,6 +11,7 @@ import numpy as np
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
 from anatomy_fit import scapula_landmark_model as m
+from report_compare import report_differences
 
 
 class ScapulaLandmarkModelTests(unittest.TestCase):
@@ -22,7 +23,7 @@ class ScapulaLandmarkModelTests(unittest.TestCase):
         stored = json.loads(m.DEFAULT_REPORT.read_text())
         actual = m.build_report(self.subjects, target_height_cm=stored['target_height_cm'])
         actual['source_sha256'] = hashlib.sha256(m.DEFAULT_SOURCE.read_bytes()).hexdigest()
-        self.assertEqual(stored, actual)
+        self.assertEqual(report_differences(stored, actual), [])
 
     def test_true_sheet_data_not_incorrect_dimension_metadata_is_read(self):
         self.assertEqual(len(self.subjects), 125)

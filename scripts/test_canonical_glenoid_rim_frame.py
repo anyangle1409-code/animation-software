@@ -1,7 +1,10 @@
 import importlib.util,json,unittest
+import sys
 from pathlib import Path
 import numpy as np
 ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/'scripts'))
+from report_compare import report_differences
 spec=importlib.util.spec_from_file_location('glenoid',ROOT/'scripts/anatomy_fit/glenoid_rim_frame.py')
 m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
 class GlenoidRimTests(unittest.TestCase):
@@ -37,5 +40,5 @@ class GlenoidRimTests(unittest.TestCase):
   with self.assertRaises(ValueError):m.derive(p)
  def test_measured_report_reproduction(self):
   saved=json.loads((ROOT/'ORIGINAL_V1_WORK/anatomy/canonical_glenoid_rim_frame_v1.json').read_text())
-  self.assertEqual(saved,m.build());self.assertFalse(saved['freeze_ready']);self.assertEqual(saved['subject_count'],34)
+  self.assertEqual(report_differences(saved,m.build()),[]);self.assertFalse(saved['freeze_ready']);self.assertEqual(saved['subject_count'],34)
 if __name__=='__main__':unittest.main()

@@ -681,7 +681,8 @@
         "neutral carpal axis orientation corridors",
         "wrist master-frame placement"
       ],
-      "limitation": "Angles depend on the study's radial coordinate system; must map frames explicitly before applying."
+      "limitation": "Angles depend on the study's radial coordinate system; must map frames explicitly before applying.",
+      "independence_policy": "Both alignment publications report 121 asymptomatic neutral wrists. Potentially shared cohort; do not count as independent replication without subject provenance."
     },
     {
       "id": "CARPAL_RADIOGRAPHIC_DATABASE_1998",

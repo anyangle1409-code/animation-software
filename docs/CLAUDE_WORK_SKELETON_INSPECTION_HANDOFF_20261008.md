@@ -25,8 +25,9 @@ All anatomy paths in this table are under `ORIGINAL_V1_WORK/anatomy/`. `inspecti
 4. Resolve articular-centre clavicle chord versus extremal-point chord and true curved length. No averaging or same-subject ratio may be inferred from separate populations. Li 2012 PMID22340551 may provide bilateral separation, but full table/figure/endpoints are required.
 5. Reinspect original 2022 lumbar Figure 5C: segmental angles are superior-to-superior, incorporating upper vertebral body wedge plus disc. Never assign the entire angle to the disc then also wedge the body. P1 is a scaled cross-cohort provisional family.
 6. Independently recover rib proximal feasibility Eq 2.18. Michigan thesis handle and legacy bitstreams returned 403; the newer item URL also returned 403. Do not select a visually plausible tangent branch. Distal tests cover only Eqs 2.2–2.7. A curve reconstructed from mean parameters is not a pointwise population mean curve, and per-level means do not form one measured individual ribcage.
-7. Inspect freshly evaluated a003 movement metrics: 135 integrity passes, 41 mirror passes, two SOLVER_TEST exceptions. A passing command/JCS integrity test is not proof of contact geometry or complete natural motion.
-8. Continue other independent Gate 6 source/coordinate tasks and Gates 8/9 followers where justified. No production mesh/weights/drivers and no Phase 10 acceptance until gates permit them.
+7. Verify carpal projected angles with `python scripts/validate_canonical_carpal_axes.py`; unit/mirror tests alone can accept all-proximal stubs. Treat the two 121-wrist reports as potentially shared cohort evidence, not independent replication.
+8. Inspect freshly evaluated a003 movement metrics: 135 integrity passes, 41 mirror passes, two SOLVER_TEST exceptions. A passing command/JCS integrity test is not proof of contact geometry or complete natural motion.
+9. Continue other independent Gate 6 source/coordinate tasks and Gates 8/9 followers where justified. No production mesh/weights/drivers and no Phase 10 acceptance until gates permit them.
 
 ## Reproduce checks
 

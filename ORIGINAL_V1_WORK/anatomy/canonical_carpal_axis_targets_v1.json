@@ -7,7 +7,9 @@
     "primary": "CARPAL_ALIGNMENT_2023_CT",
     "supporting": "CARPAL_ALIGNMENT_2021_CT",
     "population": "121 neutrally positioned asymptomatic wrists",
-    "source_coordinate_semantics": "radiocarpal sagittal angle positive palmar; coronal angle positive ulnar. Geometric axis used for radius/scaphoid/capitate; surface-normal axis used for the other reported carpals."
+    "source_coordinate_semantics": "radiocarpal sagittal angle positive palmar; coronal angle positive ulnar. Geometric axis used for radius/scaphoid/capitate; surface-normal axis used for the other reported carpals.",
+    "independence_policy": "2021 and 2023 reports both use 121 asymptomatic neutral wrists; treat as potentially shared cohort, not independent normal-axis replication until subject provenance proves otherwise.",
+    "primary_verified_url": "https://journals.sagepub.com/doi/10.1177/17531934231160100"
   },
   "HGPT_world_basis": {
     "character_faces": "-Y",
@@ -165,5 +167,10 @@
     "pisiform axis/reference geometry",
     "radiocarpal/midcarpal/intercarpal contact-centre geometry",
     "bone-envelope dimensions separate from line axes"
-  ]
+  ],
+  "verification": {
+    "validator": "scripts/validate_canonical_carpal_axes.py",
+    "adversarial_tests": "scripts/test_canonical_carpal_axis_projection.py",
+    "scope": "projected source angles and bilateral frame signs only; no centroid/contact acceptance"
+  }
 }

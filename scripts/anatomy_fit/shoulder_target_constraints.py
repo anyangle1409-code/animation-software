@@ -93,13 +93,9 @@ def endpoint_chord_is_anatomically_possible(
     return chord_length_mm(sc_xyz_mm, ac_xyz_mm) <= curved_centerline_length_mm
 
 
-def evaluate_mean_outer_scaffold() -> dict:
-    """Return valid mean-input bounds without collapsing 3-D to transverse."""
-    biacromial = 425.15656060295987
-    distance_3d = 34.0
-    lower = biacromial - 2.0 * distance_3d
-    return {
-        "bilateral_ac_breadth_lower_bound_if_3d_distance_is_34mm": lower,
-        "bilateral_ac_breadth_upper_ceiling": biacromial,
-        "note": "Upper ceiling is strict: AC joints must lie medial to lateral acromia.",
-    }
+def a003_outer_breadth_failure(current_biac_mm: float, outer_biacromial_mm: float) -> bool:
+    """Return True when AC centres are wider than lateral acromial landmarks.
+
+    This invariant does not require any disputed AC-offset measurement.
+    """
+    return current_biac_mm >= outer_biacromial_mm

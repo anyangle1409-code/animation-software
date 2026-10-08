@@ -32,7 +32,8 @@
         "shoulder_constraint_file": "ORIGINAL_V1_WORK/anatomy/canonical_shoulder_target_constraints_v1.json",
         "scapular_landmark_audit": "ORIGINAL_V1_WORK/anatomy/canonical_scapula_landmark_audit_v1.json",
         "shoulder_frame_mapping": "ORIGINAL_V1_WORK/anatomy/canonical_shoulder_frame_mapping_v1.json",
-        "neutral_parameter_sweep": "ORIGINAL_V1_WORK/anatomy/canonical_shoulder_feasible_family_v1.json"
+        "neutral_parameter_sweep": "ORIGINAL_V1_WORK/anatomy/canonical_shoulder_feasible_family_v1.json",
+        "a003_landmark_provenance": "ORIGINAL_V1_WORK/anatomy/a003_shoulder_landmark_provenance_audit_v1.json"
       },
       "blockers": [
         "verified bilateral SC/manubrial landmark constraint or equivalent thorax-based SC placement",
@@ -40,7 +41,7 @@
         "construct landmark-compatible 3D scapular local frame using AA/TS/AI/glenoid/acromion constraints",
         "freeze superior-inferior scapular length only after measurement-compatible cross-source reconciliation"
       ],
-      "audit_note_2026_10_08": "A 2026 cadaver abstract was rechecked: it reports STSL→lateral-acromion and STSL→AC distances, not direct lateral-acromion→AC distance. The earlier 34±8 mm direct-offset transcription was withdrawn. The a003 width/clavicle failures remain confirmed independently."
+      "audit_note_2026_10_08": "A 2026 cadaver abstract was rechecked: it reports STSL→lateral-acromion and STSL→AC distances, not direct lateral-acromion→AC distance. The earlier 34±8 mm direct-offset transcription was withdrawn. The a003 width/clavicle failures remain confirmed independently. Generator provenance also confirms a003 SC=±25 mm is hard-coded, AC/AA inherit mesh acromion offsets, and TS/AI are provisional world-coordinate constructs; none may be promoted into c001."
     },
     "spine": {
       "evidence_grade": "A_STRUCTURAL_DEFECT",

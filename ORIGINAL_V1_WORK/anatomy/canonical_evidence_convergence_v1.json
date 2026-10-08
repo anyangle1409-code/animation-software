@@ -67,13 +67,14 @@
     },
     "radius_forearm": {
       "grade": "B",
-      "state": "STRONGLY_REOPENED",
+      "state": "STRONGLY_CONFIRMED_WITHIN_ANSUR_ENDPOINT_FREEZE_OPEN",
       "evidence": [
-        "stature-conditioned ANSUR component chain implies longer radiale-stylion span than current a003 osteometric proxy",
-        "whole arm and acromion-to-wrist surface measures are short for stature",
-        "adult CT forearm studies use different endpoints and do not provide a clean stature-matched numeric target"
+        "direct OLS regression on all 4,082 committed ANSUR II men predicts radiale–stylion 278.14 mm at 1.82 m with residual SD 10.78 mm",
+        "a003 radius osteometric proxy 247.42 mm is 30.72 mm below prediction (z −2.85; ~0.05th residual percentile)",
+        "whole arm and acromion-to-wrist surface measures are also short for stature",
+        "adult CT forearm studies still use different endpoints and do not yet provide a clean stature-matched endpoint-compatible numeric target"
       ],
-      "action": "RETARGET_ONLY_AFTER_ENDPOINT_COMPATIBLE_STATURE_AWARE_CORRIDOR"
+      "action": "RETARGET_DIRECTION_CONFIRMED; FREEZE ONLY AFTER ENDPOINT_COMPATIBLE SECOND-SOURCE MAPPING"
     },
     "ulna": {
       "grade": "C",

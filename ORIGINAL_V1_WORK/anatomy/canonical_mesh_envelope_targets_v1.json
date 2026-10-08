@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Later mesh/soft-tissue acceptance corridors derived independently of the current r95 surface. These do not drive skeletal joint centres.",
+  "status": "MESH_ENVELOPE_CORRIDORS_READY_NOT_PRODUCTION_GEOMETRY",
+  "source": "ANSUR_II_MALE_2012 stature-conditioned to 1.8200003 m",
+  "stature_m": 1.8200002908706665,
+  "policy": [
+    "Skeleton and joint centres are solved first.",
+    "These surface corridors are checked only after the mesh is rebuilt around the frozen skeleton.",
+    "Population mean is not mandatory; ±1 SD is the preferred normal-design corridor unless character styling has a documented reason.",
+    "Soft-tissue breadth/length must never be used to drag validated bones away from their anatomical positions."
+  ],
+  "envelopes_mm": {
+    "foot_skin_length": {
+      "mean": 279.9330826397305,
+      "residual_sd": 9.119960622171234,
+      "preferred_1sd_corridor": [
+        270.8131220175593,
+        289.0530432619017
+      ],
+      "current_r95": 305.23210763931274,
+      "current_z": 2.774027876620282,
+      "current_difference_from_mean": 25.29902499958224,
+      "disposition": "REBUILD_SHORTER_AFTER_FOOT_SKELETON_FREEZE"
+    },
+    "hand_skin_length": {
+      "mean": 199.50794748615093,
+      "residual_sd": 7.3562928220563775,
+      "preferred_1sd_corridor": [
+        192.15165466409454,
+        206.8642403082073
+      ],
+      "current_r95": 188.999773749835,
+      "current_difference_from_mean": -10.50817373631593,
+      "disposition": "REBUILD_LONGER_AFTER_HAND_SKELETON_FREEZE"
+    },
+    "bideltoid_surface_breadth": {
+      "mean": 519.8898336583992,
+      "residual_sd": 30.87680922145959,
+      "preferred_1sd_corridor": [
+        489.0130244369396,
+        550.7666428798588
+      ],
+      "current_r95": 575.1221429481996,
+      "current_difference_from_mean": 55.2323092898003,
+      "disposition": "RECHECK_AFTER_CANONICAL_CLAVICLE_SCAPULA_AND_DELTOID_REBUILD"
+    }
+  },
+  "high_value_conclusions": [
+    "The visibly large r95 foot is quantitatively confirmed at the surface level and should not survive the final mesh unchanged.",
+    "The r95 hand surface is short and should be allowed to lengthen around the canonical carpal/metacarpal/phalange chain.",
+    "The r95 shoulder surface is broad; because the clavicle and transverse scapular geometry are also independently defective, the final shoulder mesh should be rebuilt after skeletal correction rather than merely reweighted."
+  ],
+  "acceptance_sequence": [
+    "freeze canonical skeletal geometry",
+    "derive bone-to-skin allowances by region",
+    "rebuild/refit mesh",
+    "check surface measurements against corridors",
+    "run neutral-pose visual review",
+    "run loaded exercise deformation review"
+  ]
+}

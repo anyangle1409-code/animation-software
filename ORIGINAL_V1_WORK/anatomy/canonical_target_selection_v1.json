@@ -274,7 +274,8 @@
         "cranial envelope landmarks",
         "hyoid endpoint-matched independent numeric confirmation, full body/cornu landmarks and C3-relative neutral position/tilt"
       ],
-      "audit_note_2026_10_08": "Source-defined provisional hyoid dimensions exist; overall hyoid grade D is retained pending independent complete geometry review. Corrected BB-prime minor-axis/AP mislabelling; dimensions alone do not solve a whole bone."
+      "audit_note_2026_10_08": "Source-defined provisional hyoid dimensions exist; overall hyoid grade D is retained pending independent complete geometry review. Corrected BB-prime minor-axis/AP mislabelling; dimensions alone do not solve a whole bone.",
+      "hyoid_landmark_semantics_review": "ORIGINAL_V1_WORK/anatomy/canonical_hyoid_landmark_semantics_review_v1.json"
     }
   },
   "required_for_freeze": [

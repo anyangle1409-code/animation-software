@@ -1,0 +1,13 @@
+{
+  "status": "CONFIRMED_SEMANTIC_QUARANTINE_PROVISIONAL_GEOMETRY",
+  "affected_tests": 37,
+  "full_tests": 809,
+  "full_failures": 5,
+  "full_errors": 4,
+  "baseline_failure_names_unchanged": true,
+  "target_validator": "PASS with freeze_ready false warning",
+  "source_value_deleted": false,
+  "horn_bend_or_coordinate_selected": false,
+  "anatomical_candidate_created": false,
+  "production_or_a003_modified": false
+}

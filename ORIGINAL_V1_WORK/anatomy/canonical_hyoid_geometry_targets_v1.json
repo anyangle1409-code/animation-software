@@ -3,7 +3,7 @@
   "created": "2026-10-08",
   "purpose": "Skeleton-first adult male hyoid geometry target. Replace the a003 schematic reference stick with a landmark-rich single-bone reference while preserving the no-osseous-articulation rule.",
   "baseline": "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json",
-  "status": "LOCAL_GEOMETRY_EVIDENCE_READY_POSITION_WAITS_FOR_CANONICAL_C3_FRAME",
+  "status": "PROVISIONAL_BODY_DIMENSIONS_HORN_LANDMARK_SEMANTICS_REOPENED",
   "conventional_bone_count_policy": "The hyoid remains one conventional adult bone. Body and cornua are regions/landmarks of that one bone, not additional bones.",
   "articulation_policy": "No osseous parent is created. The hyoid remains a suspended REFERENCE structure; motion coupling, if modeled later, is soft-tissue functional mechanics rather than a bone-to-bone joint.",
   "source_evidence": [
@@ -49,6 +49,19 @@
         "greater_horn_center_distance": "distance between centers of greater horns",
         "greater_horn_posterior_end_distance": "distance between posterior ends of greater horns",
         "lesser_horn_distance": "distance between lesser horns"
+      },
+      "landmark_semantics_review": {
+        "status": "REOPENED_LABEL_FIGURE_ENDPOINT_CONFLICT",
+        "primary_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11751384/",
+        "figure_url": "https://cdn.ncbi.nlm.nih.gov/pmc/blobs/c4e1/11751384/2c3c25b379f3/41598_2025_85518_Fig1_HTML.jpg",
+        "checked": "Table 1, Figure 1B/C and Results; original figure visually inspected",
+        "observation": "Figure 1B places D/E on free horn tips and Dprime/Eprime near the body; Table 1 calls Dprime-Eprime the posterior-end span. Figure 1C measures width near distal lateral points.",
+        "inference": "The printed label cannot be assigned to distal-tip coordinates until this figure/text conflict is resolved.",
+        "Dprime_Eprime_usable_as_distal_tip_span": false,
+        "GGprime_usable_as_volume_centroid_span": false,
+        "horn_curvature_target_selected": false,
+        "rule": "GGprime cursor points are not proven volume centroids or neutral centreline points. Neither marginal span mean prescribes cornu bending; preserve straight-horn plausibility from independent anatomy.",
+        "needed": "Endpoint-matched independent geometry or source landmark clarification; individual stature and full 3D coordinates."
       }
     },
     {
@@ -88,8 +101,6 @@
       "total_AP_length": 35.38,
       "greater_horn_length_left": 27,
       "greater_horn_length_right": 27.63,
-      "greater_horn_center_span": 39.65,
-      "greater_horn_posterior_end_span": 35.32,
       "lesser_horn_span": 26.33,
       "body_SI_height": 11.32,
       "body_AP_thickness": 6.99
@@ -125,7 +136,12 @@
         "alias_of": "body_AP_thickness",
         "warning": "Generic historical alias; AP thickness, not superior-inferior height"
       }
-    }
+    },
+    "source_reported_spans_not_coordinate_targets_mm": {
+      "Dprime_Eprime_printed_posterior_end_span": 35.32,
+      "GGprime_printed_centre_span": 39.65
+    },
+    "landmark_review": "ORIGINAL_V1_WORK/anatomy/canonical_hyoid_landmark_semantics_review_v1.json"
   },
   "hard_invariants": [
     "hyoid_parent_relation remains root/no osseous articulation",
@@ -144,7 +160,7 @@
   "decision": {
     "topology": "RETAIN",
     "old_control_stick_geometry": "REPLACE",
-    "local_hyoid_geometry": "READY_FOR_NONBLENDER_LOCAL_FRAME_CONSTRUCTION",
+    "local_hyoid_geometry": "PROVISIONAL_BODY_AXES_ONLY_HORN_LANDMARKS_REOPENED",
     "absolute_position": "WAIT_FOR_CANONICAL_CERVICAL_SPINE_FRAME"
   },
   "source_axis_review_2026_10_08": {

@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "source_id": "ABDELKADER_2025_HYOID_MDCT",
+  "doi": "10.1038/s41598-025-85518-w",
+  "pmcid": "PMC11751384",
+  "source_checksums": {
+    "primary_html": "b147fe310c1417420b9221e28ded7f2b3d4921dc50831f93e59d0ff53f0b7b59",
+    "figure_1": "e9f6c982ac553172a71c233eac5e9bf94cf6f4857d89454339edc18718e8b968"
+  },
+  "review": {
+    "status": "REOPENED_LABEL_FIGURE_ENDPOINT_CONFLICT",
+    "primary_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11751384/",
+    "figure_url": "https://cdn.ncbi.nlm.nih.gov/pmc/blobs/c4e1/11751384/2c3c25b379f3/41598_2025_85518_Fig1_HTML.jpg",
+    "checked": "Table 1, Figure 1B/C and Results; original figure visually inspected",
+    "observation": "Figure 1B places D/E on free horn tips and Dprime/Eprime near the body; Table 1 calls Dprime-Eprime the posterior-end span. Figure 1C measures width near distal lateral points.",
+    "inference": "The printed label cannot be assigned to distal-tip coordinates until this figure/text conflict is resolved.",
+    "Dprime_Eprime_usable_as_distal_tip_span": false,
+    "GGprime_usable_as_volume_centroid_span": false,
+    "horn_curvature_target_selected": false,
+    "rule": "GGprime cursor points are not proven volume centroids or neutral centreline points. Neither marginal span mean prescribes cornu bending; preserve straight-horn plausibility from independent anatomy.",
+    "needed": "Endpoint-matched independent geometry or source landmark clarification; individual stature and full 3D coordinates."
+  },
+  "printed_values_preserved_mm": {
+    "Dprime_Eprime_printed_posterior_end_span": 35.32,
+    "GGprime_printed_centre_span": 39.65
+  },
+  "canonical_horn_landmark_coordinates_selected": null,
+  "freeze_ready": false,
+  "topology": "One suspended conventional hyoid; no osseous parent or direct articulation.",
+  "adversarial_finding": "A test requiring only positive plausible lengths missed a semantic mismatch. A regression now refuses tip/centroid targets made from unresolved labels."
+}

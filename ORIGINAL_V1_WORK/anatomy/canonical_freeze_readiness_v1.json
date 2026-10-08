@@ -201,7 +201,8 @@
         "mandible full landmark target",
         "independent matched hyoid geometry confirmation, body/cornu 3D landmarks and C3-relative neutral placement/tilt"
       ],
-      "next_action": "Finish low-kinematic-priority reference geometry after shoulder/spine/limb blockers."
+      "next_action": "Finish low-kinematic-priority reference geometry after shoulder/spine/limb blockers.",
+      "hyoid_landmark_semantics_review": "ORIGINAL_V1_WORK/anatomy/canonical_hyoid_landmark_semantics_review_v1.json"
     },
     "humerus": {
       "readiness": "PARTIAL",

@@ -42,6 +42,19 @@ class CanonicalHyoidGeometryTests(unittest.TestCase):
         self.assertEqual(g.get("body_SI_height"), 11.32)
         self.assertEqual(g.get("body_AP_thickness"), 6.99)
 
+    def test_horn_span_label_conflict_cannot_become_a_tip_target(self):
+        # Fig 1B labels D/E at free tips, D'/E' near the body. The
+        # table's "posterior end" wording does not settle that conflict.
+        g = self.t["provisional_local_geometry"]["direct_2025_male_nominals_mm"]
+        self.assertNotIn("greater_horn_posterior_end_span", g)
+        self.assertNotIn("greater_horn_center_span", g)
+        source = next(s for s in self.t["source_evidence"]
+                      if s["id"] == "ABDELKADER_2025_HYOID_MDCT")
+        self.assertEqual(source["male_mean_mm"]["greater_horn_posterior_end_distance"], 35.32)
+        self.assertIs(source["landmark_semantics_review"]["Dprime_Eprime_usable_as_distal_tip_span"], False)
+        self.assertIs(source["landmark_semantics_review"]["GGprime_usable_as_volume_centroid_span"], False)
+        self.assertNotIn("READY", self.t["decision"]["local_hyoid_geometry"])
+
     def test_position_waits_for_canonical_c3(self):
         self.assertEqual(
             self.t["decision"]["absolute_position"],

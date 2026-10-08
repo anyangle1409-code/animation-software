@@ -753,3 +753,9 @@ Foot source checkpoint verification: 6 owner-policy, 7 source-identity and 5 rea
 ### 2026-10-08 laptop source-only Blender pickup
 
 CONFIRMED source-only Blender inspection file created in `audit/runs/work_foot_source_blender_pickup_20261008_001/`: four separate Grant/Zenodo sample scenes and four visibly labelled renders. Save/reload mesh hashes preserve all coordinates/polygon indices; original source hashes retained. No rig, canonical candidate, a003 or production changes. Units/common pose/contact centres remain UNVERIFIED. The owner can inspect actual acquired source geometry on the laptop without mistaking it for the rebuilt skeleton. Li 2012 full-table retry: publisher routes returned 403/402; bilateral-clavicle numerical distance and endpoint definition remain BLOCKED. Abstract joint spaces cannot supply SC-centre breadth.
+
+### 2026-10-08 hyoid landmark semantics reopened
+
+CONFIRMED primary figure/text endpoint conflict recorded in `canonical_hyoid_landmark_semantics_review_v1.json`. Figure 1B marks D/E at free horn tips and Dprime/Eprime near the body; the source table calls Dprime-Eprime a posterior-end span. Printed values remain preserved, but unresolved posterior-end and centre spans are removed from provisional coordinate nominals. GGprime is not a proven volume-centroid span. Do not bend horns to reproduce these marginal means. Whole hyoid geometry remains PROVISIONAL; existing corrected body axes and one suspended-bone topology retained. The old local READY wording is removed.
+
+Verification: new semantic regression fails against the preceding target despite six old tests passing. After correction, 37 affected tests pass; full 809-test suite has the same 5 failures and 4 errors as baseline. Target validator has no errors and retains freeze_ready=false. Logs and hashes: `audit/runs/work_hyoid_landmark_semantics_20261008_001/`. No coordinates, a003, production, Blender candidate or movement acceptance changed.

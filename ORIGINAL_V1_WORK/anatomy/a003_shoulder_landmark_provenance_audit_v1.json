@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Trace a003 shoulder-girdle landmarks back to their generator so mesh-derived measurements and hard-coded provisional offsets are not mistaken for anatomical evidence.",
+  "source_file": "scripts/anatomy_fit/character_fit.py",
+  "relevant_lines": "approximately 618-652 on branch codex/whole-body-biomechanics-audit-20261007",
+  "status": "A003_SHOULDER_LANDMARKS_CONFIRMED_DIAGNOSTIC_NOT_CANONICAL",
+  "generator_rules": {
+    "SC": {
+      "expression": "ij + [side*0.025, +0.015, -0.005] m",
+      "inputs": "jugular-notch surface-derived landmark plus fixed offsets",
+      "consequence": "bilateral SC breadth is exactly 50 mm by construction; it is not an independently measured anatomical SC breadth."
+    },
+    "AC": {
+      "expression": "acromion_lateral_skin + [-side*0.022, 0, -0.012] m",
+      "inputs": "old mesh lateral-acromion skin point plus fixed 22 mm medial / 12 mm inferior offsets",
+      "consequence": "AC breadth inherits the old broad shoulder mesh and an unsourced fixed offset."
+    },
+    "AA": {
+      "expression": "acromion_lateral_skin + [-side*0.005, +0.035, -0.010] m",
+      "inputs": "old mesh lateral-acromion skin point plus fixed offsets",
+      "consequence": "AA inherits the old shoulder surface breadth."
+    },
+    "TS": {
+      "expression": "interpolation from hard-coded [side*0.045,0.150,1.470] and [side*0.080,0.155,1.320], then -15 mm Y",
+      "inputs": "hard-coded provisional world coordinates",
+      "consequence": "TS is not fitted to a measured scapular-spine root."
+    },
+    "AI": {
+      "expression": "hard-coded [side*0.080,0.155,1.320] then -15 mm Y",
+      "inputs": "hard-coded provisional world coordinates",
+      "consequence": "AI is not fitted to a measured inferior-angle landmark."
+    },
+    "GH": {
+      "expression": "mean x/y of three GH methods; z from acromion-depth chain",
+      "inputs": "mixed regression/surface/depth-chain evidence",
+      "consequence": "local GH depth has independent support, but lateral position still depends partly on the old shoulder geometry."
+    }
+  },
+  "implications": [
+    "The current 50 mm bilateral SC breadth cannot be used as evidence for the canonical target; it is simply 2×25 mm from a hard-coded generator offset.",
+    "The a003 AC and AA lateral positions are contaminated by the old mesh breadth, so they are useful for diagnosing the old fit but not for setting the new target.",
+    "The a003 TS and AI are provisional constants rather than measured scapular landmarks. Their failure against CT morphometry confirms the a003 reference geometry is not freeze-ready, but the exact amount of mesh correction must come from the new landmark model rather than subtracting a003 coordinates mechanically.",
+    "This provenance strengthens the skeleton-first policy: the new SC/AC/AA/TS/AI frame must be generated from anatomical constraints first, and only then should the mesh be changed."
+  ],
+  "required_generator_change_for_canonical_target": [
+    "remove fixed ±25 mm SC placement as a target rule",
+    "remove fixed 22 mm AC medial offset from mesh acromion as a target rule",
+    "remove hard-coded TS/AI world coordinates",
+    "consume selected canonical SC/clavicle/scapula landmark data from a machine-readable target file",
+    "retain old a003 logic only for immutable baseline reproduction"
+  ],
+  "production_safety": "Do not edit character_fit.py baseline logic in place if it is needed to reproduce a003. Implement the skeleton-first target as a new revision/path so the audit baseline remains reproducible."
+}

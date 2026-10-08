@@ -706,6 +706,84 @@
         "secondary carpal length plausibility"
       ],
       "limitation": "2D radiographic lengths and horn dimensions are not directly identical to 3D maximum-length or centroid-axis definitions."
+    },
+    {
+      "id": "THAI_UPPER_LIMB_2020",
+      "type": "direct_osteometry",
+      "citation": "Mahakkanukrauh P et al. Sex estimation from upper limb bones in a Thai population. Anat Cell Biol. 2020;53(1):36-43.",
+      "pmcid": "PMC7118256",
+      "population": "228 documented Thai skeletons; 114 males, 114 females",
+      "measurement_definitions": {
+        "max_humerus": "Most superior point on humeral head to most inferior point on trochlea.",
+        "max_ulna": "Most superior point on olecranon to most inferior point on styloid.",
+        "physiological_ulna": "Most distal point on coronoid-process surface to most distal point on inferior surface of distal ulnar head.",
+        "max_radius": "Most proximally positioned point on radial head to styloid tip, without regard for long axis."
+      },
+      "male_left_mean_sd_mm": {
+        "max_humerus": [
+          308.29,
+          13.75
+        ],
+        "max_ulna": [
+          262.18,
+          12.26
+        ],
+        "physiological_ulna": [
+          215.17,
+          13.49
+        ],
+        "max_radius": [
+          244.9,
+          12.69
+        ]
+      },
+      "male_right_mean_sd_mm": {
+        "max_humerus": [
+          309.62,
+          13.61
+        ],
+        "max_ulna": [
+          264.03,
+          12.05
+        ],
+        "physiological_ulna": [
+          214.91,
+          12.92
+        ],
+        "max_radius": [
+          246.35,
+          12.05
+        ]
+      },
+      "use": [
+        "measurement-compatible maximum radius check",
+        "maximum ulna/humerus plausibility after endpoint conversion",
+        "forearm bilateral plausibility"
+      ],
+      "limitation": "Population-specific direct osteometry. Current a003 ulna maximum requires an estimated olecranon allowance, so radius is the cleaner comparison."
+    },
+    {
+      "id": "AUSTRALIAN_ABORIGINAL_FOREARM_REFERENCE",
+      "type": "published_forensic_reference_table",
+      "citation": "Forensic Anthropology reference text/table: male Aboriginal left radius and ulna dimensions.",
+      "male_left_mean_sd_mm": {
+        "max_radius": [
+          252.7,
+          13.19
+        ],
+        "max_ulna": [
+          269.9,
+          12.47
+        ]
+      },
+      "sample_sizes": {
+        "max_radius": 134,
+        "max_ulna": 127
+      },
+      "use": [
+        "second-population forearm plausibility cross-check"
+      ],
+      "limitation": "Reference-table source rather than the primary measurement publication; left side only. Use as corroboration, not the sole target."
     }
   ],
   "unresolved_source_needs": [

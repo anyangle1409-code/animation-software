@@ -32,7 +32,7 @@
       "blockers": [
         "bilateral SC/manubrial landmark constraint or equivalent thorax-based SC placement",
         "absolute AC coordinates from a verified clavicle + scapular solve",
-        "scapular 3D local frame and superior-inferior target"
+        "independent endpoint-matched confirmation of measured local scapular envelope and superior-inferior targets, plus neutral thorax pose and GH contact geometry"
       ],
       "hard_invariants": [
         "SC-to-AC straight endpoint span < clavicle curved centreline length",
@@ -41,8 +41,14 @@
         "scapular AA/TS/AI form a nondegenerate 3D frame",
         "scapular GH-to-inferior-angle span is validated against landmark-compatible 3D geometry, not height alone"
       ],
-      "note": "Clavicle and a003 transverse scapular geometry defects are confirmed. Exact absolute SC/AC/scapular coordinates remain open. The earlier direct 34±8 mm lateral-acromion→AC claim was withdrawn after source recheck; a003 SC/AC/AA/TS/AI generator provenance also confirms those points are mesh/hard-code diagnostic constructs, not canonical evidence.",
-      "provenance_audit": "ORIGINAL_V1_WORK/anatomy/a003_shoulder_landmark_provenance_audit_v1.json"
+      "note": "Clavicle and a003 transverse scapular geometry defects are confirmed. Earlier subtraction-based AC-offset inference remains rejected; later primary full-text review confirms a direct 3D 34\u00b18 mm posterior-AC-aspect to lateral-acromion measurement, not a transverse or joint-centre equality. Measured relative scapular and glenoid frames exist provisionally; absolute SC/AC/GH placement remains open. A003 mesh/hard-code landmarks remain diagnostic constructs.",
+      "provenance_audit": "ORIGINAL_V1_WORK/anatomy/a003_shoulder_landmark_provenance_audit_v1.json",
+      "provisional_geometry_files": [
+        "ORIGINAL_V1_WORK/anatomy/canonical_scapula_measured_landmark_model_v1.json",
+        "ORIGINAL_V1_WORK/anatomy/canonical_glenoid_rim_frame_v1.json",
+        "ORIGINAL_V1_WORK/anatomy/canonical_clavicle_endpoint_crosscheck_v1.json",
+        "ORIGINAL_V1_WORK/anatomy/canonical_shoulder_target_constraints_v1.json"
+      ]
     },
     "spine": {
       "status": "RED_REBUILD",
@@ -62,8 +68,17 @@
       "hard_invariants": [
         "disc-bearing adjacent vertebrae do not share identical endplate points",
         "C1/C2 and C0/C1 do not receive invented discs",
-        "body height and disc height are measured/tested separately"
-      ]
+        "body height and disc height are measured/tested separately",
+        "body wedge plus disc wedge closes a measurement-compatible superior-to-superior segment without double-counting body angle",
+        "positive centre gap alone cannot establish nonzero clearance over actual overlapping endplate surfaces",
+        "disc-relative cranial/caudal labels are mapped explicitly to body-relative inferior/superior plates"
+      ],
+      "provisional_geometry_files": [
+        "ORIGINAL_V1_WORK/anatomy/canonical_lumbar_body_disc_frames_p1.json",
+        "ORIGINAL_V1_WORK/anatomy/canonical_lumbar_orientation_sensitivity_p1.json",
+        "ORIGINAL_V1_WORK/anatomy/canonical_lumbar_endplate_surface_semantics_v1.json"
+      ],
+      "diagnostic_only_file": "ORIGINAL_V1_WORK/anatomy/canonical_endplate_clearance_sensitivity_v1.json"
     },
     "ribs": {
       "status": "RED_REBUILD",
@@ -88,7 +103,8 @@
         "status": "C_REOPEN_STATURE_METHOD_CONFLICT",
         "evidence": "ORIGINAL_V1_WORK/anatomy/canonical_sternum_geometry_audit_v1.json",
         "rule": "Rebuild jugular notch, clavicular notches/SC contacts, sternal angle, costal levels and xiphisternal junction without preselecting shortening or lengthening."
-      }
+      },
+      "partial_progress": "Verified distal source-mean spiral segments exist; full proximal reconstruction, 3D orientation and anatomical contact coordinates remain unresolved."
     },
     "forearm": {
       "status": "AMBER_RETARGET",
@@ -218,7 +234,8 @@
       "verify": [
         "ossicle geometry later; topology retained"
       ],
-      "note": "Exercise kinematic priority is lower than shoulder/spine/limbs, but geometry must be freeze-ready before calling the complete reference skeleton final."
+      "note": "Exercise kinematic priority is lower than shoulder/spine/limbs, but geometry must be freeze-ready before calling the complete reference skeleton final.",
+      "provisional_hyoid_file": "ORIGINAL_V1_WORK/anatomy/canonical_hyoid_geometry_targets_v1.json"
     }
   },
   "implementation_order": [

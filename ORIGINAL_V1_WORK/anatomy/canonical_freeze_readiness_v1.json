@@ -49,7 +49,7 @@
         "thoracic per-level curvature/endplate distribution",
         "cervical neutral family selection and head-over-pelvis check",
         "mixed-method thoracic body/disc reconciliation before exact 3D freeze",
-        "independent endpoint-matched lumbar body-wedge corroboration before freeze",
+        "independent endpoint-matched lumbar wedge pattern is supported; reconcile posture/sex and contact-envelope definitions before numerical freeze",
         "lumbar middle/edge/normal height and standing/supine disc definitions require geometric reconciliation; CT2026 count and width-plane issues remain open",
         "actual disc-facing endplate envelopes and continuous nonzero clearance over their overlap, not centre-only gap"
       ],
@@ -67,7 +67,7 @@
       ],
       "blockers": [
         "reference age/weight selection or explicit envelope",
-        "2016 logarithmic-spiral 2D reconstruction",
+        "full proximal 2016 logarithmic-spiral reconstruction; verified distal segments are insufficient for complete ribs",
         "3D thoracic-frame mapping and rib head/tubercle/anterior contact coordinates"
       ],
       "next_action": "Create rib-level non-bone centreline/contact dataset before any new Blender master."
@@ -176,12 +176,13 @@
       "ready": [
         "TMJ breadth provisionally plausible",
         "mandible/hyoid required landmark sets defined",
-        "206 topology complete"
+        "206 topology complete",
+        "source-defined provisional hyoid dimensions available with corrected body AP/minor-axis labels"
       ],
       "blockers": [
         "cranial/facial envelope target coordinates",
         "mandible full landmark target",
-        "adult hyoid numeric target"
+        "independent matched hyoid geometry confirmation, body/cornu 3D landmarks and C3-relative neutral placement/tilt"
       ],
       "next_action": "Finish low-kinematic-priority reference geometry after shoulder/spine/limb blockers."
     }

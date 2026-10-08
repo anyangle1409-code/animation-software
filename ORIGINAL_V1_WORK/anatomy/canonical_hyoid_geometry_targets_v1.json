@@ -67,7 +67,7 @@
     "control_stick_semantics": "single AP-oriented reference stick with no measurement-compatible whole-bone endpoint definition",
     "greater_horn_junction_marker_span_mm": 18,
     "lesser_horn_junction_marker_span_mm": 8,
-    "marker_semantics_warning": "These markers are body↔cornu junction/contact markers, not the same landmarks as greater-horn centres, posterior horn ends, lateral-most horn points or lesser-horn tips in the cited morphometry.",
+    "marker_semantics_warning": "These markers are body\u2194cornu junction/contact markers, not the same landmarks as greater-horn centres, posterior horn ends, lateral-most horn points or lesser-horn tips in the cited morphometry.",
     "current_z_m": 1.5761984586715698,
     "current_recipe": "Anterior neck below the mandible near C3.",
     "reading": "A003 is topologically correct (one unpaired hyoid, no osseous parent) but geometrically schematic; its stick/marker spans cannot be treated as whole-bone dimensions."
@@ -83,7 +83,6 @@
     "status": "EVIDENCE_CONSTRAINED_NOT_FINAL_FREEZE",
     "direct_2025_male_nominals_mm": {
       "body_width": 24.3,
-      "body_AP_length": 11.32,
       "body_thickness": 6.99,
       "total_width": 42.85,
       "total_AP_length": 35.38,
@@ -91,7 +90,9 @@
       "greater_horn_length_right": 27.63,
       "greater_horn_center_span": 39.65,
       "greater_horn_posterior_end_span": 35.32,
-      "lesser_horn_span": 26.33
+      "lesser_horn_span": 26.33,
+      "body_SI_height": 11.32,
+      "body_AP_thickness": 6.99
     },
     "multi_source_gross_corridors_mm": {
       "total_width": [
@@ -103,7 +104,28 @@
         39.08
       ]
     },
-    "warning": "The 2013 and 2025 overall length definitions are not guaranteed identical and hyoid length is stature-sensitive. The gross corridor is a cross-check, not an instruction to average endpoints."
+    "warning": "The 2013 and 2025 overall length definitions are not guaranteed identical and hyoid length is stature-sensitive. The gross corridor is a cross-check, not an instruction to average endpoints.",
+    "axis_mapping": {
+      "body_width": {
+        "source_label": "AA_prime",
+        "world_axis": "X",
+        "definition": "Body major transverse axis"
+      },
+      "body_SI_height": {
+        "source_label": "BB_prime",
+        "world_axis": "Z",
+        "definition": "Body minor axis shown vertically in Figure 1A"
+      },
+      "body_AP_thickness": {
+        "source_label": "CC_prime",
+        "world_axis": "Y",
+        "definition": "Body AP thickness per Table 1 and Figure 1B"
+      },
+      "body_thickness": {
+        "alias_of": "body_AP_thickness",
+        "warning": "Generic historical alias; AP thickness, not superior-inferior height"
+      }
+    }
   },
   "hard_invariants": [
     "hyoid_parent_relation remains root/no osseous articulation",
@@ -124,5 +146,20 @@
     "old_control_stick_geometry": "REPLACE",
     "local_hyoid_geometry": "READY_FOR_NONBLENDER_LOCAL_FRAME_CONSTRUCTION",
     "absolute_position": "WAIT_FOR_CANONICAL_CERVICAL_SPINE_FRAME"
+  },
+  "source_axis_review_2026_10_08": {
+    "status": "CONFIRMED_AP_LABEL_CORRECTION_LOCAL_ORIENTATION_PROVISIONAL",
+    "doi": "10.1038/s41598-025-85518-w",
+    "primary_pdf_url": "https://rcastoragev2.blob.core.windows.net/1e21a193ac41e4e3af93a526a592fa41/41598_2025_Article_85518.PMC11751384.pdf",
+    "checked": "Table 1 printed page 3; Figure 1A/B printed page 4; Results printed page 6",
+    "previous_mapping": {
+      "body_AP_length": 11.32
+    },
+    "correction": "Remove incorrect AP label from BB-prime minor axis; CC-prime 6.99 mm is AP thickness. BB-prime vertical extent is mapped provisionally to local Z; neutral body tilt is not specified by population means.",
+    "remaining_blockers": [
+      "Independent endpoint-matched body/cornu geometry and stature context before numeric freeze",
+      "Body tilt, cornu curves and landmark coordinates are not uniquely specified by marginal means",
+      "Canonical C3-relative placement; C3 level alone does not specify AP position"
+    ]
   }
 }

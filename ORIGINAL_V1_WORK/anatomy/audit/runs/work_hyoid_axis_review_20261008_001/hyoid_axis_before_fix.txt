@@ -1,0 +1,13 @@
+.F....
+======================================================================
+FAIL: test_body_minor_axis_is_not_assigned_to_AP (scripts.test_canonical_hyoid_geometry.CanonicalHyoidGeometryTests.test_body_minor_axis_is_not_assigned_to_AP)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_canonical_hyoid_geometry.py", line 41, in test_body_minor_axis_is_not_assigned_to_AP
+    self.assertNotIn("body_AP_length", g)
+AssertionError: 'body_AP_length' unexpectedly found in {'body_width': 24.3, 'body_AP_length': 11.32, 'body_thickness': 6.99, 'total_width': 42.85, 'total_AP_length': 35.38, 'greater_horn_length_left': 27, 'greater_horn_length_right': 27.63, 'greater_horn_center_span': 39.65, 'greater_horn_posterior_end_span': 35.32, 'lesser_horn_span': 26.33}
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.004s
+
+FAILED (failures=1)

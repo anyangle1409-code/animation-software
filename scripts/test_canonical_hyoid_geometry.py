@@ -34,6 +34,14 @@ class CanonicalHyoidGeometryTests(unittest.TestCase):
         self.assertIn("no measurement-compatible", a["control_stick_semantics"])
         self.assertIn("not the same landmarks", a["marker_semantics_warning"])
 
+    def test_body_minor_axis_is_not_assigned_to_AP(self):
+        # Table 1 CC-prime is AP thickness; Figure 1A BB-prime spans
+        # the body vertically. Positive scale-only tests missed this swap.
+        g = self.t["provisional_local_geometry"]["direct_2025_male_nominals_mm"]
+        self.assertNotIn("body_AP_length", g)
+        self.assertEqual(g.get("body_SI_height"), 11.32)
+        self.assertEqual(g.get("body_AP_thickness"), 6.99)
+
     def test_position_waits_for_canonical_c3(self):
         self.assertEqual(
             self.t["decision"]["absolute_position"],

@@ -58,7 +58,7 @@
       "blockers": [
         "verified bilateral SC-centre breadth or a thorax/manubrial solve that maps the outer manubrial/clavicular-notch evidence to SC joint centres",
         "map the direct 3-D lateral-acromion\u2192AC distance into the canonical scapular local frame to obtain its transverse/AP/superior components",
-        "construct landmark-compatible 3D scapular local frame using AA/TS/AI/glenoid/acromion constraints",
+        "independently corroborate the measured relative AA/TS/AI/glenoid/acromion envelope and solve neutral thorax placement; local provisional frame already exists",
         "freeze superior-inferior scapular length only after measurement-compatible cross-source reconciliation",
         "absolute AC coordinates remain open until the SC-centre and scapular-frame components close simultaneously"
       ],
@@ -127,7 +127,7 @@
       },
       "blockers": [
         "choose or range-bound reference age/weight without silently inventing them",
-        "implement the 2016 logarithmic-spiral reconstruction into a 2D centreline",
+        "resolve full proximal 2016 logarithmic-spiral reconstruction; distal segments are implemented and verified",
         "map rib-plane orientation into the HGPT thoracic frame and create rib-level head/tubercle/anterior contact coordinates",
         "select canonical sternum/manubrium-body geometry and bilateral SC/costal contact landmarks",
         "resolve stature-aware sternum target without inverse-regression bias"
@@ -251,13 +251,14 @@
         "TMJ_breadth_mm": null,
         "mandible_landmarks": null,
         "cranial_envelopes": null,
-        "hyoid_geometry": null
+        "hyoid_geometry": "ORIGINAL_V1_WORK/anatomy/canonical_hyoid_geometry_targets_v1.json"
       },
       "blockers": [
         "landmark-rich mandible model",
         "cranial envelope landmarks",
-        "adult hyoid numeric geometry"
-      ]
+        "hyoid endpoint-matched independent numeric confirmation, full body/cornu landmarks and C3-relative neutral position/tilt"
+      ],
+      "audit_note_2026_10_08": "Source-defined provisional hyoid dimensions exist; overall hyoid grade D is retained pending independent complete geometry review. Corrected BB-prime minor-axis/AP mislabelling; dimensions alone do not solve a whole bone."
     }
   },
   "required_for_freeze": [

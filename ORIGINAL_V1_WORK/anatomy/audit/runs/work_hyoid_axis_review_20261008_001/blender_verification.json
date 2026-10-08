@@ -1,0 +1,18 @@
+{
+  "status": "VERIFIED_DIMENSION_AXIS_FIXTURE_ONLY",
+  "blender_version": "5.2.1 LTS",
+  "source_sha256": "200bb248145a36a5a616c37198aca043437c1b2a0b9a3b2d4a7894ae2065569b",
+  "fixture_sha256": "2347d6e2ff835ea98f753746c57b00f926290fb673a4d8ba5e37f75039d13728",
+  "body_extent_spans_mm": {
+    "X": 24.300000054542544,
+    "Y": 6.990000254743207,
+    "Z": 11.31999956569525
+  },
+  "marker_count": 6,
+  "max_span_error_mm": 4.343047503851949e-07,
+  "whole_hyoid_geometry_created": false,
+  "neutral_body_tilt_defined": false,
+  "absolute_C3_position_defined": false,
+  "canonical_candidate_created": false,
+  "completed_gates": []
+}

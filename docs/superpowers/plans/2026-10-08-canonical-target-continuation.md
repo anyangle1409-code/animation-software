@@ -39,3 +39,5 @@
 - Added measured glenoid rim orientation and source-separated subject/mean-shape context; null GH centre/global pose retained. Proper bilateral frames and live bpy verified. Isotropic rim false-pass mutation retained and corrected; 107 relevant tests pass.
 
 - Continuous planar endplate clearance and six independent bpy synthetic meshes verified. Added disc-relative concavity terminology; actual envelopes/gaps still blocked. Shoulder infinite/NaN/collapsed endpoint false-passes reproduced, retained and corrected; 125 affected tests pass.
+
+2026-10-08 continuation: reconciled current spec/readiness dependencies with verified local evidence. Primary hyoid full text exposed an AP/minor-axis label error, corrected after retaining a failing regression; 126 relevant tests and a bpy dimension roundtrip passed. Whole-body canonical construction is still blocked by matching endpoint/contact/global placement requirements; historical baseline reports preserved.

@@ -1,0 +1,13 @@
+{
+  "status": "VERIFIED_LIMITED_AXIS_MAPPING_REVIEW",
+  "baseline_remote_head": "89ec4936b1d7b16619bcf41c1796f96240c0f287",
+  "files_sha256": {
+    "README.md": "fb64e4ffbd8484f0dba6b3ed4416a689342286a6d69d1faf5dbace2ec0c5a68b",
+    "hyoid_axis_before_fix.txt": "a5a8ecc316220d38c9555d5e46afedd87f7f10e615a24fc227c6d1c230950401",
+    "blender_verification.json": "073fd08249784d783fbbee3923789b77df6230f30198ebc878c9084ebae0fa4f"
+  },
+  "relevant_python_tests": 126,
+  "new_canonical_candidate": false,
+  "production_changed": false,
+  "freeze_ready": false
+}

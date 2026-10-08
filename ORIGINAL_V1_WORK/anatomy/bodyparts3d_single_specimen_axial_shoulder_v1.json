@@ -1730,6 +1730,33 @@
   },
   "note": "Tip span uses centreline bin means (inside the true tips). inward_turn_mm > 0 means the horn centreline reaches its widest point before the tip, i.e. the horn is not straight."
  },
+ "sternum": {
+  "segment_vertical_extent_mm": {
+   "manubrium": 45.0,
+   "body": 110.0,
+   "xiphoid": 20.5
+  },
+  "manubrium_X_width_mm": 54.9,
+  "body_X_width_mm": 47.4,
+  "total_vertical_extent_mm": 161.2,
+  "manubriosternal_level_mm": 45.0,
+  "costal_attachment_depth_mm": {
+   "left_1": 22.8,
+   "left_2": 45.2,
+   "left_3": 72.6,
+   "left_4": 96.9,
+   "left_5": 117.0,
+   "left_6": 131.4,
+   "left_7": 143.0,
+   "right_1": 22.7,
+   "right_2": 45.6,
+   "right_3": 72.7,
+   "right_4": 96.6,
+   "right_5": 117.2,
+   "right_6": 131.6,
+   "right_7": 143.1
+  }
+ },
  "crosschecks": {
   "disc_heights": {
    "C2/C3": {
@@ -1937,7 +1964,8 @@
   "clavicle": {
    "qiu_articular_centre_chord_male_mm": {
     "mean": 152.9,
-    "sd": 9.3
+    "sd": 9.3,
+    "sd_basis": "per-bone SD across 52 bilateral clavicles from 26 men; paired observations are not 52 independent people. Between-person dispersion and effective sample size cannot be inferred from this SD alone."
    },
    "specimen_SC_AC_proxy_chord_mm_left_right": [
     147.7,

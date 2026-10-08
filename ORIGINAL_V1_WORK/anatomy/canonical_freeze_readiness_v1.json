@@ -77,10 +77,12 @@
         "reference age/weight selection or explicit envelope",
         "full proximal 2016 logarithmic-spiral reconstruction; verified distal segments are insufficient for complete ribs",
         "3D thoracic-frame mapping and rib head/tubercle/anterior contact coordinates",
-        "sternum (manubrium, body, xiphoid) envelope and costal-notch layout compatible with the rib anterior contacts"
+        "sternum (manubrium, body, xiphoid) envelope and costal-notch layout compatible with the rib anterior contacts",
+        "a003 sternum is not a basis: 213 mm stick (male total 154 +/- 13 mm), rib 2 not at the sternal angle, uniform sternocostal spacing; per-notch segment dimensions need Selthofer 2006 full text"
       ],
       "next_action": "Create rib-level non-bone centreline/contact dataset before any new Blender master.",
-      "primary_equation_review": "ORIGINAL_V1_WORK/anatomy/rib_inplane_derivation_holcombe2016_v1.json"
+      "primary_equation_review": "ORIGINAL_V1_WORK/anatomy/rib_inplane_derivation_holcombe2016_v1.json",
+      "sternum_target_review": "canonical_sternum_target_review_v1.json"
     },
     "forearm": {
       "readiness": "PARTIAL",

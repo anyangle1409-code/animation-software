@@ -194,6 +194,24 @@ def hyoid(at):
                     'reaches its widest point before the tip, i.e. the horn is not straight.'}
 
 
+def sternum(at):
+    """Sternal segment extents and costal-cartilage 1-7 attachment levels (contact-patch centroid, 2 mm threshold),
+    measured down from the top of the manubrium. Vertical extents in the specimen's standing frame."""
+    parts = {k: weld(*at.mesh(n)[:2])[0] for k, n in (('manubrium', 'Manubrium'), ('body', 'Body of sternum'), ('xiphoid', 'Xiphoid process'))}
+    allv = np.vstack(list(parts.values()))
+    top, bot = parts['manubrium'][:, 2].max(), parts['xiphoid'][:, 2].min()
+    out = {'segment_vertical_extent_mm': {k: r(v[:, 2].max() - v[:, 2].min(), 1) for k, v in parts.items()},
+           'manubrium_X_width_mm': r(np.ptp(parts['manubrium'][:, 0]), 1), 'body_X_width_mm': r(np.ptp(parts['body'][:, 0]), 1),
+           'total_vertical_extent_mm': r(top - bot, 1), 'manubriosternal_level_mm': r(top - parts['manubrium'][:, 2].min(), 1),
+           'costal_attachment_depth_mm': {}}
+    for side in ('left', 'right'):
+        for i, o in enumerate(['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh'], 1):
+            cv = weld(*at.mesh(f'{side.capitalize()} {o} costal cartilage')[:2])[0]
+            patch, _ = near(cv, allv, 2.0)
+            out['costal_attachment_depth_mm'][f'{side}_{i}'] = r(top - patch[:, 2].mean(), 1)
+    return out
+
+
 def crosschecks(sp, sh, hy):
     stack = json.loads((ANAT / 'canonical_spine_level_stack_v1.json').read_text())['disc_gaps_mm']
     heg = json.loads((ANAT / 'canonical_lumbar_edge_height_crosscheck_v1.json').read_text())['disc_edge_gaps']
@@ -248,6 +266,7 @@ def build(models_dir, commit):
     sp, surfaces = spine(at)
     sh = shoulder(at)
     hy = hyoid(at)
+    stn = sternum(at)
     t12 = sp['T12/L1']['disc_centroid_mm'][2]
     if not sp['T11/T12']['disc_centroid_mm'][2] > t12 > sp['L1/L2']['disc_centroid_mm'][2]:
         raise ValueError('unnamed disk FJ3211 is not between T11/T12 and L1/L2')
@@ -268,7 +287,7 @@ def build(models_dir, commit):
                             '(a geodesic centreline zigzags on this coarse mesh and was rejected: 253-263 mm).',
                 'scapula': 'Inferior angle = lowest vertex; superior angle = highest vertex in the medial half of the blade.',
                 'hyoid': 'Geodesic centreline between the two farthest surface points (greater-horn tips).'},
-            'spine': sp, 'disc_surfaces_for_cp2_preflight': surfaces, 'shoulder': sh, 'hyoid': hy,
+            'spine': sp, 'disc_surfaces_for_cp2_preflight': surfaces, 'shoulder': sh, 'hyoid': hy, 'sternum': stn,
             'crosschecks': crosschecks(sp, sh, hy)}
 
 

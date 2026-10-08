@@ -1,0 +1,480 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Machine-readable evidence corridors and hard geometric invariants for the skeleton-first canonical target. These are NOT frozen production dimensions.",
+  "status": "EVIDENCE_CORRIDORS_NOT_FINAL_TARGETS",
+  "policy": [
+    "A corridor is only valid for the stated measurement definition.",
+    "Do not average measurements that use different endpoints or dimensional definitions.",
+    "Population mean ±1 SD is stored as an evidence band where available, not as a mandatory target.",
+    "Final target selection requires cross-source agreement, stature/sex context, and mechanical consistency.",
+    "Hard geometric invariants may be enforced before exact dimensions are frozen."
+  ],
+  "hard_invariants": [
+    {
+      "id": "INV_CLAVICLE_CHORD",
+      "rule": "SC_to_AC_straight_chord_mm < clavicle_curved_true_or_centerline_length_mm",
+      "region": "shoulder_girdle"
+    },
+    {
+      "id": "INV_SCAPULA_PART",
+      "rule": "GH_to_inferior_angle_mm < scapula_total_superior_inferior_height_mm",
+      "region": "shoulder_girdle"
+    },
+    {
+      "id": "INV_DISC_NONZERO",
+      "rule": "disc_bearing_levels_C2_3_through_L5_S1_have_nonzero_disc_gap",
+      "region": "spine"
+    },
+    {
+      "id": "INV_NO_C1C2_DISC",
+      "rule": "C1_C2_disc_gap_is_not_created",
+      "region": "spine"
+    },
+    {
+      "id": "INV_RIB_CTJ",
+      "rule": "ribs_11_12_have_no_costotransverse_joint",
+      "region": "ribs"
+    },
+    {
+      "id": "INV_RADIUS_ULNA_DISTINCT",
+      "rule": "radius_and_ulna_are_independently_dimensioned_and_preserve_PRUJ_DRUJ",
+      "region": "forearm"
+    },
+    {
+      "id": "INV_TARSAL_SEMANTICS",
+      "rule": "tarsal_control_stick_length_is_not_treated_as_whole_bone_length",
+      "region": "foot"
+    },
+    {
+      "id": "INV_HYOID_NO_OSSEOUS_PARENT",
+      "rule": "hyoid_has_no_invented_osseous_parent_articulation",
+      "region": "head_neck"
+    }
+  ],
+  "evidence_bands": {
+    "shoulder_girdle": {
+      "clavicle_true_length_male_CT_mm": {
+        "definition": "3D CT true clavicle length; source-specific curved/true measure",
+        "mean": 149.67,
+        "sd": 9.6,
+        "band_1sd": [
+          140.07,
+          159.27
+        ],
+        "source": "CLAVICLE_CT_2020_MALE"
+      },
+      "clavicle_centerline_length_male_cadaver_mm": {
+        "definition": "3D centreline length",
+        "mean": 166.8,
+        "sd": 7.3,
+        "band_1sd": [
+          159.5,
+          174.1
+        ],
+        "source": "CLAVICLE_CADAVER_3D_2013"
+      },
+      "scapula_total_height_male_mm": {
+        "definition": "whole scapula superior-inferior height",
+        "mean": 148.2,
+        "sd": 10,
+        "band_1sd": [
+          138.2,
+          158.2
+        ],
+        "source": "SCAPULA_MALE_2018"
+      },
+      "glenoid_SI_male_mm": {
+        "definition": "glenoid superior-inferior dimension",
+        "mean": 37.1,
+        "sd": 2.2,
+        "band_1sd": [
+          34.9,
+          39.3
+        ],
+        "source": "SCAPULA_MALE_2018"
+      },
+      "glenoid_AP_male_mm": {
+        "definition": "glenoid anteroposterior dimension",
+        "mean": 27.4,
+        "sd": 2.1,
+        "band_1sd": [
+          25.3,
+          29.5
+        ],
+        "source": "SCAPULA_MALE_2018"
+      }
+    },
+    "hand": {
+      "metacarpal_1_mm": {
+        "definition": "radiographic head/base midpoint-to-midpoint",
+        "mean": 46,
+        "sd": 3,
+        "band_1sd": [
+          43,
+          49
+        ],
+        "source": "DOGAN_1998_HAND_RELATIONS"
+      },
+      "metacarpal_2_mm": {
+        "definition": "radiographic head/base midpoint-to-midpoint",
+        "mean": 68,
+        "sd": 4,
+        "band_1sd": [
+          64,
+          72
+        ],
+        "source": "DOGAN_1998_HAND_RELATIONS"
+      },
+      "metacarpal_3_mm": {
+        "definition": "radiographic head/base midpoint-to-midpoint",
+        "mean": 64,
+        "sd": 4,
+        "band_1sd": [
+          60,
+          68
+        ],
+        "source": "DOGAN_1998_HAND_RELATIONS"
+      },
+      "metacarpal_4_mm": {
+        "definition": "radiographic head/base midpoint-to-midpoint",
+        "mean": 58,
+        "sd": 4,
+        "band_1sd": [
+          54,
+          62
+        ],
+        "source": "DOGAN_1998_HAND_RELATIONS"
+      },
+      "metacarpal_5_mm": {
+        "definition": "radiographic head/base midpoint-to-midpoint",
+        "mean": 54,
+        "sd": 4,
+        "band_1sd": [
+          50,
+          58
+        ],
+        "source": "DOGAN_1998_HAND_RELATIONS"
+      }
+    },
+    "forefoot": {
+      "metatarsal_1_mm": {
+        "definition": "distal head to midpoint of base articular surface",
+        "mean": 56.42,
+        "sd": 4.41,
+        "band_1sd": [
+          52.01,
+          60.83
+        ],
+        "source": "PATIL_2017_METATARSAL_PHALANGE"
+      },
+      "metatarsal_2_mm": {
+        "definition": "distal head to midpoint of base articular surface",
+        "mean": 67.61,
+        "sd": 3.49,
+        "band_1sd": [
+          64.12,
+          71.1
+        ],
+        "source": "PATIL_2017_METATARSAL_PHALANGE"
+      },
+      "metatarsal_3_mm": {
+        "definition": "distal head to midpoint of base articular surface",
+        "mean": 65.88,
+        "sd": 4.41,
+        "band_1sd": [
+          61.47,
+          70.29
+        ],
+        "source": "PATIL_2017_METATARSAL_PHALANGE"
+      },
+      "metatarsal_4_mm": {
+        "definition": "distal head to midpoint of base articular surface",
+        "mean": 66.52,
+        "sd": 3.98,
+        "band_1sd": [
+          62.54,
+          70.5
+        ],
+        "source": "PATIL_2017_METATARSAL_PHALANGE"
+      },
+      "metatarsal_5_mm": {
+        "definition": "distal head to midpoint of base articular surface; styloid excluded",
+        "mean": 64.32,
+        "sd": 3.57,
+        "band_1sd": [
+          60.75,
+          67.89
+        ],
+        "source": "PATIL_2017_METATARSAL_PHALANGE"
+      }
+    },
+    "spine": {
+      "cervical_body_height_male_mm": {
+        "C3": {
+          "mean": 14.4,
+          "sd": 1.5,
+          "band_1sd": [
+            12.9,
+            15.9
+          ]
+        },
+        "C4": {
+          "mean": 13.9,
+          "sd": 1.5,
+          "band_1sd": [
+            12.4,
+            15.4
+          ]
+        },
+        "C5": {
+          "mean": 13.7,
+          "sd": 1.4,
+          "band_1sd": [
+            12.3,
+            15.1
+          ]
+        },
+        "C6": {
+          "mean": 13.4,
+          "sd": 1.4,
+          "band_1sd": [
+            12,
+            14.8
+          ]
+        },
+        "C7": {
+          "mean": 14.9,
+          "sd": 1.5,
+          "band_1sd": [
+            13.4,
+            16.4
+          ]
+        },
+        "source": "YUKAWA_2012_CERVICAL_MORPHOMETRY"
+      },
+      "cervical_disc_height_male_mm": {
+        "C2/C3": {
+          "mean": 6.4,
+          "sd": 0.9,
+          "band_1sd": [
+            5.5,
+            7.3
+          ]
+        },
+        "C3/C4": {
+          "mean": 6.5,
+          "sd": 1,
+          "band_1sd": [
+            5.5,
+            7.5
+          ]
+        },
+        "C4/C5": {
+          "mean": 6.2,
+          "sd": 1.1,
+          "band_1sd": [
+            5.1,
+            7.3
+          ]
+        },
+        "C5/C6": {
+          "mean": 6.1,
+          "sd": 1.3,
+          "band_1sd": [
+            4.8,
+            7.4
+          ]
+        },
+        "C6/C7": {
+          "mean": 6.6,
+          "sd": 1.5,
+          "band_1sd": [
+            5.1,
+            8.1
+          ]
+        },
+        "C7/T1": {
+          "mean": 6.1,
+          "sd": 1.1,
+          "band_1sd": [
+            5,
+            7.2
+          ]
+        },
+        "source": "YUKAWA_2012_CERVICAL_MORPHOMETRY"
+      },
+      "lumbar_middle_body_height_mm": {
+        "L1": {
+          "mean": 23.5,
+          "source": "LUMBAR_CT_2026_BODY"
+        },
+        "L2": {
+          "mean": 24.3,
+          "source": "LUMBAR_CT_2026_BODY"
+        },
+        "L3": {
+          "mean": 24.4,
+          "source": "LUMBAR_CT_2026_BODY"
+        },
+        "L4": {
+          "mean": 23.7,
+          "source": "LUMBAR_CT_2026_BODY"
+        },
+        "L5": {
+          "mean": 23,
+          "source": "LUMBAR_CT_2026_BODY"
+        }
+      },
+      "lumbar_disc_height_male_mm": {
+        "T12/L1": {
+          "mean": 5.6,
+          "sd": 1.1,
+          "band_1sd": [
+            4.5,
+            6.7
+          ]
+        },
+        "L1/L2": {
+          "mean": 6.9,
+          "sd": 1.3,
+          "band_1sd": [
+            5.6,
+            8.2
+          ]
+        },
+        "L2/L3": {
+          "mean": 8.1,
+          "sd": 1.4,
+          "band_1sd": [
+            6.7,
+            9.5
+          ]
+        },
+        "L3/L4": {
+          "mean": 8.7,
+          "sd": 1.5,
+          "band_1sd": [
+            7.2,
+            10.2
+          ]
+        },
+        "L4/L5": {
+          "mean": 9.2,
+          "sd": 1.6,
+          "band_1sd": [
+            7.6,
+            10.8
+          ]
+        },
+        "L5/S1": {
+          "mean": 8.8,
+          "sd": 1.6,
+          "band_1sd": [
+            7.2,
+            10.4
+          ]
+        },
+        "source": "LUMBAR_DISC_CT_2018"
+      }
+    },
+    "pelvis": {
+      "sacral_length_male_mm": {
+        "definition": "promontory-to-apex dry-bone sacral length",
+        "mean": 107.6,
+        "sd": 9.98,
+        "band_1sd": [
+          97.62,
+          117.58
+        ],
+        "source": "SACRUM_MALE_MORPHOMETRY_2023"
+      }
+    },
+    "lower_limb": {
+      "patella_sagittal_length_male_MRI_mm": {
+        "mean": 47,
+        "sd": 3.72,
+        "band_1sd": [
+          43.28,
+          50.72
+        ],
+        "source": "PATELLA_MRI_2025"
+      },
+      "fibula_full_length_male_CT_mm": {
+        "mean": 387.4,
+        "sd": 23.7,
+        "band_1sd": [
+          363.7,
+          411.1
+        ],
+        "source": "FIBULA_CT_2015"
+      }
+    },
+    "head_neck": {
+      "mandible_bicondylar_breadth_male_3DCT_mm": {
+        "mean": 121.93,
+        "sd": 5.24,
+        "band_1sd": [
+          116.69,
+          127.17
+        ],
+        "source": "MANDIBLE_3DCT_IRAN_2022"
+      },
+      "mandibular_ramus_length_male_3DCT_mm": {
+        "mean": 60.81,
+        "sd": 4.59,
+        "band_1sd": [
+          56.22,
+          65.4
+        ],
+        "source": "MANDIBLE_3DCT_IRAN_2022"
+      },
+      "mandibular_length_male_3DCT_mm": {
+        "mean": 75.41,
+        "sd": 4.29,
+        "band_1sd": [
+          71.12,
+          79.7
+        ],
+        "source": "MANDIBLE_3DCT_IRAN_2022"
+      },
+      "bigonial_breadth_male_3DCT_mm": {
+        "mean": 96.56,
+        "sd": 6.18,
+        "band_1sd": [
+          90.38,
+          102.74
+        ],
+        "source": "MANDIBLE_3DCT_IRAN_2022"
+      }
+    }
+  },
+  "provisional_retained_anchors": {
+    "HJC": "retain until rebuilt acetabular geometry disproves it",
+    "KJC": "retain provisionally",
+    "GH_depth_below_acromion": "retain local depth only; global girdle is rebuilt",
+    "elbow_joint_centre": "retain provisionally",
+    "sacral_length": "retain provisionally",
+    "femur_and_tibia_joint_centre_chain": "retain provisionally"
+  },
+  "red_rebuild_regions": [
+    "shoulder_girdle",
+    "spine",
+    "ribs",
+    "carpus",
+    "hand_metacarpals_2_4",
+    "tarsus",
+    "forefoot_toes"
+  ],
+  "amber_regions": [
+    "forearm",
+    "pelvis",
+    "head_neck"
+  ],
+  "next_freeze_requirements": [
+    "Add stature-aware or second-source confirmation for each RED region where only one quantitative corridor exists.",
+    "Map every source measurement into a canonical landmark definition before a Blender coordinate is generated.",
+    "Select target values inside evidence corridors with bilateral consistency and mechanically closed joints.",
+    "Run proposed target through geometric invariants before creating a new Blender audit revision."
+  ]
+}

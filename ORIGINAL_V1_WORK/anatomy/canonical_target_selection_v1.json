@@ -21,7 +21,7 @@
         "clavicle": "A",
         "scapula": "A_TRANSVERSE_DEFECT_EXACT_3D_TARGET_OPEN"
       },
-      "freeze_state": "PARTIAL_CONSTRAINT_FAMILY_READY",
+      "freeze_state": "PARTIAL_VERIFIED_CONSTRAINTS_AC_SC_GEOMETRY_OPEN",
       "selected": {
         "stature_conditioned_biacromial_scaffold_mm": 425.15656060295987,
         "acromial_height_scaffold_mm": 1497.6729008056855,
@@ -30,15 +30,17 @@
         "bilateral_AC_breadth_mm": null,
         "scapula_landmark_frame": null,
         "shoulder_constraint_file": "ORIGINAL_V1_WORK/anatomy/canonical_shoulder_target_constraints_v1.json",
-        "neutral_feasible_family": "ORIGINAL_V1_WORK/anatomy/canonical_shoulder_feasible_family_v1.json",
         "scapular_landmark_audit": "ORIGINAL_V1_WORK/anatomy/canonical_scapula_landmark_audit_v1.json",
-        "shoulder_frame_mapping": "ORIGINAL_V1_WORK/anatomy/canonical_shoulder_frame_mapping_v1.json"
+        "shoulder_frame_mapping": "ORIGINAL_V1_WORK/anatomy/canonical_shoulder_frame_mapping_v1.json",
+        "neutral_parameter_sweep": "ORIGINAL_V1_WORK/anatomy/canonical_shoulder_feasible_family_v1.json"
       },
       "blockers": [
-        "choose one SC/AC/clavicle coordinate solution inside the feasible family after source-frame mapping",
+        "verified bilateral SC/manubrial landmark constraint or equivalent thorax-based SC placement",
+        "absolute AC coordinates from clavicle + scapular landmark solve; do not use withdrawn 34±8 mm direct AC-offset claim",
         "construct landmark-compatible 3D scapular local frame using AA/TS/AI/glenoid/acromion constraints",
         "freeze superior-inferior scapular length only after measurement-compatible cross-source reconciliation"
-      ]
+      ],
+      "audit_note_2026_10_08": "A 2026 cadaver abstract was rechecked: it reports STSL→lateral-acromion and STSL→AC distances, not direct lateral-acromion→AC distance. The earlier 34±8 mm direct-offset transcription was withdrawn. The a003 width/clavicle failures remain confirmed independently."
     },
     "spine": {
       "evidence_grade": "A_STRUCTURAL_DEFECT",

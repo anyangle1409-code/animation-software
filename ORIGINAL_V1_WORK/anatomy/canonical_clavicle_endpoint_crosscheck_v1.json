@@ -12,7 +12,8 @@
     "measurement_definition": "Straight 3D chord between central points of the two clavicular articular surfaces, source methods 2.1 item 1; not medial/lateral extrema or curved centreline.",
     "male_chord_mm": {
       "mean": 152.9,
-      "sd": 9.3
+      "sd": 9.3,
+      "sd_basis": "per-bone (52 bilateral clavicles from 26 men); between-person SD is larger"
     },
     "population": "52 Chinese patients, 26 male/26 female; bilateral clavicles; mean age 49.8 \u00b118.2 y; no previous clavicle fracture",
     "male_subject_n": 26,

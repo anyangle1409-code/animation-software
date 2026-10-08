@@ -26,8 +26,10 @@
       "candidate": null,
       "anterior_height_mm": {
         "male_CT_mean": 20.8,
-        "male_CT_sd": 0.66,
-        "source": "C2_VBH_CT_2008"
+        "male_CT_sd": null,
+        "source": "C2_VBH_CT_2008",
+        "male_CT_printed_dispersion": 0.66,
+        "dispersion_status": "PROBABLE_STANDARD_ERROR_NOT_SD_DO_NOT_USE_AS_CORRIDOR"
       },
       "independent_anatomical_crosscheck_mm": {
         "anterior": 19.67,

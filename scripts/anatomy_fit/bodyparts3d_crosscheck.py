@@ -190,7 +190,9 @@ def build(models_dir, commit):
 def crosschecks(carp, tars, ribs):
     plan = json.loads((ANAT / 'canonical_carpal_geometry_plan_v1.json').read_text())['source_constraints']
     env = json.loads((ANAT / 'canonical_carpal_envelopes_v1.json').read_text())['envelopes']
-    tar = json.loads((ANAT / 'canonical_tarsal_geometry_audit_v1.json').read_text())['direct_whole_bone_reference_examples_mm']
+    tar_audit = json.loads((ANAT / 'canonical_tarsal_geometry_audit_v1.json').read_text())
+    tar = dict(tar_audit['direct_whole_bone_reference_examples_mm'],
+               talus_length_male=tar_audit['excluded_partial_measure_references_mm']['talus_length_male_ZHANG_2018'])
     res = {}
     for side, b in carp.items():
         cap_axis = b['capitate']['inertia_semi_axes_mm'][0]

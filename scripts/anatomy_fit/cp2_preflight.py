@@ -39,7 +39,7 @@ TARSALS = ('talus', 'calcaneus', 'navicular', 'cuboid', 'medial_cuneiform', 'int
 SELECTION_OF_READINESS = {
     'shoulder_girdle': 'shoulder_girdle', 'spine': 'spine', 'ribs': 'ribs', 'forearm': 'forearm', 'carpus': 'carpus_hand',
     'hand': 'carpus_hand', 'pelvis': 'pelvis', 'lower_limb_long_bones': 'lower_limb_long', 'tarsus': 'tarsus_forefoot',
-    'forefoot_toes': 'tarsus_forefoot', 'head_neck_fixed': 'head_neck',
+    'forefoot_toes': 'tarsus_forefoot', 'head_neck_fixed': 'head_neck', 'humerus': None,
 }
 
 
@@ -231,7 +231,7 @@ def check_candidate(cand, inventory, articulations, additional):
 
 def readiness_region_of(bone):
     if bone['region'] == 'upper_limb':
-        return 'forearm' if bone['id'].startswith(('radius', 'ulna')) else None
+        return 'forearm' if bone['id'].startswith(('radius', 'ulna')) else 'humerus'
     if bone['region'] == 'foot':
         return 'tarsus' if bone['id'].startswith(TARSALS) else 'forefoot_toes'
     return READINESS_OF_INVENTORY_REGION.get(bone['region'])
@@ -252,7 +252,7 @@ def readiness_ledger(inventory, readiness, selection, a003_bones):
     regions = {}
     for name, r in readiness['regions'].items():
         sel_name = SELECTION_OF_READINESS[name]
-        sel = selection['regions'].get(sel_name, {})
+        sel = selection['regions'].get(sel_name, {}) if sel_name else {}
         regions[name] = {'readiness': r['readiness'], 'blockers': r.get('blockers', []),
                          'selection_region': sel_name, 'selection_freeze_state': sel.get('freeze_state'),
                          'unselected_targets': list(_nulls(sel.get('selected', {}), 'selected')),

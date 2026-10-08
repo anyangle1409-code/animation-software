@@ -98,3 +98,21 @@ Also on the laptop, these are population datasets for the BLOCKED regions; none 
 - the Canovas 2004 "capitate axis" normaliser. **Resolved 8 October:** it is the capitate's first principal axis of inertia, and the review has the details.
 
 Both are explained in the review doc's open-data section.
+
+## Owner decision and data fixes (8 October, Claude)
+
+**Owner decision:** the skeleton follows normal 1.82 m adult male proportions, and the mesh is refitted to it. This is recorded in the policy doc and in `owner_decisions`.
+
+**Consequences now in readiness:**
+- the forearm (EJC–WJC is −8.9% against de Leva) and femur (HJC–KJC is −6.5%) need endpoint-defined 1.82 m targets;
+- a new `humerus` region (PARTIAL) is added;
+- the ribs region now carries a sternum blocker.
+
+**Data fixes (owner-approved):**
+- the Zhang talus "length" is moved to `excluded_partial_measure_references_mm`;
+- the C2 0.66 mm dispersion is nulled as an SD and kept as `printed_dispersion`;
+- the India mandible record is quarantined;
+- the Rausch ulna endpoint definition is recorded;
+- the Qiu clavicle SD is marked per-bone.
+
+No target value was selected or promoted. Please verify the C2 dispersion against the source when it is reachable.

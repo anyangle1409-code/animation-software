@@ -68,7 +68,8 @@
       "blockers": [
         "reference age/weight selection or explicit envelope",
         "full proximal 2016 logarithmic-spiral reconstruction; verified distal segments are insufficient for complete ribs",
-        "3D thoracic-frame mapping and rib head/tubercle/anterior contact coordinates"
+        "3D thoracic-frame mapping and rib head/tubercle/anterior contact coordinates",
+        "sternum (manubrium, body, xiphoid) envelope and costal-notch layout compatible with the rib anterior contacts"
       ],
       "next_action": "Create rib-level non-bone centreline/contact dataset before any new Blender master."
     },
@@ -82,7 +83,8 @@
       "blockers": [
         "endpoint-compatible canonical radius corridor",
         "endpoint-compatible ulna corridor",
-        "revised DRUJ/wrist centre after retarget"
+        "revised DRUJ/wrist centre after retarget",
+        "owner policy 2026-10-08: radius/ulna follow normal 1.82 m male proportions; a003 EJC-WJC is 8.9% below the de Leva joint-centre proportion"
       ],
       "next_action": "Resolve radius/ulna endpoints independently, then rebuild wrist centre and pronation axis."
     },
@@ -139,9 +141,10 @@
       ],
       "blockers": [
         "fibula endpoint semantics",
-        "patella width/thickness/trochlear contact path"
+        "patella width/thickness/trochlear contact path",
+        "femur: a003 HJC-KJC (412.9 mm) is 6.5% below the de Leva joint-centre proportion for 1.82 m; select an endpoint-defined femur target under the owner proportion policy"
       ],
-      "next_action": "Refine fibula and patellofemoral geometry; do not rescale femur/tibia without new evidence."
+      "next_action": "Refine fibula and patellofemoral geometry and select endpoint-defined femur/tibia targets for a 1.82 m male; agreement with the r95 surface alone no longer justifies keeping a003 lengths (owner proportion policy 2026-10-08)."
     },
     "tarsus": {
       "readiness": "BLOCKED",
@@ -185,11 +188,24 @@
         "independent matched hyoid geometry confirmation, body/cornu 3D landmarks and C3-relative neutral placement/tilt"
       ],
       "next_action": "Finish low-kinematic-priority reference geometry after shoulder/spine/limb blockers."
+    },
+    "humerus": {
+      "readiness": "PARTIAL",
+      "ready": [
+        "GH depth below the acromion corroborated by two open models (F-GH-001)",
+        "acromion-to-elbow span within 3.7 mm of ANSUR acromion-radiale minus 15 mm",
+        "male maximum humerus length context: Mall 2001 33.4 cm; Trotter-Gleser 1.82 m prediction 359.5 mm (maximum length, not joint-centre span)"
+      ],
+      "blockers": [
+        "endpoint-defined humerus target (GH to EJC and maximum length) for a 1.82 m male under the owner proportion policy",
+        "humeral head, trochlea and capitulum geometry consistent with the GH and elbow centres"
+      ],
+      "next_action": "Select an endpoint-matched humerus length for 1.82 m; a003 GH-EJC (287.7 mm) is 2.3% below the de Leva joint-centre proportion."
     }
   },
   "region_counts": {
     "READY": 0,
-    "PARTIAL": 8,
+    "PARTIAL": 9,
     "BLOCKED": 3
   },
   "next_global_sequence": [
@@ -204,5 +220,19 @@
     "9 run all hard invariants and bilateral checks",
     "10 only then instantiate a new isolated canonical Blender revision"
   ],
-  "gate_rule": "Do not create a new canonical Blender audit revision while any region is BLOCKED unless the revision is explicitly partial/non-acceptance and cannot be mistaken for the next canonical candidate."
+  "gate_rule": "Do not create a new canonical Blender audit revision while any region is BLOCKED unless the revision is explicitly partial/non-acceptance and cannot be mistaken for the next canonical candidate.",
+  "owner_decisions": [
+    {
+      "date": "2026-10-08",
+      "owner": "project owner (via Claude session)",
+      "decision": "The canonical skeleton uses normal anatomical proportions for a 1.82 m adult male. The body mesh is refitted to the skeleton afterwards.",
+      "consequences": [
+        "The r95/a003 authored forearm-hand shortness, long feet and broad shoulders are not intended styling and must not constrain canonical bone lengths.",
+        "Agreement with the r95 surface is no longer sufficient corroboration for a canonical bone length; targets come from stature-conditioned anatomical evidence with matched endpoint definitions.",
+        "This answers the F-PROP-001 owner question. It does not select any numeric target or change freeze_ready."
+      ],
+      "recorded_by": "docs/CLAUDE_INDEPENDENT_REVIEW_20261008.md",
+      "id": "PROPORTION_POLICY_182CM_MALE"
+    }
+  ]
 }

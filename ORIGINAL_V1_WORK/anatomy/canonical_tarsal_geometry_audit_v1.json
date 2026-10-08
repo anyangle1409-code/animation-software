@@ -21,11 +21,6 @@
   ],
   "measurement_semantics": "ORIGINAL_V1_WORK/anatomy/canonical_measurement_definitions_v1.json",
   "direct_whole_bone_reference_examples_mm": {
-    "talus_length_male": {
-      "mean": 44.375,
-      "sd": 2.882,
-      "source": "ZHANG_2018_TALUS_MALE"
-    },
     "calcaneus_axial_length_male": {
       "mean": 75.2,
       "source": "CALCANEUS_SEA_CT_2024"
@@ -66,5 +61,13 @@
     "Neutral axes and joint motion must remain anatomically coherent after the foot is shortened.",
     "The final heel-to-toe mesh length must arise from the canonical hindfoot + midfoot + forefoot chain plus explicit soft-tissue allowances."
   ],
-  "status": "TARSAL_GEOMETRY_REBUILD_REQUIRED_NUMERIC_CENTRES_NOT_FROZEN"
+  "status": "TARSAL_GEOMETRY_REBUILD_REQUIRED_NUMERIC_CENTRES_NOT_FROZEN",
+  "excluded_partial_measure_references_mm": {
+    "talus_length_male_ZHANG_2018": {
+      "mean": 44.375,
+      "sd": 2.882,
+      "source": "ZHANG_2018_TALUS_MALE",
+      "reason": "Superior talar dome study: its \"length\" (44.4) is smaller than its \"width\" (54.4); real male whole-talus length is 53-58 mm (dry bone). Not a whole-bone length."
+    }
+  }
 }

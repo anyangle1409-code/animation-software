@@ -7156,7 +7156,8 @@
     "source": {
      "mean": 44.375,
      "sd": 2.882,
-     "source": "ZHANG_2018_TALUS_MALE"
+     "source": "ZHANG_2018_TALUS_MALE",
+     "reason": "Superior talar dome study: its \"length\" (44.4) is smaller than its \"width\" (54.4); real male whole-talus length is 53-58 mm (dry bone). Not a whole-bone length."
     },
     "z": 4.88
    },
@@ -7194,7 +7195,8 @@
     "source": {
      "mean": 44.375,
      "sd": 2.882,
-     "source": "ZHANG_2018_TALUS_MALE"
+     "source": "ZHANG_2018_TALUS_MALE",
+     "reason": "Superior talar dome study: its \"length\" (44.4) is smaller than its \"width\" (54.4); real male whole-talus length is 53-58 mm (dry bone). Not a whole-bone length."
     },
     "z": 4.88
    },

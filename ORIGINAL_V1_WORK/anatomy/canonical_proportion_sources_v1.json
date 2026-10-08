@@ -865,7 +865,8 @@
       "use": [
         "secondary forearm length and radial-head scale cross-check"
       ],
-      "limitation": "Mixed-sex cadaver sample; accessible abstract does not fully expose endpoint definitions, so it cannot freeze canonical length."
+      "limitation": "Mixed-sex cadaver sample; accessible abstract does not fully expose endpoint definitions, so it cannot freeze canonical length.",
+      "measurement_definition": "Radius: styloid tip to radial-head articular surface. Ulna: styloid tip to coronoid base (not olecranon), so it is not whole-ulna length. 41 embalmed specimens, 19 male and 22 female. Published 2019 (Surg Radiol Anat 41(4))."
     },
     {
       "id": "ZHANG_2018_TALUS_MALE",
@@ -891,7 +892,8 @@
         "male talus whole-bone plausibility",
         "talocrural geometry scale"
       ],
-      "limitation": "Cadaveric Chinese sample; talus length definition is study-specific and not the same as the current HGPT talus control-stick span."
+      "limitation": "Cadaveric Chinese sample; talus length definition is study-specific and not the same as the current HGPT talus control-stick span.",
+      "measurement_caution": "Values describe the superior talar dome study definitions, not whole-talus maximum length (male whole talus 53-58 mm in dry-bone studies). Do not use as whole-bone scale."
     },
     {
       "id": "CALCANEUS_SEA_CT_2024",
@@ -1891,7 +1893,8 @@
         "independent mandibular breadth/ramus corridor",
         "stature-linked mandibular plausibility"
       ],
-      "limitation": "Some values and methods differ materially from 3D CT studies; broad population corridor only."
+      "limitation": "Some values and methods differ materially from 3D CT studies; broad population corridor only.",
+      "quarantine": "QUARANTINED: bigonial 124.4 mm, gonion-gnathion 129.3 mm and condylion-gonion 43 mm lie far outside dry-mandible norms (male bigonial about 95.7 +/- 5.2 mm) and conflict with MANDIBLE_3DCT_IRAN_2022 ramus 60.8 mm. Probably soft-tissue or method-inconsistent; do not use numerically."
     },
     {
       "id": "CRANIAL_3D_ATLAS_US_WHITE_2014",
@@ -2747,7 +2750,8 @@
         "adult-male C2 body-height constraint",
         "C2-specific geometry rather than copying C3"
       ],
-      "limitation": "Anterior body height only; does not define posterior C2 body height or the endplate frame by itself."
+      "limitation": "Anterior body height only; does not define posterior C2 body height or the endplate frame by itself.",
+      "dispersion_caution": "The printed 0.66 mm is probably a standard error, not an SD (dry-bone SD about 2.4 mm). Do not use as a corridor width until reread."
     },
     {
       "id": "C2_AXIS_MORPHOMETRY_2015",
@@ -3022,7 +3026,8 @@
         "Articular surface centre is not automatically instantaneous joint rotation centre.",
         "No stature-conditioned regression; do not promote the mean to final anatomy.",
         "Do not average this centre chord with extremal-point chords or centreline true lengths."
-      ]
+      ],
+      "sd_basis": "per-bone: SD across 52 bilateral clavicles of 26 men, which understates between-person SD"
     },
     {
       "id": "BAILEY_2016_LUMBAR_WEDGES",

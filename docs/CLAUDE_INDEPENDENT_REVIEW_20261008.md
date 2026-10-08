@@ -180,3 +180,20 @@ All 106 records in `canonical_proportion_sources_v1.json` were scanned for numer
 | Forearm/upper-arm ratio | 0.955 | 0.890 | forearm short relative to upper arm |
 
 **Reading:** this is real-skeleton support for the owner's standing caution not to accept the short femur and forearm as correct. The forearm agrees with F-PROP-001 (ANSUR z −2.85). The thigh is short by this measure, which conflicts with the lower-limb audit's "no gross proportion failure" reading of the femur. The humerus is close to the de Leva proportion. Caveats: de Leva's sample is 100 young male athletes, scaling is proportional, and there are no per-segment SDs here, so these are percentages, not z-scores. **Nothing changes:** these remain open proportion questions for CP1, and nothing is promoted.
+
+## Owner decision and applied fixes (8 October)
+
+**Owner:** the skeleton follows normal 1.82 m adult male proportions, and the mesh is refitted to it. This was applied to `canonical_target_selection_v1.json` and `canonical_freeze_readiness_v1.json` as an owner decision and as new blockers. The changes:
+- a humerus region is added, so the ledger now covers all 206 bones;
+- the ribs region has a sternum blocker;
+- the forearm and femur have 1.82 m proportion blockers;
+- the lower-limb next action no longer says to keep a003 lengths for lack of evidence.
+
+**Data fixes (owner-approved):**
+- the talus partial measure is excluded from the whole-bone references;
+- the C2 SD is nulled, with the printed 0.66 kept;
+- the India mandible record is quarantined;
+- the Rausch endpoints are recorded;
+- the Qiu SD is marked per-bone.
+
+Tests are in `scripts/test_owner_proportion_policy_and_source_fixes.py`. The full suite is 782 tests with the same 9 inherited failures. The 7 October review pack is a dated record and was not edited: its "owner questions" section is superseded by this decision.

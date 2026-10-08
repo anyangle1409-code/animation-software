@@ -121,8 +121,9 @@ class Ledger(unittest.TestCase):
         led = m.readiness_ledger(INV, json.loads((ANAT / 'canonical_freeze_readiness_v1.json').read_text()),
                                  json.loads((ANAT / 'canonical_target_selection_v1.json').read_text()), A003['bones'])
         self.assertEqual(led['bones_covered'] + len(led['bones_without_readiness_region']), 206)
-        self.assertEqual(led['bones_without_readiness_region'], ['humerus_left', 'humerus_right'])
-        self.assertEqual(led['region_counts'], {'READY': 0, 'PARTIAL': 8, 'BLOCKED': 3})
+        self.assertEqual(led['bones_without_readiness_region'], [])
+        self.assertEqual(led['regions']['humerus']['bones'], ['humerus_left', 'humerus_right'])
+        self.assertEqual(led['region_counts'], {'READY': 0, 'PARTIAL': 9, 'BLOCKED': 3})
         self.assertFalse(led['freeze_ready'])
         self.assertEqual(sum(sum(r['a003_placement'].values()) for r in led['regions'].values()), led['bones_covered'])
 

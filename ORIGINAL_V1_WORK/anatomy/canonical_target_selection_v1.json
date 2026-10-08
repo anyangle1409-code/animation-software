@@ -79,8 +79,11 @@
         "C2_body_geometry": {
           "anterior_male_CT_mm": {
             "mean": 20.8,
-            "sd": 0.66,
-            "source": "C2_VBH_CT_2008"
+            "sd": null,
+            "source": "C2_VBH_CT_2008",
+            "printed_dispersion": 0.66,
+            "dispersion_status": "PROBABLE_STANDARD_ERROR_NOT_SD_DO_NOT_USE_AS_CORRIDOR",
+            "dispersion_note": "Dry-bone C2 anterior body height is 23.2 +/- 2.4 mm (n=80); 0.66 mm is implausible as a between-person SD. Reread the source before restoring an SD."
           },
           "posterior_crosscheck_mm": {
             "value": 16.67,
@@ -274,5 +277,19 @@
   "candidate_name_when_ready": "HGPT_CANONICAL_SKELETON_FIRST_c001",
   "note": "Do not create c001 merely to show progress. Create it only when this file is promoted to freeze_ready=true by evidence-backed target selection. Surface envelope targets are downstream mesh checks and never override skeletal landmarks.",
   "mesh_envelope_check": "ORIGINAL_V1_WORK/anatomy/canonical_mesh_envelope_targets_v1.json",
-  "delta_guide": "ORIGINAL_V1_WORK/anatomy/canonical_rebuild_delta_summary_v1.json"
+  "delta_guide": "ORIGINAL_V1_WORK/anatomy/canonical_rebuild_delta_summary_v1.json",
+  "owner_decisions": [
+    {
+      "date": "2026-10-08",
+      "owner": "project owner (via Claude session)",
+      "decision": "The canonical skeleton uses normal anatomical proportions for a 1.82 m adult male. The body mesh is refitted to the skeleton afterwards.",
+      "consequences": [
+        "The r95/a003 authored forearm-hand shortness, long feet and broad shoulders are not intended styling and must not constrain canonical bone lengths.",
+        "Agreement with the r95 surface is no longer sufficient corroboration for a canonical bone length; targets come from stature-conditioned anatomical evidence with matched endpoint definitions.",
+        "This answers the F-PROP-001 owner question. It does not select any numeric target or change freeze_ready."
+      ],
+      "recorded_by": "docs/CLAUDE_INDEPENDENT_REVIEW_20261008.md",
+      "id": "PROPORTION_POLICY_182CM_MALE"
+    }
+  ]
 }

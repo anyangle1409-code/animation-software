@@ -83,7 +83,7 @@ class Mutations(unittest.TestCase):
         c = copy.deepcopy(A003); F = c['joint_markers']['glenohumeral_left']['frame_axes_columns_XYZ']
         for row in F: row[2] = -row[2]                                # reflection: det -1
         self.assertEqual(status(run(c), 'joint_frames_proper')['status'], 'FAIL')
-        c = copy.deepcopy(A003); c['joint_markers']['hip_left']['frame_axes_columns_XYZ'][0][0] += 1e-6
+        c = copy.deepcopy(A003); c['joint_markers']['hip_left']['frame_axes_columns_XYZ'][0][0] += 1e-3
         self.assertEqual(status(run(c), 'joint_frames_proper')['status'], 'FAIL')
 
     def test_collapsed_shoulder_centres_and_missing_marker(self):

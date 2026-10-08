@@ -106,3 +106,11 @@ Suggested for GPT:
 | Bilateral AC | 282 mm (contact proxies) | a003 481.4 mm; ANSUR biacromial at HGPT stature 425 mm, measured at the lateral acromia | Context only, since the specimen's stature differs. Even adding the 2 × 34 mm AC-to-lateral-acromion distance from GPT's source to the specimen gives about 350 mm, well below a003's 481 mm. |
 | **Bilateral SC** | **32.0–36.0 mm** (contact threshold 1–3 mm); manubrium X extent 54.9 mm | a003 50.0 mm; manubrium outer breadth 68.2 ± 8 mm (Selthofer) | **Does not close CP1a.** One specimen, and the proxy is the clavicle head's closest-approach patch to the manubrium, which may be biased medially. Use it only as a plausibility bracket for the laptop SC value. |
 | **Hyoid horns** | Total width 37.8 mm; tip span 34.9 mm; horns turn inward by **0.0 and 0.3 mm**, i.e. essentially straight | Abdelkader: width 42.85, centre span 39.65, posterior-end span 35.32 mm | **This corrects my earlier hyoid note.** Straight horns cannot satisfy the three spans read literally (shown in the fourth pass). But this specimen's horns *are* straight, so the likelier explanation is that Abdelkader's "posterior end" and "centre" landmarks are not on the horn centreline (for example, a medial point of the tubercle). The fix is to check Abdelkader Figure 1's landmark definitions before CP3, not to bend the horns by default. |
+
+## CP3 build rehearsal (Blender 5.2.1)
+
+The record is `audit/runs/claude_cp3_rehearsal_001/`. GPT's `build_armature` and `build_markers` build a complete 206-bone, 427-marker master from target data alone, in an empty scene. The result reloads and captures back exactly (to single precision), and the capture passes through the CP2 preflight with the same verdict as its input. **The skeleton-first build path works.**
+
+**Findings:**
+1. **74 bones have an undefined roll.** Horizontal-bone frames put X along the bone, so `align_roll` has a parallel target. The movement tests are unaffected, but a defined convention is needed before CP3 and CP9.
+2. My own checker's float tolerance was too strict for Blender's single precision. That is fixed, and the mutation test still catches a 1e-3 frame skew.

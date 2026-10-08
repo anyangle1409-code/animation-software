@@ -9,7 +9,8 @@ Two parts:
 
 Statuses: PASS, FAIL, UNVERIFIED (required data absent), INFO (measurement only, no gate).
 No anatomical tolerance is invented: geometric gates are strict (> 0, sign, identity).
-The only numeric tolerance is FLOAT_EPS for frame orthonormality (floating-point noise).
+The only numeric tolerance is FLOAT_EPS for frame orthonormality: Blender stores matrices in single precision, so a
+captured proper frame shows ~7e-7 orthonormality error (CP3 rehearsal); 1e-5 (~0.0006 deg skew) is numerical, not anatomical.
 A full PASS is necessary for CP2, not sufficient: evidence review is still required.
 
 CLI:
@@ -23,7 +24,7 @@ from endplate_clearance import clearance  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 ANAT = ROOT / 'ORIGINAL_V1_WORK/anatomy'
-FLOAT_EPS = 1e-9
+FLOAT_EPS = 1e-5
 SPINAL_DISCS = ['disc_c2_c3', 'disc_c3_c4', 'disc_c4_c5', 'disc_c5_c6', 'disc_c6_c7', 'disc_c7_t1'] + \
     [f'disc_t{i}_t{i + 1}' for i in range(1, 12)] + ['disc_t12_l1', 'disc_l1_l2', 'disc_l2_l3', 'disc_l3_l4', 'disc_l4_l5', 'disc_l5_sacrum']
 SHOULDER = ('sternoclavicular', 'acromioclavicular', 'glenohumeral')

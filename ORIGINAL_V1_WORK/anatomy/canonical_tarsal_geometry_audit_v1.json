@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Skeleton-first hindfoot/midfoot audit. Determine what can and cannot be inferred from the a003 tarsal control sticks, and define the anatomical rebuild requirement.",
+  "baseline": "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json",
+  "current_a003_reference_sticks_mm": {
+    "talus": 46.96554163333018,
+    "calcaneus": 19.339337839249385,
+    "navicular": 16,
+    "cuboid": 51.68755589163527,
+    "medial_cuneiform": 58.00405657557486,
+    "intermediate_cuneiform": 49.6572515490164,
+    "lateral_cuneiform": 53.78500759247172
+  },
+  "source_ids": [
+    "ZHANG_2018_TALUS_MALE",
+    "CALCANEUS_SEA_CT_2024",
+    "CUBOID_SOUTH_INDIA_2023",
+    "TARSUS_INTRINSIC_PROPORTIONS_2003",
+    "CELIK_AKMAN_2024_TARSAL_CT"
+  ],
+  "measurement_semantics": "ORIGINAL_V1_WORK/anatomy/canonical_measurement_definitions_v1.json",
+  "direct_whole_bone_reference_examples_mm": {
+    "talus_length_male": {
+      "mean": 44.375,
+      "sd": 2.882,
+      "source": "ZHANG_2018_TALUS_MALE"
+    },
+    "calcaneus_axial_length_male": {
+      "mean": 75.2,
+      "source": "CALCANEUS_SEA_CT_2024"
+    },
+    "cuboid_length": {
+      "mean": 33.69,
+      "sd": 2.61,
+      "source": "CUBOID_SOUTH_INDIA_2023"
+    }
+  },
+  "findings": [
+    "The a003 tarsal control-stick lengths are not internally interpretable as whole-bone lengths: for example the calcaneus stick is ~19 mm while adult male CT axial calcaneal length is ~75 mm, whereas the cuboid stick is ~52 mm while dry-bone cuboid length averages ~34 mm.",
+    "This mismatch does not mean the joint positions are automatically wrong; it proves the current tarsal Blender bones are schematic control/reference segments rather than anatomical bone geometry.",
+    "The canonical skeleton therefore cannot freeze the tarsus by validating stick length alone. Each tarsal needs a distinct anatomical centre, principal axis, proximal/distal contact landmarks and bone-envelope dimensions stored separately from the control segment.",
+    "Independent sources agree on the whole-tarsus size hierarchy: calcaneus largest, talus second; cuboid/navicular/medial cuneiform intermediate; lateral/intermediate cuneiform smaller. The canonical representation must preserve this hierarchy in its bone envelopes.",
+    "Because the current foot surface and metatarsal/toe chains are oversized, hindfoot/midfoot centres must be rebuilt before the final foot mesh is shortened; otherwise the correction could be concentrated incorrectly in the toes or forefoot."
+  ],
+  "required_canonical_fields_per_tarsal": [
+    "anatomical centroid/reference centre",
+    "principal long axis and secondary axes",
+    "proximal/distal articular contact landmarks",
+    "whole-bone length/width/height or equivalent envelope dimensions",
+    "functional joint-centre offsets from the bone centroid",
+    "source and measurement definition for every numerical value",
+    "confidence and population/method context"
+  ],
+  "provisional_decisions": {
+    "talus": "REBUILD_GEOMETRY_KEEP_ANKLE_SUBTALAR_JOINTS_PROVISIONAL",
+    "calcaneus": "REBUILD_GEOMETRY_AND_SUBTALAR_CONTACT_REFERENCE",
+    "navicular": "REBUILD_GEOMETRY_AND_TALONAVICULAR_CONTACT_REFERENCE",
+    "cuboid": "REBUILD_GEOMETRY_AND_CALCANEOCUBOID_TMT_CONTACTS",
+    "cuneiforms": "REBUILD_GEOMETRY_AND_NAVICULOCUNEIFORM_TMT_CONTACTS"
+  },
+  "acceptance_tests": [
+    "No tarsal may be accepted solely because its Blender stick length is plausible.",
+    "Whole-bone envelope hierarchy must agree with source evidence.",
+    "Talocrural, subtalar, talonavicular, calcaneocuboid and TMT contact centres must remain distinct.",
+    "Neutral axes and joint motion must remain anatomically coherent after the foot is shortened.",
+    "The final heel-to-toe mesh length must arise from the canonical hindfoot + midfoot + forefoot chain plus explicit soft-tissue allowances."
+  ],
+  "status": "TARSAL_GEOMETRY_REBUILD_REQUIRED_NUMERIC_CENTRES_NOT_FROZEN"
+}

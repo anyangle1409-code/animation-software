@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "status": "PROVISIONAL_INDEPENDENT_ANGULAR_CROSSCHECK",
+  "freeze_ready": false,
+  "source": {
+    "id": "BEEN_2007_LUMBAR_STANDING",
+    "doi": "10.1002/ar.20607",
+    "url": "https://anatomypubs.onlinelibrary.wiley.com/doi/10.1002/ar.20607",
+    "location": "Methods/Table 1",
+    "population": "106 radiographically normal adults, 56 men/50 women, age 20\u201350; clinically referred. Standing knees straight, arms folded on chest.",
+    "sex": "pooled; not male-specific",
+    "dispersion": "source mean \u00b1 SD",
+    "verified": "2026-10-08"
+  },
+  "body_wedges_deg": {
+    "L1": {
+      "mean": -3,
+      "SD": 2.8
+    },
+    "L2": {
+      "mean": -1,
+      "SD": 2.8
+    },
+    "L3": {
+      "mean": 0,
+      "SD": 2.6
+    },
+    "L4": {
+      "mean": 2,
+      "SD": 3.1
+    },
+    "L5": {
+      "mean": 8,
+      "SD": 3.3
+    }
+  },
+  "measurement": "Same-body superior versus inferior endplate lines; positive lordotic, negative kyphotic. Segments are superior-to-superior and include body plus disc.",
+  "convergence": "Upper lumbar kyphotic, L3 near neutral, lower lumbar lordotic. No numerical averaging with Bailey male data.",
+  "limitations": [
+    "Pooled sex and posture/cohort differ from Bailey male pooled body means.",
+    "Distinct author/clinical recruitment from Bailey Seattle sample supports separate cohort context, not universal population target.",
+    "No stature conditioning; no new centres or frozen dimensions."
+  ]
+}

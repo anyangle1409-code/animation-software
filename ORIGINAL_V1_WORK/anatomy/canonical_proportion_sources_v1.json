@@ -273,7 +273,8 @@
         "lateral cuneiform",
         "intermediate cuneiform"
       ],
-      "limitation": "Accessible abstract exposes area/volume ordering, not linear bone lengths."
+      "limitation": "Accessible abstract exposes area/volume ordering, not linear bone lengths.",
+      "bibliographic_alias_guard": "Shared PMID/DOI with another legacy record in canonical_source_identity_review_v1.json; count once as a publication. Distinct publication identities still require independent-cohort review."
     },
     {
       "id": "CALCANEUS_CT_2014",
@@ -443,7 +444,8 @@
       "use": [
         "population-derived rib cross-sectional geometry by rib number and normalized rib position"
       ],
-      "limitation": "Cross-section geometry does not by itself provide the full curved rib centreline or costovertebral axis."
+      "limitation": "Cross-section geometry does not by itself provide the full curved rib centreline or costovertebral axis.",
+      "bibliographic_alias_guard": "Shared PMID/DOI with another legacy record in canonical_source_identity_review_v1.json; count once as a publication. Distinct publication identities still require independent-cohort review."
     },
     {
       "id": "PATIL_2017_METATARSAL_PHALANGE",
@@ -977,7 +979,8 @@
         "3D tarsal size hierarchy",
         "sex-specific plausibility"
       ],
-      "limitation": "Accessible abstract exposes ordering but not linear dimensions."
+      "limitation": "Accessible abstract exposes ordering but not linear dimensions.",
+      "bibliographic_alias_guard": "Shared PMID/DOI with another legacy record in canonical_source_identity_review_v1.json; count once as a publication. Distinct publication identities still require independent-cohort review."
     },
     {
       "id": "HOLCOMBE_DERSTINE_2017_RIB_SHAPE",
@@ -1063,7 +1066,8 @@
       "use": [
         "rib envelope/cortical geometry after centreline reconstruction"
       ],
-      "limitation": "Cross-section geometry alone does not define centreline or joint axis."
+      "limitation": "Cross-section geometry alone does not define centreline or joint axis.",
+      "bibliographic_alias_guard": "Shared PMID/DOI with another legacy record in canonical_source_identity_review_v1.json; count once as a publication. Distinct publication identities still require independent-cohort review."
     },
     {
       "id": "YUKAWA_2012_CERVICAL_MORPHOMETRY",
@@ -1466,12 +1470,13 @@
         "male clavicle true-length corridor",
         "clavicle envelope scale"
       ],
-      "limitation": "Regional CT sample; true clavicle centreline/curved length, not straight SC-to-AC chord."
+      "limitation": "Regional CT sample; true clavicle centreline/curved length, not straight SC-to-AC chord.",
+      "bibliographic_alias_guard": "Shared PMID/DOI with another legacy record in canonical_source_identity_review_v1.json; count once as a publication. Distinct publication identities still require independent-cohort review."
     },
     {
       "id": "CLAVICLE_CADAVER_3D_2013",
       "type": "3D_CT_cadaver_clavicle",
-      "citation": "The anatomy of the clavicle: a three-dimensional cadaveric study. Clin Anat. 2014.",
+      "citation": "Bernat A et al. The anatomy of the clavicle: a three-dimensional cadaveric study. Clin Anat. 2014;27:712–723 (online 2013).",
       "pmid": "24142486",
       "sample": "68 cadaver clavicles",
       "male_values_mm": {
@@ -1485,7 +1490,11 @@
         "independent clavicle curved-vs-endpoint length distinction",
         "male true-length upper corridor"
       ],
-      "limitation": "Cadaver sample older; endpoint and centreline definitions must not be mixed."
+      "limitation": "Cadaver sample older; endpoint and centreline definitions must not be mixed.",
+      "doi": "10.1002/ca.22288",
+      "publication_identity": "BERNAT_2014_CLAVICLE_68_CADAVER_BONES",
+      "independence_note": "Same PMID24142486/DOI as the other legacy ID; count once. DARUWALLA_2013 label is retained for reference compatibility and is a misattribution, not another study.",
+      "verified_url": "https://onlinelibrary.wiley.com/doi/abs/10.1002/ca.22288"
     },
     {
       "id": "SCAPULA_OSSEOUS_2001",
@@ -1943,7 +1952,7 @@
     {
       "id": "DARUWALLA_2013_CLAVICLE_3D",
       "type": "3D_CT_cadaver_clavicle_morphometry",
-      "citation": "Daruwalla ZJ et al. The anatomy of the clavicle: a three-dimensional cadaveric study. Clin Anat. 2014.",
+      "citation": "Bernat A et al. The anatomy of the clavicle: a three-dimensional cadaveric study. Clin Anat. 2014;27:712–723 (online 2013).",
       "pmid": "24142486",
       "population": "68 adult cadaver clavicles",
       "values_mm": {
@@ -1976,7 +1985,11 @@
         "clavicle centreline target",
         "sex-specific scale check"
       ],
-      "limitation": "Cadaveric sample; male endpoint-length subgroup was not exposed in the accessible abstract, so male centreline and all-sex endpoint length must not be conflated."
+      "limitation": "Cadaveric sample; male endpoint-length subgroup was not exposed in the accessible abstract, so male centreline and all-sex endpoint length must not be conflated.",
+      "doi": "10.1002/ca.22288",
+      "publication_identity": "BERNAT_2014_CLAVICLE_68_CADAVER_BONES",
+      "independence_note": "Same PMID24142486/DOI as the other legacy ID; count once. DARUWALLA_2013 label is retained for reference compatibility and is a misattribution, not another study.",
+      "verified_url": "https://onlinelibrary.wiley.com/doi/abs/10.1002/ca.22288"
     },
     {
       "id": "KING_2014_CLAVICLE_CT",
@@ -2017,7 +2030,8 @@
       "use": [
         "second independent clavicle length cross-check"
       ],
-      "limitation": "Small sample and population-specific; exact male mean not exposed in the summary used here."
+      "limitation": "Small sample and population-specific; exact male mean not exposed in the summary used here.",
+      "bibliographic_alias_guard": "Shared PMID/DOI with another legacy record in canonical_source_identity_review_v1.json; count once as a publication. Distinct publication identities still require independent-cohort review."
     },
     {
       "id": "DIMITRIOU_2018_PELVIC_DIMENSIONS",
@@ -3031,6 +3045,17 @@
         "independent endpoint-defined body/disc edge-height context"
       ],
       "limitation": "Supine flexed-hip/knee posture; no stature regression. L1 posterior SD quarantined as impossible; other source-table issues remain unreviewed."
+    },
+    {
+      "id": "BEEN_2007_LUMBAR_STANDING",
+      "type": "standing_radiographic_morphometry",
+      "doi": "10.1002/ar.20607",
+      "url": "https://anatomypubs.onlinelibrary.wiley.com/doi/10.1002/ar.20607",
+      "evidence_file": "canonical_lumbar_wedge_independent_crosscheck_v1.json",
+      "use": [
+        "independent endpoint-compatible lumbar wedge trend and sensitivity context"
+      ],
+      "limitation": "Mixed sex; not stature-conditioned or final male target."
     }
   ],
   "unresolved_source_needs": [

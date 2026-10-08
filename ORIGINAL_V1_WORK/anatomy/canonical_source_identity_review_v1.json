@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "status": "BIBLIOGRAPHIC_ALIAS_SCAN_ONLY",
+  "source_register": "canonical_proportion_sources_v1.json",
+  "records": 105,
+  "identifier_groups": 101,
+  "aliases": [
+    [
+      "CELIK_AKMAN_2024_TARSALS",
+      "CELIK_AKMAN_2024_TARSAL_CT"
+    ],
+    [
+      "CLAVICLE_CADAVER_3D_2013",
+      "DARUWALLA_2013_CLAVICLE_3D"
+    ],
+    [
+      "CLAVICLE_CT_2020_MALE",
+      "PANJWANI_2020_CLAVICLE_CT"
+    ],
+    [
+      "HOLCOMBE_2023_RIB_CT_POPULATION",
+      "HOLCOMBE_HUANG_2023_RIB_CROSS_SECTIONS"
+    ]
+  ],
+  "missing_identifier_records": [
+    "ANSUR_II_MALE_2012",
+    "METATARSAL_RELATIONSHIPS_332_NORMAL_FEET",
+    "OPEN_SIM_MODELS",
+    "THAI_UPPER_LIMB_2020",
+    "AUSTRALIAN_ABORIGINAL_FOREARM_REFERENCE",
+    "ZHANG_2018_TALUS_MALE",
+    "CALCANEUS_SEA_CT_2024",
+    "CUBOID_SOUTH_INDIA_2023",
+    "YUKAWA_2012_CERVICAL_MORPHOMETRY",
+    "THORACIC_BODY_DISC_2011",
+    "THORACIC_CT_2016_INDIA",
+    "SACRUM_MALE_MORPHOMETRY_2023",
+    "SACRUM_CT_2021_INDONESIA",
+    "SACROILIAC_REGION_2023",
+    "PATELLA_ROMAN_MALE_2025",
+    "FIBULA_CT_2015",
+    "FIBULA_DRY_MALE_2023",
+    "LOWER_LIMB_SSM_2019",
+    "MANDIBLE_3DCT_IRAN_2022",
+    "MANDIBLE_POSTMORTEM_INDIA_2023",
+    "CRANIAL_JAPAN_3DCT_2024",
+    "HYOID_SEX_REVIEW_2021",
+    "SANGEUX_2016_HJC_CT",
+    "METATARSAL_STATURE_KOREA_2022",
+    "CLAVICLE_LENGTH_CT_SYMMETRY_2018",
+    "STERNUM_CT_IRAN_2022",
+    "STERNUM_CT_GREECE_2025",
+    "STERNUM_GALLOWAY_OSTEOLOGY",
+    "STERNUM_SELTHOFER_2006",
+    "TROTTER_GLESER_1952_WHITE_MALE",
+    "FOREARM_ANTHROPOMETRY_STANDARD",
+    "C2_VBH_CT_2008",
+    "C2_AXIS_MORPHOMETRY_2015",
+    "REINHOLD_CERVICAL_SEGMENTAL_ANGLES",
+    "CRAWFORD_2009_T12_L1_ENDPLATE",
+    "PELVIC_PARAMETERS_APP_2024"
+  ],
+  "limitations": [
+    "Distinct groups do not establish independent subjects or cohorts.",
+    "Missing identifiers are separate placeholders, not evidence of independent replication.",
+    "Same cohort may appear in separate papers; explicit subject-provenance review remains required."
+  ]
+}

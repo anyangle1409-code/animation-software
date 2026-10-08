@@ -39,7 +39,8 @@
         "provisional P1 S1 centre/endplate frame from retained HA + male PTh/PT/SS",
         "provisional P1 superior-endplate orientations with superior-to-superior source semantics verified",
         "provisional separate lumbar body/inferior endplate and disc-wedge orientations, with posterior-positive sign and local bpy roundtrip verified",
-        "independent male MRI anterior/posterior body and disc edge-height context; invalid printed SD quarantined"
+        "independent male MRI anterior/posterior body and disc edge-height context; invalid printed SD quarantined",
+        "independent standing mixed-sex endplate-angle cross-check and source-separated P1 orientation sensitivity; no target averaging"
       ],
       "blockers": [
         "L5-S1 through upper-lumbar 3D endplate/frame chain",

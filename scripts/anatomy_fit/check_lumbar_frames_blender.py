@@ -4,19 +4,21 @@ from pathlib import Path
 import bpy
 from mathutils import Matrix
 ROOT=Path(__file__).resolve().parents[2]
-p=argparse.ArgumentParser();p.add_argument('--scratch-blend',type=Path,required=True);p.add_argument('--out',type=Path,required=True);a=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('--scratch-blend',type=Path,required=True);p.add_argument('--out',type=Path,required=True);p.add_argument('--source',type=Path);a=p.parse_args()
 if a.scratch_blend.exists() or a.out.exists():raise FileExistsError('immutable new fixture/output required')
-source=ROOT/'ORIGINAL_V1_WORK/anatomy/canonical_lumbar_body_disc_frames_p1.json'
+source=a.source or ROOT/'ORIGINAL_V1_WORK/anatomy/canonical_lumbar_body_disc_frames_p1.json'
 d=json.loads(source.read_text());bpy.ops.wm.read_factory_settings(use_empty=True)
 expected={}
-for kind in ['superior_frames','inferior_frames']:
- for level,f in d['geometry'][kind].items():
-  assert f['centre_m'] is None
-  R=Matrix([f['left_axis'],f['AP_axis'],f['normal']]).transposed()
-  name=f'LOCAL_ORIENTATION_ONLY_{level}_{kind}'
-  o=bpy.data.objects.new(name,None);bpy.context.collection.objects.link(o)
-  o.matrix_world=R.to_4x4();o['not_canonical']=True;o['centre_unresolved']=True
-  expected[name]=R
+families=d.get('families',{'P1':d.get('geometry')})
+for family,geometry in families.items():
+ for kind in ['superior_frames','inferior_frames']:
+  for level,f in geometry[kind].items():
+   assert f['centre_m'] is None
+   R=Matrix([f['left_axis'],f['AP_axis'],f['normal']]).transposed()
+   name=f'LOCAL_ORIENTATION_ONLY_{family}_{level}_{kind}'
+   o=bpy.data.objects.new(name,None);bpy.context.collection.objects.link(o)
+   o.matrix_world=R.to_4x4();o['not_canonical']=True;o['centre_unresolved']=True
+   expected[name]=R
 bpy.ops.wm.save_as_mainfile(filepath=str(a.scratch_blend));bpy.ops.wm.open_mainfile(filepath=str(a.scratch_blend))
 error=0.;det_error=0.
 for name,R in expected.items():

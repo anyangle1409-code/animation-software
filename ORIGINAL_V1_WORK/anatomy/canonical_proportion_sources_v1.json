@@ -2793,13 +2793,27 @@
         "T1_pelvic_angle_deg": {
           "mean": 13.5,
           "sd": 7.6
+        },
+        "pelvic_thickness_cm": {
+          "mean": 10.7,
+          "sd": 0.8
         }
       },
       "use": [
         "standing canonical whole-spine/pelvis sagittal family",
         "male-specific regional curvature corridor"
       ],
-      "limitation": "Cervical lordosis varies widely and sign conventions differ across studies; do not combine signed angles until frame conventions are mapped."
+      "limitation": "Cervical lordosis varies widely and sign conventions differ across studies; do not combine signed angles until frame conventions are mapped.",
+      "pmid": "28127750",
+      "pmcid": "PMC5382592",
+      "doi": "10.1111/joa.12586",
+      "definitions": {
+        "hip_axis": "midpoint of the line between both femoral heads",
+        "pelvic_thickness": "distance from hip axis to the centre/midpoint of the S1 superior sacral endplate (standard PTh definition used in the paper)",
+        "pelvic_tilt": "angle between vertical and the line relating the hip axis and centre of the S1 superior endplate",
+        "sacral_slope": "angle between S1 superior endplate and horizontal",
+        "pelvic_incidence": "PI = PT + SS"
+      }
     },
     {
       "id": "REINHOLD_CERVICAL_SEGMENTAL_ANGLES",
@@ -2902,6 +2916,17 @@
         "thoracolumbar endplate wedge/orientation cross-check"
       ],
       "limitation": "Endplate angulation definition must be mapped into the canonical sagittal frame before assigning signed global orientation."
+    },
+    {
+      "id": "PELVIC_PARAMETERS_APP_2024",
+      "type": "healthy_volunteer_pelvic_parameter_geometry",
+      "citation": "Anatomical Pelvic Parameters Using the Anterior Pelvic Plane: Normative Values and Estimation of the Standing Sagittal Alignment in Healthy Volunteers. 2024.",
+      "pmcid": "PMC10853616",
+      "definition": "Pelvic thickness (PTh) is the distance between the hip axis and the center of the sacral endplate.",
+      "use": [
+        "independent confirmation of PTh landmark definition used to reconstruct the S1 endplate centre from retained bilateral HJC"
+      ],
+      "limitation": "Used here for measurement semantics, not to replace Hasegawa's male PTh/PT/SS numeric reference."
     }
   ],
   "unresolved_source_needs": [

@@ -2,7 +2,7 @@
 """Labelled side-by-side movement clips (animated GIF) and keyframe sheets from render_movement_clips.py frames
 (Pillow only). Left panel a003 (baseline), right panel c001 (shoulder audit proposal); identical cameras and frames.
 
-  compose_movement_clips.py --a003 DIR --c001 DIR --out DIR
+  compose_movement_clips.py --a003 DIR --c001 DIR --out DIR [--right-label TEXT]   (--c001 is the right-panel frames)
 """
 import argparse, hashlib, json
 from pathlib import Path
@@ -32,9 +32,12 @@ def panel(png, label, col, w=420):
     return out
 
 
+RIGHT = {'label': 'c001 shoulder audit proposal', 'colour': (120, 220, 235)}
+
+
 def frame(a_png, c_png, test, view, f):
     a = panel(a_png, 'a003 baseline (audit record)', (230, 200, 120))
-    c = panel(c_png, 'c001 shoulder audit proposal', (120, 220, 235))
+    c = panel(c_png, RIGHT['label'], RIGHT['colour'])
     W = a.width * 2 + 6
     s = Image.new('RGB', (W, a.height + 52), (40, 40, 44))
     d = ImageDraw.Draw(s)
@@ -48,7 +51,9 @@ def main():
     ap = argparse.ArgumentParser()
     for k in ('--a003', '--c001', '--out'):
         ap.add_argument(k, required=True)
+    ap.add_argument('--right-label', default=RIGHT['label'], help='label of the right panel (directory given by --c001)')
     o = ap.parse_args()
+    RIGHT['label'] = o.right_label
     out = Path(o.out).resolve()
     if out.exists():
         raise FileExistsError(out)
@@ -70,7 +75,7 @@ def main():
         for i, t in enumerate(th):
             sheet.paste(t, (0, i * t.height))
         p = out / f'{test}__{view}__keyframes.jpg'; sheet.save(p, 'JPEG', quality=84); files[str(p.relative_to(ROOT))] = sha(p)
-    (out / 'manifest.json').write_text(json.dumps({'note': NOTE, 'a003_frames': o.a003, 'c001_frames': o.c001,
+    (out / 'manifest.json').write_text(json.dumps({'note': NOTE, 'a003_frames': o.a003, 'right_frames': o.c001, 'right_label': RIGHT['label'],
                                                     'renderer': 'scripts/anatomy_fit/render_movement_clips.py',
                                                     'composer': 'scripts/anatomy_fit/compose_movement_clips.py',
                                                     'tests': mc, 'files_sha256': files}, indent=1) + '\n')

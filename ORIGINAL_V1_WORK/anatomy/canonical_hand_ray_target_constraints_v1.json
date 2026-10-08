@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Skeleton-first metacarpal/phalange target constraints to be applied after canonical carpal centroids and CMC contacts are solved.",
+  "status": "RAY_LENGTH_CONSTRAINTS_READY_CMC_MCP_COORDINATES_NOT_FROZEN",
+  "sources": [
+    "DOGAN_1998_HAND_RELATIONS",
+    "BEREDJIKLIAN_2025_METACARPAL_HEIGHT"
+  ],
+  "a003_mm": {
+    "M1": 47.99997512953655,
+    "M2": 58.40737482460562,
+    "M3": 53.98434682000276,
+    "M4": 51.587330872635825,
+    "M5": 53.201580132340204
+  },
+  "adult_male_radiographic_bands_mm": {
+    "M1": {
+      "mean": 46,
+      "sd": 3,
+      "band_1sd": [
+        43,
+        49
+      ]
+    },
+    "M2": {
+      "mean": 68,
+      "sd": 4,
+      "band_1sd": [
+        64,
+        72
+      ]
+    },
+    "M3": {
+      "mean": 64,
+      "sd": 4,
+      "band_1sd": [
+        60,
+        68
+      ]
+    },
+    "M4": {
+      "mean": 58,
+      "sd": 4,
+      "band_1sd": [
+        54,
+        62
+      ]
+    },
+    "M5": {
+      "mean": 54,
+      "sd": 4,
+      "band_1sd": [
+        50,
+        58
+      ]
+    }
+  },
+  "independent_CT_means_mm": {
+    "M2": 67.7,
+    "M3": 66.1,
+    "M4": 58,
+    "M5": 52.3
+  },
+  "convergence": {
+    "M1": {
+      "grade": "B",
+      "decision": "RETAIN_A003_PROVISIONALLY",
+      "reason": "a003 48 mm is inside 46±3 mm male radiographic band; no second numeric source registered."
+    },
+    "M2": {
+      "grade": "A",
+      "decision": "RETARGET_LONGER",
+      "reason": "68 mm radiographic mean and 67.7 mm CT mean independently converge; a003 is ~9-10 mm shorter."
+    },
+    "M3": {
+      "grade": "A",
+      "decision": "RETARGET_LONGER",
+      "reason": "64 mm radiographic mean and 66.1 mm CT mean converge on a substantially longer bone; a003 is ~10-12 mm shorter."
+    },
+    "M4": {
+      "grade": "A",
+      "decision": "RETARGET_LONGER",
+      "reason": "both sources give ~58 mm; a003 ~51.6 mm is below the 1-SD male band."
+    },
+    "M5": {
+      "grade": "A",
+      "decision": "RETAIN_OR_MINOR_ADJUST",
+      "reason": "54 mm radiographic and 52.3 mm CT means bracket a003 ~53.2 mm."
+    }
+  },
+  "provisional_length_corridors_mm": {
+    "M1": [
+      43,
+      49
+    ],
+    "M2": [
+      64,
+      72
+    ],
+    "M3": [
+      60,
+      68
+    ],
+    "M4": [
+      54,
+      62
+    ],
+    "M5": [
+      50,
+      58
+    ],
+    "note": "These are evidence corridors, not frozen exact targets. M2-M4 should move into corridor only after CMC positions are solved from canonical carpal geometry."
+  },
+  "phalange_policy": {
+    "status": "PROVISIONAL_RETAIN_CROSSCHECK_BEFORE_FREEZE",
+    "reason": "Most a003 digit phalange spans are within 2 SD of the registered male radiographic sample; no gross chain defect comparable with M2-M4 is established.",
+    "requirements": [
+      "preserve digit-specific proximal/middle/distal ratios rather than uniform finger recipes",
+      "keep thumb as two phalanges and digits 2-5 as three",
+      "distal phalanx tip must separate bone endpoint from soft-tissue fingertip allowance"
+    ]
+  },
+  "geometric_rules": [
+    "Metacarpal length means CMC/base-to-MCP/head compatible span; do not add carpal length into the metacarpal target.",
+    "MCP centres must be derived from canonical CMC contacts plus ray direction and selected metacarpal length—not from the old short mesh stations.",
+    "Finger phalange chains start from the rebuilt MCP centres; do not move canonical MCP centres back to fit the current r95 hand.",
+    "The final hand skin length is checked only after carpal + metacarpal + phalange chain and explicit fingertip soft-tissue allowance are assembled."
+  ],
+  "implementation_order": [
+    "solve carpal centroids/contact centres",
+    "place CMC contacts for rays 1-5",
+    "select metacarpal lengths inside evidence corridors",
+    "derive MCP centres and palm arch",
+    "attach provisionally retained phalange chains and recheck ratios",
+    "only then refit hand mesh/weights"
+  ]
+}

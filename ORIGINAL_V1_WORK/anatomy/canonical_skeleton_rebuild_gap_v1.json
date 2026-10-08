@@ -1,0 +1,2420 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Scope the skeleton-first rebuild against a003. This is a gap inventory, not an accepted anatomical target.",
+  "baseline": "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json",
+  "owner_policy": "docs/SKELETON_FIRST_PRODUCTION_POLICY_20261008.md",
+  "summary": {
+    "total_bones": 206,
+    "moderate_confidence": 13,
+    "low_confidence": 193,
+    "proportional_low": 115,
+    "surface_landmark_low": 40,
+    "surface_station_low": 38
+  },
+  "reading": [
+    "a003 is a diagnostic fit to the existing body, not the final canonical-proportion skeleton.",
+    "Only 13/206 bones are currently moderate confidence; 193/206 are low confidence under the fit record.",
+    "The tracker statement that 115 proportional placements are low confidence is correct but incomplete as a total: another 78 low-confidence bones are surface-landmark or surface-station driven.",
+    "Low confidence does not mean anatomically wrong; it means the current placement method is not sufficient to freeze the canonical skeleton.",
+    "Priority 1 retargeting is the distal upper limb/hand and foot because the current mesh proportions are known outliers and those regions are heavily surface-driven."
+  ],
+  "region_summary": {
+    "spine": {
+      "total": 26,
+      "low": 26,
+      "moderate": 0,
+      "placements": {
+        "proportional": 26
+      },
+      "bones": [
+        "sacrum",
+        "coccyx",
+        "l5",
+        "l4",
+        "l3",
+        "l2",
+        "l1",
+        "t12",
+        "t11",
+        "t10",
+        "t9",
+        "t8",
+        "t7",
+        "t6",
+        "t5",
+        "t4",
+        "t3",
+        "t2",
+        "t1",
+        "c7",
+        "c6",
+        "c5",
+        "c4",
+        "c3",
+        "c2",
+        "c1"
+      ]
+    },
+    "head_neck": {
+      "total": 29,
+      "low": 29,
+      "moderate": 0,
+      "placements": {
+        "proportional": 29
+      },
+      "bones": [
+        "occipital",
+        "parietal_left",
+        "temporal_left",
+        "parietal_right",
+        "temporal_right",
+        "sphenoid",
+        "frontal",
+        "ethmoid",
+        "vomer",
+        "nasal_left",
+        "lacrimal_left",
+        "maxilla_left",
+        "zygomatic_left",
+        "palatine_left",
+        "inferior_nasal_concha_left",
+        "malleus_left",
+        "incus_left",
+        "stapes_left",
+        "nasal_right",
+        "lacrimal_right",
+        "maxilla_right",
+        "zygomatic_right",
+        "palatine_right",
+        "inferior_nasal_concha_right",
+        "malleus_right",
+        "incus_right",
+        "stapes_right",
+        "mandible",
+        "hyoid"
+      ]
+    },
+    "thorax": {
+      "total": 25,
+      "low": 24,
+      "moderate": 1,
+      "placements": {
+        "surface_landmark": 1,
+        "proportional": 24
+      },
+      "bones": [
+        "sternum",
+        "rib_01_left",
+        "rib_01_right",
+        "rib_02_left",
+        "rib_02_right",
+        "rib_03_left",
+        "rib_03_right",
+        "rib_04_left",
+        "rib_04_right",
+        "rib_05_left",
+        "rib_05_right",
+        "rib_06_left",
+        "rib_06_right",
+        "rib_07_left",
+        "rib_07_right",
+        "rib_08_left",
+        "rib_08_right",
+        "rib_09_left",
+        "rib_09_right",
+        "rib_10_left",
+        "rib_10_right",
+        "rib_11_left",
+        "rib_11_right",
+        "rib_12_left",
+        "rib_12_right"
+      ]
+    },
+    "shoulder_girdle": {
+      "total": 4,
+      "low": 2,
+      "moderate": 2,
+      "placements": {
+        "surface_landmark": 4
+      },
+      "bones": [
+        "clavicle_left",
+        "scapula_left",
+        "clavicle_right",
+        "scapula_right"
+      ]
+    },
+    "upper_limb_long": {
+      "total": 6,
+      "low": 0,
+      "moderate": 6,
+      "placements": {
+        "regression": 2,
+        "surface_landmark": 4
+      },
+      "bones": [
+        "humerus_left",
+        "ulna_left",
+        "radius_left",
+        "humerus_right",
+        "ulna_right",
+        "radius_right"
+      ]
+    },
+    "carpus": {
+      "total": 16,
+      "low": 16,
+      "moderate": 0,
+      "placements": {
+        "proportional": 16
+      },
+      "bones": [
+        "scaphoid_left",
+        "lunate_left",
+        "triquetrum_left",
+        "pisiform_left",
+        "trapezium_left",
+        "trapezoid_left",
+        "capitate_left",
+        "hamate_left",
+        "scaphoid_right",
+        "lunate_right",
+        "triquetrum_right",
+        "pisiform_right",
+        "trapezium_right",
+        "trapezoid_right",
+        "capitate_right",
+        "hamate_right"
+      ]
+    },
+    "hand": {
+      "total": 10,
+      "low": 10,
+      "moderate": 0,
+      "placements": {
+        "surface_station": 10
+      },
+      "bones": [
+        "metacarpal_1_left",
+        "metacarpal_2_left",
+        "metacarpal_3_left",
+        "metacarpal_4_left",
+        "metacarpal_5_left",
+        "metacarpal_1_right",
+        "metacarpal_2_right",
+        "metacarpal_3_right",
+        "metacarpal_4_right",
+        "metacarpal_5_right"
+      ]
+    },
+    "other": {
+      "total": 52,
+      "low": 52,
+      "moderate": 0,
+      "placements": {
+        "surface_station": 28,
+        "surface_landmark": 24
+      },
+      "bones": [
+        "thumb_proximal_phalanx_left",
+        "thumb_distal_phalanx_left",
+        "digit2_proximal_phalanx_left",
+        "digit2_middle_phalanx_left",
+        "digit2_distal_phalanx_left",
+        "digit3_proximal_phalanx_left",
+        "digit3_middle_phalanx_left",
+        "digit3_distal_phalanx_left",
+        "digit4_proximal_phalanx_left",
+        "digit4_middle_phalanx_left",
+        "digit4_distal_phalanx_left",
+        "digit5_proximal_phalanx_left",
+        "digit5_middle_phalanx_left",
+        "digit5_distal_phalanx_left",
+        "toe2_proximal_phalanx_left",
+        "toe2_middle_phalanx_left",
+        "toe2_distal_phalanx_left",
+        "toe3_proximal_phalanx_left",
+        "toe3_middle_phalanx_left",
+        "toe3_distal_phalanx_left",
+        "toe4_proximal_phalanx_left",
+        "toe4_middle_phalanx_left",
+        "toe4_distal_phalanx_left",
+        "toe5_proximal_phalanx_left",
+        "toe5_middle_phalanx_left",
+        "toe5_distal_phalanx_left",
+        "thumb_proximal_phalanx_right",
+        "thumb_distal_phalanx_right",
+        "digit2_proximal_phalanx_right",
+        "digit2_middle_phalanx_right",
+        "digit2_distal_phalanx_right",
+        "digit3_proximal_phalanx_right",
+        "digit3_middle_phalanx_right",
+        "digit3_distal_phalanx_right",
+        "digit4_proximal_phalanx_right",
+        "digit4_middle_phalanx_right",
+        "digit4_distal_phalanx_right",
+        "digit5_proximal_phalanx_right",
+        "digit5_middle_phalanx_right",
+        "digit5_distal_phalanx_right",
+        "toe2_proximal_phalanx_right",
+        "toe2_middle_phalanx_right",
+        "toe2_distal_phalanx_right",
+        "toe3_proximal_phalanx_right",
+        "toe3_middle_phalanx_right",
+        "toe3_distal_phalanx_right",
+        "toe4_proximal_phalanx_right",
+        "toe4_middle_phalanx_right",
+        "toe4_distal_phalanx_right",
+        "toe5_proximal_phalanx_right",
+        "toe5_middle_phalanx_right",
+        "toe5_distal_phalanx_right"
+      ]
+    },
+    "pelvis": {
+      "total": 2,
+      "low": 2,
+      "moderate": 0,
+      "placements": {
+        "proportional": 2
+      },
+      "bones": [
+        "hip_bone_left",
+        "hip_bone_right"
+      ]
+    },
+    "lower_limb_long": {
+      "total": 8,
+      "low": 4,
+      "moderate": 4,
+      "placements": {
+        "regression": 2,
+        "proportional": 4,
+        "surface_landmark": 2
+      },
+      "bones": [
+        "femur_left",
+        "patella_left",
+        "tibia_left",
+        "fibula_left",
+        "femur_right",
+        "patella_right",
+        "tibia_right",
+        "fibula_right"
+      ]
+    },
+    "tarsus": {
+      "total": 14,
+      "low": 14,
+      "moderate": 0,
+      "placements": {
+        "proportional": 14
+      },
+      "bones": [
+        "talus_left",
+        "calcaneus_left",
+        "navicular_left",
+        "cuboid_left",
+        "medial_cuneiform_left",
+        "intermediate_cuneiform_left",
+        "lateral_cuneiform_left",
+        "talus_right",
+        "calcaneus_right",
+        "navicular_right",
+        "cuboid_right",
+        "medial_cuneiform_right",
+        "intermediate_cuneiform_right",
+        "lateral_cuneiform_right"
+      ]
+    },
+    "foot": {
+      "total": 14,
+      "low": 14,
+      "moderate": 0,
+      "placements": {
+        "surface_landmark": 14
+      },
+      "bones": [
+        "metatarsal_1_left",
+        "metatarsal_2_left",
+        "metatarsal_3_left",
+        "metatarsal_4_left",
+        "metatarsal_5_left",
+        "hallux_proximal_phalanx_left",
+        "hallux_distal_phalanx_left",
+        "metatarsal_1_right",
+        "metatarsal_2_right",
+        "metatarsal_3_right",
+        "metatarsal_4_right",
+        "metatarsal_5_right",
+        "hallux_proximal_phalanx_right",
+        "hallux_distal_phalanx_right"
+      ]
+    }
+  },
+  "moderate_anchor_bones": [
+    {
+      "bone": "sternum",
+      "region": "thorax",
+      "placement": "surface_landmark",
+      "confidence": "moderate",
+      "role": "FOLLOWER",
+      "action": "retain_provisionally_and_crosscheck",
+      "priority": 2,
+      "recipe": "Jugular notch to xiphisternal region, each inset from the skin."
+    },
+    {
+      "bone": "clavicle_left",
+      "region": "shoulder_girdle",
+      "placement": "surface_landmark",
+      "confidence": "moderate",
+      "role": "ACTIVE",
+      "action": "retain_provisionally_and_crosscheck",
+      "priority": 2,
+      "recipe": "SC joint (lateral to the jugular notch) to the AC joint."
+    },
+    {
+      "bone": "humerus_left",
+      "region": "upper_limb_long",
+      "placement": "regression",
+      "confidence": "moderate",
+      "role": "ACTIVE",
+      "action": "retain_provisionally_and_crosscheck",
+      "priority": 1,
+      "recipe": "GH centre (acromion depth chain) to elbow centre (ISB epicondyle midpoint)."
+    },
+    {
+      "bone": "ulna_left",
+      "region": "upper_limb_long",
+      "placement": "surface_landmark",
+      "confidence": "moderate",
+      "role": "ACTIVE",
+      "action": "retain_provisionally_and_crosscheck",
+      "priority": 1,
+      "recipe": "Trochlear notch to ulnar head/styloid."
+    },
+    {
+      "bone": "radius_left",
+      "region": "upper_limb_long",
+      "placement": "surface_landmark",
+      "confidence": "moderate",
+      "role": "FOLLOWER",
+      "action": "retain_provisionally_and_crosscheck",
+      "priority": 1,
+      "recipe": "Radial head to radial styloid."
+    },
+    {
+      "bone": "femur_left",
+      "region": "lower_limb_long",
+      "placement": "regression",
+      "confidence": "moderate",
+      "role": "ACTIVE",
+      "action": "retain_provisionally_and_crosscheck",
+      "priority": 2,
+      "recipe": "HJC (Harrington/Hara mean) to KJC (ISB epicondyle midpoint)."
+    },
+    {
+      "bone": "tibia_left",
+      "region": "lower_limb_long",
+      "placement": "surface_landmark",
+      "confidence": "moderate",
+      "role": "ACTIVE",
+      "action": "retain_provisionally_and_crosscheck",
+      "priority": 2,
+      "recipe": "KJC (epicondylar flexion-axis centre, so Blender rotation is about the knee centre) to the ankle centre; the tibial plateau is kept as a separate landmark."
+    },
+    {
+      "bone": "clavicle_right",
+      "region": "shoulder_girdle",
+      "placement": "surface_landmark",
+      "confidence": "moderate",
+      "role": "ACTIVE",
+      "action": "retain_provisionally_and_crosscheck",
+      "priority": 2,
+      "recipe": "SC joint (lateral to the jugular notch) to the AC joint."
+    },
+    {
+      "bone": "humerus_right",
+      "region": "upper_limb_long",
+      "placement": "regression",
+      "confidence": "moderate",
+      "role": "ACTIVE",
+      "action": "retain_provisionally_and_crosscheck",
+      "priority": 1,
+      "recipe": "GH centre (acromion depth chain) to elbow centre (ISB epicondyle midpoint)."
+    },
+    {
+      "bone": "ulna_right",
+      "region": "upper_limb_long",
+      "placement": "surface_landmark",
+      "confidence": "moderate",
+      "role": "ACTIVE",
+      "action": "retain_provisionally_and_crosscheck",
+      "priority": 1,
+      "recipe": "Trochlear notch to ulnar head/styloid."
+    },
+    {
+      "bone": "radius_right",
+      "region": "upper_limb_long",
+      "placement": "surface_landmark",
+      "confidence": "moderate",
+      "role": "FOLLOWER",
+      "action": "retain_provisionally_and_crosscheck",
+      "priority": 1,
+      "recipe": "Radial head to radial styloid."
+    },
+    {
+      "bone": "femur_right",
+      "region": "lower_limb_long",
+      "placement": "regression",
+      "confidence": "moderate",
+      "role": "ACTIVE",
+      "action": "retain_provisionally_and_crosscheck",
+      "priority": 2,
+      "recipe": "HJC (Harrington/Hara mean) to KJC (ISB epicondyle midpoint)."
+    },
+    {
+      "bone": "tibia_right",
+      "region": "lower_limb_long",
+      "placement": "surface_landmark",
+      "confidence": "moderate",
+      "role": "ACTIVE",
+      "action": "retain_provisionally_and_crosscheck",
+      "priority": 2,
+      "recipe": "KJC (epicondylar flexion-axis centre, so Blender rotation is about the knee centre) to the ankle centre; the tibial plateau is kept as a separate landmark."
+    }
+  ],
+  "low_confidence_bones": [
+    {
+      "bone": "sacrum",
+      "region": "spine",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "S1 endplate centre from the pelvic landmarks (L5/S1 estimate) to the sacral apex; posterior to the ASIS plane."
+    },
+    {
+      "bone": "coccyx",
+      "region": "spine",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Sacral apex to a 36 mm anteroinferior tip."
+    },
+    {
+      "bone": "l5",
+      "region": "spine",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Vertebral body: inferior to superior endplate midpoints of an anchor-interpolated spinal curve (anchors: jugular notch=T2/T3, xiphisternal=T8/T9, C0-C1, L5/S1)."
+    },
+    {
+      "bone": "l4",
+      "region": "spine",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Vertebral body: inferior to superior endplate midpoints of an anchor-interpolated spinal curve (anchors: jugular notch=T2/T3, xiphisternal=T8/T9, C0-C1, L5/S1)."
+    },
+    {
+      "bone": "l3",
+      "region": "spine",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Vertebral body: inferior to superior endplate midpoints of an anchor-interpolated spinal curve (anchors: jugular notch=T2/T3, xiphisternal=T8/T9, C0-C1, L5/S1)."
+    },
+    {
+      "bone": "l2",
+      "region": "spine",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Vertebral body: inferior to superior endplate midpoints of an anchor-interpolated spinal curve (anchors: jugular notch=T2/T3, xiphisternal=T8/T9, C0-C1, L5/S1)."
+    },
+    {
+      "bone": "l1",
+      "region": "spine",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Vertebral body: inferior to superior endplate midpoints of an anchor-interpolated spinal curve (anchors: jugular notch=T2/T3, xiphisternal=T8/T9, C0-C1, L5/S1)."
+    },
+    {
+      "bone": "t12",
+      "region": "spine",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Vertebral body: inferior to superior endplate midpoints of an anchor-interpolated spinal curve (anchors: jugular notch=T2/T3, xiphisternal=T8/T9, C0-C1, L5/S1)."
+    },
+    {
+      "bone": "t11",
+      "region": "spine",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Vertebral body: inferior to superior endplate midpoints of an anchor-interpolated spinal curve (anchors: jugular notch=T2/T3, xiphisternal=T8/T9, C0-C1, L5/S1)."
+    },
+    {
+      "bone": "t10",
+      "region": "spine",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Vertebral body: inferior to superior endplate midpoints of an anchor-interpolated spinal curve (anchors: jugular notch=T2/T3, xiphisternal=T8/T9, C0-C1, L5/S1)."
+    },
+    {
+      "bone": "t9",
+      "region": "spine",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Vertebral body: inferior to superior endplate midpoints of an anchor-interpolated spinal curve (anchors: jugular notch=T2/T3, xiphisternal=T8/T9, C0-C1, L5/S1)."
+    },
+    {
+      "bone": "t8",
+      "region": "spine",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Vertebral body: inferior to superior endplate midpoints of an anchor-interpolated spinal curve (anchors: jugular notch=T2/T3, xiphisternal=T8/T9, C0-C1, L5/S1)."
+    },
+    {
+      "bone": "t7",
+      "region": "spine",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Vertebral body: inferior to superior endplate midpoints of an anchor-interpolated spinal curve (anchors: jugular notch=T2/T3, xiphisternal=T8/T9, C0-C1, L5/S1)."
+    },
+    {
+      "bone": "t6",
+      "region": "spine",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Vertebral body: inferior to superior endplate midpoints of an anchor-interpolated spinal curve (anchors: jugular notch=T2/T3, xiphisternal=T8/T9, C0-C1, L5/S1)."
+    },
+    {
+      "bone": "t5",
+      "region": "spine",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Vertebral body: inferior to superior endplate midpoints of an anchor-interpolated spinal curve (anchors: jugular notch=T2/T3, xiphisternal=T8/T9, C0-C1, L5/S1)."
+    },
+    {
+      "bone": "t4",
+      "region": "spine",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Vertebral body: inferior to superior endplate midpoints of an anchor-interpolated spinal curve (anchors: jugular notch=T2/T3, xiphisternal=T8/T9, C0-C1, L5/S1)."
+    },
+    {
+      "bone": "t3",
+      "region": "spine",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Vertebral body: inferior to superior endplate midpoints of an anchor-interpolated spinal curve (anchors: jugular notch=T2/T3, xiphisternal=T8/T9, C0-C1, L5/S1)."
+    },
+    {
+      "bone": "t2",
+      "region": "spine",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Vertebral body: inferior to superior endplate midpoints of an anchor-interpolated spinal curve (anchors: jugular notch=T2/T3, xiphisternal=T8/T9, C0-C1, L5/S1)."
+    },
+    {
+      "bone": "t1",
+      "region": "spine",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Vertebral body: inferior to superior endplate midpoints of an anchor-interpolated spinal curve (anchors: jugular notch=T2/T3, xiphisternal=T8/T9, C0-C1, L5/S1)."
+    },
+    {
+      "bone": "c7",
+      "region": "spine",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Vertebral body: inferior to superior endplate midpoints of an anchor-interpolated spinal curve (anchors: jugular notch=T2/T3, xiphisternal=T8/T9, C0-C1, L5/S1)."
+    },
+    {
+      "bone": "c6",
+      "region": "spine",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Vertebral body: inferior to superior endplate midpoints of an anchor-interpolated spinal curve (anchors: jugular notch=T2/T3, xiphisternal=T8/T9, C0-C1, L5/S1)."
+    },
+    {
+      "bone": "c5",
+      "region": "spine",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Vertebral body: inferior to superior endplate midpoints of an anchor-interpolated spinal curve (anchors: jugular notch=T2/T3, xiphisternal=T8/T9, C0-C1, L5/S1)."
+    },
+    {
+      "bone": "c4",
+      "region": "spine",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Vertebral body: inferior to superior endplate midpoints of an anchor-interpolated spinal curve (anchors: jugular notch=T2/T3, xiphisternal=T8/T9, C0-C1, L5/S1)."
+    },
+    {
+      "bone": "c3",
+      "region": "spine",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Vertebral body: inferior to superior endplate midpoints of an anchor-interpolated spinal curve (anchors: jugular notch=T2/T3, xiphisternal=T8/T9, C0-C1, L5/S1)."
+    },
+    {
+      "bone": "c2",
+      "region": "spine",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Vertebral body: inferior to superior endplate midpoints of an anchor-interpolated spinal curve (anchors: jugular notch=T2/T3, xiphisternal=T8/T9, C0-C1, L5/S1)."
+    },
+    {
+      "bone": "c1",
+      "region": "spine",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Vertebral body: inferior to superior endplate midpoints of an anchor-interpolated spinal curve (anchors: jugular notch=T2/T3, xiphisternal=T8/T9, C0-C1, L5/S1)."
+    },
+    {
+      "bone": "occipital",
+      "region": "head_neck",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Occipital condyles (C0-C1 centre) to the occipital squama centre."
+    },
+    {
+      "bone": "parietal_left",
+      "region": "head_neck",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FIXED",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Upper lateral cranial vault relative to the cranial centre."
+    },
+    {
+      "bone": "temporal_left",
+      "region": "head_neck",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FIXED",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Petrous/squamous temporal from the estimated ear canal."
+    },
+    {
+      "bone": "parietal_right",
+      "region": "head_neck",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FIXED",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Upper lateral cranial vault relative to the cranial centre."
+    },
+    {
+      "bone": "temporal_right",
+      "region": "head_neck",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FIXED",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Petrous/squamous temporal from the estimated ear canal."
+    },
+    {
+      "bone": "sphenoid",
+      "region": "head_neck",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FIXED",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Central skull base anterior to the clivus."
+    },
+    {
+      "bone": "frontal",
+      "region": "head_neck",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FIXED",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Forehead region behind the frontal skin."
+    },
+    {
+      "bone": "ethmoid",
+      "region": "head_neck",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FIXED",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Between the orbits behind the nasion."
+    },
+    {
+      "bone": "vomer",
+      "region": "head_neck",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FIXED",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Nasal septum."
+    },
+    {
+      "bone": "nasal_left",
+      "region": "head_neck",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FIXED",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Nasal bridge below the nasion."
+    },
+    {
+      "bone": "lacrimal_left",
+      "region": "head_neck",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FIXED",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Medial orbital wall."
+    },
+    {
+      "bone": "maxilla_left",
+      "region": "head_neck",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FIXED",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Midface below the orbit."
+    },
+    {
+      "bone": "zygomatic_left",
+      "region": "head_neck",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FIXED",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Cheekbone lateral to the orbit."
+    },
+    {
+      "bone": "palatine_left",
+      "region": "head_neck",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FIXED",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Posterior hard palate."
+    },
+    {
+      "bone": "inferior_nasal_concha_left",
+      "region": "head_neck",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FIXED",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Lateral nasal wall."
+    },
+    {
+      "bone": "malleus_left",
+      "region": "head_neck",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FIXED",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Middle ear, medial to the ear canal."
+    },
+    {
+      "bone": "incus_left",
+      "region": "head_neck",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FIXED",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Middle ear."
+    },
+    {
+      "bone": "stapes_left",
+      "region": "head_neck",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FIXED",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Middle ear, oval window."
+    },
+    {
+      "bone": "nasal_right",
+      "region": "head_neck",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FIXED",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Nasal bridge below the nasion."
+    },
+    {
+      "bone": "lacrimal_right",
+      "region": "head_neck",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FIXED",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Medial orbital wall."
+    },
+    {
+      "bone": "maxilla_right",
+      "region": "head_neck",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FIXED",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Midface below the orbit."
+    },
+    {
+      "bone": "zygomatic_right",
+      "region": "head_neck",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FIXED",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Cheekbone lateral to the orbit."
+    },
+    {
+      "bone": "palatine_right",
+      "region": "head_neck",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FIXED",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Posterior hard palate."
+    },
+    {
+      "bone": "inferior_nasal_concha_right",
+      "region": "head_neck",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FIXED",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Lateral nasal wall."
+    },
+    {
+      "bone": "malleus_right",
+      "region": "head_neck",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FIXED",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Middle ear, medial to the ear canal."
+    },
+    {
+      "bone": "incus_right",
+      "region": "head_neck",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FIXED",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Middle ear."
+    },
+    {
+      "bone": "stapes_right",
+      "region": "head_neck",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FIXED",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Middle ear, oval window."
+    },
+    {
+      "bone": "mandible",
+      "region": "head_neck",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Condylar midpoint (bilateral TMJ estimates) to the mental region. Tree parent via tmj_left; tmj_right closes the bilateral chain through its joint marker."
+    },
+    {
+      "bone": "hyoid",
+      "region": "head_neck",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "REFERENCE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Anterior neck below the mandible near C3."
+    },
+    {
+      "bone": "rib_01_left",
+      "region": "thorax",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Costovertebral joint to the anterior rib end on the inset chest-wall contour at the anchored level."
+    },
+    {
+      "bone": "rib_01_right",
+      "region": "thorax",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Costovertebral joint to the anterior rib end on the inset chest-wall contour at the anchored level."
+    },
+    {
+      "bone": "rib_02_left",
+      "region": "thorax",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Costovertebral joint to the anterior rib end on the inset chest-wall contour at the anchored level."
+    },
+    {
+      "bone": "rib_02_right",
+      "region": "thorax",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Costovertebral joint to the anterior rib end on the inset chest-wall contour at the anchored level."
+    },
+    {
+      "bone": "rib_03_left",
+      "region": "thorax",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Costovertebral joint to the anterior rib end on the inset chest-wall contour at the anchored level."
+    },
+    {
+      "bone": "rib_03_right",
+      "region": "thorax",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Costovertebral joint to the anterior rib end on the inset chest-wall contour at the anchored level."
+    },
+    {
+      "bone": "rib_04_left",
+      "region": "thorax",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Costovertebral joint to the anterior rib end on the inset chest-wall contour at the anchored level."
+    },
+    {
+      "bone": "rib_04_right",
+      "region": "thorax",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Costovertebral joint to the anterior rib end on the inset chest-wall contour at the anchored level."
+    },
+    {
+      "bone": "rib_05_left",
+      "region": "thorax",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Costovertebral joint to the anterior rib end on the inset chest-wall contour at the anchored level."
+    },
+    {
+      "bone": "rib_05_right",
+      "region": "thorax",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Costovertebral joint to the anterior rib end on the inset chest-wall contour at the anchored level."
+    },
+    {
+      "bone": "rib_06_left",
+      "region": "thorax",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Costovertebral joint to the anterior rib end on the inset chest-wall contour at the anchored level."
+    },
+    {
+      "bone": "rib_06_right",
+      "region": "thorax",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Costovertebral joint to the anterior rib end on the inset chest-wall contour at the anchored level."
+    },
+    {
+      "bone": "rib_07_left",
+      "region": "thorax",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Costovertebral joint to the anterior rib end on the inset chest-wall contour at the anchored level."
+    },
+    {
+      "bone": "rib_07_right",
+      "region": "thorax",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Costovertebral joint to the anterior rib end on the inset chest-wall contour at the anchored level."
+    },
+    {
+      "bone": "rib_08_left",
+      "region": "thorax",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Costovertebral joint to the anterior rib end on the inset chest-wall contour at the anchored level."
+    },
+    {
+      "bone": "rib_08_right",
+      "region": "thorax",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Costovertebral joint to the anterior rib end on the inset chest-wall contour at the anchored level."
+    },
+    {
+      "bone": "rib_09_left",
+      "region": "thorax",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Costovertebral joint to the anterior rib end on the inset chest-wall contour at the anchored level."
+    },
+    {
+      "bone": "rib_09_right",
+      "region": "thorax",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Costovertebral joint to the anterior rib end on the inset chest-wall contour at the anchored level."
+    },
+    {
+      "bone": "rib_10_left",
+      "region": "thorax",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Costovertebral joint to the anterior rib end on the inset chest-wall contour at the anchored level."
+    },
+    {
+      "bone": "rib_10_right",
+      "region": "thorax",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Costovertebral joint to the anterior rib end on the inset chest-wall contour at the anchored level."
+    },
+    {
+      "bone": "rib_11_left",
+      "region": "thorax",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Costovertebral joint to the anterior rib end on the inset chest-wall contour at the anchored level."
+    },
+    {
+      "bone": "rib_11_right",
+      "region": "thorax",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Costovertebral joint to the anterior rib end on the inset chest-wall contour at the anchored level."
+    },
+    {
+      "bone": "rib_12_left",
+      "region": "thorax",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Costovertebral joint to the anterior rib end on the inset chest-wall contour at the anchored level."
+    },
+    {
+      "bone": "rib_12_right",
+      "region": "thorax",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Costovertebral joint to the anterior rib end on the inset chest-wall contour at the anchored level."
+    },
+    {
+      "bone": "scapula_left",
+      "region": "shoulder_girdle",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Glenoid centre to inferior angle (from the authored medial scapular border)."
+    },
+    {
+      "bone": "scaphoid_left",
+      "region": "carpus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Carpal row layout between the wrist centre and metacarpal bases."
+    },
+    {
+      "bone": "lunate_left",
+      "region": "carpus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Carpal row layout between the wrist centre and metacarpal bases."
+    },
+    {
+      "bone": "triquetrum_left",
+      "region": "carpus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Carpal row layout between the wrist centre and metacarpal bases."
+    },
+    {
+      "bone": "pisiform_left",
+      "region": "carpus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Carpal row layout between the wrist centre and metacarpal bases."
+    },
+    {
+      "bone": "trapezium_left",
+      "region": "carpus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Carpal row layout between the wrist centre and metacarpal bases."
+    },
+    {
+      "bone": "trapezoid_left",
+      "region": "carpus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Carpal row layout between the wrist centre and metacarpal bases."
+    },
+    {
+      "bone": "capitate_left",
+      "region": "carpus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Carpal row layout between the wrist centre and metacarpal bases."
+    },
+    {
+      "bone": "hamate_left",
+      "region": "carpus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Carpal row layout between the wrist centre and metacarpal bases."
+    },
+    {
+      "bone": "metacarpal_1_left",
+      "region": "hand",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "CMC to MCP at generator finger stations."
+    },
+    {
+      "bone": "metacarpal_2_left",
+      "region": "hand",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "CMC to MCP at generator finger stations."
+    },
+    {
+      "bone": "metacarpal_3_left",
+      "region": "hand",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "CMC to MCP at generator finger stations."
+    },
+    {
+      "bone": "metacarpal_4_left",
+      "region": "hand",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "CMC to MCP at generator finger stations."
+    },
+    {
+      "bone": "metacarpal_5_left",
+      "region": "hand",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "CMC to MCP at generator finger stations."
+    },
+    {
+      "bone": "thumb_proximal_phalanx_left",
+      "region": "other",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Thumb MCP to IP."
+    },
+    {
+      "bone": "thumb_distal_phalanx_left",
+      "region": "other",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Thumb IP to tip."
+    },
+    {
+      "bone": "digit2_proximal_phalanx_left",
+      "region": "other",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "MCP to PIP."
+    },
+    {
+      "bone": "digit2_middle_phalanx_left",
+      "region": "other",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "PIP to DIP."
+    },
+    {
+      "bone": "digit2_distal_phalanx_left",
+      "region": "other",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "DIP to tip."
+    },
+    {
+      "bone": "digit3_proximal_phalanx_left",
+      "region": "other",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "MCP to PIP."
+    },
+    {
+      "bone": "digit3_middle_phalanx_left",
+      "region": "other",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "PIP to DIP."
+    },
+    {
+      "bone": "digit3_distal_phalanx_left",
+      "region": "other",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "DIP to tip."
+    },
+    {
+      "bone": "digit4_proximal_phalanx_left",
+      "region": "other",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "MCP to PIP."
+    },
+    {
+      "bone": "digit4_middle_phalanx_left",
+      "region": "other",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "PIP to DIP."
+    },
+    {
+      "bone": "digit4_distal_phalanx_left",
+      "region": "other",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "DIP to tip."
+    },
+    {
+      "bone": "digit5_proximal_phalanx_left",
+      "region": "other",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "MCP to PIP."
+    },
+    {
+      "bone": "digit5_middle_phalanx_left",
+      "region": "other",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "PIP to DIP."
+    },
+    {
+      "bone": "digit5_distal_phalanx_left",
+      "region": "other",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "DIP to tip."
+    },
+    {
+      "bone": "hip_bone_left",
+      "region": "pelvis",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Sacroiliac joint centre to the pubic symphysis side; acetabulum at the fitted HJC (joint marker)."
+    },
+    {
+      "bone": "patella_left",
+      "region": "lower_limb_long",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Superior to inferior pole anterior to the femoral condyles, extended knee."
+    },
+    {
+      "bone": "fibula_left",
+      "region": "lower_limb_long",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Fibular head (posterolateral, below plateau) to lateral malleolus."
+    },
+    {
+      "bone": "talus_left",
+      "region": "tarsus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Talar dome at the ankle centre to the talar head."
+    },
+    {
+      "bone": "calcaneus_left",
+      "region": "tarsus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Posterior subtalar facet to the calcaneal tuber."
+    },
+    {
+      "bone": "navicular_left",
+      "region": "tarsus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Medial midfoot in front of the talar head."
+    },
+    {
+      "bone": "cuboid_left",
+      "region": "tarsus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Lateral midfoot in front of the calcaneus."
+    },
+    {
+      "bone": "medial_cuneiform_left",
+      "region": "tarsus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Distal tarsal row."
+    },
+    {
+      "bone": "intermediate_cuneiform_left",
+      "region": "tarsus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Distal tarsal row."
+    },
+    {
+      "bone": "lateral_cuneiform_left",
+      "region": "tarsus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Distal tarsal row."
+    },
+    {
+      "bone": "metatarsal_1_left",
+      "region": "foot",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "TMT base to metatarsal head at the measured ball line."
+    },
+    {
+      "bone": "metatarsal_2_left",
+      "region": "foot",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "TMT base to metatarsal head at the measured ball line."
+    },
+    {
+      "bone": "metatarsal_3_left",
+      "region": "foot",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "TMT base to metatarsal head at the measured ball line."
+    },
+    {
+      "bone": "metatarsal_4_left",
+      "region": "foot",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "TMT base to metatarsal head at the measured ball line."
+    },
+    {
+      "bone": "metatarsal_5_left",
+      "region": "foot",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "TMT base to metatarsal head at the measured ball line."
+    },
+    {
+      "bone": "hallux_proximal_phalanx_left",
+      "region": "foot",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "MTP to hallux IP."
+    },
+    {
+      "bone": "hallux_distal_phalanx_left",
+      "region": "foot",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Hallux IP to tip."
+    },
+    {
+      "bone": "toe2_proximal_phalanx_left",
+      "region": "other",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "MTP to PIP along the measured toe centreline."
+    },
+    {
+      "bone": "toe2_middle_phalanx_left",
+      "region": "other",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "PIP to DIP."
+    },
+    {
+      "bone": "toe2_distal_phalanx_left",
+      "region": "other",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "DIP to tip."
+    },
+    {
+      "bone": "toe3_proximal_phalanx_left",
+      "region": "other",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "MTP to PIP along the measured toe centreline."
+    },
+    {
+      "bone": "toe3_middle_phalanx_left",
+      "region": "other",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "PIP to DIP."
+    },
+    {
+      "bone": "toe3_distal_phalanx_left",
+      "region": "other",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "DIP to tip."
+    },
+    {
+      "bone": "toe4_proximal_phalanx_left",
+      "region": "other",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "MTP to PIP along the measured toe centreline."
+    },
+    {
+      "bone": "toe4_middle_phalanx_left",
+      "region": "other",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "PIP to DIP."
+    },
+    {
+      "bone": "toe4_distal_phalanx_left",
+      "region": "other",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "DIP to tip."
+    },
+    {
+      "bone": "toe5_proximal_phalanx_left",
+      "region": "other",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "MTP to PIP along the measured toe centreline."
+    },
+    {
+      "bone": "toe5_middle_phalanx_left",
+      "region": "other",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "PIP to DIP."
+    },
+    {
+      "bone": "toe5_distal_phalanx_left",
+      "region": "other",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "DIP to tip."
+    },
+    {
+      "bone": "scapula_right",
+      "region": "shoulder_girdle",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Glenoid centre to inferior angle (from the authored medial scapular border)."
+    },
+    {
+      "bone": "scaphoid_right",
+      "region": "carpus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Carpal row layout between the wrist centre and metacarpal bases."
+    },
+    {
+      "bone": "lunate_right",
+      "region": "carpus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Carpal row layout between the wrist centre and metacarpal bases."
+    },
+    {
+      "bone": "triquetrum_right",
+      "region": "carpus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Carpal row layout between the wrist centre and metacarpal bases."
+    },
+    {
+      "bone": "pisiform_right",
+      "region": "carpus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Carpal row layout between the wrist centre and metacarpal bases."
+    },
+    {
+      "bone": "trapezium_right",
+      "region": "carpus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Carpal row layout between the wrist centre and metacarpal bases."
+    },
+    {
+      "bone": "trapezoid_right",
+      "region": "carpus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Carpal row layout between the wrist centre and metacarpal bases."
+    },
+    {
+      "bone": "capitate_right",
+      "region": "carpus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Carpal row layout between the wrist centre and metacarpal bases."
+    },
+    {
+      "bone": "hamate_right",
+      "region": "carpus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Carpal row layout between the wrist centre and metacarpal bases."
+    },
+    {
+      "bone": "metacarpal_1_right",
+      "region": "hand",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "CMC to MCP at generator finger stations."
+    },
+    {
+      "bone": "metacarpal_2_right",
+      "region": "hand",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "CMC to MCP at generator finger stations."
+    },
+    {
+      "bone": "metacarpal_3_right",
+      "region": "hand",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "CMC to MCP at generator finger stations."
+    },
+    {
+      "bone": "metacarpal_4_right",
+      "region": "hand",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "CMC to MCP at generator finger stations."
+    },
+    {
+      "bone": "metacarpal_5_right",
+      "region": "hand",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "CMC to MCP at generator finger stations."
+    },
+    {
+      "bone": "thumb_proximal_phalanx_right",
+      "region": "other",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Thumb MCP to IP."
+    },
+    {
+      "bone": "thumb_distal_phalanx_right",
+      "region": "other",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "Thumb IP to tip."
+    },
+    {
+      "bone": "digit2_proximal_phalanx_right",
+      "region": "other",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "MCP to PIP."
+    },
+    {
+      "bone": "digit2_middle_phalanx_right",
+      "region": "other",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "PIP to DIP."
+    },
+    {
+      "bone": "digit2_distal_phalanx_right",
+      "region": "other",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "DIP to tip."
+    },
+    {
+      "bone": "digit3_proximal_phalanx_right",
+      "region": "other",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "MCP to PIP."
+    },
+    {
+      "bone": "digit3_middle_phalanx_right",
+      "region": "other",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "PIP to DIP."
+    },
+    {
+      "bone": "digit3_distal_phalanx_right",
+      "region": "other",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "DIP to tip."
+    },
+    {
+      "bone": "digit4_proximal_phalanx_right",
+      "region": "other",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "MCP to PIP."
+    },
+    {
+      "bone": "digit4_middle_phalanx_right",
+      "region": "other",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "PIP to DIP."
+    },
+    {
+      "bone": "digit4_distal_phalanx_right",
+      "region": "other",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "DIP to tip."
+    },
+    {
+      "bone": "digit5_proximal_phalanx_right",
+      "region": "other",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "MCP to PIP."
+    },
+    {
+      "bone": "digit5_middle_phalanx_right",
+      "region": "other",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "PIP to DIP."
+    },
+    {
+      "bone": "digit5_distal_phalanx_right",
+      "region": "other",
+      "placement": "surface_station",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "DIP to tip."
+    },
+    {
+      "bone": "hip_bone_right",
+      "region": "pelvis",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Sacroiliac joint centre to the pubic symphysis side; acetabulum at the fitted HJC (joint marker)."
+    },
+    {
+      "bone": "patella_right",
+      "region": "lower_limb_long",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Superior to inferior pole anterior to the femoral condyles, extended knee."
+    },
+    {
+      "bone": "fibula_right",
+      "region": "lower_limb_long",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 2,
+      "recipe": "Fibular head (posterolateral, below plateau) to lateral malleolus."
+    },
+    {
+      "bone": "talus_right",
+      "region": "tarsus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Talar dome at the ankle centre to the talar head."
+    },
+    {
+      "bone": "calcaneus_right",
+      "region": "tarsus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Posterior subtalar facet to the calcaneal tuber."
+    },
+    {
+      "bone": "navicular_right",
+      "region": "tarsus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Medial midfoot in front of the talar head."
+    },
+    {
+      "bone": "cuboid_right",
+      "region": "tarsus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Lateral midfoot in front of the calcaneus."
+    },
+    {
+      "bone": "medial_cuneiform_right",
+      "region": "tarsus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Distal tarsal row."
+    },
+    {
+      "bone": "intermediate_cuneiform_right",
+      "region": "tarsus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Distal tarsal row."
+    },
+    {
+      "bone": "lateral_cuneiform_right",
+      "region": "tarsus",
+      "placement": "proportional",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Distal tarsal row."
+    },
+    {
+      "bone": "metatarsal_1_right",
+      "region": "foot",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "TMT base to metatarsal head at the measured ball line."
+    },
+    {
+      "bone": "metatarsal_2_right",
+      "region": "foot",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "TMT base to metatarsal head at the measured ball line."
+    },
+    {
+      "bone": "metatarsal_3_right",
+      "region": "foot",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "TMT base to metatarsal head at the measured ball line."
+    },
+    {
+      "bone": "metatarsal_4_right",
+      "region": "foot",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "TMT base to metatarsal head at the measured ball line."
+    },
+    {
+      "bone": "metatarsal_5_right",
+      "region": "foot",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "FOLLOWER",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "TMT base to metatarsal head at the measured ball line."
+    },
+    {
+      "bone": "hallux_proximal_phalanx_right",
+      "region": "foot",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "MTP to hallux IP."
+    },
+    {
+      "bone": "hallux_distal_phalanx_right",
+      "region": "foot",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 1,
+      "recipe": "Hallux IP to tip."
+    },
+    {
+      "bone": "toe2_proximal_phalanx_right",
+      "region": "other",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "MTP to PIP along the measured toe centreline."
+    },
+    {
+      "bone": "toe2_middle_phalanx_right",
+      "region": "other",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "PIP to DIP."
+    },
+    {
+      "bone": "toe2_distal_phalanx_right",
+      "region": "other",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "DIP to tip."
+    },
+    {
+      "bone": "toe3_proximal_phalanx_right",
+      "region": "other",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "MTP to PIP along the measured toe centreline."
+    },
+    {
+      "bone": "toe3_middle_phalanx_right",
+      "region": "other",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "PIP to DIP."
+    },
+    {
+      "bone": "toe3_distal_phalanx_right",
+      "region": "other",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "DIP to tip."
+    },
+    {
+      "bone": "toe4_proximal_phalanx_right",
+      "region": "other",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "MTP to PIP along the measured toe centreline."
+    },
+    {
+      "bone": "toe4_middle_phalanx_right",
+      "region": "other",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "PIP to DIP."
+    },
+    {
+      "bone": "toe4_distal_phalanx_right",
+      "region": "other",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "DIP to tip."
+    },
+    {
+      "bone": "toe5_proximal_phalanx_right",
+      "region": "other",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "MTP to PIP along the measured toe centreline."
+    },
+    {
+      "bone": "toe5_middle_phalanx_right",
+      "region": "other",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "PIP to DIP."
+    },
+    {
+      "bone": "toe5_distal_phalanx_right",
+      "region": "other",
+      "placement": "surface_landmark",
+      "confidence": "low",
+      "role": "ACTIVE",
+      "action": "retarget_or_rejustify_from_independent_anatomy",
+      "priority": 3,
+      "recipe": "DIP to tip."
+    }
+  ],
+  "acceptance_rule": "Gate 6 cannot pass merely by keeping bones inside the r95 mesh. Each low-confidence region must either receive an independent anatomical target/range or an explicit evidence-backed justification for retaining the a003 placement."
+}

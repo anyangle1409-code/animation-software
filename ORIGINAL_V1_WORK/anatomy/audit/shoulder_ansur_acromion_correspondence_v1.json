@@ -1,0 +1,746 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-08",
+ "status": "NO_DEFENSIBLE_C003",
+ "inputs_sha256": {
+  "ORIGINAL_V1_WORK/anatomy/canonical_shoulder_girdle_solution_182_v1.json": "52a7e6d1308e6cdedaf236f1ce934384f7b64b859d48cb263a566f87eb971b23",
+  "ORIGINAL_V1_WORK/anatomy/canonical_thorax_frame_182_review_v1.json": "9d26f53b6e529d2c3af4c340902290d37fd64d8715d0c0ecfe99d19ba49a86c7",
+  "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json": "11712ba3e105aa8844b07572315d58ccace1d23d2f0cdf101218a3a507a1a1e3",
+  "ORIGINAL_V1_WORK/anatomy/canonical_proportion_sources_v1.json": "5c30209361dffffce9168b0186038653135e4ec77c0a7b35057c4714697e51a7",
+  "ORIGINAL_V1_WORK/anatomy/canonical_scapula_landmark_sources_v1.json": "4311652677f5433a4e6840226eaec452c4c1c7752d61abc728af5af89bf30009",
+  "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/candidate_record.json": "aa344a6819dde7631f85bd806f87fb876db0e2e4762bff28ea9c754d8c6e2978"
+ },
+ "ansur_definition": {
+  "source": "ANSUR II Measurer's Handbook: US Army and Marine Corps Anthropometric Surveys, 2010-2011 (Hotzman et al. 2011, NATICK/TR-11/017, DTIC ADA548497)",
+  "url": "https://apps.dtic.mil/sti/tr/pdf/ADA548497.pdf",
+  "sections": [
+   "5.2.1 (landmark)",
+   "6.4.2 (acromial height)"
+  ],
+  "acromion_landmark": "palpated bony point: intersection of the lateral border of the acromion with the line running from the trapezius point, over the clavicle point, toward the shoulder tip",
+  "acromial_height": "floor to the drawn right acromion landmark, standing",
+  "skin_offset": "none: the landmark is defined on bone by palpation",
+  "verification": "primary text verified by the project owner 2026-10-08; DTIC unreachable from this cloud environment, so wording is the owner's reading, not a verbatim quote"
+ },
+ "lee_named_landmarks_on_acromion": {
+  "25": "exterior acromial angle",
+  "26": "interior acromial angle",
+  "27": "lateral distal acromial extent"
+ },
+ "mapping_decision": {
+  "chosen": "interpolated LM25-LM27 lateral-border point at the trapezius-clavicle line crossing (bracketed by two line constructions)",
+  "why_not_LM27_alone": "LM27 is the lateral distal extent (an extremal point), not defined by the trapezius-clavicle line; it is the upper bracket on the border",
+  "why_not_LM25_alone": "LM25 is the posterolateral angle, the posterior end of the lateral border; it is the lower bracket",
+  "mesh_point": "not used: the a003/r95 skin acromion is an authored-mesh surface point (owner skeleton-first policy), reported for comparison only",
+  "limitation": "trapezius and clavicle point definitions not available here; line AP position bracketed, not exact; only 12 of 29 Lee landmarks have recorded names"
+ },
+ "correspondence_points_thorax_frame_mm": {
+  "LM27_lateral_distal_acromial_extent": {
+   "point_ant_sup_lat": [
+    -11.3,
+    43.3,
+    192.0
+   ],
+   "t_on_LM25_LM27": 1.0
+  },
+  "LM25_exterior_acromial_angle": {
+   "point_ant_sup_lat": [
+    -57.3,
+    34.6,
+    209.2
+   ],
+   "t_on_LM25_LM27": 0.0
+  },
+  "border_x_clavicle_axis_line": {
+   "point_ant_sup_lat": [
+    -53.4,
+    35.3,
+    207.7
+   ],
+   "t_on_LM25_LM27": 0.084,
+   "clamped": false
+  },
+  "border_x_lateral_line_through_AC": {
+   "point_ant_sup_lat": [
+    -39.8,
+    37.9,
+    202.7
+   ],
+   "t_on_LM25_LM27": 0.38,
+   "clamped": false
+  }
+ },
+ "heights_reconciled_girdle_on_a003_IJ": {
+  "bony_specimen_deg__LM27_lateral_distal_acromial_extent": {
+   "z_mm": 1560.7,
+   "minus_SC_mm": 34.7,
+   "minus_target_mm": 63.0,
+   "z_score_vs_ANSUR": 3.89
+  },
+  "bony_specimen_deg__LM25_exterior_acromial_angle": {
+   "z_mm": 1546.5,
+   "minus_SC_mm": 20.5,
+   "minus_target_mm": 48.8,
+   "z_score_vs_ANSUR": 3.01
+  },
+  "bony_specimen_deg__border_x_clavicle_axis_line": {
+   "z_mm": 1547.7,
+   "minus_SC_mm": 21.7,
+   "minus_target_mm": 50.0,
+   "z_score_vs_ANSUR": 3.09
+  },
+  "bony_specimen_deg__border_x_lateral_line_through_AC": {
+   "z_mm": 1551.9,
+   "minus_SC_mm": 25.9,
+   "minus_target_mm": 54.2,
+   "z_score_vs_ANSUR": 3.34
+  },
+  "living_ANSUR_implied_deg__LM27_lateral_distal_acromial_extent": {
+   "z_mm": 1563.8,
+   "minus_SC_mm": 40.2,
+   "minus_target_mm": 66.1,
+   "z_score_vs_ANSUR": 4.08
+  },
+  "living_ANSUR_implied_deg__LM25_exterior_acromial_angle": {
+   "z_mm": 1564.3,
+   "minus_SC_mm": 40.7,
+   "minus_target_mm": 66.6,
+   "z_score_vs_ANSUR": 4.11
+  },
+  "living_ANSUR_implied_deg__border_x_clavicle_axis_line": {
+   "z_mm": 1564.3,
+   "minus_SC_mm": 40.6,
+   "minus_target_mm": 66.6,
+   "z_score_vs_ANSUR": 4.11
+  },
+  "living_ANSUR_implied_deg__border_x_lateral_line_through_AC": {
+   "z_mm": 1564.1,
+   "minus_SC_mm": 40.5,
+   "minus_target_mm": 66.4,
+   "z_score_vs_ANSUR": 4.1
+  }
+ },
+ "a003_authored_mesh_skin_acromion_z_mm": {
+  "z_mm": 1509.5,
+  "minus_target_mm": 11.8,
+  "status": "mesh point, not evidence"
+ },
+ "targets": {
+  "ANSUR_acromial_height_mm": {
+   "mean": 1497.7,
+   "residual_sd": 16.2
+  },
+  "ANSUR_suprasternale_mm": {
+   "mean": 1494.5,
+   "residual_sd": 11.7
+  },
+  "a003_IJ_z_mm": 1519.2,
+  "a003_IJ_minus_ANSUR_suprasternale_mm": 24.7,
+  "clavicle_elevation_source": {
+   "mean": 8,
+   "sd": 4,
+   "source": "SHOULDER_STANDING_ALIGNMENT_2020 (Matsumura male standing CT)",
+   "screening_line_deg": [
+    0,
+    16
+   ],
+   "screening_note": "mean +/- 2 SD; not a published hard range"
+  }
+ },
+ "feasibility": {
+  "bony_specimen_deg__LM27_lateral_distal_acromial_extent": {
+   "absolute_ANSUR_acromial_height": {
+    "target_z_mm": 1497.7,
+    "clavicle_only_scapula_rigid": {
+     "clavicle_elevation_deg": -14.5,
+     "scapula_angles_IR_UR_AT_deg": [
+      30.3,
+      11.3,
+      9.7
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -5.62
+     },
+     "chi2": 31.58,
+     "max_abs_z": 5.62
+    },
+    "clavicle_and_scapula_min_chi2": {
+     "clavicle_elevation_deg": -11.9,
+     "scapula_angles_IR_UR_AT_deg": [
+      28.0,
+      2.2,
+      12.5
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -4.99,
+      "scapula_IR": -0.17,
+      "scapula_UR": -1.56,
+      "scapula_AT": 0.49
+     },
+     "chi2": 27.6,
+     "max_abs_z": 4.99
+    }
+   },
+   "ANSUR_within_subject_IJ_plus_3.1": {
+    "target_z_mm": 1522.3,
+    "clavicle_only_scapula_rigid": {
+     "clavicle_elevation_deg": -4.9,
+     "scapula_angles_IR_UR_AT_deg": [
+      30.3,
+      11.3,
+      9.7
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -3.24
+     },
+     "chi2": 10.5,
+     "max_abs_z": 3.24
+    },
+    "clavicle_and_scapula_min_chi2": {
+     "clavicle_elevation_deg": -3.4,
+     "scapula_angles_IR_UR_AT_deg": [
+      28.4,
+      5.7,
+      11.4
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -2.86,
+      "scapula_IR": -0.09,
+      "scapula_UR": -0.86,
+      "scapula_AT": 0.27
+     },
+     "chi2": 9.0,
+     "max_abs_z": 2.86
+    }
+   }
+  },
+  "bony_specimen_deg__LM25_exterior_acromial_angle": {
+   "absolute_ANSUR_acromial_height": {
+    "target_z_mm": 1497.7,
+    "clavicle_only_scapula_rigid": {
+     "clavicle_elevation_deg": -8.9,
+     "scapula_angles_IR_UR_AT_deg": [
+      30.3,
+      11.3,
+      9.7
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -4.23
+     },
+     "chi2": 17.89,
+     "max_abs_z": 4.23
+    },
+    "clavicle_and_scapula_min_chi2": {
+     "clavicle_elevation_deg": -6.6,
+     "scapula_angles_IR_UR_AT_deg": [
+      27.9,
+      5.7,
+      4.7
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -3.65,
+      "scapula_IR": -0.19,
+      "scapula_UR": -0.86,
+      "scapula_AT": -1.06
+     },
+     "chi2": 15.22,
+     "max_abs_z": 3.65
+    }
+   },
+   "ANSUR_within_subject_IJ_plus_3.1": {
+    "target_z_mm": 1522.3,
+    "clavicle_only_scapula_rigid": {
+     "clavicle_elevation_deg": 0.5,
+     "scapula_angles_IR_UR_AT_deg": [
+      30.3,
+      11.3,
+      9.7
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -1.88
+     },
+     "chi2": 3.53,
+     "max_abs_z": 1.88
+    },
+    "clavicle_and_scapula_min_chi2": {
+     "clavicle_elevation_deg": 1.6,
+     "scapula_angles_IR_UR_AT_deg": [
+      28.5,
+      8.2,
+      7.7
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -1.6,
+      "scapula_IR": -0.08,
+      "scapula_UR": -0.37,
+      "scapula_AT": -0.47
+     },
+     "chi2": 2.92,
+     "max_abs_z": 1.6
+    }
+   }
+  },
+  "bony_specimen_deg__border_x_clavicle_axis_line": {
+   "absolute_ANSUR_acromial_height": {
+    "target_z_mm": 1497.7,
+    "clavicle_only_scapula_rigid": {
+     "clavicle_elevation_deg": -9.4,
+     "scapula_angles_IR_UR_AT_deg": [
+      30.3,
+      11.3,
+      9.7
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -4.35
+     },
+     "chi2": 18.92,
+     "max_abs_z": 4.35
+    },
+    "clavicle_and_scapula_min_chi2": {
+     "clavicle_elevation_deg": -6.9,
+     "scapula_angles_IR_UR_AT_deg": [
+      32.7,
+      5.8,
+      4.3
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -3.72,
+      "scapula_IR": 0.61,
+      "scapula_UR": -0.84,
+      "scapula_AT": -1.14
+     },
+     "chi2": 16.22,
+     "max_abs_z": 3.72
+    }
+   },
+   "ANSUR_within_subject_IJ_plus_3.1": {
+    "target_z_mm": 1522.3,
+    "clavicle_only_scapula_rigid": {
+     "clavicle_elevation_deg": 0.0,
+     "scapula_angles_IR_UR_AT_deg": [
+      30.3,
+      11.3,
+      9.7
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -2.0
+     },
+     "chi2": 4.0,
+     "max_abs_z": 2.0
+    },
+    "clavicle_and_scapula_min_chi2": {
+     "clavicle_elevation_deg": 1.1,
+     "scapula_angles_IR_UR_AT_deg": [
+      30.3,
+      7.9,
+      7.6
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -1.72,
+      "scapula_IR": 0.21,
+      "scapula_UR": -0.41,
+      "scapula_AT": -0.48
+     },
+     "chi2": 3.4,
+     "max_abs_z": 1.72
+    }
+   }
+  },
+  "bony_specimen_deg__border_x_lateral_line_through_AC": {
+   "absolute_ANSUR_acromial_height": {
+    "target_z_mm": 1497.7,
+    "clavicle_only_scapula_rigid": {
+     "clavicle_elevation_deg": -11.0,
+     "scapula_angles_IR_UR_AT_deg": [
+      30.3,
+      11.3,
+      9.7
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -4.75
+     },
+     "chi2": 22.56,
+     "max_abs_z": 4.75
+    },
+    "clavicle_and_scapula_min_chi2": {
+     "clavicle_elevation_deg": -9.1,
+     "scapula_angles_IR_UR_AT_deg": [
+      31.1,
+      4.4,
+      6.6
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -4.28,
+      "scapula_IR": 0.35,
+      "scapula_UR": -1.12,
+      "scapula_AT": -0.69
+     },
+     "chi2": 20.17,
+     "max_abs_z": 4.28
+    }
+   },
+   "ANSUR_within_subject_IJ_plus_3.1": {
+    "target_z_mm": 1522.3,
+    "clavicle_only_scapula_rigid": {
+     "clavicle_elevation_deg": -1.6,
+     "scapula_angles_IR_UR_AT_deg": [
+      30.3,
+      11.3,
+      9.7
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -2.39
+     },
+     "chi2": 5.71,
+     "max_abs_z": 2.39
+    },
+    "clavicle_and_scapula_min_chi2": {
+     "clavicle_elevation_deg": -0.6,
+     "scapula_angles_IR_UR_AT_deg": [
+      29.9,
+      7.2,
+      8.4
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -2.14,
+      "scapula_IR": 0.15,
+      "scapula_UR": -0.56,
+      "scapula_AT": -0.32
+     },
+     "chi2": 5.02,
+     "max_abs_z": 2.14
+    }
+   }
+  },
+  "living_ANSUR_implied_deg__LM27_lateral_distal_acromial_extent": {
+   "absolute_ANSUR_acromial_height": {
+    "target_z_mm": 1497.7,
+    "clavicle_only_scapula_rigid": {
+     "clavicle_elevation_deg": -16.0,
+     "scapula_angles_IR_UR_AT_deg": [
+      30.3,
+      11.3,
+      9.7
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -6.0
+     },
+     "chi2": 36.0,
+     "max_abs_z": 6.0
+    },
+    "clavicle_and_scapula_min_chi2": {
+     "clavicle_elevation_deg": -13.2,
+     "scapula_angles_IR_UR_AT_deg": [
+      30.7,
+      1.5,
+      12.9
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -5.29,
+      "scapula_IR": 0.28,
+      "scapula_UR": -1.7,
+      "scapula_AT": 0.58
+     },
+     "chi2": 31.29,
+     "max_abs_z": 5.29
+    }
+   },
+   "ANSUR_within_subject_IJ_plus_3.1": {
+    "target_z_mm": 1522.3,
+    "clavicle_only_scapula_rigid": {
+     "clavicle_elevation_deg": -6.3,
+     "scapula_angles_IR_UR_AT_deg": [
+      30.3,
+      11.3,
+      9.7
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -3.58
+     },
+     "chi2": 12.82,
+     "max_abs_z": 3.58
+    },
+    "clavicle_and_scapula_min_chi2": {
+     "clavicle_elevation_deg": -4.6,
+     "scapula_angles_IR_UR_AT_deg": [
+      30.0,
+      5.1,
+      11.7
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -3.15,
+      "scapula_IR": 0.16,
+      "scapula_UR": -0.99,
+      "scapula_AT": 0.33
+     },
+     "chi2": 11.04,
+     "max_abs_z": 3.15
+    }
+   }
+  },
+  "living_ANSUR_implied_deg__LM25_exterior_acromial_angle": {
+   "absolute_ANSUR_acromial_height": {
+    "target_z_mm": 1497.7,
+    "clavicle_only_scapula_rigid": {
+     "clavicle_elevation_deg": -16.2,
+     "scapula_angles_IR_UR_AT_deg": [
+      30.3,
+      11.3,
+      9.7
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -6.05
+     },
+     "chi2": 36.6,
+     "max_abs_z": 6.05
+    },
+    "clavicle_and_scapula_min_chi2": {
+     "clavicle_elevation_deg": -12.7,
+     "scapula_angles_IR_UR_AT_deg": [
+      31.7,
+      4.0,
+      1.8
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -5.19,
+      "scapula_IR": 0.45,
+      "scapula_UR": -1.21,
+      "scapula_AT": -1.63
+     },
+     "chi2": 31.26,
+     "max_abs_z": 5.19
+    }
+   },
+   "ANSUR_within_subject_IJ_plus_3.1": {
+    "target_z_mm": 1522.3,
+    "clavicle_only_scapula_rigid": {
+     "clavicle_elevation_deg": -6.5,
+     "scapula_angles_IR_UR_AT_deg": [
+      30.3,
+      11.3,
+      9.7
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -3.63
+     },
+     "chi2": 13.18,
+     "max_abs_z": 3.63
+    },
+    "clavicle_and_scapula_min_chi2": {
+     "clavicle_elevation_deg": -4.5,
+     "scapula_angles_IR_UR_AT_deg": [
+      30.6,
+      6.4,
+      5.2
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -3.12,
+      "scapula_IR": 0.26,
+      "scapula_UR": -0.72,
+      "scapula_AT": -0.96
+     },
+     "chi2": 11.24,
+     "max_abs_z": 3.12
+    }
+   }
+  },
+  "living_ANSUR_implied_deg__border_x_clavicle_axis_line": {
+   "absolute_ANSUR_acromial_height": {
+    "target_z_mm": 1497.7,
+    "clavicle_only_scapula_rigid": {
+     "clavicle_elevation_deg": -16.2,
+     "scapula_angles_IR_UR_AT_deg": [
+      30.3,
+      11.3,
+      9.7
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -6.05
+     },
+     "chi2": 36.6,
+     "max_abs_z": 6.05
+    },
+    "clavicle_and_scapula_min_chi2": {
+     "clavicle_elevation_deg": -12.7,
+     "scapula_angles_IR_UR_AT_deg": [
+      33.2,
+      4.0,
+      2.1
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -5.18,
+      "scapula_IR": 0.7,
+      "scapula_UR": -1.2,
+      "scapula_AT": -1.59
+     },
+     "chi2": 31.29,
+     "max_abs_z": 5.18
+    }
+   },
+   "ANSUR_within_subject_IJ_plus_3.1": {
+    "target_z_mm": 1522.3,
+    "clavicle_only_scapula_rigid": {
+     "clavicle_elevation_deg": -6.5,
+     "scapula_angles_IR_UR_AT_deg": [
+      30.3,
+      11.3,
+      9.7
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -3.63
+     },
+     "chi2": 13.18,
+     "max_abs_z": 3.63
+    },
+    "clavicle_and_scapula_min_chi2": {
+     "clavicle_elevation_deg": -4.6,
+     "scapula_angles_IR_UR_AT_deg": [
+      31.1,
+      6.3,
+      5.5
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -3.14,
+      "scapula_IR": 0.34,
+      "scapula_UR": -0.74,
+      "scapula_AT": -0.9
+     },
+     "chi2": 11.33,
+     "max_abs_z": 3.14
+    }
+   }
+  },
+  "living_ANSUR_implied_deg__border_x_lateral_line_through_AC": {
+   "absolute_ANSUR_acromial_height": {
+    "target_z_mm": 1497.7,
+    "clavicle_only_scapula_rigid": {
+     "clavicle_elevation_deg": -16.1,
+     "scapula_angles_IR_UR_AT_deg": [
+      30.3,
+      11.3,
+      9.7
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -6.03
+     },
+     "chi2": 36.36,
+     "max_abs_z": 6.03
+    },
+    "clavicle_and_scapula_min_chi2": {
+     "clavicle_elevation_deg": -13.7,
+     "scapula_angles_IR_UR_AT_deg": [
+      31.9,
+      2.8,
+      5.4
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -5.42,
+      "scapula_IR": 0.49,
+      "scapula_UR": -1.44,
+      "scapula_AT": -0.91
+     },
+     "chi2": 32.52,
+     "max_abs_z": 5.42
+    }
+   },
+   "ANSUR_within_subject_IJ_plus_3.1": {
+    "target_z_mm": 1522.3,
+    "clavicle_only_scapula_rigid": {
+     "clavicle_elevation_deg": -6.4,
+     "scapula_angles_IR_UR_AT_deg": [
+      30.3,
+      11.3,
+      9.7
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -3.61
+     },
+     "chi2": 13.03,
+     "max_abs_z": 3.61
+    },
+    "clavicle_and_scapula_min_chi2": {
+     "clavicle_elevation_deg": -5.0,
+     "scapula_angles_IR_UR_AT_deg": [
+      30.5,
+      5.7,
+      7.5
+     ],
+     "height_error_mm": 0.0,
+     "z": {
+      "clavicle_elevation": -3.25,
+      "scapula_IR": 0.25,
+      "scapula_UR": -0.85,
+      "scapula_AT": -0.5
+     },
+     "chi2": 11.6,
+     "max_abs_z": 3.25
+    }
+   }
+  }
+ },
+ "verdict": {
+  "absolute_height_with_SC_closed_on_a003_sternum": "INFEASIBLE",
+  "screening_rule": "every z within +/- 2 (labelled screening line; not a published hard range); height met to 0.1 mm; SC closed on the a003 notch",
+  "best_absolute_case": {
+   "variant": "bony_specimen_deg__LM25_exterior_acromial_angle",
+   "clavicle_elevation_deg": -6.6,
+   "scapula_angles_IR_UR_AT_deg": [
+    27.9,
+    5.7,
+    4.7
+   ],
+   "height_error_mm": 0.0,
+   "z": {
+    "clavicle_elevation": -3.65,
+    "scapula_IR": -0.19,
+    "scapula_UR": -0.86,
+    "scapula_AT": -1.06
+   },
+   "chi2": 15.22,
+   "max_abs_z": 3.65
+  },
+  "within_subject_relation_with_SC_closed": [
+   "bony_specimen_deg__LM25_exterior_acromial_angle",
+   "bony_specimen_deg__border_x_clavicle_axis_line"
+  ],
+  "reading": "With SC closed on the retained a003 notch, every border mapping (LM25, LM27, and both interpolated crossings), both thorax pitches and the most favourable scapular orientation inside 2 SD still need a negative clavicle elevation or scapular angles beyond 2 SD (best case bony_specimen_deg__LM25_exterior_acromial_angle: clavicle -6.6 deg, max |z| 3.65, chi2 15.2 on 4 angles) to put the ANSUR acromion at 1497.7 mm. No defensible c003 exists from this evidence. The retained a003 jugular notch sits 24.7 mm above the ANSUR suprasternale of the same survey; see within_subject_relation for whether the shoulder closes when the ANSUR acromion-suprasternale relation is used instead of absolute height (reported, not applied: the sternum is not lowered)."
+ },
+ "c003_created": false,
+ "still_open": [
+  "exact trapezius-point and clavicle-point definitions (handbook 5.2.1) to fix the line crossing on the border",
+  "whether the retained a003 sternum height or the absolute acromial target governs (owner decision; same survey disagrees with a003 IJ by +24.7 mm)",
+  "standing thorax pitch (sensitivity variable)",
+  "scapulothoracic contact (rib geometry BLOCKED)"
+ ]
+}

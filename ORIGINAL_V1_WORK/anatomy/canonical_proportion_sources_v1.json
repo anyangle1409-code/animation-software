@@ -2530,6 +2530,62 @@
         "candidate source for future bilateral SC distance if full table becomes accessible"
       ],
       "limitation": "Do not invent the bilateral-clavicle distance; the abstract states it was measured but does not report its value."
+    },
+    {
+      "id": "STERNUM_STATURE_WCHINA_2015",
+      "type": "CT_VRT_sternum_stature_regression",
+      "citation": "Stature estimation from sternum length using computed tomography-volume rendering technique images of western Chinese. J Forensic Leg Med. 2015.",
+      "pmid": "26344458",
+      "doi": "10.1016/j.jflm.2015.07.003",
+      "population": "288 Western Chinese adults; 164 men, 124 women",
+      "male_equation": "stature_cm = 137.28 + 1.99 * combined_manubrium_mesosternum_length_cm",
+      "male_r": 0.459,
+      "male_SEE_cm": 4.76,
+      "use": [
+        "stature-conditioned sternum plausibility cross-check"
+      ],
+      "limitation": "Equation predicts stature from sternum, not sternum from stature; algebraic inversion is only a plausibility check and must not be treated as the conditional mean sternum length at a given stature."
+    },
+    {
+      "id": "STERNUM_STATURE_SWHAN",
+      "type": "CT_VRT_sternum_stature_regression",
+      "citation": "Relation between Body Height and Combined Length of Manubrium and Mesosternum of Sternum Measured by CT-VRT in Southwest Han Population.",
+      "pmid": "26442371",
+      "male_equation": "stature_cm = 135.000 + 2.118 * combined_manubrium_mesosternum_length_cm",
+      "use": [
+        "independent stature-conditioned sternum plausibility cross-check"
+      ],
+      "limitation": "Population-specific and inverse-regression caveat applies."
+    },
+    {
+      "id": "STERNUM_STATURE_SINDIA_2009",
+      "type": "cadaver_sternum_stature_regression",
+      "citation": "Menezes RG et al. Stature estimation from the length of the sternum in South Indian males: a preliminary study. J Forensic Leg Med. 2009.",
+      "pmid": "19782312",
+      "doi": "10.1016/j.jflm.2009.05.001",
+      "population": "35 adult South Indian male cadavers",
+      "male_equation": "stature_cm = 117.784 + 3.429 * combined_manubrium_mesosternum_length_cm",
+      "male_r": 0.638,
+      "male_SEE_cm": 5.64,
+      "measurement_definition": "central suprasternal notch to mesoxiphoid junction along the midsagittal plane",
+      "use": [
+        "endpoint-compatible sternum/stature plausibility cross-check"
+      ],
+      "limitation": "Small population-specific sample; inverse-regression caveat applies."
+    },
+    {
+      "id": "STERNUM_STATURE_META_2018",
+      "type": "systematic_meta_analysis",
+      "citation": "Estimation of stature from sternal lengths. A correlation meta-analysis.",
+      "pmid": "29460608",
+      "studies": 9,
+      "sterna": 1118,
+      "male_meso_sternal_stature_correlation_percent": 53.5,
+      "finding": "Combined manubrium + body has the best sternal correlation with stature, but correlations are only moderate and sternal stature estimates should be used with caution.",
+      "use": [
+        "evidence-weighting rule against overinterpreting either unconditioned means or inverted stature equations"
+      ],
+      "limitation": "Correlation meta-analysis does not provide one universal dimensional target."
     }
   ],
   "unresolved_source_needs": [

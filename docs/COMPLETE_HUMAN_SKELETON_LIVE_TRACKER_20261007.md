@@ -97,7 +97,7 @@ Gate 5: ✅ PASSED — source-pinned static comparison: 206 bone rows, 427 artic
 - [x] ✅ Place joint centres from character landmarks. Hip: 4 regressions. GH: 3 methods. Knee: 2. Ankle: 2. Elbow and wrist: ISB section centres. 427 markers.
 - [ ] 🟡 Verify bilateral symmetry and segment lengths. Symmetry PASS (0.38 mm). Stature-equation check still recorded FAIL, but the same chain run on 4,082 ANSUR II men shows a method bias (femur −6.4 cm, humerus −9.7 cm). The character's femur and humerus fall at the 26th and 20th percentiles of real men, while HJC, KJC, elbow and GH depth match independent ANSUR / open-model references within 2–10 mm. The forearm and hand are genuinely short on the authored body (z −2.2): a character-specific limitation, not a fit error. See the findings section “F-PROP-001 / F-GH-001 / F-HJC-001 investigation”. No a004; a003 retained.
 - [x] ✅ Verify no distinct anatomical joint centres are accidentally collapsed. AC–GH 41.8 mm, talocrural–subtalar 31 mm; no two of the 427 markers are within 0.1 mm.
-Gate 6: ⛔ NOT PASSED. The femur/humerus conflict is now explained as stature-equation method bias, with independent corroboration of the HJC, KJC, elbow and GH. Still open: the owner must say whether the short forearm/hand (and long feet) are intended styling, and the proportional bones remain low-confidence placements.
+Gate 6: ⛔ NOT PASSED. The femur/humerus conflict is now explained as stature-equation method bias, with independent corroboration of the HJC, KJC, elbow and GH. OWNER DECISION 2026-10-08: do not treat the short forearm/hand or long feet as intended final styling. The anatomical skeleton is the source of truth; the production mesh/skin will later be refit around validated skeletal proportions. The current a003 fit remains an audit baseline only. Gate 6 remains open because canonical target proportions must be set independently of the r95 mesh and 115 proportional bone placements remain low confidence.
 
 ## PHASE 7 — BUILD HGPT_ANATOMICAL_MASTER
 - [x] ✅ Create complete anatomical armature/reference collection. `HGPT_ANATOMICAL_MASTER` in `HGPT_ANATOMICAL_REFERENCE`, audit file a002 (`f172720b…`).
@@ -178,7 +178,7 @@ Gate 13: ⬜ NOT PASSED
 Completed: Phases 0–5 (reference definitions, evidence compilation and static gap comparison); Blender toolchain verification.
 Done: Phase 6 fit and Phase 7 master structure (fit revision a003); Phase 8 solver core; Phase 9 isolated tests (135, run 014).
 Not passed: Gate 6 (proportion conflict needs an owner decision), Gate 8 (followers/contacts), Gate 9 (coverage).
-Next: implement the remaining followers where source magnitudes can be obtained (full texts were blocked here); resolve F-PROP-001 with the owner; then run Phase 10 from authored exercise definitions.
+Next: continue implementing remaining followers where defensible source magnitudes can be obtained; define and verify canonical skeleton-first target proportions independently of the r95 mesh; retain a003 only as the comparison baseline; then complete Gate 9 and run Phase 10 from authored exercise definitions. Production mesh reshaping waits until the validated skeleton target is frozen.
 Morning review pack (current a003, read-only renders, links, hashes, defects, owner questions): `ORIGINAL_V1_WORK/anatomy/review_pack_a003_20261007/README.md`.
 Resume: see the "Resume instructions" section of `docs/BLENDER_ANATOMICAL_VALIDATION_HANDOFF_20261007.md`.
 Gates 6–13 remain unpassed.

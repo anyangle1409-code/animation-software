@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "sources": {
+    "SCAPULA_3DCT_NOTCH_2022": {
+      "citation": "An anatomical study for the location of suprascapular and spinoglenoid notches using three-dimensional computed tomography images of scapula.",
+      "pmcid": "PMC9264012",
+      "male_sample_n": 94,
+      "male_mean_height_cm": 165.1,
+      "male_sd_height_cm": 7.3,
+      "measurements_mm": {
+        "d1_glenoid_SI": [
+          44.8,
+          3.2
+        ],
+        "d2_glenoid_transverse": [
+          33.1,
+          3.3
+        ],
+        "d3_posterolateral_acromion_to_medial_spine_midpoint": [
+          113,
+          6.6
+        ],
+        "d4_superior_to_inferior_angle": [
+          159.4,
+          11.7
+        ],
+        "d5_spine_to_spinoglenoid_notch": [
+          18.4,
+          2.8
+        ],
+        "d6_acromion_to_spinoglenoid_notch": [
+          32,
+          3.9
+        ],
+        "d7_acromion_to_suprascapular_notch": [
+          43.9,
+          5.1
+        ],
+        "d8_lateral_acromion_to_suprascapular_notch": [
+          60.5,
+          3.3
+        ]
+      },
+      "use": "Landmark-compatible 3D scapular constraints, especially AA/TS-like transverse geometry.",
+      "caveat": "Older Far East Asian clinical sample; some distances correlate with height. Use exact landmark mapping and additional sources before freezing final dimensions."
+    }
+  }
+}

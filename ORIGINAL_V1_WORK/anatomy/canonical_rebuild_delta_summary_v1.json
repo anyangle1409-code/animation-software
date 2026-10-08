@@ -1,0 +1,174 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Practical delta summary from mesh-fit a003 to the skeleton-first canonical target. Values are direction/corridor guidance only unless explicitly marked confirmed.",
+  "baseline": "a003",
+  "status": "IMPLEMENTATION_DELTA_GUIDE_NOT_FROZEN_COORDINATES",
+  "regions": {
+    "shoulder_clavicle": {
+      "confidence": "HIGH_DEFECT_CONFIDENCE",
+      "current_SC_AC_chord_mm": 222.85962735242768,
+      "adult_male_endpoint_reference_mm": {
+        "mean": 154.8,
+        "observed_range": [
+          130,
+          175
+        ]
+      },
+      "required_direction": "SHORTEN_AND_REPOSITION",
+      "minimum_shortening_vs_observed_max_mm": 47.85962735242768,
+      "shortening_to_male_mean_mm": 68.05962735242768,
+      "note": "Exact final chord depends on stature, SC anchor, neutral orientation and bilateral shoulder-width solution."
+    },
+    "shoulder_bilateral_AC": {
+      "confidence": "HIGH_DEFECT_CONFIDENCE_MEDIUM_TARGET_CONFIDENCE",
+      "current_breadth_mm": 481.3938993665297,
+      "feasible_family_mm": [
+        332.86404303708287,
+        352.86404303708287
+      ],
+      "provisional_bilateral_change_mm": [
+        -148.52985632944683,
+        -128.52985632944683
+      ],
+      "note": "Feasible family assumes 50-70 mm bilateral SC breadth plus mean male endpoint length and neutral orientation; not a frozen target."
+    },
+    "scapula_transverse_AA_TS": {
+      "confidence": "HIGH_DEFECT_CONFIDENCE_TARGET_NOT_FROZEN",
+      "current_mm": 227.02302420557498,
+      "male_3DCT_mean_mm": 113,
+      "male_3DCT_sd_mm": 6.6,
+      "male_observed_max_mm": 129,
+      "current_excess_over_observed_max_mm": 98.02302420557498,
+      "required_direction": "SUBSTANTIALLY_NARROW_LOCAL_SCAPULAR_FRAME",
+      "note": "Exact target remains stature/landmark-frame dependent; do not use GH-to-inferior-angle height comparison."
+    },
+    "radius": {
+      "confidence": "STRONG_REOPEN_TARGET_REPORT_PENDING",
+      "current_osteometric_proxy_mm": 247.41657969863166,
+      "current_implied_stature_conditioned_ANSUR_radiale_stylion_mm": 278.13639552171696,
+      "provisional_difference_mm": -30.7198158230853,
+      "required_direction": "LIKELY_LENGTHEN",
+      "blocker": "Run direct committed-dataset regression builder to get residual SD and exact stature-conditioned corridor."
+    },
+    "metacarpals": {
+      "confidence": "M2_M4_HIGH_DIRECTION_CONFIDENCE",
+      "M1": {
+        "current": 47.99997512953655,
+        "corridor": [
+          43,
+          49
+        ],
+        "action": "RETAIN_PROVISIONALLY"
+      },
+      "M2": {
+        "current": 58.40737482460562,
+        "corridor": [
+          64,
+          72
+        ],
+        "delta_to_corridor": [
+          5.592625175394379,
+          13.59262517539438
+        ],
+        "action": "LENGTHEN"
+      },
+      "M3": {
+        "current": 53.98434682000276,
+        "corridor": [
+          60,
+          68
+        ],
+        "delta_to_corridor": [
+          6.015653179997238,
+          14.015653179997239
+        ],
+        "action": "LENGTHEN"
+      },
+      "M4": {
+        "current": 51.587330872635825,
+        "corridor": [
+          54,
+          62
+        ],
+        "delta_to_corridor": [
+          2.412669127364175,
+          10.412669127364175
+        ],
+        "action": "LENGTHEN"
+      },
+      "M5": {
+        "current": 53.201580132340204,
+        "corridor": [
+          50,
+          58
+        ],
+        "action": "RETAIN_OR_MINOR_ADJUST"
+      },
+      "blocker": "CMC centres must be solved from canonical carpus before MCP coordinates are generated."
+    },
+    "foot_surface": {
+      "confidence": "HIGH_SURFACE_DEFECT_CONFIDENCE",
+      "current_mm": 305.23210763931274,
+      "preferred_stature_conditioned_1sd_corridor_mm": [
+        270.8131220175593,
+        289.0530432619017
+      ],
+      "required_surface_change_to_corridor_mm": [
+        -34.41898562175346,
+        -16.17906437741105
+      ],
+      "action": "SHORTEN_FINAL_MESH_AFTER_CANONICAL_FOOT_CHAIN_FREEZE",
+      "note": "Do not distribute this shortening blindly across metatarsals; internal skeletal target remains source-conflicted."
+    },
+    "hand_surface": {
+      "confidence": "HIGH_SURFACE_DIRECTION_CONFIDENCE",
+      "current_mm": 188.999773749835,
+      "preferred_stature_conditioned_1sd_corridor_mm": [
+        192.15165466409454,
+        206.8642403082073
+      ],
+      "required_surface_change_to_corridor_mm": [
+        3.151880914259553,
+        17.864466558372314
+      ],
+      "action": "LENGTHEN_FINAL_HAND_ENVELOPE_AFTER_CARPAL_RAY_FREEZE"
+    },
+    "spine": {
+      "confidence": "HIGH_STRUCTURAL_DEFECT_CONFIDENCE",
+      "current_issue": "adjacent vertebral-body sticks share endpoints, giving 0 mm explicit disc gaps; lumbar sticks ~38-45 mm absorb motion-segment spacing",
+      "action": "REBUILD_BODY_HEIGHT_PLUS_NON_BONE_DISC_GAPS",
+      "numeric_delta": "level-specific; use canonical_spine_level_stack_v1.json rather than global scaling"
+    },
+    "ribs": {
+      "confidence": "HIGH_STRUCTURAL_DEFECT_CONFIDENCE",
+      "current_issue": "straight two-point rib sticks cause degenerate rib-neck axis",
+      "action": "REBUILD_CURVED_REFERENCE_CENTRELINES_AND_HEAD_TUBERCLE_AXES",
+      "numeric_delta": "not a simple length scaling"
+    },
+    "pelvis_lower_limb": {
+      "confidence": "MOSTLY_RETAIN_PROVISIONALLY",
+      "retain": [
+        "HJC",
+        "KJC",
+        "femur",
+        "tibia",
+        "sacral length",
+        "patella size"
+      ],
+      "refine": [
+        "os coxae landmarks",
+        "SI/pubis contacts",
+        "fibula endpoints",
+        "patellar translation path"
+      ],
+      "action": "DO_NOT_GLOBALLY_RESCALE_LOWER_LIMB"
+    }
+  },
+  "safety_rules": [
+    "No delta in this file is permission to edit production mesh/weights/drivers.",
+    "Only frozen canonical coordinates may be instantiated in the new skeleton-first Blender candidate.",
+    "Where direction is confirmed but target is open, do not choose the nearest population mean just to close the gate.",
+    "Keep a003 unchanged for before/after comparison."
+  ]
+}

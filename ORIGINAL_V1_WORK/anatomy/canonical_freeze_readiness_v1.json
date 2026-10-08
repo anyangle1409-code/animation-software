@@ -29,12 +29,14 @@
       "ready": [
         "cervical body/disc corridors",
         "lumbar body/disc corridors",
-        "zero-disc-gap defect confirmed"
+        "zero-disc-gap defect confirmed",
+        "complete level-by-level C3-L5 body-height and C2/S1-connected disc-gap evidence stack",
+        "full direct-anatomical thoracic disc table C7/T1 through T11/T12"
       ],
       "blockers": [
-        "complete thoracic body/disc target table with consistent definitions",
-        "endplate orientation/sagittal curve target",
-        "C2 and sacral transition geometry"
+        "C2 body-height target",
+        "source-conflict selection for mixed-method levels",
+        "endplate orientation/sagittal curve target and S1 transition"
       ],
       "next_action": "Build per-level body+disc stack specification from C2 through S1."
     },
@@ -43,12 +45,14 @@
       "ready": [
         "24 identities and articulation exceptions",
         "population rib-shape evidence",
-        "curved-centreline representation policy"
+        "curved-centreline representation policy",
+        "Holcombe 2017 Table A1/A2 demographic parameter model transcribed for all 12 rib levels",
+        "source-scaled evaluator and regression tests added"
       ],
       "blockers": [
-        "rib-level centreline parameters/landmarks not yet transcribed into HGPT coordinates",
-        "true head/tubercle neck axes not instantiated",
-        "anterior cartilage/contact geometry unresolved"
+        "reference age/weight selection or explicit envelope",
+        "2016 logarithmic-spiral 2D reconstruction",
+        "3D thoracic-frame mapping and rib head/tubercle/anterior contact coordinates"
       ],
       "next_action": "Create rib-level non-bone centreline/contact dataset before any new Blender master."
     },
@@ -71,12 +75,14 @@
       "ready": [
         "size hierarchy",
         "selected centroid spacing ratios",
-        "neutral axis corridors"
+        "neutral axis corridors",
+        "seven neutral carpal line axes mapped to HGPT anatomical world basis",
+        "adult-male 3D envelope dimensions for all eight carpal bones"
       ],
       "blockers": [
-        "all eight 3D centroids in one canonical frame",
-        "contact-centre layout",
-        "mapping of source axes into HGPT handedness"
+        "all eight 3D centroids in one canonical wrist frame",
+        "intercarpal/radiocarpal contact-centre layout",
+        "pisiform line axis and envelope-axis mapping into HGPT"
       ],
       "next_action": "Create a canonical wrist frame and solve centroids/axes before touching hand mesh."
     },

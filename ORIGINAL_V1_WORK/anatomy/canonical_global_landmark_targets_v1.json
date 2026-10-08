@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Stature-conditioned global landmark scaffold for the skeleton-first canonical adult male. These are anthropometric landmark corridors, not whole-bone lengths.",
+  "stature_m": 1.8200002908706665,
+  "source": "ANSUR_II_MALE_2012 via proportion_report.json; 4,082 men",
+  "status": "GLOBAL_LANDMARK_SCAFFOLD_PROVISIONAL",
+  "rules": [
+    "Use bony anthropometric landmarks directly only when the ANSUR definition matches the canonical landmark.",
+    "Surface landmarks are diagnostics unless an explicit bone/skin offset is defined.",
+    "Residual SD is a population corridor, not an optimization target.",
+    "Bone-specific morphometry and joint-centre evidence override a surface landmark if definitions conflict."
+  ],
+  "vertical_landmarks_mm": {
+    "acromial_height": {
+      "predicted": 1497.6729008056855,
+      "residual_sd": 16.161569250536086,
+      "type": "bony/surface-palpated anthropometric acromion landmark",
+      "use": "global shoulder height scaffold"
+    },
+    "trochanterion_height": {
+      "predicted": 939.8244199556408,
+      "residual_sd": 25.900479965136633,
+      "type": "bony greater-trochanter landmark",
+      "use": "pelvis/femur scaffold; HJC kept ~8 mm below only as the separate radiographic relation already recorded"
+    },
+    "lateral_femoral_epicondyle_height": {
+      "predicted": 512.8979651136361,
+      "residual_sd": 13.623720320460132,
+      "type": "bony knee landmark",
+      "use": "KJC height scaffold"
+    },
+    "tibial_height": {
+      "predicted": 489.53935927523867,
+      "residual_sd": 13.514877390685267,
+      "type": "anthropometric proximal tibial landmark",
+      "use": "knee/plateau scaffold"
+    },
+    "lateral_malleolus_height": {
+      "predicted": 75.37137925424508,
+      "residual_sd": 5.009102178465903,
+      "type": "bony ankle landmark",
+      "use": "ankle/hindfoot scaffold"
+    },
+    "wrist_height": {
+      "predicted": 880.7040051141348,
+      "residual_sd": 21.512878283326287,
+      "type": "anthropometric wrist landmark",
+      "use": "distal upper-limb global check, not a direct radius endpoint without landmark mapping"
+    },
+    "radiale_height": {
+      "predicted": 1149.491606212401,
+      "residual_sd": 16.542096603192388,
+      "type": "radiale landmark",
+      "use": "elbow/radius global scaffold"
+    }
+  },
+  "breadth_length_landmarks_mm": {
+    "biacromial_breadth": {
+      "predicted": 425.15656060295987,
+      "residual_sd": 16.23003710606048,
+      "type": "bony biacromial breadth",
+      "use": "high-level skeletal shoulder-width scaffold",
+      "current_r95_measurement_warning": "a003 report used a surface corner as the character comparator; canonical target must use actual acromial bony landmarks."
+    },
+    "bideltoid_breadth": {
+      "predicted": 519.8898336583992,
+      "residual_sd": 30.87680922145959,
+      "type": "surface/soft-tissue breadth",
+      "use": "later mesh/soft-tissue validation only"
+    },
+    "hand_surface_length": {
+      "predicted": 199.50794748615093,
+      "residual_sd": 7.3562928220563775,
+      "type": "surface hand length",
+      "use": "later hand envelope check only"
+    },
+    "foot_surface_length": {
+      "predicted": 279.9330826397305,
+      "residual_sd": 9.119960622171234,
+      "type": "surface foot length",
+      "use": "later foot envelope check only"
+    },
+    "acromion_to_radiale": {
+      "predicted": 348.1812945932844,
+      "residual_sd": 10.60072410056748,
+      "type": "ANSUR acromion-radiale chain",
+      "use": "upper-arm global check"
+    },
+    "acromion_to_wrist": {
+      "predicted": 616.9688956915513,
+      "residual_sd": 18.85581656506375,
+      "type": "surface/bony mixed anthropometric chain",
+      "use": "global distal-arm proportion check"
+    },
+    "acromion_to_fingertip": {
+      "predicted": 825.8256376011523,
+      "residual_sd": 21.30510699736408,
+      "type": "anthropometric total upper-limb reach",
+      "use": "global chain check after radius/hand retarget"
+    }
+  },
+  "high_value_implications": [
+    "At 1.82 m, ANSUR-conditioned biacromial breadth is ~425 mm with residual SD ~16 mm. This provides a stature-aware global skeletal shoulder-width scaffold independent of the oversized r95 shoulder surface.",
+    "Acromial height is already close to population expectation, so shoulder correction should primarily change lateral girdle geometry rather than arbitrarily lowering the entire shoulder.",
+    "Knee/tibial/malleolar landmark heights are already close to the current fit, reinforcing provisional retention of the lower-limb vertical chain.",
+    "Wrist/arm-chain targets remain useful global checks but do not define radius/ulna bone endpoints by themselves."
+  ]
+}

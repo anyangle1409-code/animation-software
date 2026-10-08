@@ -468,3 +468,26 @@ Full proximal curves remain BLOCKED pending verified intended conventions or an 
   - forearm length (not applied here);
   - mesh refit.
 - **Shoulder region:** stays PARTIAL. Do not move to ribs/feet as if the shoulder were closed; the next shoulder step needs a source that pairs skin acromiale/cervicale/suprasternale with bone, or an owner decision on which vertical anchor governs.
+
+### Claude shoulder stage: ANSUR living-height anchor (c002), 8 October
+
+- **Owner policy `SHOULDER_HEIGHT_ANCHOR_ANSUR_LIVING`**, recorded in `canonical_target_selection_v1.json` `owner_decisions`:
+  - absolute shoulder height follows the living standing ANSUR survey;
+  - internal clavicle length and orientation, scapular geometry and AC–GH stay those of the bony solution;
+  - thorax pitch is a sensitivity variable;
+  - caveat recorded: a modelling policy, not a settled skin-to-bone relation.
+- **Audit candidate `r95_a003_shoulder_proposal_c002_ansur_height`** (`a3068b38`; index `ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/README.md`).
+  - Construction: the pinned c001 translated rigidly by **z −63.0 mm**, so Lee LM27 (lateral distal acromion) meets ANSUR II acromial height at 1.82 m (**1497.7 ± 16.2 mm**, recomputed from the raw 4,082-man CSV).
+  - Uncertainty: the LM25 bracket is 14.2 mm; the skin-to-bone offset is not applied (unquantified, one-sided); the primary ANSUR landmark text was unreachable here, so secondary wording was used.
+  - Integrity: round trip PASS; CP2 identical to a003; a003 and c001 hashes unchanged.
+- **Shoulder closure: FAIL (blocker).**
+  - c002's SC joints sit 56.2 mm below the retained a003 jugular notch, beyond the range of published male mean manubrium lengths (46–55.2 mm); the source relation puts SC 6.0 mm above IJ.
+  - In all 8 recorded pitch × IJ × landmark variants, the SC ends 17–62 mm below its own notch.
+  - With the bony clavicle orientation retained, the living acromial anchor and SC-on-manubrium cannot both hold.
+  - **Owner decision or evidence needed:**
+    - (a) lower the thorax/sternum with the girdle;
+    - (b) accept clavicle elevation of about −4.8° (≈3.2 SD below Matsumura's 8 ± 4°; first-order estimate);
+    - (c) obtain a source pairing skin acromiale with bone.
+- **Evidence** (`b83d7b5a`): 80 captioned JPEGs (c001-vs-c002 and a003-vs-c002 pairs, c002 views and poses, contact sheets) with a sha256 manifest.
+- **Tests** (`63732056`): `scripts/test_shoulder_proposal_c002.py`, 16 tests. Readiness: shoulder stays PARTIAL with an SC-closure blocker.
+- **Naming:** the audit IDs `…shoulder_proposal_c001/c002` are unrelated to the reserved `HGPT_CANONICAL_SKELETON_FIRST_c001`, which has not been created (test-enforced).

@@ -88,3 +88,7 @@ Rib acquisition update: the original thesis now downloads from `https://deepblue
 ## Shoulder stage update (Claude, after 20:30)
 
 The shoulder-proposal audit candidate, its renders and the vertical-relation erratum are pushed. Pickup steps are in `docs/CLAUDE_WORK_SKELETON_INSPECTION_HANDOFF_20261008.md` ("Shoulder stage pickup"); the candidate index is `ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/README.md`. Nothing is canonical or accepted.
+
+## Shoulder c002 update (Claude)
+
+The ANSUR-height shoulder candidate c002 is pushed, with SC closure FAIL recorded and an owner decision needed. Pickup steps are in `docs/CLAUDE_WORK_SKELETON_INSPECTION_HANDOFF_20261008.md` ("Shoulder c002 pickup"). Nothing is canonical or accepted.

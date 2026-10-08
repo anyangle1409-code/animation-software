@@ -131,3 +131,10 @@ This corrects the earlier "thigh 6.5% short" note. The proposal does not select 
 - **Known defect to confirm by eye:** shoulder too high against ANSUR (lateral acromion +63 mm). GH/AC sit at the a003 skin top because the mesh is not refitted.
 - **Verify:** `python3 scripts/test_shoulder_proposal_c001.py` (15 tests) and `audit/shoulder_vertical_relation_audit_v1.json`. The v1 single-offset hypothesis is withdrawn.
 - **Next shoulder step:** find a source pairing skin acromiale/cervicale/suprasternale with bone (or get an owner decision on which vertical anchor governs) before any absolute shoulder height is chosen. The standing chest-angle disagreement remains unresolved.
+
+## Shoulder c002 pickup (ANSUR living height; 8 October, Claude)
+
+- **Open read-only:** `ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/HGPT_ANATOMICAL_AUDIT_r95_a003_shoulder_proposal_c002_ansur_height.blend`. It is an audit candidate, with SC closure FAIL.
+- **Look first:** `review/sheets/sheet_c001_vs_c002_shoulder_{left,right}.jpg` and the side views. The SC sits below the top of the retained sternum.
+- **Verify on the laptop:** the ANSUR II acromion landmark definition (Hotzman et al. 2011, NATICK/TR-11/017, landmark section). It was unreachable from the cloud.
+- **Blocked on an owner decision:** (a) lower the thorax with the girdle, (b) lower clavicle elevation on evidence, or (c) a skin-acromiale-to-bone source. Run `python3 scripts/test_shoulder_proposal_c002.py`.

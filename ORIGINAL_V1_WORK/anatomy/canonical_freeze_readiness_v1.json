@@ -170,7 +170,8 @@
         "subtalar/talonavicular/calcaneocuboid/naviculocuneiform contact centres",
         "TMT base layout"
       ],
-      "next_action": "Construct hindfoot/midfoot contact chain before deciding final foot length."
+      "next_action": "Construct hindfoot/midfoot contact chain before deciding final foot length.",
+      "source_geometry_access_review": "canonical_zenodo_foot_source_access_review_v1.json"
     },
     "forefoot_toes": {
       "readiness": "PARTIAL",
@@ -184,7 +185,8 @@
         "toe phalanx stature-aware targets",
         "partition of excess surface length across skeletal chain vs soft tissue"
       ],
-      "next_action": "Do not shorten all metatarsals; reconcile bone definitions first, then partition final heel-to-toe length."
+      "next_action": "Do not shorten all metatarsals; reconcile bone definitions first, then partition final heel-to-toe length.",
+      "source_geometry_access_review": "canonical_zenodo_foot_source_access_review_v1.json"
     },
     "head_neck_fixed": {
       "readiness": "PARTIAL",

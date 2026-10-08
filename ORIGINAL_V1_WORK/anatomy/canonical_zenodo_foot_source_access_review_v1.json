@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "status": "CONFIRMED_SOURCE_ACQUISITION_CONTACT_MAPPING_BLOCKED",
+  "freeze_ready": false,
+  "dataset_DOI": "10.5281/zenodo.3464747",
+  "paper_DOI": "10.7717/peerj.8397",
+  "paper_PMCID": "PMC7006516",
+  "dataset_url": "https://zenodo.org/records/3464747",
+  "metadata_file_sha256": "1bfb30ae9834e712e7a2eec1b0be5846c61a4cba55d9127c14014f3a18a0a48e",
+  "record_files": 125,
+  "downloaded_files": 8,
+  "download_manifest": "audit/runs/work_zenodo_foot_source_20261008_001/source_download_manifest.json",
+  "source_case": "M02_L; prefix is not assumed to encode sex",
+  "anatomical_inventory_scope": {
+    "calcaneus": 1,
+    "talus": 1,
+    "first_metatarsal": 1,
+    "grouped_midfoot": [
+      "metatarsal_2",
+      "metatarsal_3",
+      "metatarsal_4",
+      "metatarsal_5",
+      "medial_cuneiform",
+      "intermediate_cuneiform",
+      "lateral_cuneiform",
+      "cuboid",
+      "navicular"
+    ],
+    "toe_phalanges_included": false,
+    "expected_named_bones_covered": 12,
+    "whole_foot_bones": 26
+  },
+  "midfoot_import": {
+    "connected_components": 28,
+    "components_vertex_counts": [
+      2553,
+      2411,
+      2071,
+      2029,
+      2016,
+      1839,
+      1486,
+      1360,
+      20,
+      14,
+      10,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      5
+    ],
+    "large_components_over_100_vertices": 8,
+    "large_threshold_is_diagnostic_not_bone_identification": true,
+    "interpretation": "Eight large pieces plus small fragments cannot be assumed to be nine independently identified bones. Do not drop fragments or label components by size alone."
+  },
+  "primary_methods_review": {
+    "section": "Magnetic resonance image processing / Statistical shape model generation",
+    "facts": [
+      "Nine midfoot bones were segmented within one mask; wrapping/smoothing preceded STL export.",
+      "The authors define coordinate systems for each point cloud and transform segmentations individually before shape registration.",
+      "Dataset txt files identify the segment-model input filenames, not native common-frame transforms or individual sex/stature metadata."
+    ],
+    "primary_html_sha256": "6a862d17fcb96053fe9f433c99699eb69b1a1e3056be15f94a2094bd13db5378",
+    "body_vs_abstract_context": "Body reports height 1.73 \u00b1 0.08 m; abstract prints \u00b10.8 m. Cohort/segmentation counts and sex fractions need their stated denominator, not blind copying."
+  },
+  "limits": [
+    "STL does not encode physical units. Unit conversion is not selected from the filename or plausible AABB alone.",
+    "Native common-foot pose/contact frame needs source transforms or independently matched anatomical registration.",
+    "No individual 182 cm male case identified; no proportional scaling of this case adopted.",
+    "AABB dimensions are axis-dependent source extents, not osteometric whole-bone dimensions.",
+    "Vertex mean is not volume centroid, principal inertia axis, or articular contact centre."
+  ],
+  "next_safe_action": "Resolve physical units and native/common-frame transforms; identify all nine midfoot bones independently, then establish envelope/contact references. Use this source for shape context only until those gates close."
+}

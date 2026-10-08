@@ -1,0 +1,58 @@
+[
+  {
+    "name": "M02_L_1Met.stl",
+    "bytes": 905006,
+    "md5": "md5:ac8e163c0074e730d445f65ad7caca6b",
+    "sha256": "935b3232f7ee96c7a3b17c3667bb174d552383f86931b89b9ab3b7e7bfab6114",
+    "url": "https://zenodo.org/api/records/3464747/files/M02_L_1Met.stl/content"
+  },
+  {
+    "name": "M02_L_Calc.stl",
+    "bytes": 2231321,
+    "md5": "md5:05b20c0bbec766e4d7ee942114b5d402",
+    "sha256": "0bb31fe230b68d249b6e205faab4963dee6a6f5fb118444cebb1c0a1ee287ea1",
+    "url": "https://zenodo.org/api/records/3464747/files/M02_L_Calc.stl/content"
+  },
+  {
+    "name": "M02_L_Midfoot.stl",
+    "bytes": 5924969,
+    "md5": "md5:f8c75bb81f1b368a6522f78e7b2830e4",
+    "sha256": "b39818c398110481d83d5685834eb5f0e5a2c42be47bc1270ac77f6d74752182",
+    "url": "https://zenodo.org/api/records/3464747/files/M02_L_Midfoot.stl/content"
+  },
+  {
+    "name": "M02_L_Talus.stl",
+    "bytes": 352384,
+    "md5": "md5:e49c4194fc06785f736b018b2af2a478",
+    "sha256": "1dc30fc305ef5c94c2bca7e40840b60f289abb86be11f2f5956cd60afef76e93",
+    "url": "https://zenodo.org/api/records/3464747/files/M02_L_Talus.stl/content"
+  },
+  {
+    "name": "CalcaneusData.txt",
+    "bytes": 594,
+    "md5": "md5:204c0aafbe0f20b55383c6ef55fb10df",
+    "sha256": "bea4febfed9293fe8864aa25d7bdcec20c78cda7481c237ac0e2abebc168d43b",
+    "url": "https://zenodo.org/api/records/3464747/files/CalcaneusData.txt/content"
+  },
+  {
+    "name": "FirstMetatarsalData.txt",
+    "bytes": 633,
+    "md5": "md5:3589c70a7c5082456416a31c68d1bd9b",
+    "sha256": "e2579423408a742647f19f73aa0a65d2f7125b1c17d4c77f68289871543e89b9",
+    "url": "https://zenodo.org/api/records/3464747/files/FirstMetatarsalData.txt/content"
+  },
+  {
+    "name": "MidfootData.txt",
+    "bytes": 898,
+    "md5": "md5:75addab1c3cd41ff05b449bea412c730",
+    "sha256": "9e8ef14ec29d3ac8bfb32196c0c20e32e63271b730518128e886fe816336ade0",
+    "url": "https://zenodo.org/api/records/3464747/files/MidfootData.txt/content"
+  },
+  {
+    "name": "TalusData.txt",
+    "bytes": 734,
+    "md5": "md5:dad1b06a831b3aae45feecea508bf4e2",
+    "sha256": "ca1e1e1cba7925220ae452880f3375fbb0046d03fcf87f34ce75749365762cce",
+    "url": "https://zenodo.org/api/records/3464747/files/TalusData.txt/content"
+  }
+]

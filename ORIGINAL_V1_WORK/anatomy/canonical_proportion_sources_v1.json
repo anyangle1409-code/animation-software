@@ -3294,6 +3294,22 @@
       "primary_archive_url": "https://stacks.stanford.edu/file/br087nj9017/ScapulothoracicModelAnalysisPLOS2015.zip",
       "access_review": "canonical_sc_primary_model_reference_v1.json",
       "limitation": "SC/AC/GH model geometry acquired; dimensions/joint locations derive from Holzbaur 2005, not independent 182 cm anatomy. No global coordinate target selected."
+    },
+    {
+      "id": "GRANT_2020_FOOT_SEGMENT_SHAPE_MODELS",
+      "type": "MRI_segment_shape_dataset",
+      "citation": "Grant TM et al. Development and validation of statistical shape models of the primary functional bone segments of the foot. PeerJ. 2020;8:e8397.",
+      "doi": "10.7717/peerj.8397",
+      "pmcid": "PMC7006516",
+      "pmid": "32117607",
+      "dataset_DOI": "10.5281/zenodo.3464747",
+      "primary_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7006516/",
+      "access_review": "canonical_zenodo_foot_source_access_review_v1.json",
+      "use": [
+        "individual calcaneus/talus/M1 envelope context",
+        "grouped nine-bone midfoot source geometry inspection"
+      ],
+      "limitation": "Source case imported/checksummed; source units, native/common-frame transformations, nine-bone midfoot identification and individual sex/stature remain unresolved. No canonical contact/length selected."
     }
   ],
   "unresolved_source_needs": [

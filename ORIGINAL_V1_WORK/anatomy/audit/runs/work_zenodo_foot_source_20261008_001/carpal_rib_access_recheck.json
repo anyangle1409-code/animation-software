@@ -1,0 +1,24 @@
+{
+  "status": "PARTIAL_PRIMARY_ACCESS_RECHECK",
+  "carpal_database": {
+    "project_page": "https://simtk.org/projects/carpal-database",
+    "project_page_access": "HTTP200 in Work requests",
+    "download_page": "https://simtk.org/frs/download_confirm.php/file/5988/Carpal%20Database%20Manuscript%20Version.zip?group_id=1665",
+    "actual_download": "HTML sign-in redirect; binary dataset not obtained",
+    "next_action": "Use owner laptop authorized SimTK login to download original dataset with hashes; preserve neutral-pose bone IDs/frames."
+  },
+  "ribseg_v2": {
+    "authors_repo": "https://github.com/HINTLab/RibSeg",
+    "dataset": "https://drive.google.com/file/d/1ZZGGrhd0y1fLyOZGo_Y-wlVUP4lkHVgm/view",
+    "mesh_annotations": "https://drive.google.com/file/d/1b_qcg99efU8cF2pXshl2ZFxi4LCQOmpw/view",
+    "actual_binary_access": "Retrieved pages show sign-in; binary files not obtained",
+    "quality_document": "https://docs.google.com/spreadsheets/d/1lz9liWPy8yHybKCdO3BCA9K76QH8a54XduiZS_9fK70/edit",
+    "quality_observations": [
+      "Public document lists incomplete scans, missing floating ribs, missing centreline/labeling and labeling exceptions.",
+      "Array shape (24,500,3) is storage layout, not proof of 24 complete/anatomically valid ribs.",
+      "Source voxel/world-coordinate transform and per-rib anatomical identity/endpoint coverage remain essential."
+    ],
+    "next_action": "Acquire archive and description on laptop; filter source cases for complete ribs/labels before deriving curves. Do not give ribs 11/12 costotransverse contacts."
+  },
+  "scope": "Access/quality metadata only; no geometry acceptance. Authenticated site tasks deferred without requesting owner input."
+}

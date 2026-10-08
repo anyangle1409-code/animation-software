@@ -253,7 +253,8 @@
         "tarsal contact-centre model",
         "endpoint-matched stature-aware metatarsal evidence",
         "toe phalanx triangulation"
-      ]
+      ],
+      "source_geometry_access_review": "canonical_zenodo_foot_source_access_review_v1.json"
     },
     "head_neck": {
       "evidence_grade": {

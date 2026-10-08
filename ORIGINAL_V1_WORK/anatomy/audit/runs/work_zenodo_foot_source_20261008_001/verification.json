@@ -1,0 +1,18 @@
+{
+  "status": "CONFIRMED_SOURCE_ACQUISITION_AND_IMPORT_ONLY",
+  "blender_version": "5.2.1 LTS",
+  "source_segments_checked": 4,
+  "checks": [
+    "Zenodo file sizes and MD5 matched; SHA256 retained",
+    "Independent STL parser versus native Blender import: all float32 vertex positions and all triangle geometry matched",
+    "Owner proportion/source policy: 6 tests passed",
+    "Source identity: 7 tests passed",
+    "Freeze readiness: 5 tests passed",
+    "Canonical target validator: no errors, freeze_ready false"
+  ],
+  "adversarial_limit": "Bounding boxes alone could hide vertex or face changes; retained initial bbox-only run and strengthened to full geometry comparison. Connected components do not prove named-bone completeness.",
+  "canonical_candidate_created": false,
+  "production_or_a003_modified": false,
+  "movement_acceptance_claimed": false,
+  "full_suite_context": "Previous shoulder-frame checkpoint: 808 tests, 5 failures and 4 errors unchanged from existing baseline; no runtime code changed in this source-access checkpoint."
+}

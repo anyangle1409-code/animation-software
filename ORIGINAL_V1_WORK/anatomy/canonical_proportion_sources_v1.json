@@ -863,6 +863,120 @@
         "secondary forearm length and radial-head scale cross-check"
       ],
       "limitation": "Mixed-sex cadaver sample; accessible abstract does not fully expose endpoint definitions, so it cannot freeze canonical length."
+    },
+    {
+      "id": "ZHANG_2018_TALUS_MALE",
+      "type": "cadaver_talus_morphometry",
+      "citation": "Gender Variation in the Shape of Superior Talar Dome: A Cadaver Measurement Based on Chinese Population. 2018.",
+      "pmcid": "PMC6057431",
+      "population": "51 talar specimens; sex-specific analysis",
+      "male_values_mm": {
+        "talus_width": {
+          "mean": 54.358,
+          "sd": 2.654
+        },
+        "talus_length": {
+          "mean": 44.375,
+          "sd": 2.882
+        },
+        "dome_length": {
+          "mean": 36.053,
+          "sd": 2.091
+        }
+      },
+      "use": [
+        "male talus whole-bone plausibility",
+        "talocrural geometry scale"
+      ],
+      "limitation": "Cadaveric Chinese sample; talus length definition is study-specific and not the same as the current HGPT talus control-stick span."
+    },
+    {
+      "id": "CALCANEUS_SEA_CT_2024",
+      "type": "adult_calcaneus_CT_morphometry",
+      "citation": "Morphometric Analysis of the Calcaneus in a Southeast Asian Population. 2024.",
+      "pmcid": "PMC11116927",
+      "population": "100 CT scans; 66 men, 34 women",
+      "male_values_mm": {
+        "axial_length": 75.2,
+        "medial_wall_height": 33.9,
+        "lateral_wall_height": 38.1,
+        "width": 36.9
+      },
+      "use": [
+        "male calcaneus whole-bone scale cross-check",
+        "hindfoot skeleton target"
+      ],
+      "limitation": "Regional population; axial maximum length is not directly comparable with the current HGPT calcaneus reference-stick span."
+    },
+    {
+      "id": "CUBOID_SOUTH_INDIA_2023",
+      "type": "dry_bone_cuboid_morphometry",
+      "citation": "Anthropometric Analysis of Cuboid Bones in a South Indian Population. 2023.",
+      "pmcid": "PMC10837486",
+      "sample": "103 adult cuboid bones, sex unknown",
+      "values_mm": {
+        "length": {
+          "mean": 33.69,
+          "sd": 2.61
+        },
+        "breadth": {
+          "mean": 25.43,
+          "sd": 2.87
+        },
+        "height": {
+          "mean": 23.03,
+          "sd": 2.43
+        }
+      },
+      "use": [
+        "cuboid whole-bone scale cross-check"
+      ],
+      "limitation": "Sex unknown and dry-bone sample; not a direct joint-centre distance."
+    },
+    {
+      "id": "TARSUS_INTRINSIC_PROPORTIONS_2003",
+      "type": "dry_tarsus_biometry",
+      "citation": "Intrinsic proportions of the human tarsus: an original approach to tarsal biometry. Surg Radiol Anat. 2003.",
+      "pmid": "14648033",
+      "sample": "86 complete adult dried human tarsi",
+      "relative_weight_percent": {
+        "calcaneus": 41.95,
+        "talus": 28.45,
+        "medial_cuneiform_range_note": "7.00-8.38 group with cuboid/navicular",
+        "intermediate_cuneiform": 2.98,
+        "lateral_cuneiform": 3.81
+      },
+      "row_proportions_percent": {
+        "posterior": 70.4,
+        "anterior": 29.6
+      },
+      "use": [
+        "tarsal hierarchy and posterior/anterior mass balance"
+      ],
+      "limitation": "Mass proportions, not linear dimensions."
+    },
+    {
+      "id": "CELIK_AKMAN_2024_TARSAL_CT",
+      "type": "3D_CT_tarsal_area_volume",
+      "citation": "Celik NG, Akman B. Morphological and morphometric analysis of tarsal bones according to sex. Surg Radiol Anat. 2024.",
+      "pmid": "39093463",
+      "doi": "10.1007/s00276-024-03450-6",
+      "sample": "630 tarsal bones reconstructed from thin-section CT",
+      "size_order": [
+        "calcaneus",
+        "talus",
+        "cuboid",
+        "navicular",
+        "medial_cuneiform",
+        "lateral_cuneiform",
+        "intermediate_cuneiform"
+      ],
+      "finding": "All male area and volume values were significantly larger than female values.",
+      "use": [
+        "3D tarsal size hierarchy",
+        "sex-specific plausibility"
+      ],
+      "limitation": "Accessible abstract exposes ordering but not linear dimensions."
     }
   ],
   "unresolved_source_needs": [

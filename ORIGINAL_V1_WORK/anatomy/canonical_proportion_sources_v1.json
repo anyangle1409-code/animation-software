@@ -1063,6 +1063,232 @@
         "rib envelope/cortical geometry after centreline reconstruction"
       ],
       "limitation": "Cross-section geometry alone does not define centreline or joint axis."
+    },
+    {
+      "id": "YUKAWA_2012_CERVICAL_MORPHOMETRY",
+      "type": "large_asymptomatic_cervical_radiography",
+      "citation": "Age-related changes in osseous anatomy, alignment, and range of motion of the cervical spine. Part I. Eur Spine J. 2012.",
+      "pmcid": "PMC3535253",
+      "population": "1,230 asymptomatic volunteers; >=100 men and >=100 women per decade from 20s to 70s",
+      "male_body_height_mm": {
+        "C3": [
+          14.4,
+          1.5
+        ],
+        "C4": [
+          13.9,
+          1.5
+        ],
+        "C5": [
+          13.7,
+          1.4
+        ],
+        "C6": [
+          13.4,
+          1.4
+        ],
+        "C7": [
+          14.9,
+          1.5
+        ]
+      },
+      "male_disc_height_mm": {
+        "C2/C3": [
+          6.4,
+          0.9
+        ],
+        "C3/C4": [
+          6.5,
+          1
+        ],
+        "C4/C5": [
+          6.2,
+          1.1
+        ],
+        "C5/C6": [
+          6.1,
+          1.3
+        ],
+        "C6/C7": [
+          6.6,
+          1.5
+        ],
+        "C7/T1": [
+          6.1,
+          1.1
+        ]
+      },
+      "use": [
+        "subaxial cervical body-height corridors",
+        "explicit cervical disc-gap corridors"
+      ],
+      "limitation": "Radiographic mid-body/disc heights; C1/C2 require separate anatomy."
+    },
+    {
+      "id": "THORACIC_BODY_DISC_2011",
+      "type": "anatomical_radiographic_thoracic_morphometry",
+      "citation": "Morphometric analysis of the relationships between intervertebral disc and vertebral body heights: anatomical and radiographic study of the human thoracic spine. 2011.",
+      "pmcid": "PMC3171774",
+      "average_body_height_mm": {
+        "C7": 14.14,
+        "T1": 14.88,
+        "T2": 15.56,
+        "T3": 16.53,
+        "T4": 16.79,
+        "T5": 16.59,
+        "T6": 17.13,
+        "T7": 17.31,
+        "T8": 18.52,
+        "T9": 19.26,
+        "T10": 19.67,
+        "T11": 21.14,
+        "T12": 21.96
+      },
+      "disc_example_mm": {
+        "C7/T1": 4.5
+      },
+      "use": [
+        "thoracic vertebral-body height trend",
+        "body-vs-disc separation"
+      ],
+      "limitation": "Sample/method differs from CT studies and values are generally smaller than some population CT datasets; use as one corridor bound, not sole target."
+    },
+    {
+      "id": "THORACIC_CT_2016_INDIA",
+      "type": "thoracic_CT_morphometry",
+      "citation": "Computed tomographic-based morphometric study of thoracic spine and its relevance to anaesthetic and spinal surgical procedures. 2016.",
+      "pmcid": "PMC4857161",
+      "body_height_anterior_posterior_mm": {
+        "T1": [
+          18.91,
+          19.81
+        ],
+        "T2": [
+          18.98,
+          20.12
+        ],
+        "T3": [
+          20.22,
+          21.24
+        ],
+        "T4": [
+          20.98,
+          22.34
+        ],
+        "T5": [
+          22.71,
+          23.39
+        ],
+        "T6": [
+          22.88,
+          23.31
+        ],
+        "T7": [
+          24.21,
+          25.21
+        ],
+        "T8": [
+          24.81,
+          25.66
+        ],
+        "T9": [
+          25.77,
+          26.31
+        ],
+        "T10": [
+          27.72,
+          29.12
+        ],
+        "T11": [
+          28.12,
+          29.67
+        ],
+        "T12": [
+          28.91,
+          30.41
+        ]
+      },
+      "use": [
+        "independent thoracic body-height corridor",
+        "level trend and kyphotic anterior/posterior difference"
+      ],
+      "limitation": "Population-specific CT sample; sex-combined values in the accessible table."
+    },
+    {
+      "id": "LUMBAR_CT_2026_BODY",
+      "type": "lumbar_CT_morphometry",
+      "citation": "Morphological characteristics of lumbar vertebral bodies and regional distribution patterns of bone mineral density: a CT study. 2026.",
+      "pmid": "42222283",
+      "pmcid": "PMC13215853",
+      "population": "100 healthy volunteers; 50 male/50 female; 20-70 years",
+      "body_height_anterior_middle_posterior_mm": {
+        "L1": [
+          25.1,
+          23.5,
+          27.2
+        ],
+        "L2": [
+          26.5,
+          24.3,
+          28.1
+        ],
+        "L3": [
+          27.1,
+          24.4,
+          27.3
+        ],
+        "L4": [
+          27.6,
+          23.7,
+          26.3
+        ],
+        "L5": [
+          27.7,
+          23,
+          24.6
+        ]
+      },
+      "use": [
+        "lumbar vertebral-body height target corridor"
+      ],
+      "limitation": "Sex-combined level table; body-height geometry only, not disc height."
+    },
+    {
+      "id": "LUMBAR_DISC_CT_2018",
+      "type": "healthy_lumbar_CT_disc_height",
+      "citation": "Morphometric Analysis of Lumbar Intervertebral Disc Height: An Imaging Study. World Neurosurg. 2019.",
+      "pmid": "30579030",
+      "population": "240 healthy abdominal CT scans; 109 men and 131 women",
+      "male_average_disc_height_mm": {
+        "T12/L1": [
+          5.6,
+          1.1
+        ],
+        "L1/L2": [
+          6.9,
+          1.3
+        ],
+        "L2/L3": [
+          8.1,
+          1.4
+        ],
+        "L3/L4": [
+          8.7,
+          1.5
+        ],
+        "L4/L5": [
+          9.2,
+          1.6
+        ],
+        "L5/S1": [
+          8.8,
+          1.6
+        ]
+      },
+      "use": [
+        "explicit lumbar intervertebral disc-gap corridors"
+      ],
+      "limitation": "Average of anterior/centre/posterior disc heights; age span broad."
     }
   ],
   "unresolved_source_needs": [

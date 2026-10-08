@@ -59,3 +59,19 @@ def map_source_point(origin, frame, point):
     if not np.isfinite(result).all():
         raise ValueError('mapped coordinates overflow')
     return result
+
+
+def map_between_thorax_frames(source_landmarks, target_landmarks, point):
+    """Transfer a point between two IJ/C7/PX/T8 anatomical frames.
+
+    The input point uses the source model's coordinate basis, which need not
+    already equal its landmark-derived ISB basis. All coordinates must share
+    a unit. This performs a rigid rotation/translation only; it neither scales
+    source anatomy nor accepts its dimensions as canonical numerical targets.
+    Anatomical landmark identities and poses remain caller prerequisites.
+    """
+    source_origin, source_frame = thorax_frame(source_landmarks)
+    target_origin, target_frame = thorax_frame(target_landmarks)
+    source_point = _array(point, (3,))
+    local_point = source_frame.T @ (source_point - source_origin)
+    return map_source_point(target_origin, target_frame, local_point)

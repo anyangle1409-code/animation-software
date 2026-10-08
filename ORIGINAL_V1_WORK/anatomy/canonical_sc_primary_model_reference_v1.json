@@ -127,5 +127,46 @@
     "ShoulderModel/subject1_flxbonepin.osim",
     "ShoulderModel/subject1_rotbonepin.osim"
   ],
-  "archival_license_metadata": "Stanford record advertises CC BY-NC-SA 3.0; source used for audit context, original archive/model not redistributed or integrated into production."
+  "archival_license_metadata": "Stanford record advertises CC BY-NC-SA 3.0; source used for audit context, original archive/model not redistributed or integrated into production.",
+  "source_to_ISB_frame_review": {
+    "status": "CONFIRMED_COORDINATE_CONVERSION_ONLY",
+    "ISB_origin_in_source_m": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ISB_axes_columns_in_source": [
+      [
+        0.9906089500485714,
+        -0.13672566724527996,
+        0.0
+      ],
+      [
+        0.13672566724527996,
+        0.9906089500485714,
+        0.0
+      ],
+      [
+        -0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "source_model_y_vs_landmark_ISB_y_angle_deg": 7.858418720787803,
+    "SC_in_landmark_ISB_coordinates_mm": [
+      7.2131104830670045,
+      6.000130178510204,
+      25.465
+    ],
+    "reconstruction_max_error_m": 8.673617379884035e-19,
+    "naive_assume_model_XYZ_is_ISB_error_mm": 1.2858452920359327,
+    "transfer_function": "scripts/anatomy_fit/thorax_source_frame.py:map_between_thorax_frames",
+    "global_target_selected": false,
+    "limits": [
+      "Source body axes are not identical to its IJ/C7/PX/T8-derived ISB axes.",
+      "Use source inverse basis then target basis; do not directly pass model XYZ to map_source_point as ISB XYZ.",
+      "Source and caller coordinates must share units; transfer does not scale a generic model to 182 cm.",
+      "No canonical HGPT four-landmark pose selected, so global SC remains unselected."
+    ]
+  }
 }

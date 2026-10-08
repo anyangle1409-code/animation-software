@@ -70,3 +70,5 @@ Shoulder acquisition update: Seth original archive is now obtained in Work via `
 Latest verified checkpoints before this handoff update: `2c8979f9` and `b3a274b5`; fetch the live branch for the subsequent shoulder/C2 checkpoint and preserve anything newer. Owner input is not needed for routine inspection or audit fixes.
 
 Start with the CP3 rehearsal files and source definitions above. Corrected canonical geometry is still unavailable because CP1 targets/contact surfaces and CP2 remain incomplete. The available Blender files are explicitly a003 diagnostic rehearsals. Latest full suite is 806 tests, with the same nine existing failures; the additional C2 source-register regression check passes.
+
+Shoulder frame pickup: use `map_between_thorax_frames` for a model-body XYZ point. The source body basis differs from its landmark ISB basis by ~7.86°; direct mapping produces a ~1.29 mm SC error. Fresh Blender quaternion-frame math and bilateral signs were checked in a synthetic pose. This does not establish the canonical target thorax pose. Latest suite: 808 tests, unchanged 9 pre-existing failures.

@@ -1,0 +1,11 @@
+{
+  "README.md": "93151d0b5f59dc0965143160c4f7ecb56a00dff1d41e1942eaa1d5d51e1b2412",
+  "after_tests.txt": "5364bc59c974600f54aeb8e9a535c025995eb09740598b8b3426f0ac87bb813e",
+  "baseline_comparison.json": "56048ac71632ffbad4a1013713d5b1f00a08227040d615a123e5b61eace94758",
+  "before_implementation.txt": "6be53f50018bdcb12a0383c6f35bb5b977c9d4385de01ebab67450caec3a03ce",
+  "blender_frame_transfer.json": "98ef69bbb1f5fa94f9cc1a7eea26bcdd7f9d86cf0a9fd6afedea1dc2266cb2e4",
+  "blender_path_failure_001.txt": "29c97115252f5d25d94b422a52caafe8f55f5805d78aa6864b2265d4d535f54d",
+  "blender_stdout.txt": "c3bf6f2f4334904cd5dab96b0bb16f0dd5ece07d44cc797664eaa431e3a8c1d4",
+  "full_tests.txt": "9a5886466ef4bd8730ca8e78d201c77d2f58de342b2408ab5cba8edab8cf2ce6",
+  "verify_blender_frame_transfer.py": "c5a558a31f208fcbd4cf6f0a278dc50292d5a86e5a007372e679b49efa466bc1"
+}

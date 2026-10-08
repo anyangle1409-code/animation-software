@@ -1,0 +1,23 @@
+.E..E.
+======================================================================
+ERROR: test_frame_transfer_uses_source_origin_and_rejects_bad_inputs (test_thorax_source_frame.ThoraxFrame.test_frame_transfer_uses_source_origin_and_rejects_bad_inputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_thorax_source_frame.py", line 60, in test_frame_transfer_uses_source_origin_and_rejects_bad_inputs
+    mapped = self.m.map_between_thorax_frames(source, self.points, point)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'thorax' has no attribute 'map_between_thorax_frames'
+
+======================================================================
+ERROR: test_non_aligned_model_frame_transfers_under_rigid_motion (test_thorax_source_frame.ThoraxFrame.test_non_aligned_model_frame_transfers_under_rigid_motion)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_thorax_source_frame.py", line 49, in test_non_aligned_model_frame_transfers_under_rigid_motion
+    mapped = self.m.map_between_thorax_frames(model, target, point)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'thorax' has no attribute 'map_between_thorax_frames'
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.026s
+
+FAILED (errors=2)

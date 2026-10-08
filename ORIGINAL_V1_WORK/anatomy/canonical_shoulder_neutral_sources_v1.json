@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "sources": {
+    "SHOULDER_STANDING_ALIGNMENT_2020": {
+      "citation": "Three-dimensional alignment changes of the shoulder girdle between the supine and standing positions.",
+      "pmcid": "PMC7491173",
+      "standing_clavicle_deg": {
+        "elevation": [
+          7,
+          4
+        ],
+        "retraction": [
+          23,
+          5
+        ]
+      },
+      "standing_scapula_deg": {
+        "upward_rotation": [
+          10,
+          5
+        ],
+        "anterior_tilt": [
+          8,
+          5
+        ],
+        "internal_rotation": [
+          30,
+          6
+        ]
+      },
+      "use": "neutral-standing orientation corridor for canonical shoulder-girdle geometry",
+      "caveat": "Angles are source-coordinate definitions; transform into HGPT anatomical frames before applying signs."
+    }
+  }
+}

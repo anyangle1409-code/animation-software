@@ -1966,6 +1966,37 @@
         "HJC validation and pelvis-frame landmark definitions"
       ],
       "limitation": "Regression coefficients and age/sex subgroup details must be read from full tables before adding new numerical target equations."
+    },
+    {
+      "id": "GLENOID_MORPH_2017_MALE",
+      "type": "cadaver_3D_CT_glenoid_morphometry",
+      "citation": "Glenoid morphology in light of anatomical and reverse total shoulder arthroplasty: a dissection- and 3D-CT-based study in male and female body donors. BMC Musculoskelet Disord. 2017.",
+      "pmid": "28068966",
+      "pmcid": "PMC5223371",
+      "population": "36 shoulders from 18 body donors; male subgroup n=14 scapulae",
+      "male_values_mm": {
+        "glenoid_height": {
+          "mean": 39.5,
+          "sd": 3.5,
+          "range": [
+            33.5,
+            43.6
+          ]
+        },
+        "glenoid_width": {
+          "mean": 30.3,
+          "sd": 3.3,
+          "range": [
+            24.5,
+            34.7
+          ]
+        }
+      },
+      "use": [
+        "second-source adult male glenoid size corridor",
+        "scapular local-geometry validation"
+      ],
+      "limitation": "Older donor cohort and small male subgroup; use as a cross-source corridor, not a sole target."
     }
   ],
   "unresolved_source_needs": [

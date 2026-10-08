@@ -31,6 +31,12 @@ FLOAT_EPS = 1e-5
 SPINAL_DISCS = ['disc_c2_c3', 'disc_c3_c4', 'disc_c4_c5', 'disc_c5_c6', 'disc_c6_c7', 'disc_c7_t1'] + \
     [f'disc_t{i}_t{i + 1}' for i in range(1, 12)] + ['disc_t12_l1', 'disc_l1_l2', 'disc_l2_l3', 'disc_l3_l4', 'disc_l4_l5', 'disc_l5_sacrum']
 SHOULDER = ('sternoclavicular', 'acromioclavicular', 'glenohumeral')
+# Non-articular attachments are anatomical exceptions, not a free choice: each is listed with its reason.
+# Carriers: bone -> allowed parents (no osseous articulation joins them; the attachment is ligamentous/cartilaginous).
+CARRIER_EXCEPTIONS = {
+    'malleus_left': {'temporal_left'}, 'malleus_right': {'temporal_right'},     # ossicle held by ligaments in the middle ear
+    'sternum': {f't{i}' for i in range(1, 13)},                                  # joined to the spine only via costal cartilages and ribs
+}
 
 # Claude bookkeeping only (not anatomy): which readiness region each inventory region is tracked under.
 READINESS_OF_INVENTORY_REGION = {
@@ -77,7 +83,7 @@ def _result(cid, failures=(), unverified=(), info=None, detail=''):
     return out
 
 
-def check_candidate(cand, inventory, articulations, additional):
+def check_candidate(cand, inventory, articulations, additional, non_articulating=('hyoid',)):
     bones, markers = cand.get('bones', {}), cand.get('joint_markers', {})
     inv_ids = {b['id']: b for b in inventory}
     art_ids = {a['id']: a for a in articulations}
@@ -138,6 +144,17 @@ def check_candidate(cand, inventory, articulations, additional):
     if 'hyoid' in bones and bones['hyoid'].get('parent') is not None:
         fails.append('hyoid has an osseous parent (must remain suspended)')
     roots = sorted(k for k, b in bones.items() if b.get('parent') is None)
+    # one skeletal root, plus inventory non-articulating bones (the hyoid); anything else is a detached segment
+    exempt = set(non_articulating or ())
+    skeletal_roots = [k for k in roots if k not in exempt]
+    if len(skeletal_roots) > 1:
+        fails.append(f'more than one skeletal root (detached segments): {skeletal_roots}')
+    for k, b in bones.items():
+        rel = b.get('parent_relation')
+        if isinstance(rel, dict) and rel.get('type') == 'carrier':
+            allowed = CARRIER_EXCEPTIONS.get(k)
+            if allowed is None or b.get('parent') not in allowed:
+                fails.append(f'{k}: carrier relation to {b.get("parent")} is not a documented non-articular exception')
     checks.append(_result('parent_tree', fails, info={'roots': roots}))
 
     # 5 side sign: anatomical left = +X

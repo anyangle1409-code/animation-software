@@ -107,6 +107,17 @@ class Mutations(unittest.TestCase):
         c = copy.deepcopy(A003); c['bones']['hyoid']['parent'] = 'c3'; c['bones']['hyoid']['parent_relation'] = {'type': 'carrier'}
         self.assertTrue(any('hyoid' in f for f in status(run(c), 'parent_tree')['failures']))
 
+    def test_detached_segment_and_undocumented_carrier_rejected(self):
+        c = copy.deepcopy(A003); c['bones']['femur_left']['parent'] = None
+        c['bones']['femur_left']['parent_relation'] = {'type': 'root', 'reason': 'test'}
+        self.assertTrue(any('more than one skeletal root' in f for f in status(run(c), 'parent_tree')['failures']))
+        c = copy.deepcopy(A003); c['bones']['radius_left']['parent_relation'] = {'type': 'carrier', 'reason': 'test'}
+        self.assertTrue(any('not a documented' in f for f in status(run(c), 'parent_tree')['failures']))
+        c = copy.deepcopy(A003); c['bones']['radius_left']['parent'] = 'femur_left'
+        c['bones']['radius_left']['parent_relation'] = {'type': 'carrier', 'reason': 'x'}
+        self.assertEqual(status(run(c), 'parent_tree')['status'], 'FAIL')
+        self.assertEqual(status(run(A003), 'parent_tree')['status'], 'PASS')   # a003's real carriers stay legal
+
     def test_side_swap(self):
         c = copy.deepcopy(A003)
         c['bones']['humerus_left'], c['bones']['humerus_right'] = c['bones']['humerus_right'], c['bones']['humerus_left']

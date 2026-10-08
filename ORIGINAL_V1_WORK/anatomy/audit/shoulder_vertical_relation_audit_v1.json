@@ -1,0 +1,107 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-08",
+ "status": "AUDIT_OPEN_NOT_RESOLVED",
+ "inputs_sha256": {
+  "ORIGINAL_V1_WORK/anatomy/canonical_shoulder_girdle_solution_182_v1.json": "52a7e6d1308e6cdedaf236f1ce934384f7b64b859d48cb263a566f87eb971b23",
+  "ORIGINAL_V1_WORK/anatomy/canonical_thorax_frame_182_review_v1.json": "9d26f53b6e529d2c3af4c340902290d37fd64d8715d0c0ecfe99d19ba49a86c7",
+  "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json": "11712ba3e105aa8844b07572315d58ccace1d23d2f0cdf101218a3a507a1a1e3",
+  "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/candidate_record.json": "08e9f2e1187dbedad680ce88595c565f7449773789fd597d96df05c0612fc778"
+ },
+ "erratum_v1_vertical_relation_reading": {
+  "withdrawn_text": "Bony sources agree (AC about 23-27 mm above IJ); ANSUR living skin puts the acromion only about 3 mm above the suprasternale. With the C7 conflict (living 80.7 mm vs bony 33-58 mm), no single thorax pitch fits both living relations (they pull in opposite directions). One hypothesis fits both: the living suprasternale landmark sits about 25-35 mm lower relative to C7 and the shoulder than the bony IJ of the models. Recorded as a HYPOTHESIS, not adopted: absolute shoulder height relative to the trunk stays OPEN.",
+  "offset_definition": "d = living suprasternale height minus bony IJ height, each taken relative to the same bony structure (negative = living lower)",
+  "offset_required_by_C7_mm": {
+   "seth_holzbaur_model": -47.9,
+   "bodyparts3d_specimen": -35.2
+  },
+  "offset_required_by_acromion_mm": 23.5,
+  "consistent_single_offset": false,
+  "verdict": "HYPOTHESIS_WITHDRAWN: the C7 relation needs the living suprasternale lower than the bony IJ, the acromion relation needs it higher; no single suprasternale offset reconciles both.",
+  "v1_file_edited": false
+ },
+ "ij_independent_acromion_vs_C7": {
+  "ANSUR_acromion_minus_cervicale_mm": -77.5,
+  "ANSUR_sd_note": "acromial height SD and cervicale SD are published separately; their difference SD is not published (not invented here)",
+  "solution_bony": {
+   "bony_specimen_pitch": {
+    "AC_minus_C7_seth": -6.2,
+    "AC_minus_C7_bodyparts3d": -18.9,
+    "AA_minus_C7_bodyparts3d": -18.2
+   },
+   "living_implied_pitch": {
+    "AC_minus_C7": -41.8,
+    "AA_minus_C7": -35.5,
+    "note": "C7 rise set equal to ANSUR by construction of this pitch"
+   }
+  },
+  "smallest_shoulder_excess_over_living_mm": 35.7,
+  "reading": "Even at the living-implied pitch (which matches C7) the solved AC sits 35.7 mm higher relative to C7 than the ANSUR acromion does; at the bony pitch the excess is larger. Thorax pitch alone does not resolve it. Candidate explanations (not adopted, not tested): skin landmark definitions (acromiale lateral-superior edge vs AC centre; cervicale over the C7 spinous tip vs model C7 point), standing shoulder posture differences between the CT/specimen cohorts and ANSUR, and cohort/stature scaling. OPEN."
+ },
+ "absolute_heights_vs_ANSUR_182": {
+  "ANSUR_182_mm": {
+   "suprasternaleheight": {
+    "mean": 1494.5,
+    "residual_sd": 11.7
+   },
+   "acromialheight": {
+    "mean": 1497.7,
+    "residual_sd": 16.2
+   },
+   "cervicaleheight": {
+    "mean": 1575.2,
+    "residual_sd": 11.2
+   }
+  },
+  "a003_bony_IJ_z_mm": 1519.2,
+  "a003_IJ_minus_ANSUR_suprasternale_mm": 24.7,
+  "records": {
+   "a003": {
+    "AC_centre_z_mm": 1497.5,
+    "GH_z_mm": 1462.4,
+    "AC_minus_ANSUR_acromial_mm": -0.2
+   },
+   "c001_candidate": {
+    "AC_centre_z_mm": 1545.7,
+    "lateral_distal_acromion_LM27_z_mm": 1560.7,
+    "GH_z_mm": 1520.1,
+    "LM27_minus_ANSUR_acromial_mm": 63.0,
+    "LM27_z_score_vs_ANSUR_acromial": 3.89
+   },
+   "solution_source_scale__bony_specimen_deg__IJ_at_a003": {
+    "AC_centre_z_mm": 1545.7,
+    "lateral_distal_acromion_LM27_z_mm": 1560.7,
+    "GH_z_mm": 1520.1,
+    "LM27_minus_ANSUR_acromial_mm": 63.0,
+    "LM27_z_score_vs_ANSUR_acromial": 3.89
+   },
+   "solution_source_scale__bony_specimen_deg__IJ_at_ANSUR_182": {
+    "AC_centre_z_mm": 1521.1,
+    "lateral_distal_acromion_LM27_z_mm": 1536.0,
+    "GH_z_mm": 1495.4,
+    "LM27_minus_ANSUR_acromial_mm": 38.3,
+    "LM27_z_score_vs_ANSUR_acromial": 2.37
+   },
+   "solution_source_scale__living_ANSUR_implied_deg__IJ_at_a003": {
+    "AC_centre_z_mm": 1558.1,
+    "lateral_distal_acromion_LM27_z_mm": 1563.8,
+    "GH_z_mm": 1527.8,
+    "LM27_minus_ANSUR_acromial_mm": 66.1,
+    "LM27_z_score_vs_ANSUR_acromial": 4.08
+   },
+   "solution_source_scale__living_ANSUR_implied_deg__IJ_at_ANSUR_182": {
+    "AC_centre_z_mm": 1533.4,
+    "lateral_distal_acromion_LM27_z_mm": 1539.1,
+    "GH_z_mm": 1503.1,
+    "LM27_minus_ANSUR_acromial_mm": 41.4,
+    "LM27_z_score_vs_ANSUR_acromial": 2.56
+   }
+  },
+  "reading": "Lowest available variant (bony pitch, IJ at ANSUR suprasternale) still places the lateral acromion above ANSUR acromial height; c001 (IJ at the a003 bony IJ, itself above ANSUR suprasternale) is higher still. This is a KNOWN DEFECT of c001 inherited from the OPEN vertical relation, not a pass. a003 AC coincides with ANSUR acromial height (how a003 reached that was not re-audited here); a003 does not satisfy the bony thorax-relative relations."
+ },
+ "still_open": [
+  "absolute shoulder height relative to the trunk (all variants place the shoulder above the ANSUR acromial height)",
+  "which skin-to-bone landmark offsets apply to acromiale and cervicale (needs a source pairing skin landmarks with bone)",
+  "standing chest/thorax pitch source disagreement (bony 7.04 deg vs living-implied -11.3 deg) - unchanged, unresolved"
+ ]
+}

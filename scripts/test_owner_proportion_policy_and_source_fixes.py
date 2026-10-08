@@ -13,6 +13,7 @@ class OwnerProportionPolicy(unittest.TestCase):
             d = load(name)
             dec = {x['id']: x for x in d['owner_decisions']}['PROPORTION_POLICY_182CM_MALE']
             self.assertIn('1.82 m adult male', dec['decision'])
+            self.assertIn('never changed to suit the mesh', dec['skeleton_precedence'])
             self.assertIn('mesh is refitted', dec['decision'])
         self.assertIs(load('canonical_target_selection_v1.json')['freeze_ready'], False)
         r = load('canonical_freeze_readiness_v1.json')

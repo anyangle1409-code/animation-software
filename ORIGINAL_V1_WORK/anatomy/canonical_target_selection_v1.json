@@ -282,14 +282,16 @@
     {
       "date": "2026-10-08",
       "owner": "project owner (via Claude session)",
-      "decision": "The canonical skeleton uses normal anatomical proportions for a 1.82 m adult male. The body mesh is refitted to the skeleton afterwards.",
+      "decision": "The canonical skeleton is anatomically accurate for a standard 1.82 m adult male. The body mesh is refitted to the skeleton afterwards.",
       "consequences": [
         "The r95/a003 authored forearm-hand shortness, long feet and broad shoulders are not intended styling and must not constrain canonical bone lengths.",
         "Agreement with the r95 surface is no longer sufficient corroboration for a canonical bone length; targets come from stature-conditioned anatomical evidence with matched endpoint definitions.",
         "This answers the F-PROP-001 owner question. It does not select any numeric target or change freeze_ready."
       ],
       "recorded_by": "docs/CLAUDE_INDEPENDENT_REVIEW_20261008.md",
-      "id": "PROPORTION_POLICY_182CM_MALE"
+      "id": "PROPORTION_POLICY_182CM_MALE",
+      "skeleton_precedence": "Once a skeleton element is confirmed anatomically correct, it is never changed to suit the mesh. The mesh, weights and deformation are adapted to the skeleton. A confirmed element may change only on new anatomical evidence, never on mesh fit.",
+      "confirmed_by_owner": "2026-10-08 (restated)"
     }
   ]
 }

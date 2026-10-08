@@ -63,7 +63,7 @@
     },
     "spine": {
       "evidence_grade": "A_STRUCTURAL_DEFECT",
-      "freeze_state": "PROVISIONAL_GLOBAL_MALE_ALIGNMENT_SELECTED_3D_LEVEL_FRAMES_OPEN",
+      "freeze_state": "P1_S1_FRAME_SOLVED_LUMBAR_THORACIC_CERVICAL_LEVEL_FRAMES_OPEN",
       "selected": {
         "cervical_body_heights_mm": null,
         "cervical_disc_heights_mm": null,
@@ -93,10 +93,17 @@
           "LL_L1_S1": 56.4,
           "TK_T1_T12": 43.7
         },
-        "lumbar_distribution_state": "SOURCE_PATTERN_SCALED_TO_MALE_GLOBAL_LL"
+        "lumbar_distribution_state": "SOURCE_PATTERN_SCALED_TO_MALE_GLOBAL_LL",
+        "S1_pelvic_frame": "ORIGINAL_V1_WORK/anatomy/canonical_s1_pelvic_frame_p1.json",
+        "S1_centre_m": [
+          0,
+          -0.0021886170125062013,
+          1.0353155070562279
+        ],
+        "S1_sacral_slope_deg": 40.9
       },
       "blockers": [
-        "instantiate S1 superior endplate frame and lumbosacral orientation",
+        "build audit-only L5/S1→L1/L2 endplate/frame coordinates from the explicit body+disc stack and P1 S1 plane",
         "select per-level thoracic curvature/endplate orientations that sum to the global T1-T12 target and preserve rib attachments",
         "select cervical neutral family after C7/T1 and head-over-pelvis constraints",
         "resolve mixed-method thoracic body/disc values before exact 3D coordinate freeze"
@@ -177,11 +184,20 @@
         "sacral_length_mm": "RETAIN_A003_PROVISIONALLY",
         "os_coxae_landmarks": null,
         "SI_frames": null,
-        "pubic_frame": null
+        "pubic_frame": null,
+        "S1_pelvic_frame": "ORIGINAL_V1_WORK/anatomy/canonical_s1_pelvic_frame_p1.json",
+        "S1_centre_m": [
+          0,
+          -0.0021886170125062013,
+          1.0353155070562279
+        ],
+        "S1_frame_state": "PROVISIONAL_FROM_RETAINED_HA_PLUS_MALE_PTh_PT_SS"
       },
       "blockers": [
-        "os coxae landmark geometry",
-        "SI/pubic contacts"
+        "landmark-rich os coxae geometry around the retained HJC",
+        "SI auricular contact frames tied to the rebuilt sacrum/os coxae",
+        "pubic-symphysis contact frame and pelvic-ring closure",
+        "final sacral width/curvature and confirmation that the rebuilt acetabulum preserves the retained HJC"
       ]
     },
     "lower_limb_long": {

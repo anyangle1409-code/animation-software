@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Evidence-convergence gate for canonical skeleton targets. Prevent a single population, method or measurement definition from being promoted directly into production anatomy.",
+  "status": "ACTIVE_REVIEW_GATE",
+  "grading": {
+    "A": "Confirmed structural/proportion finding: hard anatomy/geometry failure OR at least two substantially measurement-compatible independent sources converge on the same direction.",
+    "B": "Strongly supported/reopen: multiple clues agree but endpoint, stature, population or method mismatch prevents an exact target.",
+    "C": "Conflicted/insufficient: credible sources disagree materially or do not match the modeled measurement; no directional geometry change may be frozen.",
+    "D": "Unreviewed/placeholder: topology exists but geometry has not been independently validated."
+  },
+  "freeze_policy": [
+    "A dimensional target may not be frozen from one population mean alone.",
+    "For a RED dimensional change, require two independent measurement-compatible sources OR one source plus a hard geometric invariant.",
+    "When sources use different endpoints, store both and map endpoints before comparing numbers.",
+    "Stature-aware evidence outranks an unmatched population mean when the intended character stature is fixed.",
+    "A source conflict downgrades the finding until resolved; do not average incompatible definitions.",
+    "Structural invariants such as 'disc-bearing levels require a nonzero disc space' do not need population averaging.",
+    "All audit corrections remain in history; corrected conclusions replace, not erase, earlier overclaims."
+  ],
+  "region_findings": {
+    "clavicle": {
+      "grade": "A",
+      "state": "CONFIRMED_DEFECT",
+      "a003": "SC-to-AC straight span ~223 mm",
+      "evidence": [
+        "male CT true clavicle length ~150 mm",
+        "male 3D centreline mean ~167 mm",
+        "independent CT male endpoint mean ~155 mm, range to ~175 mm",
+        "hard invariant: straight endpoint chord cannot exceed its own curved centreline length"
+      ],
+      "action": "REBUILD_LENGTH_CURVATURE_AND_SC_AC_PLACEMENT"
+    },
+    "scapula": {
+      "grade": "C",
+      "state": "REOPEN_METHOD_CONFLICT",
+      "a003": "GH-to-inferior-angle ~212 mm",
+      "evidence": [
+        "dry-bone male height/width sample ~148/108 mm",
+        "Italian male CT stature equation predicts longitudinal scapular length ~208 mm at 1.82 m",
+        "a003 measurement endpoints do not match either published longitudinal definition"
+      ],
+      "action": "REBUILD_LANDMARK_FRAME_FIRST_NO_EXACT_SHORTENING_YET"
+    },
+    "spine": {
+      "grade": "A",
+      "state": "CONFIRMED_STRUCTURAL_DEFECT",
+      "evidence": [
+        "disc-bearing adjacent a003 vertebral endpoints coincide at 0 mm",
+        "independent cervical/lumbar sources report nonzero level-specific disc heights",
+        "a003 lumbar body sticks ~38-45 mm while CT middle body heights ~23-24 mm"
+      ],
+      "action": "SEPARATE_VERTEBRAL_BODIES_FROM_DISC_GAPS_AND_REBUILD_LEVELS"
+    },
+    "ribs": {
+      "grade": "A",
+      "state": "CONFIRMED_REPRESENTATION_DEFECT",
+      "evidence": [
+        "a003 ribs are straight two-point sticks",
+        "costovertebral-to-costotransverse axis degenerates because markers are collinear",
+        "multiple CT/population studies model curved rib centrelines and level-dependent shape"
+      ],
+      "action": "ADD_CURVED_REFERENCE_GEOMETRY_AND_TRUE_NECK_AXES"
+    },
+    "radius_forearm": {
+      "grade": "B",
+      "state": "STRONGLY_REOPENED",
+      "evidence": [
+        "stature-conditioned ANSUR component chain implies longer radiale-stylion span than current a003 osteometric proxy",
+        "whole arm and acromion-to-wrist surface measures are short for stature",
+        "adult CT forearm studies use different endpoints and do not provide a clean stature-matched numeric target"
+      ],
+      "action": "RETARGET_ONLY_AFTER_ENDPOINT_COMPATIBLE_STATURE_AWARE_CORRIDOR"
+    },
+    "ulna": {
+      "grade": "C",
+      "state": "REOPEN_ENDPOINT_CONFLICT",
+      "evidence": [
+        "a003 proxy not grossly inconsistent with some adult references",
+        "percutaneous stature equation implies longer ulna but uses different endpoints/population"
+      ],
+      "action": "DO_NOT_SCALE_WITH_RADIUS; FIND_ENDPOINT_MATCHED_TARGET"
+    },
+    "hand_metacarpals_2_4": {
+      "grade": "B",
+      "state": "STRONGLY_SHORT",
+      "evidence": [
+        "1998 male radiographic means place M2/M3 >2 SD above a003; M4 ~1.6 SD",
+        "independent 2025 CT means are ~6-12 mm longer than a003 M2-M4",
+        "whole hand surface is also short for stature"
+      ],
+      "action": "RETARGET_AFTER_CARPAL_WRIST_GEOMETRY_IS_DEFINED"
+    },
+    "hand_other_phalanges": {
+      "grade": "B",
+      "state": "PROVISIONALLY_PLAUSIBLE",
+      "evidence": [
+        "most a003 phalange spans lie within 2 SD of one male radiographic sample"
+      ],
+      "action": "CROSSCHECK_RATIOS_BEFORE_FREEZE"
+    },
+    "foot_surface": {
+      "grade": "A",
+      "state": "CONFIRMED_PROPORTION_DEFECT",
+      "evidence": [
+        "a003 heel-to-toe surface ~305 mm vs stature-conditioned ANSUR ~280 mm, z +2.77"
+      ],
+      "action": "FINAL_MESH_MUST_SHORTEN_AROUND_CANONICAL_SKELETON"
+    },
+    "metatarsals": {
+      "grade": "C",
+      "state": "REOPEN_SOURCE_CONFLICT",
+      "evidence": [
+        "Patil male sample makes all five a003 metatarsals >2 SD long",
+        "Spanish/Portuguese/Korean stature regressions imply larger M1/M2 values at 1.82 m under different maximum-length definitions"
+      ],
+      "action": "NO_BLANKET_SHORTENING; MAP_ENDPOINTS_AND_STATURE_BEFORE_FREEZE"
+    },
+    "tarsals": {
+      "grade": "A",
+      "state": "CONFIRMED_REPRESENTATION_DEFECT",
+      "evidence": [
+        "current Blender sticks are incompatible with whole-bone dimensional semantics",
+        "independent CT/dry-bone sources establish different bone-size hierarchy and dimensions"
+      ],
+      "action": "SEPARATE_BONE_ENVELOPES_CENTROIDS_AXES_CONTACTS_FROM_CONTROL_STICKS"
+    },
+    "sacrum": {
+      "grade": "B",
+      "state": "PROVISIONALLY_PLAUSIBLE_LENGTH",
+      "evidence": [
+        "a003 ~103 mm vs male dry-bone ~107.6±10 mm and compatible CT/region studies"
+      ],
+      "action": "RETAIN_LENGTH_PROVISIONALLY; REBUILD_WIDTH_CURVATURE_SI_SURFACES"
+    },
+    "pelvis_HJC": {
+      "grade": "A",
+      "state": "PROVISIONALLY_RETAINED_ANCHOR",
+      "evidence": [
+        "selected HJC independently corroborated by ANSUR trochanterion + radiographic offset within ~2 mm"
+      ],
+      "action": "RETAIN_UNLESS_REBUILT_ACETABULUM_DISPROVES"
+    },
+    "femur_tibia": {
+      "grade": "B",
+      "state": "PROVISIONALLY_PLAUSIBLE",
+      "evidence": [
+        "joint-centre landmarks independently corroborated; similar-stature model examples broadly compatible"
+      ],
+      "action": "RETAIN_AND_RETEST_AFTER_PELVIS_FOOT_CHANGES"
+    },
+    "patella_size": {
+      "grade": "B",
+      "state": "PROVISIONALLY_PLAUSIBLE",
+      "evidence": [
+        "a003 ~44 mm lies within independent adult male MRI/dry-bone size corridors"
+      ],
+      "action": "RETAIN_SIZE; TRACKING_PATH_STILL_OPEN"
+    },
+    "head_TMJ_breadth": {
+      "grade": "B",
+      "state": "PROVISIONALLY_PLAUSIBLE",
+      "evidence": [
+        "a003 TMJ inter-centre ~114.9 mm is within ~1.4 SD of one adult male 3D-CT bicondylar sample; other populations vary"
+      ],
+      "action": "REMEASURE_WHEN_CANONICAL_MANDIBLE_IS_BUILT"
+    },
+    "cranial_facial_fixed_geometry": {
+      "grade": "D",
+      "state": "TOPOLOGY_COMPLETE_GEOMETRY_NOT_FREEZE_READY",
+      "evidence": [
+        "current bones are schematic proportional reference sticks"
+      ],
+      "action": "BUILD_LANDMARK_ENVELOPES_AFTER_MOVEMENT_CRITICAL_REGIONS"
+    }
+  },
+  "current_corrections": [
+    {
+      "topic": "scapula",
+      "corrected_from": "hard claim GH-to-inferior-angle must be less than scapular vertical height",
+      "corrected_to": "oblique GH-to-inferior distance requires a 3D height/width/glenoid envelope and endpoint-matched sources"
+    },
+    {
+      "topic": "metatarsals",
+      "corrected_from": "all a003 metatarsals proven too long from one male radiographic sample",
+      "corrected_to": "surface foot is definitely long, but metatarsal target is conflicted by stature-aware studies and remains open"
+    }
+  ]
+}

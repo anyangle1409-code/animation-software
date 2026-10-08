@@ -28,6 +28,7 @@ def main():
     for a in ('--blend', '--record', '--report', '--tests', '--views', '--out'):
         ap.add_argument(a, required=True)
     ap.add_argument('--step', type=int, default=4)
+    ap.add_argument('--centre-z', type=float, default=1.30); ap.add_argument('--ortho', type=float, default=1.3)
     o = ap.parse_args(argv)
     out = Path(o.out); out.mkdir(parents=True, exist_ok=False)
     rec = json.loads(Path(o.record).read_text()); rep = json.loads(Path(o.report).read_text())
@@ -71,7 +72,7 @@ def main():
     sc.render.engine = 'BLENDER_WORKBENCH'
     shd = sc.display.shading; shd.light = 'STUDIO'; shd.color_type = 'MATERIAL'; shd.show_xray = True; shd.xray_alpha = 0.12
     cam = bpy.data.objects.new('cam', bpy.data.cameras.new('cam')); sc.collection.objects.link(cam); sc.camera = cam
-    cam.data.type = 'ORTHO'; cam.data.ortho_scale = 1.3
+    cam.data.type = 'ORTHO'; cam.data.ortho_scale = o.ortho
     sc.render.resolution_x = sc.render.resolution_y = 640
     sc.render.image_settings.file_format = 'PNG'
     manifest = {}
@@ -81,7 +82,7 @@ def main():
         if frames[-1] != f1:
             frames.append(f1)
         for view in o.views.split(','):
-            centre = Vector((0, 0, 1.30)); d = CAMS[view]
+            centre = Vector((0, 0, o.centre_z)); d = CAMS[view]
             cam.location = centre + d * 3
             cam.rotation_euler = (-d).to_track_quat('-Z', 'Y').to_euler()
             for f in frames:

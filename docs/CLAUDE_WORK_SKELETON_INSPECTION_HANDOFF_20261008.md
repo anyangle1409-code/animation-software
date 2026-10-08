@@ -233,3 +233,21 @@ This corrects the earlier "thigh 6.5% short" note. The proposal does not select 
 - **Reading:** with the shoulder on ANSUR, the a003 arm hung from the bony GH places the elbow about 19 mm high. Causes are unresolved (a003 GH–EJC length vs bony GH depth; the unsourced 15 mm convention). No arm target was selected.
 - **No collision:** the shallow GH depth below the ANSUR acromion point (26.5 mm) is due to the point lying near LM25 (the low posterolateral corner). Every acromion landmark clears the 24 mm head sphere by 17–25 mm, and the glenoid rim sits 0–6 mm outside it.
 - **Next arm step** (source-blocked from the cloud): matched radial/ulnar landmarks (GPT's forearm requirements), then an endpoint-defined humerus/forearm solve on top of c003.
+
+### Phase 9 gap closed for implementation: rib–sternum coupled inspiration (8 October, Claude)
+
+- **Solver:** `scripts/anatomy_fit/rib_sternum_coupling.py`.
+  - Ribs 1–7 take a pump-handle rotation at the 4.6° TEST AMPLITUDE (Beyer 2014, as the isolated rib tests); ribs 8–10 follow through the interchondral joints.
+  - The sternum's rigid sagittal motion is solved for least costal-cartilage deformation, so no new magnitude is introduced.
+- **Runs:** `audit/runs/rib_sternum_coupling_{a003,c003}_001/` (plan → Blender key and capture → compare via `rib_sternum_coupling_run.py`).
+  - **Integrity PASS on both:** bone ends ≤ 5e-7 m from the solver; costovertebral drift 1.4e-7 m; mirrored displacement ≤ 2e-6 m.
+  - **Sternum at peak:** rises 9.2–10.3 mm and moves anteriorly 1.7–3.5 mm (tilt −1.8°), the textbook pump handle, which emerged from the solve.
+  - **Cartilage change:** 15.8 mm (sternum fixed) → 4.7–4.8 mm.
+- **Clips:** a003 vs c003 thorax close-ups at true scale, front and side.
+- **Fixes along the way:**
+  - The run's mirror check now compares mirrored *displacements* (the a003 rest ribs carry an inherited 0.04 mm asymmetry).
+  - The clip tools gained optional framing and caption arguments (defaults unchanged).
+- **Tests:** `scripts/test_rib_sternum_coupling.py` (6).
+- **Gate 9 stays NOT PASSED:**
+  - not modelled: bucket-handle and long-axis components, cartilage elasticity, the shoulder's response to breathing, per-level amplitudes;
+  - still untested: full opposition and the midfoot.

@@ -52,8 +52,12 @@ def main():
     for k in ('--a003', '--c001', '--out'):
         ap.add_argument(k, required=True)
     ap.add_argument('--right-label', default=RIGHT['label'], help='label of the right panel (directory given by --c001)')
+    ap.add_argument('--note', default=None, help='caption note (default: the isolated-test note)')
     o = ap.parse_args()
     RIGHT['label'] = o.right_label
+    global NOTE
+    if o.note:
+        NOTE = o.note
     out = Path(o.out).resolve()
     if out.exists():
         raise FileExistsError(out)

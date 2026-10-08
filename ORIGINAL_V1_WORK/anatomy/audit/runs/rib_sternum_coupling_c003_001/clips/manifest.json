@@ -1,0 +1,58 @@
+{
+ "note": "Phase 9 rib-sternum coupled inspiration (pump-handle ribs 1-10, sternum solved; 4.6 deg TEST AMPLITUDE, true scale); clavicles carried by sternum; NOT CANONICAL",
+ "a003_frames": "/tmp/claude-0/-home-user-animation-software/b0b01a8a-22fb-52cd-85ad-39c74496ecb2/scratchpad/clips/rs_a003",
+ "right_frames": "/tmp/claude-0/-home-user-animation-software/b0b01a8a-22fb-52cd-85ad-39c74496ecb2/scratchpad/clips/rs_c003",
+ "right_label": "c003 coupled thorax+shoulder audit proposal",
+ "renderer": "scripts/anatomy_fit/render_movement_clips.py",
+ "composer": "scripts/anatomy_fit/compose_movement_clips.py",
+ "tests": {
+  "rib_sternum_coupled_inspiration/front": {
+   "frames": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17
+   ]
+  },
+  "rib_sternum_coupled_inspiration/left": {
+   "frames": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17
+   ]
+  }
+ },
+ "files_sha256": {
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/rib_sternum_coupling_c003_001/clips/rib_sternum_coupled_inspiration__front.gif": "47136274be0d5b2afac3c161db2a6d33e24973c5f7e942fbf442a8eece97b8cc",
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/rib_sternum_coupling_c003_001/clips/rib_sternum_coupled_inspiration__front__keyframes.jpg": "0dcd78247d1f7351ddd48b179e0dfe229226585a22cce0e91a2d50a32ffd7761",
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/rib_sternum_coupling_c003_001/clips/rib_sternum_coupled_inspiration__left.gif": "28a10e7a87c8f0af987ccd5b77d1d18ed102ac4ce485910e1d6839e9e48a6d56",
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/rib_sternum_coupling_c003_001/clips/rib_sternum_coupled_inspiration__left__keyframes.jpg": "985368d2c6c4a439dfbaa5d9b9e66521a8b48f2931cf08a41e2c63e6504062ff"
+ }
+}

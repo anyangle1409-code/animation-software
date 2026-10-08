@@ -1,0 +1,234 @@
+{
+ "schema_version": 1,
+ "phase": 9,
+ "test": "rib_sternum_coupled_inspiration",
+ "scope": "Implementation integrity of the coupled pump-handle rib/sternum solver in Blender; not anatomical acceptance; bucket-handle, cartilage elasticity and shoulder response not modelled",
+ "provenance": {
+  "record": "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json",
+  "record_sha256": "11712ba3e105aa8844b07572315d58ccace1d23d2f0cdf101218a3a507a1a1e3",
+  "source_blend": "ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a003.blend",
+  "source_sha256_before": "670a37bfd206d702928de721032e2b942725389dc6906df0d866eba8d8cbbe56",
+  "source_sha256_after": "670a37bfd206d702928de721032e2b942725389dc6906df0d866eba8d8cbbe56",
+  "test_blend_sha256": "0f1d1865854d4af9de50ab0dde050e73d6102eb29aff34e9f192ffc69e732c0c",
+  "blender": "5.2.1 LTS",
+  "scripts": {
+   "scripts/anatomy_fit/rib_sternum_coupling_run.py": "46d2d31d21a00dfe4404d0b674898c54356149a4cd8695399a2d35e572c95ebb",
+   "scripts/anatomy_fit/rib_sternum_coupling.py": "c18300008e0139128798843c7f139929231a7decdc9d33a475b6fcf8f8c9b97a"
+  }
+ },
+ "amplitude_deg": 4.6,
+ "amplitude_basis": "TEST AMPLITUDE: Beyer 2014 smallest level mean of the two major components (FRC-TLC), as the isolated rib tests",
+ "frames": 17,
+ "integrity_thresholds": {
+  "bone_end_error_m": 1e-05,
+  "costovertebral_drift_m": 1e-06,
+  "mirror_m": 1e-05
+ },
+ "results": {
+  "max_bone_end_error_m": 3.4585826813585346e-07,
+  "max_costovertebral_drift_m": 1.3989180139183743e-07,
+  "max_mirror_displacement_error_m": 1.6811571423169164e-06,
+  "mirror_basis": "mirrored left vs right displacement from rest (a003 rest ribs carry an inherited ~0.04 mm asymmetry)",
+  "max_costal_link_change_mm": 4.672,
+  "worst_link": "sternocostal_01_right",
+  "peak_solver_metrics": {
+   "theta_deg": 4.6,
+   "sternum_dy_mm": -1.6879246209793932,
+   "sternum_dz_mm": 10.347522649124846,
+   "sternum_tilt_deg": -1.7559160407426606,
+   "cartilage_change_max_mm": 4.672280622297515,
+   "cartilage_change_max_if_sternum_fixed_mm": 15.757223561009456,
+   "false_rib_angles_deg": {
+    "rib_08_left": -4.7274,
+    "rib_09_left": -5.0068,
+    "rib_10_left": -5.3184,
+    "rib_08_right": -4.7275,
+    "rib_09_right": -5.0069,
+    "rib_10_right": -5.3186
+   }
+  },
+  "max_theta_step_deg": 0.8802,
+  "sternum_direction_at_peak": {
+   "superior": true,
+   "anterior": true,
+   "reading": "textbook pump-handle: sternum rises and moves anteriorly in inspiration (direction emerges from the solve)"
+  }
+ },
+ "sternum_path": [
+  {
+   "frame": 1,
+   "theta_deg": 0.0,
+   "IJ_displacement_mm": [
+    0.0,
+    0.0,
+    -0.0
+   ],
+   "sternum_x_mm": 0.0
+  },
+  {
+   "frame": 2,
+   "theta_deg": 0.1751,
+   "IJ_displacement_mm": [
+    -0.0,
+    -0.079,
+    0.388
+   ],
+   "sternum_x_mm": -0.0
+  },
+  {
+   "frame": 3,
+   "theta_deg": 0.6737,
+   "IJ_displacement_mm": [
+    0.0,
+    -0.298,
+    1.495
+   ],
+   "sternum_x_mm": 0.0
+  },
+  {
+   "frame": 4,
+   "theta_deg": 1.4198,
+   "IJ_displacement_mm": [
+    -0.0,
+    -0.609,
+    3.159
+   ],
+   "sternum_x_mm": -0.0
+  },
+  {
+   "frame": 5,
+   "theta_deg": 2.3,
+   "IJ_displacement_mm": [
+    0.0,
+    -0.947,
+    5.134
+   ],
+   "sternum_x_mm": 0.0
+  },
+  {
+   "frame": 6,
+   "theta_deg": 3.1802,
+   "IJ_displacement_mm": [
+    -0.0,
+    -1.255,
+    7.12
+   ],
+   "sternum_x_mm": -0.0
+  },
+  {
+   "frame": 7,
+   "theta_deg": 3.9263,
+   "IJ_displacement_mm": [
+    -0.0,
+    -1.492,
+    8.813
+   ],
+   "sternum_x_mm": -0.0
+  },
+  {
+   "frame": 8,
+   "theta_deg": 4.4249,
+   "IJ_displacement_mm": [
+    -0.0,
+    -1.639,
+    9.948
+   ],
+   "sternum_x_mm": -0.0
+  },
+  {
+   "frame": 9,
+   "theta_deg": 4.6,
+   "IJ_displacement_mm": [
+    -0.0,
+    -1.688,
+    10.347
+   ],
+   "sternum_x_mm": -0.0
+  },
+  {
+   "frame": 10,
+   "theta_deg": 4.4249,
+   "IJ_displacement_mm": [
+    -0.0,
+    -1.639,
+    9.948
+   ],
+   "sternum_x_mm": -0.0
+  },
+  {
+   "frame": 11,
+   "theta_deg": 3.9263,
+   "IJ_displacement_mm": [
+    -0.0,
+    -1.492,
+    8.813
+   ],
+   "sternum_x_mm": -0.0
+  },
+  {
+   "frame": 12,
+   "theta_deg": 3.1802,
+   "IJ_displacement_mm": [
+    -0.0,
+    -1.255,
+    7.12
+   ],
+   "sternum_x_mm": -0.0
+  },
+  {
+   "frame": 13,
+   "theta_deg": 2.3,
+   "IJ_displacement_mm": [
+    0.0,
+    -0.947,
+    5.134
+   ],
+   "sternum_x_mm": 0.0
+  },
+  {
+   "frame": 14,
+   "theta_deg": 1.4198,
+   "IJ_displacement_mm": [
+    -0.0,
+    -0.609,
+    3.159
+   ],
+   "sternum_x_mm": -0.0
+  },
+  {
+   "frame": 15,
+   "theta_deg": 0.6737,
+   "IJ_displacement_mm": [
+    0.0,
+    -0.298,
+    1.495
+   ],
+   "sternum_x_mm": 0.0
+  },
+  {
+   "frame": 16,
+   "theta_deg": 0.1751,
+   "IJ_displacement_mm": [
+    -0.0,
+    -0.079,
+    0.388
+   ],
+   "sternum_x_mm": -0.0
+  },
+  {
+   "frame": 17,
+   "theta_deg": 0.0,
+   "IJ_displacement_mm": [
+    0.0,
+    0.0,
+    -0.0
+   ],
+   "sternum_x_mm": 0.0
+  }
+ ],
+ "integrity_status": "PASS",
+ "frames_for_clips": [
+  1,
+  17
+ ]
+}

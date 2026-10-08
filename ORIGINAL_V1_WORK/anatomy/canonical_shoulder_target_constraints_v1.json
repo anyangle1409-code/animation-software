@@ -2,7 +2,7 @@
   "schema_version": 1,
   "created": "2026-10-08",
   "purpose": "Landmark-compatible constraint system for selecting the canonical shoulder girdle without fitting back to the r95 mesh.",
-  "status": "PARTIAL_CONSTRAINTS_READY_AC_OFFSET_UNRESOLVED",
+  "status": "PARTIAL_CONSTRAINTS_DIRECT_AC_3D_BOUND_READY_SC_X_OPEN",
   "stature_m": 1.8200002908706665,
   "baseline": "a003 audit only",
   "inputs": {
@@ -30,6 +30,28 @@
       "male_sd": 7.3,
       "definition": "3D centreline true length",
       "source": "CLAVICLE_CADAVER_3D_2013"
+    },
+    "direct_AC_to_lateral_acromion_3D_mm": {
+      "mean": 34,
+      "sd": 8,
+      "range": [
+        23,
+        52
+      ],
+      "definition": "direct anatomic distance from posterior AC joint to lateral acromion, in line with posterior clavicle/acromion; not assumed pure mediolateral",
+      "source": "SCAPULA_AC_LATERAL_2026"
+    },
+    "manubrium_outer_breadth_context_mm": {
+      "male_mean": 68.2,
+      "sd": 8,
+      "definition": "outer/max manubrial breadth associated with clavicular-notch region; not bilateral SC-centre breadth",
+      "source": "STERNUM_SELTHOFER_2006"
+    },
+    "manubrium_first_costal_width_context_mm": {
+      "male_mean": 78.01,
+      "sd": 12.45,
+      "definition": "distance between first costal-notch midpoints; not SC-centre breadth",
+      "source": "STERNUM_CT_GREECE_2025"
     }
   },
   "derived_constraints": {
@@ -52,7 +74,23 @@
       "male_sd": 7.3,
       "source": "CLAVICLE_CADAVER_3D_2013"
     },
-    "exact_AC_offset": "UNRESOLVED_AFTER_SOURCE_CORRECTION"
+    "exact_AC_offset": "DIRECT_3D_DISTANCE_AVAILABLE_TRANSVERSE_COMPONENT_STILL_FRAME_DEPENDENT",
+    "direct_AC_3D_constraint": {
+      "mean_mm": 34,
+      "sd_mm": 8,
+      "range_mm": [
+        23,
+        52
+      ],
+      "valid_relation": "required_transverse_AC_to_lateral_acromion_component_mm <= measured_3D_distance_mm",
+      "invalid_relation": "do not set transverse component equal to 34 mm without a mapped scapular local frame"
+    },
+    "conservative_biAC_bounds_from_outer_1sd_and_3D_range_mm": {
+      "lower": 304.9265234968994,
+      "upper_ceiling": 441.38659770902035,
+      "note": "Lower uses outer biacromial - 2*maximum 3-D distance; upper is strict outer-breadth ceiling. This is deliberately conservative, not a target."
+    },
+    "transverse_family_file": "ORIGINAL_V1_WORK/anatomy/canonical_shoulder_feasible_family_v1.json"
   },
   "hard_geometry_rules": [
     "bilateral_AC_breadth < bilateral_lateral_acromion_breadth",
@@ -71,11 +109,12 @@
     "independently_constrained": [
       "clavicle straight endpoint length",
       "clavicle curved centreline length",
-      "neutral clavicle orientation"
+      "neutral clavicle orientation",
+      "direct 3-D lateral-acromion→AC distance"
     ],
     "unresolved": [
+      "pure transverse component of the direct 3-D lateral-acromion→AC distance after scapular frame mapping",
       "bilateral SC-centre breadth",
-      "direct lateral-acromion→AC 3D/transverse offset",
       "absolute AC coordinates",
       "scapular local-frame scale"
     ],
@@ -87,17 +126,18 @@
     ]
   },
   "acceptance_logic": [
+    "Use the direct 2026 LA→AC result only as a 3-D distance constraint until the scapular local frame resolves its transverse component.",
     "Reject any candidate whose bi-AC breadth equals or exceeds bilateral lateral-acromion (biacromial) breadth.",
     "Reject any candidate whose SC-to-AC straight chord exceeds the clavicle curved centreline length.",
-    "Do not derive AC offset by subtracting two distances to a third landmark unless collinearity is demonstrated.",
     "Do not freeze absolute SC/AC coordinates until SC breadth and a direct/derived landmark-compatible AC placement constraint are available.",
     "Do not force scapular GH-to-inferior-angle from height-only evidence.",
     "Do not move the whole shoulder vertically just to repair width."
   ],
   "interpretation": [
     "The a003 shoulder-width failure remains independently confirmed by outer biacromial breadth and clavicle length.",
-    "The exact amount of medial AC relocation is not yet frozen because the previously used 34±8 mm direct AC-offset claim was a source-transcription error.",
-    "Target selection therefore remains deliberately blocked at absolute SC/AC coordinates while verified constraints are retained."
+    "The 2026 full text explicitly reports direct lateral-acromion→AC distance 34±8 mm (23–52 mm), correcting the earlier abstract-only source ambiguity.",
+    "That direct measurement constrains, but does not equal, the pure HGPT transverse component. Absolute SC/AC coordinates therefore remain open pending the local scapular/manubrial frame solve.",
+    "The evidence-filtered 50/60/70 mm SC sweep now has a valid direct-distance screen; it is still not a frozen target family."
   ],
   "next_steps": [
     "Solve SC/AC/acromion coordinates in 3D against the clavicle endpoint/centreline constraints and global shoulder-height scaffold.",
@@ -110,6 +150,11 @@
     "unchanged_findings": [
       "a003 bi-AC > outer biacromial scaffold",
       "a003 SC→AC chord grossly exceeds adult male clavicle endpoint/centreline evidence"
-    ]
+    ],
+    "full_text_followup": {
+      "previous_state": "Earlier source recheck removed an inferred 34±8 mm direct offset because it had been obtained by subtracting two STSL distances.",
+      "new_full_text_fact": "The paper itself explicitly reports a direct lateral-acromion→AC distance of 3.4±0.8 cm (2.3–5.2 cm).",
+      "retained_semantic_guard": "The direct result is a 3-D/anatomic landmark distance; it must not be treated as a pure mediolateral offset until the scapular frame is mapped."
+    }
   }
 }

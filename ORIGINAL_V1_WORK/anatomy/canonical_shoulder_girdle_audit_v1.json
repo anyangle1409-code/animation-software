@@ -12,7 +12,8 @@
   "current_a003_mm": {
     "clavicle_SC_to_AC_straight_span": 222.85962735242768,
     "scapula_GH_to_inferior_angle_span": 211.7154772372883,
-    "humerus_GH_to_EJC_control_span": 282.4957774279788
+    "humerus_GH_to_EJC_control_span": 282.4957774279788,
+    "bi_AC_joint_breadth": 481.3938993665297
   },
   "external_reference_mm": {
     "clavicle_true_length_male_CT_2020": {
@@ -43,6 +44,12 @@
       "value": 207.8173512763519,
       "source": "SCAPULA_STATURE_ITALY_2013",
       "definition": "study longitudinal scapular length; exact landmark mapping must be checked before comparing to GH-to-inferior-angle"
+    },
+    "ANSUR_stature_conditioned_biacromial_breadth": {
+      "mean": 425.15656060295987,
+      "residual_sd": 16.23003710606048,
+      "source": "ANSUR_II_MALE_2012",
+      "definition": "bony biacromial breadth at the acromia; AC joints lie medial to the lateral acromial points"
     }
   },
   "quantitative_flags": {
@@ -51,9 +58,12 @@
     "clavicle_vs_male_centerline_difference_mm": 56.05962735242768,
     "scapula_span_vs_male_total_scapular_height_difference_mm": 63.5154772372883,
     "scapula_mean_height_width_diagonal_mm": 183.43622870087577,
-    "scapula_plus1sd_height_width_diagonal_mm": 195.28822289119228
+    "scapula_plus1sd_height_width_diagonal_mm": 195.28822289119228,
+    "bi_AC_vs_expected_biacromial_difference_mm": 56.237338763569824,
+    "bi_AC_vs_expected_biacromial_z": 3.4650160314525817
   },
   "findings": [
+    "Independent global breadth check: a003 bi-AC joint breadth is ~481.4 mm, while stature-conditioned ANSUR male biacromial breadth is ~425.2±16.2 mm. Because each AC joint lies medial to the lateral acromial point, bi-AC breadth should be smaller than biacromial breadth; a003 is already ~3.47 residual SD above the expected biacromial mean. This independently confirms excessive lateral shoulder-girdle width without relying on a clavicle-length study.",
     "The a003 clavicle SC-to-AC straight span (~223 mm) is anatomically implausible. It exceeds a male CT true curved clavicle mean (~150 mm) by ~73 mm and even exceeds a male cadaver 3D centreline mean (~167 mm) by ~56 mm. A straight endpoint chord cannot legitimately be longer than the true curved bone length.",
     "Scapular size evidence is method-sensitive. One dry-bone male sample reports height ~148 mm, while an Italian male CT stature equation predicts longitudinal scapular length ~207.8 mm at 1.82 m. Because a003 uses GH-to-inferior-angle (~212 mm), none of these are endpoint-identical. The scapula is therefore REOPEN for landmark-compatible 3D reconstruction, but its exact shortening is explicitly NOT confirmed.",
     "The clavicle defect is directly confirmed by measurement semantics; the scapular evidence is conflicting by method and requires landmark-compatible 3D retargeting before either shortening or retention is claimed.",
@@ -68,6 +78,7 @@
     "humerus": "REVIEW_AFTER_GIRDLE_RETARGET_DO_NOT_STRETCH_TO_MESH"
   },
   "canonical_requirements": [
+    "Use stature-conditioned biacromial breadth as a global outer bony-shoulder scaffold; reconstructed bilateral AC joints must lie medial to the acromial endpoints.",
     "Define scapular superior angle, inferior angle, medial border/spine root, acromion, coracoid and glenoid centre from an evidence-backed local scapular frame before selecting any GH-to-inferior target.",
     "Represent clavicle with a curved centreline or equivalent non-bone reference geometry; SC and AC remain true endpoints.",
     "Use male clavicle endpoint/centreline corridors and preserve the fact that endpoint distance must be shorter than curved true length.",
@@ -75,6 +86,7 @@
     "After girdle retargeting, recompute shoulder breadth from skeleton plus realistic deltoid/soft-tissue thickness rather than preserving the old mesh breadth."
   ],
   "acceptance_tests": [
+    "Bilateral AC-joint breadth is less than bilateral lateral-acromion (biacromial) breadth and both are checked against the stature-conditioned global shoulder-width corridor.",
     "SC-to-AC endpoint distance is less than the corresponding clavicle curved centreline length.",
     "Clavicle centreline and endpoint measures fall inside a multi-source adult male corridor or have a documented stature-specific justification.",
     "Scapular GH-to-inferior-angle distance must be checked against a landmark-compatible 3D scapular envelope (height + width + glenoid position), not against height alone.",

@@ -9,9 +9,10 @@ class DistalRibTests(unittest.TestCase):
  def setUpClass(cls):cls.model=json.loads((ROOT/'ORIGINAL_V1_WORK/anatomy/rib_demographic_model_holcombe2017_v1.json').read_text())
  def test_export_is_reproducible_and_keeps_floating_rib_exceptions(self):
   import sys
-  sys.path.insert(0,str(ROOT/'scripts/anatomy_fit'))
+  sys.path.insert(0,str(ROOT/'scripts/anatomy_fit'));sys.path.insert(0,str(ROOT/'scripts'))
   import build_rib_distal_source_curves as b
-  stored=json.loads(b.OUT.read_text());self.assertEqual(stored,b.build())
+  from report_compare import report_differences
+  stored=json.loads(b.OUT.read_text());self.assertEqual(report_differences(stored,b.build()),[])
   self.assertFalse(stored['freeze_ready'])
   for k,v in stored['levels'].items():
    self.assertEqual(v['costotransverse_joint_permitted'],int(k)<=10)

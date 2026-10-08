@@ -32,14 +32,16 @@
         "zero-disc-gap defect confirmed",
         "complete level-by-level C3-L5 body-height and C2/S1-connected disc-gap evidence stack",
         "full direct-anatomical thoracic disc table C7/T1 through T11/T12",
-        "C2 adult body-height evidence"
+        "C2 adult body-height evidence",
+        "provisional male global spinopelvic reference family P1"
       ],
       "blockers": [
-        "C2 and remaining levels need final 3D wedge/endplate orientation selection",
-        "source-conflict selection for mixed-method thoracic levels",
-        "canonical sagittal lordosis/kyphosis target and S1 transition"
+        "S1 superior endplate frame / lumbosacral orientation",
+        "thoracic per-level curvature/endplate distribution",
+        "cervical neutral family selection and head-over-pelvis check",
+        "mixed-method thoracic body/disc reconciliation before exact 3D freeze"
       ],
-      "next_action": "Build the C2-S1 sagittal/endplate frame sequence from the now-complete numeric level stack; do not revert to stretched a003 bone sticks."
+      "next_action": "Instantiate the provisional P1 pelvis/lumbar alignment into level frames, then solve thoracic and cervical distributions; keep all coordinates audit-only until invariants pass."
     },
     "ribs": {
       "readiness": "BLOCKED",

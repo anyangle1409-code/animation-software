@@ -40,11 +40,173 @@
       "type": "radiographic_morphometry",
       "citation": "Mathematical relations between the lengths of the metacarpal bones and phalanges: surgical significance.",
       "pmid": "9823781",
-      "population": "100 normal volunteers; 50 men, 50 women",
+      "population": "100 healthy volunteers aged 20-40; 50 men, 50 women",
       "use": [
         "hand metacarpal/phalange internal proportions"
       ],
-      "limitation": "Accessible abstract confirms stable relations but does not expose the numerical formulas; full values required before solver/geometry acceptance."
+      "limitation": "Single regional sample and 2D radiographs; use with the independent 2025 CT means and the character's stature-conditioned ANSUR hand-length corridor before freezing targets.",
+      "full_text_access": "J-STAGE free PDF",
+      "measurement_definition": "Head and base limits of each metacarpal/phalanx; midpoint-to-midpoint proximodistal length on standardized AP hand radiographs.",
+      "male_mean_sd_mm": {
+        "metacarpal_1": {
+          "mean": 46,
+          "sd": 3
+        },
+        "metacarpal_2": {
+          "mean": 68,
+          "sd": 4
+        },
+        "metacarpal_3": {
+          "mean": 64,
+          "sd": 4
+        },
+        "metacarpal_4": {
+          "mean": 58,
+          "sd": 4
+        },
+        "metacarpal_5": {
+          "mean": 54,
+          "sd": 4
+        },
+        "thumb_proximal_phalanx": {
+          "mean": 31,
+          "sd": 2
+        },
+        "thumb_distal_phalanx": {
+          "mean": 23,
+          "sd": 2
+        },
+        "digit2_proximal_phalanx": {
+          "mean": 41,
+          "sd": 3
+        },
+        "digit2_middle_phalanx": {
+          "mean": 24,
+          "sd": 4
+        },
+        "digit2_distal_phalanx": {
+          "mean": 18,
+          "sd": 1
+        },
+        "digit3_proximal_phalanx": {
+          "mean": 46,
+          "sd": 3
+        },
+        "digit3_middle_phalanx": {
+          "mean": 29,
+          "sd": 2
+        },
+        "digit3_distal_phalanx": {
+          "mean": 19,
+          "sd": 1
+        },
+        "digit4_proximal_phalanx": {
+          "mean": 43,
+          "sd": 3
+        },
+        "digit4_middle_phalanx": {
+          "mean": 28,
+          "sd": 2
+        },
+        "digit4_distal_phalanx": {
+          "mean": 19,
+          "sd": 1
+        },
+        "digit5_proximal_phalanx": {
+          "mean": 34,
+          "sd": 2
+        },
+        "digit5_middle_phalanx": {
+          "mean": 20,
+          "sd": 2
+        },
+        "digit5_distal_phalanx": {
+          "mean": 17,
+          "sd": 1
+        }
+      },
+      "male_ranges_mm": {
+        "metacarpal_1": [
+          41,
+          52
+        ],
+        "metacarpal_2": [
+          60,
+          77
+        ],
+        "metacarpal_3": [
+          55,
+          72
+        ],
+        "metacarpal_4": [
+          50,
+          65
+        ],
+        "metacarpal_5": [
+          40,
+          61
+        ],
+        "thumb_proximal_phalanx": [
+          26,
+          35
+        ],
+        "thumb_distal_phalanx": [
+          15,
+          26
+        ],
+        "digit2_proximal_phalanx": [
+          37,
+          45
+        ],
+        "digit2_middle_phalanx": [
+          20,
+          45
+        ],
+        "digit2_distal_phalanx": [
+          15,
+          20
+        ],
+        "digit3_proximal_phalanx": [
+          40,
+          52
+        ],
+        "digit3_middle_phalanx": [
+          23,
+          33
+        ],
+        "digit3_distal_phalanx": [
+          16,
+          23
+        ],
+        "digit4_proximal_phalanx": [
+          38,
+          48
+        ],
+        "digit4_middle_phalanx": [
+          20,
+          32
+        ],
+        "digit4_distal_phalanx": [
+          16,
+          23
+        ],
+        "digit5_proximal_phalanx": [
+          30,
+          38
+        ],
+        "digit5_middle_phalanx": [
+          15,
+          23
+        ],
+        "digit5_distal_phalanx": [
+          15,
+          20
+        ]
+      },
+      "reported_relations": {
+        "metacarpals": "M1 = 0.67*M2 = 0.71*M3 = 0.78*M4 = 0.84*M5 (paper notation expresses equivalent pairwise ratios; Table 1 should be used for exact pairwise conversion).",
+        "note": "Use the descriptive male means/SDs above for the first canonical corridor; pairwise ratios are a secondary shape check."
+      }
     },
     {
       "id": "HOANG_2021_METACARPAL_CT",

@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Skeleton-first craniofacial/hyoid audit. Finish coverage of the low-confidence fixed/reference head bones and preserve the active TMJ as a mechanically meaningful articulation.",
+  "baseline": "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json",
+  "sources": [
+    "MANDIBLE_3DCT_IRAN_2022",
+    "MANDIBLE_POSTMORTEM_INDIA_2023",
+    "CRANIAL_3D_ATLAS_US_WHITE_2014",
+    "CRANIAL_JAPAN_3DCT_2024",
+    "HYOID_SEX_REVIEW_2021",
+    "HYOID_GROWTH_CT_2021"
+  ],
+  "current_a003": {
+    "tmj_intercentre_width_mm": 114.87488344626601,
+    "mandible_control_span_mm": 112.8897725194774,
+    "hyoid_reference_stick_mm": 18.800000000000004,
+    "head_landmarks": {
+      "vertex_skin": [
+        0,
+        0.005897561553865671,
+        1.8200000524520874
+      ],
+      "nasion_skin": [
+        0,
+        -0.10552840063845886,
+        1.7118451870657279
+      ],
+      "chin_skin": [
+        0,
+        -0.10561096668243408,
+        1.6211984157562256
+      ],
+      "cranial_centre": [
+        0,
+        0.010041343048214912,
+        1.7745928764343262
+      ],
+      "occipital_centre": [
+        0,
+        0.07016355635637392,
+        1.702
+      ],
+      "porion_est": {
+        "left": [
+          0.06543744172313301,
+          0.014506161601311768,
+          1.7
+        ],
+        "right": [
+          -0.06543744172313301,
+          0.014506161601311768,
+          1.7
+        ]
+      },
+      "tmj_est": {
+        "left": [
+          0.057437441723133004,
+          0.0015061616013117684,
+          1.69
+        ],
+        "right": [
+          -0.057437441723133004,
+          0.0015061616013117684,
+          1.69
+        ]
+      },
+      "note": "The head has no modelled ears; porion/TMJ are proportional estimates at 60% head length behind the face, 12 mm below the authored eye ring."
+    },
+    "fixed_bone_representation": "Most cranial/facial bones are short proportional reference sticks placed around an estimated cranial centre rather than full bone envelopes."
+  },
+  "tmj_breadth_crosscheck": {
+    "a003_intercentre_width_mm": 114.87488344626601,
+    "male_3DCT_bicondylar_breadth_mm": {
+      "mean": 121.93,
+      "sd": 5.24
+    },
+    "z_vs_3DCT_male": -1.3463962888805334,
+    "reading": "The current estimated TMJ spacing is within roughly 1.4 SD of one adult male 3D-CT sample. It is plausible as a provisional breadth, but the a003 TMJs were estimated because the source mesh has no ears/porion landmark, so they are not freeze-ready."
+  },
+  "findings": [
+    "The head/face portion of a003 is structurally complete in the 206-bone inventory but not anatomically freeze-ready: nearly all cranial/facial bones are schematic proportional reference sticks rather than bone-specific 3D geometry.",
+    "The current bilateral TMJ spacing is provisionally plausible against an adult male CT bicondylar corridor, so there is no evidence for a gross mandibular-width failure comparable with the shoulder or foot.",
+    "Mandibular control-stick length (~113 mm) is not directly comparable with published mandibular length/ramus measures because it runs from the bilateral-condyle midpoint toward the mental region. Canonical mandibular geometry must instead store both condyles, gonia, ramus, body and symphysis landmarks explicitly.",
+    "The hyoid is currently a single ~19 mm reference stick. Adult hyoid anatomy requires a body plus bilateral greater/lesser cornua measurement framework even though the hyoid remains one conventional bone and has no direct osseous articulation.",
+    "Cranial vault/base bones are low priority for exercise skinning but still part of the complete reference skeleton; they must be validated with a landmark/envelope model rather than arbitrary stick lengths.",
+    "Existing TMJ opening/glide tests remain useful, but must be rerun after canonical condylar positions and mandible geometry are instantiated."
+  ],
+  "canonical_requirements": {
+    "cranium": [
+      "maximum cranial length/breadth reference landmarks",
+      "cranial base landmarks and flexion/orientation",
+      "bilateral zygomatic breadth and mastoid/temporal reference regions",
+      "bone-specific cranial/facial envelopes or surface patches attached to the correct conventional bones",
+      "sutural adjacency preserved without treating sutures as large-motion joints"
+    ],
+    "mandible": [
+      "left/right condylar centres and heads",
+      "left/right gonion",
+      "ramus height/width",
+      "mandibular body and symphysis/gnathion",
+      "bigonial and bicondylar breadth",
+      "gonial angle",
+      "TMJ contact/disc frame separate from the bone envelope"
+    ],
+    "hyoid": [
+      "body centre and width",
+      "bilateral greater-cornu endpoints",
+      "bilateral lesser-cornu references",
+      "anteroposterior length and greater-cornua span",
+      "soft-tissue suspension reference only; no invented osseous parent joint"
+    ],
+    "ossicles": [
+      "retain six conventional bones",
+      "keep malleus/incus/stapes fixed/reference roles for exercise purposes",
+      "replace arbitrary stick dimensions only if the master claims geometric rather than topological anatomical fidelity"
+    ]
+  },
+  "provisional_decisions": {
+    "tmj_breadth": "RETAIN_PROVISIONALLY_REMEASURE_WITH_CANONICAL_MANDIBLE",
+    "mandible": "REBUILD_LANDMARK_RICH_GEOMETRY",
+    "cranial_facial_fixed_bones": "REBUILD_REFERENCE_ENVELOPES_LOW_KINEMATIC_PRIORITY",
+    "hyoid": "REBUILD_REFERENCE_GEOMETRY_KEEP_NO_OSSEOUS_ARTICULATION",
+    "ossicles": "RETAIN_TOPOLOGY_VERIFY_GEOMETRY_LATER"
+  },
+  "acceptance_tests": [
+    "Left/right condylar centres are distinct and bicondylar breadth lies inside a multi-source adult male corridor or has a stature-specific justification.",
+    "Mandibular breadth, ramus/body geometry and gonial angle use matching source definitions.",
+    "TMJ opening lowers the incisor/chin and produces anterior-inferior condylar glide after geometry rebuild.",
+    "Hyoid remains unparented by any invented osseous articulation while its 3D body/cornua geometry is represented.",
+    "All 22 skull bones and six ossicles remain accounted for with correct sutural/articular adjacency."
+  ],
+  "status": "HEAD_TOPOLOGY_COMPLETE_GEOMETRY_NOT_FREEZE_READY"
+}

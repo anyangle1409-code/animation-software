@@ -1,0 +1,1204 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "source": {
+    "citation": "Holcombe SA, Derstine BA, Wang SC, Grotberg JB. The effect of age and demographics on rib shape. J Anat. 2017;231(2):229-247.",
+    "doi": "10.1111/joa.12632",
+    "pmcid": "PMC5522896",
+    "full_text": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5522896/",
+    "table_A1": "population mean ± SD by rib level",
+    "table_A2": "multivariable demographic regression coefficients",
+    "retrieval_note": "Transcribed from publisher/PMC full text. Values retain the paper's scale-factor notation."
+  },
+  "purpose": "Machine-readable demographic rib shape/orientation model for the skeleton-first reference. This is source evidence, not yet an HGPT rib-centreline coordinate set.",
+  "demographics": {
+    "age_years": "A",
+    "sex": "S, 0=male 1=female",
+    "height_m": "H",
+    "weight_kg": "W"
+  },
+  "regression_formula": "parameter = scaled(I) + scaled(Acoef)*A + scaled(Scoef)*S + scaled(Hcoef)*H + scaled(Wcoef)*W",
+  "coefficient_order": [
+    "I",
+    "A",
+    "S",
+    "H",
+    "W"
+  ],
+  "scales": {
+    "Sx": [
+      1,
+      0.001,
+      0.1,
+      0.1,
+      0.001
+    ],
+    "Xpk": [
+      0.001,
+      0.00001,
+      0.001,
+      0.001,
+      0.00001
+    ],
+    "Ypk": [
+      0.01,
+      0.00001,
+      0.001,
+      0.001,
+      0.00001
+    ],
+    "phi_pia": [
+      1,
+      0.001,
+      0.1,
+      0.1,
+      0.001
+    ],
+    "Bp": [
+      0.01,
+      0.0001,
+      0.01,
+      0.01,
+      0.0001
+    ],
+    "Bd": [
+      0.01,
+      0.0001,
+      0.01,
+      0.01,
+      0.0001
+    ],
+    "alpha_PH": [
+      0.1,
+      0.001,
+      0.01,
+      0.1,
+      0.001
+    ],
+    "alpha_LS": [
+      1,
+      0.001,
+      0.01,
+      0.1,
+      0.001
+    ],
+    "alpha_BH": [
+      0.1,
+      0.001,
+      0.1,
+      0.1,
+      0.001
+    ]
+  },
+  "parameter_semantics": {
+    "Sx": "rib end-to-end span in mm",
+    "Xpk": "normalized x-coordinate of in-plane rib peak; skewness",
+    "Ypk": "normalized y-coordinate of in-plane rib peak; inverse aspect-ratio descriptor",
+    "phi_pia": "proximal inner angle in degrees",
+    "Bp": "proximal logarithmic-spiral constant",
+    "Bd": "distal logarithmic-spiral constant",
+    "alpha_PH": "pump-handle orientation angle in degrees",
+    "alpha_LS": "lateral-swing orientation angle in degrees",
+    "alpha_BH": "bucket-handle orientation angle in degrees"
+  },
+  "levels": {
+    "1": {
+      "population_mean": {
+        "n": 1444,
+        "Sx_mm": 71,
+        "Xpk": 0.384,
+        "Ypk": 0.521,
+        "phi_pia_deg": 81.7,
+        "Bp": -0.43,
+        "Bd": 1.81,
+        "alpha_PH_deg": 58.2,
+        "alpha_LS_deg": 36.2,
+        "alpha_BH_deg": 11.6
+      },
+      "population_sd": {
+        "Sx_mm": 7.2,
+        "Xpk": 0.061,
+        "Ypk": 0.059,
+        "phi_pia_deg": 9.3,
+        "Bp": 0.6,
+        "Bd": 1.16,
+        "alpha_PH_deg": 9.7,
+        "alpha_LS_deg": 7,
+        "alpha_BH_deg": 7.4
+      },
+      "coefficients_raw": {
+        "Sx": [
+          31,
+          98,
+          -24,
+          190,
+          40
+        ],
+        "Xpk": [
+          415,
+          -23,
+          4,
+          -17,
+          8
+        ],
+        "Ypk": [
+          62,
+          -63,
+          -9,
+          -36,
+          -7
+        ],
+        "phi_pia": [
+          83,
+          71,
+          10,
+          -12,
+          -34
+        ],
+        "Bp": [
+          -85,
+          15,
+          4,
+          23,
+          -8
+        ],
+        "Bd": [
+          165,
+          92,
+          -4,
+          -28,
+          22
+        ],
+        "alpha_PH": [
+          756,
+          96,
+          -358,
+          -236,
+          235
+        ],
+        "alpha_LS": [
+          32,
+          -76,
+          -26,
+          95,
+          -92
+        ],
+        "alpha_BH": [
+          89,
+          -18,
+          -3,
+          77,
+          -113
+        ]
+      }
+    },
+    "2": {
+      "population_mean": {
+        "n": 1665,
+        "Sx_mm": 110.9,
+        "Xpk": 0.318,
+        "Ypk": 0.621,
+        "phi_pia_deg": 111.8,
+        "Bp": -0.32,
+        "Bd": 0.71,
+        "alpha_PH_deg": 60.4,
+        "alpha_LS_deg": 20.3,
+        "alpha_BH_deg": 5.4
+      },
+      "population_sd": {
+        "Sx_mm": 9.6,
+        "Xpk": 0.048,
+        "Ypk": 0.054,
+        "phi_pia_deg": 8.6,
+        "Bp": 0.23,
+        "Bd": 0.55,
+        "alpha_PH_deg": 9.6,
+        "alpha_LS_deg": 4.6,
+        "alpha_BH_deg": 6.9
+      },
+      "coefficients_raw": {
+        "Sx": [
+          56,
+          129,
+          -34,
+          286,
+          13
+        ],
+        "Xpk": [
+          292,
+          16,
+          -3,
+          26,
+          -30
+        ],
+        "Ypk": [
+          67,
+          -83,
+          0,
+          2,
+          -7
+        ],
+        "phi_pia": [
+          118,
+          62,
+          30,
+          -42,
+          -40
+        ],
+        "Bp": [
+          -48,
+          -5,
+          6,
+          9,
+          0
+        ],
+        "Bd": [
+          -5,
+          38,
+          0,
+          42,
+          -18
+        ],
+        "alpha_PH": [
+          757,
+          103,
+          -350,
+          -238,
+          263
+        ],
+        "alpha_LS": [
+          15,
+          -33,
+          -124,
+          69,
+          -52
+        ],
+        "alpha_BH": [
+          87,
+          -7,
+          -12,
+          -1,
+          -25
+        ]
+      }
+    },
+    "3": {
+      "population_mean": {
+        "n": 1681,
+        "Sx_mm": 141.7,
+        "Xpk": 0.344,
+        "Ypk": 0.588,
+        "phi_pia_deg": 116.8,
+        "Bp": -0.51,
+        "Bd": 0.36,
+        "alpha_PH_deg": 61.1,
+        "alpha_LS_deg": 20.7,
+        "alpha_BH_deg": 5.4
+      },
+      "population_sd": {
+        "Sx_mm": 11.9,
+        "Xpk": 0.041,
+        "Ypk": 0.057,
+        "phi_pia_deg": 8.3,
+        "Bp": 0.15,
+        "Bd": 0.42,
+        "alpha_PH_deg": 9.1,
+        "alpha_LS_deg": 3.9,
+        "alpha_BH_deg": 7
+      },
+      "coefficients_raw": {
+        "Sx": [
+          67,
+          168,
+          -39,
+          403,
+          -9
+        ],
+        "Xpk": [
+          296,
+          17,
+          7,
+          42,
+          -42
+        ],
+        "Ypk": [
+          63,
+          -93,
+          -1,
+          -2,
+          13
+        ],
+        "phi_pia": [
+          114,
+          71,
+          32,
+          -1,
+          -27
+        ],
+        "Bp": [
+          -28,
+          -17,
+          0,
+          -12,
+          9
+        ],
+        "Bd": [
+          -22,
+          10,
+          6,
+          37,
+          -15
+        ],
+        "alpha_PH": [
+          770,
+          94,
+          -350,
+          -243,
+          271
+        ],
+        "alpha_LS": [
+          19,
+          -33,
+          -80,
+          47,
+          -47
+        ],
+        "alpha_BH": [
+          62,
+          0,
+          -2,
+          13,
+          -35
+        ]
+      }
+    },
+    "4": {
+      "population_mean": {
+        "n": 1661,
+        "Sx_mm": 166.8,
+        "Xpk": 0.322,
+        "Ypk": 0.527,
+        "phi_pia_deg": 115.4,
+        "Bp": -0.5,
+        "Bd": -0.05,
+        "alpha_PH_deg": 60.3,
+        "alpha_LS_deg": 22.9,
+        "alpha_BH_deg": 6.9
+      },
+      "population_sd": {
+        "Sx_mm": 13.7,
+        "Xpk": 0.041,
+        "Ypk": 0.053,
+        "phi_pia_deg": 8.5,
+        "Bp": 0.16,
+        "Bd": 0.37,
+        "alpha_PH_deg": 8.8,
+        "alpha_LS_deg": 3.6,
+        "alpha_BH_deg": 7.3
+      },
+      "coefficients_raw": {
+        "Sx": [
+          81,
+          195,
+          -61,
+          469,
+          -18
+        ],
+        "Xpk": [
+          349,
+          -6,
+          4,
+          0,
+          -31
+        ],
+        "Ypk": [
+          57,
+          -96,
+          1,
+          -8,
+          24
+        ],
+        "phi_pia": [
+          110,
+          78,
+          41,
+          12,
+          -23
+        ],
+        "Bp": [
+          -32,
+          -18,
+          -1,
+          -12,
+          13
+        ],
+        "Bd": [
+          50,
+          -11,
+          2,
+          -22,
+          -14
+        ],
+        "alpha_PH": [
+          752,
+          88,
+          -354,
+          -235,
+          272
+        ],
+        "alpha_LS": [
+          24,
+          -28,
+          -121,
+          23,
+          -40
+        ],
+        "alpha_BH": [
+          93,
+          12,
+          1,
+          6,
+          -48
+        ]
+      }
+    },
+    "5": {
+      "population_mean": {
+        "n": 1650,
+        "Sx_mm": 184.8,
+        "Xpk": 0.312,
+        "Ypk": 0.48,
+        "phi_pia_deg": 113.9,
+        "Bp": -0.51,
+        "Bd": -0.37,
+        "alpha_PH_deg": 59.2,
+        "alpha_LS_deg": 24.6,
+        "alpha_BH_deg": 8.2
+      },
+      "population_sd": {
+        "Sx_mm": 15.2,
+        "Xpk": 0.041,
+        "Ypk": 0.05,
+        "phi_pia_deg": 8.7,
+        "Bp": 0.18,
+        "Bd": 0.35,
+        "alpha_PH_deg": 8.7,
+        "alpha_LS_deg": 3.4,
+        "alpha_BH_deg": 7.4
+      },
+      "coefficients_raw": {
+        "Sx": [
+          88,
+          237,
+          -90,
+          528,
+          -15
+        ],
+        "Xpk": [
+          398,
+          -23,
+          2,
+          -39,
+          -11
+        ],
+        "Ypk": [
+          53,
+          -104,
+          7,
+          -17,
+          27
+        ],
+        "phi_pia": [
+          100,
+          83,
+          48,
+          63,
+          -36
+        ],
+        "Bp": [
+          -34,
+          -19,
+          -2,
+          -6,
+          4
+        ],
+        "Bd": [
+          23,
+          -22,
+          -1,
+          -28,
+          -3
+        ],
+        "alpha_PH": [
+          740,
+          86,
+          -357,
+          -235,
+          274
+        ],
+        "alpha_LS": [
+          30,
+          -24,
+          -161,
+          -3,
+          -27
+        ],
+        "alpha_BH": [
+          89,
+          14,
+          4,
+          18,
+          -54
+        ]
+      }
+    },
+    "6": {
+      "population_mean": {
+        "n": 1659,
+        "Sx_mm": 197.3,
+        "Xpk": 0.297,
+        "Ypk": 0.439,
+        "phi_pia_deg": 112,
+        "Bp": -0.45,
+        "Bd": -0.51,
+        "alpha_PH_deg": 57.6,
+        "alpha_LS_deg": 28,
+        "alpha_BH_deg": 10.7
+      },
+      "population_sd": {
+        "Sx_mm": 16.2,
+        "Xpk": 0.042,
+        "Ypk": 0.049,
+        "phi_pia_deg": 9.8,
+        "Bp": 0.22,
+        "Bd": 0.4,
+        "alpha_PH_deg": 8.6,
+        "alpha_LS_deg": 3.7,
+        "alpha_BH_deg": 7.3
+      },
+      "coefficients_raw": {
+        "Sx": [
+          96,
+          265,
+          -102,
+          562,
+          -37
+        ],
+        "Xpk": [
+          407,
+          -48,
+          -1,
+          -54,
+          8
+        ],
+        "Ypk": [
+          49,
+          -111,
+          6,
+          -20,
+          37
+        ],
+        "phi_pia": [
+          98,
+          76,
+          59,
+          73,
+          -65
+        ],
+        "Bp": [
+          -23,
+          -13,
+          -2,
+          -8,
+          -2
+        ],
+        "Bd": [
+          12,
+          -27,
+          4,
+          -27,
+          -7
+        ],
+        "alpha_PH": [
+          702,
+          87,
+          -318,
+          -227,
+          280
+        ],
+        "alpha_LS": [
+          35,
+          -6,
+          -209,
+          -27,
+          -15
+        ],
+        "alpha_BH": [
+          107,
+          30,
+          4,
+          25,
+          -70
+        ]
+      }
+    },
+    "7": {
+      "population_mean": {
+        "n": 1714,
+        "Sx_mm": 208.8,
+        "Xpk": 0.284,
+        "Ypk": 0.391,
+        "phi_pia_deg": 109.3,
+        "Bp": -0.35,
+        "Bd": -0.17,
+        "alpha_PH_deg": 55.9,
+        "alpha_LS_deg": 33.9,
+        "alpha_BH_deg": 14.6
+      },
+      "population_sd": {
+        "Sx_mm": 16.3,
+        "Xpk": 0.043,
+        "Ypk": 0.045,
+        "phi_pia_deg": 11.3,
+        "Bp": 0.26,
+        "Bd": 0.66,
+        "alpha_PH_deg": 8.3,
+        "alpha_LS_deg": 4.3,
+        "alpha_BH_deg": 7.2
+      },
+      "coefficients_raw": {
+        "Sx": [
+          106,
+          283,
+          -105,
+          566,
+          -33
+        ],
+        "Xpk": [
+          437,
+          -71,
+          -4,
+          -76,
+          18
+        ],
+        "Ypk": [
+          44,
+          -109,
+          2,
+          -16,
+          39
+        ],
+        "phi_pia": [
+          95,
+          81,
+          66,
+          81,
+          -79
+        ],
+        "Bp": [
+          -43,
+          -3,
+          -4,
+          10,
+          -7
+        ],
+        "Bd": [
+          -31,
+          22,
+          19,
+          13,
+          -34
+        ],
+        "alpha_PH": [
+          706,
+          88,
+          -266,
+          -236,
+          271
+        ],
+        "alpha_LS": [
+          41,
+          8,
+          -205,
+          -34,
+          -6
+        ],
+        "alpha_BH": [
+          90,
+          47,
+          1,
+          63,
+          -88
+        ]
+      }
+    },
+    "8": {
+      "population_mean": {
+        "n": 1780,
+        "Sx_mm": 209.1,
+        "Xpk": 0.297,
+        "Ypk": 0.364,
+        "phi_pia_deg": 104.8,
+        "Bp": -0.33,
+        "Bd": -0.22,
+        "alpha_PH_deg": 53.7,
+        "alpha_LS_deg": 39.9,
+        "alpha_BH_deg": 16.6
+      },
+      "population_sd": {
+        "Sx_mm": 16,
+        "Xpk": 0.043,
+        "Ypk": 0.039,
+        "phi_pia_deg": 11.4,
+        "Bp": 0.29,
+        "Bd": 0.64,
+        "alpha_PH_deg": 8,
+        "alpha_LS_deg": 4.8,
+        "alpha_BH_deg": 7.5
+      },
+      "coefficients_raw": {
+        "Sx": [
+          92,
+          246,
+          -106,
+          651,
+          -14
+        ],
+        "Xpk": [
+          479,
+          -74,
+          -2,
+          -94,
+          20
+        ],
+        "Ypk": [
+          45,
+          -92,
+          -5,
+          -40,
+          35
+        ],
+        "phi_pia": [
+          84,
+          69,
+          50,
+          135,
+          -94
+        ],
+        "Bp": [
+          -67,
+          -3,
+          -5,
+          26,
+          -7
+        ],
+        "Bd": [
+          10,
+          -4,
+          16,
+          1,
+          -47
+        ],
+        "alpha_PH": [
+          664,
+          85,
+          -175,
+          -222,
+          261
+        ],
+        "alpha_LS": [
+          46,
+          15,
+          -203,
+          -36,
+          1
+        ],
+        "alpha_BH": [
+          98,
+          54,
+          -9,
+          85,
+          -119
+        ]
+      }
+    },
+    "9": {
+      "population_mean": {
+        "n": 1863,
+        "Sx_mm": 199,
+        "Xpk": 0.346,
+        "Ypk": 0.356,
+        "phi_pia_deg": 97.4,
+        "Bp": -0.51,
+        "Bd": -0.09,
+        "alpha_PH_deg": 53,
+        "alpha_LS_deg": 46.5,
+        "alpha_BH_deg": 14
+      },
+      "population_sd": {
+        "Sx_mm": 15.4,
+        "Xpk": 0.041,
+        "Ypk": 0.037,
+        "phi_pia_deg": 11.4,
+        "Bp": 0.31,
+        "Bd": 0.59,
+        "alpha_PH_deg": 7.6,
+        "alpha_LS_deg": 5.3,
+        "alpha_BH_deg": 7.6
+      },
+      "coefficients_raw": {
+        "Sx": [
+          83,
+          192,
+          -104,
+          648,
+          14
+        ],
+        "Xpk": [
+          481,
+          -63,
+          1,
+          -70,
+          18
+        ],
+        "Ypk": [
+          41,
+          -79,
+          -4,
+          -24,
+          29
+        ],
+        "phi_pia": [
+          80,
+          42,
+          47,
+          123,
+          -91
+        ],
+        "Bp": [
+          -55,
+          -12,
+          -4,
+          7,
+          -1
+        ],
+        "Bd": [
+          65,
+          -29,
+          13,
+          -19,
+          -40
+        ],
+        "alpha_PH": [
+          670,
+          91,
+          -128,
+          -224,
+          243
+        ],
+        "alpha_LS": [
+          57,
+          9,
+          -166,
+          -65,
+          15
+        ],
+        "alpha_BH": [
+          75,
+          28,
+          -23,
+          103,
+          -136
+        ]
+      }
+    },
+    "10": {
+      "population_mean": {
+        "n": 1905,
+        "Sx_mm": 183.7,
+        "Xpk": 0.372,
+        "Ypk": 0.329,
+        "phi_pia_deg": 90,
+        "Bp": -0.62,
+        "Bd": -0.09,
+        "alpha_PH_deg": 51.4,
+        "alpha_LS_deg": 56.1,
+        "alpha_BH_deg": 11.2
+      },
+      "population_sd": {
+        "Sx_mm": 15.1,
+        "Xpk": 0.037,
+        "Ypk": 0.035,
+        "phi_pia_deg": 11.3,
+        "Bp": 0.35,
+        "Bd": 0.61,
+        "alpha_PH_deg": 7,
+        "alpha_LS_deg": 6.4,
+        "alpha_BH_deg": 7.9
+      },
+      "coefficients_raw": {
+        "Sx": [
+          67,
+          187,
+          -93,
+          628,
+          55
+        ],
+        "Xpk": [
+          467,
+          -52,
+          -8,
+          -41,
+          7
+        ],
+        "Ypk": [
+          38,
+          -70,
+          -9,
+          -14,
+          11
+        ],
+        "phi_pia": [
+          69,
+          29,
+          32,
+          154,
+          -100
+        ],
+        "Bp": [
+          -2,
+          -18,
+          -9,
+          -37,
+          19
+        ],
+        "Bd": [
+          32,
+          2,
+          -4,
+          -19,
+          -9
+        ],
+        "alpha_PH": [
+          601,
+          102,
+          -78,
+          -182,
+          210
+        ],
+        "alpha_LS": [
+          70,
+          10,
+          -126,
+          -101,
+          45
+        ],
+        "alpha_BH": [
+          86,
+          -18,
+          -31,
+          95,
+          -133
+        ]
+      }
+    },
+    "11": {
+      "population_mean": {
+        "n": 1850,
+        "Sx_mm": 154.2,
+        "Xpk": 0.388,
+        "Ypk": 0.275,
+        "phi_pia_deg": 82.7,
+        "Bp": -0.69,
+        "Bd": 0.59,
+        "alpha_PH_deg": 49.4,
+        "alpha_LS_deg": 69.9,
+        "alpha_BH_deg": 10.4
+      },
+      "population_sd": {
+        "Sx_mm": 17.4,
+        "Xpk": 0.036,
+        "Ypk": 0.036,
+        "phi_pia_deg": 12.9,
+        "Bp": 0.56,
+        "Bd": 1.37,
+        "alpha_PH_deg": 5.9,
+        "alpha_LS_deg": 7.6,
+        "alpha_BH_deg": 9
+      },
+      "coefficients_raw": {
+        "Sx": [
+          38,
+          168,
+          -85,
+          629,
+          59
+        ],
+        "Xpk": [
+          524,
+          -48,
+          -14,
+          -62,
+          0
+        ],
+        "Ypk": [
+          32,
+          -57,
+          -15,
+          -10,
+          5
+        ],
+        "phi_pia": [
+          66,
+          6,
+          40,
+          126,
+          -84
+        ],
+        "Bp": [
+          -53,
+          -29,
+          -22,
+          -14,
+          38
+        ],
+        "Bd": [
+          207,
+          81,
+          31,
+          -134,
+          30
+        ],
+        "alpha_PH": [
+          544,
+          77,
+          -16,
+          -132,
+          164
+        ],
+        "alpha_LS": [
+          83,
+          25,
+          -76,
+          -103,
+          40
+        ],
+        "alpha_BH": [
+          65,
+          -34,
+          -48,
+          107,
+          -123
+        ]
+      }
+    },
+    "12": {
+      "population_mean": {
+        "n": 1755,
+        "Sx_mm": 95.7,
+        "Xpk": 0.39,
+        "Ypk": 0.174,
+        "phi_pia_deg": 60.9,
+        "Bp": -1.29,
+        "Bd": 1.37,
+        "alpha_PH_deg": 53.3,
+        "alpha_LS_deg": 94,
+        "alpha_BH_deg": 14.6
+      },
+      "population_sd": {
+        "Sx_mm": 29.1,
+        "Xpk": 0.101,
+        "Ypk": 0.045,
+        "phi_pia_deg": 25.5,
+        "Bp": 1.66,
+        "Bd": 2.17,
+        "alpha_PH_deg": 8.5,
+        "alpha_LS_deg": 12,
+        "alpha_BH_deg": 17.9
+      },
+      "coefficients_raw": {
+        "Sx": [
+          8,
+          35,
+          -92,
+          469,
+          129
+        ],
+        "Xpk": [
+          451,
+          -48,
+          -30,
+          -30,
+          33
+        ],
+        "Ypk": [
+          10,
+          -7,
+          -5,
+          42,
+          15
+        ],
+        "phi_pia": [
+          40,
+          -52,
+          -10,
+          148,
+          -5
+        ],
+        "Bp": [
+          -140,
+          65,
+          27,
+          -7,
+          -25
+        ],
+        "Bd": [
+          119,
+          4,
+          25,
+          -22,
+          50
+        ],
+        "alpha_PH": [
+          631,
+          49,
+          -113,
+          -117,
+          96
+        ],
+        "alpha_LS": [
+          116,
+          35,
+          -81,
+          -113,
+          -44
+        ],
+        "alpha_BH": [
+          146,
+          -9,
+          -72,
+          101,
+          -160
+        ]
+      }
+    }
+  },
+  "HGPT_policy": {
+    "known_height_m": 1.8200002908706665,
+    "known_sex": 0,
+    "unresolved_inputs": [
+      "age_years",
+      "weight_kg"
+    ],
+    "rule": "Do not silently choose age or weight. Evaluate exact canonical rib parameters only after the intended reference-demographic age/weight policy is selected, or preserve a range over explicit plausible inputs.",
+    "geometry_dependency": "The six in-plane parameters require the 2016 logarithmic-spiral reconstruction and the three orientation angles require mapping into the HGPT thoracic frame before 3D centreline coordinates are generated.",
+    "anatomical_exceptions": [
+      "Ribs 11 and 12 have no costotransverse articulation in the HGPT articulation inventory; demographic shape prediction does not override that anatomical exception."
+    ]
+  },
+  "validation_examples": {
+    "rib6_height_effect": "Sx H coefficient = 562×1e-1 = 56.2 mm/m = 0.562 mm/cm, consistent with the paper text (~0.54 mm/cm).",
+    "rib6_sex_effect": "Sx S coefficient = -102×1e-1 = -10.2 mm for female vs male at matched demographics, consistent with the reported ~10.8 mm male-female difference."
+  },
+  "status": "TABLES_TRANSCRIBED_RECONSTRUCTION_AND_REFERENCE_DEMOGRAPHIC_NOT_YET_FROZEN"
+}

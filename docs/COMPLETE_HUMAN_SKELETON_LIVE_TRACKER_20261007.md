@@ -126,6 +126,8 @@ Gate 6: ⛔ NOT PASSED. The femur/humerus conflict is explained as stature-equat
 - [x] ✅ Sternum target was also cross-checked rather than accepted from the first comparison. Unconditioned male CT manubrium+body means (~152–159 mm) initially made a003 (~203 mm vertical / ~213 mm chord) look too long, but stature-linked sternum studies from several populations materially change the picture at 1.82 m. Because those equations predict stature from sternum and the meta-analytic correlation is only moderate, the sternum is now **C / REOPEN_STATURE_METHOD_CONFLICT**: rebuild the landmarks, but do not preselect shortening or lengthening. Evidence: `canonical_sternum_geometry_audit_v1.json`.
 - [x] ✅ Add a non-Blender direct ANSUR radius-target report builder. It will compute the actual stature-conditioned radiale–stylion regression/residual corridor from the committed 4,082-man dataset and compare it to a003 without inferring ulna length from radius. Evidence: `scripts/anatomy_fit/build_forearm_target_report.py`, `scripts/test_forearm_target_report.py`.
 
+- [x] ✅ Reconcile target preflight with the newer full-text direct AC distance. Independent full-text recheck confirms 34±8 mm; only a 3D bound is accepted. Mutation tests reject missing full-text provenance, a wrong landmark value, transverse equality and non-finite shoulder measurements. Canonical subset: 39 tests passing; atlas inventory/semantic/source validators pass. Gate 6 remains open.
+
 ## PHASE 7 — BUILD HGPT_ANATOMICAL_MASTER
 - [x] ✅ Create complete anatomical armature/reference collection. `HGPT_ANATOMICAL_MASTER` in `HGPT_ANATOMICAL_REFERENCE`, audit file a002 (`f172720b…`).
 - [x] ✅ Represent every conventional adult bone. Independent capture: coverage 206/206 and identity PASS.

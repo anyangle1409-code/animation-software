@@ -48,6 +48,32 @@ class CanonicalTargetSelectionValidatorTests(unittest.TestCase):
         self.assertEqual(report["result"], "FAIL")
         self.assertTrue(any("scapular" in e for e in report["errors"]))
 
+    def test_direct_3d_measurement_requires_full_text_provenance(self):
+        source = copy.deepcopy(self.shoulder_source)
+        source["sources"].pop("SCAPULA_AC_LATERAL_2026", None)
+        report = self.run_live(shoulder_source=source)
+        self.assertTrue(any("full-text" in e for e in report["errors"]))
+
+    def test_3d_distance_must_not_become_transverse_equality(self):
+        sh = copy.deepcopy(self.shoulder_constraint)
+        sh["derived_constraints"]["direct_AC_3D_constraint"]["valid_relation"] = (
+            "required_transverse_AC_to_lateral_acromion_component_mm == measured_3D_distance_mm"
+        )
+        report = self.run_live(shoulder_constraint=sh)
+        self.assertTrue(any("transverse" in e for e in report["errors"]))
+
+    def test_direct_3d_value_mutation_is_rejected(self):
+        sh = copy.deepcopy(self.shoulder_constraint)
+        sh["inputs"]["direct_AC_to_lateral_acromion_3D_mm"]["mean"] = 77.0
+        report = self.run_live(shoulder_constraint=sh)
+        self.assertTrue(any("direct AC" in e for e in report["errors"]))
+
+    def test_nan_shoulder_length_is_rejected(self):
+        sel = copy.deepcopy(self.selection)
+        sel["regions"]["shoulder_girdle"]["selected"]["clavicle_SC_AC_chord_mm"] = float("nan")
+        report = self.run_live(selection=sel)
+        self.assertTrue(any("finite positive" in e for e in report["errors"]))
+
     def test_premature_freeze_is_rejected(self):
         sel = copy.deepcopy(self.selection)
         sel["freeze_ready"] = True

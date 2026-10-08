@@ -71,10 +71,10 @@ class CanonicalS1PelvicFrameTests(unittest.TestCase):
 
     def test_frame_remains_provisional(self):
         self.assertIn("PROVISIONALLY", self.f["status"])
-        self.assertIn(
-            "does not alter retained HJC or production geometry",
-            self.f["hard_checks"],
-        )
+        self.assertTrue(any(
+            "does not alter retained HJC or production geometry" in check
+            for check in self.f["hard_checks"]
+        ))
 
 
 if __name__ == "__main__":

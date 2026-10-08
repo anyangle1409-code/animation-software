@@ -1,4 +1,5 @@
 import json
+import math
 import pathlib
 import sys
 
@@ -80,6 +81,14 @@ def validate(s, conv, corr, shoulder_constraint=None, shoulder_source=None):
 
     # Hard invariants that can be checked from currently stored scaffold data.
     sg = s["regions"]["shoulder_girdle"]["selected"]
+    for key in ("bilateral_AC_breadth_mm", "stature_conditioned_biacromial_scaffold_mm",
+                "clavicle_curved_length_mm", "clavicle_SC_AC_chord_mm"):
+        value = sg.get(key)
+        if value is not None and (
+            isinstance(value, bool) or not isinstance(value, (int, float))
+            or not math.isfinite(value) or value <= 0
+        ):
+            errors.append(f"{key} must be a finite positive measurement")
     if sg["bilateral_AC_breadth_mm"] is not None:
         biac = sg["stature_conditioned_biacromial_scaffold_mm"]
         if not sg["bilateral_AC_breadth_mm"] < biac:
@@ -124,14 +133,32 @@ def validate(s, conv, corr, shoulder_constraint=None, shoulder_source=None):
         errors.append("shoulder selection does not reflect corrected scapular evidence grade")
 
 
-    # Preserve the 2026 shoulder-source correction. The paper reports two
-    # distances to lateral STSL, not a direct lateral-acromion->AC distance.
+    # Preserve both stages of source review: subtraction of the STSL distances
+    # is invalid; a subsequent full-text Results paragraph reports a direct
+    # distance independently. That distance is still not a transverse equality.
     if shoulder_constraint is not None:
         if "lateral_acromion_to_AC_joint_mm" in shoulder_constraint.get("inputs", {}):
             errors.append("withdrawn direct acromion-to-AC source was reintroduced")
         exact = shoulder_constraint.get("derived_constraints", {}).get("exact_AC_offset")
-        if exact != "UNRESOLVED_AFTER_SOURCE_CORRECTION":
+        direct_state = "DIRECT_3D_DISTANCE_AVAILABLE_TRANSVERSE_COMPONENT_STILL_FRAME_DEPENDENT"
+        if exact not in ("UNRESOLVED_AFTER_SOURCE_CORRECTION", direct_state):
             errors.append("absolute AC offset was silently resolved after source correction")
+        if exact == direct_state:
+            source = (shoulder_source or {}).get("sources", {}).get("SCAPULA_AC_LATERAL_2026", {})
+            if (source.get("status") != "FULL_TEXT_DIRECT_DISTANCE_VERIFIED_3D_ONLY"
+                    or source.get("pmcid") != "PMC13184462"):
+                errors.append("direct AC 3D constraint missing verified full-text provenance")
+            measured = source.get("actual_reported_measurements_mm", {}).get("lateral_acromion_to_posterior_AC_joint")
+            direct = shoulder_constraint.get("inputs", {}).get("direct_AC_to_lateral_acromion_3D_mm", {})
+            selected = sg.get("direct_AC_to_lateral_acromion_3D_mm", {})
+            derived = shoulder_constraint.get("derived_constraints", {}).get("direct_AC_3D_constraint", {})
+            if not measured or any(direct.get(k) != measured.get(k) or selected.get(k) != measured.get(k)
+                                   for k in ("mean", "sd", "range")):
+                errors.append("direct AC measurement disagrees with full-text source or selection")
+            if measured and any(derived.get(k + "_mm") != measured.get(k) for k in ("mean", "sd", "range")):
+                errors.append("derived direct AC bound disagrees with full-text measurement")
+            if derived.get("valid_relation") != "required_transverse_AC_to_lateral_acromion_component_mm <= measured_3D_distance_mm":
+                errors.append("direct AC 3D distance must constrain transverse component, not equal it")
 
     if shoulder_source is not None:
         corrected = shoulder_source.get("sources", {}).get("SCAPULAR_LANDMARK_CADAVER_2026", {})

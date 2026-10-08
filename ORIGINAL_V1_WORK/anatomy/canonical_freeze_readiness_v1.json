@@ -176,7 +176,7 @@
   },
   "region_counts": {
     "READY": 0,
-    "PARTIAL": 7,
+    "PARTIAL": 8,
     "BLOCKED": 3
   },
   "next_global_sequence": [

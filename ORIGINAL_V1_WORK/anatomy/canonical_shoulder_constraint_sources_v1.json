@@ -25,7 +25,7 @@
           ]
         }
       },
-      "invalid_inference_withdrawn": "The paper does NOT directly report lateral-acromion-to-AC distance. The difference between two 3-D distances to STSL cannot be treated as the direct AC↔acromion distance because the landmarks need not be collinear.",
+      "invalid_inference_withdrawn": "The difference between the two STSL distances cannot infer a direct AC-to-acromion distance; they need not be collinear. The abstract omits a direct value, but a later full-text check found a separately reported direct measurement; see SCAPULA_AC_LATERAL_2026.",
       "use": "Do not use this paper to set transverse AC offset. Retain only as suprascapular-notch/STSL surgical-landmark evidence.",
       "status": "CORRECTED_NOT_USED_FOR_CANONICAL_AC_OFFSET"
     },
@@ -50,11 +50,37 @@
       "all_endpoint_mean_mm": 149.4,
       "all_endpoint_sd_mm": 10.3,
       "use": "Curved centreline vs straight endpoint invariant and adult-male true-length corridor."
+    },
+    "SCAPULA_AC_LATERAL_2026": {
+      "citation": "Duru DO, Chaudhury S, Kang N, Brassett C. Scapular morphometrics inform anatomic landmark distances for arthroscopic suprascapular nerve decompression: a cadaveric study. JSES Int. 2026;10(3):101647.",
+      "pmid": "42164106",
+      "pmcid": "PMC13184462",
+      "doi": "10.1016/j.jseint.2026.101647",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13184462/",
+      "verified_access": "Full text Results paragraph after Statistical analysis, independently rechecked 2026-10-08",
+      "actual_reported_measurements_mm": {
+        "lateral_acromion_to_posterior_AC_joint": {
+          "mean": 34,
+          "sd": 8,
+          "range": [
+            23,
+            52
+          ]
+        }
+      },
+      "measurement_definition": "Lateral acromion in line with posterior clavicle to posterior AC joint; anatomic distance, not a pure HGPT mediolateral component and not the centre of either joint.",
+      "status": "FULL_TEXT_DIRECT_DISTANCE_VERIFIED_3D_ONLY",
+      "limitations": [
+        "20 shoulders from 10 elderly White British cadavers; 5 male and 5 female; stature unavailable.",
+        "Does not independently define SC centres, AC centre offset or neutral scapular frame."
+      ],
+      "historical_correction": "The earlier STSL-distance subtraction remains invalid; the separately reported direct distance is usable as a 3D bound."
     }
   },
   "audit_correction_2026_10_08": {
-    "issue": "Earlier source transcription incorrectly registered lateral-acromion→AC as 34±8 mm (23-52).",
-    "verified_source_result": "Actual abstract reports lateral STSL→lateral acromion 77±10 mm and lateral STSL→AC 45±6 mm.",
-    "consequence": "All shoulder target logic that used a direct 34±8 mm AC offset has been withdrawn. Exact AC transverse offset remains open."
+    "issue": "Earlier source transcription incorrectly registered lateral-acromion\u2192AC as 34\u00b18 mm (23-52).",
+    "verified_source_result": "Actual abstract reports lateral STSL\u2192lateral acromion 77\u00b110 mm and lateral STSL\u2192AC 45\u00b16 mm.",
+    "consequence": "All shoulder target logic that used a direct 34\u00b18 mm AC offset has been withdrawn. Exact AC transverse offset remains open.",
+    "full_text_followup": "Direct measurement restored with separate provenance, without restoring transverse equality."
   }
 }

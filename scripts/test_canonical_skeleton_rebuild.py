@@ -58,7 +58,7 @@ class CanonicalSkeletonRebuildTests(unittest.TestCase):
         self.assertGreater(self.foot["surface_context"]["z"], 2.0)
         self.assertEqual(
             self.foot["status"],
-            "FOOT_SURFACE_PROPORTION_DEFECT_CONFIRMED_SKELETAL_FOREFOOT_TARGET_REOPENED_NOT_FROZEN",
+            "SURFACE_FOOT_LENGTH_DEFECT_CONFIRMED_INTERNAL_BONE_DISTRIBUTION_UNRESOLVED",
         )
 
     def test_forearm_radius_and_ulna_are_not_forced_to_same_solution(self):

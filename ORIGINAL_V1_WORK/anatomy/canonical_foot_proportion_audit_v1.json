@@ -13,7 +13,7 @@
     "METATARSAL_STATURE_KOREA_2022"
   ],
   "measurement_compatibility": {
-    "metatarsals": "Strong. Patil 2017 measures distal metatarsal head to midpoint of base articular surface; a003 uses TMT/base to metatarsal head.",
+    "metatarsals": "Mixed evidence. Patil 2017 base-articular-midpoint→head lengths are closer to a003 semantics than whole-foot surface length, but stature-aware maximum-length studies predict much larger M1/M2 values at 1.82 m. These definitions/populations must be reconciled before any metatarsal is shortened.",
     "proximal_middle_phalanges": "Moderate-to-strong. Patil uses articular-surface midpoint to midpoint; a003 uses joint/station endpoints.",
     "distal_phalanges": "Weaker. a003 distal segments terminate at a tip station that may include soft tissue beyond the distal phalanx."
   },
@@ -164,17 +164,17 @@
     }
   },
   "findings": [
-    "The current BODY SURFACE foot-length defect remains confirmed: r95/a003 heel-to-toe skin length is ~305 mm versus a stature-conditioned ANSUR expectation of ~280 mm (z +2.77).",
-    "The earlier single-source conclusion that all a003 metatarsals are definitively too long is withdrawn. They are >2 SD above the Patil 2017 male means, but independent stature-regression studies from Spain, Portugal and Korea imply larger M1/M2 values at 1.82 m and use different maximum-length definitions.",
-    "Therefore the forefoot skeleton remains REOPEN, but the reason is measurement/source conflict plus the clearly long surface foot—not a proven requirement to shorten every metatarsal by 12–19 mm.",
-    "Toe proximal/middle segments also appear long against Patil 2017, but stature/population conditioning and endpoint definitions must be triangulated before exact shortening is selected.",
-    "The canonical foot must be built from endpoint-matched hindfoot/midfoot/forefoot evidence and then the mesh shortened around the finished chain."
+    "The surface-foot defect remains confirmed: a003 heel-to-toe skin length is ~305 mm versus a stature-conditioned ANSUR expectation of ~280 mm (z ≈ +2.77). The existing model therefore is visibly and quantitatively long-footed.",
+    "The earlier inference that all five metatarsal bones are definitely too long is withdrawn. Patil 2017 gives substantially shorter unconditioned male means, but stature-aware Spanish/Portuguese forensic equations predict M1/M2 lengths close to a003 for a 1.82 m adult.",
+    "At 1.82 m, the Spain M1 equation predicts ~78.2 mm versus a003 ~72.6 mm; the Portugal M2 equation predicts ~88.1 mm versus a003 ~86.4 mm. Those differences are small enough that automatic metatarsal shortening would be unjustified.",
+    "Toe phalanges still appear long versus the Patil sample, but no stature-conditioned toe-phalange source has yet confirmed the magnitude. They stay REOPEN rather than marked wrong.",
+    "The correct skeleton-first conclusion is therefore: the old foot mesh is definitely too long, while the internal distribution of length across hindfoot, midfoot, metatarsals, toes and terminal soft tissue is unresolved and must be rebuilt from compatible sources before the mesh is shortened."
   ],
   "provisional_target_corridors_mm": {
-    "note": "Patil 2017 ±1 SD bands remain one evidence band only, not canonical target corridors. Stature-conditioned studies conflict materially and must be reconciled by endpoint definition.",
-    "patil2017_male_1sd": {
+    "note": "Patil 2017 bands are retained as one radiographic evidence set, not as frozen canonical corridors. Stature-aware maximum-length studies conflict materially and must be mapped to the same endpoints before target selection.",
+    "patil_2017": {
       "metatarsal_1": [
-        52.010000000000005,
+        52.01,
         60.83
       ],
       "metatarsal_2": [
@@ -183,25 +183,30 @@
       ],
       "metatarsal_3": [
         61.47,
-        70.28999999999999
+        70.29
       ],
       "metatarsal_4": [
         62.54,
         70.5
       ],
       "metatarsal_5": [
-        60.74999999999999,
-        67.88999999999999
+        60.75,
+        67.89
       ]
+    },
+    "stature_aware_crosschecks_mm": {
+      "M1_Spain_2013": 78.19548794923116,
+      "M2_Portugal_2009": 88.11355042096555,
+      "M1_Korea_2022": 88.36697248320255
     }
   },
-  "status": "FOOT_SURFACE_PROPORTION_DEFECT_CONFIRMED_SKELETAL_FOREFOOT_TARGET_REOPENED_NOT_FROZEN",
+  "status": "SURFACE_FOOT_LENGTH_DEFECT_CONFIRMED_INTERNAL_BONE_DISTRIBUTION_UNRESOLVED",
   "next_steps": [
-    "Map a003 metatarsal control endpoints to each source's maximum/physiological/head-to-base definition.",
-    "Use at least two endpoint-compatible stature-aware sources before freezing M1/M2; obtain equivalent evidence for M3-M5.",
-    "Triangulate toe phalanx lengths with stature/sex-aware data or multi-population ratios.",
-    "Build hindfoot/midfoot contact-centre targets separately, then derive final heel-to-toe skeleton and explicit soft-tissue allowances.",
-    "Only after canonical foot geometry is frozen should the production mesh foot be shortened."
+    "Map the Spain/Portugal/Korea metatarsal maximum-length definitions against HGPT TMT-base→MTP-head landmarks before changing any metatarsal.",
+    "Find a stature-aware or endpoint-compatible source for M3-M5 and toe phalanges.",
+    "Derive hindfoot/midfoot joint-to-joint targets separately; current tarsal control sticks are not whole-bone lengths.",
+    "Partition final heel-to-toe length into calcaneal posterior allowance + hindfoot/midfoot + metatarsals + phalanges + terminal soft tissue, then shorten the mesh around that canonical chain.",
+    "Do not implement the earlier Patil-only metatarsal shortening."
   ],
   "stature_conditioned_crosscheck": {
     "stature_mm": 1820.0002908706665,
@@ -213,9 +218,22 @@
     "interpretation": "These stature regressions use maximum/osteometric/radiographic metatarsal definitions and different populations. They show that the earlier Patil-mean comparison cannot by itself prove that a003 metatarsals are pathologically long: at 1.82 m, independent equations imply substantially longer M1/M2 values than the Patil sample means and values near or above the a003 spans."
   },
   "audit_correction_2026_10_08": {
-    "reason": "A single healthy-male radiographic sample was incorrectly treated as sufficient proof that the metatarsal skeleton was too long.",
-    "correction": "Added three stature-regression datasets with different populations/measurement definitions. They materially change the interpretation at 1.82 m.",
-    "retained_fact": "The r95/a003 surface foot is still clearly long relative to the stature-conditioned ANSUR distribution.",
-    "consequence": "Do not shorten every metatarsal to the Patil means. Reconstruct endpoint-matched canonical bone lengths first."
+    "reason": "A second evidence pass added stature-aware metatarsal regressions. They materially conflict with the earlier unconditioned radiographic means and show a003 M1/M2 can be plausible for 1.82 m stature.",
+    "correction": "Withdraw 'skeletal foot defect confirmed' for metatarsal lengths. Keep only the surface-foot length defect as confirmed; internal bone-chain lengths remain open.",
+    "safety": "No production or audit geometry was changed."
+  },
+  "stature_aware_crosscheck": {
+    "character_stature_mm": 1820.0002908706665,
+    "M1_span_a003_mm": 72.56461426896868,
+    "M2_span_a003_mm": 86.38644555829607,
+    "Spain_2013_M1_max_predicted_at_stature_mm": 78.19548794923116,
+    "Portugal_2009_M2_max_predicted_at_stature_mm": 88.11355042096555,
+    "Korea_2022_M1_max_predicted_at_stature_mm": 88.36697248320255,
+    "differences_mm": {
+      "a003_M1_minus_Spain_pred": -5.630873680262482,
+      "a003_M2_minus_Portugal_pred": -1.7271048626694778,
+      "a003_M1_minus_Korea_pred": -15.802358214233863
+    },
+    "reading": "Stature-aware forensic studies using maximum/physiological metatarsal lengths predict substantially longer bones for a 1.82 m adult than the unconditioned Patil sample means. A003 M1 and M2 are close to the Spain/Portugal stature predictions, so the earlier claim that the metatarsals themselves are definitively oversized is not supported."
   }
 }

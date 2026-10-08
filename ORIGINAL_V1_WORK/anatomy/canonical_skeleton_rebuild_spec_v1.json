@@ -1,0 +1,213 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Single skeleton-first implementation specification consolidating the proportion/geometry audits before a new Blender canonical target is built.",
+  "branch": "codex/whole-body-biomechanics-audit-20261007",
+  "baseline_audit_candidate": "a003",
+  "status": "IMPLEMENTATION_SPEC_NOT_A_FINAL_SKELETON",
+  "global_rules": [
+    "The anatomical skeleton is the source of truth. The mesh is later refit around the frozen skeleton.",
+    "Do not preserve a003 dimensions merely because they sit inside the r95 mesh.",
+    "Do not replace every a003 dimension blindly: retain independently corroborated anchors.",
+    "Every numeric target must carry a measurement definition and source context.",
+    "Whole-bone geometry, joint-centre geometry, surface measurements and control-stick spans are distinct data types.",
+    "Adult 206-bone count is preserved. Non-bone discs, cartilage, contact frames, centrelines and helper markers do not add anatomical bones."
+  ],
+  "regions": {
+    "shoulder_girdle": {
+      "status": "RED_REBUILD",
+      "evidence": "ORIGINAL_V1_WORK/anatomy/canonical_shoulder_girdle_audit_v1.json",
+      "retain": [
+        "local GH depth below acromion provisionally",
+        "distinct SC/AC/GH centres"
+      ],
+      "rebuild": [
+        "clavicle length and curvature",
+        "SC/AC positions",
+        "scapular body size",
+        "inferior/superior angle layout",
+        "acromion/coracoid/glenoid local geometry"
+      ],
+      "blockers": [
+        "exact stature-aware SC-to-AC/centreline target not frozen"
+      ],
+      "hard_invariants": [
+        "SC-to-AC straight endpoint span < clavicle curved centreline length",
+        "GH-to-inferior-angle span < total scapular superior-to-inferior height",
+        "AC and GH never collapse to one centre"
+      ]
+    },
+    "spine": {
+      "status": "RED_REBUILD",
+      "evidence": "ORIGINAL_V1_WORK/anatomy/canonical_spine_geometry_audit_v1.json",
+      "retain": [
+        "regional motion evidence atlas",
+        "C1/C2 no-disc rule",
+        "existing sourced ROM observations"
+      ],
+      "rebuild": [
+        "C2-L5 vertebral body heights",
+        "C2/3-L5/S1 disc gaps",
+        "endplate orientations",
+        "sagittal curve distribution",
+        "thoracic attachment coordinates"
+      ],
+      "hard_invariants": [
+        "disc-bearing adjacent vertebrae do not share identical endplate points",
+        "C1/C2 and C0/C1 do not receive invented discs",
+        "body height and disc height are measured/tested separately"
+      ]
+    },
+    "ribs": {
+      "status": "RED_REBUILD",
+      "evidence": "ORIGINAL_V1_WORK/anatomy/canonical_rib_geometry_plan_v1.json",
+      "retain": [
+        "24 rib bone identities",
+        "level-specific articulation inventory"
+      ],
+      "rebuild": [
+        "curved centrelines",
+        "costovertebral/costotransverse centres",
+        "anterior contacts",
+        "rib-level orientation"
+      ],
+      "hard_invariants": [
+        "ribs 1-10 have distinct head/tubercle geometry",
+        "ribs 11-12 have no costotransverse joint",
+        "curve data are reference geometry, not extra bones"
+      ]
+    },
+    "forearm": {
+      "status": "AMBER_RETARGET",
+      "evidence": "ORIGINAL_V1_WORK/anatomy/canonical_forearm_proportion_audit_v1.json",
+      "retain": [
+        "elbow centre provisionally",
+        "separate radius and ulna bones",
+        "pronation/supination axis concept"
+      ],
+      "rebuild": [
+        "radius length/endpoints",
+        "wrist centre/distal radioulnar geometry"
+      ],
+      "verify_before_change": [
+        "ulna exact length"
+      ],
+      "hard_invariants": [
+        "radius and ulna are not scaled as one segment",
+        "PRUJ and DRUJ remain distinct and congruent"
+      ]
+    },
+    "hand": {
+      "status": "RED_RETARGET",
+      "evidence": "ORIGINAL_V1_WORK/anatomy/canonical_hand_proportion_audit_v1.json",
+      "retain": [
+        "most phalange proportions provisionally"
+      ],
+      "rebuild": [
+        "metacarpals 2-4",
+        "carpal centroid/axis layout",
+        "wrist-to-CMC spacing"
+      ],
+      "verify": [
+        "metacarpals 1 and 5",
+        "all digit-specific phalange ratios before freeze"
+      ]
+    },
+    "carpus": {
+      "status": "RED_REBUILD",
+      "evidence": "ORIGINAL_V1_WORK/anatomy/canonical_carpal_geometry_plan_v1.json",
+      "rebuild": [
+        "bone-specific centroids",
+        "principal axes",
+        "contact relationships",
+        "radiocarpal/midcarpal geometry"
+      ],
+      "hard_invariant": "equal arbitrary control-stick template is not freeze-ready anatomy"
+    },
+    "pelvis": {
+      "status": "AMBER_REBUILD_GEOMETRY",
+      "evidence": "ORIGINAL_V1_WORK/anatomy/canonical_pelvis_geometry_audit_v1.json",
+      "retain": [
+        "HJC provisionally",
+        "sacral length provisionally"
+      ],
+      "rebuild": [
+        "os coxae landmarks",
+        "SI surfaces",
+        "pubic symphysis contact",
+        "sacral width/curvature"
+      ],
+      "hard_invariant": "do not shift a corroborated HJC merely to stay inside the old mesh"
+    },
+    "lower_limb_long_bones": {
+      "status": "GREEN_AMBER_RETAIN_VERIFY",
+      "evidence": "ORIGINAL_V1_WORK/anatomy/canonical_lower_limb_long_bone_audit_v1.json",
+      "retain": [
+        "femur provisionally",
+        "tibia provisionally",
+        "patella size provisionally"
+      ],
+      "verify": [
+        "fibula endpoint-defined length",
+        "patella width/thickness/ridge",
+        "trochlear translation path"
+      ],
+      "hard_invariant": "plausible size does not substitute for correct contact mechanics"
+    },
+    "tarsus": {
+      "status": "RED_REBUILD",
+      "evidence": "ORIGINAL_V1_WORK/anatomy/canonical_tarsal_geometry_audit_v1.json",
+      "rebuild": [
+        "tarsal centroids",
+        "bone envelopes",
+        "contact centres",
+        "principal axes"
+      ],
+      "retain": [
+        "distinct talocrural/subtalar/talonavicular identities"
+      ],
+      "hard_invariant": "control-stick length is never treated as whole-bone length"
+    },
+    "forefoot_toes": {
+      "status": "RED_RETARGET",
+      "evidence": "ORIGINAL_V1_WORK/anatomy/canonical_foot_proportion_audit_v1.json",
+      "rebuild": [
+        "all five metatarsal lengths",
+        "toe proximal/middle segments",
+        "distal tips with explicit soft-tissue allowance"
+      ],
+      "hard_invariant": "final heel-to-toe mesh length comes from canonical bone chain plus soft tissue, not from r95 surface length"
+    },
+    "head_neck_fixed_bones": {
+      "status": "AMBER_NOT_YET_AUDITED_FOR_CANONICAL_PROPORTIONS",
+      "retain": [
+        "206 inventory identities",
+        "TMJ articulation inventory"
+      ],
+      "next": [
+        "cranial vault/base landmarks",
+        "mandible condyles/body",
+        "hyoid reference",
+        "ossicle fixed references"
+      ],
+      "note": "Fixed/non-deforming cranial bones still need proportion/landmark validation even though they are lower priority for exercise kinematics."
+    }
+  },
+  "implementation_order": [
+    "1 shoulder girdle: fix the gross SC/AC/scapula proportions that directly affect overhead mechanics",
+    "2 spine + discs: separate real vertebral bodies from disc spacing and re-establish thoracic/rib anchors",
+    "3 ribs: add curved centrelines and true rib-neck axes",
+    "4 forearm/wrist/carpus/hand: retarget distal upper limb and preserve PRUJ/DRUJ mechanics",
+    "5 tarsus/forefoot/toes: rebuild foot skeleton and shorten mesh later",
+    "6 pelvis details + fibula/patella contacts: refine amber regions without disturbing corroborated anchors",
+    "7 craniofacial fixed/reference geometry",
+    "8 rerun isolated joint tests on the new skeleton before any whole-body exercise tests",
+    "9 only after skeleton gates pass: refit/rebuild mesh, weights and correctives"
+  ],
+  "required_before_new_blender_candidate": [
+    "all RED regions have machine-readable target corridors/landmarks",
+    "every proposed numeric change cites a matching measurement definition",
+    "no production geometry/weights/drivers changed",
+    "new candidate gets a new immutable audit revision; a003 remains unchanged for comparison"
+  ]
+}

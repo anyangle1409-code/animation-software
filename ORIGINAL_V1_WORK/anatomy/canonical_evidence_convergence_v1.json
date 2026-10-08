@@ -33,16 +33,17 @@
       "action": "REBUILD_LENGTH_CURVATURE_AND_SC_AC_PLACEMENT"
     },
     "scapula": {
-      "grade": "C",
-      "state": "REOPEN_METHOD_CONFLICT",
-      "a003": "GH-to-inferior-angle ~212 mm",
+      "grade": "A",
+      "state": "CONFIRMED_TRANSVERSE_GEOMETRY_DEFECT_EXACT_3D_TARGET_OPEN",
+      "a003": "AA-to-TS ~227 mm; GH-to-inferior-angle ~226 mm",
       "evidence": [
-        "dry-bone male height/width sample ~148/108 mm",
-        "Italian male CT stature equation predicts longitudinal scapular length ~208 mm at 1.82 m",
-        "a003 measurement endpoints do not match either published longitudinal definition",
-        "global shoulder breadth must be rebuilt inside the ANSUR-conditioned biacromial scaffold, regardless of the unresolved exact scapular longitudinal length"
+        "landmark-compatible male 3D-CT posterolateral-acromion to medial scapular-spine midpoint = 113.0±6.6 mm, observed range 90-129 mm",
+        "independent cadaveric scapular-spine medial-to-acromion dimension = 134±12 mm",
+        "a003 AA-to-TS is ~98 mm beyond the observed maximum of the male 3D-CT sample",
+        "independent global shoulder-width check also shows excessive lateral girdle breadth"
       ],
-      "action": "REBUILD_LANDMARK_FRAME_FIRST_NO_EXACT_SHORTENING_YET"
+      "nuance": "The transverse defect is confirmed. Superior-inferior scapular target remains method-sensitive because published longitudinal definitions do not map directly to a003 GH-to-inferior-angle.",
+      "action": "REBUILD_SCAPULAR_LOCAL_FRAME_AND_TRANSVERSE_GEOMETRY; DO_NOT_FREEZE_VERTICAL_LENGTH_YET"
     },
     "spine": {
       "grade": "A",
@@ -186,6 +187,11 @@
       "topic": "metatarsals",
       "corrected_from": "all a003 metatarsals proven too long from one male radiographic sample",
       "corrected_to": "surface foot is definitely long, but metatarsal target is conflicted by stature-aware studies and remains open"
+    },
+    {
+      "topic": "scapula_second_pass",
+      "corrected_from": "scapula remained only method-conflicted after withdrawing the invalid height-only comparison",
+      "corrected_to": "a landmark-compatible AA/TS-like transverse comparison now independently confirms excessive scapular transverse geometry; only the exact 3D/vertical target remains open"
     }
   ]
 }

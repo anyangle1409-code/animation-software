@@ -11,7 +11,8 @@
     "Do not replace every a003 dimension blindly: retain independently corroborated anchors.",
     "Every numeric target must carry a measurement definition and source context.",
     "Whole-bone geometry, joint-centre geometry, surface measurements and control-stick spans are distinct data types.",
-    "Adult 206-bone count is preserved. Non-bone discs, cartilage, contact frames, centrelines and helper markers do not add anatomical bones."
+    "Adult 206-bone count is preserved. Non-bone discs, cartilage, contact frames, centrelines and helper markers do not add anatomical bones.",
+    "Conflicting population or measurement-definition evidence must reopen a target rather than be averaged silently."
   ],
   "regions": {
     "shoulder_girdle": {
@@ -170,16 +171,25 @@
       "hard_invariant": "control-stick length is never treated as whole-bone length"
     },
     "forefoot_toes": {
-      "status": "RED_REOPEN_TARGET_CONFLICT",
+      "status": "AMBER_RECONCILE_LENGTH_DISTRIBUTION",
       "evidence": "ORIGINAL_V1_WORK/anatomy/canonical_foot_proportion_audit_v1.json",
-      "retain": [
-        "confirmed surface finding: r95/a003 heel-to-toe skin length is long for stature"
+      "confirmed": [
+        "r95/a003 heel-to-toe surface foot length is too long for the stature-conditioned ANSUR corridor"
       ],
-      "rebuild_or_retarget": [
-        "forefoot/toe chain only after endpoint-matched, stature-aware source triangulation"
+      "unresolved": [
+        "which share of the excess length belongs to hindfoot/midfoot geometry, metatarsals, toe phalanges and terminal soft tissue",
+        "M3-M5 stature-conditioned targets",
+        "toe phalanx stature-conditioned targets"
       ],
-      "caution": "Patil 2017 means alone cannot justify shortening every metatarsal; Spanish/Portuguese/Korean stature regressions imply materially larger M1/M2 at 1.82 m under different definitions.",
-      "hard_invariant": "final heel-to-toe mesh length comes from canonical hindfoot + midfoot + forefoot chain plus explicit soft-tissue allowances, not from r95 surface length"
+      "retain_provisionally": [
+        "a003 M1/M2 length as plausible starting values only; do not freeze"
+      ],
+      "rebuild": [
+        "hindfoot/midfoot contact-centre chain",
+        "toe joint/tip geometry with explicit soft-tissue allowance",
+        "mesh length after the internal skeletal chain is frozen"
+      ],
+      "hard_invariant": "final heel-to-toe mesh length comes from canonical bone/contact chain plus explicit soft tissue; no metatarsal is shortened solely to match one unconditioned population mean"
     },
     "head_neck_fixed_bones": {
       "status": "AMBER_REBUILD_REFERENCE_GEOMETRY",
@@ -215,6 +225,7 @@
     "all RED regions have machine-readable target corridors/landmarks",
     "every proposed numeric change cites a matching measurement definition",
     "no production geometry/weights/drivers changed",
-    "new candidate gets a new immutable audit revision; a003 remains unchanged for comparison"
+    "new candidate gets a new immutable audit revision; a003 remains unchanged for comparison",
+    "foot target reconciliation resolves stature-aware metatarsal evidence before any forefoot shortening"
   ]
 }

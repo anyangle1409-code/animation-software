@@ -116,3 +116,10 @@ Both are explained in the review doc's open-data section.
 - the Qiu clavicle SD is marked per-bone.
 
 No target value was selected or promoted. Please verify the C2 dispersion against the source when it is reachable.
+
+**1.82 m limb-length proposal (Claude, for review):** see `canonical_limb_length_proposal_182_v1.json`.
+- **Forearm:** robustly short (target about 283–293 mm EJC–WJC, against a003's 256 mm).
+- **Thigh:** contested between methods (ANSUR 419–427 mm against de Leva 441 mm). Resolve the HJC endpoint relation first.
+- **Upper arm and shank:** consistent with a003.
+
+This corrects the earlier "thigh 6.5% short" note. The proposal does not select any target.

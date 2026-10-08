@@ -197,3 +197,24 @@ All 106 records in `canonical_proportion_sources_v1.json` were scanned for numer
 - the Qiu SD is marked per-bone.
 
 Tests are in `scripts/test_owner_proportion_policy_and_source_fixes.py`. The full suite is 782 tests with the same 9 inherited failures. The 7 October review pack is a dated record and was not edited: its "owner questions" section is superseded by this decision.
+
+## 1.82 m limb-length proposal for GPT review (and a correction)
+
+`scripts/anatomy_fit/limb_length_proposal.py` produced `ORIGINAL_V1_WORK/anatomy/canonical_limb_length_proposal_182_v1.json`, with status **PROPOSAL_FOR_GPT_REVIEW_NOT_SELECTED**. It reproduces from the committed ANSUR file, and its tests are in `scripts/test_limb_length_proposal.py`.
+- **Primary method:** per-subject joint-centre spans from the ANSUR II men (n = 4,082), using the 7 October landmark conversions, regressed on stature and evaluated at 1.82 m.
+- **Cross-checks:** Trotter–Gleser maximum lengths, converted with the same allowances, and de Leva's joint-centre proportions. Only de Leva's thigh value is corroborated here.
+
+| Span | ANSUR at 1.82 m | Trotter–Gleser | de Leva | a003 | Reading |
+|---|---|---|---|---|---|
+| Forearm, EJC–WJC | 293.1 ± 10.8 (283–288 if WJC is 5–10 mm proximal of stylion) | 285.7 | 281.1 | **256.2, z −3.4** | **Robust: lengthen.** All methods agree within about 1 SD. |
+| Thigh, HJC–KJC | 418.9 ± 21.2 (427 if HJC is level with trochanterion) | 455.0 (inflated by inversion) | 441.4 | 412.9, z −0.3 | **Contested.** Resolve the HJC endpoint relation first. |
+| Upper arm, GH–EJC | 286.2 ± 10.6 (277 with the Rajagopal GH depth) | 322.8 | 294.5 | 287.7, z +0.1 | Consistent. The Trotter–Gleser conversion is the outlier. |
+| Shank, KJC–AJC | 437.5 ± 14.0 | none (no defensible conversion) | 453.7 | 439.1, z +0.1 | Consistent. |
+
+**Correction:** earlier today I reported the a003 thigh as "6.5% short", and it was added to the readiness blockers and the status page. That figure came from de Leva alone. Against ANSUR, the stature-conditioned primary source, the a003 thigh is within 0.3 SD. The femur blocker now records the method conflict instead of a shortfall. **Only the forearm is established as short.**
+
+**Left for GPT:**
+- map each span onto canonical bone endpoints (head, condyles, trochlea, styloids);
+- set a separate ulna target;
+- decide how to reconcile the thigh methods;
+- reread de Leva Table 1 for the three unverified values.

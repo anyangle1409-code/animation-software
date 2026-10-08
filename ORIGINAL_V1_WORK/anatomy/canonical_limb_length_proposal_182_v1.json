@@ -1,0 +1,141 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-08",
+ "status": "PROPOSAL_FOR_GPT_REVIEW_NOT_SELECTED",
+ "freeze_ready": false,
+ "owner_policy": "PROPORTION_POLICY_182CM_MALE (canonical_target_selection_v1.json owner_decisions)",
+ "stature_m": 1.82,
+ "primary_method": "Per-subject joint-centre spans from the committed ANSUR II male file (n = 4,082), using the landmark-to-joint conversions corroborated in proportion_audit.py, regressed on stature and evaluated at 1.82 m.",
+ "why_ansur_primary": "Stature-conditioned, large, committed and recomputable; its HJC/KJC/EJC conversions were independently corroborated on 7 October. Trotter-Gleser measures dry-bone maximum lengths (1950s US white men) and needs endpoint allowances; de Leva is a 100-athlete proportion table scaled linearly, three of four values unverified here.",
+ "spans": {
+  "thigh_HJC_KJC": {
+   "proposed_mm": 418.9,
+   "ansur_residual_sd_mm": 21.2,
+   "proposed_band_1sd_mm": [
+    397.8,
+    440.1
+   ],
+   "stature_slope_mm_per_m": 276.8,
+   "definition": "(trochanterion height - 8 mm) - lateral femoral epicondyle height; vertical span in standing",
+   "caveat": "femoral mechanical axis is within a few degrees of vertical in standing, so the 3-D span is longer by under 0.5%",
+   "n": 4082,
+   "crosscheck_trotter_gleser_mm": 455.0,
+   "trotter_gleser_conversion": "femur max - head radius 24.7 mm - KJC-to-plateau 27.0 mm",
+   "crosscheck_de_leva_scaled_mm": 441.4,
+   "de_leva_status": "corroborated",
+   "a003_mm": 412.9,
+   "a003_minus_proposed_mm": -6.0,
+   "a003_z_vs_ansur": -0.29,
+   "agreement": {
+    "tg_minus_proposed_mm": 36.1,
+    "de_leva_minus_proposed_mm": 22.4,
+    "tg_within_1sd": false,
+    "de_leva_within_1sd": false
+   },
+   "sensitivity_mm": {
+    "HJC_at_trochanterion_level (classic Nelaton relation, offset 0)": 426.9,
+    "HJC 8 mm below trochanterion (used here, 7 Oct radiographic relation)": 418.9,
+    "HJC 8 mm above trochanterion": 434.9,
+    "trotter_gleser_inversion": "inverting stature-on-bone overstates bone length above the sample mean stature"
+   },
+   "reading": "CONTESTED: ANSUR 419 (a003 within 0.3 SD) against de Leva 441 and Trotter-Gleser 455 (inflated by inversion). The HJC-trochanterion relation moves ANSUR by up to 16 mm. Resolve endpoint definitions before selecting; a003 is not established as short."
+  },
+  "shank_KJC_AJC": {
+   "proposed_mm": 437.5,
+   "ansur_residual_sd_mm": 14.0,
+   "proposed_band_1sd_mm": [
+    423.5,
+    451.6
+   ],
+   "stature_slope_mm_per_m": 294.3,
+   "definition": "lateral femoral epicondyle height - lateral malleolus height; vertical span",
+   "caveat": "ISB AJC is the malleolar midpoint; the medial malleolus sits higher, so AJC is a few mm above the lateral malleolus and this span is slightly long",
+   "n": 4082,
+   "crosscheck_trotter_gleser_mm": null,
+   "trotter_gleser_conversion": "TG white-male tibia omits the malleolus (Jantz 1995); no defensible joint-span conversion here",
+   "crosscheck_de_leva_scaled_mm": 453.7,
+   "de_leva_status": "UNVERIFIED_RECALL",
+   "a003_mm": 439.1,
+   "a003_minus_proposed_mm": 1.6,
+   "a003_z_vs_ansur": 0.12,
+   "agreement": {
+    "tg_minus_proposed_mm": null,
+    "de_leva_minus_proposed_mm": 16.2,
+    "tg_within_1sd": null,
+    "de_leva_within_1sd": false
+   },
+   "reading": "CONSISTENT: a003 matches ANSUR; de Leva is +16 mm (about 1.1 SD, unverified value)."
+  },
+  "upper_arm_GH_EJC": {
+   "proposed_mm": 286.2,
+   "ansur_residual_sd_mm": 10.6,
+   "proposed_band_1sd_mm": [
+    275.6,
+    296.8
+   ],
+   "stature_slope_mm_per_m": 202.8,
+   "definition": "acromion-radiale length - 15 mm (radiale below EJC) - GH depth below acromion skin (47 mm, corroborated by Arm26 47 mm / Rajagopal 53.5 mm)",
+   "caveat": "GH depth uncertainty is about +/- 7 mm between the two open models",
+   "n": 4082,
+   "crosscheck_trotter_gleser_mm": 322.8,
+   "trotter_gleser_conversion": "humerus max - 24.7 mm head - 12 mm distal allowance",
+   "crosscheck_de_leva_scaled_mm": 294.5,
+   "de_leva_status": "UNVERIFIED_RECALL",
+   "a003_mm": 287.7,
+   "a003_minus_proposed_mm": 1.5,
+   "a003_z_vs_ansur": 0.14,
+   "agreement": {
+    "tg_minus_proposed_mm": 36.6,
+    "de_leva_minus_proposed_mm": 8.3,
+    "tg_within_1sd": false,
+    "de_leva_within_1sd": true
+   },
+   "sensitivity_mm": {
+    "GH depth 47 mm (Arm26, used here)": 286.2,
+    "GH depth 56 mm (Rajagopal scaled to 1.82 m)": 277.2
+   },
+   "reading": "CONSISTENT: ANSUR and de Leva agree within 1 SD and a003 matches; the Trotter-Gleser conversion (+37 mm) depends on an uncertain distal allowance and the inversion bias."
+  },
+  "forearm_EJC_WJC": {
+   "proposed_mm": 293.1,
+   "ansur_residual_sd_mm": 10.8,
+   "proposed_band_1sd_mm": [
+    282.4,
+    303.9
+   ],
+   "stature_slope_mm_per_m": 160.8,
+   "definition": "radiale-stylion length + 15 mm (EJC above radiale); WJC taken at stylion level",
+   "caveat": "ISB WJC is the styloid midpoint, a few mm proximal of the radial styloid tip, so this span is slightly long",
+   "n": 4082,
+   "crosscheck_trotter_gleser_mm": 285.7,
+   "trotter_gleser_conversion": "radius max + 15 mm (radial head top is about radiale)",
+   "crosscheck_de_leva_scaled_mm": 281.1,
+   "de_leva_status": "UNVERIFIED_RECALL",
+   "a003_mm": 256.2,
+   "a003_minus_proposed_mm": -37.0,
+   "a003_z_vs_ansur": -3.43,
+   "agreement": {
+    "tg_minus_proposed_mm": -7.5,
+    "de_leva_minus_proposed_mm": -12.0,
+    "tg_within_1sd": true,
+    "de_leva_within_1sd": false
+   },
+   "sensitivity_mm": {
+    "WJC at stylion (used here)": 293.1,
+    "WJC 5 mm proximal of stylion": 288.1,
+    "WJC 10 mm proximal of stylion": 283.1
+   },
+   "reading": "ROBUST: ANSUR, Trotter-Gleser and de Leva lie within about 1 SD of each other (281-293 mm); a003 is 25-37 mm short under every method. Lengthen."
+  }
+ },
+ "not_decided_here": [
+  "endpoint mapping of each span onto the canonical bone geometry (head, condyles, trochlea, styloids)",
+  "separate ulna target (olecranon/coronoid endpoints)",
+  "left/right identical by policy unless evidence says otherwise",
+  "whether to adopt ANSUR or reconcile with de Leva where they disagree"
+ ],
+ "scripts": {
+  "generator": "scripts/anatomy_fit/limb_length_proposal.py",
+  "conversions": "scripts/anatomy_fit/proportion_audit.py"
+ }
+}

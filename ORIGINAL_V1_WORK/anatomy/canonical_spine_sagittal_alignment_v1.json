@@ -39,6 +39,18 @@
     "SVA_cm": {
       "mean": -0.6,
       "sd": 2.3
+    },
+    "pelvic_thickness_cm": {
+      "mean": 10.7,
+      "sd": 0.8,
+      "source": "HASEGAWA_2017_WHOLE_SPINE_MALE"
+    },
+    "geometry_definitions": {
+      "hip_axis": "midpoint between left/right femoral head centres",
+      "pelvic_thickness": "distance from hip axis to centre of S1 superior endplate",
+      "pelvic_tilt": "angle of HA↔S1-centre line relative to vertical",
+      "sacral_slope": "angle of S1 superior endplate relative to horizontal",
+      "pelvic_incidence": "PI = PT + SS"
     }
   },
   "cervical_segment_family": {
@@ -129,7 +141,8 @@
     "For a typical reference male, the Hasegawa male PI (~50°), SS (~41°), thoracic kyphosis (~44°) and lumbar lordosis (~56°) form a mutually plausible global family.",
     "Distribute lumbar lordosis distally, with L4/5 and L5/S1 carrying the majority, consistent with asymptomatic segmental data.",
     "Cervical source conflict remains explicit. Do not force the sum of Reinhold segmental means onto the Hasegawa global male mean without choosing a reference posture/population and sign convention.",
-    "Every level orientation must be derived from endplate frames, not from rotating stretched a003 bone sticks."
+    "Every level orientation must be derived from endplate frames, not from rotating stretched a003 bone sticks.",
+    "Use PTh + PT to position the S1 superior-endplate centre from the retained hip axis; use SS to orient the S1 endplate. Keep these as a coherent geometric family rather than independent coordinates."
   ],
   "next_coordinate_solve": [
     "Choose a provisional canonical PI inside the male standing corridor and derive SS/PT consistently.",

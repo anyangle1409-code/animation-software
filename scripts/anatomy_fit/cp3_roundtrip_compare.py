@@ -27,21 +27,35 @@ def compare(rec, cap):
     out['max_bone_endpoint_error_m'] = pos
     out['parent_mismatches'] = sorted(k for k in rb if k in cb and rb[k]['parent'] != cb[k]['parent'])
     out['parent_relation_mismatches'] = sorted(k for k in rb if k in cb and rb[k]['parent_relation'] != cb[k]['parent_relation'])
-    # roll: bone Z should be the anatomical anterior (bone_frame X) made perpendicular to the bone axis
-    roll_err, degenerate = {}, []
+    # roll: expected bone Z = roll target (same rule as build_anatomical_master_blender.roll_reference) made
+    # perpendicular to the bone. 'unreferenced' lists bones whose ANTERIOR target is parallel to the bone: under the
+    # original builder their roll was undefined; under the fixed builder they use the superior reference.
+    roll_err, superior_ref = {}, []
     for k in rb:
         h, t = np.array(rb[k]['head_m']), np.array(rb[k]['tail_m'])
         y = (t - h) / np.linalg.norm(t - h)
-        x = jm.bone_frame(h, t)[:, 0]
-        perp = x - (x @ y) * y
-        if np.linalg.norm(perp) < 1e-6:
-            degenerate.append(k)
-            continue
+        R = jm.bone_frame(h, t)
+        target = R[:, 0]
+        if np.linalg.norm(np.cross(target, y)) <= 1e-9:
+            superior_ref.append(k); target = R[:, 1]
+        perp = target - (target @ y) * y
         z = np.array(cb[k]['bone_z_axis'])
         roll_err[k] = math.degrees(math.acos(max(-1.0, min(1.0, float(z @ (perp / np.linalg.norm(perp)))))))
-    out['max_roll_error_deg'] = max(roll_err.values()) if roll_err else None
-    out['roll_target_parallel_to_bone'] = {'count': len(degenerate), 'bones': degenerate,
-                                           'captured_bone_z_dot_up': {k: round(float(np.array(cb[k]['bone_z_axis']) @ [0, 0, 1]), 6) for k in degenerate}}
+    worst = max(roll_err, key=roll_err.get)
+    out['max_roll_error_deg'] = roll_err[worst]
+    out['max_roll_error_bone'] = worst
+    out['bones_needing_superior_roll_reference'] = {'count': len(superior_ref), 'bones': superior_ref,
+                                                    'max_roll_error_deg': max(roll_err[k] for k in superior_ref) if superior_ref else None}
+    mirror = {}
+    for k in cb:
+        if k.endswith('_left') or '_left_' in k:
+            o = k.replace('_left', '_right')
+            if o in cb:
+                zl, zr = np.array(cb[k]['bone_z_axis']), np.array(cb[o]['bone_z_axis']) * [-1, 1, 1]
+                mirror[k] = math.degrees(math.acos(max(-1.0, min(1.0, float(zl @ zr)))))
+    mw = max(mirror, key=mirror.get)
+    out['max_bilateral_roll_mirror_error_deg'] = mirror[mw]
+    out['max_bilateral_roll_mirror_error_pair'] = mw
     mc = cap['joint_markers']
     cen = max(math.dist(m['centre_m'], mc[k]['centre_m']) for k, m in rec['joint_markers'].items() if k in mc)
     ax = max(float(np.abs(np.array(m['frame_axes_columns_XYZ']) - np.array(mc[k]['frame_axes_columns_XYZ'])).max())

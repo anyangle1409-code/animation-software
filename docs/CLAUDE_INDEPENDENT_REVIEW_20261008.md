@@ -137,3 +137,7 @@ Each finding was rechecked against independent published measurements of real sk
 | Rib spans, glenoid angles | Already compared with population data: Holcombe 2017 (n = 1,659 per level) and published glenoid normal ranges. | **Confirmed** (see the earlier sections). |
 | SC joint separation | No published centre-to-centre value was found. Searches returned only joint-space widths (7.6–9.0 mm) and distances to nearby vessels and organs. | **Still unverified.** The specimen's 32–36 mm proxy has no real-skeleton check. The laptop task remains the route. |
 | Specimen disc heights | Not rechecked; already judged unusable. | No change. |
+
+## Builder fixes (owner-approved, rehearsal 002)
+
+`build_anatomical_master_blender.py` now gives every bone a defined roll: anterior, or superior where the frame puts anterior along the bone (74 bones). It also stores marker rotations as quaternions, after the rehearsal found that Euler storage lost up to 3.6e-4 in marker frames near gimbal lock. Both fixes were rehearsed in Blender on a003's data and on an exactly mirrored copy: the round trip passes, rolls match the rule within 0.024°, and mirrored rolls agree within 0.027°. Details are in `audit/runs/claude_cp3_rehearsal_002/`.

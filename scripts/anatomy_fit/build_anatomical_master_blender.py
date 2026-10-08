@@ -98,6 +98,18 @@ def feature_presence(V, features):
             'max_vertex_change_m': float(d.max()), 'mean_vertex_change_m': float(d.mean())}
 
 
+def roll_reference(head, tail):
+    """Target for align_roll: bone_frame X (anterior) unless it lies along the bone, which bone_frame does by design
+    for horizontal bones (ribs, clavicle, foot, toes, some skull bones); then bone_frame Y (superior, perpendicular
+    to the bone by construction). Without this, align_roll gets a parallel target and the roll is undefined."""
+    R = jm.bone_frame(head, tail)
+    d = np.asarray(tail, float) - np.asarray(head, float)
+    d /= np.linalg.norm(d)
+    if np.linalg.norm(np.cross(R[:, 0], d)) > 1e-9:
+        return R[:, 0], 'anterior'
+    return R[:, 1], 'superior'
+
+
 def build_armature(bones):
     arm_data = bpy.data.armatures.new(MASTER + '_data')
     arm = bpy.data.objects.new(MASTER, arm_data)
@@ -111,8 +123,7 @@ def build_armature(bones):
     for bid, b in bones.items():
         e = arm_data.edit_bones.new('anat_' + bid)
         e.head, e.tail = Vector(b['head_m']), Vector(b['tail_m'])
-        R = jm.bone_frame(b['head_m'], b['tail_m'])
-        e.align_roll(Vector(R[:, 0]))  # bone local Z -> anatomical anterior (ISB X)
+        e.align_roll(Vector(roll_reference(b['head_m'], b['tail_m'])[0]))  # bone local Z -> anatomical anterior (ISB X), or superior where anterior is the bone axis
         e.use_deform = False
         eb[bid] = e
     for bid, b in bones.items():
@@ -127,6 +138,7 @@ def build_armature(bones):
         db['hgpt_placement'] = b['placement']
         db['hgpt_confidence'] = b['confidence']
         db['hgpt_parent_relation'] = json.dumps(b['parent_relation'])
+        db['hgpt_roll_reference'] = roll_reference(b['head_m'], b['tail_m'])[1]
     return arm, coll
 
 
@@ -146,6 +158,7 @@ def build_markers(arm, coll, markers, bones, plan):
         coll.objects.link(obj)
         obj.empty_display_type = 'ARROWS'
         obj.empty_display_size = 0.012
+        obj.rotation_mode = 'QUATERNION'  # Euler storage loses precision near gimbal lock (e.g. rib costochondral frames)
         obj['hgpt_joint_id'] = jid
         obj['hgpt_fit_method'] = m['method']
         parts = plan['joint_markers'][jid]['participants']
@@ -251,7 +264,8 @@ def main():
                        'authored_features': features['provenance']},
         'conventions': {'world': 'Blender world metres; +Z up; character faces -Y; anatomical LEFT = +X (F-SIDE-001)',
                         'runtime_side_binding': cf.RUNTIME_SUFFIX,
-                        'bone_axes': 'Bone Y = head->tail; bone Z aligned to anatomical anterior (ISB X).',
+                        'bone_axes': 'Bone Y = head->tail; bone Z aligned to anatomical anterior (ISB X), or to superior where the frame puts '
+                                     'anterior along the bone (horizontal bones); bone property hgpt_roll_reference records which.',
                         'marker_axes': 'Marker X anterior, Y proximal/superior, Z character right (ISB pattern for the marker frame bone).'},
         'sources': cf.FIT_SOURCES, 'landmarks_and_joint_centres': report, 'skeleton_input': L,
         'bones': S.bones, 'joint_markers': markers, 'checks': checks, 'landmark_objects': n_land,

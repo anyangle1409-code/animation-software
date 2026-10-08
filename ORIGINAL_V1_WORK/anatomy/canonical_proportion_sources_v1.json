@@ -2066,6 +2066,40 @@
         "bilateral asymmetry tolerance"
       ],
       "limitation": "No stature-conditioned male equation in the accessible result."
+    },
+    {
+      "id": "MEADOWS_JANTZ_1992_METACARPAL_STATURE",
+      "type": "osteometric_metacarpal_stature",
+      "citation": "Meadows L, Jantz RL. Estimation of stature from metacarpal lengths. J Forensic Sci. 1992;37(1):147-154.",
+      "pmid": "1545195",
+      "doi": "10.1520/JFS13222J",
+      "populations": {
+        "Terry_collection": 212,
+        "modern_males": 55
+      },
+      "measurement_definition": "Midline length from midpoint of proximal articular surface to midpoint of distal articular surface.",
+      "Terry_male_left_means_mm": {
+        "white": {
+          "M1": 46.12,
+          "M2": 66.47,
+          "M3": 64.89,
+          "M4": 58.09,
+          "M5": 53.46
+        },
+        "black": {
+          "M1": 49.3,
+          "M2": 71.15,
+          "M3": 70.16,
+          "M4": 62.3,
+          "M5": 57.34
+        }
+      },
+      "finding": "Modern male sample had both longer metacarpals and greater statures than the Terry males; Terry-derived equations performed acceptably on the modern males, particularly M2-M5.",
+      "use": [
+        "independent support for adult male metacarpal scale",
+        "stature-aware direction check for short a003 M2-M4"
+      ],
+      "limitation": "Full regression coefficients are not transcribed into the source register yet; Terry sample is historical and population-specific, so these means are cross-checks rather than canonical targets."
     }
   ],
   "unresolved_source_needs": [

@@ -100,3 +100,7 @@ No defensible c003. The absolute ANSUR acromial height cannot be met with SC clo
 ## Phase 9 on c001 (Claude)
 
 The movement suite passes on the c001 girdle (135/135; mirror 41/43, as a003). A mirror-check defect was found and fixed. Clips: `ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_002/clips/`.
+
+## c003 (Claude)
+
+The coupled ANSUR thorax-and-shoulder audit candidate passes all 10 acceptance checks. It is not canonical. Open `ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/HGPT_ANATOMICAL_AUDIT_r95_a003_shoulder_thorax_c003_ansur_coupled.blend` read-only, and start with `review/sheets/sheet_four_way_shoulder_left.jpg`.

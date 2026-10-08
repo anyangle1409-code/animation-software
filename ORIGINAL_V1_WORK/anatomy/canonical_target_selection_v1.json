@@ -318,6 +318,17 @@
         "Measured consequence: with the bony clavicle orientation retained, the SC joints land 17-62 mm below their own jugular notch in every recorded pitch/IJ/landmark variant (c002: 56.2 mm below the retained a003 notch). The policy's two parts do not close at the SC; a further owner decision is needed. No numeric target selected; freeze_ready unchanged."
       ],
       "recorded_by": "docs/CLAUDE_INDEPENDENT_REVIEW_20261008.md"
+    },
+    {
+      "date": "2026-10-08",
+      "owner": "project owner's delegate (decision made on the user's behalf from the audit evidence)",
+      "id": "SHOULDER_THORAX_ANSUR_COUPLED_C003",
+      "decision": "For the new audit candidate, the internally coherent ANSUR measurements (absolute acromial height, suprasternale height and their within-subject relation) govern over the inherited a003 sternum-notch height; the reconciliation is coupled upper-thorax/shoulder, not shoulder-only. a003 and production remain immutable comparison baselines.",
+      "consequences": [
+        "Audit candidate r95_a003_shoulder_thorax_c003_ansur_coupled: sternum translated z -24.67 mm / y +14.66 mm (pump-handle-coupled), ribs 1-10 follow, girdle solved on the new IJ; all 10 acceptance checks pass.",
+        "Not canonical, not accepted, freeze_ready unchanged; sternum length, rib geometry and thorax pitch remain open."
+      ],
+      "recorded_by": "docs/CLAUDE_INDEPENDENT_REVIEW_20261008.md"
     }
   ]
 }

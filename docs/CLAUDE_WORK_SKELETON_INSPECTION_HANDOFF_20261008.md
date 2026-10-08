@@ -194,3 +194,29 @@ This corrects the earlier "thigh 6.5% short" note. The proposal does not select 
   - The a003 recheck (`isolated_bone_only_a003_mirror_fix_recheck_001`) is unchanged at 41/2.
 - **Clips** (`…_002/clips/`): labelled a003-vs-c001 GIFs and keyframe sheets of the solver-keyed shoulder-complex scapular-plane elevation (scapulothoracic rhythm plus clavicle followers; both sides) and GH elevation, front and rear.
 - **Gate 9 stays NOT PASSED:** coverage gaps (full opposition, rib–sternum coupling, midfoot) still lack sources. Phase 10 has not started.
+
+### c003: coupled upper-thorax and shoulder reconciliation to ANSUR (8 October, Claude)
+
+- **Decision** (`SHOULDER_THORAX_ANSUR_COUPLED_C003`, made on the user's behalf from the audit evidence): for this audit candidate, the coherent ANSUR relations govern over the inherited a003 notch. a003, c001, c002 and production stay immutable.
+- **Candidate** `r95_a003_shoulder_thorax_c003_ansur_coupled` (`audit/candidates/shoulder_thorax_c003_ansur_coupled/`, README inside):
+  - **Sternum:** moved rigidly z −24.67 / y +14.66 mm. The posterior part comes from the pump-handle coupling that minimises costal-cartilage deformation.
+  - **Ribs:** ribs 1–7 rotate 8–19° about their heads (cartilage ≤ 4.4 mm change); ribs 8–10 follow through the interchondral joints (≤ 0.22 mm).
+  - **Girdle:** solved on the new notch (bony pitch, clavicle-axis border landmark).
+  - **Arms:** translated rigidly with GH.
+  - **Untouched:** spine, skull, pelvis and legs (121 bones identical).
+- **All 10 acceptance checks PASS:**
+  - IJ 1494.5 and acromion 1497.7 exact; within-subject z 0.007; ANSUR cervicale − IJ = 80.7 (living relation);
+  - SC closure exact; clavicle 1.1° (z −1.72), every |z| ≤ 1.72;
+  - rib/axial continuity, unrelated bones, stature, joint closure, stick-axis collisions and mirror.
+  - Also: CP2 identical to a003; round trip PASS; isolated suite 135/135 and 41/43 mirror.
+- **Evidence:** 58 review JPEGs including a003/c001/c002/c003 four-way sheets (body, both shoulders and axillae, overhead, poses), plus a003-vs-c003 movement clips.
+- **Tests:** `scripts/test_shoulder_thorax_c003.py` (16; geometry re-derived independently).
+- **Still open** (c003 is **not canonical**):
+  - sternum length and inclination (REOPEN);
+  - rib geometry (BLOCKED);
+  - notch-to-spine depth (unsourced; 84.4 → 69.8 mm);
+  - notch one vertebral level below the supine T2–T3;
+  - clavicle elevation at the low end of the source;
+  - mapping bracket +4.5 mm;
+  - thorax pitch sensitivity;
+  - mesh refit and forearm length.

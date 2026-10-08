@@ -55,7 +55,12 @@ class Audit(unittest.TestCase):
             self.assertLess(abs(s['height_error_mm']), 0.1, k)                   # the height was actually met
             self.assertGreater(s['max_abs_z'], 2, k)
             self.assertLess(s['clavicle_elevation_deg'], 0, k)
-        self.assertFalse(list((ANAT / 'audit/candidates').glob('*c003*')))
+        # The audit's finding is that no defensible c003 exists with SC closed on the a003 notch. A later c003 exists only
+        # under a different owner decision (coupled thorax): it must not retain the a003 notch height.
+        a003_ij = json.loads((ANAT / 'character_fit_r95_a003.json').read_text())['skeleton_input']['trunk']['ij_bone']
+        for rec in (ANAT / 'audit/candidates').glob('*c003*/candidate_record.json'):
+            ij = json.loads(rec.read_text())['skeleton_input']['trunk']['ij_bone']
+            self.assertGreater(abs(ij[2] - a003_ij[2]) * 1000, 1.0, rec)
 
     def test_within_subject_relation_reported_not_applied(self):
         self.assertIn('bony_specimen_deg__LM25_exterior_acromial_angle', A['verdict']['within_subject_relation_with_SC_closed'])

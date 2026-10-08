@@ -48,10 +48,10 @@
     "caution": "Percutaneous olecranon-tip to styloid-tip measurement is population-specific and not identical to the a003 proxy. It is a weak directional cross-check only."
   },
   "findings": [
-    "The radius should remain REOPEN for canonical retargeting. The stature-conditioned ANSUR chain implies a longer radiale-stylion span than the current a003 osteometric proxy by roughly 31 mm.",
+    "A direct regression on all 4,082 committed ANSUR II men now independently reproduces the stature-conditioned radiale–stylion prediction of ~278.14 mm at 1.82 m. The a003 radius osteometric proxy (~247.42 mm) is ~30.72 mm shorter, z≈−2.85, at roughly the bottom 0.05% of ANSUR regression residuals.",
+    "This confirms a strong radius/forearm shortness signal within the ANSUR measurement definition. It still does not authorize blindly setting the Blender radius to 278.14 mm until the canonical endpoints are mapped exactly to radiale and stylion.",
     "The ulna should NOT simply be lengthened by the same amount. Available CT and percutaneous sources use different endpoints and populations; the current ulna proxy is closer to several adult reference values than the radius is.",
-    "Therefore the skeleton-first rebuild must treat radius and ulna as distinct bones with independent endpoint definitions, while preserving their proximal/distal radioulnar joint congruence and pronation-supination axis.",
-    "The old mesh-fit assumption of a single forearm segment is explicitly rejected for final canonical proportions."
+    "The skeleton-first rebuild must treat radius and ulna as distinct bones with independent endpoint definitions while preserving PRUJ/DRUJ congruence and the pronation-supination axis."
   ],
   "provisional_decisions": {
     "radius": "REOPEN_AND_RETARGET",
@@ -60,10 +60,20 @@
     "wrist_joint_centre": "REOPEN_AS_PART_OF_DISTAL_FOREARM_HAND_CHAIN"
   },
   "next_steps": [
-    "Derive a canonical radius corridor from stature-conditioned ANSUR plus at least one endpoint-compatible male CT/osteometric dataset.",
+    "Add an endpoint-compatible male CT/osteometric radius source to convert the strong ANSUR directional result into a freeze-ready canonical endpoint corridor.",
     "Derive a canonical ulna corridor with explicit olecranon/styloid endpoint semantics; do not infer it from radius by a fixed ratio.",
     "Rebuild distal radioulnar and wrist landmarks from the canonical bone endpoints before accepting carpal positions.",
     "Re-run pronation/supination tests after the canonical radius/ulna/wrist geometry is instantiated."
   ],
-  "status": "FOREARM_RETARGET_REQUIRED_NUMERIC_TARGET_NOT_FROZEN"
+  "status": "FOREARM_RETARGET_REQUIRED_NUMERIC_TARGET_NOT_FROZEN",
+  "direct_ansur_regression": {
+    "report": "ORIGINAL_V1_WORK/anatomy/canonical_forearm_ansur_direct_report_v1.json",
+    "n": 4082,
+    "radiale_stylion_predicted_at_1820mm_stature_mm": 278.1363955217166,
+    "residual_sd_mm": 10.783470258896081,
+    "a003_radius_osteometric_proxy_mm": 247.41657969863166,
+    "difference_mm": -30.719815823084957,
+    "z_vs_residual": -2.8487875503474323,
+    "empirical_residual_percentile_percent": 0.04899559039686428
+  }
 }

@@ -140,8 +140,8 @@ def validate(s, conv, corr, shoulder_constraint=None, shoulder_source=None):
             errors.append("invalid direct acromion-to-AC value reappeared in source register")
 
     sternum = conv["region_findings"].get("sternum")
-    if not sternum or sternum.get("grade") != "B" or sternum.get("state") != "STRONGLY_REOPENED_LONGITUDINAL_GEOMETRY":
-        errors.append("sternum rebuild evidence state was lost")
+    if not sternum or sternum.get("grade") != "C" or sternum.get("state") != "REOPEN_STATURE_METHOD_CONFLICT":
+        errors.append("corrected sternum stature/method conflict state was lost")
 
     # Corridor file must remain explicitly non-final.
     if corr["status"] != "EVIDENCE_CORRIDORS_NOT_FINAL_TARGETS":

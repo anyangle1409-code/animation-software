@@ -147,13 +147,148 @@
         "independent joint-centre and segment-geometry cross-check"
       ],
       "limitation": "Model-specific generic geometries; never used as the sole anatomical truth."
+    },
+    {
+      "id": "OZASLAN_2006_RADIUS_ULNA_STATURE",
+      "type": "forensic_osteometry",
+      "citation": "Ozaslan A et al. Estimation of stature and determination of sex from radial and ulnar bone lengths in a Turkish corpse sample. Forensic Sci Int. 2006.",
+      "pmid": "15990262",
+      "doi": "10.1016/j.forsciint.2005.05.016",
+      "population": "80 male and 47 female recent forensic cases; mean ages 36 and 30 years",
+      "use": [
+        "independent adult radius/ulna length-vs-stature relation",
+        "sex-specific forearm plausibility"
+      ],
+      "limitation": "Accessible abstract confirms regressions but does not expose coefficients or means; full table required before setting a numeric canonical target."
+    },
+    {
+      "id": "TORIMITSU_2014_RADIUS_ULNA_3DCT",
+      "type": "3D_CT_stature_relation",
+      "citation": "Torimitsu S et al. Stature estimation based on radial and ulnar lengths using three-dimensional images from multidetector computed tomography in a Japanese population. Leg Med. 2014.",
+      "pmid": "24650584",
+      "population": "Japanese adult MDCT sample",
+      "use": [
+        "independent 3D-CT forearm length/stature cross-check"
+      ],
+      "limitation": "Population-specific; accessible abstract gives SEE but not coefficients/mean lengths."
+    },
+    {
+      "id": "GUL_2020_ULNA_PERCUTANEOUS",
+      "type": "anthropometric_stature_relation",
+      "citation": "Gul H et al. Estimation of Body Stature Using the Percutaneous Length of Ulna of an Individual. Cureus. 2020.",
+      "pmid": "32064181",
+      "population": "100 adults, equal male/female",
+      "male_equation": "stature_cm = 70.369 + 3.698 * ulna_length_cm",
+      "use": [
+        "secondary living-adult ulna plausibility range"
+      ],
+      "limitation": "Percutaneous ulna definition is not dry-bone maximum length and population-specific; use only as a cross-check, never as the primary skeletal target."
+    },
+    {
+      "id": "MEADOWS_JANTZ_1995_ALLOMETRY",
+      "type": "long_bone_allometry",
+      "citation": "Meadows L, Jantz RL. Allometric secular change in the long bones from the 1800s to the present. J Forensic Sci. 1995.",
+      "pmid": "7595319",
+      "use": [
+        "guard against constant-ratio scaling of long bones"
+      ],
+      "finding": "Upper-limb long bones were approximately isometric with stature; lower-limb bones showed positive allometry and secular change.",
+      "limitation": "Historical US male samples; informs scaling policy, not a target length."
+    },
+    {
+      "id": "MALONE_2016_FOREARM_ANATOMY",
+      "type": "cadaver_forearm_relationships",
+      "citation": "Malone PSC et al. Anatomic Relationships of the Distal and Proximal Radioulnar Joints Articulating Surface Areas and of the Radius and Ulna Bone Volumes. Front Bioeng Biotechnol. 2016.",
+      "pmid": "27468411",
+      "pmcid": "PMC4942467",
+      "doi": "10.3389/fbioe.2016.00061",
+      "population": "24 cadaver forearms for joint surfaces; 44 matched radius/ulna pairs for bone volume",
+      "use": [
+        "forearm paired-bone relationship and PRUJ/DRUJ anatomy"
+      ],
+      "accessible_findings": {
+        "PRUJ_to_DRUJ_surface_area_ratio": 1.02,
+        "radius_to_ulna_bone_volume_ratio": 0.81,
+        "radius_to_ulna_volume_ratio_without_olecranon": 1.04
+      },
+      "limitation": "Volume and articular area relationships are not length ratios."
+    },
+    {
+      "id": "BARRÔCO_2011_332_NORMAL_FEET",
+      "type": "weight_bearing_radiographic_forefoot",
+      "citation": "Barrôco R et al. Evaluation of metatarsal relationships in the biomechanics of 332 normal feet using the method of measuring relative lengths. Rev Bras Ortop. 2011/2015.",
+      "pmid": "27027034",
+      "pmcid": "PMC4799308",
+      "doi": "10.1016/S2255-4971(15)30258-5",
+      "population": "166 adults aged 25-50; 83 men and 83 women; 332 normal weight-bearing feet",
+      "male_relative_lengths_mm": {
+        "M1": 125.4,
+        "M2": 127.8,
+        "M3": 123.4,
+        "M4": 114.2,
+        "M5": 99.5
+      },
+      "male_mean_forefoot_width_mm": 87.1,
+      "normal_pattern": "Index-minus most frequent; M1 about 2.4 mm shorter than M2, M3 4.4 mm shorter than M2, M4 9.2 mm shorter than M3, M5 14.7 mm shorter than M4.",
+      "use": [
+        "forefoot ray ordering and relative pattern under weight bearing"
+      ],
+      "limitation": "Measurements are relative distances from a Chopart reference line to metatarsal heads, not osteometric metatarsal bone lengths."
+    },
+    {
+      "id": "KWON_2004_CERVICAL_CT",
+      "type": "cervical_CT_morphometry",
+      "citation": "Kwon BK et al. Morphologic evaluation of cervical spine anatomy with computed tomography: anterior cervical plate fixation considerations. J Spinal Disord Tech. 2004.",
+      "pmid": "15260091",
+      "population": "CT studies from 50 males and 50 females",
+      "accessible_male_values_mm": {
+        "vertebral_body_width_mean": 24.6,
+        "vertebral_body_width_sd": 2.4,
+        "midsagittal_AP_diameter_approx_range": [
+          17,
+          18
+        ]
+      },
+      "use": [
+        "cervical vertebral size cross-check"
+      ],
+      "limitation": "Primarily body width/depth, not inter-level centre positions or disc-centre spacing."
+    },
+    {
+      "id": "PANJWANI_2021_DISC_BODY_GROWTH",
+      "type": "spine_morphometry",
+      "citation": "Disc and Vertebral Body Morphology From Birth to Adulthood. Spine. 2022.",
+      "pmid": "34798645",
+      "use": [
+        "adult vertebral body/disc height plausibility and regional trend"
+      ],
+      "accessible_adult_values_mm": {
+        "cervical_body_height_about": 14,
+        "thoracic_body_height_about": 20,
+        "lumbar_body_height_about": 28,
+        "lumbar_disc_height_about": 9
+      },
+      "limitation": "Growth-study endpoint values are regional summaries, not per-level adult male canonical coordinates."
+    },
+    {
+      "id": "HOLCOMBE_2023_RIB_CT_POPULATION",
+      "type": "rib_CT_population",
+      "citation": "Cross-sectional properties of rib geometry from an adult population. Front Bioeng Biotechnol. 2023.",
+      "pmid": "37284235",
+      "pmcid": "PMC10239965",
+      "doi": "10.3389/fbioe.2023.1158242",
+      "population": "240 adults aged 18-90; ribs 2-11; sex-specific results",
+      "use": [
+        "population-derived rib cross-sectional geometry by rib number and normalized rib position"
+      ],
+      "limitation": "Cross-section geometry does not by itself provide the full curved rib centreline or costovertebral axis."
     }
   ],
   "unresolved_source_needs": [
-    "Direct adult male radius and ulna osteometric/CT lengths with stature relation and explicit landmark definitions.",
+    "Direct adult male radius and ulna numerical length distributions or regression coefficients with explicit osteometric/CT landmark definitions from an accessible full source.",
     "Numerical metacarpal-to-phalange formulas from a full accessible hand morphometry source.",
     "Numerical metatarsal-to-phalange formulas and tarsal linear dimensions from full accessible foot morphometry sources.",
-    "Curved rib geometry/axis orientation by rib level.",
-    "Vertebral body and disc-centre proportional placement across C2-S1 with consistent adult-male reference definitions."
+    "Curved rib centreline/axis orientation by rib level, not only cross-sectional geometry.",
+    "Per-level vertebral body/disc centre spacing and sagittal alignment across C2-S1 with consistent adult-male definitions."
   ]
 }

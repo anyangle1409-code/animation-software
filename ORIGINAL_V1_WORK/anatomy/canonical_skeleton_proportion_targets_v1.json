@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "branch": "codex/whole-body-biomechanics-audit-20261007",
+  "purpose": "Skeleton-first proportion target definition. The anatomical skeleton is the source of truth; current r95 mesh proportions are diagnostic only.",
+  "status": "PROVISIONAL_REFERENCE_NOT_FROZEN",
+  "stature_m": 1.8200002908706665,
+  "owner_decision": {
+    "skeleton_is_source_of_truth": true,
+    "mesh_refits_to_skeleton": true,
+    "current_short_forearm_hand_is_not_final_styling": true,
+    "current_long_feet_are_not_final_styling": true,
+    "current_a003_role": "audit baseline only"
+  },
+  "rules": [
+    "Do not move a corroborated joint centre merely to keep it inside the r95 mesh.",
+    "Do not use a single population mean as a hard anatomical target.",
+    "Separate skeletal targets from soft-tissue/surface targets.",
+    "Use current a003 measurements only as a comparison baseline.",
+    "Production mesh, weights and runtime rig remain unchanged until the canonical skeleton is frozen."
+  ],
+  "provisional_joint_centre_anchors": {
+    "HJC": {
+      "current_fit_z_m": 0.9296919266934183,
+      "independent_reference_z_m": 0.9318244199556408,
+      "difference_m": -0.0021324932622225345,
+      "evidence_spread_m": 0.02590047996513663,
+      "disposition": "RETAIN_PROVISIONALLY",
+      "reason": "Independent ANSUR trochanterion minus radiographic 8 mm relation agrees within 2.2 mm."
+    },
+    "KJC": {
+      "current_fit_z_m": 0.5169554166666667,
+      "independent_reference_z_m": 0.5128979651136362,
+      "difference_m": 0.0040574515530305,
+      "evidence_spread_m": 0.013623720320460131,
+      "disposition": "RETAIN_PROVISIONALLY",
+      "reason": "ISB epicondylar centre height agrees with ANSUR lateral femoral epicondyle within 4.1 mm."
+    },
+    "GH": {
+      "current_fit_depth_below_acromion_skin_m": 0.047050226250165306,
+      "independent_open_model_depths_m": [
+        0.047,
+        0.057276479742106264
+      ],
+      "disposition": "RETAIN_PROVISIONALLY",
+      "reason": "Current fitted depth agrees with Arm26 and stature-scaled Rajagopal reference; absolute shoulder height remains subject to whole-skeleton proportion review."
+    },
+    "EJC_upper_arm_chain": {
+      "current_acromion_to_EJC_m": 0.3294810069672105,
+      "stature_conditioned_reference_m": 0.3331812945932844,
+      "difference_m": -0.0037002876260738837,
+      "evidence_spread_m": 0.010600724100567479,
+      "disposition": "RETAIN_PROVISIONALLY",
+      "reason": "Upper-arm surface chain agrees within 3.7 mm / less than one residual SD."
+    }
+  },
+  "reopen_for_canonical_skeleton": {
+    "distal_upper_limb": {
+      "current_acromion_to_wrist_m": 0.5904810069672104,
+      "stature_conditioned_surface_reference_m": 0.6169688956915513,
+      "difference_m": -0.02648788872434093,
+      "current_hand_surface_length_m": 0.188999773749835,
+      "stature_conditioned_hand_reference_m": 0.19950794748615092,
+      "hand_difference_m": -0.010508173736315927,
+      "current_acromion_to_fingertip_m": 0.7794807807170454,
+      "stature_conditioned_arm_reference_m": 0.8258256376011522,
+      "total_difference_m": -0.0463448568841068,
+      "disposition": "REOPEN",
+      "interpretation": "The existing surface is genuinely short distally. Radius/ulna, wrist, metacarpals and phalanges must be re-targeted from anatomical/bony references, then the mesh lengthened around them."
+    },
+    "foot": {
+      "current_surface_length_m": 0.30523210763931274,
+      "stature_conditioned_surface_reference_m": 0.2799330826397305,
+      "difference_m": 0.025299024999582243,
+      "residual_sd_m": 0.009119960622171235,
+      "current_z": 2.774027876620282,
+      "disposition": "REOPEN",
+      "interpretation": "The existing foot surface is unusually long. Do not scale bones blindly to 279.9 mm; first establish hindfoot/midfoot/forefoot skeletal ratios, then fit soft tissue around the validated chain."
+    }
+  },
+  "surface_only_diagnostics_not_skeletal_targets": {
+    "crotch_height": {
+      "current_m": 0.8390002262501651,
+      "stature_conditioned_reference_m": 0.8830580047694342,
+      "z": -1.8451110685460235,
+      "note": "Surface/groin shape; does not override independently corroborated HJC."
+    },
+    "axilla_height": {
+      "current_m": 1.4110002262501695,
+      "stature_conditioned_reference_m": 1.3827446390165514,
+      "z": 1.9215314271700312,
+      "note": "Soft-tissue/torso shape; not a bone landmark."
+    },
+    "suprasternale_height": {
+      "current_m": 1.5191669901302225,
+      "stature_conditioned_reference_m": 1.4945263849311003,
+      "z": 2.1009838572871327,
+      "note": "Useful torso-proportion diagnostic; skeleton placement must be checked with vertebral/sternal anatomy separately."
+    },
+    "bideltoid_breadth": {
+      "current_m": 0.5751221429481995,
+      "stature_conditioned_reference_m": 0.5198898336583992,
+      "z": 1.7887958854055892,
+      "note": "May reflect muscularity/soft tissue and is not a direct clavicle or scapular target."
+    }
+  },
+  "next_required_evidence": [
+    "Direct bony forearm target from ANSUR radiale-stylion distribution conditioned on stature and cross-checked against open musculoskeletal models.",
+    "Hand skeletal ray/metacarpal/phalangeal proportion targets from anatomical morphometry, separate from surface hand length.",
+    "Foot skeletal hindfoot/midfoot/forefoot and metatarsal/phalangeal proportions from anatomical morphometry, separate from shoe/skin length.",
+    "Spine and rib proportional placement review to replace remaining low-confidence proportional placements.",
+    "Pelvis and shoulder-girdle width checks using bony landmarks rather than surface breadth."
+  ],
+  "evidence": {
+    "proportion_report": "ORIGINAL_V1_WORK/anatomy/audit/proportion_audit_001/proportion_report.json",
+    "ansur_file": "ORIGINAL_V1_WORK/anatomy/sources/ansur2/ANSUR_II_MALE_Public.csv",
+    "open_models": "ORIGINAL_V1_WORK/anatomy/sources/open_musculoskeletal_models.json",
+    "policy": "docs/SKELETON_FIRST_PRODUCTION_POLICY_20261008.md"
+  }
+}

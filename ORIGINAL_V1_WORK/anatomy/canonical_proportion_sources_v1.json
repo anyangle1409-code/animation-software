@@ -1423,6 +1423,120 @@
         "glenoid dimension cross-check"
       ],
       "limitation": "Dry/cadaveric morphology; population-specific."
+    },
+    {
+      "id": "SACRUM_MALE_MORPHOMETRY_2023",
+      "type": "dry_sacrum_morphometry",
+      "citation": "Determination of Sexual Dimorphism of the Human Sacrum Based on ROC Curve Analysis of Morphometric Parameters. 2023.",
+      "pmcid": "PMC10241110",
+      "sample": "110 dry adult human sacra",
+      "male_values_mm": {
+        "maximum_breadth": {
+          "mean": 103.22,
+          "sd": 7.4
+        },
+        "sacral_length_promontory_to_apex": {
+          "mean": 107.6,
+          "sd": 9.98
+        },
+        "S1_body_transverse": {
+          "mean": 47.45,
+          "sd": 4.77
+        },
+        "S1_body_height": {
+          "mean": 29.51,
+          "sd": 2.54
+        },
+        "S2_body_height": {
+          "mean": 25.64,
+          "sd": 2.52
+        }
+      },
+      "use": [
+        "sacral length/width/body scale corridor"
+      ],
+      "limitation": "Regional dry-bone sample; does not define SI joint centre or pelvic orientation."
+    },
+    {
+      "id": "SACRUM_CT_2021_INDONESIA",
+      "type": "adult_sacrum_CT_morphometry",
+      "citation": "Sacrum morphometry and spinopelvic parameters among the Indonesian population using computed tomography scans. 2021.",
+      "pmcid": "PMC8615351",
+      "population": "300 adults; 150 men and 150 women; median age 35",
+      "values_mm": {
+        "total_curved_length_all": {
+          "mean": 112.53,
+          "sd": 7.98
+        },
+        "straight_midventral_length_all_median": 104.7,
+        "S1_height_all": {
+          "mean": 30.59,
+          "sd": 2.39
+        }
+      },
+      "finding": "Curved and straight sacral lengths were greater in males; ventral breadth greater in females.",
+      "use": [
+        "independent CT sacral length/body-height cross-check"
+      ],
+      "limitation": "Accessible excerpt does not expose all sex-specific means."
+    },
+    {
+      "id": "SACROILIAC_REGION_2023",
+      "type": "sacroiliac_region_morphometry",
+      "citation": "Morphometric Examination of the Sacroiliac Region and Variable Positions of the Sacral Auricular Surface. 2023.",
+      "pmcid": "PMC9927799",
+      "male_examples_mm": {
+        "group1_sacral_width": [
+          108.86,
+          8.14
+        ],
+        "group1_sacral_length": [
+          103.52,
+          11.48
+        ],
+        "group2_sacral_width": [
+          110.21,
+          4.56
+        ],
+        "group2_sacral_length": [
+          100.98,
+          11.82
+        ],
+        "group3_sacral_width": [
+          109.33,
+          6.81
+        ],
+        "group3_sacral_length": [
+          115.27,
+          10.73
+        ]
+      },
+      "use": [
+        "SI region variability and sacral dimension corridor"
+      ],
+      "limitation": "Auricular-surface groups vary; not a single canonical SI centre."
+    },
+    {
+      "id": "COXAL_CT_GEOMORPH_2012",
+      "type": "3D_CT_os_coxae_landmarks",
+      "citation": "Human coxal bone sexual dimorphism and multislice computed tomography: geometric morphometric analysis of 65 adults. J Forensic Sci. 2012.",
+      "pmid": "22211944",
+      "population": "65 Caucasian adults; 15 osteometric landmarks on 3D reconstructed coxae",
+      "use": [
+        "os coxae landmark topology and male-shape corridor"
+      ],
+      "limitation": "Accessible abstract does not expose the numerical landmark coordinates/distances."
+    },
+    {
+      "id": "ACETABULUM_SHAPE_2017",
+      "type": "adult_acetabulum_geomorph",
+      "citation": "Shape variability of the adult human acetabulum and acetabular fossa related to sex and age by geometric morphometrics. Forensic Sci Int. 2017.",
+      "pmid": "28113134",
+      "sample": "682 os coxae from three documented skeletal collections",
+      "use": [
+        "acetabular rim/fossa shape variability and sex-aware morphology"
+      ],
+      "limitation": "Shape model rather than a simple joint-centre target; HJC remains governed by separate regression/landmark evidence."
     }
   ],
   "unresolved_source_needs": [

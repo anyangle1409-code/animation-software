@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Provisional skeleton-first S1 superior-endplate/pelvic sagittal frame P1 derived from the retained bilateral hip-joint centres and one internally coherent male standing PTh/PT/SS family.",
+  "status": "P1_S1_FRAME_PROVISIONALLY_SOLVED_NOT_FINAL_COORDINATE_FREEZE",
+  "coordinate_basis": {
+    "X": "+X anatomical left",
+    "Y": "+Y posterior; -Y anterior",
+    "Z": "+Z superior",
+    "provenance": "F-SIDE-001 character facing/chirality audit"
+  },
+  "source_family": {
+    "numeric_source": "HASEGAWA_2017_WHOLE_SPINE_MALE",
+    "definition_crosscheck": "PELVIC_PARAMETERS_APP_2024",
+    "male_n": 40,
+    "pelvic_thickness_mm": {
+      "mean": 107,
+      "sd": 8
+    },
+    "pelvic_tilt_deg": {
+      "mean": 9.2,
+      "sd": 6.2
+    },
+    "sacral_slope_deg": {
+      "mean": 40.9,
+      "sd": 9.6
+    },
+    "pelvic_incidence_deg": {
+      "mean": 50.1,
+      "sd": 11.2
+    },
+    "identity_check": {
+      "PT_plus_SS_deg": 50.1,
+      "PI_deg": 50.1,
+      "error_deg": 0
+    }
+  },
+  "retained_hip_axis": {
+    "source": "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json",
+    "left_HJC_m": [
+      0.08330584416194597,
+      -0.01929590409553253,
+      0.9296919266934183
+    ],
+    "right_HJC_m": [
+      -0.08330584416194597,
+      -0.01929590409553253,
+      0.9296919266934183
+    ],
+    "HA_midpoint_m": [
+      0,
+      -0.01929590409553253,
+      0.9296919266934183
+    ],
+    "policy": "HJC transverse/vertical placement is retained provisionally because independent pelvic/ANSUR checks support it; this frame may move if the rebuilt acetabular geometry later disproves the retained HJC."
+  },
+  "derived_S1_superior_endplate": {
+    "method": "From HA, move PTh posterior and superior so the HA→S1-centre vector is PT degrees posterior of vertical. Orient the S1 superior endplate at SS degrees to horizontal.",
+    "centre_m": [
+      0,
+      -0.0021886170125062013,
+      1.0353155070562279
+    ],
+    "HA_to_S1_offset_mm": [
+      0,
+      17.10728708302633,
+      105.6235803628097
+    ],
+    "distance_HA_to_S1_mm": 107,
+    "PT_from_vertical_deg": 9.2,
+    "local_axes_world": {
+      "X_left": [
+        1,
+        0,
+        0
+      ],
+      "Y_anterior_to_posterior_along_endplate": [
+        0,
+        0.7558534691676395,
+        0.6547408137173397
+      ],
+      "Z_superior_endplate_normal": [
+        0,
+        -0.6547408137173397,
+        0.7558534691676395
+      ]
+    },
+    "semantic_vectors_world": {
+      "posterior_to_anterior_along_endplate": [
+        0,
+        -0.7558534691676395,
+        -0.6547408137173397
+      ],
+      "superior_normal_points": "anterior (-Y) and superior (+Z), perpendicular to the S1 plate"
+    },
+    "frame_handedness": "right-handed: X_left × Y_anterior_to_posterior = Z_superior_normal"
+  },
+  "comparison_to_a003_diagnostic_only": {
+    "warning": "The following a003 points are not definition-identical to the S1 superior-endplate centre and must not be treated as direct errors.",
+    "a003_disc_l5_sacrum_centre_m": [
+      0,
+      0.03039647608626321,
+      1.0512363812794239
+    ],
+    "a003_disc_marker_minus_P1_S1_mm": [
+      0,
+      32.58509309876941,
+      15.920874223195991
+    ],
+    "a003_sacrum_tail_m": [
+      0,
+      0.03997212688953239,
+      1.0460371548060836
+    ],
+    "a003_sacrum_tail_minus_P1_S1_mm": [
+      0,
+      42.16074390203859,
+      10.721647749855734
+    ],
+    "reading": "P1 places S1 centre near the independently plausible sacral/SI vertical region while materially changing its sagittal position. This supports rebuilding the lumbar-sacral frame rather than preserving the mesh-fit a003 endpoint chain."
+  },
+  "hard_checks": [
+    "distance(HA,S1 centre) = 107.0 mm within numerical tolerance",
+    "angle of HA→S1 vector from vertical = 9.2 degrees",
+    "S1 endplate tangent makes 40.9 degrees with horizontal",
+    "PI identity PT + SS = 50.1 degrees",
+    "local axes are unit length, orthogonal and right-handed",
+    "S1 centre is posterior (+Y) and superior (+Z) to HA in the canonical neutral standing frame",
+    "this frame does not alter retained HJC or production geometry"
+  ],
+  "dependencies": [
+    "ORIGINAL_V1_WORK/anatomy/canonical_spine_reference_pose_p1.json",
+    "ORIGINAL_V1_WORK/anatomy/canonical_pelvis_landmark_targets_v1.json",
+    "ORIGINAL_V1_WORK/anatomy/canonical_spine_level_stack_v1.json"
+  ],
+  "next_steps": [
+    "Use the P1 S1 centre/plane as the caudal anchor for an audit-only L5/S1→L1/L2 endplate reconstruction with explicit disc gaps.",
+    "Verify the reconstructed L1/T12 transition against the thoracolumbar endplate-angle evidence.",
+    "Do not freeze the final pelvis/spine coordinates until the os coxae/SI contact frame and complete sagittal stack close simultaneously.",
+    "After the complete C2-S1 chain is solved, verify global SVA/head-over-pelvis and rerun isolated spine/hip/SI movement tests."
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "owner_policy_tests": 6,
+  "source_identity_tests": 7,
+  "target_validation": "PASS_WITH_FREEZE_BLOCK",
+  "full_suite": {
+    "tests_run": 806,
+    "failures": 5,
+    "errors": 4,
+    "same_baseline_failure_set": true,
+    "new_failures": [],
+    "current_failures": [
+      "ERROR: test_live_plan_covers_support_and_selects_active_r96_recovery (test_original_v1_execution_orchestration.ExecutionOrchestrationTests.test_live_plan_covers_support_and_selects_active_r96_recovery)",
+      "ERROR: test_operational_tool_artifacts_are_validated (test_original_v1_execution_orchestration.ExecutionOrchestrationTests.test_operational_tool_artifacts_are_validated)",
+      "ERROR: test_future_candidate_with_verified_sources_is_selected (test_original_v1_production_control.ControlTests.test_future_candidate_with_verified_sources_is_selected)",
+      "ERROR: test_owner_accepted_regression_is_bound_to_exact_candidate_and_values (test_original_v1_production_control.ControlTests.test_owner_accepted_regression_is_bound_to_exact_candidate_and_values)",
+      "FAIL: test_unknown_support_stage_refused (test_original_v1_execution_orchestration.ExecutionOrchestrationTests.test_unknown_support_stage_refused)",
+      "FAIL: test_next_action_requires_both_source_bound_diagnostics (test_original_v1_production_control.ControlTests.test_next_action_requires_both_source_bound_diagnostics)",
+      "FAIL: test_wrist_repair_precedes_grip_and_lunge_after_hand_recovery (test_original_v1_production_control.ControlTests.test_wrist_repair_precedes_grip_and_lunge_after_hand_recovery)",
+      "FAIL: test_zero_blockers_cannot_hide_inherited_regressions (test_original_v1_production_control.ControlTests.test_zero_blockers_cannot_hide_inherited_regressions)",
+      "FAIL: test_current_candidate_status_matches_repository_evidence (test_verify_original_v1_candidate_status.CandidateStatusTests.test_current_candidate_status_matches_repository_evidence)"
+    ],
+    "baseline": "work_limb_primary_review_20261008_001/full_tests.txt"
+  },
+  "blender_geometry_changed": false,
+  "source_model_executed": false,
+  "freeze_ready": false
+}

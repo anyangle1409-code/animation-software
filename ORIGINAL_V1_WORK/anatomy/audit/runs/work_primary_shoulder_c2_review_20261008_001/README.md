@@ -1,0 +1,7 @@
+# Primary shoulder acquisition and C2 dispersion review
+
+Seth 2016 author-advertised Stanford archive downloaded successfully, 1,913,813 bytes; archive SHA256 in canonical_sc_primary_model_reference_v1.json. Generic model and three subject models inspected as XML. IJ is explicitly thorax origin, with SC parent-relative location, AC constraint locations and GH local location kept separately. A model download is no longer a laptop-only blocker. Source values remain provisional anatomical context; no standard-182cm target or HGPT coordinate selected.
+
+Original Koller 2008 Table 2 and statistical description inspected in the full primary HTML. Source calls the dispersion SD; no standard-error label was found. Under ordinary sample-SD semantics, the combined sex-specific within-group SSE is less than the squared residual needed by a single reported maximum. Do not infer an SE correction as fact. Extend Claude's quarantine to the source register while retaining 20.8 mean, printed 0.66 and source label SD. Earlier target/stack null SDs preserved. Before-fix failure retained.
+
+Verification: 6 owner-policy/source-fix tests and 7 source-identity tests pass; target validator no errors, freeze_ready false. Full discovery 806 tests: same five failures/four errors as the previous verified 805-test checkpoint; added C2 source-register check passes. No geometry, Blender master, mesh, weights or animation drivers changed.

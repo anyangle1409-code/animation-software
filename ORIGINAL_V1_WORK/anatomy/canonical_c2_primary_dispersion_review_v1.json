@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "status": "REOPENED_DISPERSION_SEMANTICS",
+  "source_id": "C2_VBH_CT_2008",
+  "primary_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2295270/",
+  "table": 2,
+  "source_label": "Mean \u00b1 SD",
+  "male": {
+    "n": 20,
+    "mean": 20.8,
+    "printed_dispersion": 0.66
+  },
+  "female": {
+    "n": 9,
+    "mean": 19.43,
+    "printed_dispersion": 0.98
+  },
+  "pooled_range_mm": [
+    15.82,
+    32.45
+  ],
+  "independent_consistency_check": {
+    "within_group_SSE_if_printed_values_are_sample_SD": 15.9596,
+    "smallest_possible_single_upper_extreme_squared_residual": 135.72250000000005,
+    "conclusion": "A single observed maximum would require more within-group squared residual than both purported group SDs permit combined. Printed dispersion/range/summary interpretation needs clarification; SE is not confirmed."
+  },
+  "source_file_sha256": "edd7523f0f118358b23992e9024f0eebe73d266169eb74f52b0fb7a617e7b553",
+  "policy": "Keep target/stack usable SD null; extend quarantine to source register. Retain source mean provisionally, do not derive an anatomical corridor from an inferred SE."
+}

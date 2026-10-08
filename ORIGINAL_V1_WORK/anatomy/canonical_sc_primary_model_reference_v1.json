@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "status": "CONFIRMED_PRIMARY_MODEL_ACQUISITION_PROVISIONAL_ANATOMICAL_CONTEXT",
+  "freeze_ready": false,
+  "source_id": "SETH_2016_SCAPULOTHORACIC_MODEL",
+  "primary_paper": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0141028",
+  "archive_url": "https://stacks.stanford.edu/file/br087nj9017/ScapulothoracicModelAnalysisPLOS2015.zip",
+  "repository_purl": "https://purl.stanford.edu/br087nj9017",
+  "archive_bytes": 1913813,
+  "archive_sha256": "7281ac81d785b052e86effe44a85f3aec8f530e7b2f2d1a43813fda58374016c",
+  "model_path": "ShoulderModel/ScapulothorachicJoint_Shoulder.osim",
+  "model_sha256": "9e3ea81862487fbfdd96988ec68725e5dcc3d1ffb3ce473de86e42ecd708c7d2",
+  "units": "meters",
+  "SC": {
+    "parent_body": "thorax",
+    "location_in_parent_m": [
+      0.006325,
+      0.00693,
+      0.025465
+    ],
+    "clavicle_local_location_m": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "thorax_IJ_is_origin": true,
+    "location_relative_to_IJ_source_axes_mm": [
+      6.325,
+      6.930000000000001,
+      25.465
+    ],
+    "selected_HGPT_global_coordinate": null
+  },
+  "AC_constraint": {
+    "body_1": "clavicle",
+    "location_body_1_m": [
+      -0.02924,
+      0.02024,
+      0.12005
+    ],
+    "body_2": "scapula",
+    "location_body_2_m": [
+      -0.01357,
+      0.00011,
+      -0.01523
+    ],
+    "clavicle_SC_to_AC_constraint_chord_mm": 125.20638042847499
+  },
+  "GH": {
+    "parent_body": "scapula",
+    "scapula_local_location_m": [
+      -0.00955,
+      -0.034,
+      0.009
+    ]
+  },
+  "source_markers": {
+    "ij": {
+      "body": "thorax",
+      "location_m": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "c7": {
+      "body": "thorax",
+      "location_m": [
+        -0.0899063,
+        0.0327569,
+        0.0
+      ]
+    },
+    "t8": {
+      "body": "thorax",
+      "location_m": [
+        -0.111155,
+        -0.154433,
+        0.0
+      ]
+    },
+    "px": {
+      "body": "thorax",
+      "location_m": [
+        0.0697635,
+        -0.164311,
+        0.0
+      ]
+    },
+    "acc": {
+      "body": "clavicle",
+      "location_m": [
+        -0.028301,
+        0.018552,
+        0.117034
+      ]
+    },
+    "sc": {
+      "body": "clavicle",
+      "location_m": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "ac": {
+      "body": "scapula",
+      "location_m": [
+        -0.0119247,
+        -0.00196687,
+        -0.0176399
+      ]
+    }
+  },
+  "source_dependency": "Model credits explicitly derive dimensions/joint locations from Holzbaur 2005; do not count Seth and Holzbaur as independent anatomical replication.",
+  "limitations": [
+    "Unscaled generic model, not independently established as a standard 182 cm male.",
+    "SC model joint centre is not automatically a bone-head centre or cartilage-patch centre.",
+    "Clavicle chord uses constraint centres, not osteometric surface endpoints/curved centreline.",
+    "Source frame landmarks are available; anatomical basis and global HGPT mapping remain to verify. No existing mesh-derived width is used.",
+    "Model acquisition is resolved via public Stanford archive; complete anatomical centre selection and geometry remain open.",
+    "Model XML inspected without execution. Source plugin/native binary files were not executed or installed."
+  ],
+  "original_models_in_archive": [
+    "ShoulderModel/ScapulothorachicJoint_Shoulder.osim",
+    "ShoulderModel/subject1_abdbonepin.osim",
+    "ShoulderModel/subject1_flxbonepin.osim",
+    "ShoulderModel/subject1_rotbonepin.osim"
+  ],
+  "archival_license_metadata": "Stanford record advertises CC BY-NC-SA 3.0; source used for audit context, original archive/model not redistributed or integrated into production."
+}

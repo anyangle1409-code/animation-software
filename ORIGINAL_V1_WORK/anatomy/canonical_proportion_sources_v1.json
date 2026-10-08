@@ -2749,14 +2749,19 @@
       "measurement_definition": "Anterior vertebral body height (aVBH): cephalad-to-caudad endplate distance at the mid-sagittal anterior vertebral body line.",
       "male_C2_anterior_body_height_mm": {
         "mean": 20.8,
-        "sd": 0.66
+        "sd": null,
+        "printed_dispersion": 0.66,
+        "printed_source_label": "SD",
+        "dispersion_status": "REOPENED_PRIMARY_LABEL_RANGE_INCONSISTENCY"
       },
       "use": [
         "adult-male C2 body-height constraint",
         "C2-specific geometry rather than copying C3"
       ],
       "limitation": "Anterior body height only; does not define posterior C2 body height or the endplate frame by itself.",
-      "dispersion_caution": "The printed 0.66 mm is probably a standard error, not an SD (dry-bone SD about 2.4 mm). Do not use as a corridor width until reread."
+      "dispersion_caution": "Primary Table 2 labels SD, not SE. Its pooled range 15.82\u201332.45 cannot be reconciled with male/female means and those sample SDs. Standard-error interpretation is plausible but unconfirmed; printed value preserved, usable SD quarantined.",
+      "doi": "10.1007/s00586-007-0572-y",
+      "pmid": "18224358"
     },
     {
       "id": "C2_AXIS_MORPHOMETRY_2015",
@@ -3278,6 +3283,17 @@
         "radioulnar axis and DRUJ measurement semantics"
       ],
       "limitation": "Not a normal 182 cm proportion cohort or healthy loaded-translation target. Three-point sphere-fit description underdetermined without extra constraints; cannot copy it as a validated centre fit."
+    },
+    {
+      "id": "SETH_2016_SCAPULOTHORACIC_MODEL",
+      "type": "primary_kinematic_model_archive",
+      "citation": "Seth A et al. A biomechanical model of the scapulothoracic joint. PLoS ONE. 2016;11:e0141028.",
+      "doi": "10.1371/journal.pone.0141028",
+      "pmcid": "PMC4712143",
+      "pmid": "26734761",
+      "primary_archive_url": "https://stacks.stanford.edu/file/br087nj9017/ScapulothoracicModelAnalysisPLOS2015.zip",
+      "access_review": "canonical_sc_primary_model_reference_v1.json",
+      "limitation": "SC/AC/GH model geometry acquired; dimensions/joint locations derive from Holzbaur 2005, not independent 182 cm anatomy. No global coordinate target selected."
     }
   ],
   "unresolved_source_needs": [

@@ -106,3 +106,9 @@ Self-review: all seven regional groups, pre-Blender gate, new revision, visual r
 ## 2026-10-08 laptop-session preparation checkpoint
 
 CP1 numerical closure remains PROVISIONAL/BLOCKED. Independent CP3 review repaired finite-input/identity rejection and source-frame vs attachment metadata without changing a003 geometry. Fresh Blender 5.2.1 LTS rehearsals/captures verify 206 bones/427 markers and unchanged attachments/marker centres. The old capture mislabeled 202 source frame IDs; failed reports remain retained. CP2 actual anatomy still fails, and CP3/CP4 canonical acceptance stays blocked. 26 affected tests pass; full discovery 805 with the same nine named baseline failures/errors. Planned 20:30 BST laptop/Claude inspection instructions: `docs/LAPTOP_SKELETON_HANDOFF_20261008_2030.md`. This records readiness for an independent review, not a timed promise of skeleton completion.
+
+## Further verified checkpoints — 8 October 2026
+
+- Published `2c8979f9`: original de Leva Table 4 endpoints checked; shank KJC-AJC corrected from mislabeled 434.0 to 440.3 mm. Radius/ulna remain independently unselected and thigh contested.
+- Published `b3a274b5`: independent forearm landmark requirements, supplementary donor-label/units discrepancy and three-point sphere counterexample retained. Numerical forearm targets remain blocked.
+- Original Seth shoulder archive acquired publicly from Stanford; SC relative to thorax/IJ plus separate AC/GH references recorded. Acquisition resolved, anatomical standard-182cm selection/frame mapping still provisional. C2 primary labels SD, not SE; range/dispersion inconsistency retained, usable SD null in source/target/stack. Full suite now 806 tests, unchanged 5 failures/4 errors. No CP1/CP2 completion or new canonical Blender candidate implied.

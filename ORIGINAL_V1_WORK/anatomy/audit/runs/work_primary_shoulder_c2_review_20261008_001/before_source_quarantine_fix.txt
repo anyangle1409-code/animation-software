@@ -1,0 +1,13 @@
+....F.
+======================================================================
+FAIL: test_source_register_c2_dispersion_stays_quarantined (test_owner_proportion_policy_and_source_fixes.SourceFixes.test_source_register_c2_dispersion_stays_quarantined)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_owner_proportion_policy_and_source_fixes.py", line 41, in test_source_register_c2_dispersion_stays_quarantined
+    self.assertIsNone(value['sd'])
+AssertionError: 0.66 is not None
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.011s
+
+FAILED (failures=1)

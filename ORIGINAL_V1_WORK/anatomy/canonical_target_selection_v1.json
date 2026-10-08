@@ -69,7 +69,8 @@
         "clavicle_shape": "canonical_clavicle_shape_source_review_v1.json",
         "SC_contacts": "canonical_SC_contact_semantics_v1.json",
         "status": "PROVISIONAL; no numerical target selected"
-      }
+      },
+      "primary_SC_model_reference": "canonical_sc_primary_model_reference_v1.json"
     },
     "spine": {
       "evidence_grade": "A_STRUCTURAL_DEFECT",

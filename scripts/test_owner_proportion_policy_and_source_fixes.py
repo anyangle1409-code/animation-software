@@ -33,6 +33,15 @@ class OwnerProportionPolicy(unittest.TestCase):
 
 
 class SourceFixes(unittest.TestCase):
+    def test_source_register_c2_dispersion_stays_quarantined(self):
+        source = next(r for r in load('canonical_proportion_sources_v1.json')['sources']
+                      if r['id'] == 'C2_VBH_CT_2008')
+        value = source['male_C2_anterior_body_height_mm']
+        self.assertEqual(value['mean'], 20.8)
+        self.assertIsNone(value['sd'])
+        self.assertEqual(value['printed_dispersion'], 0.66)
+        self.assertEqual(value['printed_source_label'], 'SD')
+
     def test_talus_partial_measure_is_not_a_whole_bone_reference(self):
         t = load('canonical_tarsal_geometry_audit_v1.json')
         self.assertNotIn('talus_length_male', t['direct_whole_bone_reference_examples_mm'])

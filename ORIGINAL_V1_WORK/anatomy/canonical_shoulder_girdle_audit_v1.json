@@ -38,6 +38,11 @@
     "glenoid_to_acromion_mixed_2001": {
       "mean": 16,
       "sd": 2
+    },
+    "scapula_longitudinal_length_predicted_from_Italian_male_stature_regression": {
+      "value": 207.8173512763519,
+      "source": "SCAPULA_STATURE_ITALY_2013",
+      "definition": "study longitudinal scapular length; exact landmark mapping must be checked before comparing to GH-to-inferior-angle"
     }
   },
   "quantitative_flags": {
@@ -50,8 +55,8 @@
   },
   "findings": [
     "The a003 clavicle SC-to-AC straight span (~223 mm) is anatomically implausible. It exceeds a male CT true curved clavicle mean (~150 mm) by ~73 mm and even exceeds a male cadaver 3D centreline mean (~167 mm) by ~56 mm. A straight endpoint chord cannot legitimately be longer than the true curved bone length.",
-    "The a003 scapular GH-to-inferior-angle span (~212 mm) is strongly suspicious, but it must not be compared as if it were the same measurement as whole scapular height. In the male source, mean whole height/width are ~148/108 mm (bounding diagonal ~183.4 mm; even height+1SD and width+1SD give ~195.3 mm). The a003 GH-to-inferior span exceeds those scale checks, so scapular geometry remains a RED rebuild candidate, but the exact amount of shortening is not frozen.",
-    "The clavicle defect is directly confirmed by measurement semantics; the scapular scale check strongly supports the same broad-shoulder mesh-driven problem but requires landmark-compatible 3D retargeting before an exact correction is claimed.",
+    "Scapular size evidence is method-sensitive. One dry-bone male sample reports height ~148 mm, while an Italian male CT stature equation predicts longitudinal scapular length ~207.8 mm at 1.82 m. Because a003 uses GH-to-inferior-angle (~212 mm), none of these are endpoint-identical. The scapula is therefore REOPEN for landmark-compatible 3D reconstruction, but its exact shortening is explicitly NOT confirmed.",
+    "The clavicle defect is directly confirmed by measurement semantics; the scapular evidence is conflicting by method and requires landmark-compatible 3D retargeting before either shortening or retention is claimed.",
     "The previously corroborated GH depth relative to the acromion does not rescue the overall shoulder-girdle proportions. Local joint-depth placement can be reasonable while the global SC-AC and scapular spans are wrong.",
     "The final skeleton-first shoulder must therefore retarget SC, AC, scapular body, acromion and glenoid geometry independently of the r95 shoulder width, then the mesh must be narrowed/refit around it."
   ],
@@ -77,10 +82,15 @@
     "Bilateral mirror symmetry is preserved in the canonical skeleton.",
     "Shoulder-complex movement tests are rerun because changing SC/AC/scapular geometry changes GH path and lever arms."
   ],
-  "status": "CLAVICLE_DEFECT_CONFIRMED_SCAPULA_STRONGLY_REOPENED_CANONICAL_REBUILD_REQUIRED",
+  "status": "CLAVICLE_DEFECT_CONFIRMED_SCAPULA_TARGET_REOPENED_METHOD_CONFLICT",
   "audit_correction_2026_10_08": {
     "reason": "Earlier wording treated GH-to-inferior-angle distance as if it must be less than superior-to-inferior scapular height. That is not a valid hard invariant because GH is laterally offset; the Euclidean span can exceed vertical height.",
     "correction": "Use a 3D height/width/glenoid-position envelope. Clavicle chord-vs-centreline invariant remains valid.",
-    "result": "Scapula remains strongly suspicious but exact shortening is not claimed from a height-only comparison."
+    "result": "Scapula remains strongly suspicious but exact shortening is not claimed from a height-only comparison.",
+    "additional_crosscheck": {
+      "source": "SCAPULA_STATURE_ITALY_2013",
+      "predicted_LSL_mm": 207.8173512763519,
+      "effect": "Weakens any claim that a003 scapular span is definitely oversized. Exact scapular geometry remains unresolved because measurement endpoints differ."
+    }
   }
 }

@@ -8,7 +8,7 @@
 
 ## Tasks
 
-- [ ] Repair target preflight against the newer direct AC 3D source; retain subtraction/transverse-equality rejection and add mutation tests. Reconcile readiness counts and stale foot test terminology. Run the canonical tests and atlas validator, record the baseline failures, commit/publish.
+- [x] Repair target preflight against the newer direct AC 3D source; retain subtraction/transverse-equality rejection and add mutation tests. Reconcile readiness counts and stale foot test terminology. Run the canonical tests and atlas validator, record the baseline failures, commit/publish.
 - [ ] Seek independently measured scapular 3D landmarks and SC constraints; record measurement mappings and actual access blockers. Instantiate only supported relative constraints, never an invented global coordinate.
 - [ ] Audit source-bound spine reference-pose angles and body/disc semantics; implement only independently justified coordinate calculations and test wrong signs, collapsed gaps and incompatible endplate definitions.
 - [ ] Recover rib derivation or document the exact blocked equation; advance demographic sensitivity and supported curved-centreline calculations without choosing age/weight silently.
@@ -23,3 +23,5 @@
 
 - Initial branch and SHA verified by GitHub API and `git ls-remote`; fresh clone clean at the same SHA. Newer shoulder full-text, radius, C2, P1 spine, pelvis and hyoid additions preserved.
 - Baseline: Python discovery 658 tests, 8 failures and 4 errors; canonical subset 35 tests, 3 failures. Full details will be retained in the verification report. `bpy` not currently installed; package discovery could not resolve it.
+
+- Preflight reconciliation published at f601ce44; newer S1 work preserved. Blender 5.2.1 LTS bpy installed and 22 live synthetic checks passed. Added source-bound measured scapula relative envelope, 13 tests and bilateral Blender roundtrip; absolute joint target remains blocked.

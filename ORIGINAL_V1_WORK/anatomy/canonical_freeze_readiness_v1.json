@@ -16,13 +16,15 @@
       "ready": [
         "clavicle gross defect confirmed",
         "distinct SC/AC/GH topology",
-        "multi-source clavicle and glenoid scale evidence"
+        "multi-source clavicle and glenoid scale evidence",
+        "source-bound 29-landmark relative scapular envelope from 125 subjects with direct male stature regression"
       ],
       "blockers": [
         "stature-aware final clavicle endpoint/centreline selection",
-        "landmark-compatible 3D scapular envelope and AC/acromion/coracoid placement"
+        "landmark-compatible 3D scapular envelope and AC/acromion/coracoid placement",
+        "absolute SC/AC/GH centres, neutral thorax pose and independent endpoint-matched confirmation remain open"
       ],
-      "next_action": "Select canonical clavicle corridor and reconstruct scapular local frame from height/width/glenoid constraints."
+      "next_action": "Resolve source endpoint mappings and neutral thorax pose before selecting absolute SC/AC/GH centres; measured relative envelope is provisional."
     },
     "spine": {
       "readiness": "PARTIAL",

@@ -43,13 +43,25 @@
         ]
       },
       "use": "Landmark-compatible 3D scapular constraints, especially AA/TS-like transverse geometry.",
-      "caveat": "Older Far East Asian clinical sample; some distances correlate with height. Use exact landmark mapping and additional sources before freezing final dimensions."
+      "caveat": "Older Far East Asian clinical sample; some distances correlate with height. Use exact landmark mapping and additional sources before freezing final dimensions.",
+      "measurement_semantics": {
+        "d1": "supraglenoid tubercle to infraglenoid tubercle; not superior/inferior articular rim extents",
+        "d2": "maximum transverse glenoid span perpendicular to the tubercle d1 line; not automatically anterior/posterior rim landmark chord",
+        "d3": "posterolateral acromion to medial scapular-spine-border midpoint, direct 3D landmark distance",
+        "d4": "superior angle to inferior angle, direct 3D landmark distance",
+        "d5": "perpendicular spinoglenoid-notch offset from the AA-to-medial-spine reference line",
+        "d6": "AA to projection foot of spinoglenoid notch on AA-to-medial-spine line, not direct AA-to-notch chord",
+        "d7": "AA to projection foot of suprascapular notch on AA-to-medial-spine line, not direct AA-to-notch chord",
+        "d8": "lateral acromial border to projection foot associated with its perpendicular bisector, not an arbitrary direct LA-to-notch chord"
+      },
+      "audit_correction_20261008": "Full-text methods/figure captions resolve d6/d7 as projected line distances and d1 as tubercle distance. Legacy short measurement keys are retained for provenance but do not define direct chords.",
+      "verified_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9264012/"
     },
     "SCAPULA_AC_LATERAL_2026": {
       "citation": "Kang N, Brassett C. Scapular morphometrics inform anatomic landmark distances for arthroscopic suprascapular nerve decompression: a cadaveric study. JSES Int. 2026.",
       "pmid": "42164106",
       "pmcid": "PMC13184462",
-      "sample": "20 cadaveric shoulders from 10 White British donors; 5 male, 5 female; mean age 80.8 ± 8.9 y",
+      "sample": "20 cadaveric shoulders from 10 White British donors; 5 male, 5 female; mean age 80.8 \u00b1 8.9 y",
       "measurement_definition": "Direct distance from the posterior aspect of the AC joint to the lateral acromion, measured in the line of the posterior clavicle/acromion. The full text explicitly reports this direct result; it is not obtained by subtracting STSL distances.",
       "direct_AC_to_lateral_acromion_mm": {
         "mean": 34,
@@ -87,6 +99,49 @@
       },
       "use": "Direct transverse/lateral AC-to-lateral-acromion constraint for the canonical shoulder scaffold; also independent scapular size cross-check.",
       "caveat": "Small, old cadaver sample and mixed sex. Use as a direct landmark relation with uncertainty, not as a sole final target. Preserve the distinction from the earlier invalid inference that subtracted two independently measured STSL distances."
+    },
+    "LEE_2024_SCAPULA_RAW_3D": {
+      "citation": "Lee ECS, Lawrence RL, Rainbow MJ. Sexual dimorphism and allometry in human scapula shape. Journal of Anatomy (2024).",
+      "doi": "10.1111/joa.14124",
+      "dataset_doi": "10.5683/SP3/PHVS3D",
+      "dataset_url": "https://borealisdata.ca/dataset.xhtml?persistentId=doi:10.5683/SP3/PHVS3D",
+      "license": "CC BY 4.0",
+      "workbook": "ORIGINAL_V1_WORK/anatomy/sources/scapula_lee2024/SubjectDemographicsAndLandmarks.xlsx",
+      "sha256": "c8d9bd697014f350e2145d781bcf37162a9e1377a2d3c20b288c10844bb0b976",
+      "published_file_id": 714668,
+      "published_md5": "c0adeb1dbed8a83e61572640de345a0b",
+      "sample": {
+        "total": 125,
+        "male": 45,
+        "male_height_available": 42,
+        "asymptomatic_no_FTT_male": 34,
+        "asymptomatic_no_FTT_male_height_available": 33
+      },
+      "units": {
+        "coordinates": "mm",
+        "stature": "cm"
+      },
+      "landmark_mapping_1based": {
+        "3": "superior vertebral-border angle",
+        "5": "intersection of spine with vertebral border; medial spine landmark",
+        "7": "inferior vertebral-border angle",
+        "14": "root of spine; distinct from medial-border point 5",
+        "15": "inferior glenoid rim extent",
+        "16": "posterior glenoid rim extent",
+        "17": "anterior glenoid rim extent",
+        "18": "superior glenoid rim extent",
+        "19": "shallowest glenoid midline point, not GH sphere centre",
+        "25": "exterior acromial angle",
+        "26": "interior acromial angle",
+        "27": "lateral distal acromial extent"
+      },
+      "use": "Provisional rigidly aligned relative 29-landmark envelope and direct stature regression; no absolute joint centres.",
+      "limitations": [
+        "Independent endpoint-matched confirmation required before exact freeze.",
+        "2022 d1 is tubercle-to-tubercle, not this dataset glenoid-rim chord.",
+        "Exterior and interior acromial angles must not be substituted to force agreement.",
+        "Sparse measured landmarks are evidence, not a complete production bone surface."
+      ]
     }
   }
 }

@@ -1,0 +1,11 @@
+{
+  "status": "VERIFIED_SYNTHETIC_MEASUREMENT_ROUNDTRIP_ONLY",
+  "blender_version": "5.2.1 LTS",
+  "source_report_sha256": "aa574f683b4ed48ae0ce45c87a729ae5c21308dd58df9977bfd685c26dccec23",
+  "points": 58,
+  "max_abs_coordinate_error_m": 5.576681477714729e-09,
+  "bilateral_reflection_verified": true,
+  "canonical_candidate_created": false,
+  "gates_6_8_9_accepted": false,
+  "note": "Sparse relative points at origin, no pose/translation or bone surface. No production or a003 assets opened or changed."
+}

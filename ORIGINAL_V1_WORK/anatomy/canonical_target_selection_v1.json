@@ -50,16 +50,17 @@
           "sd": 8,
           "source": "STERNUM_SELTHOFER_2006",
           "semantics": "outer manubrial/clavicular-notch breadth, not SC-centre breadth"
-        }
+        },
+        "scapula_measured_relative_envelope": "ORIGINAL_V1_WORK/anatomy/canonical_scapula_measured_landmark_model_v1.json"
       },
       "blockers": [
         "verified bilateral SC-centre breadth or a thorax/manubrial solve that maps the outer manubrial/clavicular-notch evidence to SC joint centres",
-        "map the direct 3-D lateral-acromion→AC distance into the canonical scapular local frame to obtain its transverse/AP/superior components",
+        "map the direct 3-D lateral-acromion\u2192AC distance into the canonical scapular local frame to obtain its transverse/AP/superior components",
         "construct landmark-compatible 3D scapular local frame using AA/TS/AI/glenoid/acromion constraints",
         "freeze superior-inferior scapular length only after measurement-compatible cross-source reconciliation",
         "absolute AC coordinates remain open until the SC-centre and scapular-frame components close simultaneously"
       ],
-      "audit_note_2026_10_08": "The earlier subtraction-based 34±8 mm inference remains rejected. A subsequent full-text check found that the 2026 paper itself explicitly reports direct lateral-acromion→AC = 34±8 mm (23–52). It is restored only as a 3-D distance constraint; it is not treated as a pure transverse offset."
+      "audit_note_2026_10_08": "The earlier subtraction-based 34\u00b18 mm inference remains rejected. A subsequent full-text check found that the 2026 paper itself explicitly reports direct lateral-acromion\u2192AC = 34\u00b18 mm (23\u201352). It is restored only as a 3-D distance constraint; it is not treated as a pure transverse offset."
     },
     "spine": {
       "evidence_grade": "A_STRUCTURAL_DEFECT",
@@ -103,7 +104,7 @@
         "S1_sacral_slope_deg": 40.9
       },
       "blockers": [
-        "build audit-only L5/S1→L1/L2 endplate/frame coordinates from the explicit body+disc stack and P1 S1 plane",
+        "build audit-only L5/S1\u2192L1/L2 endplate/frame coordinates from the explicit body+disc stack and P1 S1 plane",
         "select per-level thoracic curvature/endplate orientations that sum to the global T1-T12 target and preserve rib attachments",
         "select cervical neutral family after C7/T1 and head-over-pelvis constraints",
         "resolve mixed-method thoracic body/disc values before exact 3D coordinate freeze"
@@ -145,7 +146,7 @@
         "radius_ansur_residual_sd_mm": 10.783470258896081
       },
       "blockers": [
-        "endpoint-compatible male CT/osteometric radius evidence before freezing the ANSUR radiale–stylion value as a canonical bone endpoint",
+        "endpoint-compatible male CT/osteometric radius evidence before freezing the ANSUR radiale\u2013stylion value as a canonical bone endpoint",
         "ulna endpoint corridor",
         "wrist/DRUJ geometry"
       ]

@@ -1,0 +1,3 @@
+Blender 5.2.1 LTS bpy live adapter smoke test. Synthetic fixture only; no canonical candidate or anatomical acceptance. Command: `/tmp/hgpt-bpy/bin/python scripts/blender_smoke_anatomical_capture.py --out /tmp/hgpt-blender-smoke-20261008`. All 22 recorded checks passed. Fixture hashes are in the summary; transient synthetic blend is not a production skeleton.
+
+Reproduce landmark roundtrip: `/tmp/hgpt-bpy/bin/python scripts/anatomy_fit/check_scapula_landmarks_blender.py --scratch-blend /tmp/scapula_measurement_roundtrip.blend --out /tmp/scapula_roundtrip.json`. The first failed harness run is retained; the corrected check resolves objects after reopening.

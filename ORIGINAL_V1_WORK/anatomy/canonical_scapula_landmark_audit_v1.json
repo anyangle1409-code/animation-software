@@ -73,14 +73,14 @@
   },
   "findings": [
     "The earlier GH-to-inferior-angle comparison was correctly withdrawn because its measurement definition did not match published scapular height.",
-    "A better landmark-compatible test now directly confirms the transverse scapular problem: a003 AA-to-TS is ~227 mm, while a male 3D-CT sample reports ~113±6.6 mm (observed range 90-129 mm) for the posterolateral acromion to medial scapular-spine midpoint distance.",
+    "A better landmark-compatible test now directly confirms the transverse scapular problem: a003 AA-to-TS is ~227 mm, while a male 3D-CT sample reports ~113\u00b16.6 mm (observed range 90-129 mm) for the posterolateral acromion to medial scapular-spine midpoint distance.",
     "The a003 value is ~17.3 SD above that male mean and ~98 mm beyond the observed male maximum in the cited sample. Even allowing for imperfect AA/TS wording equivalence, this is too large to treat as normal anatomy.",
     "Therefore the scapula can be upgraded from 'method-conflicted only' to a confirmed transverse/medial-border geometry defect. The exact superior-inferior length remains open because AA/GH distances are not identical to superior-angle-to-inferior-angle measurements.",
     "This aligns with the independent shoulder-width finding: the old mesh forced both clavicle and scapula too far laterally."
   ],
   "canonical_actions": [
     "Retarget AA/TS (acromial angle to scapular-spine root) into a male adult corridor before fitting the mesh.",
-    "Add spinoglenoid and suprascapular notch reference landmarks so d6/d7/d8 can be tested directly.",
+    "Add notch landmarks and reference-line projection helpers before testing d5/d6/d7/d8; do not compare those projected distances against direct chords.",
     "Keep superior-angle and inferior-angle targets separate from AA/GH spans; do not reuse vertical-height evidence for oblique distances.",
     "After the local scapular frame is built, place glenoid/GH, coracoid, acromion and medial border consistently and rerun shoulder movement tests."
   ],
@@ -89,5 +89,10 @@
     "AA/TS/AI must form a nondegenerate 3D scapular plane.",
     "AC and GH remain distinct and lie on anatomically correct acromion/glenoid structures.",
     "Scapular neutral orientation is applied only after source frame angles are transformed into the HGPT basis."
-  ]
+  ],
+  "source_semantics_correction_20261008": {
+    "d6_d7": "projected along reference line, not direct notch chords",
+    "d1": "supraglenoid-to-infraglenoid tubercle, not articular rim SI diameter",
+    "consequence": "Keep d3/d4 comparisons; remove direct d6/d7/d8 acceptance until projection geometry is explicitly constructed."
+  }
 }

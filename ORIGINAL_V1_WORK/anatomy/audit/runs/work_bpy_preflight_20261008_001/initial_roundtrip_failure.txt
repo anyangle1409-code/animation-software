@@ -1,0 +1,1 @@
+First synthetic roundtrip failed after open_mainfile because the script retained a pre-reload Mesh RNA pointer: ReferenceError: StructRNA of type Mesh has been removed. Corrected by retaining the object name string and resolving the reopened object. This is a validation harness error; no anatomical or production file changed.

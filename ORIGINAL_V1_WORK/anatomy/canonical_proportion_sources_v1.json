@@ -1,0 +1,159 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Source register for skeleton-first canonical proportion work. Values are evidence inputs, not hard production targets.",
+  "policy": "Use multiple independent sources; preserve population/method context; do not scale a single-study mean directly into the character without cross-checking.",
+  "sources": [
+    {
+      "id": "ANSUR_II_MALE_2012",
+      "type": "anthropometric_population",
+      "population": "4082 US Army men",
+      "access": "committed public dataset",
+      "repository_path": "ORIGINAL_V1_WORK/anatomy/sources/ansur2/ANSUR_II_MALE_Public.csv",
+      "use": [
+        "stature-conditioned surface proportions",
+        "bony/surface landmark distributions",
+        "forearm/hand/foot comparison"
+      ],
+      "note": "Already integrity-checked in proportion_report.json; direct bony forearm regression still to be computed reproducibly from the committed CSV."
+    },
+    {
+      "id": "BEREDJIKLIAN_2025_METACARPAL_HEIGHT",
+      "type": "CT_morphometry",
+      "citation": "Beredjiklian PK et al. Correlation between Adult Height and Metacarpal Length Using Advanced Imaging Modalities. Arch Bone Jt Surg. 2025;13(6):345-348.",
+      "pmid": "40641892",
+      "doi": "10.22038/ABJS.2024.80233.3672",
+      "population": "40 skeletally mature adults; 28 men, 12 women; mean height 175.3 cm",
+      "accessible_values_mm": {
+        "metacarpal_2_index": 67.7,
+        "metacarpal_3_middle": 66.1,
+        "metacarpal_4_ring": 58,
+        "metacarpal_5_little": 52.3
+      },
+      "use": [
+        "cross-check hand ray ordering and scale"
+      ],
+      "limitation": "Mixed-sex small sample; thumb value not in accessible abstract; do not stature-scale as a sole target."
+    },
+    {
+      "id": "DOGAN_1998_HAND_RELATIONS",
+      "type": "radiographic_morphometry",
+      "citation": "Mathematical relations between the lengths of the metacarpal bones and phalanges: surgical significance.",
+      "pmid": "9823781",
+      "population": "100 normal volunteers; 50 men, 50 women",
+      "use": [
+        "hand metacarpal/phalange internal proportions"
+      ],
+      "limitation": "Accessible abstract confirms stable relations but does not expose the numerical formulas; full values required before solver/geometry acceptance."
+    },
+    {
+      "id": "HOANG_2021_METACARPAL_CT",
+      "type": "CT_morphometry",
+      "citation": "Hoang D et al. An Anatomical Study of Metacarpal Morphology Utilizing CT Scans. J Hand Surg Am. 2021.",
+      "pmid": "33092908",
+      "doi": "10.1016/j.jhsa.2020.08.007",
+      "population": "100 hand CT scans",
+      "use": [
+        "independent metacarpal length/morphology cross-check"
+      ],
+      "limitation": "Accessible abstract does not expose numerical per-ray lengths."
+    },
+    {
+      "id": "METATARSAL_RELATIONSHIPS_332_NORMAL_FEET",
+      "type": "weight_bearing_radiographic_morphometry",
+      "citation": "Evaluation of metatarsal relationships in the biomechanics of 332 normal feet using the method of measuring relative lengths.",
+      "pmcid": "PMC4799308",
+      "population": "166 adults / 332 normal feet; 83 men, 83 women",
+      "male_mean_relative_lengths_mm": {
+        "metatarsal_1": 125.4,
+        "metatarsal_2": 127.8,
+        "metatarsal_3": 123.4,
+        "metatarsal_4": 114.2,
+        "metatarsal_5": 99.5
+      },
+      "male_mean_forefoot_width_mm": 87.1,
+      "normal_pattern": "Index-minus most frequent; all three metatarsal formulas can be normal.",
+      "use": [
+        "forefoot ray ordering",
+        "metatarsal relative proportions"
+      ],
+      "limitation": "Radiographic relative-length method is not identical to osteometric bone length; use ratios/patterns before absolute values."
+    },
+    {
+      "id": "DOGAN_2007_METATARSAL_PHALANGE",
+      "type": "radiographic_morphometry",
+      "citation": "Dogan A et al. Morphometric study of the human metatarsals and phalanges. Clin Anat. 2007;20(2):209-214.",
+      "pmid": "16795031",
+      "doi": "10.1002/ca.20348",
+      "population": "100 volunteers; 50 men, 50 women",
+      "use": [
+        "metatarsal and toe phalanx internal proportions"
+      ],
+      "limitation": "Accessible abstract confirms fixed proportions but does not expose the numerical formulas; full table/formulas required before final target."
+    },
+    {
+      "id": "CELIK_AKMAN_2024_TARSALS",
+      "type": "CT_3D_morphometry",
+      "citation": "Morphological and morphometric analysis of tarsal bones according to sex. Surg Radiol Anat. 2024.",
+      "pmid": "39093463",
+      "doi": "10.1007/s00276-024-03450-6",
+      "sample": "630 tarsal bones reconstructed from thin-section CT",
+      "use": [
+        "tarsal size hierarchy",
+        "sex-specific 3D morphology"
+      ],
+      "accessible_order_largest_to_smallest": [
+        "calcaneus",
+        "talus",
+        "cuboid",
+        "navicular",
+        "medial cuneiform",
+        "lateral cuneiform",
+        "intermediate cuneiform"
+      ],
+      "limitation": "Accessible abstract exposes area/volume ordering, not linear bone lengths."
+    },
+    {
+      "id": "CALCANEUS_CT_2014",
+      "type": "CT_3D_morphometry",
+      "citation": "Measurement of three-dimensional morphological characteristics of the calcaneus using CT image post-processing.",
+      "pmid": "24625107",
+      "population": "179 adults; 83 men, 96 women; age 21-59",
+      "use": [
+        "calcaneus length/height geometry and sex/height adjustment"
+      ],
+      "limitation": "Accessible abstract confirms measured parameters and height-adjusted sex analysis but not numerical values."
+    },
+    {
+      "id": "HINDFOOT_MIDFOOT_2019",
+      "type": "CT_geometric_morphometrics",
+      "citation": "Hind- and midfoot bone morphology varies with foot type and sex.",
+      "pmid": "30537297",
+      "use": [
+        "shape variability bounds for calcaneus, talus, navicular, cuboid"
+      ],
+      "limitation": "Useful for variability/shape classes, not a single canonical length."
+    },
+    {
+      "id": "OPEN_SIM_MODELS",
+      "type": "open_musculoskeletal_models",
+      "repository_path": "ORIGINAL_V1_WORK/anatomy/sources/open_musculoskeletal_models.json",
+      "models": [
+        "Rajagopal2016",
+        "Arm26",
+        "Gait2354"
+      ],
+      "use": [
+        "independent joint-centre and segment-geometry cross-check"
+      ],
+      "limitation": "Model-specific generic geometries; never used as the sole anatomical truth."
+    }
+  ],
+  "unresolved_source_needs": [
+    "Direct adult male radius and ulna osteometric/CT lengths with stature relation and explicit landmark definitions.",
+    "Numerical metacarpal-to-phalange formulas from a full accessible hand morphometry source.",
+    "Numerical metatarsal-to-phalange formulas and tarsal linear dimensions from full accessible foot morphometry sources.",
+    "Curved rib geometry/axis orientation by rib level.",
+    "Vertebral body and disc-centre proportional placement across C2-S1 with consistent adult-male reference definitions."
+  ]
+}

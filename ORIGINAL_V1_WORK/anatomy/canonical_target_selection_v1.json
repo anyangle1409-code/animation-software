@@ -63,7 +63,7 @@
     },
     "spine": {
       "evidence_grade": "A_STRUCTURAL_DEFECT",
-      "freeze_state": "SOURCE_LEVELS_NUMERICALLY_COMPLETE_3D_ALIGNMENT_NOT_SELECTED",
+      "freeze_state": "PROVISIONAL_GLOBAL_MALE_ALIGNMENT_SELECTED_3D_LEVEL_FRAMES_OPEN",
       "selected": {
         "cervical_body_heights_mm": null,
         "cervical_disc_heights_mm": null,
@@ -84,13 +84,22 @@
             "source": "C2_AXIS_MORPHOMETRY_2015"
           },
           "status": "DIMENSIONS_AVAILABLE_WEDGE_FRAME_OPEN"
-        }
+        },
+        "reference_pose": "ORIGINAL_V1_WORK/anatomy/canonical_spine_reference_pose_p1.json",
+        "global_alignment_deg": {
+          "PI": 50.1,
+          "SS": 40.9,
+          "PT": 9.2,
+          "LL_L1_S1": 56.4,
+          "TK_T1_T12": 43.7
+        },
+        "lumbar_distribution_state": "SOURCE_PATTERN_SCALED_TO_MALE_GLOBAL_LL"
       },
       "blockers": [
-        "select per-level anterior/posterior/endplate wedge geometry consistently across cervical/thoracic/lumbar regions",
-        "reconstruct canonical sagittal lordosis/kyphosis and per-level endplate orientation",
-        "define S1 superior endplate geometry and lumbosacral angle",
-        "resolve mixed-method/stature-sex normalization before exact thoracic freeze"
+        "instantiate S1 superior endplate frame and lumbosacral orientation",
+        "select per-level thoracic curvature/endplate orientations that sum to the global T1-T12 target and preserve rib attachments",
+        "select cervical neutral family after C7/T1 and head-over-pelvis constraints",
+        "resolve mixed-method thoracic body/disc values before exact 3D coordinate freeze"
       ]
     },
     "ribs": {

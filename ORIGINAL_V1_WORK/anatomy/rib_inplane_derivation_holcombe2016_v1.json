@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Source-locked mathematical derivation needed to reconstruct Holcombe et al. 2016 six-parameter in-plane rib curves without guessing. This file is evidence, not yet a canonical HGPT rib curve.",
+  "sources": {
+    "thesis": {
+      "title": "The development of population-wide descriptions of human rib and ribcage geometry",
+      "author": "Sven A. Holcombe",
+      "repository": "University of Michigan Deep Blue",
+      "url": "https://deepblue.lib.umich.edu/bitstream/handle/2027.42/135879/svenho_1.pdf?sequence=1",
+      "relevant_pages": "thesis pp. 33-39 / equations 2.2-2.18",
+      "note": "Search-indexed thesis text was used because the PDF endpoint returned 403 to direct fetch in this environment."
+    },
+    "paper_2016": {
+      "title": "Modeling female and male rib geometry with logarithmic spirals",
+      "doi": "10.1016/j.jbiomech.2016.07.021",
+      "pmid": "27497501"
+    },
+    "paper_2017": {
+      "title": "The effect of age and demographics on rib shape",
+      "doi": "10.1111/joa.12632",
+      "pmcid": "PMC5522896"
+    }
+  },
+  "coordinate_definition": {
+    "normalized_rib_plane": "proximal rib head/end is [0,0], distal costochondral endpoint is [1,0], peak is [Xpk,Ypk]; multiply final normalized coordinates by Sx for physical in-plane units.",
+    "distal_segment": "logarithmic spiral from peak to distal endpoint",
+    "proximal_segment": "logarithmic spiral joined to a tangent extension from the proximal endpoint to the spiral, then to the peak"
+  },
+  "distal_equations": {
+    "2.2": {
+      "x": "-exp(Bd*theta)*cos(theta)",
+      "y": " exp(Bd*theta)*sin(theta)"
+    },
+    "2.3": "theta_pk = 2*atan(sqrt(Bd^2 + 1) + Bd)",
+    "2.4": "M = -Ypk/(1-Xpk)",
+    "2.5": "theta_end is the first solution > theta_pk of (y(theta)-y(theta_pk))/(x(theta)-x(theta_pk)) = M",
+    "2.6": {
+      "source_space_distance": "sqrt((x(theta_pk)-x(theta_end))^2 + (y(theta_pk)-y(theta_end))^2)",
+      "target_distance": "sqrt(Ypk^2 + (1-Xpk)^2)",
+      "scale": "SFd = target_distance/source_space_distance"
+    },
+    "2.7": {
+      "X": "(x(theta)-x(theta_pk))*SFd + Xpk",
+      "Y": "(y(theta)-y(theta_pk))*SFd + Ypk"
+    }
+  },
+  "proximal_equations": {
+    "2.8": {
+      "x": " exp(Bp*theta)*cos(theta)",
+      "y": " exp(Bp*theta)*sin(theta)"
+    },
+    "2.9": {
+      "dx": "Bp*exp(Bp*theta)*cos(theta) - exp(Bp*theta)*sin(theta)",
+      "dy": "Bp*exp(Bp*theta)*sin(theta) + exp(Bp*theta)*cos(theta)"
+    },
+    "2.10": "alpha = atan2(Ypk, Xpk)",
+    "2.11": "theta_cut is the solution nearest pi/2 of atan2(-dx(theta), -dy(theta)) = -alpha",
+    "2.12": "alpha_tangent = phi_pia - alpha",
+    "2.13": "theta_tangent satisfies atan2(-dx(theta), -dy(theta)) = alpha_tangent",
+    "2.14": "x0 = x(theta_tangent) - (y(theta_tangent)-y(theta_cut))/tan(alpha_tangent)",
+    "2.15": {
+      "source_length": "len_xy = x(theta_cut)-x0",
+      "target_length": "len_XY = sqrt(Xpk^2 + Ypk^2)",
+      "scale": "SFp = len_XY/len_xy"
+    },
+    "2.16": "Translate [x0,y(theta_cut)] to the origin, scale uniformly by SFp, then rotate by alpha so [x(theta_cut),y(theta_cut)] maps to [Xpk,Ypk]."
+  },
+  "source_constraints_2_18": {
+    "Xpk": [
+      0.05,
+      0.8
+    ],
+    "Ypk": [
+      0.05,
+      0.9
+    ],
+    "phi_pia_deg": [
+      1,
+      160
+    ],
+    "Bp": [
+      -2,
+      2
+    ],
+    "Bd": [
+      -2.5,
+      2.5
+    ],
+    "explicit_constraint_confirmed": "phi_pia > alpha",
+    "unresolved_OCR_constraint": "The second feasibility inequality in Eq. 2.18 is not sufficiently legible in the indexed text to transcribe safely; do not invent it."
+  },
+  "implementation_status": {
+    "distal": "READY_FOR_EXACT_IMPLEMENTATION",
+    "proximal_equations": "TRANSCRIBED",
+    "proximal_branch_selection": "BLOCKED_PENDING_UNAMBIGUOUS_EQ_2_18_OR_EQUIVALENT_BRANCH_RULE",
+    "full_curve": "NOT_YET_ACCEPTED"
+  },
+  "hard_rules": [
+    "Do not choose a theta_tangent branch merely because it produces a visually plausible curve.",
+    "Do not create a full canonical rib centreline until proximal branch selection and 3D orientation mapping are source-verified.",
+    "A distal-segment implementation may be used now because Eq. 2.2-2.7 and its first-solution rule are unambiguous.",
+    "Final rib 3D placement must still apply the sourced pump-handle, lateral-swing and bucket-handle orientation convention and thoracic attachment landmarks."
+  ]
+}

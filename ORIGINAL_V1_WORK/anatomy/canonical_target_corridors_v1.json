@@ -235,6 +235,19 @@
           67.89
         ],
         "source": "PATIL_2017_METATARSAL_PHALANGE"
+      },
+      "note": "Patil 2017 bands are one population/method evidence set, not final target corridors. Stature-regression studies from Spain/Portugal/Korea imply larger M1/M2 dimensions at 1.82 m and use different maximum-length definitions.",
+      "stature_conditioned_crosschecks_mm": {
+        "stature": 1820.0002908706665,
+        "M1_spanish_male_max_from_regression": 78.19548794923116,
+        "M2_portuguese_max_from_regression": 88.11355042096555,
+        "M1_korean_pooled_max_from_regression": 88.36697248320255,
+        "sources": [
+          "METATARSAL_STATURE_SPAIN_2013",
+          "METATARSAL_STATURE_PORTUGAL_2009",
+          "METATARSAL_STATURE_KOREA_2022"
+        ],
+        "warning": "Endpoint definitions and populations differ; these values demonstrate conflict and prevent freezing the Patil means as canonical targets."
       }
     },
     "spine": {
@@ -520,7 +533,7 @@
     "carpus",
     "hand_metacarpals_2_4",
     "tarsus",
-    "forefoot_toes"
+    "forefoot_toes_reopen_due_surface_defect_and_source_conflict"
   ],
   "amber_regions": [
     "forearm",

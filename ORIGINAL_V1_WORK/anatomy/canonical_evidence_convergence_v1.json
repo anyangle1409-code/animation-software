@@ -177,16 +177,16 @@
       "action": "BUILD_LANDMARK_ENVELOPES_AFTER_MOVEMENT_CRITICAL_REGIONS"
     },
     "sternum": {
-      "grade": "B",
-      "state": "STRONGLY_REOPENED_LONGITUDINAL_GEOMETRY",
+      "grade": "C",
+      "state": "REOPEN_STATURE_METHOD_CONFLICT",
       "a003": "jugular-notch to xiphisternal chord ~213 mm; vertical component ~203 mm",
       "evidence": [
-        "three modern male CT datasets give manubrium + sternal-body mean sums ~152-159 mm using the closest compatible segment definitions",
-        "one independent osteological collection gives a lower male mean sum ~141 mm",
-        "the current a003 sternum was surface-landmark fitted to the old torso mesh rather than built from segmental osseous geometry"
+        "unconditioned modern male CT mean manubrium+body sums are ~152-159 mm",
+        "stature-linked male equations from Western Chinese, Southwest Han and South Indian samples imply materially different values at 1.82 m when inverted as plausibility checks (~187-225 mm)",
+        "meta-analysis reports only moderate male correlation between mesosternal length and stature, so neither direction is freeze-ready",
+        "a003 remains surface-landmark/mesh driven and must be reconstructed with thoracic/rib/SC landmarks"
       ],
-      "nuance": "Sources are not stature-conditioned to 1.82 m and exact sternal curvature definitions differ, so the direction is strongly reopened but the exact shortening is not frozen.",
-      "action": "REBUILD_MANUBRIUM_BODY_LANDMARK_GEOMETRY_AND_SC_COSTAL_CONTACTS"
+      "action": "REBUILD_LANDMARK_GEOMETRY_WITHOUT_PRESELECTING_SHORTEN_OR_LENGTHEN"
     }
   },
   "current_corrections": [
@@ -204,6 +204,11 @@
       "topic": "scapula_second_pass",
       "corrected_from": "scapula remained only method-conflicted after withdrawing the invalid height-only comparison",
       "corrected_to": "a landmark-compatible AA/TS-like transverse comparison now independently confirms excessive scapular transverse geometry; only the exact 3D/vertical target remains open"
+    },
+    {
+      "topic": "sternum",
+      "corrected_from": "strongly reopened as too long based on unconditioned male means",
+      "corrected_to": "source/stature-method conflict; geometry remains open but no length-change direction is frozen"
     }
   ]
 }

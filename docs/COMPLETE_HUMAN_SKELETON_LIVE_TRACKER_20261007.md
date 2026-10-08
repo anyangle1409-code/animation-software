@@ -204,6 +204,9 @@ Gate 12: ⬜ NOT PASSED
 Gate 13: ⬜ NOT PASSED
 
 ## CURRENT POSITION
+
+Checkpoint plan: [2026-10-08 skeleton verification checkpoints](superpowers/plans/2026-10-08-skeleton-verification-checkpoints.md). Current checkpoint **CP1 — canonical regional target closure**, Gate 6 open. No new corrected whole-body canonical Blender revision exists. CP0 is confirmed only for baseline/tooling; provisional source fixtures and a003 tests do not close CP3–CP7.
+
 Completed: Phases 0–5 (reference definitions, evidence compilation and static gap comparison); Blender toolchain verification.
 Done: Phase 6 fit and Phase 7 master structure (fit revision a003); Phase 8 solver core; Phase 9 isolated tests (135, run 014).
 Not passed: Gate 6 (owner decision is now resolved as skeleton-first; canonical target geometry is still not freeze-ready), Gate 8 (followers/contacts), Gate 9 (coverage).

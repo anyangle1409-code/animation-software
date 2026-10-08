@@ -1,3 +1,12 @@
+
+## OWNER DECISION 2026-10-08 — SKELETON FIRST
+
+The anatomical skeleton is now the production source of truth for proportions. The current r95/a003 mesh-driven short forearm/hand and long feet are **not** accepted as intended final styling. Keep a003 unchanged as the audit baseline. Do not move corroborated joint centres merely to stay inside the current mesh and do not reshape production geometry yet. First define/freeze canonical skeletal proportions independently of the mesh, then refit the mesh/skin around the validated skeleton after Gates 6–9 permit downstream production work.
+
+Machine-readable target record: `ORIGINAL_V1_WORK/anatomy/canonical_skeleton_proportion_targets_v1.json`.
+Policy: `docs/SKELETON_FIRST_PRODUCTION_POLICY_20261008.md`.
+Regression checks: `scripts/test_skeleton_first_proportions.py`.
+
 # Local Blender validation tools — 7 October 2026
 
 These tools prepare the next validation session. They do not fit the skeleton, create poses, approve movement or complete any Blender gate. Production files are unchanged.

@@ -44,6 +44,49 @@
       },
       "use": "Landmark-compatible 3D scapular constraints, especially AA/TS-like transverse geometry.",
       "caveat": "Older Far East Asian clinical sample; some distances correlate with height. Use exact landmark mapping and additional sources before freezing final dimensions."
+    },
+    "SCAPULA_AC_LATERAL_2026": {
+      "citation": "Kang N, Brassett C. Scapular morphometrics inform anatomic landmark distances for arthroscopic suprascapular nerve decompression: a cadaveric study. JSES Int. 2026.",
+      "pmid": "42164106",
+      "pmcid": "PMC13184462",
+      "sample": "20 cadaveric shoulders from 10 White British donors; 5 male, 5 female; mean age 80.8 ± 8.9 y",
+      "measurement_definition": "Direct distance from the posterior aspect of the AC joint to the lateral acromion, measured in the line of the posterior clavicle/acromion. The full text explicitly reports this direct result; it is not obtained by subtracting STSL distances.",
+      "direct_AC_to_lateral_acromion_mm": {
+        "mean": 34,
+        "sd": 8,
+        "range": [
+          23,
+          52
+        ]
+      },
+      "scapular_dimensions_mm": {
+        "height": {
+          "mean": 146,
+          "sd": 15,
+          "range": [
+            111,
+            167
+          ]
+        },
+        "spine_length": {
+          "mean": 140,
+          "sd": 14,
+          "range": [
+            114,
+            161
+          ]
+        },
+        "width": {
+          "mean": 108,
+          "sd": 12,
+          "range": [
+            85,
+            130
+          ]
+        }
+      },
+      "use": "Direct transverse/lateral AC-to-lateral-acromion constraint for the canonical shoulder scaffold; also independent scapular size cross-check.",
+      "caveat": "Small, old cadaver sample and mixed sex. Use as a direct landmark relation with uncertainty, not as a sole final target. Preserve the distinction from the earlier invalid inference that subtracted two independently measured STSL distances."
     }
   }
 }

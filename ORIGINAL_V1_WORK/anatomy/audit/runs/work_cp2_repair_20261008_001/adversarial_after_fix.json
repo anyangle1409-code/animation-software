@@ -1,0 +1,13 @@
+{
+  "zero_length_c3": {
+    "verdict": "FAIL"
+  },
+  "unrelated_remote_disc_surfaces": {
+    "verdict": "INCOMPLETE",
+    "clearance_status": "UNVERIFIED"
+  },
+  "unknown_parent_relation": {
+    "verdict": "FAIL",
+    "parent_status": "FAIL"
+  }
+}

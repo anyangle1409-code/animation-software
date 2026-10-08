@@ -52,14 +52,14 @@ class CommittedReport(unittest.TestCase):
             self.assertGreater(row['centre']['bone_to_bone_gap_mm'], 0, k)
             self.assertGreater(row['clearance_minimum_projected_gap_mm'], 0, k)
 
-    def test_specimen_endplates_pass_through_cp2_clearance(self):
+    def test_specimen_planes_remain_unverified_for_full_cp2_clearance(self):
         inv, arts, add = cp2.load_reference()
         cand = json.loads((ANAT / 'character_fit_r95_a003.json').read_text())
         cand = copy.deepcopy(cand)
         cand['disc_surfaces'] = REPORT['disc_surfaces_for_cp2_preflight']
         res = cp2.check_candidate(cand, inv, arts, add)
         c = next(x for x in res['checks'] if x['id'] == 'disc_endplate_clearance')
-        self.assertEqual(c['status'], 'PASS')
+        self.assertEqual(c['status'], 'UNVERIFIED')
         self.assertEqual(len(c['measurements']), 23)
         # the bone sticks are still a003's, so the centre-line check must keep failing: surfaces do not mask it
         self.assertEqual(next(x for x in res['checks'] if x['id'] == 'spinal_disc_centre_gap_positive')['status'], 'FAIL')

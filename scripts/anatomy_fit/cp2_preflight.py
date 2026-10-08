@@ -12,6 +12,9 @@ No anatomical tolerance is invented: geometric gates are strict (> 0, sign, iden
 The only numeric tolerance is FLOAT_EPS for frame orthonormality: Blender stores matrices in single precision, so a
 captured proper frame shows ~7e-7 orthonormality error (CP3 rehearsal); 1e-5 (~0.0006 deg skew) is numerical, not anatomical.
 A full PASS is necessary for CP2, not sufficient: evidence review is still required.
+The current disc_surfaces schema contains planes and a caller-supplied ellipse,
+not candidate-bound anatomical envelopes. Positive plane diagnostics therefore
+remain UNVERIFIED for full endplate clearance; no metadata flag can promote them.
 
 CLI:
   cp2_preflight.py --candidate FIT.json [--out DIR]
@@ -99,18 +102,30 @@ def check_candidate(cand, inventory, articulations, additional):
     # 4 parent tree, joint references and hyoid exception
     fails = []
     for k, b in bones.items():
-        p, rel = b.get('parent'), b.get('parent_relation') or {}
+        p, rel = b.get('parent'), b.get('parent_relation')
         if p is not None and p not in bones:
             fails.append(f'{k}: parent {p} absent')
+        if not isinstance(rel, dict) or rel.get('type') not in ('root', 'articular', 'carrier'):
+            fails.append(f'{k}: missing, malformed or unknown parent relation')
+            continue
         if rel.get('type') == 'articular':
-            j = art_ids.get(rel.get('joint_id'))
+            jid = rel.get('joint_id')
+            j = art_ids.get(jid) if isinstance(jid, str) else None
             if j is None:
                 fails.append(f'{k}: joint {rel.get("joint_id")} not in articulation inventory')
             else:
                 parts = {owner.get(x, x) for x in j['participants']}
                 if not {k, p} <= parts:
                     fails.append(f'{k}: joint {j["id"]} does not join {k} and {p}')
-        elif p is None and rel.get('type') != 'root':
+        else:
+            reason = rel.get('reason')
+            if not isinstance(reason, str) or not reason.strip():
+                fails.append(f'{k}: {rel["type"]} relation requires an explicit reason')
+            if rel.get('joint_id') is not None:
+                fails.append(f'{k}: {rel["type"]} relation cannot claim an articulation')
+            if rel['type'] == 'root' and p is not None:
+                fails.append(f'{k}: root relation has a parent')
+        if p is None and rel.get('type') != 'root':
             fails.append(f'{k}: no parent but relation is {rel.get("type")}')
     for k in bones:
         seen, cur = set(), k
@@ -194,6 +209,9 @@ def check_candidate(cand, inventory, articulations, additional):
         if sup not in good or inf not in good:
             unv.append(f'{d}: participant geometry missing')
             continue
+        if lengths[sup] == 0 or lengths[inf] == 0:
+            fails.append(f'{d}: degenerate vertebral participant (no defined endplate axis)')
+            continue
         axis = _sub(good[inf]['tail_m'], good[inf]['head_m'])
         step = _sub(good[sup]['head_m'], good[inf]['tail_m'])
         along = _dot(step, axis) / math.hypot(*axis) * 1000
@@ -202,7 +220,7 @@ def check_candidate(cand, inventory, articulations, additional):
             fails.append(f'{d}: superior body starts {along:.2f} mm along the inferior body axis (no disc space)')
     checks.append(_result('spinal_disc_centre_gap_positive', fails, unv, info=gaps))
 
-    # 11 full disc-surface clearance needs endplate surfaces; absent -> UNVERIFIED, never PASS
+    # 11 planar diagnostics cannot verify full candidate-bound curved endplates.
     surf = cand.get('disc_surfaces') or {}
     fails, unv, mins = [], [], {}
     for k in sorted(set(surf) - set(SPINAL_DISCS)):
@@ -215,12 +233,15 @@ def check_candidate(cand, inventory, articulations, additional):
         try:
             r = clearance(s['upper_origin_mm'], s['upper_normal'], s['lower_origin_mm'], s['lower_normal'],
                           s['footprint_centre_xy_mm'], s['footprint_radii_xy_mm'])
-        except (KeyError, ValueError) as e:
+        except (KeyError, ValueError, TypeError) as e:
             fails.append(f'{d}: invalid surface data ({e})')
             continue
         mins[d] = r['minimum_projected_gap_mm']
         if not r['separated_everywhere']:
-            fails.append(f'{d}: endplates touch or overlap (minimum {r["minimum_projected_gap_mm"]:.3f} mm)')
+            fails.append(f'{d}: supplied planes touch or overlap (minimum {r["minimum_projected_gap_mm"]:.3f} mm)')
+        else:
+            unv.append(f'{d}: positive plane diagnostic only; candidate-bound curved surfaces, '
+                       'full footprint coverage and approximation error remain unverified')
     checks.append(_result('disc_endplate_clearance', fails, unv, info=mins or None))
 
     counts = {s: sum(c['status'] == s for c in checks) for s in ('PASS', 'FAIL', 'UNVERIFIED', 'INFO')}

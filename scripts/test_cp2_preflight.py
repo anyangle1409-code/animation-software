@@ -66,6 +66,39 @@ class Mutations(unittest.TestCase):
         c = copy.deepcopy(A003); c['bones']['lunate_left']['tail_m'] = list(c['bones']['lunate_left']['head_m'])
         self.assertEqual(status(run(c), 'bone_nondegenerate')['status'], 'FAIL')
 
+    def test_degenerate_disc_participant_returns_fail_without_crashing(self):
+        for bone in ('c2', 'c3', 'l5', 'sacrum'):
+            with self.subTest(bone=bone):
+                c = copy.deepcopy(A003)
+                c['bones'][bone]['tail_m'] = list(c['bones'][bone]['head_m'])
+                try:
+                    r = run(c)
+                except ZeroDivisionError:
+                    self.fail('degenerate participant crashes instead of returning rejection')
+                self.assertEqual(status(r, 'bone_nondegenerate')['status'], 'FAIL')
+                self.assertTrue(any('degenerate' in f for f in
+                                    status(r, 'spinal_disc_centre_gap_positive')['failures']))
+
+    def test_unknown_or_malformed_parent_relation_rejected(self):
+        for relation in ({'type': 'banana'}, None, [], 'articular'):
+            with self.subTest(relation=relation):
+                c = copy.deepcopy(A003)
+                c['bones']['radius_left']['parent_relation'] = relation
+                try:
+                    r = run(c)
+                except AttributeError:
+                    self.fail('malformed relation crashes instead of returning rejection')
+                self.assertEqual(status(r, 'parent_tree')['status'], 'FAIL')
+
+    def test_root_and_carrier_relations_enforce_their_semantics(self):
+        changes = [('radius_left', {'type': 'root', 'joint_id': None, 'reason': 'wrong root'}),
+                   ('sternum', {'type': 'carrier', 'joint_id': 'hip_left', 'reason': 'wrong joint'}),
+                   ('sternum', {'type': 'carrier', 'joint_id': None, 'reason': ' '})]
+        for bone, relation in changes:
+            with self.subTest(bone=bone, relation=relation):
+                c = copy.deepcopy(A003); c['bones'][bone]['parent_relation'] = relation
+                self.assertEqual(status(run(c), 'parent_tree')['status'], 'FAIL')
+
     def test_parent_cycle_wrong_joint_and_hyoid_parent(self):
         c = copy.deepcopy(A003); c['bones']['sacrum']['parent'] = 'coccyx'
         self.assertTrue(any('cycle' in f for f in status(run(c), 'parent_tree')['failures']))
@@ -108,12 +141,33 @@ class Mutations(unittest.TestCase):
         c = with_gaps(A003)
         c['disc_surfaces'] = {d: dict(flat, upper_origin_mm=[0, 0, 8], lower_origin_mm=[0, 0, 0]) for d in m.SPINAL_DISCS}
         r = run(c)
-        self.assertEqual(status(r, 'disc_endplate_clearance')['status'], 'PASS')
-        self.assertEqual(r['verdict'], 'STRUCTURE_PASS_EVIDENCE_REVIEW_STILL_REQUIRED')
+        self.assertEqual(status(r, 'disc_endplate_clearance')['status'], 'UNVERIFIED')
+        self.assertEqual(status(r, 'disc_endplate_clearance')['measurements']['disc_l4_l5'], 8)
+        self.assertEqual(r['verdict'], 'INCOMPLETE')
         c['disc_surfaces']['disc_l4_l5'] = dict(flat, upper_origin_mm=[0, 0, 2], lower_origin_mm=[0, 0, 0], upper_normal=[0.2, 0, 1])
         self.assertEqual(status(run(c), 'disc_endplate_clearance')['status'], 'FAIL')     # tilted plate dips below
         c['disc_surfaces'] = dict(c['disc_surfaces'], disc_c1_c2=c['disc_surfaces']['disc_c2_c3'])
         self.assertTrue(any('C1/C2' in f for f in status(run(c), 'disc_endplate_clearance')['failures']))
+
+    def test_remote_tiny_plane_footprints_cannot_verify_endplates(self):
+        c = with_gaps(A003)
+        c['disc_surfaces'] = {d: {'upper_origin_mm': [100000, 100000, 100008],
+            'lower_origin_mm': [100000, 100000, 100000], 'upper_normal': [0, 0, 1],
+            'lower_normal': [0, 0, 1], 'footprint_centre_xy_mm': [100000, 100000],
+            'footprint_radii_xy_mm': [0.001, 0.001]} for d in m.SPINAL_DISCS}
+        r = run(c)
+        self.assertEqual(status(r, 'disc_endplate_clearance')['status'], 'UNVERIFIED')
+        self.assertEqual(r['verdict'], 'INCOMPLETE')
+
+    def test_malformed_surface_entries_return_fail_without_crashing(self):
+        for value in ('plane', [], 3, {'upper_origin_mm': None}):
+            with self.subTest(value=value):
+                c = with_gaps(A003); c['disc_surfaces'] = {'disc_c2_c3': value}
+                try:
+                    r = run(c)
+                except TypeError:
+                    self.fail('malformed surface crashes instead of returning rejection')
+                self.assertEqual(status(r, 'disc_endplate_clearance')['status'], 'FAIL')
 
 
 class Ledger(unittest.TestCase):

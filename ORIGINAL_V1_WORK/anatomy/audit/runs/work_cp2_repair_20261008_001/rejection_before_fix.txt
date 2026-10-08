@@ -1,0 +1,167 @@
+FFFFFFFFFFF
+======================================================================
+FAIL: test_degenerate_disc_participant_returns_fail_without_crashing (test_cp2_preflight.Mutations.test_degenerate_disc_participant_returns_fail_without_crashing) (bone='c2')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 79, in test_degenerate_disc_participant_returns_fail_without_crashing
+    self.assertTrue(any('degenerate' in f for f in
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_degenerate_disc_participant_returns_fail_without_crashing (test_cp2_preflight.Mutations.test_degenerate_disc_participant_returns_fail_without_crashing) (bone='c3')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 75, in test_degenerate_disc_participant_returns_fail_without_crashing
+    r = run(c)
+        ^^^^^^
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 17, in run
+    return m.check_candidate(cand, INV, ARTS, ADD)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/anatomy_fit/cp2_preflight.py", line 199, in check_candidate
+    along = _dot(step, axis) / math.hypot(*axis) * 1000
+            ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+ZeroDivisionError: float division by zero
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 77, in test_degenerate_disc_participant_returns_fail_without_crashing
+    self.fail('degenerate participant crashes instead of returning rejection')
+AssertionError: degenerate participant crashes instead of returning rejection
+
+======================================================================
+FAIL: test_degenerate_disc_participant_returns_fail_without_crashing (test_cp2_preflight.Mutations.test_degenerate_disc_participant_returns_fail_without_crashing) (bone='l5')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 75, in test_degenerate_disc_participant_returns_fail_without_crashing
+    r = run(c)
+        ^^^^^^
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 17, in run
+    return m.check_candidate(cand, INV, ARTS, ADD)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/anatomy_fit/cp2_preflight.py", line 199, in check_candidate
+    along = _dot(step, axis) / math.hypot(*axis) * 1000
+            ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+ZeroDivisionError: float division by zero
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 77, in test_degenerate_disc_participant_returns_fail_without_crashing
+    self.fail('degenerate participant crashes instead of returning rejection')
+AssertionError: degenerate participant crashes instead of returning rejection
+
+======================================================================
+FAIL: test_degenerate_disc_participant_returns_fail_without_crashing (test_cp2_preflight.Mutations.test_degenerate_disc_participant_returns_fail_without_crashing) (bone='sacrum')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 75, in test_degenerate_disc_participant_returns_fail_without_crashing
+    r = run(c)
+        ^^^^^^
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 17, in run
+    return m.check_candidate(cand, INV, ARTS, ADD)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/anatomy_fit/cp2_preflight.py", line 199, in check_candidate
+    along = _dot(step, axis) / math.hypot(*axis) * 1000
+            ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+ZeroDivisionError: float division by zero
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 77, in test_degenerate_disc_participant_returns_fail_without_crashing
+    self.fail('degenerate participant crashes instead of returning rejection')
+AssertionError: degenerate participant crashes instead of returning rejection
+
+======================================================================
+FAIL: test_unknown_or_malformed_parent_relation_rejected (test_cp2_preflight.Mutations.test_unknown_or_malformed_parent_relation_rejected) (relation={'type': 'banana'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 91, in test_unknown_or_malformed_parent_relation_rejected
+    self.assertEqual(status(r, 'parent_tree')['status'], 'FAIL')
+AssertionError: 'PASS' != 'FAIL'
+- PASS
++ FAIL
+
+
+======================================================================
+FAIL: test_unknown_or_malformed_parent_relation_rejected (test_cp2_preflight.Mutations.test_unknown_or_malformed_parent_relation_rejected) (relation=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 91, in test_unknown_or_malformed_parent_relation_rejected
+    self.assertEqual(status(r, 'parent_tree')['status'], 'FAIL')
+AssertionError: 'PASS' != 'FAIL'
+- PASS
++ FAIL
+
+
+======================================================================
+FAIL: test_unknown_or_malformed_parent_relation_rejected (test_cp2_preflight.Mutations.test_unknown_or_malformed_parent_relation_rejected) (relation=[])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 91, in test_unknown_or_malformed_parent_relation_rejected
+    self.assertEqual(status(r, 'parent_tree')['status'], 'FAIL')
+AssertionError: 'PASS' != 'FAIL'
+- PASS
++ FAIL
+
+
+======================================================================
+FAIL: test_unknown_or_malformed_parent_relation_rejected (test_cp2_preflight.Mutations.test_unknown_or_malformed_parent_relation_rejected) (relation='articular')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 88, in test_unknown_or_malformed_parent_relation_rejected
+    r = run(c)
+        ^^^^^^
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 17, in run
+    return m.check_candidate(cand, INV, ARTS, ADD)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/anatomy_fit/cp2_preflight.py", line 105, in check_candidate
+    if rel.get('type') == 'articular':
+       ^^^^^^^
+AttributeError: 'str' object has no attribute 'get'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 90, in test_unknown_or_malformed_parent_relation_rejected
+    self.fail('malformed relation crashes instead of returning rejection')
+AssertionError: malformed relation crashes instead of returning rejection
+
+======================================================================
+FAIL: test_root_and_carrier_relations_enforce_their_semantics (test_cp2_preflight.Mutations.test_root_and_carrier_relations_enforce_their_semantics) (bone='radius_left', relation={'type': 'root', 'joint_id': None, 'reason': 'wrong root'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 100, in test_root_and_carrier_relations_enforce_their_semantics
+    self.assertEqual(status(run(c), 'parent_tree')['status'], 'FAIL')
+AssertionError: 'PASS' != 'FAIL'
+- PASS
++ FAIL
+
+
+======================================================================
+FAIL: test_root_and_carrier_relations_enforce_their_semantics (test_cp2_preflight.Mutations.test_root_and_carrier_relations_enforce_their_semantics) (bone='sternum', relation={'type': 'carrier', 'joint_id': 'hip_left', 'reason': 'wrong joint'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 100, in test_root_and_carrier_relations_enforce_their_semantics
+    self.assertEqual(status(run(c), 'parent_tree')['status'], 'FAIL')
+AssertionError: 'PASS' != 'FAIL'
+- PASS
++ FAIL
+
+
+======================================================================
+FAIL: test_root_and_carrier_relations_enforce_their_semantics (test_cp2_preflight.Mutations.test_root_and_carrier_relations_enforce_their_semantics) (bone='sternum', relation={'type': 'carrier', 'joint_id': None, 'reason': ' '})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 100, in test_root_and_carrier_relations_enforce_their_semantics
+    self.assertEqual(status(run(c), 'parent_tree')['status'], 'FAIL')
+AssertionError: 'PASS' != 'FAIL'
+- PASS
++ FAIL
+
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.121s
+
+FAILED (failures=11)

@@ -1,0 +1,93 @@
+FFFFF
+======================================================================
+FAIL: test_endplate_surfaces (test_cp2_preflight.Mutations.test_endplate_surfaces)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 144, in test_endplate_surfaces
+    self.assertEqual(status(r, 'disc_endplate_clearance')['status'], 'UNVERIFIED')
+AssertionError: 'PASS' != 'UNVERIFIED'
+- PASS
++ UNVERIFIED
+
+
+======================================================================
+FAIL: test_remote_tiny_plane_footprints_cannot_verify_endplates (test_cp2_preflight.Mutations.test_remote_tiny_plane_footprints_cannot_verify_endplates)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 159, in test_remote_tiny_plane_footprints_cannot_verify_endplates
+    self.assertEqual(status(r, 'disc_endplate_clearance')['status'], 'UNVERIFIED')
+AssertionError: 'PASS' != 'UNVERIFIED'
+- PASS
++ UNVERIFIED
+
+
+======================================================================
+FAIL: test_malformed_surface_entries_return_fail_without_crashing (test_cp2_preflight.Mutations.test_malformed_surface_entries_return_fail_without_crashing) (value='plane')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 167, in test_malformed_surface_entries_return_fail_without_crashing
+    r = run(c)
+        ^^^^^^
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 17, in run
+    return m.check_candidate(cand, INV, ARTS, ADD)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/anatomy_fit/cp2_preflight.py", line 231, in check_candidate
+    r = clearance(s['upper_origin_mm'], s['upper_normal'], s['lower_origin_mm'], s['lower_normal'],
+                  ~^^^^^^^^^^^^^^^^^^^
+TypeError: string indices must be integers, not 'str'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 169, in test_malformed_surface_entries_return_fail_without_crashing
+    self.fail('malformed surface crashes instead of returning rejection')
+AssertionError: malformed surface crashes instead of returning rejection
+
+======================================================================
+FAIL: test_malformed_surface_entries_return_fail_without_crashing (test_cp2_preflight.Mutations.test_malformed_surface_entries_return_fail_without_crashing) (value=[])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 167, in test_malformed_surface_entries_return_fail_without_crashing
+    r = run(c)
+        ^^^^^^
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 17, in run
+    return m.check_candidate(cand, INV, ARTS, ADD)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/anatomy_fit/cp2_preflight.py", line 231, in check_candidate
+    r = clearance(s['upper_origin_mm'], s['upper_normal'], s['lower_origin_mm'], s['lower_normal'],
+                  ~^^^^^^^^^^^^^^^^^^^
+TypeError: list indices must be integers or slices, not str
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 169, in test_malformed_surface_entries_return_fail_without_crashing
+    self.fail('malformed surface crashes instead of returning rejection')
+AssertionError: malformed surface crashes instead of returning rejection
+
+======================================================================
+FAIL: test_malformed_surface_entries_return_fail_without_crashing (test_cp2_preflight.Mutations.test_malformed_surface_entries_return_fail_without_crashing) (value=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 167, in test_malformed_surface_entries_return_fail_without_crashing
+    r = run(c)
+        ^^^^^^
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 17, in run
+    return m.check_candidate(cand, INV, ARTS, ADD)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/anatomy_fit/cp2_preflight.py", line 231, in check_candidate
+    r = clearance(s['upper_origin_mm'], s['upper_normal'], s['lower_origin_mm'], s['lower_normal'],
+                  ~^^^^^^^^^^^^^^^^^^^
+TypeError: 'int' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp2_preflight.py", line 169, in test_malformed_surface_entries_return_fail_without_crashing
+    self.fail('malformed surface crashes instead of returning rejection')
+AssertionError: malformed surface crashes instead of returning rejection
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.074s
+
+FAILED (failures=5)

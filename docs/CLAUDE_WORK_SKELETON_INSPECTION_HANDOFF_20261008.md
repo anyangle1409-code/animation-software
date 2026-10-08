@@ -251,3 +251,27 @@ This corrects the earlier "thigh 6.5% short" note. The proposal does not select 
 - **Gate 9 stays NOT PASSED:**
   - not modelled: bucket-handle and long-axis components, cartilage elasticity, the shoulder's response to breathing, per-level amplitudes;
   - still untested: full opposition and the midfoot.
+
+## Remaining queue after c003, arm-chain and rib–sternum work (8 October, Claude)
+
+Every item below needs a source (literature hosts are denied from the cloud) or a decision. Nothing in it can be closed defensibly from the repository alone.
+
+| Item | Needs | Where recorded |
+|---|---|---|
+| Thoracic per-level kyphosis | Per-level tables: PMC3171774 body anterior/posterior heights and depths; PMID 41047402 Table 6; Bernhardt & Bridwell 1989 | spine blockers; `canonical_thoracic_qualitative_constraints_v1.json` |
+| Ribs (proximal curves, true geometry) | Holcombe Eq 2.18 convention; 3D rib head/tubercle/anterior coordinates | ribs blockers |
+| Sternum length and inclination | Selthofer 2006 full text; stature-matched sternum source | sternum review (REOPEN) |
+| Radius/ulna/wrist | Matched radial/ulnar articular and surface landmarks (`canonical_forearm_landmark_requirements_v1.json`) | forearm blockers |
+| Elbow height under the ANSUR shoulder | Humerus endpoint geometry, or a sourced radiale–EJC offset (arm-chain audit: acromion–radiale z −1.82 on c003) | humerus blockers |
+| Carpus, hand M2–M4 | Carpal centroids in one wrist frame | carpus/hand blockers |
+| Femur HJC–KJC | Decision or source on the HJC–trochanterion relation | lower-limb blockers |
+| Pelvis os coxae, SI, pubis | Landmark-rich os coxae source | pelvis blockers |
+| Head and face envelopes | Cranial/facial/mandible landmark sources | head blockers |
+| Gate 9 gaps | Full-opposition pronation magnitude; midfoot (TMT, naviculocuneiform, calcaneocuboid) values | Phase 9 |
+| Phase 10 | Gates 6 and 9 first; authored exercise definitions | Phase 10 |
+| Shoulder before canonical | Sternum REOPEN, ribs BLOCKED, notch-to-spine depth source, standing vs supine notch level, mapping bracket (+4.5 mm), pitch sensitivity | shoulder blockers; c003 README |
+
+**Laptop first steps:**
+1. Open the c003 blend read-only and review `review/sheets/sheet_four_way_*.jpg` and the clips.
+2. Fetch the sources in the table.
+3. Verify the remaining ANSUR II landmark definitions (radiale, stylion, suprasternale, cervicale) in the handbook, as was done for the acromion.

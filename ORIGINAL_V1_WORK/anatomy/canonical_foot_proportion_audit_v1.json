@@ -7,7 +7,10 @@
     "PATIL_2017_METATARSAL_PHALANGE",
     "BARRÔCO_2011_332_NORMAL_FEET",
     "DOGAN_2007_METATARSAL_PHALANGE",
-    "ANSUR_II_MALE_2012"
+    "ANSUR_II_MALE_2012",
+    "METATARSAL_STATURE_SPAIN_2013",
+    "METATARSAL_STATURE_PORTUGAL_2009",
+    "METATARSAL_STATURE_KOREA_2022"
   ],
   "measurement_compatibility": {
     "metatarsals": "Strong. Patil 2017 measures distal metatarsal head to midpoint of base articular surface; a003 uses TMT/base to metatarsal head.",
@@ -161,39 +164,58 @@
     }
   },
   "findings": [
-    "All five a003 metatarsal spans are above the Patil 2017 male means by roughly 12-19 mm; every metatarsal is >2 SD high, and M2 is >5 SD high.",
-    "Hallux and lesser-toe proximal/middle phalanx spans are also substantially long versus the same adult male radiographic sample; many exceed 3 SD.",
-    "The direct bone-span evidence therefore confirms that the oversized-foot problem is not only skin/soft-tissue length: the a003 foot armature was itself stretched to fit the long r95 foot.",
-    "This is expected because a003 was deliberately a mesh-fit audit. Under the skeleton-first policy, metatarsals and toe phalanges must be re-targeted independently, then the mesh shortened around them.",
-    "Distal phalanx comparisons are not used alone for acceptance because the a003 tip station may include terminal soft tissue."
+    "The current BODY SURFACE foot-length defect remains confirmed: r95/a003 heel-to-toe skin length is ~305 mm versus a stature-conditioned ANSUR expectation of ~280 mm (z +2.77).",
+    "The earlier single-source conclusion that all a003 metatarsals are definitively too long is withdrawn. They are >2 SD above the Patil 2017 male means, but independent stature-regression studies from Spain, Portugal and Korea imply larger M1/M2 values at 1.82 m and use different maximum-length definitions.",
+    "Therefore the forefoot skeleton remains REOPEN, but the reason is measurement/source conflict plus the clearly long surface foot—not a proven requirement to shorten every metatarsal by 12–19 mm.",
+    "Toe proximal/middle segments also appear long against Patil 2017, but stature/population conditioning and endpoint definitions must be triangulated before exact shortening is selected.",
+    "The canonical foot must be built from endpoint-matched hindfoot/midfoot/forefoot evidence and then the mesh shortened around the finished chain."
   ],
   "provisional_target_corridors_mm": {
-    "metatarsal_1": [
-      52.010000000000005,
-      60.83
-    ],
-    "metatarsal_2": [
-      64.12,
-      71.1
-    ],
-    "metatarsal_3": [
-      61.47,
-      70.28999999999999
-    ],
-    "metatarsal_4": [
-      62.54,
-      70.5
-    ],
-    "metatarsal_5": [
-      60.74999999999999,
-      67.88999999999999
-    ]
+    "note": "Patil 2017 ±1 SD bands remain one evidence band only, not canonical target corridors. Stature-conditioned studies conflict materially and must be reconciled by endpoint definition.",
+    "patil2017_male_1sd": {
+      "metatarsal_1": [
+        52.010000000000005,
+        60.83
+      ],
+      "metatarsal_2": [
+        64.12,
+        71.1
+      ],
+      "metatarsal_3": [
+        61.47,
+        70.28999999999999
+      ],
+      "metatarsal_4": [
+        62.54,
+        70.5
+      ],
+      "metatarsal_5": [
+        60.74999999999999,
+        67.88999999999999
+      ]
+    }
   },
-  "status": "FOOT_PROPORTION_DEFECT_CONFIRMED_CANONICAL_TARGET_NOT_FROZEN",
+  "status": "FOOT_SURFACE_PROPORTION_DEFECT_CONFIRMED_SKELETAL_FOREFOOT_TARGET_REOPENED_NOT_FROZEN",
   "next_steps": [
-    "Cross-check metatarsal corridors against at least one additional measurement-compatible adult male sample before freezing exact lengths.",
-    "Derive hindfoot/midfoot joint-to-joint targets separately; do not compare current tarsal rig-stick lengths to whole-bone maximum dimensions.",
-    "Retarget toe proximal/middle phalanges from compatible radiographic data; model distal tips with a separate soft-tissue allowance.",
-    "Once the canonical foot chain is frozen, reduce the production mesh foot length around the skeleton and re-run ankle/subtalar/talonavicular/hallux tests."
-  ]
+    "Map a003 metatarsal control endpoints to each source's maximum/physiological/head-to-base definition.",
+    "Use at least two endpoint-compatible stature-aware sources before freezing M1/M2; obtain equivalent evidence for M3-M5.",
+    "Triangulate toe phalanx lengths with stature/sex-aware data or multi-population ratios.",
+    "Build hindfoot/midfoot contact-centre targets separately, then derive final heel-to-toe skeleton and explicit soft-tissue allowances.",
+    "Only after canonical foot geometry is frozen should the production mesh foot be shortened."
+  ],
+  "stature_conditioned_crosscheck": {
+    "stature_mm": 1820.0002908706665,
+    "spanish_male_M1_max_predicted_mm": 78.19548794923116,
+    "portuguese_M2_max_predicted_mm": 88.11355042096555,
+    "korean_pooled_M1_max_predicted_mm": 88.36697248320255,
+    "current_a003_M1_span_mm": 72.56461426896868,
+    "current_a003_M2_span_mm": 86.38644555829607,
+    "interpretation": "These stature regressions use maximum/osteometric/radiographic metatarsal definitions and different populations. They show that the earlier Patil-mean comparison cannot by itself prove that a003 metatarsals are pathologically long: at 1.82 m, independent equations imply substantially longer M1/M2 values than the Patil sample means and values near or above the a003 spans."
+  },
+  "audit_correction_2026_10_08": {
+    "reason": "A single healthy-male radiographic sample was incorrectly treated as sufficient proof that the metatarsal skeleton was too long.",
+    "correction": "Added three stature-regression datasets with different populations/measurement definitions. They materially change the interpretation at 1.82 m.",
+    "retained_fact": "The r95/a003 surface foot is still clearly long relative to the stature-conditioned ANSUR distribution.",
+    "consequence": "Do not shorten every metatarsal to the Patil means. Reconstruct endpoint-matched canonical bone lengths first."
+  }
 }

@@ -161,6 +161,7 @@ def build_markers(arm, coll, markers, bones, plan):
         obj.rotation_mode = 'QUATERNION'  # Euler storage loses precision near gimbal lock (e.g. rib costochondral frames)
         obj['hgpt_joint_id'] = jid
         obj['hgpt_fit_method'] = m['method']
+        obj['hgpt_frame_bone'] = m['frame_bone']
         parts = plan['joint_markers'][jid]['participants']
         host = proximal_participant(parts, bones) or m['frame_bone']
         obj.parent = arm

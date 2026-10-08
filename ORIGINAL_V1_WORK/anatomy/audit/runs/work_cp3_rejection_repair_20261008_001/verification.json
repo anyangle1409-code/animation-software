@@ -1,0 +1,20 @@
+{
+  "scope": "metadata and storage validation; not anatomy acceptance",
+  "affected_tests": 26,
+  "full_tests": 805,
+  "full_failures": 5,
+  "full_errors": 4,
+  "same_baseline_failure_names": true,
+  "fresh_bpy_rehearsals": 2,
+  "blender_version": "5.2.1 LTS",
+  "bones_each": 206,
+  "markers_each": 427,
+  "frame_bone_matches": true,
+  "marker_attachments_changed": 0,
+  "marker_centres_changed": 0,
+  "source_frame_metadata_legacy_mislabeled_count": 202,
+  "roundtrip_pass_each": true,
+  "cp2_anatomy_verdict_each": "FAIL",
+  "freeze_ready": false,
+  "gates_6_8_9_open": true
+}

@@ -54,7 +54,9 @@ def capture(o):
             M = ob.matrix_world
             markers[ob['hgpt_joint_id']] = {'centre_m': list(M.translation),
                                             'frame_axes_columns_XYZ': [list(M.to_3x3()[r]) for r in range(3)],
-                                            'frame_bone': ob['hgpt_carrier_bone'], 'parent_bone': ob.parent_bone[len('anat_'):]}
+                                            'frame_bone': ob.get('hgpt_frame_bone'),
+                                            'carrier_bone': ob['hgpt_carrier_bone'],
+                                            'parent_bone': ob.parent_bone[len('anat_'):]}
     Path(o.out).write_text(json.dumps({'blend': str(o.blend), 'blender_version': bpy.app.version_string,
                                        'bones': bones, 'joint_markers': markers}, indent=1) + '\n')
     print(json.dumps({'captured_bones': len(bones), 'captured_markers': len(markers)}))

@@ -1,0 +1,2 @@
+Info: Saved as "frame_metadata_mirrored.blend"
+{"built": "/tmp/hgpt-cp3-rejection-repair/frame_metadata_mirrored.blend", "bones": 206, "markers": 427, "sha256": "9e2cd68f778751151e026b70da4f6f9b31963909a8125e8a06ff9441f829c60f"}

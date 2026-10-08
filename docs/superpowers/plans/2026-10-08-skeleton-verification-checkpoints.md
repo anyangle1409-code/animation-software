@@ -21,8 +21,8 @@ Baseline for this plan: live branch HEAD `137f71058b2c9f142478a4261af2db352cb1bf
 | 206 bones, 427 articulation/contact complexes, 30 semantic frames | Complete conventional inventory and reference structure | Correct final geometry or natural motion |
 | a003: 135/135 implemented integrity tests; 41 mirror pairs and two solver-test exceptions | Reproducible diagnostic baseline and implemented test coverage | Gate 9 acceptance or complete contact/follower coverage |
 | Measured scapular envelope/glenoid rim frames; lumbar orientation families; distal rib segments; carpal axes; corrected hyoid dimensions | Regional provisional source geometry and checked conversions | Absolute shoulder/spine/contact placement or a complete new skeleton |
-| 129 focused Python tests passing | Current limited anatomy/data-validator checks | Full-project green |
-| Full suite: 740 tests; five failures/four errors | Same nine named legacy production/recovery failures as the earlier checkpoint, documented | Permission to conceal the failures or modify production controls |
+| Latest 26 CP2/CP3 affected tests passing; earlier 21 shoulder-source checks retained | Finite capture rejection, frame metadata and limited evidence checks | Full-project green or anatomical acceptance |
+| Full suite: 805 tests; five failures/four errors | Same nine named legacy production/recovery failures as the earlier checkpoint, documented | Permission to conceal the failures or modify production controls |
 
 Current machine-readable authorities: `canonical_target_selection_v1.json` (`freeze_ready=false`) and `canonical_freeze_readiness_v1.json` under `ORIGINAL_V1_WORK/anatomy/`. Gates 6, 8 and 9 remain open. Phase 10 is blocked by those gates.
 
@@ -95,10 +95,14 @@ python scripts/validate_canonical_carpal_axes.py
 git diff --check
 ```
 
-A valid preflight with `freeze_ready=false` proves that the block is preserved, not that the skeleton is accepted. Broader checks are run when a change warrants them, with all known failures reported by name. Current full-suite evidence is in `ORIGINAL_V1_WORK/anatomy/audit/runs/work_target_gate_mutations_20261008_001/verification.json` and `full_python_suite.txt`.
+A valid preflight with `freeze_ready=false` proves that the block is preserved, not that the skeleton is accepted. Broader checks are run when a change warrants them, with all known failures reported by name. Latest full-suite evidence and per-name baseline comparison are in `ORIGINAL_V1_WORK/anatomy/audit/runs/work_cp3_rejection_repair_20261008_001/`; older traces remain historical.
 
 At every coherent push, update this plan's checkpoint position and the primary tracker. Report: **checkpoint ID; concrete change; evidence/run/revision; checks and exceptions; remaining blocker and needed input; next independent action; pushed commit.** Keep previous failed runs and immutable revisions.
 
 **Next action:** CP1a SC/manubrial articular-centre evidence and clavicle curve/pose mapping remain first. Li2012's linked full text returned HTTP402 and its abstract omits the required value/endpoints. Recover an accessible primary table/figure or independently matched landmarks; do not substitute outer manubrial width. Continue independent CP1b–g evidence/contact work while that evidence is unavailable. No routine owner decision is currently required.
 
 Self-review: all seven regional groups, pre-Blender gate, new revision, visual review, Gates 8/9, Phase 10, skeleton-first production hierarchy and app verification are mapped above. Dates/counts identify checkpoints rather than acceptance claims.
+
+## 2026-10-08 laptop-session preparation checkpoint
+
+CP1 numerical closure remains PROVISIONAL/BLOCKED. Independent CP3 review repaired finite-input/identity rejection and source-frame vs attachment metadata without changing a003 geometry. Fresh Blender 5.2.1 LTS rehearsals/captures verify 206 bones/427 markers and unchanged attachments/marker centres. The old capture mislabeled 202 source frame IDs; failed reports remain retained. CP2 actual anatomy still fails, and CP3/CP4 canonical acceptance stays blocked. 26 affected tests pass; full discovery 805 with the same nine named baseline failures/errors. Planned 20:30 BST laptop/Claude inspection instructions: `docs/LAPTOP_SKELETON_HANDOFF_20261008_2030.md`. This records readiness for an independent review, not a timed promise of skeleton completion.

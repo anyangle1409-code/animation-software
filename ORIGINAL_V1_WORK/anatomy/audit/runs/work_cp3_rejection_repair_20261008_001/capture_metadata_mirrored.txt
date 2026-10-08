@@ -1,0 +1,2 @@
+00:00.305  blend            | Read blend: "/tmp/hgpt-cp3-rejection-repair/frame_metadata_mirrored.blend"
+{"captured_bones": 206, "captured_markers": 427}

@@ -1,0 +1,67 @@
+/workspace/scratch/fa618947168c/animation-software/scripts/anatomy_fit/cp3_roundtrip_compare.py:36: RuntimeWarning: invalid value encountered in divide
+  y = (t - h) / np.linalg.norm(t - h)
+F.FE.FFFF.
+======================================================================
+ERROR: test_missing_empty_or_malformed_capture_returns_rejection (scripts.test_cp3_roundtrip_compare.RoundTrip.test_missing_empty_or_malformed_capture_returns_rejection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp3_roundtrip_compare.py", line 51, in test_missing_empty_or_malformed_capture_returns_rejection
+    r = m.compare(REC, c)
+        ^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/anatomy_fit/cp3_roundtrip_compare.py", line 42, in compare
+    z = np.array(cb[k]['bone_z_axis'])
+                 ~~^^^
+KeyError: 'radius_left'
+
+======================================================================
+FAIL: test_degenerate_or_nonfinite_reference_rejects_before_frame_math (scripts.test_cp3_roundtrip_compare.RoundTrip.test_degenerate_or_nonfinite_reference_rejects_before_frame_math)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp3_roundtrip_compare.py", line 69, in test_degenerate_or_nonfinite_reference_rejects_before_frame_math
+    self.assertFalse(m.compare(rec, c)['roundtrip_pass'])
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_marker_frame_carrier_is_part_of_roundtrip_identity (scripts.test_cp3_roundtrip_compare.RoundTrip.test_marker_frame_carrier_is_part_of_roundtrip_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp3_roundtrip_compare.py", line 61, in test_marker_frame_carrier_is_part_of_roundtrip_identity
+    self.assertFalse(r['roundtrip_pass'])
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_nonfinite_geometry_cannot_hide_in_max_reduction (scripts.test_cp3_roundtrip_compare.RoundTrip.test_nonfinite_geometry_cannot_hide_in_max_reduction) (section='bones', field='tail_m', value=nan)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp3_roundtrip_compare.py", line 37, in test_nonfinite_geometry_cannot_hide_in_max_reduction
+    self.assertFalse(m.compare(REC, c)['roundtrip_pass'])
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_nonfinite_geometry_cannot_hide_in_max_reduction (scripts.test_cp3_roundtrip_compare.RoundTrip.test_nonfinite_geometry_cannot_hide_in_max_reduction) (section='bones', field='bone_z_axis', value=nan)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp3_roundtrip_compare.py", line 37, in test_nonfinite_geometry_cannot_hide_in_max_reduction
+    self.assertFalse(m.compare(REC, c)['roundtrip_pass'])
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_nonfinite_geometry_cannot_hide_in_max_reduction (scripts.test_cp3_roundtrip_compare.RoundTrip.test_nonfinite_geometry_cannot_hide_in_max_reduction) (section='joint_markers', field='centre_m', value=nan)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp3_roundtrip_compare.py", line 37, in test_nonfinite_geometry_cannot_hide_in_max_reduction
+    self.assertFalse(m.compare(REC, c)['roundtrip_pass'])
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_nonfinite_geometry_cannot_hide_in_max_reduction (scripts.test_cp3_roundtrip_compare.RoundTrip.test_nonfinite_geometry_cannot_hide_in_max_reduction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_cp3_roundtrip_compare.py", line 40, in test_nonfinite_geometry_cannot_hide_in_max_reduction
+    self.assertFalse(m.compare(REC, c)['roundtrip_pass'])
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.399s
+
+FAILED (failures=6, errors=1)

@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "status": "CONFIRMED_CAPTURE_METADATA_AND_REJECTION_FIX_ONLY",
+  "blender_version": "5.2.1 LTS",
+  "old_source_revision": "6731fbd197a2157be1bc062d128c34060d088c45",
+  "new_rehearsal_is_canonical": false,
+  "marker_frame_fields_mislabeled_in_old_capture": 202,
+  "marker_attachment_changes": [],
+  "old_new_marker_max_centre_error_m": 0.0,
+  "source_frame_semantics": "frame_bone is the source basis reference; carrier_bone is attachment host; parent_bone is actual Blender bone parent. They need not be the same.",
+  "artifacts": {
+    "frame_metadata_a003.blend": {
+      "bytes": 221913,
+      "sha256": "03afda46b4b7c3f91254495e7544b82872ac210f777b8ddd7b6418d3d175961e",
+      "gzip_bytes": 221523,
+      "gzip_sha256": "c73b1dedd094739c7d3b7f47f9ad6ff6da3e6be50f5a55da23fac6bb84208cc0"
+    },
+    "frame_metadata_mirrored.blend": {
+      "bytes": 221414,
+      "sha256": "9e2cd68f778751151e026b70da4f6f9b31963909a8125e8a06ff9441f829c60f",
+      "gzip_bytes": 220999,
+      "gzip_sha256": "c27b2c8b4270ec60762635eae26ed4bddcec85439bc41543fb0123a70fe9ba4e"
+    },
+    "capture_metadata_a003.json": {
+      "bytes": 332457,
+      "sha256": "ee28cbb23cafd9fbf8e9a765c816bd14313d2a28249b7945aa1580fd6ad6da80",
+      "gzip_bytes": 54100,
+      "gzip_sha256": "ee136ac0c09fc3f82bf53d04ae3760b5c4016e08d014a1e60623145a93657688"
+    },
+    "capture_metadata_mirrored.json": {
+      "bytes": 332482,
+      "sha256": "2fee3d77fa4e0506c070bd89585bcdc66829684a1adebfe043ab429ebc26301c",
+      "gzip_bytes": 53482,
+      "gzip_sha256": "50b0a39edc7391b9dd46aa49e9d45b09f8bb1b247c0446339fdc6313d80c4b0c"
+    },
+    "fresh_capture_a003.json": {
+      "bytes": 317411,
+      "sha256": "bbe05ab814acc3949386782d4ea5f3a8f9673475036f8416e12debab05e395d2",
+      "gzip_bytes": 52847,
+      "gzip_sha256": "30dab04d0cba0ae1371ead2808be5881469595ca19c12fcb7b0aeeafc067f555"
+    },
+    "fresh_capture_mirrored.json": {
+      "bytes": 317436,
+      "sha256": "eb7b577078684fb0ce1ab73b6061f15c84dd8ab49f395e55300c8689e918bfe0",
+      "gzip_bytes": 52220,
+      "gzip_sha256": "780486e22c302b3fffef60c4e1c850bab44c043f69a7157378f4240358fc948a"
+    },
+    "mirrored_record.json": {
+      "bytes": 350087,
+      "sha256": "bb9555e747be38568dabc6ee3db235f93e6d8a069ce9e36244784235e71bdd4a",
+      "gzip_bytes": 52386,
+      "gzip_sha256": "bc2cdcb4fc80c409a1577c0eb146044fe9a5dfc47668de73f37779821d56fe08"
+    }
+  },
+  "scripts_sha256": {
+    "scripts/anatomy_fit/cp3_roundtrip_compare.py": "410fcbb46f5a9888954bc0534cfdd2d1b6e8a8158e13a9bd0d51368a97d50206",
+    "scripts/anatomy_fit/cp3_rehearsal_blender.py": "7448225da77c6956094b25bafc17353c2ff617a08c05f4437c6115ae33386392",
+    "scripts/anatomy_fit/build_anatomical_master_blender.py": "5e096996e462c97e6541e8955e1ce4225bf9a68afabe21cd783cfce53262f2c8"
+  },
+  "limitations": [
+    "New files are metadata-corrected a003-data rehearsals, not corrected anatomy.",
+    "Legacy capture frame_bone labels are unreliable; older positive roundtrip reports did not check that field.",
+    "CP2 anatomy remains FAIL on the inherited zero disc gaps.",
+    "Roundtrip CLI exit 0 verifies its limited storage comparison only; inspect CP2 verdict separately.",
+    "135-test movement implementation checkpoint remains previous evidence, not a fresh movement rerun or Gate 9 acceptance."
+  ]
+}

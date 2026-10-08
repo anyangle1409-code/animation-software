@@ -27,6 +27,67 @@ def fake_capture(rec):
 
 
 class RoundTrip(unittest.TestCase):
+    def test_nonfinite_geometry_cannot_hide_in_max_reduction(self):
+        for value in (float('nan'), float('inf'), -float('inf')):
+            for section, key, field in [('bones', 'femur_left', 'tail_m'),
+                                        ('bones', 'radius_left', 'bone_z_axis'),
+                                        ('joint_markers', 'tibiofemoral_left', 'centre_m')]:
+                with self.subTest(section=section, field=field, value=value):
+                    c = fake_capture(REC); c[section][key][field][0] = value
+                    self.assertFalse(m.compare(REC, c)['roundtrip_pass'])
+            c = fake_capture(REC)
+            c['joint_markers']['tibiofemoral_left']['frame_axes_columns_XYZ'][1][2] = value
+            self.assertFalse(m.compare(REC, c)['roundtrip_pass'])
+
+    def test_missing_empty_or_malformed_capture_returns_rejection(self):
+        for mutate in (lambda c: c['bones'].pop('radius_left'),
+                       lambda c: c.__setitem__('bones', {}),
+                       lambda c: c.__setitem__('joint_markers', {}),
+                       lambda c: c['bones']['femur_left'].__setitem__('tail_m', [1, 2]),
+                       lambda c: c['joint_markers']['tibiofemoral_left'].__setitem__('frame_axes_columns_XYZ', [[1, 2]]),
+                       lambda c: c['bones']['radius_left'].__setitem__('bone_z_axis', [0, 0, 0]),
+                       lambda c: c['bones']['radius_left'].__setitem__('bone_z_axis', [100, 0, 0]),
+                       lambda c: c['bones']['femur_left'].__setitem__('head_m', [True, 0, 0])):
+            c = fake_capture(REC); mutate(c)
+            r = m.compare(REC, c)
+            self.assertFalse(r['roundtrip_pass'])
+            self.assertTrue(r['input_errors'])
+        for c in (None, [], {'bones': None}, {'bones': {}, 'joint_markers': []}):
+            self.assertFalse(m.compare(REC, c)['roundtrip_pass'])
+
+    def test_marker_frame_carrier_is_part_of_roundtrip_identity(self):
+        c = fake_capture(REC)
+        c['joint_markers']['tibiofemoral_left']['frame_bone'] = 'ulna_left'
+        r = m.compare(REC, c)
+        self.assertFalse(r['roundtrip_pass'])
+        self.assertIn('tibiofemoral_left', r['marker_frame_bone_mismatches'])
+
+    def test_degenerate_or_nonfinite_reference_rejects_before_frame_math(self):
+        c = fake_capture(REC)
+        for mutate in (lambda r: r['bones']['femur_left'].__setitem__('tail_m', r['bones']['femur_left']['head_m']),
+                       lambda r: r['bones']['femur_left']['head_m'].__setitem__(0, float('nan'))):
+            rec = copy.deepcopy(REC); mutate(rec)
+            self.assertFalse(m.compare(rec, c)['roundtrip_pass'])
+        rec = copy.deepcopy(REC); c = fake_capture(rec)
+        rec['bones']['femur_left']['tail_m'][0] = 1e160
+        c['bones']['femur_left']['tail_m'][0] = 1e160
+        self.assertFalse(m.compare(rec, c)['roundtrip_pass'])
+
+    def test_cli_rejects_missing_bone_with_machine_readable_report(self):
+        import subprocess, tempfile
+        with tempfile.TemporaryDirectory() as temp:
+            base = Path(temp); c = fake_capture(REC); c['bones'].pop('radius_left')
+            (base / 'capture.json').write_text(json.dumps(c))
+            report = base / 'report.json'
+            result = subprocess.run([sys.executable, str(ROOT / 'scripts/anatomy_fit/cp3_roundtrip_compare.py'),
+                                     '--record', str(ROOT / 'ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json'),
+                                     '--capture', str(base / 'capture.json'), '--out', str(report)], capture_output=True, text=True)
+            self.assertEqual(result.returncode, 1)
+            self.assertNotIn('Traceback', result.stderr)
+            data = json.loads(report.read_text())
+            self.assertFalse(data['roundtrip']['roundtrip_pass'])
+            self.assertEqual(data['cp2_preflight_on_capture']['verdict'], 'FAIL')
+
     def test_float32_capture_passes(self):
         r = m.compare(REC, fake_capture(REC))
         self.assertTrue(r['roundtrip_pass'])

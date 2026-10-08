@@ -3,7 +3,7 @@
   "created": "2026-10-08",
   "purpose": "Skeleton-first sternum audit. Test the a003 jugular-notch to xiphisternal sternum reference against independent adult male manubrium + sternal-body morphometry.",
   "baseline": "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json",
-  "status": "STERNUM_LONGITUDINAL_GEOMETRY_STRONGLY_REOPENED_TARGET_NOT_FROZEN",
+  "status": "STERNUM_TARGET_REOPENED_STATURE_METHOD_CONFLICT_NOT_DEFECT_CONFIRMED",
   "current_a003": {
     "head_definition": "jugular notch / superior manubrial reference, inset from skin",
     "tail_definition": "xiphisternal region, inset from skin; xiphoid itself not included",
@@ -47,17 +47,17 @@
     "warning": "The two maxima need not come from the same person. Their sum is used only as a conservative ceiling for the reported Greek sample, not as a population limit."
   },
   "findings": [
-    "The a003 sternum reference runs from the jugular notch to the xiphisternal region, so the closest comparison is manubrium length + sternal-body length; xiphoid length should not be added.",
-    "Across three modern CT studies, male manubrium+body mean sums are about 152-159 mm, while the a003 vertical component is ~203 mm and the 3D chord is ~213 mm.",
-    "Even the sum of the separate maximum manubrium and body lengths reported in the Greek male sample is 192 mm, below the a003 vertical component. This is a conservative sample-level warning, not a universal maximum.",
-    "The current sternum was placed from old mesh surface landmarks, so the discrepancy is consistent with the broader finding that the torso/shoulder mesh drove skeletal proportions.",
-    "Exact canonical sternum length is NOT frozen from these unconditioned population means. The final target must preserve the character's 1.82 m stature and be reconciled with thoracic vertebral levels, rib attachments, jugular notch and xiphisternal level."
+    "The a003 sternum reference runs from the jugular notch to the xiphisternal region, so manubrium + sternal-body evidence remains the correct anatomical measurement family; xiphoid length should not be added.",
+    "Unconditioned male CT means from several populations are shorter (~152-159 mm mean sums), which initially made a003 (~203 mm vertical, ~213 mm chord) look excessive.",
+    "A second-pass stature-aware review materially changes that interpretation. Published male regressions linking combined manubrium+mesosternum length to stature, when algebraically inverted only as plausibility checks, give values from about 187 to 225 mm at 1.82 m across South Indian and Chinese populations.",
+    "Because those regressions are not designed to predict sternum length from stature, and a meta-analysis reports only moderate male correlation (~53.5%), neither the short unconditioned means nor the inverted equations justify freezing a direction of correction.",
+    "The sternum is therefore REOPEN for level/landmark reconstruction but is NOT currently classified as a confirmed length defect. Its final geometry must be solved jointly with thoracic vertebral levels, rib attachments, SC contacts and a stature-aware target model."
   ],
   "canonical_actions": [
-    "REOPEN sternum longitudinal geometry.",
+    "REOPEN sternum geometry without presuming it must shorten.",
     "Represent manubrium and sternal body landmark regions separately while retaining one conventional adult sternum bone in the 206 count.",
     "Define jugular notch, bilateral clavicular notches/SC contacts, sternal angle, costal notch levels and xiphisternal junction in a thoracic frame.",
-    "Use modern male CT segment corridors plus thoracic/rib level constraints to select final length; do not simply scale the old sternum stick.",
+    "Prefer a direct sternum-length-on-stature model or individual-level dataset over algebraically inverting stature-on-sternum regressions.",
     "Refit anterior rib/costal-cartilage contacts after sternum and thoracic spine are rebuilt."
   ],
   "SC_joint_implications": {
@@ -81,5 +81,27 @@
     "sternal angle and costal attachment levels remain compatible with the rebuilt thoracic spine/ribs",
     "sternum remains one conventional adult bone; segment landmarks do not create extra bones",
     "neutral shoulder and rib motion tests are rerun after SC/sternum changes"
+  ],
+  "stature_regression_crosscheck": {
+    "stature_cm": 182.00002908706665,
+    "algebraic_inversions_mm": {
+      "western_china_mm": 224.72376425661633,
+      "southwest_han_mm": 221.90759720050355,
+      "south_india_mm": 187.27334233615238
+    },
+    "warning": "These are inversions of regressions that predict stature FROM sternum length. They are not statistically equivalent to E[sternum length | stature] and are used only to test whether the earlier unconditioned-mean conclusion is robust.",
+    "result": "The inverted values span roughly 187-225 mm and bracket/approach the a003 203 mm vertical / 213 mm chord. Therefore the earlier claim of a confirmed overly long sternum is not robust."
+  },
+  "audit_correction_2026_10_08": {
+    "corrected_from": "STRONGLY_REOPENED_LONGITUDINAL_GEOMETRY with an implied shortening direction based mainly on unconditioned male means",
+    "corrected_to": "TARGET_REOPENED_STATURE_METHOD_CONFLICT; no shortening direction frozen",
+    "reason": "Stature-aware studies from multiple populations show that sternum length changes materially with stature and population, and simple regression inversion brackets the a003 value. Meta-analysis also shows only moderate correlation.",
+    "retained_fact": "a003 sternum geometry is still mesh/surface-landmark driven and not freeze-ready."
+  },
+  "sources": [
+    "STERNUM_STATURE_WCHINA_2015",
+    "STERNUM_STATURE_SWHAN",
+    "STERNUM_STATURE_SINDIA_2009",
+    "STERNUM_STATURE_META_2018"
   ]
 }

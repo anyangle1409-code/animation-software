@@ -1,0 +1,13 @@
+.....F...
+======================================================================
+FAIL: test_pooled_correlation_bound_handles_between_group_covariance (scripts.test_anatomical_source_statistics.SourceStatisticsTests.test_pooled_correlation_bound_handles_between_group_covariance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_anatomical_source_statistics.py", line 10, in test_pooled_correlation_bound_handles_between_group_covariance
+    self.assertAlmostEqual(m.two_group_correlation_upper_bound(8,4,(72/7)**.5,(72/7)**.5,0,4,4),8/9)
+AssertionError: 0.44444444444444436 != 0.8888888888888888 within 7 places (0.4444444444444445 difference)
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.003s
+
+FAILED (failures=1)

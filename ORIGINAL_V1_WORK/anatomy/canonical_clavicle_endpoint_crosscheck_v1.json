@@ -13,7 +13,7 @@
     "male_chord_mm": {
       "mean": 152.9,
       "sd": 9.3,
-      "sd_basis": "per-bone (52 bilateral clavicles from 26 men); between-person SD is larger"
+      "sd_basis": "per-bone SD across 52 bilateral clavicles from 26 men; paired observations are not 52 independent people. Between-person dispersion and effective sample size cannot be inferred from this SD alone."
     },
     "population": "52 Chinese patients, 26 male/26 female; bilateral clavicles; mean age 49.8 \u00b118.2 y; no previous clavicle fracture",
     "male_subject_n": 26,
@@ -42,7 +42,8 @@
   "SC_anchor_search": {
     "LI_2012_PMID_22340551": "53 healthy volunteers; abstract confirms bilateral clavicle distance was measured but omits that numeric result and exact endpoints. Full table/figure required; not used to freeze SC breadth.",
     "TUSCANO_2009_PMID_19308406": "104 CT cases; joint-space/head-diameter/anterior-offset variation, not bilateral SC-centre breadth. No SC anchor derived.",
-    "WIJERATNA_2013_PMID_22933016": "CT joint-plane study, 80 patients 25\u201340 y; manubrium/joint-plane orientation is not an SC-centre coordinate."
+    "WIJERATNA_2013_PMID_22933016": "CT joint-plane study, 80 patients 25\u201340 y; manubrium/joint-plane orientation is not an SC-centre coordinate.",
+    "LANGUTH_2024_PMID_38930127": "Primary MRI methods measure AP clavicular diameters and projected angles, not bilateral SC articular-centre breadth. Very low Table 1 interreader ICCs also preclude precision target use; see canonical_clavicle_shape_source_review_v1.json."
   },
   "required_next": "Endpoint-matched independent centre-chord evidence plus stature/context and manubrial articular landmarks; retain SC/AC/GH separation."
 }

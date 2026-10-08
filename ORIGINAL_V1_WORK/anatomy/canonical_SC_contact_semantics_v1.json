@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "status": "PROVISIONAL_CONTACT_GEOMETRY_REQUIREMENTS",
+  "freeze_ready": false,
+  "numerical_target_selected": null,
+  "source_id": "LEE_2014_SC_CONTACT_ANATOMY",
+  "primary_pages": [
+    "Methods e166(2)",
+    "Results e166(3) and e166(5)",
+    "Table I e166(7)"
+  ],
+  "evidence_grade": "B_LOCAL_CONTACT_SEMANTICS_C_NUMERICAL_TARGET",
+  "context_only": {
+    "clavicular_cartilage_coverage_percent": {
+      "mean": 67,
+      "CI95": [
+        59.4,
+        75
+      ],
+      "location": "Anteroinferior medial end, including inferior/underside contact with manubrial and first-rib cartilage. Not uniform coverage of the whole end."
+    },
+    "SC_disc_diameter_mm": {
+      "mean": 18,
+      "CI95": [
+        14.9,
+        21.1
+      ]
+    },
+    "SC_disc_thickness_mm": {
+      "mean": 5.4,
+      "CI95": [
+        4.3,
+        6.4
+      ],
+      "definition": "Reported thickness of tapered, biconcave intra-articular disc; not a uniform neutral joint gap or bone-to-bone spacing."
+    }
+  },
+  "required_distinct_landmarks": [
+    "medial clavicular osseous envelope and its centroid",
+    "clavicular articular cartilage patch and explicitly defined surface centre",
+    "manubrial articular cartilage patch and explicitly defined surface centre",
+    "first costal-cartilage contact",
+    "SC intra-articular disc with two contact interfaces",
+    "kinematic SC reference/instantaneous axis, separately justified"
+  ],
+  "prohibited_shortcuts": [
+    "Substitute whole bone-head centroid for Qiu articular-surface centre.",
+    "Set bilateral SC breadth from clavicular AP diameter.",
+    "Use pooled disc thickness as constant SC gap or add it directly to chord length.",
+    "Convert confidence intervals of a mean into SD/range of individuals.",
+    "Count cartilage/disc as extra anatomical bones.",
+    "Collapse SC, AC and GH references."
+  ],
+  "topology_requirement": "Retain one clavicle per side and existing 206-bone inventory; cartilage/disc/contact helpers are non-bone. SC connects shoulder girdle to manubrium/first-costal-cartilage relationship; separate AC/GH and scapulothoracic relationships persist.",
+  "blockers": [
+    "No paired bilateral SC centre coordinates relative to body centreline or manubrial notch.",
+    "No male/stature-conditioned cartilage-patch envelope, disc neutral deformation or instantaneous-centre mapping.",
+    "Absolute canonical thorax pose and independent matched replication remain required."
+  ],
+  "next_safe_action": "Use digitized articular/contact patches when accessible; solve contact and coordinate-frame constraints before selecting global SC/AC. Keep contact context separate from target selection."
+}

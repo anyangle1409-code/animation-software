@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "status": "REOPENED_SOURCE_STATISTICS_AND_ENDPOINTS",
+  "freeze_ready": false,
+  "numerical_target_selected": null,
+  "scope": "CP1a evidence inputs only; no change to a003 or production geometry, weights, runtime or global shoulder coordinates.",
+  "sources": [
+    "FONTANA_2020_CLAVICLE_SHAPE",
+    "LANGUTH_2024_SC_CLAVICLE_MRI"
+  ],
+  "fontana_review": {
+    "source_id": "FONTANA_2020_CLAVICLE_SHAPE",
+    "locations": [
+      "Methods and Table I; Table III; Figures 5-7; Discussion"
+    ],
+    "endpoint_grade": "B_CONTEXT_C_ENDPOINT_MATCH_PENDING",
+    "CL_mm": {
+      "pooled_mean": 143.7,
+      "pooled_sd": 10.7,
+      "male_mean": 148.4,
+      "male_sd": 9.1,
+      "definition": "CL: axis from lateral-end centre to medial-end centre. Surface-end centres are not explicitly identified as articular-surface centres. Curvature fits use 2D projected contour midlines, not 3D centreline arc length."
+    },
+    "stature_cm": {
+      "pooled_mean": 169,
+      "pooled_sd": 11,
+      "observed_range": [
+        142,
+        192
+      ],
+      "male_mean": 174.1,
+      "male_sd": null
+    },
+    "projected_shape_context": {
+      "lateral_radius_mm": {
+        "mean": 54,
+        "sd": 17.6
+      },
+      "medial_radius_mm": {
+        "mean": 91.2,
+        "sd": 30.1
+      },
+      "conoid_relative_position_from_lateral": {
+        "mean": 0.237,
+        "sd": 0.028
+      },
+      "definition": "Radii fit circles to superior-view contour midline; conoid position is axial distance of inferior/posterior apex from lateral end divided by CL. Not an articular or rotation centre."
+    },
+    "conflicts": [
+      {
+        "parameter": "pooled height-CL Pearson r",
+        "grade": "C",
+        "printed_value": 0.968,
+        "subgroup_r": [
+          0.65,
+          0.679
+        ],
+        "conditional_conservative_upper_bound": 0.6914156164110105,
+        "assumptions": [
+          "All summaries describe the same 350 paired height/CL records partitioned into 102 Japanese and 248 other specimens.",
+          "Overall and Japanese CL means printed to one decimal as 143.7 mm; allow a 0.1 mm difference between those unrounded means.",
+          "Allow between-group height mean difference as large as the full published 50 cm range.",
+          "Allow maximum within-group r=.679 (even .6795 for last-digit rounding leaves upper bound below .692)."
+        ],
+        "derivation": "Pooled covariance = within covariance + n1*n2/N * delta_x*delta_y. Cauchy-Schwarz bounds within covariance by r_max times total scatter. Therefore pooled r <= r_max + [n1*n2/(N*(N-1))]*abs(delta_x*delta_y)/(s_x*s_y). Inferred between-group CL mean difference <= N/n2*0.1 mm.",
+        "decision": "Reject .968 as a regression input until paired raw data or corrected primary statistic resolves the contradiction. Do not replace it with a guessed correlation.",
+        "figure_review": "Author-institution primary PDF Figures 5/6 visually inspected; both show substantial residual scatter. No points digitized and no regression estimated from the figure. Figure 5 regresses height on CL; do not invert the drawn fit to predict CL from height."
+      },
+      {
+        "parameter": "curvature ratio direction",
+        "printed_description": "length to radius",
+        "reported_ratios": [
+          0.38,
+          0.63
+        ],
+        "ratio_of_reported_means_R_over_CL": [
+          0.37578288100208773,
+          0.6346555323590815
+        ],
+        "decision": "Ratios numerically align with R/CL, not CL/R. Treat direction as unresolved wording; never invert them to generate an anatomical curve without endpoint/shape verification."
+      },
+      {
+        "parameter": "conoid position unit",
+        "table_III_unit": "cm",
+        "methods_and_discussion_unit": "mm",
+        "reported_value": 34.1,
+        "decision": "Record mm context with explicit printed-unit conflict; 34.1 cm cannot fit the reported ~144 mm axial bone. No 10x scaling."
+      }
+    ],
+    "limits": [
+      "No male-specific height SD/covariance or usable height-to-CL regression supplied. Do not scale male mean by stature ratio.",
+      "Do not merge surface-end chord with Qiu articular-centre chord or Bernat 3D arc length.",
+      "Two projected fitted radii do not uniquely specify a 3D S-curve, endpoint tangents, twist or SC/AC contacts.",
+      "Institution, sex and ethnicity effects do not constitute independent replication; unique subject provenance needed."
+    ]
+  },
+  "languth_review": {
+    "source_id": "LANGUTH_2024_SC_CLAVICLE_MRI",
+    "grade": "C_PRECISION_TARGET_USE",
+    "locations": [
+      "Methods; Figures 1-8; Tables 1,2,6"
+    ],
+    "male_medial_AP_diameter_mm": {
+      "right_median": 22.21,
+      "left_median": 21.52,
+      "right_IQR": [
+        20.34,
+        24.47
+      ],
+      "left_IQR": [
+        19.4,
+        23.5
+      ]
+    },
+    "interreader_ICC": {
+      "sternal_angle": "<0.001",
+      "clavicular_angle": 0.013,
+      "clavicle_sternum_angle": 0.007,
+      "max_medial_diameter": 0.154,
+      "max_lateral_diameter": 0.034,
+      "max_diameter": 0.105,
+      "min_diameter": "<0.001"
+    },
+    "medial_diameter_reader_bias_mm": {
+      "mean": 2.84,
+      "sd": 2.01
+    },
+    "decision": "No bilateral SC breadth extracted; diameter is ventral-to-dorsal bone envelope, not side-to-side joint spacing. No exact coordinates, contact surfaces or orientation targets selected.",
+    "limits": [
+      "Headline sample size is not the usable count for every measurement.",
+      "Referenced external values in Table 6 are not new independent cohorts measured by this study.",
+      "Large sample size does not repair poor interreader reproducibility.",
+      "Medians/IQR remain separate from means/SD."
+    ]
+  },
+  "qiu_SD_correction": {
+    "source_id": "CLAVICLE_QIU_2016_ARTICULAR_CENTRE_CHORD",
+    "preserved_mean_mm": 152.9,
+    "preserved_sd_mm": 9.3,
+    "corrected_basis": "per-bone SD across 52 bilateral clavicles from 26 men; paired observations are not 52 independent people. Between-person dispersion and effective sample size cannot be inferred from this SD alone.",
+    "reason": "Earlier claim that bilateral per-bone SD understates between-person SD had no basis; paired dependence concerns inference/effective sample size and does not establish a direction of SD change."
+  },
+  "required_next": [
+    "Independent endpoint-matched articular-centre chord with stature context; primary endpoint diagram/raw geometry for Fontana if used.",
+    "SC articular landmarks relative to manubrium and canonical thorax, not surface biacromial breadth or clavicle AP diameter.",
+    "Full scapular/AC/GH contact geometry and neutral global pose before global placement."
+  ],
+  "SC_contact_followup": "canonical_SC_contact_semantics_v1.json"
+}

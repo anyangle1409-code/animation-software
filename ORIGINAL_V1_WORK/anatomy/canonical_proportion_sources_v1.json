@@ -3032,7 +3032,7 @@
         "No stature-conditioned regression; do not promote the mean to final anatomy.",
         "Do not average this centre chord with extremal-point chords or centreline true lengths."
       ],
-      "sd_basis": "per-bone: SD across 52 bilateral clavicles of 26 men, which understates between-person SD"
+      "sd_basis": "per-bone SD across 52 bilateral clavicles from 26 men; paired observations are not 52 independent people. Between-person dispersion and effective sample size cannot be inferred from this SD alone."
     },
     {
       "id": "BAILEY_2016_LUMBAR_WEDGES",
@@ -3183,6 +3183,58 @@
         "Clinical rotation signs/sequence must be resolved separately; this mapping script transforms points only."
       ],
       "evidence_grade": "B_CONTEXT_EXACT_JOINT_CENTRE_MAPPING_OPEN"
+    },
+    {
+      "id": "FONTANA_2020_CLAVICLE_SHAPE",
+      "type": "CT_surface_morphometry",
+      "citation": "Fontana AD et al. The variance of clavicular surface morphology is predictable: an analysis of dependent and independent metadata variables. JSES Int. 2020;4(3):413-421.",
+      "doi": "10.1016/j.jseint.2020.05.004",
+      "pmid": "32939461",
+      "pmcid": "PMC7479165",
+      "population": "350 clavicles: 303 clinical CT specimens from four institutions and 47 US dry specimens; 63% male. Unique subject count and paired dependence not specified.",
+      "measurement_definition": "CL: axis from lateral-end centre to medial-end centre. Surface-end centres are not explicitly identified as articular-surface centres. Curvature fits use 2D projected contour midlines, not 3D centreline arc length.",
+      "male_CL_mm": {
+        "mean": 148.4,
+        "sd": 9.1,
+        "mean_stature_cm": 174.1
+      },
+      "use": [
+        "endpoint-qualified length context",
+        "projected curvature and conoid attachment context"
+      ],
+      "limitation": "Printed pooled height/CL r=.968 conflicts with same-population subgroup summaries; quarantined. No inverse regression, 1.82 m prediction or global joint coordinates inferred.",
+      "audit": "canonical_clavicle_shape_source_review_v1.json"
+    },
+    {
+      "id": "LANGUTH_2024_SC_CLAVICLE_MRI",
+      "type": "whole_body_MRI_morphometry",
+      "citation": "Languth TM et al. Normative Values for Sternoclavicular Joint and Clavicle Anatomy Based on MR Imaging: A Comprehensive Analysis of 1591 Healthy Participants. J Clin Med. 2024;13(12):3598.",
+      "doi": "10.3390/jcm13123598",
+      "pmid": "38930127",
+      "pmcid": "PMC11205057",
+      "population": "SHIP population-based MRI; headline shoulder-healthy n=1591; usable n varies by parameter.",
+      "measurement_definition": "Maximal medial/lateral ventral-to-dorsal diameters perpendicular to the projected clavicular axis; projected SC surface and sternal/clavicular angles. Does not report bilateral SC articular-centre breadth.",
+      "use": [
+        "limited contextual envelope evidence; exact geometry not selected"
+      ],
+      "limitation": "Table 1 interreader ICCs <.001 to .154. MRI slice thickness 3 mm; diameters/angles cannot set precision bone-contact or global SC coordinates. Table 6 values are medians/IQR, not means/SD.",
+      "audit": "canonical_clavicle_shape_source_review_v1.json"
+    },
+    {
+      "id": "LEE_2014_SC_CONTACT_ANATOMY",
+      "type": "3D_coordinate_cadaver_dissection",
+      "citation": "Lee JT et al. Surgical Anatomy of the Sternoclavicular Joint: A Qualitative and Quantitative Anatomical Study. J Bone Joint Surg Am. 2014;96(19):e166.",
+      "doi": "10.2106/JBJS.M.01451",
+      "pmid": "25274794",
+      "primary_url": "https://drmillett.com/wp-content/uploads/2018/04/surgical-anatomy-sternoclavicular-joint.pdf",
+      "population": "11 nonpaired fresh-frozen SC joints, 4 men/7 women, age 33-64; 6 right/5 left; radiographic exclusion of OA/osseous abnormalities.",
+      "measurement_definition": "Digitized cartilage boundaries and ligament/muscle footprints relative to superior anterior/posterior and inferior manubrial articular margins, inferomedial clavicular cartilage and pectoralis ridge. Anatomical average of border points is a footprint reference, not instantaneous joint rotation centre.",
+      "use": [
+        "SC articular/disc/osseous landmark separation",
+        "SC contact topology and regional geometry context"
+      ],
+      "limitation": "Small mixed-sex unpaired cohort; no stature-conditioned bilateral SC-centre breadth or canonical neutral pose; quantitative means and 95% confidence intervals remain context.",
+      "audit": "canonical_SC_contact_semantics_v1.json"
     }
   ],
   "unresolved_source_needs": [

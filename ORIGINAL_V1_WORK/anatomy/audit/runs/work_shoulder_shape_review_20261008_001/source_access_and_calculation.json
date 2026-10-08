@@ -1,0 +1,42 @@
+{
+  "source_access_date": "2026-10-08",
+  "primary_documents": [
+    {
+      "label": "Fontana primary XML",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7479165/fullTextXML",
+      "bytes": 78467,
+      "sha256": "68940b0b15b7c2ca9f7e8188cf9928c1fe5cfbc8ea502233ed656b4489148763"
+    },
+    {
+      "label": "Fontana author PDF",
+      "url": "https://ortho-trauma-innsbruck.tirol-kliniken.at/data.cfm?vpath=ma-wartbare-inhalte%2Fpublikationen%2Fthe-variance-of-clavicular-surface",
+      "bytes": 2977306,
+      "sha256": "06c5bfba06040577ad10d181e65e12e27d820aa0c6985b0ff94ade3d37503744"
+    },
+    {
+      "label": "Languth primary XML",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11205057/fullTextXML",
+      "bytes": 142796,
+      "sha256": "35e197fa77394774030dd44ebc23c9332167ad0b6ff4b79a02cf470c9e052a5a"
+    },
+    {
+      "label": "Lee2014 author-hosted primary PDF",
+      "url": "https://drmillett.com/wp-content/uploads/2018/04/surgical-anatomy-sternoclavicular-joint.pdf",
+      "bytes": 1370169,
+      "sha256": "4840864223103bda4d21fee2ce4d7e10bd408862a00a8774ffb1c512e76ee1dd"
+    }
+  ],
+  "full_text_storage": "Primary full text downloaded for inspection in scratch; not redistributed in repository. DOI/PMCID and hashes retained for provenance.",
+  "result": {
+    "pooled_r_upper_bound": 0.6914156164110105,
+    "printed_r": 0.968,
+    "freeze_ready": false
+  },
+  "access_failures": [
+    {
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7609512/fullTextXML",
+      "HTTP": 500,
+      "effect": "No new assertion from inaccessible full text; existing source record preserved."
+    }
+  ]
+}

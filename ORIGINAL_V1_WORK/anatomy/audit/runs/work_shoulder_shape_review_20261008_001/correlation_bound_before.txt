@@ -1,0 +1,41 @@
+EE.E.E...
+======================================================================
+ERROR: test_bound_contains_correlations_of_independent_synthetic_samples (scripts.test_anatomical_source_statistics.SourceStatisticsTests.test_bound_contains_correlations_of_independent_synthetic_samples)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_anatomical_source_statistics.py", line 28, in test_bound_contains_correlations_of_independent_synthetic_samples
+    bound=m.two_group_correlation_upper_bound(7,3,total[2],total[3],max(0,a[4],b[4]),abs(a[0]-b[0]),abs(a[1]-b[1]))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'stats' has no attribute 'two_group_correlation_upper_bound'
+
+======================================================================
+ERROR: test_bound_rejects_undefined_or_nonfinite_summaries (scripts.test_anatomical_source_statistics.SourceStatisticsTests.test_bound_rejects_undefined_or_nonfinite_summaries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_anatomical_source_statistics.py", line 32, in test_bound_rejects_undefined_or_nonfinite_summaries
+    with self.assertRaises(ValueError):m.two_group_correlation_upper_bound(*args)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'stats' has no attribute 'two_group_correlation_upper_bound'
+
+======================================================================
+ERROR: test_fontana_reported_summaries_cannot_support_printed_pooled_r (scripts.test_anatomical_source_statistics.SourceStatisticsTests.test_fontana_reported_summaries_cannot_support_printed_pooled_r)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_anatomical_source_statistics.py", line 16, in test_fontana_reported_summaries_cannot_support_printed_pooled_r
+    limit=m.two_group_correlation_upper_bound(350,102,10.7,11,.679,350/248*.1,50)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'stats' has no attribute 'two_group_correlation_upper_bound'
+
+======================================================================
+ERROR: test_pooled_correlation_bound_handles_between_group_covariance (scripts.test_anatomical_source_statistics.SourceStatisticsTests.test_pooled_correlation_bound_handles_between_group_covariance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/fa618947168c/animation-software/scripts/test_anatomical_source_statistics.py", line 10, in test_pooled_correlation_bound_handles_between_group_covariance
+    self.assertAlmostEqual(m.two_group_correlation_upper_bound(8,4,(72/7)**.5,(72/7)**.5,0,4,4),8/9)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'stats' has no attribute 'two_group_correlation_upper_bound'
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.003s
+
+FAILED (errors=4)

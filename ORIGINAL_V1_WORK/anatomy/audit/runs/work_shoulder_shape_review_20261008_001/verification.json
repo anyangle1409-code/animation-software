@@ -1,0 +1,19 @@
+{
+  "scope": "source statistics/context only",
+  "tests": {
+    "focused": 21,
+    "python313_statistics": 9,
+    "full": 800,
+    "full_failures": 5,
+    "full_errors": 4,
+    "same_failure_names_as_baseline": true
+  },
+  "anatomy_acceptance": false,
+  "freeze_ready": false,
+  "sha256": {
+    "scripts/anatomy_fit/source_statistics.py": "2ae48e211cc26863878ad5874a44ba7739a8f5ea244dcb5a410d80a1b168a1f7",
+    "scripts/test_anatomical_source_statistics.py": "b5f2967ffd09393205dafc74c11456f809e8f3841706e73b0f11d5d174c0f12a",
+    "ORIGINAL_V1_WORK/anatomy/canonical_clavicle_shape_source_review_v1.json": "1fc110e64f9f2607907776fbffe392aac9f55b5803524b8fd35c63e9115d3d34",
+    "ORIGINAL_V1_WORK/anatomy/canonical_SC_contact_semantics_v1.json": "0a6f79ba58d2746e28be88453a2570fb35d4c60889d647ce7b523eddd323aad8"
+  }
+}

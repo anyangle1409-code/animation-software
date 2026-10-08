@@ -24,9 +24,15 @@
         "stature-aware final clavicle endpoint/centreline selection",
         "landmark-compatible 3D scapular envelope and AC/acromion/coracoid placement",
         "absolute SC/AC/GH centres, neutral thorax pose and independent endpoint-matched confirmation remain open",
-        "Standing-alignment SC/AC surface landmarks are not articular centres; match source length endpoints and map the IJ/C7/PX/T8 thorax frame before using the historical relative vector or sweep."
+        "Standing-alignment SC/AC surface landmarks are not articular centres; match source length endpoints and map the IJ/C7/PX/T8 thorax frame before using the historical relative vector or sweep.",
+        "Fontana pooled stature correlation is quarantined; surface-end vs articular-centre chord mapping and male covariance remain unresolved. SC bone-head, cartilage-patch and kinematic centres must be distinguished; new MRI diameters do not supply bilateral SC-centre breadth."
       ],
-      "next_action": "Resolve source endpoint mappings and neutral thorax pose before selecting absolute SC/AC/GH centres; measured relative envelope is provisional."
+      "next_action": "Resolve source endpoint mappings and neutral thorax pose before selecting absolute SC/AC/GH centres; measured relative envelope is provisional.",
+      "source_review_2026_10_08": {
+        "clavicle_shape": "canonical_clavicle_shape_source_review_v1.json",
+        "SC_contacts": "canonical_SC_contact_semantics_v1.json",
+        "status": "PROVISIONAL; no numerical target selected"
+      }
     },
     "spine": {
       "readiness": "PARTIAL",

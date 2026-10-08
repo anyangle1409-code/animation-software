@@ -87,3 +87,14 @@ On the owner's laptop (SimTK and publisher sites reachable there), obtain either
 - the full text of Li 2012 (PMID 22340551), for the bilateral clavicle distance and its exact endpoints.
 
 Record the source, endpoints, population and stature context before any CP1a use. See `docs/CLAUDE_INDEPENDENT_REVIEW_20261008.md` (SC-anchor search) for what is already excluded.
+
+Also on the laptop, these are population datasets for the BLOCKED regions; none is reachable from the cloud session:
+- **Carpus:** the Open Source Carpal Database (Brown/Crisco; 90 subjects, 120 wrists, CT bone surfaces plus kinematics), https://simtk.org/projects/carpal-database.
+- **Tarsus:** Zenodo record 3464747 (MRI-derived meshes of the talus, calcaneus, navicular, cuboid, cuneiforms and first metatarsal).
+- **Ribs:** RibSeg v2 rib centrelines (660 CTs); code at github.com/M3DV/RibSeg, data linked from there.
+
+**Source rechecks:**
+- the ZHANG_2018 talus length/width definitions (PMC6057431);
+- the Canovas 2004 "capitate axis" normaliser.
+
+Both are explained in the review doc's open-data section.

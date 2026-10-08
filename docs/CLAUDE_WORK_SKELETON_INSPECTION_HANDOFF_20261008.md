@@ -95,6 +95,6 @@ Also on the laptop, these are population datasets for the BLOCKED regions; none 
 
 **Source rechecks:**
 - the ZHANG_2018 talus length/width definitions (PMC6057431);
-- the Canovas 2004 "capitate axis" normaliser.
+- the Canovas 2004 "capitate axis" normaliser. **Resolved 8 October:** it is the capitate's first principal axis of inertia, and the review has the details.
 
 Both are explained in the review doc's open-data section.

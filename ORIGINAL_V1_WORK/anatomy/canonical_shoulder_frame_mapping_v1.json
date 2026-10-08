@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-08",
+  "purpose": "Map neutral-standing shoulder-girdle orientation evidence into the established HGPT world basis without freezing absolute shoulder coordinates.",
+  "status": "RELATIVE_FRAME_MAPPING_READY_ABSOLUTE_COORDINATES_NOT_FROZEN",
+  "hgpt_basis": {
+    "up": "+Z",
+    "anterior": "-Y",
+    "posterior": "+Y",
+    "anatomical_left": "+X",
+    "anatomical_right": "-X",
+    "provenance": "r95 geometry facing/chirality audit (F-SIDE-001)"
+  },
+  "source_neutral_orientation": {
+    "clavicle_elevation_deg": {
+      "mean": 7,
+      "sd": 4
+    },
+    "clavicle_retraction_deg": {
+      "mean": 23,
+      "sd": 5
+    },
+    "scapula_upward_rotation_deg": {
+      "mean": 10,
+      "sd": 5
+    },
+    "scapula_anterior_tilt_deg": {
+      "mean": 8,
+      "sd": 5
+    },
+    "scapula_internal_rotation_deg": {
+      "mean": 30,
+      "sd": 6
+    },
+    "source": "SHOULDER_STANDING_ALIGNMENT_2020"
+  },
+  "clavicle_endpoint_length_for_relative_vector_mm": {
+    "value": 154.8,
+    "source": "CLAVICLE_LENGTH_CT_SYMMETRY_2018",
+    "note": "Used only to demonstrate an internally consistent mean neutral vector; final target may select another endpoint value inside the evidence corridor."
+  },
+  "mean_SC_to_AC_relative_vector_mm": {
+    "left": [
+      141.43202151854143,
+      60.03433134023574,
+      18.86537435911683
+    ],
+    "right": [
+      -141.43202151854143,
+      60.03433134023574,
+      18.86537435911683
+    ],
+    "derivation": "L*cos(elevation)*cos(retraction) lateral; L*cos(elevation)*sin(retraction) posterior; L*sin(elevation) superior",
+    "magnitude_mm": 154.8
+  },
+  "sign_interpretation": {
+    "retraction": "positive posterior (+Y) displacement of AC relative to SC in neutral standing",
+    "elevation": "positive superior (+Z) displacement of AC relative to SC",
+    "side_mirror": "mediolateral component changes sign only"
+  },
+  "scapular_orientation_policy": {
+    "representation": "store anatomical rotations in the scapular/thorax joint frame; do not encode them as raw Blender XYZ Euler angles",
+    "source_neutral_semantics": {
+      "upward_rotation_deg": 10,
+      "anterior_tilt_deg": 8,
+      "internal_rotation_deg": 30
+    },
+    "requirement": "Use the existing ISB/scapular landmark frame (AA/TS/AI) to transform these semantic rotations into HGPT world matrices after the new scapular local frame is constructed."
+  },
+  "hard_checks": [
+    "left/right clavicle relative vectors mirror only in mediolateral sign",
+    "retraction moves both AC points posteriorly (+Y)",
+    "elevation moves both AC points superiorly (+Z)",
+    "relative-vector magnitude equals the selected straight SC-to-AC endpoint length",
+    "scapular semantic rotations are never copied directly into Blender Euler channels without frame transformation"
+  ]
+}

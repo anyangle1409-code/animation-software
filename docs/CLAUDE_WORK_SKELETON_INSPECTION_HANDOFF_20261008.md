@@ -79,3 +79,11 @@ Latest contact check: canonical_endplate_clearance_sensitivity_v1.json is a synt
 Latest hyoid review: check primary Abdelkader2025 Table 1/Figure 1 for the corrected BB-prime minor-axis versus CC-prime AP-thickness mapping. Previously `body_AP_length=11.32` was wrong; corrected local X/Y/Z extents are 24.3/6.99/11.32 mm. Body tilt and whole-bone coordinates remain unresolved. Run scripts/test_canonical_hyoid_geometry.py; limited bpy dimension fixture and retained pre-fix failure are in audit/runs/work_hyoid_axis_review_20261008_001/. Current spec/readiness/selection descriptions were reconciled with already-existing provisional work, without promoting any gate or hyoid evidence grade.
 
 Latest gate hardening: inspect retained pre-fix failures and synthetic freeze-fixture mutations in audit/runs/work_target_gate_mutations_20261008_001/. Missing/unknown grades and nonboolean gate flags now reject; malformed shoulder comparisons report failure. 129 focused tests pass. New full suite: 740 tests with the same five failures/four errors by name as the old 685-test checkpoint, with traces and comparison retained. Li2012 linked primary full text returns HTTP402; exact bilateral SC anchor remains unavailable. All anatomical freeze/contact dependencies remain open.
+
+## Laptop task (owner request, 8 October): SC anchor for CP1a
+
+On the owner's laptop (SimTK and publisher sites reachable there), obtain either:
+- the MoBL-ARMS (Saul 2015; https://simtk.org/home/upexdyn) or Seth thoracoscapular (https://simtk.org/home/scapulothoracic) `.osim` files and read the sternoclavicular joint locations in the thorax frame; or
+- the full text of Li 2012 (PMID 22340551), for the bilateral clavicle distance and its exact endpoints.
+
+Record the source, endpoints, population and stature context before any CP1a use. See `docs/CLAUDE_INDEPENDENT_REVIEW_20261008.md` (SC-anchor search) for what is already excluded.

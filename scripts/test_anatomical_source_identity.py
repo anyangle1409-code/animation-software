@@ -15,6 +15,18 @@ class SourceIdentityTests(unittest.TestCase):
  def test_duplicate_ids_and_bad_identifiers_rejected(self):
   for rows in [[{'id':'a'},{'id':'a'}],[{'id':'a','pmid':'NaN'}],[{'id':'a','doi':'anatomy'}]]:
    with self.assertRaises(ValueError):m.identity_groups(rows)
+ def test_pmcid_alias_is_one_source(self):
+  rows=[{'id':'a','pmcid':'PMC4799308'},{'id':'b','pmcid':'pmc4799308 '},{'id':'c','pmcid':'PMC1'}]
+  self.assertEqual(m.identity_groups(rows),[['a','b'],['c']])
+  for bad in ['4799308','PMC','PMC12x',4799308]:
+   with self.assertRaises(ValueError):m.identity_groups([{'id':'a','pmcid':bad}])
+ def test_register_metatarsal_duplicate_is_grouped(self):
+  import json
+  root=Path(__file__).resolve().parents[1]/'ORIGINAL_V1_WORK/anatomy'
+  review=json.loads((root/'canonical_source_identity_review_v1.json').read_text())
+  self.assertIn(['BARRÔCO_2011_332_NORMAL_FEET','METATARSAL_RELATIONSHIPS_332_NORMAL_FEET'],review['aliases'])
+  self.assertEqual(len(review['aliases']),5)
+  self.assertEqual(len(review['missing_identifier_records']),11)
  def test_clavicle_misattribution_corrected_and_shared_identity_retained(self):
   import json
   root=Path(__file__).resolve().parents[1]/'ORIGINAL_V1_WORK/anatomy'

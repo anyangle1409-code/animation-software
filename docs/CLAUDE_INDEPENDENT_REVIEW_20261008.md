@@ -114,3 +114,9 @@ The record is `audit/runs/claude_cp3_rehearsal_001/`. GPT's `build_armature` and
 **Findings:**
 1. **74 bones have an undefined roll.** Horizontal-bone frames put X along the bone, so `align_roll` has a parallel target. The movement tests are unaffected, but a defined convention is needed before CP3 and CP9.
 2. My own checker's float tolerance was too strict for Blender's single precision. That is fixed, and the mutation test still catches a 1e-3 frame skew.
+
+## Owner-approved fixes to GPT files (8 October)
+
+- **`scripts/anatomy_fit/source_identity.py`** now groups by PMCID too, normalised to `PMC` plus digits; a malformed PMCID raises an error. The regenerated `canonical_source_identity_review_v1.json` has **5 alias groups** (Barrôco 2011 added) and **11** identifier-less records, down from 36. There are new tests for PMCID aliasing and malformed values. The handoff's "four groups" note is updated.
+- **`canonical_target_selection_v1.json`**: `direct_ansur_report_builder` now names `scripts/test_forearm_direct_report_provenance.py`, with a note explaining that the direct report has no generator. No target value changed, `freeze_ready` is still false, and the selection validator passes.
+- **Still open for GPT:** report the Qiu clavicle SD as per-bone. That is a wording change in GPT's evidence and is left to GPT.

@@ -30,14 +30,19 @@
         "acromion/coracoid/glenoid local geometry"
       ],
       "blockers": [
-        "exact stature-aware SC-to-AC/centreline target not frozen"
+        "bilateral SC/manubrial landmark constraint or equivalent thorax-based SC placement",
+        "absolute AC coordinates from a verified clavicle + scapular solve",
+        "scapular 3D local frame and superior-inferior target"
       ],
       "hard_invariants": [
         "SC-to-AC straight endpoint span < clavicle curved centreline length",
+        "bilateral AC breadth < bilateral lateral-acromion breadth",
         "AC and GH never collapse to one centre",
-        "scapular GH-to-inferior-angle span is validated against a 3D scapular height/width/glenoid envelope, not height alone"
+        "scapular AA/TS/AI form a nondegenerate 3D frame",
+        "scapular GH-to-inferior-angle span is validated against landmark-compatible 3D geometry, not height alone"
       ],
-      "note": "Clavicle proportion defect is directly confirmed. Scapular geometry is strongly reopened, but the exact shortening is not frozen because GH-to-inferior-angle is an oblique 3D span."
+      "note": "Clavicle and a003 transverse scapular geometry defects are confirmed. Exact absolute SC/AC/scapular coordinates remain open. The earlier direct 34±8 mm lateral-acromion→AC claim was withdrawn after source recheck; a003 SC/AC/AA/TS/AI generator provenance also confirms those points are mesh/hard-code diagnostic constructs, not canonical evidence.",
+      "provenance_audit": "ORIGINAL_V1_WORK/anatomy/a003_shoulder_landmark_provenance_audit_v1.json"
     },
     "spine": {
       "status": "RED_REBUILD",
@@ -76,8 +81,14 @@
       "hard_invariants": [
         "ribs 1-10 have distinct head/tubercle geometry",
         "ribs 11-12 have no costotransverse joint",
-        "curve data are reference geometry, not extra bones"
-      ]
+        "curve data are reference geometry, not extra bones",
+        "sternum remains one conventional adult bone; manubrium/body landmarks and costal/SC contacts do not create extra bones"
+      ],
+      "sternum": {
+        "status": "C_REOPEN_STATURE_METHOD_CONFLICT",
+        "evidence": "ORIGINAL_V1_WORK/anatomy/canonical_sternum_geometry_audit_v1.json",
+        "rule": "Rebuild jugular notch, clavicular notches/SC contacts, sternal angle, costal levels and xiphisternal junction without preselecting shortening or lengthening."
+      }
     },
     "forearm": {
       "status": "AMBER_RETARGET",

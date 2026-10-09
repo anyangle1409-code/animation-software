@@ -45,6 +45,15 @@ python3 scripts/anatomy_fit/coupled_shoulder_contact_audit.py \
 
 All generated records remain in temporary files and are create-only. The CI workflow performs these steps independently and does not modify Claude's saved branch. This draft has no production modifications.
 
+
+## Additional neutral-pose arm/thigh diagnostic
+
+The same rigid shoulder-chain displacement can change **distal forearm/hand proximity to the femur controls** even when SC/AC/GH reference vectors are unchanged.
+
+`neutral_arm_thigh_clearance.py` independently computes minimum 3D separation between each forearm/selected metacarpal/finger control segment and **each** thigh/femur control segment, before and after P005. It reports the nearest pair, the largest reduction and a 10-mm **engineering review trigger**. It cannot determine anatomical tissue penetration or dynamic exercise clearance. Even if P005 passes the neutral pose report, previous whole-body dynamic sweeps show hand–femur near-contacts and will still need re-testing in source-appropriate movement start poses.
+
+`test_neutral_arm_thigh_clearance.py` includes synthetic segment intersections, skew and parallel lines, point/segment degeneracies, mutation tests and real c004/P005 comparisons. Its numerical report and mandatory no-canonical-acceptance flags are preserved in GitHub CI output.
+
 ## Major gaps still blocking actual anatomical work
 
 1. P005 is founded on P003's still-rejected curve and P004's unsourced sternum shift. Source-compatible pelvis/S1 sagittal geometry, standing thorax tilt, SC/AC/GH height and per-level thoracic wedging remain unproven.

@@ -83,16 +83,29 @@ def inspect_png(blob):
     }
 
 
-def probe_file(path,expected_name=None):
+def _check_expected_digest(result,expected_sha256):
+    if expected_sha256 is None:
+        return False
+    if (not isinstance(expected_sha256,str) or len(expected_sha256)!=64 or
+            any(k not in '0123456789abcdef' for k in expected_sha256)):
+        raise ValueError('invalid expected SHA-256 digest')
+    if result['source_sha256']!=expected_sha256:
+        raise ValueError('source PNG no longer matches pinned SHA-256')
+    return True
+
+
+def probe_file(path,expected_name=None,expected_sha256=None):
     p=Path(path)
     if p.stat().st_size>MAX_BYTES:
         raise ValueError("oversized preview source image")
     if expected_name is not None and p.name!=expected_name:
         raise ValueError("preview file identity mismatch")
-    return inspect_png(p.read_bytes())
+    result=inspect_png(p.read_bytes())
+    result['source_sha256_matches_independently_pinned_digest']=_check_expected_digest(result,expected_sha256)
+    return result
 
 
-def download_allowlisted(name,destination):
+def download_allowlisted(name,destination,expected_sha256=None):
     if name not in ALLOWED:
         raise ValueError("not a pinned NLM preview slice identifier")
     dst=Path(destination)
@@ -109,6 +122,7 @@ def download_allowlisted(name,destination):
             raise ValueError("original NLM CT file unavailable")
         data=response.read(MAX_BYTES+1)
     result=inspect_png(data)
+    result['source_sha256_matches_independently_pinned_digest']=_check_expected_digest(result,expected_sha256)
     if result["image_header"]["width_pixels"]!=512 or result["image_header"]["height_pixels"]!=512:
         raise ValueError("PNG frame is not the original 512x512 CT frame")
     with dst.open("xb") as f:
@@ -123,15 +137,16 @@ def main():
     p.add_argument("--file",type=Path)
     p.add_argument("--download",choices=ALLOWED)
     p.add_argument("--temporary-out",type=Path)
+    p.add_argument("--expected-sha256")
     a=p.parse_args()
     if bool(a.file)==bool(a.download):
         p.error("choose exactly --file or --download")
     if a.download:
         if not a.temporary_out:
             p.error("--download requires create-only --temporary-out path")
-        result=download_allowlisted(a.download,a.temporary_out)
+        result=download_allowlisted(a.download,a.temporary_out,a.expected_sha256)
     else:
-        result=probe_file(a.file)
+        result=probe_file(a.file,expected_sha256=a.expected_sha256)
     print(json.dumps(result,indent=2))
 
 

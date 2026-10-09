@@ -1,0 +1,158 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "label": "c003",
+ "status": "MECHANICAL_SCAN_NO_GEOMETRY_CHANGE",
+ "criterion": "unconnected bone axes closer than 1 mm => interpenetration (conservative mechanical bound); near approaches < 3 mm listed, not graded; no clearance claim",
+ "stride": 2,
+ "inputs_sha256": {
+  "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/candidate_record.json": "3eb4fa1e2f7d815ec664af93fc4ece89db87a36a5201452447b161fbdcc46f3a",
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c003_shoulder_thorax_001/isolated_samples.json": "55cf039cefa8269131e482be7b51cd5bd3a42ad5fe26ea5377dd13f8f4334f01"
+ },
+ "bones": 206,
+ "eligible_pairs": 20747,
+ "connected_pairs_excluded": 368,
+ "static_unconnected_axis_contacts": [
+  {
+   "bones": [
+    "mandible",
+    "vomer"
+   ],
+   "axis_distance_mm": 0.09,
+   "classification": "REPRESENTATION_ARTEFACT",
+   "reason": "chord from the condylar midpoint (a midline point between the TMJs, not on bone) to the mental region; passes through oral/pharyngeal space, so the axis-inside-bone premise of the bound does not hold"
+  }
+ ],
+ "dynamic_new_crossings": [
+  {
+   "test": "hip_abduction_adduction_left",
+   "bones": [
+    "tibia_left",
+    "tibia_right"
+   ],
+   "frame": 112,
+   "axis_distance_mm": 0.568,
+   "rest_axis_distance_mm": 180.838
+  },
+  {
+   "test": "hip_abduction_adduction_right",
+   "bones": [
+    "tibia_left",
+    "tibia_right"
+   ],
+   "frame": 2927,
+   "axis_distance_mm": 0.568,
+   "rest_axis_distance_mm": 180.838
+  }
+ ],
+ "dynamic_tests": [
+  "hip_abduction_adduction_left",
+  "hip_abduction_adduction_right"
+ ],
+ "near_approaches_below_3mm_info_only": [
+  {
+   "test": "hip_abduction_adduction_left",
+   "bones": [
+    "fibula_left",
+    "fibula_right"
+   ],
+   "min_mm": 1.164
+  },
+  {
+   "test": "hip_abduction_adduction_right",
+   "bones": [
+    "fibula_left",
+    "fibula_right"
+   ],
+   "min_mm": 1.164
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_right",
+   "bones": [
+    "hallux_proximal_phalanx_right",
+    "metatarsal_1_left"
+   ],
+   "min_mm": 1.405
+  },
+  {
+   "test": "forearm_rotation_at_elbow_0_left",
+   "bones": [
+    "femur_left",
+    "thumb_proximal_phalanx_left"
+   ],
+   "min_mm": 1.495
+  },
+  {
+   "test": "forearm_rotation_at_elbow_0_right",
+   "bones": [
+    "femur_right",
+    "thumb_proximal_phalanx_right"
+   ],
+   "min_mm": 1.495
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_left",
+   "bones": [
+    "hallux_proximal_phalanx_left",
+    "metatarsal_1_right"
+   ],
+   "min_mm": 1.737
+  },
+  {
+   "test": "forearm_rotation_at_elbow_0_left",
+   "bones": [
+    "femur_left",
+    "thumb_distal_phalanx_left"
+   ],
+   "min_mm": 2.087
+  },
+  {
+   "test": "forearm_rotation_at_elbow_0_right",
+   "bones": [
+    "femur_right",
+    "thumb_distal_phalanx_right"
+   ],
+   "min_mm": 2.087
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_right",
+   "bones": [
+    "hallux_distal_phalanx_right",
+    "metatarsal_1_left"
+   ],
+   "min_mm": 2.422
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_right",
+   "bones": [
+    "hallux_distal_phalanx_right",
+    "metatarsal_2_left"
+   ],
+   "min_mm": 2.448
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_right",
+   "bones": [
+    "hallux_distal_phalanx_right",
+    "hallux_proximal_phalanx_left"
+   ],
+   "min_mm": 2.627
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_left",
+   "bones": [
+    "hallux_distal_phalanx_left",
+    "hallux_proximal_phalanx_right"
+   ],
+   "min_mm": 2.702
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_left",
+   "bones": [
+    "hallux_distal_phalanx_left",
+    "metatarsal_2_right"
+   ],
+   "min_mm": 2.968
+  }
+ ]
+}

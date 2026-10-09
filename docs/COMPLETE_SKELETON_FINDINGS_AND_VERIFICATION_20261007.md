@@ -1049,3 +1049,13 @@ Full proximal curves remain BLOCKED pending verified intended conventions or an 
   - The rest asymmetry is an a003 mesh-fit inheritance confined to toe phalanges (≤ 0.38 mm) and ribs (≤ 0.04 mm). The worst bone is the distal phalanx of the big toe (the 5th toe in the subtalar test).
   - a003 and c003 are identical apart from float noise.
 - **Tests:** `scripts/test_mirror_parity_scan.py` (4). Mutations inject a 0.5° asymmetry into the patella follower and a 0.2° asymmetry into a commanded elbow bone; both must FAIL and not be excused as rest asymmetry.
+
+### All-pairs unconnected bone-axis crossing scan (9 October, Claude; mechanical, no clearance claims)
+
+- **What:** `scripts/anatomy_fit/all_pairs_crossing_scan.py` extends the earlier scan, which examined only the 6 nearest bones and excluded only parent/child pairs, to **all 20,747 unconnected pairs**. Connected pairs (368, sharing an articulation or parent/child) are excluded. It runs on all 135 sweeps of a003 and c003 with the documented 1 mm axis bound; near approaches under 3 mm are listed only.
+- **Dynamic (identical on both):** the only crossings are **tibia_left × tibia_right** in hip abduction/adduction, the known unsourced 20° TEST AMPLITUDE defect (still unresolved). The earlier nearest-6 shortcut hid nothing.
+- **Static (newly surfaced; identical on both):** the mandible and vomer axes cross at rest (0.09 mm).
+  - Classified **REPRESENTATION_ARTEFACT**: the mandible stick is a chord from the condylar midpoint (a midline point between the TMJs, not on bone) to the mental region, passing through oral/pharyngeal space. The bound's premise, that the axis lies inside the bone, does not hold for chord sticks of U-shaped or curved bones (mandible, ribs).
+  - No other unconnected pair touches at rest.
+- **Evidence:** `audit/all_pairs_crossing_scan/{a003_isolated_014,c003_isolated_001}.json`.
+- **Tests:** `scripts/test_all_pairs_crossing_scan.py` (3), including mutations: an injected static contact (phalanx tail on the femur) and an injected dynamic crossing (tibia shifted onto the opposite tibia) must both be detected.

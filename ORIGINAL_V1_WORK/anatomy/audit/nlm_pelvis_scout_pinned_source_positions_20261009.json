@@ -1,0 +1,235 @@
+{
+  "schema_version": 1,
+  "kind": "PINNED_NLM_CT_SCOUT_SOURCE_MANIFEST",
+  "status": "SCANNER_REGISTERED_SOURCE_ONLY_NOT_BONE_SEGMENTED",
+  "source_custodian": "US National Library of Medicine",
+  "independent_ci_run_url": "https://github.com/anyangle1409-code/animation-software/actions/runs/37929286672",
+  "source_position_frame": "GE RAS mm, not HGPT canonical world",
+  "source_original_pixels_committed": false,
+  "header_patient_metadata_exported": false,
+  "all_examined_scans_thickness_mm": 3,
+  "all_examined_scans_pixel_spacing_mm": [
+    0.898438,
+    0.898438
+  ],
+  "global_uniform_CT_stack_claimed": false,
+  "anatomical_pelvic_slice_confirmed": false,
+  "actual_bony_ASIS_S1_pubic_femur_landmarks_extracted": false,
+  "Hounsfield_calibration_verified": false,
+  "source_cohort_n": 1,
+  "population_reference_sufficient": false,
+  "canonical_promotion_allowed": false,
+  "slices": [
+    {
+      "id": 1300,
+      "source_png_name": "cvm1300f.png",
+      "source_png_sha256": "818c0f125ff53b43bfc00057d11a826fd95eb89e27cf500501ded491ae77d642",
+      "source_header_sha256": "0b5bb74352c8f2cb23a4fa1ceb54cc20fd2be2b63fb6044542e73a00892d7789",
+      "scanner_superior_mm": 102,
+      "pixel_spacing_mm": [
+        0.898438,
+        0.898438
+      ],
+      "thickness_mm": 3,
+      "stored_pixel_minmax": [
+        0,
+        2401
+      ],
+      "anatomical_region_evidence": "ANATOMICAL_REGION_UNVERIFIED"
+    },
+    {
+      "id": 1399,
+      "source_png_name": "cvm1399f.png",
+      "source_png_sha256": "d739367f827caa7638070605efb9b46a0dd765e94570a4f942740558a50bc802",
+      "source_header_sha256": "8296b0fb8919ae163ae11320b12331c5c212014ecd0de16960907b842716dc5a",
+      "scanner_superior_mm": 3,
+      "pixel_spacing_mm": [
+        0.898438,
+        0.898438
+      ],
+      "thickness_mm": 3,
+      "stored_pixel_minmax": [
+        0,
+        2519
+      ],
+      "anatomical_region_evidence": "ANATOMICAL_REGION_UNVERIFIED"
+    },
+    {
+      "id": 1451,
+      "source_png_name": "cvm1451f.png",
+      "source_png_sha256": "3805a195f1e0277fc1a2b719701e8be1b33633639df052b11b055ed46050ccc9",
+      "source_header_sha256": "c27ed72ecdcc7154e780a7d6e1c95178443357fdd6773de63ec5c9f7b635268f",
+      "scanner_superior_mm": -54,
+      "pixel_spacing_mm": [
+        0.898438,
+        0.898438
+      ],
+      "thickness_mm": 3,
+      "stored_pixel_minmax": [
+        0,
+        2627
+      ],
+      "anatomical_region_evidence": "ANATOMICAL_REGION_UNVERIFIED"
+    },
+    {
+      "id": 1500,
+      "source_png_name": "cvm1500f.png",
+      "source_png_sha256": "5b2e27cfabdaa4ddd3abbb302ea8fa289c98756aa0bde82cef67fda766c6e44f",
+      "source_header_sha256": "2858ef04f0365a4ebab9db710f40f0146e1edc84449200ba89c586f974e404ba",
+      "scanner_superior_mm": -108,
+      "pixel_spacing_mm": [
+        0.898438,
+        0.898438
+      ],
+      "thickness_mm": 3,
+      "stored_pixel_minmax": [
+        0,
+        2408
+      ],
+      "anatomical_region_evidence": "ANATOMICAL_REGION_UNVERIFIED"
+    },
+    {
+      "id": 1551,
+      "source_png_name": "cvm1551f.png",
+      "source_png_sha256": "f9c691491af8c92ad1383bfe119abbb47786d2ba6f29bf7e1212e604a5753f57",
+      "source_header_sha256": "bdff2452e70279da1fae5c323d7495c047d4f694f6e97edd311bd78554442745",
+      "scanner_superior_mm": -159,
+      "pixel_spacing_mm": [
+        0.898438,
+        0.898438
+      ],
+      "thickness_mm": 3,
+      "stored_pixel_minmax": [
+        0,
+        2192
+      ],
+      "anatomical_region_evidence": "ANATOMICAL_REGION_UNVERIFIED"
+    },
+    {
+      "id": 1602,
+      "source_png_name": "cvm1602f.png",
+      "source_png_sha256": "ae745ce1e5d3cee5b25e24fdd991f4df9014109f3695249d455ea58877f1294d",
+      "source_header_sha256": "2b7c56af87a3993e73825a01714d00d965f67702df1952a6f1168f3cbcb4b041",
+      "scanner_superior_mm": -210,
+      "pixel_spacing_mm": [
+        0.898438,
+        0.898438
+      ],
+      "thickness_mm": 3,
+      "stored_pixel_minmax": [
+        0,
+        2278
+      ],
+      "anatomical_region_evidence": "ANATOMICAL_REGION_UNVERIFIED"
+    },
+    {
+      "id": 1650,
+      "source_png_name": "cvm1650f.png",
+      "source_png_sha256": "335312ecdb0f3c918b306578b60c6056ab1d97f8a04ed6a2b2fe70566c808cd8",
+      "source_header_sha256": "686a028ec7447144da6513ddee1fd8aa0c1e1f8f59586002c90168ac443d7872",
+      "scanner_superior_mm": -258,
+      "pixel_spacing_mm": [
+        0.898438,
+        0.898438
+      ],
+      "thickness_mm": 3,
+      "stored_pixel_minmax": [
+        0,
+        2963
+      ],
+      "anatomical_region_evidence": "ANATOMICAL_REGION_UNVERIFIED"
+    },
+    {
+      "id": 1701,
+      "source_png_name": "cvm1701f.png",
+      "source_png_sha256": "7b7dc2454f5f3fb562ba348313a6c7a5a8fba2f14498c5a8ba0389d2f839ee62",
+      "source_header_sha256": "d01308a5eaa9354b58c10b39fad65edfd85a2a2bdea4d2d5b066fd7a497b2b61",
+      "scanner_superior_mm": -309,
+      "pixel_spacing_mm": [
+        0.898438,
+        0.898438
+      ],
+      "thickness_mm": 3,
+      "stored_pixel_minmax": [
+        0,
+        3048
+      ],
+      "anatomical_region_evidence": "ANATOMICAL_REGION_UNVERIFIED"
+    },
+    {
+      "id": 1752,
+      "source_png_name": "cvm1752f.png",
+      "source_png_sha256": "899687e75c0d57a97c64d498330c60b2fb61bb836e55ebc4f6202234c9939c73",
+      "source_header_sha256": "3d9c48641c45c2e1cd035eb11a4b83bee42240ef94f26bb479f8fd1944a72c38",
+      "scanner_superior_mm": -360,
+      "pixel_spacing_mm": [
+        0.898438,
+        0.898438
+      ],
+      "thickness_mm": 3,
+      "stored_pixel_minmax": [
+        0,
+        2470
+      ],
+      "anatomical_region_evidence": "ANATOMICAL_REGION_UNVERIFIED"
+    },
+    {
+      "id": 1800,
+      "source_png_name": "cvm1800f.png",
+      "source_png_sha256": "57371cc19aa7cc468f5cc8c12ef01d0d0c740e0a0da1d5e93f238dda09f92d69",
+      "source_header_sha256": "e159990a7bb612e904ca98ee0972510242ea2ec69e77bcb245174c9743486e0a",
+      "scanner_superior_mm": -408,
+      "pixel_spacing_mm": [
+        0.898438,
+        0.898438
+      ],
+      "thickness_mm": 3,
+      "stored_pixel_minmax": [
+        0,
+        2680
+      ],
+      "anatomical_region_evidence": "ANATOMICAL_REGION_UNVERIFIED"
+    },
+    {
+      "id": 1906,
+      "source_png_name": "cvm1906f.png",
+      "source_png_sha256": "fea0197c307f2a177187bef25ff8a23a110cbad3b52be29e6739f9f544b71d9f",
+      "source_header_sha256": "410b08719f8413cec1c7b68bf6dcca6b4f65e8f1ccab24b0c7827904f14978e5",
+      "scanner_superior_mm": -514,
+      "pixel_spacing_mm": [
+        0.898438,
+        0.898438
+      ],
+      "thickness_mm": 3,
+      "stored_pixel_minmax": [
+        0,
+        2363
+      ],
+      "anatomical_region_evidence": "ANATOMICAL_REGION_UNVERIFIED"
+    },
+    {
+      "id": 1948,
+      "source_png_name": "cvm1948f.png",
+      "source_png_sha256": "c52abb597a5f92d2efe48bd64cf90f6c73cded863b5a3171354a8fd2f0063224",
+      "source_header_sha256": "05fe8c92d6e4223dcd69263849ba060f9a5c218399d5e485f78a0cf721208aa0",
+      "scanner_superior_mm": -556,
+      "pixel_spacing_mm": [
+        0.898438,
+        0.898438
+      ],
+      "thickness_mm": 3,
+      "stored_pixel_minmax": [
+        0,
+        2396
+      ],
+      "anatomical_region_evidence": "NLM GALLERY UPPER THIGH BELOW FEMORAL HEADS; correlation requires image review"
+    }
+  ],
+  "acquisition_warnings": [
+    "SCAN POSITION MUST COME FROM ORIGINAL HEADER, not filename number",
+    "Separate scan groups have different pixel dimensions/spacing; never global stack",
+    "3mm slice thickness cannot support submillimetre articular landmark claims",
+    "Image intensity stored scalars not clinically calibrated as HU",
+    "No automatic segmentation, source landmark or canonical skeleton correction accepted"
+  ]
+}

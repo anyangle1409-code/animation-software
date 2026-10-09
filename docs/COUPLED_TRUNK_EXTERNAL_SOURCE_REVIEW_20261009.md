@@ -41,6 +41,19 @@ This supplements (not replaces) the committed Claude/Work spinal and pelvic evid
 - This is an anatomical relationship, not an independent numeric S1 AP coordinate for the project without stature, pelvic incidence and endplate centre mapping.
 - Source: https://pubmed.ncbi.nlm.nih.gov/15682018/
 
+### D. NEW measured living sternum–thoracic spine correspondence — dynamic, not neutral-stance targets
+
+**Burgos et al., 2021**, *Non-uniform Segmental Range of Motion of the Thoracic Spine During Maximal Inspiration and Exhalation in Healthy Subjects*, Frontiers in Medicine, DOI **10.3389/fmed.2021.699357**, PMID **34527680**.
+- Open full article: https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2021.699357/full (primary source; Tables 2–4). Independently checked this source on 9 October.
+- **Population/method:** 40 healthy volunteers (17 male/23 female), age 21–60, mean height **168.1 ± 18.0 cm**; **standing** lateral chest radiographs at **maximal inspiration versus exhalation**, while participants kept **their arms above shoulder level** on an image-detector support.
+- **Upper sternum-to-T1 linear distance:** the anterior-superior edge of the sternum to the **T1 vertebral centroid** (NOT the T2/3 notch/vertebral-surface AP depth), **126.5 ± 15.5 mm during maximal inspiration**, **121.2 ± 15.9 mm during maximal exhalation**. The mean change was **5.1 ± 1.7 mm**. These are slanted radiographic *linear distances*, not sagittal AP-only distances.
+- **Sternum–T1/T2 angular relation:** sternum's anterior-superior border relative to the anterior T1/T2 line **42.9 ± 8.1°** in inspiration vs **48.8 ± 8.4°** in exhalation (read exact definitions from Table 2). The upper manubrium/T1–T2 metric is separately reported and MUST NOT be conflated.
+- **T1–T12 geometry changes with breathing:** T1–T12 centroid separation **293.1 ± 24.7 mm** at maximal inspiration vs **281.9 ± 24.8 mm** exhalation, with kyphotic angle **36.8 ± 7.3°** vs **52.6 ± 7.6°**.
+- **Lower sternum-to-T12 distance:** posterior-inferior sternal edge to T12 centroid **181.4 ± 38.5 mm** inspiration vs **137.4 ± 38.5 mm** exhalation, demonstrating strong differential chest geometry and that upper and lower sternum cannot be blindly treated as one fixed-offset source for an exercise pose.
+- This is **new independently useful endpoint semantics** for the open sternum-spine depth problem. However, the study cohort is mixed-sex and smaller (n=40), average shorter than 1.82 m, with maximal breathing and raised arms. Therefore **do NOT** treat 126.5 or 121.2 mm as a canonical absolute neutral-pose sternum-to-T1 distance or convert it to an AP depth.
+- Use as an **independent conditional reference check**, once projection/stature/pose/endpoint mapping is verified. Upper thorax coupling is a real anatomical constraint, but P004's median shift and P005's rigid chain are neither a breathing simulator nor a standing-position proof.
+- **Verdict:** verified primary-source radiographic measurement; `SUPPORTING_CONTEXT_ONLY`, **NO numerical coordinate target approved**.
+
 ### Unresolved blockers after review
 
 1. Independently sourced, endpoint-compatible **T1–T12 per-level disc/endplate sagittal inclinations** (not merely aggregate Cobb or anterior/posterior height ratios).

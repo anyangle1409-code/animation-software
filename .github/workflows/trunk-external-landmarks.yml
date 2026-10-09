@@ -12,6 +12,8 @@ on:
       - 'scripts/test_pelvic_app_bone_frame.py'
       - 'scripts/anatomy_fit/bone_feature_observation_packet.py'
       - 'scripts/test_bone_feature_observation_packet.py'
+      - 'ORIGINAL_V1_WORK/anatomy/audit/potential_bone_geometry_sources_20261009.json'
+      - 'scripts/test_bone_geometry_source_acquisition.py'
       - 'ORIGINAL_V1_WORK/anatomy/audit/external_trunk_landmark_source_registry_20261009.json'
       - '.github/workflows/trunk-external-landmarks.yml'
   workflow_dispatch:
@@ -30,6 +32,7 @@ jobs:
           python3 -m unittest discover -s scripts -p 'test_external_trunk_landmark_bridge.py' -v
           python3 -m unittest discover -s scripts -p 'test_pelvic_app_bone_frame.py' -v
           python3 -m unittest discover -s scripts -p 'test_bone_feature_observation_packet.py' -v
+          python3 -m unittest discover -s scripts -p 'test_bone_geometry_source_acquisition.py' -v
           python3 scripts/anatomy_fit/pelvic_app_bone_frame.py \
             --legacy-record ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json \
             --source-registry ORIGINAL_V1_WORK/anatomy/audit/external_trunk_landmark_source_registry_20261009.json

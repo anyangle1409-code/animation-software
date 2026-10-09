@@ -783,3 +783,35 @@ Full proximal curves remain BLOCKED pending verified intended conventions or an 
   - Nothing here changes Gate 9 (still NOT PASSED for coverage and source reasons).
 - **Evidence:** `audit/solver_blender_agreement/{a003_isolated_014,c003_isolated_001}.json`.
 - **Tests:** `scripts/test_solver_blender_agreement.py` (7). Mutations, each of which must be detected: a drifted command value, a corrupted evaluated delta (0.1 mm), a child delta stored without its ancestors, a measured channel corrupted by 0.01°, and a test absent from the current specs.
+
+### c004: c003 with the six stale arm skeleton_input points resynchronised (9 October, Claude; audit candidate, not canonical)
+
+- **What:** `audit/candidates/shoulder_thorax_c004_arm_inputs/` (`scripts/anatomy_fit/build_candidate_c004_arm_inputs.py`). It derives from c003 and changes only EJC, WJC, humeroulnar, humeroradial, ulnar_styloid_bone and radial_styloid_bone, on both sides.
+  - Each point takes the c003 position of the reference it is *identical* to in a003: the joint marker for WJC, humeroulnar and humeroradial; the bone endpoint for EJC (humerus tail) and the styloids (ulna/radius tails).
+  - No joint marker coincides with EJC or the styloids in a003 (the nearest are 9.4–17.8 mm away), so using a marker would have redefined those points. This is the one deviation from "joint-marker positions", and it is evidence-based.
+  - Every new value is asserted to equal old + the side's GH translation (38.432 mm).
+  - The per-point before/after table and hashes are in `candidate.arm_input_correction` and `correction_and_causality.json`.
+- **Causality, pure Python:**
+  - The record diff from c003 is exactly the 12 points.
+  - The derived hand/forearm test frames now equal a003's to 8e-14° (c003 was off by up to 25.8°); all 148 other frames are identical.
+  - Only 16 hand/thumb/wrist specs change. The wrist test pivot moves from 38.4 mm off the radiocarpal marker to 0.
+- **Phase 9 rerun** (`runs/isolated_bone_only_c004_arm_inputs_001`, on the byte-identical c003 blend): 135/135 integrity and 41/43 mirror, the same as c003.
+  - 111 sample sets are byte-identical to c003.
+  - The 24 changed hand/thumb/wrist tests reproduce **a003's** rotations and measured angles within float32 bounds.
+- **Requested criteria** (`validation_summary.json`): **MET**.
+  - The wrist-centre gaps are closed.
+  - Every hand/thumb axis alignment equals a003 (c003 had 10 deviations).
+  - Bones, markers and ANSUR/SC acceptance checks are identical to c003.
+  - Mirror, continuity, collision, all-pairs, state restoration, solver agreement and the CP3 round trip (report identical to c003's) are clean, and nothing changed outside the 24 corrected tests.
+  - The a003/c001/c002/c003 sources are unchanged.
+  - c004 remains `AUDIT_PROPOSAL_NOT_CANONICAL_NOT_ACCEPTED`; Gate 9 is unchanged.
+- **New finding: c003's wrist sweeps were mechanically wrong.** They rotated the carpus about the stale WJC, opening the radiocarpal joint by **16.687 mm** on both sides. c004 closes it to 0, as in a003. The committed v1 attachment scan missed this:
+  - **Detector gap fixed:** `joint_attachment_scan.py` v1 skipped every articulation with a soft-tissue participant (59 of 427, including radiocarpal with its TFCC). The new `--v2` mode checks such joints on their bone participants (372 checkable). v1 outputs are preserved, and the v2 outputs are `joint_attachment_scan/{a003_isolated_014,c003_isolated_001,c004_isolated_001}_v2.json`.
+  - Only radiocarpal is newly detected, and only on c003. The other 55 articulations have fewer than two bone participants and cannot be checked by this method.
+- **Mirror-scan determinism fixed:** the `worst_*_bone` labels were tie-breaks taken in set order, which varies with `PYTHONHASHSEED`. The scan now iterates in sorted order; values were never affected.
+- **Builder guard:** `scripts/anatomy_fit/skeleton_input_guard.py` records, for every skeleton_input point, the bone endpoints and markers it is identical to in the base, and requires the same in a derived candidate.
+  - It flags EJC, WJC, humeroulnar, humeroradial, both styloids, `carpals` and `hand` in c001, c002 and c003.
+  - On c004 it flags only `carpals` and `hand`. These are also stale but outside the requested six-point scope, and are read only by `skeleton_fit.py`, not by Phase 9. **UNRESOLVED.**
+- **Renders:** none were made. The c003 pack is reused because every visual input is hash-identical (`review_reuse.json`; recorded in `REVIEW_PACK_INDEX.md`).
+- **Tests:** `scripts/test_candidate_c004_arm_inputs.py` (14). They cover baseline hash pins, builder reproducibility and scope, causality, and guard mutations (a stale point re-injected; a bone moved without its input; a consistent rigid move passes except the shared tibia head). They also cover the run summary, the v1-missed/v2-detected radiocarpal opening, and mirror determinism under three hash seeds.
+  - The evidence-integrity live test now admits a new non-OK reference only as an inherited duplicate of a recorded one (c004 inherits c003's stale provenance hashes).

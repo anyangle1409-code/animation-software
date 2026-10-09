@@ -82,6 +82,13 @@ def markdown(ix):
     for c, n in ix['coverage_counts'].items():
         L.append(f'| {c} | {n} | {"yes" if ix["required_categories_present"].get(c, True) else "**MISSING**"} |')
     L += ['', f'Total files: {ix["file_count"]}. Hash failures: {len(ix["hash_failures"])}.', '']
+    reuse = AUD / 'candidates/shoulder_thorax_c004_arm_inputs/review_reuse.json'
+    if reuse.exists():
+        u = json.loads(reuse.read_text()); rel = str(reuse.relative_to(ROOT))
+        L += ['## c004 arm-input resync: reuses the c003 pack (no new renders)', '',
+              f'c004 changes only six skeleton_input arm points per side; every visual input is hash-identical to c003 ([`{rel}`]({BLOB}{rel})), '
+              'so the c003 images above depict c004 exactly. They and their manifest still name c003. Status: '
+              f'`{u["status"]}`.', '']
     eia = AUD / 'evidence_integrity/evidence_integrity_v1.json'
     if eia.exists():
         e = json.loads(eia.read_text()); rel = str(eia.relative_to(ROOT))

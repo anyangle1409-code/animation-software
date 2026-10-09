@@ -15,3 +15,16 @@ Bones, joint markers, landmarks, acceptance checks and provenance are identical 
 **Evidence:**
 - `candidate_record.json`: the per-point before/after table is in `candidate.arm_input_correction`.
 - `correction_and_causality.json`: hashes, the record diff (exactly the 12 points), derived frames (c004 hand/forearm frames = a003 to 8e-14°; c003 off by up to 25.8°; all other frames identical), changed test specs (16 hand/thumb/wrist tests; wrist pivot 38.4 mm → 0 mm from the radiocarpal marker) and visual-input identity.
+
+## Re-validation (all computed in `validation_summary.json`: `C004_ARM_INPUT_RESYNC_CRITERIA_MET`)
+
+| Criterion | Result |
+|---|---|
+| Wrist-centre gaps | WJC = radiocarpal marker on both sides (c003: 38.4 mm). Wrist sweeps no longer open the radiocarpal joint: c003 16.687 mm → c004 0, the same as a003 |
+| Hand/thumb axes | Every joint-frame-audit alignment equals a003 (worst difference 0.0°; c003 had 10 deviations up to ~19°). All 24 changed tests reproduce a003 rotations and angles within float32 bounds |
+| Shoulder / ANSUR / SC | Bones, joint markers, landmarks, checks and `acceptance_checks` identical to c003 |
+| Unrelated outputs | 111/135 sample sets byte-identical to c003. Mirror (0 FAIL; the same REST_ASYMMETRY_ONLY set), continuity (0 issues), collision, all-pairs and state restoration are unchanged except in the 24 corrected tests. In those tests, new info-only near approaches (digit 4/5 phalanges, 2.5–2.6 mm) equal a003's |
+| Integrity | Phase 9 135/135, mirror 41/43; solver ↔ Blender AGREE; CP3 round trip PASS with a report identical to c003's; a003/c001/c002/c003 records and blends unchanged |
+| Guard | Remaining stale points: `carpals` and `hand` only (UNRESOLVED, out of scope) |
+
+**Renders:** none were made for c004. The c003 review pack is reused because every visual input is hash-identical (`review_reuse.json`); those images and their manifest still name c003. No movement clips are claimed for the changed hand and wrist tests.

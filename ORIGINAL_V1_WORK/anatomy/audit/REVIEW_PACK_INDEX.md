@@ -29,6 +29,10 @@ Every image and clip below is in the repository, and its sha256 is verified agai
 
 Total files: 264. Hash failures: 0.
 
+## c004 arm-input resync: reuses the c003 pack (no new renders)
+
+c004 changes only six skeleton_input arm points per side; every visual input is hash-identical to c003 ([`ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/review_reuse.json`](https://github.com/anyangle1409-code/animation-software/blob/codex/whole-body-biomechanics-audit-20261007/ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/review_reuse.json)), so the c003 images above depict c004 exactly. They and their manifest still name c003. Status: `REUSED_C003_RENDER_PACK_NO_NEW_RENDERS`.
+
 ## Repository-wide evidence integrity
 
 Every recorded sha256 across all anatomy evidence JSON is re-checked by [`ORIGINAL_V1_WORK/anatomy/audit/evidence_integrity/evidence_integrity_v1.json`](https://github.com/anyangle1409-code/animation-software/blob/codex/whole-body-biomechanics-audit-20261007/ORIGINAL_V1_WORK/anatomy/audit/evidence_integrity/evidence_integrity_v1.json) (1006 references: ABSENT_BINARY_NOT_COMMITTED 21, EXTERNAL 2, MISMATCH 12, MISSING 1, OK 924, OK_VIA_GZIP 7, STALE_HISTORICAL 39; document references missing: 0; orphans: 5). Nothing was rewritten; see the JSON for each flagged item.

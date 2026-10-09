@@ -96,19 +96,59 @@
   {
    "id": "H6",
    "region": "hand",
-   "title": "Isolated wrist flexion drives the fingers into the thigh",
+   "title": "Isolated forearm/wrist/GH-rotation sweeps from the hanging posture drive the hand into the thigh",
    "cls": "MOVEMENT_TEST_DESIGN",
    "status": "OPEN",
    "measured": {
-    "min_finger_to_femur_axis_mm": 6.9,
-    "rest_mm": 104.5,
-    "wrist_flexion_peak_deg": 73.57
+    "c004_min_hand_to_femur_axis_mm_by_test": {
+     "forearm_rotation_at_elbow_0_left": 1.49,
+     "forearm_rotation_at_elbow_0_right": 1.49,
+     "elbow_flexion_at_pronation_60_left": 3.67,
+     "elbow_flexion_at_pronation_60_right": 3.67,
+     "gh_axial_rotation_at_0_elevation_left": 5.39,
+     "gh_axial_rotation_at_0_elevation_right": 5.39,
+     "wrist_flexion_left": 6.89,
+     "wrist_flexion_right": 6.89
+    },
+    "a003_same_tests": {}
    },
    "evidence": [
-    "skeleton_only_renders_c004/pose_wrist_flexion_left_f1461.jpg",
-    "computed from committed c004 samples"
+    "whole_body_interaction_c004.json / _a003.json",
+    "skeleton_only_renders_c004/pose_wrist_flexion_left_f1461.jpg"
    ],
-   "action": "isolated wrist sweeps must start from a posture with the hand clear of the thigh (e.g. shoulder flexion) or be flagged; no amplitude change"
+   "action": "exposed by the corrected (narrower) c003/c004 shoulders: the a003 hanging-arm posture was kept. Hand sweeps need a start posture with the hand clear of the thigh, or must be flagged; no amplitude change"
+  },
+  {
+   "id": "U9",
+   "region": "shoulder",
+   "title": "Medial clavicle close to rib 1 at rest in c003/c004",
+   "cls": "EVIDENCE_GAP",
+   "status": "OPEN",
+   "measured": {
+    "c004_min_axis_mm": 7.5,
+    "a003_min_axis_mm": 16.4,
+    "location": "about 12 mm lateral of the SC joint (costoclavicular region)"
+   },
+   "evidence": [
+    "whole_body_interaction_c004.json",
+    "c003 rib pump-handle rotation and SC placement"
+   ],
+   "action": "costoclavicular region is anatomically close; decide with clavicle/rib surface geometry before any canonical shoulder freeze"
+  },
+  {
+   "id": "L7",
+   "region": "foot",
+   "title": "Hip internal rotation brings the hallux onto the opposite first metatarsal",
+   "cls": "MOVEMENT_TEST_DESIGN",
+   "status": "OPEN",
+   "measured": {
+    "min_axis_mm": 1.4,
+    "rest_axis_mm": 135.4
+   },
+   "evidence": [
+    "whole_body_interaction_c004.json (also a003)"
+   ],
+   "action": "standing start posture with feet together; needs a stance-width start posture or flagging"
   },
   {
    "id": "H7",
@@ -441,11 +481,11 @@
  ],
  "by_class": {
   "GEOMETRY_DEFECT": 4,
-  "EVIDENCE_GAP": 4,
+  "EVIDENCE_GAP": 5,
   "JOINT_COORDINATE_DEFECT": 3,
   "NOT_A_DEFECT": 5,
   "REPRESENTATION_LIMIT": 5,
-  "MOVEMENT_TEST_DESIGN": 3,
+  "MOVEMENT_TEST_DESIGN": 4,
   "MOVEMENT_MODEL_GAP": 3,
   "STRUCTURAL_INVARIANT_FAIL": 1
  },
@@ -453,7 +493,7 @@
   "DIAGNOSTIC_PROPOSAL": 1,
   "BLOCKED": 9,
   "NONE": 8,
-  "OPEN": 7,
+  "OPEN": 9,
   "CORRECTED_IN_CANDIDATE": 3
  }
 }

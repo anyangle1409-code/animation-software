@@ -83,10 +83,19 @@ def build():
         action='topology correct on both sides; exact centroids, contacts and envelopes remain BLOCKED (readiness: carpus)')
     add(id='H5', region='carpus', title='Carpal bones drawn as short control sticks / clump', cls='REPRESENTATION_LIMIT', status='NONE',
         measured={}, evidence=['INV_TARSAL_SEMANTICS analogue: control-stick length is not whole-bone length'], action='needs envelopes, not stick changes')
-    add(id='H6', region='hand', title='Isolated wrist flexion drives the fingers into the thigh', cls='MOVEMENT_TEST_DESIGN', status='OPEN',
-        measured={'min_finger_to_femur_axis_mm': 6.9, 'rest_mm': 104.5, 'wrist_flexion_peak_deg': 73.57},
-        evidence=['skeleton_only_renders_c004/pose_wrist_flexion_left_f1461.jpg', 'computed from committed c004 samples'],
-        action='isolated wrist sweeps must start from a posture with the hand clear of the thigh (e.g. shoulder flexion) or be flagged; no amplitude change')
+    wb = {k: J(AU / f'claude_independent_review_20261009/whole_body_interaction_{k}.json') for k in ('a003', 'c004')}
+    hand_thigh = lambda k: {x['test']: x['min_axis_mm'] for x in wb[k]['tests_with_cross_region_approach_below_10mm'] if 'femur' in str(x['bones']) and any(h in str(x['bones']) for h in ('thumb', 'digit'))}
+    add(id='H6', region='hand', title='Isolated forearm/wrist/GH-rotation sweeps from the hanging posture drive the hand into the thigh', cls='MOVEMENT_TEST_DESIGN', status='OPEN',
+        measured={'c004_min_hand_to_femur_axis_mm_by_test': hand_thigh('c004'), 'a003_same_tests': hand_thigh('a003')},
+        evidence=['whole_body_interaction_c004.json / _a003.json', 'skeleton_only_renders_c004/pose_wrist_flexion_left_f1461.jpg'],
+        action='exposed by the corrected (narrower) c003/c004 shoulders: the a003 hanging-arm posture was kept. Hand sweeps need a start posture with the hand clear of the thigh, or must be flagged; no amplitude change')
+    add(id='U9', region='shoulder', title='Medial clavicle close to rib 1 at rest in c003/c004', cls='EVIDENCE_GAP', status='OPEN',
+        measured={'c004_min_axis_mm': 7.5, 'a003_min_axis_mm': 16.4, 'location': 'about 12 mm lateral of the SC joint (costoclavicular region)'},
+        evidence=['whole_body_interaction_c004.json', 'c003 rib pump-handle rotation and SC placement'],
+        action='costoclavicular region is anatomically close; decide with clavicle/rib surface geometry before any canonical shoulder freeze')
+    add(id='L7', region='foot', title='Hip internal rotation brings the hallux onto the opposite first metatarsal', cls='MOVEMENT_TEST_DESIGN', status='OPEN',
+        measured={'min_axis_mm': 1.4, 'rest_axis_mm': 135.4}, evidence=['whole_body_interaction_c004.json (also a003)'],
+        action='standing start posture with feet together; needs a stance-width start posture or flagging')
     add(id='H7', region='wrist', title='c001-c003 wrist sweeps pivoted 38.4 mm off the radiocarpal joint (stale WJC)', cls='JOINT_COORDINATE_DEFECT', status='CORRECTED_IN_CANDIDATE',
         measured={'c003_radiocarpal_opening_mm': v2['c003_isolated_001'].get('radiocarpal_left', {}).get('max_opening_mm'), 'c004_radiocarpal_opening_mm': v2['c004_isolated_001'].get('radiocarpal_left', {}).get('max_opening_mm', 0.0)},
         evidence=['candidates/shoulder_thorax_c004_arm_inputs/validation_summary.json'], action='c004 (non-canonical) closes it')

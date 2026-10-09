@@ -1,0 +1,28 @@
+name: Mesh-independent hand probe
+
+on:
+  push:
+    branches:
+      - codex/mesh-independent-hand-spike-20261009
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  isolated-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out isolated audit branch
+        uses: actions/checkout@v4
+      - name: Install audit-only dependencies
+        run: |
+          python3 -m venv /tmp/hgpt-mesh-probe
+          /tmp/hgpt-mesh-probe/bin/python -m pip install --disable-pip-version-check numpy
+      - name: Run focused regression suite
+        run: |
+          /tmp/hgpt-mesh-probe/bin/python -m unittest discover -s scripts -p 'test_mesh_independent_hand_probe.py' -v
+      - name: Run create-only diagnostic report
+        run: |
+          /tmp/hgpt-mesh-probe/bin/python scripts/anatomy_fit/mesh_independent_hand_probe.py --out /tmp/hgpt-hand-probe.json

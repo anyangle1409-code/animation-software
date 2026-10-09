@@ -120,3 +120,46 @@ Diagram (coordinates, not a render): `ORIGINAL_V1_WORK/anatomy/audit/claude_anat
 **Register update:** `defect_register_update_v1.json` adds three entries, U10, U11 and H10, and updates U5, L3 and L4. U10 is new and the most important: the lumbar spine is too long and the trunk sits too high.
 
 **Tests:** `scripts/test_spine_trunk_audits.py` now has 13 tests, all passing.
+
+## Stage 3 — shoulders and upper body
+
+**Clavicle elevation during arm elevation (U3, `clavicle_elevation_gap_c004_v1.json`).**
+- **The gap:** the shoulder-complex sweep already applies sourced scapular rotation and clavicular retraction/posterior rotation. It does not apply clavicular elevation, because only a "typically below 10°" bound was committed.
+- **Source found:** the MoBL-ARMS-lineage rhythm, as published in the MyoSuite arm model (`MyoHub/myo_sim` `93b0ca8f`), couples SC elevation linearly to thoracohumeral elevation at **0.1025° per degree**.
+
+| Thoracohumeral elevation | Model clavicle elevation | c004 AC rise (model) | c004 AC rise (10° bound) |
+|---|---|---|---|
+| 60° | 6.15° | 16.2 mm | 16.2 mm |
+| 90° | 9.22° | 24.3 mm | 24.3 mm |
+| 120° | 12.3° | 32.3 mm | 26.3 mm |
+| 168° | 17.22° | 44.9 mm | 26.3 mm |
+
+**Reading:** without the follower, the whole shoulder sits 16–45 mm too low in raised-arm positions; that matters for presses and pull-ups.
+- **Agreement:** the model and the bound agree up to about 98° of elevation.
+- **Conflict:** above that, the model exceeds the bound. This is recorded as a conflict, not resolved.
+- **Not installed:** the follower is left out because the movement machinery is shared.
+
+**Still blocked** (no committed or reachable source):
+- sternum and ribcage geometry;
+- the absolute shoulder height relative to the trunk (already OPEN, now also coupled to U10);
+- a start posture that clears the hand from the thigh (H6).
+
+## Stage 5 — realistic bone geometry: review of draft PR #12 and specification
+
+**PR #12** (`codex/anatomical-bone-surfaces-foundation-20261009` @ `d0f6bfd3`; 6 files, +599 lines; not merged).
+- **Architecture: endorsed.** It separates three layers: a straight motion skeleton as the source of truth, rigid per-bone surfaces registered to it, and soft tissue fitted afterwards. The validator also keeps `canonical_promotion_allowed: false` permanently.
+- **Its own tests:** 28 pass. The topology checks behave as stated: reversed faces and disjoint shells fail.
+- **Problems found** (`pr12_contract_probe_v1.json`, run against the PR's own `validate()`):
+  1. **Registration is circular.** `rig_anchors_local_m` are declared by the asset and only compared with the skeleton after the asset's own transform. As a result, a mesh **5 m away** from the femur passes, a **left femur mesh on the right side** passes, and a **0.5 mm "femur"** passes.
+     - **Fix:** derive anchors from mesh features (for example a sphere fit to the femoral-head articular patch and an epicondylar/condylar fit). Require them to lie on or near the surface. Report the mismatch against the skeleton within a declared budget rather than demanding 10 µm.
+     - **Also add:** a side/chirality check (the centroid's X sign for left and right) and a coarse size check against the skeleton bone length.
+  2. **Non-manifold (pinched) vertices** inside one edge-connected closed shell are not detected; only edge fans are.
+  3. **Minor:** `surface_type` is validated after the mesh check, so an unsupported type first runs the open-patch path.
+- **Recommendation:** keep PR #12 as a draft and add these checks before using it for real meshes. Do not merge it as an anatomy change.
+
+**Geometry specification** (`bone_geometry_specification_v1.json`). For each of eight regions it lists:
+- the required surfaces;
+- the evidence that can constrain them now (for example the Rajagopal patellar path, the MoBL clavicle rhythm, Holcombe rib models, carpal envelopes and axes);
+- the gate that must close before detailed modelling starts.
+
+No region is ready for production bone modelling. Female variants keep the same surface inventory and joint semantics but need their own sources.

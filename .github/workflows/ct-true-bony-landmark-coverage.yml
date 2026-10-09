@@ -7,6 +7,7 @@ on:
     paths:
       - 'scripts/anatomy_fit/nlm_ct_bony_landmark_coverage_audit.py'
       - 'scripts/test_nlm_ct_bony_landmark_coverage_audit.py'
+      - 'ORIGINAL_V1_WORK/anatomy/audit/nlm_ct_true_osseous_landmark_coverage_verified_20261009.json'
       - '.github/workflows/ct-true-bony-landmark-coverage.yml'
       - 'docs/NLM_TRUE_BONY_LANDMARK_COVERAGE_20261009.md'
   pull_request:

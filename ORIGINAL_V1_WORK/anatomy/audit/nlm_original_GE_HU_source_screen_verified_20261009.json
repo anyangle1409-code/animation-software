@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "kind": "NLM_GE_CT_PIXEL_VALUE_CALIBRATION_SOURCE_CONTEXT",
+  "status": "SOURCE_METADATA_ONLY_PNG_TO_HU_REMAINS_UNVERIFIED",
+  "original_NLM_source_headers_sha256_verified": true,
+  "source_count": 2,
+  "source_rows": [
+    {
+      "source_id": "cvm1734f",
+      "source_GE_header_sha256": "3bb6bae1d372d937e1aede1e644cc3f8f0e05053aff6f4034ff32342691209ca",
+      "scanner_slice_superior_mm": -342,
+      "recognized_calibration_or_offset_context": {},
+      "technical_header_numeric_fields_only": true,
+      "raw_header_text_or_patient_identifiers_exported": false,
+      "GE_annotation_values_validated_as_PNG_HU_intercept": false
+    },
+    {
+      "source_id": "cvm1800f",
+      "source_GE_header_sha256": "e159990a7bb612e904ca98ee0972510242ea2ec69e77bcb245174c9743486e0a",
+      "scanner_slice_superior_mm": -408,
+      "recognized_calibration_or_offset_context": {},
+      "technical_header_numeric_fields_only": true,
+      "raw_header_text_or_patient_identifiers_exported": false,
+      "GE_annotation_values_validated_as_PNG_HU_intercept": false
+    }
+  ],
+  "GE_annotation_is_not_PNG_intensity_calibration_evidence": true,
+  "source_PNG_stored_scalar_to_HU_slope_and_intercept_verified": false,
+  "water_air_phantom_or_matched_original_DICOM_crosscheck_verified": false,
+  "anatomical_bone_threshold_selected": false,
+  "skeleton_or_skin_changed": false,
+  "canonical_promotion_allowed": false,
+  "github_actions_url": "https://github.com/anyangle1409-code/animation-software/actions/runs/37997758197",
+  "source_manifest_path": "ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json",
+  "source_scope": "strict numeric allowlist only; does not exclude undocumented proprietary GE calibration fields",
+  "original_medical_header_identifiers_published": false,
+  "complete_source_PNG_to_HU_calibration_NOT_established": true
+}

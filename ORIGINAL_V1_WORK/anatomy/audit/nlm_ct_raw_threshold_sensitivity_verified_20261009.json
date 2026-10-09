@@ -1,0 +1,586 @@
+{
+  "schema_version": 1,
+  "kind": "CT_ORIGINAL_STORED_SCALAR_THRESHOLD_SENSITIVITY",
+  "status": "UNCALIBRATED_GEOMETRY_DIAGNOSTIC_NOT_BONE_SEGMENTATION",
+  "original_NLM_PNG_sha256_verified_for_each_image": true,
+  "source_slices_verified": 72,
+  "source_groups_evaluated_separately": 2,
+  "native_block_xy_source_pixels": [
+    8,
+    8
+  ],
+  "thresholds_are_original_PNG_stored_scalars_not_HU": true,
+  "thresholds_tested_original_stored_scalar": [
+    900,
+    1050,
+    1200,
+    1350,
+    1500,
+    1800
+  ],
+  "comparison_is_not_original_Blender_occupancy_implementation": true,
+  "scanner_S_and_in_plane_source_geometry_comes_from_pinned_bundle": true,
+  "current_source_coverage_approved_for_all_pelvic_features": false,
+  "provisional_image_intensity_to_HU_conversion_verified": false,
+  "cortical_or_cancellous_bone_label_independently_verified": false,
+  "individual_bones_separated_from_artifacts_or_nonbone": false,
+  "3d_bone_surface_extracted": false,
+  "source_skeleton_or_production_mesh_modified": false,
+  "canonical_promotion_allowed": false,
+  "group_reports": [
+    {
+      "source_group_index": 1,
+      "scanner_superior_range_mm": [
+        -342,
+        -450
+      ],
+      "individual_group_original_pinned_source_count": 37,
+      "operators": [
+        {
+          "operator": "any",
+          "block_rule": "one_or_more_of_64_raw_scalars",
+          "source_slices": 37,
+          "baseline_threshold_raw_stored_scalar": 1200,
+          "occupancy_monotone_nonincreasing_with_threshold": true,
+          "results": [
+            {
+              "raw_stored_PNG_scalar_cutoff": 900,
+              "source_tile_operator": "any",
+              "active_8x8x_slice_blocks": 66964,
+              "component_count_6_neighbor": 51,
+              "component_top_ten_block_counts": [
+                66365,
+                353,
+                44,
+                41,
+                29,
+                15,
+                14,
+                11,
+                8,
+                8
+              ],
+              "largest_component_block_fraction": 0.991055,
+              "jaccard_to_same_operator_raw_1200": 0.156084,
+              "not_a_bone_mask_or_HU_threshold": true
+            },
+            {
+              "raw_stored_PNG_scalar_cutoff": 1050,
+              "source_tile_operator": "any",
+              "active_8x8x_slice_blocks": 41325,
+              "component_count_6_neighbor": 160,
+              "component_top_ten_block_counts": [
+                40774,
+                319,
+                11,
+                9,
+                4,
+                4,
+                4,
+                3,
+                3,
+                3
+              ],
+              "largest_component_block_fraction": 0.986667,
+              "jaccard_to_same_operator_raw_1200": 0.252922,
+              "not_a_bone_mask_or_HU_threshold": true
+            },
+            {
+              "raw_stored_PNG_scalar_cutoff": 1200,
+              "source_tile_operator": "any",
+              "active_8x8x_slice_blocks": 10452,
+              "component_count_6_neighbor": 27,
+              "component_top_ten_block_counts": [
+                7317,
+                1606,
+                1456,
+                14,
+                11,
+                9,
+                7,
+                6,
+                3,
+                3
+              ],
+              "largest_component_block_fraction": 0.700057,
+              "jaccard_to_same_operator_raw_1200": 1,
+              "not_a_bone_mask_or_HU_threshold": true
+            },
+            {
+              "raw_stored_PNG_scalar_cutoff": 1350,
+              "source_tile_operator": "any",
+              "active_8x8x_slice_blocks": 8929,
+              "component_count_6_neighbor": 5,
+              "component_top_ten_block_counts": [
+                6374,
+                1306,
+                1247,
+                1,
+                1
+              ],
+              "largest_component_block_fraction": 0.713854,
+              "jaccard_to_same_operator_raw_1200": 0.854286,
+              "not_a_bone_mask_or_HU_threshold": true
+            },
+            {
+              "raw_stored_PNG_scalar_cutoff": 1500,
+              "source_tile_operator": "any",
+              "active_8x8x_slice_blocks": 7180,
+              "component_count_6_neighbor": 22,
+              "component_top_ten_block_counts": [
+                5229,
+                956,
+                955,
+                11,
+                5,
+                5,
+                2,
+                2,
+                2,
+                1
+              ],
+              "largest_component_block_fraction": 0.728273,
+              "jaccard_to_same_operator_raw_1200": 0.68695,
+              "not_a_bone_mask_or_HU_threshold": true
+            },
+            {
+              "raw_stored_PNG_scalar_cutoff": 1800,
+              "source_tile_operator": "any",
+              "active_8x8x_slice_blocks": 3704,
+              "component_count_6_neighbor": 82,
+              "component_top_ten_block_counts": [
+                1111,
+                1054,
+                526,
+                183,
+                120,
+                107,
+                106,
+                93,
+                72,
+                57
+              ],
+              "largest_component_block_fraction": 0.299946,
+              "jaccard_to_same_operator_raw_1200": 0.354382,
+              "not_a_bone_mask_or_HU_threshold": true
+            }
+          ],
+          "bone_threshold_supported_by_anatomy": false
+        },
+        {
+          "operator": "eight",
+          "block_rule": "eight_or_more_of_64_raw_scalars",
+          "source_slices": 37,
+          "baseline_threshold_raw_stored_scalar": 1200,
+          "occupancy_monotone_nonincreasing_with_threshold": true,
+          "results": [
+            {
+              "raw_stored_PNG_scalar_cutoff": 900,
+              "source_tile_operator": "eight",
+              "active_8x8x_slice_blocks": 64624,
+              "component_count_6_neighbor": 19,
+              "component_top_ten_block_counts": [
+                64313,
+                277,
+                8,
+                3,
+                3,
+                3,
+                3,
+                2,
+                2,
+                1
+              ],
+              "largest_component_block_fraction": 0.995188,
+              "jaccard_to_same_operator_raw_1200": 0.131437,
+              "not_a_bone_mask_or_HU_threshold": true
+            },
+            {
+              "raw_stored_PNG_scalar_cutoff": 1050,
+              "source_tile_operator": "eight",
+              "active_8x8x_slice_blocks": 31379,
+              "component_count_6_neighbor": 208,
+              "component_top_ten_block_counts": [
+                24932,
+                2823,
+                2471,
+                218,
+                189,
+                148,
+                35,
+                33,
+                29,
+                25
+              ],
+              "largest_component_block_fraction": 0.794544,
+              "jaccard_to_same_operator_raw_1200": 0.270691,
+              "not_a_bone_mask_or_HU_threshold": true
+            },
+            {
+              "raw_stored_PNG_scalar_cutoff": 1200,
+              "source_tile_operator": "eight",
+              "active_8x8x_slice_blocks": 8494,
+              "component_count_6_neighbor": 3,
+              "component_top_ten_block_counts": [
+                6148,
+                1182,
+                1164
+              ],
+              "largest_component_block_fraction": 0.723805,
+              "jaccard_to_same_operator_raw_1200": 1,
+              "not_a_bone_mask_or_HU_threshold": true
+            },
+            {
+              "raw_stored_PNG_scalar_cutoff": 1350,
+              "source_tile_operator": "eight",
+              "active_8x8x_slice_blocks": 6551,
+              "component_count_6_neighbor": 14,
+              "component_top_ten_block_counts": [
+                4774,
+                871,
+                775,
+                117,
+                4,
+                2,
+                1,
+                1,
+                1,
+                1
+              ],
+              "largest_component_block_fraction": 0.728744,
+              "jaccard_to_same_operator_raw_1200": 0.77125,
+              "not_a_bone_mask_or_HU_threshold": true
+            },
+            {
+              "raw_stored_PNG_scalar_cutoff": 1500,
+              "source_tile_operator": "eight",
+              "active_8x8x_slice_blocks": 4563,
+              "component_count_6_neighbor": 58,
+              "component_top_ten_block_counts": [
+                3314,
+                456,
+                117,
+                107,
+                98,
+                94,
+                58,
+                51,
+                42,
+                32
+              ],
+              "largest_component_block_fraction": 0.726277,
+              "jaccard_to_same_operator_raw_1200": 0.537203,
+              "not_a_bone_mask_or_HU_threshold": true
+            },
+            {
+              "raw_stored_PNG_scalar_cutoff": 1800,
+              "source_tile_operator": "eight",
+              "active_8x8x_slice_blocks": 1726,
+              "component_count_6_neighbor": 129,
+              "component_top_ten_block_counts": [
+                402,
+                254,
+                169,
+                88,
+                82,
+                71,
+                66,
+                42,
+                38,
+                37
+              ],
+              "largest_component_block_fraction": 0.232908,
+              "jaccard_to_same_operator_raw_1200": 0.203202,
+              "not_a_bone_mask_or_HU_threshold": true
+            }
+          ],
+          "bone_threshold_supported_by_anatomy": false
+        }
+      ],
+      "no_3d_components_connected_to_other_scanner_group": true
+    },
+    {
+      "source_group_index": 2,
+      "scanner_superior_range_mm": [
+        -451,
+        -553
+      ],
+      "individual_group_original_pinned_source_count": 35,
+      "operators": [
+        {
+          "operator": "any",
+          "block_rule": "one_or_more_of_64_raw_scalars",
+          "source_slices": 35,
+          "baseline_threshold_raw_stored_scalar": 1200,
+          "occupancy_monotone_nonincreasing_with_threshold": true,
+          "results": [
+            {
+              "raw_stored_PNG_scalar_cutoff": 900,
+              "source_tile_operator": "any",
+              "active_8x8x_slice_blocks": 60313,
+              "component_count_6_neighbor": 36,
+              "component_top_ten_block_counts": [
+                59102,
+                829,
+                144,
+                111,
+                25,
+                14,
+                14,
+                11,
+                10,
+                6
+              ],
+              "largest_component_block_fraction": 0.979921,
+              "jaccard_to_same_operator_raw_1200": 0.121218,
+              "not_a_bone_mask_or_HU_threshold": true
+            },
+            {
+              "raw_stored_PNG_scalar_cutoff": 1050,
+              "source_tile_operator": "any",
+              "active_8x8x_slice_blocks": 39938,
+              "component_count_6_neighbor": 115,
+              "component_top_ten_block_counts": [
+                38607,
+                539,
+                451,
+                82,
+                45,
+                37,
+                17,
+                17,
+                5,
+                4
+              ],
+              "largest_component_block_fraction": 0.966673,
+              "jaccard_to_same_operator_raw_1200": 0.183059,
+              "not_a_bone_mask_or_HU_threshold": true
+            },
+            {
+              "raw_stored_PNG_scalar_cutoff": 1200,
+              "source_tile_operator": "any",
+              "active_8x8x_slice_blocks": 7311,
+              "component_count_6_neighbor": 21,
+              "component_top_ten_block_counts": [
+                6275,
+                384,
+                313,
+                270,
+                24,
+                9,
+                7,
+                5,
+                4,
+                4
+              ],
+              "largest_component_block_fraction": 0.858296,
+              "jaccard_to_same_operator_raw_1200": 1,
+              "not_a_bone_mask_or_HU_threshold": true
+            },
+            {
+              "raw_stored_PNG_scalar_cutoff": 1350,
+              "source_tile_operator": "any",
+              "active_8x8x_slice_blocks": 6301,
+              "component_count_6_neighbor": 6,
+              "component_top_ten_block_counts": [
+                5503,
+                276,
+                257,
+                218,
+                45,
+                2
+              ],
+              "largest_component_block_fraction": 0.873353,
+              "jaccard_to_same_operator_raw_1200": 0.861852,
+              "not_a_bone_mask_or_HU_threshold": true
+            },
+            {
+              "raw_stored_PNG_scalar_cutoff": 1500,
+              "source_tile_operator": "any",
+              "active_8x8x_slice_blocks": 5214,
+              "component_count_6_neighbor": 13,
+              "component_top_ten_block_counts": [
+                4604,
+                183,
+                183,
+                162,
+                42,
+                31,
+                2,
+                2,
+                1,
+                1
+              ],
+              "largest_component_block_fraction": 0.883007,
+              "jaccard_to_same_operator_raw_1200": 0.713172,
+              "not_a_bone_mask_or_HU_threshold": true
+            },
+            {
+              "raw_stored_PNG_scalar_cutoff": 1800,
+              "source_tile_operator": "any",
+              "active_8x8x_slice_blocks": 2798,
+              "component_count_6_neighbor": 55,
+              "component_top_ten_block_counts": [
+                935,
+                745,
+                409,
+                393,
+                64,
+                30,
+                24,
+                23,
+                22,
+                15
+              ],
+              "largest_component_block_fraction": 0.334167,
+              "jaccard_to_same_operator_raw_1200": 0.382711,
+              "not_a_bone_mask_or_HU_threshold": true
+            }
+          ],
+          "bone_threshold_supported_by_anatomy": false
+        },
+        {
+          "operator": "eight",
+          "block_rule": "eight_or_more_of_64_raw_scalars",
+          "source_slices": 35,
+          "baseline_threshold_raw_stored_scalar": 1200,
+          "occupancy_monotone_nonincreasing_with_threshold": true,
+          "results": [
+            {
+              "raw_stored_PNG_scalar_cutoff": 900,
+              "source_tile_operator": "eight",
+              "active_8x8x_slice_blocks": 58675,
+              "component_count_6_neighbor": 19,
+              "component_top_ten_block_counts": [
+                57887,
+                680,
+                56,
+                8,
+                7,
+                6,
+                5,
+                5,
+                4,
+                3
+              ],
+              "largest_component_block_fraction": 0.98657,
+              "jaccard_to_same_operator_raw_1200": 0.102923,
+              "not_a_bone_mask_or_HU_threshold": true
+            },
+            {
+              "raw_stored_PNG_scalar_cutoff": 1050,
+              "source_tile_operator": "eight",
+              "active_8x8x_slice_blocks": 33193,
+              "component_count_6_neighbor": 71,
+              "component_top_ten_block_counts": [
+                32340,
+                376,
+                335,
+                19,
+                17,
+                12,
+                8,
+                7,
+                6,
+                3
+              ],
+              "largest_component_block_fraction": 0.974302,
+              "jaccard_to_same_operator_raw_1200": 0.181936,
+              "not_a_bone_mask_or_HU_threshold": true
+            },
+            {
+              "raw_stored_PNG_scalar_cutoff": 1200,
+              "source_tile_operator": "eight",
+              "active_8x8x_slice_blocks": 6039,
+              "component_count_6_neighbor": 6,
+              "component_top_ten_block_counts": [
+                5346,
+                231,
+                202,
+                130,
+                86,
+                44
+              ],
+              "largest_component_block_fraction": 0.885246,
+              "jaccard_to_same_operator_raw_1200": 1,
+              "not_a_bone_mask_or_HU_threshold": true
+            },
+            {
+              "raw_stored_PNG_scalar_cutoff": 1350,
+              "source_tile_operator": "eight",
+              "active_8x8x_slice_blocks": 4822,
+              "component_count_6_neighbor": 14,
+              "component_top_ten_block_counts": [
+                4306,
+                146,
+                106,
+                73,
+                60,
+                56,
+                36,
+                29,
+                2,
+                2
+              ],
+              "largest_component_block_fraction": 0.89299,
+              "jaccard_to_same_operator_raw_1200": 0.798477,
+              "not_a_bone_mask_or_HU_threshold": true
+            },
+            {
+              "raw_stored_PNG_scalar_cutoff": 1500,
+              "source_tile_operator": "eight",
+              "active_8x8x_slice_blocks": 3597,
+              "component_count_6_neighbor": 24,
+              "component_top_ten_block_counts": [
+                3251,
+                95,
+                52,
+                42,
+                31,
+                28,
+                22,
+                12,
+                12,
+                11
+              ],
+              "largest_component_block_fraction": 0.903809,
+              "jaccard_to_same_operator_raw_1200": 0.595628,
+              "not_a_bone_mask_or_HU_threshold": true
+            },
+            {
+              "raw_stored_PNG_scalar_cutoff": 1800,
+              "source_tile_operator": "eight",
+              "active_8x8x_slice_blocks": 1340,
+              "component_count_6_neighbor": 99,
+              "component_top_ten_block_counts": [
+                286,
+                270,
+                195,
+                178,
+                48,
+                27,
+                25,
+                18,
+                18,
+                16
+              ],
+              "largest_component_block_fraction": 0.213433,
+              "jaccard_to_same_operator_raw_1200": 0.221891,
+              "not_a_bone_mask_or_HU_threshold": true
+            }
+          ],
+          "bone_threshold_supported_by_anatomy": false
+        }
+      ],
+      "no_3d_components_connected_to_other_scanner_group": true
+    }
+  ],
+  "source_bundle": "ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json",
+  "github_actions_url": "https://github.com/anyangle1409-code/animation-software/actions/runs/37997358527",
+  "verification_date_utc": "2026-10-09",
+  "source_nlm_original_png_sha256_individually_checked": true,
+  "published_threshold_sweep_only_not_raw_medical_images": true,
+  "inference": "High sensitivity to stored scalar threshold in occupancy/topology; this does NOT justify a bone tissue classification or accepted skeletal geometry.",
+  "independent_bony_landmark_source_accepted": false,
+  "clinical_surface_fidelity_accepted": false
+}

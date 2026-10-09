@@ -18,6 +18,7 @@ on:
       - 'scripts/test_nlm_ct_pixel_ras_envelope.py'
       - 'scripts/anatomy_fit/nlm_contiguous_pelvis_ct_windows.py'
       - 'scripts/test_nlm_contiguous_pelvis_ct_windows.py'
+      - 'ORIGINAL_V1_WORK/anatomy/audit/nlm_contiguous_ct_windows_pinned_20261009.json'
       - 'ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvis_scout_pinned_source_positions_20261009.json'
       - 'ORIGINAL_V1_WORK/anatomy/audit/nlm_original_ct_png_pinned_preview_20261009.json'
       - 'ORIGINAL_V1_WORK/anatomy/audit/nih3d_male_pelvis_mesh_source_manifest_20261009.json'
@@ -99,4 +100,5 @@ jobs:
       - uses: actions/checkout@v4
       - name: Read six actual NLM original CT images and scanner headers in two adjacent triads
         run: |
-          python3 scripts/anatomy_fit/nlm_contiguous_pelvis_ct_windows.py --live
+          python3 scripts/anatomy_fit/nlm_contiguous_pelvis_ct_windows.py --live \
+            --pinned-manifest ORIGINAL_V1_WORK/anatomy/audit/nlm_contiguous_ct_windows_pinned_20261009.json

@@ -13,6 +13,7 @@ import math
 from pathlib import Path
 
 import bone_surface_topology as topology
+import bone_surface_correspondence as correspondence
 
 
 def _number(v):
@@ -105,10 +106,10 @@ def validate(asset, skeleton, articulation_inventory):
         errors[name] = _dist(_world(frame, anchors[name]), bones[bone_id][key]) * 1000
         if errors[name] > 0.01:  # 10 micron numerical registration tolerance; not anatomical tolerance
             raise ValueError(f'{name} anchor differs from reference skeleton by {errors[name]:.6f} mm')
-    mesh = _triangles(asset.get('vertices_m'), asset.get('triangles'),
-                      asset.get('surface_type') == 'closed_bone')
     if asset.get('surface_type') not in ('closed_bone', 'open_review_patch'):
         raise ValueError('unsupported surface type')
+    mesh = _triangles(asset.get('vertices_m'), asset.get('triangles'),
+                      asset.get('surface_type') == 'closed_bone')
     arts = articulation_inventory.get('articulations', [])
     extra = articulation_inventory.get('additional_structures', {})
     joint_bones = {a['id']: {extra.get(p, {}).get('owner_bone', p) for p in a['participants']}
@@ -135,13 +136,17 @@ def validate(asset, skeleton, articulation_inventory):
         if not isinstance(lid, str) or not lid or lid in seen or not _vec(landmark.get('point_local_m')):
             raise ValueError('invalid or duplicate attachment landmark')
         seen.add(lid)
+    world_vertices = [_world(frame, vertex) for vertex in asset['vertices_m']]
+    spatial = correspondence.check(asset, bones[bone_id], world_vertices,
+                                   skeleton.get('world_basis', correspondence.BASIS))
     # Evidence declarations are not scientifically verified by software. In
     # particular, "reviewed" strings do not grant canonical acceptance.
     return {'schema_version': 1, 'bone_id': bone_id,
             'status': 'GEOMETRY_CONSISTENT_ANATOMY_UNVERIFIED',
             'canonical_promotion_allowed': False, 'mesh_skin_used': False,
             'rig_anchors_max_error_mm': max(errors.values()),
-            'mesh': mesh, 'articular_patches_checked': len(patches),
+            'mesh': mesh, 'spatial': spatial,
+            'articular_patches_checked': len(patches),
             'attachment_landmarks_checked': len(landmarks),
             'missing_anatomical_acceptance': [
                 'Independent shape provenance/coordinate registration review',

@@ -119,6 +119,43 @@ class OriginalCTTriplets(unittest.TestCase):
         self.assertFalse(r["canonical_promotion_allowed"])
         self.assertNotIn("NEVER-ECHO-THIS",json.dumps(r))
 
+    def test_pinned_source_manifest_unique_complete_and_noncanonical(self):
+        path=(HERE.parent/"ORIGINAL_V1_WORK/anatomy/audit/"
+              "nlm_contiguous_ct_windows_pinned_20261009.json")
+        m=json.loads(path.read_text())
+        self.assertFalse(m["canonical_promotion_allowed"])
+        self.assertFalse(m["anatomical_features_identified"])
+        self.assertEqual(set(row["source_id"] for row in m["exact_png_and_scanner_header_sha256"]),
+                         {1749,1752,1755,1797,1800,1803})
+        self.assertEqual(m["pixel_spacing_xy_mm"],[.898438,.898438])
+
+    def test_pin_verifier_checks_every_source_coordinate_and_SHA(self):
+        path=(HERE.parent/"ORIGINAL_V1_WORK/anatomy/audit/"
+              "nlm_contiguous_ct_windows_pinned_20261009.json")
+        m=json.loads(path.read_text())
+        p={r["source_id"]:r for r in m["exact_png_and_scanner_header_sha256"]}
+        rows0=rows()
+        for group in rows0:
+            for r in group:
+                d=p[r["source_id"]]
+                r["source_png_sha256"]=d["png_sha256"]
+                r["source_header_sha256"]=d["scanner_header_sha256"]
+                r["source_PNG_byte_count"]=d["png_bytes"]
+        a=windows.check_pinned_source({"source_image_rows":rows0},m)
+        self.assertTrue(a["all_six_source_png_header_sha_and_scanner_positions_match"])
+        self.assertFalse(a["canonical_promotion_allowed"])
+        rows0[0][0]["source_header_sha256"]="f"*64
+        with self.assertRaisesRegex(ValueError,"source-byte identity mismatch"):
+            windows.check_pinned_source({"source_image_rows":rows0},m)
+
+    def test_pin_verifier_rejects_claimed_anatomical_promotion(self):
+        path=(HERE.parent/"ORIGINAL_V1_WORK/anatomy/audit/"
+              "nlm_contiguous_ct_windows_pinned_20261009.json")
+        m=json.loads(path.read_text())
+        m["anatomical_features_identified"]=True
+        with self.assertRaisesRegex(ValueError,"unsupported anatomy"):
+            windows.check_pinned_source({"source_image_rows":[]},m)
+
     def test_proper_real_source_https_only(self):
         self.assertTrue(windows.scout.INDEX_BASE.startswith("https://data.lhncbc.nlm.nih.gov/"))
         self.assertTrue(windows.hdr.ROOT.startswith("https://data.lhncbc.nlm.nih.gov/"))

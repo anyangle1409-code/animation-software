@@ -1,0 +1,795 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "kind": "READ_ONLY_TEST_DESIGN_ANALYSIS",
+ "finding": "H6",
+ "record": "c004 (unchanged)",
+ "inputs_sha256": {
+  "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json": "99500d94e06c66ca489bdaccc0345446f98794946254c5e592d9449696f396c1",
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c004_arm_inputs_001/isolated_samples.json": "5632dd46dd035293fc6007d41990955e6828ad1e53c5e11154c0057a2f37e78a",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/whole_body_interaction_c004.json": "2d4a6b37059f157972d37acc14ff435914c027011d25353bbdba3c76ebf84420"
+ },
+ "method": "committed per-frame world deltas (stride 2), then a GH-only start abduction alpha of the whole arm about the fitted GH centre around the global AP axis; segment distance between forearm/hand sticks and the same-side femur and hip bone",
+ "smallest_start_abduction_deg_for_axis_distance": {
+  "digit3_flexion_left_ge10mm": 0,
+  "digit3_flexion_left_ge25mm": 0,
+  "digit3_flexion_right_ge10mm": 0,
+  "digit3_flexion_right_ge25mm": 0,
+  "elbow_flexion_at_pronation_0_left_ge10mm": 0,
+  "elbow_flexion_at_pronation_0_left_ge25mm": 0,
+  "elbow_flexion_at_pronation_0_right_ge10mm": 0,
+  "elbow_flexion_at_pronation_0_right_ge25mm": 0,
+  "elbow_flexion_at_pronation_60_left_ge10mm": 4,
+  "elbow_flexion_at_pronation_60_left_ge25mm": 6,
+  "elbow_flexion_at_pronation_60_right_ge10mm": 4,
+  "elbow_flexion_at_pronation_60_right_ge25mm": 6,
+  "forearm_rotation_at_elbow_0_left_ge10mm": 3,
+  "forearm_rotation_at_elbow_0_left_ge25mm": 5,
+  "forearm_rotation_at_elbow_0_right_ge10mm": 3,
+  "forearm_rotation_at_elbow_0_right_ge25mm": 5,
+  "forearm_rotation_at_elbow_90_left_ge10mm": 0,
+  "forearm_rotation_at_elbow_90_left_ge25mm": 0,
+  "forearm_rotation_at_elbow_90_right_ge10mm": 0,
+  "forearm_rotation_at_elbow_90_right_ge25mm": 0,
+  "gh_axial_rotation_at_0_elevation_left_ge10mm": 1,
+  "gh_axial_rotation_at_0_elevation_left_ge25mm": 3,
+  "gh_axial_rotation_at_0_elevation_right_ge10mm": 1,
+  "gh_axial_rotation_at_0_elevation_right_ge25mm": 3,
+  "thumb_opposition_left_ge10mm": 0,
+  "thumb_opposition_left_ge25mm": 0,
+  "thumb_opposition_right_ge10mm": 0,
+  "thumb_opposition_right_ge25mm": 0,
+  "wrist_adduction_left_ge10mm": 0,
+  "wrist_adduction_left_ge25mm": 0,
+  "wrist_adduction_right_ge10mm": 0,
+  "wrist_adduction_right_ge25mm": 0,
+  "wrist_flexion_left_ge10mm": 7,
+  "wrist_flexion_left_ge25mm": 9,
+  "wrist_flexion_right_ge10mm": 7,
+  "wrist_flexion_right_ge25mm": 9
+ },
+ "alpha0_consistency_with_interaction_scan": {
+  "forearm_rotation_at_elbow_0_left": {
+   "alpha0_mm": 1.49,
+   "interaction_scan_min_mm": 1.49
+  },
+  "forearm_rotation_at_elbow_90_left": {
+   "alpha0_mm": 79.23,
+   "interaction_scan_min_mm": null
+  },
+  "elbow_flexion_at_pronation_0_left": {
+   "alpha0_mm": 76.4,
+   "interaction_scan_min_mm": null
+  },
+  "elbow_flexion_at_pronation_60_left": {
+   "alpha0_mm": 3.67,
+   "interaction_scan_min_mm": 3.67
+  },
+  "gh_axial_rotation_at_0_elevation_left": {
+   "alpha0_mm": 5.39,
+   "interaction_scan_min_mm": 5.39
+  },
+  "wrist_flexion_left": {
+   "alpha0_mm": 6.89,
+   "interaction_scan_min_mm": 6.89
+  },
+  "wrist_adduction_left": {
+   "alpha0_mm": 49.16,
+   "interaction_scan_min_mm": null
+  },
+  "thumb_opposition_left": {
+   "alpha0_mm": 61.11,
+   "interaction_scan_min_mm": null
+  },
+  "digit3_flexion_left": {
+   "alpha0_mm": 28.52,
+   "interaction_scan_min_mm": null
+  },
+  "forearm_rotation_at_elbow_0_right": {
+   "alpha0_mm": 1.49,
+   "interaction_scan_min_mm": 1.49
+  },
+  "forearm_rotation_at_elbow_90_right": {
+   "alpha0_mm": 79.23,
+   "interaction_scan_min_mm": null
+  },
+  "elbow_flexion_at_pronation_0_right": {
+   "alpha0_mm": 76.4,
+   "interaction_scan_min_mm": null
+  },
+  "elbow_flexion_at_pronation_60_right": {
+   "alpha0_mm": 3.67,
+   "interaction_scan_min_mm": 3.67
+  },
+  "gh_axial_rotation_at_0_elevation_right": {
+   "alpha0_mm": 5.39,
+   "interaction_scan_min_mm": 5.39
+  },
+  "wrist_flexion_right": {
+   "alpha0_mm": 6.89,
+   "interaction_scan_min_mm": 6.89
+  },
+  "wrist_adduction_right": {
+   "alpha0_mm": 49.16,
+   "interaction_scan_min_mm": null
+  },
+  "thumb_opposition_right": {
+   "alpha0_mm": 61.11,
+   "interaction_scan_min_mm": null
+  },
+  "digit3_flexion_right": {
+   "alpha0_mm": 28.52,
+   "interaction_scan_min_mm": null
+  }
+ },
+ "per_test": {
+  "forearm_rotation_at_elbow_0_left": {
+   "0": {
+    "min_axis_mm": 1.49,
+    "pair": [
+     "thumb_proximal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "5": {
+    "min_axis_mm": 31.76,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "10": {
+    "min_axis_mm": 82.92,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "15": {
+    "min_axis_mm": 137.38,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "20": {
+    "min_axis_mm": 192.2,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   }
+  },
+  "forearm_rotation_at_elbow_90_left": {
+   "0": {
+    "min_axis_mm": 79.23,
+    "pair": [
+     "thumb_proximal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "5": {
+    "min_axis_mm": 122.95,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "10": {
+    "min_axis_mm": 171.31,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "15": {
+    "min_axis_mm": 222.66,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "20": {
+    "min_axis_mm": 274.76,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   }
+  },
+  "elbow_flexion_at_pronation_0_left": {
+   "0": {
+    "min_axis_mm": 76.4,
+    "pair": [
+     "thumb_proximal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "5": {
+    "min_axis_mm": 120.35,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "10": {
+    "min_axis_mm": 169.57,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "15": {
+    "min_axis_mm": 221.47,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "20": {
+    "min_axis_mm": 273.96,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   }
+  },
+  "elbow_flexion_at_pronation_60_left": {
+   "0": {
+    "min_axis_mm": 3.67,
+    "pair": [
+     "thumb_proximal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "5": {
+    "min_axis_mm": 22.65,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "10": {
+    "min_axis_mm": 77.4,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "15": {
+    "min_axis_mm": 132.54,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "20": {
+    "min_axis_mm": 187.59,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   }
+  },
+  "gh_axial_rotation_at_0_elevation_left": {
+   "0": {
+    "min_axis_mm": 5.39,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "5": {
+    "min_axis_mm": 53.26,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "10": {
+    "min_axis_mm": 108.71,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "15": {
+    "min_axis_mm": 164.47,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "20": {
+    "min_axis_mm": 219.99,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   }
+  },
+  "wrist_flexion_left": {
+   "0": {
+    "min_axis_mm": 6.89,
+    "pair": [
+     "digit3_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "5": {
+    "min_axis_mm": 9.09,
+    "pair": [
+     "digit3_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "10": {
+    "min_axis_mm": 42.6,
+    "pair": [
+     "digit3_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "15": {
+    "min_axis_mm": 96.85,
+    "pair": [
+     "digit3_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "20": {
+    "min_axis_mm": 151.69,
+    "pair": [
+     "digit3_distal_phalanx_left",
+     "femur_left"
+    ]
+   }
+  },
+  "wrist_adduction_left": {
+   "0": {
+    "min_axis_mm": 49.16,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "5": {
+    "min_axis_mm": 105.91,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "10": {
+    "min_axis_mm": 163.88,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "15": {
+    "min_axis_mm": 221.61,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "20": {
+    "min_axis_mm": 270.07,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   }
+  },
+  "thumb_opposition_left": {
+   "0": {
+    "min_axis_mm": 61.11,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "5": {
+    "min_axis_mm": 95.98,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "10": {
+    "min_axis_mm": 141.18,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "15": {
+    "min_axis_mm": 190.53,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "20": {
+    "min_axis_mm": 241.03,
+    "pair": [
+     "thumb_distal_phalanx_left",
+     "femur_left"
+    ]
+   }
+  },
+  "digit3_flexion_left": {
+   "0": {
+    "min_axis_mm": 28.52,
+    "pair": [
+     "digit3_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "5": {
+    "min_axis_mm": 84.78,
+    "pair": [
+     "digit3_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "10": {
+    "min_axis_mm": 141.76,
+    "pair": [
+     "digit3_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "15": {
+    "min_axis_mm": 197.81,
+    "pair": [
+     "digit3_distal_phalanx_left",
+     "femur_left"
+    ]
+   },
+   "20": {
+    "min_axis_mm": 253.31,
+    "pair": [
+     "digit3_distal_phalanx_left",
+     "femur_left"
+    ]
+   }
+  },
+  "forearm_rotation_at_elbow_0_right": {
+   "0": {
+    "min_axis_mm": 1.49,
+    "pair": [
+     "thumb_proximal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "5": {
+    "min_axis_mm": 31.76,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "10": {
+    "min_axis_mm": 82.92,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "15": {
+    "min_axis_mm": 137.38,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "20": {
+    "min_axis_mm": 192.2,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   }
+  },
+  "forearm_rotation_at_elbow_90_right": {
+   "0": {
+    "min_axis_mm": 79.23,
+    "pair": [
+     "thumb_proximal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "5": {
+    "min_axis_mm": 122.95,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "10": {
+    "min_axis_mm": 171.31,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "15": {
+    "min_axis_mm": 222.66,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "20": {
+    "min_axis_mm": 274.76,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   }
+  },
+  "elbow_flexion_at_pronation_0_right": {
+   "0": {
+    "min_axis_mm": 76.4,
+    "pair": [
+     "thumb_proximal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "5": {
+    "min_axis_mm": 120.35,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "10": {
+    "min_axis_mm": 169.57,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "15": {
+    "min_axis_mm": 221.47,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "20": {
+    "min_axis_mm": 273.96,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   }
+  },
+  "elbow_flexion_at_pronation_60_right": {
+   "0": {
+    "min_axis_mm": 3.67,
+    "pair": [
+     "thumb_proximal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "5": {
+    "min_axis_mm": 22.65,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "10": {
+    "min_axis_mm": 77.4,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "15": {
+    "min_axis_mm": 132.54,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "20": {
+    "min_axis_mm": 187.59,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   }
+  },
+  "gh_axial_rotation_at_0_elevation_right": {
+   "0": {
+    "min_axis_mm": 5.39,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "5": {
+    "min_axis_mm": 53.26,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "10": {
+    "min_axis_mm": 108.71,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "15": {
+    "min_axis_mm": 164.47,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "20": {
+    "min_axis_mm": 219.99,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   }
+  },
+  "wrist_flexion_right": {
+   "0": {
+    "min_axis_mm": 6.89,
+    "pair": [
+     "digit3_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "5": {
+    "min_axis_mm": 9.09,
+    "pair": [
+     "digit3_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "10": {
+    "min_axis_mm": 42.6,
+    "pair": [
+     "digit3_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "15": {
+    "min_axis_mm": 96.85,
+    "pair": [
+     "digit3_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "20": {
+    "min_axis_mm": 151.69,
+    "pair": [
+     "digit3_distal_phalanx_right",
+     "femur_right"
+    ]
+   }
+  },
+  "wrist_adduction_right": {
+   "0": {
+    "min_axis_mm": 49.16,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "5": {
+    "min_axis_mm": 105.91,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "10": {
+    "min_axis_mm": 163.88,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "15": {
+    "min_axis_mm": 221.61,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "20": {
+    "min_axis_mm": 270.07,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   }
+  },
+  "thumb_opposition_right": {
+   "0": {
+    "min_axis_mm": 61.11,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "5": {
+    "min_axis_mm": 95.98,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "10": {
+    "min_axis_mm": 141.18,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "15": {
+    "min_axis_mm": 190.53,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "20": {
+    "min_axis_mm": 241.03,
+    "pair": [
+     "thumb_distal_phalanx_right",
+     "femur_right"
+    ]
+   }
+  },
+  "digit3_flexion_right": {
+   "0": {
+    "min_axis_mm": 28.52,
+    "pair": [
+     "digit3_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "5": {
+    "min_axis_mm": 84.78,
+    "pair": [
+     "digit3_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "10": {
+    "min_axis_mm": 141.76,
+    "pair": [
+     "digit3_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "15": {
+    "min_axis_mm": 197.81,
+    "pair": [
+     "digit3_distal_phalanx_right",
+     "femur_right"
+    ]
+   },
+   "20": {
+    "min_axis_mm": 253.31,
+    "pair": [
+     "digit3_distal_phalanx_right",
+     "femur_right"
+    ]
+   }
+  }
+ },
+ "threshold_note": "10/25 mm are reporting thresholds on axis distance, not anatomical clearances (no envelopes exist)",
+ "reading": "H6 is a start-posture (test-design) problem: a modest GH start abduction separates the arm from the thigh in every affected sweep; no bone or amplitude change is implied. Scapular participation in the start posture is not modelled."
+}

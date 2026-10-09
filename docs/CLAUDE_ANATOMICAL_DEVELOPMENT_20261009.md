@@ -259,3 +259,11 @@ The source matrix is `ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_developme
 **Clavicle.** E-CLAV-1 is unresolved: the MoBL elevation and retraction couplings conflict with the repository values, and primary data is unreachable.
 
 c004, T001/P001 and production are unchanged.
+
+## H6 hand–thigh start posture (test design, quantified)
+
+Evidence: `ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/hand_thigh_start_posture_c004_v1.json`.
+
+**Result:** a GH start abduction of at least 7° (10 mm) or 9° (25 mm) separates the forearm and hand from the femur and hip bone in all affected c004 sweeps. Clearances are axis distances only; the thresholds are reporting levels, not anatomical clearances.
+
+**Recorded in:** `defect_register_update_v1.json` (H6).

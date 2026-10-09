@@ -993,3 +993,11 @@ Read-only distal-span context checks now trace runtime surface stations rather t
   - MoBL elevation (0.1025°/°, 17.2° at 168° HT) exceeds the repository's "below 10°" bound above about 98°.
   - MoBL retraction (−40.7° at 168°) conflicts with the repository's 15° end value.
   - No primary bone-pin table is reachable.
+
+### 2026-10-09 H6 hand–thigh start posture quantified (Claude; test-design evidence only)
+- **Evidence:** `ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/hand_thigh_start_posture_c004_v1.json`, from `scripts/anatomy_fit/hand_thigh_start_posture.py`; tests in `scripts/test_hand_thigh_start_posture.py` (4).
+- **Method:** the committed c004 sweeps, preceded by a GH-only start abduction α of the whole arm.
+- **Consistency:** α = 0 reproduces the interaction scan exactly (1.49 / 3.67 / 5.39 / 6.89 mm).
+- **Result:** α ≥ 7° gives at least 10 mm and α ≥ 9° at least 25 mm axis distance from the femur and hip bone in every affected sweep, on both sides. Wrist flexion is the binding test.
+- **H6** moves from OPEN to QUANTIFIED (test redesign pending; amplitudes unchanged; the start posture's scapular participation is to be stated).
+- **Unchanged:** no model, record or test changed.

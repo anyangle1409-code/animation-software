@@ -85,6 +85,7 @@ HANDOFF_PATHS = [
     ('Follower source matrix: patellar path and clavicle elevation (conflicts; E-PAT-1 proposed, E-CLAV-1 unresolved)', 'ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/follower_source_matrix_v1.json'),
     ('Patellar tracking analysis (L3)', 'ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/patellar_tracking_c004_v1.json'),
     ('Knee render: static patella vs sourced follower (diagnostic, follower not installed)', 'ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/renders_knee_patella/knee_patella_static_vs_follower.jpg'),
+    ('Hand-thigh start-posture analysis (H6)', 'ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/hand_thigh_start_posture_c004_v1.json'),
     ('Hip adduction start-posture analysis (L4)', 'ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/hip_adduction_start_posture_c004_v1.json'),
     ('Clavicle elevation gap (U3)', 'ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/clavicle_elevation_gap_c004_v1.json'),
     ('Grip capacity c004 / P001 (H10, no defect)', 'ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/grip_capacity_c004_v1.json'),
@@ -137,7 +138,7 @@ def handoff_section():
          'test rotates it at the sourced 0.66 ratio but has no sourced translation, so the ligament still lengthens by up to '
          '23 mm (+43 %) (L3; Rajagopal path template not installed); '
          'clavicle elevation missing (U3, verified 0 deg at 170 deg humerothoracic; MoBL coefficient vs 10 deg bound conflict); hip-adduction test crosses tibiae (L4, '
-         'start-posture fix); hand-thigh contact in forearm sweeps (H6); 78 unsupported amplitudes.',
+         'start-posture fix); hand-thigh contact in forearm sweeps (H6, quantified: GH start abduction >= 7-9 deg clears it); 78 unsupported amplitudes.',
          '- Other open tracker items: radius/ulna endpoint corridors, humerus and sternum length, tarsal joint centres (L5), '
          'thumb CMC gap (H3), absolute shoulder height vs trunk, head geometry placeholders.',
          '- Erratum: the earlier "IJ +24.7 mm" residual used a stale a003 skin input; c004 bony IJ is already at ANSUR.', '',

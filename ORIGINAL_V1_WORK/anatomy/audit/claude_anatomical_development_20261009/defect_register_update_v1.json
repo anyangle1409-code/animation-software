@@ -144,6 +144,33 @@
     "ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/grip_capacity_p001_v1.json"
    ],
    "action": "none; P001 does not change finger wrap; soft-tissue offset unsourced (tabulated)"
+  },
+  {
+   "id": "H6",
+   "cls": "MOVEMENT_TEST_DESIGN",
+   "status": "QUANTIFIED",
+   "date": "2026-10-09",
+   "measured": {
+    "alpha0_min_axis_mm": {
+     "forearm_rotation_at_elbow_0_left": 1.49,
+     "forearm_rotation_at_elbow_90_left": 79.23,
+     "elbow_flexion_at_pronation_0_left": 76.4,
+     "elbow_flexion_at_pronation_60_left": 3.67,
+     "gh_axial_rotation_at_0_elevation_left": 5.39,
+     "wrist_flexion_left": 6.89,
+     "wrist_adduction_left": 49.16,
+     "thumb_opposition_left": 61.11,
+     "digit3_flexion_left": 28.52
+    },
+    "max_start_abduction_deg_needed": {
+     "ge10mm": 7,
+     "ge25mm": 9
+    }
+   },
+   "evidence": [
+    "ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/hand_thigh_start_posture_c004_v1.json"
+   ],
+   "action": "redesign the affected arm sweeps (forearm rotation at elbow 0, elbow flexion at pronation 60, GH axial at 0 elevation, wrist flexion) with a GH start abduction of at least 7-9 deg plus an envelope margin; amplitudes unchanged; scapular participation in the start posture to be stated"
   }
  ]
 }

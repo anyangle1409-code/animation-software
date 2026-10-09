@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - codex/independent-pelvis-stl-intake-20261009
+      - codex/pelvic-ct-identification-segmentation-20261009
   pull_request:
     paths:
       - 'scripts/anatomy_fit/stl_bone_mesh_intake.py'
@@ -18,6 +19,15 @@ on:
       - 'scripts/test_nlm_ct_pixel_ras_envelope.py'
       - 'scripts/anatomy_fit/nlm_contiguous_pelvis_ct_windows.py'
       - 'scripts/test_nlm_contiguous_pelvis_ct_windows.py'
+      - 'scripts/anatomy_fit/nlm_ct_anatomical_review.py'
+      - 'scripts/test_nlm_ct_anatomical_review.py'
+      - 'scripts/anatomy_fit/nlm_ct_candidate_segmentation.py'
+      - 'scripts/test_nlm_ct_candidate_segmentation.py'
+      - 'scripts/anatomy_fit/nlm_ct_landmark_validation.py'
+      - 'scripts/test_nlm_ct_landmark_validation.py'
+      - 'scripts/anatomy_fit/nlm_ct_pelvis_workflow.py'
+      - 'scripts/test_nlm_ct_pelvis_workflow.py'
+      - 'docs/NLM_PELVIC_CT_IDENTIFICATION_SEGMENTATION_WORKFLOW_20261009.md'
       - 'ORIGINAL_V1_WORK/anatomy/audit/nlm_contiguous_ct_windows_pinned_20261009.json'
       - 'ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvis_scout_pinned_source_positions_20261009.json'
       - 'ORIGINAL_V1_WORK/anatomy/audit/nlm_original_ct_png_pinned_preview_20261009.json'
@@ -42,6 +52,10 @@ jobs:
           python3 -m unittest discover -s scripts -p 'test_nlm_pelvis_region_scout.py' -v
           python3 -m unittest discover -s scripts -p 'test_nlm_ct_pixel_ras_envelope.py' -v
           python3 -m unittest discover -s scripts -p 'test_nlm_contiguous_pelvis_ct_windows.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_anatomical_review.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_candidate_segmentation.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_landmark_validation.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_pelvis_workflow.py' -v
       - name: Preserve osseous APP and source-registry regression tests
         run: |
           python3 -m unittest discover -s scripts -p 'test_external_trunk_landmark_bridge.py' -v

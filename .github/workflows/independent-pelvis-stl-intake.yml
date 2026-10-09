@@ -42,3 +42,19 @@ jobs:
           python3 -m unittest discover -s scripts -p 'test_p006_sternocostal_translation_feasibility.py' -v
           python3 -m unittest discover -s scripts -p 'test_p007_sternum_rigid_fit_audit.py' -v
           python3 -m unittest discover -s scripts -p 'test_neutral_arm_thigh_clearance.py' -v
+
+  original-ct-pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify two original NLM CT slices without persisting images
+        run: |
+          python3 scripts/anatomy_fit/nlm_original_ct_png_probe.py \
+            --download cvm1012f.png --temporary-out "$RUNNER_TEMP/cvm1012f.png"
+          python3 scripts/anatomy_fit/nlm_original_ct_png_probe.py \
+            --download cvm1013f.png --temporary-out "$RUNNER_TEMP/cvm1013f.png"
+      - name: Confirm original staged bytes are still valid PNG files
+        run: |
+          python3 scripts/anatomy_fit/nlm_original_ct_png_probe.py --file "$RUNNER_TEMP/cvm1012f.png"
+          python3 scripts/anatomy_fit/nlm_original_ct_png_probe.py --file "$RUNNER_TEMP/cvm1013f.png"

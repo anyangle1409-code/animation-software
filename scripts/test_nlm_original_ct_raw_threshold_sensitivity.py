@@ -149,6 +149,42 @@ class RawThresholdSensitivityTests(unittest.TestCase):
             self.assertFalse(result[key])
         self.assertEqual(json.dumps(self.bundle,sort_keys=True),before)
 
+    def test_executed_original_NLM_source_results_are_pinned(self):
+        source=(HERE.parent/'ORIGINAL_V1_WORK/anatomy/audit/'
+                'nlm_ct_raw_threshold_sensitivity_verified_20261009.json')
+        result=json.loads(source.read_text())
+        self.assertEqual(result['source_slices_verified'],72)
+        self.assertEqual(result['source_groups_evaluated_separately'],2)
+        self.assertTrue(result['original_NLM_PNG_sha256_verified_for_each_image'])
+        self.assertFalse(result['canonical_promotion_allowed'])
+        self.assertFalse(result['cortical_or_cancellous_bone_label_independently_verified'])
+        self.assertFalse(result['provisional_image_intensity_to_HU_conversion_verified'])
+        self.assertTrue(result['published_threshold_sweep_only_not_raw_medical_images'])
+
+    def test_real_72_frame_threshold_1200_to_1800_is_topologically_unstable(self):
+        source=(HERE.parent/'ORIGINAL_V1_WORK/anatomy/audit/'
+                'nlm_ct_raw_threshold_sensitivity_verified_20261009.json')
+        record=json.loads(source.read_text())
+        expected=[(10452,3704),(7311,2798)]
+        for group,(before,after) in zip(record['group_reports'],expected):
+            op=next(x for x in group['operators'] if x['operator']=='any')
+            r={x['raw_stored_PNG_scalar_cutoff']:x for x in op['results']}
+            self.assertEqual(r[1200]['active_8x8x_slice_blocks'],before)
+            self.assertEqual(r[1800]['active_8x8x_slice_blocks'],after)
+            self.assertGreater((before-after)/before,.60)
+            self.assertLess(r[1800]['jaccard_to_same_operator_raw_1200'],.40)
+            self.assertGreater(r[1200]['largest_component_block_fraction'],
+                               r[1800]['largest_component_block_fraction'])
+
+    def test_real_72_frame_source_groups_remain_separate(self):
+        source=(HERE.parent/'ORIGINAL_V1_WORK/anatomy/audit/'
+                'nlm_ct_raw_threshold_sensitivity_verified_20261009.json')
+        data=json.loads(source.read_text())
+        self.assertEqual([g['individual_group_original_pinned_source_count']
+                          for g in data['group_reports']],[37,35])
+        self.assertTrue(all(g['no_3d_components_connected_to_other_scanner_group']
+                            for g in data['group_reports']))
+
     def test_missing_source_record_fails_closed(self):
         def bad(row):
             return 'not-the-same-id',blank()

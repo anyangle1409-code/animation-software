@@ -1017,3 +1017,21 @@ Full proximal curves remain BLOCKED pending verified intended conventions or an 
   - The only a003/c003 difference is trivial (largest jump 14.05° vs 13.91°).
 - **Correction in the method:** a first pass flagged 1,211 "issues", which were artefacts of `acos` at small angles and a float64 bound applied to float32 matrices. Both were fixed before recording, and the reasoning is in the script.
 - **Tests:** `scripts/test_frame_continuity_scan.py` (8). Six mutation tests inject a reflection, a NaN, a frame gap, a 30° rotation jump, a non-rest end state and a 360° wrap, and each must be detected.
+
+### State restoration of the isolated runner, including failure paths (9 October, Claude): CLEAN on a003 and c003
+
+- **What:** `scripts/anatomy_fit/state_restoration_audit_blender.py` drives the unmodified `run_isolated_tests_blender.py` in Blender under four scenarios:
+  - normal completion;
+  - a RuntimeError injected at the 200th measurement (mid-sweep, frame 208);
+  - a KeyboardInterrupt at the same point;
+  - a RuntimeError during authoring.
+- **Captured each time:** source sha256 before and after; which outputs exist; the live frame and subframe; and full state snapshots (frame, subframe, active object, selection, mode, frame range, fps, armature pose bases, every constraint and driver) of the re-opened source and the saved test blend.
+- **Results (identical on both models):**
+  - The source file and its re-opened state are unchanged in every scenario.
+  - The session frame is restored to 1/0.0 after both failures and the interrupt.
+  - Failed or interrupted runs write no report or samples, so there is no partial evidence; an authoring failure saves nothing.
+  - On normal completion the report's `frame_restored` is true and its test-blend hashes match the file.
+  - The saved test blend differs from the source only in the keyed action and the frame range. Constraints, drivers, active object, selection, mode, frame and pose bases at frame 1 are identical (pose bases checked to 2.2e-16).
+- **Recorded behaviour, not a defect:** a failed or interrupted measurement leaves the authored, unmeasured test blend at the output path, with no report. The runner refuses to reuse output paths, so it cannot be mistaken for a pass.
+- **Method fix:** the first snapshot digest hashed rounded strings, where −0.0 and 0.0 differ; it now normalises them.
+- **Evidence:** `audit/state_restoration_audit/{a003,c003}.json`; `scripts/test_state_restoration_audit.py` (1 test over both results).

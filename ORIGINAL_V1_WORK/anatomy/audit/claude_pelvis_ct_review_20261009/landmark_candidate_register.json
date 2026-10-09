@@ -1,0 +1,484 @@
+{
+  "schema_version": 1,
+  "kind": "CT_LANDMARK_CANDIDATE_REGISTER",
+  "created": "2026-10-09",
+  "status_vocabulary": {
+    "UNVERIFIED": "no image observation; observation null; confidence NONE",
+    "CANDIDATE": "one reviewer, full provenance block, every rejection condition checked and none triggered",
+    "VERIFIED": "CANDIDATE plus >= 2 contiguous supporting frames, independent second reviewer who agrees, confidence MODERATE or HIGH"
+  },
+  "review_state": "NO_IMAGE_REVIEW_PERFORMED: the original NLM files were unreachable from the cloud session (egress 403)",
+  "image_review_performed": false,
+  "pinned_manifest": {
+    "path": "ORIGINAL_V1_WORK/anatomy/audit/claude_pelvis_ct_review_20261009/pinned_six_frames_from_pr15_4680b49.json",
+    "sha256": "7964a22289baa9b4903bf510adbf6dd65a217e3c0b78e8018df89b5c7132424a",
+    "pins_reproduced_in_claude_session": false
+  },
+  "hard_constraints": [
+    "Source skeleton governs geometry; this register never moves or reshapes it.",
+    "No c005; c004 unchanged; canonical readiness unchanged.",
+    "The donor is one cadaver, not a canonical 182 cm male.",
+    "Scanner RAS is not the Home Gym PT world frame; no transform applied.",
+    "Stored PNG values are not verified Hounsfield units; no density threshold is a bone definition.",
+    "3 mm slices are not sub-millimetre surfaces; coordinates carry the conservative envelope.",
+    "Image laterality must be established from an anatomical cue, never from the header or file order."
+  ],
+  "canonical_promotion_allowed": false,
+  "skeleton_change_recommended": false,
+  "HomeGymPT_world_transform_applied": false,
+  "scanner_to_skeleton_registration_verified": false,
+  "citations": {
+    "ARAND_2019": {
+      "citation": "Arand C et al. 3D statistical model of the pelvic ring - a CT-based statistical evaluation of anatomical variation. J Anat. 2019;234:376-383.",
+      "pmid": "30575034",
+      "pmcid": "PMC6365482",
+      "vetted_in_repo": "canonical_pelvis_landmark_targets_v1.json",
+      "use": "male 3D-CT pelvic ring: inter-ASIS, promontory-to-symphysis, inter-ischial-spine"
+    },
+    "MUSIELAK_2019": {
+      "citation": "Musielak B et al. Variation in pelvic shape and size in Eastern European males: a computed tomography comparative study. PeerJ. 2019;7:e6433.",
+      "pmid": "30809442",
+      "pmcid": "PMC6387581",
+      "vetted_in_repo": "canonical_pelvis_landmark_targets_v1.json",
+      "use": "contemporary male 3D-CT: inter-ASIS, intercristal, pelvic height, iliac angles"
+    },
+    "TANNENBAUM_2011": {
+      "citation": "Multilevel Measurement of Acetabular Version Using 3-D CT-generated Models: Implications for Hip Preservation Surgery. Clin Orthop Relat Res. 2011.",
+      "pmcid": "PMC3018214",
+      "vetted_in_repo": "canonical_pelvis_landmark_targets_v1.json",
+      "use": "male acetabular cup diameter, interacetabular distance, inter-ASIS"
+    },
+    "GRAS_2015": {
+      "citation": "Sex-specific Differences of the Infraacetabular Corridor: A Biomorphometric CT-based Analysis on a Database of 523 Pelves. 2015.",
+      "pmcid": "PMC4390952",
+      "vetted_in_repo": "canonical_pelvis_landmark_targets_v1.json",
+      "use": "large-sample male acetabular diameter corridor"
+    },
+    "HASEGAWA_2017": {
+      "citation": "Hasegawa K et al. Standing sagittal alignment of the whole axial skeleton with reference to the gravity line in humans. J Anat. 2017.",
+      "vetted_in_repo": "canonical_proportion_sources_v1.json",
+      "use": "male pelvic incidence 50.1 +/- 11.2 deg, pelvic thickness 107 +/- 8 mm (standing cohort)"
+    },
+    "SP_PELVIC_JOINTS": {
+      "citation": "StatPearls: Pelvic Joints.",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK538523/",
+      "vetted_in_repo": "anatomy_sources.json (SP_PELVIS, checked 2026-10-07)",
+      "use": "general pelvic joint/sacroiliac and pubic symphysis anatomy"
+    },
+    "PELVIC_JOINTS_REVIEW_1991": {
+      "citation": "Anatomy of the pelvic joints: a review.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/2011709/",
+      "vetted_in_repo": "anatomy_sources.json (PELVIC_ANATOMY, checked 2026-10-07)",
+      "use": "general pelvic joint anatomy"
+    },
+    "NLM_VISIBLE_HUMAN_NORMAL_CT": {
+      "citation": "US National Library of Medicine Visible Human Male original normalCT PNG and header indexes.",
+      "url": "https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/PNG_format/radiological/normalCT/index.html",
+      "vetted_in_repo": "docs/CLAUDE_BLENDER_PELVIS_CT_LAPTOP_HANDOFF_20261009.md (PR #15)",
+      "use": "source custodian only; not an anatomy definition"
+    },
+    "ATLAS_FIGURE_REVIEWER_SUPPLIED": {
+      "citation": "A qualified labelled axial pelvic CT atlas figure chosen by the reviewer; record title, edition/URL and figure number in atlas_crosscheck.",
+      "vetted_in_repo": null,
+      "use": "REQUIRED for any CANDIDATE or VERIFIED; no atlas page could be opened in the cloud session (reCAPTCHA/permission gates), so none is pre-filled"
+    }
+  },
+  "landmarks": [
+    {
+      "id": "ILIAC_BLADE_L",
+      "name": "Left iliac blade (ala) cross-section",
+      "structure_class": "iliac_blade",
+      "side": "L",
+      "status": "UNVERIFIED",
+      "observation": null,
+      "anatomical_citations": [
+        "ARAND_2019",
+        "MUSIELAK_2019",
+        "TANNENBAUM_2011",
+        "SP_PELVIC_JOINTS",
+        "ATLAS_FIGURE_REVIEWER_SUPPLIED"
+      ],
+      "confidence": "NONE",
+      "what_would_be_labelled": "Curved plate of cortical-bounded cancellous bone lateral to the sacrum in axial section",
+      "rejection_conditions": [
+        "R0: laterality cue absent, or the cue (a recognisable right/left-asymmetric organ or marker) contradicts the side recorded",
+        "R1: outline or boundary depends on one display window; it must remain stable across at least two different stored-value windows (stored values are not verified HU)",
+        "R2: structure is inconsistent between adjacent 3 mm frames (appears, vanishes or changes shape discontinuously) beyond what its anatomy allows",
+        "R3: not mirrored by a comparable plate on the contralateral side within 15 mm in scanner S, unless the pelvis is clearly asymmetric (record why)"
+      ],
+      "required_to_promote": [
+        "observation block with every field in OBS_REQUIRED",
+        "atlas figure cross-check recorded in atlas_crosscheck",
+        "every rejection condition checked and none triggered"
+      ],
+      "coverage_needed_for_3d_surface": "Contiguous 3 mm run from the iliac crest to the acetabular roof (pelvic height 152 +/- 17 mm, range 99-185 mm in Musielak 2019): about 35-65 frames."
+    },
+    {
+      "id": "ILIAC_BLADE_R",
+      "name": "Right iliac blade (ala) cross-section",
+      "structure_class": "iliac_blade",
+      "side": "R",
+      "status": "UNVERIFIED",
+      "observation": null,
+      "anatomical_citations": [
+        "ARAND_2019",
+        "MUSIELAK_2019",
+        "TANNENBAUM_2011",
+        "SP_PELVIC_JOINTS",
+        "ATLAS_FIGURE_REVIEWER_SUPPLIED"
+      ],
+      "confidence": "NONE",
+      "what_would_be_labelled": "As ILIAC_BLADE_L on the opposite side",
+      "rejection_conditions": [
+        "R0: laterality cue absent, or the cue (a recognisable right/left-asymmetric organ or marker) contradicts the side recorded",
+        "R1: outline or boundary depends on one display window; it must remain stable across at least two different stored-value windows (stored values are not verified HU)",
+        "R2: structure is inconsistent between adjacent 3 mm frames (appears, vanishes or changes shape discontinuously) beyond what its anatomy allows",
+        "R3: not mirrored by a comparable plate on the contralateral side within 15 mm in scanner S"
+      ],
+      "required_to_promote": [
+        "observation block with every field in OBS_REQUIRED",
+        "atlas figure cross-check recorded in atlas_crosscheck",
+        "every rejection condition checked and none triggered"
+      ],
+      "coverage_needed_for_3d_surface": "As ILIAC_BLADE_L."
+    },
+    {
+      "id": "ASIS_L",
+      "name": "Left anterior superior iliac spine (bony point)",
+      "structure_class": "iliac_blade",
+      "side": "L",
+      "status": "UNVERIFIED",
+      "observation": null,
+      "anatomical_citations": [
+        "ARAND_2019",
+        "MUSIELAK_2019",
+        "TANNENBAUM_2011",
+        "SP_PELVIC_JOINTS",
+        "ATLAS_FIGURE_REVIEWER_SUPPLIED"
+      ],
+      "confidence": "NONE",
+      "what_would_be_labelled": "Anterior end of the iliac crest in axial section; a bony point, not a skin or groove proxy",
+      "rejection_conditions": [
+        "R0: laterality cue absent, or the cue (a recognisable right/left-asymmetric organ or marker) contradicts the side recorded",
+        "R1: outline or boundary depends on one display window; it must remain stable across at least two different stored-value windows (stored values are not verified HU)",
+        "R2: structure is inconsistent between adjacent 3 mm frames (appears, vanishes or changes shape discontinuously) beyond what its anatomy allows",
+        "R4: bilateral ASIS separation outside 190-310 mm (review trigger: sourced male ranges 205.5-295.9 mm widened for donor variation; escalate, do not auto-reject)",
+        "R5: the point lies on skin or soft tissue rather than on bone cortex"
+      ],
+      "required_to_promote": [
+        "observation block with every field in OBS_REQUIRED",
+        "atlas figure cross-check recorded in atlas_crosscheck",
+        "every rejection condition checked and none triggered"
+      ],
+      "coverage_needed_for_3d_surface": "A few frames around the ASIS level on each side; the iliac crest run above also locates it."
+    },
+    {
+      "id": "ASIS_R",
+      "name": "Right anterior superior iliac spine (bony point)",
+      "structure_class": "iliac_blade",
+      "side": "R",
+      "status": "UNVERIFIED",
+      "observation": null,
+      "anatomical_citations": [
+        "ARAND_2019",
+        "MUSIELAK_2019",
+        "TANNENBAUM_2011",
+        "SP_PELVIC_JOINTS",
+        "ATLAS_FIGURE_REVIEWER_SUPPLIED"
+      ],
+      "confidence": "NONE",
+      "what_would_be_labelled": "As ASIS_L on the opposite side",
+      "rejection_conditions": [
+        "R0: laterality cue absent, or the cue (a recognisable right/left-asymmetric organ or marker) contradicts the side recorded",
+        "R1: outline or boundary depends on one display window; it must remain stable across at least two different stored-value windows (stored values are not verified HU)",
+        "R2: structure is inconsistent between adjacent 3 mm frames (appears, vanishes or changes shape discontinuously) beyond what its anatomy allows",
+        "R4: bilateral ASIS separation outside 190-310 mm (review trigger)",
+        "R5: the point lies on skin or soft tissue rather than on bone cortex"
+      ],
+      "required_to_promote": [
+        "observation block with every field in OBS_REQUIRED",
+        "atlas figure cross-check recorded in atlas_crosscheck",
+        "every rejection condition checked and none triggered"
+      ],
+      "coverage_needed_for_3d_surface": "As ASIS_L."
+    },
+    {
+      "id": "SACRUM_ALA_BODY",
+      "name": "Sacral body and ala with sacroiliac joints",
+      "structure_class": "sacrum",
+      "side": "midline",
+      "status": "UNVERIFIED",
+      "observation": null,
+      "anatomical_citations": [
+        "ARAND_2019",
+        "MUSIELAK_2019",
+        "TANNENBAUM_2011",
+        "SP_PELVIC_JOINTS",
+        "ATLAS_FIGURE_REVIEWER_SUPPLIED",
+        "HASEGAWA_2017"
+      ],
+      "confidence": "NONE",
+      "what_would_be_labelled": "Midline posterior bone mass flanked by the sacroiliac joints, in axial section",
+      "rejection_conditions": [
+        "R0: laterality cue absent, or the cue (a recognisable right/left-asymmetric organ or marker) contradicts the side recorded",
+        "R1: outline or boundary depends on one display window; it must remain stable across at least two different stored-value windows (stored values are not verified HU)",
+        "R2: structure is inconsistent between adjacent 3 mm frames (appears, vanishes or changes shape discontinuously) beyond what its anatomy allows",
+        "R6: midline structure is not bisected by the sacroiliac pair symmetrically (asymmetry > 15 mm in scanner R between left and right joint centres relative to the midline: escalate)"
+      ],
+      "required_to_promote": [
+        "observation block with every field in OBS_REQUIRED",
+        "atlas figure cross-check recorded in atlas_crosscheck",
+        "every rejection condition checked and none triggered"
+      ],
+      "coverage_needed_for_3d_surface": "Contiguous run from the L5/S1 disc to the sacral apex: sacral length 107.6 +/- 10 mm in the repo's source record, about 35-40 frames."
+    },
+    {
+      "id": "S1_PROMONTORY",
+      "name": "S1 promontory / superior endplate anterior margin",
+      "structure_class": "sacrum",
+      "side": "midline",
+      "status": "UNVERIFIED",
+      "observation": null,
+      "anatomical_citations": [
+        "ARAND_2019",
+        "MUSIELAK_2019",
+        "TANNENBAUM_2011",
+        "SP_PELVIC_JOINTS",
+        "ATLAS_FIGURE_REVIEWER_SUPPLIED",
+        "HASEGAWA_2017"
+      ],
+      "confidence": "NONE",
+      "what_would_be_labelled": "Anterior-superior margin of the S1 body at the L5/S1 junction",
+      "rejection_conditions": [
+        "R0: laterality cue absent, or the cue (a recognisable right/left-asymmetric organ or marker) contradicts the side recorded",
+        "R1: outline or boundary depends on one display window; it must remain stable across at least two different stored-value windows (stored values are not verified HU)",
+        "R2: structure is inconsistent between adjacent 3 mm frames (appears, vanishes or changes shape discontinuously) beyond what its anatomy allows",
+        "R7: promontory-to-symphysis 3D distance outside 70-150 mm once the symphysis is recorded (sourced male mean 107.3 mm, SD about 12; trigger is wide on purpose; escalate)",
+        "R8: the endplate orientation cannot be established because the S1 body is not covered by at least 10 contiguous frames"
+      ],
+      "required_to_promote": [
+        "observation block with every field in OBS_REQUIRED",
+        "atlas figure cross-check recorded in atlas_crosscheck",
+        "every rejection condition checked and none triggered",
+        "sagittal reformat across the endplate (needs contiguous coverage; not possible from two 9 mm windows)"
+      ],
+      "coverage_needed_for_3d_surface": "At least a contiguous run through the L5/S1 disc and S1 body (about 12-20 frames) plus a sagittal reformat."
+    },
+    {
+      "id": "ACETABULUM_L",
+      "name": "Left acetabulum (cup rim on its equatorial axial slice)",
+      "structure_class": "acetabulum",
+      "side": "L",
+      "status": "UNVERIFIED",
+      "observation": null,
+      "anatomical_citations": [
+        "ARAND_2019",
+        "MUSIELAK_2019",
+        "TANNENBAUM_2011",
+        "SP_PELVIC_JOINTS",
+        "ATLAS_FIGURE_REVIEWER_SUPPLIED",
+        "GRAS_2015"
+      ],
+      "confidence": "NONE",
+      "what_would_be_labelled": "Cup-shaped articular socket receiving the femoral head; label the rim and cup on a slice through its equator",
+      "rejection_conditions": [
+        "R0: laterality cue absent, or the cue (a recognisable right/left-asymmetric organ or marker) contradicts the side recorded",
+        "R1: outline or boundary depends on one display window; it must remain stable across at least two different stored-value windows (stored values are not verified HU)",
+        "R2: structure is inconsistent between adjacent 3 mm frames (appears, vanishes or changes shape discontinuously) beyond what its anatomy allows",
+        "R9: circle-fit diameter outside 40-65 mm (review trigger around the repo-sourced 47-59 mm acetabular corridor, Tannenbaum 51.1 +/- 2.5, Gras 53 [47-59]; widened for CT edge blur; escalate)",
+        "R10: fitted radius changes by more than 5% on either neighbouring 3 mm frame, so the section is not equatorial; do not fit a centre z from it"
+      ],
+      "required_to_promote": [
+        "observation block with every field in OBS_REQUIRED",
+        "atlas figure cross-check recorded in atlas_crosscheck",
+        "every rejection condition checked and none triggered"
+      ],
+      "coverage_needed_for_3d_surface": "About 18-20 contiguous 3 mm frames per cup (about 53 mm), plus the lunate surface and the acetabular fossa."
+    },
+    {
+      "id": "ACETABULUM_R",
+      "name": "Right acetabulum (cup rim on its equatorial axial slice)",
+      "structure_class": "acetabulum",
+      "side": "R",
+      "status": "UNVERIFIED",
+      "observation": null,
+      "anatomical_citations": [
+        "ARAND_2019",
+        "MUSIELAK_2019",
+        "TANNENBAUM_2011",
+        "SP_PELVIC_JOINTS",
+        "ATLAS_FIGURE_REVIEWER_SUPPLIED",
+        "GRAS_2015"
+      ],
+      "confidence": "NONE",
+      "what_would_be_labelled": "As ACETABULUM_L on the opposite side",
+      "rejection_conditions": [
+        "R0: laterality cue absent, or the cue (a recognisable right/left-asymmetric organ or marker) contradicts the side recorded",
+        "R1: outline or boundary depends on one display window; it must remain stable across at least two different stored-value windows (stored values are not verified HU)",
+        "R2: structure is inconsistent between adjacent 3 mm frames (appears, vanishes or changes shape discontinuously) beyond what its anatomy allows",
+        "R9: circle-fit diameter outside 40-65 mm (review trigger)",
+        "R10: fitted radius changes by more than 5% on a neighbouring 3 mm frame"
+      ],
+      "required_to_promote": [
+        "observation block with every field in OBS_REQUIRED",
+        "atlas figure cross-check recorded in atlas_crosscheck",
+        "every rejection condition checked and none triggered"
+      ],
+      "coverage_needed_for_3d_surface": "As ACETABULUM_L."
+    },
+    {
+      "id": "FEMORAL_HEAD_L",
+      "name": "Left femoral head (centre on an equatorial axial slice)",
+      "structure_class": "femoral_head",
+      "side": "L",
+      "status": "UNVERIFIED",
+      "observation": null,
+      "anatomical_citations": [
+        "ARAND_2019",
+        "MUSIELAK_2019",
+        "TANNENBAUM_2011",
+        "SP_PELVIC_JOINTS",
+        "ATLAS_FIGURE_REVIEWER_SUPPLIED",
+        "GRAS_2015"
+      ],
+      "confidence": "NONE",
+      "what_would_be_labelled": "Spherical articular head seated in the acetabulum; the in-plane circle centre on an equatorial slice",
+      "rejection_conditions": [
+        "R0: laterality cue absent, or the cue (a recognisable right/left-asymmetric organ or marker) contradicts the side recorded",
+        "R1: outline or boundary depends on one display window; it must remain stable across at least two different stored-value windows (stored values are not verified HU)",
+        "R2: structure is inconsistent between adjacent 3 mm frames (appears, vanishes or changes shape discontinuously) beyond what its anatomy allows",
+        "R11: circle-fit diameter outside 40-65 mm (review trigger)",
+        "R12: the fitted centre lies outside the same side's acetabular cup outline",
+        "R13: both heads claimed but their in-plane centre separation is outside 140-200 mm (Tannenbaum male interacetabular 169.3 +/- 7.8 mm, range 154-183; widened; escalate)",
+        "R10: fitted radius changes by more than 5% on a neighbouring 3 mm frame (non-equatorial section)"
+      ],
+      "required_to_promote": [
+        "observation block with every field in OBS_REQUIRED",
+        "atlas figure cross-check recorded in atlas_crosscheck",
+        "every rejection condition checked and none triggered"
+      ],
+      "coverage_needed_for_3d_surface": "About 16-18 contiguous 3 mm frames per head to fit a sphere centre in z; one equatorial frame gives only an in-plane centre."
+    },
+    {
+      "id": "FEMORAL_HEAD_R",
+      "name": "Right femoral head (centre on an equatorial axial slice)",
+      "structure_class": "femoral_head",
+      "side": "R",
+      "status": "UNVERIFIED",
+      "observation": null,
+      "anatomical_citations": [
+        "ARAND_2019",
+        "MUSIELAK_2019",
+        "TANNENBAUM_2011",
+        "SP_PELVIC_JOINTS",
+        "ATLAS_FIGURE_REVIEWER_SUPPLIED",
+        "GRAS_2015"
+      ],
+      "confidence": "NONE",
+      "what_would_be_labelled": "As FEMORAL_HEAD_L on the opposite side",
+      "rejection_conditions": [
+        "R0: laterality cue absent, or the cue (a recognisable right/left-asymmetric organ or marker) contradicts the side recorded",
+        "R1: outline or boundary depends on one display window; it must remain stable across at least two different stored-value windows (stored values are not verified HU)",
+        "R2: structure is inconsistent between adjacent 3 mm frames (appears, vanishes or changes shape discontinuously) beyond what its anatomy allows",
+        "R11: circle-fit diameter outside 40-65 mm (review trigger)",
+        "R12: the fitted centre lies outside the same side's acetabular cup outline",
+        "R13: head separation outside 140-200 mm (review trigger)",
+        "R10: fitted radius changes by more than 5% on a neighbouring 3 mm frame"
+      ],
+      "required_to_promote": [
+        "observation block with every field in OBS_REQUIRED",
+        "atlas figure cross-check recorded in atlas_crosscheck",
+        "every rejection condition checked and none triggered"
+      ],
+      "coverage_needed_for_3d_surface": "As FEMORAL_HEAD_L."
+    },
+    {
+      "id": "PUBIC_TUBERCLE_L",
+      "name": "Left pubic tubercle",
+      "structure_class": "pubic_region",
+      "side": "L",
+      "status": "UNVERIFIED",
+      "observation": null,
+      "anatomical_citations": [
+        "ARAND_2019",
+        "MUSIELAK_2019",
+        "TANNENBAUM_2011",
+        "SP_PELVIC_JOINTS",
+        "ATLAS_FIGURE_REVIEWER_SUPPLIED"
+      ],
+      "confidence": "NONE",
+      "what_would_be_labelled": "Small anterior bony prominence on the superior pubic ramus near the symphysis",
+      "rejection_conditions": [
+        "R0: laterality cue absent, or the cue (a recognisable right/left-asymmetric organ or marker) contradicts the side recorded",
+        "R1: outline or boundary depends on one display window; it must remain stable across at least two different stored-value windows (stored values are not verified HU)",
+        "R2: structure is inconsistent between adjacent 3 mm frames (appears, vanishes or changes shape discontinuously) beyond what its anatomy allows",
+        "R14: not mirrored on the contralateral side within 10 mm in scanner S (escalate)"
+      ],
+      "required_to_promote": [
+        "observation block with every field in OBS_REQUIRED",
+        "atlas figure cross-check recorded in atlas_crosscheck",
+        "every rejection condition checked and none triggered"
+      ],
+      "coverage_needed_for_3d_surface": "A few frames at the tubercle level; the pubic rami and symphysis require their own contiguous run."
+    },
+    {
+      "id": "PUBIC_TUBERCLE_R",
+      "name": "Right pubic tubercle",
+      "structure_class": "pubic_region",
+      "side": "R",
+      "status": "UNVERIFIED",
+      "observation": null,
+      "anatomical_citations": [
+        "ARAND_2019",
+        "MUSIELAK_2019",
+        "TANNENBAUM_2011",
+        "SP_PELVIC_JOINTS",
+        "ATLAS_FIGURE_REVIEWER_SUPPLIED"
+      ],
+      "confidence": "NONE",
+      "what_would_be_labelled": "As PUBIC_TUBERCLE_L on the opposite side",
+      "rejection_conditions": [
+        "R0: laterality cue absent, or the cue (a recognisable right/left-asymmetric organ or marker) contradicts the side recorded",
+        "R1: outline or boundary depends on one display window; it must remain stable across at least two different stored-value windows (stored values are not verified HU)",
+        "R2: structure is inconsistent between adjacent 3 mm frames (appears, vanishes or changes shape discontinuously) beyond what its anatomy allows",
+        "R14: not mirrored on the contralateral side within 10 mm in scanner S (escalate)"
+      ],
+      "required_to_promote": [
+        "observation block with every field in OBS_REQUIRED",
+        "atlas figure cross-check recorded in atlas_crosscheck",
+        "every rejection condition checked and none triggered"
+      ],
+      "coverage_needed_for_3d_surface": "As PUBIC_TUBERCLE_L."
+    },
+    {
+      "id": "PUBIC_SYMPHYSIS",
+      "name": "Pubic symphysis (midline cartilaginous joint)",
+      "structure_class": "pubic_region",
+      "side": "midline",
+      "status": "UNVERIFIED",
+      "observation": null,
+      "anatomical_citations": [
+        "ARAND_2019",
+        "MUSIELAK_2019",
+        "TANNENBAUM_2011",
+        "SP_PELVIC_JOINTS",
+        "ATLAS_FIGURE_REVIEWER_SUPPLIED",
+        "PELVIC_JOINTS_REVIEW_1991"
+      ],
+      "confidence": "NONE",
+      "what_would_be_labelled": "Midline fibrocartilaginous joint between the pubic bodies; a contact, not a merged bone",
+      "rejection_conditions": [
+        "R0: laterality cue absent, or the cue (a recognisable right/left-asymmetric organ or marker) contradicts the side recorded",
+        "R1: outline or boundary depends on one display window; it must remain stable across at least two different stored-value windows (stored values are not verified HU)",
+        "R2: structure is inconsistent between adjacent 3 mm frames (appears, vanishes or changes shape discontinuously) beyond what its anatomy allows",
+        "R15: the two pubic bodies are fused or not separated by a joint space in a way that contradicts a symphysis (record the appearance; escalate)"
+      ],
+      "required_to_promote": [
+        "observation block with every field in OBS_REQUIRED",
+        "atlas figure cross-check recorded in atlas_crosscheck",
+        "every rejection condition checked and none triggered"
+      ],
+      "coverage_needed_for_3d_surface": "Contiguous run through the symphysis (about 10-14 frames) bridging to the ischiopubic rami."
+    }
+  ]
+}

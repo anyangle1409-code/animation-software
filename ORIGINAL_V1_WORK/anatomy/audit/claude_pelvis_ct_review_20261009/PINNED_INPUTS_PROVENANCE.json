@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "kind": "READ_ONLY_EVIDENCE_COPY_PROVENANCE",
+  "statement": "pinned_six_frames_from_pr15_4680b49.json is a byte-identical copy of a hash-only manifest (no pixels, no scanner-header text) from draft PR #15. The PR #15 branch was only read (git show); it was not modified, merged or rebased. Verified by the Codex GitHub Actions run below, NOT re-verified in the Claude session because the session egress proxy denies data.lhncbc.nlm.nih.gov.",
+  "copy_path": "ORIGINAL_V1_WORK/anatomy/audit/claude_pelvis_ct_review_20261009/pinned_six_frames_from_pr15_4680b49.json",
+  "upstream": {
+    "repository": "anyangle1409-code/animation-software",
+    "branch": "codex/independent-pelvis-stl-intake-20261009",
+    "commit": "4680b49802240f3363e10f0db6c5d90cd0057cba",
+    "path": "ORIGINAL_V1_WORK/anatomy/audit/nlm_contiguous_ct_windows_pinned_20261009.json",
+    "git_blob": "79b925483abd183451abe050896b6eaeacb03cbf",
+    "verified_in_ci": "https://github.com/anyangle1409-code/animation-software/actions/runs/37940126718"
+  },
+  "copy_sha256": "7964a22289baa9b4903bf510adbf6dd65a217e3c0b78e8018df89b5c7132424a",
+  "copy_git_blob": "79b925483abd183451abe050896b6eaeacb03cbf",
+  "claude_session_reproduced_source_hashes": false,
+  "reason_not_reproduced": "No access to the six original NLM files from the cloud workspace (proxy 403 CONNECT). Validation against private local copies is performed by scripts/anatomy_fit/ct_pelvis_window_geometry.py validate on the laptop.",
+  "canonical_promotion_allowed": false
+}

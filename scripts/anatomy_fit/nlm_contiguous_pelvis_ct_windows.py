@@ -107,14 +107,46 @@ def scout_windows(loader):
     }
 
 
+
+def check_pinned_source(report,manifest):
+    """Source hash/scanner-space proof only, NEVER anatomical acceptance."""
+    if (manifest.get("schema_version")!=1 or
+            manifest.get("kind")!="PINNED_NLM_SIX_ADJACENT_ORIGINAL_CT_FRAMES" or
+            manifest.get("canonical_promotion_allowed") is not False or
+            manifest.get("anatomical_features_identified") is not False):
+        raise ValueError("pinned original CT manifest claims unsupported anatomy")
+    declared=manifest.get("exact_png_and_scanner_header_sha256",[])
+    by_id={r.get("source_id"):r for r in declared}
+    if len(declared)!=6 or set(by_id)!={*TRIPLETS[0],*TRIPLETS[1]}:
+        raise ValueError("six complete original CT source identities required")
+    actual=[x for group in report["source_image_rows"] for x in group]
+    if len(actual)!=6:
+        raise ValueError("six originals required for pinned source verification")
+    for row in actual:
+        expected=by_id[row["source_id"]]
+        if (row["source_png_sha256"]!=expected["png_sha256"] or
+                row["source_header_sha256"]!=expected["scanner_header_sha256"] or
+                row["source_PNG_byte_count"]!=expected["png_bytes"]):
+            raise ValueError("pinned original image/header source-byte identity mismatch")
+        if abs(row["physical_scanner_S_mm"]-expected["scanner_S_mm"])>1e-9:
+            raise ValueError("original scanner coordinate changed")
+    return {
+        "all_six_source_png_header_sha_and_scanner_positions_match":True,
+        "no_anatomical_or_HU_claim_derived_from_source_match":True,
+        "canonical_promotion_allowed":False,
+    }
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument("--live",action="store_true")
     p.add_argument("--out",type=Path)
+    p.add_argument("--pinned-manifest",type=Path)
     a=p.parse_args()
     if not a.live:
         p.error("explicit --live required for fetching original NLM CT source")
     report=scout_windows(scout._safe_download)
+    if a.pinned_manifest:
+        report["independent_source_pin_check"]=check_pinned_source(report,json.loads(a.pinned_manifest.read_text()))
     result=json.dumps(report,indent=2)+"\n"
     if a.out:
         with a.out.open("x",encoding="utf-8") as f:

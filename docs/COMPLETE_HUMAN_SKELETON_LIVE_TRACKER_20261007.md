@@ -981,3 +981,15 @@ Read-only distal-span context checks now trace runtime surface stations rather t
   - minimum axis clearance is 6.6 mm for clavicle to ribs 1–2.
   - **UNRESOLVED (U3):** clavicle elevation stays at 0° up to 170° of humerothoracic elevation, because no follower is applied and the sources conflict.
 - **Status:** no collision or disconnection regression; the 9 inherited production-control failures are separate and unchanged.
+
+### 2026-10-09 Follower source audit (Claude; documentation/evidence only)
+- **Evidence:** `ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/follower_source_matrix_v1.json`, from `scripts/anatomy_fit/follower_source_matrix.py`; tests in `scripts/test_follower_source_matrix.py` (4).
+- **Patella:**
+  - the only primary source is the repository's lunge ratio (0.66, linear, rotation only, no translation);
+  - the official models (Rajagopal 2016, MyoLegs within 0.14 mm of it, and Gait2392 credits) share one Delp / Yamaguchi–Zajac lineage;
+  - Rajagopal's rotation is non-linear: cumulative 0.67 at 50° and 0.85 at 120°, which **conflicts** with 0.66.
+  - **E-PAT-1** is proposed as a future named experiment only: the Rajagopal translation, scaled by femur length, tested with two rotation arms. Nothing is adopted.
+- **Clavicle:** **E-CLAV-1 is UNRESOLVED; no relation is proposed.**
+  - MoBL elevation (0.1025°/°, 17.2° at 168° HT) exceeds the repository's "below 10°" bound above about 98°.
+  - MoBL retraction (−40.7° at 168°) conflicts with the repository's 15° end value.
+  - No primary bone-pin table is reachable.

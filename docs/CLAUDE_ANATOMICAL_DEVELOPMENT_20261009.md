@@ -246,3 +246,16 @@ The PR's own tests pass. The three review findings are addressed. PR #12 remains
 **Correction to L3:** the "static patella, +114 % ligament" figure applies to *plain* knee flexion. c004 also runs a patellar follower test, which rotates the patella at the sourced 0.66 ratio (verified to within 9e-5°). Because that follower has no sourced translation, the ligament still lengthens by up to 23.3 mm (+43 %).
 
 **Shoulder rhythm:** the follower matches its coupling exactly, and SC, AC and GH–AC continuity hold. Clavicle elevation stays at 0° (U3, unresolved).
+
+## Follower source audit (documentation only)
+
+The source matrix is `ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/follower_source_matrix_v1.json`. It records each source's conventions, units, frame, sides, population, lineage and conflicts.
+
+**Patella.**
+- **Independence:** the official model paths share one lineage, so they don't count as independent sources.
+- **Conflict:** the model's rotation ratio (non-linear, 0.67–0.85 over 50–120°) disagrees with the primary 0.66.
+- **Proposal:** E-PAT-1, a future two-arm experiment. Its acceptance test is that patellar-ligament length stays within the model's own range.
+
+**Clavicle.** E-CLAV-1 is unresolved: the MoBL elevation and retraction couplings conflict with the repository values, and primary data is unreachable.
+
+c004, T001/P001 and production are unchanged.

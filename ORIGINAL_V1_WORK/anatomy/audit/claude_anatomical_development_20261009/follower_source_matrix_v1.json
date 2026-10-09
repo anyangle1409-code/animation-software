@@ -1,0 +1,243 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "kind": "SOURCE_MATRIX_DOCUMENTATION_ONLY",
+ "inputs_sha256": {
+  "ORIGINAL_V1_WORK/anatomy/phase9_supplementary_observations.json": "4fb16b7097031a03923e9aae73c5730874a4a04dd5a03eff30f22f4a7178f4e1",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/follower_verification_c004_v1.json": "255acb7c26c226f1f84b567c3084998492bb9f6ed7cf7cd195d61670fa9a3a12",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/patellar_tracking_c004_v1.json": "7fce93df2e2b0c98291d40daaaeafb14156fb82db8e6b3bcc1d1550370ba6be8",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/clavicle_elevation_gap_c004_v1.json": "130a1364dc6bbfae2eb69b76ac0c48eba617e3889c1e67d26f4a6e9330a8b1a4"
+ },
+ "conventions_note": "HGPT: +X left, +Y posterior, +Z superior. OpenSim/MoBL model frames: x anterior, y superior, z right. Model files in radians/metres; all angles reported in degrees, lengths in mm. Linear rad/rad couplings are unit-free.",
+ "matrix": {
+  "patella": [
+   {
+    "source": "PATELLA_LUNGE (repository: phase9_supplementary_observations.json)",
+    "type": "primary measurement (lateral radiographs, healthy knees, single-leg lunge 0-165 deg); second cadaver study cited to 100 deg",
+    "quantity": "patellar flexion relative to femur per degree of knee flexion",
+    "value": {
+     "ratio": 0.66,
+     "r2": 0.992
+    },
+    "units": "deg/deg (unitless)",
+    "plane": "sagittal",
+    "side": "not side-specific",
+    "translation": "NOT reported",
+    "task": "active_weight_bearing",
+    "used_in_c004": "yes (rotation-only follower)"
+   },
+   {
+    "source": "https://github.com/opensim-org/opensim-models/blob/d9b05d470b1a481c222372c85b75772faf8f7792/Models/Rajagopal/Rajagopal2016.osim",
+    "type": "official generic model (75 kg, 1.70 m male per repository registry)",
+    "quantity": "patellofemoral CustomJoint: rotation1 about patella z + translation1 (x anterior) + translation2 (y superior) as SimmSpline(knee_angle_beta), coupled 1:1 to knee_angle",
+    "units": "radians and metres in file; reported here as deg and mm",
+    "frame": "femur_l offset frame at the knee (x anterior, y superior, z lateral-right); left/right files mirror z",
+    "rotation_ratio_by_knee_deg": {
+     "10": 0.043,
+     "20": 0.306,
+     "30": 0.487,
+     "40": 0.595,
+     "50": 0.665,
+     "60": 0.715,
+     "70": 0.752,
+     "80": 0.782,
+     "90": 0.805,
+     "100": 0.824,
+     "110": 0.84,
+     "120": 0.853
+    },
+    "translation_mm": {
+     "0": [
+      0.0,
+      0.0
+     ],
+     "10": [
+      -3.6,
+      -8.2
+     ],
+     "20": [
+      -8.7,
+      -15.5
+     ],
+     "30": [
+      -15.3,
+      -21.4
+     ],
+     "40": [
+      -22.8,
+      -25.9
+     ],
+     "50": [
+      -30.8,
+      -28.7
+     ],
+     "60": [
+      -38.8,
+      -30.0
+     ],
+     "70": [
+      -46.7,
+      -29.6
+     ],
+     "80": [
+      -54.3,
+      -27.6
+     ],
+     "90": [
+      -61.2,
+      -24.1
+     ],
+     "100": [
+      -67.2,
+      -19.3
+     ],
+     "110": [
+      -72.0,
+      -13.7
+     ],
+     "120": [
+      -75.1,
+      -7.9
+     ]
+    },
+    "lineage": "Rajagopal, A, Dembia, C.L., DeMers, M.S., Delp, D.D., Hicks, J.L., and Delp, S.L. \n\t\t\t     Notes: P. van den Bos changed the fiber-damping from 0.01 to default of 0.1 as suggested in M. Millard (2013) \"Flexing Computational Muscle: Modeling and Simulation of Musculotendon Dynamics\".",
+    "used_in_c004": "no"
+   },
+   {
+    "source": "https://github.com/MyoHub/myo_sim/blob/93b0ca8f4ec90c9899ee7f05fee561e9911da91b/myo_sim/models/leg/assets/myolegs_assets.xml",
+    "type": "official model (MyoLegs), polynomial equality constraints",
+    "polycoef": {
+     "knee_angle_beta_translation1_r": [
+      0.0524192,
+      -0.0150188,
+      -0.0340522,
+      0.0133393,
+      -0.000879151
+     ],
+     "knee_angle_beta_translation2_r": [
+      -0.0108281,
+      -0.0487847,
+      0.00927644,
+      0.0131673,
+      -0.00349673
+     ],
+     "knee_angle_beta_rotation1_r": [
+      0.010506,
+      0.0247615,
+      -1.31647,
+      0.716337,
+      -0.138302
+     ]
+    },
+    "max_abs_diff_vs_rajagopal_translation1_spline_mm": 0.14,
+    "reading": "MyoLegs patella polynomials are a fit to the same Rajagopal splines (same lineage, not an independent source)",
+    "used_in_c004": "no"
+   },
+   {
+    "source": "https://github.com/opensim-org/opensim-models/blob/d9b05d470b1a481c222372c85b75772faf8f7792/Models/Gait2392_Simbody/gait2392_millard2012muscle.osim",
+    "type": "official model",
+    "quantity": "no patella body; quadriceps use moving path points (credits: Delp 1990; Yamaguchi & Zajac 1989)",
+    "used_in_c004": "no",
+    "reading": "same lineage; no independent patellar path"
+   }
+  ],
+  "clavicle": [
+   {
+    "source": "joint_solver.FOLLOWER_COUPLINGS[scapulothoracic_rhythm] (repository)",
+    "type": "secondary review snippet + bone-pin study (SHOULDER_PINS)",
+    "quantity": "clavicle retraction end value; posterior rotation end value; elevation upper bound",
+    "value": {
+     "retraction_deg": 15.0,
+     "posterior_rotation_deg": 31.0,
+     "elevation": "Secondary review snippet: clavicle retracts about 15 deg at the SC joint during elevation; elevation typically below 10 deg (bound only, not applied); posterior rotation about 30 deg (consistent with SHOULDER_PINS 31 deg)"
+    },
+    "scaling": "linear in GH elevation to the McClure end (GH 117.5 deg, HT about 168 deg)",
+    "used_in_c004": "retraction and posterior rotation yes; elevation no"
+   },
+   {
+    "source": "https://github.com/MyoHub/myo_sim/blob/93b0ca8f4ec90c9899ee7f05fee561e9911da91b/myo_sim/models/arm/assets/myoarm_r_assets.xml (axes: myoarm_r_chain.xml)",
+    "type": "official model (MyoSuite arm; MoBL-ARMS lineage per the model family)",
+    "quantity": "sternoclavicular rotations as linear polynomials of shoulder_elv (thoracohumeral elevation coordinate)",
+    "units": "rad/rad (equal to deg/deg)",
+    "frame": "OpenSim thorax axes kept by MyoSuite (x anterior, y superior, z right); right arm only in this file, left by mirroring",
+    "coordinates": {
+     "sternoclavicular_r2_r": {
+      "axis_xyz_model_frame": [
+       0.0153,
+       0.989299,
+       -0.1451
+      ],
+      "role": "protraction/retraction (axis ~ vertical)",
+      "linear_coefficient_rad_per_rad": -0.242,
+      "at_HT_90_deg": -21.78,
+      "at_HT_168_deg": -40.66
+     },
+     "sternoclavicular_r3_r": {
+      "axis_xyz_model_frame": [
+       -0.994473,
+       0.0,
+       -0.104997
+      ],
+      "role": "elevation/depression (axis ~ antero-posterior)",
+      "linear_coefficient_rad_per_rad": 0.1025,
+      "at_HT_90_deg": 9.22,
+      "at_HT_168_deg": 17.22
+     }
+    },
+    "used_in_c004": "no"
+   }
+  ]
+ },
+ "conflicts": {
+  "patella_rotation": {
+   "sourced_ratio": 0.66,
+   "rajagopal_ratio_at_60_90_120": [
+    0.715,
+    0.805,
+    0.853
+   ],
+   "reading": "The generic model rotation is non-linear (cumulative 0.04 at 10 deg, 0.67 at 50 deg, 0.85 at 120 deg); the primary lunge measurement is linear 0.66 (r2 0.992). Different task (weight-bearing lunge vs model) and frame definitions; NOT reconciled."
+  },
+  "clavicle_elevation": {
+   "repository_bound": "below about 10 deg (secondary snippet; bound only)",
+   "mobl_at_HT_90_168": [
+    9.22,
+    17.22
+   ],
+   "crossing_HT_deg": 97.6,
+   "reading": "Agree below ~98 deg HT; conflict above. No primary bone-pin table is held."
+  },
+  "clavicle_retraction": {
+   "repository_end_deg": 15.0,
+   "mobl_at_HT_168_deg": -40.66,
+   "reading": "MoBL protraction/retraction magnitude at 168 deg HT differs strongly from the repository end value (sign convention of the MoBL axis not verified against anatomy here); NOT reconciled."
+  }
+ },
+ "proposals": {
+  "E-PAT-1": {
+   "status": "PROPOSED_FUTURE_EXPERIMENT_NOT_ADOPTED",
+   "relation": "patella pose relative to femur = Rajagopal 2016 patellofemoral translation (x anterior, y superior; mm) scaled by c004 femur length / Rajagopal femur length, expressed in the c004 femur sagittal frame, as a function of knee flexion",
+   "arms": {
+    "A_rotation_rajagopal": "patella rotation from the same spline (internally consistent with its translation)",
+    "B_rotation_sourced_0.66": "patella rotation 0.66 x knee flexion (primary measurement) with the Rajagopal translation"
+   },
+   "correspondence_basis": "patellar_tracking_c004_v1.json: arm A keeps the patellar ligament within 9.4 % (model itself 8.2 %)",
+   "acceptance": [
+    "patellar-ligament length change <= the Rajagopal model own range at 0-120 deg",
+    "no patella-femur / patella-tibia axis crossing; bilateral symmetry <= 1e-3 deg",
+    "rotation arm chosen only after a source reconciles 0.66 with the model ratio; otherwise report both"
+   ],
+   "limits": [
+    "single model lineage (Delp/Yamaguchi-Zajac); generic 1.70 m male scaled by femur length only",
+    "c004 knee is a pure rotation about the KJC, Rajagopal knee translates; knee-origin definitions differ by a few mm",
+    "current c004 rotation-only follower lengthens the ligament by up to 23.28 mm"
+   ]
+  },
+  "E-CLAV-1": {
+   "status": "NO_RELATION_PROPOSED_UNRESOLVED",
+   "reason": "the only quantitative elevation relation (MoBL 0.1025 deg/deg) conflicts with the repository bound above ~98 deg HT, its retraction coupling conflicts with the repository retraction end value, and no primary bone-pin table is accessible",
+   "needed": "primary clavicle elevation/retraction vs humerothoracic elevation table (e.g. bone-pin study) with axis and sign definitions"
+  }
+ },
+ "not_reachable_from_cloud": "primary literature hosts (PubMed/PMC/publishers) blocked by the environment network policy"
+}

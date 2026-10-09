@@ -69,6 +69,14 @@ These are *physical sampling bounds*, not measurement precision, clinically vali
 
 `scripts/test_nlm_ct_pixel_ras_envelope.py` adds 15 independent tests on known original GE scanner corner coordinates for `cvm1300f`, including edge and last-pixel placement, handedness, frame translation invariance, pixel selection bounds, 3 mm slab, false-approval flags and malformed scales. No patient identifiers or image pixels are emitted.
 
+## Visual triage bridge for Claude (coarse signal only)
+
+A new optional `--density-ascii` option to the 16-bit source scout creates a **32×32 lossy tile summary** from the *fraction* of original stored image values above two deliberately provisional raw-scalar thresholds (1200 and 1600). It is off by default, used only on an explicit subset of original NLM frames, and does **not** export source PNG bytes or original identifying header fields. Such a grid is **not a clinical CT image**, cortical bone classification, Hounsfield-calibrated threshold, named bone localisation, or a substitute for reviewing full-resolution slices.
+
+Successful GitHub Actions [review run 37939278584](https://github.com/anyangle1409-code/animation-software/actions/runs/37939278584) confirms working source previews for `cvm1451f` (scanner S −54), `cvm1602f` (−210), `cvm1752f` (−360) and `cvm1800f` (−408). The coarse patterns vary substantially between source levels; they **do not establish** a pelvis/femoral-head/sacral slice identity. Claude's laptop should use the source PNG image itself, not this downsampled map, for landmark annotation.
+
+A dedicated laptop handoff now exists at `docs/CLAUDE_BLENDER_PELVIS_CT_LAPTOP_HANDOFF_20261009.md` covering source hashes, known physical scanner levels, copy-safe worktree isolation, bone features to label and independent Blender review deliverables. No laptop work or additional user approval is required just to perform source-review research; **canonical anatomical acceptance remains blocked** until geometric and biological evidence gates genuinely pass.
+
 ## Immediate anatomical next gate
 
 Review selected original **source images in physical sequence** against a qualified labelled pelvic CT atlas and visually identify the sacral promontory, osseous bilateral ASIS, pubic tubercles, acetabula and left/right femoral head surfaces, recording the relevant scanner RAS Z ranges. Then verify HU pixel coding with manufacturer/original converter evidence and the voxel/sample-centre convention; segment relevant **continuous** scan groups rather than sparse scouting frames, validating topology and source resolution before selecting any landmark coordinate. Finally compare against independent clinical 3D CT population measurements and map to the project coordinate frame. These steps have **NOT** been completed.

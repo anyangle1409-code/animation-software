@@ -61,3 +61,35 @@ Tests cover proper basis, APP sagittal coordinate sign, world translations/pelvi
 Acquire physically located osseous bony ASIS and pubic tubercle landmarks on an independently segmented pelvis; independently fit the S1 endplate and bilateral femoral articular head centres from validated bone geometry. Map the actual source APP sign and neutral-pose pelvis transformation explicitly. Only then can the published S1-to-hip-axis distribution assess the skeletal positions and support a coupled lumbar/rib/sternum rebuild.
 
 Until then, **0 READY, 9 PARTIAL, 3 BLOCKED** remains correct.
+
+
+## Additional feature-derived bone observation packet (source preparation)
+
+A new independent first-party script `scripts/anatomy_fit/bone_feature_observation_packet.py` accepts a **future** properly registered surface-observation packet from independently segmented bone geometry. There is currently **NO independently verified CT bone-geometry packet for the project**. No real source coordinates are fabricated.
+
+Each record must include an actual bone asset identifier, a stable HTTPS asset reference, a lower-case SHA-256 digest, and a specific extraction method on a named osseous bone. All seven names must be present:
+
+| Landmark | Expected bone source | Mathematical extraction |
+|---|---|---|
+| L/R bony ASIS | Left/right os coxae | Labeled selected bony surface vertex |
+| L/R pubic tubercle | Left/right os coxae | Labeled selected bony surface vertex |
+| S1 superior endplate centre | Sacrum | Mean of labeled left/right and anterior/posterior rim midpoints |
+| L/R femoral head centre | Femurs | First-party three-dimensional least-squares spherical fit of six or more joint-surface points |
+
+All returned landmarks are **computed from geometry rather than trusting a reported coordinate**. Mismatches greater than a strict 1 mm engineering registration difference fail, as do skin meshes, wrong bone IDs, missing source hashes, impossible tiny head radii, coplanar femoral samples, invalid endplate rims and wrongly labelled methods. The computed points can feed the APP geometry script, but their provenance remains `feature_identity_verified:false` and `source_surface_identity_verified:false` until a separate, independent physical anatomy review. A source hash alone cannot establish that the asset is an actual correctly segmented pelvis/femur, and a point lying on a surface cannot confirm it is really the ASIS or pubic tubercle.
+
+No external CT data, new bone meshes, selected anatomical coordinate targets, or third-party runtime packages were added. `scripts/test_bone_feature_observation_packet.py` verifies the extraction, corruption rejection and fail-closed provenance using **synthetic geometry only**.
+
+### Observed legacy sensitivity from GitHub CI
+
+The existing c004 skin/inguinal-proxy APP, which is explicitly NOT anatomical evidence, yielded APP-referenced S1 posterior component **72.456 mm**. This differs from its raw model-world Y offset of **59.268 mm** and must not be confused with the Imai published APP DYp mean of 18.8 mm. Moving one of the legacy left/right ASIS skin landmarks by its already recorded **±20 mm** in model Y or Z changes the illustrative APP up-axis by as much as **6.7098°**, with a maximum absolute S1 posterior-component change of **13.4389 mm** across eight discrete probes. These are **deterministic stress-test changes**, not a clinical error distribution or evidence to change the sacrum.
+
+### Next source-acquisition handoff
+
+Once a rights-cleared human osseous CT segmentation is available:
+1. establish correct stature, sex/age, body position, scanner world matrix and landmark provenance;
+2. independently label osseous ASIS and pubic tubercle points and segment the S1 superior endplate + bilateral femoral articular surfaces;
+3. run the bone observation contract, then the APP-frame builder, inspect segmentation images and landmarks in three orthographic views, and obtain independent source evidence/signoff;
+4. compare in like-for-like anatomical APP coordinates with Imai 2019 (and independent compatible sources), **not** by moving c004 by the raw published mean difference;
+5. only after region-wise anatomical acceptance address lumbar curvature, rib head/cartilage, sternum–manubrium and shoulder-girdle joints in a new isolated candidate.
+

@@ -10,6 +10,8 @@ on:
       - 'scripts/test_stl_bone_mesh_intake.py'
       - 'scripts/anatomy_fit/nlm_original_ct_png_probe.py'
       - 'scripts/test_nlm_original_ct_png_probe.py'
+      - 'scripts/anatomy_fit/nlm_ct_scanner_geometry_header.py'
+      - 'scripts/test_nlm_ct_scanner_geometry_header.py'
       - 'ORIGINAL_V1_WORK/anatomy/audit/nlm_original_ct_png_pinned_preview_20261009.json'
       - 'ORIGINAL_V1_WORK/anatomy/audit/nih3d_male_pelvis_mesh_source_manifest_20261009.json'
       - '.github/workflows/independent-pelvis-stl-intake.yml'
@@ -28,6 +30,7 @@ jobs:
         run: |
           python3 -m unittest discover -s scripts -p 'test_stl_bone_mesh_intake.py' -v
           python3 -m unittest discover -s scripts -p 'test_nlm_original_ct_png_probe.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_scanner_geometry_header.py' -v
       - name: Preserve osseous APP and source-registry regression tests
         run: |
           python3 -m unittest discover -s scripts -p 'test_external_trunk_landmark_bridge.py' -v
@@ -59,3 +62,6 @@ jobs:
         run: |
           python3 scripts/anatomy_fit/nlm_original_ct_png_probe.py --file "$RUNNER_TEMP/cvm1012f.png"
           python3 scripts/anatomy_fit/nlm_original_ct_png_probe.py --file "$RUNNER_TEMP/cvm1013f.png"
+      - name: Read privacy-filtered original GE scanner geometry and compare adjacent source slices
+        run: python3 scripts/anatomy_fit/nlm_ct_scanner_geometry_header.py --check-adjacent-pair
+

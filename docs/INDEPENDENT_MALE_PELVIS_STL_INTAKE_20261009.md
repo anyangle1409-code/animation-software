@@ -94,6 +94,27 @@ Its opt-in `--download` mode fetches only from the exact official `data.lhncbc.n
 
 Both files were retrieved directly from the NLM HTTPS host to `$RUNNER_TEMP`, every PNG chunk CRC passed, both SHA-256s were printed and the same temporary bytes passed subsequent inspection. **No images were added to the repository or retained as downloadable artifacts.** These SHA values are now pinned in `ORIGINAL_V1_WORK/anatomy/audit/nlm_original_ct_png_pinned_preview_20261009.json`; the live pilot requires exact digest matches before treating source-file identity as checked. A future NLM source update must be reviewed explicitly rather than silently accepted.
 
+### Original GE CT scanner header and physical geometry
+
+The NLM exposes each original scanner text header separately under
+[normalCTHeaders](https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/PNG_format/radiological/normalCTHeaders/index.html).
+The independently checked original `cvm1013f.txt` and `cvm1014f.txt` fields establish:
+
+| Original scanner geometric field | `cvm1013f.txt` | `cvm1014f.txt` |
+|---|---:|---:|
+| Image matrix | 512×512 | 512×512 |
+| In-plane pixel spacing | 0.488281 mm each axis | 0.488281 mm |
+| Slice thickness | 1 mm | 1 mm |
+| Nominal separation | 1 mm | 1 mm |
+| Image-location superior scanner coordinate | +389 mm | +388 mm |
+| Top-left scanner R/A/S coordinates (mm) | (+123,+125,+389) | (+123,+125,+388) |
+| Top-right scanner R/A/S coordinates (mm) | (−127,+125,+389) | (−127,+125,+388) |
+| Bottom-right scanner R/A/S coordinates (mm) | (−127,−125,+389) | (−127,−125,+388) |
+
+These values are scanner **RAS** coordinates, **not HGPT world** skeletal coordinates. The 512×0.488281≈250 mm source field-of-view matches the displayed 250 mm corner geometry, and the adjacent locations differ by exactly 1 mm. Pixel *centre* versus image-corner origin interpretation, original anonymisation/registration, and CT HU calibration from PNG remain to be independently checked. The source header mentions a −1024 Hounsfield annotation offset, but we must not apply it blindly to PNG pixel values without verifying conversion data semantics.
+
+**Privacy filtering:** `scripts/anatomy_fit/nlm_ct_scanner_geometry_header.py` extracts only a fixed allowlist of numeric geometry fields and emits NO historical patient names, patient IDs, hospital or operator fields. The raw header remains in temporary process memory, and its SHA may be recorded without uploading its contents. The `--check-adjacent-pair` mode requests only the two pinned NLM originals, verifies physical geometry consistency and never promotes a skeleton. `scripts/test_nlm_ct_scanner_geometry_header.py` includes synthetic metadata carrying intentionally fake confidential placeholders and confirms none appear in reports or errors.
+
 The two source frames are **not located/labeled as pelvis slices** and their physical position, original 12-bit CT calibration, voxel origin, Hounsfield units and reconstructed axial scan registration remain **UNVERIFIED**. A valid 512×512 pixel header and CRC are container-integrity tests, not source anatomy or source-patient identity validation. Further scanner-header study and contiguous pelvic slice segmentation are needed for osseous pelvis landmark evidence.
 
 `scripts/test_nlm_original_ct_png_probe.py` runs 14 synthetic **offline** CRC, header, malformed/truncated PNG, allowlist, file identity, create-only output and no-anatomy-claim tests. The `original-ct-pilot` job of `.github/workflows/independent-pelvis-stl-intake.yml` separately tests live network access. A failed network test must be reported as a source-acquisition blocker, not concealed by green offline geometry tests.

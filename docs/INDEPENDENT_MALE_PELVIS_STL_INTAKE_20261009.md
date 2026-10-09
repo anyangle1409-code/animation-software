@@ -74,6 +74,21 @@ python3 scripts/anatomy_fit/stl_bone_mesh_intake.py \
 
 Omit the digest rather than fabricate it if no independent reference exists; the report will explicitly mark byte identity as unverified. Do not commit or redistribute 3D model bytes before licence review.
 
+## Optional NLM original CT acquisition pilot (separate from sculpted meshes)
+
+The NLM itself exposes lossless PNG-converted **original radiological CT** source images, rather than NIH 3D's sculpted teaching STL. See NLM's [Getting the Data](https://www.nlm.nih.gov/research/visible/getting_data.html) and the official [male normal CT PNG index](https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/PNG_format/radiological/normalCT/index.html).
+
+The independent first-party utility `scripts/anatomy_fit/nlm_original_ct_png_probe.py` (Python standard library only) has a deliberately tiny allowlist:
+
+- `cvm1012f.png` (indexed by NLM at **208,501 bytes**);
+- `cvm1013f.png` (indexed at **193,332 bytes**).
+
+Its opt-in `--download` mode fetches only from the exact official `data.lhncbc.nlm.nih.gov` URL, refuses redirects and existing output paths, caps the response size at **2 MiB**, verifies the PNG header and CRC of **every chunk**, and computes SHA-256 of the source bytes. The CI pilot keeps downloaded slices only in the GitHub runner's `$RUNNER_TEMP`; the original pixels are **never committed to GitHub**, redistributed, turned into meshes or fitted to the skeleton.
+
+The two source frames are **not located/labeled as pelvis slices** and their physical position, original 12-bit CT calibration, voxel origin, Hounsfield units and reconstructed axial scan registration remain **UNVERIFIED**. A valid 512×512 pixel header and CRC are container-integrity tests, not source anatomy or source-patient identity validation. Further scanner-header study and contiguous pelvic slice segmentation are needed for osseous pelvis landmark evidence.
+
+`scripts/test_nlm_original_ct_png_probe.py` runs 14 synthetic **offline** CRC, header, malformed/truncated PNG, allowlist, file identity, create-only output and no-anatomy-claim tests. The `original-ct-pilot` job of `.github/workflows/independent-pelvis-stl-intake.yml` separately tests live network access. A failed network test must be reported as a source-acquisition blocker, not concealed by green offline geometry tests.
+
 ## Next actionable research and engineering gates
 
 1. Obtain and record **exact per-entry licence** and whether downloaded STLs correspond to original 1:1 patient geometry or only print/sculpted geometry.

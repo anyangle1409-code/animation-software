@@ -36,3 +36,13 @@ Claude can use the existing scanner-labelled images in Blender for *independent*
 Do not promote a generic label such as `iliac_blade` to an `ASIS` with a renamed JSON key. Require source geometry, clinical independent labels, and cross-frame evidence. Do not change frozen canonical bones, muscles or skin to match these observational review pixels.
 
 **Existing anatomical readiness remains 0 READY / 9 PARTIAL / 3 BLOCKED.**
+
+## Completed original-source result and Work offload
+
+The actual previous GitHub test run [38002224146](https://github.com/anyangle1409-code/animation-software/actions/runs/38002224146) passed **52/52 tests** after correcting a real left/right label conflict: the semantic candidate label, observation ID and physical scanner side now agree or fail closed.
+
+The original 72-image source manifest and ten Work candidate observations were processed into a pinned, source-safe, machine-readable result at `ORIGINAL_V1_WORK/anatomy/audit/nlm_ct_true_osseous_landmark_coverage_verified_20261009.json`. That JSON preserves the exact ten candidate observation SHA-256s, level positions, unverified origin convention, available source group physical extents and seven failed true-osseous-evidence gates. No medical images, unfiltered private CT header text, or production assets are committed.
+
+**Work may now skip manual reconciliation of these ten review observations, cross-source hashes, scanner laterality, source slab envelopes, and the definition-versus-region gap.** The next actual milestone is to independently identify and fit the true 3D physical bony features from correctly registered original source CT, obtaining genuinely independent review and adequate reference population evidence. A single plausible CT slice point must not be silently promoted to an ASIS or femoral-head centre.
+
+A subsequent extra two source-result immutability tests and the pinned report trigger have been added; read their latest GitHub CI status before declaring the final expanded focused suite complete.

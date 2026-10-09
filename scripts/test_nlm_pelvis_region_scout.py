@@ -156,6 +156,71 @@ class SourceScoutTests(unittest.TestCase):
         self.assertNotIn("SECRET PATIENT",json.dumps(r))
         self.assertNotIn("REDACT-ME",json.dumps(r))
 
+    def test_pinned_real_source_inventory_is_complete_and_still_not_anatomy(self):
+        p=(HERE.parent/"ORIGINAL_V1_WORK/anatomy/audit/"
+           "nlm_pelvis_scout_pinned_source_positions_20261009.json")
+        data=json.loads(p.read_text())
+        self.assertFalse(data["canonical_promotion_allowed"])
+        self.assertFalse(data["anatomical_pelvic_slice_confirmed"])
+        self.assertEqual(len(data["slices"]),12)
+        self.assertEqual(set(x["id"] for x in data["slices"]),set(scout.SCOUT_IDS))
+        self.assertEqual(set(x["thickness_mm"] for x in data["slices"]),{3})
+        self.assertEqual({tuple(x["pixel_spacing_mm"]) for x in data["slices"]},
+                         {(.898438,.898438)})
+
+    def test_gaps_in_filename_are_not_physical_offsets(self):
+        p=(HERE.parent/"ORIGINAL_V1_WORK/anatomy/audit/"
+           "nlm_pelvis_scout_pinned_source_positions_20261009.json")
+        index={x["id"]:x["scanner_superior_mm"] for x in json.loads(p.read_text())["slices"]}
+        self.assertEqual(index[1399]-index[1451],57)
+        self.assertEqual(1451-1399,52)
+        self.assertNotEqual(index[1399]-index[1451],1451-1399)
+        self.assertEqual(index[1948],-556)
+
+    def test_pinned_source_changes_fail_closed(self):
+        p=(HERE.parent/"ORIGINAL_V1_WORK/anatomy/audit/"
+           "nlm_pelvis_scout_pinned_source_positions_20261009.json")
+        data=json.loads(p.read_text())
+        rows=[{
+            "slice_id":x["id"],"filename":x["source_png_name"],
+            "source_png_sha256":x["source_png_sha256"],
+            "source_header_sha256":x["source_header_sha256"],
+            "scanner_RAS_image_location_superior_mm":x["scanner_superior_mm"],
+            "in_plane_mm_per_pixel":x["pixel_spacing_mm"],
+            "slice_thickness_mm":x["thickness_mm"]
+        } for x in data["slices"]]
+        good=scout.verify_pinned_manifest({"slices":rows},data)
+        self.assertEqual(good["source_slices_checked"],12)
+        self.assertFalse(good["anatomical_image_landmarks_verified"])
+        altered=json.loads(json.dumps(rows))
+        altered[0]["source_png_sha256"]="f"*64
+        with self.assertRaisesRegex(ValueError,"SHA changed"):
+            scout.verify_pinned_manifest({"slices":altered},data)
+
+    def test_invented_scanner_z_rejected_even_when_filename_and_hash_match(self):
+        p=(HERE.parent/"ORIGINAL_V1_WORK/anatomy/audit/"
+           "nlm_pelvis_scout_pinned_source_positions_20261009.json")
+        data=json.loads(p.read_text())
+        rows=[{
+            "slice_id":x["id"],"filename":x["source_png_name"],
+            "source_png_sha256":x["source_png_sha256"],
+            "source_header_sha256":x["source_header_sha256"],
+            "scanner_RAS_image_location_superior_mm":x["scanner_superior_mm"],
+            "in_plane_mm_per_pixel":x["pixel_spacing_mm"],
+            "slice_thickness_mm":x["thickness_mm"]
+        } for x in data["slices"]]
+        rows[-1]["scanner_RAS_image_location_superior_mm"] += 5
+        with self.assertRaisesRegex(ValueError,"scanner coordinates"):
+            scout.verify_pinned_manifest({"slices":rows},data)
+
+    def test_do_not_allow_manifest_to_claim_pelvis_anatomy(self):
+        p=(HERE.parent/"ORIGINAL_V1_WORK/anatomy/audit/"
+           "nlm_pelvis_scout_pinned_source_positions_20261009.json")
+        data=json.loads(p.read_text())
+        data["anatomical_pelvic_slice_confirmed"]=True
+        with self.assertRaisesRegex(ValueError,"improperly claims"):
+            scout.verify_pinned_manifest({"slices":[]},data)
+
     def test_disallow_unreviewed_image_number(self):
         with self.assertRaisesRegex(ValueError,"allowlist"):
             scout.atlas([9999],lambda url,limit: b"bad")

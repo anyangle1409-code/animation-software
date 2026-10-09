@@ -1,0 +1,459 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "kind": "DEFECT_REGISTER_NOT_ACCEPTANCE",
+ "entries": [
+  {
+   "id": "H1",
+   "region": "hand",
+   "title": "Metacarpals 2-4 too short",
+   "cls": "GEOMETRY_DEFECT",
+   "status": "DIAGNOSTIC_PROPOSAL",
+   "measured": {
+    "M2_c004_mm": 58.4,
+    "M3_c004_mm": 54.0,
+    "M4_c004_mm": 51.6,
+    "M2_z_vs_Aydinlioglu": -2.3981562938485954,
+    "M3_z_vs_Aydinlioglu": -2.5039132949993093,
+    "M4_z_vs_Aydinlioglu": -1.6031672818410438
+   },
+   "evidence": [
+    "DOGAN_1998_HAND_RELATIONS (Aydinlioglu 1998 male radiographic 68/64/58 +-4)",
+    "BEREDJIKLIAN_2025_METACARPAL_HEIGHT (CT 67.7/66.1/58.0)",
+    "canonical_hand_ray_target_constraints_v1.json"
+   ],
+   "action": "P001 diagnostic proposal lengthens M2-M4 to the radiographic means with fixed CMC ends; canonical freeze still requires carpal/CMC geometry"
+  },
+  {
+   "id": "H2",
+   "region": "hand",
+   "title": "Ten fingertip (distal phalanx tail) endpoints",
+   "cls": "EVIDENCE_GAP",
+   "status": "BLOCKED",
+   "measured": {
+    "points": 10,
+    "containment_mm": [
+     "8.1",
+     "9.0",
+     "7.84",
+     "5.28",
+     "8.06"
+    ]
+   },
+   "evidence": [
+    "hand_input_source_rebuild_v1.json",
+    "HAND_TIP_PRIMARY_RECHECK_20261009.md",
+    "wrist_hand_model_context_v1.json (one model source, non-population scale)"
+   ],
+   "action": "needs an independent DIP-centre-to-bony-tip (or DP length + DIP-to-base offset) source for all five rays; containment offsets are not evidence"
+  },
+  {
+   "id": "H3",
+   "region": "hand",
+   "title": "Thumb CMC: trapezium stick ends short of the first metacarpal base",
+   "cls": "JOINT_COORDINATE_DEFECT",
+   "status": "BLOCKED",
+   "measured": {
+    "trapezium_tail_to_MC1_base_mm": 10.61,
+    "cmc_1_marker_to_each_mm": 5.31
+   },
+   "evidence": [
+    "joint marker method \"midpoint of closest approach between participant segments\"",
+    "canonical_freeze_readiness_v1 hand blocker \"thumb CMC local geometry\""
+   ],
+   "action": "rebuild with source-defined trapezium saddle and MC1 base once carpal geometry exists"
+  },
+  {
+   "id": "H4",
+   "region": "carpus",
+   "title": "Carpal arrangement",
+   "cls": "NOT_A_DEFECT",
+   "status": "NONE",
+   "measured": {
+    "standard_topology_relations_hold": {
+     "model": true,
+     "a003_left": true,
+     "a003_right": true
+    }
+   },
+   "evidence": [
+    "wrist_hand_model_context_v1.json (Gonzalez 1997 wrist model + standard anatomy)"
+   ],
+   "action": "topology correct on both sides; exact centroids, contacts and envelopes remain BLOCKED (readiness: carpus)"
+  },
+  {
+   "id": "H5",
+   "region": "carpus",
+   "title": "Carpal bones drawn as short control sticks / clump",
+   "cls": "REPRESENTATION_LIMIT",
+   "status": "NONE",
+   "measured": {},
+   "evidence": [
+    "INV_TARSAL_SEMANTICS analogue: control-stick length is not whole-bone length"
+   ],
+   "action": "needs envelopes, not stick changes"
+  },
+  {
+   "id": "H6",
+   "region": "hand",
+   "title": "Isolated wrist flexion drives the fingers into the thigh",
+   "cls": "MOVEMENT_TEST_DESIGN",
+   "status": "OPEN",
+   "measured": {
+    "min_finger_to_femur_axis_mm": 6.9,
+    "rest_mm": 104.5,
+    "wrist_flexion_peak_deg": 73.57
+   },
+   "evidence": [
+    "skeleton_only_renders_c004/pose_wrist_flexion_left_f1461.jpg",
+    "computed from committed c004 samples"
+   ],
+   "action": "isolated wrist sweeps must start from a posture with the hand clear of the thigh (e.g. shoulder flexion) or be flagged; no amplitude change"
+  },
+  {
+   "id": "H7",
+   "region": "wrist",
+   "title": "c001-c003 wrist sweeps pivoted 38.4 mm off the radiocarpal joint (stale WJC)",
+   "cls": "JOINT_COORDINATE_DEFECT",
+   "status": "CORRECTED_IN_CANDIDATE",
+   "measured": {
+    "c003_radiocarpal_opening_mm": 16.687,
+    "c004_radiocarpal_opening_mm": 0.0
+   },
+   "evidence": [
+    "candidates/shoulder_thorax_c004_arm_inputs/validation_summary.json"
+   ],
+   "action": "c004 (non-canonical) closes it"
+  },
+  {
+   "id": "H8",
+   "region": "hand",
+   "title": "Midcarpal follower joints separate during wrist sweeps",
+   "cls": "MOVEMENT_MODEL_GAP",
+   "status": "OPEN",
+   "measured": {
+    "midcarpal_scaphoid_trapezium_left": 3.948,
+    "midcarpal_triquetrum_hamate_left": 2.865,
+    "midcarpal_scaphoid_trapezoid_left": 2.73,
+    "midcarpal_scaphoid_capitate_left": 1.63,
+    "midcarpal_lunate_hamate_left": 1.365
+   },
+   "evidence": [
+    "joint_attachment_scan/c004_isolated_001_v2.json"
+   ],
+   "action": "two-stage wrist rotates rows about different centres; needs contact/sliding model, not a centre change"
+  },
+  {
+   "id": "H9",
+   "region": "hand",
+   "title": "Thumb opposition shows only palmar abduction + pronation components",
+   "cls": "MOVEMENT_MODEL_GAP",
+   "status": "OPEN",
+   "measured": {},
+   "evidence": [
+    "tracker Phase 8 hand solver: full opposition (TMC/MCP/IP flexion) unresolved; pronation 30 deg TEST AMPLITUDE"
+   ],
+   "action": "source-defined opposition kinematics required"
+  },
+  {
+   "id": "U1",
+   "region": "shoulder",
+   "title": "Clavicle far too long and shoulders far too broad (a003)",
+   "cls": "GEOMETRY_DEFECT",
+   "status": "CORRECTED_IN_CANDIDATE",
+   "measured": {
+    "a003_clavicle_mm": 222.9,
+    "c004_clavicle_mm": 151.3,
+    "a003_AC_breadth_mm": 481.4,
+    "c004_AC_breadth_mm": 338.4
+   },
+   "evidence": [
+    "male CT true clavicle length ~150 mm",
+    "independent CT male endpoint mean ~155 mm, range to ~175 mm",
+    "hard invariant: chord < curved length"
+   ],
+   "action": "c003/c004 within male endpoint range (130-175) and feasible AC family (333-353 mm); still non-canonical (SC/thorax frame open)"
+  },
+  {
+   "id": "U2",
+   "region": "shoulder",
+   "title": "Scapula transverse geometry too large (a003)",
+   "cls": "GEOMETRY_DEFECT",
+   "status": "CORRECTED_IN_CANDIDATE",
+   "measured": {
+    "a003_AA_TS_mm": 227.0,
+    "c004_AA_TS_mm": 129.2
+   },
+   "evidence": [
+    "landmark-compatible male 3D-CT posterolateral-acromion to medial scapular-spine midpoint = 113.0\u00b16.6 mm, observed range 90-129 mm"
+   ],
+   "action": "c003/c004 rebuilt from the Lee 29-landmark male scapula; exact 3D target still open"
+  },
+  {
+   "id": "U3",
+   "region": "shoulder",
+   "title": "Clavicle stays level while the arm elevates",
+   "cls": "MOVEMENT_MODEL_GAP",
+   "status": "OPEN",
+   "measured": {},
+   "evidence": [
+    "skeleton_only_renders_c004/pose_shoulder_complex_scapular_plane_left_f5716.jpg",
+    "tracker Phase 8: SC elevation (bound only) not applied"
+   ],
+   "action": "needs a sourced clavicular elevation rhythm"
+  },
+  {
+   "id": "U4",
+   "region": "thorax",
+   "title": "Ribs drawn as straight sticks",
+   "cls": "REPRESENTATION_LIMIT",
+   "status": "BLOCKED",
+   "measured": {},
+   "evidence": [
+    "CONFIRMED_REPRESENTATION_DEFECT",
+    "readiness ribs BLOCKED (proximal 2016 spiral, thoracic mapping)"
+   ],
+   "action": "also a genuine model deficiency for rib kinematics (neck axis degenerate); needs curved rib centrelines"
+  },
+  {
+   "id": "U5",
+   "region": "spine",
+   "title": "Zero disc space at every disc-bearing level",
+   "cls": "STRUCTURAL_INVARIANT_FAIL",
+   "status": "BLOCKED",
+   "measured": {
+    "C3_L5_column_stick_sum_mm": 625.6,
+    "sourced_bodies_plus_discs_C2C3_to_L5S1_mm": 536.0,
+    "T1_T12_current_mm": 332.7,
+    "T1_T12_sourceA_plus_discs_mm": 268.8,
+    "T1_T12_sourceB_plus_discs_mm": 343.9,
+    "L1_L5_stick_sum_mm": 212.8
+   },
+   "evidence": [
+    "CP2 spinal_disc_centre_gap_positive",
+    "canonical_spine_level_stack_v1.json",
+    "canonical_spine_geometry_audit_v1.json"
+   ],
+   "action": "full sagittal level-stack rebuild (readiness sequence item 2); a proportional re-partition would move C7/T1 by ~40 mm and cascade into ribs/sternum, so it is not applied as a local fix. The current thoracic span agrees with the CT source (B) within 3.4% and not with the mixed-sex donor source (A, -19%)"
+  },
+  {
+   "id": "U6",
+   "region": "thorax",
+   "title": "Sternum length",
+   "cls": "EVIDENCE_GAP",
+   "status": "BLOCKED",
+   "measured": {
+    "c004_sternum_stick_mm": 213.2
+   },
+   "evidence": [
+    "REOPEN_STATURE_METHOD_CONFLICT"
+   ],
+   "action": "stature/method source conflict; no direction frozen"
+  },
+  {
+   "id": "U7",
+   "region": "arm",
+   "title": "Radius short for stature",
+   "cls": "GEOMETRY_DEFECT",
+   "status": "BLOCKED",
+   "measured": {
+    "c004_radius_stick_mm": 257.4
+   },
+   "evidence": [
+    "direct OLS regression on all 4,082 committed ANSUR II men predicts radiale\u2013stylion 278.14 mm at 1.82 m with residual SD 10.78 mm",
+    "a003 radius osteometric proxy 247.42 mm is 30.72 mm below prediction (z \u22122.85; ~0.05th residual percentile)"
+   ],
+   "action": "direction confirmed (grade B); endpoint-compatible second source required before freeze"
+  },
+  {
+   "id": "U8",
+   "region": "arm",
+   "title": "Humerus length",
+   "cls": "EVIDENCE_GAP",
+   "status": "BLOCKED",
+   "measured": {
+    "c004_humerus_stick_mm": 282.5
+   },
+   "evidence": [
+    "readiness humerus blockers (joint-span vs maximum-length sources inconsistent by 20-40 mm)"
+   ],
+   "action": "known-stature male sample with matched endpoints needed"
+  },
+  {
+   "id": "L1",
+   "region": "pelvis",
+   "title": "Femoral heads appear detached from the pelvis",
+   "cls": "REPRESENTATION_LIMIT",
+   "status": "NONE",
+   "measured": {
+    "hip_centre_to_hip_bone_stick_mm": 71.1,
+    "hip_centre_to_femur_head_mm": 0.0
+   },
+   "evidence": [
+    "os coxae stick is the SI-to-pubic chord; the acetabulum is not on it",
+    "selected HJC independently corroborated by ANSUR trochanterion + radiographic offset within ~2 mm"
+   ],
+   "action": "HJC is an independently corroborated anchor (grade A); pelvic envelope still BLOCKED (readiness pelvis)"
+  },
+  {
+   "id": "L2",
+   "region": "lower_limb",
+   "title": "Knee and ankle centres",
+   "cls": "NOT_A_DEFECT",
+   "status": "NONE",
+   "measured": {
+    "femur_tail_to_tibia_head_mm": 0.0,
+    "tibia_tail_to_talus_head_mm": 0.0
+   },
+   "evidence": [
+    "joint-centre landmarks independently corroborated; similar-stature model examples broadly compatible"
+   ],
+   "action": "femur/tibia grade B; femur length method conflict recorded in readiness"
+  },
+  {
+   "id": "L3",
+   "region": "lower_limb",
+   "title": "Patella stays put during plain knee flexion",
+   "cls": "MOVEMENT_TEST_DESIGN",
+   "status": "OPEN",
+   "measured": {},
+   "evidence": [
+    "skeleton_only_renders_c004/pose_knee_flexion_extension_left_f381.jpg",
+    "patellar follower exists only in knee_flexion_with_patellar_follower"
+   ],
+   "action": "apply the sourced follower in every knee-flexing test"
+  },
+  {
+   "id": "L4",
+   "region": "lower_limb",
+   "title": "Hip adduction 20 deg makes the tibiae cross",
+   "cls": "MOVEMENT_TEST_DESIGN",
+   "status": "OPEN",
+   "measured": {
+    "axis_distance_mm": 0.568
+   },
+   "evidence": [
+    "movement_collision_scan",
+    "amplitude is an unsourced TEST AMPLITUDE"
+   ],
+   "action": "unchanged by instruction; needs a sourced amplitude or a contralateral-clearance start pose"
+  },
+  {
+   "id": "L5",
+   "region": "tarsus",
+   "title": "Calcaneocuboid and talonavicular joint centres float off the bones",
+   "cls": "JOINT_COORDINATE_DEFECT",
+   "status": "BLOCKED",
+   "measured": {
+    "calcaneocuboid_to_calcaneus_mm": 33.5,
+    "calcaneocuboid_to_cuboid_mm": 33.5,
+    "talonavicular_to_navicular_mm": 38.3
+   },
+   "evidence": [
+    "calcaneus control stick runs posterior (subtalar facet to tuber); anterior process absent",
+    "readiness tarsus BLOCKED (contact centres)"
+   ],
+   "action": "source-defined tarsal envelopes and contact centres; also explains the 37 mm midfoot split in subtalar sweeps"
+  },
+  {
+   "id": "L6",
+   "region": "foot",
+   "title": "Foot too long",
+   "cls": "NOT_A_DEFECT",
+   "status": "NONE",
+   "measured": {},
+   "evidence": [
+    "a003 heel-to-toe surface ~305 mm vs stature-conditioned ANSUR ~280 mm, z +2.77",
+    "REOPEN_SOURCE_CONFLICT"
+   ],
+   "action": "the long foot is the r95 SURFACE; metatarsal lengths remain source-conflicted (grade C); mesh must refit to the skeleton"
+  },
+  {
+   "id": "S1",
+   "region": "head_neck",
+   "title": "Skull and face look like scattered sticks",
+   "cls": "REPRESENTATION_LIMIT",
+   "status": "BLOCKED",
+   "measured": {},
+   "evidence": [
+    "TOPOLOGY_COMPLETE_GEOMETRY_NOT_FREEZE_READY"
+   ],
+   "action": "landmark envelopes needed (grade D placeholder geometry)"
+  },
+  {
+   "id": "S2",
+   "region": "head_neck",
+   "title": "Mandible drawn through the oral cavity",
+   "cls": "REPRESENTATION_LIMIT",
+   "status": "NONE",
+   "measured": {
+    "mandible_x_vomer_axis_mm": 0.09
+   },
+   "evidence": [
+    "all_pairs_crossing_scan REPRESENTATION_ARTEFACT"
+   ],
+   "action": "U-shaped bone; chord is not geometry"
+  },
+  {
+   "id": "G1",
+   "region": "global",
+   "title": "Left-right symmetry",
+   "cls": "NOT_A_DEFECT",
+   "status": "NONE",
+   "measured": {
+    "max_mirror_mm_c004": 0.29014211246252947
+   },
+   "evidence": [
+    "mirror_parity_scan"
+   ],
+   "action": "residual 0.38 mm confined to toe phalanges (inherited fit)"
+  },
+  {
+   "id": "G2",
+   "region": "global",
+   "title": "c003/c004 wrist and hand lie outside the a003 body skin",
+   "cls": "NOT_A_DEFECT",
+   "status": "NONE",
+   "measured": {
+    "outside_points_left_arm_c004": 45
+   },
+   "evidence": [
+    "hand_input_source_rebuild_v1.json"
+   ],
+   "action": "the mesh must be refitted to the skeleton (owner policy); bones are not moved to fit skin"
+  },
+  {
+   "id": "G3",
+   "region": "global",
+   "title": "Unsourced movement amplitudes",
+   "cls": "EVIDENCE_GAP",
+   "status": "OPEN",
+   "measured": {
+    "test_amplitude_peaks": 78,
+    "tests": 49
+   },
+   "evidence": [
+    "amplitude_provenance",
+    "movement_evidence_queue (Work)"
+   ],
+   "action": "kept separate from physiological limits; no amplitude changed"
+  }
+ ],
+ "by_class": {
+  "GEOMETRY_DEFECT": 4,
+  "EVIDENCE_GAP": 4,
+  "JOINT_COORDINATE_DEFECT": 3,
+  "NOT_A_DEFECT": 5,
+  "REPRESENTATION_LIMIT": 5,
+  "MOVEMENT_TEST_DESIGN": 3,
+  "MOVEMENT_MODEL_GAP": 3,
+  "STRUCTURAL_INVARIANT_FAIL": 1
+ },
+ "by_status": {
+  "DIAGNOSTIC_PROPOSAL": 1,
+  "BLOCKED": 9,
+  "NONE": 8,
+  "OPEN": 7,
+  "CORRECTED_IN_CANDIDATE": 3
+ }
+}

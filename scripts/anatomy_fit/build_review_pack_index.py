@@ -81,6 +81,7 @@ HANDOFF_PATHS = [
     ('Trunk vertical closure on c004 (IJ row superseded by erratum)', 'ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/trunk_vertical_closure_c004_v1.json'),
     ('Spine sagittal diagnostic (coordinate diagram, not a render)', 'ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/spine_sagittal_diagnostic.jpg'),
     ('P003 disc re-partition: REJECTED (rib levels)', 'ORIGINAL_V1_WORK/anatomy/audit/proposals/p003_spine_disc_repartition_rejected/README.md'),
+    ('Follower verification on c004: patella ratio and shoulder rhythm (expected vs observed, continuity, symmetry, clearance)', 'ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/follower_verification_c004_v1.json'),
     ('Patellar tracking analysis (L3)', 'ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/patellar_tracking_c004_v1.json'),
     ('Knee render: static patella vs sourced follower (diagnostic, follower not installed)', 'ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/renders_knee_patella/knee_patella_static_vs_follower.jpg'),
     ('Hip adduction start-posture analysis (L4)', 'ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/hip_adduction_start_posture_c004_v1.json'),
@@ -131,8 +132,10 @@ def handoff_section():
          'BLOCKED, so P001 cannot be frozen.',
          '- Spine: thoracic per-level wedging unsourced; lumbar 43 mm too long in c004 (U10); sacrum 42 mm from the P1 S1 frame; '
          'endplate surfaces absent (clearance UNVERIFIED).',
-         '- Movement model: static patella stretches the patellar ligament 114 % (L3, follower template not installed); '
-         'clavicle elevation missing (U3; MoBL coefficient vs 10 deg bound conflict); hip-adduction test crosses tibiae (L4, '
+         '- Movement model: in plain knee flexion the patella is static (ligament +114 %); the existing patellar follower '
+         'test rotates it at the sourced 0.66 ratio but has no sourced translation, so the ligament still lengthens by up to '
+         '23 mm (+43 %) (L3; Rajagopal path template not installed); '
+         'clavicle elevation missing (U3, verified 0 deg at 170 deg humerothoracic; MoBL coefficient vs 10 deg bound conflict); hip-adduction test crosses tibiae (L4, '
          'start-posture fix); hand-thigh contact in forearm sweeps (H6); 78 unsupported amplitudes.',
          '- Other open tracker items: radius/ulna endpoint corridors, humerus and sternum length, tarsal joint centres (L5), '
          'thumb CMC gap (H3), absolute shoulder height vs trunk, head geometry placeholders.',

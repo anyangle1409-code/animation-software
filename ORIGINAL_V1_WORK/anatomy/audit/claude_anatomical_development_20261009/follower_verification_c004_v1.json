@@ -1,0 +1,260 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "kind": "READ_ONLY_FOLLOWER_VERIFICATION",
+ "record": "c004 (unchanged)",
+ "inputs_sha256": {
+  "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json": "99500d94e06c66ca489bdaccc0345446f98794946254c5e592d9449696f396c1",
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c004_arm_inputs_001/isolated_samples.json": "5632dd46dd035293fc6007d41990955e6828ad1e53c5e11154c0057a2f37e78a",
+  "ORIGINAL_V1_WORK/anatomy/phase9_supplementary_observations.json": "4fb16b7097031a03923e9aae73c5730874a4a04dd5a03eff30f22f4a7178f4e1"
+ },
+ "external": {
+  "rajagopal_2016": "https://github.com/opensim-org/opensim-models/blob/d9b05d470b1a481c222372c85b75772faf8f7792/Models/Rajagopal/Rajagopal2016.osim"
+ },
+ "patellar_flexion_ratio": 0.66,
+ "scapulothoracic_rhythm": {
+  "upward_rotation_per_gh_deg": 0.43,
+  "max_scapular_plane": {
+   "upward_rotation_deg": 50,
+   "posterior_tilt_deg": 30,
+   "external_rotation_deg": 24
+  },
+  "gh_at_max_deg": 117.5,
+  "sources": [
+   "Bone-pin study, active scapular-plane elevation (McClure et al. 2001; search snippet): 50 (SD 4.8) upward, 30 (13.0) posterior tilt, 24 (12.8) external rotation",
+   "GH-relative rate 0.43 deg scapular upward rotation per deg GH elevation (search snippet)",
+   "SHOULDER_PINS: clavicular posterior rotation 31 deg"
+  ],
+  "cross_check": "0.43 x 117.5 = 50.5 deg upward rotation; 117.5 + 50.5 = 168 deg, matching the CDC humerothoracic flexion mean (168.8).",
+  "clavicle_retraction_deg": 15.0,
+  "clavicle_retraction_source": "Secondary review snippet: clavicle retracts about 15 deg at the SC joint during elevation; elevation typically below 10 deg (bound only, not applied); posterior rotation about 30 deg (consistent with SHOULDER_PINS 31 deg)",
+  "unverified": "Tilt/external-rotation/clavicle curves scaled linearly with GH elevation; clavicular elevation not applied (only an upper bound is sourced); plane dependence not applied."
+ },
+ "results": {
+  "knee": {
+   "left": {
+    "rows": [
+     {
+      "knee_deg": 0.0,
+      "patella_rot_deg": 0.0,
+      "expected_deg": 0.0,
+      "ligament_mm": 54.64
+     },
+     {
+      "knee_deg": 22.5,
+      "patella_rot_deg": 14.85,
+      "expected_deg": 14.85,
+      "ligament_mm": 60.62
+     },
+     {
+      "knee_deg": 45.0,
+      "patella_rot_deg": 29.7,
+      "expected_deg": 29.7,
+      "ligament_mm": 66.54
+     },
+     {
+      "knee_deg": 67.5,
+      "patella_rot_deg": 44.55,
+      "expected_deg": 44.55,
+      "ligament_mm": 72.33
+     },
+     {
+      "knee_deg": 90.0,
+      "patella_rot_deg": 59.4,
+      "expected_deg": 59.4,
+      "ligament_mm": 77.91
+     },
+     {
+      "knee_deg": 67.5,
+      "patella_rot_deg": 44.55,
+      "expected_deg": 44.55,
+      "ligament_mm": 72.33
+     },
+     {
+      "knee_deg": 45.0,
+      "patella_rot_deg": 29.7,
+      "expected_deg": 29.7,
+      "ligament_mm": 66.54
+     },
+     {
+      "knee_deg": 22.5,
+      "patella_rot_deg": 14.85,
+      "expected_deg": 14.85,
+      "ligament_mm": 60.62
+     },
+     {
+      "knee_deg": 0.0,
+      "patella_rot_deg": 0.0,
+      "expected_deg": 0.0,
+      "ligament_mm": 54.64
+     }
+    ],
+    "max_flexion_deg": 90.0,
+    "max_abs_follower_error_deg": 8.4e-05,
+    "ligament_rest_mm": 54.64,
+    "ligament_change_with_follower_mm": [
+     0.0,
+     23.28
+    ],
+    "ligament_change_plain_flexion_no_follower_mm": [
+     -0.78,
+     62.68
+    ],
+    "min_patella_femur_axis_mm": 40.92,
+    "min_patella_tibia_axis_mm": 41.47
+   },
+   "right": {
+    "rows": [
+     {
+      "knee_deg": 0.0,
+      "patella_rot_deg": 0.0,
+      "expected_deg": 0.0,
+      "ligament_mm": 54.64
+     },
+     {
+      "knee_deg": 22.5,
+      "patella_rot_deg": 14.85,
+      "expected_deg": 14.85,
+      "ligament_mm": 60.62
+     },
+     {
+      "knee_deg": 45.0,
+      "patella_rot_deg": 29.7,
+      "expected_deg": 29.7,
+      "ligament_mm": 66.54
+     },
+     {
+      "knee_deg": 67.5,
+      "patella_rot_deg": 44.55,
+      "expected_deg": 44.55,
+      "ligament_mm": 72.33
+     },
+     {
+      "knee_deg": 90.0,
+      "patella_rot_deg": 59.4,
+      "expected_deg": 59.4,
+      "ligament_mm": 77.91
+     },
+     {
+      "knee_deg": 67.5,
+      "patella_rot_deg": 44.55,
+      "expected_deg": 44.55,
+      "ligament_mm": 72.33
+     },
+     {
+      "knee_deg": 45.0,
+      "patella_rot_deg": 29.7,
+      "expected_deg": 29.7,
+      "ligament_mm": 66.54
+     },
+     {
+      "knee_deg": 22.5,
+      "patella_rot_deg": 14.85,
+      "expected_deg": 14.85,
+      "ligament_mm": 60.62
+     },
+     {
+      "knee_deg": 0.0,
+      "patella_rot_deg": 0.0,
+      "expected_deg": 0.0,
+      "ligament_mm": 54.64
+     }
+    ],
+    "max_flexion_deg": 90.0,
+    "max_abs_follower_error_deg": 8.9e-05,
+    "ligament_rest_mm": 54.64,
+    "ligament_change_with_follower_mm": [
+     0.0,
+     23.28
+    ],
+    "ligament_change_plain_flexion_no_follower_mm": [
+     -0.78,
+     62.68
+    ],
+    "min_patella_femur_axis_mm": 40.92,
+    "min_patella_tibia_axis_mm": 41.47
+   }
+  },
+  "shoulder_girdle": {
+   "left": {
+    "max_gh_elevation_deg": 117.5,
+    "max_abs_error_vs_rhythm_deg": {
+     "upward": 2.3e-05,
+     "tilt": 9e-06,
+     "scap_er": 6e-06,
+     "clav_post": 7e-06,
+     "clav_ret": 6e-06
+    },
+    "max_SC_head_displacement_mm": 0.0,
+    "max_AC_closure_mm": 0.00014,
+    "gh_to_ac_distance_range_mm": [
+     41.2932,
+     41.2932
+    ],
+    "min_axis_clearance_mm": {
+     "clavicle_rib1_2": 6.6,
+     "scapula_ribs2_8": 99.42,
+     "humerus_ribs1_8": 144.36
+    },
+    "clavicle_elevation_change_deg_at_max": -0.0,
+    "humerothoracic_elevation_at_max_deg": 169.883
+   },
+   "right": {
+    "max_gh_elevation_deg": 117.5,
+    "max_abs_error_vs_rhythm_deg": {
+     "upward": 4.7e-05,
+     "tilt": 1.2e-05,
+     "scap_er": 1.5e-05,
+     "clav_post": 1.1e-05,
+     "clav_ret": 9e-06
+    },
+    "max_SC_head_displacement_mm": 0.0,
+    "max_AC_closure_mm": 0.00015,
+    "gh_to_ac_distance_range_mm": [
+     41.2932,
+     41.2932
+    ],
+    "min_axis_clearance_mm": {
+     "clavicle_rib1_2": 6.6,
+     "scapula_ribs2_8": 99.41,
+     "humerus_ribs1_8": 144.35
+    },
+    "clavicle_elevation_change_deg_at_max": -0.0,
+    "humerothoracic_elevation_at_max_deg": 169.883
+   }
+  },
+  "bilateral_symmetry_max_abs_diff": {
+   "knee_flexion_with_patellar_follower": {
+    "flexion": 1.94e-05,
+    "adduction": 3.71e-07,
+    "internal_rotation": 2.69e-06,
+    "patellar_flexion_deg": 1.03e-05,
+    "follower_error_deg": 1.69e-05,
+    "patella_off_axis_deg": 1.47e-07,
+    "centre_drift_m": 1.57e-08,
+    "marker_vs_proximal_carried_centre_m": 5.89e-08
+   },
+   "shoulder_complex_scapular_plane": {
+    "scap_er_about_axis": 1.41e-05,
+    "upward_about_axis": 2.87e-05,
+    "tilt_about_axis": 8.88e-06,
+    "clav_ret": 7.83e-06,
+    "clav_post": 4.42e-06,
+    "elevation": 3.05e-05,
+    "gh_plane": 0.000324,
+    "humerothoracic_elevation": 3.25e-05,
+    "ac_closure_m": 2.93e-08,
+    "gh_centre_displacement_m": 1.15e-07,
+    "gh_to_ac_distance_m": 1.17e-08,
+    "centre_drift_m": 1.54e-07
+   }
+  }
+ },
+ "unresolved": [
+  "Patellar translation path: the c004 follower rotates the patella about the knee axis only (translation unsourced in the movement model), so the patellar ligament length is not conserved; a sourced path template exists (Rajagopal 2016, patellar_tracking_c004_v1.json) but is not installed and has not been reviewed for the shared machinery.",
+  "Clavicle elevation during arm elevation: not applied (only a \"below 10 deg\" bound is committed; MoBL-lineage 0.1025 deg/deg conflicts above ~98 deg); see clavicle_elevation_gap_c004_v1.json.",
+  "Clearances are stick-axis distances only; no bone envelopes exist, so no surface contact claim is made.",
+  "The ligament insertion is a model-scaled point (Rajagopal), not a c004 landmark; the right side is its X-mirror."
+ ],
+ "inherited_failures": "Not exercised here. The 9 inherited production-control test failures are unrelated and unchanged."
+}

@@ -238,3 +238,11 @@ Work added mesh-derived spatial, size and side checks, plus pinched-vertex detec
 - a reversed face: **rejected**.
 
 The PR's own tests pass. The three review findings are addressed. PR #12 remains a draft and is not merged by me.
+
+## Follower verification on c004 (verification only)
+
+**Evidence:** `ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/follower_verification_c004_v1.json`; tests in `scripts/test_follower_verification.py`.
+
+**Correction to L3:** the "static patella, +114 % ligament" figure applies to *plain* knee flexion. c004 also runs a patellar follower test, which rotates the patella at the sourced 0.66 ratio (verified to within 9e-5°). Because that follower has no sourced translation, the ligament still lengthens by up to 23.3 mm (+43 %).
+
+**Shoulder rhythm:** the follower matches its coupling exactly, and SC, AC and GH–AC continuity hold. Clavicle elevation stays at 0° (U3, unresolved).

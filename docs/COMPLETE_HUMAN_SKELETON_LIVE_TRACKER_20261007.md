@@ -966,3 +966,18 @@ Read-only distal-span context checks now trace runtime surface stations rather t
   - `docs/CLAUDE_SKELETON_INDEPENDENT_VERIFICATION_20261009.md`;
   - `docs/CLAUDE_ANATOMICAL_DEVELOPMENT_20261009.md` (includes the erratum and the T001 summary);
   - `ORIGINAL_V1_WORK/anatomy/audit/experiments/t001_coupled_trunk/README.md`.
+
+### 2026-10-09 Follower verification on c004 (Claude; verification only, no record changed)
+- **Evidence:** `ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/follower_verification_c004_v1.json`, from `scripts/anatomy_fit/follower_verification.py`; tests in `scripts/test_follower_verification.py` (5).
+- **Kneecap** (`knee_flexion_with_patellar_follower`):
+  - observed patellar rotation equals the sourced ratio 0.66 × knee flexion within 9e-5°;
+  - left/right symmetric within 2e-5°;
+  - patella-to-femur/tibia axis clearance at least 40.9 mm.
+  - **UNRESOLVED:** the follower is rotation-only (the translation path is unsourced), so the patellar ligament still lengthens by up to 23.3 mm (+43%), against +62.7 mm (+114%) in plain flexion with a static patella.
+- **Shoulder girdle** (`shoulder_complex_scapular_plane`):
+  - scapular upward rotation, tilt and external rotation, plus clavicle posterior rotation and retraction, all match the committed rhythm within 5e-5°;
+  - the SC head does not move; AC closure is at most 0.00015 mm; the GH–AC distance stays constant at 41.29 mm;
+  - left/right symmetric;
+  - minimum axis clearance is 6.6 mm for clavicle to ribs 1–2.
+  - **UNRESOLVED (U3):** clavicle elevation stays at 0° up to 170° of humerothoracic elevation, because no follower is applied and the sources conflict.
+- **Status:** no collision or disconnection regression; the 9 inherited production-control failures are separate and unchanged.

@@ -1,0 +1,2566 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "label": "a003",
+ "kind": "INTERACTION_LIST_NOT_GRADED",
+ "list_threshold_axis_mm": 10.0,
+ "inputs_sha256": {
+  "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json": "11712ba3e105aa8844b07572315d58ccace1d23d2f0cdf101218a3a507a1a1e3",
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_014/isolated_samples.json": "43965977cd23edea14420c023bbea37b4cdb7ded83a085b6387eaa83417b5377"
+ },
+ "listed_pairs": 135,
+ "graded_crossings_below_1mm": [
+  {
+   "test": "hip_abduction_adduction_left",
+   "bones": [
+    "tibia_left",
+    "tibia_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 0.57,
+   "frame": 112,
+   "rest_axis_mm": 180.8
+  },
+  {
+   "test": "hip_abduction_adduction_right",
+   "bones": [
+    "tibia_left",
+    "tibia_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 0.57,
+   "frame": 2927,
+   "rest_axis_mm": 180.8
+  }
+ ],
+ "tests_with_cross_region_approach_below_10mm": [
+  {
+   "test": "hip_abduction_adduction_left",
+   "bones": [
+    "tibia_left",
+    "tibia_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 0.57,
+   "frame": 112,
+   "rest_axis_mm": 180.8
+  },
+  {
+   "test": "hip_abduction_adduction_right",
+   "bones": [
+    "tibia_left",
+    "tibia_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 0.57,
+   "frame": 2927,
+   "rest_axis_mm": 180.8
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_right",
+   "bones": [
+    "hallux_proximal_phalanx_right",
+    "metatarsal_1_left"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 1.4,
+   "frame": 3006,
+   "rest_axis_mm": 135.4
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_left",
+   "bones": [
+    "hallux_proximal_phalanx_left",
+    "metatarsal_1_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 1.74,
+   "frame": 191,
+   "rest_axis_mm": 135.4
+  },
+  {
+   "test": "rib_02_inspiration_left",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 2.87,
+   "frame": 2311,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "rib_02_inspiration_right",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 2.87,
+   "frame": 5126,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "shoulder_complex_scapular_plane_left",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 8.03,
+   "frame": 5716,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "shoulder_complex_scapular_plane_right",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 8.03,
+   "frame": 5976,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t3_t4_flexion",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 8.06,
+   "frame": 7626,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t2_t3_flexion",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 8.07,
+   "frame": 7371,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t2_t3_adduction",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 8.66,
+   "frame": 7416,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t3_t4_adduction",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 8.74,
+   "frame": 7671,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t2_t3_internal",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 8.98,
+   "frame": 7501,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t3_t4_internal",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.0,
+   "frame": 7756,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "lumbar_l2_l3_extension",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 6916,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "lumbar_l3_l4_extension",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 6961,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "lumbar_l4_l5_extension",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 7006,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "lumbar_l5_sacrum_extension",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 7051,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t4_t5_flexion",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 7901,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t4_t5_adduction",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 7986,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t4_t5_internal",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8071,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t5_t6_flexion",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8156,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t5_t6_adduction",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8241,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t5_t6_internal",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8326,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t7_t8_flexion",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8411,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t7_t8_adduction",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8496,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t7_t8_internal",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8581,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t8_t9_flexion",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8666,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t8_t9_adduction",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8751,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t8_t9_internal",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8836,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t9_t10_flexion",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8921,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t9_t10_adduction",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9006,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t9_t10_internal",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9091,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t10_t11_flexion",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9176,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t10_t11_adduction",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9261,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t10_t11_internal",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9346,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t11_t12_flexion",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9431,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t11_t12_adduction",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9516,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t11_t12_internal",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9601,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t12_l1_flexion",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9686,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t12_l1_adduction",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9771,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t12_l1_internal",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9856,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t6_t7_flexion",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9941,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t6_t7_adduction",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 10026,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t6_t7_internal",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 10111,
+   "rest_axis_mm": 9.2
+  }
+ ],
+ "pairs": [
+  {
+   "test": "hip_abduction_adduction_left",
+   "bones": [
+    "tibia_left",
+    "tibia_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 0.57,
+   "frame": 112,
+   "rest_axis_mm": 180.8
+  },
+  {
+   "test": "hip_abduction_adduction_right",
+   "bones": [
+    "tibia_left",
+    "tibia_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 0.57,
+   "frame": 2927,
+   "rest_axis_mm": 180.8
+  },
+  {
+   "test": "hip_abduction_adduction_left",
+   "bones": [
+    "fibula_left",
+    "fibula_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 1.16,
+   "frame": 104,
+   "rest_axis_mm": 250.1
+  },
+  {
+   "test": "hip_abduction_adduction_right",
+   "bones": [
+    "fibula_left",
+    "fibula_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 1.16,
+   "frame": 2919,
+   "rest_axis_mm": 250.1
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_right",
+   "bones": [
+    "hallux_proximal_phalanx_right",
+    "metatarsal_1_left"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 1.4,
+   "frame": 3006,
+   "rest_axis_mm": 135.4
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_left",
+   "bones": [
+    "hallux_proximal_phalanx_left",
+    "metatarsal_1_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 1.74,
+   "frame": 191,
+   "rest_axis_mm": 135.4
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_right",
+   "bones": [
+    "hallux_distal_phalanx_right",
+    "metatarsal_1_left"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 2.42,
+   "frame": 3002,
+   "rest_axis_mm": 142.5
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_right",
+   "bones": [
+    "hallux_distal_phalanx_right",
+    "metatarsal_2_left"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 2.45,
+   "frame": 3006,
+   "rest_axis_mm": 162.3
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_right",
+   "bones": [
+    "hallux_distal_phalanx_right",
+    "hallux_proximal_phalanx_left"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 2.63,
+   "frame": 3010,
+   "rest_axis_mm": 134.3
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_left",
+   "bones": [
+    "hallux_distal_phalanx_left",
+    "hallux_proximal_phalanx_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 2.7,
+   "frame": 187,
+   "rest_axis_mm": 134.3
+  },
+  {
+   "test": "rib_02_inspiration_left",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 2.87,
+   "frame": 2311,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "rib_02_inspiration_right",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 2.87,
+   "frame": 5126,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_left",
+   "bones": [
+    "hallux_distal_phalanx_left",
+    "metatarsal_2_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 2.97,
+   "frame": 191,
+   "rest_axis_mm": 162.3
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_right",
+   "bones": [
+    "hallux_distal_phalanx_right",
+    "metatarsal_3_left"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 3.65,
+   "frame": 3006,
+   "rest_axis_mm": 178.6
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_left",
+   "bones": [
+    "hallux_distal_phalanx_left",
+    "metatarsal_1_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 3.83,
+   "frame": 193,
+   "rest_axis_mm": 142.5
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_right",
+   "bones": [
+    "metatarsal_1_left",
+    "toe2_middle_phalanx_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 4.17,
+   "frame": 3006,
+   "rest_axis_mm": 161.6
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_left",
+   "bones": [
+    "metatarsal_1_right",
+    "toe2_middle_phalanx_left"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 4.64,
+   "frame": 191,
+   "rest_axis_mm": 161.7
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_left",
+   "bones": [
+    "hallux_proximal_phalanx_right",
+    "toe2_distal_phalanx_left"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 5.14,
+   "frame": 189,
+   "rest_axis_mm": 156.7
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_right",
+   "bones": [
+    "hallux_proximal_phalanx_left",
+    "toe2_middle_phalanx_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 5.17,
+   "frame": 3004,
+   "rest_axis_mm": 156.3
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_left",
+   "bones": [
+    "hallux_proximal_phalanx_right",
+    "toe2_middle_phalanx_left"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 5.38,
+   "frame": 193,
+   "rest_axis_mm": 156.3
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_right",
+   "bones": [
+    "metatarsal_1_left",
+    "toe2_distal_phalanx_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 5.41,
+   "frame": 3008,
+   "rest_axis_mm": 167.3
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_right",
+   "bones": [
+    "hallux_proximal_phalanx_left",
+    "toe2_distal_phalanx_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 5.43,
+   "frame": 3008,
+   "rest_axis_mm": 156.7
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_left",
+   "bones": [
+    "hallux_distal_phalanx_left",
+    "toe2_proximal_phalanx_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 5.65,
+   "frame": 193,
+   "rest_axis_mm": 156.4
+  },
+  {
+   "test": "hip_abduction_adduction_left",
+   "bones": [
+    "lateral_cuneiform_right",
+    "metatarsal_5_left"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 5.68,
+   "frame": 112,
+   "rest_axis_mm": 203.8
+  },
+  {
+   "test": "hip_abduction_adduction_right",
+   "bones": [
+    "lateral_cuneiform_left",
+    "metatarsal_5_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 5.68,
+   "frame": 2927,
+   "rest_axis_mm": 203.8
+  },
+  {
+   "test": "hip_abduction_adduction_left",
+   "bones": [
+    "intermediate_cuneiform_left",
+    "medial_cuneiform_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 6.26,
+   "frame": 114,
+   "rest_axis_mm": 154.9
+  },
+  {
+   "test": "hip_abduction_adduction_left",
+   "bones": [
+    "medial_cuneiform_right",
+    "metatarsal_2_left"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 6.26,
+   "frame": 114,
+   "rest_axis_mm": 167.8
+  },
+  {
+   "test": "hip_abduction_adduction_right",
+   "bones": [
+    "intermediate_cuneiform_right",
+    "medial_cuneiform_left"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 6.26,
+   "frame": 2929,
+   "rest_axis_mm": 154.9
+  },
+  {
+   "test": "hip_abduction_adduction_right",
+   "bones": [
+    "medial_cuneiform_left",
+    "metatarsal_2_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 6.26,
+   "frame": 2929,
+   "rest_axis_mm": 167.8
+  },
+  {
+   "test": "hip_abduction_adduction_left",
+   "bones": [
+    "lateral_cuneiform_left",
+    "medial_cuneiform_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 6.36,
+   "frame": 98,
+   "rest_axis_mm": 156.9
+  },
+  {
+   "test": "hip_abduction_adduction_right",
+   "bones": [
+    "lateral_cuneiform_right",
+    "medial_cuneiform_left"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 6.36,
+   "frame": 2913,
+   "rest_axis_mm": 156.9
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_right",
+   "bones": [
+    "hallux_proximal_phalanx_left",
+    "toe3_distal_phalanx_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 6.39,
+   "frame": 3006,
+   "rest_axis_mm": 172.4
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_left",
+   "bones": [
+    "metatarsal_1_right",
+    "toe2_distal_phalanx_left"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 6.44,
+   "frame": 189,
+   "rest_axis_mm": 167.3
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_left",
+   "bones": [
+    "hallux_distal_phalanx_left",
+    "metatarsal_3_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 6.88,
+   "frame": 191,
+   "rest_axis_mm": 178.7
+  },
+  {
+   "test": "hip_abduction_adduction_left",
+   "bones": [
+    "medial_cuneiform_right",
+    "metatarsal_3_left"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 7.0,
+   "frame": 98,
+   "rest_axis_mm": 178.4
+  },
+  {
+   "test": "hip_abduction_adduction_right",
+   "bones": [
+    "medial_cuneiform_left",
+    "metatarsal_3_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 7.0,
+   "frame": 2913,
+   "rest_axis_mm": 178.4
+  },
+  {
+   "test": "hip_abduction_adduction_left",
+   "bones": [
+    "cuboid_left",
+    "lateral_cuneiform_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 7.07,
+   "frame": 112,
+   "rest_axis_mm": 191.2
+  },
+  {
+   "test": "hip_abduction_adduction_right",
+   "bones": [
+    "cuboid_right",
+    "lateral_cuneiform_left"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 7.07,
+   "frame": 2927,
+   "rest_axis_mm": 191.2
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_right",
+   "bones": [
+    "metatarsal_2_left",
+    "toe2_distal_phalanx_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 7.53,
+   "frame": 3006,
+   "rest_axis_mm": 186.8
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_right",
+   "bones": [
+    "toe2_distal_phalanx_right",
+    "toe2_proximal_phalanx_left"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 7.54,
+   "frame": 3006,
+   "rest_axis_mm": 179.2
+  },
+  {
+   "test": "hip_abduction_adduction_left",
+   "bones": [
+    "fibula_left",
+    "tibia_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 7.82,
+   "frame": 110,
+   "rest_axis_mm": 217.7
+  },
+  {
+   "test": "hip_abduction_adduction_right",
+   "bones": [
+    "fibula_right",
+    "tibia_left"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 7.82,
+   "frame": 2925,
+   "rest_axis_mm": 217.7
+  },
+  {
+   "test": "hip_abduction_adduction_left",
+   "bones": [
+    "fibula_right",
+    "tibia_left"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 7.98,
+   "frame": 110,
+   "rest_axis_mm": 217.7
+  },
+  {
+   "test": "hip_abduction_adduction_right",
+   "bones": [
+    "fibula_left",
+    "tibia_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 7.98,
+   "frame": 2925,
+   "rest_axis_mm": 217.7
+  },
+  {
+   "test": "shoulder_complex_scapular_plane_left",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 8.03,
+   "frame": 5716,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "shoulder_complex_scapular_plane_right",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 8.03,
+   "frame": 5976,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t3_t4_flexion",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 8.06,
+   "frame": 7626,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t3_t4_flexion",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 8.06,
+   "frame": 7626,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t2_t3_flexion",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 8.07,
+   "frame": 7371,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t2_t3_flexion",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 8.07,
+   "frame": 7371,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_left",
+   "bones": [
+    "hallux_proximal_phalanx_right",
+    "toe3_distal_phalanx_left"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 8.1,
+   "frame": 191,
+   "rest_axis_mm": 172.3
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_right",
+   "bones": [
+    "hallux_proximal_phalanx_right",
+    "metatarsal_2_left"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 8.19,
+   "frame": 3006,
+   "rest_axis_mm": 157.0
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_right",
+   "bones": [
+    "metatarsal_1_left",
+    "toe3_distal_phalanx_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 8.5,
+   "frame": 3006,
+   "rest_axis_mm": 180.0
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_right",
+   "bones": [
+    "metatarsal_1_left",
+    "toe2_proximal_phalanx_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 8.66,
+   "frame": 3006,
+   "rest_axis_mm": 157.1
+  },
+  {
+   "test": "thoracic_t2_t3_adduction",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 8.66,
+   "frame": 7416,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t2_t3_adduction",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 8.66,
+   "frame": 7456,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t3_t4_adduction",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 8.74,
+   "frame": 7671,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t3_t4_adduction",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 8.74,
+   "frame": 7711,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "hip_abduction_adduction_left",
+   "bones": [
+    "hallux_distal_phalanx_right",
+    "toe3_distal_phalanx_left"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 8.85,
+   "frame": 114,
+   "rest_axis_mm": 172.0
+  },
+  {
+   "test": "thoracic_t2_t3_internal",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 8.98,
+   "frame": 7501,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t2_t3_internal",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 8.98,
+   "frame": 7541,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t3_t4_internal",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.0,
+   "frame": 7756,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t3_t4_internal",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.0,
+   "frame": 7796,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "hip_abduction_adduction_right",
+   "bones": [
+    "hallux_distal_phalanx_left",
+    "toe3_distal_phalanx_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 9.07,
+   "frame": 2913,
+   "rest_axis_mm": 172.0
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_left",
+   "bones": [
+    "hallux_distal_phalanx_left",
+    "toe3_proximal_phalanx_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 191,
+   "rest_axis_mm": 172.9
+  },
+  {
+   "test": "lumbar_l2_l3_extension",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 6916,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "lumbar_l2_l3_extension",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 6916,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "lumbar_l3_l4_extension",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 6961,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "lumbar_l3_l4_extension",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 6961,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "lumbar_l4_l5_extension",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 7006,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "lumbar_l4_l5_extension",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 7006,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "lumbar_l5_sacrum_extension",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 7051,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "lumbar_l5_sacrum_extension",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 7051,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t4_t5_flexion",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 7901,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t4_t5_flexion",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 7901,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t4_t5_adduction",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 7986,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t4_t5_adduction",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 7986,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t4_t5_internal",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8071,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t4_t5_internal",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8071,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t5_t6_flexion",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8156,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t5_t6_flexion",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8156,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t5_t6_adduction",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8241,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t5_t6_adduction",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8241,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t5_t6_internal",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8326,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t5_t6_internal",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8326,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t7_t8_flexion",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8411,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t7_t8_flexion",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8411,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t7_t8_adduction",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8496,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t7_t8_adduction",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8496,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t7_t8_internal",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8581,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t7_t8_internal",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8581,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t8_t9_flexion",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8666,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t8_t9_flexion",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8666,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t8_t9_adduction",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8751,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t8_t9_adduction",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8751,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t8_t9_internal",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8836,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t8_t9_internal",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8836,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t9_t10_flexion",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8921,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t9_t10_flexion",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 8921,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t9_t10_adduction",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9006,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t9_t10_adduction",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9006,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t9_t10_internal",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9091,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t9_t10_internal",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9091,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t10_t11_flexion",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9176,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t10_t11_flexion",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9176,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t10_t11_adduction",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9261,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t10_t11_adduction",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9261,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t10_t11_internal",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9346,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t10_t11_internal",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9346,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t11_t12_flexion",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9431,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t11_t12_flexion",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9431,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t11_t12_adduction",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9516,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t11_t12_adduction",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9516,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t11_t12_internal",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9601,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t11_t12_internal",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9601,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t12_l1_flexion",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9686,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t12_l1_flexion",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9686,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t12_l1_adduction",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9771,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t12_l1_adduction",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9771,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t12_l1_internal",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9856,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t12_l1_internal",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9856,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t6_t7_flexion",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9941,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t6_t7_flexion",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 9941,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t6_t7_adduction",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 10026,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t6_t7_adduction",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 10026,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t6_t7_internal",
+   "bones": [
+    "clavicle_left",
+    "rib_02_left"
+   ],
+   "regions": [
+    "arm_left",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 10111,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "thoracic_t6_t7_internal",
+   "bones": [
+    "clavicle_right",
+    "rib_02_right"
+   ],
+   "regions": [
+    "arm_right",
+    "trunk_head"
+   ],
+   "min_axis_mm": 9.22,
+   "frame": 10111,
+   "rest_axis_mm": 9.2
+  },
+  {
+   "test": "hip_abduction_adduction_left",
+   "bones": [
+    "hallux_distal_phalanx_right",
+    "toe3_middle_phalanx_left"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 9.41,
+   "frame": 114,
+   "rest_axis_mm": 172.2
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_right",
+   "bones": [
+    "hallux_distal_phalanx_right",
+    "toe3_proximal_phalanx_left"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 9.58,
+   "frame": 3008,
+   "rest_axis_mm": 172.9
+  },
+  {
+   "test": "hip_abduction_adduction_left",
+   "bones": [
+    "hallux_proximal_phalanx_right",
+    "toe3_middle_phalanx_left"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 9.6,
+   "frame": 114,
+   "rest_axis_mm": 172.3
+  },
+  {
+   "test": "hip_abduction_adduction_right",
+   "bones": [
+    "hallux_distal_phalanx_left",
+    "toe3_middle_phalanx_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 9.6,
+   "frame": 2929,
+   "rest_axis_mm": 172.2
+  },
+  {
+   "test": "hip_abduction_adduction_left",
+   "bones": [
+    "intermediate_cuneiform_right",
+    "metatarsal_5_left"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 9.75,
+   "frame": 100,
+   "rest_axis_mm": 201.8
+  },
+  {
+   "test": "hip_abduction_adduction_right",
+   "bones": [
+    "intermediate_cuneiform_left",
+    "metatarsal_5_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 9.75,
+   "frame": 2915,
+   "rest_axis_mm": 201.8
+  },
+  {
+   "test": "hip_abduction_adduction_right",
+   "bones": [
+    "hallux_proximal_phalanx_left",
+    "toe3_middle_phalanx_right"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 9.77,
+   "frame": 2913,
+   "rest_axis_mm": 172.3
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_right",
+   "bones": [
+    "hallux_distal_phalanx_right",
+    "toe2_proximal_phalanx_left"
+   ],
+   "regions": [
+    "leg_left",
+    "leg_right"
+   ],
+   "min_axis_mm": 9.82,
+   "frame": 3010,
+   "rest_axis_mm": 156.4
+  }
+ ]
+}

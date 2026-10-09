@@ -1,0 +1,90 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "kind": "READ_ONLY_FOLLOWER_GAP",
+ "finding": "U3",
+ "source": {
+  "model": "https://github.com/MyoHub/myo_sim/blob/93b0ca8f4ec90c9899ee7f05fee561e9911da91b/myo_sim/models/arm/assets/myoarm_r_assets.xml",
+  "axes": "https://github.com/MyoHub/myo_sim/blob/93b0ca8f4ec90c9899ee7f05fee561e9911da91b/myo_sim/models/arm/assets/myoarm_r_chain.xml",
+  "lineage": "MoBL-ARMS upper-extremity model (Holzbaur et al. 2005; Saul et al. 2015) shoulder rhythm, linear regressions on thoracohumeral elevation after de Groot & Brand 2001 (as stated for that model family)",
+  "grade": "published generic model; coupling template, not a population statistic"
+ },
+ "inputs_sha256": {
+  "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json": "99500d94e06c66ca489bdaccc0345446f98794946254c5e592d9449696f396c1"
+ },
+ "sc_elevation_joint": "sternoclavicular_r3_r",
+ "axis": [
+  -0.9945,
+  0.0,
+  -0.105
+ ],
+ "polycoef": [
+  0.0,
+  0.1025,
+  0.0,
+  0.0,
+  0.0
+ ],
+ "clavicle_elevation_per_deg_HT": 0.1025,
+ "other_sc_couplings": {
+  "sternoclavicular_r2_r": [
+   0.0,
+   -0.242,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ "c004": {
+  "left": {
+   "clavicle_chord_mm": 151.3,
+   "rest_elevation_deg": -1.05,
+   "HT60": {
+    "model_clavicle_elevation_deg": 6.15,
+    "AC_rise_mm_model": 16.2,
+    "AC_rise_mm_at_committed_10deg_bound": 16.2
+   },
+   "HT90": {
+    "model_clavicle_elevation_deg": 9.22,
+    "AC_rise_mm_model": 24.3,
+    "AC_rise_mm_at_committed_10deg_bound": 24.3
+   },
+   "HT120": {
+    "model_clavicle_elevation_deg": 12.3,
+    "AC_rise_mm_model": 32.3,
+    "AC_rise_mm_at_committed_10deg_bound": 26.3
+   },
+   "HT168": {
+    "model_clavicle_elevation_deg": 17.22,
+    "AC_rise_mm_model": 44.9,
+    "AC_rise_mm_at_committed_10deg_bound": 26.3
+   }
+  },
+  "right": {
+   "clavicle_chord_mm": 151.3,
+   "rest_elevation_deg": -1.05,
+   "HT60": {
+    "model_clavicle_elevation_deg": 6.15,
+    "AC_rise_mm_model": 16.2,
+    "AC_rise_mm_at_committed_10deg_bound": 16.2
+   },
+   "HT90": {
+    "model_clavicle_elevation_deg": 9.22,
+    "AC_rise_mm_model": 24.3,
+    "AC_rise_mm_at_committed_10deg_bound": 24.3
+   },
+   "HT120": {
+    "model_clavicle_elevation_deg": 12.3,
+    "AC_rise_mm_model": 32.3,
+    "AC_rise_mm_at_committed_10deg_bound": 26.3
+   },
+   "HT168": {
+    "model_clavicle_elevation_deg": 17.22,
+    "AC_rise_mm_model": 44.9,
+    "AC_rise_mm_at_committed_10deg_bound": 26.3
+   }
+  }
+ },
+ "conflict": "The model coefficient gives more than the committed \"typically below 10 deg\" bound above about 98.0 deg of thoracohumeral elevation; the bound is a secondary-review snippet. Not resolved.",
+ "reading": "Without clavicular elevation the AC (and the whole scapula-humerus chain) stays low in overhead positions by the tabulated rise. The follower is not installed here (shared movement machinery)."
+}

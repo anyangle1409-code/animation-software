@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-09",
+  "kind": "PRIMARY_HAND_ENDPOINT_SEMANTICS_REVIEW",
+  "anatomical_acceptance": false,
+  "existing_evidence_changed": false,
+  "primary_recheck": {
+    "authors": [
+      "Atif Aydinlioglu",
+      "Fuat Akpinar",
+      "Nihat Tosun"
+    ],
+    "doi": "10.1620/tjem.185.209",
+    "pmid": "9823781",
+    "legacy_source_id": "DOGAN_1998_HAND_RELATIONS",
+    "id_note": "Compatibility ID retained; it is the Aydinlioglu paper, not a second Dogan publication.",
+    "url": "https://www.jstage.jst.go.jp/article/tjem/185/3/185_3_209/_pdf/-char/en",
+    "pdf_sha256": "ff82f0065e9263e9d3d2cd44cf12eaae12526002542495cdbbd8dfcf0ae0f52a",
+    "bytes": 392392,
+    "review": "Downloaded primary scanned PDF; Methods p210, Figure1 p211 and Table5 p213 visually inspected. All19registered male means/SD agree with Table5; no source values changed.",
+    "scope": "AP bony boundary-midpoint lengths; healthy50men aged20\u201340; no subject-specific stature or 3D world-coordinate mapping.",
+    "distal_mean_sd_mm": {
+      "thumb": [
+        23,
+        2
+      ],
+      "index": [
+        18,
+        1
+      ],
+      "middle": [
+        19,
+        1
+      ],
+      "ring": [
+        19,
+        1
+      ],
+      "little": [
+        17,
+        1
+      ]
+    }
+  },
+  "additional_primary_contexts": [
+    {
+      "authors": [
+        "Hamilton",
+        "Dunsmuir"
+      ],
+      "doi": "10.1054/jhsb.2002.0822",
+      "url": "https://journals.sagepub.com/doi/10.1054/jhsb.2002.0822",
+      "retrieval": "Publisher abstract only; full text restricted",
+      "scope": "Cadaver-derived joint rotation centres mapped to clinical AP radiographs; interarticular and fingertip distances.",
+      "application": "Endpoint semantics corroboration only; does not provide all bony-tip world coordinates. No quoted ratios adopted as targets."
+    },
+    {
+      "authors": [
+        "Huan",
+        "Chuang",
+        "Teng",
+        "Wong",
+        "Lim"
+      ],
+      "doi": "10.1177/20101058261418443",
+      "url": "https://journals.sagepub.com/doi/10.1177/20101058261418443",
+      "retrieval": "Primary open-access Methods and Results inspected",
+      "locator": "Methods and Figure1",
+      "scope": "Middle phalanx narrowest medullary diameter; distal phalanx narrowest cortical diameter in AP/lateral radiographs.",
+      "application": "Potential cross-section evidence, not longitudinal bone length or fingertip allowance. Do not use these diameters to resolve distal-tail positions."
+    }
+  ],
+  "code_trace": {
+    "input_origin": "character_fit.hand_from_stations copies runtime digit _03 endpoints; skeleton_fit marks distal phalanges surface_station/low confidence",
+    "containment_origin": "a003 stored distal tails were shortened by mesh containment",
+    "conclusion": "Neither restoration of raw generator tips nor approximate agreement of contained spans with population means provides independent anatomical endpoint acceptance."
+  },
+  "blockers": [
+    "Independent DIP/IP bony landmarks and articular centres",
+    "Frame registration and AP projection versus 3D span definition",
+    "All-ray distal-tip evidence compatible with chosen adult male target",
+    "Compatible independent anatomical geometry beyond population means"
+  ]
+}

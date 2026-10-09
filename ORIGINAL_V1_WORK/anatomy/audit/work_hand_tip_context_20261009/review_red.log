@@ -1,0 +1,34 @@
+FF..F.....
+======================================================================
+FAIL: test_adjustment_metadata_must_match_observed_offset (test_hand_tip_length_context.HandTipLengthContextTests.test_adjustment_metadata_must_match_observed_offset)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/555b6458c54f/animation-software/scripts/test_hand_tip_length_context.py", line 81, in test_adjustment_metadata_must_match_observed_offset
+    with self.assertRaisesRegex(ValueError, 'containment metadata'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_derived_infinite_comparison_rejected (test_hand_tip_length_context.HandTipLengthContextTests.test_derived_infinite_comparison_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/555b6458c54f/animation-software/scripts/test_hand_tip_length_context.py", line 87, in test_derived_infinite_comparison_rejected
+    with self.assertRaisesRegex(ValueError, 'finite standardized'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_missing_containment_history_cannot_claim_origin (test_hand_tip_length_context.HandTipLengthContextTests.test_missing_containment_history_cannot_claim_origin)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/555b6458c54f/animation-software/scripts/test_hand_tip_length_context.py", line 75, in test_missing_containment_history_cannot_claim_origin
+    self.assertEqual(result['stored_endpoint_origin'], 'UNVERIFIED_RECORD_ENDPOINT_ORIGIN')
+AssertionError: 'legacy_mesh_containment_not_anatomical_evidence' != 'UNVERIFIED_RECORD_ENDPOINT_ORIGIN'
+- legacy_mesh_containment_not_anatomical_evidence
++ UNVERIFIED_RECORD_ENDPOINT_ORIGIN
+
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.039s
+
+FAILED (failures=3)

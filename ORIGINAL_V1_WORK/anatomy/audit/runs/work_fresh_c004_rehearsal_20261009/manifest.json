@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "kind": "C004_SKELETON_ONLY_DIAGNOSTIC_REPLAY",
+  "blender": "5.2.1 LTS",
+  "python": "3.13.16",
+  "anatomical_acceptance": false,
+  "production_asset_modified": false,
+  "files": {
+    "rehearsal.blend.gz": {
+      "raw_sha256": "9b5879504e87d2c28681be14a7cbfffe51b921acbc8f081f10be7deef1619d3e",
+      "gzip_sha256": "71cec93cc1ff8bf423787430638a250f48de2c160bad2e5d4067f30f0c02e5e4",
+      "raw_bytes": 222446,
+      "gzip_bytes": 222059
+    },
+    "capture.json.gz": {
+      "raw_sha256": "1ddcc7ce4203f3a4b841da10a09464a5122e3ea84d0b2119baa25da264d9f347",
+      "gzip_sha256": "08bf585399f544c104aebfec73f65e1b48c797d728468ec2cf36f1c5dae967f4",
+      "raw_bytes": 332539,
+      "gzip_bytes": 54250
+    },
+    "movement_record.json.gz": {
+      "raw_sha256": "f0c62799e587c309a9506d41654eb3aafb122f08eedeb496d6bd5ebb619689fe",
+      "gzip_sha256": "56c10db5fc809072a602b729813ddf26780bc86895b925b89cb2ed430ef08e6c",
+      "raw_bytes": 496311,
+      "gzip_bytes": 66207
+    },
+    "movement.blend.gz": {
+      "raw_sha256": "b96c109b4530e95f6c07232c9c3af72f85070d1eba1d03923f226b46acb9079d",
+      "gzip_sha256": "900b75e36c4eb94cf2e20ff0fbd52b2d43e8081469a5df855c2008bfbe2ff793",
+      "raw_bytes": 1599832,
+      "gzip_bytes": 1566457
+    },
+    "isolated_samples.json.gz": {
+      "raw_sha256": "57ed50fa98506083325a55f5ab6ecab9f5782607a7434d2682391a1db6cba02f",
+      "gzip_sha256": "7084c72af18e1c0c88bf266b9bd9deb348a012c48de97e6049cb002cbc59bd4e",
+      "raw_bytes": 11901829,
+      "gzip_bytes": 1786161
+    },
+    "isolated_report.json.gz": {
+      "raw_sha256": "72f388e7e72909deadfc00e9ed923ed654f613a826618276be86f2294789daa6",
+      "gzip_sha256": "23b90f2c2fa8722818653e67b35a63dfd44bb5ff6748fdc67f19f14f47382a3b",
+      "raw_bytes": 280033,
+      "gzip_bytes": 35660
+    }
+  }
+}

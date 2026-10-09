@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "kind": "RESEARCH_CONTEXTS_ONLY",
+  "date": "2026-10-09",
+  "anatomical_acceptance": false,
+  "canonical_coordinates_changed": false,
+  "movement_limits_changed": false,
+  "sources": [
+    {
+      "id": "XI_2013_2014",
+      "doi": "10.1007/s10508-013-0179-9",
+      "url": "https://link.springer.com/content/pdf/10.1007/s10508-013-0179-9.pdf",
+      "retrieval": "primary full-text PDF, text tables crosschecked with measurement methods",
+      "locator": "Figure 1 and Methods p330; Table 3 p331 (PDF pages 2,3)",
+      "population": "128 male Han university students aged 18\u201320, Liaoning",
+      "measurement_definition": "Radiographic X2 minus X1: common proximal phalanx base to soft tip minus common base to distal bone tip; longitudinal allowance, not volar pad depth",
+      "reported_units": "cm",
+      "observations": [
+        {
+          "side": "left",
+          "digit": 2,
+          "mean_cm": 0.3,
+          "sd_cm": 0.22,
+          "mean_mm": 3.0,
+          "sd_mm": 2.2
+        },
+        {
+          "side": "left",
+          "digit": 4,
+          "mean_cm": 0.35,
+          "sd_cm": 0.24,
+          "mean_mm": 3.5,
+          "sd_mm": 2.4
+        },
+        {
+          "side": "right",
+          "digit": 2,
+          "mean_cm": 0.31,
+          "sd_cm": 0.23,
+          "mean_mm": 3.1,
+          "sd_mm": 2.3000000000000003
+        },
+        {
+          "side": "right",
+          "digit": 4,
+          "mean_cm": 0.31,
+          "sd_cm": 0.25,
+          "mean_mm": 3.1,
+          "sd_mm": 2.5
+        }
+      ],
+      "application_status": "CONTEXT_ONLY",
+      "blockers": [
+        "No thumb, middle or little finger observations",
+        "No subject-specific 3D world endpoints or anatomical axes",
+        "No justified 1.82 m population adaptation",
+        "Mesh containment displacement is a different quantity; do not replace distal tails with these means"
+      ]
+    },
+    {
+      "id": "NUSSBAUMER_2010",
+      "doi": "10.1186/1471-2474-11-194",
+      "url": "https://link.springer.com/content/pdf/10.1186/1471-2474-11-194.pdf",
+      "retrieval": "primary full-text PDF, Table 1 read twice",
+      "locator": "Table 1 PDF page 6; methods pages 2\u20135",
+      "population": "15 sex/age-matched healthy controls, 8 men and 7 women; age34\u00b110years; stature173\u00b19cm",
+      "measurement_definition": "Passive supine hip abduction/adduction with hip and knee extended; contralateral leg over table edge, pelvis stabilized; ETS pelvis/thigh frames and functional hip centre",
+      "observations": [
+        {
+          "motion": "abduction",
+          "device": "ETS",
+          "mean_deg": 37.3,
+          "sd_deg": 8.0
+        },
+        {
+          "motion": "adduction",
+          "device": "ETS",
+          "mean_deg": 21.9,
+          "sd_deg": 3.0
+        }
+      ],
+      "source_sign": "abduction positive, adduction negative",
+      "solver_sign": "adduction positive in current frontal channel",
+      "application_status": "CONTEXT_ONLY",
+      "blockers": [
+        "Mixed-sex cohort; observed means are not universal hard limits",
+        "Protocol and frame correspondence require verification before a supplemental sweep",
+        "Requires independent corroboration in compatible context; do not pool goniometer and ETS values"
+      ]
+    },
+    {
+      "id": "MOSLER_2017",
+      "doi": "10.1016/j.jsams.2016.05.010",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/28185809/",
+      "retrieval": "primary abstract retrieved earlier in this session; later retrieval unavailable",
+      "locator": "Abstract Results, side-lying hip abduction",
+      "population": "394 asymptomatic male professional footballers aged18\u201340",
+      "measurement_definition": "Hip abduction in side-lying; full frame/protocol details not independently verified from full text",
+      "observations": [
+        {
+          "motion": "abduction",
+          "mean_deg": 50.0,
+          "sd_deg": 7.3
+        }
+      ],
+      "application_status": "DIFFERENT_CONTEXT_CORROBORATION_ONLY",
+      "blockers": [
+        "Athletic side-lying context differs from Nussbaumer supine ETS",
+        "No adduction ROM value extracted",
+        "Full-text protocol unresolved; do not average or adopt as hard limit"
+      ]
+    }
+  ],
+  "next_evidence_required": {
+    "hand": "Acquire independently defined distal bony endpoints for all five rays, carpal articular centres and orientation evidence; reject skin-derived correction",
+    "hip": "Choose declared measurement protocol; verify numerical sign mapping separately, then obtain compatible independent evidence before canonical limit selection"
+  }
+}

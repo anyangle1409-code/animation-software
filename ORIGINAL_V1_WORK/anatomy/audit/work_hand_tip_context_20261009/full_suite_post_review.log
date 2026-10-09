@@ -1,0 +1,121 @@
+......................................./workspace/scratch/555b6458c54f/animation-software/scripts/test_anatomy_fit.py:458: ResourceWarning: unclosed file <_io.TextIOWrapper name='/workspace/scratch/555b6458c54f/animation-software/ORIGINAL_V1_WORK/anatomy/sources/ansur2/ANSUR_II_MALE_Public.csv' mode='r' encoding='cp1252'>
+  rows = list(csv.DictReader(open(self.ANSUR, encoding='cp1252')))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+.................................................................................................................................................................................................................................../workspace/scratch/555b6458c54f/animation-software/scripts/anatomy_fit/build_forearm_target_report.py:27: ResourceWarning: unclosed file <_io.TextIOWrapper name='/workspace/scratch/555b6458c54f/animation-software/ORIGINAL_V1_WORK/anatomy/sources/ansur2/ANSUR_II_MALE_Public.csv' mode='r' encoding='cp1252'>
+  rows = list(csv.DictReader(path.open(encoding="cp1252")))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+............................................................./workspace/scratch/555b6458c54f/animation-software/scripts/anatomy_fit/proportion_audit.py:146: ResourceWarning: unclosed file <_io.TextIOWrapper name='/workspace/scratch/555b6458c54f/animation-software/ORIGINAL_V1_WORK/anatomy/sources/ansur2/ANSUR_II_MALE_Public.csv' mode='r' encoding='cp1252'>
+  rows = list(csv.DictReader(open(path, encoding='cp1252')))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+.....................................................................................................................................................EE....F...............................................................................................................................................................................E.....F..E............FF.................................................................................................................................................................................................................................................../workspace/scratch/555b6458c54f/animation-software/scripts/anatomy_fit/proportion_audit.py:146: ResourceWarning: unclosed file <_io.TextIOWrapper name='/workspace/scratch/555b6458c54f/animation-software/ORIGINAL_V1_WORK/anatomy/sources/ansur2/ANSUR_II_MALE_Public.csv' mode='r' encoding='cp1252'>
+  rows = list(csv.DictReader(open(path, encoding='cp1252')))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+................................................................................................./workspace/scratch/555b6458c54f/animation-software/scripts/anatomy_fit/proportion_audit.py:146: ResourceWarning: unclosed file <_io.TextIOWrapper name='/workspace/scratch/555b6458c54f/animation-software/ORIGINAL_V1_WORK/anatomy/sources/ansur2/ANSUR_II_MALE_Public.csv' mode='r' encoding='cp1252'>
+  rows = list(csv.DictReader(open(path, encoding='cp1252')))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+........F
+======================================================================
+ERROR: test_live_plan_covers_support_and_selects_active_r96_recovery (test_original_v1_execution_orchestration.ExecutionOrchestrationTests.test_live_plan_covers_support_and_selects_active_r96_recovery)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/555b6458c54f/animation-software/scripts/test_original_v1_execution_orchestration.py", line 26, in test_live_plan_covers_support_and_selects_active_r96_recovery
+    info = o.validate_plan(o.ROOT, plan)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/555b6458c54f/animation-software/scripts/original_v1_execution_orchestration.py", line 37, in validate_plan
+    raise ValueError("active recovery phase differs from r96 Task 7")
+ValueError: active recovery phase differs from r96 Task 7
+
+======================================================================
+ERROR: test_operational_tool_artifacts_are_validated (test_original_v1_execution_orchestration.ExecutionOrchestrationTests.test_operational_tool_artifacts_are_validated)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/555b6458c54f/animation-software/scripts/test_original_v1_execution_orchestration.py", line 122, in test_operational_tool_artifacts_are_validated
+    info = o.validate_plan(o.ROOT, plan)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/555b6458c54f/animation-software/scripts/original_v1_execution_orchestration.py", line 37, in validate_plan
+    raise ValueError("active recovery phase differs from r96 Task 7")
+ValueError: active recovery phase differs from r96 Task 7
+
+======================================================================
+ERROR: test_future_candidate_with_verified_sources_is_selected (test_original_v1_production_control.ControlTests.test_future_candidate_with_verified_sources_is_selected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/555b6458c54f/animation-software/scripts/test_original_v1_production_control.py", line 375, in test_future_candidate_with_verified_sources_is_selected
+    status,ledger=c.build(root)
+                  ^^^^^^^^^^^^^
+  File "/workspace/scratch/555b6458c54f/animation-software/scripts/original_v1_production_control.py", line 523, in build
+    raise ValueError('development freeze requires zero blockers and unresolved regressions')
+ValueError: development freeze requires zero blockers and unresolved regressions
+
+======================================================================
+ERROR: test_owner_accepted_regression_is_bound_to_exact_candidate_and_values (test_original_v1_production_control.ControlTests.test_owner_accepted_regression_is_bound_to_exact_candidate_and_values)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/555b6458c54f/animation-software/scripts/test_original_v1_production_control.py", line 122, in test_owner_accepted_regression_is_bound_to_exact_candidate_and_values
+    s2, _ = c.build(root)
+            ^^^^^^^^^^^^^
+  File "/workspace/scratch/555b6458c54f/animation-software/scripts/original_v1_production_control.py", line 523, in build
+    raise ValueError('development freeze requires zero blockers and unresolved regressions')
+ValueError: development freeze requires zero blockers and unresolved regressions
+
+======================================================================
+FAIL: test_unknown_support_stage_refused (test_original_v1_execution_orchestration.ExecutionOrchestrationTests.test_unknown_support_stage_refused)
+----------------------------------------------------------------------
+ValueError: active recovery phase differs from r96 Task 7
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/scratch/555b6458c54f/animation-software/scripts/test_original_v1_execution_orchestration.py", line 134, in test_unknown_support_stage_refused
+    with self.assertRaisesRegex(ValueError, "unknown support"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "unknown support" does not match "active recovery phase differs from r96 Task 7"
+
+======================================================================
+FAIL: test_next_action_requires_both_source_bound_diagnostics (test_original_v1_production_control.ControlTests.test_next_action_requires_both_source_bound_diagnostics)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/555b6458c54f/animation-software/scripts/test_original_v1_production_control.py", line 176, in test_next_action_requires_both_source_bound_diagnostics
+    self.assertEqual(c.next_action(status,control)['action'],'RUN remaining diagnostics')
+AssertionError: 'REOPEN shoulder/axilla foundation' != 'RUN remaining diagnostics'
+- REOPEN shoulder/axilla foundation
++ RUN remaining diagnostics
+
+
+======================================================================
+FAIL: test_wrist_repair_precedes_grip_and_lunge_after_hand_recovery (test_original_v1_production_control.ControlTests.test_wrist_repair_precedes_grip_and_lunge_after_hand_recovery)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/555b6458c54f/animation-software/scripts/test_original_v1_production_control.py", line 190, in test_wrist_repair_precedes_grip_and_lunge_after_hand_recovery
+    self.assertEqual(c.next_action(status,control)['action'],'REPAIR wrist')
+AssertionError: 'REOPEN shoulder/axilla foundation' != 'REPAIR wrist'
+- REOPEN shoulder/axilla foundation
++ REPAIR wrist
+
+
+======================================================================
+FAIL: test_zero_blockers_cannot_hide_inherited_regressions (test_original_v1_production_control.ControlTests.test_zero_blockers_cannot_hide_inherited_regressions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/555b6458c54f/animation-software/scripts/test_original_v1_production_control.py", line 207, in test_zero_blockers_cannot_hide_inherited_regressions
+    self.assertEqual(c.next_action(status,control)['action'],'RECONCILE freeze regressions')
+AssertionError: 'REOPEN shoulder/axilla foundation' != 'RECONCILE freeze regressions'
+- REOPEN shoulder/axilla foundation
++ RECONCILE freeze regressions
+
+
+======================================================================
+FAIL: test_current_candidate_status_matches_repository_evidence (test_verify_original_v1_candidate_status.CandidateStatusTests.test_current_candidate_status_matches_repository_evidence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/555b6458c54f/animation-software/scripts/test_verify_original_v1_candidate_status.py", line 19, in test_current_candidate_status_matches_repository_evidence
+    self.assertEqual(result["overall_status"], "candidate_not_production")
+AssertionError: 'candidate_rejected_for_anatomical_repair' != 'candidate_not_production'
+- candidate_rejected_for_anatomical_repair
++ candidate_not_production
+
+
+----------------------------------------------------------------------
+Ran 1031 tests in 145.625s
+
+FAILED (failures=5, errors=4)

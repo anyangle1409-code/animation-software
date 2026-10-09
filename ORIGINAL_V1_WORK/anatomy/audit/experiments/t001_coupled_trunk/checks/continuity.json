@@ -1,0 +1,1653 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "label": "t001",
+ "status": "MECHANICAL_SCAN_NO_GEOMETRY_CHANGE",
+ "bounds": {
+  "numeric": 1e-06,
+  "float32_transform": 1e-05,
+  "step_slack_deg": 0.001,
+  "measured_jump_deg": 90,
+  "non_angular_commands": [
+   "glide"
+  ]
+ },
+ "inputs_sha256": {
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_t001_coupled_trunk_001/isolated_samples.json": "a1473f756c9ab2e4351daaa2dc57111f3574ada7776b31710c71c6f6a60a9651"
+ },
+ "summary": {
+  "issues_by_kind": {},
+  "tests": 135,
+  "frames": 9575,
+  "tests_with_issues": [],
+  "global_worst": {
+   "orthonormality": 1.33e-06,
+   "det_error": 7.39e-07,
+   "step_excess_deg": 3e-05,
+   "max_measured_jump_deg": 13.905773336,
+   "rest_end_error": 0.0
+  }
+ },
+ "tests": {
+  "hip_flexion_extension_left": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 9.49e-07,
+    "det_error": 5.19e-07,
+    "step_excess_deg": 2.1e-05,
+    "max_measured_jump_deg": 10.073976836,
+    "rest_end_error": 0.0
+   }
+  },
+  "hip_abduction_adduction_left": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 5.48e-07,
+    "det_error": 1.06e-07,
+    "step_excess_deg": 6e-06,
+    "max_measured_jump_deg": 2.317627387,
+    "rest_end_error": 0.0
+   }
+  },
+  "hip_rotation_at_0_flexion_left": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 2.89e-07,
+    "det_error": 1.26e-07,
+    "step_excess_deg": 8e-06,
+    "max_measured_jump_deg": 4.109932361,
+    "rest_end_error": 0.0
+   }
+  },
+  "hip_rotation_at_90_flexion_left": {
+   "frames": 101,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.078e-06,
+    "det_error": 3.66e-07,
+    "step_excess_deg": 2.4e-05,
+    "max_measured_jump_deg": 13.90577053,
+    "rest_end_error": 0.0
+   }
+  },
+  "knee_flexion_extension_left": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.33e-06,
+    "det_error": 6.14e-07,
+    "step_excess_deg": 2.5e-05,
+    "max_measured_jump_deg": 10.637939181,
+    "rest_end_error": 0.0
+   }
+  },
+  "talocrural_dorsi_plantarflexion_left": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 6.13e-07,
+    "det_error": 1.6e-07,
+    "step_excess_deg": 9e-06,
+    "max_measured_jump_deg": 3.090177944,
+    "rest_end_error": 0.0
+   }
+  },
+  "subtalar_inversion_eversion_left": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 2.05e-07,
+    "det_error": 1.06e-07,
+    "step_excess_deg": 4e-06,
+    "max_measured_jump_deg": 1.545086901,
+    "rest_end_error": 0.0
+   }
+  },
+  "gh_elevation_plane_0_left": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 6.84e-07,
+    "det_error": 3.68e-07,
+    "step_excess_deg": 1.2e-05,
+    "max_measured_jump_deg": 4.635259809,
+    "rest_end_error": 0.0
+   }
+  },
+  "gh_elevation_plane_40_left": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 4.57e-07,
+    "det_error": 1.98e-07,
+    "step_excess_deg": 1.8e-05,
+    "max_measured_jump_deg": 4.635267552,
+    "rest_end_error": 0.0
+   }
+  },
+  "gh_elevation_plane_90_left": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 6.89e-07,
+    "det_error": 5.93e-07,
+    "step_excess_deg": 3e-05,
+    "max_measured_jump_deg": 4.635265253,
+    "rest_end_error": 0.0
+   }
+  },
+  "gh_axial_rotation_at_0_elevation_left": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 3.74e-07,
+    "det_error": 1.76e-07,
+    "step_excess_deg": 9e-06,
+    "max_measured_jump_deg": 3.862715291,
+    "rest_end_error": 0.0
+   }
+  },
+  "gh_axial_rotation_at_90_elevation_left": {
+   "frames": 101,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 4.79e-07,
+    "det_error": 3.89e-07,
+    "step_excess_deg": 8e-06,
+    "max_measured_jump_deg": 13.905765691,
+    "rest_end_error": 0.0
+   }
+  },
+  "elbow_flexion_at_pronation_0_left": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 7.53e-07,
+    "det_error": 6.39e-07,
+    "step_excess_deg": 1.6e-05,
+    "max_measured_jump_deg": 11.170992205,
+    "rest_end_error": 0.0
+   }
+  },
+  "elbow_flexion_at_pronation_60_left": {
+   "frames": 101,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 7.53e-07,
+    "det_error": 6.39e-07,
+    "step_excess_deg": 1.3e-05,
+    "max_measured_jump_deg": 11.170992205,
+    "rest_end_error": 0.0
+   }
+  },
+  "forearm_rotation_at_elbow_0_left": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 5.99e-07,
+    "det_error": 4.19e-07,
+    "step_excess_deg": 1.4e-05,
+    "max_measured_jump_deg": 6.566618169,
+    "rest_end_error": 0.0
+   }
+  },
+  "forearm_rotation_at_elbow_90_left": {
+   "frames": 101,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 6.54e-07,
+    "det_error": 4.44e-07,
+    "step_excess_deg": 1.3e-05,
+    "max_measured_jump_deg": 13.905763288,
+    "rest_end_error": 0.0
+   }
+  },
+  "wrist_flexion_left": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 7.1e-07,
+    "det_error": 2.23e-07,
+    "step_excess_deg": 1.3e-05,
+    "max_measured_jump_deg": 5.683597494,
+    "rest_end_error": 0.0
+   }
+  },
+  "wrist_adduction_left": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 3.96e-07,
+    "det_error": 2.5e-07,
+    "step_excess_deg": 5e-06,
+    "max_measured_jump_deg": 2.41728606,
+    "rest_end_error": 0.0
+   }
+  },
+  "digit2_flexion_left": {
+   "frames": 61,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 9.43e-07,
+    "det_error": 6.67e-07,
+    "step_excess_deg": -0.001112,
+    "max_measured_jump_deg": 7.509130124,
+    "rest_end_error": 0.0
+   }
+  },
+  "digit3_flexion_left": {
+   "frames": 61,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.007e-06,
+    "det_error": 4.9e-07,
+    "step_excess_deg": -0.001624,
+    "max_measured_jump_deg": 7.431866631,
+    "rest_end_error": 0.0
+   }
+  },
+  "digit4_flexion_left": {
+   "frames": 61,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.284e-06,
+    "det_error": 6.12e-07,
+    "step_excess_deg": -0.001995,
+    "max_measured_jump_deg": 7.416416153,
+    "rest_end_error": 0.0
+   }
+  },
+  "digit5_flexion_left": {
+   "frames": 61,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 8.28e-07,
+    "det_error": 4.75e-07,
+    "step_excess_deg": -0.002435,
+    "max_measured_jump_deg": 7.091945196,
+    "rest_end_error": 0.0
+   }
+  },
+  "thumb_flexion_left": {
+   "frames": 61,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 5.7e-07,
+    "det_error": 3.76e-07,
+    "step_excess_deg": 2.5e-05,
+    "max_measured_jump_deg": 6.798378722,
+    "rest_end_error": 0.0
+   }
+  },
+  "thumb_cmc_radial_abduction_left": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 2.71e-07,
+    "det_error": 1.04e-07,
+    "step_excess_deg": 5e-06,
+    "max_measured_jump_deg": 3.041937039,
+    "rest_end_error": 0.0
+   }
+  },
+  "thumb_cmc_anteposition_left": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 2.29e-07,
+    "det_error": 1.31e-07,
+    "step_excess_deg": 4e-06,
+    "max_measured_jump_deg": 1.846884101,
+    "rest_end_error": 0.0
+   }
+  },
+  "digit2_mcp_abduction_left": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 2.14e-07,
+    "det_error": 1.07e-07,
+    "step_excess_deg": 9e-06,
+    "max_measured_jump_deg": 1.93135895,
+    "rest_end_error": 0.0
+   }
+  },
+  "digit4_mcp_abduction_left": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 2.66e-07,
+    "det_error": 9.3e-08,
+    "step_excess_deg": 4e-06,
+    "max_measured_jump_deg": 1.931357042,
+    "rest_end_error": 0.0
+   }
+  },
+  "digit5_mcp_abduction_left": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 3.25e-07,
+    "det_error": 1.19e-07,
+    "step_excess_deg": 8e-06,
+    "max_measured_jump_deg": 1.931356838,
+    "rest_end_error": 0.0
+   }
+  },
+  "thumb_opposition_left": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 2.64e-07,
+    "det_error": 1.27e-07,
+    "step_excess_deg": 5e-06,
+    "max_measured_jump_deg": 2.317628744,
+    "rest_end_error": 0.0
+   }
+  },
+  "rib_01_inspiration_left": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.22e-07,
+    "det_error": 9e-08,
+    "step_excess_deg": 2e-06,
+    "max_measured_jump_deg": 0.355370388,
+    "rest_end_error": 0.0
+   }
+  },
+  "rib_02_inspiration_left": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 2.08e-07,
+    "det_error": 1.48e-07,
+    "step_excess_deg": 2e-06,
+    "max_measured_jump_deg": 0.355370598,
+    "rest_end_error": 0.0
+   }
+  },
+  "rib_03_inspiration_left": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.78e-07,
+    "det_error": 1.2e-07,
+    "step_excess_deg": 3e-06,
+    "max_measured_jump_deg": 0.355370801,
+    "rest_end_error": 0.0
+   }
+  },
+  "rib_04_inspiration_left": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.41e-07,
+    "det_error": 1.16e-07,
+    "step_excess_deg": 2e-06,
+    "max_measured_jump_deg": 0.355370618,
+    "rest_end_error": 0.0
+   }
+  },
+  "rib_05_inspiration_left": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 2.04e-07,
+    "det_error": 1.65e-07,
+    "step_excess_deg": 1e-06,
+    "max_measured_jump_deg": 0.355370003,
+    "rest_end_error": 0.0
+   }
+  },
+  "rib_06_inspiration_left": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.53e-07,
+    "det_error": 1.21e-07,
+    "step_excess_deg": 4e-06,
+    "max_measured_jump_deg": 0.355373555,
+    "rest_end_error": 0.0
+   }
+  },
+  "rib_07_inspiration_left": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.38e-07,
+    "det_error": 1.42e-07,
+    "step_excess_deg": 4e-06,
+    "max_measured_jump_deg": 0.355373391,
+    "rest_end_error": 0.0
+   }
+  },
+  "talonavicular_dorsi_plantarflexion_left": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.37e-07,
+    "det_error": 6.9e-08,
+    "step_excess_deg": 1e-06,
+    "max_measured_jump_deg": 0.285454718,
+    "rest_end_error": 0.0
+   }
+  },
+  "sacroiliac_rotation_left": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.2e-07,
+    "det_error": 1.15e-07,
+    "step_excess_deg": 3e-06,
+    "max_measured_jump_deg": 0.065667739,
+    "rest_end_error": 0.0
+   }
+  },
+  "hallux_mtp_dorsiflexion_left": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 5.88e-07,
+    "det_error": 1.17e-07,
+    "step_excess_deg": 7e-06,
+    "max_measured_jump_deg": 3.399188342,
+    "rest_end_error": 0.0
+   }
+  },
+  "hip_flexion_extension_right": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 4.79e-07,
+    "det_error": 2.74e-07,
+    "step_excess_deg": 1.6e-05,
+    "max_measured_jump_deg": 10.073960253,
+    "rest_end_error": 0.0
+   }
+  },
+  "hip_abduction_adduction_right": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 4.58e-07,
+    "det_error": 9.5e-08,
+    "step_excess_deg": 8e-06,
+    "max_measured_jump_deg": 2.317635894,
+    "rest_end_error": 0.0
+   }
+  },
+  "hip_rotation_at_0_flexion_right": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 2.45e-07,
+    "det_error": 2.52e-07,
+    "step_excess_deg": 1.1e-05,
+    "max_measured_jump_deg": 3.994048598,
+    "rest_end_error": 0.0
+   }
+  },
+  "hip_rotation_at_90_flexion_right": {
+   "frames": 101,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 6.27e-07,
+    "det_error": 3.5e-07,
+    "step_excess_deg": 1.5e-05,
+    "max_measured_jump_deg": 13.905773336,
+    "rest_end_error": 0.0
+   }
+  },
+  "knee_flexion_extension_right": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.09e-06,
+    "det_error": 7.39e-07,
+    "step_excess_deg": 2.4e-05,
+    "max_measured_jump_deg": 10.637934182,
+    "rest_end_error": 0.0
+   }
+  },
+  "talocrural_dorsi_plantarflexion_right": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 2.81e-07,
+    "det_error": 1.88e-07,
+    "step_excess_deg": 1.2e-05,
+    "max_measured_jump_deg": 3.090171369,
+    "rest_end_error": 0.0
+   }
+  },
+  "subtalar_inversion_eversion_right": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 3.32e-07,
+    "det_error": 1.16e-07,
+    "step_excess_deg": 5e-06,
+    "max_measured_jump_deg": 1.545086888,
+    "rest_end_error": 0.0
+   }
+  },
+  "gh_elevation_plane_0_right": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 6.82e-07,
+    "det_error": 6.15e-07,
+    "step_excess_deg": 1.6e-05,
+    "max_measured_jump_deg": 4.635271468,
+    "rest_end_error": 0.0
+   }
+  },
+  "gh_elevation_plane_40_right": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 4.8e-07,
+    "det_error": 4.48e-07,
+    "step_excess_deg": 1.5e-05,
+    "max_measured_jump_deg": 4.63525669,
+    "rest_end_error": 0.0
+   }
+  },
+  "gh_elevation_plane_90_right": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 7.15e-07,
+    "det_error": 6.21e-07,
+    "step_excess_deg": 2.9e-05,
+    "max_measured_jump_deg": 4.635265529,
+    "rest_end_error": 0.0
+   }
+  },
+  "gh_axial_rotation_at_0_elevation_right": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 2.25e-07,
+    "det_error": 1.43e-07,
+    "step_excess_deg": 7e-06,
+    "max_measured_jump_deg": 3.862716862,
+    "rest_end_error": 0.0
+   }
+  },
+  "gh_axial_rotation_at_90_elevation_right": {
+   "frames": 101,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 4.19e-07,
+    "det_error": 4.04e-07,
+    "step_excess_deg": 1.1e-05,
+    "max_measured_jump_deg": 13.905768237,
+    "rest_end_error": 0.0
+   }
+  },
+  "elbow_flexion_at_pronation_0_right": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 7.57e-07,
+    "det_error": 6.8e-07,
+    "step_excess_deg": 1.5e-05,
+    "max_measured_jump_deg": 11.170993004,
+    "rest_end_error": 0.0
+   }
+  },
+  "elbow_flexion_at_pronation_60_right": {
+   "frames": 101,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 7.57e-07,
+    "det_error": 6.8e-07,
+    "step_excess_deg": 1.4e-05,
+    "max_measured_jump_deg": 11.170993004,
+    "rest_end_error": 0.0
+   }
+  },
+  "forearm_rotation_at_elbow_0_right": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 4.98e-07,
+    "det_error": 4.57e-07,
+    "step_excess_deg": 1e-05,
+    "max_measured_jump_deg": 6.566620761,
+    "rest_end_error": 0.0
+   }
+  },
+  "forearm_rotation_at_elbow_90_right": {
+   "frames": 101,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 4.47e-07,
+    "det_error": 4.02e-07,
+    "step_excess_deg": 8e-06,
+    "max_measured_jump_deg": 13.905763587,
+    "rest_end_error": 0.0
+   }
+  },
+  "wrist_flexion_right": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 4.32e-07,
+    "det_error": 1.82e-07,
+    "step_excess_deg": 1.5e-05,
+    "max_measured_jump_deg": 5.683599324,
+    "rest_end_error": 0.0
+   }
+  },
+  "wrist_adduction_right": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 4.39e-07,
+    "det_error": 2.62e-07,
+    "step_excess_deg": 6e-06,
+    "max_measured_jump_deg": 2.417285607,
+    "rest_end_error": 0.0
+   }
+  },
+  "digit2_flexion_right": {
+   "frames": 61,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 6.07e-07,
+    "det_error": 5.02e-07,
+    "step_excess_deg": -0.001112,
+    "max_measured_jump_deg": 7.509122601,
+    "rest_end_error": 0.0
+   }
+  },
+  "digit3_flexion_right": {
+   "frames": 61,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 7.95e-07,
+    "det_error": 5.46e-07,
+    "step_excess_deg": -0.001624,
+    "max_measured_jump_deg": 7.431863665,
+    "rest_end_error": 0.0
+   }
+  },
+  "digit4_flexion_right": {
+   "frames": 61,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 7.73e-07,
+    "det_error": 3.76e-07,
+    "step_excess_deg": -0.001995,
+    "max_measured_jump_deg": 7.416411516,
+    "rest_end_error": 0.0
+   }
+  },
+  "digit5_flexion_right": {
+   "frames": 61,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 7.87e-07,
+    "det_error": 4.91e-07,
+    "step_excess_deg": -0.002435,
+    "max_measured_jump_deg": 7.091946249,
+    "rest_end_error": 0.0
+   }
+  },
+  "thumb_flexion_right": {
+   "frames": 61,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 5.12e-07,
+    "det_error": 3.29e-07,
+    "step_excess_deg": 8e-06,
+    "max_measured_jump_deg": 6.798378261,
+    "rest_end_error": 0.0
+   }
+  },
+  "thumb_cmc_radial_abduction_right": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.9e-07,
+    "det_error": 1.2e-07,
+    "step_excess_deg": 6e-06,
+    "max_measured_jump_deg": 3.041937908,
+    "rest_end_error": 0.0
+   }
+  },
+  "thumb_cmc_anteposition_right": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.74e-07,
+    "det_error": 1.68e-07,
+    "step_excess_deg": 6e-06,
+    "max_measured_jump_deg": 1.846883954,
+    "rest_end_error": 0.0
+   }
+  },
+  "digit2_mcp_abduction_right": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 2.16e-07,
+    "det_error": 1.07e-07,
+    "step_excess_deg": 7e-06,
+    "max_measured_jump_deg": 1.931360441,
+    "rest_end_error": 0.0
+   }
+  },
+  "digit4_mcp_abduction_right": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 2.94e-07,
+    "det_error": 9.2e-08,
+    "step_excess_deg": 4e-06,
+    "max_measured_jump_deg": 1.931357022,
+    "rest_end_error": 0.0
+   }
+  },
+  "digit5_mcp_abduction_right": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 3.17e-07,
+    "det_error": 1.18e-07,
+    "step_excess_deg": 8e-06,
+    "max_measured_jump_deg": 1.931357331,
+    "rest_end_error": 0.0
+   }
+  },
+  "thumb_opposition_right": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.75e-07,
+    "det_error": 1.27e-07,
+    "step_excess_deg": 5e-06,
+    "max_measured_jump_deg": 2.317628754,
+    "rest_end_error": 0.0
+   }
+  },
+  "rib_01_inspiration_right": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.18e-07,
+    "det_error": 9e-08,
+    "step_excess_deg": 2e-06,
+    "max_measured_jump_deg": 0.35537089,
+    "rest_end_error": 0.0
+   }
+  },
+  "rib_02_inspiration_right": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.25e-07,
+    "det_error": 9.8e-08,
+    "step_excess_deg": 3e-06,
+    "max_measured_jump_deg": 0.35537155,
+    "rest_end_error": 0.0
+   }
+  },
+  "rib_03_inspiration_right": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.31e-07,
+    "det_error": 1.29e-07,
+    "step_excess_deg": 3e-06,
+    "max_measured_jump_deg": 0.355372188,
+    "rest_end_error": 0.0
+   }
+  },
+  "rib_04_inspiration_right": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.22e-07,
+    "det_error": 1.11e-07,
+    "step_excess_deg": 2e-06,
+    "max_measured_jump_deg": 0.355370317,
+    "rest_end_error": 0.0
+   }
+  },
+  "rib_05_inspiration_right": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.22e-07,
+    "det_error": 1.31e-07,
+    "step_excess_deg": 2e-06,
+    "max_measured_jump_deg": 0.355371386,
+    "rest_end_error": 0.0
+   }
+  },
+  "rib_06_inspiration_right": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.93e-07,
+    "det_error": 9.4e-08,
+    "step_excess_deg": 2e-06,
+    "max_measured_jump_deg": 0.355370256,
+    "rest_end_error": 0.0
+   }
+  },
+  "rib_07_inspiration_right": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.28e-07,
+    "det_error": 1.03e-07,
+    "step_excess_deg": 3e-06,
+    "max_measured_jump_deg": 0.355372654,
+    "rest_end_error": 0.0
+   }
+  },
+  "talonavicular_dorsi_plantarflexion_right": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.38e-07,
+    "det_error": 6.8e-08,
+    "step_excess_deg": 1e-06,
+    "max_measured_jump_deg": 0.28545471,
+    "rest_end_error": 0.0
+   }
+  },
+  "sacroiliac_rotation_right": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.27e-07,
+    "det_error": 1.18e-07,
+    "step_excess_deg": 3e-06,
+    "max_measured_jump_deg": 0.065667738,
+    "rest_end_error": 0.0
+   }
+  },
+  "hallux_mtp_dorsiflexion_right": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 2.79e-07,
+    "det_error": 1.13e-07,
+    "step_excess_deg": 6e-06,
+    "max_measured_jump_deg": 3.399189143,
+    "rest_end_error": 0.0
+   }
+  },
+  "knee_flexion_with_screw_home_left": {
+   "frames": 61,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 6.47e-07,
+    "det_error": 1.59e-07,
+    "step_excess_deg": 1.5e-05,
+    "max_measured_jump_deg": 4.6352656,
+    "rest_end_error": 0.0
+   }
+  },
+  "shoulder_complex_scapular_plane_left": {
+   "frames": 61,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 6.48e-07,
+    "det_error": 2.67e-07,
+    "step_excess_deg": -1.111536,
+    "max_measured_jump_deg": 13.810539164,
+    "rest_end_error": 0.0
+   }
+  },
+  "knee_flexion_with_patellar_follower_left": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 9.69e-07,
+    "det_error": 3.43e-07,
+    "step_excess_deg": 9e-06,
+    "max_measured_jump_deg": 6.952892386,
+    "rest_end_error": 0.0
+   }
+  },
+  "talocrural_with_fibular_follower_left": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 4.37e-07,
+    "det_error": 1.26e-07,
+    "step_excess_deg": 7e-06,
+    "max_measured_jump_deg": 2.317634452,
+    "rest_end_error": 0.0
+   }
+  },
+  "knee_flexion_with_screw_home_right": {
+   "frames": 61,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 3.37e-07,
+    "det_error": 2.29e-07,
+    "step_excess_deg": 1.4e-05,
+    "max_measured_jump_deg": 4.635265369,
+    "rest_end_error": 0.0
+   }
+  },
+  "shoulder_complex_scapular_plane_right": {
+   "frames": 61,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 5.18e-07,
+    "det_error": 4.3e-07,
+    "step_excess_deg": -1.111544,
+    "max_measured_jump_deg": 13.810531188,
+    "rest_end_error": 0.0
+   }
+  },
+  "knee_flexion_with_patellar_follower_right": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 6.2e-07,
+    "det_error": 3.22e-07,
+    "step_excess_deg": 1.4e-05,
+    "max_measured_jump_deg": 6.952889108,
+    "rest_end_error": 0.0
+   }
+  },
+  "talocrural_with_fibular_follower_right": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.91e-07,
+    "det_error": 1.27e-07,
+    "step_excess_deg": 9e-06,
+    "max_measured_jump_deg": 2.317636311,
+    "rest_end_error": 0.0
+   }
+  },
+  "c1_c2_axial_rotation": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.31e-07,
+    "det_error": 9.3e-08,
+    "step_excess_deg": 6e-06,
+    "max_measured_jump_deg": 2.64209528,
+    "rest_end_error": 0.0
+   }
+  },
+  "c0_c1_flexion_extension": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.64e-07,
+    "det_error": 1.26e-07,
+    "step_excess_deg": 3e-06,
+    "max_measured_jump_deg": 0.691427551,
+    "rest_end_error": 0.0
+   }
+  },
+  "cervical_c3_c4_flexion": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.24e-07,
+    "det_error": 1.21e-07,
+    "step_excess_deg": 3e-06,
+    "max_measured_jump_deg": 0.610311164,
+    "rest_end_error": 0.0
+   }
+  },
+  "cervical_c4_c5_flexion": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.33e-07,
+    "det_error": 1.21e-07,
+    "step_excess_deg": 3e-06,
+    "max_measured_jump_deg": 0.618035539,
+    "rest_end_error": 0.0
+   }
+  },
+  "cervical_c5_c6_flexion": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.47e-07,
+    "det_error": 1.08e-07,
+    "step_excess_deg": 4e-06,
+    "max_measured_jump_deg": 0.571683535,
+    "rest_end_error": 0.0
+   }
+  },
+  "cervical_c6_c7_flexion": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.51e-07,
+    "det_error": 1.24e-07,
+    "step_excess_deg": 2e-06,
+    "max_measured_jump_deg": 0.548506431,
+    "rest_end_error": 0.0
+   }
+  },
+  "cervical_c4_c5_adduction": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.32e-07,
+    "det_error": 7.8e-08,
+    "step_excess_deg": 1e-06,
+    "max_measured_jump_deg": 0.386272249,
+    "rest_end_error": 0.0
+   }
+  },
+  "cervical_c4_c5_internal": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.31e-07,
+    "det_error": 1.07e-07,
+    "step_excess_deg": 1e-06,
+    "max_measured_jump_deg": 0.386272287,
+    "rest_end_error": 0.0
+   }
+  },
+  "tmj_opening": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.6e-07,
+    "det_error": 8.9e-08,
+    "step_excess_deg": 4e-06,
+    "max_measured_jump_deg": 2.008610947,
+    "rest_end_error": 0.0
+   }
+  },
+  "lumbar_l2_l3_extension": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.72e-07,
+    "det_error": 1.05e-07,
+    "step_excess_deg": 2e-06,
+    "max_measured_jump_deg": 0.764818099,
+    "rest_end_error": 0.0
+   }
+  },
+  "lumbar_l3_l4_extension": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.63e-07,
+    "det_error": 9.7e-08,
+    "step_excess_deg": 3e-06,
+    "max_measured_jump_deg": 0.826623526,
+    "rest_end_error": 0.0
+   }
+  },
+  "lumbar_l4_l5_extension": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.23e-07,
+    "det_error": 6.4e-08,
+    "step_excess_deg": 1e-06,
+    "max_measured_jump_deg": 0.934777941,
+    "rest_end_error": 0.0
+   }
+  },
+  "lumbar_l5_sacrum_extension": {
+   "frames": 41,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.78e-07,
+    "det_error": 9.4e-08,
+    "step_excess_deg": 3e-06,
+    "max_measured_jump_deg": 0.741641347,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t1_t2_flexion": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.02e-07,
+    "det_error": 1.01e-07,
+    "step_excess_deg": 2e-06,
+    "max_measured_jump_deg": 0.073392612,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t1_t2_adduction": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.45e-07,
+    "det_error": 9.1e-08,
+    "step_excess_deg": 0.0,
+    "max_measured_jump_deg": 0.081117039,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t1_t2_internal": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.17e-07,
+    "det_error": 7.7e-08,
+    "step_excess_deg": 0.0,
+    "max_measured_jump_deg": 0.092705261,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t2_t3_flexion": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.22e-07,
+    "det_error": 1.22e-07,
+    "step_excess_deg": 3e-06,
+    "max_measured_jump_deg": 0.073393259,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t2_t3_adduction": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 7.5e-08,
+    "det_error": 7.7e-08,
+    "step_excess_deg": 0.0,
+    "max_measured_jump_deg": 0.081117005,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t2_t3_internal": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 8.8e-08,
+    "det_error": 7e-08,
+    "step_excess_deg": 0.0,
+    "max_measured_jump_deg": 0.092705305,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t3_t4_flexion": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.44e-07,
+    "det_error": 1.42e-07,
+    "step_excess_deg": 3e-06,
+    "max_measured_jump_deg": 0.07339317,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t3_t4_adduction": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.15e-07,
+    "det_error": 7.5e-08,
+    "step_excess_deg": 0.0,
+    "max_measured_jump_deg": 0.08111702,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t3_t4_internal": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.1e-07,
+    "det_error": 8.1e-08,
+    "step_excess_deg": 0.0,
+    "max_measured_jump_deg": 0.092705135,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t4_t5_flexion": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.22e-07,
+    "det_error": 1.21e-07,
+    "step_excess_deg": 2e-06,
+    "max_measured_jump_deg": 0.073393081,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t4_t5_adduction": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.32e-07,
+    "det_error": 8e-08,
+    "step_excess_deg": 0.0,
+    "max_measured_jump_deg": 0.081117055,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t4_t5_internal": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.22e-07,
+    "det_error": 8.2e-08,
+    "step_excess_deg": 0.0,
+    "max_measured_jump_deg": 0.092705159,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t5_t6_flexion": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.27e-07,
+    "det_error": 1.26e-07,
+    "step_excess_deg": 2e-06,
+    "max_measured_jump_deg": 0.073393267,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t5_t6_adduction": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.35e-07,
+    "det_error": 9.5e-08,
+    "step_excess_deg": 0.0,
+    "max_measured_jump_deg": 0.081117,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t5_t6_internal": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.33e-07,
+    "det_error": 7.2e-08,
+    "step_excess_deg": 0.0,
+    "max_measured_jump_deg": 0.092705319,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t7_t8_flexion": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.1e-07,
+    "det_error": 1.09e-07,
+    "step_excess_deg": 0.0,
+    "max_measured_jump_deg": 0.073391691,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t7_t8_adduction": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.35e-07,
+    "det_error": 7.3e-08,
+    "step_excess_deg": 0.0,
+    "max_measured_jump_deg": 0.081117018,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t7_t8_internal": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.33e-07,
+    "det_error": 7.3e-08,
+    "step_excess_deg": 0.0,
+    "max_measured_jump_deg": 0.092705237,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t8_t9_flexion": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.34e-07,
+    "det_error": 1.33e-07,
+    "step_excess_deg": 0.0,
+    "max_measured_jump_deg": 0.073391628,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t8_t9_adduction": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.3e-07,
+    "det_error": 7.6e-08,
+    "step_excess_deg": 0.0,
+    "max_measured_jump_deg": 0.081117053,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t8_t9_internal": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.23e-07,
+    "det_error": 9.6e-08,
+    "step_excess_deg": 0.0,
+    "max_measured_jump_deg": 0.092705112,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t9_t10_flexion": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.05e-07,
+    "det_error": 1.05e-07,
+    "step_excess_deg": 0.0,
+    "max_measured_jump_deg": 0.073391612,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t9_t10_adduction": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.01e-07,
+    "det_error": 5.5e-08,
+    "step_excess_deg": 0.0,
+    "max_measured_jump_deg": 0.081117009,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t9_t10_internal": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.04e-07,
+    "det_error": 5.7e-08,
+    "step_excess_deg": 0.0,
+    "max_measured_jump_deg": 0.092705166,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t10_t11_flexion": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.51e-07,
+    "det_error": 1.5e-07,
+    "step_excess_deg": 0.0,
+    "max_measured_jump_deg": 0.073391763,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t10_t11_adduction": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.02e-07,
+    "det_error": 6.1e-08,
+    "step_excess_deg": 0.0,
+    "max_measured_jump_deg": 0.081117049,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t10_t11_internal": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.42e-07,
+    "det_error": 8.1e-08,
+    "step_excess_deg": 0.0,
+    "max_measured_jump_deg": 0.092705351,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t11_t12_flexion": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.09e-07,
+    "det_error": 1.08e-07,
+    "step_excess_deg": 2e-06,
+    "max_measured_jump_deg": 0.073392618,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t11_t12_adduction": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.17e-07,
+    "det_error": 1.02e-07,
+    "step_excess_deg": 0.0,
+    "max_measured_jump_deg": 0.081116986,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t11_t12_internal": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.22e-07,
+    "det_error": 7.8e-08,
+    "step_excess_deg": 0.0,
+    "max_measured_jump_deg": 0.092705339,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t12_l1_flexion": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 9.8e-08,
+    "det_error": 9.7e-08,
+    "step_excess_deg": 3e-06,
+    "max_measured_jump_deg": 0.073393201,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t12_l1_adduction": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.28e-07,
+    "det_error": 1.42e-07,
+    "step_excess_deg": 0.0,
+    "max_measured_jump_deg": 0.081117124,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t12_l1_internal": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.62e-07,
+    "det_error": 7e-08,
+    "step_excess_deg": 0.0,
+    "max_measured_jump_deg": 0.092705177,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t6_t7_flexion": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.51e-07,
+    "det_error": 1.48e-07,
+    "step_excess_deg": 1e-06,
+    "max_measured_jump_deg": 0.14678367,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t6_t7_adduction": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.6e-07,
+    "det_error": 7.4e-08,
+    "step_excess_deg": 0.0,
+    "max_measured_jump_deg": 0.16995938,
+    "rest_end_error": 0.0
+   }
+  },
+  "thoracic_t6_t7_internal": {
+   "frames": 81,
+   "issues": [],
+   "issue_count": 0,
+   "worst": {
+    "orthonormality": 1.28e-07,
+    "det_error": 7.2e-08,
+    "step_excess_deg": 0.0,
+    "max_measured_jump_deg": 0.20086129,
+    "rest_end_error": 0.0
+   }
+  }
+ }
+}

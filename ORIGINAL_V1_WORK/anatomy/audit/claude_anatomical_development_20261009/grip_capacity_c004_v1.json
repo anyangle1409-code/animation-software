@@ -1,0 +1,234 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "kind": "READ_ONLY_GRIP_CAPACITY",
+ "label": "c004",
+ "inputs_sha256": {
+  "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json": "99500d94e06c66ca489bdaccc0345446f98794946254c5e592d9449696f396c1",
+  "ORIGINAL_V1_WORK/anatomy/whole_body_movement_atlas.json": "8bd1ca2957577c1aeff032ae2e9974eea6dabc9e1f75e8d49da66c6d9ce6bf49"
+ },
+ "digits": {
+  "digit2_left": {
+   "lengths_mm": {
+    "metacarpal": 58.41,
+    "proximal": 45.0,
+    "middle": 27.0,
+    "distal_H2_unsourced_tip": 18.9
+   },
+   "active_mean_limits_deg": [
+    86,
+    97.2,
+    81.6
+   ],
+   "min_bone_axis_wrap_radius_mm": 24.94,
+   "joint_angles_at_min_radius_deg": [
+    64.43,
+    97.2,
+    55.03
+   ],
+   "binding_joint": "PIP",
+   "wrap_angle_at_min_radius_deg": 238.9,
+   "handle_diameter_mm_if_axis_offset_t": {
+    "t=5mm": 39.9,
+    "t=10mm": 29.9,
+    "t=15mm": 19.9
+   },
+   "full_active_flexion_tip_to_metacarpal_axis_mm": 24.56
+  },
+  "digit3_left": {
+   "lengths_mm": {
+    "metacarpal": 53.98,
+    "proximal": 49.0,
+    "middle": 30.0,
+    "distal_H2_unsourced_tip": 21.0
+   },
+   "active_mean_limits_deg": [
+    86.6,
+    96.2,
+    84.5
+   ],
+   "min_bone_axis_wrap_radius_mm": 27.47,
+   "joint_angles_at_min_radius_deg": [
+    63.11,
+    96.2,
+    55.57
+   ],
+   "binding_joint": "PIP",
+   "wrap_angle_at_min_radius_deg": 237.3,
+   "handle_diameter_mm_if_axis_offset_t": {
+    "t=5mm": 44.9,
+    "t=10mm": 34.9,
+    "t=15mm": 24.9
+   },
+   "full_active_flexion_tip_to_metacarpal_axis_mm": 26.47
+  },
+  "digit4_left": {
+   "lengths_mm": {
+    "metacarpal": 51.59,
+    "proximal": 46.0,
+    "middle": 28.0,
+    "distal_H2_unsourced_tip": 20.16
+   },
+   "active_mean_limits_deg": [
+    84.2,
+    96,
+    82.1
+   ],
+   "min_bone_axis_wrap_radius_mm": 25.79,
+   "joint_angles_at_min_radius_deg": [
+    63.12,
+    96.0,
+    55.89
+   ],
+   "binding_joint": "PIP",
+   "wrap_angle_at_min_radius_deg": 238.0,
+   "handle_diameter_mm_if_axis_offset_t": {
+    "t=5mm": 41.6,
+    "t=10mm": 31.6,
+    "t=15mm": 21.6
+   },
+   "full_active_flexion_tip_to_metacarpal_axis_mm": 25.69
+  },
+  "digit5_left": {
+   "lengths_mm": {
+    "metacarpal": 53.2,
+    "proximal": 36.0,
+    "middle": 22.0,
+    "distal_H2_unsourced_tip": 16.72
+   },
+   "active_mean_limits_deg": [
+    85,
+    91.8,
+    84.6
+   ],
+   "min_bone_axis_wrap_radius_mm": 20.81,
+   "joint_angles_at_min_radius_deg": [
+    59.89,
+    91.8,
+    55.6
+   ],
+   "binding_joint": "PIP",
+   "wrap_angle_at_min_radius_deg": 231.0,
+   "handle_diameter_mm_if_axis_offset_t": {
+    "t=5mm": 31.6,
+    "t=10mm": 21.6,
+    "t=15mm": 11.6
+   },
+   "full_active_flexion_tip_to_metacarpal_axis_mm": 20.56
+  },
+  "digit2_right": {
+   "lengths_mm": {
+    "metacarpal": 58.41,
+    "proximal": 45.0,
+    "middle": 27.0,
+    "distal_H2_unsourced_tip": 18.9
+   },
+   "active_mean_limits_deg": [
+    86,
+    97.2,
+    81.6
+   ],
+   "min_bone_axis_wrap_radius_mm": 24.94,
+   "joint_angles_at_min_radius_deg": [
+    64.43,
+    97.2,
+    55.03
+   ],
+   "binding_joint": "PIP",
+   "wrap_angle_at_min_radius_deg": 238.9,
+   "handle_diameter_mm_if_axis_offset_t": {
+    "t=5mm": 39.9,
+    "t=10mm": 29.9,
+    "t=15mm": 19.9
+   },
+   "full_active_flexion_tip_to_metacarpal_axis_mm": 24.56
+  },
+  "digit3_right": {
+   "lengths_mm": {
+    "metacarpal": 53.98,
+    "proximal": 49.0,
+    "middle": 30.0,
+    "distal_H2_unsourced_tip": 21.0
+   },
+   "active_mean_limits_deg": [
+    86.6,
+    96.2,
+    84.5
+   ],
+   "min_bone_axis_wrap_radius_mm": 27.47,
+   "joint_angles_at_min_radius_deg": [
+    63.11,
+    96.2,
+    55.57
+   ],
+   "binding_joint": "PIP",
+   "wrap_angle_at_min_radius_deg": 237.3,
+   "handle_diameter_mm_if_axis_offset_t": {
+    "t=5mm": 44.9,
+    "t=10mm": 34.9,
+    "t=15mm": 24.9
+   },
+   "full_active_flexion_tip_to_metacarpal_axis_mm": 26.47
+  },
+  "digit4_right": {
+   "lengths_mm": {
+    "metacarpal": 51.59,
+    "proximal": 46.0,
+    "middle": 28.0,
+    "distal_H2_unsourced_tip": 20.16
+   },
+   "active_mean_limits_deg": [
+    84.2,
+    96,
+    82.1
+   ],
+   "min_bone_axis_wrap_radius_mm": 25.79,
+   "joint_angles_at_min_radius_deg": [
+    63.12,
+    96.0,
+    55.89
+   ],
+   "binding_joint": "PIP",
+   "wrap_angle_at_min_radius_deg": 238.0,
+   "handle_diameter_mm_if_axis_offset_t": {
+    "t=5mm": 41.6,
+    "t=10mm": 31.6,
+    "t=15mm": 21.6
+   },
+   "full_active_flexion_tip_to_metacarpal_axis_mm": 25.69
+  },
+  "digit5_right": {
+   "lengths_mm": {
+    "metacarpal": 53.2,
+    "proximal": 36.0,
+    "middle": 22.0,
+    "distal_H2_unsourced_tip": 16.72
+   },
+   "active_mean_limits_deg": [
+    85,
+    91.8,
+    84.6
+   ],
+   "min_bone_axis_wrap_radius_mm": 20.81,
+   "joint_angles_at_min_radius_deg": [
+    59.89,
+    91.8,
+    55.6
+   ],
+   "binding_joint": "PIP",
+   "wrap_angle_at_min_radius_deg": 231.0,
+   "handle_diameter_mm_if_axis_offset_t": {
+    "t=5mm": 31.6,
+    "t=10mm": 21.6,
+    "t=15mm": 11.6
+   },
+   "full_active_flexion_tip_to_metacarpal_axis_mm": 20.56
+  }
+ },
+ "limits": [
+  "bone axes only; soft tissue and bone thickness enter only through the tabulated offset t",
+  "planar flexion; MCP abduction, axial rotation and ray cupping (4th/5th CMC) are not modelled",
+  "distal phalanx length uses the unsourced tip endpoint (evidence gap H2)",
+  "active means, not maxima: half of healthy adults exceed them"
+ ]
+}

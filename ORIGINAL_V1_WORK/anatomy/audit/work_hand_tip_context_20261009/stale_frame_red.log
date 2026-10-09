@@ -1,0 +1,14 @@
+.....F.
+======================================================================
+FAIL: test_stale_input_frame_rejected (test_hand_tip_length_context.HandTipLengthContextTests.test_stale_input_frame_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/555b6458c54f/animation-software/scripts/test_hand_tip_length_context.py", line 64, in test_stale_input_frame_rejected
+    with self.assertRaisesRegex(ValueError, 'input and bone frames'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.031s
+
+FAILED (failures=1)

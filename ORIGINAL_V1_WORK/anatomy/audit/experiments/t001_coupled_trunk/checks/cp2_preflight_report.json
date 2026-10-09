@@ -1,0 +1,632 @@
+{
+ "candidate": "ORIGINAL_V1_WORK/anatomy/audit/experiments/t001_coupled_trunk/experiment_record.json",
+ "report": {
+  "verdict": "INCOMPLETE",
+  "counts": {
+   "PASS": 9,
+   "FAIL": 0,
+   "UNVERIFIED": 1,
+   "INFO": 1
+  },
+  "checks": [
+   {
+    "id": "bone_identity_206",
+    "status": "PASS"
+   },
+   {
+    "id": "bone_coordinates_finite",
+    "status": "PASS"
+   },
+   {
+    "id": "bone_nondegenerate",
+    "status": "PASS",
+    "measurements": {
+     "shortest_bone": "stapes_left",
+     "shortest_mm": 3.0000000000000027
+    }
+   },
+   {
+    "id": "parent_tree",
+    "status": "PASS",
+    "measurements": {
+     "roots": [
+      "hyoid",
+      "sacrum"
+     ]
+    }
+   },
+   {
+    "id": "side_sign_left_plus_x",
+    "status": "PASS",
+    "measurements": {
+     "largest_midline_offset": "sacrum",
+     "mm": 0.0
+    }
+   },
+   {
+    "id": "bilateral_mirror_asymmetry",
+    "status": "INFO",
+    "measurements": {
+     "pairs": 86,
+     "largest_pair": "hallux_distal_phalanx_left",
+     "largest_mm": 0.3808202446156969
+    }
+   },
+   {
+    "id": "joint_identity_427",
+    "status": "PASS"
+   },
+   {
+    "id": "joint_frames_proper",
+    "status": "PASS"
+   },
+   {
+    "id": "shoulder_centres_distinct",
+    "status": "PASS",
+    "measurements": {
+     "sternoclavicular-acromioclavicular_left_mm": 151.29080482881832,
+     "sternoclavicular-glenohumeral_left_mm": 172.8979476258878,
+     "acromioclavicular-glenohumeral_left_mm": 41.2931942383306,
+     "sternoclavicular-acromioclavicular_right_mm": 151.29080482881832,
+     "sternoclavicular-glenohumeral_right_mm": 172.8979476258878,
+     "acromioclavicular-glenohumeral_right_mm": 41.2931942383306
+    }
+   },
+   {
+    "id": "spinal_disc_centre_gap_positive",
+    "status": "PASS",
+    "measurements": {
+     "disc_c2_c3": 6.3874,
+     "disc_c3_c4": 6.4872,
+     "disc_c4_c5": 6.1878,
+     "disc_c5_c6": 6.088,
+     "disc_c6_c7": 6.587,
+     "disc_c7_t1": 4.4911,
+     "disc_t1_t2": 4.3827,
+     "disc_t2_t3": 3.4931,
+     "disc_t3_t4": 3.2931,
+     "disc_t4_t5": 3.1897,
+     "disc_t5_t6": 3.4873,
+     "disc_t6_t7": 4.0818,
+     "disc_t7_t8": 3.891,
+     "disc_t8_t9": 5.2889,
+     "disc_t9_t10": 4.7884,
+     "disc_t10_t11": 6.4736,
+     "disc_t11_t12": 5.3422,
+     "disc_t12_l1": 5.5846,
+     "disc_l1_l2": 7.7335,
+     "disc_l2_l3": 8.4695,
+     "disc_l3_l4": 9.4318,
+     "disc_l4_l5": 10.1062,
+     "disc_l5_sacrum": 10.2791
+    }
+   },
+   {
+    "id": "disc_endplate_clearance",
+    "status": "UNVERIFIED",
+    "unverified": [
+     "disc_c2_c3: no endplate surfaces",
+     "disc_c3_c4: no endplate surfaces",
+     "disc_c4_c5: no endplate surfaces",
+     "disc_c5_c6: no endplate surfaces",
+     "disc_c6_c7: no endplate surfaces",
+     "disc_c7_t1: no endplate surfaces",
+     "disc_t1_t2: no endplate surfaces",
+     "disc_t2_t3: no endplate surfaces",
+     "disc_t3_t4: no endplate surfaces",
+     "disc_t4_t5: no endplate surfaces",
+     "disc_t5_t6: no endplate surfaces",
+     "disc_t6_t7: no endplate surfaces",
+     "disc_t7_t8: no endplate surfaces",
+     "disc_t8_t9: no endplate surfaces",
+     "disc_t9_t10: no endplate surfaces",
+     "disc_t10_t11: no endplate surfaces",
+     "disc_t11_t12: no endplate surfaces",
+     "disc_t12_l1: no endplate surfaces",
+     "disc_l1_l2: no endplate surfaces",
+     "disc_l2_l3: no endplate surfaces",
+     "disc_l3_l4: no endplate surfaces",
+     "disc_l4_l5: no endplate surfaces",
+     "disc_l5_sacrum: no endplate surfaces"
+    ]
+   }
+  ]
+ },
+ "ledger": {
+  "overall_status": "NOT_READY_FOR_NEW_CANONICAL_BLENDER_REVISION",
+  "freeze_ready": false,
+  "region_counts": {
+   "READY": 0,
+   "PARTIAL": 9,
+   "BLOCKED": 3
+  },
+  "bones_covered": 206,
+  "bones_without_readiness_region": [],
+  "regions": {
+   "shoulder_girdle": {
+    "readiness": "PARTIAL",
+    "blockers": [
+     "stature-aware final clavicle endpoint/centreline selection",
+     "landmark-compatible 3D scapular envelope and AC/acromion/coracoid placement",
+     "absolute SC/AC/GH centres, neutral thorax pose and independent endpoint-matched confirmation remain open",
+     "Standing-alignment SC/AC surface landmarks are not articular centres; match source length endpoints and map the IJ/C7/PX/T8 thorax frame before using the historical relative vector or sweep.",
+     "Fontana pooled stature correlation is quarantined; surface-end vs articular-centre chord mapping and male covariance remain unresolved. SC bone-head, cartilage-patch and kinematic centres must be distinguished; new MRI diameters do not supply bilateral SC-centre breadth.",
+     "standing thorax pitch conflict: 4,082 standing men put C7 80.7 +/- 11.4 mm above IJ at 1.82 m, bony models 33-46 mm (IJ-C7 line about 20 deg); resolve before global ISB thorax axes. Provisional SC height 1500.5 mm (band 1486-1514) is IJ-dominated; a003 IJ is 24.7 mm (z +2.1) above the 1.82 m standard",
+     "absolute shoulder height relative to the trunk: bony sources put AC about 23-27 mm above IJ, ANSUR living skin puts the acromion 3.1 +/- 13.9 mm above the suprasternale. CORRECTED 2026-10-08 (was 'same direction as the C7 conflict'): it is the OPPOSITE direction, so no single suprasternale offset or thorax pitch fits both; IJ-independent, the solved AC sits >=35.7 mm higher relative to C7 than ANSUR acromion-cervicale (-77.5 mm). Unresolved; see audit/shoulder_vertical_relation_audit_v1.json",
+     "SC closure under owner policy SHOULDER_HEIGHT_ANCHOR_ANSUR_LIVING: placing the bony girdle so LM27 meets ANSUR acromial height leaves the SC joints 17-62 mm below their own jugular notch in all 8 recorded variants (source: 6.0 mm above); c002 FAIL (56.2 mm below the a003 notch). Needs an owner decision (lower thorax/sternum with the girdle, or accept a different clavicle orientation on evidence) or a skin-to-bone source.",
+     "ANSUR acromion correspondence audit (audit/shoulder_ansur_acromion_correspondence_v1.json): handbook landmark is a palpated bony point on the acromion lateral border at the trapezius-clavicle line (no skin offset); it maps to the Lee LM25-LM27 border at t 0.08-0.38 from LM25 (9-13 mm below LM27). With SC closed on the retained a003 notch, the absolute ANSUR acromial height needs clavicle elevation -6.6 to -13.7 deg (|z| 3.65-5.42) for every mapping and pitch: NO defensible c003. The ANSUR within-subject relation (acromion = suprasternale + 3.1 mm) closes on the a003 notch for bony pitch with LM25/clavicle-axis mappings (clavicle 1.1-1.6 deg); the a003 notch is 24.7 mm above ANSUR suprasternale. Owner decision needed on which governs; sternum not lowered.",
+     "c003 (coupled ANSUR reconciliation) closes the SC and meets ANSUR acromial/suprasternale heights with clavicle 1.1 deg (z -1.72, low end of source range); remaining before any canonical shoulder: sternum length/inclination (REOPEN), true rib geometry (BLOCKED), notch-to-spine depth (unsourced, 84.4 -> 69.8 mm in c003), IJ one vertebral level lower than supine Razzouk T2-T3, thorax pitch sensitivity"
+    ],
+    "selection_region": "shoulder_girdle",
+    "selection_freeze_state": "PARTIAL_VERIFIED_CONSTRAINTS_DIRECT_AC_3D_READY_SC_FRAME_OPEN",
+    "unselected_targets": [
+     "selected.clavicle_curved_length_mm",
+     "selected.clavicle_SC_AC_chord_mm",
+     "selected.bilateral_AC_breadth_mm",
+     "selected.scapula_landmark_frame"
+    ],
+    "bones": [
+     "clavicle_left",
+     "clavicle_right",
+     "scapula_left",
+     "scapula_right"
+    ],
+    "a003_placement": {
+     "surface_landmark": 4
+    },
+    "bone_count": 4
+   },
+   "spine": {
+    "readiness": "PARTIAL",
+    "blockers": [
+     "L5-S1 through upper-lumbar 3D endplate/frame chain",
+     "thoracic per-level curvature/endplate distribution",
+     "cervical neutral family selection and head-over-pelvis check",
+     "mixed-method thoracic body/disc reconciliation before exact 3D freeze",
+     "independent endpoint-matched lumbar wedge pattern is supported; reconcile posture/sex and contact-envelope definitions before numerical freeze",
+     "lumbar middle/edge/normal height and standing/supine disc definitions require geometric reconciliation; CT2026 count and width-plane issues remain open",
+     "actual disc-facing endplate envelopes and continuous nonzero clearance over their overlap, not centre-only gap",
+     "thoracic per-level kyphosis distribution (sequence item 2): committed data hold per-level DISC anterior/posterior heights but only AVERAGE body heights (no per-level body anterior/posterior split or AP depth), while vertebral bodies carry nearly all thoracic kyphosis; no per-level standing segmental table is committed. Source acquisition needed (cloud literature hosts denied by network policy 2026-10-08): PMC3171774 full body table; Eur Spine J 2025 doi 10.1007/s00586-025-09392-w Table 6; Eur Spine J 2021 doi 10.1007/s00586-020-06670-7; Bernhardt & Bridwell 1989 Spine 14:717 doi 10.1097/00007632-198907000-00012. Do not distribute 43.7 deg uniformly meanwhile."
+    ],
+    "selection_region": "spine",
+    "selection_freeze_state": "P1_S1_FRAME_SOLVED_LUMBAR_THORACIC_CERVICAL_LEVEL_FRAMES_OPEN",
+    "unselected_targets": [
+     "selected.cervical_body_heights_mm",
+     "selected.cervical_disc_heights_mm",
+     "selected.thoracic_body_heights_mm",
+     "selected.thoracic_disc_heights_mm",
+     "selected.lumbar_body_heights_mm",
+     "selected.lumbar_disc_heights_mm",
+     "selected.sagittal_endplate_frame_sequence",
+     "selected.C2_body_geometry.anterior_male_CT_mm.sd"
+    ],
+    "bones": [
+     "c1",
+     "c2",
+     "c3",
+     "c4",
+     "c5",
+     "c6",
+     "c7",
+     "t1",
+     "t2",
+     "t3",
+     "t4",
+     "t5",
+     "t6",
+     "t7",
+     "t8",
+     "t9",
+     "t10",
+     "t11",
+     "t12",
+     "l1",
+     "l2",
+     "l3",
+     "l4",
+     "l5",
+     "sacrum",
+     "coccyx"
+    ],
+    "a003_placement": {
+     "proportional": 26
+    },
+    "bone_count": 26
+   },
+   "ribs": {
+    "readiness": "BLOCKED",
+    "blockers": [
+     "reference age/weight selection or explicit envelope",
+     "full proximal 2016 logarithmic-spiral reconstruction; verified distal segments are insufficient for complete ribs",
+     "3D thoracic-frame mapping and rib head/tubercle/anterior contact coordinates",
+     "sternum (manubrium, body, xiphoid) envelope and costal-notch layout compatible with the rib anterior contacts",
+     "a003 sternum is not a basis: 213 mm stick (male total 154 +/- 13 mm), rib 2 not at the sternal angle, uniform sternocostal spacing; per-notch segment dimensions need Selthofer 2006 full text"
+    ],
+    "selection_region": "ribs",
+    "selection_freeze_state": "GEOMETRY_MODEL_REQUIRED",
+    "unselected_targets": [
+     "selected.centrelines",
+     "selected.head_tubercle_landmarks",
+     "selected.anterior_contacts"
+    ],
+    "bones": [
+     "sternum",
+     "rib_01_left",
+     "rib_01_right",
+     "rib_02_left",
+     "rib_02_right",
+     "rib_03_left",
+     "rib_03_right",
+     "rib_04_left",
+     "rib_04_right",
+     "rib_05_left",
+     "rib_05_right",
+     "rib_06_left",
+     "rib_06_right",
+     "rib_07_left",
+     "rib_07_right",
+     "rib_08_left",
+     "rib_08_right",
+     "rib_09_left",
+     "rib_09_right",
+     "rib_10_left",
+     "rib_10_right",
+     "rib_11_left",
+     "rib_11_right",
+     "rib_12_left",
+     "rib_12_right"
+    ],
+    "a003_placement": {
+     "surface_landmark": 1,
+     "proportional": 24
+    },
+    "bone_count": 25
+   },
+   "forearm": {
+    "readiness": "PARTIAL",
+    "blockers": [
+     "endpoint-compatible canonical radius corridor",
+     "endpoint-compatible ulna corridor",
+     "revised DRUJ/wrist centre after retarget",
+     "owner policy retained: normal 1.82 m male proportions. ANSUR/TG/de Leva shortness direction remains supported under provisional conversions, but unshifted de Leva is outside ANSUR 1-SD and wrist definitions differ; 283-293 mm is a sensitivity family, not an endpoint-matched selected radius/ulna target."
+    ],
+    "selection_region": "forearm",
+    "selection_freeze_state": "PARTIAL_RADIUS_DIRECTION_CONFIRMED_ENDPOINT_TARGET_OPEN",
+    "unselected_targets": [
+     "selected.radius_endpoint_length_mm",
+     "selected.ulna_endpoint_length_mm",
+     "selected.wrist_centre",
+     "selected.DRUJ_frame"
+    ],
+    "bones": [
+     "radius_left",
+     "radius_right",
+     "ulna_left",
+     "ulna_right"
+    ],
+    "a003_placement": {
+     "surface_landmark": 4
+    },
+    "bone_count": 4
+   },
+   "carpus": {
+    "readiness": "BLOCKED",
+    "blockers": [
+     "all eight 3D centroids in one canonical wrist frame",
+     "intercarpal/radiocarpal contact-centre layout",
+     "pisiform line axis and envelope-axis mapping into HGPT"
+    ],
+    "selection_region": "carpus_hand",
+    "selection_freeze_state": "NOT_SELECTED",
+    "unselected_targets": [
+     "selected.carpal_centroids",
+     "selected.metacarpal_lengths_mm",
+     "selected.phalange_lengths_mm"
+    ],
+    "bones": [
+     "scaphoid_left",
+     "scaphoid_right",
+     "lunate_left",
+     "lunate_right",
+     "triquetrum_left",
+     "triquetrum_right",
+     "pisiform_left",
+     "pisiform_right",
+     "trapezium_left",
+     "trapezium_right",
+     "trapezoid_left",
+     "trapezoid_right",
+     "capitate_left",
+     "capitate_right",
+     "hamate_left",
+     "hamate_right"
+    ],
+    "a003_placement": {
+     "proportional": 16
+    },
+    "bone_count": 16
+   },
+   "hand": {
+    "readiness": "PARTIAL",
+    "blockers": [
+     "carpal/wrist layout",
+     "exact M2-M4 target values not frozen",
+     "thumb CMC local geometry"
+    ],
+    "selection_region": "carpus_hand",
+    "selection_freeze_state": "NOT_SELECTED",
+    "unselected_targets": [
+     "selected.carpal_centroids",
+     "selected.metacarpal_lengths_mm",
+     "selected.phalange_lengths_mm"
+    ],
+    "bones": [
+     "metacarpal_1_left",
+     "metacarpal_2_left",
+     "metacarpal_3_left",
+     "metacarpal_4_left",
+     "metacarpal_5_left",
+     "thumb_proximal_phalanx_left",
+     "thumb_distal_phalanx_left",
+     "digit2_proximal_phalanx_left",
+     "digit2_middle_phalanx_left",
+     "digit2_distal_phalanx_left",
+     "digit3_proximal_phalanx_left",
+     "digit3_middle_phalanx_left",
+     "digit3_distal_phalanx_left",
+     "digit4_proximal_phalanx_left",
+     "digit4_middle_phalanx_left",
+     "digit4_distal_phalanx_left",
+     "digit5_proximal_phalanx_left",
+     "digit5_middle_phalanx_left",
+     "digit5_distal_phalanx_left",
+     "metacarpal_1_right",
+     "metacarpal_2_right",
+     "metacarpal_3_right",
+     "metacarpal_4_right",
+     "metacarpal_5_right",
+     "thumb_proximal_phalanx_right",
+     "thumb_distal_phalanx_right",
+     "digit2_proximal_phalanx_right",
+     "digit2_middle_phalanx_right",
+     "digit2_distal_phalanx_right",
+     "digit3_proximal_phalanx_right",
+     "digit3_middle_phalanx_right",
+     "digit3_distal_phalanx_right",
+     "digit4_proximal_phalanx_right",
+     "digit4_middle_phalanx_right",
+     "digit4_distal_phalanx_right",
+     "digit5_proximal_phalanx_right",
+     "digit5_middle_phalanx_right",
+     "digit5_distal_phalanx_right"
+    ],
+    "a003_placement": {
+     "surface_station": 38
+    },
+    "bone_count": 38
+   },
+   "pelvis": {
+    "readiness": "PARTIAL",
+    "blockers": [
+     "landmark-rich os coxae envelope around retained HJC",
+     "SI auricular geometry tied to canonical sacrum/os coxae",
+     "pubic symphysis contact and pelvic-ring closure",
+     "final sacral width/curvature"
+    ],
+    "selection_region": "pelvis",
+    "selection_freeze_state": "PARTIAL_ONLY",
+    "unselected_targets": [
+     "selected.os_coxae_landmarks",
+     "selected.SI_frames",
+     "selected.pubic_frame"
+    ],
+    "bones": [
+     "hip_bone_left",
+     "hip_bone_right"
+    ],
+    "a003_placement": {
+     "proportional": 2
+    },
+    "bone_count": 2
+   },
+   "lower_limb_long_bones": {
+    "readiness": "PARTIAL",
+    "blockers": [
+     "fibula endpoint semantics",
+     "patella width/thickness/trochlear contact path",
+     "femur: methods disagree for a 1.82 m male HJC-KJC span: ANSUR 418.9 +/- 21.2 mm (a003 412.9, z -0.3; 427 mm if HJC is level with trochanterion) against de Leva 441 mm and Trotter-Gleser-derived 455 mm (inflated by inversion). Resolve the HJC endpoint relation before selecting; see canonical_limb_length_proposal_182_v1.json"
+    ],
+    "selection_region": "lower_limb_long",
+    "selection_freeze_state": "PROVISIONAL_RETAIN_VERIFY",
+    "unselected_targets": [
+     "selected.fibula"
+    ],
+    "bones": [
+     "femur_left",
+     "femur_right",
+     "patella_left",
+     "patella_right",
+     "tibia_left",
+     "tibia_right",
+     "fibula_left",
+     "fibula_right"
+    ],
+    "a003_placement": {
+     "regression": 2,
+     "proportional": 4,
+     "surface_landmark": 2
+    },
+    "bone_count": 8
+   },
+   "tarsus": {
+    "readiness": "BLOCKED",
+    "blockers": [
+     "bone centroids/envelopes in common frame",
+     "subtalar/talonavicular/calcaneocuboid/naviculocuneiform contact centres",
+     "TMT base layout"
+    ],
+    "selection_region": "tarsus_forefoot",
+    "selection_freeze_state": "NOT_SELECTED",
+    "unselected_targets": [
+     "selected.tarsal_centroids",
+     "selected.tarsal_axes",
+     "selected.metatarsal_lengths_mm",
+     "selected.toe_phalanges_mm",
+     "selected.soft_tissue_allowances_mm"
+    ],
+    "bones": [
+     "talus_left",
+     "talus_right",
+     "calcaneus_left",
+     "calcaneus_right",
+     "navicular_left",
+     "navicular_right",
+     "cuboid_left",
+     "cuboid_right",
+     "medial_cuneiform_left",
+     "medial_cuneiform_right",
+     "intermediate_cuneiform_left",
+     "intermediate_cuneiform_right",
+     "lateral_cuneiform_left",
+     "lateral_cuneiform_right"
+    ],
+    "a003_placement": {
+     "proportional": 14
+    },
+    "bone_count": 14
+   },
+   "forefoot_toes": {
+    "readiness": "PARTIAL",
+    "blockers": [
+     "M3-M5 stature-aware reconciliation",
+     "toe phalanx stature-aware targets",
+     "partition of excess surface length across skeletal chain vs soft tissue"
+    ],
+    "selection_region": "tarsus_forefoot",
+    "selection_freeze_state": "NOT_SELECTED",
+    "unselected_targets": [
+     "selected.tarsal_centroids",
+     "selected.tarsal_axes",
+     "selected.metatarsal_lengths_mm",
+     "selected.toe_phalanges_mm",
+     "selected.soft_tissue_allowances_mm"
+    ],
+    "bones": [
+     "metatarsal_1_left",
+     "metatarsal_2_left",
+     "metatarsal_3_left",
+     "metatarsal_4_left",
+     "metatarsal_5_left",
+     "hallux_proximal_phalanx_left",
+     "hallux_distal_phalanx_left",
+     "toe2_proximal_phalanx_left",
+     "toe2_middle_phalanx_left",
+     "toe2_distal_phalanx_left",
+     "toe3_proximal_phalanx_left",
+     "toe3_middle_phalanx_left",
+     "toe3_distal_phalanx_left",
+     "toe4_proximal_phalanx_left",
+     "toe4_middle_phalanx_left",
+     "toe4_distal_phalanx_left",
+     "toe5_proximal_phalanx_left",
+     "toe5_middle_phalanx_left",
+     "toe5_distal_phalanx_left",
+     "metatarsal_1_right",
+     "metatarsal_2_right",
+     "metatarsal_3_right",
+     "metatarsal_4_right",
+     "metatarsal_5_right",
+     "hallux_proximal_phalanx_right",
+     "hallux_distal_phalanx_right",
+     "toe2_proximal_phalanx_right",
+     "toe2_middle_phalanx_right",
+     "toe2_distal_phalanx_right",
+     "toe3_proximal_phalanx_right",
+     "toe3_middle_phalanx_right",
+     "toe3_distal_phalanx_right",
+     "toe4_proximal_phalanx_right",
+     "toe4_middle_phalanx_right",
+     "toe4_distal_phalanx_right",
+     "toe5_proximal_phalanx_right",
+     "toe5_middle_phalanx_right",
+     "toe5_distal_phalanx_right"
+    ],
+    "a003_placement": {
+     "surface_landmark": 38
+    },
+    "bone_count": 38
+   },
+   "head_neck_fixed": {
+    "readiness": "PARTIAL",
+    "blockers": [
+     "cranial/facial envelope target coordinates",
+     "mandible full landmark target",
+     "independent matched hyoid geometry confirmation, body/cornu 3D landmarks and C3-relative neutral placement/tilt"
+    ],
+    "selection_region": "head_neck",
+    "selection_freeze_state": "LOW_PRIORITY_NOT_SELECTED",
+    "unselected_targets": [
+     "selected.TMJ_breadth_mm",
+     "selected.mandible_landmarks",
+     "selected.cranial_envelopes"
+    ],
+    "bones": [
+     "frontal",
+     "parietal_left",
+     "parietal_right",
+     "temporal_left",
+     "temporal_right",
+     "occipital",
+     "sphenoid",
+     "ethmoid",
+     "mandible",
+     "vomer",
+     "maxilla_left",
+     "maxilla_right",
+     "zygomatic_left",
+     "zygomatic_right",
+     "nasal_left",
+     "nasal_right",
+     "lacrimal_left",
+     "lacrimal_right",
+     "palatine_left",
+     "palatine_right",
+     "inferior_nasal_concha_left",
+     "inferior_nasal_concha_right",
+     "malleus_left",
+     "malleus_right",
+     "incus_left",
+     "incus_right",
+     "stapes_left",
+     "stapes_right",
+     "hyoid"
+    ],
+    "a003_placement": {
+     "proportional": 29
+    },
+    "bone_count": 29
+   },
+   "humerus": {
+    "readiness": "PARTIAL",
+    "blockers": [
+     "endpoint-defined humerus target (GH to EJC and maximum length) for a 1.82 m male under the owner proportion policy",
+     "humeral head, trochlea and capitulum geometry consistent with the GH and elbow centres",
+     "joint-span sources (ANSUR, de Leva: GH-EJC 277-295 mm) and inverted Trotter-Gleser maximum length (359.5 mm) are inconsistent through the head/distal end geometry by about 20-40 mm; needs a known-stature male sample with maximum length plus head and distal geometry, or a direct length-on-stature regression",
+     "arm chain under the ANSUR shoulder (audit/arm_chain_ansur_audit_v1.json): on c003 (acromion exactly at ANSUR) the a003 arm hung from the bony GH gives acromion-radiale proxy 328.9 mm vs ANSUR 348.2 +/- 10.6 (z -1.82), radiale height z +1.17, wrist height z +2.19; forearm radiale-stylion z -3.44 unchanged. Causes unresolved (a003 GH-EJC length vs bony GH depth; unsourced 15 mm radiale convention). No head-acromion collision (landmark clearance 17-25 mm).",
+     "ANSUR endpoint correspondence (audit/ansur_endpoint_correspondence_v1.json; definitions owner-supplied, primary PDF not retrievable from the cloud): radiale, stylion, cervicale and radiale-stylion length are UNRESOLVED against model markers (articular/wrist centres, not palpated bony extrema). Across a 0-15 mm offset bracket, c003 robustly has the wrist high (z >= +1.49) and the upper-arm drop short (z <= -1.82); the arm-chain 'forearm z -3.44' is NOT robust (-3.44 to -0.66) and is withdrawn as a standalone finding. No humerus/forearm target selected."
+    ],
+    "selection_region": null,
+    "selection_freeze_state": null,
+    "unselected_targets": [],
+    "bones": [
+     "humerus_left",
+     "humerus_right"
+    ],
+    "a003_placement": {
+     "regression": 2
+    },
+    "bone_count": 2
+   }
+  }
+ }
+}

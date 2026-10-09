@@ -876,3 +876,75 @@ Full proximal curves remain BLOCKED pending verified intended conventions or an 
   - metres compared against millimetres.
 - **Evidence:** `audit/amplitude_provenance/{a003_isolated_014,c003_isolated_001,c004_isolated_001}.json`.
 - **Tests:** `scripts/test_amplitude_provenance_audit.py` (9). They pin the results and include these mutations: an untraceable peak; a split whose basis no longer states it; a removed TEST AMPLITUDE label; an inexact thumb rest angle; an unreached intermetacarpal target; a sample size used as a peak; a changed glide; and a TEST AMPLITUDE statement overriding a coincidental match.
+
+
+### Work independent hand reconstruction review — 9 October 2026
+
+- Live audit baseline `2d4b352c`; PR #8 head reviewed `8b56e876`.
+- GitHub Actions `isolated-probe` succeeded at that head (run 37895321897).
+- All eight original probe tests pass locally. Existing source-rebuild 6, c004 arm-input 14, hand-ray 3 and carpal 8 tests also pass.
+- New independent audit imports neither the probe nor the builder: all 108 input/endpoint relationships checked, 98 exact and 10 unresolved distal tails. Six independent tests pass, including endpoint/marker mutations and NaN rejection.
+- 27 mirror pairs: maximum residual 3.16e-12 mm. 28 digit seams: maximum 0.00007590 mm; digit marker-to-head residual 0.00006019 mm. These are stored-coordinate consistency results, not anatomical accuracy.
+- 36 wrist-relative endpoint checks preserve a003 geometry through c004 translation. This does NOT validate carpal contact surfaces, centroids or wrist movement.
+- Ten offsets are explicitly matched to recorded containment (5.28–9.00 mm); neither pre-containment nor post-containment tails are accepted canonical coordinates.
+- Full pre-change discovery: 989 tests, five failures/four errors in inherited production-control/orchestration checks; exact names retained in `docs/WORK_SKELETON_DEVELOPMENT_20261009.md`.
+- Stage 1 computational/provenance review complete; anatomical fingertip and carpal acceptance BLOCKED. PR remains draft/unmerged. No c005 or asset changes. Continue independent Stage 2 tooling while those anatomical blockers remain open.
+- Evidence: `audit/hand_input_audit/work_independent_20261009/{coordinate_integrity,mesh_free_probe}.json`.
+
+
+### Work Stage 2 construction contract — 9 October 2026
+
+Separate `skeleton_first_builder.py` copies explicit skeletal endpoints/markers with no mesh-fit or containment dependency. It validates CP2 geometry, endpoint-defined length constraints and joint-participant attachment constraints, and exposes missing independent evidence/axes. a003/c004 replay retains 206 bones/427 markers exactly, while CP2 correctly remains FAIL (legacy spine discs). Skin clearance is non-mutating diagnostic only. 18 constructor tests plus seven independent hand tests pass after an independent reviewer identified three defects and RED/GREEN mutation verification corrected them. No canonical acceptance/promotion is possible in this module. Stage 2 engineering contract delivered, whole-body anatomical instantiation BLOCKED pending source coordinates and full contacts/envelopes. Gates 6/8/9 remain open.
+
+### Work movement evidence queue and fresh mesh-free Blender replay — 9 October 2026
+
+Read-only queue retains all 78 unsupported peaks across 49 tests/12 families. Seven queue tests pass after independent review exposed and RED/GREEN tests corrected untraced-peak omission and digit-family misclassification. Three primary evidence contexts are retained separately; no original amplitude, target or skeletal coordinate is changed.
+
+Blender 5.2.1 restored with Python 3.13.16. Fresh c004 empty-scene construction retains 206 bones/427 markers and passes storage/reference-frame roundtrip; CP2 remains FAIL (known spine gap, contact envelope unverified). Fresh 135-test movement rehearsal: 135 integrity PASS, 41 Blender mirror PASS, two side-specific-amplitude pairs solver-only; current independent solver agrees over 9,575 frames/13,509 deltas/49,991 channels with zero discrepancies beyond declared numerical tolerance. Both blends, raw inputs/capture/samples and SHA256 are preserved in `audit/runs/work_fresh_c004_rehearsal_20261009/`.
+
+Full post-review discovery: 1,021 tests, 1,012 pass, same named five failures/four errors as the initial 989-test baseline. PR #8 GitHub Actions passed at b0cb388d; no merge. Source, anatomical contact/proportion and visual acceptance remain incomplete; no c005/canonical promotion. Readiness 0 READY/9 PARTIAL/3 BLOCKED; Gates 6/8/9 unchanged. Read `WORK_SKELETON_PICKUP_20261009.md` for current review procedures and exact blockers. Laptop/interactive inspection remains useful, but source-ready anatomy rather than Blender installation is the principal construction blocker.
+
+
+### Work primary fingertip recheck — 2026-10-09
+
+Read-only distal-span context checks now trace runtime surface stations rather than assuming raw tips are validated skeleton endpoints. The official Aydinlioglu1998 Table5 and endpoint methods were independently rechecked; its legacy DOGAN source ID remains one publication. Raw distal spans differ from AP male means by4–11 source SD units, but projection/frame/population differences prevent diagnostic tolerances or replacement coordinates. Ten regression tests pass, including metadata-origin, stale-frame and nonfinite-derived-value rejection. All five a003/c001–c004 constructor replays preserve206bones/427markers exactly and retain CP2FAIL/no promotion. Full suite1031:1022pass,5fail,4error; same nine inherited names, trace retained. No accepted assets, limits or source values changed. See HAND_TIP_PRIMARY_RECHECK_20261009.md and audit/work_hand_tip_context_20261009. Ten distal endpoints and carpal contact geometry remain unresolved; no programme stage promoted.
+
+### Claude independent anatomical investigation (9 October, branch `claude/skeleton-independent-verification-20261009`)
+
+- Work's 9 commits were reproduced independently: the 1,031-test suite, the fresh skeleton-only Blender rehearsal (135 sample sets byte-identical to Claude's c004 run), hand 108/98/10 and 78 test amplitudes.
+- **All 206 bones audited** on a003 and c004. **30 suspected problems classified** in `audit/claude_independent_review_20261009/skeleton_defect_register_v1.json`:
+
+  | Class | Count |
+  |---|---|
+  | Genuine geometry defects | 4 |
+  | Joint/coordinate defects | 3 |
+  | Structural invariant failures | 1 |
+  | Movement-test design defects | 4 |
+  | Movement-model gaps | 3 |
+  | Representation limits | 5 |
+  | Evidence gaps | 5 |
+  | Not defects | 5 |
+
+  Highlights:
+  - **Genuine:** M2–M4 short (two sources); zero disc spaces (CP2); thumb CMC 10.6 mm gap; calcaneocuboid/talonavicular centres 33–38 mm off their bones; radius short; a003 clavicle/scapula/shoulder breadth (corrected in c003/c004).
+  - **Visualisation only:** straight ribs, floating femoral heads (hip centre exact; os coxae drawn as a chord), skull sticks, carpal stubs.
+  - **New whole-body finding:** with c004's realistic shoulder width, isolated hand, forearm and GH-rotation sweeps from the hanging posture drive the hand into the thigh (a003's over-wide shoulders hid this).
+- **Diagnostic proposal P001** (`audit/proposals/p001_metacarpal_m2_m4`): M2–M4 at the male radiographic means with fixed CMC ends. All 135 sweeps run, every check clean, before/after renders made. **Not a candidate**; carpal/CMC geometry still blocks a freeze.
+- **Spine:** the sourced body+disc stack is 89.6 mm shorter than the C3–L5 sticks. The current thoracic span agrees with the CT source within 3.4%. The full sagittal stack rebuild remains sequence item 2; no local patch applied.
+- Real Blender renders: a first pass (28 views, including 8 movement extremes) and an annotated pass with axes, scale bar, labels and an automatic camera check.
+- **Readiness unchanged: 0 READY / 9 PARTIAL / 3 BLOCKED** (`readiness_review_addendum_20261009.json`). No c005; nothing promoted.
+
+### 2026-10-09 (Claude, anatomical development continuation; branch `claude/skeleton-anatomical-development-20261009`)
+- **Spine:** ANSUR-closed column length rejects thoracic source A (it would need a 1.43–1.49 m cohort). Source B with male MRI edge lumbar heights fits. Trunk closure on c004: lumbar +43 mm long; T12/L1 +38.5 mm, rib 10 +28.0 mm and IJ +24.7 mm high (new U10, coupled, BLOCKED). The curve-preserving disc re-partition P003 was rejected by the rib-level rule.
+- **Knee:** a static patella stretches the patellar ligament by 114%; the Rajagopal follower template keeps it within 9.4% (L3 quantified; not installed).
+- **Hip and hand:** the hip-adduction test needs at least 10–14° contralateral abduction (L4). Finger grip capacity: no defect (H10).
+- **Shoulder:** the missing clavicular elevation (MoBL 0.1025°/°) leaves the AC 24–45 mm low overhead (U3).
+- **PR #12:** reviewed, not merged. Its registration check is circular (a mesh 5 m away passes). A bone-geometry specification for eight regions was added.
+- **Status:** readiness unchanged at 0/9/3. Details: `docs/CLAUDE_ANATOMICAL_DEVELOPMENT_20261009.md`.
+
+### 2026-10-09 (Claude, coupled trunk experiment T001; branch `claude/coupled-trunk-rebuild-20261009`)
+- **T001 (isolated experiment, not a candidate):** the sourced C2–S1 bodies and discs close between the fixed sacrum and C2 at Hasegawa-mean curvature (all z < 0.5, scale 0.998).
+- **Outcomes:** discs all positive (CP2 0 FAIL); T12/L1 moves from +38.5 to +6.2 mm; rib levels preserved; girdle and arms unchanged; 60 spine/rib tests changed, all others identical.
+- **Open:** C7 sits about 11 mm lower against ANSUR, the thoracic shape is unsourced, and rib inclination has no source.
+- **Erratum:** the earlier "IJ +24.7 mm" residual used a stale a003 skin input; c004's bony IJ is already at ANSUR.
+- **Readiness:** unchanged at 0/9/3.

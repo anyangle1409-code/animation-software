@@ -1,0 +1,33 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "kind": "REVIEW_PROBE",
+ "target": "draft PR #12 (codex/anatomical-bone-surfaces-foundation-20261009 @ d0f6bfd3)",
+ "cases": {
+  "mesh_5m_away_from_its_bone": {
+   "passed": true,
+   "status": "GEOMETRY_CONSISTENT_ANATOMY_UNVERIFIED",
+   "passing_is_a_problem": true
+  },
+  "left_femur_mesh_on_the_right_side": {
+   "passed": true,
+   "status": "GEOMETRY_CONSISTENT_ANATOMY_UNVERIFIED",
+   "passing_is_a_problem": true
+  },
+  "half_millimetre_femur": {
+   "passed": true,
+   "status": "GEOMETRY_CONSISTENT_ANATOMY_UNVERIFIED",
+   "passing_is_a_problem": true
+  },
+  "one_reversed_face": {
+   "passed": false,
+   "error": "inconsistent face winding across an edge",
+   "passing_is_a_problem": false
+  }
+ },
+ "problems": [
+  "mesh_5m_away_from_its_bone",
+  "left_femur_mesh_on_the_right_side",
+  "half_millimetre_femur"
+ ]
+}

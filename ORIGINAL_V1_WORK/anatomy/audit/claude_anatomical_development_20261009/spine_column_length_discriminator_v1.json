@@ -1,0 +1,300 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "kind": "READ_ONLY_SPINE_LENGTH_DISCRIMINATOR",
+ "selects_nothing": true,
+ "stature_mm": 1820.0,
+ "inputs_sha256": {
+  "ORIGINAL_V1_WORK/anatomy/canonical_spine_level_stack_v1.json": "968a00252d4500b71b9df015d8c1e268acd9c8e2f6b5852376d47bd5eda0efb1",
+  "ORIGINAL_V1_WORK/anatomy/canonical_spine_geometry_audit_v1.json": "24cb3109fa458646e99fbfd67be0ac318d93af9540e9342e3b75bdd7d7d9bf24",
+  "ORIGINAL_V1_WORK/anatomy/canonical_lumbar_body_disc_frames_p1.json": "57a645f470d67a82bfb32fa271d94e6b13903efb738b2ae1528fecc531a93b69",
+  "ORIGINAL_V1_WORK/anatomy/canonical_s1_pelvic_frame_p1.json": "e0b0244514853660bff5153c0bbd6bfc5be406ad26e466df91b5a8de600f8a7b",
+  "ORIGINAL_V1_WORK/anatomy/canonical_spine_reference_pose_p1.json": "6aeda8e32d623c5aaf700ba41a5671f66eb9d1abd2d656f8600564da7ba7aae3",
+  "ORIGINAL_V1_WORK/anatomy/canonical_thoracic_qualitative_constraints_v1.json": "2a607436cf03444b6b085863308ce2f9c7dc41a73930479d9903d61047f211b7",
+  "ORIGINAL_V1_WORK/anatomy/canonical_lumbar_edge_height_crosscheck_v1.json": "6894ea2040e428240b3db5a8fde558a5ce671e39329e55439f71dd01ba0b68d4",
+  "ORIGINAL_V1_WORK/anatomy/canonical_lumbar_endplate_surface_semantics_v1.json": "2bdacf2c1cd772b1b35b65c791944cc5f14e23adf740be34b29c132cf1cecde0",
+  "ORIGINAL_V1_WORK/anatomy/bodyparts3d_single_specimen_axial_shoulder_v1.json": "f92bced5d5bfb45aeb9bf6df56ee50c0cd4aba1d775aa2b902091ff824b60864",
+  "ORIGINAL_V1_WORK/anatomy/sources/ansur2/ANSUR_II_MALE_Public.csv": "e468eb5787b8ba6c716a86378cf476ba9bd8c57e09493f0fc65b1b8f33e48db8",
+  "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json": "99500d94e06c66ca489bdaccc0345446f98794946254c5e592d9449696f396c1",
+  "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json": "11712ba3e105aa8844b07572315d58ccace1d23d2f0cdf101218a3a507a1a1e3"
+ },
+ "external": {
+  "bodyparts3d_atlas": "https://github.com/ashemag/human-atlas/tree/1c38bf35c254a891200d3cedecfd57abebe83d8d/public/models",
+  "grade": "D single specimen: offset and ratio cross-check only"
+ },
+ "ansur_cervicale_at_182": {
+  "column": "cervicaleheight",
+  "n": 4082,
+  "mean_stature_mm": 1756.2,
+  "slope": 0.9084,
+  "prediction_mm": 1575.2,
+  "residual_sd_mm": 11.2,
+  "se_of_mean_prediction_mm": 0.24
+ },
+ "P1_S1_superior_endplate_centre_mm_yz": [
+  -2.19,
+  1035.32
+ ],
+ "target_rise_S1_to_cervicale_mm": 539.9,
+ "c7_spinous_tip_offset_specimen": {
+  "part_id": "FJ3172",
+  "tip_minus_body_centre_local_mm": {
+   "along_axis_superior": -27.06,
+   "posterior": 51.92
+  },
+  "specimen_c7_centre_mm": [
+   -0.95,
+   20.54,
+   1452.94
+  ],
+  "specimen_tip_mm": [
+   -3.52,
+   78.73,
+   1446.5
+  ],
+  "specimen_vertical_tip_minus_centre_mm": -6.44,
+  "definition": "body centre proxy = midpoint of the C6/C7 and C7/T1 disc centroids; axis = mean C6/C7 and C7/T1 disc normal; tip = most posterior C7 vertex"
+ },
+ "specimen_scale_free_ratio": {
+  "thoracic_C7T1_to_T12L1_centre_path_mm": 306.2,
+  "lumbar_T12L1_to_L5S1_centre_path_mm": 165.8,
+  "ratio": 1.8469,
+  "definition": "polyline through disc centroids; each thoracic span = 12 bodies + 11 discs + half of the C7/T1 and T12/L1 discs; lumbar = 5 bodies + 4 discs + half of T12/L1 and L5/S1"
+ },
+ "kyphosis_T1_T12_deg": 43.7,
+ "variants": {
+  "CT_middle_body_avg_disc|A_anatomical_2011|C7T1_anatomical_4.5": {
+   "lumbar_S1_to_L1_superior_rise_mm": 154.9,
+   "lumbar_centre_path_mm": 160.6,
+   "thoracic_arc_mm": 263.2,
+   "thoracic_rise_envelope_mm": [
+    244.9,
+    260.5
+   ],
+   "C7_body_centre_z_envelope_mm": [
+    1451.1,
+    1466.7
+   ],
+   "C7_tip_z_envelope_mm": [
+    1441.6,
+    1477.5
+   ],
+   "C7_tip_z_central_mm": 1459.5,
+   "ANSUR_cervicale_minus_central_mm": 115.7,
+   "ANSUR_inside_envelope": false,
+   "z_vs_ANSUR_residual_sd_central": 10.33,
+   "required_column_scale_to_meet_ANSUR": 1.2726,
+   "implied_source_cohort_stature_m": 1.43,
+   "thoracic_over_lumbar_ratio": 1.6874,
+   "ratio_minus_specimen": -0.1595
+  },
+  "CT_middle_body_avg_disc|A_anatomical_2011|C7T1_radiographic_6.1": {
+   "lumbar_S1_to_L1_superior_rise_mm": 154.9,
+   "lumbar_centre_path_mm": 160.6,
+   "thoracic_arc_mm": 263.2,
+   "thoracic_rise_envelope_mm": [
+    244.9,
+    260.5
+   ],
+   "C7_body_centre_z_envelope_mm": [
+    1452.5,
+    1468.1
+   ],
+   "C7_tip_z_envelope_mm": [
+    1443.0,
+    1478.9
+   ],
+   "C7_tip_z_central_mm": 1461.0,
+   "ANSUR_cervicale_minus_central_mm": 114.2,
+   "ANSUR_inside_envelope": false,
+   "z_vs_ANSUR_residual_sd_central": 10.2,
+   "required_column_scale_to_meet_ANSUR": 1.2684,
+   "implied_source_cohort_stature_m": 1.435,
+   "thoracic_over_lumbar_ratio": 1.6874,
+   "ratio_minus_specimen": -0.1595
+  },
+  "CT_middle_body_avg_disc|B_CT_2016|C7T1_anatomical_4.5": {
+   "lumbar_S1_to_L1_superior_rise_mm": 154.9,
+   "lumbar_centre_path_mm": 160.6,
+   "thoracic_arc_mm": 338.3,
+   "thoracic_rise_envelope_mm": [
+    315.0,
+    334.7
+   ],
+   "C7_body_centre_z_envelope_mm": [
+    1521.2,
+    1540.9
+   ],
+   "C7_tip_z_envelope_mm": [
+    1511.7,
+    1551.7
+   ],
+   "C7_tip_z_central_mm": 1531.7,
+   "ANSUR_cervicale_minus_central_mm": 43.5,
+   "ANSUR_inside_envelope": false,
+   "z_vs_ANSUR_residual_sd_central": 3.88,
+   "required_column_scale_to_meet_ANSUR": 1.0875,
+   "implied_source_cohort_stature_m": 1.674,
+   "thoracic_over_lumbar_ratio": 2.1595,
+   "ratio_minus_specimen": 0.3126
+  },
+  "CT_middle_body_avg_disc|B_CT_2016|C7T1_radiographic_6.1": {
+   "lumbar_S1_to_L1_superior_rise_mm": 154.9,
+   "lumbar_centre_path_mm": 160.6,
+   "thoracic_arc_mm": 338.3,
+   "thoracic_rise_envelope_mm": [
+    315.0,
+    334.7
+   ],
+   "C7_body_centre_z_envelope_mm": [
+    1522.6,
+    1542.3
+   ],
+   "C7_tip_z_envelope_mm": [
+    1513.1,
+    1553.2
+   ],
+   "C7_tip_z_central_mm": 1533.2,
+   "ANSUR_cervicale_minus_central_mm": 42.0,
+   "ANSUR_inside_envelope": false,
+   "z_vs_ANSUR_residual_sd_central": 3.75,
+   "required_column_scale_to_meet_ANSUR": 1.0845,
+   "implied_source_cohort_stature_m": 1.678,
+   "thoracic_over_lumbar_ratio": 2.1595,
+   "ratio_minus_specimen": 0.3126
+  },
+  "MRI_edge_mean|A_anatomical_2011|C7T1_anatomical_4.5": {
+   "lumbar_S1_to_L1_superior_rise_mm": 173.6,
+   "lumbar_centre_path_mm": 180.1,
+   "thoracic_arc_mm": 263.2,
+   "thoracic_rise_envelope_mm": [
+    244.9,
+    260.5
+   ],
+   "C7_body_centre_z_envelope_mm": [
+    1469.8,
+    1485.4
+   ],
+   "C7_tip_z_envelope_mm": [
+    1460.3,
+    1496.2
+   ],
+   "C7_tip_z_central_mm": 1478.3,
+   "ANSUR_cervicale_minus_central_mm": 96.9,
+   "ANSUR_inside_envelope": false,
+   "z_vs_ANSUR_residual_sd_central": 8.65,
+   "required_column_scale_to_meet_ANSUR": 1.2188,
+   "implied_source_cohort_stature_m": 1.493,
+   "thoracic_over_lumbar_ratio": 1.5104,
+   "ratio_minus_specimen": -0.3365
+  },
+  "MRI_edge_mean|A_anatomical_2011|C7T1_radiographic_6.1": {
+   "lumbar_S1_to_L1_superior_rise_mm": 173.6,
+   "lumbar_centre_path_mm": 180.1,
+   "thoracic_arc_mm": 263.2,
+   "thoracic_rise_envelope_mm": [
+    244.9,
+    260.5
+   ],
+   "C7_body_centre_z_envelope_mm": [
+    1471.2,
+    1486.8
+   ],
+   "C7_tip_z_envelope_mm": [
+    1461.7,
+    1497.6
+   ],
+   "C7_tip_z_central_mm": 1479.7,
+   "ANSUR_cervicale_minus_central_mm": 95.5,
+   "ANSUR_inside_envelope": false,
+   "z_vs_ANSUR_residual_sd_central": 8.53,
+   "required_column_scale_to_meet_ANSUR": 1.215,
+   "implied_source_cohort_stature_m": 1.498,
+   "thoracic_over_lumbar_ratio": 1.5104,
+   "ratio_minus_specimen": -0.3365
+  },
+  "MRI_edge_mean|B_CT_2016|C7T1_anatomical_4.5": {
+   "lumbar_S1_to_L1_superior_rise_mm": 173.6,
+   "lumbar_centre_path_mm": 180.1,
+   "thoracic_arc_mm": 338.3,
+   "thoracic_rise_envelope_mm": [
+    315.0,
+    334.7
+   ],
+   "C7_body_centre_z_envelope_mm": [
+    1539.9,
+    1559.6
+   ],
+   "C7_tip_z_envelope_mm": [
+    1530.4,
+    1570.5
+   ],
+   "C7_tip_z_central_mm": 1550.5,
+   "ANSUR_cervicale_minus_central_mm": 24.7,
+   "ANSUR_inside_envelope": false,
+   "z_vs_ANSUR_residual_sd_central": 2.21,
+   "required_column_scale_to_meet_ANSUR": 1.048,
+   "implied_source_cohort_stature_m": 1.737,
+   "thoracic_over_lumbar_ratio": 1.933,
+   "ratio_minus_specimen": 0.0861
+  },
+  "MRI_edge_mean|B_CT_2016|C7T1_radiographic_6.1": {
+   "lumbar_S1_to_L1_superior_rise_mm": 173.6,
+   "lumbar_centre_path_mm": 180.1,
+   "thoracic_arc_mm": 338.3,
+   "thoracic_rise_envelope_mm": [
+    315.0,
+    334.7
+   ],
+   "C7_body_centre_z_envelope_mm": [
+    1541.3,
+    1561.0
+   ],
+   "C7_tip_z_envelope_mm": [
+    1531.8,
+    1571.9
+   ],
+   "C7_tip_z_central_mm": 1551.9,
+   "ANSUR_cervicale_minus_central_mm": 23.3,
+   "ANSUR_inside_envelope": false,
+   "z_vs_ANSUR_residual_sd_central": 2.08,
+   "required_column_scale_to_meet_ANSUR": 1.0452,
+   "implied_source_cohort_stature_m": 1.741,
+   "thoracic_over_lumbar_ratio": 1.933,
+   "ratio_minus_specimen": 0.0861
+  }
+ },
+ "candidates_as_built": {
+  "c004": {
+   "c7_stick_mid_mm": [
+    0.0,
+    30.31,
+    1578.42
+   ],
+   "c7_axis_lean_deg": 6.54,
+   "C7_tip_z_mm": 1557.4,
+   "ANSUR_cervicale_minus_tip_mm": 17.8,
+   "rise_from_P1_S1_mm": 543.1
+  },
+  "a003": {
+   "c7_stick_mid_mm": [
+    0.0,
+    30.31,
+    1578.42
+   ],
+   "c7_axis_lean_deg": 6.54,
+   "C7_tip_z_mm": 1557.4,
+   "ANSUR_cervicale_minus_tip_mm": 17.8,
+   "rise_from_P1_S1_mm": 543.1
+  }
+ },
+ "reading_rule": "A variant is incompatible with a 1.82 m man if the source cohorts would need an implausible mean stature (below ~1.60 m, i.e. below typical adult female means) to explain the gap; the gap of a compatible variant is of the order of the stature scaling, the C7 tip offset and the envelope.",
+ "limitations": [
+  "Population means from cohorts of unrecorded mean stature are compared with a 1.82 m ANSUR prediction; the ANSUR slope reported here converts a stature difference into a cervicale shift.",
+  "Cervicale is a living-skin landmark over the C7 spinous tip; the vertical skin-bone offset is taken as 0.",
+  "The C7 spinous-tip offset comes from one BodyParts3D specimen (grade D) and is applied in the C7 frame.",
+  "The P1 S1 centre is provisional (Hasegawa male PTh 107 +/- 8 mm, PT 9.2 +/- 6.2 deg) on the retained HJC.",
+  "T12/L1 disc wedge is taken as 0 (parallel T12 inferior / L1 superior endplates); the thoracic envelope covers every monotone tilt distribution with T7 within +/-3 deg of horizontal-endplate.",
+  "MRI edge heights are supine (Hegazy 2014); CT middle/average heights are mixed-sex for bodies (LUMBAR_CT_2026)."
+ ]
+}

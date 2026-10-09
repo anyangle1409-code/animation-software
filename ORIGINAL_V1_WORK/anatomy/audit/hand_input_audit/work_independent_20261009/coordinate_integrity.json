@@ -1,0 +1,675 @@
+{
+  "kind": "INDEPENDENT_STORED_HAND_COORDINATE_AUDIT",
+  "points": 108,
+  "exact": 98,
+  "unresolved": 10,
+  "translation_residual_max_mm": 1.1464934308770757e-13,
+  "paired_bones": 27,
+  "mirror_max_mm": 3.159574879945941e-12,
+  "digit_connections": 28,
+  "digit_connection_max_mm": 7.589564745083203e-05,
+  "digit_marker_max_mm": 6.0183907645217594e-05,
+  "wrist_reference_points": 36,
+  "wrist_relative_residual_max_mm": 2.797157557069881e-14,
+  "anatomical_acceptance": false,
+  "promotion_allowed": false,
+  "limitations": [
+    "Wrist relative placement preserved, not independently sourced.",
+    "Carpal centroids, contact surfaces and axes remain unaccepted.",
+    "All ten distal tails require bone-versus-soft-tissue endpoint evidence."
+  ],
+  "details": [
+    {
+      "bone": "scaphoid_left",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "scaphoid_left",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "lunate_left",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "lunate_left",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "triquetrum_left",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "triquetrum_left",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "pisiform_left",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "pisiform_left",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "trapezium_left",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "trapezium_left",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "trapezoid_left",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "trapezoid_left",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "capitate_left",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "capitate_left",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "hamate_left",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "hamate_left",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "metacarpal_2_left",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "metacarpal_2_left",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit2_proximal_phalanx_left",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit2_proximal_phalanx_left",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit2_middle_phalanx_left",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit2_middle_phalanx_left",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit2_distal_phalanx_left",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit2_distal_phalanx_left",
+      "endpoint": "tail_m",
+      "source_offset_mm": 8.100004255938208,
+      "classification": "UNRESOLVED_TIP"
+    },
+    {
+      "bone": "metacarpal_3_left",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "metacarpal_3_left",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit3_proximal_phalanx_left",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit3_proximal_phalanx_left",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit3_middle_phalanx_left",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit3_middle_phalanx_left",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit3_distal_phalanx_left",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit3_distal_phalanx_left",
+      "endpoint": "tail_m",
+      "source_offset_mm": 8.999991416931353,
+      "classification": "UNRESOLVED_TIP"
+    },
+    {
+      "bone": "metacarpal_4_left",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "metacarpal_4_left",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit4_proximal_phalanx_left",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit4_proximal_phalanx_left",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit4_middle_phalanx_left",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit4_middle_phalanx_left",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit4_distal_phalanx_left",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit4_distal_phalanx_left",
+      "endpoint": "tail_m",
+      "source_offset_mm": 7.8400176747292845,
+      "classification": "UNRESOLVED_TIP"
+    },
+    {
+      "bone": "metacarpal_5_left",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "metacarpal_5_left",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit5_proximal_phalanx_left",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit5_proximal_phalanx_left",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit5_middle_phalanx_left",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit5_middle_phalanx_left",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit5_distal_phalanx_left",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit5_distal_phalanx_left",
+      "endpoint": "tail_m",
+      "source_offset_mm": 5.280011181632741,
+      "classification": "UNRESOLVED_TIP"
+    },
+    {
+      "bone": "metacarpal_1_left",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "metacarpal_1_left",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "thumb_proximal_phalanx_left",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "thumb_proximal_phalanx_left",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "thumb_distal_phalanx_left",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "thumb_distal_phalanx_left",
+      "endpoint": "tail_m",
+      "source_offset_mm": 8.060014187659709,
+      "classification": "UNRESOLVED_TIP"
+    },
+    {
+      "bone": "scaphoid_right",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "scaphoid_right",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "lunate_right",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "lunate_right",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "triquetrum_right",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "triquetrum_right",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "pisiform_right",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "pisiform_right",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "trapezium_right",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "trapezium_right",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "trapezoid_right",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "trapezoid_right",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "capitate_right",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "capitate_right",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "hamate_right",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "hamate_right",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "metacarpal_2_right",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "metacarpal_2_right",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit2_proximal_phalanx_right",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit2_proximal_phalanx_right",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit2_middle_phalanx_right",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit2_middle_phalanx_right",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit2_distal_phalanx_right",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit2_distal_phalanx_right",
+      "endpoint": "tail_m",
+      "source_offset_mm": 8.100004255938208,
+      "classification": "UNRESOLVED_TIP"
+    },
+    {
+      "bone": "metacarpal_3_right",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "metacarpal_3_right",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit3_proximal_phalanx_right",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit3_proximal_phalanx_right",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit3_middle_phalanx_right",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit3_middle_phalanx_right",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit3_distal_phalanx_right",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit3_distal_phalanx_right",
+      "endpoint": "tail_m",
+      "source_offset_mm": 8.999991416931353,
+      "classification": "UNRESOLVED_TIP"
+    },
+    {
+      "bone": "metacarpal_4_right",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "metacarpal_4_right",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit4_proximal_phalanx_right",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit4_proximal_phalanx_right",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit4_middle_phalanx_right",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit4_middle_phalanx_right",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit4_distal_phalanx_right",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit4_distal_phalanx_right",
+      "endpoint": "tail_m",
+      "source_offset_mm": 7.8400176747292845,
+      "classification": "UNRESOLVED_TIP"
+    },
+    {
+      "bone": "metacarpal_5_right",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "metacarpal_5_right",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit5_proximal_phalanx_right",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit5_proximal_phalanx_right",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit5_middle_phalanx_right",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit5_middle_phalanx_right",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit5_distal_phalanx_right",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "digit5_distal_phalanx_right",
+      "endpoint": "tail_m",
+      "source_offset_mm": 5.280011181632741,
+      "classification": "UNRESOLVED_TIP"
+    },
+    {
+      "bone": "metacarpal_1_right",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "metacarpal_1_right",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "thumb_proximal_phalanx_right",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "thumb_proximal_phalanx_right",
+      "endpoint": "tail_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "thumb_distal_phalanx_right",
+      "endpoint": "head_m",
+      "source_offset_mm": 0.0,
+      "classification": "EXACT"
+    },
+    {
+      "bone": "thumb_distal_phalanx_right",
+      "endpoint": "tail_m",
+      "source_offset_mm": 8.060014187659709,
+      "classification": "UNRESOLVED_TIP"
+    }
+  ],
+  "input_sha256": {
+    "character_fit_r95_a003.json": "11712ba3e105aa8844b07572315d58ccace1d23d2f0cdf101218a3a507a1a1e3",
+    "audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json": "99500d94e06c66ca489bdaccc0345446f98794946254c5e592d9449696f396c1"
+  }
+}

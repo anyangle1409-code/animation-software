@@ -1,0 +1,318 @@
+{
+ "source_blend_sha256": "9b5879504e87d2c28681be14a7cbfffe51b921acbc8f081f10be7deef1619d3e",
+ "record_sha256": "99500d94e06c66ca489bdaccc0345446f98794946254c5e592d9449696f396c1",
+ "blender": "5.2.1 LTS",
+ "views": {
+  "body_front": {
+   "direction": [
+    0,
+    -1,
+    0
+   ],
+   "target": "body",
+   "ortho_scale_m": 2.05
+  },
+  "body_back": {
+   "direction": [
+    0,
+    1,
+    0
+   ],
+   "target": "body",
+   "ortho_scale_m": 2.05
+  },
+  "body_left": {
+   "direction": [
+    1,
+    0,
+    0
+   ],
+   "target": "body",
+   "ortho_scale_m": 2.05
+  },
+  "body_right": {
+   "direction": [
+    -1,
+    0,
+    0
+   ],
+   "target": "body",
+   "ortho_scale_m": 2.05
+  },
+  "body_front_left_34": {
+   "direction": [
+    0.7071,
+    -0.7071,
+    0
+   ],
+   "target": "body",
+   "ortho_scale_m": 2.05
+  },
+  "body_back_right_34": {
+   "direction": [
+    -0.7071,
+    0.7071,
+    0
+   ],
+   "target": "body",
+   "ortho_scale_m": 2.05
+  },
+  "shoulders_front": {
+   "direction": [
+    0,
+    -1,
+    0
+   ],
+   "target": "shoulders",
+   "ortho_scale_m": 0.62
+  },
+  "shoulders_top": {
+   "direction": [
+    0,
+    0,
+    1
+   ],
+   "target": "shoulders",
+   "ortho_scale_m": 0.62
+  },
+  "spine_left": {
+   "direction": [
+    1,
+    0,
+    0
+   ],
+   "target": "spine",
+   "ortho_scale_m": 1.0
+  },
+  "spine_back": {
+   "direction": [
+    0,
+    1,
+    0
+   ],
+   "target": "spine",
+   "ortho_scale_m": 1.0
+  },
+  "pelvis_front": {
+   "direction": [
+    0,
+    -1,
+    0
+   ],
+   "target": "pelvis",
+   "ortho_scale_m": 0.45
+  },
+  "pelvis_top": {
+   "direction": [
+    0,
+    0,
+    1
+   ],
+   "target": "pelvis",
+   "ortho_scale_m": 0.45
+  },
+  "hand_left_palmar": {
+   "direction": [
+    -1,
+    0,
+    0
+   ],
+   "target": "hand_left",
+   "ortho_scale_m": 0.26
+  },
+  "hand_left_dorsal": {
+   "direction": [
+    1,
+    0,
+    0
+   ],
+   "target": "hand_left",
+   "ortho_scale_m": 0.26
+  },
+  "hand_left_radial": {
+   "direction": [
+    0,
+    -1,
+    0
+   ],
+   "target": "hand_left",
+   "ortho_scale_m": 0.26
+  },
+  "hand_right_palmar": {
+   "direction": [
+    1,
+    0,
+    0
+   ],
+   "target": "hand_right",
+   "ortho_scale_m": 0.26
+  },
+  "foot_left_medial": {
+   "direction": [
+    -1,
+    0,
+    0
+   ],
+   "target": "foot_left",
+   "ortho_scale_m": 0.34
+  },
+  "foot_left_top": {
+   "direction": [
+    0,
+    0,
+    1
+   ],
+   "target": "foot_left",
+   "ortho_scale_m": 0.34
+  },
+  "foot_left_plantar": {
+   "direction": [
+    0,
+    0,
+    -1
+   ],
+   "target": "foot_left",
+   "ortho_scale_m": 0.34
+  },
+  "head_neck_left": {
+   "direction": [
+    1,
+    0,
+    0
+   ],
+   "target": "head",
+   "ortho_scale_m": 0.4
+  }
+ },
+ "poses": {
+  "hip_abduction_adduction_left": {
+   "frame": 146,
+   "commanded": {
+    "adduction": -30.0
+   },
+   "view_direction": [
+    0,
+    -1,
+    0
+   ]
+  },
+  "knee_flexion_extension_left": {
+   "frame": 381,
+   "commanded": {
+    "flexion": 137.7
+   },
+   "view_direction": [
+    1,
+    0,
+    0
+   ]
+  },
+  "wrist_flexion_left": {
+   "frame": 1461,
+   "commanded": {
+    "flexion": 73.57
+   },
+   "view_direction": [
+    0,
+    -1,
+    0
+   ]
+  },
+  "digit2_flexion_left": {
+   "frame": 1631,
+   "commanded": {
+    "pip": 97.2,
+    "dip": 81.6,
+    "mcp": 86.0
+   },
+   "view_direction": [
+    0,
+    -1,
+    0
+   ]
+  },
+  "thumb_opposition_left": {
+   "frame": 2201,
+   "commanded": {
+    "abduction": 20.68187037408792,
+    "pronation": 30.0
+   },
+   "view_direction": [
+    0,
+    -1,
+    0
+   ]
+  },
+  "shoulder_complex_scapular_plane_left": {
+   "frame": 5716,
+   "commanded": {
+    "elevation": 117.5,
+    "upward": 50.525,
+    "tilt": 30.0,
+    "scap_er": 24.0,
+    "clav_post": 31.0,
+    "clav_ret": 15.0
+   },
+   "view_direction": [
+    0,
+    -1,
+    0
+   ]
+  },
+  "elbow_flexion_at_pronation_0_left": {
+   "frame": 1081,
+   "commanded": {
+    "angle": 144.6,
+    "pronation": 0.0
+   },
+   "view_direction": [
+    1,
+    0,
+    0
+   ]
+  },
+  "subtalar_inversion_eversion_left": {
+   "frame": 551,
+   "commanded": {
+    "angle": 20.0
+   },
+   "view_direction": [
+    0,
+    1,
+    0
+   ]
+  }
+ },
+ "source_blend_sha256_after": "9b5879504e87d2c28681be14a7cbfffe51b921acbc8f081f10be7deef1619d3e",
+ "files_sha256": {
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/body_back.jpg": "0d951294696d17ea8ab989d90f3cfb419cd2cb079a7a2dcd10c3c824ad42a1b2",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/body_back_right_34.jpg": "ad0e257806e8bdba7b13a06d68d995c10429df91ba315f1eb766968493eeb8f0",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/body_front.jpg": "501336223dcdee4d5f4a8970f1b2a6e8f4b48f486480b7f02425c3b7fe1ca971",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/body_front_left_34.jpg": "ca5a5244eaf0a2a3720cc2fd828dd4112eb9ba8034ac1194eb1e2b307242a4da",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/body_left.jpg": "8cd032df5819b6314eec64c04e82348ee8a279d54dd8aac32d829a27684bd141",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/body_right.jpg": "1b8ecf6cd9ac6abe13130b7252801a774ebfb389c23854b7b8f19a6da29d4f3a",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/foot_left_medial.jpg": "822b37d60abebe22df0698fa11b4879d5d04369ac326e95d2287fb136bb2e6c7",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/foot_left_plantar.jpg": "8ce8fb4920561dd3654c4c4d43fd0abaf4b4121bbf9e778b704f5eb20c092983",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/foot_left_top.jpg": "118693e8903aa0ae1747c45863ac72c5aff2da8806d16f115687bdad06017533",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/hand_left_dorsal.jpg": "e153d2b3abfea4dbe25fcbceb50c452278af7d83d69daa845a2366a59817420e",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/hand_left_palmar.jpg": "7486861580af58d6e4812f189f8ef730028ac01992ad0491454fbfee9d7c61db",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/hand_left_radial.jpg": "1174d1ef2f424a520a9045f8de4058228667ba7d54a970e1770cbac22db2f47a",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/hand_right_palmar.jpg": "759b714f1c0501d13da48addd58e7fadc417eb02bafb8f8f544402d33331bf45",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/head_neck_left.jpg": "3730d7f4abb8596c25dbb60cd5d240ac0520888115ea090a538f1a6699bc728c",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/pelvis_front.jpg": "482dd670309cda8fc9b65d4dde3ded783dceb5b0c3f6980527443773588ccc08",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/pelvis_top.jpg": "1a27bce85f723ade031a09e55ab2dffc71ec92a8ea2b447d83cea030340d57b8",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/pose_digit2_flexion_left_f1631.jpg": "b1cc827a607c2f684c90bf44e79ce56def41b23d0ba92e0c84cd3a1f698f19fd",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/pose_elbow_flexion_at_pronation_0_left_f1081.jpg": "48bd1364ac67a8196370366a327f08af67debfd0778fc6b7a4cccb5734063f47",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/pose_hip_abduction_adduction_left_f146.jpg": "77878e276b311ebcf137937d2704a169c7c44e7051681be55f53b3ba10119733",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/pose_knee_flexion_extension_left_f381.jpg": "1207ee6a7292b7e572a52635f2c4e03ba133abfda9b21548018f25d9b81b5e84",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/pose_shoulder_complex_scapular_plane_left_f5716.jpg": "8b096bbcaf0c09930ee296853b92f80c02093de42cd0ea146efa93f10d5db0ec",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/pose_subtalar_inversion_eversion_left_f551.jpg": "b9e470ad4922bd1c9baf287c0a4d6bc2032beaaa94dab91d9d7648561df055b7",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/pose_thumb_opposition_left_f2201.jpg": "e48432513b75c695d05f596c67230fa5a0e87a05a5a8d933fb0d2d1de88fae04",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/pose_wrist_flexion_left_f1461.jpg": "440ec408cf23d844277bbbf3487dd743fd97b94df66b858c1bdfacd8baecf3c1",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/shoulders_front.jpg": "b65bfd1476da89a520bb62138d090846c26ed31646efa0495a343a865ef3a22b",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/shoulders_top.jpg": "5ec3f0823577576d5ad6300d405772d0def219ac6f1a592e73ed1f44d140c280",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/spine_back.jpg": "4c114df48ce5395db1015d8225bdf663c6ee1ccdf3fb74a2737dbe015fc3e101",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/spine_left.jpg": "349c6e80db3a6c249c8a5658310ed3a38e420744508fcbf9e52ddc9e1ba96ef3"
+ },
+ "note": "Real Blender 5.2.1 Workbench renders (skeleton-only rehearsal blend from audit/runs/work_fresh_c004_rehearsal_20261009, decompressed; c004 record). Stick radii are display-only. JPEG quality 88. The transient PNG originals were not committed; the JPEG hashes in files_sha256 are the files of record."
+}

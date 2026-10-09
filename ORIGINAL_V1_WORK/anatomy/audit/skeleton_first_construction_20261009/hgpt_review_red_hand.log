@@ -1,0 +1,21 @@
+test_independent_correspondences (test_hand_coordinate_integrity.HandCoordinateIntegrityTests.test_independent_correspondences) ... ok
+test_mutated_endpoint_detected (test_hand_coordinate_integrity.HandCoordinateIntegrityTests.test_mutated_endpoint_detected) ... ok
+test_mutated_marker_detected (test_hand_coordinate_integrity.HandCoordinateIntegrityTests.test_mutated_marker_detected) ... ok
+test_nonfinite_input_rejected (test_hand_coordinate_integrity.HandCoordinateIntegrityTests.test_nonfinite_input_rejected) ... ok
+test_symmetry_and_digit_connections (test_hand_coordinate_integrity.HandCoordinateIntegrityTests.test_symmetry_and_digit_connections) ... ok
+test_wrist_endpoint_mismatch_rejected (test_hand_coordinate_integrity.HandCoordinateIntegrityTests.test_wrist_endpoint_mismatch_rejected) ... FAIL
+test_wrist_relative_geometry_is_preserved_not_accepted (test_hand_coordinate_integrity.HandCoordinateIntegrityTests.test_wrist_relative_geometry_is_preserved_not_accepted) ... ok
+
+======================================================================
+FAIL: test_wrist_endpoint_mismatch_rejected (test_hand_coordinate_integrity.HandCoordinateIntegrityTests.test_wrist_endpoint_mismatch_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/555b6458c54f/animation-software/scripts/test_hand_coordinate_integrity.py", line 59, in test_wrist_endpoint_mismatch_rejected
+    with self.assertRaisesRegex(ValueError, 'wrist relative'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.065s
+
+FAILED (failures=1)

@@ -84,6 +84,8 @@ def anchors(o, out, ptr='', key=None):
 
 
 def resolve(p, jf):
+    if p.startswith(('http://', 'https://')):
+        return None, 'EXTERNAL'                       # a URL names an external (third-party) file by definition
     if p.startswith('/'):
         m = re.search(r'/((?:ORIGINAL_V1_WORK|scripts|docs)/.*)$', p)
         if not m:

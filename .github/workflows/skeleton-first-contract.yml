@@ -1,0 +1,44 @@
+name: Skeleton-first diagnostic contract
+
+on:
+  push:
+    branches:
+      - codex/skeleton-first-evidence-20261009
+      - codex/skeleton-first-regional-verification-20261009
+  pull_request:
+    paths:
+      - scripts/anatomy_fit/skeleton_first_builder.py
+      - scripts/anatomy_fit/hand_coordinate_integrity.py
+      - scripts/anatomy_fit/movement_evidence_queue.py
+      - scripts/anatomy_fit/hand_tip_length_context.py
+      - scripts/test_hand_tip_length_context.py
+      - scripts/test_skeleton_first_builder.py
+      - scripts/test_hand_coordinate_integrity.py
+      - scripts/test_movement_evidence_queue.py
+      - .github/workflows/skeleton-first-contract.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostic-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install audit-only dependencies
+        run: |
+          python3 -m venv /tmp/hgpt-contract
+          /tmp/hgpt-contract/bin/python -m pip install --disable-pip-version-check numpy
+      - name: Verify constructor, independent hand review and evidence queue
+        run: |
+          /tmp/hgpt-contract/bin/python -m unittest discover -s scripts -p 'test_skeleton_first_builder.py' -v
+          /tmp/hgpt-contract/bin/python -m unittest discover -s scripts -p 'test_hand_coordinate_integrity.py' -v
+          /tmp/hgpt-contract/bin/python -m unittest discover -s scripts -p 'test_movement_evidence_queue.py' -v
+          /tmp/hgpt-contract/bin/python -m unittest discover -s scripts -p 'test_mesh_independent_hand_probe.py' -v
+          /tmp/hgpt-contract/bin/python -m unittest discover -s scripts -p 'test_hand_tip_length_context.py' -v
+      - name: Create-only diagnostic reports
+        run: |
+          /tmp/hgpt-contract/bin/python scripts/anatomy_fit/skeleton_first_builder.py --replay-record ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json --label a003-ci-replay --out /tmp/hgpt-a003-replay.json
+          /tmp/hgpt-contract/bin/python scripts/anatomy_fit/movement_evidence_queue.py --record ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json --out /tmp/hgpt-movement-queue.json

@@ -1,0 +1,32 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "reviewer": "Claude (independent of Work)",
+ "reviewed_head": "42943652154c7963219819bda67d91691b7fa12a",
+ "base_of_review": "2d4b352c30ebc092eb167832d727a529cd18fef6",
+ "work_commits_reviewed": 9,
+ "kind": "INDEPENDENT_REPRODUCTION_AND_REVIEW_NO_ANATOMY_CHANGE",
+ "reproduced": {
+  "full_suite": {"command": "python3 -m unittest discover -s scripts -p 'test_*.py'", "tests": 1031, "passed": 1022, "failures": 5, "errors": 4,
+                 "failing_names_identical_to_work_and_prior_baseline": true},
+  "focused_suites_ok": ["test_hand_coordinate_integrity", "test_hand_tip_length_context", "test_mesh_independent_hand_probe", "test_movement_evidence_queue", "test_skeleton_first_builder"],
+  "fresh_skeleton_only_rehearsal": {"manifest_files_verified": 6, "raw_and_gzip_sha256_all_match": true,
+                                    "isolated_samples_identical_to_claude_c004_run": "135/135 tests byte-identical (claude run used the c003 blend with the a003 body mesh present; Work used an empty scene)",
+                                    "consequence": "the body mesh has no influence on skeletal motion samples; Work's Blender execution is independently reproduced"},
+  "hand_points": "108 points / 98 exact / 10 unresolved fingertip tails: identical to Claude's committed audit (audit/hand_input_audit/hand_input_source_rebuild_v1.json)",
+  "unsupported_movement_peaks": "78 peaks / 49 tests: identical to Claude's amplitude_provenance audit",
+  "evidence_integrity": {"hash_references": 1094, "ok": 1007, "new_non_ok_from_work": 0,
+                         "note": "only c004's inherited stale provenance (already recorded) besides earlier items"}
+ },
+ "review_findings": [
+  {"id": "R1", "severity": "none", "item": "skeleton_first_builder accepts improper/non-orthonormal joint frames without raising",
+   "verdict": "NOT A DEFECT: CP2 joint_frames_proper flags both a reflected (det -1) and a skewed frame; strict mode rejects any CP2 failure. Verified by mutation."},
+  {"id": "R2", "severity": "minor_traceability", "item": "15 Work evidence files (red logs, replay/queue JSONs, suite logs) are not named by any document, manifest or script; their directories are",
+   "verdict": "recorded; not anatomical"},
+  {"id": "R3", "severity": "design_note", "item": "strict construction can never pass because constraints.coverage_complete is hard-coded False",
+   "verdict": "intentional (documented separate contact/envelope gate); keeps strict mode fail-closed until a coverage checker exists"},
+  {"id": "R4", "severity": "context", "item": "hand-tip SD comparisons use 3D station spans against AP bony boundary-midpoint spans",
+   "verdict": "Work labels this descriptive only; agreed - endpoint definitions differ, no target can be taken from it"}
+ ],
+ "not_verified": ["primary-source table values Work transcribed from the J-STAGE PDF (literature hosts are blocked in this session)"]
+}

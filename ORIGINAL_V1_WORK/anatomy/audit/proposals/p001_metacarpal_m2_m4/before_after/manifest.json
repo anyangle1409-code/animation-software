@@ -1,0 +1,10 @@
+{
+ "note": "Real Blender renders with identical cameras (render_skeleton_only_review.py). Left: c004. Right: P001 diagnostic proposal (not a candidate).",
+ "files_sha256": {
+  "ORIGINAL_V1_WORK/anatomy/audit/proposals/p001_metacarpal_m2_m4/before_after/hand_left_dorsal_c004_vs_p001.jpg": "daec1019364ed2bacd9c40d98218b42cb828cb24b5e1b90c71a2d94a030078c3",
+  "ORIGINAL_V1_WORK/anatomy/audit/proposals/p001_metacarpal_m2_m4/before_after/hand_left_radial_c004_vs_p001.jpg": "8a72ed288e2547b58774a853cf8278e5de176f90a41310c26bd09ec61e21fe5c",
+  "ORIGINAL_V1_WORK/anatomy/audit/proposals/p001_metacarpal_m2_m4/before_after/hand_right_palmar_c004_vs_p001.jpg": "8dd1de53087c73205d36387ed1366f935a2de9ffbc35f17620a7faba296b7097",
+  "ORIGINAL_V1_WORK/anatomy/audit/proposals/p001_metacarpal_m2_m4/before_after/body_front_c004_vs_p001.jpg": "3bf8a024205b4994795e10c747050f5b45f7046967f54c598b6d2f447a3179ac",
+  "ORIGINAL_V1_WORK/anatomy/audit/proposals/p001_metacarpal_m2_m4/before_after/hand_left_palmar_c004_vs_p001.jpg": "2b7a6c79c8207ddef2303a6b55c96e047fbf5de0f1f07860d014e12322cf995f"
+ }
+}

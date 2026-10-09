@@ -1,0 +1,125 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "kind": "GEOMETRY_SPECIFICATION_NOT_ACCEPTANCE",
+ "policy": [
+  "Realistic bone surfaces are a separate layer registered rigidly to the validated motion skeleton (PR #12 architecture); they never move joint centres.",
+  "No region may start detailed production bone modelling until its gate below is closed; until then only contract/test tooling and source acquisition are in scope.",
+  "Shape templates: BodyParts3D 4.0 (CC BY 4.0, single male, grade D) and OpenSim generic geometry may be used as topology/shape templates only, with any scaling recorded and justified; never as dimension targets.",
+  "Registration anchors must be derived from mesh features (e.g. sphere fit to the femoral-head patch) and compared with the skeleton within a declared budget, not declared directly (see the PR #12 review)."
+ ],
+ "regions": {
+  "shoulder_girdle": {
+   "surfaces": [
+    "glenoid fossa + labrum rim",
+    "humeral head sphere",
+    "SC and AC facets",
+    "acromion, coracoid, scapular spine"
+   ],
+   "constraining_evidence_now": [
+    "source-bound 29-landmark scapular envelope (Lee 2024, 125 subjects)",
+    "clavicle chord 151.3 mm thorax solution",
+    "MoBL-ARMS clavicle elevation template (ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/clavicle_elevation_gap_c004_v1.json)"
+   ],
+   "gate_before_modelling": "absolute SC/AC/GH centres and shoulder height relative to trunk (OPEN, coupled to U10 trunk height)",
+   "readiness": "PARTIAL"
+  },
+  "spine": {
+   "surfaces": [
+    "vertebral bodies with disc-facing endplates (concavity 1.5/0.7 mm lumbar, Wang 2012)",
+    "facet pairs",
+    "rib heads/tubercle facets T1-T12"
+   ],
+   "constraining_evidence_now": [
+    "level stack bodies+discs (source-B thoracic scale, ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/spine_column_length_discriminator_v1.json)",
+    "P1 lumbar endplate frames",
+    "Hegazy 2014 lumbar edge heights"
+   ],
+   "gate_before_modelling": "coupled trunk candidate resolving U10 (lumbar length, trunk height) and per-level thoracic wedging",
+   "readiness": "PARTIAL"
+  },
+  "ribs_sternum": {
+   "surfaces": [
+    "curved rib centrelines (Holcombe 2016/2017 committed models)",
+    "costal cartilages",
+    "manubrium/body/xiphoid"
+   ],
+   "constraining_evidence_now": [
+    "rib_inplane_derivation_holcombe2016_v1.json",
+    "rib_demographic_model_holcombe2017_v1.json"
+   ],
+   "gate_before_modelling": "thoracic level positions (U10) and sternum length method conflict",
+   "readiness": "BLOCKED"
+  },
+  "pelvis_hip": {
+   "surfaces": [
+    "acetabulum (orientation, depth)",
+    "femoral head sphere and neck",
+    "SI auricular surfaces",
+    "pubic symphysis"
+   ],
+   "constraining_evidence_now": [
+    "HJC grade A anchor",
+    "P1 S1 frame (Hasegawa PTh/PT/SS)"
+   ],
+   "gate_before_modelling": "sacrum position vs P1 S1 (a003 sacrum 42 mm posterior) and acetabular envelope",
+   "readiness": "PARTIAL"
+  },
+  "knee": {
+   "surfaces": [
+    "femoral condyles and trochlear groove",
+    "tibial plateaus",
+    "patella articular facets",
+    "patellar ligament insertion"
+   ],
+   "constraining_evidence_now": [
+    "KJC/ankle centres exact",
+    "Rajagopal 2016 patellar path template (ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/patellar_tracking_c004_v1.json)"
+   ],
+   "gate_before_modelling": "patellofemoral follower installed and reviewed; femur length question (412.9 mm vs ~430-437 mm context) closed",
+   "readiness": "PARTIAL"
+  },
+  "forearm_wrist_hand": {
+   "surfaces": [
+    "PRUJ/DRUJ",
+    "radiocarpal and midcarpal facets",
+    "8 carpals",
+    "CMC/MCP/PIP/DIP condyles",
+    "pulps (soft tissue)"
+   ],
+   "constraining_evidence_now": [
+    "carpal envelopes (Asseln 2024) and axes (2023 CT)",
+    "metacarpal M2-M4 targets (P001 evidence)",
+    "grip capacity (ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/grip_capacity_c004_v1.json)"
+   ],
+   "gate_before_modelling": "eight carpal centroids in one wrist frame; radius/ulna endpoint corridors; fingertip endpoints (H2)",
+   "readiness": "PARTIAL"
+  },
+  "foot_ankle": {
+   "surfaces": [
+    "talar dome/mortise",
+    "subtalar facets",
+    "talonavicular and calcaneocuboid joints",
+    "metatarsal heads, plantar interface"
+   ],
+   "constraining_evidence_now": [
+    "ankle centre exact"
+   ],
+   "gate_before_modelling": "tarsal contact chain (L5) and metatarsal source conflict",
+   "readiness": "BLOCKED"
+  },
+  "skull": {
+   "surfaces": [
+    "occipital condyles",
+    "TMJ",
+    "visual cranium"
+   ],
+   "constraining_evidence_now": [
+    "head/TMJ breadth plausible (grade B)"
+   ],
+   "gate_before_modelling": "only movement/contact-relevant geometry; low priority for the app",
+   "readiness": "PARTIAL"
+  }
+ },
+ "female_variant": "Every region keeps the same surface inventory and joint semantics; dimensions, pelvic geometry, and attachment profiles need their own sex-specific sources (none committed yet)."
+}

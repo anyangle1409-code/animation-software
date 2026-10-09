@@ -1,0 +1,20 @@
+E
+======================================================================
+ERROR: test_hand_tip_length_context (unittest.loader._FailedTest.test_hand_tip_length_context)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_hand_tip_length_context
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "/workspace/scratch/555b6458c54f/animation-software/scripts/test_hand_tip_length_context.py", line 10, in <module>
+    import hand_tip_length_context as h
+ModuleNotFoundError: No module named 'hand_tip_length_context'
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)

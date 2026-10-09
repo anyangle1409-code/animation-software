@@ -610,3 +610,41 @@ Tests are in `scripts/test_owner_proportion_policy_and_source_fixes.py`. The ful
   - c004's stale inputs rebuild a003's hand exactly, offset by the GH shift;
   - the classification is pinned;
   - mutations: a single moved carpal input is detected; correcting only the 98 exact points satisfies the guard and the mesh-free rebuild but not the full pipeline.
+
+### Amplitude provenance of every commanded peak (9 October, Claude; next independent Phase 8–10 invariant): TRACED on a003, c003 and c004
+
+- **Why:** the isolated tests must not invent movement magnitudes. Nothing had checked mechanically that every commanded extreme comes from a recorded basis rather than an unlabelled number.
+- **What:** `scripts/anatomy_fit/amplitude_provenance_audit.py`, read-only. For each of the 135 tests, every channel's max and min (278 non-zero peaks) is classified by explicit rules only:
+
+  | Class | Count | Rule |
+  |---|---|---|
+  | EXACT_CONTEXT | 100 | Equals an atlas observation **value** (never population text, sample sizes, CIs or SDs) |
+  | HALF_OF_SOURCED_TOTAL | 76 | Twice the peak is a sourced value, and the basis states the split |
+  | LABELLED_TEST_AMPLITUDE | 78 | Stated in a sentence that declares TEST AMPLITUDE, or a stated "−10% of the mean" reversal |
+  | CONDITION_IN_TEST_ID | 10 | A held condition named in the test ID |
+  | STATED_IN_BASIS | 8 | Stated in the spec's own basis text; the citation cannot be verified here |
+  | TARGET_MINUS_FITTED_REST | 4 | Thumb CMC: clinical intermetacarpal mean minus the fitted rest angle, exact |
+  | DRIVEN_TO_MEASURED_TARGET | 2 | Opposition palmar abduction |
+
+  TEST AMPLITUDE statements take precedence over number matches. The glide is compared in mm.
+- **Result:** **0 UNTRACED** on all three runs, and identical classes across them. Every thumb intermetacarpal target (62.9° / 61.2°) is **measured at peak** in each committed run, within 1e-5°.
+- **Unsourced amplitudes, now explicit:** 78 of 278 peaks, across 49 tests, are labelled test amplitudes:
+  - cervical C4/5 adduction and axial rotation;
+  - digit hyperextension reversals;
+  - GH elevation 120° and GH axial rotation ±50°;
+  - hallux plantarflexion;
+  - hip ab/adduction (+20/−30°, which also causes the known leg-crossing);
+  - knee follower 90° and screw-home 60°;
+  - rib 1–7 pump-handle 4.6°;
+  - subtalar and talocrural extremes;
+  - opposition pronation 30°;
+  - TMJ.
+
+  These remain UNRESOLVED as sources; nothing was changed.
+- **Classifier errors found and fixed during the work** (each is a mutation test now):
+  - a number merely restated beside a TEST AMPLITUDE label (the hip 20/30°) counted as traced;
+  - coincidental matches to population text (e.g. "age 20–44") counted as context;
+  - a key filter that dropped `mean`;
+  - metres compared against millimetres.
+- **Evidence:** `audit/amplitude_provenance/{a003_isolated_014,c003_isolated_001,c004_isolated_001}.json`.
+- **Tests:** `scripts/test_amplitude_provenance_audit.py` (9). They pin the results and include these mutations: an untraceable peak; a split whose basis no longer states it; a removed TEST AMPLITUDE label; an inexact thumb rest angle; an unreached intermetacarpal target; a sample size used as a peak; a changed glide; and a TEST AMPLITUDE statement overriding a coincidental match.

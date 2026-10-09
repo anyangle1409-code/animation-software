@@ -1,0 +1,2546 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "label": "a003_isolated_014",
+ "kind": "READ_ONLY_PROVENANCE_AUDIT",
+ "inputs_sha256": {
+  "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json": "11712ba3e105aa8844b07572315d58ccace1d23d2f0cdf101218a3a507a1a1e3",
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_014/isolated_samples.json": "43965977cd23edea14420c023bbea37b4cdb7ded83a085b6387eaa83417b5377",
+  "ORIGINAL_V1_WORK/anatomy/whole_body_movement_atlas.json": "8bd1ca2957577c1aeff032ae2e9974eea6dabc9e1f75e8d49da66c6d9ce6bf49",
+  "scripts/anatomy_fit/isolated_tests.py": "d4883a22a073334ff11087bbb45164b0886d878b4924e4fbf8e41f782424dc26"
+ },
+ "tests": 135,
+ "peaks": 278,
+ "by_kind": {
+  "CONDITION_IN_TEST_ID": 10,
+  "DRIVEN_TO_MEASURED_TARGET": 2,
+  "EXACT_CONTEXT": 100,
+  "HALF_OF_SOURCED_TOTAL": 76,
+  "LABELLED_TEST_AMPLITUDE": 78,
+  "STATED_IN_BASIS": 8,
+  "TARGET_MINUS_FITTED_REST": 4
+ },
+ "untraced": [],
+ "intermetacarpal_target_reached": {
+  "thumb_cmc_radial_abduction_left": {
+   "target_deg": 62.9,
+   "closest_measured_deg": 62.89999220215702,
+   "max_measured_deg": 62.89999220215702,
+   "abs_diff_deg": 7.797842975776348e-06,
+   "reached": true
+  },
+  "thumb_cmc_anteposition_left": {
+   "target_deg": 61.2,
+   "closest_measured_deg": 61.199991284527805,
+   "max_measured_deg": 61.199991284527805,
+   "abs_diff_deg": 8.715472198161933e-06,
+   "reached": true
+  },
+  "thumb_opposition_left": {
+   "target_deg": 61.2,
+   "closest_measured_deg": 61.199999685229116,
+   "max_measured_deg": 61.200001523120335,
+   "abs_diff_deg": 3.1477088668907527e-07,
+   "reached": true
+  },
+  "thumb_cmc_radial_abduction_right": {
+   "target_deg": 62.9,
+   "closest_measured_deg": 62.900001899756745,
+   "max_measured_deg": 62.900001899756745,
+   "abs_diff_deg": 1.8997567465817156e-06,
+   "reached": true
+  },
+  "thumb_cmc_anteposition_right": {
+   "target_deg": 61.2,
+   "closest_measured_deg": 61.200007443863086,
+   "max_measured_deg": 61.200007443863086,
+   "abs_diff_deg": 7.443863083267388e-06,
+   "reached": true
+  },
+  "thumb_opposition_right": {
+   "target_deg": 61.2,
+   "closest_measured_deg": 61.19999999161546,
+   "max_measured_deg": 61.200007748990146,
+   "abs_diff_deg": 8.384546390516334e-09,
+   "reached": true
+  }
+ },
+ "status": "TRACED",
+ "detail": {
+  "hip_flexion_extension_left": {
+   "amplitude_basis": "CDC passive mean (male 20-44); amplitude only, not a character limit",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": -17.4,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cdc_hip_extension"
+     ]
+    },
+    {
+     "channel": "flexion",
+     "peak": 130.4,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cdc_hip_flexion"
+     ]
+    }
+   ]
+  },
+  "hip_abduction_adduction_left": {
+   "amplitude_basis": "TEST AMPLITUDE (no hip ab/adduction observation in the atlas): +20 adduction / -30 abduction",
+   "peaks": [
+    {
+     "channel": "adduction",
+     "peak": -30.0,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    },
+    {
+     "channel": "adduction",
+     "peak": 20.0,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "hip_rotation_at_0_flexion_left": {
+   "amplitude_basis": "Prone (hip 0 deg) passive means, side-specific",
+   "peaks": [
+    {
+     "channel": "internal",
+     "peak": -53.2,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "hip_prone_er_left"
+     ]
+    },
+    {
+     "channel": "internal",
+     "peak": 44.2,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "hip_prone_ir_left"
+     ]
+    }
+   ]
+  },
+  "hip_rotation_at_90_flexion_left": {
+   "amplitude_basis": "Sitting (hip 90 deg) passive means, side-specific",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": 90.0,
+     "kind": "STATED_IN_BASIS"
+    },
+    {
+     "channel": "internal",
+     "peak": -43.2,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "hip_sitting_er_left"
+     ]
+    },
+    {
+     "channel": "internal",
+     "peak": 40.6,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "hip_sitting_ir_left"
+     ]
+    }
+   ]
+  },
+  "knee_flexion_extension_left": {
+   "amplitude_basis": "CDC passive knee complex means; screw-home coupling not applied (no sourced magnitude)",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": -1.0,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cdc_knee_extension"
+     ]
+    },
+    {
+     "channel": "flexion",
+     "peak": 137.7,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cdc_knee_flexion"
+     ]
+    }
+   ]
+  },
+  "talocrural_dorsi_plantarflexion_left": {
+   "amplitude_basis": "TEST AMPLITUDE +20 DF / -40 PF for the talocrural stage; CDC values are the ankle-foot complex and are not assigned to this joint",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": -40.0,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    },
+    {
+     "channel": "angle",
+     "peak": 20.0,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "subtalar_inversion_eversion_left": {
+   "amplitude_basis": "TEST AMPLITUDE +20 inversion / -10 eversion about the Inman axis (42 deg / 23 deg); midfoot followers not driven",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": -10.0,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    },
+    {
+     "channel": "angle",
+     "peak": 20.0,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "gh_elevation_plane_0_left": {
+   "amplitude_basis": "TEST AMPLITUDE to 120 deg GH elevation with the scapula fixed; CDC 168.8 deg is humerothoracic and is not assigned to GH",
+   "peaks": [
+    {
+     "channel": "elevation",
+     "peak": 120,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "gh_elevation_plane_40_left": {
+   "amplitude_basis": "TEST AMPLITUDE to 120 deg GH elevation with the scapula fixed; CDC 168.8 deg is humerothoracic and is not assigned to GH",
+   "peaks": [
+    {
+     "channel": "plane",
+     "peak": 40.0,
+     "kind": "CONDITION_IN_TEST_ID"
+    },
+    {
+     "channel": "elevation",
+     "peak": 120,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "gh_elevation_plane_90_left": {
+   "amplitude_basis": "TEST AMPLITUDE to 120 deg GH elevation with the scapula fixed; CDC 168.8 deg is humerothoracic and is not assigned to GH",
+   "peaks": [
+    {
+     "channel": "plane",
+     "peak": 90.0,
+     "kind": "CONDITION_IN_TEST_ID"
+    },
+    {
+     "channel": "elevation",
+     "peak": 120,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "gh_axial_rotation_at_0_elevation_left": {
+   "amplitude_basis": "TEST AMPLITUDE +/-50 deg axial rotation at stated elevation",
+   "peaks": [
+    {
+     "channel": "internal",
+     "peak": -50,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    },
+    {
+     "channel": "internal",
+     "peak": 50,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "gh_axial_rotation_at_90_elevation_left": {
+   "amplitude_basis": "TEST AMPLITUDE +/-50 deg axial rotation at stated elevation",
+   "peaks": [
+    {
+     "channel": "elevation",
+     "peak": 90.0,
+     "kind": "CONDITION_IN_TEST_ID"
+    },
+    {
+     "channel": "internal",
+     "peak": -50,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    },
+    {
+     "channel": "internal",
+     "peak": 50,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "elbow_flexion_at_pronation_0_left": {
+   "amplitude_basis": "CDC passive elbow means at the stated forearm rotation",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": -0.8,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cdc_elbow_extension"
+     ]
+    },
+    {
+     "channel": "angle",
+     "peak": 144.6,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cdc_elbow_flexion"
+     ]
+    }
+   ]
+  },
+  "elbow_flexion_at_pronation_60_left": {
+   "amplitude_basis": "CDC passive elbow means at the stated forearm rotation",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": -0.8,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cdc_elbow_extension"
+     ]
+    },
+    {
+     "channel": "angle",
+     "peak": 144.6,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cdc_elbow_flexion"
+     ]
+    },
+    {
+     "channel": "pronation",
+     "peak": 60.0,
+     "kind": "CONDITION_IN_TEST_ID"
+    }
+   ]
+  },
+  "forearm_rotation_at_elbow_0_left": {
+   "amplitude_basis": "CDC passive forearm means; dynamic biplane active means retained as a second context",
+   "peaks": [
+    {
+     "channel": "pronation",
+     "peak": -85.0,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cdc_forearm_supination"
+     ]
+    },
+    {
+     "channel": "pronation",
+     "peak": 76.9,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cdc_forearm_pronation"
+     ]
+    }
+   ]
+  },
+  "forearm_rotation_at_elbow_90_left": {
+   "amplitude_basis": "CDC passive forearm means; dynamic biplane active means retained as a second context",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": 90.0,
+     "kind": "CONDITION_IN_TEST_ID"
+    },
+    {
+     "channel": "pronation",
+     "peak": -85.0,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cdc_forearm_supination"
+     ]
+    },
+    {
+     "channel": "pronation",
+     "peak": 76.9,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cdc_forearm_pronation"
+     ]
+    }
+   ]
+  },
+  "wrist_flexion_left": {
+   "amplitude_basis": "Active wrist-complex means (flexion / extension); split equally between radiocarpal and midcarpal stages (split unverified)",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": -67.98,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "wrist_extension"
+     ]
+    },
+    {
+     "channel": "flexion",
+     "peak": 73.57,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "wrist_flexion"
+     ]
+    }
+   ]
+  },
+  "wrist_adduction_left": {
+   "amplitude_basis": "Active wrist-complex means (ulnar deviation / radial deviation); split equally between radiocarpal and midcarpal stages (split unverified)",
+   "peaks": [
+    {
+     "channel": "adduction",
+     "peak": -18.56,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "wrist_radial_deviation"
+     ]
+    },
+    {
+     "channel": "adduction",
+     "peak": 31.29,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "wrist_ulnar_deviation"
+     ]
+    }
+   ]
+  },
+  "digit2_flexion_left": {
+   "amplitude_basis": "Digit-specific active means (reduced numerical confidence, see finger_table_consistency); -10% of each mean as a small extension reversal (TEST AMPLITUDE)",
+   "peaks": [
+    {
+     "channel": "mcp",
+     "peak": -8.6,
+     "kind": "LABELLED_TEST_AMPLITUDE",
+     "derivation": "10% of a context mean, stated and labelled"
+    },
+    {
+     "channel": "mcp",
+     "peak": 86.0,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "digit2_mcp_flexion"
+     ]
+    },
+    {
+     "channel": "pip",
+     "peak": -9.72,
+     "kind": "LABELLED_TEST_AMPLITUDE",
+     "derivation": "10% of a context mean, stated and labelled"
+    },
+    {
+     "channel": "pip",
+     "peak": 97.2,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "digit2_pip_flexion"
+     ]
+    },
+    {
+     "channel": "dip",
+     "peak": -8.16,
+     "kind": "LABELLED_TEST_AMPLITUDE",
+     "derivation": "10% of a context mean, stated and labelled"
+    },
+    {
+     "channel": "dip",
+     "peak": 81.6,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "digit2_dip_flexion"
+     ]
+    }
+   ]
+  },
+  "digit3_flexion_left": {
+   "amplitude_basis": "Digit-specific active means (reduced numerical confidence, see finger_table_consistency); -10% of each mean as a small extension reversal (TEST AMPLITUDE)",
+   "peaks": [
+    {
+     "channel": "mcp",
+     "peak": -8.66,
+     "kind": "LABELLED_TEST_AMPLITUDE",
+     "derivation": "10% of a context mean, stated and labelled"
+    },
+    {
+     "channel": "mcp",
+     "peak": 86.6,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "digit3_mcp_flexion"
+     ]
+    },
+    {
+     "channel": "pip",
+     "peak": -9.620000000000001,
+     "kind": "LABELLED_TEST_AMPLITUDE",
+     "derivation": "10% of a context mean, stated and labelled"
+    },
+    {
+     "channel": "pip",
+     "peak": 96.2,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "digit3_pip_flexion"
+     ]
+    },
+    {
+     "channel": "dip",
+     "peak": -8.450000000000001,
+     "kind": "LABELLED_TEST_AMPLITUDE",
+     "derivation": "10% of a context mean, stated and labelled"
+    },
+    {
+     "channel": "dip",
+     "peak": 84.5,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "digit3_dip_flexion"
+     ]
+    }
+   ]
+  },
+  "digit4_flexion_left": {
+   "amplitude_basis": "Digit-specific active means (reduced numerical confidence, see finger_table_consistency); -10% of each mean as a small extension reversal (TEST AMPLITUDE)",
+   "peaks": [
+    {
+     "channel": "mcp",
+     "peak": -8.42,
+     "kind": "LABELLED_TEST_AMPLITUDE",
+     "derivation": "10% of a context mean, stated and labelled"
+    },
+    {
+     "channel": "mcp",
+     "peak": 84.2,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "digit4_mcp_flexion"
+     ]
+    },
+    {
+     "channel": "pip",
+     "peak": -9.600000000000001,
+     "kind": "LABELLED_TEST_AMPLITUDE",
+     "derivation": "10% of a context mean, stated and labelled"
+    },
+    {
+     "channel": "pip",
+     "peak": 96.0,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "digit4_pip_flexion"
+     ]
+    },
+    {
+     "channel": "dip",
+     "peak": -8.209999999999999,
+     "kind": "LABELLED_TEST_AMPLITUDE",
+     "derivation": "10% of a context mean, stated and labelled"
+    },
+    {
+     "channel": "dip",
+     "peak": 82.1,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "digit4_dip_flexion"
+     ]
+    }
+   ]
+  },
+  "digit5_flexion_left": {
+   "amplitude_basis": "Digit-specific active means (reduced numerical confidence, see finger_table_consistency); -10% of each mean as a small extension reversal (TEST AMPLITUDE)",
+   "peaks": [
+    {
+     "channel": "mcp",
+     "peak": -8.5,
+     "kind": "LABELLED_TEST_AMPLITUDE",
+     "derivation": "10% of a context mean, stated and labelled"
+    },
+    {
+     "channel": "mcp",
+     "peak": 85.0,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "digit5_mcp_flexion"
+     ]
+    },
+    {
+     "channel": "pip",
+     "peak": -9.18,
+     "kind": "LABELLED_TEST_AMPLITUDE",
+     "derivation": "10% of a context mean, stated and labelled"
+    },
+    {
+     "channel": "pip",
+     "peak": 91.8,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "digit5_pip_flexion"
+     ]
+    },
+    {
+     "channel": "dip",
+     "peak": -8.459999999999999,
+     "kind": "LABELLED_TEST_AMPLITUDE",
+     "derivation": "10% of a context mean, stated and labelled"
+    },
+    {
+     "channel": "dip",
+     "peak": 84.6,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "digit5_dip_flexion"
+     ]
+    }
+   ]
+  },
+  "thumb_flexion_left": {
+   "amplitude_basis": "Clinical thumb means (examination mode unspecified in the accessible abstract); flexion axis normal to the thumb and the hand radial-ulnar line",
+   "peaks": [
+    {
+     "channel": "mcp",
+     "peak": -8.1,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "thumb_mcp_extension"
+     ]
+    },
+    {
+     "channel": "mcp",
+     "peak": 60,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "thumb_mcp_flexion"
+     ]
+    },
+    {
+     "channel": "ip",
+     "peak": -12,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "thumb_ip_extension"
+     ]
+    },
+    {
+     "channel": "ip",
+     "peak": 88,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "thumb_ip_flexion"
+     ]
+    }
+   ]
+  },
+  "thumb_cmc_radial_abduction_left": {
+   "amplitude_basis": "Command = clinical intermetacarpal mean 62.9 deg minus the fitted rest angle 23.5 deg (examination mode unspecified); measured angle reported",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": 39.375592970963794,
+     "kind": "TARGET_MINUS_FITTED_REST",
+     "target_deg": 62.9,
+     "rest_angle_deg": 23.524407029036208
+    }
+   ]
+  },
+  "thumb_cmc_anteposition_left": {
+   "amplitude_basis": "Command = clinical intermetacarpal mean 61.2 deg minus the fitted rest angle 37.3 deg (examination mode unspecified); measured angle reported",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": 23.90651198779063,
+     "kind": "TARGET_MINUS_FITTED_REST",
+     "target_deg": 61.2,
+     "rest_angle_deg": 37.29348801220937
+    }
+   ]
+  },
+  "digit2_mcp_abduction_left": {
+   "amplitude_basis": "Clinical expected MCP abduction 25 deg (secondary goniometry references; not digit-specific) about the hand dorsal-palmar axis through the fitted MCP centre",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": 25.0,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "mcp_abduction_clinical"
+     ]
+    }
+   ]
+  },
+  "digit4_mcp_abduction_left": {
+   "amplitude_basis": "Clinical expected MCP abduction 25 deg (secondary goniometry references; not digit-specific) about the hand dorsal-palmar axis through the fitted MCP centre",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": 25.0,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "mcp_abduction_clinical"
+     ]
+    }
+   ]
+  },
+  "digit5_mcp_abduction_left": {
+   "amplitude_basis": "Clinical expected MCP abduction 25 deg (secondary goniometry references; not digit-specific) about the hand dorsal-palmar axis through the fitted MCP centre",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": 25.0,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "mcp_abduction_clinical"
+     ]
+    }
+   ]
+  },
+  "thumb_opposition_left": {
+   "amplitude_basis": "Palmar abduction 20.7 deg: driven from the fitted rest anteposition (37.3 deg) to the clinical maximum (61.2 deg). The 3D-CT TMC value at opposition (37 deg) is in a joint frame whose zero is not the fitted rest and is not added. Pronation 30 deg is a TEST AMPLITUDE (sourced values are frame-dependent; unresolved). Abduction then pronation, sequentially",
+   "peaks": [
+    {
+     "channel": "abduction",
+     "peak": 20.68187037408793,
+     "kind": "DRIVEN_TO_MEASURED_TARGET",
+     "target_deg": 61.2
+    },
+    {
+     "channel": "pronation",
+     "peak": 30.0,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "rib_01_inspiration_left": {
+   "amplitude_basis": "TEST AMPLITUDE 4.6 deg: no larger than the smallest reported level mean of either major component (Beyer 2014, 8 volunteers, FRC-TLC). Mediolateral axis through the rib head: the costovertebral-costotransverse axis is collinear with the straight fitted rib (F-RIB-001); costal cartilage and sternal coupling not modelled",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": 4.6,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "rib_02_inspiration_left": {
+   "amplitude_basis": "TEST AMPLITUDE 4.6 deg: no larger than the smallest reported level mean of either major component (Beyer 2014, 8 volunteers, FRC-TLC). Mediolateral axis through the rib head: the costovertebral-costotransverse axis is collinear with the straight fitted rib (F-RIB-001); costal cartilage and sternal coupling not modelled",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": 4.6,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "rib_03_inspiration_left": {
+   "amplitude_basis": "TEST AMPLITUDE 4.6 deg: no larger than the smallest reported level mean of either major component (Beyer 2014, 8 volunteers, FRC-TLC). Mediolateral axis through the rib head: the costovertebral-costotransverse axis is collinear with the straight fitted rib (F-RIB-001); costal cartilage and sternal coupling not modelled",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": 4.6,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "rib_04_inspiration_left": {
+   "amplitude_basis": "TEST AMPLITUDE 4.6 deg: no larger than the smallest reported level mean of either major component (Beyer 2014, 8 volunteers, FRC-TLC). Mediolateral axis through the rib head: the costovertebral-costotransverse axis is collinear with the straight fitted rib (F-RIB-001); costal cartilage and sternal coupling not modelled",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": 4.6,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "rib_05_inspiration_left": {
+   "amplitude_basis": "TEST AMPLITUDE 4.6 deg: no larger than the smallest reported level mean of either major component (Beyer 2014, 8 volunteers, FRC-TLC). Mediolateral axis through the rib head: the costovertebral-costotransverse axis is collinear with the straight fitted rib (F-RIB-001); costal cartilage and sternal coupling not modelled",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": 4.6,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "rib_06_inspiration_left": {
+   "amplitude_basis": "TEST AMPLITUDE 4.6 deg: no larger than the smallest reported level mean of either major component (Beyer 2014, 8 volunteers, FRC-TLC). Mediolateral axis through the rib head: the costovertebral-costotransverse axis is collinear with the straight fitted rib (F-RIB-001); costal cartilage and sternal coupling not modelled",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": 4.6,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "rib_07_inspiration_left": {
+   "amplitude_basis": "TEST AMPLITUDE 4.6 deg: no larger than the smallest reported level mean of either major component (Beyer 2014, 8 volunteers, FRC-TLC). Mediolateral axis through the rib head: the costovertebral-costotransverse axis is collinear with the straight fitted rib (F-RIB-001); costal cartilage and sternal coupling not modelled",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": 4.6,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "talonavicular_dorsi_plantarflexion_left": {
+   "amplitude_basis": "Gait talonavicular DF/PF range 7.39 deg (fluoroscopy; second source about 7 deg) split equally (split unsourced); the lateral rays stay with the cuboid in this isolated test",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": -3.695,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 7.39
+    },
+    {
+     "channel": "angle",
+     "peak": 3.695,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 7.39
+    }
+   ]
+  },
+  "sacroiliac_rotation_left": {
+   "amplitude_basis": "Functional total SI rotation 1.7 deg (healthy volunteers), split +/-0.85 about a mediolateral axis through the SI locator",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": -0.85,
+     "kind": "STATED_IN_BASIS"
+    },
+    {
+     "channel": "angle",
+     "peak": 0.85,
+     "kind": "STATED_IN_BASIS"
+    }
+   ]
+  },
+  "hallux_mtp_dorsiflexion_left": {
+   "amplitude_basis": "Standing active DF mean (task-specific); -20 plantarflexion TEST AMPLITUDE",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": -20.0,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    },
+    {
+     "channel": "angle",
+     "peak": 44.0,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "hallux_active"
+     ]
+    }
+   ]
+  },
+  "hip_flexion_extension_right": {
+   "amplitude_basis": "CDC passive mean (male 20-44); amplitude only, not a character limit",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": -17.4,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cdc_hip_extension"
+     ]
+    },
+    {
+     "channel": "flexion",
+     "peak": 130.4,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cdc_hip_flexion"
+     ]
+    }
+   ]
+  },
+  "hip_abduction_adduction_right": {
+   "amplitude_basis": "TEST AMPLITUDE (no hip ab/adduction observation in the atlas): +20 adduction / -30 abduction",
+   "peaks": [
+    {
+     "channel": "adduction",
+     "peak": -30.0,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    },
+    {
+     "channel": "adduction",
+     "peak": 20.0,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "hip_rotation_at_0_flexion_right": {
+   "amplitude_basis": "Prone (hip 0 deg) passive means, side-specific",
+   "peaks": [
+    {
+     "channel": "internal",
+     "peak": -51.7,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "hip_prone_er_right"
+     ]
+    },
+    {
+     "channel": "internal",
+     "peak": 45.6,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "hip_prone_ir_right"
+     ]
+    }
+   ]
+  },
+  "hip_rotation_at_90_flexion_right": {
+   "amplitude_basis": "Sitting (hip 90 deg) passive means, side-specific",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": 90.0,
+     "kind": "STATED_IN_BASIS"
+    },
+    {
+     "channel": "internal",
+     "peak": -43.1,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "hip_sitting_er_right"
+     ]
+    },
+    {
+     "channel": "internal",
+     "peak": 42.1,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "hip_sitting_ir_right"
+     ]
+    }
+   ]
+  },
+  "knee_flexion_extension_right": {
+   "amplitude_basis": "CDC passive knee complex means; screw-home coupling not applied (no sourced magnitude)",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": -1.0,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cdc_knee_extension"
+     ]
+    },
+    {
+     "channel": "flexion",
+     "peak": 137.7,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cdc_knee_flexion"
+     ]
+    }
+   ]
+  },
+  "talocrural_dorsi_plantarflexion_right": {
+   "amplitude_basis": "TEST AMPLITUDE +20 DF / -40 PF for the talocrural stage; CDC values are the ankle-foot complex and are not assigned to this joint",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": -40.0,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    },
+    {
+     "channel": "angle",
+     "peak": 20.0,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "subtalar_inversion_eversion_right": {
+   "amplitude_basis": "TEST AMPLITUDE +20 inversion / -10 eversion about the Inman axis (42 deg / 23 deg); midfoot followers not driven",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": -10.0,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    },
+    {
+     "channel": "angle",
+     "peak": 20.0,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "gh_elevation_plane_0_right": {
+   "amplitude_basis": "TEST AMPLITUDE to 120 deg GH elevation with the scapula fixed; CDC 168.8 deg is humerothoracic and is not assigned to GH",
+   "peaks": [
+    {
+     "channel": "elevation",
+     "peak": 120,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "gh_elevation_plane_40_right": {
+   "amplitude_basis": "TEST AMPLITUDE to 120 deg GH elevation with the scapula fixed; CDC 168.8 deg is humerothoracic and is not assigned to GH",
+   "peaks": [
+    {
+     "channel": "plane",
+     "peak": 40.0,
+     "kind": "CONDITION_IN_TEST_ID"
+    },
+    {
+     "channel": "elevation",
+     "peak": 120,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "gh_elevation_plane_90_right": {
+   "amplitude_basis": "TEST AMPLITUDE to 120 deg GH elevation with the scapula fixed; CDC 168.8 deg is humerothoracic and is not assigned to GH",
+   "peaks": [
+    {
+     "channel": "plane",
+     "peak": 90.0,
+     "kind": "CONDITION_IN_TEST_ID"
+    },
+    {
+     "channel": "elevation",
+     "peak": 120,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "gh_axial_rotation_at_0_elevation_right": {
+   "amplitude_basis": "TEST AMPLITUDE +/-50 deg axial rotation at stated elevation",
+   "peaks": [
+    {
+     "channel": "internal",
+     "peak": -50,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    },
+    {
+     "channel": "internal",
+     "peak": 50,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "gh_axial_rotation_at_90_elevation_right": {
+   "amplitude_basis": "TEST AMPLITUDE +/-50 deg axial rotation at stated elevation",
+   "peaks": [
+    {
+     "channel": "elevation",
+     "peak": 90.0,
+     "kind": "CONDITION_IN_TEST_ID"
+    },
+    {
+     "channel": "internal",
+     "peak": -50,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    },
+    {
+     "channel": "internal",
+     "peak": 50,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "elbow_flexion_at_pronation_0_right": {
+   "amplitude_basis": "CDC passive elbow means at the stated forearm rotation",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": -0.8,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cdc_elbow_extension"
+     ]
+    },
+    {
+     "channel": "angle",
+     "peak": 144.6,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cdc_elbow_flexion"
+     ]
+    }
+   ]
+  },
+  "elbow_flexion_at_pronation_60_right": {
+   "amplitude_basis": "CDC passive elbow means at the stated forearm rotation",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": -0.8,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cdc_elbow_extension"
+     ]
+    },
+    {
+     "channel": "angle",
+     "peak": 144.6,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cdc_elbow_flexion"
+     ]
+    },
+    {
+     "channel": "pronation",
+     "peak": 60.0,
+     "kind": "CONDITION_IN_TEST_ID"
+    }
+   ]
+  },
+  "forearm_rotation_at_elbow_0_right": {
+   "amplitude_basis": "CDC passive forearm means; dynamic biplane active means retained as a second context",
+   "peaks": [
+    {
+     "channel": "pronation",
+     "peak": -85.0,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cdc_forearm_supination"
+     ]
+    },
+    {
+     "channel": "pronation",
+     "peak": 76.9,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cdc_forearm_pronation"
+     ]
+    }
+   ]
+  },
+  "forearm_rotation_at_elbow_90_right": {
+   "amplitude_basis": "CDC passive forearm means; dynamic biplane active means retained as a second context",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": 90.0,
+     "kind": "CONDITION_IN_TEST_ID"
+    },
+    {
+     "channel": "pronation",
+     "peak": -85.0,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cdc_forearm_supination"
+     ]
+    },
+    {
+     "channel": "pronation",
+     "peak": 76.9,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cdc_forearm_pronation"
+     ]
+    }
+   ]
+  },
+  "wrist_flexion_right": {
+   "amplitude_basis": "Active wrist-complex means (flexion / extension); split equally between radiocarpal and midcarpal stages (split unverified)",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": -67.98,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "wrist_extension"
+     ]
+    },
+    {
+     "channel": "flexion",
+     "peak": 73.57,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "wrist_flexion"
+     ]
+    }
+   ]
+  },
+  "wrist_adduction_right": {
+   "amplitude_basis": "Active wrist-complex means (ulnar deviation / radial deviation); split equally between radiocarpal and midcarpal stages (split unverified)",
+   "peaks": [
+    {
+     "channel": "adduction",
+     "peak": -18.56,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "wrist_radial_deviation"
+     ]
+    },
+    {
+     "channel": "adduction",
+     "peak": 31.29,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "wrist_ulnar_deviation"
+     ]
+    }
+   ]
+  },
+  "digit2_flexion_right": {
+   "amplitude_basis": "Digit-specific active means (reduced numerical confidence, see finger_table_consistency); -10% of each mean as a small extension reversal (TEST AMPLITUDE)",
+   "peaks": [
+    {
+     "channel": "mcp",
+     "peak": -8.6,
+     "kind": "LABELLED_TEST_AMPLITUDE",
+     "derivation": "10% of a context mean, stated and labelled"
+    },
+    {
+     "channel": "mcp",
+     "peak": 86.0,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "digit2_mcp_flexion"
+     ]
+    },
+    {
+     "channel": "pip",
+     "peak": -9.72,
+     "kind": "LABELLED_TEST_AMPLITUDE",
+     "derivation": "10% of a context mean, stated and labelled"
+    },
+    {
+     "channel": "pip",
+     "peak": 97.2,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "digit2_pip_flexion"
+     ]
+    },
+    {
+     "channel": "dip",
+     "peak": -8.16,
+     "kind": "LABELLED_TEST_AMPLITUDE",
+     "derivation": "10% of a context mean, stated and labelled"
+    },
+    {
+     "channel": "dip",
+     "peak": 81.6,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "digit2_dip_flexion"
+     ]
+    }
+   ]
+  },
+  "digit3_flexion_right": {
+   "amplitude_basis": "Digit-specific active means (reduced numerical confidence, see finger_table_consistency); -10% of each mean as a small extension reversal (TEST AMPLITUDE)",
+   "peaks": [
+    {
+     "channel": "mcp",
+     "peak": -8.66,
+     "kind": "LABELLED_TEST_AMPLITUDE",
+     "derivation": "10% of a context mean, stated and labelled"
+    },
+    {
+     "channel": "mcp",
+     "peak": 86.6,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "digit3_mcp_flexion"
+     ]
+    },
+    {
+     "channel": "pip",
+     "peak": -9.620000000000001,
+     "kind": "LABELLED_TEST_AMPLITUDE",
+     "derivation": "10% of a context mean, stated and labelled"
+    },
+    {
+     "channel": "pip",
+     "peak": 96.2,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "digit3_pip_flexion"
+     ]
+    },
+    {
+     "channel": "dip",
+     "peak": -8.450000000000001,
+     "kind": "LABELLED_TEST_AMPLITUDE",
+     "derivation": "10% of a context mean, stated and labelled"
+    },
+    {
+     "channel": "dip",
+     "peak": 84.5,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "digit3_dip_flexion"
+     ]
+    }
+   ]
+  },
+  "digit4_flexion_right": {
+   "amplitude_basis": "Digit-specific active means (reduced numerical confidence, see finger_table_consistency); -10% of each mean as a small extension reversal (TEST AMPLITUDE)",
+   "peaks": [
+    {
+     "channel": "mcp",
+     "peak": -8.42,
+     "kind": "LABELLED_TEST_AMPLITUDE",
+     "derivation": "10% of a context mean, stated and labelled"
+    },
+    {
+     "channel": "mcp",
+     "peak": 84.2,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "digit4_mcp_flexion"
+     ]
+    },
+    {
+     "channel": "pip",
+     "peak": -9.600000000000001,
+     "kind": "LABELLED_TEST_AMPLITUDE",
+     "derivation": "10% of a context mean, stated and labelled"
+    },
+    {
+     "channel": "pip",
+     "peak": 96.0,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "digit4_pip_flexion"
+     ]
+    },
+    {
+     "channel": "dip",
+     "peak": -8.209999999999999,
+     "kind": "LABELLED_TEST_AMPLITUDE",
+     "derivation": "10% of a context mean, stated and labelled"
+    },
+    {
+     "channel": "dip",
+     "peak": 82.1,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "digit4_dip_flexion"
+     ]
+    }
+   ]
+  },
+  "digit5_flexion_right": {
+   "amplitude_basis": "Digit-specific active means (reduced numerical confidence, see finger_table_consistency); -10% of each mean as a small extension reversal (TEST AMPLITUDE)",
+   "peaks": [
+    {
+     "channel": "mcp",
+     "peak": -8.5,
+     "kind": "LABELLED_TEST_AMPLITUDE",
+     "derivation": "10% of a context mean, stated and labelled"
+    },
+    {
+     "channel": "mcp",
+     "peak": 85.0,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "digit5_mcp_flexion"
+     ]
+    },
+    {
+     "channel": "pip",
+     "peak": -9.18,
+     "kind": "LABELLED_TEST_AMPLITUDE",
+     "derivation": "10% of a context mean, stated and labelled"
+    },
+    {
+     "channel": "pip",
+     "peak": 91.8,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "digit5_pip_flexion"
+     ]
+    },
+    {
+     "channel": "dip",
+     "peak": -8.459999999999999,
+     "kind": "LABELLED_TEST_AMPLITUDE",
+     "derivation": "10% of a context mean, stated and labelled"
+    },
+    {
+     "channel": "dip",
+     "peak": 84.6,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "digit5_dip_flexion"
+     ]
+    }
+   ]
+  },
+  "thumb_flexion_right": {
+   "amplitude_basis": "Clinical thumb means (examination mode unspecified in the accessible abstract); flexion axis normal to the thumb and the hand radial-ulnar line",
+   "peaks": [
+    {
+     "channel": "mcp",
+     "peak": -8.1,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "thumb_mcp_extension"
+     ]
+    },
+    {
+     "channel": "mcp",
+     "peak": 60,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "thumb_mcp_flexion"
+     ]
+    },
+    {
+     "channel": "ip",
+     "peak": -12,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "thumb_ip_extension"
+     ]
+    },
+    {
+     "channel": "ip",
+     "peak": 88,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "thumb_ip_flexion"
+     ]
+    }
+   ]
+  },
+  "thumb_cmc_radial_abduction_right": {
+   "amplitude_basis": "Command = clinical intermetacarpal mean 62.9 deg minus the fitted rest angle 23.5 deg (examination mode unspecified); measured angle reported",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": 39.375592970963794,
+     "kind": "TARGET_MINUS_FITTED_REST",
+     "target_deg": 62.9,
+     "rest_angle_deg": 23.524407029036208
+    }
+   ]
+  },
+  "thumb_cmc_anteposition_right": {
+   "amplitude_basis": "Command = clinical intermetacarpal mean 61.2 deg minus the fitted rest angle 37.3 deg (examination mode unspecified); measured angle reported",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": 23.90651198779063,
+     "kind": "TARGET_MINUS_FITTED_REST",
+     "target_deg": 61.2,
+     "rest_angle_deg": 37.29348801220937
+    }
+   ]
+  },
+  "digit2_mcp_abduction_right": {
+   "amplitude_basis": "Clinical expected MCP abduction 25 deg (secondary goniometry references; not digit-specific) about the hand dorsal-palmar axis through the fitted MCP centre",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": 25.0,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "mcp_abduction_clinical"
+     ]
+    }
+   ]
+  },
+  "digit4_mcp_abduction_right": {
+   "amplitude_basis": "Clinical expected MCP abduction 25 deg (secondary goniometry references; not digit-specific) about the hand dorsal-palmar axis through the fitted MCP centre",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": 25.0,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "mcp_abduction_clinical"
+     ]
+    }
+   ]
+  },
+  "digit5_mcp_abduction_right": {
+   "amplitude_basis": "Clinical expected MCP abduction 25 deg (secondary goniometry references; not digit-specific) about the hand dorsal-palmar axis through the fitted MCP centre",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": 25.0,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "mcp_abduction_clinical"
+     ]
+    }
+   ]
+  },
+  "thumb_opposition_right": {
+   "amplitude_basis": "Palmar abduction 20.7 deg: driven from the fitted rest anteposition (37.3 deg) to the clinical maximum (61.2 deg). The 3D-CT TMC value at opposition (37 deg) is in a joint frame whose zero is not the fitted rest and is not added. Pronation 30 deg is a TEST AMPLITUDE (sourced values are frame-dependent; unresolved). Abduction then pronation, sequentially",
+   "peaks": [
+    {
+     "channel": "abduction",
+     "peak": 20.68187037408793,
+     "kind": "DRIVEN_TO_MEASURED_TARGET",
+     "target_deg": 61.2
+    },
+    {
+     "channel": "pronation",
+     "peak": 30.0,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "rib_01_inspiration_right": {
+   "amplitude_basis": "TEST AMPLITUDE 4.6 deg: no larger than the smallest reported level mean of either major component (Beyer 2014, 8 volunteers, FRC-TLC). Mediolateral axis through the rib head: the costovertebral-costotransverse axis is collinear with the straight fitted rib (F-RIB-001); costal cartilage and sternal coupling not modelled",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": 4.6,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "rib_02_inspiration_right": {
+   "amplitude_basis": "TEST AMPLITUDE 4.6 deg: no larger than the smallest reported level mean of either major component (Beyer 2014, 8 volunteers, FRC-TLC). Mediolateral axis through the rib head: the costovertebral-costotransverse axis is collinear with the straight fitted rib (F-RIB-001); costal cartilage and sternal coupling not modelled",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": 4.6,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "rib_03_inspiration_right": {
+   "amplitude_basis": "TEST AMPLITUDE 4.6 deg: no larger than the smallest reported level mean of either major component (Beyer 2014, 8 volunteers, FRC-TLC). Mediolateral axis through the rib head: the costovertebral-costotransverse axis is collinear with the straight fitted rib (F-RIB-001); costal cartilage and sternal coupling not modelled",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": 4.6,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "rib_04_inspiration_right": {
+   "amplitude_basis": "TEST AMPLITUDE 4.6 deg: no larger than the smallest reported level mean of either major component (Beyer 2014, 8 volunteers, FRC-TLC). Mediolateral axis through the rib head: the costovertebral-costotransverse axis is collinear with the straight fitted rib (F-RIB-001); costal cartilage and sternal coupling not modelled",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": 4.6,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "rib_05_inspiration_right": {
+   "amplitude_basis": "TEST AMPLITUDE 4.6 deg: no larger than the smallest reported level mean of either major component (Beyer 2014, 8 volunteers, FRC-TLC). Mediolateral axis through the rib head: the costovertebral-costotransverse axis is collinear with the straight fitted rib (F-RIB-001); costal cartilage and sternal coupling not modelled",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": 4.6,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "rib_06_inspiration_right": {
+   "amplitude_basis": "TEST AMPLITUDE 4.6 deg: no larger than the smallest reported level mean of either major component (Beyer 2014, 8 volunteers, FRC-TLC). Mediolateral axis through the rib head: the costovertebral-costotransverse axis is collinear with the straight fitted rib (F-RIB-001); costal cartilage and sternal coupling not modelled",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": 4.6,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "rib_07_inspiration_right": {
+   "amplitude_basis": "TEST AMPLITUDE 4.6 deg: no larger than the smallest reported level mean of either major component (Beyer 2014, 8 volunteers, FRC-TLC). Mediolateral axis through the rib head: the costovertebral-costotransverse axis is collinear with the straight fitted rib (F-RIB-001); costal cartilage and sternal coupling not modelled",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": 4.6,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "talonavicular_dorsi_plantarflexion_right": {
+   "amplitude_basis": "Gait talonavicular DF/PF range 7.39 deg (fluoroscopy; second source about 7 deg) split equally (split unsourced); the lateral rays stay with the cuboid in this isolated test",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": -3.695,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 7.39
+    },
+    {
+     "channel": "angle",
+     "peak": 3.695,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 7.39
+    }
+   ]
+  },
+  "sacroiliac_rotation_right": {
+   "amplitude_basis": "Functional total SI rotation 1.7 deg (healthy volunteers), split +/-0.85 about a mediolateral axis through the SI locator",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": -0.85,
+     "kind": "STATED_IN_BASIS"
+    },
+    {
+     "channel": "angle",
+     "peak": 0.85,
+     "kind": "STATED_IN_BASIS"
+    }
+   ]
+  },
+  "hallux_mtp_dorsiflexion_right": {
+   "amplitude_basis": "Standing active DF mean (task-specific); -20 plantarflexion TEST AMPLITUDE",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": -20.0,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    },
+    {
+     "channel": "angle",
+     "peak": 44.0,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "hallux_active"
+     ]
+    }
+   ]
+  },
+  "knee_flexion_with_screw_home_left": {
+   "amplitude_basis": "TEST AMPLITUDE 0-60 deg knee flexion; coupled tibial internal rotation 3.6 deg over the first 20 deg of flexion (screw-home reversed)",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": 60.0,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "shoulder_complex_scapular_plane_left": {
+   "amplitude_basis": "GH elevation 0-117.5 deg in the 40 deg plane with sourced scapulothoracic rhythm (0.43 upward rotation per GH degree; McClure end values) and clavicular posterior rotation 31 deg",
+   "peaks": [
+    {
+     "channel": "elevation",
+     "peak": 117.5,
+     "kind": "STATED_IN_BASIS"
+    }
+   ]
+  },
+  "knee_flexion_with_patellar_follower_left": {
+   "amplitude_basis": "TEST AMPLITUDE 0-90 deg knee flexion; patella flexes 0.66 deg per knee degree relative to the femur (sourced, lunge), rotated about the fitted knee axis (translation path unsourced)",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": 90.0,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "talocrural_with_fibular_follower_left": {
+   "amplitude_basis": "Sourced arc 30 PF to 30 DF; distal fibula moves laterally 1.04 mm and posteriorly 1.03 mm over the arc (8 volunteers, RSA), applied linearly (shape unsourced) as a translation of the whole fibula (proximal motion unsourced); fibular rotation not applied (unquantified) and gated to zero",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": -30.0,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "fibula_ankle_rsa"
+     ]
+    },
+    {
+     "channel": "angle",
+     "peak": 30.0,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "fibula_ankle_rsa"
+     ]
+    }
+   ]
+  },
+  "knee_flexion_with_screw_home_right": {
+   "amplitude_basis": "TEST AMPLITUDE 0-60 deg knee flexion; coupled tibial internal rotation 3.6 deg over the first 20 deg of flexion (screw-home reversed)",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": 60.0,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "shoulder_complex_scapular_plane_right": {
+   "amplitude_basis": "GH elevation 0-117.5 deg in the 40 deg plane with sourced scapulothoracic rhythm (0.43 upward rotation per GH degree; McClure end values) and clavicular posterior rotation 31 deg",
+   "peaks": [
+    {
+     "channel": "elevation",
+     "peak": 117.5,
+     "kind": "STATED_IN_BASIS"
+    }
+   ]
+  },
+  "knee_flexion_with_patellar_follower_right": {
+   "amplitude_basis": "TEST AMPLITUDE 0-90 deg knee flexion; patella flexes 0.66 deg per knee degree relative to the femur (sourced, lunge), rotated about the fitted knee axis (translation path unsourced)",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": 90.0,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "talocrural_with_fibular_follower_right": {
+   "amplitude_basis": "Sourced arc 30 PF to 30 DF; distal fibula moves laterally 1.04 mm and posteriorly 1.03 mm over the arc (8 volunteers, RSA), applied linearly (shape unsourced) as a translation of the whole fibula (proximal motion unsourced); fibular rotation not applied (unquantified) and gated to zero",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": -30.0,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "fibula_ankle_rsa"
+     ]
+    },
+    {
+     "channel": "angle",
+     "peak": 30.0,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "fibula_ankle_rsa"
+     ]
+    }
+   ]
+  },
+  "c1_c2_axial_rotation": {
+   "amplitude_basis": "MRI maximal voluntary rotation means (left/right)",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": -32.4,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "c1c2_right"
+     ]
+    },
+    {
+     "channel": "angle",
+     "peak": 34.2,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "c1c2_left"
+     ]
+    }
+   ]
+  },
+  "c0_c1_flexion_extension": {
+   "amplitude_basis": "Sourced total 17.9 deg (biplane, 20 young adults) split equally (split unsourced; conflicting reports 6.3-27 deg recorded); axis through the paired occipital-condyle markers",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": -8.95,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 17.9
+    },
+    {
+     "channel": "angle",
+     "peak": 8.95,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 17.9
+    }
+   ]
+  },
+  "cervical_c3_c4_flexion": {
+   "amplitude_basis": "Asymptomatic control means, dynamic biplane radiography (Anderst 2013, 20 controls); rotation about the disc marker (fixed COR; moving COR not modelled)",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": -6.3,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cervical_ctrl_c3_c4_extension"
+     ]
+    },
+    {
+     "channel": "flexion",
+     "peak": 7.9,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cervical_ctrl_c3_c4_flexion"
+     ]
+    }
+   ]
+  },
+  "cervical_c4_c5_flexion": {
+   "amplitude_basis": "Asymptomatic control means, dynamic biplane radiography (Anderst 2013, 20 controls); rotation about the disc marker (fixed COR; moving COR not modelled)",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": -7.9,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cervical_ctrl_c4_c5_extension"
+     ]
+    },
+    {
+     "channel": "flexion",
+     "peak": 8.0,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cervical_ctrl_c4_c5_flexion"
+     ]
+    }
+   ]
+  },
+  "cervical_c5_c6_flexion": {
+   "amplitude_basis": "Asymptomatic control means, dynamic biplane radiography (Anderst 2013, 20 controls); rotation about the disc marker (fixed COR; moving COR not modelled)",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": -7.3,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cervical_ctrl_c5_c6_extension"
+     ]
+    },
+    {
+     "channel": "flexion",
+     "peak": 7.4,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cervical_ctrl_c5_c6_flexion"
+     ]
+    }
+   ]
+  },
+  "cervical_c6_c7_flexion": {
+   "amplitude_basis": "Asymptomatic control means, dynamic biplane radiography (Anderst 2013, 20 controls); rotation about the disc marker (fixed COR; moving COR not modelled)",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": -5.4,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cervical_ctrl_c6_c7_extension"
+     ]
+    },
+    {
+     "channel": "flexion",
+     "peak": 7.1,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "cervical_ctrl_c6_c7_flexion"
+     ]
+    }
+   ]
+  },
+  "cervical_c4_c5_adduction": {
+   "amplitude_basis": "TEST AMPLITUDE +/-5 deg (cervical review values excluded: cervical_review_AR_typo; no per-level transferable value)",
+   "peaks": [
+    {
+     "channel": "adduction",
+     "peak": -5.0,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    },
+    {
+     "channel": "adduction",
+     "peak": 5.0,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "cervical_c4_c5_internal": {
+   "amplitude_basis": "TEST AMPLITUDE +/-5 deg (cervical review values excluded: cervical_review_AR_typo; no per-level transferable value)",
+   "peaks": [
+    {
+     "channel": "internal",
+     "peak": -5.0,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    },
+    {
+     "channel": "internal",
+     "peak": 5.0,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "tmj_opening": {
+   "amplitude_basis": "TEST AMPLITUDE 25 deg rotation with 16 mm anteroinferior condylar glide (within the observed 7.5-25.3 mm condylar range); incisor displacement compared with the observed 34.9-54.3 mm",
+   "peaks": [
+    {
+     "channel": "angle",
+     "peak": 25,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    },
+    {
+     "channel": "glide",
+     "peak": 0.016,
+     "kind": "LABELLED_TEST_AMPLITUDE"
+    }
+   ]
+  },
+  "lumbar_l2_l3_extension": {
+   "amplitude_basis": "Level-specific extension during a lift (task context, not maximum flexibility); rotation about the disc marker as a fixed COR (moving COR not modelled)",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": -9.9,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "lumbar_lift_l2_l3"
+     ]
+    }
+   ]
+  },
+  "lumbar_l3_l4_extension": {
+   "amplitude_basis": "Level-specific extension during a lift (task context, not maximum flexibility); rotation about the disc marker as a fixed COR (moving COR not modelled)",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": -10.7,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "lumbar_lift_l3_l4"
+     ]
+    }
+   ]
+  },
+  "lumbar_l4_l5_extension": {
+   "amplitude_basis": "Level-specific extension during a lift (task context, not maximum flexibility); rotation about the disc marker as a fixed COR (moving COR not modelled)",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": -12.1,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "lumbar_lift_l4_l5"
+     ]
+    }
+   ]
+  },
+  "lumbar_l5_sacrum_extension": {
+   "amplitude_basis": "Level-specific extension during a lift (task context, not maximum flexibility); rotation about the disc marker as a fixed COR (moving COR not modelled)",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": -9.6,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "lumbar_lift_l5_sacrum"
+     ]
+    }
+   ]
+  },
+  "thoracic_t1_t2_flexion": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (1.9 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": -0.95,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 1.9
+    },
+    {
+     "channel": "flexion",
+     "peak": 0.95,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 1.9
+    }
+   ]
+  },
+  "thoracic_t1_t2_adduction": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (2.1 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "adduction",
+     "peak": -1.05,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.1
+    },
+    {
+     "channel": "adduction",
+     "peak": 1.05,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.1
+    }
+   ]
+  },
+  "thoracic_t1_t2_internal": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (2.4 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "internal",
+     "peak": -1.2,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.4
+    },
+    {
+     "channel": "internal",
+     "peak": 1.2,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.4
+    }
+   ]
+  },
+  "thoracic_t2_t3_flexion": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (1.9 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": -0.95,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 1.9
+    },
+    {
+     "channel": "flexion",
+     "peak": 0.95,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 1.9
+    }
+   ]
+  },
+  "thoracic_t2_t3_adduction": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (2.1 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "adduction",
+     "peak": -1.05,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.1
+    },
+    {
+     "channel": "adduction",
+     "peak": 1.05,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.1
+    }
+   ]
+  },
+  "thoracic_t2_t3_internal": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (2.4 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "internal",
+     "peak": -1.2,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.4
+    },
+    {
+     "channel": "internal",
+     "peak": 1.2,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.4
+    }
+   ]
+  },
+  "thoracic_t3_t4_flexion": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (1.9 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": -0.95,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 1.9
+    },
+    {
+     "channel": "flexion",
+     "peak": 0.95,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 1.9
+    }
+   ]
+  },
+  "thoracic_t3_t4_adduction": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (2.1 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "adduction",
+     "peak": -1.05,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.1
+    },
+    {
+     "channel": "adduction",
+     "peak": 1.05,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.1
+    }
+   ]
+  },
+  "thoracic_t3_t4_internal": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (2.4 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "internal",
+     "peak": -1.2,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.4
+    },
+    {
+     "channel": "internal",
+     "peak": 1.2,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.4
+    }
+   ]
+  },
+  "thoracic_t4_t5_flexion": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (1.9 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": -0.95,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 1.9
+    },
+    {
+     "channel": "flexion",
+     "peak": 0.95,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 1.9
+    }
+   ]
+  },
+  "thoracic_t4_t5_adduction": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (2.1 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "adduction",
+     "peak": -1.05,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.1
+    },
+    {
+     "channel": "adduction",
+     "peak": 1.05,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.1
+    }
+   ]
+  },
+  "thoracic_t4_t5_internal": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (2.4 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "internal",
+     "peak": -1.2,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.4
+    },
+    {
+     "channel": "internal",
+     "peak": 1.2,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.4
+    }
+   ]
+  },
+  "thoracic_t5_t6_flexion": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (1.9 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": -0.95,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 1.9
+    },
+    {
+     "channel": "flexion",
+     "peak": 0.95,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 1.9
+    }
+   ]
+  },
+  "thoracic_t5_t6_adduction": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (2.1 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "adduction",
+     "peak": -1.05,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.1
+    },
+    {
+     "channel": "adduction",
+     "peak": 1.05,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.1
+    }
+   ]
+  },
+  "thoracic_t5_t6_internal": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (2.4 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "internal",
+     "peak": -1.2,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.4
+    },
+    {
+     "channel": "internal",
+     "peak": 1.2,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.4
+    }
+   ]
+  },
+  "thoracic_t7_t8_flexion": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (1.9 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": -0.95,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 1.9
+    },
+    {
+     "channel": "flexion",
+     "peak": 0.95,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 1.9
+    }
+   ]
+  },
+  "thoracic_t7_t8_adduction": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (2.1 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "adduction",
+     "peak": -1.05,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.1
+    },
+    {
+     "channel": "adduction",
+     "peak": 1.05,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.1
+    }
+   ]
+  },
+  "thoracic_t7_t8_internal": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (2.4 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "internal",
+     "peak": -1.2,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.4
+    },
+    {
+     "channel": "internal",
+     "peak": 1.2,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.4
+    }
+   ]
+  },
+  "thoracic_t8_t9_flexion": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (1.9 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": -0.95,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 1.9
+    },
+    {
+     "channel": "flexion",
+     "peak": 0.95,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 1.9
+    }
+   ]
+  },
+  "thoracic_t8_t9_adduction": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (2.1 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "adduction",
+     "peak": -1.05,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.1
+    },
+    {
+     "channel": "adduction",
+     "peak": 1.05,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.1
+    }
+   ]
+  },
+  "thoracic_t8_t9_internal": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (2.4 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "internal",
+     "peak": -1.2,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.4
+    },
+    {
+     "channel": "internal",
+     "peak": 1.2,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.4
+    }
+   ]
+  },
+  "thoracic_t9_t10_flexion": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (1.9 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": -0.95,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 1.9
+    },
+    {
+     "channel": "flexion",
+     "peak": 0.95,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 1.9
+    }
+   ]
+  },
+  "thoracic_t9_t10_adduction": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (2.1 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "adduction",
+     "peak": -1.05,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.1
+    },
+    {
+     "channel": "adduction",
+     "peak": 1.05,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.1
+    }
+   ]
+  },
+  "thoracic_t9_t10_internal": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (2.4 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "internal",
+     "peak": -1.2,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.4
+    },
+    {
+     "channel": "internal",
+     "peak": 1.2,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.4
+    }
+   ]
+  },
+  "thoracic_t10_t11_flexion": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (1.9 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": -0.95,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 1.9
+    },
+    {
+     "channel": "flexion",
+     "peak": 0.95,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 1.9
+    }
+   ]
+  },
+  "thoracic_t10_t11_adduction": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (2.1 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "adduction",
+     "peak": -1.05,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.1
+    },
+    {
+     "channel": "adduction",
+     "peak": 1.05,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.1
+    }
+   ]
+  },
+  "thoracic_t10_t11_internal": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (2.4 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "internal",
+     "peak": -1.2,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.4
+    },
+    {
+     "channel": "internal",
+     "peak": 1.2,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.4
+    }
+   ]
+  },
+  "thoracic_t11_t12_flexion": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (1.9 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": -0.95,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 1.9
+    },
+    {
+     "channel": "flexion",
+     "peak": 0.95,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 1.9
+    }
+   ]
+  },
+  "thoracic_t11_t12_adduction": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (2.1 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "adduction",
+     "peak": -1.05,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.1
+    },
+    {
+     "channel": "adduction",
+     "peak": 1.05,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.1
+    }
+   ]
+  },
+  "thoracic_t11_t12_internal": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (2.4 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "internal",
+     "peak": -1.2,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.4
+    },
+    {
+     "channel": "internal",
+     "peak": 1.2,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.4
+    }
+   ]
+  },
+  "thoracic_t12_l1_flexion": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (1.9 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": -0.95,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 1.9
+    },
+    {
+     "channel": "flexion",
+     "peak": 0.95,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 1.9
+    }
+   ]
+  },
+  "thoracic_t12_l1_adduction": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (2.1 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "adduction",
+     "peak": -1.05,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.1
+    },
+    {
+     "channel": "adduction",
+     "peak": 1.05,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.1
+    }
+   ]
+  },
+  "thoracic_t12_l1_internal": {
+   "amplitude_basis": "Half of the lower pooled cadaver total (2.4 deg) each way: within every level's pooled mean (cadaver passive; level-specific values not accessible)",
+   "peaks": [
+    {
+     "channel": "internal",
+     "peak": -1.2,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.4
+    },
+    {
+     "channel": "internal",
+     "peak": 1.2,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 2.4
+    }
+   ]
+  },
+  "thoracic_t6_t7_flexion": {
+   "amplitude_basis": "Half of the upper pooled cadaver total (3.8 deg) each way; cadaver passive context",
+   "peaks": [
+    {
+     "channel": "flexion",
+     "peak": -1.9,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "thoracic_fe"
+     ]
+    },
+    {
+     "channel": "flexion",
+     "peak": 1.9,
+     "kind": "EXACT_CONTEXT",
+     "observations": [
+      "thoracic_fe"
+     ]
+    }
+   ]
+  },
+  "thoracic_t6_t7_adduction": {
+   "amplitude_basis": "Half of the upper pooled cadaver total (4.4 deg) each way; cadaver passive context",
+   "peaks": [
+    {
+     "channel": "adduction",
+     "peak": -2.2,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 4.4
+    },
+    {
+     "channel": "adduction",
+     "peak": 2.2,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 4.4
+    }
+   ]
+  },
+  "thoracic_t6_t7_internal": {
+   "amplitude_basis": "Half of the upper pooled cadaver total (5.2 deg) each way; cadaver passive context",
+   "peaks": [
+    {
+     "channel": "internal",
+     "peak": -2.6,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 5.2
+    },
+    {
+     "channel": "internal",
+     "peak": 2.6,
+     "kind": "HALF_OF_SOURCED_TOTAL",
+     "total": 5.2
+    }
+   ]
+  }
+ }
+}

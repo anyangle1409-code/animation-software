@@ -1,0 +1,76 @@
+name: Coupled trunk diagnostic preflight
+
+on:
+  push:
+    branches:
+      - codex/coupled-trunk-preflight-20261009
+  pull_request:
+    paths:
+      - 'scripts/anatomy_fit/coupled_trunk_preflight.py'
+      - 'scripts/test_coupled_trunk_preflight.py'
+      - 'scripts/anatomy_fit/replay_p004_coupled_thorax.py'
+      - 'scripts/test_replay_p004_coupled_thorax.py'
+      - 'scripts/anatomy_fit/replay_p005_shoulder_chain.py'
+      - 'scripts/anatomy_fit/coupled_shoulder_contact_audit.py'
+      - 'scripts/test_replay_p005_shoulder_chain.py'
+      - 'scripts/anatomy_fit/neutral_arm_thigh_clearance.py'
+      - 'scripts/test_neutral_arm_thigh_clearance.py'
+      - 'scripts/anatomy_fit/rib_3d_coupling_audit.py'
+      - 'scripts/test_rib_3d_coupling_audit.py'
+      - 'scripts/anatomy_fit/p006_sternocostal_translation_feasibility.py'
+      - 'scripts/test_p006_sternocostal_translation_feasibility.py'
+      - 'scripts/anatomy_fit/p007_sternum_rigid_fit_audit.py'
+      - 'scripts/test_p007_sternum_rigid_fit_audit.py'
+      - '.github/workflows/coupled-trunk-preflight.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run preflight tests (does not approve anatomy)
+        run: |
+          python3 -m unittest discover -s scripts -p 'test_coupled_trunk_preflight.py' -v
+          python3 -m unittest discover -s scripts -p 'test_replay_p004_coupled_thorax.py' -v
+          python3 -m unittest discover -s scripts -p 'test_replay_p005_shoulder_chain.py' -v
+          python3 -m unittest discover -s scripts -p 'test_neutral_arm_thigh_clearance.py' -v
+          python3 -m unittest discover -s scripts -p 'test_rib_3d_coupling_audit.py' -v
+          python3 -m unittest discover -s scripts -p 'test_p006_sternocostal_translation_feasibility.py' -v
+          python3 -m unittest discover -s scripts -p 'test_p007_sternum_rigid_fit_audit.py' -v
+      - name: Build isolated diagnostic P004 in temporary CI folder (not canonical)
+        run: |
+          python3 scripts/anatomy_fit/replay_p004_coupled_thorax.py --out /tmp/p004_candidate_diagnostic.json
+          python3 scripts/anatomy_fit/coupled_trunk_preflight.py \
+            --baseline ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json \
+            --proposal /tmp/p004_candidate_diagnostic.json
+      - name: Build P005 and verify independent SC AC GH diagnostic (not canonical)
+        run: |
+          python3 scripts/anatomy_fit/rib_3d_coupling_audit.py \
+            --baseline ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json \
+            --proposal /tmp/p004_candidate_diagnostic.json
+          python3 scripts/anatomy_fit/replay_p005_shoulder_chain.py --p004 /tmp/p004_candidate_diagnostic.json --out /tmp/p005_shoulder_chain_diagnostic.json
+          python3 scripts/anatomy_fit/coupled_trunk_preflight.py \
+            --baseline ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json \
+            --proposal /tmp/p005_shoulder_chain_diagnostic.json
+          python3 scripts/anatomy_fit/neutral_arm_thigh_clearance.py \
+            --baseline ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json \
+            --proposal /tmp/p005_shoulder_chain_diagnostic.json
+          python3 scripts/anatomy_fit/coupled_shoulder_contact_audit.py \
+            --baseline ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json \
+            --proposal /tmp/p005_shoulder_chain_diagnostic.json
+          python3 scripts/anatomy_fit/rib_3d_coupling_audit.py \
+            --baseline ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json \
+            --proposal /tmp/p005_shoulder_chain_diagnostic.json
+          python3 scripts/anatomy_fit/p006_sternocostal_translation_feasibility.py \
+            --baseline ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json \
+            --proposal /tmp/p005_shoulder_chain_diagnostic.json
+          python3 scripts/anatomy_fit/p007_sternum_rigid_fit_audit.py \
+            --baseline ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json \
+            --proposal /tmp/p005_shoulder_chain_diagnostic.json
+
+

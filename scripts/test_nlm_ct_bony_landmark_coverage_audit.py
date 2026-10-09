@@ -106,6 +106,21 @@ class TrueOsseousCoverageTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'laterality conflicts'):
             audit.audit(b,r)
 
+    def test_right_candidate_pixel_on_opposite_scanner_side_is_rejected(self):
+        b,r=read()
+        for o in r['observations']:
+            if o['candidate_label']=='femoral_head_right':
+                o['pixel']['column']=400
+                break
+        with self.assertRaisesRegex(ValueError,'laterality conflicts'):
+            audit.audit(b,r)
+
+    def test_both_left_and_right_in_identifier_is_rejected(self):
+        b,r=read()
+        r['observations'][0]['observation_id']='obs-left-right-conflicting-side'
+        with self.assertRaisesRegex(ValueError,'laterality conflicts'):
+            audit.audit(b,r)
+
     def test_missing_sha_rejected(self):
         b,r=read()
         r['observations'][0]['source_png_sha256']='deadbeef'

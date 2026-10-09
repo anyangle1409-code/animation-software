@@ -1,0 +1,47 @@
+[
+  {
+    "path": "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json",
+    "bones": 206,
+    "markers": 427,
+    "exact_bones": true,
+    "exact_markers": true,
+    "cp2": "FAIL",
+    "promotion_allowed": false
+  },
+  {
+    "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/candidate_record.json",
+    "bones": 206,
+    "markers": 427,
+    "exact_bones": true,
+    "exact_markers": true,
+    "cp2": "FAIL",
+    "promotion_allowed": false
+  },
+  {
+    "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/candidate_record.json",
+    "bones": 206,
+    "markers": 427,
+    "exact_bones": true,
+    "exact_markers": true,
+    "cp2": "FAIL",
+    "promotion_allowed": false
+  },
+  {
+    "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/candidate_record.json",
+    "bones": 206,
+    "markers": 427,
+    "exact_bones": true,
+    "exact_markers": true,
+    "cp2": "FAIL",
+    "promotion_allowed": false
+  },
+  {
+    "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json",
+    "bones": 206,
+    "markers": 427,
+    "exact_bones": true,
+    "exact_markers": true,
+    "cp2": "FAIL",
+    "promotion_allowed": false
+  }
+]

@@ -22,12 +22,17 @@ class SkeletonFirstBuilderTests(unittest.TestCase):
         return b.replay_contract(self.a, 'a003')
 
     def test_replays_both_records_exactly(self):
-        for label, rec in [('a003', self.a), ('c004', self.c)]:
-            out = b.construct(b.replay_contract(rec, label))
-            self.assertEqual(out['record']['bones'], rec['bones'])
-            self.assertEqual(out['record']['joint_markers'], rec['joint_markers'])
-            self.assertEqual(len(out['record']['bones']), 206)
-            self.assertEqual(len(out['record']['joint_markers']), 427)
+        records = [('a003', self.a)] + [(p.parent.name, json.loads(p.read_text()))
+            for p in sorted((ANAT / 'audit/candidates').glob('*/candidate_record.json'))]
+        self.assertEqual(len(records), 5)  # preserved a003 and c001–c004
+        for label, rec in records:
+            with self.subTest(record=label):
+                out = b.construct(b.replay_contract(rec, label))
+                self.assertEqual(out['record']['bones'], rec['bones'])
+                self.assertEqual(out['record']['joint_markers'], rec['joint_markers'])
+                self.assertEqual(len(out['record']['bones']), 206)
+                self.assertEqual(len(out['record']['joint_markers']), 427)
+                self.assertFalse(out['promotion_allowed'])
 
     def test_replay_never_claims_evidence_or_promotion(self):
         out = b.construct(self.contract())

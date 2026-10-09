@@ -16,6 +16,8 @@ on:
       - 'scripts/test_nlm_pelvis_region_scout.py'
       - 'scripts/anatomy_fit/nlm_ct_pixel_ras_envelope.py'
       - 'scripts/test_nlm_ct_pixel_ras_envelope.py'
+      - 'scripts/anatomy_fit/nlm_contiguous_pelvis_ct_windows.py'
+      - 'scripts/test_nlm_contiguous_pelvis_ct_windows.py'
       - 'ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvis_scout_pinned_source_positions_20261009.json'
       - 'ORIGINAL_V1_WORK/anatomy/audit/nlm_original_ct_png_pinned_preview_20261009.json'
       - 'ORIGINAL_V1_WORK/anatomy/audit/nih3d_male_pelvis_mesh_source_manifest_20261009.json'
@@ -38,6 +40,7 @@ jobs:
           python3 -m unittest discover -s scripts -p 'test_nlm_ct_scanner_geometry_header.py' -v
           python3 -m unittest discover -s scripts -p 'test_nlm_pelvis_region_scout.py' -v
           python3 -m unittest discover -s scripts -p 'test_nlm_ct_pixel_ras_envelope.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_contiguous_pelvis_ct_windows.py' -v
       - name: Preserve osseous APP and source-registry regression tests
         run: |
           python3 -m unittest discover -s scripts -p 'test_external_trunk_landmark_bridge.py' -v
@@ -88,3 +91,12 @@ jobs:
           python3 scripts/anatomy_fit/nlm_pelvis_region_scout.py --live-scout \
             --slice-ids 1451 1602 1752 1800 --density-ascii \
             --pinned-manifest ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvis_scout_pinned_source_positions_20261009.json
+
+  original-ct-contiguous-source-windows:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read six actual NLM original CT images and scanner headers in two adjacent triads
+        run: |
+          python3 scripts/anatomy_fit/nlm_contiguous_pelvis_ct_windows.py --live

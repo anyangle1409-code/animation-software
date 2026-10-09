@@ -39,5 +39,54 @@
   "bone_segmentation_performed": false,
   "anatomy_validated": false,
   "single_specimen_not_population_target": true,
-  "canonical_promotion_allowed": false
+  "canonical_promotion_allowed": false,
+  "scanner_header_geometry_context": {
+    "status": "PINNED_CT_GE_HEADER_RAS_NUMERICAL_ONLY",
+    "scanner_world_coordinates_not_HGPT_world": true,
+    "pixel_centre_origin_not_yet_reviewed": true,
+    "HU_conversion_from_original_PNG_not_yet_verified": true,
+    "privacy_safe_fields_only": true,
+    "allowlisted": [
+      {
+        "filename": "cvm1013f.txt",
+        "sha256": "d07c543fd36f65014347f14e76a466618aaf56bc28688621ab68648daf6c17ab",
+        "corresponding_png": "cvm1013f.png",
+        "image_location_superior_mm": 389
+      },
+      {
+        "filename": "cvm1014f.txt",
+        "sha256": "67a25d7199cf68ecb151d2031bab253c67e73a9d18bb7d525835b0d05e2a0511",
+        "corresponding_png": "cvm1014f.png",
+        "image_location_superior_mm": 388
+      }
+    ],
+    "image_matrix_px": [
+      512,
+      512
+    ],
+    "pixel_spacing_xy_mm": [
+      0.488281,
+      0.488281
+    ],
+    "slice_thickness_mm": 1,
+    "nominal_slice_interval_mm": 1,
+    "top_left_RAS_mm_at_first_slice": [
+      123,
+      125,
+      389
+    ],
+    "top_right_RAS_mm_at_first_slice": [
+      -127,
+      125,
+      389
+    ],
+    "bottom_right_RAS_mm_at_first_slice": [
+      -127,
+      -125,
+      389
+    ],
+    "scanner_to_HGPT_skeletal_transform_approved": false,
+    "source_frames_region_identified_as_pelvis": false,
+    "full_3D_bony_surface_extracted": false
+  }
 }

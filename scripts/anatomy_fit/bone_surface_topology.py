@@ -103,7 +103,7 @@ def inspect(vertices, triangles, closed):
             if fi in seen:
                 continue
             seen.add(fi)
-            stack.extend(vertex_face_links[vid].get(fi, ()) - seen)
+            stack.extend(vertex_face_links[vid].get(fi, set()) - seen)
         if len(seen) != len(incident):
             raise ValueError(f'pinched/non-manifold vertex {vid}')
 

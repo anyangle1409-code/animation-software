@@ -32,6 +32,16 @@ def inputs():
 
 
 class EndToEndWorkflow(unittest.TestCase):
+    def test_workflow_accepts_no_defensible_landmark_candidates(self):
+        value = inputs()
+        value["landmark_packet"]["landmarks"] = []
+        result = workflow.run_workflow(value)
+        self.assertEqual(result["status"], "CANDIDATE_EVIDENCE_ONLY")
+        self.assertEqual(result["stage_evidence"]["candidate_landmarks"]["count"], 0)
+        self.assertFalse(result["stage_evidence"]["candidate_landmarks"]
+                         ["all_landmarks_verified"])
+        self.assertEqual(result["canonical_promotions"], 0)
+
     def test_happy_path_is_candidate_evidence_only(self):
         result = workflow.run_workflow(inputs())
         self.assertEqual(result["status"], "CANDIDATE_EVIDENCE_ONLY")

@@ -89,8 +89,8 @@ def validate_landmarks(packet: dict, review_result: dict,
     segmentation_label = segmentation_result.get("candidate_label")
 
     items = packet.get("landmarks")
-    if not isinstance(items, list) or not items:
-        raise ValueError("at least one candidate landmark is required")
+    if not isinstance(items, list):
+        raise ValueError("candidate landmarks must be a list")
     seen = set()
     output = []
     for item in items:

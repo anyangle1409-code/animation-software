@@ -113,6 +113,18 @@ def landmark_packet(semantic="ASIS", side="left", label="iliac_blade"):
 
 
 class CandidateLandmarks(unittest.TestCase):
+    def test_empty_packet_preserves_absence_instead_of_inventing_landmark(self):
+        value = landmark_packet()
+        value["landmarks"] = []
+        result = landmarks.validate_landmarks(
+            value, reviewed(), segmented(), scanners()
+        )
+        self.assertEqual(result["landmarks"], [])
+        self.assertFalse(result["all_landmarks_verified"])
+        self.assertFalse(result["canonical_promotion_allowed"])
+        self.assertIn("INDEPENDENT_SECOND_LANDMARK_REVIEW_REQUIRED",
+                      result["unmet_gates"])
+
     def test_mask_supported_point_retains_source_and_uncertainty(self):
         review_result = reviewed()
         scanner_records = scanners()

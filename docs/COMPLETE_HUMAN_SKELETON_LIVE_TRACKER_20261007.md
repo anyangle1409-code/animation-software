@@ -876,3 +876,17 @@ Full proximal curves remain BLOCKED pending verified intended conventions or an 
   - metres compared against millimetres.
 - **Evidence:** `audit/amplitude_provenance/{a003_isolated_014,c003_isolated_001,c004_isolated_001}.json`.
 - **Tests:** `scripts/test_amplitude_provenance_audit.py` (9). They pin the results and include these mutations: an untraceable peak; a split whose basis no longer states it; a removed TEST AMPLITUDE label; an inexact thumb rest angle; an unreached intermetacarpal target; a sample size used as a peak; a changed glide; and a TEST AMPLITUDE statement overriding a coincidental match.
+
+
+### Work independent hand reconstruction review — 9 October 2026
+
+- Live audit baseline `2d4b352c`; PR #8 head reviewed `8b56e876`.
+- GitHub Actions `isolated-probe` succeeded at that head (run 37895321897).
+- All eight original probe tests pass locally. Existing source-rebuild 6, c004 arm-input 14, hand-ray 3 and carpal 8 tests also pass.
+- New independent audit imports neither the probe nor the builder: all 108 input/endpoint relationships checked, 98 exact and 10 unresolved distal tails. Six independent tests pass, including endpoint/marker mutations and NaN rejection.
+- 27 mirror pairs: maximum residual 3.16e-12 mm. 28 digit seams: maximum 0.00007590 mm; digit marker-to-head residual 0.00006019 mm. These are stored-coordinate consistency results, not anatomical accuracy.
+- 36 wrist-relative endpoint checks preserve a003 geometry through c004 translation. This does NOT validate carpal contact surfaces, centroids or wrist movement.
+- Ten offsets are explicitly matched to recorded containment (5.28–9.00 mm); neither pre-containment nor post-containment tails are accepted canonical coordinates.
+- Full pre-change discovery: 989 tests, five failures/four errors in inherited production-control/orchestration checks; exact names retained in `docs/WORK_SKELETON_DEVELOPMENT_20261009.md`.
+- Stage 1 computational/provenance review complete; anatomical fingertip and carpal acceptance BLOCKED. PR remains draft/unmerged. No c005 or asset changes. Continue independent Stage 2 tooling while those anatomical blockers remain open.
+- Evidence: `audit/hand_input_audit/work_independent_20261009/{coordinate_integrity,mesh_free_probe}.json`.

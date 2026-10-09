@@ -948,3 +948,21 @@ Read-only distal-span context checks now trace runtime surface stations rather t
 - **Open:** C7 sits about 11 mm lower against ANSUR, the thoracic shape is unsourced, and rib inclination has no source.
 - **Erratum:** the earlier "IJ +24.7 mm" residual used a stale a003 skin input; c004's bony IJ is already at ANSUR.
 - **Readiness:** unchanged at 0/9/3.
+
+### 2026-10-09 Integration checkpoint (Claude) — authorized branch `codex/whole-body-biomechanics-audit-20261007`
+- **Integrity correction (owner):** the only authorized target branch is `codex/whole-body-biomechanics-audit-20261007`. Earlier Claude work had been pushed to `claude/*` branches. Those branches are preserved, not deleted.
+- **Source:** `claude/coupled-trunk-rebuild-20261009` @ `de8d521bca94b826234a36a44fd3ea9243646d1f`, 24 commits. They include Work's skeleton-first regional verification up to `42943652`, Claude's independent verification (`96bc7420`…`f83e6ab3`), anatomical development (`e5c135ac`…`f3f725f4`), T001 (`82aec54d`) and the PR #12 re-check (`de8d521b`).
+- **Destination:** `codex/whole-body-biomechanics-audit-20261007` @ `2d4b352c30ebc092eb167832d727a529cd18fef6`.
+  - That branch had no newer commits, so there were no conflicts and nothing was discarded.
+  - Integrated by a non-fast-forward merge commit `f864e50d`; no rebase, no reset, no force-push.
+- **Scope check:** 202 files changed; the only existing files modified are this tracker (append-only) and `evidence_integrity_audit.py` and its test (external-URL classification). No production, a003, c001–c004 or `.blend` file was touched.
+- **Verification on the merged tree:**
+  - `test_evidence_integrity_audit`: OK;
+  - `test_t001_coupled_trunk` (7 tests): OK;
+  - `test_spine_trunk_audits` (13 tests): OK.
+  - The last full suite before integration ran 1,064 tests with 1,054 passing; the 9 inherited production-control failures are unchanged, and the tenth (a render manifest) was fixed.
+- **Status unchanged:** readiness 0 READY / 9 PARTIAL / 3 BLOCKED. T001 and P001 stay experimental/diagnostic; no candidate was promoted and no c005 exists.
+- **Handover and review documents on this branch:**
+  - `docs/CLAUDE_SKELETON_INDEPENDENT_VERIFICATION_20261009.md`;
+  - `docs/CLAUDE_ANATOMICAL_DEVELOPMENT_20261009.md` (includes the erratum and the T001 summary);
+  - `ORIGINAL_V1_WORK/anatomy/audit/experiments/t001_coupled_trunk/README.md`.

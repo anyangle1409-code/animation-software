@@ -80,7 +80,7 @@ class SyntheticCoupling(unittest.TestCase):
     def test_oversized_disc_rejected(self):
         a = fixture()
         b = shifted(a)
-        b['bones']['l4']['head_m'][2] += 0.03
+        b['bones']['l4']['head_m'][2] += 0.024
         r = pre.examine(a, b)
         self.assertIn('INTERVERTEBRAL_DISC_CLEARANCE_OVERSIZE', r['blockers'])
 

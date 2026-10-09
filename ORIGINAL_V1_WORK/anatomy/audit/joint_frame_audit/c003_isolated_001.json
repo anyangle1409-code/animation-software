@@ -1,0 +1,3406 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "label": "c003",
+ "status": "MECHANICAL_AUDIT_NO_GEOMETRY_CHANGE",
+ "inputs_sha256": {
+  "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/candidate_record.json": "3eb4fa1e2f7d815ec664af93fc4ece89db87a36a5201452447b161fbdcc46f3a",
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c003_shoulder_thorax_001/isolated_samples.json": "55cf039cefa8269131e482be7b51cd5bd3a42ad5fe26ea5377dd13f8f4334f01"
+ },
+ "rest": {
+  "markers": 427,
+  "improper": [],
+  "bilateral_pairs": 180,
+  "mirror_flip_by_family": {
+   "acromioclavicular": [
+    "Z"
+   ],
+   "atlantoaxial": [
+    "Z"
+   ],
+   "atlantooccipital": [
+    "Z"
+   ],
+   "calcaneocuboid": [
+    "Z"
+   ],
+   "cmc": [
+    "Z"
+   ],
+   "costochondral": [
+    "Z"
+   ],
+   "costotransverse": [
+    "Z"
+   ],
+   "costovertebral": [
+    "Z"
+   ],
+   "cuboideonavicular": [
+    "Z"
+   ],
+   "cuneonavicular": [
+    "Z"
+   ],
+   "digit2": [
+    "Z"
+   ],
+   "digit3": [
+    "Z"
+   ],
+   "digit4": [
+    "Z"
+   ],
+   "digit5": [
+    "Z"
+   ],
+   "distal": [
+    "Z"
+   ],
+   "facet": [
+    "Z"
+   ],
+   "glenohumeral": [
+    "Z"
+   ],
+   "hallux": [
+    "Z"
+   ],
+   "hip": [
+    "Z"
+   ],
+   "humeroradial": [
+    "Z"
+   ],
+   "humeroulnar": [
+    "Z"
+   ],
+   "hyoid": [
+    "Z"
+   ],
+   "incudomalleolar": [
+    "Z"
+   ],
+   "incudostapedial": [
+    "Z"
+   ],
+   "intercarpal": [
+    "Z"
+   ],
+   "interchondral": [
+    "Z"
+   ],
+   "intermetacarpal": [
+    "Z"
+   ],
+   "intermetatarsal": [
+    "Z"
+   ],
+   "intertarsal": [
+    "Z"
+   ],
+   "midcarpal": [
+    "Z"
+   ],
+   "mtp": [
+    "Z"
+   ],
+   "patellofemoral": [
+    "Z"
+   ],
+   "pisotriquetral": [
+    "Z"
+   ],
+   "proximal": [
+    "Z"
+   ],
+   "radiocarpal": [
+    "Z"
+   ],
+   "radioulnar": [
+    "Z"
+   ],
+   "sacroiliac": [
+    "Z"
+   ],
+   "scapulothoracic": [
+    "Z"
+   ],
+   "skull": [
+    "Z"
+   ],
+   "stapedio": [
+    "Z"
+   ],
+   "sternoclavicular": [
+    "Z"
+   ],
+   "sternocostal": [
+    "Z"
+   ],
+   "subtalar": [
+    "Z"
+   ],
+   "talocalcaneonavicular": [
+    "Z"
+   ],
+   "talocrural": [
+    "Z"
+   ],
+   "thumb": [
+    "Z"
+   ],
+   "tibiofemoral": [
+    "Z"
+   ],
+   "tibiofibular": [
+    "Z"
+   ],
+   "tmj": [
+    "Z"
+   ],
+   "tmt": [
+    "Z"
+   ],
+   "toe2": [
+    "Z"
+   ],
+   "toe3": [
+    "Z"
+   ],
+   "toe4": [
+    "Z"
+   ],
+   "toe5": [
+    "Z"
+   ],
+   "uncovertebral": [
+    "Z"
+   ]
+  },
+  "families_with_mixed_flip": [],
+  "max_rest_asymmetry_deg": 0.398854,
+  "rest_asymmetry_top": [
+   {
+    "joint": "mtp_5",
+    "flip_axis": "Z",
+    "residual_deg": 0.398854
+   },
+   {
+    "joint": "toe5_pip",
+    "flip_axis": "Z",
+    "residual_deg": 0.398854
+   },
+   {
+    "joint": "toe5_dip",
+    "flip_axis": "Z",
+    "residual_deg": 0.398854
+   },
+   {
+    "joint": "mtp_1",
+    "flip_axis": "Z",
+    "residual_deg": 0.290309
+   },
+   {
+    "joint": "hallux_ip",
+    "flip_axis": "Z",
+    "residual_deg": 0.290309
+   },
+   {
+    "joint": "mtp_2",
+    "flip_axis": "Z",
+    "residual_deg": 0.093405
+   },
+   {
+    "joint": "toe2_pip",
+    "flip_axis": "Z",
+    "residual_deg": 0.093405
+   },
+   {
+    "joint": "toe2_dip",
+    "flip_axis": "Z",
+    "residual_deg": 0.093405
+   },
+   {
+    "joint": "mtp_3",
+    "flip_axis": "Z",
+    "residual_deg": 0.063181
+   },
+   {
+    "joint": "toe3_pip",
+    "flip_axis": "Z",
+    "residual_deg": 0.063181
+   },
+   {
+    "joint": "toe3_dip",
+    "flip_axis": "Z",
+    "residual_deg": 0.063181
+   },
+   {
+    "joint": "costovertebral_01",
+    "flip_axis": "Z",
+    "residual_deg": 0.032549
+   }
+  ],
+  "pairs": {
+   "skull_frontal_parietal": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "skull_frontal_nasal": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "skull_frontal_maxilla": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "skull_frontal_lacrimal": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "skull_frontal_zygomatic": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "skull_occipital_parietal": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "skull_occipital_temporal": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "skull_sphenoid_temporal": {
+    "flip_axis": "Z",
+    "residual_deg": 1e-06
+   },
+   "skull_sphenoid_zygomatic": {
+    "flip_axis": "Z",
+    "residual_deg": 1e-06
+   },
+   "skull_ethmoid_nasal": {
+    "flip_axis": "Z",
+    "residual_deg": 1e-06
+   },
+   "skull_ethmoid_maxilla": {
+    "flip_axis": "Z",
+    "residual_deg": 1e-06
+   },
+   "skull_ethmoid_lacrimal": {
+    "flip_axis": "Z",
+    "residual_deg": 1e-06
+   },
+   "skull_ethmoid_palatine": {
+    "flip_axis": "Z",
+    "residual_deg": 1e-06
+   },
+   "skull_ethmoid_inferior_nasal_concha": {
+    "flip_axis": "Z",
+    "residual_deg": 1e-06
+   },
+   "tmj": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "incudomalleolar": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "incudostapedial": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "stapedio_oval_window": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "atlantooccipital": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "atlantoaxial_lateral": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "facet_c2_c3": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "facet_c3_c4": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "facet_c4_c5": {
+    "flip_axis": "Z",
+    "residual_deg": 1e-06
+   },
+   "facet_c5_c6": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "facet_c6_c7": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "facet_c7_t1": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "facet_t1_t2": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "facet_t2_t3": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "facet_t3_t4": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "facet_t4_t5": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "facet_t5_t6": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "facet_t6_t7": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "facet_t7_t8": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "facet_t8_t9": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "facet_t9_t10": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "facet_t10_t11": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "facet_t11_t12": {
+    "flip_axis": "Z",
+    "residual_deg": 1e-06
+   },
+   "facet_t12_l1": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "facet_l1_l2": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "facet_l2_l3": {
+    "flip_axis": "Z",
+    "residual_deg": 1e-06
+   },
+   "facet_l3_l4": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "facet_l4_l5": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "facet_l5_sacrum": {
+    "flip_axis": "Z",
+    "residual_deg": 1e-06
+   },
+   "uncovertebral_c2_c3": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "uncovertebral_c3_c4": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "uncovertebral_c4_c5": {
+    "flip_axis": "Z",
+    "residual_deg": 1e-06
+   },
+   "uncovertebral_c5_c6": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "uncovertebral_c6_c7": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "sacroiliac_anterior": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "sacroiliac_posterior": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "costovertebral_01": {
+    "flip_axis": "Z",
+    "residual_deg": 0.032549
+   },
+   "costotransverse_01": {
+    "flip_axis": "Z",
+    "residual_deg": 0.032549
+   },
+   "costochondral_01": {
+    "flip_axis": "Z",
+    "residual_deg": 0.032549
+   },
+   "sternocostal_01": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "costovertebral_02": {
+    "flip_axis": "Z",
+    "residual_deg": 0.005058
+   },
+   "costotransverse_02": {
+    "flip_axis": "Z",
+    "residual_deg": 0.005058
+   },
+   "costochondral_02": {
+    "flip_axis": "Z",
+    "residual_deg": 0.005058
+   },
+   "sternocostal_02": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "costovertebral_03": {
+    "flip_axis": "Z",
+    "residual_deg": 0.003866
+   },
+   "costotransverse_03": {
+    "flip_axis": "Z",
+    "residual_deg": 0.003866
+   },
+   "costochondral_03": {
+    "flip_axis": "Z",
+    "residual_deg": 0.003866
+   },
+   "sternocostal_03": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "costovertebral_04": {
+    "flip_axis": "Z",
+    "residual_deg": 0.003237
+   },
+   "costotransverse_04": {
+    "flip_axis": "Z",
+    "residual_deg": 0.003237
+   },
+   "costochondral_04": {
+    "flip_axis": "Z",
+    "residual_deg": 0.003237
+   },
+   "sternocostal_04": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "costovertebral_05": {
+    "flip_axis": "Z",
+    "residual_deg": 0.005567
+   },
+   "costotransverse_05": {
+    "flip_axis": "Z",
+    "residual_deg": 0.005567
+   },
+   "costochondral_05": {
+    "flip_axis": "Z",
+    "residual_deg": 0.005567
+   },
+   "sternocostal_05": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "costovertebral_06": {
+    "flip_axis": "Z",
+    "residual_deg": 0.005739
+   },
+   "costotransverse_06": {
+    "flip_axis": "Z",
+    "residual_deg": 0.005739
+   },
+   "costochondral_06": {
+    "flip_axis": "Z",
+    "residual_deg": 0.005739
+   },
+   "sternocostal_06": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "costovertebral_07": {
+    "flip_axis": "Z",
+    "residual_deg": 0.006005
+   },
+   "costotransverse_07": {
+    "flip_axis": "Z",
+    "residual_deg": 0.006005
+   },
+   "costochondral_07": {
+    "flip_axis": "Z",
+    "residual_deg": 0.006005
+   },
+   "sternocostal_07": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "costovertebral_08": {
+    "flip_axis": "Z",
+    "residual_deg": 0.009768
+   },
+   "costotransverse_08": {
+    "flip_axis": "Z",
+    "residual_deg": 0.009768
+   },
+   "costochondral_08": {
+    "flip_axis": "Z",
+    "residual_deg": 0.009768
+   },
+   "costovertebral_09": {
+    "flip_axis": "Z",
+    "residual_deg": 0.008066
+   },
+   "costotransverse_09": {
+    "flip_axis": "Z",
+    "residual_deg": 0.008066
+   },
+   "costochondral_09": {
+    "flip_axis": "Z",
+    "residual_deg": 0.008066
+   },
+   "costovertebral_10": {
+    "flip_axis": "Z",
+    "residual_deg": 0.006321
+   },
+   "costotransverse_10": {
+    "flip_axis": "Z",
+    "residual_deg": 0.006321
+   },
+   "costochondral_10": {
+    "flip_axis": "Z",
+    "residual_deg": 0.006321
+   },
+   "costovertebral_11": {
+    "flip_axis": "Z",
+    "residual_deg": 0.008034
+   },
+   "costovertebral_12": {
+    "flip_axis": "Z",
+    "residual_deg": 0.00822
+   },
+   "interchondral_6_7": {
+    "flip_axis": "Z",
+    "residual_deg": 0.005739
+   },
+   "interchondral_7_8": {
+    "flip_axis": "Z",
+    "residual_deg": 0.006005
+   },
+   "interchondral_8_9": {
+    "flip_axis": "Z",
+    "residual_deg": 0.009768
+   },
+   "interchondral_9_10": {
+    "flip_axis": "Z",
+    "residual_deg": 0.008066
+   },
+   "sternoclavicular": {
+    "flip_axis": "Z",
+    "residual_deg": 1e-06
+   },
+   "acromioclavicular": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "scapulothoracic": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "glenohumeral": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "humeroulnar": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "humeroradial": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "proximal_radioulnar": {
+    "flip_axis": "Z",
+    "residual_deg": 1e-06
+   },
+   "distal_radioulnar": {
+    "flip_axis": "Z",
+    "residual_deg": 1e-06
+   },
+   "radioulnar_interosseous": {
+    "flip_axis": "Z",
+    "residual_deg": 1e-06
+   },
+   "radiocarpal": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "intercarpal_scaphoid_lunate": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "intercarpal_lunate_triquetrum": {
+    "flip_axis": "Z",
+    "residual_deg": 1e-06
+   },
+   "intercarpal_trapezium_trapezoid": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "intercarpal_trapezoid_capitate": {
+    "flip_axis": "Z",
+    "residual_deg": 1e-06
+   },
+   "intercarpal_capitate_hamate": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "pisotriquetral": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "midcarpal_scaphoid_trapezium": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "midcarpal_scaphoid_trapezoid": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "midcarpal_scaphoid_capitate": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "midcarpal_lunate_capitate": {
+    "flip_axis": "Z",
+    "residual_deg": 1e-06
+   },
+   "midcarpal_lunate_hamate": {
+    "flip_axis": "Z",
+    "residual_deg": 1e-06
+   },
+   "midcarpal_triquetrum_hamate": {
+    "flip_axis": "Z",
+    "residual_deg": 1e-06
+   },
+   "cmc_1": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "cmc_2": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "cmc_3": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "cmc_4": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "cmc_5": {
+    "flip_axis": "Z",
+    "residual_deg": 1e-06
+   },
+   "intermetacarpal_2_3": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "intermetacarpal_3_4": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "intermetacarpal_4_5": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "thumb_mcp": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "thumb_ip": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "digit2_mcp": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "digit2_pip": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "digit2_dip": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "digit3_mcp": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "digit3_pip": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "digit3_dip": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "digit4_mcp": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "digit4_pip": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "digit4_dip": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "digit5_mcp": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "digit5_pip": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "digit5_dip": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "hip": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "tibiofemoral": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "patellofemoral": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "proximal_tibiofibular": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "distal_tibiofibular": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "tibiofibular_interosseous": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "talocrural": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "subtalar_posterior": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "talocalcaneonavicular": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "calcaneocuboid": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "cuneonavicular_medial": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "cuneonavicular_intermediate": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "cuneonavicular_lateral": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "intertarsal_medial_cuneiform_intermediate_cuneiform": {
+    "flip_axis": "Z",
+    "residual_deg": 1e-06
+   },
+   "intertarsal_intermediate_cuneiform_lateral_cuneiform": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "intertarsal_lateral_cuneiform_cuboid": {
+    "flip_axis": "Z",
+    "residual_deg": 1e-06
+   },
+   "cuboideonavicular": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "tmt_1": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "tmt_2": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "tmt_3": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "tmt_4": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "tmt_5": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "intermetatarsal_2_3": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "intermetatarsal_3_4": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "intermetatarsal_4_5": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "mtp_1": {
+    "flip_axis": "Z",
+    "residual_deg": 0.290309
+   },
+   "hallux_ip": {
+    "flip_axis": "Z",
+    "residual_deg": 0.290309
+   },
+   "hallux_sesamoid_medial_tracking": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "hallux_sesamoid_lateral_tracking": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "mtp_2": {
+    "flip_axis": "Z",
+    "residual_deg": 0.093405
+   },
+   "toe2_pip": {
+    "flip_axis": "Z",
+    "residual_deg": 0.093405
+   },
+   "toe2_dip": {
+    "flip_axis": "Z",
+    "residual_deg": 0.093405
+   },
+   "mtp_3": {
+    "flip_axis": "Z",
+    "residual_deg": 0.063181
+   },
+   "toe3_pip": {
+    "flip_axis": "Z",
+    "residual_deg": 0.063181
+   },
+   "toe3_dip": {
+    "flip_axis": "Z",
+    "residual_deg": 0.063181
+   },
+   "mtp_4": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "toe4_pip": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "toe4_dip": {
+    "flip_axis": "Z",
+    "residual_deg": 1e-06
+   },
+   "mtp_5": {
+    "flip_axis": "Z",
+    "residual_deg": 0.398854
+   },
+   "toe5_pip": {
+    "flip_axis": "Z",
+    "residual_deg": 0.398854
+   },
+   "toe5_dip": {
+    "flip_axis": "Z",
+    "residual_deg": 0.398854
+   },
+   "hyoid_body_greater_horn": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   },
+   "hyoid_body_lesser_horn": {
+    "flip_axis": "Z",
+    "residual_deg": 0.0
+   }
+  }
+ },
+ "motion": {
+  "frame_bound": 1e-05,
+  "worst_orthonormality_or_det": 1.9977105030211106e-06,
+  "frame_issues": [],
+  "frame_issue_count": 0,
+  "single_channel_tests": 106,
+  "max_axis_drift_deg": 0.000118,
+  "sign_flip_total": 0,
+  "tests": {
+   "hip_flexion_extension_left": {
+    "single_channel": "flexion",
+    "joints_moving": {
+     "hip_left": {
+      "frames": 76,
+      "axis_drift_deg": 2.3e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 0.9874
+     }
+    }
+   },
+   "hip_abduction_adduction_left": {
+    "single_channel": "adduction",
+    "joints_moving": {
+     "hip_left": {
+      "frames": 74,
+      "axis_drift_deg": 2e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X-",
+      "alignment_deg": 1.1558
+     }
+    }
+   },
+   "hip_rotation_at_0_flexion_left": {
+    "single_channel": "internal",
+    "joints_moving": {
+     "hip_left": {
+      "frames": 78,
+      "axis_drift_deg": 6e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y-",
+      "alignment_deg": 1.5201
+     }
+    }
+   },
+   "hip_rotation_at_90_flexion_left": {
+    "single_channel": null,
+    "joints_moving": {}
+   },
+   "knee_flexion_extension_left": {
+    "single_channel": "flexion",
+    "joints_moving": {
+     "tibiofemoral_left": {
+      "frames": 60,
+      "axis_drift_deg": 2.6e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     }
+    }
+   },
+   "talocrural_dorsi_plantarflexion_left": {
+    "single_channel": "angle",
+    "joints_moving": {}
+   },
+   "subtalar_inversion_eversion_left": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "subtalar_posterior_left": {
+      "frames": 72,
+      "axis_drift_deg": 0.000107,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y-",
+      "alignment_deg": 10.3973
+     },
+     "intertarsal_lateral_cuneiform_cuboid_left": {
+      "frames": 72,
+      "axis_drift_deg": 0.000107,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X-",
+      "alignment_deg": 7.8053
+     },
+     "cuboideonavicular_left": {
+      "frames": 72,
+      "axis_drift_deg": 0.000106,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 43.51
+     },
+     "intermetatarsal_3_4_left": {
+      "frames": 72,
+      "axis_drift_deg": 0.000107,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X-",
+      "alignment_deg": 48.2791
+     }
+    }
+   },
+   "gh_elevation_plane_0_left": {
+    "single_channel": "elevation",
+    "joints_moving": {
+     "glenohumeral_left": {
+      "frames": 79,
+      "axis_drift_deg": 1.5e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 0.9453
+     }
+    }
+   },
+   "gh_elevation_plane_40_left": {
+    "single_channel": null,
+    "joints_moving": {}
+   },
+   "gh_elevation_plane_90_left": {
+    "single_channel": null,
+    "joints_moving": {}
+   },
+   "gh_axial_rotation_at_0_elevation_left": {
+    "single_channel": "internal",
+    "joints_moving": {
+     "glenohumeral_left": {
+      "frames": 78,
+      "axis_drift_deg": 3e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y-",
+      "alignment_deg": 1.2291
+     }
+    }
+   },
+   "gh_axial_rotation_at_90_elevation_left": {
+    "single_channel": null,
+    "joints_moving": {}
+   },
+   "elbow_flexion_at_pronation_0_left": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "humeroulnar_left": {
+      "frames": 52,
+      "axis_drift_deg": 1.4e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 0.7855
+     },
+     "humeroradial_left": {
+      "frames": 52,
+      "axis_drift_deg": 1.5e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 0.7855
+     }
+    }
+   },
+   "elbow_flexion_at_pronation_60_left": {
+    "single_channel": null,
+    "joints_moving": {}
+   },
+   "forearm_rotation_at_elbow_0_left": {
+    "single_channel": "pronation",
+    "joints_moving": {
+     "humeroradial_left": {
+      "frames": 78,
+      "axis_drift_deg": 6e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y-",
+      "alignment_deg": 6.9893
+     },
+     "proximal_radioulnar_left": {
+      "frames": 78,
+      "axis_drift_deg": 6e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y-",
+      "alignment_deg": 10.6417
+     },
+     "distal_radioulnar_left": {
+      "frames": 78,
+      "axis_drift_deg": 6e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y-",
+      "alignment_deg": 10.6417
+     },
+     "radioulnar_interosseous_left": {
+      "frames": 78,
+      "axis_drift_deg": 6e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y-",
+      "alignment_deg": 10.6417
+     }
+    }
+   },
+   "forearm_rotation_at_elbow_90_left": {
+    "single_channel": null,
+    "joints_moving": {}
+   },
+   "wrist_flexion_left": {
+    "single_channel": "flexion",
+    "joints_moving": {
+     "midcarpal_scaphoid_trapezium_left": {
+      "frames": 74,
+      "axis_drift_deg": 2.5e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X-",
+      "alignment_deg": 8.9755
+     },
+     "midcarpal_scaphoid_trapezoid_left": {
+      "frames": 74,
+      "axis_drift_deg": 1.2e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X-",
+      "alignment_deg": 8.9755
+     },
+     "midcarpal_scaphoid_capitate_left": {
+      "frames": 74,
+      "axis_drift_deg": 2.2e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X-",
+      "alignment_deg": 8.9755
+     },
+     "midcarpal_lunate_capitate_left": {
+      "frames": 74,
+      "axis_drift_deg": 9e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X-",
+      "alignment_deg": 8.9755
+     },
+     "midcarpal_lunate_hamate_left": {
+      "frames": 74,
+      "axis_drift_deg": 7e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X-",
+      "alignment_deg": 8.9755
+     },
+     "midcarpal_triquetrum_hamate_left": {
+      "frames": 74,
+      "axis_drift_deg": 7e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X-",
+      "alignment_deg": 8.9755
+     }
+    }
+   },
+   "wrist_adduction_left": {
+    "single_channel": "adduction",
+    "joints_moving": {
+     "midcarpal_scaphoid_trapezium_left": {
+      "frames": 72,
+      "axis_drift_deg": 1e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 1.214
+     },
+     "midcarpal_scaphoid_trapezoid_left": {
+      "frames": 72,
+      "axis_drift_deg": 2e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 1.214
+     },
+     "midcarpal_scaphoid_capitate_left": {
+      "frames": 72,
+      "axis_drift_deg": 2e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 1.214
+     },
+     "midcarpal_lunate_capitate_left": {
+      "frames": 72,
+      "axis_drift_deg": 1e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 1.214
+     },
+     "midcarpal_lunate_hamate_left": {
+      "frames": 72,
+      "axis_drift_deg": 2e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 1.214
+     },
+     "midcarpal_triquetrum_hamate_left": {
+      "frames": 72,
+      "axis_drift_deg": 2e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 1.214
+     }
+    }
+   },
+   "digit2_flexion_left": {
+    "single_channel": null,
+    "joints_moving": {}
+   },
+   "digit3_flexion_left": {
+    "single_channel": null,
+    "joints_moving": {}
+   },
+   "digit4_flexion_left": {
+    "single_channel": null,
+    "joints_moving": {}
+   },
+   "digit5_flexion_left": {
+    "single_channel": null,
+    "joints_moving": {}
+   },
+   "thumb_flexion_left": {
+    "single_channel": null,
+    "joints_moving": {}
+   },
+   "thumb_cmc_radial_abduction_left": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "cmc_1_left": {
+      "frames": 39,
+      "axis_drift_deg": 0.000118,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 21.2873
+     }
+    }
+   },
+   "thumb_cmc_anteposition_left": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "cmc_1_left": {
+      "frames": 37,
+      "axis_drift_deg": 3.2e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X-",
+      "alignment_deg": 15.1487
+     }
+    }
+   },
+   "digit2_mcp_abduction_left": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "digit2_mcp_left": {
+      "frames": 37,
+      "axis_drift_deg": 4e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 20.7296
+     }
+    }
+   },
+   "digit4_mcp_abduction_left": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "digit4_mcp_left": {
+      "frames": 37,
+      "axis_drift_deg": 4e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 19.602
+     }
+    }
+   },
+   "digit5_mcp_abduction_left": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "digit5_mcp_left": {
+      "frames": 37,
+      "axis_drift_deg": 4e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 19.0391
+     }
+    }
+   },
+   "thumb_opposition_left": {
+    "single_channel": null,
+    "joints_moving": {}
+   },
+   "rib_01_inspiration_left": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "costovertebral_01_left": {
+      "frames": 33,
+      "axis_drift_deg": 4.7e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 11.2746
+     },
+     "costotransverse_01_left": {
+      "frames": 33,
+      "axis_drift_deg": 4.7e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 11.2746
+     }
+    }
+   },
+   "rib_02_inspiration_left": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "costotransverse_02_left": {
+      "frames": 33,
+      "axis_drift_deg": 3.7e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 8.7827
+     }
+    }
+   },
+   "rib_03_inspiration_left": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "costotransverse_03_left": {
+      "frames": 33,
+      "axis_drift_deg": 9.1e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 10.9723
+     }
+    }
+   },
+   "rib_04_inspiration_left": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "costotransverse_04_left": {
+      "frames": 33,
+      "axis_drift_deg": 4.5e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 10.9001
+     }
+    }
+   },
+   "rib_05_inspiration_left": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "costotransverse_05_left": {
+      "frames": 33,
+      "axis_drift_deg": 3.3e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 10.2245
+     }
+    }
+   },
+   "rib_06_inspiration_left": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "costotransverse_06_left": {
+      "frames": 33,
+      "axis_drift_deg": 4.1e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 10.0802
+     }
+    }
+   },
+   "rib_07_inspiration_left": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "costotransverse_07_left": {
+      "frames": 33,
+      "axis_drift_deg": 5.4e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 12.364
+     }
+    }
+   },
+   "talonavicular_dorsi_plantarflexion_left": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "intertarsal_lateral_cuneiform_cuboid_left": {
+      "frames": 66,
+      "axis_drift_deg": 4e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 30.6523
+     },
+     "cuboideonavicular_left": {
+      "frames": 66,
+      "axis_drift_deg": 4e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 8.4413
+     },
+     "intermetatarsal_3_4_left": {
+      "frames": 66,
+      "axis_drift_deg": 4e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 2.5892
+     }
+    }
+   },
+   "sacroiliac_rotation_left": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "pubic_symphysis": {
+      "frames": 30,
+      "axis_drift_deg": 9.8e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 18.8636
+     },
+     "sacroiliac_anterior_left": {
+      "frames": 30,
+      "axis_drift_deg": 9.8e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 0.0
+     },
+     "sacroiliac_posterior_left": {
+      "frames": 30,
+      "axis_drift_deg": 9.8e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 0.0
+     }
+    }
+   },
+   "hallux_mtp_dorsiflexion_left": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "mtp_1_left": {
+      "frames": 76,
+      "axis_drift_deg": 2e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 0.6648
+     }
+    }
+   },
+   "hip_flexion_extension_right": {
+    "single_channel": "flexion",
+    "joints_moving": {
+     "hip_right": {
+      "frames": 76,
+      "axis_drift_deg": 2.1e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 0.9874
+     }
+    }
+   },
+   "hip_abduction_adduction_right": {
+    "single_channel": "adduction",
+    "joints_moving": {
+     "hip_right": {
+      "frames": 74,
+      "axis_drift_deg": 3e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 1.1558
+     }
+    }
+   },
+   "hip_rotation_at_0_flexion_right": {
+    "single_channel": "internal",
+    "joints_moving": {
+     "hip_right": {
+      "frames": 78,
+      "axis_drift_deg": 7e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 1.5201
+     }
+    }
+   },
+   "hip_rotation_at_90_flexion_right": {
+    "single_channel": null,
+    "joints_moving": {}
+   },
+   "knee_flexion_extension_right": {
+    "single_channel": "flexion",
+    "joints_moving": {
+     "tibiofemoral_right": {
+      "frames": 60,
+      "axis_drift_deg": 2.2e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     }
+    }
+   },
+   "talocrural_dorsi_plantarflexion_right": {
+    "single_channel": "angle",
+    "joints_moving": {}
+   },
+   "subtalar_inversion_eversion_right": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "subtalar_posterior_right": {
+      "frames": 72,
+      "axis_drift_deg": 0.000111,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 10.3973
+     },
+     "intertarsal_lateral_cuneiform_cuboid_right": {
+      "frames": 72,
+      "axis_drift_deg": 0.000111,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 7.8053
+     },
+     "cuboideonavicular_right": {
+      "frames": 72,
+      "axis_drift_deg": 0.000112,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y-",
+      "alignment_deg": 43.51
+     },
+     "intermetatarsal_3_4_right": {
+      "frames": 72,
+      "axis_drift_deg": 0.000111,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 48.2791
+     }
+    }
+   },
+   "gh_elevation_plane_0_right": {
+    "single_channel": "elevation",
+    "joints_moving": {
+     "glenohumeral_right": {
+      "frames": 79,
+      "axis_drift_deg": 1.5e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X-",
+      "alignment_deg": 0.9453
+     }
+    }
+   },
+   "gh_elevation_plane_40_right": {
+    "single_channel": null,
+    "joints_moving": {}
+   },
+   "gh_elevation_plane_90_right": {
+    "single_channel": null,
+    "joints_moving": {}
+   },
+   "gh_axial_rotation_at_0_elevation_right": {
+    "single_channel": "internal",
+    "joints_moving": {
+     "glenohumeral_right": {
+      "frames": 78,
+      "axis_drift_deg": 3e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 1.2291
+     }
+    }
+   },
+   "gh_axial_rotation_at_90_elevation_right": {
+    "single_channel": null,
+    "joints_moving": {}
+   },
+   "elbow_flexion_at_pronation_0_right": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "humeroulnar_right": {
+      "frames": 52,
+      "axis_drift_deg": 3.6e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 0.7856
+     },
+     "humeroradial_right": {
+      "frames": 52,
+      "axis_drift_deg": 3.7e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 0.7856
+     }
+    }
+   },
+   "elbow_flexion_at_pronation_60_right": {
+    "single_channel": null,
+    "joints_moving": {}
+   },
+   "forearm_rotation_at_elbow_0_right": {
+    "single_channel": "pronation",
+    "joints_moving": {
+     "humeroradial_right": {
+      "frames": 78,
+      "axis_drift_deg": 1.3e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 6.9893
+     },
+     "proximal_radioulnar_right": {
+      "frames": 78,
+      "axis_drift_deg": 1.3e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 10.6417
+     },
+     "distal_radioulnar_right": {
+      "frames": 78,
+      "axis_drift_deg": 1.3e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 10.6417
+     },
+     "radioulnar_interosseous_right": {
+      "frames": 78,
+      "axis_drift_deg": 1.3e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 10.6417
+     }
+    }
+   },
+   "forearm_rotation_at_elbow_90_right": {
+    "single_channel": null,
+    "joints_moving": {}
+   },
+   "wrist_flexion_right": {
+    "single_channel": "flexion",
+    "joints_moving": {
+     "midcarpal_scaphoid_trapezium_right": {
+      "frames": 74,
+      "axis_drift_deg": 1.7e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 8.9755
+     },
+     "midcarpal_scaphoid_trapezoid_right": {
+      "frames": 74,
+      "axis_drift_deg": 1.6e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 8.9755
+     },
+     "midcarpal_scaphoid_capitate_right": {
+      "frames": 74,
+      "axis_drift_deg": 3.1e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 8.9755
+     },
+     "midcarpal_lunate_capitate_right": {
+      "frames": 74,
+      "axis_drift_deg": 2.4e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 8.9755
+     },
+     "midcarpal_lunate_hamate_right": {
+      "frames": 74,
+      "axis_drift_deg": 2.3e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 8.9755
+     },
+     "midcarpal_triquetrum_hamate_right": {
+      "frames": 74,
+      "axis_drift_deg": 2.3e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 8.9755
+     }
+    }
+   },
+   "wrist_adduction_right": {
+    "single_channel": "adduction",
+    "joints_moving": {
+     "midcarpal_scaphoid_trapezium_right": {
+      "frames": 72,
+      "axis_drift_deg": 1e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 1.214
+     },
+     "midcarpal_scaphoid_trapezoid_right": {
+      "frames": 72,
+      "axis_drift_deg": 2e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 1.214
+     },
+     "midcarpal_scaphoid_capitate_right": {
+      "frames": 72,
+      "axis_drift_deg": 2e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 1.214
+     },
+     "midcarpal_lunate_capitate_right": {
+      "frames": 72,
+      "axis_drift_deg": 1e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 1.214
+     },
+     "midcarpal_lunate_hamate_right": {
+      "frames": 72,
+      "axis_drift_deg": 1e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 1.214
+     },
+     "midcarpal_triquetrum_hamate_right": {
+      "frames": 72,
+      "axis_drift_deg": 1e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 1.214
+     }
+    }
+   },
+   "digit2_flexion_right": {
+    "single_channel": null,
+    "joints_moving": {}
+   },
+   "digit3_flexion_right": {
+    "single_channel": null,
+    "joints_moving": {}
+   },
+   "digit4_flexion_right": {
+    "single_channel": null,
+    "joints_moving": {}
+   },
+   "digit5_flexion_right": {
+    "single_channel": null,
+    "joints_moving": {}
+   },
+   "thumb_flexion_right": {
+    "single_channel": null,
+    "joints_moving": {}
+   },
+   "thumb_cmc_radial_abduction_right": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "cmc_1_right": {
+      "frames": 39,
+      "axis_drift_deg": 0.000105,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 21.2873
+     }
+    }
+   },
+   "thumb_cmc_anteposition_right": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "cmc_1_right": {
+      "frames": 37,
+      "axis_drift_deg": 3.7e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 15.1487
+     }
+    }
+   },
+   "digit2_mcp_abduction_right": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "digit2_mcp_right": {
+      "frames": 37,
+      "axis_drift_deg": 3e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 20.7296
+     }
+    }
+   },
+   "digit4_mcp_abduction_right": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "digit4_mcp_right": {
+      "frames": 37,
+      "axis_drift_deg": 4e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 19.602
+     }
+    }
+   },
+   "digit5_mcp_abduction_right": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "digit5_mcp_right": {
+      "frames": 37,
+      "axis_drift_deg": 3e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 19.0391
+     }
+    }
+   },
+   "thumb_opposition_right": {
+    "single_channel": null,
+    "joints_moving": {}
+   },
+   "rib_01_inspiration_right": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "costovertebral_01_right": {
+      "frames": 33,
+      "axis_drift_deg": 2.7e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 11.3069
+     },
+     "costotransverse_01_right": {
+      "frames": 33,
+      "axis_drift_deg": 2.7e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 11.3069
+     }
+    }
+   },
+   "rib_02_inspiration_right": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "costotransverse_02_right": {
+      "frames": 33,
+      "axis_drift_deg": 3.7e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 8.7877
+     }
+    }
+   },
+   "rib_03_inspiration_right": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "costotransverse_03_right": {
+      "frames": 33,
+      "axis_drift_deg": 4.1e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 10.9762
+     }
+    }
+   },
+   "rib_04_inspiration_right": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "costotransverse_04_right": {
+      "frames": 33,
+      "axis_drift_deg": 5.7e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 10.9033
+     }
+    }
+   },
+   "rib_05_inspiration_right": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "costotransverse_05_right": {
+      "frames": 33,
+      "axis_drift_deg": 3.6e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 10.23
+     }
+    }
+   },
+   "rib_06_inspiration_right": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "costotransverse_06_right": {
+      "frames": 33,
+      "axis_drift_deg": 2.9e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 10.0859
+     }
+    }
+   },
+   "rib_07_inspiration_right": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "costotransverse_07_right": {
+      "frames": 33,
+      "axis_drift_deg": 7.9e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 12.37
+     }
+    }
+   },
+   "talonavicular_dorsi_plantarflexion_right": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "intertarsal_lateral_cuneiform_cuboid_right": {
+      "frames": 66,
+      "axis_drift_deg": 4e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 30.6523
+     },
+     "cuboideonavicular_right": {
+      "frames": 66,
+      "axis_drift_deg": 4e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 8.4413
+     },
+     "intermetatarsal_3_4_right": {
+      "frames": 66,
+      "axis_drift_deg": 4e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 2.5892
+     }
+    }
+   },
+   "sacroiliac_rotation_right": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "pubic_symphysis": {
+      "frames": 30,
+      "axis_drift_deg": 9.8e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 18.8636
+     },
+     "sacroiliac_anterior_right": {
+      "frames": 30,
+      "axis_drift_deg": 9.8e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 0.0
+     },
+     "sacroiliac_posterior_right": {
+      "frames": 30,
+      "axis_drift_deg": 9.8e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 0.0
+     }
+    }
+   },
+   "hallux_mtp_dorsiflexion_right": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "mtp_1_right": {
+      "frames": 76,
+      "axis_drift_deg": 1e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z+",
+      "alignment_deg": 0.7036
+     }
+    }
+   },
+   "knee_flexion_with_screw_home_left": {
+    "single_channel": null,
+    "joints_moving": {}
+   },
+   "shoulder_complex_scapular_plane_left": {
+    "single_channel": null,
+    "joints_moving": {}
+   },
+   "knee_flexion_with_patellar_follower_left": {
+    "single_channel": "flexion",
+    "joints_moving": {
+     "tibiofemoral_left": {
+      "frames": 39,
+      "axis_drift_deg": 1e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "patellofemoral_left": {
+      "frames": 39,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.9874
+     }
+    }
+   },
+   "talocrural_with_fibular_follower_left": {
+    "single_channel": "angle",
+    "joints_moving": {}
+   },
+   "knee_flexion_with_screw_home_right": {
+    "single_channel": null,
+    "joints_moving": {}
+   },
+   "shoulder_complex_scapular_plane_right": {
+    "single_channel": null,
+    "joints_moving": {}
+   },
+   "knee_flexion_with_patellar_follower_right": {
+    "single_channel": "flexion",
+    "joints_moving": {
+     "tibiofemoral_right": {
+      "frames": 39,
+      "axis_drift_deg": 1e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "patellofemoral_right": {
+      "frames": 39,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.9874
+     }
+    }
+   },
+   "talocrural_with_fibular_follower_right": {
+    "single_channel": "angle",
+    "joints_moving": {}
+   },
+   "c1_c2_axial_rotation": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "atlantoaxial_lateral_left": {
+      "frames": 74,
+      "axis_drift_deg": 8e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 10.261
+     },
+     "atlantoaxial_lateral_right": {
+      "frames": 74,
+      "axis_drift_deg": 8e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 10.261
+     },
+     "atlantoaxial_median": {
+      "frames": 74,
+      "axis_drift_deg": 8e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 10.261
+     }
+    }
+   },
+   "c0_c1_flexion_extension": {
+    "single_channel": "angle",
+    "joints_moving": {
+     "atlantooccipital_left": {
+      "frames": 70,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "atlantooccipital_right": {
+      "frames": 70,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     }
+    }
+   },
+   "cervical_c3_c4_flexion": {
+    "single_channel": "flexion",
+    "joints_moving": {
+     "disc_c3_c4": {
+      "frames": 70,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_c3_c4_left": {
+      "frames": 70,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_c3_c4_right": {
+      "frames": 70,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "uncovertebral_c3_c4_left": {
+      "frames": 70,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "uncovertebral_c3_c4_right": {
+      "frames": 70,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     }
+    }
+   },
+   "cervical_c4_c5_flexion": {
+    "single_channel": "flexion",
+    "joints_moving": {
+     "disc_c4_c5": {
+      "frames": 70,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_c4_c5_left": {
+      "frames": 70,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_c4_c5_right": {
+      "frames": 70,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "uncovertebral_c4_c5_left": {
+      "frames": 70,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "uncovertebral_c4_c5_right": {
+      "frames": 70,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     }
+    }
+   },
+   "cervical_c5_c6_flexion": {
+    "single_channel": "flexion",
+    "joints_moving": {
+     "disc_c5_c6": {
+      "frames": 70,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_c5_c6_left": {
+      "frames": 70,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_c5_c6_right": {
+      "frames": 70,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "uncovertebral_c5_c6_left": {
+      "frames": 70,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "uncovertebral_c5_c6_right": {
+      "frames": 70,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     }
+    }
+   },
+   "cervical_c6_c7_flexion": {
+    "single_channel": "flexion",
+    "joints_moving": {
+     "disc_c6_c7": {
+      "frames": 70,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_c6_c7_left": {
+      "frames": 70,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_c6_c7_right": {
+      "frames": 70,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "uncovertebral_c6_c7_left": {
+      "frames": 70,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "uncovertebral_c6_c7_right": {
+      "frames": 70,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     }
+    }
+   },
+   "cervical_c4_c5_adduction": {
+    "single_channel": "adduction",
+    "joints_moving": {
+     "disc_c4_c5": {
+      "frames": 70,
+      "axis_drift_deg": 1.6e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 0.0
+     },
+     "facet_c4_c5_left": {
+      "frames": 70,
+      "axis_drift_deg": 1.6e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 0.0
+     },
+     "facet_c4_c5_right": {
+      "frames": 70,
+      "axis_drift_deg": 1.6e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 0.0
+     },
+     "uncovertebral_c4_c5_left": {
+      "frames": 70,
+      "axis_drift_deg": 1.6e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 0.0
+     },
+     "uncovertebral_c4_c5_right": {
+      "frames": 70,
+      "axis_drift_deg": 1.6e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 0.0
+     }
+    }
+   },
+   "cervical_c4_c5_internal": {
+    "single_channel": "internal",
+    "joints_moving": {
+     "disc_c4_c5": {
+      "frames": 70,
+      "axis_drift_deg": 1.2e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 0.0
+     },
+     "facet_c4_c5_left": {
+      "frames": 70,
+      "axis_drift_deg": 1.2e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 0.0
+     },
+     "facet_c4_c5_right": {
+      "frames": 70,
+      "axis_drift_deg": 1.2e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 0.0
+     },
+     "uncovertebral_c4_c5_left": {
+      "frames": 70,
+      "axis_drift_deg": 1.2e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 0.0
+     },
+     "uncovertebral_c4_c5_right": {
+      "frames": 70,
+      "axis_drift_deg": 1.2e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 0.0
+     }
+    }
+   },
+   "tmj_opening": {
+    "single_channel": null,
+    "joints_moving": {}
+   },
+   "lumbar_l2_l3_extension": {
+    "single_channel": "flexion",
+    "joints_moving": {
+     "disc_l2_l3": {
+      "frames": 35,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_l2_l3_left": {
+      "frames": 35,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_l2_l3_right": {
+      "frames": 35,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     }
+    }
+   },
+   "lumbar_l3_l4_extension": {
+    "single_channel": "flexion",
+    "joints_moving": {
+     "disc_l3_l4": {
+      "frames": 37,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_l3_l4_left": {
+      "frames": 37,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_l3_l4_right": {
+      "frames": 37,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     }
+    }
+   },
+   "lumbar_l4_l5_extension": {
+    "single_channel": "flexion",
+    "joints_moving": {
+     "disc_l4_l5": {
+      "frames": 37,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_l4_l5_left": {
+      "frames": 37,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_l4_l5_right": {
+      "frames": 37,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     }
+    }
+   },
+   "lumbar_l5_sacrum_extension": {
+    "single_channel": "flexion",
+    "joints_moving": {
+     "disc_l5_sacrum": {
+      "frames": 35,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_l5_sacrum_left": {
+      "frames": 35,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_l5_sacrum_right": {
+      "frames": 35,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     }
+    }
+   },
+   "thoracic_t1_t2_flexion": {
+    "single_channel": "flexion",
+    "joints_moving": {
+     "disc_t1_t2": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_t1_t2_left": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_t1_t2_right": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     }
+    }
+   },
+   "thoracic_t1_t2_adduction": {
+    "single_channel": "adduction",
+    "joints_moving": {
+     "disc_t1_t2": {
+      "frames": 46,
+      "axis_drift_deg": 4.7e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 7.6116
+     },
+     "facet_t1_t2_left": {
+      "frames": 46,
+      "axis_drift_deg": 4.7e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 7.6116
+     },
+     "facet_t1_t2_right": {
+      "frames": 46,
+      "axis_drift_deg": 4.7e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 7.6116
+     }
+    }
+   },
+   "thoracic_t1_t2_internal": {
+    "single_channel": "internal",
+    "joints_moving": {
+     "disc_t1_t2": {
+      "frames": 50,
+      "axis_drift_deg": 3.2e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 7.6116
+     },
+     "facet_t1_t2_left": {
+      "frames": 50,
+      "axis_drift_deg": 3.2e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 7.6116
+     },
+     "facet_t1_t2_right": {
+      "frames": 50,
+      "axis_drift_deg": 3.2e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 7.6116
+     }
+    }
+   },
+   "thoracic_t2_t3_flexion": {
+    "single_channel": "flexion",
+    "joints_moving": {
+     "disc_t2_t3": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_t2_t3_left": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_t2_t3_right": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     }
+    }
+   },
+   "thoracic_t2_t3_adduction": {
+    "single_channel": "adduction",
+    "joints_moving": {
+     "disc_t2_t3": {
+      "frames": 46,
+      "axis_drift_deg": 8.4e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 0.3766
+     },
+     "facet_t2_t3_left": {
+      "frames": 46,
+      "axis_drift_deg": 8.4e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 0.3766
+     },
+     "facet_t2_t3_right": {
+      "frames": 46,
+      "axis_drift_deg": 8.4e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 0.3766
+     }
+    }
+   },
+   "thoracic_t2_t3_internal": {
+    "single_channel": "internal",
+    "joints_moving": {
+     "disc_t2_t3": {
+      "frames": 50,
+      "axis_drift_deg": 4.6e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 0.3766
+     },
+     "facet_t2_t3_left": {
+      "frames": 50,
+      "axis_drift_deg": 4.6e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 0.3766
+     },
+     "facet_t2_t3_right": {
+      "frames": 50,
+      "axis_drift_deg": 4.6e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 0.3766
+     }
+    }
+   },
+   "thoracic_t3_t4_flexion": {
+    "single_channel": "flexion",
+    "joints_moving": {
+     "disc_t3_t4": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_t3_t4_left": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_t3_t4_right": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     }
+    }
+   },
+   "thoracic_t3_t4_adduction": {
+    "single_channel": "adduction",
+    "joints_moving": {
+     "disc_t3_t4": {
+      "frames": 46,
+      "axis_drift_deg": 7.7e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 1.9407
+     },
+     "facet_t3_t4_left": {
+      "frames": 46,
+      "axis_drift_deg": 7.7e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 1.9407
+     },
+     "facet_t3_t4_right": {
+      "frames": 46,
+      "axis_drift_deg": 7.7e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 1.9407
+     }
+    }
+   },
+   "thoracic_t3_t4_internal": {
+    "single_channel": "internal",
+    "joints_moving": {
+     "disc_t3_t4": {
+      "frames": 50,
+      "axis_drift_deg": 6.8e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 1.9407
+     },
+     "facet_t3_t4_left": {
+      "frames": 50,
+      "axis_drift_deg": 6.8e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 1.9407
+     },
+     "facet_t3_t4_right": {
+      "frames": 50,
+      "axis_drift_deg": 6.8e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 1.9407
+     }
+    }
+   },
+   "thoracic_t4_t5_flexion": {
+    "single_channel": "flexion",
+    "joints_moving": {
+     "disc_t4_t5": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_t4_t5_left": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_t4_t5_right": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     }
+    }
+   },
+   "thoracic_t4_t5_adduction": {
+    "single_channel": "adduction",
+    "joints_moving": {
+     "disc_t4_t5": {
+      "frames": 46,
+      "axis_drift_deg": 0.000112,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 6.0603
+     },
+     "facet_t4_t5_left": {
+      "frames": 46,
+      "axis_drift_deg": 0.000112,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 6.0603
+     },
+     "facet_t4_t5_right": {
+      "frames": 46,
+      "axis_drift_deg": 0.000112,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 6.0603
+     }
+    }
+   },
+   "thoracic_t4_t5_internal": {
+    "single_channel": "internal",
+    "joints_moving": {
+     "disc_t4_t5": {
+      "frames": 50,
+      "axis_drift_deg": 5.8e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 6.0603
+     },
+     "facet_t4_t5_left": {
+      "frames": 50,
+      "axis_drift_deg": 5.8e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 6.0603
+     },
+     "facet_t4_t5_right": {
+      "frames": 50,
+      "axis_drift_deg": 5.8e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 6.0603
+     }
+    }
+   },
+   "thoracic_t5_t6_flexion": {
+    "single_channel": "flexion",
+    "joints_moving": {
+     "disc_t5_t6": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_t5_t6_left": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_t5_t6_right": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     }
+    }
+   },
+   "thoracic_t5_t6_adduction": {
+    "single_channel": "adduction",
+    "joints_moving": {
+     "disc_t5_t6": {
+      "frames": 46,
+      "axis_drift_deg": 3.5e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 6.982
+     },
+     "facet_t5_t6_left": {
+      "frames": 46,
+      "axis_drift_deg": 3.5e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 6.982
+     },
+     "facet_t5_t6_right": {
+      "frames": 46,
+      "axis_drift_deg": 3.5e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 6.982
+     }
+    }
+   },
+   "thoracic_t5_t6_internal": {
+    "single_channel": "internal",
+    "joints_moving": {
+     "disc_t5_t6": {
+      "frames": 50,
+      "axis_drift_deg": 4.6e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 6.982
+     },
+     "facet_t5_t6_left": {
+      "frames": 50,
+      "axis_drift_deg": 4.6e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 6.982
+     },
+     "facet_t5_t6_right": {
+      "frames": 50,
+      "axis_drift_deg": 4.6e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 6.982
+     }
+    }
+   },
+   "thoracic_t7_t8_flexion": {
+    "single_channel": "flexion",
+    "joints_moving": {
+     "disc_t7_t8": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_t7_t8_left": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_t7_t8_right": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     }
+    }
+   },
+   "thoracic_t7_t8_adduction": {
+    "single_channel": "adduction",
+    "joints_moving": {
+     "disc_t7_t8": {
+      "frames": 46,
+      "axis_drift_deg": 6e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 3.1297
+     },
+     "facet_t7_t8_left": {
+      "frames": 46,
+      "axis_drift_deg": 6e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 3.1297
+     },
+     "facet_t7_t8_right": {
+      "frames": 46,
+      "axis_drift_deg": 6e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 3.1297
+     }
+    }
+   },
+   "thoracic_t7_t8_internal": {
+    "single_channel": "internal",
+    "joints_moving": {
+     "disc_t7_t8": {
+      "frames": 50,
+      "axis_drift_deg": 5e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 3.1297
+     },
+     "facet_t7_t8_left": {
+      "frames": 50,
+      "axis_drift_deg": 5e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 3.1297
+     },
+     "facet_t7_t8_right": {
+      "frames": 50,
+      "axis_drift_deg": 5e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 3.1297
+     }
+    }
+   },
+   "thoracic_t8_t9_flexion": {
+    "single_channel": "flexion",
+    "joints_moving": {
+     "disc_t8_t9": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_t8_t9_left": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_t8_t9_right": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     }
+    }
+   },
+   "thoracic_t8_t9_adduction": {
+    "single_channel": "adduction",
+    "joints_moving": {
+     "disc_t8_t9": {
+      "frames": 46,
+      "axis_drift_deg": 2.7e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 1.9325
+     },
+     "facet_t8_t9_left": {
+      "frames": 46,
+      "axis_drift_deg": 2.7e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 1.9325
+     },
+     "facet_t8_t9_right": {
+      "frames": 46,
+      "axis_drift_deg": 2.7e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 1.9325
+     }
+    }
+   },
+   "thoracic_t8_t9_internal": {
+    "single_channel": "internal",
+    "joints_moving": {
+     "disc_t8_t9": {
+      "frames": 50,
+      "axis_drift_deg": 9e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 1.9325
+     },
+     "facet_t8_t9_left": {
+      "frames": 50,
+      "axis_drift_deg": 9e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 1.9325
+     },
+     "facet_t8_t9_right": {
+      "frames": 50,
+      "axis_drift_deg": 9e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 1.9325
+     }
+    }
+   },
+   "thoracic_t9_t10_flexion": {
+    "single_channel": "flexion",
+    "joints_moving": {
+     "disc_t9_t10": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_t9_t10_left": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_t9_t10_right": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     }
+    }
+   },
+   "thoracic_t9_t10_adduction": {
+    "single_channel": "adduction",
+    "joints_moving": {
+     "disc_t9_t10": {
+      "frames": 46,
+      "axis_drift_deg": 9e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 3.6206
+     },
+     "facet_t9_t10_left": {
+      "frames": 46,
+      "axis_drift_deg": 9e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 3.6206
+     },
+     "facet_t9_t10_right": {
+      "frames": 46,
+      "axis_drift_deg": 9e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 3.6206
+     }
+    }
+   },
+   "thoracic_t9_t10_internal": {
+    "single_channel": "internal",
+    "joints_moving": {
+     "disc_t9_t10": {
+      "frames": 50,
+      "axis_drift_deg": 9e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 3.6206
+     },
+     "facet_t9_t10_left": {
+      "frames": 50,
+      "axis_drift_deg": 9e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 3.6206
+     },
+     "facet_t9_t10_right": {
+      "frames": 50,
+      "axis_drift_deg": 9e-06,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 3.6206
+     }
+    }
+   },
+   "thoracic_t10_t11_flexion": {
+    "single_channel": "flexion",
+    "joints_moving": {
+     "disc_t10_t11": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_t10_t11_left": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_t10_t11_right": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     }
+    }
+   },
+   "thoracic_t10_t11_adduction": {
+    "single_channel": "adduction",
+    "joints_moving": {
+     "disc_t10_t11": {
+      "frames": 46,
+      "axis_drift_deg": 3.3e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 7.835
+     },
+     "facet_t10_t11_left": {
+      "frames": 46,
+      "axis_drift_deg": 3.3e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 7.835
+     },
+     "facet_t10_t11_right": {
+      "frames": 46,
+      "axis_drift_deg": 3.3e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 7.835
+     }
+    }
+   },
+   "thoracic_t10_t11_internal": {
+    "single_channel": "internal",
+    "joints_moving": {
+     "disc_t10_t11": {
+      "frames": 50,
+      "axis_drift_deg": 1.3e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 7.835
+     },
+     "facet_t10_t11_left": {
+      "frames": 50,
+      "axis_drift_deg": 1.3e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 7.835
+     },
+     "facet_t10_t11_right": {
+      "frames": 50,
+      "axis_drift_deg": 1.3e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 7.835
+     }
+    }
+   },
+   "thoracic_t11_t12_flexion": {
+    "single_channel": "flexion",
+    "joints_moving": {
+     "disc_t11_t12": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_t11_t12_left": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_t11_t12_right": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     }
+    }
+   },
+   "thoracic_t11_t12_adduction": {
+    "single_channel": "adduction",
+    "joints_moving": {
+     "disc_t11_t12": {
+      "frames": 46,
+      "axis_drift_deg": 4.7e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 16.0507
+     },
+     "facet_t11_t12_left": {
+      "frames": 46,
+      "axis_drift_deg": 4.7e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 16.0507
+     },
+     "facet_t11_t12_right": {
+      "frames": 46,
+      "axis_drift_deg": 4.7e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 16.0507
+     }
+    }
+   },
+   "thoracic_t11_t12_internal": {
+    "single_channel": "internal",
+    "joints_moving": {
+     "disc_t11_t12": {
+      "frames": 50,
+      "axis_drift_deg": 4.2e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 16.0507
+     },
+     "facet_t11_t12_left": {
+      "frames": 50,
+      "axis_drift_deg": 4.2e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 16.0507
+     },
+     "facet_t11_t12_right": {
+      "frames": 50,
+      "axis_drift_deg": 4.2e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 16.0507
+     }
+    }
+   },
+   "thoracic_t12_l1_flexion": {
+    "single_channel": "flexion",
+    "joints_moving": {
+     "disc_t12_l1": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_t12_l1_left": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_t12_l1_right": {
+      "frames": 34,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     }
+    }
+   },
+   "thoracic_t12_l1_adduction": {
+    "single_channel": "adduction",
+    "joints_moving": {
+     "disc_t12_l1": {
+      "frames": 46,
+      "axis_drift_deg": 5.1e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 1.9777
+     },
+     "facet_t12_l1_left": {
+      "frames": 46,
+      "axis_drift_deg": 5.1e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 1.9777
+     },
+     "facet_t12_l1_right": {
+      "frames": 46,
+      "axis_drift_deg": 5.1e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 1.9777
+     }
+    }
+   },
+   "thoracic_t12_l1_internal": {
+    "single_channel": "internal",
+    "joints_moving": {
+     "disc_t12_l1": {
+      "frames": 50,
+      "axis_drift_deg": 6.6e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 1.9777
+     },
+     "facet_t12_l1_left": {
+      "frames": 50,
+      "axis_drift_deg": 6.6e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 1.9777
+     },
+     "facet_t12_l1_right": {
+      "frames": 50,
+      "axis_drift_deg": 6.6e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 1.9777
+     }
+    }
+   },
+   "thoracic_t6_t7_flexion": {
+    "single_channel": "flexion",
+    "joints_moving": {
+     "disc_t6_t7": {
+      "frames": 58,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_t6_t7_left": {
+      "frames": 58,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     },
+     "facet_t6_t7_right": {
+      "frames": 58,
+      "axis_drift_deg": 0.0,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Z-",
+      "alignment_deg": 0.0
+     }
+    }
+   },
+   "thoracic_t6_t7_adduction": {
+    "single_channel": "adduction",
+    "joints_moving": {
+     "disc_t6_t7": {
+      "frames": 62,
+      "axis_drift_deg": 2.7e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 8.5071
+     },
+     "facet_t6_t7_left": {
+      "frames": 62,
+      "axis_drift_deg": 2.7e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 8.5071
+     },
+     "facet_t6_t7_right": {
+      "frames": 62,
+      "axis_drift_deg": 2.7e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "X+",
+      "alignment_deg": 8.5071
+     }
+    }
+   },
+   "thoracic_t6_t7_internal": {
+    "single_channel": "internal",
+    "joints_moving": {
+     "disc_t6_t7": {
+      "frames": 62,
+      "axis_drift_deg": 3.1e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 8.5071
+     },
+     "facet_t6_t7_left": {
+      "frames": 62,
+      "axis_drift_deg": 3.1e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 8.5071
+     },
+     "facet_t6_t7_right": {
+      "frames": 62,
+      "axis_drift_deg": 3.1e-05,
+      "sign_flip_frames": 0,
+      "follows_joint_axis": "Y+",
+      "alignment_deg": 8.5071
+     }
+    }
+   }
+  }
+ }
+}

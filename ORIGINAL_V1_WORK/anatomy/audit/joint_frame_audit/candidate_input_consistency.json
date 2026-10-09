@@ -1,0 +1,200 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "status": "READ_ONLY_PROVENANCE_AUDIT",
+ "baseline": "character_fit_r95_a003.json",
+ "baseline_sha256": "11712ba3e105aa8844b07572315d58ccace1d23d2f0cdf101218a3a507a1a1e3",
+ "candidates": {
+  "c001": {
+   "record": "audit/candidates/shoulder_proposal_c001/candidate_record.json",
+   "record_sha256": "08e9f2e1187dbedad680ce88595c565f7449773789fd597d96df05c0612fc778",
+   "sides": {
+    "left": {
+     "gh_shift_mm": [
+      -25.71,
+      -38.93,
+      57.68
+     ],
+     "gh_shift_norm_mm": 74.19,
+     "stale_arm_inputs": [
+      "EJC",
+      "WJC",
+      "humeroulnar",
+      "humeroradial",
+      "ulnar_styloid_bone",
+      "radial_styloid_bone"
+     ],
+     "input_to_marker_gap": {
+      "EJC": {
+       "marker": "humeroulnar_left",
+       "a003_mm": 9.434,
+       "candidate_mm": 73.669
+      },
+      "WJC": {
+       "marker": "radiocarpal_left",
+       "a003_mm": 0.0,
+       "candidate_mm": 74.185
+      }
+     }
+    },
+    "right": {
+     "gh_shift_mm": [
+      25.71,
+      -38.93,
+      57.68
+     ],
+     "gh_shift_norm_mm": 74.19,
+     "stale_arm_inputs": [
+      "EJC",
+      "WJC",
+      "humeroulnar",
+      "humeroradial",
+      "ulnar_styloid_bone",
+      "radial_styloid_bone"
+     ],
+     "input_to_marker_gap": {
+      "EJC": {
+       "marker": "humeroulnar_right",
+       "a003_mm": 9.434,
+       "candidate_mm": 73.669
+      },
+      "WJC": {
+       "marker": "radiocarpal_right",
+       "a003_mm": 0.0,
+       "candidate_mm": 74.185
+      }
+     }
+    }
+   },
+   "classification": "CANDIDATE_PROVENANCE_DEFECT"
+  },
+  "c002": {
+   "record": "audit/candidates/shoulder_proposal_c002_ansur_height/candidate_record.json",
+   "record_sha256": "aa344a6819dde7631f85bd806f87fb876db0e2e4762bff28ea9c754d8c6e2978",
+   "sides": {
+    "left": {
+     "gh_shift_mm": [
+      -25.71,
+      -38.93,
+      -5.33
+     ],
+     "gh_shift_norm_mm": 46.96,
+     "stale_arm_inputs": [
+      "EJC",
+      "WJC",
+      "humeroulnar",
+      "humeroradial",
+      "ulnar_styloid_bone",
+      "radial_styloid_bone"
+     ],
+     "input_to_marker_gap": {
+      "EJC": {
+       "marker": "humeroulnar_left",
+       "a003_mm": 9.434,
+       "candidate_mm": 52.523
+      },
+      "WJC": {
+       "marker": "radiocarpal_left",
+       "a003_mm": 0.0,
+       "candidate_mm": 46.957
+      }
+     }
+    },
+    "right": {
+     "gh_shift_mm": [
+      25.71,
+      -38.93,
+      -5.33
+     ],
+     "gh_shift_norm_mm": 46.96,
+     "stale_arm_inputs": [
+      "EJC",
+      "WJC",
+      "humeroulnar",
+      "humeroradial",
+      "ulnar_styloid_bone",
+      "radial_styloid_bone"
+     ],
+     "input_to_marker_gap": {
+      "EJC": {
+       "marker": "humeroulnar_right",
+       "a003_mm": 9.434,
+       "candidate_mm": 52.523
+      },
+      "WJC": {
+       "marker": "radiocarpal_right",
+       "a003_mm": 0.0,
+       "candidate_mm": 46.957
+      }
+     }
+    }
+   },
+   "classification": "CANDIDATE_PROVENANCE_DEFECT"
+  },
+  "c003": {
+   "record": "audit/candidates/shoulder_thorax_c003_ansur_coupled/candidate_record.json",
+   "record_sha256": "3eb4fa1e2f7d815ec664af93fc4ece89db87a36a5201452447b161fbdcc46f3a",
+   "sides": {
+    "left": {
+     "gh_shift_mm": [
+      -25.47,
+      -27.4,
+      8.8
+     ],
+     "gh_shift_norm_mm": 38.43,
+     "stale_arm_inputs": [
+      "EJC",
+      "WJC",
+      "humeroulnar",
+      "humeroradial",
+      "ulnar_styloid_bone",
+      "radial_styloid_bone"
+     ],
+     "input_to_marker_gap": {
+      "EJC": {
+       "marker": "humeroulnar_left",
+       "a003_mm": 9.434,
+       "candidate_mm": 43.424
+      },
+      "WJC": {
+       "marker": "radiocarpal_left",
+       "a003_mm": 0.0,
+       "candidate_mm": 38.432
+      }
+     }
+    },
+    "right": {
+     "gh_shift_mm": [
+      25.47,
+      -27.4,
+      8.8
+     ],
+     "gh_shift_norm_mm": 38.43,
+     "stale_arm_inputs": [
+      "EJC",
+      "WJC",
+      "humeroulnar",
+      "humeroradial",
+      "ulnar_styloid_bone",
+      "radial_styloid_bone"
+     ],
+     "input_to_marker_gap": {
+      "EJC": {
+       "marker": "humeroulnar_right",
+       "a003_mm": 9.434,
+       "candidate_mm": 43.424
+      },
+      "WJC": {
+       "marker": "radiocarpal_right",
+       "a003_mm": 0.0,
+       "candidate_mm": 38.432
+      }
+     }
+    }
+   },
+   "classification": "CANDIDATE_PROVENANCE_DEFECT"
+  }
+ },
+ "effect": "isolated_tests.frames() hand frame uses WJC and forearm frame uses EJC/styloids from skeleton_input.sides; bones and joint markers are moved correctly, so geometry is unaffected but derived hand/thumb test axes are tilted (joint_frame_audit candidate differences up to ~19 deg)",
+ "disposition": "UNRESOLVED; committed c001/c002/c003 preserved unchanged; a fix requires a new named candidate revision that translates the arm skeleton_input points with GH and re-runs Phase 9"
+}

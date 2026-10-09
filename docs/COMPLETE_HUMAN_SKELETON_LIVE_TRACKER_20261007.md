@@ -716,3 +716,23 @@ Full proximal curves remain BLOCKED pending verified intended conventions or an 
   - No other unconnected pair touches at rest.
 - **Evidence:** `audit/all_pairs_crossing_scan/{a003_isolated_014,c003_isolated_001}.json`.
 - **Tests:** `scripts/test_all_pairs_crossing_scan.py` (3), including mutations: an injected static contact (phalanx tail on the femur) and an injected dynamic crossing (tibia shifted onto the opposite tibia) must both be detected.
+
+### Joint reference-frame audit at rest and through all 135 sweeps (9 October, Claude): frames CLEAN; one candidate-specific provenance defect found
+
+- **What:** `scripts/anatomy_fit/joint_frame_audit.py`, read-only, on a003 (run 014) and c003 (run `isolated_bone_only_c003_shoulder_thorax_001`).
+  - **Rest:** every joint marker's `frame_axes_columns_XYZ` is checked for finiteness, orthonormality (≤ 1e-9) and right-handedness (det +1). For each bilateral pair, the left frame is reflected and one axis sign flipped; the best flip is the pair's mirror convention, and the residual angle is the **inherited rest asymmetry**. Conventions are grouped per joint family.
+  - **Motion:** every 2-participant articulation, at every saved frame, is carried by its frame bone and checked for orthonormality and det (float32 bound 1e-5). For the 106 single-channel tests, the child-relative-to-parent rotation axis, expressed in the parent-carried joint frame, is tracked: **axis drift** (max angle from its mean), **sign flips** (frames rotating against the command), and the followed joint axis with its alignment angle (reported, not graded, because oblique axes exist by design).
+- **Rest (a003 = c003):** 427 markers, 0 improper; 180 bilateral pairs; every family uses the Z-flip convention, **no mixed conventions**. Max rest asymmetry is **0.399°**, confined to toes (mtp_5, toe5_pip/dip; mtp_1 and hallux_ip 0.29°). This is the same toe-fit inheritance seen in the mirror-parity scan, kept separate from motion.
+- **Motion:** 0 frame issues (worst orthonormality/det 1.5e-6 on a003, 2.0e-6 on c003); max axis drift 0.0002° (a003) and 0.00012° (c003); **0 sign flips**.
+- **Candidate-specific difference, a new defect:** on c003, 10 hand/thumb entries (both sides) align differently with their joint axes than on a003. Examples: thumb CMC radial abduction 40.7° → 21.3°; digit 2/4/5 MCP abduction ≈ 2.6° → ≈ 20°. Legs and spine are identical.
+  - **Root cause:** `isolated_tests.frames()` builds the hand test frame from `skeleton_input.sides[*]['WJC']`, and the forearm frame from EJC and the styloids. The c001, c002 and c003 builders moved the arm bones and joint markers with GH but **left EJC, WJC, humeroulnar, humeroradial and both styloid inputs at a003 values**.
+  - WJC to radiocarpal marker: a003 0.0 mm; c001 74.2 mm; c002 47.0 mm; c003 38.4 mm. Each equals that candidate's GH shift.
+  - Bones and markers are correct; only the derived hand/thumb test axes (and the forearm frame inputs) are stale.
+  - **Disposition:** UNRESOLVED. Classified as a CANDIDATE_PROVENANCE_DEFECT. The committed c001, c002 and c003 are preserved unchanged. A fix requires a new named candidate revision that translates those inputs with GH and re-runs Phase 9. c003 remains an audit candidate.
+- **Evidence:** `audit/joint_frame_audit/{a003_isolated_014,c003_isolated_001,candidate_input_consistency}.json` (produced by `scripts/anatomy_fit/candidate_input_consistency.py`).
+- **Tests:** `scripts/test_joint_frame_audit.py` (9). Pins cover the results, the hand difference and the stale inputs. The mutation tests each inject one error, and each must be detected:
+  - a reflected (det −1) rest frame;
+  - a different but proper mirror convention within a family (mixed flip);
+  - an unmirrorable pair (residual > 90°);
+  - a 3° per-frame axis drift in knee flexion;
+  - knee rotation reversed against the command (sign flip).

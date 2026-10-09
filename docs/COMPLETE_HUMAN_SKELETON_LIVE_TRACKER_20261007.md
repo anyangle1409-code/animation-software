@@ -908,3 +908,28 @@ Full post-review discovery: 1,021 tests, 1,012 pass, same named five failures/fo
 ### Work primary fingertip recheck — 2026-10-09
 
 Read-only distal-span context checks now trace runtime surface stations rather than assuming raw tips are validated skeleton endpoints. The official Aydinlioglu1998 Table5 and endpoint methods were independently rechecked; its legacy DOGAN source ID remains one publication. Raw distal spans differ from AP male means by4–11 source SD units, but projection/frame/population differences prevent diagnostic tolerances or replacement coordinates. Ten regression tests pass, including metadata-origin, stale-frame and nonfinite-derived-value rejection. All five a003/c001–c004 constructor replays preserve206bones/427markers exactly and retain CP2FAIL/no promotion. Full suite1031:1022pass,5fail,4error; same nine inherited names, trace retained. No accepted assets, limits or source values changed. See HAND_TIP_PRIMARY_RECHECK_20261009.md and audit/work_hand_tip_context_20261009. Ten distal endpoints and carpal contact geometry remain unresolved; no programme stage promoted.
+
+### Claude independent anatomical investigation (9 October, branch `claude/skeleton-independent-verification-20261009`)
+
+- Work's 9 commits were reproduced independently: the 1,031-test suite, the fresh skeleton-only Blender rehearsal (135 sample sets byte-identical to Claude's c004 run), hand 108/98/10 and 78 test amplitudes.
+- **All 206 bones audited** on a003 and c004. **30 suspected problems classified** in `audit/claude_independent_review_20261009/skeleton_defect_register_v1.json`:
+
+  | Class | Count |
+  |---|---|
+  | Genuine geometry defects | 4 |
+  | Joint/coordinate defects | 3 |
+  | Structural invariant failures | 1 |
+  | Movement-test design defects | 4 |
+  | Movement-model gaps | 3 |
+  | Representation limits | 5 |
+  | Evidence gaps | 5 |
+  | Not defects | 5 |
+
+  Highlights:
+  - **Genuine:** M2–M4 short (two sources); zero disc spaces (CP2); thumb CMC 10.6 mm gap; calcaneocuboid/talonavicular centres 33–38 mm off their bones; radius short; a003 clavicle/scapula/shoulder breadth (corrected in c003/c004).
+  - **Visualisation only:** straight ribs, floating femoral heads (hip centre exact; os coxae drawn as a chord), skull sticks, carpal stubs.
+  - **New whole-body finding:** with c004's realistic shoulder width, isolated hand, forearm and GH-rotation sweeps from the hanging posture drive the hand into the thigh (a003's over-wide shoulders hid this).
+- **Diagnostic proposal P001** (`audit/proposals/p001_metacarpal_m2_m4`): M2–M4 at the male radiographic means with fixed CMC ends. All 135 sweeps run, every check clean, before/after renders made. **Not a candidate**; carpal/CMC geometry still blocks a freeze.
+- **Spine:** the sourced body+disc stack is 89.6 mm shorter than the C3–L5 sticks. The current thoracic span agrees with the CT source within 3.4%. The full sagittal stack rebuild remains sequence item 2; no local patch applied.
+- Real Blender renders: a first pass (28 views, including 8 movement extremes) and an annotated pass with axes, scale bar, labels and an automatic camera check.
+- **Readiness unchanged: 0 READY / 9 PARTIAL / 3 BLOCKED** (`readiness_review_addendum_20261009.json`). No c005; nothing promoted.

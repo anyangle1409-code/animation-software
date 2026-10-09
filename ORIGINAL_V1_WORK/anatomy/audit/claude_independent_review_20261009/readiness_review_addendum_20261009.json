@@ -1,0 +1,246 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "kind": "READINESS_REVIEW_ADDENDUM_NO_STATUS_CHANGE",
+ "reviewer": "Claude (independent)",
+ "source_readiness_file": "ORIGINAL_V1_WORK/anatomy/canonical_freeze_readiness_v1.json",
+ "region_counts_unchanged": {
+  "READY": 0,
+  "PARTIAL": 9,
+  "BLOCKED": 3
+ },
+ "statement": "No region meets READY: every region still has at least one blocker that needs evidence unavailable in this session (literature hosts unreachable) or a full rebuild (spine stack, carpus, tarsus, ribs). The new findings below sharpen blockers; none weakens a gate.",
+ "regions": {
+  "shoulder_girdle": {
+   "readiness": "PARTIAL",
+   "new_findings": [
+    {
+     "id": "U1",
+     "class": "GEOMETRY_DEFECT",
+     "status": "CORRECTED_IN_CANDIDATE",
+     "title": "Clavicle far too long and shoulders far too broad (a003)"
+    },
+    {
+     "id": "U2",
+     "class": "GEOMETRY_DEFECT",
+     "status": "CORRECTED_IN_CANDIDATE",
+     "title": "Scapula transverse geometry too large (a003)"
+    },
+    {
+     "id": "U3",
+     "class": "MOVEMENT_MODEL_GAP",
+     "status": "OPEN",
+     "title": "Clavicle stays level while the arm elevates"
+    },
+    {
+     "id": "U9",
+     "class": "EVIDENCE_GAP",
+     "status": "OPEN",
+     "title": "Medial clavicle close to rib 1 at rest in c003/c004"
+    }
+   ]
+  },
+  "spine": {
+   "readiness": "PARTIAL",
+   "new_findings": [
+    {
+     "id": "U5",
+     "class": "STRUCTURAL_INVARIANT_FAIL",
+     "status": "BLOCKED",
+     "title": "Zero disc space at every disc-bearing level"
+    }
+   ]
+  },
+  "ribs": {
+   "readiness": "BLOCKED",
+   "new_findings": [
+    {
+     "id": "U4",
+     "class": "REPRESENTATION_LIMIT",
+     "status": "BLOCKED",
+     "title": "Ribs drawn as straight sticks"
+    },
+    {
+     "id": "U6",
+     "class": "EVIDENCE_GAP",
+     "status": "BLOCKED",
+     "title": "Sternum length"
+    }
+   ]
+  },
+  "forearm": {
+   "readiness": "PARTIAL",
+   "new_findings": [
+    {
+     "id": "U7",
+     "class": "GEOMETRY_DEFECT",
+     "status": "BLOCKED",
+     "title": "Radius short for stature"
+    },
+    {
+     "id": "H7",
+     "class": "JOINT_COORDINATE_DEFECT",
+     "status": "CORRECTED_IN_CANDIDATE",
+     "title": "c001-c003 wrist sweeps pivoted 38.4 mm off the radiocarpal joint (stale WJC)"
+    }
+   ]
+  },
+  "carpus": {
+   "readiness": "BLOCKED",
+   "new_findings": [
+    {
+     "id": "H4",
+     "class": "NOT_A_DEFECT",
+     "status": "NONE",
+     "title": "Carpal arrangement"
+    },
+    {
+     "id": "H5",
+     "class": "REPRESENTATION_LIMIT",
+     "status": "NONE",
+     "title": "Carpal bones drawn as short control sticks / clump"
+    },
+    {
+     "id": "H8",
+     "class": "MOVEMENT_MODEL_GAP",
+     "status": "OPEN",
+     "title": "Midcarpal follower joints separate during wrist sweeps"
+    }
+   ]
+  },
+  "hand": {
+   "readiness": "PARTIAL",
+   "new_findings": [
+    {
+     "id": "H1",
+     "class": "GEOMETRY_DEFECT",
+     "status": "DIAGNOSTIC_PROPOSAL",
+     "title": "Metacarpals 2-4 too short"
+    },
+    {
+     "id": "H2",
+     "class": "EVIDENCE_GAP",
+     "status": "BLOCKED",
+     "title": "Ten fingertip (distal phalanx tail) endpoints"
+    },
+    {
+     "id": "H3",
+     "class": "JOINT_COORDINATE_DEFECT",
+     "status": "BLOCKED",
+     "title": "Thumb CMC: trapezium stick ends short of the first metacarpal base"
+    },
+    {
+     "id": "H6",
+     "class": "MOVEMENT_TEST_DESIGN",
+     "status": "OPEN",
+     "title": "Isolated forearm/wrist/GH-rotation sweeps from the hanging posture drive the hand into the thigh"
+    },
+    {
+     "id": "H9",
+     "class": "MOVEMENT_MODEL_GAP",
+     "status": "OPEN",
+     "title": "Thumb opposition shows only palmar abduction + pronation components"
+    }
+   ]
+  },
+  "pelvis": {
+   "readiness": "PARTIAL",
+   "new_findings": [
+    {
+     "id": "L1",
+     "class": "REPRESENTATION_LIMIT",
+     "status": "NONE",
+     "title": "Femoral heads appear detached from the pelvis"
+    }
+   ]
+  },
+  "lower_limb_long_bones": {
+   "readiness": "PARTIAL",
+   "new_findings": [
+    {
+     "id": "L2",
+     "class": "NOT_A_DEFECT",
+     "status": "NONE",
+     "title": "Knee and ankle centres"
+    },
+    {
+     "id": "L3",
+     "class": "MOVEMENT_TEST_DESIGN",
+     "status": "OPEN",
+     "title": "Patella stays put during plain knee flexion"
+    },
+    {
+     "id": "L4",
+     "class": "MOVEMENT_TEST_DESIGN",
+     "status": "OPEN",
+     "title": "Hip adduction 20 deg makes the tibiae cross"
+    }
+   ]
+  },
+  "tarsus": {
+   "readiness": "BLOCKED",
+   "new_findings": [
+    {
+     "id": "L5",
+     "class": "JOINT_COORDINATE_DEFECT",
+     "status": "BLOCKED",
+     "title": "Calcaneocuboid and talonavicular joint centres float off the bones"
+    }
+   ]
+  },
+  "forefoot_toes": {
+   "readiness": "PARTIAL",
+   "new_findings": [
+    {
+     "id": "L6",
+     "class": "NOT_A_DEFECT",
+     "status": "NONE",
+     "title": "Foot too long"
+    },
+    {
+     "id": "L7",
+     "class": "MOVEMENT_TEST_DESIGN",
+     "status": "OPEN",
+     "title": "Hip internal rotation brings the hallux onto the opposite first metatarsal"
+    }
+   ]
+  },
+  "head_neck_fixed": {
+   "readiness": "PARTIAL",
+   "new_findings": [
+    {
+     "id": "S1",
+     "class": "REPRESENTATION_LIMIT",
+     "status": "BLOCKED",
+     "title": "Skull and face look like scattered sticks"
+    },
+    {
+     "id": "S2",
+     "class": "REPRESENTATION_LIMIT",
+     "status": "NONE",
+     "title": "Mandible drawn through the oral cavity"
+    }
+   ]
+  },
+  "humerus": {
+   "readiness": "PARTIAL",
+   "new_findings": [
+    {
+     "id": "U8",
+     "class": "EVIDENCE_GAP",
+     "status": "BLOCKED",
+     "title": "Humerus length"
+    }
+   ]
+  }
+ },
+ "diagnostic_proposals": [
+  {
+   "id": "P001",
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/proposals/p001_metacarpal_m2_m4",
+   "status": "DIAGNOSTIC_PROPOSAL_NOT_A_CANDIDATE",
+   "region": "hand"
+  }
+ ],
+ "canonical_candidates_created": 0
+}

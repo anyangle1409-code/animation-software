@@ -167,6 +167,28 @@ class TrueOsseousCoverageTests(unittest.TestCase):
         self.assertFalse(r['skeleton_or_mesh_modified'])
         self.assertFalse(r['bony_source_meshes_independently_verified'])
 
+    def test_pinned_real_GitHub_source_coverage_matches_original_review(self):
+        record=(SOURCES/'nlm_ct_true_osseous_landmark_coverage_verified_20261009.json')
+        d=json.loads(record.read_text())
+        current=out()
+        self.assertEqual(d['source_rows_verified'],72)
+        self.assertEqual(d['original_candidate_review_count'],10)
+        self.assertEqual(d['candidate_observations'],current['candidate_observations'])
+        self.assertEqual(d['required_osseous_landmark_coverage'],
+                         current['required_osseous_landmark_coverage'])
+        self.assertEqual(d['source_scan_groups'],current['source_scan_groups'])
+        self.assertEqual(d['number_of_true_bony_landmarks_independently_verified'],0)
+        self.assertFalse(d['canonical_promotion_allowed'])
+
+    def test_pinned_GitHub_report_does_not_claim_actual_patient_geometry(self):
+        record=(SOURCES/'nlm_ct_true_osseous_landmark_coverage_verified_20261009.json')
+        d=json.loads(record.read_text())
+        self.assertFalse(d['original_source_png_pixels_or_patient_identifiers_included'])
+        self.assertTrue(d['physical_scanner_sample_centre_origin_convention_still_unverified'])
+        self.assertFalse(d['patient_scanner_to_HGPT_world_transform_verified'])
+        self.assertFalse(d['CT_PNG_to_HU_conversion_verified'])
+        self.assertEqual(d['independent_anatomical_reviewers_count'],0)
+
     def test_input_data_unchanged_and_audit_repeatable(self):
         b,r=read()
         before=json.dumps([b,r],sort_keys=True)

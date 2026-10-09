@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "kind": "EXTERNAL_ANATOMICAL_LANDMARK_CONTEXT",
+  "status": "CONTEXT_ONLY_NOT_A_COORDINATE_TARGET",
+  "character_stature_m": 1.82,
+  "source_landmarks": [
+    {
+      "id": "TID_BAKER_2021",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10240579/",
+      "doi": "10.1177/21925682211005730",
+      "title": "Analysis of Sagittal Thoracic Inlet Measures in Relation to Anterior Access to the Cervicothoracic Junction",
+      "cohort": {
+        "total_n": 65,
+        "male_n": 33,
+        "pose": "supine",
+        "modality": "midsagittal CT",
+        "stature_m": null
+      },
+      "measurement": {
+        "quantity": "3D length in sagittal CT plane, not AP depth",
+        "from": "T1 superior endplate midpoint",
+        "to": "manubrium apex",
+        "table1_mean_mm": 65.9,
+        "abstract_mean_mm": 66.1,
+        "sd_mm": 6.6,
+        "range_mm": [
+          52,
+          83
+        ],
+        "mean_inconsistency_mm": 0.2
+      },
+      "model_proxy": {
+        "from": "bones.t1.tail_m",
+        "to": "bones.sternum.head_m",
+        "equivalence_verified": false,
+        "explanation": "T1.tail is an interpolated superior endplate control; sternum.head is a schematic jugular notch, not a verified manubrium apex"
+      },
+      "decision": "CONTEXT_ONLY_NOT_A_COORDINATE_TARGET"
+    },
+    {
+      "id": "S1_HIP_IMAI_2019",
+      "url": "https://d-nb.info/1193894271/34",
+      "doi": "10.1186/s13018-019-1165-2",
+      "title": "Evaluation of anatomical pelvic parameters between normal, healthy men and women using three-dimensional computed tomography",
+      "cohort": {
+        "total_n": 108,
+        "male_n": 55,
+        "male_mean_stature_m": 1.66,
+        "pose": "APP-normalized anatomy (CT, not standing)",
+        "modality": "3D pelvic CT reconstruction"
+      },
+      "measurement": {
+        "quantity": "S1 superior endplate centre relative to hip-axis centre, projected sagittal plane",
+        "from": "midpoint of bilateral femoral head centres",
+        "to": "S1 endplate anatomical centre",
+        "male_total_mean_mm": 107,
+        "male_total_pm_2sd_mm": 19.9,
+        "male_dyp_mean_mm": 18.8,
+        "male_dyp_pm_2sd_mm": 21.2,
+        "male_dzp_mean_mm": 104.7,
+        "male_dzp_pm_2sd_mm": 20.5,
+        "study_frame": "anterior pelvic plane corrected to 0 degrees",
+        "source_table": "Table 1, page 4 of 7; reported +/- spreads are TWO standard deviations, not one"
+      },
+      "model_proxy": {
+        "from": "midpoint bones.femur_left.head_m and bones.femur_right.head_m",
+        "to": "bones.sacrum.tail_m",
+        "equivalence_verified": false,
+        "explanation": "Model femur heads and sacrum-tail positions are skeletal control points, and APP anatomical-frame registration has not been demonstrated"
+      },
+      "decision": "CONTEXT_ONLY_NOT_A_COORDINATE_TARGET"
+    }
+  ],
+  "acceptance_requirements": [
+    "Independently verify model endplate-centre and manubrium-apex points, not schematic stick endpoints",
+    "Register pelvic APP frame (axis sign, anatomical tilt, both ASIS and pubic symphysis) separately from standing-pose coordinates",
+    "Resolve stature and cohort transfer to 1.82 m male, do not scale unvalidated mean positions",
+    "Cross-check independent second source and per-region thoracic wedging, costal cartilage and S1 sagittal geometry",
+    "Never treat two study means, cohort range or proxy numerical pass as anatomical acceptance"
+  ],
+  "canonical_promotion_allowed": false
+}

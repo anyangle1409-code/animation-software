@@ -50,11 +50,17 @@ def _source_rows(bundle):
 def _side(obs):
     label=obs["candidate_label"]
     key=obs["observation_id"].lower()
-    if label.endswith("_left") or "-left-" in key:
-        return "left"
-    if label.endswith("_right") or "-right-" in key:
-        return "right"
-    return "midline" if label in ("sacrum","pubic_region") else "unlabelled"
+    label_side=("left" if label.endswith("_left") else
+                "right" if label.endswith("_right") else None)
+    id_left="-left-" in key
+    id_right="-right-" in key
+    if id_left and id_right:
+        raise ValueError("candidate laterality conflicts within source observation identifier")
+    id_side="left" if id_left else "right" if id_right else None
+    if label_side and id_side and label_side!=id_side:
+        raise ValueError("candidate label laterality conflicts with original source observation identifier")
+    return label_side or id_side or (
+        "midline" if label in ("sacrum","pubic_region") else "unlabelled")
 
 def _candidate_ras(obs,source):
     """Diagnostic physical coordinate, conditional on OUTER FOV corners."""

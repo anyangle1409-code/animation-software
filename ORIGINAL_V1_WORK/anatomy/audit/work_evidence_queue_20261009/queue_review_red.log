@@ -1,0 +1,23 @@
+.....FF
+======================================================================
+FAIL: test_unreviewed_digit_motion_is_not_extension (test_movement_evidence_queue.MovementEvidenceQueueTests.test_unreviewed_digit_motion_is_not_extension)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/555b6458c54f/animation-software/scripts/test_movement_evidence_queue.py", line 48, in test_unreviewed_digit_motion_is_not_extension
+    with self.assertRaisesRegex(ValueError, 'unmapped'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_untraced_peak_fails_instead_of_disappearing (test_movement_evidence_queue.MovementEvidenceQueueTests.test_untraced_peak_fails_instead_of_disappearing)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/555b6458c54f/animation-software/scripts/test_movement_evidence_queue.py", line 41, in test_untraced_peak_fails_instead_of_disappearing
+    with self.assertRaisesRegex(ValueError, 'untraced'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.090s
+
+FAILED (failures=2)

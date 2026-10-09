@@ -74,3 +74,49 @@ Diagram (coordinates, not a render): `ORIGINAL_V1_WORK/anatomy/audit/claude_anat
 - S1 endplate AP depth (for SVA).
 
 **Tests:** `scripts/test_spine_trunk_audits.py`, 9 tests, all pass.
+
+## Stage 2 — hands and wrists
+
+**P001 stays experimental.**
+- **Why it's kept:** its metacarpal evidence (Aydinlioglu 1998 plus the 2025 CT series, agreeing within 2.1 mm) is unchanged.
+- **Why it isn't promoted:** the carpal centroid layout is still BLOCKED. That blocker needs the eight carpal centroids in one wrist frame, and no committed or reachable source supplies them. Only the grade-D BodyParts3D specimen does, and it may not set a target.
+- **Fingertip endpoints (H2):** the ten fingertip endpoints remain an evidence gap. Work's tip-context replay (`audit/work_hand_tip_context_20261009/`) was reviewed and not repeated.
+
+**Grip mechanics (`grip_capacity_c004_v1.json`, `grip_capacity_p001_v1.json`).** For digits 2–5, I computed the smallest cylinder around which the bony phalanx chain can close without any joint exceeding its committed active-flexion mean (FINGER_ACTIVE, 390 hands).
+
+| Digit (left) | P1 / P2 / P3 mm (P3 tip unsourced, H2) | Minimum axis radius mm | Binding joint | Wrap ° | Handle Ø at t = 10 mm | Tip to metacarpal axis at full flexion mm |
+|---|---|---|---|---|---|---|
+| D2 | 45.0 / 27.0 / 18.9 | 24.94 | PIP | 238.9 | 29.9 | 24.56 |
+| D3 | 49.0 / 30.0 / 21.0 | 27.47 | PIP | 237.3 | 34.9 | 26.47 |
+| D4 | 46.0 / 28.0 / 20.16 | 25.79 | PIP | 238.0 | 31.6 | 25.69 |
+| D5 | 36.0 / 22.0 / 16.72 | 20.81 | PIP | 231.0 | 21.6 | 20.56 |
+
+**Reading:** the fingers can close around handles of roughly 30–35 mm (barbell and dumbbell grips) within active-mean ranges, with the PIP joint the binding constraint. No defect was found.
+- **Soft-tissue offset:** t is not sourced, so the table shows it as a parameter.
+- **Effect of P001:** none on finger wrap, since its phalanges are unchanged.
+- **Thumb:** opposition and cupping are not modelled, so grip *closure* with the thumb remains the open item H9.
+
+## Stage 4 — knee, hip and foot
+
+**Patellar tracking (L3, `patellar_tracking_c004_v1.json`).** The follower template is the published Rajagopal 2016 patellofemoral path (opensim-models `d9b05d47`), scaled by femur length (×1.012).
+
+| | Patellar-ligament length change, 0–120° |
+|---|---|
+| c004 now (patella static on the femur) | **+62.15 mm (113.7 %)** |
+| c004 with the Rajagopal follower | 5.11 mm (9.4 %) |
+| Rajagopal model itself | 8.2 % |
+
+**Reading:** a static patella more than doubles the length of a nearly inextensible ligament, so L3 is a real movement-model defect. The sourced follower brings the error down to the model's own level.
+- **Not installed:** that would change the shared movement machinery owned by GPT/Work. It is recorded as the recommended next movement change.
+- **Rest position:** Rajagopal's patella point sits 58 mm anterior and 8 mm inferior of its knee origin. c004's inferior pole sits 42 mm anterior and 16 mm inferior. The knee-origin definitions differ, so this is context only.
+
+**Hip adduction test design (L4, `hip_adduction_start_posture_c004_v1.json`).**
+- **The problem:** at 20° adduction from neutral standing, the two tibial axes come within 0.85 mm; they effectively cross.
+- **The fix:** with the contralateral hip abducted, the closest axis distance becomes 23.15 mm at 10°, 68.05 mm at 15° and 135.95 mm at 20°.
+- **Recommendation:** start the adduction sweep with the opposite hip abducted by at least 10–14°, plus an envelope margin. Amplitudes are unchanged. This is a test-design fix, not a bone defect.
+
+**Tarsals (L5)** remain BLOCKED: there is no committed or reachable tarsal contact geometry.
+
+**Register update:** `defect_register_update_v1.json` adds three entries, U10, U11 and H10, and updates U5, L3 and L4. U10 is new and the most important: the lumbar spine is too long and the trunk sits too high.
+
+**Tests:** `scripts/test_spine_trunk_audits.py` now has 13 tests, all passing.

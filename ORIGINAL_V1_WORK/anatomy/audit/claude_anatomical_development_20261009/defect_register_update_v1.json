@@ -1,0 +1,149 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "kind": "DEFECT_REGISTER_UPDATE",
+ "base_register": "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_defect_register_v1.json",
+ "updates": [
+  {
+   "id": "U5",
+   "cls": "STRUCTURAL_INVARIANT_FAIL",
+   "status": "BLOCKED_COUPLED",
+   "change": "zero disc gaps cannot be fixed locally: curve-preserving re-partition P003 breaks rib levels (ribs 10-12 30-40 mm off)",
+   "evidence": [
+    "ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/trunk_vertical_closure_c004_v1.json",
+    "ORIGINAL_V1_WORK/anatomy/audit/proposals/p003_spine_disc_repartition_rejected/README.md"
+   ]
+  },
+  {
+   "id": "U10",
+   "new": true,
+   "region": "spine",
+   "cls": "GEOMETRY_DEFECT",
+   "status": "BLOCKED_COUPLED",
+   "title": "Lumbar spine too long; lower/middle trunk too high",
+   "measured": {
+    "lumbar_length": 43.2,
+    "T12_L1_height": 38.5,
+    "IJ_height": 24.7,
+    "rib10_height": 28.0,
+    "thoracic_length": -5.6,
+    "cervical_length": -15.5,
+    "C7_height": -17.8
+   },
+   "evidence": [
+    "ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/trunk_vertical_closure_c004_v1.json"
+   ],
+   "action": "coupled trunk candidate (spine + ribs + sternum, with shoulder-height consequences) after owner go-ahead; not applied"
+  },
+  {
+   "id": "U11",
+   "new": true,
+   "region": "spine",
+   "cls": "NOT_A_DEFECT",
+   "status": "EVIDENCE",
+   "title": "Thoracic body-height source A incompatible with 1.82 m stature",
+   "measured": {
+    "CT_middle_body_avg_disc|A_anatomical_2011|C7T1_anatomical_4.5": {
+     "implied_cohort_m": 1.43,
+     "C7_tip_minus_ANSUR_mm": -115.7
+    },
+    "CT_middle_body_avg_disc|B_CT_2016|C7T1_anatomical_4.5": {
+     "implied_cohort_m": 1.674,
+     "C7_tip_minus_ANSUR_mm": -43.5
+    },
+    "MRI_edge_mean|A_anatomical_2011|C7T1_anatomical_4.5": {
+     "implied_cohort_m": 1.493,
+     "C7_tip_minus_ANSUR_mm": -96.9
+    },
+    "MRI_edge_mean|B_CT_2016|C7T1_anatomical_4.5": {
+     "implied_cohort_m": 1.737,
+     "C7_tip_minus_ANSUR_mm": -24.7
+    }
+   },
+   "evidence": [
+    "ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/spine_column_length_discriminator_v1.json"
+   ],
+   "action": "use source-B scale for thoracic body heights; per-level wedging still needs the literature tables"
+  },
+  {
+   "id": "L3",
+   "cls": "MOVEMENT_MODEL_GAP",
+   "status": "QUANTIFIED_FOLLOWER_TEMPLATE_AVAILABLE",
+   "measured": {
+    "static_patella_ligament_change_max_mm": 62.15,
+    "static_patella_ligament_change_max_percent": 113.7,
+    "follower_ligament_change_max_mm": 5.11,
+    "follower_ligament_change_max_percent": 9.4,
+    "rajagopal_own_ligament_change_percent": 8.2
+   },
+   "evidence": [
+    "ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/patellar_tracking_c004_v1.json"
+   ],
+   "action": "install a patellofemoral follower from the Rajagopal 2016 path (scaled) in the movement machinery after review; static patella stretches the ligament by >100 %"
+  },
+  {
+   "id": "L4",
+   "cls": "MOVEMENT_TEST_DESIGN",
+   "status": "QUANTIFIED",
+   "measured": {
+    "tibia_axis_distance_at_20deg_add_mm": 0.85,
+    "contralateral_abduction_deg_for_axis_distance": {
+     "add0_ge10mm": 0,
+     "add0_ge25mm": 0,
+     "add0_ge50mm": 0,
+     "add5_ge10mm": 0,
+     "add5_ge25mm": 0,
+     "add5_ge50mm": 0,
+     "add10_ge10mm": 0,
+     "add10_ge25mm": 3,
+     "add10_ge50mm": 5,
+     "add15_ge10mm": 4,
+     "add15_ge25mm": 6,
+     "add15_ge50mm": 10,
+     "add20_ge10mm": 10,
+     "add20_ge25mm": 11,
+     "add20_ge50mm": 14
+    }
+   },
+   "evidence": [
+    "ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/hip_adduction_start_posture_c004_v1.json"
+   ],
+   "action": "redesign the adduction sweep with the contralateral hip abducted (>=10-14 deg for 10-50 mm axis distance) plus an envelope margin; amplitudes unchanged"
+  },
+  {
+   "id": "H10",
+   "new": true,
+   "region": "hand",
+   "cls": "NOT_A_DEFECT",
+   "status": "NONE",
+   "title": "Finger grip closure within active ROM",
+   "measured": {
+    "digit2_left": {
+     "min_axis_wrap_radius_mm": 24.94,
+     "binding": "PIP",
+     "wrap_deg": 238.9
+    },
+    "digit3_left": {
+     "min_axis_wrap_radius_mm": 27.47,
+     "binding": "PIP",
+     "wrap_deg": 237.3
+    },
+    "digit4_left": {
+     "min_axis_wrap_radius_mm": 25.79,
+     "binding": "PIP",
+     "wrap_deg": 238.0
+    },
+    "digit5_left": {
+     "min_axis_wrap_radius_mm": 20.81,
+     "binding": "PIP",
+     "wrap_deg": 231.0
+    }
+   },
+   "evidence": [
+    "ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/grip_capacity_c004_v1.json",
+    "ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/grip_capacity_p001_v1.json"
+   ],
+   "action": "none; P001 does not change finger wrap; soft-tissue offset unsourced (tabulated)"
+  }
+ ]
+}

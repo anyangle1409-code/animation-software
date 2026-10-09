@@ -93,5 +93,34 @@ class Closure(unittest.TestCase):
         self.assertLess(abs(d['thoracic_length']), 15)
 
 
+class KneeHipGrip(unittest.TestCase):
+    def test_patella_static_vs_follower(self):
+        d = json.loads((OUT / 'patellar_tracking_c004_v1.json').read_text())['summary']
+        self.assertGreater(d['static_patella_ligament_change_max_percent'], 50)
+        self.assertLess(d['follower_ligament_change_max_percent'], 15)
+        self.assertLess(d['rajagopal_own_ligament_change_percent'], 15)
+
+    def test_hip_adduction_needs_contralateral_abduction(self):
+        d = json.loads((OUT / 'hip_adduction_start_posture_c004_v1.json').read_text())
+        self.assertLess(d['grid']['add20_contra_abd0']['min_axis_distance_mm'], 5)
+        self.assertGreater(d['grid']['add20_contra_abd15']['min_axis_distance_mm'], 25)
+
+    def test_segment_distance_function(self):
+        import numpy as np
+        import hip_adduction_start_posture as hp
+        a, b = np.array([0., 0, 0]), np.array([1., 0, 0])
+        self.assertAlmostEqual(hp.seg_dist(a, b, np.array([0.5, 0, 1.]), np.array([0.5, 0, 2.])), 1.0)
+        self.assertAlmostEqual(hp.seg_dist(a, b, np.array([0.5, -1., 0]), np.array([0.5, 1., 0])), 0.0)
+
+    def test_grip_chord_geometry(self):
+        import grip_wrap_capacity as g
+        L = [0.045, 0.027, 0.019]
+        ang, wrap = g.needed(10.0, L)                    # huge radius -> nearly straight
+        self.assertTrue(all(a < 0.3 for a in ang))
+        R = g.min_radius(L, [86, 97.2, 81.6])
+        ang, _ = g.needed(R, L)
+        self.assertAlmostEqual(max(a / b for a, b in zip(ang, [86, 97.2, 81.6])), 1.0, places=6)
+
+
 if __name__ == '__main__':
     unittest.main()

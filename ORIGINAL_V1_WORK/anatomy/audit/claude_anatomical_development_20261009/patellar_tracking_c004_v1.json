@@ -1,0 +1,227 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "kind": "READ_ONLY_PATELLAR_TRACKING_ANALYSIS",
+ "source": {
+  "model": "https://github.com/opensim-org/opensim-models/blob/d9b05d470b1a481c222372c85b75772faf8f7792/Models/Rajagopal/Rajagopal2016.osim",
+  "reference": "Rajagopal A, Dembia CL, DeMers MS, et al. Full-body musculoskeletal model for muscle-driven simulation of human gait. IEEE Trans Biomed Eng 2016;63:2068-79 (patellofemoral kinematics inherited from earlier OpenSim lower-limb models)",
+  "grade": "published generic model; kinematic template, not a population statistic",
+  "spline_evaluation": "piecewise linear between 10-deg knots (opensim_model_geometry.evaluate)"
+ },
+ "inputs_sha256": {
+  "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json": "99500d94e06c66ca489bdaccc0345446f98794946254c5e592d9449696f396c1"
+ },
+ "rajagopal_femur_length_m": 0.408,
+ "rajagopal_ligament_mm": {
+  "min": 49.73,
+  "max": 54.17,
+  "range": 4.44,
+  "per_angle": [
+   54.0,
+   54.14,
+   54.17,
+   54.07,
+   53.85,
+   53.63,
+   53.26,
+   52.97,
+   52.53,
+   52.29,
+   51.87,
+   51.7,
+   51.36,
+   51.24,
+   50.95,
+   50.83,
+   50.52,
+   50.45,
+   50.17,
+   50.12,
+   49.85,
+   49.9,
+   49.73,
+   50.15,
+   50.37
+  ]
+ },
+ "c004": {
+  "rest_position_comparison": {
+   "rajagopal_patella_point_minus_knee_scaled_mm": {
+    "anterior": 58.1,
+    "superior": -8.4
+   },
+   "c004_inferior_pole_minus_KJC_mm": {
+    "anterior": 41.8,
+    "superior": -16.2
+   },
+   "note": "knee origin of the Rajagopal walker knee vs the c004 ISB epicondylar KJC: definitions differ by a few mm"
+  },
+  "femur_scale_c004_over_rajagopal": 1.0118,
+  "flexion_sign_about_marker_Z": -1.0,
+  "rest_ligament_mm": 54.64,
+  "rows": [
+   {
+    "knee_deg": 0,
+    "static_patella_ligament_mm": 54.64,
+    "follower_ligament_mm": 54.64,
+    "follower_pole_shift_mm": 0.0
+   },
+   {
+    "knee_deg": 5,
+    "static_patella_ligament_mm": 58.55,
+    "follower_ligament_mm": 54.01,
+    "follower_pole_shift_mm": 4.54
+   },
+   {
+    "knee_deg": 10,
+    "static_patella_ligament_mm": 62.45,
+    "follower_ligament_mm": 53.39,
+    "follower_pole_shift_mm": 9.09
+   },
+   {
+    "knee_deg": 15,
+    "static_patella_ligament_mm": 66.31,
+    "follower_ligament_mm": 52.69,
+    "follower_pole_shift_mm": 13.71
+   },
+   {
+    "knee_deg": 20,
+    "static_patella_ligament_mm": 70.12,
+    "follower_ligament_mm": 52.05,
+    "follower_pole_shift_mm": 18.36
+   },
+   {
+    "knee_deg": 25,
+    "static_patella_ligament_mm": 73.85,
+    "follower_ligament_mm": 51.43,
+    "follower_pole_shift_mm": 22.88
+   },
+   {
+    "knee_deg": 30,
+    "static_patella_ligament_mm": 77.49,
+    "follower_ligament_mm": 50.84,
+    "follower_pole_shift_mm": 27.47
+   },
+   {
+    "knee_deg": 35,
+    "static_patella_ligament_mm": 81.02,
+    "follower_ligament_mm": 50.37,
+    "follower_pole_shift_mm": 31.83
+   },
+   {
+    "knee_deg": 40,
+    "static_patella_ligament_mm": 84.44,
+    "follower_ligament_mm": 49.94,
+    "follower_pole_shift_mm": 36.27
+   },
+   {
+    "knee_deg": 45,
+    "static_patella_ligament_mm": 87.73,
+    "follower_ligament_mm": 49.72,
+    "follower_pole_shift_mm": 40.31
+   },
+   {
+    "knee_deg": 50,
+    "static_patella_ligament_mm": 90.89,
+    "follower_ligament_mm": 49.53,
+    "follower_pole_shift_mm": 44.45
+   },
+   {
+    "knee_deg": 55,
+    "static_patella_ligament_mm": 93.9,
+    "follower_ligament_mm": 49.59,
+    "follower_pole_shift_mm": 48.16
+   },
+   {
+    "knee_deg": 60,
+    "static_patella_ligament_mm": 96.75,
+    "follower_ligament_mm": 49.69,
+    "follower_pole_shift_mm": 51.98
+   },
+   {
+    "knee_deg": 65,
+    "static_patella_ligament_mm": 99.44,
+    "follower_ligament_mm": 49.96,
+    "follower_pole_shift_mm": 55.31
+   },
+   {
+    "knee_deg": 70,
+    "static_patella_ligament_mm": 101.97,
+    "follower_ligament_mm": 50.24,
+    "follower_pole_shift_mm": 58.78
+   },
+   {
+    "knee_deg": 75,
+    "static_patella_ligament_mm": 104.32,
+    "follower_ligament_mm": 50.61,
+    "follower_pole_shift_mm": 61.78
+   },
+   {
+    "knee_deg": 80,
+    "static_patella_ligament_mm": 106.48,
+    "follower_ligament_mm": 50.96,
+    "follower_pole_shift_mm": 64.92
+   },
+   {
+    "knee_deg": 85,
+    "static_patella_ligament_mm": 108.46,
+    "follower_ligament_mm": 51.43,
+    "follower_pole_shift_mm": 67.51
+   },
+   {
+    "knee_deg": 90,
+    "static_patella_ligament_mm": 110.25,
+    "follower_ligament_mm": 51.86,
+    "follower_pole_shift_mm": 70.26
+   },
+   {
+    "knee_deg": 95,
+    "static_patella_ligament_mm": 111.85,
+    "follower_ligament_mm": 52.36,
+    "follower_pole_shift_mm": 72.47
+   },
+   {
+    "knee_deg": 100,
+    "static_patella_ligament_mm": 113.25,
+    "follower_ligament_mm": 52.79,
+    "follower_pole_shift_mm": 74.83
+   },
+   {
+    "knee_deg": 105,
+    "static_patella_ligament_mm": 114.44,
+    "follower_ligament_mm": 53.41,
+    "follower_pole_shift_mm": 76.65
+   },
+   {
+    "knee_deg": 110,
+    "static_patella_ligament_mm": 115.43,
+    "follower_ligament_mm": 53.96,
+    "follower_pole_shift_mm": 78.62
+   },
+   {
+    "knee_deg": 115,
+    "static_patella_ligament_mm": 116.22,
+    "follower_ligament_mm": 54.95,
+    "follower_pole_shift_mm": 79.88
+   },
+   {
+    "knee_deg": 120,
+    "static_patella_ligament_mm": 116.79,
+    "follower_ligament_mm": 55.84,
+    "follower_pole_shift_mm": 81.27
+   }
+  ]
+ },
+ "summary": {
+  "static_patella_ligament_change_max_mm": 62.15,
+  "static_patella_ligament_change_max_percent": 113.7,
+  "follower_ligament_change_max_mm": 5.11,
+  "follower_ligament_change_max_percent": 9.4,
+  "rajagopal_own_ligament_change_percent": 8.2
+ },
+ "reading": [
+  "A rigid (static) patella stretches the ligament by the summary amount at 120 deg: this is a movement-model defect (L3), not a geometry defect of the patella bone.",
+  "The follower is the model path transferred by femur-length scaling; the c004 knee is a pure rotation about the fitted KJC while the Rajagopal knee translates, so the residual is the mismatch of the two knee models.",
+  "No follower is installed here; installing one changes the movement machinery and needs its own review."
+ ]
+}

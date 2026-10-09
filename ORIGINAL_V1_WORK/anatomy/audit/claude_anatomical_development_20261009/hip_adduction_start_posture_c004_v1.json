@@ -1,0 +1,916 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "kind": "READ_ONLY_TEST_DESIGN_ANALYSIS",
+ "finding": "L4",
+ "inputs_sha256": {
+  "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json": "99500d94e06c66ca489bdaccc0345446f98794946254c5e592d9449696f396c1"
+ },
+ "method": "rigid whole-limb rotation about each HJC around the global AP axis; segment-segment distance between all leg bone sticks of the two sides; axis distance only (no bone radius, no soft tissue)",
+ "neutral_min_axis_distance_mm": 133.65,
+ "smallest_contralateral_abduction_deg_for_axis_distance": {
+  "add0_ge10mm": 0,
+  "add0_ge25mm": 0,
+  "add0_ge50mm": 0,
+  "add5_ge10mm": 0,
+  "add5_ge25mm": 0,
+  "add5_ge50mm": 0,
+  "add10_ge10mm": 0,
+  "add10_ge25mm": 3,
+  "add10_ge50mm": 5,
+  "add15_ge10mm": 4,
+  "add15_ge25mm": 6,
+  "add15_ge50mm": 10,
+  "add20_ge10mm": 10,
+  "add20_ge25mm": 11,
+  "add20_ge50mm": 14
+ },
+ "threshold_note": "10/25/50 mm are reporting thresholds on axis distance, not anatomical clearances",
+ "at_20_deg_adduction": {
+  "add20_contra_abd0": {
+   "min_axis_distance_mm": 0.85,
+   "closest_pair": [
+    "tibia_left",
+    "tibia_right"
+   ]
+  },
+  "add20_contra_abd1": {
+   "min_axis_distance_mm": 0.89,
+   "closest_pair": [
+    "tibia_left",
+    "tibia_right"
+   ]
+  },
+  "add20_contra_abd2": {
+   "min_axis_distance_mm": 0.93,
+   "closest_pair": [
+    "tibia_left",
+    "tibia_right"
+   ]
+  },
+  "add20_contra_abd3": {
+   "min_axis_distance_mm": 0.97,
+   "closest_pair": [
+    "tibia_left",
+    "tibia_right"
+   ]
+  },
+  "add20_contra_abd4": {
+   "min_axis_distance_mm": 1.01,
+   "closest_pair": [
+    "tibia_left",
+    "tibia_right"
+   ]
+  },
+  "add20_contra_abd5": {
+   "min_axis_distance_mm": 1.05,
+   "closest_pair": [
+    "tibia_left",
+    "tibia_right"
+   ]
+  },
+  "add20_contra_abd6": {
+   "min_axis_distance_mm": 1.09,
+   "closest_pair": [
+    "tibia_left",
+    "tibia_right"
+   ]
+  },
+  "add20_contra_abd7": {
+   "min_axis_distance_mm": 1.13,
+   "closest_pair": [
+    "tibia_left",
+    "tibia_right"
+   ]
+  },
+  "add20_contra_abd8": {
+   "min_axis_distance_mm": 5.66,
+   "closest_pair": [
+    "talus_left",
+    "tibia_right"
+   ]
+  },
+  "add20_contra_abd9": {
+   "min_axis_distance_mm": 8.09,
+   "closest_pair": [
+    "cuboid_left",
+    "navicular_right"
+   ]
+  },
+  "add20_contra_abd10": {
+   "min_axis_distance_mm": 23.15,
+   "closest_pair": [
+    "cuboid_left",
+    "navicular_right"
+   ]
+  },
+  "add20_contra_abd11": {
+   "min_axis_distance_mm": 38.22,
+   "closest_pair": [
+    "cuboid_left",
+    "navicular_right"
+   ]
+  },
+  "add20_contra_abd12": {
+   "min_axis_distance_mm": 45.5,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add20_contra_abd13": {
+   "min_axis_distance_mm": 49.44,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add20_contra_abd14": {
+   "min_axis_distance_mm": 57.42,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add20_contra_abd15": {
+   "min_axis_distance_mm": 68.05,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add20_contra_abd16": {
+   "min_axis_distance_mm": 80.28,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add20_contra_abd17": {
+   "min_axis_distance_mm": 93.47,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add20_contra_abd18": {
+   "min_axis_distance_mm": 107.28,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add20_contra_abd19": {
+   "min_axis_distance_mm": 121.48,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add20_contra_abd20": {
+   "min_axis_distance_mm": 135.95,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  }
+ },
+ "grid": {
+  "add0_contra_abd0": {
+   "min_axis_distance_mm": 133.65,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add0_contra_abd1": {
+   "min_axis_distance_mm": 149.55,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add0_contra_abd2": {
+   "min_axis_distance_mm": 165.46,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add0_contra_abd3": {
+   "min_axis_distance_mm": 166.61,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add0_contra_abd4": {
+   "min_axis_distance_mm": 166.61,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add0_contra_abd5": {
+   "min_axis_distance_mm": 166.61,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add0_contra_abd6": {
+   "min_axis_distance_mm": 166.61,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add0_contra_abd7": {
+   "min_axis_distance_mm": 166.61,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add0_contra_abd8": {
+   "min_axis_distance_mm": 166.61,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add0_contra_abd9": {
+   "min_axis_distance_mm": 166.61,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add0_contra_abd10": {
+   "min_axis_distance_mm": 166.61,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add0_contra_abd11": {
+   "min_axis_distance_mm": 166.61,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add0_contra_abd12": {
+   "min_axis_distance_mm": 166.61,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add0_contra_abd13": {
+   "min_axis_distance_mm": 166.61,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add0_contra_abd14": {
+   "min_axis_distance_mm": 166.61,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add0_contra_abd15": {
+   "min_axis_distance_mm": 166.61,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add0_contra_abd16": {
+   "min_axis_distance_mm": 166.61,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add0_contra_abd17": {
+   "min_axis_distance_mm": 166.61,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add0_contra_abd18": {
+   "min_axis_distance_mm": 166.61,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add0_contra_abd19": {
+   "min_axis_distance_mm": 166.61,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add0_contra_abd20": {
+   "min_axis_distance_mm": 166.61,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add5_contra_abd0": {
+   "min_axis_distance_mm": 54.48,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add5_contra_abd1": {
+   "min_axis_distance_mm": 70.35,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add5_contra_abd2": {
+   "min_axis_distance_mm": 86.21,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add5_contra_abd3": {
+   "min_axis_distance_mm": 102.07,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add5_contra_abd4": {
+   "min_axis_distance_mm": 117.92,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add5_contra_abd5": {
+   "min_axis_distance_mm": 133.77,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add5_contra_abd6": {
+   "min_axis_distance_mm": 149.6,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add5_contra_abd7": {
+   "min_axis_distance_mm": 165.43,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add5_contra_abd8": {
+   "min_axis_distance_mm": 166.2,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add5_contra_abd9": {
+   "min_axis_distance_mm": 166.2,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add5_contra_abd10": {
+   "min_axis_distance_mm": 166.2,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add5_contra_abd11": {
+   "min_axis_distance_mm": 166.2,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add5_contra_abd12": {
+   "min_axis_distance_mm": 166.2,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add5_contra_abd13": {
+   "min_axis_distance_mm": 166.2,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add5_contra_abd14": {
+   "min_axis_distance_mm": 166.2,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add5_contra_abd15": {
+   "min_axis_distance_mm": 166.2,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add5_contra_abd16": {
+   "min_axis_distance_mm": 166.2,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add5_contra_abd17": {
+   "min_axis_distance_mm": 166.2,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add5_contra_abd18": {
+   "min_axis_distance_mm": 166.2,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add5_contra_abd19": {
+   "min_axis_distance_mm": 166.2,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add5_contra_abd20": {
+   "min_axis_distance_mm": 166.2,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add10_contra_abd0": {
+   "min_axis_distance_mm": 10.14,
+   "closest_pair": [
+    "toe2_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add10_contra_abd1": {
+   "min_axis_distance_mm": 15.97,
+   "closest_pair": [
+    "metatarsal_1_left",
+    "metatarsal_1_right"
+   ]
+  },
+  "add10_contra_abd2": {
+   "min_axis_distance_mm": 17.95,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add10_contra_abd3": {
+   "min_axis_distance_mm": 28.27,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add10_contra_abd4": {
+   "min_axis_distance_mm": 42.1,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add10_contra_abd5": {
+   "min_axis_distance_mm": 56.94,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add10_contra_abd6": {
+   "min_axis_distance_mm": 72.16,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add10_contra_abd7": {
+   "min_axis_distance_mm": 87.56,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add10_contra_abd8": {
+   "min_axis_distance_mm": 103.06,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add10_contra_abd9": {
+   "min_axis_distance_mm": 118.61,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add10_contra_abd10": {
+   "min_axis_distance_mm": 134.2,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add10_contra_abd11": {
+   "min_axis_distance_mm": 149.8,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add10_contra_abd12": {
+   "min_axis_distance_mm": 164.56,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add10_contra_abd13": {
+   "min_axis_distance_mm": 164.56,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add10_contra_abd14": {
+   "min_axis_distance_mm": 164.56,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add10_contra_abd15": {
+   "min_axis_distance_mm": 164.56,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add10_contra_abd16": {
+   "min_axis_distance_mm": 164.56,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add10_contra_abd17": {
+   "min_axis_distance_mm": 164.56,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add10_contra_abd18": {
+   "min_axis_distance_mm": 164.56,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add10_contra_abd19": {
+   "min_axis_distance_mm": 164.56,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add10_contra_abd20": {
+   "min_axis_distance_mm": 164.56,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add15_contra_abd0": {
+   "min_axis_distance_mm": 0.63,
+   "closest_pair": [
+    "tibia_left",
+    "tibia_right"
+   ]
+  },
+  "add15_contra_abd1": {
+   "min_axis_distance_mm": 0.68,
+   "closest_pair": [
+    "tibia_left",
+    "tibia_right"
+   ]
+  },
+  "add15_contra_abd2": {
+   "min_axis_distance_mm": 0.72,
+   "closest_pair": [
+    "tibia_left",
+    "tibia_right"
+   ]
+  },
+  "add15_contra_abd3": {
+   "min_axis_distance_mm": 7.18,
+   "closest_pair": [
+    "talus_left",
+    "tibia_right"
+   ]
+  },
+  "add15_contra_abd4": {
+   "min_axis_distance_mm": 17.91,
+   "closest_pair": [
+    "cuboid_left",
+    "navicular_right"
+   ]
+  },
+  "add15_contra_abd5": {
+   "min_axis_distance_mm": 24.03,
+   "closest_pair": [
+    "toe3_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add15_contra_abd6": {
+   "min_axis_distance_mm": 27.25,
+   "closest_pair": [
+    "toe2_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add15_contra_abd7": {
+   "min_axis_distance_mm": 31.59,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add15_contra_abd8": {
+   "min_axis_distance_mm": 37.98,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add15_contra_abd9": {
+   "min_axis_distance_mm": 48.75,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add15_contra_abd10": {
+   "min_axis_distance_mm": 61.62,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add15_contra_abd11": {
+   "min_axis_distance_mm": 75.54,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add15_contra_abd12": {
+   "min_axis_distance_mm": 90.01,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add15_contra_abd13": {
+   "min_axis_distance_mm": 104.81,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add15_contra_abd14": {
+   "min_axis_distance_mm": 119.8,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add15_contra_abd15": {
+   "min_axis_distance_mm": 134.93,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add15_contra_abd16": {
+   "min_axis_distance_mm": 150.13,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add15_contra_abd17": {
+   "min_axis_distance_mm": 161.66,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add15_contra_abd18": {
+   "min_axis_distance_mm": 161.66,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add15_contra_abd19": {
+   "min_axis_distance_mm": 161.66,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add15_contra_abd20": {
+   "min_axis_distance_mm": 161.66,
+   "closest_pair": [
+    "femur_left",
+    "femur_right"
+   ]
+  },
+  "add20_contra_abd0": {
+   "min_axis_distance_mm": 0.85,
+   "closest_pair": [
+    "tibia_left",
+    "tibia_right"
+   ]
+  },
+  "add20_contra_abd1": {
+   "min_axis_distance_mm": 0.89,
+   "closest_pair": [
+    "tibia_left",
+    "tibia_right"
+   ]
+  },
+  "add20_contra_abd2": {
+   "min_axis_distance_mm": 0.93,
+   "closest_pair": [
+    "tibia_left",
+    "tibia_right"
+   ]
+  },
+  "add20_contra_abd3": {
+   "min_axis_distance_mm": 0.97,
+   "closest_pair": [
+    "tibia_left",
+    "tibia_right"
+   ]
+  },
+  "add20_contra_abd4": {
+   "min_axis_distance_mm": 1.01,
+   "closest_pair": [
+    "tibia_left",
+    "tibia_right"
+   ]
+  },
+  "add20_contra_abd5": {
+   "min_axis_distance_mm": 1.05,
+   "closest_pair": [
+    "tibia_left",
+    "tibia_right"
+   ]
+  },
+  "add20_contra_abd6": {
+   "min_axis_distance_mm": 1.09,
+   "closest_pair": [
+    "tibia_left",
+    "tibia_right"
+   ]
+  },
+  "add20_contra_abd7": {
+   "min_axis_distance_mm": 1.13,
+   "closest_pair": [
+    "tibia_left",
+    "tibia_right"
+   ]
+  },
+  "add20_contra_abd8": {
+   "min_axis_distance_mm": 5.66,
+   "closest_pair": [
+    "talus_left",
+    "tibia_right"
+   ]
+  },
+  "add20_contra_abd9": {
+   "min_axis_distance_mm": 8.09,
+   "closest_pair": [
+    "cuboid_left",
+    "navicular_right"
+   ]
+  },
+  "add20_contra_abd10": {
+   "min_axis_distance_mm": 23.15,
+   "closest_pair": [
+    "cuboid_left",
+    "navicular_right"
+   ]
+  },
+  "add20_contra_abd11": {
+   "min_axis_distance_mm": 38.22,
+   "closest_pair": [
+    "cuboid_left",
+    "navicular_right"
+   ]
+  },
+  "add20_contra_abd12": {
+   "min_axis_distance_mm": 45.5,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add20_contra_abd13": {
+   "min_axis_distance_mm": 49.44,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add20_contra_abd14": {
+   "min_axis_distance_mm": 57.42,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add20_contra_abd15": {
+   "min_axis_distance_mm": 68.05,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add20_contra_abd16": {
+   "min_axis_distance_mm": 80.28,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add20_contra_abd17": {
+   "min_axis_distance_mm": 93.47,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add20_contra_abd18": {
+   "min_axis_distance_mm": 107.28,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add20_contra_abd19": {
+   "min_axis_distance_mm": 121.48,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  },
+  "add20_contra_abd20": {
+   "min_axis_distance_mm": 135.95,
+   "closest_pair": [
+    "hallux_distal_phalanx_left",
+    "hallux_distal_phalanx_right"
+   ]
+  }
+ },
+ "reading": "Axis separation is necessary but not sufficient. The redesigned test should abduct (or flex) the contralateral hip by at least the reported angle plus a bone/soft-tissue margin chosen from envelope geometry once the lower-limb envelopes exist; no amplitude change is proposed."
+}

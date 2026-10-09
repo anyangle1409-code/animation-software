@@ -110,6 +110,35 @@ class SourceScoutTests(unittest.TestCase):
         self.assertFalse(r["anatomical_bone_segmentation_performed"])
         self.assertEqual(r["stored_png_scalar_range"][0],1000)
 
+    def test_low_res_raw_signal_is_not_approved_bone_or_HU(self):
+        vals=[0]*(512*512)
+        for row in range(16):
+            for col in range(16):
+                vals[row*512+col]=2000
+        r=scout.pixel_tile_signal(vals,1200)
+        self.assertEqual(r["grid_size"],[32,32])
+        self.assertEqual(r["tiles"][0][0],"@")
+        self.assertEqual(r["tiles"][0][1]," ")
+        self.assertTrue(r["unverified_HU_and_bone_identity"])
+        self.assertFalse(r["canonical_promotion_allowed"])
+
+    def test_threshold_above_source_raw_scalar_is_blank(self):
+        r=scout.pixel_tile_signal([0]*(512*512),1600)
+        self.assertEqual(r["tiles"],[" "*32]*32)
+
+    def test_tile_threshold_invalid_or_incorrect_matrix_rejected(self):
+        with self.assertRaisesRegex(ValueError,"invalid integer"):
+            scout.pixel_tile_signal([0]*(512*512),-1)
+        with self.assertRaisesRegex(ValueError,"512x512"):
+            scout.pixel_tile_signal([0]*512,1200)
+
+    def test_non_scout_default_does_not_log_any_raw_grid(self):
+        rec=scout.record("cvm1300f.png",self.clear_png,valid_header())
+        self.assertIsNone(rec["raw_pixel_signal_tiles"])
+        vis=scout.record("cvm1300f.png",self.clear_png,valid_header(),include_signal=True)
+        self.assertEqual(len(vis["raw_pixel_signal_tiles"]),2)
+        self.assertTrue(vis["raw_pixel_signal_tiles"][0]["unverified_HU_and_bone_identity"])
+
     def test_out_of_range_pixel_rejected(self):
         with self.assertRaisesRegex(ValueError,"out of 16-bit"):
             scout.raw_statistics([65536,4])

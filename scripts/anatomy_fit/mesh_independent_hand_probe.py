@@ -40,6 +40,8 @@ def analyse(records=None):
         raise ValueError('Expected 108 baseline carpal and hand input points')
     if not all(r['c004_bone_moved_by_gh_shift'] for r in rows):
         raise ValueError('c004 hand endpoints are not all a rigid GH translation')
+    if not all('c004' in r['stale_in'] for r in rows):
+        raise ValueError('c004 hand inputs are not all stale; reassess this probe')
 
     # Starting from c004's skeleton inputs preserves its already-corrected
     # shoulder, arm, WJC and EJC inputs. Translate only the 108 hand/carpal

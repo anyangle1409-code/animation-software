@@ -134,6 +134,46 @@ def raw_statistics(values):
     }
 
 
+
+def pixel_tile_signal(values,threshold,tiles=32):
+    """Low-resolution RAW-STORED-SCALAR occupancy, NOT cortical bone.
+
+    Each symbol means the fraction of original 16-bit scalar values at
+    or above a deliberately provisional numeric threshold. This is a
+    lossy pixel-data diagnostic, not HU, bone, medical image identification
+    or anatomical verification; no input CT image is exported.
+    """
+    if type(threshold)!=int or not 0<=threshold<=65535:
+        raise ValueError("invalid integer raw pixel threshold")
+    if tiles!=32 or len(values)!=512*512:
+        raise ValueError("tiles require original 512x512 source scalar matrix")
+    pixels_per_tile=16*16
+    palette=" .:-=+*#%@"
+    grid=[]
+    for ty in range(32):
+        row=""
+        for tx in range(32):
+            n=0
+            for yy in range(ty*16,(ty+1)*16):
+                offset=yy*512+tx*16
+                n+=sum(x>=threshold for x in values[offset:offset+16])
+            # Nine thresholds partition [0%,100%], emphasizing modest
+            # occupancy without falsely calling "bright" tissue bone.
+            fraction=n/pixels_per_tile
+            index=min(len(palette)-1,int(fraction*len(palette)))
+            row+=palette[index]
+        grid.append(row)
+    return {
+        "raw_scalar_threshold":threshold,
+        "grid_size":[32,32],
+        "tile_method":"fraction of stored PNG scalars at-or-above threshold",
+        "tile_characters":" .:-=+*#%@",
+        "tiles":grid,
+        "unverified_HU_and_bone_identity":True,
+        "canonical_promotion_allowed":False,
+    }
+
+
 def geometry_only(header_bytes):
     # Identifying fields are discarded and never printed or returned.
     safe=hdr.scanner_geometry_from_text(header_bytes)
@@ -149,7 +189,7 @@ def geometry_only(header_bytes):
     }
 
 
-def record(name,png_bytes,header_bytes):
+def record(name,png_bytes,header_bytes,include_signal=False):
     identity=png_probe.inspect_png(png_bytes)
     values=decode_grayscale_png16(png_bytes)
     geometry=geometry_only(header_bytes)
@@ -163,6 +203,7 @@ def record(name,png_bytes,header_bytes):
         "PNG_byte_integrity_valid":True,
         **geometry,
         "raw_pixel_statistics":raw_statistics(values),
+        "raw_pixel_signal_tiles":[pixel_tile_signal(values,1200),pixel_tile_signal(values,1600)] if include_signal else None,
         "bone_region_identified_by_anatomical_review":False,
         "sample_reference_region_only":"NLM 1948 gallery image is stated upper thigh below femoral heads"
              if source_id==1948 else None,
@@ -170,7 +211,7 @@ def record(name,png_bytes,header_bytes):
     }
 
 
-def atlas(source_ids,loader):
+def atlas(source_ids,loader,include_signal=False):
     ids=tuple(source_ids)
     if len(ids)>len(SCOUT_IDS) or len(set(ids))!=len(ids) or any(x not in SCOUT_IDS for x in ids):
         raise ValueError("requested slice not in reviewed NLM source scout allowlist")
@@ -180,7 +221,7 @@ def atlas(source_ids,loader):
         header=f"cvm{n}f.txt"
         img=loader(INDEX_BASE+name,png_probe.MAX_BYTES)
         met=loader(HEADER_BASE+header,MAX_HEADER_BYTES)
-        rows.append(record(name,img,met))
+        rows.append(record(name,img,met,include_signal=include_signal))
     # Differences in scanner spacing are meaningful; never connect
     # z-positions by numeric source ID or assume uniform 1 mm sample spacing.
     rows.sort(key=lambda r:r["scanner_RAS_image_location_superior_mm"],reverse=True)
@@ -246,10 +287,11 @@ def main():
     p.add_argument("--slice-ids",nargs="+",type=int,default=list(SCOUT_IDS))
     p.add_argument("--out",type=Path)
     p.add_argument("--pinned-manifest",type=Path)
+    p.add_argument("--density-ascii",action="store_true",help="Output lossy 32x32 raw scalar occupancy grids; never interpreted as bone")
     a=p.parse_args()
     if not a.live_scout:
         p.error("network scout requires explicit --live-scout")
-    output=atlas(a.slice_ids,_safe_download)
+    output=atlas(a.slice_ids,_safe_download,include_signal=a.density_ascii)
     if a.pinned_manifest:
         output['previous_source_byte_identity_check']=verify_pinned_manifest(
             output,json.loads(a.pinned_manifest.read_text()))

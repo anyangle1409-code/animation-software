@@ -228,3 +228,13 @@ No region is ready for production bone modelling. Female variants keep the same 
   - the sacrum position relative to the pelvic frame is open.
 
 T001 stays an experiment. It does not replace c004 and is not promoted.
+
+## PR #12 re-check (head `e0f5a20c`)
+
+Work added mesh-derived spatial, size and side checks, plus pinched-vertex detection. Re-running `pr12_contract_probe.py` against the new head:
+- a mesh 5 m from its bone: **rejected**;
+- a left femur on the right side: **rejected**;
+- a 0.5 mm femur: **rejected**;
+- a reversed face: **rejected**.
+
+The PR's own tests pass. The three review findings are addressed. PR #12 remains a draft and is not merged by me.

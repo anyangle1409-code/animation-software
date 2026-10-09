@@ -8,6 +8,8 @@ on:
     paths:
       - 'scripts/anatomy_fit/stl_bone_mesh_intake.py'
       - 'scripts/test_stl_bone_mesh_intake.py'
+      - 'scripts/anatomy_fit/nlm_original_ct_png_probe.py'
+      - 'scripts/test_nlm_original_ct_png_probe.py'
       - 'ORIGINAL_V1_WORK/anatomy/audit/nih3d_male_pelvis_mesh_source_manifest_20261009.json'
       - '.github/workflows/independent-pelvis-stl-intake.yml'
   workflow_dispatch:
@@ -22,7 +24,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Inspect synthetic binary and ASCII STL with no third-party packages
-        run: python3 -m unittest discover -s scripts -p 'test_stl_bone_mesh_intake.py' -v
+        run: |
+          python3 -m unittest discover -s scripts -p 'test_stl_bone_mesh_intake.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_original_ct_png_probe.py' -v
       - name: Preserve osseous APP and source-registry regression tests
         run: |
           python3 -m unittest discover -s scripts -p 'test_external_trunk_landmark_bridge.py' -v

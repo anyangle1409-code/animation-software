@@ -8,6 +8,8 @@ on:
     paths:
       - 'scripts/anatomy_fit/external_trunk_landmark_bridge.py'
       - 'scripts/test_external_trunk_landmark_bridge.py'
+      - 'scripts/anatomy_fit/pelvic_app_bone_frame.py'
+      - 'scripts/test_pelvic_app_bone_frame.py'
       - 'ORIGINAL_V1_WORK/anatomy/audit/external_trunk_landmark_source_registry_20261009.json'
       - '.github/workflows/trunk-external-landmarks.yml'
   workflow_dispatch:
@@ -24,6 +26,11 @@ jobs:
       - name: Verify external CT source guards (never accepts anatomy)
         run: |
           python3 -m unittest discover -s scripts -p 'test_external_trunk_landmark_bridge.py' -v
+          python3 -m unittest discover -s scripts -p 'test_pelvic_app_bone_frame.py' -v
+          python3 scripts/anatomy_fit/pelvic_app_bone_frame.py \
+            --legacy-record ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json \
+            --source-registry ORIGINAL_V1_WORK/anatomy/audit/external_trunk_landmark_source_registry_20261009.json
+
           python3 scripts/anatomy_fit/external_trunk_landmark_bridge.py \
             --record ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json \
             --source-registry ORIGINAL_V1_WORK/anatomy/audit/external_trunk_landmark_source_registry_20261009.json

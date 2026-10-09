@@ -82,6 +82,14 @@ def markdown(ix):
     for c, n in ix['coverage_counts'].items():
         L.append(f'| {c} | {n} | {"yes" if ix["required_categories_present"].get(c, True) else "**MISSING**"} |')
     L += ['', f'Total files: {ix["file_count"]}. Hash failures: {len(ix["hash_failures"])}.', '']
+    eia = AUD / 'evidence_integrity/evidence_integrity_v1.json'
+    if eia.exists():
+        e = json.loads(eia.read_text()); rel = str(eia.relative_to(ROOT))
+        L += ['## Repository-wide evidence integrity', '',
+              f'Every recorded sha256 across all anatomy evidence JSON is re-checked by [`{rel}`]({BLOB}{rel}) '
+              f'({e["hash_references_checked"]} references: ' + ', '.join(f'{k} {v}' for k, v in e['by_status'].items()) +
+              f'; document references missing: {len(e["doc_missing_references"])}; orphans: '
+              f'{sum(1 for x in e["orphan_candidates"] if x["kind"] == "ORPHAN")}). Nothing was rewritten; see the JSON for each flagged item.', '']
     for s in ix['sets']:
         L += [f'## {s["title"]}', '', f'Manifest: [`{s["manifest"]}`]({BLOB}{s["manifest"]})', '']
         for f in s['files']:

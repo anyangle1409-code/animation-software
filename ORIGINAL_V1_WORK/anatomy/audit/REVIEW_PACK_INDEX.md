@@ -29,6 +29,10 @@ Every image and clip below is in the repository, and its sha256 is verified agai
 
 Total files: 264. Hash failures: 0.
 
+## Repository-wide evidence integrity
+
+Every recorded sha256 across all anatomy evidence JSON is re-checked by [`ORIGINAL_V1_WORK/anatomy/audit/evidence_integrity/evidence_integrity_v1.json`](https://github.com/anyangle1409-code/animation-software/blob/codex/whole-body-biomechanics-audit-20261007/ORIGINAL_V1_WORK/anatomy/audit/evidence_integrity/evidence_integrity_v1.json) (1006 references: ABSENT_BINARY_NOT_COMMITTED 21, EXTERNAL 2, MISMATCH 12, MISSING 1, OK 924, OK_VIA_GZIP 7, STALE_HISTORICAL 39; document references missing: 0; orphans: 5). Nothing was rewritten; see the JSON for each flagged item.
+
 ## c001 shoulder proposal (vs a003)
 
 Manifest: [`ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/manifest.json`](https://github.com/anyangle1409-code/animation-software/blob/codex/whole-body-biomechanics-audit-20261007/ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/manifest.json)

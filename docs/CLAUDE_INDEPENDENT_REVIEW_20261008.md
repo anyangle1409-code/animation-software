@@ -508,3 +508,32 @@ Tests are in `scripts/test_owner_proportion_policy_and_source_fixes.py`. The ful
   - an unmirrorable pair (residual > 90°);
   - a 3° per-frame axis drift in knee flexion;
   - knee rotation reversed against the command (sign flip).
+
+### Repository-wide evidence integrity: hashes, references and orphans (9 October, Claude; read-only, nothing rewritten)
+
+- **What:** `scripts/anatomy_fit/evidence_integrity_audit.py`.
+  - It walks every JSON under `ORIGINAL_V1_WORK/anatomy` and re-checks each recorded sha256 that a documented anchoring rule ties to a file. The rules cover `{path: hash}` maps, `{path: {sha256}}` maps, `X_sha256` with a sibling `X`, and `sha256` with a sibling `path`/`file`.
+  - It also checks `*.sha256` sidecars, backtick file references in the tracker, findings, review, handoff and `REVIEW_PACK_INDEX.md`, and evidence files under `audit/` that nothing in the repository names.
+  - When a hash mismatches, every committed version of the path is hashed to tell **stale** (recorded against an earlier committed version) from **mismatch** (no committed version matches).
+- **Result: 1,006 anchored hash references**; 230 unanchored hashes (blend hashes after a run, digests) are counted but not graded.
+
+  | Status | Count | Meaning |
+  |---|---|---|
+  | OK | 924 | Hash matches |
+  | OK_VIA_GZIP | 7 | Only `X.gz` is committed; the decompressed content matches |
+  | STALE_HISTORICAL | 39 | Script/provenance hashes recorded against earlier committed versions of scripts edited since (e.g. `joint_markers.py`, `isolated_tests.py`, the master builder); this includes the provenance of a002, a003, c001, c002 and c003 and isolated runs 002–014 |
+  | MISMATCH | 12 | Script provenance in early isolated runs 001–011 matching no committed version of `run_isolated_tests_blender.py`, `isolated_tests.py` or `joint_solver.py`: recorded from uncommitted intermediate working copies, so those script states cannot be reproduced exactly from git |
+  | ABSENT_BINARY_NOT_COMMITTED | 21 | Test blends of the a003 mirror-fix recheck and c001 runs, Zenodo foot STLs, BodyParts3D `.bin` chunks, the OpenSim shoulder model; provenance only, unverifiable here |
+  | MISSING | 1 | BodyParts3D `atlas.json` (a third-party source file, never committed) |
+  | EXTERNAL | 2 | Scratch or `/tmp` test blends |
+
+  - **Sidecars:** both official-capture sidecars verify through their committed `.gz`.
+  - **Document references:** 361 checked when the audit ran, **0 missing**; 5 are context-relative short forms that each resolve to tracked files.
+  - **Orphans:** 5 files are named nowhere in the repository: two cross-check inputs of isolated run 001 and three files of the 8 October Claude review run. They are listed in the JSON and deliberately not named here, because naming them would hide them from the check. Another 39 are named only by their run directory's README/manifest context.
+- **Disposition:** nothing was rewritten; accepted evidence and baselines are untouched. The MISMATCH, MISSING and orphan items are recorded as UNRESOLVED provenance gaps, not as failures of the evidence content.
+- **Index:** `REVIEW_PACK_INDEX.md` now carries a repository-wide integrity section linking the JSON.
+- **Evidence:** `audit/evidence_integrity/evidence_integrity_v1.json`.
+- **Tests:** `scripts/test_evidence_integrity_audit.py` (4):
+  - pins the findings;
+  - live re-verification: no previously verified reference may degrade, and no document reference may go missing;
+  - mutations on a synthetic git repository prove each status (OK, MISMATCH, STALE_HISTORICAL, MISSING, OK_VIA_GZIP, ABSENT_BINARY_NOT_COMMITTED, EXTERNAL), a tampered sidecar target, a missing and a context-relative document reference, and a stray orphan are each detected.

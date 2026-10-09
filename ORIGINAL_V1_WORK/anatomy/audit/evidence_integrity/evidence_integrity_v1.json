@@ -1,0 +1,929 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "status": "READ_ONLY_INTEGRITY_AUDIT_NOTHING_REWRITTEN",
+ "hash_references_checked": 1006,
+ "unanchored_hashes_not_graded": 230,
+ "by_status": {
+  "ABSENT_BINARY_NOT_COMMITTED": 21,
+  "EXTERNAL": 2,
+  "MISMATCH": 12,
+  "MISSING": 1,
+  "OK": 924,
+  "OK_VIA_GZIP": 7,
+  "STALE_HISTORICAL": 39
+ },
+ "non_ok": [
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/candidate_record.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/build_anatomical_master_blender.py",
+   "path": "scripts/anatomy_fit/build_anatomical_master_blender.py",
+   "recorded": "5e7b305b99e5887baca5728dae24d10e4d56942136127cb7c3ae3caa416259dc",
+   "resolved": "scripts/anatomy_fit/build_anatomical_master_blender.py",
+   "actual": "5e096996e462c97e6541e8955e1ce4225bf9a68afabe21cd783cfce53262f2c8",
+   "matching_commit": "db4aafc6754be5d49d61e856c552fde9e47fcfb1",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/candidate_record.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/joint_markers.py",
+   "path": "scripts/anatomy_fit/joint_markers.py",
+   "recorded": "b9b0f8e84d4e32535c57dc4785573dd2d0f891527e18ff9020fb1a91897bea19",
+   "resolved": "scripts/anatomy_fit/joint_markers.py",
+   "actual": "43aa4e1a81ec0d0d7dfc6d718e25e7e9ecfe70ec06749ea763602f6b4a0f8399",
+   "matching_commit": "881394074728d3b7841bc37854a0a703c813ca1a",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/candidate_record.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/build_anatomical_master_blender.py",
+   "path": "scripts/anatomy_fit/build_anatomical_master_blender.py",
+   "recorded": "5e7b305b99e5887baca5728dae24d10e4d56942136127cb7c3ae3caa416259dc",
+   "resolved": "scripts/anatomy_fit/build_anatomical_master_blender.py",
+   "actual": "5e096996e462c97e6541e8955e1ce4225bf9a68afabe21cd783cfce53262f2c8",
+   "matching_commit": "db4aafc6754be5d49d61e856c552fde9e47fcfb1",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/candidate_record.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/joint_markers.py",
+   "path": "scripts/anatomy_fit/joint_markers.py",
+   "recorded": "b9b0f8e84d4e32535c57dc4785573dd2d0f891527e18ff9020fb1a91897bea19",
+   "resolved": "scripts/anatomy_fit/joint_markers.py",
+   "actual": "43aa4e1a81ec0d0d7dfc6d718e25e7e9ecfe70ec06749ea763602f6b4a0f8399",
+   "matching_commit": "881394074728d3b7841bc37854a0a703c813ca1a",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/candidate_record.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/build_anatomical_master_blender.py",
+   "path": "scripts/anatomy_fit/build_anatomical_master_blender.py",
+   "recorded": "5e7b305b99e5887baca5728dae24d10e4d56942136127cb7c3ae3caa416259dc",
+   "resolved": "scripts/anatomy_fit/build_anatomical_master_blender.py",
+   "actual": "5e096996e462c97e6541e8955e1ce4225bf9a68afabe21cd783cfce53262f2c8",
+   "matching_commit": "db4aafc6754be5d49d61e856c552fde9e47fcfb1",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/candidate_record.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/joint_markers.py",
+   "path": "scripts/anatomy_fit/joint_markers.py",
+   "recorded": "b9b0f8e84d4e32535c57dc4785573dd2d0f891527e18ff9020fb1a91897bea19",
+   "resolved": "scripts/anatomy_fit/joint_markers.py",
+   "actual": "43aa4e1a81ec0d0d7dfc6d718e25e7e9ecfe70ec06749ea763602f6b4a0f8399",
+   "matching_commit": "881394074728d3b7841bc37854a0a703c813ca1a",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_001/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "path": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "recorded": "4b2d952a70829a52693ea085a7dc8ec37b9b1b411d959b533f38f165784e0a98",
+   "resolved": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "actual": "d990f0d63f292c17fb103cb61d4a932576e76f83150e9fc022d47320733ee81a",
+   "note": "no committed version of scripts/anatomy_fit/run_isolated_tests_blender.py (6 checked) has the recorded hash: recorded from an uncommitted working copy",
+   "status": "MISMATCH"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_001/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/isolated_tests.py",
+   "path": "scripts/anatomy_fit/isolated_tests.py",
+   "recorded": "eccefe8ef6b5045cf7048b379f654348b688c57b6a5ba6f8d242af59b9c0f854",
+   "resolved": "scripts/anatomy_fit/isolated_tests.py",
+   "actual": "d4883a22a073334ff11087bbb45164b0886d878b4924e4fbf8e41f782424dc26",
+   "note": "no committed version of scripts/anatomy_fit/isolated_tests.py (7 checked) has the recorded hash: recorded from an uncommitted working copy",
+   "status": "MISMATCH"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_001/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/joint_solver.py",
+   "path": "scripts/anatomy_fit/joint_solver.py",
+   "recorded": "9ed64543e710c5e429882c8ff22d0013a267f43c00a2beb7939cd048beec8e44",
+   "resolved": "scripts/anatomy_fit/joint_solver.py",
+   "actual": "4827490ea8e51c4f134b54fdcea9a33051709c1314c6635326cf17645c30ab85",
+   "note": "no committed version of scripts/anatomy_fit/joint_solver.py (3 checked) has the recorded hash: recorded from an uncommitted working copy",
+   "status": "MISMATCH"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_002/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "path": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "recorded": "b7eaf2beaf55b92cf1be8a945be2ac51fa2364132a2bec40bc797cb7af9bd69e",
+   "resolved": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "actual": "d990f0d63f292c17fb103cb61d4a932576e76f83150e9fc022d47320733ee81a",
+   "note": "no committed version of scripts/anatomy_fit/run_isolated_tests_blender.py (6 checked) has the recorded hash: recorded from an uncommitted working copy",
+   "status": "MISMATCH"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_002/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/isolated_tests.py",
+   "path": "scripts/anatomy_fit/isolated_tests.py",
+   "recorded": "b67fc315570ed54dc065e227e70e0964f03abaa957e3c5232465c3c638ee08fe",
+   "resolved": "scripts/anatomy_fit/isolated_tests.py",
+   "actual": "d4883a22a073334ff11087bbb45164b0886d878b4924e4fbf8e41f782424dc26",
+   "note": "no committed version of scripts/anatomy_fit/isolated_tests.py (7 checked) has the recorded hash: recorded from an uncommitted working copy",
+   "status": "MISMATCH"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_002/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/joint_solver.py",
+   "path": "scripts/anatomy_fit/joint_solver.py",
+   "recorded": "560a169f62e1d1627500296b0ceffd42205a7b7a902b229c5bd408c9e670d37e",
+   "resolved": "scripts/anatomy_fit/joint_solver.py",
+   "actual": "4827490ea8e51c4f134b54fdcea9a33051709c1314c6635326cf17645c30ab85",
+   "matching_commit": "881394074728d3b7841bc37854a0a703c813ca1a",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_003/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "path": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "recorded": "4e53af77c5d4a8c9d1c6cf5a6de42e11f58f7c42b0d9fa3b2793a86c3be5d7b4",
+   "resolved": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "actual": "d990f0d63f292c17fb103cb61d4a932576e76f83150e9fc022d47320733ee81a",
+   "matching_commit": "881394074728d3b7841bc37854a0a703c813ca1a",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_003/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/isolated_tests.py",
+   "path": "scripts/anatomy_fit/isolated_tests.py",
+   "recorded": "460ee70f181bcc309974e378cdc166b939f49805e48fc8c599fcdfdc8641f871",
+   "resolved": "scripts/anatomy_fit/isolated_tests.py",
+   "actual": "d4883a22a073334ff11087bbb45164b0886d878b4924e4fbf8e41f782424dc26",
+   "matching_commit": "881394074728d3b7841bc37854a0a703c813ca1a",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_003/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/joint_solver.py",
+   "path": "scripts/anatomy_fit/joint_solver.py",
+   "recorded": "560a169f62e1d1627500296b0ceffd42205a7b7a902b229c5bd408c9e670d37e",
+   "resolved": "scripts/anatomy_fit/joint_solver.py",
+   "actual": "4827490ea8e51c4f134b54fdcea9a33051709c1314c6635326cf17645c30ab85",
+   "matching_commit": "881394074728d3b7841bc37854a0a703c813ca1a",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_004/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "path": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "recorded": "4e53af77c5d4a8c9d1c6cf5a6de42e11f58f7c42b0d9fa3b2793a86c3be5d7b4",
+   "resolved": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "actual": "d990f0d63f292c17fb103cb61d4a932576e76f83150e9fc022d47320733ee81a",
+   "matching_commit": "881394074728d3b7841bc37854a0a703c813ca1a",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_004/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/isolated_tests.py",
+   "path": "scripts/anatomy_fit/isolated_tests.py",
+   "recorded": "8b68fbd46b4d34de3d44a20c6a97dabbce5947486b299860b69f46936a0afb80",
+   "resolved": "scripts/anatomy_fit/isolated_tests.py",
+   "actual": "d4883a22a073334ff11087bbb45164b0886d878b4924e4fbf8e41f782424dc26",
+   "matching_commit": "23b319afa5b4bbcd98e3a52745a9d918aedbad79",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_004/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/joint_solver.py",
+   "path": "scripts/anatomy_fit/joint_solver.py",
+   "recorded": "3db16791bf376eed178f0d96575f6803b5bd8146a9cccf844045bb05666b028d",
+   "resolved": "scripts/anatomy_fit/joint_solver.py",
+   "actual": "4827490ea8e51c4f134b54fdcea9a33051709c1314c6635326cf17645c30ab85",
+   "matching_commit": "23b319afa5b4bbcd98e3a52745a9d918aedbad79",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_005/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "path": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "recorded": "19d6882882dae9d5dc38af0264b84b1a859ef1638b6d3afe5a212b1957469313",
+   "resolved": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "actual": "d990f0d63f292c17fb103cb61d4a932576e76f83150e9fc022d47320733ee81a",
+   "matching_commit": "c0f8561bab225bb1d3b257ea3e39c43f61169ce4",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_005/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/isolated_tests.py",
+   "path": "scripts/anatomy_fit/isolated_tests.py",
+   "recorded": "354903622cab9a9341d52fc076017188c5eaa978746fe77f0b1dcc250bbae38a",
+   "resolved": "scripts/anatomy_fit/isolated_tests.py",
+   "actual": "d4883a22a073334ff11087bbb45164b0886d878b4924e4fbf8e41f782424dc26",
+   "note": "no committed version of scripts/anatomy_fit/isolated_tests.py (7 checked) has the recorded hash: recorded from an uncommitted working copy",
+   "status": "MISMATCH"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_006/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "path": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "recorded": "19d6882882dae9d5dc38af0264b84b1a859ef1638b6d3afe5a212b1957469313",
+   "resolved": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "actual": "d990f0d63f292c17fb103cb61d4a932576e76f83150e9fc022d47320733ee81a",
+   "matching_commit": "c0f8561bab225bb1d3b257ea3e39c43f61169ce4",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_006/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/isolated_tests.py",
+   "path": "scripts/anatomy_fit/isolated_tests.py",
+   "recorded": "446e2a0cc4873cb07e8c0264a23c6a24ac0b41220ed049b5b6ee4020cbcbb9fb",
+   "resolved": "scripts/anatomy_fit/isolated_tests.py",
+   "actual": "d4883a22a073334ff11087bbb45164b0886d878b4924e4fbf8e41f782424dc26",
+   "matching_commit": "c0f8561bab225bb1d3b257ea3e39c43f61169ce4",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_007/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "path": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "recorded": "b39351b3b46e88f523f2bf63f06b97f0f30705780a34ea6c0d6b2ec11fb26975",
+   "resolved": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "actual": "d990f0d63f292c17fb103cb61d4a932576e76f83150e9fc022d47320733ee81a",
+   "matching_commit": "f1d47a4c6a831026cbeb643f9e653f4ef216dd11",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_007/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/isolated_tests.py",
+   "path": "scripts/anatomy_fit/isolated_tests.py",
+   "recorded": "28573ee1126a60f8fac48f84f34277a7c0311f220fe76746da04c927e0128e9c",
+   "resolved": "scripts/anatomy_fit/isolated_tests.py",
+   "actual": "d4883a22a073334ff11087bbb45164b0886d878b4924e4fbf8e41f782424dc26",
+   "matching_commit": "f1d47a4c6a831026cbeb643f9e653f4ef216dd11",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_008/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "path": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "recorded": "122d83f6bd698337377c01f384f1117db778c556d37049902bdac31f0b9331cf",
+   "resolved": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "actual": "d990f0d63f292c17fb103cb61d4a932576e76f83150e9fc022d47320733ee81a",
+   "note": "no committed version of scripts/anatomy_fit/run_isolated_tests_blender.py (6 checked) has the recorded hash: recorded from an uncommitted working copy",
+   "status": "MISMATCH"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_008/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/isolated_tests.py",
+   "path": "scripts/anatomy_fit/isolated_tests.py",
+   "recorded": "e0a71cecec1d7fa9a30d8dbef07e96daeac920fb87e6f965a5fd6abfe6976fd8",
+   "resolved": "scripts/anatomy_fit/isolated_tests.py",
+   "actual": "d4883a22a073334ff11087bbb45164b0886d878b4924e4fbf8e41f782424dc26",
+   "note": "no committed version of scripts/anatomy_fit/isolated_tests.py (7 checked) has the recorded hash: recorded from an uncommitted working copy",
+   "status": "MISMATCH"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_009/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "path": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "recorded": "830dd9aa926739cb49f5ccd968239a9e6c712b52b2376eeeeae9b67e5668c498",
+   "resolved": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "actual": "d990f0d63f292c17fb103cb61d4a932576e76f83150e9fc022d47320733ee81a",
+   "note": "no committed version of scripts/anatomy_fit/run_isolated_tests_blender.py (6 checked) has the recorded hash: recorded from an uncommitted working copy",
+   "status": "MISMATCH"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_009/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/isolated_tests.py",
+   "path": "scripts/anatomy_fit/isolated_tests.py",
+   "recorded": "e0a71cecec1d7fa9a30d8dbef07e96daeac920fb87e6f965a5fd6abfe6976fd8",
+   "resolved": "scripts/anatomy_fit/isolated_tests.py",
+   "actual": "d4883a22a073334ff11087bbb45164b0886d878b4924e4fbf8e41f782424dc26",
+   "note": "no committed version of scripts/anatomy_fit/isolated_tests.py (7 checked) has the recorded hash: recorded from an uncommitted working copy",
+   "status": "MISMATCH"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_010/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "path": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "recorded": "22059a9f7ee0a1a8af2b8b33de7a2e858aa86b30ce85afa133805eb39369d2c7",
+   "resolved": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "actual": "d990f0d63f292c17fb103cb61d4a932576e76f83150e9fc022d47320733ee81a",
+   "note": "no committed version of scripts/anatomy_fit/run_isolated_tests_blender.py (6 checked) has the recorded hash: recorded from an uncommitted working copy",
+   "status": "MISMATCH"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_010/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/isolated_tests.py",
+   "path": "scripts/anatomy_fit/isolated_tests.py",
+   "recorded": "f33ba001c5d758989a7317a6105bd9a0018e40ae9e79589ae4269269c5231e8f",
+   "resolved": "scripts/anatomy_fit/isolated_tests.py",
+   "actual": "d4883a22a073334ff11087bbb45164b0886d878b4924e4fbf8e41f782424dc26",
+   "matching_commit": "a664543054ce78c4586398cde1884bcab6512b92",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_011/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "path": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "recorded": "0d2dcf1eb3f967b7f9871051f3d7bcd9cbb9dc5cc1a07b255730e4887c67ba74",
+   "resolved": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "actual": "d990f0d63f292c17fb103cb61d4a932576e76f83150e9fc022d47320733ee81a",
+   "note": "no committed version of scripts/anatomy_fit/run_isolated_tests_blender.py (6 checked) has the recorded hash: recorded from an uncommitted working copy",
+   "status": "MISMATCH"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_011/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/isolated_tests.py",
+   "path": "scripts/anatomy_fit/isolated_tests.py",
+   "recorded": "f33ba001c5d758989a7317a6105bd9a0018e40ae9e79589ae4269269c5231e8f",
+   "resolved": "scripts/anatomy_fit/isolated_tests.py",
+   "actual": "d4883a22a073334ff11087bbb45164b0886d878b4924e4fbf8e41f782424dc26",
+   "matching_commit": "a664543054ce78c4586398cde1884bcab6512b92",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_012/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "path": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "recorded": "1f4238c5c8bc47bbafa7de9a107c4b34fae0da5d749696bb2382de69a89e1c79",
+   "resolved": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "actual": "d990f0d63f292c17fb103cb61d4a932576e76f83150e9fc022d47320733ee81a",
+   "matching_commit": "a664543054ce78c4586398cde1884bcab6512b92",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_012/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/isolated_tests.py",
+   "path": "scripts/anatomy_fit/isolated_tests.py",
+   "recorded": "f33ba001c5d758989a7317a6105bd9a0018e40ae9e79589ae4269269c5231e8f",
+   "resolved": "scripts/anatomy_fit/isolated_tests.py",
+   "actual": "d4883a22a073334ff11087bbb45164b0886d878b4924e4fbf8e41f782424dc26",
+   "matching_commit": "a664543054ce78c4586398cde1884bcab6512b92",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_013/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "path": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "recorded": "1f4238c5c8bc47bbafa7de9a107c4b34fae0da5d749696bb2382de69a89e1c79",
+   "resolved": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "actual": "d990f0d63f292c17fb103cb61d4a932576e76f83150e9fc022d47320733ee81a",
+   "matching_commit": "a664543054ce78c4586398cde1884bcab6512b92",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_013/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/isolated_tests.py",
+   "path": "scripts/anatomy_fit/isolated_tests.py",
+   "recorded": "e36b878a2a0469b71fdbae87b38b3c12d896f61c7cb6ca15335a800295acf215",
+   "resolved": "scripts/anatomy_fit/isolated_tests.py",
+   "actual": "d4883a22a073334ff11087bbb45164b0886d878b4924e4fbf8e41f782424dc26",
+   "matching_commit": "fe91f3fbb9c154466b98d525b08be5715e14bc85",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_014/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "path": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "recorded": "1ba2110962b54d9a82cb7bc59348b33eae56bab4984d6a473352f5cccc162c6a",
+   "resolved": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "actual": "d990f0d63f292c17fb103cb61d4a932576e76f83150e9fc022d47320733ee81a",
+   "matching_commit": "fe91f3fbb9c154466b98d525b08be5715e14bc85",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_014/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/isolated_tests.py",
+   "path": "scripts/anatomy_fit/isolated_tests.py",
+   "recorded": "e36b878a2a0469b71fdbae87b38b3c12d896f61c7cb6ca15335a800295acf215",
+   "resolved": "scripts/anatomy_fit/isolated_tests.py",
+   "actual": "d4883a22a073334ff11087bbb45164b0886d878b4924e4fbf8e41f782424dc26",
+   "matching_commit": "fe91f3fbb9c154466b98d525b08be5715e14bc85",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_a003_mirror_fix_recheck_001/isolated_report.json",
+   "pointer": "/provenance/test_blend_sha256",
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_a003_mirror_fix_recheck_001/HGPT_ANATOMICAL_AUDIT_r95_a003_isolated_tests_mirror_fix_recheck.blend",
+   "recorded": "cf49a84a251af4678894974ca166342204f6b165511179feccea63b15d01928a",
+   "status": "ABSENT_BINARY_NOT_COMMITTED"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_001/isolated_report.json",
+   "pointer": "/provenance/test_blend_sha256",
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_001/HGPT_ANATOMICAL_AUDIT_r95_a003_shoulder_proposal_c001_isolated_tests.blend",
+   "recorded": "2c9f94855cfc65b0bed568957d921554c4012408585b8faa85be68b5a38f97be",
+   "status": "ABSENT_BINARY_NOT_COMMITTED"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_001/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "path": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "recorded": "1ba2110962b54d9a82cb7bc59348b33eae56bab4984d6a473352f5cccc162c6a",
+   "resolved": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "actual": "d990f0d63f292c17fb103cb61d4a932576e76f83150e9fc022d47320733ee81a",
+   "matching_commit": "fe91f3fbb9c154466b98d525b08be5715e14bc85",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_001/isolated_report.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/isolated_tests.py",
+   "path": "scripts/anatomy_fit/isolated_tests.py",
+   "recorded": "e36b878a2a0469b71fdbae87b38b3c12d896f61c7cb6ca15335a800295acf215",
+   "resolved": "scripts/anatomy_fit/isolated_tests.py",
+   "actual": "d4883a22a073334ff11087bbb45164b0886d878b4924e4fbf8e41f782424dc26",
+   "matching_commit": "fe91f3fbb9c154466b98d525b08be5715e14bc85",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_002/isolated_report.json",
+   "pointer": "/provenance/test_blend_sha256",
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_002/HGPT_ANATOMICAL_AUDIT_r95_a003_shoulder_proposal_c001_isolated_tests.blend",
+   "recorded": "d7eea92eba23d91c1bbb46b3719555ab4b8c6d7653da31192e723f1ab610b46b",
+   "status": "ABSENT_BINARY_NOT_COMMITTED"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_bpy_baseline_recheck_20261008_001/inspection_manifest.json",
+   "pointer": "/files/ORIGINAL_V1_WORK/anatomy/canonical_lumbar_superior_endplate_frames_p1.json",
+   "path": "ORIGINAL_V1_WORK/anatomy/canonical_lumbar_superior_endplate_frames_p1.json",
+   "recorded": "74a1fdda24d92e90e41f4478b038ed0e3ff80e491b59a6e9cda42bf8f6218fb0",
+   "resolved": "ORIGINAL_V1_WORK/anatomy/canonical_lumbar_superior_endplate_frames_p1.json",
+   "actual": "56d741ce2c5dc2337d338af35caf696ea802a2f0c3c2dbe1d5416add5ad5b2ec",
+   "matching_commit": "aa7b68f295c4e7f44d037d717e1d86f64e1effa4",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_bpy_baseline_recheck_20261008_001/inspection_manifest.json",
+   "pointer": "/files/scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "path": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "recorded": "1ba2110962b54d9a82cb7bc59348b33eae56bab4984d6a473352f5cccc162c6a",
+   "resolved": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "actual": "d990f0d63f292c17fb103cb61d4a932576e76f83150e9fc022d47320733ee81a",
+   "matching_commit": "fe91f3fbb9c154466b98d525b08be5715e14bc85",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_bpy_baseline_recheck_20261008_001/inspection_manifest.json",
+   "pointer": "/files/scripts/anatomy_fit/isolated_tests.py",
+   "path": "scripts/anatomy_fit/isolated_tests.py",
+   "recorded": "e36b878a2a0469b71fdbae87b38b3c12d896f61c7cb6ca15335a800295acf215",
+   "resolved": "scripts/anatomy_fit/isolated_tests.py",
+   "actual": "d4883a22a073334ff11087bbb45164b0886d878b4924e4fbf8e41f782424dc26",
+   "matching_commit": "fe91f3fbb9c154466b98d525b08be5715e14bc85",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_bpy_baseline_recheck_20261008_001/verification.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "path": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "recorded": "1ba2110962b54d9a82cb7bc59348b33eae56bab4984d6a473352f5cccc162c6a",
+   "resolved": "scripts/anatomy_fit/run_isolated_tests_blender.py",
+   "actual": "d990f0d63f292c17fb103cb61d4a932576e76f83150e9fc022d47320733ee81a",
+   "matching_commit": "fe91f3fbb9c154466b98d525b08be5715e14bc85",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_bpy_baseline_recheck_20261008_001/verification.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/isolated_tests.py",
+   "path": "scripts/anatomy_fit/isolated_tests.py",
+   "recorded": "e36b878a2a0469b71fdbae87b38b3c12d896f61c7cb6ca15335a800295acf215",
+   "resolved": "scripts/anatomy_fit/isolated_tests.py",
+   "actual": "d4883a22a073334ff11087bbb45164b0886d878b4924e4fbf8e41f782424dc26",
+   "matching_commit": "fe91f3fbb9c154466b98d525b08be5715e14bc85",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_bpy_glenoid_rim_20261008_001/manifest.json",
+   "pointer": "/sha256/scripts/test_canonical_glenoid_rim_frame.py",
+   "path": "scripts/test_canonical_glenoid_rim_frame.py",
+   "recorded": "5438fa842006ea98dd98ac87abb92ac04ee27981e07f04ef6ef38b092435a8a4",
+   "resolved": "scripts/test_canonical_glenoid_rim_frame.py",
+   "actual": "18e6b73e8e1598da5b04540088013a50c6e6aae9f666cb522ff684df4c4e091d",
+   "matching_commit": "48da13153338aaecd1f7ae4ba545da4e82548aa1",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_zenodo_foot_source_20261008_001/blender_source_import.json",
+   "pointer": "/source_segments[0]/sha256",
+   "path": "M02_L_Calc.stl",
+   "recorded": "0bb31fe230b68d249b6e205faab4963dee6a6f5fb118444cebb1c0a1ee287ea1",
+   "status": "ABSENT_BINARY_NOT_COMMITTED"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_zenodo_foot_source_20261008_001/blender_source_import.json",
+   "pointer": "/source_segments[1]/sha256",
+   "path": "M02_L_Talus.stl",
+   "recorded": "1dc30fc305ef5c94c2bca7e40840b60f289abb86be11f2f5956cd60afef76e93",
+   "status": "ABSENT_BINARY_NOT_COMMITTED"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_zenodo_foot_source_20261008_001/blender_source_import.json",
+   "pointer": "/source_segments[2]/sha256",
+   "path": "M02_L_1Met.stl",
+   "recorded": "935b3232f7ee96c7a3b17c3667bb174d552383f86931b89b9ab3b7e7bfab6114",
+   "status": "ABSENT_BINARY_NOT_COMMITTED"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_zenodo_foot_source_20261008_001/blender_source_import.json",
+   "pointer": "/source_segments[3]/sha256",
+   "path": "M02_L_Midfoot.stl",
+   "recorded": "b39818c398110481d83d5685834eb5f0e5a2c42be47bc1270ac77f6d74752182",
+   "status": "ABSENT_BINARY_NOT_COMMITTED"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_zenodo_foot_source_20261008_001/blender_source_import_bbox_only_001.json",
+   "pointer": "/source_segments[0]/sha256",
+   "path": "M02_L_Calc.stl",
+   "recorded": "0bb31fe230b68d249b6e205faab4963dee6a6f5fb118444cebb1c0a1ee287ea1",
+   "status": "ABSENT_BINARY_NOT_COMMITTED"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_zenodo_foot_source_20261008_001/blender_source_import_bbox_only_001.json",
+   "pointer": "/source_segments[1]/sha256",
+   "path": "M02_L_Talus.stl",
+   "recorded": "1dc30fc305ef5c94c2bca7e40840b60f289abb86be11f2f5956cd60afef76e93",
+   "status": "ABSENT_BINARY_NOT_COMMITTED"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_zenodo_foot_source_20261008_001/blender_source_import_bbox_only_001.json",
+   "pointer": "/source_segments[2]/sha256",
+   "path": "M02_L_1Met.stl",
+   "recorded": "935b3232f7ee96c7a3b17c3667bb174d552383f86931b89b9ab3b7e7bfab6114",
+   "status": "ABSENT_BINARY_NOT_COMMITTED"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_zenodo_foot_source_20261008_001/blender_source_import_bbox_only_001.json",
+   "pointer": "/source_segments[3]/sha256",
+   "path": "M02_L_Midfoot.stl",
+   "recorded": "b39818c398110481d83d5685834eb5f0e5a2c42be47bc1270ac77f6d74752182",
+   "status": "ABSENT_BINARY_NOT_COMMITTED"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/bodyparts3d_single_specimen_crosscheck_v1.json",
+   "pointer": "/source/file_sha256/atlas.json",
+   "path": "atlas.json",
+   "recorded": "c359f4bcd2cba90b7411d66d5e9fc04dc81294d46cd5c1e8b212c824f2e5bbee",
+   "status": "MISSING"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/bodyparts3d_single_specimen_crosscheck_v1.json",
+   "pointer": "/source/file_sha256/body-0.bin",
+   "path": "body-0.bin",
+   "recorded": "b33b2b5aac20f35fbf6871f916607bf3c4d386321c8c0fdadcca6b5d24e3641e",
+   "status": "ABSENT_BINARY_NOT_COMMITTED"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/bodyparts3d_single_specimen_crosscheck_v1.json",
+   "pointer": "/source/file_sha256/body-1.bin",
+   "path": "body-1.bin",
+   "recorded": "aa077a4675f0d0dd3c9b0af39dc8cf6bcb348c3bf7d283478d4206ce30a5a0de",
+   "status": "ABSENT_BINARY_NOT_COMMITTED"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/bodyparts3d_single_specimen_crosscheck_v1.json",
+   "pointer": "/source/file_sha256/body-10.bin",
+   "path": "body-10.bin",
+   "recorded": "4a959d998acd35cf88518a0f2f8ab99b42d9f69c7ce0d6a814df315eeac807ac",
+   "status": "ABSENT_BINARY_NOT_COMMITTED"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/bodyparts3d_single_specimen_crosscheck_v1.json",
+   "pointer": "/source/file_sha256/body-11.bin",
+   "path": "body-11.bin",
+   "recorded": "e8c1afe7f30fe710ad164ec9cd2287a32881606e7eb590af47d76b3f84405027",
+   "status": "ABSENT_BINARY_NOT_COMMITTED"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/bodyparts3d_single_specimen_crosscheck_v1.json",
+   "pointer": "/source/file_sha256/body-12.bin",
+   "path": "body-12.bin",
+   "recorded": "61a6c8da89bb20df50c575964ac81aa4090eabfc2cb27ad2155aea325f31c6c0",
+   "status": "ABSENT_BINARY_NOT_COMMITTED"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/bodyparts3d_single_specimen_crosscheck_v1.json",
+   "pointer": "/source/file_sha256/body-13.bin",
+   "path": "body-13.bin",
+   "recorded": "4c51b6be85d5b705d2b52b79b9ad1cdae0b65ad03c9402a2f2673c7633fd94f3",
+   "status": "ABSENT_BINARY_NOT_COMMITTED"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/bodyparts3d_single_specimen_crosscheck_v1.json",
+   "pointer": "/source/file_sha256/body-4.bin",
+   "path": "body-4.bin",
+   "recorded": "0509e6c996fe5b935ace770a5dbf2d83a474330b7e541a844052a080bbf814bb",
+   "status": "ABSENT_BINARY_NOT_COMMITTED"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/bodyparts3d_single_specimen_crosscheck_v1.json",
+   "pointer": "/source/file_sha256/body-8.bin",
+   "path": "body-8.bin",
+   "recorded": "18beacfdeadc8ad483d692672aae165f4323704cd7a9bfcbebbd703f5e268e25",
+   "status": "ABSENT_BINARY_NOT_COMMITTED"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/bodyparts3d_single_specimen_crosscheck_v1.json",
+   "pointer": "/source/file_sha256/body-9.bin",
+   "path": "body-9.bin",
+   "recorded": "0aa8aa09a379a2d759872659a2ef68fc4510ee37e435c4ebc63ee679722a4547",
+   "status": "ABSENT_BINARY_NOT_COMMITTED"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/canonical_sc_primary_model_reference_v1.json",
+   "pointer": "/model_sha256",
+   "path": "ShoulderModel/ScapulothorachicJoint_Shoulder.osim",
+   "recorded": "9e3ea81862487fbfdd96988ec68725e5dcc3d1ffb3ce473de86e42ecd708c7d2",
+   "status": "ABSENT_BINARY_NOT_COMMITTED"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a002.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/build_anatomical_master_blender.py",
+   "path": "scripts/anatomy_fit/build_anatomical_master_blender.py",
+   "recorded": "5e7b305b99e5887baca5728dae24d10e4d56942136127cb7c3ae3caa416259dc",
+   "resolved": "scripts/anatomy_fit/build_anatomical_master_blender.py",
+   "actual": "5e096996e462c97e6541e8955e1ce4225bf9a68afabe21cd783cfce53262f2c8",
+   "matching_commit": "db4aafc6754be5d49d61e856c552fde9e47fcfb1",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a002.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/character_fit.py",
+   "path": "scripts/anatomy_fit/character_fit.py",
+   "recorded": "432117335a45ea8c4abf5af13b89062ffa5fc19e64d9b8158312bf32e61fc6d9",
+   "resolved": "scripts/anatomy_fit/character_fit.py",
+   "actual": "c01eb567ab85e78da74d3fe9cd63cf209e7343aec8f675987437102daaeeb64b",
+   "matching_commit": "db4aafc6754be5d49d61e856c552fde9e47fcfb1",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a002.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/joint_markers.py",
+   "path": "scripts/anatomy_fit/joint_markers.py",
+   "recorded": "63dddfc9def93917b4d085978ff725c0fe596e2fbd3cf5174ef6eab496c52859",
+   "resolved": "scripts/anatomy_fit/joint_markers.py",
+   "actual": "43aa4e1a81ec0d0d7dfc6d718e25e7e9ecfe70ec06749ea763602f6b4a0f8399",
+   "matching_commit": "db4aafc6754be5d49d61e856c552fde9e47fcfb1",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/build_anatomical_master_blender.py",
+   "path": "scripts/anatomy_fit/build_anatomical_master_blender.py",
+   "recorded": "5e7b305b99e5887baca5728dae24d10e4d56942136127cb7c3ae3caa416259dc",
+   "resolved": "scripts/anatomy_fit/build_anatomical_master_blender.py",
+   "actual": "5e096996e462c97e6541e8955e1ce4225bf9a68afabe21cd783cfce53262f2c8",
+   "matching_commit": "db4aafc6754be5d49d61e856c552fde9e47fcfb1",
+   "status": "STALE_HISTORICAL"
+  },
+  {
+   "json": "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json",
+   "pointer": "/provenance/scripts/scripts/anatomy_fit/joint_markers.py",
+   "path": "scripts/anatomy_fit/joint_markers.py",
+   "recorded": "b9b0f8e84d4e32535c57dc4785573dd2d0f891527e18ff9020fb1a91897bea19",
+   "resolved": "scripts/anatomy_fit/joint_markers.py",
+   "actual": "43aa4e1a81ec0d0d7dfc6d718e25e7e9ecfe70ec06749ea763602f6b4a0f8399",
+   "matching_commit": "881394074728d3b7841bc37854a0a703c813ca1a",
+   "status": "STALE_HISTORICAL"
+  }
+ ],
+ "external": [
+  "/tmp/HGPT_a003_work_recheck_20261008_001.blend",
+  "/tmp/claude-0/-home-user-animation-software/b0b01a8a-22fb-52cd-85ad-39c74496ecb2/scratchpad/run_blends/c003_isolated_tests.blend"
+ ],
+ "sidecar_files": [
+  {
+   "sidecar": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_001/official_capture/capture.json.sha256",
+   "target": "official_capture/capture.json",
+   "recorded": "c0685d0bb20e51ed8688b9ce03e8af7ab9bf8685d136d0df65e321187525c7b8",
+   "status": "OK_VIA_GZIP"
+  },
+  {
+   "sidecar": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_001/official_capture/report.json.sha256",
+   "target": "report.json",
+   "recorded": "5bc1ae2e8bb2c4668704c2ca415a00125baf2faae90377f7c03bf42ccc10a077",
+   "status": "OK_VIA_GZIP"
+  }
+ ],
+ "doc_references_checked": 361,
+ "doc_references_unresolved_from_roots": [
+  {
+   "doc": "docs/COMPLETE_SKELETON_FINDINGS_AND_VERIFICATION_20261007.md",
+   "reference": "isolated_clips_002/",
+   "status": "CONTEXT_RELATIVE",
+   "matches": [
+    "ORIGINAL_V1_WORK/anatomy/audit/review/isolated_clips_002/clips_manifest.json",
+    "ORIGINAL_V1_WORK/anatomy/audit/review/isolated_clips_002/knee_flexion_with_screw_home_left.gif",
+    "ORIGINAL_V1_WORK/anatomy/audit/review/isolated_clips_002/shoulder_complex_scapular_plane_left.gif"
+   ],
+   "match_count": 3
+  },
+  {
+   "doc": "docs/CLAUDE_WORK_SKELETON_INSPECTION_HANDOFF_20261008.md",
+   "reference": "review/sheets/sheet_before_after_shoulder_left.jpg",
+   "status": "CONTEXT_RELATIVE",
+   "matches": [
+    "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/sheets/sheet_before_after_shoulder_left.jpg"
+   ],
+   "match_count": 1
+  },
+  {
+   "doc": "docs/CLAUDE_WORK_SKELETON_INSPECTION_HANDOFF_20261008.md",
+   "reference": "review/sheets/sheet_before_after_shoulder_right.jpg",
+   "status": "CONTEXT_RELATIVE",
+   "matches": [
+    "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/sheets/sheet_before_after_shoulder_right.jpg"
+   ],
+   "match_count": 1
+  },
+  {
+   "doc": "docs/CLAUDE_WORK_SKELETON_INSPECTION_HANDOFF_20261008.md",
+   "reference": "review/sheets/sheet_c001_vs_c002_shoulder_left.jpg",
+   "status": "CONTEXT_RELATIVE",
+   "matches": [
+    "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/sheets/sheet_c001_vs_c002_shoulder_left.jpg"
+   ],
+   "match_count": 1
+  },
+  {
+   "doc": "docs/CLAUDE_WORK_SKELETON_INSPECTION_HANDOFF_20261008.md",
+   "reference": "review/sheets/sheet_c001_vs_c002_shoulder_right.jpg",
+   "status": "CONTEXT_RELATIVE",
+   "matches": [
+    "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/sheets/sheet_c001_vs_c002_shoulder_right.jpg"
+   ],
+   "match_count": 1
+  }
+ ],
+ "doc_missing_references": [],
+ "orphan_candidates": [
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/claude_cp3_rehearsal_002/roundtrip_report_a003.json",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/claude_cp3_rehearsal_002/roundtrip_report_mirrored.json",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_001/crosscheck_expectations.json",
+   "kind": "ORPHAN"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_001/crosscheck_plan.json",
+   "kind": "ORPHAN"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_bpy_baseline_recheck_20261008_001/distal_initial_failures.txt",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_bpy_preflight_20261008_001/initial_roundtrip_failure.txt",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_claude_review_20261008_001/focused_python_suite.txt",
+   "kind": "ORPHAN"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_claude_review_20261008_001/preflight_weaknesses.json",
+   "kind": "ORPHAN"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_claude_review_20261008_001/reproduce_preflight_weaknesses.py",
+   "kind": "ORPHAN"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_cp2_repair_20261008_001/adversarial_after_fix.json",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_cp2_repair_20261008_001/affected_after_fix.txt",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_cp2_repair_20261008_001/clearance_before_fix.txt",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_cp2_repair_20261008_001/rejection_after_fix.txt",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_cp2_repair_20261008_001/rejection_before_fix.txt",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_cp3_independent_20261008_001/build_a003.txt",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_cp3_independent_20261008_001/build_mirrored.txt",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_cp3_independent_20261008_001/capture_a003.txt",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_cp3_independent_20261008_001/capture_mirrored.txt",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_cp3_independent_20261008_001/isolated_run.txt",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_cp3_independent_20261008_001/roundtrip_a003.json",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_cp3_independent_20261008_001/roundtrip_mirrored.json",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_cp3_rejection_repair_20261008_001/build_metadata_a003.txt",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_cp3_rejection_repair_20261008_001/build_metadata_mirrored.txt",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_cp3_rejection_repair_20261008_001/capture_a003.txt",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_cp3_rejection_repair_20261008_001/capture_metadata_a003.txt",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_cp3_rejection_repair_20261008_001/capture_metadata_mirrored.txt",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_cp3_rejection_repair_20261008_001/capture_mirrored.txt",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_cp3_rejection_repair_20261008_001/compare_a003.txt",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_cp3_rejection_repair_20261008_001/compare_metadata_a003.txt",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_cp3_rejection_repair_20261008_001/compare_metadata_mirrored.txt",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_cp3_rejection_repair_20261008_001/compare_mirrored.txt",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_cp3_rejection_repair_20261008_001/focused_tests.txt",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_cp3_rejection_repair_20261008_001/legacy_frame_mismatch_a003.json",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_cp3_rejection_repair_20261008_001/legacy_frame_mismatch_mirrored.json",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_cp3_rejection_repair_20261008_001/roundtrip_a003.json",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_cp3_rejection_repair_20261008_001/roundtrip_mirrored.json",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_shoulder_shape_review_20261008_001/focused_tests.txt",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_shoulder_shape_review_20261008_001/python313_statistics.txt",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_shoulder_source_frame_20261008_001/blender_frame_fixture.py",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_shoulder_source_frame_20261008_001/blender_frame_verification.json",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_shoulder_source_frame_20261008_001/focused_suite.txt",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_shoulder_source_frame_20261008_001/frame_after_implementation.txt",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_shoulder_source_frame_20261008_001/frame_before_implementation.txt",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  },
+  {
+   "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/work_shoulder_source_frame_20261008_001/thorax_frame_fixture.blend.gz",
+   "kind": "UNNAMED_IN_DOCUMENTED_RUN_DIRECTORY"
+  }
+ ]
+}

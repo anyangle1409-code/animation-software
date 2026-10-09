@@ -44,6 +44,30 @@ python3 scripts/anatomy_fit/coupled_trunk_preflight.py \
 - The generator records endpoint-to-sternocostal-marker distances as an engineering proxy. These are **not** clinical cartilage lengths.
 - Remaining requirements include per-level thoracic wedge tables, adult male sternum-spine sagittal dimensions, S1 depth, independent AC/SC target mapping, and all 3D contact/joint frame checks.
 
+### Additional independent SC-coupling guard
+
+The initial P004 mechanical run passed 25/25 focused checks and the
+coarse rib–vertebra Z preflight, with the diagnostic sternum moved about
+[0.0, +5.3883, −14.4416] mm (left/posterior/superior world axes) and
+a maximum change of 3.6605 mm in the stick-to-sternocostal-marker *proxy*
+distance. These values are **computational diagnostics**, not anatomical targets.
+
+That first preflight did not reject an unresolved SC attachment: P004 kept
+the clavicles and their SC markers in place while its sternum moved.
+
+The preflight now explicitly checks the **change** in each SC marker's
+relative vector to the sternum head against c004. Changes beyond an
+engineering 5-mm change-detector are reported as
+`STERNUM_SC_RELATIVE_OFFSET_CHANGED_GT_5MM` and reject the
+*mechanical* preflight. This is NOT an allowable physiological SC separation
+and does not specify the final SC articular centre. A later source-backed
+trunk candidate must re-solve and re-verify SC, AC, GH, scapula and the
+related movement system.
+
+**Thus P004 is expected to FAIL the stricter coupled-trunk check**, even
+though its rib-level correspondence now stays consistent. This correctly
+prevents a false claim that moving the ribs alone solves the trunk.
+
 ## Why P004 remains unaccepted even if tests pass
 
 A synthetic spine-rib reconstruction can satisfy topological and Z-attachment equations but still have an anatomically implausible whole-body profile. In particular, it can leave clavicles disconnected from the relocated sternum or bring ribs too close to the abdominal cavity. There is **no** canonical c005 and no approval for new muscles/skin from this branch.

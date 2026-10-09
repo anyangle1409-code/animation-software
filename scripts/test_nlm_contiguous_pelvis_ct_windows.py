@@ -17,7 +17,7 @@ def rows():
     for triplet in windows.TRIPLETS:
         block=[]
         # Physical superior positions are source headers, not filename arithmetic.
-        centre= -357 if triplet[1]==1752 else -405
+        centre= -360 if triplet[1]==1752 else -408
         for i,num in enumerate(triplet):
             block.append({
                 "source_id":num,
@@ -63,7 +63,7 @@ class OriginalCTTriplets(unittest.TestCase):
         self.assertEqual(len(v),2)
         self.assertEqual(v[0]["measured_step_between_centres_mm"],[3,3])
         self.assertFalse(v[0]["any_bony_feature_independently_labelled"])
-        self.assertEqual(v[0]["scan_window_extents_including_half_slice_mm"],[-361.5,-352.5])
+        self.assertEqual(v[0]["scan_window_extents_including_half_slice_mm"],[-364.5,-355.5])
 
     def test_filename_3step_with_wrong_physical_4mm_gap_rejected(self):
         a=rows()

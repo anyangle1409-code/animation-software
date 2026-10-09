@@ -660,3 +660,17 @@ Full proximal curves remain BLOCKED pending verified intended conventions or an 
 - **Evidence:** `audit/joint_attachment_scan/{a003_isolated_014,c003_isolated_001}.json`; foot close-up clips (front and side, a003 vs c003) in `audit/joint_attachment_scan/clips/`, indexed in `REVIEW_PACK_INDEX.md`.
 - **Tests:** `scripts/test_joint_attachment_scan.py` (5).
 - **Gate 9:** stays NOT PASSED; the midfoot coupling is source-blocked.
+
+### Reference-frame continuity over all isolated sweeps (9 October, Claude; mechanical): CLEAN on a003 and c003
+
+- **What:** `scripts/anatomy_fit/frame_continuity_scan.py` covers all 135 sweeps (9,575 frames) of a003 run 014 and c003 run 001. It checks:
+  - contiguous frames, a constant time step and finite values;
+  - every recorded world delta is a proper rigid transform (float32 bound 1e-5; a negative determinant would be a sign flip);
+  - each bone's rotation between consecutive frames stays within the summed change of the commanded angular channels (small-angle-accurate `atan2` angle);
+  - no measured-angle jump over 90° per frame (plane of elevation excluded below 1° elevation);
+  - identity deltas at both ends.
+- **Result: no issues on either model.**
+  - Worst orthonormality 2.1e-6 and worst |det − 1| 1.1e-6 (float32); worst rotation-step excess 3.6e-5°; largest measured jump 14°/frame; rest error 0.
+  - The only a003/c003 difference is trivial (largest jump 14.05° vs 13.91°).
+- **Correction in the method:** a first pass flagged 1,211 "issues", which were artefacts of `acos` at small angles and a float64 bound applied to float32 matrices. Both were fixed before recording, and the reasoning is in the script.
+- **Tests:** `scripts/test_frame_continuity_scan.py` (8). Six mutation tests inject a reflection, a NaN, a frame gap, a 30° rotation jump, a non-rest end state and a 360° wrap, and each must be detected.

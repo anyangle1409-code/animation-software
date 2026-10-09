@@ -127,6 +127,28 @@ def examine(base, proposal):
     changed_spine = [k for k in SPINE if k in changed]
     no_change = not changed_spine
 
+    # The sternoclavicular (SC) markers must not silently lose their
+    # baseline spatial relationship to a relocated sternum. In an accepted
+    # profile the surface-based SC articulation must be re-solved using
+    # anatomical sources; this is only a diagnostic relative-vector guard.
+    sc_shift_residuals = {}
+    bm = base.get('joint_markers', {})
+    pm = proposal.get('joint_markers', {})
+    sc_checked = all(f'sternoclavicular_{s}' in bm and
+                     f'sternoclavicular_{s}' in pm for s in ('left', 'right'))
+    if sc_checked:
+        for side in ('left', 'right'):
+            key = f'sternoclavicular_{side}'
+            before = [a-b for a, b in zip(
+                bm[key]['centre_m'], B['sternum']['head_m'])]
+            after = [a-b for a, b in zip(
+                pm[key]['centre_m'], P['sternum']['head_m'])]
+            sc_shift_residuals[side] = round(_dmm(before, after), 6)
+    # The 5-mm guard is an ENGINEERING change detector, not a physiological
+    # SC articulation tolerance or a proposed anatomical fit.
+    sc_not_coupled = sc_checked and any(
+        v > 5.0 for v in sc_shift_residuals.values())
+
     blockers = []
     if no_change:
         blockers.append('NO_SPINE_RECONSTRUCTION')
@@ -140,6 +162,8 @@ def examine(base, proposal):
         blockers.append('RIBS_NOT_COUPLED_TO_THORAX')
     if sternum_stationary_despite_thorax:
         blockers.append('STERNUM_NOT_COUPLED_TO_THORAX')
+    if sc_not_coupled:
+        blockers.append('STERNUM_SC_RELATIVE_OFFSET_CHANGED_GT_5MM')
     return {
         'schema_version': 1,
         'kind': 'COUPLED_TRUNK_DIAGNOSTIC_ONLY',
@@ -161,7 +185,11 @@ def examine(base, proposal):
         'rib_level_proposal_max_offset_mm': round(proposed_max, 4),
         'rib_level_guard_threshold_mm': round(rib_threshold, 4),
         'rib_level_regressions_mm': regressed_ribs,
-        'shoulder_anchor_follow_up_required': thorax_shift > COMPONENT_MOVE_FLAG_MM,
+        'shoulder_anchor_follow_up_required':
+            thorax_shift > COMPONENT_MOVE_FLAG_MM or sc_not_coupled,
+        'sternoclavicular_reference_delta_mm': sc_shift_residuals,
+        'sternoclavicular_correspondence_checked': sc_checked,
+        'sternoclavicular_reference_change_guard_mm': 5.0,
         'unverified_requirements': [
             'Sourced individual disc heights, wedge angles and intervertebral contact surfaces',
             'Evidence-based sternum-to-spine sagittal closure and S1 depth',

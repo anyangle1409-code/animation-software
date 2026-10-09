@@ -85,6 +85,15 @@ The independent first-party utility `scripts/anatomy_fit/nlm_original_ct_png_pro
 
 Its opt-in `--download` mode fetches only from the exact official `data.lhncbc.nlm.nih.gov` URL, refuses redirects and existing output paths, caps the response size at **2 MiB**, verifies the PNG header and CRC of **every chunk**, and computes SHA-256 of the source bytes. The CI pilot keeps downloaded slices only in the GitHub runner's `$RUNNER_TEMP`; the original pixels are **never committed to GitHub**, redistributed, turned into meshes or fitted to the skeleton.
 
+**Verified live original-source pilot (2026-10-09, GitHub Actions [run 37927362119](https://github.com/anyangle1409-code/animation-software/actions/runs/37927362119)):**
+
+| Original NLM frame | PNG bytes | Format | Actual PNG SHA-256 |
+|---|---:|---|---|
+| `cvm1012f.png` | 208,501 | 512×512, 16-bit grayscale | `d771fb0b004a4189d200fdce3af97329990bdf9971a74e86f5cb1bdd72d7e0c6` |
+| `cvm1013f.png` | 193,332 | 512×512, 16-bit grayscale | `449c665c97d2f4e093fd1434656ba1c5ac0f31a4dc07d189bde432dd49c3a77d` |
+
+Both files were retrieved directly from the NLM HTTPS host to `$RUNNER_TEMP`, every PNG chunk CRC passed, both SHA-256s were printed and the same temporary bytes passed subsequent inspection. **No images were added to the repository or retained as downloadable artifacts.** These SHA values are now pinned in `ORIGINAL_V1_WORK/anatomy/audit/nlm_original_ct_png_pinned_preview_20261009.json`; the live pilot requires exact digest matches before treating source-file identity as checked. A future NLM source update must be reviewed explicitly rather than silently accepted.
+
 The two source frames are **not located/labeled as pelvis slices** and their physical position, original 12-bit CT calibration, voxel origin, Hounsfield units and reconstructed axial scan registration remain **UNVERIFIED**. A valid 512×512 pixel header and CRC are container-integrity tests, not source anatomy or source-patient identity validation. Further scanner-header study and contiguous pelvic slice segmentation are needed for osseous pelvis landmark evidence.
 
 `scripts/test_nlm_original_ct_png_probe.py` runs 14 synthetic **offline** CRC, header, malformed/truncated PNG, allowlist, file identity, create-only output and no-anatomy-claim tests. The `original-ct-pilot` job of `.github/workflows/independent-pelvis-stl-intake.yml` separately tests live network access. A failed network test must be reported as a source-acquisition blocker, not concealed by green offline geometry tests.

@@ -1,0 +1,120 @@
+{
+  "canonical_promotion_allowed": false,
+  "canonical_promotions": 0,
+  "kind": "NLM_PELVIC_CT_IDENTIFICATION_SEGMENTATION_LANDMARK_REPORT",
+  "missing_full_volume_coverage": true,
+  "schema_version": 1,
+  "source_image_or_header_bytes_copied": false,
+  "source_skeleton_governs_geometry": true,
+  "stage_evidence": {
+    "anatomical_review": {
+      "citations": [
+        {
+          "title": "NLM Visible Human Project \u2014 Getting the Data",
+          "url": "https://www.nlm.nih.gov/research/visible/getting_data.html"
+        },
+        {
+          "title": "Anatomy, Bony Pelvis and Lower Limb: Pelvis Bones",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK545204/"
+        },
+        {
+          "title": "Morphometric anatomical and CT study of the human adult sacroiliac region",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/27324173/"
+        }
+      ],
+      "observations": [
+        {
+          "candidate_label": "sacrum",
+          "confidence": 0.55,
+          "observation_id": "obs-1797-central-sacrum-candidate",
+          "pixel": {
+            "column": 256,
+            "row": 330
+          },
+          "reviewer_id": "codex-source-review-20261009",
+          "scanner_S_mm": -405,
+          "source_header_sha256": "1feadc69adf294a79fa66dd474e613256be0fd57572e7eea7e019fa2ac52b8b4",
+          "source_id": 1797,
+          "source_png_sha256": "7ba206fd8110c66334dff8387d1df839249aa778c421b013fb07fc5b43ac2072"
+        },
+        {
+          "candidate_label": "sacrum",
+          "confidence": 0.55,
+          "observation_id": "obs-1800-central-sacrum-candidate",
+          "pixel": {
+            "column": 256,
+            "row": 330
+          },
+          "reviewer_id": "codex-source-review-20261009",
+          "scanner_S_mm": -408,
+          "source_header_sha256": "e159990a7bb612e904ca98ee0972510242ea2ec69e77bcb245174c9743486e0a",
+          "source_id": 1800,
+          "source_png_sha256": "57371cc19aa7cc468f5cc8c12ef01d0d0c740e0a0da1d5e93f238dda09f92d69"
+        },
+        {
+          "candidate_label": "sacrum",
+          "confidence": 0.55,
+          "observation_id": "obs-1803-central-sacrum-candidate",
+          "pixel": {
+            "column": 256,
+            "row": 330
+          },
+          "reviewer_id": "codex-source-review-20261009",
+          "scanner_S_mm": -411,
+          "source_header_sha256": "f5d4e555c90f07ae51929ebbdfa72b82954398471860bc6aa3cdca72c00d91ce",
+          "source_id": 1803,
+          "source_png_sha256": "73ede100af03ce8fa6ae2b190326aa539b999e4ed4f69a89fc6a29771ecb19a5"
+        }
+      ],
+      "status": "CANDIDATE"
+    },
+    "candidate_landmarks": {
+      "all_landmarks_verified": false,
+      "count": 0,
+      "landmarks": []
+    },
+    "candidate_segmentation": {
+      "bone_surface_segmentation_verified": false,
+      "candidate_label": "sacrum",
+      "connected_component_count_6_neighbour": 1,
+      "coverage_complete": false,
+      "coverage_gaps": [
+        "OUTSIDE_REVIEWED_THREE_SLICE_WINDOW",
+        "BETWEEN_PINNED_TRIPLETS_NOT_REVIEWED",
+        "FULL_PELVIC_BONE_SURFACE_NOT_COVERED"
+      ],
+      "sample_centre_bounds_RAS_mm": {
+        "max": [
+          1.14453125,
+          -5.93359375,
+          -405.0
+        ],
+        "min": [
+          -6.04296875,
+          -5.93359375,
+          -411.0
+        ]
+      },
+      "source_ids": [
+        1797,
+        1800,
+        1803
+      ],
+      "voxel_count": 27
+    }
+  },
+  "status": "CANDIDATE_EVIDENCE_ONLY",
+  "unmet_gates": [
+    "INDEPENDENT_SECOND_REVIEWER_REQUIRED",
+    "FULL_ANATOMICAL_COVERAGE_NOT_ESTABLISHED",
+    "SOURCE_CT_HU_CALIBRATION_NOT_VERIFIED",
+    "SOURCE_SEGMENTED_BONE_SURFACES_NOT_VERIFIED",
+    "PATIENT_SCANNER_TO_HGPT_WORLD_NOT_VERIFIED",
+    "CANONICAL_GEOMETRY_PROMOTION_PROHIBITED",
+    "FULL_CONTIGUOUS_CT_COVERAGE_REQUIRED",
+    "INDEPENDENT_BONE_SURFACE_VALIDATION_REQUIRED",
+    "PIXEL_CENTRE_CONVENTION_NOT_INDEPENDENTLY_VERIFIED",
+    "FULL_BONE_SURFACE_NOT_VALIDATED",
+    "INDEPENDENT_SECOND_LANDMARK_REVIEW_REQUIRED"
+  ]
+}

@@ -9,6 +9,7 @@ import unittest
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+ROOT = HERE.parent
 sys.path.insert(0, str(HERE / "anatomy_fit"))
 sys.path.insert(0, str(HERE))
 
@@ -32,6 +33,39 @@ def inputs():
 
 
 class EndToEndWorkflow(unittest.TestCase):
+    def test_committed_live_candidate_report_is_source_bound_and_noncanonical(self):
+        path = (ROOT / "ORIGINAL_V1_WORK" / "anatomy" / "audit"
+                / "codex_pelvis_ct_candidate_review_20261009"
+                / "candidate_sacrum_report.json")
+        result = json.loads(path.read_text(encoding="utf-8"))
+        expected = {row["source_id"]: row
+                    for row in manifest()["exact_png_and_scanner_header_sha256"]}
+        self.assertEqual(result["status"], "CANDIDATE_EVIDENCE_ONLY")
+        self.assertEqual(result["canonical_promotions"], 0)
+        self.assertFalse(result["canonical_promotion_allowed"])
+        self.assertTrue(result["source_skeleton_governs_geometry"])
+        self.assertTrue(result["missing_full_volume_coverage"])
+        self.assertFalse(result["source_image_or_header_bytes_copied"])
+        observations = result["stage_evidence"]["anatomical_review"]["observations"]
+        self.assertEqual([item["source_id"] for item in observations], [1797, 1800, 1803])
+        for item in observations:
+            pin = expected[item["source_id"]]
+            self.assertEqual(item["source_png_sha256"], pin["png_sha256"])
+            self.assertEqual(item["source_header_sha256"], pin["scanner_header_sha256"])
+            self.assertEqual(item["candidate_label"], "sacrum")
+        segmented = result["stage_evidence"]["candidate_segmentation"]
+        self.assertEqual(segmented["voxel_count"], 27)
+        self.assertEqual(segmented["connected_component_count_6_neighbour"], 1)
+        self.assertFalse(segmented["coverage_complete"])
+        self.assertFalse(segmented["bone_surface_segmentation_verified"])
+        landmarks = result["stage_evidence"]["candidate_landmarks"]
+        self.assertEqual(landmarks["count"], 0)
+        self.assertFalse(landmarks["all_landmarks_verified"])
+        encoded = json.dumps(result)
+        self.assertNotRegex(encoded, r"[A-Za-z]:\\")
+        self.assertNotIn("raw_headers", encoded)
+        self.assertNotIn("raw_pixels", encoded)
+
     def test_workflow_accepts_no_defensible_landmark_candidates(self):
         value = inputs()
         value["landmark_packet"]["landmarks"] = []

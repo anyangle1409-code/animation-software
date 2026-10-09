@@ -95,6 +95,21 @@ class P004Rehearsal(unittest.TestCase):
         self.assertTrue(p4['shoulder_anchor_follow_up_required'])
         self.assertFalse(p4['safe_for_canonical_promotion'])
 
+    def test_new_sc_coupling_guard_detects_provisional_clavicle_problem(self):
+        result = cp.examine(self.base, self.candidate)
+        self.assertTrue(result['sternoclavicular_correspondence_checked'])
+        self.assertIn('STERNUM_SC_RELATIVE_OFFSET_CHANGED_GT_5MM', result['blockers'])
+        for delta in result['sternoclavicular_reference_delta_mm'].values():
+            self.assertGreater(delta, 5)
+        self.assertEqual(result['status'], 'REJECTED_MECHANICAL_PREFLIGHT')
+        self.assertFalse(result['safe_for_canonical_promotion'])
+
+    def test_new_sc_coupling_guard_ignores_baseline_sternum_without_shift(self):
+        result = cp.examine(self.base, self.p003)
+        self.assertTrue(result['sternoclavicular_correspondence_checked'])
+        for delta in result['sternoclavicular_reference_delta_mm'].values():
+            self.assertAlmostEqual(delta, 0, places=8)
+
     def test_every_c004_p003_bone_id_and_marker_id_is_preserved(self):
         self.assertEqual(set(self.base['bones']), set(self.candidate['bones']))
         self.assertEqual(set(self.base['joint_markers']), set(self.candidate['joint_markers']))

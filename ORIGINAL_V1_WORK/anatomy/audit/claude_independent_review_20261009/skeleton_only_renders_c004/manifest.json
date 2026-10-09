@@ -284,36 +284,6 @@
   }
  },
  "source_blend_sha256_after": "9b5879504e87d2c28681be14a7cbfffe51b921acbc8f081f10be7deef1619d3e",
- "png_sha256_before_jpeg_conversion": {
-  "body_back.png": "9ea62b059530b91982b6b56a169b3f8f2df61a7d185c8de57acd7bd775005c2a",
-  "body_back_right_34.png": "0c31219874cca8cb44976e25ff403c2de000f6081c021fc417391447dccd5448",
-  "body_front.png": "4a6c50b7b539cea57948dfab0347b582de9ea169e9041c55f68a0560a70f2a28",
-  "body_front_left_34.png": "fc53ecc8cab5799b1aa22a9065847c9e8ffe9b1e4b5ab6395e6ab206b6ec66fb",
-  "body_left.png": "209c4464bd987594e15adb88a79d172ba80157199b6c8a78a37847da57bf51df",
-  "body_right.png": "211a37261c6d7ba9abc5ad764f20d2ce56f79398f948d5a32ee6f20c722c250f",
-  "foot_left_medial.png": "53edfc4e224b51e976ca68dc767d78bb6d856afaa57206e85bb6867872d856ad",
-  "foot_left_plantar.png": "05744e38735c2803edb2f3c6c861b43576f6a5448b8530dc50c046ec24ed2313",
-  "foot_left_top.png": "e285a8ee5f0b2549d9b07ae2c3903577a0e6c143c8f0e62f4647060622a9ca52",
-  "hand_left_dorsal.png": "0469559014cf3acf3faecf87f8adbee0da3d4c8a9d1c34d1af85b4f8a23ee17d",
-  "hand_left_palmar.png": "15431cc850cd7cfae30bd01ca41062b501754f18a62c726785bb25c94ed2ef3b",
-  "hand_left_radial.png": "a5ce50366974024838588c3d092eb18512f76b529a37ae73b4f6364560102203",
-  "hand_right_palmar.png": "10d6a504dfb4173098270ad45e6c5cbb959c88e879e63946ebc8f8a11257178b",
-  "head_neck_left.png": "3d650d83e3e0921c6e57a4aec6a3cefd2882c26f23f94b4a1aeedf20ad1daae2",
-  "pelvis_front.png": "9faaa138dbfd772e778329f1f249d636f0577d64cee34b6f97642a7b650d6ca7",
-  "pelvis_top.png": "c854c59de35bdcd72a40062a9d7ee166d10f0ce809b919a291d32e3e53b9bea4",
-  "pose_digit2_flexion_left_f1631.png": "936bcf2db078082d0b4a31d215ae5822e61939d33fdce02586d854d1d3e0076d",
-  "pose_elbow_flexion_at_pronation_0_left_f1081.png": "64e04b340cce7735850ae473e90faf2da28f7ba4a444fc20227e86a8c0d20e77",
-  "pose_hip_abduction_adduction_left_f146.png": "711811ff055dea9a5e910817389c52cec16e1f63327d4965a32e2f07cfdc6335",
-  "pose_knee_flexion_extension_left_f381.png": "16c269b00242c43d00fcde8121ccc5d04b009b043bf07a669d53262a4c49b582",
-  "pose_shoulder_complex_scapular_plane_left_f5716.png": "9c72d60c5141e815d706e49a5ddc5e7ec2953b0374261be99de8482d1e9876ca",
-  "pose_subtalar_inversion_eversion_left_f551.png": "7525846ca1659bf9e2553ee1d7212c307c0567224eced8d417b28fe0bde7da78",
-  "pose_thumb_opposition_left_f2201.png": "bfe0c56053dc532d300b77e51a937ec90fce00ec9bb992213c949c98eabc9530",
-  "pose_wrist_flexion_left_f1461.png": "5263050b2bb3e176ec9a1d019f59bfe4915c1fbaa46da2e49f8e0c6341660eb4",
-  "shoulders_front.png": "c2b4ffda387406a493f6a54a76a11c910ad9672c107703cc6630e154ed01bd2c",
-  "shoulders_top.png": "8ae14886f636a7f14ca71c33e44d74f7d95b407a737721287d948c33bf859fd5",
-  "spine_back.png": "2996725d1aa17feeda19261477a1e876b87f2c7fdbc6be1e033abd92079eef3a",
-  "spine_left.png": "c5843c3c9dda38362fa7ecfe332732bc2cd4c2417a2f13775c7d3c4c28fa8e96"
- },
  "files_sha256": {
   "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/body_back.jpg": "0d951294696d17ea8ab989d90f3cfb419cd2cb079a7a2dcd10c3c824ad42a1b2",
   "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/body_back_right_34.jpg": "ad0e257806e8bdba7b13a06d68d995c10429df91ba315f1eb766968493eeb8f0",
@@ -344,5 +314,5 @@
   "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/spine_back.jpg": "4c114df48ce5395db1015d8225bdf663c6ee1ccdf3fb74a2737dbe015fc3e101",
   "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/spine_left.jpg": "349c6e80db3a6c249c8a5658310ed3a38e420744508fcbf9e52ddc9e1ba96ef3"
  },
- "note": "Real Blender 5.2.1 Workbench renders (skeleton-only rehearsal blend from audit/runs/work_fresh_c004_rehearsal_20261009, decompressed; c004 record). Stick radii are display-only. JPEG quality 88."
+ "note": "Real Blender 5.2.1 Workbench renders (skeleton-only rehearsal blend from audit/runs/work_fresh_c004_rehearsal_20261009, decompressed; c004 record). Stick radii are display-only. JPEG quality 88. The transient PNG originals were not committed; the JPEG hashes in files_sha256 are the files of record."
 }

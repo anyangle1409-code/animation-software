@@ -68,7 +68,7 @@ class Mutations(unittest.TestCase):
         (U / 'data.json.sha256').write_text(h(b'payload') + '  big.json\n')
         (U / 'stray.txt').write_text('nobody names me')
         man = {'files_sha256': {'ok.txt': h(b'ok'), 'tampered.txt': h(b'original'), 'stale.txt': h(b'v1'), 'gone.txt': h(b'x'),
-                                'big.json': h(b'payload'), 'model.blend': h(b'b'), '/tmp/elsewhere.blend': h(b'c')}}
+                                'big.json': h(b'payload'), 'model.blend': h(b'b'), '/tmp/elsewhere.blend': h(b'c'), 'https://example.org/src/mesh.vtp': h(b'd')}}
         (U / 'manifest.json').write_text(json.dumps(man))
         (U / 'data.json.sha256').write_text(h(b'payload') + '  big.json\n')
         (R / 'docs/d.md').write_text('see `audit/runs/x/ok.txt` and `audit/runs/x/absent.json` and `x/ok.txt`\n')
@@ -85,7 +85,7 @@ class Mutations(unittest.TestCase):
         refs, _, by = e.hash_refs()
         st = {Path(r['path']).name: r['status'] for r in refs}
         self.assertEqual(st, {'ok.txt': 'OK', 'tampered.txt': 'MISMATCH', 'stale.txt': 'STALE_HISTORICAL', 'gone.txt': 'MISSING',
-                              'big.json': 'OK_VIA_GZIP', 'model.blend': 'ABSENT_BINARY_NOT_COMMITTED', 'elsewhere.blend': 'EXTERNAL'})
+                              'big.json': 'OK_VIA_GZIP', 'model.blend': 'ABSENT_BINARY_NOT_COMMITTED', 'elsewhere.blend': 'EXTERNAL', 'mesh.vtp': 'EXTERNAL'})
 
     def test_sidecar_doc_and_orphan(self):
         self.assertEqual([x['status'] for x in e.sidecars()], ['OK_VIA_GZIP'])

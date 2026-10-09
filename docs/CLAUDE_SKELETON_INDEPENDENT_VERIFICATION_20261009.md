@@ -116,3 +116,11 @@ The owner's three screenshots did not reach this session; the same views were re
 
 - First pass, 28 views including 8 movement extremes: [`skeleton_only_renders_c004`](https://github.com/anyangle1409-code/animation-software/blob/claude/skeleton-independent-verification-20261009/ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004)
 - Annotated pass (axes, scale bar, labels, camera check): [`annotated_renders_c004`](https://github.com/anyangle1409-code/animation-software/blob/claude/skeleton-independent-verification-20261009/ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/annotated_renders_c004)
+
+### Tests (exact)
+
+- **Full suite:** `python3 -m unittest discover -s scripts -p 'test_*.py'`: **1,044 tests, 1,035 pass, 5 failures + 4 errors**. These are the same 9 inherited orchestration/production-control names as before this session, and no gate was weakened.
+- **New tests this session:** wrist/hand context (5), bone audit + register + P001 (6), whole-body interaction (2), plus a URL case added to the evidence-integrity mutations.
+- **Integrity regression caught two traceability faults in this session's own evidence; both fixed:**
+  - the first-pass render manifest listed hashes of transient PNGs that were never committed;
+  - external OpenSim mesh files were named by bare file name. They are now pinned GitHub URLs, and the auditor classes URLs as EXTERNAL.

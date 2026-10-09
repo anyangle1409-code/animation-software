@@ -85,9 +85,12 @@ def model_part(repo):
              'DIP_centre_to_bony_tip_mm': float(np.linalg.norm(tip - J['DIP2']) * 1000), 'distal_phalanx_mesh_extent_mm': L * 1000,
              'DIP_centre_to_distal_phalanx_base_along_axis_mm': base_proj * 1000,
              'tip_offset_over_extent': float(np.linalg.norm(tip - J['DIP2']) / L)}
+    commit = subprocess.run(['git', '-C', str(repo), 'rev-parse', 'HEAD'], capture_output=True, text=True).stdout.strip()
+    url = lambda rel: f'https://github.com/opensim-org/opensim-models/blob/{commit}/{rel}'      # external files: full URL at pinned commit
+    used = {url(f'Geometry/{k}'): v for k, v in used.items()}
     prov = {'credits': m.root.find('credits').text, 'publication': m.root.find('publications').text,
             'repository': 'https://github.com/opensim-org/opensim-models', 'commit': subprocess.run(['git', '-C', str(repo), 'rev-parse', 'HEAD'], capture_output=True, text=True).stdout.strip(),
-            'model_file': 'Models/WristModel/wrist.osim', 'model_sha256': sha(osim), 'meshes_sha256': used,
+            'model_file': url('Models/WristModel/wrist.osim'), 'model_sha256': sha(osim), 'meshes_sha256': used,
             'mesh_vertex_counts': {k: int(len(v[1])) for k, v in meshes.items()},
             'note': 'decimated display meshes (26-201 vertices per bone); extents are coarse'}
     return prov, lengths, forearm, frame, index

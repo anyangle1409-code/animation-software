@@ -56,6 +56,19 @@ python3 scripts/anatomy_fit/nlm_pelvis_region_scout.py --live-scout \
   --slice-ids 1300 1399 1451 1500 1551 1602 1650 1701 1752 1800 1906 1948
 ```
 
+## Follow-on source pixel coordinate envelope (no bone identity)
+
+`scripts/anatomy_fit/nlm_ct_pixel_ras_envelope.py` is a separate, read-only first-party mapper. Given a **source scanner geometry report** and a future human-reviewed `(row,col)` image index, it returns:
+
+- a candidate **pixel centre in original scanner RAS coordinates**, conditional on an explicitly **unverified outer-FOV-corner origin convention**;
+- the **four pixel-cell corner coordinates** for the same stated convention;
+- a **3 mm thick axial slab**, centred on the slice location and extending ±1.5 mm along scanner S;
+- the original 0.898438 mm in-plane pixel step and approximately **0.449219 mm half-pixel extent** on each axis.
+
+These are *physical sampling bounds*, not measurement precision, clinically validated landmark position, HU density calibration or independent bone-source identification. The true voxel index to patient-space sample-centre convention, image registration, pixel-array axis direction and scanner-to-Home Gym PT canonical world transform must be checked before the point becomes a geometric anatomical observation.
+
+`scripts/test_nlm_ct_pixel_ras_envelope.py` adds 15 independent tests on known original GE scanner corner coordinates for `cvm1300f`, including edge and last-pixel placement, handedness, frame translation invariance, pixel selection bounds, 3 mm slab, false-approval flags and malformed scales. No patient identifiers or image pixels are emitted.
+
 ## Immediate anatomical next gate
 
 Review selected original **source images in physical sequence** against a qualified labelled pelvic CT atlas and visually identify the sacral promontory, osseous bilateral ASIS, pubic tubercles, acetabula and left/right femoral head surfaces, recording the relevant scanner RAS Z ranges. Then verify HU pixel coding with manufacturer/original converter evidence and the voxel/sample-centre convention; segment relevant **continuous** scan groups rather than sparse scouting frames, validating topology and source resolution before selecting any landmark coordinate. Finally compare against independent clinical 3D CT population measurements and map to the project coordinate frame. These steps have **NOT** been completed.

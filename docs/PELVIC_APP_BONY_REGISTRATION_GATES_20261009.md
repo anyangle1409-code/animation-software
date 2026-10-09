@@ -93,3 +93,17 @@ Once a rights-cleared human osseous CT segmentation is available:
 4. compare in like-for-like anatomical APP coordinates with Imai 2019 (and independent compatible sources), **not** by moving c004 by the raw published mean difference;
 5. only after region-wise anatomical acceptance address lumbar curvature, rib head/cartilage, sternum–manubrium and shoulder-girdle joints in a new isolated candidate.
 
+
+
+## Potential independent physical bony source — NLM Visible Human Project
+
+The **U.S. National Library of Medicine's Visible Human Project** offers public whole-body male/female CT images, with axial male CT sections at **1 mm spacing** and **512×512 pixel** resolution. NLM reports that **registration is no longer required since 2019** for its public FTP access; source terms must still be reviewed. The Imaging Data Commons also provides a DICOM-converted collection.
+
+- NLM [official source](https://www.nlm.nih.gov/research/visible/visible_human.html) and [download instructions](https://www.nlm.nih.gov/research/visible/getting_data.html).
+- [Imaging Data Commons collection](https://portal.imaging.datacommons.cancer.gov/collections/nlm_visible_human_project/), [DICOM conversion project](https://github.com/ImagingDataCommons/NLM-Visible-Human-Project-DICOM-Conversion).
+- The reference is **one male cadaver and one female cadaver**, not a population-derived statistical shape target; no verified stature/pose/segment meshes are assumed.
+- The full male dataset is ~15 GB. **It has not been downloaded, segmented or ingested into this project**. No landmark or anatomical shape has been selected from it and there is no implied permission to reinterpret its cohort as our 1.82 m canonical man.
+- An isolated registry at `ORIGINAL_V1_WORK/anatomy/audit/potential_bone_geometry_sources_20261009.json` records this potential reference. Its source-role distinction (surface observations versus population targets), specimen count, geometry availability and canonical nonapproval are explicitly tested.
+
+The next physically meaningful work is acquiring suitably authorized CT bone surfaces/labels with verified scanner transforms and attaching their actual source hashes and observation points to the already developed feature packet. Only then should Blender anatomical feature identification and clinical comparisons occur. Any matching source remains secondary to **validated skeletal anatomy**, as the model/skin must fit the skeleton rather than reverse.
+

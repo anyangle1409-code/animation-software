@@ -141,8 +141,12 @@ def scanner_geometry_from_text(raw):
 
 
 def pair_consistency(one,two):
-    if one["image_dimensions"]!=two["image_dimensions"] or one["pixel_spacing_mm"]!=two["pixel_spacing_mm"]:
-        raise ValueError("different geometric pixel grids in adjacent CT frames")
+    if (one["image_dimensions"]!=two["image_dimensions"] or
+            one["pixel_spacing_mm"]!=two["pixel_spacing_mm"] or
+            one["slice_thickness_mm"]!=two["slice_thickness_mm"] or
+            one["nominal_series_slice_spacing_mm"]!=two["nominal_series_slice_spacing_mm"] or
+            one["normal_RAS"]!=two["normal_RAS"]):
+        raise ValueError("different CT acquisition grids or scan thickness; cannot stack without registration")
     separation=abs(one["image_location_superior_mm"]-two["image_location_superior_mm"])
     expected=one["nominal_series_slice_spacing_mm"]
     if abs(separation-expected)>.01:
@@ -153,6 +157,8 @@ def pair_consistency(one,two):
     return {"kind":"ADJACENT_CT_GEOMETRY_COMPARISON",
             "slice_spacing_measured_mm":separation,
             "measured_and_reported_spacing_agree":True,
+            "same_acquisition_grid_and_slice_thickness_verified":True,
+            "normalCT_archive_global_uniform_grid_assumed":False,
             "scanner_to_HGPT_world_registration_verified":False,
             "canonical_promotion_allowed":False}
 

@@ -537,3 +537,21 @@ Tests are in `scripts/test_owner_proportion_policy_and_source_fixes.py`. The ful
   - pins the findings;
   - live re-verification: no previously verified reference may degrade, and no document reference may go missing;
   - mutations on a synthetic git repository prove each status (OK, MISMATCH, STALE_HISTORICAL, MISSING, OK_VIA_GZIP, ABSENT_BINARY_NOT_COMMITTED, EXTERNAL), a tampered sidecar target, a missing and a context-relative document reference, and a stray orphan are each detected.
+
+### Solver ↔ Blender cross-implementation agreement over all 135 sweeps (9 October, Claude): AGREE on a003 and c003
+
+- **Why:** the Phase 9 runner keyframes a pose basis derived from the pure-Python solver, then records what Blender EVALUATES (keyframes, quaternion decomposition, parent composition through the depsgraph) and measures from that. Nothing had checked that Blender's evaluated motion is exactly the solver's intent. The integrity audit also found the solver scripts edited since run 014 (STALE_HISTORICAL provenance), so it was open whether today's code still reproduces the committed runs.
+- **What:** `scripts/anatomy_fit/solver_blender_agreement.py`, pure Python and read-only. Rest matrices are rebuilt from the record (head; Y = head→tail, the only rest quantity `measure()` reads besides the delta). It checks three things:
+  - **(A)** the committed command series equals today's `isolated_tests.series()`;
+  - **(B)** every recorded evaluated delta equals the solver delta composed through its commanded ancestors;
+  - **(C)** re-running `isolated_tests.measure()` reproduces every recorded numeric channel. Plane of elevation is skipped below 1° elevation, where it is undefined (the runner's own rule).
+  - Bounds are numerical only: transforms 1e-5 (float32); angles 1.7e-3° (3 × 1e-5 rad); lengths 1e-5 m.
+- **Result, a003 run 014:** 135 tests, 9,575 frames, 13,509 deltas, 49,991 channels. **AGREE**: no series drift; worst composed delta 8.0e-7; worst channel difference 5.5e-5°. The uncomposed reading (delta = solver delta alone) would differ by up to 1.99, so composition is genuinely exercised.
+- **Result, c003 run 001:** 49,667 channels. **AGREE**: worst composed delta 1.4e-6; worst channel 2.0e-4° (GH plane).
+- **Consequence:**
+  - The script edits after run 014 did not change any test series, solver output or measurement; the committed runs are reproducible from the current code.
+  - Blender's evaluation adds no hidden constraint, driver or interpolation effect on commanded bones.
+  - Followers and carried descendants were covered separately by the mirror, attachment and crossing scans.
+  - Nothing here changes Gate 9 (still NOT PASSED for coverage and source reasons).
+- **Evidence:** `audit/solver_blender_agreement/{a003_isolated_014,c003_isolated_001}.json`.
+- **Tests:** `scripts/test_solver_blender_agreement.py` (7). Mutations, each of which must be detected: a drifted command value, a corrupted evaluated delta (0.1 mm), a child delta stored without its ancestors, a measured channel corrupted by 0.01°, and a test absent from the current specs.

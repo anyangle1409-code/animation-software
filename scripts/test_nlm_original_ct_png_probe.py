@@ -101,6 +101,36 @@ class CTSourceIntegrity(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"refuse to replace"):
             p.download_allowlisted("cvm1012f.png",self.path)
 
+    def test_matching_pinned_sha_is_checked_from_actual_bytes(self):
+        digest=hashlib.sha256(self.path.read_bytes()).hexdigest()
+        r=p.probe_file(self.path,expected_sha256=digest)
+        self.assertTrue(r["source_sha256_matches_independently_pinned_digest"])
+
+    def test_mismatched_pinned_sha_fails_closed(self):
+        with self.assertRaisesRegex(ValueError,"no longer matches pinned SHA"):
+            p.probe_file(self.path,expected_sha256="a"*64)
+
+    def test_malformed_pinned_sha_fails_closed(self):
+        with self.assertRaisesRegex(ValueError,"invalid expected SHA"):
+            p.probe_file(self.path,expected_sha256="not-a-digest")
+
+    def test_real_NLM_source_manifest_is_noncanonical_and_accurately_pinned(self):
+        source=(HERE.parent/"ORIGINAL_V1_WORK/anatomy/audit/"
+                "nlm_original_ct_png_pinned_preview_20261009.json")
+        manifest=json.loads(source.read_text())
+        self.assertEqual(len(manifest["slices"]),2)
+        self.assertTrue(manifest["downloaded_in_CI_to_temporary_only"])
+        self.assertFalse(manifest["source_files_committed"])
+        self.assertFalse(manifest["canonical_promotion_allowed"])
+        for row in manifest["slices"]:
+            self.assertIn(row["name"],p.ALLOWED)
+            self.assertEqual(len(row["sha256"]),64)
+            self.assertEqual(row["width_pixels"],512)
+            self.assertEqual(row["height_pixels"],512)
+            self.assertEqual(row["bit_depth"],16)
+        self.assertEqual(manifest["slices"][0]["expected_bytes"],208501)
+        self.assertEqual(manifest["slices"][1]["expected_bytes"],193332)
+
     def test_source_URL_is_NLM_custodian(self):
         self.assertTrue(p.BASE.startswith("https://data.lhncbc.nlm.nih.gov/"))
         self.assertEqual(p.ALLOWED,("cvm1012f.png","cvm1013f.png"))

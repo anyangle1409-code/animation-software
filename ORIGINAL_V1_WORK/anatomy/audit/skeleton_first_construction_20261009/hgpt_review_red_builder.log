@@ -1,0 +1,41 @@
+test_independent_mode_cannot_relabel_replay (test_skeleton_first_builder.SkeletonFirstBuilderTests.test_independent_mode_cannot_relabel_replay) ... ok
+test_input_and_output_do_not_alias (test_skeleton_first_builder.SkeletonFirstBuilderTests.test_input_and_output_do_not_alias) ... ok
+test_invalid_constraint_references_rejected (test_skeleton_first_builder.SkeletonFirstBuilderTests.test_invalid_constraint_references_rejected) ... ok
+test_invalid_frame_is_a_failure (test_skeleton_first_builder.SkeletonFirstBuilderTests.test_invalid_frame_is_a_failure) ... ok
+test_joint_constraint_detects_detachment (test_skeleton_first_builder.SkeletonFirstBuilderTests.test_joint_constraint_detects_detachment) ... ok
+test_joint_constraint_rejects_nonparticipant_endpoint (test_skeleton_first_builder.SkeletonFirstBuilderTests.test_joint_constraint_rejects_nonparticipant_endpoint) ... FAIL
+test_mesh_origin_rejected (test_skeleton_first_builder.SkeletonFirstBuilderTests.test_mesh_origin_rejected) ... ok
+test_nonfinite_bone_rejected (test_skeleton_first_builder.SkeletonFirstBuilderTests.test_nonfinite_bone_rejected) ... ok
+test_nonfinite_frame_rejected_before_output (test_skeleton_first_builder.SkeletonFirstBuilderTests.test_nonfinite_frame_rejected_before_output) ... FAIL
+test_nonfinite_skin_result_rejected (test_skeleton_first_builder.SkeletonFirstBuilderTests.test_nonfinite_skin_result_rejected) ... ok
+test_proportion_constraint_fails_without_moving_bone (test_skeleton_first_builder.SkeletonFirstBuilderTests.test_proportion_constraint_fails_without_moving_bone) ... ok
+test_replay_never_claims_evidence_or_promotion (test_skeleton_first_builder.SkeletonFirstBuilderTests.test_replay_never_claims_evidence_or_promotion) ... ok
+test_replays_both_records_exactly (test_skeleton_first_builder.SkeletonFirstBuilderTests.test_replays_both_records_exactly) ... ok
+test_skin_callback_receives_immutable_points (test_skeleton_first_builder.SkeletonFirstBuilderTests.test_skin_callback_receives_immutable_points) ... ok
+test_skin_outside_does_not_move_coordinates (test_skeleton_first_builder.SkeletonFirstBuilderTests.test_skin_outside_does_not_move_coordinates) ... ok
+test_strict_mode_rejects_failed_or_unverified_geometry (test_skeleton_first_builder.SkeletonFirstBuilderTests.test_strict_mode_rejects_failed_or_unverified_geometry) ... ok
+test_target_profile_never_uniformly_scales_bones (test_skeleton_first_builder.SkeletonFirstBuilderTests.test_target_profile_never_uniformly_scales_bones) ... ok
+test_wrong_units_or_basis_rejected (test_skeleton_first_builder.SkeletonFirstBuilderTests.test_wrong_units_or_basis_rejected) ... ok
+
+======================================================================
+FAIL: test_joint_constraint_rejects_nonparticipant_endpoint (test_skeleton_first_builder.SkeletonFirstBuilderTests.test_joint_constraint_rejects_nonparticipant_endpoint)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/555b6458c54f/animation-software/scripts/test_skeleton_first_builder.py", line 100, in test_joint_constraint_rejects_nonparticipant_endpoint
+    with self.assertRaisesRegex(ValueError, 'participant'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_nonfinite_frame_rejected_before_output (test_skeleton_first_builder.SkeletonFirstBuilderTests.test_nonfinite_frame_rejected_before_output)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/555b6458c54f/animation-software/scripts/test_skeleton_first_builder.py", line 91, in test_nonfinite_frame_rejected_before_output
+    with self.assertRaisesRegex(ValueError, 'finite frame'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.384s
+
+FAILED (failures=2)

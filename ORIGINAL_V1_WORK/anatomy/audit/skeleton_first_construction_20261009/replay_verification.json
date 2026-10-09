@@ -1,0 +1,354 @@
+{
+  "a003": {
+    "coordinate_origin": "legacy_audit_replay",
+    "target_profile": {
+      "sex": "male",
+      "stature_m": 1.82,
+      "age_class": "adult"
+    },
+    "input_sha256": "11712ba3e105aa8844b07572315d58ccace1d23d2f0cdf101218a3a507a1a1e3",
+    "validation": {
+      "verdict": "FAIL",
+      "counts": {
+        "PASS": 8,
+        "FAIL": 1,
+        "UNVERIFIED": 1,
+        "INFO": 1
+      },
+      "checks": [
+        {
+          "id": "bone_identity_206",
+          "status": "PASS"
+        },
+        {
+          "id": "bone_coordinates_finite",
+          "status": "PASS"
+        },
+        {
+          "id": "bone_nondegenerate",
+          "status": "PASS",
+          "measurements": {
+            "shortest_bone": "stapes_left",
+            "shortest_mm": 3.0000000000000027
+          }
+        },
+        {
+          "id": "parent_tree",
+          "status": "PASS",
+          "measurements": {
+            "roots": [
+              "hyoid",
+              "sacrum"
+            ]
+          }
+        },
+        {
+          "id": "side_sign_left_plus_x",
+          "status": "PASS",
+          "measurements": {
+            "largest_midline_offset": "sacrum",
+            "mm": 0.0
+          }
+        },
+        {
+          "id": "bilateral_mirror_asymmetry",
+          "status": "INFO",
+          "measurements": {
+            "pairs": 86,
+            "largest_pair": "hallux_distal_phalanx_left",
+            "largest_mm": 0.3808202446156969
+          }
+        },
+        {
+          "id": "joint_identity_427",
+          "status": "PASS"
+        },
+        {
+          "id": "joint_frames_proper",
+          "status": "PASS"
+        },
+        {
+          "id": "shoulder_centres_distinct",
+          "status": "PASS",
+          "measurements": {
+            "sternoclavicular-acromioclavicular_left_mm": 222.85962735242768,
+            "sternoclavicular-glenohumeral_left_mm": 209.59236417610896,
+            "acromioclavicular-glenohumeral_left_mm": 41.84310532432271,
+            "sternoclavicular-acromioclavicular_right_mm": 222.85962735242768,
+            "sternoclavicular-glenohumeral_right_mm": 209.59236417611163,
+            "acromioclavicular-glenohumeral_right_mm": 41.843105324320994
+          }
+        },
+        {
+          "id": "spinal_disc_centre_gap_positive",
+          "status": "FAIL",
+          "failures": [
+            "disc_c2_c3: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_c3_c4: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_c4_c5: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_c5_c6: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_c6_c7: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_c7_t1: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_t1_t2: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_t2_t3: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_t3_t4: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_t4_t5: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_t5_t6: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_t6_t7: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_t7_t8: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_t8_t9: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_t9_t10: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_t10_t11: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_t11_t12: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_t12_l1: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_l1_l2: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_l2_l3: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_l3_l4: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_l4_l5: superior body starts 0.00 mm along the inferior body axis (no disc space)"
+          ],
+          "measurements": {
+            "disc_c2_c3": 0.0,
+            "disc_c3_c4": 0.0,
+            "disc_c4_c5": 0.0,
+            "disc_c5_c6": 0.0,
+            "disc_c6_c7": 0.0,
+            "disc_c7_t1": 0.0,
+            "disc_t1_t2": 0.0,
+            "disc_t2_t3": 0.0,
+            "disc_t3_t4": 0.0,
+            "disc_t4_t5": 0.0,
+            "disc_t5_t6": 0.0,
+            "disc_t6_t7": 0.0,
+            "disc_t7_t8": 0.0,
+            "disc_t8_t9": 0.0,
+            "disc_t9_t10": 0.0,
+            "disc_t10_t11": 0.0,
+            "disc_t11_t12": 0.0,
+            "disc_t12_l1": 0.0,
+            "disc_l1_l2": 0.0,
+            "disc_l2_l3": 0.0,
+            "disc_l3_l4": 0.0,
+            "disc_l4_l5": 0.0,
+            "disc_l5_sacrum": 14.7329
+          }
+        },
+        {
+          "id": "disc_endplate_clearance",
+          "status": "UNVERIFIED",
+          "unverified": [
+            "disc_c2_c3: no endplate surfaces",
+            "disc_c3_c4: no endplate surfaces",
+            "disc_c4_c5: no endplate surfaces",
+            "disc_c5_c6: no endplate surfaces",
+            "disc_c6_c7: no endplate surfaces",
+            "disc_c7_t1: no endplate surfaces",
+            "disc_t1_t2: no endplate surfaces",
+            "disc_t2_t3: no endplate surfaces",
+            "disc_t3_t4: no endplate surfaces",
+            "disc_t4_t5: no endplate surfaces",
+            "disc_t5_t6: no endplate surfaces",
+            "disc_t6_t7: no endplate surfaces",
+            "disc_t7_t8: no endplate surfaces",
+            "disc_t8_t9: no endplate surfaces",
+            "disc_t9_t10: no endplate surfaces",
+            "disc_t10_t11: no endplate surfaces",
+            "disc_t11_t12: no endplate surfaces",
+            "disc_t12_l1: no endplate surfaces",
+            "disc_l1_l2: no endplate surfaces",
+            "disc_l2_l3: no endplate surfaces",
+            "disc_l3_l4: no endplate surfaces",
+            "disc_l4_l5: no endplate surfaces",
+            "disc_l5_sacrum: no endplate surfaces"
+          ]
+        }
+      ]
+    },
+    "constraints": {
+      "status": "UNVERIFIED",
+      "failures": [],
+      "lengths_mm": {},
+      "endpoint_to_joint_gaps_mm": {},
+      "coverage_complete": false
+    },
+    "promotion_allowed": false,
+    "anatomical_acceptance": false,
+    "missing_claims": 1472,
+    "missing_axes": 206
+  },
+  "c004": {
+    "coordinate_origin": "legacy_audit_replay",
+    "target_profile": {
+      "sex": "male",
+      "stature_m": 1.82,
+      "age_class": "adult"
+    },
+    "input_sha256": "99500d94e06c66ca489bdaccc0345446f98794946254c5e592d9449696f396c1",
+    "validation": {
+      "verdict": "FAIL",
+      "counts": {
+        "PASS": 8,
+        "FAIL": 1,
+        "UNVERIFIED": 1,
+        "INFO": 1
+      },
+      "checks": [
+        {
+          "id": "bone_identity_206",
+          "status": "PASS"
+        },
+        {
+          "id": "bone_coordinates_finite",
+          "status": "PASS"
+        },
+        {
+          "id": "bone_nondegenerate",
+          "status": "PASS",
+          "measurements": {
+            "shortest_bone": "stapes_left",
+            "shortest_mm": 3.0000000000000027
+          }
+        },
+        {
+          "id": "parent_tree",
+          "status": "PASS",
+          "measurements": {
+            "roots": [
+              "hyoid",
+              "sacrum"
+            ]
+          }
+        },
+        {
+          "id": "side_sign_left_plus_x",
+          "status": "PASS",
+          "measurements": {
+            "largest_midline_offset": "sacrum",
+            "mm": 0.0
+          }
+        },
+        {
+          "id": "bilateral_mirror_asymmetry",
+          "status": "INFO",
+          "measurements": {
+            "pairs": 86,
+            "largest_pair": "hallux_distal_phalanx_left",
+            "largest_mm": 0.3808202446156969
+          }
+        },
+        {
+          "id": "joint_identity_427",
+          "status": "PASS"
+        },
+        {
+          "id": "joint_frames_proper",
+          "status": "PASS"
+        },
+        {
+          "id": "shoulder_centres_distinct",
+          "status": "PASS",
+          "measurements": {
+            "sternoclavicular-acromioclavicular_left_mm": 151.29080482881832,
+            "sternoclavicular-glenohumeral_left_mm": 172.8979476258878,
+            "acromioclavicular-glenohumeral_left_mm": 41.2931942383306,
+            "sternoclavicular-acromioclavicular_right_mm": 151.29080482881832,
+            "sternoclavicular-glenohumeral_right_mm": 172.8979476258878,
+            "acromioclavicular-glenohumeral_right_mm": 41.2931942383306
+          }
+        },
+        {
+          "id": "spinal_disc_centre_gap_positive",
+          "status": "FAIL",
+          "failures": [
+            "disc_c2_c3: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_c3_c4: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_c4_c5: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_c5_c6: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_c6_c7: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_c7_t1: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_t1_t2: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_t2_t3: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_t3_t4: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_t4_t5: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_t5_t6: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_t6_t7: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_t7_t8: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_t8_t9: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_t9_t10: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_t10_t11: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_t11_t12: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_t12_l1: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_l1_l2: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_l2_l3: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_l3_l4: superior body starts 0.00 mm along the inferior body axis (no disc space)",
+            "disc_l4_l5: superior body starts 0.00 mm along the inferior body axis (no disc space)"
+          ],
+          "measurements": {
+            "disc_c2_c3": 0.0,
+            "disc_c3_c4": 0.0,
+            "disc_c4_c5": 0.0,
+            "disc_c5_c6": 0.0,
+            "disc_c6_c7": 0.0,
+            "disc_c7_t1": 0.0,
+            "disc_t1_t2": 0.0,
+            "disc_t2_t3": 0.0,
+            "disc_t3_t4": 0.0,
+            "disc_t4_t5": 0.0,
+            "disc_t5_t6": 0.0,
+            "disc_t6_t7": 0.0,
+            "disc_t7_t8": 0.0,
+            "disc_t8_t9": 0.0,
+            "disc_t9_t10": 0.0,
+            "disc_t10_t11": 0.0,
+            "disc_t11_t12": 0.0,
+            "disc_t12_l1": 0.0,
+            "disc_l1_l2": 0.0,
+            "disc_l2_l3": 0.0,
+            "disc_l3_l4": 0.0,
+            "disc_l4_l5": 0.0,
+            "disc_l5_sacrum": 14.7329
+          }
+        },
+        {
+          "id": "disc_endplate_clearance",
+          "status": "UNVERIFIED",
+          "unverified": [
+            "disc_c2_c3: no endplate surfaces",
+            "disc_c3_c4: no endplate surfaces",
+            "disc_c4_c5: no endplate surfaces",
+            "disc_c5_c6: no endplate surfaces",
+            "disc_c6_c7: no endplate surfaces",
+            "disc_c7_t1: no endplate surfaces",
+            "disc_t1_t2: no endplate surfaces",
+            "disc_t2_t3: no endplate surfaces",
+            "disc_t3_t4: no endplate surfaces",
+            "disc_t4_t5: no endplate surfaces",
+            "disc_t5_t6: no endplate surfaces",
+            "disc_t6_t7: no endplate surfaces",
+            "disc_t7_t8: no endplate surfaces",
+            "disc_t8_t9: no endplate surfaces",
+            "disc_t9_t10: no endplate surfaces",
+            "disc_t10_t11: no endplate surfaces",
+            "disc_t11_t12: no endplate surfaces",
+            "disc_t12_l1: no endplate surfaces",
+            "disc_l1_l2: no endplate surfaces",
+            "disc_l2_l3: no endplate surfaces",
+            "disc_l3_l4: no endplate surfaces",
+            "disc_l4_l5: no endplate surfaces",
+            "disc_l5_sacrum: no endplate surfaces"
+          ]
+        }
+      ]
+    },
+    "constraints": {
+      "status": "UNVERIFIED",
+      "failures": [],
+      "lengths_mm": {},
+      "endpoint_to_joint_gaps_mm": {},
+      "coverage_complete": false
+    },
+    "promotion_allowed": false,
+    "anatomical_acceptance": false,
+    "missing_claims": 1472,
+    "missing_axes": 206
+  }
+}

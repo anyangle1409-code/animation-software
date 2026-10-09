@@ -98,7 +98,10 @@ def analyse(a, c):
         for bone in ('radius', 'ulna'):
             name = f'{bone}_{side}'
             p0, p1 = vector(a['bones'][name]['tail_m']), vector(c['bones'][name]['tail_m'])
-            wrist.append(float(np.linalg.norm((p1 - w1) - (p0 - w0))) * 1000)
+            residual = float(np.linalg.norm((p1 - w1) - (p0 - w0)))
+            if residual > NUMERIC_M:
+                raise ValueError(f'{name}: wrist relative placement changed')
+            wrist.append(residual * 1000)
     for name in names:
         if name.endswith('_left'):
             right = name[:-5] + '_right'

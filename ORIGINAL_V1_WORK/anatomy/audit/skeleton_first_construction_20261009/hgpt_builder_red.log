@@ -1,0 +1,21 @@
+test_skeleton_first_builder (unittest.loader._FailedTest.test_skeleton_first_builder) ... ERROR
+
+======================================================================
+ERROR: test_skeleton_first_builder (unittest.loader._FailedTest.test_skeleton_first_builder)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_skeleton_first_builder
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "/workspace/scratch/555b6458c54f/animation-software/scripts/test_skeleton_first_builder.py", line 10, in <module>
+    import skeleton_first_builder as b
+ModuleNotFoundError: No module named 'skeleton_first_builder'
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)

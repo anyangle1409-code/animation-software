@@ -890,3 +890,8 @@ Full proximal curves remain BLOCKED pending verified intended conventions or an 
 - Full pre-change discovery: 989 tests, five failures/four errors in inherited production-control/orchestration checks; exact names retained in `docs/WORK_SKELETON_DEVELOPMENT_20261009.md`.
 - Stage 1 computational/provenance review complete; anatomical fingertip and carpal acceptance BLOCKED. PR remains draft/unmerged. No c005 or asset changes. Continue independent Stage 2 tooling while those anatomical blockers remain open.
 - Evidence: `audit/hand_input_audit/work_independent_20261009/{coordinate_integrity,mesh_free_probe}.json`.
+
+
+### Work Stage 2 construction contract — 9 October 2026
+
+Separate `skeleton_first_builder.py` copies explicit skeletal endpoints/markers with no mesh-fit or containment dependency. It validates CP2 geometry, endpoint-defined length constraints and joint-participant attachment constraints, and exposes missing independent evidence/axes. a003/c004 replay retains 206 bones/427 markers exactly, while CP2 correctly remains FAIL (legacy spine discs). Skin clearance is non-mutating diagnostic only. 18 constructor tests plus seven independent hand tests pass after an independent reviewer identified three defects and RED/GREEN mutation verification corrected them. No canonical acceptance/promotion is possible in this module. Stage 2 engineering contract delivered, whole-body anatomical instantiation BLOCKED pending source coordinates and full contacts/envelopes. Gates 6/8/9 remain open.

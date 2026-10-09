@@ -53,6 +53,12 @@ class HandCoordinateIntegrityTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'finite'):
             audit.analyse(a, self.c)
 
+    def test_wrist_endpoint_mismatch_rejected(self):
+        c = copy.deepcopy(self.c)
+        c['bones']['radius_left']['tail_m'][0] += 0.1
+        with self.assertRaisesRegex(ValueError, 'wrist relative'):
+            audit.analyse(self.a, c)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -119,6 +119,13 @@ class OriginalScannerHeaders(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"not an allowlisted"):
             h.fetch_header("unlisted_patient_header.txt")
 
+    def test_original_NLM_header_sha_pinned_from_live_ci(self):
+        self.assertEqual(h.PINNED_HEADER_SHA256["cvm1013f.txt"],
+                         "d07c543fd36f65014347f14e76a466618aaf56bc28688621ab68648daf6c17ab")
+        self.assertEqual(h.PINNED_HEADER_SHA256["cvm1014f.txt"],
+                         "67a25d7199cf68ecb151d2031bab253c67e73a9d18bb7d525835b0d05e2a0511")
+        self.assertEqual(set(h.PINNED_HEADER_SHA256),set(h.ALLOWED))
+
     def test_exact_two_pinned_headers(self):
         self.assertEqual(h.ALLOWED,("cvm1013f.txt","cvm1014f.txt"))
         self.assertTrue(h.ROOT.startswith("https://data.lhncbc.nlm.nih.gov/"))

@@ -34,6 +34,8 @@ This supplements (not replaces) the committed Claude/Work spinal and pelvic evid
 - 108 healthy Japanese adults, 55 men and 53 women; male mean height around **166 cm**, below the project reference. 3D pelvis anatomically registered to the **anterior pelvic plane** (APP).
 - Defined S1 endplate centre as midpoint of right/left and front/back S1 plate; measured pelvic incidence, anatomical pelvic tilt and sacral slope relative to APP.
 - Confirms that **anatomical** sacral endplate coordinates are not interchangeable with **standing** pelvic-tilt pose, nor does an angle alone settle S1 AP depth in the Home Gym PT world frame.
+- The complete article reports a **male mean 107.0 mm** straight-line sagittal-plane distance from S1 superior endplate centre to the mean of the two femoral-head centres (hip axis), within **55 Japanese male subjects of mean 166.0 cm stature**. This is **NOT** an S1-to-ASIS measurement, nor a direct world-frame S1 coordinate for the 182 cm reference.
+- The same paper defines the pelvis-fixed APP frame and separates sagittal horizontal `DYp` from vertical `DZp`; this distinction is indispensable. Its 107.0 mm magnitude alone cannot determine the signs/components of S1 AP depth and must not be scaled to 182 cm without validated anthropometric covariance.
 - Source: https://link.springer.com/article/10.1186/s13018-019-1165-2
 
 **Roussouly et al., 2005**, *Classification of the normal variation in the sagittal alignment of the human lumbar spine and pelvis in the standing position*, Spine, DOI **10.1097/01.brs.0000152379.54463.65**.

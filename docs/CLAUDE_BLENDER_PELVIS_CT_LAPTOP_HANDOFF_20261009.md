@@ -28,6 +28,28 @@ Other pinned source locations: `cvm1300f` +102; `cvm1399f` +3; `cvm1500f` −108
 
 **Do not infer anatomy from the coarse ASCII intensity grids alone.** The four reviewed 32x32 tiles were derived at provisional stored-value thresholds of 1200/1600; these are **not verified Hounsfield units or bony segmentation thresholds**. Review actual full-resolution source images, label the structures anatomically only when confidence is sufficient, and provide side-by-side annotated images from clinical/academic reference materials.
 
+## Two physically contiguous CT source windows — use these first
+
+A verified live NLM/GitHub Actions source run (https://github.com/anyangle1409-code/animation-software/actions/runs/37940126718) retrieved six **original** CT PNGs and their original GE scanner headers, decoded 16-bit grayscale source pixels, and verified true **3 mm contiguous adjacent scan-centre steps** on the original scanner. No original CT pixels or personal identifying fields were committed.
+
+| Three consecutive original frames | Actual GE scanner RAS superior Z | Physical covered slab |
+|---|---|---|
+| `cvm1749f`, `cvm1752f`, `cvm1755f` | −357, −360, −363 mm | −364.5 to −355.5 mm |
+| `cvm1797f`, `cvm1800f`, `cvm1803f` | −405, −408, −411 mm | −412.5 to −403.5 mm |
+
+Each frame is 512×512, 0.898438 mm/pixel in-plane, **3 mm thick**, in the same scan group. The full set of six individual image/header SHA-256 source fingerprints is recorded in `ORIGINAL_V1_WORK/anatomy/audit/nlm_contiguous_ct_windows_pinned_20261009.json`.
+
+**The bones depicted at those levels are not yet identified!** Claude must inspect the full original images and establish actual region/anatomical identity from trustworthy CT anatomy atlases. The 3-slice span is only 9 mm; don't invent 3D femoral head or S1 surfaces from it.
+
+Useful command to validate the pinned source again (only official NLM HTTP, original image bytes retained in memory temporarily):
+
+```bash
+python3 scripts/anatomy_fit/nlm_contiguous_pelvis_ct_windows.py --live \
+  --pinned-manifest ORIGINAL_V1_WORK/anatomy/audit/nlm_contiguous_ct_windows_pinned_20261009.json
+```
+
+**Blender assignment:** Review both three-slice sequences as orthogonal images in correct original scanner RAS orientation and make annotated **candidate** names (iliac blade, acetabulum, sacrum, proximal femoral head or other) only where clear. Identify what additional adjacent ranges must be downloaded for complete bony surfaces. Cross-check with independent CT anatomical teaching figures; never claim that existing source pixels have validated landmarks automatically.
+
 ## Laptop isolation: Claude and GPT can work concurrently
 
 1. On laptop, `git fetch --all --prune`, inspect uncommitted local Blender/solver work, then use a **separate clean worktree** for read-only PR #15 source code, e.g. `git worktree add --detach ../hgpt-ct-source-review origin/codex/independent-pelvis-stl-intake-20261009`.

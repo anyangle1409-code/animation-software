@@ -83,3 +83,8 @@ jobs:
           python3 scripts/anatomy_fit/nlm_pelvis_region_scout.py --live-scout \
             --slice-ids 1300 1399 1451 1500 1551 1602 1650 1701 1752 1800 1906 1948 \
             --pinned-manifest ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvis_scout_pinned_source_positions_20261009.json
+      - name: Print lossy diagnostic signal tiles for four source slices, not medical labels
+        run: |
+          python3 scripts/anatomy_fit/nlm_pelvis_region_scout.py --live-scout \
+            --slice-ids 1451 1602 1752 1800 --density-ascii \
+            --pinned-manifest ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvis_scout_pinned_source_positions_20261009.json

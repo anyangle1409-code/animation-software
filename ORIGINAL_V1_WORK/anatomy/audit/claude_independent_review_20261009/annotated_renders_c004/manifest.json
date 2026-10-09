@@ -1,0 +1,887 @@
+{
+ "label": "c004",
+ "source_blend_sha256": "9b5879504e87d2c28681be14a7cbfffe51b921acbc8f081f10be7deef1619d3e",
+ "record_sha256": "99500d94e06c66ca489bdaccc0345446f98794946254c5e592d9449696f396c1",
+ "blender": "5.2.1 LTS",
+ "legend": {
+  "sticks": "head-to-tail line of each rig bone (display radius only; NOT bone geometry)",
+  "black spheres": "joint-marker centres",
+  "white dots": "bone heads (region views)",
+  "grey dots": "bone tails (region views)",
+  "red sphere": "camera-check probe",
+  "axes": "X red = character left, Y green = posterior, Z blue = up"
+ },
+ "views": {
+  "body_front": {
+   "direction": [
+    0,
+    -1,
+    0
+   ],
+   "up": [
+    0,
+    0,
+    1
+   ],
+   "target": "body",
+   "target_world_m": [
+    0.0,
+    0.0,
+    0.9100000262260437
+   ],
+   "ortho_scale_m": 2.05,
+   "probe_world_m": [
+    0.20499999821186066,
+    0.0,
+    0.9100000262260437
+   ],
+   "camera_check": {
+    "probe_blobs_found": 1,
+    "pixel_centroid": [
+     719.45,
+     599.46
+    ],
+    "expected_pixel": [
+     720.0,
+     600.0
+    ],
+    "error_px": 0.77,
+    "error_mm": 1.316,
+    "mm_per_px": 1.7083,
+    "pass": true
+   }
+  },
+  "body_back": {
+   "direction": [
+    0,
+    1,
+    0
+   ],
+   "up": [
+    0,
+    0,
+    1
+   ],
+   "target": "body",
+   "target_world_m": [
+    0.0,
+    0.0,
+    0.9100000262260437
+   ],
+   "ortho_scale_m": 2.05,
+   "probe_world_m": [
+    -0.20499999821186066,
+    0.0,
+    0.9100000262260437
+   ],
+   "camera_check": {
+    "probe_blobs_found": 1,
+    "pixel_centroid": [
+     719.28,
+     599.5
+    ],
+    "expected_pixel": [
+     720.0,
+     600.0
+    ],
+    "error_px": 0.876,
+    "error_mm": 1.496,
+    "mm_per_px": 1.7083,
+    "pass": true
+   }
+  },
+  "body_left": {
+   "direction": [
+    1,
+    0,
+    0
+   ],
+   "up": [
+    0,
+    0,
+    1
+   ],
+   "target": "body",
+   "target_world_m": [
+    0.0,
+    0.0,
+    0.9100000262260437
+   ],
+   "ortho_scale_m": 2.05,
+   "probe_world_m": [
+    0.0,
+    0.20499999821186066,
+    0.9100000262260437
+   ],
+   "camera_check": {
+    "probe_blobs_found": 1,
+    "pixel_centroid": [
+     719.56,
+     599.48
+    ],
+    "expected_pixel": [
+     720.0,
+     600.0
+    ],
+    "error_px": 0.677,
+    "error_mm": 1.157,
+    "mm_per_px": 1.7083,
+    "pass": true
+   }
+  },
+  "body_right": {
+   "direction": [
+    -1,
+    0,
+    0
+   ],
+   "up": [
+    0,
+    0,
+    1
+   ],
+   "target": "body",
+   "target_world_m": [
+    0.0,
+    0.0,
+    0.9100000262260437
+   ],
+   "ortho_scale_m": 2.05,
+   "probe_world_m": [
+    0.0,
+    -0.20499999821186066,
+    0.9100000262260437
+   ],
+   "camera_check": {
+    "probe_blobs_found": 1,
+    "pixel_centroid": [
+     719.56,
+     599.48
+    ],
+    "expected_pixel": [
+     720.0,
+     600.0
+    ],
+    "error_px": 0.677,
+    "error_mm": 1.157,
+    "mm_per_px": 1.7083,
+    "pass": true
+   }
+  },
+  "body_front_left_34": {
+   "direction": [
+    0.7071,
+    -0.7071,
+    0
+   ],
+   "up": [
+    0,
+    0,
+    1
+   ],
+   "target": "body",
+   "target_world_m": [
+    0.0,
+    0.0,
+    0.9100000262260437
+   ],
+   "ortho_scale_m": 2.05,
+   "probe_world_m": [
+    0.14495688676834106,
+    0.14495688676834106,
+    0.9100000262260437
+   ],
+   "camera_check": {
+    "probe_blobs_found": 1,
+    "pixel_centroid": [
+     719.24,
+     599.41
+    ],
+    "expected_pixel": [
+     720.0,
+     600.0
+    ],
+    "error_px": 0.959,
+    "error_mm": 1.638,
+    "mm_per_px": 1.7083,
+    "pass": true
+   }
+  },
+  "shoulders_front": {
+   "direction": [
+    0,
+    -1,
+    0
+   ],
+   "up": [
+    0,
+    0,
+    1
+   ],
+   "target": "shoulders",
+   "target_world_m": [
+    0.0,
+    0.005078837741166353,
+    1.471228837966919
+   ],
+   "ortho_scale_m": 0.62,
+   "probe_world_m": [
+    0.06199999526143074,
+    0.005078837741166353,
+    1.471228837966919
+   ],
+   "camera_check": {
+    "probe_blobs_found": 1,
+    "pixel_centroid": [
+     719.56,
+     599.48
+    ],
+    "expected_pixel": [
+     720.0,
+     600.0
+    ],
+    "error_px": 0.677,
+    "error_mm": 0.35,
+    "mm_per_px": 0.5167,
+    "pass": true
+   }
+  },
+  "shoulders_back": {
+   "direction": [
+    0,
+    1,
+    0
+   ],
+   "up": [
+    0,
+    0,
+    1
+   ],
+   "target": "shoulders",
+   "target_world_m": [
+    0.0,
+    0.005078837741166353,
+    1.471228837966919
+   ],
+   "ortho_scale_m": 0.62,
+   "probe_world_m": [
+    -0.06199999526143074,
+    0.005078837741166353,
+    1.471228837966919
+   ],
+   "camera_check": {
+    "probe_blobs_found": 1,
+    "pixel_centroid": [
+     719.56,
+     599.48
+    ],
+    "expected_pixel": [
+     720.0,
+     600.0
+    ],
+    "error_px": 0.677,
+    "error_mm": 0.35,
+    "mm_per_px": 0.5167,
+    "pass": true
+   }
+  },
+  "shoulders_top": {
+   "direction": [
+    0,
+    0,
+    1
+   ],
+   "up": [
+    0,
+    -1,
+    0
+   ],
+   "target": "shoulders",
+   "target_world_m": [
+    0.0,
+    0.005078837741166353,
+    1.471228837966919
+   ],
+   "ortho_scale_m": 0.62,
+   "probe_world_m": [
+    -0.06199999526143074,
+    0.005078837741166353,
+    1.471228837966919
+   ],
+   "camera_check": {
+    "probe_blobs_found": 1,
+    "pixel_centroid": [
+     718.89,
+     599.07
+    ],
+    "expected_pixel": [
+     720.0,
+     600.0
+    ],
+    "error_px": 1.449,
+    "error_mm": 0.749,
+    "mm_per_px": 0.5167,
+    "pass": true
+   }
+  },
+  "spine_ribcage_left": {
+   "direction": [
+    1,
+    0,
+    0
+   ],
+   "up": [
+    0,
+    0,
+    1
+   ],
+   "target": "spine",
+   "target_world_m": [
+    0.0,
+    0.04986782371997833,
+    1.3873956203460693
+   ],
+   "ortho_scale_m": 1.0,
+   "probe_world_m": [
+    0.0,
+    0.14986781775951385,
+    1.3873956203460693
+   ],
+   "camera_check": {
+    "probe_blobs_found": 1,
+    "pixel_centroid": [
+     719.56,
+     599.48
+    ],
+    "expected_pixel": [
+     720.0,
+     600.0
+    ],
+    "error_px": 0.677,
+    "error_mm": 0.565,
+    "mm_per_px": 0.8333,
+    "pass": true
+   }
+  },
+  "spine_ribcage_front": {
+   "direction": [
+    0,
+    -1,
+    0
+   ],
+   "up": [
+    0,
+    0,
+    1
+   ],
+   "target": "spine",
+   "target_world_m": [
+    0.0,
+    0.04986782371997833,
+    1.3873956203460693
+   ],
+   "ortho_scale_m": 1.0,
+   "probe_world_m": [
+    0.09999999403953552,
+    0.04986782371997833,
+    1.3873956203460693
+   ],
+   "camera_check": {
+    "probe_blobs_found": 1,
+    "pixel_centroid": [
+     719.56,
+     599.48
+    ],
+    "expected_pixel": [
+     720.0,
+     600.0
+    ],
+    "error_px": 0.677,
+    "error_mm": 0.565,
+    "mm_per_px": 0.8333,
+    "pass": true
+   }
+  },
+  "pelvis_hips_front": {
+   "direction": [
+    0,
+    -1,
+    0
+   ],
+   "up": [
+    0,
+    0,
+    1
+   ],
+   "target": "pelvis",
+   "target_world_m": [
+    0.0,
+    0.012472128495573997,
+    0.9827038645744324
+   ],
+   "ortho_scale_m": 0.45,
+   "probe_world_m": [
+    0.044999998062849045,
+    0.012472128495573997,
+    0.9827038645744324
+   ],
+   "camera_check": {
+    "probe_blobs_found": 1,
+    "pixel_centroid": [
+     719.56,
+     599.48
+    ],
+    "expected_pixel": [
+     720.0,
+     600.0
+    ],
+    "error_px": 0.677,
+    "error_mm": 0.254,
+    "mm_per_px": 0.375,
+    "pass": true
+   }
+  },
+  "pelvis_hips_left": {
+   "direction": [
+    1,
+    0,
+    0
+   ],
+   "up": [
+    0,
+    0,
+    1
+   ],
+   "target": "pelvis",
+   "target_world_m": [
+    0.0,
+    0.012472128495573997,
+    0.9827038645744324
+   ],
+   "ortho_scale_m": 0.45,
+   "probe_world_m": [
+    0.0,
+    0.05747212469577789,
+    0.9827038645744324
+   ],
+   "camera_check": {
+    "probe_blobs_found": 0,
+    "pass": false
+   }
+  },
+  "hand_left_dorsal": {
+   "direction": [
+    1,
+    0,
+    0
+   ],
+   "up": [
+    0,
+    0,
+    1
+   ],
+   "target": "hand_left",
+   "target_world_m": [
+    0.1882012039422989,
+    -0.00790097750723362,
+    0.8461889624595642
+   ],
+   "ortho_scale_m": 0.26,
+   "probe_world_m": [
+    0.1882012039422989,
+    0.022099021822214127,
+    0.8461889624595642
+   ],
+   "camera_check": {
+    "probe_blobs_found": 1,
+    "pixel_centroid": [
+     737.88,
+     599.4
+    ],
+    "expected_pixel": [
+     738.46,
+     600.0
+    ],
+    "error_px": 0.835,
+    "error_mm": 0.181,
+    "mm_per_px": 0.2167,
+    "pass": true
+   }
+  },
+  "hand_left_radial": {
+   "direction": [
+    0,
+    -1,
+    0
+   ],
+   "up": [
+    0,
+    0,
+    1
+   ],
+   "target": "hand_left",
+   "target_world_m": [
+    0.1882012039422989,
+    -0.00790097750723362,
+    0.8461889624595642
+   ],
+   "ortho_scale_m": 0.26,
+   "probe_world_m": [
+    0.21820120513439178,
+    -0.00790097750723362,
+    0.8461889624595642
+   ],
+   "camera_check": {
+    "probe_blobs_found": 1,
+    "pixel_centroid": [
+     737.88,
+     599.4
+    ],
+    "expected_pixel": [
+     738.46,
+     600.0
+    ],
+    "error_px": 0.835,
+    "error_mm": 0.181,
+    "mm_per_px": 0.2167,
+    "pass": true
+   }
+  },
+  "knee_left_front": {
+   "direction": [
+    0,
+    -1,
+    0
+   ],
+   "up": [
+    0,
+    0,
+    1
+   ],
+   "target": "knee_left",
+   "target_world_m": [
+    0.09041915833950043,
+    -0.01096739899367094,
+    0.5169554352760315
+   ],
+   "ortho_scale_m": 0.3,
+   "probe_world_m": [
+    0.12041915953159332,
+    -0.01096739899367094,
+    0.5169554352760315
+   ],
+   "camera_check": {
+    "probe_blobs_found": 1,
+    "pixel_centroid": [
+     719.37,
+     599.87
+    ],
+    "expected_pixel": [
+     720.0,
+     600.0
+    ],
+    "error_px": 0.64,
+    "error_mm": 0.16,
+    "mm_per_px": 0.25,
+    "pass": true
+   }
+  },
+  "knee_left_lateral": {
+   "direction": [
+    1,
+    0,
+    0
+   ],
+   "up": [
+    0,
+    0,
+    1
+   ],
+   "target": "knee_left",
+   "target_world_m": [
+    0.09041915833950043,
+    -0.01096739899367094,
+    0.5169554352760315
+   ],
+   "ortho_scale_m": 0.3,
+   "probe_world_m": [
+    0.09041915833950043,
+    0.01903260126709938,
+    0.5169554352760315
+   ],
+   "camera_check": {
+    "probe_blobs_found": 1,
+    "pixel_centroid": [
+     719.37,
+     599.87
+    ],
+    "expected_pixel": [
+     720.0,
+     600.0
+    ],
+    "error_px": 0.64,
+    "error_mm": 0.16,
+    "mm_per_px": 0.25,
+    "pass": true
+   }
+  },
+  "ankle_left_back": {
+   "direction": [
+    0,
+    1,
+    0
+   ],
+   "up": [
+    0,
+    0,
+    1
+   ],
+   "target": "ankle_left",
+   "target_world_m": [
+    0.09253451228141785,
+    0.0017296007135882974,
+    0.058000002056360245
+   ],
+   "ortho_scale_m": 0.22,
+   "probe_world_m": [
+    0.06253451108932495,
+    0.0017296007135882974,
+    0.058000002056360245
+   ],
+   "camera_check": {
+    "probe_blobs_found": 1,
+    "pixel_centroid": [
+     763.05,
+     599.42
+    ],
+    "expected_pixel": [
+     763.64,
+     600.0
+    ],
+    "error_px": 0.819,
+    "error_mm": 0.15,
+    "mm_per_px": 0.1833,
+    "pass": true
+   }
+  },
+  "ankle_left_lateral": {
+   "direction": [
+    1,
+    0,
+    0
+   ],
+   "up": [
+    0,
+    0,
+    1
+   ],
+   "target": "ankle_left",
+   "target_world_m": [
+    0.09253451228141785,
+    0.0017296007135882974,
+    0.058000002056360245
+   ],
+   "ortho_scale_m": 0.22,
+   "probe_world_m": [
+    0.09253451228141785,
+    0.031729601323604584,
+    0.058000002056360245
+   ],
+   "camera_check": {
+    "probe_blobs_found": 1,
+    "pixel_centroid": [
+     763.05,
+     599.42
+    ],
+    "expected_pixel": [
+     763.64,
+     600.0
+    ],
+    "error_px": 0.819,
+    "error_mm": 0.15,
+    "mm_per_px": 0.1833,
+    "pass": true
+   }
+  },
+  "foot_left_lateral": {
+   "direction": [
+    1,
+    0,
+    0
+   ],
+   "up": [
+    0,
+    0,
+    1
+   ],
+   "target": "foot_left",
+   "target_world_m": [
+    0.09131774306297302,
+    -0.05108074098825455,
+    0.04516666755080223
+   ],
+   "ortho_scale_m": 0.34,
+   "probe_world_m": [
+    0.09131774306297302,
+    -0.017080742865800858,
+    0.04516666755080223
+   ],
+   "camera_check": {
+    "probe_blobs_found": 1,
+    "pixel_centroid": [
+     719.56,
+     599.48
+    ],
+    "expected_pixel": [
+     720.0,
+     600.0
+    ],
+    "error_px": 0.677,
+    "error_mm": 0.192,
+    "mm_per_px": 0.2833,
+    "pass": true
+   }
+  },
+  "foot_left_top": {
+   "direction": [
+    0,
+    0,
+    1
+   ],
+   "up": [
+    0,
+    -1,
+    0
+   ],
+   "target": "foot_left",
+   "target_world_m": [
+    0.09131774306297302,
+    -0.05108074098825455,
+    0.04516666755080223
+   ],
+   "ortho_scale_m": 0.34,
+   "probe_world_m": [
+    0.05731774494051933,
+    -0.05108074098825455,
+    0.04516666755080223
+   ],
+   "camera_check": {
+    "probe_blobs_found": 1,
+    "pixel_centroid": [
+     719.28,
+     599.26
+    ],
+    "expected_pixel": [
+     720.0,
+     600.0
+    ],
+    "error_px": 1.029,
+    "error_mm": 0.291,
+    "mm_per_px": 0.2833,
+    "pass": true
+   }
+  },
+  "skull_neck_left": {
+   "direction": [
+    1,
+    0,
+    0
+   ],
+   "up": [
+    0,
+    0,
+    1
+   ],
+   "target": "head",
+   "target_world_m": [
+    0.0,
+    -0.02299433760344982,
+    1.6998891830444336
+   ],
+   "ortho_scale_m": 0.4,
+   "probe_world_m": [
+    0.0,
+    0.017005661502480507,
+    1.6998891830444336
+   ],
+   "camera_check": {
+    "probe_blobs_found": 0,
+    "pass": false
+   }
+  },
+  "skull_neck_front": {
+   "direction": [
+    0,
+    -1,
+    0
+   ],
+   "up": [
+    0,
+    0,
+    1
+   ],
+   "target": "head",
+   "target_world_m": [
+    0.0,
+    -0.02299433760344982,
+    1.6998891830444336
+   ],
+   "ortho_scale_m": 0.4,
+   "probe_world_m": [
+    0.03999999910593033,
+    -0.02299433760344982,
+    1.6998891830444336
+   ],
+   "camera_check": {
+    "probe_blobs_found": 1,
+    "pixel_centroid": [
+     719.56,
+     599.48
+    ],
+    "expected_pixel": [
+     720.0,
+     600.0
+    ],
+    "error_px": 0.677,
+    "error_mm": 0.226,
+    "mm_per_px": 0.3333,
+    "pass": true
+   }
+  }
+ },
+ "source_blend_sha256_after": "9b5879504e87d2c28681be14a7cbfffe51b921acbc8f081f10be7deef1619d3e",
+ "camera_check_criterion": "probe centroid within 2 px of analytic projection (2 px ~ blob centroid quantisation)",
+ "camera_check_summary": {
+  "verified": 20,
+  "not_verifiable": [
+   "pelvis_hips_left",
+   "skull_neck_left"
+  ],
+  "note": "pelvis_hips_left and skull_neck_left: lateral views of midline targets; the small probe sits behind nearer left-side bones (no red blob found). Their cameras share target and scale with the verified pelvis_hips_front and skull_neck_front views; they are reported as not verified, not as passing."
+ },
+ "files_sha256": {
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/annotated_renders_c004/ankle_left_back.jpg": "c5ac37db9846723b35a5f87ba276eb0699e7a84b985291b838b520da2c210714",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/annotated_renders_c004/ankle_left_lateral.jpg": "3030f1a698cee0668c6e4549b302f96f70b75b3c1c68fae47e45e89c8e77892b",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/annotated_renders_c004/body_back.jpg": "4902c36d4f967bc43eca4524c79298baa6d56429a55f3766780027cc71122985",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/annotated_renders_c004/body_front.jpg": "0f35ec128a40142ecd609ad05dbc6d070da402ec76a5819716e814d347f37e0a",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/annotated_renders_c004/body_front_left_34.jpg": "af99fc6478f262175df83c9cac1fff24f04afd10e9b44980f469c9787f604ce0",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/annotated_renders_c004/body_left.jpg": "9daf8f1846ed1967c9fdd85711f87d27421794c23d5fa8c73f0b759e171edea9",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/annotated_renders_c004/body_right.jpg": "f34035edfc6824b683a85949a9b4c1328ab08f2ad9a605c17a4c087db4fda9db",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/annotated_renders_c004/foot_left_lateral.jpg": "9beeb4f74b31507f5a7117d0c75144e634590646f1e61ca9ae2ce41b18771896",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/annotated_renders_c004/foot_left_top.jpg": "032b13ed3bb69e6d9b882dc935eb095a50244905347c3aca0762d07918c81ac0",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/annotated_renders_c004/hand_left_dorsal.jpg": "ae268f857eaa5329fb06081fbf5a53c7b727aae439dd424203fe7644fda674c1",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/annotated_renders_c004/hand_left_radial.jpg": "8e23af2a4d36f9fcf9f9b9542354ba6b72dbb86cf7b126131cb142e8df98e119",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/annotated_renders_c004/knee_left_front.jpg": "ce4ffd085e36b4cca4f9893d2d255abf011e6ee71e84c2f343d7f345b8a83f63",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/annotated_renders_c004/knee_left_lateral.jpg": "937b1da4c9811f014c58aeee814c83f8fdb98c9091344e738912cf7459e2410f",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/annotated_renders_c004/pelvis_hips_front.jpg": "bbfe2766d5b2b82cf81292c3a785cfffa17d1c5dca7faff3f13a8c08bc98393b",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/annotated_renders_c004/pelvis_hips_left.jpg": "7e81717256f5ccce5a1a9b013cd0e240e49f317ef666b6c5bc6ef278193d6f88",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/annotated_renders_c004/shoulders_back.jpg": "62e5525465be564428d35c48a8b5592e0cceafd3245877dadaedcdf5532bb058",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/annotated_renders_c004/shoulders_front.jpg": "d37009390ee21b9ec6ebbf803d7a078e58a52a0c7dbc3160277e5c8b5bf75ac2",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/annotated_renders_c004/shoulders_top.jpg": "07f35e49918a6967eede6752b490648b2f89879e4e8fb7f1bc4d32bc49ff6951",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/annotated_renders_c004/skull_neck_front.jpg": "d9db3b07e3abbc7024e22f8c2df6c39f6ee7abc77cc996be8b0328fe25adfca8",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/annotated_renders_c004/skull_neck_left.jpg": "5ddb3fc9bd21829322c2b4fbcc58f74ff903679adff1ebc201ab3d254b61f132",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/annotated_renders_c004/spine_ribcage_front.jpg": "a5afe1170d3692bfaae7ab0408cdbf24a79af7530a3399e9e0fef029fb5d3db0",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/annotated_renders_c004/spine_ribcage_left.jpg": "6c3589664559b4c3990f5e6cd71536df1ff96a479b0669f916b529dbaa1fb6e2"
+ },
+ "note": "Real Blender 5.2.1 Workbench renders of c004 from Work's skeleton-only rehearsal blend; JPEG quality 88; camera_check measured on the original PNGs."
+}

@@ -4,9 +4,10 @@
     whole-body views) and a 100 mm black scale bar;
   * text labels on named joint centres per region (joint-marker ids from the record) and bone endpoints marked as small
     white dots (head) / grey dots (tail) so a stick's endpoints are distinguishable from joint centres (black);
-  * an independent camera check: a red probe sphere is placed at a known world point (the target + 30 mm along the view-
-    plane x axis); after rendering, its pixel centroid is located and compared with the analytic orthographic projection.
-    The result (pixel error) is written to the manifest for every view.
+  * an independent camera check: a red probe sphere is placed at a known world point; render_camera_check.py later finds
+    it as the compact red blob (shape criterion, so it cannot be confused with the red X-axis line) and compares its
+    centroid with the analytic orthographic projection. (A first in-render detector mixed the probe with the X axis and
+    reported 'not found' everywhere; it was removed.)
 Nothing is saved to the source blend (hash-checked).
 
   python3.13 render_skeleton_annotated.py --blend B.blend --record R.json --out DIR [--label NAME]
@@ -160,15 +161,14 @@ def main():
         p = out / f'{name}.png'
         base.shoot(sc, cam, d, up, tgt, s, p)
         manifest['views'][name] = {'direction': d, 'up': up, 'target': tg or 'body', 'target_world_m': list(tgt), 'ortho_scale_m': s,
-                                   'probe_world_m': list(probe), 'camera_check': probe_check(p, d, up, tgt, s, probe)}
+                                   'probe_world_m': list(probe), 'camera_check': 'run render_camera_check.py (blob-based, non-circular)'}
         for ob in list(ann.objects):
             bpy.data.objects.remove(ob, do_unlink=True)
         bpy.data.collections.remove(ann)
         (out / 'manifest.json').write_text(json.dumps(manifest, indent=1) + '\n')          # incremental
     manifest['source_blend_sha256_after'] = sha(o.blend)
     (out / 'manifest.json').write_text(json.dumps(manifest, indent=1) + '\n')
-    errs = [v['camera_check'].get('error_px') for v in manifest['views'].values()]
-    print('views', len(manifest['views']), 'max probe error px', max(e for e in errs if e is not None), 'unchanged', before == manifest['source_blend_sha256_after'])
+    print('views', len(manifest['views']), 'unchanged', before == manifest['source_blend_sha256_after'])
 
 
 if __name__ == '__main__':

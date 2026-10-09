@@ -1,0 +1,41 @@
+name: Original NLM CT 72-frame orientation preflight
+
+on:
+  push:
+    branches:
+      - codex/ct-72-frame-orientation-preflight-20261009
+    paths:
+      - 'scripts/anatomy_fit/nlm_ct_72_header_orientation_audit.py'
+      - 'scripts/test_nlm_ct_72_header_orientation_audit.py'
+      - '.github/workflows/nlm-72-original-header-orientation.yml'
+      - 'docs/NLM_72_CT_IMAGE_ORIENTATION_AUDIT_20261009.md'
+  pull_request:
+    paths:
+      - 'scripts/anatomy_fit/nlm_ct_72_header_orientation_audit.py'
+      - 'scripts/test_nlm_ct_72_header_orientation_audit.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  orientation-regressions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test rotations, reflections, physical scan axes and source protection
+        run: |
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_72_header_orientation_audit.py' -v
+          python3 -m unittest discover -s scripts -p 'test_pelvic_ct_series_manifest.py' -v
+
+  original-scanner-orientation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify 72 real GE scanner headers and original pixel-row/column directions
+        run: |
+          python3 scripts/anatomy_fit/nlm_ct_72_header_orientation_audit.py \
+            --source-bundle ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json \
+            --live-original-headers

@@ -5,6 +5,7 @@ on:
     branches:
       - codex/independent-pelvis-stl-intake-20261009
       - codex/pelvic-ct-identification-segmentation-20261009
+      - codex/ct-72-frame-orientation-preflight-20261009
   pull_request:
     paths:
       - 'scripts/anatomy_fit/stl_bone_mesh_intake.py'
@@ -29,6 +30,8 @@ on:
       - 'scripts/test_nlm_ct_pelvis_workflow.py'
       - 'scripts/anatomy_fit/pelvic_ct_series_manifest.py'
       - 'scripts/test_pelvic_ct_series_manifest.py'
+      - 'scripts/anatomy_fit/nlm_ct_72_header_orientation_audit.py'
+      - 'scripts/test_nlm_ct_72_header_orientation_audit.py'
       - 'docs/NLM_PELVIC_CT_IDENTIFICATION_SEGMENTATION_WORKFLOW_20261009.md'
       - 'ORIGINAL_V1_WORK/anatomy/audit/nlm_contiguous_ct_windows_pinned_20261009.json'
       - 'ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvis_scout_pinned_source_positions_20261009.json'
@@ -63,6 +66,7 @@ jobs:
           python3 -m unittest discover -s scripts -p 'test_nlm_ct_landmark_validation.py' -v
           python3 -m unittest discover -s scripts -p 'test_nlm_ct_pelvis_workflow.py' -v
           python3 -m unittest discover -s scripts -p 'test_pelvic_ct_series_manifest.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_72_header_orientation_audit.py' -v
       - name: Preserve osseous APP and source-registry regression tests
         run: |
           python3 -m unittest discover -s scripts -p 'test_external_trunk_landmark_bridge.py' -v
@@ -123,3 +127,14 @@ jobs:
         run: |
           python3 scripts/anatomy_fit/nlm_contiguous_pelvis_ct_windows.py --live \
             --pinned-manifest ORIGINAL_V1_WORK/anatomy/audit/nlm_contiguous_ct_windows_pinned_20261009.json
+
+  independent-original-72-header-orientation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify original NLM scanner x/y axes on all 72 source images without fetching patient pixels
+        run: |
+          python3 scripts/anatomy_fit/nlm_ct_72_header_orientation_audit.py \
+            --source-bundle ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json \
+            --live-original-headers

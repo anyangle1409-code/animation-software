@@ -66,6 +66,23 @@ class OriginalScannerHeaders(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"not nominally adjacent"):
             h.pair_consistency(a,b)
 
+    def test_different_NLM_CT_scan_group_never_stacked_as_uniform_voxels(self):
+        a=h.scanner_geometry_from_text(fixture(389))
+        b=copy.deepcopy(a)
+        b["pixel_spacing_mm"]=[.898438,.898438]
+        b["slice_thickness_mm"]=3.
+        b["nominal_series_slice_spacing_mm"]=3.
+        b["image_location_superior_mm"]=102.
+        with self.assertRaisesRegex(ValueError,"cannot stack without registration"):
+            h.pair_consistency(a,b)
+
+    def test_nominal_spacing_same_but_slice_thickness_changed_rejected(self):
+        a=h.scanner_geometry_from_text(fixture(389))
+        b=h.scanner_geometry_from_text(fixture(388))
+        b["slice_thickness_mm"]=3.
+        with self.assertRaisesRegex(ValueError,"cannot stack without registration"):
+            h.pair_consistency(a,b)
+
     def test_bad_pixel_spacing_rejected(self):
         s=fixture().replace("0.488281","2.8",1)
         with self.assertRaisesRegex(ValueError,"invalid pixel spacing|inconsistent"):

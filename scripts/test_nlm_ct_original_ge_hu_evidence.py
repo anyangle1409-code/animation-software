@@ -122,6 +122,20 @@ class GEHUCalibrationMetadata(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'image-location|scanner superior'):
             hu.inspect_pinned_sources(b,lambda url,limit: fixtures[url])
 
+    def test_executed_real_source_GE_headers_still_show_no_recognized_HU_rescale(self):
+        p=(HERE.parent/'ORIGINAL_V1_WORK/anatomy/audit/'
+           'nlm_original_GE_HU_source_screen_verified_20261009.json')
+        d=json.loads(p.read_text())
+        self.assertTrue(d['original_NLM_source_headers_sha256_verified'])
+        self.assertEqual(d['source_count'],2)
+        self.assertFalse(d['source_PNG_stored_scalar_to_HU_slope_and_intercept_verified'])
+        self.assertFalse(d['canonical_promotion_allowed'])
+        self.assertTrue(d['complete_source_PNG_to_HU_calibration_NOT_established'])
+        self.assertTrue(all(x['recognized_calibration_or_offset_context']=={}
+                            for x in d['source_rows']))
+        self.assertTrue(all(x['raw_header_text_or_patient_identifiers_exported'] is False
+                            for x in d['source_rows']))
+
     def test_inspection_does_not_modify_source_bundle(self):
         b,fixtures=original_case()
         before=json.dumps(b,sort_keys=True)

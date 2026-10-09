@@ -1,0 +1,24 @@
+name: Coupled trunk diagnostic preflight
+
+on:
+  push:
+    branches:
+      - codex/coupled-trunk-preflight-20261009
+  pull_request:
+    paths:
+      - 'scripts/anatomy_fit/coupled_trunk_preflight.py'
+      - 'scripts/test_coupled_trunk_preflight.py'
+      - '.github/workflows/coupled-trunk-preflight.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run preflight tests (does not approve anatomy)
+        run: python3 -m unittest discover -s scripts -p 'test_coupled_trunk_preflight.py' -v

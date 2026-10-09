@@ -83,7 +83,7 @@ It validates all 12 files against the pins before any scene change, aborts on an
 
 `python3 -m unittest discover -s scripts -p 'test_ct_*.py'` → 110 tests, OK locally (about 15 s), stdlib only, synthetic CT data, fake `bpy`. Geometry results were cross-checked against PR #15's implementations on identical synthetic inputs. CI run: see the PR/branch Actions page (recorded below).
 
-CI result: _pending at the time of writing_.
+CI result: GitHub Actions run 37946213695 (workflow "Pelvis CT Blender review (stdlib only)") succeeded on the first commit; it ran all tests, the evidence drift checks and the no-tracked-CT check.
 
 ## Blockers
 

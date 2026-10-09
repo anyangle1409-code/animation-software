@@ -275,3 +275,27 @@ Evidence: `ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009
 **Result:** in hip internal rotation from c004's rest stance, the moving hallux reaches the opposite first metatarsal (1.4–1.7 mm). Abducting the opposite hip by 3° (10 mm) or 4° (25 mm) separates the feet. These are bone-axis distances only.
 
 **Recorded in:** `defect_register_update_v1.json` (L7).
+
+## Session-stop handoff and blocker matrix (9 October 2026)
+
+**Authorized branch:** `codex/whole-body-biomechanics-audit-20261007`. Last pushed head before this entry: `3263287c`.
+
+**Blocker matrix:** `ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/blocker_matrix_v1.json`. No open item can be advanced from repository evidence alone:
+
+| Item | State | Exact missing evidence | Needs |
+|---|---|---|---|
+| U9 | Medial clavicle 7.5 mm (axis) from rib 1 at rest in c004; 6.3-6.6 mm in sweeps | clavicle and rib-1 bone surfaces/envelopes (costoclavicular region) or a sourced costoclavicular clearance | bone surfaces |
+| H8 | Midcarpal follower joints open 1.4-3.9 mm in wrist sweeps | carpal contact/sliding model plus the eight carpal centroids in one wrist frame (radiocarpal/midcarpal split sources conflict) | primary evidence + contact model |
+| G3 | 78 commanded test-amplitude peaks (49 tests) without a physiological source | primary ROM tables for each labelled TEST AMPLITUDE | primary literature (unreachable from cloud) |
+| U3 | Clavicle elevation 0 deg up to 170 deg humerothoracic | primary clavicle elevation/retraction vs humerothoracic table with axis/sign definitions (MoBL 0.1025 deg/deg conflicts with the repository 10 deg bound) | primary literature |
+| L3 | Rotation-only patellar follower lengthens the ligament up to 23.3 mm (+43 %) | independent patellar translation source; reconciliation of 0.66 (lunge) vs Rajagopal 0.67-0.85; reviewed install of E-PAT-1 | primary literature + owner/GPT review of shared machinery |
+| H6/L4/L7 | Start-posture test-design defects (quantified) | sourced start-pose relation and acceptance margin (bone/soft-tissue envelopes) before redesigning tests | envelopes + decision |
+| U5/U10 | Zero discs, lumbar 43 mm long, trunk high (T001 experiment closes T12/L1 and discs) | per-level thoracic wedge tables; sternum-spine depth; S1 endplate depth; resolution of the C7/chest-tilt conflict; owner decision to promote any trunk revision | primary literature + owner decision |
+| Rib slope | Rib inclination / rib-10 height +28 mm | mapped Holcombe 2017 pump-handle frame or another rib-orientation source | primary literature |
+| H1-H3/c005 | Metacarpals short; ten fingertip endpoints; thumb CMC gap; carpal layout | fingertip endpoint source; carpal centroid layout; then P001 values can be frozen | primary literature |
+| L5 | Tarsal joint centres float 33-38 mm off bones | tarsal contact geometry source | primary literature + surfaces |
+| U7/U8 | Radius short; humerus/sternum length | second endpoint-matched source for radius, ulna, humerus; sternum length method | primary literature |
+
+**Exact unfinished next item:** the E-PAT-1 patellar experiment (two rotation arms, Rajagopal translation scaled by femur length). It needs a reviewed decision from the owner and GPT/Work to run a named experiment through the shared movement machinery. Without that decision, the next item is primary-literature acquisition (thoracic wedges, clavicle bone-pin table, fingertip endpoints).
+
+**Status:** readiness is unchanged. c004 is the current audit candidate; T001 and P001 are experimental; there is no c005.

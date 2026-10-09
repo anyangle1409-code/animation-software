@@ -74,6 +74,7 @@ HANDOFF_PATHS = [
     ('c004 isolated movement run (135 sweeps)', 'ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c004_arm_inputs_001/isolated_report.json'),
     ('c004 skeleton-only Blender renders (28 views)', 'ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004/README.md'),
     ('c004 annotated Blender renders (22 views, camera-checked)', 'ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/annotated_renders_c004/README.md'),
+    ('Blocker matrix (session stop; every open item and its exact missing evidence)', 'ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/blocker_matrix_v1.json'),
     ('Defect register (30 entries)', 'ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_defect_register_v1.json'),
     ('Defect register update (U5, U10, U11, L3, L4, H10)', 'ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/defect_register_update_v1.json'),
     ('Bone-by-bone audit (206 bones)', 'ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/bone_by_bone_audit_v1.json'),

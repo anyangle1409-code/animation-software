@@ -1008,3 +1008,8 @@ Read-only distal-span context checks now trace runtime surface stations rather t
 - **Result:** abducting the opposite hip by β ≥ 3° gives at least 10 mm, and β ≥ 4° at least 25 mm, bone-axis distance in `hip_rotation_at_0_flexion` on both sides. `hip_rotation_at_90_flexion` is already clear (133.7 mm).
 - **L7** moves from OPEN to QUANTIFIED (test redesign pending; amplitudes unchanged; bone-axis proxy only).
 - **Unchanged:** no model, record or test changed; H6 stays QUANTIFIED.
+
+### 2026-10-09 Session stop (Claude): blocker matrix
+- **Blocker matrix:** `ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/blocker_matrix_v1.json`, covering 11 rows. Every remaining open item needs bone surfaces, primary literature, a contact model or an owner decision.
+- **Exact next item:** E-PAT-1 (named patellar experiment), which needs an owner/GPT decision; otherwise, literature acquisition.
+- **Handoff:** `docs/CLAUDE_ANATOMICAL_DEVELOPMENT_20261009.md` (session-stop section).

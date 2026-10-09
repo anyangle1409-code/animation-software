@@ -1,0 +1,98 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "kind": "BLOCKER_MATRIX",
+ "remote_head_at_creation": "3263287cdc633504495c72fcca5cb884b2199b4c",
+ "finding": "No remaining open item can be advanced further from current repository evidence without bone surfaces, primary literature, a contact model or an owner decision.",
+ "blockers": [
+  {
+   "id": "U9",
+   "state": "Medial clavicle 7.5 mm (axis) from rib 1 at rest in c004; 6.3-6.6 mm in sweeps",
+   "class": "EVIDENCE_GAP",
+   "exact_missing": "clavicle and rib-1 bone surfaces/envelopes (costoclavicular region) or a sourced costoclavicular clearance",
+   "needs": "bone surfaces",
+   "evidence": "ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/follower_verification_c004_v1.json"
+  },
+  {
+   "id": "H8",
+   "state": "Midcarpal follower joints open 1.4-3.9 mm in wrist sweeps",
+   "class": "MOVEMENT_MODEL_GAP",
+   "exact_missing": "carpal contact/sliding model plus the eight carpal centroids in one wrist frame (radiocarpal/midcarpal split sources conflict)",
+   "needs": "primary evidence + contact model",
+   "evidence": "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_defect_register_v1.json"
+  },
+  {
+   "id": "G3",
+   "state": "78 commanded test-amplitude peaks (49 tests) without a physiological source",
+   "class": "EVIDENCE_GAP",
+   "exact_missing": "primary ROM tables for each labelled TEST AMPLITUDE",
+   "needs": "primary literature (unreachable from cloud)",
+   "evidence": "ORIGINAL_V1_WORK/anatomy/audit/amplitude_provenance"
+  },
+  {
+   "id": "U3",
+   "state": "Clavicle elevation 0 deg up to 170 deg humerothoracic",
+   "class": "MOVEMENT_MODEL_GAP",
+   "exact_missing": "primary clavicle elevation/retraction vs humerothoracic table with axis/sign definitions (MoBL 0.1025 deg/deg conflicts with the repository 10 deg bound)",
+   "needs": "primary literature",
+   "evidence": "ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/follower_source_matrix_v1.json"
+  },
+  {
+   "id": "L3",
+   "state": "Rotation-only patellar follower lengthens the ligament up to 23.3 mm (+43 %)",
+   "class": "MOVEMENT_MODEL_GAP",
+   "exact_missing": "independent patellar translation source; reconciliation of 0.66 (lunge) vs Rajagopal 0.67-0.85; reviewed install of E-PAT-1",
+   "needs": "primary literature + owner/GPT review of shared machinery",
+   "evidence": "ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/follower_source_matrix_v1.json"
+  },
+  {
+   "id": "H6/L4/L7",
+   "state": "Start-posture test-design defects (quantified)",
+   "class": "MOVEMENT_TEST_DESIGN",
+   "exact_missing": "sourced start-pose relation and acceptance margin (bone/soft-tissue envelopes) before redesigning tests",
+   "needs": "envelopes + decision",
+   "evidence": "ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/defect_register_update_v1.json"
+  },
+  {
+   "id": "U5/U10",
+   "state": "Zero discs, lumbar 43 mm long, trunk high (T001 experiment closes T12/L1 and discs)",
+   "class": "GEOMETRY_DEFECT",
+   "exact_missing": "per-level thoracic wedge tables; sternum-spine depth; S1 endplate depth; resolution of the C7/chest-tilt conflict; owner decision to promote any trunk revision",
+   "needs": "primary literature + owner decision",
+   "evidence": "ORIGINAL_V1_WORK/anatomy/audit/experiments/t001_coupled_trunk/README.md"
+  },
+  {
+   "id": "Rib slope",
+   "state": "Rib inclination / rib-10 height +28 mm",
+   "class": "EVIDENCE_GAP",
+   "exact_missing": "mapped Holcombe 2017 pump-handle frame or another rib-orientation source",
+   "needs": "primary literature",
+   "evidence": "ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/trunk_vertical_closure_c004_v1.json"
+  },
+  {
+   "id": "H1-H3/c005",
+   "state": "Metacarpals short; ten fingertip endpoints; thumb CMC gap; carpal layout",
+   "class": "EVIDENCE_GAP",
+   "exact_missing": "fingertip endpoint source; carpal centroid layout; then P001 values can be frozen",
+   "needs": "primary literature",
+   "evidence": "ORIGINAL_V1_WORK/anatomy/audit/hand_input_audit/hand_input_source_rebuild_v1.json"
+  },
+  {
+   "id": "L5",
+   "state": "Tarsal joint centres float 33-38 mm off bones",
+   "class": "GEOMETRY_DEFECT",
+   "exact_missing": "tarsal contact geometry source",
+   "needs": "primary literature + surfaces",
+   "evidence": "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_defect_register_v1.json"
+  },
+  {
+   "id": "U7/U8",
+   "state": "Radius short; humerus/sternum length",
+   "class": "EVIDENCE_GAP",
+   "exact_missing": "second endpoint-matched source for radius, ulna, humerus; sternum length method",
+   "needs": "primary literature",
+   "evidence": "ORIGINAL_V1_WORK/anatomy/canonical_freeze_readiness_v1.json"
+  }
+ ],
+ "readiness": "0 READY / 9 PARTIAL / 3 BLOCKED (unchanged)"
+}

@@ -44,6 +44,38 @@ Each candidate JSON contains:
 
 **Checks:** finite coordinates, metre units, proper rigid/non-reflecting registration, 0.01 mm anchor numerical agreement, valid triangles, edge-manifoldness for surfaces declared closed, unique patch/landmark identifiers, valid triangle references and articular joint participation (including cartilage-owner resolution).
 
+### Independent review: correspondence and pinch-point repairs
+
+Claude's separate anatomical-development audit reproduced three false positives
+in this contract: a 5-m-remote mesh, a contralateral femur mesh, and a 0.5-mm
+femur could all pass because the previous rig anchors were provided by the
+asset itself. Their agreement with the skeleton was therefore circular.
+
+`bone_surface_correspondence.py` now reads the TRANSFORMED MESH VERTICES
+rather than trusting those anchors alone, and applies conservative gross
+sanity checks to mesh extent relative to the control, proximity to both
+skeletal endpoints, and the bulk side of explicitly paired bones using the
+project's left-positive-X frame. It reports quantitative diagnostics and
+explicitly does **not** claim an anatomically correct geometry registration.
+Passing a coarse nearest-vertex check does not verify true articular landmarks
+or the shape's biological identity. Irregular bones with axis endpoints far
+from bony surfaces may require a different evidence-backed correspondence
+profile; do not weaken limits silently to accept those meshes.
+
+The topological validator also now detects **pinched vertices** where a
+single edge-connected surface has two triangle fans touching at a vertex,
+even though every shared edge has exactly two incident faces.
+
+The `surface_type` tag is rejected before geometry parsing.
+
+The additional `test_bone_surface_correspondence.py` regression cases
+reproduce these issues, plus both valid paired sides, invalid basis, oversized
+mesh, unchanged inputs, explicit pinch vertices and supported open patches.
+The draft remains non-canonical and may not be treated as certification of
+bone identity or articular fit. Full bone-feature correspondence (segmented
+femoral head and condyles, etc.) requires independently validated bone-mesh
+landmarks before production.
+
 ### Extended topology checks (9 October)
 
 A second independent, first-party audit `bone_surface_topology.py` now

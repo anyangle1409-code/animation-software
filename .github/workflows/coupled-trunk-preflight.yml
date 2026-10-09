@@ -17,6 +17,8 @@ on:
       - 'scripts/test_neutral_arm_thigh_clearance.py'
       - 'scripts/anatomy_fit/rib_3d_coupling_audit.py'
       - 'scripts/test_rib_3d_coupling_audit.py'
+      - 'scripts/anatomy_fit/p006_sternocostal_translation_feasibility.py'
+      - 'scripts/test_p006_sternocostal_translation_feasibility.py'
       - '.github/workflows/coupled-trunk-preflight.yml'
   workflow_dispatch:
 
@@ -36,6 +38,7 @@ jobs:
           python3 -m unittest discover -s scripts -p 'test_replay_p005_shoulder_chain.py' -v
           python3 -m unittest discover -s scripts -p 'test_neutral_arm_thigh_clearance.py' -v
           python3 -m unittest discover -s scripts -p 'test_rib_3d_coupling_audit.py' -v
+          python3 -m unittest discover -s scripts -p 'test_p006_sternocostal_translation_feasibility.py' -v
       - name: Build isolated diagnostic P004 in temporary CI folder (not canonical)
         run: |
           python3 scripts/anatomy_fit/replay_p004_coupled_thorax.py --out /tmp/p004_candidate_diagnostic.json
@@ -58,6 +61,9 @@ jobs:
             --baseline ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json \
             --proposal /tmp/p005_shoulder_chain_diagnostic.json
           python3 scripts/anatomy_fit/rib_3d_coupling_audit.py \
+            --baseline ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json \
+            --proposal /tmp/p005_shoulder_chain_diagnostic.json
+          python3 scripts/anatomy_fit/p006_sternocostal_translation_feasibility.py \
             --baseline ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json \
             --proposal /tmp/p005_shoulder_chain_diagnostic.json
 

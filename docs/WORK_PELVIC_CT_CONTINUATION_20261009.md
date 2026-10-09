@@ -19,7 +19,8 @@ Date: 2026-10-09
 3. The sparse upper and lower windows do not cover the complete pelvis. The lower window supports only a tentative sacrum-region observation.
 4. The deterministic workflow records three source-pinned observations, a 27-voxel connectivity probe, zero defensible landmarks, zero canonical promotions, and all unmet gates.
 5. Empty landmark packets are now valid so the workflow preserves absence instead of pressuring a reviewer to invent a landmark.
-6. The focused pelvic CT suite passes 105 tests. The complete-series manifest and multi-group bundle gate adds 16 tests. The full pull-request intake command set passes 348 tests.
+6. Ten source-bound candidate observations now cover representative iliac, sacral, acetabular, femoral-head, and pubic-region planes while retaining every unmet independent-review and promotion gate.
+7. The focused pelvic CT suite passes 105 tests. The complete-series manifest and multi-group bundle gate adds 16 tests, and the anatomical review suite now has 13 tests. The full pull-request intake command set passes 350 tests.
 
 ## Required next sequence
 

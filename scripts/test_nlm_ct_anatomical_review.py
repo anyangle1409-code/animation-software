@@ -17,6 +17,10 @@ MANIFEST_PATH = (
     ROOT / "ORIGINAL_V1_WORK" / "anatomy" / "audit"
     / "nlm_contiguous_ct_windows_pinned_20261009.json"
 )
+BUNDLE_PATH = (
+    ROOT / "ORIGINAL_V1_WORK" / "anatomy" / "audit"
+    / "nlm_pelvic_ct_full_series_candidate_bundle_20261009.json"
+)
 
 
 def manifest():
@@ -53,7 +57,56 @@ def packet():
     }
 
 
+def bundle_packet():
+    bundle = json.loads(BUNDLE_PATH.read_text(encoding="utf-8"))
+    source = next(row for group in bundle["series"] for row in group["slices"]
+                  if row["source_id"] == "cvm1873f")
+    value = packet()
+    value["source_manifest_kind"] = "CANDIDATE_PELVIC_CT_SERIES_BUNDLE"
+    value["observations"] = [{
+        "observation_id": "obs-1873-femoral-head-candidate",
+        "source_id": source["source_id"],
+        "source_png_sha256": source["source_png_sha256"],
+        "source_header_sha256": source["source_header_sha256"],
+        "scanner_S_mm": source["scanner_centre_RAS_mm"][2],
+        "pixel": {"row": 270, "column": 175},
+        "candidate_label": "femoral_head_right",
+        "confidence": 0.6,
+        "reviewer_id": value["reviewer"]["id"],
+    }]
+    return value, bundle
+
+
 class ReviewPacketValidation(unittest.TestCase):
+    def test_committed_full_series_review_remains_candidate_evidence(self):
+        bundle = json.loads(BUNDLE_PATH.read_text(encoding="utf-8"))
+        path = (ROOT / "ORIGINAL_V1_WORK" / "anatomy" / "audit"
+                / "nlm_pelvic_ct_full_series_candidate_review_20261009.json")
+        value = json.loads(path.read_text(encoding="utf-8"))
+        result = review.validate_review_packet(value, bundle)
+        self.assertEqual(len(result["observations"]), 10)
+        self.assertEqual(
+            {item["source_id"] for item in result["observations"]},
+            {"cvm1764f", "cvm1794f", "cvm1824f", "cvm1873f", "cvm1903f"},
+        )
+        self.assertEqual(
+            {item["candidate_label"] for item in result["observations"]},
+            {"iliac_blade", "sacrum", "femoral_head_right", "femoral_head_left",
+             "acetabulum_right", "acetabulum_left", "pubic_region"},
+        )
+        self.assertIn("INDEPENDENT_SECOND_REVIEWER_REQUIRED", result["unmet_gates"])
+        self.assertFalse(result["canonical_promotion_allowed"])
+        encoded = json.dumps(result)
+        self.assertNotRegex(encoded, r"[A-Za-z]:\\")
+        self.assertNotIn("Patient", encoded)
+
+    def test_full_series_bundle_binds_review_to_exact_source_bytes(self):
+        value, bundle = bundle_packet()
+        result = review.validate_review_packet(value, bundle)
+        self.assertEqual(result["anatomical_status"], "CANDIDATE")
+        self.assertEqual(result["observations"][0]["source_id"], "cvm1873f")
+        self.assertFalse(result["canonical_promotion_allowed"])
+
     def test_valid_packet_binds_candidate_label_to_exact_source_bytes(self):
         result = review.validate_review_packet(packet(), manifest())
         self.assertEqual(result["anatomical_status"], "CANDIDATE")

@@ -96,6 +96,15 @@ explicit; the bundle must not be flattened into a single uniform stack. This
 larger source-bound volume is still candidate evidence, not anatomical or
 canonical approval.
 
+The companion committed review packet
+`ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_review_20261009.json`
+records ten low-confidence source-bound observations across five representative
+CT planes. They cover candidate iliac blade, sacrum, acetabular, femoral-head,
+and pubic-region locations. Every observation retains its exact source hashes,
+scanner S coordinate, pixel index, reviewer identity, confidence, and citations.
+It remains first-review candidate evidence and explicitly retains the second-
+reviewer, surface, registration, and canonical-promotion gates.
+
 ## Blender review handoff
 
 Use `ct_pelvis_window_geometry.py` to verify private source bytes and create

@@ -8,6 +8,8 @@ import copy
 import json
 from pathlib import Path
 
+import pelvic_ct_series_manifest as series_manifest
+
 
 LABELS = frozenset({
     "iliac_blade",
@@ -51,19 +53,35 @@ def _promotion_requested(value):
 
 
 def _pinned_rows(manifest):
-    if (not isinstance(manifest, dict)
-            or manifest.get("schema_version") != 1
-            or manifest.get("kind") != "PINNED_NLM_SIX_ADJACENT_ORIGINAL_CT_FRAMES"
-            or manifest.get("anatomical_features_identified") is not False
-            or manifest.get("canonical_promotion_allowed") is not False):
+    if not isinstance(manifest, dict) or manifest.get("schema_version") != 1:
         raise ValueError("pinned manifest does not preserve non-anatomical source status")
-    rows = manifest.get("exact_png_and_scanner_header_sha256")
-    if not isinstance(rows, list) or len(rows) != 6:
-        raise ValueError("pinned manifest must contain six source identities")
-    by_id = {row.get("source_id"): row for row in rows if isinstance(row, dict)}
-    if len(by_id) != 6:
-        raise ValueError("pinned manifest source IDs must be unique")
-    return by_id
+    kind = manifest.get("kind")
+    if kind == "PINNED_NLM_SIX_ADJACENT_ORIGINAL_CT_FRAMES":
+        if (manifest.get("anatomical_features_identified") is not False or
+                manifest.get("canonical_promotion_allowed") is not False):
+            raise ValueError("pinned manifest does not preserve non-anatomical source status")
+        rows = manifest.get("exact_png_and_scanner_header_sha256")
+        if not isinstance(rows, list) or len(rows) != 6:
+            raise ValueError("pinned manifest must contain six source identities")
+        by_id = {row.get("source_id"): row for row in rows if isinstance(row, dict)}
+        if len(by_id) != 6:
+            raise ValueError("pinned manifest source IDs must be unique")
+        return by_id
+    if kind == "CANDIDATE_PELVIC_CT_SERIES_BUNDLE":
+        evidence = series_manifest.validate_series_bundle(manifest)
+        rows = [row for group in manifest["series"] for row in group["slices"]]
+        by_id = {}
+        for row in rows:
+            by_id[row["source_id"]] = {
+                "source_id": row["source_id"],
+                "png_sha256": row["source_png_sha256"],
+                "scanner_header_sha256": row["source_header_sha256"],
+                "scanner_S_mm": row["scanner_centre_RAS_mm"][2],
+            }
+        if len(by_id) != evidence["slice_count"]:
+            raise ValueError("pinned manifest source IDs must be unique")
+        return by_id
+    raise ValueError("pinned manifest does not preserve non-anatomical source status")
 
 
 def _validate_citations(citations):
@@ -88,7 +106,7 @@ def validate_review_packet(packet: dict, pinned_manifest: dict) -> dict:
         raise ValueError("canonical promotion must remain explicitly false")
     if packet.get("source_skeleton_governs_geometry") is not True:
         raise ValueError("source skeleton must govern geometry")
-    if packet.get("source_manifest_kind") != "PINNED_NLM_SIX_ADJACENT_ORIGINAL_CT_FRAMES":
+    if packet.get("source_manifest_kind") != pinned_manifest.get("kind"):
         raise ValueError("review packet source manifest kind mismatch")
 
     pinned = _pinned_rows(pinned_manifest)

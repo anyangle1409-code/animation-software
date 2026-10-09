@@ -163,3 +163,35 @@ Diagram (coordinates, not a render): `ORIGINAL_V1_WORK/anatomy/audit/claude_anat
 - the gate that must close before detailed modelling starts.
 
 No region is ready for production bone modelling. Female variants keep the same surface inventory and joint semantics but need their own sources.
+
+## Stage 6 — movement verification and diagnostic renders
+
+**Knee render.** `audit/claude_anatomical_development_20261009/renders_knee_patella/knee_patella_static_vs_follower.jpg` is a real Blender 5.2 Workbench render from computed coordinates (script `render_patella_follower.py`).
+- **c004 now (static patella):** the ligament goes 54.6 → 96.8 → 116.8 mm at 0°/60°/120°.
+- **Sourced follower:** 54.6 → 49.7 → 55.8 mm. The patella rides onto the distal femoral condyles in deep flexion, as expected.
+- **Not installed:** the follower is not in the rig.
+
+**Not done this session:**
+- **Coupled whole-body exercises** (squat, press, pull-up): they need the patellar and clavicular followers and the trunk candidate first. Running them now would only re-measure the known gaps.
+- **The 78 unsupported amplitudes:** no new primary sources were reachable. Generic-model joint ranges are not population data, so none were adopted.
+
+## Handover (resume point)
+
+- **Branch:** `claude/skeleton-anatomical-development-20261009`. The latest commit is shown by `git log -1`.
+- **Readiness:** unchanged at 0 READY / 9 PARTIAL / 3 BLOCKED. No candidate was created; c005 was not created.
+- **Full suite:** 1,057 tests, 1,048 pass. The 9 failures are the same inherited production-control names as before; no test was weakened.
+- **New tests:** `scripts/test_spine_trunk_audits.py`, 13 tests, all pass.
+
+**Highest priority next:**
+1. A coupled trunk candidate for U10/U5. It would shorten the lumbar spine to sourced bodies plus discs, lower the thoracic cage by about 25–39 mm (vertebrae, ribs and sternum together), use source-B thoracic scale, keep C7 near ANSUR, and then re-check shoulder height. This needs owner approval to start, because it moves the ribcage and the shoulder girdle anchor.
+2. Install and review the patellar follower (Rajagopal) and the clavicular-elevation follower (MoBL) in the shared movement machinery, together with GPT/Work.
+3. Redesign the hip-adduction start posture (contralateral abduction of at least 10–14°) and the hanging-hand start posture (H6).
+4. Add the PR #12 contract fixes: feature-derived anchors, side and size checks, and pinched-vertex detection.
+
+**Needs literature or owner** (blocked from this cloud session):
+- per-level thoracic wedge tables;
+- a sternum–spine depth source;
+- S1 endplate depth;
+- carpal centroid layout and tarsal contacts;
+- fingertip endpoints;
+- sex-specific sources for the female variant.

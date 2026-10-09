@@ -1,0 +1,42 @@
+{
+ "blender_version": "5.2.1 LTS",
+ "view": "orthographic lateral from +X, scale 0.36 m",
+ "renders": {
+  "knee_static_000.png": {
+   "variant": "static",
+   "knee_deg": 0,
+   "ligament_mm": 54.64,
+   "patella_rotation_deg_model": 0.0
+  },
+  "knee_static_060.png": {
+   "variant": "static",
+   "knee_deg": 60,
+   "ligament_mm": 96.75,
+   "patella_rotation_deg_model": 0.0
+  },
+  "knee_static_120.png": {
+   "variant": "static",
+   "knee_deg": 120,
+   "ligament_mm": 116.79,
+   "patella_rotation_deg_model": 0.0
+  },
+  "knee_follower_000.png": {
+   "variant": "follower",
+   "knee_deg": 0,
+   "ligament_mm": 54.64,
+   "patella_rotation_deg_model": -0.0
+  },
+  "knee_follower_060.png": {
+   "variant": "follower",
+   "knee_deg": 60,
+   "ligament_mm": 49.69,
+   "patella_rotation_deg_model": -42.88
+  },
+  "knee_follower_120.png": {
+   "variant": "follower",
+   "knee_deg": 120,
+   "ligament_mm": 55.84,
+   "patella_rotation_deg_model": -102.41
+  }
+ }
+}

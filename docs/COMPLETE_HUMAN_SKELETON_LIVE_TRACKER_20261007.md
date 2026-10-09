@@ -933,3 +933,11 @@ Read-only distal-span context checks now trace runtime surface stations rather t
 - **Spine:** the sourced body+disc stack is 89.6 mm shorter than the C3–L5 sticks. The current thoracic span agrees with the CT source within 3.4%. The full sagittal stack rebuild remains sequence item 2; no local patch applied.
 - Real Blender renders: a first pass (28 views, including 8 movement extremes) and an annotated pass with axes, scale bar, labels and an automatic camera check.
 - **Readiness unchanged: 0 READY / 9 PARTIAL / 3 BLOCKED** (`readiness_review_addendum_20261009.json`). No c005; nothing promoted.
+
+### 2026-10-09 (Claude, anatomical development continuation; branch `claude/skeleton-anatomical-development-20261009`)
+- **Spine:** ANSUR-closed column length rejects thoracic source A (it would need a 1.43–1.49 m cohort). Source B with male MRI edge lumbar heights fits. Trunk closure on c004: lumbar +43 mm long; T12/L1 +38.5 mm, rib 10 +28.0 mm and IJ +24.7 mm high (new U10, coupled, BLOCKED). The curve-preserving disc re-partition P003 was rejected by the rib-level rule.
+- **Knee:** a static patella stretches the patellar ligament by 114%; the Rajagopal follower template keeps it within 9.4% (L3 quantified; not installed).
+- **Hip and hand:** the hip-adduction test needs at least 10–14° contralateral abduction (L4). Finger grip capacity: no defect (H10).
+- **Shoulder:** the missing clavicular elevation (MoBL 0.1025°/°) leaves the AC 24–45 mm low overhead (U3).
+- **PR #12:** reviewed, not merged. Its registration check is circular (a mesh 5 m away passes). A bone-geometry specification for eight regions was added.
+- **Status:** readiness unchanged at 0/9/3. Details: `docs/CLAUDE_ANATOMICAL_DEVELOPMENT_20261009.md`.

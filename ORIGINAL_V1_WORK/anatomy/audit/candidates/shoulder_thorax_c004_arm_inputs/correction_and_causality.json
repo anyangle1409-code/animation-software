@@ -1,0 +1,577 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "kind": "CAUSALITY_PROOF_READ_ONLY",
+ "hashes": {
+  "a003": "11712ba3e105aa8844b07572315d58ccace1d23d2f0cdf101218a3a507a1a1e3",
+  "c003": "3eb4fa1e2f7d815ec664af93fc4ece89db87a36a5201452447b161fbdcc46f3a",
+  "c004": "99500d94e06c66ca489bdaccc0345446f98794946254c5e592d9449696f396c1"
+ },
+ "reused_blend": {
+  "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/HGPT_ANATOMICAL_AUDIT_r95_a003_shoulder_thorax_c003_ansur_coupled.blend",
+  "sha256": "3962215043cebbcf71f4d0127e1e457b8974a01bca3d304035f8dcdca51e6ab4"
+ },
+ "correction_table": [
+  {
+   "side": "left",
+   "key": "EJC",
+   "before_m": [
+    0.2150399970593741,
+    0.027817861042089075,
+    1.1800000000000002
+   ],
+   "after_m": [
+    0.18956663892634895,
+    0.00041813687079825,
+    1.188798061637412
+   ],
+   "before_mm": [
+    215.04,
+    27.818,
+    1180.0
+   ],
+   "after_mm": [
+    189.567,
+    0.418,
+    1188.798
+   ],
+   "shift_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "shift_norm_mm": 38.432,
+   "target_reference": "bone:humerus_left:tail",
+   "a003_identity_references": [
+    "bone:humerus_left:tail"
+   ],
+   "target_kind": "bone_endpoint (no joint marker coincides in a003)",
+   "nearest_a003_joint_marker": {
+    "id": "humeroulnar_left",
+    "distance_mm": 9.434
+   },
+   "equals_old_plus_gh_translation": true
+  },
+  {
+   "side": "left",
+   "key": "WJC",
+   "before_m": [
+    0.21611370338613084,
+    0.029046238876136072,
+    0.9190000000000003
+   ],
+   "after_m": [
+    0.19064034525310572,
+    0.0016465147048452485,
+    0.9277980616374121
+   ],
+   "before_mm": [
+    216.114,
+    29.046,
+    919.0
+   ],
+   "after_mm": [
+    190.64,
+    1.647,
+    927.798
+   ],
+   "shift_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "shift_norm_mm": 38.432,
+   "target_reference": "marker:radiocarpal_left",
+   "a003_identity_references": [
+    "marker:radiocarpal_left"
+   ],
+   "target_kind": "joint_marker",
+   "nearest_a003_joint_marker": {
+    "id": "radiocarpal_left",
+    "distance_mm": 0.0
+   },
+   "equals_old_plus_gh_translation": true
+  },
+  {
+   "side": "left",
+   "key": "humeroulnar",
+   "before_m": [
+    0.2070399970593741,
+    0.027817861042089075,
+    1.1750000000000003
+   ],
+   "after_m": [
+    0.18156663892634894,
+    0.00041813687079825,
+    1.183798061637412
+   ],
+   "before_mm": [
+    207.04,
+    27.818,
+    1175.0
+   ],
+   "after_mm": [
+    181.567,
+    0.418,
+    1183.798
+   ],
+   "shift_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "shift_norm_mm": 38.432,
+   "target_reference": "marker:humeroulnar_left",
+   "a003_identity_references": [
+    "marker:humeroulnar_left",
+    "bone:ulna_left:head"
+   ],
+   "target_kind": "joint_marker",
+   "nearest_a003_joint_marker": {
+    "id": "humeroulnar_left",
+    "distance_mm": 0.0
+   },
+   "equals_old_plus_gh_translation": true
+  },
+  {
+   "side": "left",
+   "key": "humeroradial",
+   "before_m": [
+    0.2300399970593741,
+    0.027817861042089075,
+    1.1750000000000003
+   ],
+   "after_m": [
+    0.204566638926349,
+    0.00041813687079825,
+    1.183798061637412
+   ],
+   "before_mm": [
+    230.04,
+    27.818,
+    1175.0
+   ],
+   "after_mm": [
+    204.567,
+    0.418,
+    1183.798
+   ],
+   "shift_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "shift_norm_mm": 38.432,
+   "target_reference": "marker:humeroradial_left",
+   "a003_identity_references": [
+    "marker:humeroradial_left",
+    "bone:radius_left:head"
+   ],
+   "target_kind": "joint_marker",
+   "nearest_a003_joint_marker": {
+    "id": "humeroradial_left",
+    "distance_mm": 0.0
+   },
+   "equals_old_plus_gh_translation": true
+  },
+  {
+   "side": "left",
+   "key": "ulnar_styloid_bone",
+   "before_m": [
+    0.21641900589233165,
+    0.052926794868486754,
+    0.919
+   ],
+   "after_m": [
+    0.19094564775930653,
+    0.02552707069719593,
+    0.9277980616374119
+   ],
+   "before_mm": [
+    216.419,
+    52.927,
+    919.0
+   ],
+   "after_mm": [
+    190.946,
+    25.527,
+    927.798
+   ],
+   "shift_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "shift_norm_mm": 38.432,
+   "target_reference": "bone:ulna_left:tail",
+   "a003_identity_references": [
+    "bone:ulna_left:tail"
+   ],
+   "target_kind": "bone_endpoint (no joint marker coincides in a003)",
+   "nearest_a003_joint_marker": {
+    "id": "distal_radioulnar_left",
+    "distance_mm": 10.296
+   },
+   "equals_old_plus_gh_translation": true
+  },
+  {
+   "side": "left",
+   "key": "radial_styloid_bone",
+   "before_m": [
+    0.21540858766526344,
+    0.00516355984157083,
+    0.919
+   ],
+   "after_m": [
+    0.18993522953223832,
+    -0.022236164329719994,
+    0.9277980616374119
+   ],
+   "before_mm": [
+    215.409,
+    5.164,
+    919.0
+   ],
+   "after_mm": [
+    189.935,
+    -22.236,
+    927.798
+   ],
+   "shift_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "shift_norm_mm": 38.432,
+   "target_reference": "bone:radius_left:tail",
+   "a003_identity_references": [
+    "bone:radius_left:tail"
+   ],
+   "target_kind": "bone_endpoint (no joint marker coincides in a003)",
+   "nearest_a003_joint_marker": {
+    "id": "midcarpal_scaphoid_trapezium_left",
+    "distance_mm": 17.807
+   },
+   "equals_old_plus_gh_translation": true
+  },
+  {
+   "side": "right",
+   "key": "EJC",
+   "before_m": [
+    -0.2150399970593741,
+    0.027817861042089075,
+    1.1800000000000002
+   ],
+   "after_m": [
+    -0.1895666389263459,
+    0.00041813687079894635,
+    1.188798061637412
+   ],
+   "before_mm": [
+    -215.04,
+    27.818,
+    1180.0
+   ],
+   "after_mm": [
+    -189.567,
+    0.418,
+    1188.798
+   ],
+   "shift_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "shift_norm_mm": 38.432,
+   "target_reference": "bone:humerus_right:tail",
+   "a003_identity_references": [
+    "bone:humerus_right:tail"
+   ],
+   "target_kind": "bone_endpoint (no joint marker coincides in a003)",
+   "nearest_a003_joint_marker": {
+    "id": "humeroulnar_right",
+    "distance_mm": 9.434
+   },
+   "equals_old_plus_gh_translation": true
+  },
+  {
+   "side": "right",
+   "key": "WJC",
+   "before_m": [
+    -0.21611370338613084,
+    0.029046238876136072,
+    0.9190000000000003
+   ],
+   "after_m": [
+    -0.19064034525310264,
+    0.001646514704845945,
+    0.9277980616374121
+   ],
+   "before_mm": [
+    -216.114,
+    29.046,
+    919.0
+   ],
+   "after_mm": [
+    -190.64,
+    1.647,
+    927.798
+   ],
+   "shift_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "shift_norm_mm": 38.432,
+   "target_reference": "marker:radiocarpal_right",
+   "a003_identity_references": [
+    "marker:radiocarpal_right"
+   ],
+   "target_kind": "joint_marker",
+   "nearest_a003_joint_marker": {
+    "id": "radiocarpal_right",
+    "distance_mm": 0.0
+   },
+   "equals_old_plus_gh_translation": true
+  },
+  {
+   "side": "right",
+   "key": "humeroulnar",
+   "before_m": [
+    -0.2070399970593741,
+    0.027817861042089075,
+    1.1750000000000003
+   ],
+   "after_m": [
+    -0.1815666389263459,
+    0.00041813687079894635,
+    1.183798061637412
+   ],
+   "before_mm": [
+    -207.04,
+    27.818,
+    1175.0
+   ],
+   "after_mm": [
+    -181.567,
+    0.418,
+    1183.798
+   ],
+   "shift_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "shift_norm_mm": 38.432,
+   "target_reference": "marker:humeroulnar_right",
+   "a003_identity_references": [
+    "marker:humeroulnar_right",
+    "bone:ulna_right:head"
+   ],
+   "target_kind": "joint_marker",
+   "nearest_a003_joint_marker": {
+    "id": "humeroulnar_right",
+    "distance_mm": 0.0
+   },
+   "equals_old_plus_gh_translation": true
+  },
+  {
+   "side": "right",
+   "key": "humeroradial",
+   "before_m": [
+    -0.2300399970593741,
+    0.027817861042089075,
+    1.1750000000000003
+   ],
+   "after_m": [
+    -0.2045666389263459,
+    0.00041813687079894635,
+    1.183798061637412
+   ],
+   "before_mm": [
+    -230.04,
+    27.818,
+    1175.0
+   ],
+   "after_mm": [
+    -204.567,
+    0.418,
+    1183.798
+   ],
+   "shift_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "shift_norm_mm": 38.432,
+   "target_reference": "marker:humeroradial_right",
+   "a003_identity_references": [
+    "marker:humeroradial_right",
+    "bone:radius_right:head"
+   ],
+   "target_kind": "joint_marker",
+   "nearest_a003_joint_marker": {
+    "id": "humeroradial_right",
+    "distance_mm": 0.0
+   },
+   "equals_old_plus_gh_translation": true
+  },
+  {
+   "side": "right",
+   "key": "ulnar_styloid_bone",
+   "before_m": [
+    -0.21641900589233165,
+    0.052926794868486754,
+    0.919
+   ],
+   "after_m": [
+    -0.19094564775930345,
+    0.025527070697196626,
+    0.9277980616374119
+   ],
+   "before_mm": [
+    -216.419,
+    52.927,
+    919.0
+   ],
+   "after_mm": [
+    -190.946,
+    25.527,
+    927.798
+   ],
+   "shift_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "shift_norm_mm": 38.432,
+   "target_reference": "bone:ulna_right:tail",
+   "a003_identity_references": [
+    "bone:ulna_right:tail"
+   ],
+   "target_kind": "bone_endpoint (no joint marker coincides in a003)",
+   "nearest_a003_joint_marker": {
+    "id": "distal_radioulnar_right",
+    "distance_mm": 10.296
+   },
+   "equals_old_plus_gh_translation": true
+  },
+  {
+   "side": "right",
+   "key": "radial_styloid_bone",
+   "before_m": [
+    -0.21540858766526344,
+    0.00516355984157083,
+    0.919
+   ],
+   "after_m": [
+    -0.18993522953223524,
+    -0.022236164329719296,
+    0.9277980616374119
+   ],
+   "before_mm": [
+    -215.409,
+    5.164,
+    919.0
+   ],
+   "after_mm": [
+    -189.935,
+    -22.236,
+    927.798
+   ],
+   "shift_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "shift_norm_mm": 38.432,
+   "target_reference": "bone:radius_right:tail",
+   "a003_identity_references": [
+    "bone:radius_right:tail"
+   ],
+   "target_kind": "bone_endpoint (no joint marker coincides in a003)",
+   "nearest_a003_joint_marker": {
+    "id": "midcarpal_scaphoid_trapezium_right",
+    "distance_mm": 17.807
+   },
+   "equals_old_plus_gh_translation": true
+  }
+ ],
+ "record_diff_c003_to_c004_excluding_candidate": [
+  "/skeleton_input/sides/left/EJC",
+  "/skeleton_input/sides/left/WJC",
+  "/skeleton_input/sides/left/humeroradial",
+  "/skeleton_input/sides/left/humeroulnar",
+  "/skeleton_input/sides/left/radial_styloid_bone",
+  "/skeleton_input/sides/left/ulnar_styloid_bone",
+  "/skeleton_input/sides/right/EJC",
+  "/skeleton_input/sides/right/WJC",
+  "/skeleton_input/sides/right/humeroradial",
+  "/skeleton_input/sides/right/humeroulnar",
+  "/skeleton_input/sides/right/radial_styloid_bone",
+  "/skeleton_input/sides/right/ulnar_styloid_bone"
+ ],
+ "derived_frames": {
+  "arm_distal_segments": 58,
+  "c004_vs_a003_max_deg": 7.91727014372058e-14,
+  "c003_vs_a003_max_deg": 25.81760267272271,
+  "other_segments_c003_vs_c004_max_deg": 0.0,
+  "other_segments": 148,
+  "c003_worst_segment": "scaphoid_right"
+ },
+ "specs": {
+  "tests": 135,
+  "changed_c003_to_c004": [
+   "digit2_mcp_abduction_left",
+   "digit2_mcp_abduction_right",
+   "digit4_mcp_abduction_left",
+   "digit4_mcp_abduction_right",
+   "digit5_mcp_abduction_left",
+   "digit5_mcp_abduction_right",
+   "thumb_cmc_anteposition_left",
+   "thumb_cmc_anteposition_right",
+   "thumb_cmc_radial_abduction_left",
+   "thumb_cmc_radial_abduction_right",
+   "thumb_opposition_left",
+   "thumb_opposition_right",
+   "wrist_adduction_left",
+   "wrist_adduction_right",
+   "wrist_flexion_left",
+   "wrist_flexion_right"
+  ],
+  "wrist_centres": {
+   "wrist_adduction_left": {
+    "c003_centre_to_radiocarpal_mm": 38.432,
+    "c004_centre_to_radiocarpal_mm": 0.0
+   },
+   "wrist_adduction_right": {
+    "c003_centre_to_radiocarpal_mm": 38.432,
+    "c004_centre_to_radiocarpal_mm": 0.0
+   },
+   "wrist_flexion_left": {
+    "c003_centre_to_radiocarpal_mm": 38.432,
+    "c004_centre_to_radiocarpal_mm": 0.0
+   },
+   "wrist_flexion_right": {
+    "c003_centre_to_radiocarpal_mm": 38.432,
+    "c004_centre_to_radiocarpal_mm": 0.0
+   }
+  }
+ },
+ "visual_inputs": {
+  "c003": {
+   "bones": "f07ffee6ff9da62ddf8f2f806d68741fabfd26b91453f8066d0f8ae3ab1c7603",
+   "joint_markers": "6a362ba4ca6386cd80ef05ae59163d15fe7f747866261dd48d36f8503d7e2a8f",
+   "scapula_landmarks": "0fc6afb1085ba95e223117d8b658b883c604c27c626c2de1664790c97c549e07",
+   "renderer_inputs_TS_AA_AI": "6d566a03d619bc0661220140b5c13c2b742310a6bff51a1c2fff5da5e0a3641a"
+  },
+  "c004": {
+   "bones": "f07ffee6ff9da62ddf8f2f806d68741fabfd26b91453f8066d0f8ae3ab1c7603",
+   "joint_markers": "6a362ba4ca6386cd80ef05ae59163d15fe7f747866261dd48d36f8503d7e2a8f",
+   "scapula_landmarks": "0fc6afb1085ba95e223117d8b658b883c604c27c626c2de1664790c97c549e07",
+   "renderer_inputs_TS_AA_AI": "6d566a03d619bc0661220140b5c13c2b742310a6bff51a1c2fff5da5e0a3641a"
+  },
+  "identical": true
+ },
+ "acceptance_checks_identical_to_c003": true
+}

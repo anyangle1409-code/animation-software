@@ -21,6 +21,11 @@ import urllib.request
 
 ROOT="https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/PNG_format/radiological/normalCTHeaders/"
 ALLOWED=("cvm1013f.txt","cvm1014f.txt")
+PINNED_HEADER_SHA256={
+    "cvm1013f.txt":"d07c543fd36f65014347f14e76a466618aaf56bc28688621ab68648daf6c17ab",
+    "cvm1014f.txt":"67a25d7199cf68ecb151d2031bab253c67e73a9d18bb7d525835b0d05e2a0511",
+}
+
 MAX_TEXT_BYTES=64*1024
 
 KEYS={
@@ -162,9 +167,13 @@ def fetch_header(name):
     request=urllib.request.Request(ROOT+name,headers={"User-Agent":"HomeGymPT-CT-Geometry-Header/1.0"})
     with opener.open(request,timeout=20) as response:
         raw=response.read(MAX_TEXT_BYTES+1)
+    sha=hashlib.sha256(raw).hexdigest()
+    if sha!=PINNED_HEADER_SHA256[name]:
+        raise ValueError("NLM scanner metadata changed from independently pinned source SHA-256")
     geometry=scanner_geometry_from_text(raw)
     geometry["source_filename"]=name
-    geometry["raw_source_sha256"]=hashlib.sha256(raw).hexdigest()
+    geometry["raw_source_sha256"]=sha
+    geometry["matches_independently_pinned_source_bytes"]=True
     geometry["original_header_only_temporary_memory"]=True
     return geometry
 

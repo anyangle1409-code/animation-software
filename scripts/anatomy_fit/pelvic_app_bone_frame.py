@@ -207,7 +207,17 @@ def audit(points,source,provenance=None,legacy=False):
         raise ValueError('source registry must not permit promotion')
     for key in REQUIRED_BONY:
         _pt(points[key],key)
+    # This audit's inputs use the fixed Home Gym PT neutral world frame;
+    # x-positive is anatomical LEFT. Swapped label identities must fail
+    # rather than manufacture a right-handed but anatomically mirrored APP.
+    for a,b in (('asis_left','asis_right'),
+                ('pubic_tubercle_left','pubic_tubercle_right'),
+                ('hip_centre_left','hip_centre_right')):
+        if points[a][0] <= points[b][0]:
+            raise ValueError('left/right labels violate canonical positive-X-left convention')
     frame=app_frame(points)
+    if frame['axis_world_unit']['superior'][2] < .3:
+        raise ValueError('APP superior axis conflicts with upright world pose')
     hip=_mid(points['hip_centre_left'],points['hip_centre_right'])
     delta=world_to_app_delta_mm(frame,points['s1_endplate_centre'],hip)
     blockers=_check_evidence(provenance)

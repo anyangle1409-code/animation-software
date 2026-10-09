@@ -7,6 +7,7 @@ import unittest
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+ROOT = HERE.parent
 sys.path.insert(0, str(HERE / "anatomy_fit"))
 
 import pelvic_ct_series_manifest as series
@@ -40,6 +41,32 @@ def manifest():
         "canonical_promotion_allowed": False,
         "source_skeleton_governs_geometry": True,
         "slices": rows,
+    }
+
+
+def bundle():
+    superior = manifest()
+    superior["series_uid_sha256"] = "a" * 64
+    superior["slices"] = superior["slices"][:3]
+    superior["required_scanner_S_centre_range_mm"] = [6.0, 0.0]
+    inferior = manifest()
+    inferior["series_uid_sha256"] = "b" * 64
+    inferior["required_scanner_S_centre_range_mm"] = [-1.0, -7.0]
+    inferior["slices"] = inferior["slices"][:3]
+    for index, (row, scanner_s) in enumerate(
+            zip(inferior["slices"], (-1.0, -4.0, -7.0)), start=1):
+        row["source_id"] = f"inferior-{index:04d}"
+        row["scanner_centre_RAS_mm"][2] = scanner_s
+    return {
+        "schema_version": 1,
+        "kind": "CANDIDATE_PELVIC_CT_SERIES_BUNDLE",
+        "coordinate_frame": "SCANNER_RAS_MM",
+        "source_bytes_committed": False,
+        "patient_identifiers_exported": False,
+        "anatomical_coverage_verified": False,
+        "canonical_promotion_allowed": False,
+        "source_skeleton_governs_geometry": True,
+        "series": [superior, inferior],
     }
 
 
@@ -145,6 +172,74 @@ class CandidateSeriesManifest(unittest.TestCase):
             self.assertNotIn("NEVER-EXPORT", json.dumps(result))
             with self.assertRaises(FileExistsError):
                 series.main([str(source), "--out", str(output)])
+
+
+class CandidateSeriesBundle(unittest.TestCase):
+    def test_committed_real_source_bundle_is_two_groups_noncanonical(self):
+        path = (ROOT / "ORIGINAL_V1_WORK" / "anatomy" / "audit"
+                / "nlm_pelvic_ct_full_series_candidate_bundle_20261009.json")
+        value = json.loads(path.read_text(encoding="utf-8"))
+        result = series.validate_series_bundle(value)
+        self.assertEqual(result["series_count"], 2)
+        self.assertEqual(result["slice_count"], 72)
+        self.assertEqual(result["scanner_S_centre_range_mm"], [-342.0, -553.0])
+        self.assertEqual(result["boundary_evidence"][0]["overlap_mm"], 2.0)
+        self.assertFalse(result["single_uniform_stack_claimed"])
+        self.assertFalse(result["anatomical_coverage_verified"])
+        self.assertFalse(result["canonical_promotion_allowed"])
+        pinned = json.loads((ROOT / "ORIGINAL_V1_WORK" / "anatomy" / "audit"
+                             / "nlm_contiguous_ct_windows_pinned_20261009.json")
+                            .read_text(encoding="utf-8"))
+        rows = {row["source_id"]: row for group in value["series"]
+                for row in group["slices"]}
+        for anchor in pinned["exact_png_and_scanner_header_sha256"]:
+            row = rows[f"cvm{anchor['source_id']}f"]
+            self.assertEqual(row["source_png_sha256"], anchor["png_sha256"])
+            self.assertEqual(row["source_header_sha256"], anchor["scanner_header_sha256"])
+            self.assertEqual(row["source_png_bytes"], anchor["png_bytes"])
+            self.assertEqual(row["scanner_centre_RAS_mm"][2], anchor["scanner_S_mm"])
+        encoded = json.dumps(value)
+        self.assertNotRegex(encoded, r"[A-Za-z]:\\")
+        self.assertNotIn("Patient", encoded)
+        self.assertNotIn("raw_header", encoded)
+
+    def test_two_groups_preserve_boundary_overlap_without_flattening(self):
+        result = series.validate_series_bundle(bundle())
+        self.assertEqual(result["status"], "CONTIGUOUS_MULTI_GROUP_SOURCE_VOLUME_NOT_ANATOMICAL")
+        self.assertEqual(result["series_count"], 2)
+        self.assertEqual(result["slice_count"], 6)
+        self.assertEqual(result["boundary_evidence"][0]["overlap_mm"], 2.0)
+        self.assertFalse(result["single_uniform_stack_claimed"])
+        self.assertFalse(result["anatomical_coverage_verified"])
+        self.assertFalse(result["canonical_promotion_allowed"])
+
+    def test_inter_group_physical_gap_fails(self):
+        value = bundle()
+        inferior = value["series"][1]
+        for row, scanner_s in zip(inferior["slices"], (-5.0, -8.0, -11.0)):
+            row["scanner_centre_RAS_mm"][2] = scanner_s
+        inferior["required_scanner_S_centre_range_mm"] = [-5.0, -11.0]
+        with self.assertRaisesRegex(ValueError, "physical gap"):
+            series.validate_series_bundle(value)
+
+    def test_duplicate_sources_or_reversed_group_order_fail(self):
+        value = bundle()
+        value["series"][1]["slices"][0]["source_id"] = "slice-0001"
+        with self.assertRaisesRegex(ValueError, "duplicate source"):
+            series.validate_series_bundle(value)
+        value = bundle()
+        value["series"].reverse()
+        with self.assertRaisesRegex(ValueError, "series group order"):
+            series.validate_series_bundle(value)
+
+    def test_bundle_claims_fail_closed(self):
+        for field in ("source_bytes_committed", "patient_identifiers_exported",
+                      "anatomical_coverage_verified", "canonical_promotion_allowed"):
+            with self.subTest(field=field):
+                value = bundle()
+                value[field] = True
+                with self.assertRaisesRegex(ValueError, "unsupported bundle claim"):
+                    series.validate_series_bundle(value)
 
 
 if __name__ == "__main__":

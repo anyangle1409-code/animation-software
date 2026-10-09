@@ -7,19 +7,19 @@ Date: 2026-10-09
 - Repository: `anyangle1409-code/animation-software`
 - Development branch: `codex/pelvic-ct-identification-segmentation-20261009`
 - Draft PR branch: `codex/independent-pelvis-stl-intake-20261009`
-- Verified implementation checkpoint: `e606c05c` (after `191b9734`)
+- Evidence baseline before full-series work: `e606c05c` (after `191b9734`); always fetch the current branch head before continuing.
 - Source skeleton remains the geometry authority.
 - Downloaded source images, scanner headers, anatomical cross-sections, and Blender review files remain outside Git.
 - Candidate evidence must remain separate from canonical assets. No canonical promotion is authorized without independent evidence.
 
 ## What is now verified
 
-1. Six pinned NLM Visible Human CT images and scanner headers were downloaded privately and matched the manifest hashes exactly.
+1. Seventy-two NLM Visible Human CT images and scanner headers were downloaded privately. They form two internally uniform 3 mm acquisition groups with a 2 mm slab overlap at the boundary; they must not be flattened into a single uniform stack. The original six pinned anchors match the larger bundle exactly.
 2. A real Blender 5.2.1 review scene loaded all six source-bound slices without packing them or changing the source skeleton.
 3. The sparse upper and lower windows do not cover the complete pelvis. The lower window supports only a tentative sacrum-region observation.
 4. The deterministic workflow records three source-pinned observations, a 27-voxel connectivity probe, zero defensible landmarks, zero canonical promotions, and all unmet gates.
 5. Empty landmark packets are now valid so the workflow preserves absence instead of pressuring a reviewer to invent a landmark.
-6. The focused pelvic CT suite passes 105 tests. The full pull-request intake command set passes 332 tests.
+6. The focused pelvic CT suite passes 105 tests. The complete-series manifest and multi-group bundle gate adds 16 tests. The full pull-request intake command set passes 348 tests.
 
 ## Required next sequence
 

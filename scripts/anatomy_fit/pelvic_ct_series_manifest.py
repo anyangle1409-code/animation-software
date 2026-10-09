@@ -149,8 +149,74 @@ def validate_series_manifest(manifest):
         "source_ids": [source_id for source_id, _ in normalized],
         "scanner_S_centre_range_mm": [actual_superior, actual_inferior],
         "measured_step_S_mm": expected_step,
+        "slice_thickness_mm": baseline[3],
         "scanner_geometry_contiguous": True,
         "declared_scanner_range_covered": True,
+        "anatomical_coverage_verified": False,
+        "canonical_promotion_allowed": False,
+        "source_skeleton_governs_geometry": True,
+    }
+
+
+def validate_series_bundle(bundle):
+    """Validate multiple uniform groups without flattening their boundaries."""
+    if not isinstance(bundle, dict):
+        raise ValueError("series bundle must be an object")
+    if (bundle.get("schema_version") != 1 or
+            bundle.get("kind") != "CANDIDATE_PELVIC_CT_SERIES_BUNDLE"):
+        raise ValueError("unsupported pelvic CT series bundle schema")
+    if bundle.get("coordinate_frame") != "SCANNER_RAS_MM":
+        raise ValueError("bundle coordinate frame must be explicit SCANNER_RAS_MM")
+    if (bundle.get("source_bytes_committed") is not False or
+            bundle.get("patient_identifiers_exported") is not False or
+            bundle.get("anatomical_coverage_verified") is not False or
+            bundle.get("canonical_promotion_allowed") is not False):
+        raise ValueError("unsupported bundle claim or source handling")
+    if bundle.get("source_skeleton_governs_geometry") is not True:
+        raise ValueError("source skeleton must govern bundle geometry")
+    groups = bundle.get("series")
+    if not isinstance(groups, list) or len(groups) < 2:
+        raise ValueError("multi-group bundle requires at least two source series")
+
+    reports = []
+    seen_source_ids = set()
+    for group in groups:
+        report = validate_series_manifest(group)
+        duplicates = seen_source_ids.intersection(report["source_ids"])
+        if duplicates:
+            raise ValueError("duplicate source identity across series groups")
+        seen_source_ids.update(report["source_ids"])
+        reports.append(report)
+
+    boundaries = []
+    for superior, inferior in zip(reports, reports[1:]):
+        superior_last = superior["scanner_S_centre_range_mm"][1]
+        inferior_first = inferior["scanner_S_centre_range_mm"][0]
+        if superior_last <= inferior_first:
+            raise ValueError("series group order must be superior-to-inferior")
+        superior_bottom = superior_last - superior["slice_thickness_mm"] / 2.0
+        inferior_top = inferior_first + inferior["slice_thickness_mm"] / 2.0
+        overlap = inferior_top - superior_bottom
+        if overlap < -_TOLERANCE:
+            raise ValueError("physical gap between source series groups")
+        boundaries.append({
+            "superior_group_last_centre_S_mm": superior_last,
+            "inferior_group_first_centre_S_mm": inferior_first,
+            "overlap_mm": max(0.0, overlap),
+            "flattened_to_uniform_stack": False,
+        })
+
+    return {
+        "status": "CONTIGUOUS_MULTI_GROUP_SOURCE_VOLUME_NOT_ANATOMICAL",
+        "series_count": len(reports),
+        "slice_count": sum(report["slice_count"] for report in reports),
+        "scanner_S_centre_range_mm": [
+            reports[0]["scanner_S_centre_range_mm"][0],
+            reports[-1]["scanner_S_centre_range_mm"][1],
+        ],
+        "boundary_evidence": boundaries,
+        "single_uniform_stack_claimed": False,
+        "source_series_group_boundaries_preserved": True,
         "anatomical_coverage_verified": False,
         "canonical_promotion_allowed": False,
         "source_skeleton_governs_geometry": True,
@@ -163,7 +229,11 @@ def main(argv=None):
     parser.add_argument("--out", type=Path)
     args = parser.parse_args(argv)
     manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
-    result = json.dumps(validate_series_manifest(manifest), indent=2) + "\n"
+    if manifest.get("kind") == "CANDIDATE_PELVIC_CT_SERIES_BUNDLE":
+        safe = validate_series_bundle(manifest)
+    else:
+        safe = validate_series_manifest(manifest)
+    result = json.dumps(safe, indent=2) + "\n"
     if args.out:
         with args.out.open("x", encoding="utf-8") as handle:
             handle.write(result)

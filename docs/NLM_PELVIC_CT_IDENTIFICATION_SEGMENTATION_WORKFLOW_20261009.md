@@ -86,6 +86,16 @@ identifiers, committed source bytes, anatomical self-claims, and canonical
 claims. A successful result proves source-series continuity only; it does not
 prove that the series covers the complete bony pelvis.
 
+The committed candidate bundle
+`ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json`
+records 72 exact NLM image/header identities without copying either source. The
+source headers establish two uniform 3 mm acquisition groups: 37 slices from
+scanner S −342 to −450 mm and 35 slices from −451 to −553 mm. Their 3 mm-thick
+slabs overlap by 2 mm at the acquisition boundary. The boundary must remain
+explicit; the bundle must not be flattened into a single uniform stack. This
+larger source-bound volume is still candidate evidence, not anatomical or
+canonical approval.
+
 ## Blender review handoff
 
 Use `ct_pelvis_window_geometry.py` to verify private source bytes and create

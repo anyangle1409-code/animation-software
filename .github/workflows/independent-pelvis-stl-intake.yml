@@ -34,6 +34,7 @@ on:
       - 'ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvis_scout_pinned_source_positions_20261009.json'
       - 'ORIGINAL_V1_WORK/anatomy/audit/nlm_original_ct_png_pinned_preview_20261009.json'
       - 'ORIGINAL_V1_WORK/anatomy/audit/nih3d_male_pelvis_mesh_source_manifest_20261009.json'
+      - 'ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json'
       - 'ORIGINAL_V1_WORK/anatomy/audit/codex_pelvis_ct_candidate_review_20261009/**'
       - '.github/workflows/independent-pelvis-stl-intake.yml'
   workflow_dispatch:

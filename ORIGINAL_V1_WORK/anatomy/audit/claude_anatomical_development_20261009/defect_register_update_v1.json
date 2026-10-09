@@ -171,6 +171,28 @@
     "ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/hand_thigh_start_posture_c004_v1.json"
    ],
    "action": "redesign the affected arm sweeps (forearm rotation at elbow 0, elbow flexion at pronation 60, GH axial at 0 elevation, wrist flexion) with a GH start abduction of at least 7-9 deg plus an envelope margin; amplitudes unchanged; scapular participation in the start posture to be stated"
+  },
+  {
+   "id": "L7",
+   "cls": "MOVEMENT_TEST_DESIGN",
+   "status": "QUANTIFIED",
+   "date": "2026-10-09",
+   "measured": {
+    "beta0_min_axis_mm": {
+     "hip_rotation_at_0_flexion_left": 1.74,
+     "hip_rotation_at_90_flexion_left": 133.65,
+     "hip_rotation_at_0_flexion_right": 1.4,
+     "hip_rotation_at_90_flexion_right": 133.65
+    },
+    "contralateral_abduction_deg_needed": {
+     "ge10mm": 3,
+     "ge25mm": 4
+    }
+   },
+   "evidence": [
+    "ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/hip_rotation_start_posture_c004_v1.json"
+   ],
+   "action": "test redesign pending: hip_rotation_at_0_flexion with the contralateral hip abducted >= 3-4 deg (or a wider stance, not evaluated) plus an envelope margin; amplitudes unchanged"
   }
  ]
 }

@@ -267,3 +267,11 @@ Evidence: `ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009
 **Result:** a GH start abduction of at least 7° (10 mm) or 9° (25 mm) separates the forearm and hand from the femur and hip bone in all affected c004 sweeps. Clearances are axis distances only; the thresholds are reporting levels, not anatomical clearances.
 
 **Recorded in:** `defect_register_update_v1.json` (H6).
+
+## L7 hip-rotation start posture (test design, quantified)
+
+Evidence: `ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/hip_rotation_start_posture_c004_v1.json`.
+
+**Result:** in hip internal rotation from c004's rest stance, the moving hallux reaches the opposite first metatarsal (1.4–1.7 mm). Abducting the opposite hip by 3° (10 mm) or 4° (25 mm) separates the feet. These are bone-axis distances only.
+
+**Recorded in:** `defect_register_update_v1.json` (L7).

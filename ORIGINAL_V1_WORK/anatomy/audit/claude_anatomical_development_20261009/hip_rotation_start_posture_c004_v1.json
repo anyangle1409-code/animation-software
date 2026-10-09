@@ -1,0 +1,193 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "kind": "READ_ONLY_TEST_DESIGN_ANALYSIS",
+ "finding": "L7",
+ "record": "c004 (unchanged)",
+ "inputs_sha256": {
+  "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json": "99500d94e06c66ca489bdaccc0345446f98794946254c5e592d9449696f396c1",
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c004_arm_inputs_001/isolated_samples.json": "5632dd46dd035293fc6007d41990955e6828ad1e53c5e11154c0057a2f37e78a",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/whole_body_interaction_c004.json": "2d4a6b37059f157972d37acc14ff435914c027011d25353bbdba3c76ebf84420"
+ },
+ "method": "moving limb: committed per-frame world deltas (stride 2); stationary limb: rigid start abduction beta about its HJC around the global AP axis; segment distance between all bone sticks of the two limbs",
+ "smallest_contralateral_abduction_deg_for_axis_distance": {
+  "hip_rotation_at_0_flexion_left_ge10mm": 3,
+  "hip_rotation_at_0_flexion_left_ge25mm": 4,
+  "hip_rotation_at_0_flexion_right_ge10mm": 3,
+  "hip_rotation_at_0_flexion_right_ge25mm": 4,
+  "hip_rotation_at_90_flexion_left_ge10mm": 0,
+  "hip_rotation_at_90_flexion_left_ge25mm": 0,
+  "hip_rotation_at_90_flexion_right_ge10mm": 0,
+  "hip_rotation_at_90_flexion_right_ge25mm": 0
+ },
+ "beta0_consistency_with_interaction_scan": {
+  "hip_rotation_at_0_flexion_left": {
+   "beta0_mm": 1.74,
+   "interaction_scan_min_mm": 1.74
+  },
+  "hip_rotation_at_90_flexion_left": {
+   "beta0_mm": 133.65,
+   "interaction_scan_min_mm": null
+  },
+  "hip_rotation_at_0_flexion_right": {
+   "beta0_mm": 1.4,
+   "interaction_scan_min_mm": 1.4
+  },
+  "hip_rotation_at_90_flexion_right": {
+   "beta0_mm": 133.65,
+   "interaction_scan_min_mm": null
+  }
+ },
+ "per_test": {
+  "hip_rotation_at_0_flexion_left": {
+   "0": {
+    "min_axis_mm": 1.74,
+    "pair": [
+     "hallux_proximal_phalanx_left",
+     "metatarsal_1_right"
+    ]
+   },
+   "5": {
+    "min_axis_mm": 48.21,
+    "pair": [
+     "hallux_distal_phalanx_left",
+     "metatarsal_1_right"
+    ]
+   },
+   "10": {
+    "min_axis_mm": 127.18,
+    "pair": [
+     "hallux_distal_phalanx_left",
+     "hallux_proximal_phalanx_right"
+    ]
+   },
+   "15": {
+    "min_axis_mm": 166.61,
+    "pair": [
+     "femur_left",
+     "femur_right"
+    ]
+   },
+   "20": {
+    "min_axis_mm": 166.61,
+    "pair": [
+     "femur_left",
+     "femur_right"
+    ]
+   }
+  },
+  "hip_rotation_at_90_flexion_left": {
+   "0": {
+    "min_axis_mm": 133.65,
+    "pair": [
+     "hallux_distal_phalanx_left",
+     "hallux_distal_phalanx_right"
+    ]
+   },
+   "5": {
+    "min_axis_mm": 166.61,
+    "pair": [
+     "femur_left",
+     "femur_right"
+    ]
+   },
+   "10": {
+    "min_axis_mm": 166.61,
+    "pair": [
+     "femur_left",
+     "femur_right"
+    ]
+   },
+   "15": {
+    "min_axis_mm": 166.61,
+    "pair": [
+     "femur_left",
+     "femur_right"
+    ]
+   },
+   "20": {
+    "min_axis_mm": 166.61,
+    "pair": [
+     "femur_left",
+     "femur_right"
+    ]
+   }
+  },
+  "hip_rotation_at_0_flexion_right": {
+   "0": {
+    "min_axis_mm": 1.4,
+    "pair": [
+     "hallux_proximal_phalanx_right",
+     "metatarsal_1_left"
+    ]
+   },
+   "5": {
+    "min_axis_mm": 44.78,
+    "pair": [
+     "hallux_distal_phalanx_right",
+     "metatarsal_1_left"
+    ]
+   },
+   "10": {
+    "min_axis_mm": 123.48,
+    "pair": [
+     "hallux_distal_phalanx_right",
+     "metatarsal_1_left"
+    ]
+   },
+   "15": {
+    "min_axis_mm": 166.61,
+    "pair": [
+     "femur_right",
+     "femur_left"
+    ]
+   },
+   "20": {
+    "min_axis_mm": 166.61,
+    "pair": [
+     "femur_right",
+     "femur_left"
+    ]
+   }
+  },
+  "hip_rotation_at_90_flexion_right": {
+   "0": {
+    "min_axis_mm": 133.65,
+    "pair": [
+     "hallux_distal_phalanx_right",
+     "hallux_distal_phalanx_left"
+    ]
+   },
+   "5": {
+    "min_axis_mm": 166.61,
+    "pair": [
+     "femur_right",
+     "femur_left"
+    ]
+   },
+   "10": {
+    "min_axis_mm": 166.61,
+    "pair": [
+     "femur_right",
+     "femur_left"
+    ]
+   },
+   "15": {
+    "min_axis_mm": 166.61,
+    "pair": [
+     "femur_right",
+     "femur_left"
+    ]
+   },
+   "20": {
+    "min_axis_mm": 166.61,
+    "pair": [
+     "femur_right",
+     "femur_left"
+    ]
+   }
+  }
+ },
+ "threshold_note": "10/25 mm are reporting thresholds on bone-axis distance, not anatomical clearances (no envelopes exist)",
+ "reading": "L7 is a start-posture (test-design) problem of the feet-at-rest stance: a contralateral start abduction separates the feet during internal rotation; no bone or amplitude change is implied. A wider stance is an alternative not evaluated here."
+}

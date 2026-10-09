@@ -1001,3 +1001,10 @@ Read-only distal-span context checks now trace runtime surface stations rather t
 - **Result:** α ≥ 7° gives at least 10 mm and α ≥ 9° at least 25 mm axis distance from the femur and hip bone in every affected sweep, on both sides. Wrist flexion is the binding test.
 - **H6** moves from OPEN to QUANTIFIED (test redesign pending; amplitudes unchanged; the start posture's scapular participation is to be stated).
 - **Unchanged:** no model, record or test changed.
+
+### 2026-10-09 L7 hip-rotation start posture quantified (Claude; test-design evidence only)
+- **Evidence:** `ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/hip_rotation_start_posture_c004_v1.json`, from `scripts/anatomy_fit/hip_rotation_start_posture.py`; tests in `scripts/test_hip_rotation_start_posture.py` (3).
+- **Consistency:** β = 0 reproduces the interaction scan (1.40 / 1.74 mm, hallux against the opposite first metatarsal).
+- **Result:** abducting the opposite hip by β ≥ 3° gives at least 10 mm, and β ≥ 4° at least 25 mm, bone-axis distance in `hip_rotation_at_0_flexion` on both sides. `hip_rotation_at_90_flexion` is already clear (133.7 mm).
+- **L7** moves from OPEN to QUANTIFIED (test redesign pending; amplitudes unchanged; bone-axis proxy only).
+- **Unchanged:** no model, record or test changed; H6 stays QUANTIFIED.

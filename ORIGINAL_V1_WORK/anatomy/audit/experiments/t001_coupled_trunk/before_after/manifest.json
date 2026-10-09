@@ -1,0 +1,202 @@
+{
+ "kind": "BEFORE_AFTER_COMPOSITES",
+ "before": "ORIGINAL_V1_WORK/anatomy/audit/claude_independent_review_20261009/skeleton_only_renders_c004 (committed c004 renders)",
+ "after": "rendered by scripts/anatomy_fit/render_skeleton_only_review.py from the T001 Blender build (CP3 builder); intermediate PNGs not committed",
+ "after_render_settings": {
+  "source_blend_sha256": "568471bf9bb6224460fff47e10daad1234b4c0b1a239f9ed416c51fea2eeaf8e",
+  "record_sha256": "c7aea898167ffd987d41ab468278831f31de0fda0d9cb1789e2a099976b26f05",
+  "blender": "5.2.1 LTS",
+  "views": {
+   "body_front": {
+    "direction": [
+     0,
+     -1,
+     0
+    ],
+    "target": "body",
+    "ortho_scale_m": 2.05
+   },
+   "body_back": {
+    "direction": [
+     0,
+     1,
+     0
+    ],
+    "target": "body",
+    "ortho_scale_m": 2.05
+   },
+   "body_left": {
+    "direction": [
+     1,
+     0,
+     0
+    ],
+    "target": "body",
+    "ortho_scale_m": 2.05
+   },
+   "body_right": {
+    "direction": [
+     -1,
+     0,
+     0
+    ],
+    "target": "body",
+    "ortho_scale_m": 2.05
+   },
+   "body_front_left_34": {
+    "direction": [
+     0.7071,
+     -0.7071,
+     0
+    ],
+    "target": "body",
+    "ortho_scale_m": 2.05
+   },
+   "body_back_right_34": {
+    "direction": [
+     -0.7071,
+     0.7071,
+     0
+    ],
+    "target": "body",
+    "ortho_scale_m": 2.05
+   },
+   "shoulders_front": {
+    "direction": [
+     0,
+     -1,
+     0
+    ],
+    "target": "shoulders",
+    "ortho_scale_m": 0.62
+   },
+   "shoulders_top": {
+    "direction": [
+     0,
+     0,
+     1
+    ],
+    "target": "shoulders",
+    "ortho_scale_m": 0.62
+   },
+   "spine_left": {
+    "direction": [
+     1,
+     0,
+     0
+    ],
+    "target": "spine",
+    "ortho_scale_m": 1.0
+   },
+   "spine_back": {
+    "direction": [
+     0,
+     1,
+     0
+    ],
+    "target": "spine",
+    "ortho_scale_m": 1.0
+   },
+   "pelvis_front": {
+    "direction": [
+     0,
+     -1,
+     0
+    ],
+    "target": "pelvis",
+    "ortho_scale_m": 0.45
+   },
+   "pelvis_top": {
+    "direction": [
+     0,
+     0,
+     1
+    ],
+    "target": "pelvis",
+    "ortho_scale_m": 0.45
+   },
+   "hand_left_palmar": {
+    "direction": [
+     -1,
+     0,
+     0
+    ],
+    "target": "hand_left",
+    "ortho_scale_m": 0.26
+   },
+   "hand_left_dorsal": {
+    "direction": [
+     1,
+     0,
+     0
+    ],
+    "target": "hand_left",
+    "ortho_scale_m": 0.26
+   },
+   "hand_left_radial": {
+    "direction": [
+     0,
+     -1,
+     0
+    ],
+    "target": "hand_left",
+    "ortho_scale_m": 0.26
+   },
+   "hand_right_palmar": {
+    "direction": [
+     1,
+     0,
+     0
+    ],
+    "target": "hand_right",
+    "ortho_scale_m": 0.26
+   },
+   "foot_left_medial": {
+    "direction": [
+     -1,
+     0,
+     0
+    ],
+    "target": "foot_left",
+    "ortho_scale_m": 0.34
+   },
+   "foot_left_top": {
+    "direction": [
+     0,
+     0,
+     1
+    ],
+    "target": "foot_left",
+    "ortho_scale_m": 0.34
+   },
+   "foot_left_plantar": {
+    "direction": [
+     0,
+     0,
+     -1
+    ],
+    "target": "foot_left",
+    "ortho_scale_m": 0.34
+   },
+   "head_neck_left": {
+    "direction": [
+     1,
+     0,
+     0
+    ],
+    "target": "head",
+    "ortho_scale_m": 0.4
+   }
+  },
+  "poses": {},
+  "source_blend_sha256_after": "568471bf9bb6224460fff47e10daad1234b4c0b1a239f9ed416c51fea2eeaf8e"
+ },
+ "composites_sha256": {
+  "body_front_c004_vs_t001.jpg": "d937e3bf8166223285e5ce9e6e8cf3b5e84b97f93cf5772871183e35a524bf80",
+  "body_left_c004_vs_t001.jpg": "969082ffa92d8e0ffe703534d02483a086438a64fd6b030e5931691183075abe",
+  "head_neck_left_c004_vs_t001.jpg": "e4d08f25a7fb0cc107ccd31a71cdfe500b3cc98c24e11d2a4a58182ce1fb7c39",
+  "shoulders_front_c004_vs_t001.jpg": "f417d240ce8249ab5dfeda769ff514197a1e916f51a32abe867cc0bd97e13282",
+  "spine_back_c004_vs_t001.jpg": "4e96c71e4174c801ae9b1a297aa644a8a2181c7f5db75fff50db45422f570f09",
+  "spine_left_c004_vs_t001.jpg": "0753073756aa2d6036c4ebee281a82615b5f6b36c419593c9d9d72662df9a163"
+ }
+}

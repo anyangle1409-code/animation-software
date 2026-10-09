@@ -941,3 +941,10 @@ Read-only distal-span context checks now trace runtime surface stations rather t
 - **Shoulder:** the missing clavicular elevation (MoBL 0.1025°/°) leaves the AC 24–45 mm low overhead (U3).
 - **PR #12:** reviewed, not merged. Its registration check is circular (a mesh 5 m away passes). A bone-geometry specification for eight regions was added.
 - **Status:** readiness unchanged at 0/9/3. Details: `docs/CLAUDE_ANATOMICAL_DEVELOPMENT_20261009.md`.
+
+### 2026-10-09 (Claude, coupled trunk experiment T001; branch `claude/coupled-trunk-rebuild-20261009`)
+- **T001 (isolated experiment, not a candidate):** the sourced C2–S1 bodies and discs close between the fixed sacrum and C2 at Hasegawa-mean curvature (all z < 0.5, scale 0.998).
+- **Outcomes:** discs all positive (CP2 0 FAIL); T12/L1 moves from +38.5 to +6.2 mm; rib levels preserved; girdle and arms unchanged; 60 spine/rib tests changed, all others identical.
+- **Open:** C7 sits about 11 mm lower against ANSUR, the thoracic shape is unsourced, and rib inclination has no source.
+- **Erratum:** the earlier "IJ +24.7 mm" residual used a stale a003 skin input; c004's bony IJ is already at ANSUR.
+- **Readiness:** unchanged at 0/9/3.

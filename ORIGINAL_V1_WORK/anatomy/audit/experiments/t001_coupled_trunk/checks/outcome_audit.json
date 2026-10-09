@@ -1,0 +1,152 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "kind": "READ_ONLY_T001_OUTCOME_AUDIT",
+ "inputs_sha256": {
+  "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json": "99500d94e06c66ca489bdaccc0345446f98794946254c5e592d9449696f396c1",
+  "ORIGINAL_V1_WORK/anatomy/audit/experiments/t001_coupled_trunk/experiment_record.json": "c7aea898167ffd987d41ab468278831f31de0fda0d9cb1789e2a099976b26f05",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/spine_column_length_discriminator_v1.json": "217cd5f9c6abcf6aafb3a4887c69493d27dbd4bdaeed660bca2c1c4e9c911147",
+  "ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/trunk_vertical_closure_c004_v1.json": "a2e208b1f899001526971e6fda605e3256723f56bcd90ca2ca355bc3710ae22e"
+ },
+ "T12_L1_pelvis_prediction_mm": 1211.7,
+ "records": {
+  "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json": {
+   "T12_L1_mid_z_minus_pelvis_prediction_mm": 38.5,
+   "C7_tip_minus_ANSUR_cervicale_mm": {
+    "lean-10": -26.9,
+    "central": -17.8,
+    "lean+10": -7.9
+   },
+   "IJ_bony_z_mm": 1494.5,
+   "IJ_vs_T2_T3_bodies": {
+    "T3_inferior_z": 1492.7,
+    "T2_superior_z": 1545.7,
+    "inside": true,
+    "mm_outside": 0.0
+   },
+   "IJ_to_T2T3_horizontal_mm": 64.5,
+   "rib10_anterior_end_minus_ANSUR_tenth_rib_mm": 28.0,
+   "rib_head_minus_articular_level_z_mm": {
+    "rib_01": 6.41,
+    "rib_02": -8.26,
+    "rib_03": -8.26,
+    "rib_04": -8.26,
+    "rib_05": -8.26,
+    "rib_06": -8.26,
+    "rib_07": -8.26,
+    "rib_08": -8.26,
+    "rib_09": -8.26,
+    "rib_10": 5.0,
+    "rib_11": 5.0,
+    "rib_12": 6.88
+   },
+   "scapula_rib_axis_distance": {
+    "left": {
+     "min_axis_distance_mm": 99.4,
+     "rib": 8
+    },
+    "right": {
+     "min_axis_distance_mm": 99.4,
+     "rib": 8
+    }
+   },
+   "disc_centre_gaps_mm": {
+    "min": 0.0,
+    "all_positive": false,
+    "per_level": {
+     "l4/l5": 0.0,
+     "l3/l4": 0.0,
+     "l2/l3": 0.0,
+     "l1/l2": 0.0,
+     "t12/l1": 0.0,
+     "t11/t12": 0.0,
+     "t10/t11": 0.0,
+     "t9/t10": 0.0,
+     "t8/t9": 0.0,
+     "t7/t8": 0.0,
+     "t6/t7": 0.0,
+     "t5/t6": 0.0,
+     "t4/t5": 0.0,
+     "t3/t4": 0.0,
+     "t2/t3": 0.0,
+     "t1/t2": 0.0,
+     "c7/t1": 0.0,
+     "c6/c7": 0.0,
+     "c5/c6": 0.0,
+     "c4/c5": 0.0,
+     "c3/c4": 0.0,
+     "c2/c3": 0.0
+    }
+   }
+  },
+  "ORIGINAL_V1_WORK/anatomy/audit/experiments/t001_coupled_trunk/experiment_record.json": {
+   "T12_L1_mid_z_minus_pelvis_prediction_mm": 6.2,
+   "C7_tip_minus_ANSUR_cervicale_mm": {
+    "lean-10": -38.8,
+    "central": -29.0,
+    "lean+10": -18.9
+   },
+   "IJ_bony_z_mm": 1494.5,
+   "IJ_vs_T2_T3_bodies": {
+    "T3_inferior_z": 1483.6,
+    "T2_superior_z": 1523.6,
+    "inside": true,
+    "mm_outside": 0.0
+   },
+   "IJ_to_T2T3_horizontal_mm": 79.6,
+   "rib10_anterior_end_minus_ANSUR_tenth_rib_mm": 29.3,
+   "rib_head_minus_articular_level_z_mm": {
+    "rib_01": 6.57,
+    "rib_02": -7.92,
+    "rib_03": -7.97,
+    "rib_04": -7.95,
+    "rib_05": -7.94,
+    "rib_06": -7.91,
+    "rib_07": -7.9,
+    "rib_08": -7.95,
+    "rib_09": -7.91,
+    "rib_10": 5.42,
+    "rib_11": 5.5,
+    "rib_12": 7.75
+   },
+   "scapula_rib_axis_distance": {
+    "left": {
+     "min_axis_distance_mm": 95.1,
+     "rib": 8
+    },
+    "right": {
+     "min_axis_distance_mm": 95.1,
+     "rib": 8
+    }
+   },
+   "disc_centre_gaps_mm": {
+    "min": 3.19,
+    "all_positive": true,
+    "per_level": {
+     "l4/l5": 10.11,
+     "l3/l4": 9.43,
+     "l2/l3": 8.47,
+     "l1/l2": 7.73,
+     "t12/l1": 5.58,
+     "t11/t12": 5.34,
+     "t10/t11": 6.47,
+     "t9/t10": 4.79,
+     "t8/t9": 5.29,
+     "t7/t8": 3.89,
+     "t6/t7": 4.08,
+     "t5/t6": 3.49,
+     "t4/t5": 3.19,
+     "t3/t4": 3.29,
+     "t2/t3": 3.49,
+     "t1/t2": 4.38,
+     "c7/t1": 4.49,
+     "c6/c7": 6.59,
+     "c5/c6": 6.09,
+     "c4/c5": 6.19,
+     "c3/c4": 6.49,
+     "c2/c3": 6.39
+    }
+   }
+  }
+ }
+}

@@ -195,3 +195,36 @@ No region is ready for production bone modelling. Female variants keep the same 
 - carpal centroid layout and tarsal contacts;
 - fingertip endpoints;
 - sex-specific sources for the female variant.
+
+## Erratum (9 October 2026, coupled-trunk session)
+
+**Withdrawn:** the trunk closure row "IJ (skin) vs ANSUR suprasternale +24.7 mm", and the claim that *three* independent checks show the trunk too high.
+- **Why:** the audit read `skeleton_input.trunk.ij_skin`, which is a stale a003 input. c003/c004 already lowered the bony sternal notch to the ANSUR value (`ij_bone` and `sternum.head` both = 1,494.5 mm), so for c004 the residual is 0 by construction.
+- **Still valid:**
+  - lumbar arc +43 mm;
+  - T12/L1 +38.5 mm against the pelvis-anchored prediction;
+  - rib-10 anterior end +28 mm against ANSUR;
+  - thoracic arc consistent with source B.
+- **Not corrected in the old file:** `trunk_vertical_closure_c004_v1.json` keeps its original value for traceability. This erratum and the T001 outcome audit supersede it.
+
+## Coupled trunk experiment T001 (owner-approved, isolated)
+
+- **Branch:** `claude/coupled-trunk-rebuild-20261009`.
+- **Full write-up:** `ORIGINAL_V1_WORK/anatomy/audit/experiments/t001_coupled_trunk/README.md`.
+
+**Summary.**
+- **The solve:** the sourced vertebra and disc heights close c004's fixed sacrum-to-C2 distance at near-population-mean curvature. Every angle is within 0.5 SD (χ² 0.46) and the stature scale is 0.998.
+- **Outcomes:**
+  - every disc gap is positive (CP2 has no FAIL);
+  - T12/L1 moves from +38.5 to +6.2 mm against the pelvis prediction;
+  - rib-to-vertebra levels are preserved;
+  - the sternal notch stays within T2–T3;
+  - shoulders and arms are unchanged;
+  - 60 spinal/rib movement tests change and every other test is identical.
+- **Not resolved:**
+  - the thoracic per-level shape is not sourced;
+  - C7 sits about 11 mm lower against ANSUR (the open thorax-pitch conflict);
+  - rib inclination has no source and the rib-10 height is unchanged;
+  - the sacrum position relative to the pelvic frame is open.
+
+T001 stays an experiment. It does not replace c004 and is not promoted.

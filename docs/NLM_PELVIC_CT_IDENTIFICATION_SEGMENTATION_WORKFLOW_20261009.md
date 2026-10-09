@@ -68,6 +68,24 @@ Run the offline regression suite with:
 python -m unittest discover -s scripts -p "test_nlm_*ct*.py" -v
 ```
 
+## Complete-series manifest gate
+
+Before loading a larger private series into the anatomical review or Blender
+stages, validate its privacy-safe manifest with:
+
+```text
+python scripts/anatomy_fit/pelvic_ct_series_manifest.py D:\private\pelvis_ct\series_manifest.json --out D:\private\pelvis_ct\series_geometry_report.json
+```
+
+The manifest gate requires exact image/header hashes, stable source IDs,
+explicit scanner RAS coordinates, superior-to-inferior ordering, physically
+continuous spacing, consistent grid/spacing/thickness/normal geometry, and a
+declared scanner-space range. It rejects duplicates, gaps, reversals, mixed
+geometry, ambiguous frames, incomplete declared ranges, exported patient
+identifiers, committed source bytes, anatomical self-claims, and canonical
+claims. A successful result proves source-series continuity only; it does not
+prove that the series covers the complete bony pelvis.
+
 ## Blender review handoff
 
 Use `ct_pelvis_window_geometry.py` to verify private source bytes and create

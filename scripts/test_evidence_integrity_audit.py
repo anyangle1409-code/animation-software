@@ -39,11 +39,18 @@ class Committed(unittest.TestCase):
     def test_live_reverification_matches_committed(self):
         refs, unanchored, by_status = e.hash_refs()
         committed = dict(self.d['by_status'])
-        # evidence added after this audit can only add OK references; nothing previously verified may degrade
-        for k in ('MISMATCH', 'MISSING', 'STALE_HISTORICAL', 'ABSENT_BINARY_NOT_COMMITTED'):
+        for k in ('MISMATCH', 'MISSING', 'ABSENT_BINARY_NOT_COMMITTED'):
             self.assertLessEqual(by_status.get(k, 0), committed.get(k, 0), k)
+        # every non-OK reference must already be recorded, or be an inherited duplicate of a recorded one (same pointer, same
+        # recorded hash, same status - e.g. a derived candidate copying its parent's provenance), or an EXTERNAL scratch blend
+        known = {(r['json'], r['pointer']) for r in self.d['non_ok']}
+        inherited = {(r['pointer'], r['recorded'], r['status']) for r in self.d['non_ok']}
+        for r in refs:
+            if r['status'] in ('OK', 'OK_VIA_GZIP', 'EXTERNAL') or (r['json'], r['pointer']) in known:
+                continue
+            self.assertIn((r['pointer'], r['recorded'], r['status']), inherited, (r['json'], r['pointer'], r['status']))
         self.assertGreaterEqual(by_status['OK'], committed['OK'])
-        self.assertEqual(e.doc_refs()[1] and [x for x in e.doc_refs()[1] if x['status'] == 'MISSING'], [])
+        self.assertEqual([x for x in e.doc_refs()[1] if x['status'] == 'MISSING'], [])
 
 
 class Mutations(unittest.TestCase):

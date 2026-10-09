@@ -1,0 +1,124 @@
+{
+ "source_blend": "/home/user/bio/ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/HGPT_ANATOMICAL_AUDIT_r95_a003_shoulder_thorax_c003_ansur_coupled.blend",
+ "source_sha256": "3962215043cebbcf71f4d0127e1e457b8974a01bca3d304035f8dcdca51e6ab4",
+ "fail_at_measure_call": 200,
+ "runner_sha256": "d990f0d63f292c17fb103cb61d4a932576e76f83150e9fc022d47320733ee81a",
+ "blender": "5.2.1 LTS",
+ "source_snapshot": {
+  "frame": 1,
+  "subframe": 0.0,
+  "frame_range": [
+   1,
+   250
+  ],
+  "fps": [
+   24,
+   1.0
+  ],
+  "active_object": "HGPT_ANATOMICAL_MASTER",
+  "selected": [
+   "HGPT_CANONICAL_V4_ORIGINAL",
+   "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"
+  ],
+  "mode": "OBJECT",
+  "pose_bases_digest": "d10aae61bb43c865b30a2256166583ae5a14592f9a64af01dee52cff0e64132f",
+  "armature_has_action": false
+ },
+ "source_constraint_count": 0,
+ "source_driver_count": 0,
+ "scenarios": {
+  "normal": {
+   "raised": null,
+   "source_sha256_unchanged": true,
+   "test_blend_exists": true,
+   "report_exists": true,
+   "samples_exists": true,
+   "session_frame_after": [
+    1,
+    0.0
+   ],
+   "observed": {},
+   "test_blend_sha256": "222f272719aafd73cc79d5f69ae7287038307ca8aeeb882ebe43c907a2c3e2b3",
+   "report_frame_restored": true,
+   "report_test_blend_sha_matches_file": true,
+   "source_reopened_state_diff_vs_before": [],
+   "test_blend_state_diff_vs_source": [
+    "armature_has_action",
+    "frame_range"
+   ],
+   "test_blend_constraints_equal_source": true,
+   "test_blend_drivers_equal_source": true,
+   "test_blend_frame": [
+    1,
+    0.0
+   ]
+  },
+  "fail_mid_measure": {
+   "raised": "RuntimeError: induced by state_restoration_audit",
+   "source_sha256_unchanged": true,
+   "test_blend_exists": true,
+   "report_exists": false,
+   "samples_exists": false,
+   "session_frame_after": [
+    1,
+    0.0
+   ],
+   "observed": {
+    "measure_start_frame": 1,
+    "frame_at_failure": 208
+   },
+   "test_blend_sha256": "3ade371a2dac3e116485b11b2986fdf3887639b6ef39276918c229c301108d53",
+   "source_reopened_state_diff_vs_before": [],
+   "test_blend_state_diff_vs_source": [
+    "armature_has_action",
+    "frame_range"
+   ],
+   "test_blend_constraints_equal_source": true,
+   "test_blend_drivers_equal_source": true,
+   "test_blend_frame": [
+    1,
+    0.0
+   ]
+  },
+  "interrupt_mid_measure": {
+   "raised": "KeyboardInterrupt: induced by state_restoration_audit",
+   "source_sha256_unchanged": true,
+   "test_blend_exists": true,
+   "report_exists": false,
+   "samples_exists": false,
+   "session_frame_after": [
+    1,
+    0.0
+   ],
+   "observed": {
+    "measure_start_frame": 1,
+    "frame_at_failure": 208
+   },
+   "test_blend_sha256": "20c44a6ba829185b6ca70abf0bff110c57fe922571e7a53804f4a9e3b7bea454",
+   "source_reopened_state_diff_vs_before": [],
+   "test_blend_state_diff_vs_source": [
+    "armature_has_action",
+    "frame_range"
+   ],
+   "test_blend_constraints_equal_source": true,
+   "test_blend_drivers_equal_source": true,
+   "test_blend_frame": [
+    1,
+    0.0
+   ]
+  },
+  "fail_during_authoring": {
+   "raised": "RuntimeError: induced by state_restoration_audit (authoring)",
+   "source_sha256_unchanged": true,
+   "test_blend_exists": false,
+   "report_exists": false,
+   "samples_exists": false,
+   "session_frame_after": [
+    1,
+    0.0
+   ],
+   "observed": {},
+   "source_reopened_state_diff_vs_before": []
+  }
+ }
+}

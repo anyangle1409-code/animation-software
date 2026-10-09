@@ -68,7 +68,7 @@ def scan(rec, samples):
                     {partner(n) for n in B if not np.allclose(anc(n, dr), np.eye(4))}
             moved = {n for n in moved if n.endswith('_left') or not n.endswith('_right')}
             w['bones_compared'] = max(w['bones_compared'], len(moved))
-            for n in moved:
+            for n in sorted(moved):                    # sorted: tie-break labels independent of PYTHONHASHSEED
                 p = partner(n)
                 Dl, Dr = anc(n, dl), anc(p, dr)
                 t = float(np.abs(MX @ Dl @ MX - Dr).max())

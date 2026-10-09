@@ -1,0 +1,1815 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "label": "c004_isolated_001",
+ "status": "MECHANICAL_SCAN_NO_GEOMETRY_CHANGE",
+ "criterion": "opening = max distance between participant copies of the rest joint centre; < 1e-6 m is numerical zero; larger openings reported, not graded",
+ "inputs_sha256": {
+  "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json": "99500d94e06c66ca489bdaccc0345446f98794946254c5e592d9449696f396c1",
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c004_arm_inputs_001/isolated_samples.json": "5632dd46dd035293fc6007d41990955e6828ad1e53c5e11154c0057a2f37e78a"
+ },
+ "articulations_checked": 368,
+ "tests_scanned": 135,
+ "stride": 2,
+ "opened": {
+  "scapulothoracic_left": {
+   "role": "FOLLOWER",
+   "type": "functional/thoracic_glide",
+   "participants": [
+    "scapula_left",
+    "rib_02_left",
+    "rib_03_left",
+    "rib_04_left",
+    "rib_05_left",
+    "rib_06_left",
+    "rib_07_left"
+   ],
+   "max_opening_mm": 89.803,
+   "tests": {
+    "rib_02_inspiration_left": 10.978,
+    "rib_03_inspiration_left": 8.685,
+    "rib_04_inspiration_left": 6.377,
+    "rib_05_inspiration_left": 4.142,
+    "rib_06_inspiration_left": 2.046,
+    "rib_07_inspiration_left": 1.007,
+    "shoulder_complex_scapular_plane_left": 89.803,
+    "thoracic_t2_t3_flexion": 2.007,
+    "thoracic_t2_t3_adduction": 3.002,
+    "thoracic_t2_t3_internal": 2.32,
+    "thoracic_t3_t4_flexion": 1.532,
+    "thoracic_t3_t4_adduction": 2.636,
+    "thoracic_t3_t4_internal": 2.324,
+    "thoracic_t4_t5_flexion": 1.066,
+    "thoracic_t4_t5_adduction": 2.326,
+    "thoracic_t4_t5_internal": 2.34,
+    "thoracic_t5_t6_flexion": 0.636,
+    "thoracic_t5_t6_adduction": 2.114,
+    "thoracic_t5_t6_internal": 2.354,
+    "thoracic_t6_t7_flexion": 0.689,
+    "thoracic_t6_t7_adduction": 4.248,
+    "thoracic_t6_t7_internal": 5.105
+   },
+   "worst_test": "shoulder_complex_scapular_plane_left",
+   "worst_frame": 5716
+  },
+  "scapulothoracic_right": {
+   "role": "FOLLOWER",
+   "type": "functional/thoracic_glide",
+   "participants": [
+    "scapula_right",
+    "rib_02_right",
+    "rib_03_right",
+    "rib_04_right",
+    "rib_05_right",
+    "rib_06_right",
+    "rib_07_right"
+   ],
+   "max_opening_mm": 89.803,
+   "tests": {
+    "rib_02_inspiration_right": 10.978,
+    "rib_03_inspiration_right": 8.685,
+    "rib_04_inspiration_right": 6.377,
+    "rib_05_inspiration_right": 4.142,
+    "rib_06_inspiration_right": 2.046,
+    "rib_07_inspiration_right": 1.007,
+    "shoulder_complex_scapular_plane_right": 89.803,
+    "thoracic_t2_t3_flexion": 2.007,
+    "thoracic_t2_t3_adduction": 3.002,
+    "thoracic_t2_t3_internal": 2.32,
+    "thoracic_t3_t4_flexion": 1.532,
+    "thoracic_t3_t4_adduction": 2.636,
+    "thoracic_t3_t4_internal": 2.324,
+    "thoracic_t4_t5_flexion": 1.066,
+    "thoracic_t4_t5_adduction": 2.326,
+    "thoracic_t4_t5_internal": 2.34,
+    "thoracic_t5_t6_flexion": 0.636,
+    "thoracic_t5_t6_adduction": 2.114,
+    "thoracic_t5_t6_internal": 2.354,
+    "thoracic_t6_t7_flexion": 0.689,
+    "thoracic_t6_t7_adduction": 4.248,
+    "thoracic_t6_t7_internal": 5.105
+   },
+   "worst_test": "shoulder_complex_scapular_plane_right",
+   "worst_frame": 5976
+  },
+  "intermetatarsal_3_4_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "metatarsal_3_left",
+    "metatarsal_4_left"
+   ],
+   "max_opening_mm": 36.993,
+   "tests": {
+    "subtalar_inversion_eversion_left": 36.993,
+    "talonavicular_dorsi_plantarflexion_left": 5.07
+   },
+   "worst_test": "subtalar_inversion_eversion_left",
+   "worst_frame": 551
+  },
+  "intermetatarsal_3_4_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "metatarsal_3_right",
+    "metatarsal_4_right"
+   ],
+   "max_opening_mm": 36.993,
+   "tests": {
+    "subtalar_inversion_eversion_right": 36.993,
+    "talonavicular_dorsi_plantarflexion_right": 5.07
+   },
+   "worst_test": "subtalar_inversion_eversion_right",
+   "worst_frame": 3366
+  },
+  "tmt_4_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "metatarsal_4_left",
+    "lateral_cuneiform_left",
+    "cuboid_left"
+   ],
+   "max_opening_mm": 36.847,
+   "tests": {
+    "subtalar_inversion_eversion_left": 36.847,
+    "talonavicular_dorsi_plantarflexion_left": 4.98
+   },
+   "worst_test": "subtalar_inversion_eversion_left",
+   "worst_frame": 551
+  },
+  "tmt_4_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "metatarsal_4_right",
+    "lateral_cuneiform_right",
+    "cuboid_right"
+   ],
+   "max_opening_mm": 36.847,
+   "tests": {
+    "subtalar_inversion_eversion_right": 36.847,
+    "talonavicular_dorsi_plantarflexion_right": 4.98
+   },
+   "worst_test": "subtalar_inversion_eversion_right",
+   "worst_frame": 3366
+  },
+  "intertarsal_lateral_cuneiform_cuboid_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "lateral_cuneiform_left",
+    "cuboid_left"
+   ],
+   "max_opening_mm": 36.599,
+   "tests": {
+    "subtalar_inversion_eversion_left": 36.599,
+    "talonavicular_dorsi_plantarflexion_left": 4.948
+   },
+   "worst_test": "subtalar_inversion_eversion_left",
+   "worst_frame": 551
+  },
+  "intertarsal_lateral_cuneiform_cuboid_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "lateral_cuneiform_right",
+    "cuboid_right"
+   ],
+   "max_opening_mm": 36.599,
+   "tests": {
+    "subtalar_inversion_eversion_right": 36.599,
+    "talonavicular_dorsi_plantarflexion_right": 4.948
+   },
+   "worst_test": "subtalar_inversion_eversion_right",
+   "worst_frame": 3366
+  },
+  "patellofemoral_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/trochlear_tracking",
+   "participants": [
+    "femur_left",
+    "patella_left"
+   ],
+   "max_opening_mm": 29.619,
+   "tests": {
+    "knee_flexion_with_patellar_follower_left": 29.619
+   },
+   "worst_test": "knee_flexion_with_patellar_follower_left",
+   "worst_frame": 5781
+  },
+  "patellofemoral_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/trochlear_tracking",
+   "participants": [
+    "femur_right",
+    "patella_right"
+   ],
+   "max_opening_mm": 29.619,
+   "tests": {
+    "knee_flexion_with_patellar_follower_right": 29.619
+   },
+   "worst_test": "knee_flexion_with_patellar_follower_right",
+   "worst_frame": 6041
+  },
+  "radioulnar_interosseous_right": {
+   "role": "FOLLOWER",
+   "type": "fibrous/syndesmosis",
+   "participants": [
+    "ulna_right",
+    "radius_right"
+   ],
+   "max_opening_mm": 17.74,
+   "tests": {
+    "elbow_flexion_at_pronation_60_right": 13.129,
+    "forearm_rotation_at_elbow_0_right": 17.74,
+    "forearm_rotation_at_elbow_90_right": 17.739
+   },
+   "worst_test": "forearm_rotation_at_elbow_0_right",
+   "worst_frame": 4126
+  },
+  "radioulnar_interosseous_left": {
+   "role": "FOLLOWER",
+   "type": "fibrous/syndesmosis",
+   "participants": [
+    "ulna_left",
+    "radius_left"
+   ],
+   "max_opening_mm": 17.739,
+   "tests": {
+    "elbow_flexion_at_pronation_60_left": 13.129,
+    "forearm_rotation_at_elbow_0_left": 17.739,
+    "forearm_rotation_at_elbow_90_left": 17.739
+   },
+   "worst_test": "forearm_rotation_at_elbow_90_left",
+   "worst_frame": 1406
+  },
+  "tmj_left": {
+   "role": "ACTIVE",
+   "type": "synovial/modified_hinge_disc_translation",
+   "participants": [
+    "temporal_left",
+    "mandible"
+   ],
+   "max_opening_mm": 16.0,
+   "tests": {
+    "tmj_opening": 16.0
+   },
+   "worst_test": "tmj_opening",
+   "worst_frame": 6851
+  },
+  "tmj_right": {
+   "role": "ACTIVE",
+   "type": "synovial/modified_hinge_disc_translation",
+   "participants": [
+    "temporal_right",
+    "mandible"
+   ],
+   "max_opening_mm": 16.0,
+   "tests": {
+    "tmj_opening": 16.0
+   },
+   "worst_test": "tmj_opening",
+   "worst_frame": 6851
+  },
+  "cuboideonavicular_left": {
+   "role": "FOLLOWER",
+   "type": "functional/variable_facet_or_fibrous_union",
+   "participants": [
+    "cuboid_left",
+    "navicular_left"
+   ],
+   "max_opening_mm": 15.918,
+   "tests": {
+    "subtalar_inversion_eversion_left": 15.918,
+    "talonavicular_dorsi_plantarflexion_left": 1.375
+   },
+   "worst_test": "subtalar_inversion_eversion_left",
+   "worst_frame": 551
+  },
+  "cuboideonavicular_right": {
+   "role": "FOLLOWER",
+   "type": "functional/variable_facet_or_fibrous_union",
+   "participants": [
+    "cuboid_right",
+    "navicular_right"
+   ],
+   "max_opening_mm": 15.918,
+   "tests": {
+    "subtalar_inversion_eversion_right": 15.918,
+    "talonavicular_dorsi_plantarflexion_right": 1.375
+   },
+   "worst_test": "subtalar_inversion_eversion_right",
+   "worst_frame": 3366
+  },
+  "atlantoaxial_lateral_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "c1",
+    "c2"
+   ],
+   "max_opening_mm": 12.938,
+   "tests": {
+    "c1_c2_axial_rotation": 12.938
+   },
+   "worst_test": "c1_c2_axial_rotation",
+   "worst_frame": 6171
+  },
+  "atlantoaxial_lateral_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "c1",
+    "c2"
+   ],
+   "max_opening_mm": 12.938,
+   "tests": {
+    "c1_c2_axial_rotation": 12.938
+   },
+   "worst_test": "c1_c2_axial_rotation",
+   "worst_frame": 6171
+  },
+  "facet_l4_l5_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "l4",
+    "l5"
+   ],
+   "max_opening_mm": 4.637,
+   "tests": {
+    "lumbar_l4_l5_extension": 4.637
+   },
+   "worst_test": "lumbar_l4_l5_extension",
+   "worst_frame": 6986
+  },
+  "facet_l4_l5_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "l4",
+    "l5"
+   ],
+   "max_opening_mm": 4.637,
+   "tests": {
+    "lumbar_l4_l5_extension": 4.637
+   },
+   "worst_test": "lumbar_l4_l5_extension",
+   "worst_frame": 6986
+  },
+  "facet_l3_l4_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "l3",
+    "l4"
+   ],
+   "max_opening_mm": 4.103,
+   "tests": {
+    "lumbar_l3_l4_extension": 4.103
+   },
+   "worst_test": "lumbar_l3_l4_extension",
+   "worst_frame": 6941
+  },
+  "facet_l3_l4_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "l3",
+    "l4"
+   ],
+   "max_opening_mm": 4.103,
+   "tests": {
+    "lumbar_l3_l4_extension": 4.103
+   },
+   "worst_test": "lumbar_l3_l4_extension",
+   "worst_frame": 6941
+  },
+  "midcarpal_scaphoid_trapezium_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "scaphoid_left",
+    "trapezium_left"
+   ],
+   "max_opening_mm": 3.948,
+   "tests": {
+    "wrist_flexion_left": 0.993,
+    "wrist_adduction_left": 3.948
+   },
+   "worst_test": "wrist_adduction_left",
+   "worst_frame": 1546
+  },
+  "midcarpal_scaphoid_trapezium_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "scaphoid_right",
+    "trapezium_right"
+   ],
+   "max_opening_mm": 3.948,
+   "tests": {
+    "wrist_flexion_right": 0.993,
+    "wrist_adduction_right": 3.948
+   },
+   "worst_test": "wrist_adduction_right",
+   "worst_frame": 4361
+  },
+  "facet_l2_l3_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "l2",
+    "l3"
+   ],
+   "max_opening_mm": 3.797,
+   "tests": {
+    "lumbar_l2_l3_extension": 3.797
+   },
+   "worst_test": "lumbar_l2_l3_extension",
+   "worst_frame": 6896
+  },
+  "facet_l2_l3_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "l2",
+    "l3"
+   ],
+   "max_opening_mm": 3.797,
+   "tests": {
+    "lumbar_l2_l3_extension": 3.797
+   },
+   "worst_test": "lumbar_l2_l3_extension",
+   "worst_frame": 6896
+  },
+  "facet_l5_sacrum_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "l5",
+    "sacrum"
+   ],
+   "max_opening_mm": 3.682,
+   "tests": {
+    "lumbar_l5_sacrum_extension": 3.682
+   },
+   "worst_test": "lumbar_l5_sacrum_extension",
+   "worst_frame": 7031
+  },
+  "facet_l5_sacrum_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "l5",
+    "sacrum"
+   ],
+   "max_opening_mm": 3.682,
+   "tests": {
+    "lumbar_l5_sacrum_extension": 3.682
+   },
+   "worst_test": "lumbar_l5_sacrum_extension",
+   "worst_frame": 7031
+  },
+  "facet_c4_c5_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "c4",
+    "c5"
+   ],
+   "max_opening_mm": 3.069,
+   "tests": {
+    "cervical_c4_c5_flexion": 3.069,
+    "cervical_c4_c5_adduction": 1.778,
+    "cervical_c4_c5_internal": 2.571
+   },
+   "worst_test": "cervical_c4_c5_flexion",
+   "worst_frame": 6426
+  },
+  "facet_c4_c5_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "c4",
+    "c5"
+   ],
+   "max_opening_mm": 3.069,
+   "tests": {
+    "cervical_c4_c5_flexion": 3.069,
+    "cervical_c4_c5_adduction": 1.778,
+    "cervical_c4_c5_internal": 2.571
+   },
+   "worst_test": "cervical_c4_c5_flexion",
+   "worst_frame": 6426
+  },
+  "facet_c3_c4_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "c3",
+    "c4"
+   ],
+   "max_opening_mm": 3.031,
+   "tests": {
+    "cervical_c3_c4_flexion": 3.031
+   },
+   "worst_test": "cervical_c3_c4_flexion",
+   "worst_frame": 6341
+  },
+  "facet_c3_c4_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "c3",
+    "c4"
+   ],
+   "max_opening_mm": 3.031,
+   "tests": {
+    "cervical_c3_c4_flexion": 3.031
+   },
+   "worst_test": "cervical_c3_c4_flexion",
+   "worst_frame": 6341
+  },
+  "midcarpal_triquetrum_hamate_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "triquetrum_left",
+    "hamate_left"
+   ],
+   "max_opening_mm": 2.865,
+   "tests": {
+    "wrist_flexion_left": 1.703,
+    "wrist_adduction_left": 2.865
+   },
+   "worst_test": "wrist_adduction_left",
+   "worst_frame": 1546
+  },
+  "midcarpal_triquetrum_hamate_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "triquetrum_right",
+    "hamate_right"
+   ],
+   "max_opening_mm": 2.865,
+   "tests": {
+    "wrist_flexion_right": 1.703,
+    "wrist_adduction_right": 2.865
+   },
+   "worst_test": "wrist_adduction_right",
+   "worst_frame": 4361
+  },
+  "facet_c5_c6_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "c5",
+    "c6"
+   ],
+   "max_opening_mm": 2.839,
+   "tests": {
+    "cervical_c5_c6_flexion": 2.839
+   },
+   "worst_test": "cervical_c5_c6_flexion",
+   "worst_frame": 6511
+  },
+  "facet_c5_c6_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "c5",
+    "c6"
+   ],
+   "max_opening_mm": 2.839,
+   "tests": {
+    "cervical_c5_c6_flexion": 2.839
+   },
+   "worst_test": "cervical_c5_c6_flexion",
+   "worst_frame": 6511
+  },
+  "midcarpal_scaphoid_trapezoid_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "scaphoid_left",
+    "trapezoid_left"
+   ],
+   "max_opening_mm": 2.73,
+   "tests": {
+    "wrist_flexion_left": 0.544,
+    "wrist_adduction_left": 2.73
+   },
+   "worst_test": "wrist_adduction_left",
+   "worst_frame": 1546
+  },
+  "midcarpal_scaphoid_trapezoid_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "scaphoid_right",
+    "trapezoid_right"
+   ],
+   "max_opening_mm": 2.73,
+   "tests": {
+    "wrist_flexion_right": 0.544,
+    "wrist_adduction_right": 2.73
+   },
+   "worst_test": "wrist_adduction_right",
+   "worst_frame": 4361
+  },
+  "facet_c6_c7_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "c6",
+    "c7"
+   ],
+   "max_opening_mm": 2.724,
+   "tests": {
+    "cervical_c6_c7_flexion": 2.724
+   },
+   "worst_test": "cervical_c6_c7_flexion",
+   "worst_frame": 6596
+  },
+  "facet_c6_c7_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "c6",
+    "c7"
+   ],
+   "max_opening_mm": 2.724,
+   "tests": {
+    "cervical_c6_c7_flexion": 2.724
+   },
+   "worst_test": "cervical_c6_c7_flexion",
+   "worst_frame": 6596
+  },
+  "pubic_symphysis": {
+   "role": "FOLLOWER",
+   "type": "cartilaginous/symphysis",
+   "participants": [
+    "hip_bone_left",
+    "hip_bone_right"
+   ],
+   "max_opening_mm": 2.366,
+   "tests": {
+    "sacroiliac_rotation_left": 2.366,
+    "sacroiliac_rotation_right": 2.366
+   },
+   "worst_test": "sacroiliac_rotation_left",
+   "worst_frame": 2666
+  },
+  "costotransverse_06_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_06_left",
+    "t6"
+   ],
+   "max_opening_mm": 2.103,
+   "tests": {
+    "rib_06_inspiration_left": 2.103
+   },
+   "worst_test": "rib_06_inspiration_left",
+   "worst_frame": 2491
+  },
+  "costotransverse_06_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_06_right",
+    "t6"
+   ],
+   "max_opening_mm": 2.103,
+   "tests": {
+    "rib_06_inspiration_right": 2.103
+   },
+   "worst_test": "rib_06_inspiration_right",
+   "worst_frame": 5306
+  },
+  "costotransverse_07_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_07_left",
+    "t7"
+   ],
+   "max_opening_mm": 2.064,
+   "tests": {
+    "rib_07_inspiration_left": 2.064
+   },
+   "worst_test": "rib_07_inspiration_left",
+   "worst_frame": 2536
+  },
+  "costotransverse_07_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_07_right",
+    "t7"
+   ],
+   "max_opening_mm": 2.064,
+   "tests": {
+    "rib_07_inspiration_right": 2.064
+   },
+   "worst_test": "rib_07_inspiration_right",
+   "worst_frame": 5351
+  },
+  "costotransverse_05_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_05_left",
+    "t5"
+   ],
+   "max_opening_mm": 2.059,
+   "tests": {
+    "rib_05_inspiration_left": 2.059
+   },
+   "worst_test": "rib_05_inspiration_left",
+   "worst_frame": 2446
+  },
+  "costotransverse_05_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_05_right",
+    "t5"
+   ],
+   "max_opening_mm": 2.059,
+   "tests": {
+    "rib_05_inspiration_right": 2.059
+   },
+   "worst_test": "rib_05_inspiration_right",
+   "worst_frame": 5261
+  },
+  "talocalcaneonavicular_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/compound_ball_socket",
+   "participants": [
+    "talus_left",
+    "calcaneus_left",
+    "navicular_left"
+   ],
+   "max_opening_mm": 1.981,
+   "tests": {
+    "subtalar_inversion_eversion_left": 1.794,
+    "talonavicular_dorsi_plantarflexion_left": 1.981
+   },
+   "worst_test": "talonavicular_dorsi_plantarflexion_left",
+   "worst_frame": 2581
+  },
+  "talocalcaneonavicular_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/compound_ball_socket",
+   "participants": [
+    "talus_right",
+    "calcaneus_right",
+    "navicular_right"
+   ],
+   "max_opening_mm": 1.981,
+   "tests": {
+    "subtalar_inversion_eversion_right": 1.794,
+    "talonavicular_dorsi_plantarflexion_right": 1.981
+   },
+   "worst_test": "talonavicular_dorsi_plantarflexion_right",
+   "worst_frame": 5396
+  },
+  "proximal_radioulnar_left": {
+   "role": "ACTIVE",
+   "type": "synovial/pivot",
+   "participants": [
+    "ulna_left",
+    "radius_left"
+   ],
+   "max_opening_mm": 1.927,
+   "tests": {
+    "elbow_flexion_at_pronation_60_left": 1.426,
+    "forearm_rotation_at_elbow_0_left": 1.927,
+    "forearm_rotation_at_elbow_90_left": 1.927
+   },
+   "worst_test": "forearm_rotation_at_elbow_0_left",
+   "worst_frame": 1311
+  },
+  "proximal_radioulnar_right": {
+   "role": "ACTIVE",
+   "type": "synovial/pivot",
+   "participants": [
+    "ulna_right",
+    "radius_right"
+   ],
+   "max_opening_mm": 1.927,
+   "tests": {
+    "elbow_flexion_at_pronation_60_right": 1.426,
+    "forearm_rotation_at_elbow_0_right": 1.927,
+    "forearm_rotation_at_elbow_90_right": 1.927
+   },
+   "worst_test": "forearm_rotation_at_elbow_0_right",
+   "worst_frame": 4126
+  },
+  "costotransverse_04_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_04_left",
+    "t4"
+   ],
+   "max_opening_mm": 1.898,
+   "tests": {
+    "rib_04_inspiration_left": 1.898
+   },
+   "worst_test": "rib_04_inspiration_left",
+   "worst_frame": 2401
+  },
+  "costotransverse_04_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_04_right",
+    "t4"
+   ],
+   "max_opening_mm": 1.898,
+   "tests": {
+    "rib_04_inspiration_right": 1.898
+   },
+   "worst_test": "rib_04_inspiration_right",
+   "worst_frame": 5216
+  },
+  "midcarpal_scaphoid_capitate_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "scaphoid_left",
+    "capitate_left"
+   ],
+   "max_opening_mm": 1.63,
+   "tests": {
+    "wrist_flexion_left": 0.635,
+    "wrist_adduction_left": 1.63
+   },
+   "worst_test": "wrist_adduction_left",
+   "worst_frame": 1546
+  },
+  "midcarpal_scaphoid_capitate_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "scaphoid_right",
+    "capitate_right"
+   ],
+   "max_opening_mm": 1.63,
+   "tests": {
+    "wrist_flexion_right": 0.635,
+    "wrist_adduction_right": 1.63
+   },
+   "worst_test": "wrist_adduction_right",
+   "worst_frame": 4361
+  },
+  "costotransverse_03_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_03_left",
+    "t3"
+   ],
+   "max_opening_mm": 1.609,
+   "tests": {
+    "rib_03_inspiration_left": 1.609
+   },
+   "worst_test": "rib_03_inspiration_left",
+   "worst_frame": 2356
+  },
+  "costotransverse_03_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_03_right",
+    "t3"
+   ],
+   "max_opening_mm": 1.609,
+   "tests": {
+    "rib_03_inspiration_right": 1.609
+   },
+   "worst_test": "rib_03_inspiration_right",
+   "worst_frame": 5171
+  },
+  "midcarpal_lunate_hamate_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "lunate_left",
+    "hamate_left"
+   ],
+   "max_opening_mm": 1.365,
+   "tests": {
+    "wrist_flexion_left": 0.825,
+    "wrist_adduction_left": 1.365
+   },
+   "worst_test": "wrist_adduction_left",
+   "worst_frame": 1546
+  },
+  "midcarpal_lunate_hamate_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "lunate_right",
+    "hamate_right"
+   ],
+   "max_opening_mm": 1.365,
+   "tests": {
+    "wrist_flexion_right": 0.825,
+    "wrist_adduction_right": 1.365
+   },
+   "worst_test": "wrist_adduction_right",
+   "worst_frame": 4361
+  },
+  "facet_t6_t7_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "t6",
+    "t7"
+   ],
+   "max_opening_mm": 1.349,
+   "tests": {
+    "thoracic_t6_t7_flexion": 0.73,
+    "thoracic_t6_t7_adduction": 0.768,
+    "thoracic_t6_t7_internal": 1.349
+   },
+   "worst_test": "thoracic_t6_t7_internal",
+   "worst_frame": 10051
+  },
+  "facet_t6_t7_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "t6",
+    "t7"
+   ],
+   "max_opening_mm": 1.349,
+   "tests": {
+    "thoracic_t6_t7_flexion": 0.73,
+    "thoracic_t6_t7_adduction": 0.768,
+    "thoracic_t6_t7_internal": 1.349
+   },
+   "worst_test": "thoracic_t6_t7_internal",
+   "worst_frame": 10051
+  },
+  "costotransverse_02_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_02_left",
+    "t2"
+   ],
+   "max_opening_mm": 1.185,
+   "tests": {
+    "rib_02_inspiration_left": 1.185
+   },
+   "worst_test": "rib_02_inspiration_left",
+   "worst_frame": 2311
+  },
+  "costotransverse_02_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_02_right",
+    "t2"
+   ],
+   "max_opening_mm": 1.185,
+   "tests": {
+    "rib_02_inspiration_right": 1.185
+   },
+   "worst_test": "rib_02_inspiration_right",
+   "worst_frame": 5126
+  },
+  "costovertebral_07_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_07_left",
+    "t7",
+    "t6"
+   ],
+   "max_opening_mm": 1.08,
+   "tests": {
+    "thoracic_t6_t7_flexion": 0.403,
+    "thoracic_t6_t7_adduction": 0.9,
+    "thoracic_t6_t7_internal": 1.08
+   },
+   "worst_test": "thoracic_t6_t7_internal",
+   "worst_frame": 10091
+  },
+  "costovertebral_07_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_07_right",
+    "t7",
+    "t6"
+   ],
+   "max_opening_mm": 1.08,
+   "tests": {
+    "thoracic_t6_t7_flexion": 0.403,
+    "thoracic_t6_t7_adduction": 0.9,
+    "thoracic_t6_t7_internal": 1.08
+   },
+   "worst_test": "thoracic_t6_t7_internal",
+   "worst_frame": 10091
+  },
+  "uncovertebral_c4_c5_left": {
+   "role": "FOLLOWER",
+   "type": "functional/disputed_disc_cleft_vs_synovial",
+   "participants": [
+    "c4",
+    "c5"
+   ],
+   "max_opening_mm": 1.047,
+   "tests": {
+    "cervical_c4_c5_adduction": 1.047,
+    "cervical_c4_c5_internal": 1.047
+   },
+   "worst_test": "cervical_c4_c5_adduction",
+   "worst_frame": 6681
+  },
+  "uncovertebral_c4_c5_right": {
+   "role": "FOLLOWER",
+   "type": "functional/disputed_disc_cleft_vs_synovial",
+   "participants": [
+    "c4",
+    "c5"
+   ],
+   "max_opening_mm": 1.047,
+   "tests": {
+    "cervical_c4_c5_adduction": 1.047,
+    "cervical_c4_c5_internal": 1.047
+   },
+   "worst_test": "cervical_c4_c5_adduction",
+   "worst_frame": 6681
+  },
+  "costotransverse_01_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_01_left",
+    "t1"
+   ],
+   "max_opening_mm": 0.761,
+   "tests": {
+    "rib_01_inspiration_left": 0.761
+   },
+   "worst_test": "rib_01_inspiration_left",
+   "worst_frame": 2266
+  },
+  "costotransverse_01_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_01_right",
+    "t1"
+   ],
+   "max_opening_mm": 0.761,
+   "tests": {
+    "rib_01_inspiration_right": 0.761
+   },
+   "worst_test": "rib_01_inspiration_right",
+   "worst_frame": 5081
+  },
+  "proximal_tibiofibular_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "tibia_left",
+    "fibula_left"
+   ],
+   "max_opening_mm": 0.732,
+   "tests": {
+    "talocrural_with_fibular_follower_left": 0.732
+   },
+   "worst_test": "talocrural_with_fibular_follower_left",
+   "worst_frame": 5826
+  },
+  "distal_tibiofibular_left": {
+   "role": "FOLLOWER",
+   "type": "fibrous/syndesmosis",
+   "participants": [
+    "tibia_left",
+    "fibula_left"
+   ],
+   "max_opening_mm": 0.732,
+   "tests": {
+    "talocrural_with_fibular_follower_left": 0.732
+   },
+   "worst_test": "talocrural_with_fibular_follower_left",
+   "worst_frame": 5826
+  },
+  "tibiofibular_interosseous_left": {
+   "role": "FOLLOWER",
+   "type": "fibrous/syndesmosis",
+   "participants": [
+    "tibia_left",
+    "fibula_left"
+   ],
+   "max_opening_mm": 0.732,
+   "tests": {
+    "talocrural_with_fibular_follower_left": 0.732
+   },
+   "worst_test": "talocrural_with_fibular_follower_left",
+   "worst_frame": 5826
+  },
+  "talocrural_left": {
+   "role": "ACTIVE",
+   "type": "synovial/hinge_oblique_axis",
+   "participants": [
+    "tibia_left",
+    "fibula_left",
+    "talus_left"
+   ],
+   "max_opening_mm": 0.732,
+   "tests": {
+    "talocrural_with_fibular_follower_left": 0.732
+   },
+   "worst_test": "talocrural_with_fibular_follower_left",
+   "worst_frame": 5826
+  },
+  "proximal_tibiofibular_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "tibia_right",
+    "fibula_right"
+   ],
+   "max_opening_mm": 0.732,
+   "tests": {
+    "talocrural_with_fibular_follower_right": 0.732
+   },
+   "worst_test": "talocrural_with_fibular_follower_right",
+   "worst_frame": 6086
+  },
+  "distal_tibiofibular_right": {
+   "role": "FOLLOWER",
+   "type": "fibrous/syndesmosis",
+   "participants": [
+    "tibia_right",
+    "fibula_right"
+   ],
+   "max_opening_mm": 0.732,
+   "tests": {
+    "talocrural_with_fibular_follower_right": 0.732
+   },
+   "worst_test": "talocrural_with_fibular_follower_right",
+   "worst_frame": 6086
+  },
+  "tibiofibular_interosseous_right": {
+   "role": "FOLLOWER",
+   "type": "fibrous/syndesmosis",
+   "participants": [
+    "tibia_right",
+    "fibula_right"
+   ],
+   "max_opening_mm": 0.732,
+   "tests": {
+    "talocrural_with_fibular_follower_right": 0.732
+   },
+   "worst_test": "talocrural_with_fibular_follower_right",
+   "worst_frame": 6086
+  },
+  "talocrural_right": {
+   "role": "ACTIVE",
+   "type": "synovial/hinge_oblique_axis",
+   "participants": [
+    "tibia_right",
+    "fibula_right",
+    "talus_right"
+   ],
+   "max_opening_mm": 0.732,
+   "tests": {
+    "talocrural_with_fibular_follower_right": 0.732
+   },
+   "worst_test": "talocrural_with_fibular_follower_right",
+   "worst_frame": 6086
+  },
+  "facet_t7_t8_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "t7",
+    "t8"
+   ],
+   "max_opening_mm": 0.622,
+   "tests": {
+    "thoracic_t7_t8_flexion": 0.365,
+    "thoracic_t7_t8_adduction": 0.368,
+    "thoracic_t7_t8_internal": 0.622
+   },
+   "worst_test": "thoracic_t7_t8_internal",
+   "worst_frame": 8521
+  },
+  "facet_t7_t8_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "t7",
+    "t8"
+   ],
+   "max_opening_mm": 0.622,
+   "tests": {
+    "thoracic_t7_t8_flexion": 0.365,
+    "thoracic_t7_t8_adduction": 0.368,
+    "thoracic_t7_t8_internal": 0.622
+   },
+   "worst_test": "thoracic_t7_t8_internal",
+   "worst_frame": 8521
+  },
+  "facet_t8_t9_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "t8",
+    "t9"
+   ],
+   "max_opening_mm": 0.622,
+   "tests": {
+    "thoracic_t8_t9_flexion": 0.365,
+    "thoracic_t8_t9_adduction": 0.367,
+    "thoracic_t8_t9_internal": 0.622
+   },
+   "worst_test": "thoracic_t8_t9_internal",
+   "worst_frame": 8816
+  },
+  "facet_t8_t9_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "t8",
+    "t9"
+   ],
+   "max_opening_mm": 0.622,
+   "tests": {
+    "thoracic_t8_t9_flexion": 0.365,
+    "thoracic_t8_t9_adduction": 0.367,
+    "thoracic_t8_t9_internal": 0.622
+   },
+   "worst_test": "thoracic_t8_t9_internal",
+   "worst_frame": 8816
+  },
+  "facet_t9_t10_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "t9",
+    "t10"
+   ],
+   "max_opening_mm": 0.621,
+   "tests": {
+    "thoracic_t9_t10_flexion": 0.365,
+    "thoracic_t9_t10_adduction": 0.369,
+    "thoracic_t9_t10_internal": 0.621
+   },
+   "worst_test": "thoracic_t9_t10_internal",
+   "worst_frame": 9031
+  },
+  "facet_t9_t10_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "t9",
+    "t10"
+   ],
+   "max_opening_mm": 0.621,
+   "tests": {
+    "thoracic_t9_t10_flexion": 0.365,
+    "thoracic_t9_t10_adduction": 0.369,
+    "thoracic_t9_t10_internal": 0.621
+   },
+   "worst_test": "thoracic_t9_t10_internal",
+   "worst_frame": 9031
+  },
+  "facet_t5_t6_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "t5",
+    "t6"
+   ],
+   "max_opening_mm": 0.62,
+   "tests": {
+    "thoracic_t5_t6_flexion": 0.365,
+    "thoracic_t5_t6_adduction": 0.37,
+    "thoracic_t5_t6_internal": 0.62
+   },
+   "worst_test": "thoracic_t5_t6_internal",
+   "worst_frame": 8266
+  },
+  "facet_t5_t6_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "t5",
+    "t6"
+   ],
+   "max_opening_mm": 0.62,
+   "tests": {
+    "thoracic_t5_t6_flexion": 0.365,
+    "thoracic_t5_t6_adduction": 0.37,
+    "thoracic_t5_t6_internal": 0.62
+   },
+   "worst_test": "thoracic_t5_t6_internal",
+   "worst_frame": 8266
+  },
+  "facet_t10_t11_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "t10",
+    "t11"
+   ],
+   "max_opening_mm": 0.613,
+   "tests": {
+    "thoracic_t10_t11_flexion": 0.365,
+    "thoracic_t10_t11_adduction": 0.379,
+    "thoracic_t10_t11_internal": 0.613
+   },
+   "worst_test": "thoracic_t10_t11_internal",
+   "worst_frame": 9326
+  },
+  "facet_t10_t11_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "t10",
+    "t11"
+   ],
+   "max_opening_mm": 0.613,
+   "tests": {
+    "thoracic_t10_t11_flexion": 0.365,
+    "thoracic_t10_t11_adduction": 0.379,
+    "thoracic_t10_t11_internal": 0.613
+   },
+   "worst_test": "thoracic_t10_t11_internal",
+   "worst_frame": 9326
+  },
+  "facet_t4_t5_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "t4",
+    "t5"
+   ],
+   "max_opening_mm": 0.612,
+   "tests": {
+    "thoracic_t4_t5_flexion": 0.365,
+    "thoracic_t4_t5_adduction": 0.38,
+    "thoracic_t4_t5_internal": 0.612
+   },
+   "worst_test": "thoracic_t4_t5_internal",
+   "worst_frame": 8051
+  },
+  "facet_t4_t5_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "t4",
+    "t5"
+   ],
+   "max_opening_mm": 0.612,
+   "tests": {
+    "thoracic_t4_t5_flexion": 0.365,
+    "thoracic_t4_t5_adduction": 0.38,
+    "thoracic_t4_t5_internal": 0.612
+   },
+   "worst_test": "thoracic_t4_t5_internal",
+   "worst_frame": 8051
+  },
+  "facet_t3_t4_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "t3",
+    "t4"
+   ],
+   "max_opening_mm": 0.602,
+   "tests": {
+    "thoracic_t3_t4_flexion": 0.365,
+    "thoracic_t3_t4_adduction": 0.393,
+    "thoracic_t3_t4_internal": 0.602
+   },
+   "worst_test": "thoracic_t3_t4_internal",
+   "worst_frame": 7756
+  },
+  "facet_t3_t4_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "t3",
+    "t4"
+   ],
+   "max_opening_mm": 0.602,
+   "tests": {
+    "thoracic_t3_t4_flexion": 0.365,
+    "thoracic_t3_t4_adduction": 0.393,
+    "thoracic_t3_t4_internal": 0.602
+   },
+   "worst_test": "thoracic_t3_t4_internal",
+   "worst_frame": 7756
+  },
+  "facet_t1_t2_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "t1",
+    "t2"
+   ],
+   "max_opening_mm": 0.598,
+   "tests": {
+    "thoracic_t1_t2_flexion": 0.365,
+    "thoracic_t1_t2_adduction": 0.396,
+    "thoracic_t1_t2_internal": 0.598
+   },
+   "worst_test": "thoracic_t1_t2_internal",
+   "worst_frame": 7286
+  },
+  "facet_t1_t2_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "t1",
+    "t2"
+   ],
+   "max_opening_mm": 0.598,
+   "tests": {
+    "thoracic_t1_t2_flexion": 0.365,
+    "thoracic_t1_t2_adduction": 0.396,
+    "thoracic_t1_t2_internal": 0.598
+   },
+   "worst_test": "thoracic_t1_t2_internal",
+   "worst_frame": 7286
+  },
+  "facet_t2_t3_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "t2",
+    "t3"
+   ],
+   "max_opening_mm": 0.597,
+   "tests": {
+    "thoracic_t2_t3_flexion": 0.365,
+    "thoracic_t2_t3_adduction": 0.397,
+    "thoracic_t2_t3_internal": 0.597
+   },
+   "worst_test": "thoracic_t2_t3_internal",
+   "worst_frame": 7541
+  },
+  "facet_t2_t3_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "t2",
+    "t3"
+   ],
+   "max_opening_mm": 0.597,
+   "tests": {
+    "thoracic_t2_t3_flexion": 0.365,
+    "thoracic_t2_t3_adduction": 0.397,
+    "thoracic_t2_t3_internal": 0.597
+   },
+   "worst_test": "thoracic_t2_t3_internal",
+   "worst_frame": 7541
+  },
+  "facet_t11_t12_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "t11",
+    "t12"
+   ],
+   "max_opening_mm": 0.579,
+   "tests": {
+    "thoracic_t11_t12_flexion": 0.365,
+    "thoracic_t11_t12_adduction": 0.418,
+    "thoracic_t11_t12_internal": 0.579
+   },
+   "worst_test": "thoracic_t11_t12_internal",
+   "worst_frame": 9581
+  },
+  "facet_t11_t12_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "t11",
+    "t12"
+   ],
+   "max_opening_mm": 0.579,
+   "tests": {
+    "thoracic_t11_t12_flexion": 0.365,
+    "thoracic_t11_t12_adduction": 0.418,
+    "thoracic_t11_t12_internal": 0.579
+   },
+   "worst_test": "thoracic_t11_t12_internal",
+   "worst_frame": 9581
+  },
+  "facet_t12_l1_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "t12",
+    "l1"
+   ],
+   "max_opening_mm": 0.574,
+   "tests": {
+    "thoracic_t12_l1_flexion": 0.365,
+    "thoracic_t12_l1_adduction": 0.424,
+    "thoracic_t12_l1_internal": 0.574
+   },
+   "worst_test": "thoracic_t12_l1_internal",
+   "worst_frame": 9796
+  },
+  "facet_t12_l1_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "t12",
+    "l1"
+   ],
+   "max_opening_mm": 0.574,
+   "tests": {
+    "thoracic_t12_l1_flexion": 0.365,
+    "thoracic_t12_l1_adduction": 0.424,
+    "thoracic_t12_l1_internal": 0.574
+   },
+   "worst_test": "thoracic_t12_l1_internal",
+   "worst_frame": 9836
+  },
+  "costovertebral_04_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_04_left",
+    "t4",
+    "t3"
+   ],
+   "max_opening_mm": 0.505,
+   "tests": {
+    "thoracic_t3_t4_flexion": 0.264,
+    "thoracic_t3_t4_adduction": 0.464,
+    "thoracic_t3_t4_internal": 0.505
+   },
+   "worst_test": "thoracic_t3_t4_internal",
+   "worst_frame": 7756
+  },
+  "costovertebral_04_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_04_right",
+    "t4",
+    "t3"
+   ],
+   "max_opening_mm": 0.505,
+   "tests": {
+    "thoracic_t3_t4_flexion": 0.264,
+    "thoracic_t3_t4_adduction": 0.464,
+    "thoracic_t3_t4_internal": 0.505
+   },
+   "worst_test": "thoracic_t3_t4_internal",
+   "worst_frame": 7756
+  },
+  "costovertebral_05_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_05_left",
+    "t5",
+    "t4"
+   ],
+   "max_opening_mm": 0.505,
+   "tests": {
+    "thoracic_t4_t5_flexion": 0.245,
+    "thoracic_t4_t5_adduction": 0.451,
+    "thoracic_t4_t5_internal": 0.505
+   },
+   "worst_test": "thoracic_t4_t5_internal",
+   "worst_frame": 8011
+  },
+  "costovertebral_05_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_05_right",
+    "t5",
+    "t4"
+   ],
+   "max_opening_mm": 0.505,
+   "tests": {
+    "thoracic_t4_t5_flexion": 0.245,
+    "thoracic_t4_t5_adduction": 0.451,
+    "thoracic_t4_t5_internal": 0.505
+   },
+   "worst_test": "thoracic_t4_t5_internal",
+   "worst_frame": 8011
+  },
+  "costovertebral_06_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_06_left",
+    "t6",
+    "t5"
+   ],
+   "max_opening_mm": 0.501,
+   "tests": {
+    "thoracic_t5_t6_flexion": 0.222,
+    "thoracic_t5_t6_adduction": 0.439,
+    "thoracic_t5_t6_internal": 0.501
+   },
+   "worst_test": "thoracic_t5_t6_internal",
+   "worst_frame": 8266
+  },
+  "costovertebral_06_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_06_right",
+    "t6",
+    "t5"
+   ],
+   "max_opening_mm": 0.501,
+   "tests": {
+    "thoracic_t5_t6_flexion": 0.222,
+    "thoracic_t5_t6_adduction": 0.439,
+    "thoracic_t5_t6_internal": 0.501
+   },
+   "worst_test": "thoracic_t5_t6_internal",
+   "worst_frame": 8266
+  },
+  "costovertebral_02_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_02_left",
+    "t2",
+    "t1"
+   ],
+   "max_opening_mm": 0.5,
+   "tests": {
+    "thoracic_t1_t2_flexion": 0.261,
+    "thoracic_t1_t2_adduction": 0.465,
+    "thoracic_t1_t2_internal": 0.5
+   },
+   "worst_test": "thoracic_t1_t2_internal",
+   "worst_frame": 7286
+  },
+  "costovertebral_02_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_02_right",
+    "t2",
+    "t1"
+   ],
+   "max_opening_mm": 0.5,
+   "tests": {
+    "thoracic_t1_t2_flexion": 0.261,
+    "thoracic_t1_t2_adduction": 0.465,
+    "thoracic_t1_t2_internal": 0.5
+   },
+   "worst_test": "thoracic_t1_t2_internal",
+   "worst_frame": 7286
+  },
+  "costovertebral_03_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_03_left",
+    "t3",
+    "t2"
+   ],
+   "max_opening_mm": 0.499,
+   "tests": {
+    "thoracic_t2_t3_flexion": 0.26,
+    "thoracic_t2_t3_adduction": 0.466,
+    "thoracic_t2_t3_internal": 0.499
+   },
+   "worst_test": "thoracic_t2_t3_internal",
+   "worst_frame": 7541
+  },
+  "costovertebral_03_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_03_right",
+    "t3",
+    "t2"
+   ],
+   "max_opening_mm": 0.499,
+   "tests": {
+    "thoracic_t2_t3_flexion": 0.26,
+    "thoracic_t2_t3_adduction": 0.466,
+    "thoracic_t2_t3_internal": 0.499
+   },
+   "worst_test": "thoracic_t2_t3_internal",
+   "worst_frame": 7541
+  },
+  "costovertebral_09_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_09_left",
+    "t9",
+    "t8"
+   ],
+   "max_opening_mm": 0.489,
+   "tests": {
+    "thoracic_t8_t9_flexion": 0.185,
+    "thoracic_t8_t9_adduction": 0.429,
+    "thoracic_t8_t9_internal": 0.489
+   },
+   "worst_test": "thoracic_t8_t9_internal",
+   "worst_frame": 8776
+  },
+  "costovertebral_09_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_09_right",
+    "t9",
+    "t8"
+   ],
+   "max_opening_mm": 0.489,
+   "tests": {
+    "thoracic_t8_t9_flexion": 0.185,
+    "thoracic_t8_t9_adduction": 0.429,
+    "thoracic_t8_t9_internal": 0.489
+   },
+   "worst_test": "thoracic_t8_t9_internal",
+   "worst_frame": 8776
+  },
+  "costovertebral_08_left": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_08_left",
+    "t8",
+    "t7"
+   ],
+   "max_opening_mm": 0.484,
+   "tests": {
+    "thoracic_t7_t8_flexion": 0.175,
+    "thoracic_t7_t8_adduction": 0.427,
+    "thoracic_t7_t8_internal": 0.484
+   },
+   "worst_test": "thoracic_t7_t8_internal",
+   "worst_frame": 8561
+  },
+  "costovertebral_08_right": {
+   "role": "FOLLOWER",
+   "type": "synovial/plane",
+   "participants": [
+    "rib_08_right",
+    "t8",
+    "t7"
+   ],
+   "max_opening_mm": 0.484,
+   "tests": {
+    "thoracic_t7_t8_flexion": 0.175,
+    "thoracic_t7_t8_adduction": 0.427,
+    "thoracic_t7_t8_internal": 0.484
+   },
+   "worst_test": "thoracic_t7_t8_internal",
+   "worst_frame": 8561
+  },
+  "sacroiliac_posterior_left": {
+   "role": "FOLLOWER",
+   "type": "fibrous/syndesmosis",
+   "participants": [
+    "sacrum",
+    "hip_bone_left"
+   ],
+   "max_opening_mm": 0.335,
+   "tests": {
+    "sacroiliac_rotation_left": 0.335
+   },
+   "worst_test": "sacroiliac_rotation_left",
+   "worst_frame": 2666
+  },
+  "sacroiliac_posterior_right": {
+   "role": "FOLLOWER",
+   "type": "fibrous/syndesmosis",
+   "participants": [
+    "sacrum",
+    "hip_bone_right"
+   ],
+   "max_opening_mm": 0.335,
+   "tests": {
+    "sacroiliac_rotation_right": 0.335
+   },
+   "worst_test": "sacroiliac_rotation_right",
+   "worst_frame": 5481
+  }
+ }
+}

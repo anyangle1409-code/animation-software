@@ -1,0 +1,340 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "kind": "RUN_COMPARISON_READ_ONLY",
+ "inputs_sha256": {
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_014/isolated_samples.json": "43965977cd23edea14420c023bbea37b4cdb7ded83a085b6387eaa83417b5377",
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c003_shoulder_thorax_001/isolated_samples.json": "55cf039cefa8269131e482be7b51cd5bd3a42ad5fe26ea5377dd13f8f4334f01",
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c004_arm_inputs_001/isolated_samples.json": "5632dd46dd035293fc6007d41990955e6828ad1e53c5e11154c0057a2f37e78a",
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_014/isolated_report.json": "7d64903030facf506fe9b89137f7a63d008451b86e77a1bb16e0f84fc46300f0",
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c003_shoulder_thorax_001/isolated_report.json": "d2d6ea7caa4be609e2c292d70841f66ea7e8a9e1a410ba7ad35b5e2d976d194a",
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c004_arm_inputs_001/isolated_report.json": "083ab039195d6a1a83cdb20f16eab7d0f983f5cfafea639d3274e78ee00932fb"
+ },
+ "tests": 135,
+ "identical_to_c003": 111,
+ "changed_vs_c003": [
+  "digit2_flexion_left",
+  "digit2_flexion_right",
+  "digit2_mcp_abduction_left",
+  "digit2_mcp_abduction_right",
+  "digit3_flexion_left",
+  "digit3_flexion_right",
+  "digit4_flexion_left",
+  "digit4_flexion_right",
+  "digit4_mcp_abduction_left",
+  "digit4_mcp_abduction_right",
+  "digit5_flexion_left",
+  "digit5_flexion_right",
+  "digit5_mcp_abduction_left",
+  "digit5_mcp_abduction_right",
+  "thumb_cmc_anteposition_left",
+  "thumb_cmc_anteposition_right",
+  "thumb_cmc_radial_abduction_left",
+  "thumb_cmc_radial_abduction_right",
+  "thumb_opposition_left",
+  "thumb_opposition_right",
+  "wrist_adduction_left",
+  "wrist_adduction_right",
+  "wrist_flexion_left",
+  "wrist_flexion_right"
+ ],
+ "changed_detail": {
+  "digit2_flexion_left": {
+   "vs_c003": {
+    "rotation_max_abs": 0.3927632895835274,
+    "angle_max_deg": 1.635588144210942e-05
+   },
+   "vs_a003": {
+    "rotation_max_abs": 6.895486996290334e-07,
+    "angle_max_deg": 4.894839498348347e-05
+   },
+   "reproduces_a003_rotations_and_angles": true
+  },
+  "digit2_flexion_right": {
+   "vs_c003": {
+    "rotation_max_abs": 0.39276316624996394,
+    "angle_max_deg": 2.9654600851358737e-05
+   },
+   "vs_a003": {
+    "rotation_max_abs": 7.366885905156495e-07,
+    "angle_max_deg": 7.782863573169152e-05
+   },
+   "reproduces_a003_rotations_and_angles": true
+  },
+  "digit2_mcp_abduction_left": {
+   "vs_c003": {
+    "rotation_max_abs": 0.1428954802674353,
+    "angle_max_deg": 7.79271226747369e-06
+   },
+   "vs_a003": {
+    "rotation_max_abs": 2.1735215743889924e-07,
+    "angle_max_deg": 9.210602570419724e-06
+   },
+   "reproduces_a003_rotations_and_angles": true
+  },
+  "digit2_mcp_abduction_right": {
+   "vs_c003": {
+    "rotation_max_abs": 0.14289545345435856,
+    "angle_max_deg": 9.684247402219626e-06
+   },
+   "vs_a003": {
+    "rotation_max_abs": 2.058506498592294e-07,
+    "angle_max_deg": 1.032350061791476e-05
+   },
+   "reproduces_a003_rotations_and_angles": true
+  },
+  "digit3_flexion_left": {
+   "vs_c003": {
+    "rotation_max_abs": 0.393549688432473,
+    "angle_max_deg": 3.2955971377646165e-05
+   },
+   "vs_a003": {
+    "rotation_max_abs": 5.632175508751835e-07,
+    "angle_max_deg": 4.77712036115463e-05
+   },
+   "reproduces_a003_rotations_and_angles": true
+  },
+  "digit3_flexion_right": {
+   "vs_c003": {
+    "rotation_max_abs": 0.3935494138486551,
+    "angle_max_deg": 3.171030169824007e-05
+   },
+   "vs_a003": {
+    "rotation_max_abs": 7.920922159287969e-07,
+    "angle_max_deg": 8.618254135228653e-05
+   },
+   "reproduces_a003_rotations_and_angles": true
+  },
+  "digit4_flexion_left": {
+   "vs_c003": {
+    "rotation_max_abs": 0.3877157662555153,
+    "angle_max_deg": 2.631289297028161e-05
+   },
+   "vs_a003": {
+    "rotation_max_abs": 8.395721504683706e-07,
+    "angle_max_deg": 9.434569439292773e-05
+   },
+   "reproduces_a003_rotations_and_angles": true
+  },
+  "digit4_flexion_right": {
+   "vs_c003": {
+    "rotation_max_abs": 0.3877157468239335,
+    "angle_max_deg": 3.041538413839362e-05
+   },
+   "vs_a003": {
+    "rotation_max_abs": 7.376127958425016e-07,
+    "angle_max_deg": 7.597164594841388e-05
+   },
+   "reproduces_a003_rotations_and_angles": true
+  },
+  "digit4_mcp_abduction_left": {
+   "vs_c003": {
+    "rotation_max_abs": 0.14289543553721376,
+    "angle_max_deg": 1.0338144420529716e-05
+   },
+   "vs_a003": {
+    "rotation_max_abs": 2.5610735343573054e-07,
+    "angle_max_deg": 7.840227851829695e-06
+   },
+   "reproduces_a003_rotations_and_angles": true
+  },
+  "digit4_mcp_abduction_right": {
+   "vs_c003": {
+    "rotation_max_abs": 0.14289547795036628,
+    "angle_max_deg": 3.615928079625519e-06
+   },
+   "vs_a003": {
+    "rotation_max_abs": 1.196069624904983e-07,
+    "angle_max_deg": 2.476478556445727e-06
+   },
+   "reproduces_a003_rotations_and_angles": true
+  },
+  "digit5_flexion_left": {
+   "vs_c003": {
+    "rotation_max_abs": 0.3905291904650704,
+    "angle_max_deg": 2.1103783987141283e-05
+   },
+   "vs_a003": {
+    "rotation_max_abs": 6.559596192334816e-07,
+    "angle_max_deg": 5.770955888095841e-05
+   },
+   "reproduces_a003_rotations_and_angles": true
+  },
+  "digit5_flexion_right": {
+   "vs_c003": {
+    "rotation_max_abs": 0.39052902114907084,
+    "angle_max_deg": 3.0438775070251722e-05
+   },
+   "vs_a003": {
+    "rotation_max_abs": 9.397421358858793e-07,
+    "angle_max_deg": 8.833951959275055e-05
+   },
+   "reproduces_a003_rotations_and_angles": true
+  },
+  "digit5_mcp_abduction_left": {
+   "vs_c003": {
+    "rotation_max_abs": 0.1428954295998997,
+    "angle_max_deg": 6.699463597215072e-06
+   },
+   "vs_a003": {
+    "rotation_max_abs": 1.6263922930637165e-07,
+    "angle_max_deg": 4.192229994259833e-06
+   },
+   "reproduces_a003_rotations_and_angles": true
+  },
+  "digit5_mcp_abduction_right": {
+   "vs_c003": {
+    "rotation_max_abs": 0.14289544175853547,
+    "angle_max_deg": 2.398503880840508e-06
+   },
+   "vs_a003": {
+    "rotation_max_abs": 1.344505060063561e-07,
+    "angle_max_deg": 2.5962099243770353e-06
+   },
+   "reproduces_a003_rotations_and_angles": true
+  },
+  "thumb_cmc_anteposition_left": {
+   "vs_c003": {
+    "rotation_max_abs": 0.12849951690175712,
+    "angle_max_deg": 1.899193312532276
+   },
+   "vs_a003": {
+    "rotation_max_abs": 2.821715406331471e-07,
+    "angle_max_deg": 1.1385242387973449e-05
+   },
+   "reproduces_a003_rotations_and_angles": true
+  },
+  "thumb_cmc_anteposition_right": {
+   "vs_c003": {
+    "rotation_max_abs": 0.12849948946199682,
+    "angle_max_deg": 1.8991955042756956
+   },
+   "vs_a003": {
+    "rotation_max_abs": 3.9315486133340016e-07,
+    "angle_max_deg": 1.8122303274026308e-05
+   },
+   "reproduces_a003_rotations_and_angles": true
+  },
+  "thumb_cmc_radial_abduction_left": {
+   "vs_c003": {
+    "rotation_max_abs": 0.25534615418526574,
+    "angle_max_deg": 7.990917887218956
+   },
+   "vs_a003": {
+    "rotation_max_abs": 2.6685436216311587e-07,
+    "angle_max_deg": 2.2408570202969713e-05
+   },
+   "reproduces_a003_rotations_and_angles": true
+  },
+  "thumb_cmc_radial_abduction_right": {
+   "vs_c003": {
+    "rotation_max_abs": 0.2553461010635927,
+    "angle_max_deg": 7.990915048859577
+   },
+   "vs_a003": {
+    "rotation_max_abs": 2.6848950777924596e-07,
+    "angle_max_deg": 1.1327775972347354e-05
+   },
+   "reproduces_a003_rotations_and_angles": true
+  },
+  "thumb_opposition_left": {
+   "vs_c003": {
+    "rotation_max_abs": 0.074269974783684,
+    "angle_max_deg": 4.477830977887148
+   },
+   "vs_a003": {
+    "rotation_max_abs": 3.209286275063228e-07,
+    "angle_max_deg": 1.1376603453072676e-05
+   },
+   "reproduces_a003_rotations_and_angles": true
+  },
+  "thumb_opposition_right": {
+   "vs_c003": {
+    "rotation_max_abs": 0.07426997425277873,
+    "angle_max_deg": 4.477828999617309
+   },
+   "vs_a003": {
+    "rotation_max_abs": 3.313499483126314e-07,
+    "angle_max_deg": 1.0742697035936999e-05
+   },
+   "reproduces_a003_rotations_and_angles": true
+  },
+  "wrist_adduction_left": {
+   "vs_c003": {
+    "rotation_max_abs": 0.0,
+    "angle_max_deg": 1.2580278387013086e-14
+   },
+   "vs_a003": {
+    "rotation_max_abs": 2.1183319309781012e-07,
+    "angle_max_deg": 9.24254829470783e-06
+   },
+   "reproduces_a003_rotations_and_angles": true
+  },
+  "wrist_adduction_right": {
+   "vs_c003": {
+    "rotation_max_abs": 0.0,
+    "angle_max_deg": 2.1316282072803006e-14
+   },
+   "vs_a003": {
+    "rotation_max_abs": 1.7270769309130074e-07,
+    "angle_max_deg": 9.302966496418163e-06
+   },
+   "reproduces_a003_rotations_and_angles": true
+  },
+  "wrist_flexion_left": {
+   "vs_c003": {
+    "rotation_max_abs": 0.0,
+    "angle_max_deg": 1.7763568394002505e-14
+   },
+   "vs_a003": {
+    "rotation_max_abs": 5.94182600011095e-07,
+    "angle_max_deg": 3.6764902603181326e-05
+   },
+   "reproduces_a003_rotations_and_angles": true
+  },
+  "wrist_flexion_right": {
+   "vs_c003": {
+    "rotation_max_abs": 0.0,
+    "angle_max_deg": 1.4210854715202004e-14
+   },
+   "vs_a003": {
+    "rotation_max_abs": 8.506150959153302e-07,
+    "angle_max_deg": 6.0140219119375615e-05
+   },
+   "reproduces_a003_rotations_and_angles": true
+  }
+ },
+ "changed_not_reproducing_a003": [],
+ "report_counts": {
+  "a003": {
+   "counts": {
+    "tests": 135,
+    "integrity_pass": 135,
+    "mirror_pairs": 43,
+    "mirror_pass": 41,
+    "mirror_solver_test_only": 2
+   },
+   "mirror_pass": 41
+  },
+  "c003": {
+   "counts": {
+    "tests": 135,
+    "integrity_pass": 135,
+    "mirror_pairs": 43,
+    "mirror_pass": 41,
+    "mirror_solver_test_only": 2
+   },
+   "mirror_pass": 41
+  },
+  "c004": {
+   "counts": {
+    "tests": 135,
+    "integrity_pass": 135,
+    "mirror_pairs": 43,
+    "mirror_pass": 41,
+    "mirror_solver_test_only": 2
+   },
+   "mirror_pass": 41
+  }
+ }
+}

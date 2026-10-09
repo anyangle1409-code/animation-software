@@ -1,0 +1,31 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "status": "REUSED_C003_RENDER_PACK_NO_NEW_RENDERS",
+ "statement": "No images were rendered for c004. The c003 review pack is reused because every input the renderer and the candidate blend builder read is hash-identical between c003 and c004; the images therefore depict c004 exactly. The images and their manifest still name c003.",
+ "reused_manifest": {
+  "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/manifest.json",
+  "sha256": "8acac018b16a6027a96f7094543868fbc71ff71fecc2c22d89f39e9112a5d56b"
+ },
+ "reused_blend": {
+  "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/HGPT_ANATOMICAL_AUDIT_r95_a003_shoulder_thorax_c003_ansur_coupled.blend",
+  "sha256": "3962215043cebbcf71f4d0127e1e457b8974a01bca3d304035f8dcdca51e6ab4"
+ },
+ "visual_input_digests": {
+  "c003": {
+   "bones": "f07ffee6ff9da62ddf8f2f806d68741fabfd26b91453f8066d0f8ae3ab1c7603",
+   "joint_markers": "6a362ba4ca6386cd80ef05ae59163d15fe7f747866261dd48d36f8503d7e2a8f",
+   "scapula_landmarks": "0fc6afb1085ba95e223117d8b658b883c604c27c626c2de1664790c97c549e07",
+   "renderer_inputs_TS_AA_AI": "6d566a03d619bc0661220140b5c13c2b742310a6bff51a1c2fff5da5e0a3641a"
+  },
+  "c004": {
+   "bones": "f07ffee6ff9da62ddf8f2f806d68741fabfd26b91453f8066d0f8ae3ab1c7603",
+   "joint_markers": "6a362ba4ca6386cd80ef05ae59163d15fe7f747866261dd48d36f8503d7e2a8f",
+   "scapula_landmarks": "0fc6afb1085ba95e223117d8b658b883c604c27c626c2de1664790c97c549e07",
+   "renderer_inputs_TS_AA_AI": "6d566a03d619bc0661220140b5c13c2b742310a6bff51a1c2fff5da5e0a3641a"
+  },
+  "identical": true
+ },
+ "renderer_reads": "render_shoulder_candidate_review.py reads the blend, record bones, joint_markers, candidate.scapula_landmarks_world_mm and skeleton_input TS/AA/AI (fallback only); none of the six corrected points",
+ "movement_clips": "not reused: c003 isolated-test clips show only shoulder tests; the 24 changed hand/wrist tests have no c003 clip, and no new clip is claimed"
+}

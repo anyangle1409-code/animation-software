@@ -1,0 +1,276 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "label": "c004_isolated_001",
+ "status": "MECHANICAL_SCAN_NO_GEOMETRY_CHANGE",
+ "criterion": "bone central axes closer than 0.001 m => interpenetration (every adult bone radius far exceeds 0.5 mm; conservative mechanical bound); parent/child and rest-contact pairs excluded; closest approaches not graded",
+ "inputs_sha256": {
+  "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json": "99500d94e06c66ca489bdaccc0345446f98794946254c5e592d9449696f396c1",
+  "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c004_arm_inputs_001/isolated_samples.json": "5632dd46dd035293fc6007d41990955e6828ad1e53c5e11154c0057a2f37e78a"
+ },
+ "tests_scanned": 135,
+ "stride": 2,
+ "rest_axis_contacts_excluded": 95,
+ "crossing_profiles": {
+  "hip_abduction_adduction_left|tibia_left|tibia_right": {
+   "first_frame_below_bound": {
+    "frame": 100,
+    "commanded": {
+     "adduction": 13.454915028125264
+    },
+    "axis_distance_mm": 0.568
+   },
+   "minimum": {
+    "frame": 100,
+    "commanded": {
+     "adduction": 13.454915028125264
+    },
+    "axis_distance_mm": 0.568
+   },
+   "frames_below_bound": 13
+  },
+  "hip_abduction_adduction_right|tibia_left|tibia_right": {
+   "first_frame_below_bound": {
+    "frame": 2915,
+    "commanded": {
+     "adduction": 13.454915028125264
+    },
+    "axis_distance_mm": 0.568
+   },
+   "minimum": {
+    "frame": 2915,
+    "commanded": {
+     "adduction": 13.454915028125264
+    },
+    "axis_distance_mm": 0.568
+   },
+   "frames_below_bound": 13
+  }
+ },
+ "new_axis_crossings": [
+  {
+   "test": "hip_abduction_adduction_left",
+   "frame": 100,
+   "bones": [
+    "tibia_left",
+    "tibia_right"
+   ],
+   "axis_distance_m": 0.0005679218510470661
+  },
+  {
+   "test": "hip_abduction_adduction_right",
+   "frame": 2915,
+   "bones": [
+    "tibia_left",
+    "tibia_right"
+   ],
+   "axis_distance_m": 0.000567909712421171
+  }
+ ],
+ "tests_with_new_crossings": [
+  "hip_abduction_adduction_left",
+  "hip_abduction_adduction_right"
+ ],
+ "closest_new_approaches_info_only": [
+  {
+   "test": "hip_abduction_adduction_left",
+   "bones": [
+    "tibia_left",
+    "tibia_right"
+   ],
+   "min_axis_distance_mm": 0.57
+  },
+  {
+   "test": "hip_abduction_adduction_right",
+   "bones": [
+    "tibia_left",
+    "tibia_right"
+   ],
+   "min_axis_distance_mm": 0.57
+  },
+  {
+   "test": "hip_abduction_adduction_left",
+   "bones": [
+    "fibula_left",
+    "fibula_right"
+   ],
+   "min_axis_distance_mm": 1.16
+  },
+  {
+   "test": "hip_abduction_adduction_right",
+   "bones": [
+    "fibula_left",
+    "fibula_right"
+   ],
+   "min_axis_distance_mm": 1.16
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_right",
+   "bones": [
+    "hallux_proximal_phalanx_right",
+    "metatarsal_1_left"
+   ],
+   "min_axis_distance_mm": 1.4
+  },
+  {
+   "test": "forearm_rotation_at_elbow_0_left",
+   "bones": [
+    "femur_left",
+    "thumb_proximal_phalanx_left"
+   ],
+   "min_axis_distance_mm": 1.49
+  },
+  {
+   "test": "forearm_rotation_at_elbow_0_right",
+   "bones": [
+    "femur_right",
+    "thumb_proximal_phalanx_right"
+   ],
+   "min_axis_distance_mm": 1.49
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_left",
+   "bones": [
+    "hallux_proximal_phalanx_left",
+    "metatarsal_1_right"
+   ],
+   "min_axis_distance_mm": 1.74
+  },
+  {
+   "test": "hip_flexion_extension_left",
+   "bones": [
+    "intermediate_cuneiform_left",
+    "lateral_cuneiform_left"
+   ],
+   "min_axis_distance_mm": 1.93
+  },
+  {
+   "test": "hip_abduction_adduction_left",
+   "bones": [
+    "intermediate_cuneiform_left",
+    "lateral_cuneiform_left"
+   ],
+   "min_axis_distance_mm": 1.93
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_left",
+   "bones": [
+    "intermediate_cuneiform_left",
+    "lateral_cuneiform_left"
+   ],
+   "min_axis_distance_mm": 1.93
+  },
+  {
+   "test": "hip_rotation_at_90_flexion_left",
+   "bones": [
+    "intermediate_cuneiform_left",
+    "lateral_cuneiform_left"
+   ],
+   "min_axis_distance_mm": 1.93
+  },
+  {
+   "test": "knee_flexion_extension_left",
+   "bones": [
+    "intermediate_cuneiform_left",
+    "lateral_cuneiform_left"
+   ],
+   "min_axis_distance_mm": 1.93
+  },
+  {
+   "test": "talocrural_dorsi_plantarflexion_left",
+   "bones": [
+    "intermediate_cuneiform_left",
+    "lateral_cuneiform_left"
+   ],
+   "min_axis_distance_mm": 1.93
+  },
+  {
+   "test": "talonavicular_dorsi_plantarflexion_left",
+   "bones": [
+    "intermediate_cuneiform_left",
+    "lateral_cuneiform_left"
+   ],
+   "min_axis_distance_mm": 1.93
+  },
+  {
+   "test": "sacroiliac_rotation_left",
+   "bones": [
+    "intermediate_cuneiform_left",
+    "lateral_cuneiform_left"
+   ],
+   "min_axis_distance_mm": 1.93
+  },
+  {
+   "test": "hip_flexion_extension_right",
+   "bones": [
+    "intermediate_cuneiform_right",
+    "lateral_cuneiform_right"
+   ],
+   "min_axis_distance_mm": 1.93
+  },
+  {
+   "test": "hip_abduction_adduction_right",
+   "bones": [
+    "intermediate_cuneiform_right",
+    "lateral_cuneiform_right"
+   ],
+   "min_axis_distance_mm": 1.93
+  },
+  {
+   "test": "hip_rotation_at_0_flexion_right",
+   "bones": [
+    "intermediate_cuneiform_right",
+    "lateral_cuneiform_right"
+   ],
+   "min_axis_distance_mm": 1.93
+  },
+  {
+   "test": "hip_rotation_at_90_flexion_right",
+   "bones": [
+    "intermediate_cuneiform_right",
+    "lateral_cuneiform_right"
+   ],
+   "min_axis_distance_mm": 1.93
+  },
+  {
+   "test": "knee_flexion_extension_right",
+   "bones": [
+    "intermediate_cuneiform_right",
+    "lateral_cuneiform_right"
+   ],
+   "min_axis_distance_mm": 1.93
+  },
+  {
+   "test": "talocrural_dorsi_plantarflexion_right",
+   "bones": [
+    "intermediate_cuneiform_right",
+    "lateral_cuneiform_right"
+   ],
+   "min_axis_distance_mm": 1.93
+  },
+  {
+   "test": "talonavicular_dorsi_plantarflexion_right",
+   "bones": [
+    "intermediate_cuneiform_right",
+    "lateral_cuneiform_right"
+   ],
+   "min_axis_distance_mm": 1.93
+  },
+  {
+   "test": "sacroiliac_rotation_right",
+   "bones": [
+    "intermediate_cuneiform_right",
+    "lateral_cuneiform_right"
+   ],
+   "min_axis_distance_mm": 1.93
+  },
+  {
+   "test": "knee_flexion_with_screw_home_left",
+   "bones": [
+    "intermediate_cuneiform_left",
+    "lateral_cuneiform_left"
+   ],
+   "min_axis_distance_mm": 1.93
+  }
+ ]
+}

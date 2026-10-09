@@ -32,10 +32,24 @@ def articulations():
     return m.load_reference()[1]
 
 
-def scan(rec, samples, stride=2):
+def scan(rec, samples, stride=2, partial=False):
+    """partial=False: v1 (only articulations whose participants are ALL bones; 59 of 427 with a soft-tissue participant -
+    TFCC, disc, cartilage, sesamoid track - were silently skipped, among them radiocarpal and sternoclavicular).
+    partial=True: v2, every articulation with >= 2 BONE participants is checked on those bones; the soft-tissue
+    participants dropped are listed."""
     B, J = rec['bones'], rec['joint_markers']
     parent = {n: B[n]['parent'] for n in B}
-    arts = [a for a in articulations() if a['id'] in J and len(a['participants']) >= 2 and all(p in B for p in a['participants'])]
+    if partial:
+        arts, dropped = [], {}
+        for a in articulations():
+            ps = [p for p in a['participants'] if p in B]
+            if a['id'] in J and len(ps) >= 2:
+                arts.append({**a, 'participants': ps})
+                if len(ps) < len(a['participants']):
+                    dropped[a['id']] = [p for p in a['participants'] if p not in B]
+    else:
+        arts = [a for a in articulations() if a['id'] in J and len(a['participants']) >= 2 and all(p in B for p in a['participants'])]
+        dropped = None
 
     def anc(n, deltas):
         m = n
@@ -62,7 +76,8 @@ def scan(rec, samples, stride=2):
                     w['tests'][tid] = max(w['tests'].get(tid, 0.0), round(op * 1000, 3))
                     if op * 1000 > w['max_opening_mm']:
                         w['max_opening_mm'] = round(op * 1000, 3); w['worst_test'] = tid; w['worst_frame'] = fr['frame']
-    return {'articulations_checked': len(arts), 'tests_scanned': len(samples), 'stride': stride,
+    out_extra = {} if dropped is None else {'scan_version': 2, 'soft_tissue_participants_dropped': dropped}
+    return {**out_extra, 'articulations_checked': len(arts), 'tests_scanned': len(samples), 'stride': stride,
             'opened': dict(sorted(worst.items(), key=lambda kv: -kv[1]['max_opening_mm']))}
 
 
@@ -71,8 +86,9 @@ def main():
     for a in ('--record', '--samples', '--label', '--out'):
         ap.add_argument(a, required=True)
     ap.add_argument('--stride', type=int, default=2)
+    ap.add_argument('--v2', action='store_true', help='also check articulations with soft-tissue participants on their bone participants')
     o = ap.parse_args()
-    r = scan(json.loads(Path(o.record).read_text()), json.loads(Path(o.samples).read_text()), o.stride)
+    r = scan(json.loads(Path(o.record).read_text()), json.loads(Path(o.samples).read_text()), o.stride, partial=o.v2)
     out = {'schema_version': 1, 'created': '2026-10-09', 'label': o.label, 'status': 'MECHANICAL_SCAN_NO_GEOMETRY_CHANGE',
            'criterion': 'opening = max distance between participant copies of the rest joint centre; < 1e-6 m is numerical zero; larger openings reported, not graded',
            'inputs_sha256': {o.record: sha(o.record), o.samples: sha(o.samples)}, **r}

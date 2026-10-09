@@ -12,6 +12,8 @@ import json
 import math
 from pathlib import Path
 
+import bone_surface_topology as topology
+
 
 def _number(v):
     return isinstance(v, (int, float)) and not isinstance(v, bool) and math.isfinite(v)
@@ -75,9 +77,10 @@ def _triangles(vertices, triangles, closed):
             edges[tuple(sorted((x, y)))] += 1
     if closed and any(n != 2 for n in edges.values()):
         raise ValueError('closed bone mesh is not edge-manifold')
+    audit = topology.inspect(vertices, triangles, closed)
     return {'vertices': len(vertices), 'triangles': len(triangles),
-            'boundary_edges': sum(n == 1 for n in edges.values()),
-            'nonmanifold_edges': sum(n > 2 for n in edges.values())}
+            'nonmanifold_edges': sum(n > 2 for n in edges.values()),
+            **audit}
 
 
 def validate(asset, skeleton, articulation_inventory):

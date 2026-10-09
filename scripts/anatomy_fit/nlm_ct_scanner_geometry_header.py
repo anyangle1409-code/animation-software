@@ -173,10 +173,18 @@ def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument("--header",type=Path)
     p.add_argument("--fetch",choices=ALLOWED)
+    p.add_argument("--check-adjacent-pair",action="store_true")
     args=p.parse_args()
-    if bool(args.header)==bool(args.fetch):
-        p.error("specify --header OR --fetch")
-    if args.fetch:
+    if sum(bool(v) for v in (args.header,args.fetch,args.check_adjacent_pair))!=1:
+        p.error("choose exactly one of --header, --fetch or --check-adjacent-pair")
+    if args.check_adjacent_pair:
+        first=fetch_header(ALLOWED[0])
+        second=fetch_header(ALLOWED[1])
+        result={"source_headers":[first,second],
+                "adjacent_scan_geometry":pair_consistency(first,second),
+                "canonical_promotion_allowed":False,
+                "source_header_patient_identifiers_never_exported":True}
+    elif args.fetch:
         result=fetch_header(args.fetch)
     else:
         raw=args.header.read_bytes()

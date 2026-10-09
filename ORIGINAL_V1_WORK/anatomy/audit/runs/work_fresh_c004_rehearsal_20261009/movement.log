@@ -1,0 +1,4 @@
+00:00.336  blend            | Read blend: "/tmp/hgpt-c004-work-20261009.blend"
+00:02.481  blend            | Read blend: "/tmp/hgpt-c004-work-movement-20261009.blend"
+Info: Saved as "hgpt-c004-work-movement-20261009.blend"
+tests {'tests': 135, 'integrity_pass': 135, 'mirror_pairs': 43, 'mirror_pass': 41, 'mirror_solver_test_only': 2}

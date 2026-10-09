@@ -22,15 +22,17 @@
 ## Task 1: Constructor and skin diagnostic
 Files: `scripts/anatomy_fit/skeleton_first_builder.py`, `scripts/test_skeleton_first_builder.py`.
 Interfaces: `replay_contract(record, label)`, `construct(contract)`, `skin_diagnostic(record, clearance)`.
-- [ ] Write tests asserting exact a003/c004 reproduction and adversarial failures.
-- [ ] Observe missing-feature failure.
-- [ ] Implement explicit-coordinate copying, metadata and constraint validation; run CP2 without changing data.
-- [ ] Run focused tests and retain diagnostic evidence.
-- [ ] Commit verified tooling and findings.
+- [x] Write tests asserting exact a003/c004 reproduction and adversarial failures.
+- [x] Observe missing-feature failure.
+- [x] Implement explicit-coordinate copying, metadata and constraint validation; run CP2 without changing data.
+- [x] Run focused tests and retain diagnostic evidence.
+- [x] Commit verified tooling and findings.
 
 ## Task 2: Evidence queue and laptop procedure
 Files: standalone per-region/peak readiness reports and a documented Blender procedure.
-- [ ] Recompute all 78 unsourced peaks from current specs and group by measurement semantics.
-- [ ] Retrieve primary evidence, retaining context mismatches as blockers.
-- [ ] Verify stored solver/Blender captures and static anatomical validators.
-- [ ] Record precise gates/remaining targets; push and independently verify remote files.
+- [x] Recompute all 78 unsourced peaks from current specs and group by measurement semantics.
+- [x] Retrieve primary evidence, retaining context mismatches as blockers.
+- [x] Verify stored solver/Blender captures and static anatomical validators.
+- [x] Record precise gates/remaining targets; push and independently verify remote files.
+
+Task completion describes diagnostic tooling and evidence preparation only. Full independent anatomical construction and canonical acceptance remain blocked.

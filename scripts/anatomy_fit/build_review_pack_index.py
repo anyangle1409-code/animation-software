@@ -22,6 +22,7 @@ SETS = [
     ('movement clips: c001 isolated shoulder tests', AUD / 'runs/isolated_bone_only_c001_shoulder_proposal_002/clips/manifest.json'),
     ('movement clips: c003 isolated shoulder tests', AUD / 'runs/isolated_bone_only_c003_shoulder_thorax_001/clips/manifest.json'),
     ('movement clips: rib-sternum coupled inspiration (a003 vs c003)', AUD / 'runs/rib_sternum_coupling_c003_001/clips/manifest.json'),
+    ('movement collision scan: hip adduction leg-through-leg (a003 vs c003)', AUD / 'movement_collision_scan/clips/manifest.json'),
 ]
 CATS = [
     ('full_body', r'full_(front|back|left_side|right_side|front_left_three_quarter|front_right_three_quarter|back_left_three_quarter)'),

@@ -400,3 +400,19 @@ Tests are in `scripts/test_owner_proportion_policy_and_source_fixes.py`. The ful
   - Every sha256 is re-verified (0 failures).
   - Required coverage is all present: full body 56, left shoulder 35, right shoulder 35, axilla 16, overhead 28, comparisons 123, poses 33, clips 14.
   - Includes GitHub links and a "Start here" list.
+
+### Dynamic collision scan over the isolated movement runs (9 October, Claude; mechanical, no new numbers)
+
+- **What:** `scripts/anatomy_fit/movement_collision_scan.py` rebuilds every bone axis at every frame of the committed Phase 9 samples (each bone takes the recorded world delta of its nearest commanded ancestor) for **a003 run 014** and **c003 run 001**, 135 tests each.
+- **Criterion:** central axes closer than 1 mm count as interpenetration. This is a conservative mechanical bound (every adult bone's radius far exceeds 0.5 mm), not an anatomical tolerance. Parent/child pairs and pairs already in contact at rest are excluded.
+- **Result (identical on a003 and c003):** the only new crossings are **tibia_left × tibia_right** in `hip_abduction_adduction_left/right`.
+  - The adduction sweep is an unsourced TEST AMPLITUDE of 20°.
+  - The moving tibia's axis reaches 0.57 mm of the other tibia's at **13.45°** and stays within 1 mm to 20° and back (13 frames). The whole leg swings through the stance leg.
+  - Real bone contact begins earlier, by an unquantified margin.
+- **Reading:** a test-design defect inherited from the suite (adduction is measured clinically with the other limb moved aside), not a skeleton defect. The test is not changed here: any clearance pose or amplitude would need a source or decision.
+- **Information only (above the bound):** fibulae 1.16 mm (same tests); hallux vs the opposite first metatarsal 1.4–1.7 mm (hip rotation); on c003 only, the thumb against the femur at 1.49 mm (forearm rotation at elbow 0°).
+- **Evidence:**
+  - `audit/movement_collision_scan/{a003_isolated_014,c003_isolated_001}.json`;
+  - front clip and keyframes (a003 vs c003) in `audit/movement_collision_scan/clips/`, added to `REVIEW_PACK_INDEX.md`;
+  - tests: `scripts/test_movement_collision_scan.py` (3).
+- **Gate 9:** stays NOT PASSED. The hip adduction test needs a contralateral-clearance design (source or decision) before it can count as anatomical evidence.

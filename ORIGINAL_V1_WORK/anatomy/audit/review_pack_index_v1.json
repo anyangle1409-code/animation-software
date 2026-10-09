@@ -2214,9 +2214,31 @@
      "categories": []
     }
    ]
+  },
+  {
+   "title": "movement collision scan: hip adduction leg-through-leg (a003 vs c003)",
+   "manifest": "ORIGINAL_V1_WORK/anatomy/audit/movement_collision_scan/clips/manifest.json",
+   "manifest_sha256": "e020d0f48ed1d712dbec1ebac496c324d6a316dfa0946f6a82ddad0973a2ff2e",
+   "status_in_manifest": "Isolated hip adduction TEST AMPLITUDE 20 deg (unsourced): left tibia axis crosse",
+   "files": [
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/movement_collision_scan/clips/hip_abduction_adduction_left__front.gif",
+     "sha256": "baf754d20325761f521d844d6bc02af5e49525c6e81d8e0f2d3e8583a41fdb8f",
+     "hash_ok": true,
+     "categories": [
+      "movement_clip"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/movement_collision_scan/clips/hip_abduction_adduction_left__front__keyframes.jpg",
+     "sha256": "e7861907089b3483966b686a6314669f7f3108664352b54584910ca8b341dfc4",
+     "hash_ok": true,
+     "categories": []
+    }
+   ]
   }
  ],
- "file_count": 258,
+ "file_count": 260,
  "hash_failures": [],
  "coverage_counts": {
   "full_body": 56,
@@ -2227,7 +2249,7 @@
   "upper_body": 25,
   "poses": 33,
   "comparison": 123,
-  "movement_clip": 14,
+  "movement_clip": 15,
   "chart": 1
  },
  "required_categories_present": {

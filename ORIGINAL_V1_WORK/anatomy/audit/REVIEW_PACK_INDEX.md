@@ -24,10 +24,10 @@ Every image and clip below is in the repository, and its sha256 is verified agai
 | upper_body | 25 | yes |
 | poses | 33 | yes |
 | comparison | 123 | yes |
-| movement_clip | 14 | yes |
+| movement_clip | 15 | yes |
 | chart | 1 | yes |
 
-Total files: 258. Hash failures: 0.
+Total files: 260. Hash failures: 0.
 
 ## c001 shoulder proposal (vs a003)
 
@@ -321,4 +321,11 @@ Manifest: [`ORIGINAL_V1_WORK/anatomy/audit/runs/rib_sternum_coupling_c003_001/cl
 - [rib_sternum_coupled_inspiration__front__keyframes.jpg](https://github.com/anyangle1409-code/animation-software/blob/codex/whole-body-biomechanics-audit-20261007/ORIGINAL_V1_WORK/anatomy/audit/runs/rib_sternum_coupling_c003_001/clips/rib_sternum_coupled_inspiration__front__keyframes.jpg) (other)
 - [rib_sternum_coupled_inspiration__left.gif](https://github.com/anyangle1409-code/animation-software/blob/codex/whole-body-biomechanics-audit-20261007/ORIGINAL_V1_WORK/anatomy/audit/runs/rib_sternum_coupling_c003_001/clips/rib_sternum_coupled_inspiration__left.gif) (movement_clip)
 - [rib_sternum_coupled_inspiration__left__keyframes.jpg](https://github.com/anyangle1409-code/animation-software/blob/codex/whole-body-biomechanics-audit-20261007/ORIGINAL_V1_WORK/anatomy/audit/runs/rib_sternum_coupling_c003_001/clips/rib_sternum_coupled_inspiration__left__keyframes.jpg) (other)
+
+## movement collision scan: hip adduction leg-through-leg (a003 vs c003)
+
+Manifest: [`ORIGINAL_V1_WORK/anatomy/audit/movement_collision_scan/clips/manifest.json`](https://github.com/anyangle1409-code/animation-software/blob/codex/whole-body-biomechanics-audit-20261007/ORIGINAL_V1_WORK/anatomy/audit/movement_collision_scan/clips/manifest.json)
+
+- [hip_abduction_adduction_left__front.gif](https://github.com/anyangle1409-code/animation-software/blob/codex/whole-body-biomechanics-audit-20261007/ORIGINAL_V1_WORK/anatomy/audit/movement_collision_scan/clips/hip_abduction_adduction_left__front.gif) (movement_clip)
+- [hip_abduction_adduction_left__front__keyframes.jpg](https://github.com/anyangle1409-code/animation-software/blob/codex/whole-body-biomechanics-audit-20261007/ORIGINAL_V1_WORK/anatomy/audit/movement_collision_scan/clips/hip_abduction_adduction_left__front__keyframes.jpg) (other)
 

@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "kind": "INDEPENDENT_HUMAN_BONE_SOURCE_ACQUISITION_REGISTER",
+  "status": "POTENTIAL_GEOMETRY_REFERENCE_NOT_COORDINATE_TARGET",
+  "canonical_promotion_allowed": false,
+  "sources": [
+    {
+      "id": "NLM_VISIBLE_HUMAN_MALE_CT",
+      "custodian": "US National Library of Medicine (NIH)",
+      "type": "publicly accessible single-cadaver full-body CT image stack",
+      "individuals": 1,
+      "sex": "male",
+      "stature_m": null,
+      "no_stature_assumed": true,
+      "modality": "CT",
+      "image_resolution_pixels": [
+        512,
+        512
+      ],
+      "axial_slice_spacing_mm": 1,
+      "approx_male_dataset_total_GB": 15,
+      "derived_segmented_bone_mesh_currently_available_in_repo": false,
+      "current_segmentation_sha256": null,
+      "source_urls": {
+        "official_overview": "https://www.nlm.nih.gov/research/visible/visible_human.html",
+        "official_access": "https://www.nlm.nih.gov/research/visible/getting_data.html",
+        "official_male_image_index": "https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/index.html",
+        "independent_imaging_data_commons_collection": "https://portal.imaging.datacommons.cancer.gov/collections/nlm_visible_human_project/",
+        "independent_dicom_conversion_project": "https://github.com/ImagingDataCommons/NLM-Visible-Human-Project-DICOM-Conversion",
+        "original_technical_report": "https://pmc.ncbi.nlm.nih.gov/articles/PMC116294/"
+      },
+      "access_note": "NLM reports no registration required for its FTP data since 2019; consult NLM Terms and Conditions before redistributing derived material.",
+      "allowed_role": "independent adult male skeletal SURFACE shape reference for pelvis/sacrum/femur and spine, after segmentation and independent source checking",
+      "disallowed_role": "single cadaver cannot establish 1.82 m population target or automatically supersede canonical skeleton",
+      "must_verify": [
+        "Actual CT metadata: image spacing, slice orientation and scanner/world transforms",
+        "Sex/stature/posture identity relevant to intended use; do not infer individual stature",
+        "Independent femoral head articular, pelvic ASIS/pubic and S1 endplate segmentation correctness",
+        "Source geometry sample/source SHA-256 and reproducible physical landmark extraction",
+        "Sex/stature compatible independent population anatomy for proportion target",
+        "Original NLM access conditions and any downstream IDC/DICOM conversion terms",
+        "Noncanonical, source-registered Blender visual and numerical review"
+      ],
+      "data_downloaded": false,
+      "bone_surfaces_generated": false,
+      "specific_landmarks_selected": false,
+      "human_anatomy_validated": false
+    }
+  ],
+  "reference_set_role": "supporting geometry, not canonical anthropometric or movement targets",
+  "consumer_tools": [
+    "scripts/anatomy_fit/bone_feature_observation_packet.py",
+    "scripts/anatomy_fit/pelvic_app_bone_frame.py"
+  ],
+  "source_count": 1,
+  "independent_population_reference_required": true
+}

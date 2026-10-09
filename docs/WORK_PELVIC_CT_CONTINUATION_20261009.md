@@ -20,7 +20,8 @@ Date: 2026-10-09
 4. The deterministic workflow records three source-pinned observations, a 27-voxel connectivity probe, zero defensible landmarks, zero canonical promotions, and all unmet gates.
 5. Empty landmark packets are now valid so the workflow preserves absence instead of pressuring a reviewer to invent a landmark.
 6. Ten source-bound candidate observations now cover representative iliac, sacral, acetabular, femoral-head, and pubic-region planes while retaining every unmet independent-review and promotion gate.
-7. The focused pelvic CT suite passes 105 tests. The complete-series manifest and multi-group bundle gate adds 16 tests, and the anatomical review suite now has 13 tests. The full pull-request intake command set passes 350 tests.
+7. The focused pelvic CT suite passes 105 tests. The complete-series, multi-group bundle, and Blender occupancy gates now have 19 tests, and the anatomical review suite has 13 tests. The full pull-request intake command set passes 352 tests.
+8. Blender 5.2.1 privately revalidated all 72 source image/header pairs and produced a two-group, coarse 8-by-8-pixel stored-scalar occupancy scene. Its 13,273 blocks expose useful volume and boundary evidence, but also disconnected threshold islands. The committed summary is deliberately labelled as not segmentation; source images and Blender outputs remain private and untracked.
 
 ## Required next sequence
 
@@ -37,6 +38,8 @@ Use source-linked review observations to identify the ilia, sacrum, acetabula, p
 ### 3. Produce candidate-only 3D segmentation
 
 Build reproducible candidate masks and surfaces from the verified contiguous volume. Validate coverage, connectivity, laterality, surface closure, voxel-to-scanner transforms, and source bounds. Preserve the unmodified source skeleton and do not replace canonical mesh geometry.
+
+The current Blender occupancy scene does not satisfy this step. Before generating another surface, calibrate or independently justify the source-value interpretation, separate bone from non-bone threshold islands, and add fail-closed tests for component filtering, source bounds, and group-boundary preservation.
 
 ### 4. Validate landmarks honestly
 

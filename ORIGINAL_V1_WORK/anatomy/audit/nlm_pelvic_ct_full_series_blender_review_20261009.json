@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "kind": "PELVIC_CT_STORED_SCALAR_OCCUPANCY_REVIEW_NOT_SEGMENTATION",
+  "review_date": "2026-10-09",
+  "review_application": "Blender 5.2.1 LTS",
+  "source_bundle": {
+    "manifest": "nlm_pelvic_ct_full_series_candidate_bundle_20261009.json",
+    "series_count": 2,
+    "slice_count": 72,
+    "scanner_S_centre_range_mm": [-342.0, -553.0],
+    "boundary_overlap_mm": 2.0,
+    "single_uniform_stack_claimed": false,
+    "group_boundaries_preserved": true
+  },
+  "review_observation_count": 10,
+  "stored_scalar_threshold": 1200,
+  "candidate_block_size_pixels": [8, 8],
+  "candidate_block_count": 13273,
+  "mesh_vertex_count": 106184,
+  "mesh_quad_count": 79638,
+  "group_summaries": [
+    {
+      "group_index": 1,
+      "source_slice_count": 37,
+      "candidate_block_count": 7263,
+      "mesh_vertex_count": 58104,
+      "mesh_quad_count": 43578
+    },
+    {
+      "group_index": 2,
+      "source_slice_count": 35,
+      "candidate_block_count": 6010,
+      "mesh_vertex_count": 48080,
+      "mesh_quad_count": 36060
+    }
+  ],
+  "visual_review": {
+    "candidate_volume_visible": true,
+    "group_boundary_visible": true,
+    "disconnected_threshold_islands_visible": true,
+    "surface_suitable_for_anatomical_use": false
+  },
+  "values_are_calibrated_HU": false,
+  "anatomical_bone_segmentation_verified": false,
+  "patient_scanner_to_HGPT_world_verified": false,
+  "source_skeleton_governs_geometry": true,
+  "skeleton_geometry_modified": false,
+  "canonical_promotion_allowed": false,
+  "source_images_packed": false,
+  "private_outputs_must_remain_untracked": true,
+  "blend_sha256": "5a68281db2231a0d4a31ff5f2aa524cffeefd00706f0afcb1379f19e2be51ffa",
+  "render_sha256": "2b9dc52fece045d7ac1eaff68bc0826b471b4b47887205b2215bcdda35b8325e",
+  "limitations": [
+    "The threshold applies to stored PNG scalar values and is not calibrated Hounsfield-unit segmentation.",
+    "The block mesh is a coarse occupancy visualization and is not a validated anatomical surface.",
+    "Disconnected threshold islands remain visible and no topology, closure, laterality, or bone-label validation is claimed.",
+    "The scene did not load or modify the source skeleton; the source skeleton remains the geometry authority.",
+    "Independent second review and independent-population evidence are still required before any canonical promotion."
+  ]
+}

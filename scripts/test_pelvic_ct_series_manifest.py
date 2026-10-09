@@ -241,6 +241,89 @@ class CandidateSeriesBundle(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "unsupported bundle claim"):
                     series.validate_series_bundle(value)
 
+    def test_committed_blender_occupancy_review_stays_non_anatomical(self):
+        audit = ROOT / "ORIGINAL_V1_WORK" / "anatomy" / "audit"
+        path = audit / "nlm_pelvic_ct_full_series_blender_review_20261009.json"
+        value = json.loads(path.read_text(encoding="utf-8"))
+        source_bundle = json.loads((
+            audit / "nlm_pelvic_ct_full_series_candidate_bundle_20261009.json"
+        ).read_text(encoding="utf-8"))
+        result = series.validate_occupancy_review(value, source_bundle)
+        self.assertEqual(result["status"], "STORED_SCALAR_OCCUPANCY_VERIFIED_NOT_SEGMENTATION")
+        self.assertEqual(result["slice_count"], 72)
+        self.assertEqual(result["candidate_block_count"], 13273)
+        self.assertEqual(
+            value["kind"],
+            "PELVIC_CT_STORED_SCALAR_OCCUPANCY_REVIEW_NOT_SEGMENTATION",
+        )
+        self.assertEqual(value["source_bundle"]["series_count"], 2)
+        self.assertEqual(value["source_bundle"]["slice_count"], 72)
+        self.assertEqual(value["source_bundle"]["boundary_overlap_mm"], 2.0)
+        self.assertFalse(value["source_bundle"]["single_uniform_stack_claimed"])
+        self.assertEqual(value["review_observation_count"], 10)
+        self.assertEqual(value["stored_scalar_threshold"], 1200)
+        self.assertEqual(value["candidate_block_count"], 13273)
+        self.assertEqual(value["mesh_vertex_count"], 106184)
+        self.assertEqual(value["mesh_quad_count"], 79638)
+        self.assertFalse(value["values_are_calibrated_HU"])
+        self.assertFalse(value["anatomical_bone_segmentation_verified"])
+        self.assertFalse(value["patient_scanner_to_HGPT_world_verified"])
+        self.assertTrue(value["source_skeleton_governs_geometry"])
+        self.assertFalse(value["skeleton_geometry_modified"])
+        self.assertFalse(value["canonical_promotion_allowed"])
+        self.assertFalse(value["source_images_packed"])
+        self.assertTrue(value["private_outputs_must_remain_untracked"])
+        self.assertRegex(value["blend_sha256"], r"^[0-9a-f]{64}$")
+        self.assertRegex(value["render_sha256"], r"^[0-9a-f]{64}$")
+        encoded = json.dumps(value)
+        self.assertNotRegex(encoded, r"[A-Za-z]:\\")
+        self.assertNotIn("source_validations", encoded)
+
+    def test_occupancy_review_rejects_promoted_claims_and_bad_totals(self):
+        audit = ROOT / "ORIGINAL_V1_WORK" / "anatomy" / "audit"
+        review = json.loads((
+            audit / "nlm_pelvic_ct_full_series_blender_review_20261009.json"
+        ).read_text(encoding="utf-8"))
+        source_bundle = json.loads((
+            audit / "nlm_pelvic_ct_full_series_candidate_bundle_20261009.json"
+        ).read_text(encoding="utf-8"))
+        for field in ("values_are_calibrated_HU",
+                      "anatomical_bone_segmentation_verified",
+                      "patient_scanner_to_HGPT_world_verified",
+                      "skeleton_geometry_modified",
+                      "canonical_promotion_allowed", "source_images_packed"):
+            with self.subTest(field=field):
+                changed = copy.deepcopy(review)
+                changed[field] = True
+                with self.assertRaisesRegex(ValueError, "unsupported occupancy claim"):
+                    series.validate_occupancy_review(changed, source_bundle)
+        changed = copy.deepcopy(review)
+        changed["source_skeleton_governs_geometry"] = False
+        with self.assertRaisesRegex(ValueError, "source skeleton"):
+            series.validate_occupancy_review(changed, source_bundle)
+        for field in ("candidate_block_count", "mesh_vertex_count", "mesh_quad_count"):
+            with self.subTest(field=field):
+                changed = copy.deepcopy(review)
+                changed[field] += 1
+                with self.assertRaisesRegex(ValueError, "group totals"):
+                    series.validate_occupancy_review(changed, source_bundle)
+
+    def test_occupancy_review_must_match_validated_source_bundle(self):
+        audit = ROOT / "ORIGINAL_V1_WORK" / "anatomy" / "audit"
+        review = json.loads((
+            audit / "nlm_pelvic_ct_full_series_blender_review_20261009.json"
+        ).read_text(encoding="utf-8"))
+        source_bundle = json.loads((
+            audit / "nlm_pelvic_ct_full_series_candidate_bundle_20261009.json"
+        ).read_text(encoding="utf-8"))
+        for field, changed_value in (("series_count", 3), ("slice_count", 71),
+                                     ("boundary_overlap_mm", 0.0)):
+            with self.subTest(field=field):
+                changed = copy.deepcopy(review)
+                changed["source_bundle"][field] = changed_value
+                with self.assertRaisesRegex(ValueError, "source bundle evidence"):
+                    series.validate_occupancy_review(changed, source_bundle)
+
 
 if __name__ == "__main__":
     unittest.main()

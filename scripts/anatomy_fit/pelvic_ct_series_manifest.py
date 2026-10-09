@@ -223,6 +223,111 @@ def validate_series_bundle(bundle):
     }
 
 
+def validate_occupancy_review(review, source_bundle):
+    """Bind a coarse Blender occupancy review to verified source geometry.
+
+    The accepted evidence remains explicitly non-anatomical. This gate rejects
+    attempts to reinterpret stored PNG values as calibrated HU, call the block
+    mesh a bone segmentation, modify the source skeleton, or allow promotion.
+    """
+    if not isinstance(review, dict):
+        raise ValueError("occupancy review must be an object")
+    if (review.get("schema_version") != 1 or review.get("kind") !=
+            "PELVIC_CT_STORED_SCALAR_OCCUPANCY_REVIEW_NOT_SEGMENTATION"):
+        raise ValueError("unsupported pelvic CT occupancy review schema")
+
+    false_claims = (
+        "values_are_calibrated_HU",
+        "anatomical_bone_segmentation_verified",
+        "patient_scanner_to_HGPT_world_verified",
+        "skeleton_geometry_modified",
+        "canonical_promotion_allowed",
+        "source_images_packed",
+    )
+    if any(review.get(field) is not False for field in false_claims):
+        raise ValueError("unsupported occupancy claim or source handling")
+    if review.get("source_skeleton_governs_geometry") is not True:
+        raise ValueError("source skeleton must govern occupancy geometry")
+    if review.get("private_outputs_must_remain_untracked") is not True:
+        raise ValueError("private occupancy outputs must remain untracked")
+    if (not _valid_hash(review.get("blend_sha256")) or
+            not _valid_hash(review.get("render_sha256"))):
+        raise ValueError("occupancy artifacts require lowercase SHA-256 identities")
+
+    bundle_report = validate_series_bundle(source_bundle)
+    claimed_bundle = review.get("source_bundle")
+    if not isinstance(claimed_bundle, dict):
+        raise ValueError("occupancy review requires source bundle evidence")
+    boundary_values = bundle_report["boundary_evidence"]
+    if len(boundary_values) != 1:
+        raise ValueError("occupancy review supports exactly one group boundary")
+    expected_overlap = boundary_values[0]["overlap_mm"]
+    if (claimed_bundle.get("series_count") != bundle_report["series_count"] or
+            claimed_bundle.get("slice_count") != bundle_report["slice_count"] or
+            claimed_bundle.get("scanner_S_centre_range_mm") !=
+            bundle_report["scanner_S_centre_range_mm"] or
+            claimed_bundle.get("boundary_overlap_mm") != expected_overlap or
+            claimed_bundle.get("single_uniform_stack_claimed") is not False or
+            claimed_bundle.get("group_boundaries_preserved") is not True):
+        raise ValueError("occupancy source bundle evidence does not match manifest")
+
+    groups = review.get("group_summaries")
+    if not isinstance(groups, list) or len(groups) != bundle_report["series_count"]:
+        raise ValueError("occupancy group summaries do not match source bundle")
+    total_fields = ("candidate_block_count", "mesh_vertex_count", "mesh_quad_count")
+    totals = {field: 0 for field in total_fields}
+    slice_total = 0
+    for index, group in enumerate(groups, start=1):
+        if not isinstance(group, dict) or group.get("group_index") != index:
+            raise ValueError("occupancy groups must retain source order")
+        for field in ("source_slice_count",) + total_fields:
+            value = group.get(field)
+            if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
+                raise ValueError("occupancy group counts must be positive integers")
+        slice_total += group["source_slice_count"]
+        for field in total_fields:
+            totals[field] += group[field]
+    if slice_total != bundle_report["slice_count"]:
+        raise ValueError("occupancy group slice totals do not match source bundle")
+    if any(review.get(field) != total for field, total in totals.items()):
+        raise ValueError("occupancy group totals do not match reported totals")
+
+    threshold = _number(review.get("stored_scalar_threshold"), "stored scalar threshold")
+    if threshold <= 0:
+        raise ValueError("stored scalar threshold must be positive")
+    block_size = review.get("candidate_block_size_pixels")
+    if (not isinstance(block_size, list) or len(block_size) != 2 or
+            any(isinstance(value, bool) or not isinstance(value, int) or value <= 0
+                for value in block_size)):
+        raise ValueError("candidate block size must contain two positive integers")
+    observations = review.get("review_observation_count")
+    if (isinstance(observations, bool) or not isinstance(observations, int) or
+            observations < 0):
+        raise ValueError("review observation count must be a non-negative integer")
+
+    visual = review.get("visual_review")
+    if (not isinstance(visual, dict) or
+            visual.get("candidate_volume_visible") is not True or
+            visual.get("group_boundary_visible") is not True or
+            visual.get("disconnected_threshold_islands_visible") is not True or
+            visual.get("surface_suitable_for_anatomical_use") is not False):
+        raise ValueError("visual review must preserve non-anatomical limitations")
+    encoded = json.dumps(review)
+    if re.search(r"[A-Za-z]:\\\\", encoded) or "source_validations" in encoded:
+        raise ValueError("occupancy review contains private source detail")
+
+    return {
+        "status": "STORED_SCALAR_OCCUPANCY_VERIFIED_NOT_SEGMENTATION",
+        "series_count": bundle_report["series_count"],
+        "slice_count": bundle_report["slice_count"],
+        "candidate_block_count": totals["candidate_block_count"],
+        "values_are_calibrated_HU": False,
+        "anatomical_bone_segmentation_verified": False,
+        "canonical_promotion_allowed": False,
+        "source_skeleton_governs_geometry": True,
+    }
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("manifest", type=Path)

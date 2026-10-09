@@ -202,15 +202,57 @@ def atlas(source_ids,loader):
     }
 
 
+def verify_pinned_manifest(atlas_record, manifest):
+    """Fail closed on NLM image or original-header byte changes.
+
+    Scanner geometry and cryptographic source hashes are verified as data
+    integrity only. A match does not authenticate anatomical region labels,
+    bone surfaces, HU or pixel-world centre convention.
+    """
+    if (manifest.get("schema_version")!=1 or
+            manifest.get("kind")!="PINNED_NLM_CT_SCOUT_SOURCE_MANIFEST" or
+            manifest.get("canonical_promotion_allowed") is not False or
+            manifest.get("anatomical_pelvic_slice_confirmed") is not False):
+        raise ValueError("source manifest improperly claims anatomical acceptance")
+    pinned=manifest.get("slices",[])
+    if len(pinned)!=len(SCOUT_IDS) or set(x.get("id") for x in pinned)!=set(SCOUT_IDS):
+        raise ValueError("original 12 pinned CT source records must be complete and unique")
+    actual=atlas_record["slices"]
+    by_id={x["id"]:x for x in pinned}
+    for row in actual:
+        x=by_id[row["slice_id"]]
+        if (x["source_png_name"]!=row["filename"] or
+                x["source_png_sha256"]!=row["source_png_sha256"] or
+                x["source_header_sha256"]!=row["source_header_sha256"]):
+            raise ValueError("original NLM pixel or scanner header SHA changed from pinned bytes")
+        if (abs(x["scanner_superior_mm"]-
+                row["scanner_RAS_image_location_superior_mm"])>1e-6 or
+                x["pixel_spacing_mm"]!=row["in_plane_mm_per_pixel"] or
+                x["thickness_mm"]!=row["slice_thickness_mm"]):
+            raise ValueError("original CT scanner coordinates/scale changed from pinned record")
+    return {
+        "source_hashes_and_scanner_positions_match_previously_verified_inputs":True,
+        "source_slices_checked":len(actual),
+        "original_bony_regions_identified":False,
+        "Hounsfield_calibration_proven":False,
+        "anatomical_image_landmarks_verified":False,
+        "canonical_promotion_allowed":False,
+    }
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument("--live-scout",action="store_true")
     p.add_argument("--slice-ids",nargs="+",type=int,default=list(SCOUT_IDS))
     p.add_argument("--out",type=Path)
+    p.add_argument("--pinned-manifest",type=Path)
     a=p.parse_args()
     if not a.live_scout:
         p.error("network scout requires explicit --live-scout")
     output=atlas(a.slice_ids,_safe_download)
+    if a.pinned_manifest:
+        output['previous_source_byte_identity_check']=verify_pinned_manifest(
+            output,json.loads(a.pinned_manifest.read_text()))
     content=json.dumps(output,indent=2)+"\n"
     if a.out:
         with a.out.open('x',encoding="utf-8") as f:

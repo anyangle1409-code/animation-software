@@ -93,9 +93,6 @@ def inspect(vertices, triangles, closed):
             raise ValueError(f'closed surface has {components} disconnected shells')
         if unused:
             raise ValueError(f'closed surface contains {unused} unreferenced vertices')
-        if not math.isfinite(volume6) or volume6 <= 0:
-            raise ValueError('closed surface has nonpositive signed enclosed volume')
-
     for vid, incident in vertex_faces.items():
         if len(incident) < 2:
             continue
@@ -109,6 +106,9 @@ def inspect(vertices, triangles, closed):
             stack.extend(vertex_face_links[vid].get(fi, ()) - seen)
         if len(seen) != len(incident):
             raise ValueError(f'pinched/non-manifold vertex {vid}')
+
+    if closed and (not math.isfinite(volume6) or volume6 <= 0):
+        raise ValueError('closed surface has nonpositive signed enclosed volume')
 
     return {
         'edge_connected_components': components,

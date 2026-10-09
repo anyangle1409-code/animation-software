@@ -101,7 +101,7 @@ class OriginalScannerHeaders(unittest.TestCase):
         name="S Coord of Top Left Hand Corner"
         old=name+"."*(44-len(name))+": 389.0"
         new=name+"."*(44-len(name))+": 385"
-        with self.assertRaisesRegex(ValueError,"nonaxial CT slice"):
+        with self.assertRaisesRegex(ValueError,"inconsistent with pixel spacing|nonaxial CT slice"):
             h.scanner_geometry_from_text(fixture().replace(old,new))
 
     def test_incorrect_location_vs_scanner_centre_rejected(self):

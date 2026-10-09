@@ -947,3 +947,27 @@ Full proximal curves remain BLOCKED pending verified intended conventions or an 
 - **Gate 9 stays NOT PASSED:**
   - not modelled: bucket-handle and long-axis components, cartilage elasticity, the shoulder's response to breathing, per-level amplitudes;
   - still untested: full opposition and the midfoot.
+
+### ANSUR endpoint correspondence (arm chain) and review-pack index (9 October, Claude)
+
+- **Primary handbook not retrievable:** Hotzman et al. 2011, NATICK/TR-11/017, https://apps.dtic.mil/sti/tr/pdf/ADA548497.pdf. Four routes were tried (DTIC ×2, archive.org, Wayback); all were denied by the cloud network policy, so no PDF hash exists.
+- **Definitions** for §5.2.5 cervicale, §5.2.33 radiale, §5.2.36 stylion, §5.2.39 suprasternale and §6.4.68 radiale–stylion are recorded as **owner-supplied, not independently verified**, with the URL and the retrieval attempts.
+- **Audit** (`audit/ansur_endpoint_correspondence_v1.json`, `ansur_endpoint_correspondence_audit.py`; 5 tests):
+
+| Landmark | Class | Reason |
+|---|---|---|
+| Suprasternale | **DEFENSIBLE** | Bony notch point; height only |
+| Acromion | **BRACKETED** | Line construction bracketed |
+| Cervicale | **UNRESOLVED** | No C7 spinous landmark in the model |
+| Radiale | **UNRESOLVED** | Model point is the humeroradial articular centre, not the lateral radial-head rim |
+| Stylion | **UNRESOLVED** | The a003 radius "styloid" tail sits exactly at the radiocarpal wrist-centre height |
+| Radiale–stylion length | **UNRESOLVED** | Both endpoints unresolved; EJC/WJC substitutes are not used as the measurement |
+
+- **Robust across a 0–15 mm exploratory offset bracket** (not a sourced range): on c003 the wrist is high (z ≥ +1.49) and the upper-arm drop is short (z ≤ −1.82).
+- **Correction:** the earlier arm-chain "forearm z −3.44" depended on the unsourced 15 mm convention. Across the bracket it ranges from −3.44 to −0.66, so it is withdrawn as a standalone finding. GPT's separate direct radius report uses a different proxy and is not affected.
+- **Decision:** no humerus/forearm target selected; c003 unchanged.
+- **Review pack:** `audit/REVIEW_PACK_INDEX.md` and `review_pack_index_v1.json` (`build_review_pack_index.py`; 3 tests).
+  - 258 files across 7 evidence sets: c001, c002, c003, the acromion audit and three movement-clip sets.
+  - Every sha256 is re-verified (0 failures).
+  - Required coverage is all present: full body 56, left shoulder 35, right shoulder 35, axilla 16, overhead 28, comparisons 123, poses 33, clips 14.
+  - Includes GitHub links and a "Start here" list.

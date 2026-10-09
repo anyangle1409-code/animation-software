@@ -1,0 +1,2244 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-08",
+ "branch": "codex/whole-body-biomechanics-audit-20261007",
+ "sets": [
+  {
+   "title": "c001 shoulder proposal (vs a003)",
+   "manifest": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/manifest.json",
+   "manifest_sha256": "1385eb0ca1d8510bfd95b3c62843cd36dfb42a3707ba25764c5084b47d6f2068",
+   "status_in_manifest": "AUDIT_PROPOSAL_NOT_CANONICAL_NOT_ACCEPTED",
+   "files": [
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/before_after/axilla_left_from_below_front.jpg",
+     "sha256": "7498204147e328249282e87770fc934af36dd226602ef1c8764cd15e8d25ac78",
+     "hash_ok": true,
+     "categories": [
+      "axilla",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/before_after/axilla_right_from_below_front.jpg",
+     "sha256": "41f2defe13b9bf13f64bd98485f034d278bb04bfb8970d9a5c74127e8b45ef51",
+     "hash_ok": true,
+     "categories": [
+      "axilla",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/before_after/full_back.jpg",
+     "sha256": "97656993b0c22d602733f4315b9fffd446bdb1366156cbb9969ff7868d680096",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/before_after/full_back_left_three_quarter.jpg",
+     "sha256": "8a8d81258e70a084e6325cf233782a8b040397d9d5375f4d827ff44a9840fb08",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/before_after/full_front.jpg",
+     "sha256": "057c2623a3d4a73f8e769c125ef4f538e209e4a44879fc688787227b809d4c66",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/before_after/full_front_left_three_quarter.jpg",
+     "sha256": "1d3ac423724cac4914d11e4ea3e3e2aa2f6a56c166f285f57e8541989a7ef035",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/before_after/full_front_right_three_quarter.jpg",
+     "sha256": "a2598ba0dfd0822cecc17aac9ab8a8539f55b03106acf9b69dba3d80ce43c53c",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/before_after/full_left_side.jpg",
+     "sha256": "a3a4abd81e73ffddffab1600cfe7f1f3297a03b356b69828ab898afaf2a5050a",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "shoulder_left",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/before_after/full_right_side.jpg",
+     "sha256": "ed5303f49beadf284575a620c1a5e58f42948635d5e6a0463f8aaea51e2d8a9f",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "shoulder_right",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/before_after/pose_gh_abduction_scapular_plane_60.jpg",
+     "sha256": "a8ee1d02da4a88a6fc6940b409578ad1f35853f99f670e53015a41e9dfe1c32a",
+     "hash_ok": true,
+     "categories": [
+      "poses",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/before_after/pose_gh_abduction_scapular_plane_90.jpg",
+     "sha256": "da51036a0f91686f821e582ee71e9a1cc3cd0c0716461856c0b445b7dbbf15cb",
+     "hash_ok": true,
+     "categories": [
+      "poses",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/before_after/pose_gh_flexion_90.jpg",
+     "sha256": "b0cbf3e19dc11dcff90c72974e28569aa0dd71f64a79c9381788e7c17559d2f1",
+     "hash_ok": true,
+     "categories": [
+      "poses",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/before_after/pose_neutral.jpg",
+     "sha256": "b8c37144e60cbf80823f33b689960ca5074c7dd2cc46a8366e3f96396a77b143",
+     "hash_ok": true,
+     "categories": [
+      "poses",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/before_after/shoulder_left_front.jpg",
+     "sha256": "746a67c3f5d54f86db6d07a1ab330aa07c26a201a337888c70bc18f5bbd66f6c",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_left",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/before_after/shoulder_left_overhead.jpg",
+     "sha256": "8d9b91daa314369453cfd8267d838aa95bdfc555c32b9fd98a7c4e9d1ea00f0d",
+     "hash_ok": true,
+     "categories": [
+      "overhead",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/before_after/shoulder_left_rear.jpg",
+     "sha256": "5779aca19fd2c2ac816b75b28cd99eb389356243a04f16aed67f428110781628",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_left",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/before_after/shoulder_left_side.jpg",
+     "sha256": "e9304139d8c76edcbfdb610de02d88a7759d20704fcb58e08d1033e4f7b68b40",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_left",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/before_after/shoulder_right_front.jpg",
+     "sha256": "c5bd1feec2b037c1eba9abf2fe2ded18c6e7a62b41dc400f472e5deb95deb524",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_right",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/before_after/shoulder_right_overhead.jpg",
+     "sha256": "799c8295182c88fc2af3b39e72678b918610d3e94ee3f98f9b2d82456498273b",
+     "hash_ok": true,
+     "categories": [
+      "overhead",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/before_after/shoulder_right_rear.jpg",
+     "sha256": "be2b6371bad580553f0431e2352cf412b36754924c65793dbf91264d75298484",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_right",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/before_after/shoulder_right_side.jpg",
+     "sha256": "d01ee68d8f124cdb449cb1a433bca827abacaf2d25b980338a689cf894bf7c33",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_right",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/before_after/upper_body_back.jpg",
+     "sha256": "6ed6c5732c7869778353b6a32891886345f23f446dafb05fd7db611b4544b941",
+     "hash_ok": true,
+     "categories": [
+      "upper_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/before_after/upper_body_front.jpg",
+     "sha256": "deacce5ad35edc0145382e2e211ff19d671ddc24a1039e47ac7828b1b3e77fdf",
+     "hash_ok": true,
+     "categories": [
+      "upper_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/before_after/upper_body_overhead.jpg",
+     "sha256": "b45941dddce9bd188b955df9ca41097765e1f983edfc0e107ec4df6b4b5be76b",
+     "hash_ok": true,
+     "categories": [
+      "overhead",
+      "upper_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/poses_a003/pose_gh_abduction_scapular_plane_60.jpg",
+     "sha256": "a3827cf24e1d987c27400a48c1518a1923cfc2d7aab7279595234f265a4dfdf6",
+     "hash_ok": true,
+     "categories": [
+      "poses"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/poses_a003/pose_gh_abduction_scapular_plane_90.jpg",
+     "sha256": "ed908785532540ce01f8c5562995ad4a4f7618a3ed427e0f7f7fcc17a043e8cb",
+     "hash_ok": true,
+     "categories": [
+      "poses"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/poses_a003/pose_gh_flexion_90.jpg",
+     "sha256": "d081850175e869a1f926024a74ee806930f796e5eef7f9ba476c9fa99b7af44a",
+     "hash_ok": true,
+     "categories": [
+      "poses"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/poses_a003/pose_neutral.jpg",
+     "sha256": "0c904bd946bd8a7e5e9b442dd7df40e3ecb4ba2a09b45f89003b3e89bea467fd",
+     "hash_ok": true,
+     "categories": [
+      "poses"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/poses_c001/pose_gh_abduction_scapular_plane_60.jpg",
+     "sha256": "de9c1d1944de1abc1d11cd21a94233c99e222844459a02ab3f5d80f2febd200f",
+     "hash_ok": true,
+     "categories": [
+      "poses"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/poses_c001/pose_gh_abduction_scapular_plane_90.jpg",
+     "sha256": "62f802ed9243c72a41d0c35c4838f64e0f2f26eb2545ec894ed56fd730c51b46",
+     "hash_ok": true,
+     "categories": [
+      "poses"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/poses_c001/pose_gh_flexion_90.jpg",
+     "sha256": "31f33756ddb1ec5cfab93c8e0a9fcd8f990ee424f978533fa3c183236c3ada13",
+     "hash_ok": true,
+     "categories": [
+      "poses"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/poses_c001/pose_neutral.jpg",
+     "sha256": "b55997f687a27c9fa2deea7ba5ce964dc2fe5e8a1898863b17319e894557903c",
+     "hash_ok": true,
+     "categories": [
+      "poses"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/sheets/sheet_before_after_poses.jpg",
+     "sha256": "d4db7987b9a0280a9227c96543819634374568ae5d76d82ae076d7032355793b",
+     "hash_ok": true,
+     "categories": [
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/sheets/sheet_before_after_shoulder_left.jpg",
+     "sha256": "6d907f40101dc942ed928dea97e82ad22a260e05a9f6e3a4e45d5a3f554f026e",
+     "hash_ok": true,
+     "categories": [
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/sheets/sheet_before_after_shoulder_right.jpg",
+     "sha256": "64e004074b63c0df119af7e2c4f0960393c40165225b8aa5453ad5b3c02d47fd",
+     "hash_ok": true,
+     "categories": [
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/sheets/sheet_full_body_c001.jpg",
+     "sha256": "99c6f79c4bcd20624f9bb8cb3622aa947d1a2905a6adbce9e788a62cdb7a1742",
+     "hash_ok": true,
+     "categories": [
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/sheets/sheet_poses_c001.jpg",
+     "sha256": "c44fb8bda495d735728a002817d0d6b2f32a9f3e74e16da36560c756266e2054",
+     "hash_ok": true,
+     "categories": [
+      "poses",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/sheets/sheet_shoulder_left_c001.jpg",
+     "sha256": "9e4044619ac26740f605d19789d8e75af97910f14c74e67b85b1ae64beff5adb",
+     "hash_ok": true,
+     "categories": [
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/sheets/sheet_shoulder_right_c001.jpg",
+     "sha256": "58c8e4d5fc612125c468ec710c072e50b584d1b94c0b3726f410345c6a0ea7c3",
+     "hash_ok": true,
+     "categories": [
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/sheets/sheet_upper_body_c001.jpg",
+     "sha256": "231ae59298263af1d0a14224a2c9e69525579d84c2e6ccc592ca40d701660170",
+     "hash_ok": true,
+     "categories": [
+      "upper_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_a003/axilla_left_from_below_front.jpg",
+     "sha256": "311ab7a5b5209dc909feb56d224cc409a78048b14fc3b96a6d5920f8cfdb88ca",
+     "hash_ok": true,
+     "categories": [
+      "axilla"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_a003/axilla_right_from_below_front.jpg",
+     "sha256": "fa7f014410f2008cd72588c3ef45b3b73beb1944c476bf1def261f7535885a5a",
+     "hash_ok": true,
+     "categories": [
+      "axilla"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_a003/full_back.jpg",
+     "sha256": "c78119b36dc64989a3f4480621c94c191ef399d936375ab6181d8e972d6aa7f0",
+     "hash_ok": true,
+     "categories": [
+      "full_body"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_a003/full_back_left_three_quarter.jpg",
+     "sha256": "256ba0cf61e5c30f1382596b2fc112b294ca5faf103c8ac15808f78ecfe48f94",
+     "hash_ok": true,
+     "categories": [
+      "full_body"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_a003/full_front.jpg",
+     "sha256": "d015214d3992aac89db9499b74a0f3c1ea70675fe370d6508699f83fc12eb678",
+     "hash_ok": true,
+     "categories": [
+      "full_body"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_a003/full_front_left_three_quarter.jpg",
+     "sha256": "8704a16a8d3a04dbf330aa20bc64336973419926e520681bee6e05449e025354",
+     "hash_ok": true,
+     "categories": [
+      "full_body"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_a003/full_front_right_three_quarter.jpg",
+     "sha256": "45096d812f227a94caf78c14d42d63a48f9bf7e9bddb35832e78abb0c3805379",
+     "hash_ok": true,
+     "categories": [
+      "full_body"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_a003/full_left_side.jpg",
+     "sha256": "7b212fe0d1af92489722353745e9b44edeedc90892d9a2f3c97514daa181af6e",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "shoulder_left"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_a003/full_right_side.jpg",
+     "sha256": "c81e2da67d7a2cd44f9d7403dfc62c6cc28519c76df711010b3aef4eff946e20",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "shoulder_right"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_a003/shoulder_left_front.jpg",
+     "sha256": "c5e7d5cffb4022827769c8c5fc0bd27b9a689193521e6091a48a1028964c5437",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_left"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_a003/shoulder_left_overhead.jpg",
+     "sha256": "42f2f6c043c2c07c0307c58b398d30a59d2a47007933e39c3e61da51240586ca",
+     "hash_ok": true,
+     "categories": [
+      "overhead"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_a003/shoulder_left_rear.jpg",
+     "sha256": "f19853a44b885c78740488e71a62f82340b7825efc2b227c61f82eb55332fe7b",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_left"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_a003/shoulder_left_side.jpg",
+     "sha256": "3d73e2dc5696d228cea6815d8ca430451055f4cb5afc6c6da75b06c89b620152",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_left"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_a003/shoulder_right_front.jpg",
+     "sha256": "d6366c0d183680c718745b9f7bbcc8381a63169d150e84441406275f46943659",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_right"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_a003/shoulder_right_overhead.jpg",
+     "sha256": "909d1fccd738803b496b987e9c46c76ceb6f14cade917be5b6b325e3b572b1ff",
+     "hash_ok": true,
+     "categories": [
+      "overhead"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_a003/shoulder_right_rear.jpg",
+     "sha256": "ccf1cbae68cf113013c82b520a68b2893fd0edcddc7bcc698728bfb471c0e473",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_right"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_a003/shoulder_right_side.jpg",
+     "sha256": "2a99f5826e026152696489c7010e66913342f98b1be5542765c3f457fa14fff5",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_right"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_a003/upper_body_back.jpg",
+     "sha256": "a978b0346345212eec14f9579781ad2885976985792df02404eca48eb684e6ca",
+     "hash_ok": true,
+     "categories": [
+      "upper_body"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_a003/upper_body_front.jpg",
+     "sha256": "d2bfc96eae9d7aa41e0974ced261aad47d91f9c9e92e98c509a467cffc8cf6a3",
+     "hash_ok": true,
+     "categories": [
+      "upper_body"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_a003/upper_body_overhead.jpg",
+     "sha256": "571a7a73325ba3faedf495a0c6d8a30b081648f71eb0b3bbd12f5a4d0f6617e1",
+     "hash_ok": true,
+     "categories": [
+      "overhead",
+      "upper_body"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_c001/axilla_left_from_below_front.jpg",
+     "sha256": "59cd056b323dd7c6933193f2b273349419e8b41c49873512e176b4da637d6ecd",
+     "hash_ok": true,
+     "categories": [
+      "axilla"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_c001/axilla_right_from_below_front.jpg",
+     "sha256": "709e8b0009acbf19a9885452a989e04f43571d1494f513960edf545bb2b55fca",
+     "hash_ok": true,
+     "categories": [
+      "axilla"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_c001/full_back.jpg",
+     "sha256": "18ec92a7a1e5f8e140019c8cd0c953f9206132fec163d08af9a1bb2a98a141fc",
+     "hash_ok": true,
+     "categories": [
+      "full_body"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_c001/full_back_left_three_quarter.jpg",
+     "sha256": "575f42e9cc68675bbd24a9bf2eec4ab3bc3b46d5eca3b9e7012ef41852b9a71b",
+     "hash_ok": true,
+     "categories": [
+      "full_body"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_c001/full_front.jpg",
+     "sha256": "66fe3ffcda5624db11d4d75599d6a72daddaac498940c3b7d23f9cb10462f1eb",
+     "hash_ok": true,
+     "categories": [
+      "full_body"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_c001/full_front_left_three_quarter.jpg",
+     "sha256": "a3a13a49c3a2f615e8cf4220143a88904744012cd54505f105d8104860080ce9",
+     "hash_ok": true,
+     "categories": [
+      "full_body"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_c001/full_front_right_three_quarter.jpg",
+     "sha256": "d116fad6c6f4bd63b4e7ff28a010576afa6bcb30ddf6ca95c2df338bbf04f80a",
+     "hash_ok": true,
+     "categories": [
+      "full_body"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_c001/full_left_side.jpg",
+     "sha256": "3db8b416936d094ca67c5e62577fc5759266d6b5c4bf7cd7ce6c68e48abf7772",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "shoulder_left"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_c001/full_right_side.jpg",
+     "sha256": "c1655e39bd3a511710c932f56f917858438c58401669906daee96c86f3c08ccb",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "shoulder_right"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_c001/shoulder_left_front.jpg",
+     "sha256": "c2a2031cb2086f9b8ac213a9532c9c25bec0e47cc5e4de8dcdb87d8e4110ee4d",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_left"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_c001/shoulder_left_overhead.jpg",
+     "sha256": "d40e9c73b40be8ff82445e29969a61ed7024e7c5e7937d0dcd40d608ff2a609b",
+     "hash_ok": true,
+     "categories": [
+      "overhead"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_c001/shoulder_left_rear.jpg",
+     "sha256": "037f683e8078085062903be0d5f0164ba800bc287aa1ae66939aa35dedce31c9",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_left"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_c001/shoulder_left_side.jpg",
+     "sha256": "06aaccb929f2a63aa1bf1341aeccfdeb2fce55b6cb4f0f98bf80dfbfbf18f5a9",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_left"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_c001/shoulder_right_front.jpg",
+     "sha256": "9937d35190b48fb8b0ef671de48fb9070d846ba0cab732a2ca152ba8265691a8",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_right"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_c001/shoulder_right_overhead.jpg",
+     "sha256": "faf9627a64b15b07fc0662b0303a1f995e85f2611519c1ab9474083e8d58e994",
+     "hash_ok": true,
+     "categories": [
+      "overhead"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_c001/shoulder_right_rear.jpg",
+     "sha256": "343c9cd4ce76739b9d8f5b8db0e4f8e551e618ef0376b355f3edbdd52aefc43a",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_right"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_c001/shoulder_right_side.jpg",
+     "sha256": "0025dad4c14a23e7cb19094520f76aaefc40d440d3445a0e8bf1fb6b0f7cc88e",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_right"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_c001/upper_body_back.jpg",
+     "sha256": "d19927de43fdaa6041e6a632a42f066f02b2c7a23edd7970b1cb2a09d32eb28d",
+     "hash_ok": true,
+     "categories": [
+      "upper_body"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_c001/upper_body_front.jpg",
+     "sha256": "87dbfb83992b4184c421b1c1da9e2690fbee38132584744b72bea96b6ce07912",
+     "hash_ok": true,
+     "categories": [
+      "upper_body"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c001/review/views_c001/upper_body_overhead.jpg",
+     "sha256": "6abf8417fe9317157c704f3696b573bcb1e2f91b7fa817e3bc6b4607a7f15771",
+     "hash_ok": true,
+     "categories": [
+      "overhead",
+      "upper_body"
+     ]
+    }
+   ]
+  },
+  {
+   "title": "c002 ANSUR-height shoulder drop (FAILED closure; vs c001/a003)",
+   "manifest": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/manifest.json",
+   "manifest_sha256": "e01d008c4e7898389c8b1a375bcb57f0c3d9a7aa5dc041984a5242b6d81fa811",
+   "status_in_manifest": "AUDIT_PROPOSAL_NOT_CANONICAL_NOT_ACCEPTED",
+   "files": [
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_a003_vs_c002/axilla_left_from_below_front.jpg",
+     "sha256": "4bae268b89fbbd7044a17a46d605cbed2d7f3d99d20d2ba4152404885e97a828",
+     "hash_ok": true,
+     "categories": [
+      "axilla",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_a003_vs_c002/axilla_right_from_below_front.jpg",
+     "sha256": "3d6ba95676ba6b3f8997bbe23bedb96e55c6d798c396105cbd77b2e97bf24bd6",
+     "hash_ok": true,
+     "categories": [
+      "axilla",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_a003_vs_c002/full_back.jpg",
+     "sha256": "b2b6e1fbd6098570a4bfb7e190c7c8686460e65dca15445862d1ff458a74cbdd",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_a003_vs_c002/full_back_left_three_quarter.jpg",
+     "sha256": "cdabfb3c6d7e8cdb6c657d00b784a428dad88153a8e753fa8d9b97ed40b83e56",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_a003_vs_c002/full_front.jpg",
+     "sha256": "9868fef6b2fde3290f9b850d142d27cfc3f8353cca2cda97b1e166685157b3bb",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_a003_vs_c002/full_front_left_three_quarter.jpg",
+     "sha256": "c6186c3314095c19ef211e97fde578a8f1dd55a7d0ab7da00b42ee06fedd2301",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_a003_vs_c002/full_front_right_three_quarter.jpg",
+     "sha256": "8efe0d6dcf64a75dbeb91e10d59faaed11f535ae48e260d5a76247ff4d97ba2a",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_a003_vs_c002/full_left_side.jpg",
+     "sha256": "aacd6106cb67a70f9b4f302e43c4258ff6d00d1c12c821dd963ad7a134520023",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "shoulder_left",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_a003_vs_c002/full_right_side.jpg",
+     "sha256": "4631b674e1ed3fd3ba6f85094cb28384a4705112e678efb38e5467f2edcca133",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "shoulder_right",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_a003_vs_c002/pose_gh_abduction_scapular_plane_60.jpg",
+     "sha256": "a9178b32a524b9ddde876f846c4461eb082b0aba2f4f1982b4ba3f5a9307d32d",
+     "hash_ok": true,
+     "categories": [
+      "poses",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_a003_vs_c002/pose_gh_abduction_scapular_plane_90.jpg",
+     "sha256": "14dfca69500e12c0f1426521c9de4d31f46e70fbd6fc8ba22e8d6958c52e36ef",
+     "hash_ok": true,
+     "categories": [
+      "poses",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_a003_vs_c002/pose_gh_flexion_90.jpg",
+     "sha256": "a58c9d8f653e1fa3000e51dd0125d455ccb0cca54d788d2d6e34f3924ddd34b8",
+     "hash_ok": true,
+     "categories": [
+      "poses",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_a003_vs_c002/pose_neutral.jpg",
+     "sha256": "04fd53e3fc0341e4b1ca73b383d95992c6c18d19c13a388b60387d22eb62cb24",
+     "hash_ok": true,
+     "categories": [
+      "poses",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_a003_vs_c002/shoulder_left_front.jpg",
+     "sha256": "cba5d0e8ec84035dd3d56fec1bfe0e053659ffb157380191f772404a5ebf7db7",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_left",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_a003_vs_c002/shoulder_left_overhead.jpg",
+     "sha256": "e756e440af024e9ef7da621c2159968bc499b8f0b7dcd2271ed457e3d007142f",
+     "hash_ok": true,
+     "categories": [
+      "overhead",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_a003_vs_c002/shoulder_left_rear.jpg",
+     "sha256": "078f03eab36e5d13e53d6ec65dfdc4e58c1c0de151678f945870c10dccbde0ca",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_left",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_a003_vs_c002/shoulder_left_side.jpg",
+     "sha256": "32a3ec2ea63cab6a83309592b62f4e3233a5bb1e9ead36915f9af67a0716ddf3",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_left",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_a003_vs_c002/shoulder_right_front.jpg",
+     "sha256": "0b1c706a78c72a0d92d10723673798206df363ba4b1445a185ae2acd19436e16",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_right",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_a003_vs_c002/shoulder_right_overhead.jpg",
+     "sha256": "112b0968c00b8be35b90594c6804203a86c0b48d26b3fc4ec1bc80b055aa9d27",
+     "hash_ok": true,
+     "categories": [
+      "overhead",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_a003_vs_c002/shoulder_right_rear.jpg",
+     "sha256": "c0abc953cde6500bdbd953a4174c1bf06ebaf94203030c58c2444d21cc035ca0",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_right",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_a003_vs_c002/shoulder_right_side.jpg",
+     "sha256": "e7044cffc16546f501d834c513f4bab1f652c4a03f2661db54d33972c3b63084",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_right",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_a003_vs_c002/upper_body_back.jpg",
+     "sha256": "b7873b5932926031765b1b7dd2222a00adca88aa99dc247941f249dd2c92679c",
+     "hash_ok": true,
+     "categories": [
+      "upper_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_a003_vs_c002/upper_body_front.jpg",
+     "sha256": "443dd0af55fd35b7f6ff0146846196e22672e1f5dc3e87a20c4aac4eafc26ab4",
+     "hash_ok": true,
+     "categories": [
+      "upper_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_a003_vs_c002/upper_body_overhead.jpg",
+     "sha256": "d086d75770ddc5656f76b9bcebb839f15e70f2289ebee2b83b237277d36dc9b0",
+     "hash_ok": true,
+     "categories": [
+      "overhead",
+      "upper_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_c001_vs_c002/axilla_left_from_below_front.jpg",
+     "sha256": "896ad1bc1361240abf995f241305df0474f497d5c4f644fb9fbf591c129dc079",
+     "hash_ok": true,
+     "categories": [
+      "axilla",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_c001_vs_c002/axilla_right_from_below_front.jpg",
+     "sha256": "14ff737b16226aa28c88d43329c68930ff8bd5738c02c7258a415990cfa4e474",
+     "hash_ok": true,
+     "categories": [
+      "axilla",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_c001_vs_c002/full_back.jpg",
+     "sha256": "0f02c1ebfc5138a4265500c784f8430c868be4d734d6a84ac6c4d6115faadefa",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_c001_vs_c002/full_back_left_three_quarter.jpg",
+     "sha256": "ebc57cc6d4e6ca09ce3d99125366fb623dd3984b41aa52d7d2e81b12db4267d7",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_c001_vs_c002/full_front.jpg",
+     "sha256": "6223700913aea5ce3127196fa60625faebc4f4ffdc0fba4674c13b9aadc0310a",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_c001_vs_c002/full_front_left_three_quarter.jpg",
+     "sha256": "80bce161bc59b64f9928daab5f12a8def20413a686cb304c1408a08de0870341",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_c001_vs_c002/full_front_right_three_quarter.jpg",
+     "sha256": "8bfe678cc29b4053fcf13fda704e472c81cd51eb744a1e46e78fc0b002d0eb83",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_c001_vs_c002/full_left_side.jpg",
+     "sha256": "2d4e7902b447eee23109abd48a861b7d56b5e5658f294b1ac99ad4255cd62cec",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "shoulder_left",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_c001_vs_c002/full_right_side.jpg",
+     "sha256": "7cf662aa851f966f2263ce2d55c80098c1881325fc9ed622a6fa2f578ffb3bd2",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "shoulder_right",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_c001_vs_c002/pose_gh_abduction_scapular_plane_60.jpg",
+     "sha256": "22194550d5e31320c4b52cb2c94ac5d35a67c6b873876ec5831fdd925eeffc0e",
+     "hash_ok": true,
+     "categories": [
+      "poses",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_c001_vs_c002/pose_gh_abduction_scapular_plane_90.jpg",
+     "sha256": "8e304974709c4bd7ba7527783074c907052e946f3d498686effdff023b03dd63",
+     "hash_ok": true,
+     "categories": [
+      "poses",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_c001_vs_c002/pose_gh_flexion_90.jpg",
+     "sha256": "087f5a1895944a9d3157345e4d165e4793d82157bfb9b4eef56ec5d01ca278b3",
+     "hash_ok": true,
+     "categories": [
+      "poses",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_c001_vs_c002/pose_neutral.jpg",
+     "sha256": "eecf94d15f561971c75dacfabfc10fb6065b9a3f288cbfff313daffb126d67e9",
+     "hash_ok": true,
+     "categories": [
+      "poses",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_c001_vs_c002/shoulder_left_front.jpg",
+     "sha256": "2524ec6c35d833b953c23cd212a550e06297cd7d4a2411c46074943f6f8a2665",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_left",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_c001_vs_c002/shoulder_left_overhead.jpg",
+     "sha256": "7c881725cdbece1b73fab667cdf51223b13b311626663363ca0649daaa9bd5b0",
+     "hash_ok": true,
+     "categories": [
+      "overhead",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_c001_vs_c002/shoulder_left_rear.jpg",
+     "sha256": "f0cbf79ce9c35d421f79b9306e89f81f7303e6f5e063630311b26dad78b66567",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_left",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_c001_vs_c002/shoulder_left_side.jpg",
+     "sha256": "4eb43462c3c2657e06fe19f96269fcfd73a34e8b4cdb66650143a12ecb9a9f2a",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_left",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_c001_vs_c002/shoulder_right_front.jpg",
+     "sha256": "23a0649a3e1760e58d1012e32d0c119b88b98b6e9fc874a738863cb95ffc359f",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_right",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_c001_vs_c002/shoulder_right_overhead.jpg",
+     "sha256": "fbd45e06bca427d7f6b930cd8e94c5e06521a27e4bf62a67c1583e4d5c25cfd1",
+     "hash_ok": true,
+     "categories": [
+      "overhead",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_c001_vs_c002/shoulder_right_rear.jpg",
+     "sha256": "3976353277d0f558dfb97be92d6cab1bab63203c900e37dedb8372caef614467",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_right",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_c001_vs_c002/shoulder_right_side.jpg",
+     "sha256": "258a95a1c59589920171317fcb60e623dc8c89daadce290af94cca7706180222",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_right",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_c001_vs_c002/upper_body_back.jpg",
+     "sha256": "8577531640f4857ffeb48bf5f27e2eebff5ab705b328eb0b6bc13b84357f5ece",
+     "hash_ok": true,
+     "categories": [
+      "upper_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_c001_vs_c002/upper_body_front.jpg",
+     "sha256": "5f069b4284d279775bec695f01fc3dd9d6113c6ecb133d5b948cbd308eb9260f",
+     "hash_ok": true,
+     "categories": [
+      "upper_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/before_after_c001_vs_c002/upper_body_overhead.jpg",
+     "sha256": "e4e9e6d78705054006fb0b6a95559cabf341b7373c984d0e1c868a48956349c1",
+     "hash_ok": true,
+     "categories": [
+      "overhead",
+      "upper_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/poses_c002/pose_gh_abduction_scapular_plane_60.jpg",
+     "sha256": "fa3581dac8c6146412b95a99e1437f7d22b9fadad83a92e810c41caf688589b9",
+     "hash_ok": true,
+     "categories": [
+      "poses"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/poses_c002/pose_gh_abduction_scapular_plane_90.jpg",
+     "sha256": "d3f3b27c281fd44348e001b62f8f14f5e525a87f82e533becd24943b28fa2264",
+     "hash_ok": true,
+     "categories": [
+      "poses"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/poses_c002/pose_gh_flexion_90.jpg",
+     "sha256": "7562cf400acbe13fdeb01929c84cc5211ef1be8ebbe0726d172697ccef17e35d",
+     "hash_ok": true,
+     "categories": [
+      "poses"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/poses_c002/pose_neutral.jpg",
+     "sha256": "d8cd0959c799a2a1a14b585242978b5cbb7c56c01dbf8707b30b5938c814326c",
+     "hash_ok": true,
+     "categories": [
+      "poses"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/sheets/sheet_a003_vs_c002_body.jpg",
+     "sha256": "183ffafb0e0f9ccb9ae3663974c4d2bca8cceb4cb9ac597dc508867fff21a9be",
+     "hash_ok": true,
+     "categories": [
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/sheets/sheet_a003_vs_c002_poses.jpg",
+     "sha256": "71f9f1f5eeb7176bc0c099c02bb05fdb9e19f527f6c16c6ee55c835b8f1abeb7",
+     "hash_ok": true,
+     "categories": [
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/sheets/sheet_a003_vs_c002_shoulder_left.jpg",
+     "sha256": "ac936ea13479d8626df899651aa55aaabb1498e85339f77d458981eab433197d",
+     "hash_ok": true,
+     "categories": [
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/sheets/sheet_a003_vs_c002_shoulder_right.jpg",
+     "sha256": "39146d40b79f710a4229365b960949e1fd06ccdf0cbdb11352aead9c6d86c3b6",
+     "hash_ok": true,
+     "categories": [
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/sheets/sheet_c001_vs_c002_body.jpg",
+     "sha256": "fc5edfc0363ca7f330fcd6a0a1d8fa8e92b060db4a346fb04fe3ee9406a67c4d",
+     "hash_ok": true,
+     "categories": [
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/sheets/sheet_c001_vs_c002_poses.jpg",
+     "sha256": "b7d25d6269660705fd0592e44933d6619658cc3a4d0a6bda1db5fcbaf8ea0d74",
+     "hash_ok": true,
+     "categories": [
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/sheets/sheet_c001_vs_c002_shoulder_left.jpg",
+     "sha256": "66bf0f827845d593e806b66ff38a0d7feac146c82703c2f125ec39c74ae30763",
+     "hash_ok": true,
+     "categories": [
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/sheets/sheet_c001_vs_c002_shoulder_right.jpg",
+     "sha256": "76445e4170c80cfcbcd619ccf78fe4128287eec95f0f1e878092af634077f182",
+     "hash_ok": true,
+     "categories": [
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/views_c002/axilla_left_from_below_front.jpg",
+     "sha256": "9445ba9b3477815ff70078cd7995b39373c31928a0494f0caedeb223e84aaaae",
+     "hash_ok": true,
+     "categories": [
+      "axilla"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/views_c002/axilla_right_from_below_front.jpg",
+     "sha256": "04eb8b10a259b3c870df0d369af841a0baa1e3a253be4eedfac24d3ba0a90867",
+     "hash_ok": true,
+     "categories": [
+      "axilla"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/views_c002/full_back.jpg",
+     "sha256": "553630a1d03aa0c548e02e355b32e607576d595220b05839498464f2b2b59141",
+     "hash_ok": true,
+     "categories": [
+      "full_body"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/views_c002/full_back_left_three_quarter.jpg",
+     "sha256": "9970a9137c80a49566a02d4b6a856f266c51a911e6337a64fdb55973c32b36a8",
+     "hash_ok": true,
+     "categories": [
+      "full_body"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/views_c002/full_front.jpg",
+     "sha256": "a05683a3ebd6e2630e8c9b78ef29627611f89c5c7af052610decc66203a536dc",
+     "hash_ok": true,
+     "categories": [
+      "full_body"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/views_c002/full_front_left_three_quarter.jpg",
+     "sha256": "4df575e514ab6c0ce4e2b379bd59894419aeaef6a3703f9104c4c61669e545fb",
+     "hash_ok": true,
+     "categories": [
+      "full_body"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/views_c002/full_front_right_three_quarter.jpg",
+     "sha256": "1800ceaf4b8341ddfea900a23cd2f6a9e39f3653e78502acdf780763a8975b9c",
+     "hash_ok": true,
+     "categories": [
+      "full_body"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/views_c002/full_left_side.jpg",
+     "sha256": "b5a6ba3c891bd797acc74a06d4c2624f2f6a0bfd1a107373e999e592f2952749",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "shoulder_left"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/views_c002/full_right_side.jpg",
+     "sha256": "fb9fc3f794bdb8c28d332a197e3b529b26a2fbbd8c6d1ba7e3c0614ea530bfba",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "shoulder_right"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/views_c002/shoulder_left_front.jpg",
+     "sha256": "c5381f68f92f789186f04e5ec96090b07312d3379b53936bfe333b17637a3df4",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_left"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/views_c002/shoulder_left_overhead.jpg",
+     "sha256": "12d683c422ba7bb9431dd412ab579695e4a0a541566e61bb7e1086de808e650b",
+     "hash_ok": true,
+     "categories": [
+      "overhead"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/views_c002/shoulder_left_rear.jpg",
+     "sha256": "bb6d0349e17a041d276291aa084e0ff4c3b1d9508218f3617920b400818a539a",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_left"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/views_c002/shoulder_left_side.jpg",
+     "sha256": "b1ddce2f1379b51b350d361e4507102cef786c2c9670c6a6767d75351f72c082",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_left"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/views_c002/shoulder_right_front.jpg",
+     "sha256": "b9de82c339468a49acfb9700c885804a54024497ef72998b767ea27398173118",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_right"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/views_c002/shoulder_right_overhead.jpg",
+     "sha256": "6442586246ae15f47cd8dc59fb7dfb9fe08583f11348ddb8e288467caab459be",
+     "hash_ok": true,
+     "categories": [
+      "overhead"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/views_c002/shoulder_right_rear.jpg",
+     "sha256": "9f4c1705d849a36aa10672c6904636eb6f5c6e92c986afc3d69a3582e3e4f902",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_right"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/views_c002/shoulder_right_side.jpg",
+     "sha256": "d7b80f83cc2ddf18e6aa779b705de4517867fe82bf95b89cd361699330605609",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_right"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/views_c002/upper_body_back.jpg",
+     "sha256": "ca0f1d5a67fd3b16280a902ba24ddc6d079c94e46694a3fc36f3bce2c8c357ca",
+     "hash_ok": true,
+     "categories": [
+      "upper_body"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/views_c002/upper_body_front.jpg",
+     "sha256": "7bd5f0a961edc95fdc7091a67bd2c211f1ab4f27a63c53a324b509f88c21ade0",
+     "hash_ok": true,
+     "categories": [
+      "upper_body"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_proposal_c002_ansur_height/review/views_c002/upper_body_overhead.jpg",
+     "sha256": "833836822e7a2c36ebdaf52fc125024acac7a971fdc269865a25470a4175f148",
+     "hash_ok": true,
+     "categories": [
+      "overhead",
+      "upper_body"
+     ]
+    }
+   ]
+  },
+  {
+   "title": "c003 coupled thorax+shoulder (vs a003/c001/c002)",
+   "manifest": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/manifest.json",
+   "manifest_sha256": "8acac018b16a6027a96f7094543868fbc71ff71fecc2c22d89f39e9112a5d56b",
+   "status_in_manifest": "AUDIT_PROPOSAL_NOT_CANONICAL_NOT_ACCEPTED",
+   "files": [
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/four_way/axilla_left_from_below_front.jpg",
+     "sha256": "b7c59dfdecf408975aa26fa6bdadba6c78979ea1c965abf1827ece6bd74cf149",
+     "hash_ok": true,
+     "categories": [
+      "axilla",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/four_way/axilla_right_from_below_front.jpg",
+     "sha256": "3d5f4e2dde557a625ad3ad5ef9a65d84c0dee0162f9818d14491c4bada27d7dd",
+     "hash_ok": true,
+     "categories": [
+      "axilla",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/four_way/full_back.jpg",
+     "sha256": "85248ae1c5d444e6fe1eaec183d7d2b52fd397941e00c1e52b9cc5570570c8f3",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/four_way/full_back_left_three_quarter.jpg",
+     "sha256": "c0dd9ab8c15ffaaa023f7a4cea7ff4eb3eb6ccd29ffec44ff429fa75b846e867",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/four_way/full_front.jpg",
+     "sha256": "1153d43015c5733a979859b8729ed2ab1b6a1138bd2fefb00eef0478ffbc3367",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/four_way/full_front_left_three_quarter.jpg",
+     "sha256": "1a19af959b0b3de2eca09beedb9a354a4346e24057101721bd42868eb3dc3f45",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/four_way/full_front_right_three_quarter.jpg",
+     "sha256": "b5cb01c486eaff202de00ac2e0bc17d3e6ca7274a6ea52d6cc20d43f3d7f7a6d",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/four_way/full_left_side.jpg",
+     "sha256": "567d14bd94dd580c01427c08ef93d040fbb7d6d672bdf799ee845e35d170c5ba",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "shoulder_left",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/four_way/full_right_side.jpg",
+     "sha256": "038c5c33a342e2caa6619e34fb506d21e8f5f90e4b6a6b161c2191c0261878dc",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "shoulder_right",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/four_way/pose_gh_abduction_scapular_plane_60.jpg",
+     "sha256": "1671912f700ad83761998be87fe6c8a0147d2a271d6c8b3cae9bf6b008e14312",
+     "hash_ok": true,
+     "categories": [
+      "poses",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/four_way/pose_gh_abduction_scapular_plane_90.jpg",
+     "sha256": "a641d8600b57742b1fdf655b07ca5fa28170a73ca74a81771a3c7c58b92ce068",
+     "hash_ok": true,
+     "categories": [
+      "poses",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/four_way/pose_gh_flexion_90.jpg",
+     "sha256": "0adc88edf28905a06c66aff79ea8e67196c1a36499ea4f6982c17c7e319c4bd9",
+     "hash_ok": true,
+     "categories": [
+      "poses",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/four_way/pose_neutral.jpg",
+     "sha256": "6e617213d1d9d5af07a33f2debd92f2fd0d9f6f414d0c2bb9804db915e241c86",
+     "hash_ok": true,
+     "categories": [
+      "poses",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/four_way/shoulder_left_front.jpg",
+     "sha256": "d6edcfbc0d4bd670b213592b346ef9db6cdaf1d1e7f6c00424a0e2ecb1cdf1f6",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_left",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/four_way/shoulder_left_overhead.jpg",
+     "sha256": "af455560eff2d3d6b2f5b381e5f550b24293ef9376779f1c3d1cb0ecf52f5ca0",
+     "hash_ok": true,
+     "categories": [
+      "overhead",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/four_way/shoulder_left_rear.jpg",
+     "sha256": "b7479277ae56f184bf3e9fb3a7667847ede70196c2a8232bab31e9764dcb575d",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_left",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/four_way/shoulder_left_side.jpg",
+     "sha256": "0b9e49ce433aa30c5bfd950bb9581c2cf5cff9262353b11deaeb419612431c25",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_left",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/four_way/shoulder_right_front.jpg",
+     "sha256": "7879265bfb6c6f343d5dbda95c22c17b8c178dd07c5ea90104c43684e4b6cb2e",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_right",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/four_way/shoulder_right_overhead.jpg",
+     "sha256": "5aa472f8e53b4c22a1841ed314dbdb19d51f7f3bde63d47b0c10fb77e09c6101",
+     "hash_ok": true,
+     "categories": [
+      "overhead",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/four_way/shoulder_right_rear.jpg",
+     "sha256": "ac2a50c1a655c9074eaa0acfee97f13fcfcfb8240ec79bae6d73553b04e13181",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_right",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/four_way/shoulder_right_side.jpg",
+     "sha256": "acb8bafee2d76bfecbc829289ba26b69a6bb9b86eda420863cd7f0c63b3a4166",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_right",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/four_way/upper_body_back.jpg",
+     "sha256": "c6cb350b5b3b5e236e4e7345caa99c0fb9580f40d68c181d5a0413f90fb37e86",
+     "hash_ok": true,
+     "categories": [
+      "upper_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/four_way/upper_body_front.jpg",
+     "sha256": "9f592daf3009e1379721f46b2e8d2087c04cbcf653b046543504f9b5acdb9544",
+     "hash_ok": true,
+     "categories": [
+      "upper_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/four_way/upper_body_overhead.jpg",
+     "sha256": "14e8b31e774dfb346ac68b6f183f4d29494145630a93ee0d6be907786bb5268b",
+     "hash_ok": true,
+     "categories": [
+      "overhead",
+      "upper_body",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/poses_c003/pose_gh_abduction_scapular_plane_60.jpg",
+     "sha256": "bcaa449681889354418e048f700933dd0d2cc9397f87b408a1b152228824181f",
+     "hash_ok": true,
+     "categories": [
+      "poses"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/poses_c003/pose_gh_abduction_scapular_plane_90.jpg",
+     "sha256": "dbec5e80456dd4b0a3f52154dd7e274828b78a9ddd272d8f42c8e5f1e870ee18",
+     "hash_ok": true,
+     "categories": [
+      "poses"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/poses_c003/pose_gh_flexion_90.jpg",
+     "sha256": "3bd8a5d20717933a539b019f11e71aebba427be29cee8a98d299925903002a01",
+     "hash_ok": true,
+     "categories": [
+      "poses"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/poses_c003/pose_neutral.jpg",
+     "sha256": "9d74d37100d70687ce978a7b24058b1d76c026637fd3b2160ca2337aa53e1605",
+     "hash_ok": true,
+     "categories": [
+      "poses"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/sheets/sheet_c003_body.jpg",
+     "sha256": "94c39f7473dc0a07c8e2b1ccb8b51aa5f925d56f86c760f71a78db2d842f52a1",
+     "hash_ok": true,
+     "categories": [
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/sheets/sheet_c003_overhead.jpg",
+     "sha256": "28a775bd36700a91a9dd3469f9be59176169eb9fd152e3fc0d750a686831da9c",
+     "hash_ok": true,
+     "categories": [
+      "overhead",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/sheets/sheet_c003_poses.jpg",
+     "sha256": "cf396c73c483a74b0a80cccf9c2f300cb89a4f582bd77d1af49fd6d4de0b2d54",
+     "hash_ok": true,
+     "categories": [
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/sheets/sheet_c003_shoulder_left.jpg",
+     "sha256": "93a6a976e7339ee49627ce5161f59120f18403e7594a75fc2fd7ac0799cd123f",
+     "hash_ok": true,
+     "categories": [
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/sheets/sheet_c003_shoulder_right.jpg",
+     "sha256": "6304ac82d44fa3ffb15d30761d68449e842cb6c604b217c58b207846b5378ba1",
+     "hash_ok": true,
+     "categories": [
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/sheets/sheet_four_way_body.jpg",
+     "sha256": "22e466ca8e926d695796107268a7ec9a2346130309468d3faab6bdd2310173ff",
+     "hash_ok": true,
+     "categories": [
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/sheets/sheet_four_way_overhead.jpg",
+     "sha256": "e1bc2f0e9975347dbc914fd1c984a56e0e784edd90ad289cc6a4aba539962caf",
+     "hash_ok": true,
+     "categories": [
+      "overhead",
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/sheets/sheet_four_way_poses.jpg",
+     "sha256": "d4e43bfd6436c1a7163aaa8753f7bd998302ca9388cd7dca38f58f4ee8c81738",
+     "hash_ok": true,
+     "categories": [
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/sheets/sheet_four_way_shoulder_left.jpg",
+     "sha256": "1cba08170162f8b3ce8add189439eaf286b6c4b55872541cf4c6ba6ae2a443fe",
+     "hash_ok": true,
+     "categories": [
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/sheets/sheet_four_way_shoulder_right.jpg",
+     "sha256": "e9a037e4a8a386d29bc2b1cbddf2ab7491c15b691c0907794c7b211456c26ae2",
+     "hash_ok": true,
+     "categories": [
+      "comparison"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/views_c003/axilla_left_from_below_front.jpg",
+     "sha256": "cb285f7824b72dcad19454d358b8f26eecd5c987b03d977addde7c74e9126356",
+     "hash_ok": true,
+     "categories": [
+      "axilla"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/views_c003/axilla_right_from_below_front.jpg",
+     "sha256": "6e264ff16f15e5cbdea09fc2bafc403c77c3552d7f2da920d6e454b86f88d476",
+     "hash_ok": true,
+     "categories": [
+      "axilla"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/views_c003/full_back.jpg",
+     "sha256": "b8a530029fc44f4205aaf79c88ce55fa1e019906cecaa12b3ead92fc95e41879",
+     "hash_ok": true,
+     "categories": [
+      "full_body"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/views_c003/full_back_left_three_quarter.jpg",
+     "sha256": "982348b5270c6d723e9b8673ad6b5dd03a73f325ef57a520ce5f92def8aca0d0",
+     "hash_ok": true,
+     "categories": [
+      "full_body"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/views_c003/full_front.jpg",
+     "sha256": "256df2e72705c34d85de6ec70dcfe50ff657f44b49d41cb297b3ce600cc65696",
+     "hash_ok": true,
+     "categories": [
+      "full_body"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/views_c003/full_front_left_three_quarter.jpg",
+     "sha256": "6786fa7456bc52eb40de19cb4a7de7c3c90a459b09a55d585631a40465e6c9cd",
+     "hash_ok": true,
+     "categories": [
+      "full_body"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/views_c003/full_front_right_three_quarter.jpg",
+     "sha256": "3c1514407f7fb0796b81a1ced81e6fcce3667fe6b64676db52b5eeab23896be1",
+     "hash_ok": true,
+     "categories": [
+      "full_body"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/views_c003/full_left_side.jpg",
+     "sha256": "f91d07488ef2253be25f31e9d357712be305f8820ab1d73f0428a4382c6c8b79",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "shoulder_left"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/views_c003/full_right_side.jpg",
+     "sha256": "54e1119a12a3d1ea1bd4d5a24ce454175cd4191bad2df8ad5f0d0cf2e87e8d6a",
+     "hash_ok": true,
+     "categories": [
+      "full_body",
+      "shoulder_right"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/views_c003/shoulder_left_front.jpg",
+     "sha256": "0c519423c2ec18890fa64b8e21e2836429c9c074ecbd10d16eceac4091dd5a64",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_left"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/views_c003/shoulder_left_overhead.jpg",
+     "sha256": "87b3220523de77f432af7798d755aae076374743f57f99651ca9b765cfd56dfc",
+     "hash_ok": true,
+     "categories": [
+      "overhead"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/views_c003/shoulder_left_rear.jpg",
+     "sha256": "99a71015e1e99d0b4cb26ef8d651a5c7d4f4e26ee97dd8e1ffc2dfd7aa9d4afe",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_left"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/views_c003/shoulder_left_side.jpg",
+     "sha256": "78ea9d8becf584a73b35e26259552f7ab8d1cd8a13d84dbb725dd7a182bf58ba",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_left"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/views_c003/shoulder_right_front.jpg",
+     "sha256": "6e3c1babf54625225a0001f13ab51b595aa40a3e106a823eeecb4f26f14e1bc2",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_right"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/views_c003/shoulder_right_overhead.jpg",
+     "sha256": "4bcf5952f2dac69aaababf20ae6d2ccbcf73db9fa46093c8104117004fcf61bd",
+     "hash_ok": true,
+     "categories": [
+      "overhead"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/views_c003/shoulder_right_rear.jpg",
+     "sha256": "2bdd5f8c0cea964b88a245891bcb47d961e5c3a02bba680b54fd5b8b08e81b40",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_right"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/views_c003/shoulder_right_side.jpg",
+     "sha256": "49ed4bbb283111e9d34b83cfc3988a665cb87c15b89e038c1f6bb65674051031",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_right"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/views_c003/upper_body_back.jpg",
+     "sha256": "34b7993b0565c81814afab45ce989cdd6660bd529424b4a0794fb2837bc6669a",
+     "hash_ok": true,
+     "categories": [
+      "upper_body"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/views_c003/upper_body_front.jpg",
+     "sha256": "3d92c0e205fe60193932616a78a94a896fd5a4a66e3a8ab226179116b358df91",
+     "hash_ok": true,
+     "categories": [
+      "upper_body"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/review/views_c003/upper_body_overhead.jpg",
+     "sha256": "edc436d443dfee3e8abdbffdaacc0005e0fe7f3c30646e43c7cedc94763b3edf",
+     "hash_ok": true,
+     "categories": [
+      "overhead",
+      "upper_body"
+     ]
+    }
+   ]
+  },
+  {
+   "title": "ANSUR acromion correspondence audit",
+   "manifest": "ORIGINAL_V1_WORK/anatomy/audit/shoulder_ansur_acromion_evidence/manifest.json",
+   "manifest_sha256": "4987e91b2a3c1757364f77d320ec75661ac57280fb6846750ff158b1963d5360",
+   "status_in_manifest": "NO_DEFENSIBLE_C003",
+   "files": [
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/shoulder_ansur_acromion_evidence/both_front.jpg",
+     "sha256": "f62d3e2bbc3b86bef25fe100f77cca97ca5be3c0e7e9d27a2837f69828f68a3d",
+     "hash_ok": true,
+     "categories": []
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/shoulder_ansur_acromion_evidence/both_rear.jpg",
+     "sha256": "2c845c3057f6b5efd133541284b701a3900a3676a883d102d11d71e3d703ed61",
+     "hash_ok": true,
+     "categories": []
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/shoulder_ansur_acromion_evidence/chart_required_clavicle_elevation.png",
+     "sha256": "fe930bb8d10acd0bb545f3ed00d36f574096f779d795004ca4969796c83be84a",
+     "hash_ok": true,
+     "categories": [
+      "chart"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/shoulder_ansur_acromion_evidence/left_front.jpg",
+     "sha256": "4364b7b424ae708faf79c607de9b5911203095f5e080f4c3219e1ebe19f72950",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_left"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/shoulder_ansur_acromion_evidence/left_overhead.jpg",
+     "sha256": "6e3a7f7a04c80bd2fc628f7a56183f3046c08b87a9b6c35bc5ef5f4df861ae7d",
+     "hash_ok": true,
+     "categories": [
+      "overhead"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/shoulder_ansur_acromion_evidence/left_rear.jpg",
+     "sha256": "55a566551ad19b15ecb9aa5155c6576b16f83790993d78b51253a8952eba3568",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_left"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/shoulder_ansur_acromion_evidence/left_side.jpg",
+     "sha256": "f80b4d3d12827187705a517d8a780b56aeddae4eb4b906a5685ad6fa51d005ad",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_left"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/shoulder_ansur_acromion_evidence/right_front.jpg",
+     "sha256": "9baf0595d6b3dd7fdc7d541a072e2fef2cb6aba53b06b0117236e3ae00405e18",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_right"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/shoulder_ansur_acromion_evidence/right_overhead.jpg",
+     "sha256": "f28eccfeb0cb43b1a104f386f348b161f64adf68230e02074324c96888a8abf5",
+     "hash_ok": true,
+     "categories": [
+      "overhead"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/shoulder_ansur_acromion_evidence/right_rear.jpg",
+     "sha256": "57663fbffd191451c2347709edf712313c6b411d1b4a1ceabb16d08d15a575a3",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_right"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/shoulder_ansur_acromion_evidence/right_side.jpg",
+     "sha256": "3e94317fe2052cf84042fe25509ef436426ca430b80dae2559919f2828f194f4",
+     "hash_ok": true,
+     "categories": [
+      "shoulder_right"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/shoulder_ansur_acromion_evidence/sheet_shoulders_both_sides.jpg",
+     "sha256": "23fdd7e44b9e4fc0dd8b66eca24ce60547781d8ac126b8ef02f327682cb95523",
+     "hash_ok": true,
+     "categories": [
+      "comparison"
+     ]
+    }
+   ]
+  },
+  {
+   "title": "movement clips: c001 isolated shoulder tests",
+   "manifest": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_002/clips/manifest.json",
+   "manifest_sha256": "0e601319d9227f331b88deaab28d200804291b998b428cb19bbe32abdb8776f9",
+   "status_in_manifest": "Phase 9 isolated test, solver-keyed (ST rhythm + clavicle followers); bones only",
+   "files": [
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_002/clips/gh_elevation_plane_90_left__front.gif",
+     "sha256": "ef5879ef8d202fa26beb7619760bfc2cb68c4609e299a9fd64e2cca3126bd2d7",
+     "hash_ok": true,
+     "categories": [
+      "movement_clip"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_002/clips/gh_elevation_plane_90_left__front__keyframes.jpg",
+     "sha256": "a3f0e9f45f9c3f88b27a5abf37b503d67cc216c2d5aebd29fdb70786ca697260",
+     "hash_ok": true,
+     "categories": []
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_002/clips/gh_elevation_plane_90_left__rear.gif",
+     "sha256": "675e84573760d002c9614abb77e40032f5bd351f92bc51687ec97cc07ff835cc",
+     "hash_ok": true,
+     "categories": [
+      "movement_clip"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_002/clips/gh_elevation_plane_90_left__rear__keyframes.jpg",
+     "sha256": "e485a2a62ab92f064014c05a11b76de6b9400ad3c2935b7a9004e7eea5412410",
+     "hash_ok": true,
+     "categories": []
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_002/clips/shoulder_complex_scapular_plane_left__front.gif",
+     "sha256": "233603836c01b46a9621d0c5807dab3254402329d75350a8eae3a087971a3c33",
+     "hash_ok": true,
+     "categories": [
+      "movement_clip"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_002/clips/shoulder_complex_scapular_plane_left__front__keyframes.jpg",
+     "sha256": "e6c99af78864fa712d350d98aef6c46913dbbdb4468ef2d929f54930e2128519",
+     "hash_ok": true,
+     "categories": []
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_002/clips/shoulder_complex_scapular_plane_left__rear.gif",
+     "sha256": "6f4250fb246dd8c6c22c1af1a56039a431cba3168d23cddaf1312fed12c3dd4e",
+     "hash_ok": true,
+     "categories": [
+      "movement_clip"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_002/clips/shoulder_complex_scapular_plane_left__rear__keyframes.jpg",
+     "sha256": "65a86300ad143ac0be67a0299a075a4351c54c6ee3ff26f819313e47b622bf0d",
+     "hash_ok": true,
+     "categories": []
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_002/clips/shoulder_complex_scapular_plane_right__front.gif",
+     "sha256": "29035c23eb402e634522505972667a62cc20f03cbd157d21367791cebc6a783d",
+     "hash_ok": true,
+     "categories": [
+      "movement_clip"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_002/clips/shoulder_complex_scapular_plane_right__front__keyframes.jpg",
+     "sha256": "8498036f14cd5fcf22e41a9c22466c5cf1debeb4680dfc8abbaff2d32c1ca8f8",
+     "hash_ok": true,
+     "categories": []
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_002/clips/shoulder_complex_scapular_plane_right__rear.gif",
+     "sha256": "aac3d77e7dd1513462b6d6950438f1b1c93fe291814447d82f21bce14c64b89a",
+     "hash_ok": true,
+     "categories": [
+      "movement_clip"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c001_shoulder_proposal_002/clips/shoulder_complex_scapular_plane_right__rear__keyframes.jpg",
+     "sha256": "bc22f1c492c87b79ae867f518aa11ab6f8605efa5f672c3ab26b7ca8135a8446",
+     "hash_ok": true,
+     "categories": []
+    }
+   ]
+  },
+  {
+   "title": "movement clips: c003 isolated shoulder tests",
+   "manifest": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c003_shoulder_thorax_001/clips/manifest.json",
+   "manifest_sha256": "1a4b4acbc2bbbb81efce296ead6e19694c24ea9f5a2cbcb012bcfdb3fc64730e",
+   "status_in_manifest": "Phase 9 isolated test, solver-keyed (ST rhythm + clavicle followers); bones only",
+   "files": [
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c003_shoulder_thorax_001/clips/gh_elevation_plane_90_left__front.gif",
+     "sha256": "563dbaeee02ef6a4073ddc4ae20f79f61390ef215ded0bb35829002431e0e0e6",
+     "hash_ok": true,
+     "categories": [
+      "movement_clip"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c003_shoulder_thorax_001/clips/gh_elevation_plane_90_left__front__keyframes.jpg",
+     "sha256": "ca684370b464cf2c0a3276066793c9722702714ba6ed467dce6babe42cc2b888",
+     "hash_ok": true,
+     "categories": []
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c003_shoulder_thorax_001/clips/gh_elevation_plane_90_left__rear.gif",
+     "sha256": "f607b1c3339204ee0c6b747d1c6b40a34fc72588fe50ed353bd548feb4af02f4",
+     "hash_ok": true,
+     "categories": [
+      "movement_clip"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c003_shoulder_thorax_001/clips/gh_elevation_plane_90_left__rear__keyframes.jpg",
+     "sha256": "89055a9b00777085eadf547e4a70fab2bddfa6e8534a93aa46a659533fae7915",
+     "hash_ok": true,
+     "categories": []
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c003_shoulder_thorax_001/clips/shoulder_complex_scapular_plane_left__front.gif",
+     "sha256": "9ebc34611fd5f25bc4970b0f83cf925a0acbbdca84f1e13fb94a9a62a0543a4d",
+     "hash_ok": true,
+     "categories": [
+      "movement_clip"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c003_shoulder_thorax_001/clips/shoulder_complex_scapular_plane_left__front__keyframes.jpg",
+     "sha256": "2471f204462a12411bb55b1f0f17a0e6e28fdf187ff8788871b8742592afb0f9",
+     "hash_ok": true,
+     "categories": []
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c003_shoulder_thorax_001/clips/shoulder_complex_scapular_plane_left__rear.gif",
+     "sha256": "bea0a02c163822271ec4d8f23158342b0a194699ddc04889cea3ff2e36a3a4b1",
+     "hash_ok": true,
+     "categories": [
+      "movement_clip"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c003_shoulder_thorax_001/clips/shoulder_complex_scapular_plane_left__rear__keyframes.jpg",
+     "sha256": "aeda2772803ef1c2d60cf886ad3d3beaaa7288b376d0dd2f581991720ee90d39",
+     "hash_ok": true,
+     "categories": []
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c003_shoulder_thorax_001/clips/shoulder_complex_scapular_plane_right__front.gif",
+     "sha256": "20418bd61dab519f6571c5bc13297ca73207f1e3bce495ae41c8f5a7226b43ea",
+     "hash_ok": true,
+     "categories": [
+      "movement_clip"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c003_shoulder_thorax_001/clips/shoulder_complex_scapular_plane_right__front__keyframes.jpg",
+     "sha256": "5ad09b785b31ceb13af762da7aa538eedbb159409960b3e35211cf0dec2836f6",
+     "hash_ok": true,
+     "categories": []
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c003_shoulder_thorax_001/clips/shoulder_complex_scapular_plane_right__rear.gif",
+     "sha256": "36411ee91f5fa5f072ac4d42647c0b994ff69ceb23d486d5dfbdb7f1c96c9c84",
+     "hash_ok": true,
+     "categories": [
+      "movement_clip"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_c003_shoulder_thorax_001/clips/shoulder_complex_scapular_plane_right__rear__keyframes.jpg",
+     "sha256": "34613c1813a8ceb7469779a1bddf789157ae342d7b5954911d7731cc9080dff3",
+     "hash_ok": true,
+     "categories": []
+    }
+   ]
+  },
+  {
+   "title": "movement clips: rib-sternum coupled inspiration (a003 vs c003)",
+   "manifest": "ORIGINAL_V1_WORK/anatomy/audit/runs/rib_sternum_coupling_c003_001/clips/manifest.json",
+   "manifest_sha256": "32afce8b20177d44b8de89c26d97aa35288b27e61a610c8b2c9106e9b8c51fa7",
+   "status_in_manifest": "Phase 9 rib-sternum coupled inspiration (pump-handle ribs 1-10, sternum solved; ",
+   "files": [
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/rib_sternum_coupling_c003_001/clips/rib_sternum_coupled_inspiration__front.gif",
+     "sha256": "47136274be0d5b2afac3c161db2a6d33e24973c5f7e942fbf442a8eece97b8cc",
+     "hash_ok": true,
+     "categories": [
+      "movement_clip"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/rib_sternum_coupling_c003_001/clips/rib_sternum_coupled_inspiration__front__keyframes.jpg",
+     "sha256": "0dcd78247d1f7351ddd48b179e0dfe229226585a22cce0e91a2d50a32ffd7761",
+     "hash_ok": true,
+     "categories": []
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/rib_sternum_coupling_c003_001/clips/rib_sternum_coupled_inspiration__left.gif",
+     "sha256": "28a10e7a87c8f0af987ccd5b77d1d18ed102ac4ce485910e1d6839e9e48a6d56",
+     "hash_ok": true,
+     "categories": [
+      "movement_clip"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/runs/rib_sternum_coupling_c003_001/clips/rib_sternum_coupled_inspiration__left__keyframes.jpg",
+     "sha256": "985368d2c6c4a439dfbaa5d9b9e66521a8b48f2931cf08a41e2c63e6504062ff",
+     "hash_ok": true,
+     "categories": []
+    }
+   ]
+  }
+ ],
+ "file_count": 258,
+ "hash_failures": [],
+ "coverage_counts": {
+  "full_body": 56,
+  "shoulder_left": 35,
+  "shoulder_right": 35,
+  "axilla": 16,
+  "overhead": 28,
+  "upper_body": 25,
+  "poses": 33,
+  "comparison": 123,
+  "movement_clip": 14,
+  "chart": 1
+ },
+ "required_categories_present": {
+  "full_body": true,
+  "shoulder_left": true,
+  "shoulder_right": true,
+  "axilla": true,
+  "overhead": true,
+  "comparison": true,
+  "movement_clip": true,
+  "poses": true
+ },
+ "note": "All candidates are AUDIT proposals, NOT CANONICAL; no production asset is included."
+}

@@ -104,3 +104,7 @@ The movement suite passes on the c001 girdle (135/135; mirror 41/43, as a003). A
 ## c003 (Claude)
 
 The coupled ANSUR thorax-and-shoulder audit candidate passes all 10 acceptance checks. It is not canonical. Open `ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c003_ansur_coupled/HGPT_ANATOMICAL_AUDIT_r95_a003_shoulder_thorax_c003_ansur_coupled.blend` read-only, and start with `review/sheets/sheet_four_way_shoulder_left.jpg`.
+
+## Morning review pack (Claude)
+
+Start at `ORIGINAL_V1_WORK/anatomy/audit/REVIEW_PACK_INDEX.md`; every link opens on GitHub. On the laptop, download ADA548497, hash it, and confirm §5.2.5, §5.2.33, §5.2.36, §5.2.39 and §6.4.68 plus the wrist-height landmark; `audit/ansur_endpoint_correspondence_v1.json` records them as owner-supplied.

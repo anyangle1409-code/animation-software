@@ -12,6 +12,8 @@ on:
       - 'scripts/test_nlm_original_ct_png_probe.py'
       - 'scripts/anatomy_fit/nlm_ct_scanner_geometry_header.py'
       - 'scripts/test_nlm_ct_scanner_geometry_header.py'
+      - 'scripts/anatomy_fit/nlm_pelvis_region_scout.py'
+      - 'scripts/test_nlm_pelvis_region_scout.py'
       - 'ORIGINAL_V1_WORK/anatomy/audit/nlm_original_ct_png_pinned_preview_20261009.json'
       - 'ORIGINAL_V1_WORK/anatomy/audit/nih3d_male_pelvis_mesh_source_manifest_20261009.json'
       - '.github/workflows/independent-pelvis-stl-intake.yml'
@@ -31,6 +33,7 @@ jobs:
           python3 -m unittest discover -s scripts -p 'test_stl_bone_mesh_intake.py' -v
           python3 -m unittest discover -s scripts -p 'test_nlm_original_ct_png_probe.py' -v
           python3 -m unittest discover -s scripts -p 'test_nlm_ct_scanner_geometry_header.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_pelvis_region_scout.py' -v
       - name: Preserve osseous APP and source-registry regression tests
         run: |
           python3 -m unittest discover -s scripts -p 'test_external_trunk_landmark_bridge.py' -v
@@ -65,3 +68,13 @@ jobs:
       - name: Read privacy-filtered original GE scanner geometry and compare adjacent source slices
         run: python3 scripts/anatomy_fit/nlm_ct_scanner_geometry_header.py --check-adjacent-pair
 
+
+  original-ct-region-scout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect a limited set of scanner-located original CT slices without exporting pixels
+        run: |
+          python3 scripts/anatomy_fit/nlm_pelvis_region_scout.py --live-scout \
+            --slice-ids 1300 1399 1451 1500 1551 1602 1650 1701 1752 1800 1906 1948

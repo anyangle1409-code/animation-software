@@ -25,6 +25,14 @@ This is evidence that the **uncalibrated reconstructed occupancy topology is thr
 
 scripts/anatomy_fit/nlm_ct_original_ge_hu_evidence.py and scripts/test_nlm_ct_original_ge_hu_evidence.py now inspect two exact SHA-pinned original GE scanner text headers for strictly whitelisted CT-intensity-related numeric metadata, with all patient fields excluded. Its **live CI result must be checked**. In any case, a GE Hounsfield annotation offset is NOT automatically a proven PNG conversion intercept: same-image original PNG/DICOM/source converter calibration evidence is still required.
 
+## Real original GE scanner intensity-header screen also finished
+
+The independently executed GitHub Actions run https://github.com/anyangle1409-code/animation-software/actions/runs/37997758197 obtained and SHA-256 checked original GE headers for **cvm1734f (scanner S −342 mm)** and **cvm1800f (scanner S −408 mm)**. The strict physics-only field allowlist did not return a numeric `RescaleSlope`, `RescaleIntercept`, or recognised Hounsfield-offset key from those two headers. Actual safe results (no original patient header text) are committed to ORIGINAL_V1_WORK/anatomy/audit/nlm_original_GE_HU_source_screen_verified_20261009.json.
+
+**This is a limited negative finding, not proof the scanner or raw GE images contain no other calibration metadata.** It rules out simply citing these two known recognised metadata keys as already-verified PNG conversion. Any proprietary field needs separate documented mapping. No one should invent the often guessed `HU = PNGvalue − 1024` or use window centre/width as conversion evidence.
+
+GitHub successfully ran **401/401** focused regression tests across the previously established anatomy/tooling suite and this new source-calibration screen; source-network jobs also passed. A final new machine-record assertion has been added and will be verified by the latest CI before being called green.
+
 ## What Work can skip completely
 
 - Reimplementing this 72-slice threshold-sensitivity audit, hashing/downloading original CT images for it, or creating more single-cutoff uncalibrated block-model renders.

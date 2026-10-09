@@ -8,6 +8,8 @@ on:
     paths:
       - 'scripts/anatomy_fit/bone_surface_contract.py'
       - 'scripts/test_bone_surface_contract.py'
+      - 'scripts/anatomy_fit/bone_surface_topology.py'
+      - 'scripts/test_bone_surface_topology.py'
       - '.github/workflows/bone-surface-contract.yml'
   workflow_dispatch:
 
@@ -21,4 +23,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run isolated no-Blender geometry contract tests
-        run: python3 -m unittest discover -s scripts -p 'test_bone_surface_contract.py' -v
+        run: python3 -m unittest discover -s scripts -p 'test_bone_surface_*.py' -v

@@ -14,6 +14,8 @@ on:
       - 'scripts/test_nlm_ct_scanner_geometry_header.py'
       - 'scripts/anatomy_fit/nlm_pelvis_region_scout.py'
       - 'scripts/test_nlm_pelvis_region_scout.py'
+      - 'scripts/anatomy_fit/nlm_ct_pixel_ras_envelope.py'
+      - 'scripts/test_nlm_ct_pixel_ras_envelope.py'
       - 'ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvis_scout_pinned_source_positions_20261009.json'
       - 'ORIGINAL_V1_WORK/anatomy/audit/nlm_original_ct_png_pinned_preview_20261009.json'
       - 'ORIGINAL_V1_WORK/anatomy/audit/nih3d_male_pelvis_mesh_source_manifest_20261009.json'
@@ -35,6 +37,7 @@ jobs:
           python3 -m unittest discover -s scripts -p 'test_nlm_original_ct_png_probe.py' -v
           python3 -m unittest discover -s scripts -p 'test_nlm_ct_scanner_geometry_header.py' -v
           python3 -m unittest discover -s scripts -p 'test_nlm_pelvis_region_scout.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_pixel_ras_envelope.py' -v
       - name: Preserve osseous APP and source-registry regression tests
         run: |
           python3 -m unittest discover -s scripts -p 'test_external_trunk_landmark_bridge.py' -v

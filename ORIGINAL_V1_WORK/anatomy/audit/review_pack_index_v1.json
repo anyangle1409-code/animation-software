@@ -2236,9 +2236,45 @@
      "categories": []
     }
    ]
+  },
+  {
+   "title": "joint attachment scan: subtalar midfoot column split (a003 vs c003)",
+   "manifest": "ORIGINAL_V1_WORK/anatomy/audit/joint_attachment_scan/clips/manifest.json",
+   "manifest_sha256": "b884227393abc4925266a0e7805278279720cdd41e5f3e355baf468a0aa17a91",
+   "status_in_manifest": "Subtalar inversion/eversion: only the calcaneus column (cuboid, M4, M5) follows;",
+   "files": [
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/joint_attachment_scan/clips/subtalar_inversion_eversion_left__front.gif",
+     "sha256": "cef1d585392931d3657d70f52fb4a241778460469393add40eeb834422af09b8",
+     "hash_ok": true,
+     "categories": [
+      "movement_clip"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/joint_attachment_scan/clips/subtalar_inversion_eversion_left__front__keyframes.jpg",
+     "sha256": "e0200e48447522097b98495230d20ff07850812ff450e6530befd269b34bc07d",
+     "hash_ok": true,
+     "categories": []
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/joint_attachment_scan/clips/subtalar_inversion_eversion_left__left.gif",
+     "sha256": "3e8a043d3706f6fbef012cadd1ed5dbf098c548b0a0afe291b4d966703f568b3",
+     "hash_ok": true,
+     "categories": [
+      "movement_clip"
+     ]
+    },
+    {
+     "path": "ORIGINAL_V1_WORK/anatomy/audit/joint_attachment_scan/clips/subtalar_inversion_eversion_left__left__keyframes.jpg",
+     "sha256": "ff9b233ba1bb3e10b77fb5db310615d458103add9ea403162ae40653a37fe0e5",
+     "hash_ok": true,
+     "categories": []
+    }
+   ]
   }
  ],
- "file_count": 260,
+ "file_count": 264,
  "hash_failures": [],
  "coverage_counts": {
   "full_body": 56,
@@ -2249,7 +2285,7 @@
   "upper_body": 25,
   "poses": 33,
   "comparison": 123,
-  "movement_clip": 15,
+  "movement_clip": 17,
   "chart": 1
  },
  "required_categories_present": {

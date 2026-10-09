@@ -644,3 +644,19 @@ Full proximal curves remain BLOCKED pending verified intended conventions or an 
   - front clip and keyframes (a003 vs c003) in `audit/movement_collision_scan/clips/`, added to `REVIEW_PACK_INDEX.md`;
   - tests: `scripts/test_movement_collision_scan.py` (3).
 - **Gate 9:** stays NOT PASSED. The hip adduction test needs a contralateral-clearance design (source or decision) before it can count as anatomical evidence.
+
+### Joint attachment (closure) invariant over all isolated sweeps (9 October, Claude; mechanical, no new numbers)
+
+- **What:** `scripts/anatomy_fit/joint_attachment_scan.py` checks every articulation in the project inventory that has two participant bones (368) across every sampled frame of all 135 isolated tests, on a003 run 014 and c003 run 001.
+  - Each participant carries its own copy of the rest joint centre, moved by its nearest commanded ancestor's world delta. The opening is the largest distance between the copies.
+  - Openings under 1e-6 m count as zero; larger ones are reported, not tolerance-graded. The runner had no attachment check.
+- **Centre-preserving joints** (ball-and-socket, hinge, pivot; the TMJ excluded because it translates by design): only talocalcaneonavicular 1.98 mm, proximal radioulnar 1.93 mm and talocrural 0.73 mm open, identically on both. These are consistent with markers lying slightly off the rotation axis (for a pivot, the marker may be the sliding contact point). Shoulder SC, AC and GH stay closed through the scapulothoracic-rhythm tests.
+- **Defect found (shared by a003 and c003; not fixed): midfoot column split.**
+  - The follower tree has a lateral column (talus → calcaneus → cuboid → metatarsals 4–5) and a medial column (talus → navicular → cuneiforms → metatarsals 1–3).
+  - `subtalar_inversion_eversion` commands only the calcaneus, so the columns separate at every bridging joint: lateral cuneiform–cuboid 36.6 mm, tarsometatarsal 4 36.8 mm, intermetatarsal 3–4 37.0 mm, cuboid–navicular 15.9 mm. The talonavicular sweep does the same at about 5 mm.
+  - This quantifies the tracker's existing "midfoot untested / no defensible values" gap. A fix needs a sourced transverse-tarsal and midfoot coupling.
+- **Sliding joints** (plane, glide, syndesmosis, tracking, the TMJ): their openings measure sliding, not dislocation (facets ≤ 4.6 mm; interosseous membrane 17.7 mm; patellar tracking 29.6 mm). Listed, not graded.
+- **Only candidate-specific difference:** the scapulothoracic glide point (190.6 mm on a003 → 89.8 mm on c003), a functional sliding point that follows c003's smaller scapula.
+- **Evidence:** `audit/joint_attachment_scan/{a003_isolated_014,c003_isolated_001}.json`; foot close-up clips (front and side, a003 vs c003) in `audit/joint_attachment_scan/clips/`, indexed in `REVIEW_PACK_INDEX.md`.
+- **Tests:** `scripts/test_joint_attachment_scan.py` (5).
+- **Gate 9:** stays NOT PASSED; the midfoot coupling is source-blocked.

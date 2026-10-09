@@ -1035,3 +1035,17 @@ Full proximal curves remain BLOCKED pending verified intended conventions or an 
 - **Recorded behaviour, not a defect:** a failed or interrupted measurement leaves the authored, unmeasured test blend at the output path, with no report. The runner refuses to reuse output paths, so it cannot be mistaken for a pass.
 - **Method fix:** the first snapshot digest hashed rounded strings, where −0.0 and 0.0 differ; it now normalises them.
 - **Evidence:** `audit/state_restoration_audit/{a003,c003}.json`; `scripts/test_state_restoration_audit.py` (1 test over both results).
+
+### Mirror parity of every moved bone, including followers and carried descendants (9 October, Claude): CLEAN on a003 and c003
+
+- **What:** `scripts/anatomy_fit/mirror_parity_scan.py`. The isolated runner's mirror check covers commanded bones only; this one, for every bilateral test pair with matching commands and at every frame, compares:
+  - every moved bone's world transform, reflected;
+  - mirrored rest-to-frame displacements of both bone ends;
+  - the displaced joint-centre copies of all 153 sided articulations;
+  - left vs right joint openings.
+- **Result:** 41 pairs compared; the 2 hip-rotation pairs are skipped as side-specific by source.
+  - **Transforms mirror exactly** (worst 1.3e-6, float32); **openings match** (worst 1.9e-7 m); **0 failures**.
+  - 10 lower-limb pairs show mirrored-displacement differences of ≤ 0.71 mm (joint centres ≤ 0.53 mm). These are classified **REST_ASYMMETRY_ONLY**: the transforms mirror exactly and every mismatch lies within 2 × the bone's inherited rest asymmetry (the most a rotation can amplify an offset); unexplained remainder 0.
+  - The rest asymmetry is an a003 mesh-fit inheritance confined to toe phalanges (≤ 0.38 mm) and ribs (≤ 0.04 mm). The worst bone is the distal phalanx of the big toe (the 5th toe in the subtalar test).
+  - a003 and c003 are identical apart from float noise.
+- **Tests:** `scripts/test_mirror_parity_scan.py` (4). Mutations inject a 0.5° asymmetry into the patella follower and a 0.2° asymmetry into a commanded elbow bone; both must FAIL and not be excused as rest asymmetry.

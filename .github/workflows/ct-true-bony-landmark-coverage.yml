@@ -1,0 +1,37 @@
+name: Source-linked pelvic bony landmark coverage preflight
+
+on:
+  push:
+    branches:
+      - codex/ct-anatomical-landmark-coverage-audit-20261009
+    paths:
+      - 'scripts/anatomy_fit/nlm_ct_bony_landmark_coverage_audit.py'
+      - 'scripts/test_nlm_ct_bony_landmark_coverage_audit.py'
+      - 'ORIGINAL_V1_WORK/anatomy/audit/nlm_ct_true_osseous_landmark_coverage_verified_20261009.json'
+      - '.github/workflows/ct-true-bony-landmark-coverage.yml'
+      - 'docs/NLM_TRUE_BONY_LANDMARK_COVERAGE_20261009.md'
+  pull_request:
+    paths:
+      - 'scripts/anatomy_fit/nlm_ct_bony_landmark_coverage_audit.py'
+      - 'scripts/test_nlm_ct_bony_landmark_coverage_audit.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  true-bony-landmark-coverage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify ten candidate CT observations cannot masquerade as physical bone landmarks
+        run: |
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_bony_landmark_coverage_audit.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_anatomical_review.py' -v
+          python3 -m unittest discover -s scripts -p 'test_pelvic_ct_series_manifest.py' -v
+      - name: Produce non-anatomical conditional RAS and exact physical landmark coverage result
+        run: |
+          python3 scripts/anatomy_fit/nlm_ct_bony_landmark_coverage_audit.py \
+            --source-bundle ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json \
+            --candidate-review ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_review_20261009.json

@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - codex/trunk-source-landmark-closure-20261009
+      - codex/independent-pelvis-stl-intake-20261009
   pull_request:
     paths:
       - 'scripts/anatomy_fit/external_trunk_landmark_bridge.py'
@@ -14,6 +15,9 @@ on:
       - 'scripts/test_bone_feature_observation_packet.py'
       - 'ORIGINAL_V1_WORK/anatomy/audit/potential_bone_geometry_sources_20261009.json'
       - 'scripts/test_bone_geometry_source_acquisition.py'
+      - 'scripts/anatomy_fit/stl_bone_mesh_intake.py'
+      - 'scripts/test_stl_bone_mesh_intake.py'
+      - 'ORIGINAL_V1_WORK/anatomy/audit/nih3d_male_pelvis_mesh_source_manifest_20261009.json'
       - 'ORIGINAL_V1_WORK/anatomy/audit/external_trunk_landmark_source_registry_20261009.json'
       - '.github/workflows/trunk-external-landmarks.yml'
   workflow_dispatch:
@@ -33,6 +37,7 @@ jobs:
           python3 -m unittest discover -s scripts -p 'test_pelvic_app_bone_frame.py' -v
           python3 -m unittest discover -s scripts -p 'test_bone_feature_observation_packet.py' -v
           python3 -m unittest discover -s scripts -p 'test_bone_geometry_source_acquisition.py' -v
+          python3 -m unittest discover -s scripts -p 'test_stl_bone_mesh_intake.py' -v
           python3 scripts/anatomy_fit/pelvic_app_bone_frame.py \
             --legacy-record ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json \
             --source-registry ORIGINAL_V1_WORK/anatomy/audit/external_trunk_landmark_source_registry_20261009.json

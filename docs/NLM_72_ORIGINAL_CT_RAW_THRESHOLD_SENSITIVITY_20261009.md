@@ -32,3 +32,29 @@ Upstream references: original NLM Visible Human CT PNG and scanner GE headers (h
 4. Independently compare landmarks with population sources and then consider an isolated skeletal correction; do not fit bones to the old skin mesh.
 
 **Canonical readiness: 0 READY / 9 PARTIAL / 3 BLOCKED. Claude and existing Work worktree assets untouched.**
+
+## Independently executed live NLM study — VERIFIED
+
+GitHub Actions original-source threshold sweep: https://github.com/anyangle1409-code/animation-software/actions/runs/37997358527 . Every original PNG SHA-256/byte count matched the previously pinned 72-source bundle. Machine-readable complete results (all six thresholds, both tile rules and both physically separate scan groups) are stored at:
+
+ORIGINAL_V1_WORK/anatomy/audit/nlm_ct_raw_threshold_sensitivity_verified_20261009.json
+
+### Actual threshold effects for the any-pixel tile operator
+
+| Source group | Raw cutoff 1200 | Raw cutoff 1800 | Blocks removed | Largest 6-connected component share at 1200 → 1800 | Components at 1200 → 1800 |
+|---|---:|---:|---:|---|---|
+| 37 superior scans | 10,452 | 3,704 | **64.6%** | 70.0% → 30.0% | 27 → 82 |
+| 35 inferior scans | 7,311 | 2,798 | **61.7%** | 85.8% → 33.4% | 21 → 55 |
+
+### Actual threshold effects for the eight-of-64-pixels tile operator
+
+| Source group | Raw cutoff 1200 | Raw cutoff 1800 | Blocks removed | Largest 6-connected component share at 1200 → 1800 | Components at 1200 → 1800 |
+|---|---:|---:|---:|---|---|
+| 37 superior scans | 8,494 | 1,726 | **79.7%** | 72.4% → 23.3% | 3 → 129 |
+| 35 inferior scans | 6,039 | 1,340 | **77.8%** | 88.5% → 21.3% | 6 → 99 |
+
+**Conclusion supported by source calculations:** a small change in the uncalibrated PNG stored-scalar cutoff or the tile occupancy definition can dramatically change connected structures, topological fragmentation and spatial extent. A nice-looking single-cutoff occupancy block render is *not stable evidence for a physically correct human pelvic bone surface*. The earlier Blender block count (13,273) is under a potentially different implementation and is not an apples-to-apples count. No result here is a clinical interpretation of bone or tissue density.
+
+**What this replaces for Work:** Work no longer needs to write a first raw-intensity-threshold sensitivity implementation, fetch 72 source frames for this test, independently hash them or calculate these aggregate 3D connectivity figures. It can read the pinned output and proceed directly to original PNG→HU calibration, actually bony feature identification and clinically validated surface segmentation.
+
+**What this does not resolve:** CT sample-centre origin, image patient-to-HGPT transform, original PNG Hounsfield rescale, bone/soft-tissue classification and full pelvic-bone region coverage. These remain hard blockers to canonical corrections.

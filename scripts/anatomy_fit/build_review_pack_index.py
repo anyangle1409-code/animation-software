@@ -88,7 +88,7 @@ def markdown(ix):
         L += ['## c004 arm-input resync: reuses the c003 pack (no new renders)', '',
               f'c004 changes only six skeleton_input arm points per side; every visual input is hash-identical to c003 ([`{rel}`]({BLOB}{rel})), '
               'so the c003 images above depict c004 exactly. They and their manifest still name c003. Status: '
-              f'`{u["status"]}`.', '']
+              f'`{u["status"]}`. The carpals/hand input follow-up found no defensible c005 (hand_input_audit/hand_input_source_rebuild_v1.json); no images were produced for it.', '']
     eia = AUD / 'evidence_integrity/evidence_integrity_v1.json'
     if eia.exists():
         e = json.loads(eia.read_text()); rel = str(eia.relative_to(ROOT))

@@ -31,7 +31,7 @@ Total files: 264. Hash failures: 0.
 
 ## c004 arm-input resync: reuses the c003 pack (no new renders)
 
-c004 changes only six skeleton_input arm points per side; every visual input is hash-identical to c003 ([`ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/review_reuse.json`](https://github.com/anyangle1409-code/animation-software/blob/codex/whole-body-biomechanics-audit-20261007/ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/review_reuse.json)), so the c003 images above depict c004 exactly. They and their manifest still name c003. Status: `REUSED_C003_RENDER_PACK_NO_NEW_RENDERS`.
+c004 changes only six skeleton_input arm points per side; every visual input is hash-identical to c003 ([`ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/review_reuse.json`](https://github.com/anyangle1409-code/animation-software/blob/codex/whole-body-biomechanics-audit-20261007/ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/review_reuse.json)), so the c003 images above depict c004 exactly. They and their manifest still name c003. Status: `REUSED_C003_RENDER_PACK_NO_NEW_RENDERS`. The carpals/hand input follow-up found no defensible c005 (hand_input_audit/hand_input_source_rebuild_v1.json); no images were produced for it.
 
 ## Repository-wide evidence integrity
 

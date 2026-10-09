@@ -28,3 +28,7 @@ Bones, joint markers, landmarks, acceptance checks and provenance are identical 
 | Guard | Remaining stale points: `carpals` and `hand` only (UNRESOLVED, out of scope) |
 
 **Renders:** none were made for c004. The c003 review pack is reused because every visual input is hash-identical (`review_reuse.json`); those images and their manifest still name c003. No movement clips are claimed for the changed hand and wrist tests.
+
+## Follow-up: carpals/hand inputs (no c005)
+
+The 108 carpal and hand input points are audited in `../../hand_input_audit/hand_input_source_rebuild_v1.json`. 98 are uniquely correctable. The 10 fingertip stations are not encoded by c004, and a source rebuild cannot reproduce c004's hand: the translated hand lies outside the unmoved a003 skin, so the pipeline's containment step relocates it. No c005 was built; c004 remains this line's latest candidate (non-canonical).

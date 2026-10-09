@@ -587,3 +587,26 @@ Tests are in `scripts/test_owner_proportion_policy_and_source_fixes.py`. The ful
 - **Renders:** none were made. The c003 pack is reused because every visual input is hash-identical (`review_reuse.json`; recorded in `REVIEW_PACK_INDEX.md`).
 - **Tests:** `scripts/test_candidate_c004_arm_inputs.py` (14). They cover baseline hash pins, builder reproducibility and scope, causality, and guard mutations (a stale point re-injected; a bone moved without its input; a consistent rigid move passes except the shared tibia head). They also cover the run summary, the v1-missed/v2-detected radiocarpal opening, and mirror determinism under three hash seeds.
   - The evidence-integrity live test now admits a new non-OK reference only as an inherited duplicate of a recorded one (c004 inherits c003's stale provenance hashes).
+
+### Remaining stale carpals/hand inputs: audited; source rebuild shows no defensible c005 (9 October, Claude; BLOCKER)
+
+- **What:** `scripts/anatomy_fit/hand_input_source_rebuild_audit.py` → `audit/hand_input_audit/hand_input_source_rebuild_v1.json`. c004 stays preserved as a successful, non-canonical audit candidate.
+- **Points and consumers:** `skeleton_input.sides.<side>.carpals.<8 carpals>` and `.hand.<mc1–5, th_pp, th_dp, d2–5_pp/mp/dp>` are [head, tail] pairs, 108 points in total. They are consumed **only** by `skeleton_fit.build`, one bone each; Phase 9 and the joint markers do not read them. All 108 are stale (equal to a003) in c001, c002, c003 and c004, while every corresponding c004 bone endpoint moved by exactly the side's GH shift.
+- **Correspondence:**
+  - **98 points** are identical to their a003 bone endpoint, so the correction (the c004 endpoint) is uniquely determined.
+  - **10 points** (the distal-phalanx tails of digits 2–5 and the thumb, both sides) are *pre-containment stations*: `skeleton_fit.contain` pulled those bone tails 5.28–9.00 mm inside the a003 skin. c004 bones and markers encode only the post-containment endpoint, so these inputs are **not determined** without a further assumption.
+- **Source rebuild** (pure Python, using the master builder's pipeline: build → enforce_midline → contain against the a003 body mesh exported by `export_body_mesh_blender.py`, 17,946 vertices / 35,888 triangles, as recorded):
+  - a003 inputs reproduce **all a003 bones exactly**.
+  - c004 inputs rebuild **a003's hand placement**: 54 carpal, metacarpal and phalanx bones are off by exactly 38.432 mm, so the hand is detached from c004's wrist.
+  - Both candidate corrections (every point + GH shift; every point = its c004 endpoint) fail to rebuild c004, by up to **353 mm**.
+- **Root blocker (new):** c003 and c004 translated the arm but the body mesh is a003's and unskinned. The c004 distal radius and ulna, the whole carpus and the hand lie **outside the a003 skin** (45 left-arm endpoints; a003 has none), so `contain()` relocates them in any rebuild.
+  - c003/c004 hand geometry therefore cannot come from the source pipeline at all. It exists only as the rigid translation applied by the candidate builders.
+- **Decision:** **NO c005.** Not every correction is an exact causal correspondence encoded by c004, and no correction is rebuild-equivalent. The blocker is recorded:
+  - a c005 would need a decision on the fingertip pre-containment rule;
+  - and either a skin/mesh that follows the c003 shoulder change or a candidate-specific exemption from containment.
+  - Neither is invented here.
+- **Tests:** `scripts/test_hand_input_source_rebuild.py` (6). They rebuild from skeleton_input rather than reusing the c003 blend:
+  - a003 rebuilds itself;
+  - c004's stale inputs rebuild a003's hand exactly, offset by the GH shift;
+  - the classification is pinned;
+  - mutations: a single moved carpal input is detected; correcting only the 98 exact points satisfies the guard and the mesh-free rebuild but not the full pipeline.

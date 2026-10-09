@@ -136,10 +136,10 @@ class ReportBehaviour(unittest.TestCase):
         self.addCleanup(shutil.rmtree, self.tmp, True)
 
     def test_inputs_are_not_modified_and_output_is_deterministic(self):
-        before = {str(p): r.sha256_file(ROOT / p) for p in r.INPUTS.values()}
+        before = {p.as_posix(): r.sha256_file(ROOT / p) for p in r.INPUTS.values()}
         one = json.dumps(r.build_report(ROOT), sort_keys=True)
         two = json.dumps(r.build_report(ROOT), sort_keys=True)
-        after = {str(p): r.sha256_file(ROOT / p) for p in r.INPUTS.values()}
+        after = {p.as_posix(): r.sha256_file(ROOT / p) for p in r.INPUTS.values()}
         self.assertEqual(one, two)
         self.assertEqual(before, after)
         self.assertEqual(json.loads(one)["inputs_sha256"], before)
@@ -203,8 +203,10 @@ class ReportBehaviour(unittest.TestCase):
 class CommittedEvidenceMatchesRegeneration(unittest.TestCase):
     def test_committed_report_equals_a_fresh_regeneration(self):
         rep = r.build_report(ROOT, REGISTER)
-        self.assertEqual(COMMITTED_JSON.read_text(), json.dumps(rep, indent=2, sort_keys=True) + "\n")
-        self.assertEqual(COMMITTED_MD.read_text(), r.render_markdown(rep) + "\n")
+        self.assertEqual(COMMITTED_JSON.read_text(encoding="utf-8"),
+                         json.dumps(rep, indent=2, sort_keys=True) + "\n")
+        self.assertEqual(COMMITTED_MD.read_text(encoding="utf-8"),
+                         r.render_markdown(rep) + "\n")
 
 
 if __name__ == "__main__":

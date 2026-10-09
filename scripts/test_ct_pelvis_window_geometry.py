@@ -212,17 +212,34 @@ class PrivateInputValidation(unittest.TestCase):
         self.assertIn("cvm1752f.txt", str(cm.exception))
         self.assertNotIn(SECRET, str(cm.exception))
 
-    def test_missing_file_and_wrong_size_and_symlink_fail(self):
+    def test_missing_file_fails(self):
         d, m = make_private_dir(self.tmp)
         manifest = g.load_pinned_manifest(m)
         (d / "cvm1749f.png").unlink()
         with self.assertRaises(g.PinError):
             g.validate_private_inputs(d, manifest)
+
+    def test_wrong_png_size_fails(self):
+        d, m = make_private_dir(self.tmp)
+        manifest = g.load_pinned_manifest(m)
+        (d / "cvm1749f.png").write_bytes(b"not the pinned source")
+        with self.assertRaises(g.PinError):
+            g.validate_private_inputs(d, manifest)
+
+    def test_symlink_fails_when_platform_allows_symlinks(self):
+        d, m = make_private_dir(self.tmp)
+        manifest = g.load_pinned_manifest(m)
         d2 = Path(self.tmp) / "ct2"
         d2.mkdir()
         shutil.copytree(d, d2, dirs_exist_ok=True)
         real, link = d / "cvm1752f.png", d2 / "cvm1749f.png"
-        link.symlink_to(real)
+        link.unlink()
+        try:
+            link.symlink_to(real)
+        except OSError as exc:
+            if getattr(exc, "winerror", None) == 1314:
+                self.skipTest("Windows symlink privilege is unavailable")
+            raise
         with self.assertRaisesRegex(g.PinError, "not a regular file"):
             g.validate_private_inputs(d2, manifest)
 

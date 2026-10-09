@@ -81,8 +81,11 @@ def load_inputs(root=REPO_ROOT):
     docs, hashes = {}, {}
     for key, rel in INPUTS.items():
         p = Path(root) / rel
-        docs[key] = json.loads(p.read_text())
-        hashes[str(rel)] = sha256_file(p)
+        docs[key] = json.loads(p.read_text(encoding="utf-8"))
+        # Evidence files are committed and compared across Linux/Windows.
+        # Keep repository-relative identifiers stable instead of leaking the
+        # host platform's path separator into generated JSON.
+        hashes[rel.as_posix()] = sha256_file(p)
     return docs, hashes
 
 
@@ -288,7 +291,7 @@ def build_report(root=REPO_ROOT, register_path=None):
                     "landmarks_UNVERIFIED": None, "image_review_performed": False},
     }
     if register_path is not None and Path(register_path).exists():
-        reg = json.loads(Path(register_path).read_text())
+        reg = json.loads(Path(register_path).read_text(encoding="utf-8"))
         counts = {"VERIFIED": 0, "CANDIDATE": 0, "UNVERIFIED": 0}
         for lm in reg["landmarks"]:
             counts[lm["status"]] += 1
@@ -375,7 +378,8 @@ def main(argv=None):
     md = render_markdown(rep) + "\n"
     if a.check:
         for path, text in ((a.out_json, js), (a.out_md, md)):
-            if path is None or not Path(path).exists() or Path(path).read_text() != text:
+            if (path is None or not Path(path).exists()
+                    or Path(path).read_text(encoding="utf-8") != text):
                 print(f"DRIFT: {path} differs from regenerated report", file=sys.stderr)
                 return 1
         print("report matches regeneration")

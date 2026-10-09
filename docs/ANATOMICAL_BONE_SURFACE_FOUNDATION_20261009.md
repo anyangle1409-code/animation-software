@@ -44,6 +44,32 @@ Each candidate JSON contains:
 
 **Checks:** finite coordinates, metre units, proper rigid/non-reflecting registration, 0.01 mm anchor numerical agreement, valid triangles, edge-manifoldness for surfaces declared closed, unique patch/landmark identifiers, valid triangle references and articular joint participation (including cartilage-owner resolution).
 
+### Extended topology checks (9 October)
+
+A second independent, first-party audit `bone_surface_topology.py` now
+checks each triangle surface for duplicate faces, inconsistent shared-edge
+orientation, non-manifold edge fans and disconnected components.
+
+For a *closed bone* candidate the validator also requires a single
+edge-connected triangle shell, no unreferenced vertices, no boundary edges,
+and positive oriented signed volume in the declared right-handed local frame.
+The policy is intentionally stricter than simply counting 2 faces per edge:
+inverted shells, floating hidden islands and wrong winding must fail.
+For a *diagnostic open patch*, boundaries and disconnected components are
+reported and permitted, but inconsistent edge orientation and non-manifold
+fans are still rejected.
+
+These checks **do not** establish correct human anatomical shape.
+Connected watertight surfaces can self-intersect or overlap neighbouring
+bones. The audit explicitly reports that **self-intersections and joint
+contacts were not checked**. Surface normals and signed volume conventions
+will be examined against real Blender exports before any future acceptance.
+
+Remote checks now include `test_bone_surface_contract.py` plus
+`test_bone_surface_topology.py`; the latter has 15 focused tests, including
+mutations for reversed faces, wrong shared-edge orientation, two disjoint
+shells, duplicated triangles, non-manifold edges and unused vertices.
+
 These are **numerical/interface checks only**. The tool does not decide: true bone lengths or shapes, precise articular congruence/clearance, cartilage thickness, joint movement, clinical anatomy, connectedness/self-intersections/consistent face winding, muscle attachments, suitable scientific sources, or final acceptance. Its result *always* has `canonical_promotion_allowed: false` and `GEOMETRY_CONSISTENT_ANATOMY_UNVERIFIED`.
 
 The `rig_anchors_local_m` are registration anchors, NOT a claim that head/tail coincide with actual bony extreme surfaces or joint centres. Metadata claiming a paper or a review does not establish scientific truth.
@@ -51,7 +77,7 @@ The `rig_anchors_local_m` are registration anchors, NOT a claim that head/tail c
 ### Example invocation
 
 ```bash
-python -m unittest discover -s scripts -p 'test_bone_surface_contract.py' -v
+python -m unittest discover -s scripts -p 'test_bone_surface_*.py' -v
 
 python scripts/anatomy_fit/bone_surface_contract.py \
   --asset /path/to/independently-modeled-bone.json \

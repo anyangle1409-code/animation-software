@@ -10,6 +10,8 @@ on:
       - 'scripts/test_bone_surface_contract.py'
       - 'scripts/anatomy_fit/bone_surface_topology.py'
       - 'scripts/test_bone_surface_topology.py'
+      - 'scripts/anatomy_fit/bone_surface_correspondence.py'
+      - 'scripts/test_bone_surface_correspondence.py'
       - '.github/workflows/bone-surface-contract.yml'
   workflow_dispatch:
 

@@ -70,7 +70,11 @@ def measured(record):
                 'rib_length_mm': _norm_mm(_sub(t, h)),
                 'marker_minus_rib_head_m': {},
             }
-            for kind in ('costovertebral', 'costotransverse'):
+            # Floating ribs 11–12 have NO costotransverse articulation.
+            # This is backed by the actual 427-marker inventory, not an
+            # invented placeholder marker.
+            kinds = ('costovertebral',) if i >= 11 else ('costovertebral', 'costotransverse')
+            for kind in kinds:
                 jid = f'{kind}_{i:02d}_{side}'
                 m = markers[jid]
                 pos = m.get('centre_m')

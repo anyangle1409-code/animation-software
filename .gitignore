@@ -20,3 +20,10 @@ ORIGINAL_V1_WORK/candidates/*.blend1
 # Python authoring/validation caches are disposable, not session edits.
 __pycache__/
 *.pyc
+
+# Private NLM Visible Human CT review artefacts (never commit raw CT, headers, derived images or packed .blend)
+cvm*f.png
+cvm*f.txt
+*_display8.png
+*CT_PRIVATE*.blend
+*CT_PRIVATE*.blend1

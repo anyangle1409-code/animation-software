@@ -75,6 +75,17 @@ def inspect(vertices, triangles, closed):
             stack.extend(neighbours[fi] - visited)
 
     unused = len(vertices) - len(vertex_faces)
+    # Detect pinch points: two independently wound triangle fans may share
+    # one vertex while every edge still has exactly two faces. Such vertices
+    # are non-manifold despite a single edge-connected global shell.
+    vertex_face_links = defaultdict(lambda: defaultdict(set))
+    for (va, vb), uses in edge_faces.items():
+        if len(uses) == 2:
+            fi, fj = uses[0][0], uses[1][0]
+            for vid in (va, vb):
+                vertex_face_links[vid][fi].add(fj)
+                vertex_face_links[vid][fj].add(fi)
+
     if closed:
         if boundary_edges:
             raise ValueError(f'closed surface has {boundary_edges} boundary edges')
@@ -84,6 +95,20 @@ def inspect(vertices, triangles, closed):
             raise ValueError(f'closed surface contains {unused} unreferenced vertices')
         if not math.isfinite(volume6) or volume6 <= 0:
             raise ValueError('closed surface has nonpositive signed enclosed volume')
+
+    for vid, incident in vertex_faces.items():
+        if len(incident) < 2:
+            continue
+        seen = set()
+        stack = [incident[0]]
+        while stack:
+            fi = stack.pop()
+            if fi in seen:
+                continue
+            seen.add(fi)
+            stack.extend(vertex_face_links[vid].get(fi, ()) - seen)
+        if len(seen) != len(incident):
+            raise ValueError(f'pinched/non-manifold vertex {vid}')
 
     return {
         'edge_connected_components': components,

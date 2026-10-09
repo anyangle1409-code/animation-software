@@ -1,0 +1,3852 @@
+{
+ "schema_version": 1,
+ "created": "2026-10-09",
+ "kind": "READ_ONLY_INPUT_AUDIT_AND_SOURCE_REBUILD",
+ "inputs_sha256": {
+  "a003": "11712ba3e105aa8844b07572315d58ccace1d23d2f0cdf101218a3a507a1a1e3",
+  "c001": "08e9f2e1187dbedad680ce88595c565f7449773789fd597d96df05c0612fc778",
+  "c002": "aa344a6819dde7631f85bd806f87fb876db0e2e4762bff28ea9c754d8c6e2978",
+  "c003": "3eb4fa1e2f7d815ec664af93fc4ece89db87a36a5201452447b161fbdcc46f3a",
+  "c004": "99500d94e06c66ca489bdaccc0345446f98794946254c5e592d9449696f396c1"
+ },
+ "consumers": [
+  "scripts/anatomy_fit/skeleton_fit.py:build (bone head/tail)"
+ ],
+ "mesh": {
+  "vertices": 17946,
+  "triangles": 35888,
+  "from_blend_sha256": "670a37bfd206d702928de721032e2b942725389dc6906df0d866eba8d8cbbe56",
+  "record_character": {
+   "body_object": "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE",
+   "runtime_rig": "HGPT_CANONICAL_V4_ORIGINAL",
+   "mesh_vertices": 17946,
+   "triangles": 35888
+  }
+ },
+ "contain_applied": true,
+ "points": 108,
+ "unique_exact": 98,
+ "not_encoded": [
+  "left/hand/d2_dp[1] (digit2_distal_phalanx_left tail_m, contained 8.1 mm)",
+  "left/hand/d3_dp[1] (digit3_distal_phalanx_left tail_m, contained 9.0 mm)",
+  "left/hand/d4_dp[1] (digit4_distal_phalanx_left tail_m, contained 7.84 mm)",
+  "left/hand/d5_dp[1] (digit5_distal_phalanx_left tail_m, contained 5.28 mm)",
+  "left/hand/th_dp[1] (thumb_distal_phalanx_left tail_m, contained 8.06 mm)",
+  "right/hand/d2_dp[1] (digit2_distal_phalanx_right tail_m, contained 8.1 mm)",
+  "right/hand/d3_dp[1] (digit3_distal_phalanx_right tail_m, contained 9.0 mm)",
+  "right/hand/d4_dp[1] (digit4_distal_phalanx_right tail_m, contained 7.84 mm)",
+  "right/hand/d5_dp[1] (digit5_distal_phalanx_right tail_m, contained 5.28 mm)",
+  "right/hand/th_dp[1] (thumb_distal_phalanx_right tail_m, contained 8.06 mm)"
+ ],
+ "stale_counts": {
+  "c001": 108,
+  "c002": 108,
+  "c003": 108,
+  "c004": 108
+ },
+ "all_c004_hand_bones_moved_by_gh_shift": true,
+ "rebuild": {
+  "a003_inputs_vs_a003": {
+   "bones_differing": 0,
+   "max_mm": 0.0,
+   "bones": {}
+  },
+  "c004_inputs_vs_c004": {
+   "bones_differing": 54,
+   "max_mm": 38.432,
+   "bones": {
+    "scaphoid_left": 38.432,
+    "lunate_left": 38.432,
+    "triquetrum_left": 38.432,
+    "pisiform_left": 38.432,
+    "trapezium_left": 38.432,
+    "trapezoid_left": 38.432,
+    "capitate_left": 38.432,
+    "hamate_left": 38.432,
+    "metacarpal_1_left": 38.432,
+    "metacarpal_2_left": 38.432,
+    "metacarpal_3_left": 38.432,
+    "metacarpal_4_left": 38.432,
+    "metacarpal_5_left": 38.432,
+    "thumb_proximal_phalanx_left": 38.432,
+    "thumb_distal_phalanx_left": 38.432,
+    "digit2_proximal_phalanx_left": 38.432,
+    "digit2_middle_phalanx_left": 38.432,
+    "digit2_distal_phalanx_left": 38.432,
+    "digit3_proximal_phalanx_left": 38.432,
+    "digit3_middle_phalanx_left": 38.432,
+    "digit3_distal_phalanx_left": 38.432,
+    "digit4_proximal_phalanx_left": 38.432,
+    "digit4_middle_phalanx_left": 38.432,
+    "digit4_distal_phalanx_left": 38.432,
+    "digit5_proximal_phalanx_left": 38.432,
+    "digit5_middle_phalanx_left": 38.432,
+    "digit5_distal_phalanx_left": 38.432,
+    "scaphoid_right": 38.432,
+    "lunate_right": 38.432,
+    "triquetrum_right": 38.432,
+    "pisiform_right": 38.432,
+    "trapezium_right": 38.432,
+    "trapezoid_right": 38.432,
+    "capitate_right": 38.432,
+    "hamate_right": 38.432,
+    "metacarpal_1_right": 38.432,
+    "metacarpal_2_right": 38.432,
+    "metacarpal_3_right": 38.432,
+    "metacarpal_4_right": 38.432,
+    "metacarpal_5_right": 38.432,
+    "thumb_proximal_phalanx_right": 38.432,
+    "thumb_distal_phalanx_right": 38.432,
+    "digit2_proximal_phalanx_right": 38.432,
+    "digit2_middle_phalanx_right": 38.432,
+    "digit2_distal_phalanx_right": 38.432,
+    "digit3_proximal_phalanx_right": 38.432,
+    "digit3_middle_phalanx_right": 38.432,
+    "digit3_distal_phalanx_right": 38.432,
+    "digit4_proximal_phalanx_right": 38.432,
+    "digit4_middle_phalanx_right": 38.432,
+    "digit4_distal_phalanx_right": 38.432,
+    "digit5_proximal_phalanx_right": 38.432,
+    "digit5_middle_phalanx_right": 38.432,
+    "digit5_distal_phalanx_right": 38.432
+   }
+  },
+  "H1_rigid_gh_translation_vs_c004": {
+   "bones_differing": 54,
+   "max_mm": 353.417,
+   "bones": {
+    "digit4_proximal_phalanx_left": 353.417,
+    "digit4_proximal_phalanx_right": 353.417,
+    "digit3_proximal_phalanx_left": 352.897,
+    "digit3_proximal_phalanx_right": 352.897,
+    "metacarpal_3_left": 333.765,
+    "metacarpal_3_right": 333.765,
+    "metacarpal_4_left": 331.488,
+    "metacarpal_4_right": 331.488,
+    "metacarpal_5_left": 329.261,
+    "metacarpal_5_right": 329.261,
+    "digit5_proximal_phalanx_left": 321.596,
+    "digit5_proximal_phalanx_right": 321.596,
+    "digit2_proximal_phalanx_left": 304.363,
+    "digit2_proximal_phalanx_right": 304.363,
+    "metacarpal_2_left": 287.311,
+    "metacarpal_2_right": 287.311,
+    "capitate_left": 286.011,
+    "capitate_right": 286.011,
+    "hamate_left": 284.112,
+    "hamate_right": 284.112,
+    "trapezoid_left": 283.693,
+    "trapezoid_right": 283.693,
+    "trapezium_left": 283.371,
+    "trapezium_right": 283.371,
+    "triquetrum_left": 273.516,
+    "triquetrum_right": 273.516,
+    "lunate_left": 272.805,
+    "lunate_right": 272.805,
+    "scaphoid_left": 272.392,
+    "scaphoid_right": 272.392,
+    "metacarpal_1_left": 268.499,
+    "metacarpal_1_right": 268.499,
+    "pisiform_left": 263.274,
+    "pisiform_right": 263.274,
+    "digit3_middle_phalanx_left": 211.232,
+    "digit3_middle_phalanx_right": 211.232,
+    "digit4_middle_phalanx_left": 190.104,
+    "digit4_middle_phalanx_right": 190.104,
+    "digit3_distal_phalanx_left": 185.381,
+    "digit3_distal_phalanx_right": 185.381,
+    "digit4_distal_phalanx_left": 163.613,
+    "digit4_distal_phalanx_right": 163.613,
+    "digit5_middle_phalanx_left": 157.119,
+    "digit5_middle_phalanx_right": 157.119,
+    "thumb_distal_phalanx_left": 145.03,
+    "thumb_distal_phalanx_right": 145.03,
+    "digit5_distal_phalanx_left": 143.81,
+    "digit5_distal_phalanx_right": 143.81,
+    "thumb_proximal_phalanx_left": 129.804,
+    "thumb_proximal_phalanx_right": 129.804,
+    "digit2_distal_phalanx_left": 98.243,
+    "digit2_distal_phalanx_right": 98.243,
+    "digit2_middle_phalanx_left": 81.227,
+    "digit2_middle_phalanx_right": 81.227
+   }
+  },
+  "H2_snap_to_c004_endpoint_vs_c004": {
+   "bones_differing": 54,
+   "max_mm": 353.417,
+   "bones": {
+    "digit4_proximal_phalanx_left": 353.417,
+    "digit4_proximal_phalanx_right": 353.417,
+    "digit3_proximal_phalanx_left": 352.897,
+    "digit3_proximal_phalanx_right": 352.897,
+    "metacarpal_3_left": 333.765,
+    "metacarpal_3_right": 333.765,
+    "metacarpal_4_left": 331.488,
+    "metacarpal_4_right": 331.488,
+    "metacarpal_5_left": 329.261,
+    "metacarpal_5_right": 329.261,
+    "digit5_proximal_phalanx_left": 321.596,
+    "digit5_proximal_phalanx_right": 321.596,
+    "digit2_proximal_phalanx_left": 304.363,
+    "digit2_proximal_phalanx_right": 304.363,
+    "metacarpal_2_left": 287.311,
+    "metacarpal_2_right": 287.311,
+    "capitate_left": 286.011,
+    "capitate_right": 286.011,
+    "hamate_left": 284.112,
+    "hamate_right": 284.112,
+    "trapezoid_left": 283.693,
+    "trapezoid_right": 283.693,
+    "trapezium_left": 283.371,
+    "trapezium_right": 283.371,
+    "triquetrum_left": 273.516,
+    "triquetrum_right": 273.516,
+    "lunate_left": 272.805,
+    "lunate_right": 272.805,
+    "scaphoid_left": 272.392,
+    "scaphoid_right": 272.392,
+    "metacarpal_1_left": 268.499,
+    "metacarpal_1_right": 268.499,
+    "pisiform_left": 263.274,
+    "pisiform_right": 263.274,
+    "digit3_middle_phalanx_left": 211.232,
+    "digit3_middle_phalanx_right": 211.232,
+    "digit4_middle_phalanx_left": 190.104,
+    "digit4_middle_phalanx_right": 190.104,
+    "digit3_distal_phalanx_left": 185.381,
+    "digit3_distal_phalanx_right": 185.381,
+    "digit4_distal_phalanx_left": 163.613,
+    "digit4_distal_phalanx_right": 163.613,
+    "digit5_middle_phalanx_left": 157.119,
+    "digit5_middle_phalanx_right": 157.119,
+    "thumb_distal_phalanx_left": 145.03,
+    "thumb_distal_phalanx_right": 145.03,
+    "digit5_distal_phalanx_left": 144.226,
+    "digit5_distal_phalanx_right": 144.226,
+    "thumb_proximal_phalanx_left": 129.804,
+    "thumb_proximal_phalanx_right": 129.804,
+    "digit2_distal_phalanx_left": 98.403,
+    "digit2_distal_phalanx_right": 98.403,
+    "digit2_middle_phalanx_left": 81.227,
+    "digit2_middle_phalanx_right": 81.227
+   }
+  }
+ },
+ "c004_arm_points_outside_a003_skin_left": {
+  "a003": [],
+  "c004": [
+   "capitate_left:head_m",
+   "capitate_left:tail_m",
+   "digit2_distal_phalanx_left:head_m",
+   "digit2_distal_phalanx_left:tail_m",
+   "digit2_middle_phalanx_left:head_m",
+   "digit2_middle_phalanx_left:tail_m",
+   "digit2_proximal_phalanx_left:head_m",
+   "digit2_proximal_phalanx_left:tail_m",
+   "digit3_distal_phalanx_left:head_m",
+   "digit3_middle_phalanx_left:head_m",
+   "digit3_middle_phalanx_left:tail_m",
+   "digit3_proximal_phalanx_left:head_m",
+   "digit3_proximal_phalanx_left:tail_m",
+   "digit4_distal_phalanx_left:head_m",
+   "digit4_distal_phalanx_left:tail_m",
+   "digit4_middle_phalanx_left:head_m",
+   "digit4_middle_phalanx_left:tail_m",
+   "digit4_proximal_phalanx_left:head_m",
+   "digit4_proximal_phalanx_left:tail_m",
+   "digit5_distal_phalanx_left:head_m",
+   "digit5_distal_phalanx_left:tail_m",
+   "digit5_middle_phalanx_left:head_m",
+   "digit5_middle_phalanx_left:tail_m",
+   "digit5_proximal_phalanx_left:head_m",
+   "digit5_proximal_phalanx_left:tail_m",
+   "lunate_left:head_m",
+   "lunate_left:tail_m",
+   "metacarpal_1_left:head_m",
+   "metacarpal_1_left:tail_m",
+   "metacarpal_2_left:head_m",
+   "metacarpal_2_left:tail_m",
+   "metacarpal_3_left:head_m",
+   "metacarpal_3_left:tail_m",
+   "metacarpal_4_left:head_m",
+   "metacarpal_4_left:tail_m",
+   "metacarpal_5_left:head_m",
+   "metacarpal_5_left:tail_m",
+   "radius_left:tail_m",
+   "scaphoid_left:head_m",
+   "scaphoid_left:tail_m",
+   "thumb_distal_phalanx_left:head_m",
+   "thumb_distal_phalanx_left:tail_m",
+   "thumb_proximal_phalanx_left:head_m",
+   "thumb_proximal_phalanx_left:tail_m",
+   "ulna_left:tail_m"
+  ]
+ },
+ "decision": "NO_C005: 10 fingertip inputs are pre-containment stations not encoded by c004 bones/markers; no correction hypothesis reproduces c004 geometry by source rebuild (contain() against the unmoved a003 skin relocates the translated hand)",
+ "points_detail": [
+  {
+   "side": "left",
+   "group": "carpals",
+   "key": "scaphoid",
+   "index": 0,
+   "bone": "scaphoid_left",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.19119543872480133,
+    -0.011105776540322602,
+    0.9236663623216225
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "carpals",
+   "key": "scaphoid",
+   "index": 1,
+   "bone": "scaphoid_left",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.19124429139360408,
+    -0.012755576067794063,
+    0.9127908956679148
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "carpals",
+   "key": "lunate",
+   "index": 0,
+   "bone": "lunate_left",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.19066699216336172,
+    0.0007466240534971789,
+    0.921865988917208
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "carpals",
+   "key": "lunate",
+   "index": 1,
+   "bone": "lunate_left",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.19071584483216447,
+    -0.000903175473974283,
+    0.9109905222635003
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "carpals",
+   "key": "triquetrum",
+   "index": 0,
+   "bone": "triquetrum_left",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.19018702396708476,
+    0.011461342822607289,
+    0.9192269678431272
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "carpals",
+   "key": "triquetrum",
+   "index": 1,
+   "bone": "triquetrum_left",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.1902358766358875,
+    0.009811543295135831,
+    0.9083515011894195
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "carpals",
+   "key": "pisiform",
+   "index": 0,
+   "bone": "pisiform_left",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.18216415005019307,
+    0.01164545778866977,
+    0.9161286463954833
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "carpals",
+   "key": "pisiform",
+   "index": 1,
+   "bone": "pisiform_left",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.18219523811215843,
+    0.010595585362097022,
+    0.9092078948885784
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "carpals",
+   "key": "trapezium",
+   "index": 0,
+   "bone": "trapezium_left",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.19143376370254525,
+    -0.017156321591408022,
+    0.9104249837759509
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "carpals",
+   "key": "trapezium",
+   "index": 1,
+   "bone": "trapezium_left",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.191482616371348,
+    -0.018806121118879485,
+    0.8995495171222433
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "carpals",
+   "key": "trapezoid",
+   "index": 0,
+   "bone": "trapezoid_left",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.19103742878146557,
+    -0.008267021146043187,
+    0.9090747037226401
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "carpals",
+   "key": "trapezoid",
+   "index": 1,
+   "bone": "trapezoid_left",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.19108628145026826,
+    -0.009916820673514654,
+    0.8981992370689325
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "carpals",
+   "key": "capitate",
+   "index": 0,
+   "bone": "capitate_left",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.1906762487704205,
+    -6.5457199713979e-05,
+    0.9098518123597651
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "carpals",
+   "key": "capitate",
+   "index": 1,
+   "bone": "capitate_left",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.19074286604606058,
+    -0.0023151838280841552,
+    0.8950216305592548
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "carpals",
+   "key": "hamate",
+   "index": 0,
+   "bone": "hamate_left",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.19024031778759684,
+    0.009661561519911157,
+    0.9073628224027189
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "carpals",
+   "key": "hamate",
+   "index": 1,
+   "bone": "hamate_left",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.19028917045639954,
+    0.008011761992439699,
+    0.8964873557490113
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "mc2",
+   "index": 0,
+   "bone": "metacarpal_2_left",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.1905993033227627,
+    -0.011366893312618333,
+    0.8974723377823914
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "mc2",
+   "index": 1,
+   "bone": "metacarpal_2_left",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.19052666237097268,
+    -0.03439959027690692,
+    0.843798218993674
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "d2_pp",
+   "index": 0,
+   "bone": "digit2_proximal_phalanx_left",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.19052669217329507,
+    -0.03439955395532651,
+    0.8437982785983188
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "d2_pp",
+   "index": 1,
+   "bone": "digit2_proximal_phalanx_left",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.191066471836381,
+    -0.03552410733772321,
+    0.7988157260699374
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "d2_mp",
+   "index": 0,
+   "bone": "digit2_middle_phalanx_left",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.191066471836381,
+    -0.03552410733772321,
+    0.7988157260699374
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "d2_mp",
+   "index": 1,
+   "bone": "digit2_middle_phalanx_left",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.1913903485749293,
+    -0.03619884216112895,
+    0.771826087264548
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "d2_dp",
+   "index": 0,
+   "bone": "digit2_distal_phalanx_left",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.19139039327841287,
+    -0.03619884309245153,
+    0.771826087264548
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "d2_dp",
+   "index": 1,
+   "bone": "digit2_distal_phalanx_left",
+   "end": "tail_m",
+   "a003_relation": "pre_containment_station",
+   "a003_offset_mm": [
+    0.097,
+    -0.202,
+    -8.097
+   ],
+   "a003_containment_adjustment_mm": 8.1,
+   "c004_bone_endpoint_m": [
+    0.19161710699539666,
+    -0.03667115746883554,
+    0.7529333401007755
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.571,
+    -27.197,
+    16.895
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "NOT_ENCODED"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "mc3",
+   "index": 0,
+   "bone": "metacarpal_3_left",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.1907869032595139,
+    -0.003302883877569137,
+    0.8951716616762893
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "mc3",
+   "index": 1,
+   "bone": "metacarpal_3_left",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.19102665593367105,
+    -0.011399552047977874,
+    0.8417984831614597
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "d3_pp",
+   "index": 0,
+   "bone": "digit3_proximal_phalanx_left",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.19102667083483224,
+    -0.01139955949855847,
+    0.8417985427661044
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "d3_pp",
+   "index": 1,
+   "bone": "digit3_proximal_phalanx_left",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.19102667083483224,
+    -0.011399550185332724,
+    0.792798577575217
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "d3_mp",
+   "index": 0,
+   "bone": "digit3_middle_phalanx_left",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.19102668573599343,
+    -0.011399550185332724,
+    0.792798577575217
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "d3_mp",
+   "index": 1,
+   "bone": "digit3_middle_phalanx_left",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.19102668573599343,
+    -0.011399544597397277,
+    0.7627986061854465
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "d3_dp",
+   "index": 0,
+   "bone": "digit3_distal_phalanx_left",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.19102670063715463,
+    -0.011399544597397277,
+    0.7627986061854465
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "d3_dp",
+   "index": 1,
+   "bone": "digit3_distal_phalanx_left",
+   "end": "tail_m",
+   "a003_relation": "pre_containment_station",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    -9.0
+   ],
+   "a003_containment_adjustment_mm": 9.0,
+   "c004_bone_endpoint_m": [
+    0.19102670063715463,
+    -0.011399540685842464,
+    0.7417986262126072
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    17.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "NOT_ENCODED"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "mc4",
+   "index": 0,
+   "bone": "metacarpal_4_left",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.1905959884113659,
+    0.005529823101411484,
+    0.8950273743030313
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "mc4",
+   "index": 1,
+   "bone": "metacarpal_4_left",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.1905266474698115,
+    0.011600414469112924,
+    0.8437985170168979
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "d4_pp",
+   "index": 0,
+   "bone": "digit4_proximal_phalanx_left",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.1905266176674891,
+    0.011600425644983819,
+    0.8437985170168979
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "d4_pp",
+   "index": 1,
+   "bone": "digit4_proximal_phalanx_left",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.19015867819529061,
+    0.012428263380398324,
+    0.7978074538989169
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "d4_mp",
+   "index": 0,
+   "bone": "digit4_middle_phalanx_left",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.19015867819529061,
+    0.012428255929817727,
+    0.7978074538989169
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "d4_mp",
+   "index": 1,
+   "bone": "digit4_middle_phalanx_left",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.18993472864370828,
+    0.012932161047329476,
+    0.7698128211779697
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "d4_dp",
+   "index": 0,
+   "bone": "digit4_distal_phalanx_left",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.18993471374254708,
+    0.012932168497910073,
+    0.7698128211779697
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "d4_dp",
+   "index": 1,
+   "bone": "digit4_distal_phalanx_left",
+   "end": "tail_m",
+   "a003_relation": "pre_containment_station",
+   "a003_offset_mm": [
+    -0.063,
+    0.141,
+    -7.838
+   ],
+   "a003_containment_adjustment_mm": 7.84,
+   "c004_bone_endpoint_m": [
+    0.1897734700654078,
+    0.013294980182518533,
+    0.7496566856188877
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.411,
+    -27.541,
+    16.637
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "NOT_ENCODED"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "mc5",
+   "index": 0,
+   "bone": "metacarpal_5_left",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.18944835160772386,
+    0.013879231868615395,
+    0.8971722590856328
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "mc5",
+   "index": 1,
+   "bone": "metacarpal_5_left",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.18752665629129892,
+    0.03360044042693572,
+    0.8477982867045505
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "d5_pp",
+   "index": 0,
+   "bone": "digit5_proximal_phalanx_left",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.18752662648897653,
+    0.03360040689932303,
+    0.8477982867045505
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "d5_pp",
+   "index": 1,
+   "bone": "digit5_proximal_phalanx_left",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.18687912633162027,
+    0.03485942836033301,
+    0.8118261683268649
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "d5_mp",
+   "index": 0,
+   "bone": "digit5_middle_phalanx_left",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.18687912633162027,
+    0.03485942463504271,
+    0.8118261683268649
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "d5_mp",
+   "index": 1,
+   "bone": "digit5_middle_phalanx_left",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.18648344089727883,
+    0.035628827466835544,
+    0.789843140868674
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "d5_dp",
+   "index": 0,
+   "bone": "digit5_distal_phalanx_left",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.18648342599611764,
+    0.035628827466835544,
+    0.789843140868674
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "d5_dp",
+   "index": 1,
+   "bone": "digit5_distal_phalanx_left",
+   "end": "tail_m",
+   "a003_relation": "pre_containment_station",
+   "a003_offset_mm": [
+    -0.095,
+    0.185,
+    -5.276
+   ],
+   "a003_containment_adjustment_mm": 5.28,
+   "c004_bone_endpoint_m": [
+    0.18618269374113564,
+    0.03621357078777747,
+    0.7731360400004489
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.378,
+    -27.584,
+    14.074
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "NOT_ENCODED"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "mc1",
+   "index": 0,
+   "bone": "metacarpal_1_left",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.18152665903311258,
+    -0.02239951240716381,
+    0.8987982857508762
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "mc1",
+   "index": 1,
+   "bone": "metacarpal_1_left",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.1574785094473887,
+    -0.053181130260954335,
+    0.8709024775309665
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "th_pp",
+   "index": 0,
+   "bone": "thumb_proximal_phalanx_left",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.1574785243485499,
+    -0.053181128398309185,
+    0.8709024775309665
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "th_pp",
+   "index": 1,
+   "bone": "thumb_proximal_phalanx_left",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.14194741656523233,
+    -0.07306094263566537,
+    0.8528863776011569
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "th_dp",
+   "index": 0,
+   "bone": "thumb_distal_phalanx_left",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    0.14194741656523233,
+    -0.07306093518508477,
+    0.8528863776011569
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "left",
+   "group": "hand",
+   "key": "th_dp",
+   "index": 1,
+   "bone": "thumb_distal_phalanx_left",
+   "end": "tail_m",
+   "a003_relation": "pre_containment_station",
+   "a003_offset_mm": [
+    -4.038,
+    -5.169,
+    -4.684
+   ],
+   "a003_containment_adjustment_mm": 8.06,
+   "c004_bone_endpoint_m": [
+    0.13045438577871804,
+    -0.08777201150430246,
+    0.8395544636530978
+   ],
+   "c004_endpoint_minus_input_mm": [
+    -21.435,
+    -22.231,
+    13.482
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "NOT_ENCODED"
+  },
+  {
+   "side": "right",
+   "group": "carpals",
+   "key": "scaphoid",
+   "index": 0,
+   "bone": "scaphoid_right",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.19119543872479827,
+    -0.011105776540321905,
+    0.9236663623216225
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "carpals",
+   "key": "scaphoid",
+   "index": 1,
+   "bone": "scaphoid_right",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.191244291393601,
+    -0.012755576067793368,
+    0.9127908956679148
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "carpals",
+   "key": "lunate",
+   "index": 0,
+   "bone": "lunate_right",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.19066699216335867,
+    0.0007466240534978752,
+    0.921865988917208
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "carpals",
+   "key": "lunate",
+   "index": 1,
+   "bone": "lunate_right",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.1907158448321614,
+    -0.0009031754739735867,
+    0.9109905222635003
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "carpals",
+   "key": "triquetrum",
+   "index": 0,
+   "bone": "triquetrum_right",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.1901870239670817,
+    0.011461342822607985,
+    0.9192269678431272
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "carpals",
+   "key": "triquetrum",
+   "index": 1,
+   "bone": "triquetrum_right",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.19023587663588443,
+    0.009811543295136527,
+    0.9083515011894195
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "carpals",
+   "key": "pisiform",
+   "index": 0,
+   "bone": "pisiform_right",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.18216415005019,
+    0.011645457788670465,
+    0.9161286463954833
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "carpals",
+   "key": "pisiform",
+   "index": 1,
+   "bone": "pisiform_right",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.18219523811215535,
+    0.01059558536209772,
+    0.9092078948885784
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "carpals",
+   "key": "trapezium",
+   "index": 0,
+   "bone": "trapezium_right",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.1914337637025422,
+    -0.017156321591407328,
+    0.9104249837759509
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "carpals",
+   "key": "trapezium",
+   "index": 1,
+   "bone": "trapezium_right",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.19148261637134492,
+    -0.018806121118878787,
+    0.8995495171222433
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "carpals",
+   "key": "trapezoid",
+   "index": 0,
+   "bone": "trapezoid_right",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.1910374287814625,
+    -0.008267021146042492,
+    0.9090747037226401
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "carpals",
+   "key": "trapezoid",
+   "index": 1,
+   "bone": "trapezoid_right",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.1910862814502652,
+    -0.009916820673513956,
+    0.8981992370689325
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "carpals",
+   "key": "capitate",
+   "index": 0,
+   "bone": "capitate_right",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.19067624877041742,
+    -6.545719971328268e-05,
+    0.9098518123597651
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "carpals",
+   "key": "capitate",
+   "index": 1,
+   "bone": "capitate_right",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.1907428660460575,
+    -0.0023151838280834587,
+    0.8950216305592548
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "carpals",
+   "key": "hamate",
+   "index": 0,
+   "bone": "hamate_right",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.19024031778759376,
+    0.009661561519911852,
+    0.9073628224027189
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "carpals",
+   "key": "hamate",
+   "index": 1,
+   "bone": "hamate_right",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.19028917045639648,
+    0.008011761992440395,
+    0.8964873557490113
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "mc2",
+   "index": 0,
+   "bone": "metacarpal_2_right",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.19059930332275962,
+    -0.011366893312617638,
+    0.8974723377823914
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "mc2",
+   "index": 1,
+   "bone": "metacarpal_2_right",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.1905266623709696,
+    -0.03439959027690622,
+    0.843798218993674
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "d2_pp",
+   "index": 0,
+   "bone": "digit2_proximal_phalanx_right",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.190526692173292,
+    -0.03439955395532581,
+    0.8437982785983188
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "d2_pp",
+   "index": 1,
+   "bone": "digit2_proximal_phalanx_right",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.19106647183637793,
+    -0.03552410733772251,
+    0.7988157260699374
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "d2_mp",
+   "index": 0,
+   "bone": "digit2_middle_phalanx_right",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.19106647183637793,
+    -0.03552410733772251,
+    0.7988157260699374
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "d2_mp",
+   "index": 1,
+   "bone": "digit2_middle_phalanx_right",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.1913903485749262,
+    -0.03619884216112825,
+    0.771826087264548
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "d2_dp",
+   "index": 0,
+   "bone": "digit2_distal_phalanx_right",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.1913903932784098,
+    -0.036198843092450826,
+    0.771826087264548
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "d2_dp",
+   "index": 1,
+   "bone": "digit2_distal_phalanx_right",
+   "end": "tail_m",
+   "a003_relation": "pre_containment_station",
+   "a003_offset_mm": [
+    -0.097,
+    -0.202,
+    -8.097
+   ],
+   "a003_containment_adjustment_mm": 8.1,
+   "c004_bone_endpoint_m": [
+    -0.19161710699539358,
+    -0.03667115746883485,
+    0.7529333401007755
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.571,
+    -27.197,
+    16.895
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "NOT_ENCODED"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "mc3",
+   "index": 0,
+   "bone": "metacarpal_3_right",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.1907869032595108,
+    -0.0033028838775684406,
+    0.8951716616762893
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "mc3",
+   "index": 1,
+   "bone": "metacarpal_3_right",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.19102665593366797,
+    -0.011399552047977178,
+    0.8417984831614597
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "d3_pp",
+   "index": 0,
+   "bone": "digit3_proximal_phalanx_right",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.19102667083482916,
+    -0.011399559498557775,
+    0.8417985427661044
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "d3_pp",
+   "index": 1,
+   "bone": "digit3_proximal_phalanx_right",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.19102667083482916,
+    -0.011399550185332029,
+    0.792798577575217
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "d3_mp",
+   "index": 0,
+   "bone": "digit3_middle_phalanx_right",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.19102668573599035,
+    -0.011399550185332029,
+    0.792798577575217
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "d3_mp",
+   "index": 1,
+   "bone": "digit3_middle_phalanx_right",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.19102668573599035,
+    -0.011399544597396581,
+    0.7627986061854465
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "d3_dp",
+   "index": 0,
+   "bone": "digit3_distal_phalanx_right",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.19102670063715155,
+    -0.011399544597396581,
+    0.7627986061854465
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "d3_dp",
+   "index": 1,
+   "bone": "digit3_distal_phalanx_right",
+   "end": "tail_m",
+   "a003_relation": "pre_containment_station",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    -9.0
+   ],
+   "a003_containment_adjustment_mm": 9.0,
+   "c004_bone_endpoint_m": [
+    -0.19102670063715155,
+    -0.011399540685841767,
+    0.7417986262126072
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    17.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "NOT_ENCODED"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "mc4",
+   "index": 0,
+   "bone": "metacarpal_4_right",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.19059598841136283,
+    0.00552982310141218,
+    0.8950273743030313
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "mc4",
+   "index": 1,
+   "bone": "metacarpal_4_right",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.1905266474698084,
+    0.01160041446911362,
+    0.8437985170168979
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "d4_pp",
+   "index": 0,
+   "bone": "digit4_proximal_phalanx_right",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.19052661766748602,
+    0.011600425644984515,
+    0.8437985170168979
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "d4_pp",
+   "index": 1,
+   "bone": "digit4_proximal_phalanx_right",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.19015867819528753,
+    0.01242826338039902,
+    0.7978074538989169
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "d4_mp",
+   "index": 0,
+   "bone": "digit4_middle_phalanx_right",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.19015867819528753,
+    0.012428255929818423,
+    0.7978074538989169
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "d4_mp",
+   "index": 1,
+   "bone": "digit4_middle_phalanx_right",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.1899347286437052,
+    0.012932161047330172,
+    0.7698128211779697
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "d4_dp",
+   "index": 0,
+   "bone": "digit4_distal_phalanx_right",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.189934713742544,
+    0.012932168497910769,
+    0.7698128211779697
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "d4_dp",
+   "index": 1,
+   "bone": "digit4_distal_phalanx_right",
+   "end": "tail_m",
+   "a003_relation": "pre_containment_station",
+   "a003_offset_mm": [
+    0.063,
+    0.141,
+    -7.838
+   ],
+   "a003_containment_adjustment_mm": 7.84,
+   "c004_bone_endpoint_m": [
+    -0.18977347006540474,
+    0.013294980182519229,
+    0.7496566856188877
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.411,
+    -27.541,
+    16.637
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "NOT_ENCODED"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "mc5",
+   "index": 0,
+   "bone": "metacarpal_5_right",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.18944835160772078,
+    0.013879231868616091,
+    0.8971722590856328
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "mc5",
+   "index": 1,
+   "bone": "metacarpal_5_right",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.18752665629129583,
+    0.03360044042693642,
+    0.8477982867045505
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "d5_pp",
+   "index": 0,
+   "bone": "digit5_proximal_phalanx_right",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.18752662648897345,
+    0.03360040689932373,
+    0.8477982867045505
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "d5_pp",
+   "index": 1,
+   "bone": "digit5_proximal_phalanx_right",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.18687912633161718,
+    0.03485942836033371,
+    0.8118261683268649
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "d5_mp",
+   "index": 0,
+   "bone": "digit5_middle_phalanx_right",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.18687912633161718,
+    0.034859424635043414,
+    0.8118261683268649
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "d5_mp",
+   "index": 1,
+   "bone": "digit5_middle_phalanx_right",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.18648344089727575,
+    0.035628827466836245,
+    0.789843140868674
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "d5_dp",
+   "index": 0,
+   "bone": "digit5_distal_phalanx_right",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.18648342599611456,
+    0.035628827466836245,
+    0.789843140868674
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "d5_dp",
+   "index": 1,
+   "bone": "digit5_distal_phalanx_right",
+   "end": "tail_m",
+   "a003_relation": "pre_containment_station",
+   "a003_offset_mm": [
+    0.095,
+    0.185,
+    -5.276
+   ],
+   "a003_containment_adjustment_mm": 5.28,
+   "c004_bone_endpoint_m": [
+    -0.18618269374113255,
+    0.03621357078777817,
+    0.7731360400004489
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.378,
+    -27.584,
+    14.074
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "NOT_ENCODED"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "mc1",
+   "index": 0,
+   "bone": "metacarpal_1_right",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.1815266590331095,
+    -0.022399512407163112,
+    0.8987982857508762
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "mc1",
+   "index": 1,
+   "bone": "metacarpal_1_right",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.15747850944738562,
+    -0.053181130260953634,
+    0.8709024775309665
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "th_pp",
+   "index": 0,
+   "bone": "thumb_proximal_phalanx_right",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.1574785243485468,
+    -0.053181128398308485,
+    0.8709024775309665
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "th_pp",
+   "index": 1,
+   "bone": "thumb_proximal_phalanx_right",
+   "end": "tail_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.14194741656522925,
+    -0.07306094263566468,
+    0.8528863776011569
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "th_dp",
+   "index": 0,
+   "bone": "thumb_distal_phalanx_right",
+   "end": "head_m",
+   "a003_relation": "identical_to_bone_endpoint",
+   "a003_offset_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "a003_containment_adjustment_mm": null,
+   "c004_bone_endpoint_m": [
+    -0.14194741656522925,
+    -0.07306093518508408,
+    0.8528863776011569
+   ],
+   "c004_endpoint_minus_input_mm": [
+    25.473,
+    -27.4,
+    8.798
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "UNIQUE_EXACT"
+  },
+  {
+   "side": "right",
+   "group": "hand",
+   "key": "th_dp",
+   "index": 1,
+   "bone": "thumb_distal_phalanx_right",
+   "end": "tail_m",
+   "a003_relation": "pre_containment_station",
+   "a003_offset_mm": [
+    4.038,
+    -5.169,
+    -4.684
+   ],
+   "a003_containment_adjustment_mm": 8.06,
+   "c004_bone_endpoint_m": [
+    -0.13045438577871496,
+    -0.08777201150430176,
+    0.8395544636530978
+   ],
+   "c004_endpoint_minus_input_mm": [
+    21.435,
+    -22.231,
+    13.482
+   ],
+   "c004_bone_moved_by_gh_shift": true,
+   "stale_in": [
+    "c001",
+    "c002",
+    "c003",
+    "c004"
+   ],
+   "correction": "NOT_ENCODED"
+  }
+ ]
+}

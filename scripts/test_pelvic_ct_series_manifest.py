@@ -265,6 +265,18 @@ class CandidateSeriesBundle(unittest.TestCase):
         self.assertEqual(value["candidate_block_count"], 13273)
         self.assertEqual(value["mesh_vertex_count"], 106184)
         self.assertEqual(value["mesh_quad_count"], 79638)
+        self.assertEqual(
+            value["group_summaries"][0]["component_block_counts_6_neighbour"],
+            [6675, 315, 248, 15, 4, 4, 1, 1],
+        )
+        self.assertEqual(
+            value["group_summaries"][1]["component_block_counts_6_neighbour"],
+            [5769, 240, 1],
+        )
+        self.assertTrue(all(
+            group["automatic_component_filter_applied"] is False
+            for group in value["group_summaries"]
+        ))
         self.assertFalse(value["values_are_calibrated_HU"])
         self.assertFalse(value["anatomical_bone_segmentation_verified"])
         self.assertFalse(value["patient_scanner_to_HGPT_world_verified"])
@@ -307,6 +319,14 @@ class CandidateSeriesBundle(unittest.TestCase):
                 changed[field] += 1
                 with self.assertRaisesRegex(ValueError, "group totals"):
                     series.validate_occupancy_review(changed, source_bundle)
+        changed = copy.deepcopy(review)
+        changed["group_summaries"][0]["automatic_component_filter_applied"] = True
+        with self.assertRaisesRegex(ValueError, "component audit"):
+            series.validate_occupancy_review(changed, source_bundle)
+        changed = copy.deepcopy(review)
+        changed["group_summaries"][0]["component_block_counts_6_neighbour"][0] -= 1
+        with self.assertRaisesRegex(ValueError, "component audit"):
+            series.validate_occupancy_review(changed, source_bundle)
 
     def test_occupancy_review_must_match_validated_source_bundle(self):
         audit = ROOT / "ORIGINAL_V1_WORK" / "anatomy" / "audit"

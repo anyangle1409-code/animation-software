@@ -24,14 +24,22 @@
       "source_slice_count": 37,
       "candidate_block_count": 7263,
       "mesh_vertex_count": 58104,
-      "mesh_quad_count": 43578
+      "mesh_quad_count": 43578,
+      "connected_component_count_6_neighbour": 8,
+      "component_block_counts_6_neighbour": [6675, 315, 248, 15, 4, 4, 1, 1],
+      "largest_component_block_fraction": 0.9190417182982239,
+      "automatic_component_filter_applied": false
     },
     {
       "group_index": 2,
       "source_slice_count": 35,
       "candidate_block_count": 6010,
       "mesh_vertex_count": 48080,
-      "mesh_quad_count": 36060
+      "mesh_quad_count": 36060,
+      "connected_component_count_6_neighbour": 3,
+      "component_block_counts_6_neighbour": [5769, 240, 1],
+      "largest_component_block_fraction": 0.959900166389351,
+      "automatic_component_filter_applied": false
     }
   ],
   "visual_review": {
@@ -48,12 +56,13 @@
   "canonical_promotion_allowed": false,
   "source_images_packed": false,
   "private_outputs_must_remain_untracked": true,
-  "blend_sha256": "5a68281db2231a0d4a31ff5f2aa524cffeefd00706f0afcb1379f19e2be51ffa",
-  "render_sha256": "2b9dc52fece045d7ac1eaff68bc0826b471b4b47887205b2215bcdda35b8325e",
+  "blend_sha256": "abbbc0a96633538dd5f082105003e731a846c2400cb0fd48fec509b731aaf486",
+  "render_sha256": "6e69c9039eee0d8c60aff16f6644413bf1babc88cf36ad3731ec168583aeb374",
   "limitations": [
     "The threshold applies to stored PNG scalar values and is not calibrated Hounsfield-unit segmentation.",
     "The block mesh is a coarse occupancy visualization and is not a validated anatomical surface.",
     "Disconnected threshold islands remain visible and no topology, closure, laterality, or bone-label validation is claimed.",
+    "Connected-component counts are reported per acquisition group and no automatic component filtering was applied.",
     "The scene did not load or modify the source skeleton; the source skeleton remains the geometry authority.",
     "Independent second review and independent-population evidence are still required before any canonical promotion."
   ]

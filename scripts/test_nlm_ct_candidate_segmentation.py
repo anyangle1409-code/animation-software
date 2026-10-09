@@ -105,6 +105,9 @@ class CandidateSegmentation(unittest.TestCase):
         )
         self.assertEqual(result["voxel_count"], 5)
         self.assertEqual(result["connected_component_count_6_neighbour"], 1)
+        self.assertEqual(result["component_voxel_counts_6_neighbour"], [5])
+        self.assertEqual(result["largest_component_voxel_fraction"], 1.0)
+        self.assertFalse(result["automatic_component_filter_applied"])
         self.assertEqual(result["source_ids"], [1749, 1752, 1755])
         centres = [
             pixel_ras.place_pixel(source_scanners[1749], 10, 10)[
@@ -133,6 +136,20 @@ class CandidateSegmentation(unittest.TestCase):
         value["slices"][2]["runs"].append([100, 100, 100])
         result = segmentation.validate_candidate_segmentation(value, review_result(), scanners())
         self.assertEqual(result["connected_component_count_6_neighbour"], 2)
+        self.assertEqual(result["component_voxel_counts_6_neighbour"], [5, 1])
+        self.assertAlmostEqual(result["largest_component_voxel_fraction"], 5 / 6)
+        self.assertFalse(result["automatic_component_filter_applied"])
+
+    def test_component_sizes_are_deterministic_without_filtering(self):
+        voxels = {
+            (0, 0, 0), (0, 0, 1), (1, 0, 1),
+            (4, 8, 8), (4, 8, 9),
+            (9, 9, 9),
+        }
+        self.assertEqual(
+            segmentation.component_sizes_6_neighbour(voxels),
+            [3, 2, 1],
+        )
 
     def test_cross_gap_volume_fails(self):
         source_ids = (1749, 1752, 1797)

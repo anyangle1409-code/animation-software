@@ -287,6 +287,23 @@ def validate_occupancy_review(review, source_bundle):
         slice_total += group["source_slice_count"]
         for field in total_fields:
             totals[field] += group[field]
+        component_sizes = group.get("component_block_counts_6_neighbour")
+        if (not isinstance(component_sizes, list) or not component_sizes or
+                any(isinstance(value, bool) or not isinstance(value, int) or value <= 0
+                    for value in component_sizes) or
+                component_sizes != sorted(component_sizes, reverse=True) or
+                sum(component_sizes) != group["candidate_block_count"] or
+                group.get("connected_component_count_6_neighbour") !=
+                len(component_sizes) or
+                group.get("automatic_component_filter_applied") is not False):
+            raise ValueError("occupancy component audit is incomplete or inconsistent")
+        largest_fraction = _number(
+            group.get("largest_component_block_fraction"),
+            "largest component block fraction",
+        )
+        expected_fraction = component_sizes[0] / group["candidate_block_count"]
+        if abs(largest_fraction - expected_fraction) > _TOLERANCE:
+            raise ValueError("occupancy component audit has inconsistent fraction")
     if slice_total != bundle_report["slice_count"]:
         raise ValueError("occupancy group slice totals do not match source bundle")
     if any(review.get(field) != total for field, total in totals.items()):

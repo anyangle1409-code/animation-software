@@ -20,8 +20,8 @@ Date: 2026-10-09
 4. The deterministic workflow records three source-pinned observations, a 27-voxel connectivity probe, zero defensible landmarks, zero canonical promotions, and all unmet gates.
 5. Empty landmark packets are now valid so the workflow preserves absence instead of pressuring a reviewer to invent a landmark.
 6. Ten source-bound candidate observations now cover representative iliac, sacral, acetabular, femoral-head, and pubic-region planes while retaining every unmet independent-review and promotion gate.
-7. The focused pelvic CT suite passes 105 tests. The complete-series, multi-group bundle, and Blender occupancy gates now have 19 tests, and the anatomical review suite has 13 tests. The full pull-request intake command set passes 352 tests.
-8. Blender 5.2.1 privately revalidated all 72 source image/header pairs and produced a two-group, coarse 8-by-8-pixel stored-scalar occupancy scene. Its 13,273 blocks expose useful volume and boundary evidence, but also disconnected threshold islands. The committed summary is deliberately labelled as not segmentation; source images and Blender outputs remain private and untracked.
+7. The anatomical review suite has 13 tests, candidate segmentation has 14, and the complete-series, multi-group bundle, and Blender occupancy gates have 19. The full pull-request intake command set passes 354 tests.
+8. Blender 5.2.1 privately revalidated all 72 source image/header pairs and produced a two-group, coarse 8-by-8-pixel stored-scalar occupancy scene. Its 13,273 blocks expose useful volume and boundary evidence, but also 8 components in the superior group and 3 in the inferior group. No automatic component filtering was applied. The committed summary is deliberately labelled as not segmentation; source images and Blender outputs remain private and untracked.
 
 ## Required next sequence
 

@@ -85,11 +85,12 @@ def _validated_runs(slices):
     return validated, voxel_count
 
 
-def _components(voxels):
+def component_sizes_6_neighbour(voxels):
+    """Return descending component sizes without selecting or filtering any."""
     remaining = set(voxels)
-    count = 0
+    sizes = []
     while remaining:
-        count += 1
+        size = 1
         stack = [remaining.pop()]
         while stack:
             z, row, col = stack.pop()
@@ -99,7 +100,9 @@ def _components(voxels):
                 if neighbour in remaining:
                     remaining.remove(neighbour)
                     stack.append(neighbour)
-    return count
+                    size += 1
+        sizes.append(size)
+    return sorted(sizes, reverse=True)
 
 
 def validate_candidate_segmentation(packet: dict, review_result: dict,
@@ -168,7 +171,11 @@ def validate_candidate_segmentation(packet: dict, review_result: dict,
     result["source_ids"] = list(source_ids)
     result["validated_runs"] = runs
     result["voxel_count"] = voxel_count
-    result["connected_component_count_6_neighbour"] = _components(voxels)
+    component_sizes = component_sizes_6_neighbour(voxels)
+    result["connected_component_count_6_neighbour"] = len(component_sizes)
+    result["component_voxel_counts_6_neighbour"] = component_sizes
+    result["largest_component_voxel_fraction"] = component_sizes[0] / voxel_count
+    result["automatic_component_filter_applied"] = False
     result["voxel_index_bounds"] = {
         "min": [min(value[i] for value in voxels) for i in range(3)],
         "max": [max(value[i] for value in voxels) for i in range(3)],

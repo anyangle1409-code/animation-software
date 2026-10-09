@@ -10,6 +10,9 @@ on:
       - 'scripts/test_coupled_trunk_preflight.py'
       - 'scripts/anatomy_fit/replay_p004_coupled_thorax.py'
       - 'scripts/test_replay_p004_coupled_thorax.py'
+      - 'scripts/anatomy_fit/replay_p005_shoulder_chain.py'
+      - 'scripts/anatomy_fit/coupled_shoulder_contact_audit.py'
+      - 'scripts/test_replay_p005_shoulder_chain.py'
       - '.github/workflows/coupled-trunk-preflight.yml'
   workflow_dispatch:
 
@@ -26,10 +29,21 @@ jobs:
         run: |
           python3 -m unittest discover -s scripts -p 'test_coupled_trunk_preflight.py' -v
           python3 -m unittest discover -s scripts -p 'test_replay_p004_coupled_thorax.py' -v
+          python3 -m unittest discover -s scripts -p 'test_replay_p005_shoulder_chain.py' -v
       - name: Build isolated diagnostic P004 in temporary CI folder (not canonical)
         run: |
           python3 scripts/anatomy_fit/replay_p004_coupled_thorax.py --out /tmp/p004_candidate_diagnostic.json
           python3 scripts/anatomy_fit/coupled_trunk_preflight.py \
             --baseline ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json \
             --proposal /tmp/p004_candidate_diagnostic.json
+      - name: Build P005 and verify independent SC AC GH diagnostic (not canonical)
+        run: |
+          python3 scripts/anatomy_fit/replay_p005_shoulder_chain.py --p004 /tmp/p004_candidate_diagnostic.json --out /tmp/p005_shoulder_chain_diagnostic.json
+          python3 scripts/anatomy_fit/coupled_trunk_preflight.py \
+            --baseline ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json \
+            --proposal /tmp/p005_shoulder_chain_diagnostic.json
+          python3 scripts/anatomy_fit/coupled_shoulder_contact_audit.py \
+            --baseline ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json \
+            --proposal /tmp/p005_shoulder_chain_diagnostic.json
+
 

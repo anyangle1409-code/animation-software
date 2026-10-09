@@ -29,7 +29,7 @@ class Rib3DCouplingTests(unittest.TestCase):
     def test_exact_participants_and_corridors(self):
         result = a.audit(self.baseline, self.p005)
         self.assertEqual(result['ribs_checked'], 24)
-        self.assertEqual(result['rib_joint_markers_checked'], 48)
+        self.assertEqual(result['rib_joint_markers_checked'], 44)
         self.assertEqual(result['sternocostal_corridors_checked'], 14)
         self.assertFalse(result['contact_surfaces_verified'])
         self.assertFalse(result['costal_cartilage_modelled'])
@@ -108,9 +108,18 @@ class Rib3DCouplingTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'invalid costovertebral'):
             a.audit(self.baseline, mutated)
 
+    def test_floating_rib_inventory_does_not_invent_costotransverse(self):
+        record = a.measured(self.baseline)
+        for side in ('left', 'right'):
+            for index in (11, 12):
+                rib = record[f'rib_{index:02d}_{side}']
+                self.assertEqual(set(rib['marker_minus_rib_head_m']), {'costovertebral'})
+        self.assertNotIn('costotransverse_11_left', self.baseline['joint_markers'])
+        self.assertNotIn('costotransverse_12_right', self.baseline['joint_markers'])
+
     def test_removed_rib_marker_fails_closed(self):
         mutated = copy.deepcopy(self.p005)
-        del mutated['joint_markers']['costotransverse_11_left']
+        del mutated['joint_markers']['costotransverse_10_left']
         with self.assertRaisesRegex(ValueError, 'joint marker inventory differs'):
             a.audit(self.baseline, mutated)
 

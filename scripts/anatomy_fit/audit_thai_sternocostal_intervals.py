@@ -58,9 +58,13 @@ def validate(record: dict, old: dict) -> dict:
         table["combined_jugular_to_mesoxiphoidal_chord_mm"] != {"mean":146.02,"sd":10.41}):
         raise ValueError("Noncomparable source combined length changed")
     defs=record["endpoint_definitions"]
-    for pair,field in (("2nd","ICL23"),("3rd","ICL34"),("4th","ICL45")):
-        if pair not in defs.get(field,""):
-            raise ValueError("Intercostal facet centre pair semantically altered")
+    required_definitions = {
+        "ICL23": "Distance between centre of 2nd rib costal cartilage facet and centre of 3rd rib costal cartilage facet",
+        "ICL34": "Distance between centre of 3rd rib costal cartilage facet and centre of 4th rib costal cartilage facet",
+        "ICL45": "Distance between centre of 4th rib costal cartilage facet and centre of 5th rib costal cartilage facet",
+    }
+    if any(defs.get(field) != value for field, value in required_definitions.items()):
+        raise ValueError("Intercostal facet centre pair semantically altered")
     for field in ("not_vertebral_costal_rib_bone_tip_distance","not_3d_cartilage_path_distance",
                   "not_necessarily_sternum_global_vertical_gap","side_and_scanner_frame_not_defined",
                   "other_intervals_not_provided","no_absolute_rib_level_centres_in_common_3d_frame"):

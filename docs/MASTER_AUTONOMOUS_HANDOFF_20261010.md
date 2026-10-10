@@ -562,3 +562,35 @@ Current safe anatomy action remains source-pinned sequential CT review across
 the two acquisition groups, with candidate observations only and second review
 before any landmark or segmentation advances. Keep the source skeleton
 unchanged and all private artifacts outside Git.
+
+## Verified source-ordered pelvic CT viewer, 2026-10-10 evening
+
+Draft [PR #44](https://github.com/anyangle1409-code/animation-software/pull/44)
+is pushed at `abaacc61d4ee0a4612598fda1f5b9f0bdbdefad2` on
+`codex/pelvic-ct-blender-sequence-review-20261010`, stacked on the independent
+CT identification branch. Its private Blender 5.2.1 timeline holds all 82
+source-pinned PNG/header pairs, preserving the scanner-defined 43/39 groups
+and their boundary. The saved scene reopens with 82 external/unpacked display
+images and exactly the expected visible slice at frames 1, 43, 44 and 82.
+Fixed-window display copies, the scene, previews and report remain in
+`work/private-nlm-ct-20261009/sequential-viewer-20261010/`, outside Git.
+
+Nine native viewer tests pass on both laptop Blender 5.2.1 and hosted Blender
+4.0.2. They verify source order, group markers, scale, handedness, corner/UV
+orientation, camera geometry, frame visibility, identity checks and external
+image handling using synthetic pixels. Native CI first exposed the older
+Blender material's empty node tree; the regression now passes after enabling
+shader nodes only when required. All five jobs passed in
+[CI run 38091450091](https://github.com/anyangle1409-code/animation-software/actions/runs/38091450091).
+This completes viewer verification only. Regional readiness stays
+`0 READY / 9 PARTIAL / 3 BLOCKED`.
+
+Next executable anatomy action: reuse the saved viewer for source-pinned
+candidate notes, consulting the original full-resolution PNG and scanner
+header for every observation. Preserve acquisition-group membership and
+uncertainty. Independent second review remains required before bone identity,
+seven pelvic landmarks, segmentation, scanner-to-HGPT registration or
+canonical geometry can advance. The source skeleton remains the geometry
+authority. Do not rebuild the viewer, reacquire/calibrate these source bytes,
+or repeat completed sweeps. The existing BoneHub intensity-calibration and
+regional evidence blockers remain recorded separately.

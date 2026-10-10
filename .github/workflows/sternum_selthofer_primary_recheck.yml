@@ -1,0 +1,77 @@
+name: Independent primary sternum endpoint evidence checks
+
+on:
+  push:
+    branches: [codex/sternum-selthofer-primary-source-recheck-20261010]
+    paths:
+      - ORIGINAL_V1_WORK/anatomy/sternum_selthofer_2006_primary_table_recheck_20261010.json
+      - scripts/anatomy_fit/audit_selthofer_sternum_primary.py
+      - scripts/test_sternum_selthofer_primary_recheck_20261010.py
+      - ORIGINAL_V1_WORK/anatomy/sternum_thai_2022_three_facet_intervals_20261010.json
+      - scripts/anatomy_fit/audit_thai_sternocostal_intervals.py
+      - scripts/test_thai_sternocostal_intervals_20261010.py
+      - .github/workflows/sternum_selthofer_primary_recheck.yml
+  pull_request:
+    paths:
+      - ORIGINAL_V1_WORK/anatomy/sternum_selthofer_2006_primary_table_recheck_20261010.json
+      - scripts/anatomy_fit/audit_selthofer_sternum_primary.py
+      - scripts/test_sternum_selthofer_primary_recheck_20261010.py
+      - ORIGINAL_V1_WORK/anatomy/sternum_thai_2022_three_facet_intervals_20261010.json
+      - scripts/anatomy_fit/audit_thai_sternocostal_intervals.py
+      - scripts/test_thai_sternocostal_intervals_20261010.py
+      - .github/workflows/sternum_selthofer_primary_recheck.yml
+
+jobs:
+  prove-noncanonical-sternum-source:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 5
+    steps:
+      - name: Read-only checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Original primary table and historical conflict regression
+        run: python -m unittest discover -s scripts -p 'test_sternum_selthofer_primary_recheck_20261010.py' -v
+      - name: Independent Thai 2022 costal notch source ranges
+        run: python -m unittest discover -s scripts -p 'test_thai_sternocostal_intervals_20261010.py' -v
+      - name: Validate three direct physical facet spacings with no geometry acceptance
+        run: |
+          python scripts/anatomy_fit/audit_thai_sternocostal_intervals.py > "$RUNNER_TEMP/sternum-facet-three-intervals.json"
+          python - "$RUNNER_TEMP/sternum-facet-three-intervals.json" <<'PY'
+          import json,sys
+          with open(sys.argv[1],encoding='utf-8') as f: d=json.load(f)
+          assert d['n_training_male']==104
+          assert d['target_182cm_outside_training_stature_range'] is True
+          assert d['source_study_means_center2_to3_3to4_4to5_mm']==[29.3,25.2,19.56]
+          assert d['remaining_notch_levels_unresolved'] is True
+          assert d['cp1_gate6_passed'] is False
+          print('Three reported intercostal levels verified; no 182cm extrapolation or target selection')
+          PY
+      - name: Source numerical diagnostic without changing canonical
+        run: |
+          python scripts/anatomy_fit/audit_selthofer_sternum_primary.py > "$RUNNER_TEMP/sternum-source-endpoint-check.json"
+          python - "$RUNNER_TEMP/sternum-source-endpoint-check.json" <<'PY'
+          import json,sys
+          with open(sys.argv[1],encoding="utf-8") as f: data=json.load(f)
+          assert data["source_study_male_n"]==55
+          assert data["selthofer_2006_male_total_jugular_to_xiphoid_mean_mm"]==208.6
+          assert data["selthofer_2006_total_sd_mm"]==14.6
+          assert data["incompatible_totals_arithmetic_difference_NOT_anatomical_conflict_mm"]==54.5
+          assert data["more_comparable_combined_M_plus_B_means_difference_mm"]==10.8
+          assert data["prior_canonical_record_semantic_key_including_xiphoid_is_wrong"] is True
+          assert data["notch_by_notch_verified_coordinates_available"] is False
+          assert data["anatomical_geometry_promoted"] is False
+          assert data["cp1_gate6_passed"] is False
+          print("2006 jugular-to-xiphoid 208.6mm; Turkish M+B xiphoid-excluded 154.1mm; noncomparable totals. M+B diff 10.8mm.")
+          PY
+      - name: Upload derived numerical source comparison only (no PDF/CT/assets)
+        uses: actions/upload-artifact@v4
+        with:
+          name: independent-2006-sternum-notches-endpoint-diagnostic
+          path: |
+            ${{ runner.temp }}/sternum-source-endpoint-check.json
+            ${{ runner.temp }}/sternum-facet-three-intervals.json
+          if-no-files-found: error
+          retention-days: 14

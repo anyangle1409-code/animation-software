@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "kind": "HGPT_NONCANONICAL_PRIMARY_STERNOCOSTAL_FACET_INTERVALS",
+  "review_date": "2026-10-10",
+  "source": {
+    "title": "Stature estimation using the sternum in a Thai population",
+    "authors": "Jeamamornrat, Monum, Keereewan, Mahakkanukrauh",
+    "publication": "Anatomy & Cell Biology 55(2):170-178 (2022)",
+    "doi": "10.5115/acb.22.045",
+    "pmid": "35773219",
+    "pmcid": "PMC9256492",
+    "primary_publisher_url": "https://doi.org/10.5115/acb.22.045",
+    "readable_full_text": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9256492/",
+    "license_reported": "CC BY-NC 4.0 (paper): no reproduction of journal figures/text or source patient data in commercial app without rights",
+    "paper_or_images_copied_into_repository": false,
+    "study_population": "Northern Thai donated dry sterna; cadaver stature measured supine",
+    "all_cases_total": 219,
+    "training_total": 199,
+    "training_male": 104,
+    "training_female": 95,
+    "held_out_test_total": 20,
+    "held_out_test_male": 10,
+    "held_out_test_female": 10,
+    "mean_training_age_years": 66.5,
+    "training_stature_range_cm": [
+      140,
+      180
+    ],
+    "target_stature_cm": 182,
+    "target_stature_is_inside_study_training_range": false,
+    "source_table": "Original Table 1 definitions and Table 2 male training means/SD",
+    "original_measurement_method": "Digital calipers, dry bone",
+    "side_specific_measurements_published": false
+  },
+  "male_training_table_2": {
+    "intercostal_center_distance_2_to_3_mm": {
+      "mean": 29.3,
+      "sd": 3.11,
+      "range": [
+        18.88,
+        36.07
+      ]
+    },
+    "intercostal_center_distance_3_to_4_mm": {
+      "mean": 25.2,
+      "sd": 2.71,
+      "range": [
+        15.14,
+        32.29
+      ]
+    },
+    "intercostal_center_distance_4_to_5_mm": {
+      "mean": 19.56,
+      "sd": 2.87,
+      "range": [
+        9.46,
+        28.17
+      ]
+    },
+    "manubrium_length_mm": {
+      "mean": 48.9,
+      "sd": 5.28
+    },
+    "mesosternum_length_mm": {
+      "mean": 97.12,
+      "sd": 9.57
+    },
+    "combined_jugular_to_mesoxiphoidal_chord_mm": {
+      "mean": 146.02,
+      "sd": 10.41
+    },
+    "note": "CMM a straight distance; do not equate to separately measured segment lengths or a Blender bone stick"
+  },
+  "endpoint_definitions": {
+    "ICL23": "Distance between centre of 2nd rib costal cartilage facet and centre of 3rd rib costal cartilage facet",
+    "ICL34": "Distance between centre of 3rd rib costal cartilage facet and centre of 4th rib costal cartilage facet",
+    "ICL45": "Distance between centre of 4th rib costal cartilage facet and centre of 5th rib costal cartilage facet",
+    "not_vertebral_costal_rib_bone_tip_distance": true,
+    "not_3d_cartilage_path_distance": true,
+    "not_necessarily_sternum_global_vertical_gap": true,
+    "side_and_scanner_frame_not_defined": true,
+    "other_intervals_not_provided": true,
+    "no_absolute_rib_level_centres_in_common_3d_frame": true
+  },
+  "comparison": {
+    "a003_sternocostal_level_depths_mm": {
+      "1": 3.5,
+      "2": 38.7,
+      "3": 73.9,
+      "4": 105.8,
+      "5": 136.8,
+      "6": 167,
+      "7": 196.8
+    },
+    "a003_interlevel_depth_projection_mm": {
+      "2_3": 35.2,
+      "3_4": 31.9,
+      "4_5": 31
+    },
+    "a003_is_3d_facets_with_matching_study_endpoint": false,
+    "scalar_depth_vs_osteology_contrast_is_diagnostic_only": true,
+    "source_population_not_182cm_conditional": true,
+    "biological_means_not_joint_acceptance_values": true
+  },
+  "acceptance": {
+    "verified_three_original_male_intercostal_intervals": true,
+    "remaining_four_or_more_attachment_gaps_missing": true,
+    "side_specific_axes_missing": true,
+    "full_per_notch_depth_targets_available": false,
+    "normative_182cm_calibration_passed": false,
+    "commercial_source_visual_reuse_authorized": false,
+    "canonical_sternum_coordinate_selected": false,
+    "canonical_rib_contacts_selected": false,
+    "existing_canonical_records_mutated": false,
+    "cp1_gate6_passed": false,
+    "regional_readiness_changed": false
+  }
+}

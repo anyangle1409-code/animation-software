@@ -594,3 +594,34 @@ canonical geometry can advance. The source skeleton remains the geometry
 authority. Do not rebuild the viewer, reacquire/calibrate these source bytes,
 or repeat completed sweeps. The existing BoneHub intensity-calibration and
 regional evidence blockers remain recorded separately.
+
+## Frozen c001/c002 Windows reproduction checkpoint, 2026-10-10 late evening
+
+Draft [PR #45](https://github.com/anyangle1409-code/animation-software/pull/45)
+on `codex/windows-c001-source-paths-20261010` is pushed at
+`66bba1b3258c45acb5795ce1a310dde595f97241`, stacked on this master branch.
+The clean short checkout `C:/Users/Mark/Documents/Codex/hgpt-source-blender-audit`
+now holds that dedicated branch, **not the earlier detached checkpoint**.
+Inspect its current state before any reuse; preserve the published work.
+
+Three previously failing, unchanged record comparisons were independently
+reproduced before fixing five path serialization expressions. Full differences
+were exclusively Windows separators in source paths/hash keys. All **31
+unchanged c001/c002 tests pass** in laptop Python (2.424 seconds) and actual
+Blender 5.2.1 (2.797 seconds), including source/review hashes, unchanged internal
+geometry, candidate scope, unaccepted status and retained closure defects.
+No frozen records, numerical expressions or anatomy were altered.
+
+Initial CI run `38092898558` passed Windows and source safety. The newly added
+Ubuntu Blender candidate step could not import NumPy; existing native render
+and source-triangle checks passed. The latest workflow explicitly installs
+`python3-numpy` and runs all 31 tests on both platforms. Latest hosted CI is
+pending at this checkpoint, and the inherited full suite is still red.
+
+Next regression action: inspect exact-head PR #45 CI before claiming hosted
+success, then reproduce c003 or shoulder ANSUR acromion report comparisons and
+inspect every difference before further path-only corrections. See
+`docs/WINDOWS_C001_PATH_REPRODUCTION_20261010.md` on PR #45. Do not rerun the
+expensive full suite or completed motion sweeps. Source-bound anatomical
+review and independent evidence remain separate gates; regional readiness
+stays `0 READY / 9 PARTIAL / 3 BLOCKED` with no canonical promotion.

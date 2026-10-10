@@ -1,0 +1,79 @@
+name: First-party strict GLB2 skinned geometry source gate
+
+on:
+  push:
+    branches: [codex/first-party-glb-skinned-geometry-gate-20261010]
+    paths:
+      - src/viewer/firstPartyGlbSkinnedGeometry.mjs
+      - tests/support/buildSyntheticFirstPartyGlb.mjs
+      - tests/firstPartyGlbSkinnedGeometry.test.mjs
+      - scripts/verify-first-party-glb-browser.mjs
+      - docs/FIRST_PARTY_GLB_SKINNED_DATA_GATE_20261010.md
+      - .github/workflows/first_party_strict_glb2_source_gate.yml
+  pull_request:
+    paths:
+      - src/viewer/firstPartyGlbSkinnedGeometry.mjs
+      - tests/support/buildSyntheticFirstPartyGlb.mjs
+      - tests/firstPartyGlbSkinnedGeometry.test.mjs
+      - scripts/verify-first-party-glb-browser.mjs
+      - .github/workflows/first_party_strict_glb2_source_gate.yml
+
+permissions:
+  contents: read
+
+jobs:
+  bounded-no-vendor-GLB-parse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Synthetic GLB2 decode and malformed byte/source/asset tests with no npm install
+        run: |
+          node --test tests/firstPartyGlbSkinnedGeometry.test.mjs
+          node --test tests/firstPartyIndexedSkinnedMesh.test.mjs
+          node --test tests/firstPartyWebGL2SkeletonPreview.test.mjs
+      - name: Enforce zero Three or R3F source import in all new parser and GPU code
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          for(const file of [
+            'src/viewer/firstPartyGlbSkinnedGeometry.mjs',
+            'src/viewer/firstPartyIndexedSkinnedMesh.mjs',
+            'src/viewer/firstPartyWebGL2SkeletonPreview.mjs'
+          ]){
+            const src=fs.readFileSync(file,'utf8');
+            if(/from\s+['"](?:three|[^'"]*threeRuntimeBoundary|[^'"]*threeSceneBoundary|react|react-dom|@react-three\/[^'"]*)['"]/.test(src))
+              throw new Error('Third-party import in first-party GLB source path: '+file);
+          }
+          console.log('Strict GLB2 source geometry and GPU rendering use no third-party JS runtime');
+          JS
+  real-native-GPU-after-GLB-decoder:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install unchanged dev-only browser harness
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Install Chromium to test native WebGL2 data loader
+        run: npx playwright install --with-deps chromium
+      - name: Decode original synthetic GLB and render 18 first-party skinned triangle frames in Chromium
+        run: node scripts/verify-first-party-glb-browser.mjs
+      - name: Save synthetic only diagnostic and verification summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: first-party-glb2-skinned-synthetic-parser-nonproduction
+          path: reports/browser-smoke/first-party-glb-skinned-data-only/
+          if-no-files-found: warn
+          retention-days: 14

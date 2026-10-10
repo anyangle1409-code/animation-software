@@ -25,3 +25,63 @@ jobs:
             echo "Original NLM medical image or GE header tracked"
             exit 1
           fi
+
+  source-pinned-real-ct-extraction:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Acquire three pinned NLM source images and GE headers into temporary storage
+        run: |
+          python3 - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+
+          repo = Path.cwd()
+          data = json.loads((repo / "ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json").read_text())
+          rows = data["series"][0]["slices"][9:12]
+          assert [r["source_id"] for r in rows] == ["cvm1761f", "cvm1764f", "cvm1767f"]
+          staging = Path(os.environ["RUNNER_TEMP"]) / "nlm_source"
+          staging.mkdir(parents=True, exist_ok=False)
+          origins = (
+              ("https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/PNG_format/radiological/normalCT/", ".png", "source_png_sha256", 2_000_000),
+              ("https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/PNG_format/radiological/normalCTHeaders/", ".txt", "source_header_sha256", 65_536),
+          )
+          for row in rows:
+              for base, ext, field, limit in origins:
+                  url = base + row["source_id"] + ext
+                  with urlopen(Request(url, headers={"User-Agent": "HGPT-SourcePinned-CT-Review/1.0"}), timeout=45) as response:
+                      if response.status != 200 or response.geturl() != url:
+                          raise ValueError("original NLM source location changed")
+                      content = response.read(limit + 1)
+                  if len(content) > limit or hashlib.sha256(content).hexdigest() != row[field]:
+                      raise ValueError("downloaded source does not match pinned SHA")
+                  if ext == ".png" and len(content) != row["source_png_bytes"]:
+                      raise ValueError("original CT image byte count changed")
+                  (staging / (row["source_id"] + ext)).write_bytes(content)
+          print("Original source hashes confirmed for 3 CT images and 3 GE headers.")
+          PY
+      - name: Extract real provisional calibrated CT boundary without publishing medical geometry
+        run: |
+          mkdir -p "$RUNNER_TEMP/nlm_surface_review"
+          python3 scripts/anatomy_fit/nlm_ct_provisional_surface.py \
+            --ct-dir "$RUNNER_TEMP/nlm_source" \
+            --bundle ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json \
+            --calibration ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_hu_calibration_20261009.json \
+            --group 1 --start 9 --count 3 --roi 40 190 170 390 --hu-min 300 \
+            --out "$RUNNER_TEMP/nlm_surface_review/calibrated_candidate.obj"
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          report = json.loads((Path(os.environ["RUNNER_TEMP"]) / "nlm_surface_review/calibrated_candidate.obj.json").read_text())
+          assert report["bone_identity_or_surface_verified"] is False
+          assert report["canonical_promotion_allowed"] is False
+          assert len(report["source_ids"]) == 3
+          print("Original source-derived candidate voxel count:", report["voxel_count"])
+          print("Provisional boundary quads:", report["boundary_quads"])
+          print("Connected voxel regions:", len(report["connected_components_6_neighbour"]))
+          print("Original CT source bytes, derivative mesh, and headers were not uploaded.")
+          PY

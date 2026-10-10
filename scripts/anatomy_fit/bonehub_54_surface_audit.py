@@ -150,6 +150,7 @@ def mesh_diagnostics(raw: bytes) -> dict:
     lo = [math.inf]*3
     hi = [-math.inf]*3
     degenerate = 0
+    face_anchors: list[int] = []
 
     def vertex(v: tuple) -> int:
         if v not in lookup:
@@ -195,6 +196,7 @@ def mesh_diagnostics(raw: bytes) -> dict:
             continue
         union(ids[0], ids[1])
         union(ids[0], ids[2])
+        face_anchors.append(ids[0])
         for a, b in ((ids[0], ids[1]), (ids[1], ids[2]), (ids[2], ids[0])):
             pair = (min(a,b), max(a,b))
             sign = 1 if a < b else -1
@@ -206,6 +208,12 @@ def mesh_diagnostics(raw: bytes) -> dict:
     overused = sum(1 for v in edges.values() if v[0] > 2)
     disagree = sum(1 for v in edges.values() if v[0] == 2 and v[1] != 0)
     components = len({find(i) for i in range(len(roots))})
+    face_components: dict[int, int] = {}
+    for anchor in face_anchors:
+        root_id = find(anchor)
+        face_components[root_id] = face_components.get(root_id, 0) + 1
+    per_component_faces = sorted(face_components.values(), reverse=True)
+    orphan_vertex_only_components = components - len(face_components)
     return {
         "source_unit_known": False,
         "source_to_HGPT_registration_verified": False,
@@ -218,6 +226,8 @@ def mesh_diagnostics(raw: bytes) -> dict:
         "nonmanifold_edges_over_two_faces": overused,
         "same_direction_two_face_edges": disagree,
         "vertex_connected_components_exact_weld": components,
+        "nondegenerate_face_component_counts_desc": per_component_faces,
+        "isolated_vertex_only_components_no_valid_faces": orphan_vertex_only_components,
         "bbox_min_source_units_unknown": lo,
         "bbox_max_source_units_unknown": hi,
         "bbox_extent_source_units_unknown": [hi[j]-lo[j] for j in range(3)],

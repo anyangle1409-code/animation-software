@@ -16,8 +16,6 @@ import json
 from collections import Counter
 from pathlib import Path
 
-import isolated_tests as isolated
-import movement_evidence_queue as queue
 from whole_body_blender_evidence_gate import (
     REPO, private_review_output, read_source_and_audit, verify_scene_bytes,
 )
@@ -26,6 +24,8 @@ ANATOMY=REPO/"ORIGINAL_V1_WORK"/"anatomy"
 RECORD=ANATOMY/"character_fit_r95_a003.json"
 ATLAS=ANATOMY/"whole_body_movement_atlas.json"
 SOURCE_QUEUE=ANATOMY/"audit/work_evidence_queue_20261009/unsupported_movement_peaks.json"
+ARCHIVE=ANATOMY/"audit/amplitude_provenance/a003_isolated_014.json"
+ISOLATED_SCRIPT=REPO/"scripts/anatomy_fit/isolated_tests.py"
 AUDITED_KINDS={
     "EXACT_CONTEXT","STATED_IN_BASIS","HALF_OF_SOURCED_TOTAL",
     "CONDITION_IN_TEST_ID","TARGET_MINUS_FITTED_REST",
@@ -36,8 +36,38 @@ def digest(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def evidence_context(record,atlas,original_queue,record_hash,atlas_hash):
-    """Independent recalculation; no false upgrade if old evidence changed."""
+def evidence_context(record,atlas,original_queue,record_hash,atlas_hash,
+                     archived_audit=None,script_hash=None):
+    """Cross-verify original independent, SHA-anchored source audit ledgers.
+
+    NumPy-dependent old pose-generator is NOT imported or executed here.
+    Its separately committed amplitude-provenance evidence is SHA-pinned to
+    the original generator, source character/atlas and original pose samples.
+    This standard-library-only guard reconciles every audited peak with the
+    independently authored unsupported-movement ledger, failing on drift.
+    """
+    if record!=json.loads(RECORD.read_text()) or atlas!=json.loads(ATLAS.read_text()):
+        raise ValueError("live a003 record or atlas differs from source-pinned original")
+    if record_hash!=digest(RECORD) or atlas_hash!=digest(ATLAS):
+        raise ValueError("original record/atlas SHA no longer matches live audited source")
+    if archived_audit is None:
+        archived_audit=json.loads(ARCHIVE.read_text())
+    if script_hash is None:
+        script_hash=digest(ISOLATED_SCRIPT)
+    previous=archived_audit.get("inputs_sha256",{})
+    source_sample=REPO/"ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_014/isolated_samples.json"
+    source_name=str(source_sample.relative_to(REPO))
+    if (archived_audit.get("label")!="a003_isolated_014" or
+            archived_audit.get("kind")!="READ_ONLY_PROVENANCE_AUDIT" or
+            archived_audit.get("status")!="TRACED" or
+            archived_audit.get("tests")!=135 or
+            archived_audit.get("peaks")!=278 or
+            archived_audit.get("untraced")!=[] or
+            previous.get(str(RECORD.relative_to(REPO)))!=record_hash or
+            previous.get(str(ATLAS.relative_to(REPO)))!=atlas_hash or
+            previous.get(str(ISOLATED_SCRIPT.relative_to(REPO)))!=script_hash or
+            previous.get(source_name)!=digest(source_sample)):
+        raise ValueError("original source movement provenance inputs changed")
     if (original_queue.get("schema_version")!=1 or
             original_queue.get("kind")!="READ_ONLY_MOVEMENT_EVIDENCE_QUEUE" or
             original_queue.get("anatomical_acceptance") is not False or
@@ -45,46 +75,62 @@ def evidence_context(record,atlas,original_queue,record_hash,atlas_hash):
             original_queue.get("record_sha256")!=record_hash or
             original_queue.get("atlas_sha256")!=atlas_hash):
         raise ValueError("source movement queue SHA or nonacceptance invariant changed")
-    tests=isolated.specs(record,atlas)
-    ids=[t["id"] for t in tests]
-    if len(ids)!=135 or len(set(ids))!=135:
-        raise ValueError("expected 135 independent isolated movement tests")
-    generated=queue.build(tests)
-    if (generated["peak_count"]!=78 or generated["test_count"]!=49 or
-            len(generated["by_family"])!=12 or
-            sum(generated["by_family"].values())!=78 or
-            generated!={
-                k:v for k,v in original_queue.items()
-                if k not in ("record_sha256","atlas_sha256")
-            }):
-        raise ValueError("original 78-source movement-peak queue no longer matches executable source tests")
+    details=archived_audit.get("detail")
+    kinds=archived_audit.get("by_kind")
+    if not isinstance(details,dict) or len(details)!=135 or not isinstance(kinds,dict):
+        raise ValueError("original source provenance lacks all 135 movement tests")
     by_test={}
-    classified_peaks=0
-    for test in tests:
-        kinds=queue.provenance.classify(test)
-        if any(k["kind"] not in AUDITED_KINDS for k in kinds):
-            raise ValueError("new unknown/untraced pose amplitude must be investigated")
-        classified_peaks+=len(kinds)
-        by_test[test["id"]]=kinds
-    if classified_peaks!=278:
-        raise ValueError("original 278 commanded test peaks changed")
+    for name,evidence in details.items():
+        rows=evidence.get("peaks")
+        if not isinstance(rows,list) or any(
+                r.get("kind") not in AUDITED_KINDS for r in rows):
+            raise ValueError("unknown or untraced original peak")
+        by_test[name]=rows
+    if sum(len(rows) for rows in by_test.values())!=278 or sum(kinds.values())!=278:
+        raise ValueError("source provenance 278 peaks incorrectly classified")
+    unsupported=[
+        {"test":name,"channel":x["channel"],"peak":x["peak"]}
+        for name,rows in by_test.items() for x in rows
+        if x["kind"]=="LABELLED_TEST_AMPLITUDE"
+    ]
+    if len(unsupported)!=78 or kinds.get("LABELLED_TEST_AMPLITUDE")!=78:
+        raise ValueError("original 78 unsourced pose peaks no longer recorded")
+    raw_rows=original_queue.get("peaks")
+    if (not isinstance(raw_rows,list) or original_queue.get("peak_count")!=78 or
+            original_queue.get("test_count")!=49 or len(raw_rows)!=78 or
+            not isinstance(original_queue.get("by_family"),dict) or
+            len(original_queue["by_family"])!=12 or
+            sum(original_queue["by_family"].values())!=78):
+        raise ValueError("original unsupported-peak queue coverage changed")
+    actual=[{"test":r.get("test"),"channel":r.get("channel"),"peak":r.get("peak")} for r in raw_rows]
+    def peak_key(row):
+        return (row["test"],row["channel"],row["peak"])
+    if (len(set(map(peak_key,actual)))!=78 or
+            sorted(actual,key=peak_key)!=sorted(unsupported,key=peak_key)):
+        raise ValueError("one or more 78 unsourced peaks silently dropped/relabelled")
+    family_counts=Counter()
     unsourced={}
-    for row in generated["peaks"]:
-        unsourced.setdefault(row["test"],[]).append(row)
-    if len(unsourced)!=49:
-        raise ValueError("all 49 diagnostic-only movement tests must be retained")
-    for test_id,peaks in by_test.items():
-        unsupported=[x for x in peaks if x["kind"]=="LABELLED_TEST_AMPLITUDE"]
-        observed=unsourced.get(test_id,[])
-        if len(unsupported)!=len(observed):
-            raise ValueError("one or more unsupported peaks silently dropped")
-        for x in unsupported:
-            if not any(x["channel"]==q["channel"] and x["peak"]==q["peak"] for q in observed):
-                raise ValueError("source peak/channel mismatch")
+    for r in raw_rows:
+        if (r.get("status")!="UNSOURCED_TEST_AMPLITUDE" or
+                r.get("replacement_authorized_by_this_report") is not False or
+                r.get("role") not in ("diagnostic_excursion","conditioning_pose") or
+                r.get("units") not in ("deg","m") or
+                not isinstance(r.get("blocker"),str) or not r["blocker"] or
+                not isinstance(r.get("family"),str) or not r["family"]):
+            raise ValueError("unsupported source peak was wrongly approved or classified")
+        if r["units"]=="m" and r.get("peak_mm")!=r["peak"]*1000:
+            raise ValueError("TMJ source glide metres/millimetres changed")
+        unsourced.setdefault(r["test"],[]).append(r)
+        family_counts[r["family"]]+=1
+    if len(unsourced)!=49 or dict(family_counts)!=original_queue["by_family"]:
+        raise ValueError("49 unsourced test IDs or family counts changed")
     return {
-        "test_ids":ids,"by_test":by_test,"unsourced":unsourced,
-        "by_family":generated["by_family"],
-        "original_record_sha256":record_hash,"original_atlas_sha256":atlas_hash,
+        "test_ids":list(by_test),"by_test":by_test,"unsourced":unsourced,
+        "by_family":dict(family_counts),
+        "original_record_sha256":record_hash,
+        "original_atlas_sha256":atlas_hash,
+        "archived_generator_sha256":script_hash,
+        "archived_pose_samples_sha256":digest(source_sample),
     }
 
 

@@ -338,3 +338,17 @@ is now remotely verified. Source review then expanded to ten handbook pages:
 clavicle-point, lateral-neck and trapezius-point definitions are verified
 separately, but their placement on the model remains unresolved. The tape-line
 construction needs a muscle/neck surface landmark, not a substituted bone axis.
+
+Read-only solver isolation: with NumPy2.3.5/SciPy1.18.1, two complete acromion
+builds are exactly identical, including all33optimizer diagnostic entries.
+All33optimizations report success; termination status counts are1:3,2:17,
+3:7,4:6, and maximum reported first-order optimality is0.027177687332406972.
+Sorted-JSON report SHA256 is
+`27c771fd13718503c7fb1be5befb99ea73fbebe4ea08e5bba3e762ddef5846c3`.
+This rules out observed run-to-run randomness in this environment, not
+cross-platform/version drift or numerical accuracy. It does not close the
+five historical angle mismatches. Original `least_squares` was wrapped only
+to observe return diagnostics; inputs, tolerances and production files were
+not changed. Next: reproduce in the original recorded numerical environment
+if obtainable, then investigate Jacobian/convergence sensitivity without
+rewriting immutable targets or weakening tests.

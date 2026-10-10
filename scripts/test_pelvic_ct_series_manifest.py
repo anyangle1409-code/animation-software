@@ -1,5 +1,6 @@
 """Fail-closed tests for a source-bound contiguous pelvic CT series manifest."""
 import copy
+import hashlib
 import json
 import sys
 import tempfile
@@ -202,6 +203,42 @@ class CandidateSeriesBundle(unittest.TestCase):
         self.assertNotRegex(encoded, r"[A-Za-z]:\\")
         self.assertNotIn("Patient", encoded)
         self.assertNotIn("raw_header", encoded)
+
+    def test_extended_source_bundle_verifies_boundary_coverage_without_overclaiming_hu(self):
+        path = (ROOT / "ORIGINAL_V1_WORK" / "anatomy" / "audit"
+                / "nlm_pelvic_ct_boundary_extension_candidate_bundle_20261010.json")
+        value = json.loads(path.read_text(encoding="utf-8"))
+        result = series.validate_series_bundle(value)
+        self.assertEqual(result["series_count"], 2)
+        self.assertEqual(result["slice_count"], 82)
+        self.assertEqual(result["scanner_S_centre_range_mm"], [-324.0, -565.0])
+        self.assertEqual([len(group["slices"]) for group in value["series"]], [43, 39])
+        self.assertEqual(value["series"][0]["slices"][0]["source_id"], "cvm1716f")
+        self.assertEqual(value["series"][0]["slices"][-1]["source_id"], "cvm1842f")
+        self.assertEqual(value["series"][1]["slices"][0]["source_id"], "cvm1843f")
+        self.assertEqual(value["series"][1]["slices"][-1]["source_id"], "cvm1957f")
+        self.assertEqual(result["boundary_evidence"][0]["overlap_mm"], 2.0)
+        self.assertFalse(result["single_uniform_stack_claimed"])
+        self.assertFalse(result["anatomical_coverage_verified"])
+        self.assertFalse(result["canonical_promotion_allowed"])
+        calibration = value["calibration_scope"]
+        self.assertEqual(calibration["base_slice_count"], 72)
+        self.assertEqual(calibration["extension_slice_count"], 10)
+        self.assertTrue(calibration["base_png_raw_identity_verified"])
+        self.assertTrue(calibration["extension_header_addend_consistent"])
+        self.assertFalse(calibration["extension_png_raw_identity_verified"])
+        self.assertFalse(calibration["complete_82_slice_hu_calibration_verified"])
+        base_path = (ROOT / "ORIGINAL_V1_WORK" / "anatomy" / "audit"
+                     / "nlm_pelvic_ct_full_series_candidate_bundle_20261009.json")
+        self.assertEqual(value["extension_of_bundle_sha256"],
+                         hashlib.sha256(base_path.read_bytes()).hexdigest())
+        hu_path = (ROOT / "ORIGINAL_V1_WORK" / "anatomy" / "audit"
+                   / "nlm_pelvic_ct_full_series_hu_calibration_20261009.json")
+        hu = json.loads(hu_path.read_text(encoding="utf-8"))
+        self.assertEqual(hu["slice_count"], 72)
+        self.assertTrue(hu["all_samples_identical_in_file_order"])
+        self.assertEqual(hu["different_sample_count"], 0)
+        self.assertFalse(value["canonical_promotion_allowed"])
 
     def test_two_groups_preserve_boundary_overlap_without_flattening(self):
         result = series.validate_series_bundle(bundle())

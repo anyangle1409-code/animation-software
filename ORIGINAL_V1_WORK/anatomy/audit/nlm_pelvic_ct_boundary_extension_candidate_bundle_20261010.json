@@ -1,0 +1,2133 @@
+{
+  "schema_version": 1,
+  "kind": "CANDIDATE_PELVIC_CT_SERIES_BUNDLE",
+  "coordinate_frame": "SCANNER_RAS_MM",
+  "source_bytes_committed": false,
+  "patient_identifiers_exported": false,
+  "anatomical_coverage_verified": false,
+  "canonical_promotion_allowed": false,
+  "source_skeleton_governs_geometry": true,
+  "series": [
+    {
+      "schema_version": 1,
+      "kind": "CANDIDATE_PELVIC_CT_CONTIGUOUS_SERIES_MANIFEST",
+      "series_uid_sha256": "1332225155ab2aa995dbebbf5d25d0770c756e3056aadef5909d699c20aca404",
+      "coordinate_frame": "SCANNER_RAS_MM",
+      "slice_order": "SUPERIOR_TO_INFERIOR",
+      "expected_step_S_mm": -3,
+      "required_scanner_S_centre_range_mm": [
+        -324,
+        -450
+      ],
+      "source_bytes_committed": false,
+      "patient_identifiers_exported": false,
+      "anatomical_coverage_verified": false,
+      "canonical_promotion_allowed": false,
+      "source_skeleton_governs_geometry": true,
+      "slices": [
+        {
+          "source_id": "cvm1716f",
+          "source_png_sha256": "8ed19b3a01d950df58b17e335de56a0e6d7c50caa01b03806d2f25b569c1206d",
+          "source_header_sha256": "e1795a9a0b44194262cb536397973cb6c63c884c87a968e694fc542a4f9e6825",
+          "source_png_bytes": 230192,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -324
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1719f",
+          "source_png_sha256": "1558222dc67c9002521427bb5b7d8c4deda1413fdb163dde32630e4006a9b48a",
+          "source_header_sha256": "84827861c4f6957037b5aad65a2f19963e06f0bf5d066f1d977ff9afac6b1416",
+          "source_png_bytes": 230068,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -327
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1722f",
+          "source_png_sha256": "e1bee731832068f7f54520c6c85a6765b61b3c961c7da57ce81d42a51dc92b3f",
+          "source_header_sha256": "bdb71e209df7c5857414e21a862567ff3d6e110404b1d05fb70e51745c6c3d5a",
+          "source_png_bytes": 230049,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -330
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1725f",
+          "source_png_sha256": "dc6475c356969ee69ae14e134c9a587da6ea20e4ecf56c8a25b017f9b9f07b9a",
+          "source_header_sha256": "b2fea6dc56ed7a7e159470869dbf36024a96d6fbd312a862cfbd5f5144f639e1",
+          "source_png_bytes": 229446,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -333
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1728f",
+          "source_png_sha256": "e6adcda29b49f03e5805bb71963e25dbc4c21236e67844efa19c7b2b3530354a",
+          "source_header_sha256": "65c14d95985f8017d15acf1c1f9a8fdbce203af42f626d57226e77b58cc89c0a",
+          "source_png_bytes": 228294,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -336
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1731f",
+          "source_png_sha256": "c930d51812218924ed0d980b5c7ab49a0d6f997e260681e2bb63ef7d705389d1",
+          "source_header_sha256": "effbefc5b8ec17f7f0c32418e99e0d3459df04ae13f3c18e10d37c9bde4c4bdd",
+          "source_png_bytes": 228688,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -339
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1734f",
+          "source_png_sha256": "b6a9cc02c0be16bcd02de778d5bd70f3ab62ad9b094d1ffca214e0eb429ba877",
+          "source_header_sha256": "3bb6bae1d372d937e1aede1e644cc3f8f0e05053aff6f4034ff32342691209ca",
+          "source_png_bytes": 230447,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -342
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1737f",
+          "source_png_sha256": "8563f212f31053c0cb81c4dd7933407784781fec183d648023733c93f521ec07",
+          "source_header_sha256": "16303d678ba36321845e0252cc14d5ca821ce7fe5dc99c1d5de3bcc1963f634e",
+          "source_png_bytes": 232503,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -345
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1740f",
+          "source_png_sha256": "917de5a5cd2880ec8d4b23073cb2afb0922364ccbc11ac4d9036e5298a513717",
+          "source_header_sha256": "171d0e0ae2720a30e794a1d797b12b2a154567640944a38ca30ef136dc6842c9",
+          "source_png_bytes": 233008,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -348
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1743f",
+          "source_png_sha256": "4a8625775eb949beefe4f3ae759862101cf5f81e088fd611e0cc69cd18389346",
+          "source_header_sha256": "93c3a7da58f6aca7c7d3063b2c7fd3c9be2e0ae508510d36e9742df7d07185ae",
+          "source_png_bytes": 233470,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -351
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1746f",
+          "source_png_sha256": "f9d0bf6e3185eb009a99260679842b158f7fcba1bd0f3f9978b2818a88ad36e1",
+          "source_header_sha256": "b100d68f71f8c65c8a2ca3fa582dfd06917bbc01a207dfc4315c9eeda815edf6",
+          "source_png_bytes": 232875,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -354
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1749f",
+          "source_png_sha256": "66eb930264a574dda410df6ed04d21bb2fe3a7a95de421f80344dbc42736f734",
+          "source_header_sha256": "d22d9df35f00a3c566ebacd18fadb84c69ce81a4f442f7f03b6ac71608c3e672",
+          "source_png_bytes": 233384,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -357
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1752f",
+          "source_png_sha256": "899687e75c0d57a97c64d498330c60b2fb61bb836e55ebc4f6202234c9939c73",
+          "source_header_sha256": "3d9c48641c45c2e1cd035eb11a4b83bee42240ef94f26bb479f8fd1944a72c38",
+          "source_png_bytes": 233393,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -360
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1755f",
+          "source_png_sha256": "5a9f46fd7b1334d72c29e98e9e6384666414aa2c7b2b85e0da3029dac096d643",
+          "source_header_sha256": "f9ecacadcc956bbe26c27be5b1dc201e3977e1e0c695af6d9d51a935f1610012",
+          "source_png_bytes": 233926,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -363
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1758f",
+          "source_png_sha256": "644924c02339f7460dbd423aed6db316be979d1e853f6427e043da70017c1dcf",
+          "source_header_sha256": "b73ecfbac71d64a26f2c7edbd109434f7076164414be27a85fa0baaa0717a6c4",
+          "source_png_bytes": 235131,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -366
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1761f",
+          "source_png_sha256": "5e8dfa97be2c3c2ebc01759ca2a07197b69b1e2a4acb43418854f35b3ae78eef",
+          "source_header_sha256": "7d6f5744075c20b83d596883195d96adbabadf69be7edd4f63404c9ced89f007",
+          "source_png_bytes": 235850,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -369
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1764f",
+          "source_png_sha256": "1e3b056cc37fad7cf75e7ecf866fd640b75c4818adecee9249da50946cc2ff11",
+          "source_header_sha256": "ceb5465722a7b41b250f92c40d153f7d68653385a835a8052c2f1dad72604ec7",
+          "source_png_bytes": 237004,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -372
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1767f",
+          "source_png_sha256": "d56902eb27c3cee1589a410c5b57dbb7315521fcda85eec5dec885a354b43ca6",
+          "source_header_sha256": "036bd33a8a4889c655214578d49b9dd78c557d763db57f15d4ade81076f7d4f7",
+          "source_png_bytes": 238091,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -375
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1770f",
+          "source_png_sha256": "e46c60ae8e22f46d84ffb085197d760f810b9ff155a916a4a1de031bd332c8c8",
+          "source_header_sha256": "478b860af17d612cf83d7fdab3df51239dcb18dc5a983d2a34ea8af5a88535da",
+          "source_png_bytes": 239237,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -378
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1773f",
+          "source_png_sha256": "78e1e7d527bd5c0ddf5439c844549091ed3ef3bc17ca34bfdc83e7e3bde0e5ac",
+          "source_header_sha256": "f9ce70e17900d58a5047f0342229fdc201d8b4d0f0e995c26df782fed1abb574",
+          "source_png_bytes": 239401,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -381
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1776f",
+          "source_png_sha256": "6c19e5c075830b7341a0fdc6c262df429b57438a815ad67b26d44128da458fbf",
+          "source_header_sha256": "0fa2b8eb6848257c158bca326ffa068adf15e14f884980c1a3333d1dec8db662",
+          "source_png_bytes": 240119,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -384
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1779f",
+          "source_png_sha256": "e7706bf56389372158312c8d908d7ee33bd61e70d7a7ac15b5531a0fefaf2c19",
+          "source_header_sha256": "036d3a21142ddfcf306394b1bf3063e2384890e0cbc4f59f4ff231402a0623fa",
+          "source_png_bytes": 239818,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -387
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1782f",
+          "source_png_sha256": "b18ba3cb9c162848e75e1cf69bfc40b4dc41beacac04a76d392500c6a8e43b8e",
+          "source_header_sha256": "6d89f2e6d6c862a03237e4d19512ed06deb4dc667d34eaf1c9bfdc1452f16a74",
+          "source_png_bytes": 240378,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -390
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1785f",
+          "source_png_sha256": "26f420bb7baca4a912ec21ed27f10201c1c4c8d8686e5d21e50e5840fba9a91e",
+          "source_header_sha256": "2e73bd5da654cd91c322fbadbb5f74ee68c4dc6a744326a029f7cc14bcab7653",
+          "source_png_bytes": 240884,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -393
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1788f",
+          "source_png_sha256": "3377bf15b68ed87b1bee6f8691f9089b84c8ecd3b6715c049f200c15a9296589",
+          "source_header_sha256": "2d4660eaab048ad5aab565816c6163a64a1cf4b40d4c69207e3cd8e191e85d02",
+          "source_png_bytes": 241413,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -396
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1791f",
+          "source_png_sha256": "821d813ab42b092f65b145395af2b466aedc27ad2a2a4718933f35524b6e0732",
+          "source_header_sha256": "14aa9c33774e0fced3a1ae615026151bb6c9d7e8cb5e979f646180958ce80925",
+          "source_png_bytes": 241252,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -399
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1794f",
+          "source_png_sha256": "f87fd510a6bc1d9ceb34f6cd744cc613cf252f9e6309bc68e6e6dc8ea81391db",
+          "source_header_sha256": "52cacda57db8d771b84b0aa62d862e99f99e0f2dcce01750e4741cb1a38c644f",
+          "source_png_bytes": 242017,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -402
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1797f",
+          "source_png_sha256": "7ba206fd8110c66334dff8387d1df839249aa778c421b013fb07fc5b43ac2072",
+          "source_header_sha256": "1feadc69adf294a79fa66dd474e613256be0fd57572e7eea7e019fa2ac52b8b4",
+          "source_png_bytes": 241033,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -405
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1800f",
+          "source_png_sha256": "57371cc19aa7cc468f5cc8c12ef01d0d0c740e0a0da1d5e93f238dda09f92d69",
+          "source_header_sha256": "e159990a7bb612e904ca98ee0972510242ea2ec69e77bcb245174c9743486e0a",
+          "source_png_bytes": 241403,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -408
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1803f",
+          "source_png_sha256": "73ede100af03ce8fa6ae2b190326aa539b999e4ed4f69a89fc6a29771ecb19a5",
+          "source_header_sha256": "f5d4e555c90f07ae51929ebbdfa72b82954398471860bc6aa3cdca72c00d91ce",
+          "source_png_bytes": 240279,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -411
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1806f",
+          "source_png_sha256": "f05373441e5a38bf96959a51d3de2dae6751ac45ccfd02c934de22f8ff564799",
+          "source_header_sha256": "a63dec928213300d502fdb8ae50aa4c714b2ae4a9d6d13ebfcea49d1741e659b",
+          "source_png_bytes": 240381,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -414
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1809f",
+          "source_png_sha256": "792b270ab8d4a4531a81b4e937fb32accd75ea52b157689ed7eb0b312635841b",
+          "source_header_sha256": "16e7be04ff0bcec190f32c7d9192c074a310d2cd31363b920e616add4ceb63e1",
+          "source_png_bytes": 239512,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -417
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1812f",
+          "source_png_sha256": "5c356f366852eaa9958d4e1080ad4fc44ae220c93babf0c2688a7687932bf895",
+          "source_header_sha256": "f0bd2bd7bf270d26a7d1ce9b80733f6f320de49007b8a653a36b9e1d4b5c2a13",
+          "source_png_bytes": 239714,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -420
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1815f",
+          "source_png_sha256": "22c73b845bbba69b45a619b475966718d66144e90ecf1f6e3638c3d3cff8c6bb",
+          "source_header_sha256": "ec11f91db3c1c35e8dabad70f86c7dc210af5253f01270327c91e70151e81819",
+          "source_png_bytes": 238518,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -423
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1818f",
+          "source_png_sha256": "16756da25b13e3f213ed83ad1809f718903444b91531598a351d7693bf93fccf",
+          "source_header_sha256": "8e17eef2f0861344752dd229e48e9ab2f9309cdd9fbe17659d5ef88b70b366a0",
+          "source_png_bytes": 238812,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -426
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1821f",
+          "source_png_sha256": "21764f1b5725cd4213872c1c67ff353126823f5e0a18e4325b3382e23b72335e",
+          "source_header_sha256": "fa841fb4bc41d26024d43e87d1aa427c0326aed145550308e78d7d3af92ea65a",
+          "source_png_bytes": 237968,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -429
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1824f",
+          "source_png_sha256": "1c91acffff9fb957e387302fe88c7391fc7312632325d912bc981b1d3254691a",
+          "source_header_sha256": "94003138aaa82cedd3396ad8ffdaf07cb3aeae488969fabeb77880e0c1e9a52f",
+          "source_png_bytes": 238230,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -432
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1827f",
+          "source_png_sha256": "22522c650c25b5ab6705d8592bb1a2fc57c3e4f8e57edbf623ea59fa8ab3e285",
+          "source_header_sha256": "e4d19d2cc09c9fd4de4bc2a65200937cd83322a04f634e4a11e2595566155fec",
+          "source_png_bytes": 236539,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -435
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1830f",
+          "source_png_sha256": "6f6784c8167114e54d9943d82f23ad372477d57f5aecd6f406f214811e89d72f",
+          "source_header_sha256": "ace752fe09319cf50fa8a8322526e808e734a3bcc8a0f090fee99c9ba85486f7",
+          "source_png_bytes": 236257,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -438
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1833f",
+          "source_png_sha256": "3c521393db31544b2abf82f43c30d63b1c2242da5d6daf9fc0cd3e572ad25531",
+          "source_header_sha256": "7f7809430442eaecc257a743c795a972afc50b3ecfe314f6512d6a72b3bd5cb9",
+          "source_png_bytes": 235345,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -441
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1836f",
+          "source_png_sha256": "41adfc7e334daf4746a9a43ccafc46fad2e2fc24f32f22c338c76df11940e11d",
+          "source_header_sha256": "7d70e8b798ee13c92bd30034f84ff0fb4d910f746b88c78840b63ced359276c1",
+          "source_png_bytes": 235557,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -444
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1839f",
+          "source_png_sha256": "afc9b7f6c5be12edc745a8aeb16465ed6ba2dd921f9888192db4c3ba23a02d71",
+          "source_header_sha256": "7edb9c451635be39a1e5b19fd5391309ec37109c4be96506f9f9fea3a078b755",
+          "source_png_bytes": 234197,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -447
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1842f",
+          "source_png_sha256": "000e3fe14ca0492ec9ebb12aa22ff9bbd2c41fb0519ead38bee492b5fee64299",
+          "source_header_sha256": "bed971b570e968ff41ebd81350f59920f0a3f188954037ca7605308329967575",
+          "source_png_bytes": 234087,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -450
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "schema_version": 1,
+      "kind": "CANDIDATE_PELVIC_CT_CONTIGUOUS_SERIES_MANIFEST",
+      "series_uid_sha256": "897447a653af446705b86bb418c643d5340fb8bd286c4ce04da6b37f3276f4bb",
+      "coordinate_frame": "SCANNER_RAS_MM",
+      "slice_order": "SUPERIOR_TO_INFERIOR",
+      "expected_step_S_mm": -3,
+      "required_scanner_S_centre_range_mm": [
+        -451,
+        -565
+      ],
+      "source_bytes_committed": false,
+      "patient_identifiers_exported": false,
+      "anatomical_coverage_verified": false,
+      "canonical_promotion_allowed": false,
+      "source_skeleton_governs_geometry": true,
+      "slices": [
+        {
+          "source_id": "cvm1843f",
+          "source_png_sha256": "2fbd3487d28d35944ff2407a76b61a2d136760636fb025014a76f6ae5ce604a8",
+          "source_header_sha256": "0de40995282cf7c901db29340a7e52f5495af4df1a872209a0c057535911d328",
+          "source_png_bytes": 233840,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -451
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1846f",
+          "source_png_sha256": "f084cc0a0544580f7e1009af507fd8ba6567767233bde06231282b004ee0988a",
+          "source_header_sha256": "ff485a52f49be0dab60fee6767e432e38ddd09e0e480fdcb623dd18f6c60d8c8",
+          "source_png_bytes": 233013,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -454
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1849f",
+          "source_png_sha256": "835515edd8bb94e4ef67a439c287abbb08e82dd9949490c1e17a1b52817cf1d1",
+          "source_header_sha256": "d82e55f9db4e2a705281f89847ca5036680eca30622e164f62bad70e63ae975b",
+          "source_png_bytes": 233771,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -457
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1852f",
+          "source_png_sha256": "cd6dc2f3e92fe88e5bcfa08cfb40f50c3ad902cca5b859261c0b7e251efa3b37",
+          "source_header_sha256": "a5124e69dd9ebdca24f66af967311a75227fbfe1379a5c23a5f03376fa86d740",
+          "source_png_bytes": 232847,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -460
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1855f",
+          "source_png_sha256": "eeb18b77cbb460e55dfe0baef301795afd17398bc2b78b3fd08bbab2d8cb8d38",
+          "source_header_sha256": "fcf5e45d12356ffe88982b75a7ad3cb1729fec36004aae7951e616e0c39c3608",
+          "source_png_bytes": 233276,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -463
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1858f",
+          "source_png_sha256": "325b8e5bd6093c7b10b449a6622eb02ac4d6b07306acc6727f8cee3ae3a4122b",
+          "source_header_sha256": "d28ab0c93ea6befc1f5320918a4284bab7255404c80c0d9a9b31a0f84962f303",
+          "source_png_bytes": 231183,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -466
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1861f",
+          "source_png_sha256": "87af4f47f4f743812e7cd3c0703f2265c5d3d2fcea0a765429bbfaaf25ed118a",
+          "source_header_sha256": "c6729c37ae78acc197d8a73bb7dcf456591000feff9723f91a6fd5c932807f29",
+          "source_png_bytes": 231410,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -469
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1864f",
+          "source_png_sha256": "dde795f9312a6f9412f07d6b07b0fe2fbe257b10983ad1c661438c34bc1c0254",
+          "source_header_sha256": "597093ed0403471ee95321368f93c3a2a13bd492aa7bf33ae92275c68e6e747b",
+          "source_png_bytes": 230004,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -472
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1867f",
+          "source_png_sha256": "267c40bf293bc016bc60c15c723f01309bc94a27de6801b9579fffa51512d00f",
+          "source_header_sha256": "a1c959b2063cd889f9a5ce9e78d880975f7fa130ce42dc04d85a4bbcc115f13e",
+          "source_png_bytes": 230053,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -475
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1870f",
+          "source_png_sha256": "a17bd9afea7b4e77697e5704a89ecae83377c223a905de08c2f7c622eabe9828",
+          "source_header_sha256": "a3f8a4beda5741960af15b2df0e01259f59003be418bc9e0f7913be13e9b0461",
+          "source_png_bytes": 229076,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -478
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1873f",
+          "source_png_sha256": "bd594b35035a60d8e88d67da7ec6b387b3361ddcd73bcfe5324b0ed9a3575a4d",
+          "source_header_sha256": "b7643af29278b0ac3e345f61517001d9463554ddbb7bec2aa0289e633aa4a86d",
+          "source_png_bytes": 229003,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -481
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1876f",
+          "source_png_sha256": "95e649e47db71831ae0b2deea7f8fb530478a7ebc3942e9d3d6f7d98d9a877ec",
+          "source_header_sha256": "e142681f7fe74682ea40530378adbe2a5e65b61cba1f5caca4aa04d3f8db6ada",
+          "source_png_bytes": 228013,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -484
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1879f",
+          "source_png_sha256": "d49c07a67618990e01633be331d32168103b1169203839cfdae0eb3c2709fdd3",
+          "source_header_sha256": "e28b9be4e381b382fd0672da7e15ee21eb0c6c9e6197803e6d2b2b66324a1035",
+          "source_png_bytes": 228272,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -487
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1882f",
+          "source_png_sha256": "6b54b9be40f7f20d6bad26ee02d9bef2879d8f4494c5302645a0d1ed96b56876",
+          "source_header_sha256": "bf3032cfc308a733ef517b3017d02e39e8a375241b569708e84215bdb9e00d79",
+          "source_png_bytes": 227380,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -490
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1885f",
+          "source_png_sha256": "b772293721c109380299e160761a4aa61b7439da12ea3337076b78b6e9db0e16",
+          "source_header_sha256": "3ce283cf234d12fea1542d81687483b0f8a64ba94fddcf7299235450abe06808",
+          "source_png_bytes": 227526,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -493
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1888f",
+          "source_png_sha256": "995105f25745d92b378f4377e3e8c454ee8adbe8aad44ae325eb258ecc1545b0",
+          "source_header_sha256": "cb3a8bc41e3227341abe60d189cf8828e1dbb3ddd517f73860ec6fbddb286727",
+          "source_png_bytes": 228005,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -496
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1891f",
+          "source_png_sha256": "4966927f4a5943419b6d00ea96bb689f5c627b72a9f84d65de790f08a81ae7a6",
+          "source_header_sha256": "a31c0d49da2d2823b65c9840559c73972023b7ccd81399bc0a3a8b766e12de33",
+          "source_png_bytes": 227489,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -499
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1894f",
+          "source_png_sha256": "793efb7f878bb38749638205870c7d93aa025820ccbfbf62a22b5853febd5690",
+          "source_header_sha256": "285d1c2e551a6bfba0ec6932971c91fc0fb41990ac45dd3abeedb7761fa803d0",
+          "source_png_bytes": 228366,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -502
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1897f",
+          "source_png_sha256": "a39fd3842c9c0ee1bbc22718cfddbaa3814ba8d6c5aa64cb9ca4b8b0179ad5ef",
+          "source_header_sha256": "fececdee51b1c8623fee5ea7f9568eb07c875125a2445ba17266e7c7d86510df",
+          "source_png_bytes": 226894,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -505
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1900f",
+          "source_png_sha256": "20e75538f3a6b2cfcbf6054c7365d93eae54fe1ad95d66dc9add0049c9fcf93d",
+          "source_header_sha256": "4cefd420398b014d6bb70a5299ce43b9a46ee1c804a00f47c50ff159c489862d",
+          "source_png_bytes": 226329,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -508
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1903f",
+          "source_png_sha256": "ad592a1516833bd64ed95156bb536aefb64af59f09a68eb029ef4cae7dbe9422",
+          "source_header_sha256": "5f9a6fea294e613adb5d7e71331f72fc60d6941ba85cffc7a85b9e7f018f6ddb",
+          "source_png_bytes": 225432,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -511
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1906f",
+          "source_png_sha256": "fea0197c307f2a177187bef25ff8a23a110cbad3b52be29e6739f9f544b71d9f",
+          "source_header_sha256": "410b08719f8413cec1c7b68bf6dcca6b4f65e8f1ccab24b0c7827904f14978e5",
+          "source_png_bytes": 224828,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -514
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1909f",
+          "source_png_sha256": "ba26e67cf6f33a581626ccb42ae5caa5d2f6bb8bbeb6d02dda87f0258b8924fb",
+          "source_header_sha256": "303420445787f714efb4cfd38193ba445f9009d3173f9916bf0b18c250a54458",
+          "source_png_bytes": 223949,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -517
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1912f",
+          "source_png_sha256": "647358b86b0dca883b539a0cff1ed8be088acd635a8021ee6269909a9c94d83e",
+          "source_header_sha256": "537817a34a45b3b1d42f056bec5b0817a9180aa49ed8ca401e351c1fc965a1dd",
+          "source_png_bytes": 224494,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -520
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1915f",
+          "source_png_sha256": "3680334bc799eb748bf2b653a4f26aab90d64a003b19a6e21c49ff989e034608",
+          "source_header_sha256": "ac832f519daa48383032bb7ae331399cefbcdeb1d56fe9f557a23141e476e924",
+          "source_png_bytes": 224042,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -523
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1918f",
+          "source_png_sha256": "4eedf40bdae8fa6365a0538a1a5e3b8d58555743a6619386d9448c33210fcffc",
+          "source_header_sha256": "59863a1d4e25288003d54696a0b779505e3ca1d40ef2602fe9e443296091074e",
+          "source_png_bytes": 224199,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -526
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1921f",
+          "source_png_sha256": "4802955d63293d9ecd58dbdd9b9d96ef388cb4b894c65ab44f652b8693dee212",
+          "source_header_sha256": "6b06b396a67b9c0d8f25bb69f383680021529da32426488a9ad33b350c323827",
+          "source_png_bytes": 223950,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -529
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1924f",
+          "source_png_sha256": "5bc697e0cf2f39f683a4ba29385d294ce39c8125ad22207f8cab3a856e3f0a6b",
+          "source_header_sha256": "5e930173bde033861c5f932b714dfc9ad60fe934a280c4aac4d5c6d9b5093359",
+          "source_png_bytes": 223833,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -532
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1927f",
+          "source_png_sha256": "217c5713c36a2aa63fcd6145051761f8348b9d794d86cd44ae47013593e7a23f",
+          "source_header_sha256": "8774e17980c0e32ebac909eacda3c2ec826f3648f023ec80878101bb001532cf",
+          "source_png_bytes": 223655,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -535
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1930f",
+          "source_png_sha256": "f95772482de78ba8193d2b08352e52d2a0e1b814ca0aafcfb60af81e90243946",
+          "source_header_sha256": "ea7716e666d2b84680178e8d058d1c76fbc10067547d885cb798fbfe2105bed8",
+          "source_png_bytes": 223851,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -538
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1933f",
+          "source_png_sha256": "912ee05dd05df944c94ea634504e0cda28ba4a05e952c5c65896a8eba723c583",
+          "source_header_sha256": "e6e24985afeed078733dfaacf31a7a32b562f75fc061622e5204eb0ea8d6eb1f",
+          "source_png_bytes": 223353,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -541
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1936f",
+          "source_png_sha256": "dad0f2c56cd8d2bcdd1abbe8591ffa852a2ca43bcb17ffadaa62f4cf4482d865",
+          "source_header_sha256": "4639caad585a07a54f4af4b14a6eca24ac14e2a19a09e9d0e1e161361e26f794",
+          "source_png_bytes": 223335,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -544
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1939f",
+          "source_png_sha256": "3cf6f6944305e13aff778dd6b155a21edc0ea2bf52fbede55d07a949ee7f082f",
+          "source_header_sha256": "1b7f3d5938efd7fba5787f6aa7b3219f5fadd75b4b9aca4453b533353d7e5669",
+          "source_png_bytes": 222966,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -547
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1942f",
+          "source_png_sha256": "6a3d8efbaeb7c300b95747386db143b234a98d7ab53c59985419dd2e6a59aa90",
+          "source_header_sha256": "13e55ee5ec72cb814faa86ae87a675b0b9bcac541fd37c86c412fc8c01bea0e1",
+          "source_png_bytes": 222973,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -550
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1945f",
+          "source_png_sha256": "a1e27907bd06cbb4bef69950f3f4c76edf7d24a21026c83b2bbe9d09a57eaced",
+          "source_header_sha256": "10ce1d93608b6fbc0c5fd42e513e9dcecf071cbc09bb8d92cf889f00783fbcb9",
+          "source_png_bytes": 222287,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -553
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1948f",
+          "source_png_sha256": "c52abb597a5f92d2efe48bd64cf90f6c73cded863b5a3171354a8fd2f0063224",
+          "source_header_sha256": "05fe8c92d6e4223dcd69263849ba060f9a5c218399d5e485f78a0cf721208aa0",
+          "source_png_bytes": 221331,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -556
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1951f",
+          "source_png_sha256": "f4df239f7635a99d4d804d71d6275c5f1ad29cca200f75a044713835d8142ee4",
+          "source_header_sha256": "0ef29323cc296028ea351656caa2c79ababfe50728e733f8f77ce23c23e58274",
+          "source_png_bytes": 220818,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -559
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1954f",
+          "source_png_sha256": "1b832f500b7af35bc170bee2a18bc94980848486c27ed955b15b819143f53f0a",
+          "source_header_sha256": "516300d7f2f6db3ca64380efd429ce849a63662282381b5d9ff0640694208a86",
+          "source_png_bytes": 221065,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -562
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "source_id": "cvm1957f",
+          "source_png_sha256": "6041bfa452b6b1a7ce1a463da29e2fa2b0505aeb07ae4e2b30ae506506ef7e65",
+          "source_header_sha256": "35b1ee0c539f9119691d0ce6e642c23411ff3bb640ab1ea7ac9bcbc4fe7a03c7",
+          "source_png_bytes": 220777,
+          "scanner_centre_RAS_mm": [
+            -2,
+            61,
+            -565
+          ],
+          "scanner_grid": [
+            512,
+            512
+          ],
+          "pixel_spacing_mm": [
+            0.898438,
+            0.898438
+          ],
+          "slice_thickness_mm": 3,
+          "slice_normal_RAS": [
+            0,
+            0,
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "extension_of_bundle_sha256": "8bd8e8638893a1d6db234cc4de4c1cb54a3fa2f0a3eb6264d1ef5bcebe5e25a9",
+  "calibration_scope": {
+    "base_slice_count": 72,
+    "extension_slice_count": 10,
+    "base_png_raw_identity_verified": true,
+    "extension_header_addend_consistent": true,
+    "extension_png_raw_identity_verified": false,
+    "complete_82_slice_hu_calibration_verified": false
+  },
+  "boundary_extension_evidence": {
+    "official_source": "https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/PNG_format/radiological/normalCT/",
+    "scanner_header_source": "https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/PNG_format/radiological/normalCTHeaders/",
+    "superior_extension_source_ids": [
+      "cvm1716f",
+      "cvm1719f",
+      "cvm1722f",
+      "cvm1725f",
+      "cvm1728f",
+      "cvm1731f"
+    ],
+    "inferior_extension_source_ids": [
+      "cvm1948f",
+      "cvm1951f",
+      "cvm1954f",
+      "cvm1957f"
+    ],
+    "extension_png_bytes_private": true,
+    "extension_header_geometry_allowlist_parsed": true,
+    "extension_header_hu_addends_all_minus_1024": true,
+    "png_raw_numeric_identity_verified": false,
+    "anatomical_coverage_verified": false,
+    "canonical_promotion_allowed": false
+  }
+}

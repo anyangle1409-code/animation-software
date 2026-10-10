@@ -155,3 +155,13 @@ or promote a canonical pelvis mesh from the two short windows.
 
 Claude/Codex agreement is review evidence only. It is not independent
 anatomical evidence and must never be treated as canonical approval.
+
+## Boundary-extension checkpoint — 2026-10-10
+
+The CT development branch is `codex/pelvic-ct-identification-segmentation-20261009`, based at `cb2a68b8a0c24d0ea1ff7a30a69c75d9bb4ed054` before this checkpoint. The draft intake PR is #15 and still has no anatomical approval. Ten additional official NLM PNG/header pairs were downloaded into the private laptop source cache (outside Git): six superior slices `cvm1716f` through `cvm1731f` at S=-324 through -339 mm, plus four inferior slices `cvm1948f` through `cvm1957f` at S=-556 through -565 mm. All are 512x512, 3 mm apart, with parsed scanner headers declaring 0.898438 mm XY spacing, 3 mm thickness, +Z normal, and HU addend -1024.
+
+The new candidate bundle `ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_boundary_extension_candidate_bundle_20261010.json` retains both original acquisition groups and their 2 mm slab overlap; it has 82 source rows total (43 + 39), not a flattened uniform volume. The old 72-slice calibration packet and base bundle remain unchanged. The ten new PNG/header SHA-256 values are in the bundle, but raw GE-to-PNG numeric identity for these additions is not verified: complete 82-slice HU calibration is therefore false. No anatomy, bone surface, landmark, or canonical geometry is accepted.
+
+Focused validation: `python -B -m unittest scripts.test_pelvic_ct_series_manifest -v` — 20 tests passed. The indiscriminate `unittest discover -s scripts -p 'test_*.py'` command is not a valid branch gate here: it ran 1,215 cross-project tests and failed 27 / errored 382 due to unrelated frozen-evidence CRLF/autocrlf assumptions and missing reconstruction fixtures. Do not summarize that result as a CT regression. Prior PR #15 CI on `cb2a68b8` completed successfully (latest observed run 38017563886); rerun CI after publishing this checkpoint.
+
+**Next executable action:** validate GE raw-to-PNG numeric identity for the ten added frames against their matching original raw `c_vm*.fre.Z` data, without placing any source bytes in Git. If a trustworthy decompressor or source is unavailable, record that limitation and continue with actual source-image visual review in Blender; keep all review images and `.blend` files private. Review must remain source-bound and candidate-only. Never infer anatomy or source-to-rig fit from the expanded slice count.

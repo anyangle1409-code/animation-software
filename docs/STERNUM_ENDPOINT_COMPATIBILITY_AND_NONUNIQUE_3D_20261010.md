@@ -31,7 +31,7 @@ Consider *mathematical demonstration only*, not anatomy:
 - A straight series of four points `(0,0,0), (d23,0,0), (d23+d34,0,0), (d23+d34+d45,0,0)`.
 - A right-angled series `(0,0,0), (d23,0,0), (d23,d34,0), (d23,d34,d45)`.
 
-Every consecutive pair has exactly the same respective distance in the two constructions, but the full 2→5 end-to-end distances differ (straight **74.06 mm** vs bent **approximately 43.52 mm**). By varying bend/torsion, infinitely many 3D arrangements remain possible even if we knew three exact within-individual distances. Real reported group means also do **not** guarantee simultaneous occurrence in any real donor.
+Every consecutive pair has exactly the same respective distance in the two constructions, but the full 2→5 end-to-end distances differ (straight **74.06 mm** vs bent **approximately 43.3142 mm**). By varying bend/torsion, infinitely many 3D arrangements remain possible even if we knew three exact within-individual distances. Real reported group means also do **not** guarantee simultaneous occurrence in any real donor.
 
 Therefore using only these three distances cannot reconstruct rib levels 2,3,4,5 in world axes, much less 1 and 6,7, their left/right counterpart patches, disc clearance, sternoclavicular anchors, adult 182 cm stature or costal-cartilage deformation. **No geometric solver may mark CP1, joint centres or normal function validated from this contract.**
 

@@ -37,11 +37,13 @@ jobs:
           assert data["source_study_male_n"]==55
           assert data["selthofer_2006_male_total_jugular_to_xiphoid_mean_mm"]==208.6
           assert data["selthofer_2006_total_sd_mm"]==14.6
-          assert data["between_studies_unadjusted_means_difference_mm"]==54.5
+          assert data["incompatible_totals_arithmetic_difference_NOT_anatomical_conflict_mm"]==54.5
+          assert data["more_comparable_combined_M_plus_B_means_difference_mm"]==10.8
+          assert data["prior_canonical_record_semantic_key_including_xiphoid_is_wrong"] is True
           assert data["notch_by_notch_verified_coordinates_available"] is False
           assert data["anatomical_geometry_promoted"] is False
           assert data["cp1_gate6_passed"] is False
-          print("2006 primary sternum mean 208.6mm; earlier Turkish CT mean 154.1mm; ENDPOINT/SAMPLE NOT RECONCILED.")
+          print("2006 jugular-to-xiphoid 208.6mm; Turkish M+B xiphoid-excluded 154.1mm; noncomparable totals. M+B diff 10.8mm.")
           PY
       - name: Upload derived numerical source comparison only (no PDF/CT/assets)
         uses: actions/upload-artifact@v4

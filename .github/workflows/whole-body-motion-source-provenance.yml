@@ -4,6 +4,7 @@ on:
     branches:
       - codex/whole-body-motion-provenance-gate-20261010
       - codex/source-skeleton-blender-measurements-20261010
+      - codex/windows-c001-source-paths-20261010
   workflow_dispatch:
 
 permissions:
@@ -16,11 +17,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install headless Blender for the real render boundary regression
-        run: sudo apt-get update && sudo apt-get install -y blender xvfb
+        run: sudo apt-get update && sudo apt-get install -y blender xvfb python3-numpy
       - name: Render a temporary non-anatomical scene into the declared directory
         run: xvfb-run -a blender --background --factory-startup --python-exit-code 1 --python scripts/blender_tests/test_skeleton_review_render_path.py
       - name: Preserve raw source triangles in an actual private source-axis review
         run: xvfb-run -a blender --background --factory-startup --python-exit-code 1 --python scripts/blender_tests/test_source_surface_review.py
+      - name: Reproduce unchanged c001 and c002 candidate records in Blender
+        run: >-
+          xvfb-run -a blender --background --factory-startup --python-exit-code 1
+          --python-expr "import sys,unittest; sys.path.insert(0,'scripts'); suite=unittest.defaultTestLoader.loadTestsFromNames(['test_shoulder_proposal_c001','test_shoulder_proposal_c002']); result=unittest.TextTestRunner(verbosity=2).run(suite); sys.exit(not result.wasSuccessful())"
 
   windows-source-motion-provenance:
     runs-on: windows-latest
@@ -48,6 +53,9 @@ jobs:
       - name: Preserve historical ANSUR correspondence record exactly on Windows
         working-directory: scripts
         run: python -m unittest test_ansur_endpoint_correspondence test_arm_chain_ansur_audit -v
+      - name: Reproduce unchanged c001 and c002 candidate records on Windows
+        working-directory: scripts
+        run: python -m unittest test_shoulder_proposal_c001 test_shoulder_proposal_c002 -v
 
   source-motion-amplitude-safety-gate:
     runs-on: ubuntu-latest

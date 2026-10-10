@@ -1,0 +1,75 @@
+name: Actual bilateral source carpal-tarsal vertex proximity
+
+on:
+  push:
+    branches: [codex/bonehub-carpal-tarsal-proximity-20261010]
+    paths:
+      - scripts/anatomy_fit/bonehub_carpal_tarsal_vertex_proximity.py
+      - scripts/test_bonehub_carpal_tarsal_vertex_proximity.py
+      - .github/workflows/bonehub_bilateral_actual_contact_proximity.yml
+      - docs/BONEHUB_ACTUAL_BILATERAL_JOINT_SURFACE_PROXIMITY_20261010.md
+  pull_request:
+    paths:
+      - scripts/anatomy_fit/bonehub_carpal_tarsal_vertex_proximity.py
+      - scripts/test_bonehub_carpal_tarsal_vertex_proximity.py
+      - .github/workflows/bonehub_bilateral_actual_contact_proximity.yml
+
+permissions:
+  contents: read
+
+jobs:
+  pure-stdlib-vertex-nearest-neighbour:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify adversarial geometry and immutable-source policies offline
+        run: |
+          python -m unittest discover -s scripts -p 'test_bonehub_carpal_tarsal_vertex_proximity.py' -v
+
+  real-pinned-bilateral-source-pairs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Retrieve 10 SHA-pinned public bone meshes privately and measure 8 source-space pair proxies
+        run: |
+          python scripts/anatomy_fit/bonehub_carpal_tarsal_vertex_proximity.py \
+            --private-dir "$RUNNER_TEMP/hgpt-source-pair-private" \
+            --output "$RUNNER_TEMP/hgpt-source-pair-private/vertex-proximity-8-pairs.json" \
+            --download
+          python - "$RUNNER_TEMP/hgpt-source-pair-private/vertex-proximity-8-pairs.json" <<'PY'
+          import json, math, sys
+          with open(sys.argv[1],encoding='utf-8') as f: r=json.load(f)
+          assert r['source_mesh_count_examined']==10
+          assert r['adjacent_source_pair_count']==8
+          assert r['source_revision']=='ac8de2b38f5ae1a0996053ca0639dd6ae43358f1'
+          assert r['distinct_CT_subjects']==1
+          assert r['primary_CT_rescale_and_registration_verified'] is False
+          assert r['actual_triangle_distance_or_contact_centre_established'] is False
+          assert r['cp1_gate6_passed'] is False
+          for row in r['source_pair_measurements']:
+              assert len(row['items'])==2
+              assert all(len(s['immutable_raw_sha256_verified'])==64 for s in row['items'])
+              m=row['measurement']
+              lo=m['bbox_separation_lower_bound_source_units_unknown']
+              hi=m['minimum_source_face_vertex_pair_distance_source_units_unknown']
+              assert math.isfinite(lo) and math.isfinite(hi)
+              assert 0 <= lo <= hi+1e-8
+              assert m['contact_patch_or_joint_centre_identified'] is False
+              assert m['real_physical_units_verified'] is False
+              print(f"{row['declared_side']} {row['pair_family']}: "
+                    f"bbox_lower={lo:.3f}, raw_valid_vertex_upper={hi:.3f} "
+                    "[unaccepted source units; no anatomical contact claim]")
+          PY
+      - name: Publish *numbers only*, not original bone STL/CT or source points
+        uses: actions/upload-artifact@v4
+        with:
+          name: noncanonical-8-bilateral-source-mesh-surface-vertex-gap-ranges
+          path: ${{ runner.temp }}/hgpt-source-pair-private/vertex-proximity-8-pairs.json
+          if-no-files-found: error
+          retention-days: 14

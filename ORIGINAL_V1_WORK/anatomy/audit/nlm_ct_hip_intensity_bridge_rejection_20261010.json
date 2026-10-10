@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "kind": "SOURCE_PINNED_HIP_CT_HU_ONLY_WEIGHTED_PATH_REJECTION_NOT_ANATOMICAL_ACCEPTANCE",
+  "date": "2026-10-10",
+  "source": "NLM Visible Human Male CT original series",
+  "source_manifest": "ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json",
+  "review_packet": "ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_review_20261009.json",
+  "source_frames_verified_sha256": true,
+  "source_group": 2,
+  "source_slices": 35,
+  "source_pair_plane_id": "cvm1873f",
+  "source_plane_S_mm": -481,
+  "source_spacing_metric": "original GE scanner FOV dimensions divided by 512 and 3mm slice pitch; unaffected by unresolved common half-pixel origin",
+  "code": "scripts/anatomy_fit/nlm_ct_hu_bridge_witness.py",
+  "source_verification_workflow": "https://github.com/anyangle1409-code/animation-software/actions/runs/38045962778",
+  "witnesses": [
+    {
+      "side": "right",
+      "ids": [
+        "obs-1873-right-femoral-head",
+        "obs-1873-right-acetabulum"
+      ],
+      "roi_col0_col1_row0_row1": [
+        95,
+        249,
+        195,
+        364
+      ],
+      "HU": 150,
+      "head_original_source_HU": 291,
+      "socket_original_source_HU": 438,
+      "intensity_bridge_exists": true,
+      "physical_shortest_path_mm": 33.242,
+      "direct_seed_euclidean_mm": 24.523,
+      "route_over_direct": 1.3556,
+      "path_voxel_samples": 38,
+      "path_scanner_slice_planes_visited": 1,
+      "path_minimum_source_HU": 184,
+      "path_selection_cut_contacts": [],
+      "higher_HU_screen": 300,
+      "higher_HU_head_seed_occupied": false,
+      "higher_HU_pair_connectivity": null,
+      "anatomical_joint_contact_verified": false
+    },
+    {
+      "side": "left",
+      "ids": [
+        "obs-1873-left-femoral-head",
+        "obs-1873-left-acetabulum"
+      ],
+      "roi_col0_col1_row0_row1": [
+        275,
+        449,
+        195,
+        364
+      ],
+      "HU": 300,
+      "head_original_source_HU": 305,
+      "socket_original_source_HU": 510,
+      "intensity_bridge_exists": true,
+      "physical_shortest_path_mm": 36.836,
+      "direct_seed_euclidean_mm": 24.523,
+      "route_over_direct": 1.5021,
+      "path_voxel_samples": 42,
+      "path_scanner_slice_planes_visited": 1,
+      "path_minimum_source_HU": 302,
+      "path_selection_cut_contacts": [],
+      "higher_HU_screen": 500,
+      "higher_HU_head_seed_occupied": false,
+      "higher_HU_pair_connectivity": null,
+      "anatomical_joint_contact_verified": false
+    }
+  ],
+  "limitations": [
+    "Both source head and socket labels are unverified candidate hypotheses; no clinical anatomical contact assertion follows.",
+    "HU-only path can cross unrelated calcified material, partial-volume artifacts, trabecular networks or poorly delineated articular tissues.",
+    "Scanner first-pixel centre convention unresolved; physical relative distances cancel common FOV offset but skeleton registration does not.",
+    "Acquisition groups must remain separate; each end of this full selection is a source imaging boundary.",
+    "Shortest HU route is a computational artefact path through thresholded data, NOT an actual cortical or trabecular anatomical bridge."
+  ],
+  "source_image_header_bytes_published": false,
+  "geometry_promoted": false,
+  "seven_required_true_pelvic_landmarks_verified": 0,
+  "skeleton_freeze_ready_regions": 0,
+  "canonical_promotion_allowed": false
+}

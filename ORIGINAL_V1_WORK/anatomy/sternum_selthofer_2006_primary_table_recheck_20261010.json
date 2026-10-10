@@ -94,7 +94,8 @@
     "stature_matched_subgroup_available": false,
     "a003_sternal_stick_mm": 213.2,
     "a003_stick_kind": "Blender audit control, not verified identical to osteological total length",
-    "a003_manubriosternal_vertical_depth_mm": 76.1
+    "a003_manubriosternal_vertical_depth_mm": 76.1,
+    "source_label_error_recognised": true
   },
   "explicit_decision": {
     "source_fulltext_gap_closed": true,
@@ -105,6 +106,41 @@
     "canonical_geometry_mutated": false,
     "canonical_promotion_allowed": false,
     "cp1_gate6_passed": false,
-    "regional_readiness_upgraded": false
+    "regional_readiness_upgraded": false,
+    "turkish_2018_semantic_source_label_error_identified": true,
+    "length_comparison_method_contradiction_resolved": false
+  },
+  "reconciled_turkish_2018_primary": {
+    "source": "Atesoglu, Deniz, Uslu. Folia Morphologica 77(3):489-497 (2018)",
+    "doi": "10.5603/FM.a2018.0002",
+    "pmid": "29345718",
+    "methods_public_url": "https://www.researchgate.net/publication/322588235_Evaluation_of_the_morphological_characteristic_and_sex_differences_of_sternum_by_multi-detector_computed_tomography",
+    "population_male_n": 97,
+    "source_total_name": "length of totality sternum (CL)",
+    "source_exact_total_definition": "CL = length of manubrium (M) plus length of body (B)",
+    "source_xiphoid_separately_measured": true,
+    "xiphoid_included_in_154_1mm_total": false,
+    "male_manubrium_mm": {
+      "mean": 51.2,
+      "sd": 6
+    },
+    "male_body_mm": {
+      "mean": 102.4,
+      "sd": 13.3
+    },
+    "male_combined_CL_mm": {
+      "mean": 154.1,
+      "sd": 13.1
+    },
+    "male_xiphoid_separate_mm": {
+      "mean": 39.1,
+      "sd": 11.3
+    },
+    "historical_audit_label_wrong": "population_male_means_mm.total_including_xiphoid_turkey_CT",
+    "historical_value_correct_but_semantic_label_wrong": true,
+    "historical_canonical_file_mutated": false,
+    "corrections_pending_review": true,
+    "not_same_definition_as_selthofer_jugular_to_xiphoid_endpoint": true,
+    "source_male_stature_conditioned_182cm": false
   }
 }

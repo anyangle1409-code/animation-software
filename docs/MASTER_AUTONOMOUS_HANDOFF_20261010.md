@@ -726,3 +726,23 @@ using existing pinned source imagery and reusing private previews if present.
 Retain explicit candidate-only observations and obtain independent second
 review before accepting anatomy. Do not repeat completed c003 optimization,
 source downloads/calibration or movement sweeps.
+
+### Intermediate group2 candidate review, 13 source-pinned views total
+
+Actual private Blender views50/55/60/65/70/75 were rendered and inspected;
+each exposes exactly its expected source plane. Six original PNG/header
+hash pairs match the saved viewer report and the saved Blend remains unchanged.
+The ledger now has13 unique source-pinned observations. Rounded structures
+within surrounding outlines at50/55 and outward-extending lateral structures
+at60 provide **candidate** hip-region review cues. Distinct medial outlined
+profiles remain at65/70/75 and are not grouped into an accepted segmentation.
+This sparse15mm sampling does not prove continuity, bone identity, anatomical
+coverage, joint contact or any landmark centre. All acceptance gates remain
+false; every render and source byte stays private.
+
+Next action: densely inspect group2 frames46–62, reusing existing50/55/60
+previews and rendering missing frames only. This bounds the rounded candidate
+region for independent review without repeated source acquisition, scene
+rebuilds or numerical optimization. The preceding seven-view checkpoint
+`ccd3d8ed7aa271a6485ad963b07ed8c42e2382c4` passed all three CI jobs in run
+`38094791988`; that tooling verification is not anatomy approval.

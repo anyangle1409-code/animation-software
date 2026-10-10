@@ -72,11 +72,62 @@
       "private_render_sha256": "da11a5678946c5f7a53d0306408fbc3266e300bf14dcf54ff579019d94862622",
       "visible_plane": "FRAME_081__GROUP_02__cvm1954f",
       "candidate_note": "Paired bright rings persist between frames80 and82 with modest contour differences. No radius, centre, segmentation mask, anatomical side or registration measurement is inferred."
+    },
+    {
+      "source_id": "cvm1861f", "timeline_frame": 50, "source_group": 2, "scanner_S_mm": -469.0,
+      "source_png_sha256": "87af4f47f4f743812e7cd3c0703f2265c5d3d2fcea0a765429bbfaaf25ed118a",
+      "source_header_sha256": "c6729c37ae78acc197d8a73bb7dcf456591000feff9723f91a6fd5c932807f29",
+      "private_render_sha256": "fcadb107751047a4026c22b3d37ded34b9a7e5c4a628b485fda0b6118e6246ed",
+      "visible_plane": "FRAME_050__GROUP_02__cvm1861f",
+      "candidate_note": "Paired rounded internal bright-rimmed structures appear within larger outlined lateral structures. Possible hip head/socket-region candidates for independent review only; identities, centres and segmentation are not accepted."
+    },
+    {
+      "source_id": "cvm1876f", "timeline_frame": 55, "source_group": 2, "scanner_S_mm": -484.0,
+      "source_png_sha256": "95e649e47db71831ae0b2deea7f8fb530478a7ebc3942e9d3d6f7d98d9a877ec",
+      "source_header_sha256": "e142681f7fe74682ea40530378adbe2a5e65b61cba1f5caca4aa04d3f8db6ada",
+      "private_render_sha256": "2d427308c51aa017bc7d703c2528ed340e8b83aae43ce92d1e47640a15c4a36e",
+      "visible_plane": "FRAME_055__GROUP_02__cvm1876f",
+      "candidate_note": "Paired roughly rounded bright-rimmed internal structures remain visible beside concave surrounding outlines. This is a second sparse candidate hip-region view, not confirmed correspondence, joint contact or a centre measurement."
+    },
+    {
+      "source_id": "cvm1891f", "timeline_frame": 60, "source_group": 2, "scanner_S_mm": -499.0,
+      "source_png_sha256": "4966927f4a5943419b6d00ea96bb689f5c627b72a9f84d65de790f08a81ae7a6",
+      "source_header_sha256": "a31c0d49da2d2823b65c9840559c73972023b7ccd81399bc0a3a8b766e12de33",
+      "private_render_sha256": "4b70989bc26d59913d2d42e50fd451406363882824373e6c27588a68b9024714",
+      "visible_plane": "FRAME_060__GROUP_02__cvm1891f",
+      "candidate_note": "The lateral outlined structures extend outward from rounded medial portions; separate anterior paired outlines approach the midline. Possible proximal-femoral and anterior pelvic-region candidates require dense adjacent review; no anatomical landmark is accepted."
+    },
+    {
+      "source_id": "cvm1906f", "timeline_frame": 65, "source_group": 2, "scanner_S_mm": -514.0,
+      "source_png_sha256": "fea0197c307f2a177187bef25ff8a23a110cbad3b52be29e6739f9f544b71d9f",
+      "source_header_sha256": "410b08719f8413cec1c7b68bf6dcca6b4f65e8f1ccab24b0c7827904f14978e5",
+      "private_render_sha256": "e64fe19c89867c25f994cfd0042388b4f42a50372319bc25472f9b4c3d6ee0a0",
+      "visible_plane": "FRAME_065__GROUP_02__cvm1906f",
+      "candidate_note": "Bilateral lateral outlined profiles are separate from paired posterior-medial profiles; two smaller anterior profiles lie near the midline. These are distinct candidate structures, not one accepted connected segmentation."
+    },
+    {
+      "source_id": "cvm1921f", "timeline_frame": 70, "source_group": 2, "scanner_S_mm": -529.0,
+      "source_png_sha256": "4802955d63293d9ecd58dbdd9b9d96ef388cb4b894c65ab44f652b8693dee212",
+      "source_header_sha256": "6b06b396a67b9c0d8f25bb69f383680021529da32426488a9ad33b350c323827",
+      "private_render_sha256": "fb7a5dc560ca5f9b7178291e93ed0bf07e835279f80ef161f9b2b7b222459579",
+      "visible_plane": "FRAME_070__GROUP_02__cvm1921f",
+      "candidate_note": "Paired lateral profiles and separate smaller posterior-medial profiles remain visible, with thin anterior-medial outlined profiles. Shape similarity across this sparse interval is not accepted continuity or identity."
+    },
+    {
+      "source_id": "cvm1936f", "timeline_frame": 75, "source_group": 2, "scanner_S_mm": -544.0,
+      "source_png_sha256": "dad0f2c56cd8d2bcdd1abbe8591ffa852a2ca43bcb17ffadaa62f4cf4482d865",
+      "source_header_sha256": "4639caad585a07a54f4af4b14a6eca24ac14e2a19a09e9d0e1e161361e26f794",
+      "private_render_sha256": "cdf6e762d5ab89c4e8fd99d7fc2fe525c2ddbced062f1fb814ed23d25fb3adeb",
+      "visible_plane": "FRAME_075__GROUP_02__cvm1936f",
+      "candidate_note": "Paired lateral ring-like profiles coexist with thinner posterior-medial outlines. Comparison with80/81/82 suggests an interval to inspect for disappearance of the medial candidates, not a verified bone endpoint."
     }
   ],
   "original_png_and_header_hashes_reverified": true,
   "original_native16_visual_inspection_frames": [43, 82],
-  "windowed_blender_visual_inspection_frames": [42, 43, 44, 45, 80, 81, 82],
+  "windowed_blender_visual_inspection_frames": [42, 43, 44, 45, 50, 55, 60, 65, 70, 75, 80, 81, 82],
+  "coarse_group2_candidate_review_frames": [44, 45, 50, 55, 60, 65, 70, 75, 80, 81, 82],
+  "coarse_group2_review_is_contiguous": false,
+  "candidate_hip_region_dense_review_requested_frames": [46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62],
   "within_group_candidate_visual_traces": [[42, 43], [44, 45], [80, 81, 82]],
   "cross_group_comparison_frames": [43, 44],
   "cross_group_registration_accepted": false,

@@ -37,6 +37,9 @@ jobs:
       - name: Reproduce unchanged c004 inputs and geometry on Windows
         working-directory: scripts
         run: python -m unittest test_candidate_c004_arm_inputs -v
+      - name: Preserve historical ANSUR correspondence record exactly on Windows
+        working-directory: scripts
+        run: python -m unittest test_ansur_endpoint_correspondence -v
 
   source-motion-amplitude-safety-gate:
     runs-on: ubuntu-latest

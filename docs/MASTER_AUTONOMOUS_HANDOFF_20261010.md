@@ -211,4 +211,79 @@ verification checkout; anatomical values/hashes were not mocked. The unchanged
 immutable-input pins, complete record reproduction, input guard, movement
 reuse and hash-seed mirror checks passed. The production Windows CI job now
 installs NumPy and runs the entire same test module without those rebindings.
-That new CI step awaits execution on the next published commit.
+That CI step subsequently passed, without input rebindings, on published
+`27b3a9a1c740ff0f4f9cce5534465d22691f00fb` in
+[run 38065155129](https://github.com/anyangle1409-code/animation-software/actions/runs/38065155129).
+All three jobs passed, including actual Ubuntu Blender and all 14 c004 Windows
+tests. This closes only the serialization defect, not anatomical readiness.
+
+## Completed targeted regression classification checkpoint
+
+The corrected short-path/LF/SciPy/exact-visual-byte retest completed:
+**72 tests, 21 failures, 5 errors, 46 passes**, 884.779 seconds, on87eec970.
+Private corrected log SHA256:
+`ffadd87dee874c3d3329df0c434cdc10e8d687c4338bb97b9445c2043ab825ff`.
+One of those failures was c004 reconstruction, independently fixed above.
+Another was ANSUR correspondence: exactly three platform-dependent source
+path keys, with no other report differences. Its one serialization expression
+now uses `as_posix()`; all five unchanged ANSUR tests passed using actual
+short-path source files and the edited builder (path bindings only).
+The Windows CI workflow now runs those same five tests without rebindings;
+verification of the next published run remains outstanding.
+
+Remaining failing case names (do not claim full-suite green):
+
+- `production_control`: `test_next_action_requires_both_source_bound_diagnostics`,
+  `test_wrist_repair_precedes_grip_and_lunge_after_hand_recovery`,
+  `test_zero_blockers_cannot_hide_inherited_regressions`.
+- `shoulder_ansur_acromion_audit.Audit.test_reproduces`,
+  `shoulder_thorax_c003.Identity.test_reproduces`,
+  `arm_chain_ansur_audit.ArmChain.test_reproduces`.
+- `canonical_lumbar_orientation_sensitivity.LumbarSensitivityTests.test_report_exact_reproduction`,
+  `canonical_lumbar_wedge_decomposition.LumbarWedgeTests.test_report_reproduction_and_se_not_sd`.
+- `evidence_integrity_audit.Committed.test_live_reverification_matches_committed`,
+  `evidence_integrity_audit.Mutations.test_every_status_detected`,
+  `execution_orchestration.test_unknown_support_stage_refused`.
+- `review_pack_index.ReviewPack.test_reproduces_and_hashes`,
+  `rib_spiral_reconstruction.DistalRibTests.test_export_is_reproducible_and_keeps_floating_rib_exceptions`.
+- `shoulder_proposal_c001.Identity.test_record_reproduces`,
+  `shoulder_proposal_c001.VerticalRelationAudit.test_reproduces`,
+  `shoulder_proposal_c002.Identity.test_record_reproduces`.
+- `skeleton_audit_and_p001.P001.test_builder_reproduces`,
+  `spine_trunk_audits.P003Rejected.test_rebuild_is_deterministic`,
+  `verify_original_v1_candidate_status.CandidateStatusTests.test_current_candidate_status_matches_repository_evidence`.
+
+Five error cases remain: execution orchestration's
+`test_live_plan_covers_support_and_selects_active_r96_recovery` and
+`test_operational_tool_artifacts_are_validated`; production control's
+`test_future_candidate_with_verified_sources_is_selected` and
+`test_owner_accepted_regression_is_bound_to_exact_candidate_and_values`;
+and the whole-body Blender gate private-QA symlink test (Windows privilege1314).
+These are diagnostic classifications, not permission to update frozen records,
+loosen production approval, enable OS privileges or hide tests.
+
+## Independently retrieved measurement handbook
+
+See `ANSUR_PRIMARY_HANDBOOK_RECHECK_20261010.md` and its JSON companion.
+The complete archived primary report was retrieved privately and its identity
+and seven relevant pages independently checked against the actual PDF. The
+historical October8 owner-supplied record remains untouched. Definition/page
+verification is newly available; endpoint offsets and geometry acceptance are
+still missing. Wrist height is section6.4.94, not wrist circumference6.4.93.
+Use the verified definitions and their distinct palm postures when seeking
+new endpoint-to-centre evidence; do not turn definition closure into a length
+target, a sourced 15mm offset or canonical promotion.
+
+Latest pre-edit remote-head check also discovered independent BoneHub intake
+branch `c0d2faeac78ce34af726e20166b972d9b5574602`. Rib preflight is now
+`909c44ffcce743930a5b98880e1d3dbdd2b0d989`. Both were preserved; inspect
+their latest reports before duplicating source acquisition.
+
+Current continuation supersedes earlier pending items: targeted retest and
+c004 CI are complete, ANSUR Windows CI awaits the next push, remaining failure
+classification and independent endpoint/pelvic evidence are still actionable.
+The existing hourly continuation automation was updated to follow this master
+checkpoint, preserve newer Work branches and avoid repeating completed sweeps.
+It stays quiet during active work or non-actionable usage limits. Local
+continuation still requires this computer and Codex app to be running; a reset
+does not guarantee uninterrupted execution.

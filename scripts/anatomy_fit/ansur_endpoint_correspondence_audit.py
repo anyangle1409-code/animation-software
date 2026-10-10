@@ -102,7 +102,7 @@ def build():
     return {
         'schema_version': 1, 'created': '2026-10-08', 'status': 'AUDIT_ONLY_NO_TARGET_SELECTED_NO_GEOMETRY_CHANGED',
         'source': SOURCE, 'definitions_owner_supplied': DEFS,
-        'inputs_sha256': {str(p.relative_to(ROOT)): sha(p) for p in (A003, C003, arm.CSV)},
+        'inputs_sha256': {p.relative_to(ROOT).as_posix(): sha(p) for p in (A003, C003, arm.CSV)},
         'correspondence': corr,
         'sensitivity_bracket': 'exploratory 0-15 mm for each UNRESOLVED arm endpoint (covers the existing 15 mm convention; not a sourced range)',
         'sensitivity': sens,

@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "kind": "INDEPENDENT_PRIMARY_DEFINITION_RECHECK_NOT_GEOMETRY_ACCEPTANCE",
+  "review_date": "2026-10-10",
+  "source": {
+    "title": "Measurer's Handbook: US Army and Marine Corps Anthropometric Surveys, 2010-2011",
+    "report_number": "NATICK/TR-11/017",
+    "dtic_accession": "ADA548497",
+    "report_date": "August 2011",
+    "archive_identifier": "DTIC_ADA548497",
+    "archive_metadata_url": "https://archive.org/metadata/DTIC_ADA548497",
+    "retrieved_url": "https://ia902806.us.archive.org/25/items/DTIC_ADA548497/DTIC_ADA548497.pdf",
+    "official_url_attempted": "https://apps.dtic.mil/sti/pdfs/ADA548497.pdf",
+    "official_url_result": "HTTP 403; no direct official PDF bytes verified",
+    "retrieval_status": "ARCHIVED_PRIMARY_REPORT_COPY_RETRIEVED_AND_VISUALLY_REVIEWED",
+    "identity_checks": ["Cover report number, title, authors, date and DTIC identity inspected", "Original-file size, MD5 and SHA1 match archive metadata", "Seven relevant PDF pages rendered and visually inspected including diagrams"],
+    "pdf_bytes": 5224258,
+    "pdf_page_count": 263,
+    "pdf_sha256": "d31d6333bbe5cc2a09aa2519c4af4c230735de4caac68fd2148dad3d00dfd42c",
+    "archive_original_md5": "a57a05aac0a1f8a8dc8e714a06150ac2",
+    "archive_original_sha1": "142e48d32b83739ca0c9aa88e0b7aca517dc50b4",
+    "private_filename": "ADA548497-primary-archive.pdf",
+    "source_bytes_in_git": false,
+    "direct_official_byte_identity_verified": false
+  },
+  "page_numbering": "pdf_page_1based is physical page; printed_page is the handbook footer",
+  "definitions": [
+    {"name": "acromion", "section": "5.2.1", "pdf_page_1based": 33, "printed_page": 23, "paraphrase": "Lateral acromial border crossing of the tape construction from the trapezius point over the clavicle point; requires the specified landmark construction, not an arbitrary AC joint centre."},
+    {"name": "cervicale", "section": "5.2.5", "pdf_page_1based": 37, "printed_page": 27, "paraphrase": "Most prominent palpable C7 spinous point. The footnote distinguishes this from the earlier ANSUR superior-point convention. Palpation and prominence ambiguity are part of the procedure, not a vertebral body centre definition."},
+    {"name": "radiale", "section": "5.2.33", "pdf_page_1based": 65, "printed_page": 55, "paraphrase": "Superior point of the external/lateral radial border, located by palpating the upper radius from the lateral elbow; not the humeroradial articular centre."},
+    {"name": "stylion", "section": "5.2.36", "pdf_page_1based": 70, "printed_page": 60, "paraphrase": "Inferior point of the radius, with dorsal and ventral extensions marked. The right elbow is bent during landmark location; palpation can be obscured by tendons. Not a generic radiocarpal joint centre."},
+    {"name": "suprasternale", "section": "5.2.39", "pdf_page_1based": 73, "printed_page": 63, "paraphrase": "Inferior point of the sternum's jugular notch, located by palpation while standing."},
+    {"name": "radiale_stylion_length", "section": "6.4.68", "pdf_page_1based": 154, "printed_page": 144, "paraphrase": "Right radiale-to-stylion span with a beam caliper parallel to the arm's long axis and light skin contact; standing with relaxed arms and right palm forward. Neither endpoint may be replaced by a joint centre."},
+    {"name": "wrist_height", "section": "6.4.94", "pdf_page_1based": 180, "printed_page": 170, "paraphrase": "Vertical floor-to-stylion distance with heels together, straight elbow/wrist/fingers, relaxed shoulders, arms lightly against the sides and palms medial; maximum during quiet respiration without shoulder movement. Section 6.4.93 is wrist circumference, not wrist height."}
+  ],
+  "inferences_not_source_numeric_results": [
+    "The two forearm-related measurements specify different palm postures; shared model coordinates are not automatically measurement-compatible.",
+    "Surface landmark definitions do not establish offsets to the existing model's joint or body centres.",
+    "Definition verification does not validate population targets, model marker placement or a source-to-rig registration."
+  ],
+  "still_missing": [
+    "Independent radial-head rim to humeroradial articular centre offset",
+    "Independent radial styloid tip to radiocarpal centre offset",
+    "Independent C7 spinous point to vertebral body centre correspondence",
+    "Source-bound acromion construction and complete measurement posture correspondence",
+    "Independent numerical target and population applicability evidence"
+  ],
+  "historical_record": "ORIGINAL_V1_WORK/anatomy/audit/ansur_endpoint_correspondence_v1.json",
+  "historical_owner_supplied_record_rewritten": false,
+  "source_skeleton_governs_geometry": true,
+  "geometry_changed": false,
+  "numerical_target_authorized": false,
+  "canonical_promotion_allowed": false,
+  "production_ready": false
+}

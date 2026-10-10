@@ -275,16 +275,67 @@ def read_source_and_audit(raw, root=ANATOMY):
     return audit_measurements(raw, bones, joints, freeze, blockers)
 
 
+
+def verify_scene_bytes(local_scene_path, report):
+    """Independently hash the precise private .blend file used by a bpy export.
+
+    This verifies scene-file provenance only, NOT that the reported mesh
+    measurements were truthfully produced by Blender or are correct anatomy.
+    """
+    expected = _sha(_object(report.get("provenance"), "Blender provenance").get(
+        "blender_scene_sha256"), "Blender scene hash")
+    p = Path(local_scene_path)
+    if not p.is_file() or p.suffix.lower() != ".blend":
+        raise ValueError("independent original Blender .blend file is required")
+    h = hashlib.sha256()
+    with p.open("rb") as f:
+        for block in iter(lambda: f.read(1024 * 1024), b""):
+            h.update(block)
+    if h.hexdigest() != expected:
+        raise ValueError("original Blender .blend bytes changed; scene SHA mismatch")
+    return True
+
+
+def report_schema_template(bone_inventory_sha256, articulation_sha256):
+    """Structurally valid EMPTY guide, explicitly unverified until filled by bpy."""
+    return {
+        "schema_version": 1,
+        "kind": "HGPT_BLENDER_206_BONE_QA_EXPORT",
+        "provenance": {
+            "git_commit_sha": "<40-lowercase-hex-git-SHA>",
+            "blender_scene_sha256": "<SHA256-of-actual-private-blend>",
+            "bone_inventory_sha256": bone_inventory_sha256,
+            "joint_inventory_sha256": articulation_sha256,
+            "world_unit": "metres",
+            "anatomical_label_basis": "source_anatomical_bone_id",
+            "scene_was_evaluated_by_bpy": False,
+        },
+        "anatomical_identity_approved": False,
+        "canonical_promotion_allowed": False,
+        "bone_surfaces": [],
+        "poses": [],
+        "important": (
+            "Guide only. Fill from real Blender-evaluated anatomical bone "
+            "surfaces and original source-named joint clearances. Never mark "
+            "bpy=true or insert measurements without Blender execution. "
+            "Cartilage/TFCC/sesamoid extras are not among the conventional 206."
+        ),
+    }
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--input", required=True, help="private measured JSON from Blender bpy")
     p.add_argument("--out", required=True, help="new private QA assessment JSON outside Git worktrees")
+    p.add_argument("--scene-file", required=True, help="EXACT local .blend file to independently verify SHA-256")
     args = p.parse_args()
     from ct_pelvis_window_geometry import assert_private_location
     output = assert_private_location(args.out)
     if output.exists() or output.suffix != ".json":
         raise ValueError("refuse overwrite or non-JSON Blender assessment path")
-    result = read_source_and_audit(json.loads(Path(args.input).read_text()))
+    raw = json.loads(Path(args.input).read_text())
+    verify_scene_bytes(args.scene_file, raw)
+    result = read_source_and_audit(raw)
     output.parent.mkdir(parents=True, exist_ok=True)
     with output.open("x", encoding="utf8") as fp:
         json.dump(result, fp, sort_keys=True, indent=2)

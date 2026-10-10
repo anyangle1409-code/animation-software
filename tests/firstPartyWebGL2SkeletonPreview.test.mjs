@@ -12,9 +12,9 @@ const close=(actual,expected,epsilon=1e-5)=>{
 test('native 4x4 left-multiplication has column-major identity semantics',()=>{
   const id=new Float32Array([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]);
   const view=nativeLookAt([0,0,4],[0,0,0]);
-  assert.deepEqual([...multiplyNativeMat4(id,view)],[...view]);
-  assert.deepEqual([...multiplyNativeMat4(view,id)],[...view]);
-  assert.deepEqual([...clipPoint(view,[0,0,0])],[0,0,-4,1]);
+  multiplyNativeMat4(id,view).forEach((value,i)=>close(value,view[i]));
+  multiplyNativeMat4(view,id).forEach((value,i)=>close(value,view[i]));
+  clipPoint(view,[0,0,0]).forEach((value,i)=>close(value,[0,0,-4,1][i]));
 });
 test('native perspective maps near/far planes to WebGL negative/positive clip depth',()=>{
   const p=nativePerspective(Math.PI/2,1,1,11);

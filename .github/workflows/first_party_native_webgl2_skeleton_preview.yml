@@ -10,6 +10,8 @@ on:
       - src/viewer/firstPartyViewportDom.ts
       - tests/firstPartyWebGL2SkeletonPreview.test.mjs
       - scripts/verify-native-webgl2-skeleton-browser.mjs
+      - src/viewer/nativeWebGL2StandaloneEntry.ts
+      - native-webgl2-preview.html
       - .github/workflows/first_party_native_webgl2_skeleton_preview.yml
       - docs/FIRST_PARTY_WEBGL2_RUNTIME_REPLACEMENT_20261010.md
   pull_request:
@@ -20,6 +22,8 @@ on:
       - src/viewer/firstPartyViewportDom.ts
       - tests/firstPartyWebGL2SkeletonPreview.test.mjs
       - scripts/verify-native-webgl2-skeleton-browser.mjs
+      - src/viewer/nativeWebGL2StandaloneEntry.ts
+      - native-webgl2-preview.html
       - .github/workflows/first_party_native_webgl2_skeleton_preview.yml
 
 permissions:
@@ -89,7 +93,7 @@ jobs:
         run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Prepare headless Chromium software WebGL2
         run: npx playwright install --with-deps chromium
-      - name: Validate actual native WebGL2 shader draw and exercise playback, compare untouched default
+      - name: Validate real native WebGL2, standalone zero-vendor module requests, and untouched default
         run: node scripts/verify-native-webgl2-skeleton-browser.mjs
       - name: Publish diagnostics only - skeletal wireframe not final human character
         if: always()

@@ -104,7 +104,7 @@ def build():
                         '(how a003 reached that was not re-audited here); a003 does not satisfy the bony thorax-relative relations.')
     return {
         'schema_version': 1, 'created': '2026-10-08', 'status': 'AUDIT_OPEN_NOT_RESOLVED',
-        'inputs_sha256': {str(p.relative_to(ROOT)): sha(p) for p in (SOLUTION, THORAX, A003, CAND)},
+        'inputs_sha256': {p.relative_to(ROOT).as_posix(): sha(p) for p in (SOLUTION, THORAX, A003, CAND)},
         'erratum_v1_vertical_relation_reading': erratum,
         'ij_independent_acromion_vs_C7': ij_independent,
         'absolute_heights_vs_ANSUR_182': absol,

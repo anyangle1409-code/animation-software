@@ -78,8 +78,8 @@ def build():
             S[key] = val
     cand['candidate'] = {
         'id': CANDIDATE_ID, 'status': 'AUDIT_PROPOSAL_NOT_CANONICAL_NOT_ACCEPTED', 'freeze_ready': False,
-        'base_record': {'path': str(BASE.relative_to(ROOT)), 'sha256': sha(BASE)},
-        'solution': {'path': str(SOLUTION.relative_to(ROOT)), 'sha256': sha(SOLUTION), 'variant': VARIANT, 'world': WORLD, 'GH_radius_variant': GH_KEY},
+        'base_record': {'path': BASE.relative_to(ROOT).as_posix(), 'sha256': sha(BASE)},
+        'solution': {'path': SOLUTION.relative_to(ROOT).as_posix(), 'sha256': sha(SOLUTION), 'variant': VARIANT, 'world': WORLD, 'GH_radius_variant': GH_KEY},
         'changed': 'clavicles and scapulae replaced; SC/AC/GH/scapulothoracic centres replaced; humerus subtree translated rigidly',
         'unchanged': 'every other bone and marker; trunk height and thorax of a003 (IJ at the a003 bony IJ)',
         'GH_translation_mm': deltas, 'moved_bones': moved_bones, 'moved_markers': moved_markers,

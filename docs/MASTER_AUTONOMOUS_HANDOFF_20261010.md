@@ -287,3 +287,29 @@ checkpoint, preserve newer Work branches and avoid repeating completed sweeps.
 It stays quiet during active work or non-actionable usage limits. Local
 continuation still requires this computer and Codex app to be running; a reset
 does not guarantee uninterrupted execution.
+
+## Follow-on primary forearm CT source triage
+
+`FOREARM_CT_ENDPOINT_SOURCE_TRIAGE_20261010.json` records an independently
+retrieved five-page primary study, DOI10.17159/2309-8309/2021/v20n3a5.
+Its source figures/methods/table were visually reviewed. The reported bone
+measurements are not the missing model-specific offsets; the source's
+radius-length confidence interval also differs between Results and Table I.
+No interval, offset or geometry target was selected. The private PDF remains
+outside Git; its exact identity and unresolved discrepancy are in the ledger.
+
+Next execution should first inspect CI for05a3ac371b6e7d54e8e48f15a315f757086916e4
+([run38066488527](https://github.com/anyangle1409-code/animation-software/actions/runs/38066488527)),
+then classify outstanding reproducibility defects or seek independently
+calibrated endpoint correspondences. Avoid incomplete Visible Human elbow
+surfaces as target evidence. BoneHub intake advanced to555e2a6c during the
+pre-push fetch and is active independent work; preserve it.
+
+Subsequent result: **all three jobs in run38066488527 passed** on05a3ac37,
+including actual Ubuntu Blender and all14c004 plus five unchanged historical
+ANSUR tests on Windows. The same19tests also passed locally in the clean,
+short-path checkout without input rebindings (13.385seconds).
+This closes the ANSUR serialization correction only. New source-ledger PDF
+identity, page counts and confidence-interval references were checked against
+the actual privately retained PDFs. The full regression suite remains red and
+canonical readiness remains0READY/9PARTIAL/3BLOCKED.

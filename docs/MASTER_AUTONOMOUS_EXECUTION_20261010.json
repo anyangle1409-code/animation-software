@@ -6,8 +6,8 @@
   "canonical_anatomical_commit": "7761a12d684f576bf49a0bac7563d5b5ae9b8998",
   "source_skeleton_governs_geometry": true,
   "canonical_promotion_allowed": false,
-  "latest_verified_implementation_commit": "27b3a9a1c740ff0f4f9cce5534465d22691f00fb",
-  "ci_run": {"id": 38065155129, "commit": "27b3a9a1c740ff0f4f9cce5534465d22691f00fb", "native_blender_render_path": "PASS", "windows_source_motion_provenance": "PASS", "linux_source_motion_gate": "PASS", "unchanged_c004_windows_tests": "14 PASS"},
+  "latest_verified_implementation_commit": "05a3ac371b6e7d54e8e48f15a315f757086916e4",
+  "ci_run": {"id": 38066488527, "commit": "05a3ac371b6e7d54e8e48f15a315f757086916e4", "native_blender_render_path": "PASS", "windows_source_motion_provenance": "PASS", "linux_source_motion_gate": "PASS", "unchanged_c004_windows_tests": "14 PASS", "unchanged_ansur_windows_tests": "5 PASS"},
   "regional_readiness": {"READY": 0, "PARTIAL": 9, "BLOCKED": 3},
   "new_work_preserved": [
     {"pr": 27, "commit": "9ee0cd30c542013a539e71a08577b7b396f5be4d", "topic": "Static anatomical/runtime side-binding discrepancy"},

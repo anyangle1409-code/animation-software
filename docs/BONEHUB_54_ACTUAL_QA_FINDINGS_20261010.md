@@ -1,0 +1,97 @@
+# HGPT whole-region 54-STL actual source and QA findings — 10 October 2026
+
+**Verified source audit:** GitHub Actions run [38074136528](https://github.com/anyangle1409-code/animation-software/actions/runs/38074136528), 50/50 first-party tests passed. The run downloaded **all 54 actual male STL files** (16 wrist carpals, 14 tarsals, 24 ribs), at the immutable BoneHub source revision \`ac8de2b38f5ae1a0996053ca0639dd6ae43358f1\`. Every STL's original raw-byte SHA256 matches the source manifest LFS OID or the independently pinned example, and input sizes agree with source metadata. No original mesh, CT, identifying image or Blender asset is in Git.
+
+Evidence artifact: **bonehub-54-stl-provenance-topology-no-raw-mesh**, attached to run 38074136528. Contains 54 exact raw source SHA256 pins and per-file numeric diagnostics; artifact ID 11677697672. The current report used no inferred physical units, patient-to-HGPT transform or anatomy acceptance.
+
+## Quantitative QA over the 54 source files
+
+- **950,008 binary STL triangles** parsed.
+- **122 exactly degenerate source triangles** (zero geometric cross product).
+- **17 undirected edges** with more than two nondegenerate incident faces.
+- **0 single-incidence open edges** under exact float32 source-vertex position welding.
+- **46 of 54** pass the strict exact-vertex consistency predicate: all faces nondegenerate, single vertex-connected component, no open/nonmanifold or same-direction paired edges.
+- **8 of 54** do not pass that predicate. The reason may include tiny islands or segmentation artefacts, not necessarily a material defect in the primary bone volume.
+
+These are numerical engineering QA results. The 46 are **NOT anatomically accepted bones**, and the eight are **NOT automatically unusable**. In particular, no inference about articular surface, true bone continuity, correct size, clinical morphology, interbone cartilage or physiological joint motion follows from closed STL topology alone.
+
+## Exactly which eight source STL meshes need review
+
+| Source mesh | Raw STL triangles | Zero-area triangles | Nonmanifold edges | Exact-weld connected components |
+|---|---:|---:|---:|---:|
+| LEFT calcaneus | 37,816 | 0 | 0 | 2 |
+| LEFT intermediate cuneiform | 4,920 | 8 | 0 | 3 |
+| LEFT talus | 24,812 | 38 | 0 | 7 |
+| RIGHT hamate | 4,608 | 8 | 0 | 3 |
+| LEFT rib 1 | 15,360 | 6 | 0 | 2 |
+| RIGHT rib 1 | 17,708 | 32 | 0 | 5 |
+| LEFT rib 3 | 28,344 | 16 | 5 | 8 |
+| LEFT rib 4 | 31,872 | 14 | 12 | 7 |
+
+All eight have **zero boundary edges** under exact matching, so the defects are not simply open cut edges. They need component-size and local nonmanifold scrutiny before any use as skeletal targets. Degenerate triangles may create extra vertex groups; whole-bone identity cannot be inferred from group count.
+
+### Second live verification: distinguish detached face islands from degenerate-only orphan vertices
+
+Actual repeat source capture and improved component counter: [Actions run 38074463706](https://github.com/anyangle1409-code/animation-software/actions/runs/38074463706), **52/52 offline adversarial tests passed** and all **54/54 immutable SHA-checked STLs** reprocessed. Raw triangle totals and all 122/17 topology warning counts remain unchanged.
+
+The earlier component count conflated *actual surface components with non-face orphan vertices* left behind by degenerate source records. The independently tested correction yields:
+
+| Source mesh | Real nondegenerate triangle-containing components (largest → smallest) | Zero-valid-face orphan components |
+|---|---|---:|
+| LEFT calcaneus | 37,620 + **196** | 0 |
+| LEFT intermediate cuneiform | 4,864 + **48** | 1 |
+| LEFT talus | 24,772 + **2** | 5 |
+| RIGHT hamate | 4,600 (one real surface component) | 2 |
+| LEFT rib 1 | 15,352 + **2** | 0 |
+| RIGHT rib 1 | 17,676 (one real surface component) | 4 |
+| LEFT rib 3 | 28,320 + **8** | 6 |
+| LEFT rib 4 | 31,768 + **64 + 8 + 6 + 6 + 4 + 2** | 0 |
+
+**Refined finding:** six meshes have an additional nondegenerate triangle-containing component. The RIGHT hamate and RIGHT rib 1 have **no second genuine face-bearing component**; their extra exact-weld components are isolated zero-face vertices from degenerate geometry. The five/rib-three and twelve/rib-four nonmanifold edges still need local source-geometry inspection. This distinction avoids falsely treating a degenerate triangle vertex as a real detached anatomical bone fragment.
+
+These are *face counts*, not relative physical volumes. A small source component must **not** be automatically deleted: it could reflect segmentation artefact or an authentic but isolated-looking anatomical feature. Proper mesh visualization and CT contact/source registration are required before making that determination.
+
+### Source integrity pins for the flagged meshes
+
+The following are raw verified source hashes, not hashes of modified or repaired models:
+
+- \`FOOT_LEFT/CALCANEUS_LEFT.stl\`: \`5e160f34aff9c2bfb1e3b6546add17a083ec4f6bb4be0f29392e714d44132eb9\`
+- \`FOOT_LEFT/INTERMEDIATE_CUNEIFORM_LEFT.stl\`: \`8ddda7e43de0a58eb89e960be33894acc0438edf8f79770eef01a99c8a5380b9\`
+- \`FOOT_LEFT/TALUS_LEFT.stl\`: \`b79dcb8037223d2652e300cb42124c9d4e16dfedcc49ff36b4d44ed3fc24602e\`
+- \`HAND_RIGHT/HAMATE_RIGHT.stl\`: \`bbb430688f01ed97ce4dfc713ace4afb4df1a5787f6bcf0262ffa51d75a65c2b\`
+- \`THORAX/RIB_1_LEFT.stl\`: \`5b5216f2df8cac598aa94b1fe89039ce6734a15e520b9f1f788ddae3a6070295\`
+- \`THORAX/RIB_1_RIGHT.stl\`: \`fbf031187ac17d7949c5b498bd971e055c9faabe4b133f83b413fcc4d2138636\`
+- \`THORAX/RIB_3_LEFT.stl\`: \`84c9ddd3b15a7eb72d9d2709f9fd2ebb8bb999c601d28d53e25770972af06e83\`
+- \`THORAX/RIB_4_LEFT.stl\`: \`ef49d0a539d69b0254ad402ee745263aa3a360b42bff54dc2e1097320a8911db\`
+
+## Provisional bilateral source-label coordinate pattern (not scanner registration)
+
+A separate read-only examination of the **54 actual SHA-verified STL numeric bounding boxes** compared midpoint positions for each same-name LEFT and RIGHT label (8 carpal, 7 tarsal, 12 rib pairs). For **all 27 pairs**, the labelled-left bounding-box midpoint has a **larger native-source X coordinate** than the labelled-right one; in every pair the X separation magnitude exceeds Y and Z separations. This repeats consistently across all three source regions.
+
+| Source file family | Pairs | Labelled LEFT midpoint +X difference | Median LEFT−RIGHT X in unspecified source units |
+|---|---:|---:|---:|
+| Carpal | 8 | 8/8 | 274.23 |
+| Tarsal | 7 | 7/7 | 342.93 |
+| Ribs | 12 | 12/12 | 166.40 |
+
+This is a useful **label-coordinate hypothesis** only. STL coordinates may use an unknown orientation/scale; image LPS/RAS axes and source scanner frame are **not yet verified**. Bounding-box midpoint is not a bone centroid or joint centre; the labelled side might be flipped relative to acquisition. Therefore the result **does not approve any transformation to HGPT, runtime alias, anatomy, or production rig**. A dedicated fail-closed bilateral numeric validator and adversarial tests now reproduce this pattern.
+
+## Verified original STL declared frame — all 54 are LPS
+
+Independent raw-byte source verification and a header-specific regression (including synthetic RAS, LPS and conflicting-label rejection) completed in [successful GitHub Actions run 38074842752](https://github.com/anyangle1409-code/animation-software/actions/runs/38074842752): **65/65 adversarial tests passed**; **all 54 original SHA-verified male STL binary file headers explicitly contain \`SPACE=LPS\`**. No RAS/undeclared exceptions. The 27/27 LEFT vs RIGHT source bounding-box midpoint positive-X results also reproduce in that run.
+
+Source authority: [3D Slicer official model file conventions](https://slicer.readthedocs.io/en/latest/user_guide/data_loading_and_saving.html) state that STL headers may declare \`SPACE=LPS\` or \`SPACE=RAS\`; LPS means positive X left, positive Y posterior and positive Z superior. This is important because 3D Slicer uses RAS internally and may flip axes on file export. The BoneHub dataset [Mesh export README](https://huggingface.co/datasets/BoneHub/visible-human-3d-models/blob/main/visible_human_3d_models/CT/Mesh/README.md) confirms models were produced through 3D Slicer segmentation-to-model export.
+
+**Precisely what is now evidenced:** each immutable source STL's intended file **coordinate-axis convention** is LPS, and all 27 labelled left/right pairs show a positive-X midpoint difference in that file basis. HGPT's provisional anatomical-reference basis is also described as left +X, posterior +Y, superior +Z.
+
+**Precisely what is NOT evidenced:** physical STL unit scale; scan image-to-STL rigid translation/matrix; DICOM/NIfTI world-frame origin/registration; bone centroid, socket/contact patch or neutral-standing pose; source donor's geometry suitability for a different 182 cm adult; source labelled-bone segmentation independently validated against medical imaging. Hence **do not transfer source STL coordinates directly, accept joint centres or change the runtime suffix mappings**. CP1/Gate6 remains open, and anatomical left/right runtime binding F-SIDE-001 still needs its separate adapter acceptance evidence.
+
+## Priorities for isolated engineering follow-up
+
+1. Group source nondegenerate triangles by connected component and compute *face counts and relative geometry extent* per component. Determine whether the small detached islands are finite-volume shapes, zero-area remnants or ambiguous surface segmentation islands.
+2. Inspect the 17 overused edges in LEFT ribs 3–4. Do not automatically manifoldize or delete source faces; preserve raw bytes and hashes.
+3. Cross-check STL source unit, frame, laterality and CT registration before interpreting sizes as millimetres or anatomical left/right.
+4. Obtain independently sourced population geometry or explicit rights to appropriate comparative data. BoneHub VSD 30-subject lower-limb data are listed as CC BY-NC-SA and **must remain separated from any commercial product data** until permissible terms are established (see \`VSD_30_SUBJECT_FOOT_SOURCE_LICENSE_QUARANTINE_20261010.md\`).
+5. Identify joint-specific articular landmarks/patches and compare them to independent source cohorts before proposing any change to canonical coordinates.
+
+**No CP1/Gate6 promotion. Readiness stays 0 READY / 9 PARTIAL / 3 BLOCKED. The original r95/a003/c001–c004 character and all Work/Claude branches remain unchanged.**

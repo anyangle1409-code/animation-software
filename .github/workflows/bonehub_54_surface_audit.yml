@@ -1,0 +1,100 @@
+name: BoneHub frozen 54-region STL verified topology audit
+
+on:
+  push:
+    branches: [codex/bonehub-54-surface-audit-20261010]
+    paths:
+      - 'scripts/anatomy_fit/bonehub_54_surface_audit.py'
+      - 'scripts/test_bonehub_54_surface_audit.py'
+      - 'scripts/anatomy_fit/bonehub_bilateral_source_frame_probe.py'
+      - 'scripts/test_bonehub_bilateral_source_frame_probe.py'
+      - '.github/workflows/bonehub_54_surface_audit.yml'
+      - 'docs/BONEHUB_54_SURFACE_AUDIT_20261010.md'
+  pull_request:
+    paths:
+      - 'scripts/anatomy_fit/bonehub_54_surface_audit.py'
+      - 'scripts/test_bonehub_54_surface_audit.py'
+      - 'scripts/anatomy_fit/bonehub_bilateral_source_frame_probe.py'
+      - 'scripts/test_bonehub_bilateral_source_frame_probe.py'
+      - '.github/workflows/bonehub_54_surface_audit.yml'
+      - 'docs/BONEHUB_54_SURFACE_AUDIT_20261010.md'
+
+jobs:
+  all-region-source-geometry:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 20
+    steps:
+      - name: Read-only, noncredential checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Run first-party offline adversarial tests
+        run: python -m unittest discover -s scripts -p 'test_bonehub*.py' -v
+      - name: Fetch immutable-revision 54 male STL files and examine raw exact-weld mesh topology
+        run: |
+          python scripts/anatomy_fit/bonehub_54_surface_audit.py \
+            --download \
+            --private-dir "$RUNNER_TEMP/hgpt-source-bone-54-cache" \
+            --output "$RUNNER_TEMP/hgpt-bone-54-report.json"
+          python - "$RUNNER_TEMP/hgpt-bone-54-report.json" <<'PY'
+          import json
+          import sys
+          with open(sys.argv[1], encoding="utf-8") as f:
+              report = json.load(f)
+          assert len(report["items"]) == 54
+          assert report["cp1_gate6_approved"] is False
+          assert report["canonical_geometry_changed"] is False
+          assert report["independent_subject_evidence"] is False
+          assert len({x["source_relpath"] for x in report["items"]}) == 54
+          assert all(len(x["reference_sha256_verified"]) == 64 for x in report["items"])
+          from collections import Counter
+          print("Actual raw verified source STLs per region:",
+                dict(Counter(x["source_file_group"] for x in report["items"])))
+          print("Exact-weld zero-area faces:", sum(x["degenerate_triangles"] for x in report["items"]))
+          print("Exact-weld boundary edges:", sum(x["boundary_edges_exact_weld"] for x in report["items"]))
+          print("Watertight single-component candidates:",
+                sum(x["watertight_candidate_exact_weld_only"] for x in report["items"]))
+          for item in report["items"]:
+              if not item["watertight_candidate_exact_weld_only"]:
+                  print("REQUIRES_SOURCE_SURFACE_REVIEW", item["source_relpath"],
+                        "valid_face_components", item["nondegenerate_face_component_counts_desc"],
+                        "orphan_vertex_only_components", item["isolated_vertex_only_components_no_valid_faces"],
+                        "nonmanifold_edges", item["nonmanifold_edges_over_two_faces"])
+          from collections import Counter
+          frame_counts = Counter(x["source_stl_header_explicit_coordinate_system"] or "UNDECLARED" for x in report["items"])
+          print("Explicit source STL header coordinate declarations:", dict(frame_counts))
+          assert frame_counts == {"LPS": 54}, ("Unexpected declared original STL axis", frame_counts)
+          assert all(x["source_stl_header_field_verified_as_origin"] is False for x in report["items"])
+          print("Anatomical region acceptance: NONE (source QA only)")
+          PY
+      - name: Check independent source-labelled bilateral coordinate consistency only
+        run: |
+          python scripts/anatomy_fit/bonehub_bilateral_source_frame_probe.py \
+            --input "$RUNNER_TEMP/hgpt-bone-54-report.json" \
+            --output "$RUNNER_TEMP/hgpt-bone-54-pairs.json"
+          python - "$RUNNER_TEMP/hgpt-bone-54-pairs.json" <<'PY'
+          import json, sys
+          with open(sys.argv[1], encoding="utf-8") as file:
+              p = json.load(file)
+          assert p["bilateral_file_pairs"] == 27
+          assert p["labelled_left_x_greater_than_right"] == 27
+          assert p["dominant_source_x_difference_pairs"] == 27
+          assert p["source_units_and_scanner_axes_verified"] is False
+          assert p["anat_left_correspondence_proven"] is False
+          assert p["runtime_adapter_approved"] is False
+          assert p["cp1_gate6_approved"] is False
+          print("Source left/right filename midpoint pairs: +X difference 27/27;")
+          print("scanner orientation and runtime mapping NOT ACCEPTED")
+          PY
+      - name: Retain numerical evidence only (no STL, CT, Blender files)
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bonehub-54-stl-provenance-topology-no-raw-mesh
+          path: |
+            ${{ runner.temp }}/hgpt-bone-54-report.json
+            ${{ runner.temp }}/hgpt-bone-54-pairs.json
+          retention-days: 14
+          if-no-files-found: error

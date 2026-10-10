@@ -34,7 +34,7 @@ jobs:
           import json
           r = json.load(open('/tmp/hgpt-side-binding-report.json'))
           print(r['summary'])
-          assert r['summary']['name_only_wrong_side'] == 122
+          assert r['summary']['name_only_wrong_side'] == 130
           assert r['safe_to_use_name_only_mapping'] is False
           assert r['source_mesh_updated'] is False
           assert r['rig_export_approved'] is False

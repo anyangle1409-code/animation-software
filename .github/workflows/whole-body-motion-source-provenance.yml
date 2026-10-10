@@ -32,6 +32,11 @@ jobs:
           python-version: '3.12'
       - name: Verify source evidence keys on the laptop platform
         run: python -m unittest discover -s scripts -p 'test_whole_body_motion_source_gate.py' -v
+      - name: Install candidate reconstruction numerical dependency
+        run: python -m pip install numpy
+      - name: Reproduce unchanged c004 inputs and geometry on Windows
+        working-directory: scripts
+        run: python -m unittest test_candidate_c004_arm_inputs -v
 
   source-motion-amplitude-safety-gate:
     runs-on: ubuntu-latest

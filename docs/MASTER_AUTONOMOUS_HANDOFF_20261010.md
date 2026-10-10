@@ -41,6 +41,12 @@ No render settings or anatomical coordinates changed. A headless Blender CI
 job was added alongside the existing Windows/Linux source-evidence jobs.
 Its first remote execution is still pending at this checkpoint.
 
+Subsequent verified result: implementation commit
+`87eec970d974e772eea61c96c84e116e042e7cde` passed all three jobs in
+[CI run 38064243229](https://github.com/anyangle1409-code/animation-software/actions/runs/38064243229):
+actual Ubuntu Blender native render, Windows source provenance, Linux source
+motion gate. This closes only the artifact-location fix, not anatomical Phase9.
+
 Actual c004 re-export produced all 20 expected views in the requested relative
 directory. All 20 manifest PNG SHA256 values were independently recalculated
 and matched. Input Blend hash remained
@@ -155,3 +161,54 @@ Next Work/Claude session:
 No laptop installation is needed: Blender is available here. Laptop work is
 needed for reviewing these private artifacts and new source-bound surfaces,
 not for repeating already executed setup.
+
+## Subsequent full-suite/environment checkpoint
+
+Expanded full suite completed: **1097 tests, 20 failures, 41 errors, one skip**,
+1074.889 seconds. Private trace SHA256
+`e8f5a4ab17ab5cf5f1586540d11fdba2afa7a75c49fb60b411f3f7c269cbcd9e`.
+This is not a full-suite pass. Errors include absent SciPy, missing sparse
+visual bytes, Windows long paths/copy failures, existing r96 orchestration
+mismatch, and Windows symlink privilege 1314. Failure classes additionally
+include exact-byte report/input identity, missing candidate GLBs and historical
+production-control assertions. Do not conflate those with anatomical accuracy.
+
+Proven path cause: the tracked c003 Blend exists at a 275-character normal
+path but Python reports missing; an extended Windows path can see it.
+An attempted move of this isolated worktree was refused by Windows; nothing
+was moved or deleted. A separate **detached verification worktree** at
+`C:/Users/Mark/Documents/Codex/hgpt-source-blender-audit` checks out exactly
+87eec970; c003 path is 204 characters and its bytes match historical SHA256
+`3962215043cebbcf71f4d0127e1e457b8974a01bca3d304035f8dcdca51e6ab4`.
+The branch's original worktree remains the sole editing checkout.
+
+The verification checkout restores milestone_r95 image evidence and the two
+candidate GLBs, uses command-local `core.autocrlf=false`/`core.longpaths=true`
+without changing shared Git configuration, and has SciPy1.18.1 available.
+Direct production-control build now reads r95 and keeps production_approved
+false. Targeted retest of all 61 previous failed/error cases is running;
+previous missing imports load their complete modules, so its test count can
+exceed 61. The first retest command duplicated method names and loaded 59
+invalid selectors; that invocation is not test evidence. The corrected retest
+uses the complete qualified case names. Log: private
+`targeted-short-path-lf-scipy-corrected.log`. Do not repeat the
+whole 1097-test suite merely to poll this checkpoint.
+
+## c004 reconstruction serialization correction
+
+The clean short-path/LF environment isolated a genuine remaining Windows
+serialization bug: full c004 record reproduction differed in **exactly two
+provenance strings**, `candidate.derived_from.record` and
+`candidate.arm_input_correction.blend.reused`. Native `str(relative_path)`
+wrote backslashes where the immutable record uses forward slashes. Both
+serialization expressions now use `as_posix()`. No geometry, measurement,
+stored record, source hash or acceptance expectation changed.
+
+All **14 unchanged c004 tests passed** in 15.963 seconds using the edited
+implementation and the exact Git-LF short-path input files. The test invocation
+temporarily rebound only the builder's ROOT/A003/C003/C003_BLEND paths to the
+verification checkout; anatomical values/hashes were not mocked. The unchanged
+immutable-input pins, complete record reproduction, input guard, movement
+reuse and hash-seed mirror checks passed. The production Windows CI job now
+installs NumPy and runs the entire same test module without those rebindings.
+That new CI step awaits execution on the next published commit.

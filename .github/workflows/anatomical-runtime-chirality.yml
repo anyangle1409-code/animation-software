@@ -1,0 +1,31 @@
+name: Anatomical to runtime chirality audit (no Blender)
+on:
+  push:
+    branches:
+      - codex/anatomical-runtime-chirality-gate-20261010
+  pull_request:
+    paths:
+      - scripts/anatomy_fit/anatomical_runtime_chirality_gate.py
+      - scripts/test_anatomical_runtime_chirality_gate.py
+      - .github/workflows/anatomical-runtime-chirality.yml
+jobs:
+  mutation-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Eleven adversarial no-Blender checks
+        run: python -m unittest discover -s scripts -p 'test_anatomical_runtime_chirality_gate.py' -v
+  source-anchored-diagnostic:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Recalculate unchanged a003, runtime and alias binding
+        run: |
+          python scripts/anatomy_fit/anatomical_runtime_chirality_gate.py --out "$RUNNER_TEMP/chirality.json"
+          python -c 'import json,os,pathlib; d=json.loads((pathlib.Path(os.environ["RUNNER_TEMP"])/"chirality.json").read_text()); assert d["crossed_count"] == 6 and d["status"] == "BLOCK_RUNTIME_SIDE_BINDING"; assert d["owner_approval"] is False and d["canonical_promotion"] is False; print("Six physical-side mismatches detected; no geometry promotion")'

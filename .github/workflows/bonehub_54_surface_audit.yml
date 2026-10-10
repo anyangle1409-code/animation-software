@@ -6,12 +6,16 @@ on:
     paths:
       - 'scripts/anatomy_fit/bonehub_54_surface_audit.py'
       - 'scripts/test_bonehub_54_surface_audit.py'
+      - 'scripts/anatomy_fit/bonehub_bilateral_source_frame_probe.py'
+      - 'scripts/test_bonehub_bilateral_source_frame_probe.py'
       - '.github/workflows/bonehub_54_surface_audit.yml'
       - 'docs/BONEHUB_54_SURFACE_AUDIT_20261010.md'
   pull_request:
     paths:
       - 'scripts/anatomy_fit/bonehub_54_surface_audit.py'
       - 'scripts/test_bonehub_54_surface_audit.py'
+      - 'scripts/anatomy_fit/bonehub_bilateral_source_frame_probe.py'
+      - 'scripts/test_bonehub_bilateral_source_frame_probe.py'
       - '.github/workflows/bonehub_54_surface_audit.yml'
       - 'docs/BONEHUB_54_SURFACE_AUDIT_20261010.md'
 
@@ -60,11 +64,32 @@ jobs:
                         "nonmanifold_edges", item["nonmanifold_edges_over_two_faces"])
           print("Anatomical region acceptance: NONE (source QA only)")
           PY
+      - name: Check independent source-labelled bilateral coordinate consistency only
+        run: |
+          python scripts/anatomy_fit/bonehub_bilateral_source_frame_probe.py \
+            --input "$RUNNER_TEMP/hgpt-bone-54-report.json" \
+            --output "$RUNNER_TEMP/hgpt-bone-54-pairs.json"
+          python - "$RUNNER_TEMP/hgpt-bone-54-pairs.json" <<'PY'
+          import json, sys
+          with open(sys.argv[1], encoding="utf-8") as file:
+              p = json.load(file)
+          assert p["bilateral_file_pairs"] == 27
+          assert p["labelled_left_x_greater_than_right"] == 27
+          assert p["dominant_source_x_difference_pairs"] == 27
+          assert p["source_units_and_scanner_axes_verified"] is False
+          assert p["anat_left_correspondence_proven"] is False
+          assert p["runtime_adapter_approved"] is False
+          assert p["cp1_gate6_approved"] is False
+          print("Source left/right filename midpoint pairs: +X difference 27/27;")
+          print("scanner orientation and runtime mapping NOT ACCEPTED")
+          PY
       - name: Retain numerical evidence only (no STL, CT, Blender files)
         if: success()
         uses: actions/upload-artifact@v4
         with:
           name: bonehub-54-stl-provenance-topology-no-raw-mesh
-          path: ${{ runner.temp }}/hgpt-bone-54-report.json
+          path: |
+            ${{ runner.temp }}/hgpt-bone-54-report.json
+            ${{ runner.temp }}/hgpt-bone-54-pairs.json
           retention-days: 14
           if-no-files-found: error

@@ -1,0 +1,30 @@
+name: Independent anatomy dataset rights and patient-cohort audit
+on:
+  push:
+    branches: [codex/independent-anatomy-source-rights-20261010]
+    paths:
+      - 'ORIGINAL_V1_WORK/anatomy/independent_source_rights_cohort_candidates_20261010.json'
+      - 'scripts/anatomy_fit/audit_independent_source_rights.py'
+      - 'scripts/test_independent_anatomy_source_rights_20261010.py'
+      - '.github/workflows/independent_anatomy_source_rights.yml'
+  pull_request:
+    paths:
+      - 'ORIGINAL_V1_WORK/anatomy/independent_source_rights_cohort_candidates_20261010.json'
+      - 'scripts/anatomy_fit/audit_independent_source_rights.py'
+      - 'scripts/test_independent_anatomy_source_rights_20261010.py'
+      - '.github/workflows/independent_anatomy_source_rights.yml'
+
+jobs:
+  source-cohort-and-commercial-rights:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Offline adversarial dataset rights and cohort grouping
+        run: python -m unittest discover -s scripts -p 'test_independent_anatomy_source_rights_20261010.py' -v
+      - name: No-source-data manifest audit
+        run: python scripts/anatomy_fit/audit_independent_source_rights.py

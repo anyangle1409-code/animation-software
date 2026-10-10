@@ -390,3 +390,12 @@ hash-verified; no pixel registration or STL scale accepted. Label files decode
 to537MBor1.075GBdespite compressed sizes near1MB; foot/hand have two layers.
 Read `docs/BONEHUB_IMAGE_SEGMENTATION_HEADER_TRIAGE_20261010.md` before implementing
 bounded streaming label sampling. Do not eagerly inflate whole medical volumes.
+
+Subsequent bounded sampler reads all three private gzip payloads through CRC and
+exact decoded-length verification, retaining only512KBchunks and requested labels.
+Eleven synthetic tests PASS; new CI pending. Under an explicitly unaccepted matching
+mesh/grid scale assumption, all11small-component nearest-centre samples equal
+their named upstream labels. Do not assume these are purely STL export debris.
+Main rib mathematical averages can lie in the empty centre of the rib curve,
+and must never become bone/joint landmarks. Exact source-grid samples and method
+are recorded in the header-triage document; source report/pixels remain private.

@@ -68,3 +68,51 @@ then thorax/hand. Surface smoothing means nearest-voxel membership alone cannot
 certify anatomical contact or justify island deletion. A full immutable image
 download, if later needed, must pass its full LFS hash before accepted pixel use.
 All medical objects/prefixes remain private outside Git.
+
+## Subsequent bounded label sampling
+
+Implemented `source_segmentation_stream.sample`: grid indices only, no geometry
+transform or unit acceptance. Three actual private objects were read through
+their entire gzip streams in bounded512KBchunks; CRC/trailer and exact decoded
+sizes verified (foot/hand1,075,251,840each; thorax537,625,920). No decoded volume
+allocated or saved. Eleven synthetic tests PASS: hand-derived fastest-axis/layer
+order, duplicate/unsorted samples, split chunks, truncation/extra bytes, corrupt
+trailer after requested sample, unsupported frame/type/encoding/duplicate fields,
+detached/skipped payloads, invalid layer/indices, malformed spatial syntax and
+oversized decoded budget. Independent reviewer ran the first10tests and found
+the malformed-spatial-field gap; exact refusal regression RED -> GREEN observed.
+Both Windows/Linux CI configured; new sampler checkpoint CI still pending.
+
+One diagnostic invocation **assumed**, did not accept, mesh coordinate units
+matching these header grid units. Source triangle-area centres were divided by
+0.9375/0.9375/1, nearest index selected with floor(index+0.5), then27grid points
+in a3x3x3neighbourhood sampled in the source segment's named layer. Mathematical
+centres are not bone landmarks and need not lie on/in a curved source shell.
+
+| Small component | Faces | Assumed nearest XYZ | Named label | Own-label samples /27 |
+| --- | ---: | --- | ---: | ---: |
+| Calcaneus left | 196 | 451/264/110 | 2 | 23 |
+| Intermediate cuneiform left | 48 | 439/252/105 | 5 | 8 |
+| Talus left | 2 | 451/268/112 | 1 | 4 |
+| Rib1left | 2 | 370/115/1587 | 2 | 1 |
+| Rib3left | 8 | 376/116/1585 | 4 | 1 |
+| Rib4left | 64 | 467/111/1585 | 5 | 10 |
+| Rib4left | 8 | 438/116/1586 | 5 | 1 |
+| Rib4left | 6 | 459/115/1585 | 5 | 1 |
+| Rib4left | 6 | 466/115/1586 | 5 | 1 |
+| Rib4left | 4 | 429/116/1585 | 5 | 1 |
+| Rib4left | 2 | 445/119/1585 | 5 | 1 |
+
+All11small-component centre samples equal their named upstream label. This is
+consistent with their presence in upstream label data, not proof of bone
+identity or correct segmentation. Do not describe all detached components as
+STL-only exporter mistakes or erase them without independently verified anatomy.
+Main-shell hamate sample136/123/1070 is label3 on layer1 (27/27neighbours), while
+main rib1right/rib3left/rib4left mathematical centres have0/27own-label samples;
+rib1left centre is0but8/27neighbours match. Rib curvature explains why a surface
+average may lie off the bone; these observations neither prove a registration
+defect nor provide usable rib landmarks. No anatomical readiness changed.
+
+Next: test targeted surface-point/voxel correspondence and inspect label-image
+overlays before any articular/fragment interpretation; retain unaccepted scale
+relation and raw-NLM registration barriers. Full CT image remains unverified.

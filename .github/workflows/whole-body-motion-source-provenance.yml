@@ -36,6 +36,8 @@ jobs:
         run: python -m unittest discover -s scripts -p 'test_whole_body_motion_source_gate.py' -v
       - name: Verify guarded source shell mathematics and private-output boundaries
         run: python -m unittest discover -s scripts -p 'test_source_surface_component_geometry.py' -v
+      - name: Verify bounded source label streaming and layered voxel order
+        run: python -m unittest discover -s scripts -p 'test_source_segmentation_stream.py' -v
       - name: Install candidate reconstruction numerical dependency
         run: python -m pip install numpy
       - name: Reproduce unchanged c004 inputs and geometry on Windows
@@ -56,6 +58,7 @@ jobs:
           python3 -m unittest discover -s scripts -p 'test_clavicle_primary_source_compatibility.py' -v
           python3 -m unittest discover -s scripts -p 'test_whole_body_blender_evidence_gate.py' -v
           python3 -m unittest discover -s scripts -p 'test_source_surface_component_geometry.py' -v
+          python3 -m unittest discover -s scripts -p 'test_source_segmentation_stream.py' -v
       - name: Execute first-party original source-only gate, proving no Blender was run
         run: |
           python3 scripts/anatomy_fit/whole_body_motion_source_gate.py \

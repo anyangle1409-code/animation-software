@@ -204,7 +204,7 @@ class CandidateSeriesBundle(unittest.TestCase):
         self.assertNotIn("Patient", encoded)
         self.assertNotIn("raw_header", encoded)
 
-    def test_extended_source_bundle_verifies_boundary_coverage_without_overclaiming_hu(self):
+    def test_extended_source_bundle_verifies_boundary_coverage_without_overclaiming_anatomy(self):
         path = (ROOT / "ORIGINAL_V1_WORK" / "anatomy" / "audit"
                 / "nlm_pelvic_ct_boundary_extension_candidate_bundle_20261010.json")
         value = json.loads(path.read_text(encoding="utf-8"))
@@ -226,8 +226,45 @@ class CandidateSeriesBundle(unittest.TestCase):
         self.assertEqual(calibration["extension_slice_count"], 10)
         self.assertTrue(calibration["base_png_raw_identity_verified"])
         self.assertTrue(calibration["extension_header_addend_consistent"])
-        self.assertFalse(calibration["extension_png_raw_identity_verified"])
-        self.assertFalse(calibration["complete_82_slice_hu_calibration_verified"])
+        self.assertTrue(calibration["extension_png_raw_identity_verified"])
+        self.assertTrue(calibration["complete_82_slice_hu_calibration_verified"])
+        evidence_path = (ROOT / "ORIGINAL_V1_WORK" / "anatomy" / "audit"
+                         / "nlm_pelvic_ct_boundary_extension_raw_png_calibration_20261010.json")
+        evidence_bytes = evidence_path.read_bytes()
+        evidence = json.loads(evidence_bytes)
+        self.assertEqual(calibration["extension_calibration_packet_sha256"],
+                         hashlib.sha256(evidence_bytes).hexdigest())
+        self.assertEqual(evidence["kind"], "NLM_PELVIC_CT_BOUNDARY_EXTENSION_GE_RAW_PNG_CALIBRATION")
+        self.assertEqual(evidence["sample_count"], 10 * 512 * 512)
+        self.assertTrue(evidence["all_samples_identical_in_file_order"])
+        self.assertEqual(evidence["different_sample_count"], 0)
+        self.assertEqual(evidence["maximum_absolute_sample_difference"], 0)
+        self.assertEqual(evidence["stored_pixel_value_addend_for_HU"], -1024)
+        self.assertEqual(evidence["HU_formula"], "HU = PNG_stored_value - 1024")
+        self.assertFalse(evidence["source_bytes_committed"])
+        self.assertFalse(evidence["anatomical_bone_segmentation_verified"])
+        self.assertFalse(evidence["canonical_promotion_allowed"])
+        source_rows = {row["source_id"]: row for group in value["series"]
+                       for row in group["slices"]}
+        extension_rows = evidence["slices"]
+        self.assertEqual(len(extension_rows), 10)
+        self.assertEqual(
+            {row["source_id"] for row in extension_rows},
+            {"cvm1716f", "cvm1719f", "cvm1722f", "cvm1725f", "cvm1728f",
+             "cvm1731f", "cvm1948f", "cvm1951f", "cvm1954f", "cvm1957f"},
+        )
+        for row in extension_rows:
+            source = source_rows[row["source_id"]]
+            self.assertEqual(row["png_sha256"], source["source_png_sha256"])
+            self.assertEqual(row["png_sha256"], row["compared_png_sha256"])
+            self.assertEqual(row["header_sha256"], source["source_header_sha256"])
+            self.assertEqual(row["header_addend_for_HU"], -1024)
+            self.assertRegex(row["compressed_raw_sha256"], r"^[0-9a-f]{64}$")
+            self.assertRegex(row["decompressed_raw_sha256"], r"^[0-9a-f]{64}$")
+            self.assertEqual(row["sample_count"], 512 * 512)
+            self.assertTrue(row["all_samples_identical_in_file_order"])
+            self.assertEqual(row["different_sample_count"], 0)
+            self.assertEqual(row["maximum_absolute_sample_difference"], 0)
         base_path = (ROOT / "ORIGINAL_V1_WORK" / "anatomy" / "audit"
                      / "nlm_pelvic_ct_full_series_candidate_bundle_20261009.json")
         self.assertEqual(value["extension_of_bundle_sha256"],
@@ -238,7 +275,11 @@ class CandidateSeriesBundle(unittest.TestCase):
         self.assertEqual(hu["slice_count"], 72)
         self.assertTrue(hu["all_samples_identical_in_file_order"])
         self.assertEqual(hu["different_sample_count"], 0)
+        self.assertEqual(hu["sample_count"] + evidence["sample_count"], 82 * 512 * 512)
+        self.assertEqual(evidence["base_calibration_packet_sha256"],
+                         hashlib.sha256(hu_path.read_bytes()).hexdigest())
         self.assertFalse(value["canonical_promotion_allowed"])
+        self.assertTrue(value["boundary_extension_evidence"]["png_raw_numeric_identity_verified"])
 
     def test_two_groups_preserve_boundary_overlap_without_flattening(self):
         result = series.validate_series_bundle(bundle())

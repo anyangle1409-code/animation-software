@@ -2103,8 +2103,10 @@
     "extension_slice_count": 10,
     "base_png_raw_identity_verified": true,
     "extension_header_addend_consistent": true,
-    "extension_png_raw_identity_verified": false,
-    "complete_82_slice_hu_calibration_verified": false
+    "extension_png_raw_identity_verified": true,
+    "complete_82_slice_hu_calibration_verified": true,
+    "extension_calibration_packet": "nlm_pelvic_ct_boundary_extension_raw_png_calibration_20261010.json",
+    "extension_calibration_packet_sha256": "497a0349b579e193ff0dcc65dfa2c3e2696a3d60a233c894ccdf89a33b340dad"
   },
   "boundary_extension_evidence": {
     "official_source": "https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/PNG_format/radiological/normalCT/",
@@ -2126,7 +2128,7 @@
     "extension_png_bytes_private": true,
     "extension_header_geometry_allowlist_parsed": true,
     "extension_header_hu_addends_all_minus_1024": true,
-    "png_raw_numeric_identity_verified": false,
+    "png_raw_numeric_identity_verified": true,
     "anatomical_coverage_verified": false,
     "canonical_promotion_allowed": false
   }

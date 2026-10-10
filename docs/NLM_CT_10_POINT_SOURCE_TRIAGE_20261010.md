@@ -32,6 +32,24 @@ A 300-HU threshold is an intensity sensitivity screen, NOT an anatomical bone cl
 
 **Seven of ten fail 300-HU source-pixel seed screening. All five upper-group iliac/sacral points fail even 150 HU.** Three points have NO >=300-HU pixel within 32 image pixels (up to ~28.75 mm) on that same axial source image. This does NOT prove the absence of bone within 28.75 mm in 3D. None of the three high-HU pixels is a verified bone identity.
 
+
+## NEW independent 35-slice hip joint connectivity contradiction (same source date)
+
+The source-linked group-2 left femoral-head observation (cvm1873f row 270 col 342, 305 HU) and left acetabular observation (row 257 col 366, 510 HU) **both lie in a single 70,084-voxel, six-neighbour-connected candidate region at >=300 HU**, within ROI columns 275–449, rows 195–364, all 35 slices. The selected component contacts both ROI and acquisition end boundaries.
+
+The source-linked group-2 right femoral-head observation (row 270 col 175, 291 HU) and right acetabular observation (row 257 col 151, 438 HU) **both lie in one 111,042-voxel region at >=150 HU**, in ROI columns 95–249, rows 195–364, all 35 slices. Again the selected component reaches ROI and source-slice end boundaries.
+
+| Side | Source threshold | Both named candidate pixels meet threshold? | Same 3D HU component? | Interpretation |
+|---|---:|:---:|:---:|---|
+| Left | 300 HU | Yes | **Yes**, 70,084 voxels | Threshold cannot isolate head from socket on these seeds |
+| Left | 500 HU | No — femoral candidate drops out | Indeterminate | Higher HU invalidates femoral original seed; surviving acetabular component 13,433 voxels |
+| Right | 150 HU | Yes | **Yes**, 111,042 voxels | Threshold cannot isolate head from socket on these seeds |
+| Right | 300 HU | No — femoral candidate drops out | Indeterminate | Higher HU invalidates femoral original seed; surviving acetabular component 68,206 voxels |
+
+These **do not** prove actual femoral head and pelvis are fused or that the initial candidate labels are correct. They demonstrate failure of simple CT thresholding and six-connected voxel segmentation to separate the proposed joint structures in these ROIs. Anatomically labelled bone segmentation must use original source image interpretation and articular-joint boundaries; no global HU cut is a valid substitute.
+
+Evidence: https://github.com/anyangle1409-code/animation-software/actions/runs/38042478442; original connected-region code in scripts/anatomy_fit/nlm_ct_source_component_stability.py. Reproducible, noncanonical snapshot: ORIGINAL_V1_WORK/anatomy/audit/nlm_ct_pelvis_pixel_and_hip_pair_rejection_20261010.json. The snapshot is machine-readable rejection evidence only and is not part of canonical skeleton geometry.
+
 ## Mandatory reviewer/Blender gates
 
 1. **Preserve each original candidate coordinate** for audit traceability. Do not silently snap to the nearest bright pixel or treat a previous confidence score as anatomical verification.

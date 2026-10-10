@@ -6,6 +6,7 @@ import unittest
 from anatomy_fit.sternum_endpoint_compatibility_gate import (
     CONTRACT, GEO, OLDER, SELT, THAI, audit,
     check_contract, compare_ids, demonstrate_3d_nondetermination,
+    git_blob_sha_lf, verify_original_input_pins, EXPECTED_PINNED_INPUTS, ANATOMY,
 )
 
 class SternumEndpointContractTests(unittest.TestCase):
@@ -160,6 +161,21 @@ class SternumEndpointContractTests(unittest.TestCase):
         vals[3]["population_male_means_mm"]["total_including_xiphoid_turkey_CT"]["mean"]=208.6
         with self.assertRaisesRegex(ValueError,"Legacy numerical datum"):
             self.check(vals)
+
+    def test_actual_four_git_source_blobs_are_immutable(self):
+        verify_original_input_pins()
+        self.assertEqual(len(EXPECTED_PINNED_INPUTS),4)
+        for name,pin in EXPECTED_PINNED_INPUTS.items():
+            raw=(ANATOMY / name).read_bytes()
+            self.assertEqual(git_blob_sha_lf(raw),pin)
+            self.assertNotEqual(git_blob_sha_lf(raw+b" "),pin)
+
+    def test_crlf_checkout_source_bytes_have_same_git_normalized_identity(self):
+        first=next(iter(EXPECTED_PINNED_INPUTS))
+        raw=(ANATOMY / first).read_bytes()
+        lf=raw.replace(b"\\r\\n",b"\\n")
+        windows=lf.replace(b"\\n",b"\\r\\n")
+        self.assertEqual(git_blob_sha_lf(lf),git_blob_sha_lf(windows))
 
     def test_no_canonical_source_values_or_cohorts_are_rescaled(self):
         d=self.outcome()

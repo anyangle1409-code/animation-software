@@ -540,3 +540,25 @@ was interrupted by Windows file access and was not used as test evidence. No
 patient/source bytes or candidate outputs were added to Git.
 Regional readiness remains `0 READY / 9 PARTIAL / 3 BLOCKED`; no canonical
 geometry, landmarks or anatomical contacts were promoted.
+
+## Read-only full-pelvis Blender scene integrity check, 2026-10-10
+
+Reopened the existing private
+`work/private-nlm-ct-20261009/full-pelvis-1734-1947/pelvic-ct-full-series-component-audit-v2.blend`
+with laptop Blender 5.2.1 LTS. It loads one scene, 13 objects (12 meshes and a
+camera), zero armatures, two external image datablocks, no packed image bytes,
+and all external image paths resolve. Mesh objects comprise two thresholded
+stored-scalar occupancy groups and ten separately named CT observation
+candidates (iliac blades, sacrum, femoral heads, acetabula and pubic region).
+This is not accepted bone segmentation, has no source skeleton overlay, and
+keeps group separation. The saved report describes two groups covering 37 and
+35 slices, ten candidate observations and zero verified segmentation or
+canonical promotion. The old report's threshold/calibration fields were not
+rewritten; its source-scalar threshold is not a validated bone classifier.
+
+Independent SHA-256 checks matched the saved Blend (`abbbc0a96633538dd5f082105003e731a846c2400cb0fd48fec509b731aaf486`) and render (`6e69c9039eee0d8c60aff16f6644413bf1babc88cf36ad3731ec168583aeb374`) to that report. Private report SHA-256 is `edd111277d4c81eaa8fa796d947523e3d423e1a0493f88f97c78e25ddf09777e`. No Blend, source pixels, headers, mesh, or report were modified or added to Git. This revalidates saved artifact integrity only; it is not a fresh anatomical reading.
+
+Current safe anatomy action remains source-pinned sequential CT review across
+the two acquisition groups, with candidate observations only and second review
+before any landmark or segmentation advances. Keep the source skeleton
+unchanged and all private artifacts outside Git.

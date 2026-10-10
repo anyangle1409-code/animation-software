@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Eleven adversarial no-Blender checks
+      - name: Fourteen adversarial no-Blender checks
         run: python -m unittest discover -s scripts -p 'test_anatomical_runtime_chirality_gate.py' -v
   source-anchored-diagnostic:
     runs-on: ubuntu-latest
@@ -28,4 +28,4 @@ jobs:
       - name: Recalculate unchanged a003, runtime and alias binding
         run: |
           python scripts/anatomy_fit/anatomical_runtime_chirality_gate.py --out "$RUNNER_TEMP/chirality.json"
-          python -c 'import json,os,pathlib; d=json.loads((pathlib.Path(os.environ["RUNNER_TEMP"])/"chirality.json").read_text()); assert d["crossed_count"] == 6 and d["status"] == "BLOCK_RUNTIME_SIDE_BINDING"; assert d["owner_approval"] is False and d["canonical_promotion"] is False; print("Six physical-side mismatches detected; no geometry promotion")'
+          python -c 'import json,os,pathlib; d=json.loads((pathlib.Path(os.environ["RUNNER_TEMP"])/"chirality.json").read_text()); assert d["crossed_count"] == 6 and d["status"] == "BLOCK_RUNTIME_SIDE_BINDING"; assert d["source_alias_coverage"]["crossed_reference_pairs"] == 59; assert d["owner_approval"] is False and d["canonical_promotion"] is False; print("Six physical-side mismatches detected; no geometry promotion")'

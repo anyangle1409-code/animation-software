@@ -161,6 +161,45 @@ jobs:
           print("All five group-2 proposed hip points checked on original image pixels; NONE certified as bony landmarks.")
           PY
 
+          python3 scripts/anatomy_fit/nlm_ct_source_component_stability.py \
+            --ct-dir "$RUNNER_TEMP/nine_original_ct" \
+            --bundle ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json \
+            --calibration ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_hu_calibration_20261009.json \
+            --review ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_review_20261009.json \
+            --group 2 --start 0 --count 35 --roi 275 450 195 365 --hu 300 500 \
+            --seed-observation obs-1873-left-femoral-head \
+            --seed-observation obs-1873-left-acetabulum \
+            --out "$RUNNER_TEMP/left_hip_source_seed_connectivity.json"
+          python3 scripts/anatomy_fit/nlm_ct_source_component_stability.py \
+            --ct-dir "$RUNNER_TEMP/nine_original_ct" \
+            --bundle ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json \
+            --calibration ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_hu_calibration_20261009.json \
+            --review ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_review_20261009.json \
+            --group 2 --start 0 --count 35 --roi 95 250 195 365 --hu 150 300 \
+            --seed-observation obs-1873-right-femoral-head \
+            --seed-observation obs-1873-right-acetabulum \
+            --out "$RUNNER_TEMP/right_hip_source_seed_connectivity.json"
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          for name in ("left", "right"):
+              report = json.loads((Path(os.environ["RUNNER_TEMP"]) /
+                                   (name+"_hip_source_seed_connectivity.json")).read_text())
+              assert report["canonical_promotion_allowed"] is False
+              assert report["seven_pelvic_landmarks_verified"] == 0
+              samples = report["proposed_point_HU_connectivity_not_anatomical_identity"]
+              assert len(samples) == 2 and all(len(s["review_seeds"]) == 2 for s in samples)
+              assert all(not pair["separate_anatomical_bones_proven"]
+                         for sample in samples
+                         for pair in sample["pairwise_HU_connectivity"])
+              print(name, "original 3D threshold candidate relationships:",
+                    [(sample["HU"],
+                      sample["pairwise_HU_connectivity"][0]["same_HU_connected_component"],
+                      [r["connected_voxels"] for r in sample["review_seeds"]])
+                     for sample in samples])
+          print("Pairwise HU connectivity is NOT joint-surface separation or verified bone identity.")
+          PY
+
   real-ct-first-group-hu-stability:
     runs-on: ubuntu-latest
     timeout-minutes: 20

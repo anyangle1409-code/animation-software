@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "kind": "PRIMARY_THORACIC_VERTEBRAL_BODY_HEIGHT_WEDGE_EVIDENCE",
+  "date": "2026-10-10",
+  "status": "NONCANONICAL_PRIMARY_SOURCE_LEVEL_MEANS_NO_3D_ANGLE_OR_BODY_PROMOTION",
+  "source": {
+    "citation": "Kunkel ME, Herkommer A, Reinehr M, Böckers TM, Wilke HJ. Morphometric analysis of the relationships between intervertebral disc and vertebral body heights: an anatomical and radiographic study of the human thoracic spine. J Anat. 2011;219:375-387.",
+    "doi": "10.1111/j.1469-7580.2011.01397.x",
+    "pmcid": "PMC3171774",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3171774/",
+    "table": "Table 2",
+    "measurement_method": "lateral radiographic vertebral body corner heights; not direct anatomical vertebral body caliper",
+    "segments_total": 72,
+    "spines_total": 30,
+    "donors_female": 15,
+    "donors_male": 15,
+    "segments_per_disc_level": 6,
+    "age_mean_years": 57.43,
+    "age_sd_years": 11.27,
+    "population_caveat": "Mixed sex, roughly middle-aged-to-elderly cadavers, detached spine segments in neutral radiographic position; not 1.82-m live male standing spine."
+  },
+  "levels": [
+    {
+      "level": "C7",
+      "anterior_mean_mm": 13.89,
+      "anterior_sd_mm": 1.42,
+      "posterior_mean_mm": 14.38,
+      "posterior_sd_mm": 2.22,
+      "published_average_mm": 14.14
+    },
+    {
+      "level": "T1",
+      "anterior_mean_mm": 14.49,
+      "anterior_sd_mm": 1.23,
+      "posterior_mean_mm": 15.28,
+      "posterior_sd_mm": 1.14,
+      "published_average_mm": 14.88
+    },
+    {
+      "level": "T2",
+      "anterior_mean_mm": 15.01,
+      "anterior_sd_mm": 1.51,
+      "posterior_mean_mm": 16.11,
+      "posterior_sd_mm": 1.67,
+      "published_average_mm": 15.56
+    },
+    {
+      "level": "T3",
+      "anterior_mean_mm": 15.65,
+      "anterior_sd_mm": 1.85,
+      "posterior_mean_mm": 17.41,
+      "posterior_sd_mm": 1.12,
+      "published_average_mm": 16.53
+    },
+    {
+      "level": "T4",
+      "anterior_mean_mm": 15.42,
+      "anterior_sd_mm": 1.46,
+      "posterior_mean_mm": 18.15,
+      "posterior_sd_mm": 1.54,
+      "published_average_mm": 16.79
+    },
+    {
+      "level": "T5",
+      "anterior_mean_mm": 15.84,
+      "anterior_sd_mm": 1.07,
+      "posterior_mean_mm": 17.33,
+      "posterior_sd_mm": 2.16,
+      "published_average_mm": 16.59
+    },
+    {
+      "level": "T6",
+      "anterior_mean_mm": 16.04,
+      "anterior_sd_mm": 1.43,
+      "posterior_mean_mm": 18.22,
+      "posterior_sd_mm": 1.38,
+      "published_average_mm": 17.13
+    },
+    {
+      "level": "T7",
+      "anterior_mean_mm": 15.94,
+      "anterior_sd_mm": 1.61,
+      "posterior_mean_mm": 18.67,
+      "posterior_sd_mm": 1.64,
+      "published_average_mm": 17.31
+    },
+    {
+      "level": "T8",
+      "anterior_mean_mm": 16.99,
+      "anterior_sd_mm": 1.7,
+      "posterior_mean_mm": 20.05,
+      "posterior_sd_mm": 1.77,
+      "published_average_mm": 18.52
+    },
+    {
+      "level": "T9",
+      "anterior_mean_mm": 18.26,
+      "anterior_sd_mm": 2.12,
+      "posterior_mean_mm": 20.25,
+      "posterior_sd_mm": 2.44,
+      "published_average_mm": 19.26
+    },
+    {
+      "level": "T10",
+      "anterior_mean_mm": 18.98,
+      "anterior_sd_mm": 1.4,
+      "posterior_mean_mm": 20.35,
+      "posterior_sd_mm": 1.89,
+      "published_average_mm": 19.67
+    },
+    {
+      "level": "T11",
+      "anterior_mean_mm": 19.6,
+      "anterior_sd_mm": 1.92,
+      "posterior_mean_mm": 22.67,
+      "posterior_sd_mm": 1.38,
+      "published_average_mm": 21.14
+    },
+    {
+      "level": "T12",
+      "anterior_mean_mm": 20.8,
+      "anterior_sd_mm": 1.96,
+      "posterior_mean_mm": 23.12,
+      "posterior_sd_mm": 1.94,
+      "published_average_mm": 21.96
+    }
+  ],
+  "interpretation": {
+    "positive_posterior_minus_anterior_mm": "posterior radiographic vertebral-body height exceeds anterior: qualitative kyphotic body wedging, not an angular magnitude",
+    "c7_role": "cross-source cervicothoracic reference only; current C7 male-height selection remains separate",
+    "reference_target": "canonical_spine_level_stack_v1.json contains previously stored T1-T12 arithmetic averages; do not overwrite them",
+    "unavailable_from_table": [
+      "vertebral anterior-posterior sagittal depth needed to calculate geometric wedge angles",
+      "standing segmental superior-endplate orientation and sagittal reference frame",
+      "direct 3D vertebral bone surfaces and facet/rib contact geometry",
+      "height-scaled sex-specific reference distributions",
+      "valid in-vivo neutral loaded posture and person-specific variation"
+    ],
+    "allowed_output": "read-only T1-T12 level-by-level anterior/posterior height contrast and cross-source consistency diagnostic",
+    "anatomical_approval": false,
+    "canonical_geometry_change_allowed": false
+  }
+}

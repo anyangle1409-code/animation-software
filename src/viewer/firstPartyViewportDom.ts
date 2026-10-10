@@ -3,6 +3,7 @@ import { skeleton, studioStore } from '../editor/storeCore';
 import { createFirstPartyViewportRuntime } from './firstPartyViewportRuntime';
 import { createSceneState } from './sceneStateCore';
 import { createStudioSceneController } from './studioSceneController';
+import { createNativeWebGL2SkeletonPreview } from './nativeWebGL2SkeletonPreviewRuntime';
 
 type DocumentPort = Pick<Document, 'createElement'>;
 
@@ -49,6 +50,28 @@ export function createFirstPartyViewportDom(
   canvas.style.width = '100%';
   canvas.style.height = '100%';
   container.append(canvas);
+
+  // Opt-in, dev-only comparison of actual FK exercise animation without Three.
+  // This does not replace the production editor's mesh/skin, gizmos or picking.
+  // Do NOT enable by default until graphical and exercise parity gates pass.
+  if (
+    import.meta.env.DEV &&
+    typeof window !== 'undefined' &&
+    new URLSearchParams(window.location.search).get('hgptNativeSkeletonPreview') === '1'
+  ) {
+    const preview = createNativeWebGL2SkeletonPreview(container, canvas, scene);
+    container.dataset.hgptNativeViewport = 'skeleton-only-experimental';
+    let nativeDisposed = false;
+    return {
+      element: container,
+      canvas,
+      dispose() {
+        if (nativeDisposed) return;
+        nativeDisposed = true;
+        preview.dispose();
+      },
+    };
+  }
 
   const runtime = dependencies.createRuntime(container, canvas, scene);
   const controller = dependencies.createController({

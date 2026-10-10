@@ -107,3 +107,43 @@ jobs:
           assert hi["same_HU_component"] is None and hi["start_seed_occupied"] is False
           print("Left-hip HU bridge witness verified; NOT anatomical head/socket contact.")
           PY
+      - name: Pin bilateral HU-only shortest path metrics against noncanonical evidence snapshot
+        run: |
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          snapshot=json.loads(Path("ORIGINAL_V1_WORK/anatomy/audit/nlm_ct_hip_intensity_bridge_rejection_20261010.json").read_text())
+          assert snapshot["canonical_promotion_allowed"] is False
+          assert snapshot["seven_required_true_pelvic_landmarks_verified"]==0
+          assert snapshot["source_slices"]==35 and snapshot["source_plane_S_mm"]==-481
+          assert len(snapshot["witnesses"])==2
+          for expected in snapshot["witnesses"]:
+              side=expected["side"]
+              path=Path(os.environ["RUNNER_TEMP"])/(side+"_hip_intensity_bridge.json")
+              observed=json.loads(path.read_text())
+              assert observed["canonical_promotion_allowed"] is False
+              assert observed["original_source_group"]==2
+              assert len(observed["source_ids"])==35
+              assert [p["id"] for p in observed["original_candidate_points"]]==expected["ids"]
+              hu=str(expected["HU"])
+              witness=observed["HU_thresholds"][hu]["physical_HU_bridge_witness_not_anatomical_contact"]
+              assert witness["path_exists_and_is_hu_only"] is True
+              for key,wkey in (
+                  ("physical_shortest_path_mm","least_physical_length_mm_in_thresholded_ROI"),
+                  ("direct_seed_euclidean_mm","seed_direct_euclidean_distance_mm"),
+                  ("route_over_direct","route_length_over_direct_distance"),
+                  ("path_voxel_samples","path_voxel_samples"),
+                  ("path_scanner_slice_planes_visited","path_slice_planes_visited"),
+                  ("path_minimum_source_HU","path_minimum_source_HU"),
+                  ("path_selection_cut_contacts","path_selection_cut_contacts"),
+              ):
+                  assert witness[wkey]==expected[key], (side,key,observed)
+              assert witness["path_minimum_source_HU"]>=expected["HU"]
+              hi=observed["HU_thresholds"][str(expected["higher_HU_screen"])]["physical_HU_bridge_witness_not_anatomical_contact"]
+              assert hi["same_HU_component"]==expected["higher_HU_pair_connectivity"]
+              assert hi["start_seed_occupied"]==expected["higher_HU_head_seed_occupied"]
+              assert observed["distinct_bone_surface_identity_verified"] is False
+              assert observed["hip_joint_articular_gap_verified"] is False
+              print(side, "source-matched HU bridge evidence matches immutable rejection snapshot.")
+          print("Both bilateral HU routes are nonanatomical intensity evidence; no pelvic landmark or bone promoted.")
+          PY

@@ -262,6 +262,16 @@ class CandidateSeriesBundle(unittest.TestCase):
         self.assertFalse(value["source_bundle"]["single_uniform_stack_claimed"])
         self.assertEqual(value["review_observation_count"], 10)
         self.assertEqual(value["stored_scalar_threshold"], 1200)
+        self.assertEqual(
+            value["scanner_header_HU_addend_evidence"],
+            {
+                "header_count": 72,
+                "stored_pixel_value_addend_for_HU": -1024,
+                "scanner_header_HU_addend_consistent": True,
+                "PNG_numeric_identity_to_scanner_pixels_verified": False,
+                "HU_conversion_from_png_verified": False,
+            },
+        )
         self.assertEqual(value["candidate_block_count"], 13273)
         self.assertEqual(value["mesh_vertex_count"], 106184)
         self.assertEqual(value["mesh_quad_count"], 79638)
@@ -327,6 +337,18 @@ class CandidateSeriesBundle(unittest.TestCase):
         changed["group_summaries"][0]["component_block_counts_6_neighbour"][0] -= 1
         with self.assertRaisesRegex(ValueError, "component audit"):
             series.validate_occupancy_review(changed, source_bundle)
+        for field, changed_value in (
+            ("header_count", 71),
+            ("stored_pixel_value_addend_for_HU", -1000),
+            ("scanner_header_HU_addend_consistent", False),
+            ("PNG_numeric_identity_to_scanner_pixels_verified", True),
+            ("HU_conversion_from_png_verified", True),
+        ):
+            with self.subTest(field=field):
+                changed = copy.deepcopy(review)
+                changed["scanner_header_HU_addend_evidence"][field] = changed_value
+                with self.assertRaisesRegex(ValueError, "HU addend evidence"):
+                    series.validate_occupancy_review(changed, source_bundle)
 
     def test_occupancy_review_must_match_validated_source_bundle(self):
         audit = ROOT / "ORIGINAL_V1_WORK" / "anatomy" / "audit"

@@ -55,6 +55,27 @@ KEYS={
 INTEGER_FIELDS={"width_pixels","height_pixels"}
 
 
+def _header_hu_addend(text):
+    marker="Value to add to actual pixel data"
+    start=text.find(marker)
+    if start < 0:
+        raise ValueError("required scanner HU addend field absent")
+    section=text[start:start+320]
+    if "Hounsfield number" not in section or "physical 0 means" not in section:
+        raise ValueError("required scanner HU addend field malformed")
+    match=re.search(
+        r"Hounsfield number\.{2,}\s*:\s*"
+        r"([-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?)",
+        section,
+    )
+    if not match:
+        raise ValueError("required scanner HU addend scalar absent")
+    value=float(match.group(1))
+    if not math.isfinite(value):
+        raise ValueError("scanner HU addend must be finite")
+    return int(value) if value == int(value) else value
+
+
 def scanner_geometry_from_text(raw):
     if not isinstance(raw,(str,bytes)):
         raise ValueError("invalid header text")
@@ -62,6 +83,8 @@ def scanner_geometry_from_text(raw):
     if len(blob)>MAX_TEXT_BYTES:
         raise ValueError("scanner text header too large")
     t=blob.decode("utf-8","replace")
+    hu_addend=(_header_hu_addend(t)
+               if "Value to add to actual pixel data" in t else None)
     vals={}
     # Explicitly match keys ONLY from the curated numerical geometry list.
     # Everything else (e.g. patient names, IDs, institution, DOB) is skipped.
@@ -134,8 +157,36 @@ def scanner_geometry_from_text(raw):
         "image_is_anatomically_a_pelvis_slice":False,
         "patient_identifiers_excluded_by_allowlist":True,
         "patient_to_HGPT_frame_registered":False,
+        "stored_pixel_value_addend_for_HU":hu_addend,
+        "HU_addend_from_scanner_header_verified":hu_addend is not None,
+        "PNG_numeric_identity_to_scanner_pixels_verified":False,
         "HU_conversion_from_png_verified":False,
         "bony_landmarks_selected":False,
+        "canonical_promotion_allowed":False,
+    }
+
+
+def hu_addend_consistency(records):
+    """Verify header addends agree without claiming PNG numeric identity."""
+    if not isinstance(records,list) or not records:
+        raise ValueError("at least one scanner record is required for HU addend review")
+    values=[]
+    for record in records:
+        if (not isinstance(record,dict) or
+                record.get("HU_addend_from_scanner_header_verified") is not True):
+            raise ValueError("every scanner record requires a verified HU addend")
+        value=record.get("stored_pixel_value_addend_for_HU")
+        if type(value) not in (int,float) or not math.isfinite(value):
+            raise ValueError("every scanner record requires a finite HU addend")
+        values.append(value)
+    if any(value != values[0] for value in values[1:]):
+        raise ValueError("scanner HU addend differs across source headers")
+    return {
+        "header_count":len(values),
+        "stored_pixel_value_addend_for_HU":values[0],
+        "scanner_header_HU_addend_consistent":True,
+        "PNG_numeric_identity_to_scanner_pixels_verified":False,
+        "HU_conversion_from_png_verified":False,
         "canonical_promotion_allowed":False,
     }
 

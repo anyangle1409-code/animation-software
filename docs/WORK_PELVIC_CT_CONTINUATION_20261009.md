@@ -20,8 +20,9 @@ Date: 2026-10-09
 4. The deterministic workflow records three source-pinned observations, a 27-voxel connectivity probe, zero defensible landmarks, zero canonical promotions, and all unmet gates.
 5. Empty landmark packets are now valid so the workflow preserves absence instead of pressuring a reviewer to invent a landmark.
 6. Ten source-bound candidate observations now cover representative iliac, sacral, acetabular, femoral-head, and pubic-region planes while retaining every unmet independent-review and promotion gate.
-7. The anatomical review suite has 13 tests, candidate segmentation has 14, and the complete-series, multi-group bundle, and Blender occupancy gates have 19. The full pull-request intake command set passes 354 tests.
+7. The anatomical review suite has 13 tests, candidate segmentation has 14, scanner geometry and calibration parsing has 20, raw-to-PNG calibration has 6, and the complete-series, multi-group bundle, and Blender occupancy gates have 19. The full pull-request intake command set contains 362 tests.
 8. Blender 5.2.1 privately revalidated all 72 source image/header pairs and produced a two-group, coarse 8-by-8-pixel stored-scalar occupancy scene. Its 13,273 blocks expose useful volume and boundary evidence, but also 8 components in the superior group and 3 in the inferior group. No automatic component filtering was applied. The committed summary is deliberately labelled as not segmentation; source images and Blender outputs remain private and untracked.
+9. Every one of the 72 source scanner headers explicitly reports a `-1024` addend from stored pixel value to Hounsfield annotation value. All 18,874,368 PNG samples were then compared with the official decompressed GE files: every sample was identical in file order, with zero differences. The separate calibration packet verifies `HU = PNG_stored_value - 1024`; the existing stored threshold 1200 corresponds to 176 HU. The historical Blender report retains its original limited claim. Calibration alone does not validate that threshold as bone segmentation.
 
 ## Required next sequence
 
@@ -39,7 +40,7 @@ Use source-linked review observations to identify the ilia, sacrum, acetabula, p
 
 Build reproducible candidate masks and surfaces from the verified contiguous volume. Validate coverage, connectivity, laterality, surface closure, voxel-to-scanner transforms, and source bounds. Preserve the unmodified source skeleton and do not replace canonical mesh geometry.
 
-The current Blender occupancy scene does not satisfy this step. Before generating another surface, calibrate or independently justify the source-value interpretation, separate bone from non-bone threshold islands, and add fail-closed tests for component filtering, source bounds, and group-boundary preservation.
+The current Blender occupancy scene does not satisfy this step. Source-value calibration is now verified. Before generating an anatomical surface, justify the bone selection method, review component identities, and add fail-closed tests for source bounds and group-boundary preservation. Component size alone must not determine anatomical identity.
 
 ### 4. Validate landmarks honestly
 

@@ -14,6 +14,13 @@
   },
   "review_observation_count": 10,
   "stored_scalar_threshold": 1200,
+  "scanner_header_HU_addend_evidence": {
+    "header_count": 72,
+    "stored_pixel_value_addend_for_HU": -1024,
+    "scanner_header_HU_addend_consistent": true,
+    "PNG_numeric_identity_to_scanner_pixels_verified": false,
+    "HU_conversion_from_png_verified": false
+  },
   "candidate_block_size_pixels": [8, 8],
   "candidate_block_count": 13273,
   "mesh_vertex_count": 106184,
@@ -56,10 +63,11 @@
   "canonical_promotion_allowed": false,
   "source_images_packed": false,
   "private_outputs_must_remain_untracked": true,
-  "blend_sha256": "abbbc0a96633538dd5f082105003e731a846c2400cb0fd48fec509b731aaf486",
-  "render_sha256": "6e69c9039eee0d8c60aff16f6644413bf1babc88cf36ad3731ec168583aeb374",
+  "blend_sha256": "54a6a23f1e0758af5359811a47ee0fe3cf90770713c6b2264776298eff9a8fb5",
+  "render_sha256": "3527de31f8fff5fcf279992f5b4fd4bdc24575a290e267bdc76f7d2fea32c645",
   "limitations": [
     "The threshold applies to stored PNG scalar values and is not calibrated Hounsfield-unit segmentation.",
+    "All 72 scanner headers agree on a -1024 pixel-value addend, but numeric identity between the converted PNG samples and original scanner pixel data is not yet independently verified.",
     "The block mesh is a coarse occupancy visualization and is not a validated anatomical surface.",
     "Disconnected threshold islands remain visible and no topology, closure, laterality, or bone-label validation is claimed.",
     "Connected-component counts are reported per acquisition group and no automatic component filtering was applied.",

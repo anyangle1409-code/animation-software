@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "kind": "NLM_PELVIC_CT_FULL_SERIES_GE_RAW_PNG_CALIBRATION",
+  "review_date": "2026-10-09",
+  "source_bundle_manifest": "nlm_pelvic_ct_full_series_candidate_bundle_20261009.json",
+  "official_sources": {
+    "raw_GE_base": "https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/radiological/normalCT/",
+    "PNG_base": "https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/PNG_format/radiological/normalCT/",
+    "scanner_header_base": "https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/PNG_format/radiological/normalCTHeaders/",
+    "NLM_data_documentation": "https://www.nlm.nih.gov/research/visible/getting_data.html"
+  },
+  "method": {
+    "raw_archive_compression": "UNIX_COMPRESS_Z",
+    "decompressed_GE_header_bytes": 3416,
+    "pixel_encoding": "512_X_512_BIG_ENDIAN_UNSIGNED_16_BIT",
+    "comparison": "EXACT_SAMPLE_BY_SAMPLE_IN_FILE_ORDER",
+    "raw_or_png_source_bytes_committed": false
+  },
+  "slice_count": 72,
+  "sample_count": 18874368,
+  "all_samples_identical_in_file_order": true,
+  "different_sample_count": 0,
+  "maximum_absolute_sample_difference": 0,
+  "ordered_source_identity_sha256": "76d08c3821b4d848682e5f103af996d73201f778461cfe4cc5c91c970ba0d208",
+  "scanner_header_count": 72,
+  "stored_pixel_value_addend_for_HU": -1024,
+  "scanner_header_HU_addend_consistent": true,
+  "PNG_numeric_identity_to_scanner_pixels_verified": true,
+  "HU_conversion_from_png_verified": true,
+  "HU_formula": "HU = PNG_stored_value - 1024",
+  "stored_threshold_1200_in_HU": 176,
+  "source_bytes_committed": false,
+  "patient_identifiers_exported": false,
+  "anatomical_bone_segmentation_verified": false,
+  "canonical_promotion_allowed": false,
+  "limitations": [
+    "Numeric calibration does not identify anatomy or validate a bone threshold.",
+    "A 176 HU threshold includes non-bone material and must not be called bone segmentation.",
+    "Surface topology, laterality, scanner-to-HGPT registration, independent review, and independent-population evidence remain unmet."
+  ]
+}

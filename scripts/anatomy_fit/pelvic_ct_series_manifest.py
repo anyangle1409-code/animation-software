@@ -271,6 +271,15 @@ def validate_occupancy_review(review, source_bundle):
             claimed_bundle.get("group_boundaries_preserved") is not True):
         raise ValueError("occupancy source bundle evidence does not match manifest")
 
+    hu_evidence = review.get("scanner_header_HU_addend_evidence")
+    if (not isinstance(hu_evidence, dict) or
+            hu_evidence.get("header_count") != bundle_report["slice_count"] or
+            hu_evidence.get("stored_pixel_value_addend_for_HU") != -1024 or
+            hu_evidence.get("scanner_header_HU_addend_consistent") is not True or
+            hu_evidence.get("PNG_numeric_identity_to_scanner_pixels_verified") is not False or
+            hu_evidence.get("HU_conversion_from_png_verified") is not False):
+        raise ValueError("occupancy HU addend evidence is incomplete or overclaims PNG calibration")
+
     groups = review.get("group_summaries")
     if not isinstance(groups, list) or len(groups) != bundle_report["series_count"]:
         raise ValueError("occupancy group summaries do not match source bundle")

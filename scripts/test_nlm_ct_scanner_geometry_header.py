@@ -29,6 +29,10 @@ def fixture(location=389.):
     s+="Patient ID............................: SECRET-DO-NOT-ECHO\n"
     s+="Patient Name..........................: PRIVATE-SOURCE-PLACEHOLDER\n"
     s+="Operator..............................: OTHER-SECRET\n"
+    s+=("Value to add to actual pixel data\n"
+        " values to get the correct annotation\n"
+        " value. For CT, physical 0 means - \n"
+        " 1024 Hounsfield number...............: -1024\n")
     for key,alias in h.KEYS.items():
         s+=key+"."*(44-len(key))+": "+str(v[alias])+"\n"
     return s
@@ -43,6 +47,8 @@ class OriginalScannerHeaders(unittest.TestCase):
         self.assertEqual(r["plane_TR_RAS_mm"],[-127,125,389])
         self.assertEqual(r["plane_BR_RAS_mm"],[-127,-125,389])
         self.assertAlmostEqual(r["scanner_corner_range_x_mm"],250)
+        self.assertEqual(r["stored_pixel_value_addend_for_HU"],-1024)
+        self.assertTrue(r["HU_addend_from_scanner_header_verified"])
         self.assertFalse(r["canonical_promotion_allowed"])
 
     def test_patient_fields_not_returned_anywhere(self):
@@ -113,6 +119,32 @@ class OriginalScannerHeaders(unittest.TestCase):
         self.assertEqual(r["scanner_frame"],"GE_RAS_MM_NOT_HOMEGYMPT_WORLD")
         self.assertFalse(r["patient_to_HGPT_frame_registered"])
         self.assertFalse(r["HU_conversion_from_png_verified"])
+
+    def test_header_hu_addend_must_be_explicit_and_consistent(self):
+        missing=fixture().replace(
+            "Value to add to actual pixel data\n"
+            " values to get the correct annotation\n"
+            " value. For CT, physical 0 means - \n"
+            " 1024 Hounsfield number...............: -1024\n", "")
+        geometry=h.scanner_geometry_from_text(missing)
+        self.assertFalse(geometry["HU_addend_from_scanner_header_verified"])
+        with self.assertRaisesRegex(ValueError,"HU addend"):
+            h.hu_addend_consistency([geometry])
+        a=h.scanner_geometry_from_text(fixture(389))
+        b=h.scanner_geometry_from_text(fixture(388).replace(
+            "1024 Hounsfield number...............: -1024",
+            "1024 Hounsfield number...............: -1000"))
+        with self.assertRaisesRegex(ValueError,"HU addend"):
+            h.hu_addend_consistency([a,b])
+
+    def test_consistent_headers_do_not_overclaim_png_calibration(self):
+        records=[h.scanner_geometry_from_text(fixture(389-index))
+                 for index in range(3)]
+        result=h.hu_addend_consistency(records)
+        self.assertEqual(result["stored_pixel_value_addend_for_HU"],-1024)
+        self.assertTrue(result["scanner_header_HU_addend_consistent"])
+        self.assertFalse(result["PNG_numeric_identity_to_scanner_pixels_verified"])
+        self.assertFalse(result["HU_conversion_from_png_verified"])
 
     def test_non_axial_slice_plane_fails_closed(self):
         name="S Coord of Top Left Hand Corner"

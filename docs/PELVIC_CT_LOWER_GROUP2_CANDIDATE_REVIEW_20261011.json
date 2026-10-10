@@ -1,0 +1,254 @@
+{
+  "schema_version": 1,
+  "kind": "HGPT_SOURCE_PINNED_LOWER_GROUP2_CANDIDATE_REVIEW",
+  "viewer_code_commit": "abaacc61d4ee0a4612598fda1f5b9f0bdbdefad2",
+  "viewer_pr": 44,
+  "source_skeleton_governs_geometry": true,
+  "private_blend_sha256": "8775f92d6601d4fd1eb07f48a30308053cdae32aa575434e550bf23a0c0d46f7",
+  "private_artifacts_directory": "work/private-nlm-ct-20261009/sequential-viewer-20261010/",
+  "display_window_stored_values": [
+    950,
+    1900
+  ],
+  "display_window_is_anatomical_classifier": false,
+  "reviewed_source_group": 2,
+  "reviewed_frames": [
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    71,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79
+  ],
+  "selected_scanner_S_successive_gap_mm": 3,
+  "selected_scanner_S_range_mm": [
+    -508,
+    -556
+  ],
+  "within_selected_group_frame_review_is_contiguous": true,
+  "whole_volume_grid_accepted": false,
+  "preview_frames_reused": [
+    65,
+    70,
+    75
+  ],
+  "preview_frames_newly_rendered": [
+    63,
+    64,
+    66,
+    67,
+    68,
+    69,
+    71,
+    72,
+    73,
+    74,
+    76,
+    77,
+    78,
+    79
+  ],
+  "native_blender_version": "5.2.1 LTS",
+  "native_render_exit_code": 0,
+  "observations": [
+    {
+      "source_id": "cvm1900f",
+      "timeline_frame": 63,
+      "source_group": 2,
+      "scanner_S_mm": -508,
+      "source_png_sha256": "20e75538f3a6b2cfcbf6054c7365d93eae54fe1ad95d66dc9add0049c9fcf93d",
+      "source_header_sha256": "4cefd420398b014d6bb70a5299ce43b9a46ee1c804a00f47c50ff159c489862d",
+      "private_render_sha256": "d13158805c73fc6f9c64c7ebe2a2f61486cbf33c4f5222556666aeeae0ce49b6",
+      "candidate_note": "Paired lateral outlined structures remain separate from anterior-medial and posterior-medial profiles; contours change across adjacent source frames. Named bone identity and connectivity remain unaccepted."
+    },
+    {
+      "source_id": "cvm1903f",
+      "timeline_frame": 64,
+      "source_group": 2,
+      "scanner_S_mm": -511,
+      "source_png_sha256": "ad592a1516833bd64ed95156bb536aefb64af59f09a68eb029ef4cae7dbe9422",
+      "source_header_sha256": "5f9a6fea294e613adb5d7e71331f72fc60d6941ba85cffc7a85b9e7f018f6ddb",
+      "private_render_sha256": "866cc55c009b550923592972b7c50786059b4ac98c336e1c7c736f916487ae85",
+      "candidate_note": "Paired lateral outlined structures remain separate from anterior-medial and posterior-medial profiles; contours change across adjacent source frames. Named bone identity and connectivity remain unaccepted."
+    },
+    {
+      "source_id": "cvm1906f",
+      "timeline_frame": 65,
+      "source_group": 2,
+      "scanner_S_mm": -514,
+      "source_png_sha256": "fea0197c307f2a177187bef25ff8a23a110cbad3b52be29e6739f9f544b71d9f",
+      "source_header_sha256": "410b08719f8413cec1c7b68bf6dcca6b4f65e8f1ccab24b0c7827904f14978e5",
+      "private_render_sha256": "e64fe19c89867c25f994cfd0042388b4f42a50372319bc25472f9b4c3d6ee0a0",
+      "candidate_note": "Paired lateral outlined structures remain separate from anterior-medial and posterior-medial profiles; contours change across adjacent source frames. Named bone identity and connectivity remain unaccepted."
+    },
+    {
+      "source_id": "cvm1909f",
+      "timeline_frame": 66,
+      "source_group": 2,
+      "scanner_S_mm": -517,
+      "source_png_sha256": "ba26e67cf6f33a581626ccb42ae5caa5d2f6bb8bbeb6d02dda87f0258b8924fb",
+      "source_header_sha256": "303420445787f714efb4cfd38193ba445f9009d3173f9916bf0b18c250a54458",
+      "private_render_sha256": "a245c4692b6233f79951d9e6eed1ec4767b6b4ca2805c6ffd7a5d45d9d3be4f5",
+      "candidate_note": "Paired lateral outlined structures remain separate from anterior-medial and posterior-medial profiles; contours change across adjacent source frames. Named bone identity and connectivity remain unaccepted."
+    },
+    {
+      "source_id": "cvm1912f",
+      "timeline_frame": 67,
+      "source_group": 2,
+      "scanner_S_mm": -520,
+      "source_png_sha256": "647358b86b0dca883b539a0cff1ed8be088acd635a8021ee6269909a9c94d83e",
+      "source_header_sha256": "537817a34a45b3b1d42f056bec5b0817a9180aa49ed8ca401e351c1fc965a1dd",
+      "private_render_sha256": "b95fb2658eb7912c31124865203d307bd759fc910cc85d611a17ef8690b7e4b4",
+      "candidate_note": "Paired lateral outlined structures remain separate from anterior-medial and posterior-medial profiles; contours change across adjacent source frames. Named bone identity and connectivity remain unaccepted."
+    },
+    {
+      "source_id": "cvm1915f",
+      "timeline_frame": 68,
+      "source_group": 2,
+      "scanner_S_mm": -523,
+      "source_png_sha256": "3680334bc799eb748bf2b653a4f26aab90d64a003b19a6e21c49ff989e034608",
+      "source_header_sha256": "ac832f519daa48383032bb7ae331399cefbcdeb1d56fe9f557a23141e476e924",
+      "private_render_sha256": "f3465dd5ddbde38a5af93be36aee269807d2257e85cdb961eee24fe480b37b99",
+      "candidate_note": "Paired lateral outlined structures remain separate from anterior-medial and posterior-medial profiles; contours change across adjacent source frames. Named bone identity and connectivity remain unaccepted."
+    },
+    {
+      "source_id": "cvm1918f",
+      "timeline_frame": 69,
+      "source_group": 2,
+      "scanner_S_mm": -526,
+      "source_png_sha256": "4eedf40bdae8fa6365a0538a1a5e3b8d58555743a6619386d9448c33210fcffc",
+      "source_header_sha256": "59863a1d4e25288003d54696a0b779505e3ca1d40ef2602fe9e443296091074e",
+      "private_render_sha256": "500252220548e8dd25d48d0280ab09091ee54eb4ae03af1a15e040b4d8fca5f9",
+      "candidate_note": "Paired lateral outlined structures remain separate from anterior-medial and posterior-medial profiles; contours change across adjacent source frames. Named bone identity and connectivity remain unaccepted."
+    },
+    {
+      "source_id": "cvm1921f",
+      "timeline_frame": 70,
+      "source_group": 2,
+      "scanner_S_mm": -529,
+      "source_png_sha256": "4802955d63293d9ecd58dbdd9b9d96ef388cb4b894c65ab44f652b8693dee212",
+      "source_header_sha256": "6b06b396a67b9c0d8f25bb69f383680021529da32426488a9ad33b350c323827",
+      "private_render_sha256": "fb7a5dc560ca5f9b7178291e93ed0bf07e835279f80ef161f9b2b7b222459579",
+      "candidate_note": "Paired lateral outlined structures remain separate from anterior-medial and posterior-medial profiles; contours change across adjacent source frames. Named bone identity and connectivity remain unaccepted."
+    },
+    {
+      "source_id": "cvm1924f",
+      "timeline_frame": 71,
+      "source_group": 2,
+      "scanner_S_mm": -532,
+      "source_png_sha256": "5bc697e0cf2f39f683a4ba29385d294ce39c8125ad22207f8cab3a856e3f0a6b",
+      "source_header_sha256": "5e930173bde033861c5f932b714dfc9ad60fe934a280c4aac4d5c6d9b5093359",
+      "private_render_sha256": "42c5cd28662d94872a00c820c61b88936f9caa98ed261d776e792ed747a4d30a",
+      "candidate_note": "Medial outlined profiles become thinner and elongated while lateral ring-like profiles persist. Apparent medial joining in the displayed plane is not accepted 3D connectivity."
+    },
+    {
+      "source_id": "cvm1927f",
+      "timeline_frame": 72,
+      "source_group": 2,
+      "scanner_S_mm": -535,
+      "source_png_sha256": "217c5713c36a2aa63fcd6145051761f8348b9d794d86cd44ae47013593e7a23f",
+      "source_header_sha256": "8774e17980c0e32ebac909eacda3c2ec826f3648f023ec80878101bb001532cf",
+      "private_render_sha256": "9139a9f084b8af90938d28b5f21c538d4ee0f97743264e9590d1c8b223ce66bf",
+      "candidate_note": "Medial outlined profiles become thinner and elongated while lateral ring-like profiles persist. Apparent medial joining in the displayed plane is not accepted 3D connectivity."
+    },
+    {
+      "source_id": "cvm1930f",
+      "timeline_frame": 73,
+      "source_group": 2,
+      "scanner_S_mm": -538,
+      "source_png_sha256": "f95772482de78ba8193d2b08352e52d2a0e1b814ca0aafcfb60af81e90243946",
+      "source_header_sha256": "ea7716e666d2b84680178e8d058d1c76fbc10067547d885cb798fbfe2105bed8",
+      "private_render_sha256": "95af1feba790cf17767415dccccb0cefc4e123078362520e92f9d90819b3a102",
+      "candidate_note": "Medial outlined profiles become thinner and elongated while lateral ring-like profiles persist. Apparent medial joining in the displayed plane is not accepted 3D connectivity."
+    },
+    {
+      "source_id": "cvm1933f",
+      "timeline_frame": 74,
+      "source_group": 2,
+      "scanner_S_mm": -541,
+      "source_png_sha256": "912ee05dd05df944c94ea634504e0cda28ba4a05e952c5c65896a8eba723c583",
+      "source_header_sha256": "e6e24985afeed078733dfaacf31a7a32b562f75fc061622e5204eb0ea8d6eb1f",
+      "private_render_sha256": "e47b02104ae75e32e4bd603edaa942d9969395702b6df6165aa94c29b8fa7c9a",
+      "candidate_note": "Medial outlined profiles become thinner and elongated while lateral ring-like profiles persist. Apparent medial joining in the displayed plane is not accepted 3D connectivity."
+    },
+    {
+      "source_id": "cvm1936f",
+      "timeline_frame": 75,
+      "source_group": 2,
+      "scanner_S_mm": -544,
+      "source_png_sha256": "dad0f2c56cd8d2bcdd1abbe8591ffa852a2ca43bcb17ffadaa62f4cf4482d865",
+      "source_header_sha256": "4639caad585a07a54f4af4b14a6eca24ac14e2a19a09e9d0e1e161361e26f794",
+      "private_render_sha256": "cdf6e762d5ab89c4e8fd99d7fc2fe525c2ddbced062f1fb814ed23d25fb3adeb",
+      "candidate_note": "Medial outlined profiles become thinner and elongated while lateral ring-like profiles persist. Apparent medial joining in the displayed plane is not accepted 3D connectivity."
+    },
+    {
+      "source_id": "cvm1939f",
+      "timeline_frame": 76,
+      "source_group": 2,
+      "scanner_S_mm": -547,
+      "source_png_sha256": "3cf6f6944305e13aff778dd6b155a21edc0ea2bf52fbede55d07a949ee7f082f",
+      "source_header_sha256": "1b7f3d5938efd7fba5787f6aa7b3219f5fadd75b4b9aca4453b533353d7e5669",
+      "private_render_sha256": "01426f93ab97bf911ba08e4e71f1c94166ede44f659977254eec2faedf5d5181",
+      "candidate_note": "Medial outlined profiles become thinner and elongated while lateral ring-like profiles persist. Apparent medial joining in the displayed plane is not accepted 3D connectivity."
+    },
+    {
+      "source_id": "cvm1942f",
+      "timeline_frame": 77,
+      "source_group": 2,
+      "scanner_S_mm": -550,
+      "source_png_sha256": "6a3d8efbaeb7c300b95747386db143b234a98d7ab53c59985419dd2e6a59aa90",
+      "source_header_sha256": "13e55ee5ec72cb814faa86ae87a675b0b9bcac541fd37c86c412fc8c01bea0e1",
+      "private_render_sha256": "b456acbba14ed0c2c3cf038fbd0047649294cb02eb990ebef5a41899dae6f90f",
+      "candidate_note": "Medial outlined profiles taper to small bright patches toward79; lateral ring-like profiles persist. No accepted bone endpoint, coverage bound or identity is inferred."
+    },
+    {
+      "source_id": "cvm1945f",
+      "timeline_frame": 78,
+      "source_group": 2,
+      "scanner_S_mm": -553,
+      "source_png_sha256": "a1e27907bd06cbb4bef69950f3f4c76edf7d24a21026c83b2bbe9d09a57eaced",
+      "source_header_sha256": "10ce1d93608b6fbc0c5fd42e513e9dcecf071cbc09bb8d92cf889f00783fbcb9",
+      "private_render_sha256": "d783fad09519bdfbcf2a76d60fdd1ec40a5c995f0ea2c1d2e1244855271b7eee",
+      "candidate_note": "Medial outlined profiles taper to small bright patches toward79; lateral ring-like profiles persist. No accepted bone endpoint, coverage bound or identity is inferred."
+    },
+    {
+      "source_id": "cvm1948f",
+      "timeline_frame": 79,
+      "source_group": 2,
+      "scanner_S_mm": -556,
+      "source_png_sha256": "c52abb597a5f92d2efe48bd64cf90f6c73cded863b5a3171354a8fd2f0063224",
+      "source_header_sha256": "05fe8c92d6e4223dcd69263849ba060f9a5c218399d5e485f78a0cf721208aa0",
+      "private_render_sha256": "7ceb8b65a1762f4fee749539f9bdc2f7ae4e931fc16a4669f0ea378ae779f84f",
+      "candidate_note": "Medial outlined profiles taper to small bright patches toward79; lateral ring-like profiles persist. No accepted bone endpoint, coverage bound or identity is inferred."
+    }
+  ],
+  "original_png_and_header_hashes_reverified": true,
+  "private_render_hashes_recorded": true,
+  "source_blend_unchanged": true,
+  "independent_second_review_completed": false,
+  "bone_identity_accepted": false,
+  "anatomical_coverage_verified": false,
+  "landmarks_accepted": false,
+  "segmentation_performed": false,
+  "scanner_to_HGPT_registration_verified": false,
+  "cross_group_registration_accepted": false,
+  "canonical_promotion_allowed": false,
+  "review_limitations": [
+    "Single assistant qualitative inspection of fixed-window private Blender previews, not independent anatomical acceptance.",
+    "No masks, landmark coordinates, joint centres, surface contact measurements or patient-to-HGPT transform were created.",
+    "Adjacent source frames are checked only within acquisition group2; no uniform inter-group volume is inferred."
+  ],
+  "independent_review_request": "Compare the source-pinned original images and headers with the private previews for frames46-62; independently identify the paired rounded candidate structures and surrounding profiles before proposing landmarks or segmentation. Confirm acquisition-group and scanner orientation separately.",
+  "next_action": "Inspect source-pinned group1 frames1-41 for candidate pelvic landmark coverage, preserving the acquisition-group boundary; all39 group2 frames now have qualitative candidate review, not accepted anatomy."
+}

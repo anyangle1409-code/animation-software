@@ -772,3 +772,15 @@ separately. Then inspect unreviewed group1 frames for candidate pelvic
 landmark coverage. Require independent source-image review before accepting
 identities or coordinates. Private CT bytes and Blender outputs remain outside
 Git; no source skeleton or frozen candidate was modified.
+
+### Lower group2 continuation
+
+Frames63–79 reviewed next, reusing65/70/75 and rendering14 missing previews
+with Blender5.2.1 (exit0). Original PNG/header pins were reverified, including
+the extension source at79. Medial profiles taper toward79 while lateral rings
+persist; no bone endpoint or accepted3D connectivity is inferred. The lower
+ledger is `docs/PELVIC_CT_LOWER_GROUP2_CANDIDATE_REVIEW_20261011.json`.
+All39 group2 source frames now have qualitative windowed candidate review;
+41 unique frames across both groups are reviewed. Every acceptance gate
+remains false. Next: inspect unreviewed group1 frames1–41 for candidate
+pelvic landmark coverage; reuse existing outputs and preserve group boundaries.

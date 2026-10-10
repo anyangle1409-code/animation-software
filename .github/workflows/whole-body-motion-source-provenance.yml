@@ -19,6 +19,8 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y blender xvfb
       - name: Render a temporary non-anatomical scene into the declared directory
         run: xvfb-run -a blender --background --factory-startup --python-exit-code 1 --python scripts/blender_tests/test_skeleton_review_render_path.py
+      - name: Preserve raw source triangles in an actual private source-axis review
+        run: xvfb-run -a blender --background --factory-startup --python-exit-code 1 --python scripts/blender_tests/test_source_surface_review.py
 
   windows-source-motion-provenance:
     runs-on: windows-latest
@@ -32,6 +34,8 @@ jobs:
           python-version: '3.12'
       - name: Verify source evidence keys on the laptop platform
         run: python -m unittest discover -s scripts -p 'test_whole_body_motion_source_gate.py' -v
+      - name: Verify guarded source shell mathematics and private-output boundaries
+        run: python -m unittest discover -s scripts -p 'test_source_surface_component_geometry.py' -v
       - name: Install candidate reconstruction numerical dependency
         run: python -m pip install numpy
       - name: Reproduce unchanged c004 inputs and geometry on Windows
@@ -51,6 +55,7 @@ jobs:
           python3 -m unittest discover -s scripts -p 'test_whole_body_motion_source_gate.py' -v
           python3 -m unittest discover -s scripts -p 'test_clavicle_primary_source_compatibility.py' -v
           python3 -m unittest discover -s scripts -p 'test_whole_body_blender_evidence_gate.py' -v
+          python3 -m unittest discover -s scripts -p 'test_source_surface_component_geometry.py' -v
       - name: Execute first-party original source-only gate, proving no Blender was run
         run: |
           python3 scripts/anatomy_fit/whole_body_motion_source_gate.py \

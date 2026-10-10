@@ -352,3 +352,25 @@ to observe return diagnostics; inputs, tolerances and production files were
 not changed. Next: reproduce in the original recorded numerical environment
 if obtainable, then investigate Jacobian/convergence sensitivity without
 rewriting immutable targets or weakening tests.
+
+## BoneHub component follow-on, source-axis Blender and header declaration
+
+Reconciled and preserved Work's PR32/33/34 heads555e2a6c/484aa52b/c765ff24.
+PR34 already acquired and audited54surfaces; its52-test CIrun38074463706 passed.
+Before publication rechecked PR34: newer247020ac preserved; successful final
+CI38075047099 independently observed. All54headers declareLPS and65tests pass.
+The eight laptop header checks corroborate this, not a claim of new full audit.
+Do not repeat that work. New laptop follow-on measures flagged component bounds,
+mathematical area/guarded algebraic-volume centres and overused-edge positions.
+Eight private sources match existing pins; actual Blender retains all raw
+coordinates/faces and produced24source-axis views, all PNG hashes checked.
+Eighteen synthetic tests and two native Blender tests PASS locally. New CI must
+still be verified remotely. Reviewer tiny-camera false-success reproduced and
+fixed by refusal before output, with no source scaling.
+
+All eight actual STL headers declareSPACE=LPS, supported by official Slicer tag
+documentation. This is declared frame evidence, not accepted image registration
+or verified units; do not map it to raw NLM CT without the image transform.
+See `docs/BONEHUB_PRIVATE_COMPONENT_GEOMETRY_20261010.md` for exact measurements,
+limits and next commands. Keep medical bytes and private review outputs outside
+Git. No fragments deleted, anatomical acceptance or canonical promotion performed.

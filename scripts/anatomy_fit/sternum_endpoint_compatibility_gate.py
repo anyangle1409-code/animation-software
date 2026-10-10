@@ -7,6 +7,7 @@ A matched historical mean is NOT evidence for an accepted 182 cm joint target.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 from pathlib import Path
@@ -59,6 +60,19 @@ SOURCE_ELIGIBILITY = {
     "no_source_to_joint_patch_correspondence": True,
     "no_full_1_to7_costal_facet_3d_contact_coords": True,
 }
+
+def git_blob_sha_lf(raw: bytes) -> str:
+    # Track Git's canonical LF bytes, including from Windows core.autocrlf clones.
+    normalized = raw.replace(b"\r\n", b"\n")
+    return hashlib.sha1(
+        b"blob " + str(len(normalized)).encode("ascii") + b"\0" + normalized
+    ).hexdigest()
+
+def verify_original_input_pins() -> None:
+    for name, expected_sha in EXPECTED_PINNED_INPUTS.items():
+        path = ANATOMY / name
+        if git_blob_sha_lf(path.read_bytes()) != expected_sha:
+            raise ValueError("Historical source bytes drifted: "+name)
 
 def read(path: Path) -> dict:
     data = json.loads(path.read_text(encoding="utf-8"))
@@ -204,7 +218,7 @@ def demonstrate_3d_nondetermination(checked: dict) -> dict:
     if not all(math.isclose(x,y,abs_tol=1e-10) for x,y in zip(segments(collinear),segments(turned))):
         raise ValueError("Constructive non-uniqueness proof invalid")
     return {
-      "identical_three_local_facet_intervals_mm":segments(collinear),
+      "identical_three_local_facet_intervals_mm":[round(x,2) for x in segments(collinear)],
       "example_chains_not_anatomical_targets":True,
       "same_three_intervals_but_distinct_end_to_end_distance":True,
       "collinear_chain_end_to_end_mm":round(math.dist(collinear[0],collinear[-1]),4),
@@ -238,6 +252,7 @@ def main() -> None:
     p.add_argument("--compare",nargs=2,metavar=("ID_A","ID_B"),
                    help="Ask whether two source measurement terms can justify a canonical bone target")
     args=p.parse_args()
+    verify_original_input_pins()
     checked=check_contract(read(args.contract),read(SELT),read(THAI),read(OLDER),read(GEO))
     if args.compare:
         report=compare_ids(*args.compare,checked)

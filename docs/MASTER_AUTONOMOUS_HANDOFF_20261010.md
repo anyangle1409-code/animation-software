@@ -481,3 +481,51 @@ The current ten-frame sheet is not that review: its two separated ranges cannot
 establish continuity, 3D boundaries, named bones, or any of the seven pelvic
 landmarks. Keep the applicable true-bone identity and 3D segmentation gates
 open; do not infer or promote anatomy from this QA pass.
+
+## Independent PR review and wrist/foot region follow-on, 2026-10-10
+
+Fetched the working branch and related live refs. At review start, it was clean
+at `c33c5ae453ef71522f2fa10b74cbc1cbfcfdb490`; no Claude/Work or canonical
+changes were applied. Reviewed the actual changed scripts, manifests,
+tests and workflows for PRs #35–37. All remain isolated drafts, mergeable and
+without submitted reviews or inline threads. Current head CI is green:
+
+- PR #35 `597562dc55b573721b6eccc78446cc6907634e31`: all three check runs
+  succeeded. Its rights/cohort index is explicitly metadata-only and fail-closed;
+  TotalSegmentator/MedOtter share a donor cohort, restricted licenses remain
+  excluded, and no images, models or anatomical targets are promoted.
+- PR #36 `8288128f00c648a6c8e7f30646be98091f117401`: both check runs succeeded.
+  It records the Selthofer source table and corrects the interpretation of the
+  Turkish `CL=M+B` value without mutating the historic file or selecting a new
+  sternum length target. The Thai study records local facet-centre intervals,
+  but the cohort's training stature does not cover HGPT's 182cm target.
+- PR #37 `4879b10ebf0256e7bd8e8de27c795e7335d16b87`: both check runs succeeded.
+  Its endpoint compatibility gate rejects incompatible cross-study/model
+  comparisons and demonstrates that three local distances do not uniquely
+  determine the 3D sternocostal chain. No critical implementation blocker was
+  found in these focused metadata/contract changes. This is a code/evidence
+  review, not a medical-anatomy or licensing approval; no GitHub review vote or
+  merge was submitted.
+
+New independent Work branches were preserved. PR #38's wrist/foot source
+proximity work advanced from a failed first real-source CI attempt at
+`7b46fb89576cf53bf66aa7b7186393d76cdb301d` to verified head
+`d0f275a847208648480bbc924298a11882a9d3c5`; both jobs passed in run
+[38086284050](https://github.com/anyangle1409-code/animation-software/actions/runs/38086284050).
+It parses 12 pinned meshes for eight bilateral scaphoid/lunate and tarsal pair
+proxies. The recorded closest valid-face-vertex bounds are raw source-coordinate
+values, with source units, CT registration, triangle-surface gaps, joint centres
+and contact all still unverified. They are not model measurements or accepted
+joint contacts. A newer, separate 30-mesh/44-pair candidate graph is running CI
+at `873a77fb4dc47d8555323cdb15336d4f064c09bd` (run
+[38086632132](https://github.com/anyangle1409-code/animation-software/actions/runs/38086632132));
+do not repeat its source scans while those checks are running.
+
+Next executable action: read the completed 44-pair CI/report once published,
+then continue only with bounded, source-pinned anatomical-plane CT/label
+inspection and transform evidence. The short separate verification checkout
+remains detached at `fed5f46d965d55e1726c14e4a3e98a0a9f8e233a`; a local PR review
+checkout attempt was interrupted by Windows file access and was not used as test
+evidence. No patient/source bytes or candidate outputs were added to Git.
+Regional readiness remains `0 READY / 9 PARTIAL / 3 BLOCKED`; no canonical
+geometry, landmarks or anatomical contacts were promoted.

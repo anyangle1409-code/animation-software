@@ -625,3 +625,24 @@ inspect every difference before further path-only corrections. See
 expensive full suite or completed motion sweeps. Source-bound anatomical
 review and independent evidence remain separate gates; regional readiness
 stays `0 READY / 9 PARTIAL / 3 BLOCKED` with no canonical promotion.
+
+### PR #45 hosted verification completed
+
+At exact source head `66bba1b3258c45acb5795ce1a310dde595f97241`, all three jobs
+passed in [CI run 38093010487](https://github.com/anyangle1409-code/animation-software/actions/runs/38093010487).
+The explicit NumPy provision fixes the initial native runner import failure.
+All 31 unchanged c001/c002 tests pass in actual Ubuntu Blender 4.0.2
+(0.329 seconds), and the Windows Python candidate step passes too. This closes
+hosted verification for these path-only corrections, not the inherited full
+suite or anatomical readiness. PR #45 remains a draft, not merged or approved.
+
+The next read-only c003 investigation is currently running in the short
+checkout: session `41234` (unchanged test module) and session `26974` (complete
+report differences), local PIDs `1868`/`6180` at this checkpoint. The old c003
+solver reconstructs nested rib/cartilage optimization and is slower than the
+c001/c002 comparisons. Collect those existing results before starting another
+reconstruction; inspect current processes because IDs are temporary. No c003
+code, candidate files or geometry have been edited. If a numerical difference
+appears, retain it as an unresolved finding rather than treating it as a path
+serialization fix. Source-bound anatomical review remains the next separate
+evidence gate.

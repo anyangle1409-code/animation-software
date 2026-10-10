@@ -116,7 +116,8 @@ def naive_independent_plane_angle_test(alpha_ph_deg, alpha_ls_deg):
 def bernstein_deviation_mm(fraction, z_a_mm, z_b_mm):
     """An optional 3D out-of-plane basis, strictly NOT an HGPT bone surface.
 
-    Later source: Holcombe et al. 2018/2022 thoracic rib-geometry methodology,
+    Later source: 'Age-related changes in thoracic skeletal geometry of
+    elderly females', DOI 10.1080/15389588.2017.1309526, which states
     z(u)=Z_A * 3u(1-u)^2 + Z_B * 3u^2(1-u) along NORMALIZED FULL RIB ARC LENGTH.
     The pinned 2017 source table does NOT supply ZA/ZB values. Call only
     with externally obtained, independently source-verified millimetre values.

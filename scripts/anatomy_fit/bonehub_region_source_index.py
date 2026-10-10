@@ -38,7 +38,7 @@ def permitted_api_url(url: str) -> bool:
         and parsed.port is None
         and not parsed.username
         and not parsed.password
-        and parsed.path.startswith(f"/api/datasets/{REPO}/")
+        and (parsed.path == f"/api/datasets/{REPO}" or parsed.path.startswith(f"/api/datasets/{REPO}/"))
     )
 
 

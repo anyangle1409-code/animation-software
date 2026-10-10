@@ -78,9 +78,10 @@ def download_original_pinned_pair(row, destination, *, opener=None):
     """
     if opener is None:
         opener=urllib.request.urlopen
-    folder=assert_private_location(destination)
-    if folder.is_symlink():
+    raw_folder=Path(destination)
+    if raw_folder.is_symlink():
         raise ValueError("CT input directory must not be a symlink")
+    folder=assert_private_location(raw_folder)
     folder.mkdir(parents=True,exist_ok=True)
     sid=row["source_id"]
     if ALLOWED_ID.fullmatch(sid) is None:
@@ -188,9 +189,10 @@ outside the Git repository. These images are for anatomical review only.</p>
 def run(bundle,cal,review,workspace,centre_ids=None,*,opener=None,source_loader=None):
     validate_series_bundle(bundle)
     validate_calibration_evidence(cal,bundle)
-    workspace=assert_private_location(workspace)
-    if workspace.is_symlink():
+    raw_workspace=Path(workspace)
+    if raw_workspace.is_symlink():
         raise ValueError("private workspace cannot be a symlink")
+    workspace=assert_private_location(raw_workspace)
     source_dir=assert_private_location(workspace/"original_NLM_CT_sources")
     views_dir=assert_private_location(workspace/"PRIVATE_CT_VIEW")
     groups,pinned=plan(bundle,review,centre_ids)

@@ -73,6 +73,55 @@ async function exerciseProof(page){
   await page.screenshot({path:path.join(REPORT_DIR,'native-webgl2-skeleton-only-diagnostic.png')});
   return {...report,elapsedExerciseTime:result.time,pageErrors:errors,noncanonicalDiagnosticOnly:true};
 }
+
+async function standaloneZeroVendorProof(page){
+  const errors=[],vendorModuleRequests=[];
+  page.on('pageerror',e=>errors.push(e.message));
+  page.on('request',request=>{
+    const url=request.url();
+    if(/(?:threeRuntimeBoundary|threeSceneBoundary|node_modules\/\.vite\/deps\/three(?:\.js)?(?:\?|$)|react-dom|@react-three)/i.test(url))
+      vendorModuleRequests.push(url);
+  });
+  await page.goto(BASE+'native-webgl2-preview.html',{waitUntil:'domcontentloaded'});
+  await page.waitForFunction(()=>{
+    const canvas=document.querySelector('#hgpt-native-only-canvas');
+    return canvas && canvas.dataset.hgptNoVendorModules==='true' &&
+      Number(canvas.dataset.hgptNativeFrame)>5 &&
+      Number(canvas.dataset.hgptNativeBoneCount)>=35;
+  },null,{timeout:30000});
+  const start=await page.evaluate(()=>({
+    time:Number(document.querySelector('#hgpt-native-only-canvas').dataset.hgptNativeTime),
+    frames:Number(document.querySelector('#hgpt-native-only-canvas').dataset.hgptNativeFrame),
+  }));
+  await page.waitForFunction(start=>{
+    const canvas=document.querySelector('#hgpt-native-only-canvas');
+    return canvas && Number(canvas.dataset.hgptNativeTime)>start.time+0.2 &&
+      Number(canvas.dataset.hgptNativeFrame)>=start.frames+6;
+  },start,{timeout:20000});
+  const end=await page.evaluate(()=>{
+    const canvas=document.querySelector('#hgpt-native-only-canvas');
+    return {
+      renderer:canvas.dataset.hgptNativeRenderer,
+      boneCount:Number(canvas.dataset.hgptNativeBoneCount),
+      liveTime:Number(canvas.dataset.hgptNativeTime),
+      exerciseId:canvas.dataset.hgptRealExerciseSource,
+      canvasWidth:canvas.width,canvasHeight:canvas.height,
+      count:Number(canvas.dataset.hgptNativeFrame),
+    };
+  });
+  assert.equal(end.renderer,'hgpt-native-webgl2-bones-v1');
+  assert.ok(end.boneCount>=35 && end.count>start.frames);
+  assert.ok(end.canvasWidth>0 && end.canvasHeight>0);
+  assert.ok(end.liveTime>start.time);
+  assert.ok(end.exerciseId);
+  assert.deepEqual(errors,[]);
+  assert.deepEqual(vendorModuleRequests,[],
+    'True standalone native page loaded a Three/React vendor module');
+  await page.screenshot({path:path.join(REPORT_DIR,'standalone-zero-Three-native-exercise-skeleton-diagnostic.png')});
+  return {...end,vendorModuleRequests,sourceRuntimeThirdPartyPackagesLoaded:0,
+    clinicalAnatomyAccepted:false,bodySkinRendered:false};
+}
+
 async function defaultViewerUnchanged(page){
   const errors=[];
   page.on('pageerror',error=>errors.push(error.message));
@@ -105,9 +154,12 @@ try{
   const ctx=await browser.newContext({viewport:{width:1280,height:800}});
   const native=await ctx.newPage();
   const preview=await exerciseProof(native);
+  const standalonePage=await ctx.newPage();
+  const standalone=await standaloneZeroVendorProof(standalonePage);
   const baseline=await ctx.newPage();
   const current=await defaultViewerUnchanged(baseline);
-  const result={pass:true,preview,baseline:current,characterAndSkinParityClaimed:false,thirdPartyRemovedFromProduction:false};
+  const result={pass:true,preview,standalone,baseline:current,
+    characterAndSkinParityClaimed:false,thirdPartyRemovedFromProduction:false};
   fs.writeFileSync(path.join(REPORT_DIR,'native-webgl2-vs-legacy-host-proof.json'),JSON.stringify(result,null,2)+'\n');
   console.log(JSON.stringify(result,null,2));
   complete=true;

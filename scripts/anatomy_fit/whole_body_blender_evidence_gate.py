@@ -323,6 +323,24 @@ def report_schema_template(bone_inventory_sha256, articulation_sha256):
     }
 
 
+
+def private_review_output(raw_path):
+    """Enforce NEW private output outside any Git repository/worktree.
+
+    Standalone on the anatomical audit baseline; depends on no CT PR module.
+    """
+    proposed = Path(raw_path).expanduser()
+    if proposed.is_symlink():
+        raise ValueError("private QA output must not be a symlink")
+    resolved = proposed.resolve(strict=False)
+    if resolved == REPO or REPO in resolved.parents:
+        raise ValueError("private Blender report must never be placed in source Git worktree")
+    for parent in (resolved.parent, *resolved.parents):
+        if (parent / ".git").exists():
+            raise ValueError("QA measurements must remain outside ANY Git worktree")
+    return resolved
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--input", help="private measured JSON from Blender bpy")
@@ -331,8 +349,7 @@ def main():
     p.add_argument("--template-only", action="store_true",
                    help="emit an EMPTY, safely unverified source-pinned report guide without Blender")
     args = p.parse_args()
-    from ct_pelvis_window_geometry import assert_private_location
-    output = assert_private_location(args.out)
+    output = private_review_output(args.out)
     if output.exists() or output.suffix != ".json":
         raise ValueError("refuse overwrite or non-JSON Blender assessment path")
     if args.template_only:

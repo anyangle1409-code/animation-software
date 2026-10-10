@@ -142,7 +142,7 @@ class ProvisionalSurface(unittest.TestCase):
             path = Path(td)
             args = SimpleNamespace(
                 ct_dir=str(path / "source"), out=str(path / "seeded.obj"),
-                bundle=str(BUNDLE), calibration=str(CAL),
+                bundle=str(BUNDLE), calibration=str(ROOT / 'ORIGINAL_V1_WORK' / 'anatomy' / 'audit' / 'nlm_pelvic_ct_full_series_hu_calibration_20261009.json'),
                 group=1, start=0, count=2, roi=[2, 6, 2, 6], hu_min=300,
                 pixel_origin="outer_edge", seed=[0, 2, 2])
             first = [0] * (512 * 512)

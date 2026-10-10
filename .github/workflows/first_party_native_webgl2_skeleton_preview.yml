@@ -1,0 +1,105 @@
+name: First-party native WebGL2 skeleton migration spike
+
+on:
+  push:
+    branches: [codex/first-party-webgl2-skeleton-preview-20261010]
+    paths:
+      - src/viewer/firstPartyWebGL2SkeletonPreview.mjs
+      - src/viewer/firstPartyWebGL2SkeletonPreview.d.mts
+      - src/viewer/nativeWebGL2SkeletonPreviewRuntime.ts
+      - src/viewer/firstPartyViewportDom.ts
+      - tests/firstPartyWebGL2SkeletonPreview.test.mjs
+      - scripts/verify-native-webgl2-skeleton-browser.mjs
+      - src/viewer/nativeWebGL2StandaloneEntry.ts
+      - native-webgl2-preview.html
+      - .github/workflows/first_party_native_webgl2_skeleton_preview.yml
+      - docs/FIRST_PARTY_WEBGL2_RUNTIME_REPLACEMENT_20261010.md
+  pull_request:
+    paths:
+      - src/viewer/firstPartyWebGL2SkeletonPreview.mjs
+      - src/viewer/firstPartyWebGL2SkeletonPreview.d.mts
+      - src/viewer/nativeWebGL2SkeletonPreviewRuntime.ts
+      - src/viewer/firstPartyViewportDom.ts
+      - tests/firstPartyWebGL2SkeletonPreview.test.mjs
+      - scripts/verify-native-webgl2-skeleton-browser.mjs
+      - src/viewer/nativeWebGL2StandaloneEntry.ts
+      - native-webgl2-preview.html
+      - .github/workflows/first_party_native_webgl2_skeleton_preview.yml
+
+permissions:
+  contents: read
+
+jobs:
+  dependency-free-native-GPU-logic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Run all first-party camera/line-GPU adversarial tests using Node only
+        run: node --test tests/firstPartyWebGL2SkeletonPreview.test.mjs
+      - name: Prove new modules do not import the Three vendor gateway
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const paths=[
+            'src/viewer/firstPartyWebGL2SkeletonPreview.mjs',
+            'src/viewer/nativeWebGL2SkeletonPreviewRuntime.ts',
+          ];
+          for(const file of paths) {
+            const s=fs.readFileSync(file,'utf8');
+            if(/from\s+['"](?:three|.*threeSceneBoundary|.*threeRuntimeBoundary)['"]/.test(s))
+              throw new Error('External renderer imported in '+file);
+          }
+          const pkg=JSON.parse(fs.readFileSync('package.json','utf8'));
+          if(Object.keys(pkg.dependencies||{}).length!==1 || !pkg.dependencies.three)
+            throw new Error('Dependency migration must preserve existing known runtime boundary for parity checks');
+          console.log('Native WebGL2 files contain no Three import. Existing vendor boundary retained intentionally.');
+          JS
+  studio-types-and-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install existing development toolchain without third-party install scripts
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Validate editor TypeScript including native renderer port declarations
+        run: npm run typecheck
+      - name: Validate full editor production build uses unchanged supported viewport
+        run: npm run build
+
+  actual-browser-shader-and-exercise-clip:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Existing development/test toolchain only, no new runtime packages
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Prepare headless Chromium software WebGL2
+        run: npx playwright install --with-deps chromium
+      - name: Validate real native WebGL2, standalone zero-vendor module requests, and untouched default
+        run: node scripts/verify-native-webgl2-skeleton-browser.mjs
+      - name: Publish diagnostics only - skeletal wireframe not final human character
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: first-party-webgl2-experimental-actual-browser-proof
+          path: reports/browser-smoke/first-party-webgl2-prototype/
+          if-no-files-found: warn
+          retention-days: 14

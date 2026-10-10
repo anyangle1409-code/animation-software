@@ -1,0 +1,52 @@
+name: Independent primary sternum endpoint evidence checks
+
+on:
+  push:
+    branches: [codex/sternum-selthofer-primary-source-recheck-20261010]
+    paths:
+      - ORIGINAL_V1_WORK/anatomy/sternum_selthofer_2006_primary_table_recheck_20261010.json
+      - scripts/anatomy_fit/audit_selthofer_sternum_primary.py
+      - scripts/test_sternum_selthofer_primary_recheck_20261010.py
+      - .github/workflows/sternum_selthofer_primary_recheck.yml
+  pull_request:
+    paths:
+      - ORIGINAL_V1_WORK/anatomy/sternum_selthofer_2006_primary_table_recheck_20261010.json
+      - scripts/anatomy_fit/audit_selthofer_sternum_primary.py
+      - scripts/test_sternum_selthofer_primary_recheck_20261010.py
+      - .github/workflows/sternum_selthofer_primary_recheck.yml
+
+jobs:
+  prove-noncanonical-sternum-source:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 5
+    steps:
+      - name: Read-only checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Original primary table and historical conflict regression
+        run: python -m unittest discover -s scripts -p 'test_sternum_selthofer_primary_recheck_20261010.py' -v
+      - name: Source numerical diagnostic without changing canonical
+        run: |
+          python scripts/anatomy_fit/audit_selthofer_sternum_primary.py > "$RUNNER_TEMP/sternum-source-endpoint-check.json"
+          python - "$RUNNER_TEMP/sternum-source-endpoint-check.json" <<'PY'
+          import json,sys
+          with open(sys.argv[1],encoding="utf-8") as f: data=json.load(f)
+          assert data["source_study_male_n"]==55
+          assert data["selthofer_2006_male_total_jugular_to_xiphoid_mean_mm"]==208.6
+          assert data["selthofer_2006_total_sd_mm"]==14.6
+          assert data["between_studies_unadjusted_means_difference_mm"]==54.5
+          assert data["notch_by_notch_verified_coordinates_available"] is False
+          assert data["anatomical_geometry_promoted"] is False
+          assert data["cp1_gate6_passed"] is False
+          print("2006 primary sternum mean 208.6mm; earlier Turkish CT mean 154.1mm; ENDPOINT/SAMPLE NOT RECONCILED.")
+          PY
+      - name: Upload derived numerical source comparison only (no PDF/CT/assets)
+        uses: actions/upload-artifact@v4
+        with:
+          name: independent-2006-sternum-notches-endpoint-diagnostic
+          path: ${{ runner.temp }}/sternum-source-endpoint-check.json
+          if-no-files-found: error
+          retention-days: 14

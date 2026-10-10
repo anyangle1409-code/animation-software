@@ -17,6 +17,7 @@ jobs:
       - name: Verify original evidence pins and optional offline correction/rejection
         run: |
           python3 -m unittest discover -s scripts -p 'test_nlm_ct_private_annotation_capture.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_private_contour_capture.py' -v
           python3 -m unittest discover -s scripts -p 'test_nlm_ct_laptop_review.py' -v
           python3 -m unittest discover -s scripts -p 'test_nlm_ct_private_slice_review_plate.py' -v
           python3 -m unittest discover -s scripts -p 'test_nlm_ct_blender_six_source_prep.py' -v
@@ -85,4 +86,46 @@ jobs:
           # Save to a local temporary path only: NOT an artifact, repo file or upload.
           (Path(os.environ["RUNNER_TEMP"])/"ephemeral_annotation_preview.html").write_text(html)
           print("Original CT correction/rejection export: four source ids and untouched 16-bit HU rechecked; unverified 291 -> 337 HU candidate lead, NOT a bone.")
+          PY
+
+      - name: Verify private original three-slice contour export with scanner physical area
+        run: |
+          python3 - <<'PY'
+          import json,math,os,sys
+          from pathlib import Path
+          sys.path.insert(0,"scripts/anatomy_fit")
+          from nlm_ct_private_contour_capture import (
+              contour_packet,offline_contour_html,original_source_contour_metrics)
+          from nlm_ct_private_slice_review_plate import private_ct_plate
+          from nlm_ct_private_annotation_capture import recheck_source_HU
+          audit=Path("ORIGINAL_V1_WORK/anatomy/audit")
+          bundle=json.loads((audit/"nlm_pelvic_ct_full_series_candidate_bundle_20261009.json").read_text())
+          cal=json.loads((audit/"nlm_pelvic_ct_full_series_hu_calibration_20261009.json").read_text())
+          review=json.loads((audit/"nlm_pelvic_ct_full_series_candidate_review_20261009.json").read_text())
+          private=Path(os.environ["RUNNER_TEMP"])/"original_review_source"
+          plate,evidence=private_ct_plate(bundle,cal,review,2,"cvm1873f",private)
+          html=offline_contour_html(plate,bundle,evidence)
+          assert html.count("data:image/png;base64,")==6
+          assert "connect-src 'none'" in html
+          p=contour_packet(bundle,evidence)
+          p["reviewer_alias"]="source_CI_nonanatomical"
+          p["outlines"]=[{
+              "id":"outline_1", "source_id":"cvm1873f",
+              "label":"unknown_dense_structure",
+              "vertices":[{"row":250,"column":140},{"row":250,"column":150},
+                          {"row":260,"column":140}],
+              "note":"Synthetic geometry test, not identified anatomy",
+              "closed":True,
+          }]
+          report=original_source_contour_metrics(p,bundle,cal,evidence,private)
+          assert report["canonical_promotion_allowed"] is False
+          assert report["complete_named_bone_3D_surface_verified"] is False
+          assert len(report["contours"])==1
+          v=report["contours"][0]
+          assert v["polygon_area_pixel_squared"]==50
+          assert 30 < v["physical_in_plane_area_mm_squared"] < 55
+          assert -1024 <= v["vertex_original_source_HU_min_max"][0] <= 3000
+          assert v["actual_bone_boundary_or_surface_verified"] is False
+          (Path(os.environ["RUNNER_TEMP"])/"ephemeral_original_CT_contour_view.html").write_text(html)
+          print("Original source SHA-pinned 3D scanner frame and private 2D CT outline physical area rechecked; no anatomical acceptances, no uploads.")
           PY

@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "kind": "HGPT_SOURCE_PINNED_CT_CANDIDATE_OBSERVATIONS",
+  "viewer_code_commit": "abaacc61d4ee0a4612598fda1f5b9f0bdbdefad2",
+  "viewer_pr": 44,
+  "source_skeleton_governs_geometry": true,
+  "private_blend_sha256": "8775f92d6601d4fd1eb07f48a30308053cdae32aa575434e550bf23a0c0d46f7",
+  "private_artifacts_directory": "work/private-nlm-ct-20261009/sequential-viewer-20261010/",
+  "display_window_stored_values": [950, 1900],
+  "display_window_is_anatomical_classifier": false,
+  "observations": [
+    {
+      "source_id": "cvm1842f",
+      "timeline_frame": 43,
+      "source_group": 1,
+      "scanner_S_mm": -450.0,
+      "source_png_sha256": "000e3fe14ca0492ec9ebb12aa22ff9bbd2c41fb0519ead38bee492b5fee64299",
+      "source_header_sha256": "bed971b570e968ff41ebd81350f59920f0a3f188954037ca7605308329967575",
+      "private_render_sha256": "ae22600c3c576d48e2111be1637cc64dea21f84c7a7afa4e976dddc38fecc466",
+      "visible_plane": "FRAME_043__GROUP_01__cvm1842f",
+      "candidate_note": "Paired large non-circular bright outlined structures flank the central torso, with a smaller posterior central bright complex. Separate smaller bright contours lie outside the torso superiorly in the displayed image. These are visual shapes only, not accepted iliac, sacral, vertebral or limb identities.",
+      "next_review": "Compare adjacent pinned source slices within group1 and the separate group2 boundary; distinguish structures using contiguous image evidence before assigning bone identity or landmark coordinates."
+    },
+    {
+      "source_id": "cvm1957f",
+      "timeline_frame": 82,
+      "source_group": 2,
+      "scanner_S_mm": -565.0,
+      "source_png_sha256": "6041bfa452b6b1a7ce1a463da29e2fa2b0505aeb07ae4e2b30ae506506ef7e65",
+      "source_header_sha256": "35b1ee0c539f9119691d0ce6e642c23411ff3bb640ab1ea7ac9bcbc4fe7a03c7",
+      "private_render_sha256": "36f6bb04ac42bac0cdf5f4cf22840f65069ef8dc2a7a0a914845ae9b31714c44",
+      "visible_plane": "FRAME_082__GROUP_02__cvm1957f",
+      "candidate_note": "Two separated roughly circular bright rings are visible within the two lateral soft-tissue regions. Their source-bound appearance differs from frame43. Ring appearance alone does not establish femoral identity, segmentation extent or any accepted landmark.",
+      "next_review": "Trace both candidate rings superiorly within group2 using original source identities; require independent second review before accepting bone identity or coverage."
+    }
+  ],
+  "original_png_and_header_hashes_reverified": true,
+  "original_png_and_windowed_blender_views_inspected": true,
+  "original_png_native16_display_limitation": "Direct native16 previews are very dark; observations use the fixed-window derivative, not a threshold bone classifier.",
+  "source_blend_unchanged": true,
+  "independent_second_review_completed": false,
+  "bone_identity_accepted": false,
+  "anatomical_coverage_verified": false,
+  "landmarks_accepted": false,
+  "segmentation_performed": false,
+  "scanner_to_HGPT_registration_verified": false,
+  "canonical_promotion_allowed": false
+}

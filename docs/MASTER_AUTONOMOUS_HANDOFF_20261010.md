@@ -684,3 +684,23 @@ Next safe independent action: reuse the saved source-ordered pelvic CT viewer
 for candidate image review within its two scanner groups, consulting original
 PNG/header identities. Preserve the source skeleton and require independent
 second review before any anatomical acceptance or geometry promotion.
+
+### Actual Blender CT group-end candidate review — 11 October
+
+Reused the existing 82-frame private scene without saving or changing it.
+Blender 5.2.1, limited to two render threads, rendered frames 43 and 82 into
+new private previews. Exactly one expected source plane was visible in each:
+`cvm1842f` (group1, scanner S=-450mm) and `cvm1957f` (group2, S=-565mm).
+Original PNG/header hashes for both sources match the viewer report; the
+saved Blend hash remains `8775f92d...d46f7`. Both original native16 PNGs and
+fixed-window Blender previews were inspected. Native16 direct previews are
+dark; fixed-window shape observations are not threshold segmentation.
+
+Metadata-only `docs/PELVIC_CT_TERMINAL_CANDIDATE_OBSERVATIONS_20261011.json`
+records exact source/header/render hashes and cautious visual shape notes.
+No medical source bytes or rendered pixels entered Git. No bone identity,
+landmark, complete anatomical coverage or registration was accepted. The
+source skeleton remains unchanged. Next action: trace the observed paired
+structures through adjacent source-pinned slices in each group separately;
+compare the group boundary without flattening acquisition geometry, and
+require independent second review before anatomical acceptance.

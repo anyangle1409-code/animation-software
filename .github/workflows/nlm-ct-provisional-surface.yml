@@ -143,3 +143,56 @@ jobs:
             [row["voxel_count"] for row in report["thresholds"]], reverse=True)
           print("No provisional region was accepted as a bone. No medical source or private geometry artifact uploaded.")
           PY
+
+  real-ct-first-group-hu-stability:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify and privately stage all 37 NLM first-group CT images and GE headers
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+          manifest = json.loads(Path("ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json").read_text())
+          rows = manifest["series"][0]["slices"]
+          assert len(rows) == 37 and rows[10]["source_id"] == "cvm1764f" and rows[30]["source_id"] == "cvm1824f"
+          private = Path(os.environ["RUNNER_TEMP"]) / "first_group_ct"
+          private.mkdir(parents=True, exist_ok=False)
+          bases = (
+            ("https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/PNG_format/radiological/normalCT/", ".png", "source_png_sha256", 2_000_000),
+            ("https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/PNG_format/radiological/normalCTHeaders/", ".txt", "source_header_sha256", 65_536),
+          )
+          for row in rows:
+              for base, ext, field, limit in bases:
+                  url = base + row["source_id"] + ext
+                  with urlopen(Request(url, headers={"User-Agent": "HGPT-SourcePinned-CT-Review/1.0"}), timeout=45) as response:
+                      if response.status != 200 or response.geturl() != url:
+                          raise ValueError("original NLM source endpoint changed")
+                      payload = response.read(limit + 1)
+                  if len(payload) > limit or hashlib.sha256(payload).hexdigest() != row[field]:
+                      raise ValueError("source SHA mismatch, refusing reconstruction")
+                  if ext == ".png" and len(payload) != row["source_png_bytes"]:
+                      raise ValueError("CT original image byte count mismatch")
+                  (private / (row["source_id"] + ext)).write_bytes(payload)
+          print("Verified 37 original source images and 37 exact GE scanner headers for group 1.")
+          PY
+      - name: Compute HU-dependent connected anatomy candidates in first complete 37-slice acquisition group
+        run: |
+          python3 scripts/anatomy_fit/nlm_ct_source_component_stability.py \
+            --ct-dir "$RUNNER_TEMP/first_group_ct" \
+            --bundle ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json \
+            --calibration ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_hu_calibration_20261009.json \
+            --group 1 --start 0 --count 37 --roi 20 185 195 385 --hu 300 500 700 \
+            --out "$RUNNER_TEMP/first_group_source_topology.json"
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          v = json.loads((Path(os.environ["RUNNER_TEMP"]) / "first_group_source_topology.json").read_text())
+          assert len(v["source_ids"]) == 37 and v["group"] == 1
+          assert v["canonical_promotion_allowed"] is False
+          assert v["seven_pelvic_landmarks_verified"] == 0
+          assert v["anatomical_bone_identity_verified"] is False
+          print("Group 1 remains separate from group 2; no bone identity, true landmark or canonical geometry accepted.")
+          PY

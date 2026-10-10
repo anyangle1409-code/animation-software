@@ -73,6 +73,60 @@ def validate_frame(fit, runtime):
     return audit_lateral, runtime_lateral
 
 
+
+
+def scan_sided_alias_inventory(runtime_bones, inventory, lateral):
+    """Separate broad runtime-side coverage from three anatomically fitted anchors.
+
+    This is a sign audit of existing grouped/direct aliases, NOT verification
+    that every named anatomical bone actually has an independent runtime body.
+    """
+    aliases = {a["anatomical_id"]: a for a in inventory["aliases"]}
+    crossed, aligned, ambiguous, not_one_to_one = [], [], [], []
+    seen_pairs = set()
+    for identifier in sorted(aliases):
+        if not identifier.endswith("_left"):
+            continue
+        other_id = identifier[:-5] + "_right"
+        if other_id not in aliases:
+            continue
+        l, r = aliases[identifier], aliases[other_id]
+        lnames, rnames = l["current_rig"], r["current_rig"]
+        if (not isinstance(lnames, list) or not isinstance(rnames, list)
+                or len(lnames) != 1 or len(rnames) != 1
+                or not lnames[0].endswith("_l") and not lnames[0].endswith("_r")
+                or not rnames[0].endswith("_l") and not rnames[0].endswith("_r")):
+            not_one_to_one.append(identifier)
+            continue
+        if any(name not in runtime_bones for name in lnames+rnames):
+            raise ValueError("Alias inventory references missing runtime control: " + identifier)
+        lv = signed_lateral(bone_midpoint(runtime_bones[lnames[0]], "head", "tail"), lateral)
+        rv = signed_lateral(bone_midpoint(runtime_bones[rnames[0]], "head", "tail"), lateral)
+        info = {"left_reference":identifier, "right_reference":other_id,
+                "runtime_controls":[lnames[0],rnames[0]],
+                "relationship":l["relationship"],
+                "left_control_lateral_m":round(lv,6),
+                "right_control_lateral_m":round(rv,6)}
+        seen_pairs.add((lnames[0],rnames[0]))
+        if lv < -0.004 and rv > 0.004:
+            crossed.append(info)
+        elif lv > 0.004 and rv < -0.004:
+            aligned.append(info)
+        else:
+            ambiguous.append(info)
+    return {
+        "aliases_in_source":len(inventory["aliases"]),
+        "bilateral_reference_pairs_with_single_sided_runtime_control":len(crossed)+len(aligned)+len(ambiguous),
+        "distinct_runtime_control_pairs":len(seen_pairs),
+        "crossed_reference_pairs":len(crossed),
+        "physically_aligned_reference_pairs":len(aligned),
+        "ambiguous_reference_pairs":ambiguous,
+        "not_single_sided_control_reference_pairs":not_one_to_one,
+        "crossed_reference_details":crossed,
+        "aligned_reference_details":aligned,
+        "interpretation":"Shared/collapsed references remain shared/collapsed; this is only existing control laterality.",
+    }
+
 def inspect(fit, runtime, inventory):
     al, rl = validate_frame(fit, runtime)
     fit_bones, runtime_bones = fit["bones"], {b["name"]: b for b in runtime["bones"]}
@@ -116,12 +170,14 @@ def inspect(fit, runtime, inventory):
                 "finding": outcome,
             })
     # Unsupported, grouped, or collapsed aliases do not become "correct" by assumption.
+    inventory_scan = scan_sided_alias_inventory(runtime_bones, inventory, rl)
     return {
         "schema_version": 1,
         "scope": "Read-only coordinate/side audit; three gross bilateral anchors; no bone-shape acceptance",
         "frame": {"fitted": fit["conventions"]["world"], "runtime": runtime["coordinate_system"],
                   "audit_to_runtime": "(x,y,z) -> (x,z,-y)", "proper_rotation": True,
                   "lateral_axis_in_both_frames": list(rl)},
+        "source_alias_coverage": inventory_scan,
         "anchors_compared": len(probes), "crossed_aliases": sorted(issues),
         "crossed_count": len(issues), "probes": probes,
         "status": "BLOCK_RUNTIME_SIDE_BINDING" if issues else "EVIDENCE_ONLY_OWNER_DECISION_PENDING",

@@ -17,6 +17,7 @@ jobs:
       - name: Verify anatomy rejection and source-linked path-metric tests
         run: |
           python3 -m unittest discover -s scripts -p 'test_nlm_ct_hu_bridge_witness.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_private_slice_review_plate.py' -v
           python3 -m unittest discover -s scripts -p 'test_nlm_ct_source_component_stability.py' -v
           python3 -m unittest discover -s scripts -p 'test_nlm_ct_candidate_pixel_triage.py' -v
           python3 -m unittest discover -s scripts -p 'test_nlm_ct_provisional_surface.py' -v
@@ -146,4 +147,28 @@ jobs:
               assert observed["hip_joint_articular_gap_verified"] is False
               print(side, "source-matched HU bridge evidence matches immutable rejection snapshot.")
           print("Both bilateral HU routes are nonanatomical intensity evidence; no pelvic landmark or bone promoted.")
+          PY
+      - name: Prepare original three-slice private source CT review plate for anatomical inspector
+        run: |
+          python3 scripts/anatomy_fit/nlm_ct_private_slice_review_plate.py \
+            --ct-dir "$RUNNER_TEMP/original_second_group" \
+            --bundle ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json \
+            --calibration ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_hu_calibration_20261009.json \
+            --review ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_review_20261009.json \
+            --group 2 --source-id cvm1873f \
+            --out "$RUNNER_TEMP/original_pelvis_source_review.svg"
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          folder=Path(os.environ["RUNNER_TEMP"])
+          svg=(folder/"original_pelvis_source_review.svg").read_text()
+          v=json.loads((folder/"original_pelvis_source_review.json").read_text())
+          assert svg.count("data:image/png;base64,")==6
+          assert "ANATOMICAL IDENTITY NOT VERIFIED" in svg
+          assert "UNVERIFIED HYPOTHESIS PIXELS" in svg
+          assert v["source_ids"]==["cvm1870f","cvm1873f","cvm1876f"]
+          assert [p["source_centre_HU"] for p in v["points"]]==[291,305,438,510]
+          assert len(v["points"])==4 and v["canonical_promotion_allowed"] is False
+          assert v["reviewer_identified_real_bony_landmarks"]==0
+          print("Original three-slice HU window CT plate verified; kept in temporary runner ONLY; no original or derivative medical image uploaded.")
           PY

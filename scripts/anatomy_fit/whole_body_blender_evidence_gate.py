@@ -89,9 +89,12 @@ def source_context(bones, joints, freeze, blockers):
             len(js) != 427 or len(set(js)) != 427):
         raise ValueError("canonical 206/427 source inventory has changed")
     bs = set(ids)
+    ancillary = set(joints["additional_structures"])
+    if len(ancillary) != 46 or bs & ancillary:
+        raise ValueError("original non-206 cartilage/subcomponent inventory changed")
     for j in joints["articulations"]:
-        if any(p not in bs for p in j["participants"]):
-            raise ValueError("articulation inventory refers to missing bone")
+        if any(p not in bs and p not in ancillary for p in j["participants"]):
+            raise ValueError("articulation inventory refers to unknown bone or ancillary cartilage")
     if freeze["region_counts"] != {"READY": 0, "PARTIAL": 9, "BLOCKED": 3}:
         raise ValueError("expected no-promoted baseline anatomy readiness changed")
     if not isinstance(blockers.get("blockers"), list) or len(blockers["blockers"]) != 11:
@@ -194,7 +197,11 @@ def audit_measurements(report, bones, joints, freeze, blockers):
             original = next(j for j in joints["articulations"] if j["id"] == joint)
             participants = [p for p in original["participants"] if p in all_bones]
             measured_ends = [found.get(p) for p in participants]
-            geometry_ready = (len(measured_ends) >= 2 and
+            # Many canonical joints include actual cartilage, TFCC, or fused
+            # subcomponents NOT counted among the conventional 206 bones.
+            # A pair of bone proxies cannot certify a cartilage-inclusive gap.
+            geometry_ready = (len(original["participants"]) == 2 and
+                              len(measured_ends) == 2 and
                               all(p is not None and p["surface_kind"] == "blender_evaluated_mesh"
                                   and p["watertight_mesh"] for p in measured_ends))
             if not geometry_ready:

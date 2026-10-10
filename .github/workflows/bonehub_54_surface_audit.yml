@@ -52,6 +52,12 @@ jobs:
           print("Exact-weld boundary edges:", sum(x["boundary_edges_exact_weld"] for x in report["items"]))
           print("Watertight single-component candidates:",
                 sum(x["watertight_candidate_exact_weld_only"] for x in report["items"]))
+          for item in report["items"]:
+              if not item["watertight_candidate_exact_weld_only"]:
+                  print("REQUIRES_SOURCE_SURFACE_REVIEW", item["source_relpath"],
+                        "valid_face_components", item["nondegenerate_face_component_counts_desc"],
+                        "orphan_vertex_only_components", item["isolated_vertex_only_components_no_valid_faces"],
+                        "nonmanifold_edges", item["nonmanifold_edges_over_two_faces"])
           print("Anatomical region acceptance: NONE (source QA only)")
           PY
       - name: Retain numerical evidence only (no STL, CT, Blender files)

@@ -29,10 +29,10 @@ class RuntimeSideBindingPreflightTests(unittest.TestCase):
         summary = report["summary"]
         self.assertEqual(len(self.aliases["aliases"]), 206)
         self.assertEqual(len(self.runtime["bones"]), 67)
-        self.assertEqual(summary["named_sided_aliases"], 122)
-        self.assertEqual(summary["name_only_wrong_side"], 122)
+        self.assertEqual(summary["named_sided_aliases"], 130)
+        self.assertEqual(summary["name_only_wrong_side"], 130)
         self.assertEqual(summary["named_side_consistent"], 0)
-        self.assertEqual(len(report["sided_alias_evidence"]), 122)
+        self.assertEqual(len(report["sided_alias_evidence"]), 130)\n        self.assertEqual(len({row["anatomical_id"] for row in report["sided_alias_evidence"]}), 122)
         self.assertFalse(report["safe_to_use_name_only_mapping"])
         self.assertFalse(report["rig_export_approved"])
         self.assertFalse(report["verified_full_3d_transform"])

@@ -18,3 +18,13 @@
 Original-v1 provenance, complete anatomically accepted canonical skeleton, full-body mesh, normal/tangent/UV/multi-material support, multiple meshes/skins, node hierarchy and bind transforms, GLB textures where appropriately created/licensed, compression decisions, CPU-to-GPU skinning optimization, model deformation correctives, animated skin physical realism, WebGL shadows/cameras/equipment/raycasting and broad exercise visual acceptance remain unresolved. The strict parser is intentionally designed **not to quietly fake support for those unsupported areas**.
 
 **Neither skinned GLB geometry nor original human character is production approved.** A test fixture from project-created geometry is not a demonstration that all independently sourced model assets or 304 historical videos are first-party. PT-App itself retains zero npm runtime dependencies; `three` still exists in the separate original animation-studio editor via one isolated gateway during phased conversion. Anatomical skeleton readiness unchanged, **0 READY /9 PARTIAL /3 BLOCKED**, CP1 Gate6 not passed.
+
+
+## Source-only accepted CI milestone — actual raw GLB-to-GPU pipeline verified
+
+GitHub Actions [run 38089569997](https://github.com/anyangle1409-code/animation-software/actions/runs/38089569997) **SUCCESS both jobs**.
+
+- **40/40** zero-npm-dependency Node tests passed: 12 strict GLB2 parser/malformed-input and provenance-denial tests, 16 original CPU four-weight skin and indexed GPU tests, 12 WebGL2 skeleton renderer tests. No `three`, React or R3F imports in the new parser/skin/renderer source.
+- **Actual Chromium WebGL2 executed** deterministic synthetic GLB2 binary import, decoded position/joint/weight/index/inverse-bind accessors via this first-party parser, used these decoded weights in native four-influence CPU skinning, then called real indexed GPU triangle draw **18 times** with observable **0.125 m programmed synthetic vertex motion**. Browser reported **zero page errors and zero Three/React vendor module requests**; actual source test labels `test_upperarm_l`, `test_forearm_l` only.
+- [Download original browser diagnostic screenshot and JSON artifact](https://github.com/anyangle1409-code/animation-software/actions/runs/38089569997/artifacts/11683751875). The screenshot displays deliberately synthetic geometry and is **not** medical, visual-realism or original model evidence.
+- Source provenance approval false, actual original human full-body mesh loaded false, CT skeleton registered false, full glTF mesh/node/material compatibility false; no `three` library is yet removed from the regular default editor. This code is strictly **data decoder and drawing subset** proof, not a complete customer-facing release.

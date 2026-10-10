@@ -16,7 +16,7 @@ from pathlib import Path
 
 from ct_pelvis_window_geometry import assert_private_location
 from nlm_ct_provisional_surface import (
-    GRID, MAX_ROI_SAMPLES, _private_source_slice,
+    GRID, MAX_ROI_SAMPLES, _private_source_slice, component_from_explicit_seed,
 )
 from nlm_ct_raw_png_calibration import validate_calibration_evidence
 from pelvic_ct_series_manifest import validate_series_bundle
@@ -108,7 +108,72 @@ def components_with_bounds(voxels, selected_slices, roi, geometry, first_s, thic
     return result
 
 
-def analyze_pixels(pixel_layers, geometry, first_s, roi, thresholds_hu):
+
+def seed_relationships(volumes, seeds, selected_slices, roi):
+    """Check HU connectivity of *prior hypotheses*, never assign bone identity."""
+    col0, col1, row0, row1 = roi
+    if len(seeds) < 2 or len(seeds) > 8:
+        raise ValueError("compare two through eight independently named review seeds")
+    ids = [p["id"] for p in seeds]
+    if len(set(ids)) != len(ids):
+        raise ValueError("duplicate source-linked observation seeds")
+    for p in seeds:
+        z, r, c = p["voxel_z_row_col"]
+        if (type(z) is not int or type(r) is not int or type(c) is not int
+                or not 0 <= z < selected_slices
+                or not row0 <= r < row1 or not col0 <= c < col1):
+            raise ValueError("source-reviewed seed lies outside acquisition/ROI")
+    reports = []
+    for hu, voxels in sorted(volumes.items()):
+        hits = []
+        comps = {}
+        for p in seeds:
+            original = tuple(p["voxel_z_row_col"])
+            if original not in voxels:
+                hits.append({
+                    "id": p["id"], "voxel_z_row_col": list(original),
+                    "seed_meets_threshold": False,
+                    "connected_voxels": None,
+                    "selection_boundary_contacts": [],
+                })
+                continue
+            component = component_from_explicit_seed(voxels, original)
+            comps[p["id"]] = component
+            cuts = set()
+            for z, r, c in component:
+                if z == 0 or z == selected_slices-1:
+                    cuts.add("source_selection_end")
+                if r == row0 or r == row1-1 or c == col0 or c == col1-1:
+                    cuts.add("ROI_edge")
+            hits.append({
+                "id": p["id"], "voxel_z_row_col": list(original),
+                "seed_meets_threshold": True,
+                "connected_voxels": len(component),
+                "selection_boundary_contacts": sorted(cuts),
+            })
+        pairs = []
+        for i, a in enumerate(seeds):
+            for b in seeds[i+1:]:
+                if a["id"] in comps and b["id"] in comps:
+                    same = tuple(b["voxel_z_row_col"]) in comps[a["id"]]
+                else:
+                    same = None
+                pairs.append({
+                    "id_a": a["id"],
+                    "id_b": b["id"],
+                    "same_HU_connected_component": same,
+                    "separate_anatomical_bones_proven": False,
+                })
+        reports.append({
+            "HU": hu,
+            "review_seeds": hits,
+            "pairwise_HU_connectivity": pairs,
+            "HU_component_is_NOT_anatomical_bone": True,
+        })
+    return reports
+
+
+def analyze_pixels(pixel_layers, geometry, first_s, roi, thresholds_hu, review_seeds=None):
     """Analyze actual decoded PNG stored-scalar layers or deterministic fixtures."""
     if not isinstance(thresholds_hu, (list, tuple)) or not 2 <= len(thresholds_hu) <= 6:
         raise ValueError("require two through six CT thresholds")
@@ -161,7 +226,11 @@ def analyze_pixels(pixel_layers, geometry, first_s, roi, thresholds_hu):
             "voxels_lost_at_higher_threshold": len(low) - len(high),
             "individual_anatomical_surface_stability_verified": False,
         })
-    return {"thresholds": result, "comparisons": comparisons}
+    evidence = {"thresholds": result, "comparisons": comparisons}
+    if review_seeds is not None:
+        evidence["proposed_point_HU_connectivity_not_anatomical_identity"] = seed_relationships(
+            volumes, review_seeds, layers, roi)
+    return evidence
 
 
 def run(args):
@@ -194,7 +263,38 @@ def run(args):
                        for axis in (0, 1)):
                     raise ValueError("scanner plane XY geometry changed")
         layers.append(pixels)
-    analysis = analyze_pixels(layers, first_geometry, first_s, args.roi, args.hu)
+    chosen_review_ids = getattr(args, "seed_observation", None)
+    seeds = None
+    if chosen_review_ids:
+        if len(chosen_review_ids) < 2 or not getattr(args, "review", None):
+            raise ValueError("two source-linked observation IDs and original review evidence required")
+        review = json.loads(Path(args.review).read_text(encoding="utf-8"))
+        if review.get("kind") != "NLM_CT_ANATOMICAL_REVIEW_PACKET":
+            raise ValueError("unrecognised source observation packet")
+        source_map = {row["source_id"]: (idx, row)
+                      for idx, row in enumerate(chosen)}
+        found = {}
+        for obs in review["observations"]:
+            key = obs["observation_id"]
+            if key not in chosen_review_ids:
+                continue
+            if key in found:
+                raise ValueError("duplicate source candidate identifier")
+            if obs["source_id"] not in source_map:
+                raise ValueError("review seed source outside selected original acquisition")
+            z, row = source_map[obs["source_id"]]
+            if (obs["source_png_sha256"] != row["source_png_sha256"]
+                    or obs["source_header_sha256"] != row["source_header_sha256"]
+                    or abs(obs["scanner_S_mm"] - row["scanner_centre_RAS_mm"][2]) > 1e-5):
+                raise ValueError("review seed CT source pin mismatch")
+            found[key] = {
+                "id": key,
+                "voxel_z_row_col": [z, obs["pixel"]["row"], obs["pixel"]["column"]],
+            }
+        if len(found) != len(set(chosen_review_ids)):
+            raise ValueError("missing source candidate observation")
+        seeds = [found[key] for key in chosen_review_ids]
+    analysis = analyze_pixels(layers, first_geometry, first_s, args.roi, args.hu, seeds)
     report = {
         "schema_version": 1,
         "kind": "REAL_CT_MULTI_SLICE_HU_TOPOLOGY_NOT_BONE_IDENTIFICATION",
@@ -234,6 +334,8 @@ def main():
     p.add_argument("--roi", type=int, nargs=4, required=True,
                    metavar=("COL0", "COL1", "ROW0", "ROW1"))
     p.add_argument("--hu", type=int, nargs="+", required=True)
+    p.add_argument("--review", help="original candidate evidence file; required for seed comparisons")
+    p.add_argument("--seed-observation", action="append", help="exact original observation ID; repeat for pairwise CT connectivity")
     args = p.parse_args()
     report = run(args)
     print(json.dumps({
@@ -249,6 +351,7 @@ def main():
         ],
         "comparisons": report["comparisons"],
         "canonical_promotion_allowed": report["canonical_promotion_allowed"],
+        "point_connectivity": report.get("proposed_point_HU_connectivity_not_anatomical_identity"),
     }, indent=2))
 
 

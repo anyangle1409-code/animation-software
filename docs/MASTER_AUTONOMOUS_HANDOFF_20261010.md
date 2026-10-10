@@ -409,3 +409,16 @@ new pixel CIpending. Actual21pixel samples verified: tiny named rib fragments
 span raw values6..47290 while foot fragments1356..1498. No guessed intensity
 offset/threshold or anatomical conclusion. Inspect actual spatial patches and
 calibration provenance next; raw source frames still do not establish HGPT binding.
+
+Verified continuation: pixel implementationfed5f46d passed actual CI38076878218
+all3jobs, including native Blender; clean detached69targeted testsPASS in14.887s.
+Three private source CT/label patches (56,544sampled pixels) visually inspected;
+exact source-grid bounds/display method/PNG hashes are in the header-triage ledger.
+Foot fragment is near visible bone-like structure; tiny rib labels appear in
+background/near a structured horizontal bright artefact, not independently
+identified scanner text. No source fragment removed, no label/anatomy accepted.
+UINT16 intensity calibration remains unknown. Denver primary page confirms
+aligned/rescaled CT but supplies no BoneHub HU conversion; its download endpoint
+returned403 to web reader. Next executable action: bounded primary calibration
+metadata or transformation-code inspection, followed by source-bound surface
+point/grid correspondence. Preserve all immutable sources and frozen candidates.

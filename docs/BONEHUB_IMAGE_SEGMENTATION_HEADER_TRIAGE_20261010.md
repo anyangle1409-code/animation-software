@@ -156,3 +156,41 @@ calibration and correspondence before treating source labels as trusted anatomy.
 Sampler implementation560a8083 subsequently passed actual CI38076420293 all3jobs;
 11new label tests on both OS, native Blender and unchanged reconstruction checks.
 Clean short detached checkout62targeted tests PASS in14.586seconds.
+
+## Verified pixel sampler and private spatial patch review
+
+Pixel implementation `fed5f46d965d55e1726c14e4a3e98a0a9f8e233a` passed all three
+jobs in CI38076878218, including native Blender and Windows/Linux pixel tests.
+Clean short detached checkout:69targeted tests PASS in14.887seconds. This is a
+targeted regression result, not a claim that the inherited full suite is green.
+
+Three actual private CT/label raster patches were generated from56,544requested
+grid pixels. Complete gzip CRC/length checks remain enforced; no whole decoded
+volume allocated. Grayscale display window0..2000 is **stored unsigned16 units,
+not HU**. Target labels red, other labels cyan; nearest-pixel enlargement3x,
+display rows flipped to show increasing sourceY upward. The mesh/grid relation
+remains an unaccepted diagnostic assumption, not HGPT registration.
+
+| Private PNG | Inclusive source X / Y / Z | Target label pixels | Stored values under target label | SHA256 |
+| --- | --- | ---: | --- | --- |
+| foot_calcaneus_source_z110.png | 420..483 /240..335 /110 | 2181 | 922..2019 | `3e01cc728eb8664f14645a176525e308e097500b8552492d1b4e8d43112f6f28` |
+| thorax_rib4_source_z1585.png | 300..509 /80..199 /1585 | 12 | 12..47290 | `4b04fbbb8fb63dcf249b3dfa0756738263a42f590ad5d81c7f6c5b2deaf8c0c5` |
+| thorax_rib4_source_z1586.png | 300..509 /80..199 /1586 | 2 | 6..11 | `dad543c484cf6198d5151daf2c9069e618acce038f98f219afb24ee177286bdf` |
+
+All three visually inspected. Foot fragment is near a visible bone-like
+structure, but independent bone identity and contact are not established.
+Tiny rib labels appear in image background, including near a structured bright
+horizontal artefact on z1585; z1586 points are in dark background. The artefact
+is not independently identified as scanner text or any particular process.
+These are source-review concerns, not proof of anatomical invalidity and not
+authority to delete source components or repair labels. Named label membership
+cannot alone supply independent anatomical evidence. Raw source objects,
+PNGs and numerical diagnostic manifest remain outside Git.
+
+Primary calibration investigation:
+[University of Denver male source dataset](https://digitalcommons.du.edu/visiblehuman/2/)
+describes CT aligned/rescaled to cryosection images, but does not specify a HU
+conversion for the BoneHub UINT16 NIfTI. Its aligned-CT download endpoint returned
+HTTP403 to the web reader; no calibration inferred from that access failure.
+Next: investigate bounded primary metadata or transformation code, then tested
+source surface-point/grid correspondence. No readiness or canonical gate changed.

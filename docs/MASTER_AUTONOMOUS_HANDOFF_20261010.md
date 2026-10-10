@@ -666,3 +666,21 @@ imported SciPy before prepending the directory and immediately errored; it ran
 no tests and is not verification evidence. Collect the corrected session
 before restarting any solver. Retain any numerical mismatch as unresolved;
 do not change tolerances, frozen records or anatomical approval to hide it.
+
+### Completed c003/acromion diagnosis — 11 October
+
+Corrected session `57042` completed: **16 tests, 15 pass/one failure** in
+159.474 seconds. There are 139 comparison differences, not exclusively paths:
+solver coordinates and collision-pair ordering also differ. Related acromion
+audit: **9 tests, eight pass/one failure** in 1.979 seconds, with one path-key
+set and five rounded numerical differences. Exact numerical cause remains
+unisolated. No solver, tests, candidate data or tolerance was changed. See
+`docs/C003_ACROMION_REPRODUCTION_DIAGNOSIS_20261011.md` for frozen hashes and
+representative mismatches. Do not rerun completed optimization or poll old
+sessions. The master checkpoint's previous CI run `38093962974` passed all
+three jobs, which is distinct from the intentionally retained local failures.
+
+Next safe independent action: reuse the saved source-ordered pelvic CT viewer
+for candidate image review within its two scanner groups, consulting original
+PNG/header identities. Preserve the source skeleton and require independent
+second review before any anatomical acceptance or geometry promotion.

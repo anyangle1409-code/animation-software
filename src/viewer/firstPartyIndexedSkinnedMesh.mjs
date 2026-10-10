@@ -121,10 +121,25 @@ export function invertRigidBind(m){
   out[13]=-(out[1]*tx+out[5]*ty+out[9]*tz);
   out[14]=-(out[2]*tx+out[6]*ty+out[10]*tz);
   out[15]=1;
+  const rows=[
+    [m[0],m[4],m[8]],
+    [m[1],m[5],m[9]],
+    [m[2],m[6],m[10]],
+  ];
   for(let i=0;i<3;i++){
-    const len=Math.hypot(m[i],m[i+4],m[i+8]);
+    const len=Math.hypot(...rows[i]);
     if(Math.abs(len-1)>0.001)throw new RangeError('Rigid bind requires orthonormal rotation, no scale');
+    for(let j=0;j<i;j++){
+      const dot=rows[i].reduce((v,x,k)=>v+x*rows[j][k],0);
+      if(Math.abs(dot)>0.001)throw new RangeError('Rigid bind shear/nonorthogonal rotation is forbidden');
+    }
   }
+  const [u,v,w]=rows;
+  const det=u[0]*(v[1]*w[2]-v[2]*w[1])
+    -u[1]*(v[0]*w[2]-v[2]*w[0])
+    +u[2]*(v[0]*w[1]-v[1]*w[0]);
+  if(Math.abs(det-1)>0.002)
+    throw new RangeError('Rigid bind must have right-handed rotation, no reflection');
   return out;
 }
 function triangleShader(gl,type,source){

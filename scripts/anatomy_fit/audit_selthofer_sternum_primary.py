@@ -65,6 +65,24 @@ def audit(paper:dict, prior:dict) -> dict:
     if (paper.get("explicit_decision",{}).get("source_fulltext_gap_closed") is not True or
             any(paper["explicit_decision"].get(k) is not False for k in REQUIRED_DENIALS)):
         raise ValueError("Unverified source data cannot promote geometry/contacts")
+    turkey = paper.get("reconciled_turkish_2018_primary", {})
+    if (turkey.get("doi") != "10.5603/FM.a2018.0002" or
+            turkey.get("pmid") != "29345718" or
+            turkey.get("population_male_n") != 97 or
+            turkey.get("source_exact_total_definition") !=
+            "CL = length of manubrium (M) plus length of body (B)" or
+            turkey.get("xiphoid_included_in_154_1mm_total") is not False or
+            turkey.get("source_xiphoid_separately_measured") is not True or
+            turkey.get("historical_canonical_file_mutated") is not False or
+            turkey.get("historical_value_correct_but_semantic_label_wrong") is not True or
+            turkey.get("male_combined_CL_mm",{}).get("mean") != 154.1 or
+            turkey.get("male_xiphoid_separate_mm",{}).get("mean") != 39.1 or
+            turkey.get("male_manubrium_mm",{}).get("mean") != 51.2 or
+            turkey.get("male_body_mm",{}).get("mean") != 102.4):
+        raise ValueError("Original Turkish CT total endpoint exclusion not verified")
+    if (paper["explicit_decision"].get("turkish_2018_semantic_source_label_error_identified") is not True or
+            paper["explicit_decision"].get("length_comparison_method_contradiction_resolved") is not False):
+        raise ValueError("Historical source label requires noncanonical correction; target unresolved")
     prev=prior.get("population_male_means_mm",{}).get("total_including_xiphoid_turkey_CT",{})
     a003=prior.get("a003",{})
     if (prev.get("mean")!=154.1 or prev.get("sd")!=13.1 or
@@ -94,8 +112,15 @@ def audit(paper:dict, prior:dict) -> dict:
             round(new_total-manubrium-body,1),
         "source_derived_component_difference_is_not_xiphoid_accepted_length":True,
         "prior_turkey_CT_reported_mean_mm":prev["mean"],
-        "between_studies_unadjusted_means_difference_mm":round(new_total-prev["mean"],1),
-        "between_studies_difference_may_reflect_endpoint_population_or_method":True,
+        "historic_Turkey_total_is_MANUBRIUM_PLUS_BODY_excludes_xiphoid":True,
+        "prior_canonical_record_semantic_key_including_xiphoid_is_wrong":True,
+        "original_Turkey_CT_male_xiphoid_separately_measured_mm":39.1,
+        "original_Turkey_CT_male_manubrium_plus_body_mean_mm":154.1,
+        "Selthofer_2006_manubrium_plus_body_mean_mm":round(manubrium+body,1),
+        "more_comparable_combined_M_plus_B_means_difference_mm":round(manubrium+body-prev["mean"],1),
+        "separately_summed_component_means_difference_mm":round(manubrium+body-51.2-102.4,1),
+        "incompatible_totals_arithmetic_difference_NOT_anatomical_conflict_mm":round(new_total-prev["mean"],1),
+        "remaining_cross_study_cohort_method_and_stature_difference_unresolved":True,
         "a003_stick_length_mm":a003["sternum_stick_mm"],
         "a003_difference_from_selthofer_unadjusted_mean_mm":
             round(a003["sternum_stick_mm"]-new_total,1),

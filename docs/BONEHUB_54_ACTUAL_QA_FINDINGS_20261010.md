@@ -30,6 +30,27 @@ These are numerical engineering QA results. The 46 are **NOT anatomically accept
 
 All eight have **zero boundary edges** under exact matching, so the defects are not simply open cut edges. They need component-size and local nonmanifold scrutiny before any use as skeletal targets. Degenerate triangles may create extra vertex groups; whole-bone identity cannot be inferred from group count.
 
+### Second live verification: distinguish detached face islands from degenerate-only orphan vertices
+
+Actual repeat source capture and improved component counter: [Actions run 38074463706](https://github.com/anyangle1409-code/animation-software/actions/runs/38074463706), **52/52 offline adversarial tests passed** and all **54/54 immutable SHA-checked STLs** reprocessed. Raw triangle totals and all 122/17 topology warning counts remain unchanged.
+
+The earlier component count conflated *actual surface components with non-face orphan vertices* left behind by degenerate source records. The independently tested correction yields:
+
+| Source mesh | Real nondegenerate triangle-containing components (largest → smallest) | Zero-valid-face orphan components |
+|---|---|---:|
+| LEFT calcaneus | 37,620 + **196** | 0 |
+| LEFT intermediate cuneiform | 4,864 + **48** | 1 |
+| LEFT talus | 24,772 + **2** | 5 |
+| RIGHT hamate | 4,600 (one real surface component) | 2 |
+| LEFT rib 1 | 15,352 + **2** | 0 |
+| RIGHT rib 1 | 17,676 (one real surface component) | 4 |
+| LEFT rib 3 | 28,320 + **8** | 6 |
+| LEFT rib 4 | 31,768 + **64 + 8 + 6 + 6 + 4 + 2** | 0 |
+
+**Refined finding:** six meshes have an additional nondegenerate triangle-containing component. The RIGHT hamate and RIGHT rib 1 have **no second genuine face-bearing component**; their extra exact-weld components are isolated zero-face vertices from degenerate geometry. The five/rib-three and twelve/rib-four nonmanifold edges still need local source-geometry inspection. This distinction avoids falsely treating a degenerate triangle vertex as a real detached anatomical bone fragment.
+
+These are *face counts*, not relative physical volumes. A small source component must **not** be automatically deleted: it could reflect segmentation artefact or an authentic but isolated-looking anatomical feature. Proper mesh visualization and CT contact/source registration are required before making that determination.
+
 ### Source integrity pins for the flagged meshes
 
 The following are raw verified source hashes, not hashes of modified or repaired models:

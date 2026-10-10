@@ -1,0 +1,48 @@
+name: Anatomical runtime side-binding preflight
+
+on:
+  push:
+    branches:
+      - codex/anatomy-runtime-chirality-preflight-20261010
+  pull_request:
+    paths:
+      - 'scripts/anatomy_fit/runtime_side_binding_preflight.py'
+      - 'scripts/test_runtime_side_binding_preflight.py'
+      - 'ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json'
+      - 'ORIGINAL_V1_WORK/anatomy/adult_bone_blender_aliases_206.json'
+      - 'ORIGINAL_V1_WORK/hgpt_canonical_v4_original_rev2c.json'
+      - '.github/workflows/runtime-side-binding-preflight.yml'
+  workflow_dispatch:
+
+jobs:
+  static-chirality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Regression tests for all 206 aliases and nonmutation
+        run: python -m unittest -v scripts/test_runtime_side_binding_preflight.py
+      - name: Generate inspection-only report (never approve production)
+        run: |
+          python scripts/anatomy_fit/runtime_side_binding_preflight.py --out /tmp/hgpt-side-binding-report.json
+          python - <<'PY'
+          import json
+          r = json.load(open('/tmp/hgpt-side-binding-report.json'))
+          print(r['summary'])
+          assert r['summary']['name_only_wrong_side'] == 122
+          assert r['safe_to_use_name_only_mapping'] is False
+          assert r['source_mesh_updated'] is False
+          assert r['rig_export_approved'] is False
+          PY
+      - name: Explicit negative-control gate MUST block unsafe direct mapping
+        run: |
+          set +e
+          python scripts/anatomy_fit/runtime_side_binding_preflight.py --require-name-safe --out /tmp/hgpt-side-binding-report.json
+          code=$?
+          set -e
+          test "$code" -eq 2

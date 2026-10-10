@@ -1,0 +1,27 @@
+name: Calibrated original CT provisional surface audit
+on:
+  push:
+    branches:
+      - codex/calibrated-ct-surface-extraction-20261010
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ct-surface-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check complete source-pinned HU extraction geometry
+        run: |
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_provisional_surface.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_raw_png_calibration.py' -v
+          python3 -m unittest discover -s scripts -p 'test_pelvic_ct_series_manifest.py' -v
+      - name: Ensure source images and GE headers were not committed
+        run: |
+          if git ls-files | grep -E '/cvm[0-9]+f\.(png|txt|Z)$'; then
+            echo "Original NLM medical image or GE header tracked"
+            exit 1
+          fi

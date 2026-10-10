@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "kind": "HGPT_INDEPENDENT_EXECUTION_CHECKPOINT",
+  "working_branch": "codex/source-skeleton-blender-measurements-20261010",
+  "starting_checkpoint_commit": "00f06ea2346f5ccad741dcab26b087e3c909550e",
+  "canonical_anatomical_commit": "7761a12d684f576bf49a0bac7563d5b5ae9b8998",
+  "source_skeleton_governs_geometry": true,
+  "canonical_promotion_allowed": false,
+  "regional_readiness": {"READY": 0, "PARTIAL": 9, "BLOCKED": 3},
+  "new_work_preserved": [
+    {"pr": 27, "commit": "9ee0cd30c542013a539e71a08577b7b396f5be4d", "topic": "Static anatomical/runtime side-binding discrepancy"},
+    {"pr": 29, "commit": "6266ab5edefe0108041c9150dedd12ff3a8ce7bd", "topic": "Radius/ulna multi-control side-binding discrepancy"}
+  ],
+  "items": [
+    {"id": "phase9_review_artifact_path", "status": "PARTIAL", "evidence": "Real native Blender regression RED -> GREEN; corrected c004 export produced 20 PNGs; all manifest digests independently verified; source Blend unchanged", "tests": ["NativeRenderPath.test_relative_render_is_written_beside_python_manifest RED -> GREEN", "20/20 actual anatomical review PNG digests verified"], "outstanding": "New headless Blender CI job execution", "next_action": "Publish verified fix and inspect actual CI result", "local_blender_required": true},
+    {"id": "programme_regression_diagnosis", "status": "IN PROGRESS", "evidence": "Original partial checkout run: 1097 tests, 20 failures, 71 errors, one skip; expanded checked-in sources/report metadata without changing test expectations", "tests": ["Expanded checkout full unittest suite running"], "outstanding": "Classify final failures and byte-identity versus semantic defects", "next_action": "Read completed verbose tracebacks; preserve every remaining failure", "local_blender_required": false},
+    {"id": "phase8_runtime_binding_measurement", "status": "PARTIAL", "evidence": "Actual r95 bilateral grip/wrist measurements for four poses; three paths with nine fractions and zero diagnostic path flags; forearm helper local counter-twist measured; runtime _l physically at negative X, opposite source anatomical left", "tests": ["Actual Blender grip/wrist diagnostic, four poses both runtime sides", "Actual Blender kinematics: three poses x nine fractions x 66 controls", "Actual forearm_l twist diagnostic +/-45,90,150 degrees; NOT bilateral twist skin audit"], "outstanding": "Accepted runtime adapter, independent physiological targets, visual/contact closure; twist stress implementation measures only forearm_l despite header claiming both sides", "next_action": "Preserve measured helper/skin evidence for PR27/29 reviewers; do not install adapter or relabel canonical anatomy", "local_blender_required": true},
+    {"id": "phase6_anatomical_source_closure", "status": "BLOCKED", "evidence": "Live anatomical freeze readiness ledger and source-bound CT records", "tests": [], "outstanding": "Seven independent pelvic landmarks, accepted anatomical surfaces/endplates, carpal/tarsal centroids and contact evidence", "next_action": "Continue source investigation without treating threshold components as anatomy", "local_blender_required": true},
+    {"id": "phase10_natural_functional_motion", "status": "BLOCKED", "evidence": "135 isolated controls sweeps measured previously, not compound exercise validation", "tests": [], "outstanding": "Canonical Gates6/9, movement source coverage and contact surfaces", "next_action": "Do not substitute diagnostic amplitudes for physiological movement", "local_blender_required": true},
+    {"id": "original_character_production_integration", "status": "BLOCKED", "evidence": "Unchanged r95 character and frozen runtime source records", "tests": [], "outstanding": "Validated skeletal baseline and accepted bilateral adapter before rig/skin refit", "next_action": "Preserve existing character; inspect reversible candidate measurements only", "local_blender_required": true}
+  ],
+  "rulings": ["Reuse existing isolated worktree and user-supplied programme rather than restarting planning", "Restore missing checked-in metadata locally to distinguish checkout omissions from code regressions", "Newer PR27/29 findings remain independent; do not duplicate their static gates or install an unapproved runtime adapter"],
+  "production_ready": false
+}

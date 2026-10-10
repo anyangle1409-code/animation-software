@@ -10,6 +10,16 @@ permissions:
   contents: read
 
 jobs:
+  native-blender-render-path:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install headless Blender for the real render boundary regression
+        run: sudo apt-get update && sudo apt-get install -y blender xvfb
+      - name: Render a temporary non-anatomical scene into the declared directory
+        run: xvfb-run -a blender --background --factory-startup --python-exit-code 1 --python scripts/blender_tests/test_skeleton_review_render_path.py
+
   windows-source-motion-provenance:
     runs-on: windows-latest
     timeout-minutes: 10

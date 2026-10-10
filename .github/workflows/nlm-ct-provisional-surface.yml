@@ -159,6 +159,23 @@ jobs:
           assert report["canonical_promotion_allowed"] is False
           assert all(not p["source_pixel_confirms_anatomical_bone_identity"] for p in report["observations"])
           print("All five group-2 proposed hip points checked on original image pixels; NONE certified as bony landmarks.")
+          snapshot = json.loads(Path("ORIGINAL_V1_WORK/anatomy/audit/nlm_ct_pelvis_pixel_and_hip_pair_rejection_20261010.json").read_text())
+          expected = {v["observation_id"]: v for v in snapshot["observations"]}
+          assert all(v["observation_id"] in expected for v in report["observations"])
+          for point in report["observations"]:
+              prior = expected[point["observation_id"]]
+              assert prior["source_id"] == point["source_id"]
+              assert prior["pixel"] == point["pixel"]
+              assert prior["source_center_HU"] == point["point_HU_from_verified_addend"]
+              lead = next(x["nearest_intensity_only_not_anatomy"]
+                          for x in point["nearby_2D_intensity_only_review_leads"]
+                          if x["minimum_HU"] == 300)
+              pin = prior["nearest_300_HU_intensity_only_pixel_in_same_slice_within_32px"]
+              assert (lead is None) == (pin is None)
+              if pin:
+                  assert lead["pixel"] == {"row": pin["row"], "column": pin["column"]}
+                  assert lead["HU"] == pin["source_HU"]
+          print("All original point HU samples and nearest intensity-only leads independently revalidated against pinned evidence snapshot.")
           PY
 
           python3 scripts/anatomy_fit/nlm_ct_source_component_stability.py \
@@ -192,6 +209,22 @@ jobs:
               assert all(not pair["separate_anatomical_bones_proven"]
                          for sample in samples
                          for pair in sample["pairwise_HU_connectivity"])
+              snapshot = json.loads(Path("ORIGINAL_V1_WORK/anatomy/audit/nlm_ct_pelvis_pixel_and_hip_pair_rejection_20261010.json").read_text())
+              for sample in samples:
+                  expected = next(x for x in snapshot["hip_pair_3d_connectivity"]
+                                  if x["side"] == name and x["threshold_HU"] == sample["HU"])
+                  pair = sample["pairwise_HU_connectivity"][0]
+                  active = [s["seed_meets_threshold"] for s in sample["review_seeds"]]
+                  assert all(active) == expected["both_original_seed_pixels_occupied"]
+                  assert pair["same_HU_connected_component"] == expected["same_threshold_component"]
+                  if expected["same_threshold_component"] is True:
+                      assert all(s["connected_voxels"] == expected["HU_connected_region_voxels"]
+                                 for s in sample["review_seeds"])
+                      for s in sample["review_seeds"]:
+                          assert s["selection_boundary_contacts"] == expected["selection_cut_contacts"]
+                  else:
+                      assert sample["review_seeds"][1]["connected_voxels"] == expected["remaining_second_seed_component_voxels"]
+              print(name, "verified exact source-pinned 3D pairwise HU connectivity against rejection snapshot.")
               print(name, "original 3D threshold candidate relationships:",
                     [(sample["HU"],
                       sample["pairwise_HU_connectivity"][0]["same_HU_connected_component"],
@@ -267,4 +300,21 @@ jobs:
           assert report["canonical_promotion_allowed"] is False
           assert all(not p["source_pixel_confirms_anatomical_bone_identity"] for p in report["observations"])
           print("All five group-1 proposed iliac and sacral points checked on original image pixels; NONE certified as bony landmarks.")
+          snapshot = json.loads(Path("ORIGINAL_V1_WORK/anatomy/audit/nlm_ct_pelvis_pixel_and_hip_pair_rejection_20261010.json").read_text())
+          expected = {v["observation_id"]: v for v in snapshot["observations"]}
+          assert all(v["observation_id"] in expected for v in report["observations"])
+          for point in report["observations"]:
+              prior = expected[point["observation_id"]]
+              assert prior["source_id"] == point["source_id"]
+              assert prior["pixel"] == point["pixel"]
+              assert prior["source_center_HU"] == point["point_HU_from_verified_addend"]
+              lead = next(x["nearest_intensity_only_not_anatomy"]
+                          for x in point["nearby_2D_intensity_only_review_leads"]
+                          if x["minimum_HU"] == 300)
+              pin = prior["nearest_300_HU_intensity_only_pixel_in_same_slice_within_32px"]
+              assert (lead is None) == (pin is None)
+              if pin:
+                  assert lead["pixel"] == {"row": pin["row"], "column": pin["column"]}
+                  assert lead["HU"] == pin["source_HU"]
+          print("All original point HU samples and nearest intensity-only leads independently revalidated against pinned evidence snapshot.")
           PY

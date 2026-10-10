@@ -13,7 +13,7 @@
     "official_url_attempted": "https://apps.dtic.mil/sti/pdfs/ADA548497.pdf",
     "official_url_result": "HTTP 403; no direct official PDF bytes verified",
     "retrieval_status": "ARCHIVED_PRIMARY_REPORT_COPY_RETRIEVED_AND_VISUALLY_REVIEWED",
-    "identity_checks": ["Cover report number, title, authors, date and DTIC identity inspected", "Original-file size, MD5 and SHA1 match archive metadata", "Seven relevant PDF pages rendered and visually inspected including diagrams"],
+    "identity_checks": ["Cover report number, title, authors, date and DTIC identity inspected", "Original-file size, MD5 and SHA1 match archive metadata", "Ten relevant PDF pages rendered and visually inspected including diagrams"],
     "pdf_bytes": 5224258,
     "pdf_page_count": 263,
     "pdf_sha256": "d31d6333bbe5cc2a09aa2519c4af4c230735de4caac68fd2148dad3d00dfd42c",
@@ -31,7 +31,10 @@
     {"name": "stylion", "section": "5.2.36", "pdf_page_1based": 70, "printed_page": 60, "paraphrase": "Inferior point of the radius, with dorsal and ventral extensions marked. The right elbow is bent during landmark location; palpation can be obscured by tendons. Not a generic radiocarpal joint centre."},
     {"name": "suprasternale", "section": "5.2.39", "pdf_page_1based": 73, "printed_page": 63, "paraphrase": "Inferior point of the sternum's jugular notch, located by palpation while standing."},
     {"name": "radiale_stylion_length", "section": "6.4.68", "pdf_page_1based": 154, "printed_page": 144, "paraphrase": "Right radiale-to-stylion span with a beam caliper parallel to the arm's long axis and light skin contact; standing with relaxed arms and right palm forward. Neither endpoint may be replaced by a joint centre."},
-    {"name": "wrist_height", "section": "6.4.94", "pdf_page_1based": 180, "printed_page": 170, "paraphrase": "Vertical floor-to-stylion distance with heels together, straight elbow/wrist/fingers, relaxed shoulders, arms lightly against the sides and palms medial; maximum during quiet respiration without shoulder movement. Section 6.4.93 is wrist circumference, not wrist height."}
+    {"name": "wrist_height", "section": "6.4.94", "pdf_page_1based": 180, "printed_page": 170, "paraphrase": "Vertical floor-to-stylion distance with heels together, straight elbow/wrist/fingers, relaxed shoulders, arms lightly against the sides and palms medial; maximum during quiet respiration without shoulder movement. Section 6.4.93 is wrist circumference, not wrist height."},
+    {"name": "clavicle_point", "section": "5.2.7", "pdf_page_1based": 39, "printed_page": 29, "paraphrase": "Palpated most superior point at each lateral clavicular end in standing posture; not simply an AC joint centre."},
+    {"name": "neck_lateral", "section": "5.2.29", "pdf_page_1based": 61, "printed_page": 51, "paraphrase": "Side marks at the lower edge of a tape placed around the neck base using the neck-base-circumference procedure, while looking straight ahead."},
+    {"name": "trapezius_point", "section": "5.2.43", "pdf_page_1based": 77, "printed_page": 67, "paraphrase": "Crossing of the palpated anterior trapezius boundary and lateral neck mark; opposite-shoulder hand placement helps identify the muscle boundary. This is a soft-tissue dependent surface construction."}
   ],
   "inferences_not_source_numeric_results": [
     "The two forearm-related measurements specify different palm postures; shared model coordinates are not automatically measurement-compatible.",

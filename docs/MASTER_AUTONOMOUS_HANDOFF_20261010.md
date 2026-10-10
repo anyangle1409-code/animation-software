@@ -329,3 +329,12 @@ keys, five output entries differ by0.0001degrees (5.7023/5.7024 repeated,
 remains a hypothesis, not a proven root cause. Do not rewrite historical
 angles, round less precisely or relax the reproduction test to hide them.
 Investigate pinned numerical environments and optimizer convergence first.
+
+All23unchanged endpoint/arm-chain/c004 tests subsequently passed without
+path rebindings in the short clean checkout (13.984seconds), and all three
+jobs in [CIrun38066778689](https://github.com/anyangle1409-code/animation-software/actions/runs/38066778689)
+passed on2d49f7e1f66d6183058372b06286f82fc941fc7d. The arm-chain path fix
+is now remotely verified. Source review then expanded to ten handbook pages:
+clavicle-point, lateral-neck and trapezius-point definitions are verified
+separately, but their placement on the model remains unresolved. The tape-line
+construction needs a muscle/neck surface landmark, not a substituted bone axis.

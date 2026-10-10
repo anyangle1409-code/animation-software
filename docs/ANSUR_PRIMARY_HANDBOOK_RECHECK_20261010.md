@@ -56,3 +56,19 @@ target refusal or correspondence classes.
 Continuation: obtain independent endpoint-to-centre evidence and compatible
 measurement posture before proposing any new arm length or cervical marker.
 The source skeleton continues to govern geometry. Gates 6/9 remain open.
+
+Follow-on source check expanded visual review to ten pages:
+
+| Prerequisite landmark | Section | Physical PDF page | Printed page |
+|---|---|---:|---:|
+| Clavicle point | 5.2.7 | 39 | 29 |
+| Lateral neck | 5.2.29 | 61 | 51 |
+| Trapezius point | 5.2.43 | 77 | 67 |
+
+The clavicle point is the palpated superior extremum at the lateral end.
+The trapezius point combines a palpated anterior muscle boundary with a neck
+surface mark; the latter uses the tape edge at the neck base. These definitions
+are now verified, unlike the historical audit's then-missing source text.
+Inference: they do not establish an SC-to-AC axis as the required tape line,
+nor do skeletal sticks contain the missing muscle/neck surface landmarks.
+The old two-line bracket remains exploratory, not newly accepted geometry.

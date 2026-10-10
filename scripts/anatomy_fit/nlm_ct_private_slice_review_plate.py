@@ -91,7 +91,7 @@ def private_ct_plate(bundle, cal, review, group, centre_id, source_dir,
     # verified anatomical material or segmentation.
     swatches=("#dc2626","#2563eb","#b45309","#16a34a","#9333ea")
     width=1692
-    height=1220
+    height=1335
     parts=[f'<svg xmlns="http://www.w3.org/2000/svg" '
            f'xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 {width} {height}">',
            '<rect width="100%" height="100%" fill="#151820"/>',
@@ -137,7 +137,6 @@ def private_ct_plate(bundle, cal, review, group, centre_id, source_dir,
                                  f'stroke="#101010" stroke-width="0.7" '
                                  f'paint-order="stroke">{j+1}</text>')
             parts.append('</g>')
-    legend_y=1200
     entries=[]
     for j,point in enumerate(selected):
         r,c=point["pixel"]["row"],point["pixel"]["column"]
@@ -150,15 +149,15 @@ def private_ct_plate(bundle, cal, review, group, centre_id, source_dir,
             "source_centre_HU":hu,
             "bone_identity_or_surface_verified":False,
         })
-    parts.append('<text x="32" y="1125" class="small">Centre-plane annotations (number refers to original candidate point, NOT bone identity):</text>')
+    parts.append('<text x="32" y="1205" class="small">Centre-plane annotations (number refers to original candidate point, NOT bone identity):</text>')
     for j,entry in enumerate(entries):
         x=32+(j%2)*830
-        y=1150+(j//2)*20
+        y=1235+(j//2)*24
         parts.append(f'<text x="{x}" y="{y}" class="small">'
                      f'<tspan fill="{swatches[j%len(swatches)]}">{j+1}.</tspan>'
                      f' {escape(entry["id"])}  ({entry["original_pixel_row"]},'
                      f'{entry["original_pixel_column"]})  {entry["source_centre_HU"]} HU</text>')
-    parts.append('<text x="32" y="1214" class="small">ANATOMICAL IDENTITY NOT VERIFIED '
+    parts.append('<text x="32" y="1316" class="small">ANATOMICAL IDENTITY NOT VERIFIED '
                  '— no landmarks, bones, joints, or canonical skeleton geometry accepted.</text>')
     parts.append('</svg>\n')
     # Check caption fits if there are more prior point hypotheses; no crop.

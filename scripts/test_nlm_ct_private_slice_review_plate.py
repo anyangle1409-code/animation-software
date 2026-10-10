@@ -81,7 +81,7 @@ class PrivateCTReviewPlate(unittest.TestCase):
         self.assertEqual([x["source_centre_HU"] for x in evidence["points"]],
                          [291,305,438,510])
         self.assertEqual(svg.count('<image '),6)
-        self.assertEqual(len(re.findall(r'fill="none" stroke="#[0-9a-f]{6}" stroke-width="2.6"',svg)),4)
+        self.assertEqual(len(re.findall(r'fill="none" stroke="#[0-9a-f]{6}" stroke-width="2.6"',svg)),8)
         self.assertEqual(svg.count('data:image/png;base64,'),6)
         # Embed derived 8-bit HU window PNGs, never exact original PNG bytes.
         self.assertNotIn("source_header_sha256",svg)

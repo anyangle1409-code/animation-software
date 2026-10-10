@@ -1,0 +1,67 @@
+name: One-command offline-library original CT laptop inspection
+on:
+  push:
+    branches:
+      - codex/one-command-private-ct-laptop-20261010
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pure-python-private-downloader-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify one-command laptop CT downloader, privacy and all original point review plates
+        run: |
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_laptop_review.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_private_slice_review_plate.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_hu_bridge_witness.py' -v
+      - name: Keep all original CT pixels and GE scanner headers out of Git
+        run: |
+          if git ls-files | grep -E '(^|/)(cvm[0-9]+f[.](png|txt)|.*_source_review[.]svg|START_HERE_private_CT_review[.]html)$'; then
+            echo "Unapproved CT medical pixels/review files tracked in repository."
+            exit 1
+          fi
+
+  real-nlm-one-command-fifteen-images-private:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download 15 original NLM CT images and 15 scanner headers, produce 5 private reviews with no third-party runtime
+        run: |
+          python3 scripts/anatomy_fit/nlm_ct_laptop_review.py \
+            --workspace "$RUNNER_TEMP/hgpt_original_ct_laptop_preflight"
+          python3 - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"hgpt_original_ct_laptop_preflight"
+          view=root/"PRIVATE_CT_VIEW"
+          src=root/"original_NLM_CT_sources"
+          index=view/"START_HERE_private_CT_review.html"
+          assert index.is_file() and "Not validated anatomy" in index.read_text()
+          assert len(list(view.glob("*_source_review.svg")))==5
+          assert len(list(view.glob("*_source_review.json")))==5
+          assert len(list(src.glob("cvm*f.png")))==15
+          assert len(list(src.glob("cvm*f.txt")))==15
+          audit=json.loads(Path("ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json").read_text())
+          provenance={r["source_id"]:r for g in audit["series"] for r in g["slices"]}
+          for filename in list(src.glob("cvm*f.png"))+list(src.glob("cvm*f.txt")):
+              pin=provenance[filename.stem]
+              expected=pin["source_png_sha256"] if filename.suffix==".png" else pin["source_header_sha256"]
+              assert hashlib.sha256(filename.read_bytes()).hexdigest()==expected
+          point_count=0
+          for side in view.glob("*_source_review.json"):
+              data=json.loads(side.read_text())
+              assert data["canonical_promotion_allowed"] is False
+              assert data["reviewer_identified_real_bony_landmarks"]==0
+              assert data["raw_CT_or_header_bytes_committed"] is False
+              point_count+=len(data["points"])
+          assert point_count==10
+          assert not any(Path(".").rglob("cvm*f.png"))
+          print("Verified 15 exact original PNG/header pairs, five private browser SVG review plates and all ten exact unverified source observations.")
+          print("No source image, CT derivative, raw scanner header or private review artifact uploaded.")
+          PY

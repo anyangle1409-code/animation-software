@@ -100,9 +100,9 @@ jobs:
           from urllib.request import Request, urlopen
 
           bundle = json.loads(Path("ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json").read_text())
-          rows = bundle["series"][1]["slices"][7:16]
-          assert len(rows) == 9
-          assert rows[4]["source_id"] == "cvm1876f"
+          rows = bundle["series"][1]["slices"]
+          assert len(rows) == 35
+          assert rows[10]["source_id"] == "cvm1873f"
           staging = Path(os.environ["RUNNER_TEMP"]) / "nine_original_ct"
           staging.mkdir(parents=True, exist_ok=False)
           origins = (
@@ -121,7 +121,7 @@ jobs:
                   if ext == ".png" and len(raw) != row["source_png_bytes"]:
                       raise ValueError("source byte count mismatch")
                   (staging / (row["source_id"] + ext)).write_bytes(raw)
-          print("Verified 9 original full-resolution NLM CT images and 9 original GE scanner headers.")
+          print("Verified full second acquisition group: 35 original NLM CT images and 35 GE scanner headers.")
           PY
       - name: Measure 150 300 500 HU source-component continuity with physical cutoff flags
         run: |
@@ -129,7 +129,7 @@ jobs:
             --ct-dir "$RUNNER_TEMP/nine_original_ct" \
             --bundle ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json \
             --calibration ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_hu_calibration_20261009.json \
-            --group 2 --start 7 --count 9 --roi 125 230 215 345 --hu 150 300 500 \
+            --group 2 --start 0 --count 35 --roi 95 250 195 365 --hu 300 500 700 \
             --out "$RUNNER_TEMP/real_ct_hu_topology.json"
           python3 - <<'PY'
           import json, os
@@ -138,7 +138,7 @@ jobs:
           assert report["canonical_promotion_allowed"] is False
           assert report["seven_pelvic_landmarks_verified"] == 0
           assert report["anatomical_bone_identity_verified"] is False
-          assert [row["HU"] for row in report["thresholds"]] == [150, 300, 500]
+          assert [row["HU"] for row in report["thresholds"]] == [300, 500, 700]
           assert [row["voxel_count"] for row in report["thresholds"]] == sorted(
             [row["voxel_count"] for row in report["thresholds"]], reverse=True)
           print("No provisional region was accepted as a bone. No medical source or private geometry artifact uploaded.")

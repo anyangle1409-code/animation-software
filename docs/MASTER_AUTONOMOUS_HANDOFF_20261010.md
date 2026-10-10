@@ -812,3 +812,22 @@ acquire only absent image/header pairs privately with URL/hash/scanner
 verification. Reuse verified source bytes and82-frame review; do not rerender
 or reacquire completed work. Independent review remains mandatory before
 identity, segmentation, landmark, registration or canonical acceptance.
+
+### Source-spacing ruling supersedes the intervening-slice acquisition step
+
+The existing original-CT window code documents native3mm acquisitions.
+Fresh read-only parsing of all82 original pinned headers with the existing
+privacy allowlist verified43/39 counts,3mm thickness,3mm nominal spacing and
+3mm measured within-group gaps. Group1 spans scanner S=-324 to-450mm;
+group2 spans-451 to-565mm; their centre gap is1mm, not a uniform merged grid.
+Ruling: do not infer missing1mm images from filename increments or attempt
+invented downloads. The preceding next-action wording was provisional;
+source headers govern spacing. This verifies sampling coherence, NOT
+submillimetre anatomy, complete bone coverage or anatomical readiness.
+
+Next executable action: independently compare pinned candidate feature
+intervals with qualified primary CT anatomy references and reconcile the
+existing calibrated-surface/hip-bridge evidence without repeating its work.
+If finer articular sampling is needed, acquire genuinely separate verified
+finer-resolution evidence. Keep bone identity, seven landmarks, surfaces,
+registration and canonical-promotion gates unaccepted.

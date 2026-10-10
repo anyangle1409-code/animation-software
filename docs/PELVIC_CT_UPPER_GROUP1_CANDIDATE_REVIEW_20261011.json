@@ -539,5 +539,6 @@
     "No patient-to-HGPT transformation, mask or source-skeleton edit was produced."
   ],
   "independent_review_request": "Independently review original source PNG/header identities and orientation; examine the candidate central transition at17-22 before labeling S1, and bilateral elongated profiles6-36 before any osseous ASIS identification. Do not confuse external lateral limb contours with pelvis. Combine with separate group2 ledger for candidate pubic and femoral regions without assuming cross-group registration.",
-  "next_action": "Inspect existing acquisition/coverage manifests and verified CT intake scripts; enumerate missing native source IDs between selected3mm slices, then acquire only absent image/header pairs privately with source URL/hash and scanner metadata verification. Preserve82-frame candidate ledgers; no canonical promotion."
+  "source_header_spacing_followup": "All82 pinned headers parsed with the existing privacy allowlist:3mm thickness,3mm nominal spacing and3mm measured within-group gaps. No missing1mm intervening images are inferred. Inter-group centre gap remains1mm and is not a uniform merged grid.",
+  "next_action": "Use all82 source-pinned observations and verified native3mm groups for independent atlas/source feature review. Reconcile existing calibrated-surface/hip-bridge evidence without duplicating it; obtain genuinely finer-resolution independent data only if required for articular landmarks. Do not infer nonexistent1mm intervening frames or approve anatomy."
 }

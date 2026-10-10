@@ -313,3 +313,19 @@ This closes the ANSUR serialization correction only. New source-ledger PDF
 identity, page counts and confidence-interval references were checked against
 the actual privately retained PDFs. The full regression suite remains red and
 canonical readiness remains0READY/9PARTIAL/3BLOCKED.
+
+## Further reproducibility isolation
+
+Arm-chain audit reproduction failed only on five Windows input-path keys.
+Its one serialization expression now uses `as_posix()`; all four unchanged
+tests pass with exact short-path inputs (path bindings only). Windows CI now
+runs these alongside the five endpoint-correspondence tests; the newly
+published implementation still requires remote execution verification.
+No stored report, proxy definition, numerical result or geometry changed.
+
+The shoulder acromion audit is **not** the same narrow failure: besides path
+keys, five output entries differ by0.0001degrees (5.7023/5.7024 repeated,
+1.8394/1.8393,30.4773/30.4774,7.4862/7.4861). Optimizer/runtime portability
+remains a hypothesis, not a proven root cause. Do not rewrite historical
+angles, round less precisely or relax the reproduction test to hide them.
+Investigate pinned numerical environments and optimizer convergence first.

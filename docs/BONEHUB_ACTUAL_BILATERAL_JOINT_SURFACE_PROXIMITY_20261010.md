@@ -37,3 +37,18 @@ Without `--download` it works only from the exact already-SHA-verified private c
 **Acceptance:** no source bone endpoints, bone-to-bone articular centres, joint surfaces, anatomical population envelope or correct ankle/wrist kinematics accepted. **0 READY / 9 PARTIAL / 3 BLOCKED.** Anatomically blocked wrist/tarsal regions still require actual independent contact surface identification, physical frame matching and neutral-pose joint correspondence. This is source-bound geometric measurement progress, not premature CP1/Gate6 completion.
 
 Source attribution: BoneHub Visible Human 3D Models source revision `ac8de2b38f5ae1a0996053ca0639dd6ae43358f1` (University of Twente/Visible Human single male, CC BY 4.0 declared; original upstream terms still govern reuse); see PR #34 frozen source audits.
+
+## Actual frozen original-source measurements, independently run in GitHub Actions
+
+[Successful actual 12-mesh CI run 38086144011](https://github.com/anyangle1409-code/animation-software/actions/runs/38086144011): **17/17 synthetic tests PASS**, all **12 actual pinned raw LPS STL hashes and sizes verified**, eight requested bilateral adjacent bone-pair numerical diagnostics computed. Original source files and individual vertices remained outside Git. The numeric-only artifact is `noncanonical-8-bilateral-source-mesh-surface-vertex-gap-ranges`.
+
+| Nominal source bone pair | Left minimum valid-face vertex distance | Right minimum valid-face vertex distance | AABB lower bound (both sides) |
+|---|---:|---:|---:|
+| Scaphoid ↔ lunate | 0.875 | 0.910 | 0 |
+| Talus ↔ calcaneus | 0.382 | 0.590 | 0 |
+| Talus ↔ navicular | 0.347 | 0.907 | 0 |
+| Calcaneus ↔ cuboid | 0.590 | 1.057 | 0 |
+
+**Units are unknown/unaccepted native source STL coordinate values; numbers above are rounded to 3 decimals for review.** All 8 pairs have overlapping AABBs, hence their lower bound is zero; **zero AABB separation does not establish surface contact or overlap**. The strictly positive minimum vertex separations merely upper-bound true surface-to-surface proximity and do not show whether triangles touch/intersect or whether adjacent bones have their normal cartilage/joint spaces. Side-to-side differences can reflect source sampling, smoothing, incidental segmentation and clinical individual asymmetry; do not infer a population pathology or bilateral rig correction. The full CI artifact preserves the exact output for further review.
+
+**Next actual CP1 work:** join these eight source pair diagnostics to Work's source CT/grid and image-scale registration after the image conversion provenance is verified, identify anatomical articular patches rather than relying on point clouds, and acquire independent population ranges before selecting actual 182cm male carpal/tarsal 3D centres. Do not treat this result as a completed wrist/foot anatomy gate.

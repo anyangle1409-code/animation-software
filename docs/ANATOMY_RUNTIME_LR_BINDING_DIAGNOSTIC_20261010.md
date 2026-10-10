@@ -18,10 +18,10 @@ mirrored; a future adapter may already perform a remapping.
 
 - The full set of **206** unique anatomical IDs and the legacy **67** rig
   bone names are integrity-checked against pinned source records.
-- All **122 sided runtime alias entries** are tested against the actual
+- **122 anatomical records** have sided runtime aliases, accounting for **130 separate alias links**; each link is tested against the actual
   endpoint X-coordinates in the canonical rig, plus their individual
   anatomical a003 bone endpoint X-coordinates. The current names are
-  inverse-sided for all 122. Other aliases are explicitly absent or
+  inverse-sided for all 130 links. Other aliases are explicitly absent or
   collapsed rather than assigned imaginary individual controls.
 - Six independent anchor checks (clavicle, humerus, femur, both sides)
   verify that the inverse-name candidates lie on the correct physical side.

@@ -36,7 +36,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - name: Retrieve 10 SHA-pinned public bone meshes privately and measure 8 source-space pair proxies
+      - name: Retrieve 12 SHA-pinned public bone meshes privately and measure 8 source-space pair proxies
         run: |
           python scripts/anatomy_fit/bonehub_carpal_tarsal_vertex_proximity.py \
             --private-dir "$RUNNER_TEMP/hgpt-source-pair-private" \
@@ -45,7 +45,7 @@ jobs:
           python - "$RUNNER_TEMP/hgpt-source-pair-private/vertex-proximity-8-pairs.json" <<'PY'
           import json, math, sys
           with open(sys.argv[1],encoding='utf-8') as f: r=json.load(f)
-          assert r['source_mesh_count_examined']==10
+          assert r['source_mesh_count_examined']==12
           assert r['adjacent_source_pair_count']==8
           assert r['source_revision']=='ac8de2b38f5ae1a0996053ca0639dd6ae43358f1'
           assert r['distinct_CT_subjects']==1

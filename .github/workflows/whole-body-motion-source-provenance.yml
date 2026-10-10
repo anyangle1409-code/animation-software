@@ -3,12 +3,26 @@ on:
   push:
     branches:
       - codex/whole-body-motion-provenance-gate-20261010
+      - codex/source-skeleton-blender-measurements-20261010
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
+  windows-source-motion-provenance:
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - name: Preserve exact source bytes during checkout
+        run: git config --global core.autocrlf false
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify source evidence keys on the laptop platform
+        run: python -m unittest discover -s scripts -p 'test_whole_body_motion_source_gate.py' -v
+
   source-motion-amplitude-safety-gate:
     runs-on: ubuntu-latest
     timeout-minutes: 16

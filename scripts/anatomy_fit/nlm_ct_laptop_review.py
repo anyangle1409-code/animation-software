@@ -26,6 +26,8 @@ import webbrowser
 
 from ct_pelvis_window_geometry import assert_private_location
 from nlm_ct_private_slice_review_plate import private_ct_plate
+from nlm_ct_private_annotation_capture import make_offline_annotation_html
+from nlm_ct_private_contour_capture import offline_contour_html
 from nlm_ct_raw_png_calibration import validate_calibration_evidence
 from pelvic_ct_series_manifest import validate_series_bundle
 
@@ -159,7 +161,11 @@ def make_index(evidence, destination):
         items.append(
             '<li><a href="'+escape(sid+"_source_review.svg",quote=True)+'">'
             +escape(sid)+" — group "+str(plate["group"])+"</a> — "+
-            str(plate["candidate_points"])+" original unverified point(s)</li>")
+            str(plate["candidate_points"])+" original unverified point(s) | "+
+            '<a href="'+escape(sid+"_tentative_review.html",quote=True)+'">'+
+            'PRIVATE tentative correction/rejection form</a> | '+
+            '<a href="'+escape(sid+"_tentative_contours.html",quote=True)+'">'+
+            'PRIVATE tentative 3-slice contour drawing</a></li>')
     html='''<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -177,6 +183,13 @@ in soft-tissue and bone windows, with original candidate pixels indicated.
 Original scanner RAS geometry applies, but pixel-centre convention and
 scanner-to-HGPT skeleton registration remain unresolved.</p>
 <ul>'''+''.join(items)+'''</ul>
+<p>Use each <strong>PRIVATE tentative correction/rejection form</strong> to record source-reviewed
+new pixel suggestions or reject old hypotheses. Exports require offline validation
+against the original 16-bit scanner data and NEVER certify a bone.</p>
+<p>The tentative 3-slice contour drawing view captures source-pixel polygon hypotheses
+for later independent anatomical verification. Its physically calibrated pixel area
+is reported only after rechecking pinned original 16-bit scanner images. These
+outlines are not accepted named bone surfaces.</p>
 <p>Source files and rendered plates are private on this computer and must remain
 outside the Git repository. These images are for anatomical review only.</p>
 </body></html>
@@ -216,9 +229,16 @@ def run(bundle,cal,review,workspace,centre_ids=None,*,opener=None,source_loader=
         with side.open("x",encoding="utf-8") as f:
             json.dump(evidence,f,indent=2,sort_keys=True)
             f.write("\n")
+        annotation=make_offline_annotation_html(plate,evidence,bundle,review,sid)
+        annotation_out=views_dir/(sid+"_tentative_review.html")
+        with annotation_out.open("x",encoding="utf-8") as f:f.write(annotation)
+        contour_html=offline_contour_html(plate,bundle,evidence)
+        contour_out=views_dir/(sid+"_tentative_contours.html")
+        with contour_out.open("x",encoding="utf-8") as f:f.write(contour_html)
         plates.append({"group":group,"source_id":sid,
                        "candidate_points":len(evidence["points"]),
-                       "svg_sha256":hashlib.sha256(plate.encode()).hexdigest()})
+                       "svg_sha256":hashlib.sha256(plate.encode()).hexdigest(),
+                       "offline_tentative_annotation":"PRIVATE source-pinned annotation; no anatomical acceptance"})
     index=make_index(plates,views_dir)
     return {
         "kind":"PRIVATE_CT_LAPTOP_REVIEW_HANDBACK_NOT_ANATOMY",

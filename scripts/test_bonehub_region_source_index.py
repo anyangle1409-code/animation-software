@@ -84,6 +84,8 @@ class RegionSourceIndexTests(unittest.TestCase):
     def test_filename_classification_does_not_claim_anatomy(self):
         self.assertEqual(classify(MALE_ROOT+"HAND_RIGHT/HAMATE_RIGHT.stl")[0],
                          "carpus_file_candidate")
+        self.assertEqual(classify(MALE_ROOT+"HAND_LEFT/TRAPEZOID_LEFT.stl")[0],
+                         "carpus_file_candidate")
         self.assertEqual(classify(MALE_ROOT+"FOOT_LEFT/CUNEIFORM_2_LEFT.stl")[0],
                          "tarsus_file_candidate")
         self.assertEqual(classify(MALE_ROOT+"THORAX/RIB_12_RIGHT.stl")[0],

@@ -1,0 +1,46 @@
+name: Existing non-destructive Blender CT scene laptop source preflight
+on:
+  push:
+    branches:
+      - codex/non-destructive-blender-ct-launch-20261010
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  six-original-source-contract-and-existing-blender-plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Independently cross-verify source manifests and existing Blender inspection-plan code
+        run: |
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_blender_six_source_prep.py' -v
+          python3 -m unittest discover -s scripts -p 'test_ct_pelvis_review_scene_blender.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_laptop_review.py' -v
+          python3 -m py_compile scripts/anatomy_fit/nlm_ct_blender_six_source_prep.py scripts/anatomy_fit/ct_pelvis_review_scene_blender.py
+  real-six-original-ct-download-and-source-hashes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Independently fetch six original CT images and headers to temporary private directory for the existing Blender script
+        run: |
+          python3 scripts/anatomy_fit/nlm_ct_blender_six_source_prep.py \
+            --workspace "$RUNNER_TEMP/hgpt_blender_private_original_ct"
+          python3 - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"hgpt_blender_private_original_ct"
+          paths=list((root/"original_NLM_CT_sources").glob("cvm*f.png"))
+          headers=list((root/"original_NLM_CT_sources").glob("cvm*f.txt"))
+          assert len(paths)==6 and len(headers)==6
+          six=json.loads(Path("ORIGINAL_V1_WORK/anatomy/audit/claude_pelvis_ct_review_20261009/pinned_six_frames_from_pr15_4680b49.json").read_text())
+          pins={f'cvm{r["source_id"]}f':r for r in six["exact_png_and_scanner_header_sha256"]}
+          for p in paths+headers:
+              row=pins[p.stem]
+              digest=row["png_sha256"] if p.suffix==".png" else row["scanner_header_sha256"]
+              assert hashlib.sha256(p.read_bytes()).hexdigest()==digest
+          assert not any(Path(".").rglob("cvm*f.png"))
+          print("Independent 6 NLM source PNG and 6 GE header pins exactly verified for non-destructive Blender preflight.")
+          print("Blender scene .blend construction still requires owner's installed Blender; no model or medical scan artifact uploaded.")
+          PY

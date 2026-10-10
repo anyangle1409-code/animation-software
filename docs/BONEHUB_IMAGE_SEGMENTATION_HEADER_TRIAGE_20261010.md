@@ -116,3 +116,43 @@ defect nor provide usable rib landmarks. No anatomical readiness changed.
 Next: test targeted surface-point/voxel correspondence and inspect label-image
 overlays before any articular/fragment interpretation; retain unaccepted scale
 relation and raw-NLM registration barriers. Full CT image remains unverified.
+
+## Subsequent complete image acquisition and bounded pixel read
+
+The earlier partial-only state is superseded: full male image now privately
+downloaded with exact418,636,727-byte size and upstream LFS SHA256
+`2ad6bb4129aa529e0d8d0f059694fccb4d996867cff3cfdf3c1cf1f4250fc776` verified.
+No CT bytes committed. `source_nifti_pixel_stream.sample` verifies the complete
+compressed hash before/after a read-only bounded512KBstream, checks gzip CRC and
+exact1,075,251,840decoded pixel bytes. Actual datatype512/bitpix16 is **unsigned16**;
+vox_offset352, slope1/intercept0. Do not reinterpret as signed16 or silently apply
+a guessed -1024/-1000HU calibration. Header scalar scaling does not prove HU.
+Seven synthetic tests PASS after observed missing-feature RED; new pixel CI pending.
+
+Twenty-one requested source-grid pixels sampled:19component mathematical centres
+plus two nonanatomical grid controls. No surface/image registration accepted.
+
+| Small component | Faces | Actual stored unsigned16 CT value at assumed centre index |
+| --- | ---: | ---: |
+| Calcaneus left | 196 | 1356 |
+| Intermediate cuneiform left | 48 | 1498 |
+| Talus left | 2 | 1434 |
+| Rib1left | 2 | 19 |
+| Rib3left | 8 | 13430 |
+| Rib4left | 64 | 29 |
+| Rib4left | 8 | 11 |
+| Rib4left, XYZ459/115/1585 | 6 | 22 |
+| Rib4left, XYZ466/115/1586 | 6 | 6 |
+| Rib4left | 4 | 25 |
+| Rib4left | 2 | 47290 |
+
+These diverse values under identical source label names demonstrate why label
+membership is insufficient for independent bone acceptance. Values are not
+calibrated HU and no bone threshold was applied; single mathematical-centre
+samples alone cannot classify anatomy, especially curved main rib shells.
+Candidate investigation must inspect actual spatial patches, source intensity
+calibration and correspondence before treating source labels as trusted anatomy.
+
+Sampler implementation560a8083 subsequently passed actual CI38076420293 all3jobs;
+11new label tests on both OS, native Blender and unchanged reconstruction checks.
+Clean short detached checkout62targeted tests PASS in14.586seconds.

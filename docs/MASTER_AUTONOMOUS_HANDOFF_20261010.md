@@ -399,3 +399,13 @@ their named upstream labels. Do not assume these are purely STL export debris.
 Main rib mathematical averages can lie in the empty centre of the rib curve,
 and must never become bone/joint landmarks. Exact source-grid samples and method
 are recorded in the header-triage document; source report/pixels remain private.
+
+Label-stream implementation560a8083 passed all3jobs in actual CI38076420293;
+clean short detached checkout62targeted testsPASS (14.586seconds). Full male CT
+now privately acquired418,636,727bytes and its complete immutable LFS hash verified.
+New bounded pixel sampler checks UINT16header and full gzip CRC/decoded-length,
+hash before/after, no pixel writes or HU acceptance. Seven synthetic testsPASS,
+new pixel CIpending. Actual21pixel samples verified: tiny named rib fragments
+span raw values6..47290 while foot fragments1356..1498. No guessed intensity
+offset/threshold or anatomical conclusion. Inspect actual spatial patches and
+calibration provenance next; raw source frames still do not establish HGPT binding.

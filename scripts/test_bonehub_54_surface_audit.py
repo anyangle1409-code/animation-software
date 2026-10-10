@@ -121,6 +121,22 @@ class WholeRegionSurfaceTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             source_url("main", path)
 
+    def test_source_stl_header_declares_lps_or_ras_without_auto_registration(self):
+        raw = tetra_stl()
+        for frame in ("LPS", "RAS"):
+            header = ("3D Slicer output. SPACE="+frame).encode("ascii").ljust(80, b" ")
+            result = mesh_diagnostics(header + raw[80:])
+            self.assertEqual(result["source_stl_header_explicit_coordinate_system"], frame)
+            self.assertFalse(result["source_stl_header_field_verified_as_origin"])
+            self.assertFalse(result["source_to_HGPT_registration_verified"])
+        self.assertIsNone(mesh_diagnostics(raw)["source_stl_header_explicit_coordinate_system"])
+
+    def test_conflicting_explicit_stl_coordinate_headers_rejected(self):
+        raw = tetra_stl()
+        header = b"Slicer SPACE=RAS then SPACE=LPS".ljust(80, b" ")
+        with self.assertRaisesRegex(ValueError, "Conflicting"):
+            mesh_diagnostics(header + raw[80:])
+
     def test_closed_oriented_tetra_is_diagnostic_only(self):
         r = mesh_diagnostics(tetra_stl())
         self.assertEqual(r["raw_triangle_count"], 4)

@@ -31,11 +31,11 @@ def bg(s=-481):
 
 class PhysicalHueBridge(unittest.TestCase):
     def test_anisotropic_in_plane_path_deterministic_and_no_anatomy(self):
-        mask={(0,10,c) for c in range(10,17)}
-        mask.update((1,10,c) for c in range(10,17))
-        a=(0,10,10)
-        b=(0,10,16)
-        v=weighted_shortest_intensity_bridge(mask,a,b,ROI,2,[3.0,.9,.9])
+        mask={(1,11,c) for c in range(11,18)}
+        mask.update((0,11,c) for c in range(11,18))
+        a=(1,11,11)
+        b=(1,11,17)
+        v=weighted_shortest_intensity_bridge(mask,a,b,ROI,3,[3.0,.9,.9])
         self.assertTrue(v["same_HU_component"])
         self.assertEqual(v["path_voxel_samples"],7)
         self.assertEqual(v["least_physical_length_mm_in_thresholded_ROI"],5.4)
@@ -43,7 +43,7 @@ class PhysicalHueBridge(unittest.TestCase):
         self.assertEqual(v["route_length_over_direct_distance"],1.0)
         self.assertEqual(v["path_slice_planes_visited"],1)
         self.assertFalse(v["path_touches_source_or_ROI_cut"])
-        self.assertEqual(v["path_scanner_plane_index_extent"]["slice_min_max"],[0,0])
+        self.assertEqual(v["path_scanner_plane_index_extent"]["slice_min_max"],[1,1])
         self.assertFalse(v["anatomical_joint_contact_or_separation_proven"])
         self.assertFalse(v["canonical_promotion_allowed"])
 

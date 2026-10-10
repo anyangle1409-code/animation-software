@@ -173,8 +173,8 @@ class SternumEndpointContractTests(unittest.TestCase):
     def test_crlf_checkout_source_bytes_have_same_git_normalized_identity(self):
         first=next(iter(EXPECTED_PINNED_INPUTS))
         raw=(ANATOMY / first).read_bytes()
-        lf=raw.replace(b"\\r\\n",b"\\n")
-        windows=lf.replace(b"\\n",b"\\r\\n")
+        lf=raw.replace(b"\r\n",b"\n")
+        windows=lf.replace(b"\n",b"\r\n")
         self.assertEqual(git_blob_sha_lf(lf),git_blob_sha_lf(windows))
 
     def test_no_canonical_source_values_or_cohorts_are_rescaled(self):

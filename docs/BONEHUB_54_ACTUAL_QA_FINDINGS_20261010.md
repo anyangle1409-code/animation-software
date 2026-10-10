@@ -64,6 +64,18 @@ The following are raw verified source hashes, not hashes of modified or repaired
 - \`THORAX/RIB_3_LEFT.stl\`: \`84c9ddd3b15a7eb72d9d2709f9fd2ebb8bb999c601d28d53e25770972af06e83\`
 - \`THORAX/RIB_4_LEFT.stl\`: \`ef49d0a539d69b0254ad402ee745263aa3a360b42bff54dc2e1097320a8911db\`
 
+## Provisional bilateral source-label coordinate pattern (not scanner registration)
+
+A separate read-only examination of the **54 actual SHA-verified STL numeric bounding boxes** compared midpoint positions for each same-name LEFT and RIGHT label (8 carpal, 7 tarsal, 12 rib pairs). For **all 27 pairs**, the labelled-left bounding-box midpoint has a **larger native-source X coordinate** than the labelled-right one; in every pair the X separation magnitude exceeds Y and Z separations. This repeats consistently across all three source regions.
+
+| Source file family | Pairs | Labelled LEFT midpoint +X difference | Median LEFT−RIGHT X in unspecified source units |
+|---|---:|---:|---:|
+| Carpal | 8 | 8/8 | 274.23 |
+| Tarsal | 7 | 7/7 | 342.93 |
+| Ribs | 12 | 12/12 | 166.40 |
+
+This is a useful **label-coordinate hypothesis** only. STL coordinates may use an unknown orientation/scale; image LPS/RAS axes and source scanner frame are **not yet verified**. Bounding-box midpoint is not a bone centroid or joint centre; the labelled side might be flipped relative to acquisition. Therefore the result **does not approve any transformation to HGPT, runtime alias, anatomy, or production rig**. A dedicated fail-closed bilateral numeric validator and adversarial tests now reproduce this pattern.
+
 ## Priorities for isolated engineering follow-up
 
 1. Group source nondegenerate triangles by connected component and compute *face counts and relative geometry extent* per component. Determine whether the small detached islands are finite-volume shapes, zero-area remnants or ambiguous surface segmentation islands.

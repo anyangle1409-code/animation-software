@@ -76,6 +76,16 @@ A separate read-only examination of the **54 actual SHA-verified STL numeric bou
 
 This is a useful **label-coordinate hypothesis** only. STL coordinates may use an unknown orientation/scale; image LPS/RAS axes and source scanner frame are **not yet verified**. Bounding-box midpoint is not a bone centroid or joint centre; the labelled side might be flipped relative to acquisition. Therefore the result **does not approve any transformation to HGPT, runtime alias, anatomy, or production rig**. A dedicated fail-closed bilateral numeric validator and adversarial tests now reproduce this pattern.
 
+## Verified original STL declared frame — all 54 are LPS
+
+Independent raw-byte source verification and a header-specific regression (including synthetic RAS, LPS and conflicting-label rejection) completed in [successful GitHub Actions run 38074842752](https://github.com/anyangle1409-code/animation-software/actions/runs/38074842752): **65/65 adversarial tests passed**; **all 54 original SHA-verified male STL binary file headers explicitly contain \`SPACE=LPS\`**. No RAS/undeclared exceptions. The 27/27 LEFT vs RIGHT source bounding-box midpoint positive-X results also reproduce in that run.
+
+Source authority: [3D Slicer official model file conventions](https://slicer.readthedocs.io/en/latest/user_guide/data_loading_and_saving.html) state that STL headers may declare \`SPACE=LPS\` or \`SPACE=RAS\`; LPS means positive X left, positive Y posterior and positive Z superior. This is important because 3D Slicer uses RAS internally and may flip axes on file export. The BoneHub dataset [Mesh export README](https://huggingface.co/datasets/BoneHub/visible-human-3d-models/blob/main/visible_human_3d_models/CT/Mesh/README.md) confirms models were produced through 3D Slicer segmentation-to-model export.
+
+**Precisely what is now evidenced:** each immutable source STL's intended file **coordinate-axis convention** is LPS, and all 27 labelled left/right pairs show a positive-X midpoint difference in that file basis. HGPT's provisional anatomical-reference basis is also described as left +X, posterior +Y, superior +Z.
+
+**Precisely what is NOT evidenced:** physical STL unit scale; scan image-to-STL rigid translation/matrix; DICOM/NIfTI world-frame origin/registration; bone centroid, socket/contact patch or neutral-standing pose; source donor's geometry suitability for a different 182 cm adult; source labelled-bone segmentation independently validated against medical imaging. Hence **do not transfer source STL coordinates directly, accept joint centres or change the runtime suffix mappings**. CP1/Gate6 remains open, and anatomical left/right runtime binding F-SIDE-001 still needs its separate adapter acceptance evidence.
+
 ## Priorities for isolated engineering follow-up
 
 1. Group source nondegenerate triangles by connected component and compute *face counts and relative geometry extent* per component. Determine whether the small detached islands are finite-volume shapes, zero-area remnants or ambiguous surface segmentation islands.

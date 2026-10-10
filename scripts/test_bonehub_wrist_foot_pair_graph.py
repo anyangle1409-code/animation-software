@@ -67,8 +67,8 @@ class FullCarpalTarsalSourceGraphTests(unittest.TestCase):
 
     def test_reject_duplicate_candidate_edge_even_reversed(self):
         with patch.object(g,"CARPAL_CANDIDATES",
-                          g.CARPAL_CANDIDATES+(("LUNATE","SCAPHOID","PROXIMAL_ROW"),)):
-            with self.assertRaisesRegex(ValueError,"expected historical"):
+                          g.CARPAL_CANDIDATES[:-1]+(("LUNATE","SCAPHOID","PROXIMAL_ROW"),)):
+            with self.assertRaisesRegex(ValueError,"Duplicate anatomical"):
                 g.verify_graph()
 
     def test_reject_unverified_carpal_label(self):

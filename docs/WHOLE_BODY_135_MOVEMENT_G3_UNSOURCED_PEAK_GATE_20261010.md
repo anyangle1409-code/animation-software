@@ -6,7 +6,7 @@
 
 The original a003 isolation suite contains **135 movement tests** and **278 nonzero commanded extrema**. The existing independently reviewed amplitude provenance includes **78 explicitly UNSOURCED TEST AMPLITUDES across 49 tests**. These are diagnostic commands, not validated human joint limits, normal exercise ranges, or clinical safety values.
 
-The new first-party program at scripts/anatomy_fit/whole_body_motion_source_gate.py recomputes all test peak categories against original a003 body record and whole-body movement atlas. It SHA-pins the two original input files, reconstructs and exactly compares the committed 78-peak / 49-test rejection queue, and fails if its contents, types or original source labels have silently changed. This test is entirely independent of a real Blender session.
+The new first-party program at scripts/anatomy_fit/whole_body_motion_source_gate.py independently cross-checks the two committed movement evidence ledgers (a003_isolated_014 original peak-provenance audit, and the separate unsupported-peak queue) against all 135 tests and 278 archived peak records. It SHA-pins the original body record, atlas, movement test generator script, and actual recorded test sample input. It matches all 78 unsupported peak tuples (test, channel, value) and refuses omissions or silent upgrades. It does not rerun the old NumPy-dependent pose generator or pretend Blender was used.
 
 ## Actual source rejection distribution
 

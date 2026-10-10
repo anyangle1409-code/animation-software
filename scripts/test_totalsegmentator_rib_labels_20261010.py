@@ -115,7 +115,7 @@ class RibVersionLabelTests(unittest.TestCase):
             validate_source_contract(c)
 
     def test_source_git_sha_algorithm(self):
-        self.assertEqual(git_object_sha(b"test content"), "6af84e3c7ef3042783f71a3ad0ffb1506f4091ed")
+        self.assertEqual(git_object_sha(b"test content"), "08cf6101416f0ce0dda3c80e627f333854c4085c")
 
     def test_remote_blob_getter_uses_pinned_endpoint(self):
         raw = b"sample payload"

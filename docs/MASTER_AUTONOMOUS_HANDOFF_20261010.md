@@ -746,3 +746,29 @@ region for independent review without repeated source acquisition, scene
 rebuilds or numerical optimization. The preceding seven-view checkpoint
 `ccd3d8ed7aa271a6485ad963b07ed8c42e2382c4` passed all three CI jobs in run
 `38094791988`; that tooling verification is not anatomy approval.
+## Dense group2 candidate review checkpoint — 11 October 2026
+
+Completed the requested windowed review of every source-pinned frame46–62
+within acquisition group2 (17 frames, scanner S=-457 through -505mm at3mm
+steps). Reused50/55/60; Blender5.2.1 rendered only14 missing previews, exit0,
+without saving or changing the private source scene. The paired rounded
+internal structures can be followed into outward-extending lateral profiles;
+separate anterior and posterior-medial outlines remain distinct candidates.
+No bone identities, landmark centres, segmentation, contact, registration or
+anatomical coverage are accepted. Regional readiness remains0READY/9PARTIAL/
+3BLOCKED and every canonical-promotion gate remains false.
+
+Source/preview pins and independent-review request are recorded in
+`docs/PELVIC_CT_DENSE_GROUP2_CANDIDATE_REVIEW_20261011.json`.
+Together with the preceding ledger,27 unique source frames have windowed
+candidate observations; this is not27 independently accepted anatomical slices.
+The preceding master checkpoint4477eb820300b8e0a9f46bcdbb97e69ff6d2c6a5
+passed all three CI jobs in run38095073757. C003 numerical mismatch remains
+diagnosed, not fixed; do not repeat its completed solver or old test sessions.
+
+Next executable action: inspect group2 frames63–79, reusing65/70/75 and
+rendering only missing views; trace lateral and medial candidate profiles
+separately. Then inspect unreviewed group1 frames for candidate pelvic
+landmark coverage. Require independent source-image review before accepting
+identities or coordinates. Private CT bytes and Blender outputs remain outside
+Git; no source skeleton or frozen candidate was modified.

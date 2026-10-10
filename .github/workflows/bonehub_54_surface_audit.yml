@@ -1,0 +1,64 @@
+name: BoneHub frozen 54-region STL verified topology audit
+
+on:
+  push:
+    branches: [codex/bonehub-54-surface-audit-20261010]
+    paths:
+      - 'scripts/anatomy_fit/bonehub_54_surface_audit.py'
+      - 'scripts/test_bonehub_54_surface_audit.py'
+      - '.github/workflows/bonehub_54_surface_audit.yml'
+      - 'docs/BONEHUB_54_SURFACE_AUDIT_20261010.md'
+  pull_request:
+    paths:
+      - 'scripts/anatomy_fit/bonehub_54_surface_audit.py'
+      - 'scripts/test_bonehub_54_surface_audit.py'
+      - '.github/workflows/bonehub_54_surface_audit.yml'
+      - 'docs/BONEHUB_54_SURFACE_AUDIT_20261010.md'
+
+jobs:
+  all-region-source-geometry:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 20
+    steps:
+      - name: Read-only, noncredential checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Run first-party offline adversarial tests
+        run: python -m unittest discover -s scripts -p 'test_bonehub*.py' -v
+      - name: Fetch immutable-revision 54 male STL files and examine raw exact-weld mesh topology
+        run: |
+          python scripts/anatomy_fit/bonehub_54_surface_audit.py \
+            --download \
+            --private-dir "$RUNNER_TEMP/hgpt-source-bone-54-cache" \
+            --output "$RUNNER_TEMP/hgpt-bone-54-report.json"
+          python - "$RUNNER_TEMP/hgpt-bone-54-report.json" <<'PY'
+          import json
+          import sys
+          with open(sys.argv[1], encoding="utf-8") as f:
+              report = json.load(f)
+          assert len(report["items"]) == 54
+          assert report["cp1_gate6_approved"] is False
+          assert report["canonical_geometry_changed"] is False
+          assert report["independent_subject_evidence"] is False
+          assert len({x["source_relpath"] for x in report["items"]}) == 54
+          assert all(len(x["reference_sha256_verified"]) == 64 for x in report["items"])
+          from collections import Counter
+          print("Actual raw verified source STLs per region:",
+                dict(Counter(x["source_file_group"] for x in report["items"])))
+          print("Exact-weld zero-area faces:", sum(x["degenerate_triangles"] for x in report["items"]))
+          print("Exact-weld boundary edges:", sum(x["boundary_edges_exact_weld"] for x in report["items"]))
+          print("Watertight single-component candidates:",
+                sum(x["watertight_candidate_exact_weld_only"] for x in report["items"]))
+          print("Anatomical region acceptance: NONE (source QA only)")
+          PY
+      - name: Retain numerical evidence only (no STL, CT, Blender files)
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bonehub-54-stl-provenance-topology-no-raw-mesh
+          path: ${{ runner.temp }}/hgpt-bone-54-report.json
+          retention-days: 14
+          if-no-files-found: error

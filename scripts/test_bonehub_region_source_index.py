@@ -34,6 +34,7 @@ class RegionSourceIndexTests(unittest.TestCase):
     def test_unsafe_url_rejected(self):
         good = "https://huggingface.co/api/datasets/BoneHub/visible-human-3d-models/tree/abc"
         self.assertTrue(permitted_api_url(good))
+        self.assertTrue(permitted_api_url("https://huggingface.co/api/datasets/BoneHub/visible-human-3d-models"))
         for bad in (
             "http://huggingface.co/api/datasets/BoneHub/visible-human-3d-models/tree",
             "https://untrusted.example/api/datasets/BoneHub/visible-human-3d-models/tree",

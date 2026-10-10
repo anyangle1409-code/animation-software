@@ -231,3 +231,28 @@ Metadata supplies demographics only. Mesh conversion code rebuilds segment
 closed surfaces with smoothing factor0.5; neither supplies pixel intensity
 conversion or an independently accepted image/surface registration. Do not
 manufacture an intensity offset from apparent background values.
+
+## Primary calibration-provenance recheck
+
+The [BoneHub dataset card](https://huggingface.co/datasets/BoneHub/visible-human-3d-models)
+states that its CT originates from the NLM Visible Human data as aligned and
+redistributed by the University of Denver, specifically the aligned CT DICOM
+series. Its creation notes say those DICOM files were loaded in 3D Slicer and
+converted to NIfTI, but it gives no pixel rescale formula or declared output
+intensity units. The [University of Denver source record](https://digitalcommons.du.edu/visiblehuman/2/)
+describes the CT series as aligned and rescaled to cryosection images; it does
+not publish a calibration equation on the accessible record page. Its
+metadata and aligned-CT download links both returned HTTP 403 from the web
+reader and a direct read-only request using a browser user agent; no bytes were
+obtained from either attempt.
+
+These records corroborate provenance and transformation steps, but do not
+resolve whether the BoneHub UINT16 values represent HU or how any source
+rescaling was applied. The NIfTI `scl_slope=1` / `scl_inter=0` fields remain
+insufficient to claim HU. Keep all pixel windows explicitly in stored-value
+units; do not apply guessed offsets or thresholds. Next executable action:
+obtain an accessible, source-hash-pinned aligned DICOM instance/series or its
+producer conversion code, then verify the DICOM rescale semantics and reproduce
+mapped NIfTI values on exact corresponding voxels. If that chain cannot be
+obtained, retain the HU-calibration blocker and proceed only with source-bound
+orthogonal candidate review; do not promote anatomy.

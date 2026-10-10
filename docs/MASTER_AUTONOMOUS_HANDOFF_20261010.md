@@ -432,3 +432,23 @@ per-source results in header-triage ledger. Frozen upstream demographic metadata
 and smoothing0.5mesh conversion README inspected; neither supplies HU conversion.
 Next bounded action: independently establish aligned image intensity provenance
 or inspect fragment-focused orthogonal source patches, retaining all fragments.
+
+## Calibration provenance recheck, 2026-10-10
+
+The BoneHub dataset card confirms NLM Visible Human CT provenance through the
+University of Denver aligned CT DICOM series and states that 3D Slicer converted
+those DICOM files to NIfTI. Neither the card nor the accessible Denver landing
+page publishes the pixel-rescale formula or output intensity units. Denver's
+record labels its CT as aligned/rescaled to cryosections. Web-reader and direct
+read-only requests for both the metadata and aligned-CT download returned
+HTTP403, so no source bytes were obtained. The full private BoneHub NIfTI remains
+hash-verified, but `scl_slope=1`/`scl_inter=0` does not establish HU. Keep stored
+UINT16 values explicitly uncalibrated and do not threshold.
+
+The pixel CI is confirmed complete: run38076878218 passed all3jobs, including
+the Windows unsigned16 sampler, Linux provenance gate and native Blender render
+path. No anatomy or readiness gate changed. Next executable action: obtain an
+accessible, hash-pinned aligned DICOM instance/series or its producer conversion
+code and reproduce rescaling on exact corresponding voxels; if unavailable,
+retain the HU blocker and continue only source-bound orthogonal candidate review.
+Keep medical source bytes and review outputs private.

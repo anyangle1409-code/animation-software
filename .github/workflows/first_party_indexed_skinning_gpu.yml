@@ -1,0 +1,99 @@
+name: Original first-party indexed skinned WebGL2 mesh
+
+on:
+  push:
+    branches: [codex/first-party-indexed-lbs-mesh-20261010]
+    paths:
+      - src/viewer/firstPartyIndexedSkinnedMesh.mjs
+      - src/viewer/firstPartyIndexedSkinnedMesh.d.mts
+      - src/viewer/nativeWebGL2SkinningStandaloneEntry.ts
+      - native-webgl2-skinning-preview.html
+      - tests/firstPartyIndexedSkinnedMesh.test.mjs
+      - scripts/verify-native-webgl2-indexed-skinning-browser.mjs
+      - docs/FIRST_PARTY_INDEXED_SKINNED_WEBGL2_20261010.md
+      - .github/workflows/first_party_indexed_skinning_gpu.yml
+  pull_request:
+    paths:
+      - src/viewer/firstPartyIndexedSkinnedMesh.mjs
+      - src/viewer/firstPartyIndexedSkinnedMesh.d.mts
+      - src/viewer/nativeWebGL2SkinningStandaloneEntry.ts
+      - native-webgl2-skinning-preview.html
+      - tests/firstPartyIndexedSkinnedMesh.test.mjs
+      - scripts/verify-native-webgl2-indexed-skinning-browser.mjs
+      - .github/workflows/first_party_indexed_skinning_gpu.yml
+permissions:
+  contents: read
+
+jobs:
+  cpu-lbs-and-indexed-draw-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Run first-party skin math and mock native GPU tests with ZERO installed packages
+        run: |
+          node --test tests/firstPartyIndexedSkinnedMesh.test.mjs
+          node --test tests/firstPartyWebGL2SkeletonPreview.test.mjs
+      - name: Ensure no Three, React, R3F module imports in new runtime path
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const files=[
+            'src/viewer/firstPartyIndexedSkinnedMesh.mjs',
+            'src/viewer/nativeWebGL2SkinningStandaloneEntry.ts',
+            'src/viewer/firstPartyWebGL2SkeletonPreview.mjs',
+          ];
+          for(const file of files){
+            const source=fs.readFileSync(file,'utf8');
+            if(/from\s+['"](?:three|[^'"]*threeRuntimeBoundary|[^'"]*threeSceneBoundary|react|react-dom|@react-three\/[^'"]*)['"]/.test(source))
+              throw new Error('A third-party runtime import was introduced: '+file);
+          }
+          console.log('Pure original first-party maths, skinning, shaders, and FK input paths.');
+          JS
+  full-studio-build-parity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install unchanged existing development toolchain
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Check strict editor types with isolated original native skinning TS port
+        run: npm run typecheck
+      - name: Build existing full studio with original Three character/default unchanged
+        run: npm run build
+  actual-browser-webgl2-skinning:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install unchanged development and test-only packages
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Install headless Chromium for native actual GL2 exercise demonstration
+        run: npx playwright install --with-deps chromium
+      - name: Render actual indexed triangle two-bone synthetic skin driven by real exercise FK/IK
+        run: node scripts/verify-native-webgl2-indexed-skinning-browser.mjs
+      - name: Publish diagnostic image and numeric actual-browser verdict
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-webgl2-real-indexed-cpu-skinned-proxy-nonproduction
+          path: reports/browser-smoke/first-party-native-indexed-skinned-mesh/
+          if-no-files-found: warn
+          retention-days: 14

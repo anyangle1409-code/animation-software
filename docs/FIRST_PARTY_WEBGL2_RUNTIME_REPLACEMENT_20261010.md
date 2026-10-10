@@ -32,3 +32,16 @@ Added:
 **Initial stage only:** native GPU 3D line renderer and real first-party FK-pose feed exists on an isolated draft branch. It does NOT mean Three.js was deleted from the entire animation software, cannot create a finished realistic model, and carries no CP1/anatomical acceptance. The user-facing PT-App already has no npm dependency and is untouched. Anatomical project readiness remains **0 READY / 9 PARTIAL / 3 BLOCKED** until Work/Claude source measurements and Blender evidence close actual blockers.
 
 **Parallel work coordination:** Do not modify Work's active `codex/source-skeleton-blender-measurements-20261010` head or Claude's anatomical candidate branches, and do not merge legacy V-series. The renderer spike is safe to test independently of their original-model progress. The ultimate goal is a genuinely original body, first-party runtime software, independent science and full exercise movement.
+
+## Independent zero-Three exercise runtime entry (second demonstrator)
+
+To distinguish **actual first-party runtime isolation** from merely bypassing the Three viewer at draw time, this branch also contains a second, independent development-only HTML entry:
+
+- `native-webgl2-preview.html`
+- `src/viewer/nativeWebGL2StandaloneEntry.ts`
+
+Navigate with the existing development server to `http://localhost:5173/native-webgl2-preview.html` (or whichever local port serves Vite). This entry does **not import the editor app, Three scene/renderer gateway, React or R3F**. Its imports are the project's own humanoid rig, `PoseEvaluation`, exercise definition library, first-party exercise generation, FK/IK/constraint-aware `resolveFrame`, and the independent native GPU line shader. It animates a real authored exercise continuously with browser `requestAnimationFrame` and `ResizeObserver`. This path is a *real end-to-end first-party dependency-free rendering slice* for the skeleton only; it deliberately **cannot render the finished original skin mesh or substitute for the editor**.
+
+Real Chromium CI explicitly opens this isolated page and verifies nonzero bone count, dynamic pose/frame updates, a nonblank canvas size, absence of browser exceptions, and **zero browser module fetches matching Three/React-related vendor paths**. It separately checks the default full editor has not lost its existing rendering. An evidence screenshot is diagnostic **only**, not a claimed human-body model or clinical correctness.
+
+**Why this distinction matters:** the opt-in native preview embedded in the standard editor may *load* the old renderer modules transitively because the editor also imports its default Three-based controller. The independent HTML entry is the demonstration which isolates the new complete source-module graph instead of simply avoiding the old renderer's draw calls. Both paths remain development-only, and no current final PT-App runtime adds a dependency.

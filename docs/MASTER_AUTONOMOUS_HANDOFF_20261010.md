@@ -704,3 +704,25 @@ source skeleton remains unchanged. Next action: trace the observed paired
 structures through adjacent source-pinned slices in each group separately;
 compare the group boundary without flattening acquisition geometry, and
 require independent second review before anatomical acceptance.
+
+### Adjacent CT candidate tracing checkpoint
+
+The metadata-only observation ledger now includes seven inspected windowed
+frames: **42/43**, **44/45**, and **80/81/82**, preserving source groups.
+New private Blender previews at42/45/80/81 each render exactly one expected
+source plane; the existing frame44 preview was reused. Original PNG/header
+hashes for all five added sources match the pinned viewer report, all render
+hashes are recorded, and the saved Blend hash remains unchanged. Factory
+startup and two render threads were used, without modifying user preferences.
+
+Candidate outlined structures persist qualitatively within each short sequence.
+The cross-group43/44 resemblance is **not accepted registration**. Scanner-S
+gaps across42/43/44/45 are3/1/3mm, so timeline order must not imply a uniform
+3mm volume grid. No bone identity, landmark coordinates, segmentation, source
+skeleton geometry or anatomical readiness was promoted.
+
+Next executable anatomy action: trace intermediate group2 frames50/55/60/65/70/75,
+using existing pinned source imagery and reusing private previews if present.
+Retain explicit candidate-only observations and obtain independent second
+review before accepting anatomy. Do not repeat completed c003 optimization,
+source downloads/calibration or movement sweeps.

@@ -32,9 +32,56 @@
       "visible_plane": "FRAME_082__GROUP_02__cvm1957f",
       "candidate_note": "Two separated roughly circular bright rings are visible within the two lateral soft-tissue regions. Their source-bound appearance differs from frame43. Ring appearance alone does not establish femoral identity, segmentation extent or any accepted landmark.",
       "next_review": "Trace both candidate rings superiorly within group2 using original source identities; require independent second review before accepting bone identity or coverage."
+    },
+    {
+      "source_id": "cvm1839f", "timeline_frame": 42, "source_group": 1, "scanner_S_mm": -447.0,
+      "source_png_sha256": "afc9b7f6c5be12edc745a8aeb16465ed6ba2dd921f9888192db4c3ba23a02d71",
+      "source_header_sha256": "7edb9c451635be39a1e5b19fd5391309ec37109c4be96506f9f9fea3a078b755",
+      "private_render_sha256": "08d7a00aa3ef1013b755e8a40a516ee07d67603dab653d37193161e78e4c8ad4",
+      "visible_plane": "FRAME_042__GROUP_01__cvm1839f",
+      "candidate_note": "The paired large non-circular outlined structures and smaller posterior complex persist visually into frame43, with contour differences. This is a within-group visual comparison only; anatomical identity and segmentation correspondence remain unaccepted."
+    },
+    {
+      "source_id": "cvm1843f", "timeline_frame": 44, "source_group": 2, "scanner_S_mm": -451.0,
+      "source_png_sha256": "2fbd3487d28d35944ff2407a76b61a2d136760636fb025014a76f6ae5ce604a8",
+      "source_header_sha256": "0de40995282cf7c901db29340a7e52f5495af4df1a872209a0c057535911d328",
+      "private_render_sha256": "201f4a0bf330a1711a4e49b97fea1ff6617dbd38ad5208d83b7d674e3a7332ae",
+      "visible_plane": "FRAME_044__GROUP_02__cvm1843f",
+      "candidate_note": "At the separate group2 start, paired outlined structures and a posterior bright complex resemble the group1 endpoint qualitatively. Similar appearance does not prove inter-group registration, uniform spacing or shared segmentation identity."
+    },
+    {
+      "source_id": "cvm1846f", "timeline_frame": 45, "source_group": 2, "scanner_S_mm": -454.0,
+      "source_png_sha256": "f084cc0a0544580f7e1009af507fd8ba6567767233bde06231282b004ee0988a",
+      "source_header_sha256": "ff485a52f49be0dab60fee6767e432e38ddd09e0e480fdcb623dd18f6c60d8c8",
+      "private_render_sha256": "0b19741c67afb77e2b6271ad633e81b7002921b5441899abac904e18194a6d4a",
+      "visible_plane": "FRAME_045__GROUP_02__cvm1846f",
+      "candidate_note": "Paired non-circular bright outlined structures remain visible below frame44 in the same source group; contour and central posterior outline change. No named bone or landmark is accepted from this observation."
+    },
+    {
+      "source_id": "cvm1951f", "timeline_frame": 80, "source_group": 2, "scanner_S_mm": -559.0,
+      "source_png_sha256": "f4df239f7635a99d4d804d71d6275c5f1ad29cca200f75a044713835d8142ee4",
+      "source_header_sha256": "0ef29323cc296028ea351656caa2c79ababfe50728e733f8f77ce23c23e58274",
+      "private_render_sha256": "3c658825d14f1b3c9bd77752dfbbeb36d4a8c09c09edb834cf67052df4a5ae9c",
+      "visible_plane": "FRAME_080__GROUP_02__cvm1951f",
+      "candidate_note": "Two separate roughly circular bright rings are present in the lateral soft-tissue regions; inner contour irregularities differ from the lower frames81/82. This is candidate shape persistence, not accepted femoral identity or coverage."
+    },
+    {
+      "source_id": "cvm1954f", "timeline_frame": 81, "source_group": 2, "scanner_S_mm": -562.0,
+      "source_png_sha256": "1b832f500b7af35bc170bee2a18bc94980848486c27ed955b15b819143f53f0a",
+      "source_header_sha256": "516300d7f2f6db3ca64380efd429ce849a63662282381b5d9ff0640694208a86",
+      "private_render_sha256": "da11a5678946c5f7a53d0306408fbc3266e300bf14dcf54ff579019d94862622",
+      "visible_plane": "FRAME_081__GROUP_02__cvm1954f",
+      "candidate_note": "Paired bright rings persist between frames80 and82 with modest contour differences. No radius, centre, segmentation mask, anatomical side or registration measurement is inferred."
     }
   ],
   "original_png_and_header_hashes_reverified": true,
+  "original_native16_visual_inspection_frames": [43, 82],
+  "windowed_blender_visual_inspection_frames": [42, 43, 44, 45, 80, 81, 82],
+  "within_group_candidate_visual_traces": [[42, 43], [44, 45], [80, 81, 82]],
+  "cross_group_comparison_frames": [43, 44],
+  "cross_group_registration_accepted": false,
+  "scanner_S_successive_gaps_mm_for_frames_42_43_44_45": [3, 1, 3],
+  "uniform_volume_grid_accepted": false,
   "original_png_and_windowed_blender_views_inspected": true,
   "original_png_native16_display_limitation": "Direct native16 previews are very dark; observations use the fixed-window derivative, not a threshold bone classifier.",
   "source_blend_unchanged": true,

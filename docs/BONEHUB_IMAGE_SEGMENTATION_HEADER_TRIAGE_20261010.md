@@ -194,3 +194,40 @@ conversion for the BoneHub UINT16 NIfTI. Its aligned-CT download endpoint return
 HTTP403 to the web reader; no calibration inferred from that access failure.
 Next: investigate bounded primary metadata or transformation code, then tested
 source surface-point/grid correspondence. No readiness or canonical gate changed.
+
+## Subsequent raw surface-vertex/grid check
+
+Eight original source hashes reverified. For each source,256unique raw float32
+vertices selected at evenly spaced indices in lexicographic XYZ order, including
+degenerate-face vertices where present. This is a reproducible diagnostic subset,
+**not spatially uniform sampling, exhaustive fragment coverage or landmarks**.
+Same unaccepted scale/origin assumption as above, nearest-grid floor(index+0.5),
+source segment layer respected. Complete label/pixel stream CRC and lengths
+verified;55,296label queries and2,048stored-pixel queries, no volume allocation.
+
+| Source | Nearest named label /256 | Any named label in27neighbours /256 | Stored UINT16 range at nearest grid |
+| --- | ---: | ---: | --- |
+| Calcaneus left | 134 | 256 | 1018..1718 |
+| Intermediate cuneiform left | 138 | 256 | 1057..1829 |
+| Talus left | 126 | 256 | 970..1895 |
+| Hamate right, layer1 | 139 | 256 | 999..1530 |
+| Rib1left | 146 | 256 | 19..2220 |
+| Rib1right | 140 | 256 | 807..1936 |
+| Rib3left | 139 | 256 | 688..47294 |
+| Rib4left | 150 | 256 | 29..1723 |
+
+Private report `private-raw-surface-vertex-grid-check.json` SHA256
+`82edddfc9e6f0327de41ce7dffb3297253eb72a7dca485e44a87f0a55d906741`.
+All2,048points have the named label in the local neighbourhood; exact nearest
+membership is not required of a smoothed surface. This supports the assumed
+local source relation as a candidate diagnostic, not accepted registration,
+complete image coverage, anatomical identity, HU calibration or HGPT binding.
+The earlier tiny-rib background concerns remain unresolved.
+
+Frozen upstream `CT/metadata.json` and `CT/Mesh/README.md` retrieved completely:
+SHA256 `2e17cc8a04329a87e0bb12f6f215912ee7a31e0a1ba78ce153caf54ff83e40de`
+and `44b6b9af2a5fa0506430aa277900c2965882a0518de70b0e3c5d2f3331bf5ef3`.
+Metadata supplies demographics only. Mesh conversion code rebuilds segment
+closed surfaces with smoothing factor0.5; neither supplies pixel intensity
+conversion or an independently accepted image/surface registration. Do not
+manufacture an intensity offset from apparent background values.

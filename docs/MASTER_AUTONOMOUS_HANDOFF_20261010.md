@@ -422,3 +422,13 @@ aligned/rescaled CT but supplies no BoneHub HU conversion; its download endpoint
 returned403 to web reader. Next executable action: bounded primary calibration
 metadata or transformation-code inspection, followed by source-bound surface
 point/grid correspondence. Preserve all immutable sources and frozen candidates.
+
+Executed follow-on raw-vertex/grid diagnostic:256deterministically selected
+original float32 vertices for each of8pinned STLs; all2,048have named segment
+within27nearest-grid neighbours, nearest matches126..150/256. This is not
+spatially uniform/exhaustive, and does not accept registration or anatomy.
+Complete source-stream CRC/length checks passed; exact private report hash and
+per-source results in header-triage ledger. Frozen upstream demographic metadata
+and smoothing0.5mesh conversion README inspected; neither supplies HU conversion.
+Next bounded action: independently establish aligned image intensity provenance
+or inspect fragment-focused orthogonal source patches, retaining all fragments.

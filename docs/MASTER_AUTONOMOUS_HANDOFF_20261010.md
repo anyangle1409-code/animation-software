@@ -646,3 +646,23 @@ code, candidate files or geometry have been edited. If a numerical difference
 appears, retain it as an unresolved finding rather than treating it as a path
 serialization fix. Source-bound anatomical review remains the next separate
 evidence gate.
+
+### c003 environment diagnosis and one corrected run
+
+Sessions `41234` and `26974` completed, superseding their running state above.
+The unchanged c003 test module ran **16 tests: 15 pass, one error** in
+130.610 seconds. Reconstruction stopped at `scipy.optimize` import, before a
+complete record comparison. The separate difference diagnostic hit the same
+missing dependency; neither supplies evidence that c003 differences are
+exclusively paths. Do not edit c003 serialization on that assumption.
+
+SciPy **1.18.1** and its NumPy **2.5.4** dependency were installed using binary
+wheels into private `work/private-source-skeleton-20261010/dependencies-python312/`,
+outside Git. Both versions and import locations were checked. Shared Python,
+Blender and source bytes were not changed. One corrected unchanged c003 module
+run is active in session **57042**, with that private directory explicitly
+prepended and full comparison mismatch output enabled. A preliminary command
+imported SciPy before prepending the directory and immediately errored; it ran
+no tests and is not verification evidence. Collect the corrected session
+before restarting any solver. Retain any numerical mismatch as unresolved;
+do not change tolerances, frozen records or anatomical approval to hide it.

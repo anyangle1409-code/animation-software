@@ -2,6 +2,52 @@
 
 Date: 2026-10-09
 
+## Updated continuation checkpoint — 2026-10-10
+
+This section supersedes the older six-frame checkpoint below. Fetch both live
+branches before starting. The verified development and PR head is
+`73197ca9f715c83d5f4eca3b9f8728d4f1bb0848`; 362 intake tests passed locally
+and all 15 GitHub checks succeeded. Claude's branch remains at `9d57a01b`.
+
+The source bundle now contains 72 slices in two acquisition groups. All
+18,874,368 PNG samples matched their official decompressed GE source samples
+exactly. All 72 scanner headers report the same -1024 addend. Read
+`nlm_pelvic_ct_full_series_hu_calibration_20261009.json` in the anatomy audit
+directory: `HU = PNG_stored_value - 1024` is verified for this bundle. The
+stored threshold 1200 corresponds to 176 HU, but its anatomical suitability
+has not been established. The private Blender occupancy scene has 8 and 3
+components by group; no component was automatically removed.
+
+Other preserved Work branches contain additional evidence. Review their live
+heads and checks before integrating; they have not been merged into this head:
+
+- Orientation: `codex/ct-72-frame-orientation-preflight-20261009`,
+  last inspected `bf02226b`.
+- Threshold sensitivity: `codex/ct-stored-scalar-threshold-sensitivity-20261009`,
+  last inspected `20c3b2bd`.
+- Landmark coverage: `codex/ct-anatomical-landmark-coverage-audit-20261009`,
+  last inspected `3614dd9f`.
+
+These branches already audit scanner row/column orientation, threshold
+sensitivity, and the distinction between ten provisional region observations
+and seven required physical landmarks. Their earlier calibration questions
+are answered by the newer direct GE-to-PNG comparison above. Keep their
+pixel-centre convention and anatomical-identity limitations in force.
+
+Claude's useful next Blender task is independent source review of bilateral
+bony ASIS, bilateral pubic tubercles, S1 superior endplate centre, and bilateral
+femoral-head articular centres. Review multiple source planes, retain exact
+source hashes and pixel support, record reviewer identity and uncertainty, and
+leave unsupported features absent. Region labels alone do not establish these
+landmarks. Preserve acquisition boundaries and the unmodified source skeleton.
+
+Private CT and GE bytes and existing Blender outputs are on the desktop,
+outside Git; a laptop checkout does not contain them. Obtain source files from
+the recorded official NLM URLs and validate their pins before building a
+laptop scene. Never commit source bytes or pack the CT images into Blender.
+Independent anatomy review, verified surfaces, scanner-to-HGPT registration,
+and evidence beyond this single donor remain outstanding promotion gates.
+
 ## Safe checkpoint
 
 - Repository: `anyangle1409-code/animation-software`

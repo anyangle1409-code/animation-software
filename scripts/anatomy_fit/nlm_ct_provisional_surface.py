@@ -136,6 +136,32 @@ def make_surface(occupied, scanner_geometry, first_s_mm, thickness_mm=3.0,
     return vertices, quads
 
 
+def component_from_explicit_seed(occupied, seed):
+    """Restrict the review OBJ to a source-identified voxel, NEVER auto-rank bones.
+
+    Caller must independently justify the voxel seed using source planes.
+    Missing/non-thresholded seeds fail closed rather than choosing the largest.
+    """
+    if (not isinstance(seed, (tuple, list)) or len(seed) != 3 or
+            any(type(v) is not int for v in seed)):
+        raise ValueError("review seed must be [slice,row,column] integers")
+    seed = tuple(seed)
+    if seed not in occupied:
+        raise ValueError("explicit review seed is absent from the HU candidate volume")
+    selected = {seed}
+    pending = [seed]
+    while pending:
+        z, row, col = pending.pop()
+        for offset in (
+                (-1, 0, 0), (1, 0, 0), (0, -1, 0),
+                (0, 1, 0), (0, 0, -1), (0, 0, 1)):
+            item = (z + offset[0], row + offset[1], col + offset[2])
+            if item in occupied and item not in selected:
+                selected.add(item)
+                pending.append(item)
+    return selected
+
+
 def _private_source_slice(ct_dir, row):
     name = row["source_id"]
     png_file = ct_dir / (name + ".png")
@@ -210,6 +236,25 @@ def extract(args):
                         raise ValueError("selection exceeds provisional geometry cap")
     if not occupied:
         raise ValueError("no thresholded voxels; no source surface to export")
+    original_voxel_count = len(occupied)
+    original_components = component_sizes(occupied)
+    explicit_seed = getattr(args, "seed", None)
+    if explicit_seed is not None:
+        occupied = component_from_explicit_seed(occupied, explicit_seed)
+    selected_cuts = set()
+    for z, row, col in occupied:
+        if z == 0:
+            selected_cuts.add("source_selection_superior_cut")
+        if z == len(chosen) - 1:
+            selected_cuts.add("source_selection_inferior_cut")
+        if col == col0:
+            selected_cuts.add("ROI_col_min_cut")
+        if col == col1 - 1:
+            selected_cuts.add("ROI_col_max_cut")
+        if row == row0:
+            selected_cuts.add("ROI_row_min_cut")
+        if row == row1 - 1:
+            selected_cuts.add("ROI_row_max_cut")
     vertices, quads = make_surface(
         occupied, first_geometry, first_s,
         chosen[0]["slice_thickness_mm"], args.pixel_origin)
@@ -227,6 +272,13 @@ def extract(args):
         "coordinate_frame": "ORIGINAL_SCANNER_RAS_MM",
         "pixel_origin_assumption_unverified": args.pixel_origin,
         "voxel_count": len(occupied),
+        "all_candidate_voxel_count_before_seed": original_voxel_count,
+        "all_candidate_components_6_neighbour_before_seed": original_components,
+        "selection_mode": "explicit_review_seed" if explicit_seed is not None else "unfiltered",
+        "explicit_review_seed_z_row_col": list(explicit_seed) if explicit_seed is not None else None,
+        "candidate_voxels_not_in_selected_component": original_voxel_count - len(occupied),
+        "selected_boundary_cut_contacts": sorted(selected_cuts),
+        "selected_component_proven_complete_anatomical_bone": False,
         "connected_components_6_neighbour": components,
         "vertices": len(vertices),
         "boundary_quads": len(quads),
@@ -267,6 +319,9 @@ def main(argv=None):
     parser.add_argument("--pixel-origin", default="outer_edge",
                         choices=("outer_edge", "first_pixel_centre"))
     parser.add_argument("--out", required=True)
+    parser.add_argument("--seed", type=int, nargs=3,
+                        metavar=("SLICE", "ROW", "COL"),
+                        help="explicit reviewer-selected occupied voxel; never auto-select largest component")
     args = parser.parse_args(argv)
     print(json.dumps(extract(args), indent=2, sort_keys=True))
 

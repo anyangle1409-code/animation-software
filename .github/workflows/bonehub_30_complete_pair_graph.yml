@@ -1,0 +1,80 @@
+name: Wrist and foot complete bilateral source-pair graph
+
+on:
+  push:
+    branches: [codex/bonehub-wrist-foot-complete-pair-graph-20261010]
+    paths:
+      - scripts/anatomy_fit/bonehub_wrist_foot_pair_graph.py
+      - scripts/test_bonehub_wrist_foot_pair_graph.py
+      - .github/workflows/bonehub_30_complete_pair_graph.yml
+      - docs/BONEHUB_30_BONE_COMPLETE_BILATERAL_GRAPH_20261010.md
+  pull_request:
+    paths:
+      - scripts/anatomy_fit/bonehub_wrist_foot_pair_graph.py
+      - scripts/test_bonehub_wrist_foot_pair_graph.py
+      - .github/workflows/bonehub_30_complete_pair_graph.yml
+
+permissions:
+  contents: read
+
+jobs:
+  source-graph-validator-no-network:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify graph coverage, cached KD nearest math and fail-closed source guards
+        run: |
+          python -m unittest discover -s scripts -p 'test_bonehub_wrist_foot_pair_graph.py' -v
+          python -m unittest discover -s scripts -p 'test_bonehub_carpal_tarsal_vertex_proximity.py' -v
+
+  read-only-actual-30-mesh-source-pairs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Fetch all 30 original SHA-frozen private carpal/tarsal STLs and measure 44 full-vertex pair distances
+        run: |
+          python scripts/anatomy_fit/bonehub_wrist_foot_pair_graph.py \
+            --private-dir "$RUNNER_TEMP/hgpt-complete-wrist-foot-private" \
+            --output "$RUNNER_TEMP/hgpt-complete-wrist-foot-private/30-bones-44-pairs.json" \
+            --download
+          python - "$RUNNER_TEMP/hgpt-complete-wrist-foot-private/30-bones-44-pairs.json" <<'PY'
+          import json,math,sys
+          with open(sys.argv[1],encoding='utf-8') as f: r=json.load(f)
+          assert r['kind']=='HGPT_NONCANONICAL_BILATERAL_30_BONE_GRAPH_SOURCE_VERTEX_BOUNDS'
+          assert r['source_meshes_full_SHA256_and_size_verified']==30
+          assert r['source_pair_count']==44
+          assert len(r['pair_measurements'])==44
+          assert len(r['original_PR38_source_pair_regression_checks'])==8
+          assert r['source_n_subjects']==1
+          assert r['native_source_coordinates_physical_mm_accepted'] is False
+          assert r['source_to_CT_registration_completed'] is False
+          assert r['all_source_label_edges_were_true_this_subject_articulations_verified'] is False
+          assert r['joint_cartilage_patches_or_bone_contact_centres_accepted'] is False
+          assert r['CP1_gate6_ready'] is False
+          visited=set()
+          for p in r['pair_measurements']:
+              assert p['this_is_not_triangle_surface_or_cartilage_contact'] is True
+              assert p['anatomical_joint_candidate_identity_accepted'] is False
+              a=p['bbox_lower_bound_unapproved_source_units']
+              b=p['closest_valid_face_vertex_upper_bound_unapproved_source_units']
+              assert math.isfinite(a) and math.isfinite(b)
+              assert 0<=a<=b+1e-8
+              assert all(len(pin)==64 for pin in p['source_sha256_pins'])
+              visited.add((p['region'],p['source_side_label'],p['a'],p['b']))
+              print(f"{p['region']} {p['source_side_label']} {p['a']}/{p['b']}: "
+                    f"[{a:.3f},{b:.3f}] (UNVERIFIED native source units, no cartilage or contact claim)")
+          assert len(visited)==44
+          PY
+      - name: Preserve ONLY numeric and source-SHA report, no mesh STL/CT or raw vertex points
+        uses: actions/upload-artifact@v4
+        with:
+          name: original-30-bones-44-bilateral-pair-bounds-NONCANONICAL
+          path: ${{ runner.temp }}/hgpt-complete-wrist-foot-private/30-bones-44-pairs.json
+          if-no-files-found: error
+          retention-days: 14

@@ -1,6 +1,7 @@
 """Adversarial no-network tests for bilateral source surface-vertex proximity."""
 import hashlib
 import math
+from pathlib import Path
 import struct
 import unittest
 from unittest.mock import patch
@@ -135,12 +136,12 @@ class SourceVertexProximityTests(unittest.TestCase):
 
     def test_fail_closed_cohort_and_missing_source_identity(self):
         with self.assertRaisesRegex((ValueError),"(revision|flags)"):
-            audit({"source_revision":"forged"},None,False)
+            audit({"source_revision":"forged"},Path("/tmp/not-patient-data"),False)
 
     def test_no_canonical_promotion_possible_in_no_network_synthetic_audit(self):
         index={"source_revision":FROZEN_UPSTREAM_REV}
         with self.assertRaises(ValueError):
-            audit(index,None,False)
+            audit(index,Path("/tmp/not-patient-data"),False)
 
 
 if __name__=="__main__":

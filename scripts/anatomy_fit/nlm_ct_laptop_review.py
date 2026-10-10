@@ -162,7 +162,7 @@ def make_index(evidence, destination):
             +escape(sid)+" — group "+str(plate["group"])+"</a> — "+
             str(plate["candidate_points"])+" original unverified point(s) | "+
             '<a href="'+escape(sid+"_tentative_review.html",quote=True)+'">'+
-            'PRIVATE tentative correction/rejection form</a></li>")
+            'PRIVATE tentative correction/rejection form</a></li>')
     html='''<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">

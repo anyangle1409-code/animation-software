@@ -49,3 +49,24 @@ An attempted Boolean claim physiological_ROM_certified, exercise_anatomy_approve
 ## Remaining blockers
 
 Actual verified pelvic surfaces, coupled thoracic/shoulder geometry, ribs, wrist carpal contact, tarsal contact, source-compatible motion axes, and full-body exercise pose/muscle/skin validation still need evidence and (for real pose outputs) local Blender. Region readiness stays 0 READY / 9 PARTIAL / 3 BLOCKED. Preserve a003 and c001-c004; c005 is unapproved. No production mesh retargeting based on test peak values.
+
+
+## Independently recovered PRIMARY sternoclavicular evidence for U3
+
+The old follower-source matrix listed U3 as blocked because a generic MyoArm/MoBL model predicted 0.1025 degrees clavicle elevation per degree humerothoracic arm elevation, crossing the previous secondary-review 'typically below 10 degrees' description at about 98 degrees HT. The existing c004 follower still did NOT install clavicular elevation. This is important for overhead press and realistic shoulder/glenoid position.
+
+Verified *primary publication abstracts* have now been reviewed without conflating different clavicle rotations:
+
+- Ludewig et al. 2004, primary experimental surface-electromagnetic tracking, n=39 total with 30 asymptomatic; humeral flexion, scapular-plane and coronal abduction. Reported observed **maxima**: clavicle elevation 11-15 degrees, retraction 15-29 degrees, posterior longitudinal rotation 15-31 degrees. PMID 15089027, DOI 10.2519/jospt.2004.34.3.140. Official: https://pubmed.ncbi.nlm.nih.gov/15089027/
+- Ludewig et al. 2009, primary transcortical bone-pin 3D motion, n=12; clavicular elevation and retraction DO occur, but the **31-degree average refers specifically to posterior clavicular axial rotation**, NOT elevation. A 19-degree average refers to **scapular posterior tilt at the AC joint**, NOT clavicular elevation. DOI 10.2106/JBJS.G.01483, PMID 19181982. Official: https://pubmed.ncbi.nlm.nih.gov/19181982/
+- Ludewig/Braman 2011 secondary biomechanical review says small clavicular SC elevation is typically below 10 degrees in healthy arm elevation, which cannot serve as an absolute universal cap when a 2004 primary study reports 11-15-degree **observed maxima** under another sensing method/context. DOI 10.1016/j.math.2010.08.004: https://pmc.ncbi.nlm.nih.gov/articles/PMC3010321/
+
+Machine-readable source provenance and explicit measurement-role separation:
+ORIGINAL_V1_WORK/anatomy/audit/primary_clavicle_motion_u3_source_review_20261010.json
+
+First-party, no-model-change comparison:
+scripts/anatomy_fit/clavicle_primary_source_compatibility.py
+
+The generic 0.1025 curve gives ~12.3-degree candidate SC elevation at 120-degree humerothoracic elevation and ~17.22 degrees at 168 degrees, while the 2004 study's reported maxima are 11-15 degrees across tasks. **This is only a between-method source sensitivity difference, not proof either position is physiologically impossible.** A reported maximum is not a stage-by-stage trajectory; the original bone-pin 2009 public abstract provides no matched numerical SC-elevation curve. Differences in marker/sensor, thorax axes, task, rest pose, sex and exercise load remain unresolved.
+
+Consequence: It is **not** correct to freeze zero clavicle elevation as natural overhead motion; nor to install 31 degrees (wrong axis), a universal 10-degree cap, or the 0.1025 generic coupling as a proven HGPT target. The source tool explicitly refuses to authorize any change. **U3 remains an evidence blocker** until a validated axis-compatible elevation/retraction curve is reviewed alongside true SC/AC contacts and the accepted thorax frame. Canonical readiness unchanged.

@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "kind": "HGPT_NONCANONICAL_PRIMARY_STERNUM_ENDPOINT_RECHECK",
+  "review_date": "2026-10-10",
+  "source": {
+    "paper": "Morphometric Analysis of the Sternum",
+    "authors": "Selthofer, Nikolic, Mrcela, Radic, Leksan, Rudez, Selthofer",
+    "year": 2006,
+    "journal": "Collegium Antropologicum",
+    "volume": "30",
+    "issue": "1",
+    "pages": "43-47",
+    "pubmed": "16617574",
+    "primary_fulltext_url": "https://hrcak.srce.hr/file/11308",
+    "public_fulltext_pages": 5,
+    "fulltext_visited_and_original_tables_visually_checked": true,
+    "pdf_bytes_locally_downloaded_and_hash_verified": false,
+    "original_table_locations": {
+      "definitions": "PDF page 2 (printed page 44) - Materials and Methods; Fig. 1",
+      "sex_ratio_and_sternal_angle": "PDF page 2, Table 1 (printed page 44)",
+      "length_width_and_volume": "PDF page 3, Table 2 (printed page 45)"
+    },
+    "donor_specimens": {
+      "male": 55,
+      "female": 35,
+      "mean_age_years": 65,
+      "postmortem_formalin_fixed": true
+    },
+    "independence": "Original osteological collection in Osijek; separate participants from NLM Visible Human and referenced Turkish CT sample, not identical data",
+    "limitations": [
+      "Older cadavers averaging age 65; no stature distribution or male 182 cm conditional regression supplied",
+      "Table 2 lists whole manubrium/body/total lengths but does not provide a numerical level-by-level distance for all costal notches",
+      "Measurement endpoints and shape differ from imaging-derived landmark-frame controls",
+      "Means and SDs do not justify rescaling a single target or inferring joint/cartilage contact"
+    ]
+  },
+  "male_table_primary": {
+    "unit": "centimetres for lengths/widths; degrees for angle",
+    "manubrium_length_cm": {
+      "mean": 5.52,
+      "sd": 0.36
+    },
+    "manubrium_max_breadth_cm": {
+      "mean": 6.82,
+      "sd": 0.8
+    },
+    "manubrium_min_breadth_cm": {
+      "mean": 3.68,
+      "sd": 0.55
+    },
+    "manubrium_avg_breadth_cm": {
+      "mean": 5.25,
+      "sd": 0.68
+    },
+    "manubrium_avg_thickness_cm": {
+      "mean": 1.26,
+      "sd": 0.19
+    },
+    "body_length_cm": {
+      "mean": 10.97,
+      "sd": 1.44
+    },
+    "body_avg_breadth_cm": {
+      "mean": 3.07,
+      "sd": 0.43
+    },
+    "body_avg_thickness_cm": {
+      "mean": 1,
+      "sd": 0.11
+    },
+    "total_sternum_length_cm": {
+      "mean": 20.86,
+      "sd": 1.46
+    },
+    "sternal_angle_deg": {
+      "mean": 166.35,
+      "sd": 7.38
+    },
+    "total_length_endpoint": "centre of jugular notch to end of xiphoid process",
+    "manubrium_length_endpoint": "centre of jugular notch to centre of manubriosternal synchondrosis",
+    "body_length_endpoint": "Separate body length defined by study Fig. 1; not HGPT a003 vertical depth",
+    "manubrium_width_endpoint": "first/second costal notch-bounded transverse breadth locations",
+    "body_width_endpoint": "between costal notches 2–7 at individually specified levels",
+    "notch_distances_full_level_table_available": false
+  },
+  "comparative_existing_evidence": {
+    "source_name": "STERNUM_CT_TURKEY_2018 (HGPT original canonical_sternum_target_review_v1.json)",
+    "source_record_not_replaced": true,
+    "male_total_length_mm": {
+      "mean": 154.1,
+      "sd": 13.1
+    },
+    "matching_physical_endpoints_independently_confirmed": false,
+    "stature_matched_subgroup_available": false,
+    "a003_sternal_stick_mm": 213.2,
+    "a003_stick_kind": "Blender audit control, not verified identical to osteological total length",
+    "a003_manubriosternal_vertical_depth_mm": 76.1
+  },
+  "explicit_decision": {
+    "source_fulltext_gap_closed": true,
+    "sternum_abs_length_contradiction_resolved": false,
+    "notch_by_notch_vertical_coordinate_target_closed": false,
+    "sternum_frame_kinematic_joint_centres_closed": false,
+    "joint_centres_selected": false,
+    "canonical_geometry_mutated": false,
+    "canonical_promotion_allowed": false,
+    "cp1_gate6_passed": false,
+    "regional_readiness_upgraded": false
+  }
+}

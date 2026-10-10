@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-10",
+  "kind": "PRIMARY_SC_CLAVICLE_U3_SOURCE_COMPATIBILITY_NOT_NUMERICAL_TARGET",
+  "baseline_gap_file": "ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/clavicle_elevation_gap_c004_v1.json",
+  "baseline_source_matrix": "ORIGINAL_V1_WORK/anatomy/audit/claude_anatomical_development_20261009/follower_source_matrix_v1.json",
+  "kinematic_definitions": {
+    "sternoclavicular_elevation": "rotation of clavicle superiorly relative to thorax, not posterior rotation about long axis",
+    "sternoclavicular_retraction": "posterior motion of lateral clavicle relative to thorax",
+    "sternoclavicular_posterior_axial_rotation": "rotation about clavicle longitudinal axis, NOT scapular tilt or SC elevation",
+    "acromioclavicular_posterior_tilt": "scapular posterior tilt RELATIVE TO CLAVICLE, not SC elevation",
+    "humerothoracic_elevation": "arm elevation relative to thorax, distinct from glenohumeral elevation relative to scapula"
+  },
+  "sources": [
+    {
+      "id": "ludewig2004_clavicle_surface",
+      "type": "primary_experimental",
+      "title": "Three-dimensional clavicular motion during arm elevation: reliability and descriptive data",
+      "doi": "10.2519/jospt.2004.34.3.140",
+      "pubmed": "https://pubmed.ncbi.nlm.nih.gov/15089027/",
+      "year": 2004,
+      "subjects_total": 39,
+      "asymptomatic_subjects": 30,
+      "symptomatic_subjects": 9,
+      "method": "surface electromagnetic clavicle/thorax/humerus tracking",
+      "tasks": [
+        "humeral flexion",
+        "scapular plane abduction",
+        "humeral abduction"
+      ],
+      "measures": [
+        {
+          "quantity": "sternoclavicular_elevation",
+          "reported_maximum_range_deg": [
+            11,
+            15
+          ]
+        },
+        {
+          "quantity": "sternoclavicular_retraction",
+          "reported_maximum_range_deg": [
+            15,
+            29
+          ]
+        },
+        {
+          "quantity": "sternoclavicular_posterior_axial_rotation",
+          "reported_maximum_range_deg": [
+            15,
+            31
+          ]
+        }
+      ],
+      "limits": [
+        "Ranges are reported maxima across tested tasks/subjects and not a single physiological hard bound",
+        "PubMed abstract lacks source angle-by-angle trajectories and per-subject distributions",
+        "Sensor-on-skin methodological uncertainty differs from transcortical pins",
+        "Not a character-specific 1.82-m male model or loaded exercise measurement"
+      ]
+    },
+    {
+      "id": "ludewig2009_bone_pin_shoulder",
+      "type": "primary_experimental",
+      "title": "Motion of the shoulder complex during multiplanar humeral elevation",
+      "doi": "10.2106/JBJS.G.01483",
+      "pubmed": "https://pubmed.ncbi.nlm.nih.gov/19181982/",
+      "pmcid": "PMC2657311",
+      "year": 2009,
+      "subjects_total": 12,
+      "method": "transcortical bone pins and electromagnetic motion tracking of clavicle, scapula and humerus",
+      "tasks": [
+        "flexion",
+        "scapular plane abduction",
+        "coronal plane abduction"
+      ],
+      "measures": [
+        {
+          "quantity": "sternoclavicular_elevation",
+          "direction_observed": "elevation present",
+          "reported_numeric_trajectory_deg": null
+        },
+        {
+          "quantity": "sternoclavicular_retraction",
+          "direction_observed": "retraction present",
+          "reported_numeric_trajectory_deg": null
+        },
+        {
+          "quantity": "sternoclavicular_posterior_axial_rotation",
+          "reported_average_deg": 31
+        },
+        {
+          "quantity": "acromioclavicular_posterior_tilt",
+          "reported_average_deg": 19
+        },
+        {
+          "quantity": "glenohumeral_plane_between_flexion_abduction",
+          "reported_average_difference_deg": 46
+        }
+      ],
+      "limits": [
+        "31 degrees refers to SC POSTERIOR LONG-AXIS ROTATION, never to elevation",
+        "19 degrees refers to AC scapular posterior tilt, never to clavicular elevation",
+        "Numerical SC elevation-vs-humerothoracic tables/curve not recovered from primary abstract",
+        "Bone pin motion axes and sign mapping must be matched to current HGPT thorax before any fitting"
+      ]
+    },
+    {
+      "id": "ludewig2011_shoulder_rehab",
+      "type": "secondary_review",
+      "title": "Shoulder Impingement: Biomechanical Considerations in Rehabilitation",
+      "pubmed_central": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3010321/",
+      "year": 2011,
+      "measures": [
+        {
+          "quantity": "sternoclavicular_elevation",
+          "descriptive_statement": "typically below 10 degrees during healthy arm elevation"
+        }
+      ],
+      "limits": [
+        "Secondary review statement, not a primary subject-specific maximum",
+        "Not consistent as a universal cap with 2004 source reported 11–15 degree maxima",
+        "Cannot be combined with generic model linear regression without frame and population matching"
+      ]
+    }
+  ],
+  "existing_model_template": {
+    "id": "MoBL_MyoArm_sternoclavicular_r3_r",
+    "kind": "generic_model_not_primary_measurement",
+    "model_url": "https://github.com/MyoHub/myo_sim/blob/93b0ca8f4ec90c9899ee7f05fee561e9911da91b/myo_sim/models/arm/assets/myoarm_r_assets.xml",
+    "coefficient_deg_clavicle_elevation_per_deg_humerothoracic": 0.1025,
+    "reference": "clavicle_elevation_gap_c004_v1.json",
+    "normalized_angle_convention": "model OpenSim axial geometry, not automatically converted to HGPT anatomically verified frames"
+  },
+  "unresolved_decision": {
+    "has_end_angle_clavicle_elevation_primary_curve": false,
+    "has_source_matched_rest_pose": false,
+    "has_verified_SC_AC_GH_axis_transforms": false,
+    "has_independent_bilateral_anatomical_acceptance": false,
+    "do_not_install_zero_motion_as_anatomy": true,
+    "do_not_copy_31deg_posterior_rotation_into_elevation": true,
+    "do_not_promote_0_1025_model_coefficient": true,
+    "bone_mesh_skeleton_change_authorized": false,
+    "canonical_promotion_allowed": false
+  }
+}

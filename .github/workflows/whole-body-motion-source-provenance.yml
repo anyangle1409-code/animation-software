@@ -1,0 +1,73 @@
+name: Whole-body movement source provenance 135 tests 278 peaks
+on:
+  push:
+    branches:
+      - codex/whole-body-motion-provenance-gate-20261010
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-motion-amplitude-safety-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify all original 135 exercise tests, 278 source peaks and 78 unsupported diagnostic amplitudes
+        run: |
+          python3 -m unittest discover -s scripts -p 'test_whole_body_motion_source_gate.py' -v
+          python3 -m unittest discover -s scripts -p 'test_clavicle_primary_source_compatibility.py' -v
+          python3 -m unittest discover -s scripts -p 'test_whole_body_blender_evidence_gate.py' -v
+      - name: Execute first-party original source-only gate, proving no Blender was run
+        run: |
+          python3 scripts/anatomy_fit/whole_body_motion_source_gate.py \
+            --source-only --out "$RUNNER_TEMP/whole_body_135_test_motion_provenance.json"
+          python3 - <<'PY'
+          import json,os
+          from collections import Counter
+          from pathlib import Path
+          report=json.loads((Path(os.environ["RUNNER_TEMP"])/
+                             "whole_body_135_test_motion_provenance.json").read_text())
+          assert report["source_test_count"]==135
+          assert report["commanded_peak_count"]==278
+          assert report["unsourced_test_count"]==49
+          assert report["unsourced_peak_count"]==78
+          assert sum(report["unverified_peak_count_by_family"].values())==78
+          assert report["real_pose_execution_verified"] is False
+          assert report["whole_body_motion_anatomically_verified"] is False
+          assert report["canonical_promotion_allowed"] is False
+          tests={x["source_isolated_test_id"]:x for x in report["source_tests"]}
+          assert tests["gh_elevation_plane_0_left"]["unsourced_peak_count"]>0
+          assert tests["tmj_opening"]["unsourced_peak_count"]==2
+          assert tests["hip_flexion_extension_left"]["unsourced_peak_count"]==0
+          print("Verified 78 unproven source test peaks remain quarantined across 49 tests; no Blender session, ROM or real human motion claimed.")
+          PY
+      - name: Verify primary 2004 surface / 2009 bone-pin SC motion source distinction and 2011 secondary review limits
+        run: |
+          python3 scripts/anatomy_fit/clavicle_primary_source_compatibility.py \
+            --out "$RUNNER_TEMP/primary_SC_clavicle_source_review.json"
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=Path(os.environ["RUNNER_TEMP"])/"primary_SC_clavicle_source_review.json"
+          r=json.loads(p.read_text())
+          assert r["source_2004_reported_SC_elevation_maxima_deg"]==[11,15]
+          assert r["source_2009_31deg_is_SC_posterior_axial_rotation_not_elevation"] is True
+          assert r["source_2011_below_10deg_is_secondary_not_hard_limit"] is True
+          assert r["c004_installed_clavicle_elevation"]=="NONE"
+          assert r["primary_curve_per_HT_angle_verified"] is False
+          assert r["candidate_motion_curve_authorized"] is False
+          assert r["canonical_promotion_allowed"] is False
+          print("Source semantics independently checked; no clavicle motion relation installed.")
+          PY
+
+      - name: Confirm no production rig/model, Blender file, or source movement atlas change
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          for path in ("scripts/anatomy_fit/whole_body_motion_source_gate.py",
+                       "scripts/test_whole_body_motion_source_gate.py"):
+              compile(Path(path).read_text(),path,"exec")
+          print("Source-only independent evidence audit; canonical skeleton and runtime untouched.")
+          PY

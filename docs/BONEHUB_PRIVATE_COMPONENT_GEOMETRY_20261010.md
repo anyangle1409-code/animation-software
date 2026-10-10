@@ -76,12 +76,16 @@ Native missing-feature RED -> GREEN and tiny-camera false-success RED -> GREEN
 were observed. Bounded renderer refuses unsupported extents/offsets before any
 output, preserving geometry rather than automatically scaling it. Both Windows
 and Linux synthetic CI and Ubuntu actual-Blender CI are configured; this new
-checkpoint's remote CI remains pending until a run is observed.
+checkpoint's remote CI was subsequently observed: all three jobs in
+[run38075799684](https://github.com/anyangle1409-code/animation-software/actions/runs/38075799684)
+SUCCESS on`fc6c639d665aff904559fadd24bc755b639c436f`, including native Blender,
+Windows reconstruction and Linux source gates. Clean detached short-path
+checkout also51targeted tests PASS (18new+23unchanged reconstruction+10source gate).
 Full inherited regression suite remains red; no broad-suite acceptance claimed.
 
 ## Next executable action / laptop handoff
 
-1. Verify new checkpoint CI, including Ubuntu's actual installed Blender version.
+1. Preserve verified checkpoint CI and review Ubuntu's actual installed Blender version.
 2. Obtain only bounded source image/segmentation metadata needed to test STL
    declared LPS against image transforms and units; verify immutable revision
    and raw header fingerprints. Do not download multi-GB volumes blindly.

@@ -374,3 +374,19 @@ or verified units; do not map it to raw NLM CT without the image transform.
 See `docs/BONEHUB_PRIVATE_COMPONENT_GEOMETRY_20261010.md` for exact measurements,
 limits and next commands. Keep medical bytes and private review outputs outside
 Git. No fragments deleted, anatomical acceptance or canonical promotion performed.
+
+New implementationfc6c639d665aff904559fadd24bc755b639c436f subsequently passed
+all3jobs in actual CI38075799684, including native source-axis Blender review,
+18new tests on Windows/Linux and unchanged23Windows reconstruction tests.
+Clean short-path detached checkout:51targeted tests PASS in16.419seconds.
+Reviewer rechecked refusal guard and independently ran18synthetic tests, PASS.
+Full inherited suite and all anatomical gates remain as recorded, not green.
+
+Next bounded investigation retrieved three complete small segmentation files
+(exact upstream LFS pins verified) and only64KBof the418,636,727-byte male CT
+image. Image header declares millimetres and a RAS sform compatible after X/Y
+sign conversion with label-grid LPS directions/origin. Full image bytes NOT
+hash-verified; no pixel registration or STL scale accepted. Label files decode
+to537MBor1.075GBdespite compressed sizes near1MB; foot/hand have two layers.
+Read `docs/BONEHUB_IMAGE_SEGMENTATION_HEADER_TRIAGE_20261010.md` before implementing
+bounded streaming label sampling. Do not eagerly inflate whole medical volumes.

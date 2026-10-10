@@ -831,3 +831,19 @@ existing calibrated-surface/hip-bridge evidence without repeating its work.
 If finer articular sampling is needed, acquire genuinely separate verified
 finer-resolution evidence. Keep bone identity, seven landmarks, surfaces,
 registration and canonical-promotion gates unaccepted.
+
+## Landmark-method/source reconciliation checkpoint
+
+Primary method definitions and the preserved calibrated/hip-bridge heads
+are reconciled in `docs/PELVIC_CT_LANDMARK_EVIDENCE_RECONCILIATION_20261011.md`.
+The bridge plane cvm1873f matches viewer frame54, group2, S=-481mm and exact
+PNG/header pins. Intensity connectivity remains rejection evidence, never
+accepted contact or segmentation. Seven true landmarks remain0/7 accepted.
+Fresh unchanged feature-contract24tests and APP-frame23tests all passed
+(0.048s/0.163s); those synthetic/frozen guard tests do not validate anatomy.
+Master66fa1b79 passed all3CI jobs in run38095971380.
+
+Next: reuse the existing hip-bridge private three-slice review-plate tool
+for original cvm1870f/1873f/1876f and four exact candidate pixels, preserving
+branch isolation. Inspect original marker locations without bright-pixel
+snapping. Full independent anatomical interpretation still required.

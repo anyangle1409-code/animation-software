@@ -1,0 +1,40 @@
+name: Rib 3D source orientation preflight
+
+on:
+  push:
+    branches:
+      - codex/rib-orientation-source-preflight-20261010
+  pull_request:
+    paths:
+      - 'scripts/anatomy_fit/rib_3d_source_preflight.py'
+      - 'scripts/test_rib_3d_source_preflight.py'
+      - 'ORIGINAL_V1_WORK/anatomy/rib_demographic_model_holcombe2017_v1.json'
+  workflow_dispatch:
+
+jobs:
+  original-source-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Preserve exact original source line endings
+        run: git config --global core.autocrlf false
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run source-locked and adversarial unit tests
+        run: python -m unittest -v scripts/test_rib_3d_source_preflight.py
+      - name: Verify 12 source rib level diagnostics via stdout
+        shell: bash
+        run: |
+          python scripts/anatomy_fit/rib_3d_source_preflight.py | python -c "import sys,json; d=json.load(sys.stdin); assert len(d['levels'])==12; assert d['naive_independent_angle_shortcut_invalid_levels']==[1,8,9,10,11,12]; assert d['canonical_promotion_allowed'] is False"
+  original-source-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Preserve exact original source line endings
+        run: git config --global core.autocrlf false
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify source-pinned rib orientation on Windows
+        run: python -m unittest -v scripts/test_rib_3d_source_preflight.py

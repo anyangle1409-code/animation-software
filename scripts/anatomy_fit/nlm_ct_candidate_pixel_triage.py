@@ -277,6 +277,10 @@ def main():
             {"id": v["observation_id"],
              "pixel_HU": v["point_HU_from_verified_addend"],
              "nearby_HU_range": v["five_by_five_HU_range"],
+             "nearest_300_HU_pixel_NOT_anatomical_seed": next(
+                 x["nearest_intensity_only_not_anatomy"]
+                 for x in v["nearby_2D_intensity_only_review_leads"]
+                 if x["minimum_HU"] == 300),
              "laterality": v["source_R_sign_consistent_with_proposed_side"],
              "passes_HU": [s["minimum_HU"] for s in
                            v["five_by_five_neighbourhood_threshold_support"]

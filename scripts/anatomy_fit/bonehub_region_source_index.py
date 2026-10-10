@@ -178,7 +178,7 @@ def build_report() -> dict:
         raise ValueError("Dataset HEAD revision not a full Git SHA")
     sha = info["sha"]
     path = urllib.parse.quote(MALE_ROOT.rstrip("/"), safe="/")
-    start = f"https://{HOST}/api/datasets/{REPO}/tree/{sha}/{path}?recursive=true&limit=1000&expand=true"
+    start = f"https://{HOST}/api/datasets/{REPO}/tree/{sha}/{path}?recursive=true&expand=false"
     url = start
     seen_pages = set()
     entries = []

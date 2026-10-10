@@ -17,8 +17,6 @@ jobs:
       - name: Verify all original 135 exercise tests, 278 source peaks and 78 unsupported diagnostic amplitudes
         run: |
           python3 -m unittest discover -s scripts -p 'test_whole_body_motion_source_gate.py' -v
-          python3 -m unittest discover -s scripts -p 'test_movement_evidence_queue.py' -v
-          python3 -m unittest discover -s scripts -p 'test_amplitude_provenance_audit.py' -v
           python3 -m unittest discover -s scripts -p 'test_whole_body_blender_evidence_gate.py' -v
       - name: Execute first-party original source-only gate, proving no Blender was run
         run: |

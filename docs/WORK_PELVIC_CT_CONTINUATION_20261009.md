@@ -92,12 +92,14 @@ claim is established. The private scene and outputs are under
 `work/private-nlm-ct-20261009/sequential-viewer-20261010/`; do not commit the
 source images, display copies, render previews, report, or `.blend` file.
 
-Targeted Blender-bundled tests cover source-order/group preservation, duplicate
-and missing-hash refusal, safe reuse of identical private display copies,
-discrete frame visibility, and acquisition-start markers. Next: run the exact
-suite in Blender and the targeted manifest/calibration regressions; push this
-checkpoint so CI can independently run the portable tests. Then an independent
-reviewer must navigate the sequence alongside original full-resolution source
-PNG and scanner-header files, documenting only source-supported candidate
-observations and uncertainty. Keep anatomical gates closed until that review
-and independent corroboration exist.
+Targeted Blender-bundled viewer, series-manifest, and calibration regressions
+passed 32/32 tests. Reopening the saved scene and setting frames 1, 43, 44, and
+82 showed exactly the expected single source plane at each frame, including
+across the group boundary. The code and this checkpoint are pushed in commit
+`35325b5afa7149868ee9937eb13d0f322e3e133f`; draft PR #44 targets the current
+CT identification branch. Its Actions run `38090579481` was queued when last
+checked. The next anatomical gate remains an independent reviewer navigating
+this sequence alongside original full-resolution source PNG and scanner-header
+files, documenting only source-supported candidate observations and
+uncertainty. Keep anatomical gates closed until that review and independent
+corroboration exist.

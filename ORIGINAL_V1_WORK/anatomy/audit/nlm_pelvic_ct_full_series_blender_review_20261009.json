@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "kind": "PELVIC_CT_STORED_SCALAR_OCCUPANCY_REVIEW_NOT_SEGMENTATION",
+  "review_date": "2026-10-09",
+  "review_application": "Blender 5.2.1 LTS",
+  "source_bundle": {
+    "manifest": "nlm_pelvic_ct_full_series_candidate_bundle_20261009.json",
+    "series_count": 2,
+    "slice_count": 72,
+    "scanner_S_centre_range_mm": [-342.0, -553.0],
+    "boundary_overlap_mm": 2.0,
+    "single_uniform_stack_claimed": false,
+    "group_boundaries_preserved": true
+  },
+  "review_observation_count": 10,
+  "stored_scalar_threshold": 1200,
+  "scanner_header_HU_addend_evidence": {
+    "header_count": 72,
+    "stored_pixel_value_addend_for_HU": -1024,
+    "scanner_header_HU_addend_consistent": true,
+    "PNG_numeric_identity_to_scanner_pixels_verified": false,
+    "HU_conversion_from_png_verified": false
+  },
+  "candidate_block_size_pixels": [8, 8],
+  "candidate_block_count": 13273,
+  "mesh_vertex_count": 106184,
+  "mesh_quad_count": 79638,
+  "group_summaries": [
+    {
+      "group_index": 1,
+      "source_slice_count": 37,
+      "candidate_block_count": 7263,
+      "mesh_vertex_count": 58104,
+      "mesh_quad_count": 43578,
+      "connected_component_count_6_neighbour": 8,
+      "component_block_counts_6_neighbour": [6675, 315, 248, 15, 4, 4, 1, 1],
+      "largest_component_block_fraction": 0.9190417182982239,
+      "automatic_component_filter_applied": false
+    },
+    {
+      "group_index": 2,
+      "source_slice_count": 35,
+      "candidate_block_count": 6010,
+      "mesh_vertex_count": 48080,
+      "mesh_quad_count": 36060,
+      "connected_component_count_6_neighbour": 3,
+      "component_block_counts_6_neighbour": [5769, 240, 1],
+      "largest_component_block_fraction": 0.959900166389351,
+      "automatic_component_filter_applied": false
+    }
+  ],
+  "visual_review": {
+    "candidate_volume_visible": true,
+    "group_boundary_visible": true,
+    "disconnected_threshold_islands_visible": true,
+    "surface_suitable_for_anatomical_use": false
+  },
+  "values_are_calibrated_HU": false,
+  "anatomical_bone_segmentation_verified": false,
+  "patient_scanner_to_HGPT_world_verified": false,
+  "source_skeleton_governs_geometry": true,
+  "skeleton_geometry_modified": false,
+  "canonical_promotion_allowed": false,
+  "source_images_packed": false,
+  "private_outputs_must_remain_untracked": true,
+  "blend_sha256": "54a6a23f1e0758af5359811a47ee0fe3cf90770713c6b2264776298eff9a8fb5",
+  "render_sha256": "3527de31f8fff5fcf279992f5b4fd4bdc24575a290e267bdc76f7d2fea32c645",
+  "limitations": [
+    "The threshold applies to stored PNG scalar values and is not calibrated Hounsfield-unit segmentation.",
+    "All 72 scanner headers agree on a -1024 pixel-value addend, but numeric identity between the converted PNG samples and original scanner pixel data is not yet independently verified.",
+    "The block mesh is a coarse occupancy visualization and is not a validated anatomical surface.",
+    "Disconnected threshold islands remain visible and no topology, closure, laterality, or bone-label validation is claimed.",
+    "Connected-component counts are reported per acquisition group and no automatic component filtering was applied.",
+    "The scene did not load or modify the source skeleton; the source skeleton remains the geometry authority.",
+    "Independent second review and independent-population evidence are still required before any canonical promotion."
+  ]
+}

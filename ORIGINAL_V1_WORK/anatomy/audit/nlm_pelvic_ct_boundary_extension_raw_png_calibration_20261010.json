@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "kind": "NLM_PELVIC_CT_BOUNDARY_EXTENSION_GE_RAW_PNG_CALIBRATION",
+  "review_date": "2026-10-10",
+  "base_series_bundle_sha256": "8bd8e8638893a1d6db234cc4de4c1cb54a3fa2f0a3eb6264d1ef5bcebe5e25a9",
+  "base_calibration_packet_sha256": "a0e2788cd8631def88f0be8d765f3de6368787ad09ff7617eae59a13be505990",
+  "official_sources": {
+    "raw_GE_base": "https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/radiological/normalCT/",
+    "PNG_base": "https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/PNG_format/radiological/normalCT/",
+    "scanner_header_base": "https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/PNG_format/radiological/normalCTHeaders/",
+    "raw_GE_directory_listing": "https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/radiological/normalCT/index.html",
+    "NLM_data_documentation": "https://www.nlm.nih.gov/research/visible/getting_data.html"
+  },
+  "method": {
+    "raw_archive_compression": "UNIX_COMPRESS_Z",
+    "decompressor": "GNU gzip 1.14 gunzip compatibility mode",
+    "decompressed_GE_header_bytes": 3416,
+    "pixel_encoding": "512_X_512_BIG_ENDIAN_UNSIGNED_16_BIT",
+    "comparison": "EXACT_SAMPLE_BY_SAMPLE_IN_FILE_ORDER",
+    "source_bytes_committed": false
+  },
+  "slice_count": 10,
+  "sample_count": 2621440,
+  "all_samples_identical_in_file_order": true,
+  "different_sample_count": 0,
+  "maximum_absolute_sample_difference": 0,
+  "scanner_header_count": 10,
+  "stored_pixel_value_addend_for_HU": -1024,
+  "scanner_header_HU_addend_consistent": true,
+  "PNG_numeric_identity_to_scanner_pixels_verified": true,
+  "HU_conversion_from_png_verified": true,
+  "HU_formula": "HU = PNG_stored_value - 1024",
+  "source_bytes_committed": false,
+  "patient_identifiers_exported": false,
+  "anatomical_bone_segmentation_verified": false,
+  "canonical_promotion_allowed": false,
+  "slices": [
+    {"source_id":"cvm1716f","header_sha256":"e1795a9a0b44194262cb536397973cb6c63c884c87a968e694fc542a4f9e6825","header_addend_for_HU":-1024,"compressed_raw_bytes":258213,"compressed_raw_sha256":"e2cf206d1b4e07b4f5b4ec7686045f6f718aa14e1243e5da95dbb11785ee02a0","decompressed_raw_sha256":"55f77ba96ae1d0abb1db1b554f6b095c8e3e4bbf069249b122677c1dc739b989","png_sha256":"8ed19b3a01d950df58b17e335de56a0e6d7c50caa01b03806d2f25b569c1206d","compared_png_sha256":"8ed19b3a01d950df58b17e335de56a0e6d7c50caa01b03806d2f25b569c1206d","sample_count":262144,"all_samples_identical_in_file_order":true,"different_sample_count":0,"maximum_absolute_sample_difference":0},
+    {"source_id":"cvm1719f","header_sha256":"84827861c4f6957037b5aad65a2f19963e06f0bf5d066f1d977ff9afac6b1416","header_addend_for_HU":-1024,"compressed_raw_bytes":258425,"compressed_raw_sha256":"5e7e586b60c11452ead31338816813ba0ea08783cecd91274232271395f2f8b9","decompressed_raw_sha256":"b6349bb93b9024597d3ce6d924f2304a02d8d837cbbb12e01bf7b5d3e990f7fc","png_sha256":"1558222dc67c9002521427bb5b7d8c4deda1413fdb163dde32630e4006a9b48a","compared_png_sha256":"1558222dc67c9002521427bb5b7d8c4deda1413fdb163dde32630e4006a9b48a","sample_count":262144,"all_samples_identical_in_file_order":true,"different_sample_count":0,"maximum_absolute_sample_difference":0},
+    {"source_id":"cvm1722f","header_sha256":"bdb71e209df7c5857414e21a862567ff3d6e110404b1d05fb70e51745c6c3d5a","header_addend_for_HU":-1024,"compressed_raw_bytes":257191,"compressed_raw_sha256":"510c552c4b5887210a446e27ee3854335c745fdd07d145f38c63977a47c724c8","decompressed_raw_sha256":"3aa9a01b3d7ec31c201c7ce4e7b12df416f60fe2170983d65b5cb53d87cac5c6","png_sha256":"e1bee731832068f7f54520c6c85a6765b61b3c961c7da57ce81d42a51dc92b3f","compared_png_sha256":"e1bee731832068f7f54520c6c85a6765b61b3c961c7da57ce81d42a51dc92b3f","sample_count":262144,"all_samples_identical_in_file_order":true,"different_sample_count":0,"maximum_absolute_sample_difference":0},
+    {"source_id":"cvm1725f","header_sha256":"b2fea6dc56ed7a7e159470869dbf36024a96d6fbd312a862cfbd5f5144f639e1","header_addend_for_HU":-1024,"compressed_raw_bytes":257095,"compressed_raw_sha256":"97805adc30a0faf9f8222ab5ecdcb1281801c2b59295c08f2c588a38b838914f","decompressed_raw_sha256":"50b99dfab779bdb494e3037d4711054edbe1f0de72da7547110dfe3ddd7f7607","png_sha256":"dc6475c356969ee69ae14e134c9a587da6ea20e4ecf56c8a25b017f9b9f07b9a","compared_png_sha256":"dc6475c356969ee69ae14e134c9a587da6ea20e4ecf56c8a25b017f9b9f07b9a","sample_count":262144,"all_samples_identical_in_file_order":true,"different_sample_count":0,"maximum_absolute_sample_difference":0},
+    {"source_id":"cvm1728f","header_sha256":"65c14d95985f8017d15acf1c1f9a8fdbce203af42f626d57226e77b58cc89c0a","header_addend_for_HU":-1024,"compressed_raw_bytes":254449,"compressed_raw_sha256":"2986b83c0c27d178d1a84b6af138659bd7a066969ab1ffdc3c7798e6261f83b6","decompressed_raw_sha256":"4b4393d41a0da46beefea3afcb5115f827f2072182a8f160f13bef533c372236","png_sha256":"e6adcda29b49f03e5805bb71963e25dbc4c21236e67844efa19c7b2b3530354a","compared_png_sha256":"e6adcda29b49f03e5805bb71963e25dbc4c21236e67844efa19c7b2b3530354a","sample_count":262144,"all_samples_identical_in_file_order":true,"different_sample_count":0,"maximum_absolute_sample_difference":0},
+    {"source_id":"cvm1731f","header_sha256":"effbefc5b8ec17f7f0c32418e99e0d3459df04ae13f3c18e10d37c9bde4c4bdd","header_addend_for_HU":-1024,"compressed_raw_bytes":255457,"compressed_raw_sha256":"7875aebb17a9b8cb430fec9e5509b19c345bf381a5cd7e79ee3e4bec0426b6f9","decompressed_raw_sha256":"bbd247d6cf199900f5634385bc9a8862aaed2c21bf4bb719a8eca2b2bd918891","png_sha256":"c930d51812218924ed0d980b5c7ab49a0d6f997e260681e2bb63ef7d705389d1","compared_png_sha256":"c930d51812218924ed0d980b5c7ab49a0d6f997e260681e2bb63ef7d705389d1","sample_count":262144,"all_samples_identical_in_file_order":true,"different_sample_count":0,"maximum_absolute_sample_difference":0},
+    {"source_id":"cvm1948f","header_sha256":"05fe8c92d6e4223dcd69263849ba060f9a5c218399d5e485f78a0cf721208aa0","header_addend_for_HU":-1024,"compressed_raw_bytes":250527,"compressed_raw_sha256":"0929e1f9cf6ab6ee28820f44dae832478dcc6ff93d9cad3232b73e4a69a784a0","decompressed_raw_sha256":"a11a113254ed32fed943af8af9f7e60c0defc9f5deb3cd790961f31a01d35e43","png_sha256":"c52abb597a5f92d2efe48bd64cf90f6c73cded863b5a3171354a8fd2f0063224","compared_png_sha256":"c52abb597a5f92d2efe48bd64cf90f6c73cded863b5a3171354a8fd2f0063224","sample_count":262144,"all_samples_identical_in_file_order":true,"different_sample_count":0,"maximum_absolute_sample_difference":0},
+    {"source_id":"cvm1951f","header_sha256":"0ef29323cc296028ea351656caa2c79ababfe50728e733f8f77ce23c23e58274","header_addend_for_HU":-1024,"compressed_raw_bytes":249393,"compressed_raw_sha256":"13bd50eb99d5a6c8f81ebddbdb50d9ade69e7515dde4a35b52f55245af5c2f8d","decompressed_raw_sha256":"6b7392d2fca88b2ca3d11de592429b4b534a23ef3078fea711cb7ac9d70afff2","png_sha256":"f4df239f7635a99d4d804d71d6275c5f1ad29cca200f75a044713835d8142ee4","compared_png_sha256":"f4df239f7635a99d4d804d71d6275c5f1ad29cca200f75a044713835d8142ee4","sample_count":262144,"all_samples_identical_in_file_order":true,"different_sample_count":0,"maximum_absolute_sample_difference":0},
+    {"source_id":"cvm1954f","header_sha256":"516300d7f2f6db3ca64380efd429ce849a63662282381b5d9ff0640694208a86","header_addend_for_HU":-1024,"compressed_raw_bytes":249537,"compressed_raw_sha256":"5c41b1f075005a70af35dddd0bf3eaf41719781de31461cabaa45d309e575d8f","decompressed_raw_sha256":"a92fa27547f6f45d111b13e647ea19f1c8d5ddea655b524211e486f720f87718","png_sha256":"1b832f500b7af35bc170bee2a18bc94980848486c27ed955b15b819143f53f0a","compared_png_sha256":"1b832f500b7af35bc170bee2a18bc94980848486c27ed955b15b819143f53f0a","sample_count":262144,"all_samples_identical_in_file_order":true,"different_sample_count":0,"maximum_absolute_sample_difference":0},
+    {"source_id":"cvm1957f","header_sha256":"35b1ee0c539f9119691d0ce6e642c23411ff3bb640ab1ea7ac9bcbc4fe7a03c7","header_addend_for_HU":-1024,"compressed_raw_bytes":249123,"compressed_raw_sha256":"4451db422d52146c2e0f9d377f8da218e4a2587f3fcfd79453e92b3e901afa13","decompressed_raw_sha256":"da07a939aab595aa922f1c36a971e1dcb308a3e2cbb44a11ebc5acda0e1719a3","png_sha256":"6041bfa452b6b1a7ce1a463da29e2fa2b0505aeb07ae4e2b30ae506506ef7e65","compared_png_sha256":"6041bfa452b6b1a7ce1a463da29e2fa2b0505aeb07ae4e2b30ae506506ef7e65","sample_count":262144,"all_samples_identical_in_file_order":true,"different_sample_count":0,"maximum_absolute_sample_difference":0}
+  ],
+  "limitations": [
+    "This verifies sample identity and the source header offset only; it does not identify anatomy, validate a bone threshold, establish a bone surface, or register scanner coordinates to Home Gym PT.",
+    "The extension is calibrated by combining this ten-slice packet with the separately hash-pinned 72-slice calibration packet; neither alone claims anatomical coverage.",
+    "Independent second review and independent-population evidence remain required before canonical promotion."
+  ]
+}

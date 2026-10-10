@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "kind": "UNVERIFIED_EXTERNAL_PELVIS_BONE_MESH_MANIFEST",
+  "status": "SOURCE_DISCOVERY_ONLY",
+  "entry_id": "NIH3D_3DPX_015682_V2",
+  "collection_name": "3D Models of the Male Pelvis with L4, L5 Vertebrae and Proximal Femur",
+  "entry_url": "https://3d.nih.gov/entries/3DPX-015682",
+  "download_page": "https://3d.nih.gov/entries/download/15682/2",
+  "submitter": "eweissbrod",
+  "published": "2023-03-06",
+  "source_description": "Derived from anonymized medical imaging; altered to remove artifacts and sculpt missing anatomical landmarks, reviewed for teaching by anatomist and surgeon; models were printed at 125% of some unspecified reference size.",
+  "source_asset_kind": "sculpted_and_3d_print_prepared_teaching_surfaces_NOT_original_CT_bone_segmentation",
+  "external_data_downloaded": false,
+  "actual_patient_CT_mesh_claimed": false,
+  "segmented_source_asset_sha256": null,
+  "original_unit_to_m": null,
+  "source_to_world_orientation_matrix": null,
+  "source_scale_1p25_print_not_applied": true,
+  "license_status": "UNVERIFIED_ENTRY_SPECIFIC_LICENSE",
+  "license_info_url": "https://3d.nih.gov/terms",
+  "redistribution_allowed": null,
+  "commercial_app_reuse_allowed": null,
+  "source_stature_m": null,
+  "individuals": "one imaged anonymized donor or unspecified donor set; not a population cohort",
+  "canonical_bone_geometry_usable": false,
+  "population_proportions_usable": false,
+  "potential_educational_reference": true,
+  "do_not_do": [
+    "Do not infer STL units are millimetres",
+    "Do not apply 1/1.25 scaling based on a PRINT description",
+    "Do not assume original CT landmarks are preserved by sculpting",
+    "Do not redistribute asset until contributor's exact per-entry licence is confirmed",
+    "Do not fit canonical 1.82 m proportions or muscle attachment geometry to unregistered surfaces"
+  ],
+  "files": [
+    {
+      "source_filename": "Os_L_Male_Final.STL",
+      "bone_id": "hip_bone_left",
+      "downloaded": false,
+      "sha256": null,
+      "size_bytes": null,
+      "unit_to_m": null,
+      "mesh_local_to_world": null,
+      "landmarks_verified": false
+    },
+    {
+      "source_filename": "Os_R_Male_Final.STL",
+      "bone_id": "hip_bone_right",
+      "downloaded": false,
+      "sha256": null,
+      "size_bytes": null,
+      "unit_to_m": null,
+      "mesh_local_to_world": null,
+      "landmarks_verified": false
+    },
+    {
+      "source_filename": "Sacrum_Male_Final.STL",
+      "bone_id": "sacrum",
+      "downloaded": false,
+      "sha256": null,
+      "size_bytes": null,
+      "unit_to_m": null,
+      "mesh_local_to_world": null,
+      "landmarks_verified": false
+    },
+    {
+      "source_filename": "Femur_L_Male_Final.STL",
+      "bone_id": "femur_left",
+      "downloaded": false,
+      "sha256": null,
+      "size_bytes": null,
+      "unit_to_m": null,
+      "mesh_local_to_world": null,
+      "landmarks_verified": false
+    },
+    {
+      "source_filename": "Femur_R_Male_Final.STL",
+      "bone_id": "femur_right",
+      "downloaded": false,
+      "sha256": null,
+      "size_bytes": null,
+      "unit_to_m": null,
+      "mesh_local_to_world": null,
+      "landmarks_verified": false
+    },
+    {
+      "source_filename": "4th-Lumbar-Vertebrae_Male_Final.STL",
+      "bone_id": "l4",
+      "downloaded": false,
+      "sha256": null,
+      "size_bytes": null,
+      "unit_to_m": null,
+      "mesh_local_to_world": null,
+      "landmarks_verified": false
+    },
+    {
+      "source_filename": "5th-Lumbar-Vertebrae_Male_Final.STL",
+      "bone_id": "l5",
+      "downloaded": false,
+      "sha256": null,
+      "size_bytes": null,
+      "unit_to_m": null,
+      "mesh_local_to_world": null,
+      "landmarks_verified": false
+    }
+  ],
+  "acceptance_gate": "NO_SPATIAL_REGISTRATION_OR_BONE_SOURCE_PROVENANCE; education-only candidate until unit, license, source and physical bony feature checks",
+  "canonical_promotion_allowed": false
+}

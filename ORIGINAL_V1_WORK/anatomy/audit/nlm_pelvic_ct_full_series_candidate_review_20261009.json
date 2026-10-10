@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "kind": "NLM_CT_ANATOMICAL_REVIEW_PACKET",
+  "source_manifest_kind": "CANDIDATE_PELVIC_CT_SERIES_BUNDLE",
+  "source_skeleton_governs_geometry": true,
+  "canonical_promotion_allowed": false,
+  "reviewer": {
+    "id": "codex-source-review-20261009",
+    "conflict_of_interest": false
+  },
+  "citations": [
+    {
+      "title": "NLM Visible Human Project \u2014 Getting the Data",
+      "url": "https://www.nlm.nih.gov/research/visible/getting_data.html"
+    },
+    {
+      "title": "Anatomy, Bony Pelvis and Lower Limb: Pelvis Bones",
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK545204/"
+    },
+    {
+      "title": "Morphometric anatomical and CT study of the human adult sacroiliac region",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/27324173/"
+    }
+  ],
+  "observations": [
+    {
+      "observation_id": "obs-1764-right-iliac-blade",
+      "source_id": "cvm1764f",
+      "source_png_sha256": "1e3b056cc37fad7cf75e7ecf866fd640b75c4818adecee9249da50946cc2ff11",
+      "source_header_sha256": "ceb5465722a7b41b250f92c40d153f7d68653385a835a8052c2f1dad72604ec7",
+      "scanner_S_mm": -372.0,
+      "pixel": {
+        "row": 285,
+        "column": 88
+      },
+      "candidate_label": "iliac_blade",
+      "confidence": 0.65,
+      "reviewer_id": "codex-source-review-20261009"
+    },
+    {
+      "observation_id": "obs-1764-left-iliac-blade",
+      "source_id": "cvm1764f",
+      "source_png_sha256": "1e3b056cc37fad7cf75e7ecf866fd640b75c4818adecee9249da50946cc2ff11",
+      "source_header_sha256": "ceb5465722a7b41b250f92c40d153f7d68653385a835a8052c2f1dad72604ec7",
+      "scanner_S_mm": -372.0,
+      "pixel": {
+        "row": 280,
+        "column": 424
+      },
+      "candidate_label": "iliac_blade",
+      "confidence": 0.65,
+      "reviewer_id": "codex-source-review-20261009"
+    },
+    {
+      "observation_id": "obs-1794-central-sacrum",
+      "source_id": "cvm1794f",
+      "source_png_sha256": "f87fd510a6bc1d9ceb34f6cd744cc613cf252f9e6309bc68e6e6dc8ea81391db",
+      "source_header_sha256": "52cacda57db8d771b84b0aa62d862e99f99e0f2dcce01750e4741cb1a38c644f",
+      "scanner_S_mm": -402.0,
+      "pixel": {
+        "row": 322,
+        "column": 256
+      },
+      "candidate_label": "sacrum",
+      "confidence": 0.7,
+      "reviewer_id": "codex-source-review-20261009"
+    },
+    {
+      "observation_id": "obs-1824-right-iliac-blade",
+      "source_id": "cvm1824f",
+      "source_png_sha256": "1c91acffff9fb957e387302fe88c7391fc7312632325d912bc981b1d3254691a",
+      "source_header_sha256": "94003138aaa82cedd3396ad8ffdaf07cb3aeae488969fabeb77880e0c1e9a52f",
+      "scanner_S_mm": -432.0,
+      "pixel": {
+        "row": 270,
+        "column": 93
+      },
+      "candidate_label": "iliac_blade",
+      "confidence": 0.65,
+      "reviewer_id": "codex-source-review-20261009"
+    },
+    {
+      "observation_id": "obs-1824-left-iliac-blade",
+      "source_id": "cvm1824f",
+      "source_png_sha256": "1c91acffff9fb957e387302fe88c7391fc7312632325d912bc981b1d3254691a",
+      "source_header_sha256": "94003138aaa82cedd3396ad8ffdaf07cb3aeae488969fabeb77880e0c1e9a52f",
+      "scanner_S_mm": -432.0,
+      "pixel": {
+        "row": 268,
+        "column": 418
+      },
+      "candidate_label": "iliac_blade",
+      "confidence": 0.65,
+      "reviewer_id": "codex-source-review-20261009"
+    },
+    {
+      "observation_id": "obs-1873-right-femoral-head",
+      "source_id": "cvm1873f",
+      "source_png_sha256": "bd594b35035a60d8e88d67da7ec6b387b3361ddcd73bcfe5324b0ed9a3575a4d",
+      "source_header_sha256": "b7643af29278b0ac3e345f61517001d9463554ddbb7bec2aa0289e633aa4a86d",
+      "scanner_S_mm": -481.0,
+      "pixel": {
+        "row": 270,
+        "column": 175
+      },
+      "candidate_label": "femoral_head_right",
+      "confidence": 0.65,
+      "reviewer_id": "codex-source-review-20261009"
+    },
+    {
+      "observation_id": "obs-1873-left-femoral-head",
+      "source_id": "cvm1873f",
+      "source_png_sha256": "bd594b35035a60d8e88d67da7ec6b387b3361ddcd73bcfe5324b0ed9a3575a4d",
+      "source_header_sha256": "b7643af29278b0ac3e345f61517001d9463554ddbb7bec2aa0289e633aa4a86d",
+      "scanner_S_mm": -481.0,
+      "pixel": {
+        "row": 270,
+        "column": 342
+      },
+      "candidate_label": "femoral_head_left",
+      "confidence": 0.65,
+      "reviewer_id": "codex-source-review-20261009"
+    },
+    {
+      "observation_id": "obs-1873-right-acetabulum",
+      "source_id": "cvm1873f",
+      "source_png_sha256": "bd594b35035a60d8e88d67da7ec6b387b3361ddcd73bcfe5324b0ed9a3575a4d",
+      "source_header_sha256": "b7643af29278b0ac3e345f61517001d9463554ddbb7bec2aa0289e633aa4a86d",
+      "scanner_S_mm": -481.0,
+      "pixel": {
+        "row": 257,
+        "column": 151
+      },
+      "candidate_label": "acetabulum_right",
+      "confidence": 0.55,
+      "reviewer_id": "codex-source-review-20261009"
+    },
+    {
+      "observation_id": "obs-1873-left-acetabulum",
+      "source_id": "cvm1873f",
+      "source_png_sha256": "bd594b35035a60d8e88d67da7ec6b387b3361ddcd73bcfe5324b0ed9a3575a4d",
+      "source_header_sha256": "b7643af29278b0ac3e345f61517001d9463554ddbb7bec2aa0289e633aa4a86d",
+      "scanner_S_mm": -481.0,
+      "pixel": {
+        "row": 257,
+        "column": 366
+      },
+      "candidate_label": "acetabulum_left",
+      "confidence": 0.55,
+      "reviewer_id": "codex-source-review-20261009"
+    },
+    {
+      "observation_id": "obs-1903-central-pubic-region",
+      "source_id": "cvm1903f",
+      "source_png_sha256": "ad592a1516833bd64ed95156bb536aefb64af59f09a68eb029ef4cae7dbe9422",
+      "source_header_sha256": "5f9a6fea294e613adb5d7e71331f72fc60d6941ba85cffc7a85b9e7f018f6ddb",
+      "scanner_S_mm": -511.0,
+      "pixel": {
+        "row": 214,
+        "column": 256
+      },
+      "candidate_label": "pubic_region",
+      "confidence": 0.6,
+      "reviewer_id": "codex-source-review-20261009"
+    }
+  ],
+  "anatomical_status": "CANDIDATE",
+  "unmet_gates": [
+    "INDEPENDENT_SECOND_REVIEWER_REQUIRED",
+    "FULL_ANATOMICAL_COVERAGE_NOT_ESTABLISHED",
+    "SOURCE_CT_HU_CALIBRATION_NOT_VERIFIED",
+    "SOURCE_SEGMENTED_BONE_SURFACES_NOT_VERIFIED",
+    "PATIENT_SCANNER_TO_HGPT_WORLD_NOT_VERIFIED",
+    "CANONICAL_GEOMETRY_PROMOTION_PROHIBITED"
+  ]
+}

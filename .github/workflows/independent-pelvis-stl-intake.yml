@@ -1,0 +1,129 @@
+name: Independent anatomical mesh intake audit
+
+on:
+  push:
+    branches:
+      - codex/independent-pelvis-stl-intake-20261009
+      - codex/pelvic-ct-identification-segmentation-20261009
+  pull_request:
+    paths:
+      - 'scripts/anatomy_fit/stl_bone_mesh_intake.py'
+      - 'scripts/test_stl_bone_mesh_intake.py'
+      - 'scripts/anatomy_fit/nlm_original_ct_png_probe.py'
+      - 'scripts/test_nlm_original_ct_png_probe.py'
+      - 'scripts/anatomy_fit/nlm_ct_scanner_geometry_header.py'
+      - 'scripts/test_nlm_ct_scanner_geometry_header.py'
+      - 'scripts/anatomy_fit/nlm_pelvis_region_scout.py'
+      - 'scripts/test_nlm_pelvis_region_scout.py'
+      - 'scripts/anatomy_fit/nlm_ct_pixel_ras_envelope.py'
+      - 'scripts/test_nlm_ct_pixel_ras_envelope.py'
+      - 'scripts/anatomy_fit/nlm_contiguous_pelvis_ct_windows.py'
+      - 'scripts/test_nlm_contiguous_pelvis_ct_windows.py'
+      - 'scripts/anatomy_fit/nlm_ct_anatomical_review.py'
+      - 'scripts/test_nlm_ct_anatomical_review.py'
+      - 'scripts/anatomy_fit/nlm_ct_candidate_segmentation.py'
+      - 'scripts/test_nlm_ct_candidate_segmentation.py'
+      - 'scripts/anatomy_fit/nlm_ct_landmark_validation.py'
+      - 'scripts/test_nlm_ct_landmark_validation.py'
+      - 'scripts/anatomy_fit/nlm_ct_pelvis_workflow.py'
+      - 'scripts/test_nlm_ct_pelvis_workflow.py'
+      - 'scripts/anatomy_fit/pelvic_ct_series_manifest.py'
+      - 'scripts/test_pelvic_ct_series_manifest.py'
+      - 'scripts/anatomy_fit/nlm_ct_raw_png_calibration.py'
+      - 'scripts/test_nlm_ct_raw_png_calibration.py'
+      - 'ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_hu_calibration_20261009.json'
+      - 'docs/NLM_PELVIC_CT_IDENTIFICATION_SEGMENTATION_WORKFLOW_20261009.md'
+      - 'ORIGINAL_V1_WORK/anatomy/audit/nlm_contiguous_ct_windows_pinned_20261009.json'
+      - 'ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvis_scout_pinned_source_positions_20261009.json'
+      - 'ORIGINAL_V1_WORK/anatomy/audit/nlm_original_ct_png_pinned_preview_20261009.json'
+      - 'ORIGINAL_V1_WORK/anatomy/audit/nih3d_male_pelvis_mesh_source_manifest_20261009.json'
+      - 'ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json'
+      - 'ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_review_20261009.json'
+      - 'ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_blender_review_20261009.json'
+      - 'ORIGINAL_V1_WORK/anatomy/audit/codex_pelvis_ct_candidate_review_20261009/**'
+      - '.github/workflows/independent-pelvis-stl-intake.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  review-intake:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect synthetic binary and ASCII STL with no third-party packages
+        run: |
+          python3 -m unittest discover -s scripts -p 'test_stl_bone_mesh_intake.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_original_ct_png_probe.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_scanner_geometry_header.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_pelvis_region_scout.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_pixel_ras_envelope.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_contiguous_pelvis_ct_windows.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_anatomical_review.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_candidate_segmentation.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_landmark_validation.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_pelvis_workflow.py' -v
+          python3 -m unittest discover -s scripts -p 'test_pelvic_ct_series_manifest.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_raw_png_calibration.py' -v
+      - name: Preserve osseous APP and source-registry regression tests
+        run: |
+          python3 -m unittest discover -s scripts -p 'test_external_trunk_landmark_bridge.py' -v
+          python3 -m unittest discover -s scripts -p 'test_pelvic_app_bone_frame.py' -v
+          python3 -m unittest discover -s scripts -p 'test_bone_feature_observation_packet.py' -v
+          python3 -m unittest discover -s scripts -p 'test_bone_geometry_source_acquisition.py' -v
+      - name: Preserve previous coupled trunk diagnostic tests
+        run: |
+          python3 -m unittest discover -s scripts -p 'test_coupled_trunk_preflight.py' -v
+          python3 -m unittest discover -s scripts -p 'test_replay_p004_coupled_thorax.py' -v
+          python3 -m unittest discover -s scripts -p 'test_replay_p005_shoulder_chain.py' -v
+          python3 -m unittest discover -s scripts -p 'test_rib_3d_coupling_audit.py' -v
+          python3 -m unittest discover -s scripts -p 'test_p006_sternocostal_translation_feasibility.py' -v
+          python3 -m unittest discover -s scripts -p 'test_p007_sternum_rigid_fit_audit.py' -v
+          python3 -m unittest discover -s scripts -p 'test_neutral_arm_thigh_clearance.py' -v
+
+  original-ct-pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify two original NLM CT slices without persisting images
+        run: |
+          python3 scripts/anatomy_fit/nlm_original_ct_png_probe.py \
+            --download cvm1012f.png --temporary-out "$RUNNER_TEMP/cvm1012f.png" --expected-sha256 d771fb0b004a4189d200fdce3af97329990bdf9971a74e86f5cb1bdd72d7e0c6
+          python3 scripts/anatomy_fit/nlm_original_ct_png_probe.py \
+            --download cvm1013f.png --temporary-out "$RUNNER_TEMP/cvm1013f.png" --expected-sha256 449c665c97d2f4e093fd1434656ba1c5ac0f31a4dc07d189bde432dd49c3a77d
+      - name: Confirm original staged bytes are still valid PNG files
+        run: |
+          python3 scripts/anatomy_fit/nlm_original_ct_png_probe.py --file "$RUNNER_TEMP/cvm1012f.png"
+          python3 scripts/anatomy_fit/nlm_original_ct_png_probe.py --file "$RUNNER_TEMP/cvm1013f.png"
+      - name: Read privacy-filtered original GE scanner geometry and compare adjacent source slices
+        run: python3 scripts/anatomy_fit/nlm_ct_scanner_geometry_header.py --check-adjacent-pair
+
+
+  original-ct-region-scout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect a limited set of scanner-located original CT slices without exporting pixels
+        run: |
+          python3 scripts/anatomy_fit/nlm_pelvis_region_scout.py --live-scout \
+            --slice-ids 1300 1399 1451 1500 1551 1602 1650 1701 1752 1800 1906 1948 \
+            --pinned-manifest ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvis_scout_pinned_source_positions_20261009.json
+      - name: Print lossy diagnostic signal tiles for four source slices, not medical labels
+        run: |
+          python3 scripts/anatomy_fit/nlm_pelvis_region_scout.py --live-scout \
+            --slice-ids 1451 1602 1752 1800 --density-ascii \
+            --pinned-manifest ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvis_scout_pinned_source_positions_20261009.json
+
+  original-ct-contiguous-source-windows:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read six actual NLM original CT images and scanner headers in two adjacent triads
+        run: |
+          python3 scripts/anatomy_fit/nlm_contiguous_pelvis_ct_windows.py --live \
+            --pinned-manifest ORIGINAL_V1_WORK/anatomy/audit/nlm_contiguous_ct_windows_pinned_20261009.json

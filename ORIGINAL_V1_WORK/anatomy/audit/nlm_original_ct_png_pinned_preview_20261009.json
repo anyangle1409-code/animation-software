@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "kind": "PINNED_ORIGINAL_NLM_CT_PNG_PREVIEW_INTEGRITY",
+  "status": "BYTE_INTEGRITY_ONLY_NOT_SEGMENTED_BONE",
+  "custodian": "US National Library of Medicine",
+  "source_index": "https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/PNG_format/radiological/normalCT/index.html",
+  "date_verified_utc": "2026-10-09",
+  "verified_in_ci_run": "https://github.com/anyangle1409-code/animation-software/actions/runs/37927362119",
+  "image_series_label": "normalCT PNG-converted original NLM Visible Human male dataset",
+  "slices": [
+    {
+      "name": "cvm1012f.png",
+      "expected_bytes": 208501,
+      "sha256": "d771fb0b004a4189d200fdce3af97329990bdf9971a74e86f5cb1bdd72d7e0c6",
+      "width_pixels": 512,
+      "height_pixels": 512,
+      "bit_depth": 16,
+      "png_colour_type": 0,
+      "source_url": "https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/PNG_format/radiological/normalCT/cvm1012f.png"
+    },
+    {
+      "name": "cvm1013f.png",
+      "expected_bytes": 193332,
+      "sha256": "449c665c97d2f4e093fd1434656ba1c5ac0f31a4dc07d189bde432dd49c3a77d",
+      "width_pixels": 512,
+      "height_pixels": 512,
+      "bit_depth": 16,
+      "png_colour_type": 0,
+      "source_url": "https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/PNG_format/radiological/normalCT/cvm1013f.png"
+    }
+  ],
+  "downloaded_in_CI_to_temporary_only": true,
+  "pixels_redistributed": false,
+  "source_files_committed": false,
+  "source_images_pelvis_region_identified": false,
+  "physical_slice_location_verified": false,
+  "patient_world_matrix_verified": false,
+  "CT_Hounsfield_units_verified": false,
+  "bone_segmentation_performed": false,
+  "anatomy_validated": false,
+  "single_specimen_not_population_target": true,
+  "canonical_promotion_allowed": false,
+  "scanner_header_geometry_context": {
+    "status": "PINNED_CT_GE_HEADER_RAS_NUMERICAL_ONLY",
+    "scanner_world_coordinates_not_HGPT_world": true,
+    "pixel_centre_origin_not_yet_reviewed": true,
+    "HU_conversion_from_original_PNG_not_yet_verified": true,
+    "privacy_safe_fields_only": true,
+    "allowlisted": [
+      {
+        "filename": "cvm1013f.txt",
+        "sha256": "d07c543fd36f65014347f14e76a466618aaf56bc28688621ab68648daf6c17ab",
+        "corresponding_png": "cvm1013f.png",
+        "image_location_superior_mm": 389
+      },
+      {
+        "filename": "cvm1014f.txt",
+        "sha256": "67a25d7199cf68ecb151d2031bab253c67e73a9d18bb7d525835b0d05e2a0511",
+        "corresponding_png": "cvm1014f.png",
+        "image_location_superior_mm": 388
+      }
+    ],
+    "image_matrix_px": [
+      512,
+      512
+    ],
+    "pixel_spacing_xy_mm": [
+      0.488281,
+      0.488281
+    ],
+    "slice_thickness_mm": 1,
+    "nominal_slice_interval_mm": 1,
+    "top_left_RAS_mm_at_first_slice": [
+      123,
+      125,
+      389
+    ],
+    "top_right_RAS_mm_at_first_slice": [
+      -127,
+      125,
+      389
+    ],
+    "bottom_right_RAS_mm_at_first_slice": [
+      -127,
+      -125,
+      389
+    ],
+    "scanner_to_HGPT_skeletal_transform_approved": false,
+    "source_frames_region_identified_as_pelvis": false,
+    "full_3D_bony_surface_extracted": false
+  }
+}

@@ -1,0 +1,506 @@
+{
+  "corridor_checks_diagnostic_only": [
+    {
+      "citation": "Tannenbaum 2011 Clin Orthop Relat Res, PMC3018214",
+      "inside_source_range": true,
+      "quantity": "inter-HJC distance",
+      "reading": "diagnostic only; HJC spacing is retained provisionally in the repo",
+      "skeleton_mm": 166.61168832389194,
+      "source": "TANNENBAUM_2011_PELVIMETRY interacetabular distance (male 3D CT)",
+      "source_mean_mm": 169.3,
+      "source_range_mm": [
+        154,
+        183
+      ],
+      "source_sd_mm": 7.8,
+      "z": -0.3446553430907784
+    },
+    {
+      "quantity": "sacral length (apex to S1 endplate stick)",
+      "reading": "diagnostic only; a003 sacrum is a low-confidence stick",
+      "skeleton_mm": 103.07764064044152,
+      "source": "SACRUM_MALE_MORPHOMETRY_2023 via canonical_pelvis_geometry_audit_v1.json",
+      "source_mean_mm": 107.6,
+      "source_sd_mm": 9.98,
+      "z": -0.45314222039664115
+    },
+    {
+      "quantity": "HJC-midpoint to S1 centre (pelvic thickness), a003 sacrum tail",
+      "reading": "a003 places its S1 stick end about this many SD from the sourced male mean; P1 sets 107 mm by construction. A recipe-level definition match ('S1 endplate centre') is stated by a003 but is low confidence.",
+      "skeleton_mm": 130.57148081198574,
+      "source": "HASEGAWA_2017_WHOLE_SPINE_MALE pelvic thickness (male n=40) via P1 frame",
+      "source_mean_mm": 107,
+      "source_sd_mm": 8,
+      "z": 2.946435101498217
+    }
+  ],
+  "ct_side": {
+    "image_review_performed": false,
+    "landmarks_CANDIDATE": 0,
+    "landmarks_UNVERIFIED": 13,
+    "landmarks_VERIFIED": 0,
+    "register_sha256": "969014638c37716d9ae7f360d15d6e3c001a64576f3aaa6979746a48092b9160"
+  },
+  "ct_testability": [
+    {
+      "comparison_status": "NOT_COMPUTABLE_CT_UNVERIFIED",
+      "ct_observation_required": "Circle/sphere fit to both femoral heads on their equatorial slices (same slice or measured z offset)",
+      "ct_value": null,
+      "pinned_windows_suffice": "NEEDS_IDENTIFIED_EQUATORIAL_SLICES_FOR_BOTH_HEADS",
+      "skeleton_quantity": "inter-HJC / interacetabular distance",
+      "skeleton_value_mm_or_deg": 166.61168832389194,
+      "why": "A 9 mm window cannot constrain a head's z-centre; only an equatorial in-plane fit is possible, and only if both heads' equators lie in the windows. Otherwise ~16-18 contiguous 3 mm slices per head."
+    },
+    {
+      "comparison_status": "NOT_COMPUTABLE_CT_UNVERIFIED",
+      "ct_observation_required": "S1 superior endplate centre (needs sagittal reformat across the S1 body) plus both head centres",
+      "ct_value": null,
+      "pinned_windows_suffice": "NEEDS_ADDITIONAL_RANGES",
+      "skeleton_quantity": "HJC-midpoint to S1 endplate centre (pelvic thickness)",
+      "skeleton_value_mm_or_deg": 130.57148081198574,
+      "why": "Endplate orientation and centre cannot be established from two 9 mm axial windows."
+    },
+    {
+      "comparison_status": "NOT_COMPUTABLE_CT_UNVERIFIED",
+      "ct_observation_required": "S1 endplate normal and HJC midpoint in a sagittal reformat of the supine donor",
+      "ct_value": null,
+      "pinned_windows_suffice": "NEEDS_ADDITIONAL_RANGES",
+      "skeleton_quantity": "pelvic incidence (posture-independent)",
+      "skeleton_value_mm_or_deg": 50.1,
+      "why": "PI is geometric, so a supine CT can be compared with a standing source; tilt and slope cannot."
+    },
+    {
+      "comparison_status": "NOT_COMPUTABLE_CT_UNVERIFIED",
+      "ct_observation_required": "Symphyseal joint centre in the midline and both head centres",
+      "ct_value": null,
+      "pinned_windows_suffice": "NEEDS_ADDITIONAL_RANGES",
+      "skeleton_quantity": "HJC-midpoint to pubic symphysis",
+      "skeleton_value_mm_or_deg": 47.72699220858284,
+      "why": "The symphysis lies caudal and anterior to the heads; coverage of both is not established."
+    },
+    {
+      "comparison_status": "NOT_COMPUTABLE_CT_UNVERIFIED",
+      "ct_observation_required": "Left and right ASIS bony points (small vertical extent, so a few slices each)",
+      "ct_value": null,
+      "pinned_windows_suffice": "TESTABLE_ONLY_IF_ASIS_LEVEL_IS_IN_A_WINDOW",
+      "skeleton_quantity": "inter-ASIS breadth",
+      "skeleton_value_mm_or_deg": null,
+      "why": "a003 stores only low-confidence ASIS surface proxies (216.6 mm); canonical ASIS must be rebuilt from bone."
+    },
+    {
+      "comparison_status": "NOT_COMPUTABLE_CT_UNVERIFIED",
+      "ct_observation_required": "In-plane circle fit on an equatorial axial slice",
+      "ct_value": null,
+      "pinned_windows_suffice": "TESTABLE_ONLY_IF_AN_EQUATORIAL_SLICE_IS_IN_A_WINDOW",
+      "skeleton_quantity": "acetabular / femoral-head axial diameter",
+      "skeleton_value_mm_or_deg": null,
+      "why": "The skeleton stores HJC only, not a diameter; the corridor 47-59 mm (cup) is a scale gate, not a skeleton number."
+    },
+    {
+      "comparison_status": "NOT_COMPUTABLE_CT_UNVERIFIED",
+      "ct_observation_required": "Disc spaces and endplates across L4-S1",
+      "ct_value": null,
+      "pinned_windows_suffice": "NEEDS_ADDITIONAL_RANGES",
+      "skeleton_quantity": "L4/L5 and L5/S1 disc level above HJC midpoint",
+      "skeleton_value_mm_or_deg": 157.93903989938735,
+      "why": "Requires contiguous coverage through at least the L4, L5 and S1 bodies; a003 disc markers are low confidence."
+    }
+  ],
+  "derived_a003": {
+    "HA_to_S1_via_disc_l5_sacrum": {
+      "distance_mm": 131.31027030945324,
+      "posterior_mm": 49.69238018179574,
+      "posterior_tilt_from_vertical_deg": 22.236766243840066,
+      "vector_mm": [
+        0.0,
+        49.69238018179574,
+        121.54445458600549
+      ],
+      "vertical_mm": 121.54445458600549
+    },
+    "HA_to_S1_via_sacrum_tail": {
+      "distance_mm": 130.57148081198574,
+      "posterior_mm": 59.26803098506492,
+      "posterior_tilt_from_vertical_deg": 26.994986195784804,
+      "vector_mm": [
+        0.0,
+        59.26803098506492,
+        116.34522811266538
+      ],
+      "vertical_mm": 116.34522811266538
+    },
+    "HA_to_pubic_symphysis": {
+      "distance_mm": 47.72699220858284,
+      "posterior_mm": -45.731969014935096,
+      "posterior_tilt_from_vertical_deg": -106.62471158760442,
+      "vector_mm": [
+        0.0,
+        -45.731969014935096,
+        -13.654771887334618
+      ],
+      "vertical_mm": -13.654771887334618
+    },
+    "HJC_left_mm": [
+      83.30584416194597,
+      -19.295904095532528,
+      929.6919266934183
+    ],
+    "HJC_midpoint_mm": [
+      0.0,
+      -19.295904095532528,
+      929.6919266934183
+    ],
+    "HJC_mirror_error_mm": 0.0,
+    "HJC_right_mm": [
+      -83.30584416194597,
+      -19.295904095532528,
+      929.6919266934183
+    ],
+    "disc_l4_l5_above_HA_mm": 157.93903989938735,
+    "disc_l4_l5_centre_mm": [
+      0.0,
+      -1.7512082864172829,
+      1087.6309665928056
+    ],
+    "disc_l5_sacrum_above_HA_mm": 121.54445458600549,
+    "disc_l5_sacrum_centre_mm": [
+      0.0,
+      30.39647608626321,
+      1051.2363812794238
+    ],
+    "inter_HJC_mm": 166.61168832389194,
+    "l4_bone_vector": {
+      "length_mm": 41.600832824584025,
+      "posterior_tilt_from_vertical_deg": -1.052672756615037,
+      "vector_mm": [
+        0.0,
+        -0.7642726932581625,
+        41.59381178672288
+      ]
+    },
+    "l5_bone_vector": {
+      "length_mm": 38.505156961342244,
+      "posterior_tilt_from_vertical_deg": -35.888380213974656,
+      "vector_mm": [
+        0.0,
+        -22.572033569411317,
+        31.195358840041763
+      ]
+    },
+    "sacrum_length_mm": 103.07764064044152
+  },
+  "derived_c004_equals_a003": true,
+  "freeze_readiness_overall": "NOT_READY_FOR_NEW_CANONICAL_BLENDER_REVISION",
+  "inputs_sha256": {
+    "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json": "99500d94e06c66ca489bdaccc0345446f98794946254c5e592d9449696f396c1",
+    "ORIGINAL_V1_WORK/anatomy/canonical_freeze_readiness_v1.json": "461927ae811a3572946bf8ae2f6a502cc85949890594b2ce26b7b63fedcfffea",
+    "ORIGINAL_V1_WORK/anatomy/canonical_lumbar_body_disc_frames_p1.json": "57a645f470d67a82bfb32fa271d94e6b13903efb738b2ae1528fecc531a93b69",
+    "ORIGINAL_V1_WORK/anatomy/canonical_pelvis_geometry_audit_v1.json": "295d64dca68c3f0599274968f7c90a535d1340ad2476fe17b328641a698dfce9",
+    "ORIGINAL_V1_WORK/anatomy/canonical_pelvis_landmark_targets_v1.json": "1ab5b1c81668abc6cdbef88956678ae025e3d7e68657fd94b77990aa8cb38ec1",
+    "ORIGINAL_V1_WORK/anatomy/canonical_s1_pelvic_frame_p1.json": "e0b0244514853660bff5153c0bbd6bfc5be406ad26e466df91b5a8de600f8a7b",
+    "ORIGINAL_V1_WORK/anatomy/character_fit_r95_a003.json": "11712ba3e105aa8844b07572315d58ccace1d23d2f0cdf101218a3a507a1a1e3"
+  },
+  "kind": "SKELETON_VERSUS_SOURCE_CT_INSPECTION_NO_CT_COMPARISON_POSSIBLE_YET",
+  "s1_a003_vs_P1": {
+    "P1_distance_HA_to_S1_mm": 107,
+    "P1_posterior_tilt_from_vertical_deg": 9.2,
+    "a003_distance_via_disc_l5_sacrum_mm": 131.31027030945324,
+    "a003_distance_via_sacrum_tail_mm": 130.57148081198574,
+    "a003_tilt_via_disc_l5_sacrum_deg": 22.236766243840066,
+    "a003_tilt_via_sacrum_tail_deg": 26.994986195784804,
+    "definitions_differ_note": "a003 'S1' is a stick end; P1 is a derived endplate centre. Differences are diagnostics, not errors.",
+    "distance_difference_a003_minus_P1_mm": 23.571480811985737,
+    "posture_note": "P1 is a standing PTh/PT/SS family; the CT donor lay supine. Pelvic tilt and sacral slope are posture-dependent; pelvic incidence and HJC-to-S1 distance are geometric and are the comparable quantities.",
+    "tilt_difference_a003_minus_P1_deg": 17.794986195784805
+  },
+  "schema_version": 1,
+  "skeleton": {
+    "a003": {
+      "bones": {
+        "coccyx": {
+          "confidence": "low",
+          "head_mm": [
+            0.0,
+            64.97212688953239,
+            946.0371548060837
+          ],
+          "parent": "sacrum",
+          "placement": "proportional",
+          "tail_mm": [
+            0.0,
+            44.972126889532376,
+            916.0371548060837
+          ]
+        },
+        "femur_left": {
+          "confidence": "moderate",
+          "head_mm": [
+            83.30584416194597,
+            -19.295904095532528,
+            929.6919266934183
+          ],
+          "parent": "hip_bone_left",
+          "placement": "regression",
+          "tail_mm": [
+            90.41915991241696,
+            -10.967398970665732,
+            516.9554166666667
+          ]
+        },
+        "femur_right": {
+          "confidence": "moderate",
+          "head_mm": [
+            -83.30584416194597,
+            -19.295904095532528,
+            929.6919266934183
+          ],
+          "parent": "hip_bone_right",
+          "placement": "regression",
+          "tail_mm": [
+            -90.41915991241696,
+            -10.967398970665732,
+            516.9554166666667
+          ]
+        },
+        "hip_bone_left": {
+          "confidence": "low",
+          "head_mm": [
+            45.0,
+            49.97212688953238,
+            1036.0371548060837
+          ],
+          "parent": "sacrum",
+          "placement": "proportional",
+          "tail_mm": [
+            4.0,
+            -65.02787311046762,
+            916.0371548060837
+          ]
+        },
+        "hip_bone_right": {
+          "confidence": "low",
+          "head_mm": [
+            -45.0,
+            49.97212688953238,
+            1036.0371548060837
+          ],
+          "parent": "sacrum",
+          "placement": "proportional",
+          "tail_mm": [
+            -4.0,
+            -65.02787311046762,
+            916.0371548060837
+          ]
+        },
+        "l4": {
+          "confidence": "low",
+          "head_mm": [
+            0.0,
+            -1.7512082864172829,
+            1087.6309665928056
+          ],
+          "parent": "l5",
+          "placement": "proportional",
+          "tail_mm": [
+            0.0,
+            -2.5154809796754454,
+            1129.2247783795285
+          ]
+        },
+        "l5": {
+          "confidence": "low",
+          "head_mm": [
+            0.0,
+            20.820825282994033,
+            1056.4356077527639
+          ],
+          "parent": "sacrum",
+          "placement": "proportional",
+          "tail_mm": [
+            0.0,
+            -1.7512082864172829,
+            1087.6309665928056
+          ]
+        },
+        "sacrum": {
+          "confidence": "low",
+          "head_mm": [
+            0.0,
+            64.97212688953239,
+            946.0371548060837
+          ],
+          "parent": null,
+          "placement": "proportional",
+          "tail_mm": [
+            0.0,
+            39.97212688953239,
+            1046.0371548060837
+          ]
+        }
+      },
+      "markers": {
+        "disc_l4_l5": {
+          "centre_mm": [
+            0.0,
+            -1.7512082864172829,
+            1087.6309665928056
+          ],
+          "frame_bone": "l4"
+        },
+        "disc_l5_sacrum": {
+          "centre_mm": [
+            0.0,
+            30.39647608626321,
+            1051.2363812794238
+          ],
+          "frame_bone": "l5"
+        },
+        "facet_l4_l5_left": {
+          "centre_mm": [
+            20.0,
+            20.248791713582715,
+            1087.6309665928056
+          ],
+          "frame_bone": "l4"
+        },
+        "facet_l4_l5_right": {
+          "centre_mm": [
+            -20.0,
+            20.248791713582715,
+            1087.6309665928056
+          ],
+          "frame_bone": "l4"
+        },
+        "facet_l5_sacrum_left": {
+          "centre_mm": [
+            20.0,
+            52.396476086263206,
+            1051.2363812794238
+          ],
+          "frame_bone": "l5"
+        },
+        "facet_l5_sacrum_right": {
+          "centre_mm": [
+            -20.0,
+            52.396476086263206,
+            1051.2363812794238
+          ],
+          "frame_bone": "l5"
+        },
+        "hip_left": {
+          "centre_mm": [
+            83.30584416194597,
+            -19.295904095532528,
+            929.6919266934183
+          ],
+          "frame_bone": "femur_left"
+        },
+        "hip_right": {
+          "centre_mm": [
+            -83.30584416194597,
+            -19.295904095532528,
+            929.6919266934183
+          ],
+          "frame_bone": "femur_right"
+        },
+        "pubic_symphysis": {
+          "centre_mm": [
+            0.0,
+            -65.02787311046762,
+            916.0371548060837
+          ],
+          "frame_bone": "hip_bone_left"
+        },
+        "sacrococcygeal": {
+          "centre_mm": [
+            0.0,
+            64.97212688953239,
+            946.0371548060837
+          ],
+          "frame_bone": "coccyx"
+        },
+        "sacroiliac_anterior_left": {
+          "centre_mm": [
+            45.0,
+            39.97212688953238,
+            1036.0371548060837
+          ],
+          "frame_bone": "sacrum"
+        },
+        "sacroiliac_anterior_right": {
+          "centre_mm": [
+            -45.0,
+            39.97212688953238,
+            1036.0371548060837
+          ],
+          "frame_bone": "sacrum"
+        },
+        "sacroiliac_posterior_left": {
+          "centre_mm": [
+            45.0,
+            61.97212688953238,
+            1041.0371548060834
+          ],
+          "frame_bone": "sacrum"
+        },
+        "sacroiliac_posterior_right": {
+          "centre_mm": [
+            -45.0,
+            61.97212688953238,
+            1041.0371548060834
+          ],
+          "frame_bone": "sacrum"
+        }
+      }
+    },
+    "bone_confidence": {
+      "coccyx": "low",
+      "femur_left": "moderate",
+      "femur_right": "moderate",
+      "hip_bone_left": "low",
+      "hip_bone_right": "low",
+      "l4": "low",
+      "l5": "low",
+      "sacrum": "low"
+    },
+    "c004_bones_differing_elsewhere": 85,
+    "c004_pelvic_set_differences_from_a003": [],
+    "c004_pelvic_set_identical_to_a003": true,
+    "set": {
+      "bones": [
+        "sacrum",
+        "coccyx",
+        "l5",
+        "l4",
+        "hip_bone_left",
+        "hip_bone_right",
+        "femur_left",
+        "femur_right"
+      ],
+      "markers": [
+        "hip_left",
+        "hip_right",
+        "sacroiliac_anterior_left",
+        "sacroiliac_anterior_right",
+        "sacroiliac_posterior_left",
+        "sacroiliac_posterior_right",
+        "pubic_symphysis",
+        "sacrococcygeal",
+        "disc_l4_l5",
+        "disc_l5_sacrum",
+        "facet_l4_l5_left",
+        "facet_l4_l5_right",
+        "facet_l5_sacrum_left",
+        "facet_l5_sacrum_right"
+      ]
+    }
+  },
+  "statements": [
+    "The source skeleton governs geometry; nothing here moves, reshapes or re-fits it.",
+    "c004 is an unaccepted diagnostic candidate and is not altered; there is no c005.",
+    "The CT donor is one cadaver and is not a canonical 182 cm male.",
+    "No CT landmark is verified, so no CT-versus-skeleton number is computed.",
+    "Scanner RAS is not the Home Gym PT world frame; no transform is applied.",
+    "Corridor z-scores are diagnostics against single-source summaries, not acceptance."
+  ]
+}

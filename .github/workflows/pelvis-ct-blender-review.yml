@@ -1,0 +1,34 @@
+name: Pelvis CT Blender review (stdlib only)
+
+on:
+  push:
+    branches:
+      - claude/pelvis-ct-blender-review-20261009
+  pull_request:
+    paths:
+      - scripts/anatomy_fit/ct_*.py
+      - scripts/test_ct_*.py
+      - ORIGINAL_V1_WORK/anatomy/audit/claude_pelvis_ct_review_20261009/**
+      - .github/workflows/pelvis-ct-blender-review.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pelvis-ct-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Unit tests (python stdlib only; synthetic CT data; fake bpy)
+        run: python3 -m unittest discover -s scripts -p 'test_ct_*.py' -v
+      - name: Committed evidence matches regeneration
+        run: |
+          D=ORIGINAL_V1_WORK/anatomy/audit/claude_pelvis_ct_review_20261009
+          python3 scripts/anatomy_fit/ct_pelvis_slice_index.py --check --manifest $D/pinned_six_frames_from_pr15_4680b49.json --out-json $D/physical_slice_to_region_index.json --out-md $D/physical_slice_to_region_index.md
+          python3 scripts/anatomy_fit/ct_pelvis_skeleton_vs_source_report.py --check --register $D/landmark_candidate_register.json --out-json $D/skeleton_vs_source_inspection.json --out-md $D/skeleton_vs_source_inspection.md
+          python3 scripts/anatomy_fit/ct_landmark_register.py validate --register $D/landmark_candidate_register.json --manifest $D/pinned_six_frames_from_pr15_4680b49.json
+      - name: No raw CT bytes tracked
+        run: |
+          if git ls-files | grep -Ei '(^|/)cvm[0-9]+f\.(png|txt)$|_display8\.png$|CT_PRIVATE.*\.blend$'; then echo "private CT artefact tracked"; exit 1; fi

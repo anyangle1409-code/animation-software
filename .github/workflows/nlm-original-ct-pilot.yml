@@ -1,0 +1,39 @@
+name: Original NLM CT source-image pilot
+
+on:
+  push:
+    branches:
+      - codex/independent-pelvis-stl-intake-20261009
+    paths:
+      - 'scripts/anatomy_fit/nlm_original_ct_png_probe.py'
+      - 'scripts/test_nlm_original_ct_png_probe.py'
+      - '.github/workflows/nlm-original-ct-pilot.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  byte-format-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check third-party-free PNG byte integrity parser
+        run: python3 -m unittest discover -s scripts -p 'test_nlm_original_ct_png_probe.py' -v
+
+  isolated-original-source-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download two small NLM original CT PNG previews to temporary files only
+        run: |
+          python3 scripts/anatomy_fit/nlm_original_ct_png_probe.py \
+            --download cvm1012f.png --temporary-out "$RUNNER_TEMP/cvm1012f.png"
+          python3 scripts/anatomy_fit/nlm_original_ct_png_probe.py \
+            --download cvm1013f.png --temporary-out "$RUNNER_TEMP/cvm1013f.png"
+      - name: Repeat verification against temporary bytes without copying them to GitHub
+        run: |
+          python3 scripts/anatomy_fit/nlm_original_ct_png_probe.py --file "$RUNNER_TEMP/cvm1012f.png"
+          python3 scripts/anatomy_fit/nlm_original_ct_png_probe.py --file "$RUNNER_TEMP/cvm1013f.png"

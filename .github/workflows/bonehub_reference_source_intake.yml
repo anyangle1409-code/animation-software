@@ -1,0 +1,60 @@
+name: BoneHub source-first bone surface intake
+
+on:
+  push:
+    branches:
+      - codex/bonehub-3d-source-intake-20261010
+    paths:
+      - 'ORIGINAL_V1_WORK/anatomy/bonehub_reference_sources_20261010.json'
+      - 'scripts/anatomy_fit/bonehub_surface_intake.py'
+      - 'scripts/test_bonehub_surface_intake.py'
+      - 'docs/BONEHUB_VISIBLE_HUMAN_SOURCE_INTAKE_20261010.md'
+      - '.github/workflows/bonehub_reference_source_intake.yml'
+  pull_request:
+    paths:
+      - 'ORIGINAL_V1_WORK/anatomy/bonehub_reference_sources_20261010.json'
+      - 'scripts/anatomy_fit/bonehub_surface_intake.py'
+      - 'scripts/test_bonehub_surface_intake.py'
+      - 'docs/BONEHUB_VISIBLE_HUMAN_SOURCE_INTAKE_20261010.md'
+      - '.github/workflows/bonehub_reference_source_intake.yml'
+
+jobs:
+  source-integrity-and-real-download:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 12
+    steps:
+      - name: Checkout read-only
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Offline adversarial tests
+        run: python -m unittest discover -s scripts -p 'test_bonehub_surface_intake.py' -v
+      - name: Verify four external source meshes (no geometry promotion)
+        run: |
+          python scripts/anatomy_fit/bonehub_surface_intake.py \
+            --all --download \
+            --private-dir "$RUNNER_TEMP/hgpt-bonehub-surface-source" \
+            > "$RUNNER_TEMP/bonehub-reference-diagnostic.json"
+          python - "$RUNNER_TEMP/bonehub-reference-diagnostic.json" <<'PY'
+          import json
+          import sys
+          with open(sys.argv[1], encoding="utf-8") as f:
+              r = json.load(f)
+          assert len(r["items"]) == 4
+          assert r["gate6_or_cp1_passed"] is False
+          assert r["source_subject_independence_from_NLM_CT"] is False
+          for item in r["items"]:
+              assert item["binary_stl_triangles"] > 0
+              assert item["bone_registration_approved"] is False
+          print(json.dumps(r, indent=2))
+          PY
+      - name: Publish source-only diagnostic report (no STL or CT bytes)
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bonehub-four-reference-bbox-provenance-only
+          path: ${{ runner.temp }}/bonehub-reference-diagnostic.json
+          if-no-files-found: error
+          retention-days: 7

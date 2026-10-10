@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "kind": "HGPT_EXTERNAL_NONCANONICAL_BONE_SURFACE_SOURCE",
+  "source_dataset": "BoneHub/visible-human-3d-models",
+  "source_doi": "10.57967/hf/10464",
+  "origin": "NLM Visible Human Male via University of Denver aligned DICOM; independent derivative segmentation by Alavi and Asseln (2026)",
+  "license": "CC-BY-4.0",
+  "upstream_card": "https://huggingface.co/datasets/BoneHub/visible-human-3d-models",
+  "upstream_source": "https://doi.org/10.1038/s41597-022-01905-2",
+  "subject": {
+    "sex": "male",
+    "stature_cm": 180,
+    "weight_kg": 90,
+    "age_years": 39,
+    "not_hgpt_target": true
+  },
+  "coordinate_frame": "UNVERIFIED; STL is unitless; do not infer anatomical left/right, scanner-to-HGPT transform or millimetres without source registration",
+  "samples": [
+    {
+      "id": "carpus_scaphoid_left",
+      "region": "carpus",
+      "path": "HAND_LEFT/SCAPHOID_LEFT.stl",
+      "sha256": "362d0d42bf1b4475e705846d8c7c48965bb052f875a93355c8e302937ddef762"
+    },
+    {
+      "id": "tarsus_talus_left",
+      "region": "tarsus",
+      "path": "FOOT_LEFT/TALUS_LEFT.stl",
+      "sha256": "b79dcb8037223d2652e300cb42124c9d4e16dfedcc49ff36b4d44ed3fc24602e"
+    },
+    {
+      "id": "tarsus_cuboid_left",
+      "region": "tarsus",
+      "path": "FOOT_LEFT/CUBOID_LEFT.stl",
+      "sha256": "7ed61043826f269aecee108a1d1298e59dc2cf2da29b0083a297f548d48d0353"
+    },
+    {
+      "id": "rib_1_left",
+      "region": "ribs",
+      "path": "THORAX/RIB_1_LEFT.stl",
+      "sha256": "5b5216f2df8cac598aa94b1fe89039ce6734a15e520b9f1f788ddae3a6070295"
+    }
+  ],
+  "known_limitations": [
+    "Single 180 cm male is not the HGPT target 182 cm population mean or an independent cohort",
+    "Segmentation is partly model-assisted and reviewer judgment has no reported inter-rater statistics",
+    "Acquisition truncates elbow; distal humerus and proximal radius/ulna incomplete",
+    "Phalanges are combined by digit; not 206 independently segmented bones",
+    "Sternum, skull, sacrum/coccyx are grouped; hyoid and costal cartilage missing",
+    "No accepted HGPT bone contacts, centroids, joint centres, frames or articulation clearance follows from STLs",
+    "Not independent of existing HGPT NLM Visible Human CT patient; independent annotations do not constitute independent subject evidence"
+  ],
+  "acceptance": {
+    "raw_downloaded": false,
+    "geometry_measured": false,
+    "registered": false,
+    "independent_anatomical_landmarks": false,
+    "canonical_promoted": false,
+    "cp1_passed": false
+  }
+}

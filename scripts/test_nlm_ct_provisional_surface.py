@@ -120,6 +120,52 @@ class ProvisionalSurface(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "acquisition group"):
                 surface.extract(args)
 
+    def test_explicit_voxel_seed_selects_only_connected_review_volume(self):
+        separate = {(0, 10, 10), (1, 10, 10), (1, 20, 20)}
+        self.assertEqual(
+            surface.component_from_explicit_seed(separate, (1, 10, 10)),
+            {(0, 10, 10), (1, 10, 10)},
+        )
+        self.assertEqual(
+            surface.component_from_explicit_seed(separate, (1, 20, 20)),
+            {(1, 20, 20)},
+        )
+        for bad in ((9, 9, 9), (1, 10, 11)):
+            with self.assertRaisesRegex(ValueError, "absent"):
+                surface.component_from_explicit_seed(separate, bad)
+        for bad in ((1, 20), ("1", 20, 20), (True, 20, 20)):
+            with self.assertRaisesRegex(ValueError, "integers"):
+                surface.component_from_explicit_seed(separate, bad)
+
+    def test_source_bound_seed_evidence_retains_unselected_islands(self):
+        with tempfile.TemporaryDirectory() as td:
+            path = Path(td)
+            args = SimpleNamespace(
+                ct_dir=str(path / "source"), out=str(path / "seeded.obj"),
+                bundle=str(BUNDLE), calibration=str(CAL),
+                group=1, start=0, count=2, roi=[2, 6, 2, 6], hu_min=300,
+                pixel_origin="outer_edge", seed=[0, 2, 2])
+            first = [0] * (512 * 512)
+            second = list(first)
+            first[2 * 512 + 2] = 1500
+            second[2 * 512 + 2] = 1500
+            second[5 * 512 + 5] = 1500
+            frames = iter([first, second])
+
+            def staged(_folder, row):
+                return geom(row["scanner_centre_RAS_mm"][2]), next(frames)
+
+            with patch.object(surface, "_private_source_slice", side_effect=staged):
+                evidence = surface.extract(args)
+            self.assertEqual(evidence["voxel_count"], 2)
+            self.assertEqual(evidence["all_candidate_voxel_count_before_seed"], 3)
+            self.assertEqual(evidence["all_candidate_components_6_neighbour_before_seed"], [2, 1])
+            self.assertEqual(evidence["candidate_voxels_not_in_selected_component"], 1)
+            self.assertEqual(evidence["selection_mode"], "explicit_review_seed")
+            self.assertEqual(evidence["explicit_review_seed_z_row_col"], [0, 2, 2])
+            self.assertFalse(evidence["selected_component_proven_complete_anatomical_bone"])
+            self.assertFalse(evidence["canonical_promotion_allowed"])
+
     def test_missing_real_files_cannot_yield_mesh(self):
         with tempfile.TemporaryDirectory() as td:
             path = Path(td)

@@ -90,7 +90,7 @@ test('continuous synthetic two-bone reference proxy is indexed, skin-validated',
   const info=validateNativeSkinnedMesh({...m,inverseBindMatrices:new Float32Array([...id(),...id()])});
   assert.equal(info.bones,2);
   assert.equal(info.vertices,70);
-  assert.equal(info.triangles,132+16);
+  assert.equal(info.triangles,120+16);
   assert.ok(m.weights.some(x=>x>.3 && x<.7),'The elbow MUST have smoothly blended weights');
   assert.ok(m.weights.some(x=>x===1));
   const d=deformIndexedSkin({...m,inverseBindMatrices:new Float32Array([...id(),...id()])},

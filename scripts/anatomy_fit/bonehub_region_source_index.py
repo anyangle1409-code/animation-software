@@ -86,7 +86,7 @@ def classify(path: str) -> tuple[str, str] | None:
     if folder in ("HAND_LEFT", "HAND_RIGHT"):
         if any(k in name.upper() for k in (
             "SCAPHOID", "LUNATE", "TRIQUET", "PISIFORM",
-            "TRAPEZI", "CAPITATE", "HAMATE"
+            "TRAPEZI", "TRAPEZOID", "CAPITATE", "HAMATE"
         )):
             return "carpus_file_candidate", rel
         return "other_hand_file", rel

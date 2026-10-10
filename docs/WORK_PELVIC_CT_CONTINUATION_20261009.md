@@ -115,3 +115,12 @@ files and performs no anatomical render. CI for this follow-up is pending at
 commit time. The previous checkpoint's PR CI run `38090633519` passed all four
 jobs. Source observations, anatomical acceptance and all promotion gates are
 unchanged.
+
+The first native CI run `38091305837` exposed one Blender 4.0.2 compatibility
+defect: new image materials have no node tree until shader nodes are enabled.
+The external-image regression failed at that precise boundary; all other
+eight viewer tests and four existing CI jobs passed. The minimal correction
+enables nodes only when the new material lacks a node tree, preserving the
+Blender 5.2 path. This matches the producer's
+[Blender 4.0 material API](https://docs.blender.org/api/4.0/bpy.types.Material.html#bpy.types.Material.use_nodes).
+The same native CI test must pass before this follow-up is treated as verified.

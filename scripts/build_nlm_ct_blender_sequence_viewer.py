@@ -77,6 +77,8 @@ def _material_for_image(name, filepath):
     image.filepath = str(filepath)
     image.filepath_raw = str(filepath)
     material = bpy.data.materials.new(f"DISPLAY_ONLY__{name}")
+    if material.node_tree is None:
+        material.use_nodes = True
     nodes = material.node_tree.nodes
     nodes.clear()
     texture = nodes.new("ShaderNodeTexImage")

@@ -96,6 +96,10 @@ focused movement-source tests pass. No hash pins, amplitudes, approval rules
 or source geometry changed. CI adds an independent Windows run and disables
 checkout newline conversion there so exact-byte provenance is preserved.
 
+c004's source placement classes are 115 proportional, 45 surface-landmark,
+38 surface-station, 4 shoulder-proposal and 4 regression controls. These are
+placement provenance labels, not independently verified bone surface classes.
+
 The source `isolated_tests.py` bytes in this private working checkout were
 normalized back to the Git LF bytes for verification, without semantic edits.
 This is not a relaxation of source hashing. Do not change pinned source hashes
@@ -127,5 +131,83 @@ Next laptop work can use these exact measured scenes without rebuilding them:
 - Continue carpal/tarsal/forearm/patellar/craniofacial blockers only as their
   independent source evidence allows; no canonical freeze or promotion.
 
-Validation results and actual diagnostic-motion run will be appended once
-the currently running local checks finish. Full-suite success is not claimed.
+## Completed actual diagnostic movement run
+
+Blender saved and reopened `c004-diagnostic-motion.blend`, SHA-256
+`db84bb2df3281d1a0f4d4642c806aaf642b5ae6552aa5c5d65013010bb69f363`.
+The existing runner measured **9,575 evaluated frame samples across 135
+isolated tests**. Its private report and samples are in
+`c004-diagnostic-motion-run/`. The original c004 reconstruction and diagnostic
+file hashes were unchanged by measurement; the frame was restored.
+
+Results: 135/135 command/measurement implementation-integrity checks passed;
+41/43 mirror pairs passed actual Blender measurements; two side-specific
+amplitude pairs are recorded as solver-test-only, not Blender mirror passes.
+Maximum joint-centre drift was `1.4283327219369698e-7 m`; maximum off-axis
+residual `3.94644085838106e-5 degrees`. These are numerical implementation
+observations, not physiological tolerances.
+
+The runner's actual scope is isolated bone-control sweeps. Contact mechanics,
+surface collision, real translations and physiological follower couplings are
+not verified. The existing shoulder-complex diagnostic relation was exercised
+as already authored, NOT installed as an independently justified clavicle curve.
+No pressing/pulling/squat/hinge/lunge/grip/gait family is certified by these
+isolated tests. All 78 unsupported source peaks remain quarantined.
+
+The first invocation refused a nonempty output folder before authoring; the
+successful retry used a new exclusive output folder. No output was overwritten.
+`c004-motion-rendered/` contains 20 neutral views plus five actual peak-pose
+screenshots: hip flexion (frame 21), knee flexion (381), subtalar inversion/
+eversion (551), pronated elbow flexion (1176) and the existing diagnostic
+shoulder complex (5716). They came from the measured saved scene, not synthetic
+test fixture coordinates. The shoulder peak screenshot was inspected: controls
+only, and the fixed shoulder camera crops the distal raised arm. It is not a
+full-arm clearance view or anatomically validated overhead movement.
+
+Blender resolved the relative render output path to a different private folder.
+All 25 generated PNGs were moved into the intended private folder with each
+SHA-256 checked before/after and no overwrites. The original render manifest's
+`files_sha256` is empty because of that path mismatch; do not present it as a
+complete PNG hash manifest. Use absolute CLI input/output paths on this laptop.
+
+## Verification status
+
+- Movement source provenance: **10 local tests passed**, independently rerun
+  by the read-only reviewer.
+- CP2 source-control geometry checks: **19 tests passed**.
+- CP3 source/capture roundtrip checks: **8 tests passed**.
+- Primary clavicle source compatibility: **6 tests passed**.
+- PR #24 intake: **11 tests passed / one Windows symlink privilege error**
+  (`test_private_qa_destination_never_inside_git_or_via_symlink`). This test
+  was not weakened or bypassed; the local account cannot create its symlink.
+- Git diff whitespace check passed; source byte hashes and scene hashes checked.
+- Independent review found no substantive code/CI/evidence issue. Corrected
+  its minor wording finding: 46 changed controls means 92 changed endpoints.
+- GitHub Actions run `38061132864` at
+  `d505cd54e00405008851b0c43dbb210a90df6112`: **both Windows source-motion
+  provenance and Linux source-motion safety-gate jobs completed successfully**.
+  This is focused CI, not the entire project's test suite or a remote Blender run.
+
+The broad local Windows `unittest discover -s scripts -p test_*.py` run
+finished: **1,097 tests, 20 failures, 71 errors, one skip**, 1,102.593 seconds.
+Exact tracebacks are private in `full-suite-windows.log`. Several errors are
+missing assets in this partial checkout, e.g. candidate r29/DEFORMATION_BASELINE
+JSON, `coordination/MODEL_CANDIDATE_READY.template.json`, source exercise files
+and a c003 Blender file. The symlink privilege error is also present. Other
+reported failures need separate diagnosis; neither all causes nor absence of
+unrelated regressions is claimed. No expectations were changed to make it green.
+
+Failed test modules (the log preserves each precise test and traceback):
+`test_ansur_endpoint_correspondence`, `test_arm_chain_ansur_audit`,
+`test_canonical_lumbar_orientation_sensitivity`,
+`test_canonical_lumbar_wedge_decomposition`, `test_complete_anatomical_atlas`,
+`test_evidence_integrity_audit` (two), `test_original_v1_contact_source_bridge`
+(two), `test_original_v1_execution_orchestration`,
+`test_original_v1_whole_body_issues`, `test_review_pack_index` (two),
+`test_rib_spiral_reconstruction`, `test_shoulder_proposal_c001` (two),
+`test_shoulder_proposal_c002`, `test_skeleton_audit_and_p001`,
+`test_spine_trunk_audits`, and `test_state_restoration_audit`.
+
+Draft PR #26 publishes the technical fix and this checkpoint only, stacked on
+PR #25. All generated Blender files, medical bytes, captures and images remain
+outside Git; Claude/Work source branches are preserved.

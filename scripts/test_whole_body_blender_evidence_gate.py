@@ -12,7 +12,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/"scripts"/"anatomy_fit"))
 from whole_body_blender_evidence_gate import (
     audit_measurements, read_source_and_audit, source_context,
-    verify_scene_bytes, report_schema_template
+    verify_scene_bytes, report_schema_template, private_review_output
 )
 
 ANATOMY=ROOT/"ORIGINAL_V1_WORK"/"anatomy"
@@ -208,6 +208,26 @@ class WholeBodyBpyEvidenceGate(unittest.TestCase):
         self.assertEqual(guide["bone_surfaces"],[])
         with self.assertRaises(ValueError):
             audit_measurements(guide,BONES,JOINTS,FREEZE,BLOCKERS)
+
+    def test_private_qa_destination_never_inside_git_or_via_symlink(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)
+            resolved=private_review_output(root/"outside"/"source_audit.json")
+            self.assertEqual(resolved,root/"outside"/"source_audit.json")
+            gitfolder=root/"test_branch";gitfolder.mkdir()
+            (gitfolder/".git").write_text("gitdir: /elsewhere/worktrees/")
+            with self.assertRaisesRegex(ValueError,"ANY Git worktree"):
+                private_review_output(gitfolder/"review.json")
+            target=root/"outside"
+            target.mkdir()
+            symlink=root/"alias"
+            symlink.symlink_to(target,target_is_directory=True)
+            self.assertEqual(private_review_output(symlink/"report.json"),
+                             target/"report.json")
+            file_link=root/"output.json"
+            file_link.symlink_to(target/"report.json")
+            with self.assertRaisesRegex(ValueError,"symlink"):
+                private_review_output(file_link)
 
     def test_unknown_source_and_blocker_changes_fail_closed(self):
         alternate=copy.deepcopy(BONES)

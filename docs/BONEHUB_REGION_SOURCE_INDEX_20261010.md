@@ -17,6 +17,26 @@ The output path must be **outside the repository**. No source files are download
 
 Safety rules: exact official HTTPS API host/path, fixed source repository root, controlled pagination and maximum response sizes, only source file candidates in male HAND_LEFT/RIGHT, FOOT_LEFT/RIGHT and THORAX, exact SHA comparison against the four verified original samples when the upstream file metadata supplies SHA256, no inferred missing anatomy, no guessed source units/coordinate system.
 
+### Measured source inventory — 10 October 2026
+
+Real external metadata enumeration successfully executed in [Actions run 38070955113](https://github.com/anyangle1409-code/animation-software/actions/runs/38070955113) after the corrected conservative trapezoid filename classification. Upstream Git revision: \`ac8de2b38f5ae1a0996053ca0639dd6ae43358f1\`.
+
+**Result from 95 candidate STLs in the relevant male hand, foot and thorax subdirectories:**
+
+| Filename category | Available individual source STL files | Conventional bilateral target count |
+|---|---:|---:|
+| Wrist carpals (scaphoid, lunate, triquetrum, pisiform, trapezium, trapezoid, capitate, hamate) | **16** | 16 (8 per side) |
+| Hind/midfoot tarsals | **14** | 14 (7 per side) |
+| Rib bones | **24** | 24 (12 per side) |
+| Other hand entries | 20 | Not independently interpreted as 20 bones |
+| Other foot entries | 20 | Not independently interpreted as 20 bones |
+| Other thorax entries | 1 | Not interpreted as extra rib |
+| **Total** | **95** | Source-file count, not anatomical acceptance |
+
+The source-index tests (14) plus original source-intake tests (16) passed. Four example raw meshes were independently SHA256 verified in prior PR #32 CI, but **the 50 additional STL bytes were only indexed, not downloaded, individually hashed or validated**. The upstream Git revision alone does not establish correct anatomy, articular patches or coordinate registration.
+
+One important classification discovery was that the exact word \`TRAPEZOID\` is distinct from \`TRAPEZIUM\`; grouping them by \`TRAPEZI\` inadvertently missed the two trapezoid files, briefly producing a false 14/16 count. Added an explicit regression so the correct 16/16 is retained. The current focused CI also tests the full 8/side, 7/side and 12/side source filename distribution.
+
 ### Interpretation
 
 - **Filename candidate** is only a clue: it does not prove named bone geometry or acquisition laterality.

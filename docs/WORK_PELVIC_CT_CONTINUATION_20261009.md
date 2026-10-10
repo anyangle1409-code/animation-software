@@ -71,3 +71,56 @@ The targeted series-manifest suite passes 20/20. It now binds each added raw dig
 Blender 5.2.1 LTS also produced a private 10-frame contact sheet using 8-bit p1–p99.8 stored-value display derivatives. Each PNG/header was verified against the bundle before loading; images remain external/unpacked. The sheet has arbitrary display-grid placement, zero landmarks, no anatomical labels, no segmentation, no skeleton overlay, and no Home Gym PT transform. Headless Eevee crashed inside Intel `igc64.dll`; the successful render used the Workbench engine. Private report, render and `.blend` are in `work/private-nlm-ct-20261009/blender-boundary-extension-review-retry1-20261010/`; render SHA-256 `3ba32011810311c4accbcf4715f78255eb5f0f144ed6dc0b99c1fb379117bec3`, Blend SHA-256 `134070c82752fbaa1091a268201e9e89ad6e1977afcb5b24681197352e7c4a7a`.
 
 Next: have an independent reviewer navigate from the contact sheet to the original full-resolution private PNG and scanner header for any candidate observation, recording exact source/pixel coordinates, uncertainty, and independent citation. Keep laterality unresolved without a source cue. Then decide whether to build candidate-only segmentation and its coverage/topology tests. Do not repeat completed source acquisition or calibration, and do not promote anatomy, landmarks, source-to-skeleton transform, or canonical geometry from this display diagnostic.
+
+## Source-ordered Blender sequence review checkpoint — 2026-10-10
+
+On dedicated branch `codex/pelvic-ct-blender-sequence-review-20261010`, a
+private Blender 5.2.1 LTS timeline viewer was built from the 82-row pinned
+candidate bundle. It preserves the two scanner-defined acquisition groups
+(43 + 39 frames), places a visible marker at each group start, and advances
+one source plane per frame. Every PNG/header pair was checked against its
+pinned source hash and scanner geometry before use. Display derivatives use a
+fixed stored-value window (950–1900); this is not a tissue/bone classifier.
+The scene applies only a display rotation, not a patient-to-HGPT registration.
+
+Actual Blender reopened the saved private scene and verified 82 frames, 82
+mesh planes, 82 external/unpacked source-display images, both group markers,
+and the closed segmentation and canonical-promotion flags. This is a viewer
+integrity check—not an independent anatomical review. No bone identity,
+laterality, landmark, 3D segmentation, source-skeleton overlay, or readiness
+claim is established. The private scene and outputs are under
+`work/private-nlm-ct-20261009/sequential-viewer-20261010/`; do not commit the
+source images, display copies, render previews, report, or `.blend` file.
+
+Targeted Blender-bundled viewer, series-manifest, and calibration regressions
+passed 32/32 tests. Reopening the saved scene and setting frames 1, 43, 44, and
+82 showed exactly the expected single source plane at each frame, including
+across the group boundary. The code and this checkpoint are pushed in commit
+`35325b5afa7149868ee9937eb13d0f322e3e133f`; draft PR #44 targets the current
+CT identification branch. Its Actions run `38090579481` was queued when last
+checked. The next anatomical gate remains an independent reviewer navigating
+this sequence alongside original full-resolution source PNG and scanner-header
+files, documenting only source-supported candidate observations and
+uncertainty. Keep anatomical gates closed until that review and independent
+corroboration exist.
+
+### Native Blender source-plane verification follow-up
+
+Nine viewer tests pass in laptop Blender 5.2.1, including three additional
+checks of the millimetre-to-metre scale, proper rotation/handedness, source
+corner/UV orientation, camera geometry, and external/unpacked synthetic
+images. The workflow now includes a native Ubuntu Blender job that runs these
+tests using only generated 2-by-2 display pixels; it requires no private CT
+files and performs no anatomical render. CI for this follow-up is pending at
+commit time. The previous checkpoint's PR CI run `38090633519` passed all four
+jobs. Source observations, anatomical acceptance and all promotion gates are
+unchanged.
+
+The first native CI run `38091305837` exposed one Blender 4.0.2 compatibility
+defect: new image materials have no node tree until shader nodes are enabled.
+The external-image regression failed at that precise boundary; all other
+eight viewer tests and four existing CI jobs passed. The minimal correction
+enables nodes only when the new material lacks a node tree, preserving the
+Blender 5.2 path. This matches the producer's
+[Blender 4.0 material API](https://docs.blender.org/api/4.0/bpy.types.Material.html#bpy.types.Material.use_nodes).
+The same native CI test must pass before this follow-up is treated as verified.

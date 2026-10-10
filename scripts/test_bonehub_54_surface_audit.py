@@ -133,6 +133,34 @@ class WholeRegionSurfaceTests(unittest.TestCase):
         self.assertTrue(r["watertight_candidate_exact_weld_only"])
         self.assertFalse(r["anatomical_joint_centres_accepted"])
 
+    def test_valid_shell_and_orphan_degenerate_vertex_are_distinct(self):
+        original = bytearray(tetra_stl())
+        struct.pack_into("<I", original, 80, 5)
+        original.extend(struct.pack("<12fH", 0,0,0,
+                                  10,10,10, 10,10,10, 10,10,10, 0))
+        r = mesh_diagnostics(bytes(original))
+        self.assertEqual(r["degenerate_triangles"], 1)
+        self.assertEqual(r["vertex_connected_components_exact_weld"], 2)
+        self.assertEqual(r["nondegenerate_face_component_counts_desc"], [4])
+        self.assertEqual(r["isolated_vertex_only_components_no_valid_faces"], 1)
+        self.assertFalse(r["watertight_candidate_exact_weld_only"])
+
+    def test_two_separate_closed_shells_both_contain_faces(self):
+        one = tetra_stl()
+        second = bytearray()
+        for i in range(4):
+            record = list(struct.unpack_from("<12fH", one, 84 + i*50))
+            for j in range(3, 12):
+                record[j] += 10
+            second.extend(struct.pack("<12fH", *record))
+        raw = one[:80] + struct.pack("<I", 8) + one[84:] + second
+        r = mesh_diagnostics(raw)
+        self.assertEqual(r["degenerate_triangles"], 0)
+        self.assertEqual(r["vertex_connected_components_exact_weld"], 2)
+        self.assertEqual(r["nondegenerate_face_component_counts_desc"], [4, 4])
+        self.assertEqual(r["isolated_vertex_only_components_no_valid_faces"], 0)
+        self.assertFalse(r["watertight_candidate_exact_weld_only"])
+
     def test_missing_face_opens_boundary(self):
         r = mesh_diagnostics(tetra_stl()[:-50][:80] +
                              struct.pack("<I", 3) + tetra_stl()[84:-50])

@@ -1,0 +1,56 @@
+name: Recovered 2011 thoracic vertebral A-P source table
+
+on:
+  push:
+    branches: [codex/independent-thoracic-body-primary-table-20261010]
+    paths:
+      - ORIGINAL_V1_WORK/anatomy/thoracic_2011_original_VBHA_VBHP_table2_20261010.json
+      - scripts/anatomy_fit/audit_primary_thoracic_body_AP_heights_20261010.py
+      - scripts/test_original_thoracic_2011_body_AP_table_20261010.py
+      - docs/ORIGINAL_2011_THORACIC_VERTEBRAL_AP_WEDGE_RECHECK_20261010.md
+      - .github/workflows/independent_thoracic_2011_AP_source_check.yml
+  pull_request:
+    paths:
+      - ORIGINAL_V1_WORK/anatomy/thoracic_2011_original_VBHA_VBHP_table2_20261010.json
+      - scripts/anatomy_fit/audit_primary_thoracic_body_AP_heights_20261010.py
+      - scripts/test_original_thoracic_2011_body_AP_table_20261010.py
+      - .github/workflows/independent_thoracic_2011_AP_source_check.yml
+
+permissions:
+  contents: read
+
+jobs:
+  exact-original-thoracic-C7-T12:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify scientific identity, original table, means, and fail-closed anatomy
+        run: |
+          python -m unittest discover -s scripts -p 'test_original_thoracic_2011_body_AP_table_20261010.py' -v
+      - name: Produce numeric source-only complete anterior/posterior wedge context
+        run: |
+          python scripts/anatomy_fit/audit_primary_thoracic_body_AP_heights_20261010.py > "$RUNNER_TEMP/original-thoracic-C7-T12-body-AP-source-only.json"
+          python - "$RUNNER_TEMP/original-thoracic-C7-T12-body-AP-source-only.json" <<'PY'
+          import json,sys
+          with open(sys.argv[1],encoding="utf-8") as f: x=json.load(f)
+          assert x["body_levels_examined_count"]==13
+          assert x["thoracic_body_levels_examined_count"]==12
+          assert x["min_posterior_minus_anterior_mm"]==0.49
+          assert x["max_posterior_minus_anterior_mm"]==3.07
+          assert x["reused_existing_source_average_body_heights_without_changes"] is True
+          assert x["per_level_standing_spinal_cobb_angles_reported"] is False
+          assert x["patient_matched_3d_endplate_depths_reported"] is False
+          assert x["freeze_C2_to_S1_stack_ready"] is False
+          assert x["CP1_gate6_passed"] is False
+          print("Recovered full C7-T12 anterior and posterior vertebral body table; source wedge directions only, no anatomical angle or freeze.")
+          PY
+      - name: Publish numbers and citation only, never images, donor scans or meshes
+        uses: actions/upload-artifact@v4
+        with:
+          name: original-2011-thoracic-per-level-body-AP-heights-noncanonical
+          path: ${{ runner.temp }}/original-thoracic-C7-T12-body-AP-source-only.json
+          if-no-files-found: error
+          retention-days: 14

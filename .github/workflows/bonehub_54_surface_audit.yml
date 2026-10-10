@@ -62,6 +62,10 @@ jobs:
                         "valid_face_components", item["nondegenerate_face_component_counts_desc"],
                         "orphan_vertex_only_components", item["isolated_vertex_only_components_no_valid_faces"],
                         "nonmanifold_edges", item["nonmanifold_edges_over_two_faces"])
+          from collections import Counter
+          print("Explicit source STL header coordinate declarations:",
+                dict(Counter(x["source_stl_header_explicit_coordinate_system"] or "UNDECLARED" for x in report["items"])))
+          assert all(x["source_stl_header_field_verified_as_origin"] is False for x in report["items"])
           print("Anatomical region acceptance: NONE (source QA only)")
           PY
       - name: Check independent source-labelled bilateral coordinate consistency only

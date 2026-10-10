@@ -516,16 +516,27 @@ It parses 12 pinned meshes for eight bilateral scaphoid/lunate and tarsal pair
 proxies. The recorded closest valid-face-vertex bounds are raw source-coordinate
 values, with source units, CT registration, triangle-surface gaps, joint centres
 and contact all still unverified. They are not model measurements or accepted
-joint contacts. A newer, separate 30-mesh/44-pair candidate graph is running CI
-at `873a77fb4dc47d8555323cdb15336d4f064c09bd` (run
-[38086632132](https://github.com/anyangle1409-code/animation-software/actions/runs/38086632132));
-do not repeat its source scans while those checks are running.
+joint contacts. Its stacked PR #39 expanded this to 30 source bones and 44
+bilateral pair candidates. Latest head
+`22074e3c66be50f5e5e639ea02ff06740164f38a` passed both jobs in runs
+[38086883381](https://github.com/anyangle1409-code/animation-software/actions/runs/38086883381)
+and [38086879494](https://github.com/anyangle1409-code/animation-software/actions/runs/38086879494):
+36/36 combined geometry tests, 30/30 pinned LPS STL hashes, 44/44 candidate
+pair checks, and 8/8 previously measured PR #38 bounds reproduced to their
+recorded three-decimal precision. For example, conditional lunate–hamate
+valid-face-vertex upper bounds are 3.443/4.168 and AABB lower bounds
+1.237/0.174 for left/right in unknown native source numbers; these are not
+millimetres, not CT-to-STL registration, not triangle distances and not accepted
+contacts. PR #39 remains a draft; the source STL set is one donor, and readiness
+does not change.
 
-Next executable action: read the completed 44-pair CI/report once published,
-then continue only with bounded, source-pinned anatomical-plane CT/label
-inspection and transform evidence. The short separate verification checkout
-remains detached at `fed5f46d965d55e1726c14e4a3e98a0a9f8e233a`; a local PR review
-checkout attempt was interrupted by Windows file access and was not used as test
-evidence. No patient/source bytes or candidate outputs were added to Git.
+Next executable action is a bounded source-pinned pelvic review in anatomical
+planes, retaining the two scanner-defined groups and their boundary. Record
+candidate image observations only where support is clear; obtain independent
+second review before landmarks, segmentation, registration or skeleton targets
+can advance. The short separate verification checkout remains detached at
+`fed5f46d965d55e1726c14e4a3e98a0a9f8e233a`; a local PR review checkout attempt
+was interrupted by Windows file access and was not used as test evidence. No
+patient/source bytes or candidate outputs were added to Git.
 Regional readiness remains `0 READY / 9 PARTIAL / 3 BLOCKED`; no canonical
 geometry, landmarks or anatomical contacts were promoted.

@@ -38,7 +38,7 @@ class ForearmMulticontrolChiralityTests(unittest.TestCase):
         self.assertFalse(result["twist_motion_or_pronation_supination_verified"])
         self.assertFalse(result["rig_export_approved"])
 
-    def test_all_six_twist_helper_links_are_crossed(self):
+    def test_all_eight_twist_helper_links_are_crossed(self):
         evidence = m.from_repository()["evidence"]
         twist = [x for x in evidence if "tw" in x["legacy_alias"]]
         self.assertEqual(len(twist), 8)  # 2 bones x 2 sides x 2 helpers
@@ -70,7 +70,7 @@ class ForearmMulticontrolChiralityTests(unittest.TestCase):
 
     def test_missing_twist_helper_rejected(self):
         fit, runtime, aliases = self.records()
-        runtime["bones"] = [x for x in runtime["bones"] if x["name"] != "forearm_tw1_r"]
+        next(x for x in runtime["bones"] if x["name"] == "forearm_tw1_r")["name"] = "unknown_spare_runtime_control"
         with self.assertRaisesRegex(ValueError, "Missing forearm or twist helper"):
             m.report(fit, runtime, aliases)
 

@@ -118,6 +118,23 @@ class RegionSourceIndexTests(unittest.TestCase):
         self.assertIn("/tree/"+SHA+"/", visited[1])
         self.assertEqual(len(visited), 2)
 
+    def test_cli_writes_external_json_without_package_import(self):
+        import json
+        import tempfile
+        from pathlib import Path
+        from anatomy_fit.bonehub_region_source_index import main
+        with tempfile.TemporaryDirectory() as folder:
+            dest = Path(folder) / "source-index.json"
+            source_report = analyze_tree(fixture_entries(), SHA)
+            with patch("anatomy_fit.bonehub_region_source_index.build_report",
+                       return_value=source_report), patch(
+                "sys.argv", ["index", "--network", "--output", str(dest)]
+            ):
+                self.assertEqual(main(), 0)
+            actual = json.loads(dest.read_text(encoding="utf-8"))
+            self.assertEqual(actual["source_revision"], SHA)
+            self.assertFalse(actual["cp1_anatomical_acceptance"])
+
     def test_looped_pagination_is_rejected(self):
         def mock_read(url):
             if "/tree/" in url:

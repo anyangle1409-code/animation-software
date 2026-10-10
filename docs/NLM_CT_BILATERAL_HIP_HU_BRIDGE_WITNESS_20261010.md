@@ -36,3 +36,24 @@ The right head original pixel at 291 HU falls below 300 HU; the left head at 305
 6. Retain canonical a003 and c001–c004, never promote c005 or any mesh-adjusted skeleton geometry absent proven anatomical acceptance.
 
 **Hard gate:** 0/7 true pelvic osseous landmarks approved; full skeleton readiness **0 READY / 9 PARTIAL / 3 BLOCKED**. This is useful candidate *rejection and review-navigation evidence*, not evidence that the skeleton is complete, bones touch, or that exercise motion is realistic.
+
+
+## NEW: independent, first-party CT source review plate for Blender/laptop
+
+`scripts/anatomy_fit/nlm_ct_private_slice_review_plate.py` now builds a **single self-contained, zoomable SVG**, with three original CT slices (`cvm1870f`, `cvm1873f`, `cvm1876f`) in **bone** and **soft tissue** HU windows. It adds coloured markers at the **four exact original source pixels**, with their actual source HU values. All markers are explicitly labelled **unverified candidate hypotheses, not bones**. No third-party imaging library is needed; PNG is encoded with Python's standard library.
+
+For an approved private original-source folder containing the image and matching header bytes, run:
+
+```sh
+python3 scripts/anatomy_fit/nlm_ct_private_slice_review_plate.py \
+  --ct-dir /private/nlm_original_ct \
+  --bundle ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json \
+  --calibration ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_hu_calibration_20261009.json \
+  --review ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_review_20261009.json \
+  --group 2 --source-id cvm1873f \
+  --out /private/ct_review/cvm1873_original_review.svg
+```
+
+Open the `.svg` locally in a browser for the actual medical-source review before Blender segmentation. The accompanying `.json` lists source pins and exact point HU values. **Neither file is uploaded to GitHub**. CI runs this against SHA-pinned original NLM source files in a short-lived private runner path, checks six embedded CT windows and all four point values, then discards those files. The source pixels are never treated as authoritative anatomical labels.
+
+The plate is a visual review aid, *not* computer vision evidence of correct bone identity. A qualified independent anatomical interpretation is required to identify the actual hip joint boundaries and accept seven true osseous pelvic landmarks.

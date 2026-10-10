@@ -38,6 +38,59 @@ def point_ras(geometry, row, col, pixel_center_assumption):
     ]
 
 
+
+def nearby_dense_pixel_leads(geometry, pixels, row, col, spacing_mm,
+                             thresholds=THRESHOLDS, radius_pixels=32):
+    """Nearest 2D high-HU pixels to inspect, NOT replacement bone landmarks."""
+    if (type(radius_pixels) is not int or not 1 <= radius_pixels <= 32
+            or type(row) is not int or type(col) is not int
+            or not 0 <= row < GRID or not 0 <= col < GRID):
+        raise ValueError("invalid intensity review search")
+    if (not isinstance(spacing_mm, (list, tuple)) or len(spacing_mm) != 2
+            or any(type(v) not in (int, float) or not .01 < v < 10
+                   for v in spacing_mm)):
+        raise ValueError("unverified pixel spacing")
+    closest = {hu: None for hu in thresholds}
+    for r in range(max(0, row-radius_pixels), min(GRID, row+radius_pixels+1)):
+        for c in range(max(0, col-radius_pixels), min(GRID, col+radius_pixels+1)):
+            squared = (r-row)**2 + (c-col)**2
+            if squared > radius_pixels**2:
+                continue
+            intensity = pixels[r*GRID+c] + HU_OFFSET
+            for hu in thresholds:
+                if intensity >= hu:
+                    key = (squared, r, c)
+                    if closest[hu] is None or key < closest[hu][0]:
+                        closest[hu] = (key, intensity)
+    result = []
+    for hu in thresholds:
+        found = closest[hu]
+        if found is None:
+            lead = None
+        else:
+            (d2, r, c), value = found
+            lead = {
+                "pixel": {"row": r, "column": c},
+                "HU": value,
+                "offset_row_col_pixels": [r-row, c-col],
+                "distance_pixels": d2 ** .5,
+                "distance_mm": (
+                    ((r-row)*spacing_mm[0])**2 +
+                    ((c-col)*spacing_mm[1])**2
+                ) ** .5,
+                "scanner_RAS_if_FOV_outer_edges_mm": point_ras(
+                    geometry, r, c, "outer_edge"),
+                "anatomical_identity_or_seed_accepted": False,
+            }
+        result.append({
+            "minimum_HU": hu,
+            "search_radius_pixels": radius_pixels,
+            "search_2D_only": True,
+            "nearest_intensity_only_not_anatomy": lead,
+        })
+    return result
+
+
 def audit_pixel(observation, source, geometry, pixels):
     """Compute a non-acceptance review record from exactly ONE pinned CT slice."""
     if len(pixels) != GRID * GRID:
@@ -101,6 +154,8 @@ def audit_pixel(observation, source, geometry, pixels):
         "point_HU_from_verified_addend": centre_hu,
         "five_by_five_HU_range": [min(nearby), max(nearby)],
         "five_by_five_neighbourhood_threshold_support": threshold_support,
+        "nearby_2D_intensity_only_review_leads": nearby_dense_pixel_leads(
+            geometry, pixels, row, col, source["pixel_spacing_mm"]),
         "proposed_laterality": side,
         "source_R_sign_consistent_with_proposed_side": laterality,
         "source_pixel_confirms_anatomical_bone_identity": False,

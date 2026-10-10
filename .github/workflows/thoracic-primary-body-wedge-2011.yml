@@ -1,0 +1,32 @@
+name: Primary thoracic body wedge source reconciliation
+on:
+  push:
+    branches:
+      - codex/thoracic-primary-body-wedge-evidence-20261010
+  pull_request:
+    paths:
+      - 'scripts/anatomy_fit/thoracic_primary_body_wedge_evidence.py'
+      - 'scripts/test_thoracic_primary_body_wedge_evidence.py'
+      - 'ORIGINAL_V1_WORK/anatomy/audit/thoracic_primary_body_wedge_kunkel2011_v1.json'
+      - '.github/workflows/thoracic-primary-body-wedge-2011.yml'
+jobs:
+  source-only:
+    name: Source-only Table 2 audit / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run 11 primary-source provenance and adversarial tests
+        run: python -m unittest -v scripts.test_thoracic_primary_body_wedge_evidence
+      - name: Reconcile original Table 2 against source inventory (no geometry)
+        run: python scripts/anatomy_fit/thoracic_primary_body_wedge_evidence.py
+      - name: Confirm only read-only diagnostics ran
+        run: git diff --exit-code

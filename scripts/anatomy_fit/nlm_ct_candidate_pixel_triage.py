@@ -109,7 +109,7 @@ def audit_pixel(observation, source, geometry, pixels):
     }
 
 
-def triage(bundle, calibration, review, group, source_dir, source_loader=_private_source_slice):
+def triage(bundle, calibration, review, group, source_dir, source_loader=None):
     """Validate manifest/observation provenance before reading each unique source."""
     validate_series_bundle(bundle)
     validate_calibration_evidence(calibration, bundle)
@@ -125,6 +125,8 @@ def triage(bundle, calibration, review, group, source_dir, source_loader=_privat
         for g, series in enumerate(bundle["series"], 1) for x in series["slices"]
     }
     source_dir = assert_private_location(source_dir)
+    if source_loader is None:
+        source_loader = _private_source_slice
     selected = []
     seen = set()
     for obs in review["observations"]:

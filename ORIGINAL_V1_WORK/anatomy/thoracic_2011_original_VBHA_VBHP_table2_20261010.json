@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "kind": "HGPT_INDEPENDENT_NONCANONICAL_DIRECT_PRIMARY_THORACIC_BODY_AP_HEIGHT_TABLE",
+  "date_recovered": "2026-10-10",
+  "source": {
+    "title": "Morphometric analysis of the relationships between intervertebral disc and vertebral body heights: an anatomical and radiographic study of the human thoracic spine",
+    "authors": "Kunkel, Herkommer, Reinehr, Böckers, Wilke",
+    "year": 2011,
+    "journal": "Journal of Anatomy",
+    "doi": "10.1111/j.1469-7580.2011.01397.x",
+    "pmid": "21615399",
+    "pmcid": "PMC3171774",
+    "primary_full_html": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3171774/",
+    "table": "Table 2: anterior and posterior human thoracic vertebral body heights",
+    "direct_table_observed": true,
+    "raw_pdf_bytes_downloaded": false,
+    "study_total_vertebral_segments": 72,
+    "study_total_distinct_donors": 30,
+    "study_donor_male_n": 15,
+    "study_donor_female_n": 15,
+    "segments_per_disc_level": 6,
+    "mean_donor_age_years": 57.43,
+    "mean_donor_age_sd_years": 11.27,
+    "eligible_male_182_cm_conditional_cohort": false,
+    "source_is_standing_sagittal_curve": false,
+    "source_is_radiographic_ex_vivo_segmentation": true,
+    "source_vertebral_height_anterior_posterior_measurement_method": "Side radiographs of dissected isolated vertebral and disc segments from cadavers in standardized neutral tabletop positioning, annotated extreme anterior/posterior endplate edges",
+    "degenerative_changes": "Mild to moderate changes on study specimens (paper grades ii/iii)",
+    "source_unit": "mm",
+    "original_figures_copied": false,
+    "patient_images_or_3d_mesh_imported": false
+  },
+  "body_table_2": {
+    "C7": {
+      "anterior_mean_mm": 13.89,
+      "anterior_sd_mm": 1.42,
+      "posterior_mean_mm": 14.38,
+      "posterior_sd_mm": 2.22,
+      "reported_AP_average_mm": 14.14
+    },
+    "T1": {
+      "anterior_mean_mm": 14.49,
+      "anterior_sd_mm": 1.23,
+      "posterior_mean_mm": 15.28,
+      "posterior_sd_mm": 1.14,
+      "reported_AP_average_mm": 14.88
+    },
+    "T2": {
+      "anterior_mean_mm": 15.01,
+      "anterior_sd_mm": 1.51,
+      "posterior_mean_mm": 16.11,
+      "posterior_sd_mm": 1.67,
+      "reported_AP_average_mm": 15.56
+    },
+    "T3": {
+      "anterior_mean_mm": 15.65,
+      "anterior_sd_mm": 1.85,
+      "posterior_mean_mm": 17.41,
+      "posterior_sd_mm": 1.12,
+      "reported_AP_average_mm": 16.53
+    },
+    "T4": {
+      "anterior_mean_mm": 15.42,
+      "anterior_sd_mm": 1.46,
+      "posterior_mean_mm": 18.15,
+      "posterior_sd_mm": 1.54,
+      "reported_AP_average_mm": 16.79
+    },
+    "T5": {
+      "anterior_mean_mm": 15.84,
+      "anterior_sd_mm": 1.07,
+      "posterior_mean_mm": 17.33,
+      "posterior_sd_mm": 2.16,
+      "reported_AP_average_mm": 16.59
+    },
+    "T6": {
+      "anterior_mean_mm": 16.04,
+      "anterior_sd_mm": 1.43,
+      "posterior_mean_mm": 18.22,
+      "posterior_sd_mm": 1.38,
+      "reported_AP_average_mm": 17.13
+    },
+    "T7": {
+      "anterior_mean_mm": 15.94,
+      "anterior_sd_mm": 1.61,
+      "posterior_mean_mm": 18.67,
+      "posterior_sd_mm": 1.64,
+      "reported_AP_average_mm": 17.31
+    },
+    "T8": {
+      "anterior_mean_mm": 16.99,
+      "anterior_sd_mm": 1.7,
+      "posterior_mean_mm": 20.05,
+      "posterior_sd_mm": 1.77,
+      "reported_AP_average_mm": 18.52
+    },
+    "T9": {
+      "anterior_mean_mm": 18.26,
+      "anterior_sd_mm": 2.12,
+      "posterior_mean_mm": 20.25,
+      "posterior_sd_mm": 2.44,
+      "reported_AP_average_mm": 19.26
+    },
+    "T10": {
+      "anterior_mean_mm": 18.98,
+      "anterior_sd_mm": 1.4,
+      "posterior_mean_mm": 20.35,
+      "posterior_sd_mm": 1.89,
+      "reported_AP_average_mm": 19.67
+    },
+    "T11": {
+      "anterior_mean_mm": 19.6,
+      "anterior_sd_mm": 1.92,
+      "posterior_mean_mm": 22.67,
+      "posterior_sd_mm": 1.38,
+      "reported_AP_average_mm": 21.14
+    },
+    "T12": {
+      "anterior_mean_mm": 20.8,
+      "anterior_sd_mm": 1.96,
+      "posterior_mean_mm": 23.12,
+      "posterior_sd_mm": 1.94,
+      "reported_AP_average_mm": 21.96
+    }
+  },
+  "measurement_caveats": {
+    "not_a_vertebral_body_angle_measurement": true,
+    "original_AP_vertebral_depth_at_each_level_unavailable": true,
+    "endplate_surface_normals_not_identified": true,
+    "no_patient_matched_whole_spine_global_curve": true,
+    "no_healthy_standing_male_182_cm_target": true,
+    "cannot_derive_segmental_angles_from_height_difference_alone": true,
+    "cannot_multiply_mixed_cohort_height_differences_by_independent_CT_AP_widths": true,
+    "cannot_sum_all_segment_height_wedges_to_43_7_degrees_without_measured_angles": true,
+    "posterior_greater_than_anterior_height_is_only_wedging_direction_context": true,
+    "discs_in_source_studied_separately_no_cross_cohort_arithmetic": true,
+    "source_recovery_closes_missing_primary_VBHA_VBHP_table_only": true
+  },
+  "explicit_acceptance": {
+    "source_table_2_vbha_vbhp_levelled_obtained": true,
+    "body_height_mean_pattern_provisionally_usable_for_cross_source_check": true,
+    "standing_segmental_wedge_angles_accepted": false,
+    "thoracic_AP_depths_from_same_cohort_obtained": false,
+    "vertebral_body_3d_endplate_planes_verified": false,
+    "fully_coupled_sternum_rib_spine_chain_validated": false,
+    "canonical_182cm_spine_targets_selected": false,
+    "c005_blender_master_freeze_approved": false,
+    "regional_readiness_promoted": false,
+    "cp1_gate6_passed": false
+  }
+}

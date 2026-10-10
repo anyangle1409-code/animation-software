@@ -36,6 +36,21 @@ jobs:
           assert len(blockers["blockers"])==11
           print("Source-pinned 206 conventional adult bones, 427 articulations, 46 ancillary structures, 12 region gates and 11 blockers verified; no Blender execution assumed.")
           PY
+      - name: Generate empty private source-pinned Blender evidence template and verify no false bpy claims
+        run: |
+          python3 scripts/anatomy_fit/whole_body_blender_evidence_gate.py \
+            --template-only --out "$RUNNER_TEMP/whole_body_bpy_measurement_TEMPLATE.json"
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          path=Path(os.environ["RUNNER_TEMP"])/"whole_body_bpy_measurement_TEMPLATE.json"
+          r=json.loads(path.read_text())
+          assert r["provenance"]["scene_was_evaluated_by_bpy"] is False
+          assert r["anatomical_identity_approved"] is False
+          assert r["canonical_promotion_allowed"] is False
+          assert r["bone_surfaces"]==[] and r["poses"]==[]
+          print("Blender cloud template is EMPTY and rejected as measurement proof.")
+          PY
       - name: Enforce zero production mesh edits or fabricated blender outputs
         run: |
           test ! -e ORIGINAL_V1_WORK/anatomy/audit/whole_body_blender_measurement_accepted.json

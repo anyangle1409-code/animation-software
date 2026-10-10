@@ -22,3 +22,16 @@ A working two-bone **procedural cylinder** does not make the realistic human mod
 Needed next before retiring Three: original-v1 full-body mesh/topology/provenance approval, canonical skeleton and weights, multiple simultaneous bones/normal material handling, efficient GPU matrix-palette skinning, glTF/GLB parsing independent of external packages, camera/orbit/selection/equipment, blendshape/correctives, device/resize regression, and broad exercise photo/video comparison. Must preserve independent spine, ribs, wrist and foot anatomy readiness gates. No source data may be silently promoted to final mesh.
 
 **Anatomical readiness unchanged: 0 READY / 9 PARTIAL / 3 BLOCKED.** No c005 or production character released.
+
+
+## Real independent GitHub Actions evidence (actual code, actual Chromium WebGL2)
+
+Verified initial implementation at [Actions run 38088995260](https://github.com/anyangle1409-code/animation-software/actions/runs/38088995260): **all three CI jobs passed**:
+
+- **16/16 new adversarial indexed mesh + four-weight CPU skinning tests passed**, plus **12/12 independently verified skeleton WebGL2 tests**. Both suites require **zero npm packages**; all runtime shader, math, original FK and CPU skinning modules have no `three`, `react` or R3F import.
+- Entire animation editor strict TypeScript validation and production build passed unchanged, retaining original Three-backed full character/editor as safety baseline.
+- Real headless Chromium WebGL2 compiled vertex/fragment shaders and **rendered 164 indexed TRIANGLES** from the first-party procedurally created two-bone sleeve during actual generated `dumbbell_bicep_curl`. CI observed **8 rendered frames**, pose-space vertex motion max **0.005408 metres** during sampling, 1256×699 canvas, **zero browser exceptions, zero GPU console errors, zero vendor module network requests**. The diagnostic screenshot and JSON report are saved in [artifact 11683871637](https://github.com/anyangle1409-code/animation-software/actions/runs/38088995260/artifacts/11683871637).
+- Further hardening requires **orthonormal, right-handed, shear-free rest bind matrices**, including adversarial reflected/sheared test cases; latest commit reruns the same actual-browser jobs.
+- A moving simple deformable sleeve is convincing proof the code computes moving vertex positions and invokes GPU triangle rasterization. It is **NOT** proof realistic flesh/muscle geometry, correct anatomy, GPU-performance readiness or final native glTF/GLB compatibility.
+
+This source is separate from the temporary third-party exercise videos in PT-App, separate from Work's private CT/Blender branch, and separate from the original model. A future first-party skinned full-body mesh must match an anatomically accepted skeleton, never drag joint centres to fit this prototype.

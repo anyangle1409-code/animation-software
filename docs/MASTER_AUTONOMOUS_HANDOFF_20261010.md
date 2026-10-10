@@ -784,3 +784,31 @@ All39 group2 source frames now have qualitative windowed candidate review;
 41 unique frames across both groups are reviewed. Every acceptance gate
 remains false. Next: inspect unreviewed group1 frames1–41 for candidate
 pelvic landmark coverage; reuse existing outputs and preserve group boundaries.
+
+## Upper group1 candidate review completed — 11 October 2026
+
+Reviewed all41 previously unrecorded selected group1 frames1–41, reusing
+frame1 and rendering40 missing previews in actual Blender5.2.1, exit0.
+Original PNG/header hashes and private render hashes are recorded in
+`docs/PELVIC_CT_UPPER_GROUP1_CANDIDATE_REVIEW_20261011.json`.
+Paired elongated lateral profiles become visible around6 and persist through
+the group; the central transition at17–22 is a candidate interval for
+independent lumbosacral/endplate review, NOT an accepted S1 level or centre.
+External limb contours remain distinct from torso candidates.
+
+All82 selected slices now have first-pass qualitative windowed observations
+in four source-pinned ledgers, respecting43/39 acquisition groups. This is
+NOT accepted anatomical coverage: selected slices are3mm apart within each
+group; missing native intervening slices and inter-group registration still
+require independent source verification. No seven-landmark coordinates,
+bone masks, skeletal geometry changes or canonical promotion were produced.
+Readiness stays0READY/9PARTIAL/3BLOCKED. The preceding checkpoint60e65b1e
+passed all three CI jobs in run38095646973. Old c003 session-poll instructions
+in the machine checkpoint are now superseded by completed diagnosis.
+
+Next: inspect existing acquisition/coverage manifests and intake scripts,
+enumerate missing native source IDs between the selected3mm slices, and
+acquire only absent image/header pairs privately with URL/hash/scanner
+verification. Reuse verified source bytes and82-frame review; do not rerender
+or reacquire completed work. Independent review remains mandatory before
+identity, segmentation, landmark, registration or canonical acceptance.

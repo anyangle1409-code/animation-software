@@ -29,9 +29,21 @@ while their _r equivalents sit on positive X.
 
 The separate 206-reference alias inventory maps clavicle_left -> clavicle_l,
 humerus_left -> upperarm_l, femur_left -> thigh_l and likewise for the
-right side. All **six audited side-specific direct aliases therefore point
-physically across the body**. This is a *binding ambiguity*, not evidence
+right side. All **six independently measured anchor aliases** therefore point
+physically across the body. This is a *binding ambiguity*, not evidence
 that any real anatomical bone needs to move.
+
+## Broader descriptive mapping inventory
+
+The new static scanner also enumerates all 206 reference aliases. The 59
+bilateral anatomical-reference pairs mapped to one sided runtime control each
+have physically crossed control assignments (118 side-specific alias entries).
+These are *not* 59 independent osseous structures: carpals and tarsals,
+for example, collapse into the hand/foot runtime controls. This broad
+sign-only mapping result is intentionally distinguished from the three
+fitted, physically measured bilateral anchor pairs above. All 206 anatomy
+entries and all 427 articulation contacts still require separate bone geometry
+and movement verification.
 
 ## Run with no Blender, no Claude and no third-party Python packages
 
@@ -41,7 +53,7 @@ that any real anatomical bone needs to move.
 The report lists exact fitted and runtime lateral offsets for three bilateral
 probes and SHA-256 hashes for each input. The gate refuses unknown frame
 conventions, flipped fitted side identity, absent counterparts, duplicates
-and nonfinite coordinates. Mutation tests check the failure paths.
+and nonfinite coordinates. Mutation tests check the failure paths, including grouped carpal mapping.
 
 ## Handoff / sequence before ANY runtime integration
 

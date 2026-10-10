@@ -9,6 +9,7 @@ on:
       - src/viewer/nativeWebGL2SkeletonPreviewRuntime.ts
       - src/viewer/firstPartyViewportDom.ts
       - tests/firstPartyWebGL2SkeletonPreview.test.mjs
+      - scripts/verify-native-webgl2-skeleton-browser.mjs
       - .github/workflows/first_party_native_webgl2_skeleton_preview.yml
       - docs/FIRST_PARTY_WEBGL2_RUNTIME_REPLACEMENT_20261010.md
   pull_request:
@@ -18,6 +19,7 @@ on:
       - src/viewer/nativeWebGL2SkeletonPreviewRuntime.ts
       - src/viewer/firstPartyViewportDom.ts
       - tests/firstPartyWebGL2SkeletonPreview.test.mjs
+      - scripts/verify-native-webgl2-skeleton-browser.mjs
       - .github/workflows/first_party_native_webgl2_skeleton_preview.yml
 
 permissions:
@@ -71,3 +73,29 @@ jobs:
         run: npm run typecheck
       - name: Validate full editor production build uses unchanged supported viewport
         run: npm run build
+
+  actual-browser-shader-and-exercise-clip:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Existing development/test toolchain only, no new runtime packages
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Prepare headless Chromium software WebGL2
+        run: npx playwright install --with-deps chromium
+      - name: Validate actual native WebGL2 shader draw and exercise playback, compare untouched default
+        run: node scripts/verify-native-webgl2-skeleton-browser.mjs
+      - name: Publish diagnostics only - skeletal wireframe not final human character
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: first-party-webgl2-experimental-actual-browser-proof
+          path: reports/browser-smoke/first-party-webgl2-prototype/
+          if-no-files-found: warn
+          retention-days: 14

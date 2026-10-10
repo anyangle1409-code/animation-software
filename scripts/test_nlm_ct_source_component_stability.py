@@ -119,6 +119,75 @@ class SourceComponentStability(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "overwrite"):
                 stability.run(args)
 
+    def test_three_dimensional_source_seed_pairs_do_not_claim_bone_identity(self):
+        occupied = {
+            300: {(0, 10, 10), (1, 10, 10), (1, 10, 11), (1, 20, 20)},
+            500: {(1, 10, 10), (1, 20, 20)},
+        }
+        seeds = [
+            {"id": "seed_A", "voxel_z_row_col": [1, 10, 10]},
+            {"id": "seed_B", "voxel_z_row_col": [1, 10, 11]},
+            {"id": "seed_C", "voxel_z_row_col": [1, 20, 20]},
+        ]
+        reports = stability.seed_relationships(
+            occupied, seeds, selected_slices=3, roi=[5, 30, 5, 30])
+        pairs = reports[0]["pairwise_HU_connectivity"]
+        self.assertEqual([p["same_HU_connected_component"] for p in pairs],
+                         [True, False, False])
+        self.assertTrue(all(not p["separate_anatomical_bones_proven"]
+                            for p in pairs))
+        self.assertIsNone(reports[1]["pairwise_HU_connectivity"][0][
+            "same_HU_connected_component"])
+        self.assertFalse(reports[1]["review_seeds"][1]["seed_meets_threshold"])
+        self.assertEqual(reports[0]["review_seeds"][0]["connected_voxels"], 3)
+
+    def test_original_review_pins_drive_only_explicit_3d_source_pair_analysis(self):
+        review = AUDIT / "nlm_pelvic_ct_full_series_candidate_review_20261009.json"
+        a = "obs-1873-left-femoral-head"
+        b = "obs-1873-left-acetabulum"
+        with tempfile.TemporaryDirectory() as td:
+            result_file = Path(td) / "pairs.json"
+            args = SimpleNamespace(
+                ct_dir=str(Path(td) / "original"),
+                out=str(result_file),
+                bundle=str(BUNDLE), calibration=str(CAL),
+                group=2, start=9, count=3,
+                roi=[335, 380, 245, 280], hu=[300, 500],
+                review=str(review), seed_observation=[a, b])
+            ct_pixels = [[1024] * (512*512) for _ in range(3)]
+            ct_pixels[1][270*512+342] = 1500
+            ct_pixels[1][257*512+366] = 1700
+            counter = iter(ct_pixels)
+            def source(_folder, row):
+                return geometry(row["scanner_centre_RAS_mm"][2]), next(counter)
+            with patch.object(stability, "_private_source_slice", side_effect=source):
+                result = stability.run(args)
+            connected = result[
+                "proposed_point_HU_connectivity_not_anatomical_identity"]
+            self.assertEqual([q["HU"] for q in connected], [300, 500])
+            self.assertEqual(
+                connected[0]["pairwise_HU_connectivity"][0]["same_HU_connected_component"],
+                False)
+            self.assertIsNone(
+                connected[1]["pairwise_HU_connectivity"][0]["same_HU_connected_component"])
+            self.assertEqual(connected[0]["review_seeds"][0]["connected_voxels"], 1)
+            self.assertFalse(result["canonical_promotion_allowed"])
+            self.assertEqual(result["seven_pelvic_landmarks_verified"], 0)
+            self.assertTrue(result_file.is_file())
+
+    def test_review_seed_pair_rejects_duplicates_and_out_of_roi(self):
+        vols = {300: {(1, 10, 10), (1, 10, 11)}}
+        same = [{"id":"A", "voxel_z_row_col": [1, 10, 10]},
+                {"id":"A", "voxel_z_row_col": [1, 10, 11]}]
+        with self.assertRaisesRegex(ValueError, "duplicate"):
+            stability.seed_relationships(vols, same, 3, [5, 30, 5, 30])
+        same[1]["id"] = "B"
+        same[1]["voxel_z_row_col"] = [1, 10, 40]
+        with self.assertRaisesRegex(ValueError, "outside"):
+            stability.seed_relationships(vols, same, 3, [5, 30, 5, 30])
+        with self.assertRaisesRegex(ValueError, "two through eight"):
+            stability.seed_relationships(vols, same[:1], 3, [5, 30, 5, 30])
+
     def test_group_or_range_change_must_fail_before_source_io(self):
         with tempfile.TemporaryDirectory() as td:
             args = SimpleNamespace(

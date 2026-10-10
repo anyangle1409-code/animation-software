@@ -1,0 +1,252 @@
+{
+  "schema_version": 1,
+  "kind": "HGPT_STERNUM_NONCANONICAL_ENDPOINT_COMPATIBILITY_GATE",
+  "created": "2026-10-10",
+  "governing_policy": "SKELETON_FIRST_NO_ACCEPTED_GEOMETRY_FROM_UNMATCHED_SOURCE_MEANS",
+  "immutable_existing_sources": [
+    {
+      "path": "ORIGINAL_V1_WORK/anatomy/canonical_sternum_target_review_v1.json",
+      "git_blob_sha": "8103df8daf4b96eafb7bbca5a01f3ea0fbcbc053",
+      "role": "legacy_misnamed_semantic_key_retained_not_changed"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/anatomy/canonical_sternum_geometry_audit_v1.json",
+      "git_blob_sha": "775bcbb158c227a6f7e5b246e2b23f2735ad414b",
+      "role": "correct_a003_chord_jugular_to_xiphisternal_excludes_xiphoid"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/anatomy/sternum_selthofer_2006_primary_table_recheck_20261010.json",
+      "git_blob_sha": "feeec9f44a8c729b9b416d6325089b15dd5fa44b",
+      "role": "2006_cadaver_55_male_source_table_and_2018_CT_semantic_correction"
+    },
+    {
+      "path": "ORIGINAL_V1_WORK/anatomy/sternum_thai_2022_three_facet_intervals_20261010.json",
+      "git_blob_sha": "47503b8f92c7c47c224b9a123d8f5a7169ff2b4a",
+      "role": "2022_dry_sternum_104_male_source_notches"
+    }
+  ],
+  "measurement_terms": [
+    {
+      "id": "SELTHOFER2006_WHOLE",
+      "source": "SELTHOFER_2006",
+      "doi_or_pmid": "PMID:16617574",
+      "male_n": 55,
+      "value_mm": 208.6,
+      "sd_mm": 14.6,
+      "measurement_class": "JUGULAR_TO_DISTAL_XIPHOID_TOTAL_LENGTH",
+      "source_measure": "direct_group_mean",
+      "xiphoid_included": true,
+      "coordinate_semantics": "cadaver_anatomical_total_linear_measure",
+      "source_to_HGPT_registered": false,
+      "stature_182cm_conditioned": false
+    },
+    {
+      "id": "SELTHOFER2006_M",
+      "source": "SELTHOFER_2006",
+      "doi_or_pmid": "PMID:16617574",
+      "male_n": 55,
+      "value_mm": 55.2,
+      "sd_mm": 3.6,
+      "measurement_class": "MANUBRIUM_ANATOMICAL_LENGTH",
+      "source_measure": "direct_group_mean",
+      "xiphoid_included": false,
+      "coordinate_semantics": "cadaver_segment_length",
+      "source_to_HGPT_registered": false,
+      "stature_182cm_conditioned": false
+    },
+    {
+      "id": "SELTHOFER2006_B",
+      "source": "SELTHOFER_2006",
+      "doi_or_pmid": "PMID:16617574",
+      "male_n": 55,
+      "value_mm": 109.7,
+      "sd_mm": 14.4,
+      "measurement_class": "MESOSTERNUM_ANATOMICAL_LENGTH",
+      "source_measure": "direct_group_mean",
+      "xiphoid_included": false,
+      "coordinate_semantics": "cadaver_segment_length",
+      "source_to_HGPT_registered": false,
+      "stature_182cm_conditioned": false
+    },
+    {
+      "id": "SELTHOFER2006_SUM_M_B",
+      "source": "SELTHOFER_2006",
+      "doi_or_pmid": "PMID:16617574",
+      "male_n": 55,
+      "value_mm": 164.9,
+      "sd_mm": null,
+      "measurement_class": "M_PLUS_B_ARITHMETIC_SUM_OF_MEANS",
+      "source_measure": "derived_sum_of_two_group_means_not_subject_aggregates",
+      "xiphoid_included": false,
+      "coordinate_semantics": "not_a_measured_direct_composite_or_subject_distribution",
+      "source_to_HGPT_registered": false,
+      "stature_182cm_conditioned": false
+    },
+    {
+      "id": "TURKEY2018_CL",
+      "source": "TURKEY_CT_2018",
+      "doi_or_pmid": "DOI:10.5603/FM.a2018.0002",
+      "male_n": 97,
+      "value_mm": 154.1,
+      "sd_mm": 13.1,
+      "measurement_class": "MANUBRIUM_PLUS_BODY_SOURCE_COMBINED_CL",
+      "source_measure": "direct_group_mean_CL",
+      "xiphoid_included": false,
+      "coordinate_semantics": "source_CT_combined_manubrium_body",
+      "source_to_HGPT_registered": false,
+      "stature_182cm_conditioned": false
+    },
+    {
+      "id": "TURKEY2018_XIPHOID",
+      "source": "TURKEY_CT_2018",
+      "doi_or_pmid": "DOI:10.5603/FM.a2018.0002",
+      "male_n": 97,
+      "value_mm": 39.1,
+      "sd_mm": 11.3,
+      "measurement_class": "XIPHOID_PROCESS_LENGTH",
+      "source_measure": "direct_group_mean",
+      "xiphoid_included": true,
+      "coordinate_semantics": "separately_measured_CT_xiphoid_not_part_of_CL",
+      "source_to_HGPT_registered": false,
+      "stature_182cm_conditioned": false
+    },
+    {
+      "id": "THAI2022_CMM",
+      "source": "THAI_2022",
+      "doi_or_pmid": "DOI:10.5115/acb.22.045",
+      "male_n": 104,
+      "value_mm": 146.02,
+      "sd_mm": 10.41,
+      "measurement_class": "JUGULAR_TO_MESOXIPHOIDAL_STRAIGHT_CHORD",
+      "source_measure": "direct_group_mean",
+      "xiphoid_included": false,
+      "coordinate_semantics": "osteology_endpoint_chord",
+      "source_to_HGPT_registered": false,
+      "stature_182cm_conditioned": false
+    },
+    {
+      "id": "THAI2022_ICL23",
+      "source": "THAI_2022",
+      "doi_or_pmid": "DOI:10.5115/acb.22.045",
+      "male_n": 104,
+      "value_mm": 29.3,
+      "sd_mm": 3.11,
+      "measurement_class": "FACET_CENTER_EUCLIDEAN_RIB_2_TO_3",
+      "source_measure": "direct_group_mean",
+      "xiphoid_included": false,
+      "coordinate_semantics": "dry_sternum_costal_cartilage_facet_centres",
+      "source_to_HGPT_registered": false,
+      "stature_182cm_conditioned": false
+    },
+    {
+      "id": "THAI2022_ICL34",
+      "source": "THAI_2022",
+      "doi_or_pmid": "DOI:10.5115/acb.22.045",
+      "male_n": 104,
+      "value_mm": 25.2,
+      "sd_mm": 2.71,
+      "measurement_class": "FACET_CENTER_EUCLIDEAN_RIB_3_TO_4",
+      "source_measure": "direct_group_mean",
+      "xiphoid_included": false,
+      "coordinate_semantics": "dry_sternum_costal_cartilage_facet_centres",
+      "source_to_HGPT_registered": false,
+      "stature_182cm_conditioned": false
+    },
+    {
+      "id": "THAI2022_ICL45",
+      "source": "THAI_2022",
+      "doi_or_pmid": "DOI:10.5115/acb.22.045",
+      "male_n": 104,
+      "value_mm": 19.56,
+      "sd_mm": 2.87,
+      "measurement_class": "FACET_CENTER_EUCLIDEAN_RIB_4_TO_5",
+      "source_measure": "direct_group_mean",
+      "xiphoid_included": false,
+      "coordinate_semantics": "dry_sternum_costal_cartilage_facet_centres",
+      "source_to_HGPT_registered": false,
+      "stature_182cm_conditioned": false
+    },
+    {
+      "id": "A003_JUGULAR_TO_XIPHISTERNAL_CHORD",
+      "source": "HGPT_A003_CONTROL",
+      "doi_or_pmid": "PROJECT:canonical_sternum_geometry_audit_v1",
+      "male_n": null,
+      "value_mm": 213.22634318846016,
+      "sd_mm": null,
+      "measurement_class": "MODEL_CONTROL_JUGULAR_TO_XIPHISTERNAL_CHORD",
+      "source_measure": "legacy_candidate_geometry",
+      "xiphoid_included": false,
+      "coordinate_semantics": "unaccepted_blender_model_control_chord_not_surface_verified",
+      "source_to_HGPT_registered": false,
+      "stature_182cm_conditioned": false
+    },
+    {
+      "id": "A003_LEVEL2_3_Z",
+      "source": "HGPT_A003_CONTROL",
+      "doi_or_pmid": "PROJECT:canonical_sternum_target_review_v1",
+      "male_n": null,
+      "value_mm": 35.2,
+      "sd_mm": null,
+      "measurement_class": "MODEL_CONTROL_LEVEL2_TO3_Z_PROJECTION",
+      "source_measure": "legacy_candidate_geometry",
+      "xiphoid_included": false,
+      "coordinate_semantics": "model_Z_difference_not_3D_facet_distance",
+      "source_to_HGPT_registered": false,
+      "stature_182cm_conditioned": false
+    }
+  ],
+  "forbidden_pairs": [
+    {
+      "left": "SELTHOFER2006_WHOLE",
+      "right": "TURKEY2018_CL",
+      "reason": "DISTAL_XIPHOID_INCLUDED_VS_EXCLUDED",
+      "raw_numeric_gap_mm": 54.5
+    },
+    {
+      "left": "SELTHOFER2006_WHOLE",
+      "right": "A003_JUGULAR_TO_XIPHISTERNAL_CHORD",
+      "reason": "DISTAL_XIPHOID_VS_XIPHISTERNAL_AND_MODEL_CONTROL",
+      "raw_numeric_gap_mm": null
+    },
+    {
+      "left": "SELTHOFER2006_SUM_M_B",
+      "right": "TURKEY2018_CL",
+      "reason": "DERIVED_SUM_OF_COHORT_MEANS_VS_DIRECT_COMPOSITE_DIFFERENT_STUDIES",
+      "raw_numeric_gap_mm": 10.8
+    },
+    {
+      "left": "THAI2022_CMM",
+      "right": "TURKEY2018_CL",
+      "reason": "DIRECT_CHORD_VS_CL_COMBINED_MEASUREMENT_AND_COHORT",
+      "raw_numeric_gap_mm": null
+    },
+    {
+      "left": "THAI2022_ICL23",
+      "right": "A003_LEVEL2_3_Z",
+      "reason": "3D_COSTAL_FACET_SPACING_VS_MODEL_Z_PROJECTION",
+      "raw_numeric_gap_mm": null
+    }
+  ],
+  "source_eligibility": {
+    "all_primary_data_originals_preserved": true,
+    "thai_182cm_target_outside_sample_height_range": true,
+    "thai_article_CC_BY_NC_figures_not_imported": true,
+    "no_182cm_population_regression_selected": true,
+    "no_CT_STL_to_model_registration": true,
+    "no_source_to_joint_patch_correspondence": true,
+    "no_full_1_to7_costal_facet_3d_contact_coords": true
+  },
+  "approval": {
+    "allow_absolute_sternum_target": false,
+    "allow_automatic_source_pooling": false,
+    "allow_assuming_joint_centres_from_group_means": false,
+    "allow_using_legacy_misnamed_total_as_xiphoid_inclusive": false,
+    "allow_rib_level_1_to7_contact_reconstruction": false,
+    "allow_mesh_skin_refit": false,
+    "allow_canonical_geometry_mutation": false,
+    "allow_CP1_Gate6_promotion": false,
+    "regions_READY": 0,
+    "regions_PARTIAL": 9,
+    "regions_BLOCKED": 3
+  }
+}

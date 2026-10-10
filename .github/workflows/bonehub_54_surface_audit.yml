@@ -63,8 +63,9 @@ jobs:
                         "orphan_vertex_only_components", item["isolated_vertex_only_components_no_valid_faces"],
                         "nonmanifold_edges", item["nonmanifold_edges_over_two_faces"])
           from collections import Counter
-          print("Explicit source STL header coordinate declarations:",
-                dict(Counter(x["source_stl_header_explicit_coordinate_system"] or "UNDECLARED" for x in report["items"])))
+          frame_counts = Counter(x["source_stl_header_explicit_coordinate_system"] or "UNDECLARED" for x in report["items"])
+          print("Explicit source STL header coordinate declarations:", dict(frame_counts))
+          assert frame_counts == {"LPS": 54}, ("Unexpected declared original STL axis", frame_counts)
           assert all(x["source_stl_header_field_verified_as_origin"] is False for x in report["items"])
           print("Anatomical region acceptance: NONE (source QA only)")
           PY

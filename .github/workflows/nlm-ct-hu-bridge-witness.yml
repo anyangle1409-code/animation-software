@@ -1,0 +1,174 @@
+name: Pinned original hip CT 3D HU bridge path rejection audit
+on:
+  push:
+    branches:
+      - codex/hip-hu-bridge-witness-20261010
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bridge-geometry-and-identity-guards:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify anatomy rejection and source-linked path-metric tests
+        run: |
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_hu_bridge_witness.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_private_slice_review_plate.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_source_component_stability.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_candidate_pixel_triage.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_provisional_surface.py' -v
+
+  real-source-hip-bridge-path:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pin exact NLM original CT images and original GE headers
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+          manifest = json.loads(Path("ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json").read_text())
+          rows = manifest["series"][1]["slices"]
+          assert len(rows) == 35 and rows[10]["source_id"] == "cvm1873f"
+          private=Path(os.environ["RUNNER_TEMP"])/"original_second_group"
+          private.mkdir(parents=True,exist_ok=False)
+          bases=(
+            ("https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/PNG_format/radiological/normalCT/",".png","source_png_sha256",2_000_000),
+            ("https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/PNG_format/radiological/normalCTHeaders/",".txt","source_header_sha256",65_536),
+          )
+          for row in rows:
+              for base,ext,field,budget in bases:
+                  url=base+row["source_id"]+ext
+                  with urlopen(Request(url,headers={"User-Agent":"HGPT-SourcePinned-CT-Review/1.0"}),timeout=45) as reply:
+                      if reply.status!=200 or reply.geturl()!=url:
+                          raise ValueError("original NLM source location changed")
+                      payload=reply.read(budget+1)
+                  if len(payload)>budget or hashlib.sha256(payload).hexdigest()!=row[field]:
+                      raise ValueError("exact original source sha256 mismatch")
+                  if ext==".png" and len(payload)!=row["source_png_bytes"]:
+                      raise ValueError("CT stored image byte length mismatch")
+                  (private/(row["source_id"]+ext)).write_bytes(payload)
+          print("Verified 35 original NLM group-2 CT frames and 35 GE source headers; no uploads.")
+          PY
+      - name: Quantify physically weighted shortest right-hip HU connection, not joint identity
+        run: |
+          python3 scripts/anatomy_fit/nlm_ct_hu_bridge_witness.py \
+            --ct-dir "$RUNNER_TEMP/original_second_group" \
+            --bundle ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json \
+            --calibration ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_hu_calibration_20261009.json \
+            --review ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_review_20261009.json \
+            --group 2 --start 0 --count 35 --roi 95 249 195 364 --hu 150 300 \
+            --seed-observation obs-1873-right-femoral-head \
+            --seed-observation obs-1873-right-acetabulum \
+            --out "$RUNNER_TEMP/right_hip_intensity_bridge.json"
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          v=json.loads((Path(os.environ["RUNNER_TEMP"])/"right_hip_intensity_bridge.json").read_text())
+          assert v["canonical_promotion_allowed"] is False
+          assert v["pelvic_landmarks_accepted"]==0
+          assert v["hip_joint_articular_gap_verified"] is False
+          lo=v["HU_thresholds"]["150"]["physical_HU_bridge_witness_not_anatomical_contact"]
+          hi=v["HU_thresholds"]["300"]["physical_HU_bridge_witness_not_anatomical_contact"]
+          assert lo["same_HU_component"] is True
+          assert lo["least_physical_length_mm_in_thresholded_ROI"]>=lo["seed_direct_euclidean_distance_mm"]
+          assert lo["path_minimum_source_HU"]>=150
+          assert hi["same_HU_component"] is None and hi["start_seed_occupied"] is False
+          print("Right-hip HU bridge witness verified; NOT anatomical head/socket contact.")
+          PY
+      - name: Quantify physically weighted shortest left-hip HU connection, not joint identity
+        run: |
+          python3 scripts/anatomy_fit/nlm_ct_hu_bridge_witness.py \
+            --ct-dir "$RUNNER_TEMP/original_second_group" \
+            --bundle ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json \
+            --calibration ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_hu_calibration_20261009.json \
+            --review ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_review_20261009.json \
+            --group 2 --start 0 --count 35 --roi 275 449 195 364 --hu 300 500 \
+            --seed-observation obs-1873-left-femoral-head \
+            --seed-observation obs-1873-left-acetabulum \
+            --out "$RUNNER_TEMP/left_hip_intensity_bridge.json"
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          v=json.loads((Path(os.environ["RUNNER_TEMP"])/"left_hip_intensity_bridge.json").read_text())
+          assert v["canonical_promotion_allowed"] is False
+          assert v["pelvic_landmarks_accepted"]==0
+          assert v["hip_joint_articular_gap_verified"] is False
+          lo=v["HU_thresholds"]["300"]["physical_HU_bridge_witness_not_anatomical_contact"]
+          hi=v["HU_thresholds"]["500"]["physical_HU_bridge_witness_not_anatomical_contact"]
+          assert lo["same_HU_component"] is True
+          assert lo["least_physical_length_mm_in_thresholded_ROI"]>=lo["seed_direct_euclidean_distance_mm"]
+          assert lo["path_minimum_source_HU"]>=300
+          assert hi["same_HU_component"] is None and hi["start_seed_occupied"] is False
+          print("Left-hip HU bridge witness verified; NOT anatomical head/socket contact.")
+          PY
+      - name: Pin bilateral HU-only shortest path metrics against noncanonical evidence snapshot
+        run: |
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          snapshot=json.loads(Path("ORIGINAL_V1_WORK/anatomy/audit/nlm_ct_hip_intensity_bridge_rejection_20261010.json").read_text())
+          assert snapshot["canonical_promotion_allowed"] is False
+          assert snapshot["seven_required_true_pelvic_landmarks_verified"]==0
+          assert snapshot["source_slices"]==35 and snapshot["source_plane_S_mm"]==-481
+          assert len(snapshot["witnesses"])==2
+          for expected in snapshot["witnesses"]:
+              side=expected["side"]
+              path=Path(os.environ["RUNNER_TEMP"])/(side+"_hip_intensity_bridge.json")
+              observed=json.loads(path.read_text())
+              assert observed["canonical_promotion_allowed"] is False
+              assert observed["original_source_group"]==2
+              assert len(observed["source_ids"])==35
+              assert [p["id"] for p in observed["original_candidate_points"]]==expected["ids"]
+              hu=str(expected["HU"])
+              witness=observed["HU_thresholds"][hu]["physical_HU_bridge_witness_not_anatomical_contact"]
+              assert witness["path_exists_and_is_hu_only"] is True
+              for key,wkey in (
+                  ("physical_shortest_path_mm","least_physical_length_mm_in_thresholded_ROI"),
+                  ("direct_seed_euclidean_mm","seed_direct_euclidean_distance_mm"),
+                  ("route_over_direct","route_length_over_direct_distance"),
+                  ("path_voxel_samples","path_voxel_samples"),
+                  ("path_scanner_slice_planes_visited","path_slice_planes_visited"),
+                  ("path_minimum_source_HU","path_minimum_source_HU"),
+                  ("path_selection_cut_contacts","path_selection_cut_contacts"),
+              ):
+                  assert witness[wkey]==expected[key], (side,key,observed)
+              assert witness["path_minimum_source_HU"]>=expected["HU"]
+              hi=observed["HU_thresholds"][str(expected["higher_HU_screen"])]["physical_HU_bridge_witness_not_anatomical_contact"]
+              assert hi["same_HU_component"]==expected["higher_HU_pair_connectivity"]
+              assert hi["start_seed_occupied"]==expected["higher_HU_head_seed_occupied"]
+              assert observed["distinct_bone_surface_identity_verified"] is False
+              assert observed["hip_joint_articular_gap_verified"] is False
+              print(side, "source-matched HU bridge evidence matches immutable rejection snapshot.")
+          print("Both bilateral HU routes are nonanatomical intensity evidence; no pelvic landmark or bone promoted.")
+          PY
+      - name: Prepare original three-slice private source CT review plate for anatomical inspector
+        run: |
+          python3 scripts/anatomy_fit/nlm_ct_private_slice_review_plate.py \
+            --ct-dir "$RUNNER_TEMP/original_second_group" \
+            --bundle ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json \
+            --calibration ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_hu_calibration_20261009.json \
+            --review ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_review_20261009.json \
+            --group 2 --source-id cvm1873f \
+            --out "$RUNNER_TEMP/original_pelvis_source_review.svg"
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          folder=Path(os.environ["RUNNER_TEMP"])
+          svg=(folder/"original_pelvis_source_review.svg").read_text()
+          v=json.loads((folder/"original_pelvis_source_review.json").read_text())
+          assert svg.count("data:image/png;base64,")==6
+          assert "ANATOMICAL IDENTITY NOT VERIFIED" in svg
+          assert "UNVERIFIED HYPOTHESIS PIXELS" in svg
+          assert v["source_ids"]==["cvm1870f","cvm1873f","cvm1876f"]
+          assert [p["source_centre_HU"] for p in v["points"]]==[291,305,438,510]
+          assert len(v["points"])==4 and v["canonical_promotion_allowed"] is False
+          assert v["reviewer_identified_real_bony_landmarks"]==0
+          print("Original three-slice HU window CT plate verified; kept in temporary runner ONLY; no original or derivative medical image uploaded.")
+          PY

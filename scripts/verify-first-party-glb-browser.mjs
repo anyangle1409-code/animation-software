@@ -51,13 +51,13 @@ try{
     const gpu=createNativeIndexedMeshWebGL2(canvas);
     gpu.setSize(440,360,1);
     const mat=(x,y,z)=>new Float32Array([1,0,0,0,0,1,0,0,0,0,1,0,x,y,z,1]);
-    let displacement=0,last=0;
+    let displacement=0,initial=null;
     for(let frame=0;frame<18;frame++){
       const t=frame/17;
       const world=new Float32Array([...mat(0,0,0),...mat(0,.5*t,0)]);
       const positioned=deformIndexedSkin(parsed.mesh,world);
-      displacement=Math.max(displacement,Math.abs(positioned.positions[1]-last));
-      last=positioned.positions[1];
+      if(initial===null)initial=positioned.positions[1];
+      displacement=Math.max(displacement,Math.abs(positioned.positions[1]-initial));
       gpu.render(positioned,{eye:[0,0,3],target:[.4,.4,0],color:[.75,.9,.65]});
     }
     return {

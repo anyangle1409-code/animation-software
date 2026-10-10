@@ -45,3 +45,44 @@ python scripts/anatomy_fit/bonehub_wrist_foot_pair_graph.py \
 ## What physically remains before the canonical skeleton
 
 Work must independently accept actual STL-to-CT image transforms and physical length units, distinguish segmentation/smoothing defects from genuine bone shape, localise actual opposing articular surface patches rather than global nearest points, and verify clinically normal radiocarpal/carpometacarpal/subtalar/midfoot contact geometry. Independent adult-male datasets are required for 182-cm target envelope; this same single donor never becomes representative by more mesh processing. Correct carpal and tarsal bone positions, physical cartilage contacts and meaningful ROM axis definition remain **BLOCKED**, readiness **0 READY / 9 PARTIAL / 3 BLOCKED**, no new freeze.
+
+
+## Verified full original source 30/30, all 44/44 bilateral observations
+
+Actual [GitHub Actions run 38086748803](https://github.com/anyangle1409-code/animation-software/actions/runs/38086748803): **both jobs SUCCESS; 19 new graph tests + 17 previous tests = 36 PASS**. All 30 full raw immutable-LFS-SHA256-verified source meshes, 44 numbered pair results, and **8/8 earlier PR38 source-value regressions** passed. The only publication in the GitHub artifact is the numeric pair/source SHA report, with no raw source STL/image or patient voxel/mesh coordinates.
+
+Each range is **[lower-bound from axis-aligned bounding boxes, upper-bound from the closest two valid-face vertices]**. **Neither endpoint is a measured cartilage gap or a true triangle-surface contact. Units have NOT been accepted as millimetres or registered to the full original CT; the graph's pair identity is a source-labelled hypothesis for one cadaver.** The values below are rounded to 3 decimal source-coordinate units for review; the CI's full JSON report stores the validated 9-decimal diagnostic values.
+
+| Region | Labelled bone pair | LEFT lower–upper | RIGHT lower–upper |
+|---|---|---:|---:|
+| carpus | scaphoid–lunate | 0.000–0.875 | 0.000–0.910 |
+| carpus | lunate–triquetrum | 0.213–0.461 | 0.000–1.146 |
+| carpus | triquetrum–pisiform | 0.000–0.160 | 0.000–0.158 |
+| carpus | trapezium–trapezoid | 0.000–0.264 | 0.000–0.599 |
+| carpus | trapezoid–capitate | 0.000–0.718 | 0.000–0.728 |
+| carpus | capitate–hamate | 0.000–0.219 | 0.000–0.242 |
+| carpus | scaphoid–trapezium | 0.000–0.711 | 0.000–0.688 |
+| carpus | scaphoid–trapezoid | 0.000–1.087 | 0.000–1.465 |
+| carpus | scaphoid–capitate | 0.000–0.542 | 0.000–0.876 |
+| carpus | lunate–capitate | 0.000–0.366 | 0.000–0.761 |
+| carpus | lunate–hamate | 1.237–3.443 | 0.174–4.168 |
+| carpus | triquetrum–hamate | 0.000–0.152 | 0.000–0.669 |
+| tarsus | talus–calcaneus | 0.000–0.382 | 0.000–0.590 |
+| tarsus | talus–navicular | 0.000–0.347 | 0.000–0.907 |
+| tarsus | calcaneus–cuboid | 0.000–0.590 | 0.000–1.057 |
+| tarsus | navicular–medial cuneiform | 0.000–1.057 | 0.000–0.895 |
+| tarsus | navicular–intermediate cuneiform | 0.000–1.200 | 0.000–0.993 |
+| tarsus | navicular–lateral cuneiform | 0.000–0.714 | 0.000–0.924 |
+| tarsus | medial cuneiform–intermediate cuneiform | 0.000–0.981 | 0.000–0.208 |
+| tarsus | intermediate cuneiform–lateral cuneiform | 0.000–0.975 | 0.000–0.110 |
+| tarsus | lateral cuneiform–cuboid | 0.000–1.218 | 0.000–1.319 |
+| tarsus | navicular–cuboid | 0.000–0.856 | 0.000–1.084 |
+
+### Reviewable cases, without claiming a defect
+
+- **Lunate–hamate (optional wrist connection):** nonzero AABB lower bounds (LEFT 1.237; RIGHT 0.174 source units), vertex upper bounds 3.443 and 4.168. This *source individual's surface-mesh-label relationship* may reflect morphology, segmentation or pose; it **must not be upgraded to a missing normal joint or production rig error**. Optional joint contact is not universal.
+- **Medial/intermediate and intermediate/lateral cuneiform pairs:** bilateral vertex-proximity upper bounds differ (0.981/0.208 and 0.975/0.110 native units). Do not use as anatomical asymmetry until source units, imaging registration and original segmentation quality are reconciled. Sampled donor N=1.
+- Several other pairs show an AABB lower bound of zero and small nearest source-vertex distances; this **does not prove that the surfaces intersect or that cartilage is compressed**. The nearest vertex may be a source segmentation fragment rather than the genuine articular patch.
+- The **8 original Source PR38 measurements reproduce at original 3dp precision**, supporting computational cross-run consistency, not physiological validity.
+
+**Engineering completion:** all 30 wrist/foot original meshes were processed, and 44 candidate label-pair proximity intervals recorded with SHA provenance. **Clinical/cartilage/muscle/ligament/ROM/correct joint axes still unresolved, no accepted c005 geometry, CP1 Gate6 remains blocked 0 READY /9 PARTIAL /3 BLOCKED.**

@@ -141,6 +141,38 @@ class OriginalPelvicPixelTriage(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "group"):
             triage.triage(manifest, cal, review, 3, "/tmp/original-ct")
 
+    def test_nearest_dense_pixel_leads_are_deterministic_and_not_landmarks(self):
+        pixels = [1024] * (512 * 512)
+        pixels[203*512 + 204] = 1624   # 600 HU; five image pixels away
+        pixels[196*512 + 197] = 1624   # 600 HU; also five away, selected by row tie
+        pixels[200*512 + 201] = 1230   # 206 HU, nearest for threshold 150
+        result = triage.nearby_dense_pixel_leads(
+            geometry(-372), pixels, 200, 200, [.898438, .898438])
+        self.assertEqual([v["minimum_HU"] for v in result], [150, 300, 500, 700])
+        self.assertEqual(result[0]["nearest_intensity_only_not_anatomy"]["pixel"],
+                         {"row": 200, "column": 201})
+        self.assertEqual(result[1]["nearest_intensity_only_not_anatomy"]["pixel"],
+                         {"row": 196, "column": 197})
+        self.assertEqual(result[1]["nearest_intensity_only_not_anatomy"]["distance_pixels"], 5)
+        self.assertFalse(result[1]["nearest_intensity_only_not_anatomy"][
+            "anatomical_identity_or_seed_accepted"])
+        self.assertIsNone(result[3]["nearest_intensity_only_not_anatomy"])
+
+    def test_review_lead_never_escapes_bounds_and_rejects_invalid_geometry(self):
+        pixels = [1024] * (512*512)
+        pixels[0] = 1800
+        v = triage.nearby_dense_pixel_leads(
+            geometry(-372), pixels, 0, 0, [.898438, .898438])
+        self.assertEqual(v[2]["nearest_intensity_only_not_anatomy"]["pixel"],
+                         {"row": 0, "column": 0})
+        for bad in ([-1, .8], [0, .8], [.9, True], [.8], [999, 1]):
+            with self.subTest(spacing=bad), self.assertRaises(ValueError):
+                triage.nearby_dense_pixel_leads(
+                    geometry(-372), pixels, 0, 0, bad)
+        with self.assertRaisesRegex(ValueError, "search"):
+            triage.nearby_dense_pixel_leads(
+                geometry(-372), pixels, 0, 0, [.9, .9], radius_pixels=33)
+
     def test_private_non_overwrite_and_pins_guard_extraction(self):
         bundle, calibration, review = files()
         with tempfile.TemporaryDirectory() as tmp:

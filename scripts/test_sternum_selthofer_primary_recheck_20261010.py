@@ -24,8 +24,11 @@ class SelthoferSourceTests(unittest.TestCase):
 
     def test_cross_study_discrepancy_never_silently_resolved(self):
         out=self.check()
-        self.assertEqual(out["between_studies_unadjusted_means_difference_mm"],54.5)
-        self.assertTrue(out["between_studies_difference_may_reflect_endpoint_population_or_method"])
+        self.assertEqual(out["incompatible_totals_arithmetic_difference_NOT_anatomical_conflict_mm"],54.5)
+        self.assertEqual(out["more_comparable_combined_M_plus_B_means_difference_mm"],10.8)
+        self.assertEqual(out["separately_summed_component_means_difference_mm"],11.3)
+        self.assertTrue(out["historic_Turkey_total_is_MANUBRIUM_PLUS_BODY_excludes_xiphoid"])
+        self.assertTrue(out["prior_canonical_record_semantic_key_including_xiphoid_is_wrong"])
         self.assertFalse(out["anatomical_geometry_promoted"])
         self.assertFalse(out["cp1_gate6_passed"])
 
@@ -56,6 +59,24 @@ class SelthoferSourceTests(unittest.TestCase):
         p=copy.deepcopy(self.paper)
         p["comparative_existing_evidence"]["matching_physical_endpoints_independently_confirmed"]=True
         with self.assertRaisesRegex(ValueError,"equivalence"):
+            self.check(p)
+
+    def test_reject_forged_turkish_total_including_xiphoid(self):
+        p=copy.deepcopy(self.paper)
+        p["reconciled_turkish_2018_primary"]["xiphoid_included_in_154_1mm_total"]=True
+        with self.assertRaisesRegex(ValueError,"exclusion"):
+            self.check(p)
+
+    def test_reject_historical_semantics_rewriting_without_review(self):
+        p=copy.deepcopy(self.paper)
+        p["reconciled_turkish_2018_primary"]["historical_canonical_file_mutated"]=True
+        with self.assertRaisesRegex(ValueError,"exclusion"):
+            self.check(p)
+
+    def test_reject_turkish_xiphoid_mean_mutation(self):
+        p=copy.deepcopy(self.paper)
+        p["reconciled_turkish_2018_primary"]["male_xiphoid_separate_mm"]["mean"]=0
+        with self.assertRaisesRegex(ValueError,"exclusion"):
             self.check(p)
 
     def test_reject_original_paper_mean_mutation(self):

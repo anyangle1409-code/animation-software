@@ -1,0 +1,320 @@
+name: Calibrated original CT provisional surface audit
+on:
+  push:
+    branches:
+      - codex/calibrated-ct-surface-extraction-20261010
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ct-surface-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check complete source-pinned HU extraction geometry
+        run: |
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_provisional_surface.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_source_component_stability.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_candidate_pixel_triage.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_raw_png_calibration.py' -v
+          python3 -m unittest discover -s scripts -p 'test_pelvic_ct_series_manifest.py' -v
+      - name: Ensure source images and GE headers were not committed
+        run: |
+          if git ls-files | grep -E '/cvm[0-9]+f\.(png|txt|Z)$'; then
+            echo "Original NLM medical image or GE header tracked"
+            exit 1
+          fi
+
+  source-pinned-real-ct-extraction:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Acquire three pinned NLM source images and GE headers into temporary storage
+        run: |
+          python3 - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+
+          repo = Path.cwd()
+          data = json.loads((repo / "ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json").read_text())
+          rows = data["series"][0]["slices"][9:12]
+          assert [r["source_id"] for r in rows] == ["cvm1761f", "cvm1764f", "cvm1767f"]
+          staging = Path(os.environ["RUNNER_TEMP"]) / "nlm_source"
+          staging.mkdir(parents=True, exist_ok=False)
+          origins = (
+              ("https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/PNG_format/radiological/normalCT/", ".png", "source_png_sha256", 2_000_000),
+              ("https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/PNG_format/radiological/normalCTHeaders/", ".txt", "source_header_sha256", 65_536),
+          )
+          for row in rows:
+              for base, ext, field, limit in origins:
+                  url = base + row["source_id"] + ext
+                  with urlopen(Request(url, headers={"User-Agent": "HGPT-SourcePinned-CT-Review/1.0"}), timeout=45) as response:
+                      if response.status != 200 or response.geturl() != url:
+                          raise ValueError("original NLM source location changed")
+                      content = response.read(limit + 1)
+                  if len(content) > limit or hashlib.sha256(content).hexdigest() != row[field]:
+                      raise ValueError("downloaded source does not match pinned SHA")
+                  if ext == ".png" and len(content) != row["source_png_bytes"]:
+                      raise ValueError("original CT image byte count changed")
+                  (staging / (row["source_id"] + ext)).write_bytes(content)
+          print("Original source hashes confirmed for 3 CT images and 3 GE headers.")
+          PY
+      - name: Extract real provisional calibrated CT boundary without publishing medical geometry
+        run: |
+          mkdir -p "$RUNNER_TEMP/nlm_surface_review"
+          python3 scripts/anatomy_fit/nlm_ct_provisional_surface.py \
+            --ct-dir "$RUNNER_TEMP/nlm_source" \
+            --bundle ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json \
+            --calibration ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_hu_calibration_20261009.json \
+            --group 1 --start 9 --count 3 --roi 40 190 170 390 --hu-min 300 \
+            --out "$RUNNER_TEMP/nlm_surface_review/calibrated_candidate.obj"
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          report = json.loads((Path(os.environ["RUNNER_TEMP"]) / "nlm_surface_review/calibrated_candidate.obj.json").read_text())
+          assert report["bone_identity_or_surface_verified"] is False
+          assert report["canonical_promotion_allowed"] is False
+          assert len(report["source_ids"]) == 3
+          print("Original source-derived candidate voxel count:", report["voxel_count"])
+          print("Provisional boundary quads:", report["boundary_quads"])
+          print("Connected voxel regions:", len(report["connected_components_6_neighbour"]))
+          print("Original CT source bytes, derivative mesh, and headers were not uploaded.")
+          PY
+
+  real-ct-multislice-hu-stability:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Retrieve nine original scanner-matched slices around source femoral region
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+
+          bundle = json.loads(Path("ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json").read_text())
+          rows = bundle["series"][1]["slices"]
+          assert len(rows) == 35
+          assert rows[10]["source_id"] == "cvm1873f"
+          staging = Path(os.environ["RUNNER_TEMP"]) / "nine_original_ct"
+          staging.mkdir(parents=True, exist_ok=False)
+          origins = (
+              ("https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/PNG_format/radiological/normalCT/", ".png", "source_png_sha256", 2_000_000),
+              ("https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/PNG_format/radiological/normalCTHeaders/", ".txt", "source_header_sha256", 65_536),
+          )
+          for row in rows:
+              for base, ext, field, limit in origins:
+                  url = base + row["source_id"] + ext
+                  with urlopen(Request(url, headers={"User-Agent": "HGPT-SourcePinned-CT-Review/1.0"}), timeout=45) as response:
+                      if response.status != 200 or response.geturl() != url:
+                          raise ValueError("NLM source location changed")
+                      raw = response.read(limit + 1)
+                  if len(raw) > limit or hashlib.sha256(raw).hexdigest() != row[field]:
+                      raise ValueError("original source no longer matches pinned digest")
+                  if ext == ".png" and len(raw) != row["source_png_bytes"]:
+                      raise ValueError("source byte count mismatch")
+                  (staging / (row["source_id"] + ext)).write_bytes(raw)
+          print("Verified full second acquisition group: 35 original NLM CT images and 35 GE scanner headers.")
+          PY
+      - name: Measure 150 300 500 HU source-component continuity with physical cutoff flags
+        run: |
+          python3 scripts/anatomy_fit/nlm_ct_source_component_stability.py \
+            --ct-dir "$RUNNER_TEMP/nine_original_ct" \
+            --bundle ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json \
+            --calibration ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_hu_calibration_20261009.json \
+            --group 2 --start 0 --count 35 --roi 95 250 195 365 --hu 300 500 700 \
+            --out "$RUNNER_TEMP/real_ct_hu_topology.json"
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          report = json.loads((Path(os.environ["RUNNER_TEMP"]) / "real_ct_hu_topology.json").read_text())
+          assert report["canonical_promotion_allowed"] is False
+          assert report["seven_pelvic_landmarks_verified"] == 0
+          assert report["anatomical_bone_identity_verified"] is False
+          assert [row["HU"] for row in report["thresholds"]] == [300, 500, 700]
+          assert [row["voxel_count"] for row in report["thresholds"]] == sorted(
+            [row["voxel_count"] for row in report["thresholds"]], reverse=True)
+          print("No provisional region was accepted as a bone. No medical source or private geometry artifact uploaded.")
+          PY
+          python3 scripts/anatomy_fit/nlm_ct_candidate_pixel_triage.py \
+            --ct-dir "$RUNNER_TEMP/nine_original_ct" \
+            --bundle ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json \
+            --calibration ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_hu_calibration_20261009.json \
+            --review ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_review_20261009.json \
+            --group 2 --out "$RUNNER_TEMP/hip_pixel_review.json"
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          report = json.loads((Path(os.environ["RUNNER_TEMP"]) / "hip_pixel_review.json").read_text())
+          assert report["summary"]["observations"] == 5
+          assert report["summary"]["source_slices_read_once"] == 2
+          assert report["canonical_promotion_allowed"] is False
+          assert all(not p["source_pixel_confirms_anatomical_bone_identity"] for p in report["observations"])
+          print("All five group-2 proposed hip points checked on original image pixels; NONE certified as bony landmarks.")
+          snapshot = json.loads(Path("ORIGINAL_V1_WORK/anatomy/audit/nlm_ct_pelvis_pixel_and_hip_pair_rejection_20261010.json").read_text())
+          expected = {v["observation_id"]: v for v in snapshot["observations"]}
+          assert all(v["observation_id"] in expected for v in report["observations"])
+          for point in report["observations"]:
+              prior = expected[point["observation_id"]]
+              assert prior["source_id"] == point["source_id"]
+              assert prior["pixel"] == point["pixel"]
+              assert prior["source_center_HU"] == point["point_HU_from_verified_addend"]
+              lead = next(x["nearest_intensity_only_not_anatomy"]
+                          for x in point["nearby_2D_intensity_only_review_leads"]
+                          if x["minimum_HU"] == 300)
+              pin = prior["nearest_300_HU_intensity_only_pixel_in_same_slice_within_32px"]
+              assert (lead is None) == (pin is None)
+              if pin:
+                  assert lead["pixel"] == {"row": pin["row"], "column": pin["column"]}
+                  assert lead["HU"] == pin["source_HU"]
+          print("All original point HU samples and nearest intensity-only leads independently revalidated against pinned evidence snapshot.")
+          PY
+
+          python3 scripts/anatomy_fit/nlm_ct_source_component_stability.py \
+            --ct-dir "$RUNNER_TEMP/nine_original_ct" \
+            --bundle ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json \
+            --calibration ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_hu_calibration_20261009.json \
+            --review ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_review_20261009.json \
+            --group 2 --start 0 --count 35 --roi 275 450 195 365 --hu 300 500 \
+            --seed-observation obs-1873-left-femoral-head \
+            --seed-observation obs-1873-left-acetabulum \
+            --out "$RUNNER_TEMP/left_hip_source_seed_connectivity.json"
+          python3 scripts/anatomy_fit/nlm_ct_source_component_stability.py \
+            --ct-dir "$RUNNER_TEMP/nine_original_ct" \
+            --bundle ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json \
+            --calibration ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_hu_calibration_20261009.json \
+            --review ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_review_20261009.json \
+            --group 2 --start 0 --count 35 --roi 95 250 195 365 --hu 150 300 \
+            --seed-observation obs-1873-right-femoral-head \
+            --seed-observation obs-1873-right-acetabulum \
+            --out "$RUNNER_TEMP/right_hip_source_seed_connectivity.json"
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          for name in ("left", "right"):
+              report = json.loads((Path(os.environ["RUNNER_TEMP"]) /
+                                   (name+"_hip_source_seed_connectivity.json")).read_text())
+              assert report["canonical_promotion_allowed"] is False
+              assert report["seven_pelvic_landmarks_verified"] == 0
+              samples = report["proposed_point_HU_connectivity_not_anatomical_identity"]
+              assert len(samples) == 2 and all(len(s["review_seeds"]) == 2 for s in samples)
+              assert all(not pair["separate_anatomical_bones_proven"]
+                         for sample in samples
+                         for pair in sample["pairwise_HU_connectivity"])
+              snapshot = json.loads(Path("ORIGINAL_V1_WORK/anatomy/audit/nlm_ct_pelvis_pixel_and_hip_pair_rejection_20261010.json").read_text())
+              for sample in samples:
+                  expected = next(x for x in snapshot["hip_pair_3d_connectivity"]
+                                  if x["side"] == name and x["threshold_HU"] == sample["HU"])
+                  pair = sample["pairwise_HU_connectivity"][0]
+                  active = [s["seed_meets_threshold"] for s in sample["review_seeds"]]
+                  assert all(active) == expected["both_original_seed_pixels_occupied"]
+                  assert pair["same_HU_connected_component"] == expected["same_threshold_component"]
+                  if expected["same_threshold_component"] is True:
+                      assert all(s["connected_voxels"] == expected["HU_connected_region_voxels"]
+                                 for s in sample["review_seeds"])
+                      for s in sample["review_seeds"]:
+                          assert s["selection_boundary_contacts"] == expected["selection_cut_contacts"]
+                  else:
+                      assert sample["review_seeds"][1]["connected_voxels"] == expected["remaining_second_seed_component_voxels"]
+              print(name, "verified exact source-pinned 3D pairwise HU connectivity against rejection snapshot.")
+              print(name, "original 3D threshold candidate relationships:",
+                    [(sample["HU"],
+                      sample["pairwise_HU_connectivity"][0]["same_HU_connected_component"],
+                      [r["connected_voxels"] for r in sample["review_seeds"]])
+                     for sample in samples])
+          print("Pairwise HU connectivity is NOT joint-surface separation or verified bone identity.")
+          PY
+
+  real-ct-first-group-hu-stability:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify and privately stage all 37 NLM first-group CT images and GE headers
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+          manifest = json.loads(Path("ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json").read_text())
+          rows = manifest["series"][0]["slices"]
+          assert len(rows) == 37 and rows[10]["source_id"] == "cvm1764f" and rows[30]["source_id"] == "cvm1824f"
+          private = Path(os.environ["RUNNER_TEMP"]) / "first_group_ct"
+          private.mkdir(parents=True, exist_ok=False)
+          bases = (
+            ("https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/PNG_format/radiological/normalCT/", ".png", "source_png_sha256", 2_000_000),
+            ("https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/PNG_format/radiological/normalCTHeaders/", ".txt", "source_header_sha256", 65_536),
+          )
+          for row in rows:
+              for base, ext, field, limit in bases:
+                  url = base + row["source_id"] + ext
+                  with urlopen(Request(url, headers={"User-Agent": "HGPT-SourcePinned-CT-Review/1.0"}), timeout=45) as response:
+                      if response.status != 200 or response.geturl() != url:
+                          raise ValueError("original NLM source endpoint changed")
+                      payload = response.read(limit + 1)
+                  if len(payload) > limit or hashlib.sha256(payload).hexdigest() != row[field]:
+                      raise ValueError("source SHA mismatch, refusing reconstruction")
+                  if ext == ".png" and len(payload) != row["source_png_bytes"]:
+                      raise ValueError("CT original image byte count mismatch")
+                  (private / (row["source_id"] + ext)).write_bytes(payload)
+          print("Verified 37 original source images and 37 exact GE scanner headers for group 1.")
+          PY
+      - name: Compute HU-dependent connected anatomy candidates in first complete 37-slice acquisition group
+        run: |
+          python3 scripts/anatomy_fit/nlm_ct_source_component_stability.py \
+            --ct-dir "$RUNNER_TEMP/first_group_ct" \
+            --bundle ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json \
+            --calibration ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_hu_calibration_20261009.json \
+            --group 1 --start 0 --count 37 --roi 20 185 195 385 --hu 300 500 700 \
+            --out "$RUNNER_TEMP/first_group_source_topology.json"
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          v = json.loads((Path(os.environ["RUNNER_TEMP"]) / "first_group_source_topology.json").read_text())
+          assert len(v["source_ids"]) == 37 and v["group"] == 1
+          assert v["canonical_promotion_allowed"] is False
+          assert v["seven_pelvic_landmarks_verified"] == 0
+          assert v["anatomical_bone_identity_verified"] is False
+          print("Group 1 remains separate from group 2; no bone identity, true landmark or canonical geometry accepted.")
+          PY
+          python3 scripts/anatomy_fit/nlm_ct_candidate_pixel_triage.py \
+            --ct-dir "$RUNNER_TEMP/first_group_ct" \
+            --bundle ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json \
+            --calibration ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_hu_calibration_20261009.json \
+            --review ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_review_20261009.json \
+            --group 1 --out "$RUNNER_TEMP/iliac_pixel_review.json"
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          report = json.loads((Path(os.environ["RUNNER_TEMP"]) / "iliac_pixel_review.json").read_text())
+          assert report["summary"]["observations"] == 5
+          assert report["summary"]["source_slices_read_once"] == 3
+          assert report["canonical_promotion_allowed"] is False
+          assert all(not p["source_pixel_confirms_anatomical_bone_identity"] for p in report["observations"])
+          print("All five group-1 proposed iliac and sacral points checked on original image pixels; NONE certified as bony landmarks.")
+          snapshot = json.loads(Path("ORIGINAL_V1_WORK/anatomy/audit/nlm_ct_pelvis_pixel_and_hip_pair_rejection_20261010.json").read_text())
+          expected = {v["observation_id"]: v for v in snapshot["observations"]}
+          assert all(v["observation_id"] in expected for v in report["observations"])
+          for point in report["observations"]:
+              prior = expected[point["observation_id"]]
+              assert prior["source_id"] == point["source_id"]
+              assert prior["pixel"] == point["pixel"]
+              assert prior["source_center_HU"] == point["point_HU_from_verified_addend"]
+              lead = next(x["nearest_intensity_only_not_anatomy"]
+                          for x in point["nearby_2D_intensity_only_review_leads"]
+                          if x["minimum_HU"] == 300)
+              pin = prior["nearest_300_HU_intensity_only_pixel_in_same_slice_within_32px"]
+              assert (lead is None) == (pin is None)
+              if pin:
+                  assert lead["pixel"] == {"row": pin["row"], "column": pin["column"]}
+                  assert lead["HU"] == pin["source_HU"]
+          print("All original point HU samples and nearest intensity-only leads independently revalidated against pinned evidence snapshot.")
+          PY

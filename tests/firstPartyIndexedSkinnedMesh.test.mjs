@@ -78,6 +78,16 @@ test('bad homogeneous and nonfinite rotations are rejected',()=>{
   assert.throws(()=>invertRigidBind(new Float32Array(16)),/affine/);
   assert.throws(()=>invertRigidBind(new Float32Array([2,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1])),/orthonormal/);
   assert.throws(()=>invertRigidBind(new Float32Array([Infinity,...id().slice(1)])),/Nonfinite/);
+  // Each row has unit length but two are nonorthogonal: an invalid rigid bind.
+  const shear=new Float32Array([
+    1,0.5,0,0,
+    0,Math.sqrt(0.75),0,0,
+    0,0,1,0,
+    0,0,0,1
+  ]);
+  assert.throws(()=>invertRigidBind(shear),/shear|nonorthogonal/);
+  const reflected=new Float32Array([-1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]);
+  assert.throws(()=>invertRigidBind(reflected),/right-handed/);
 });
 test('rigid inverse correct for 90-degree joint rotation about Z',()=>{
   const r=new Float32Array([0,1,0,0,-1,0,0,0,0,0,1,0,2,3,4,1]);

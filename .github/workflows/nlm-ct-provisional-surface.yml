@@ -17,6 +17,7 @@ jobs:
       - name: Check complete source-pinned HU extraction geometry
         run: |
           python3 -m unittest discover -s scripts -p 'test_nlm_ct_provisional_surface.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_source_component_stability.py' -v
           python3 -m unittest discover -s scripts -p 'test_nlm_ct_raw_png_calibration.py' -v
           python3 -m unittest discover -s scripts -p 'test_pelvic_ct_series_manifest.py' -v
       - name: Ensure source images and GE headers were not committed
@@ -84,4 +85,61 @@ jobs:
           print("Provisional boundary quads:", report["boundary_quads"])
           print("Connected voxel regions:", len(report["connected_components_6_neighbour"]))
           print("Original CT source bytes, derivative mesh, and headers were not uploaded.")
+          PY
+
+  real-ct-multislice-hu-stability:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Retrieve nine original scanner-matched slices around source femoral region
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+
+          bundle = json.loads(Path("ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json").read_text())
+          rows = bundle["series"][1]["slices"][7:16]
+          assert len(rows) == 9
+          assert rows[4]["source_id"] == "cvm1876f"
+          staging = Path(os.environ["RUNNER_TEMP"]) / "nine_original_ct"
+          staging.mkdir(parents=True, exist_ok=False)
+          origins = (
+              ("https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/PNG_format/radiological/normalCT/", ".png", "source_png_sha256", 2_000_000),
+              ("https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/PNG_format/radiological/normalCTHeaders/", ".txt", "source_header_sha256", 65_536),
+          )
+          for row in rows:
+              for base, ext, field, limit in origins:
+                  url = base + row["source_id"] + ext
+                  with urlopen(Request(url, headers={"User-Agent": "HGPT-SourcePinned-CT-Review/1.0"}), timeout=45) as response:
+                      if response.status != 200 or response.geturl() != url:
+                          raise ValueError("NLM source location changed")
+                      raw = response.read(limit + 1)
+                  if len(raw) > limit or hashlib.sha256(raw).hexdigest() != row[field]:
+                      raise ValueError("original source no longer matches pinned digest")
+                  if ext == ".png" and len(raw) != row["source_png_bytes"]:
+                      raise ValueError("source byte count mismatch")
+                  (staging / (row["source_id"] + ext)).write_bytes(raw)
+          print("Verified 9 original full-resolution NLM CT images and 9 original GE scanner headers.")
+          PY
+      - name: Measure 150 300 500 HU source-component continuity with physical cutoff flags
+        run: |
+          python3 scripts/anatomy_fit/nlm_ct_source_component_stability.py \
+            --ct-dir "$RUNNER_TEMP/nine_original_ct" \
+            --bundle ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json \
+            --calibration ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_hu_calibration_20261009.json \
+            --group 2 --start 7 --count 9 --roi 125 230 215 345 --hu 150 300 500 \
+            --out "$RUNNER_TEMP/real_ct_hu_topology.json"
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          report = json.loads((Path(os.environ["RUNNER_TEMP"]) / "real_ct_hu_topology.json").read_text())
+          assert report["canonical_promotion_allowed"] is False
+          assert report["seven_pelvic_landmarks_verified"] == 0
+          assert report["anatomical_bone_identity_verified"] is False
+          assert [row["HU"] for row in report["thresholds"]] == [150, 300, 500]
+          assert [row["voxel_count"] for row in report["thresholds"]] == sorted(
+            [row["voxel_count"] for row in report["thresholds"]], reverse=True)
+          print("No provisional region was accepted as a bone. No medical source or private geometry artifact uploaded.")
           PY

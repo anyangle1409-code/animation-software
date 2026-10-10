@@ -33,6 +33,20 @@ No Python packages, Blender, HF client, UI package, CT data or third-party runti
 
 A focused GitHub Actions workflow exercises the offline checks and makes one SHA-pinned external acquisition of the four small reference meshes, with a diagnostics-only report. That is **engineering source intake**, not anatomy acceptance. Failed external downloads or a source hash change fail closed; neither warrants weakening a hash pin.
 
+## Verified live source execution (GitHub Actions, 2026-10-10)
+
+[Successful focused Actions run 38066130130](https://github.com/anyangle1409-code/animation-software/actions/runs/38066130130) at commit c0d2faeac78ce34af726e20166b972d9b5574602:
+**16/16 offline adversarial tests PASS**; all four real upstream binary STLs downloaded (source SHA256 rechecked before any cache write), read and measured; numeric-only JSON artifact \`bonehub-four-reference-bbox-provenance-only\` uploaded. Original STL/CT files were **not** uploaded or committed.
+
+| Source | Actual triangle records | Nonzero cross-product triangle records | Axis-aligned bounding extents in *unspecified STL source units* |
+|---|---:|---:|---|
+| Left scaphoid | 4,156 | 4,156 | 28.259 × 19.918 × 16.781 |
+| Left talus | 24,812 | 24,774 | 47.770 × 55.246 × 48.046 |
+| Left cuboid | 11,000 | 11,000 | 27.265 × 34.295 × 37.012 |
+| Left first rib | 15,360 | 15,354 | See source report artifact |
+
+The talus contains **38** and first rib **6** triangles with zero geometric cross product in the source data interpreted as float32 coordinates. This flags triangle-level QA only; no conclusion is drawn about full mesh manifoldness, anatomical surface integrity or joint contacts. No units were silently assigned to the native STL vertices. Only after verifying source frame/scale and true articular geometry should these vertices be registered to HGPT. None of these metrics changes CP1 readiness.
+
 ## Hard limitations and required follow-on
 
 - Upstream human annotators used model-assisted segmentation and published no inter-rater reproducibility result. STL mesh smoothing factor is 0.5. This cannot be accepted as perfect human bone ground truth.

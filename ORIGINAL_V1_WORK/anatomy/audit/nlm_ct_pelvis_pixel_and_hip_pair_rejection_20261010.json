@@ -1,0 +1,231 @@
+{
+  "schema_version": 1,
+  "kind": "SOURCE_PINNED_CT_CANDIDATE_PIXEL_AND_HIP_PAIR_SCREEN_NOT_ANATOMICAL_ACCEPTANCE",
+  "date": "2026-10-10",
+  "source_ct_manifest": "ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json",
+  "source_candidate_review": "ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_review_20261009.json",
+  "source_group_slice_counts": [
+    37,
+    35
+  ],
+  "source_scanner_frame": "SCANNER_RAS_MM",
+  "HU_addend": -1024,
+  "source_pixel_audit_workflow": "https://github.com/anyangle1409-code/animation-software/actions/runs/38042128908",
+  "source_3d_pair_workflow": "https://github.com/anyangle1409-code/animation-software/actions/runs/38042478442",
+  "original_source_images_verified_with_sha256": true,
+  "original_source_header_bytes_committed": false,
+  "original_source_image_pixels_committed": false,
+  "observations": [
+    {
+      "observation_id": "obs-1764-right-iliac-blade",
+      "source_id": "cvm1764f",
+      "pixel": {
+        "row": 285,
+        "column": 88
+      },
+      "source_center_HU": -139,
+      "nearest_300_HU_intensity_only_pixel_in_same_slice_within_32px": null,
+      "anatomical_bone_identity_accepted": false
+    },
+    {
+      "observation_id": "obs-1764-left-iliac-blade",
+      "source_id": "cvm1764f",
+      "pixel": {
+        "row": 280,
+        "column": 424
+      },
+      "source_center_HU": -96,
+      "nearest_300_HU_intensity_only_pixel_in_same_slice_within_32px": {
+        "row": 274,
+        "column": 414,
+        "source_HU": 411
+      },
+      "anatomical_bone_identity_accepted": false
+    },
+    {
+      "observation_id": "obs-1794-central-sacrum",
+      "source_id": "cvm1794f",
+      "pixel": {
+        "row": 322,
+        "column": 256
+      },
+      "source_center_HU": 121,
+      "nearest_300_HU_intensity_only_pixel_in_same_slice_within_32px": {
+        "row": 327,
+        "column": 253,
+        "source_HU": 306
+      },
+      "anatomical_bone_identity_accepted": false
+    },
+    {
+      "observation_id": "obs-1824-right-iliac-blade",
+      "source_id": "cvm1824f",
+      "pixel": {
+        "row": 270,
+        "column": 93
+      },
+      "source_center_HU": 26,
+      "nearest_300_HU_intensity_only_pixel_in_same_slice_within_32px": null,
+      "anatomical_bone_identity_accepted": false
+    },
+    {
+      "observation_id": "obs-1824-left-iliac-blade",
+      "source_id": "cvm1824f",
+      "pixel": {
+        "row": 268,
+        "column": 418
+      },
+      "source_center_HU": 60,
+      "nearest_300_HU_intensity_only_pixel_in_same_slice_within_32px": null,
+      "anatomical_bone_identity_accepted": false
+    },
+    {
+      "observation_id": "obs-1873-right-femoral-head",
+      "source_id": "cvm1873f",
+      "pixel": {
+        "row": 270,
+        "column": 175
+      },
+      "source_center_HU": 291,
+      "nearest_300_HU_intensity_only_pixel_in_same_slice_within_32px": {
+        "row": 269,
+        "column": 175,
+        "source_HU": 337
+      },
+      "anatomical_bone_identity_accepted": false
+    },
+    {
+      "observation_id": "obs-1873-left-femoral-head",
+      "source_id": "cvm1873f",
+      "pixel": {
+        "row": 270,
+        "column": 342
+      },
+      "source_center_HU": 305,
+      "nearest_300_HU_intensity_only_pixel_in_same_slice_within_32px": {
+        "row": 270,
+        "column": 342,
+        "source_HU": 305
+      },
+      "anatomical_bone_identity_accepted": false
+    },
+    {
+      "observation_id": "obs-1873-right-acetabulum",
+      "source_id": "cvm1873f",
+      "pixel": {
+        "row": 257,
+        "column": 151
+      },
+      "source_center_HU": 438,
+      "nearest_300_HU_intensity_only_pixel_in_same_slice_within_32px": {
+        "row": 257,
+        "column": 151,
+        "source_HU": 438
+      },
+      "anatomical_bone_identity_accepted": false
+    },
+    {
+      "observation_id": "obs-1873-left-acetabulum",
+      "source_id": "cvm1873f",
+      "pixel": {
+        "row": 257,
+        "column": 366
+      },
+      "source_center_HU": 510,
+      "nearest_300_HU_intensity_only_pixel_in_same_slice_within_32px": {
+        "row": 257,
+        "column": 366,
+        "source_HU": 510
+      },
+      "anatomical_bone_identity_accepted": false
+    },
+    {
+      "observation_id": "obs-1903-central-pubic-region",
+      "source_id": "cvm1903f",
+      "pixel": {
+        "row": 214,
+        "column": 256
+      },
+      "source_center_HU": 38,
+      "nearest_300_HU_intensity_only_pixel_in_same_slice_within_32px": {
+        "row": 218,
+        "column": 255,
+        "source_HU": 308
+      },
+      "anatomical_bone_identity_accepted": false
+    }
+  ],
+  "hip_pair_3d_connectivity": [
+    {
+      "side": "left",
+      "seed_ids": [
+        "obs-1873-left-femoral-head",
+        "obs-1873-left-acetabulum"
+      ],
+      "threshold_HU": 300,
+      "both_original_seed_pixels_occupied": true,
+      "same_threshold_component": true,
+      "HU_connected_region_voxels": 70084,
+      "selection_cut_contacts": [
+        "ROI_edge",
+        "source_selection_end"
+      ],
+      "anatomical_separation_proven": false
+    },
+    {
+      "side": "left",
+      "seed_ids": [
+        "obs-1873-left-femoral-head",
+        "obs-1873-left-acetabulum"
+      ],
+      "threshold_HU": 500,
+      "both_original_seed_pixels_occupied": false,
+      "same_threshold_component": null,
+      "remaining_second_seed_component_voxels": 13433,
+      "anatomical_separation_proven": false
+    },
+    {
+      "side": "right",
+      "seed_ids": [
+        "obs-1873-right-femoral-head",
+        "obs-1873-right-acetabulum"
+      ],
+      "threshold_HU": 150,
+      "both_original_seed_pixels_occupied": true,
+      "same_threshold_component": true,
+      "HU_connected_region_voxels": 111042,
+      "selection_cut_contacts": [
+        "ROI_edge",
+        "source_selection_end"
+      ],
+      "anatomical_separation_proven": false
+    },
+    {
+      "side": "right",
+      "seed_ids": [
+        "obs-1873-right-femoral-head",
+        "obs-1873-right-acetabulum"
+      ],
+      "threshold_HU": 300,
+      "both_original_seed_pixels_occupied": false,
+      "same_threshold_component": null,
+      "remaining_second_seed_component_voxels": 68206,
+      "anatomical_separation_proven": false
+    }
+  ],
+  "readiness": {
+    "required_pelvic_true_bony_landmarks_accepted": 0,
+    "original_pixel_observations_accepted_as_bony_landmarks": 0,
+    "regional_ready": 0,
+    "regional_partial": 9,
+    "regional_blocked": 3,
+    "canonical_promotion_allowed": false
+  },
+  "review_conditions": [
+    "Nearest bright pixels are intensity-only hints and are NOT approved replacement source landmarks.",
+    "Connected CT-threshold voxel groups are not separated anatomical bones and may cross source or ROI cut planes.",
+    "Original 37/35 slice acquisition groups must not be welded or co-registered without source evidence.",
+    "Scanner pixel origin remains unresolved; original scanner RAS is not HGPT world.",
+    "An independent human anatomical reviewer must verify identity and individual osseous surface before any canonical change."
+  ]
+}

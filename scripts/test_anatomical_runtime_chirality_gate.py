@@ -34,6 +34,12 @@ class ChiralityGateTests(unittest.TestCase):
             "femur_left", "femur_right"})
         self.assertEqual(result["frame"]["audit_to_runtime"], "(x,y,z) -> (x,z,-y)")
         self.assertEqual(len(result["input_sha256"]), 3)
+        coverage=result["source_alias_coverage"]
+        self.assertEqual(coverage["aliases_in_source"],206)
+        self.assertEqual(coverage["bilateral_reference_pairs_with_single_sided_runtime_control"],59)
+        self.assertEqual(coverage["crossed_reference_pairs"],59)
+        self.assertEqual(coverage["physically_aligned_reference_pairs"],0)
+        self.assertLess(coverage["distinct_runtime_control_pairs"],59)
 
     def test_inputs_remain_read_only(self):
         a,b,c=self.records_copy()
@@ -98,6 +104,29 @@ class ChiralityGateTests(unittest.TestCase):
         self.assertEqual(gate.convert_audit_to_runtime([1,0,0]),(1.,0.,0.))
         self.assertEqual(gate.cross((0,0,1),(0,-1,0)),(1,0,0))
         self.assertEqual(gate.cross((0,1,0),(0,0,1)),(1,0,0))
+
+    def test_carpal_alias_is_collapse_not_independent_bone(self):
+        d=gate.from_repository(ROOT)["source_alias_coverage"]
+        entry=next(x for x in d["crossed_reference_details"] if x["left_reference"]=="scaphoid_left")
+        self.assertEqual(entry["runtime_controls"],["hand_l","hand_r"])
+        self.assertEqual(entry["relationship"],"carpals_collapsed")
+
+    def test_one_grouped_pair_can_be_realigned_without_geometry_edit(self):
+        fit,rig,inventory=self.records_copy()
+        by={a["anatomical_id"]:a for a in inventory["aliases"]}
+        by["scaphoid_left"]["current_rig"]=["hand_r"]
+        by["scaphoid_right"]["current_rig"]=["hand_l"]
+        report=gate.inspect(fit,rig,inventory)
+        self.assertEqual(report["crossed_count"],6)
+        self.assertEqual(report["source_alias_coverage"]["crossed_reference_pairs"],58)
+        self.assertEqual(report["source_alias_coverage"]["physically_aligned_reference_pairs"],1)
+        self.assertFalse(report["owner_approval"])
+
+    def test_reject_missing_shared_hand_runtime_control(self):
+        fit,rig,inventory=self.records_copy()
+        rig["bones"]=[b for b in rig["bones"] if b["name"]!="hand_l"]
+        with self.assertRaisesRegex(ValueError,"missing runtime control"):
+            gate.inspect(fit,rig,inventory)
 
     def test_reject_nonfinite_or_boolean_vectors(self):
         for bad in ([True,0,0],[math.inf,0,0],[1,2],[1,2,3,4]):

@@ -45,3 +45,19 @@ Navigate with the existing development server to `http://localhost:5173/native-w
 Real Chromium CI explicitly opens this isolated page and verifies nonzero bone count, dynamic pose/frame updates, a nonblank canvas size, absence of browser exceptions, and **zero browser module fetches matching Three/React-related vendor paths**. It separately checks the default full editor has not lost its existing rendering. An evidence screenshot is diagnostic **only**, not a claimed human-body model or clinical correctness.
 
 **Why this distinction matters:** the opt-in native preview embedded in the standard editor may *load* the old renderer modules transitively because the editor also imports its default Three-based controller. The independent HTML entry is the demonstration which isolates the new complete source-module graph instead of simply avoiding the old renderer's draw calls. Both paths remain development-only, and no current final PT-App runtime adds a dependency.
+
+## Actual independent Chromium WebGL2 verification — completed (2026-10-10)
+
+**GitHub Actions [run 38088439938](https://github.com/anyangle1409-code/animation-software/actions/runs/38088439938): all 3 jobs SUCCESS**:
+- 12/12 native math/shader/line-GPU mock tests and first-party static import audit SUCCESS, with **no npm installation for the native logic job**.
+- Entire existing studio `npm run typecheck` and `npm run build` SUCCESS, unchanged production viewer included.
+- Actual native Chromium (headless software WebGL2), two independent real shader executions SUCCESS; no page errors; exercise animation frame count advances.
+
+**Isolated fully first-party skeletal runtime entry (not the old editor):**
+- Exercised `/native-webgl2-preview.html`, showing real `dumbbell_bicep_curl` from original exercise library.
+- **63 native GPU bone-line segments**, 19 rendered frames, canvas **1256 × 699**, exercise clip time 0.3 seconds during recorded observation.
+- **ZERO source-runtime requests for `three`, `threeRuntimeBoundary`, `threeSceneBoundary`, `react-dom` or React Three Fiber.** This is an actual independently running native GPU skeleton animation slice, not merely declaration-based metadata.
+- The embedded opt-in editor preview separately rendered 63 bones, advanced exercise playback by **0.4332 seconds**, emitted zero browser exceptions; all test data and screenshots clearly labelled diagnostic.
+- The default editor retained legacy Three-backed rendering: no experimental preview flag, actual rendered 2+ frames and 5 scene children with one canvas. This confirms the user's current working model/editing software was preserved while development continues.
+
+The artifact `first-party-webgl2-experimental-actual-browser-proof` for [run 38088439938](https://github.com/anyangle1409-code/animation-software/actions/runs/38088439938) includes native skeleton-only browser screenshots and the JSON report; **those images are NOT render/skin/anatomy approvals**. Test paths were a local Vite dev server using existing development-only tooling and **do not certify the shipped animation software's total third-party removal**. Remaining `three` package is intentional during staged conversion and must not be removed until the complete actual character material, GPU skinning, display, editor and export parity tests pass.

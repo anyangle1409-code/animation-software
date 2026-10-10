@@ -11,7 +11,8 @@ import unittest
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/"scripts"/"anatomy_fit"))
 from whole_body_blender_evidence_gate import (
-    audit_measurements, read_source_and_audit, source_context
+    audit_measurements, read_source_and_audit, source_context,
+    verify_scene_bytes, report_schema_template
 )
 
 ANATOMY=ROOT/"ORIGINAL_V1_WORK"/"anatomy"
@@ -183,6 +184,30 @@ class WholeBodyBpyEvidenceGate(unittest.TestCase):
         self.assertEqual(result["total_joint_measurements"],0)
         self.assertFalse(result["bone_identity_independently_verified"])
         self.assertIn("overhead_push",result["not_sampled_movement_families"])
+
+    def test_actual_local_blend_file_sha256_and_template_no_auto_run(self):
+        # A bogus report cannot attach itself to an unmodified production scene.
+        p=sample()
+        with tempfile.TemporaryDirectory() as td:
+            scene=Path(td)/"accepted_anatomical_review.blend"
+            scene.write_bytes(b"Blender private source fixture")
+            p["provenance"]["blender_scene_sha256"]=hashlib.sha256(
+                scene.read_bytes()).hexdigest()
+            self.assertTrue(verify_scene_bytes(scene,p))
+            scene.write_bytes(b"changed and not the declared source file")
+            with self.assertRaisesRegex(ValueError,"SHA mismatch"):
+                verify_scene_bytes(scene,p)
+            wrong=Path(td)/"scene.json"
+            wrong.write_bytes(b"not a Blender scene")
+            with self.assertRaisesRegex(ValueError,".blend"):
+                verify_scene_bytes(wrong,p)
+
+        guide=report_schema_template(digest(BONES),digest(JOINTS))
+        self.assertFalse(guide["provenance"]["scene_was_evaluated_by_bpy"])
+        self.assertFalse(guide["canonical_promotion_allowed"])
+        self.assertEqual(guide["bone_surfaces"],[])
+        with self.assertRaises(ValueError):
+            audit_measurements(guide,BONES,JOINTS,FREEZE,BLOCKERS)
 
     def test_unknown_source_and_blocker_changes_fail_closed(self):
         alternate=copy.deepcopy(BONES)

@@ -128,10 +128,10 @@ class IndependentWholeBodyMotionEvidence(unittest.TestCase):
         modified=copy.deepcopy(rec)
         # Any extra added isolated test, unexpected new commanded endpoint or
         # changed record SHA requires a fresh reviewed provenance computation.
-        with self.assertRaisesRegex(ValueError,"queue SHA"):
+        with self.assertRaisesRegex(ValueError,"record/atlas SHA"):
             evidence_context(modified,atlas,queue,"0"*64,digest(ATLAS))
         modified=copy.deepcopy(atlas)
-        with self.assertRaisesRegex(ValueError,"queue SHA"):
+        with self.assertRaisesRegex(ValueError,"record/atlas SHA"):
             evidence_context(rec,modified,queue,digest(RECORD),"0"*64)
 
     def test_source_report_cannot_self_certify_scene_or_readiness(self):

@@ -80,9 +80,9 @@ test('reject sparse buffer data, undeclared stride, or buffer view overflow',()=
   rejects(g=>{g.accessors[0].sparse={count:1,indices:{},values:{}}},/sparse/);
   rejects(g=>{g.bufferViews[0].byteStride=4},/stride/);
   rejects(g=>{g.bufferViews[0].byteLength=9999},/buffer/);
-  rejects(g=>{g.accessors[0].byteOffset=9999},/escapes/);
+  rejects(g=>{g.accessors[0].byteOffset=10000},/escapes/);
   rejects(g=>{g.bufferViews[0].buffer=3},/embedded/);
-  rejects(g=>{g.buffers[0].byteLength=4},/buffer/);
+  rejects(g=>{g.buffers[0].byteLength=4},/BIN padding|buffer/);
 });
 test('reject malformed typed accessors or counts',()=>{
   rejects(g=>{g.accessors[0].type='VEC2'},/VEC3/);

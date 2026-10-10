@@ -11,6 +11,7 @@ import argparse
 import hashlib
 import json
 import math
+import re
 from pathlib import Path
 import struct
 import sys
@@ -140,6 +141,10 @@ def mesh_diagnostics(raw: bytes) -> dict:
     """Exact float32 vertex welding; a diagnostic, NOT validated anatomical contact."""
     if len(raw) < 134:
         raise ValueError("Truncated binary STL")
+    header_frames = set(re.findall(rb"SPACE=(LPS|RAS)", raw[:80].upper()))
+    if len(header_frames) > 1:
+        raise ValueError("Conflicting coordinate system declarations in source STL header")
+    header_frame = next(iter(header_frames)).decode("ascii") if header_frames else None
     n = struct.unpack_from("<I", raw, 80)[0]
     if not (0 < n <= MAX_FILE_BYTES//50) or len(raw) != 84 + 50*n:
         raise ValueError("Binary STL count/length mismatch")
@@ -216,6 +221,8 @@ def mesh_diagnostics(raw: bytes) -> dict:
     orphan_vertex_only_components = components - len(face_components)
     return {
         "source_unit_known": False,
+        "source_stl_header_explicit_coordinate_system": header_frame,
+        "source_stl_header_field_verified_as_origin": False,
         "source_to_HGPT_registration_verified": False,
         "anatomical_joint_centres_accepted": False,
         "contact_patch_accepted": False,

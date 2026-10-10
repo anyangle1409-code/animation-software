@@ -124,9 +124,9 @@ def build():
         'id': CANDIDATE_ID, 'status': 'AUDIT_PROPOSAL_NOT_CANONICAL_NOT_ACCEPTED', 'freeze_ready': False,
         'owner_policy': POLICY_ID,
         'policy_caveat': 'owner modelling policy for a living exercise character; not proof that the skin-to-bone landmark relation is settled',
-        'base_record': {'path': str(C001.relative_to(ROOT)), 'sha256': sha(C001), 'id': c1['candidate']['id']},
+        'base_record': {'path': C001.relative_to(ROOT).as_posix(), 'sha256': sha(C001), 'id': c1['candidate']['id']},
         'solution': c1['candidate']['solution'],
-        'inputs_sha256': {str(p.relative_to(ROOT)): sha(p) for p in (SOLUTION, THORAX, STERNUM, ANSUR_CSV)},
+        'inputs_sha256': {p.relative_to(ROOT).as_posix(): sha(p) for p in (SOLUTION, THORAX, STERNUM, ANSUR_CSV)},
         'landmark_mapping': {
             'target': 'ANSUR II acromial height (standing; skin acromion landmark on the lateral edge of the acromion at the shoulder tip, palpated)',
             'target_definition_status': 'primary ANSUR II landmark text (Hotzman et al. 2011 NATICK/TR-11/017; Gordon et al. 2014) not reachable from this environment; wording from secondary descriptions',

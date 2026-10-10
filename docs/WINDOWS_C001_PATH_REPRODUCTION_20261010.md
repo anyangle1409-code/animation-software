@@ -1,4 +1,4 @@
-# Windows c001 record reproduction — 2026-10-10
+# Windows c001/c002 record reproduction — 2026-10-10
 
 Scope: portable evidence-path serialization only. No candidate record, source
 bytes, skeleton, landmark, geometry, motion, acceptance flag or frozen review
@@ -40,9 +40,25 @@ Do not rewrite a003, c001–c004, the source skeleton or frozen audit records to
 make inherited failures green. Do not repeat the expensive full suite or 135
 motion sweeps. Candidate and anatomical readiness remain unchanged.
 
-Next isolated regression action: reproduce c002's unchanged record-comparison
-test, inspect the complete difference list, and determine whether its base
-path and input hash keys are the only differences before touching its builder.
+The next c002 record comparison was independently reproduced before editing:
+one failure, 0.207 seconds. Its complete difference list contains only the
+base record path and four input SHA dictionary keys. Those two serialization
+expressions now also use `as_posix()`, with numerical code, source hashes,
+candidate geometry and frozen tests unchanged. All **31 unchanged c001/c002
+tests pass** in laptop Python (2.424 seconds) and actual Blender 5.2.1
+(2.797 seconds), including retained closure failure and unaccepted status.
+
+Initial hosted run `38092898558` at `16050424` passed the Windows and source
+safety jobs. The added native Ubuntu c001 step failed before tests could load
+because the distro Blender Python had no NumPy; the pre-existing real-render
+and source-triangle tests passed. The workflow now explicitly installs its
+existing reconstruction dependency `python3-numpy` with Blender. This is a
+runner setup correction, not a skipped test or relaxed assertion. Hosted
+31-test verification remains pending at this checkpoint.
+
+Next isolated regression action: verify all jobs at the latest PR #45 head,
+then reproduce c003 or the shoulder ANSUR acromion audit and inspect all
+differences before deciding whether any further path-only fix is justified.
 Other historical lumbar, evidence-integrity, P003, production-control and
 Windows symlink failures remain separate unresolved cases; this correction
 does not classify or close them.

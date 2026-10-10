@@ -452,3 +452,32 @@ accessible, hash-pinned aligned DICOM instance/series or its producer conversion
 code and reproduce rescaling on exact corresponding voxels; if unavailable,
 retain the HU blocker and continue only source-bound orthogonal candidate review.
 Keep medical source bytes and review outputs private.
+
+## Laptop Blender boundary-extension output integrity recheck, 2026-10-10
+
+Read-only audit of the existing private output
+`work/private-nlm-ct-20261009/blender-boundary-extension-review-retry1-20261010/`.
+No source files, scene, or review images were changed. Actual Blender 5.2.1 LTS
+reopened `boundary_extension_contact_sheet_labeled.blend` successfully: one
+scene, ten display-only CT image planes, ten labels, one limitation caption, no
+armature/skeleton, and ten external 512x512 display images. All ten relative
+image paths resolve beside the Blend. The scene has no segmentation or
+registered source skeleton; this agrees with its private report.
+
+Independent local SHA-256 recheck matched all ten original PNG and GE header
+pins in `boundary_extension_contact_sheet_final_handoff_report.json`, all ten
+8-bit display PNG hashes, the saved Blend hash, and the final rendered contact
+sheet hash. The report correctly records 10 frames, zero anatomical landmarks,
+`UNVERIFIED` region/laterality, `segmentation_performed=false`,
+`source_skeleton_loaded=false`, and `canonical_promotion_allowed=false`. The
+image sheet is expressly arbitrary-layout display only, not scanner/rig
+registration or bone identification. No downloaded source or private Blender
+output was added to Git.
+
+Next executable evidence action is an offline independent review of the
+contiguous source sequences in anatomically oriented planes, followed only by
+tentative, source-pinned region/contour notes where visual evidence is clear.
+The current ten-frame sheet is not that review: its two separated ranges cannot
+establish continuity, 3D boundaries, named bones, or any of the seven pelvic
+landmarks. Keep the applicable true-bone identity and 3D segmentation gates
+open; do not infer or promote anatomy from this QA pass.

@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "kind": "HGPT_PRIVATE_CT_REVIEW_PLATE_EXECUTION_CHECKPOINT",
+  "tool_source_commit": "678c8c03a56ab2c0972fef448cde4d6649b417c8",
+  "tool_branch": "codex/hip-hu-bridge-witness-20261010",
+  "execution_isolation": "Commit-pinned Git archive outside all worktrees; no other agent checkout modified",
+  "private_root": "C:/Users/Mark/Documents/Codex/hgpt-private-hip-plate-678c8c03",
+  "private_svg_relative_path": "outputs/cvm1873_original_review.svg",
+  "source_ids": [
+    "cvm1870f",
+    "cvm1873f",
+    "cvm1876f"
+  ],
+  "viewer_frames": [
+    53,
+    54,
+    55
+  ],
+  "source_group": 2,
+  "scanner_S_mm": [
+    -478,
+    -481,
+    -484
+  ],
+  "windows_HU": [
+    [
+      -200,
+      400
+    ],
+    [
+      -200,
+      1600
+    ]
+  ],
+  "windows_are_anatomical_classifier": false,
+  "tool_tests": {
+    "passed": 4,
+    "failed": 0,
+    "seconds": 1.164
+  },
+  "actual_cli_exit_code": 0,
+  "svg_saved_byte_sha256": "0b9fc8336de3a1e9216cd5168d8dc7c52c0215b8aa2af9072599b2e3055b9568",
+  "svg_normalized_LF_text_sha256": "80cfbaf5590e1eb19ecf1645f9cab337a722ef7a6bea0da832afeaca1bb98024",
+  "sidecar_saved_byte_sha256": "4ba8ef1ddb766c9491fb95a264da3aedbcb3352b908491b009999ca712500fed",
+  "serialization_diagnosis": "One final LF becomes CRLF on Windows; CLI prints hash of pre-write LF text rather than saved bytes. Universal-newline read reproduces printed hash exactly. Original/source bytes unchanged; tool not patched.",
+  "embedded_window_png_count": 6,
+  "marker_circle_count": 8,
+  "marker_points": [
+    {
+      "row": 270,
+      "column": 175,
+      "HU": 291
+    },
+    {
+      "row": 270,
+      "column": 342,
+      "HU": 305
+    },
+    {
+      "row": 257,
+      "column": 151,
+      "HU": 438
+    },
+    {
+      "row": 257,
+      "column": 366,
+      "HU": 510
+    }
+  ],
+  "marker_geometry_verified_against_original_pixels": true,
+  "source_image_and_header_pins_checked_by_tool": true,
+  "private_plate_visual_inspection_completed": false,
+  "visual_blocker": "Browser runtime could not import cached browser-service.mjs (26.930.61225); no visual inspection is claimed. Optional SVG rasterizers absent; no installs or user settings modified.",
+  "source_skeleton_governs_geometry": true,
+  "original_candidate_pixels_changed": false,
+  "bone_identity_verified": false,
+  "independent_second_review_completed": false,
+  "accepted_osseous_landmarks": 0,
+  "pixel_centre_convention_verified": false,
+  "scanner_to_HGPT_registration_verified": false,
+  "canonical_promotion_allowed": false,
+  "source_bytes_committed": false,
+  "next_action": "Reuse prepared private plate, do not regenerate. Use available native Blender image/marker display or repaired browser runtime to visually inspect exact original pixels on adjacent frames53-55. Retain qualified independent reviewer gate; do not accept HU-linked anatomy."
+}

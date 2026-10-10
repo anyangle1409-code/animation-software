@@ -847,3 +847,28 @@ Next: reuse the existing hip-bridge private three-slice review-plate tool
 for original cvm1870f/1873f/1876f and four exact candidate pixels, preserving
 branch isolation. Inspect original marker locations without bright-pixel
 snapping. Full independent anatomical interpretation still required.
+
+## Private exact-pixel hip review plate prepared
+
+Executed existing hip-bridge tool from commit-pinned private source archive
+678c8c03, preserving every checkout. Four unchanged tests PASS in1.164s;
+actual CLI exit0. Original53/54/55 planes are shown in two windows, with
+four unchanged hypothesis pixels marked twice. Metadata-only checkpoint:
+`docs/PELVIC_CT_PRIVATE_HIP_PLATE_CHECKPOINT_20261011.json`.
+
+Six embedded windows and eight marker circles verified structurally, with
+correct source pixel positions and source HU values291/305/438/510.
+Saved SVG byte SHA0b9fc8336de3a1e9216cd5168d8dc7c52c0215b8aa2af9072599b2e3055b9568
+differs from CLI's80cfbaf... because Windows converts the final LF to CRLF;
+normalized text reproduces the CLI hash exactly. Source images/headers and
+existing tool code were not changed. Keep both hashes; do not overwrite output.
+
+Visual inspection NOT completed: browser runtime import failed for cached
+browser-service.mjs26.930.61225; optional local SVG rasterizers absent.
+No dependency installs, app settings or power settings changed. Prepared
+private files remain outside Git. Masterf24d9dda passed all3CI checks in
+run38096184421. No anatomy, segmentation, landmark or canonical gate advanced.
+
+Next: reuse the plate; do not regenerate it. Use available native Blender
+image/marker display or a repaired browser runtime for exact-pixel visual
+review on53–55, retaining qualified independent reviewer acceptance gates.

@@ -42,6 +42,25 @@ jobs:
           assert data["cp1_anatomical_acceptance"] is False
           assert data["canonical_geometry_modified"] is False
           assert data["source_subject_independent_of_existing_CT"] is False
+          expected = {
+              "carpus_file_candidate": 16,
+              "tarsus_file_candidate": 14,
+              "rib_file_candidate": 24,
+          }
+          for group, total in expected.items():
+              assert data["counts_by_source_filename_category"][group] == total, (group, data["counts_by_source_filename_category"])
+          from collections import Counter
+          sides = Counter()
+          for candidate in data["source_file_candidates"]:
+              group = candidate["category"]
+              rel = candidate["source_relpath"]
+              if group in expected:
+                  side = "LEFT" if (rel.startswith(("HAND_LEFT/", "FOOT_LEFT/")) or rel.endswith("_LEFT.stl")) else "RIGHT"
+                  sides[(group, side)] += 1
+          for group, per_side in (("carpus_file_candidate", 8), ("tarsus_file_candidate", 7), ("rib_file_candidate", 12)):
+              assert sides[(group, "LEFT")] == per_side, (group, "LEFT", sides)
+              assert sides[(group, "RIGHT")] == per_side, (group, "RIGHT", sides)
+          print("Expected source-file candidate coverage confirmed on both labelled sides:", dict((str(k), v) for k,v in sides.items()))
           print(json.dumps({"source_revision": data["source_revision"],
                             "counts": data["counts_by_source_filename_category"],
                             "candidate_files": len(data["source_file_candidates"])}, indent=2))

@@ -103,3 +103,15 @@ this sequence alongside original full-resolution source PNG and scanner-header
 files, documenting only source-supported candidate observations and
 uncertainty. Keep anatomical gates closed until that review and independent
 corroboration exist.
+
+### Native Blender source-plane verification follow-up
+
+Nine viewer tests pass in laptop Blender 5.2.1, including three additional
+checks of the millimetre-to-metre scale, proper rotation/handedness, source
+corner/UV orientation, camera geometry, and external/unpacked synthetic
+images. The workflow now includes a native Ubuntu Blender job that runs these
+tests using only generated 2-by-2 display pixels; it requires no private CT
+files and performs no anatomical render. CI for this follow-up is pending at
+commit time. The previous checkpoint's PR CI run `38090633519` passed all four
+jobs. Source observations, anatomical acceptance and all promotion gates are
+unchanged.

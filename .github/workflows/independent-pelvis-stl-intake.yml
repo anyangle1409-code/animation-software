@@ -53,6 +53,20 @@ permissions:
   contents: read
 
 jobs:
+  native-blender-sequence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Blender for synthetic source-plane verification
+        run: sudo apt-get update && sudo apt-get install -y blender xvfb
+      - name: Verify timeline, source-plane orientation and external image handling
+        run: >-
+          xvfb-run -a blender --background --factory-startup --python-exit-code 1
+          --python-expr "import sys,unittest; sys.path.insert(0,'scripts');
+          result=unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromName('test_nlm_ct_blender_sequence'));
+          assert result.wasSuccessful(), 'native Blender source-plane tests failed'"
+
   review-intake:
     runs-on: ubuntu-latest
     timeout-minutes: 15

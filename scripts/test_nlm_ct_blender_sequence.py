@@ -105,6 +105,69 @@ class BlenderSequencePlanTests(unittest.TestCase):
             bpy.data.objects.remove(obj, do_unlink=True)
 
     @unittest.skipIf(bpy is None, "requires Blender's bundled Python")
+    def test_scanner_display_rotation_preserves_handedness_and_mm_scale(self):
+        sys.path.insert(0, str(HERE))
+        viewer = importlib.import_module("build_nlm_ct_blender_sequence_viewer")
+        axes = [viewer._scanner_to_view(point) for point in
+                ((1000, 0, 0), (0, 1000, 0), (0, 0, 1000))]
+        for actual, expected in zip(axes, ((-1, 0, 0), (0, -1, 0), (0, 0, 1))):
+            for coordinate, wanted in zip(actual, expected):
+                self.assertAlmostEqual(coordinate, wanted, places=6)
+        self.assertAlmostEqual(axes[0].cross(axes[1]).dot(axes[2]), 1.0, places=6)
+
+    @unittest.skipIf(bpy is None, "requires Blender's bundled Python")
+    def test_plane_corners_and_uv_keep_source_pixel_orientation(self):
+        sys.path.insert(0, str(HERE))
+        viewer = importlib.import_module("build_nlm_ct_blender_sequence_viewer")
+        geometry = {"plane_TL_RAS_mm": [10, 20, 30],
+                    "plane_TR_RAS_mm": [30, 20, 30],
+                    "plane_BR_RAS_mm": [30, 0, 30]}
+        record = self.module().build_frame_plan(bundle())["frames"][0]
+        material = bpy.data.materials.new("TEST_CT_CORNER_MATERIAL")
+        obj, corners = viewer._make_plane("TEST_CT_SOURCE_CORNERS", geometry,
+                                          material, record)
+        mesh = obj.data
+        try:
+            expected = ((-.01, -.02, .03), (-.03, -.02, .03),
+                        (-.03, 0, .03), (-.01, 0, .03))
+            for corner, wanted in zip(corners, expected):
+                for actual, coordinate in zip(corner, wanted):
+                    self.assertAlmostEqual(actual, coordinate, places=6)
+            self.assertEqual([tuple(uv.uv) for uv in mesh.uv_layers.active.data],
+                             [(0, 1), (1, 1), (1, 0), (0, 0)])
+            location, rotation, scale = viewer._camera_pose(corners)
+            self.assertAlmostEqual(location.z, 1.03, places=6)
+            self.assertAlmostEqual(scale, .0208, places=6)
+            self.assertAlmostEqual(rotation.to_matrix().determinant(), 1.0, places=6)
+            self.assertFalse(obj["canonical_promotion_allowed"])
+        finally:
+            bpy.data.objects.remove(obj, do_unlink=True)
+            bpy.data.meshes.remove(mesh)
+            bpy.data.materials.remove(material)
+
+    @unittest.skipIf(bpy is None, "requires Blender's bundled Python")
+    def test_image_material_keeps_synthetic_display_external_and_unpacked(self):
+        sys.path.insert(0, str(HERE))
+        viewer = importlib.import_module("build_nlm_ct_blender_sequence_viewer")
+        import ct_pelvis_window_geometry as window
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "synthetic-display.png"
+            path.write_bytes(window.encode_png_gray8(2, 2, bytes([0, 64, 128, 255])))
+            material, image = viewer._material_for_image("TEST_CT_EXTERNAL", path)
+            try:
+                self.assertIsNone(image.packed_file)
+                self.assertEqual(Path(image.filepath).resolve(), path.resolve())
+                self.assertEqual(tuple(image.size), (2, 2))
+                textures = [node for node in material.node_tree.nodes
+                            if node.type == "TEX_IMAGE"]
+                self.assertEqual(len(textures), 1)
+                self.assertEqual(textures[0].image, image)
+                self.assertEqual(textures[0].interpolation, "Closest")
+            finally:
+                bpy.data.materials.remove(material)
+                bpy.data.images.remove(image)
+
+    @unittest.skipIf(bpy is None, "requires Blender's bundled Python")
     def test_group_boundary_markers_follow_manifest_frame_ranges(self):
         sys.path.insert(0, str(HERE))
         viewer = importlib.import_module("build_nlm_ct_blender_sequence_viewer")

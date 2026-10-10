@@ -325,21 +325,38 @@ def report_schema_template(bone_inventory_sha256, articulation_sha256):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("--input", required=True, help="private measured JSON from Blender bpy")
+    p.add_argument("--input", help="private measured JSON from Blender bpy")
     p.add_argument("--out", required=True, help="new private QA assessment JSON outside Git worktrees")
-    p.add_argument("--scene-file", required=True, help="EXACT local .blend file to independently verify SHA-256")
+    p.add_argument("--scene-file", help="EXACT local .blend file to independently verify SHA-256")
+    p.add_argument("--template-only", action="store_true",
+                   help="emit an EMPTY, safely unverified source-pinned report guide without Blender")
     args = p.parse_args()
     from ct_pelvis_window_geometry import assert_private_location
     output = assert_private_location(args.out)
     if output.exists() or output.suffix != ".json":
         raise ValueError("refuse overwrite or non-JSON Blender assessment path")
-    raw = json.loads(Path(args.input).read_text())
-    verify_scene_bytes(args.scene_file, raw)
-    result = read_source_and_audit(raw)
+    if args.template_only:
+        if args.input is not None or args.scene_file is not None:
+            raise ValueError("template mode must never consume or claim live Blender geometry")
+        bones = json.loads(SOURCE_BONES.read_text())
+        joints = json.loads(SOURCE_JOINTS.read_text())
+        result = report_schema_template(
+            hashlib.sha256(json.dumps(bones, sort_keys=True, separators=(",", ":")).encode()).hexdigest(),
+            hashlib.sha256(json.dumps(joints, sort_keys=True, separators=(",", ":")).encode()).hexdigest(),
+        )
+    else:
+        if not args.input or not args.scene_file:
+            raise ValueError("a real bpy report AND the exact private .blend file are required")
+        raw = json.loads(Path(args.input).read_text())
+        verify_scene_bytes(args.scene_file, raw)
+        result = read_source_and_audit(raw)
     output.parent.mkdir(parents=True, exist_ok=True)
     with output.open("x", encoding="utf8") as fp:
         json.dump(result, fp, sort_keys=True, indent=2)
         fp.write("\n")
+    if args.template_only:
+        print("Emitted EMPTY source-pinned Blender QA report template. No bpy data or anatomy approved.")
+        return
     print(json.dumps({
         "bone_observations": result["observed_source_bones"],
         "articulations_covered": result["observed_distinct_articulations"],

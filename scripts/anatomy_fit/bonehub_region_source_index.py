@@ -209,8 +209,9 @@ def main() -> int:
         if args.output:
             from pathlib import Path
             output = Path(args.output).expanduser().resolve()
-            from anatomy_fit.bonehub_surface_intake import private_location
-            private_location(output.parent)
+            repo_root = Path(__file__).resolve().parents[2]
+            if output.parent == repo_root or repo_root in output.parent.parents:
+                raise ValueError("Source diagnostics must remain outside Git")
             if output.exists():
                 raise ValueError("Do not overwrite existing source report")
             output.parent.mkdir(parents=True, exist_ok=True)

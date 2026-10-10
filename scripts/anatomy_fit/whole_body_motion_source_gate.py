@@ -56,16 +56,16 @@ def evidence_context(record,atlas,original_queue,record_hash,atlas_hash,
         script_hash=digest(ISOLATED_SCRIPT)
     previous=archived_audit.get("inputs_sha256",{})
     source_sample=REPO/"ORIGINAL_V1_WORK/anatomy/audit/runs/isolated_bone_only_014/isolated_samples.json"
-    source_name=str(source_sample.relative_to(REPO))
+    source_name=source_sample.relative_to(REPO).as_posix()
     if (archived_audit.get("label")!="a003_isolated_014" or
             archived_audit.get("kind")!="READ_ONLY_PROVENANCE_AUDIT" or
             archived_audit.get("status")!="TRACED" or
             archived_audit.get("tests")!=135 or
             archived_audit.get("peaks")!=278 or
             archived_audit.get("untraced")!=[] or
-            previous.get(str(RECORD.relative_to(REPO)))!=record_hash or
-            previous.get(str(ATLAS.relative_to(REPO)))!=atlas_hash or
-            previous.get(str(ISOLATED_SCRIPT.relative_to(REPO)))!=script_hash or
+            previous.get(RECORD.relative_to(REPO).as_posix())!=record_hash or
+            previous.get(ATLAS.relative_to(REPO).as_posix())!=atlas_hash or
+            previous.get(ISOLATED_SCRIPT.relative_to(REPO).as_posix())!=script_hash or
             previous.get(source_name)!=digest(source_sample)):
         raise ValueError("original source movement provenance inputs changed")
     if (original_queue.get("schema_version")!=1 or

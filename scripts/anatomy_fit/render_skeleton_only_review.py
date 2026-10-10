@@ -121,7 +121,7 @@ def shoot(sc, cam, direction, up, target, scale, path):
     cam.matrix_world = Matrix(((x[0], y[0], z[0], loc[0]), (x[1], y[1], z[1], loc[1]),
                                (x[2], y[2], z[2], loc[2]), (0, 0, 0, 1)))
     cam.data.ortho_scale = scale
-    sc.render.filepath = str(path); bpy.ops.render.render(write_still=True)
+    sc.render.filepath = str(Path(path).resolve()); bpy.ops.render.render(write_still=True)
 
 
 def main():

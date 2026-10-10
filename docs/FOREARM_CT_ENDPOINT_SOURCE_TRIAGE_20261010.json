@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "kind": "PRIMARY_SOURCE_METHOD_TRIAGE_NOT_TARGET_SELECTION",
+  "review_date": "2026-10-10",
+  "source": {
+    "authors": "Pretorius HS, Ferreira N, Burger MC",
+    "title": "A computer tomography-based anthropomorphic study of forearm osteology: implications for prosthetic design",
+    "doi": "10.17159/2309-8309/2021/v20n3a5",
+    "journal": "South African Orthopaedic Journal 2021;20(3):162-166",
+    "url": "https://www.scielo.org.za/pdf/saoj/v20n3/09.pdf",
+    "private_filename": "Pretorius2021-forearm-osteology.pdf",
+    "pdf_bytes": 1705242,
+    "pdf_pages": 5,
+    "pdf_sha256": "02bc5a597f6077835a5ae53d2baf6021fff3d6d50b6f5a344b9cac870b8e5d5c",
+    "source_bytes_in_git": false,
+    "visually_reviewed_pdf_pages_1based": [2, 3, 4]
+  },
+  "cohort_limitations": "97 adult clinical scans, predominantly male, single geographic clinical population and single measurer; not an ANSUR stature-conditioned target.",
+  "measurement_definitions": {
+    "radius_length": "Methods use wrist midpoint to radial-head centre; Table I labels head centre to distal-radius centre. Not radiale-to-stylion.",
+    "styloid_length": "Figure1a uses a periarticular projected height, not a 3D radiocarpal centre-to-stylion vector.",
+    "radial_head_height": "Figure4b measures head height, not superior lateral rim to humeroradial articular centre."
+  },
+  "source_internal_discrepancy": {
+    "quantity": "radius length 95% confidence interval, mm",
+    "results_pdf_page_1based": 3,
+    "results_printed_page": 164,
+    "results_interval": [234.60, 241.74],
+    "table_pdf_page_1based": 4,
+    "table_printed_page": 165,
+    "table_interval": [234.72, 242.13],
+    "resolution": "UNRESOLVED; neither interval selected for model targets"
+  },
+  "inference": "Do not halve head height or substitute styloid projected height for missing model-specific offsets. Derivation and frame correspondence remain unverified.",
+  "geometry_changed": false,
+  "numerical_target_authorized": false,
+  "canonical_promotion_allowed": false,
+  "next_action": "Seek a source identifying articular-centre and palpable-landmark coordinates in one calibrated frame, with uncertainty and population applicability."
+}

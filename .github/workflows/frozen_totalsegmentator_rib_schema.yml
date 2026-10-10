@@ -1,0 +1,58 @@
+name: Frozen independent rib-label source schema
+
+on:
+  push:
+    branches: [codex/independent-anatomy-source-rights-20261010]
+    paths:
+      - scripts/anatomy_fit/verify_totalsegmentator_rib_labels.py
+      - scripts/test_totalsegmentator_rib_labels_20261010.py
+      - .github/workflows/frozen_totalsegmentator_rib_schema.yml
+      - docs/TOTALSEG_2022_RIB_LABEL_VERSION_PROVENANCE_20261010.md
+  pull_request:
+    paths:
+      - scripts/anatomy_fit/verify_totalsegmentator_rib_labels.py
+      - scripts/test_totalsegmentator_rib_labels_20261010.py
+      - .github/workflows/frozen_totalsegmentator_rib_schema.yml
+
+jobs:
+  source-only-rib-label-classes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 8
+    steps:
+      - name: Read-only checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Test version confusion, nonexecution, rib variants and rights flags
+        run: |
+          python -m unittest discover -s scripts -p 'test_totalsegmentator_rib_labels_20261010.py' -v
+          python -m unittest discover -s scripts -p 'test_independent_anatomy_source_rights_20261010.py' -v
+      - name: Parse public upstream frozen Git blob without executing/download of models or patients
+        run: |
+          python scripts/anatomy_fit/verify_totalsegmentator_rib_labels.py \
+            --verify-public-source > "$RUNNER_TEMP/totalseg-upstream-rib-label-contract.json"
+          python - "$RUNNER_TEMP/totalseg-upstream-rib-label-contract.json" <<'PY'
+          import json,sys
+          with open(sys.argv[1],encoding="utf-8") as f:
+              data=json.load(f)
+          assert data["subject_count_in_scope"]==0
+          assert data["patient_ct_masks_downloaded"] is False
+          assert data["cp1_gate6_approved"] is False
+          for v in data["versioned_maps"].values():
+              assert v["distinct_rib_label_count"]==24
+          assert data["versioned_maps"]["legacy_v1"]["rib_class_id_by_name"]["rib_left_1"]==58
+          assert data["versioned_maps"]["later_total_v2"]["rib_class_id_by_name"]["rib_left_1"]==92
+          assert data["versioned_maps"]["later_rib_part"]["rib_class_id_by_name"]["rib_left_1"]==1
+          print("Verified official immutable Git source; 24/24 labels in each of three incompatible numeric maps.")
+          print("2022 dataset file-specific map and per-patient anatomy/permissions NOT established.")
+          PY
+      - name: Keep only public label metadata artifact
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: totalseg-public-rib-version-map-no-ct-or-models
+          path: ${{ runner.temp }}/totalseg-upstream-rib-label-contract.json
+          if-no-files-found: error
+          retention-days: 14

@@ -1,0 +1,177 @@
+{
+  "schema_version": 1,
+  "kind": "HGPT_EXTERNAL_ANATOMICAL_REFERENCE_RIGHTS_AND_COHORT_GATE",
+  "reviewed_date": "2026-10-10",
+  "purpose": "Find independent donor geometry/biomechanics evidence while preventing noncommercial data, duplicate cohort counts, clinical pathology-as-normal and licensed-model misuse in a potential commercial app",
+  "commercial_product_release_allowed": false,
+  "canonical_target_selection_allowed": false,
+  "datasets": [
+    {
+      "id": "bonehub_visible_human_male",
+      "title": "Visible Human Full-Skeleton 3D Bone Models (male)",
+      "source_url": "https://huggingface.co/datasets/BoneHub/visible-human-3d-models",
+      "doi": "10.57967/hf/10464",
+      "license_label": "CC-BY-4.0",
+      "rights_status": "CC-BY-4.0_DECLARED_VERIFY_UPSTREAM_ORIGIN_TERMS",
+      "cohort_key": "NLM_VISIBLE_HUMAN_MALE_1994",
+      "population_type": "single_donor_male_180cm",
+      "dataset_contents": [
+        "individual_carpal_meshes",
+        "individual_tarsal_meshes",
+        "individual_ribs",
+        "additional_non206_grouped_bones"
+      ],
+      "recommended_use": "reference_shape_hypotheses_only",
+      "independence_from_bonehub_visible_human": false,
+      "normal_adult_canonical_targets_approved": false,
+      "commercial_import_approved": false,
+      "raw_data_inspected_in_this_review": false
+    },
+    {
+      "id": "totalsegmentator_ct_original",
+      "title": "TotalSegmentator base CT dataset, 1204 annotated clinical exams",
+      "source_url": "https://zenodo.org/records/6802614",
+      "doi": "10.5281/zenodo.6802614",
+      "license_label": "CC-BY-4.0",
+      "rights_status": "CC-BY-4.0_LISTED;VERIFY_RECORD_SPECIFIC_TERMS",
+      "cohort_key": "BASEL_TOTAL_SEGMENTATOR_1204_CT",
+      "population_type": "multi_subject_clinical_including_pathology",
+      "dataset_contents": [
+        "24_individual_rib_label_candidates",
+        "vertebrae",
+        "clavicles",
+        "scapulae",
+        "pelvis"
+      ],
+      "recommended_use": "screened_independent_donor_rib_shape_distribution",
+      "independence_from_bonehub_visible_human": true,
+      "normal_adult_canonical_targets_approved": false,
+      "commercial_import_approved": false,
+      "raw_data_inspected_in_this_review": false
+    },
+    {
+      "id": "totalsegmentator_ribs_medotter_mirror",
+      "title": "MedOtter TotalSegmentator ribs mirror",
+      "source_url": "https://huggingface.co/datasets/MedOtter/totalsegmentator-ribs",
+      "doi": null,
+      "license_label": "CC-BY-4.0",
+      "rights_status": "MIRROR_DECLARED_CC-BY-4.0_ORIGINAL_RECORD_PREVAILS",
+      "cohort_key": "BASEL_TOTAL_SEGMENTATOR_1204_CT",
+      "population_type": "mirror_of_clinical_cohort_not_new_subjects",
+      "dataset_contents": [
+        "rib_masks",
+        "CT_paths"
+      ],
+      "recommended_use": "metadata_only_until_identity_source_split_and_path_resolved",
+      "independence_from_bonehub_visible_human": true,
+      "normal_adult_canonical_targets_approved": false,
+      "commercial_import_approved": false,
+      "raw_data_inspected_in_this_review": false
+    },
+    {
+      "id": "totalsegmentator_appendicular_tool",
+      "title": "TotalSegmentator appendicular_bones segmentation task",
+      "source_url": "https://github.com/wasserth/TotalSegmentator",
+      "doi": null,
+      "license_label": "SEPARATE_COMMERCIAL_MODEL_LICENSE_REQUIRED",
+      "rights_status": "MODEL_COMMERCIAL_LICENSE_REQUIRED",
+      "cohort_key": "MODEL_NOT_A_COHORT",
+      "population_type": "segmentation_software_not_independent_anatomical_donors",
+      "dataset_contents": [
+        "carpal_class",
+        "tarsal_class",
+        "long_bones"
+      ],
+      "recommended_use": "do_not_run_or_integrate_model_without_commercial_rightS",
+      "independence_from_bonehub_visible_human": null,
+      "normal_adult_canonical_targets_approved": false,
+      "commercial_import_approved": false,
+      "raw_data_inspected_in_this_review": false
+    },
+    {
+      "id": "utah_subtalar_arthrodesis_fluoroscopy",
+      "title": "Dual Fluoroscopy of In Vivo Subtalar Joint Kinematics Following Tibiotalar Arthrodesis",
+      "source_url": "https://doi.org/10.7278/S5d-1nqg-0fqd",
+      "doi": "10.7278/S5d-1nqg-0fqd",
+      "license_label": "CC-BY",
+      "rights_status": "REPOSITORY_CC-BY_LISTED_CHECK_FILE_LEVEL",
+      "cohort_key": "UTAH_ANKLE_ARTHRODESIS_CLINICAL",
+      "population_type": "treated_ankle_arthrodesis_patients_with_contralateral_nonAD_measurements",
+      "dataset_contents": [
+        "talus_calcaneus_tibia_STLs",
+        "ankle_CT",
+        "rigid_body_motion_transforms"
+      ],
+      "recommended_use": "experimental_pathology_motion_and_nonAD_comparison_only_not_general_healthy_ROM",
+      "independence_from_bonehub_visible_human": true,
+      "normal_adult_canonical_targets_approved": false,
+      "commercial_import_approved": false,
+      "raw_data_inspected_in_this_review": false
+    },
+    {
+      "id": "ultrabones100k",
+      "title": "UltraBones100k 14 CT-ultrasound specimens",
+      "source_url": "https://huggingface.co/datasets/luohwu/UltraBones100k",
+      "doi": null,
+      "license_label": "CC-BY-4.0",
+      "rights_status": "DATASET_CARD_CC-BY-4.0_VERIFY_SOURCE",
+      "cohort_key": "ULTRABONES_14_SPECIMENS",
+      "population_type": "14_specimens_unknown_population_morphology",
+      "dataset_contents": [
+        "tibia",
+        "fibula",
+        "foot_may_be_merged"
+      ],
+      "recommended_use": "candidate_lower_limb_surface_comparison_not_individual_tarsal_contact",
+      "independence_from_bonehub_visible_human": true,
+      "normal_adult_canonical_targets_approved": false,
+      "commercial_import_approved": false,
+      "raw_data_inspected_in_this_review": false
+    },
+    {
+      "id": "vsd_lower_extremity_30_subjects",
+      "title": "Virtual Skeleton Database 30 cadavers and BoneHub derived segmentations",
+      "source_url": "https://huggingface.co/datasets/BoneHub/vsd-feet-seg",
+      "doi": "10.1038/s41597-023-02669-z",
+      "license_label": "CC-BY-NC-SA-4.0",
+      "rights_status": "NON_COMMERCIAL_DATA_RIGHTS_QUARANTINE",
+      "cohort_key": "VSD_30_CADAVER_SUBJECTS",
+      "population_type": "30_cadavers_16_male_14_female",
+      "dataset_contents": [
+        "lower_limb_bones",
+        "individual_tarsals",
+        "feet",
+        "pelvis"
+      ],
+      "recommended_use": "published_aggregate_literature_only_pending_rightsholder_licensing",
+      "independence_from_bonehub_visible_human": true,
+      "normal_adult_canonical_targets_approved": false,
+      "commercial_import_approved": false,
+      "raw_data_inspected_in_this_review": false
+    }
+  ],
+  "cohort_overlap_caveats": [
+    "BoneHub Visible Human geometry and previous NLM Visible Human CT are the SAME single male donor and should be counted once",
+    "TotalSegmentator original base CT records and MedOtter rib mirror are the SAME source cohort; do not add samples",
+    "VSD lower-extremity derivative and VSD feet subset share the SAME 30 donor CT cases; do not add subjects",
+    "University of Utah post-arthrodesis patients are not healthy-population reference kinematics simply because one limb is labelled NonAD"
+  ],
+  "evidence_chain_not_complete": [
+    "rights_and_attribution",
+    "subject_suitability",
+    "independently_verified_mask_identity",
+    "physical_unit_coordinate_registration",
+    "measurement_endpoint_match",
+    "population_coverage",
+    "articular_contact",
+    "neutral_pose",
+    "full_joint_ROM"
+  ],
+  "explicit_rulings": {
+    "may_download_raw_subject_imaging_in_this_branch": false,
+    "may_import_noncommercial_data_in_app": false,
+    "may_adopt_any_population_target": false,
+    "may_install_models_as_app_dependencies": false,
+    "may_increment_region_readiness": false
+  }
+}

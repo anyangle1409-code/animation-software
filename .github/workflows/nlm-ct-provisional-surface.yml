@@ -18,6 +18,7 @@ jobs:
         run: |
           python3 -m unittest discover -s scripts -p 'test_nlm_ct_provisional_surface.py' -v
           python3 -m unittest discover -s scripts -p 'test_nlm_ct_source_component_stability.py' -v
+          python3 -m unittest discover -s scripts -p 'test_nlm_ct_candidate_pixel_triage.py' -v
           python3 -m unittest discover -s scripts -p 'test_nlm_ct_raw_png_calibration.py' -v
           python3 -m unittest discover -s scripts -p 'test_pelvic_ct_series_manifest.py' -v
       - name: Ensure source images and GE headers were not committed
@@ -143,6 +144,22 @@ jobs:
             [row["voxel_count"] for row in report["thresholds"]], reverse=True)
           print("No provisional region was accepted as a bone. No medical source or private geometry artifact uploaded.")
           PY
+          python3 scripts/anatomy_fit/nlm_ct_candidate_pixel_triage.py \
+            --ct-dir "$RUNNER_TEMP/nine_original_ct" \
+            --bundle ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json \
+            --calibration ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_hu_calibration_20261009.json \
+            --review ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_review_20261009.json \
+            --group 2 --out "$RUNNER_TEMP/hip_pixel_review.json"
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          report = json.loads((Path(os.environ["RUNNER_TEMP"]) / "hip_pixel_review.json").read_text())
+          assert report["summary"]["observations"] == 5
+          assert report["summary"]["source_slices_read_once"] == 2
+          assert report["canonical_promotion_allowed"] is False
+          assert all(not p["source_pixel_confirms_anatomical_bone_identity"] for p in report["observations"])
+          print("All five group-2 proposed hip points checked on original image pixels; NONE certified as bony landmarks.")
+          PY
 
   real-ct-first-group-hu-stability:
     runs-on: ubuntu-latest
@@ -195,4 +212,20 @@ jobs:
           assert v["seven_pelvic_landmarks_verified"] == 0
           assert v["anatomical_bone_identity_verified"] is False
           print("Group 1 remains separate from group 2; no bone identity, true landmark or canonical geometry accepted.")
+          PY
+          python3 scripts/anatomy_fit/nlm_ct_candidate_pixel_triage.py \
+            --ct-dir "$RUNNER_TEMP/first_group_ct" \
+            --bundle ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_bundle_20261009.json \
+            --calibration ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_hu_calibration_20261009.json \
+            --review ORIGINAL_V1_WORK/anatomy/audit/nlm_pelvic_ct_full_series_candidate_review_20261009.json \
+            --group 1 --out "$RUNNER_TEMP/iliac_pixel_review.json"
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          report = json.loads((Path(os.environ["RUNNER_TEMP"]) / "iliac_pixel_review.json").read_text())
+          assert report["summary"]["observations"] == 5
+          assert report["summary"]["source_slices_read_once"] == 3
+          assert report["canonical_promotion_allowed"] is False
+          assert all(not p["source_pixel_confirms_anatomical_bone_identity"] for p in report["observations"])
+          print("All five group-1 proposed iliac and sacral points checked on original image pixels; NONE certified as bony landmarks.")
           PY

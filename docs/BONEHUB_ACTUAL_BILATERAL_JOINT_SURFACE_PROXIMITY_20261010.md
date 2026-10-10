@@ -6,7 +6,7 @@
 
 First-party, dependency-free source-vertex reader and exact balanced 3D nearest-vertex query: `scripts/anatomy_fit/bonehub_carpal_tarsal_vertex_proximity.py`.
 
-1. Reuse existing immutable 54-STL source manifest from PR #34. For **10 unique files**, acquire actual full binary STLs into a private cache; every one is checked byte-for-byte against the frozen original upstream LFS SHA256 and size. All headers must declare `SPACE=LPS`; RAS or conflicting headers fail.
+1. Reuse existing immutable 54-STL source manifest from PR #34. For **12 unique files**, acquire actual full binary STLs into a private cache; every one is checked byte-for-byte against the frozen original upstream LFS SHA256 and size. All headers must declare `SPACE=LPS`; RAS or conflicting headers fail.
 2. Read every triangle, retain **all** float32 vertex coordinates belonging to a *nonzero-area face*. Drop only degenerate-only vertices from the proximity point set, **not** any detached triangle island or source face. **No original file is modified**.
 3. Build a balanced nearest-neighbour index (all valid vertices; no sampling, no decimation), compute exact **minimum VERTEX-TO-VERTEX distance** for these bilateral filename pairs:
    - scaphoid ↔ lunate (left and right);

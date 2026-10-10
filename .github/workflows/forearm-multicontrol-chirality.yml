@@ -1,0 +1,41 @@
+name: Forearm multi-control side-binding regression
+
+on:
+  push:
+    branches:
+      - codex/forearm-multicontrol-chirality-20261010
+  pull_request:
+    paths:
+      - 'scripts/anatomy_fit/forearm_multicontrol_chirality.py'
+      - 'scripts/test_forearm_multicontrol_chirality.py'
+      - '.github/workflows/forearm-multicontrol-chirality.yml'
+  workflow_dispatch:
+
+jobs:
+  multi-control-chirality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Parent PR side-binding tests (without Blender)
+        run: python -m unittest -v scripts/test_anatomical_runtime_chirality_gate.py
+      - name: New shared radius-ulna twist-helper tests
+        run: python -m unittest -v scripts/test_forearm_multicontrol_chirality.py
+      - name: Independently pin and verify all 12 multi-control links
+        run: |
+          python scripts/anatomy_fit/forearm_multicontrol_chirality.py --out /tmp/hgpt-multicontrol.json
+          python - <<'PY'
+          import json
+          d = json.load(open('/tmp/hgpt-multicontrol.json'))
+          assert d['additional_crossed_alias_links'] == 12
+          assert d['total_crossed_side_links_when_combined'] == 130
+          assert len(d['source_sha256']) == 3
+          assert not d['rig_export_approved']
+          assert not d['source_or_runtime_modified']
+          print('Verified 12 extra links; all source mapping remains diagnostic, not approved.')
+          PY

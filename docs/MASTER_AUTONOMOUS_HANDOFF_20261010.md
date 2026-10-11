@@ -1070,3 +1070,17 @@ Masterfb55493d all3CIchecks PASS run38100119831; battery22% observed.
 Next: bounded whole201candidate intensity-mask/count diagnostics on existing bytes,
 not repeated calibration/firstviews. Retain all components and explicit cuts;
 independently verify arithmetic/grid, no anatomy approval from thresholds or rank.
+
+## Whole201candidate intensity mask/connectivity verified
+
+New fixedHU>=500mask:52690944samples independently checked0differences,
+320936selected voxels/4271six-neighbour intensity components, all retained.
+34labels contact superior cut,24inferior; no full anatomical coverage claim.
+Persisted mask/source/count/nonpromotion checks PASS,10-slice independent
+set-based connectivity comparison agrees.9.172s, existing dependencies reused.
+Exact private pins/limits: `docs/FEMALE_CT_201_INTENSITY_CONNECTIVITY_20261011.md`.
+No named-bone segmentation, accepted landmarks or canonical promotion.
+
+Next: reuse persisted201mask for bounded native3Ddiagnostic slabs within unchanged
+surface caps; explicitly record artificial slab cuts, verify reopened geometry.
+Do not repeat masks/raw calibration/201firstviews or choose bone labels by rank.

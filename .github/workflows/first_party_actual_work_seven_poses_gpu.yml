@@ -1,0 +1,64 @@
+name: G4m actual Work seven authored shoulder poses 18-mesh WebGL2 proof
+on:
+  push:
+    branches: [codex/g4m-actual-work-seven-pose-gpu-20261011]
+    paths:
+      - scripts/verify-real-work-seven-pose-gpu-browser.mjs
+      - docs/FIRST_PARTY_G4M_ACTUAL_WORK_SEVEN_POSES_GPU_20261011.md
+      - .github/workflows/first_party_actual_work_seven_poses_gpu.yml
+  pull_request:
+    paths:
+      - scripts/verify-real-work-seven-pose-gpu-browser.mjs
+      - .github/workflows/first_party_actual_work_seven_poses_gpu.yml
+permissions:
+  contents: read
+  actions: read
+jobs:
+  actual-original-W1-seven-poses-7x18-GPU-and-CPU:
+    runs-on: ubuntu-latest
+    timeout-minutes: 28
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - uses: actions/download-artifact@v4
+        with:
+          name: provisional-shoulder-views-mapping-diagnostic-glb
+          run-id: 38153765790
+          repository: anyangle1409-code/animation-software
+          github-token: ${{ github.token }}
+          path: .artifacts/private-work-shoulder
+      - name: First-party 7 authentic source motions x 18 originally skinned meshes
+        run: |
+          node scripts/verify-real-work-native-pose-registration.mjs \
+            .artifacts/private-work-shoulder \
+            reports/work-pilot/G4l-reconfirmed.json
+          node scripts/verify-real-work-seven-pose-gpu-browser.mjs \
+            .artifacts/private-work-shoulder
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hgpt-g4m-authentic-original-Work-7x18-poses-native-GPU
+          path: |
+            reports/work-pilot/actual-work-seven-pose-native-GPU/
+            reports/work-pilot/G4l-reconfirmed.json
+          if-no-files-found: warn
+          retention-days: 30
+  unchanged-original-shader-and-clip-guards:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - run: |
+          node --test tests/firstPartyWorkNativePoseRegistration.test.mjs
+          node --test tests/firstPartyGpuPaletteSkinning.test.mjs
+          node --test tests/firstPartyGpuNormalParity.test.mjs
+          node --test tests/firstPartyProvisionalPilotIntake.test.mjs

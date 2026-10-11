@@ -76,7 +76,7 @@ test('rejects missing, duplicate or nonexplicit mesh roots',()=>{
   check(g=>{g.nodes[3].mesh=0},/duplicated mesh/);
   check(g=>{delete g.nodes[3].skin},/same explicit skin/);
   check(g=>{g.nodes[3].mesh=99},/unknown mesh/);
-  check(g=>{g.nodes[3].mesh=undefined},/every mesh/);
+  check(g=>{delete g.nodes[3].mesh; delete g.nodes[3].skin},/every mesh/);
 });
 test('rejects unknown mesh hierarchy and inconsistent mesh skin',()=>{
   check(g=>{g.nodes[1].children=[3]},/hierarchy parent/);
@@ -105,7 +105,7 @@ test('cannot hide invalid position accessor or skin weights in a secondary primi
 });
 test('rejects too many mesh/primitive entries, not truncate and pretend valid',()=>{
   assert.throws(()=>parse(fixture({meshCount:4,primitivesPerMesh:3})),/fixture budget/);
-  check(g=>g.meshes.push(g.meshes[0]),/1..4/);
+  check(g=>g.meshes.push(...Array.from({length:3},()=>structuredClone(g.meshes[0]))),/1..4/);
   check(g=>{g.meshes[0].primitives=[]},/bounded primitives/);
   check(g=>{g.meshes[0].primitives.push(
     ...Array.from({length:8},()=>structuredClone(g.meshes[0].primitives[0]))

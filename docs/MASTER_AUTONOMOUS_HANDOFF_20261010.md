@@ -1084,3 +1084,19 @@ No named-bone segmentation, accepted landmarks or canonical promotion.
 Next: reuse persisted201mask for bounded native3Ddiagnostic slabs within unchanged
 surface caps; explicitly record artificial slab cuts, verify reopened geometry.
 Do not repeat masks/raw calibration/201firstviews or choose bone labels by rank.
+
+## Actual201source native3Dintensity diagnostic verified
+
+Reused persisted201mask:21bounded source slabs,320936unfiltered selected voxels.
+ActualBlender5.2.1factory/2threads34.877s, saved/reopened all575126vertices and
+591852quads exactly checked. One nativeoblique preview viewed, candidate only.
+Artificial closures at every tile boundary remain explicit; not complete bones,
+named segmentation or topology/landmark acceptance. No skeleton modification.
+All exact pins/privateClaude scene and limitations:
+`docs/FEMALE_CT_201_NATIVE_INTENSITY_TILES_20261011.md`.
+Masterd5738301 all3CIchecks PASS run38100815073; battery20% observed.
+
+Next: audit remaining master regional evidence gaps before new work; reuse both
+verified private source timeline and nativeintensitytiles for full-resolution
+candidate contour/landmark prerequisites. No repeat201mask/native builds;
+qualified independent anatomy review remains required, canonical gates closed.

@@ -1,0 +1,97 @@
+name: G2 original RGBA32F GPU joint palette and actual CPU parity
+on:
+  push:
+    branches: [codex/first-party-gpu-palette-skinning-20261011]
+    paths:
+      - src/viewer/firstPartyGpuPaletteSkinning.mjs
+      - tests/firstPartyGpuPaletteSkinning.test.mjs
+      - scripts/verify-first-party-gpu-palette-browser.mjs
+      - docs/FIRST_PARTY_G2_GPU_PALETTE_20261011.md
+      - .github/workflows/first_party_gpu_joint_palette.yml
+  pull_request:
+    paths:
+      - src/viewer/firstPartyGpuPaletteSkinning.mjs
+      - tests/firstPartyGpuPaletteSkinning.test.mjs
+      - scripts/verify-first-party-gpu-palette-browser.mjs
+      - .github/workflows/first_party_gpu_joint_palette.yml
+permissions:
+  contents: read
+
+jobs:
+  gpu-palette-logic-and-inherited-regressions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Run 4-influence GPU palette and all inherited first-party tests with no installed npm dependencies
+        run: |
+          node --test tests/firstPartyGpuPaletteSkinning.test.mjs
+          node --test tests/firstPartyGlbUV0.test.mjs
+          node --test tests/firstPartyGlbFlatBaseColors.test.mjs
+          node --test tests/firstPartyGlbSkinnedBatches.test.mjs
+          node --test tests/firstPartyGlbRigBindingContract.test.mjs
+          node --test tests/firstPartyGlbSkinnedGeometry.test.mjs
+          node --test tests/firstPartyIndexedSkinnedMesh.test.mjs
+          node --test tests/firstPartyWebGL2SkeletonPreview.test.mjs
+      - name: Verify no Three/React/R3F imports in GPU palette and original GLB/CPU reference paths
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          for(const p of [
+            'src/viewer/firstPartyGpuPaletteSkinning.mjs',
+            'src/viewer/firstPartyGlbUV0.mjs',
+            'src/viewer/firstPartyUV0WebGL2.mjs',
+            'src/viewer/firstPartyGlbSkinnedBatches.mjs',
+            'src/viewer/firstPartyGlbRigBindingContract.mjs',
+            'src/viewer/firstPartyGlbSkinnedGeometry.mjs',
+            'src/viewer/firstPartyIndexedSkinnedMesh.mjs'
+          ]){
+            if(/from\s+['"](?:three|[^'"]*threeRuntimeBoundary|[^'"]*threeSceneBoundary|react|react-dom|@react-three\/[^'"]*)['"]/.test(fs.readFileSync(p,'utf8')))
+              throw Error('Prohibited original runtime vendor import in '+p);
+          }
+          console.log('Four-weight GPU palette and original CPU parity reference are vendor-independent.');
+          JS
+
+  unchanged-normal-editor-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm run build
+
+  chromium-real-four-weight-gpu-vs-cpu-parity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 21
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - name: Capture ACTUAL GPU skinned indexed triangle positions via WebGL2 transform feedback and compare to CPU LBS
+        run: node scripts/verify-first-party-gpu-palette-browser.mjs
+      - name: Upload CPU-vs-GPU numeric parity, synthetic screenshot, no-vendor evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: first-party-g2-webgl2-gpu-bone-palette-cpu-lbs-parity
+          path: reports/browser-smoke/first-party-g2-gpu-palette/
+          if-no-files-found: warn
+          retention-days: 14

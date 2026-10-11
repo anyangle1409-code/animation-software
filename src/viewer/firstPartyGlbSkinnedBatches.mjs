@@ -25,6 +25,11 @@ const MAX_GLB=32*1024*1024;
 const MAX_PARTS=8;
 const MAX_MESHES=4;
 const MAX_TOTAL_VERTICES=250000;
+// Separate, explicit small-GLB diagnostic budget for Work's 18-mesh pilot.
+// Never enlarge the ordinary production/legacy-adapter acceptance boundary.
+const PILOT_MAX_GLB=1024*1024;
+const PILOT_MAX_MESHES=24;
+const PILOT_MAX_PARTS=24;
 const align4=n=>(n+3)&~3;
 const expect=(yes,message)=>{if(!yes)throw new RangeError('GLB batch rejection: '+message);};
 const array=v=>Array.isArray(v);
@@ -137,8 +142,14 @@ function flatOpaqueMaterial(source,primitive,used,pngTextures,usedTextureIndices
  * importer: it copies the BIN per primitive and should be replaced by a
  * proven shared-buffer decoding API before large full-body assets.
  */
-export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=false,allowSourceUV0=false,allowSourceNormals=false,allowEmbeddedPngBaseColor=false}={}){
+export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=false,allowSourceUV0=false,allowSourceNormals=false,allowEmbeddedPngBaseColor=false,allowProvisionalPilot=false}={}){
+  expect(typeof allowProvisionalPilot==='boolean','pilot diagnostic opt-in must be boolean');
+  if(allowProvisionalPilot)
+    expect(input instanceof ArrayBuffer && input.byteLength<=PILOT_MAX_GLB,
+      'pilot diagnostic must be a small original GLB (at most 1 MiB)');
   const {root,bin}=unpack(input);
+  expect(!allowProvisionalPilot || !allowEmbeddedPngBaseColor,
+    'pilot diagnostic does not yet accept embedded textures');
   expect(typeof allowSourceFlatColors==='boolean','flat material mode must be explicit boolean');
   expect(typeof allowSourceUV0==='boolean','UV0 opt-in must be explicit boolean');
   expect(typeof allowSourceNormals==='boolean','source normal opt-in must be explicit boolean');
@@ -148,7 +159,7 @@ export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=fa
   const pngTextures=allowEmbeddedPngBaseColor ?
     readRestrictedEmbeddedPngSources(root,bin) : null;
   if(root.materials!==undefined){
-    expect(array(root.materials) && root.materials.length<=8,
+    expect(array(root.materials) && root.materials.length<=(allowProvisionalPilot?PILOT_MAX_PARTS:8),
       'material count over original preview limits');
     expect(allowSourceFlatColors || root.materials.length===0,
       'materials refused unless strict opaque baseColor opt-in is enabled');
@@ -156,8 +167,10 @@ export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=fa
   expect(array(root.scenes) && root.scenes.length===1 && root.scene===0 &&
     array(root.scenes[0].nodes),'single explicit glTF scene required');
   expect(array(root.meshes) && root.meshes.length>=1 &&
-    root.meshes.length<=MAX_MESHES,'must declare 1..4 original skinned meshes');
-  expect(array(root.nodes) && root.nodes.length>0 && root.nodes.length<=200,
+    root.meshes.length<=(allowProvisionalPilot?PILOT_MAX_MESHES:MAX_MESHES),
+    'must declare bounded original skinned meshes (1..4 normal; 1..24 diagnostic)');
+  expect(array(root.nodes) && root.nodes.length>0 &&
+    root.nodes.length<=(allowProvisionalPilot?256:200),
     'bounded node list required');
   expect(array(root.skins) && root.skins.length===1,
     'one explicit shared skin required');
@@ -192,10 +205,12 @@ export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=fa
   let count=0;
   for(const mesh of root.meshes){
     expect(mesh && array(mesh.primitives)&&mesh.primitives.length>=1 &&
-      mesh.primitives.length<=MAX_PARTS,'each mesh needs bounded primitives');
+      mesh.primitives.length<=(allowProvisionalPilot?PILOT_MAX_PARTS:MAX_PARTS),
+      'each mesh needs bounded primitives');
     count+=mesh.primitives.length;
   }
-  expect(count>=2 && count<=MAX_PARTS,'prototype requires 2..8 explicit total primitives');
+  expect(count>=2 && count<=(allowProvisionalPilot?PILOT_MAX_PARTS:MAX_PARTS),
+    'prototype requires 2..8 regular or 2..24 diagnostic primitives');
 
   const batches=[];
   const materialUsed=new Set(),usedPngTextureIndices=new Set();
@@ -317,6 +332,7 @@ export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=fa
       clinicalAnatomyApproved:false,
       rightsAndProvenanceApproved:false,
       productionRuntimeReady:false,
+      provisionalLargeSceneDiagnosticOnly:allowProvisionalPilot,
       noExternalModelCodeUsed:true,
     }),
   };

@@ -113,13 +113,13 @@ export function validateNativeGLBToRigBinding(parsed,options){
   }
   const plan={
     kind:NATIVE_RIG_BIND_CONTRACT,
-    orderedSourceJointNames:[...names],
-    orderedCanonicalBoneNames:canonicalNames,
+    orderedSourceJointNames:Object.freeze([...names]),
+    orderedCanonicalBoneNames:Object.freeze([...canonicalNames]),
     numericallyCompatibleSameFrameRestBinds:true,
     maximumMatrixResidual:Math.max(...errors),
     verifiedJointCount:names.length,
     checkedRestPoseWorldMatrices:rigRestPalette,
-    audit:{
+    audit:Object.freeze({
       sourceBoneNameMappingExplicit:true,
       sourceLateralityInferredFromSuffix:false,
       autoScaleOrHandednessConversion:false,
@@ -130,8 +130,9 @@ export function validateNativeGLBToRigBinding(parsed,options){
       originalCharacterAssetProvenanceApproved:false,
       fullBodyDeformationAccepted:false,
       finalRuntimeApproval:false,
-    }
+    })
   };
+  Object.freeze(plan);
   verifiedPlans.add(plan);
   return plan;
 }

@@ -1,4 +1,15 @@
 {
+  "active_functional_thorax_checkpoint": {
+    "branch": "codex/functional-thorax-context-20261011",
+    "parent_verified_head": "79e0a1c53776b0a77eeb9e288c47cf6ed704b661",
+    "ledger": "docs/FUNCTIONAL_THORAX_CONTEXT_20261011.md",
+    "local_tests": "3pure +2actual native Blender PASS; inherited7pure+2native PASS; independent review no blockers, Minor inventory gap fixed RED/GREEN",
+    "actual_new_context_views": 6,
+    "status": "STATIC_AUTHORED_CONTEXT_NOT_CONTACT_ACCEPTANCE",
+    "anatomical_acceptance": false,
+    "full_human_mesh": false,
+    "next_action": "Review/exact-head CI, independently compare exposed provisional thorax/scapula shape and frame defects, then improved blade/full-body skin. No CT repeat or canonical promotion."
+  },
   "active_functional_shoulder_checkpoint": {
     "branch": "codex/functional-shoulder-shapes-20261011",
     "plan_head": "f9d4ca0f078207a6561bd4f3e1460bdf9d0f7192",

@@ -53,7 +53,7 @@ export function buildNativeJointSkinPalette(mesh,posedWorld){
   }
   return packed;
 }
-function checkedPart(part){
+function checkedPart(part,requireSourceNormals=false){
   if(!part || typeof part!=='object' || !part.mesh)
     throw new RangeError('GPU mesh + pose + UV0 needed');
   const shape=validateNativeSkinnedMesh(part.mesh);
@@ -63,6 +63,19 @@ function checkedPart(part){
   finite(part.uv0);
   for(const uv of part.uv0)if(Math.abs(uv)>1024)
     throw new RangeError('GPU UV0 coordinate magnitude exceeded');
+  if(requireSourceNormals && !(part.sourceNormals instanceof Float32Array))
+    throw new RangeError('GPU normal-preview requires explicit original source NORMAL');
+  if(part.sourceNormals!==undefined){
+    if(!(part.sourceNormals instanceof Float32Array)||
+      part.sourceNormals.length!==shape.vertices*3)
+      throw new RangeError('GPU source NORMAL typed vertex count mismatch');
+    for(let k=0;k<part.sourceNormals.length;k+=3){
+      const len=Math.hypot(part.sourceNormals[k],part.sourceNormals[k+1],
+        part.sourceNormals[k+2]);
+      if(!Number.isFinite(len)||len<.998||len>1.002)
+        throw new RangeError('GPU source NORMAL must be finite and near unit length');
+    }
+  }
   return {shape,palette:buildNativeJointSkinPalette(part.mesh,part.posedWorld)};
 }
 function shader(gl,type,src){
@@ -77,15 +90,15 @@ function shader(gl,type,src){
 }
 function compiledProgram(gl){
   const vert=shader(gl,gl.VERTEX_SHADER,
-    '#version 300 es\nprecision highp float;\nprecision highp sampler2D;\nlayout(location=0) in vec3 aPos;\nlayout(location=1) in uvec4 aJoints;\nlayout(location=2) in vec4 aWeights;\nlayout(location=3) in vec2 aUV0;\nuniform mat4 uVP;\nuniform sampler2D uMatrixPalette;\nout vec2 vUV0;\nout vec3 vSkinnedWorld;\nmat4 bone(uint j){int x=int(j)*4;return mat4(texelFetch(uMatrixPalette,ivec2(x+0,0),0),texelFetch(uMatrixPalette,ivec2(x+1,0),0),texelFetch(uMatrixPalette,ivec2(x+2,0),0),texelFetch(uMatrixPalette,ivec2(x+3,0),0));}\nvoid main(){vec4 p=vec4(0.0);vec4 rest=vec4(aPos,1.0);p+=(bone(aJoints.x)*rest)*aWeights.x;p+=(bone(aJoints.y)*rest)*aWeights.y;p+=(bone(aJoints.z)*rest)*aWeights.z;p+=(bone(aJoints.w)*rest)*aWeights.w;vSkinnedWorld=p.xyz;vUV0=aUV0;gl_Position=uVP*p;}');
+    '#version 300 es\nprecision highp float;\nprecision highp sampler2D;\nlayout(location=0) in vec3 aPos;\nlayout(location=1) in uvec4 aJoints;\nlayout(location=2) in vec4 aWeights;\nlayout(location=3) in vec2 aUV0;\nlayout(location=4) in vec3 aNormal;\nuniform mat4 uVP;\nuniform sampler2D uMatrixPalette;\nout vec2 vUV0;\nout vec3 vSkinnedWorld;\nout vec3 vSkinnedNormal;\nmat4 bone(uint j){int x=int(j)*4;return mat4(texelFetch(uMatrixPalette,ivec2(x+0,0),0),texelFetch(uMatrixPalette,ivec2(x+1,0),0),texelFetch(uMatrixPalette,ivec2(x+2,0),0),texelFetch(uMatrixPalette,ivec2(x+3,0),0));}\nvoid main(){vec4 p=vec4(0.0);vec4 rest=vec4(aPos,1.0);p+=(bone(aJoints.x)*rest)*aWeights.x;p+=(bone(aJoints.y)*rest)*aWeights.y;p+=(bone(aJoints.z)*rest)*aWeights.z;p+=(bone(aJoints.w)*rest)*aWeights.w;vec3 n=vec3(0.0);n+=(mat3(bone(aJoints.x))*aNormal)*aWeights.x;n+=(mat3(bone(aJoints.y))*aNormal)*aWeights.y;n+=(mat3(bone(aJoints.z))*aNormal)*aWeights.z;n+=(mat3(bone(aJoints.w))*aNormal)*aWeights.w;vSkinnedWorld=p.xyz;vSkinnedNormal=normalize(n);vUV0=aUV0;gl_Position=uVP*p;}');
   const frag=shader(gl,gl.FRAGMENT_SHADER,
-    '#version 300 es\nprecision highp float;\nin vec2 vUV0;\nout vec4 outColor;\nvoid main(){outColor=vec4(clamp(vUV0,vec2(0.0),vec2(1.0)),0.14,1.0);}');
+    '#version 300 es\nprecision highp float;\nin vec2 vUV0;\nin vec3 vSkinnedNormal;\nuniform int uNormalPreview;\nout vec4 outColor;\nvoid main(){if(uNormalPreview==1){float diffuse=max(dot(normalize(vSkinnedNormal),normalize(vec3(0.32,0.50,0.81))),0.0);outColor=vec4(vec3(0.12+0.78*diffuse),1.0);}else{outColor=vec4(clamp(vUV0,vec2(0.0),vec2(1.0)),0.14,1.0);}}');
   const p=gl.createProgram();
   if(!p){gl.deleteShader(vert);gl.deleteShader(frag);
     throw new Error('Native GPU skin link program unavailable');}
   gl.attachShader(p,vert);gl.attachShader(p,frag);
   // GPU parity probe captures the EXACT vertex-skinned position from shader.
-  gl.transformFeedbackVaryings(p,['vSkinnedWorld'],gl.SEPARATE_ATTRIBS);
+  gl.transformFeedbackVaryings(p,['vSkinnedWorld','vSkinnedNormal'],gl.SEPARATE_ATTRIBS);
   gl.linkProgram(p);
   gl.deleteShader(vert);gl.deleteShader(frag);
   if(!gl.getProgramParameter(p,gl.LINK_STATUS)){
@@ -98,23 +111,26 @@ export function createNativePaletteSkinnedWebGL2(canvas){
   const gl=canvas.getContext('webgl2',{alpha:false,depth:true,antialias:true});
   if(!gl)throw new Error('Native GPU joint palette requires WebGL2, no vendor fallback');
   let prog=null,vao=null,rest=null,joints=null,weights=null,uvBuffer=null,
-    indices=null,paletteTexture=null,viewLoc=null,samplerLoc=null;
+    normalBuffer=null,indices=null,paletteTexture=null,viewLoc=null,
+    samplerLoc=null,normalPreviewLoc=null;
   let width=1,height=1,lost=false,disposed=false,frames=0,draws=0,captures=0;
   const setup=()=>{
     prog=compiledProgram(gl);
     vao=gl.createVertexArray();
     rest=gl.createBuffer();joints=gl.createBuffer();weights=gl.createBuffer();
-    uvBuffer=gl.createBuffer();indices=gl.createBuffer();
+    uvBuffer=gl.createBuffer();normalBuffer=gl.createBuffer();
+    indices=gl.createBuffer();
     paletteTexture=gl.createTexture();
-    if(!vao||!rest||!joints||!weights||!uvBuffer||!indices||!paletteTexture)
+    if(!vao||!rest||!joints||!weights||!uvBuffer||!normalBuffer||!indices||!paletteTexture)
       throw new Error('Native GPU skin vertex buffers or palette texture unavailable');
     viewLoc=gl.getUniformLocation(prog,'uVP');
     samplerLoc=gl.getUniformLocation(prog,'uMatrixPalette');
-    if(viewLoc===null||samplerLoc===null)throw new Error('Native GPU skin uniform missing');
+    normalPreviewLoc=gl.getUniformLocation(prog,'uNormalPreview');
+    if(viewLoc===null||samplerLoc===null||normalPreviewLoc===null)throw new Error('Native GPU skin uniform missing');
     gl.bindVertexArray(vao);
     for(const [idx,buffer,items,isInt] of [
       [0,rest,3,false],[1,joints,4,true],[2,weights,4,false],
-      [3,uvBuffer,2,false]
+      [3,uvBuffer,2,false],[4,normalBuffer,3,false]
     ]){
       gl.bindBuffer(gl.ARRAY_BUFFER,buffer);
       gl.enableVertexAttribArray(idx);
@@ -140,6 +156,15 @@ export function createNativePaletteSkinnedWebGL2(canvas){
     canvas.removeEventListener('webglcontextrestored',onRestored);
     throw e;
   }
+  // Project-owned placeholder for legacy unlit G2 display only. In
+  // diagnostic normalPreview mode original source NORMAL is REQUIRED.
+  const incomingNormals=part=>{
+    if(part.sourceNormals!==undefined)return part.sourceNormals;
+    const count=part.mesh.positions.length/3;
+    const placeholder=new Float32Array(count*3);
+    for(let i=0;i<count;i++)placeholder[i*3+2]=1;
+    return placeholder;
+  };
   const upload=(part,palette)=>{
     const m=part.mesh;
     gl.bindVertexArray(vao);
@@ -148,6 +173,7 @@ export function createNativePaletteSkinnedWebGL2(canvas){
       [joints,m.jointIndices,gl.ARRAY_BUFFER],
       [weights,m.weights,gl.ARRAY_BUFFER],
       [uvBuffer,part.uv0,gl.ARRAY_BUFFER],
+      [normalBuffer,incomingNormals(part),gl.ARRAY_BUFFER],
       [indices,m.indices,gl.ELEMENT_ARRAY_BUFFER],
     ]){
       gl.bindBuffer(target,buffer);gl.bufferData(target,data,gl.DYNAMIC_DRAW);
@@ -167,6 +193,73 @@ export function createNativePaletteSkinnedWebGL2(canvas){
     gl.uniformMatrix4fv(viewLoc,false,vp);
   };
   const type=m=>m.indices instanceof Uint32Array?gl.UNSIGNED_INT:gl.UNSIGNED_SHORT;
+  const captureStreams=(part,requireNormals)=>{
+    if(disposed||lost)throw new Error('GPU capture renderer unavailable');
+    const {shape,palette}=checkedPart(part,requireNormals);
+    const count=part.mesh.indices.length;
+    if(count>8192)throw new RangeError('GPU diagnostic capture limited to 8192 indices');
+    if(shape.bones*4>gl.getParameter(gl.MAX_TEXTURE_SIZE))
+      throw new RangeError('GPU palette texture size unsupported');
+    const posOut=gl.createBuffer(),normOut=gl.createBuffer();
+    if(!posOut||!normOut)throw new Error('GPU transform feedback buffers unavailable');
+    const positions=new Float32Array(count*3);
+    const normals=new Float32Array(count*3);
+    // Transform feedback only: use drawArrays with deindexed SOURCE attributes
+    // to satisfy WebGL2 restrictions. Indexed production drawElements unchanged.
+    // This copies source REST inputs, never skins vertices on CPU.
+    const expand=(input,width)=>{
+      const result=new input.constructor(count*width);
+      for(let i=0;i<count;i++)
+        result.set(input.subarray(part.mesh.indices[i]*width,
+          part.mesh.indices[i]*width+width),i*width);
+      return result;
+    };
+    try{
+      setVP([0,0,4],[0,0,0]);
+      gl.uniform1i(normalPreviewLoc,0);
+      upload(part,palette);
+      for(const [buffer,expanded] of [
+        [rest,expand(part.mesh.positions,3)],
+        [joints,expand(part.mesh.jointIndices,4)],
+        [weights,expand(part.mesh.weights,4)],
+        [uvBuffer,expand(part.uv0,2)],
+        [normalBuffer,expand(incomingNormals(part),3)]
+      ]){
+        gl.bindBuffer(gl.ARRAY_BUFFER,buffer);
+        gl.bufferData(gl.ARRAY_BUFFER,expanded,gl.DYNAMIC_DRAW);
+      }
+      for(const [slot,buffer,values] of [[0,posOut,positions],[1,normOut,normals]]){
+        gl.bindBuffer(gl.TRANSFORM_FEEDBACK_BUFFER,buffer);
+        gl.bufferData(gl.TRANSFORM_FEEDBACK_BUFFER,values.byteLength,gl.STREAM_READ);
+        gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER,slot,buffer);
+      }
+      if(gl.getError()!==gl.NO_ERROR)
+        throw new Error('GPU normal transform feedback setup produced WebGL error');
+      gl.enable(gl.RASTERIZER_DISCARD);
+      gl.beginTransformFeedback(gl.TRIANGLES);
+      gl.drawArrays(gl.TRIANGLES,0,count);
+      gl.endTransformFeedback();
+      gl.disable(gl.RASTERIZER_DISCARD);
+      if(gl.getError()!==gl.NO_ERROR)
+        throw new Error('GPU normal transform feedback produced WebGL error');
+      for(const [buffer,destination] of [[posOut,positions],[normOut,normals]]){
+        gl.bindBuffer(gl.TRANSFORM_FEEDBACK_BUFFER,buffer);
+        gl.getBufferSubData(gl.TRANSFORM_FEEDBACK_BUFFER,0,destination);
+      }
+      if(gl.getError()!==gl.NO_ERROR)
+        throw new Error('GPU normal capture getBufferSubData failed');
+      finite(positions);finite(normals);
+      captures+=count/3;
+    }finally{
+      gl.disable(gl.RASTERIZER_DISCARD);
+      gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER,0,null);
+      gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER,1,null);
+      gl.bindBuffer(gl.TRANSFORM_FEEDBACK_BUFFER,null);
+      gl.bindVertexArray(null);
+      gl.deleteBuffer(posOut);gl.deleteBuffer(normOut);
+    }
+    return {positions,normals};
+  };
   return {
     get kind(){return HGPT_NATIVE_GPU_SKIN_KIND;},
     get frameCount(){return frames;},
@@ -181,13 +274,15 @@ export function createNativePaletteSkinnedWebGL2(canvas){
       canvas.width=width;canvas.height=height;
       if(!lost)gl.viewport(0,0,width,height);
     },
-    renderBatches(parts,{eye=[1,0.5,6.2],target=[1.25,.5,0]}={}){
+    renderBatches(parts,{eye=[1,0.5,6.2],target=[1.25,.5,0],normalPreview=false}={}){
       if(disposed)throw new Error('GPU palette renderer disposed');
       if(lost)return false;
       if(!Array.isArray(parts)||parts.length<1||parts.length>8)
         throw new RangeError('GPU skin batch requires 1..8 parts');
       // Validate all meshes + palettes before any GPU call, fail closed.
-      const prepared=parts.map(checkedPart);
+      if(typeof normalPreview!=='boolean')
+        throw new RangeError('GPU normal-preview mode must be explicit boolean');
+      const prepared=parts.map(p=>checkedPart(p,normalPreview));
       let total=0;
       for(const {shape} of prepared){
         total+=shape.vertices;
@@ -198,7 +293,7 @@ export function createNativePaletteSkinnedWebGL2(canvas){
       finite([...eye,...target]);
       gl.viewport(0,0,width,height);gl.clearColor(.04,.05,.08,1);
       gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
-      setVP(eye,target);
+      setVP(eye,target);gl.uniform1i(normalPreviewLoc,normalPreview?1:0);
       for(let i=0;i<parts.length;i++){
         upload(parts[i],prepared[i].palette);
         gl.drawElements(gl.TRIANGLES,parts[i].mesh.indices.length,
@@ -214,74 +309,21 @@ export function createNativePaletteSkinnedWebGL2(canvas){
      * triangle order. No CPU per-vertex skinning, no guessed shader results.
      */
     captureIndexedSkinnedPositions(part){
-      if(disposed||lost)throw new Error('GPU capture renderer unavailable');
-      const {shape,palette}=checkedPart(part);
-      const count=part.mesh.indices.length;
-      if(count>8192)throw new RangeError('GPU diagnostic capture limited to 8192 triangle indices');
-      if(shape.bones*4>gl.getParameter(gl.MAX_TEXTURE_SIZE))
-        throw new RangeError('GPU palette texture size unsupported');
-      const buffer=gl.createBuffer();
-      if(!buffer)throw new Error('GPU transform feedback buffer unavailable');
-      const actual=new Float32Array(count*3);
-      // Transform-feedback test only: expand original indexed vertices into
-      // source triangle order. Actual RENDERING always remains indexed GPU
-      // drawElements; verification uses legal drawArrays TRIANGLES because
-      // indexed draws during active transform feedback can be rejected by
-      // WebGL2 implementations. Expansion does NOT skin vertices on CPU.
-      const expand=(input,width)=>{
-        const out=new input.constructor(count*width);
-        for(let i=0;i<count;i++){
-          const source=part.mesh.indices[i]*width;
-          out.set(input.subarray(source,source+width),i*width);
-        }
-        return out;
-      };
-      try{
-        setVP([0,0,4],[0,0,0]);
-        upload(part,palette);
-        for(const [gpuBuffer,expanded] of [
-          [rest,expand(part.mesh.positions,3)],
-          [joints,expand(part.mesh.jointIndices,4)],
-          [weights,expand(part.mesh.weights,4)],
-          [uvBuffer,expand(part.uv0,2)],
-        ]){
-          gl.bindBuffer(gl.ARRAY_BUFFER,gpuBuffer);
-          gl.bufferData(gl.ARRAY_BUFFER,expanded,gl.DYNAMIC_DRAW);
-        }
-        gl.bindBuffer(gl.TRANSFORM_FEEDBACK_BUFFER,buffer);
-        gl.bufferData(gl.TRANSFORM_FEEDBACK_BUFFER,actual.byteLength,gl.STREAM_READ);
-        gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER,0,buffer);
-        if(gl.getError()!==gl.NO_ERROR)
-          throw new Error('GPU transform feedback setup produced WebGL error');
-        gl.enable(gl.RASTERIZER_DISCARD);
-        gl.beginTransformFeedback(gl.TRIANGLES);
-        gl.drawArrays(gl.TRIANGLES,0,count);
-        gl.endTransformFeedback();
-        gl.disable(gl.RASTERIZER_DISCARD);
-        const drawError=gl.getError();
-        if(drawError!==gl.NO_ERROR)
-          throw new Error('GPU triangle transform feedback draw failed with GL error '+drawError);
-        gl.getBufferSubData(gl.TRANSFORM_FEEDBACK_BUFFER,0,actual);
-        const readError=gl.getError();
-        if(readError!==gl.NO_ERROR)
-          throw new Error('GPU captured vertex readback failed with GL error '+readError);
-        finite(actual);
-        captures+=count/3;
-      }finally{
-        gl.disable(gl.RASTERIZER_DISCARD);
-        gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER,0,null);
-        gl.bindBuffer(gl.TRANSFORM_FEEDBACK_BUFFER,null);
-        gl.bindVertexArray(null);
-        gl.deleteBuffer(buffer);
-      }
-      return actual;
+      return captureStreams(part,false).positions;
+    },
+    /**
+     * Diagnostic only: true GPU shader output for source NORMAL with four
+     * weighted bone direction matrices, independent of CPU normal reference.
+     */
+    captureIndexedSkinnedNormals(part){
+      return captureStreams(part,true).normals;
     },
     dispose(){
       if(disposed)return;disposed=true;
       canvas.removeEventListener('webglcontextlost',onLost);
       canvas.removeEventListener('webglcontextrestored',onRestored);
       if(!lost){
-        for(const b of [rest,joints,weights,uvBuffer,indices])gl.deleteBuffer(b);
+        for(const b of [rest,joints,weights,uvBuffer,normalBuffer,indices])gl.deleteBuffer(b);
         gl.deleteVertexArray(vao);gl.deleteTexture(paletteTexture);gl.deleteProgram(prog);
       }
     }

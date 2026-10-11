@@ -16,6 +16,7 @@ import { multiplyNativeMat4 } from './firstPartyWebGL2SkeletonPreview.mjs';
 export const NATIVE_RIG_BIND_CONTRACT = 'hgpt-strict-glb-native-rig-joint-bind-v1';
 
 const IDENTITY=[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1];
+const verifiedPlans=new WeakSet(); // only products of full source/bind compatibility checks
 const isRecord=(v)=>v!==null && typeof v==='object' && !Array.isArray(v);
 function checkedMatrix(value, label) {
   if(!value || value.length!==16 ||
@@ -110,7 +111,7 @@ export function validateNativeGLBToRigBinding(parsed,options){
     errors.push(error);
     rigRestPalette.set(world,i*16);
   }
-  return {
+  const plan={
     kind:NATIVE_RIG_BIND_CONTRACT,
     orderedSourceJointNames:[...names],
     orderedCanonicalBoneNames:canonicalNames,
@@ -131,9 +132,11 @@ export function validateNativeGLBToRigBinding(parsed,options){
       finalRuntimeApproval:false,
     }
   };
+  verifiedPlans.add(plan);
+  return plan;
 }
 export function packMappedWorldPalette(plan,posedWorldByBone){
-  if(!plan || plan.kind!==NATIVE_RIG_BIND_CONTRACT ||
+  if(!plan || !verifiedPlans.has(plan) || plan.kind!==NATIVE_RIG_BIND_CONTRACT ||
      !plan.numericallyCompatibleSameFrameRestBinds ||
      !Array.isArray(plan.orderedCanonicalBoneNames) ||
      !isRecord(posedWorldByBone))

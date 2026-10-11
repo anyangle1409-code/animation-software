@@ -67,6 +67,49 @@ function pack(root,bin){
 const sameArray=(a,b)=>a.length===b.length && a.every((value,i)=>value===b[i]);
 
 /**
+ * Preview ONLY: one untextured OPAQUE glTF base colour. This does not implement
+ * glTF metallic/roughness PBR, texture sampling, alpha blend or tone mapping.
+ * Every source material, including unused entries, must have a permitted
+ * shape; no unknown nested fields, links or extensions may be silently lost.
+ */
+const own=(value,key)=>Object.prototype.hasOwnProperty.call(value,key);
+function flatOpaqueMaterial(source,primitive,used){
+  if(primitive.material===undefined)
+    return {color:Object.freeze([.74,.8,.92]),sourceMaterialIndex:null};
+  const mats=source.materials;
+  expect(array(mats)&&Number.isSafeInteger(primitive.material) &&
+    primitive.material>=0&&primitive.material<mats.length,
+    'invalid material index');
+  const material=mats[primitive.material];
+  expect(material && typeof material==='object' && !array(material),
+    'material object invalid');
+  const allowed=new Set(['name','pbrMetallicRoughness','alphaMode','doubleSided']);
+  expect(Object.keys(material).every(key=>allowed.has(key)),'unsupported glTF material field');
+  expect(!own(material,'alphaMode') || material.alphaMode==='OPAQUE',
+    'only OPAQUE material supported');
+  expect(!own(material,'doubleSided') || material.doubleSided===false,
+    'two-sided material shader parity not proven');
+  expect(material.name===undefined ||
+    (typeof material.name==='string'&&material.name.length<=80),
+    'material name invalid');
+  const pbr=material.pbrMetallicRoughness;
+  expect(pbr && typeof pbr==='object' && !array(pbr),
+    'explicit flat non-metallic material required');
+  const allowedPbr=new Set(['baseColorFactor','metallicFactor','roughnessFactor']);
+  expect(Object.keys(pbr).every(key=>allowedPbr.has(key)),
+    'texture/unsupported PBR material feature rejected');
+  expect(pbr.metallicFactor===0 && (pbr.roughnessFactor===undefined||
+    pbr.roughnessFactor===1),'only matte non-metallic baseColor supported');
+  const factor=pbr.baseColorFactor;
+  expect(array(factor)&&factor.length===4 &&
+    factor.every(v=>Number.isFinite(v)&&v>=0&&v<=1) &&
+    factor[3]===1,'opaque finite baseColorFactor RGBA required');
+  used.add(primitive.material);
+  return {color:Object.freeze([...factor.slice(0,3)]),sourceMaterialIndex:primitive.material};
+}
+
+
+/**
  * Strict mesh-data adapter; source read only.
  *
  * Why synthetic GLB splitting rather than a new relaxed loader? Every part
@@ -76,8 +119,15 @@ const sameArray=(a,b)=>a.length===b.length && a.every((value,i)=>value===b[i]);
  * importer: it copies the BIN per primitive and should be replaced by a
  * proven shared-buffer decoding API before large full-body assets.
  */
-export function parseRestrictedBatchedSkinnedGlb(input){
+export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=false}={}){
   const {root,bin}=unpack(input);
+  expect(typeof allowSourceFlatColors==='boolean','flat material mode must be explicit boolean');
+  if(root.materials!==undefined){
+    expect(array(root.materials) && root.materials.length<=8,
+      'material count over original preview limits');
+    expect(allowSourceFlatColors || root.materials.length===0,
+      'materials refused unless strict opaque baseColor opt-in is enabled');
+  }
   expect(array(root.scenes) && root.scenes.length===1 && root.scene===0 &&
     array(root.scenes[0].nodes),'single explicit glTF scene required');
   expect(array(root.meshes) && root.meshes.length>=1 &&
@@ -123,15 +173,29 @@ export function parseRestrictedBatchedSkinnedGlb(input){
   expect(count>=2 && count<=MAX_PARTS,'prototype requires 2..8 explicit total primitives');
 
   const batches=[];
+  const materialUsed=new Set();
   let totalVertices=0,totalTriangles=0,sourceNames=null,sourceInv=null;
   for(let meshIndex=0;meshIndex<root.meshes.length;meshIndex++){
     const mesh=root.meshes[meshIndex];
     for(let primitiveIndex=0;primitiveIndex<mesh.primitives.length;primitiveIndex++){
+      const originalPrimitive=mesh.primitives[primitiveIndex];
+      const material=allowSourceFlatColors ?
+        flatOpaqueMaterial(root,originalPrimitive,materialUsed) :
+        {color:Object.freeze([.74,.8,.92]),sourceMaterialIndex:null};
       const split=structuredClone(root);
       split.meshes=[{
         ...(mesh.name!==undefined?{name:mesh.name}:{}),
         primitives:[structuredClone(mesh.primitives[primitiveIndex])],
       }];
+      // Source material is separately strictly checked ABOVE, then removed
+      // from this temporary single-primitive GLB because the immutable legacy
+      // accessor parser deliberately refuses any material source reference.
+      // Unsupported images, textures, extensions and anatomy stay unaltered
+      // and are still forbidden by that original strict parser.
+      if(allowSourceFlatColors){
+        delete split.meshes[0].primitives[0].material;
+        delete split.materials;
+      }
       const originalNodeIndex=nodeMap.get(meshIndex);
       for(let i=0;i<split.nodes.length;i++){
         const n=split.nodes[i];
@@ -156,12 +220,18 @@ export function parseRestrictedBatchedSkinnedGlb(input){
       batches.push({
         meshIndex,primitiveIndex,sourceMeshNodeIndex:originalNodeIndex,
         sourceMeshName:typeof mesh.name==='string'?mesh.name:null,
+        materialColor:material.color,
+        sourceMaterialIndex:material.sourceMaterialIndex,
         // Only parser-validated numeric arrays. Never claim accepted human rig.
         parsed,
       });
     }
   }
   expect(batches.length===count,'a source primitive was omitted');
+  if(allowSourceFlatColors && root.materials){
+    expect(materialUsed.size===root.materials.length,
+      'unused or unvalidated source material rejected');
+  }
   return {
     kind:FIRST_PARTY_SCENE_BATCH_KIND,
     batches,
@@ -174,6 +244,9 @@ export function parseRestrictedBatchedSkinnedGlb(input){
       decodedVertices:totalVertices,
       indexedTriangles:totalTriangles,
       allPrimitivesPassExistingStrictLoader:true,
+      flatOpaqueSourceColorsValidated:allowSourceFlatColors,
+      textureSamplingImplemented:false,
+      metallicRoughnessPBRImplemented:false,
       sharedSkinOrderNumericallyIdentical:true,
       meshRootTransformApplied:false,
       hierarchyJointWorldMatricesPhysicallyRegistered:false,

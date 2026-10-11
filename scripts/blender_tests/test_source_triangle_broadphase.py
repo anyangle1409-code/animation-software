@@ -7,6 +7,7 @@ import bpy
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'anatomy_fit'))
 from source_triangle_broadphase import candidate_pairs
 from source_triangle_intersection import intersection
+from source_triangle_grid_candidates import candidate_pairs as grid_candidates
 
 
 class NativeCandidateIdentity(unittest.TestCase):
@@ -35,6 +36,9 @@ class NativeCandidateIdentity(unittest.TestCase):
                 self.assertTrue(intersection(readback[0][1],readback[1][0])['closed_triangles_intersect'])
                 self.assertFalse(r['whole_surface_clearance_verified'])
                 self.assertFalse(r['anatomical_contact_accepted'])
+                grid=grid_candidates(*readback)
+                self.assertEqual(grid['triangle_index_pairs'],[[1,0]])
+                self.assertFalse(grid['whole_surface_clearance_verified'])
             finally:
                 for mesh in meshes: bpy.data.meshes.remove(mesh)
 

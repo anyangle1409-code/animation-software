@@ -1,5 +1,35 @@
 # Master programme: independent execution checkpoint, 10 October 2026
 
+## Latest active topic — grid resolved both foot candidate lists
+
+On `codex/source-foot-exact-candidates-20261011`, read completion appended to
+`SOURCE_FOOT_EXACT_CANDIDATE_PREFLIGHT_20261011.md`, safe
+`SOURCE_FOOT_GRID_CANDIDATES_20261011.json` and machine key
+`active_foot_grid_checkpoint` FIRST. Initial X-sweep capacity failure retained,
+not latest state: exact3Dgrid resolved both source pairs under unchanged budgets.
+Local8grid+8sweep+11intersection+12witness+18component/native1PASS; independent
+review no findings. Two existing native foot scenes read-only,124588raw faces/IDs
+retained,209complete candidate pairs exact-tested0intersections/0refused.
+38left talus exact degenerates recounted, retained and outside complete overlapping
+box candidates. All source/native hashes unchanged. New exact-head CI required.
+No accepted anatomy, contact, minimum gap, units or physical registration.
+Next highest unblocked regional SOURCE gate, not repeated foot/wrist candidates
+or prior CT/witness investigations. Qualified pelvic landmarks remain open.
+
+## Latest active topic — foot candidate capacity, not clearance
+
+Inspect newest `codex/source-foot-exact-candidates-20261011` first. Read
+`SOURCE_FOOT_EXACT_CANDIDATE_PREFLIGHT_20261011.md`, safe capacity JSON and machine
+key `active_foot_candidate_capacity_checkpoint`. ParentPR54 a4c1f5f7 all3CIchecks
+PASS in both38135419481/38135443672. Actual right native source raw face/vertex IDs
+verified; all hashes unchanged. X sweep FAILED2000000comparison cap, no complete
+result/report. Cheap exact interval counts X20842549/Y10486587/Z13357768, not3D
+candidates; no axis alone below unchanged budget. Left NOT attempted,38known
+left talus degenerates remain. No anatomical inference or geometry promotion.
+Next bounded exact multi-axis partition with independent exhaustive closed-box
+completeness tests, original IDs, cell/pair limits and fail-closed output, then
+improved foot execution once. No unchanged retry, budget increase or face removal.
+
 ## Latest active topic — complete box candidates and native wrist checks
 
 Inspect newest `codex/source-triangle-broadphase-20261011` draft PR/head first.

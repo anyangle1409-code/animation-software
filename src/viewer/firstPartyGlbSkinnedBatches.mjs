@@ -170,7 +170,7 @@ export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=fa
     root.meshes.length<=(allowProvisionalPilot?PILOT_MAX_MESHES:MAX_MESHES),
     'must declare bounded original skinned meshes (1..4 normal; 1..24 diagnostic)');
   expect(array(root.nodes) && root.nodes.length>0 &&
-    root.nodes.length<=(allowProvisionalPilot?256:200),
+    root.nodes.length<=200,
     'bounded node list required');
   expect(array(root.skins) && root.skins.length===1,
     'one explicit shared skin required');

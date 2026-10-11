@@ -918,3 +918,16 @@ Master4e564028 all3CI checks PASS, run38097339835.
 Next: do not repeat completed foot views or pelvic threshold computations.
 Review preserved tiny rib candidates467/111/1585 and438/116/1586 in bounded
 orthogonal source-index patches, keeping raw UINT16 units and all fragments.
+
+## Rib4-fragment orthogonal source review checkpoint
+
+Reviewed six new bounded source-index planes around the two preserved tiny
+Rib4left component centres.3750queries,17.781s; full image/label stream CRC
+and decoded lengths checked. Tiny named labels lie in dark background near
+a thin structured bright feature; no convincing bone profile established.
+Do not identify the artefact as scanner text, delete fragments or claim
+segmentation validity/invalidity. Exact private pins, counts and limits:
+`docs/BONEHUB_RIB_ORTHOGONAL_CANDIDATES_20261011.md`.
+
+Next: remaining pinned rib1left/rib3left and hamate-right component orthogonal
+views; hand layer1 required. Do not repeat completed foot or Rib4 work.

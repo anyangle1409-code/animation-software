@@ -82,7 +82,7 @@ function fakeGPU(shaderCompiles=true){
     createShader:()=>({}),shaderSource:()=>{},compileShader:()=>{},
     getShaderParameter:()=>shaderCompiles,getShaderInfoLog:()=>'bad compilation',
     deleteShader:()=>{},createProgram:()=>({}),attachShader:()=>{},
-    transformFeedbackVaryings:(_,values)=>assert.deepEqual(values,['vSkinnedWorld']),
+    transformFeedbackVaryings:(_,values)=>assert.deepEqual(values,['vSkinnedWorld','vSkinnedNormal']),
     linkProgram:()=>{},getProgramParameter:()=>true,getProgramInfoLog:()=>'',
     deleteProgram:()=>calls.push('freeProgram'),
     createVertexArray:()=>({}),createBuffer:()=>({}),createTexture:()=>({}),

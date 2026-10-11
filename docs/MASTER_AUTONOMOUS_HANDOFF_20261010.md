@@ -963,3 +963,21 @@ Masterade79635 all3CI checks PASS in run38098043165; full suite NOT green.
 Next: official-index enumeration and bounded original GE/PNG numeric comparison
 for these3female candidates, then verified diagnostic viewing before expansion.
 Never treat a new subject as replacement source skeleton or accepted geometry.
+
+## Female original-pixel calibration and actual Blender checkpoint
+
+Three female original GE arrays match their PNGs exactly:786432pixels,zero
+differences. Header-1024HU rule now supported for these3samples only. Six
+calibrated diagnostic views actually viewed in contact sheet and native Blender;
+scene-reopen test1PASS verifies6external source-image quad planes and false
+volume/canonical gates. Unchanged tests6raw+20scannerPASS; window41PASS/1SKIP.
+No independent bone identity, complete pelvic coverage or landmarks accepted.
+Female README male-filename inconsistency recorded, no guessed metadata repair.
+Exact source/output pins and limitations:
+`docs/INDEPENDENT_FEMALE_CT_RAW_BLENDER_CHECKPOINT_20261011.md`.
+Master478160e all3CI checks PASS, run38098446797; full suite remains NOT green.
+
+Next: bounded upper/lower source-index scouts with headers/GE/PNG calibration,
+then contiguous segment acquisition only after candidate extent is justified.
+Do not repeat these completed3numeric comparisons/native renders; keep sources
+private, subjects separate and every anatomical approval gate closed.

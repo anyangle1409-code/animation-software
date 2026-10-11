@@ -1,0 +1,74 @@
+name: G2e glTF sRGB correct moving source PNG material
+on:
+  push:
+    branches: [codex/first-party-gltf-srgb-basecolor-20261011]
+    paths:
+      - src/viewer/firstPartyGpuPaletteSkinning.mjs
+      - scripts/verify-first-party-gltf-srgb-browser.mjs
+      - .github/workflows/first_party_gpu_srgb_basecolor.yml
+      - docs/FIRST_PARTY_G2E_GLTF_SRGB_BASECOLOR_20261011.md
+  pull_request:
+    paths:
+      - src/viewer/firstPartyGpuPaletteSkinning.mjs
+      - scripts/verify-first-party-gltf-srgb-browser.mjs
+      - .github/workflows/first_party_gpu_srgb_basecolor.yml
+permissions:
+  contents: read
+jobs:
+  original-glb-kinematics-and-srgb-source-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - run: |
+          node --test tests/firstPartyEmbeddedPngSource.test.mjs
+          node --test tests/firstPartyGpuPaletteSkinning.test.mjs
+          node --test tests/firstPartyGpuNormalParity.test.mjs
+          node --test tests/firstPartyPrototypePoseSequence.test.mjs
+      - name: No imported vendor code or downloaded media
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const code=fs.readFileSync('src/viewer/firstPartyGpuPaletteSkinning.mjs','utf8');
+          if (/from\s+['"](?:three|react|react-dom|@react-three\/[^'"]*)['"]|\bfetch\s*\(|\bXMLHttpRequest\b/.test(code))
+            throw Error('Native colour-managed renderer cannot rely on third-party modules or network');
+          JS
+  real-chromium-srgb-image-transfer-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 23
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - name: Preserve original G2d moving texel and GPU-CPU proof
+        run: node scripts/verify-first-party-moving-png-skin-browser.mjs
+      - name: Verify glTF sRGB decode, linear tint and moving source pixels
+        run: node scripts/verify-first-party-gltf-srgb-browser.mjs
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hgpt-g2e-gltf-srgb-colour-space-gpu-evidence
+          path: reports/browser-smoke/first-party-g2e-srgb-source-tint/
+          if-no-files-found: warn
+          retention-days: 14
+  legacy-studio-typecheck-and-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm run build

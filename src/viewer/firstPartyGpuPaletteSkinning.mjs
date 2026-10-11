@@ -93,7 +93,7 @@ function compiledProgram(gl){
   const vert=shader(gl,gl.VERTEX_SHADER,
     '#version 300 es\nprecision highp float;\nprecision highp sampler2D;\nlayout(location=0) in vec3 aPos;\nlayout(location=1) in uvec4 aJoints;\nlayout(location=2) in vec4 aWeights;\nlayout(location=3) in vec2 aUV0;\nlayout(location=4) in vec3 aNormal;\nuniform mat4 uVP;\nuniform sampler2D uMatrixPalette;\nout vec2 vUV0;\nout vec3 vSkinnedWorld;\nout vec3 vSkinnedNormal;\nmat4 bone(uint j){int x=int(j)*4;return mat4(texelFetch(uMatrixPalette,ivec2(x+0,0),0),texelFetch(uMatrixPalette,ivec2(x+1,0),0),texelFetch(uMatrixPalette,ivec2(x+2,0),0),texelFetch(uMatrixPalette,ivec2(x+3,0),0));}\nvoid main(){vec4 p=vec4(0.0);vec4 rest=vec4(aPos,1.0);p+=(bone(aJoints.x)*rest)*aWeights.x;p+=(bone(aJoints.y)*rest)*aWeights.y;p+=(bone(aJoints.z)*rest)*aWeights.z;p+=(bone(aJoints.w)*rest)*aWeights.w;vec3 n=vec3(0.0);n+=(mat3(bone(aJoints.x))*aNormal)*aWeights.x;n+=(mat3(bone(aJoints.y))*aNormal)*aWeights.y;n+=(mat3(bone(aJoints.z))*aNormal)*aWeights.z;n+=(mat3(bone(aJoints.w))*aNormal)*aWeights.w;vSkinnedWorld=p.xyz;vSkinnedNormal=normalize(n);vUV0=aUV0;gl_Position=uVP*p;}');
   const frag=shader(gl,gl.FRAGMENT_SHADER,
-    '#version 300 es\nprecision highp float;\nin vec2 vUV0;\nin vec3 vSkinnedNormal;\nuniform int uNormalPreview;\nuniform int uTexturePreview;\nuniform sampler2D uSourceColor;\nuniform vec3 uSourceTint;\nout vec4 outColor;\nvoid main(){if(uNormalPreview==1){float diffuse=max(dot(normalize(vSkinnedNormal),normalize(vec3(0.32,0.50,0.81))),0.0);outColor=vec4(vec3(0.12+0.78*diffuse),1.0);}else if(uTexturePreview==1){outColor=vec4(texture(uSourceColor,vUV0).rgb*uSourceTint,1.0);}else{outColor=vec4(clamp(vUV0,vec2(0.0),vec2(1.0)),0.14,1.0);}}');
+    '#version 300 es\nprecision highp float;\nin vec2 vUV0;\nin vec3 vSkinnedNormal;\nuniform int uNormalPreview;\nuniform int uTexturePreview;\nuniform sampler2D uSourceColor;\nuniform vec3 uSourceTint;\nuniform int uColorManaged;\nout vec4 outColor;\nvec3 toSRGB(vec3 v){vec3 c=clamp(v,vec3(0.0),vec3(1.0));vec3 a=12.92*c;vec3 b=1.055*pow(c,vec3(1.0/2.4))-0.055;return mix(b,a,lessThanEqual(c,vec3(0.0031308)));}\nvoid main(){if(uNormalPreview==1){float diffuse=max(dot(normalize(vSkinnedNormal),normalize(vec3(0.32,0.50,0.81))),0.0);outColor=vec4(vec3(0.12+0.78*diffuse),1.0);}else if(uTexturePreview==1){vec3 linearOrEncoded=texture(uSourceColor,vUV0).rgb*uSourceTint;outColor=vec4(uColorManaged==1?toSRGB(linearOrEncoded):linearOrEncoded,1.0);}else{outColor=vec4(clamp(vUV0,vec2(0.0),vec2(1.0)),0.14,1.0);}}');
   const p=gl.createProgram();
   if(!p){gl.deleteShader(vert);gl.deleteShader(frag);
     throw new Error('Native GPU skin link program unavailable');}
@@ -114,12 +114,12 @@ export function createNativePaletteSkinnedWebGL2(canvas){
   let prog=null,vao=null,rest=null,joints=null,weights=null,uvBuffer=null,
     normalBuffer=null,indices=null,paletteTexture=null,viewLoc=null,
     samplerLoc=null,normalPreviewLoc=null,texturePreviewLoc=null,
-    sourceColorLoc=null,sourceTintLoc=null;
+    sourceColorLoc=null,sourceTintLoc=null,colorManagedLoc=null;
   let width=1,height=1,lost=false,disposed=false,frames=0,draws=0,captures=0;
   // Opt-in project-owned PNG source preview bound to exact GLB mesh/UV
   // objects. Only source bytes are decoded; animated world matrices remain
   // supplied explicitly by the separate rig/pose handoff (PRs #59/#60).
-  let sourcePngParts=[],sourceTextures=[];
+  let sourcePngParts=[],sourceTextures=[],sourcePngColorSpace=null;
   const setup=()=>{
     prog=compiledProgram(gl);
     vao=gl.createVertexArray();
@@ -135,8 +135,10 @@ export function createNativePaletteSkinnedWebGL2(canvas){
     texturePreviewLoc=gl.getUniformLocation(prog,'uTexturePreview');
     sourceColorLoc=gl.getUniformLocation(prog,'uSourceColor');
     sourceTintLoc=gl.getUniformLocation(prog,'uSourceTint');
+    colorManagedLoc=gl.getUniformLocation(prog,'uColorManaged');
     if(viewLoc===null||samplerLoc===null||normalPreviewLoc===null||
-      texturePreviewLoc===null||sourceColorLoc===null||sourceTintLoc===null)
+      texturePreviewLoc===null||sourceColorLoc===null||sourceTintLoc===null||
+      colorManagedLoc===null)
       throw new Error('Native GPU skin/PNG shader uniform missing');
     gl.bindVertexArray(vao);
     for(const [idx,buffer,items,isInt] of [
@@ -160,9 +162,9 @@ export function createNativePaletteSkinnedWebGL2(canvas){
   };
   const discardSourcePng=()=>{
     if(!lost)for(const tex of sourceTextures)gl.deleteTexture(tex);
-    sourceTextures=[];sourcePngParts=[];
+    sourceTextures=[];sourcePngParts=[];sourcePngColorSpace=null;
   };
-  const onLost=e=>{e.preventDefault();lost=true;sourceTextures=[];sourcePngParts=[];};
+  const onLost=e=>{e.preventDefault();lost=true;sourceTextures=[];sourcePngParts=[];sourcePngColorSpace=null;};
   const onRestored=()=>{if(disposed)return;lost=false;setup();gl.viewport(0,0,width,height);};
   canvas.addEventListener('webglcontextlost',onLost);
   canvas.addEventListener('webglcontextrestored',onRestored);
@@ -286,7 +288,9 @@ export function createNativePaletteSkinnedWebGL2(canvas){
      * parts; caller must later render the EXACT source mesh/UV references.
      * Local browser decoding and GPU upload only. No URL or Three.js.
      */
-    async setSourcePngBatches(originalParts){
+    async setSourcePngBatches(originalParts,{colorSpace='legacy-rgba8'}={}){
+      if(!['legacy-rgba8','gltf-srgb'].includes(colorSpace))
+        throw new RangeError('GLB baseColor source colour space must be explicit supported mode');
       if(disposed||lost)throw new Error('GPU texture/skin context unavailable');
       if(!Array.isArray(originalParts)||originalParts.length<1||
          originalParts.length>8)
@@ -330,7 +334,9 @@ export function createNativePaletteSkinnedWebGL2(canvas){
             gl.bindTexture(gl.TEXTURE_2D,tex);
             gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,0);
             gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,0);
-            gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA8,gl.RGBA,
+            gl.pixelStorei(gl.UNPACK_COLORSPACE_CONVERSION_WEBGL,gl.NONE);
+            gl.texImage2D(gl.TEXTURE_2D,0,
+              colorSpace==='gltf-srgb'?gl.SRGB8_ALPHA8:gl.RGBA8,gl.RGBA,
               gl.UNSIGNED_BYTE,bitmap);
             gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);
             gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
@@ -351,7 +357,8 @@ export function createNativePaletteSkinnedWebGL2(canvas){
       discardSourcePng();
       sourceTextures=staged;
       sourcePngParts=parts;
-      return {textures:staged.length,
+      sourcePngColorSpace=colorSpace;
+      return {textures:staged.length,colorSpace,
         sourcePixels:parts.reduce((n,p)=>n+
           p.sourceBaseColorPng.width*p.sourceBaseColorPng.height,0)};
     },
@@ -363,20 +370,25 @@ export function createNativePaletteSkinnedWebGL2(canvas){
       canvas.width=width;canvas.height=height;
       if(!lost)gl.viewport(0,0,width,height);
     },
-    renderBatches(parts,{eye=[1,0.5,6.2],target=[1.25,.5,0],normalPreview=false,texturePreview=false}={}){
+    renderBatches(parts,{eye=[1,0.5,6.2],target=[1.25,.5,0],normalPreview=false,texturePreview=false,colorManagedTexturePreview=false}={}){
       if(disposed)throw new Error('GPU palette renderer disposed');
       if(lost)return false;
       if(!Array.isArray(parts)||parts.length<1||parts.length>8)
         throw new RangeError('GPU skin batch requires 1..8 parts');
       // Validate all meshes + palettes before any GPU call, fail closed.
-      if(typeof normalPreview!=='boolean'||typeof texturePreview!=='boolean')
+      if(typeof normalPreview!=='boolean'||typeof texturePreview!=='boolean'||
+         typeof colorManagedTexturePreview!=='boolean')
         throw new RangeError('GPU normal and texture modes must be boolean');
       if(normalPreview&&texturePreview)
         throw new RangeError('GPU normal vs texture preview requires one mode');
+      if(colorManagedTexturePreview&&!texturePreview)
+        throw new RangeError('Colour-managed source requires texture preview enabled');
       if(texturePreview){
         if(sourceTextures.length!==parts.length||
            sourcePngParts.length!==parts.length)
           throw new RangeError('GPU texture preview requires uploaded exact GLB parts');
+        if(sourcePngColorSpace!==(colorManagedTexturePreview?'gltf-srgb':'legacy-rgba8'))
+          throw new RangeError('Source PNG GPU internal color space must match shader color mode');
         for(let i=0;i<parts.length;i++){
           if(parts[i].mesh!==sourcePngParts[i].parsed.mesh ||
              parts[i].uv0!==sourcePngParts[i].sourceUV0)
@@ -397,6 +409,7 @@ export function createNativePaletteSkinnedWebGL2(canvas){
       setVP(eye,target);
       gl.uniform1i(normalPreviewLoc,normalPreview?1:0);
       gl.uniform1i(texturePreviewLoc,texturePreview?1:0);
+      gl.uniform1i(colorManagedLoc,colorManagedTexturePreview?1:0);
       gl.uniform1i(sourceColorLoc,1);
       for(let i=0;i<parts.length;i++){
         if(texturePreview){

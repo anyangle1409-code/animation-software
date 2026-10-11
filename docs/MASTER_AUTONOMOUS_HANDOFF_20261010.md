@@ -1034,3 +1034,23 @@ Next: first-review source-pinned contact sheets/sequential evidence for remainin
 201frames, then explicitly candidate-only source-derived intensity/3D diagnostics.
 Pixel-centre convention, anatomical identity, full coverage and HGPT registration
 remain unresolved; never use this new subject to replace canonical HGPT geometry.
+
+## All201female candidate source slices first-reviewed
+
+Viewed13new private source-bound contact sheets containing193previously unviewed
+HU[-200,1600] rasters;8completed original/native views reused without repeating.
+Exact sheet hashes/source PNG pins and13cautious interval observations:
+`docs/FEMALE_CT_SOURCE_BOUND_FIRST_REVIEW_201_20261011.json`.
+Source coverage ledger verifies193new+8prior=201unique sources1700..1900.
+Displayed contact sheets were resized2080x2180->1536x1609: qualitative overview,
+not full-resolution contour/landmark annotation or independent qualified review.
+Paired hip-like internal profiles emerge across1817..1832 and persist through
+1833..1865; candidate-region evidence only. No accepted head/socket centre or
+seven pelvic landmarks, no labelled segmentation and no anatomy promotion.
+
+Next: do not repeat201first reviews/raw comparisons. Develop a bounded,
+source-pinned candidate-only intensity-mask/3D diagnostic with automated source
+coordinate/calibration/nonpromotion checks. Explicitly mark intensity components
+as non-anatomical, retain all source data, keep physical pixel-centre/registration
+gates unresolved, and never use this female volume as canonical HGPT geometry.
+Qualified independent bone/landmark review remains a separate required gate.

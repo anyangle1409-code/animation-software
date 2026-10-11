@@ -91,6 +91,23 @@ correct quaternion/kinematic intermediate frames, and Chat must separately
 validate visually and numerically before claiming smooth playback. This stage
 does not implement exercise text parsing or physically based motion generation.
 
+## One-command Work laptop motion preflight
+
+Node 24 is enough; no npm install and no Blender/plugin is required for the
+numeric source/rig/clip handoff check:
+
+~~~bash
+node scripts/verify-provisional-motion.mjs /path/to/original-human.glb /path/to/model-handoff.json /path/to/work-authored-pose-frames.json
+~~~
+
+This checks the actual binary digest, original source bone mapping and the
+whole time-ordered 3D world-matrix sequence together. It produces a short
+machine-readable summary with explicit **NOT APPROVED** flags, and refuses
+tampered/different source assets or invalid frames. It neither renders the
+human nor establishes natural exercise biomechanics. Work must inspect
+real Blender clips and reference movement separately. Do not upload private
+CT/medical source bytes to GitHub.
+
 ## Acceptance boundary and tests
 
 Tests use only project-generated synthetic GLB and pose samples. They check

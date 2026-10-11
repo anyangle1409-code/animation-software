@@ -1,0 +1,65 @@
+name: G4j actual Work GLB 6-joint glTF world rest vs inverseBind
+on:
+  push:
+    branches: [codex/g4j-original-work-gltf-world-rest-20261011]
+    paths:
+      - src/viewer/firstPartyOriginalGltfRestWorld.mjs
+      - tests/firstPartyOriginalGltfRestWorld.test.mjs
+      - scripts/verify-real-work-shoulder-rest.mjs
+      - docs/FIRST_PARTY_G4J_ORIGINAL_SOURCE_WORLD_REST_20261011.md
+      - .github/workflows/first_party_real_work_world_rest.yml
+  pull_request:
+    paths:
+      - src/viewer/firstPartyOriginalGltfRestWorld.mjs
+      - tests/firstPartyOriginalGltfRestWorld.test.mjs
+      - scripts/verify-real-work-shoulder-rest.mjs
+      - .github/workflows/first_party_real_work_world_rest.yml
+permissions:
+  contents: read
+  actions: read
+jobs:
+  exact-rigid-source-joint-rest-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - run: |
+          node --test tests/firstPartyOriginalGltfRestWorld.test.mjs
+          node --test tests/firstPartyProvisionalPilotIntake.test.mjs
+          node --test tests/firstPartyWorkPilotMaterialAcceptance.test.mjs
+          node --test tests/firstPartyPrototypeModelHandoff.test.mjs
+  actual-Work-W1-18mesh-SHA-and-world-rest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - name: Restore exact already-authored Work original GLB
+        uses: actions/download-artifact@v4
+        with:
+          name: provisional-shoulder-views-mapping-diagnostic-glb
+          run-id: 38153765790
+          repository: anyangle1409-code/animation-software
+          github-token: ${{ github.token }}
+          path: .artifacts/private-work-shoulder
+      - name: Real Work source SHA, glTF joint TRS world rest, source inverseBind and G4 full verified binding
+        run: |
+          node scripts/audit-original-work-shoulder-pilot.mjs \
+            .artifacts/private-work-shoulder \
+            reports/work-pilot/G4g-reconfirmed.json
+          node scripts/verify-real-work-shoulder-rest.mjs \
+            .artifacts/private-work-shoulder \
+            reports/work-pilot/actual-G4j-source-world-rest.json
+      - name: Upload audit JSON only; never native Blender/GLB/PNG bytes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hgpt-g4j-authentic-W1-GLB-rest-rig-inversebind-evidence
+          path: reports/work-pilot/*.json
+          if-no-files-found: warn
+          retention-days: 30

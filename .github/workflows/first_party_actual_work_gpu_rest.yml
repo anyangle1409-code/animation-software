@@ -1,0 +1,80 @@
+name: G4k ACTUAL Work 18-mesh Blender shoulder native WebGL2 REST framebuffer
+on:
+  push:
+    branches: [codex/g4k-actual-work-rest-pilot-webgl2-20261011]
+    paths:
+      - src/viewer/firstPartyGpuPaletteSkinning.mjs
+      - scripts/verify-real-work-rest-gpu-browser.mjs
+      - docs/FIRST_PARTY_G4K_ACTUAL_18_MESH_GPU_REST_20261011.md
+      - .github/workflows/first_party_actual_work_gpu_rest.yml
+  pull_request:
+    paths:
+      - src/viewer/firstPartyGpuPaletteSkinning.mjs
+      - scripts/verify-real-work-rest-gpu-browser.mjs
+      - .github/workflows/first_party_actual_work_gpu_rest.yml
+permissions:
+  contents: read
+  actions: read
+jobs:
+  original-CPU-GPU-legacy-source-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - run: |
+          node --test tests/firstPartyOriginalGltfRestWorld.test.mjs
+          node --test tests/firstPartyGpuPaletteSkinning.test.mjs
+          node --test tests/firstPartyGpuNormalParity.test.mjs
+          node --test tests/firstPartyPrototypeModelHandoff.test.mjs
+  ACTUAL-W1-original-GLB-18-mesh-Chromium-GPU:
+    runs-on: ubuntu-latest
+    timeout-minutes: 23
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - name: Exact original Work Blender shoulder model from prior independently verified CI
+        uses: actions/download-artifact@v4
+        with:
+          name: provisional-shoulder-views-mapping-diagnostic-glb
+          run-id: 38153765790
+          repository: anyangle1409-code/animation-software
+          github-token: ${{ github.token }}
+          path: .artifacts/private-work-shoulder
+      - name: Capture original 18 indexed skinned mesh drawElements with actual GLB rest palette
+        run: |
+          node scripts/verify-real-work-shoulder-rest.mjs \
+            .artifacts/private-work-shoulder reports/work-pilot/G4j-rest.json
+          node scripts/verify-real-work-rest-gpu-browser.mjs \
+            .artifacts/private-work-shoulder
+      - name: Publish original Blender source rest GPU framebuffer PNG and numeric evidence only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hgpt-g4k-actual-work-source-18-mesh-native-GPU-rest
+          path: |
+            reports/work-pilot/actual-work-rest-native-gpu/
+            reports/work-pilot/G4j-rest.json
+          if-no-files-found: warn
+          retention-days: 30
+  unchanged-animation-editor-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm run build

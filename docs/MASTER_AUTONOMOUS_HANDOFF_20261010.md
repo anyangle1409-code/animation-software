@@ -947,3 +947,19 @@ genuinely independent finer-resolution contiguous pelvic CT candidate,
 verifying licensing/access, native spacing, source identity and headers before
 private acquisition. A new subject is evidence only, never replacement HGPT
 geometry. Qualified independent review remains mandatory for anatomy acceptance.
+
+## Independent fine-spacing female CT probe
+
+Official NLM directories yielded3new female PNG/header candidates1800..1802.
+Privacy-filtered native headers confirm1mm thickness/spacing, S=-837/-838/-839,
+0.9375mm pixels; both adjacent-grid checks passed.20unchanged scanner tests PASS.
+New local pins and published byte counts recorded; no prior independent SHA
+matches claimed. Female PNG stored range differs from male conversion, so no
+male scaling, HU classifier or anatomical interpretation applied. Only central
+dark original image viewed; pelvic coverage remains unverified. Metadata/terms:
+`docs/INDEPENDENT_FEMALE_CT_FINE_SPACING_PROBE_20261011.md`.
+Masterade79635 all3CI checks PASS in run38098043165; full suite NOT green.
+
+Next: official-index enumeration and bounded original GE/PNG numeric comparison
+for these3female candidates, then verified diagnostic viewing before expansion.
+Never treat a new subject as replacement source skeleton or accepted geometry.

@@ -1,0 +1,97 @@
+name: First-party strict source GLB flat matte colors in native WebGL2
+on:
+  push:
+    branches: [codex/first-party-glb-flat-base-colors-20261011]
+    paths:
+      - src/viewer/firstPartyGlbSkinnedBatches.mjs
+      - src/viewer/firstPartyIndexedSkinnedMesh.mjs
+      - src/viewer/firstPartyIndexedSkinnedMesh.d.mts
+      - tests/support/buildSyntheticBatchedGlb.mjs
+      - tests/firstPartyGlbFlatBaseColors.test.mjs
+      - tests/firstPartyGlbSkinnedBatches.test.mjs
+      - scripts/verify-first-party-glb-flat-material-browser.mjs
+      - docs/FIRST_PARTY_G1B_GLTF_FLAT_SOURCE_COLORS_20261011.md
+      - .github/workflows/first_party_glb_flat_source_colors.yml
+  pull_request:
+    paths:
+      - src/viewer/firstPartyGlbSkinnedBatches.mjs
+      - src/viewer/firstPartyIndexedSkinnedMesh.mjs
+      - src/viewer/firstPartyIndexedSkinnedMesh.d.mts
+      - tests/support/buildSyntheticBatchedGlb.mjs
+      - tests/firstPartyGlbFlatBaseColors.test.mjs
+      - tests/firstPartyGlbSkinnedBatches.test.mjs
+      - scripts/verify-first-party-glb-flat-material-browser.mjs
+      - .github/workflows/first_party_glb_flat_source_colors.yml
+permissions:
+  contents: read
+jobs:
+  strict-source-color-and-inherited-mesh-regressions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Run bounded multi-mesh and previous native 4-weight GLB rig suites without npm dependencies
+        run: |
+          node --test tests/firstPartyGlbFlatBaseColors.test.mjs
+          node --test tests/firstPartyGlbSkinnedBatches.test.mjs
+          node --test tests/firstPartyGlbRigBindingContract.test.mjs
+          node --test tests/firstPartyGlbSkinnedGeometry.test.mjs
+          node --test tests/firstPartyIndexedSkinnedMesh.test.mjs
+          node --test tests/firstPartyWebGL2SkeletonPreview.test.mjs
+      - name: Reject vendor module imports in G1 and inherited original runtime
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          for(const p of [
+            'src/viewer/firstPartyGlbSkinnedBatches.mjs',
+            'src/viewer/firstPartyGlbRigBindingContract.mjs',
+            'src/viewer/firstPartyGlbSkinnedGeometry.mjs',
+            'src/viewer/firstPartyIndexedSkinnedMesh.mjs'
+          ]){
+            if(/from\s+['"](?:three|[^'"]*threeRuntimeBoundary|[^'"]*threeSceneBoundary|react|react-dom|@react-three\/[^'"]*)['"]/.test(fs.readFileSync(p,'utf8')))
+              throw Error('Prohibited original runtime dependency in '+p);
+          }
+          console.log('G1 original runtime imports no Three/React/R3F vendor modules.');
+          JS
+  unchanged-editor-parity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm run build
+  real-chromium-source-colored-indexed-gpu:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - name: Decode glTF RGBA and draw two source-colored skinned meshes in native WebGL2
+        run: node scripts/verify-first-party-glb-flat-material-browser.mjs
+      - name: Upload synthetic-only nonproduction screenshot and JSON
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: first-party-original-glb-opaque-base-colors-webgl2-diagnostic
+          path: reports/browser-smoke/first-party-glb-source-flat-color/
+          if-no-files-found: warn
+          retention-days: 14

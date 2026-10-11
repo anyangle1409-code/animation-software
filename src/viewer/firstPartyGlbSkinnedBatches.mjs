@@ -8,13 +8,14 @@
  *
  * Supports 1 skin shared by 1..4 meshes and 2..8 TRIANGLES primitives overall,
  * each mesh attached to exactly one identity-root node in one scene. Does not
- * invent/apply hierarchy transforms, material, colour, UV, textures, morphs,
+ * invent/apply hierarchy transforms, texture, morphs,
  * animations, clinical laterality, source provenance or human skin approval.
  *
  * No network calls, no Three.js, no third-party GLB or GPU modules.
  */
 import { parseRestrictedSkinnedGlb, FIRST_PARTY_GLB_GATE }
   from './firstPartyGlbSkinnedGeometry.mjs';
+import { readRestrictedGlbUV0 } from './firstPartyGlbUV0.mjs';
 
 export const FIRST_PARTY_SCENE_BATCH_KIND='hgpt-glb2-batched-skinned-primitives-v1';
 const MAX_GLB=32*1024*1024;
@@ -119,9 +120,10 @@ function flatOpaqueMaterial(source,primitive,used){
  * importer: it copies the BIN per primitive and should be replaced by a
  * proven shared-buffer decoding API before large full-body assets.
  */
-export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=false}={}){
+export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=false,allowSourceUV0=false}={}){
   const {root,bin}=unpack(input);
   expect(typeof allowSourceFlatColors==='boolean','flat material mode must be explicit boolean');
+  expect(typeof allowSourceUV0==='boolean','UV0 opt-in must be explicit boolean');
   if(root.materials!==undefined){
     expect(array(root.materials) && root.materials.length<=8,
       'material count over original preview limits');
@@ -179,6 +181,10 @@ export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=fa
     const mesh=root.meshes[meshIndex];
     for(let primitiveIndex=0;primitiveIndex<mesh.primitives.length;primitiveIndex++){
       const originalPrimitive=mesh.primitives[primitiveIndex];
+      const attributes=originalPrimitive.attributes;
+      const uv0=allowSourceUV0 ?
+        readRestrictedGlbUV0(root,bin,attributes?.TEXCOORD_0,
+          root.accessors?.[attributes?.POSITION]?.count) : null;
       const material=allowSourceFlatColors ?
         flatOpaqueMaterial(root,originalPrimitive,materialUsed) :
         {color:Object.freeze([.74,.8,.92]),sourceMaterialIndex:null};
@@ -196,6 +202,7 @@ export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=fa
         delete split.meshes[0].primitives[0].material;
         delete split.materials;
       }
+      if(allowSourceUV0)delete split.meshes[0].primitives[0].attributes.TEXCOORD_0;
       const originalNodeIndex=nodeMap.get(meshIndex);
       for(let i=0;i<split.nodes.length;i++){
         const n=split.nodes[i];
@@ -206,6 +213,9 @@ export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=fa
       }
       const parsed=parseRestrictedSkinnedGlb(pack(split,bin));
       expect(parsed.kind===FIRST_PARTY_GLB_GATE,'strict primitive validation failed');
+      if(allowSourceUV0)
+        expect(uv0.length===parsed.audit.vertices*2,
+          'source UV0 vertex count disagrees with validated positions');
       if(sourceNames===null){
         sourceNames=[...parsed.jointNodeNames];
         sourceInv=parsed.mesh.inverseBindMatrices;
@@ -222,6 +232,7 @@ export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=fa
         sourceMeshName:typeof mesh.name==='string'?mesh.name:null,
         materialColor:material.color,
         sourceMaterialIndex:material.sourceMaterialIndex,
+        sourceUV0:uv0,
         // Only parser-validated numeric arrays. Never claim accepted human rig.
         parsed,
       });
@@ -245,6 +256,7 @@ export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=fa
       indexedTriangles:totalTriangles,
       allPrimitivesPassExistingStrictLoader:true,
       flatOpaqueSourceColorsValidated:allowSourceFlatColors,
+      sourceUV0CoordinatesValidated:allowSourceUV0,
       textureSamplingImplemented:false,
       metallicRoughnessPBRImplemented:false,
       sharedSkinOrderNumericallyIdentical:true,

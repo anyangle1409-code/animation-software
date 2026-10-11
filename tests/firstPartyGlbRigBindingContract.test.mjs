@@ -155,3 +155,14 @@ test('numeric match is not evidence of accepted medical anatomy or final model p
   ])assert.equal(a[key],false,key+' must not be silently accepted');
   assert.equal(a.restWorldInverseBindIdentityOnly,true);
 });
+
+test('fabricated or post-edited verified plan cannot bypass the explicit bind checks',()=>{
+  const original=bind(parsed(),opts());
+  const forged={...original};
+  assert.throws(()=>posePalette(forged,{upperarm_l:id(),forearm_l:id()}),/Validated native/);
+  assert.throws(()=>{original.orderedCanonicalBoneNames[0]='forearm_l';},/read only|Cannot assign/);
+  assert.throws(()=>{original.audit.independentAnatomicalJointCentresAccepted=true;},/read only|Cannot assign/);
+  assert.throws(()=>{original.orderedCanonicalBoneNames=['root'];},/read only|Cannot assign/);
+  const result=posePalette(original,{upperarm_l:id(),forearm_l:id()});
+  assert.equal(result.length,32);
+});

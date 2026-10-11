@@ -995,3 +995,16 @@ Exact source/diagnostic pins and observations:
 Next: all-header preflight1700..1900, reusing existing bytes, before contiguous
 candidate images. Verify every neighbouring grid, split any acquisition break;
 no subject merging, invented transforms or anatomical promotion.
+
+## Female1700..1900 all-header preflight complete
+
+201source headers verified;5existing reused,196new;33.938s. All200neighbours
+match same scanner grid/thickness and measured1mm spacing. Every private header
+hash and neighbour result independently rechecked.2000 remains separate/reset.
+Source metadata only; no201image-volume, bone identity or coverage acceptance.
+Ledger: `docs/INDEPENDENT_FEMALE_CT_HEADER_PREFLIGHT_20261011.md`.
+
+Next: enumerate original GE/PNG pairs1700..1900;reuse5existing sources, privately
+acquire remaining196pairs with per-file bounds and full pixel comparisons. Build
+candidate-only source display after successful integrity/calibration validation;
+never infer source-to-HGPT registration or accepted anatomy from a uniform grid.

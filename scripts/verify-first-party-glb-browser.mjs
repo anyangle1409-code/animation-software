@@ -40,8 +40,20 @@ try{
     const {buildSyntheticFirstPartyGlb}=await import('/tests/support/buildSyntheticFirstPartyGlb.mjs');
     const {parseRestrictedSkinnedGlb}=await import('/src/viewer/firstPartyGlbSkinnedGeometry.mjs');
     const {createNativeIndexedMeshWebGL2,deformIndexedSkin}=await import('/src/viewer/firstPartyIndexedSkinnedMesh.mjs');
+    const {validateNativeGLBToRigBinding,packMappedWorldPalette}=await import('/src/viewer/firstPartyGlbRigBindingContract.mjs');
     const sample=buildSyntheticFirstPartyGlb();
     const parsed=parseRestrictedSkinnedGlb(sample);
+    const identity=()=>new Float32Array([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]);
+    const binding=validateNativeGLBToRigBinding(parsed,{
+      allowedCanonicalNames:['upperarm_l','forearm_l'],
+      sourceToCanonical:{
+        test_upperarm_l:'upperarm_l',
+        test_forearm_l:'forearm_l',
+      },
+      canonicalRestWorldByBone:{
+        upperarm_l:identity(),forearm_l:identity(),
+      }
+    });
     const canvas=document.createElement('canvas');
     canvas.dataset.hgptGLBLoaderProof='first-party';
     canvas.style.width='440px';canvas.style.height='360px';
@@ -54,7 +66,10 @@ try{
     let displacement=0,initial=null;
     for(let frame=0;frame<18;frame++){
       const t=frame/17;
-      const world=new Float32Array([...mat(0,0,0),...mat(0,.5*t,0)]);
+      const world=packMappedWorldPalette(binding,{
+        forearm_l:mat(0,.5*t,0),
+        upperarm_l:mat(0,0,0),
+      });
       const positioned=deformIndexedSkin(parsed.mesh,world);
       if(initial===null)initial=positioned.positions[1];
       displacement=Math.max(displacement,Math.abs(positioned.positions[1]-initial));
@@ -65,6 +80,10 @@ try{
       vertices:parsed.audit.vertices,
       triangles:parsed.audit.indexedTriangles,
       skinNodes:parsed.jointNodeNames,
+      canonicalNames:binding.orderedCanonicalBoneNames,
+      jointBindingsChecked:binding.verifiedJointCount,
+      numericalRestBindResidual:binding.maximumMatrixResidual,
+      anatomyMappingAccepted:binding.audit.independentAnatomicalJointCentresAccepted,
       drawFrames:gpu.frameCount,
       displacement:displacement,
       unknownProvenanceAccepted:parsed.audit.sourceProvenanceOrRedistributionApproved,
@@ -77,6 +96,10 @@ try{
   assert.equal(outcome.drawFrames,18);
   assert.ok(outcome.displacement>.05,'GLB-decoded vertex weights did not deform in browser');
   assert.deepEqual(outcome.skinNodes,['test_upperarm_l','test_forearm_l']);
+  assert.deepEqual(outcome.canonicalNames,['upperarm_l','forearm_l']);
+  assert.equal(outcome.jointBindingsChecked,2);
+  assert.equal(outcome.numericalRestBindResidual,0);
+  assert.equal(outcome.anatomyMappingAccepted,false);
   assert.equal(outcome.unknownProvenanceAccepted,false);
   assert.equal(outcome.trueHumanModelApproved,false);
   assert.deepEqual(vendors,[]);

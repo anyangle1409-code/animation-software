@@ -1,0 +1,77 @@
+name: First-party GLB-to-canonical-rig binding safety
+
+on:
+  push:
+    branches: [codex/first-party-glb-rig-binding-contract-20261011]
+    paths:
+      - src/viewer/firstPartyGlbRigBindingContract.mjs
+      - tests/firstPartyGlbRigBindingContract.test.mjs
+      - scripts/verify-first-party-glb-browser.mjs
+      - docs/FIRST_PARTY_GLB_RIG_BINDING_CONTRACT_20261011.md
+      - .github/workflows/first_party_glb_rig_binding_contract.yml
+  pull_request:
+    paths:
+      - src/viewer/firstPartyGlbRigBindingContract.mjs
+      - tests/firstPartyGlbRigBindingContract.test.mjs
+      - scripts/verify-first-party-glb-browser.mjs
+      - .github/workflows/first_party_glb_rig_binding_contract.yml
+permissions:
+  contents: read
+
+jobs:
+  first-party-binding-unit-regressions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Run strict rig-binding, GLB, CPU skin, GPU matrix tests without npm packages
+        run: |
+          node --test tests/firstPartyGlbRigBindingContract.test.mjs
+          node --test tests/firstPartyGlbSkinnedGeometry.test.mjs
+          node --test tests/firstPartyIndexedSkinnedMesh.test.mjs
+          node --test tests/firstPartyWebGL2SkeletonPreview.test.mjs
+      - name: Refuse Three, React or R3F in new binding module
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          for(const file of [
+            'src/viewer/firstPartyGlbRigBindingContract.mjs',
+            'src/viewer/firstPartyGlbSkinnedGeometry.mjs',
+            'src/viewer/firstPartyIndexedSkinnedMesh.mjs'
+          ]){
+            const s=fs.readFileSync(file,'utf8');
+            if(/from\s+['"](?:three|[^'"]*threeRuntimeBoundary|[^'"]*threeSceneBoundary|react|react-dom|@react-three\/[^'"]*)['"]/.test(s))
+              throw Error('Third-party JS runtime import in '+file);
+          }
+          console.log('No Third-party JS runtime import in new binding/decode/skin modules');
+          JS
+  actual-chromium-GLB-binding-and-native-GPU:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install existing unchanged development/test-only harness
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Install test-only Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Prove synthetic GLB source bone identity, rest bindings and posed native GPU triangles
+        run: node scripts/verify-first-party-glb-browser.mjs
+      - name: Upload synthetic-only diagnostic - never approved character geometry
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: original-GLB-to-rig-rest-binding-native-GPU-diagnostic
+          path: reports/browser-smoke/first-party-glb-skinned-data-only/
+          if-no-files-found: warn
+          retention-days: 14

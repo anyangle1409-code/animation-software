@@ -19,6 +19,9 @@ import { readRestrictedGlbUV0 } from './firstPartyGlbUV0.mjs';
 import { readRestrictedGlbNormals } from './firstPartyGlbSourceNormals.mjs';
 import { readRestrictedEmbeddedPngSources }
   from './firstPartyEmbeddedPngSource.mjs';
+import {checkOriginalPilotIdentityMeshAncestry,
+  exposeVerifiedPilotMeshAsValidationRoot}
+  from './firstPartyGlbIdentityAncestorGate.mjs';
 
 export const FIRST_PARTY_SCENE_BATCH_KIND='hgpt-glb2-batched-skinned-primitives-v1';
 const MAX_GLB=32*1024*1024;
@@ -186,7 +189,8 @@ export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=fa
         node.mesh<root.meshes.length,'unknown mesh index in node');
       expect(node.skin===0,'all mesh nodes must use the same explicit skin');
       expect(!nodeMap.has(node.mesh),'instanced/duplicated mesh node unsupported');
-      expect(roots.includes(ni),'mesh node must be a direct root of explicit scene');
+      expect(allowProvisionalPilot || roots.includes(ni),
+        'mesh node must be a direct root of explicit scene');
       nodeMap.set(node.mesh,ni);
     } else {
       expect(node.skin===undefined,'skin assigned to non-mesh node');
@@ -198,10 +202,16 @@ export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=fa
       expect(array(parent.children) &&
         parent.children.every(child=>Number.isSafeInteger(child) &&
           child>=0 && child<root.nodes.length),'invalid node child pointer');
-      expect(parent.children.every(child=>!nodeMap.has(root.nodes[child].mesh)),
+      expect(allowProvisionalPilot ||
+        parent.children.every(child=>!nodeMap.has(root.nodes[child].mesh)),
         'mesh node must not have a hierarchy parent');
     }
   }
+  // Work's GLB glTF 2 exporter groups ordinary SKINNED mesh nodes beneath
+  // a scene wrapper. Only an identity ancestor hierarchy is supported here;
+  // original Work joint hierarchy and mesh bytes remain unchanged.
+  const pilotAncestry=allowProvisionalPilot ?
+    checkOriginalPilotIdentityMeshAncestry(root,roots,nodeMap) : null;
   let count=0;
   for(const mesh of root.meshes){
     expect(mesh && array(mesh.primitives)&&mesh.primitives.length>=1 &&
@@ -266,6 +276,8 @@ export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=fa
           else {delete n.mesh;delete n.skin;}
         }
       }
+      if(pilotAncestry)
+        exposeVerifiedPilotMeshAsValidationRoot(split,originalNodeIndex,pilotAncestry);
       const parsed=parseRestrictedSkinnedGlb(pack(split,bin));
       expect(parsed.kind===FIRST_PARTY_GLB_GATE,'strict primitive validation failed');
       if(allowSourceUV0)
@@ -333,6 +345,9 @@ export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=fa
       rightsAndProvenanceApproved:false,
       productionRuntimeReady:false,
       provisionalLargeSceneDiagnosticOnly:allowProvisionalPilot,
+      verifiedIdentityGroupSourceMeshAncestry:
+        allowProvisionalPilot&&pilotAncestry?.anyIdentityGroupPromotion===true,
+      sourceBoneHierarchyChanged:false,
       noExternalModelCodeUsed:true,
     }),
   };

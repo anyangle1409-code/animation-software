@@ -5,12 +5,16 @@ on:
     paths:
       - src/viewer/firstPartyPrototypeModelHandoff.mjs
       - tests/firstPartyPrototypeModelHandoff.test.mjs
+      - tests/firstPartyPrototypeHandoffCli.test.mjs
+      - scripts/verify-provisional-handoff.mjs
       - docs/FIRST_PARTY_G4_PROTOTYPE_HANDOFF_20261011.md
       - .github/workflows/first_party_prototype_handoff.yml
   pull_request:
     paths:
       - src/viewer/firstPartyPrototypeModelHandoff.mjs
       - tests/firstPartyPrototypeModelHandoff.test.mjs
+      - tests/firstPartyPrototypeHandoffCli.test.mjs
+      - scripts/verify-provisional-handoff.mjs
       - .github/workflows/first_party_prototype_handoff.yml
 permissions:
   contents: read
@@ -26,7 +30,9 @@ jobs:
         with:
           node-version: 24
       - name: Validate actual hashed source GLB, provisional rig and pose contract
-        run: node --test tests/firstPartyPrototypeModelHandoff.test.mjs
+        run: |
+          node --test tests/firstPartyPrototypeModelHandoff.test.mjs
+          node --test tests/firstPartyPrototypeHandoffCli.test.mjs
       - name: Preserve inherited restricted GLB source and GPU skinning invariants
         run: |
           node --test tests/firstPartyGlbRigBindingContract.test.mjs

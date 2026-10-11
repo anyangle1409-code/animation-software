@@ -384,11 +384,11 @@ export function createNativePaletteSkinnedWebGL2(canvas){
       if(colorManagedTexturePreview&&!texturePreview)
         throw new RangeError('Colour-managed source requires texture preview enabled');
       if(texturePreview){
-        if(sourcePngColorSpace!==(colorManagedTexturePreview?'gltf-srgb':'legacy-rgba8'))
-          throw new RangeError('Source PNG GPU internal color space must match shader color mode');
         if(sourceTextures.length!==parts.length||
            sourcePngParts.length!==parts.length)
           throw new RangeError('GPU texture preview requires uploaded exact GLB parts');
+        if(sourcePngColorSpace!==(colorManagedTexturePreview?'gltf-srgb':'legacy-rgba8'))
+          throw new RangeError('Source PNG GPU internal color space must match shader color mode');
         for(let i=0;i<parts.length;i++){
           if(parts[i].mesh!==sourcePngParts[i].parsed.mesh ||
              parts[i].uv0!==sourcePngParts[i].sourceUV0)

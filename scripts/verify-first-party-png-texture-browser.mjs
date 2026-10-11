@@ -132,10 +132,15 @@ try{
       kind:native.kind,frames:native.frames,draws:native.draws,
       red,green,both,glError:gl.getError(),originalHumanApproved:source.audit.actualOriginalHumanMeshUsed,
       textureSamplingPreviouslyImplemented:source.audit.textureSamplingImplemented};
+    const proofPng=canvas.toDataURL('image/png');
     native.dispose();
-    return result;
+    return {...result,proofPng};
   },Array.from(new Uint8Array(raw)));
   assert.deepEqual(new Uint8Array(raw),sourceCopy);
+  assert.match(report.proofPng,/^data:image\/png;base64,/);
+  const screenshotData=Buffer.from(report.proofPng.slice('data:image/png;base64,'.length),'base64');
+  assert.ok(screenshotData.byteLength>1024,'GPU screenshot evidence unexpectedly empty');
+  fs.writeFileSync(path.join(out,'source-owned-red-green-webgl-texture-proof.png'),screenshotData);
   assert.equal(report.pngSourcesValidated,true);
   assert.equal(report.sourceTextures,2);
   assert.equal(report.sourcePixels,8);
@@ -149,10 +154,11 @@ try{
   assert.equal(report.originalHumanApproved,false);
   assert.equal(report.textureSamplingPreviouslyImplemented,false);
   assert.deepEqual(errors,[]);
+  const {proofPng,...reportWithoutImage}=report;
   fs.writeFileSync(path.join(out,'actual-source-png-gpu-pixels.json'),
-    JSON.stringify({passed:true,...report,syntheticSourceOnly:true,
+    JSON.stringify({passed:true,...reportWithoutImage,syntheticSourceOnly:true,
       fullHumanDeformationApproved:false,realPBRImplemented:false},null,2)+'\n');
-  console.log(JSON.stringify(report));
+  console.log(JSON.stringify(reportWithoutImage));
 }finally{
   await browser?.close().catch(()=>{});
   server.kill('SIGTERM');

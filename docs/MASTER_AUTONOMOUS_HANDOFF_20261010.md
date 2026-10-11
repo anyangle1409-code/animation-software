@@ -1100,3 +1100,20 @@ Next: audit remaining master regional evidence gaps before new work; reuse both
 verified private source timeline and nativeintensitytiles for full-resolution
 candidate contour/landmark prerequisites. No repeat201mask/native builds;
 qualified independent anatomy review remains required, canonical gates closed.
+
+## Twelve-region remaining-gate reconciliation complete
+
+All12authoritative regions recounted0READY/9PARTIAL/3BLOCKED, unchanged. Exact
+remaining geometry/source/contact gates and completed work not to repeat:
+`docs/REGIONAL_ANATOMY_REMAINING_GATES_20261011.md`.
+Preserved thoracic/rib branches read; pinned13-row thoracic verifier freshly
+evaluated PASS,12existing mean-height matches,0angles/geometry changes. The
+front/back2011table is already recovered; standing per-level angle/APdepth/endplate
+gates remain open. No uniform kyphosis distribution or canonical promotion.
+
+Finoco2025/2026publication identity verified at publisher/author institution.
+Publisher preview only; institutionPDF403; HALrecordAccessDenied. Table6unread,
+no purchase/login/bypass. Do not repeat unchanged denied requests.
+Next: inspect prior ledgers then another original standing-angle source's accessible
+fulltext/definitions before intake, or independent regional source work if blocked.
+Masterdf6f28ec all3CIchecksPASS run38100980368; battery18% observed.

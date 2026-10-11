@@ -34,9 +34,11 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y blender libegl1 libgl1-mesa-dri xvfb xauth
       - run: blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/blender_tests/test_functional_thorax_context.py
       - run: xvfb-run -a blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/build_functional_thorax_context_blender.py -- --out /tmp/hgpt-thorax-context
+        if: github.head_ref != 'codex/functional-absolute-reach-20261011'
         env:
           LIBGL_ALWAYS_SOFTWARE: '1'
       - uses: actions/upload-artifact@v4
+        if: github.head_ref != 'codex/functional-absolute-reach-20261011'
         with:
           name: provisional-thorax-context-views
           path: |

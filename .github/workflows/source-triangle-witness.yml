@@ -1,0 +1,34 @@
+name: Candidate source triangle witnesses
+on:
+  push:
+    branches: [codex/source-surface-triangle-witness-20261011]
+  pull_request:
+    paths:
+      - 'scripts/anatomy_fit/source_triangle_witness.py'
+      - 'scripts/test_source_triangle_witness.py'
+      - 'scripts/blender_tests/test_source_triangle_witness.py'
+      - '.github/workflows/source-triangle-witness.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  mathematical-witness:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python scripts/test_source_triangle_witness.py -v
+      - run: python scripts/test_source_surface_component_geometry.py -v
+  independent-native-blender:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y blender
+      - run: blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/blender_tests/test_source_triangle_witness.py

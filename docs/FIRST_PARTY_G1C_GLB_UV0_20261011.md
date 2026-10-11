@@ -21,3 +21,14 @@
 These restrictions must not be relaxed merely to make a complicated production GLB load. The original `three` dependency and current editor remain unchanged while critical parallel Work anatomy effort proceeds. After verified UV path, the next G1 task is bounded source-owned texture image/PNG handling; G2 GPU palette skinning can run independently on original synthetic meshes.
 
 **Anatomical readiness remains historically 0 READY / 9 PARTIAL / 3 BLOCKED until Work demonstrates change from independent source evidence.**
+
+## Live source and Chromium evidence
+
+[**GitHub Actions run 38134966821**](https://github.com/anyangle1409-code/animation-software/actions/runs/38134966821) on implementation commit `c00afc13e0ec3986f4d4435c0cfb6949971a8648`: **all three jobs passed**.
+
+- 17 new UV0-specific adversarial parser/GPU tests plus 84 inherited skin/GLB/material/skeletal tests = **101/101 dependency-free Node tests PASS**. Full studio strict TS check and unchanged editor build PASS.
+- Actual Chromium/WebGL2 parsed 2 separate source-owned embedded UV0 GLB mesh records (1,916 bytes, two mesh parts/triangles), independently checked their first-party numerical bone palettes, CPU four-weight skinned both, and executed 20 UV-shader frames / 40 actual indexed triangle GPU draws.
+- glTF source UV0 values `[0.895,0.055]` and `[0.055,0.895]` reached the shader without flipping or source alteration. Immediate `gl.readPixels` of actual 960×540 framebuffer found **8,182 red-UV pixels and 8,016 green-UV pixels** simultaneously. Controlled synthetic motion 0.125 project test units, not anatomical millimetres. Zero browser/gpu errors; zero Three/React module requests.
+- [Source-generated diagnostic screenshot and JSON](https://github.com/anyangle1409-code/animation-software/actions/runs/38134966821/artifacts/11700333115). No original human mesh, licensed skin texture or medical CT image included. Image texture sampling and release acceptance remain false.
+
+The first-party G1c source/diagnostic integration is therefore software-tested on synthetically generated project-owned geometry, with **no change to the still-Three-backed normal studio or Work anatomy**.

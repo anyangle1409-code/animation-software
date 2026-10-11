@@ -1,0 +1,76 @@
+name: G2d native skinned multi-mesh PNG texture GPU proof
+on:
+  push:
+    branches: [codex/first-party-animated-texture-skinning-20261011]
+    paths:
+      - src/viewer/firstPartyGpuPaletteSkinning.mjs
+      - scripts/verify-first-party-moving-png-skin-browser.mjs
+      - .github/workflows/first_party_gpu_skinned_embedded_png.yml
+      - docs/FIRST_PARTY_G2D_ANIMATED_SKIN_TEXTURE_20261011.md
+  pull_request:
+    paths:
+      - src/viewer/firstPartyGpuPaletteSkinning.mjs
+      - scripts/verify-first-party-moving-png-skin-browser.mjs
+      - .github/workflows/first_party_gpu_skinned_embedded_png.yml
+permissions:
+  contents: read
+jobs:
+  source-png-GLB-gpu-normal-and-rig-regressions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - run: |
+          node --test tests/firstPartyEmbeddedPngSource.test.mjs
+          node --test tests/firstPartyGpuPaletteSkinning.test.mjs
+          node --test tests/firstPartyGpuNormalParity.test.mjs
+          node --test tests/firstPartyGlbSkinnedBatches.test.mjs
+          node --test tests/firstPartyPrototypePoseSequence.test.mjs
+          node --test tests/firstPartyPrototypeModelHandoff.test.mjs
+      - name: Fail if native renderer imports vendor runtime or fetches media
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          for(const path of ['src/viewer/firstPartyGpuPaletteSkinning.mjs',
+            'src/viewer/firstPartyEmbeddedPngSource.mjs']){
+            const code=fs.readFileSync(path,'utf8');
+            if(/from\s+['"](?:three|react|react-dom|@react-three\/[^'"]*|[^'"]*threeRuntimeBoundary[^'"]*)['"]|\bfetch\s*\(|\bXMLHttpRequest\b/.test(code))
+              throw Error('New renderer may not import runtime vendor or use remote source assets');
+          }
+          JS
+  actual-chromium-gpu-skinned-texture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/verify-first-party-moving-png-skin-browser.mjs
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hgpt-g2d-moving-textured-skin-gpu-proofs
+          path: reports/browser-smoke/first-party-g2d-moving-texture/
+          if-no-files-found: warn
+          retention-days: 14
+  existing-studio-typecheck-and-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm run build

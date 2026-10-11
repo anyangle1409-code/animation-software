@@ -114,7 +114,7 @@ test('non-uniform scaling and unit-length shear must not pass compatibility',()=
   assert.throws(()=>bind(parsed(),options),/scale/);
   const other=opts();
   other.canonicalRestWorldByBone.upperarm_l=[
-    1,.5,0,0,0,Math.sqrt(.75),0,0,0,0,1,0,0,0,0,1
+    1,0,0,0,.5,Math.sqrt(.75),0,0,0,0,1,0,0,0,0,1
   ];
   assert.throws(()=>bind(parsed(),other),/shear/);
 });

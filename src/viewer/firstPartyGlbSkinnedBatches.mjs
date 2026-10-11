@@ -124,7 +124,9 @@ function flatOpaqueMaterial(source,primitive,used,pngTextures,usedTextureIndices
         Number.isFinite(pbr.roughnessFactor)&&
         pbr.roughnessFactor>=0&&pbr.roughnessFactor<=1 :
         pbr.roughnessFactor===1)),
-    'source metallic/roughness outside supported preview contract');
+    allowProvisionalPilot ?
+      'source metallic/roughness outside supported preview contract' :
+      'only matte non-metallic baseColor supported');
   const factor=pbr.baseColorFactor;
   expect(array(factor)&&factor.length===4 &&
     factor.every(v=>Number.isFinite(v)&&v>=0&&v<=1) &&

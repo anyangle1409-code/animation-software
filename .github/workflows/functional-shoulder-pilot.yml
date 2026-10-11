@@ -30,7 +30,7 @@ jobs:
     timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
-      - run: sudo apt-get update && sudo apt-get install -y blender libegl1 libgl1-mesa-dri xvfb xauth
+      - run: sudo apt-get update && sudo apt-get install -y blender python3-numpy libegl1 libgl1-mesa-dri xvfb xauth
       - run: blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/blender_tests/test_functional_shoulder_pilot.py
       - run: xvfb-run -a blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/build_functional_shoulder_pilot_blender.py -- --out /tmp/hgpt-provisional-shoulder
         env:

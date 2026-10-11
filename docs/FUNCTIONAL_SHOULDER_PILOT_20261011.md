@@ -95,6 +95,10 @@ libEGL.so.1 was missing. Follow-up workflow explicitly installs EGL/Mesa and
 uses a software-rendered virtual display (existing repository render pattern).
 This is an environment repair, not anatomical approval; new exact-head CI
 must verify the repaired render/export path before claiming online success.
+At c9ca3fd8, both platform tests and native unit PASS; virtual-display rendering
+completed, then packaged Blender glTF export FAILED with missing NumPy. The
+next environment repair installs python3-numpy; no geometry change or hidden
+success assertion. Runs38153503254/38153504999 preserve that failure.
 
 Uses existing primary evidence ledger
 `anatomy/audit/primary_clavicle_motion_u3_source_review_20261010.json`:
@@ -124,6 +128,12 @@ native matrices directly to G4b's column-major GLB-space input. Full GLB joint
 order/inverse-bind/source-to-runtime preflight and renderer parity remain
 pending. Read Lane G PR59/60/66/67 contracts, consume them without rewriting
 their importer. All approval flags remain false. No production model supplied.
+Read-only inspection of the actual reviewed GLB found280892bytes,
+18meshes/18primitives, one skin and six joints, in explicit order
+clavicle_left/scapula_left/humerus_left/clavicle_right/scapula_right/humerus_right.
+This exceeds G4's current2–8primitive/1–4mesh contract. Do not claim accepted
+integration, infer laterality from suffixes or relax Lane G limits. The original
+human export must address this boundary in a separately tested handoff.
 
 Next: exact-head CI and review; add source-aware thorax/sternum guides and
 test scapula location/contact in neutral/elevation; replace the crude fan with

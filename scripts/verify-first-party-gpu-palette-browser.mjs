@@ -132,6 +132,35 @@ try{
         Math.abs(fourGpu[i*3+k]-fourCpu.positions[index*3+k]));
     }
     const cpuBonePalette=buildNativeJointSkinPalette(four,fourWorld);
+    // Actual GPU texture must work with a FULL 128-bone palette rather than
+    // passing only the small 2/4-bone tests. The diagnostic source remains
+    // a single original synthetic triangle; no human anatomy or mesh claim.
+    const bigBind=new Float32Array(128*16),bigWorld=new Float32Array(128*16);
+    for(let k=0;k<128;k++){
+      bigBind.set(id(),k*16);bigWorld.set(id(),k*16);
+    }
+    bigWorld.set(shift(1,0,0),0);
+    bigWorld.set(shift(0,2,0),31*16);
+    bigWorld.set(shift(0,0,3),64*16);
+    bigWorld.set(shift(-4,0,0),127*16);
+    const bigMesh={
+      positions:new Float32Array([0,0,0,1,0,0,0,1,0]),
+      indices:new Uint16Array([0,1,2]),
+      jointIndices:new Uint16Array([...Array(3)].flatMap(()=>[0,31,64,127])),
+      weights:new Float32Array([...Array(3)].flatMap(()=>[.1,.2,.3,.4])),
+      inverseBindMatrices:bigBind,
+    };
+    const bigPart={mesh:bigMesh,posedWorld:bigWorld,
+      uv0:new Float32Array([.1,.1,.9,.1,.1,.9])};
+    const bigPalette=buildNativeJointSkinPalette(bigMesh,bigWorld);
+    const bigGpu=gpu.captureIndexedSkinnedPositions(bigPart);
+    const bigCPU=deformIndexedSkin(bigMesh,bigWorld);
+    let max128BoneGpuVsCpuError=0;
+    for(let i=0;i<bigMesh.indices.length;i++)for(let k=0;k<3;k++){
+      const j=bigMesh.indices[i];
+      max128BoneGpuVsCpuError=Math.max(max128BoneGpuVsCpuError,
+        Math.abs(bigGpu[i*3+k]-bigCPU.positions[j*3+k]));
+    }
     const gl=canvas.getContext('webgl2');
     const pixels=new Uint8Array(960*540*4);
     gl.readPixels(0,0,960,540,gl.RGBA,gl.UNSIGNED_BYTE,pixels);
@@ -146,6 +175,9 @@ try{
       twoSourceOwnedSkinnedMeshes:batch.audit.numberOfMeshes,
       inputGLBBytes:data.byteLength,
       boneCountInFourInfluenceFixture:cpuBonePalette.length/16,
+      verifiedLargeBonePaletteCount:bigPalette.length/16,
+      rgbaFloatTexelsUploadedFor128BonePalette:bigPalette.length/4,
+      max128BoneGpuVsCpuError,
       frames:gpu.frameCount,
       nativeIndexedDrawCalls:gpu.drawCallCount,
       indexedTrianglePositionCaptures:gpu.capturedTriangleCount,
@@ -166,6 +198,10 @@ try{
   assert.equal(result.kind,'hgpt-native-webgl2-rgba32f-4weight-gpu-lbs-v1');
   assert.equal(result.twoSourceOwnedSkinnedMeshes,2);
   assert.equal(result.boneCountInFourInfluenceFixture,4);
+  assert.equal(result.verifiedLargeBonePaletteCount,128);
+  assert.equal(result.rgbaFloatTexelsUploadedFor128BonePalette,512);
+  assert.ok(result.max128BoneGpuVsCpuError<1e-5,
+    'Actual 128-bone shader omitted far-index bone or damaged matrix palette');
   assert.equal(result.frames,20);
   assert.equal(result.nativeIndexedDrawCalls,40);
   assert.ok(result.indexedTrianglePositionCaptures>=41);

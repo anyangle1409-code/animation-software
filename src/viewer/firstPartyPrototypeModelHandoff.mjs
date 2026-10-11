@@ -58,12 +58,23 @@ function checkManifest(manifest){
     'lowercase SHA-256 of exact source GLB bytes required');
   requireThat(manifest.glb.layout==='single'||manifest.glb.layout==='batched',
     'layout must be single or batched');
-  exactly(manifest.glb.sourceFeatures,['flatColors','uv0','normals'],
-    'GLB source features');
+  // v1 source manifests historically had three explicit feature flags.
+  // Permit exactly those three OR the four-field, explicit PNG extension;
+  // unknown fields remain rejected rather than silently ignored.
+  const features=manifest.glb.sourceFeatures;
+  requireThat(record(features),'GLB source features must be explicit object');
+  const pngField=own(features,'embeddedPngBaseColor');
+  exactly(features,pngField?
+    ['flatColors','uv0','normals','embeddedPngBaseColor']:
+    ['flatColors','uv0','normals'],'GLB source features');
   requireThat(Object.values(manifest.glb.sourceFeatures)
     .every(v=>typeof v==='boolean'),'GLB features must be explicit booleans');
+  requireThat(!features.embeddedPngBaseColor ||
+    (manifest.glb.layout==='batched' &&
+      features.flatColors && features.uv0),
+    'embedded PNG source handoff requires batched layout, flatColors and UV0');
   requireThat(manifest.glb.layout==='batched' ||
-    Object.values(manifest.glb.sourceFeatures).every(v=>!v),
+    Object.values(features).every(v=>!v),
     'single primitive has no opt-in source feature adapter');
   exactly(manifest.frame,['unit','up','handedness','basisStatus'],'frame');
   requireThat(manifest.frame.unit==='metre' && manifest.frame.up==='Y' &&
@@ -116,6 +127,7 @@ export async function validateProvisionalModelHandoff(input,manifest){
       allowSourceFlatColors:manifest.glb.sourceFeatures.flatColors,
       allowSourceUV0:manifest.glb.sourceFeatures.uv0,
       allowSourceNormals:manifest.glb.sourceFeatures.normals,
+      allowEmbeddedPngBaseColor:manifest.glb.sourceFeatures.embeddedPngBaseColor===true,
     });
   const parts=scene.batches;
   requireThat(parts.length>0 && parts.length<=8,'scene primitive budget exceeded');
@@ -144,6 +156,10 @@ export async function validateProvisionalModelHandoff(input,manifest){
       allGLBPrimitivesDecodedAndBound:true,
       explicitRestWorldInverseBindNumericalParity:true,
       maximumRestMatrixResidual:maxRestResidual,
+      sourceEmbeddedPngBaseColorValidated:
+        manifest.glb.sourceFeatures.embeddedPngBaseColor===true &&
+        scene.audit?.embeddedPngBaseColorSourceValidated===true,
+      sourcePngMaterialsAreUnlitDiagnosticOnly:true,
       sourceFramePhysicallyRegistered:false,
       verifiedAnatomicalLaterality:false,
       independentlyVerifiedSourceRights:false,

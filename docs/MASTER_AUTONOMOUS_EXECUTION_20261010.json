@@ -1,4 +1,17 @@
 {
+  "active_functional_absolute_reach_checkpoint": {
+    "branch": "codex/functional-absolute-reach-20261011",
+    "parent_verified_head": "c8fb99d63a49bfb0c61ab8894bf1b64068c1fdb7",
+    "ledger": "docs/FUNCTIONAL_ABSOLUTE_REACH_20261011.md",
+    "local_tests": "3new native PASS; inherited2thorax+2shoulder native,3thorax+7shoulder pure PASS",
+    "actual_new_views": 9,
+    "primary_reference": "PMID19181982 experimental40degree scapular plane; partial methodological comparison only",
+    "status": "ABSOLUTE_HT_DIRECTION_NOT_CLINICAL_JOINT_KINEMATICS",
+    "anatomical_acceptance": false,
+    "human_motion_acceptance": false,
+    "full_human_mesh": false,
+    "next_action": "Independent review/exact-headCI, anatomical-axis and authored thorax/scapula correction then full-body original skin; preserve old assets and G4j."
+  },
   "active_functional_thorax_checkpoint": {
     "branch": "codex/functional-thorax-context-20261011",
     "parent_verified_head": "79e0a1c53776b0a77eeb9e288c47cf6ed704b661",

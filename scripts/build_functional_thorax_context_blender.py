@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+import math
 import sys
 from pathlib import Path
 import bpy
@@ -45,7 +46,8 @@ def add_context(rec):
         ob['status'] = 'STATIC_AUTHORED_CONTEXT_NOT_CONTACT_SURFACE'
     return objects
 
-def main():
+def main(pose_fn=None, version=VERSION, angles=(0, 160), motion_note='AUTHORED STATIC RIB/STERNUM GUIDES / NO CONTACT OR MOTION APPROVAL'):
+    pose_fn = pose_fn or shoulder.pose
     parser = argparse.ArgumentParser()
     parser.add_argument('--out', required=True)
     args = parser.parse_args(sys.argv[sys.argv.index('--') + 1:])
@@ -59,7 +61,7 @@ def main():
     context = add_context(rec)
     out.mkdir(parents=True)
     scene = bpy.context.scene
-    scene['candidate'] = VERSION
+    scene['candidate'] = version
     scene.render.engine = 'BLENDER_WORKBENCH'
     scene.display.shading.light = 'STUDIO'
     scene.display.shading.color_type = 'MATERIAL'
@@ -72,26 +74,29 @@ def main():
     scene.camera = cam
     cam.data.type = 'ORTHO'
     title = bpy.data.curves.new('provisional_warning', 'FONT')
-    title.body = VERSION + '\nAUTHORED STATIC RIB/STERNUM GUIDES / NO CONTACT OR MOTION APPROVAL'
+    title.body = version + '\n' + motion_note
     caption = bpy.data.objects.new('provisional_warning', title)
     scene.collection.objects.link(caption)
     caption.parent = cam
     title.materials.append(shoulder.material('warning', (.95,.95,.95)))
     target = Vector((0, .02, 1.40))
-    for angle in (0, 160):
-        shoulder.pose(arm, rec, angle)
+    samples = []
+    for angle in angles:
+        pose_fn(arm, rec, angle)
+        samples.append({'requested_angle': angle, 'native_control_matrices': shoulder.matrices(arm),
+                        'measured_HT_elevation_deg': {side: math.degrees(math.acos(max(-1, min(1, -(arm.pose.bones['humerus_' + side].tail - arm.pose.bones['humerus_' + side].head).normalized().z)))) for side in ('left','right')}})
         for view, location in [('front',(0,-3,1.4)),('side',(3,.02,1.4)),('rear',(0,3,1.4))]:
             cam.location = location
             cam.rotation_euler = (target - cam.location).to_track_quat('-Z','Y').to_euler()
             shoulder.fit_review_camera(cam, shapes + context)
             caption.location = (-.47 * cam.data.ortho_scale, .45 * cam.data.ortho_scale, -1)
             title.size = .012 * cam.data.ortho_scale
-            scene.render.filepath = str(out / f'{VERSION}_{angle:03}_{view}.png')
+            scene.render.filepath = str(out / f'{version}_{angle:03}_{view}.png')
             bpy.ops.render.render(write_still=True)
-    shoulder.pose(arm, rec, 0)
-    bpy.ops.wm.save_as_mainfile(filepath=str(out / (VERSION + '.blend')))
+    pose_fn(arm, rec, 0)
+    bpy.ops.wm.save_as_mainfile(filepath=str(out / (version + '.blend')))
     assert hashlib.sha256(source.read_bytes()).hexdigest() == before
-    report = {'candidate': VERSION, 'source_record_sha256': before, 'static_context_meshes': len(context),
+    report = {'candidate': version, 'motion_note': motion_note, 'samples': samples, 'source_record_sha256': before, 'static_context_meshes': len(context),
               'approval': False, 'contact_validated': False, 'human_reference_compared': False,
               'assumptions': ['Rib lateral bows9-15cm and tube radius4mm authored, not measured',
                               'Sternum plate half-width25/12mm and inherited4mm fan thickness authored',

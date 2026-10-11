@@ -1,5 +1,17 @@
 # Master programme: independent execution checkpoint, 10 October 2026
 
+## New W1/W3 absolute arm-direction checkpoint — 11 October
+
+`codex/functional-absolute-reach-20261011` stacked on PR69c8fb99d6(all4CIgreen).
+Read `FUNCTIONAL_ABSOLUTE_REACH_20261011.md` and machine key
+`active_functional_absolute_reach_checkpoint`.3new actual native tests PASS;
+inherited2thorax+2shoulder native/3thorax+7shoulder pure PASS.9actual new views
+at absoluteHT0/90/160 in40degree anterior scapular plane, native matrices.
+Primary PMID19181982 compared method/axis definitions; NOT full human-video
+or clinical coupling/axial-rotation acceptance. Source/rest unchanged, broad
+blade/steep ribs/tilted sternum remain; no original skin yet. Next exactCI/
+review then source-aware authored shape/axes and full-body skin. Preserve G4j.
+
 ## New W1 thorax context — 11 October
 
 Newest topic `codex/functional-thorax-context-20261011`, ledger

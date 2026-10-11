@@ -981,3 +981,17 @@ Next: bounded upper/lower source-index scouts with headers/GE/PNG calibration,
 then contiguous segment acquisition only after candidate extent is justified.
 Do not repeat these completed3numeric comparisons/native renders; keep sources
 private, subjects separate and every anatomical approval gate closed.
+
+## Independent female upper/lower scouts and scanner coordinate break
+
+Additional1700/1900/2000 headers, GE and PNG originals privately acquired with
+exact published sizes.786432more pixels match exactly; six calibrated scout
+views actually reviewed.2000 resets S to-96 and normal to-1;1700/1900 report
+S=-737/-937 and normal+1. Never treat filename order as one physical grid.
+Noncontiguous scout gaps remain unfilled; no named bones or coverage accepted.
+Exact source/diagnostic pins and observations:
+`docs/INDEPENDENT_FEMALE_CT_COVERAGE_SCOUT_20261011.md`.
+
+Next: all-header preflight1700..1900, reusing existing bytes, before contiguous
+candidate images. Verify every neighbouring grid, split any acquisition break;
+no subject merging, invented transforms or anatomical promotion.

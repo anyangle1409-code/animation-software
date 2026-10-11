@@ -81,6 +81,21 @@ future regenerated files carry their own manifest digests.
 
 ## Movement evidence boundary and visible findings
 
+Latest reviewed-code regeneration is in
+`C:/Users/Mark/Documents/Codex/hgpt-functional-shoulder-v1-reviewed-20261011/`.
+All22 generated-file hashes independently match the manifest. Native SHA256:
+`73b54685eb45e2cc32d80d46f685356bab3dc3a1fef68d5b682bbeb42c5b5754`;
+GLB SHA256:
+`71b2cc03c9675323420a0dbc8f0b27ca6f207325b04594ade36b00d47b1b6727`.
+These are the current handoff bytes, superseding the earlier parented output.
+
+PR68 initial head5d78f642: both platform mathematical checks PASS; native
+unit1 PASS on Ubuntu Blender4.0.2, but image generation FAILED(exit134) because
+libEGL.so.1 was missing. Follow-up workflow explicitly installs EGL/Mesa and
+uses a software-rendered virtual display (existing repository render pattern).
+This is an environment repair, not anatomical approval; new exact-head CI
+must verify the repaired render/export path before claiming online success.
+
 Uses existing primary evidence ledger
 `anatomy/audit/primary_clavicle_motion_u3_source_review_20261010.json`:
 Ludewig2009 DOI10.2106/JBJS.G.01483,12 healthy subjects/bone-pin tracking.

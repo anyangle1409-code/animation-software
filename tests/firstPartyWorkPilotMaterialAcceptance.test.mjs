@@ -53,7 +53,7 @@ test('non-pilot strict original contract continues refusing two-sided and non-ma
   assert.throws(()=>parse(source({pilot:false}),{
     allowSourceFlatColors:true}),/two-sided material shader parity not proven/);
   assert.throws(()=>parse(source({pilot:false,doubleSided:false}),{
-    allowSourceFlatColors:true}),/source metallic\/roughness outside supported preview/);
+    allowSourceFlatColors:true}),/only matte non-metallic baseColor supported/);
 });
 test('pilot rejects impossible roughness/metallic combinations rather than silently remapping PBR',()=>{
   for(const bad of [-.2,1.2,NaN,Infinity]){

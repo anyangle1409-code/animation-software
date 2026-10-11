@@ -1,0 +1,55 @@
+name: G4d offline exercise intent to Work-authored GLB pose identity
+on:
+  push:
+    branches: [codex/first-party-intent-to-pose-binding-20261011]
+    paths:
+      - src/exercise/firstPartyExercisePoseBinding.mjs
+      - tests/firstPartyExercisePoseBinding.test.mjs
+      - docs/FIRST_PARTY_G4D_INTENT_POSE_BINDING_20261011.md
+      - .github/workflows/first_party_exercise_pose_binding.yml
+  pull_request:
+    paths:
+      - src/exercise/firstPartyExercisePoseBinding.mjs
+      - tests/firstPartyExercisePoseBinding.test.mjs
+      - .github/workflows/first_party_exercise_pose_binding.yml
+permissions:
+  contents: read
+jobs:
+  authenticated-source-GLB-intent-and-pose-matches:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: |
+          node --test tests/firstPartyExercisePoseBinding.test.mjs
+          node --test tests/firstPartyExerciseIntent.test.mjs
+          node --test tests/firstPartyPrototypePoseSequence.test.mjs
+          node --test tests/firstPartyPrototypeModelHandoff.test.mjs
+      - name: No external source or vendor imports in new exercise binder
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const s=fs.readFileSync('src/exercise/firstPartyExercisePoseBinding.mjs','utf8');
+          if (/\bfetch\s*\(|\bXMLHttpRequest\b|from\s+['"](?:three|react|react-dom|@react-three\/)/.test(s))
+            throw Error('Offline original exercise binding cannot use external network/vendor runtime');
+          console.log('Original exercise pose binder is local and first-party');
+          JS
+  unchanged-studio-typecheck-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm run build

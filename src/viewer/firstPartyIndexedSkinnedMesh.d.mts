@@ -26,9 +26,15 @@ export function makeTwoBoneSkinProbe(
 ):Omit<NativeFourWeightSkinMesh,'inverseBindMatrices'>;
 export interface NativeIndexedMeshRenderer {
   readonly frameCount:number;
+  readonly drawCallCount:number;
   readonly contextLost:boolean;
   readonly kind:string;
   setSize(width:number,height:number,dpr?:number):void;
+  renderBatches(meshes:NativeDeformedIndexedMesh[],opts?:{
+    eye?:number[];
+    target?:number[];
+    colors?:number[][];
+  }):boolean;
   render(mesh:NativeDeformedIndexedMesh,opts?:{
     eye?:number[];
     target?:number[];

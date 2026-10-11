@@ -1,5 +1,20 @@
 # Master programme: independent execution checkpoint, 10 October 2026
 
+## Owner-updated functional priority — 11 October 2026
+
+PR48 v1.1 at f9d4ca0f explicitly supersedes clinical-all206 registration as a
+prerequisite for separate provisional shape/mesh work. Read that owner decision
+before the older research queue below. New shoulder shape/rig milestone:
+`docs/FUNCTIONAL_SHOULDER_PILOT_20261011.md`, branch
+`codex/functional-shoulder-shapes-20261011`. 7shape tests +1 actual native PASS;
+20 actual captioned Blender images, private native scene, six-control mapping,
+seven authored motion samples and shoulder-only GLB generated. Parent-export
+warning reproduced/fixed/tested. No human skin yet, no reference-motion PASS,
+no research/production promotion. Check newest exact-head CI before continuing.
+Next W1/W2: thorax/scapula location/contact and improved blade, lean full-body
+skeleton then original skin/weights; use G4 contracts without duplicating G.
+All frozen assets and completed CT/source diagnostics remain preserved.
+
 ## Latest active topic — grid resolved both foot candidate lists
 
 On `codex/source-foot-exact-candidates-20261011`, read completion appended to

@@ -1,0 +1,42 @@
+name: Provisional functional shoulder shapes
+on:
+  push:
+    branches: [codex/functional-shoulder-shapes-20261011]
+  pull_request:
+    paths:
+      - 'scripts/anatomy_fit/functional_shoulder_shapes.py'
+      - 'scripts/build_functional_shoulder_pilot_blender.py'
+      - 'scripts/test_functional_shoulder_shapes.py'
+      - 'scripts/blender_tests/test_functional_shoulder_pilot.py'
+      - '.github/workflows/functional-shoulder-pilot.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  authored-shapes:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python scripts/test_functional_shoulder_shapes.py -v
+  native-pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y blender
+      - run: blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/blender_tests/test_functional_shoulder_pilot.py
+      - run: blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/build_functional_shoulder_pilot_blender.py -- --out /tmp/hgpt-provisional-shoulder
+      - uses: actions/upload-artifact@v4
+        with:
+          name: provisional-shoulder-views-mapping-diagnostic-glb
+          path: |
+            /tmp/hgpt-provisional-shoulder/*.png
+            /tmp/hgpt-provisional-shoulder/*.json
+            /tmp/hgpt-provisional-shoulder/*.glb

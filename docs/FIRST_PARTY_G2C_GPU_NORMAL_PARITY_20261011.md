@@ -18,3 +18,14 @@ Stacked onto the previously verified strict-source NORMAL GLB [PR #57](https://g
 Only original synthetic 2-triangle source glTF models and source-authored normals used. This **approximates normal transformation using four weighted rigid joint rotation matrices**, not exact normals of the deformed skin surface under all deformations, nor bone muscle bulge, blendshapes, normal maps, tangent-space/material UV textures, directional irradiance or anatomical validation. Genuine shoulder/axilla/chest realism and original skin weights remain Work-owned, subject to independently approved real human-source evidence. Current anatomical readiness remains unchanged unless Work reports verified data.
 
 Do not merge this draft into production until all dedicated Node/browser normal parity tests pass. This software gate alone does not permit removing Three.js or the remaining PT-App temporary exercise media.
+
+
+## Live Chromium and independent mathematical verification
+
+Implementation head `7670e05795f63ab232441f324ed3fff7c6f01e9d` tested on [GitHub Actions run 38139395007](https://github.com/anyangle1409-code/animation-software/actions/runs/38139395007): **all three jobs PASS**, **132/132 original zero-npm-install Node tests**, full unchanged editor TS typecheck + production build PASS. No vendor runtime module imports.
+
+Real Chromium/WebGL2 GPU shader rendered 20 normal-lit frames and made 40 genuinely indexed two-mesh draw calls, then measured **41 actual transform feedback triangle-normal samples** against a separate CPU four-bone directional normal oracle. Worst source-space synthetic absolute component deviation = **1.1920928955078125e-7**. Separate 128-bone RGBA32F palette, four-nonzero-influences normal test using indices 0/31/64/127 had **0 recorded maximum component deviation**. GPU normal length stayed between **0.9999999157 and 1.0000001054**.
+
+The shader ran a *diagnostic*, NOT physically based Lambertian brightness mode. Same 960×540 GPU framebuffer contained **7,680 bright +Z pixels and 7,813 medium-bright +Y pixels** from different source-authored normals. Browser GL error=0, browser exceptions=0, console errors=0 and Three/React/R3F vendor requests=0. [**Project-owned original synthetic screenshot and machine-readable GPU normal parity report**](https://github.com/anyangle1409-code/animation-software/actions/runs/38139395007/artifacts/11702331239).
+
+**What remains unverified:** exact surface tangent/bitangent/normal-map transforms, all human muscle bulge and skin discontinuities, photorealistic PBR, source texture sampling, mobile/WebGL2 device performance, complete 206-bone anatomical physical correspondence and original model intellectual-property release, app integration, editor interaction/raycast/camera parity, and final removal of the production editor's Three.js dependency. No source human skin mesh or CT data used by this GPU test.

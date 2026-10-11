@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "kind": "SOURCE_VERTEX_TO_TRIANGLE_CANDIDATE_METADATA",
+  "source_revision": "ac8de2b38f5ae1a0996053ca0639dd6ae43358f1",
+  "raw_source_geometry_included": false,
+  "metric": "Unsigned source-vertex-to-target-triangle witness; only upper bound, not full mesh-mesh clearance or penetration",
+  "physical_units_verified": false,
+  "source_to_HGPT_registration_accepted": false,
+  "anatomical_contact_accepted": false,
+  "canonical_promotion_allowed": false,
+  "all_four_native_previews_viewed": true,
+  "numerical_tolerance_source_units": 0.0001,
+  "qualified_independent_anatomy_review_completed": false,
+  "reports": [
+    {
+      "group": "source-triangle-witness-20261011",
+      "private_report_sha256": "ec235cea59101ab3055c15cb2ddb157874f21c64e3b70e3c14fd0934e555d528",
+      "sources": [
+        {
+          "label": "TALUS_LEFT",
+          "sha256": "b79dcb8037223d2652e300cb42124c9d4e16dfedcc49ff36b4d44ed3fc24602e",
+          "raw_faces": 24812,
+          "usable_faces": 24774
+        },
+        {
+          "label": "CALCANEUS_LEFT",
+          "sha256": "5e160f34aff9c2bfb1e3b6546add17a083ec4f6bb4be0f29392e714d44132eb9",
+          "raw_faces": 37816,
+          "usable_faces": 37816
+        }
+      ],
+      "directions": [
+        {
+          "source": "TALUS_LEFT",
+          "target": "CALCANEUS_LEFT",
+          "queried_unique_valid_face_vertices": 12391,
+          "interior_witness_count": 3365,
+          "max_native_point_error_source_units": 0.000030020498286376096,
+          "max_native_distance_error_source_units": 0.0000344127563622898,
+          "minimum_witness_source_units": 0.3077868659540219
+        },
+        {
+          "source": "CALCANEUS_LEFT",
+          "target": "TALUS_LEFT",
+          "queried_unique_valid_face_vertices": 18912,
+          "interior_witness_count": 2734,
+          "max_native_point_error_source_units": 0.00002987620001704272,
+          "max_native_distance_error_source_units": 0.00003251986137797758,
+          "minimum_witness_source_units": 0.3091393150716292
+        }
+      ],
+      "seconds": 14.329,
+      "output_sha256": {
+        "candidate_source_pair.blend": "c0e9916ee44c295552fe4d51a4cef1f4ffb711f369f0cb2c6047e8f77ab71bb8",
+        "source_pair.png": "d7f4cee70d290fbfe8d4e87dc91f511c33e6502413f5c5158c8e2de38f5c8da3"
+      },
+      "query_index_local_origin_subtraction": false
+    },
+    {
+      "group": "foot_right-triangle-witness-20261011",
+      "private_report_sha256": "0b2669605e2864d313364050503ad21e913fd825703e6d69bdb38fc55043f546",
+      "sources": [
+        {
+          "label": "CALCANEUS_RIGHT",
+          "sha256": "4debd97e844a0a3d7f1d9cd7113f5f608f9bb2c6d676ce6fccb60d220d022b1a",
+          "raw_faces": 37552,
+          "usable_faces": 37552
+        },
+        {
+          "label": "TALUS_RIGHT",
+          "sha256": "8ce8435d5c0c6605c058624235d07cc16357afaf294e21c56375d7b599b83736",
+          "raw_faces": 24408,
+          "usable_faces": 24408
+        }
+      ],
+      "directions": [
+        {
+          "source": "CALCANEUS_RIGHT",
+          "target": "TALUS_RIGHT",
+          "queried_unique_valid_face_vertices": 18778,
+          "interior_witness_count": 2598,
+          "max_native_point_error_source_units": 0.000030192903579973063,
+          "max_native_distance_error_source_units": 0.00002724139415732907,
+          "minimum_witness_source_units": 0.5860309821538697
+        },
+        {
+          "source": "TALUS_RIGHT",
+          "target": "CALCANEUS_RIGHT",
+          "queried_unique_valid_face_vertices": 12206,
+          "interior_witness_count": 3129,
+          "max_native_point_error_source_units": 0.00003018994675585418,
+          "max_native_distance_error_source_units": 0.000028671459893381268,
+          "minimum_witness_source_units": 0.5843044781488514
+        }
+      ],
+      "seconds": 7.047,
+      "output_sha256": {
+        "candidate_source_pair.blend": "58041eb6ca9a1a9a6dec1e9f24691e0775b3f2825ec8efc15d48deb4cc62b60d",
+        "source_pair.png": "bd47d15d6c7b91914909fd63df5ab486224d8c3d6f6dec5697dbea5c2e271f02"
+      },
+      "query_index_local_origin_subtraction": false
+    },
+    {
+      "group": "wrist_left-triangle-witness-20261011",
+      "private_report_sha256": "e9740c65de8a4ea76080dd73bcedf94e1f877d3b56b1298d6ff86c121f04a499",
+      "sources": [
+        {
+          "label": "LUNATE_LEFT",
+          "sha256": "426eab144aa25fb197ac69fc91a026614e5fad2dd82e9934234d6bce6edec360",
+          "raw_faces": 3204,
+          "usable_faces": 3204
+        },
+        {
+          "label": "SCAPHOID_LEFT",
+          "sha256": "362d0d42bf1b4475e705846d8c7c48965bb052f875a93355c8e302937ddef762",
+          "raw_faces": 4156,
+          "usable_faces": 4156
+        }
+      ],
+      "directions": [
+        {
+          "source": "LUNATE_LEFT",
+          "target": "SCAPHOID_LEFT",
+          "queried_unique_valid_face_vertices": 1604,
+          "interior_witness_count": 297,
+          "max_native_point_error_source_units": 0.0000019531464658939512,
+          "max_native_distance_error_source_units": 0.000002047781936909132,
+          "minimum_witness_source_units": 0.8742576687379422
+        },
+        {
+          "source": "SCAPHOID_LEFT",
+          "target": "LUNATE_LEFT",
+          "queried_unique_valid_face_vertices": 2080,
+          "interior_witness_count": 261,
+          "max_native_point_error_source_units": 0.0000010268301622318177,
+          "max_native_distance_error_source_units": 0.000002494831417010346,
+          "minimum_witness_source_units": 0.8747750456723385
+        }
+      ],
+      "seconds": 2.3,
+      "output_sha256": {
+        "candidate_source_pair.blend": "fa1e36d3ad358ff27b3ce173b6bc9e518ec9e415a9e6d8c6731b9d85ff9aa666",
+        "source_pair.png": "41f012330a173d947f65472c1fef351b80cdc343cfaea8726071403bb6c5dd3c"
+      },
+      "query_index_local_origin_subtraction": true
+    },
+    {
+      "group": "wrist_right-triangle-witness-20261011",
+      "private_report_sha256": "551f62dcb09d1a1651395522219b6ab438a865b754c2938b614a07cdbc1bf10a",
+      "sources": [
+        {
+          "label": "LUNATE_RIGHT",
+          "sha256": "5c984c321afab554c09ff9998feeaacd87147d23821eb49053c1c6bd52c12e5f",
+          "raw_faces": 3220,
+          "usable_faces": 3220
+        },
+        {
+          "label": "SCAPHOID_RIGHT",
+          "sha256": "52b9d3b3f83bbc61b1ca42d20fa5f4c72a2c8c2c23cecaf6dc7566f50840b4bd",
+          "raw_faces": 4244,
+          "usable_faces": 4244
+        }
+      ],
+      "directions": [
+        {
+          "source": "LUNATE_RIGHT",
+          "target": "SCAPHOID_RIGHT",
+          "queried_unique_valid_face_vertices": 1612,
+          "interior_witness_count": 286,
+          "max_native_point_error_source_units": 9.154746010153758e-7,
+          "max_native_distance_error_source_units": 0.0000016139719463126312,
+          "minimum_witness_source_units": 0.9030651754608854
+        },
+        {
+          "source": "SCAPHOID_RIGHT",
+          "target": "LUNATE_RIGHT",
+          "queried_unique_valid_face_vertices": 2124,
+          "interior_witness_count": 263,
+          "max_native_point_error_source_units": 0.0000012725909073196817,
+          "max_native_distance_error_source_units": 0.0000024141117798137657,
+          "minimum_witness_source_units": 0.8839689544055365
+        }
+      ],
+      "seconds": 2.347,
+      "output_sha256": {
+        "candidate_source_pair.blend": "1fa323900ad400a510db4f2a4e68287dd457ead6b12c274b40f862e29723a5f6",
+        "source_pair.png": "dafb271029a2de8063e56ec7ef583045d56fdcf19cb5601f09c343436e375ca4"
+      },
+      "query_index_local_origin_subtraction": true
+    }
+  ]
+}

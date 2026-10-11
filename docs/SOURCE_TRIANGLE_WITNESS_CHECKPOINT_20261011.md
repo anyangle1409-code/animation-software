@@ -82,3 +82,41 @@ squared area; use stable hypot for candidate ordering and distance. Final12new+
 Reviewer did not judge private artifacts/remote CI/anatomical truth/physical
 registration/full clearance/inherited full suite; those are respectively exact
 local evidence or explicitly open gates, not assumed approvals. No full rerun.
+
+## Bilateral filename pairs completed; no anatomical approval
+
+Only6missing private laptop STLs acquired (3839704bytes total), exact frozen
+revision LFS SHA/size verified; left scaphoid also matched historical pin. No
+completed54/30surface acquisition or44vertex scan rerun. Source SHA/face counts,
+directions, numeric-only results and four private scene/report/image hashes in
+`docs/SOURCE_TRIANGLE_BILATERAL_CANDIDATES_20261011.json`; raw vertices absent.
+
+Four nominal pairs now executed in native Blender: left/right talus-calcaneus
+and scaphoid-lunate. All69707source vertex queries checked against independently
+projected target triangle proposals. Retained all valid islands, original raw
+source triangles/vertices saved/reopened exactly; four actual previews viewed.
+Not independently accepted anatomical laterality, contact or original mesh rights.
+
+Right foot30984queries/7.047s, directional witnesses0.5860309822/0.5843044781;
+left wrist3684queries/2.300s,0.8742576687/0.8747750457;
+right wrist3736queries/2.347s,0.9030651755/0.8839689544. Allsource units only.
+Earlier vertex-only bounds rounded0.590/0.875/0.910 respectively. Neither small
+improvements nor side differences imply accepted joint clearance or pathology.
+
+Initial wrist probes FAILED0.0001numeric tolerance before output creation:
+native float32 globalZaround1100 produced0.000100771939 coordinate discrepancy.
+Diagnostic evidence isolated large-offset rounding, not anatomy. Query-index-only
+subtraction of one existing target source vertex and double-precision restoration
+reduced maxima below0.00000250distance/0.00000196coordinate, same tolerance.
+No saved vertices changed, rescale or source-to-HGPT transform installed. Local
+rebasing used for wrist indices only; completed foot probes not repeated.
+
+Code2b471fa8ec95cba2de3475e5d940921f7b1b55dd ALL3CIchecksSUCCESS,
+[run38133931890](https://github.com/anyangle1409-code/animation-software/actions/runs/38133931890).
+Metadata-only follow-up must have its newest exact-head CI checked separately.
+Draft PR50, no main merge. Readiness0READY/9PARTIAL/3BLOCKED unchanged.
+
+Next: preserve/reuse completed four scenes and projections, confirm latest CI,
+then a bounded true triangle/triangle intersection or global-distance prerequisite
+with fail-closed numerical tests, or W1A physical registration evidence. Independent
+articular patch/landmark/qualified review and accepted units remain required.

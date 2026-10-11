@@ -1,5 +1,27 @@
 # Master programme: independent execution checkpoint, 10 October 2026
 
+## Latest active topic — 11 October source triangle witnesses
+
+After fetching, inspect draft PR50 on
+`codex/source-surface-triangle-witness-20261011` before repeating source work.
+Verified code2b471fa8ec95cba2de3475e5d940921f7b1b55dd all3CIchecksPASS,
+run38133931890; newer metadata commit requires its own exact-head CI check.
+12new numerical+18unchanged source tests and native1PASS; independent code
+review's two numerical edge cases fixed with observedFAIL→PASS regressions.
+Actual Blender: four nominal wrist/foot pairs,69707source vertex projections,
+all original vertices saved/reopened exactly, four previews viewed. Private
+source bytes/scenes retained outsideGit. No repeat of these probes or44old scans.
+Exact pins/scalar evidence/limitations:
+`docs/SOURCE_TRIANGLE_WITNESS_CHECKPOINT_20261011.md` and
+`docs/SOURCE_TRIANGLE_BILATERAL_CANDIDATES_20261011.json`.
+Wrist native query-only local-origin subtraction handles float32 offsets without
+moving saved geometry or relaxing0.0001source-unit tolerance. No mm/registration,
+global mesh-mesh clearance, anatomical contact or physiological acceptance.
+0READY/9PARTIAL/3BLOCKED unchanged; mainWork and GPT renderer lanes untouched.
+Next: latestPR50CI, then bounded exact triangle/intersection prerequisite or
+highest-priority W1A source-registration/seven independent pelvis landmarks.
+Use PR48's shared plan; post meaningful milestones on PR26. No main merge.
+
 This continues the owner's supplied programme, retaining the canonical phase
 numbers and source-first acceptance gates. It is not a production release.
 Working branch: `codex/source-skeleton-blender-measurements-20261010`, draft PR26.

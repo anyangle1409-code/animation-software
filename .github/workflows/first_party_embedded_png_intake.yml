@@ -1,0 +1,65 @@
+name: G1e original embedded PNG source intake and strict GLB regression
+on:
+  push:
+    branches: [codex/first-party-embedded-png-intake-20261011]
+    paths:
+      - src/viewer/firstPartyEmbeddedPngSource.mjs
+      - src/viewer/firstPartyGlbSkinnedBatches.mjs
+      - tests/firstPartyEmbeddedPngSource.test.mjs
+      - docs/FIRST_PARTY_G1E_EMBEDDED_PNG_20261011.md
+      - .github/workflows/first_party_embedded_png_intake.yml
+  pull_request:
+    paths:
+      - src/viewer/firstPartyEmbeddedPngSource.mjs
+      - src/viewer/firstPartyGlbSkinnedBatches.mjs
+      - tests/firstPartyEmbeddedPngSource.test.mjs
+      - .github/workflows/first_party_embedded_png_intake.yml
+permissions:
+  contents: read
+jobs:
+  strict-source-image-and-inherited-gates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Source PNG/GLB and inherited original pose/skin validation
+        run: |
+          node --test tests/firstPartyEmbeddedPngSource.test.mjs
+          node --test tests/firstPartyGlbFlatBaseColors.test.mjs
+          node --test tests/firstPartyGlbUV0.test.mjs
+          node --test tests/firstPartyGlbSkinnedBatches.test.mjs
+          node --test tests/firstPartyGlbSourceNormals.test.mjs
+          node --test tests/firstPartyPrototypeModelHandoff.test.mjs
+          node --test tests/firstPartyPrototypePoseSequence.test.mjs
+      - name: Refuse vendor and network dependencies
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          for (const path of [
+            'src/viewer/firstPartyEmbeddedPngSource.mjs',
+            'src/viewer/firstPartyGlbSkinnedBatches.mjs'
+          ]) {
+            const code=fs.readFileSync(path,'utf8');
+            if (/from\s+['"](?:three|react|react-dom|@react-three\/[^'"]*|[^'"]*threeRuntimeBoundary[^'"]*)['"]|\bfetch\s*\(|\bXMLHttpRequest\b/.test(code))
+              throw new Error('External renderer/network in '+path);
+          }
+          JS
+  unchanged-editor-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm run build

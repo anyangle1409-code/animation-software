@@ -137,3 +137,72 @@ test('reject a candidate original character on purpose: no implicit production a
   assert.equal(r.audit.productionRuntimeReady,false);
   assert.ok(r.batches.every(x=>x.parsed.audit.productionReady===false));
 });
+
+function fakeGpu(){
+  const calls=[];
+  const gl={
+    VERTEX_SHADER:1,FRAGMENT_SHADER:2,COMPILE_STATUS:3,LINK_STATUS:4,
+    ARRAY_BUFFER:5,ELEMENT_ARRAY_BUFFER:6,FLOAT:7,DEPTH_TEST:8,
+    DYNAMIC_DRAW:9,COLOR_BUFFER_BIT:10,DEPTH_BUFFER_BIT:20,
+    TRIANGLES:4,UNSIGNED_SHORT:5123,UNSIGNED_INT:5125,
+    createShader:()=>({}),shaderSource:()=>{},compileShader:()=>{},
+    getShaderParameter:()=>true,getShaderInfoLog:()=>'',deleteShader:()=>{},
+    createProgram:()=>({}),attachShader:()=>{},linkProgram:()=>{},
+    getProgramParameter:()=>true,getProgramInfoLog:()=>'',deleteProgram:()=>{},
+    createVertexArray:()=>({}),createBuffer:()=>({}),bindVertexArray:()=>{},
+    bindBuffer:()=>{},getUniformLocation:(_,name)=>({name}),enableVertexAttribArray:()=>{},
+    vertexAttribPointer:()=>{},enable:()=>{},viewport:()=>{},
+    clearColor:()=>{},clear:()=>calls.push('clear'),useProgram:()=>{},
+    uniformMatrix4fv:()=>{},uniform3fv:()=>{},
+    bufferData:()=>{},
+    drawElements:(_,count)=>calls.push(['draw',count]),
+    deleteBuffer:()=>{},deleteVertexArray:()=>{},
+  };
+  const listeners=new Map();
+  const canvas={
+    width:0,height:0,
+    getContext:kind=>{assert.equal(kind,'webgl2');return gl;},
+    addEventListener:(key,fn)=>listeners.set(key,fn),
+    removeEventListener:key=>listeners.delete(key),
+  };
+  return {canvas,calls,listeners};
+}
+test('multi-mesh native GPU validates ALL parts before one clear and multiple indexed draws',async()=>{
+  const {createNativeIndexedMeshWebGL2,deformIndexedSkin}=
+    await import('../src/viewer/firstPartyIndexedSkinnedMesh.mjs');
+  const gpu=fakeGpu(),renderer=createNativeIndexedMeshWebGL2(gpu.canvas);
+  const source=parse(fixture());
+  const posed=new Float32Array([...id(),...id()]);
+  const decoded=source.batches.map(x=>deformIndexedSkin(x.parsed.mesh,posed));
+  assert.equal(renderer.renderBatches(decoded,{colors:[[1,0,0],[0,1,0]]}),true);
+  assert.equal(renderer.frameCount,1);
+  assert.equal(renderer.drawCallCount,2);
+  assert.deepEqual(gpu.calls,['clear',['draw',3],['draw',3]]);
+  const draws=gpu.calls.length;
+  assert.throws(()=>renderer.renderBatches([decoded[0],{...decoded[1],indices:new Uint16Array([0,1,19])}]),
+    /Invalid triangle index/);
+  assert.equal(gpu.calls.length,draws,'Bad second primitive must not partially draw the first');
+  assert.throws(()=>renderer.renderBatches(decoded,{colors:[[1,0,0]]}),/one color/);
+  assert.throws(()=>renderer.renderBatches([]),/1..8/);
+  renderer.render(decoded[0]);
+  assert.equal(renderer.frameCount,2);
+  assert.equal(renderer.drawCallCount,3);
+  renderer.dispose();
+});
+test('batched native GPU honors loss/recovery without third-party fallback',async()=>{
+  const {createNativeIndexedMeshWebGL2,deformIndexedSkin}=
+    await import('../src/viewer/firstPartyIndexedSkinnedMesh.mjs');
+  const gpu=fakeGpu(),renderer=createNativeIndexedMeshWebGL2(gpu.canvas);
+  const source=parse(fixture());
+  const parts=source.batches.map(x=>deformIndexedSkin(x.parsed.mesh,new Float32Array([...id(),...id()])));
+  renderer.setSize(400,300,1);
+  let prevented=false;
+  gpu.listeners.get('webglcontextlost')({preventDefault:()=>{prevented=true;}});
+  assert.equal(prevented,true);
+  assert.equal(renderer.renderBatches(parts),false);
+  assert.equal(renderer.frameCount,0);
+  gpu.listeners.get('webglcontextrestored')();
+  assert.equal(renderer.renderBatches(parts),true);
+  assert.equal(renderer.frameCount,1);
+  renderer.dispose();
+});

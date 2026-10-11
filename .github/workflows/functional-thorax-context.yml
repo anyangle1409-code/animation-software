@@ -1,0 +1,44 @@
+name: Provisional thorax context
+on:
+  push:
+    branches: [codex/functional-thorax-context-20261011]
+    paths:
+      - 'scripts/anatomy_fit/functional_thorax_shapes.py'
+      - 'scripts/test_functional_thorax_shapes.py'
+      - 'scripts/build_functional_thorax_context_blender.py'
+      - 'scripts/blender_tests/test_functional_thorax_context.py'
+      - '.github/workflows/functional-thorax-context.yml'
+  pull_request:
+    paths:
+      - 'scripts/anatomy_fit/functional_thorax_shapes.py'
+      - 'scripts/test_functional_thorax_shapes.py'
+      - 'scripts/build_functional_thorax_context_blender.py'
+      - 'scripts/blender_tests/test_functional_thorax_context.py'
+      - '.github/workflows/functional-thorax-context.yml'
+permissions:
+  contents: read
+jobs:
+  shapes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python scripts/test_functional_thorax_shapes.py -v
+  native-context:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y blender libegl1 libgl1-mesa-dri xvfb xauth
+      - run: blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/blender_tests/test_functional_thorax_context.py
+      - run: xvfb-run -a blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/build_functional_thorax_context_blender.py -- --out /tmp/hgpt-thorax-context
+        env:
+          LIBGL_ALWAYS_SOFTWARE: '1'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: provisional-thorax-context-views
+          path: |
+            /tmp/hgpt-thorax-context/*.png
+            /tmp/hgpt-thorax-context/*.json

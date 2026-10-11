@@ -1,5 +1,16 @@
 # Master programme: independent execution checkpoint, 10 October 2026
 
+## New W1 thorax context — 11 October
+
+Newest topic `codex/functional-thorax-context-20261011`, ledger
+`docs/FUNCTIONAL_THORAX_CONTEXT_20261011.md`, machine key
+`active_functional_thorax_checkpoint`. Six actual new context views/static25
+rib/sternum guides around unchanged shoulder anchors;3pure+2native PASS.
+This exposes inherited steep rib paths/long tilted sternum and crude blade,
+not correct contact or accepted anatomy. ParentPR68 all6CI PASS at79e0a1c5.
+Next actual independent visual reference comparison and source-aware authored
+shape/placement correction, then original skin. Preserve every frozen record.
+
 ## Owner-updated functional priority — 11 October 2026
 
 PR48 v1.1 at f9d4ca0f explicitly supersedes clinical-all206 registration as a

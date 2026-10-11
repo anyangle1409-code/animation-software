@@ -17,6 +17,8 @@ import { parseRestrictedSkinnedGlb, FIRST_PARTY_GLB_GATE }
   from './firstPartyGlbSkinnedGeometry.mjs';
 import { readRestrictedGlbUV0 } from './firstPartyGlbUV0.mjs';
 import { readRestrictedGlbNormals } from './firstPartyGlbSourceNormals.mjs';
+import { readRestrictedEmbeddedPngSources }
+  from './firstPartyEmbeddedPngSource.mjs';
 
 export const FIRST_PARTY_SCENE_BATCH_KIND='hgpt-glb2-batched-skinned-primitives-v1';
 const MAX_GLB=32*1024*1024;
@@ -75,9 +77,9 @@ const sameArray=(a,b)=>a.length===b.length && a.every((value,i)=>value===b[i]);
  * shape; no unknown nested fields, links or extensions may be silently lost.
  */
 const own=(value,key)=>Object.prototype.hasOwnProperty.call(value,key);
-function flatOpaqueMaterial(source,primitive,used){
+function flatOpaqueMaterial(source,primitive,used,pngTextures,usedTextureIndices){
   if(primitive.material===undefined)
-    return {color:Object.freeze([.74,.8,.92]),sourceMaterialIndex:null};
+    return {color:Object.freeze([.74,.8,.92]),sourceMaterialIndex:null,sourcePng:null};
   const mats=source.materials;
   expect(array(mats)&&Number.isSafeInteger(primitive.material) &&
     primitive.material>=0&&primitive.material<mats.length,
@@ -97,7 +99,8 @@ function flatOpaqueMaterial(source,primitive,used){
   const pbr=material.pbrMetallicRoughness;
   expect(pbr && typeof pbr==='object' && !array(pbr),
     'explicit flat non-metallic material required');
-  const allowedPbr=new Set(['baseColorFactor','metallicFactor','roughnessFactor']);
+  const allowedPbr=new Set(['baseColorFactor','metallicFactor','roughnessFactor',
+    ...(pngTextures?['baseColorTexture']:[])]);
   expect(Object.keys(pbr).every(key=>allowedPbr.has(key)),
     'texture/unsupported PBR material feature rejected');
   expect(pbr.metallicFactor===0 && (pbr.roughnessFactor===undefined||
@@ -106,8 +109,21 @@ function flatOpaqueMaterial(source,primitive,used){
   expect(array(factor)&&factor.length===4 &&
     factor.every(v=>Number.isFinite(v)&&v>=0&&v<=1) &&
     factor[3]===1,'opaque finite baseColorFactor RGBA required');
+  let sourcePng=null;
+  if(pbr.baseColorTexture!==undefined){
+    const link=pbr.baseColorTexture;
+    expect(pngTextures && link && typeof link==='object' && !array(link) &&
+      Object.keys(link).every(k=>['index','texCoord'].includes(k)) &&
+      Number.isSafeInteger(link.index)&&link.index>=0&&
+      link.index<pngTextures.length &&
+      (link.texCoord===undefined||link.texCoord===0),
+      'unsupported baseColorTexture link/UV set');
+    sourcePng=pngTextures[link.index];
+    usedTextureIndices.add(link.index);
+  }
   used.add(primitive.material);
-  return {color:Object.freeze([...factor.slice(0,3)]),sourceMaterialIndex:primitive.material};
+  return {color:Object.freeze([...factor.slice(0,3)]),
+    sourceMaterialIndex:primitive.material,sourcePng};
 }
 
 
@@ -121,11 +137,16 @@ function flatOpaqueMaterial(source,primitive,used){
  * importer: it copies the BIN per primitive and should be replaced by a
  * proven shared-buffer decoding API before large full-body assets.
  */
-export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=false,allowSourceUV0=false,allowSourceNormals=false}={}){
+export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=false,allowSourceUV0=false,allowSourceNormals=false,allowEmbeddedPngBaseColor=false}={}){
   const {root,bin}=unpack(input);
   expect(typeof allowSourceFlatColors==='boolean','flat material mode must be explicit boolean');
   expect(typeof allowSourceUV0==='boolean','UV0 opt-in must be explicit boolean');
   expect(typeof allowSourceNormals==='boolean','source normal opt-in must be explicit boolean');
+  expect(typeof allowEmbeddedPngBaseColor==='boolean','PNG opt-in must be boolean');
+  expect(!allowEmbeddedPngBaseColor || (allowSourceFlatColors && allowSourceUV0),
+    'embedded PNG opt-in requires flat colour and UV0 source validation');
+  const pngTextures=allowEmbeddedPngBaseColor ?
+    readRestrictedEmbeddedPngSources(root,bin) : null;
   if(root.materials!==undefined){
     expect(array(root.materials) && root.materials.length<=8,
       'material count over original preview limits');
@@ -177,7 +198,7 @@ export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=fa
   expect(count>=2 && count<=MAX_PARTS,'prototype requires 2..8 explicit total primitives');
 
   const batches=[];
-  const materialUsed=new Set();
+  const materialUsed=new Set(),usedPngTextureIndices=new Set();
   let totalVertices=0,totalTriangles=0,sourceNames=null,sourceInv=null;
   for(let meshIndex=0;meshIndex<root.meshes.length;meshIndex++){
     const mesh=root.meshes[meshIndex];
@@ -191,8 +212,11 @@ export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=fa
         readRestrictedGlbNormals(root,bin,attributes?.NORMAL,
           root.accessors?.[attributes?.POSITION]?.count) : null;
       const material=allowSourceFlatColors ?
-        flatOpaqueMaterial(root,originalPrimitive,materialUsed) :
-        {color:Object.freeze([.74,.8,.92]),sourceMaterialIndex:null};
+        flatOpaqueMaterial(root,originalPrimitive,materialUsed,pngTextures,usedPngTextureIndices) :
+        {color:Object.freeze([.74,.8,.92]),sourceMaterialIndex:null,sourcePng:null};
+      if(material.sourcePng)
+        expect(allowSourceUV0 && uv0 && uv0.length>0,
+          'baseColorTexture requires validated source UV0');
       const split=structuredClone(root);
       split.meshes=[{
         ...(mesh.name!==undefined?{name:mesh.name}:{}),
@@ -206,6 +230,13 @@ export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=fa
       if(allowSourceFlatColors){
         delete split.meshes[0].primitives[0].material;
         delete split.materials;
+      }
+      if(allowEmbeddedPngBaseColor){
+        // Only remove after readRestrictedEmbeddedPngSources strictly checked
+        // all PNG bytes, declared images, source textures and samplers.
+        delete split.images;
+        delete split.textures;
+        delete split.samplers;
       }
       if(allowSourceUV0)delete split.meshes[0].primitives[0].attributes.TEXCOORD_0;
       // The inherited strict parser only COUNT-checks source NORMAL before
@@ -244,6 +275,7 @@ export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=fa
         sourceMeshName:typeof mesh.name==='string'?mesh.name:null,
         materialColor:material.color,
         sourceMaterialIndex:material.sourceMaterialIndex,
+        sourceBaseColorPng:material.sourcePng,
         sourceUV0:uv0,
         sourceNormals:normal,
         // Only parser-validated numeric arrays. Never claim accepted human rig.
@@ -256,6 +288,9 @@ export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=fa
     expect(materialUsed.size===root.materials.length,
       'unused or unvalidated source material rejected');
   }
+  if(pngTextures)
+    expect(usedPngTextureIndices.size===pngTextures.length,
+      'unused embedded source PNG texture forbidden');
   return {
     kind:FIRST_PARTY_SCENE_BATCH_KIND,
     batches,
@@ -270,6 +305,7 @@ export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=fa
       allPrimitivesPassExistingStrictLoader:true,
       flatOpaqueSourceColorsValidated:allowSourceFlatColors,
       sourceUV0CoordinatesValidated:allowSourceUV0,
+      embeddedPngBaseColorSourceValidated:allowEmbeddedPngBaseColor,
       originalUnitLengthSourceNormalsValidated:allowSourceNormals,
       sourceNormalsGPUSkinned:false,
       textureSamplingImplemented:false,

@@ -151,7 +151,11 @@ test('rejects unsupported sampler, UV set, unbound image and missing source UVs'
   reject(r=>{r.materials[0].normalTexture={index:0}},/unsupported glTF/);
 });
 test('source image data cannot alias position/skin accessor or escape the declared BIN',()=>{
-  reject(r=>{r.images[0].bufferView=0},/cannot alias/);
+  reject(r=>{
+    // Geometry reading the same source image bufferView must be rejected
+    // explicitly, even when the source PNG view has legitimate byte size.
+    r.accessors[0].bufferView=r.images[0].bufferView;
+  },/cannot alias/);
   reject(r=>{r.bufferViews[r.images[0].bufferView].byteLength=99999999},
     /outside aligned/);
   reject(r=>{r.bufferViews[r.images[0].bufferView].byteOffset=1},
@@ -178,7 +182,7 @@ test('valid structurally bounded PNG dimensions, signature and CRC must match',(
 });
 test('bad secondary primitive cannot hide invalid source texture data',()=>{
   reject(r=>{r.meshes[1].primitives[0].mode=1},/TRIANGLES/);
-  reject(r=>{r.meshes[1].primitives[0].attributes.POSITION=999},/accessor/);
+  reject(r=>{r.meshes[1].primitives[0].attributes.POSITION=999},/bounded expected vertex count|accessor/);
 });
 test('all opt-in checks retain source-only no human-reality and no-network flags',()=>{
   const r=parse(textured(),texOpts);

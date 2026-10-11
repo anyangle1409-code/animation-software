@@ -872,3 +872,32 @@ run38096184421. No anatomy, segmentation, landmark or canonical gate advanced.
 Next: reuse the plate; do not regenerate it. Use available native Blender
 image/marker display or a repaired browser runtime for exact-pixel visual
 review on53–55, retaining qualified independent reviewer acceptance gates.
+
+## Native Blender hip-marker display reviewed
+
+The browser visual blocker was bypassed by a private Blender5.2.1 display,
+not by changing browser/app settings. Six unchanged embedded windows and
+eight original circle centres were displayed with external/unpacked PNGs.
+Private output: `C:/Users/Mark/Documents/Codex/hgpt-private-hip-plate-678c8c03/outputs/native_plate.blend`
+and `native_plate.png`; no medical or Blender bytes entered Git.
+PNG SHA2568067ea391d4b07c188e6210c6a4bbb32babf3d6c690177cf5be8bd94e5764de8.
+Native render81.297s with2CPUthreads. Missing-artifact check RED, then one
+display-contract test PASS in0.625s: dimensions, centres and independent
+hand-derived coloured raster-ring positions. Initial short-hex SVG colour
+failure corrected privately; source/tool branches remained unchanged.
+Crosshairs, borders, CSS and top-level SVG captions omitted; this is NOT a
+full-fidelity SVG renderer or validated pixel-to-scanner coordinate model.
+
+Actual rendered image viewed: markers1/2 are within round bilateral internal
+profiles;3/4 overlap their margins in both windows. Distinct socket-only
+identity is NOT established. Adjacent slices retain round/surrounding angular
+profiles, but no head, socket, articular surface or contact accepted.
+No brighter-pixel snapping, classifier, segmentation or registration added.
+Seven landmarks remain0/7 accepted. Previous master44e2a90 passed all3CI
+checks in run38096617870; full historical regression remains NOT green.
+
+Next executable action: do not rerender this completed display. Reconcile
+the socket-hypothesis overlap with source-bound3D profile/mask evidence and
+qualified independent review before choosing segmentation seeds. If that
+gate is unavailable, move to independent regional source diagnostics;
+never manufacture accepted landmarks from the four HU-linked pixels.

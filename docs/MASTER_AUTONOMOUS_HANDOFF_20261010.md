@@ -931,3 +931,19 @@ segmentation validity/invalidity. Exact private pins, counts and limits:
 
 Next: remaining pinned rib1left/rib3left and hamate-right component orthogonal
 views; hand layer1 required. Do not repeat completed foot or Rib4 work.
+
+## Component first-review coverage complete, not anatomical acceptance
+
+All11previously flagged tiny components have33orthogonal first-review planes.
+Hamate-right adds3main-shell control planes on layer1; it is NOT a tiny
+fragment. The remaining18rib/3hamate planes were actually viewed; original
+stream integrity passed,18unchanged sampler tests PASS. Exact source/output
+pins and findings: `docs/BONEHUB_COMPONENT_ORTHOGONAL_COMPLETION_20261011.md`.
+All fragments retained; no bone identity, registration, HU or contact accepted.
+Mastera5ec99eb passed all3CI checks in run38097804597. Full suite NOT green.
+
+Next: no repeated fragment displays. Investigate primary metadata for a
+genuinely independent finer-resolution contiguous pelvic CT candidate,
+verifying licensing/access, native spacing, source identity and headers before
+private acquisition. A new subject is evidence only, never replacement HGPT
+geometry. Qualified independent review remains mandatory for anatomy acceptance.

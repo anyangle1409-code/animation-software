@@ -48,8 +48,9 @@ test('G4f explicit diagnostic mode decodes/binds all 18 source meshes, never dro
 test('regular 1..4-mesh production adapter still refuses 18-mesh scene',async()=>{
   const source=glb();
   assert.throws(()=>parseRestrictedBatchedSkinnedGlb(source),/bounded original skinned meshes/);
+  const standardManifest=await manifest(source,'batched');
   await assert.rejects(()=>validateProvisionalModelHandoff(source,
-    await manifest(source,'batched')),/bounded original skinned meshes/);
+    standardManifest),/bounded original skinned meshes/);
 });
 test('pilot mode is never implicit or enabled with false or non-boolean flag',()=>{
   const source=glb();

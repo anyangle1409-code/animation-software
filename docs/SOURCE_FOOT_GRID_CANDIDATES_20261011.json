@@ -1,0 +1,48 @@
+{
+  "kind": "EXACT_SUPPLIED_SOURCE_FOOT_CANDIDATES_NOT_ANATOMICAL_APPROVAL",
+  "source_revision": "ac8de2b38f5ae1a0996053ca0639dd6ae43358f1",
+  "computational_cell_width_source_units": 1,
+  "cell_reference_limit_per_invocation": 500000,
+  "unique_comparison_limit_per_invocation": 2000000,
+  "cell_pair_visit_limit_per_invocation": 2000000,
+  "raw_vertices_in_git": false,
+  "anatomical_contact_accepted": false,
+  "physical_units_verified": false,
+  "whole_surface_clearance_verified": false,
+  "source_to_HGPT_registration_accepted": false,
+  "canonical_promotion_allowed": false,
+  "nominal_pairs": [
+    {
+      "labels": ["CALCANEUS_RIGHT", "TALUS_RIGHT"],
+      "raw_faces": [37552, 24408],
+      "source_sha256": ["4debd97e844a0a3d7f1d9cd7113f5f608f9bb2c6d676ce6fccb60d220d022b1a", "8ce8435d5c0c6605c058624235d07cc16357afaf294e21c56375d7b599b83736"],
+      "cell_references": 265924,
+      "cell_pair_visits": 10064,
+      "unique_box_comparisons": 7221,
+      "complete_candidates": 63,
+      "exact_intersecting_candidate_pairs": 0,
+      "refused_degenerate_candidate_pairs": 0,
+      "native_original_vertices_face_ids_and_hashes_unchanged": true,
+      "probe_seconds": 5.867,
+      "unchanged_scene_sha256": "58041eb6ca9a1a9a6dec1e9f24691e0775b3f2825ec8efc15d48deb4cc62b60d",
+      "private_report_sha256": "07f69e7b81fab9243546098b6daea56711b6262f1a217b1d58bde4a4fe325243"
+    },
+    {
+      "labels": ["TALUS_LEFT", "CALCANEUS_LEFT"],
+      "raw_faces": [24812, 37816],
+      "source_sha256": ["b79dcb8037223d2652e300cb42124c9d4e16dfedcc49ff36b4d44ed3fc24602e", "5e160f34aff9c2bfb1e3b6546add17a083ec4f6bb4be0f29392e714d44132eb9"],
+      "cell_references": 268881,
+      "cell_pair_visits": 12155,
+      "unique_box_comparisons": 8435,
+      "complete_candidates": 146,
+      "exact_intersecting_candidate_pairs": 0,
+      "refused_degenerate_candidate_pairs": 0,
+      "native_original_vertices_face_ids_and_hashes_unchanged": true,
+      "exact_degenerate_talus_faces_recounted_and_retained": 38,
+      "degenerate_talus_faces_among_complete_candidates": 0,
+      "probe_seconds": 5.564,
+      "unchanged_scene_sha256": "c0e9916ee44c295552fe4d51a4cef1f4ffb711f369f0cb2c6047e8f77ab71bb8",
+      "private_report_sha256": "436b0a8e73dca0ae1ee5e108b27b0a716b6dcac8cddbd8a9fe58839623c055a7"
+    }
+  ]
+}

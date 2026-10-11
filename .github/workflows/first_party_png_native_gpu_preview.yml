@@ -1,0 +1,73 @@
+name: G1f actual Chromium first-party original PNG texture sampling
+on:
+  push:
+    branches: [codex/first-party-native-png-texture-preview-20261011]
+    paths:
+      - src/viewer/firstPartyEmbeddedPngWebGL2.mjs
+      - scripts/verify-first-party-png-texture-browser.mjs
+      - .github/workflows/first_party_png_native_gpu_preview.yml
+      - docs/FIRST_PARTY_G1F_PNG_GPU_TEXTURE_20261011.md
+  pull_request:
+    paths:
+      - src/viewer/firstPartyEmbeddedPngWebGL2.mjs
+      - scripts/verify-first-party-png-texture-browser.mjs
+      - .github/workflows/first_party_png_native_gpu_preview.yml
+permissions:
+  contents: read
+jobs:
+  original-texture-source-regressions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - run: |
+          node --test tests/firstPartyEmbeddedPngSource.test.mjs
+          node --test tests/firstPartyGlbFlatBaseColors.test.mjs
+          node --test tests/firstPartyGlbSkinnedBatches.test.mjs
+          node --test tests/firstPartyPrototypePoseSequence.test.mjs
+      - name: Refuse vendor JS and remote asset fetch in native PNG preview
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const src=fs.readFileSync('src/viewer/firstPartyEmbeddedPngWebGL2.mjs','utf8');
+          if (/from\s+['"](?:three|react|react-dom|@react-three\/[^'"]*)['"]|\bfetch\s*\(|\bXMLHttpRequest\b/.test(src))
+            throw Error('native PNG renderer must not load external vendor/media');
+          console.log('Source-only embedded texture renderer; no network or Three.js');
+          JS
+  actual-chromium-original-png-gpu-pixels:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/verify-first-party-png-texture-browser.mjs
+      - name: Original synthetic GPU texture pixel report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hgpt-g1f-native-embedded-png-texture-pixel-proof
+          path: reports/browser-smoke/first-party-g1f-embedded-png/
+          if-no-files-found: warn
+          retention-days: 14
+  unchanged-editor-compatibility:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm run build

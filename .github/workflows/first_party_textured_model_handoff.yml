@@ -1,0 +1,86 @@
+name: G4e original SHA-bound embedded PNG human model preflight
+on:
+  push:
+    branches: [codex/first-party-textured-glb-handoff-20261011]
+    paths:
+      - src/viewer/firstPartyPrototypeModelHandoff.mjs
+      - tests/support/buildSyntheticTexturedBatchedGlb.mjs
+      - tests/firstPartyTexturedOriginalModelHandoff.test.mjs
+      - scripts/verify-first-party-original-textured-handoff-browser.mjs
+      - docs/FIRST_PARTY_G4E_TEXTURED_MODEL_HANDOFF_20261011.md
+      - .github/workflows/first_party_textured_model_handoff.yml
+  pull_request:
+    paths:
+      - src/viewer/firstPartyPrototypeModelHandoff.mjs
+      - tests/support/buildSyntheticTexturedBatchedGlb.mjs
+      - tests/firstPartyTexturedOriginalModelHandoff.test.mjs
+      - scripts/verify-first-party-original-textured-handoff-browser.mjs
+      - .github/workflows/first_party_textured_model_handoff.yml
+permissions:
+  contents: read
+jobs:
+  original-source-glb-texture-and-pose-regressions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - name: Verify G4e actual source model plus original image/UV/skin
+        run: |
+          node --test tests/firstPartyTexturedOriginalModelHandoff.test.mjs
+          node --test tests/firstPartyEmbeddedPngSource.test.mjs
+          node --test tests/firstPartyPrototypeModelHandoff.test.mjs
+          node --test tests/firstPartyPrototypePoseSequence.test.mjs
+          node --test tests/firstPartyGlbRigBindingContract.test.mjs
+      - name: No imported vendor software or media network in original handoff
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const paths=[
+            'src/viewer/firstPartyPrototypeModelHandoff.mjs',
+            'src/viewer/firstPartyGlbSkinnedBatches.mjs'
+          ];
+          for(const path of paths){
+            const src=fs.readFileSync(path,'utf8');
+            if (/\bfetch\s*\(|\bXMLHttpRequest\b|from\s+['"](?:three|react|react-dom|@react-three\/)/.test(src))
+              throw Error('G4e cannot download assets/import external renderer: '+path);
+          }
+          JS
+  actual-native-gpu-original-GLB-texture-handoff:
+    runs-on: ubuntu-latest
+    timeout-minutes: 23
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - name: G4 source SHA and rest bind directly into sRGB GPU skinned material draw
+        run: node scripts/verify-first-party-original-textured-handoff-browser.mjs
+      - name: Preserve prior real Chromium GPU colour-management proof
+        run: node scripts/verify-first-party-gltf-srgb-browser.mjs
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hgpt-g4e-original-source-textured-GLB-into-native-GPU
+          path: reports/browser-smoke/first-party-g4e-real-glb-handoff/
+          if-no-files-found: warn
+          retention-days: 14
+  unchanged-original-studio-typecheck-and-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm run build

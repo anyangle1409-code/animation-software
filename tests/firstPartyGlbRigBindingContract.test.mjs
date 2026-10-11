@@ -61,6 +61,7 @@ test('bind refuses unmapped/extra GLB source joint identity keys',()=>{
   const options=opts();
   delete options.sourceToCanonical.test_forearm_l;
   assert.throws(()=>bind(parsed(),options),/EXACTLY/);
+  options.sourceToCanonical.test_forearm_l='forearm_l';
   options.sourceToCanonical.unknown='root';
   assert.throws(()=>bind(parsed(),options),/EXACTLY/);
 });

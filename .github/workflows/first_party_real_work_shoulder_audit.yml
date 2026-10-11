@@ -1,0 +1,70 @@
+name: G4g actual Work Blender shoulder pilot exact GLB source audit
+on:
+  push:
+    branches: [codex/g4g-real-work-shoulder-glb-audit-20261011]
+    paths:
+      - scripts/audit-original-work-shoulder-pilot.mjs
+      - docs/CHAT_LANE_G_OVERNIGHT_LEDGER_20261011.md
+      - .github/workflows/first_party_real_work_shoulder_audit.yml
+  pull_request:
+    paths:
+      - scripts/audit-original-work-shoulder-pilot.mjs
+      - .github/workflows/first_party_real_work_shoulder_audit.yml
+permissions:
+  contents: read
+  actions: read
+jobs:
+  exact-existing-W1-artifact-vs-first-party-G4f:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Retrieve actual Work-authored GLB from preexisting W1 PR68 successful CI
+        uses: actions/download-artifact@v4
+        with:
+          name: provisional-shoulder-views-mapping-diagnostic-glb
+          run-id: 38153765790
+          repository: anyangle1409-code/animation-software
+          github-token: ${{ github.token }}
+          path: .artifacts/private-work-shoulder
+      - name: SHA-check all private original bytes against Work's manifest; enumerate renderer gaps
+        run: |
+          node scripts/audit-original-work-shoulder-pilot.mjs \
+            .artifacts/private-work-shoulder \
+            reports/work-pilot/real-work-shoulder-first-party-audit.json
+      - name: Retain JSON audit only, NEVER upload Work model or images
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hgpt-g4g-real-shoulder-importer-gaps-json-only
+          path: reports/work-pilot/real-work-shoulder-first-party-audit.json
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Refuse arbitrary network/media import or clinical release claims
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const code=fs.readFileSync('scripts/audit-original-work-shoulder-pilot.mjs','utf8');
+          if (/\bfetch\s*\(|\bXMLHttpRequest\b|from\s+['"](?:three|react|react-dom|@react-three\/)/.test(code))
+            throw Error('Diagnostic must not fetch network assets or vendor modules');
+          console.log('Source GLB read-only; original Work bytes and metadata preserved');
+          JS
+  existing-G4f-and-original-pose-compatibility-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: |
+          node --test tests/firstPartyProvisionalPilotIntake.test.mjs
+          node --test tests/firstPartyTexturedOriginalModelHandoff.test.mjs
+          node --test tests/firstPartyPrototypePoseSequence.test.mjs

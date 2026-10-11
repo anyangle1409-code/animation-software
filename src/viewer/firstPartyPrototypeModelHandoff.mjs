@@ -58,7 +58,7 @@ function checkManifest(manifest){
   requireThat(/^[a-f0-9]{64}$/.test(manifest.glb.sha256),
     'lowercase SHA-256 of exact source GLB bytes required');
   requireThat(['single','batched','pilot'].includes(manifest.glb.layout),
-    'layout must be single, batched or diagnostic pilot');
+    'layout must be single or batched (or diagnostic pilot)');
   // v1 source manifests historically had three explicit feature flags.
   // Permit exactly those three OR the four-field, explicit PNG extension;
   // unknown fields remain rejected rather than silently ignored.

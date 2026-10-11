@@ -1,0 +1,40 @@
+{
+  "kind": "SUPPLIED_SOURCE_TRIANGLE_CANDIDATES_NOT_ANATOMICAL_APPROVAL",
+  "source_revision": "ac8de2b38f5ae1a0996053ca0639dd6ae43358f1",
+  "raw_vertices_in_git": false,
+  "anatomical_contact_accepted": false,
+  "physical_units_verified": false,
+  "whole_surface_clearance_verified": false,
+  "source_to_HGPT_registration_accepted": false,
+  "canonical_promotion_allowed": false,
+  "nominal_pairs": [
+    {
+      "labels": ["LUNATE_LEFT", "SCAPHOID_LEFT"],
+      "source_sha256": ["426eab144aa25fb197ac69fc91a026614e5fad2dd82e9934234d6bce6edec360", "362d0d42bf1b4475e705846d8c7c48965bb052f875a93355c8e302937ddef762"],
+      "raw_faces": [3204, 4156],
+      "candidate_comparisons": 246817,
+      "complete_box_candidates": 12,
+      "exact_intersecting_candidate_pairs": 0,
+      "refused_degenerate_candidate_pairs": 0,
+      "native_original_coordinates_and_face_ids_verified": true,
+      "existing_scene_read_only": true,
+      "probe_seconds": 1.601,
+      "unchanged_scene_sha256": "fa1e36d3ad358ff27b3ce173b6bc9e518ec9e415a9e6d8c6731b9d85ff9aa666",
+      "private_report_sha256": "b416e2a54bb7e64a81af4f16ee3abb27f702dbde3405dcdc4fede08319b98d7f"
+    },
+    {
+      "labels": ["LUNATE_RIGHT", "SCAPHOID_RIGHT"],
+      "source_sha256": ["5c984c321afab554c09ff9998feeaacd87147d23821eb49053c1c6bd52c12e5f", "52b9d3b3f83bbc61b1ca42d20fa5f4c72a2c8c2c23cecaf6dc7566f50840b4bd"],
+      "raw_faces": [3220, 4244],
+      "candidate_comparisons": 290450,
+      "complete_box_candidates": 3,
+      "exact_intersecting_candidate_pairs": 0,
+      "refused_degenerate_candidate_pairs": 0,
+      "native_original_coordinates_and_face_ids_verified": true,
+      "existing_scene_read_only": true,
+      "probe_seconds": 1.621,
+      "unchanged_scene_sha256": "1fa323900ad400a510db4f2a4e68287dd457ead6b12c274b40f862e29723a5f6",
+      "private_report_sha256": "a3ae2b26233c757935cc81ad265fcaf5ad058ecb118800d6b38b9ef3374c2a2a"
+    }
+  ]
+}

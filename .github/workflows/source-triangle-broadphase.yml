@@ -1,0 +1,37 @@
+name: Candidate source triangle enumeration
+on:
+  push:
+    branches: [codex/source-triangle-broadphase-20261011]
+  pull_request:
+    paths:
+      - 'scripts/anatomy_fit/source_triangle_intersection.py'
+      - 'scripts/anatomy_fit/source_triangle_broadphase.py'
+      - 'scripts/test_source_triangle_broadphase.py'
+      - 'scripts/blender_tests/test_source_triangle_broadphase.py'
+      - '.github/workflows/source-triangle-broadphase.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  complete-box-candidates:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python scripts/test_source_triangle_broadphase.py -v
+      - run: python scripts/test_source_triangle_intersection.py -v
+      - run: python scripts/test_source_triangle_witness.py -v
+      - run: python scripts/test_source_surface_component_geometry.py -v
+  native-face-identities:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y blender
+      - run: blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/blender_tests/test_source_triangle_broadphase.py

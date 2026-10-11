@@ -1,5 +1,21 @@
 # Master programme: independent execution checkpoint, 10 October 2026
 
+## Latest active topic — complete box candidates and native wrist checks
+
+Inspect newest `codex/source-triangle-broadphase-20261011` draft PR/head first.
+Read `SOURCE_TRIANGLE_BROADPHASE_CHECKPOINT_20261011.md`, safe numeric
+`SOURCE_WRIST_EXACT_CANDIDATES_20261011.json` and machine key
+`active_triangle_broadphase_checkpoint`. ParentPR52 217959a3 all3CIchecksPASS
+run38134592190. Local8+11+12+18tests/native1PASS; independent review all17576
+overlaps in46656box pairs reproduced; Minor CI dependency-path omission fixed.
+Two existing source wrist scenes read-only: all original triangles/vertices/IDs
+and source/scene hashes unchanged.537267comparisons produced15complete box
+candidates; exact supplied-triangle tests0intersections/0refused candidates.
+No medical download, scene rebuild or69707witness rerun. Not anatomical clearance,
+accepted units/contact/registration or normal joint space. All region gates unchanged.
+Next newest-topicCI; bounded foot enumeration only retaining38known degenerate
+left talus faces, explicit budget/fail-closed limits. Do not repeat wrist checks.
+
 ## Latest active topic — exact closed-triangle prerequisite
 
 Inspect `codex/source-triangle-intersection-20261011` newest live head and draft

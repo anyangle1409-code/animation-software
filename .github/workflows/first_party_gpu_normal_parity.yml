@@ -1,0 +1,97 @@
+name: G2c original GPU source-normal skinning and CPU normal parity
+on:
+  push:
+    branches: [codex/first-party-gpu-normal-parity-20261011]
+    paths:
+      - src/viewer/firstPartyGpuPaletteSkinning.mjs
+      - src/viewer/firstPartySkinnedNormalReference.mjs
+      - tests/firstPartyGpuPaletteSkinning.test.mjs
+      - tests/firstPartyGpuNormalParity.test.mjs
+      - scripts/verify-first-party-gpu-normal-browser.mjs
+      - docs/FIRST_PARTY_G2C_GPU_NORMAL_PARITY_20261011.md
+      - .github/workflows/first_party_gpu_normal_parity.yml
+  pull_request:
+    paths:
+      - src/viewer/firstPartyGpuPaletteSkinning.mjs
+      - src/viewer/firstPartySkinnedNormalReference.mjs
+      - tests/firstPartyGpuPaletteSkinning.test.mjs
+      - tests/firstPartyGpuNormalParity.test.mjs
+      - scripts/verify-first-party-gpu-normal-browser.mjs
+      - .github/workflows/first_party_gpu_normal_parity.yml
+permissions:
+  contents: read
+jobs:
+  original-gpu-source-normal-and-regressions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Independent four-weight source NORMAL reference, GPU tests and all original GLB regressions
+        run: |
+          node --test tests/firstPartyGpuNormalParity.test.mjs
+          node --test tests/firstPartyGlbSourceNormals.test.mjs
+          node --test tests/firstPartyGpuPaletteSkinning.test.mjs
+          node --test tests/firstPartyGlbUV0.test.mjs
+          node --test tests/firstPartyGlbFlatBaseColors.test.mjs
+          node --test tests/firstPartyGlbSkinnedBatches.test.mjs
+          node --test tests/firstPartyGlbRigBindingContract.test.mjs
+          node --test tests/firstPartyGlbSkinnedGeometry.test.mjs
+          node --test tests/firstPartyIndexedSkinnedMesh.test.mjs
+          node --test tests/firstPartyWebGL2SkeletonPreview.test.mjs
+      - name: Refuse Three/React imports in new project-owned original normal shaders/reference
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          for(const p of [
+            'src/viewer/firstPartyGpuPaletteSkinning.mjs',
+            'src/viewer/firstPartySkinnedNormalReference.mjs',
+            'src/viewer/firstPartyGlbSourceNormals.mjs',
+            'src/viewer/firstPartyGlbSkinnedBatches.mjs'
+          ]){
+            if(/from\s+['"](?:three|[^'"]*threeRuntimeBoundary|react|react-dom|@react-three\/[^'"]*)['"]/.test(fs.readFileSync(p,'utf8')))
+              throw Error('Forbidden third-party vendor import in '+p);
+          }
+          console.log('Normal CPU oracle and GPU vertex skin shader use no Three/React runtime.');
+          JS
+  legacy-editor-parity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm run build
+  chromium-actual-gpu-skinned-normal-parity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - name: Independent actual GPU-normal transform feedback and source-lit screen-pixel vs CPU reference check
+        run: node scripts/verify-first-party-gpu-normal-browser.mjs
+      - name: Publish original synthetic source normal shader diagnostics only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: first-party-g2c-gpu-normal-cpu-parity-and-lambert
+          path: reports/browser-smoke/first-party-g2c-skinned-normals/
+          if-no-files-found: warn
+          retention-days: 14

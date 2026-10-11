@@ -1,0 +1,60 @@
+name: G4h identity-only nested glTF Work mesh scene audit
+on:
+  push:
+    branches: [codex/g4h-original-identity-root-nested-work-mesh-20261011]
+    paths:
+      - src/viewer/firstPartyGlbIdentityAncestorGate.mjs
+      - src/viewer/firstPartyGlbSkinnedBatches.mjs
+      - tests/firstPartyGlbIdentityAncestorGate.test.mjs
+      - docs/FIRST_PARTY_G4H_IDENTITY_ANCESTORS_20261011.md
+      - .github/workflows/first_party_work_identity_ancestors.yml
+  pull_request:
+    paths:
+      - src/viewer/firstPartyGlbIdentityAncestorGate.mjs
+      - src/viewer/firstPartyGlbSkinnedBatches.mjs
+      - tests/firstPartyGlbIdentityAncestorGate.test.mjs
+      - .github/workflows/first_party_work_identity_ancestors.yml
+permissions:
+  contents: read
+  actions: read
+jobs:
+  strict-source-identity-ancestors:
+    runs-on: ubuntu-latest
+    timeout-minutes: 11
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - run: |
+          node --test tests/firstPartyGlbIdentityAncestorGate.test.mjs
+          node --test tests/firstPartyProvisionalPilotIntake.test.mjs
+          node --test tests/firstPartyGlbSkinnedBatches.test.mjs
+          node --test tests/firstPartyPrototypeModelHandoff.test.mjs
+  exact-actual-work-source-still-intact:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - uses: actions/download-artifact@v4
+        with:
+          name: provisional-shoulder-views-mapping-diagnostic-glb
+          run-id: 38153765790
+          repository: anyangle1409-code/animation-software
+          github-token: ${{ github.token }}
+          path: .artifacts/private-work-shoulder
+      - name: Audit exactly same REAL source GLB and next remaining first-party blocker
+        run: |
+          node scripts/audit-original-work-shoulder-pilot.mjs \
+            .artifacts/private-work-shoulder \
+            reports/work-pilot/real-work-shoulder-after-identity-g4h.json
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hgpt-g4h-after-identity-ancestor-real-work-json-only
+          path: reports/work-pilot/real-work-shoulder-after-identity-g4h.json
+          if-no-files-found: warn
+          retention-days: 30

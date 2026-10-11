@@ -1,0 +1,61 @@
+name: G4l real Work seven native authored shoulder poses into original glTF frame
+on:
+  push:
+    branches: [codex/g4l-original-work-native-pose-basis-20261011]
+    paths:
+      - src/viewer/firstPartyWorkNativePoseRegistration.mjs
+      - tests/firstPartyWorkNativePoseRegistration.test.mjs
+      - scripts/verify-real-work-native-pose-registration.mjs
+      - docs/FIRST_PARTY_G4L_NATIVE_TO_GLTF_POSE_REGISTRATION_20261011.md
+      - .github/workflows/first_party_original_work_pose_basis.yml
+  pull_request:
+    paths:
+      - src/viewer/firstPartyWorkNativePoseRegistration.mjs
+      - tests/firstPartyWorkNativePoseRegistration.test.mjs
+      - scripts/verify-real-work-native-pose-registration.mjs
+      - .github/workflows/first_party_original_work_pose_basis.yml
+permissions:
+  contents: read
+  actions: read
+jobs:
+  mathematical-basis-and-existing-SHA-rig-regressions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - run: |
+          node --test tests/firstPartyWorkNativePoseRegistration.test.mjs
+          node --test tests/firstPartyOriginalGltfRestWorld.test.mjs
+          node --test tests/firstPartyPrototypePoseSequence.test.mjs
+          node --test tests/firstPartyPrototypeModelHandoff.test.mjs
+  actual-Work-W1-seven-source-samples-vs-original-GLB:
+    runs-on: ubuntu-latest
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - uses: actions/download-artifact@v4
+        with:
+          name: provisional-shoulder-views-mapping-diagnostic-glb
+          run-id: 38153765790
+          repository: anyangle1409-code/animation-software
+          github-token: ${{ github.token }}
+          path: .artifacts/private-work-shoulder
+      - name: Verify all 7 real source matrix poses against 6 glTF rig joints and source inverseBind
+        run: |
+          node scripts/verify-real-work-native-pose-registration.mjs \
+            .artifacts/private-work-shoulder \
+            reports/work-pilot/G4l-authentic-work-seven-pose-basis.json
+      - name: Keep machine numerical evidence only; no original GLB/native Blender redistribution
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hgpt-g4l-actual-original-work-pose-basis-source-parity
+          path: reports/work-pilot/G4l-authentic-work-seven-pose-basis.json
+          if-no-files-found: warn
+          retention-days: 30

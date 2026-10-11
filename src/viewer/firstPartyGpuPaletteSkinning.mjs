@@ -12,6 +12,8 @@ import {nativeLookAt,nativePerspective,multiplyNativeMat4}
   from './firstPartyWebGL2SkeletonPreview.mjs';
 import {validateNativeSkinnedMesh} from './firstPartyIndexedSkinnedMesh.mjs';
 import {HGPT_EMBEDDED_PNG_KIND} from './firstPartyEmbeddedPngSource.mjs';
+import {HGPT_PROTOTYPE_HANDOFF_KIND,packProvisionalModelPose}
+  from './firstPartyPrototypeModelHandoff.mjs';
 export const HGPT_NATIVE_GPU_SKIN_KIND='hgpt-native-webgl2-rgba32f-4weight-gpu-lbs-v1';
 const finite=values=>{if(!Array.from(values).every(Number.isFinite))
   throw new RangeError('GPU palette nonfinite input');};
@@ -93,7 +95,7 @@ function compiledProgram(gl){
   const vert=shader(gl,gl.VERTEX_SHADER,
     '#version 300 es\nprecision highp float;\nprecision highp sampler2D;\nlayout(location=0) in vec3 aPos;\nlayout(location=1) in uvec4 aJoints;\nlayout(location=2) in vec4 aWeights;\nlayout(location=3) in vec2 aUV0;\nlayout(location=4) in vec3 aNormal;\nuniform mat4 uVP;\nuniform sampler2D uMatrixPalette;\nout vec2 vUV0;\nout vec3 vSkinnedWorld;\nout vec3 vSkinnedNormal;\nmat4 bone(uint j){int x=int(j)*4;return mat4(texelFetch(uMatrixPalette,ivec2(x+0,0),0),texelFetch(uMatrixPalette,ivec2(x+1,0),0),texelFetch(uMatrixPalette,ivec2(x+2,0),0),texelFetch(uMatrixPalette,ivec2(x+3,0),0));}\nvoid main(){vec4 p=vec4(0.0);vec4 rest=vec4(aPos,1.0);p+=(bone(aJoints.x)*rest)*aWeights.x;p+=(bone(aJoints.y)*rest)*aWeights.y;p+=(bone(aJoints.z)*rest)*aWeights.z;p+=(bone(aJoints.w)*rest)*aWeights.w;vec3 n=vec3(0.0);n+=(mat3(bone(aJoints.x))*aNormal)*aWeights.x;n+=(mat3(bone(aJoints.y))*aNormal)*aWeights.y;n+=(mat3(bone(aJoints.z))*aNormal)*aWeights.z;n+=(mat3(bone(aJoints.w))*aNormal)*aWeights.w;vSkinnedWorld=p.xyz;vSkinnedNormal=normalize(n);vUV0=aUV0;gl_Position=uVP*p;}');
   const frag=shader(gl,gl.FRAGMENT_SHADER,
-    '#version 300 es\nprecision highp float;\nin vec2 vUV0;\nin vec3 vSkinnedNormal;\nuniform int uNormalPreview;\nuniform int uTexturePreview;\nuniform sampler2D uSourceColor;\nuniform vec3 uSourceTint;\nuniform int uColorManaged;\nout vec4 outColor;\nvec3 toSRGB(vec3 v){vec3 c=clamp(v,vec3(0.0),vec3(1.0));vec3 a=12.92*c;vec3 b=1.055*pow(c,vec3(1.0/2.4))-0.055;return mix(b,a,lessThanEqual(c,vec3(0.0031308)));}\nvoid main(){if(uNormalPreview==1){float diffuse=max(dot(normalize(vSkinnedNormal),normalize(vec3(0.32,0.50,0.81))),0.0);outColor=vec4(vec3(0.12+0.78*diffuse),1.0);}else if(uTexturePreview==1){vec3 linearOrEncoded=texture(uSourceColor,vUV0).rgb*uSourceTint;outColor=vec4(uColorManaged==1?toSRGB(linearOrEncoded):linearOrEncoded,1.0);}else{outColor=vec4(clamp(vUV0,vec2(0.0),vec2(1.0)),0.14,1.0);}}');
+    '#version 300 es\nprecision highp float;\nin vec2 vUV0;\nin vec3 vSkinnedNormal;\nuniform int uNormalPreview;\nuniform int uTexturePreview;\nuniform sampler2D uSourceColor;\nuniform vec3 uSourceTint;\nuniform int uColorManaged;\nuniform int uPilotFlatPreview;\nout vec4 outColor;\nvec3 toSRGB(vec3 v){vec3 c=clamp(v,vec3(0.0),vec3(1.0));vec3 a=12.92*c;vec3 b=1.055*pow(c,vec3(1.0/2.4))-0.055;return mix(b,a,lessThanEqual(c,vec3(0.0031308)));}\nvoid main(){if(uNormalPreview==1){float diffuse=max(dot(normalize(vSkinnedNormal),normalize(vec3(0.32,0.50,0.81))),0.0);outColor=vec4(vec3(0.12+0.78*diffuse),1.0);}else if(uTexturePreview==1){vec3 linearOrEncoded=texture(uSourceColor,vUV0).rgb*uSourceTint;outColor=vec4(uColorManaged==1?toSRGB(linearOrEncoded):linearOrEncoded,1.0);}else if(uPilotFlatPreview==1){outColor=vec4(toSRGB(uSourceTint),1.0);}else{outColor=vec4(clamp(vUV0,vec2(0.0),vec2(1.0)),0.14,1.0);}}');
   const p=gl.createProgram();
   if(!p){gl.deleteShader(vert);gl.deleteShader(frag);
     throw new Error('Native GPU skin link program unavailable');}
@@ -114,7 +116,7 @@ export function createNativePaletteSkinnedWebGL2(canvas){
   let prog=null,vao=null,rest=null,joints=null,weights=null,uvBuffer=null,
     normalBuffer=null,indices=null,paletteTexture=null,viewLoc=null,
     samplerLoc=null,normalPreviewLoc=null,texturePreviewLoc=null,
-    sourceColorLoc=null,sourceTintLoc=null,colorManagedLoc=null;
+    sourceColorLoc=null,sourceTintLoc=null,colorManagedLoc=null,pilotFlatLoc=null;
   let width=1,height=1,lost=false,disposed=false,frames=0,draws=0,captures=0;
   // Opt-in project-owned PNG source preview bound to exact GLB mesh/UV
   // objects. Only source bytes are decoded; animated world matrices remain
@@ -136,9 +138,10 @@ export function createNativePaletteSkinnedWebGL2(canvas){
     sourceColorLoc=gl.getUniformLocation(prog,'uSourceColor');
     sourceTintLoc=gl.getUniformLocation(prog,'uSourceTint');
     colorManagedLoc=gl.getUniformLocation(prog,'uColorManaged');
+    pilotFlatLoc=gl.getUniformLocation(prog,'uPilotFlatPreview');
     if(viewLoc===null||samplerLoc===null||normalPreviewLoc===null||
       texturePreviewLoc===null||sourceColorLoc===null||sourceTintLoc===null||
-      colorManagedLoc===null)
+      colorManagedLoc===null||pilotFlatLoc===null)
       throw new Error('Native GPU skin/PNG shader uniform missing');
     gl.bindVertexArray(vao);
     for(const [idx,buffer,items,isInt] of [
@@ -234,6 +237,7 @@ export function createNativePaletteSkinnedWebGL2(canvas){
     try{
       setVP([0,0,4],[0,0,0]);
       gl.uniform1i(normalPreviewLoc,0);
+      gl.uniform1i(pilotFlatLoc,0);
       upload(part,palette);
       for(const [buffer,expanded] of [
         [rest,expand(part.mesh.positions,3)],
@@ -370,17 +374,28 @@ export function createNativePaletteSkinnedWebGL2(canvas){
       canvas.width=width;canvas.height=height;
       if(!lost)gl.viewport(0,0,width,height);
     },
-    renderBatches(parts,{eye=[1,0.5,6.2],target=[1.25,.5,0],normalPreview=false,texturePreview=false,colorManagedTexturePreview=false}={}){
+    renderBatches(parts,{eye=[1,0.5,6.2],target=[1.25,.5,0],normalPreview=false,texturePreview=false,colorManagedTexturePreview=false,pilotFlatColorPreview=false}={}){
       if(disposed)throw new Error('GPU palette renderer disposed');
       if(lost)return false;
-      if(!Array.isArray(parts)||parts.length<1||parts.length>8)
-        throw new RangeError('GPU skin batch requires 1..8 parts');
+      if(!Array.isArray(parts)||parts.length<1||
+         parts.length>(pilotFlatColorPreview?24:8))
+        throw new RangeError('GPU skin batch requires 1..8 regular or 1..24 original pilot flat parts');
       // Validate all meshes + palettes before any GPU call, fail closed.
       if(typeof normalPreview!=='boolean'||typeof texturePreview!=='boolean'||
-         typeof colorManagedTexturePreview!=='boolean')
+         typeof colorManagedTexturePreview!=='boolean'||
+         typeof pilotFlatColorPreview!=='boolean')
         throw new RangeError('GPU normal and texture modes must be boolean');
       if(normalPreview&&texturePreview)
         throw new RangeError('GPU normal vs texture preview requires one mode');
+      if(pilotFlatColorPreview&&(normalPreview||texturePreview||
+          colorManagedTexturePreview))
+        throw new RangeError('Original pilot flat preview cannot mix texture or normal modes');
+      if(pilotFlatColorPreview)
+        for(const part of parts)
+          if(!Array.isArray(part.materialColor)||part.materialColor.length!==3||
+            !part.materialColor.every(v=>Number.isFinite(v)&&v>=0&&v<=1)||
+            typeof part.sourceDoubleSided!=='boolean')
+            throw new RangeError('Original pilot requires bounded source RGB and explicit doubleSided');
       if(colorManagedTexturePreview&&!texturePreview)
         throw new RangeError('Colour-managed source requires texture preview enabled');
       if(texturePreview){
@@ -410,8 +425,14 @@ export function createNativePaletteSkinnedWebGL2(canvas){
       gl.uniform1i(normalPreviewLoc,normalPreview?1:0);
       gl.uniform1i(texturePreviewLoc,texturePreview?1:0);
       gl.uniform1i(colorManagedLoc,colorManagedTexturePreview?1:0);
+      gl.uniform1i(pilotFlatLoc,pilotFlatColorPreview?1:0);
       gl.uniform1i(sourceColorLoc,1);
       for(let i=0;i<parts.length;i++){
+        if(pilotFlatColorPreview){
+          gl.uniform3fv(sourceTintLoc,new Float32Array(parts[i].materialColor));
+          if(parts[i].sourceDoubleSided)gl.disable(gl.CULL_FACE);
+          else{gl.enable(gl.CULL_FACE);gl.cullFace(gl.BACK);}
+        }
         if(texturePreview){
           gl.uniform3fv(sourceTintLoc,
             new Float32Array(sourcePngParts[i].materialColor));
@@ -423,8 +444,54 @@ export function createNativePaletteSkinnedWebGL2(canvas){
           type(parts[i].mesh),0);
         draws++;
       }
+      if(pilotFlatColorPreview)gl.disable(gl.CULL_FACE);
       gl.bindVertexArray(null);
       frames++;return true;
+    },
+    /**
+     * Only a genuine in-memory G4 WeakMap source handle can supply the original
+     * Work pilot pose. GLB rest Y-up must already be independently derived.
+     * Dummy UVs are GPU attribute padding for UNTEXTURED original parts only;
+     * no UV values are written back or claimed to exist in the Work model.
+     */
+    renderVerifiedOriginalPilotFlatPose(model,worldByBone,options={}){
+      if(!model||model.kind!==HGPT_PROTOTYPE_HANDOFF_KIND||
+        model.audit?.provisionalLargeSceneDiagnosticOnly!==true||
+        model.audit?.modelProductionReady!==false||
+        !Array.isArray(model.scene?.batches)||
+        model.scene.batches.length<2||model.scene.batches.length>24)
+        throw new RangeError('Verified first-party G4 original diagnostic pilot required');
+      const palette=packProvisionalModelPose(model,worldByBone);
+      const parts=model.scene.batches.map(part=>{
+        if(part.sourceBaseColorPng!==null ||
+          typeof part.sourceDoubleSided!=='boolean' ||
+          !Array.isArray(part.materialColor)||part.materialColor.length!==3)
+          throw new RangeError('Only genuine bounded Work untextured source materials supported');
+        const mesh=part.parsed.mesh,verts=mesh.positions.length/3;
+        return {
+          mesh,
+          uv0:part.sourceUV0 instanceof Float32Array ? part.sourceUV0 :
+            new Float32Array(verts*2),
+          sourceNormals:part.sourceNormals||undefined,
+          materialColor:part.materialColor,
+          sourceDoubleSided:part.sourceDoubleSided,
+          posedWorld:palette,
+        };
+      });
+      const result=this.renderBatches(parts,{
+        ...options,pilotFlatColorPreview:true
+      });
+      return Object.freeze({
+        drewAllOriginalPilotParts:result===true,
+        sourceGLBSha256:model.sourceSha256,
+        originalPrimitiveCount:parts.length,
+        diagnosticSourceColoursOnly:true,
+        temporaryShaderUVPaddingNeverAuthoredInSource:true,
+        originalHumanAnatomyAccepted:false,
+        movingExercisePosePhysiologicallyVerified:false,
+        materialPBRImplemented:false,
+        productionReady:false,
+      });
     },
     /**
      * GPU transform-feedback readback for formal parity testing only.

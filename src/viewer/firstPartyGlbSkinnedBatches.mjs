@@ -85,9 +85,10 @@ const sameArray=(a,b)=>a.length===b.length && a.every((value,i)=>value===b[i]);
  * shape; no unknown nested fields, links or extensions may be silently lost.
  */
 const own=(value,key)=>Object.prototype.hasOwnProperty.call(value,key);
-function flatOpaqueMaterial(source,primitive,used,pngTextures,usedTextureIndices){
+function flatOpaqueMaterial(source,primitive,used,pngTextures,usedTextureIndices,allowProvisionalPilot=false){
   if(primitive.material===undefined)
-    return {color:Object.freeze([.74,.8,.92]),sourceMaterialIndex:null,sourcePng:null};
+    return {color:Object.freeze([.74,.8,.92]),sourceMaterialIndex:null,sourcePng:null,
+      sourceDoubleSided:false,sourceRoughness:1};
   const mats=source.materials;
   expect(array(mats)&&Number.isSafeInteger(primitive.material) &&
     primitive.material>=0&&primitive.material<mats.length,
@@ -99,7 +100,10 @@ function flatOpaqueMaterial(source,primitive,used,pngTextures,usedTextureIndices
   expect(Object.keys(material).every(key=>allowed.has(key)),'unsupported glTF material field');
   expect(!own(material,'alphaMode') || material.alphaMode==='OPAQUE',
     'only OPAQUE material supported');
-  expect(!own(material,'doubleSided') || material.doubleSided===false,
+  expect(material.doubleSided===undefined ||
+    typeof material.doubleSided==='boolean',
+    'doubleSided must be explicitly boolean when present');
+  expect(allowProvisionalPilot || material.doubleSided!==true,
     'two-sided material shader parity not proven');
   expect(material.name===undefined ||
     (typeof material.name==='string'&&material.name.length<=80),
@@ -111,8 +115,18 @@ function flatOpaqueMaterial(source,primitive,used,pngTextures,usedTextureIndices
     ...(pngTextures?['baseColorTexture']:[])]);
   expect(Object.keys(pbr).every(key=>allowedPbr.has(key)),
     'texture/unsupported PBR material feature rejected');
-  expect(pbr.metallicFactor===0 && (pbr.roughnessFactor===undefined||
-    pbr.roughnessFactor===1),'only matte non-metallic baseColor supported');
+  // Strict default retains old matte-only contract. The separate original
+  // Work pilot may carry a finite nonmetallic roughness (e.g. 0.4), which is
+  // recorded, never silently treated as correct PBR lighting.
+  expect(pbr.metallicFactor===0 &&
+    (pbr.roughnessFactor===undefined ||
+      (allowProvisionalPilot ?
+        Number.isFinite(pbr.roughnessFactor)&&
+        pbr.roughnessFactor>=0&&pbr.roughnessFactor<=1 :
+        pbr.roughnessFactor===1)),
+    allowProvisionalPilot ?
+      'source metallic/roughness outside supported preview contract' :
+      'only matte non-metallic baseColor supported');
   const factor=pbr.baseColorFactor;
   expect(array(factor)&&factor.length===4 &&
     factor.every(v=>Number.isFinite(v)&&v>=0&&v<=1) &&
@@ -131,7 +145,9 @@ function flatOpaqueMaterial(source,primitive,used,pngTextures,usedTextureIndices
   }
   used.add(primitive.material);
   return {color:Object.freeze([...factor.slice(0,3)]),
-    sourceMaterialIndex:primitive.material,sourcePng};
+    sourceMaterialIndex:primitive.material,sourcePng,
+    sourceDoubleSided:material.doubleSided===true,
+    sourceRoughness:pbr.roughnessFactor??1};
 }
 
 
@@ -230,15 +246,21 @@ export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=fa
     for(let primitiveIndex=0;primitiveIndex<mesh.primitives.length;primitiveIndex++){
       const originalPrimitive=mesh.primitives[primitiveIndex];
       const attributes=originalPrimitive.attributes;
-      const uv0=allowSourceUV0 ?
+      const material=allowSourceFlatColors ?
+        flatOpaqueMaterial(root,originalPrimitive,materialUsed,pngTextures,
+          usedPngTextureIndices,allowProvisionalPilot) :
+        {color:Object.freeze([.74,.8,.92]),sourceMaterialIndex:null,
+          sourcePng:null,sourceDoubleSided:false,sourceRoughness:1};
+      // Untextured original Work surfaces legitimately may lack TEXCOORD_0.
+      // Do not fabricate source UV. A textured source always requires UV0.
+      const missingPilotUV=allowProvisionalPilot && allowSourceUV0 &&
+        attributes?.TEXCOORD_0===undefined && material.sourcePng===null;
+      const uv0=allowSourceUV0 && !missingPilotUV ?
         readRestrictedGlbUV0(root,bin,attributes?.TEXCOORD_0,
           root.accessors?.[attributes?.POSITION]?.count) : null;
       const normal=allowSourceNormals ?
         readRestrictedGlbNormals(root,bin,attributes?.NORMAL,
           root.accessors?.[attributes?.POSITION]?.count) : null;
-      const material=allowSourceFlatColors ?
-        flatOpaqueMaterial(root,originalPrimitive,materialUsed,pngTextures,usedPngTextureIndices) :
-        {color:Object.freeze([.74,.8,.92]),sourceMaterialIndex:null,sourcePng:null};
       if(material.sourcePng)
         expect(allowSourceUV0 && uv0 && uv0.length>0,
           'baseColorTexture requires validated source UV0');
@@ -280,9 +302,11 @@ export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=fa
         exposeVerifiedPilotMeshAsValidationRoot(split,originalNodeIndex,pilotAncestry);
       const parsed=parseRestrictedSkinnedGlb(pack(split,bin));
       expect(parsed.kind===FIRST_PARTY_GLB_GATE,'strict primitive validation failed');
-      if(allowSourceUV0)
+      if(allowSourceUV0 && uv0!==null)
         expect(uv0.length===parsed.audit.vertices*2,
           'source UV0 vertex count disagrees with validated positions');
+      if(allowSourceUV0 && uv0===null)
+        expect(missingPilotUV,'source UV0 missing outside explicit diagnostic pilot');
       if(allowSourceNormals)
         expect(normal.length===parsed.audit.vertices*3,
           'validated source normal/position vertex counts disagree');
@@ -303,6 +327,9 @@ export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=fa
         materialColor:material.color,
         sourceMaterialIndex:material.sourceMaterialIndex,
         sourceBaseColorPng:material.sourcePng,
+        sourceDoubleSided:material.sourceDoubleSided,
+        sourceRoughness:material.sourceRoughness,
+        sourcePBRLightingActuallyImplemented:false,
         sourceUV0:uv0,
         sourceNormals:normal,
         // Only parser-validated numeric arrays. Never claim accepted human rig.
@@ -347,6 +374,8 @@ export function parseRestrictedBatchedSkinnedGlb(input,{allowSourceFlatColors=fa
       provisionalLargeSceneDiagnosticOnly:allowProvisionalPilot,
       verifiedIdentityGroupSourceMeshAncestry:
         allowProvisionalPilot&&pilotAncestry?.anyIdentityGroupPromotion===true,
+      pilotSourceTwoSidedAndRoughnessMetadataPreserved:allowProvisionalPilot,
+      originalUV0NeverFabricated:true,
       sourceBoneHierarchyChanged:false,
       noExternalModelCodeUsed:true,
     }),

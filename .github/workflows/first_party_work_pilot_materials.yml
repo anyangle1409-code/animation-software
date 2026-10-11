@@ -1,0 +1,57 @@
+name: G4i exact original Work source material and UV pilot
+on:
+  push:
+    branches: [codex/g4i-work-source-material-pilot-20261011]
+    paths:
+      - src/viewer/firstPartyGlbSkinnedBatches.mjs
+      - tests/firstPartyWorkPilotMaterialAcceptance.test.mjs
+      - docs/FIRST_PARTY_G4I_WORK_SOURCE_MATERIALS_20261011.md
+      - .github/workflows/first_party_work_pilot_materials.yml
+  pull_request:
+    paths:
+      - src/viewer/firstPartyGlbSkinnedBatches.mjs
+      - tests/firstPartyWorkPilotMaterialAcceptance.test.mjs
+      - .github/workflows/first_party_work_pilot_materials.yml
+permissions:
+  contents: read
+  actions: read
+jobs:
+  source-material-bounds-and-legacy-regressions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - run: |
+          node --test tests/firstPartyWorkPilotMaterialAcceptance.test.mjs
+          node --test tests/firstPartyGlbIdentityAncestorGate.test.mjs
+          node --test tests/firstPartyProvisionalPilotIntake.test.mjs
+          node --test tests/firstPartyGlbFlatBaseColors.test.mjs
+  original-W1-artifact-source-rig-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - uses: actions/download-artifact@v4
+        with:
+          name: provisional-shoulder-views-mapping-diagnostic-glb
+          run-id: 38153765790
+          repository: anyangle1409-code/animation-software
+          github-token: ${{ github.token }}
+          path: .artifacts/private-work-shoulder
+      - run: |
+          node scripts/audit-original-work-shoulder-pilot.mjs \
+            .artifacts/private-work-shoulder \
+            reports/work-pilot/real-work-shoulder-after-g4i.json
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hgpt-g4i-real-work-source-next-import-gaps-json-only
+          path: reports/work-pilot/real-work-shoulder-after-g4i.json
+          if-no-files-found: warn
+          retention-days: 30

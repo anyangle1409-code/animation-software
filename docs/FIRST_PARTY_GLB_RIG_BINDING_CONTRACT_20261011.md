@@ -27,3 +27,11 @@ The **real Chromium/WebGL2 regression** `scripts/verify-first-party-glb-browser.
 - No claim that test-model skinning proves anatomical correctness, model rights or production appearance. The PT-App's own existing zero-npm dependency state is untouched; its 304 temporary videos remain until first-party exercise replacements are ready.
 
 **Skeleton readiness remains 0 READY / 9 PARTIAL / 3 BLOCKED.** The completed wrist/foot source scan, CT viewer and spine evidence should not be redone for this software task.
+
+## Verified exact-source development checkpoint
+
+[Actual GitHub Actions run 38104736364](https://github.com/anyangle1409-code/animation-software/actions/runs/38104736364): **both jobs SUCCESS**. **58/58** dependency-free Node tests pass (18 new binding safety; 12 GLB decoding; 16 CPU skinning/indexed GPU; 12 native skeletal WebGL2). The pipeline static scan found no Three/React/R3F imports in the new first-party modules.
+
+Real Chromium/WebGL2 used a fully source-owned synthetic two-bone glTF2 GLB. The new binder validated 2/2 explicit source→nominal rig names and inverse-rest-bind matrices with **zero numerical residual**, preserved palette order and called the native four-influence skin engine for 18 actual indexed draw frames (synthetic programmed vertex displacement 0.125 in test units). No browser exceptions or Three/React module requests. [Diagnostic source-generated screenshot and exact JSON artifact](https://github.com/anyangle1409-code/animation-software/actions/runs/38104736364/artifacts/11688814016). No mesh/CT/third-party original character data was embedded in this artifact.
+
+**Final rig and skinning availability:** still a strict numerical component, not actual model integration, source frame/physical mm/stature approval, anatomy verification, performance evaluation or complete removal of the `three` package. The source mappings are intentionally immutable and may not be spoofed for an unvalidated GLB.

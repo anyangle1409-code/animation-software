@@ -1,0 +1,53 @@
+name: G4c strict original exercise command to intent contract
+on:
+  push:
+    branches: [codex/first-party-exercise-intent-contract-20261011]
+    paths:
+      - src/exercise/firstPartyExerciseIntent.mjs
+      - tests/firstPartyExerciseIntent.test.mjs
+      - docs/FIRST_PARTY_G4C_EXERCISE_INTENT_CONTRACT_20261011.md
+      - .github/workflows/first_party_exercise_intent_contract.yml
+  pull_request:
+    paths:
+      - src/exercise/firstPartyExerciseIntent.mjs
+      - tests/firstPartyExerciseIntent.test.mjs
+      - .github/workflows/first_party_exercise_intent_contract.yml
+permissions:
+  contents: read
+jobs:
+  original-no-dependency-exercise-intent-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - name: Deterministic movement descriptions and adversarial contradictions
+        run: node --test tests/firstPartyExerciseIntent.test.mjs
+      - name: Preserve original GLB rig and sampled pose handoff tests
+        run: |
+          node --test tests/firstPartyPrototypeModelHandoff.test.mjs
+          node --test tests/firstPartyPrototypePoseSequence.test.mjs
+      - name: Refuse vendor/network sources for first-party text contract
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const s=fs.readFileSync('src/exercise/firstPartyExerciseIntent.mjs','utf8');
+          if (/\bfetch\s*\(|\bXMLHttpRequest\b|\bimport\s*\(|\brequire\s*\(|\bfrom\s+['"]/.test(s))
+            throw Error('Text intent contract must be dependency and network free');
+          console.log('First-party local deterministic intent grammar only');
+          JS
+  original-studio-build-unchanged:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm run build

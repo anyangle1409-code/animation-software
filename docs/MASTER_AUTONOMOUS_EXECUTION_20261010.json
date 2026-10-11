@@ -1,4 +1,5 @@
 {
+  "active_functional_scapula_bowl_checkpoint": {"branch":"codex/functional-scapula-bowl-20261011","parent_verified_head":"eaa6850c9a4091c24edf9a95bebf10438e839e1d","ledger":"docs/FUNCTIONAL_SCAPULA_BOWL_20261011.md","local_tests":"4newpure/2newnative PASS;10inheritedpure/3reach+2thoraxnative PASS","actual_new_views":9,"private_native_sha256":"d35f0048db0a876fc8a3a576e4ca44602b6f4836e3c843a6a9ea7bd39f8101f6","primary_reference":"UniversityUtah DigitalDissector scapula anterior costal concavity, qualitative only","anatomical_acceptance":false,"contact_acceptance":false,"human_motion_acceptance":false,"full_human_mesh":false,"next_action":"Independent review/exact-headCI then consequential thorax/blade placement/local axes and original full-body mesh; no repeated unchanged renders"},
   "active_functional_absolute_reach_checkpoint": {
     "branch": "codex/functional-absolute-reach-20261011",
     "parent_verified_head": "c8fb99d63a49bfb0c61ab8894bf1b64068c1fdb7",

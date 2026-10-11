@@ -59,3 +59,49 @@ def blade_mesh(perimeter):
         j = (i + 1) % c
         faces.extend([(c, i, j), (c + size, j + size, i + size), (i, i + size, j + size, j)])
     return vertices, faces
+
+
+def scapula_bowl_mesh(perimeter, depth):
+    """Authored shallow costal concavity; retained outline, NOT thorax contact.
+
+    Four radial rings, parabolic posterior recession,4mm normal thickness.
+    Depth is a caller-declared artistic hypothesis, not a specimen measurement.
+    """
+    if type(depth) not in (int, float) or not 0 <= depth <= .02:
+        raise ValueError('bounded finite authored depth0..20mm required')
+    base, _ = blade_mesh(perimeter)  # Existing bounded outline/fan validation.
+    count = len(perimeter)
+    size = count + 1
+    n = tuple((base[0][k] - base[size][k]) / .004 for k in range(3))
+    if abs(n[1]) < .1:
+        raise ValueError('costal posterior orientation is ambiguous')
+    if n[1] < 0:
+        n = tuple(-x for x in n)
+    p = [point(x) for x in perimeter]
+    c = tuple(sum(x[k] for x in p) / count for k in range(3))
+    middle = [tuple(c[k] + depth * n[k] for k in range(3))]
+    for ring in range(1, 5):
+        r = ring / 4
+        for q in p:
+            middle.append(tuple(c[k] + r * (q[k] - c[k]) + depth * (1-r*r) * n[k] for k in range(3)))
+    size = len(middle)
+    vertices = [tuple(q[k] + sign * .002 * n[k] for k in range(3))
+                for sign in (1, -1) for q in middle]
+    surface = []
+    for i in range(count):
+        j = (i+1) % count
+        surface.append((0, 1+i, 1+j))
+        for ring in range(3):
+            inner, outer = 1+ring*count, 1+(ring+1)*count
+            surface.append((inner+i, outer+i, outer+j, inner+j))
+    # Original ordering may reverse under an X mirror; keep outside winding.
+    original_n_y = (base[0][1] - base[count+1][1]) / .004
+    if original_n_y < 0:
+        surface = [tuple(reversed(f)) for f in surface]
+    faces = surface + [tuple(i+size for i in reversed(f)) for f in surface]
+    outer = size-count
+    for i in range(count):
+        a, b = outer+i, outer+(i+1)%count
+        rim = (a,b,b+size,a+size)
+        faces.append(tuple(reversed(rim)) if original_n_y > 0 else rim)
+    return vertices, faces

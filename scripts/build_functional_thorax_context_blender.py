@@ -46,7 +46,7 @@ def add_context(rec):
         ob['status'] = 'STATIC_AUTHORED_CONTEXT_NOT_CONTACT_SURFACE'
     return objects
 
-def main(pose_fn=None, version=VERSION, angles=(0, 160), motion_note='AUTHORED STATIC RIB/STERNUM GUIDES / NO CONTACT OR MOTION APPROVAL'):
+def main(pose_fn=None, version=VERSION, angles=(0, 160), motion_note='AUTHORED STATIC RIB/STERNUM GUIDES / NO CONTACT OR MOTION APPROVAL', build_fn=None, shape_notes=()):
     pose_fn = pose_fn or shoulder.pose
     parser = argparse.ArgumentParser()
     parser.add_argument('--out', required=True)
@@ -57,7 +57,7 @@ def main(pose_fn=None, version=VERSION, angles=(0, 160), motion_note='AUTHORED S
     source = shoulder.ROOT / shoulder.RECORD
     before = hashlib.sha256(source.read_bytes()).hexdigest()
     rec = json.loads(source.read_text())
-    arm, shapes = shoulder.build(rec)
+    arm, shapes = (build_fn or shoulder.build)(rec)
     context = add_context(rec)
     out.mkdir(parents=True)
     scene = bpy.context.scene
@@ -102,7 +102,7 @@ def main(pose_fn=None, version=VERSION, angles=(0, 160), motion_note='AUTHORED S
                               'Sternum plate half-width25/12mm and inherited4mm fan thickness authored',
                               'Inherited sternum endpoints/length/pitch and low-confidence rib endpoints unchanged',
                               'Static thorax; no breathing, cartilage, scapulothoracic mechanics or full-body rig',
-                              'Blade and rib tube guides are not approved collision/contact surfaces'],
+                              'Blade and rib tube guides are not approved collision/contact surfaces'] + list(shape_notes),
               'files_sha256': {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in out.iterdir() if p.is_file()}}
     (out / 'thorax_context_manifest.json').write_text(json.dumps(report, indent=2))
     print('THORAX_CONTEXT', json.dumps(report))

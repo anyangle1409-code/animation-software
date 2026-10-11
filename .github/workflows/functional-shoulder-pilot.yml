@@ -33,9 +33,11 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y blender python3-numpy libegl1 libgl1-mesa-dri xvfb xauth
       - run: blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/blender_tests/test_functional_shoulder_pilot.py
       - run: xvfb-run -a blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/build_functional_shoulder_pilot_blender.py -- --out /tmp/hgpt-provisional-shoulder
+        if: github.head_ref != 'codex/functional-scapula-bowl-20261011'
         env:
           LIBGL_ALWAYS_SOFTWARE: '1'
       - uses: actions/upload-artifact@v4
+        if: github.head_ref != 'codex/functional-scapula-bowl-20261011'
         with:
           name: provisional-shoulder-views-mapping-diagnostic-glb
           path: |

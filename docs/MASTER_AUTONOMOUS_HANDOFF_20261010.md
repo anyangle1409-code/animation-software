@@ -1008,3 +1008,29 @@ Next: enumerate original GE/PNG pairs1700..1900;reuse5existing sources, privatel
 acquire remaining196pairs with per-file bounds and full pixel comparisons. Build
 candidate-only source display after successful integrity/calibration validation;
 never infer source-to-HGPT registration or accepted anatomy from a uniform grid.
+
+## Finite201-image female source candidate and Blender viewer verified
+
+All201original GE/PNG arrays1700..1900 privately acquired:52690944pixels match
+exactly. Second independent PIL decoder repeats exact comparison for every array;
+all original/header/image pins checked. No source bytes inGit.201source-ordered
+Blender planes built, saved/reopened: all201timeline states/bindings checked1PASS.
+Every201window raster independently cross-checked against unchanged scalar helper.
+Three new native previews1750/1850/1880 actually viewed; not all201first-reviewed.
+HIP-looking1850profile remains candidate, not an accepted head/socket landmark.
+Full source/output pins, exact counts, timings and qualified-review limitations:
+`docs/INDEPENDENT_FEMALE_CT_CONTIGUOUS_CANDIDATE_20261011.md`.
+Masterb2c55dd1 all3CI checks PASS, run38099411693. Battery27% observed;
+lightweight source review continues, no power-setting changes or usage reset claim.
+
+Claude laptop handoff: open private
+`C:/Users/Mark/Documents/Codex/hgpt-private-female-ct-candidate-1700-1900-20261011/private-source-viewer/female_candidate_201.blend`.
+Timeline1..201 corresponds to original1700..1900, fixed diagnostic HU[-200,1600].
+Keep the scene/images private, leave all201source quads and existing skeleton alone;
+record source-ID-specific candidate observations/uncertainties only. No accepted
+landmark points or anatomical labels without independent evidence/review.
+
+Next: first-review source-pinned contact sheets/sequential evidence for remaining
+201frames, then explicitly candidate-only source-derived intensity/3D diagnostics.
+Pixel-centre convention, anatomical identity, full coverage and HGPT registration
+remain unresolved; never use this new subject to replace canonical HGPT geometry.

@@ -167,3 +167,38 @@ test('four-contributor native GPU palette remains 4-joint unlike two-joint tube 
   approx(cpu.positions[1],.4);
   approx(cpu.positions[2],.9);
 });
+
+test('full 128-joint RGBA32F source palette retains far-index bone 127 and four nonzero influences',()=>{
+  const bones=128,bind=new Float32Array(bones*16),world=new Float32Array(bones*16);
+  for(let k=0;k<bones;k++){bind.set(id(),k*16);world.set(id(),k*16);}
+  world.set(translation(1,0,0),0);
+  world.set(translation(0,2,0),31*16);
+  world.set(translation(0,0,3),64*16);
+  world.set(translation(-4,0,0),127*16);
+  const vertices=3,mesh128={
+    positions:new Float32Array([0,0,0,1,0,0,0,1,0]),
+    indices:new Uint16Array([0,1,2]),
+    jointIndices:new Uint16Array([...Array(vertices)].flatMap(()=>[0,31,64,127])),
+    weights:new Float32Array([...Array(vertices)].flatMap(()=>[.1,.2,.3,.4])),
+    inverseBindMatrices:bind,
+  };
+  const palette=buildNativeJointSkinPalette(mesh128,world);
+  assert.equal(palette.length,2048,'128 proper matrices means 512 RGBA float texels');
+  assert.equal(palette[127*16+12],-4);
+  const deformed=deformIndexedSkin(mesh128,world);
+  approx(deformed.positions[0],-1.5);
+  approx(deformed.positions[1],.4);
+  approx(deformed.positions[2],.9);
+});
+test('129-joint source data is rejected before any GPU texture upload',()=>{
+  const bind=new Float32Array(129*16);
+  for(let k=0;k<129;k++)bind.set(id(),k*16);
+  const m={
+    positions:new Float32Array([0,0,0,1,0,0,0,1,0]),
+    indices:new Uint16Array([0,1,2]),
+    jointIndices:new Uint16Array(12),
+    weights:new Float32Array([1,0,0,0,1,0,0,0,1,0,0,0]),
+    inverseBindMatrices:bind
+  };
+  assert.throws(()=>buildNativeJointSkinPalette(m,bind),/max 128/);
+});

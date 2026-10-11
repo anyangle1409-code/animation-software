@@ -1,0 +1,23 @@
+name: G4f small Work provisional GLB pilot preflight
+on:
+  push:
+    branches: [codex/g4f-large-provisional-pilot-diagnostic-20261011]
+  pull_request:
+    paths:
+      - src/viewer/firstPartyGlbSkinnedBatches.mjs
+      - src/viewer/firstPartyPrototypeModelHandoff.mjs
+      - tests/support/buildSyntheticBatchedGlb.mjs
+      - tests/firstPartyProvisionalPilotIntake.test.mjs
+      - .github/workflows/first_party_provisional_pilot_intake.yml
+permissions:
+  contents: read
+jobs:
+  full-strict-pilot-and-legacy-adapter-regressions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - run: node --test tests/firstPartyProvisionalPilotIntake.test.mjs tests/firstPartyGlbSkinnedBatches.test.mjs tests/firstPartyPrototypeModelHandoff.test.mjs tests/firstPartyTexturedOriginalModelHandoff.test.mjs

@@ -1054,3 +1054,19 @@ coordinate/calibration/nonpromotion checks. Explicitly mark intensity components
 as non-anatomical, retain all source data, keep physical pixel-centre/registration
 gates unresolved, and never use this female volume as canonical HGPT geometry.
 Qualified independent bone/landmark review remains a separate required gate.
+
+## Source-bound bounded intensity3D diagnostic verified
+
+Sources1817..1826, fullXY, illustrative HU>=500:18410voxels/100unfiltered
+intensity components, no bone names/seeds. All2621440mask samples independently
+checked0differences. Existing10surface tests PASS; nativeBlender5.2.1saved/reopened
+26949vertices/27466quads exactly checked; one actual native3Dpreview viewed.
+Both slab cuts contact selected voxels: not whole anatomical coverage. Pixel
+origin/registration/landmark/canonical gates stay closed, readiness unchanged.
+Exact source/output pins, cautious observations and privateClaude scene:
+`docs/FEMALE_CT_BOUNDED_INTENSITY_BLENDER_DIAGNOSTIC_20261011.md`.
+Masterfb55493d all3CIchecks PASS run38100119831; battery22% observed.
+
+Next: bounded whole201candidate intensity-mask/count diagnostics on existing bytes,
+not repeated calibration/firstviews. Retain all components and explicit cuts;
+independently verify arithmetic/grid, no anatomy approval from thresholds or rank.

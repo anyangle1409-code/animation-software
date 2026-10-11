@@ -223,18 +223,48 @@ export function createNativePaletteSkinnedWebGL2(canvas){
       const buffer=gl.createBuffer();
       if(!buffer)throw new Error('GPU transform feedback buffer unavailable');
       const actual=new Float32Array(count*3);
+      // Transform-feedback test only: expand original indexed vertices into
+      // source triangle order. Actual RENDERING always remains indexed GPU
+      // drawElements; verification uses legal drawArrays TRIANGLES because
+      // indexed draws during active transform feedback can be rejected by
+      // WebGL2 implementations. Expansion does NOT skin vertices on CPU.
+      const expand=(input,width)=>{
+        const out=new input.constructor(count*width);
+        for(let i=0;i<count;i++){
+          const source=part.mesh.indices[i]*width;
+          out.set(input.subarray(source,source+width),i*width);
+        }
+        return out;
+      };
       try{
         setVP([0,0,4],[0,0,0]);
         upload(part,palette);
+        for(const [gpuBuffer,expanded] of [
+          [rest,expand(part.mesh.positions,3)],
+          [joints,expand(part.mesh.jointIndices,4)],
+          [weights,expand(part.mesh.weights,4)],
+          [uvBuffer,expand(part.uv0,2)],
+        ]){
+          gl.bindBuffer(gl.ARRAY_BUFFER,gpuBuffer);
+          gl.bufferData(gl.ARRAY_BUFFER,expanded,gl.DYNAMIC_DRAW);
+        }
         gl.bindBuffer(gl.TRANSFORM_FEEDBACK_BUFFER,buffer);
         gl.bufferData(gl.TRANSFORM_FEEDBACK_BUFFER,actual.byteLength,gl.STREAM_READ);
         gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER,0,buffer);
+        if(gl.getError()!==gl.NO_ERROR)
+          throw new Error('GPU transform feedback setup produced WebGL error');
         gl.enable(gl.RASTERIZER_DISCARD);
         gl.beginTransformFeedback(gl.TRIANGLES);
-        gl.drawElements(gl.TRIANGLES,count,type(part.mesh),0);
+        gl.drawArrays(gl.TRIANGLES,0,count);
         gl.endTransformFeedback();
         gl.disable(gl.RASTERIZER_DISCARD);
+        const drawError=gl.getError();
+        if(drawError!==gl.NO_ERROR)
+          throw new Error('GPU triangle transform feedback draw failed with GL error '+drawError);
         gl.getBufferSubData(gl.TRANSFORM_FEEDBACK_BUFFER,0,actual);
+        const readError=gl.getError();
+        if(readError!==gl.NO_ERROR)
+          throw new Error('GPU captured vertex readback failed with GL error '+readError);
         finite(actual);
         captures+=count/3;
       }finally{

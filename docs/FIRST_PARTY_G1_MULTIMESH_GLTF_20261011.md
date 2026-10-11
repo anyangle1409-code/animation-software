@@ -28,3 +28,15 @@ A successful unit test, GPU framebuffer screenshot or a restricted synthetic GLB
 ### Next safely parallel work
 
 Move to source-authored UV coordinates/materials only with defined finite/fail-closed typed contracts and actual shader/browser tests; separately develop multi-bone GPU palette parity from the already verified numerical bind contract. Work will supply only source-owned original model schema, bone names, inverse binds and provenance once accepted. Keep this PR draft, isolated and stacked for review; do not modify the normal studio renderer or freeze the anatomical skeleton based on this prototype.
+
+
+## Live CI evidence — first full implementation accepted as an isolated software slice
+
+**GitHub Actions run [38133766194](https://github.com/anyangle1409-code/animation-software/actions/runs/38133766194): all three jobs PASSED.** The checked commit was `01006bed412cd86c35f0785f1b674e589a9db0bf`, after correcting two test fixtures that were accidentally rejected by earlier, valid safety guards.
+
+- **72/72** zero-npm-install Node tests pass: 14 new batched mesh/synthetic GLB tests, plus 18 GLB rig bind, 12 legacy strict GLB parser, 16 CPU skin/native triangle GPU and 12 skeletal WebGL2 tests. The source-level no-Three/no-React/no-R3F gate passed.
+- Normal full animation editor TypeScript typecheck and build both passed, without switching off its still-needed legacy character renderer.
+- Real headless Chromium/WebGL2 successfully decoded **two genuinely separate source-authored synthetic GLB meshes**, checked the two source joint binding names with zero numeric rest-bind error, skinned both, and rendered **20 frames / 40 distinct `drawElements` GPU submissions in the same shared depth camera**. The browser read the actual GPU pixels immediately after drawing: **8,182 red-mesh pixels and 8,016 green-mesh pixels**, proving both meshes appeared simultaneously (no per-object framebuffer wipe). Programmed vertex movement: **0.125 model units** in the original test fixture, not an anatomical measurement. **Zero** browser errors, network module requests for Three/React or source rights/medical data.
+- [Synthetic-only browser screenshot and structured report](https://github.com/anyangle1409-code/animation-software/actions/runs/38133766194/artifacts/11700052109). These are geometric diagnostic triangles, not the ORIGINAL-v1 body. This PR remains DRAFT and unmerged.
+
+Next staged Lane G G1 tasks: first-party explicit material/UV primitive support with strict finite parsers, separate trustworthy mesh data representation, then G2 GPU palette skinning, all subject to real browser tests and actual accepted-original-model schema. Work's anatomical Phase 6 CP1 Gate 6 remains independent and OPEN.

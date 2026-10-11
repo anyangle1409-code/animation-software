@@ -1,5 +1,21 @@
 # Master programme: independent execution checkpoint, 10 October 2026
 
+## Latest active topic — exact closed-triangle prerequisite
+
+Inspect `codex/source-triangle-intersection-20261011` newest live head and draft
+PR before repeating work. Stacked on PR50 c74f34de, exact-head all3CIchecks
+SUCCESS run38134171190. Read `SOURCE_TRIANGLE_INTERSECTION_CHECKPOINT_20261011.md`
+and machine key `active_triangle_intersection_checkpoint` first.
+11new+12witness+18component tests PASS; actual native Blender1PASS. Independent
+read-only review: no findings;421 additional pairs matched a different exact
+barycentric feasibility oracle and29degenerate pairs refused. New remote topic
+CI still requires exact-head confirmation. Predicate is exact for supplied binary
+values only; no complete mesh enumeration, clearance or anatomical inference.
+All gates unchanged. Next: candidate completeness/common-frame/native identity
+tests before bounded original source triangle-pair checks. No repeated four
+witness scenes, source arrays or expensive audits. W1A pelvic registration and
+seven qualified independent landmarks remain required, not automatically accepted.
+
 ## Latest active topic — 11 October source triangle witnesses
 
 After fetching, inspect draft PR50 on

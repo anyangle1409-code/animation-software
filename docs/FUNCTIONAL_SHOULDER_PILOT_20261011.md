@@ -100,6 +100,17 @@ completed, then packaged Blender glTF export FAILED with missing NumPy. The
 next environment repair installs python3-numpy; no geometry change or hidden
 success assertion. Runs38153503254/38153504999 preserve that failure.
 
+Visual review caught raised-arm cropping in the original fixed camera. A new
+native framing regression failed first, then PASS after square orthographic
+extent is fitted to every evaluated posed vertex with18% edge space. Current
+local verification is7 mathematical +2 native tests PASS. Twenty views freshly
+regenerated in `C:/Users/Mark/Documents/Codex/hgpt-functional-shoulder-v1-framed-20261011/`;
+all22 generated hashes match. This supersedes earlier handoff bytes: native
+SHA256 `439ac416c2d8185f72363220427a0a29c5b08d48e3b5de8dc40a261b6eedce60`;
+GLB SHA256 `90bc99d2e15d501754b24af4f9a851b60ba18574e3befe7b1828ee565a4008a0`.
+The160deg rear view now shows both complete upper arms. Geometry/anchors
+unchanged; camera/caption adjustment is not biomechanical validation.
+
 Uses existing primary evidence ledger
 `anatomy/audit/primary_clavicle_motion_u3_source_review_20261010.json`:
 Ludewig2009 DOI10.2106/JBJS.G.01483,12 healthy subjects/bone-pin tracking.

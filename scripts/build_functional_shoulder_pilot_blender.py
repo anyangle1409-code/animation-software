@@ -171,6 +171,24 @@ def matrices(arm):
             for b in arm.data.bones}
 
 
+def fit_review_camera(cam, shapes):
+    """Square orthographic views: reserve18% edge space, include every posed vertex."""
+    bpy.context.view_layer.update()
+    deps = bpy.context.evaluated_depsgraph_get()
+    to_camera = cam.matrix_world.inverted()
+    extent = 0.0
+    for ob in shapes:
+        evaluated = ob.evaluated_get(deps)
+        for vertex in evaluated.data.vertices:
+            p = to_camera @ evaluated.matrix_world @ vertex.co
+            if p.z >= 0:
+                raise ValueError('review geometry is behind the camera')
+            extent = max(extent, abs(p.x), abs(p.y))
+    if not math.isfinite(extent) or extent <= 0:
+        raise ValueError('review camera has no finite geometry extent')
+    cam.data.ortho_scale = max(.85, extent / .41)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--out', required=True)
@@ -217,6 +235,9 @@ def main():
                                 ('overhead', (0, .041, 4))]:
             cam.location = location
             cam.rotation_euler = (target - cam.location).to_track_quat('-Z', 'Y').to_euler()
+            fit_review_camera(cam, shapes)
+            caption.location = (-.47 * cam.data.ortho_scale, .45 * cam.data.ortho_scale, -1)
+            caption.data.size = .015 * cam.data.ortho_scale
             sc.render.filepath = str(out / f'{VERSION}_{angle:03}_{view}.png')
             bpy.ops.render.render(write_still=True)
     pose(arm, rec, 0)

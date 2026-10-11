@@ -11,6 +11,33 @@ sys.path.insert(0, str(ROOT / 'scripts/anatomy_fit'))
 
 
 class NativePilot(unittest.TestCase):
+    def test_all_posed_vertices_fit_review_views(self):
+        spec = importlib.util.spec_from_file_location('pilot', ROOT / 'scripts/build_functional_shoulder_pilot_blender.py')
+        m = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(m)
+        import bpy
+        from mathutils import Vector
+        rec = json.loads((ROOT / m.RECORD).read_text())
+        arm, shapes = m.build(rec)
+        cam = bpy.data.objects.new('framing_test', bpy.data.cameras.new('framing_test'))
+        bpy.context.scene.collection.objects.link(cam)
+        cam.data.type = 'ORTHO'
+        target = Vector((0, .04, 1.43))
+        for angle in (0, 45, 90, 160):
+            m.pose(arm, rec, angle)
+            for location in ((0, -3, 1.43), (3, .04, 1.43), (0, 3, 1.43), (2, -2, 1.8), (0, .041, 4)):
+                cam.location = location
+                cam.rotation_euler = (target - cam.location).to_track_quat('-Z', 'Y').to_euler()
+                m.fit_review_camera(cam, shapes)
+                deps = bpy.context.evaluated_depsgraph_get()
+                to_camera = cam.matrix_world.inverted()
+                for ob in shapes:
+                    evaluated = ob.evaluated_get(deps)
+                    for vertex in evaluated.data.vertices:
+                        p = to_camera @ evaluated.matrix_world @ vertex.co
+                        self.assertLessEqual(max(abs(p.x), abs(p.y)), .41 * cam.data.ortho_scale + 1e-6)
+                        self.assertLess(p.z, 0)
+
     def test_rig_and_shapes_follow_same_centres_and_roundtrip(self):
         script = ROOT / 'scripts/build_functional_shoulder_pilot_blender.py'
         self.assertTrue(script.exists(), 'native pilot builder is missing')

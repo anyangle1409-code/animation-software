@@ -901,3 +901,20 @@ the socket-hypothesis overlap with source-bound3D profile/mask evidence and
 qualified independent review before choosing segmentation seeds. If that
 gate is unavailable, move to independent regional source diagnostics;
 never manufacture accepted landmarks from the four HU-linked pixels.
+
+## Foot-fragment orthogonal source review checkpoint
+
+Completed nine small X/Y,X/Z,Y/Z source-grid patches for existing calcaneus,
+intermediate-cuneiform and talus diagnostic centres.5625CT/label queries in
+one bounded stream invocation,24.438s; complete CRC/decoded-length checks
+pass. Fresh unchanged sampler tests:7PASS+11PASS. Contact sheet actually viewed.
+All centres match upstream named labels; no independent anatomy acceptance.
+Stored window0..2000 is NOT HU; equal index display is NOT metric aspect.
+No source fragments removed or anatomical gates advanced. Exact private
+output pins/counts and limitations are in
+`docs/BONEHUB_FOOT_ORTHOGONAL_CANDIDATES_20261011.md`.
+Master4e564028 all3CI checks PASS, run38097339835.
+
+Next: do not repeat completed foot views or pelvic threshold computations.
+Review preserved tiny rib candidates467/111/1585 and438/116/1586 in bounded
+orthogonal source-index patches, keeping raw UINT16 units and all fragments.

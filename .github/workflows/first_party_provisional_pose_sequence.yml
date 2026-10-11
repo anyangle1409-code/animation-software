@@ -1,0 +1,66 @@
+name: G4b source-bound first-party offline pose frame pipeline
+on:
+  push:
+    branches: [codex/first-party-provisional-pose-sequence-20261011]
+    paths:
+      - src/viewer/firstPartyPrototypePoseSequence.mjs
+      - tests/firstPartyPrototypePoseSequence.test.mjs
+      - tests/firstPartyPrototypeMotionCli.test.mjs
+      - scripts/verify-provisional-motion.mjs
+      - docs/FIRST_PARTY_G4B_PROVISIONAL_POSE_SEQUENCE_20261011.md
+      - .github/workflows/first_party_provisional_pose_sequence.yml
+  pull_request:
+    paths:
+      - src/viewer/firstPartyPrototypePoseSequence.mjs
+      - tests/firstPartyPrototypePoseSequence.test.mjs
+      - tests/firstPartyPrototypeMotionCli.test.mjs
+      - scripts/verify-provisional-motion.mjs
+      - .github/workflows/first_party_provisional_pose_sequence.yml
+permissions:
+  contents: read
+jobs:
+  source-joint-ordered-pose-frame-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: G4b sampled movement integrity, G4 GLB SHA/rest and independent source skin tests
+        run: |
+          node --test tests/firstPartyPrototypePoseSequence.test.mjs
+          node --test tests/firstPartyPrototypeMotionCli.test.mjs
+          node --test tests/firstPartyPrototypeModelHandoff.test.mjs
+          node --test tests/firstPartyPrototypeHandoffCli.test.mjs
+          node --test tests/firstPartyGlbRigBindingContract.test.mjs
+          node --test tests/firstPartyGlbSkinnedBatches.test.mjs
+          node --test tests/firstPartyGpuNormalParity.test.mjs
+      - name: New pose interface has no third-party or network dependency
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          for(const path of ['src/viewer/firstPartyPrototypePoseSequence.mjs',
+            'src/viewer/firstPartyPrototypeModelHandoff.mjs']){
+            const text=fs.readFileSync(path,'utf8');
+            if(/from\s+['"](?:three|react|react-dom|@react-three\/[^'"]*|[^'"]*threeRuntimeBoundary[^'"]*)['"]|\bfetch\s*\(|\bXMLHttpRequest\b/.test(text))
+              throw new Error('Vendor/network dependency in '+path);
+          }
+          console.log('Two-stage provisional source GLB + poses are standalone.');
+          JS
+  unchanged-editor-typecheck-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm run build

@@ -21,10 +21,13 @@ function pack(root,bin){
   new Uint8Array(buffer,bh+8,bin.byteLength).set(bin);
   return buffer;
 }
-export function buildSyntheticBatchedGlb({meshCount=2,primitivesPerMesh=1,mutate}={}){
-  if(!Number.isInteger(meshCount)||meshCount<1||meshCount>4 ||
+export function buildSyntheticBatchedGlb({meshCount=2,primitivesPerMesh=1,allowProvisionalPilot=false,mutate}={}){
+  const maxMeshes=allowProvisionalPilot?24:4;
+  const maxParts=allowProvisionalPilot?24:8;
+  if(!Number.isInteger(meshCount)||meshCount<1||meshCount>maxMeshes ||
     !Number.isInteger(primitivesPerMesh)||primitivesPerMesh<1||
-    primitivesPerMesh>4||meshCount*primitivesPerMesh>8)
+    primitivesPerMesh>(allowProvisionalPilot?24:4)||
+    meshCount*primitivesPerMesh>maxParts)
     throw new RangeError('Synthetic test fixture budget invalid');
   const original=extract(buildSyntheticFirstPartyGlb());
   const root=original.root;

@@ -5,8 +5,9 @@
  * Blender/Work export manifest. It binds source joints to named runtime bones
  * and checks the entire asset digest/rest matrix contract, WITHOUT adjusting
  * any joint, assuming anatomical laterality or approving the human model.
- * Only the existing narrow GLB subset is supported (one skinned primitive,
- * or 2..8 primitives over 1..4 meshes sharing one skin).
+ * Only the existing narrow GLB subset is supported normally (one skinned primitive,
+ * or 2..8 primitives over 1..4 meshes). A separately explicit, size-capped
+ * PILOT layout permits 2..24 primitives solely for diagnostic Work geometry.
  */
 import {parseRestrictedSkinnedGlb} from './firstPartyGlbSkinnedGeometry.mjs';
 import {parseRestrictedBatchedSkinnedGlb} from './firstPartyGlbSkinnedBatches.mjs';
@@ -56,8 +57,8 @@ function checkManifest(manifest){
   exactly(manifest.glb,['sha256','layout','sourceFeatures'],'GLB');
   requireThat(/^[a-f0-9]{64}$/.test(manifest.glb.sha256),
     'lowercase SHA-256 of exact source GLB bytes required');
-  requireThat(manifest.glb.layout==='single'||manifest.glb.layout==='batched',
-    'layout must be single or batched');
+  requireThat(['single','batched','pilot'].includes(manifest.glb.layout),
+    'layout must be single, batched or diagnostic pilot');
   // v1 source manifests historically had three explicit feature flags.
   // Permit exactly those three OR the four-field, explicit PNG extension;
   // unknown fields remain rejected rather than silently ignored.
@@ -73,7 +74,7 @@ function checkManifest(manifest){
     (manifest.glb.layout==='batched' &&
       features.flatColors && features.uv0),
     'embedded PNG source handoff requires batched layout, flatColors and UV0');
-  requireThat(manifest.glb.layout==='batched' ||
+  requireThat(manifest.glb.layout!=='single' ||
     Object.values(features).every(v=>!v),
     'single primitive has no opt-in source feature adapter');
   exactly(manifest.frame,['unit','up','handedness','basisStatus'],'frame');
@@ -128,9 +129,11 @@ export async function validateProvisionalModelHandoff(input,manifest){
       allowSourceUV0:manifest.glb.sourceFeatures.uv0,
       allowSourceNormals:manifest.glb.sourceFeatures.normals,
       allowEmbeddedPngBaseColor:manifest.glb.sourceFeatures.embeddedPngBaseColor===true,
+      allowProvisionalPilot:manifest.glb.layout==='pilot',
     });
   const parts=scene.batches;
-  requireThat(parts.length>0 && parts.length<=8,'scene primitive budget exceeded');
+  requireThat(parts.length>0 && parts.length<=(manifest.glb.layout==='pilot'?24:8),
+    'scene primitive budget exceeded');
   const options={
     sourceToCanonical:manifest.rig.sourceToRuntimeBone,
     allowedCanonicalNames:manifest.rig.runtimeBoneNames,
@@ -166,6 +169,7 @@ export async function validateProvisionalModelHandoff(input,manifest){
       medicallyApprovedHumanSkeleton:false,
       realisticWholeBodyDeformationVerified:false,
       modelProductionReady:false,
+      provisionalLargeSceneDiagnosticOnly:manifest.glb.layout==='pilot',
       glbHasExternalNetworkDependency:false,
     }),
   });

@@ -1,5 +1,16 @@
 # Master programme: independent execution checkpoint, 10 October 2026
 
+## New W1 costal blade curvature — 11 October
+
+`codex/functional-scapula-bowl-20261011` stacked on PR71eaa6850c(all4CIgreen).
+Read `FUNCTIONAL_SCAPULA_BOWL_20261011.md` and machine key
+`active_functional_scapula_bowl_checkpoint`.4new pure/2new native PASS;
+10inherited pure/3reach+2thorax native PASS.9actual new views and matrices,
+8mm authored costal recession,4mm normal thickness, border/joints/rest/other
+meshes unchanged. Utah qualitative concave-fossa reference not measured depth.
+No contact/clinical motion/full human/skin/deformation approval. Check newest
+exact-headCI/review before reuse. Next thorax/placement/axes then original skin.
+
 ## New W1/W3 absolute arm-direction checkpoint — 11 October
 
 `codex/functional-absolute-reach-20261011` stacked on PR69c8fb99d6(all4CIgreen).

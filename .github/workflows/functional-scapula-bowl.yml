@@ -1,0 +1,27 @@
+name: Provisional curved scapula blade
+on:
+  push:
+    branches: [codex/functional-scapula-bowl-20261011]
+    paths: ['scripts/build_functional_scapula_bowl_blender.py', 'scripts/build_functional_thorax_context_blender.py', 'scripts/test_functional_scapula_bowl.py', 'scripts/anatomy_fit/functional_shoulder_shapes.py', 'scripts/blender_tests/test_functional_scapula_bowl.py', '.github/workflows/functional-scapula-bowl.yml']
+  pull_request:
+    paths: ['scripts/build_functional_scapula_bowl_blender.py', 'scripts/build_functional_thorax_context_blender.py', 'scripts/test_functional_scapula_bowl.py', 'scripts/anatomy_fit/functional_shoulder_shapes.py', 'scripts/blender_tests/test_functional_scapula_bowl.py', '.github/workflows/functional-scapula-bowl.yml']
+permissions:
+  contents: read
+jobs:
+  native-bowl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m unittest scripts/test_functional_scapula_bowl.py scripts/test_functional_shoulder_shapes.py scripts/test_functional_thorax_shapes.py -v
+      - run: sudo apt-get update && sudo apt-get install -y blender libegl1 libgl1-mesa-dri xvfb xauth
+      - run: blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/blender_tests/test_functional_scapula_bowl.py
+      - run: xvfb-run -a blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/build_functional_scapula_bowl_blender.py -- --out /tmp/hgpt-scapula-bowl
+        env:
+          LIBGL_ALWAYS_SOFTWARE: '1'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: provisional-curved-scapula-views-and-matrices
+          path: |
+            /tmp/hgpt-scapula-bowl/*.png
+            /tmp/hgpt-scapula-bowl/*.json

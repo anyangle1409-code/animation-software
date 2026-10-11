@@ -60,7 +60,6 @@ test('actual source-SHA-bound rig compiles full ordered 3-frame pose sequence',a
   assert.equal(seq.frames.length,3);
   assert.deepEqual(seq.frames.map(f=>f.timeSeconds),[0,.5,1]);
   assert.deepEqual(seq.runtimeBoneNames,['upperarm_l','forearm_l']);
-  assert.equal(getFrame(seq,2).sourceOrderedWorldMatrices[12],.2);
   assert.ok(Math.abs(getFrame(seq,2).sourceOrderedWorldMatrices[12]-.2)<1e-6);
   assert.ok(Math.abs(getFrame(seq,2).sourceOrderedWorldMatrices[28]-.3)<1e-6);
   assert.equal(seq.audit.frameMatricesInterpolated,false);

@@ -101,7 +101,7 @@ def build():
         }
     return {
         'schema_version': 1, 'created': '2026-10-08', 'status': 'AUDIT_ONLY_NO_TARGET_SELECTED',
-        'inputs_sha256': {str(p.relative_to(ROOT)): sha(p) for p in list(RECORDS.values()) + [CSV]},
+        'inputs_sha256': {p.relative_to(ROOT).as_posix(): sha(p) for p in list(RECORDS.values()) + [CSV]},
         'ansur_at_182_mm': A,
         'proxies': {'radiale': f'elbow centre (humeroulnar) - {RADIALE_BELOW_EJC_MM} mm in z (project convention, proportion_audit.py; unsourced here)',
                     'stylion': 'radiocarpal marker height', 'note': 'vertical differences with the arm hanging; ANSUR lengths are caliper spans parallel to the segment'},

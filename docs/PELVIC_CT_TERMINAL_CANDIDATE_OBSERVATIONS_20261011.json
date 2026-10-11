@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "kind": "HGPT_SOURCE_PINNED_CT_CANDIDATE_OBSERVATIONS",
+  "viewer_code_commit": "abaacc61d4ee0a4612598fda1f5b9f0bdbdefad2",
+  "viewer_pr": 44,
+  "source_skeleton_governs_geometry": true,
+  "private_blend_sha256": "8775f92d6601d4fd1eb07f48a30308053cdae32aa575434e550bf23a0c0d46f7",
+  "private_artifacts_directory": "work/private-nlm-ct-20261009/sequential-viewer-20261010/",
+  "display_window_stored_values": [950, 1900],
+  "display_window_is_anatomical_classifier": false,
+  "observations": [
+    {
+      "source_id": "cvm1842f",
+      "timeline_frame": 43,
+      "source_group": 1,
+      "scanner_S_mm": -450.0,
+      "source_png_sha256": "000e3fe14ca0492ec9ebb12aa22ff9bbd2c41fb0519ead38bee492b5fee64299",
+      "source_header_sha256": "bed971b570e968ff41ebd81350f59920f0a3f188954037ca7605308329967575",
+      "private_render_sha256": "ae22600c3c576d48e2111be1637cc64dea21f84c7a7afa4e976dddc38fecc466",
+      "visible_plane": "FRAME_043__GROUP_01__cvm1842f",
+      "candidate_note": "Paired large non-circular bright outlined structures flank the central torso, with a smaller posterior central bright complex. Separate smaller bright contours lie outside the torso superiorly in the displayed image. These are visual shapes only, not accepted iliac, sacral, vertebral or limb identities.",
+      "next_review": "Compare adjacent pinned source slices within group1 and the separate group2 boundary; distinguish structures using contiguous image evidence before assigning bone identity or landmark coordinates."
+    },
+    {
+      "source_id": "cvm1957f",
+      "timeline_frame": 82,
+      "source_group": 2,
+      "scanner_S_mm": -565.0,
+      "source_png_sha256": "6041bfa452b6b1a7ce1a463da29e2fa2b0505aeb07ae4e2b30ae506506ef7e65",
+      "source_header_sha256": "35b1ee0c539f9119691d0ce6e642c23411ff3bb640ab1ea7ac9bcbc4fe7a03c7",
+      "private_render_sha256": "36f6bb04ac42bac0cdf5f4cf22840f65069ef8dc2a7a0a914845ae9b31714c44",
+      "visible_plane": "FRAME_082__GROUP_02__cvm1957f",
+      "candidate_note": "Two separated roughly circular bright rings are visible within the two lateral soft-tissue regions. Their source-bound appearance differs from frame43. Ring appearance alone does not establish femoral identity, segmentation extent or any accepted landmark.",
+      "next_review": "Trace both candidate rings superiorly within group2 using original source identities; require independent second review before accepting bone identity or coverage."
+    },
+    {
+      "source_id": "cvm1839f", "timeline_frame": 42, "source_group": 1, "scanner_S_mm": -447.0,
+      "source_png_sha256": "afc9b7f6c5be12edc745a8aeb16465ed6ba2dd921f9888192db4c3ba23a02d71",
+      "source_header_sha256": "7edb9c451635be39a1e5b19fd5391309ec37109c4be96506f9f9fea3a078b755",
+      "private_render_sha256": "08d7a00aa3ef1013b755e8a40a516ee07d67603dab653d37193161e78e4c8ad4",
+      "visible_plane": "FRAME_042__GROUP_01__cvm1839f",
+      "candidate_note": "The paired large non-circular outlined structures and smaller posterior complex persist visually into frame43, with contour differences. This is a within-group visual comparison only; anatomical identity and segmentation correspondence remain unaccepted."
+    },
+    {
+      "source_id": "cvm1843f", "timeline_frame": 44, "source_group": 2, "scanner_S_mm": -451.0,
+      "source_png_sha256": "2fbd3487d28d35944ff2407a76b61a2d136760636fb025014a76f6ae5ce604a8",
+      "source_header_sha256": "0de40995282cf7c901db29340a7e52f5495af4df1a872209a0c057535911d328",
+      "private_render_sha256": "201f4a0bf330a1711a4e49b97fea1ff6617dbd38ad5208d83b7d674e3a7332ae",
+      "visible_plane": "FRAME_044__GROUP_02__cvm1843f",
+      "candidate_note": "At the separate group2 start, paired outlined structures and a posterior bright complex resemble the group1 endpoint qualitatively. Similar appearance does not prove inter-group registration, uniform spacing or shared segmentation identity."
+    },
+    {
+      "source_id": "cvm1846f", "timeline_frame": 45, "source_group": 2, "scanner_S_mm": -454.0,
+      "source_png_sha256": "f084cc0a0544580f7e1009af507fd8ba6567767233bde06231282b004ee0988a",
+      "source_header_sha256": "ff485a52f49be0dab60fee6767e432e38ddd09e0e480fdcb623dd18f6c60d8c8",
+      "private_render_sha256": "0b19741c67afb77e2b6271ad633e81b7002921b5441899abac904e18194a6d4a",
+      "visible_plane": "FRAME_045__GROUP_02__cvm1846f",
+      "candidate_note": "Paired non-circular bright outlined structures remain visible below frame44 in the same source group; contour and central posterior outline change. No named bone or landmark is accepted from this observation."
+    },
+    {
+      "source_id": "cvm1951f", "timeline_frame": 80, "source_group": 2, "scanner_S_mm": -559.0,
+      "source_png_sha256": "f4df239f7635a99d4d804d71d6275c5f1ad29cca200f75a044713835d8142ee4",
+      "source_header_sha256": "0ef29323cc296028ea351656caa2c79ababfe50728e733f8f77ce23c23e58274",
+      "private_render_sha256": "3c658825d14f1b3c9bd77752dfbbeb36d4a8c09c09edb834cf67052df4a5ae9c",
+      "visible_plane": "FRAME_080__GROUP_02__cvm1951f",
+      "candidate_note": "Two separate roughly circular bright rings are present in the lateral soft-tissue regions; inner contour irregularities differ from the lower frames81/82. This is candidate shape persistence, not accepted femoral identity or coverage."
+    },
+    {
+      "source_id": "cvm1954f", "timeline_frame": 81, "source_group": 2, "scanner_S_mm": -562.0,
+      "source_png_sha256": "1b832f500b7af35bc170bee2a18bc94980848486c27ed955b15b819143f53f0a",
+      "source_header_sha256": "516300d7f2f6db3ca64380efd429ce849a63662282381b5d9ff0640694208a86",
+      "private_render_sha256": "da11a5678946c5f7a53d0306408fbc3266e300bf14dcf54ff579019d94862622",
+      "visible_plane": "FRAME_081__GROUP_02__cvm1954f",
+      "candidate_note": "Paired bright rings persist between frames80 and82 with modest contour differences. No radius, centre, segmentation mask, anatomical side or registration measurement is inferred."
+    },
+    {
+      "source_id": "cvm1861f", "timeline_frame": 50, "source_group": 2, "scanner_S_mm": -469.0,
+      "source_png_sha256": "87af4f47f4f743812e7cd3c0703f2265c5d3d2fcea0a765429bbfaaf25ed118a",
+      "source_header_sha256": "c6729c37ae78acc197d8a73bb7dcf456591000feff9723f91a6fd5c932807f29",
+      "private_render_sha256": "fcadb107751047a4026c22b3d37ded34b9a7e5c4a628b485fda0b6118e6246ed",
+      "visible_plane": "FRAME_050__GROUP_02__cvm1861f",
+      "candidate_note": "Paired rounded internal bright-rimmed structures appear within larger outlined lateral structures. Possible hip head/socket-region candidates for independent review only; identities, centres and segmentation are not accepted."
+    },
+    {
+      "source_id": "cvm1876f", "timeline_frame": 55, "source_group": 2, "scanner_S_mm": -484.0,
+      "source_png_sha256": "95e649e47db71831ae0b2deea7f8fb530478a7ebc3942e9d3d6f7d98d9a877ec",
+      "source_header_sha256": "e142681f7fe74682ea40530378adbe2a5e65b61cba1f5caca4aa04d3f8db6ada",
+      "private_render_sha256": "2d427308c51aa017bc7d703c2528ed340e8b83aae43ce92d1e47640a15c4a36e",
+      "visible_plane": "FRAME_055__GROUP_02__cvm1876f",
+      "candidate_note": "Paired roughly rounded bright-rimmed internal structures remain visible beside concave surrounding outlines. This is a second sparse candidate hip-region view, not confirmed correspondence, joint contact or a centre measurement."
+    },
+    {
+      "source_id": "cvm1891f", "timeline_frame": 60, "source_group": 2, "scanner_S_mm": -499.0,
+      "source_png_sha256": "4966927f4a5943419b6d00ea96bb689f5c627b72a9f84d65de790f08a81ae7a6",
+      "source_header_sha256": "a31c0d49da2d2823b65c9840559c73972023b7ccd81399bc0a3a8b766e12de33",
+      "private_render_sha256": "4b70989bc26d59913d2d42e50fd451406363882824373e6c27588a68b9024714",
+      "visible_plane": "FRAME_060__GROUP_02__cvm1891f",
+      "candidate_note": "The lateral outlined structures extend outward from rounded medial portions; separate anterior paired outlines approach the midline. Possible proximal-femoral and anterior pelvic-region candidates require dense adjacent review; no anatomical landmark is accepted."
+    },
+    {
+      "source_id": "cvm1906f", "timeline_frame": 65, "source_group": 2, "scanner_S_mm": -514.0,
+      "source_png_sha256": "fea0197c307f2a177187bef25ff8a23a110cbad3b52be29e6739f9f544b71d9f",
+      "source_header_sha256": "410b08719f8413cec1c7b68bf6dcca6b4f65e8f1ccab24b0c7827904f14978e5",
+      "private_render_sha256": "e64fe19c89867c25f994cfd0042388b4f42a50372319bc25472f9b4c3d6ee0a0",
+      "visible_plane": "FRAME_065__GROUP_02__cvm1906f",
+      "candidate_note": "Bilateral lateral outlined profiles are separate from paired posterior-medial profiles; two smaller anterior profiles lie near the midline. These are distinct candidate structures, not one accepted connected segmentation."
+    },
+    {
+      "source_id": "cvm1921f", "timeline_frame": 70, "source_group": 2, "scanner_S_mm": -529.0,
+      "source_png_sha256": "4802955d63293d9ecd58dbdd9b9d96ef388cb4b894c65ab44f652b8693dee212",
+      "source_header_sha256": "6b06b396a67b9c0d8f25bb69f383680021529da32426488a9ad33b350c323827",
+      "private_render_sha256": "fb7a5dc560ca5f9b7178291e93ed0bf07e835279f80ef161f9b2b7b222459579",
+      "visible_plane": "FRAME_070__GROUP_02__cvm1921f",
+      "candidate_note": "Paired lateral profiles and separate smaller posterior-medial profiles remain visible, with thin anterior-medial outlined profiles. Shape similarity across this sparse interval is not accepted continuity or identity."
+    },
+    {
+      "source_id": "cvm1936f", "timeline_frame": 75, "source_group": 2, "scanner_S_mm": -544.0,
+      "source_png_sha256": "dad0f2c56cd8d2bcdd1abbe8591ffa852a2ca43bcb17ffadaa62f4cf4482d865",
+      "source_header_sha256": "4639caad585a07a54f4af4b14a6eca24ac14e2a19a09e9d0e1e161361e26f794",
+      "private_render_sha256": "cdf6e762d5ab89c4e8fd99d7fc2fe525c2ddbced062f1fb814ed23d25fb3adeb",
+      "visible_plane": "FRAME_075__GROUP_02__cvm1936f",
+      "candidate_note": "Paired lateral ring-like profiles coexist with thinner posterior-medial outlines. Comparison with80/81/82 suggests an interval to inspect for disappearance of the medial candidates, not a verified bone endpoint."
+    }
+  ],
+  "original_png_and_header_hashes_reverified": true,
+  "original_native16_visual_inspection_frames": [43, 82],
+  "windowed_blender_visual_inspection_frames": [42, 43, 44, 45, 50, 55, 60, 65, 70, 75, 80, 81, 82],
+  "coarse_group2_candidate_review_frames": [44, 45, 50, 55, 60, 65, 70, 75, 80, 81, 82],
+  "coarse_group2_review_is_contiguous": false,
+  "candidate_hip_region_dense_review_requested_frames": [46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62],
+  "within_group_candidate_visual_traces": [[42, 43], [44, 45], [80, 81, 82]],
+  "cross_group_comparison_frames": [43, 44],
+  "cross_group_registration_accepted": false,
+  "scanner_S_successive_gaps_mm_for_frames_42_43_44_45": [3, 1, 3],
+  "uniform_volume_grid_accepted": false,
+  "original_png_and_windowed_blender_views_inspected": true,
+  "original_png_native16_display_limitation": "Direct native16 previews are very dark; observations use the fixed-window derivative, not a threshold bone classifier.",
+  "source_blend_unchanged": true,
+  "independent_second_review_completed": false,
+  "bone_identity_accepted": false,
+  "anatomical_coverage_verified": false,
+  "landmarks_accepted": false,
+  "segmentation_performed": false,
+  "scanner_to_HGPT_registration_verified": false,
+  "canonical_promotion_allowed": false
+}

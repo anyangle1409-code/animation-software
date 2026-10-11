@@ -74,11 +74,11 @@ def build():
     out['candidate'] = copy.deepcopy(c['candidate'])
     out['candidate'].update({
         'id': CANDIDATE_ID, 'status': 'AUDIT_PROPOSAL_NOT_CANONICAL_NOT_ACCEPTED', 'freeze_ready': False,
-        'derived_from': {'record': str(C003.relative_to(ROOT)), 'sha256': sha(C003), 'id': c['candidate']['id']},
+        'derived_from': {'record': C003.relative_to(ROOT).as_posix(), 'sha256': sha(C003), 'id': c['candidate']['id']},
         'arm_input_correction': {'keys': list(KEYS), 'rule': 'c003 position of the a003 identity reference (joint marker if any, else bone endpoint); asserted equal to old + GH translation',
                                  'table': table,
                                  'unchanged_but_stale_out_of_scope': ['carpals', 'hand'],
-                                 'blend': {'reused': str(C003_BLEND.relative_to(ROOT)), 'sha256': sha(C003_BLEND),
+                                 'blend': {'reused': C003_BLEND.relative_to(ROOT).as_posix(), 'sha256': sha(C003_BLEND),
                                            'note': 'geometry unchanged: the candidate blend builder reads only bones, joint_markers and scapula landmarks (+ scene id property); the c003 blend is reused byte-identically and still carries hgpt_candidate_id = c003'}}})
     return out, table
 

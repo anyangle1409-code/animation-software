@@ -3,12 +3,52 @@ on:
   push:
     branches:
       - codex/whole-body-motion-provenance-gate-20261010
+      - codex/source-skeleton-blender-measurements-20261010
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
+  native-blender-render-path:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install headless Blender for the real render boundary regression
+        run: sudo apt-get update && sudo apt-get install -y blender xvfb
+      - name: Render a temporary non-anatomical scene into the declared directory
+        run: xvfb-run -a blender --background --factory-startup --python-exit-code 1 --python scripts/blender_tests/test_skeleton_review_render_path.py
+      - name: Preserve raw source triangles in an actual private source-axis review
+        run: xvfb-run -a blender --background --factory-startup --python-exit-code 1 --python scripts/blender_tests/test_source_surface_review.py
+
+  windows-source-motion-provenance:
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - name: Preserve exact source bytes during checkout
+        run: git config --global core.autocrlf false
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify source evidence keys on the laptop platform
+        run: python -m unittest discover -s scripts -p 'test_whole_body_motion_source_gate.py' -v
+      - name: Verify guarded source shell mathematics and private-output boundaries
+        run: python -m unittest discover -s scripts -p 'test_source_surface_component_geometry.py' -v
+      - name: Verify bounded source label streaming and layered voxel order
+        run: python -m unittest discover -s scripts -p 'test_source_segmentation_stream.py' -v
+      - name: Verify private unsigned16 CT pixel sampling without HU acceptance
+        run: python -m unittest discover -s scripts -p 'test_source_nifti_pixel_stream.py' -v
+      - name: Install candidate reconstruction numerical dependency
+        run: python -m pip install numpy
+      - name: Reproduce unchanged c004 inputs and geometry on Windows
+        working-directory: scripts
+        run: python -m unittest test_candidate_c004_arm_inputs -v
+      - name: Preserve historical ANSUR correspondence record exactly on Windows
+        working-directory: scripts
+        run: python -m unittest test_ansur_endpoint_correspondence test_arm_chain_ansur_audit -v
+
   source-motion-amplitude-safety-gate:
     runs-on: ubuntu-latest
     timeout-minutes: 16
@@ -19,6 +59,9 @@ jobs:
           python3 -m unittest discover -s scripts -p 'test_whole_body_motion_source_gate.py' -v
           python3 -m unittest discover -s scripts -p 'test_clavicle_primary_source_compatibility.py' -v
           python3 -m unittest discover -s scripts -p 'test_whole_body_blender_evidence_gate.py' -v
+          python3 -m unittest discover -s scripts -p 'test_source_surface_component_geometry.py' -v
+          python3 -m unittest discover -s scripts -p 'test_source_segmentation_stream.py' -v
+          python3 -m unittest discover -s scripts -p 'test_source_nifti_pixel_stream.py' -v
       - name: Execute first-party original source-only gate, proving no Blender was run
         run: |
           python3 scripts/anatomy_fit/whole_body_motion_source_gate.py \

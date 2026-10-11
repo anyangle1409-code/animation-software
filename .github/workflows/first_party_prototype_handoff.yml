@@ -1,0 +1,62 @@
+name: G4 original human prototype GLB/rig integration preflight
+on:
+  push:
+    branches: [codex/first-party-prototype-handoff-20261011]
+    paths:
+      - src/viewer/firstPartyPrototypeModelHandoff.mjs
+      - tests/firstPartyPrototypeModelHandoff.test.mjs
+      - docs/FIRST_PARTY_G4_PROTOTYPE_HANDOFF_20261011.md
+      - .github/workflows/first_party_prototype_handoff.yml
+  pull_request:
+    paths:
+      - src/viewer/firstPartyPrototypeModelHandoff.mjs
+      - tests/firstPartyPrototypeModelHandoff.test.mjs
+      - .github/workflows/first_party_prototype_handoff.yml
+permissions:
+  contents: read
+jobs:
+  first-party-offline-model-handoff-and-regressions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Validate actual hashed source GLB, provisional rig and pose contract
+        run: node --test tests/firstPartyPrototypeModelHandoff.test.mjs
+      - name: Preserve inherited restricted GLB source and GPU skinning invariants
+        run: |
+          node --test tests/firstPartyGlbRigBindingContract.test.mjs
+          node --test tests/firstPartyGlbSkinnedBatches.test.mjs
+          node --test tests/firstPartyGlbSkinnedGeometry.test.mjs
+          node --test tests/firstPartyGpuNormalParity.test.mjs
+          node --test tests/firstPartyGpuPaletteSkinning.test.mjs
+          node --test tests/firstPartyGlbSourceNormals.test.mjs
+      - name: Refuse any vendor imports or network fetch calls in new G4 boundary
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const p='src/viewer/firstPartyPrototypeModelHandoff.mjs';
+          const s=fs.readFileSync(p,'utf8');
+          if (/from\s+['"](?:three|react|react-dom|@react-three\/[^'"]*|[^'"]*threeRuntimeBoundary[^'"]*)['"]/.test(s) ||
+              /\bfetch\s*\(|\bXMLHttpRequest\b/.test(s))
+            throw Error('G4 must be independent of vendor modules/network');
+          console.log('Standalone first-party no-network handoff boundary');
+          JS
+  unchanged-animation-studio-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm run build

@@ -78,6 +78,16 @@ class TriangleWitnessTests(unittest.TestCase):
                       ((0,0,0),[(0,0,0),(1,0,0),(0,1,float('nan'))])]:
             with self.assertRaises(ValueError): self.project(p,tri)
 
+    def test_subnormal_area_is_refused_before_plane_projection(self):
+        with self.assertRaises(ValueError):
+            self.project((1e-81,1e-81,4e-81),
+                         [(0,0,0),(4e-81,0,0),(0,4e-81,0)])
+
+    def test_tiny_positive_edge_distance_does_not_underflow_to_contact(self):
+        r = self.project((.5,-1e-200,0),[(0,0,0),(2,0,0),(0,2,0)])
+        self.assertEqual(r['point_source_units'],[.5,0.,0.])
+        self.assertEqual(r['distance_source_units'],1e-200)
+
 
 if __name__ == '__main__':
     unittest.main()

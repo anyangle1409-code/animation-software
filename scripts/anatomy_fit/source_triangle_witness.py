@@ -4,6 +4,7 @@ Not a mesh-mesh minimum, signed penetration, cartilage gap or joint centre.
 No source geometry repair, registration, anatomical approval or scaling.
 """
 import math
+import sys
 
 
 def _vector(value):
@@ -41,8 +42,8 @@ def closest_point(point, triangle):
     ab, ac = _sub(b,a), _sub(c,a)
     n = _cross(ab,ac)
     n2 = _dot(n,n)
-    if n2 == 0:
-        raise ValueError('Degenerate or numerically underflowed source triangle')
+    if n2 < sys.float_info.min:
+        raise ValueError('Degenerate or numerically unsafe subnormal source triangle area')
     ap = _sub(p,a)
     h = _dot(ap,n)/n2
     projected = tuple(p[j]-h*n[j] for j in range(3))
@@ -64,8 +65,9 @@ def closest_point(point, triangle):
         bary = [0.,0.,0.]
         bary[i],bary[j] = 1-t,t
         candidates.append((q,bary))
-    q,bary = min(candidates, key=lambda item: _dot(_sub(p,item[0]),_sub(p,item[0])))
-    distance = math.sqrt(_dot(_sub(p,q),_sub(p,q)))
+    # hypot avoids squaring a positive residual into floating-point zero.
+    q,bary = min(candidates, key=lambda item: math.hypot(*_sub(p,item[0])))
+    distance = math.hypot(*_sub(p,q))
     return {'point_source_units': list(q), 'distance_source_units': distance,
             'barycentric': bary, 'physical_units_verified': False,
             'anatomical_contact_accepted': False,

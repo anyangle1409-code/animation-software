@@ -70,3 +70,15 @@ mesh-mesh/intersection tests and anatomical articular patches remain separate.
 Standing-source probe: [Sebaaly publisher](https://link.springer.com/article/10.1007/s00586-020-06670-7)
 preview/subscription only, no original tables read; PubMed429. No retry unchanged
 denial or abstract arch means substituted for per-level vertebral angles.
+
+## Independent code review and fix pass
+
+Read-only reviewer independently ran10+18Python tests and native1PASS, but found
+two Important edge cases outside those fixtures: nonzero subnormal squared area
+could place the witness off-plane; squaring1e-200distance could return zero.
+Both reproductions added and observedFAIL before minimal fixes: refuse subnormal
+squared area; use stable hypot for candidate ordering and distance. Final12new+
+18unchanged tests and actual native1PASS. No Minor or Critical findings.
+Reviewer did not judge private artifacts/remote CI/anatomical truth/physical
+registration/full clearance/inherited full suite; those are respectively exact
+local evidence or explicitly open gates, not assumed approvals. No full rerun.

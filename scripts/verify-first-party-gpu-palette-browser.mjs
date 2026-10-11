@@ -74,6 +74,7 @@ try{
       }));
     let actualParityMaxError=0;
     let firstY=null,skinMotion=0;
+    let sampledGpuVsCpu=null;
     for(let frame=0;frame<20;frame++){
       const t=frame/19;
       const parts=batch.batches.map((part,i)=>{
@@ -92,6 +93,12 @@ try{
           const vertex=part.mesh.indices[i];
           const correct=reference.positions[vertex*3+k];
           const actual=observed[i*3+k];
+          if(sampledGpuVsCpu===null || Math.abs(actual-correct)>sampledGpuVsCpu.error){
+            sampledGpuVsCpu={index:i,component:k,expected:correct,
+              received:actual,error:Math.abs(actual-correct),
+              gpuBufferSlice:[...observed.slice(0,9)],
+              cpuPositions:[...reference.positions.slice(0,9)]};
+          }
           actualParityMaxError=Math.max(actualParityMaxError,Math.abs(actual-correct));
         }
         if(part===parts[0]){
@@ -143,6 +150,8 @@ try{
       nativeIndexedDrawCalls:gpu.drawCallCount,
       indexedTrianglePositionCaptures:gpu.capturedTriangleCount,
       maxAbsoluteGpuVsCpuPositionError:actualParityMaxError,
+      sampleGpuVsCpu:sampledGpuVsCpu,
+      glErrorAfterTransformFeedback:gl.getError(),
       fourNonzeroInfluencesGpuVsCpuMaxError:fourWeightGpuMaxError,
       measuredCpuSkinMotion:skinMotion,
       redUVGpuPixels:red,greenUVGpuPixels:green,
@@ -153,6 +162,7 @@ try{
       productionEditorThreeDependencyRemoved:false,
     };
   });
+  console.log('G2_GPU_CPU_DEBUG',JSON.stringify(result));
   assert.equal(result.kind,'hgpt-native-webgl2-rgba32f-4weight-gpu-lbs-v1');
   assert.equal(result.twoSourceOwnedSkinnedMeshes,2);
   assert.equal(result.boneCountInFourInfluenceFixture,4);

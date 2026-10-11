@@ -1,0 +1,69 @@
+name: G2d native moving embedded PNG and GPU normal parity
+on:
+  push:
+    branches: [codex/first-party-moving-textured-gpu-skin-20261011]
+    paths:
+      - src/viewer/firstPartyG2d*.mjs
+      - src/viewer/firstPartyMovingTexturedSkinWebGL2.mjs
+      - tests/firstPartyG2dShader.test.mjs
+      - tests/support/buildSyntheticMovingTexturedGlb.mjs
+      - scripts/verify-first-party-g2d-browser.mjs
+      - .github/workflows/first_party_g2d_moving_png.yml
+  pull_request:
+    paths:
+      - src/viewer/firstPartyG2d*.mjs
+      - src/viewer/firstPartyMovingTexturedSkinWebGL2.mjs
+      - tests/firstPartyG2dShader.test.mjs
+      - tests/support/buildSyntheticMovingTexturedGlb.mjs
+      - scripts/verify-first-party-g2d-browser.mjs
+      - .github/workflows/first_party_g2d_moving_png.yml
+permissions:
+  contents: read
+jobs:
+  source-contract-and-editor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24, cache: npm}
+      - run: |
+          node --test tests/firstPartyG2dShader.test.mjs
+          node --test tests/firstPartyEmbeddedPngSource.test.mjs
+          node --test tests/firstPartyGpuNormalParity.test.mjs
+          node --test tests/firstPartyPrototypePoseSequence.test.mjs
+      - name: No vendor or remote source loading in G2d modules
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const files=['firstPartyG2dShader','firstPartyG2dProgram',
+            'firstPartyG2dDraw','firstPartyMovingTexturedSkinWebGL2'];
+          for(const name of files){
+            const source=fs.readFileSync('src/viewer/'+name+'.mjs','utf8');
+            if (/from\s+['"](?:three|react|react-dom|@react-three\/[^'"]*)['"]|\bfetch\s*\(|\bXMLHttpRequest\b/.test(source))
+              throw Error('G2d forbidden network/vendor import: '+name);
+          }
+          JS
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm run build
+  chromium-moving-textured-pixels:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24, cache: npm}
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/verify-first-party-g2d-browser.mjs
+      - name: GPU source texture and moving pixel proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hgpt-g2d-native-moving-source-png-parity
+          path: reports/browser-smoke/first-party-g2d-moving-png/
+          if-no-files-found: warn
+          retention-days: 14

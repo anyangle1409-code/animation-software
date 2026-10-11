@@ -61,6 +61,10 @@ function worst(a,b){
 }
 const toGltfWorld=native=>multiplyNativeMat4(B,
   sourceRowsToColumnMajor(native));
+/** Pure mathematical basis helper; does NOT register the model/pose. */
+export function convertNativeWorkZupRowsToGltfYupWorld(nativeRows){
+  return new Float32Array(toGltfWorld(nativeRows));
+}
 const toGltfSkin=native=>multiplyNativeMat4(
   multiplyNativeMat4(B,sourceRowsToColumnMajor(native)),Bi);
 

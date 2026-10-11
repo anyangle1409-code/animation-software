@@ -1,0 +1,99 @@
+name: G1c original GLB UV0 to native WebGL2 interpolation
+on:
+  push:
+    branches: [codex/first-party-glb-uv0-webgl2-20261011]
+    paths:
+      - src/viewer/firstPartyGlbUV0.mjs
+      - src/viewer/firstPartyGlbSkinnedBatches.mjs
+      - src/viewer/firstPartyUV0WebGL2.mjs
+      - tests/support/buildSyntheticUV0Glb.mjs
+      - tests/firstPartyGlbUV0.test.mjs
+      - scripts/verify-first-party-uv0-browser.mjs
+      - docs/FIRST_PARTY_G1C_GLB_UV0_20261011.md
+      - .github/workflows/first_party_glb_uv0_webgl.yml
+  pull_request:
+    paths:
+      - src/viewer/firstPartyGlbUV0.mjs
+      - src/viewer/firstPartyGlbSkinnedBatches.mjs
+      - src/viewer/firstPartyUV0WebGL2.mjs
+      - tests/support/buildSyntheticUV0Glb.mjs
+      - tests/firstPartyGlbUV0.test.mjs
+      - scripts/verify-first-party-uv0-browser.mjs
+      - .github/workflows/first_party_glb_uv0_webgl.yml
+permissions:
+  contents: read
+jobs:
+  original-uv0-math-and-regressions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: New original UV0 + previous GLB/multi-mesh/bind/CPU skin/WebGL renderer pure Node tests
+        run: |
+          node --test tests/firstPartyGlbUV0.test.mjs
+          node --test tests/firstPartyGlbFlatBaseColors.test.mjs
+          node --test tests/firstPartyGlbSkinnedBatches.test.mjs
+          node --test tests/firstPartyGlbRigBindingContract.test.mjs
+          node --test tests/firstPartyGlbSkinnedGeometry.test.mjs
+          node --test tests/firstPartyIndexedSkinnedMesh.test.mjs
+          node --test tests/firstPartyWebGL2SkeletonPreview.test.mjs
+      - name: Forbid Three, React, R3F in G1c original UV0/GLB/skin source path
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          for(const p of [
+            'src/viewer/firstPartyGlbUV0.mjs',
+            'src/viewer/firstPartyUV0WebGL2.mjs',
+            'src/viewer/firstPartyGlbSkinnedBatches.mjs',
+            'src/viewer/firstPartyGlbRigBindingContract.mjs',
+            'src/viewer/firstPartyGlbSkinnedGeometry.mjs',
+            'src/viewer/firstPartyIndexedSkinnedMesh.mjs'
+          ]){
+            const s=fs.readFileSync(p,'utf8');
+            if(/from\s+['"](?:three|[^'"]*threeRuntimeBoundary|[^'"]*threeSceneBoundary|react|react-dom|@react-three\/[^'"]*)['"]/.test(s))
+              throw Error('Disallowed third-party renderer module imported by '+p);
+          }
+          console.log('G1c first-party UV0/skin renderer imports no vendor runtime package');
+          JS
+  unchanged-studio-parity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm run build
+  chromium-uv0-fragment-readback:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - name: Verify GLB UV0 read, independent two-mesh skinning and GPU fragment interpolation on real Chromium WebGL2
+        run: node scripts/verify-first-party-uv0-browser.mjs
+      - name: Preserve synthetic diagnostic screenshot and GPU readback report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: first-party-g1c-source-glb-uv0-gpu-diagnostic
+          path: reports/browser-smoke/first-party-g1c-uv0/
+          if-no-files-found: warn
+          retention-days: 14

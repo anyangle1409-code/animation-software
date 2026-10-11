@@ -1,4 +1,22 @@
 {
+  "active_functional_shoulder_checkpoint": {
+    "branch": "codex/functional-shoulder-shapes-20261011",
+    "plan_head": "f9d4ca0f078207a6561bd4f3e1460bdf9d0f7192",
+    "ledger": "docs/FUNCTIONAL_SHOULDER_PILOT_20261011.md",
+    "status": "PARTIAL_FUNCTIONAL_PROTOTYPE_NOT_HUMAN",
+    "local_tests": "7 mathematical +2 native Blender PASS; independent review no blocking shape/rig issues, two Minor bugs fixed; framing review pending",
+    "current_private_output": "C:/Users/Mark/Documents/Codex/hgpt-functional-shoulder-v1-framed-20261011",
+    "current_glb_sha256": "90bc99d2e15d501754b24af4f9a851b60ba18574e3befe7b1828ee565a4008a0",
+    "integration_boundary": "18mesh/18primitive source exceeds G4 1-4mesh/2-8primitive contract; bind/frame preflight not accepted",
+    "actual_views": 20,
+    "actual_shoulder_only_glb": true,
+    "original_human_mesh_created": false,
+    "real_human_movement_compared": false,
+    "anatomical_acceptance": false,
+    "production_ready": false,
+    "remote_ci": "Verify exact pushed head",
+    "next_action": "Newest exact-head CI; thorax/scapula placement and shape correction, then full-body lean skeleton/original male mesh and reference-compared deformation under owner PR48 v1.1. Detailed all206 clinical registration is not a prototype prerequisite."
+  },
   "schema_version": 1,
   "active_foot_grid_checkpoint": {"branch":"codex/source-foot-exact-candidates-20261011","parent_pr":54,"parent_verified_head":"a4c1f5f746948682048b26e8c7caf41ce14075d6","ledger":"docs/SOURCE_FOOT_EXACT_CANDIDATE_PREFLIGHT_20261011.md","safe_metadata":"docs/SOURCE_FOOT_GRID_CANDIDATES_20261011.json","initial_X_sweep_capacity_failure_preserved":true,"grid_local_tests":"8grid+8sweep+11intersection+12witness+18component PASS; actual native1PASS","independent_review":"No findings;216x216boxes/5widths/budget boundaries/decimal/subnormal checks PASS","actual_native_source_pairs_completed":2,"original_raw_faces_retained":124588,"complete_candidates_checked_exactly":209,"exact_intersecting_candidates":0,"degenerate_candidates_refused":0,"left_talus_exact_degenerate_faces_recounted_and_retained":38,"degenerate_faces_among_complete_candidates":0,"source_and_native_hashes_unchanged":true,"remote_ci":"Verify newest pushed head","anatomical_acceptance":false,"physical_units_accepted":false,"whole_surface_clearance_verified":false,"canonical_promotion_allowed":false,"next_action":"Newest CI then highest unblocked regional source evidence gate; units/image-to-surface/HGPT registration and qualified articular or pelvic landmarks remain open. Do not repeat foot/wrist candidates, four scenes,69707projections or44old scans."},
   "active_foot_candidate_capacity_checkpoint": {"branch":"codex/source-foot-exact-candidates-20261011","parent_pr":54,"parent_verified_head":"a4c1f5f746948682048b26e8c7caf41ce14075d6","parent_ci_runs":[38135419481,38135443672],"parent_ci":"all3PASS both runs","ledger":"docs/SOURCE_FOOT_EXACT_CANDIDATE_PREFLIGHT_20261011.md","safe_metadata":"docs/SOURCE_FOOT_CANDIDATE_CAPACITY_20261011.json","actual_native_right_foot_original_ids_and_coordinates_verified":true,"source_and_native_hashes_unchanged":true,"complete_candidate_enumeration":false,"comparison_cap":2000000,"failure":"X sweep exceeded comparison budget; no complete result/report","one_axis_counts_X_Y_Z":[20842549,10486587,13357768],"left_foot_executed":false,"canonical_promotion_allowed":false,"next_action":"Do not rerun unchanged failed single-axis sweep or raise limits. Develop bounded exact multi-axis spatial partition with closed-boundary exhaustive completeness tests and original face identities before foot retry. Keep38known left degenerates and all source geometry unchanged; anatomical gates remain open."},

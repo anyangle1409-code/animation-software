@@ -66,6 +66,14 @@ export function checkOriginalPilotIdentityMeshAncestry(
   }
   for(const root of sceneRoots)
     need(parent[root]===-1,'scene root must not be a nested child');
+  // Even unused pilot nodes cannot hide an impossible cyclic glTF DAG.
+  for(let initial=0;initial<nodes.length;initial++){
+    const visited=new Set();let n=initial;
+    while(n!==-1){
+      need(!visited.has(n),'cyclic source node graph forbidden');
+      visited.add(n);n=parent[n];
+    }
+  }
   const results=[];
   for(const [meshIndex,nodeIndex]of meshToNode){
     need(Number.isSafeInteger(nodeIndex)&&nodeIndex>=0&&nodeIndex<nodes.length &&
@@ -91,7 +99,6 @@ export function checkOriginalPilotIdentityMeshAncestry(
   return Object.freeze({
     kind:HGPT_ORIGINAL_IDENTITY_ANCESTOR_GATE,
     sourceMeshAncestors:Object.freeze(results.map(r=>Object.freeze(r))),
-    descendantParentIndices:parent,
     sourceNodeCount:nodes.length,
     anyIdentityGroupPromotion:results.some(r=>r.ancestorIndices.length>0),
     sourceBoneHierarchyChanged:false,

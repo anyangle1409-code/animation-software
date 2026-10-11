@@ -1,0 +1,96 @@
+name: G1d first-party strict source NORMAL glTF2 data gate
+on:
+  push:
+    branches: [codex/first-party-glb-source-normals-20261011]
+    paths:
+      - src/viewer/firstPartyGlbSourceNormals.mjs
+      - src/viewer/firstPartyGlbSkinnedBatches.mjs
+      - tests/support/buildSyntheticSourceNormalGlb.mjs
+      - tests/firstPartyGlbSourceNormals.test.mjs
+      - scripts/verify-first-party-glb-source-normal-browser.mjs
+      - docs/FIRST_PARTY_G1D_GLB_SOURCE_NORMALS_20261011.md
+      - .github/workflows/first_party_glb_source_normals.yml
+  pull_request:
+    paths:
+      - src/viewer/firstPartyGlbSourceNormals.mjs
+      - src/viewer/firstPartyGlbSkinnedBatches.mjs
+      - tests/support/buildSyntheticSourceNormalGlb.mjs
+      - tests/firstPartyGlbSourceNormals.test.mjs
+      - scripts/verify-first-party-glb-source-normal-browser.mjs
+      - .github/workflows/first_party_glb_source_normals.yml
+permissions:
+  contents: read
+jobs:
+  source-normals-regressions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 11
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Source owned normal/GLB/UV and GPU regression Node tests without installing packages
+        run: |
+          node --test tests/firstPartyGlbSourceNormals.test.mjs
+          node --test tests/firstPartyGpuPaletteSkinning.test.mjs
+          node --test tests/firstPartyGlbUV0.test.mjs
+          node --test tests/firstPartyGlbFlatBaseColors.test.mjs
+          node --test tests/firstPartyGlbSkinnedBatches.test.mjs
+          node --test tests/firstPartyGlbRigBindingContract.test.mjs
+          node --test tests/firstPartyGlbSkinnedGeometry.test.mjs
+          node --test tests/firstPartyIndexedSkinnedMesh.test.mjs
+          node --test tests/firstPartyWebGL2SkeletonPreview.test.mjs
+      - name: No vendor Three/react loader in original NORMAL/UV/GLB/GPU code
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          for(const p of [
+            'src/viewer/firstPartyGlbSourceNormals.mjs',
+            'src/viewer/firstPartyGlbSkinnedBatches.mjs',
+            'src/viewer/firstPartyGpuPaletteSkinning.mjs',
+            'src/viewer/firstPartyGlbUV0.mjs'
+          ]){
+            if(/from\s+['"](?:three|[^'"]*threeRuntimeBoundary|react|react-dom|@react-three\/[^'"]*)['"]/.test(fs.readFileSync(p,'utf8')))
+              throw Error('Vendor import in original NORMAL source: '+p);
+          }
+          console.log('No third-party GLB/normal shader runtime import.');
+          JS
+  legacy-editor-unchanged:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm run build
+  actual-chromium-source-normal-import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 21
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - name: Validate source normal/UV0/rig binding on four original synthetic meshes in real Chromium
+        run: node scripts/verify-first-party-glb-source-normal-browser.mjs
+      - name: Store nonhuman original-source normal diagnostic evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: first-party-g1d-real-chromium-strict-normal-parser
+          path: reports/browser-smoke/first-party-g1d-source-normals/
+          if-no-files-found: warn
+          retention-days: 14

@@ -95,7 +95,7 @@ function compiledProgram(gl){
   const vert=shader(gl,gl.VERTEX_SHADER,
     '#version 300 es\nprecision highp float;\nprecision highp sampler2D;\nlayout(location=0) in vec3 aPos;\nlayout(location=1) in uvec4 aJoints;\nlayout(location=2) in vec4 aWeights;\nlayout(location=3) in vec2 aUV0;\nlayout(location=4) in vec3 aNormal;\nuniform mat4 uVP;\nuniform sampler2D uMatrixPalette;\nout vec2 vUV0;\nout vec3 vSkinnedWorld;\nout vec3 vSkinnedNormal;\nmat4 bone(uint j){int x=int(j)*4;return mat4(texelFetch(uMatrixPalette,ivec2(x+0,0),0),texelFetch(uMatrixPalette,ivec2(x+1,0),0),texelFetch(uMatrixPalette,ivec2(x+2,0),0),texelFetch(uMatrixPalette,ivec2(x+3,0),0));}\nvoid main(){vec4 p=vec4(0.0);vec4 rest=vec4(aPos,1.0);p+=(bone(aJoints.x)*rest)*aWeights.x;p+=(bone(aJoints.y)*rest)*aWeights.y;p+=(bone(aJoints.z)*rest)*aWeights.z;p+=(bone(aJoints.w)*rest)*aWeights.w;vec3 n=vec3(0.0);n+=(mat3(bone(aJoints.x))*aNormal)*aWeights.x;n+=(mat3(bone(aJoints.y))*aNormal)*aWeights.y;n+=(mat3(bone(aJoints.z))*aNormal)*aWeights.z;n+=(mat3(bone(aJoints.w))*aNormal)*aWeights.w;vSkinnedWorld=p.xyz;vSkinnedNormal=normalize(n);vUV0=aUV0;gl_Position=uVP*p;}');
   const frag=shader(gl,gl.FRAGMENT_SHADER,
-    '#version 300 es\nprecision highp float;\nin vec2 vUV0;\nin vec3 vSkinnedNormal;\nuniform int uNormalPreview;\nuniform int uTexturePreview;\nuniform sampler2D uSourceColor;\nuniform vec3 uSourceTint;\nuniform int uColorManaged;\nuniform int uPilotFlatPreview;\nout vec4 outColor;\nvec3 toSRGB(vec3 v){vec3 c=clamp(v,vec3(0.0),vec3(1.0));vec3 a=12.92*c;vec3 b=1.055*pow(c,vec3(1.0/2.4))-0.055;return mix(b,a,lessThanEqual(c,vec3(0.0031308)));}\nvoid main(){if(uNormalPreview==1){float diffuse=max(dot(normalize(vSkinnedNormal),normalize(vec3(0.32,0.50,0.81))),0.0);outColor=vec4(vec3(0.12+0.78*diffuse),1.0);}else if(uTexturePreview==1){vec3 linearOrEncoded=texture(uSourceColor,vUV0).rgb*uSourceTint;outColor=vec4(uColorManaged==1?toSRGB(linearOrEncoded):linearOrEncoded,1.0);}else if(uPilotFlatPreview==1){outColor=vec4(toSRGB(uSourceTint),1.0);}else{outColor=vec4(clamp(vUV0,vec2(0.0),vec2(1.0)),0.14,1.0);}}');
+    '#version 300 es\nprecision highp float;\nin vec2 vUV0;\nin vec3 vSkinnedNormal;\nuniform int uNormalPreview;\nuniform int uTexturePreview;\nuniform sampler2D uSourceColor;\nuniform vec3 uSourceTint;\nuniform int uColorManaged;\nuniform int uPilotFlatPreview;\nuniform int uPilotLambertPreview;\nout vec4 outColor;\nvec3 toSRGB(vec3 v){vec3 c=clamp(v,vec3(0.0),vec3(1.0));vec3 a=12.92*c;vec3 b=1.055*pow(c,vec3(1.0/2.4))-0.055;return mix(b,a,lessThanEqual(c,vec3(0.0031308)));}\nvoid main(){if(uPilotLambertPreview==1){vec3 n=normalize(vSkinnedNormal);if(!gl_FrontFacing)n=-n;float lambert=max(dot(n,normalize(vec3(0.32,0.50,0.81))),0.0);outColor=vec4(toSRGB(uSourceTint*(0.20+0.80*lambert)),1.0);}else if(uNormalPreview==1){float diffuse=max(dot(normalize(vSkinnedNormal),normalize(vec3(0.32,0.50,0.81))),0.0);outColor=vec4(vec3(0.12+0.78*diffuse),1.0);}else if(uTexturePreview==1){vec3 linearOrEncoded=texture(uSourceColor,vUV0).rgb*uSourceTint;outColor=vec4(uColorManaged==1?toSRGB(linearOrEncoded):linearOrEncoded,1.0);}else if(uPilotFlatPreview==1){outColor=vec4(toSRGB(uSourceTint),1.0);}else{outColor=vec4(clamp(vUV0,vec2(0.0),vec2(1.0)),0.14,1.0);}}');
   const p=gl.createProgram();
   if(!p){gl.deleteShader(vert);gl.deleteShader(frag);
     throw new Error('Native GPU skin link program unavailable');}
@@ -116,7 +116,7 @@ export function createNativePaletteSkinnedWebGL2(canvas){
   let prog=null,vao=null,rest=null,joints=null,weights=null,uvBuffer=null,
     normalBuffer=null,indices=null,paletteTexture=null,viewLoc=null,
     samplerLoc=null,normalPreviewLoc=null,texturePreviewLoc=null,
-    sourceColorLoc=null,sourceTintLoc=null,colorManagedLoc=null,pilotFlatLoc=null;
+    sourceColorLoc=null,sourceTintLoc=null,colorManagedLoc=null,pilotFlatLoc=null,pilotLambertLoc=null;
   let width=1,height=1,lost=false,disposed=false,frames=0,draws=0,captures=0;
   // Opt-in project-owned PNG source preview bound to exact GLB mesh/UV
   // objects. Only source bytes are decoded; animated world matrices remain
@@ -139,9 +139,10 @@ export function createNativePaletteSkinnedWebGL2(canvas){
     sourceTintLoc=gl.getUniformLocation(prog,'uSourceTint');
     colorManagedLoc=gl.getUniformLocation(prog,'uColorManaged');
     pilotFlatLoc=gl.getUniformLocation(prog,'uPilotFlatPreview');
+    pilotLambertLoc=gl.getUniformLocation(prog,'uPilotLambertPreview');
     if(viewLoc===null||samplerLoc===null||normalPreviewLoc===null||
       texturePreviewLoc===null||sourceColorLoc===null||sourceTintLoc===null||
-      colorManagedLoc===null||pilotFlatLoc===null)
+      colorManagedLoc===null||pilotFlatLoc===null||pilotLambertLoc===null)
       throw new Error('Native GPU skin/PNG shader uniform missing');
     gl.bindVertexArray(vao);
     for(const [idx,buffer,items,isInt] of [
@@ -374,23 +375,24 @@ export function createNativePaletteSkinnedWebGL2(canvas){
       canvas.width=width;canvas.height=height;
       if(!lost)gl.viewport(0,0,width,height);
     },
-    renderBatches(parts,{eye=[1,0.5,6.2],target=[1.25,.5,0],normalPreview=false,texturePreview=false,colorManagedTexturePreview=false,pilotFlatColorPreview=false}={}){
+    renderBatches(parts,{eye=[1,0.5,6.2],target=[1.25,.5,0],normalPreview=false,texturePreview=false,colorManagedTexturePreview=false,pilotFlatColorPreview=false,pilotLambertPreview=false}={}){
       if(disposed)throw new Error('GPU palette renderer disposed');
       if(lost)return false;
       if(!Array.isArray(parts)||parts.length<1||
-         parts.length>(pilotFlatColorPreview?24:8))
+         parts.length>((pilotFlatColorPreview||pilotLambertPreview)?24:8))
         throw new RangeError('GPU skin batch requires 1..8 regular or 1..24 original pilot flat parts');
       // Validate all meshes + palettes before any GPU call, fail closed.
       if(typeof normalPreview!=='boolean'||typeof texturePreview!=='boolean'||
          typeof colorManagedTexturePreview!=='boolean'||
-         typeof pilotFlatColorPreview!=='boolean')
+         typeof pilotFlatColorPreview!=='boolean'||typeof pilotLambertPreview!=='boolean')
         throw new RangeError('GPU normal and texture modes must be boolean');
       if(normalPreview&&texturePreview)
         throw new RangeError('GPU normal vs texture preview requires one mode');
-      if(pilotFlatColorPreview&&(normalPreview||texturePreview||
-          colorManagedTexturePreview))
+      if((pilotFlatColorPreview||pilotLambertPreview)&&
+         (normalPreview||texturePreview||colorManagedTexturePreview||
+          (pilotFlatColorPreview&&pilotLambertPreview)))
         throw new RangeError('Original pilot flat preview cannot mix texture or normal modes');
-      if(pilotFlatColorPreview)
+      if(pilotFlatColorPreview||pilotLambertPreview)
         for(const part of parts)
           if(!Array.isArray(part.materialColor)||part.materialColor.length!==3||
             !part.materialColor.every(v=>Number.isFinite(v)&&v>=0&&v<=1)||
@@ -410,7 +412,7 @@ export function createNativePaletteSkinnedWebGL2(canvas){
             throw new RangeError('GPU textured moving mesh must keep original source GLB mesh/UV');
         }
       }
-      const prepared=parts.map(p=>checkedPart(p,normalPreview));
+      const prepared=parts.map(p=>checkedPart(p,normalPreview||pilotLambertPreview));
       let total=0;
       for(const {shape} of prepared){
         total+=shape.vertices;
@@ -426,9 +428,10 @@ export function createNativePaletteSkinnedWebGL2(canvas){
       gl.uniform1i(texturePreviewLoc,texturePreview?1:0);
       gl.uniform1i(colorManagedLoc,colorManagedTexturePreview?1:0);
       gl.uniform1i(pilotFlatLoc,pilotFlatColorPreview?1:0);
+      gl.uniform1i(pilotLambertLoc,pilotLambertPreview?1:0);
       gl.uniform1i(sourceColorLoc,1);
       for(let i=0;i<parts.length;i++){
-        if(pilotFlatColorPreview){
+        if(pilotFlatColorPreview||pilotLambertPreview){
           gl.uniform3fv(sourceTintLoc,new Float32Array(parts[i].materialColor));
           if(parts[i].sourceDoubleSided)gl.disable(gl.CULL_FACE);
           else{gl.enable(gl.CULL_FACE);gl.cullFace(gl.BACK);}
@@ -444,7 +447,7 @@ export function createNativePaletteSkinnedWebGL2(canvas){
           type(parts[i].mesh),0);
         draws++;
       }
-      if(pilotFlatColorPreview)gl.disable(gl.CULL_FACE);
+      if(pilotFlatColorPreview||pilotLambertPreview)gl.disable(gl.CULL_FACE);
       gl.bindVertexArray(null);
       frames++;return true;
     },
@@ -461,6 +464,10 @@ export function createNativePaletteSkinnedWebGL2(canvas){
         !Array.isArray(model.scene?.batches)||
         model.scene.batches.length<2||model.scene.batches.length>24)
         throw new RangeError('Verified first-party G4 original diagnostic pilot required');
+      if(options.pilotLambertPreview!==undefined &&
+        typeof options.pilotLambertPreview!=='boolean')
+        throw new RangeError('Pilot Lambert mode must be explicit boolean');
+      const lambert=options.pilotLambertPreview===true;
       const palette=packProvisionalModelPose(model,worldByBone);
       const parts=model.scene.batches.map(part=>{
         if(part.sourceBaseColorPng!==null ||
@@ -479,19 +486,25 @@ export function createNativePaletteSkinnedWebGL2(canvas){
         };
       });
       const result=this.renderBatches(parts,{
-        ...options,pilotFlatColorPreview:true
+        ...options,pilotFlatColorPreview:!lambert,pilotLambertPreview:lambert
       });
       return Object.freeze({
         drewAllOriginalPilotParts:result===true,
         sourceGLBSha256:model.sourceSha256,
         originalPrimitiveCount:parts.length,
         diagnosticSourceColoursOnly:true,
+        diagnosticLambertTwoSidedNormals:lambert,
         temporaryShaderUVPaddingNeverAuthoredInSource:true,
         originalHumanAnatomyAccepted:false,
         movingExercisePosePhysiologicallyVerified:false,
         materialPBRImplemented:false,
         productionReady:false,
       });
+    },
+    /** Opt-in source-normal Lambert proof only: not glTF PBR or human shading. */
+    renderVerifiedOriginalPilotLambertPose(model,worldByBone,options={}){
+      return this.renderVerifiedOriginalPilotFlatPose(model,worldByBone,
+        {...options,pilotLambertPreview:true});
     },
     /**
      * GPU transform-feedback readback for formal parity testing only.

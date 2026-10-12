@@ -6,6 +6,7 @@ on:
       - scripts/verify-real-work-lambert-normals-browser.mjs
       - src/viewer/firstPartyGpuPaletteSkinning.mjs
       - src/viewer/firstPartySkinnedNormalReference.mjs
+      - tests/firstPartyGpuNormalParity.test.mjs
       - .github/workflows/first_party_actual_work_lambert_normals_gpu.yml
       - docs/CHAT_LANE_G_OVERNIGHT_LEDGER_20261011.md
   pull_request:
@@ -13,6 +14,7 @@ on:
       - scripts/verify-real-work-lambert-normals-browser.mjs
       - src/viewer/firstPartyGpuPaletteSkinning.mjs
       - src/viewer/firstPartySkinnedNormalReference.mjs
+      - tests/firstPartyGpuNormalParity.test.mjs
       - .github/workflows/first_party_actual_work_lambert_normals_gpu.yml
 permissions:
   contents: read

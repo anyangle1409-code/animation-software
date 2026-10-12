@@ -34,6 +34,12 @@ const array=Array.isArray;
 const ID=[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1];
 const align=n=>(n+3)&~3;
 const MAX_BYTES=16*1024*1024,MAX_VERTEX=250000;
+const authenticatedOriginalReviewHandles=new WeakSet();
+/** Only actual source SHA+rig-validated in-memory review results qualify. */
+export function isAuthenticatedOriginalFullBodyReview(value){
+  return value!==null&&typeof value==='object'&&
+    authenticatedOriginalReviewHandles.has(value);
+}
 const morphNames=[
   'HGPT_SHOULDER_CORR_L','HGPT_SHOULDER_CORR_R',
   'HGPT_SHOULDER_FLEX_L','HGPT_SHOULDER_FLEX_R',
@@ -359,7 +365,7 @@ export async function parseOriginalFullBodyReviewGLB(input,{expectedSha256}={}){
   });
   must(plan.maximumMatrixResidual<=1e-4,
     'source original joint world rest does not invert source IBM');
-  return Object.freeze({
+  const review=Object.freeze({
     kind:HGPT_ORIGINAL_FULLBODY_REVIEW_KIND,
     sourceSha256:sha,originalSourceBytesUnmodified:true,
     mesh:parsed.mesh,
@@ -386,4 +392,6 @@ export async function parseOriginalFullBodyReviewGLB(input,{expectedSha256}={}){
       productionReady:false,
     })
   });
+  authenticatedOriginalReviewHandles.add(review);
+  return review;
 }

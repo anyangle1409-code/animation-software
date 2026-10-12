@@ -10,6 +10,7 @@ import {validateNativeSkinnedMesh}
 export const HGPT_FULLBODY_GPU_REST_KIND=
   'hgpt-original-fullbody-native-gpu-rest-only-v1';
 const fail=s=>{throw new RangeError('Original full-body GPU rest rejected: '+s)};
+const authenticatedGpuRestPreviews=new WeakSet();
 export function prepareVerifiedOriginalFullBodyRestGpu(review){
   if(!isAuthenticatedOriginalFullBodyReview(review)||
     review.audit?.originalSourceSHA256Verified!==true||
@@ -58,7 +59,7 @@ export function prepareVerifiedOriginalFullBodyRestGpu(review){
     materialColor:Object.freeze([...color]),
     sourceDoubleSided:review.sourceMaterial.sourceDoubleSided,
   });
-  return Object.freeze({
+  const preview=Object.freeze({
     kind:HGPT_FULLBODY_GPU_REST_KIND,
     originalSourceSha256:review.sourceSha256,
     sourceJointCount:67,
@@ -73,9 +74,12 @@ export function prepareVerifiedOriginalFullBodyRestGpu(review){
     morphDeformationApproved:false,
     productionReady:false,
   });
+  authenticatedGpuRestPreviews.add(preview);
+  return preview;
 }
 export function renderVerifiedOriginalFullBodyRestGpu(renderer,preview,options={}){
-  if(preview?.kind!==HGPT_FULLBODY_GPU_REST_KIND ||
+  if(!authenticatedGpuRestPreviews.has(preview) ||
+    preview?.kind!==HGPT_FULLBODY_GPU_REST_KIND ||
     preview.gpuParts?.length!==1 ||
     !preview.originalMorphWeightsAllZero ||
     !preview.diagnosticShaderAttributePaddingOnly ||

@@ -1,0 +1,22 @@
+name: G5c original local human review page
+on:
+  push:
+    branches: [codex/g5c-original-local-review-ui-20261012]
+  pull_request:
+    paths:
+      - src/viewer/originalFullBodyOwnerLocalReview.html
+      - tests/originalFullBodyOwnerLocalReviewPage.test.mjs
+      - .github/workflows/first_party_original_local_page.yml
+permissions:
+  contents: read
+jobs:
+  owner-local-page:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - run: node --test tests/originalFullBodyOwnerLocalReviewPage.test.mjs
+      - run: node --test tests/firstPartyOriginalFullBodyLocalReview.test.mjs

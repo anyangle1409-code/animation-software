@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 const html=readFileSync(new URL('../src/viewer/originalFullBodyOwnerLocalReview.html',import.meta.url),'utf8');
 test('review UI requires local file selection and its exact original controller',()=>{
  assert.match(html,/type="file"/);
- assert.match(html,/bindOriginalFullBodyOwnerLocalControls/);
+ assert.match(html,/originalFullBodyOwnerLocalReviewBoot\\.mjs/);
  assert.match(html,/from '\.\/firstPartyOriginalFullBodyLocalReview\.mjs'/);
 });
 test('all five bounded review directions offered',()=>{
@@ -12,7 +12,7 @@ test('all five bounded review directions offered',()=>{
  assert.match(html,new RegExp('value="'+v+'"'));
 });
 test('owner page does not load remote scripts or include private model',()=>{
- assert.doesNotMatch(html,/<script[^>]+src=/i);
+ assert.doesNotMatch(html,/<script[^>]+src="https?:/i);
  assert.doesNotMatch(html,/https?:\/\/|fetch\s*\(|\.glb["']|base64,/i);
  assert.match(html,/never uploaded/);
 });

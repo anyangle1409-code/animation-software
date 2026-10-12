@@ -12,6 +12,8 @@ import {parseOriginalFullBodyReviewGLB}
 import {prepareVerifiedOriginalFullBodyRestGpu,
   renderVerifiedOriginalFullBodyRestGpu}
   from './firstPartyOriginalFullBodyGpuRest.mjs';
+import {boundedOriginalReviewViewport}
+  from './firstPartyOriginalReviewViewportBudget.mjs';
 import {createNativePaletteSkinnedWebGL2}
   from './firstPartyGpuPaletteSkinning.mjs';
 
@@ -88,7 +90,8 @@ export async function openOriginalFullBodyOwnerLocalReview({
   let renderer;
   try{
     renderer=createNativePaletteSkinnedWebGL2(canvas);
-    renderer.setSize(width,height,pixelRatio);
+    const viewport=boundedOriginalReviewViewport(width,height,pixelRatio);
+    renderer.setSize(viewport.width,viewport.height,viewport.pixelRatio);
     let alive=true,currentView=null,frameCount=0;
     const renderView=(mode)=>{
       need(alive,'review session has been disposed');

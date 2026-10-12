@@ -106,7 +106,9 @@ function mockGL(){
     vertexAttribPointer:()=>{},activeTexture:()=>{},bindTexture:()=>{},
     texParameteri:()=>{},enable:()=>{},disable:()=>{},viewport:()=>{},
     clearColor:()=>{},clear:()=>calls.push('clear'),useProgram:()=>{},
-    uniformMatrix4fv:()=>{},uniform1i:(_,v)=>calls.push(['mode',v]),
+    uniformMatrix4fv:()=>{},
+    uniform3fv:(_,rgb)=>{assert.equal(rgb.length,3);calls.push(['tint',...rgb]);},
+    uniform1i:(_,v)=>calls.push(['mode',v]),
     texImage2D:()=>{},getParameter:k=>k===62?4096:0,
     bufferData:()=>{},drawElements:()=>calls.push('draw'),
     drawArrays:()=>{},beginTransformFeedback:()=>{},endTransformFeedback:()=>{},
@@ -148,6 +150,7 @@ test('G4o opt-in Lambert requires real source normals, explicit sidedness and re
   }));
   assert.equal(gpu.renderBatches(parts,{pilotLambertPreview:true}),true);
   assert.equal(f.calls.filter(x=>x==='draw').length,2);
+  assert.equal(f.calls.filter(x=>Array.isArray(x)&&x[0]==='tint').length,2);
   const prior=f.calls.length;
   assert.throws(()=>gpu.renderBatches(
     [parts[0],{...parts[1],sourceNormals:undefined}],

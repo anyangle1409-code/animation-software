@@ -65,11 +65,7 @@ rig, body, POSES, reset, upd = ns["rig"], ns["body"], ns["POSES"], ns["reset"], 
 anatomy = bpy.data.objects.get("HGPT_ANATOMICAL_MASTER")
 if anatomy is None or anatomy.type != "ARMATURE":
     raise RuntimeError("missing HGPT_ANATOMICAL_MASTER armature")
-inventory = bridge.validate_inventory(
-    {b.name for b in anatomy.data.bones},
-    {b.name for b in rig.data.bones},
-    len(body.data.vertices),
-)
+inventory = bridge.validate_blender_bridge(anatomy, rig, body)
 if inventory["errors"]:
     raise RuntimeError("inventory guard failed: " + "; ".join(inventory["errors"]))
 mask = body.modifiers.get("HGPT_DRESSED_MASK")

@@ -13,30 +13,33 @@ REVIEW_VIEWS = {
 }
 
 MAJOR_BONE_MAPPING = {
-    "anat_clavicle_left": "clavicle_l",
-    "anat_clavicle_right": "clavicle_r",
-    "anat_scapula_left": "scapula_l",
-    "anat_scapula_right": "scapula_r",
-    "anat_humerus_left": "upperarm_l",
-    "anat_humerus_right": "upperarm_r",
-    "anat_radius_left": "forearm_l",
-    "anat_radius_right": "forearm_r",
-    "anat_ulna_left": "forearm_l",
-    "anat_ulna_right": "forearm_r",
-    "anat_femur_left": "thigh_l",
-    "anat_femur_right": "thigh_r",
-    "anat_tibia_left": "shin_l",
-    "anat_tibia_right": "shin_r",
-    "anat_fibula_left": "shin_l",
-    "anat_fibula_right": "shin_r",
+    "anat_clavicle_left": "clavicle_r",
+    "anat_clavicle_right": "clavicle_l",
+    "anat_scapula_left": "scapula_r",
+    "anat_scapula_right": "scapula_l",
+    "anat_humerus_left": "upperarm_r",
+    "anat_humerus_right": "upperarm_l",
+    "anat_radius_left": "forearm_r",
+    "anat_radius_right": "forearm_l",
+    "anat_ulna_left": "forearm_r",
+    "anat_ulna_right": "forearm_l",
+    "anat_femur_left": "thigh_r",
+    "anat_femur_right": "thigh_l",
+    "anat_tibia_left": "shin_r",
+    "anat_tibia_right": "shin_l",
+    "anat_fibula_left": "shin_r",
+    "anat_fibula_right": "shin_l",
 }
 
 EXPECTED_BODY_VERTICES = 17_946
+EXPECTED_ANATOMICAL_BONES = 206
+EXPECTED_RUNTIME_BONES = 67
 
 
 def frame_from_bounds(lo, hi, padding=1.12):
     """Return a square full-body orthographic frame from world-space bounds."""
-    if len(lo) != 3 or len(hi) != 3 or padding <= 1.0:
+    padding = float(padding)
+    if len(lo) != 3 or len(hi) != 3 or not math.isfinite(padding) or padding <= 1.0:
         raise ValueError("expected 3D bounds and padding greater than one")
     values = tuple(float(v) for v in (*lo, *hi))
     if not all(math.isfinite(v) for v in values):
@@ -66,6 +69,16 @@ def validate_inventory(anatomical_bones, runtime_bones, body_vertices):
         errors.append(
             f"original body vertex count must be {EXPECTED_BODY_VERTICES}, got {body_vertices}"
         )
+    if len(anatomical_bones) != EXPECTED_ANATOMICAL_BONES:
+        errors.append(
+            f"anatomical armature must have {EXPECTED_ANATOMICAL_BONES} bones, "
+            f"got {len(anatomical_bones)}"
+        )
+    if len(runtime_bones) != EXPECTED_RUNTIME_BONES:
+        errors.append(
+            f"runtime armature must have {EXPECTED_RUNTIME_BONES} bones, "
+            f"got {len(runtime_bones)}"
+        )
 
     return {
         "errors": errors,
@@ -76,3 +89,49 @@ def validate_inventory(anatomical_bones, runtime_bones, body_vertices):
         "anatomy_approved": False,
         "mapping_scope": "diagnostic major-bone bridge only",
     }
+
+
+def _matrix_is_identity(matrix, tolerance=1e-9):
+    return all(
+        abs(float(matrix[row][column]) - (1.0 if row == column else 0.0)) <= tolerance
+        for row in range(4)
+        for column in range(4)
+    )
+
+
+def validate_blender_bridge(anatomy, runtime, body):
+    """Validate the named native objects before emitting bridge claims."""
+    result = validate_inventory(
+        {bone.name for bone in anatomy.data.bones},
+        {bone.name for bone in runtime.data.bones},
+        len(body.data.vertices),
+    )
+    errors = result["errors"]
+    expected_names = {
+        "anatomy": "HGPT_ANATOMICAL_MASTER",
+        "runtime": "HGPT_CANONICAL_V4_ORIGINAL",
+        "body": "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE",
+    }
+    for label, obj in (("anatomy", anatomy), ("runtime", runtime), ("body", body)):
+        if obj.name != expected_names[label]:
+            errors.append(f"{label} object must be named {expected_names[label]}, got {obj.name}")
+
+    active_targets = [
+        modifier.object
+        for modifier in body.modifiers
+        if modifier.type == "ARMATURE"
+        and modifier.show_viewport
+        and modifier.show_render
+        and modifier.object is not None
+    ]
+    if runtime not in active_targets:
+        errors.append("body must have an enabled viewport/render Armature modifier targeting runtime rig")
+
+    nonrest = [
+        pose_bone.name
+        for pose_bone in anatomy.pose.bones
+        if not _matrix_is_identity(pose_bone.matrix_basis)
+    ]
+    if nonrest:
+        errors.append("anatomical master must be at rest; posed bones: " + ", ".join(nonrest[:8]))
+    return result

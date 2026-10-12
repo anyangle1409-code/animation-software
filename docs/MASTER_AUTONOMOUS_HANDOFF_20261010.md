@@ -5,7 +5,10 @@
 `codex/functional-original-fullbody-bridge-20261011` stacked on verified PR72
 `f29fb925`. Read `FUNCTIONAL_ORIGINAL_FULLBODY_BRIDGE_20261012.md` and machine
 key `active_functional_original_fullbody_bridge_checkpoint`. Four new pure and
-one actual native Blender test PASS. Nine new complete full-body views prove the
+three actual native Blender tests PASS. Independent review's reversed-side and
+incomplete-preflight findings were fixed: F-SIDE-001 anatomical left +X maps to
+runtime `*_r`; exact counts, enabled modifier target and source rest are guarded.
+Nine new complete full-body views prove the
 17,946-vertex original male moves under its existing 67-bone runtime rig while
 the separate 206-bone source armature is present at rest. It does NOT drive the
 body: 16-bone mapping is diagnostic and many-to-one. Broad proxy blades/rigid

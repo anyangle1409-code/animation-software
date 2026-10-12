@@ -18,6 +18,12 @@ bridge rather than being implied by unrelated shoulder-only renders:
 - 16 bilateral major-bone diagnostic mappings, including explicit many-to-one
   radius/ulna→forearm and tibia/fibula→shin collapses.
 
+The mapping follows the already recorded F-SIDE-001 convention: anatomical left
+is +X and binds runtime `*_r`; anatomical right binds runtime `*_l`. Independent
+review caught and corrected the initial name-matched reversal before this branch
+was accepted. The nine unchanged images did not depend on this mapping and were
+not rerendered.
+
 That mapping is an inventory/communication aid only. The 206-bone armature does
 not drive the body. It is not a registered retarget, inverse-bind mapping, or
 anatomical acceptance result.
@@ -31,9 +37,11 @@ it does not execute region metrics and never saves the source `.blend`.
 
 Four pure contract tests passed after missing-feature failures: orthogonal
 front/side/rear views, bilateral inventory guard, wrong-body/runtime refusal,
-and pose-bounds full-body camera framing. One native Blender 5.2.1 test passed
-against the actual r95/a003 scene, checking all three named objects, 206/67-bone
-counts, 17,946 vertices, and the real Armature modifier target.
+and pose-bounds full-body camera framing including non-finite refusal. Three
+native Blender 5.2.1 tests passed against the actual r95/a003 scene, checking
+all three named objects, exact 206/67-bone counts, 17,946 vertices, the enabled
+Armature modifier target, anatomical rest state, and negative disabled/wrong-
+target/non-rest cases.
 
 Nine new 900px images were rendered from actual Blender 5.2.1 at neutral,
 press-top and pull-up-top, each front/side/rear. The first attempt exposed a
@@ -46,7 +54,7 @@ markers remain project-generated diagnostics.
 Private evidence directory:
 `C:/Users/Mark/Documents/Codex/hgpt-functional-original-fullbody-v1-20261012/`.
 Manifest SHA-256:
-`7b2c3e64a2545af7216d237705f8320c8002c1f04d49711b5c8492e101cb9e51`.
+`d9cec2eea95d0c4a04e3f8557644b64733b419816968f4ff2ec87159477a3785`.
 All ten manifest-listed evidence hashes were independently recomputed with zero
 mismatches. Source blend SHA-256 remains
 `670a37bfd206d702928de721032e2b942725389dc6906df0d866eba8d8cbbe56`.

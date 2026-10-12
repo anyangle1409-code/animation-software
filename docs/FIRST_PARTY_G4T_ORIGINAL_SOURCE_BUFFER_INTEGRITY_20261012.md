@@ -1,0 +1,20 @@
+# G4t — post-SHA full-body typed-buffer and rest-palette integrity
+
+12 October 2026 · Chat Lane G · **review-only**. Source contract is full ORIGINAL_v1 17,946-vertex body, 67 runtime joints, six zero-weight sparse shoulder morphs. Owner's private original GLB SHA-256: `d267dac344affb5d52c7155f8d0254794e818a8eab3ad54f7f263694f36c390d`.
+
+## Integration defect addressed
+
+Source authenticity via SHA-256 and a private WeakSet, as added in [#85](https://github.com/anyangle1409-code/animation-software/pull/85) and [#86](https://github.com/anyangle1409-code/animation-software/pull/86), is necessary but **not sufficient** for a mutable glTF decoding output: `Object.freeze(review)` does not freeze its nested `Float32Array`, `Uint16Array` or `Uint32Array` bytes, and a consumer can replace `mesh.positions`, edit source bone inverse bind, replace `sourceNormals`, change a sparse morph delta or alter a GPU rest palette after the source SHA/rig check. The old cached WeakSet handle would still return *true*, so the unchanged 'authenticated' source label could be wrong.
+
+## Implementation
+
+- New first-party, dependency-free `src/viewer/firstPartyOriginalFullBodyImmutableSource.mjs` snapshots exact **bytes and reference identities** for original source mesh positions, indexed triangles, four-weight indices/weights, inverse binds, source normals, all six original sparse position/normal delta arrays and sparse indices, plus source material, source joint world-rest matrices and authoring flag scalars. Never stores private GLB bytes in the code repository.
+- Only after original GLB digest/rig/inverseBind/sparse validation completes, the existing parser stores the snapshot in a *private WeakMap*, along with its existing private WeakSet authenticated result. Checking the original in-memory handle now verifies **current** nested buffers and scalars against that private source snapshot. It does not accept a caller-provided claimed digest or metadata.
+- The separate REST-only GPU preview keeps its own private WeakMap of the verified original review, source part references and byte copy of original 67-joint GPU world-rest palette; immediately before each render it refuses any changes to the source review, mesh, source normal, source pose palette or zero-only shader-local UV attribute padding. No use of the private copy is allowed to author an exercise pose.
+- 17 source changes are explicitly attacked in regression tests: positions, weights, skin joints, triangle indices, inverse binds, source normals, rigid joint worlds, sparse index and deltas, rest weights, source material, object replacement and source SHA. Legitimate unaffected original-style typed arrays pass the comparison; a synthetic object still cannot mint a real trusted source review token or invoke GPU rest drawing.
+
+## Boundaries
+
+This gate does not bypass Work-owned approval, correct anatomical bone-source matching or physiological shoulder motion. It neither fixes the current 30.9157cm feet nor activates morph correctives. It is not evidence of a successful **real WebGL2 full-body render**; in the current Chat container Chromium cannot create a WebGL context, including a test with software SwiftShader flags. Work's `HomeGymPT_Male_ORIGINAL_v1_REVIEW_ONLY.glb` remains in user Library; no private source GLB or 206-anatomy scan may be committed to this PR. All existing PT App exercise videos remain unchanged.
+
+**Next Lane G task:** run exact private full-body file through original SHA/rig + strengthened source snapshot locally; then run authenticated source-neutral real WebGL2 GPU parity on a host with usable GPU/SwiftShader. If that is blocked, independently validate original 67-joint palette and original source normals/skin CPU and prepare a source-bound rendering handoff without redistributing GLB. [Owner master plan #48](https://github.com/anyangle1409-code/animation-software/pull/48), [coordination #26](https://github.com/anyangle1409-code/animation-software/pull/26), [Work feet #84](https://github.com/anyangle1409-code/animation-software/pull/84).

@@ -1,0 +1,22 @@
+name: G5b original GPU proof evidence gate
+on:
+  push:
+    branches: [codex/g5b-original-gpu-evidence-gate-20261012]
+  pull_request:
+    paths:
+      - src/viewer/firstPartyOriginalGpuEvidenceGate.mjs
+      - tests/firstPartyOriginalGpuEvidenceGate.test.mjs
+      - .github/workflows/first_party_original_gpu_evidence_gate.yml
+permissions:
+  contents: read
+jobs:
+  never-promote-diagnostic-to-model-approval:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - run: node --test tests/firstPartyOriginalGpuEvidenceGate.test.mjs
+      - run: node --test tests/firstPartyOriginalPaletteShaderLink.test.mjs

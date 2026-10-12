@@ -18,7 +18,7 @@ export function probeOriginalPaletteShaderLink({makeCanvas}={}){
       if(!s)return null;
       gl.shaderSource(s,body);gl.compileShader(s);return s;
     };
-    vert=shader(gl.VERTEX_SHADER,\`#version 300 es
+    vert=shader(gl.VERTEX_SHADER,`#version 300 es
 precision highp float;
 precision highp sampler2D;
 uniform highp sampler2D uJointPalette;
@@ -30,11 +30,11 @@ void main(){
     texelFetch(uJointPalette,ivec2(2,0),0),
     texelFetch(uJointPalette,ivec2(3,0),0));
   gl_Position = skin * vec4(aPosition,1.0);
-}\`);
-    frag=shader(gl.FRAGMENT_SHADER,\`#version 300 es
+}`);
+    frag=shader(gl.FRAGMENT_SHADER,`#version 300 es
 precision mediump float;
 out vec4 fragColor;
-void main(){ fragColor=vec4(1.0); }\`);
+void main(){ fragColor=vec4(1.0); }`);
     if(!vert||!frag||!gl.getShaderParameter(vert,gl.COMPILE_STATUS)||
        !gl.getShaderParameter(frag,gl.COMPILE_STATUS))
       return result('PALETTE_SHADER_COMPILE_FAILED');

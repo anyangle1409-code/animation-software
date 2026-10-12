@@ -96,3 +96,12 @@ An hourly cloud continuation for model Lane W is enabled independently of the ex
 - [before_toe_lift_top.png](https://chatgpt.com/api/library/files/libfile_8532c766dbd481919e42fd1b404df05f/download)
 - [reference_guides_side.png](https://chatgpt.com/api/library/files/libfile_c7691659688c8191b293cb44244638c7/download)
 - [reference_guides_top.png](https://chatgpt.com/api/library/files/libfile_71719e14d6f8819185f164b2bf07efc1/download)
+
+
+## Owner foot-shape rejection and neutral-pose correction — 12 October 2026
+
+The owner rejected the visible foot/toe shape. The earlier `-30°` comparison pose exaggerated the upward-pointing appearance but was not the sole cause. A subsequent native identity-pose inspection of the same actual source, with all runtime pose rotations cleared, found every distal toe surface suspended above the reference floor: minimums were 9.327mm for digits1–2, 8.587mm digit3, 8.514mm digit4 and 8.723mm digit5, bilaterally. Other plantar regions still reach the floor (overall numerical minimum approximately −0.000226mm), so the failure is localized to the authored distal toe envelope rather than a whole-body elevation.
+
+Root cause is consistent with `scripts/original_v1_o2_body.py` blob `28a4d954d806f1ca9ef7cef1c625ad9c2c833346`: `build_toes()` uses elevated near-circular rings and rounded caps, while `finish()` only clamps vertices below2.5mm. The runtime also provides one shared toe control per foot instead of individual MTP/IP chains. This produces suspended neutral tips, tubular digits, abrupt toe roots and block articulation. The724-vertex weights candidate remains a narrow floor-crossing experiment only; it does not correct shape, length, neutral suspension or articulation and is not owner accepted.
+
+Exact evidence and correction gates are recorded in [ORIGINAL_V1_NEUTRAL_FOOT_VISUAL_REJECTION_20261012.md](./ORIGINAL_V1_NEUTRAL_FOOT_VISUAL_REJECTION_20261012.md), documentation commit `f9defa421d30ab4542793cd83dd015e7e33aae06`. PR84 and coordination PR26 were updated. No geometry, weights, skeleton, ankle, height, heel, source BLEND or production asset was changed in this diagnostic checkpoint. The280mm proposal remains blocked; the next geometry design must be a separate reversible owner-reviewed candidate derived around source-compatible ankle/heel/MTP/toe endpoint semantics.

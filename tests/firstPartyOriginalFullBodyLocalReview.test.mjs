@@ -1,3 +1,4 @@
+import {readFileSync} from 'node:fs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
@@ -226,4 +227,18 @@ test('invalid optional cancellation signal fails before source read',async()=>{
     ()=>openOriginalFullBodyOwnerLocalReview({ownerFile,canvas:fakeCanvas,signal:{}}),
     /optional cancellation signal must be AbortSignal-compatible/);
   assert.equal(reads,0);
+});
+
+test('G5h optional latest-camera callback must be callable before original file read',async()=>{
+ let reads=0;
+ const ownerFile=goodFile();ownerFile.arrayBuffer=async()=>{reads++;return new ArrayBuffer(0)};
+ await assert.rejects(()=>openOriginalFullBodyOwnerLocalReview({
+  ownerFile,canvas:fakeCanvas,currentView:'rear'
+ }),/current camera must be an optional local function/);
+ assert.equal(reads,0);
+});
+test('G5h DOM review uses a live camera getter rather than capturing the first selection',()=>{
+ const src=readFileSync(new URL('../src/viewer/firstPartyOriginalFullBodyLocalReview.mjs',import.meta.url),'utf8');
+ assert.ok(src.includes('currentView:()=>cameraSelector.value'));
+ assert.ok(src.includes('renderView(currentView===undefined?firstCamera.view:currentView())'));
 });

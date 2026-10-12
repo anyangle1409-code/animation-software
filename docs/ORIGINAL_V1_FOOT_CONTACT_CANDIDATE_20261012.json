@@ -1,0 +1,994 @@
+{
+  "source_commit": "edee242f76717957a8f10cf2537961f40ce2fa03",
+  "source_sha256": "670a37bfd206d702928de721032e2b942725389dc6906df0d866eba8d8cbbe56",
+  "candidate": "HomeGymPT_Male_ORIGINAL_v1_FOOT_CONTACT_WEIGHTS_CANDIDATE.blend",
+  "candidate_sha256": "38b240b4ba4629c1d5a4dc2da9ebc214caa81b0452401cf8dc1ac7cb7512df73",
+  "correction_scope": "ONLY toe-to-foot influence redistribution proximal to shared toe pivot; 3cm artist-defined transition",
+  "changed_vertex_count": 724,
+  "max_weight_sum_change": 1.1102230246251565e-16,
+  "max_evaluated_rest_vertex_difference_m": 1.78901224511662e-08,
+  "native_mesh_vertices_unchanged": true,
+  "both_skeleton_geometry_unchanged": true,
+  "body_height_and_neutral_footprint_unchanged": true,
+  "foot_length_still_m": 0.3091566450893879,
+  "28cm_geometry_correction": false,
+  "before_motion": [
+    {
+      "side": "left",
+      "control": "toe",
+      "angle_deg": -30,
+      "min_foot_z_m": -0.0015089819207787514,
+      "max_displacement_m": 0.04483419802299798,
+      "all_finite": true
+    },
+    {
+      "side": "left",
+      "control": "toe",
+      "angle_deg": -15,
+      "min_foot_z_m": -0.0009456869447603822,
+      "max_displacement_m": 0.022610512589831253,
+      "all_finite": true
+    },
+    {
+      "side": "left",
+      "control": "toe",
+      "angle_deg": 0,
+      "min_foot_z_m": -2.3454060738004046e-07,
+      "max_displacement_m": 3.077594869184923e-08,
+      "all_finite": true
+    },
+    {
+      "side": "left",
+      "control": "toe",
+      "angle_deg": 15,
+      "min_foot_z_m": -0.011256784200668335,
+      "max_displacement_m": 0.022610514954586932,
+      "all_finite": true
+    },
+    {
+      "side": "left",
+      "control": "toe",
+      "angle_deg": 30,
+      "min_foot_z_m": -0.02903253585100174,
+      "max_displacement_m": 0.044834180293261264,
+      "all_finite": true
+    },
+    {
+      "side": "left",
+      "control": "foot",
+      "angle_deg": -20,
+      "min_foot_z_m": 0.006921275984495878,
+      "max_displacement_m": 0.09645696504778198,
+      "all_finite": true
+    },
+    {
+      "side": "left",
+      "control": "foot",
+      "angle_deg": -10,
+      "min_foot_z_m": 0.0031210421584546566,
+      "max_displacement_m": 0.04841272833235744,
+      "all_finite": true
+    },
+    {
+      "side": "left",
+      "control": "foot",
+      "angle_deg": 0,
+      "min_foot_z_m": -2.344016536426352e-07,
+      "max_displacement_m": 1.4901161193847656e-08,
+      "all_finite": true
+    },
+    {
+      "side": "left",
+      "control": "foot",
+      "angle_deg": 10,
+      "min_foot_z_m": -0.035266369581222534,
+      "max_displacement_m": 0.0484127184132046,
+      "all_finite": true
+    },
+    {
+      "side": "left",
+      "control": "foot",
+      "angle_deg": 20,
+      "min_foot_z_m": -0.07603099942207336,
+      "max_displacement_m": 0.09645702991942126,
+      "all_finite": true
+    },
+    {
+      "side": "right",
+      "control": "toe",
+      "angle_deg": -30,
+      "min_foot_z_m": -0.0015089773805812001,
+      "max_displacement_m": 0.044834203216146076,
+      "all_finite": true
+    },
+    {
+      "side": "right",
+      "control": "toe",
+      "angle_deg": -15,
+      "min_foot_z_m": -0.0009456825209781528,
+      "max_displacement_m": 0.022610520312918124,
+      "all_finite": true
+    },
+    {
+      "side": "right",
+      "control": "toe",
+      "angle_deg": 0,
+      "min_foot_z_m": -2.3109322455638903e-07,
+      "max_displacement_m": 3.077594869184923e-08,
+      "all_finite": true
+    },
+    {
+      "side": "right",
+      "control": "toe",
+      "angle_deg": 15,
+      "min_foot_z_m": -0.011256776750087738,
+      "max_displacement_m": 0.022610507875089055,
+      "all_finite": true
+    },
+    {
+      "side": "right",
+      "control": "toe",
+      "angle_deg": 30,
+      "min_foot_z_m": -0.029032520949840546,
+      "max_displacement_m": 0.044834173152678826,
+      "all_finite": true
+    },
+    {
+      "side": "right",
+      "control": "foot",
+      "angle_deg": -20,
+      "min_foot_z_m": 0.006921275518834591,
+      "max_displacement_m": 0.09645696504778198,
+      "all_finite": true
+    },
+    {
+      "side": "right",
+      "control": "foot",
+      "angle_deg": -10,
+      "min_foot_z_m": 0.0031210414599627256,
+      "max_displacement_m": 0.04841271871378502,
+      "all_finite": true
+    },
+    {
+      "side": "right",
+      "control": "foot",
+      "angle_deg": 0,
+      "min_foot_z_m": -2.3095427081898379e-07,
+      "max_displacement_m": 1.4901161193847656e-08,
+      "all_finite": true
+    },
+    {
+      "side": "right",
+      "control": "foot",
+      "angle_deg": 10,
+      "min_foot_z_m": -0.035266365855932236,
+      "max_displacement_m": 0.04841271119927398,
+      "all_finite": true
+    },
+    {
+      "side": "right",
+      "control": "foot",
+      "angle_deg": 20,
+      "min_foot_z_m": -0.07603099942207336,
+      "max_displacement_m": 0.09645702991942126,
+      "all_finite": true
+    }
+  ],
+  "after_motion": [
+    {
+      "side": "left",
+      "control": "toe",
+      "angle_deg": -30,
+      "min_foot_z_m": -2.3520064473814273e-07,
+      "max_displacement_m": 0.04483419802299798,
+      "all_finite": true
+    },
+    {
+      "side": "left",
+      "control": "toe",
+      "angle_deg": -15,
+      "min_foot_z_m": -2.3520064473814273e-07,
+      "max_displacement_m": 0.022610512589831253,
+      "all_finite": true
+    },
+    {
+      "side": "left",
+      "control": "toe",
+      "angle_deg": 0,
+      "min_foot_z_m": -2.3520064473814273e-07,
+      "max_displacement_m": 3.077594869184923e-08,
+      "all_finite": true
+    },
+    {
+      "side": "left",
+      "control": "toe",
+      "angle_deg": 15,
+      "min_foot_z_m": -0.011256784200668335,
+      "max_displacement_m": 0.022610514954586932,
+      "all_finite": true
+    },
+    {
+      "side": "left",
+      "control": "toe",
+      "angle_deg": 30,
+      "min_foot_z_m": -0.02903253585100174,
+      "max_displacement_m": 0.044834180293261264,
+      "all_finite": true
+    },
+    {
+      "side": "left",
+      "control": "foot",
+      "angle_deg": -20,
+      "min_foot_z_m": 0.006921275984495878,
+      "max_displacement_m": 0.09645696504778198,
+      "all_finite": true
+    },
+    {
+      "side": "left",
+      "control": "foot",
+      "angle_deg": -10,
+      "min_foot_z_m": 0.0031210421584546566,
+      "max_displacement_m": 0.04841272833235744,
+      "all_finite": true
+    },
+    {
+      "side": "left",
+      "control": "foot",
+      "angle_deg": 0,
+      "min_foot_z_m": -2.3520064473814273e-07,
+      "max_displacement_m": 2.2058783624930327e-08,
+      "all_finite": true
+    },
+    {
+      "side": "left",
+      "control": "foot",
+      "angle_deg": 10,
+      "min_foot_z_m": -0.035266369581222534,
+      "max_displacement_m": 0.0484127184132046,
+      "all_finite": true
+    },
+    {
+      "side": "left",
+      "control": "foot",
+      "angle_deg": 20,
+      "min_foot_z_m": -0.07603099942207336,
+      "max_displacement_m": 0.09645702991942126,
+      "all_finite": true
+    },
+    {
+      "side": "right",
+      "control": "toe",
+      "angle_deg": -30,
+      "min_foot_z_m": -2.3147535443968081e-07,
+      "max_displacement_m": 0.044834203216146076,
+      "all_finite": true
+    },
+    {
+      "side": "right",
+      "control": "toe",
+      "angle_deg": -15,
+      "min_foot_z_m": -2.3147535443968081e-07,
+      "max_displacement_m": 0.022610520312918124,
+      "all_finite": true
+    },
+    {
+      "side": "right",
+      "control": "toe",
+      "angle_deg": 0,
+      "min_foot_z_m": -2.3147535443968081e-07,
+      "max_displacement_m": 3.077594869184923e-08,
+      "all_finite": true
+    },
+    {
+      "side": "right",
+      "control": "toe",
+      "angle_deg": 15,
+      "min_foot_z_m": -0.011256776750087738,
+      "max_displacement_m": 0.022610507875089055,
+      "all_finite": true
+    },
+    {
+      "side": "right",
+      "control": "toe",
+      "angle_deg": 30,
+      "min_foot_z_m": -0.029032520949840546,
+      "max_displacement_m": 0.044834173152678826,
+      "all_finite": true
+    },
+    {
+      "side": "right",
+      "control": "foot",
+      "angle_deg": -20,
+      "min_foot_z_m": 0.006921275518834591,
+      "max_displacement_m": 0.09645696504778198,
+      "all_finite": true
+    },
+    {
+      "side": "right",
+      "control": "foot",
+      "angle_deg": -10,
+      "min_foot_z_m": 0.0031210414599627256,
+      "max_displacement_m": 0.04841271871378502,
+      "all_finite": true
+    },
+    {
+      "side": "right",
+      "control": "foot",
+      "angle_deg": 0,
+      "min_foot_z_m": -2.3147535443968081e-07,
+      "max_displacement_m": 2.1155582166464156e-08,
+      "all_finite": true
+    },
+    {
+      "side": "right",
+      "control": "foot",
+      "angle_deg": 10,
+      "min_foot_z_m": -0.035266365855932236,
+      "max_displacement_m": 0.04841271119927398,
+      "all_finite": true
+    },
+    {
+      "side": "right",
+      "control": "foot",
+      "angle_deg": 20,
+      "min_foot_z_m": -0.07603099942207336,
+      "max_displacement_m": 0.09645702991942126,
+      "all_finite": true
+    }
+  ],
+  "render_records": [
+    {
+      "file": "before_neutral_side.png",
+      "view": "side",
+      "ortho_scale_m": 0.38999998569488525,
+      "camera_matrix_world": [
+        [
+          7.549790126404332e-08,
+          -7.549790126404332e-08,
+          1.0,
+          4.0
+        ],
+        [
+          1.0,
+          5.6999328827277325e-15,
+          -7.549790126404332e-08,
+          -0.11400000005960464
+        ],
+        [
+          0.0,
+          1.0,
+          7.549790126404332e-08,
+          0.061000000685453415
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "camera_near_clip_m": 0.009999999776482582,
+      "feet_isolated_by_near_clip": false,
+      "floor_line_px": [
+        [
+          -210.25799214839935,
+          912.8189742565155
+        ],
+        [
+          2097.4342823028564,
+          912.8189742565155
+        ]
+      ],
+      "28cm_boundary_px": [
+        [
+          352.4937927722931,
+          1015.3830170631409
+        ],
+        [
+          352.49394178390503,
+          92.30625629425049
+        ]
+      ]
+    },
+    {
+      "file": "before_neutral_front.png",
+      "view": "front",
+      "ortho_scale_m": 0.38999998569488525,
+      "camera_matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          -4.371138828673793e-08,
+          -1.0,
+          -4.113999843597412
+        ],
+        [
+          0.0,
+          1.0,
+          -4.371138828673793e-08,
+          0.061000000685453415
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "camera_near_clip_m": 0.009999999776482582,
+      "feet_isolated_by_near_clip": false,
+      "floor_line_px": [
+        [
+          1000.0,
+          912.821352481842
+        ],
+        [
+          1000.0,
+          912.8214597702026
+        ]
+      ],
+      "28cm_boundary_px": [
+        [
+          128.2050907611847,
+          1015.385502576828
+        ],
+        [
+          1871.7949390411377,
+          92.30854511260986
+        ]
+      ]
+    },
+    {
+      "file": "before_neutral_top.png",
+      "view": "top",
+      "ortho_scale_m": 0.550000011920929,
+      "camera_matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          -0.11400000005960464
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          4.060999870300293
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "camera_near_clip_m": 3.9010000228881836,
+      "feet_isolated_by_near_clip": true,
+      "floor_line_px": [
+        [
+          1000.0,
+          1458.1817865371704
+        ],
+        [
+          1000.0,
+          -178.181791305542
+        ]
+      ],
+      "28cm_boundary_px": [
+        [
+          381.81817531585693,
+          1059.139546751976
+        ],
+        [
+          1618.181824684143,
+          1059.139546751976
+        ]
+      ]
+    },
+    {
+      "file": "before_toe_lift_side.png",
+      "view": "side",
+      "ortho_scale_m": 0.38999998569488525,
+      "camera_matrix_world": [
+        [
+          7.549790126404332e-08,
+          -7.549790126404332e-08,
+          1.0,
+          4.0
+        ],
+        [
+          1.0,
+          5.6999328827277325e-15,
+          -7.549790126404332e-08,
+          -0.11400000005960464
+        ],
+        [
+          0.0,
+          1.0,
+          7.549790126404332e-08,
+          0.061000000685453415
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "camera_near_clip_m": 0.009999999776482582,
+      "feet_isolated_by_near_clip": false,
+      "floor_line_px": [
+        [
+          -210.25799214839935,
+          912.8189742565155
+        ],
+        [
+          2097.4342823028564,
+          912.8189742565155
+        ]
+      ],
+      "28cm_boundary_px": [
+        [
+          352.4937927722931,
+          1015.3830170631409
+        ],
+        [
+          352.49394178390503,
+          92.30625629425049
+        ]
+      ]
+    },
+    {
+      "file": "before_toe_lift_top.png",
+      "view": "top",
+      "ortho_scale_m": 0.550000011920929,
+      "camera_matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          -0.11400000005960464
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          4.060999870300293
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "camera_near_clip_m": 3.9010000228881836,
+      "feet_isolated_by_near_clip": true,
+      "floor_line_px": [
+        [
+          1000.0,
+          1458.1817865371704
+        ],
+        [
+          1000.0,
+          -178.181791305542
+        ]
+      ],
+      "28cm_boundary_px": [
+        [
+          381.81817531585693,
+          1059.139546751976
+        ],
+        [
+          1618.181824684143,
+          1059.139546751976
+        ]
+      ]
+    },
+    {
+      "file": "after_neutral_side.png",
+      "view": "side",
+      "ortho_scale_m": 0.38999998569488525,
+      "camera_matrix_world": [
+        [
+          7.549790126404332e-08,
+          -7.549790126404332e-08,
+          1.0,
+          4.0
+        ],
+        [
+          1.0,
+          5.6999328827277325e-15,
+          -7.549790126404332e-08,
+          -0.11400000005960464
+        ],
+        [
+          0.0,
+          1.0,
+          7.549790126404332e-08,
+          0.061000000685453415
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "camera_near_clip_m": 0.009999999776482582,
+      "feet_isolated_by_near_clip": false,
+      "floor_line_px": [
+        [
+          -210.25799214839935,
+          912.8189742565155
+        ],
+        [
+          2097.4342823028564,
+          912.8189742565155
+        ]
+      ],
+      "28cm_boundary_px": [
+        [
+          352.4937927722931,
+          1015.3830170631409
+        ],
+        [
+          352.49394178390503,
+          92.30625629425049
+        ]
+      ]
+    },
+    {
+      "file": "after_neutral_front.png",
+      "view": "front",
+      "ortho_scale_m": 0.38999998569488525,
+      "camera_matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          -4.371138828673793e-08,
+          -1.0,
+          -4.113999843597412
+        ],
+        [
+          0.0,
+          1.0,
+          -4.371138828673793e-08,
+          0.061000000685453415
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "camera_near_clip_m": 0.009999999776482582,
+      "feet_isolated_by_near_clip": false,
+      "floor_line_px": [
+        [
+          1000.0,
+          912.821352481842
+        ],
+        [
+          1000.0,
+          912.8214597702026
+        ]
+      ],
+      "28cm_boundary_px": [
+        [
+          128.2050907611847,
+          1015.385502576828
+        ],
+        [
+          1871.7949390411377,
+          92.30854511260986
+        ]
+      ]
+    },
+    {
+      "file": "after_neutral_top.png",
+      "view": "top",
+      "ortho_scale_m": 0.550000011920929,
+      "camera_matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          -0.11400000005960464
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          4.060999870300293
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "camera_near_clip_m": 3.9010000228881836,
+      "feet_isolated_by_near_clip": true,
+      "floor_line_px": [
+        [
+          1000.0,
+          1458.1817865371704
+        ],
+        [
+          1000.0,
+          -178.181791305542
+        ]
+      ],
+      "28cm_boundary_px": [
+        [
+          381.81817531585693,
+          1059.139546751976
+        ],
+        [
+          1618.181824684143,
+          1059.139546751976
+        ]
+      ]
+    },
+    {
+      "file": "after_toe_lift_side.png",
+      "view": "side",
+      "ortho_scale_m": 0.38999998569488525,
+      "camera_matrix_world": [
+        [
+          7.549790126404332e-08,
+          -7.549790126404332e-08,
+          1.0,
+          4.0
+        ],
+        [
+          1.0,
+          5.6999328827277325e-15,
+          -7.549790126404332e-08,
+          -0.11400000005960464
+        ],
+        [
+          0.0,
+          1.0,
+          7.549790126404332e-08,
+          0.061000000685453415
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "camera_near_clip_m": 0.009999999776482582,
+      "feet_isolated_by_near_clip": false,
+      "floor_line_px": [
+        [
+          -210.25799214839935,
+          912.8189742565155
+        ],
+        [
+          2097.4342823028564,
+          912.8189742565155
+        ]
+      ],
+      "28cm_boundary_px": [
+        [
+          352.4937927722931,
+          1015.3830170631409
+        ],
+        [
+          352.49394178390503,
+          92.30625629425049
+        ]
+      ]
+    },
+    {
+      "file": "after_toe_lift_top.png",
+      "view": "top",
+      "ortho_scale_m": 0.550000011920929,
+      "camera_matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          -0.11400000005960464
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          4.060999870300293
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "camera_near_clip_m": 3.9010000228881836,
+      "feet_isolated_by_near_clip": true,
+      "floor_line_px": [
+        [
+          1000.0,
+          1458.1817865371704
+        ],
+        [
+          1000.0,
+          -178.181791305542
+        ]
+      ],
+      "28cm_boundary_px": [
+        [
+          381.81817531585693,
+          1059.139546751976
+        ],
+        [
+          1618.181824684143,
+          1059.139546751976
+        ]
+      ]
+    },
+    {
+      "file": "reference_guides_side.png",
+      "view": "side",
+      "ortho_scale_m": 0.38999998569488525,
+      "camera_matrix_world": [
+        [
+          7.549790126404332e-08,
+          -7.549790126404332e-08,
+          1.0,
+          4.0
+        ],
+        [
+          1.0,
+          5.6999328827277325e-15,
+          -7.549790126404332e-08,
+          -0.11400000005960464
+        ],
+        [
+          0.0,
+          1.0,
+          7.549790126404332e-08,
+          0.061000000685453415
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "camera_near_clip_m": 0.009999999776482582,
+      "feet_isolated_by_near_clip": false,
+      "floor_line_px": [
+        [
+          -210.25799214839935,
+          912.8189742565155
+        ],
+        [
+          2097.4342823028564,
+          912.8189742565155
+        ]
+      ],
+      "28cm_boundary_px": [
+        [
+          352.4937927722931,
+          1015.3830170631409
+        ],
+        [
+          352.49394178390503,
+          92.30625629425049
+        ]
+      ]
+    },
+    {
+      "file": "reference_guides_top.png",
+      "view": "top",
+      "ortho_scale_m": 0.550000011920929,
+      "camera_matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          -0.11400000005960464
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          4.060999870300293
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "camera_near_clip_m": 3.9010000228881836,
+      "feet_isolated_by_near_clip": true,
+      "floor_line_px": [
+        [
+          1000.0,
+          1458.1817865371704
+        ],
+        [
+          1000.0,
+          -178.181791305542
+        ]
+      ],
+      "28cm_boundary_px": [
+        [
+          381.81817531585693,
+          1059.139546751976
+        ],
+        [
+          1618.181824684143,
+          1059.139546751976
+        ]
+      ]
+    }
+  ],
+  "original_model_file_unchanged": true,
+  "production_approved": false,
+  "owner_acceptance_required": true,
+  "limits": [
+    "This fixes sampled shared-control toe-extension floor crossings only, not individual anatomical toe mechanics.",
+    "Toe flexion and free ankle sweeps still need a stance/contact solver; no grounded gait acceptance.",
+    "Proportion correction remains blocked by the source reference envelope and station semantics."
+  ],
+  "complete_manifest_download": "https://chatgpt.com/api/library/files/libfile_8ae8d8a35bfc8191a1d08015ba15303a/download",
+  "complete_manifest_sha256": "a6632a8249a049a7b4eed083ed117c95bdc20952aede753c4008d5168a8c85cd",
+  "independent_native_reopen": {
+    "changed_weight_vertices": 724,
+    "maximum_saved_weight_error": 3.73e-08,
+    "geometry_and_rest_rig_matrices_unchanged": true,
+    "pose_restore_float_residual": 1.42e-14,
+    "anatomical_acceptance": false
+  }
+}

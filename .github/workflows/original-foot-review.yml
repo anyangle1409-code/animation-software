@@ -1,0 +1,19 @@
+name: Original foot candidate gates
+on:
+  push:
+    branches: [codex/original-foot-proportions-candidate-20261012]
+    paths: ['scripts/*original_foot*', '.github/workflows/original-foot-review.yml']
+  pull_request:
+    paths: ['scripts/*original_foot*', '.github/workflows/original-foot-review.yml']
+permissions:
+  contents: read
+jobs:
+  focused-gates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/test_original_foot_candidate_gate.py -v
+      - run: python3 scripts/test_original_foot_contact_weights.py -v
+      - run: python3 scripts/test_owner_proportion_policy_and_source_fixes.py -v
+      - run: python3 scripts/test_original_v1_functional_fullbody.py -v

@@ -3,7 +3,8 @@
  * No access to Work source bytes after the original G4r parser, no vendor,
  * no inferred 206->67 mapping, no morph activation, no unapproved animation.
  */
-import {isAuthenticatedOriginalFullBodyReview}
+import {isAuthenticatedOriginalFullBodyReview,
+  assertAuthenticatedOriginalFullBodyReviewUnmodified}
   from './firstPartyOriginalFullBodyReview.mjs';
 import {validateNativeSkinnedMesh}
   from './firstPartyIndexedSkinnedMesh.mjs';
@@ -11,6 +12,7 @@ export const HGPT_FULLBODY_GPU_REST_KIND=
   'hgpt-original-fullbody-native-gpu-rest-only-v1';
 const fail=s=>{throw new RangeError('Original full-body GPU rest rejected: '+s)};
 const authenticatedGpuRestPreviews=new WeakSet();
+const originalGpuRestSnapshots=new WeakMap();
 export function prepareVerifiedOriginalFullBodyRestGpu(review){
   if(!isAuthenticatedOriginalFullBodyReview(review)||
     review.audit?.originalSourceSHA256Verified!==true||
@@ -74,6 +76,16 @@ export function prepareVerifiedOriginalFullBodyRestGpu(review){
     morphDeformationApproved:false,
     productionReady:false,
   });
+  // This private reference and matrix snapshot closes the gap between the
+  // AUTHENTICATED source-preparation event and the later browser render call.
+  // Freezing a part object does not freeze its Uint16/Float32Array bytes.
+  originalGpuRestSnapshots.set(preview,{
+    review,part,mesh:part.mesh,normals:part.sourceNormals,
+    posedWorld:part.posedWorld,
+    posedWorldBytes:new Uint8Array(part.posedWorld.buffer,
+      part.posedWorld.byteOffset,part.posedWorld.byteLength).slice(),
+    uv0:part.uv0,
+  });
   authenticatedGpuRestPreviews.add(preview);
   return preview;
 }
@@ -86,6 +98,25 @@ export function renderVerifiedOriginalFullBodyRestGpu(renderer,preview,options={
     renderer?.kind!=='hgpt-native-webgl2-rgba32f-4weight-gpu-lbs-v1' ||
     typeof renderer.renderBatches!=='function')
     fail('verified first-party GPU renderer and rest-only preview required');
+  const snapshot=originalGpuRestSnapshots.get(preview);
+  if(!snapshot||preview.gpuParts[0]!==snapshot.part ||
+    snapshot.part.mesh!==snapshot.mesh ||
+    snapshot.part.sourceNormals!==snapshot.normals ||
+    snapshot.part.posedWorld!==snapshot.posedWorld ||
+    snapshot.part.uv0!==snapshot.uv0)
+    fail('verified full-body source/GPU part reference changed after preparation');
+  try{
+    assertAuthenticatedOriginalFullBodyReviewUnmodified(snapshot.review);
+  }catch{
+    fail('authenticated full-body source changed since GLB SHA verification');
+  }
+  const current=new Uint8Array(snapshot.posedWorld.buffer,
+    snapshot.posedWorld.byteOffset,snapshot.posedWorld.byteLength);
+  if(current.length!==snapshot.posedWorldBytes.length||
+    current.some((b,i)=>b!==snapshot.posedWorldBytes[i])||
+    !(snapshot.uv0 instanceof Float32Array) ||
+    snapshot.uv0.some(x=>x!==0))
+    fail('original joint rest palette or untextured GPU attribute padding changed');
   if(options.normalPreview===true||options.texturePreview===true||
     options.colorManagedTexturePreview===true ||
     options.pilotFlatColorPreview===true ||

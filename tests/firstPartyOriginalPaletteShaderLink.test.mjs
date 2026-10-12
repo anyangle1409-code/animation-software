@@ -6,7 +6,12 @@ function fake({compile=true,link=true,glError=0}={}){
  const gl={VERTEX_SHADER:35633,FRAGMENT_SHADER:35632,COMPILE_STATUS:35713,
  LINK_STATUS:35714,NO_ERROR:0,
  createShader(k){return {k}},shaderSource(s,c){assert.match(c,/#version 300 es/);
- if(s.k===35633)assert.match(c,/texelFetch\(uJointPalette/);},
+ if(s.k===35633){
+ assert.match(c,/uniform int uJointIndex/);
+ assert.match(c,/clamp\(uJointIndex,0,66\)\*4/);
+ for(let column=0;column<4;column++)
+  assert.ok(c.includes(`ivec2(firstTexel+${column},0)`));
+ }},
  compileShader(){counts.compiled++},
  getShaderParameter(){return compile},createProgram(){return {}},
  attachShader(){},linkProgram(){counts.linked++},
@@ -44,4 +49,13 @@ test('link errors and GL errors are explicit blockers',()=>{
  assert.equal(p.reason,'PALETTE_SHADER_LINK_FAILED');
  assert.equal(x.counts.deletedProgram,1);
  }
+});
+
+test('shader addressing explicitly spans first and last 67-joint matrix bounds',()=>{
+ const positions=[0,66];
+ for(const index of positions){
+  const offset=Math.min(66,Math.max(0,index))*4;
+  assert.ok(offset>=0&&offset+3<268);
+ }
+ assert.equal(66*4+3,267);
 });

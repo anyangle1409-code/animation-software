@@ -1,0 +1,24 @@
+name: G5i original owner-review mobile viewport budget
+on:
+  push:
+    branches: [codex/g5i-mobile-viewer-budget-handoff-20261012]
+  pull_request:
+    paths:
+      - src/viewer/firstPartyOriginalReviewViewportBudget.mjs
+      - src/viewer/firstPartyOriginalFullBodyLocalReview.mjs
+      - tests/firstPartyOriginalReviewViewportBudget.test.mjs
+      - .github/workflows/first_party_original_mobile_viewport.yml
+permissions:
+  contents: read
+jobs:
+  review-mobile-budget:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - run: node --test tests/firstPartyOriginalReviewViewportBudget.test.mjs
+      - run: node --test tests/firstPartyOriginalFullBodyLocalReview.test.mjs
+      - run: node --test tests/originalFullBodyOwnerLocalReviewPage.test.mjs

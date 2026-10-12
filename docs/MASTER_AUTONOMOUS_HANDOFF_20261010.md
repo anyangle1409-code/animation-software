@@ -1,5 +1,24 @@
 # Master programme: independent execution checkpoint, 10 October 2026
 
+## New W1/W2 original full-body bridge — 12 October
+
+`codex/functional-original-fullbody-bridge-20261011` stacked on verified PR72
+`f29fb925`. Read `FUNCTIONAL_ORIGINAL_FULLBODY_BRIDGE_20261012.md` and machine
+key `active_functional_original_fullbody_bridge_checkpoint`. Four new pure and
+four actual native Blender tests PASS. Independent review's reversed-side and
+incomplete-preflight findings were fixed: F-SIDE-001 anatomical left +X maps to
+runtime `*_r`; exact counts, exactly one runtime modifier enabled in both modes
+(no additional armature driver active in either mode), source rest and finite
+full-body frames are guarded.
+Nine new complete full-body views prove the
+17,946-vertex original male moves under its existing 67-bone runtime rig while
+the separate 206-bone source armature is present at rest. It does NOT drive the
+body: 16-bone mapping is diagnostic and many-to-one. Broad proxy blades/rigid
+wire thorax, no contact solver, no fitted human motion or deformation approval.
+No new native/private bytes in Git. Next replace proxies with newer authored
+thorax/S-clavicle/blade shapes and define explicit 206→67 retarget/attachment;
+do not repeat the nine unchanged views.
+
 ## New W1 costal blade curvature — 11 October
 
 `codex/functional-scapula-bowl-20261011` stacked on PR71eaa6850c(all4CIgreen).

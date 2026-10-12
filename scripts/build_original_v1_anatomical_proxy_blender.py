@@ -16,6 +16,7 @@ No third-party anatomy is used; the proxy is generated from this candidate's own
 from __future__ import annotations
 
 import json
+import hashlib
 import math
 import sys
 import tempfile
@@ -25,6 +26,9 @@ import bmesh
 import bpy
 from mathutils import Matrix, Vector
 from mathutils.bvhtree import BVHTree
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import original_v1_functional_fullbody as bridge
 
 args = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
 if not args:
@@ -36,12 +40,34 @@ THORAX_INSET_M = 0.025
 
 pose_script = Path(__file__).with_name("pose_test_original_v1_o4_candidate_blender.py")
 src = pose_script.read_text(encoding="utf-8")
+scene = bpy.context.scene
+runtime_for_pose = bpy.data.objects.get("HGPT_CANONICAL_V4_ORIGINAL")
+body_for_pose = bpy.data.objects.get("HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE")
+if runtime_for_pose is None or body_for_pose is None:
+    raise RuntimeError("source scene is missing the original body or runtime rig")
+region_metadata_synthesized = "hgpt_region" not in body_for_pose.data.attributes
+if region_metadata_synthesized:
+    # The r95/a003 audit scene predates the point-domain region attribute used
+    # by the pose-definition module.  Add an in-memory placeholder solely to
+    # load its pose constructors; this script never runs the region metrics or
+    # saves the source blend.
+    names = json.loads(scene["hgpt_region_names"])
+    torso_index = names.index("torso")
+    attr = body_for_pose.data.attributes.new("hgpt_region", "INT", "POINT")
+    for item in attr.data:
+        item.value = torso_index
 saved = sys.argv
 sys.argv = ["blender", "--", tempfile.mkdtemp(), ""]
 ns = {"__name__": "pose_defs", "__file__": pose_script.name}
 exec(compile(src[:src.index("# ---------------------------------------------------------------- metrics")], "pose_test_defs", "exec"), ns)
 sys.argv = saved
 rig, body, POSES, reset, upd = ns["rig"], ns["body"], ns["POSES"], ns["reset"], ns["upd"]
+anatomy = bpy.data.objects.get("HGPT_ANATOMICAL_MASTER")
+if anatomy is None or anatomy.type != "ARMATURE":
+    raise RuntimeError("missing HGPT_ANATOMICAL_MASTER armature")
+inventory = bridge.validate_blender_bridge(anatomy, rig, body)
+if inventory["errors"]:
+    raise RuntimeError("inventory guard failed: " + "; ".join(inventory["errors"]))
 mask = body.modifiers.get("HGPT_DRESSED_MASK")
 if mask is not None:
     mask.show_viewport = False
@@ -50,8 +76,6 @@ for o in bpy.context.scene.objects:
     if o.type == "MESH" and o is not body:
         o.hide_render = True
         o.hide_viewport = True
-region_names = json.loads(bpy.context.scene["hgpt_region_names"])
-vreg = [d.value for d in body.data.attributes["hgpt_region"].data]
 reset()
 rig.location = (0, 0, 0)
 upd()
@@ -139,8 +163,9 @@ def make(kind, loc, bone, material, **kw):
     return o
 
 
-# torso cross-sections from this body's own mesh
-tv = [v.co for v, r in zip(body.data.vertices, vreg) if region_names[r] == "torso"]
+# torso cross-sections from this body's own mesh.  The lateral bound excludes
+# relaxed arms when the legacy source has no authored region attribute.
+tv = [v.co for v in body.data.vertices if abs(v.co.x) <= 0.35]
 z_lo, z_hi = Vector(rig.data.bones["spine_01"].head_local).z, Vector(rig.data.bones["neck"].head_local).z
 rings = []
 for k in range(9):
@@ -227,13 +252,56 @@ for pose in POSES:
     ns["HANDLE"].clear()
     POSES[pose]()
     upd()
-    target = rig.matrix_world @ rig.pose.bones["spine_03"].head
-    cam_data.ortho_scale = 1.1 if pose != "pushup_bottom" else 2.4
-    for view, off in (("front", Vector((0, -4, 0))), ("side", Vector((4, 0, 0))), ("three_quarter", Vector((3, -3, 1)))):
+    evaluated = body.evaluated_get(bpy.context.evaluated_depsgraph_get())
+    points = [evaluated.matrix_world @ vertex.co for vertex in evaluated.data.vertices]
+    lo = tuple(min(point[i] for point in points) for i in range(3))
+    hi = tuple(max(point[i] for point in points) for i in range(3))
+    centre, cam_data.ortho_scale = bridge.frame_from_bounds(lo, hi)
+    target = Vector(centre)
+    for view, offset in bridge.REVIEW_VIEWS.items():
+        off = Vector(offset)
         cam.location = target + off
         cam.rotation_euler = (target - cam.location).to_track_quat("-Z", "Y").to_euler()
         path = OUT / f"{pose}__proxy_{view}.png"
         scene.render.filepath = str(path)
         bpy.ops.render.render(write_still=True)
         written.append(path.name)
-print("ANATOMICAL PROXY", OUT, len(written), "renders")
+
+
+def sha256(path):
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+source_path = Path(bpy.data.filepath).resolve()
+evidence_files = [OUT / "joint_centre_fit_rest.json", *(OUT / name for name in written)]
+manifest = {
+    "source_blend": source_path.name,
+    "source_blend_sha256": sha256(source_path),
+    "poses": [pose for pose in POSES if pose in ONLY],
+    "views": list(bridge.REVIEW_VIEWS),
+    "inventory": inventory,
+    "region_metadata_synthesized_in_memory": region_metadata_synthesized,
+    "major_bone_mapping": bridge.MAJOR_BONE_MAPPING,
+    "evidence_files": {path.name: sha256(path) for path in evidence_files},
+    "claims": {
+        "original_body_moved_by_existing_runtime_rig": True,
+        "source_anatomical_skeleton_present_at_rest": True,
+        "source_anatomical_skeleton_drives_body": False,
+        "anatomy_approved": False,
+        "motion_approved": False,
+        "production_approved": False,
+    },
+    "limitations": [
+        "The 206-bone anatomical source skeleton remains static; the 67-bone runtime rig drives the original body.",
+        "Repeated runtime mappings collapse paired forearm and lower-leg bones and are diagnostic only.",
+        "The project-generated thorax and scapula proxy is a visual fit aid, not accepted anatomy or contact simulation.",
+    ],
+}
+(OUT / "functional_fullbody_manifest.json").write_text(
+    json.dumps(manifest, indent=2) + "\n", encoding="utf-8"
+)
+print("ANATOMICAL PROXY", OUT, len(written), "renders", "manifest", len(evidence_files), "hashed files")

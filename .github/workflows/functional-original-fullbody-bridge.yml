@@ -1,0 +1,28 @@
+name: Provisional original full-body bridge
+on:
+  push:
+    branches: [codex/functional-original-fullbody-bridge-20261011]
+    paths:
+      - 'scripts/original_v1_functional_fullbody.py'
+      - 'scripts/test_original_v1_functional_fullbody.py'
+      - 'scripts/blender_tests/test_original_v1_functional_fullbody.py'
+      - 'scripts/build_original_v1_anatomical_proxy_blender.py'
+      - '.github/workflows/functional-original-fullbody-bridge.yml'
+  pull_request:
+    paths:
+      - 'scripts/original_v1_functional_fullbody.py'
+      - 'scripts/test_original_v1_functional_fullbody.py'
+      - 'scripts/blender_tests/test_original_v1_functional_fullbody.py'
+      - 'scripts/build_original_v1_anatomical_proxy_blender.py'
+      - '.github/workflows/functional-original-fullbody-bridge.yml'
+permissions:
+  contents: read
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/test_original_v1_functional_fullbody.py -v
+      - name: Verify preserved source pin without publishing native bytes
+        run: test "$(sha256sum ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a003.blend | cut -d' ' -f1)" = "670a37bfd206d702928de721032e2b942725389dc6906df0d866eba8d8cbbe56"

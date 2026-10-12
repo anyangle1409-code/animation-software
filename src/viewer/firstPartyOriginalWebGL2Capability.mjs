@@ -28,6 +28,9 @@ export function probeOriginalFullBodyWebGL2({
     try{
       const max=gl.getParameter(gl.MAX_TEXTURE_SIZE);
       const vertices=gl.getParameter(gl.MAX_VERTEX_ATTRIBS);
+      // Native vertex shader samples its 67-joint RGBA32F palette texture.
+      // A context can expose WebGL2 yet no usable vertex texture samplers.
+      const vertexTextureUnits=gl.getParameter(gl.MAX_VERTEX_TEXTURE_IMAGE_UNITS);
       if(!Number.isInteger(max)||max<requiredJointPaletteTexels)
         return Object.freeze({...fail('JOINT_PALETTE_TEXTURE_TOO_SMALL'),
           kind:HGPT_ORIGINAL_WEBGL2_PROBE_KIND,modelDrawn:false});
@@ -36,11 +39,15 @@ export function probeOriginalFullBodyWebGL2({
       if(!Number.isInteger(vertices)||vertices<5)
         return Object.freeze({...fail('NATIVE_VERTEX_ATTRIBUTES_INSUFFICIENT'),
           kind:HGPT_ORIGINAL_WEBGL2_PROBE_KIND,modelDrawn:false});
+      if(!Number.isInteger(vertexTextureUnits)||vertexTextureUnits<1)
+        return Object.freeze({...fail('VERTEX_PALETTE_TEXTURE_UNAVAILABLE'),
+          kind:HGPT_ORIGINAL_WEBGL2_PROBE_KIND,modelDrawn:false});
       return Object.freeze({
         kind:HGPT_ORIGINAL_WEBGL2_PROBE_KIND,
         supported:true,reason:'BASIC_WEBGL2_CAPABILITIES_PRESENT',
         paletteTexelsRequired:requiredJointPaletteTexels,
         maxTextureSize:max,maxVertexAttribs:vertices,
+        maxVertexTextureUnits:vertexTextureUnits,
         sourceModelSHA256Verified:false,originalGpuDrawVerified:false,
         modelDrawn:false,productionReady:false,
       });

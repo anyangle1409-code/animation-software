@@ -1,0 +1,24 @@
+name: G4r original full body 67-joint source SHA parser guards
+on:
+  push:
+    branches: [codex/g4r-publish-original-fullbody-parser-20261012]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  original-source-guard-and-inherited-geometry:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Original 67-joint review model parser, negative integrity guards
+        run: node --test tests/firstPartyOriginalFullBodyReviewSourceGuard.test.mjs
+      - name: Previously verified original glTF and source geometry regression
+        run: |
+          node --test tests/firstPartyPrototypeModelHandoff.test.mjs
+          node --test tests/firstPartyOriginalGltfRestWorld.test.mjs

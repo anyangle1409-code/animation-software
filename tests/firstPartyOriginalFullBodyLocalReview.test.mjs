@@ -227,3 +227,50 @@ test('invalid optional cancellation signal fails before source read',async()=>{
     /optional cancellation signal must be AbortSignal-compatible/);
   assert.equal(reads,0);
 });
+
+test('camera provider is not queried before source SHA authentication',async()=>{
+  let queries=0,gpu=0;
+  const ownerFile=goodFile();
+  const canvas={...fakeCanvas,getContext(){gpu++;throw Error('GPU forbidden')}};
+  await assert.rejects(
+    ()=>openOriginalFullBodyOwnerLocalReview({
+      ownerFile,canvas,view:'front',
+      currentView(){queries++;return 'rear'}
+    }),/source SHA mismatch/);
+  assert.equal(queries,0);
+  assert.equal(gpu,0);
+});
+test('unsupported camera callback fails before reading original file',async()=>{
+  let reads=0;
+  const ownerFile=goodFile();
+  ownerFile.arrayBuffer=async()=>{reads++;throw Error('never read')};
+  await assert.rejects(
+    ()=>openOriginalFullBodyOwnerLocalReview({
+      ownerFile,canvas:fakeCanvas,currentView:'rear'
+    }),/optional current camera provider must be a function/);
+  assert.equal(reads,0);
+});
+test('latest camera selection is retained while original file read is in flight',async()=>{
+  const pending=pendingFileBytes();
+  let requestedCurrentView='front',cameraEvents=0;
+  const ownerFile=goodFile();
+  ownerFile.arrayBuffer=()=>pending.promise;
+  const ui=localControlsForConcurrency(fakeCanvas);
+  ui.fileInput.files=[ownerFile];
+  const waiting=ui.handlers['file-change']();
+  ui.cameraSelector.value='rear';
+  ui.handlers['camera-change']();
+  cameraEvents++;
+  ui.cameraSelector.value='left';
+  ui.handlers['camera-change']();
+  cameraEvents++;
+  requestedCurrentView=ui.cameraSelector.value;
+  assert.equal(requestedCurrentView,'left');
+  // Source is intentionally invalid: loading must fail SHA and must never
+  // claim a GPU draw, whatever the latest selected camera.
+  pending.resolve(new ArrayBuffer(ORIGINAL_V1_REVIEW_PINNED_BYTES));
+  await waiting;
+  assert.match(ui.statusTarget.textContent,/source SHA mismatch/);
+  assert.equal(cameraEvents,2);
+  ui.controls.dispose();
+});

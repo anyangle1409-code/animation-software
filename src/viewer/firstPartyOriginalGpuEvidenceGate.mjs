@@ -26,7 +26,7 @@ export function assessOriginalGpuReviewEvidence(evidence){
     return fail('OWNER_RENDER_REVIEW_PENDING');
   // Prevent this diagnostic from granting production release: anatomical
   // skeleton, foot correction and natural motion are separate gates.
-  return Object.freeze({kind:ORIGINAL_GPU_EVIDENCE_KIND,approved:true,
-    reason:'GPU_REVIEW_EVIDENCE_PRESENT_NOT_INDEPENDENTLY_AUTHENTICATED',
+  return Object.freeze({kind:ORIGINAL_GPU_EVIDENCE_KIND,approved:false,evidenceFieldsComplete:true,
+    reason:'UNTRUSTED_CAPTURE_CLAIMS_REQUIRE_INDEPENDENT_VERIFICATION',
     productionReady:false});
 }

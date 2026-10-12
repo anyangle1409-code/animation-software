@@ -1,0 +1,52 @@
+{
+  "source_branch": "codex/original-foot-proportions-candidate-20261012",
+  "source_commit": "a542b8d8198131caf5d58ee239a2e7b781ef88c9",
+  "original_model_sha256": "670a37bfd206d702928de721032e2b942725389dc6906df0d866eba8d8cbbe56",
+  "candidate_model": "HomeGymPT_Male_ORIGINAL_v1_FOOT_CONTACT_WEIGHTS_CANDIDATE.blend",
+  "candidate_sha256": "38b240b4ba4629c1d5a4dc2da9ebc214caa81b0452401cf8dc1ac7cb7512df73",
+  "glb": "HomeGymPT_Male_ORIGINAL_v1_FOOT_CONTACT_REVIEW_ONLY.glb",
+  "glb_sha256": "f6b683e055ba4e9242821dd03b94d7484313ca19828c9280fc35317e20cdd21a",
+  "glb_bytes": 1497148,
+  "vertices": 17946,
+  "triangles": 35888,
+  "skin_joints": 67,
+  "corrective_targets": 6,
+  "exported_animations": 0,
+  "source_max_positive_influences": 4,
+  "exported_weight_sets": 1,
+  "export_all_influences": true,
+  "maximum_weight_sum_error": 1.0570511221885681e-07,
+  "maximum_normal_squared_length_error": 2.435806207845559e-07,
+  "current_candidate_provenance_on_body_and_rig": true,
+  "prior_export_metadata_explicitly_historical": true,
+  "all_exported_vertices_and_named_joint_weights_match_native": true,
+  "maximum_exported_native_position_difference_m": 0.0,
+  "maximum_exported_native_named_weight_difference": 1.7881393432617188e-07,
+  "maximum_rest_skin_inverse_bind_error": 7.152557373046875e-07,
+  "native_geometry_weights_rig_matrices_unchanged": true,
+  "exported_body_height_m": 1.8200002787022527,
+  "exported_neutral_footprints": {
+    "left": {
+      "length_m": 0.3091566450893879,
+      "minimum_ground_height_m": -2.262501652694482e-07
+    },
+    "right": {
+      "length_m": 0.3091566450893879,
+      "minimum_ground_height_m": -2.262501652694482e-07
+    }
+  },
+  "glb_world_up_axis": "Y",
+  "foot_length_m": 0.3091566450893879,
+  "changed_weights_vertices": 724,
+  "28cm_geometry_correction": false,
+  "owner_acceptance_required": true,
+  "production_approved": false,
+  "anatomical_approval": false,
+  "limits": [
+    "Separate review-only weights candidate; original production GLB not replaced",
+    "No exercise animations, loaded stance, individual toe or physiological validation",
+    "Six inherited corrective morphs remain zero; no new muscle deformation",
+    "206 reference controls not exported or body-driving; static thorax layer excluded",
+    "Numerical GLB checks are Work packaging evidence, not Chat viewer/GPU acceptance"
+  ]
+}

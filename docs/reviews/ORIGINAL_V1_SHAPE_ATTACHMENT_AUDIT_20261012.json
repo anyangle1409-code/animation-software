@@ -1,0 +1,308 @@
+{
+  "source_model_commit": "2af63aedc3ff1c8c5de4974b4e826ec6ce26d81b",
+  "source_model_sha256": "670a37bfd206d702928de721032e2b942725389dc6906df0d866eba8d8cbbe56",
+  "shape_source_record": "ORIGINAL_V1_WORK/anatomy/audit/candidates/shoulder_thorax_c004_arm_inputs/candidate_record.json",
+  "shape_source_record_sha256": "99500d94e06c66ca489bdaccc0345446f98794946254c5e592d9449696f396c1",
+  "native_blender": "5.2.1 LTS",
+  "coordinate_frame": "Original native Z-up; anatomical left +X; source lengths treated in recorded metres",
+  "rows": [
+    {
+      "anatomical_side": "left",
+      "part": "clavicle",
+      "runtime_bone": "clavicle_r",
+      "c004_record_head_m": [
+        0.025465000420808792,
+        -0.022701933979988098,
+        1.5013389587402344
+      ],
+      "c004_pilot_head_m": [
+        0.025465000420808792,
+        -0.022701933979988098,
+        1.5013389587402344
+      ],
+      "c004_tail_m": [
+        0.16922208666801453,
+        0.024362558498978615,
+        1.4985564947128296
+      ],
+      "a003_anatomical_head_m": [
+        0.02500000037252903,
+        -0.0279390811920166,
+        1.5141667127609253
+      ],
+      "a003_anatomical_tail_m": [
+        0.2406969517469406,
+        0.0255662202835083,
+        1.4974807500839233
+      ],
+      "runtime_head_m": [
+        0.019999995827674866,
+        -0.011999949812889099,
+        1.5
+      ],
+      "runtime_tail_m": [
+        0.20208023488521576,
+        0.027217354625463486,
+        1.5140061378479004
+      ],
+      "record_vs_anatomical_head_delta_mm": 13.863448500299468,
+      "record_vs_anatomical_tail_delta_mm": 71.49309330170405,
+      "pilot_vs_runtime_head_delta_mm": 12.090969729208938,
+      "pilot_vs_runtime_tail_delta_mm": 36.42113757390197,
+      "pilot_vs_runtime_axis_angle_deg": 8.018071764799274,
+      "pilot_length_m": 0.151290807445038,
+      "runtime_length_m": 0.1867816435903008
+    },
+    {
+      "anatomical_side": "left",
+      "part": "scapula",
+      "runtime_bone": "scapula_r",
+      "c004_record_head_m": [
+        0.17563873529434204,
+        0.021019237115979195,
+        1.4689817428588867
+      ],
+      "c004_pilot_head_m": [
+        0.16922208666801453,
+        0.024362558498978615,
+        1.4985564947128296
+      ],
+      "c004_tail_m": [
+        0.12009932845830917,
+        0.0961996391415596,
+        1.348629117012024
+      ],
+      "a003_anatomical_head_m": [
+        0.19391249120235443,
+        0.032478563487529755,
+        1.4624308347702026
+      ],
+      "a003_anatomical_tail_m": [
+        0.07999999821186066,
+        0.14000000059604645,
+        1.3200000524520874
+      ],
+      "runtime_head_m": [
+        0.17649994790554047,
+        0.07025008648633957,
+        1.4397499561309814
+      ],
+      "runtime_tail_m": [
+        0.13799989223480225,
+        0.11050014197826385,
+        1.364499807357788
+      ],
+      "record_vs_anatomical_head_delta_mm": 22.54242052790424,
+      "record_vs_anatomical_tail_delta_mm": 65.92458762387818,
+      "pilot_vs_runtime_head_delta_mm": 74.94559045424612,
+      "pilot_vs_runtime_tail_delta_mm": 27.871371791123714,
+      "pilot_vs_runtime_axis_angle_deg": 8.174883516632658,
+      "pilot_length_m": 0.17335463917410676,
+      "runtime_length_m": 0.0936210759127432
+    },
+    {
+      "anatomical_side": "left",
+      "part": "humerus",
+      "runtime_bone": "upperarm_r",
+      "c004_record_head_m": [
+        0.19343914091587067,
+        0.005078837741166353,
+        1.471228837966919
+      ],
+      "c004_pilot_head_m": [
+        0.19343914091587067,
+        0.005078837741166353,
+        1.471228837966919
+      ],
+      "c004_tail_m": [
+        0.18956664204597473,
+        0.00041813685675151646,
+        1.1887980699539185
+      ],
+      "a003_anatomical_head_m": [
+        0.2189124971628189,
+        0.032478563487529755,
+        1.4624308347702026
+      ],
+      "a003_anatomical_tail_m": [
+        0.21503999829292297,
+        0.02781786024570465,
+        1.1799999475479126
+      ],
+      "runtime_head_m": [
+        0.2149999439716339,
+        0.030000098049640656,
+        1.5150001049041748
+      ],
+      "runtime_tail_m": [
+        0.2149999588727951,
+        0.030000124126672745,
+        1.1900001764297485
+      ],
+      "record_vs_anatomical_head_delta_mm": 38.43230111831582,
+      "record_vs_anatomical_tail_delta_mm": 38.4323253511162,
+      "pilot_vs_runtime_head_delta_mm": 54.78924388179281,
+      "pilot_vs_runtime_tail_delta_mm": 39.030661826357445,
+      "pilot_vs_runtime_axis_angle_deg": 1.2290785606003372,
+      "pilot_length_m": 0.28249576305866936,
+      "runtime_length_m": 0.3249999252649382
+    },
+    {
+      "anatomical_side": "right",
+      "part": "clavicle",
+      "runtime_bone": "clavicle_l",
+      "c004_record_head_m": [
+        -0.025465000420808792,
+        -0.022701933979988098,
+        1.5013389587402344
+      ],
+      "c004_pilot_head_m": [
+        -0.025465000420808792,
+        -0.022701933979988098,
+        1.5013389587402344
+      ],
+      "c004_tail_m": [
+        -0.16922208666801453,
+        0.024362558498978615,
+        1.4985564947128296
+      ],
+      "a003_anatomical_head_m": [
+        -0.02500000037252903,
+        -0.0279390811920166,
+        1.5141667127609253
+      ],
+      "a003_anatomical_tail_m": [
+        -0.2406969517469406,
+        0.0255662202835083,
+        1.4974807500839233
+      ],
+      "runtime_head_m": [
+        -0.019999995827674866,
+        -0.011999949812889099,
+        1.5
+      ],
+      "runtime_tail_m": [
+        -0.20208023488521576,
+        0.027217354625463486,
+        1.5140061378479004
+      ],
+      "record_vs_anatomical_head_delta_mm": 13.863448500299468,
+      "record_vs_anatomical_tail_delta_mm": 71.49309330170405,
+      "pilot_vs_runtime_head_delta_mm": 12.090969729208938,
+      "pilot_vs_runtime_tail_delta_mm": 36.42113757390197,
+      "pilot_vs_runtime_axis_angle_deg": 8.018071764799274,
+      "pilot_length_m": 0.151290807445038,
+      "runtime_length_m": 0.1867816435903008
+    },
+    {
+      "anatomical_side": "right",
+      "part": "scapula",
+      "runtime_bone": "scapula_l",
+      "c004_record_head_m": [
+        -0.17563873529434204,
+        0.021019237115979195,
+        1.4689817428588867
+      ],
+      "c004_pilot_head_m": [
+        -0.16922208666801453,
+        0.024362558498978615,
+        1.4985564947128296
+      ],
+      "c004_tail_m": [
+        -0.12009932845830917,
+        0.0961996391415596,
+        1.348629117012024
+      ],
+      "a003_anatomical_head_m": [
+        -0.19391249120235443,
+        0.032478563487529755,
+        1.4624308347702026
+      ],
+      "a003_anatomical_tail_m": [
+        -0.07999999821186066,
+        0.14000000059604645,
+        1.3200000524520874
+      ],
+      "runtime_head_m": [
+        -0.17649994790554047,
+        0.07025008648633957,
+        1.4397499561309814
+      ],
+      "runtime_tail_m": [
+        -0.13799989223480225,
+        0.11050014197826385,
+        1.364499807357788
+      ],
+      "record_vs_anatomical_head_delta_mm": 22.54242052790424,
+      "record_vs_anatomical_tail_delta_mm": 65.92458762387818,
+      "pilot_vs_runtime_head_delta_mm": 74.94559045424612,
+      "pilot_vs_runtime_tail_delta_mm": 27.871371791123714,
+      "pilot_vs_runtime_axis_angle_deg": 8.174883516632658,
+      "pilot_length_m": 0.17335463917410676,
+      "runtime_length_m": 0.0936210759127432
+    },
+    {
+      "anatomical_side": "right",
+      "part": "humerus",
+      "runtime_bone": "upperarm_l",
+      "c004_record_head_m": [
+        -0.19343914091587067,
+        0.005078837741166353,
+        1.471228837966919
+      ],
+      "c004_pilot_head_m": [
+        -0.19343914091587067,
+        0.005078837741166353,
+        1.471228837966919
+      ],
+      "c004_tail_m": [
+        -0.18956664204597473,
+        0.00041813685675151646,
+        1.1887980699539185
+      ],
+      "a003_anatomical_head_m": [
+        -0.2189124971628189,
+        0.032478563487529755,
+        1.4624308347702026
+      ],
+      "a003_anatomical_tail_m": [
+        -0.21503999829292297,
+        0.02781786024570465,
+        1.1799999475479126
+      ],
+      "runtime_head_m": [
+        -0.2149999439716339,
+        0.030000098049640656,
+        1.5150001049041748
+      ],
+      "runtime_tail_m": [
+        -0.2149999588727951,
+        0.030000124126672745,
+        1.1900001764297485
+      ],
+      "record_vs_anatomical_head_delta_mm": 38.43230111831582,
+      "record_vs_anatomical_tail_delta_mm": 38.4323253511162,
+      "pilot_vs_runtime_head_delta_mm": 54.78924388179281,
+      "pilot_vs_runtime_tail_delta_mm": 39.030661826357445,
+      "pilot_vs_runtime_axis_angle_deg": 1.2290785606003372,
+      "pilot_length_m": 0.28249576305866936,
+      "runtime_length_m": 0.3249999252649382
+    }
+  ],
+  "automatic_attachment_allowed": false,
+  "retarget_installed": false,
+  "skeleton_changed": false,
+  "mesh_changed": false,
+  "anatomical_acceptance": false,
+  "conclusion": "Different rest anchors/axes cannot be silently treated as one rig. Choose source authority and explicit bind/offset semantics before installing shaped-guide motion; never move source skeleton to old skin.",
+  "many_to_one_limb_mappings": {
+    "anat_radius_left": "forearm_r",
+    "anat_radius_right": "forearm_l",
+    "anat_ulna_left": "forearm_r",
+    "anat_ulna_right": "forearm_l",
+    "anat_tibia_left": "shin_r",
+    "anat_tibia_right": "shin_l",
+    "anat_fibula_left": "shin_r",
+    "anat_fibula_right": "shin_l"
+  }
+}

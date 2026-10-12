@@ -1,0 +1,33 @@
+{
+  "source_commit": "edee242f76717957a8f10cf2537961f40ce2fa03",
+  "source_sha256": "670a37bfd206d702928de721032e2b942725389dc6906df0d866eba8d8cbbe56",
+  "source_shape_record_sha256": "99500d94e06c66ca489bdaccc0345446f98794946254c5e592d9449696f396c1",
+  "candidate": "HomeGymPT_Male_ORIGINAL_v1_AUTHORED_THORAX_REVIEW_ONLY.blend",
+  "candidate_sha256": "ca8e6824ae54e5778a04409e00d32ae13ac23d9fce95e1f6d8207abbef265ca7",
+  "body_vertices": 17946,
+  "original_runtime_bones": 67,
+  "original_anatomical_bones": 206,
+  "additional_authored_guide_bones": 6,
+  "authored_shoulder_meshes": 18,
+  "authored_thorax_meshes": 25,
+  "original_body_weights_correctives_and_skeletons_unchanged": true,
+  "original_fingerprint": "ce49c7078e9b30ff55a4725a3a437504352c6417bb87a1d683063a06f9267656",
+  "body_has_only_original_runtime_driver": true,
+  "source_guides_drive_body": false,
+  "purpose": "Actual static full-body reference-layer integration; diagnostic x-ray visibility",
+  "assumptions": [
+    "Inherited project-authored rib lateral bows9-15cm/tube radius4mm; no bone-surface/contact acceptance",
+    "Inherited8mm costal scapula recession/4mm thickness is artist-defined",
+    "c004 guide controls preserve their distinct frames; old runtime joint gaps remain unresolved",
+    "Original31cm feet and all inherited body anatomy/deformation defects remain"
+  ],
+  "files_sha256": {
+    "HomeGymPT_Male_ORIGINAL_v1_AUTHORED_THORAX_REVIEW_ONLY.blend": "ca8e6824ae54e5778a04409e00d32ae13ac23d9fce95e1f6d8207abbef265ca7",
+    "fullbody_authored_context_front.png": "614a6887ad8263858dde1cbf66b462f22e8272a45867b9abac2a6ed8682b441e",
+    "fullbody_authored_context_side.png": "f2219eade88beb9f75f1bf6fffbee09b8ef14a6af112a47f2110739381a42d43",
+    "fullbody_authored_context_rear_three_quarter.png": "5b92a70028a084d417ba87f2ec2da006d931ebd507058eb27b412714335fa6c9"
+  },
+  "production_approved": false,
+  "anatomical_approval": false,
+  "motion_approved": false
+}

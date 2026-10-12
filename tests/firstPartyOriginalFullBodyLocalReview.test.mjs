@@ -127,3 +127,103 @@ test('DOM review controls can dispose without ever reading an original file',()=
   controls.dispose();
   assert.deepEqual(removed,added);
 });
+
+
+// G4v: cancellation and out-of-order selection regressions.
+// The source bytes in these tests are intentionally invalid: an obsolete
+// selection MUST stop before authenticating them or touching the renderer.
+function pendingFileBytes(){
+  let resolve;
+  const promise=new Promise(r=>{resolve=r});
+  return {promise,resolve};
+}
+function localControlsForConcurrency(canvas){
+  const handlers={};
+  const fileInput={
+    type:'file',files:[],
+    addEventListener(type,fn){handlers['file-'+type]=fn},
+    removeEventListener(type,fn){if(handlers['file-'+type]===fn)delete handlers['file-'+type]},
+  };
+  const cameraSelector={
+    tagName:'SELECT',value:'front',
+    addEventListener(type,fn){handlers['camera-'+type]=fn},
+    removeEventListener(type,fn){if(handlers['camera-'+type]===fn)delete handlers['camera-'+type]},
+  };
+  const statusTarget={textContent:'Select a file'};
+  const controls=bindOriginalFullBodyOwnerLocalControls({
+    fileInput,canvas,cameraSelector,statusTarget
+  });
+  return {handlers,fileInput,cameraSelector,statusTarget,controls};
+}
+test('already-cancelled owner file cannot read, hash or create WebGL2',async()=>{
+  let reads=0,gpus=0;
+  const controller=new AbortController();controller.abort();
+  const ownerFile=goodFile();
+  ownerFile.arrayBuffer=async()=>{reads++;throw Error('must not read')};
+  const canvas={...fakeCanvas,getContext(){gpus++;throw Error('must not GPU')}};
+  await assert.rejects(
+    ()=>openOriginalFullBodyOwnerLocalReview({
+      ownerFile,canvas,signal:controller.signal
+    }),/owner file selection cancelled/);
+  assert.equal(reads,0);assert.equal(gpus,0);
+});
+test('cancelled in-flight source read stops before actual SHA and GPU',async()=>{
+  let gpus=0;
+  const pending=pendingFileBytes();
+  const controller=new AbortController();
+  const ownerFile=goodFile();
+  ownerFile.arrayBuffer=()=>pending.promise;
+  const canvas={...fakeCanvas,getContext(){gpus++;throw Error('must not GPU')}};
+  const loading=openOriginalFullBodyOwnerLocalReview({
+    ownerFile,canvas,signal:controller.signal
+  });
+  controller.abort();
+  pending.resolve(new ArrayBuffer(ORIGINAL_V1_REVIEW_PINNED_BYTES));
+  await assert.rejects(loading,/owner file selection cancelled/);
+  assert.equal(gpus,0);
+});
+test('clearing file selection supersedes slower first read with no stale GPU or status',async()=>{
+  let gpus=0;
+  const pending=pendingFileBytes();
+  const ownerFile=goodFile();
+  ownerFile.arrayBuffer=()=>pending.promise;
+  const canvas={...fakeCanvas,getContext(){gpus++;throw Error('must not GPU')}};
+  const ui=localControlsForConcurrency(canvas);
+  ui.fileInput.files=[ownerFile];
+  const loading=ui.handlers['file-change']();
+  assert.match(ui.statusTarget.textContent,/Checking original source/);
+  ui.fileInput.files=[];
+  await ui.handlers['file-change']();
+  assert.match(ui.statusTarget.textContent,/Select the original review-only GLB/);
+  pending.resolve(new ArrayBuffer(ORIGINAL_V1_REVIEW_PINNED_BYTES));
+  await loading;
+  assert.match(ui.statusTarget.textContent,/Select the original review-only GLB/);
+  assert.equal(gpus,0);
+  ui.controls.dispose();
+});
+test('closing UI during source read permanently blocks stale completion',async()=>{
+  let gpus=0;
+  const pending=pendingFileBytes();
+  const ownerFile=goodFile();
+  ownerFile.arrayBuffer=()=>pending.promise;
+  const canvas={...fakeCanvas,getContext(){gpus++;throw Error('must not GPU')}};
+  const ui=localControlsForConcurrency(canvas);
+  ui.fileInput.files=[ownerFile];
+  const loading=ui.handlers['file-change']();
+  ui.controls.dispose();
+  assert.equal(ui.statusTarget.textContent,'Original review closed.');
+  assert.equal(ui.handlers['file-change'],undefined);
+  pending.resolve(new ArrayBuffer(ORIGINAL_V1_REVIEW_PINNED_BYTES));
+  await loading;
+  assert.equal(ui.statusTarget.textContent,'Original review closed.');
+  assert.equal(gpus,0);
+  ui.controls.dispose(); // idempotent
+});
+test('invalid optional cancellation signal fails before source read',async()=>{
+  let reads=0;
+  const ownerFile=goodFile();ownerFile.arrayBuffer=async()=>{reads++;return new ArrayBuffer(8)};
+  await assert.rejects(
+    ()=>openOriginalFullBodyOwnerLocalReview({ownerFile,canvas:fakeCanvas,signal:{}}),
+    /optional cancellation signal must be AbortSignal-compatible/);
+  assert.equal(reads,0);
+});

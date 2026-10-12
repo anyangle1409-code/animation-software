@@ -1,0 +1,29 @@
+{
+  "type": "real-original-v1-private-glb-independent-source-rest-lbs-proof-v1",
+  "sha256": "d267dac344affb5d52c7155f8d0254794e818a8eab3ad54f7f263694f36c390d",
+  "originalModelBytes": 1495720,
+  "vertices": 17946,
+  "indexedTriangles": 35888,
+  "skinJoints": 67,
+  "morphTargets": 6,
+  "sourceMorphWeightsAtRest": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "sourceVertexWeightsNormalizedMaxError": 1.1920928955078125e-7,
+  "maxWorldRestInverseBindAbsoluteResidual": 6.556510534494464e-7,
+  "independentRestCpuLbsMaxVertexPositionErrorMetres": 8.153723547911788e-7,
+  "independentRestCpuLbsMeanPositionErrorMetres": 3.542430478537822e-7,
+  "independentRestCpuNormalMaxError": 3.5392877629430874e-7,
+  "checkedOriginalVertexCount": 17946,
+  "sourceGeometryModified": false,
+  "fullBodyGPUChromiumMeasured": false,
+  "realHumanExerciseMotionValidated": false,
+  "anatomical206To67ControllerAccepted": false,
+  "footAnatomyApproved": false,
+  "productionReady": false
+}

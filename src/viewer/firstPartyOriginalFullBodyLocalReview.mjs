@@ -49,7 +49,7 @@ export function cameraForOriginalFullBodyReview(view='front'){
  * There is no silent CPU render, mesh swap or synthetic-manikin fallback.
  */
 export async function openOriginalFullBodyOwnerLocalReview({
-  ownerFile,canvas,view='front',width=900,height=1200,pixelRatio=1,signal
+  ownerFile,canvas,view='front',width=900,height=1200,pixelRatio=1,signal,currentView
 }={}){
   need(ownerFile&&typeof ownerFile==='object'&&
     ownerFile.name==='HomeGymPT_Male_ORIGINAL_v1_REVIEW_ONLY.glb' &&
@@ -65,6 +65,8 @@ export async function openOriginalFullBodyOwnerLocalReview({
     finite(pixelRatio)&&pixelRatio>=.5&&pixelRatio<=2,
     'bounded local preview viewport required');
   const firstCamera=cameraForOriginalFullBodyReview(view);
+  need(currentView===undefined||typeof currentView==='function',
+    'current camera must be an optional local function');
   need(signal===undefined || (signal && typeof signal.aborted==='boolean'),
     'optional cancellation signal must be AbortSignal-compatible');
   // Abort is checked at each asynchronous boundary so a stale user selection
@@ -111,7 +113,8 @@ export async function openOriginalFullBodyOwnerLocalReview({
         productionReady:false,
       });
     };
-    const initial=renderView(firstCamera.view);
+    checkNotCancelled();
+    const initial=renderView(currentView===undefined?firstCamera.view:currentView());
     const session=Object.freeze({
       kind:HGPT_LOCAL_FULLBODY_REVIEW_KIND,
       originalSourceSha256:ORIGINAL_V1_REVIEW_PINNED_SHA,
@@ -156,7 +159,8 @@ export function bindOriginalFullBodyOwnerLocalControls({
     statusTarget.textContent='Checking original source SHA, rig and rest...';
     try{
       const opened=await openOriginalFullBodyOwnerLocalReview({
-        ownerFile:f,canvas,view:cameraSelector.value,signal:controller.signal
+        ownerFile:f,canvas,view:cameraSelector.value,signal:controller.signal,
+        currentView:()=>cameraSelector.value
       });
       if(disposed||generation!==ticket){
         opened.dispose();

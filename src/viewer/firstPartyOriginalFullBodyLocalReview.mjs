@@ -49,7 +49,7 @@ export function cameraForOriginalFullBodyReview(view='front'){
  * There is no silent CPU render, mesh swap or synthetic-manikin fallback.
  */
 export async function openOriginalFullBodyOwnerLocalReview({
-  ownerFile,canvas,view='front',width=900,height=1200,pixelRatio=1
+  ownerFile,canvas,view='front',width=900,height=1200,pixelRatio=1,signal
 }={}){
   need(ownerFile&&typeof ownerFile==='object'&&
     ownerFile.name==='HomeGymPT_Male_ORIGINAL_v1_REVIEW_ONLY.glb' &&
@@ -65,14 +65,24 @@ export async function openOriginalFullBodyOwnerLocalReview({
     finite(pixelRatio)&&pixelRatio>=.5&&pixelRatio<=2,
     'bounded local preview viewport required');
   const firstCamera=cameraForOriginalFullBodyReview(view);
+  need(signal===undefined || (signal && typeof signal.aborted==='boolean'),
+    'optional cancellation signal must be AbortSignal-compatible');
+  // Abort is checked at each asynchronous boundary so a stale user selection
+  // never creates a GPU context, draws the wrong file, or wins a status race.
+  const checkNotCancelled=()=>need(!signal?.aborted,
+    'owner file selection cancelled');
+  checkNotCancelled();
   const original=await ownerFile.arrayBuffer();
+  checkNotCancelled();
   need(original instanceof ArrayBuffer&&
     original.byteLength===ORIGINAL_V1_REVIEW_PINNED_BYTES,
     'locally selected original GLB file bytes changed during read');
   const source=await parseOriginalFullBodyReviewGLB(original,{
     expectedSha256:ORIGINAL_V1_REVIEW_PINNED_SHA,
   });
+  checkNotCancelled();
   const plan=prepareVerifiedOriginalFullBodyRestGpu(source);
+  checkNotCancelled();
   let renderer;
   try{
     renderer=createNativePaletteSkinnedWebGL2(canvas);
@@ -130,23 +140,39 @@ export function bindOriginalFullBodyOwnerLocalControls({
     typeof cameraSelector.addEventListener==='function'&&
     statusTarget&&typeof statusTarget.textContent==='string',
     'manual source file/select/status DOM controls required');
-  let session=null;
+  let session=null,generation=0,pendingController=null,disposed=false;
   const onFile=async()=>{
+    if(disposed)return;
+    const ticket=++generation;
+    // Invalidate any in-flight read/hash; the old reader may still finish,
+    // but cannot authenticate, draw, replace the viewer, or change UI status.
+    pendingController?.abort();
+    pendingController=null;
     const f=fileInput.files?.[0];
     session?.dispose();session=null;
     if(!f){statusTarget.textContent='Select the original review-only GLB.';return}
+    const controller=new AbortController();
+    pendingController=controller;
     statusTarget.textContent='Checking original source SHA, rig and rest...';
     try{
-      session=await openOriginalFullBodyOwnerLocalReview({
-        ownerFile:f,canvas,view:cameraSelector.value
+      const opened=await openOriginalFullBodyOwnerLocalReview({
+        ownerFile:f,canvas,view:cameraSelector.value,signal:controller.signal
       });
+      if(disposed||generation!==ticket){
+        opened.dispose();
+        return;
+      }
+      session=opened;
       statusTarget.textContent='Original REST preview displayed; no exercise/morph approval.';
     }catch(e){
+      if(disposed||generation!==ticket)return;
       statusTarget.textContent='Original preview not available: '+e.message;
+    }finally{
+      if(pendingController===controller)pendingController=null;
     }
   };
   const onView=()=>{
-    if(!session)return;
+    if(disposed||!session)return;
     try{session.renderView(cameraSelector.value)}
     catch(e){statusTarget.textContent='Original review render blocked: '+e.message}
   };
@@ -154,9 +180,15 @@ export function bindOriginalFullBodyOwnerLocalControls({
   cameraSelector.addEventListener('change',onView);
   return Object.freeze({
     dispose(){
+      if(disposed)return;
+      disposed=true;
+      generation++;
+      pendingController?.abort();
+      pendingController=null;
       fileInput.removeEventListener('change',onFile);
       cameraSelector.removeEventListener('change',onView);
       session?.dispose();session=null;
+      statusTarget.textContent='Original review closed.';
     }
   });
 }

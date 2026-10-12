@@ -1,0 +1,129 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {
+  HGPT_LOCAL_FULLBODY_REVIEW_KIND,
+  ORIGINAL_V1_REVIEW_PINNED_SHA,
+  ORIGINAL_V1_REVIEW_PINNED_BYTES,
+  cameraForOriginalFullBodyReview,
+  openOriginalFullBodyOwnerLocalReview,
+  bindOriginalFullBodyOwnerLocalControls
+} from '../src/viewer/firstPartyOriginalFullBodyLocalReview.mjs';
+
+const fakeCanvas={
+  getContext(){throw new Error('GPU must never be called before full SHA validation')},
+  addEventListener(){},removeEventListener(){},
+};
+const goodFile=()=>({
+  name:'HomeGymPT_Male_ORIGINAL_v1_REVIEW_ONLY.glb',
+  size:ORIGINAL_V1_REVIEW_PINNED_BYTES,
+  async arrayBuffer(){return new ArrayBuffer(ORIGINAL_V1_REVIEW_PINNED_BYTES)}
+});
+test('strict review source hash, original size and never-production classifier are explicit',()=>{
+  assert.equal(ORIGINAL_V1_REVIEW_PINNED_SHA,
+    'd267dac344affb5d52c7155f8d0254794e818a8eab3ad54f7f263694f36c390d');
+  assert.equal(ORIGINAL_V1_REVIEW_PINNED_BYTES,1495720);
+  assert.equal(HGPT_LOCAL_FULLBODY_REVIEW_KIND,
+    'hgpt-original-local-owner-file-neutral-review-v1');
+});
+test('five fixed-scale neutral cameras use only glTF Y-up and copy mutable caller arrays',()=>{
+  const seen=new Set();
+  for(const view of ['front','rear','left','right','three-quarter']){
+    const camera=cameraForOriginalFullBodyReview(view);
+    assert.equal(camera.view,view);
+    assert.deepEqual(camera.target,[0,.91,0]);
+    assert.equal(camera.eye.length,3);
+    assert.ok(Math.hypot(...camera.eye)>2.5);
+    assert.match(camera.status,/DIAGNOSTIC_CAMERA_/);
+    seen.add(camera.eye.join(','));
+    camera.eye[0]=999;
+    assert.notEqual(cameraForOriginalFullBodyReview(view).eye[0],999);
+  }
+  assert.equal(seen.size,5);
+});
+test('invalid camera/malicious camera input cannot generate unverified model views',()=>{
+  for(const bad of ['', 'clinical-approval', 'shoulder-motion',null,
+    {}, '__proto__','foot-length-fixed']){
+    assert.throws(()=>cameraForOriginalFullBodyReview(bad),
+      /camera must be one of the five bounded/);
+  }
+});
+test('no remote URL, wrong name, unbounded length or a forged local file accepted',async()=>{
+  for(const ownerFile of [
+    'https://example.invalid/original.glb',
+    {name:'untrusted.glb',size:ORIGINAL_V1_REVIEW_PINNED_BYTES,arrayBuffer:async()=>new ArrayBuffer(0)},
+    {name:'HomeGymPT_Male_ORIGINAL_v1_REVIEW_ONLY.glb',size:10,arrayBuffer:async()=>new ArrayBuffer(10)},
+    {name:'HomeGymPT_Male_ORIGINAL_v1_REVIEW_ONLY.glb',size:ORIGINAL_V1_REVIEW_PINNED_BYTES},
+    {name:'HomeGymPT_Male_ORIGINAL_v1_REVIEW_ONLY.glb',size:ORIGINAL_V1_REVIEW_PINNED_BYTES,
+      arrayBuffer(){throw new Error('Should not be called with bad canvas')}},
+  ]){
+    const bad=ownerFile?.arrayBuffer&&ownerFile?.name==='HomeGymPT_Male_ORIGINAL_v1_REVIEW_ONLY.glb'&&
+      ownerFile?.size===ORIGINAL_V1_REVIEW_PINNED_BYTES?
+      null:ownerFile;
+    if(bad!==null)
+      await assert.rejects(
+        ()=>openOriginalFullBodyOwnerLocalReview({ownerFile:bad,canvas:fakeCanvas}),
+        /select the exact ORIGINAL_v1 review GLB locally/);
+  }
+});
+test('the original file bytes are checked before any GPU context or source-mesh render',async()=>{
+  let reads=0,draws=0;
+  const ownerFile=goodFile();
+  ownerFile.arrayBuffer=async()=>{reads++;return new ArrayBuffer(ORIGINAL_V1_REVIEW_PINNED_BYTES)};
+  const canvas={...fakeCanvas,getContext(){draws++;throw Error('GPU must not run')}};
+  await assert.rejects(
+    ()=>openOriginalFullBodyOwnerLocalReview({ownerFile,canvas}),
+    /source SHA mismatch/);
+  assert.equal(reads,1);
+  assert.equal(draws,0);
+});
+test('wrong actual file length refused before source SHA even for nominal correct filename',async()=>{
+  const ownerFile=goodFile();
+  ownerFile.arrayBuffer=async()=>new ArrayBuffer(300);
+  await assert.rejects(()=>openOriginalFullBodyOwnerLocalReview({ownerFile,canvas:fakeCanvas}),
+    /file bytes changed during read/);
+});
+test('unsupported viewport and missing WebGL2 surface refused without touching the file',async()=>{
+  let reads=0;
+  const ownerFile=goodFile();ownerFile.arrayBuffer=async()=>{reads++;return new ArrayBuffer(20)};
+  for(const options of [
+    {width:20},{height:3000},{pixelRatio:9},{view:'forced-human-motion'},
+  ]){
+    await assert.rejects(
+      ()=>openOriginalFullBodyOwnerLocalReview({
+        ownerFile,canvas:fakeCanvas,...options}),
+      /viewport required|camera must be one of the five bounded/);
+  }
+  await assert.rejects(
+    ()=>openOriginalFullBodyOwnerLocalReview({
+      ownerFile,canvas:{notARealCanvas:true}
+    }),/local WebGL2 canvas required/);
+  assert.equal(reads,0);
+});
+test('DOM review controls refuse inert or remote elements',()=>{
+  assert.throws(()=>bindOriginalFullBodyOwnerLocalControls({
+    fileInput:{type:'text',addEventListener(){}},
+    cameraSelector:{tagName:'SELECT',addEventListener(){}},
+    statusTarget:{textContent:'state'},
+  }),/manual source file\/select\/status DOM controls required/);
+  assert.throws(()=>bindOriginalFullBodyOwnerLocalControls({
+    fileInput:{type:'file',addEventListener(){}},
+    cameraSelector:{tagName:'BUTTON',addEventListener(){}},
+    statusTarget:{textContent:'state'},
+  }),/manual source file\/select\/status DOM controls required/);
+});
+test('DOM review controls can dispose without ever reading an original file',()=>{
+  const added=[],removed=[];
+  const el=(name)=>({
+    type:name==='source'?'file':undefined,
+    tagName:name==='camera'?'SELECT':undefined,
+    addEventListener(t,fn){added.push([name,t,fn])},
+    removeEventListener(t,fn){removed.push([name,t,fn])},
+  });
+  const fileInput=el('source'),cameraSelector=el('camera');
+  const controls=bindOriginalFullBodyOwnerLocalControls({
+    fileInput,cameraSelector,statusTarget:{textContent:'Choose file'},
+  });
+  assert.equal(added.length,2);
+  controls.dispose();
+  assert.deepEqual(removed,added);
+});

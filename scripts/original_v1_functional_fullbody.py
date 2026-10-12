@@ -119,15 +119,19 @@ def validate_blender_bridge(anatomy, runtime, body):
         if obj.name != expected_names[label]:
             errors.append(f"{label} object must be named {expected_names[label]}, got {obj.name}")
 
-    active_targets = [
-        modifier.object
+    active_modifiers = [
+        modifier
         for modifier in body.modifiers
         if modifier.type == "ARMATURE"
-        and modifier.show_viewport
-        and modifier.show_render
+        and (modifier.show_viewport or modifier.show_render)
         and modifier.object is not None
     ]
-    if len(active_targets) != 1 or active_targets[0] is not runtime:
+    runtime_modifiers = [
+        modifier
+        for modifier in active_modifiers
+        if modifier.object is runtime and modifier.show_viewport and modifier.show_render
+    ]
+    if len(active_modifiers) != 1 or len(runtime_modifiers) != 1:
         errors.append(
             "body must have exactly one enabled viewport/render Armature modifier, targeting runtime rig"
         )

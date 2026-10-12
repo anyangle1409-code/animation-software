@@ -41,7 +41,9 @@ and pose-bounds full-body camera framing including non-finite/overflow refusal. 
 native Blender 5.2.1 tests passed against the actual r95/a003 scene, checking
 all three named objects, exact 206/67-bone counts, 17,946 vertices, the enabled
 Armature modifier target, anatomical rest state, and negative disabled/wrong-
-target/additional-anatomical-driver/non-rest cases.
+target/additional-anatomical-driver/non-rest cases. Extra armature modifiers are
+refused when enabled in either viewport or render mode; the sole runtime driver
+must be enabled in both.
 
 Nine new 900px images were rendered from actual Blender 5.2.1 at neutral,
 press-top and pull-up-top, each front/side/rear. The first attempt exposed a

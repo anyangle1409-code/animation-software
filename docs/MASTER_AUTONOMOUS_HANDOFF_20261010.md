@@ -7,8 +7,9 @@
 key `active_functional_original_fullbody_bridge_checkpoint`. Four new pure and
 four actual native Blender tests PASS. Independent review's reversed-side and
 incomplete-preflight findings were fixed: F-SIDE-001 anatomical left +X maps to
-runtime `*_r`; exact counts, exactly one enabled runtime modifier (no additional
-anatomical driver), source rest and finite full-body frames are guarded.
+runtime `*_r`; exact counts, exactly one runtime modifier enabled in both modes
+(no additional armature driver active in either mode), source rest and finite
+full-body frames are guarded.
 Nine new complete full-body views prove the
 17,946-vertex original male moves under its existing 67-bone runtime rig while
 the separate 206-bone source armature is present at rest. It does NOT drive the

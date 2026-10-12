@@ -46,8 +46,10 @@ class NativeFunctionalFullBodyBridge(unittest.TestCase):
         extra = body.modifiers.new("TEST_FORBIDDEN_ANATOMICAL_DRIVER", "ARMATURE")
         extra.object = anatomy
         try:
-            errors = "\n".join(bridge.validate_blender_bridge(anatomy, runtime, body)["errors"])
-            self.assertIn("exactly one", errors)
+            for viewport, render in ((True, True), (True, False), (False, True)):
+                extra.show_viewport, extra.show_render = viewport, render
+                errors = "\n".join(bridge.validate_blender_bridge(anatomy, runtime, body)["errors"])
+                self.assertIn("exactly one", errors, (viewport, render))
         finally:
             body.modifiers.remove(extra)
 

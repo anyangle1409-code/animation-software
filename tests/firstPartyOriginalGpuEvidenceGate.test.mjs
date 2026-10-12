@@ -26,7 +26,7 @@ test('requires human review even with claimed capture',()=>{
 });
 test('approval flag is not a production release or proof authenticity',()=>{
  const r=assessOriginalGpuReviewEvidence(good());
- assert.equal(r.approved,true);assert.equal(r.productionReady,false);
- assert.match(r.reason,/NOT_INDEPENDENTLY_AUTHENTICATED/);
+ assert.equal(r.approved,false);assert.equal(r.evidenceFieldsComplete,true);assert.equal(r.productionReady,false);
+ assert.match(r.reason,/INDEPENDENT_VERIFICATION/);
  assert.ok(Object.isFrozen(r));
 });

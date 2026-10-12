@@ -22,13 +22,15 @@ export function probeOriginalPaletteShaderLink({makeCanvas}={}){
 precision highp float;
 precision highp sampler2D;
 uniform highp sampler2D uJointPalette;
+uniform int uJointIndex;
 layout(location=0) in vec3 aPosition;
 void main(){
+  int firstTexel = clamp(uJointIndex,0,66)*4;
   mat4 skin = mat4(
-    texelFetch(uJointPalette,ivec2(0,0),0),
-    texelFetch(uJointPalette,ivec2(1,0),0),
-    texelFetch(uJointPalette,ivec2(2,0),0),
-    texelFetch(uJointPalette,ivec2(3,0),0));
+    texelFetch(uJointPalette,ivec2(firstTexel+0,0),0),
+    texelFetch(uJointPalette,ivec2(firstTexel+1,0),0),
+    texelFetch(uJointPalette,ivec2(firstTexel+2,0),0),
+    texelFetch(uJointPalette,ivec2(firstTexel+3,0),0));
   gl_Position = skin * vec4(aPosition,1.0);
 }`);
     frag=shader(gl.FRAGMENT_SHADER,`#version 300 es

@@ -137,3 +137,27 @@ test('G2c native GPU normal-preview mode requires valid source NORMAL for every 
     {normalPreview:true}),/finite and near unit/);
   gpu.dispose();
 });
+
+test('G4o opt-in Lambert requires real source normals, explicit sidedness and rejects mixed preview',()=>{
+  const f=mockGL(),gpu=createNativePaletteSkinnedWebGL2(f.canvas);
+  const parts=source().map(p=>({
+    mesh:p.parsed.mesh,uv0:p.sourceUV0,
+    posedWorld:new Float32Array([...id(),...id()]),
+    sourceNormals:p.sourceNormals,materialColor:[.4,.5,.6],
+    sourceDoubleSided:true,
+  }));
+  assert.equal(gpu.renderBatches(parts,{pilotLambertPreview:true}),true);
+  assert.equal(f.calls.filter(x=>x==='draw').length,2);
+  const prior=f.calls.length;
+  assert.throws(()=>gpu.renderBatches(
+    [parts[0],{...parts[1],sourceNormals:undefined}],
+    {pilotLambertPreview:true}),/requires explicit original source NORMAL/);
+  assert.equal(f.calls.length,prior,'invalid original normal cannot partially draw');
+  assert.throws(()=>gpu.renderBatches(parts,
+    {pilotLambertPreview:true,pilotFlatColorPreview:true}),/cannot mix/);
+  assert.throws(()=>gpu.renderBatches(parts,
+    {pilotLambertPreview:true,texturePreview:true}),/cannot mix/);
+  assert.throws(()=>gpu.renderBatches(parts,
+    {pilotLambertPreview:'yes'}),/boolean/);
+  gpu.dispose();
+});

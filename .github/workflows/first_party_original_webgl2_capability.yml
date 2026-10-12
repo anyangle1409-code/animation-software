@@ -1,0 +1,32 @@
+name: G4w ORIGINAL-v1 private-asset-free WebGL2 capability guard
+on:
+  push:
+    branches: [codex/g4w-original-webgl2-capability-20261012]
+  pull_request:
+    paths:
+      - src/viewer/firstPartyOriginalWebGL2Capability.mjs
+      - tests/firstPartyOriginalWebGL2Capability.test.mjs
+      - .github/workflows/first_party_original_webgl2_capability.yml
+permissions:
+  contents: read
+jobs:
+  private-asset-free-capability:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - name: First-party capability probe and unsupported-device cases
+        run: node --test tests/firstPartyOriginalWebGL2Capability.test.mjs
+      - name: Preserve original local loader and cancellation guards
+        run: node --test tests/firstPartyOriginalFullBodyLocalReview.test.mjs
+      - name: No external access or model capture in capability probe
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const src=fs.readFileSync('src/viewer/firstPartyOriginalWebGL2Capability.mjs','utf8');
+          if (/\bfetch\s*\(|XMLHttpRequest|\blocalStorage\b|\bindexedDB\b|from\s+['"](?:three|react|@react-three)/.test(src))
+            throw Error('No network, storage or vendor runtime permitted in GPU probe');
+          JS

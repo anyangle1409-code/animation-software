@@ -1,0 +1,25 @@
+name: G5d secure owner-local original review
+on:
+  push:
+    branches: [codex/g5d-owner-review-csp-20261012]
+  pull_request:
+    paths:
+      - src/viewer/originalFullBodyOwnerLocalReview.html
+      - src/viewer/originalFullBodyOwnerLocalReviewBoot.mjs
+      - tests/originalFullBodyOwnerLocalSecurity.test.mjs
+      - tests/originalFullBodyOwnerLocalReviewPage.test.mjs
+      - .github/workflows/first_party_original_local_page_csp.yml
+permissions:
+  contents: read
+jobs:
+  offline-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - run: node --test tests/originalFullBodyOwnerLocalSecurity.test.mjs
+      - run: node --test tests/originalFullBodyOwnerLocalReviewPage.test.mjs
+      - run: node --test tests/firstPartyOriginalFullBodyLocalReview.test.mjs

@@ -1,0 +1,23 @@
+name: G4z original palette vertex shader compilation preflight
+on:
+  push:
+    branches: [codex/g4z-palette-shader-link-probe-20261012]
+  pull_request:
+    paths:
+      - src/viewer/firstPartyOriginalPaletteShaderLink.mjs
+      - tests/firstPartyOriginalPaletteShaderLink.test.mjs
+      - .github/workflows/first_party_original_palette_shader_link.yml
+permissions:
+  contents: read
+jobs:
+  native-palette-shader:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - run: node --test tests/firstPartyOriginalPaletteShaderLink.test.mjs
+      - run: node --test tests/firstPartyOriginalPaletteFloatUpload.test.mjs
+      - run: node --test tests/firstPartyOriginalWebGL2Capability.test.mjs

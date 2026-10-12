@@ -1,0 +1,52 @@
+name: G4u local-only original fullbody camera and file import preview
+on:
+  push:
+    branches: [codex/g4u-original-body-local-browser-review-20261012]
+    paths:
+      - src/viewer/firstPartyOriginalFullBodyLocalReview.mjs
+      - tests/firstPartyOriginalFullBodyLocalReview.test.mjs
+      - docs/FIRST_PARTY_G4U_LOCAL_ORIGINAL_BODY_REVIEW_20261012.md
+      - .github/workflows/first_party_original_fullbody_local_review.yml
+  pull_request:
+    paths:
+      - src/viewer/firstPartyOriginalFullBodyLocalReview.mjs
+      - tests/firstPartyOriginalFullBodyLocalReview.test.mjs
+      - docs/FIRST_PARTY_G4U_LOCAL_ORIGINAL_BODY_REVIEW_20261012.md
+      - .github/workflows/first_party_original_fullbody_local_review.yml
+permissions:
+  contents: read
+jobs:
+  original-file-camera-and-private-source-guards:
+    runs-on: ubuntu-latest
+    timeout-minutes: 11
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - name: No network, no live exercise substitute, exact original SHA
+        run: |
+          node --test tests/firstPartyOriginalFullBodyLocalReview.test.mjs
+          node --test tests/firstPartyOriginalFullBodySourceImmutability.test.mjs
+          node --test tests/firstPartyOriginalFullBodyGpuRest.test.mjs
+      - name: Review-only browser loader must never fetch or import vendor runtime
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const src=fs.readFileSync('src/viewer/firstPartyOriginalFullBodyLocalReview.mjs','utf8');
+          if (/\bfetch\s*\(|XMLHttpRequest|\blocalStorage\b|\bindexedDB\b|from\s+['"](?:three|react|@react-three)/.test(src))
+            throw Error('Original fullbody owner file-only source cannot download/save vendor assets');
+          JS
+  unchanged-studio-typecheck-and-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm run build

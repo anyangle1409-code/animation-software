@@ -1,0 +1,36 @@
+name: G4s original full-body authenticated native GPU rest gate
+on:
+  push:
+    branches: [codex/g4s-original-body-native-gpu-rest-bridge-20261012]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  original-in-memory-source-authenticity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: |
+          node --test tests/firstPartyOriginalFullBodyGpuRest.test.mjs
+          node --test tests/firstPartyOriginalFullBodyReviewSourceGuard.test.mjs
+          node --test tests/firstPartyOriginalGltfRestWorld.test.mjs
+  original-studio-build-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm run build

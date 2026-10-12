@@ -23,6 +23,8 @@ import {validateNativeGLBToRigBinding}
   from './firstPartyGlbRigBindingContract.mjs';
 import {multiplyNativeMat4}
   from './firstPartyWebGL2SkeletonPreview.mjs';
+import {snapshotDecodedOriginalReview,assertDecodedOriginalReviewUnmodified}
+  from './firstPartyOriginalFullBodyImmutableSource.mjs';
 
 export const HGPT_ORIGINAL_FULLBODY_REVIEW_KIND=
   'hgpt-original-fullbody-review-only-source-v1';
@@ -34,6 +36,25 @@ const array=Array.isArray;
 const ID=[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1];
 const align=n=>(n+3)&~3;
 const MAX_BYTES=16*1024*1024,MAX_VERTEX=250000;
+const authenticatedOriginalReviewHandles=new WeakSet();
+const originalSourceSnapshots=new WeakMap();
+/**
+ * Once source SHA, exact 67-joint IBM, and six original sparse morph records
+ * are verified, never trust mutable public typed buffers without comparing
+ * them to this PRIVATE snapshot captured at authentication time.
+ */
+export function assertAuthenticatedOriginalFullBodyReviewUnmodified(value){
+  if(!value||typeof value!=='object'||
+    !authenticatedOriginalReviewHandles.has(value)||
+    !originalSourceSnapshots.has(value))
+    throw new RangeError('Original source handle has no verified private provenance');
+  return assertDecodedOriginalReviewUnmodified(
+    value,originalSourceSnapshots.get(value));
+}
+export function isAuthenticatedOriginalFullBodyReview(value){
+  try{return assertAuthenticatedOriginalFullBodyReviewUnmodified(value)}
+  catch{return false}
+}
 const morphNames=[
   'HGPT_SHOULDER_CORR_L','HGPT_SHOULDER_CORR_R',
   'HGPT_SHOULDER_FLEX_L','HGPT_SHOULDER_FLEX_R',
@@ -359,7 +380,7 @@ export async function parseOriginalFullBodyReviewGLB(input,{expectedSha256}={}){
   });
   must(plan.maximumMatrixResidual<=1e-4,
     'source original joint world rest does not invert source IBM');
-  return Object.freeze({
+  const review=Object.freeze({
     kind:HGPT_ORIGINAL_FULLBODY_REVIEW_KIND,
     sourceSha256:sha,originalSourceBytesUnmodified:true,
     mesh:parsed.mesh,
@@ -386,4 +407,7 @@ export async function parseOriginalFullBodyReviewGLB(input,{expectedSha256}={}){
       productionReady:false,
     })
   });
+  originalSourceSnapshots.set(review,snapshotDecodedOriginalReview(review));
+  authenticatedOriginalReviewHandles.add(review);
+  return review;
 }

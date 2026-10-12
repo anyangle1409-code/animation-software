@@ -1,0 +1,22 @@
+name: G4x original full-body vertex texture sampler gate
+on:
+  push:
+    branches: [codex/g4x-original-vertex-texture-check-20261012]
+  pull_request:
+    paths:
+      - src/viewer/firstPartyOriginalWebGL2Capability.mjs
+      - tests/firstPartyOriginalWebGL2Capability.test.mjs
+      - .github/workflows/first_party_original_vertex_texture_check.yml
+permissions:
+  contents: read
+jobs:
+  source-palette-capability:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - run: node --test tests/firstPartyOriginalWebGL2Capability.test.mjs
+      - run: node --test tests/firstPartyOriginalFullBodyLocalReview.test.mjs

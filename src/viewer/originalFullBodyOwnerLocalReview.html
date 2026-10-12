@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src &#39;none&#39;; script-src &#39;self&#39;; style-src &#39;unsafe-inline&#39;; img-src &#39;self&#39; blob: data:; connect-src &#39;none&#39;; form-action &#39;none&#39;; object-src &#39;none&#39;; base-uri &#39;none&#39;">
+<title>Home Gym PT — ORIGINAL_v1 local review</title>
+<style>
+  :root{color-scheme:dark;font-family:system-ui,sans-serif;background:#101820;color:#f0f5fa}
+  body{margin:0;max-width:960px;padding:16px;margin-inline:auto}
+  h1{font-size:1.35rem}p{line-height:1.5;color:#cbd7e1}
+  label{display:block;margin:18px 0 8px;font-weight:600}
+  select,input[type=file]{font:inherit;font-size:16px;max-width:100%;padding:8px}
+  canvas{width:min(100%,600px);height:auto;aspect-ratio:3/4;background:#17212b;display:block;margin:16px auto}
+  [role=status]{padding:12px;border:1px solid #536878;border-radius:6px;overflow-wrap:anywhere}
+  .notice{font-size:.88rem}
+</style>
+</head>
+<body>
+<main>
+<h1>ORIGINAL_v1 — owner-local neutral review</h1>
+<p>Choose the exact private review-only GLB from this device. The file is checked locally, never uploaded. This screen is diagnostic only, not an approved fitness animation or anatomy.</p>
+<label for="original-file">Private ORIGINAL_v1 review-only .glb</label>
+<input id="original-file" type="file" accept=".glb,model/gltf-binary">
+<label for="camera-view">Fixed neutral camera</label>
+<select id="camera-view">
+<option value="front">Front</option>
+<option value="rear">Rear</option>
+<option value="left">Left</option>
+<option value="right">Right</option>
+<option value="three-quarter">Three-quarter</option>
+</select>
+<div role="status" id="review-status" aria-live="polite">Select the original review-only GLB.</div>
+<canvas id="review-canvas" width="600" height="800" aria-label="Private original character rest pose diagnostic preview"></canvas>
+<p class="notice">Source SHA-256, body geometry and rest rig must pass checks before drawing. No exercise motion, toe correction, medical validation or release is implied. Requires WebGL2.</p>
+</main>
+<script type="module" src="./originalFullBodyOwnerLocalReviewBoot.mjs"></script>
+</body>
+</html>

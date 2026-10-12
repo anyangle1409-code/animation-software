@@ -1,0 +1,22 @@
+name: G5e owner-only ORIGINAL_v1 local server checks
+on:
+  push:
+    branches: [codex/g5e-owner-local-loopback-server-20261012]
+  pull_request:
+    paths:
+      - scripts/serve_original_review_local.mjs
+      - tests/serveOriginalReviewLocal.test.mjs
+      - .github/workflows/first_party_original_loopback_server.yml
+permissions:
+  contents: read
+jobs:
+  original-local-http:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - run: node --test tests/serveOriginalReviewLocal.test.mjs
+      - run: node --test tests/originalFullBodyOwnerLocalSecurity.test.mjs tests/originalFullBodyOwnerLocalReviewPage.test.mjs

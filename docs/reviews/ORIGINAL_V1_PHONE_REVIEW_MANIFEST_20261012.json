@@ -1,0 +1,790 @@
+{
+  "source_branch": "codex/functional-original-fullbody-bridge-20261011",
+  "source_commit": "2af63aedc3ff1c8c5de4974b4e826ec6ce26d81b",
+  "source_model_filename": "HGPT_ANATOMICAL_AUDIT_r95_a003.blend",
+  "source_model_sha256": "670a37bfd206d702928de721032e2b942725389dc6906df0d866eba8d8cbbe56",
+  "asset_id": "HomeGymPT_Male_ORIGINAL_v1",
+  "candidate_revision": "HomeGymPT_Male_ORIGINAL_v1_O4_CANDIDATE_r95",
+  "blender_version": "5.2.1 LTS",
+  "inventory": {
+    "errors": [],
+    "mapped_bones": 16,
+    "anatomical_bone_count": 206,
+    "runtime_bone_count": 67,
+    "body_vertex_count": 17946,
+    "anatomy_approved": false,
+    "mapping_scope": "diagnostic major-bone bridge only"
+  },
+  "body_vertex_coordinate_sha256": "810ccd28d89f09869675a763b850be1720882783f755b26b9d71027d0f29c0e3",
+  "neutral_definition": "Identity runtime pose basis; existing HGPT_SHOULDER corrective keys zero; original mesh unchanged",
+  "original_key_values": {
+    "Basis": 1.0,
+    "HGPT_SHOULDER_CORR_L": 0.0,
+    "HGPT_SHOULDER_CORR_R": 0.0,
+    "HGPT_SHOULDER_FLEX_L": 0.0,
+    "HGPT_SHOULDER_FLEX_R": 0.0,
+    "HGPT_SHOULDER_SCAP_L": 0.0,
+    "HGPT_SHOULDER_SCAP_R": 0.0
+  },
+  "world_bounds": [
+    [
+      -0.2876396179199219,
+      -0.2694200277328491,
+      -2.344016536426352e-07
+    ],
+    [
+      0.28763964772224426,
+      0.1595485508441925,
+      1.8199999332427979
+    ]
+  ],
+  "fullbody_camera_scale": 2.093000192791119,
+  "anatomical_left_axis": "+X",
+  "character_forward_axis": "-Y",
+  "skeleton_geometry_unchanged": true,
+  "renders": [
+    {
+      "file": "neutral_front.png",
+      "target": [
+        1.490100043355369e-08,
+        -0.05493573844432831,
+        0.9099998474121094
+      ],
+      "ortho_scale": 2.093000192791119,
+      "camera_world": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "resolution": [
+        1600,
+        2400
+      ],
+      "source_body": "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"
+    },
+    {
+      "file": "neutral_rear.png",
+      "target": [
+        1.490100043355369e-08,
+        -0.05493573844432831,
+        0.9099998474121094
+      ],
+      "ortho_scale": 2.093000192791119,
+      "camera_world": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "resolution": [
+        1600,
+        2400
+      ],
+      "source_body": "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"
+    },
+    {
+      "file": "neutral_left_side.png",
+      "target": [
+        1.490100043355369e-08,
+        -0.05493573844432831,
+        0.9099998474121094
+      ],
+      "ortho_scale": 2.093000192791119,
+      "camera_world": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "resolution": [
+        1600,
+        2400
+      ],
+      "source_body": "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"
+    },
+    {
+      "file": "neutral_right_side.png",
+      "target": [
+        1.490100043355369e-08,
+        -0.05493573844432831,
+        0.9099998474121094
+      ],
+      "ortho_scale": 2.093000192791119,
+      "camera_world": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "resolution": [
+        1600,
+        2400
+      ],
+      "source_body": "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"
+    },
+    {
+      "file": "neutral_left_three_quarter.png",
+      "target": [
+        1.490100043355369e-08,
+        -0.05493573844432831,
+        0.9099998474121094
+      ],
+      "ortho_scale": 2.093000192791119,
+      "camera_world": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "resolution": [
+        1600,
+        2400
+      ],
+      "source_body": "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"
+    },
+    {
+      "file": "neutral_right_three_quarter.png",
+      "target": [
+        1.490100043355369e-08,
+        -0.05493573844432831,
+        0.9099998474121094
+      ],
+      "ortho_scale": 2.093000192791119,
+      "camera_world": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "resolution": [
+        1600,
+        2400
+      ],
+      "source_body": "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"
+    },
+    {
+      "file": "neutral_rear_three_quarter.png",
+      "target": [
+        1.490100043355369e-08,
+        -0.05493573844432831,
+        0.9099998474121094
+      ],
+      "ortho_scale": 2.093000192791119,
+      "camera_world": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "resolution": [
+        1600,
+        2400
+      ],
+      "source_body": "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"
+    },
+    {
+      "file": "detail_shoulders_armpits_front.png",
+      "target": [
+        1.490100043355369e-08,
+        0.015341781079769135,
+        1.4254738092422485
+      ],
+      "ortho_scale": 0.747863045334816,
+      "camera_world": [
+        1.0,
+        0.0,
+        0.0,
+        1.490100043355369e-08,
+        0.0,
+        -4.371138828673793e-08,
+        -1.0,
+        -3.9846582412719727,
+        0.0,
+        1.0,
+        -4.371138828673793e-08,
+        1.4254738092422485,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "resolution": [
+        2000,
+        2000
+      ],
+      "source_body": "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"
+    },
+    {
+      "file": "detail_shoulders_armpits_rear.png",
+      "target": [
+        1.490100043355369e-08,
+        0.015341781079769135,
+        1.4254738092422485
+      ],
+      "ortho_scale": 0.747863045334816,
+      "camera_world": [
+        1.0,
+        0.0,
+        0.0,
+        1.490100043355369e-08,
+        0.0,
+        -4.371138828673793e-08,
+        -1.0,
+        -3.9846582412719727,
+        0.0,
+        1.0,
+        -4.371138828673793e-08,
+        1.4254738092422485,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "resolution": [
+        2000,
+        2000
+      ],
+      "source_body": "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"
+    },
+    {
+      "file": "detail_left_hand.png",
+      "target": [
+        0.21575002372264862,
+        0.023000165820121765,
+        0.8220005035400391
+      ],
+      "ortho_scale": 0.3,
+      "camera_world": [
+        1.0,
+        0.0,
+        0.0,
+        1.490100043355369e-08,
+        0.0,
+        -4.371138828673793e-08,
+        -1.0,
+        -3.9846582412719727,
+        0.0,
+        1.0,
+        -4.371138828673793e-08,
+        1.4254738092422485,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "resolution": [
+        2000,
+        2000
+      ],
+      "source_body": "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"
+    },
+    {
+      "file": "detail_left_hand_front.png",
+      "target": [
+        0.21575002372264862,
+        0.023000165820121765,
+        0.8220005035400391
+      ],
+      "ortho_scale": 0.3,
+      "camera_world": [
+        1.0,
+        0.0,
+        0.0,
+        0.21575002372264862,
+        0.0,
+        -4.371138828673793e-08,
+        -1.0,
+        -3.9769997596740723,
+        0.0,
+        1.0,
+        -4.371138828673793e-08,
+        0.8220005035400391,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "resolution": [
+        2000,
+        2000
+      ],
+      "source_body": "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"
+    },
+    {
+      "file": "detail_right_hand.png",
+      "target": [
+        -0.21575002372264862,
+        0.023000165820121765,
+        0.8220005035400391
+      ],
+      "ortho_scale": 0.3,
+      "camera_world": [
+        1.0,
+        0.0,
+        0.0,
+        0.21575002372264862,
+        0.0,
+        -4.371138828673793e-08,
+        -1.0,
+        -3.9769997596740723,
+        0.0,
+        1.0,
+        -4.371138828673793e-08,
+        0.8220005035400391,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "resolution": [
+        2000,
+        2000
+      ],
+      "source_body": "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"
+    },
+    {
+      "file": "detail_right_hand_front.png",
+      "target": [
+        -0.21575002372264862,
+        0.023000165820121765,
+        0.8220005035400391
+      ],
+      "ortho_scale": 0.3,
+      "camera_world": [
+        1.0,
+        0.0,
+        0.0,
+        0.21575002372264862,
+        0.0,
+        -4.371138828673793e-08,
+        -1.0,
+        -3.9769997596740723,
+        0.0,
+        1.0,
+        -4.371138828673793e-08,
+        0.8220005035400391,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "resolution": [
+        2000,
+        2000
+      ],
+      "source_body": "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"
+    },
+    {
+      "file": "detail_knees_front.png",
+      "target": [
+        0.0,
+        -0.006402947008609772,
+        0.5246707201004028
+      ],
+      "ortho_scale": 0.4729345619678497,
+      "camera_world": [
+        1.0,
+        0.0,
+        0.0,
+        0.21575002372264862,
+        0.0,
+        -4.371138828673793e-08,
+        -1.0,
+        -3.9769997596740723,
+        0.0,
+        1.0,
+        -4.371138828673793e-08,
+        0.8220005035400391,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "resolution": [
+        2000,
+        2000
+      ],
+      "source_body": "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"
+    },
+    {
+      "file": "detail_knees_side.png",
+      "target": [
+        0.0,
+        -0.006402947008609772,
+        0.5246707201004028
+      ],
+      "ortho_scale": 0.4729345619678497,
+      "camera_world": [
+        1.0,
+        0.0,
+        0.0,
+        0.21575002372264862,
+        0.0,
+        -4.371138828673793e-08,
+        -1.0,
+        -3.9769997596740723,
+        0.0,
+        1.0,
+        -4.371138828673793e-08,
+        0.8220005035400391,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "resolution": [
+        2000,
+        2000
+      ],
+      "source_body": "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"
+    },
+    {
+      "file": "detail_feet_front.png",
+      "target": [
+        -1.490100043355369e-08,
+        -0.11484170705080032,
+        0.08566869795322418
+      ],
+      "ortho_scale": 0.40190363861620426,
+      "camera_world": [
+        1.0,
+        0.0,
+        0.0,
+        0.21575002372264862,
+        0.0,
+        -4.371138828673793e-08,
+        -1.0,
+        -3.9769997596740723,
+        0.0,
+        1.0,
+        -4.371138828673793e-08,
+        0.8220005035400391,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "resolution": [
+        2000,
+        2000
+      ],
+      "source_body": "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"
+    },
+    {
+      "file": "detail_feet_side.png",
+      "target": [
+        -1.490100043355369e-08,
+        -0.11484170705080032,
+        0.08566869795322418
+      ],
+      "ortho_scale": 0.40190363861620426,
+      "camera_world": [
+        1.0,
+        0.0,
+        0.0,
+        0.21575002372264862,
+        0.0,
+        -4.371138828673793e-08,
+        -1.0,
+        -3.9769997596740723,
+        0.0,
+        1.0,
+        -4.371138828673793e-08,
+        0.8220005035400391,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "resolution": [
+        2000,
+        2000
+      ],
+      "source_body": "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"
+    },
+    {
+      "file": "source_206_guides_front.png",
+      "target": [
+        1.490100043355369e-08,
+        -0.05493573844432831,
+        0.9099998474121094
+      ],
+      "ortho_scale": 2.093000192791119,
+      "camera_world": [
+        7.549790126404332e-08,
+        -7.549790126404332e-08,
+        1.0,
+        4.0,
+        1.0,
+        5.6999328827277325e-15,
+        -7.549790126404332e-08,
+        -0.11484170705080032,
+        0.0,
+        1.0,
+        7.549790126404332e-08,
+        0.08566869795322418,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "resolution": [
+        1600,
+        2400
+      ],
+      "source_body": "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"
+    },
+    {
+      "file": "source_206_guides_rear.png",
+      "target": [
+        1.490100043355369e-08,
+        -0.05493573844432831,
+        0.9099998474121094
+      ],
+      "ortho_scale": 2.093000192791119,
+      "camera_world": [
+        7.549790126404332e-08,
+        -7.549790126404332e-08,
+        1.0,
+        4.0,
+        1.0,
+        5.6999328827277325e-15,
+        -7.549790126404332e-08,
+        -0.11484170705080032,
+        0.0,
+        1.0,
+        7.549790126404332e-08,
+        0.08566869795322418,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "resolution": [
+        1600,
+        2400
+      ],
+      "source_body": "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"
+    },
+    {
+      "file": "source_206_guides_left_side.png",
+      "target": [
+        1.490100043355369e-08,
+        -0.05493573844432831,
+        0.9099998474121094
+      ],
+      "ortho_scale": 2.093000192791119,
+      "camera_world": [
+        7.549790126404332e-08,
+        -7.549790126404332e-08,
+        1.0,
+        4.0,
+        1.0,
+        5.6999328827277325e-15,
+        -7.549790126404332e-08,
+        -0.11484170705080032,
+        0.0,
+        1.0,
+        7.549790126404332e-08,
+        0.08566869795322418,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "resolution": [
+        1600,
+        2400
+      ],
+      "source_body": "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"
+    },
+    {
+      "file": "source_206_guides_right_side.png",
+      "target": [
+        1.490100043355369e-08,
+        -0.05493573844432831,
+        0.9099998474121094
+      ],
+      "ortho_scale": 2.093000192791119,
+      "camera_world": [
+        7.549790126404332e-08,
+        7.549790126404332e-08,
+        -1.0,
+        -4.0,
+        -1.0,
+        5.6999328827277325e-15,
+        -7.549790126404332e-08,
+        -0.05493573844432831,
+        0.0,
+        1.0,
+        7.549790126404332e-08,
+        0.9099998474121094,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "resolution": [
+        1600,
+        2400
+      ],
+      "source_body": "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"
+    }
+  ],
+  "export_hashes": {
+    "neutral_right_three_quarter.png": "27157c884a8bf3da9f344e193b40edffcf7223afd0a17e89f328c199f27e8835",
+    "detail_knees_side.png": "adfab1cb5c816688b42e2b34e0015dde8fe08081c345ea92475270b246185ee7",
+    "detail_right_hand.png": "e9713f9d9b88e10628e94d9abe861484659b366f1e55c66dfedbb09b9703833d",
+    "neutral_front.png": "07be8771614ababe9a7937157c9d5dceb66038c67f5bfc3d2c2c9d04aa2930c5",
+    "source_206_guides_left_side.png": "b617fdbef0651ae2aa24d01481bcccc4a5b7efd3546f219e57a601a3a16737a1",
+    "neutral_rear_three_quarter.png": "45bf594d75c99f6ff3ff0cc85906f844be1fe59701b7018a29f92806adc0cf33",
+    "detail_feet_front.png": "ff7a5a74bfc19c06fa29f5d3223dca12df2b36cc47bdc5f6b64a1a2e7b552ded",
+    "source_206_guides_rear.png": "12a2f6e17197efc6f7ea8819517ef10e97944710b60ba01dc768ebf00e530413",
+    "detail_left_hand.png": "371466dc7c212b6800d721c1d11bf572c0ac749566131982c088ef36ecc844e1",
+    "detail_right_hand_front.png": "1f5b6de56377a835ca8f4a6437e6098d135314ea640a96364730a26bae93627a",
+    "neutral_left_three_quarter.png": "84973aea1d77787077a0ae229046e8d4b8cebbad80dea818e51915c032a9b15b",
+    "HomeGymPT_Male_ORIGINAL_v1_REVIEW_ONLY.glb": "d267dac344affb5d52c7155f8d0254794e818a8eab3ad54f7f263694f36c390d",
+    "neutral_rear.png": "94f5201398b76cace5d9bff66104ecdd8ea6bed5a92d2580c6a04800113ba106",
+    "detail_shoulders_armpits_rear.png": "d8bac0519404542b31b63814534813b271e7e53d4cd77c15d846341fb762f7ea",
+    "source_206_guides_front.png": "209f4f9da97a326db5a8268f4b6175e8e7f6f482c569527660477fbff9113990",
+    "detail_left_hand_front.png": "dce45294925e0ba13cf266cdcb26c471913c4b7d1438de0f72d90398eb08d848",
+    "neutral_left_side.png": "42e341a67d6ce50946607b20868ea3d9d499ea6dd5fc69e4be97429c9b0fdbe7",
+    "neutral_right_side.png": "1049813625ce9fc9e257dc8b7a77ba4986a1bbd0dbcaaa1016637fae416c6039",
+    "detail_knees_front.png": "a34d8f2c41bbb39edb0de7cc64b50ff0f6634f3d2002205b1f41b2f374dccb7f",
+    "source_206_guides_right_side.png": "3b0190c74f8ffd99fad3dba990c2d399f60453703e661ca0cefe4f59cadf8d78",
+    "detail_shoulders_armpits_front.png": "18b579210959fef57fe34b9f0073509b63a92ad554ba9709455ec5ab833ef000",
+    "detail_feet_side.png": "81619a4c92e50d6fcf594c2d3487556ffa42cae4617c306647319a0a0da25483"
+  },
+  "anatomically_validated": false,
+  "production_ready": false,
+  "limitations": [
+    "Complete body coverage, not a completed production character.",
+    "Static separate 206-bone anatomical armature does not drive body; existing 67-bone runtime does.",
+    "206-bone overlay shows unchanged control endpoints, not qualified anatomical bone surfaces.",
+    "Neutral renders do not validate motion, contact, proportions or deformation.",
+    "Workbench neutral clay lighting used for shape review; not final skin material or clothing.",
+    "Original r95 shoulder/axilla corrections and unresolved source registration remain provisional."
+  ],
+  "derived_images": {
+    "skeleton_overlay_left_side.png": "3d13d4c272a01dd7c63d7c980e9c1c297aa74d8d1267b5c37b50c396210df3ab",
+    "ORIGINAL_v1_ALL_VIEWS_PHONE_CONTACT_SHEET.png": "b6ef6d6ee5f416cc6ee9238bea927ff48423575b74161ce81a2fef68c089c675",
+    "ORIGINAL_v1_JOINT_DETAIL_CONTACT_SHEET.png": "2a1549da8161bb0e6300fcafda938abdcbde73721226f618021084524bfd476b",
+    "skeleton_overlay_front.png": "fd6d8bcf7c424cc1cd62387ff4defa0b09e3c0b9371450191b334dae2b21beda",
+    "ORIGINAL_v1_FULL_BODY_CONTACT_SHEET.png": "71058b9680e127627abdccd179f22004d1a56b7b8a9f1cfd4bd1fb8fc721d60d",
+    "skeleton_overlay_right_side.png": "0c922a8a1ff0ab47c217d20594b2fbeabfefc70b24bf6591a87257055f2bf804",
+    "ORIGINAL_v1_SKELETON_OVERLAY_CONTACT_SHEET.png": "166c6a9e21e51d267ccc1fdd319f8456953a45b64be362389d3d58a405aa1e97",
+    "skeleton_overlay_rear.png": "9260edf8fa372b1fdf9f15056c3971d53598bf49e4a20fe228737e9a0c3d9ab9"
+  },
+  "visual_findings": [
+    {
+      "id": "VIS-001",
+      "region": "neck/shoulder",
+      "finding": "Visible planar/faceted neck-to-trapezius transitions and angular deltoid silhouette."
+    },
+    {
+      "id": "VIS-002",
+      "region": "hands",
+      "finding": "Rounded tubular digits and simplified palm/thumb web; fine joint, nail and skin detail remains incomplete."
+    },
+    {
+      "id": "VIS-003",
+      "region": "feet",
+      "finding": "Faceted heel/ankle transition, simplified toes and shallow visible arch; anatomical proportion acceptance still open."
+    },
+    {
+      "id": "VIS-004",
+      "region": "head/torso/knees",
+      "finding": "Simplified face and broad stylised torso/knee surfaces; not finished high-detail human skin."
+    },
+    {
+      "id": "VIS-005",
+      "region": "whole body",
+      "finding": "Neutral standing views alone cannot verify deformation, loaded motion, skeleton-to-skin registration or contact."
+    }
+  ]
+}

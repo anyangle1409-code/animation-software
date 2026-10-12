@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src &#39;none&#39;; script-src &#39;self&#39;; style-src &#39;unsafe-inline&#39;; img-src &#39;self&#39; blob: data:; connect-src &#39;none&#39;; form-action &#39;none&#39;; object-src &#39;none&#39;; base-uri &#39;none&#39;">
 <title>Home Gym PT — ORIGINAL_v1 local review</title>
 <style>
   :root{color-scheme:dark;font-family:system-ui,sans-serif;background:#101820;color:#f0f5fa}
@@ -33,16 +34,6 @@
 <canvas id="review-canvas" width="600" height="800" aria-label="Private original character rest pose diagnostic preview"></canvas>
 <p class="notice">Source SHA-256, body geometry and rest rig must pass checks before drawing. No exercise motion, toe correction, medical validation or release is implied. Requires WebGL2.</p>
 </main>
-<script type="module">
-import {bindOriginalFullBodyOwnerLocalControls}
-  from './firstPartyOriginalFullBodyLocalReview.mjs';
-const controls=bindOriginalFullBodyOwnerLocalControls({
-  fileInput:document.getElementById('original-file'),
-  cameraSelector:document.getElementById('camera-view'),
-  canvas:document.getElementById('review-canvas'),
-  statusTarget:document.getElementById('review-status')
-});
-window.addEventListener('pagehide',()=>controls.dispose(),{once:true});
-</script>
+<script type="module" src="./originalFullBodyOwnerLocalReviewBoot.mjs"></script>
 </body>
 </html>

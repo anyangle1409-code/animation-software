@@ -49,7 +49,8 @@ export function cameraForOriginalFullBodyReview(view='front'){
  * There is no silent CPU render, mesh swap or synthetic-manikin fallback.
  */
 export async function openOriginalFullBodyOwnerLocalReview({
-  ownerFile,canvas,view='front',width=900,height=1200,pixelRatio=1,signal
+  ownerFile,canvas,view='front',width=900,height=1200,pixelRatio=1,signal,
+  currentView
 }={}){
   need(ownerFile&&typeof ownerFile==='object'&&
     ownerFile.name==='HomeGymPT_Male_ORIGINAL_v1_REVIEW_ONLY.glb' &&
@@ -64,7 +65,9 @@ export async function openOriginalFullBodyOwnerLocalReview({
     Number.isInteger(height)&&height>=160&&height<=2400&&
     finite(pixelRatio)&&pixelRatio>=.5&&pixelRatio<=2,
     'bounded local preview viewport required');
-  const firstCamera=cameraForOriginalFullBodyReview(view);
+  cameraForOriginalFullBodyReview(view);
+  need(currentView===undefined||typeof currentView==='function',
+    'optional current camera provider must be a function');
   need(signal===undefined || (signal && typeof signal.aborted==='boolean'),
     'optional cancellation signal must be AbortSignal-compatible');
   // Abort is checked at each asynchronous boundary so a stale user selection
@@ -111,7 +114,11 @@ export async function openOriginalFullBodyOwnerLocalReview({
         productionReady:false,
       });
     };
-    const initial=renderView(firstCamera.view);
+    // Defer final camera selection until immediately before the first draw.
+    // If the user changes the selector during file read/SHA verification,
+    // no stale camera is ever displayed first.
+    checkNotCancelled();
+    const initial=renderView(currentView===undefined?view:currentView());
     const session=Object.freeze({
       kind:HGPT_LOCAL_FULLBODY_REVIEW_KIND,
       originalSourceSha256:ORIGINAL_V1_REVIEW_PINNED_SHA,
@@ -156,7 +163,8 @@ export function bindOriginalFullBodyOwnerLocalControls({
     statusTarget.textContent='Checking original source SHA, rig and rest...';
     try{
       const opened=await openOriginalFullBodyOwnerLocalReview({
-        ownerFile:f,canvas,view:cameraSelector.value,signal:controller.signal
+        ownerFile:f,canvas,view:cameraSelector.value,signal:controller.signal,
+        currentView:()=>cameraSelector.value
       });
       if(disposed||generation!==ticket){
         opened.dispose();

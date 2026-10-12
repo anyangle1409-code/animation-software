@@ -12,7 +12,8 @@
 const fail=why=>{throw new RangeError('Original source post-validation mutation: '+why)};
 const get=(root,path)=>path.reduce((p,k)=>p?.[k],root);
 const typed=v=>ArrayBuffer.isView(v)&&!(v instanceof DataView)&&
-  !(v.buffer instanceof SharedArrayBuffer);
+  (typeof SharedArrayBuffer==='undefined' ||
+    !(v.buffer instanceof SharedArrayBuffer));
 function snapshotBytes(root,path){
   const src=get(root,path);
   if(!typed(src) || !Number.isSafeInteger(src.length) ||

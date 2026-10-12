@@ -5,11 +5,13 @@ on:
     paths:
       - src/viewer/firstPartyOriginalFullBodyLocalReview.mjs
       - tests/firstPartyOriginalFullBodyLocalReview.test.mjs
+      - docs/FIRST_PARTY_G4U_LOCAL_ORIGINAL_BODY_REVIEW_20261012.md
       - .github/workflows/first_party_original_fullbody_local_review.yml
   pull_request:
     paths:
       - src/viewer/firstPartyOriginalFullBodyLocalReview.mjs
       - tests/firstPartyOriginalFullBodyLocalReview.test.mjs
+      - docs/FIRST_PARTY_G4U_LOCAL_ORIGINAL_BODY_REVIEW_20261012.md
       - .github/workflows/first_party_original_fullbody_local_review.yml
 permissions:
   contents: read

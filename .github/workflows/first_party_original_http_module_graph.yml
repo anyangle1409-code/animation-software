@@ -1,0 +1,21 @@
+name: G5f original owner-local runtime module graph
+on:
+  push:
+    branches: [codex/g5f-original-review-module-graph-20261012]
+  pull_request:
+    paths:
+      - tests/originalReviewHttpModuleGraph.test.mjs
+      - .github/workflows/first_party_original_http_module_graph.yml
+permissions:
+  contents: read
+jobs:
+  original-local-browser-import-readiness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - run: node --test tests/originalReviewHttpModuleGraph.test.mjs
+      - run: node --test tests/serveOriginalReviewLocal.test.mjs

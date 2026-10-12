@@ -1,0 +1,23 @@
+name: Original shoulder bind semantics
+on:
+  push:
+    branches: [codex/original-shoulder-bind-semantics-20261012]
+    paths:
+      - 'scripts/original_shoulder_bind_semantics.py'
+      - 'scripts/test_original_shoulder_bind_semantics.py'
+      - '.github/workflows/original-shoulder-bind-semantics.yml'
+  pull_request:
+    paths:
+      - 'scripts/original_shoulder_bind_semantics.py'
+      - 'scripts/test_original_shoulder_bind_semantics.py'
+      - '.github/workflows/original-shoulder-bind-semantics.yml'
+permissions:
+  contents: read
+jobs:
+  diagnostic-math:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/test_original_shoulder_bind_semantics.py -v
+      - run: python3 scripts/test_original_v1_functional_fullbody.py -v

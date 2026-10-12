@@ -39,6 +39,18 @@ class NativeFunctionalFullBodyBridge(unittest.TestCase):
             modifier.object = original_target
             modifier.show_viewport = original_viewport
 
+    def test_additional_enabled_anatomical_driver_is_refused(self):
+        anatomy = bpy.data.objects["HGPT_ANATOMICAL_MASTER"]
+        runtime = bpy.data.objects["HGPT_CANONICAL_V4_ORIGINAL"]
+        body = bpy.data.objects["HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"]
+        extra = body.modifiers.new("TEST_FORBIDDEN_ANATOMICAL_DRIVER", "ARMATURE")
+        extra.object = anatomy
+        try:
+            errors = "\n".join(bridge.validate_blender_bridge(anatomy, runtime, body)["errors"])
+            self.assertIn("exactly one", errors)
+        finally:
+            body.modifiers.remove(extra)
+
     def test_nonrest_anatomical_master_is_refused(self):
         anatomy = bpy.data.objects["HGPT_ANATOMICAL_MASTER"]
         runtime = bpy.data.objects["HGPT_CANONICAL_V4_ORIGINAL"]

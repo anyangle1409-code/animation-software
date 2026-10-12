@@ -46,6 +46,8 @@ class FunctionalFullBodyBridgeTests(unittest.TestCase):
         for padding in (float("nan"), float("inf"), -float("inf")):
             with self.assertRaises(ValueError):
                 bridge.frame_from_bounds((0, 0, 0), (1, 1, 1), padding)
+        with self.assertRaises(ValueError):
+            bridge.frame_from_bounds((0, 0, 0), (2, 2, 2), 1e308)
 
 
 if __name__ == "__main__":

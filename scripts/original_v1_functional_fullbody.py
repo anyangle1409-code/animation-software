@@ -45,10 +45,13 @@ def frame_from_bounds(lo, hi, padding=1.12):
     if not all(math.isfinite(v) for v in values):
         raise ValueError("frame bounds must be finite")
     spans = tuple(values[i + 3] - values[i] for i in range(3))
-    if any(span <= 0 for span in spans):
+    if any(not math.isfinite(span) or span <= 0 for span in spans):
         raise ValueError("frame upper bounds must exceed lower bounds")
     centre = tuple(round((values[i] + values[i + 3]) / 2.0, 12) for i in range(3))
-    return centre, max(spans) * padding
+    scale = max(spans) * padding
+    if not all(math.isfinite(value) for value in centre) or not math.isfinite(scale):
+        raise ValueError("computed frame must be finite")
+    return centre, scale
 
 
 def validate_inventory(anatomical_bones, runtime_bones, body_vertices):
@@ -124,8 +127,10 @@ def validate_blender_bridge(anatomy, runtime, body):
         and modifier.show_render
         and modifier.object is not None
     ]
-    if runtime not in active_targets:
-        errors.append("body must have an enabled viewport/render Armature modifier targeting runtime rig")
+    if len(active_targets) != 1 or active_targets[0] is not runtime:
+        errors.append(
+            "body must have exactly one enabled viewport/render Armature modifier, targeting runtime rig"
+        )
 
     nonrest = [
         pose_bone.name

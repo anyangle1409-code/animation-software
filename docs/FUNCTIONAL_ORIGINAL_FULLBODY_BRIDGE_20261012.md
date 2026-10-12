@@ -37,11 +37,11 @@ it does not execute region metrics and never saves the source `.blend`.
 
 Four pure contract tests passed after missing-feature failures: orthogonal
 front/side/rear views, bilateral inventory guard, wrong-body/runtime refusal,
-and pose-bounds full-body camera framing including non-finite refusal. Three
+and pose-bounds full-body camera framing including non-finite/overflow refusal. Four
 native Blender 5.2.1 tests passed against the actual r95/a003 scene, checking
 all three named objects, exact 206/67-bone counts, 17,946 vertices, the enabled
 Armature modifier target, anatomical rest state, and negative disabled/wrong-
-target/non-rest cases.
+target/additional-anatomical-driver/non-rest cases.
 
 Nine new 900px images were rendered from actual Blender 5.2.1 at neutral,
 press-top and pull-up-top, each front/side/rear. The first attempt exposed a

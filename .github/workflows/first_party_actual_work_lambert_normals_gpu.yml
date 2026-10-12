@@ -1,0 +1,69 @@
+name: G4o authentic Work shoulder seven-pose normals Lambert WebGL2
+on:
+  push:
+    branches: [codex/g4o-authentic-work-normal-gpu-ci-20261012]
+    paths:
+      - scripts/verify-real-work-lambert-normals-browser.mjs
+      - src/viewer/firstPartyGpuPaletteSkinning.mjs
+      - src/viewer/firstPartySkinnedNormalReference.mjs
+      - .github/workflows/first_party_actual_work_lambert_normals_gpu.yml
+      - docs/CHAT_LANE_G_OVERNIGHT_LEDGER_20261011.md
+  pull_request:
+    paths:
+      - scripts/verify-real-work-lambert-normals-browser.mjs
+      - src/viewer/firstPartyGpuPaletteSkinning.mjs
+      - src/viewer/firstPartySkinnedNormalReference.mjs
+      - .github/workflows/first_party_actual_work_lambert_normals_gpu.yml
+permissions:
+  contents: read
+  actions: read
+jobs:
+  authentic-W1-7poses-18meshes-21views-Lambert-GPU:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - uses: actions/download-artifact@v4
+        with:
+          name: provisional-shoulder-views-mapping-diagnostic-glb
+          run-id: 38153765790
+          repository: anyangle1409-code/animation-software
+          github-token: ${{ github.token }}
+          path: .artifacts/private-work-shoulder
+      - name: Verify authentic unchanged W1 original source and 21 GPU views
+        run: |
+          node scripts/verify-real-work-native-pose-registration.mjs \
+            .artifacts/private-work-shoulder \
+            reports/work-pilot/G4l-reconfirmed.json
+          node scripts/verify-real-work-lambert-normals-browser.mjs \
+            .artifacts/private-work-shoulder
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hgpt-g4o-authentic-work-normal-7poses-21views-gpu
+          path: |
+            reports/work-pilot/actual-work-two-sided-lambert-native-GPU/
+            reports/work-pilot/G4l-reconfirmed.json
+          if-no-files-found: warn
+          retention-days: 30
+  unchanged-original-source-normal-and-shader-guards:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - run: |
+          node --check scripts/verify-real-work-lambert-normals-browser.mjs
+          node --check src/viewer/firstPartyGpuPaletteSkinning.mjs
+          node --check src/viewer/firstPartySkinnedNormalReference.mjs
+          node --test tests/firstPartyGpuNormalParity.test.mjs
+          node --test tests/firstPartyWorkNativePoseRegistration.test.mjs

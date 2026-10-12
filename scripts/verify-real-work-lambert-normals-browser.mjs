@@ -86,6 +86,7 @@ try{
     const reports=[],screenshots=[];
     const zero=new Uint8Array(canvas.width*canvas.height*4);
     let initial=null,maximumError=0;
+    const neutralCameraPixels=[null,null,null],viewEvidence=[];
     const MAX_PER_PART_CAPTURE=8192;
     for(let i=0;i<registered.originalFrameCount;i++){
       const f=readRegisteredWorkPoseFrame(registered,i);
@@ -132,14 +133,42 @@ try{
       maximumError=Math.max(maximumError,maxError);
       const png=canvas.toDataURL('image/png');
       screenshots.push(png);
+      const cameraPixels=[pixels];
       for(const cameraName of ['side','rear']){
         const eye=cameraName==='side'?[3.4,1.5,0]:[0,1.5,-3.4];
         const sideDraw=gpu.renderVerifiedOriginalPilotLambertPose(model,posed,
           {eye,target:[0,1.5,0]});
         if(!sideDraw.drewAllOriginalPilotParts)throw Error('side/rear Work draw failed');
         if(gl.getError()!==gl.NO_ERROR)throw Error('Work side/rear Lambert GPU error');
+        const viewPixels=new Uint8Array(zero.length);
+        gl.readPixels(0,0,canvas.width,canvas.height,gl.RGBA,gl.UNSIGNED_BYTE,viewPixels);
+        cameraPixels.push(viewPixels);
         screenshots.push(canvas.toDataURL('image/png'));
       }
+      const perCamera=[];
+      for(let k=0;k<3;k++){
+        const p=cameraPixels[k];
+        if(i===0)neutralCameraPixels[k]=p.slice();
+        const neutral=neutralCameraPixels[k];
+        let nonBackground=0,changedFromNeutral=0;
+        for(let j=0;j<p.length;j+=4){
+          if(Math.max(Math.abs(p[j]-10),Math.abs(p[j+1]-13),
+              Math.abs(p[j+2]-20))>18)nonBackground++;
+          if(Math.max(Math.abs(p[j]-neutral[j]),
+              Math.abs(p[j+1]-neutral[j+1]),
+              Math.abs(p[j+2]-neutral[j+2]))>15)changedFromNeutral++;
+        }
+        const camera=['front','side','rear'][k];
+        if(nonBackground<200)
+          throw Error('Actual Work '+camera+' source silhouette absent at pose '+i);
+        if(i===6&&changedFromNeutral!==0)
+          throw Error('Actual Work '+camera+' source return-to-neutral mismatch');
+        perCamera.push({camera,nonBackgroundPixels:nonBackground,
+          changedPixelsFromSameCameraNeutral:changedFromNeutral});
+      }
+      if(i>0&&i<5&&perCamera.some(x=>x.changedPixelsFromSameCameraNeutral<100))
+        throw Error('Original Work shoulder movement absent in one camera');
+      viewEvidence.push({sourcePoseIndex:i,perCamera});
       reports.push({
         index:i,timeSeconds:f.timeSeconds,
         originalAuthoredRotationFromRestDegrees:f.authoredArmRotationFromRestDegrees,
@@ -162,6 +191,7 @@ try{
       sourceMaterialPBRImplemented:false,
       originalNormalLambertDiagnosticOnly:true,
       frontSideRearSnapshots:screenshots.length,
+      viewEvidence,
       sourceWorkPoseIsRotationFromRestNotAbsoluteElevation:true,
       originalHumanMotionPhysiologicallyValidated:false,
       fullBodyHumanMeshAvailable:false,
@@ -176,6 +206,8 @@ try{
   assert.equal(result.frames,21);
   assert.equal(result.frontSideRearSnapshots,21);
   assert.equal(result.screenshots.length,21);
+  assert.equal(result.viewEvidence.length,7);
+  assert.ok(result.viewEvidence.every(x=>x.perCamera.length===3));
   assert.equal(result.registeredSourcePoseCount,7);
   assert.equal(result.totalSourceDrawCalls,7*18*3);
   assert.ok(result.maximumActualSourceGPUCPUNormalError<.0001,

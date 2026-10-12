@@ -82,3 +82,13 @@ A complete actual W1 **PROVISIONAL SHOULDER ONLY** CI ZIP has been retrieved fro
 Latest Work [#72](https://github.com/anyangle1409-code/animation-software/pull/72) at `f29fb92542430279e822ba4d2baa7d19ae406a67` supplies **authored costal scapula curvature** atop shoulder reach #71; documented author constraints remain provisional, no actual accepted whole-body muscle/skin mesh. This is **not a Chat-generated anatomy approval**. Historical full-source atlas 0 READY / 9 PARTIAL / 3 BLOCKED remains open; do not run duplicative CT research to fill Chat tasks. Skeleton is the source of truth, mesh fitted around it.
 
 **Hard limits:** This conversation or automation cannot see laptop battery charge, ensure Windows never sleeps, or force OpenAI/Claude Work sessions to resume once their own usage ends. Hourly Chat task can continue through supported runs; record actual runs and never invent activity during gaps.
+
+## 12 October 2026 05:13 BST — authentic Work G4o GPU evidence staging
+
+**DONE before this run:** actual source W1 SHA `fda9c5e653044988fd1e5c58fe352f074071c4be008eceba702bbbef96a4ea5f`; authentic G4m seven-pose GPU position parity PR79 `cfc06a0c9aaa4caa67a1ee0dd989e2723100ef75` exact-head CI [38178722859](https://github.com/anyangle1409-code/animation-software/actions/runs/38178722859) SUCCESS. Original 18 meshes/4,572 vertices/six joints/seven from-rest frames, **not full human/clinical**.
+
+**LIVE source heads checked:** owner v1.1 plan PR48 `f9d4ca0f078207a6561bd4f3e1460bdf9d0f7192`; coordination PR26 `b8fcb6470347044bfd3b749bfbc84a8989573260`; Work #80 `2af63aedc3ff1c8c5de4974b4e826ec6ce26d81b` (17,946 original-body vertices / 67 runtime controls / separate 206 anatomical bones, **no approved exported full-body GLB**); Chat G4o branch parent `539dd70e8574305904473897ac4fdfa92f569cf4`.
+
+**THIS RUN — IN PROGRESS until exact-head CI:** dedicated G4o original-source workflow prepared for 7×18 source-mesh normal GPU-vs-CPU parity and 21 front/side/rear Chromium screenshots. Per-camera fail-closed silhouette, movement and return-to-neutral checks added without touching Work source. The G4o native GPU result is NOT yet verified; CI run, final commit SHA and artifact must be filled from actual GitHub results, not predicted.
+
+**NEXT:** publish isolated stacked draft PR, verify workflow on its exact head, fix actual software failures if any, add CI/screenshots link and concise PR26 coordination note. Preserve Work geometry/CT/Blender/rig, PT-App runtime/304 videos, rights and clinical/release gates (all FALSE).

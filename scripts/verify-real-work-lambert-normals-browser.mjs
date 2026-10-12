@@ -137,6 +137,7 @@ try{
         const sideDraw=gpu.renderVerifiedOriginalPilotLambertPose(model,posed,
           {eye,target:[0,1.5,0]});
         if(!sideDraw.drewAllOriginalPilotParts)throw Error('side/rear Work draw failed');
+        if(gl.getError()!==gl.NO_ERROR)throw Error('Work side/rear Lambert GPU error');
         screenshots.push(canvas.toDataURL('image/png'));
       }
       reports.push({
@@ -146,7 +147,7 @@ try{
         originalSourceTrianglesCheckedByGPU:sourceTriangleCount,
         visiblePixels:visible,sourceColouredPixels:coloured,
         screenPixelsChangedFromFirstFrame:pixelDiff,
-        maxGPUvsOriginalCPUPositionError:maxError,
+        maxGPUvsOriginalCPUNormalError:maxError,
         glError:gl.getError(),
       });
     }
@@ -174,6 +175,7 @@ try{
   assert.equal(result.originalSourceSha,expected);
   assert.equal(result.frames,21);
   assert.equal(result.frontSideRearSnapshots,21);
+  assert.equal(result.screenshots.length,21);
   assert.equal(result.registeredSourcePoseCount,7);
   assert.equal(result.totalSourceDrawCalls,7*18*3);
   assert.ok(result.maximumActualSourceGPUCPUNormalError<.0001,

@@ -56,29 +56,30 @@ class FunctionalOriginalCoupledMotionNativeTests(unittest.TestCase):
                            (positions[1] - positions[0]).length)
 
     def test_clavicle_named_components_use_shaft_and_perpendicular_axes(self):
-        bone = self.runtime.pose.bones["clavicle_r"]
         zeros = {name: 0.0 for name in builder.motion.COUPLED_COMPONENTS}
-        data_bone = self.runtime.data.bones["clavicle_r"]
-        rest = (data_bone.tail_local - data_bone.head_local).normalized()
+        for runtime_name, side_sign in (("clavicle_r", 1.0), ("clavicle_l", -1.0)):
+            bone = self.runtime.pose.bones[runtime_name]
+            data_bone = self.runtime.data.bones[runtime_name]
+            rest = (data_bone.tail_local - data_bone.head_local).normalized()
 
-        axial = dict(zeros, clavicle_posterior_rotation_deg=28.0)
-        bone.matrix_basis = builder.clavicle_basis(axial, 1.0)
-        bpy.context.view_layer.update()
-        axial_direction = (bone.tail - bone.head).normalized()
-        self.assertLess((axial_direction - rest).length, 1e-5)
+            axial = dict(zeros, clavicle_posterior_rotation_deg=28.0)
+            bone.matrix_basis = builder.clavicle_basis(axial, side_sign)
+            bpy.context.view_layer.update()
+            axial_direction = (bone.tail - bone.head).normalized()
+            self.assertLess((axial_direction - rest).length, 1e-5)
 
-        elevation = dict(zeros, clavicle_elevation_deg=12.0)
-        bone.matrix_basis = builder.clavicle_basis(elevation, 1.0)
-        bpy.context.view_layer.update()
-        elevation_direction = (bone.tail - bone.head).normalized()
-        self.assertGreater(abs(elevation_direction.z - rest.z), 0.1)
+            elevation = dict(zeros, clavicle_elevation_deg=12.0)
+            bone.matrix_basis = builder.clavicle_basis(elevation, side_sign)
+            bpy.context.view_layer.update()
+            elevation_direction = (bone.tail - bone.head).normalized()
+            self.assertGreater(elevation_direction.z - rest.z, 0.1)
 
-        retraction = dict(zeros, clavicle_retraction_deg=8.0)
-        bone.matrix_basis = builder.clavicle_basis(retraction, 1.0)
-        bpy.context.view_layer.update()
-        retraction_direction = (bone.tail - bone.head).normalized()
-        self.assertGreater((Vector((retraction_direction.x, retraction_direction.y, 0)) -
-                            Vector((rest.x, rest.y, 0))).length, 0.05)
+            retraction = dict(zeros, clavicle_retraction_deg=8.0)
+            bone.matrix_basis = builder.clavicle_basis(retraction, side_sign)
+            bpy.context.view_layer.update()
+            retraction_direction = (bone.tail - bone.head).normalized()
+            self.assertGreater((Vector((retraction_direction.x, retraction_direction.y, 0)) -
+                                Vector((rest.x, rest.y, 0))).length, 0.05)
 
     def test_invalid_input_fails_before_runtime_mutation(self):
         builder.apply_coupled_pose(self.result, 90)

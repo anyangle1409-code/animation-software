@@ -39,7 +39,8 @@ def _rotation(x=0.0, y=0.0, z=0.0):
 def clavicle_basis(profile, side_sign):
     """Map named channels onto the rig's local +Y clavicle shaft frame."""
     return _rotation(
-        x=side_sign * profile["clavicle_elevation_deg"],
+        # Runtime rest frames are already mirrored; local +X elevates both.
+        x=profile["clavicle_elevation_deg"],
         y=side_sign * profile["clavicle_posterior_rotation_deg"],
         z=side_sign * profile["clavicle_retraction_deg"],
     )

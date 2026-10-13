@@ -25,9 +25,9 @@ pure/inherited tests pass with the documented `PYTHONPATH`.
 Six new 900 px full-body views were rendered only at changed 90 and 160 degree
 poses (front/side/rear); neutral was deliberately not repeated. JSON still
 measures 0/90/160. Private directory:
-`C:/Users/Mark/Documents/Codex/hgpt-functional-original-coupled-motion-v2-20261013/`.
+`C:/Users/Mark/Documents/Codex/hgpt-functional-original-coupled-motion-v3-20261013/`.
 Manifest SHA-256:
-`49e86a1bcb891c59edd2fda8ddac9d885f3c3e517ac2b4c234305398bb749d05`.
+`70dda989e158b181570a95153a83c6e6adb0fc473388aba950803eaab32d2d5c`.
 All six PNG hashes match. Source blend SHA-256 remains
 `670a37bfd206d702928de721032e2b942725389dc6906df0d866eba8d8cbbe56`.
 The c004 attachment record is independently pinned at SHA-256

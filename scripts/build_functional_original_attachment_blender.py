@@ -323,10 +323,19 @@ def render_attachment_evidence(output_directory):
     return manifest
 
 
+def output_argument(arguments):
+    """Accept the documented --out form while retaining one positional path."""
+    if len(arguments) == 1 and arguments[0] != "--out":
+        return arguments[0]
+    if len(arguments) == 2 and arguments[0] == "--out" and arguments[1] != "--out":
+        return arguments[1]
+    raise ValueError("expected one output path or --out OUTPUT_PATH")
+
+
 if __name__ == "__main__":
     arguments = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
     if arguments:
-        render_attachment_evidence(arguments[0])
+        render_attachment_evidence(output_argument(arguments))
     else:
         result = build_attachment_scene()
         print("FUNCTIONAL_ATTACHMENT", json.dumps({

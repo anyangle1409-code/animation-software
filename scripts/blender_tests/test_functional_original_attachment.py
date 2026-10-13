@@ -73,6 +73,14 @@ class FunctionalOriginalAttachmentNativeTests(unittest.TestCase):
         self.assertEqual(len(active), 1)
         self.assertIs(active[0].object, self.runtime)
 
+    def test_evidence_cli_resolves_flagged_and_positional_output(self):
+        self.assertEqual(builder.output_argument(["--out", "/tmp/evidence"]),
+                         "/tmp/evidence")
+        self.assertEqual(builder.output_argument(["/tmp/evidence"]), "/tmp/evidence")
+        for invalid in ([], ["--out"], ["--out", "a", "b"]):
+            with self.assertRaisesRegex(ValueError, "expected one output path"):
+                builder.output_argument(invalid)
+
 
 if __name__ == "__main__":
     unittest.main(argv=[__file__])

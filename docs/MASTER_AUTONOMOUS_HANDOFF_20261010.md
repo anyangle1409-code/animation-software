@@ -5,7 +5,7 @@
 `codex/functional-original-anatomy-attachment-20261012` is stacked on reviewed
 PR80 head `2af63aed`. Read `FUNCTIONAL_ORIGINAL_ANATOMY_ATTACHMENT_20261013.md`
 and machine key `active_functional_original_anatomy_attachment_checkpoint`.
-Five new pure and four actual Blender 5.2.1 native tests PASS. Twenty-nine
+Five new pure and five actual Blender 5.2.1 native tests PASS. Twenty-nine
 project-authored guides now use a003 anchors around the 17,946-vertex original
 male: two S-curved clavicles, two closed costal-fossa blade bowls, 24 rib bows
 and one sternum. Each has one guarded 67-rig pose-delta attachment; the 206-bone

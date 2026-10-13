@@ -29,11 +29,12 @@ truthful guide attachment, not a 206→67 inverse-bind retarget.
 
 Five pure contract tests pass: view inventory, F-SIDE-001 and collapse rules,
 finite directed-segment similarity fit, collapsed/non-finite refusal, and
-fail-closed attachment inventory. Four actual Blender 5.2.1 native tests pass
+fail-closed attachment inventory. Five actual Blender 5.2.1 native tests pass
 against the pinned source: all 29 guide objects, single runtime attachments,
 unchanged clavicle anchors, visible runtime pose delta with source still at
 rest, exact 206/67 counts, 17,946 body vertices, and the original body's sole
-enabled runtime driver.
+enabled runtime driver. The fifth test guards both the workflow's
+`--out OUTPUT_PATH` interface and the supported positional form.
 
 The native source is opened with `--factory-startup`. Without that flag this
 machine's user add-on/preferences startup can stall before the test expression;

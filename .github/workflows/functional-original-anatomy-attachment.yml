@@ -1,0 +1,30 @@
+name: Provisional original-body anatomy attachment
+on:
+  push:
+    branches: [codex/functional-original-anatomy-attachment-20261012]
+    paths: ['scripts/anatomy_fit/functional_original_attachment.py', 'scripts/build_functional_original_attachment_blender.py', 'scripts/test_functional_original_attachment.py', 'scripts/blender_tests/test_functional_original_attachment.py', 'scripts/anatomy_fit/functional_shoulder_shapes.py', 'scripts/anatomy_fit/functional_thorax_shapes.py', 'scripts/original_v1_functional_fullbody.py', '.github/workflows/functional-original-anatomy-attachment.yml']
+  pull_request:
+    paths: ['scripts/anatomy_fit/functional_original_attachment.py', 'scripts/build_functional_original_attachment_blender.py', 'scripts/test_functional_original_attachment.py', 'scripts/blender_tests/test_functional_original_attachment.py', 'scripts/anatomy_fit/functional_shoulder_shapes.py', 'scripts/anatomy_fit/functional_thorax_shapes.py', 'scripts/original_v1_functional_fullbody.py', '.github/workflows/functional-original-anatomy-attachment.yml']
+permissions:
+  contents: read
+jobs:
+  native-attachment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m unittest scripts.test_functional_original_attachment scripts.test_original_v1_functional_fullbody scripts.test_functional_scapula_bowl scripts.test_functional_shoulder_shapes scripts.test_functional_thorax_shapes -v
+        env:
+          PYTHONPATH: scripts:scripts/anatomy_fit
+      - run: echo '670a37bfd206d702928de721032e2b942725389dc6906df0d866eba8d8cbbe56  ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a003.blend' | sha256sum -c -
+      - run: sudo apt-get update && sudo apt-get install -y blender libegl1 libgl1-mesa-dri xvfb xauth
+      - run: blender --background --factory-startup ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a003.blend --threads 2 --python-exit-code 1 --python scripts/blender_tests/test_functional_original_attachment.py
+      - run: xvfb-run -a blender --background --factory-startup ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a003.blend --threads 2 --python-exit-code 1 --python scripts/build_functional_original_attachment_blender.py -- --out /tmp/hgpt-original-attachment
+        env:
+          LIBGL_ALWAYS_SOFTWARE: '1'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: provisional-original-body-anatomy-attachment
+          path: |
+            /tmp/hgpt-original-attachment/*.png
+            /tmp/hgpt-original-attachment/*.json

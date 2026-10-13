@@ -1,5 +1,20 @@
 # Master programme: independent execution checkpoint, 10 October 2026
 
+## New W1/W2 original-body anatomy attachment — 13 October
+
+`codex/functional-original-anatomy-attachment-20261012` is stacked on reviewed
+PR80 head `2af63aed`. Read `FUNCTIONAL_ORIGINAL_ANATOMY_ATTACHMENT_20261013.md`
+and machine key `active_functional_original_anatomy_attachment_checkpoint`.
+Five new pure and five actual Blender 5.2.1 native tests PASS. Twenty-nine
+project-authored guides now use a003 anchors around the 17,946-vertex original
+male: two S-curved clavicles, two closed costal-fossa blade bowls, 24 rib bows
+and one sternum. Each has one guarded 67-rig pose-delta attachment; the 206-bone
+source remains at rest and does not drive the body. Six new neutral views are
+hash-verified private evidence. Coarse oversized blades and coil-like ribs are
+exposed defects, not anatomy/contact/motion/deformation approval. Next define
+and reference-check coupled 0/90/160 movement, correct rib/blade placement, then
+quantify original-mesh shoulder/axilla deformation; do not repeat neutral views.
+
 ## New W1/W2 original full-body bridge — 12 October
 
 `codex/functional-original-fullbody-bridge-20261011` stacked on verified PR72

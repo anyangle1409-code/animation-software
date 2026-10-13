@@ -2,6 +2,8 @@
 
 Owner expects Claude from approximately **17:00 Europe/London today (16:00 UTC)**. This is owner-reported availability, not independently verified usage/reset telemetry. Codex's existing hourly work is now **preparation/reference/coordination only**: no competing Blender/model edits.
 
+**Start with [the first Blender session checklist](./CLAUDE_FIRST_BLENDER_SESSION_20261013.md).** It contains the current object names, exact final toe-failure vertices, shoulder failure locations, source station correspondence and the executed declaration preflight. These are new preparation supplements on GitHub; the original handoff archive remains an unchanged native recovery snapshot.
+
 ## First instruction for Claude
 
 > Read live PR48 and PR26, then this handoff on the newest preparation branch. Preserve all original assets and Chat LaneG. Work on the actual r95/a003 ORIGINAL_v1, not an older V-series character. First reproduce the neutral foot-shape defect and open hallux regression on the separately saved toe trial; resolve source-compatible heel/ankle/MTP/toe semantics before any shortening. For shoulders follow mechanics → support topology → weights-only foundation → rotation-aware deformation → minimal residual correctives. Make fresh scoped reversible candidates, render actual before/after views for phone review, retain failed tests, record full source commit/model/export hashes and update PR26. Never move source anatomy to fit skin, merge, or mark production/anatomical approval without owner acceptance.

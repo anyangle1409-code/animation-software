@@ -1,5 +1,13 @@
 # ORIGINAL_v1 Lane W completion and restart checkpoint — 12 October 2026
 
+## Claude first-session preparation follow-on — 13 October 2026
+
+[Execution checklist](./CLAUDE_FIRST_BLENDER_SESSION_20261013.md) now provides exact current body/rig object names and selection-only snippets. Final95control toe candidate freshly localized: triangle15123 vertices1921/15350/8310, right hallux15deg probe, two corners digit2/one hallux; native file hash unchanged. This is a topology/influence investigation target, not automatic all-hallux reassignment.
+
+Read-only actual52footreference/28toecontrol station map captured; all28control endpoints exactly match native references and native-to-c004 maximumendpointgap0.0000151mm. Confidence staysLOW; correspondence does not approve anatomy/functionalaxes/280mmshortening. Existing unfilled shoulder declaration preflight executed: expectedSTOP/exit1, sevenmissingdeclarationfields; noother validatorerrors, no newcandidate readiness claimed. Actualparentbytehash must be checked independently of legacySHAformat validator.
+
+Live Claude branch heads/updated PRs checked and preserved. Additional Mens2023 primary-method lead distinguishes inertial long-bone versus articular-centroid axes, nine scans/onecadaver; bibliographic/indexedabstract only, no numericaltarget adopted. No source geometry/model save, newrender, production edit, acceptance or merge. Native recovery archive remains unchanged; new metadata/checklist supplements are in GitHub. Next primary-method/frame reference clarification and handoff/CI support; Claude owns Blender edits.
+
 ## Claude handoff prepared — 13 October 2026
 
 Owner expects Claude about17:00Europe/London today; this is not verified quota/reset telemetry. Codex's existing hourly work is preparation/reference/provenance/CI/coordination only, no competing Blender edits. [Exact handoff and candidate review checklist](./CLAUDE_ORIGINAL_V1_HANDOFF_20261013.md); primary-source brief/artifact map included. Existing shoulder foundation mechanics→topology→weights-only→rotation-aware→minimal-residual sequence preserved; generic historical corrective plan is not a shortcut.

@@ -13,6 +13,8 @@ This is endpoint/frame guidance, not adopted numerical rig targets. Original aut
 
 ## Foot evidence questions Claude must keep separate
 
+Additional primary lead verified13October: [Mens et al.2023](https://pubmed.ncbi.nlm.nih.gov/36641368/), DOI10.1016/j.fas.2023.01.005, *Metatarsophalangeal and interphalangeal joint angle measurements on weight-bearing CT images*. Bibliographic metadata directly retrieved; indexed abstract describes nine scans of one frozen cadaveric foot and compares inertial long-bone axes with axes using articular-surface centroids. Full methods/results were not retrieved, so no quantitative axes/lengths/reliability thresholds are adopted. This is a candidate for resolving endpoint/axis definitions, not a population280mm prescription. One cadaver cannot independently validate the actual character's stations.
+
 1. Maximum skin heel→longest-toe extent versus ankle centre, calcaneal surface and MTP/IP articular centres.
 2. Geometric reference head/tail versus actual bone surface versus functional rotation axis.
 3. Neutral skin floor height versus toe-control rotation and unloaded versus planted contact.

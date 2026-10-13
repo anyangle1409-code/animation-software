@@ -1078,6 +1078,32 @@
     "zip_crc_verified": true,
     "new_blender_edits": false,
     "production_approved": false,
-    "next_action": "Claude checks latest live heads, downloads/rehashes correct native evidence, creates fresh bound scoped candidates and fixes foot/shoulder foundations; Codex prepares sources and checks coordination without duplicate model/software work."
+    "next_action": "Claude checks latest live heads, downloads/rehashes correct native evidence, creates fresh bound scoped candidates and fixes foot/shoulder foundations; Codex prepares sources and checks coordination without duplicate model/software work.",
+    "first_session": "docs/CLAUDE_FIRST_BLENDER_SESSION_20261013.md",
+    "native_foot_station_map": "docs/reviews/CLAUDE_NATIVE_FOOT_STATIONS_20261013.json",
+    "final_toe_failure_map": "docs/reviews/CLAUDE_FINAL_TOE_FAILURE_LOCATIONS_20261013.json",
+    "native_reference_count": 52,
+    "copied_digit_controls": 28,
+    "maximum_control_to_reference_endpoint_gap_m": 0,
+    "maximum_native_to_c004_endpoint_gap_mm": 0.000015016975772172232,
+    "final_toe_triangle": 15123,
+    "final_toe_vertices": [
+      1921,
+      15350,
+      8310
+    ],
+    "template_preflight_ready": false,
+    "template_preflight_expected_missing_fields": 7,
+    "template_preflight": "docs/reviews/CLAUDE_SHOULDER_TEMPLATE_PREFLIGHT_20261013.json",
+    "source_anatomical_approval": false,
+    "preparation_scope": "Metadata and checklist only; before this checkpoint two bounded native read-only probes captured final toe failure and source stations without saving source files or generating renders.",
+    "latest_claude_heads_observed": {
+      "claude/coupled-trunk-rebuild-20261009": "de8d521bca94b826234a36a44fd3ea9243646d1f",
+      "claude/home-gym-pt-animation-txux66": "0602ea807afdf77db3424ff1f22c3620a09fc589",
+      "claude/original-v1-blender-o2-20260929": "540edd4ca97927e04c2966a27f70148678c29464",
+      "claude/pelvis-ct-blender-review-20261009": "9d57a01b71b9f9548f0cdc0f6e782ab29031b9b1",
+      "claude/skeleton-anatomical-development-20261009": "f3f725f46c33ab1d4d480070f56ddc6b350f3d87",
+      "claude/skeleton-independent-verification-20261009": "f83e6ab36ebac72413014a89938b7ae889bff0a6"
+    }
   }
 }

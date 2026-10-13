@@ -1,0 +1,163 @@
+{
+ "report": {
+  "zone_vertices": 1312,
+  "changed_vertices": 1282,
+  "worst_pose_sigma_min": {
+   "before": 0.00332,
+   "after": 0.01596
+  },
+  "vertices_sigma_lt_0_1": {
+   "before": 102,
+   "after": 18
+  },
+  "vertices_sigma_lt_0_3": {
+   "before": 282,
+   "after": 80
+  },
+  "parameters": {
+   "poses": [
+    90,
+    120,
+    145,
+    160
+   ],
+   "grid": 10,
+   "kappa": 0.15,
+   "min_gain": 0.05,
+   "smooth_passes": 3
+  },
+  "coupled_sweep": {
+   "before": {
+    "90": {
+     "collapse_faces_ratio_lt_0_1": 0,
+     "stretched_faces_ratio_gt_2": 310,
+     "area_ratio_min": 0.1881,
+     "body_volume_change_pct": 1.8152,
+     "self_intersecting_face_pairs_in_region": 0
+    },
+    "110": {
+     "collapse_faces_ratio_lt_0_1": 2,
+     "stretched_faces_ratio_gt_2": 408,
+     "area_ratio_min": 0.0832,
+     "body_volume_change_pct": -0.2742,
+     "self_intersecting_face_pairs_in_region": 0
+    },
+    "120": {
+     "collapse_faces_ratio_lt_0_1": 2,
+     "stretched_faces_ratio_gt_2": 424,
+     "area_ratio_min": 0.0167,
+     "body_volume_change_pct": -1.4343,
+     "self_intersecting_face_pairs_in_region": 0
+    },
+    "130": {
+     "collapse_faces_ratio_lt_0_1": 16,
+     "stretched_faces_ratio_gt_2": 444,
+     "area_ratio_min": 0.0281,
+     "body_volume_change_pct": -2.5534,
+     "self_intersecting_face_pairs_in_region": 2
+    },
+    "140": {
+     "collapse_faces_ratio_lt_0_1": 40,
+     "stretched_faces_ratio_gt_2": 432,
+     "area_ratio_min": 0.0113,
+     "body_volume_change_pct": -3.5569,
+     "self_intersecting_face_pairs_in_region": 132
+    },
+    "145": {
+     "collapse_faces_ratio_lt_0_1": 48,
+     "stretched_faces_ratio_gt_2": 428,
+     "area_ratio_min": 0.0221,
+     "body_volume_change_pct": -3.9972,
+     "self_intersecting_face_pairs_in_region": 176
+    },
+    "150": {
+     "collapse_faces_ratio_lt_0_1": 38,
+     "stretched_faces_ratio_gt_2": 420,
+     "area_ratio_min": 0.0071,
+     "body_volume_change_pct": -4.3892,
+     "self_intersecting_face_pairs_in_region": 432
+    },
+    "155": {
+     "collapse_faces_ratio_lt_0_1": 40,
+     "stretched_faces_ratio_gt_2": 414,
+     "area_ratio_min": 0.014,
+     "body_volume_change_pct": -4.7292,
+     "self_intersecting_face_pairs_in_region": 468
+    },
+    "160": {
+     "collapse_faces_ratio_lt_0_1": 42,
+     "stretched_faces_ratio_gt_2": 400,
+     "area_ratio_min": 0.031,
+     "body_volume_change_pct": -5.0144,
+     "self_intersecting_face_pairs_in_region": 444
+    }
+   },
+   "after": {
+    "90": {
+     "collapse_faces_ratio_lt_0_1": 8,
+     "stretched_faces_ratio_gt_2": 394,
+     "area_ratio_min": 0.0413,
+     "body_volume_change_pct": 2.9143,
+     "self_intersecting_face_pairs_in_region": 4
+    },
+    "110": {
+     "collapse_faces_ratio_lt_0_1": 10,
+     "stretched_faces_ratio_gt_2": 440,
+     "area_ratio_min": 0.02,
+     "body_volume_change_pct": 1.3334,
+     "self_intersecting_face_pairs_in_region": 74
+    },
+    "120": {
+     "collapse_faces_ratio_lt_0_1": 10,
+     "stretched_faces_ratio_gt_2": 458,
+     "area_ratio_min": 0.0277,
+     "body_volume_change_pct": 0.3887,
+     "self_intersecting_face_pairs_in_region": 216
+    },
+    "130": {
+     "collapse_faces_ratio_lt_0_1": 2,
+     "stretched_faces_ratio_gt_2": 464,
+     "area_ratio_min": 0.0633,
+     "body_volume_change_pct": -0.5571,
+     "self_intersecting_face_pairs_in_region": 286
+    },
+    "140": {
+     "collapse_faces_ratio_lt_0_1": 4,
+     "stretched_faces_ratio_gt_2": 456,
+     "area_ratio_min": 0.0626,
+     "body_volume_change_pct": -1.436,
+     "self_intersecting_face_pairs_in_region": 404
+    },
+    "145": {
+     "collapse_faces_ratio_lt_0_1": 8,
+     "stretched_faces_ratio_gt_2": 460,
+     "area_ratio_min": 0.0473,
+     "body_volume_change_pct": -1.8329,
+     "self_intersecting_face_pairs_in_region": 424
+    },
+    "150": {
+     "collapse_faces_ratio_lt_0_1": 12,
+     "stretched_faces_ratio_gt_2": 460,
+     "area_ratio_min": 0.026,
+     "body_volume_change_pct": -2.1943,
+     "self_intersecting_face_pairs_in_region": 394
+    },
+    "155": {
+     "collapse_faces_ratio_lt_0_1": 10,
+     "stretched_faces_ratio_gt_2": 456,
+     "area_ratio_min": 0.0602,
+     "body_volume_change_pct": -2.516,
+     "self_intersecting_face_pairs_in_region": 378
+    },
+    "160": {
+     "collapse_faces_ratio_lt_0_1": 6,
+     "stretched_faces_ratio_gt_2": 452,
+     "area_ratio_min": 0.0177,
+     "body_volume_change_pct": -2.795,
+     "self_intersecting_face_pairs_in_region": 400
+    }
+   }
+  }
+ },
+ "approved": false
+}

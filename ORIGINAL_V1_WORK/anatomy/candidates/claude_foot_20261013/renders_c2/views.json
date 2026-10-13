@@ -1,0 +1,124 @@
+{
+ "blend": "c2.blend",
+ "body": "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE",
+ "label": "C2",
+ "floor_z_m": -2.262501652694482e-07,
+ "grid_mm": 10,
+ "scale_bar_mm": 50,
+ "views": {
+  "side_lateral_plusX_foot": {
+   "ortho_scale_m": 0.36,
+   "target_m": [
+    0.0952,
+    -0.1148,
+    0.045
+   ],
+   "direction": [
+    1,
+    0,
+    0
+   ],
+   "camera_m": [
+    0.3952,
+    -0.1148,
+    0.045
+   ],
+   "clip_end_m": 0.42
+  },
+  "side_medial_plusX_foot": {
+   "ortho_scale_m": 0.36,
+   "target_m": [
+    0.0952,
+    -0.1148,
+    0.045
+   ],
+   "direction": [
+    -1,
+    0,
+    0
+   ],
+   "camera_m": [
+    0.0005,
+    -0.1148,
+    0.045
+   ],
+   "clip_end_m": 0.3
+  },
+  "top_both": {
+   "ortho_scale_m": 0.46,
+   "target_m": [
+    0.0,
+    -0.1148,
+    0.045
+   ],
+   "direction": [
+    0,
+    0,
+    1
+   ],
+   "camera_m": [
+    0.0,
+    -0.1148,
+    0.265
+   ],
+   "clip_end_m": 0.4
+  },
+  "sole_both": {
+   "ortho_scale_m": 0.46,
+   "target_m": [
+    0.0,
+    -0.1148,
+    0.045
+   ],
+   "direction": [
+    0,
+    0,
+    -1
+   ],
+   "camera_m": [
+    0.0,
+    -0.1148,
+    -0.075
+   ],
+   "clip_end_m": 0.27
+  },
+  "front_both": {
+   "ortho_scale_m": 0.4,
+   "target_m": [
+    0.0,
+    -0.1148,
+    0.045
+   ],
+   "direction": [
+    0,
+    -1,
+    0
+   ],
+   "camera_m": [
+    0.0,
+    -0.5648,
+    0.045
+   ],
+   "clip_end_m": 0.62
+  },
+  "three_quarter_plusX_foot": {
+   "ortho_scale_m": 0.4,
+   "target_m": [
+    0.0952,
+    -0.1148,
+    0.045
+   ],
+   "direction": [
+    0.62,
+    -0.62,
+    0.48
+   ],
+   "camera_m": [
+    0.4363,
+    -0.456,
+    0.3091
+   ],
+   "clip_end_m": 1.2
+  }
+ }
+}

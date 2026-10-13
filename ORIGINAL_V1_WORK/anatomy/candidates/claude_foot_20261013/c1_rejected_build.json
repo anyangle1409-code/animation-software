@@ -1,0 +1,48 @@
+{
+ "schema_version": 1,
+ "candidate": "ORIGINAL_V1_FOOT_SHAPE_C1_CLAUDE",
+ "status": "REVIEW_CANDIDATE_NOT_ACCEPTED",
+ "parent": {
+  "path": "ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a003.blend",
+  "sha256": "670a37bfd206d702928de721032e2b942725389dc6906df0d866eba8d8cbbe56"
+ },
+ "output": {
+  "path": "not retained (rejected; reproducible with --variant c1)",
+  "sha256": "71fbcc921482669e5cded649626ae4b7bcd9bf8a8619897b9d6950cd53232fce"
+ },
+ "body_object": "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE",
+ "parameters": {
+  "bend_line_y_m": -0.19,
+  "ramp_m": 0.025,
+  "digit_cut_y_m": -0.215,
+  "root_mix_sigma_x_m": 0.006,
+  "pivot": "transverse axis on the floor plane (z = 0) at the bend line"
+ },
+ "digit_centres_x_mm_plusX_foot": [
+  67.0,
+  89.0,
+  105.0,
+  118.0,
+  130.0
+ ],
+ "digit_bend_deg": [
+  7.312,
+  7.071,
+  8.232,
+  10.42,
+  12.815
+ ],
+ "changed_vertices": 1690,
+ "changed_vertices_per_foot": 845,
+ "max_displacement_mm": 10.429,
+ "shape_keys_updated": [
+  "Basis",
+  "HGPT_SHOULDER_CORR_L",
+  "HGPT_SHOULDER_CORR_R",
+  "HGPT_SHOULDER_FLEX_L",
+  "HGPT_SHOULDER_FLEX_R",
+  "HGPT_SHOULDER_SCAP_L",
+  "HGPT_SHOULDER_SCAP_R"
+ ],
+ "mirror_map_max_error_m": 1.2753339717619383e-07
+}

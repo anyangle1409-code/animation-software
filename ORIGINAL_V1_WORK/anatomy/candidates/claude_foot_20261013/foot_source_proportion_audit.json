@@ -1,0 +1,754 @@
+{
+ "source": {
+  "blend": "ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a003.blend",
+  "sha256": "670a37bfd206d702928de721032e2b942725389dc6906df0d866eba8d8cbbe56"
+ },
+ "ansur_182": {
+  "footlength": {
+   "prediction_mm_at_1820": 279.9,
+   "residual_sd_mm": 9.1,
+   "n": 4082,
+   "raw_mean_mm": 271.2
+  },
+  "balloffootlength": {
+   "prediction_mm_at_1820": 207.4,
+   "residual_sd_mm": 7.8,
+   "n": 4082,
+   "raw_mean_mm": 200.9
+  },
+  "footbreadthhorizontal": {
+   "prediction_mm_at_1820": 104.1,
+   "residual_sd_mm": 4.7,
+   "n": 4082,
+   "raw_mean_mm": 101.9
+  },
+  "heelbreadth": {
+   "prediction_mm_at_1820": 73.7,
+   "residual_sd_mm": 5.3,
+   "n": 4082,
+   "raw_mean_mm": 72.5
+  },
+  "lateralmalleolusheight": {
+   "prediction_mm_at_1820": 75.4,
+   "residual_sd_mm": 5.0,
+   "n": 4082,
+   "raw_mean_mm": 72.9
+  }
+ },
+ "feet": {
+  "left": {
+   "heel_y_mm": 39.74,
+   "toe_tip_y_mm": -269.42,
+   "toe_tip_x_mm": 66.99,
+   "mesh_foot_length_mm": 309.16,
+   "mesh_foot_breadth_mm": 96.72,
+   "vertex_count_below_160mm": 1605,
+   "master_stations": {
+    "tibia_left": {
+     "head_mm": [
+      90.42,
+      -10.97,
+      516.96
+     ],
+     "tail_mm": [
+      92.53,
+      1.73,
+      78.0
+     ]
+    },
+    "fibula_left": {
+     "head_mm": [
+      133.32,
+      19.23,
+      470.0
+     ],
+     "tail_mm": [
+      125.07,
+      2.62,
+      70.0
+     ]
+    },
+    "talus_left": {
+     "head_mm": [
+      92.53,
+      1.73,
+      78.0
+     ],
+     "tail_mm": [
+      86.36,
+      -43.26,
+      66.0
+     ]
+    },
+    "calcaneus_left": {
+     "head_mm": [
+      92.74,
+      9.73,
+      48.0
+     ],
+     "tail_mm": [
+      95.32,
+      23.81,
+      35.0
+     ]
+    },
+    "metatarsal_4_left": {
+     "head_mm": [
+      110.39,
+      -106.54,
+      22.0
+     ],
+     "tail_mm": [
+      118.65,
+      -184.43,
+      22.0
+     ]
+    },
+    "toe4_proximal_phalanx_left": {
+     "head_mm": [
+      118.65,
+      -184.43,
+      22.0
+     ],
+     "tail_mm": [
+      118.28,
+      -212.43,
+      18.39
+     ]
+    },
+    "toe4_middle_phalanx_left": {
+     "head_mm": [
+      118.28,
+      -212.43,
+      18.39
+     ],
+     "tail_mm": [
+      118.08,
+      -227.54,
+      16.44
+     ]
+    },
+    "toe4_distal_phalanx_left": {
+     "head_mm": [
+      118.08,
+      -227.54,
+      16.44
+     ],
+     "tail_mm": [
+      117.97,
+      -236.45,
+      15.29
+     ]
+    },
+    "metatarsal_5_left": {
+     "head_mm": [
+      117.98,
+      -100.17,
+      22.0
+     ],
+     "tail_mm": [
+      130.86,
+      -177.43,
+      22.0
+     ]
+    },
+    "toe5_proximal_phalanx_left": {
+     "head_mm": [
+      130.86,
+      -177.43,
+      22.0
+     ],
+     "tail_mm": [
+      130.41,
+      -203.93,
+      17.9
+     ]
+    },
+    "toe5_middle_phalanx_left": {
+     "head_mm": [
+      130.41,
+      -203.93,
+      17.9
+     ],
+     "tail_mm": [
+      130.16,
+      -218.23,
+      15.69
+     ]
+    },
+    "toe5_distal_phalanx_left": {
+     "head_mm": [
+      130.16,
+      -218.23,
+      15.69
+     ],
+     "tail_mm": [
+      130.02,
+      -226.47,
+      14.41
+     ]
+    },
+    "metatarsal_1_left": {
+     "head_mm": [
+      76.55,
+      -117.4,
+      22.0
+     ],
+     "tail_mm": [
+      67.72,
+      -189.43,
+      22.0
+     ]
+    },
+    "hallux_proximal_phalanx_left": {
+     "head_mm": [
+      67.72,
+      -189.43,
+      22.0
+     ],
+     "tail_mm": [
+      67.19,
+      -235.24,
+      19.78
+     ]
+    },
+    "hallux_distal_phalanx_left": {
+     "head_mm": [
+      67.19,
+      -235.24,
+      19.78
+     ],
+     "tail_mm": [
+      66.85,
+      -264.42,
+      18.37
+     ]
+    },
+    "metatarsal_2_left": {
+     "head_mm": [
+      91.61,
+      -106.07,
+      22.0
+     ],
+     "tail_mm": [
+      89.35,
+      -192.43,
+      22.0
+     ]
+    },
+    "toe2_proximal_phalanx_left": {
+     "head_mm": [
+      89.35,
+      -192.43,
+      22.0
+     ],
+     "tail_mm": [
+      89.13,
+      -228.42,
+      18.67
+     ]
+    },
+    "toe2_middle_phalanx_left": {
+     "head_mm": [
+      89.13,
+      -228.42,
+      18.67
+     ],
+     "tail_mm": [
+      89.01,
+      -247.86,
+      16.87
+     ]
+    },
+    "toe2_distal_phalanx_left": {
+     "head_mm": [
+      89.01,
+      -247.86,
+      16.87
+     ],
+     "tail_mm": [
+      88.93,
+      -260.44,
+      15.7
+     ]
+    },
+    "metatarsal_3_left": {
+     "head_mm": [
+      101.86,
+      -108.88,
+      22.0
+     ],
+     "tail_mm": [
+      105.5,
+      -189.43,
+      22.0
+     ]
+    },
+    "toe3_proximal_phalanx_left": {
+     "head_mm": [
+      105.5,
+      -189.43,
+      22.0
+     ],
+     "tail_mm": [
+      105.24,
+      -221.92,
+      18.49
+     ]
+    },
+    "toe3_middle_phalanx_left": {
+     "head_mm": [
+      105.24,
+      -221.92,
+      18.49
+     ],
+     "tail_mm": [
+      105.09,
+      -239.47,
+      16.59
+     ]
+    },
+    "toe3_distal_phalanx_left": {
+     "head_mm": [
+      105.09,
+      -239.47,
+      16.59
+     ],
+     "tail_mm": [
+      105.0,
+      -250.44,
+      15.4
+     ]
+    }
+   },
+   "runtime_controls": {
+    "shin_l": {
+     "head_mm": [
+      -92.0,
+      0.0,
+      515.0
+     ],
+     "tail_mm": [
+      -92.0,
+      0.0,
+      85.0
+     ]
+    },
+    "foot_l": {
+     "head_mm": [
+      -92.0,
+      0.0,
+      85.0
+     ],
+     "tail_mm": [
+      -92.0,
+      -180.0,
+      28.0
+     ]
+    },
+    "toe_l": {
+     "head_mm": [
+      -92.0,
+      -180.0,
+      28.0
+     ],
+     "tail_mm": [
+      -92.0,
+      -367.98,
+      10.31
+     ]
+    },
+    "foot_r": {
+     "head_mm": [
+      92.0,
+      0.0,
+      85.0
+     ],
+     "tail_mm": [
+      92.0,
+      -180.0,
+      28.0
+     ]
+    },
+    "toe_r": {
+     "head_mm": [
+      92.0,
+      -180.0,
+      28.0
+     ],
+     "tail_mm": [
+      92.0,
+      -367.98,
+      10.31
+     ]
+    }
+   },
+   "derived": {
+    "heel_to_MT1_distal_station_mm": 229.17,
+    "heel_to_most_anterior_distal_phalanx_station_mm": 304.16,
+    "heel_to_calcaneus_posterior_station_mm": 15.93,
+    "lateral_malleolus_station_height_mm": 70.0,
+    "heel_to_runtime_toe_pivot_mm": 219.74,
+    "runtime_toe_pivot_to_mesh_tip_mm": 89.42
+   }
+  },
+  "right": {
+   "heel_y_mm": 39.74,
+   "toe_tip_y_mm": -269.42,
+   "toe_tip_x_mm": -66.99,
+   "mesh_foot_length_mm": 309.16,
+   "mesh_foot_breadth_mm": 96.72,
+   "vertex_count_below_160mm": 1605,
+   "master_stations": {
+    "tibia_right": {
+     "head_mm": [
+      -90.42,
+      -10.97,
+      516.96
+     ],
+     "tail_mm": [
+      -92.53,
+      1.73,
+      78.0
+     ]
+    },
+    "fibula_right": {
+     "head_mm": [
+      -133.32,
+      19.23,
+      470.0
+     ],
+     "tail_mm": [
+      -125.07,
+      2.62,
+      70.0
+     ]
+    },
+    "talus_right": {
+     "head_mm": [
+      -92.53,
+      1.73,
+      78.0
+     ],
+     "tail_mm": [
+      -86.36,
+      -43.26,
+      66.0
+     ]
+    },
+    "calcaneus_right": {
+     "head_mm": [
+      -92.74,
+      9.73,
+      48.0
+     ],
+     "tail_mm": [
+      -95.32,
+      23.81,
+      35.0
+     ]
+    },
+    "metatarsal_4_right": {
+     "head_mm": [
+      -110.39,
+      -106.54,
+      22.0
+     ],
+     "tail_mm": [
+      -118.65,
+      -184.43,
+      22.0
+     ]
+    },
+    "toe4_proximal_phalanx_right": {
+     "head_mm": [
+      -118.65,
+      -184.43,
+      22.0
+     ],
+     "tail_mm": [
+      -118.28,
+      -212.43,
+      18.39
+     ]
+    },
+    "toe4_middle_phalanx_right": {
+     "head_mm": [
+      -118.28,
+      -212.43,
+      18.39
+     ],
+     "tail_mm": [
+      -118.08,
+      -227.54,
+      16.44
+     ]
+    },
+    "toe4_distal_phalanx_right": {
+     "head_mm": [
+      -118.08,
+      -227.54,
+      16.44
+     ],
+     "tail_mm": [
+      -117.97,
+      -236.45,
+      15.29
+     ]
+    },
+    "metatarsal_5_right": {
+     "head_mm": [
+      -117.98,
+      -100.17,
+      22.0
+     ],
+     "tail_mm": [
+      -130.86,
+      -177.43,
+      22.0
+     ]
+    },
+    "toe5_proximal_phalanx_right": {
+     "head_mm": [
+      -130.86,
+      -177.43,
+      22.0
+     ],
+     "tail_mm": [
+      -130.37,
+      -203.93,
+      18.08
+     ]
+    },
+    "toe5_middle_phalanx_right": {
+     "head_mm": [
+      -130.37,
+      -203.93,
+      18.08
+     ],
+     "tail_mm": [
+      -130.1,
+      -218.23,
+      15.97
+     ]
+    },
+    "toe5_distal_phalanx_right": {
+     "head_mm": [
+      -130.1,
+      -218.23,
+      15.97
+     ],
+     "tail_mm": [
+      -129.95,
+      -226.46,
+      14.75
+     ]
+    },
+    "metatarsal_1_right": {
+     "head_mm": [
+      -76.55,
+      -117.4,
+      22.0
+     ],
+     "tail_mm": [
+      -67.72,
+      -189.43,
+      22.0
+     ]
+    },
+    "hallux_proximal_phalanx_right": {
+     "head_mm": [
+      -67.72,
+      -189.43,
+      22.0
+     ],
+     "tail_mm": [
+      -67.16,
+      -235.24,
+      20.01
+     ]
+    },
+    "hallux_distal_phalanx_right": {
+     "head_mm": [
+      -67.16,
+      -235.24,
+      20.01
+     ],
+     "tail_mm": [
+      -66.8,
+      -264.42,
+      18.75
+     ]
+    },
+    "metatarsal_2_right": {
+     "head_mm": [
+      -91.61,
+      -106.07,
+      22.0
+     ],
+     "tail_mm": [
+      -89.35,
+      -192.43,
+      22.0
+     ]
+    },
+    "toe2_proximal_phalanx_right": {
+     "head_mm": [
+      -89.35,
+      -192.43,
+      22.0
+     ],
+     "tail_mm": [
+      -89.1,
+      -228.42,
+      18.72
+     ]
+    },
+    "toe2_middle_phalanx_right": {
+     "head_mm": [
+      -89.1,
+      -228.42,
+      18.72
+     ],
+     "tail_mm": [
+      -88.97,
+      -247.86,
+      16.95
+     ]
+    },
+    "toe2_distal_phalanx_right": {
+     "head_mm": [
+      -88.97,
+      -247.86,
+      16.95
+     ],
+     "tail_mm": [
+      -88.88,
+      -260.44,
+      15.8
+     ]
+    },
+    "metatarsal_3_right": {
+     "head_mm": [
+      -101.86,
+      -108.88,
+      22.0
+     ],
+     "tail_mm": [
+      -105.5,
+      -189.43,
+      22.0
+     ]
+    },
+    "toe3_proximal_phalanx_right": {
+     "head_mm": [
+      -105.5,
+      -189.43,
+      22.0
+     ],
+     "tail_mm": [
+      -105.23,
+      -221.92,
+      18.45
+     ]
+    },
+    "toe3_middle_phalanx_right": {
+     "head_mm": [
+      -105.23,
+      -221.92,
+      18.45
+     ],
+     "tail_mm": [
+      -105.09,
+      -239.47,
+      16.53
+     ]
+    },
+    "toe3_distal_phalanx_right": {
+     "head_mm": [
+      -105.09,
+      -239.47,
+      16.53
+     ],
+     "tail_mm": [
+      -105.0,
+      -250.44,
+      15.34
+     ]
+    }
+   },
+   "runtime_controls": {
+    "foot_l": {
+     "head_mm": [
+      -92.0,
+      0.0,
+      85.0
+     ],
+     "tail_mm": [
+      -92.0,
+      -180.0,
+      28.0
+     ]
+    },
+    "toe_l": {
+     "head_mm": [
+      -92.0,
+      -180.0,
+      28.0
+     ],
+     "tail_mm": [
+      -92.0,
+      -367.98,
+      10.31
+     ]
+    },
+    "shin_r": {
+     "head_mm": [
+      92.0,
+      0.0,
+      515.0
+     ],
+     "tail_mm": [
+      92.0,
+      0.0,
+      85.0
+     ]
+    },
+    "foot_r": {
+     "head_mm": [
+      92.0,
+      0.0,
+      85.0
+     ],
+     "tail_mm": [
+      92.0,
+      -180.0,
+      28.0
+     ]
+    },
+    "toe_r": {
+     "head_mm": [
+      92.0,
+      -180.0,
+      28.0
+     ],
+     "tail_mm": [
+      92.0,
+      -367.98,
+      10.31
+     ]
+    }
+   },
+   "derived": {
+    "heel_to_MT1_distal_station_mm": 229.17,
+    "heel_to_most_anterior_distal_phalanx_station_mm": 304.16,
+    "heel_to_calcaneus_posterior_station_mm": 15.93,
+    "lateral_malleolus_station_height_mm": 70.0,
+    "heel_to_runtime_toe_pivot_mm": 219.74,
+    "runtime_toe_pivot_to_mesh_tip_mm": 89.42
+   }
+  }
+ },
+ "floor_z_mm": -0.0002,
+ "source_sha256_after": "670a37bfd206d702928de721032e2b942725389dc6906df0d866eba8d8cbbe56"
+}

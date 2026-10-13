@@ -1,0 +1,109 @@
+{
+ "parent_sha256": "670a37bfd206d702928de721032e2b942725389dc6906df0d866eba8d8cbbe56",
+ "candidate_sha256": "9d1571c3c7d61b5dcfe349e5f6dbad9d1e34cdad93c0c56e0fc8c7f85e3c453a",
+ "protected_identical": {
+  "n_v": true,
+  "n_e": true,
+  "n_f": true,
+  "faces": true,
+  "groups": true,
+  "weights": true,
+  "mods": true,
+  "matrix": true,
+  "rigs": true,
+  "stations": true
+ },
+ "moved_vertices": 834,
+ "moved_outside_box": 0,
+ "shape_key_relative_delta_max_change_m": 0.0,
+ "symmetry_max_m": 2.9802322387695312e-08,
+ "neutral": {
+  "parent": {
+   "plusX": {
+    "length_mm": 309.157,
+    "breadth_mm": 96.717,
+    "toe_region_min_z_mm": 8.293
+   },
+   "minusX": {
+    "length_mm": 309.157,
+    "breadth_mm": 96.717,
+    "toe_region_min_z_mm": 8.293
+   },
+   "global_min_z_mm": -0.0002
+  },
+  "candidate": {
+   "plusX": {
+    "length_mm": 309.157,
+    "breadth_mm": 96.717,
+    "toe_region_min_z_mm": 0.027
+   },
+   "minusX": {
+    "length_mm": 309.157,
+    "breadth_mm": 96.717,
+    "toe_region_min_z_mm": 0.027
+   },
+   "global_min_z_mm": -0.0002
+  }
+ },
+ "containment": {
+  "parent_outside": [],
+  "candidate_outside": []
+ },
+ "rest_area_ratio_changed_faces": {
+  "n": 1968,
+  "min": 0.719,
+  "max": 2.8427
+ },
+ "posed_local_X_rotations": {
+  "toe_+30": {
+   "foot_min_z_mm_parent": -29.032,
+   "foot_min_z_mm_candidate": -33.835,
+   "toe_area_ratio_vs_rest_parent": [
+    0.7658,
+    1.2159
+   ],
+   "toe_area_ratio_vs_rest_candidate": [
+    0.7658,
+    1.2159
+   ]
+  },
+  "toe_-30": {
+   "foot_min_z_mm_parent": -1.509,
+   "foot_min_z_mm_candidate": -1.509,
+   "toe_area_ratio_vs_rest_parent": [
+    0.7156,
+    1.2652
+   ],
+   "toe_area_ratio_vs_rest_candidate": [
+    0.7156,
+    1.2652
+   ]
+  },
+  "foot_+20": {
+   "foot_min_z_mm_parent": -76.031,
+   "foot_min_z_mm_candidate": -82.333,
+   "toe_area_ratio_vs_rest_parent": [
+    1.0,
+    1.0
+   ],
+   "toe_area_ratio_vs_rest_candidate": [
+    1.0,
+    1.0
+   ]
+  },
+  "foot_-30": {
+   "foot_min_z_mm_parent": 10.725,
+   "foot_min_z_mm_candidate": 10.725,
+   "toe_area_ratio_vs_rest_parent": [
+    1.0,
+    1.0
+   ],
+   "toe_area_ratio_vs_rest_candidate": [
+    1.0,
+    1.0
+   ]
+  }
+ },
+ "fails": [],
+ "verdict": "PASS"
+}

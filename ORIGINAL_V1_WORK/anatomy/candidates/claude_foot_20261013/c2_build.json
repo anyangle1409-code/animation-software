@@ -1,0 +1,152 @@
+{
+ "schema_version": 1,
+ "candidate": "ORIGINAL_V1_FOOT_SHAPE_C2_CLAUDE",
+ "variant": "c2",
+ "status": "REVIEW_CANDIDATE_NOT_ACCEPTED",
+ "parent": {
+  "path": "ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a003.blend",
+  "sha256": "670a37bfd206d702928de721032e2b942725389dc6906df0d866eba8d8cbbe56"
+ },
+ "output": {
+  "path": "ORIGINAL_V1_WORK/anatomy/candidates/claude_foot_20261013/HGPT_ORIGINAL_V1_FOOT_SHAPE_C2_CLAUDE.blend",
+  "sha256": "9d1571c3c7d61b5dcfe349e5f6dbad9d1e34cdad93c0c56e0fc8c7f85e3c453a"
+ },
+ "body_object": "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE",
+ "parameters": {
+  "digit_cut_y_m": -0.215,
+  "root_mix_sigma_x_m": 0.006,
+  "box": {
+   "xmin": 0.02,
+   "zmax": 0.07,
+   "ymax": -0.188
+  }
+ },
+ "digit_centres_x_mm_plusX_foot": [
+  67.0,
+  89.0,
+  105.0,
+  118.0,
+  130.0
+ ],
+ "variant_info": {
+  "pulp_weight_start_y_m": -0.2,
+  "tip_lift_m": 0.003,
+  "tip_fade": 0.85,
+  "min_plantar_depth_m": 0.003,
+  "distal_tip_y_m_plusX": [
+   -0.2644,
+   -0.2604,
+   -0.2504,
+   -0.2365,
+   -0.2265
+  ],
+  "pad_full_weight_y_m_plusX": [
+   -0.2498,
+   -0.2541,
+   -0.245,
+   -0.232,
+   -0.2224
+  ],
+  "skeleton_axis_points_yz_m_plusX": [
+   [
+    [
+     -0.1894,
+     0.022
+    ],
+    [
+     -0.2352,
+     0.0198
+    ],
+    [
+     -0.2644,
+     0.0184
+    ]
+   ],
+   [
+    [
+     -0.1924,
+     0.022
+    ],
+    [
+     -0.2284,
+     0.0187
+    ],
+    [
+     -0.2479,
+     0.0169
+    ],
+    [
+     -0.2604,
+     0.0157
+    ]
+   ],
+   [
+    [
+     -0.1894,
+     0.022
+    ],
+    [
+     -0.2219,
+     0.0185
+    ],
+    [
+     -0.2395,
+     0.0166
+    ],
+    [
+     -0.2504,
+     0.0154
+    ]
+   ],
+   [
+    [
+     -0.1844,
+     0.022
+    ],
+    [
+     -0.2124,
+     0.0184
+    ],
+    [
+     -0.2275,
+     0.0164
+    ],
+    [
+     -0.2365,
+     0.0153
+    ]
+   ],
+   [
+    [
+     -0.1774,
+     0.022
+    ],
+    [
+     -0.2039,
+     0.0179
+    ],
+    [
+     -0.2182,
+     0.0157
+    ],
+    [
+     -0.2265,
+     0.0144
+    ]
+   ]
+  ]
+ },
+ "changed_vertices": 834,
+ "changed_vertices_per_foot": 417,
+ "max_displacement_mm": 9.084,
+ "shape_keys_updated": [
+  "Basis",
+  "HGPT_SHOULDER_CORR_L",
+  "HGPT_SHOULDER_CORR_R",
+  "HGPT_SHOULDER_FLEX_L",
+  "HGPT_SHOULDER_FLEX_R",
+  "HGPT_SHOULDER_SCAP_L",
+  "HGPT_SHOULDER_SCAP_R"
+ ],
+ "mirror_map_max_error_m": 1.2753339717619383e-07
+}

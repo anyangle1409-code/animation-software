@@ -1,5 +1,11 @@
 # ORIGINAL_v1 Lane W completion and restart checkpoint — 12 October 2026
 
+## Individual toe-control diagnostic — 13 October 2026
+
+Separate branch `codex/original-toe-articulation-trial-20261013` from PR104 commit `16d8d50713326e08068d666d82be9eb7c451aa80`: a copied95-control rig adds28source-station toe controls, redistributing2192vertices without moving the retained source skeletons or PR104skin. Four native structural/isolation tests pass; the added hallux orientation regression FAILS (1triangle), so native suite4PASS/1FAIL.196fresh sampled trajectory frames show up to3orientation reversals and−0.012974mm sampled floor minimum. No motion/shape/anatomical/production acceptance. Candidate SHA256 `5eab3dad1338b90e98f27076f4ed181785029d35e0066312f2d0511031e46316`.
+
+[New actual phone sheet](https://chatgpt.com/api/library/files/libfile_bddac859014081918e2071b9507e5be6/download). [Full diagnostic report, exact source/export identity and artifact links](./ORIGINAL_V1_INDIVIDUAL_TOE_DIAGNOSTIC_20261013.md). The95-control trial is not the67-joint app schema; no GLB/production replacement. Next deliberate web/root refit must preserve the failing regression. Foot shortening remains blocked; independent shoulder joint-frame/refit tasks remain.
+
 ## Resumed Work checkpoint — 13 October 2026
 
 Separate branch `codex/original-neutral-toe-pad-trial-20261013` continues from PR84 head `27e2dbf4424b878d8312cf346624e495720bba0a`. Actual Blender5.2.1 produced a review-only 902-vertex plantar-pad trial: all ten digit samples reach neutral floor within0.001mm, while XY,309.156645mm foot length, weights, both skeletons and inherited corrective deltas are preserved. Native reopen,12free-control samples and4native body-bridge tests executed. No triangle orientation reversals; local face areas change0.439–3.174x. The tubular/overlong shape, shared articulation and posed floor crossings remain NOT ACCEPTED. No production edit/merge or forced280mm shortening.

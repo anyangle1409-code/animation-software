@@ -1,0 +1,16 @@
+name: Toe diagnostic checkpoint integrity
+on:
+  push:
+    branches: [codex/original-toe-articulation-trial-20261013]
+  pull_request:
+    paths: ['scripts/*original_toe*', 'scripts/assemble_individual_toe_phone.py', '.github/workflows/original-toe-diagnostic.yml']
+permissions:
+  contents: read
+jobs:
+  syntax-and-baseline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m py_compile scripts/build_original_toe_articulation_blender.py scripts/test_original_toe_articulation_blender.py scripts/probe_original_toe_trajectories_blender.py scripts/locate_original_toe_fold_blender.py scripts/assemble_individual_toe_phone.py
+      - run: python3 scripts/test_original_neutral_toe_pad_trial.py -v
+      - run: python3 -m json.tool docs/MASTER_AUTONOMOUS_EXECUTION_20261010.json > /dev/null

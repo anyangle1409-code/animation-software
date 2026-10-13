@@ -1041,5 +1041,24 @@
     "latest_verified_implementation_commit": "8fc63a5b9da913ca465517559a135a7367934b00",
     "verified_ci_run": 38380569669,
     "ci_scope": "pure contracts/syntax only; native deformation gate remains FAIL"
+  },
+  "active_original_shoulder_volume_rejected_experiment": {
+    "branch": "codex/original-shoulder-volume-trial-20261013",
+    "input_commit": "f3d06591aeaff45d26d34af04b1cb19a2128af50",
+    "candidate_sha256": "91ac6b9845a7982e87c7fe0c44b114ee4382c7eb1720d1052ba2bdc29f648e09",
+    "ledger": "docs/ORIGINAL_V1_SHOULDER_VOLUME_TRIAL_20261013.md",
+    "region_triangles": 8660,
+    "compressed_below_tenth_area_before": 60,
+    "after": 4,
+    "stretched_above_double_area_before": 280,
+    "after_stretched": 566,
+    "native_tests_pass": 3,
+    "native_tests_fail": 1,
+    "failed_test": "test_rear_shoulder_does_not_collapse_below_tenth_area_at_authored_160",
+    "standalone_fix_rejected": true,
+    "deformation_accepted": false,
+    "production_approved": false,
+    "glb_exported": false,
+    "next_action": "Continue deliberate shoulder influence/corrective refit from original source-joint trial; DQ is a rejected standalone experiment, not chosen portable solution. Preserve front/rear regressions and source anatomy."
   }
 }

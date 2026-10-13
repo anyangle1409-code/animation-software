@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Orthographic foot review renders of an ORIGINAL_v1 body (bpy; Workbench). Neutral rest pose, both feet (the +X body side is the native suffix _r foot), matching cameras
+"""Orthographic foot review renders of an ORIGINAL_v1 body (bpy; Workbench). Neutral rest pose (or --pose control:angle), both feet (the +X body side is the native suffix _r foot), matching cameras
 for before/after comparison, a 10 mm floor grid and a 50 mm scale bar in every view. Nothing is saved to the blend.
 
   python3.13 render_original_foot_views_blender.py --blend B.blend --body OBJECT --out DIR [--label TEXT]
@@ -27,14 +27,23 @@ def main():
     for a in ('--blend', '--body', '--out'):
         ap.add_argument(a, required=True)
     ap.add_argument('--label', default='')
+    ap.add_argument('--pose', action='append', default=[], help='runtime control rotation about local X, e.g. toe:-50 (both sides)')
     o = ap.parse_args(argv)
     bpy.ops.wm.open_mainfile(filepath=str(Path(o.blend).resolve()))
+    if o.pose:
+        rig = bpy.data.objects['HGPT_CANONICAL_V4_ORIGINAL']
+        for item in o.pose:
+            bone, ang = item.split(':')
+            for sfx in ('l', 'r'):
+                pb = rig.pose.bones[f'{bone}_{sfx}']
+                pb.rotation_mode = 'XYZ'; pb.rotation_euler = (math.radians(float(ang)), 0, 0)
+        bpy.context.view_layer.update()
     sc = bpy.context.scene
     body = bpy.data.objects[o.body]
     for ob in sc.objects:
         ob.hide_render = ob is not body
-    M = body.matrix_world
-    V = [M @ v.co for v in body.data.vertices]
+    ev = body.evaluated_get(bpy.context.evaluated_depsgraph_get())
+    V = [ev.matrix_world @ v.co for v in ev.data.vertices]
     zmin = min(v.z for v in V)
     foot = [v for v in V if v.z < zmin + 0.16]
     centres = {'plusX': [v for v in foot if v.x > 0.02], 'both': foot}
@@ -77,7 +86,7 @@ def main():
         bpy.ops.render.render(write_still=True)
         meta[name] = {'ortho_scale_m': scale, 'target_m': [round(x, 4) for x in c], 'direction': d, 'camera_m': [round(x, 4) for x in cam.location],
                       'clip_end_m': clip}
-    (out / 'views.json').write_text(json.dumps({'blend': Path(o.blend).name, 'body': o.body, 'label': o.label, 'floor_z_m': zmin,
+    (out / 'views.json').write_text(json.dumps({'blend': Path(o.blend).name, 'body': o.body, 'label': o.label, 'pose': o.pose, 'floor_z_m': zmin,
                                                 'grid_mm': 10, 'scale_bar_mm': 50, 'views': meta}, indent=1) + '\n')
     print('rendered', len(meta))
 

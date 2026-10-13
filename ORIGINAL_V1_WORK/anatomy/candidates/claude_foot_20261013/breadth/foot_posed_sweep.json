@@ -1,0 +1,174 @@
+{
+ "schema_version": 1,
+ "scope": "FK sweep, leg fixed; diagnostic, not gait/deformation acceptance",
+ "results": [
+  {
+   "blend": "ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a003.blend",
+   "sha256": "670a37bfd206d702928de721032e2b942725389dc6906df0d866eba8d8cbbe56",
+   "foot_faces": 6336,
+   "poses": {
+    "foot_-30": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.4499,
+     "area_ratio_max": 1.1827,
+     "self_intersecting_pairs": 0
+    },
+    "foot_-15": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.7312,
+     "area_ratio_max": 1.0978,
+     "self_intersecting_pairs": 0
+    },
+    "foot_+10": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.9296,
+     "area_ratio_max": 1.17,
+     "self_intersecting_pairs": 0
+    },
+    "foot_+20": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.8565,
+     "area_ratio_max": 1.3311,
+     "self_intersecting_pairs": 0
+    },
+    "toe_-50": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.4988,
+     "area_ratio_max": 1.4474,
+     "self_intersecting_pairs": 0
+    },
+    "toe_-30": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.7156,
+     "area_ratio_max": 1.2652,
+     "self_intersecting_pairs": 0
+    },
+    "toe_+30": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.6899,
+     "area_ratio_max": 1.2159,
+     "self_intersecting_pairs": 0
+    }
+   }
+  },
+  {
+   "blend": "breadth/HGPT_ORIGINAL_V1_FOOT_C2W_CLAUDE.blend",
+   "sha256": "2e9f1145a7e4099d71366a53c4e7df860b7a958c38d8e113ded6dbf0c05de09c",
+   "foot_faces": 6336,
+   "poses": {
+    "foot_-30": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.4499,
+     "area_ratio_max": 1.1827,
+     "self_intersecting_pairs": 0
+    },
+    "foot_-15": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.7312,
+     "area_ratio_max": 1.0978,
+     "self_intersecting_pairs": 0
+    },
+    "foot_+10": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.9296,
+     "area_ratio_max": 1.17,
+     "self_intersecting_pairs": 0
+    },
+    "foot_+20": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.8565,
+     "area_ratio_max": 1.3311,
+     "self_intersecting_pairs": 0
+    },
+    "toe_-50": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.4999,
+     "area_ratio_max": 1.386,
+     "self_intersecting_pairs": 0
+    },
+    "toe_-30": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.7164,
+     "area_ratio_max": 1.2286,
+     "self_intersecting_pairs": 0
+    },
+    "toe_+30": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.6842,
+     "area_ratio_max": 1.2151,
+     "self_intersecting_pairs": 0
+    }
+   }
+  },
+  {
+   "blend": "breadth/HGPT_ORIGINAL_V1_FOOT_C3W_CLAUDE.blend",
+   "sha256": "ed6c940b242589e9fdc7493ad554ab78f60702ce3ff4f8c4e00ac5a39c37a2a4",
+   "foot_faces": 6336,
+   "poses": {
+    "foot_-30": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.4499,
+     "area_ratio_max": 1.1534,
+     "self_intersecting_pairs": 0
+    },
+    "foot_-15": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.7312,
+     "area_ratio_max": 1.082,
+     "self_intersecting_pairs": 0
+    },
+    "foot_+10": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.9411,
+     "area_ratio_max": 1.17,
+     "self_intersecting_pairs": 0
+    },
+    "foot_+20": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.8767,
+     "area_ratio_max": 1.3311,
+     "self_intersecting_pairs": 0
+    },
+    "toe_-50": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.4914,
+     "area_ratio_max": 1.954,
+     "self_intersecting_pairs": 0
+    },
+    "toe_-30": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.7113,
+     "area_ratio_max": 1.5813,
+     "self_intersecting_pairs": 0
+    },
+    "toe_+30": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.5301,
+     "area_ratio_max": 1.2202,
+     "self_intersecting_pairs": 0
+    }
+   }
+  }
+ ]
+}

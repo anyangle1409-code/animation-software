@@ -1,0 +1,60 @@
+{
+ "schema_version": 1,
+ "stage": "ORIGINAL_V1_FOREFOOT_BREADTH_CLAUDE",
+ "status": "REVIEW_CANDIDATE_NOT_ACCEPTED",
+ "parent": {
+  "path": "ORIGINAL_V1_WORK/anatomy/candidates/claude_foot_20261013/HGPT_ORIGINAL_V1_FOOT_SHAPE_C2_CLAUDE.blend",
+  "sha256": "9d1571c3c7d61b5dcfe349e5f6dbad9d1e34cdad93c0c56e0fc8c7f85e3c453a"
+ },
+ "output": {
+  "path": "ORIGINAL_V1_WORK/anatomy/candidates/claude_foot_20261013/breadth/HGPT_ORIGINAL_V1_FOOT_C2W_CLAUDE.blend",
+  "sha256": "2e9f1145a7e4099d71366a53c4e7df860b7a958c38d8e113ded6dbf0c05de09c"
+ },
+ "evidence": {
+  "ansur_breadth_mm": 104.1,
+  "ansur_sd_mm": 4.7,
+  "ansur_heel_breadth_mm": 73.7
+ },
+ "parameters": {
+  "ball_line_y_mm": -186.63,
+  "core_m": 0.015,
+  "fade_m": 0.045,
+  "z_full_m": 0.03,
+  "z_zero_m": 0.07,
+  "heel_ramp_m": 0.02,
+  "heel_z_full_m": 0.04,
+  "heel_z_zero_m": 0.08,
+  "ball_scale_solved": 1.10045,
+  "heel_scale_solved": 1.0
+ },
+ "changed_vertices": 1166,
+ "max_x_displacement_mm": 4.802,
+ "checks": {
+  "topology_groups_weights_unchanged": true,
+  "only_x_changed_in_foot_region": true,
+  "mirror_map_max_error_m": 2.9802322387695312e-08,
+  "symmetry_max_m": 0.0,
+  "foot_stations_outside_skin": [],
+  "ball_breadth_mm": [
+   94.6,
+   104.1
+  ],
+  "heel_breadth_20mm_behind_AJC_mm": [
+   58.15,
+   58.15
+  ],
+  "heel_y_mm": 39.74,
+  "heel_breadth_at_AJC_line_mm_parent": 82.64,
+  "heel_zone_applied": false,
+  "verdict": "PASS"
+ },
+ "shape_keys_updated": [
+  "Basis",
+  "HGPT_SHOULDER_CORR_L",
+  "HGPT_SHOULDER_CORR_R",
+  "HGPT_SHOULDER_FLEX_L",
+  "HGPT_SHOULDER_FLEX_R",
+  "HGPT_SHOULDER_SCAP_L",
+  "HGPT_SHOULDER_SCAP_R"
+ ]
+}

@@ -26,9 +26,13 @@ def main():
     for a in ('--before', '--after', '--verify', '--out'):
         ap.add_argument(a, required=True)
     ap.add_argument('--after-label', default='C2')
+    ap.add_argument('--line', action='append', default=[], help='explicit caption line (replaces verify-derived lines)')
+    ap.add_argument('--title-suffix', default='')
     o = ap.parse_args()
     v = json.loads(Path(o.verify).read_text())
-    if 'neutral_plusX_foot' in v:                    # skeleton candidate verify report
+    if o.line:
+        lines = list(o.line)
+    elif 'neutral_plusX_foot' in v:                    # skeleton candidate verify report
         a, c = v['neutral_plusX_foot']['parent'], v['neutral_plusX_foot']['candidate']
         lines = [f"Foot length {a['length_mm']:.1f} -> {c['length_mm']:.1f} mm (ANSUR 1.82 m: 279.9 +/- 9.1)",
                  f"Heel to MTP1 {a['heel_to_MTP1_station_mm']:.1f} -> {c['heel_to_MTP1_station_mm']:.1f} mm (ANSUR 207.4 +/- 7.8)",
@@ -53,7 +57,7 @@ def main():
         head, foot = 110, 40 + 38 * len(lines)
         sheet = Image.new('RGB', (W, head + 2 * W + 60 + foot), (250, 250, 248))
         d = ImageDraw.Draw(sheet)
-        d.text((24, 18), f'ORIGINAL_v1 foot - {p.stem}', fill=(20, 20, 30), font=f_t)
+        d.text((24, 18), f'ORIGINAL_v1 foot - {p.stem}{o.title_suffix}', fill=(20, 20, 30), font=f_t)
         d.text((24, 70), 'orthographic, neutral rest pose; grid 10 mm, bar 50 mm', fill=(80, 80, 90), font=f_s)
         y = head
         for img, lab in ((ia, 'BEFORE (a003 native)'), (ib, f'AFTER ({o.after_label} review candidate, not accepted)')):  # noqa

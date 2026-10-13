@@ -1,6 +1,18 @@
 # Master programme: independent execution checkpoint, 10 October 2026
 
-## New W1/W2 shoulder/thorax guide correction — 13 October (Claude)
+## New W2 coupled shoulder correctives — 13 October (Claude)
+
+`claude/functional-shoulder-coupled-corrective-20261013` is stacked on draft
+PR111 head `13cea5a5`. Read `FUNCTIONAL_SHOULDER_COUPLED_CORRECTIVE_20261013.md`
+and machine key `active_functional_shoulder_coupled_corrective_checkpoint`.
+Seven warm-started pose-space keys (100-160 deg) solved by exact inverse LBS
+keep body volume within 0.17 %, torso skin outside the rib guides and collapse
+near zero from 100 deg up, but shoulder-top self-intersection is worse at
+125-145 and only partly reduced at 160. That buckle needs a helper deformer or
+skinning change that alters the 67-joint runtime contract: owner and Lane G
+decision required. No approvals.
+
+## Preserved W1/W2 shoulder/thorax guide correction — 13 October (Claude)
 
 `claude/functional-original-shoulder-correction-20261013` is stacked on reviewed
 PR110 head `26bf25f04158c9fa372a6e96399f744d8564837b`. Read

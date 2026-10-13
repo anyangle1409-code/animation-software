@@ -1,0 +1,35 @@
+name: Provisional coupled shoulder correctives
+on:
+  push:
+    branches: [claude/functional-shoulder-coupled-corrective-20261013]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  native-shoulder-corrective:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m unittest scripts.test_functional_coupled_corrective scripts.test_functional_shoulder_correction scripts.test_functional_original_coupled_motion scripts.test_functional_original_attachment scripts.test_original_v1_functional_fullbody scripts.test_functional_scapula_bowl scripts.test_functional_shoulder_shapes scripts.test_functional_thorax_shapes -v
+        env:
+          PYTHONPATH: scripts:scripts/anatomy_fit
+      - run: echo '670a37bfd206d702928de721032e2b942725389dc6906df0d866eba8d8cbbe56  ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a003.blend' | sha256sum -c -
+      - run: sudo apt-get update && sudo apt-get install -y libegl1 libgl1-mesa-dri xvfb xauth
+      - name: Install pinned Blender 5.2.1
+        run: |
+          curl --fail --location --retry 3 https://download.blender.org/release/Blender5.2/blender-5.2.1-linux-x64.tar.xz --output /tmp/blender-5.2.1-linux-x64.tar.xz
+          echo 'a31f524fa99a527d3d52b7f5aaa68c34e1a19d5a1c9473f79c5cc610fd5b10e9  /tmp/blender-5.2.1-linux-x64.tar.xz' | sha256sum -c -
+          tar -xJf /tmp/blender-5.2.1-linux-x64.tar.xz -C /tmp
+      - run: /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a003.blend --threads 2 --python-exit-code 1 --python scripts/blender_tests/test_functional_original_coupled_motion.py
+      - run: /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a003.blend --threads 2 --python-exit-code 1 --python scripts/blender_tests/test_functional_shoulder_correction.py
+      - run: /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a003.blend --threads 2 --python-exit-code 1 --python scripts/blender_tests/test_functional_shoulder_corrective.py
+      - run: xvfb-run -a /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a003.blend --threads 2 --python-exit-code 1 --python scripts/build_functional_shoulder_corrective_blender.py -- --out /tmp/hgpt-shoulder-corrective
+        env:
+          LIBGL_ALWAYS_SOFTWARE: '1'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: provisional-coupled-shoulder-correctives
+          path: |
+            /tmp/hgpt-shoulder-corrective/*.png
+            /tmp/hgpt-shoulder-corrective/*.json

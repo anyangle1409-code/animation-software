@@ -1,0 +1,980 @@
+{
+ "benchmarks": {
+  "squat": {
+   "frames": [
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 1.0,
+     "area_ratio_max": 1.0,
+     "body_volume_change_pct": -0.0,
+     "self_intersecting_pairs": 0,
+     "self_intersection_classes_top": [],
+     "lowest_point_z_mm": -0.0,
+     "t": 0.0,
+     "angles_deg": {
+      "hip_flexion": 0.0,
+      "knee_flexion": 0.0,
+      "ankle_dorsiflexion": -0.0
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.925,
+     "area_ratio_max": 1.0733,
+     "body_volume_change_pct": 0.0886,
+     "self_intersecting_pairs": 100,
+     "self_intersection_classes_top": [
+      [
+       "thigh_r",
+       "thumb_03_r",
+       50
+      ],
+      [
+       "thigh_l",
+       "thumb_03_l",
+       50
+      ]
+     ],
+     "lowest_point_z_mm": -0.03,
+     "t": 0.125,
+     "angles_deg": {
+      "hip_flexion": 4.73,
+      "knee_flexion": 4.73,
+      "ankle_dorsiflexion": 1.07
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.7277,
+     "area_ratio_max": 1.3275,
+     "body_volume_change_pct": 0.1839,
+     "self_intersecting_pairs": 120,
+     "self_intersection_classes_top": [
+      [
+       "thigh_r",
+       "thumb_02_r",
+       42
+      ],
+      [
+       "thigh_l",
+       "thumb_02_l",
+       42
+      ],
+      [
+       "thigh_r",
+       "thumb_03_r",
+       18
+      ],
+      [
+       "thigh_l",
+       "thumb_03_l",
+       18
+      ]
+     ],
+     "lowest_point_z_mm": -0.09,
+     "t": 0.25,
+     "angles_deg": {
+      "hip_flexion": 17.19,
+      "knee_flexion": 17.19,
+      "ankle_dorsiflexion": 3.91
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.4781,
+     "area_ratio_max": 1.8212,
+     "body_volume_change_pct": -0.026,
+     "self_intersecting_pairs": 96,
+     "self_intersection_classes_top": [
+      [
+       "thigh_r",
+       "thumb_02_r",
+       48
+      ],
+      [
+       "thigh_l",
+       "thumb_02_l",
+       48
+      ]
+     ],
+     "lowest_point_z_mm": -0.13,
+     "t": 0.375,
+     "angles_deg": {
+      "hip_flexion": 34.8,
+      "knee_flexion": 34.8,
+      "ankle_dorsiflexion": 7.91
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 16,
+     "area_ratio_min": 0.3651,
+     "area_ratio_max": 2.4607,
+     "body_volume_change_pct": -0.7328,
+     "self_intersecting_pairs": 112,
+     "self_intersection_classes_top": [
+      [
+       "thigh_r",
+       "thumb_02_r",
+       30
+      ],
+      [
+       "thigh_l",
+       "thumb_02_l",
+       30
+      ],
+      [
+       "thigh_r",
+       "thumb_03_r",
+       26
+      ],
+      [
+       "thigh_l",
+       "thumb_03_l",
+       26
+      ]
+     ],
+     "lowest_point_z_mm": -0.11,
+     "t": 0.5,
+     "angles_deg": {
+      "hip_flexion": 55.0,
+      "knee_flexion": 55.0,
+      "ankle_dorsiflexion": 12.5
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 26,
+     "area_ratio_min": 0.2294,
+     "area_ratio_max": 3.1227,
+     "body_volume_change_pct": -1.8482,
+     "self_intersecting_pairs": 0,
+     "self_intersection_classes_top": [],
+     "lowest_point_z_mm": -0.02,
+     "t": 0.625,
+     "angles_deg": {
+      "hip_flexion": 75.2,
+      "knee_flexion": 75.2,
+      "ankle_dorsiflexion": 17.09
+     },
+     "exceeds_cdc_passive_mean": {
+      "ankle_dorsiflexion": 4.39
+     }
+    },
+    {
+     "collapse_lt_0_1": 6,
+     "stretch_gt_2": 40,
+     "area_ratio_min": 0.0703,
+     "area_ratio_max": 3.6912,
+     "body_volume_change_pct": -3.0455,
+     "self_intersecting_pairs": 92,
+     "self_intersection_classes_top": [
+      [
+       "shin_r",
+       "thigh_r",
+       46
+      ],
+      [
+       "shin_l",
+       "thigh_l",
+       46
+      ]
+     ],
+     "lowest_point_z_mm": 0.0,
+     "t": 0.75,
+     "angles_deg": {
+      "hip_flexion": 92.81,
+      "knee_flexion": 92.81,
+      "ankle_dorsiflexion": 21.09
+     },
+     "exceeds_cdc_passive_mean": {
+      "ankle_dorsiflexion": 8.39
+     }
+    },
+    {
+     "collapse_lt_0_1": 6,
+     "stretch_gt_2": 54,
+     "area_ratio_min": 0.0409,
+     "area_ratio_max": 4.0752,
+     "body_volume_change_pct": -3.9531,
+     "self_intersecting_pairs": 269,
+     "self_intersection_classes_top": [
+      [
+       "shin_r",
+       "thigh_r",
+       65
+      ],
+      [
+       "shin_l",
+       "thigh_l",
+       65
+      ],
+      [
+       "pelvis",
+       "thigh_l",
+       61
+      ],
+      [
+       "pelvis",
+       "thigh_r",
+       58
+      ],
+      [
+       "thigh_r",
+       "thigh_r",
+       9
+      ],
+      [
+       "thigh_l",
+       "thigh_l",
+       9
+      ]
+     ],
+     "lowest_point_z_mm": 0.0,
+     "t": 0.875,
+     "angles_deg": {
+      "hip_flexion": 105.27,
+      "knee_flexion": 105.27,
+      "ankle_dorsiflexion": 23.93
+     },
+     "exceeds_cdc_passive_mean": {
+      "ankle_dorsiflexion": 11.23
+     }
+    },
+    {
+     "collapse_lt_0_1": 26,
+     "stretch_gt_2": 56,
+     "area_ratio_min": 0.0751,
+     "area_ratio_max": 4.215,
+     "body_volume_change_pct": -4.3,
+     "self_intersecting_pairs": 371,
+     "self_intersection_classes_top": [
+      [
+       "shin_r",
+       "thigh_r",
+       72
+      ],
+      [
+       "shin_l",
+       "thigh_l",
+       72
+      ],
+      [
+       "thigh_r",
+       "thigh_r",
+       61
+      ],
+      [
+       "thigh_l",
+       "thigh_l",
+       61
+      ],
+      [
+       "pelvis",
+       "thigh_l",
+       54
+      ],
+      [
+       "pelvis",
+       "thigh_r",
+       51
+      ]
+     ],
+     "lowest_point_z_mm": -0.0,
+     "t": 1.0,
+     "angles_deg": {
+      "hip_flexion": 110.0,
+      "knee_flexion": 110.0,
+      "ankle_dorsiflexion": 25.0
+     },
+     "exceeds_cdc_passive_mean": {
+      "ankle_dorsiflexion": 12.3
+     }
+    }
+   ],
+   "worst": {
+    "collapse_lt_0_1": 26,
+    "stretch_gt_2": 56,
+    "self_intersecting_pairs": 371
+   },
+   "volume_change_pct_range": [
+    -4.3,
+    0.1839
+   ]
+  },
+  "bent_over_row": {
+   "frames": [
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 1.0,
+     "area_ratio_max": 1.0,
+     "body_volume_change_pct": -0.0,
+     "self_intersecting_pairs": 0,
+     "self_intersection_classes_top": [],
+     "lowest_point_z_mm": -0.0,
+     "t": 0.0,
+     "angles_deg": {
+      "hip_flexion": 0.0,
+      "knee_flexion": 0.0,
+      "shoulder_flexion": 0.0,
+      "elbow_flexion": 0.0,
+      "ankle_dorsiflexion": -0.0
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.8882,
+     "area_ratio_max": 1.1263,
+     "body_volume_change_pct": 0.2679,
+     "self_intersecting_pairs": 0,
+     "self_intersection_classes_top": [],
+     "lowest_point_z_mm": -0.08,
+     "t": 0.125,
+     "angles_deg": {
+      "hip_flexion": 7.03,
+      "knee_flexion": 3.12,
+      "shoulder_flexion": 7.03,
+      "elbow_flexion": 0.0,
+      "ankle_dorsiflexion": 3.13
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.6462,
+     "area_ratio_max": 1.4289,
+     "body_volume_change_pct": 0.5322,
+     "self_intersecting_pairs": 0,
+     "self_intersection_classes_top": [],
+     "lowest_point_z_mm": -0.13,
+     "t": 0.25,
+     "angles_deg": {
+      "hip_flexion": 22.5,
+      "knee_flexion": 10.0,
+      "shoulder_flexion": 22.5,
+      "elbow_flexion": 0.0,
+      "ankle_dorsiflexion": 10.0
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.4429,
+     "area_ratio_max": 1.7606,
+     "body_volume_change_pct": 0.3394,
+     "self_intersecting_pairs": 4,
+     "self_intersection_classes_top": [
+      [
+       "scapula_r",
+       "upperarm_r",
+       2
+      ],
+      [
+       "scapula_l",
+       "upperarm_l",
+       2
+      ]
+     ],
+     "lowest_point_z_mm": -0.02,
+     "t": 0.375,
+     "angles_deg": {
+      "hip_flexion": 37.97,
+      "knee_flexion": 16.88,
+      "shoulder_flexion": 37.97,
+      "elbow_flexion": 0.0,
+      "ankle_dorsiflexion": 16.87
+     },
+     "exceeds_cdc_passive_mean": {
+      "ankle_dorsiflexion": 4.17
+     }
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.3845,
+     "area_ratio_max": 1.9492,
+     "body_volume_change_pct": 0.1036,
+     "self_intersecting_pairs": 8,
+     "self_intersection_classes_top": [
+      [
+       "scapula_r",
+       "upperarm_r",
+       3
+      ],
+      [
+       "scapula_l",
+       "upperarm_l",
+       3
+      ],
+      [
+       "scapula_r",
+       "scapula_r",
+       1
+      ],
+      [
+       "scapula_l",
+       "scapula_l",
+       1
+      ]
+     ],
+     "lowest_point_z_mm": -0.0,
+     "t": 0.5,
+     "angles_deg": {
+      "hip_flexion": 45.0,
+      "knee_flexion": 20.0,
+      "shoulder_flexion": 45.0,
+      "elbow_flexion": 0.0,
+      "ankle_dorsiflexion": 20.0
+     },
+     "exceeds_cdc_passive_mean": {
+      "ankle_dorsiflexion": 7.3
+     }
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.3845,
+     "area_ratio_max": 1.9509,
+     "body_volume_change_pct": 0.0242,
+     "self_intersecting_pairs": 2,
+     "self_intersection_classes_top": [
+      [
+       "scapula_r",
+       "upperarm_r",
+       1
+      ],
+      [
+       "scapula_l",
+       "upperarm_l",
+       1
+      ]
+     ],
+     "lowest_point_z_mm": -0.0,
+     "t": 0.625,
+     "angles_deg": {
+      "hip_flexion": 45.0,
+      "knee_flexion": 20.0,
+      "shoulder_flexion": 31.72,
+      "elbow_flexion": 15.62,
+      "ankle_dorsiflexion": 20.0
+     },
+     "exceeds_cdc_passive_mean": {
+      "ankle_dorsiflexion": 7.3
+     }
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.3845,
+     "area_ratio_max": 1.9547,
+     "body_volume_change_pct": -0.744,
+     "self_intersecting_pairs": 0,
+     "self_intersection_classes_top": [],
+     "lowest_point_z_mm": -0.0,
+     "t": 0.75,
+     "angles_deg": {
+      "hip_flexion": 45.0,
+      "knee_flexion": 20.0,
+      "shoulder_flexion": 2.5,
+      "elbow_flexion": 50.0,
+      "ankle_dorsiflexion": 20.0
+     },
+     "exceeds_cdc_passive_mean": {
+      "ankle_dorsiflexion": 7.3
+     }
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.1665,
+     "area_ratio_max": 1.9583,
+     "body_volume_change_pct": -2.2183,
+     "self_intersecting_pairs": 94,
+     "self_intersection_classes_top": [
+      [
+       "forearm_tw0_r",
+       "upperarm_r",
+       47
+      ],
+      [
+       "forearm_tw0_l",
+       "upperarm_l",
+       47
+      ]
+     ],
+     "lowest_point_z_mm": -0.0,
+     "t": 0.875,
+     "angles_deg": {
+      "hip_flexion": 45.0,
+      "knee_flexion": 20.0,
+      "shoulder_flexion": 0.0,
+      "elbow_flexion": 84.38,
+      "ankle_dorsiflexion": 20.0
+     },
+     "exceeds_cdc_passive_mean": {
+      "ankle_dorsiflexion": 7.3
+     }
+    },
+    {
+     "collapse_lt_0_1": 2,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.0894,
+     "area_ratio_max": 1.9599,
+     "body_volume_change_pct": -3.0472,
+     "self_intersecting_pairs": 156,
+     "self_intersection_classes_top": [
+      [
+       "forearm_tw0_r",
+       "upperarm_r",
+       44
+      ],
+      [
+       "forearm_tw0_l",
+       "upperarm_l",
+       44
+      ],
+      [
+       "forearm_tw1_r",
+       "upperarm_r",
+       26
+      ],
+      [
+       "forearm_tw1_l",
+       "upperarm_l",
+       26
+      ],
+      [
+       "spine_03",
+       "spine_03",
+       5
+      ],
+      [
+       "upperarm_r",
+       "upperarm_r",
+       4
+      ]
+     ],
+     "lowest_point_z_mm": -0.0,
+     "t": 1.0,
+     "angles_deg": {
+      "hip_flexion": 45.0,
+      "knee_flexion": 20.0,
+      "shoulder_flexion": 0.0,
+      "elbow_flexion": 100.0,
+      "ankle_dorsiflexion": 20.0
+     },
+     "exceeds_cdc_passive_mean": {
+      "ankle_dorsiflexion": 7.3
+     }
+    }
+   ],
+   "worst": {
+    "collapse_lt_0_1": 2,
+    "stretch_gt_2": 0,
+    "self_intersecting_pairs": 156
+   },
+   "volume_change_pct_range": [
+    -3.0472,
+    0.5322
+   ]
+  },
+  "shoulder_press": {
+   "frames": [
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 310,
+     "area_ratio_min": 0.163,
+     "area_ratio_max": 3.5363,
+     "body_volume_change_pct": 1.4628,
+     "self_intersecting_pairs": 124,
+     "self_intersection_classes_top": [
+      [
+       "forearm_tw0_r",
+       "upperarm_r",
+       51
+      ],
+      [
+       "forearm_tw0_l",
+       "upperarm_l",
+       51
+      ],
+      [
+       "forearm_tw1_r",
+       "upperarm_r",
+       7
+      ],
+      [
+       "forearm_tw1_l",
+       "upperarm_l",
+       7
+      ],
+      [
+       "forearm_tw0_r",
+       "forearm_tw0_r",
+       4
+      ],
+      [
+       "forearm_tw0_l",
+       "forearm_tw0_l",
+       4
+      ]
+     ],
+     "lowest_point_z_mm": 0.0,
+     "t": 0.0,
+     "angles_deg": {
+      "humerothoracic_elevation": 90.0,
+      "elbow_flexion": 90.0,
+      "shoulder_flexion": 57.85
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 326,
+     "area_ratio_min": 0.1641,
+     "area_ratio_max": 3.6678,
+     "body_volume_change_pct": 1.2065,
+     "self_intersecting_pairs": 98,
+     "self_intersection_classes_top": [
+      [
+       "forearm_tw0_r",
+       "upperarm_r",
+       49
+      ],
+      [
+       "forearm_tw0_l",
+       "upperarm_l",
+       49
+      ]
+     ],
+     "lowest_point_z_mm": 0.0,
+     "t": 0.125,
+     "angles_deg": {
+      "humerothoracic_elevation": 93.01,
+      "elbow_flexion": 86.13,
+      "shoulder_flexion": 59.78
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 372,
+     "area_ratio_min": 0.1634,
+     "area_ratio_max": 4.001,
+     "body_volume_change_pct": 0.4523,
+     "self_intersecting_pairs": 66,
+     "self_intersection_classes_top": [
+      [
+       "forearm_tw0_r",
+       "upperarm_r",
+       33
+      ],
+      [
+       "forearm_tw0_l",
+       "upperarm_l",
+       33
+      ]
+     ],
+     "lowest_point_z_mm": 0.0,
+     "t": 0.25,
+     "angles_deg": {
+      "humerothoracic_elevation": 100.94,
+      "elbow_flexion": 75.94,
+      "shoulder_flexion": 64.88
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 2,
+     "stretch_gt_2": 410,
+     "area_ratio_min": 0.0665,
+     "area_ratio_max": 4.4198,
+     "body_volume_change_pct": -0.7409,
+     "self_intersecting_pairs": 0,
+     "self_intersection_classes_top": [],
+     "lowest_point_z_mm": 0.0,
+     "t": 0.375,
+     "angles_deg": {
+      "humerothoracic_elevation": 112.15,
+      "elbow_flexion": 61.52,
+      "shoulder_flexion": 72.09
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 4,
+     "stretch_gt_2": 438,
+     "area_ratio_min": 0.0249,
+     "area_ratio_max": 4.7906,
+     "body_volume_change_pct": -2.1466,
+     "self_intersecting_pairs": 2,
+     "self_intersection_classes_top": [
+      [
+       "scapula_r",
+       "scapula_r",
+       1
+      ],
+      [
+       "scapula_l",
+       "scapula_l",
+       1
+      ]
+     ],
+     "lowest_point_z_mm": 0.0,
+     "t": 0.5,
+     "angles_deg": {
+      "humerothoracic_elevation": 125.0,
+      "elbow_flexion": 45.0,
+      "shoulder_flexion": 80.35
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 40,
+     "stretch_gt_2": 434,
+     "area_ratio_min": 0.037,
+     "area_ratio_max": 5.0181,
+     "body_volume_change_pct": -3.4307,
+     "self_intersecting_pairs": 42,
+     "self_intersection_classes_top": [
+      [
+       "clavicle_r",
+       "upperarm_r",
+       10
+      ],
+      [
+       "clavicle_l",
+       "upperarm_l",
+       10
+      ],
+      [
+       "upperarm_r",
+       "upperarm_r",
+       7
+      ],
+      [
+       "upperarm_l",
+       "upperarm_l",
+       7
+      ],
+      [
+       "scapula_r",
+       "scapula_r",
+       2
+      ],
+      [
+       "clavicle_r",
+       "clavicle_r",
+       2
+      ]
+     ],
+     "lowest_point_z_mm": 0.0,
+     "t": 0.625,
+     "angles_deg": {
+      "humerothoracic_elevation": 137.85,
+      "elbow_flexion": 28.48,
+      "shoulder_flexion": 88.61
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 48,
+     "stretch_gt_2": 422,
+     "area_ratio_min": 0.016,
+     "area_ratio_max": 5.092,
+     "body_volume_change_pct": -4.3504,
+     "self_intersecting_pairs": 462,
+     "self_intersection_classes_top": [
+      [
+       "upperarm_r",
+       "upperarm_r",
+       133
+      ],
+      [
+       "upperarm_l",
+       "upperarm_l",
+       133
+      ],
+      [
+       "clavicle_r",
+       "upperarm_r",
+       70
+      ],
+      [
+       "clavicle_l",
+       "upperarm_l",
+       70
+      ],
+      [
+       "scapula_r",
+       "upperarm_r",
+       25
+      ],
+      [
+       "scapula_l",
+       "upperarm_l",
+       25
+      ]
+     ],
+     "lowest_point_z_mm": 0.0,
+     "t": 0.75,
+     "angles_deg": {
+      "humerothoracic_elevation": 149.06,
+      "elbow_flexion": 14.06,
+      "shoulder_flexion": 95.82
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 36,
+     "stretch_gt_2": 410,
+     "area_ratio_min": 0.0228,
+     "area_ratio_max": 5.0762,
+     "body_volume_change_pct": -4.8565,
+     "self_intersecting_pairs": 462,
+     "self_intersection_classes_top": [
+      [
+       "upperarm_r",
+       "upperarm_r",
+       92
+      ],
+      [
+       "upperarm_l",
+       "upperarm_l",
+       92
+      ],
+      [
+       "clavicle_r",
+       "upperarm_r",
+       80
+      ],
+      [
+       "clavicle_l",
+       "upperarm_l",
+       80
+      ],
+      [
+       "scapula_r",
+       "upperarm_r",
+       50
+      ],
+      [
+       "scapula_l",
+       "upperarm_l",
+       50
+      ]
+     ],
+     "lowest_point_z_mm": 0.0,
+     "t": 0.875,
+     "angles_deg": {
+      "humerothoracic_elevation": 156.99,
+      "elbow_flexion": 3.87,
+      "shoulder_flexion": 100.91
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 42,
+     "stretch_gt_2": 400,
+     "area_ratio_min": 0.0311,
+     "area_ratio_max": 5.0563,
+     "body_volume_change_pct": -5.0144,
+     "self_intersecting_pairs": 444,
+     "self_intersection_classes_top": [
+      [
+       "upperarm_r",
+       "upperarm_r",
+       78
+      ],
+      [
+       "upperarm_l",
+       "upperarm_l",
+       78
+      ],
+      [
+       "clavicle_r",
+       "upperarm_r",
+       68
+      ],
+      [
+       "clavicle_l",
+       "upperarm_l",
+       68
+      ],
+      [
+       "scapula_r",
+       "upperarm_r",
+       65
+      ],
+      [
+       "scapula_l",
+       "upperarm_l",
+       65
+      ]
+     ],
+     "lowest_point_z_mm": 0.0,
+     "t": 1.0,
+     "angles_deg": {
+      "humerothoracic_elevation": 160.0,
+      "elbow_flexion": 0.0,
+      "shoulder_flexion": 102.85
+     },
+     "exceeds_cdc_passive_mean": {}
+    }
+   ],
+   "worst": {
+    "collapse_lt_0_1": 48,
+    "stretch_gt_2": 438,
+    "self_intersecting_pairs": 462
+   },
+   "volume_change_pct_range": [
+    -5.0144,
+    1.4628
+   ]
+  }
+ },
+ "cdc_passive_means_deg": {
+  "hip_flexion": 130.4,
+  "knee_flexion": 137.7,
+  "ankle_dorsiflexion": 12.7,
+  "shoulder_flexion": 168.8,
+  "elbow_flexion": 144.6
+ },
+ "frames": 9,
+ "approved": false,
+ "scope": "authored FK benchmark paths within CDC passive means; diagnostic only",
+ "renders": [
+  "squat__t0.00__front.png",
+  "squat__t0.00__side.png",
+  "squat__t0.50__front.png",
+  "squat__t0.50__side.png",
+  "squat__t1.00__front.png",
+  "squat__t1.00__side.png",
+  "bent_over_row__t0.00__front.png",
+  "bent_over_row__t0.00__side.png",
+  "bent_over_row__t0.50__front.png",
+  "bent_over_row__t0.50__side.png",
+  "bent_over_row__t1.00__front.png",
+  "bent_over_row__t1.00__side.png",
+  "shoulder_press__t0.00__front.png",
+  "shoulder_press__t0.00__side.png",
+  "shoulder_press__t0.50__front.png",
+  "shoulder_press__t0.50__side.png",
+  "shoulder_press__t1.00__front.png",
+  "shoulder_press__t1.00__side.png"
+ ]
+}

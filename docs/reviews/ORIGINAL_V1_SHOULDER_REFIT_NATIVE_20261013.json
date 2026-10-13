@@ -1,0 +1,151 @@
+{
+  "input_commit": "8e050c2dc9798030df584f9a71644945568c3a48",
+  "authored_context_commit": "27e2dbf4424b878d8312cf346624e495720bba0a",
+  "input_model_sha256": "ca8e6824ae54e5778a04409e00d32ae13ac23d9fce95e1f6d8207abbef265ca7",
+  "original_model_sha256": "670a37bfd206d702928de721032e2b942725389dc6906df0d866eba8d8cbbe56",
+  "source_record_sha256": "99500d94e06c66ca489bdaccc0345446f98794946254c5e592d9449696f396c1",
+  "candidate_filename": "HomeGymPT_ORIGINAL_v1_SHOULDER_JOINT_REFIT_TRIAL.blend",
+  "candidate_sha256": "a48ee389a064927f740b5ea294b7afed3ef1616cbe8ac6c121867b86581680c2",
+  "body_vertices": 17946,
+  "runtime_count": 67,
+  "joint_control_map": {
+    "clavicle_left": "clavicle_r",
+    "scapula_left": "scapula_r",
+    "humerus_left": "upperarm_r",
+    "clavicle_right": "clavicle_l",
+    "scapula_right": "scapula_l",
+    "humerus_right": "upperarm_l"
+  },
+  "neutral_max_difference_m": 1.4057727354849284e-07,
+  "original_fingerprint_before": "fa5c31546e1167074ad7673c4777a494b801ff47fb3c0e953b419ef34f37403b",
+  "original_fingerprint_after": "fa5c31546e1167074ad7673c4777a494b801ff47fb3c0e953b419ef34f37403b",
+  "source_file_unchanged": true,
+  "samples": [
+    {
+      "stage": "REST",
+      "world_normal_dot_reversals": 0,
+      "minimum_triangle_area_ratio": 1.0,
+      "maximum_triangle_area_ratio": 1.0,
+      "finite": true
+    },
+    {
+      "stage": 0,
+      "world_normal_dot_reversals": 0,
+      "minimum_triangle_area_ratio": 0.9831463819796233,
+      "maximum_triangle_area_ratio": 1.0158496866873263,
+      "finite": true
+    },
+    {
+      "stage": 45,
+      "world_normal_dot_reversals": 0,
+      "minimum_triangle_area_ratio": 0.5338597960050616,
+      "maximum_triangle_area_ratio": 1.743463603465704,
+      "finite": true
+    },
+    {
+      "stage": 90,
+      "world_normal_dot_reversals": 4394,
+      "minimum_triangle_area_ratio": 0.27519205016458953,
+      "maximum_triangle_area_ratio": 2.4892902613420964,
+      "finite": true
+    },
+    {
+      "stage": 135,
+      "world_normal_dot_reversals": 8504,
+      "minimum_triangle_area_ratio": 0.017655099371054243,
+      "maximum_triangle_area_ratio": 3.4079537555753743,
+      "finite": true
+    },
+    {
+      "stage": 160,
+      "world_normal_dot_reversals": 8702,
+      "minimum_triangle_area_ratio": 0.009709132793922767,
+      "maximum_triangle_area_ratio": 3.950243744421821,
+      "finite": true
+    },
+    {
+      "stage": 135,
+      "world_normal_dot_reversals": 8504,
+      "minimum_triangle_area_ratio": 0.017655099371054243,
+      "maximum_triangle_area_ratio": 3.4079537555753743,
+      "finite": true
+    },
+    {
+      "stage": 90,
+      "world_normal_dot_reversals": 4394,
+      "minimum_triangle_area_ratio": 0.27519205016458953,
+      "maximum_triangle_area_ratio": 2.4892902613420964,
+      "finite": true
+    },
+    {
+      "stage": 45,
+      "world_normal_dot_reversals": 0,
+      "minimum_triangle_area_ratio": 0.5338597960050616,
+      "maximum_triangle_area_ratio": 1.743463603465704,
+      "finite": true
+    },
+    {
+      "stage": 0,
+      "world_normal_dot_reversals": 0,
+      "minimum_triangle_area_ratio": 0.9831463819796233,
+      "maximum_triangle_area_ratio": 1.0158496866873263,
+      "finite": true
+    },
+    {
+      "stage": "REST",
+      "world_normal_dot_reversals": 0,
+      "minimum_triangle_area_ratio": 1.0,
+      "maximum_triangle_area_ratio": 1.0,
+      "finite": true
+    }
+  ],
+  "images": [
+    {
+      "file": "neutral_front.png",
+      "pose": "neutral",
+      "view": "front",
+      "sha256": "7a7f6905c8dd16927db3c2e2f487be3a6a2c6fd235bad9dab2e48585d0f583a9"
+    },
+    {
+      "file": "neutral_three_quarter.png",
+      "pose": "neutral",
+      "view": "three_quarter",
+      "sha256": "42e92924920baf7d9b9b1f37670c73020d1fe14d9ab720b08890449c00ad0fb9"
+    },
+    {
+      "file": "reach_090_front.png",
+      "pose": "reach_090",
+      "view": "front",
+      "sha256": "1b938513cb3226dff309b7847473207e430791a5382d97f21452818f9a6ba6eb"
+    },
+    {
+      "file": "reach_090_three_quarter.png",
+      "pose": "reach_090",
+      "view": "three_quarter",
+      "sha256": "6d7940827bf39cd06245f193e2cfbe08f26dcd0ad880698f18c955bbeaced21f"
+    },
+    {
+      "file": "reach_160_front.png",
+      "pose": "reach_160",
+      "view": "front",
+      "sha256": "53d75a1cc2f79fb1a8c25916d73e582592f2ea86bf6d10f13293c5b199e5543e"
+    },
+    {
+      "file": "reach_160_three_quarter.png",
+      "pose": "reach_160",
+      "view": "three_quarter",
+      "sha256": "e502d41b3c5fad393969f588c32455eba0017c37d17c0e1b9fcd3766aaef6864"
+    }
+  ],
+  "limitations": [
+    "Six copied runtime heads now use provisional c004 SC/AC/GH centres; source206 and original67 unchanged.",
+    "Inherited weights/skin/correctives are NOT refitted. Upper-arm tails retain old elbow stations; roll inherited, not approved anatomical axes.",
+    "World normal dot sign change includes legitimate rigid turning and is not proof of inversion. Area ratios are distortion diagnostics, not physiological pass.",
+    "11 stages use inherited artist-authored coupling and shortest-arc humeral directions, not validated ROM, muscle mechanics or loaded exercise.",
+    "Original rejected foot geometry remains visible; foot trials are separate."
+  ],
+  "anatomical_approval": false,
+  "deformation_accepted": false,
+  "motion_accepted": false,
+  "production_approved": false
+}

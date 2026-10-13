@@ -19,7 +19,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 sys.path.insert(0, str(ROOT / "scripts" / "anatomy_fit"))
 
 import build_functional_original_attachment_blender as attachment
-from functional_original_coupled_motion import pose_profile
+import functional_original_coupled_motion as motion
 
 
 DEFORMATION_SAMPLE_INDICES = ()
@@ -34,6 +34,15 @@ def _rotation(x=0.0, y=0.0, z=0.0):
     return (Matrix.Rotation(math.radians(z), 4, "Z") @
             Matrix.Rotation(math.radians(y), 4, "Y") @
             Matrix.Rotation(math.radians(x), 4, "X"))
+
+
+def clavicle_basis(profile, side_sign):
+    """Map named channels onto the rig's local +Y clavicle shaft frame."""
+    return _rotation(
+        x=side_sign * profile["clavicle_elevation_deg"],
+        y=side_sign * profile["clavicle_posterior_rotation_deg"],
+        z=side_sign * profile["clavicle_retraction_deg"],
+    )
 
 
 def _choose_deformation_samples(body):
@@ -72,7 +81,7 @@ def _reset_runtime(runtime):
 
 def apply_coupled_pose(result, ht_elevation_deg):
     # Validate before mutating the loaded source scene.
-    profile = pose_profile(ht_elevation_deg)
+    profile = motion.pose_profile(ht_elevation_deg)
     runtime = result["runtime"]
     _reset_runtime(runtime)
 
@@ -80,11 +89,7 @@ def apply_coupled_pose(result, ht_elevation_deg):
         clavicle = runtime.pose.bones[f"clavicle_{suffix}"]
         scapula = runtime.pose.bones[f"scapula_{suffix}"]
         side_sign = 1.0 if suffix == "r" else -1.0
-        clavicle.matrix_basis = _rotation(
-            x=profile["clavicle_posterior_rotation_deg"],
-            y=side_sign * profile["clavicle_retraction_deg"],
-            z=side_sign * profile["clavicle_elevation_deg"],
-        )
+        clavicle.matrix_basis = clavicle_basis(profile, side_sign)
         scapula.matrix_basis = _rotation(
             x=profile["scapula_posterior_tilt_deg"],
             y=side_sign * profile["scapula_internal_rotation_deg"],
@@ -190,6 +195,8 @@ def render_coupled_evidence(output_directory):
         "candidate": "PROVISIONAL_FUNCTIONAL_ORIGINAL_COUPLED_MOTION_v1",
         "source_blend": source.name,
         "source_blend_sha256": attachment._sha256(source),
+        "source_record": str(attachment.RECORD.relative_to(ROOT)).replace("\\", "/"),
+        "source_record_sha256": attachment._sha256(attachment.RECORD),
         "rendered_angles_deg": [90, 160],
         "measured_angles_deg": [0, 90, 160],
         "views": POSE_VIEWS,

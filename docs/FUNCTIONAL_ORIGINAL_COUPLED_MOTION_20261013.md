@@ -15,20 +15,23 @@ in a 40-degree anterior scapular plane. F-SIDE-001 remains deliberate. The 29
 PR109 guides follow their existing one-weight runtime attachments. The 206-bone
 source stays at rest and does not drive the unchanged 17,946-vertex male.
 
-Five pure tests and five actual Blender 5.2.1 tests pass: required samples,
+Five pure tests and six actual Blender 5.2.1 tests pass: required samples,
 nonlinear progression, finite guards, bilateral absolute humeral direction,
 progressive guide movement, source remaining at rest, fail-before-mutation,
-sampled body deformation and unchanged sole runtime driver. Twenty-eight
+sampled body deformation, correct local-Y clavicle axial rotation with isolated
+perpendicular elevation/retraction channels, and unchanged sole runtime driver. Twenty-eight
 pure/inherited tests pass with the documented `PYTHONPATH`.
 
 Six new 900 px full-body views were rendered only at changed 90 and 160 degree
 poses (front/side/rear); neutral was deliberately not repeated. JSON still
 measures 0/90/160. Private directory:
-`C:/Users/Mark/Documents/Codex/hgpt-functional-original-coupled-motion-v1-20261013/`.
+`C:/Users/Mark/Documents/Codex/hgpt-functional-original-coupled-motion-v2-20261013/`.
 Manifest SHA-256:
-`4efa972da7a8068d91d47bbf11554aaf6a506cb7887b797e9223085a4935d06a`.
+`49e86a1bcb891c59edd2fda8ddac9d885f3c3e517ac2b4c234305398bb749d05`.
 All six PNG hashes match. Source blend SHA-256 remains
 `670a37bfd206d702928de721032e2b942725389dc6906df0d866eba8d8cbbe56`.
+The c004 attachment record is independently pinned at SHA-256
+`99500d94e06c66ca489bdaccc0345446f98794946254c5e592d9449696f396c1`.
 
 ## Reference comparison and defects
 
@@ -44,8 +47,8 @@ higher elevation but is not treated as a direct fit.
 Inspection of 90 front and 160 rear confirms broad elevation and framing while
 exposing unresolved defects: blades are coarse, oversized and triangular;
 thorax contact is unsolved; ribs remain steep and coil-like; humeral axial
-rotation is not anatomically fitted. Sampled maximum skin movements (0.287 m at
-90 and 0.381 m at 160) are displacement diagnostics, not quality scores. No
+rotation is not anatomically fitted. Sampled maximum skin movements (0.255 m at
+90 and 0.346 m at 160) are displacement diagnostics, not quality scores. No
 contact solver, breathing, accepted placement, fitted axes, accepted human
 comparison, muscle sliding, deformation acceptance, clinical approval, GLB
 approval or production approval exists.

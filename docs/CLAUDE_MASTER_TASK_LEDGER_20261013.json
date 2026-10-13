@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "kind": "claude_master_task_ledger",
- "updated": "2026-10-13 (M2 tested)",
+ "updated": "2026-10-13 (A1 tested)",
  "owner_rules": "skeleton is source of truth; no frozen-skeleton change without owner decision; no merge; no approval claims; no third-party assets",
  "environment": "cloud Linux container (Blender 5.2.1 as Python module); not the owner's Windows laptop; no battery telemetry available, protection = commit/push after every task",
  "branches": {
@@ -173,12 +173,16 @@
    "id": "A1",
    "description": "Whole-skeleton anatomical validation status matrix (reuse prior audits and blocker matrix 7761a12d)",
    "priority": 3,
-   "status": "TODO",
-   "evidence": null,
-   "tests": null,
-   "commit": null,
-   "blockers": [],
-   "next": "consolidate existing regional readiness into one current matrix"
+   "status": "TESTED",
+   "evidence": "docs/CLAUDE_A1_WHOLE_SKELETON_VALIDATION_MATRIX_20261013.md; ORIGINAL_V1_WORK/anatomy/audit/claude_a1/ (matrix, containment report, phone sheet)",
+   "tests": "5 native containment tests + 4 pure matrix tests PASS locally; CI workflow original-skeleton-containment.yml",
+   "commit": "this branch (see git log); CI pending",
+   "blockers": [
+    "fibula axis 1.9 mm outside lateral distal shank skin (both sides): needs sourced cover/tibiofibular offset to decide mesh vs skeleton",
+    "first metacarpal axis 0.06 mm under thumb-web skin (hand blockers H1-H3/c005)",
+    "radius-aware cover needs bone radii/surfaces"
+   ],
+   "next": "readiness unchanged (0 READY / 9 PARTIAL / 3 BLOCKED); see doc Next"
   },
   {
    "id": "R1",

@@ -1,0 +1,307 @@
+{
+ "kind": "WHOLE_SKELETON_VALIDATION_MATRIX",
+ "schema_version": 1,
+ "approved": false,
+ "rule": "readiness is copied from canonical_freeze_readiness_v1.json; this matrix never upgrades a region",
+ "overall_status": "NOT_READY_FOR_NEW_CANONICAL_BLENDER_REVISION",
+ "readiness_counts": {
+  "READY": 0,
+  "PARTIAL": 9,
+  "BLOCKED": 3
+ },
+ "containment_summary": {
+  "bones": 206,
+  "bones_outside_skin": 2,
+  "bones_shallow_lt_mm": 2,
+  "joint_centres": 427,
+  "joint_centres_outside_skin": 0,
+  "bony_landmarks": 24,
+  "bony_landmarks_outside_skin": 0,
+  "skin_landmarks": 27,
+  "skin_landmark_abs_depth_max_mm": 0.0,
+  "ray_parity_votes_not_unanimous": 2,
+  "bilateral_pairs": 86,
+  "bilateral_mirror_error_max_mm": 0.29,
+  "body_height_m": 1.82,
+  "skeleton_z_span_m": 1.7966,
+  "shallow_mm_threshold": 3.0
+ },
+ "regions": {
+  "shoulder_girdle": {
+   "readiness": "PARTIAL",
+   "defined_anchors": 6,
+   "open_blockers": 10,
+   "next_action": "Resolve source endpoint mappings and neutral thorax pose before selecting absolute SC/AC/GH centres; measured relative envelope is provisional.",
+   "blocker_matrix_items": [
+    "U9",
+    "G3",
+    "U3"
+   ],
+   "session_packages": [
+    "W1",
+    "W2",
+    "W3",
+    "W4",
+    "M1",
+    "M2",
+    "E1"
+   ],
+   "containment": {
+    "bones": 4,
+    "outside_skin": [],
+    "shallow_lt_3mm": [],
+    "min_axis_depth_mm": 11.02
+   }
+  },
+  "spine": {
+   "readiness": "PARTIAL",
+   "defined_anchors": 13,
+   "open_blockers": 8,
+   "next_action": "Reconcile body/disc surface and height definitions and independent evidence before deriving absolute centres; provisional inferior and superior orientations now available.",
+   "blocker_matrix_items": [
+    "G3",
+    "U5/U10"
+   ],
+   "session_packages": [
+    "M1",
+    "M2",
+    "E1"
+   ],
+   "containment": {
+    "bones": 26,
+    "outside_skin": [],
+    "shallow_lt_3mm": [],
+    "min_axis_depth_mm": 46.18
+   }
+  },
+  "ribs": {
+   "readiness": "BLOCKED",
+   "defined_anchors": 6,
+   "open_blockers": 5,
+   "next_action": "Create rib-level non-bone centreline/contact dataset before any new Blender master.",
+   "blocker_matrix_items": [
+    "U9",
+    "G3",
+    "Rib slope"
+   ],
+   "session_packages": [
+    "W1",
+    "M1",
+    "M2",
+    "E1"
+   ],
+   "containment": {
+    "bones": 25,
+    "outside_skin": [],
+    "shallow_lt_3mm": [],
+    "min_axis_depth_mm": 10.2
+   }
+  },
+  "forearm": {
+   "readiness": "PARTIAL",
+   "defined_anchors": 3,
+   "open_blockers": 4,
+   "next_action": "Resolve radius/ulna endpoints independently, then rebuild wrist centre and pronation axis.",
+   "blocker_matrix_items": [
+    "G3",
+    "U7/U8"
+   ],
+   "session_packages": [
+    "M1",
+    "M2",
+    "E1"
+   ],
+   "containment": {
+    "bones": 4,
+    "outside_skin": [],
+    "shallow_lt_3mm": [],
+    "min_axis_depth_mm": 5.06
+   }
+  },
+  "carpus": {
+   "readiness": "BLOCKED",
+   "defined_anchors": 5,
+   "open_blockers": 3,
+   "next_action": "Create a canonical wrist frame and solve centroids/axes before touching hand mesh.",
+   "blocker_matrix_items": [
+    "H8",
+    "G3",
+    "H1-H3/c005"
+   ],
+   "session_packages": [
+    "M1",
+    "M2",
+    "E1"
+   ],
+   "containment": {
+    "bones": 16,
+    "outside_skin": [],
+    "shallow_lt_3mm": [],
+    "min_axis_depth_mm": 10.6
+   }
+  },
+  "hand": {
+   "readiness": "PARTIAL",
+   "defined_anchors": 2,
+   "open_blockers": 3,
+   "next_action": "Freeze wrist/carpus first, then choose M2-M4 values inside cross-source corridors.",
+   "blocker_matrix_items": [
+    "G3",
+    "H6/L4/L7",
+    "H1-H3/c005"
+   ],
+   "session_packages": [
+    "M1",
+    "M2",
+    "E1"
+   ],
+   "containment": {
+    "bones": 38,
+    "outside_skin": [],
+    "shallow_lt_3mm": [
+     "anat_metacarpal_1_left",
+     "anat_metacarpal_1_right"
+    ],
+    "min_axis_depth_mm": 0.29
+   }
+  },
+  "pelvis": {
+   "readiness": "PARTIAL",
+   "defined_anchors": 4,
+   "open_blockers": 4,
+   "next_action": "Use the new S1 frame as the sacral-base anchor while constructing os coxae/SI/pubis geometry; do not alter HJC just to fit r95.",
+   "blocker_matrix_items": [
+    "G3"
+   ],
+   "session_packages": [
+    "M1",
+    "M2",
+    "E1"
+   ],
+   "containment": {
+    "bones": 2,
+    "outside_skin": [],
+    "shallow_lt_3mm": [],
+    "min_axis_depth_mm": 7.35
+   }
+  },
+  "lower_limb_long_bones": {
+   "readiness": "PARTIAL",
+   "defined_anchors": 2,
+   "open_blockers": 3,
+   "next_action": "Refine fibula and patellofemoral geometry and select endpoint-defined femur/tibia targets for a 1.82 m male; agreement with the r95 surface alone no longer justifies keeping a003 lengths (owner proportion policy 2026-10-08).",
+   "blocker_matrix_items": [
+    "G3",
+    "L3",
+    "H6/L4/L7"
+   ],
+   "session_packages": [
+    "M1",
+    "M2",
+    "E1"
+   ],
+   "containment": {
+    "bones": 8,
+    "outside_skin": [
+     "anat_fibula_left",
+     "anat_fibula_right"
+    ],
+    "shallow_lt_3mm": [],
+    "min_axis_depth_mm": -1.51
+   }
+  },
+  "tarsus": {
+   "readiness": "BLOCKED",
+   "defined_anchors": 3,
+   "open_blockers": 3,
+   "next_action": "Construct hindfoot/midfoot contact chain before deciding final foot length.",
+   "blocker_matrix_items": [
+    "G3",
+    "L5"
+   ],
+   "session_packages": [
+    "F1",
+    "F3",
+    "F6",
+    "M1",
+    "M2",
+    "E1"
+   ],
+   "containment": {
+    "bones": 14,
+    "outside_skin": [],
+    "shallow_lt_3mm": [],
+    "min_axis_depth_mm": 7.57
+   }
+  },
+  "forefoot_toes": {
+   "readiness": "PARTIAL",
+   "defined_anchors": 3,
+   "open_blockers": 3,
+   "next_action": "Do not shorten all metatarsals; reconcile bone definitions first, then partition final heel-to-toe length.",
+   "blocker_matrix_items": [
+    "G3"
+   ],
+   "session_packages": [
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "F5",
+    "F6",
+    "M1",
+    "M2",
+    "E1"
+   ],
+   "containment": {
+    "bones": 38,
+    "outside_skin": [],
+    "shallow_lt_3mm": [],
+    "min_axis_depth_mm": 3.74
+   }
+  },
+  "head_neck_fixed": {
+   "readiness": "PARTIAL",
+   "defined_anchors": 4,
+   "open_blockers": 3,
+   "next_action": "Finish low-kinematic-priority reference geometry after shoulder/spine/limb blockers.",
+   "blocker_matrix_items": [
+    "G3"
+   ],
+   "session_packages": [
+    "M1",
+    "M2",
+    "E1"
+   ],
+   "containment": {
+    "bones": 29,
+    "outside_skin": [],
+    "shallow_lt_3mm": [],
+    "min_axis_depth_mm": 3.14
+   }
+  },
+  "humerus": {
+   "readiness": "PARTIAL",
+   "defined_anchors": 3,
+   "open_blockers": 5,
+   "next_action": "Select an endpoint-matched humerus length for 1.82 m; a003 GH-EJC (287.7 mm) agrees with the ANSUR-derived 286.2 +/- 10.6 mm and de Leva 294.5 mm (canonical_limb_length_proposal_182_v1.json).",
+   "blocker_matrix_items": [
+    "G3",
+    "U7/U8"
+   ],
+   "session_packages": [
+    "M1",
+    "M2",
+    "E1"
+   ],
+   "containment": {
+    "bones": 2,
+    "outside_skin": [],
+    "shallow_lt_3mm": [],
+    "min_axis_depth_mm": 38.7
+   }
+  }
+ },
+ "bones_not_mapped_to_a_region": [],
+ "session_package_status": "see docs/CLAUDE_MASTER_TASK_LEDGER_20261013.json (live; not copied so this matrix stays current)"
+}

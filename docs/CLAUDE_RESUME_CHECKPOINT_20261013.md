@@ -6,7 +6,7 @@
 
 | Workstream | Branch | Head | Status |
 |---|---|---|---|
-| Ledger / checkpoint, E1 GLB round trip, W3 proposal | `claude/master-execution-20261013` (from PR108 `bd162c50`) | see `git log` | live; E1 TESTED (CI green); W3 BLOCKED (owner + Lane G) |
+| Ledger / checkpoint, E1 GLB round trip, W3 proposal | `claude/master-execution-20261013` (from PR108 `bd162c50`) | see `git log` | live; E1 TESTED (CI green); A1 TESTED; W3 BLOCKED (owner + Lane G) |
 | Feet C2/C3, F4 breadth C2W/C3W, F6 posed sweep | `claude/original-v1-foot-shape-20261013` | `c16ec280` | TESTED; C3 BLOCKED on owner sign-off |
 | W1 shoulder guides | `claude/functional-original-shoulder-correction-20261013` (draft PR #111) | `13cea5a5` | TESTED, CI green |
 | W2 correctives (diagnostic) | `claude/functional-shoulder-coupled-corrective-20261013` (draft PR #112) | `a8942ae3` | TESTED as diagnostic, CI green |
@@ -31,7 +31,7 @@
 
 ## Next unblocked
 
-A1 (whole-skeleton validation matrix), then the M2 follow-ups (single-leg stance, ankle/toe benchmarks).
+M2 follow-ups (single-leg stance, ankle/toe benchmarks).
 
 ## Owner decisions pending
 

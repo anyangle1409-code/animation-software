@@ -54,7 +54,9 @@ All six manifest-listed PNG hashes were recomputed with zero mismatches. Source
 blend SHA-256 remains
 `670a37bfd206d702928de721032e2b942725389dc6906df0d866eba8d8cbbe56`.
 No private render or new native/source byte is added to Git; CI regenerates only
-rights-safe project-authored diagnostic proof.
+rights-safe project-authored diagnostic proof. CI downloads the official Linux
+Blender 5.2.1 archive under its published SHA-256 pin; Ubuntu's Blender 4.0.2
+cannot open the 5.2 source scene and is deliberately not used for native proof.
 
 ## Reference comparison and exposed defects
 

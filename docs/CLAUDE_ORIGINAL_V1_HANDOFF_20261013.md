@@ -1,6 +1,6 @@
 # Claude Blender handoff — 13 October 2026
 
-Owner expects Claude from approximately **17:00 Europe/London today (16:00 UTC)**. This is owner-reported availability, not independently verified usage/reset telemetry. Codex's existing hourly work is now **preparation/reference/coordination only**: no competing Blender/model edits.
+Owner expects Claude from approximately **17:30 Europe/London today (16:30 UTC)**. This is owner-reported availability, not independently verified usage/reset telemetry. Codex's existing hourly work is now **preparation/reference/coordination only**: no competing Blender/model edits.
 
 **Start with [the first Blender session checklist](./CLAUDE_FIRST_BLENDER_SESSION_20261013.md).** It contains the current object names, exact final toe-failure vertices, shoulder failure locations, source station correspondence and the executed declaration preflight. These are new preparation supplements on GitHub; the original handoff archive remains an unchanged native recovery snapshot.
 
@@ -86,6 +86,6 @@ Primary reference brief: `docs/CLAUDE_ORIGINAL_V1_REFERENCE_BRIEF_20261013.md`. 
 
 ## Work ownership and next update
 
-Claude: actual Blender mechanics/topology/weights/model/motion candidates. Codex: primary evidence/endpoint semantics, checklist, provenance/CI and coordination. Chat LaneG: app/renderer/software. Codex scheduled preparation does not author competing models while Claude takes over. About17:00 is not an automatic Claude start or verified reset; this document is ready for the owner to give Claude.
+Claude: actual Blender mechanics/topology/weights/model/motion candidates. Codex: primary evidence/endpoint semantics, checklist, provenance/CI and coordination. Chat LaneG: app/renderer/software. Codex scheduled preparation does not author competing models while Claude takes over. About17:30 is not an automatic Claude start or verified reset; this document is ready for the owner to give Claude.
 
 After each consequential candidate post PR26: lane/task, live input SHA, output branch/fullSHA, native filename/hash, actual tests/CI scope, phone links, remaining defects and next action. No merge or permanent acceptance. Regional scientific readiness stays0READY/9PARTIAL/3BLOCKED.

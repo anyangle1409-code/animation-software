@@ -54,7 +54,7 @@
     "exported_animations": 0,
     "vertices": 17946,
     "joints": 67,
-    "rest_bind_error_max": 7.152557373046875e-7,
+    "rest_bind_error_max": 7.152557373046875e-07,
     "28cm_geometry_correction": false,
     "owner_acceptance": false,
     "production_approved": false,
@@ -1007,7 +1007,7 @@
     "input_commit": "d04100995ca496fd4e095c748179e08b730bcd6e",
     "tests": "7 diagnostic +4 pure bridge +4 native bridge PASS",
     "native_matrix_comparisons": 24,
-    "max_matrix_error": 2.959675090563607e-7,
+    "max_matrix_error": 2.959675090563607e-07,
     "original_model_and_skeleton_unchanged": true,
     "retarget_installed": false,
     "anatomical_approval": false,
@@ -1067,7 +1067,7 @@
     "handoff": "docs/CLAUDE_ORIGINAL_V1_HANDOFF_20261013.md",
     "reference_brief": "docs/CLAUDE_ORIGINAL_V1_REFERENCE_BRIEF_20261013.md",
     "artifact_map": "docs/CLAUDE_ORIGINAL_V1_ARTIFACT_MAP_20261013.json",
-    "owner_expected_availability": "2026-10-13T17:00:00+01:00",
+    "owner_expected_availability": "2026-10-13T17:30:00+01:00",
     "availability_verified": false,
     "claude_role": "Blender/model mechanics, topology, weights, deformation and motion",
     "codex_role": "Preparation/reference/provenance/CI/coordination only; no competing Blender edits",
@@ -1085,7 +1085,7 @@
     "native_reference_count": 52,
     "copied_digit_controls": 28,
     "maximum_control_to_reference_endpoint_gap_m": 0,
-    "maximum_native_to_c004_endpoint_gap_mm": 0.000015016975772172232,
+    "maximum_native_to_c004_endpoint_gap_mm": 1.5016975772172232e-05,
     "final_toe_triangle": 15123,
     "final_toe_vertices": [
       1921,
@@ -1121,6 +1121,17 @@
       "passed": 25,
       "failed": 0,
       "native_execution": false
-    }
+    },
+    "usage_refreshed_owner_reported": true,
+    "launch_guide": "docs/CLAUDE_START_HERE_1730_20261013.md",
+    "starter_download": "https://chatgpt.com/api/library/files/libfile_149ddc384dcc81919a2da304fe422a8d/download",
+    "starter_sha256": "585cb21d1824073bd13a2ba2e1a23309df488e772a13b03576f2063e0cb499bd",
+    "starter_model_hashes_verified": 6,
+    "starter_supporting_file_hashes_verified": 688,
+    "starter_package_support_tests": {
+      "passed": 25,
+      "failed": 0
+    },
+    "laptop_blender_verified": false
   }
 }

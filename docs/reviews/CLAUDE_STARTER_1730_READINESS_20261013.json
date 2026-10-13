@@ -1,0 +1,18 @@
+{
+  "input_code_commit": "f6014bb0ff6e10a673bfef859fd2be06a1416e79",
+  "model_files_verified": 6,
+  "source_files_hash_verified": 688,
+  "package_support_tests": {
+    "passed": 25,
+    "failed": 0,
+    "environment": "Extracted package Linux/Python; code unchanged by start-time document update"
+  },
+  "laptop_blender_verified": false,
+  "model_validated": false,
+  "production_approved": false,
+  "archive_filename": "HomeGymPT_CLAUDE_STARTER_1730_20261013.zip",
+  "archive_bytes": 20955327,
+  "archive_sha256": "585cb21d1824073bd13a2ba2e1a23309df488e772a13b03576f2063e0cb499bd",
+  "zip_crc_verified": true,
+  "source_documents_overlay": "Owner17:30coordination metadata updated; model and Python source unchanged."
+}

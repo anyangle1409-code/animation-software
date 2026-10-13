@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "owner_expected_claude_availability": "2026-10-13T17:00:00+01:00",
-  "availability_basis": "owner stated approximately; reset not verified",
+  "owner_expected_claude_availability": "2026-10-13T17:30:00+01:00",
+  "availability_basis": "Owner reports Claude refreshed; laptop operation about17:30. No independent quota telemetry.",
   "latest_evidence_commit": "e39eec40ff44bcd9a09ba3c1a1e446c4ab9dea51",
   "source_joint_code_commit": "f3d06591aeaff45d26d34af04b1cb19a2128af50",
   "original_body_vertices": 17946,

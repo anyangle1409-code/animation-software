@@ -118,13 +118,13 @@
    "description": "Shoulder-top helper deformer to remove LBS buckle",
    "priority": 2,
    "status": "BLOCKED",
-   "evidence": "W2 diagnosis",
+   "evidence": "docs/CLAUDE_W3_SHOULDER_RUNTIME_CONTRACT_PROPOSAL_20261013.md",
    "tests": null,
    "commit": null,
    "blockers": [
     "changes 67-joint runtime contract (Lane G/PR68); owner + Lane G decision"
    ],
-   "next": "write proposal"
+   "next": "owner + Lane G decision on options A/B/C"
   },
   {
    "id": "E1",
@@ -146,7 +146,7 @@
    "status": "TESTED",
    "evidence": "docs/CLAUDE_M1_MOVEMENT_BENCHMARKS_20261013.md (branch claude/movement-benchmarks-20261013)",
    "tests": "5 native PASS; feet planted <1 mm; angles <= CDC means except recorded ankle DF",
-   "commit": "(see branch head)",
+   "commit": "abf3d46d (CI green, draft PR #113)",
    "blockers": [
     "shoulder press inherits shoulder-top LBS buckle (W4)",
     "deep-flexion tissue contact needs collision/volume-aware correctives"
@@ -188,14 +188,14 @@
   },
   {
    "id": "W4",
-   "description": "Weights-only shoulder-top/axilla refit onto existing clavicle/scapula controls (keep LBS well conditioned at 145-160 deg)",
+   "description": "Weights-only shoulder-top/axilla refit onto existing clavicle/scapula controls (keep LBS well conditioned at 145-160 deg) \u2014 REJECTED: self-intersection rises 110-145 deg",
    "priority": 2,
-   "status": "TODO",
-   "evidence": null,
-   "tests": null,
-   "commit": null,
+   "status": "COMPLETE",
+   "evidence": "docs/CLAUDE_W4_SHOULDER_WEIGHT_REFIT_20261013.md (movement branch)",
+   "tests": "4 variants measured on coupled sweep",
+   "commit": "d94ad0cd",
    "blockers": [],
-   "next": "min singular value per vertex at 160 deg as acceptance metric; then re-run W2 solve"
+   "next": null
   }
  ]
 }

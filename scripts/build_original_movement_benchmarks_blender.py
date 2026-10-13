@@ -350,7 +350,9 @@ def dominant_groups(body):
     return out
 
 
-def run(render_dir=None):
+def run(render_dir=None, setup=None, post_pose=None, only=None):
+    """setup(result) runs once after the scene is built; post_pose(result) after every posed frame (e.g. to drive an
+    experimental corrective); only = benchmark names to run.  All default to the plain benchmark."""
     import build_functional_shoulder_correction_blender as correction
     import build_functional_original_coupled_motion_blender as coupled
     result = correction.build_corrected_scene()
@@ -377,12 +379,18 @@ def run(render_dir=None):
         "single_leg_stance": lambda t: pose_single_leg(rig, body, t),
         "calf_raise": lambda t: pose_calf_raise(rig, body, t),
     }
+    if setup:
+        setup(result)
+    if only:
+        plans = {k: v for k, v in plans.items() if k in only}
     renders = []
     for name, fn in plans.items():
         rows = []
         for i in range(FRAMES):
             t = i / (FRAMES - 1)
             angles = fn(t)
+            if post_pose:
+                post_pose(result)
             V, _ = _evaluated(body)
             m = frame_metrics(V0, V, F, dom, rest_floor)
             m["t"] = round(t, 4)

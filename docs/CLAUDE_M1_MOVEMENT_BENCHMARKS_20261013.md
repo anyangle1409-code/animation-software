@@ -1,8 +1,8 @@
-# M1/M2: ORIGINAL_v1 integration benchmarks — squat, row, press, lunge, walk, trunk rotation, grip (Claude, 13 Oct 2026)
+# M1/M2: ORIGINAL_v1 integration benchmarks — squat, row, press, lunge, walk, trunk rotation, grip, single-leg stance, calf raise (Claude, 13 Oct 2026)
 
 - **Branch:** `claude/movement-benchmarks-20261013`, stacked on draft PR #111 (`13cea5a5`).
 - **Script:** `scripts/build_original_movement_benchmarks_blender.py`.
-- **Test:** `scripts/blender_tests/test_original_movement_benchmarks.py` (7 native tests PASS).
+- **Test:** `scripts/blender_tests/test_original_movement_benchmarks.py` (8 native tests PASS).
 - **Report:** `ORIGINAL_V1_WORK/anatomy/audit/claude_m1/movement_benchmarks_report.json`, with phone sheets beside it.
 - **Scope:** the unchanged 17,946-vertex original male on the 67-joint rig; source blend `670a37bf…cbbe56`. This is diagnostic forward-kinematics movement evidence only. Nothing (motion, deformation, anatomy, GLB, clinical, production) is approved.
 
@@ -71,7 +71,28 @@ The same script, metrics and floor rule apply, so M1 numbers are unchanged (re-r
 - With the fix, the grip's worst collapse fell from 5 to 0 and its worst pairs from 213 to 150; the left thumb-base/index-metacarpal intersection disappeared.
 - The repo's existing finger audits (`audit_original_v1_skeleton_motion_blender.py`) already derive hinge axes per side from geometry, so this was a benchmark bug only. Any new consumer that assumes mirrored digit axes would hit it.
 
-**Tests:** 7 native tests pass (Blender 5.2.1), including walk-cycle closure and left/right phase symmetry, plus grip closure and mirror symmetry.
+**Tests:** see below (8 native tests after the M2 follow-ups).
+
+## M2 follow-ups: single-leg stance and calf raise (ankle/toe)
+
+Earlier frames of all seven benchmarks are unchanged (re-run identical frame by frame). Phone sheets: `single_leg_stance_phone_sheet.jpg` and `calf_raise_phone_sheet.jpg`.
+
+- **Single-leg stance:** the right leg lifts to hip 90° and knee 90°. The left stance leg, pelvis and root stay at rest, so the stance foot does not move. No weight shift or pelvic drop is modelled.
+- **Calf raise:** both ankles plantarflex 35° (CDC passive mean 54.6°). The MTP joints extend by the same 35°, which keeps the toes flat: the toe bones' world rotation equals rest (0.0°). The body is grounded on the toe pads; the floor contact goes from 14 foot + 9 toe vertices per side at rest to 52 toe vertices per side. The atlas has no CDC value for MTP extension.
+
+| Benchmark | Worst collapse | Worst stretch > 2 | Worst self-intersecting pairs | Volume Δ % | Dominant contact | Exceeds CDC passive mean |
+|---|---|---|---|---|---|---|
+| Single-leg stance | 0 | 53 | 60 | −1.6 … +0.1 | early: lifted thigh into the hanging thumb; end: calf/thigh of the lifted leg (42) | — |
+| Calf raise | 0 | 0 | 0 | −0.2 … 0.0 | none | — |
+
+- **Ankle-joint head rise:** 92 mm at 35°, increasing monotonically.
+- **Calf raise is the first benchmark with no deformation defect:** at 35° plantarflexion with 35° MTP extension, the ankle and forefoot skin does not collapse, stretch or self-intersect. This covers the toe-off range that F6 swept on the foot alone, now on the whole grounded body.
+
+**Tests:** 8 native tests pass (Blender 5.2.1):
+- walk-cycle closure and left/right phase symmetry;
+- grip closure and mirror symmetry;
+- calf-raise heel rise, monotone and within the CDC plantarflexion mean;
+- plus the M1 floor, CDC and finiteness checks across all nine benchmarks.
 
 ## Next
 

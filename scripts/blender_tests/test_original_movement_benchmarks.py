@@ -15,15 +15,16 @@ class OriginalMovementBenchmarkNativeTests(unittest.TestCase):
     def setUpClass(cls):
         cls.report = m1.run(None)
 
-    def test_seven_benchmarks_with_all_frames(self):
+    def test_nine_benchmarks_with_all_frames(self):
         self.assertEqual(sorted(self.report["benchmarks"]),
-                         ["bent_over_row", "grip", "lunge", "shoulder_press", "squat", "trunk_rotation", "walk_stride"])
+                         ["bent_over_row", "calf_raise", "grip", "lunge", "shoulder_press", "single_leg_stance", "squat",
+                          "trunk_rotation", "walk_stride"])
         for b in self.report["benchmarks"].values():
             self.assertEqual(len(b["frames"]), m1.FRAMES)
 
     def test_first_frame_is_rest_and_unapproved(self):
         self.assertFalse(self.report["approved"])
-        for name in ("squat", "bent_over_row", "lunge", "trunk_rotation"):
+        for name in ("squat", "bent_over_row", "lunge", "trunk_rotation", "single_leg_stance", "calf_raise"):
             f0 = self.report["benchmarks"][name]["frames"][0]
             self.assertEqual(f0["self_intersecting_pairs"], 0, name)
             self.assertEqual(f0["body_volume_change_pct"], 0.0, name)
@@ -54,6 +55,13 @@ class OriginalMovementBenchmarkNativeTests(unittest.TestCase):
             # a wrong per-side flexion sign (the rig's digit axes are not mirrored) shows up here as centimetres
             self.assertLess(f["angles_deg"]["digit_tip_mirror_error_mm"], 0.5, f["t"])
         self.assertEqual(frames[-1]["collapse_lt_0_1"], 0)
+
+    def test_calf_raise_lifts_the_heels_monotonically_within_cdc_plantarflexion(self):
+        frames = self.report["benchmarks"]["calf_raise"]["frames"]
+        rise = [f["angles_deg"]["heel_rise_mm"] for f in frames]
+        self.assertEqual(rise, sorted(rise))
+        self.assertGreater(rise[-1], 50.0)
+        self.assertLess(frames[-1]["angles_deg"]["ankle_plantarflexion"], self.report["cdc_passive_means_deg"]["ankle_plantarflexion"])
 
     def test_metrics_are_finite(self):
         for b in self.report["benchmarks"].values():

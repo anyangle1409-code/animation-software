@@ -57,7 +57,9 @@ WALK_KEYS = [  # hip (+flex), knee, ankle (+DF), toe (+toe extension), shoulder 
 TRUNK_ROTATION = {"spine_01": 15.0, "spine_02": 15.0, "spine_03": 15.0, "neck": 15.0}
 GRIP = {"01": 80.0, "02": 90.0, "03": 60.0, "thumb_01": 30.0, "thumb_02": 40.0, "thumb_03": 40.0}
 GRIP_ARM = {"shoulder_flexion": 45.0, "elbow_flexion": 90.0}   # hands held in front of the body (static during the grip)
-EXTRA_CDC = {"hip_extension": "cdc_hip_extension"}
+EXTRA_CDC = {"hip_extension": "cdc_hip_extension", "ankle_plantarflexion": "cdc_ankle_plantarflexion"}
+SINGLE_LEG = {"stance": "l", "hip_flexion": 90.0, "knee_flexion": 90.0}       # lifted leg = the other side
+CALF_RAISE = {"ankle_plantarflexion": 35.0, "toe_extension": 35.0}             # MTP extension keeps the toes flat
 
 
 def smooth(t):
@@ -180,6 +182,38 @@ def pose_lunge(rig, body, t):
     _ground(rig, body)
     return {"hip_flexion": LUNGE["front_hip"] * k, "knee_flexion": max(LUNGE["front_knee"], LUNGE["rear_knee"]) * k,
             "hip_extension": LUNGE["rear_hip_extension"] * k, "ankle_dorsiflexion": _ankle_dorsiflexion_deg(rig, f)}
+
+
+def pose_single_leg(rig, body, t):
+    """Single-leg stance: the other leg lifts to hip/knee 90; stance leg, pelvis and root stay at rest (no weight shift)."""
+    _reset(rig)
+    k = smooth(t)
+    lift = "r" if SINGLE_LEG["stance"] == "l" else "l"
+    _rot(rig.pose.bones[f"thigh_{lift}"], x=-SINGLE_LEG["hip_flexion"] * k)
+    _rot(rig.pose.bones[f"shin_{lift}"], x=SINGLE_LEG["knee_flexion"] * k)
+    bpy.context.view_layer.update()
+    return {"hip_flexion": SINGLE_LEG["hip_flexion"] * k, "knee_flexion": SINGLE_LEG["knee_flexion"] * k,
+            "ankle_dorsiflexion": _ankle_dorsiflexion_deg(rig, SINGLE_LEG["stance"])}
+
+
+def pose_calf_raise(rig, body, t):
+    """Bilateral calf raise: ankles plantarflex, MTP joints extend by the same angle so the toes stay flat; grounded."""
+    _reset(rig)
+    k = smooth(t)
+    for s in ("l", "r"):
+        _rot(rig.pose.bones[f"foot_{s}"], x=CALF_RAISE["ankle_plantarflexion"] * k)
+        _rot(rig.pose.bones[f"toe_{s}"], x=-CALF_RAISE["toe_extension"] * k)
+    bpy.context.view_layer.update()
+    _ground(rig, body)
+    pf = -_ankle_dorsiflexion_deg(rig, "l")
+    return {"ankle_plantarflexion": pf, "toe_extension": CALF_RAISE["toe_extension"] * k,
+            "heel_rise_mm": _heel_rise_mm(rig)}
+
+
+def _heel_rise_mm(rig):
+    """Rise of the ankle-joint head (foot bone head) above its rest height, mean of both sides."""
+    return sum((rig.matrix_world @ rig.pose.bones[f"foot_{s}"].head).z - (rig.matrix_world @ rig.data.bones[f"foot_{s}"].head_local).z
+               for s in ("l", "r")) / 2 * 1000
 
 
 def pose_walk(rig, body, t):
@@ -340,6 +374,8 @@ def run(render_dir=None):
         "walk_stride": lambda t: pose_walk(rig, body, t),
         "trunk_rotation": lambda t: pose_trunk_rotation(rig, body, t),
         "grip": lambda t: pose_grip(rig, body, t),
+        "single_leg_stance": lambda t: pose_single_leg(rig, body, t),
+        "calf_raise": lambda t: pose_calf_raise(rig, body, t),
     }
     renders = []
     for name, fn in plans.items():

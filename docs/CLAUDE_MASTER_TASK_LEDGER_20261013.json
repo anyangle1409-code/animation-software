@@ -1,0 +1,179 @@
+{
+ "schema_version": 1,
+ "kind": "claude_master_task_ledger",
+ "updated": "2026-10-13",
+ "owner_rules": "skeleton is source of truth; no frozen-skeleton change without owner decision; no merge; no approval claims; no third-party assets",
+ "environment": "cloud Linux container (Blender 5.2.1 as Python module); not the owner's Windows laptop; no battery telemetry available, protection = commit/push after every task",
+ "branches": {
+  "ledger": "claude/master-execution-20261013 (from PR108 head bd162c50)",
+  "foot": "claude/original-v1-foot-shape-20261013",
+  "w_guides": "claude/functional-original-shoulder-correction-20261013 (draft PR #111)",
+  "w_correctives": "claude/functional-shoulder-coupled-corrective-20261013"
+ },
+ "tasks": [
+  {
+   "id": "F1",
+   "description": "Foot proportion source audit (ANSUR 1.82 m vs mesh/skeleton/rig)",
+   "priority": 1,
+   "status": "COMPLETE",
+   "evidence": "docs/ORIGINAL_V1_FOOT_SOURCE_AUDIT_CLAUDE_20261013.md",
+   "tests": "audit script; source SHA unchanged",
+   "commit": "b62e3805",
+   "blockers": [],
+   "next": null
+  },
+  {
+   "id": "F2",
+   "description": "C2 mesh-only toe grounding (skeleton-anchored plantar pulp)",
+   "priority": 1,
+   "status": "TESTED",
+   "evidence": "candidates/claude_foot_20261013/review_sheets; c2_verify.json PASS",
+   "tests": "verify_original_foot_shape_candidate_blender.py PASS",
+   "commit": "b62e3805",
+   "blockers": [
+    "owner visual acceptance"
+   ],
+   "next": null
+  },
+  {
+   "id": "F3",
+   "description": "C3 foot skeleton re-partition to ANSUR 279.9/207.4 mm (heel 60 mm provisional)",
+   "priority": 1,
+   "status": "BLOCKED",
+   "evidence": "docs/ORIGINAL_V1_FOOT_SKELETON_C3_CLAUDE_20261013.md; c3_verify.json PASS",
+   "tests": "verify_original_foot_skeleton_candidate_blender.py PASS (104/104 stations)",
+   "commit": "eb7716cd",
+   "blockers": [
+    "owner sign-off on skeleton change and heel value (50-72 mm band)"
+   ],
+   "next": "owner decision (a)/(b)/(c)"
+  },
+  {
+   "id": "F4",
+   "description": "Forefoot breadth/toe girth candidate towards ANSUR foot breadth 104.1+-4.7 mm (model 96.7)",
+   "priority": 1,
+   "status": "TODO",
+   "evidence": null,
+   "tests": null,
+   "commit": null,
+   "blockers": [],
+   "next": "measure heel/forefoot breadth vs ANSUR; widen lesser toes/forefoot mesh-only keeping stations inside"
+  },
+  {
+   "id": "F5",
+   "description": "Individual toe articulation (MTP/IP) for toe-off",
+   "priority": 2,
+   "status": "BLOCKED",
+   "evidence": "Work PR105 95-control toe trial",
+   "tests": null,
+   "commit": null,
+   "blockers": [
+    "67-joint runtime contract: 95-control rig may not substitute (handoff); owner + Lane G decision"
+   ],
+   "next": "proposal only"
+  },
+  {
+   "id": "F6",
+   "description": "Foot posed validation: ankle dorsi/plantarflexion, toe block flexion to toe-off range on C2/C3",
+   "priority": 1,
+   "status": "TODO",
+   "evidence": null,
+   "tests": null,
+   "commit": null,
+   "blockers": [],
+   "next": "native test sweeping foot_*/toe_* with floor/area/self-intersection metrics"
+  },
+  {
+   "id": "W1",
+   "description": "Shoulder/thorax guides vs references; humeral axial channel; deformation metrics",
+   "priority": 2,
+   "status": "TESTED",
+   "evidence": "docs/FUNCTIONAL_ORIGINAL_SHOULDER_CORRECTION_20261013.md",
+   "tests": "13 pure/9 native PASS; exact-head CI green",
+   "commit": "13cea5a5",
+   "blockers": [
+    "owner review"
+   ],
+   "next": null
+  },
+  {
+   "id": "W2",
+   "description": "Pose-space shoulder correctives against coupled 0-160 motion",
+   "priority": 2,
+   "status": "IN_PROGRESS",
+   "evidence": "docs/FUNCTIONAL_SHOULDER_COUPLED_CORRECTIVE_20261013.md",
+   "tests": "7 pure/6 native PASS locally",
+   "commit": "69a2f344 (local, under independent review)",
+   "blockers": [],
+   "next": "apply review, push, CI, draft PR"
+  },
+  {
+   "id": "W3",
+   "description": "Shoulder-top helper deformer to remove LBS buckle",
+   "priority": 2,
+   "status": "BLOCKED",
+   "evidence": "W2 diagnosis",
+   "tests": null,
+   "commit": null,
+   "blockers": [
+    "changes 67-joint runtime contract (Lane G/PR68); owner + Lane G decision"
+   ],
+   "next": "write proposal"
+  },
+  {
+   "id": "E1",
+   "description": "Rig/export verification: hierarchy, names, rest, weights, palette, GLB round-trip of the 67-joint original",
+   "priority": 2,
+   "status": "TODO",
+   "evidence": null,
+   "tests": null,
+   "commit": null,
+   "blockers": [],
+   "next": "native rig audit + Blender glTF export/import parity on a review-only copy"
+  },
+  {
+   "id": "M1",
+   "description": "Integration benchmarks: shoulder press, squat, row on the 67-joint original with deformation metrics",
+   "priority": 2,
+   "status": "TODO",
+   "evidence": null,
+   "tests": null,
+   "commit": null,
+   "blockers": [],
+   "next": "authored keyframe benchmarks + collapse/self-intersection/volume per frame"
+  },
+  {
+   "id": "M2",
+   "description": "Whole-body representative movement (walk, lunge, hinge, push/pull, rotation, single-leg, grip, ankle/toe)",
+   "priority": 3,
+   "status": "TODO",
+   "evidence": null,
+   "tests": null,
+   "commit": null,
+   "blockers": [],
+   "next": "after M1"
+  },
+  {
+   "id": "A1",
+   "description": "Whole-skeleton anatomical validation status matrix (reuse prior audits and blocker matrix 7761a12d)",
+   "priority": 3,
+   "status": "TODO",
+   "evidence": null,
+   "tests": null,
+   "commit": null,
+   "blockers": [],
+   "next": "consolidate existing regional readiness into one current matrix"
+  },
+  {
+   "id": "R1",
+   "description": "Task ledger + resume checkpoint",
+   "priority": 1,
+   "status": "IN_PROGRESS",
+   "evidence": "docs/CLAUDE_MASTER_TASK_LEDGER_20261013.json; docs/CLAUDE_RESUME_CHECKPOINT_20261013.md",
+   "tests": null,
+   "commit": null,
+   "blockers": [],
+   "next": "update after every task"
+  }
+ ]
+}

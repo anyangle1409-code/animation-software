@@ -1,5 +1,11 @@
 # ORIGINAL_v1 Lane W completion and restart checkpoint — 12 October 2026
 
+## Resumed Work checkpoint — 13 October 2026
+
+Separate branch `codex/original-neutral-toe-pad-trial-20261013` continues from PR84 head `27e2dbf4424b878d8312cf346624e495720bba0a`. Actual Blender5.2.1 produced a review-only 902-vertex plantar-pad trial: all ten digit samples reach neutral floor within0.001mm, while XY,309.156645mm foot length, weights, both skeletons and inherited corrective deltas are preserved. Native reopen,12free-control samples and4native body-bridge tests executed. No triangle orientation reversals; local face areas change0.439–3.174x. The tubular/overlong shape, shared articulation and posed floor crossings remain NOT ACCEPTED. No production edit/merge or forced280mm shortening.
+
+[New phone comparison](https://chatgpt.com/api/library/files/libfile_db9b704ecf848191b67bd8b1bbf48382/download). [Full trial report and artifact links](./ORIGINAL_V1_NEUTRAL_TOE_PAD_TRIAL_20261013.md). Candidate SHA256 `6ee29cec4dfd4b2de867f8dbcce4364203bc5f40182deeea72e60e01683438e2`. The recurring task remains paused; active-session work resumed on owner request.
+
 ## Phone review downloads
 
 These are actual native Blender renders of the original full-body model, not a generated substitute. Downloads require the owner's signed-in ChatGPT session.

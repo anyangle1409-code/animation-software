@@ -1,0 +1,16 @@
+name: Original neutral toe pad trial
+on:
+  push:
+    branches: [codex/original-neutral-toe-pad-trial-20261013]
+  pull_request:
+    paths: ['scripts/*neutral_toe_pad*', '.github/workflows/original-neutral-toe-pad.yml']
+permissions:
+  contents: read
+jobs:
+  bounded-geometry:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/test_original_neutral_toe_pad_trial.py -v
+      - run: python3 scripts/test_original_foot_candidate_gate.py -v
+      - run: python3 scripts/test_original_foot_contact_weights.py -v

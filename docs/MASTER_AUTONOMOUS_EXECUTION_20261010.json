@@ -1032,6 +1032,14 @@
     "motion_accepted": false,
     "anatomical_approval": false,
     "production_approved": false,
-    "next_action": "Deliberate shoulder/chest/axilla skin influences and corrective refit; preserve source joint centres, original runtime/body and open toe regression. Existing hourly task enabled; no exact next run telemetry."
+    "next_action": "Deliberate shoulder/chest/axilla skin influences and corrective refit; preserve source joint centres, original runtime/body and open toe regression. Existing hourly task enabled; no exact next run telemetry.",
+    "native_tests_fail": 1,
+    "failed_test": "test_front_shoulder_does_not_collapse_below_tenth_area_at_authored_160",
+    "severe_compressed_region_triangles": 60,
+    "stretched_region_triangles": 280,
+    "region_triangles": 8660,
+    "latest_verified_implementation_commit": "8fc63a5b9da913ca465517559a135a7367934b00",
+    "verified_ci_run": 38380569669,
+    "ci_scope": "pure contracts/syntax only; native deformation gate remains FAIL"
   }
 }

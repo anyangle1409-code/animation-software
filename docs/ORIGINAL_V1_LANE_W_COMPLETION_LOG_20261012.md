@@ -1,5 +1,11 @@
 # ORIGINAL_v1 Lane W completion and restart checkpoint — 12 October 2026
 
+## Claude handoff prepared — 13 October 2026
+
+Owner expects Claude about17:00Europe/London today; this is not verified quota/reset telemetry. Codex's existing hourly work is preparation/reference/provenance/CI/coordination only, no competing Blender edits. [Exact handoff and candidate review checklist](./CLAUDE_ORIGINAL_V1_HANDOFF_20261013.md); primary-source brief/artifact map included. Existing shoulder foundation mechanics→topology→weights-only→rotation-aware→minimal-residual sequence preserved; generic historical corrective plan is not a shortcut.
+
+Six actual native BLENDs rehashed, exactmodelhashes inside verifiedZIP;78members/19,164,383bytes, ZIP CRC PASS. ArchiveSHA256146d23b3f8f98225e5278590287854303011dbd69f908c6dbc594bb14aa3954e. [Owner download for Claude transfer](https://chatgpt.com/api/library/files/libfile_4baf47e0b8288191abc47ca952bd18d7/download); requires owner authentication, no assumption Claude can fetch it unaided. No Blender/native model edit, rerender, anatomy move, merge or approval. Foot280mmblocker and hallux/shoulder gates remain open; rejectedDQexperiment clearly labeled.
+
 ## Rejected standalone volume-skinning follow-on — 13 October 2026
 
 Separate native candidate compares linear versus volume preservation on actualbody at authored160deg; bounded8660upper-bodyregion compressed triangles60→4 but excessively stretched280→566. Four new actual paired front/rear shoulder detail renders saved. Front regression passes, rear collapse FAILS (.014285<.1guard), native3PASS/1FAIL. Chest/shoulder bulges unacceptable; standalone modifier fix REJECTED. No muscle simulation, weights/mesh refit, GLB parity or production promotion. Candidate SHA25691ac6b9845a7982e87c7fe0c44b114ee4382c7eb1720d1052ba2bdc29f648e09.

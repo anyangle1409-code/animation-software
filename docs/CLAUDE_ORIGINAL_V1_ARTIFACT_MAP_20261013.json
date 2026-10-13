@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "owner_expected_claude_availability": "2026-10-13T17:00:00+01:00",
+  "availability_basis": "owner stated approximately; reset not verified",
+  "latest_evidence_commit": "e39eec40ff44bcd9a09ba3c1a1e446c4ab9dea51",
+  "source_joint_code_commit": "f3d06591aeaff45d26d34af04b1cb19a2128af50",
+  "original_body_vertices": 17946,
+  "original_runtime_controls": 67,
+  "original_reference_controls": 206,
+  "codex_mode": "preparation_only_no_blender_edits",
+  "claude_role": "Blender model mechanics/topology/weights/motion",
+  "artifacts": [
+    {
+      "role": "original",
+      "filename": "HGPT_ANATOMICAL_AUDIT_r95_a003.blend",
+      "archive_path": "models/HGPT_ANATOMICAL_AUDIT_r95_a003.blend",
+      "bytes": 1830804,
+      "sha256": "670a37bfd206d702928de721032e2b942725389dc6906df0d866eba8d8cbbe56",
+      "download_url": null,
+      "anatomical_approval": false,
+      "production_approved": false
+    },
+    {
+      "role": "authored_context",
+      "filename": "HomeGymPT_Male_ORIGINAL_v1_AUTHORED_THORAX_REVIEW_ONLY.blend",
+      "archive_path": "models/HomeGymPT_Male_ORIGINAL_v1_AUTHORED_THORAX_REVIEW_ONLY.blend",
+      "bytes": 2051020,
+      "sha256": "ca8e6824ae54e5778a04409e00d32ae13ac23d9fce95e1f6d8207abbef265ca7",
+      "download_url": "https://chatgpt.com/api/library/files/libfile_4b987394f4348191a6f49287d70e41f3/download",
+      "anatomical_approval": false,
+      "production_approved": false
+    },
+    {
+      "role": "pad_rejected_shape",
+      "filename": "HomeGymPT_ORIGINAL_v1_NEUTRAL_TOE_PAD_TRIAL.blend",
+      "archive_path": "models/HomeGymPT_ORIGINAL_v1_NEUTRAL_TOE_PAD_TRIAL.blend",
+      "bytes": 1832512,
+      "sha256": "6ee29cec4dfd4b2de867f8dbcce4364203bc5f40182deeea72e60e01683438e2",
+      "download_url": "https://chatgpt.com/api/library/files/libfile_b9ccfb0096988191bcffd63ffe3620e8/download",
+      "anatomical_approval": false,
+      "production_approved": false
+    },
+    {
+      "role": "toe_diagnostic_not_accepted",
+      "filename": "HomeGymPT_ORIGINAL_v1_INDIVIDUAL_TOE_TRIAL.blend",
+      "archive_path": "models/HomeGymPT_ORIGINAL_v1_INDIVIDUAL_TOE_TRIAL.blend",
+      "bytes": 3292211,
+      "sha256": "5eab3dad1338b90e98f27076f4ed181785029d35e0066312f2d0511031e46316",
+      "download_url": "https://chatgpt.com/api/library/files/libfile_a8d6241a34f081918e4d8088e1ccc58e/download",
+      "anatomical_approval": false,
+      "production_approved": false
+    },
+    {
+      "role": "shoulder_diagnostic_unrefitted",
+      "filename": "HomeGymPT_ORIGINAL_v1_SHOULDER_JOINT_REFIT_TRIAL.blend",
+      "archive_path": "models/HomeGymPT_ORIGINAL_v1_SHOULDER_JOINT_REFIT_TRIAL.blend",
+      "bytes": 3376908,
+      "sha256": "a48ee389a064927f740b5ea294b7afed3ef1616cbe8ac6c121867b86581680c2",
+      "download_url": "https://chatgpt.com/api/library/files/libfile_66b2bc9a12b4819197fb0e2bcd7a1a2a/download",
+      "anatomical_approval": false,
+      "production_approved": false
+    },
+    {
+      "role": "dq_rejected_standalone",
+      "filename": "HomeGymPT_ORIGINAL_v1_SHOULDER_VOLUME_SKINNING_TRIAL.blend",
+      "archive_path": "models/HomeGymPT_ORIGINAL_v1_SHOULDER_VOLUME_SKINNING_TRIAL.blend",
+      "bytes": 3375905,
+      "sha256": "91ac6b9845a7982e87c7fe0c44b114ee4382c7eb1720d1052ba2bdc29f648e09",
+      "download_url": "https://chatgpt.com/api/library/files/libfile_41b412abca1c819194db2fce5a6ecd89/download",
+      "anatomical_approval": false,
+      "production_approved": false
+    }
+  ],
+  "owner_acceptance": false,
+  "production_approved": false,
+  "anatomically_validated": false,
+  "warnings": [
+    "Library URLs need owner-authenticated download; no assumption of Claude access.",
+    "Latest DQ candidate is rejected, not chosen solution.",
+    "Historical r95 issue-ledger hash differs; do not bind new native candidate to old pass."
+  ]
+}

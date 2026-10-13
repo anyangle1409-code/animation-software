@@ -1060,5 +1060,24 @@
     "production_approved": false,
     "glb_exported": false,
     "next_action": "Continue deliberate shoulder influence/corrective refit from original source-joint trial; DQ is a rejected standalone experiment, not chosen portable solution. Preserve front/rear regressions and source anatomy."
+  },
+  "active_claude_blender_handoff_20261013": {
+    "branch": "codex/claude-original-v1-handoff-20261013",
+    "input_commit": "e39eec40ff44bcd9a09ba3c1a1e446c4ab9dea51",
+    "handoff": "docs/CLAUDE_ORIGINAL_V1_HANDOFF_20261013.md",
+    "reference_brief": "docs/CLAUDE_ORIGINAL_V1_REFERENCE_BRIEF_20261013.md",
+    "artifact_map": "docs/CLAUDE_ORIGINAL_V1_ARTIFACT_MAP_20261013.json",
+    "owner_expected_availability": "2026-10-13T17:00:00+01:00",
+    "availability_verified": false,
+    "claude_role": "Blender/model mechanics, topology, weights, deformation and motion",
+    "codex_role": "Preparation/reference/provenance/CI/coordination only; no competing Blender edits",
+    "archive_download": "https://chatgpt.com/api/library/files/libfile_4baf47e0b8288191abc47ca952bd18d7/download",
+    "archive_sha256": "146d23b3f8f98225e5278590287854303011dbd69f908c6dbc594bb14aa3954e",
+    "archive_bytes": 19164383,
+    "native_models_hash_verified": 6,
+    "zip_crc_verified": true,
+    "new_blender_edits": false,
+    "production_approved": false,
+    "next_action": "Claude checks latest live heads, downloads/rehashes correct native evidence, creates fresh bound scoped candidates and fixes foot/shoulder foundations; Codex prepares sources and checks coordination without duplicate model/software work."
   }
 }

@@ -1,0 +1,10 @@
+{
+  "archive_filename": "HomeGymPT_CLAUDE_HANDOFF_20261013.zip",
+  "bytes": 19164383,
+  "sha256": "146d23b3f8f98225e5278590287854303011dbd69f908c6dbc594bb14aa3954e",
+  "archive_members": 78,
+  "native_models_verified": 6,
+  "zip_crc_verified": true,
+  "standalone_execution_ready": false,
+  "scope": "Recovery/reference package. Scripts are supplements; run from full pinned repository for imports/resources. No Blender installation or approved asset."
+}

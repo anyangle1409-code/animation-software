@@ -1,0 +1,26 @@
+{
+  "input_candidate_sha256": "a48ee389a064927f740b5ea294b7afed3ef1616cbe8ac6c121867b86581680c2",
+  "candidate_sha256": "91ac6b9845a7982e87c7fe0c44b114ee4382c7eb1720d1052ba2bdc29f648e09",
+  "changed_setting": "copied body Armature.use_deform_preserve_volume False->True",
+  "before": {
+    "area_ratio_below_0_1_count": 60,
+    "area_ratio_above_2_count": 280
+  },
+  "after": {
+    "area_ratio_below_0_1_count": 4,
+    "area_ratio_above_2_count": 566
+  },
+  "before_minimum_region_area_ratio": 0.009709132793922767,
+  "after_minimum_region_area_ratio": 0.0142851235135609,
+  "source_file_unchanged": true,
+  "weights_refitted": false,
+  "shape_correctives_authored": false,
+  "production_approved": false,
+  "anatomical_approval": false,
+  "motion_accepted": false,
+  "limits": [
+    "Native dual-quaternion volume preservation, not muscle simulation.",
+    "GLB/runtime linear skinning will NOT preserve this modifier behavior; no GLB exported.",
+    "Area ratios remain distortion diagnostics; source frame/ROM and original foot defects unchanged."
+  ]
+}

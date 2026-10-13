@@ -1,7 +1,7 @@
 name: Shoulder joint trial checkpoint integrity
 on:
   push:
-    branches: [codex/original-shoulder-joint-refit-20261013]
+    branches: [codex/original-shoulder-joint-refit-20261013, codex/original-shoulder-volume-trial-20261013]
   pull_request:
     paths:
       - scripts/*original_shoulder*
@@ -17,3 +17,4 @@ jobs:
       - run: python -m unittest discover -s scripts -p 'test_original_shoulder_joint_authority.py'
       - run: python -m unittest discover -s scripts -p 'test_original_shoulder_bind_semantics.py'
       - run: python -m py_compile scripts/build_original_shoulder_joint_refit_blender.py scripts/probe_original_shoulder_joint_authority_blender.py scripts/test_original_shoulder_refit_blender.py
+      - run: python -m py_compile scripts/probe_original_shoulder_volume_skinning_blender.py scripts/render_original_shoulder_volume_comparison_blender.py

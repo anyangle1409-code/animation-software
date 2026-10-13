@@ -7,13 +7,20 @@ import build_functional_absolute_reach_blender as reach
 from mathutils import Matrix
 class RefitTests(unittest.TestCase):
     def test_front_shoulder_does_not_collapse_below_tenth_area_at_authored_160(self):
+        self.assert_triangle_retains_tenth_area((4647,13572,4773))
+    def test_rear_shoulder_does_not_collapse_below_tenth_area_at_authored_160(self):
+        self.assert_triangle_retains_tenth_area((4865,13619,4748))
+    def assert_triangle_retains_tenth_area(self,indices):
         # 10% is an engineering severe-collapse guard, not physiological authority.
         body=bpy.data.objects['HGPT_BODY_SHOULDER_REFIT_TRIAL']
         rig=bpy.data.objects['HGPT_SHOULDER_JOINT_REFIT_TRIAL']
         guide=next(o for o in bpy.data.objects if o.type=='ARMATURE' and len(o.data.bones)==6 and 'scapula_left' in o.data.bones)
+        for arm in (guide,rig):
+            for p in arm.pose.bones:p.matrix_basis=Matrix.Identity(4)
+        bpy.context.view_layer.update()
         def area():
             bpy.context.view_layer.update();ev=body.evaluated_get(bpy.context.evaluated_depsgraph_get())
-            a,b,c=[ev.matrix_world@ev.data.vertices[i].co for i in (4647,13572,4773)]
+            a,b,c=[ev.matrix_world@ev.data.vertices[i].co for i in indices]
             return (b-a).cross(c-a).length
         rec=json.loads((Path(__file__).resolve().parents[1]/authority.RECORD).read_text())
         mapping={part+'_'+side:runtime+'_'+suffix for side,suffix in [('left','r'),('right','l')] for part,runtime in [('clavicle','clavicle'),('scapula','scapula'),('humerus','upperarm')]}
@@ -24,7 +31,7 @@ class RefitTests(unittest.TestCase):
             for n,target in mapping.items():
                 rig.pose.bones[target].matrix=rig.matrix_world.inverted()@(guide.matrix_world@guide.pose.bones[n].matrix)@guide_rest[n].inverted()@rest[target]
                 bpy.context.view_layer.update()
-            self.assertGreaterEqual(area()/before,.1,'Known severe front-shoulder skin collapse; keep gate RED until refit')
+            self.assertGreaterEqual(area()/before,.1,'Known severe shoulder skin collapse; keep gate RED until refit')
         finally:
             for arm in (guide,rig):
                 for p in arm.pose.bones:p.matrix_basis=Matrix.Identity(4)

@@ -1,5 +1,11 @@
 # ORIGINAL_v1 Lane W completion and restart checkpoint — 12 October 2026
 
+## Rejected standalone volume-skinning follow-on — 13 October 2026
+
+Separate native candidate compares linear versus volume preservation on actualbody at authored160deg; bounded8660upper-bodyregion compressed triangles60→4 but excessively stretched280→566. Four new actual paired front/rear shoulder detail renders saved. Front regression passes, rear collapse FAILS (.014285<.1guard), native3PASS/1FAIL. Chest/shoulder bulges unacceptable; standalone modifier fix REJECTED. No muscle simulation, weights/mesh refit, GLB parity or production promotion. Candidate SHA25691ac6b9845a7982e87c7fe0c44b114ee4382c7eb1720d1052ba2bdc29f648e09.
+
+[Phone comparison](https://chatgpt.com/api/library/files/libfile_0d0be283e6b88191b90fb65ee58709c3/download); [source/export hashes and all direct links](./ORIGINAL_V1_SHOULDER_VOLUME_TRIAL_20261013.md). Next deliberate skin influence/corrective refit around retained SC/AC/GH centres, preserve front/rear guards; do not repeat unchanged modifier trial. Foot blockers/regression unchanged.
+
 ## Source-joint shoulder runtime trial — 13 October 2026
 
 New separate actual-body trial refits six copied shoulder rest frames (six heads/four tails) to fitted-unverified c004 SC/AC/GH centres. Eleven pure contract tests and two native saved-candidate tests PASS; added front-shoulder collapse gate FAILS, current native2PASS/1FAIL; original source bytes and enumerated original mesh/weight/corrective/rig fingerprints retained. Eleven authored reach stages are finite and return neutral; six actual fixed-scale full-body renders expose severe chest/axilla stretching, minimum face area0.009709x at160deg. Read-only upper-body localization:8660triangles,60below0.1area ratio and280above2; exact vertices/influences saved. Initial checkpoint8fc63a5b9da913ca465517559a135a7367934b00 CI38380569669SUCCESS for pure/syntax only; native deformation gate remains FAIL. Inherited skin/weights are NOT refitted; no motion/deformation/anatomy/production acceptance. Candidate SHA256 `a48ee389a064927f740b5ea294b7afed3ef1616cbe8ac6c121867b86581680c2`.

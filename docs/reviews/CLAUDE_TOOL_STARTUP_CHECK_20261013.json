@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-13",
+  "input_commit": "7ed139f8d16cdd6b48d85e2ed94bcc4c8780c821",
+  "environment": "Fresh Linux sparse checkout: root metadata, scripts, docs, candidate source records",
+  "support_tests": {
+    "passed": 25,
+    "failed": 0,
+    "modules": [
+      "test_original_shoulder_joint_authority",
+      "test_original_shoulder_bind_semantics",
+      "test_original_neutral_toe_pad_trial",
+      "test_original_v1_shoulder_foundation_declaration",
+      "test_original_v1_shoulder_foundation_readiness"
+    ]
+  },
+  "syntax_checks": {
+    "passed": true,
+    "files": [
+      "scripts/build_original_toe_articulation_blender.py",
+      "scripts/test_original_toe_articulation_blender.py",
+      "scripts/build_original_shoulder_joint_refit_blender.py",
+      "scripts/test_original_shoulder_refit_blender.py",
+      "scripts/original_v1_shoulder_foundation_readiness.py"
+    ]
+  },
+  "static_direct_import_check": {
+    "reachable_local_modules_parsed": 9,
+    "missing_expected_project_imports": [],
+    "c004_record_present": true,
+    "scope": "AST local module presence/parse check; no bpy/mathutils runtime execution"
+  },
+  "blank_template_preflight": {
+    "exit_code": 1,
+    "ready": false,
+    "missing_declaration_fields": 7,
+    "expected": true
+  },
+  "blender_native_execution_performed": false,
+  "model_deformation_validated": false,
+  "production_approved": false,
+  "limitations": [
+    "Sparse checkout does not prove every full-repository asset or native archive is available on Claude's computer.",
+    "Python syntax/static imports do not verify Blender API compatibility.",
+    "Known toe/shoulder native model gates remain open. This run checks startup support only."
+  ]
+}

@@ -147,3 +147,7 @@ Exact evidence and correction gates are recorded in [ORIGINAL_V1_NEUTRAL_FOOT_VI
 ## Claude repair record prepared — 13 October 2026
 
 Added docs/CLAUDE_REPAIR_RUN_CARD_20261013.json and short guide, linked from the first-session checklist. Exact diagnostic parent hashes, foot/shoulder objects and known before-values are filled; chosen parent/output/scope and all after-measurements remain blank. This is an operator convenience record, not another acceptance system or an edit authorization. Existing formal declarations/review/acceptance tools remain authoritative. Draft approval/null-field checks PASS. No Blender/model/rig/weights/corrective edit, character render, source move or merge. Next Claude fills actual candidate-bound evidence while Codex supports reference/provenance/coordination.
+
+## Fresh-checkout supporting-tool startup — 13 October 2026
+
+25selected supporttestsPASS on7ed139f8d16cdd6b48d85e2ed94bcc4c8780c821; five Blender/support scripts compile,9directlocalmodules parsed/no missingexpectedprojectimports,c004record present. Blank declaration expectedSTOP/exit1 with7missingfields. Fresh sparseLinuxcheckout only; no actualBlenderAPI/native/deformation/fullsuite claim. Report linked fromClaude first-sessionguide. No model/source/production edit. Claude can start from verified supportingtools and must still load/hash actualnativearchive and declarecandidate scope.

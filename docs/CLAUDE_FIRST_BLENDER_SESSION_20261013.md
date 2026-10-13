@@ -89,3 +89,9 @@ Post the new candidate/actual images and exact remaining failures to PR26. Keep 
 ## Record each repair without reconstructing the baseline
 
 Use [the repair run card](./CLAUDE_REPAIR_RUN_CARD_20261013.md) and its JSON copy for pinned before-values, empty after-measurements and evidence links. It supplements the existing acceptance/declaration files; it cannot authorize editing or certify a pass.
+
+## Supporting-tool startup verified in a fresh checkout
+
+On13October, a fresh sparse Linux checkout at `7ed139f8d16cdd6b48d85e2ed94bcc4c8780c821` passed25selected support tests, five script syntax checks and direct local-module presence checks. The c004record exists. Blank declaration returns the expectedSTOP with sevenmissingfields. Evidence: `docs/reviews/CLAUDE_TOOL_STARTUP_CHECK_20261013.json`.
+
+This does not execute Blender or validate its API, the private native files, candidate deformation or the full repository. Claude still needs the verified native archive and a recorded Blender version. Keep native model failures open.

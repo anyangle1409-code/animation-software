@@ -1114,6 +1114,13 @@
     "segment_frame_vs_control_pivot_distinction_recorded": true,
     "character_source_landmarks_verified": false,
     "repair_run_card": "docs/CLAUDE_REPAIR_RUN_CARD_20261013.json",
-    "repair_run_card_guide": "docs/CLAUDE_REPAIR_RUN_CARD_20261013.md"
+    "repair_run_card_guide": "docs/CLAUDE_REPAIR_RUN_CARD_20261013.md",
+    "tool_startup_report": "docs/reviews/CLAUDE_TOOL_STARTUP_CHECK_20261013.json",
+    "support_tests_in_fresh_checkout": {
+      "input_commit": "7ed139f8d16cdd6b48d85e2ed94bcc4c8780c821",
+      "passed": 25,
+      "failed": 0,
+      "native_execution": false
+    }
   }
 }

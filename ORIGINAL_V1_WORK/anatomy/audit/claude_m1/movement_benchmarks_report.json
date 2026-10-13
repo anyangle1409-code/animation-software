@@ -28,13 +28,13 @@
      "self_intersecting_pairs": 100,
      "self_intersection_classes_top": [
       [
-       "thigh_r",
-       "thumb_03_r",
+       "thigh_l",
+       "thumb_03_l",
        50
       ],
       [
-       "thigh_l",
-       "thumb_03_l",
+       "thigh_r",
+       "thumb_03_r",
        50
       ]
      ],
@@ -56,23 +56,23 @@
      "self_intersecting_pairs": 120,
      "self_intersection_classes_top": [
       [
-       "thigh_r",
-       "thumb_02_r",
-       42
-      ],
-      [
        "thigh_l",
        "thumb_02_l",
        42
       ],
       [
        "thigh_r",
-       "thumb_03_r",
-       18
+       "thumb_02_r",
+       42
       ],
       [
        "thigh_l",
        "thumb_03_l",
+       18
+      ],
+      [
+       "thigh_r",
+       "thumb_03_r",
        18
       ]
      ],
@@ -94,13 +94,13 @@
      "self_intersecting_pairs": 96,
      "self_intersection_classes_top": [
       [
-       "thigh_r",
-       "thumb_02_r",
+       "thigh_l",
+       "thumb_02_l",
        48
       ],
       [
-       "thigh_l",
-       "thumb_02_l",
+       "thigh_r",
+       "thumb_02_r",
        48
       ]
      ],
@@ -122,23 +122,23 @@
      "self_intersecting_pairs": 112,
      "self_intersection_classes_top": [
       [
-       "thigh_r",
-       "thumb_02_r",
-       30
-      ],
-      [
        "thigh_l",
        "thumb_02_l",
        30
       ],
       [
        "thigh_r",
-       "thumb_03_r",
-       26
+       "thumb_02_r",
+       30
       ],
       [
        "thigh_l",
        "thumb_03_l",
+       26
+      ],
+      [
+       "thigh_r",
+       "thumb_03_r",
        26
       ]
      ],
@@ -179,13 +179,13 @@
      "self_intersecting_pairs": 92,
      "self_intersection_classes_top": [
       [
-       "shin_r",
-       "thigh_r",
+       "shin_l",
+       "thigh_l",
        46
       ],
       [
-       "shin_l",
-       "thigh_l",
+       "shin_r",
+       "thigh_r",
        46
       ]
      ],
@@ -209,13 +209,13 @@
      "self_intersecting_pairs": 269,
      "self_intersection_classes_top": [
       [
-       "shin_r",
-       "thigh_r",
+       "shin_l",
+       "thigh_l",
        65
       ],
       [
-       "shin_l",
-       "thigh_l",
+       "shin_r",
+       "thigh_r",
        65
       ],
       [
@@ -229,13 +229,13 @@
        58
       ],
       [
-       "thigh_r",
-       "thigh_r",
+       "thigh_l",
+       "thigh_l",
        9
       ],
       [
-       "thigh_l",
-       "thigh_l",
+       "thigh_r",
+       "thigh_r",
        9
       ]
      ],
@@ -259,23 +259,23 @@
      "self_intersecting_pairs": 371,
      "self_intersection_classes_top": [
       [
-       "shin_r",
-       "thigh_r",
-       72
-      ],
-      [
        "shin_l",
        "thigh_l",
        72
       ],
       [
+       "shin_r",
        "thigh_r",
-       "thigh_r",
-       61
+       72
       ],
       [
        "thigh_l",
        "thigh_l",
+       61
+      ],
+      [
+       "thigh_r",
+       "thigh_r",
        61
       ],
       [
@@ -379,13 +379,13 @@
      "self_intersecting_pairs": 4,
      "self_intersection_classes_top": [
       [
-       "scapula_r",
-       "upperarm_r",
+       "scapula_l",
+       "upperarm_l",
        2
       ],
       [
-       "scapula_l",
-       "upperarm_l",
+       "scapula_r",
+       "upperarm_r",
        2
       ]
      ],
@@ -411,23 +411,23 @@
      "self_intersecting_pairs": 8,
      "self_intersection_classes_top": [
       [
-       "scapula_r",
-       "upperarm_r",
-       3
-      ],
-      [
        "scapula_l",
        "upperarm_l",
        3
       ],
       [
        "scapula_r",
-       "scapula_r",
-       1
+       "upperarm_r",
+       3
       ],
       [
        "scapula_l",
        "scapula_l",
+       1
+      ],
+      [
+       "scapula_r",
+       "scapula_r",
        1
       ]
      ],
@@ -453,13 +453,13 @@
      "self_intersecting_pairs": 2,
      "self_intersection_classes_top": [
       [
-       "scapula_r",
-       "upperarm_r",
+       "scapula_l",
+       "upperarm_l",
        1
       ],
       [
-       "scapula_l",
-       "upperarm_l",
+       "scapula_r",
+       "upperarm_r",
        1
       ]
      ],
@@ -506,13 +506,13 @@
      "self_intersecting_pairs": 94,
      "self_intersection_classes_top": [
       [
-       "forearm_tw0_r",
-       "upperarm_r",
+       "forearm_tw0_l",
+       "upperarm_l",
        47
       ],
       [
-       "forearm_tw0_l",
-       "upperarm_l",
+       "forearm_tw0_r",
+       "upperarm_r",
        47
       ]
      ],
@@ -538,23 +538,23 @@
      "self_intersecting_pairs": 156,
      "self_intersection_classes_top": [
       [
-       "forearm_tw0_r",
-       "upperarm_r",
-       44
-      ],
-      [
        "forearm_tw0_l",
        "upperarm_l",
        44
       ],
       [
-       "forearm_tw1_r",
+       "forearm_tw0_r",
        "upperarm_r",
-       26
+       44
       ],
       [
        "forearm_tw1_l",
        "upperarm_l",
+       26
+      ],
+      [
+       "forearm_tw1_r",
+       "upperarm_r",
        26
       ],
       [
@@ -563,8 +563,8 @@
        5
       ],
       [
-       "upperarm_r",
-       "upperarm_r",
+       "upperarm_l",
+       "upperarm_l",
        4
       ]
      ],
@@ -603,19 +603,14 @@
      "self_intersecting_pairs": 124,
      "self_intersection_classes_top": [
       [
-       "forearm_tw0_r",
-       "upperarm_r",
-       51
-      ],
-      [
        "forearm_tw0_l",
        "upperarm_l",
        51
       ],
       [
-       "forearm_tw1_r",
+       "forearm_tw0_r",
        "upperarm_r",
-       7
+       51
       ],
       [
        "forearm_tw1_l",
@@ -623,13 +618,18 @@
        7
       ],
       [
-       "forearm_tw0_r",
-       "forearm_tw0_r",
-       4
+       "forearm_tw1_r",
+       "upperarm_r",
+       7
       ],
       [
        "forearm_tw0_l",
        "forearm_tw0_l",
+       4
+      ],
+      [
+       "forearm_tw0_r",
+       "forearm_tw0_r",
        4
       ]
      ],
@@ -651,13 +651,13 @@
      "self_intersecting_pairs": 98,
      "self_intersection_classes_top": [
       [
-       "forearm_tw0_r",
-       "upperarm_r",
+       "forearm_tw0_l",
+       "upperarm_l",
        49
       ],
       [
-       "forearm_tw0_l",
-       "upperarm_l",
+       "forearm_tw0_r",
+       "upperarm_r",
        49
       ]
      ],
@@ -679,13 +679,13 @@
      "self_intersecting_pairs": 66,
      "self_intersection_classes_top": [
       [
-       "forearm_tw0_r",
-       "upperarm_r",
+       "forearm_tw0_l",
+       "upperarm_l",
        33
       ],
       [
-       "forearm_tw0_l",
-       "upperarm_l",
+       "forearm_tw0_r",
+       "upperarm_r",
        33
       ]
      ],
@@ -724,13 +724,13 @@
      "self_intersecting_pairs": 2,
      "self_intersection_classes_top": [
       [
-       "scapula_r",
-       "scapula_r",
+       "scapula_l",
+       "scapula_l",
        1
       ],
       [
-       "scapula_l",
-       "scapula_l",
+       "scapula_r",
+       "scapula_r",
        1
       ]
      ],
@@ -752,19 +752,14 @@
      "self_intersecting_pairs": 42,
      "self_intersection_classes_top": [
       [
-       "clavicle_r",
-       "upperarm_r",
-       10
-      ],
-      [
        "clavicle_l",
        "upperarm_l",
        10
       ],
       [
+       "clavicle_r",
        "upperarm_r",
-       "upperarm_r",
-       7
+       10
       ],
       [
        "upperarm_l",
@@ -772,8 +767,13 @@
        7
       ],
       [
-       "scapula_r",
-       "scapula_r",
+       "upperarm_r",
+       "upperarm_r",
+       7
+      ],
+      [
+       "clavicle_l",
+       "clavicle_l",
        2
       ],
       [
@@ -800,34 +800,34 @@
      "self_intersecting_pairs": 462,
      "self_intersection_classes_top": [
       [
-       "upperarm_r",
-       "upperarm_r",
-       133
-      ],
-      [
        "upperarm_l",
        "upperarm_l",
        133
       ],
       [
-       "clavicle_r",
        "upperarm_r",
-       66
+       "upperarm_r",
+       133
       ],
       [
        "clavicle_l",
        "upperarm_l",
-       66
+       70
       ],
       [
-       "scapula_r",
+       "clavicle_r",
        "upperarm_r",
-       29
+       70
       ],
       [
        "scapula_l",
        "upperarm_l",
-       29
+       25
+      ],
+      [
+       "scapula_r",
+       "upperarm_r",
+       25
       ]
      ],
      "lowest_point_z_mm": 0.0,
@@ -848,34 +848,34 @@
      "self_intersecting_pairs": 462,
      "self_intersection_classes_top": [
       [
-       "upperarm_r",
-       "upperarm_r",
-       92
-      ],
-      [
        "upperarm_l",
        "upperarm_l",
        92
       ],
       [
-       "clavicle_r",
        "upperarm_r",
-       79
+       "upperarm_r",
+       92
       ],
       [
        "clavicle_l",
        "upperarm_l",
-       79
+       80
       ],
       [
-       "scapula_r",
+       "clavicle_r",
        "upperarm_r",
-       51
+       80
       ],
       [
        "scapula_l",
        "upperarm_l",
-       51
+       50
+      ],
+      [
+       "scapula_r",
+       "upperarm_r",
+       50
       ]
      ],
      "lowest_point_z_mm": 0.0,
@@ -896,13 +896,13 @@
      "self_intersecting_pairs": 444,
      "self_intersection_classes_top": [
       [
-       "upperarm_r",
-       "upperarm_r",
+       "upperarm_l",
+       "upperarm_l",
        78
       ],
       [
-       "upperarm_l",
-       "upperarm_l",
+       "upperarm_r",
+       "upperarm_r",
        78
       ],
       [
@@ -913,17 +913,17 @@
       [
        "clavicle_r",
        "upperarm_r",
-       67
-      ],
-      [
-       "scapula_r",
-       "upperarm_r",
-       66
+       68
       ],
       [
        "scapula_l",
        "upperarm_l",
-       66
+       65
+      ],
+      [
+       "scapula_r",
+       "upperarm_r",
+       65
       ]
      ],
      "lowest_point_z_mm": 0.0,
@@ -1685,19 +1685,14 @@
      "self_intersecting_pairs": 132,
      "self_intersection_classes_top": [
       [
-       "forearm_tw0_r",
-       "upperarm_r",
-       51
-      ],
-      [
        "forearm_tw0_l",
        "upperarm_l",
        51
       ],
       [
-       "forearm_tw1_r",
+       "forearm_tw0_r",
        "upperarm_r",
-       7
+       51
       ],
       [
        "forearm_tw1_l",
@@ -1705,13 +1700,18 @@
        7
       ],
       [
-       "forearm_tw0_r",
-       "forearm_tw0_r",
-       4
+       "forearm_tw1_r",
+       "upperarm_r",
+       7
       ],
       [
        "forearm_tw0_l",
        "forearm_tw0_l",
+       4
+      ],
+      [
+       "forearm_tw0_r",
+       "forearm_tw0_r",
        4
       ]
      ],
@@ -1738,19 +1738,14 @@
      "self_intersecting_pairs": 132,
      "self_intersection_classes_top": [
       [
-       "forearm_tw0_r",
-       "upperarm_r",
-       51
-      ],
-      [
        "forearm_tw0_l",
        "upperarm_l",
        51
       ],
       [
-       "forearm_tw1_r",
+       "forearm_tw0_r",
        "upperarm_r",
-       7
+       51
       ],
       [
        "forearm_tw1_l",
@@ -1758,13 +1753,18 @@
        7
       ],
       [
-       "forearm_tw0_r",
-       "forearm_tw0_r",
-       4
+       "forearm_tw1_r",
+       "upperarm_r",
+       7
       ],
       [
        "forearm_tw0_l",
        "forearm_tw0_l",
+       4
+      ],
+      [
+       "forearm_tw0_r",
+       "forearm_tw0_r",
        4
       ]
      ],
@@ -1791,19 +1791,14 @@
      "self_intersecting_pairs": 132,
      "self_intersection_classes_top": [
       [
-       "forearm_tw0_r",
-       "upperarm_r",
-       51
-      ],
-      [
        "forearm_tw0_l",
        "upperarm_l",
        51
       ],
       [
-       "forearm_tw1_r",
+       "forearm_tw0_r",
        "upperarm_r",
-       7
+       51
       ],
       [
        "forearm_tw1_l",
@@ -1811,13 +1806,18 @@
        7
       ],
       [
-       "forearm_tw0_r",
-       "forearm_tw0_r",
-       4
+       "forearm_tw1_r",
+       "upperarm_r",
+       7
       ],
       [
        "forearm_tw0_l",
        "forearm_tw0_l",
+       4
+      ],
+      [
+       "forearm_tw0_r",
+       "forearm_tw0_r",
        4
       ]
      ],
@@ -1844,19 +1844,14 @@
      "self_intersecting_pairs": 132,
      "self_intersection_classes_top": [
       [
-       "forearm_tw0_r",
-       "upperarm_r",
-       51
-      ],
-      [
        "forearm_tw0_l",
        "upperarm_l",
        51
       ],
       [
-       "forearm_tw1_r",
+       "forearm_tw0_r",
        "upperarm_r",
-       7
+       51
       ],
       [
        "forearm_tw1_l",
@@ -1864,13 +1859,18 @@
        7
       ],
       [
-       "forearm_tw0_r",
-       "forearm_tw0_r",
-       4
+       "forearm_tw1_r",
+       "upperarm_r",
+       7
       ],
       [
        "forearm_tw0_l",
        "forearm_tw0_l",
+       4
+      ],
+      [
+       "forearm_tw0_r",
+       "forearm_tw0_r",
        4
       ]
      ],
@@ -1897,19 +1897,14 @@
      "self_intersecting_pairs": 132,
      "self_intersection_classes_top": [
       [
-       "forearm_tw0_r",
-       "upperarm_r",
-       51
-      ],
-      [
        "forearm_tw0_l",
        "upperarm_l",
        51
       ],
       [
-       "forearm_tw1_r",
+       "forearm_tw0_r",
        "upperarm_r",
-       7
+       51
       ],
       [
        "forearm_tw1_l",
@@ -1917,13 +1912,18 @@
        7
       ],
       [
-       "forearm_tw0_r",
-       "forearm_tw0_r",
-       4
+       "forearm_tw1_r",
+       "upperarm_r",
+       7
       ],
       [
        "forearm_tw0_l",
        "forearm_tw0_l",
+       4
+      ],
+      [
+       "forearm_tw0_r",
+       "forearm_tw0_r",
        4
       ]
      ],
@@ -1950,19 +1950,14 @@
      "self_intersecting_pairs": 132,
      "self_intersection_classes_top": [
       [
-       "forearm_tw0_r",
-       "upperarm_r",
-       51
-      ],
-      [
        "forearm_tw0_l",
        "upperarm_l",
        51
       ],
       [
-       "forearm_tw1_r",
+       "forearm_tw0_r",
        "upperarm_r",
-       7
+       51
       ],
       [
        "forearm_tw1_l",
@@ -1970,13 +1965,18 @@
        7
       ],
       [
-       "forearm_tw0_r",
-       "forearm_tw0_r",
-       4
+       "forearm_tw1_r",
+       "upperarm_r",
+       7
       ],
       [
        "forearm_tw0_l",
        "forearm_tw0_l",
+       4
+      ],
+      [
+       "forearm_tw0_r",
+       "forearm_tw0_r",
        4
       ]
      ],
@@ -2003,19 +2003,14 @@
      "self_intersecting_pairs": 132,
      "self_intersection_classes_top": [
       [
-       "forearm_tw0_r",
-       "upperarm_r",
-       51
-      ],
-      [
        "forearm_tw0_l",
        "upperarm_l",
        51
       ],
       [
-       "forearm_tw1_r",
+       "forearm_tw0_r",
        "upperarm_r",
-       7
+       51
       ],
       [
        "forearm_tw1_l",
@@ -2023,13 +2018,18 @@
        7
       ],
       [
-       "forearm_tw0_r",
-       "forearm_tw0_r",
-       4
+       "forearm_tw1_r",
+       "upperarm_r",
+       7
       ],
       [
        "forearm_tw0_l",
        "forearm_tw0_l",
+       4
+      ],
+      [
+       "forearm_tw0_r",
+       "forearm_tw0_r",
        4
       ]
      ],
@@ -2056,19 +2056,14 @@
      "self_intersecting_pairs": 146,
      "self_intersection_classes_top": [
       [
-       "forearm_tw0_r",
-       "upperarm_r",
-       51
-      ],
-      [
        "forearm_tw0_l",
        "upperarm_l",
        51
       ],
       [
-       "forearm_tw1_r",
+       "forearm_tw0_r",
        "upperarm_r",
-       7
+       51
       ],
       [
        "forearm_tw1_l",
@@ -2076,14 +2071,19 @@
        7
       ],
       [
-       "ring_01_r",
-       "ring_01_r",
+       "forearm_tw1_r",
+       "upperarm_r",
        7
       ],
       [
-       "ring_01_l",
-       "ring_01_l",
-       7
+       "forearm_tw0_l",
+       "forearm_tw0_l",
+       4
+      ],
+      [
+       "forearm_tw0_r",
+       "forearm_tw0_r",
+       4
       ]
      ],
      "lowest_point_z_mm": 0.0,
@@ -2109,19 +2109,14 @@
      "self_intersecting_pairs": 150,
      "self_intersection_classes_top": [
       [
-       "forearm_tw0_r",
-       "upperarm_r",
-       51
-      ],
-      [
        "forearm_tw0_l",
        "upperarm_l",
        51
       ],
       [
-       "forearm_tw1_r",
+       "forearm_tw0_r",
        "upperarm_r",
-       7
+       51
       ],
       [
        "forearm_tw1_l",
@@ -2129,14 +2124,19 @@
        7
       ],
       [
-       "ring_01_r",
-       "ring_01_r",
+       "forearm_tw1_r",
+       "upperarm_r",
        7
       ],
       [
+       "hand_l",
        "ring_01_l",
-       "ring_01_l",
-       7
+       5
+      ],
+      [
+       "hand_r",
+       "ring_01_r",
+       5
       ]
      ],
      "lowest_point_z_mm": 0.0,

@@ -331,13 +331,13 @@ def frame_metrics(V0, V, F, dom, rest_floor):
 
     def g(f):
         names = [dom[v] for v in F[f]]
-        return max(set(names), key=names.count)
+        return max(sorted(set(names)), key=names.count)        # sorted: ties break by name, not by hash order
     classes = Counter(tuple(sorted((g(a), g(b)))) for a, b in pairs)
     return {"collapse_lt_0_1": sum(r < 0.1 for r in ratios), "stretch_gt_2": sum(r > 2 for r in ratios),
             "area_ratio_min": round(min(ratios), 4), "area_ratio_max": round(max(ratios), 4),
             "body_volume_change_pct": round((vol - vol0) / vol0 * 100, 4),
             "self_intersecting_pairs": len(pairs),
-            "self_intersection_classes_top": [[a, b, n] for (a, b), n in classes.most_common(6)],
+            "self_intersection_classes_top": [[a, b, n] for (a, b), n in sorted(classes.items(), key=lambda kv: (-kv[1], kv[0]))[:6]],   # ties by name: deterministic
             "lowest_point_z_mm": round((min(v.z for v in V) - rest_floor) * 1000, 2)}
 
 

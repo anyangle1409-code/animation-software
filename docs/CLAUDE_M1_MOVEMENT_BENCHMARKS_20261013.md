@@ -75,7 +75,10 @@ The same script, metrics and floor rule apply, so M1 numbers are unchanged (re-r
 
 ## M2 follow-ups: single-leg stance and calf raise (ankle/toe)
 
-Earlier frames of all seven benchmarks are unchanged (re-run identical frame by frame). Phone sheets: `single_leg_stance_phone_sheet.jpg` and `calf_raise_phone_sheet.jpg`.
+The seven earlier benchmarks are unchanged in every metric.
+- **Determinism fix:** a face's contact class used to break ties among three different vertex groups by Python's hash-randomised string-set order, so per-class counts (never totals) varied between runs (e.g. 137 vs 133 in one press frame).
+- Ties now break by name, and the classes are sorted by (count, name). Two consecutive runs now produce identical reports.
+- The class counts quoted above (squat 72/61, row 44, press 78/68) are unchanged. Phone sheets: `single_leg_stance_phone_sheet.jpg` and `calf_raise_phone_sheet.jpg`.
 
 - **Single-leg stance:** the right leg lifts to hip 90° and knee 90°. The left stance leg, pelvis and root stay at rest, so the stance foot does not move. No weight shift or pelvic drop is modelled.
 - **Calf raise:** both ankles plantarflex 35° (CDC passive mean 54.6°). The MTP joints extend by the same 35°, which keeps the toes flat: the toe bones' world rotation equals rest (0.0°). The body is grounded on the toe pads; the floor contact goes from 14 foot + 9 toe vertices per side at rest to 52 toe vertices per side. The atlas has no CDC value for MTP extension.

@@ -1,0 +1,25 @@
+name: ORIGINAL_v1 GLB round-trip parity
+on:
+  push:
+    branches: [claude/master-execution-20261013]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  native-glb-roundtrip:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo '670a37bfd206d702928de721032e2b942725389dc6906df0d866eba8d8cbbe56  ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a003.blend' | sha256sum -c -
+      - name: Install pinned Blender 5.2.1
+        run: |
+          curl --fail --location --retry 3 https://download.blender.org/release/Blender5.2/blender-5.2.1-linux-x64.tar.xz --output /tmp/blender-5.2.1-linux-x64.tar.xz
+          echo 'a31f524fa99a527d3d52b7f5aaa68c34e1a19d5a1c9473f79c5cc610fd5b10e9  /tmp/blender-5.2.1-linux-x64.tar.xz' | sha256sum -c -
+          tar -xJf /tmp/blender-5.2.1-linux-x64.tar.xz -C /tmp
+      - run: /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a003.blend --python-exit-code 1 --python scripts/verify_original_glb_roundtrip_blender.py -- --out /tmp/original_glb_roundtrip_report.json
+      - run: python3 -c "import json,sys; d=json.load(open('/tmp/original_glb_roundtrip_report.json')); print(d['verdict']); sys.exit(d['verdict']!='PASS')"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: original-glb-roundtrip-report
+          path: /tmp/original_glb_roundtrip_report.json

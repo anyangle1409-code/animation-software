@@ -1,0 +1,152 @@
+{
+ "source_blend": "HGPT_ANATOMICAL_AUDIT_r95_a003.blend",
+ "approved": false,
+ "native": {
+  "vertices": 17946,
+  "triangles": 35888,
+  "skin_joints": 67,
+  "bones": 67,
+  "max_influences": 4,
+  "weight_sum_range": [
+   1.0,
+   1.0
+  ],
+  "morph_targets": [
+   "HGPT_SHOULDER_CORR_L",
+   "HGPT_SHOULDER_CORR_R",
+   "HGPT_SHOULDER_FLEX_L",
+   "HGPT_SHOULDER_FLEX_R",
+   "HGPT_SHOULDER_SCAP_L",
+   "HGPT_SHOULDER_SCAP_R"
+  ],
+  "morph_weights": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "hierarchy": {
+   "root": null,
+   "pelvis": "root",
+   "spine_01": "pelvis",
+   "spine_02": "spine_01",
+   "spine_03": "spine_02",
+   "clavicle_l": "spine_03",
+   "scapula_l": "clavicle_l",
+   "upperarm_l": "scapula_l",
+   "forearm_l": "upperarm_l",
+   "forearm_tw0_l": "forearm_l",
+   "forearm_tw1_l": "forearm_l",
+   "hand_l": "forearm_l",
+   "metacarpal_index_l": "hand_l",
+   "index_01_l": "metacarpal_index_l",
+   "index_02_l": "index_01_l",
+   "index_03_l": "index_02_l",
+   "metacarpal_middle_l": "hand_l",
+   "middle_01_l": "metacarpal_middle_l",
+   "middle_02_l": "middle_01_l",
+   "middle_03_l": "middle_02_l",
+   "metacarpal_pinky_l": "hand_l",
+   "pinky_01_l": "metacarpal_pinky_l",
+   "pinky_02_l": "pinky_01_l",
+   "pinky_03_l": "pinky_02_l",
+   "metacarpal_ring_l": "hand_l",
+   "ring_01_l": "metacarpal_ring_l",
+   "ring_02_l": "ring_01_l",
+   "ring_03_l": "ring_02_l",
+   "thumb_01_l": "hand_l",
+   "thumb_02_l": "thumb_01_l",
+   "thumb_03_l": "thumb_02_l",
+   "clavicle_r": "spine_03",
+   "scapula_r": "clavicle_r",
+   "upperarm_r": "scapula_r",
+   "forearm_r": "upperarm_r",
+   "forearm_tw0_r": "forearm_r",
+   "forearm_tw1_r": "forearm_r",
+   "hand_r": "forearm_r",
+   "metacarpal_index_r": "hand_r",
+   "index_01_r": "metacarpal_index_r",
+   "index_02_r": "index_01_r",
+   "index_03_r": "index_02_r",
+   "metacarpal_middle_r": "hand_r",
+   "middle_01_r": "metacarpal_middle_r",
+   "middle_02_r": "middle_01_r",
+   "middle_03_r": "middle_02_r",
+   "metacarpal_pinky_r": "hand_r",
+   "pinky_01_r": "metacarpal_pinky_r",
+   "pinky_02_r": "pinky_01_r",
+   "pinky_03_r": "pinky_02_r",
+   "metacarpal_ring_r": "hand_r",
+   "ring_01_r": "metacarpal_ring_r",
+   "ring_02_r": "ring_01_r",
+   "ring_03_r": "ring_02_r",
+   "thumb_01_r": "hand_r",
+   "thumb_02_r": "thumb_01_r",
+   "thumb_03_r": "thumb_02_r",
+   "neck": "spine_03",
+   "head": "neck",
+   "thigh_l": "pelvis",
+   "shin_l": "thigh_l",
+   "foot_l": "shin_l",
+   "toe_l": "foot_l",
+   "thigh_r": "pelvis",
+   "shin_r": "thigh_r",
+   "foot_r": "shin_r",
+   "toe_r": "foot_r"
+  }
+ },
+ "glb_bytes": 1492440,
+ "imported": {
+  "meshes": [
+   [
+    "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE",
+    17946,
+    true
+   ],
+   [
+    "Icosphere",
+    42,
+    false
+   ]
+  ],
+  "armatures": 1,
+  "vertices": 17946,
+  "triangles": 35888,
+  "skin_joints": 67,
+  "morph_targets": [
+   "HGPT_SHOULDER_CORR_L",
+   "HGPT_SHOULDER_CORR_R",
+   "HGPT_SHOULDER_FLEX_L",
+   "HGPT_SHOULDER_FLEX_R",
+   "HGPT_SHOULDER_SCAP_L",
+   "HGPT_SHOULDER_SCAP_R"
+  ],
+  "hierarchy_preserved": true
+ },
+ "rest_vertex_mapping_max_error_m": 4.998001372769068e-07,
+ "posed_parity": {
+  "rest": {
+   "max_error_mm": 0.0006,
+   "mean_error_mm": 0.00022
+  },
+  "shoulder_abduction_90": {
+   "max_error_mm": 0.0006,
+   "mean_error_mm": 0.00023
+  },
+  "elbow_flexion_90": {
+   "max_error_mm": 0.0006,
+   "mean_error_mm": 0.00023
+  },
+  "squat_like": {
+   "max_error_mm": 0.0006,
+   "mean_error_mm": 0.00021
+  },
+  "trunk_flexion_30": {
+   "max_error_mm": 0.0007,
+   "mean_error_mm": 0.00021
+  }
+ },
+ "verdict": "PASS"
+}

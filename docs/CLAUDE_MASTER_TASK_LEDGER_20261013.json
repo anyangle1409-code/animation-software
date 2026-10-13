@@ -52,12 +52,16 @@
    "id": "F4",
    "description": "Forefoot breadth/toe girth candidate towards ANSUR foot breadth 104.1+-4.7 mm (model 96.7)",
    "priority": 1,
-   "status": "TODO",
-   "evidence": null,
-   "tests": null,
-   "commit": null,
-   "blockers": [],
-   "next": "measure heel/forefoot breadth vs ANSUR; widen lesser toes/forefoot mesh-only keeping stations inside"
+   "status": "TESTED",
+   "evidence": "docs/ORIGINAL_V1_FOOT_BREADTH_AND_POSED_SWEEP_CLAUDE_20261013.md (foot branch)",
+   "tests": "breadth stage self-checks PASS (C2W, C3W)",
+   "commit": "c16ec280",
+   "blockers": [
+    "owner visual acceptance",
+    "lesser-toe girth still thin",
+    "heel breadth ANSUR landmark ambiguous on this mesh"
+   ],
+   "next": "toe girth pass (needs a toe-breadth source)"
   },
   {
    "id": "F5",
@@ -76,12 +80,12 @@
    "id": "F6",
    "description": "Foot posed validation: ankle dorsi/plantarflexion, toe block flexion to toe-off range on C2/C3",
    "priority": 1,
-   "status": "TODO",
-   "evidence": null,
-   "tests": null,
-   "commit": null,
+   "status": "TESTED",
+   "evidence": "breadth/foot_posed_sweep.json",
+   "tests": "FK sweep foot -30..+20, toe -50..+30: 0 collapse/0 stretch/0 self-intersection on a003, C2W, C3W",
+   "commit": "c16ec280",
    "blockers": [],
-   "next": "native test sweeping foot_*/toe_* with floor/area/self-intersection metrics"
+   "next": null
   },
   {
    "id": "W1",
@@ -100,12 +104,14 @@
    "id": "W2",
    "description": "Pose-space shoulder correctives against coupled 0-160 motion",
    "priority": 2,
-   "status": "IN_PROGRESS",
-   "evidence": "docs/FUNCTIONAL_SHOULDER_COUPLED_CORRECTIVE_20261013.md",
-   "tests": "7 pure/6 native PASS locally",
-   "commit": "69a2f344 (local, under independent review)",
-   "blockers": [],
-   "next": "apply review, push, CI, draft PR"
+   "status": "TESTED",
+   "evidence": "docs/FUNCTIONAL_SHOULDER_COUPLED_CORRECTIVE_20261013.md; draft PR #112",
+   "tests": "7 pure/8 native PASS; independent review HIGH findings fixed",
+   "commit": "a8942ae3",
+   "blockers": [
+    "diagnostic only: shoulder-top LBS near-singular at 145-160; self-intersection not reduced"
+   ],
+   "next": "W4 weights-only shoulder-top refit"
   },
   {
    "id": "W3",
@@ -124,12 +130,14 @@
    "id": "E1",
    "description": "Rig/export verification: hierarchy, names, rest, weights, palette, GLB round-trip of the 67-joint original",
    "priority": 2,
-   "status": "TODO",
-   "evidence": null,
-   "tests": null,
-   "commit": null,
-   "blockers": [],
-   "next": "native rig audit + Blender glTF export/import parity on a review-only copy"
+   "status": "TESTED",
+   "evidence": "docs/CLAUDE_E1_ORIGINAL_GLB_ROUNDTRIP_20261013.md",
+   "tests": "native->GLB->native parity max 0.0007 mm at 5 poses; 67 joints, 6 morphs",
+   "commit": "(this commit)",
+   "blockers": [
+    "bone display shape Icosphere leaks into GLB export"
+   ],
+   "next": null
   },
   {
    "id": "M1",
@@ -174,6 +182,17 @@
    "commit": null,
    "blockers": [],
    "next": "update after every task"
+  },
+  {
+   "id": "W4",
+   "description": "Weights-only shoulder-top/axilla refit onto existing clavicle/scapula controls (keep LBS well conditioned at 145-160 deg)",
+   "priority": 2,
+   "status": "TODO",
+   "evidence": null,
+   "tests": null,
+   "commit": null,
+   "blockers": [],
+   "next": "min singular value per vertex at 160 deg as acceptance metric; then re-run W2 solve"
   }
  ]
 }

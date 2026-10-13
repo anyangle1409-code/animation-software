@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "kind": "claude_master_task_ledger",
- "updated": "2026-10-13 (A1 tested)",
+ "updated": "2026-10-13 (M2 follow-ups, A1 CI green, K1 started)",
  "owner_rules": "skeleton is source of truth; no frozen-skeleton change without owner decision; no merge; no approval claims; no third-party assets",
  "environment": "cloud Linux container (Blender 5.2.1 as Python module); not the owner's Windows laptop; no battery telemetry available, protection = commit/push after every task",
  "branches": {
@@ -159,15 +159,14 @@
    "priority": 3,
    "status": "TESTED",
    "evidence": "docs/CLAUDE_M1_MOVEMENT_BENCHMARKS_20261013.md M2 section; ORIGINAL_V1_WORK/anatomy/audit/claude_m1/{lunge,walk_stride,trunk_rotation,grip}_phone_sheet.jpg (branch claude/movement-benchmarks-20261013)",
-   "tests": "7 native PASS locally: walk closure + L/R phase symmetry, grip closes on both hands, digit mirror error <0.5 mm (old single sign: 164.5 mm)",
-   "commit": "81145f6a (draft PR #113; CI pending)",
+   "tests": "8 native PASS: 9 benchmarks; walk closure/L-R symmetry; grip closure + digit mirror error <0.5 mm (old single sign 164.5 mm); calf-raise heel rise monotone within CDC PF; report identical across runs",
+   "commit": "81145f6a + 9f6ce69a (single-leg, calf raise) + 2818feff (deterministic classes); draft PR #113; CI green on 81145f6a and 9f6ce69a",
    "blockers": [
     "rest-pose hand hangs almost on the thigh: thumb/thigh pairs in lunge/walk/rotation (owner-visible rest pose choice)",
     "elbow-crease/knee contact needs collision/volume-aware correctives",
-    "thumb opposition axis absent: grip thumb stays out to the side",
-    "single-leg and ankle/toe benchmarks not yet authored"
+    "thumb opposition axis absent: grip thumb stays out to the side"
    ],
-   "next": "single-leg stance and ankle/toe benchmarks after A1; finding: rig digit local axes not mirrored (+Z flexes _r, extends _l)"
+   "next": "deep-flexion contact corrective candidate (K1)"
   },
   {
    "id": "A1",
@@ -176,7 +175,7 @@
    "status": "TESTED",
    "evidence": "docs/CLAUDE_A1_WHOLE_SKELETON_VALIDATION_MATRIX_20261013.md; ORIGINAL_V1_WORK/anatomy/audit/claude_a1/ (matrix, containment report, phone sheet)",
    "tests": "5 native containment tests + 4 pure matrix tests PASS locally; CI workflow original-skeleton-containment.yml",
-   "commit": "this branch (see git log); CI pending",
+   "commit": "d8c51ef4 (CI green: native-skeleton-containment)",
    "blockers": [
     "fibula axis 1.9 mm outside lateral distal shank skin (both sides): needs sourced cover/tibiofibular offset to decide mesh vs skeleton",
     "first metacarpal axis 0.06 mm under thumb-web skin (hand blockers H1-H3/c005)",
@@ -205,6 +204,17 @@
    "commit": "d94ad0cd",
    "blockers": [],
    "next": null
+  },
+  {
+   "id": "K1",
+   "description": "Experimental knee deep-flexion contact/volume corrective candidate (review-only; never replaces production weights or keys)",
+   "priority": 3,
+   "status": "IN_PROGRESS",
+   "evidence": null,
+   "tests": null,
+   "commit": null,
+   "blockers": [],
+   "next": "measure knee LBS conditioning; build posed-space contact corrective at 90/110 deg; before/after on squat, lunge, single-leg"
   }
  ]
 }

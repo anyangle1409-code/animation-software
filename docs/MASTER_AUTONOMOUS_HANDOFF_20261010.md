@@ -1,6 +1,21 @@
 # Master programme: independent execution checkpoint, 10 October 2026
 
-## New W1/W2 original-body coupled motion — 13 October
+## New W1/W2 shoulder/thorax guide correction — 13 October (Claude)
+
+`claude/functional-original-shoulder-correction-20261013` is stacked on reviewed
+PR110 head `26bf25f04158c9fa372a6e96399f744d8564837b`. Read
+`FUNCTIONAL_ORIGINAL_SHOULDER_CORRECTION_20261013.md` and machine key
+`active_functional_shoulder_correction_checkpoint` first. The blade guide was
+1.39x oversized by a similarity fit to the a003 scapula stick; it is now rigid,
+Lee-sized and placed about the glenoid at an authored 12 mm thorax clearance.
+Ribs use the Holcombe distal spiral with an authored proximal bridge on frozen
+a003 endpoints and are inside the skin at rest. An authored humeral external
+rotation channel is exact in a side-specific frame. At 160 deg the original
+mesh shows 42 collapsed faces, 444 self-intersecting pairs and -5.0 % volume;
+legacy corrective keys make it worse. No approvals. Next solve correctives or a
+weight refit against the coupled motion.
+
+## Preserved W1/W2 original-body coupled motion — 13 October
 
 `codex/functional-original-coupled-motion-20261013` is stacked on reviewed
 PR109 head `afe02ca65e31ab21ad6c65ed341c7cc80297884c`. Read

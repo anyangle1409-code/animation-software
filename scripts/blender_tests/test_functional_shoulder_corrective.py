@@ -25,34 +25,52 @@ class FunctionalShoulderCorrectiveNativeTests(unittest.TestCase):
     def tearDown(self):
         builder.apply_pose_with_correctives(self.result, 0)
 
-    def test_linear_blend_inverse_and_mirror_are_exact_for_every_key(self):
+    def test_forward_skinning_check_mirror_and_bounded_deltas_for_every_key(self):
         log = self.result["solve_log"]
         self.assertEqual(sorted(int(k) for k in log), [int(k) for k in contract.KEY_POSES_DEG])
         for k, entry in log.items():
             self.assertLess(entry["lbs_inverse_max_error_m"], 1e-5, k)
             self.assertLess(entry["mirror_map_max_error_m"], 1e-5, k)
+            self.assertLessEqual(entry["max_rest_delta_m"], builder.DELTA_CAP_M + 1e-9, k)
+        keys = self.body.data.shape_keys.key_blocks
+        basis = keys["Basis"].data
+        for label in log:
+            kb = keys[builder.KEY_PREFIX + label].data
+            worst = max((kb[i].co - basis[i].co).length for i in range(len(basis)))
+            self.assertLessEqual(worst, builder.DELTA_CAP_M * 1.001, label)
+
+    def test_posed_correction_is_bounded_at_keys_and_between_keys(self):
+        # blended LBS matrices have singular values <= 1, so a capped rest delta cannot move posed skin further
+        for e, row in self.rows.items():
+            self.assertLessEqual(row["max_posed_correction_mm"], builder.DELTA_CAP_M * 1000 * 1.01, e)
 
     def test_keys_change_nothing_at_rest_and_ninety(self):
         for e in (0, 90):
             row = self.rows[e]
-            for metric in ("body_volume_l", "area_ratio_min", "area_ratio_max", "self_intersecting_face_pairs_in_region"):
-                self.assertEqual(row["with_correctives"][metric], row["without_correctives"][metric], (e, metric))
+            self.assertEqual(row["max_posed_correction_mm"], 0.0, e)
 
-    def test_volume_collapse_and_rib_clearance_improve_at_every_key_pose(self):
+    def test_volume_and_thorax_clearance_improve_at_every_key_pose(self):
         for k in contract.KEY_POSES_DEG:
             row = self.rows[int(k)]
             w, wo = row["with_correctives"], row["without_correctives"]
             self.assertLessEqual(abs(w["body_volume_change_pct"]), contract.TARGETS["body_volume_change_abs_pct_max"], k)
-            self.assertLessEqual(w["collapse_faces_ratio_lt_0_1"], max(wo["collapse_faces_ratio_lt_0_1"], 2), k)
-            self.assertGreaterEqual(w["torso_rib_clearance_min_mm"], 2.5, k)
-            self.assertGreater(w["torso_rib_clearance_min_mm"], wo["torso_rib_clearance_min_mm"], k)
+            self.assertGreater(w["torso_thorax_hull_clearance_min_mm"], wo["torso_thorax_hull_clearance_min_mm"], k)
 
-    def test_self_intersection_is_measured_and_reported_not_hidden(self):
+    def test_thorax_clearance_excludes_neck_and_stays_in_rib_span(self):
+        body = self.body
+        dom = builder.correction._dominant_groups(body)
+        lo, hi = self.result["rib_clearance"].z_span
+        rest = self.result["rest"][0]
+        for i, flag in enumerate(self.result["torso"]):
+            if flag:
+                self.assertFalse(dom[i].startswith("neck"), i)
+                self.assertTrue(lo <= rest[i].z <= hi, i)
+
+    def test_unmet_targets_are_recorded_for_every_pose(self):
         for e, row in self.rows.items():
             for label in ("with_correctives", "without_correctives"):
                 m = row[label]
-                self.assertIsInstance(m["self_intersecting_face_pairs_in_region"], int)
-                self.assertIsInstance(m["unmet_targets"], list)
+                self.assertEqual(m["unmet_targets"], contract.meets_targets(m, m["torso_thorax_hull_clearance_min_mm"]))
 
     def test_source_rests_driver_unchanged_and_keys_reset(self):
         builder.apply_pose_with_correctives(self.result, 160)

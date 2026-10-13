@@ -1,11 +1,14 @@
 """Provisional W2 pose-space shoulder correctives solved against the coupled 0-160 motion (diagnostic candidate).
 
-Stacked on build_functional_shoulder_correction_blender (PR111).  For each key pose (120, 160 deg) the posed
-original skin is relaxed in posed space only where it fails (Taubin smoothing in problem zones, separation of
-self-intersecting faces, push-out of torso skin that sinks inside the static rib guides), then mapped back to an
-exact rest-space delta through each vertex's inverse linear-blend skinning matrix (the body uses plain LBS,
-normalized, at most four influences; the inverse is verified against Blender's own evaluation).  Deltas are made
-bilaterally symmetric and added as two in-memory shape keys driven by functional_coupled_corrective.key_weights.
+Stacked on build_functional_shoulder_correction_blender (PR111).  For each key pose (100..160 deg, 10 deg apart,
+warm-started) the posed original skin is relaxed in posed space only where it fails (edge-length springs with volume
+pressure, light fairing, separation of self-intersecting faces, push-out of torso skin that sinks inside a closed
+convex thorax hull built from the rib guides), then mapped back to a rest-space delta by DAMPED least squares through
+each vertex's linear-blend skinning matrix (plain LBS, normalized, at most four influences; the forward matrix is
+verified against Blender's own evaluation).  Near 160 deg some blended matrices are nearly singular (smallest singular
+value ~0.003), so an undamped inverse produced metre-scale rest deltas that exploded between keys; the damping and a
+hard per-vertex cap bound every rest delta.  Deltas are made bilaterally symmetric and added as seven in-memory shape
+keys driven by functional_coupled_corrective.key_weights.
 Nothing is saved to the source blend.  No anatomy, deformation, GLB, clinical or production approval.
 """
 
@@ -42,6 +45,8 @@ LAPLACIAN_LAMBDA = 0.5
 USE_PUSH = True
 PUSH_FIELD_RINGS = 6
 PUSH_FIELD_PASSES = 10
+DAMPING = 0.01                # Tikhonov lambda for the rest-delta solve (|sigma|^2 + lambda), dimensionless
+DELTA_CAP_M = 0.030           # hard cap on any rest-space corrective delta
 RIB_CLEARANCE_M = contract.TARGETS["rib_guide_clearance_min_mm"] / 1000.0
 
 
@@ -167,34 +172,44 @@ def _problem_zone(V0, V, F, adj, movable, region_faces, pairs):
     return weight
 
 
-TORSO_GROUP_PREFIXES = ("spine_", "clavicle_", "scapula_", "neck", "pelvis", "chest")
+TORSO_GROUP_PREFIXES = ("spine_", "clavicle_", "scapula_", "pelvis", "chest")   # neck skin is excluded
 
 
-def _torso_vertices(body, movable):
-    """Movable vertices whose dominant deforming group is a trunk/girdle group (not arm skin)."""
+def _torso_vertices(body, movable, rest_V, z_span):
+    """Movable vertices whose dominant deforming group is a trunk/girdle group (not arm or neck skin) and whose rest
+    height lies within the rib-guide span."""
     dom = correction._dominant_groups(body)
-    return [movable[i] and dom[i].startswith(TORSO_GROUP_PREFIXES) for i in range(len(dom))]
+    lo, hi = z_span
+    return [movable[i] and dom[i].startswith(TORSO_GROUP_PREFIXES) and lo <= rest_V[i].z <= hi for i in range(len(dom))]
 
 
 def _rib_field(result):
+    """Signed distance to a closed convex thorax hull built from the rib-guide points (positive outside)."""
+    import bmesh
     pts = []
     for key, obj in result["objects"].items():
         if key.startswith("rib_"):
             pts.extend(attachment._world_points(obj))
-    tree = KDTree(len(pts))
-    for i, p in enumerate(pts):
-        tree.insert(p, i)
-    tree.balance()
-    axis_y = result["thorax_axis_y"]
+    bm = bmesh.new()
+    for p in pts:
+        bm.verts.new(p)
+    bmesh.ops.convex_hull(bm, input=bm.verts)
+    for v in [v for v in bm.verts if not v.link_faces]:
+        bm.verts.remove(v)
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    bm.normal_update()
+    tree = BVHTree.FromBMesh(bm)
+    centre = sum(pts, Vector()) / len(pts)
+    z_span = (min(p.z for p in pts), max(p.z for p in pts))
 
     def clearance(q):
-        r, _, dist = tree.find(q)
-        outward = Vector((r.x, r.y - axis_y, 0.0))
-        if outward.length < 1e-9:
-            return dist, Vector((0.0, 0.0, 0.0))
-        outward.normalize()
-        sign = 1.0 if (q - r).dot(outward) >= 0 else -1.0
-        return sign * dist, outward
+        loc, normal, _, dist = tree.find_nearest(q)
+        if (loc - centre).dot(normal) < 0:          # guard: hull normals must point away from the hull centre
+            normal = -normal
+        sign = 1.0 if (q - loc).dot(normal) >= 0 else -1.0
+        return sign * dist, normal
+    clearance.z_span = z_span
+    clearance.hull_faces = len(bm.faces)
     return clearance
 
 
@@ -282,13 +297,38 @@ def solve_key(result, angle, rest, faces_in_region, movable, adj, rest_clear_ok,
         if not pairs and pushed == 0 and collapsed == 0 and it >= 10:
             break
     deltas = {}
+    sigma_min, capped, residual = 1.0, 0, 0.0
     for v in range(len(T)):
         if movable[v] and (T[v] - V[v]).length > 1e-9:
-            deltas[v] = matrices[v].inverted() @ T[v] - rest_mesh[v]
+            d, s_min, was_capped, res = damped_rest_delta(matrices[v], T[v], V[v], rest_mesh[v])
+            deltas[v] = d
+            sigma_min = min(sigma_min, s_min)
+            capped += was_capped
+            residual = max(residual, res)
     log[str(int(angle))] = {"iterations": len(history), "final": history[-1] if history else None,
+                            "skin_matrix_min_singular_value": round(sigma_min, 5), "capped_deltas": capped,
+                            "max_rest_delta_m": round(max((d.length for d in deltas.values()), default=0.0), 5),
+                            "max_posed_residual_m": round(residual, 5),
                             "pairs_trace": [h["pairs"] for h in history[::10]],
                             "lbs_inverse_max_error_m": lbs_err, "moved_vertices": len(deltas)}
     return deltas
+
+
+def damped_rest_delta(M, target, posed, rest):
+    """Rest-space delta d (total, relative to the basis) with A(rest + d) + t ~ target, by damped least squares about
+    the posed position without any key, then capped.  Returns (d, smallest singular value, capped?, posed residual)."""
+    A = M.to_3x3()
+    r = target - posed                                    # posed-space correction requested
+    AtA = A.transposed() @ A
+    reg = AtA + Matrix.Identity(3) * DAMPING
+    d = reg.inverted() @ (A.transposed() @ r)
+    capped = d.length > DELTA_CAP_M
+    if capped:
+        d = d * (DELTA_CAP_M / d.length)
+    import numpy as np
+    s = np.linalg.svd(np.array([list(row) for row in A]), compute_uv=False)
+    residual = (A @ d - r).length
+    return d, float(s.min()), int(capped), residual
 
 
 def symmetrize(deltas, rest_V):
@@ -316,14 +356,13 @@ def add_keys(result, solved):
     body = result["body"]
     keys = body.data.shape_keys.key_blocks
     basis = keys["Basis"]
-    W = body.matrix_world.inverted().to_3x3()
     for label, deltas in solved.items():
         name = KEY_PREFIX + label
         kb = keys.get(name) or body.shape_key_add(name=name, from_mix=False)
         for i, p in enumerate(basis.data):
             kb.data[i].co = p.co
         for i, d in deltas.items():
-            kb.data[i].co = basis.data[i].co + W @ d
+            kb.data[i].co = basis.data[i].co + d          # body and armature transforms are identity (asserted)
         kb.value = 0.0
     bpy.context.view_layer.update()
 
@@ -332,6 +371,9 @@ def apply_pose_with_correctives(result, ht_elevation_deg, use_correctives=True):
     weights = contract.key_weights(ht_elevation_deg)            # validates before mutation
     profile = correction.apply_corrected_pose(result, ht_elevation_deg)
     keys = result["body"].data.shape_keys.key_blocks
+    for kb in keys[1:]:
+        if not kb.name.startswith(KEY_PREFIX):
+            kb.value = 0.0                                # legacy correctives never leak into this pose
     for label, w in weights.items():
         kb = keys.get(KEY_PREFIX + label)
         if kb is not None:
@@ -349,8 +391,10 @@ def build_corrective_scene():
     faces_in_region, inreg = correction.region_faces(body)
     adj = _adjacency(len(rest[0]), rest[1])
     movable = inreg
+    if not (body.matrix_world.is_identity and result["runtime"].matrix_world.is_identity):
+        raise RuntimeError("body and runtime armature must have identity transforms")
     clearance = _rib_field(result)
-    torso = _torso_vertices(body, movable)
+    torso = _torso_vertices(body, movable, rest[0], clearance.z_span)
     rest_clear_ok = [torso[i] and clearance(p)[0] >= RIB_CLEARANCE_M for i, p in enumerate(rest[0])]
     log = {}
     solved = {}
@@ -365,7 +409,7 @@ def build_corrective_scene():
     correction.apply_corrected_pose(result, 0)
     bpy.context.scene["functional_coupled_corrective_approved"] = False
     result.update({"rest": rest, "faces_in_region": faces_in_region, "rest_clear_ok": rest_clear_ok,
-                   "solve_log": log, "rib_clearance": clearance})
+                   "solve_log": log, "rib_clearance": clearance, "torso": torso})
     return result
 
 
@@ -383,16 +427,20 @@ def measure(result, angles=(0, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 1
     rows = []
     for angle in angles:
         row = {"ht_elevation_deg": angle}
+        posed_by = {}
         for label, use in (("without_correctives", False), ("with_correctives", True)):
             profile = apply_pose_with_correctives(result, angle, use)
             posed = correction._evaluated(body)
+            posed_by[label] = posed[0]
             m = correction.deformation_metrics(body, rest, posed, faces)
             m.pop("self_intersection_face_sample", None)
             rib = _rib_clearance_min_mm(result, posed[0])
-            m["torso_rib_clearance_min_mm"] = rib
+            m["torso_thorax_hull_clearance_min_mm"] = rib
             m["unmet_targets"] = contract.meets_targets(m, rib)
             m["corrective_weights"] = profile["corrective_weights"]
             row[label] = m
+        row["max_posed_correction_mm"] = round(max((a - b).length for a, b in zip(posed_by["with_correctives"],
+                                                                                   posed_by["without_correctives"])) * 1000, 3)
         rows.append(row)
     apply_pose_with_correctives(result, 0)
     return rows
@@ -426,7 +474,7 @@ def render_evidence(output_directory):
     scene.collection.objects.link(cam)
     scene.camera = cam
     written = []
-    for angle in (120, 140, 160):                 # 0 and 90 are unchanged (keys inactive): not rerendered; 140 is a blend
+    for angle in (120, 145, 160):                 # 0/90 unchanged (keys inactive); 145 is the worst between-key blend
         apply_pose_with_correctives(result, angle)
         pts = [p for g in guides for p in attachment._world_points(g)]
         lo = tuple(min(p[i] for p in pts) for i in range(3))
@@ -454,7 +502,8 @@ def render_evidence(output_directory):
             "engineering relaxation (smoothing, face separation, rib push-out), not muscle or tissue simulation",
             "keys solved only at 100..160 (10 deg) in the authored 40-degree plane; other planes and poses are untested",
             "in-memory shape keys; the source blend, weights and legacy keys are unchanged",
-            "rib guides are static on spine_02; no breathing or contact solver",
+            "rib guides are static on spine_02; thorax hull is the convex hull of the guides; no breathing or contact solver",
+            "rest deltas are damped and capped at 30 mm; the requested posed correction is clipped where skinning is ill-conditioned",
         ],
         "files_sha256": {p.name: attachment._sha256(p) for p in written},
     }

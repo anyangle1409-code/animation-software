@@ -15,14 +15,15 @@ class OriginalMovementBenchmarkNativeTests(unittest.TestCase):
     def setUpClass(cls):
         cls.report = m1.run(None)
 
-    def test_three_benchmarks_with_all_frames(self):
-        self.assertEqual(sorted(self.report["benchmarks"]), ["bent_over_row", "shoulder_press", "squat"])
+    def test_seven_benchmarks_with_all_frames(self):
+        self.assertEqual(sorted(self.report["benchmarks"]),
+                         ["bent_over_row", "grip", "lunge", "shoulder_press", "squat", "trunk_rotation", "walk_stride"])
         for b in self.report["benchmarks"].values():
             self.assertEqual(len(b["frames"]), m1.FRAMES)
 
     def test_first_frame_is_rest_and_unapproved(self):
         self.assertFalse(self.report["approved"])
-        for name in ("squat", "bent_over_row"):
+        for name in ("squat", "bent_over_row", "lunge", "trunk_rotation"):
             f0 = self.report["benchmarks"][name]["frames"][0]
             self.assertEqual(f0["self_intersecting_pairs"], 0, name)
             self.assertEqual(f0["body_volume_change_pct"], 0.0, name)
@@ -36,6 +37,23 @@ class OriginalMovementBenchmarkNativeTests(unittest.TestCase):
         for name, b in self.report["benchmarks"].items():
             for f in b["frames"]:
                 self.assertTrue(set(f["exceeds_cdc_passive_mean"]) <= {"ankle_dorsiflexion"}, (name, f["exceeds_cdc_passive_mean"]))
+
+    def test_walk_cycle_closes_and_is_left_right_symmetric(self):
+        frames = self.report["benchmarks"]["walk_stride"]["frames"]
+        self.assertEqual(frames[0]["self_intersecting_pairs"], frames[-1]["self_intersecting_pairs"])
+        half = len(frames) // 2
+        for a, b in zip(frames[:half], frames[half:]):          # second half = first half with sides swapped
+            self.assertEqual(a["self_intersecting_pairs"], b["self_intersecting_pairs"], (a["t"], b["t"]))
+
+    def test_grip_closes_toward_the_palm_on_both_hands_mirror_symmetrically(self):
+        frames = self.report["benchmarks"]["grip"]["frames"]
+        a0, a1 = frames[0]["angles_deg"], frames[-1]["angles_deg"]
+        for s in ("l", "r"):
+            self.assertLess(a1[f"fingertip_to_wrist_mm_{s}"], 0.5 * a0[f"fingertip_to_wrist_mm_{s}"], s)
+        for f in frames:
+            # a wrong per-side flexion sign (the rig's digit axes are not mirrored) shows up here as centimetres
+            self.assertLess(f["angles_deg"]["digit_tip_mirror_error_mm"], 0.5, f["t"])
+        self.assertEqual(frames[-1]["collapse_lt_0_1"], 0)
 
     def test_metrics_are_finite(self):
         for b in self.report["benchmarks"].values():

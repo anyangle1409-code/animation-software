@@ -1,4 +1,6 @@
-"""M1: integration benchmarks (bodyweight squat, overhead shoulder press, bent-over row) on the ORIGINAL_v1 67-joint rig.
+"""M1/M2: movement benchmarks on the ORIGINAL_v1 67-joint rig: squat, bent-over row, overhead press (M1); lunge,
+walk stride, trunk rotation, grip (M2).  Lunge/walk are grounded by vertical root adjustment only (lowest skin point
+on the floor); no foot-planting or gait-cycle validity is claimed for them.
 
 Diagnostic movement evidence on the unchanged 17,946-vertex original male; no anatomy, motion, deformation, GLB,
 clinical or production approval.  Each benchmark is a 9-frame keyframe path (smoothstep in time).  Peak joint angles
@@ -43,6 +45,19 @@ SQUAT = {"pelvis_forward_tilt": 25.0, "hip_flexion": 110.0, "knee_flexion": 110.
 ROW = {"pelvis_forward_tilt": 45.0, "hip_flexion": 45.0, "knee_flexion": 20.0, "shoulder_flexion_start": 45.0,
        "shoulder_extension_end": 40.0, "elbow_flexion": 100.0, "clavicle_retraction": 12.0}
 PRESS = {"ht_start": 90.0, "ht_end": 160.0, "elbow_flexion_start": 90.0}
+# M2 (anatomical side = runtime suffix per F-SIDE-001: _r is anatomical left, _l anatomical right)
+LUNGE = {"front": "r", "front_hip": 90.0, "front_knee": 90.0, "rear_hip_extension": 10.0, "rear_knee": 90.0, "rear_toe_extension": 45.0}
+WALK_KEYS = [  # hip (+flex), knee, ankle (+DF), toe (+toe extension), shoulder (+flex), elbow for (lead "r", trail "l")
+    {"r": (25, 5, 0, 0, -15, 15), "l": (-10, 35, -15, 30, 15, 15)},
+    {"r": (0, 15, 10, 0, 0, 10), "l": (20, 60, 0, 0, 0, 10)},
+    {"r": (-10, 35, -15, 30, 15, 15), "l": (25, 5, 0, 0, -15, 15)},
+    {"r": (20, 60, 0, 0, 0, 10), "l": (0, 15, 10, 0, 0, 10)},
+    {"r": (25, 5, 0, 0, -15, 15), "l": (-10, 35, -15, 30, 15, 15)},
+]
+TRUNK_ROTATION = {"spine_01": 15.0, "spine_02": 15.0, "spine_03": 15.0, "neck": 15.0}
+GRIP = {"01": 80.0, "02": 90.0, "03": 60.0, "thumb_01": 30.0, "thumb_02": 40.0, "thumb_03": 40.0}
+GRIP_ARM = {"shoulder_flexion": 45.0, "elbow_flexion": 90.0}   # hands held in front of the body (static during the grip)
+EXTRA_CDC = {"hip_extension": "cdc_hip_extension"}
 
 
 def smooth(t):
@@ -51,7 +66,7 @@ def smooth(t):
 
 def cdc_limits():
     obs = json.loads(ATLAS.read_text())["observations"]
-    return {k: obs[v]["value"]["mean"] for k, v in CDC_KEYS.items()}
+    return {k: obs[v]["value"]["mean"] for k, v in {**CDC_KEYS, **EXTRA_CDC}.items()}
 
 
 def _reset(rig):
@@ -136,6 +151,126 @@ def pose_press(result, t, correction):
     return {"humerothoracic_elevation": ht, "elbow_flexion": elbow, "shoulder_flexion": ht * math.sin(math.radians(40.0))}
 
 
+def _ground(rig, body):
+    """Vertical root adjustment only: the lowest skin point is put on the rest floor (no foot planting claimed)."""
+    bpy.context.view_layer.update()
+    ev = body.evaluated_get(bpy.context.evaluated_depsgraph_get())
+    zmin = min((ev.matrix_world @ v.co).z for v in ev.data.vertices)
+    root = rig.pose.bones["root"]
+    root.matrix = Matrix.Translation(Vector((0.0, 0.0, REST_FLOOR[0] - zmin))) @ root.matrix
+    bpy.context.view_layer.update()
+
+
+REST_FLOOR = [0.0]
+
+
+def pose_lunge(rig, body, t):
+    _reset(rig)
+    k = smooth(t)
+    f = LUNGE["front"]; r = "l" if f == "r" else "r"
+    _rot(rig.pose.bones[f"thigh_{f}"], x=-LUNGE["front_hip"] * k)
+    _rot(rig.pose.bones[f"shin_{f}"], x=LUNGE["front_knee"] * k)
+    _rot(rig.pose.bones[f"thigh_{r}"], x=LUNGE["rear_hip_extension"] * k)
+    _rot(rig.pose.bones[f"shin_{r}"], x=LUNGE["rear_knee"] * k)
+    _rot(rig.pose.bones[f"toe_{r}"], x=-LUNGE["rear_toe_extension"] * k)
+    bpy.context.view_layer.update()
+    # keep the front foot flat
+    pb = rig.pose.bones[f"foot_{f}"]
+    pb.matrix = Matrix.Translation(pb.matrix.translation) @ rig.data.bones[f"foot_{f}"].matrix_local.to_3x3().to_4x4()
+    _ground(rig, body)
+    return {"hip_flexion": LUNGE["front_hip"] * k, "knee_flexion": max(LUNGE["front_knee"], LUNGE["rear_knee"]) * k,
+            "hip_extension": LUNGE["rear_hip_extension"] * k, "ankle_dorsiflexion": _ankle_dorsiflexion_deg(rig, f)}
+
+
+def pose_walk(rig, body, t):
+    _reset(rig)
+    seg = min(len(WALK_KEYS) - 2, int(t * (len(WALK_KEYS) - 1)))
+    u = smooth(t * (len(WALK_KEYS) - 1) - seg)
+    a, b = WALK_KEYS[seg], WALK_KEYS[seg + 1]
+    peak = {"hip_flexion": 0.0, "hip_extension": 0.0, "knee_flexion": 0.0, "ankle_dorsiflexion": 0.0,
+            "shoulder_flexion": 0.0, "elbow_flexion": 0.0}
+    for s in ("l", "r"):
+        hip, knee, ank, toe, sh, el = [(1 - u) * x + u * y for x, y in zip(a[s], b[s])]
+        _rot(rig.pose.bones[f"thigh_{s}"], x=-hip)
+        _rot(rig.pose.bones[f"shin_{s}"], x=knee)
+        _rot(rig.pose.bones[f"foot_{s}"], x=-ank)
+        _rot(rig.pose.bones[f"toe_{s}"], x=-toe)
+        _rot(rig.pose.bones[f"upperarm_{s}"], x=-sh)
+        _rot(rig.pose.bones[f"forearm_{s}"], x=-el)
+        peak["hip_flexion"] = max(peak["hip_flexion"], hip)
+        peak["hip_extension"] = max(peak["hip_extension"], -hip)
+        peak["knee_flexion"] = max(peak["knee_flexion"], knee)
+        peak["ankle_dorsiflexion"] = max(peak["ankle_dorsiflexion"], ank)
+        peak["shoulder_flexion"] = max(peak["shoulder_flexion"], sh)
+        peak["elbow_flexion"] = max(peak["elbow_flexion"], el)
+    _ground(rig, body)
+    return peak
+
+
+def pose_trunk_rotation(rig, body, t):
+    _reset(rig)
+    k = smooth(t)
+    for n, a in TRUNK_ROTATION.items():
+        _rot(rig.pose.bones[n], y=a * k)
+    bpy.context.view_layer.update()
+    return {"trunk_axial_rotation_total": sum(TRUNK_ROTATION[n] for n in ("spine_01", "spine_02", "spine_03")) * k}
+
+
+def _fingertip_palm_mm(rig, s):
+    palm = rig.pose.bones[f"hand_{s}"].head
+    return sum((rig.pose.bones[f"{d}_03_{s}"].tail - palm).length for d in ("index", "middle", "ring", "pinky")) / 4 * 1000
+
+
+def _palmar_sign(rig, pb, probe_deg=5.0):
+    """Sign of a local-Z rotation that moves this digit bone's tip toward the palm.
+
+    The rig's local digit axes are NOT mirror images between sides (+Z flexes the _r fingers but extends the _l fingers),
+    so the sign is measured on the rig itself: at rest the palms face the body, so palmar = toward the midline (the
+    convention of scripts/audit_original_v1_joint_kinematics_blender.py).  Call it with the rig at rest.
+    """
+    saved = pb.rotation_mode, pb.rotation_quaternion.copy(), pb.rotation_euler.copy()
+    head = rig.matrix_world @ pb.head
+    tip0 = rig.matrix_world @ pb.tail
+    _rot(pb, z=probe_deg)
+    bpy.context.view_layer.update()
+    tip1 = rig.matrix_world @ pb.tail
+    pb.rotation_mode = saved[0]
+    pb.rotation_quaternion, pb.rotation_euler = saved[1], saved[2]
+    bpy.context.view_layer.update()
+    medial = -1.0 if head.x > 0 else 1.0
+    return 1.0 if (tip1.x - tip0.x) * medial > 0 else -1.0
+
+
+def pose_grip(rig, body, t):
+    _reset(rig)
+    bpy.context.view_layer.update()
+    k = smooth(t)
+    digits = [(f"{d}_{j}_{s}", GRIP[j]) for s in ("l", "r") for d in ("index", "middle", "ring", "pinky") for j in ("01", "02", "03")]
+    digits += [(f"{j}_{s}", GRIP[j]) for s in ("l", "r") for j in ("thumb_01", "thumb_02", "thumb_03")]
+    signs = {n: _palmar_sign(rig, rig.pose.bones[n]) for n, _ in digits}       # measured at rest (palms face the body)
+    for s in ("l", "r"):
+        _rot(rig.pose.bones[f"upperarm_{s}"], x=-GRIP_ARM["shoulder_flexion"])
+        _rot(rig.pose.bones[f"forearm_{s}"], x=-GRIP_ARM["elbow_flexion"])
+    for n, deg in digits:
+        _rot(rig.pose.bones[n], z=signs[n] * deg * k)
+    bpy.context.view_layer.update()
+    return {"mcp_flexion": GRIP["01"] * k, "pip_flexion": GRIP["02"] * k, "dip_flexion": GRIP["03"] * k,
+            "shoulder_flexion": GRIP_ARM["shoulder_flexion"], "elbow_flexion": GRIP_ARM["elbow_flexion"],
+            "fingertip_to_wrist_mm_l": _fingertip_palm_mm(rig, "l"), "fingertip_to_wrist_mm_r": _fingertip_palm_mm(rig, "r"),
+            "digit_tip_mirror_error_mm": _digit_mirror_error_mm(rig)}
+
+
+def _digit_mirror_error_mm(rig):
+    """Largest distance between a left digit tip and the x-mirror of its right counterpart (both hands posed alike)."""
+    worst = 0.0
+    for d in ("index", "middle", "ring", "pinky", "thumb"):
+        for j in ("01", "02", "03"):
+            a = rig.matrix_world @ rig.pose.bones[f"{d}_{j}_l"].tail
+            b = rig.matrix_world @ rig.pose.bones[f"{d}_{j}_r"].tail
+            worst = max(worst, (a - Vector((-b.x, b.y, b.z))).length)
+    return worst * 1000
+
+
 def _evaluated(body):
     ev = body.evaluated_get(bpy.context.evaluated_depsgraph_get())
     me = ev.to_mesh()
@@ -191,6 +326,7 @@ def run(render_dir=None):
     _reset(rig)
     V0, F = _evaluated(body)
     rest_floor = min(v.z for v in V0)
+    REST_FLOOR[0] = rest_floor
     rest_heads = {s: rig.pose.bones[f"foot_{s}"].head.copy() for s in ("l", "r")}
     dom = dominant_groups(body)
     limits = cdc_limits()
@@ -200,6 +336,10 @@ def run(render_dir=None):
         "squat": lambda t: pose_squat(rig, t, rest_heads),
         "bent_over_row": lambda t: pose_row(rig, t, rest_heads, coupled.clavicle_basis),
         "shoulder_press": lambda t: pose_press(result, t, correction),
+        "lunge": lambda t: pose_lunge(rig, body, t),
+        "walk_stride": lambda t: pose_walk(rig, body, t),
+        "trunk_rotation": lambda t: pose_trunk_rotation(rig, body, t),
+        "grip": lambda t: pose_grip(rig, body, t),
     }
     renders = []
     for name, fn in plans.items():
@@ -214,7 +354,8 @@ def run(render_dir=None):
             m["exceeds_cdc_passive_mean"] = {k: round(v - limits[k], 2) for k, v in angles.items() if k in limits and v > limits[k]}
             rows.append(m)
             if render_dir and i in (0, FRAMES // 2, FRAMES - 1):
-                renders.extend(_render(body, Path(render_dir), f"{name}__t{t:.2f}"))
+                renders.extend(_render(body, Path(render_dir), f"{name}__t{t:.2f}",
+                                       hand=rig.pose.bones["hand_r"].head.copy() if name == "grip" else None))
         report["benchmarks"][name] = {"frames": rows,
                                       "worst": {k: max(r[k] for r in rows) for k in ("collapse_lt_0_1", "stretch_gt_2", "self_intersecting_pairs")},
                                       "volume_change_pct_range": [min(r["body_volume_change_pct"] for r in rows), max(r["body_volume_change_pct"] for r in rows)]}
@@ -226,7 +367,7 @@ def run(render_dir=None):
 _CAM = {}
 
 
-def _render(body, out, stem):
+def _render(body, out, stem, hand=None):
     scene = bpy.context.scene
     if not _CAM:
         for obj in scene.objects:
@@ -246,9 +387,10 @@ def _render(body, out, stem):
         out.mkdir(parents=True, exist_ok=True)
     cam = _CAM["cam"]
     written = []
+    cam.data.ortho_scale = 0.32 if hand is not None else 2.3
     for view, offset in (("front", (0.0, -5.0, 0.0)), ("side", (5.0, 0.0, 0.0))):
-        target = Vector((0.0, 0.0, 0.95))
-        cam.location = target + Vector(offset)
+        target = hand if hand is not None else Vector((0.0, 0.0, 0.95))
+        cam.location = target + Vector(offset) * (0.2 if hand is not None else 1.0)
         cam.rotation_euler = (target - cam.location).to_track_quat("-Z", "Y").to_euler()
         path = out / f"{stem}__{view}.png"
         scene.render.filepath = str(path)

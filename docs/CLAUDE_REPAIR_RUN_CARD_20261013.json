@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "status": "DRAFT_FOR_CLAUDE_TO_COPY",
+  "input_code_commit": "a75e0e916aee432a768262c842e84304a25ad145",
+  "purpose": "One place to record a repair attempt and its before/after evidence; does not replace declarations or acceptance validators.",
+  "selected_work_package": null,
+  "selected_parent_filename": null,
+  "selected_parent_sha256": null,
+  "output_branch": null,
+  "output_commit": null,
+  "output_filename": null,
+  "output_sha256": null,
+  "declared_vertex_mask_path": null,
+  "permitted_edit_scope": null,
+  "source_anatomy_edit_allowed": false,
+  "source_anatomy_unchanged_verified": false,
+  "protected_regions_unchanged_verified": false,
+  "owner_accepted": false,
+  "production_approved": false,
+  "work_packages": {
+    "foot": {
+      "diagnostic_parent": "HomeGymPT_ORIGINAL_v1_INDIVIDUAL_TOE_TRIAL.blend",
+      "diagnostic_parent_sha256": "5eab3dad1338b90e98f27076f4ed181785029d35e0066312f2d0511031e46316",
+      "body": "HGPT_BODY_TOE_SEGMENT_TRIAL",
+      "rig": "HGPT_TOE_SEGMENT_RUNTIME_TRIAL",
+      "before": {
+        "vertices": 17946,
+        "runtime_controls": 95,
+        "foot_length_mm": 309.156645,
+        "shortening_allowed": false,
+        "failed_test": "test_hallux_root_does_not_reverse_triangles_at_15_degrees",
+        "failed_control": "trial_toe1_01_l",
+        "anatomical_side": "right",
+        "triangle": 15123,
+        "vertices_at_failure": [
+          1921,
+          15350,
+          8310
+        ],
+        "native_suite_at_PR105": {
+          "pass": 4,
+          "fail": 1
+        }
+      },
+      "after": {
+        "neutral_shape_review": null,
+        "foot_length_mm": null,
+        "height_mm": null,
+        "ankle_positions_unchanged": null,
+        "heel_and_ground_contact_comparison": null,
+        "full_foot_collision_check": null,
+        "individual_digit_isolation": null,
+        "regression_result": null,
+        "protected_geometry_comparison": null
+      },
+      "guard": "Fix web/root shape and influence architecture, not a blind all-hallux weight reassignment. Preserve source stations; 280mm remains blocked."
+    },
+    "shoulder": {
+      "diagnostic_parent": "HomeGymPT_ORIGINAL_v1_SHOULDER_JOINT_REFIT_TRIAL.blend",
+      "diagnostic_parent_sha256": "a48ee389a064927f740b5ea294b7afed3ef1616cbe8ac6c121867b86581680c2",
+      "body": "HGPT_BODY_SHOULDER_REFIT_TRIAL",
+      "rig": "HGPT_SHOULDER_JOINT_REFIT_TRIAL",
+      "before": {
+        "source_joint_status": "FITTED_UNVERIFIED_OPERATION",
+        "skin_weights_refitted": false,
+        "front_triangle_vertices": [
+          4647,
+          13572,
+          4773
+        ],
+        "front_area_ratio_at_authored_160": 0.009709132793922767,
+        "linear_upper_body_region_triangles": 8660,
+        "linear_region_area_ratio_below_0_1_count": 60,
+        "linear_region_area_ratio_above_2_count": 280,
+        "rejected_DQ_parent_sha256": "91ac6b9845a7982e87c7fe0c44b114ee4382c7eb1720d1052ba2bdc29f648e09",
+        "rejected_DQ_rear_triangle_vertices": [
+          4865,
+          13619,
+          4748
+        ],
+        "rejected_DQ_rear_area_ratio": 0.0142851235135609
+      },
+      "after": {
+        "source_joint_mechanics_review": null,
+        "declared_topology_comparison": null,
+        "weights_only_foundation_review": null,
+        "shape_key_states_recorded": null,
+        "front_and_rear_regression_results": null,
+        "stretch_and_compression_comparison": null,
+        "axial_rotation_variants": null,
+        "protected_regions_comparison": null
+      },
+      "guard": "Mechanics, support topology, weights-only, rotation-aware deformation, minimal residual correctives. DQ alone is rejected; no axis/control relocation to fit skin."
+    }
+  },
+  "measured_native_model_file": null,
+  "native_model_sha256_at_measurement": null,
+  "command_and_blender_version": null,
+  "known_failures": [],
+  "actual_before_after_images": [],
+  "export_hash_manifest": null,
+  "coordination_comment_url": null,
+  "formal_acceptance_tools": {
+    "declaration": "scripts/original_v1_shoulder_foundation_declaration.py",
+    "pre_edit_readiness": "scripts/original_v1_shoulder_foundation_readiness.py",
+    "acceptance": "scripts/original_v1_shoulder_acceptance.py",
+    "candidate_review_template": "ORIGINAL_V1_SHOULDER_ANATOMICAL_REVIEW_TEMPLATE.json"
+  },
+  "limits": [
+    "Baseline numbers are bound to the diagnostic parent files, not the future candidate.",
+    "Area guard is engineering evidence, not a clinical threshold. Bounded region counts are not whole-body/shoulder-only proof.",
+    "Choose and hash the real parent; these suggested diagnostic files are not approved anatomical foundations.",
+    "All after/verification fields intentionally remain unfilled; this draft cannot certify completion."
+  ]
+}

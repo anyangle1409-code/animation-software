@@ -85,3 +85,7 @@ Make one bounded foot or shoulder correction at a time, not a combined untraceab
 For shoulders, begin debugging neutral/early/mid/peak/return, then meet the existing full flexion/abduction and internal/neutral/external rotation matrix using reference-supported states. Endpoint-only160°and short-arc direction matching do not validate human movement. Include front/three-quarter/side/rear/axilla views, check deltoid/pec/neck/back continuity and unrelated body regions. No arbitrary numerical axial-rotation ROM target is supplied.
 
 Post the new candidate/actual images and exact remaining failures to PR26. Keep original/model production, scientific readiness and owner acceptance flags unchanged. Codex supplies reference/checkpoint support without competing Blender edits.
+
+## Record each repair without reconstructing the baseline
+
+Use [the repair run card](./CLAUDE_REPAIR_RUN_CARD_20261013.md) and its JSON copy for pinned before-values, empty after-measurements and evidence links. It supplements the existing acceptance/declaration files; it cannot authorize editing or certify a pass.

@@ -1,0 +1,66 @@
+{
+ "schema_version": 1,
+ "purpose": "Heel/ankle/MTP partition cross-check for the C3 foot skeleton candidate. Values copied verbatim from the model file; derived distances are sums in the default pose (talus and calcn frames coincide in orientation with the tibia frame at zero coordinates).",
+ "model": "Rajagopal2016.osim",
+ "url": "https://raw.githubusercontent.com/opensim-org/opensim-models/master/Models/Rajagopal/Rajagopal2016.osim",
+ "sha256": "3f5c5f23e486073f2ad2aa4a4967ffe2fcdd582b1e355512bc54f70c36376bf4",
+ "generic_stature_m": 1.7,
+ "stature_note": "as recorded in ORIGINAL_V1_WORK/anatomy/sources/open_musculoskeletal_models.json; the foot geometry is inherited from the Delp 1990 lineage (gait2354 has identical subtalar and mtp offsets, so it is not an independent source)",
+ "verbatim_m": {
+  "subtalar_r_in_talus": [
+   -0.04877,
+   -0.04195,
+   0.00792
+  ],
+  "mtp_r_in_calcn": [
+   0.1788,
+   -0.002,
+   0.00108
+  ],
+  "RCAL_marker_in_calcn": [
+   -0.025,
+   0.02,
+   -0.005
+  ],
+  "RTOE_marker_in_calcn": [
+   0.205,
+   0.0297308,
+   -0.03
+  ],
+  "RMT5_marker_in_calcn": [
+   0.145,
+   0.02491,
+   0.059
+  ],
+  "RLMAL_marker_in_tibia": [
+   -0.005,
+   -0.3888,
+   0.053
+  ],
+  "ankle_r_in_tibia": [
+   -0.01,
+   -0.4,
+   0.0
+  ]
+ },
+ "derived_mm_generic": {
+  "heel_marker_behind_ankle": 73.77,
+  "mtp_axis_ahead_of_ankle": 130.03,
+  "mt5_marker_ahead_of_ankle": 96.23
+ },
+ "derived_mm_scaled_to_1820": {
+  "scale": 1.0706,
+  "heel_marker_behind_ankle": 78.98,
+  "mtp_axis_ahead_of_ankle": 139.21
+ },
+ "a003_mm": {
+  "heel_skin_behind_AJC": 38.0,
+  "MTP1_station_ahead_of_AJC": 191.2,
+  "MTP5_station_ahead_of_AJC": 179.1
+ },
+ "limits": [
+  "marker centres, not skin surfaces (marker radius and placement offsets of several mm)",
+  "one generic model lineage",
+  "the mtp axis is oblique; MTP1 lies anterior of the axis mid-point"
+ ]
+}

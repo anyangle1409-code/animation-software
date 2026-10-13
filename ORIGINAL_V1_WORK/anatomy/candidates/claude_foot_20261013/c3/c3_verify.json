@@ -1,0 +1,225 @@
+{
+ "parent_sha256": "670a37bfd206d702928de721032e2b942725389dc6906df0d866eba8d8cbbe56",
+ "candidate_sha256": "7545be4a069a5142ea2b88ecb244ac649932366815cb4b46f12c87f1eb2021f9",
+ "protected_identical": {
+  "faces": true,
+  "groups": true,
+  "weights": true,
+  "mods": true,
+  "matrix": true
+ },
+ "master_bones_changed": 52,
+ "master_bones_changed_outside_rule": [],
+ "runtime_bones_changed": [
+  "foot_l",
+  "foot_r",
+  "toe_l",
+  "toe_r"
+ ],
+ "moved_vertices": 2612,
+ "moved_outside_foot_region": 0,
+ "shape_key_relative_delta_max_change_m": 0.0,
+ "symmetry_max_m": 2.9802322387695312e-08,
+ "containment": {
+  "stations": 104,
+  "parent_outside": [],
+  "candidate_outside": []
+ },
+ "neutral_plusX_foot": {
+  "parent": {
+   "length_mm": 309.157,
+   "breadth_mm": 96.717,
+   "heel_to_MTP1_station_mm": 229.165,
+   "heel_behind_AJC_mm": 38.007,
+   "lowest_toe_skin_mm": 8.293,
+   "body_min_z_mm": -0.0002
+  },
+  "candidate": {
+   "length_mm": 279.9,
+   "breadth_mm": 96.717,
+   "heel_to_MTP1_station_mm": 207.4,
+   "heel_behind_AJC_mm": 60.0,
+   "lowest_toe_skin_mm": 0.0,
+   "body_min_z_mm": -0.0002
+  },
+  "targets": {
+   "length_mm": 279.9,
+   "heel_behind_AJC_mm": 60.0,
+   "ball_of_foot_ANSUR_mm": 207.4
+  }
+ },
+ "bone_lengths_mm_left": {
+  "calcaneus": [
+   19.34,
+   38.44
+  ],
+  "cuboid": [
+   51.69,
+   31.56
+  ],
+  "hallux_distal_phalanx": [
+   29.22,
+   26.49
+  ],
+  "hallux_proximal_phalanx": [
+   45.87,
+   41.59
+  ],
+  "intermediate_cuneiform": [
+   49.66,
+   41.55
+  ],
+  "lateral_cuneiform": [
+   53.79,
+   45.85
+  ],
+  "medial_cuneiform": [
+   58.0,
+   47.38
+  ],
+  "metatarsal_1": [
+   72.56,
+   72.56
+  ],
+  "metatarsal_2": [
+   86.39,
+   86.39
+  ],
+  "metatarsal_3": [
+   80.63,
+   80.63
+  ],
+  "metatarsal_4": [
+   78.32,
+   78.32
+  ],
+  "metatarsal_5": [
+   78.32,
+   78.32
+  ],
+  "navicular": [
+   16.0,
+   9.95
+  ],
+  "talus": [
+   46.97,
+   30.17
+  ],
+  "toe2_distal_phalanx": [
+   12.63,
+   11.46
+  ],
+  "toe2_middle_phalanx": [
+   19.52,
+   17.71
+  ],
+  "toe2_proximal_phalanx": [
+   36.15,
+   32.8
+  ],
+  "toe3_distal_phalanx": [
+   11.04,
+   10.01
+  ],
+  "toe3_middle_phalanx": [
+   17.65,
+   16.02
+  ],
+  "toe3_proximal_phalanx": [
+   32.69,
+   29.66
+  ],
+  "toe4_distal_phalanx": [
+   8.99,
+   8.16
+  ],
+  "toe4_middle_phalanx": [
+   15.24,
+   13.84
+  ],
+  "toe4_proximal_phalanx": [
+   28.23,
+   25.63
+  ],
+  "toe5_distal_phalanx": [
+   8.33,
+   7.57
+  ],
+  "toe5_middle_phalanx": [
+   14.48,
+   13.16
+  ],
+  "toe5_proximal_phalanx": [
+   26.81,
+   24.36
+  ]
+ },
+ "posed_local_X_rotations": {
+  "toe_+30": {
+   "parent": {
+    "foot_min_z_mm": -29.032,
+    "foot_area_ratio_min_max": [
+     0.6899,
+     1.2159
+    ]
+   },
+   "candidate": {
+    "foot_min_z_mm": -30.691,
+    "foot_area_ratio_min_max": [
+     0.6873,
+     1.221
+    ]
+   }
+  },
+  "toe_-30": {
+   "parent": {
+    "foot_min_z_mm": -1.509,
+    "foot_area_ratio_min_max": [
+     0.7156,
+     1.2652
+    ]
+   },
+   "candidate": {
+    "foot_min_z_mm": -1.509,
+    "foot_area_ratio_min_max": [
+     0.7104,
+     1.2771
+    ]
+   }
+  },
+  "foot_+20": {
+   "parent": {
+    "foot_min_z_mm": -76.031,
+    "foot_area_ratio_min_max": [
+     0.8565,
+     1.3311
+    ]
+   },
+   "candidate": {
+    "foot_min_z_mm": -65.058,
+    "foot_area_ratio_min_max": [
+     0.8767,
+     1.3311
+    ]
+   }
+  },
+  "foot_-30": {
+   "parent": {
+    "foot_min_z_mm": 10.725,
+    "foot_area_ratio_min_max": [
+     0.4499,
+     1.1827
+    ]
+   },
+   "candidate": {
+    "foot_min_z_mm": 8.787,
+    "foot_area_ratio_min_max": [
+     0.4499,
+     1.1534
+    ]
+   }
+  }
+ },
+ "fails": [],
+ "verdict": "PASS"
+}

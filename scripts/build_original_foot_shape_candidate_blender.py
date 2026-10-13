@@ -176,7 +176,13 @@ def main():
     for a in ('--blend', '--expect-sha', '--out', '--report'):
         ap.add_argument(a, required=True)
     ap.add_argument('--variant', choices=('c1', 'c2'), default='c2')
+    ap.add_argument('--toe-split-f', type=float, default=None,
+                    help='generator TOE_SPLIT_F of a regenerated foot (m); shifts the digit cut, pulp start and edit box with it')
     o = ap.parse_args(argv)
+    global DIGIT_CUT, PULP_W0, BOX
+    if o.toe_split_f is not None:                    # the a003 values sit 12 / -3 / -15 mm from TOE_SPLIT_F = 0.203
+        DIGIT_CUT = -(o.toe_split_f + 0.012); PULP_W0 = -(o.toe_split_f - 0.003)
+        BOX = dict(BOX, ymax=-(o.toe_split_f - 0.015))
     if Path(o.out).exists():
         raise FileExistsError(o.out)
     parent_sha = sha(o.blend)
@@ -240,7 +246,7 @@ def main():
     rep = {'schema_version': 1, 'candidate': f'ORIGINAL_V1_FOOT_SHAPE_{o.variant.upper()}_CLAUDE', 'variant': o.variant,
            'status': 'REVIEW_CANDIDATE_NOT_ACCEPTED' if o.variant == 'c2' else 'REJECTED_SKELETON_CONTAINMENT',
            'parent': {'path': Path(o.blend).name, 'sha256': parent_sha}, 'output': {'path': Path(o.out).name, 'sha256': sha(o.out)},
-           'body_object': BODY, 'parameters': {'digit_cut_y_m': DIGIT_CUT, 'root_mix_sigma_x_m': SIGMA_X, 'box': BOX},
+           'body_object': BODY, 'parameters': {'toe_split_f': o.toe_split_f, 'digit_cut_y_m': DIGIT_CUT, 'pulp_weight_start_y_m': PULP_W0, 'root_mix_sigma_x_m': SIGMA_X, 'box': BOX},
            'digit_centres_x_mm_plusX_foot': [round(x * 1000, 1) for x in centre_x], 'variant_info': info,
            'changed_vertices': len(full), 'changed_vertices_per_foot': len(disp),
            'max_displacement_mm': round(max(d.length for d in full.values()) * 1000, 3),

@@ -29,7 +29,9 @@ The extra length sits in the skeleton, not the skin:
 - About 75% of the excess is between the heel and the MTP joint (+21.8 mm); the remaining +7.5 mm is between the MTP joint and the tip.
 - The earlier committed `canonical_foot_proportion_audit_v1.json` found the a003 metatarsals plausible under stature-aware regressions. It left the toe-phalanx length and the "partition of excess length" unresolved, and that is still the case.
 
-**Owner decision required (not taken):** should the frozen 206-bone forefoot and hindfoot chain be revised towards an ANSUR-consistent foot length of about 280 mm (±9 mm)?
+**Update (same day):** the owner said "continue with skeleton". Skeleton candidate C3 (279.9 mm, ball of foot 207.4 mm, heel provisionally 60 mm behind the ankle) is in `docs/ORIGINAL_V1_FOOT_SKELETON_C3_CLAUDE_20261013.md` and awaits sign-off.
+
+**Owner decision required (originally asked):** should the frozen 206-bone forefoot and hindfoot chain be revised towards an ANSUR-consistent foot length of about 280 mm (±9 mm)?
 - The skeleton-first rule forbids a mesh-only shortening: the bones would end up outside the skin.
 - A revision would need new tarsal, metatarsal and phalanx stations, plus matching changes to the runtime `foot_*`/`toe_*` controls.
 - The tarsus is currently BLOCKED in the readiness record.

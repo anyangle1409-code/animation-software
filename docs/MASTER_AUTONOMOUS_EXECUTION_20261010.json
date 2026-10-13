@@ -1,4 +1,5 @@
 {
+  "active_neutral_toe_pad_trial_checkpoint": {"branch":"codex/original-neutral-toe-pad-trial-20261013","input_commit":"27e2dbf4424b878d8312cf346624e495720bba0a","ledger":"docs/ORIGINAL_V1_NEUTRAL_TOE_PAD_TRIAL_20261013.md","candidate_sha256":"6ee29cec4dfd4b2de867f8dbcce4364203bc5f40182deeea72e60e01683438e2","changed_vertices":902,"neutral_digit_contact_sample_count":10,"neutral_contact_tolerance_mm":0.001,"skeleton_and_weights_unchanged":true,"foot_length_mm":309.1566450893879,"native_reopen_pass":true,"native_body_bridge_tests_pass":4,"motion_samples":12,"triangle_orientation_reversals":0,"shape_accepted":false,"owner_accepted":false,"anatomically_validated":false,"production_approved":false,"recurring_automation_enabled":false,"next_action":"Source-compatible MTP/IP endpoint semantics and full toe shape reconstruction; do not promote narrow plantar trial; continue independent SC/AC/GH authority and provisional runtime refit."},
   "active_original_foot_review_glb_checkpoint": {
     "branch": "codex/original-foot-proportions-candidate-20261012",
     "parent_verified_head": "a542b8d8198131caf5d58ee239a2e7b781ef88c9",

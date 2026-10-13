@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "kind": "claude_master_task_ledger",
- "updated": "2026-10-13",
+ "updated": "2026-10-13 (M2 tested)",
  "owner_rules": "skeleton is source of truth; no frozen-skeleton change without owner decision; no merge; no approval claims; no third-party assets",
  "environment": "cloud Linux container (Blender 5.2.1 as Python module); not the owner's Windows laptop; no battery telemetry available, protection = commit/push after every task",
  "branches": {
@@ -151,18 +151,23 @@
     "shoulder press inherits shoulder-top LBS buckle (W4)",
     "deep-flexion tissue contact needs collision/volume-aware correctives"
    ],
-   "next": "M2 lunge/walk/rotation/grip"
+   "next": "done; see M2"
   },
   {
    "id": "M2",
    "description": "Whole-body representative movement (walk, lunge, hinge, push/pull, rotation, single-leg, grip, ankle/toe)",
    "priority": 3,
-   "status": "TODO",
-   "evidence": null,
-   "tests": null,
-   "commit": null,
-   "blockers": [],
-   "next": "after M1"
+   "status": "TESTED",
+   "evidence": "docs/CLAUDE_M1_MOVEMENT_BENCHMARKS_20261013.md M2 section; ORIGINAL_V1_WORK/anatomy/audit/claude_m1/{lunge,walk_stride,trunk_rotation,grip}_phone_sheet.jpg (branch claude/movement-benchmarks-20261013)",
+   "tests": "7 native PASS locally: walk closure + L/R phase symmetry, grip closes on both hands, digit mirror error <0.5 mm (old single sign: 164.5 mm)",
+   "commit": "81145f6a (draft PR #113; CI pending)",
+   "blockers": [
+    "rest-pose hand hangs almost on the thigh: thumb/thigh pairs in lunge/walk/rotation (owner-visible rest pose choice)",
+    "elbow-crease/knee contact needs collision/volume-aware correctives",
+    "thumb opposition axis absent: grip thumb stays out to the side",
+    "single-leg and ankle/toe benchmarks not yet authored"
+   ],
+   "next": "single-leg stance and ankle/toe benchmarks after A1; finding: rig digit local axes not mirrored (+Z flexes _r, extends _l)"
   },
   {
    "id": "A1",

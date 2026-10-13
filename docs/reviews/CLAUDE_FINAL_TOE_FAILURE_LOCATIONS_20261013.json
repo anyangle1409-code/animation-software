@@ -1,0 +1,51 @@
+{
+  "input_candidate_sha256": "5eab3dad1338b90e98f27076f4ed181785029d35e0066312f2d0511031e46316",
+  "source_file_unchanged": true,
+  "pose_control": "trial_toe1_01_l",
+  "pose": "15deg localX; engineeringprobe notphysiologicalROM",
+  "runtime_side": "suffix_l is anatomicalright",
+  "triangles": [
+    {
+      "triangle": 15123,
+      "vertices": [
+        1921,
+        15350,
+        8310
+      ],
+      "neutral_world_m": [
+        [
+          -0.07942364364862442,
+          -0.207221120595932,
+          0.007934760302305222
+        ],
+        [
+          -0.07982124388217926,
+          -0.2140900194644928,
+          0.015075027011334896
+        ],
+        [
+          -0.08019039034843445,
+          -0.21193501353263855,
+          0.013773548416793346
+        ]
+      ],
+      "weights": [
+        {
+          "foot_l": 0.720310628414154,
+          "trial_toe2_01_l": 0.27968934178352356
+        },
+        {
+          "foot_l": 0.3778373897075653,
+          "trial_toe1_01_l": 0.6221626400947571
+        },
+        {
+          "foot_l": 0.5479442477226257,
+          "trial_toe2_01_l": 0.45205575227737427
+        }
+      ]
+    }
+  ],
+  "interpretation": "One orientation-sign reversal in actual final40mmroot trial. Competing digit influences at a web/root triangle; this is a refit hypothesis, not proof all vertices should become hallux-owned.",
+  "production_approved": false,
+  "anatomical_approval": false
+}

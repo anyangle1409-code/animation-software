@@ -1,0 +1,33 @@
+{
+  "source_url": "https://media.isbweb.org/images/documents/standards/isb_jcs_part_ii.pdf",
+  "doi": "10.1016/j.jbiomech.2004.05.042",
+  "retrieved_date": "2026-10-13",
+  "bytes": 1111257,
+  "sha256": "bd79158cca0ecd6f439b46aa31060c90d27959db2165693f3c55a5bef31e9414",
+  "document_pages": 12,
+  "visually_reviewed_physical_pages": [
+    3,
+    4
+  ],
+  "printed_pages": [
+    983,
+    984
+  ],
+  "method": "Scanned PDF rendered locally with Poppler; physical3/4 inspected. Text extraction was empty; browser screenshots did not expose pixels.",
+  "page_render_sha256": {
+    "isb_frame_page-04.png": "6afde7ed705b846c4f76d11deb5be4424219f3cb1cb5208d85c0326a5c58843d",
+    "isb_frame_page-03.png": "a9a7eb1c2be3b68e6a33ef290a99e07bded240bc72a8656caab6d7f6bd6e144a"
+  },
+  "segment_frame_origins": {
+    "clavicle": "SC",
+    "scapula": "AA",
+    "humerus": "GH"
+  },
+  "project_pivot_preserved": "Authored AC control pivot is not the AA segment-frame origin.",
+  "source_landmarks_verified_for_character": false,
+  "source_axes_verified_for_character": false,
+  "new_anatomical_coordinates_adopted": false,
+  "anatomical_approval": false,
+  "production_approved": false,
+  "source_pdf_published_in_git": false
+}

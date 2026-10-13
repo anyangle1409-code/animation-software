@@ -1,0 +1,1543 @@
+{
+  "input_candidate_sha256": "5eab3dad1338b90e98f27076f4ed181785029d35e0066312f2d0511031e46316",
+  "source_file_unchanged": true,
+  "reference_count": 52,
+  "digit_control_count": 28,
+  "reference_bones": {
+    "anat_talus_left": {
+      "head_world_m": [
+        0.09253451228141785,
+        0.0017296007135882974,
+        0.07800000160932541
+      ],
+      "tail_world_m": [
+        0.08635830134153366,
+        -0.043255023658275604,
+        0.06599999964237213
+      ],
+      "parent": "anat_tibia_left",
+      "confidence": "low"
+    },
+    "anat_calcaneus_left": {
+      "head_world_m": [
+        0.09274362027645111,
+        0.009726867079734802,
+        0.04800000041723251
+      ],
+      "tail_world_m": [
+        0.09531586617231369,
+        0.02381209097802639,
+        0.03500000014901161
+      ],
+      "parent": "anat_talus_left",
+      "confidence": "low"
+    },
+    "anat_cuboid_left": {
+      "head_world_m": [
+        0.10663940757513046,
+        -0.052490234375,
+        0.0272000003606081
+      ],
+      "tail_world_m": [
+        0.11418844014406204,
+        -0.10335845500230789,
+        0.02199999988079071
+      ],
+      "parent": "anat_calcaneus_left",
+      "confidence": "low"
+    },
+    "anat_metatarsal_4_left": {
+      "head_world_m": [
+        0.1103949323296547,
+        -0.10654221475124359,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        0.1186453178524971,
+        -0.18443018198013306,
+        0.02199999988079071
+      ],
+      "parent": "anat_cuboid_left",
+      "confidence": "low"
+    },
+    "anat_toe4_proximal_phalanx_left": {
+      "head_world_m": [
+        0.1186453178524971,
+        -0.18443018198013306,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        0.11828085035085678,
+        -0.2124250829219818,
+        0.0183867234736681
+      ],
+      "parent": "anat_metatarsal_4_left",
+      "confidence": "low"
+    },
+    "anat_toe4_middle_phalanx_left": {
+      "head_world_m": [
+        0.11828085035085678,
+        -0.2124250829219818,
+        0.0183867234736681
+      ],
+      "tail_world_m": [
+        0.11808403581380844,
+        -0.22754232585430145,
+        0.01643555425107479
+      ],
+      "parent": "anat_toe4_proximal_phalanx_left",
+      "confidence": "low"
+    },
+    "anat_toe4_distal_phalanx_left": {
+      "head_world_m": [
+        0.11808403581380844,
+        -0.22754232585430145,
+        0.01643555425107479
+      ],
+      "tail_world_m": [
+        0.11796802282333374,
+        -0.23645322024822235,
+        0.015285433270037174
+      ],
+      "parent": "anat_toe4_middle_phalanx_left",
+      "confidence": "low"
+    },
+    "anat_metatarsal_5_left": {
+      "head_world_m": [
+        0.11798194795846939,
+        -0.1001746878027916,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        0.13085918128490448,
+        -0.1774325668811798,
+        0.02199999988079071
+      ],
+      "parent": "anat_cuboid_left",
+      "confidence": "low"
+    },
+    "anat_toe5_proximal_phalanx_left": {
+      "head_world_m": [
+        0.13085918128490448,
+        -0.1774325668811798,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        0.13040652871131897,
+        -0.20392626523971558,
+        0.01789974234998226
+      ],
+      "parent": "anat_metatarsal_5_left",
+      "confidence": "low"
+    },
+    "anat_toe5_middle_phalanx_left": {
+      "head_world_m": [
+        0.13040652871131897,
+        -0.20392626523971558,
+        0.01789974234998226
+      ],
+      "tail_world_m": [
+        0.1301621049642563,
+        -0.2182328701019287,
+        0.01568560302257538
+      ],
+      "parent": "anat_toe5_proximal_phalanx_left",
+      "confidence": "low"
+    },
+    "anat_toe5_distal_phalanx_left": {
+      "head_world_m": [
+        0.1301621049642563,
+        -0.2182328701019287,
+        0.01568560302257538
+      ],
+      "tail_world_m": [
+        0.13002140820026398,
+        -0.2264675796031952,
+        0.014411167241632938
+      ],
+      "parent": "anat_toe5_middle_phalanx_left",
+      "confidence": "low"
+    },
+    "anat_navicular_left": {
+      "head_world_m": [
+        0.07620147615671158,
+        -0.04925297573208809,
+        0.06599999964237213
+      ],
+      "tail_world_m": [
+        0.07578326761722565,
+        -0.06524750590324402,
+        0.06599999964237213
+      ],
+      "parent": "anat_talus_left",
+      "confidence": "low"
+    },
+    "anat_medial_cuneiform_left": {
+      "head_world_m": [
+        0.0758976936340332,
+        -0.07307072728872299,
+        0.05939999967813492
+      ],
+      "tail_world_m": [
+        0.07654611021280289,
+        -0.1174023225903511,
+        0.02199999988079071
+      ],
+      "parent": "anat_navicular_left",
+      "confidence": "low"
+    },
+    "anat_metatarsal_1_left": {
+      "head_world_m": [
+        0.07654611021280289,
+        -0.1174023225903511,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        0.06772244721651077,
+        -0.18942847847938538,
+        0.02199999988079071
+      ],
+      "parent": "anat_medial_cuneiform_left",
+      "confidence": "low"
+    },
+    "anat_hallux_proximal_phalanx_left": {
+      "head_world_m": [
+        0.06772244721651077,
+        -0.18942847847938538,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        0.06719085574150085,
+        -0.23524358868598938,
+        0.019782179966568947
+      ],
+      "parent": "anat_metatarsal_1_left",
+      "confidence": "low"
+    },
+    "anat_hallux_distal_phalanx_left": {
+      "head_world_m": [
+        0.06719085574150085,
+        -0.23524358868598938,
+        0.019782179966568947
+      ],
+      "tail_world_m": [
+        0.06685225665569305,
+        -0.26442497968673706,
+        0.018369566649198532
+      ],
+      "parent": "anat_hallux_proximal_phalanx_left",
+      "confidence": "low"
+    },
+    "anat_intermediate_cuneiform_left": {
+      "head_world_m": [
+        0.07894782721996307,
+        -0.07341211289167404,
+        0.05719999969005585
+      ],
+      "tail_world_m": [
+        0.09160607308149338,
+        -0.10607051849365234,
+        0.02199999988079071
+      ],
+      "parent": "anat_navicular_left",
+      "confidence": "low"
+    },
+    "anat_metatarsal_2_left": {
+      "head_world_m": [
+        0.09160607308149338,
+        -0.10607051849365234,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        0.08934810012578964,
+        -0.19242744147777557,
+        0.02199999988079071
+      ],
+      "parent": "anat_intermediate_cuneiform_left",
+      "confidence": "low"
+    },
+    "anat_toe2_proximal_phalanx_left": {
+      "head_world_m": [
+        0.08934810012578964,
+        -0.19242744147777557,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        0.08912613987922668,
+        -0.22842374444007874,
+        0.018665751442313194
+      ],
+      "parent": "anat_metatarsal_2_left",
+      "confidence": "low"
+    },
+    "anat_toe2_middle_phalanx_left": {
+      "head_world_m": [
+        0.08912613987922668,
+        -0.22842374444007874,
+        0.018665751442313194
+      ],
+      "tail_world_m": [
+        0.08900627493858337,
+        -0.24786174297332764,
+        0.016865257173776627
+      ],
+      "parent": "anat_toe2_proximal_phalanx_left",
+      "confidence": "low"
+    },
+    "anat_toe2_distal_phalanx_left": {
+      "head_world_m": [
+        0.08900627493858337,
+        -0.24786174297332764,
+        0.016865257173776627
+      ],
+      "tail_world_m": [
+        0.08892872929573059,
+        -0.26043716073036194,
+        0.01570042595267296
+      ],
+      "parent": "anat_toe2_middle_phalanx_left",
+      "confidence": "low"
+    },
+    "anat_lateral_cuneiform_left": {
+      "head_world_m": [
+        0.08099842816591263,
+        -0.07397469133138657,
+        0.05719999969005585
+      ],
+      "tail_world_m": [
+        0.10185908526182175,
+        -0.10888343304395676,
+        0.02199999988079071
+      ],
+      "parent": "anat_navicular_left",
+      "confidence": "low"
+    },
+    "anat_metatarsal_3_left": {
+      "head_world_m": [
+        0.10185908526182175,
+        -0.10888343304395676,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        0.10550137609243393,
+        -0.18942847847938538,
+        0.02199999988079071
+      ],
+      "parent": "anat_lateral_cuneiform_left",
+      "confidence": "low"
+    },
+    "anat_toe3_proximal_phalanx_left": {
+      "head_world_m": [
+        0.10550137609243393,
+        -0.18942847847938538,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        0.10523534566164017,
+        -0.22192424535751343,
+        0.018486836925148964
+      ],
+      "parent": "anat_metatarsal_3_left",
+      "confidence": "low"
+    },
+    "anat_toe3_middle_phalanx_left": {
+      "head_world_m": [
+        0.10523534566164017,
+        -0.22192424535751343,
+        0.018486836925148964
+      ],
+      "tail_world_m": [
+        0.10509168356657028,
+        -0.23947195708751678,
+        0.016589729115366936
+      ],
+      "parent": "anat_toe3_proximal_phalanx_left",
+      "confidence": "low"
+    },
+    "anat_toe3_distal_phalanx_left": {
+      "head_world_m": [
+        0.10509168356657028,
+        -0.23947195708751678,
+        0.016589729115366936
+      ],
+      "tail_world_m": [
+        0.10500186681747437,
+        -0.25044330954551697,
+        0.015403601340949535
+      ],
+      "parent": "anat_toe3_middle_phalanx_left",
+      "confidence": "low"
+    },
+    "anat_talus_right": {
+      "head_world_m": [
+        -0.09253451228141785,
+        0.0017296007135882974,
+        0.07800000160932541
+      ],
+      "tail_world_m": [
+        -0.08635830134153366,
+        -0.043255023658275604,
+        0.06599999964237213
+      ],
+      "parent": "anat_tibia_right",
+      "confidence": "low"
+    },
+    "anat_calcaneus_right": {
+      "head_world_m": [
+        -0.09274362027645111,
+        0.009726867079734802,
+        0.04800000041723251
+      ],
+      "tail_world_m": [
+        -0.09531586617231369,
+        0.02381209097802639,
+        0.03500000014901161
+      ],
+      "parent": "anat_talus_right",
+      "confidence": "low"
+    },
+    "anat_cuboid_right": {
+      "head_world_m": [
+        -0.10663940757513046,
+        -0.052490234375,
+        0.0272000003606081
+      ],
+      "tail_world_m": [
+        -0.11418844014406204,
+        -0.10335845500230789,
+        0.02199999988079071
+      ],
+      "parent": "anat_calcaneus_right",
+      "confidence": "low"
+    },
+    "anat_metatarsal_4_right": {
+      "head_world_m": [
+        -0.1103949323296547,
+        -0.10654221475124359,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        -0.1186453178524971,
+        -0.18443018198013306,
+        0.02199999988079071
+      ],
+      "parent": "anat_cuboid_right",
+      "confidence": "low"
+    },
+    "anat_toe4_proximal_phalanx_right": {
+      "head_world_m": [
+        -0.1186453178524971,
+        -0.18443018198013306,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        -0.11828085035085678,
+        -0.2124250829219818,
+        0.0183867234736681
+      ],
+      "parent": "anat_metatarsal_4_right",
+      "confidence": "low"
+    },
+    "anat_toe4_middle_phalanx_right": {
+      "head_world_m": [
+        -0.11828085035085678,
+        -0.2124250829219818,
+        0.0183867234736681
+      ],
+      "tail_world_m": [
+        -0.11808403581380844,
+        -0.22754232585430145,
+        0.01643555425107479
+      ],
+      "parent": "anat_toe4_proximal_phalanx_right",
+      "confidence": "low"
+    },
+    "anat_toe4_distal_phalanx_right": {
+      "head_world_m": [
+        -0.11808403581380844,
+        -0.22754232585430145,
+        0.01643555425107479
+      ],
+      "tail_world_m": [
+        -0.11796802282333374,
+        -0.23645322024822235,
+        0.0152854323387146
+      ],
+      "parent": "anat_toe4_middle_phalanx_right",
+      "confidence": "low"
+    },
+    "anat_metatarsal_5_right": {
+      "head_world_m": [
+        -0.11798194795846939,
+        -0.1001746878027916,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        -0.13085918128490448,
+        -0.1774325668811798,
+        0.02199999988079071
+      ],
+      "parent": "anat_cuboid_right",
+      "confidence": "low"
+    },
+    "anat_toe5_proximal_phalanx_right": {
+      "head_world_m": [
+        -0.13085918128490448,
+        -0.1774325668811798,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        -0.13036847114562988,
+        -0.20392626523971558,
+        0.01808425970375538
+      ],
+      "parent": "anat_metatarsal_5_right",
+      "confidence": "low"
+    },
+    "anat_toe5_middle_phalanx_right": {
+      "head_world_m": [
+        -0.13036847114562988,
+        -0.20392626523971558,
+        0.01808425970375538
+      ],
+      "tail_world_m": [
+        -0.1301034837961197,
+        -0.2182328701019287,
+        0.015969760715961456
+      ],
+      "parent": "anat_toe5_proximal_phalanx_right",
+      "confidence": "low"
+    },
+    "anat_toe5_distal_phalanx_right": {
+      "head_world_m": [
+        -0.1301034837961197,
+        -0.2182328701019287,
+        0.015969760715961456
+      ],
+      "tail_world_m": [
+        -0.12995103001594543,
+        -0.22646361589431763,
+        0.014753265306353569
+      ],
+      "parent": "anat_toe5_middle_phalanx_right",
+      "confidence": "low"
+    },
+    "anat_navicular_right": {
+      "head_world_m": [
+        -0.07620147615671158,
+        -0.04925297573208809,
+        0.06599999964237213
+      ],
+      "tail_world_m": [
+        -0.07578326761722565,
+        -0.06524750590324402,
+        0.06599999964237213
+      ],
+      "parent": "anat_talus_right",
+      "confidence": "low"
+    },
+    "anat_medial_cuneiform_right": {
+      "head_world_m": [
+        -0.0758976936340332,
+        -0.07307072728872299,
+        0.05939999967813492
+      ],
+      "tail_world_m": [
+        -0.07654611021280289,
+        -0.1174023225903511,
+        0.02199999988079071
+      ],
+      "parent": "anat_navicular_right",
+      "confidence": "low"
+    },
+    "anat_metatarsal_1_right": {
+      "head_world_m": [
+        -0.07654611021280289,
+        -0.1174023225903511,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        -0.06772244721651077,
+        -0.18942847847938538,
+        0.02199999988079071
+      ],
+      "parent": "anat_medial_cuneiform_right",
+      "confidence": "low"
+    },
+    "anat_hallux_proximal_phalanx_right": {
+      "head_world_m": [
+        -0.06772244721651077,
+        -0.18942847847938538,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        -0.06715976446866989,
+        -0.23524358868598938,
+        0.020012712106108665
+      ],
+      "parent": "anat_metatarsal_1_right",
+      "confidence": "low"
+    },
+    "anat_hallux_distal_phalanx_right": {
+      "head_world_m": [
+        -0.06715976446866989,
+        -0.23524358868598938,
+        0.020012712106108665
+      ],
+      "tail_world_m": [
+        -0.06680137664079666,
+        -0.26442408561706543,
+        0.01874697022140026
+      ],
+      "parent": "anat_hallux_proximal_phalanx_right",
+      "confidence": "low"
+    },
+    "anat_intermediate_cuneiform_right": {
+      "head_world_m": [
+        -0.07894782721996307,
+        -0.07341211289167404,
+        0.05719999969005585
+      ],
+      "tail_world_m": [
+        -0.09160607308149338,
+        -0.10607051849365234,
+        0.02199999988079071
+      ],
+      "parent": "anat_navicular_right",
+      "confidence": "low"
+    },
+    "anat_metatarsal_2_right": {
+      "head_world_m": [
+        -0.09160607308149338,
+        -0.10607051849365234,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        -0.08934810012578964,
+        -0.19242744147777557,
+        0.02199999988079071
+      ],
+      "parent": "anat_intermediate_cuneiform_right",
+      "confidence": "low"
+    },
+    "anat_toe2_proximal_phalanx_right": {
+      "head_world_m": [
+        -0.08934810012578964,
+        -0.19242744147777557,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        -0.08910053968429565,
+        -0.22842374444007874,
+        0.018718989565968513
+      ],
+      "parent": "anat_metatarsal_2_right",
+      "confidence": "low"
+    },
+    "anat_toe2_middle_phalanx_right": {
+      "head_world_m": [
+        -0.08910053968429565,
+        -0.22842374444007874,
+        0.018718989565968513
+      ],
+      "tail_world_m": [
+        -0.08896685391664505,
+        -0.24786174297332764,
+        0.016947243362665176
+      ],
+      "parent": "anat_toe2_proximal_phalanx_right",
+      "confidence": "low"
+    },
+    "anat_toe2_distal_phalanx_right": {
+      "head_world_m": [
+        -0.08896685391664505,
+        -0.24786174297332764,
+        0.016947243362665176
+      ],
+      "tail_world_m": [
+        -0.08888037502765656,
+        -0.26043665409088135,
+        0.01580105908215046
+      ],
+      "parent": "anat_toe2_middle_phalanx_right",
+      "confidence": "low"
+    },
+    "anat_lateral_cuneiform_right": {
+      "head_world_m": [
+        -0.08099842816591263,
+        -0.07397469133138657,
+        0.05719999969005585
+      ],
+      "tail_world_m": [
+        -0.10185908526182175,
+        -0.10888343304395676,
+        0.02199999988079071
+      ],
+      "parent": "anat_navicular_right",
+      "confidence": "low"
+    },
+    "anat_metatarsal_3_right": {
+      "head_world_m": [
+        -0.10185908526182175,
+        -0.10888343304395676,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        -0.10550137609243393,
+        -0.18942847847938538,
+        0.02199999988079071
+      ],
+      "parent": "anat_lateral_cuneiform_right",
+      "confidence": "low"
+    },
+    "anat_toe3_proximal_phalanx_right": {
+      "head_world_m": [
+        -0.10550137609243393,
+        -0.18942847847938538,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        -0.10523352771997452,
+        -0.22192424535751343,
+        0.018450625240802765
+      ],
+      "parent": "anat_metatarsal_3_right",
+      "confidence": "low"
+    },
+    "anat_toe3_middle_phalanx_right": {
+      "head_world_m": [
+        -0.10523352771997452,
+        -0.22192424535751343,
+        0.018450625240802765
+      ],
+      "tail_world_m": [
+        -0.10508888959884644,
+        -0.23947195708751678,
+        0.01653396151959896
+      ],
+      "parent": "anat_toe3_proximal_phalanx_right",
+      "confidence": "low"
+    },
+    "anat_toe3_distal_phalanx_right": {
+      "head_world_m": [
+        -0.10508888959884644,
+        -0.23947195708751678,
+        0.01653396151959896
+      ],
+      "tail_world_m": [
+        -0.10499844700098038,
+        -0.25044378638267517,
+        0.015335554257035255
+      ],
+      "parent": "anat_toe3_middle_phalanx_right",
+      "confidence": "low"
+    }
+  },
+  "digit_controls": {
+    "trial_toe1_01_l": {
+      "head_world_m": [
+        -0.06772244721651077,
+        -0.18942847847938538,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        -0.06715976446866989,
+        -0.23524358868598938,
+        0.020012712106108665
+      ],
+      "parent": "foot_l"
+    },
+    "trial_toe1_02_l": {
+      "head_world_m": [
+        -0.06715976446866989,
+        -0.23524358868598938,
+        0.020012712106108665
+      ],
+      "tail_world_m": [
+        -0.06680137664079666,
+        -0.26442408561706543,
+        0.01874697022140026
+      ],
+      "parent": "trial_toe1_01_l"
+    },
+    "trial_toe2_01_l": {
+      "head_world_m": [
+        -0.08934810012578964,
+        -0.19242744147777557,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        -0.08910053968429565,
+        -0.22842374444007874,
+        0.018718989565968513
+      ],
+      "parent": "foot_l"
+    },
+    "trial_toe2_02_l": {
+      "head_world_m": [
+        -0.08910053968429565,
+        -0.22842374444007874,
+        0.018718989565968513
+      ],
+      "tail_world_m": [
+        -0.08896685391664505,
+        -0.24786174297332764,
+        0.016947243362665176
+      ],
+      "parent": "trial_toe2_01_l"
+    },
+    "trial_toe2_03_l": {
+      "head_world_m": [
+        -0.08896685391664505,
+        -0.24786174297332764,
+        0.016947243362665176
+      ],
+      "tail_world_m": [
+        -0.08888037502765656,
+        -0.26043665409088135,
+        0.01580105908215046
+      ],
+      "parent": "trial_toe2_02_l"
+    },
+    "trial_toe3_01_l": {
+      "head_world_m": [
+        -0.10550137609243393,
+        -0.18942847847938538,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        -0.10523352771997452,
+        -0.22192424535751343,
+        0.018450625240802765
+      ],
+      "parent": "foot_l"
+    },
+    "trial_toe3_02_l": {
+      "head_world_m": [
+        -0.10523352771997452,
+        -0.22192424535751343,
+        0.018450625240802765
+      ],
+      "tail_world_m": [
+        -0.10508888959884644,
+        -0.23947195708751678,
+        0.01653396151959896
+      ],
+      "parent": "trial_toe3_01_l"
+    },
+    "trial_toe3_03_l": {
+      "head_world_m": [
+        -0.10508888959884644,
+        -0.23947195708751678,
+        0.01653396151959896
+      ],
+      "tail_world_m": [
+        -0.10499844700098038,
+        -0.25044378638267517,
+        0.015335554257035255
+      ],
+      "parent": "trial_toe3_02_l"
+    },
+    "trial_toe4_01_l": {
+      "head_world_m": [
+        -0.1186453178524971,
+        -0.18443018198013306,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        -0.11828085035085678,
+        -0.2124250829219818,
+        0.0183867234736681
+      ],
+      "parent": "foot_l"
+    },
+    "trial_toe4_02_l": {
+      "head_world_m": [
+        -0.11828085035085678,
+        -0.2124250829219818,
+        0.0183867234736681
+      ],
+      "tail_world_m": [
+        -0.11808403581380844,
+        -0.22754232585430145,
+        0.01643555425107479
+      ],
+      "parent": "trial_toe4_01_l"
+    },
+    "trial_toe4_03_l": {
+      "head_world_m": [
+        -0.11808403581380844,
+        -0.22754232585430145,
+        0.01643555425107479
+      ],
+      "tail_world_m": [
+        -0.11796802282333374,
+        -0.23645322024822235,
+        0.0152854323387146
+      ],
+      "parent": "trial_toe4_02_l"
+    },
+    "trial_toe5_01_l": {
+      "head_world_m": [
+        -0.13085918128490448,
+        -0.1774325668811798,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        -0.13036847114562988,
+        -0.20392626523971558,
+        0.01808425970375538
+      ],
+      "parent": "foot_l"
+    },
+    "trial_toe5_02_l": {
+      "head_world_m": [
+        -0.13036847114562988,
+        -0.20392626523971558,
+        0.01808425970375538
+      ],
+      "tail_world_m": [
+        -0.1301034837961197,
+        -0.2182328701019287,
+        0.015969760715961456
+      ],
+      "parent": "trial_toe5_01_l"
+    },
+    "trial_toe5_03_l": {
+      "head_world_m": [
+        -0.1301034837961197,
+        -0.2182328701019287,
+        0.015969760715961456
+      ],
+      "tail_world_m": [
+        -0.12995103001594543,
+        -0.22646361589431763,
+        0.014753265306353569
+      ],
+      "parent": "trial_toe5_02_l"
+    },
+    "trial_toe1_01_r": {
+      "head_world_m": [
+        0.06772244721651077,
+        -0.18942847847938538,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        0.06719085574150085,
+        -0.23524358868598938,
+        0.019782179966568947
+      ],
+      "parent": "foot_r"
+    },
+    "trial_toe1_02_r": {
+      "head_world_m": [
+        0.06719085574150085,
+        -0.23524358868598938,
+        0.019782179966568947
+      ],
+      "tail_world_m": [
+        0.06685225665569305,
+        -0.26442497968673706,
+        0.018369566649198532
+      ],
+      "parent": "trial_toe1_01_r"
+    },
+    "trial_toe2_01_r": {
+      "head_world_m": [
+        0.08934810012578964,
+        -0.19242744147777557,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        0.08912613987922668,
+        -0.22842374444007874,
+        0.018665751442313194
+      ],
+      "parent": "foot_r"
+    },
+    "trial_toe2_02_r": {
+      "head_world_m": [
+        0.08912613987922668,
+        -0.22842374444007874,
+        0.018665751442313194
+      ],
+      "tail_world_m": [
+        0.08900627493858337,
+        -0.24786174297332764,
+        0.016865257173776627
+      ],
+      "parent": "trial_toe2_01_r"
+    },
+    "trial_toe2_03_r": {
+      "head_world_m": [
+        0.08900627493858337,
+        -0.24786174297332764,
+        0.016865257173776627
+      ],
+      "tail_world_m": [
+        0.08892872929573059,
+        -0.26043716073036194,
+        0.01570042595267296
+      ],
+      "parent": "trial_toe2_02_r"
+    },
+    "trial_toe3_01_r": {
+      "head_world_m": [
+        0.10550137609243393,
+        -0.18942847847938538,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        0.10523534566164017,
+        -0.22192424535751343,
+        0.018486836925148964
+      ],
+      "parent": "foot_r"
+    },
+    "trial_toe3_02_r": {
+      "head_world_m": [
+        0.10523534566164017,
+        -0.22192424535751343,
+        0.018486836925148964
+      ],
+      "tail_world_m": [
+        0.10509168356657028,
+        -0.23947195708751678,
+        0.016589729115366936
+      ],
+      "parent": "trial_toe3_01_r"
+    },
+    "trial_toe3_03_r": {
+      "head_world_m": [
+        0.10509168356657028,
+        -0.23947195708751678,
+        0.016589729115366936
+      ],
+      "tail_world_m": [
+        0.10500186681747437,
+        -0.25044330954551697,
+        0.015403601340949535
+      ],
+      "parent": "trial_toe3_02_r"
+    },
+    "trial_toe4_01_r": {
+      "head_world_m": [
+        0.1186453178524971,
+        -0.18443018198013306,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        0.11828085035085678,
+        -0.2124250829219818,
+        0.0183867234736681
+      ],
+      "parent": "foot_r"
+    },
+    "trial_toe4_02_r": {
+      "head_world_m": [
+        0.11828085035085678,
+        -0.2124250829219818,
+        0.0183867234736681
+      ],
+      "tail_world_m": [
+        0.11808403581380844,
+        -0.22754232585430145,
+        0.01643555425107479
+      ],
+      "parent": "trial_toe4_01_r"
+    },
+    "trial_toe4_03_r": {
+      "head_world_m": [
+        0.11808403581380844,
+        -0.22754232585430145,
+        0.01643555425107479
+      ],
+      "tail_world_m": [
+        0.11796802282333374,
+        -0.23645322024822235,
+        0.015285433270037174
+      ],
+      "parent": "trial_toe4_02_r"
+    },
+    "trial_toe5_01_r": {
+      "head_world_m": [
+        0.13085918128490448,
+        -0.1774325668811798,
+        0.02199999988079071
+      ],
+      "tail_world_m": [
+        0.13040652871131897,
+        -0.20392626523971558,
+        0.01789974234998226
+      ],
+      "parent": "foot_r"
+    },
+    "trial_toe5_02_r": {
+      "head_world_m": [
+        0.13040652871131897,
+        -0.20392626523971558,
+        0.01789974234998226
+      ],
+      "tail_world_m": [
+        0.1301621049642563,
+        -0.2182328701019287,
+        0.01568560302257538
+      ],
+      "parent": "trial_toe5_01_r"
+    },
+    "trial_toe5_03_r": {
+      "head_world_m": [
+        0.1301621049642563,
+        -0.2182328701019287,
+        0.01568560302257538
+      ],
+      "tail_world_m": [
+        0.13002140820026398,
+        -0.2264675796031952,
+        0.014411167241632938
+      ],
+      "parent": "trial_toe5_02_r"
+    }
+  },
+  "anatomical_approval": false,
+  "production_approved": false,
+  "control_source_map": {
+    "trial_toe1_01_r": "anat_hallux_proximal_phalanx_left",
+    "trial_toe1_02_r": "anat_hallux_distal_phalanx_left",
+    "trial_toe2_01_r": "anat_toe2_proximal_phalanx_left",
+    "trial_toe2_02_r": "anat_toe2_middle_phalanx_left",
+    "trial_toe2_03_r": "anat_toe2_distal_phalanx_left",
+    "trial_toe3_01_r": "anat_toe3_proximal_phalanx_left",
+    "trial_toe3_02_r": "anat_toe3_middle_phalanx_left",
+    "trial_toe3_03_r": "anat_toe3_distal_phalanx_left",
+    "trial_toe4_01_r": "anat_toe4_proximal_phalanx_left",
+    "trial_toe4_02_r": "anat_toe4_middle_phalanx_left",
+    "trial_toe4_03_r": "anat_toe4_distal_phalanx_left",
+    "trial_toe5_01_r": "anat_toe5_proximal_phalanx_left",
+    "trial_toe5_02_r": "anat_toe5_middle_phalanx_left",
+    "trial_toe5_03_r": "anat_toe5_distal_phalanx_left",
+    "trial_toe1_01_l": "anat_hallux_proximal_phalanx_right",
+    "trial_toe1_02_l": "anat_hallux_distal_phalanx_right",
+    "trial_toe2_01_l": "anat_toe2_proximal_phalanx_right",
+    "trial_toe2_02_l": "anat_toe2_middle_phalanx_right",
+    "trial_toe2_03_l": "anat_toe2_distal_phalanx_right",
+    "trial_toe3_01_l": "anat_toe3_proximal_phalanx_right",
+    "trial_toe3_02_l": "anat_toe3_middle_phalanx_right",
+    "trial_toe3_03_l": "anat_toe3_distal_phalanx_right",
+    "trial_toe4_01_l": "anat_toe4_proximal_phalanx_right",
+    "trial_toe4_02_l": "anat_toe4_middle_phalanx_right",
+    "trial_toe4_03_l": "anat_toe4_distal_phalanx_right",
+    "trial_toe5_01_l": "anat_toe5_proximal_phalanx_right",
+    "trial_toe5_02_l": "anat_toe5_middle_phalanx_right",
+    "trial_toe5_03_l": "anat_toe5_distal_phalanx_right"
+  },
+  "control_reference_endpoint_comparisons": [
+    {
+      "control": "trial_toe1_01_r",
+      "reference": "anat_hallux_proximal_phalanx_left",
+      "maximum_endpoint_gap_m": 0.0
+    },
+    {
+      "control": "trial_toe1_02_r",
+      "reference": "anat_hallux_distal_phalanx_left",
+      "maximum_endpoint_gap_m": 0.0
+    },
+    {
+      "control": "trial_toe2_01_r",
+      "reference": "anat_toe2_proximal_phalanx_left",
+      "maximum_endpoint_gap_m": 0.0
+    },
+    {
+      "control": "trial_toe2_02_r",
+      "reference": "anat_toe2_middle_phalanx_left",
+      "maximum_endpoint_gap_m": 0.0
+    },
+    {
+      "control": "trial_toe2_03_r",
+      "reference": "anat_toe2_distal_phalanx_left",
+      "maximum_endpoint_gap_m": 0.0
+    },
+    {
+      "control": "trial_toe3_01_r",
+      "reference": "anat_toe3_proximal_phalanx_left",
+      "maximum_endpoint_gap_m": 0.0
+    },
+    {
+      "control": "trial_toe3_02_r",
+      "reference": "anat_toe3_middle_phalanx_left",
+      "maximum_endpoint_gap_m": 0.0
+    },
+    {
+      "control": "trial_toe3_03_r",
+      "reference": "anat_toe3_distal_phalanx_left",
+      "maximum_endpoint_gap_m": 0.0
+    },
+    {
+      "control": "trial_toe4_01_r",
+      "reference": "anat_toe4_proximal_phalanx_left",
+      "maximum_endpoint_gap_m": 0.0
+    },
+    {
+      "control": "trial_toe4_02_r",
+      "reference": "anat_toe4_middle_phalanx_left",
+      "maximum_endpoint_gap_m": 0.0
+    },
+    {
+      "control": "trial_toe4_03_r",
+      "reference": "anat_toe4_distal_phalanx_left",
+      "maximum_endpoint_gap_m": 0.0
+    },
+    {
+      "control": "trial_toe5_01_r",
+      "reference": "anat_toe5_proximal_phalanx_left",
+      "maximum_endpoint_gap_m": 0.0
+    },
+    {
+      "control": "trial_toe5_02_r",
+      "reference": "anat_toe5_middle_phalanx_left",
+      "maximum_endpoint_gap_m": 0.0
+    },
+    {
+      "control": "trial_toe5_03_r",
+      "reference": "anat_toe5_distal_phalanx_left",
+      "maximum_endpoint_gap_m": 0.0
+    },
+    {
+      "control": "trial_toe1_01_l",
+      "reference": "anat_hallux_proximal_phalanx_right",
+      "maximum_endpoint_gap_m": 0.0
+    },
+    {
+      "control": "trial_toe1_02_l",
+      "reference": "anat_hallux_distal_phalanx_right",
+      "maximum_endpoint_gap_m": 0.0
+    },
+    {
+      "control": "trial_toe2_01_l",
+      "reference": "anat_toe2_proximal_phalanx_right",
+      "maximum_endpoint_gap_m": 0.0
+    },
+    {
+      "control": "trial_toe2_02_l",
+      "reference": "anat_toe2_middle_phalanx_right",
+      "maximum_endpoint_gap_m": 0.0
+    },
+    {
+      "control": "trial_toe2_03_l",
+      "reference": "anat_toe2_distal_phalanx_right",
+      "maximum_endpoint_gap_m": 0.0
+    },
+    {
+      "control": "trial_toe3_01_l",
+      "reference": "anat_toe3_proximal_phalanx_right",
+      "maximum_endpoint_gap_m": 0.0
+    },
+    {
+      "control": "trial_toe3_02_l",
+      "reference": "anat_toe3_middle_phalanx_right",
+      "maximum_endpoint_gap_m": 0.0
+    },
+    {
+      "control": "trial_toe3_03_l",
+      "reference": "anat_toe3_distal_phalanx_right",
+      "maximum_endpoint_gap_m": 0.0
+    },
+    {
+      "control": "trial_toe4_01_l",
+      "reference": "anat_toe4_proximal_phalanx_right",
+      "maximum_endpoint_gap_m": 0.0
+    },
+    {
+      "control": "trial_toe4_02_l",
+      "reference": "anat_toe4_middle_phalanx_right",
+      "maximum_endpoint_gap_m": 0.0
+    },
+    {
+      "control": "trial_toe4_03_l",
+      "reference": "anat_toe4_distal_phalanx_right",
+      "maximum_endpoint_gap_m": 0.0
+    },
+    {
+      "control": "trial_toe5_01_l",
+      "reference": "anat_toe5_proximal_phalanx_right",
+      "maximum_endpoint_gap_m": 0.0
+    },
+    {
+      "control": "trial_toe5_02_l",
+      "reference": "anat_toe5_middle_phalanx_right",
+      "maximum_endpoint_gap_m": 0.0
+    },
+    {
+      "control": "trial_toe5_03_l",
+      "reference": "anat_toe5_distal_phalanx_right",
+      "maximum_endpoint_gap_m": 0.0
+    }
+  ],
+  "c004_record_sha256": "99500d94e06c66ca489bdaccc0345446f98794946254c5e592d9449696f396c1",
+  "native_to_c004_comparisons": [
+    {
+      "reference": "anat_talus_left",
+      "native_to_c004_head_gap_m": 1.8084593111458631e-09,
+      "native_to_c004_tail_gap_m": 2.0683740439336865e-09
+    },
+    {
+      "reference": "anat_calcaneus_left",
+      "native_to_c004_head_gap_m": 3.2004062001122452e-09,
+      "native_to_c004_tail_gap_m": 1.490116086078075e-10
+    },
+    {
+      "reference": "anat_cuboid_left",
+      "native_to_c004_head_gap_m": 3.6985198107804262e-09,
+      "native_to_c004_tail_gap_m": 1.6689494441530188e-09
+    },
+    {
+      "reference": "anat_metatarsal_4_left",
+      "native_to_c004_head_gap_m": 3.591012342334186e-09,
+      "native_to_c004_tail_gap_m": 2.0410725526217484e-09
+    },
+    {
+      "reference": "anat_toe4_proximal_phalanx_left",
+      "native_to_c004_head_gap_m": 2.0410725526217484e-09,
+      "native_to_c004_tail_gap_m": 1.8861921277540816e-09
+    },
+    {
+      "reference": "anat_toe4_middle_phalanx_left",
+      "native_to_c004_head_gap_m": 1.8861921277540816e-09,
+      "native_to_c004_tail_gap_m": 3.703341828936158e-09
+    },
+    {
+      "reference": "anat_toe4_distal_phalanx_left",
+      "native_to_c004_head_gap_m": 3.703341828936158e-09,
+      "native_to_c004_tail_gap_m": 1.8533201702556407e-09
+    },
+    {
+      "reference": "anat_metatarsal_5_left",
+      "native_to_c004_head_gap_m": 1.5073071062788333e-09,
+      "native_to_c004_tail_gap_m": 5.603737405439245e-09
+    },
+    {
+      "reference": "anat_toe5_proximal_phalanx_left",
+      "native_to_c004_head_gap_m": 5.603737405439245e-09,
+      "native_to_c004_tail_gap_m": 5.688307793740948e-09
+    },
+    {
+      "reference": "anat_toe5_middle_phalanx_left",
+      "native_to_c004_head_gap_m": 5.688307793740948e-09,
+      "native_to_c004_tail_gap_m": 6.5311098556632715e-09
+    },
+    {
+      "reference": "anat_toe5_distal_phalanx_left",
+      "native_to_c004_head_gap_m": 6.5311098556632715e-09,
+      "native_to_c004_tail_gap_m": 8.795428583849531e-09
+    },
+    {
+      "reference": "anat_navicular_left",
+      "native_to_c004_head_gap_m": 1.4756804364678113e-09,
+      "native_to_c004_tail_gap_m": 2.5961761827397094e-09
+    },
+    {
+      "reference": "anat_medial_cuneiform_left",
+      "native_to_c004_head_gap_m": 3.4058154114436305e-09,
+      "native_to_c004_tail_gap_m": 2.6001521250881673e-09
+    },
+    {
+      "reference": "anat_metatarsal_1_left",
+      "native_to_c004_head_gap_m": 2.6001521250881673e-09,
+      "native_to_c004_tail_gap_m": 6.31013308600248e-09
+    },
+    {
+      "reference": "anat_hallux_proximal_phalanx_left",
+      "native_to_c004_head_gap_m": 6.31013308600248e-09,
+      "native_to_c004_tail_gap_m": 7.562740623666362e-09
+    },
+    {
+      "reference": "anat_hallux_distal_phalanx_left",
+      "native_to_c004_head_gap_m": 7.562740623666362e-09,
+      "native_to_c004_tail_gap_m": 8.52155975781479e-09
+    },
+    {
+      "reference": "anat_intermediate_cuneiform_left",
+      "native_to_c004_head_gap_m": 2.943389016357772e-09,
+      "native_to_c004_tail_gap_m": 3.029310132553836e-09
+    },
+    {
+      "reference": "anat_metatarsal_2_left",
+      "native_to_c004_head_gap_m": 3.029310132553836e-09,
+      "native_to_c004_tail_gap_m": 6.332720611443214e-09
+    },
+    {
+      "reference": "anat_toe2_proximal_phalanx_left",
+      "native_to_c004_head_gap_m": 6.332720611443214e-09,
+      "native_to_c004_tail_gap_m": 5.653785812421446e-09
+    },
+    {
+      "reference": "anat_toe2_middle_phalanx_left",
+      "native_to_c004_head_gap_m": 5.653785812421446e-09,
+      "native_to_c004_tail_gap_m": 4.998774389968504e-09
+    },
+    {
+      "reference": "anat_toe2_distal_phalanx_left",
+      "native_to_c004_head_gap_m": 4.998774389968504e-09,
+      "native_to_c004_tail_gap_m": 3.4506116245252513e-09
+    },
+    {
+      "reference": "anat_lateral_cuneiform_left",
+      "native_to_c004_head_gap_m": 3.1038140381781695e-09,
+      "native_to_c004_tail_gap_m": 2.651996753398941e-09
+    },
+    {
+      "reference": "anat_metatarsal_3_left",
+      "native_to_c004_head_gap_m": 2.651996753398941e-09,
+      "native_to_c004_tail_gap_m": 6.026763540570609e-09
+    },
+    {
+      "reference": "anat_toe3_proximal_phalanx_left",
+      "native_to_c004_head_gap_m": 6.026763540570609e-09,
+      "native_to_c004_tail_gap_m": 3.3077666106465517e-09
+    },
+    {
+      "reference": "anat_toe3_middle_phalanx_left",
+      "native_to_c004_head_gap_m": 3.3077666106465517e-09,
+      "native_to_c004_tail_gap_m": 3.1058150838449124e-09
+    },
+    {
+      "reference": "anat_toe3_distal_phalanx_left",
+      "native_to_c004_head_gap_m": 3.1058150838449124e-09,
+      "native_to_c004_tail_gap_m": 7.637230716215398e-09
+    },
+    {
+      "reference": "anat_talus_right",
+      "native_to_c004_head_gap_m": 1.8084593111458631e-09,
+      "native_to_c004_tail_gap_m": 2.0683740439336865e-09
+    },
+    {
+      "reference": "anat_calcaneus_right",
+      "native_to_c004_head_gap_m": 3.2004062001122452e-09,
+      "native_to_c004_tail_gap_m": 1.490116086078075e-10
+    },
+    {
+      "reference": "anat_cuboid_right",
+      "native_to_c004_head_gap_m": 3.6932100529488057e-09,
+      "native_to_c004_tail_gap_m": 1.659836495886253e-09
+    },
+    {
+      "reference": "anat_metatarsal_4_right",
+      "native_to_c004_head_gap_m": 3.4089366758322407e-09,
+      "native_to_c004_tail_gap_m": 1.6425727156677563e-09
+    },
+    {
+      "reference": "anat_toe4_proximal_phalanx_right",
+      "native_to_c004_head_gap_m": 1.6425727156677563e-09,
+      "native_to_c004_tail_gap_m": 1.9385525786497484e-09
+    },
+    {
+      "reference": "anat_toe4_middle_phalanx_right",
+      "native_to_c004_head_gap_m": 1.9385525786497484e-09,
+      "native_to_c004_tail_gap_m": 3.6692596235611624e-09
+    },
+    {
+      "reference": "anat_toe4_distal_phalanx_right",
+      "native_to_c004_head_gap_m": 3.6692596235611624e-09,
+      "native_to_c004_tail_gap_m": 1.5687774951474467e-09
+    },
+    {
+      "reference": "anat_metatarsal_5_right",
+      "native_to_c004_head_gap_m": 1.47808405300347e-09,
+      "native_to_c004_tail_gap_m": 5.566659541688443e-09
+    },
+    {
+      "reference": "anat_toe5_proximal_phalanx_right",
+      "native_to_c004_head_gap_m": 5.566659541688443e-09,
+      "native_to_c004_tail_gap_m": 3.3384913337628947e-09
+    },
+    {
+      "reference": "anat_toe5_middle_phalanx_right",
+      "native_to_c004_head_gap_m": 3.3384913337628947e-09,
+      "native_to_c004_tail_gap_m": 6.6610985675691574e-09
+    },
+    {
+      "reference": "anat_toe5_distal_phalanx_right",
+      "native_to_c004_head_gap_m": 6.6610985675691574e-09,
+      "native_to_c004_tail_gap_m": 7.0968066193478606e-09
+    },
+    {
+      "reference": "anat_navicular_right",
+      "native_to_c004_head_gap_m": 1.4756804364678113e-09,
+      "native_to_c004_tail_gap_m": 2.5961761827397094e-09
+    },
+    {
+      "reference": "anat_medial_cuneiform_right",
+      "native_to_c004_head_gap_m": 3.4058154114436305e-09,
+      "native_to_c004_tail_gap_m": 2.6001521250881673e-09
+    },
+    {
+      "reference": "anat_metatarsal_1_right",
+      "native_to_c004_head_gap_m": 2.6001521250881673e-09,
+      "native_to_c004_tail_gap_m": 6.31013308600248e-09
+    },
+    {
+      "reference": "anat_hallux_proximal_phalanx_right",
+      "native_to_c004_head_gap_m": 6.31013308600248e-09,
+      "native_to_c004_tail_gap_m": 7.278847853580822e-09
+    },
+    {
+      "reference": "anat_hallux_distal_phalanx_right",
+      "native_to_c004_head_gap_m": 7.278847853580822e-09,
+      "native_to_c004_tail_gap_m": 1.3547813975917037e-08
+    },
+    {
+      "reference": "anat_intermediate_cuneiform_right",
+      "native_to_c004_head_gap_m": 2.943389016357772e-09,
+      "native_to_c004_tail_gap_m": 3.029310142939532e-09
+    },
+    {
+      "reference": "anat_metatarsal_2_right",
+      "native_to_c004_head_gap_m": 3.029310142939532e-09,
+      "native_to_c004_tail_gap_m": 6.33272060443248e-09
+    },
+    {
+      "reference": "anat_toe2_proximal_phalanx_right",
+      "native_to_c004_head_gap_m": 6.33272060443248e-09,
+      "native_to_c004_tail_gap_m": 4.418008943193134e-09
+    },
+    {
+      "reference": "anat_toe2_middle_phalanx_right",
+      "native_to_c004_head_gap_m": 4.418008943193134e-09,
+      "native_to_c004_tail_gap_m": 5.399748915801279e-09
+    },
+    {
+      "reference": "anat_toe2_distal_phalanx_right",
+      "native_to_c004_head_gap_m": 5.399748915801279e-09,
+      "native_to_c004_tail_gap_m": 1.5016975772172232e-08
+    },
+    {
+      "reference": "anat_lateral_cuneiform_right",
+      "native_to_c004_head_gap_m": 3.1038140381781695e-09,
+      "native_to_c004_tail_gap_m": 2.651996753398941e-09
+    },
+    {
+      "reference": "anat_metatarsal_3_right",
+      "native_to_c004_head_gap_m": 2.651996753398941e-09,
+      "native_to_c004_tail_gap_m": 6.026763540570609e-09
+    },
+    {
+      "reference": "anat_toe3_proximal_phalanx_right",
+      "native_to_c004_head_gap_m": 6.026763540570609e-09,
+      "native_to_c004_tail_gap_m": 3.401337206258808e-09
+    },
+    {
+      "reference": "anat_toe3_middle_phalanx_right",
+      "native_to_c004_head_gap_m": 3.401337206258808e-09,
+      "native_to_c004_tail_gap_m": 3.0640005319308495e-09
+    },
+    {
+      "reference": "anat_toe3_distal_phalanx_right",
+      "native_to_c004_head_gap_m": 3.0640005319308495e-09,
+      "native_to_c004_tail_gap_m": 8.920562769026955e-09
+    }
+  ],
+  "limits": [
+    "Actual52native reference controls and28copied toe-control stations; low-confidence reference sticks, not independently segmented bone surfaces or approved functional axes.",
+    "Coordinate agreement is implementation correspondence only; it does not approve280mm shortening, physiologicalROM, loadedcontact or sourcebone surfaces."
+  ]
+}

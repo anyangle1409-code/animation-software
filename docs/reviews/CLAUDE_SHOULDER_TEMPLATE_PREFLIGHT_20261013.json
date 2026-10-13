@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "ready": false,
+  "production_approved": false,
+  "errors": [
+    "declaration: target revision invalid",
+    "declaration: parent revision invalid",
+    "declaration: parent SHA-256 invalid",
+    "declaration: scope.permitted_regions missing",
+    "declaration: scope.permitted_bones missing",
+    "declaration: scope.topology_intent missing",
+    "declaration: scope.weight_intent missing"
+  ],
+  "target_revision": null,
+  "parent": {
+    "revision": null,
+    "sha256": null,
+    "candidate_path": null
+  },
+  "next": "STOP",
+  "input_commit": "3b4de8511340faa2be5ead946755905814538861",
+  "template": "ORIGINAL_V1_SHOULDER_FOUNDATION_DECLARATION_TEMPLATE.json",
+  "expected_exit_code": 1,
+  "scope": "Existing unfilled template metadata preflight. No candidate edit declaration or anatomical readiness claimed.",
+  "parent_identity_validation": "Validator checksSHAformat; separately verify actualfileSHA before Blenderediting."
+}

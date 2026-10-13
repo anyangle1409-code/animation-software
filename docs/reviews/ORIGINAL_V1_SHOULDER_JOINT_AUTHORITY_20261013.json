@@ -1,0 +1,557 @@
+{
+  "joints": {
+    "SC_left": {
+      "source_marker": "sternoclavicular_left",
+      "world_frame_row_major": [
+        [
+          -0.9678601379969292,
+          -0.24008521806807304,
+          0.07487216666940374,
+          0.025465
+        ],
+        [
+          0.07266975939853212,
+          0.01802629775440379,
+          0.9971931400978593,
+          -0.02270193482239958
+        ],
+        [
+          -0.24076100046628107,
+          0.9705844325222176,
+          -3.469446951953614e-18,
+          1.5013389491601754
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "fit_status": "FITTED_UNVERIFIED_OPERATION",
+      "method": "SC joint lateral/deep to the jugular notch",
+      "frame_bone": "clavicle_left",
+      "authored_control": "clavicle_left",
+      "anchor_semantics": "clavicle_left.head_m",
+      "control_orientation_is_joint_frame": false,
+      "joint_to_authored_control_origin_mm": 9.626228076363257e-06,
+      "authored_control_world_rest_row_major": [
+        [
+          0.3113442659378052,
+          0.9502036571502686,
+          0.013329150155186653,
+          0.025465000420808792
+        ],
+        [
+          -0.9502036571502686,
+          0.3110862374305725,
+          0.01839149370789528,
+          -0.022701933979988098
+        ],
+        [
+          0.013329149223864079,
+          -0.01839149370789528,
+          0.9997420310974121,
+          1.5013389587402344
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "joint_frame_to_control_rest_offset": [
+        [
+          -0.37359791464233394,
+          -0.8926297262831892,
+          -0.2522631393010532,
+          -2.652570812089125e-09
+        ],
+        [
+          -0.07894074529758817,
+          -0.24037261657649556,
+          0.9674654505413477,
+          9.212411663432705e-09
+        ],
+        [
+          -0.9242255488352875,
+          0.3813568685326527,
+          0.019337853713646755,
+          8.715538156583333e-10
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    "AC_left": {
+      "source_marker": "acromioclavicular_left",
+      "world_frame_row_major": [
+        [
+          -0.3172019351498481,
+          -0.8614406907871874,
+          -0.39661425666922895,
+          0.1692220830463193
+        ],
+        [
+          0.5380451907784688,
+          -0.5078581851817429,
+          0.6727461901966207,
+          0.02436255942529901
+        ],
+        [
+          -0.7809547394166662,
+          2.7755575615628914e-17,
+          0.6245876199402669,
+          1.4985564896414043
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "fit_status": "FITTED_UNVERIFIED_OPERATION",
+      "method": "AC joint medial/inferior to the lateral acromion skin",
+      "frame_bone": "scapula_left",
+      "authored_control": "scapula_left",
+      "anchor_semantics": "clavicle_left.tail_m",
+      "control_orientation_is_joint_frame": false,
+      "joint_to_authored_control_origin_mm": 6.827470941303019e-06,
+      "authored_control_world_rest_row_major": [
+        [
+          0.9432293176651001,
+          -0.2833656966686249,
+          -0.17326965928077698,
+          0.16922208666801453
+        ],
+        [
+          0.2833656966686249,
+          0.4143938422203064,
+          0.8648593425750732,
+          0.024362556636333466
+        ],
+        [
+          -0.17326968908309937,
+          -0.864859402179718,
+          0.4711645245552063,
+          1.4985564947128296
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "joint_frame_to_control_rest_offset": [
+        [
+          -0.011414829642597962,
+          0.9882628102945354,
+          0.15233671270257518,
+          -6.6099519035328624e-09
+        ],
+        [
+          -0.9564457034330394,
+          0.0336494368231185,
+          -0.2899643611743588,
+          -1.7034766514446438e-09
+        ],
+        [
+          -0.2916871045403421,
+          -0.14901172184595662,
+          0.9448355738845343,
+          -1.4513246854308548e-10
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "ac_to_source_scapular_glenoid_head_mm": 30.44690594378397
+    },
+    "GH_left": {
+      "source_marker": "glenohumeral_left",
+      "world_frame_row_major": [
+        [
+          0.00022619216047151412,
+          -0.9998638937377086,
+          0.016496752309924284,
+          0.1934391362078662
+        ],
+        [
+          0.013708159876848099,
+          0.016498302932982257,
+          0.9997699197080908,
+          0.005078837784093377
+        ],
+        [
+          -0.9999060131781874,
+          -2.710505431213761e-20,
+          0.013710025897228893,
+          1.4712288423544568
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "fit_status": "FITTED_UNVERIFIED_OPERATION",
+      "method": "Fitted GH (acromion depth chain + method mean)",
+      "frame_bone": "humerus_left",
+      "authored_control": "humerus_left",
+      "anchor_semantics": "humerus_left.head_m",
+      "control_orientation_is_joint_frame": false,
+      "joint_to_authored_control_origin_mm": 1.4920491096468568e-05,
+      "authored_control_world_rest_row_major": [
+        [
+          0.9998090267181396,
+          -0.013708151876926422,
+          -0.01393495500087738,
+          0.19343914091587067
+        ],
+        [
+          0.013708144426345825,
+          -0.016498297452926636,
+          0.999769926071167,
+          0.005078851245343685
+        ],
+        [
+          -0.01393495500087738,
+          -0.9997700452804565,
+          -0.016307353973388672,
+          1.471228837966919
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "joint_frame_to_control_rest_offset": [
+        [
+          0.014347707697968316,
+          0.9994468180956876,
+          0.03000767530608698,
+          4.572719428395976e-09
+        ],
+        [
+          -0.9994467853291129,
+          0.013434092202354697,
+          0.0304275654698444,
+          -4.485275888708486e-09
+        ],
+        [
+          0.030007543729531547,
+          -0.030427514718041903,
+          0.9990864429683446,
+          1.3475666665874186e-08
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    "SC_right": {
+      "source_marker": "sternoclavicular_right",
+      "world_frame_row_major": [
+        [
+          0.9678601379969292,
+          -0.24008521806807304,
+          0.07487216666940374,
+          -0.025465
+        ],
+        [
+          -0.07266975939853212,
+          0.01802629775440379,
+          0.9971931400978593,
+          -0.02270193482239958
+        ],
+        [
+          -0.24076100046628107,
+          -0.9705844325222176,
+          3.469446951953614e-18,
+          1.5013389491601754
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "fit_status": "FITTED_UNVERIFIED_OPERATION",
+      "method": "SC joint lateral/deep to the jugular notch",
+      "frame_bone": "clavicle_right",
+      "authored_control": "clavicle_right",
+      "anchor_semantics": "clavicle_right.head_m",
+      "control_orientation_is_joint_frame": false,
+      "joint_to_authored_control_origin_mm": 9.626228076363257e-06,
+      "authored_control_world_rest_row_major": [
+        [
+          0.3113442659378052,
+          -0.9502036571502686,
+          -0.013329150155186653,
+          -0.025465000420808792
+        ],
+        [
+          0.9502036571502686,
+          0.3110862374305725,
+          0.01839149370789528,
+          -0.022701933979988098
+        ],
+        [
+          -0.013329149223864079,
+          -0.01839149370789528,
+          0.9997420310974121,
+          1.5013389587402344
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "joint_frame_to_control_rest_offset": [
+        [
+          0.23549577235290328,
+          -0.9378428503357378,
+          -0.25493615014651794,
+          -2.7750064921731182e-09
+        ],
+        [
+          -0.04468343719535985,
+          0.2515880828629369,
+          -0.9668023894578941,
+          -9.18204062777669e-09
+        ],
+        [
+          0.9708475883770045,
+          0.23906925535658896,
+          0.017341889009685474,
+          8.085400816799196e-10
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    "AC_right": {
+      "source_marker": "acromioclavicular_right",
+      "world_frame_row_major": [
+        [
+          0.3172019351498523,
+          -0.8614406907871882,
+          -0.3966142566692235,
+          -0.1692220830463193
+        ],
+        [
+          -0.5380451907784782,
+          -0.5078581851817413,
+          0.6727461901966144,
+          0.02436255942529901
+        ],
+        [
+          -0.7809547394166578,
+          2.7755575615628914e-17,
+          -0.6245876199402771,
+          1.4985564896414043
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "fit_status": "FITTED_UNVERIFIED_OPERATION",
+      "method": "AC joint medial/inferior to the lateral acromion skin",
+      "frame_bone": "scapula_right",
+      "authored_control": "scapula_right",
+      "anchor_semantics": "clavicle_right.tail_m",
+      "control_orientation_is_joint_frame": false,
+      "joint_to_authored_control_origin_mm": 6.827470941303019e-06,
+      "authored_control_world_rest_row_major": [
+        [
+          0.9432293176651001,
+          0.2833656966686249,
+          0.17326965928077698,
+          -0.16922208666801453
+        ],
+        [
+          -0.2833656966686249,
+          0.4143938422203064,
+          0.8648593425750732,
+          0.024362556636333466
+        ],
+        [
+          0.17326968908309937,
+          -0.864859402179718,
+          0.4711645245552063,
+          1.4985564947128296
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "joint_frame_to_control_rest_offset": [
+        [
+          0.31634193029089397,
+          0.5423375825048307,
+          -0.7783301072421211,
+          -3.6087729436695692e-09
+        ],
+        [
+          -0.6686265265272644,
+          -0.4545560461441067,
+          -0.5884874311409438,
+          4.536274602439008e-09
+        ],
+        [
+          -0.6729534902727943,
+          0.7065754790352657,
+          0.21882608166212564,
+          -3.6073994173768664e-09
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "ac_to_source_scapular_glenoid_head_mm": 30.44690594378397
+    },
+    "GH_right": {
+      "source_marker": "glenohumeral_right",
+      "world_frame_row_major": [
+        [
+          -0.00022619216047166033,
+          -0.9998638937377086,
+          0.01649675230992182,
+          -0.1934391362078662
+        ],
+        [
+          -0.013708159876859003,
+          0.016498302932979797,
+          0.9997699197080906,
+          0.005078837784093377
+        ],
+        [
+          -0.9999060131781871,
+          0.0,
+          -0.013710025897239797,
+          1.4712288423544568
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "fit_status": "FITTED_UNVERIFIED_OPERATION",
+      "method": "Fitted GH (acromion depth chain + method mean)",
+      "frame_bone": "humerus_right",
+      "authored_control": "humerus_right",
+      "anchor_semantics": "humerus_right.head_m",
+      "control_orientation_is_joint_frame": false,
+      "joint_to_authored_control_origin_mm": 1.4920491096468568e-05,
+      "authored_control_world_rest_row_major": [
+        [
+          0.9998090267181396,
+          0.013708151876926422,
+          0.01393495500087738,
+          -0.19343914091587067
+        ],
+        [
+          -0.013708144426345825,
+          -0.016498297452926636,
+          0.999769926071167,
+          0.005078851245343685
+        ],
+        [
+          0.01393495500087738,
+          -0.9997700452804565,
+          -0.016307353973388672,
+          1.471228837966919
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "joint_frame_to_control_rest_offset": [
+        [
+          -0.013971880827145764,
+          0.9998991406940485,
+          0.002597663332779748,
+          4.20366152686756e-09
+        ],
+        [
+          -0.9998991075679027,
+          -0.013978480020868322,
+          0.0025614487373679176,
+          4.929451457661165e-09
+        ],
+        [
+          0.0025975628245795803,
+          -0.0025614883216125484,
+          0.9999933544611243,
+          1.3440639615603517e-08
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    }
+  },
+  "anatomical_approval": false,
+  "production_approved": false,
+  "retarget_installed": false,
+  "axes_authority": "source fitted marker axes; unverified operation",
+  "world_conventions": {
+    "world": "Blender world metres; +Z up; character faces -Y; anatomical LEFT = +X (F-SIDE-001)",
+    "runtime_side_binding": {
+      "left": "_r",
+      "right": "_l"
+    },
+    "bone_axes": "Bone Y = head->tail; bone Z aligned to anatomical anterior (ISB X).",
+    "marker_axes": "Marker X anterior, Y proximal/superior, Z character right (ISB pattern for the marker frame bone)."
+  },
+  "source_model_filename": "HomeGymPT_Male_ORIGINAL_v1_AUTHORED_THORAX_REVIEW_ONLY.blend",
+  "source_model_sha256": "ca8e6824ae54e5778a04409e00d32ae13ac23d9fce95e1f6d8207abbef265ca7",
+  "source_record_sha256": "99500d94e06c66ca489bdaccc0345446f98794946254c5e592d9449696f396c1",
+  "source_work_commit": "27e2dbf4424b878d8312cf346624e495720bba0a",
+  "native_blender_version": "5.2.1 LTS",
+  "authored_guide_armature": "functional_shoulder_controls",
+  "source_file_unchanged": true,
+  "source_scene_saved": false,
+  "body_vertices": 17946,
+  "findings": "SC, AC and GH match their intended authored control origins. AC is not the scapular glenoid head. Marker orientation is distinct from bone control orientation; offsets are diagnostic, not approved physiology or an installed retarget."
+}

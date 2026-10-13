@@ -1,0 +1,19 @@
+name: Shoulder joint trial checkpoint integrity
+on:
+  push:
+    branches: [codex/original-shoulder-joint-refit-20261013]
+  pull_request:
+    paths:
+      - scripts/*original_shoulder*
+      - docs/ORIGINAL_V1_SHOULDER_JOINT_REFIT_20261013.md
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s scripts -p 'test_original_shoulder_joint_authority.py'
+      - run: python -m unittest discover -s scripts -p 'test_original_shoulder_bind_semantics.py'
+      - run: python -m py_compile scripts/build_original_shoulder_joint_refit_blender.py scripts/probe_original_shoulder_joint_authority_blender.py scripts/test_original_shoulder_refit_blender.py

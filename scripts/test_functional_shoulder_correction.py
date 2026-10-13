@@ -115,6 +115,10 @@ class ScapulaRigidPlacementTests(unittest.TestCase):
             corr.place_on_thorax([(0, 0, 0)], (0, 0, 0), lambda q: 0.0, [3], 0.01)
         with self.assertRaises(ValueError):
             corr.place_on_thorax([(0, 0, 0)], (0, 0, 0), lambda q: 0.0, [0], 0.2)
+        with self.assertRaises(ValueError):
+            corr.place_on_thorax([(0, 0, 0)], (0, 0, 0), lambda q: math.nan, [0], 0.01)
+        with self.assertRaises(ValueError):
+            corr.place_on_thorax([(0, 0, 0)], (math.nan, 0, 0), lambda q: 0.0, [0], 0.01)
 
 
 class HumeralAxialTests(unittest.TestCase):
@@ -145,6 +149,8 @@ class HumeralAxialTests(unittest.TestCase):
         self.assertAlmostEqual(left, -right, places=9)
         with self.assertRaises(ValueError):
             corr.humeral_axial_angle_deg(hang, (1.0, 0.0, 0.0), 40.0, "middle")
+        with self.assertRaises(ValueError):
+            corr.humeral_axial_angle_deg(hang, (1.0, 0.0, 0.0), math.nan, "left")
 
 
 if __name__ == "__main__":

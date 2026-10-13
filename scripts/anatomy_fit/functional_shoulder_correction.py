@@ -82,7 +82,7 @@ def rib_inplane_curve(params, proximal_samples=24, distal_samples=33):
     if not alpha < phi < math.pi:
         raise ValueError("phi_pia must exceed the peak angle (Holcombe constraint) and stay below 180 deg")
     # Start tangent at phi from the chord; its handle never rises above 60 % of the peak height, and the peak handle
-    # is horizontal (the distal spiral's peak is a stationary maximum, so the join is C1).
+    # is horizontal (the distal spiral's peak is a stationary maximum, so the join is G1).
     k0 = min(0.6 * ypk / math.sin(phi), 0.5 * math.hypot(xpk, ypk))
     p0, p3 = (0.0, 0.0), (xpk, ypk)
     p1 = (k0 * math.cos(phi), k0 * math.sin(phi))
@@ -170,6 +170,7 @@ def place_on_thorax(landmarks, pivot, clearance_fn, medial_indices, target_clear
     of the medial-border landmarks' clearance to the thorax guide against target_clearance_m.  Returns
     (yaw_deg, tilt_deg, rms_error_m, rotated_landmarks).  Bounded, deterministic, no contact solver."""
     pts = [_finite_point(p) for p in landmarks]
+    pivot = _finite_point(pivot)
     if not medial_indices or any(i < 0 or i >= len(pts) for i in medial_indices):
         raise ValueError("medial landmark indices out of range")
     if not (math.isfinite(target_clearance_m) and 0.0 <= target_clearance_m <= 0.05):
@@ -183,7 +184,10 @@ def place_on_thorax(landmarks, pivot, clearance_fn, medial_indices, target_clear
             for i in medial_indices:
                 q = rotate_about(pts[i], pivot, (0.0, 0.0, 1.0), math.radians(yaw))
                 q = rotate_about(q, pivot, (1.0, 0.0, 0.0), math.radians(tilt))
-                err += (clearance_fn(q) - target_clearance_m) ** 2
+                c = clearance_fn(q)
+                if not math.isfinite(c):
+                    raise ValueError("non-finite thorax clearance")
+                err += (c - target_clearance_m) ** 2
             key = (err, abs(yaw) + abs(tilt))
             if best is None or key < best[0]:
                 best = (key, yaw, tilt)
@@ -228,6 +232,8 @@ def humeral_axial_angle_deg(shaft_dir, elbow_axis, plane_deg, side):
     if side not in ("left", "right"):
         raise ValueError("explicit anatomical side required")
     lateral = 1.0 if side == "left" else -1.0
+    if isinstance(plane_deg, bool) or not isinstance(plane_deg, (int, float)) or not math.isfinite(plane_deg):
+        raise ValueError("finite elevation-plane angle required")
     p = math.radians(plane_deg)
     az = (lateral * math.cos(p), -math.sin(p), 0.0)
     n = _cross(az, (0.0, 0.0, 1.0))

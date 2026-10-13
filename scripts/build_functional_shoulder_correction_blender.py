@@ -140,13 +140,16 @@ def apply_corrected_pose(result, ht_elevation_deg, axial=True):
         external = 0.0
     profile = coupled.apply_coupled_pose(result, ht_elevation_deg)
     runtime = result["runtime"]
-    realized = {}
+    realized, pr110_axial, applied = {}, {}, {}
     for side, name in HUMERI:
         bone = runtime.pose.bones[name]
         d = (bone.tail - bone.head).normalized()
         current = corr.humeral_axial_angle_deg(tuple(d), tuple(bone.x_axis), profile["plane_deg"], side)
         target = result["humeral_rest_axial_deg"][name] + corr.external_rotation_sign(side) * external
-        delta = math.radians(((target - current + 180.0) % 360.0) - 180.0)
+        delta_deg = ((target - current + 180.0) % 360.0) - 180.0
+        delta = math.radians(delta_deg)
+        pr110_axial[side] = current - result["humeral_rest_axial_deg"][name]
+        applied[side] = delta_deg
         pivot = bone.head.copy()
         rot = Matrix.Rotation(delta, 4, d)
         bone.matrix = Matrix.Translation(pivot) @ rot @ Matrix.Translation(-pivot) @ bone.matrix
@@ -155,7 +158,8 @@ def apply_corrected_pose(result, ht_elevation_deg, axial=True):
         realized[side] = corr.humeral_axial_angle_deg(tuple(d2), tuple(bone.x_axis), profile["plane_deg"], side) - \
             result["humeral_rest_axial_deg"][name]
     profile = dict(profile, humeral_external_rotation_deg=external, humeral_axial_scope="project-authored hypothesis",
-                   humeral_axial_realized_rel_rest_deg=realized, humeral_axial_cohort_fit=False)
+                   humeral_axial_realized_rel_rest_deg=realized,
+                   humeral_axial_pr110_implicit_rel_rest_deg=pr110_axial, humeral_axial_applied_delta_deg=applied, humeral_axial_cohort_fit=False)
     return profile
 
 
@@ -166,6 +170,11 @@ def _evaluated(body):
     polys = [tuple(p.vertices) for p in me.polygons]
     ev.to_mesh_clear()
     return verts, polys
+
+
+def _assert_triangles(F):
+    if any(len(f) != 3 for f in F):
+        raise RuntimeError("deformation metrics require a triangulated body mesh")
 
 
 def _area(V, f):
@@ -204,6 +213,7 @@ def _zones(face_ids, F, dom):
 def deformation_metrics(body, rest, posed, faces_in_region, dom=None):
     V0, F = rest
     V1, _ = posed
+    _assert_triangles(F)
     ratios = [_area(V1, F[i]) / _area(V0, F[i]) for i in faces_in_region if _area(V0, F[i]) > 1e-12]
     vol0, vol1 = _volume(V0, F), _volume(V1, F)
     tree = BVHTree.FromPolygons(V1, F, all_triangles=True)
@@ -262,6 +272,8 @@ def measure(result, angles=(0, 90, 160)):
         posed = _evaluated(body)
         row = {"ht_elevation_deg": angle, "humeral_external_rotation_deg": profile["humeral_external_rotation_deg"],
                "humeral_axial_realized_rel_rest_deg": profile["humeral_axial_realized_rel_rest_deg"],
+               "humeral_axial_pr110_implicit_rel_rest_deg": profile["humeral_axial_pr110_implicit_rel_rest_deg"],
+               "humeral_axial_applied_delta_deg": profile["humeral_axial_applied_delta_deg"],
                "deformation": deformation_metrics(body, rest, posed, faces),
                "deformation_pr110_unchanged_pose": (deformation_metrics(body, rest, _posed_pr110(result, angle), faces)
                                                     if angle else None),
@@ -395,7 +407,9 @@ def render_evidence(output_directory):
         "known_limits": [
             "rib proximal segment is an authored bridge; Holcombe proximal branch selection remains blocked",
             "rib plane orientation authored (chord + outward lateral); Holcombe PH/LS/BH convention not mapped",
-            "scapula clearance is an authored 12 mm target to rib-guide centrelines; no contact solver",
+            "scapula clearance is an authored 12 mm target to the rib-guide tube surface (centreline minus 4 mm radius); no contact solver",
+            "posed guide-outside-skin counts use +Z ray parity, approximate on self-intersecting posed skin",
+            "PR110 shortest-arc swing already carries implicit axial rotation; see humeral_axial_pr110_implicit_rel_rest_deg",
             "humeral external rotation magnitude is a project-authored hypothesis, not a cohort fit",
             "deformation figures are diagnostics on the unchanged 17,946-vertex original, not acceptance",
         ],

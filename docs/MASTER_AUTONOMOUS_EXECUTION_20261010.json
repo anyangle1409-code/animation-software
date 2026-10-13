@@ -1104,6 +1104,14 @@
       "claude/pelvis-ct-blender-review-20261009": "9d57a01b71b9f9548f0cdc0f6e782ab29031b9b1",
       "claude/skeleton-anatomical-development-20261009": "f3f725f46c33ab1d4d480070f56ddc6b350f3d87",
       "claude/skeleton-independent-verification-20261009": "f83e6ab36ebac72413014a89938b7ae889bff0a6"
-    }
+    },
+    "isb_primary_frame_review": "docs/reviews/CLAUDE_ISB_SHOULDER_FRAME_REVIEW_20261013.json",
+    "isb_pdf_sha256": "bd79158cca0ecd6f439b46aa31060c90d27959db2165693f3c55a5bef31e9414",
+    "isb_visually_reviewed_physical_pages": [
+      3,
+      4
+    ],
+    "segment_frame_vs_control_pivot_distinction_recorded": true,
+    "character_source_landmarks_verified": false
   }
 }

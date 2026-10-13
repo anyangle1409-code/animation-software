@@ -67,6 +67,8 @@ All52reference controls retain low-confidence status. These are control stations
 
 Open `HomeGymPT_ORIGINAL_v1_SHOULDER_JOINT_REFIT_TRIAL.blend`, SHA256 `a48ee389a064927f740b5ea294b7afed3ef1616cbe8ac6c121867b86581680c2`. Trial skin `HGPT_BODY_SHOULDER_REFIT_TRIAL`; copied rig `HGPT_SHOULDER_JOINT_REFIT_TRIAL`. Source markers are fitted-unverified. Verify SC/AC/GH mechanics, scapular motion and axial-rotation states before accepting this provisional rig as a repair foundation.
 
+Primary scan clarification: the ISB scapular **segment frame** origin is AA, distinct from the current AC **control pivot**. Keep both explicitly named; no automatic source/control relocation. See the reference brief and page-bound source review.
+
 | Region | Triangle vertex IDs | Baseline fact |
 | --- | --- | --- |
 | Front shoulder |4647,13572,4773 | Linear trial at authored160°area ratio0.009709; native guard FAIL. |

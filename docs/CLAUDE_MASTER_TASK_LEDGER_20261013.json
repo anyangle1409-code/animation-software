@@ -106,7 +106,7 @@
    "priority": 2,
    "status": "TESTED",
    "evidence": "docs/FUNCTIONAL_SHOULDER_COUPLED_CORRECTIVE_20261013.md; draft PR #112",
-   "tests": "7 pure/8 native PASS; independent review HIGH findings fixed",
+   "tests": "7 pure/8 native PASS; independent review HIGH findings fixed; exact-head CI green (draft PR #112)",
    "commit": "a8942ae3",
    "blockers": [
     "diagnostic only: shoulder-top LBS near-singular at 145-160; self-intersection not reduced"
@@ -133,7 +133,7 @@
    "status": "TESTED",
    "evidence": "docs/CLAUDE_E1_ORIGINAL_GLB_ROUNDTRIP_20261013.md",
    "tests": "native->GLB->native parity max 0.0007 mm at 5 poses; 67 joints, 6 morphs",
-   "commit": "(this commit)",
+   "commit": "f58ad5ff (CI green)",
    "blockers": [
     "bone display shape Icosphere leaks into GLB export"
    ],
@@ -143,12 +143,15 @@
    "id": "M1",
    "description": "Integration benchmarks: shoulder press, squat, row on the 67-joint original with deformation metrics",
    "priority": 2,
-   "status": "TODO",
-   "evidence": null,
-   "tests": null,
-   "commit": null,
-   "blockers": [],
-   "next": "authored keyframe benchmarks + collapse/self-intersection/volume per frame"
+   "status": "TESTED",
+   "evidence": "docs/CLAUDE_M1_MOVEMENT_BENCHMARKS_20261013.md (branch claude/movement-benchmarks-20261013)",
+   "tests": "5 native PASS; feet planted <1 mm; angles <= CDC means except recorded ankle DF",
+   "commit": "(see branch head)",
+   "blockers": [
+    "shoulder press inherits shoulder-top LBS buckle (W4)",
+    "deep-flexion tissue contact needs collision/volume-aware correctives"
+   ],
+   "next": "M2 lunge/walk/rotation/grip"
   },
   {
    "id": "M2",

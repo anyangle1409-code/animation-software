@@ -52,6 +52,9 @@ class FunctionalOriginalAttachmentTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "finite"):
             attachment.fit_segment_similarity([(math.nan, 0, 0)], (0, 0, 0), (1, 0, 0),
                                               (0, 0, 0), (1, 0, 0))
+        with self.assertRaisesRegex(ValueError, "non-finite"):
+            attachment.fit_segment_similarity([(1e200, 0, 0)], (0, 0, 0), (1, 0, 0),
+                                              (0, 0, 0), (1e154, 0, 0))
 
     def test_contract_fails_closed_on_missing_or_unexpected_inventory(self):
         anatomical = set(attachment.ATTACHMENT_MAPPING)

@@ -125,6 +125,8 @@ def fit_segment_similarity(points, source_head, source_tail, target_head, target
         raise ValueError("collapsed target segment")
     target_axis = _mul(target_vector, 1.0 / target_length)
     scale = target_length / source_length
+    if not math.isfinite(scale):
+        raise ValueError("unsafe non-finite similarity scale")
     fitted = []
     for point in points:
         if point == source_head:
@@ -134,6 +136,8 @@ def fit_segment_similarity(points, source_head, source_tail, target_head, target
         else:
             relative = _mul(_sub(point, source_head), scale)
             fitted.append(_add(target_head, _rotate_shortest(relative, source_axis, target_axis)))
+        if any(not math.isfinite(value) for value in fitted[-1]):
+            raise ValueError("similarity fit produced non-finite coordinate")
     return fitted
 
 

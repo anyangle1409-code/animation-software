@@ -1,6 +1,20 @@
 # Master programme: independent execution checkpoint, 10 October 2026
 
-## New W1/W2 original-body anatomy attachment — 13 October
+## New W1/W2 original-body coupled motion — 13 October
+
+`codex/functional-original-coupled-motion-20261013` is stacked on reviewed
+PR109 head `afe02ca65e31ab21ad6c65ed341c7cc80297884c`. Read
+`FUNCTIONAL_ORIGINAL_COUPLED_MOTION_20261013.md` and machine key
+`active_functional_original_coupled_motion_checkpoint` first. Five new pure,
+six actual Blender 5.2.1 native and 28 pure/inherited tests PASS. Guarded
+0/90/160 authored pose deltas move the existing attached guides and original
+male through the sole 67-rig driver while the 206 source stays at rest. Six new
+90/160 views plus 0/90/160 measurements are hash-verified private evidence;
+neutral was not rerendered. This is not anatomy, human-motion or deformation
+approval. Next correct blade/rib shape and placement, add anatomical humeral
+rotation, and quantify axilla/shoulder collapse and self-intersection.
+
+## Preserved W1/W2 original-body anatomy attachment — 13 October
 
 `codex/functional-original-anatomy-attachment-20261012` is stacked on reviewed
 PR80 head `2af63aed`. Read `FUNCTIONAL_ORIGINAL_ANATOMY_ATTACHMENT_20261013.md`

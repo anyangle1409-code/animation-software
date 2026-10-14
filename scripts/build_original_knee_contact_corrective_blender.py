@@ -41,6 +41,7 @@ GAP_M = 0.002
 TAPER_RINGS = 4
 DELTA_CAP_M = 0.040            # knee LBS is well conditioned; 130 deg needs 37.6 mm (30 mm clipped 40 vertices)
 INFLATE_CAP_M = 0.010
+SOFT_M = 0.0                   # > 0: softplus contact (continuous push, no band edge); 0: hard projection (K1 default)
 ACTIVATION_START = 60.0
 SIDES = ("l", "r")
 # hinge joints with single-plane flexion: proximal bone, flexing bone, a distal point, skin groups of each side of the
@@ -160,7 +161,14 @@ def build(result, hinge="knee"):
                 if r.length > h["zone_r_m"] or r.dot(b) <= 0:
                     continue
                 d = r.dot(n)
-                if wt >= ws and d < GAP_M:
+                if SOFT_M > 0:                               # continuous contact: d' = g + s*softplus((d - g)/s) (thigh side)
+                    sgn = 1.0 if wt >= ws else -1.0                # calf side mirrored: d' = -g - s*softplus((-g - d)/s)
+                    x = (sgn * d - GAP_M) / SOFT_M
+                    sp = math.log1p(math.exp(x)) if x < 30 else x
+                    push = sgn * (GAP_M + SOFT_M * sp) - d
+                    if abs(push) > 1e-5:
+                        fixed[i] = n * push
+                elif wt >= ws and d < GAP_M:
                     fixed[i] = n * (GAP_M - d)
                 elif ws > wt and d > -GAP_M:
                     fixed[i] = n * (-GAP_M - d)

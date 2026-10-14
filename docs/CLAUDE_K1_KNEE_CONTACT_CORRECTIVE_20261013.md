@@ -82,6 +82,29 @@ M1/M2 showed calf/thigh interpenetration at deep knee flexion: squat 72, lunge 4
   - **Usable range on the evidence: up to about 110°**, which covers the row (100°) and the grip (90°).
   - Above that, a curved contact surface (or a compression profile from a source) is needed, not a plane.
 
+## Variant: softplus contact (`SOFT_M`, opt-in; default 0 = hard projection)
+
+**What it changes:**
+- The hard projection moves only skin that has crossed the ±2 mm band, which leaves a gradient break: the visible calf band edge.
+- The variant maps every wedge vertex's plane distance through `d' = g + s·softplus((d − g)/s)` (mirrored on the distal side). This is the identity far from the plane, and ≥ g at contact.
+
+**Pure flexion, after correction** (both hinges built in one scene):
+
+| s | Knee 110° | Knee 130° | Elbow 110° | Elbow 120° | Elbow 130° |
+|---|---|---|---|---|---|
+| 0 (default) | 0 pairs / 2 collapse | 36 / 4 | 0 / 0 | 0 / 8 | 0 / 8 (+8 stretch) |
+| 4 mm | 0 / 4 | **0** / 6 | 0 / 10 (+2 stretch) | 0 / 18 (+4) | 36 / 16 (+4) |
+| 8 mm | 0 / 4 | 0 / 6 (+2) | 18 / 12 | 34 / 16 | 54 / 16 |
+
+**Visible** (`claude_k1/softplus_variant_compare.jpg`):
+- **Top row, knee 110°, hard vs 4 mm:** softplus removes the hard calf band edge, and the calf reads as smoothly compressed.
+- **Bottom row, elbow 120°, hard vs 4 mm:** the elbow-tip pinch remains in both.
+
+**Reading:**
+- **Knee:** a trade-off for a reviewer. 4 mm gives a smoother look and clears 130°, but costs +2 collapsed faces per pose.
+- **Elbow:** softplus is worse on every metric.
+- **Default:** stays the hard projection; softplus is not selected.
+
 ## Rejected: the same method at the hip (squat fold), measured 14 Oct
 
 **Configuration (scratch, not committed as a feature):**

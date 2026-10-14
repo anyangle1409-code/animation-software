@@ -1,0 +1,183 @@
+{
+ "schema_version": 1,
+ "candidate": "ORIGINAL_V1_CONSOLIDATED_REVIEW_R1_CLAUDE",
+ "status": "REVIEW_CANDIDATE_NOT_ACCEPTED",
+ "parent": {
+  "path": "HGPT_ORIGINAL_V1_FOOT_C5_CLAUDE.blend",
+  "sha256": "92f5b34eaa4db3d75e772ccd85a1654129473acd7e3082b294ad6fec8f937c33"
+ },
+ "contents": {
+  "feet": "C5 (C3 skeleton 279.9 mm, C4 toes/ball 104.1 mm, C5 heel contact)",
+  "shoulder": {
+   "w3a_helper": {
+    "zone_vertices": 1804,
+    "vertices_reweighted": 1162,
+    "joints": 69
+   },
+   "drive": "reference (stateless)",
+   "transfer": 0.6,
+   "smooth_passes": 4,
+   "edge_rings": 4,
+   "zone_z_m": 1.22
+  },
+  "k1": {
+   "knee_keys_deg": [
+    90,
+    110,
+    130
+   ],
+   "elbow_keys_deg": [
+    90,
+    110
+   ],
+   "solve_logs": {
+    "knee": {
+     "90": {
+      "sides": {
+       "l": {
+        "contact_vertices": 72,
+        "taper_vertices": 185,
+        "max_posed_push_mm": 5.54
+       },
+       "r": {
+        "contact_vertices": 72,
+        "taper_vertices": 185,
+        "max_posed_push_mm": 5.54
+       }
+      },
+      "volume_lost_by_flattening_pct": 0.0617,
+      "band_normal_offset_mm": 0.722,
+      "volume_after_restoration_pct": 0.0004,
+      "blended_lbs_sigma_min": 0.7071,
+      "rest_deltas_clipped": 0,
+      "max_rest_delta_mm": 6.7
+     },
+     "110": {
+      "sides": {
+       "l": {
+        "contact_vertices": 131,
+        "taper_vertices": 207,
+        "max_posed_push_mm": 16.91
+       },
+       "r": {
+        "contact_vertices": 131,
+        "taper_vertices": 207,
+        "max_posed_push_mm": 16.91
+       }
+      },
+      "volume_lost_by_flattening_pct": 0.4484,
+      "band_normal_offset_mm": 3.874,
+      "volume_after_restoration_pct": 0.0137,
+      "blended_lbs_sigma_min": 0.5736,
+      "rest_deltas_clipped": 0,
+      "max_rest_delta_mm": 17.99
+     },
+     "130": {
+      "sides": {
+       "l": {
+        "contact_vertices": 199,
+        "taper_vertices": 231,
+        "max_posed_push_mm": 36.75
+       },
+       "r": {
+        "contact_vertices": 199,
+        "taper_vertices": 231,
+        "max_posed_push_mm": 36.75
+       }
+      },
+      "volume_lost_by_flattening_pct": 1.4067,
+      "band_normal_offset_mm": 9.991,
+      "volume_after_restoration_pct": 0.1048,
+      "blended_lbs_sigma_min": 0.4226,
+      "rest_deltas_clipped": 0,
+      "max_rest_delta_mm": 37.6
+     }
+    },
+    "elbow": {
+     "90": {
+      "sides": {
+       "l": {
+        "contact_vertices": 97,
+        "taper_vertices": 207,
+        "max_posed_push_mm": 8.83
+       },
+       "r": {
+        "contact_vertices": 97,
+        "taper_vertices": 207,
+        "max_posed_push_mm": 8.83
+       }
+      },
+      "volume_lost_by_flattening_pct": 0.0881,
+      "band_normal_offset_mm": 1.483,
+      "volume_after_restoration_pct": 0.0017,
+      "blended_lbs_sigma_min": 0.7071,
+      "rest_deltas_clipped": 0,
+      "max_rest_delta_mm": 9.97
+     },
+     "110": {
+      "sides": {
+       "l": {
+        "contact_vertices": 155,
+        "taper_vertices": 223,
+        "max_posed_push_mm": 20.17
+       },
+       "r": {
+        "contact_vertices": 155,
+        "taper_vertices": 223,
+        "max_posed_push_mm": 20.17
+       }
+      },
+      "volume_lost_by_flattening_pct": 0.3187,
+      "band_normal_offset_mm": 4.569,
+      "volume_after_restoration_pct": 0.017,
+      "blended_lbs_sigma_min": 0.5736,
+      "rest_deltas_clipped": 0,
+      "max_rest_delta_mm": 22.03
+     }
+    }
+   }
+  },
+  "motion_side": [
+   "H1 arm carriage 4 deg",
+   "H2 solved thumb opposition",
+   "P4 families"
+  ]
+ },
+ "excluded_rejected": [
+  "C3W toe crumple",
+  "K1 hip fold",
+  "W3A rotation/swing drives",
+  "K1 elbow 120/140 keys"
+ ],
+ "runtime_contract": "69 deforming joints + reference-branch helper drive + K1 driven morphs: owner + Lane G decision required",
+ "checks": {
+  "basis_faces_legacy_keys_unchanged": true,
+  "original_67_bone_rests_unchanged": true,
+  "deforming_joints_saved": 67,
+  "helper_vertex_groups": [
+   "deltoid_helper_l",
+   "deltoid_helper_r"
+  ],
+  "weights_changed_only_in_helper_zone": true,
+  "vertices_with_changed_weights": 1162,
+  "max_influences": 4,
+  "k1_keys": [
+   "HGPT_K1_ELBOW_l_110",
+   "HGPT_K1_ELBOW_l_90",
+   "HGPT_K1_ELBOW_r_110",
+   "HGPT_K1_ELBOW_r_90",
+   "HGPT_K1_KNEE_l_110",
+   "HGPT_K1_KNEE_l_130",
+   "HGPT_K1_KNEE_l_90",
+   "HGPT_K1_KNEE_r_110",
+   "HGPT_K1_KNEE_r_130",
+   "HGPT_K1_KNEE_r_90"
+  ],
+  "guide_objects_left": [],
+  "verdict": "PASS"
+ },
+ "output": {
+  "path": "HGPT_ORIGINAL_V1_CONSOLIDATED_REVIEW_R1_CLAUDE.blend",
+  "sha256": "f78a8e8ed09a16bc2f80ed16f3e8dc67edb161dcbdc5b9dc5dc8c9a9c2a75922"
+ }
+}

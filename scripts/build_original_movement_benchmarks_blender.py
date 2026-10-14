@@ -28,7 +28,7 @@ from collections import Counter
 from pathlib import Path
 
 import bpy
-from mathutils import Euler, Matrix, Vector
+from mathutils import Euler, Matrix, Quaternion, Vector
 from mathutils.bvhtree import BVHTree
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -59,7 +59,13 @@ GRIP = {"01": 80.0, "02": 90.0, "03": 60.0, "thumb_01": 30.0, "thumb_02": 40.0, 
 GRIP_ARM = {"shoulder_flexion": 45.0, "elbow_flexion": 90.0}   # hands held in front of the body (static during the grip)
 THUMB_OPPOSE = __import__("os").environ.get("HGPT_THUMB_OPPOSE", "1") == "1"   # H2: solved thumb opposition in the grip
 ARM_ABDUCTION_DEG = float(__import__("os").environ.get("HGPT_ARM_ABDUCTION", 4.0))   # H1 natural arm carriage: authored, minimal value that clears hand/thigh (0, 4, 6, 8 measured)
-EXTRA_CDC = {"hip_extension": "cdc_hip_extension", "ankle_plantarflexion": "cdc_ankle_plantarflexion"}
+EXTRA_CDC = {"hip_extension": "cdc_hip_extension", "ankle_plantarflexion": "cdc_ankle_plantarflexion",
+             # active ranges (whole_body_movement_atlas.json): biplane forearm (n = 20 limbs), goniometric wrist (n = 120 wrists)
+             "forearm_pronation": "forearm_pronation", "forearm_supination": "forearm_supination",
+             "wrist_flexion": "wrist_flexion", "wrist_extension": "wrist_extension",
+             "wrist_radial_deviation": "wrist_radial_deviation", "wrist_ulnar_deviation": "wrist_ulnar_deviation"}
+FOREARM_ELBOW_FLEXION = 90.0           # standard goniometric position for forearm rotation and wrist motion
+TWIST_FRACTIONS = {"forearm_tw0": 0.0, "forearm_tw1": 0.5}   # rig rule: helper keeps fraction f of the segment twist
 SINGLE_LEG = {"stance": "l", "hip_flexion": 90.0, "knee_flexion": 90.0}       # lifted leg = the other side
 CALF_RAISE = {"ankle_plantarflexion": 35.0, "toe_extension": 35.0}             # MTP extension keeps the toes flat
 
@@ -223,6 +229,87 @@ def pose_calf_raise(rig, body, t):
     pf = -_ankle_dorsiflexion_deg(rig, "l")
     return {"ankle_plantarflexion": pf, "toe_extension": CALF_RAISE["toe_extension"] * k,
             "heel_rise_mm": _heel_rise_mm(rig)}
+
+
+def _atlas_mean(key):
+    return json.loads(ATLAS.read_text())["observations"][key]["value"]["mean"]
+
+
+def _pronation_sign(s):
+    """Forearm local +Y (axial, applied before flexion: Euler YXZ) pronates _r and supinates _l (measured on the rig)."""
+    return 1.0 if s == "r" else -1.0
+
+
+def _forearm(rig, s, flexion, pronation):
+    pb = rig.pose.bones[f"forearm_{s}"]
+    pb.rotation_mode = "YXZ"
+    twist = math.radians(_pronation_sign(s) * pronation)
+    pb.rotation_euler = Euler((math.radians(-flexion), twist, 0.0), "YXZ")
+    for tw, f in TWIST_FRACTIONS.items():                 # distribute the twist along the forearm (rig rule)
+        h = rig.pose.bones[f"{tw}_{s}"]
+        h.rotation_mode = "QUATERNION"
+        h.rotation_quaternion = Quaternion((0.0, 1.0, 0.0), -(1.0 - f) * twist)
+
+
+def _forearm_slice_ratio(rig, body, s, rest):
+    """Min over 6 slices along the forearm of mean skin distance to the forearm axis, posed / rest (candy-wrapper)."""
+    V, _ = _evaluated(body)
+    dom = _THUMB_CACHE.setdefault("dom", dominant_groups(body))
+    ids = [i for i, g in enumerate(dom) if g in (f"forearm_{s}", f"forearm_tw0_{s}", f"forearm_tw1_{s}")]
+
+    def radii(P, a, b):
+        ax = b - a; L2 = ax.length_squared
+        bins = {}
+        for i in ids:
+            t = (P[i] - a).dot(ax) / L2
+            if 0.1 <= t <= 0.9:
+                k = min(5, int((t - 0.1) / 0.8 * 6))
+                bins.setdefault(k, []).append((P[i] - (a + ax * t)).length)
+        return {k: sum(v) / len(v) for k, v in bins.items()}
+    pb = rig.pose.bones
+    r1 = radii(V, pb[f"forearm_{s}"].head, pb[f"hand_{s}"].head)
+    r0 = radii(rest["V"], rest["axis"][s][0], rest["axis"][s][1])
+    return min(r1[k] / r0[k] for k in r0 if k in r1)
+
+
+def pose_forearm_rotation(rig, body, t):
+    """Elbow at 90 deg; forearm neutral -> full pronation (t = 0.5) -> full supination (t = 1), atlas active means."""
+    _reset(rig)
+    P, S = _atlas_mean("forearm_pronation"), _atlas_mean("forearm_supination")
+    ang = P * smooth(2 * t) if t <= 0.5 else P + (-S - P) * smooth(2 * t - 1)
+    rest = _THUMB_CACHE.get("forearm_rest")
+    if rest is None:
+        bpy.context.view_layer.update()
+        V0, _ = _evaluated(body)
+        rest = _THUMB_CACHE["forearm_rest"] = {"V": V0, "axis": {s: (rig.pose.bones[f"forearm_{s}"].head.copy(), rig.pose.bones[f"hand_{s}"].head.copy()) for s in ("l", "r")}}
+    for s in ("l", "r"):
+        _forearm(rig, s, FOREARM_ELBOW_FLEXION, ang)
+    bpy.context.view_layer.update()
+    return {"elbow_flexion": FOREARM_ELBOW_FLEXION, "forearm_pronation": max(ang, 0.0), "forearm_supination": max(-ang, 0.0),
+            "forearm_min_slice_radius_ratio_r": _forearm_slice_ratio(rig, body, "r", rest),
+            "forearm_min_slice_radius_ratio_l": _forearm_slice_ratio(rig, body, "l", rest)}
+
+
+WRIST_KEYS = [  # (flexion +, radial deviation +) per frame; atlas active means at the peaks
+    ("0", 0.0, 0.0), ("half flexion", 0.5, 0.0), ("flexion", 1.0, 0.0), ("0", 0.0, 0.0), ("extension", -1.0, 0.0),
+    ("0", 0.0, 0.0), ("radial deviation", 0.0, 1.0), ("0", 0.0, 0.0), ("ulnar deviation", 0.0, -1.0)]
+
+
+def pose_wrist(rig, body, t):
+    """Elbow 90 deg, forearm neutral; the wrist visits flexion, extension, radial and ulnar deviation (one key per frame)."""
+    _reset(rig)
+    _, fl, dv = WRIST_KEYS[min(len(WRIST_KEYS) - 1, round(t * (len(WRIST_KEYS) - 1)))]
+    flex = fl * (_atlas_mean("wrist_flexion") if fl > 0 else _atlas_mean("wrist_extension"))
+    dev = dv * (_atlas_mean("wrist_radial_deviation") if dv > 0 else _atlas_mean("wrist_ulnar_deviation"))
+    bpy.context.view_layer.update()
+    signs = _THUMB_CACHE.setdefault("hand_signs", {s: _palmar_sign(rig, rig.pose.bones[f"hand_{s}"]) for s in ("l", "r")})
+    for s in ("l", "r"):
+        _forearm(rig, s, FOREARM_ELBOW_FLEXION, 0.0)
+        # flexion: local Z towards the palm (per-side measured sign); deviation: local +X is ulnar on both sides (measured)
+        _rot(rig.pose.bones[f"hand_{s}"], x=-dev, z=signs[s] * flex)
+    bpy.context.view_layer.update()
+    return {"elbow_flexion": FOREARM_ELBOW_FLEXION, "wrist_flexion": max(flex, 0.0), "wrist_extension": max(-flex, 0.0),
+            "wrist_radial_deviation": max(dev, 0.0), "wrist_ulnar_deviation": max(-dev, 0.0)}
 
 
 def _heel_rise_mm(rig):
@@ -498,6 +585,8 @@ def run(render_dir=None, setup=None, post_pose=None, only=None):
         "grip": lambda t: pose_grip(rig, body, t),
         "single_leg_stance": lambda t: pose_single_leg(rig, body, t),
         "calf_raise": lambda t: pose_calf_raise(rig, body, t),
+        "forearm_rotation": lambda t: pose_forearm_rotation(rig, body, t),
+        "wrist_circuit": lambda t: pose_wrist(rig, body, t),
     }
     if setup:
         setup(result)
@@ -519,7 +608,7 @@ def run(render_dir=None, setup=None, post_pose=None, only=None):
             rows.append(m)
             if render_dir and i in (0, FRAMES // 2, FRAMES - 1):
                 renders.extend(_render(body, Path(render_dir), f"{name}__t{t:.2f}",
-                                       hand=rig.pose.bones["hand_r"].head.copy() if name == "grip" else None))
+                                       hand=rig.pose.bones["hand_r"].head.copy() if name in ("grip", "forearm_rotation", "wrist_circuit") else None))
         report["benchmarks"][name] = {"frames": rows,
                                       "worst": {k: max(r[k] for r in rows) for k in ("collapse_lt_0_1", "stretch_gt_2", "self_intersecting_pairs")},
                                       "volume_change_pct_range": [min(r["body_volume_change_pct"] for r in rows), max(r["body_volume_change_pct"] for r in rows)]}

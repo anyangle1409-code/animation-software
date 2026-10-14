@@ -2,7 +2,7 @@
 
 - **Branch:** `claude/movement-benchmarks-20261013`, stacked on draft PR #111 (`13cea5a5`).
 - **Script:** `scripts/build_original_movement_benchmarks_blender.py`.
-- **Test:** `scripts/blender_tests/test_original_movement_benchmarks.py` (8 native tests PASS).
+- **Test:** `scripts/blender_tests/test_original_movement_benchmarks.py` (11 native tests PASS).
 - **Report:** `ORIGINAL_V1_WORK/anatomy/audit/claude_m1/movement_benchmarks_report.json`, with phone sheets beside it.
 - **Scope:** the unchanged 17,946-vertex original male on the 67-joint rig; source blend `670a37bf…cbbe56`. This is diagnostic forward-kinematics movement evidence only. Nothing (motion, deformation, anatomy, GLB, clinical, production) is approved.
 
@@ -124,6 +124,28 @@ The other five benchmarks are unchanged frame by frame.
 - **Result:** the thumb now lies over the top of the fist along the index finger, instead of sticking out sideways.
 - **Grip metrics:** worst collapse 0 → 0, stretch > 2 44 → 4, pairs 150 → 150 (all the 90° elbow crease).
 - **Still not a full wrap:** the thumb tip ends 60.7 mm from the index/middle middle phalanges. Closer placements (30–54 mm) all drive 126–316 thumb pairs into the fingers or palm, or collapse faces. Skinning has no contact model for the thenar pad, so these were rejected and recorded rather than shipped.
+
+## P4 families: forearm rotation and wrist circuit (14 Oct)
+
+**Targets:** the *active* means in `whole_body_movement_atlas.json`:
+- pronation 68.8 ± 12.5° and supination 82.4 ± 14.2° (biplane 2D–3D registration, 20 limbs);
+- wrist flexion 73.6 ± 4.5°, extension 68.0 ± 4.3°, radial deviation 18.6 ± 1.7° and ulnar deviation 31.3 ± 3.3° (goniometry, 120 wrists, adults 18–40).
+
+Both start from the standard goniometric position: elbow flexed 90°, forearm neutral (thumb up).
+
+**Rig facts measured for this:**
+- **Forearm twist must be applied about the bone's own axis before flexion (Euler YXZ).** With XYZ, the "twist" swings the flexed forearm sideways.
+- **Forearm local +Y pronates `_r` and supinates `_l`:** mirrored.
+- **The twist bones follow the rig rule** (`forearm_tw0` keeps 0%, `forearm_tw1` keeps 50% of the twist).
+- **Wrist flexion is the hand's local Z** with the measured palmar sign per side. Local +X is ulnar deviation on both sides.
+
+| Benchmark | Worst collapse | Worst stretch > 2 | Worst pairs | Notes |
+|---|---|---|---|---|
+| Forearm rotation (neutral → 68.8° pronation → 82.4° supination) | 0 | 0 | 124 (all the 90° elbow crease) | Minimum forearm cross-section radius 0.90 of rest: **no candy-wrapper** |
+| Wrist circuit (flexion, extension, radial, ulnar) | 0 | 16 (full flexion) | 136 (elbow crease + wrist at full flexion) | The **dorsal wrist skin pinches into a crease at full extension**: recorded, not hidden |
+
+- **Direction check (close-up renders in the phone sheets):** pronation turns the palm down with the thumb rolling medially; supination turns the palm up. Extension bends the hand dorsally; ulnar deviation drops the little-finger side.
+- **Tests:** 11 native tests. The two new ones require the peaks to equal the atlas means, no collapse, and a forearm slice radius above 0.85.
 
 ## Next
 

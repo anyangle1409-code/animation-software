@@ -15,10 +15,10 @@ class OriginalMovementBenchmarkNativeTests(unittest.TestCase):
     def setUpClass(cls):
         cls.report = m1.run(None)
 
-    def test_nine_benchmarks_with_all_frames(self):
+    def test_eleven_benchmarks_with_all_frames(self):
         self.assertEqual(sorted(self.report["benchmarks"]),
-                         ["bent_over_row", "calf_raise", "grip", "lunge", "shoulder_press", "single_leg_stance", "squat",
-                          "trunk_rotation", "walk_stride"])
+                         ["bent_over_row", "calf_raise", "forearm_rotation", "grip", "lunge", "shoulder_press", "single_leg_stance",
+                          "squat", "trunk_rotation", "walk_stride", "wrist_circuit"])
         for b in self.report["benchmarks"].values():
             self.assertEqual(len(b["frames"]), m1.FRAMES)
 
@@ -74,6 +74,24 @@ class OriginalMovementBenchmarkNativeTests(unittest.TestCase):
         self.assertEqual(rise, sorted(rise))
         self.assertGreater(rise[-1], 50.0)
         self.assertLess(frames[-1]["angles_deg"]["ankle_plantarflexion"], self.report["cdc_passive_means_deg"]["ankle_plantarflexion"])
+
+    def test_forearm_rotation_reaches_atlas_range_without_candy_wrapper(self):
+        frames = self.report["benchmarks"]["forearm_rotation"]["frames"]
+        lim = self.report["cdc_passive_means_deg"]
+        self.assertAlmostEqual(max(f["angles_deg"]["forearm_pronation"] for f in frames), lim["forearm_pronation"], places=1)
+        self.assertAlmostEqual(max(f["angles_deg"]["forearm_supination"] for f in frames), lim["forearm_supination"], places=1)
+        for f in frames:
+            for s in ("l", "r"):
+                self.assertGreater(f["angles_deg"][f"forearm_min_slice_radius_ratio_{s}"], 0.85, (f["t"], s))
+            self.assertEqual(f["collapse_lt_0_1"], 0, f["t"])
+
+    def test_wrist_circuit_visits_each_atlas_peak(self):
+        frames = self.report["benchmarks"]["wrist_circuit"]["frames"]
+        lim = self.report["cdc_passive_means_deg"]
+        for k in ("wrist_flexion", "wrist_extension", "wrist_radial_deviation", "wrist_ulnar_deviation"):
+            self.assertAlmostEqual(max(f["angles_deg"][k] for f in frames), lim[k], places=1)
+        for f in frames:
+            self.assertEqual(f["collapse_lt_0_1"], 0, f["t"])
 
     def test_metrics_are_finite(self):
         for b in self.report["benchmarks"].values():

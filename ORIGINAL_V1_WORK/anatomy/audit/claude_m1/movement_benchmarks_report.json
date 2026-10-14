@@ -2335,6 +2335,882 @@
     -0.168,
     -0.0
    ]
+  },
+  "forearm_rotation": {
+   "frames": [
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.163,
+     "area_ratio_max": 1.6799,
+     "body_volume_change_pct": -0.3521,
+     "self_intersecting_pairs": 124,
+     "self_intersection_classes_top": [
+      [
+       "forearm_tw0_l",
+       "upperarm_l",
+       51
+      ],
+      [
+       "forearm_tw0_r",
+       "upperarm_r",
+       51
+      ],
+      [
+       "forearm_tw1_l",
+       "upperarm_l",
+       7
+      ],
+      [
+       "forearm_tw1_r",
+       "upperarm_r",
+       7
+      ],
+      [
+       "forearm_tw0_l",
+       "forearm_tw0_l",
+       4
+      ],
+      [
+       "forearm_tw0_r",
+       "forearm_tw0_r",
+       4
+      ]
+     ],
+     "lowest_point_z_mm": 0.0,
+     "t": 0.0,
+     "angles_deg": {
+      "elbow_flexion": 90.0,
+      "forearm_pronation": 0.0,
+      "forearm_supination": -0.0,
+      "forearm_min_slice_radius_ratio_r": 0.95,
+      "forearm_min_slice_radius_ratio_l": 0.95
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.1637,
+     "area_ratio_max": 1.6799,
+     "body_volume_change_pct": -0.3567,
+     "self_intersecting_pairs": 118,
+     "self_intersection_classes_top": [
+      [
+       "forearm_tw0_l",
+       "upperarm_l",
+       50
+      ],
+      [
+       "forearm_tw0_r",
+       "upperarm_r",
+       50
+      ],
+      [
+       "forearm_tw1_l",
+       "upperarm_l",
+       9
+      ],
+      [
+       "forearm_tw1_r",
+       "upperarm_r",
+       9
+      ]
+     ],
+     "lowest_point_z_mm": 0.0,
+     "t": 0.125,
+     "angles_deg": {
+      "elbow_flexion": 90.0,
+      "forearm_pronation": 10.75,
+      "forearm_supination": 0.0,
+      "forearm_min_slice_radius_ratio_r": 0.95,
+      "forearm_min_slice_radius_ratio_l": 0.95
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.1627,
+     "area_ratio_max": 1.6799,
+     "body_volume_change_pct": -0.3963,
+     "self_intersecting_pairs": 110,
+     "self_intersection_classes_top": [
+      [
+       "forearm_tw0_l",
+       "upperarm_l",
+       50
+      ],
+      [
+       "forearm_tw0_r",
+       "upperarm_r",
+       50
+      ],
+      [
+       "forearm_tw1_l",
+       "upperarm_l",
+       5
+      ],
+      [
+       "forearm_tw1_r",
+       "upperarm_r",
+       5
+      ]
+     ],
+     "lowest_point_z_mm": 0.0,
+     "t": 0.25,
+     "angles_deg": {
+      "elbow_flexion": 90.0,
+      "forearm_pronation": 34.4,
+      "forearm_supination": 0.0,
+      "forearm_min_slice_radius_ratio_r": 0.94,
+      "forearm_min_slice_radius_ratio_l": 0.94
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.1598,
+     "area_ratio_max": 1.6799,
+     "body_volume_change_pct": -0.475,
+     "self_intersecting_pairs": 106,
+     "self_intersection_classes_top": [
+      [
+       "forearm_tw0_l",
+       "upperarm_l",
+       48
+      ],
+      [
+       "forearm_tw0_r",
+       "upperarm_r",
+       48
+      ],
+      [
+       "forearm_tw1_l",
+       "upperarm_l",
+       5
+      ],
+      [
+       "forearm_tw1_r",
+       "upperarm_r",
+       5
+      ]
+     ],
+     "lowest_point_z_mm": 0.0,
+     "t": 0.375,
+     "angles_deg": {
+      "elbow_flexion": 90.0,
+      "forearm_pronation": 58.05,
+      "forearm_supination": 0.0,
+      "forearm_min_slice_radius_ratio_r": 0.92,
+      "forearm_min_slice_radius_ratio_l": 0.92
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.1585,
+     "area_ratio_max": 1.6799,
+     "body_volume_change_pct": -0.5229,
+     "self_intersecting_pairs": 110,
+     "self_intersection_classes_top": [
+      [
+       "forearm_tw0_l",
+       "upperarm_l",
+       53
+      ],
+      [
+       "forearm_tw0_r",
+       "upperarm_r",
+       53
+      ],
+      [
+       "forearm_tw1_l",
+       "upperarm_l",
+       2
+      ],
+      [
+       "forearm_tw1_r",
+       "upperarm_r",
+       2
+      ]
+     ],
+     "lowest_point_z_mm": 0.0,
+     "t": 0.5,
+     "angles_deg": {
+      "elbow_flexion": 90.0,
+      "forearm_pronation": 68.8,
+      "forearm_supination": 0.0,
+      "forearm_min_slice_radius_ratio_r": 0.91,
+      "forearm_min_slice_radius_ratio_l": 0.91
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.1615,
+     "area_ratio_max": 1.6799,
+     "body_volume_change_pct": -0.4275,
+     "self_intersecting_pairs": 110,
+     "self_intersection_classes_top": [
+      [
+       "forearm_tw0_l",
+       "upperarm_l",
+       50
+      ],
+      [
+       "forearm_tw0_r",
+       "upperarm_r",
+       50
+      ],
+      [
+       "forearm_tw1_l",
+       "upperarm_l",
+       5
+      ],
+      [
+       "forearm_tw1_r",
+       "upperarm_r",
+       5
+      ]
+     ],
+     "lowest_point_z_mm": 0.0,
+     "t": 0.625,
+     "angles_deg": {
+      "elbow_flexion": 90.0,
+      "forearm_pronation": 45.17,
+      "forearm_supination": 0.0,
+      "forearm_min_slice_radius_ratio_r": 0.93,
+      "forearm_min_slice_radius_ratio_l": 0.93
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.1621,
+     "area_ratio_max": 1.6799,
+     "body_volume_change_pct": -0.3536,
+     "self_intersecting_pairs": 120,
+     "self_intersection_classes_top": [
+      [
+       "forearm_tw0_l",
+       "upperarm_l",
+       53
+      ],
+      [
+       "forearm_tw0_r",
+       "upperarm_r",
+       53
+      ],
+      [
+       "forearm_tw1_l",
+       "upperarm_l",
+       4
+      ],
+      [
+       "forearm_tw1_r",
+       "upperarm_r",
+       4
+      ],
+      [
+       "forearm_tw0_l",
+       "forearm_tw0_l",
+       3
+      ],
+      [
+       "forearm_tw0_r",
+       "forearm_tw0_r",
+       3
+      ]
+     ],
+     "lowest_point_z_mm": 0.0,
+     "t": 0.75,
+     "angles_deg": {
+      "elbow_flexion": 90.0,
+      "forearm_pronation": 0.0,
+      "forearm_supination": 6.8,
+      "forearm_min_slice_radius_ratio_r": 0.95,
+      "forearm_min_slice_radius_ratio_l": 0.95
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.1412,
+     "area_ratio_max": 1.6799,
+     "body_volume_change_pct": -0.4746,
+     "self_intersecting_pairs": 122,
+     "self_intersection_classes_top": [
+      [
+       "forearm_tw0_l",
+       "upperarm_l",
+       53
+      ],
+      [
+       "forearm_tw0_r",
+       "upperarm_r",
+       53
+      ],
+      [
+       "forearm_tw1_l",
+       "upperarm_l",
+       5
+      ],
+      [
+       "forearm_tw1_r",
+       "upperarm_r",
+       5
+      ],
+      [
+       "forearm_tw0_l",
+       "forearm_tw0_l",
+       2
+      ],
+      [
+       "forearm_tw0_r",
+       "forearm_tw0_r",
+       2
+      ]
+     ],
+     "lowest_point_z_mm": 0.0,
+     "t": 0.875,
+     "angles_deg": {
+      "elbow_flexion": 90.0,
+      "forearm_pronation": 0.0,
+      "forearm_supination": 58.77,
+      "forearm_min_slice_radius_ratio_r": 0.92,
+      "forearm_min_slice_radius_ratio_l": 0.92
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.1228,
+     "area_ratio_max": 1.6799,
+     "body_volume_change_pct": -0.5888,
+     "self_intersecting_pairs": 114,
+     "self_intersection_classes_top": [
+      [
+       "forearm_tw0_l",
+       "upperarm_l",
+       53
+      ],
+      [
+       "forearm_tw0_r",
+       "upperarm_r",
+       53
+      ],
+      [
+       "forearm_tw0_l",
+       "forearm_tw0_l",
+       2
+      ],
+      [
+       "forearm_tw0_r",
+       "forearm_tw0_r",
+       2
+      ],
+      [
+       "forearm_tw1_l",
+       "upperarm_l",
+       2
+      ],
+      [
+       "forearm_tw1_r",
+       "upperarm_r",
+       2
+      ]
+     ],
+     "lowest_point_z_mm": 0.0,
+     "t": 1.0,
+     "angles_deg": {
+      "elbow_flexion": 90.0,
+      "forearm_pronation": 0.0,
+      "forearm_supination": 82.4,
+      "forearm_min_slice_radius_ratio_r": 0.9,
+      "forearm_min_slice_radius_ratio_l": 0.9
+     },
+     "exceeds_cdc_passive_mean": {}
+    }
+   ],
+   "worst": {
+    "collapse_lt_0_1": 0,
+    "stretch_gt_2": 0,
+    "self_intersecting_pairs": 124
+   },
+   "volume_change_pct_range": [
+    -0.5888,
+    -0.3521
+   ]
+  },
+  "wrist_circuit": {
+   "frames": [
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.163,
+     "area_ratio_max": 1.6799,
+     "body_volume_change_pct": -0.3521,
+     "self_intersecting_pairs": 124,
+     "self_intersection_classes_top": [
+      [
+       "forearm_tw0_l",
+       "upperarm_l",
+       51
+      ],
+      [
+       "forearm_tw0_r",
+       "upperarm_r",
+       51
+      ],
+      [
+       "forearm_tw1_l",
+       "upperarm_l",
+       7
+      ],
+      [
+       "forearm_tw1_r",
+       "upperarm_r",
+       7
+      ],
+      [
+       "forearm_tw0_l",
+       "forearm_tw0_l",
+       4
+      ],
+      [
+       "forearm_tw0_r",
+       "forearm_tw0_r",
+       4
+      ]
+     ],
+     "lowest_point_z_mm": 0.0,
+     "t": 0.0,
+     "angles_deg": {
+      "elbow_flexion": 90.0,
+      "wrist_flexion": 0.0,
+      "wrist_extension": -0.0,
+      "wrist_radial_deviation": 0.0,
+      "wrist_ulnar_deviation": -0.0
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.163,
+     "area_ratio_max": 1.7385,
+     "body_volume_change_pct": -0.3581,
+     "self_intersecting_pairs": 124,
+     "self_intersection_classes_top": [
+      [
+       "forearm_tw0_l",
+       "upperarm_l",
+       51
+      ],
+      [
+       "forearm_tw0_r",
+       "upperarm_r",
+       51
+      ],
+      [
+       "forearm_tw1_l",
+       "upperarm_l",
+       7
+      ],
+      [
+       "forearm_tw1_r",
+       "upperarm_r",
+       7
+      ],
+      [
+       "forearm_tw0_l",
+       "forearm_tw0_l",
+       4
+      ],
+      [
+       "forearm_tw0_r",
+       "forearm_tw0_r",
+       4
+      ]
+     ],
+     "lowest_point_z_mm": 0.0,
+     "t": 0.125,
+     "angles_deg": {
+      "elbow_flexion": 90.0,
+      "wrist_flexion": 36.78,
+      "wrist_extension": 0.0,
+      "wrist_radial_deviation": 0.0,
+      "wrist_ulnar_deviation": -0.0
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 16,
+     "area_ratio_min": 0.163,
+     "area_ratio_max": 2.3679,
+     "body_volume_change_pct": -0.3743,
+     "self_intersecting_pairs": 136,
+     "self_intersection_classes_top": [
+      [
+       "forearm_tw0_l",
+       "upperarm_l",
+       51
+      ],
+      [
+       "forearm_tw0_r",
+       "upperarm_r",
+       51
+      ],
+      [
+       "forearm_tw1_l",
+       "upperarm_l",
+       7
+      ],
+      [
+       "forearm_tw1_r",
+       "upperarm_r",
+       7
+      ],
+      [
+       "forearm_l",
+       "forearm_l",
+       4
+      ],
+      [
+       "forearm_r",
+       "forearm_r",
+       4
+      ]
+     ],
+     "lowest_point_z_mm": 0.0,
+     "t": 0.25,
+     "angles_deg": {
+      "elbow_flexion": 90.0,
+      "wrist_flexion": 73.57,
+      "wrist_extension": 0.0,
+      "wrist_radial_deviation": 0.0,
+      "wrist_ulnar_deviation": -0.0
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.163,
+     "area_ratio_max": 1.6799,
+     "body_volume_change_pct": -0.3521,
+     "self_intersecting_pairs": 124,
+     "self_intersection_classes_top": [
+      [
+       "forearm_tw0_l",
+       "upperarm_l",
+       51
+      ],
+      [
+       "forearm_tw0_r",
+       "upperarm_r",
+       51
+      ],
+      [
+       "forearm_tw1_l",
+       "upperarm_l",
+       7
+      ],
+      [
+       "forearm_tw1_r",
+       "upperarm_r",
+       7
+      ],
+      [
+       "forearm_tw0_l",
+       "forearm_tw0_l",
+       4
+      ],
+      [
+       "forearm_tw0_r",
+       "forearm_tw0_r",
+       4
+      ]
+     ],
+     "lowest_point_z_mm": 0.0,
+     "t": 0.375,
+     "angles_deg": {
+      "elbow_flexion": 90.0,
+      "wrist_flexion": 0.0,
+      "wrist_extension": -0.0,
+      "wrist_radial_deviation": 0.0,
+      "wrist_ulnar_deviation": -0.0
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 8,
+     "area_ratio_min": 0.1497,
+     "area_ratio_max": 2.4937,
+     "body_volume_change_pct": -0.3722,
+     "self_intersecting_pairs": 126,
+     "self_intersection_classes_top": [
+      [
+       "forearm_tw0_l",
+       "upperarm_l",
+       51
+      ],
+      [
+       "forearm_tw0_r",
+       "upperarm_r",
+       51
+      ],
+      [
+       "forearm_tw1_l",
+       "upperarm_l",
+       7
+      ],
+      [
+       "forearm_tw1_r",
+       "upperarm_r",
+       7
+      ],
+      [
+       "forearm_tw0_l",
+       "forearm_tw0_l",
+       4
+      ],
+      [
+       "forearm_tw0_r",
+       "forearm_tw0_r",
+       4
+      ]
+     ],
+     "lowest_point_z_mm": 0.0,
+     "t": 0.5,
+     "angles_deg": {
+      "elbow_flexion": 90.0,
+      "wrist_flexion": 0.0,
+      "wrist_extension": 67.98,
+      "wrist_radial_deviation": 0.0,
+      "wrist_ulnar_deviation": -0.0
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.163,
+     "area_ratio_max": 1.6799,
+     "body_volume_change_pct": -0.3521,
+     "self_intersecting_pairs": 124,
+     "self_intersection_classes_top": [
+      [
+       "forearm_tw0_l",
+       "upperarm_l",
+       51
+      ],
+      [
+       "forearm_tw0_r",
+       "upperarm_r",
+       51
+      ],
+      [
+       "forearm_tw1_l",
+       "upperarm_l",
+       7
+      ],
+      [
+       "forearm_tw1_r",
+       "upperarm_r",
+       7
+      ],
+      [
+       "forearm_tw0_l",
+       "forearm_tw0_l",
+       4
+      ],
+      [
+       "forearm_tw0_r",
+       "forearm_tw0_r",
+       4
+      ]
+     ],
+     "lowest_point_z_mm": 0.0,
+     "t": 0.625,
+     "angles_deg": {
+      "elbow_flexion": 90.0,
+      "wrist_flexion": 0.0,
+      "wrist_extension": -0.0,
+      "wrist_radial_deviation": 0.0,
+      "wrist_ulnar_deviation": -0.0
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.163,
+     "area_ratio_max": 1.6799,
+     "body_volume_change_pct": -0.3582,
+     "self_intersecting_pairs": 124,
+     "self_intersection_classes_top": [
+      [
+       "forearm_tw0_l",
+       "upperarm_l",
+       51
+      ],
+      [
+       "forearm_tw0_r",
+       "upperarm_r",
+       51
+      ],
+      [
+       "forearm_tw1_l",
+       "upperarm_l",
+       7
+      ],
+      [
+       "forearm_tw1_r",
+       "upperarm_r",
+       7
+      ],
+      [
+       "forearm_tw0_l",
+       "forearm_tw0_l",
+       4
+      ],
+      [
+       "forearm_tw0_r",
+       "forearm_tw0_r",
+       4
+      ]
+     ],
+     "lowest_point_z_mm": 0.0,
+     "t": 0.75,
+     "angles_deg": {
+      "elbow_flexion": 90.0,
+      "wrist_flexion": 0.0,
+      "wrist_extension": -0.0,
+      "wrist_radial_deviation": 18.56,
+      "wrist_ulnar_deviation": 0.0
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.163,
+     "area_ratio_max": 1.6799,
+     "body_volume_change_pct": -0.3521,
+     "self_intersecting_pairs": 124,
+     "self_intersection_classes_top": [
+      [
+       "forearm_tw0_l",
+       "upperarm_l",
+       51
+      ],
+      [
+       "forearm_tw0_r",
+       "upperarm_r",
+       51
+      ],
+      [
+       "forearm_tw1_l",
+       "upperarm_l",
+       7
+      ],
+      [
+       "forearm_tw1_r",
+       "upperarm_r",
+       7
+      ],
+      [
+       "forearm_tw0_l",
+       "forearm_tw0_l",
+       4
+      ],
+      [
+       "forearm_tw0_r",
+       "forearm_tw0_r",
+       4
+      ]
+     ],
+     "lowest_point_z_mm": 0.0,
+     "t": 0.875,
+     "angles_deg": {
+      "elbow_flexion": 90.0,
+      "wrist_flexion": 0.0,
+      "wrist_extension": -0.0,
+      "wrist_radial_deviation": 0.0,
+      "wrist_ulnar_deviation": -0.0
+     },
+     "exceeds_cdc_passive_mean": {}
+    },
+    {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.163,
+     "area_ratio_max": 1.6799,
+     "body_volume_change_pct": -0.3501,
+     "self_intersecting_pairs": 124,
+     "self_intersection_classes_top": [
+      [
+       "forearm_tw0_l",
+       "upperarm_l",
+       51
+      ],
+      [
+       "forearm_tw0_r",
+       "upperarm_r",
+       51
+      ],
+      [
+       "forearm_tw1_l",
+       "upperarm_l",
+       7
+      ],
+      [
+       "forearm_tw1_r",
+       "upperarm_r",
+       7
+      ],
+      [
+       "forearm_tw0_l",
+       "forearm_tw0_l",
+       4
+      ],
+      [
+       "forearm_tw0_r",
+       "forearm_tw0_r",
+       4
+      ]
+     ],
+     "lowest_point_z_mm": 0.0,
+     "t": 1.0,
+     "angles_deg": {
+      "elbow_flexion": 90.0,
+      "wrist_flexion": 0.0,
+      "wrist_extension": -0.0,
+      "wrist_radial_deviation": 0.0,
+      "wrist_ulnar_deviation": 31.29
+     },
+     "exceeds_cdc_passive_mean": {}
+    }
+   ],
+   "worst": {
+    "collapse_lt_0_1": 0,
+    "stretch_gt_2": 16,
+    "self_intersecting_pairs": 136
+   },
+   "volume_change_pct_range": [
+    -0.3743,
+    -0.3501
+   ]
   }
  },
  "cdc_passive_means_deg": {
@@ -2344,7 +3220,13 @@
   "shoulder_flexion": 168.8,
   "elbow_flexion": 144.6,
   "hip_extension": 17.4,
-  "ankle_plantarflexion": 54.6
+  "ankle_plantarflexion": 54.6,
+  "forearm_pronation": 68.8,
+  "forearm_supination": 82.4,
+  "wrist_flexion": 73.57,
+  "wrist_extension": 67.98,
+  "wrist_radial_deviation": 18.56,
+  "wrist_ulnar_deviation": 31.29
  },
  "frames": 9,
  "approved": false,
@@ -2403,6 +3285,18 @@
   "calf_raise__t0.50__front.png",
   "calf_raise__t0.50__side.png",
   "calf_raise__t1.00__front.png",
-  "calf_raise__t1.00__side.png"
+  "calf_raise__t1.00__side.png",
+  "forearm_rotation__t0.00__front.png",
+  "forearm_rotation__t0.00__side.png",
+  "forearm_rotation__t0.50__front.png",
+  "forearm_rotation__t0.50__side.png",
+  "forearm_rotation__t1.00__front.png",
+  "forearm_rotation__t1.00__side.png",
+  "wrist_circuit__t0.00__front.png",
+  "wrist_circuit__t0.00__side.png",
+  "wrist_circuit__t0.50__front.png",
+  "wrist_circuit__t0.50__side.png",
+  "wrist_circuit__t1.00__front.png",
+  "wrist_circuit__t1.00__side.png"
  ]
 }

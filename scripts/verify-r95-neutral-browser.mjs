@@ -53,19 +53,31 @@ try{
         }
         views.push({view,drawn:draw.drawn,visiblePixels,glError:gl.getError()});
       }
-      const part=prepared.gpuParts[0],positions=gpu.captureIndexedSkinnedPositions(part);
+      const part=prepared.gpuParts[0];
       const cpu=deformIndexedSkin(part.mesh,part.posedWorld);
-      let maximumPositionError=0;
-      for(let i=0;i<positions.length;i++){
-        if(!Number.isFinite(positions[i]))throw Error('nonfinite GPU rest position');
-        maximumPositionError=Math.max(maximumPositionError,Math.abs(positions[i]-cpu.positions[i]));
+      let maximumPositionError=0,capturedIndices=0,captureBatches=0;
+      // Preserve the 8192-index API limit and complete triangles (8190).
+      // Capture returns deindexed output; compare against the original index.
+      for(let offset=0;offset<part.mesh.indices.length;offset+=8190){
+        const indices=part.mesh.indices.slice(offset,offset+8190);
+        const diagnosticPart={...part,mesh:{...part.mesh,indices}};
+        const positions=gpu.captureIndexedSkinnedPositions(diagnosticPart);
+        if(positions.length!==indices.length*3)throw Error('incomplete GPU capture');
+        for(let i=0;i<indices.length;i++)for(let axis=0;axis<3;axis++){
+          const observed=positions[i*3+axis];
+          if(!Number.isFinite(observed))throw Error('nonfinite GPU rest position');
+          maximumPositionError=Math.max(maximumPositionError,
+            Math.abs(observed-cpu.positions[indices[i]*3+axis]));
+        }
+        capturedIndices+=indices.length;captureBatches++;
       }
+      if(capturedIndices!==part.mesh.indices.length)throw Error('incomplete source triangle coverage');
       assertAuthenticatedOriginalFullBodyReviewUnmodified(source);
       const digest=await crypto.subtle.digest('SHA-256',bytes);
       const after=Array.from(new Uint8Array(digest),x=>x.toString(16).padStart(2,'0')).join('');
       if(after!==sourceSha)throw Error('source bytes changed');
       return {sourceSha,sourceBytes:bytes.byteLength,vertices:source.vertices,triangles:source.triangles,
-        joints:source.bones,morphs:source.sparseCorrectives.length,views,maximumPositionError,
+        joints:source.bones,morphs:source.sparseCorrectives.length,views,maximumPositionError,capturedIndices,captureBatches,
         glError:gl.getError(),actualProvisionalSourceRendered:true,sourceUnmodified:true,
         morphWeightsAtRestAllZero:prepared.originalMorphWeightsAllZero,
         actualHumanMovementVerified:false,anatomicalAcceptance:false,productionApproved:false};
@@ -73,6 +85,7 @@ try{
   });
   assert.equal(result.vertices,17946);assert.equal(result.triangles,35888);assert.equal(result.joints,67);
   assert.equal(result.morphs,6);assert.equal(result.morphWeightsAtRestAllZero,true);
+  assert.equal(result.capturedIndices,35888*3);assert.equal(result.captureBatches,14);
   assert.ok(result.maximumPositionError<1e-5);assert.equal(result.glError,0);
   for(const view of result.views){assert.equal(view.drawn,true);assert.ok(view.visiblePixels>100);assert.equal(view.glError,0);}
   assert.deepEqual(errors,[]);assert.deepEqual(vendor,[]);

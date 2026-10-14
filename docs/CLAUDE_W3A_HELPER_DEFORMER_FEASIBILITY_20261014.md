@@ -1,4 +1,4 @@
-# W3 option A — shoulder-top helper deformer: in-memory feasibility data (Claude, 14 Oct 2026)
+# W3 option A — shoulder-top helper deformer: in-memory feasibility and best variant (Claude, 14 Oct 2026)
 
 **What this is:** measurement only, to inform the owner + Lane G decision on the W3 proposal (A/B/C; `docs/CLAUDE_W3_SHOULDER_RUNTIME_CONTRACT_PROPOSAL_20261013.md` on `claude/master-execution-20261013`).
 - It is **not** the review-only trial on a separate copy that the proposal asks the owner to approve.
@@ -64,3 +64,55 @@ Each command is `PYTHONPATH=<bpy 5.2.1> python3.13 <runner opening the a003 blen
 - `scripts/diagnose_shoulder_swing_twist_blender.py`.
 
 The press runs reopen the source blend before each benchmark, so the "before" run is uncontaminated.
+
+
+## Update, 14 Oct (later): continuous and mid-elevation-reference drives
+
+All of this is in memory only. The 67-joint rig, weights, GLB path and a003 are untouched, and nothing is adopted.
+
+**Drives tested** (`scripts/diagnose_shoulder_helper_deformer_blender.py`, `DRIVE`):
+- **`stateful`:** each frame, take the axis–angle of the upper arm relative to the scapula on the branch (θ·n or (θ − 2π)·n) closest to the previous frame, then apply half of it. This follows the real path past 180° with no flip. It needs runtime memory.
+- **`reference` (stateless, chosen):** take the branch closest to a **fixed mid-elevation reference**, the rotation vector at the 120° coupled pose (unique there, 155° < 180°).
+  - At rest it gives the identity.
+  - Along the whole coupled 0–160° motion it gives **exactly** the stateful result (identical metrics at every angle).
+  - So option A needs one constant vector per side, not runtime state.
+  - **Limitation:** this is verified on the coupled elevation path and the nine benchmarks only. Motions far from that path, such as large horizontal adduction or extension behind the back, could pick a different branch and need their own check.
+
+**Weight transfer refinements** (each measured; renders inspected):
+
+| Variant | Pairs at 145/160° | Collapse at 160° | Volume at 160° | Stretch at 160° | Visual |
+|---|---|---|---|---|---|
+| Original 67-joint | 176 / 444 | 42 | −5.0% | 400 | shoulder-top pinch; posterior armpit point |
+| Continuous drive, transfer 1.0 | 36 / 48 | 10 | +2.2% (90°: +5.2%) | 830 | overshoot |
+| Transfer 0.6, 4 smoothing passes | 2 / 14 | 4 | −1.3% | 668 | **new crease across the front shoulder top** at the zone edge |
+| + 4-ring edge taper | 58 / 110 | 4 | −2.7% | 566 | front crease gone; **new lateral-chest crease** at the zone's lower edge (z = 1.30 m) |
+| + 8-ring edge taper | 172 / 234 | 16 | −4.3% | 476 | gains lost |
+| **+ zone lowered to z > 1.22 m (selected)** | **58 / 110** | **4** | **−2.0%** | 634 | both creases gone |
+
+**Selected configuration across all nine benchmarks** (`claude_w3a/helper_reference_all_benchmarks.json`):
+
+| Benchmark | Worst pairs | Worst collapse | Other changes |
+|---|---|---|---|
+| Shoulder press | 462 → **124** (the 90° elbow crease at frame 0, K1's domain) | 48 → **4** | volume −5.0…+1.5 → −2.0…+3.0%; stretch 438 → 634 |
+| Bent-over row | 156 → 148 | — | stretch 0 → 2 |
+| Grip | 150 → 146 | — | — |
+| Squat, lunge, walk, trunk rotation, single-leg stance, calf raise | unchanged | unchanged | — |
+
+**What is still wrong with the selected variant** (phone sheets `claude_w3a/helper_reference_{front,rear,side}_sheet.jpg`):
+- **Armpit bulge:** a lump of upper-arm skin at the armpit at 145–160° (side view).
+- **Posterior armpit web:** smoother than the original's point pinch, but still a sheet.
+- **Stretch:** faces stretched more than ×2 rise by about 230 at 160°.
+
+These are retained as failures. The native test `test_known_cost_stretch_is_recorded_not_hidden` keeps the stretch increase visible.
+
+**Native tests:** `scripts/blender_tests/test_shoulder_helper_reference_drive.py`, 4 pass, run in the benchmark workflow.
+- the contract is extended only in memory (69 joints);
+- the helper is the identity at rest, with no branch jump from 90° to 160° (steps < 10°);
+- pairs at 145°/160° halve or better, collapse falls, and volume loss is smaller;
+- the stretch increase is asserted, so it stays visible.
+
+**Status for the W3 decision (owner + Lane G):**
+- Option A with a **stateless reference drive** is now the best measured shoulder result.
+- It needs 69 deforming joints plus a runtime rule (pick the rotation branch nearest a constant per-side reference vector, then apply half of it).
+- It does not reach "no worse folds" yet, because of the armpit bulge and the extra stretch, so it is **not adopted**.
+- Options B and C remain open.

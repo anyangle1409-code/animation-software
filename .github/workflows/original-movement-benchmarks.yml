@@ -20,6 +20,7 @@ jobs:
           tar -xJf /tmp/blender-5.2.1-linux-x64.tar.xz -C /tmp
       - run: /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a003.blend --threads 2 --python-exit-code 1 --python scripts/blender_tests/test_original_movement_benchmarks.py
       - run: /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a003.blend --threads 2 --python-exit-code 1 --python scripts/blender_tests/test_original_knee_contact_corrective.py
+      - run: /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a003.blend --threads 2 --python-exit-code 1 --python scripts/blender_tests/test_shoulder_helper_reference_drive.py
       - run: xvfb-run -a /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a003.blend --threads 2 --python-exit-code 1 --python scripts/build_original_movement_benchmarks_blender.py -- --out /tmp/m1/report.json --renders /tmp/m1/renders
         env:
           LIBGL_ALWAYS_SOFTWARE: '1'

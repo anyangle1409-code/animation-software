@@ -33,7 +33,7 @@
 
 ## Next unblocked
 
-**14 Oct (late):** R7 built (owner: "Let's fix before continuing"): `docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R7_20261014.md`, review branch `a29ec9bd`. R7 is the current single review candidate. It fixes the fold at 110-135 deg. Still open: (1) the 140-160 deg top-of-shoulder fold, which needs a structural helper joint (owner decision); (2) the axillary stretch band; (3) the blade lift-off, which is skeleton-only. After those, the hip fold. Check CI on `a29ec9bd` first.
+**14 Oct (late):** R8 built (owner: "Yes, build R8 with the helper joint"): `docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R8_20261014.md`, review branch `90c9ed45`. R8 (R5 + shoulder-cap helper joint + relax keys) is the current single review candidate. The top-of-shoulder crease is gone (0 pairs at 120-160 deg). Resume point: (1) front-armpit stretch, (2) rear-armpit lump, (3) squarer shoulder at 90 deg; then the hip fold. Check CI on `90c9ed45` first.
 
 As of 14 Oct, none. Every open item needs an owner decision, a Lane G agreement, or a primary source that is unreachable from this cloud environment:
 

@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "kind": "claude_master_task_ledger",
- "updated": "2026-10-14 (R9: mid-range shoulder shape keys)",
+ "updated": "2026-10-14 (A: full-range press 6b821bd3; B: R10 402cd56e)",
  "owner_rules": "skeleton is source of truth; no frozen-skeleton change without owner decision; no merge; no approval claims; no third-party assets",
  "environment": "cloud Linux container (Blender 5.2.1 as Python module); not the owner's Windows laptop; no battery telemetry available, protection = commit/push after every task",
  "branches": {
@@ -10,7 +10,7 @@
   "w_guides": "claude/functional-original-shoulder-correction-20261013 (draft PR #111)",
   "w_correctives": "claude/functional-shoulder-coupled-corrective-20261013",
   "movement": "claude/movement-benchmarks-20261013 (draft PR #113) head 359c8865",
-  "review_r1": "claude/original-v1-consolidated-review-20261014 head ab0b247c (R1-R9)"
+  "review_r1": "claude/original-v1-consolidated-review-20261014 head 402cd56e (R1-R10)"
  },
  "tasks": [
   {
@@ -456,6 +456,28 @@
     "69-joint runtime contract (owner + Lane G)"
    ],
    "next": "owner decision on armpit approach; else hip fold"
+  },
+  {
+   "id": "PRESS-A",
+   "description": "full-range overhead press: lockout 172 deg + 12 deg shrug, review hook in the R4+ drive (<=160 bit-identical)",
+   "priority": 1,
+   "status": "TESTED",
+   "commit": "6b821bd3",
+   "tests": "test_original_press_extension.py"
+  },
+  {
+   "id": "R10",
+   "description": "R9 + S4 sculpt keys (deltoid, armpit hollow, trapezius, lockout-crease unfold) on the full press path",
+   "priority": 1,
+   "status": "TESTED",
+   "commit": "402cd56e",
+   "evidence": "docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R10_20261014.md; candidates/claude_review_r10_20261014/{r10_build.json,r10_validation.json,press}",
+   "tests": "test_original_review_candidate_r10.py (6 native); R1-R9 + press extension pass",
+   "results": "press path 160-172: pairs 17-95 -> 0-17, collapse 0; benchmark press 2/108/0",
+   "blockers": [
+    "vs owner photo: no deep armpit hollow, crease lines at lockout, deltoid less full, lumpy lockout silhouette by the neck - procedural shapes have reached their limit; needs authored sculpts / denser topology / muscle sim (owner decision)"
+   ],
+   "next": "owner review of R10 press GIF vs photo"
   }
  ]
 }

@@ -33,7 +33,7 @@
 
 ## Next unblocked
 
-**14 Oct (late):** R9 built (owner: "Go ahead yes"): `docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R9_20261014.md`, review branch `ab0b247c`. R9 (R8 + mid-range shape keys) is the current single review candidate: no top-of-shoulder fold, no shoulder pad. Open: the armpit (front stretch, rear crease). Four automatic approaches were rejected; it needs an owner scope decision (authored shapes / denser topology / skin sliding). Else the hip fold. Check CI on `ab0b247c` first.
+**14 Oct (late):** owner compared the press with a reference photo series: "start with A then do B". A (full-range press, lockout 172 deg + shrug) `6b821bd3`; B = R10 (sculpt keys) `402cd56e`, `docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R10_20261014.md`. R10 is the current review candidate. Open vs photo: armpit hollow depth, lockout crease lines, deltoid fullness - procedural limit reached; owner decision on authored sculpts / topology / muscle sim. Check CI on `402cd56e` first.
 
 As of 14 Oct, none. Every open item needs an owner decision, a Lane G agreement, or a primary source that is unreachable from this cloud environment:
 

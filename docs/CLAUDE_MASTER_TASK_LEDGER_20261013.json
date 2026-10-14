@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "kind": "claude_master_task_ledger",
- "updated": "2026-10-14 (K1 wrist; R3 review candidate)",
+ "updated": "2026-10-14 (shoulder root cause; K1 swing-twist fix)",
  "owner_rules": "skeleton is source of truth; no frozen-skeleton change without owner decision; no merge; no approval claims; no third-party assets",
  "environment": "cloud Linux container (Blender 5.2.1 as Python module); not the owner's Windows laptop; no battery telemetry available, protection = commit/push after every task",
  "branches": {
@@ -9,8 +9,8 @@
   "foot": "claude/original-v1-foot-shape-20261013",
   "w_guides": "claude/functional-original-shoulder-correction-20261013 (draft PR #111)",
   "w_correctives": "claude/functional-shoulder-coupled-corrective-20261013",
-  "movement": "claude/movement-benchmarks-20261013 (draft PR #113) head ba05f924",
-  "review_r1": "claude/original-v1-consolidated-review-20261014 head 7cdb2e05 (R1, R2, R3)"
+  "movement": "claude/movement-benchmarks-20261013 (draft PR #113) head 359c8865",
+  "review_r1": "claude/original-v1-consolidated-review-20261014 head ddf55c39 (R1, R2, R3, shoulder root cause)"
  },
  "tasks": [
   {
@@ -335,6 +335,31 @@
     "elbow crease under pronation (push-up bottom 166 pairs)"
    ],
    "next": "elbow keys under pronation; hip-fold three-body model"
+  },
+  {
+   "id": "SRC",
+   "description": "Root cause of the detached-looking overhead arm: coupled-motion scapula driven in bone-local axes rotates DOWNWARD (arm-vs-scapula 162 deg at 160 HT); deltoid cap ~50 % girdle-weighted; scapula weights too broad; arm pivot 53 mm above GH landmark. ISB anatomical-frame scapula drive + weight taper diagnostic.",
+   "priority": 1,
+   "status": "TESTED",
+   "evidence": "docs/CLAUDE_SHOULDER_DETACHED_ARM_ROOT_CAUSE_20261014.md; audit/claude_shoulder_rootcause_20261014/*.jpg; scripts/original_v1_scapula_isb_drive.py; scripts/diagnostics/shoulder_rootcause_*.py",
+   "tests": "diagnostic (reproduced from repo scripts)",
+   "commit": "ddf55c39",
+   "blockers": [
+    "upstream scapula drive is Work/Lane G code (requested on PR #26)",
+    "arm pivot height is a canonical-bone owner decision"
+   ],
+   "next": "R4 review candidate on the ISB drive: scapula weight taper, re-solve or drop W3A/S1, target the posterior-axillary curl"
+  },
+  {
+   "id": "K1F",
+   "description": "K1 hinge angle read by swing-twist (XYZ-Euler read under-reported pronated elbows by up to 17 deg)",
+   "priority": 1,
+   "status": "TESTED",
+   "evidence": "K1 docs; R1-R3 validations re-run (R3 push-up pairs 166 -> 50)",
+   "tests": "test_hinge_angle_ignores_forearm_twist (both branches)",
+   "commit": "359c8865 (movement), 1607e853 (review)",
+   "blockers": [],
+   "next": "-"
   }
  ]
 }

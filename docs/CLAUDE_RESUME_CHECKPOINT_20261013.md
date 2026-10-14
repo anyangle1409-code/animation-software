@@ -33,7 +33,7 @@
 
 ## Next unblocked
 
-**14 Oct (late):** S1 done (R2: press stretch 634 -> 542, nothing worse); K1 wrist done (R3: push-up 14/74/192 -> 2/72/166). Resume point: elbow crease under pronation (push-up bottom 166 pairs), then the hip-fold three-body contact model. Check CI on `7cdb2e05` first.
+**14 Oct (late):** S1 (R2), K1 wrist (R3), K1 swing-twist fix done. **Shoulder root cause found** (`docs/CLAUDE_SHOULDER_DETACHED_ARM_ROOT_CAUSE_20261014.md`, review branch `ddf55c39`): the coupled-motion scapula rotates downward because it is driven in bone-local axes. Resume point: build R4 on `scripts/original_v1_scapula_isb_drive.py` (scapula weight taper 10-18 cm, then re-solve or drop W3A/S1, target the posterior-axillary curl); then the hip fold. Owner decisions added: arm pivot 53 mm above the GH landmark; Work/Lane G to adopt the anatomical-frame scapula drive.
 
 As of 14 Oct, none. Every open item needs an owner decision, a Lane G agreement, or a primary source that is unreachable from this cloud environment:
 

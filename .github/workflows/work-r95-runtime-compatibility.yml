@@ -1,0 +1,30 @@
+name: Work provisional r95 runtime compatibility
+on:
+  push:
+    branches: [work/cloud-r95-runtime-compatibility-20261014]
+  pull_request:
+    paths:
+      - scripts/probe-r95-runtime-compatibility.mjs
+      - scripts/verify-r95-neutral-browser.mjs
+      - .github/workflows/work-r95-runtime-compatibility.yml
+permissions:
+  contents: read
+jobs:
+  immutable-source-diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node scripts/probe-r95-runtime-compatibility.mjs
+      - run: node --test tests/firstPartyOriginalFullBody*.test.mjs tests/firstPartyOriginalReview*.test.mjs tests/firstPartyGpuNormalParity.test.mjs
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/verify-r95-neutral-browser.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: provisional-r95-runtime-compatibility
+          path: artifacts/r95-*

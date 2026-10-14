@@ -33,7 +33,7 @@
 
 ## Next unblocked
 
-**14 Oct (late):** R6 built (owner: press skin still stretched): `docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R6_20261014.md`, review branch `4b4691cf`. R6 is the current single review candidate. Resume point: (1) posterior-axillary curl (press pairs 216), (2) remaining lateral-back stretch band, (3) mid-range collapsed faces, (4) blade/thorax geometry; then the hip fold. Check CI on `4b4691cf` first.
+**14 Oct (late):** R7 built (owner: "Let's fix before continuing"): `docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R7_20261014.md`, review branch `a29ec9bd`. R7 is the current single review candidate. It fixes the fold at 110-135 deg. Still open: (1) the 140-160 deg top-of-shoulder fold, which needs a structural helper joint (owner decision); (2) the axillary stretch band; (3) the blade lift-off, which is skeleton-only. After those, the hip fold. Check CI on `a29ec9bd` first.
 
 As of 14 Oct, none. Every open item needs an owner decision, a Lane G agreement, or a primary source that is unreachable from this cloud environment:
 

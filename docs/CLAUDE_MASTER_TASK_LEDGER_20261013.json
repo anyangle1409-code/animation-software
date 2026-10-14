@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "kind": "claude_master_task_ledger",
- "updated": "2026-10-14 (R6: press stretch relax keys)",
+ "updated": "2026-10-14 (R7: top-of-shoulder fold keys)",
  "owner_rules": "skeleton is source of truth; no frozen-skeleton change without owner decision; no merge; no approval claims; no third-party assets",
  "environment": "cloud Linux container (Blender 5.2.1 as Python module); not the owner's Windows laptop; no battery telemetry available, protection = commit/push after every task",
  "branches": {
@@ -10,7 +10,7 @@
   "w_guides": "claude/functional-original-shoulder-correction-20261013 (draft PR #111)",
   "w_correctives": "claude/functional-shoulder-coupled-corrective-20261013",
   "movement": "claude/movement-benchmarks-20261013 (draft PR #113) head 359c8865",
-  "review_r1": "claude/original-v1-consolidated-review-20261014 head 4b4691cf (R1-R6)"
+  "review_r1": "claude/original-v1-consolidated-review-20261014 head a29ec9bd (R1-R7)"
  },
  "tasks": [
   {
@@ -198,7 +198,7 @@
   },
   {
    "id": "W4",
-   "description": "Weights-only shoulder-top/axilla refit onto existing clavicle/scapula controls (keep LBS well conditioned at 145-160 deg) \u2014 REJECTED: self-intersection rises 110-145 deg",
+   "description": "Weights-only shoulder-top/axilla refit onto existing clavicle/scapula controls (keep LBS well conditioned at 145-160 deg) — REJECTED: self-intersection rises 110-145 deg",
    "priority": 2,
    "status": "COMPLETE",
    "evidence": "docs/CLAUDE_W4_SHOULDER_WEIGHT_REFIT_20261013.md (movement branch)",
@@ -408,6 +408,22 @@
     "inferior-angle lift-off"
    ],
    "next": "posterior-axillary curl; lateral-back band (latissimus-like helper or weights); hip fold"
+  },
+  {
+   "id": "R7",
+   "description": "R6 + HGPT_S2_FOLD_ smoothing keys on the measured top-of-shoulder fold zone, 125/130/135/140 + empty closing key 145; score guard (crushed face = 10 pairs)",
+   "priority": 1,
+   "status": "TESTED",
+   "evidence": "docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R7_20261014.md; candidates/claude_review_r7_20261014/{r7_s2_build.json,r7_validation.json,fold}",
+   "tests": "test_original_review_candidate_r7.py (6 native, pass locally); R1-R6 tests still pass",
+   "commit": "a29ec9bd",
+   "results": "130 deg pairs 84->22, 120 deg 10->0, 110 collapse 6->2; press t=0.5 pairs 30->0; costs +2 collapse at 130, up to +8 stretch faces 120-140; benchmarks identical to R6 except press stretch 62->64",
+   "blockers": [
+    "140-160 deg fold (98-216 pairs, 6-20 mm deep) not reachable by pose-space keys: needs a structural top-of-shoulder helper joint (owner decision)",
+    "axillary stretch band 6-8 faces/side > 3x",
+    "inferior-angle lift-off is skeleton-only (no skin weight beyond 180 mm from AC); closing it needs ~15 deg more tilt, which the owner asked to remove"
+   ],
+   "next": "owner: approve a restricted top-of-shoulder helper joint for 140-160; else axillary weights; hip fold"
   }
  ]
 }

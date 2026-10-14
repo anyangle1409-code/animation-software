@@ -79,15 +79,30 @@ try{
     let mismatchRejected=false;
     try{bindFirstPartyExerciseToDiagnosticPose('barbell shoulder press',x.model,x.clip,x.declaration);}
     catch{mismatchRejected=true;}
+    const {createDiagnosticExercisePlayback}=await import('/src/viewer/firstPartyDiagnosticPlayback.mjs');
+    const playbackSamples=[];
+    let playback;
+    await new Promise((resolve,reject)=>{
+      const timeout=setTimeout(()=>reject(Error('sample playback did not complete')),4000);
+      playback=createDiagnosticExercisePlayback(bound,{draw:(frame,index)=>{
+        playbackSamples.push(index);
+        gpu.renderBatches([{mesh:source.mesh,posedWorld:frame.sourceJointOrderedPalette,
+          uv0:new Float32Array([0,0,1,0,0,1])}]);
+        if(index===2){clearTimeout(timeout);resolve();}
+      }});
+      playback.play();
+    });
+    const playbackCompleted=playback.state().status==='completed';playback.dispose();
     const glError=canvas.getContext('webgl2').getError();gpu.dispose();
     return {joints:c.jointNames.length,frames:11,maxError,normalError,motion,glError,
-      commandGpuError,commandFrames:bound.frameCount,mismatchRejected,
+      commandGpuError,commandFrames:bound.frameCount,mismatchRejected,playbackSamples,playbackCompleted,
       realHumanRendered:false,productionApproved:false};
   });
   assert.equal(result.joints,79);assert.ok(result.maxError<1e-5);assert.ok(result.normalError<1e-5);
   assert.ok(result.motion>.29);assert.equal(result.glError,0);
   assert.ok(result.commandGpuError<1e-5);assert.equal(result.commandFrames,3);
   assert.equal(result.mismatchRejected,true);
+  assert.deepEqual(result.playbackSamples,[0,1,2]);assert.equal(result.playbackCompleted,true);
   assert.deepEqual(errors,[]);assert.deepEqual(vendor,[]);
   mkdirSync('reports/browser-smoke/work-rig-extension',{recursive:true});
   writeFileSync('reports/browser-smoke/work-rig-extension/result.json',JSON.stringify({...result,errors,vendor},null,2)+'\n');

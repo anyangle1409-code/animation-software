@@ -132,7 +132,8 @@ def elevation_deg(rig, s):
 
 # shoulder pose-space key families driven by humerothoracic elevation: (shape-key prefix, rig property with the key angles)
 S1_FAMILIES = (("HGPT_S1_SHOULDER_", "hgpt_s1_angles"), ("HGPT_S2_FOLD_", "hgpt_s2_angles"),
-               ("HGPT_S3_SHAPE_", "hgpt_s3_angles", 20.0), ("HGPT_S4_SCULPT_", "hgpt_s4_angles", 60.0))           # optional third item: the family's start elevation
+               ("HGPT_S3_SHAPE_", "hgpt_s3_angles", 20.0), ("HGPT_S4_SCULPT_", "hgpt_s4_angles", 60.0),
+               ("HGPT_S5_BAKE_", "hgpt_s5_angles", 60.0))           # optional third item: the family's start elevation
 
 
 def drive_s1(rig, body):

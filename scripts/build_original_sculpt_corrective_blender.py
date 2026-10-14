@@ -57,6 +57,7 @@ DEPTHS = {   # key elevation -> region -> depth (m)
     172.0: {"deltoid": 0.010, "armpit": -0.018, "trapezius": 0.010},
 }
 _scale = float(_E.get("S4_SCALE", 1.0))
+REGION_SCALE = {k: float(v) for k, v in (x.split(":") for x in _E.get("S4_REGION_SCALE", "deltoid:1,armpit:1,trapezius:1").split(","))}
 UNFOLD_ITERS = int(_E.get("S4_UNFOLD", 30))
 UNFOLD_RINGS = 3
 DAMP = 0.05
@@ -149,7 +150,7 @@ def build(result):
                     Q[i] = p
             offset = Q - P
             for reg, depth in DEPTHS[min(DEPTHS, key=lambda h: abs(h - ht))].items():
-                offset += (depth * _scale) * weights[s][reg][:, None] * N
+                offset += (depth * _scale * REGION_SCALE.get(reg, 1.0)) * weights[s][reg][:, None] * N
             moved = np.where(np.linalg.norm(offset, axis=1) > 1e-6)[0]
             clipped, maxp = 0, 0.0
             for i in moved:

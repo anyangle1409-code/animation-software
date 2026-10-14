@@ -50,16 +50,20 @@ import original_v1_review_candidate_drives as drives  # noqa: E402
 import os as _os
 KEYS_HT = tuple(int(v) for v in _os.environ.get("S1_KEYS", "120,145,160").split(","))          # coupled HT elevations at which keys are solved
 ACTIVATION_START = drives.S1_START  # measured elevation (deg) below which every key is 0
+ZERO_KEYS = tuple(int(v) for v in _os.environ.get("S1_ZEROKEYS", "").split(",") if v)   # empty closing keys (R7 fold)
 RELAX_ITERS = int(_os.environ.get("S1_ITERS", 150))
 RELAX_STEP = 0.5
 RELAX_MODE = _os.environ.get("S1_MODE", "pull")     # "pull": only shorten stretched edges (selected); "spring": both ways (rejected:
 #                                                      slides skin into the axilla, pairs 110 -> 494 at 160 deg)
 DAMP = float(_os.environ.get("S1_DAMP", 0.05))
-DELTA_CAP_M = 0.030
+DELTA_CAP_M = float(_os.environ.get("S1_CAP", 0.030))
 DELTA_SMOOTH = int(_os.environ.get("S1_DSMOOTH", 20))   # Laplacian passes over the rest-space key deltas
 VOLUME_RESTORE = _os.environ.get("S1_VOLUME", "1") == "1"   # zero volume change per key at its pose
 BACKOFF = _os.environ.get("S1_BACKOFF", "1") == "1"   # collision guard at each key pose
-PREFIX = drives.S1_PREFIX
+SCORE_C = float(_os.environ.get("S1_SCOREC", 10))   # "score" guard: one collapsed face weighs as SCORE_C pairs
+GUARD = _os.environ.get("S1_GUARD", "set")   # "set": no new pair/collapsed face; "count": no more than without the keys (R7)
+PREFIX = _os.environ.get("S1_PREFIX", drives.S1_PREFIX)          # R7 fold keys: HGPT_S2_FOLD_
+ANGLES_PROP = dict(drives.S1_FAMILIES)[PREFIX]
 SIDES = ("l", "r")
 ZONE_Z, ZONE_X = 1.22, 0.12
 GIRDLE = ("clavicle_", "scapula_")
@@ -94,6 +98,33 @@ def stretch_zones(result, adj, V0, F, ht=160):
     return out
 
 
+def fold_zones(result, adj, V0, F, hts=(130, 145, 160)):
+    """Per side: vertices of self-intersecting or collapsed (< 0.1 x rest area) faces at the coupled `hts` poses with all
+    drives on, plus STRETCH_RINGS rings - the bunched skin on top of the shoulder (R7)."""
+    import build_functional_shoulder_correction_blender as correction
+    from mathutils.bvhtree import BVHTree
+    body, rig = result["body"], result["runtime"]
+    seeds = set()
+    for ht in hts:
+        correction.apply_corrected_pose(result, ht)
+        drives.drive(rig, body)
+        V, _ = bench._evaluated(body)
+        tree = BVHTree.FromPolygons(V, F, all_triangles=True)
+        fs = [set(f) for f in F]
+        bad = {f for a, b in tree.overlap(tree) if a < b and not (fs[a] & fs[b]) for f in (a, b)}
+        bad |= {k for k, f in enumerate(F) if bench._area(V0, f) > 1e-12 and bench._area(V, f) / bench._area(V0, f) < 0.1}
+        seeds |= {v for k in bad for v in F[k]}
+    out = {}
+    for s in SIDES:
+        sign = 1.0 if s == "r" else -1.0
+        z = {v for v in seeds if V0[v].x * sign > 0.03}
+        for _ in range(STRETCH_RINGS):
+            z |= {j for i in z for j in adj[i] if V0[j].x * sign > 0.03}
+        out[s] = sorted(z)
+    bench._reset(rig)
+    return out
+
+
 def zone(body, s):
     names = {g.index: g.name for g in body.vertex_groups}
     sign = 1.0 if s == "r" else -1.0                       # F-SIDE-001: runtime _r is +X
@@ -117,8 +148,66 @@ def _normals(V, F):
     return N / np.maximum(L, 1e-12)
 
 
+SEP_GAP = float(_os.environ.get("S1_SEPGAP", 0.002))
+
+
+def separate(Vp, adj, free):
+    """Collision resolution in posed space (R7 fold keys): faces touching the free zone that intersect each other are
+    pushed apart - each face's vertices behind the other face's plane move out along that face's normal by the
+    penetration + SEP_GAP, half each - then the push is lightly smoothed; repeated until the zone has no intersecting pair
+    (tangential relaxation cannot untangle two sheets that already pass through each other)."""
+    from mathutils.bvhtree import BVHTree
+    F = _F[0]
+    P = Vp.copy()
+    freeset = set(free)
+    zf = [k for k, f in enumerate(F) if any(v in freeset for v in f)]
+    for _ in range(RELAX_ITERS):
+        tree = BVHTree.FromPolygons([Vector(p) for p in P], F, all_triangles=True)
+        fs = [set(f) for f in F]
+        pairs = [(a, b) for a, b in tree.overlap(tree) if a < b and not (fs[a] & fs[b])
+                 and (any(v in freeset for v in F[a]) or any(v in freeset for v in F[b]))]
+        if not pairs:
+            break
+        push = {}
+        for a, b in pairs:
+            for fa, fb in ((a, b), (b, a)):
+                pa, pb = [P[v] for v in F[fa]], [P[v] for v in F[fb]]
+                nb = np.cross(pb[1] - pb[0], pb[2] - pb[0])
+                L = np.linalg.norm(nb)
+                if L < 1e-12:
+                    continue
+                nb /= L
+                cb = sum(pb) / 3.0
+                side = np.sign(np.dot(sum(pa) / 3.0 - cb, nb)) or 1.0      # keep fa on the side its centroid is on
+                for v in F[fa]:
+                    if v not in freeset:
+                        continue
+                    d = side * np.dot(P[v] - cb, nb)
+                    if d < SEP_GAP:
+                        push[v] = push.get(v, np.zeros(3)) + side * nb * (SEP_GAP - d) * 0.5
+        for v, d in push.items():
+            P[v] = P[v] + d
+        disp = {i: P[i] - Vp[i] for i in free}                     # one smoothing pass of the displacement
+        for i in free:
+            nb_ = [disp[j] for j in adj[i] if j in disp]
+            if nb_:
+                P[i] = Vp[i] + 0.5 * disp[i] + 0.5 * sum(nb_) / len(nb_)
+    return P
+
+
 def relax(Vp, V0, adj, free):
     """Tangential spring relaxation of the free vertices toward rest edge lengths (others fixed)."""
+    if RELAX_MODE == "separate":
+        return separate(Vp, adj, free)
+    if RELAX_MODE in ("smooth", "taubin"):     # Laplacian: flattens crumpled / folded skin (R7); "taubin" alternates a
+        P = Vp.copy()                          # negative step so the zone does not shrink (plain smoothing slid it ~59 mm)
+        free = list(free)
+        for it in range(RELAX_ITERS):
+            step = RELAX_STEP if RELAX_MODE == "smooth" or it % 2 == 0 else -1.06 * RELAX_STEP
+            new = {i: P[i] + step * (sum(P[j] for j in adj[i]) / len(adj[i]) - P[i]) for i in free}
+            for i, p in new.items():
+                P[i] = p
+        return P
     P = Vp.copy()
     N = _normals(Vp, _F[0])
     free = list(free)
@@ -132,6 +221,8 @@ def relax(Vp, V0, adj, free):
                 L0 = np.linalg.norm(V0[i] - V0[j])
                 if RELAX_MODE == "pull":
                     L0 = min(L0, ln)
+                elif RELAX_MODE == "push":                     # only lengthen compressed edges (unbunch folds)
+                    L0 = max(L0, ln)
                 acc += P[j] + (d / ln * L0 if ln > 1e-12 else 0.0)
             t = acc / len(adj[i]) - P[i]
             t -= N[i] * t.dot(N[i])
@@ -160,7 +251,8 @@ def build(result):
     V0l, F = bench._evaluated(body)
     _F[0] = F
     V0 = np.array([tuple(v) for v in V0l])
-    zones = stretch_zones(result, adj, V0l, F) if ZONE_MODE == "stretch" else {s: zone(body, s) for s in SIDES}
+    zones = (stretch_zones(result, adj, V0l, F) if ZONE_MODE == "stretch" else
+             fold_zones(result, adj, V0l, F) if ZONE_MODE == "fold" else {s: zone(body, s) for s in SIDES})
     log, key_angles = {"zone_mode": ZONE_MODE, "zone_vertices": {s: len(z) for s, z in zones.items()}}, {}
     for ht in KEYS_HT:
         correction.apply_corrected_pose(result, ht)
@@ -171,9 +263,12 @@ def build(result):
         key_angles[ht] = {s: elevation_deg(rig, s) for s in SIDES}
         entry = {}
         for s in SIDES:
-            P = relax(Vp, V0, adj, zones[s])
             kb = body.shape_key_add(name=f"{PREFIX}{s}_{ht}", from_mix=False)
             kb.value = 0.0
+            if ht in ZERO_KEYS:                       # empty closing key: the previous key fades out by this elevation
+                entry[s] = {"closing_key": True, "elevation_deg": round(key_angles[ht][s], 2)}
+                continue
+            P = relax(Vp, V0, adj, zones[s])
             sig_min, clipped, maxd, maxp = 1.0, 0, 0.0, 0.0
             rest_d = {}
             for i in zones[s]:
@@ -197,18 +292,18 @@ def build(result):
             entry[s] = {"zone_vertices": len(zones[s]), "max_posed_slide_mm": round(maxp * 1000, 2),
                         "max_rest_delta_mm": round(maxd * 1000, 2), "rest_deltas_clipped": clipped,
                         "blended_lbs_sigma_min": round(sig_min, 4), "elevation_deg": round(key_angles[ht][s], 2)}
-        if VOLUME_RESTORE:
+        if VOLUME_RESTORE and ht not in ZERO_KEYS:
             entry["volume"] = _restore_volume(body, ht, zones, adj, F)
         log[str(ht)] = entry
     bench._reset(rig)
     result["s1_angles"] = {s: tuple(key_angles[ht][s] for ht in KEYS_HT) for s in SIDES}
     for s in SIDES:
-        rig[f"hgpt_s1_angles_{s}"] = list(result["s1_angles"][s])
+        rig[f"{ANGLES_PROP}_{s}"] = list(result["s1_angles"][s])
     if BACKOFF:
         log["backoff"] = _backoff(result, zones, adj, F)
         if VOLUME_RESTORE:                             # the guard changed the keys: restore volume again, re-guard
             log["volume_after_guard"] = {}
-            for ht in KEYS_HT:
+            for ht in (h for h in KEYS_HT if h not in ZERO_KEYS):
                 correction.apply_corrected_pose(result, ht)
                 drives.drive(rig, body)
                 for kb in body.data.shape_keys.key_blocks:
@@ -271,7 +366,7 @@ def _bad(body, F, A0):
     return pairs, collapsed
 
 
-def _backoff(result, zones, adj, F, rounds=8, rings=2, check=range(95, 161, 5)):
+def _backoff(result, zones, adj, F, rounds=8, rings=int(_os.environ.get("S1_GRINGS", 2)), check=range(95, 161, 5)):
     """Collision/fold guard over the whole driven range: at every CHECK elevation (coupled pose, all drives on), zone
     vertices in intersecting or collapsed faces that the S1-free mesh lacks (+ rings) have their delta halved in every S1 key
     active there, until no check pose adds a pair or a collapsed face."""
@@ -311,6 +406,13 @@ def _backoff(result, zones, adj, F, rounds=8, rings=2, check=range(95, 161, 5)):
                 h.append((len(new_p), len(new_c)))
                 if not new_p and not new_c:
                     break
+                if GUARD == "count" and len(p) <= len(base_p) and len(c) <= len(base_c):
+                    break
+                if GUARD == "score" and len(p) + SCORE_C * len(c) <= len(base_p) + SCORE_C * len(base_c):
+                    break
+                if GUARD in ("count", "score"):       # back off only around the measure that got worse
+                    new_p = new_p if len(p) > len(base_p) else set()
+                    new_c = new_c if len(c) > len(base_c) else set()
                 hit = ({v for a, b in new_p for f in (a, b) for v in F[f] if v in zset}
                        | {v for f in new_c for v in F[f] if v in zset})
                 ring = set(hit)
@@ -409,7 +511,9 @@ def main():
     rep = {"kind": "ORIGINAL_V1_S1_SHOULDER_RELAX_DIAGNOSTIC", "approved": False,
            "params": {"keys_ht": KEYS_HT, "activation_start": ACTIVATION_START, "relax_iters": RELAX_ITERS, "relax_mode": RELAX_MODE, "backoff": BACKOFF, "volume_restore": VOLUME_RESTORE, "delta_smooth": DELTA_SMOOTH,
                       "relax_step": RELAX_STEP, "damp": DAMP, "delta_cap_m": DELTA_CAP_M,
-                      "zone_mode": ZONE_MODE, "stretch_ratio": STRETCH_RATIO, "stretch_rings": STRETCH_RINGS},
+                      "zone_mode": ZONE_MODE, "stretch_ratio": STRETCH_RATIO, "stretch_rings": STRETCH_RINGS,
+                      "prefix": PREFIX, "zero_keys": ZERO_KEYS, "guard": GUARD, "guard_score_collapse_weight": SCORE_C,
+                      "guard_rings": int(_os.environ.get("S1_GRINGS", 2))},
            "solve": log, "key_elevations": result["s1_angles"], "sweep_r1": before, "sweep_r1_s1": after}
     if get("--out"):
         rep["output"] = save(result, get("--out"), get("--blend"), get("--name") or "R2")

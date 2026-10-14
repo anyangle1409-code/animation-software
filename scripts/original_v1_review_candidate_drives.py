@@ -105,26 +105,31 @@ def elevation_deg(rig, s):
     return math.degrees(arm.angle(down))
 
 
+# shoulder pose-space key families driven by humerothoracic elevation: (shape-key prefix, rig property with the key angles)
+S1_FAMILIES = (("HGPT_S1_SHOULDER_", "hgpt_s1_angles"), ("HGPT_S2_FOLD_", "hgpt_s2_angles"))
+
+
 def drive_s1(rig, body):
     keys = body.data.shape_keys.key_blocks
-    for s in ("l", "r"):
-        names = sorted((kb.name for kb in keys if kb.name.startswith(f"{S1_PREFIX}{s}_")), key=lambda n: int(n.rsplit("_", 1)[1]))
-        if not names or f"hgpt_s1_angles_{s}" not in rig:
-            continue
-        pts = (S1_START,) + tuple(rig[f"hgpt_s1_angles_{s}"])
-        e = elevation_deg(rig, s)
-        for n, name in enumerate(names):
-            lo, mid = pts[n], pts[n + 1]
-            hi = pts[n + 2] if n + 2 < len(pts) else None
-            if e <= lo:
-                v = 0.0
-            elif e <= mid:
-                v = (e - lo) / (mid - lo)
-            elif hi is None:
-                v = 1.0
-            else:
-                v = max(0.0, (hi - e) / (hi - mid))
-            keys[name].value = v
+    for prefix, prop in S1_FAMILIES:
+        for s in ("l", "r"):
+            names = sorted((kb.name for kb in keys if kb.name.startswith(f"{prefix}{s}_")), key=lambda n: int(n.rsplit("_", 1)[1]))
+            if not names or f"{prop}_{s}" not in rig:
+                continue
+            pts = (S1_START,) + tuple(rig[f"{prop}_{s}"])
+            e = elevation_deg(rig, s)
+            for n, name in enumerate(names):
+                lo, mid = pts[n], pts[n + 1]
+                hi = pts[n + 2] if n + 2 < len(pts) else None
+                if e <= lo:
+                    v = 0.0
+                elif e <= mid:
+                    v = (e - lo) / (mid - lo)
+                elif hi is None:
+                    v = 1.0
+                else:
+                    v = max(0.0, (hi - e) / (hi - mid))
+                keys[name].value = v
     bpy.context.view_layer.update()
 
 

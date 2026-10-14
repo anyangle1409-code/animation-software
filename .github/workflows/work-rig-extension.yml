@@ -1,0 +1,36 @@
+name: Work provisional rig and morph integration
+on:
+  push:
+    branches: [work/cloud-rig-extension-20261014]
+  pull_request:
+    paths:
+      - src/viewer/firstPartyRigExtension.mjs
+      - src/viewer/firstPartyCorrectiveMorphs.mjs
+      - src/exercise/firstPartyExercise*.mjs
+      - tests/firstPartyRigExtension.test.mjs
+      - tests/firstPartyCorrectiveMorphs.test.mjs
+      - tests/firstPartyExercise*.test.mjs
+      - tests/support/buildSyntheticExerciseHandoff.mjs
+      - scripts/verify-rig-extension-browser.mjs
+      - .github/workflows/work-rig-extension.yml
+permissions:
+  contents: read
+jobs:
+  software-and-synthetic-gpu:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24, cache: npm}
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: node --test tests/firstParty*.test.mjs
+      - run: npm test
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/verify-rig-extension-browser.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: synthetic-rig-extension-gpu-result
+          path: reports/browser-smoke/work-rig-extension/result.json

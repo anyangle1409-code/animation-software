@@ -57,6 +57,8 @@ WALK_KEYS = [  # hip (+flex), knee, ankle (+DF), toe (+toe extension), shoulder 
 TRUNK_ROTATION = {"spine_01": 15.0, "spine_02": 15.0, "spine_03": 15.0, "neck": 15.0}
 GRIP = {"01": 80.0, "02": 90.0, "03": 60.0, "thumb_01": 30.0, "thumb_02": 40.0, "thumb_03": 40.0}
 GRIP_ARM = {"shoulder_flexion": 45.0, "elbow_flexion": 90.0}   # hands held in front of the body (static during the grip)
+THUMB_OPPOSE = __import__("os").environ.get("HGPT_THUMB_OPPOSE", "1") == "1"   # H2: solved thumb opposition in the grip
+ARM_ABDUCTION_DEG = float(__import__("os").environ.get("HGPT_ARM_ABDUCTION", 4.0))   # H1 natural arm carriage: authored, minimal value that clears hand/thigh (0, 4, 6, 8 measured)
 EXTRA_CDC = {"hip_extension": "cdc_hip_extension", "ankle_plantarflexion": "cdc_ankle_plantarflexion"}
 SINGLE_LEG = {"stance": "l", "hip_flexion": 90.0, "knee_flexion": 90.0}       # lifted leg = the other side
 CALF_RAISE = {"ankle_plantarflexion": 35.0, "toe_extension": 35.0}             # MTP extension keeps the toes flat
@@ -80,6 +82,17 @@ def _reset(rig):
 def _rot(pb, x=0.0, y=0.0, z=0.0):
     pb.rotation_mode = "XYZ"
     pb.rotation_euler = Euler((math.radians(x), math.radians(y), math.radians(z)), "XYZ")
+
+
+def _abduct_arms(rig, extra_x=None):
+    """Shoulder abduction of both arms by ARM_ABDUCTION_DEG (upper-arm local Z: -Z abducts _r, +Z abducts _l), combined
+    with an optional per-side local-X (flexion) angle already intended for that pose."""
+    if ARM_ABDUCTION_DEG == 0.0:
+        return
+    for s in ("l", "r"):
+        pb = rig.pose.bones[f"upperarm_{s}"]
+        x = (extra_x or {}).get(s, math.degrees(pb.rotation_euler.x) if pb.rotation_mode == "XYZ" else 0.0)
+        _rot(pb, x=x, z=(-1.0 if s == "r" else 1.0) * ARM_ABDUCTION_DEG)
 
 
 def _plant_feet(rig, rest_heads):
@@ -175,6 +188,7 @@ def pose_lunge(rig, body, t):
     _rot(rig.pose.bones[f"thigh_{r}"], x=LUNGE["rear_hip_extension"] * k)
     _rot(rig.pose.bones[f"shin_{r}"], x=LUNGE["rear_knee"] * k)
     _rot(rig.pose.bones[f"toe_{r}"], x=-LUNGE["rear_toe_extension"] * k)
+    _abduct_arms(rig)
     bpy.context.view_layer.update()
     # keep the front foot flat
     pb = rig.pose.bones[f"foot_{f}"]
@@ -191,6 +205,7 @@ def pose_single_leg(rig, body, t):
     lift = "r" if SINGLE_LEG["stance"] == "l" else "l"
     _rot(rig.pose.bones[f"thigh_{lift}"], x=-SINGLE_LEG["hip_flexion"] * k)
     _rot(rig.pose.bones[f"shin_{lift}"], x=SINGLE_LEG["knee_flexion"] * k)
+    _abduct_arms(rig)
     bpy.context.view_layer.update()
     return {"hip_flexion": SINGLE_LEG["hip_flexion"] * k, "knee_flexion": SINGLE_LEG["knee_flexion"] * k,
             "ankle_dorsiflexion": _ankle_dorsiflexion_deg(rig, SINGLE_LEG["stance"])}
@@ -237,6 +252,7 @@ def pose_walk(rig, body, t):
         peak["ankle_dorsiflexion"] = max(peak["ankle_dorsiflexion"], ank)
         peak["shoulder_flexion"] = max(peak["shoulder_flexion"], sh)
         peak["elbow_flexion"] = max(peak["elbow_flexion"], el)
+    _abduct_arms(rig)
     _ground(rig, body)
     return peak
 
@@ -246,6 +262,7 @@ def pose_trunk_rotation(rig, body, t):
     k = smooth(t)
     for n, a in TRUNK_ROTATION.items():
         _rot(rig.pose.bones[n], y=a * k)
+    _abduct_arms(rig)
     bpy.context.view_layer.update()
     return {"trunk_axial_rotation_total": sum(TRUNK_ROTATION[n] for n in ("spine_01", "spine_02", "spine_03")) * k}
 
@@ -275,6 +292,86 @@ def _palmar_sign(rig, pb, probe_deg=5.0):
     return 1.0 if (tip1.x - tip0.x) * medial > 0 else -1.0
 
 
+THUMB_OPPOSITION = {"max_cmc_deg": 60.0, "mcp_deg": 40.0, "ip_deg": 40.0, "contact_mm": 18.0, "clear_mm": 20.0, "step_deg": 15,
+                    "max_pairs": 5}
+_THUMB_CACHE = {}
+
+
+def _seg_dist(p, a, b):
+    ab = b - a
+    t = max(0.0, min(1.0, (p - a).dot(ab) / ab.length_squared)) if ab.length_squared > 0 else 0.0
+    return (p - (a + ab * t)).length
+
+
+def _thumb_finger_pairs(body, s):
+    """Self-intersecting face pairs between thumb-dominant and finger-dominant skin of one hand (evaluated mesh)."""
+    V, F = _evaluated(body)
+    dom = _THUMB_CACHE.setdefault("dom", dominant_groups(body))
+    thumb = [f for f in F if sum(dom[i].startswith("thumb_") and dom[i].endswith("_" + s) for i in f) >= 2]
+    fing = [f for f in F if sum(dom[i].split("_")[0] in ("index", "middle", "ring", "pinky", "metacarpal", "hand")
+                                and dom[i].endswith("_" + s) for i in f) >= 2]
+    if not thumb or not fing:
+        return 0
+    ta = BVHTree.FromPolygons(V, thumb, all_triangles=True)
+    tb = BVHTree.FromPolygons(V, fing, all_triangles=True)
+    return len(ta.overlap(tb))
+
+
+def _hand_collapse(body, s):
+    """Faces of one hand (thumb/finger/hand dominant) whose area falls below 0.1 of rest (evaluated vs Basis)."""
+    V, F = _evaluated(body)
+    rest = _THUMB_CACHE.setdefault("rest", [v.co.copy() for v in body.data.vertices])
+    dom = _THUMB_CACHE.setdefault("dom", dominant_groups(body))
+    n = 0
+    for f in F:
+        if sum(dom[i].endswith("_" + s) and dom[i].split("_")[0] in ("thumb", "index", "middle", "ring", "pinky", "metacarpal", "hand")
+               for i in f) >= 2:
+            a0 = _area(rest, f)
+            if a0 > 1e-12 and _area(V, f) / a0 < 0.1:
+                n += 1
+    return n
+
+
+def _solve_thumb(rig, s, signs, body=None):
+    """Thumb opposition for a closed fist, solved (no sourced CMC axis exists here): with the fingers fully flexed, search
+    the thumb_01 (CMC) Euler rotation (total <= max_cmc_deg, step_deg grid; MCP/IP flexed mcp_deg/ip_deg about their
+    measured palmar axes) so that the thumb tip lies contact_mm from the flexed index/middle middle phalanges (bone axes),
+    and no thumb point comes within clear_mm of any finger bone axis.  Returns the CMC Euler angles in degrees."""
+    import itertools
+    pb = rig.pose.bones
+    target = sum(((pb[f"{d}_02_{s}"].head + pb[f"{d}_02_{s}"].tail) / 2 for d in ("index", "middle")), Vector()) / 2
+    fingers = [(pb[f"{d}_{j}_{s}"].head.copy(), pb[f"{d}_{j}_{s}"].tail.copy()) for d in ("index", "middle", "ring", "pinky") for j in ("01", "02", "03")]
+    _rot(pb[f"thumb_02_{s}"], z=signs[f"thumb_02_{s}"] * THUMB_OPPOSITION["mcp_deg"])
+    _rot(pb[f"thumb_03_{s}"], z=signs[f"thumb_03_{s}"] * THUMB_OPPOSITION["ip_deg"])
+    scored = []
+    rng = range(-int(THUMB_OPPOSITION["max_cmc_deg"]), int(THUMB_OPPOSITION["max_cmc_deg"]) + 1, THUMB_OPPOSITION["step_deg"])
+    for x, y, z in itertools.product(rng, rng, rng):
+        e = Euler((math.radians(x), math.radians(y), math.radians(z)), "XYZ")
+        if math.degrees(e.to_quaternion().angle) > THUMB_OPPOSITION["max_cmc_deg"] + 1e-6:
+            continue
+        pb[f"thumb_01_{s}"].rotation_mode = "XYZ"
+        pb[f"thumb_01_{s}"].rotation_euler = e
+        bpy.context.view_layer.update()
+        tip = pb[f"thumb_03_{s}"].tail
+        pts = [pb[f"thumb_{j}_{s}"].tail for j in ("01", "02", "03")]
+        clear = min(_seg_dist(p, a, b) for p in pts for a, b in fingers)
+        cost = abs((tip - target).length * 1000 - THUMB_OPPOSITION["contact_mm"]) + 10.0 * max(0.0, THUMB_OPPOSITION["clear_mm"] - clear * 1000)
+        scored.append((cost, (float(x), float(y), float(z)), (tip - target).length * 1000))
+    # every candidate is checked on the mesh: the closest thumb-tip placement with <= max_pairs thumb/finger skin
+    # intersections wins (closer placements all drive the thumb skin into the fingers/palm: LBS has no contact model)
+    best = None
+    for cost, e, dist in sorted(scored, key=lambda r: r[2]):
+        _rot(pb[f"thumb_01_{s}"], x=e[0], y=e[1], z=e[2])
+        bpy.context.view_layer.update()
+        pairs = _thumb_finger_pairs(body, s) if body is not None else 0
+        if pairs <= THUMB_OPPOSITION["max_pairs"] and (body is None or _hand_collapse(body, s) == 0):
+            best = ((pb[f"thumb_03_{s}"].tail - target).length * 1000, e, pairs)
+            break
+    if best is None:
+        raise RuntimeError("no thumb placement within the pair limit")
+    return best[1], {"thumb_finger_pairs": best[2], "tip_to_target_mm": round(best[0], 1)}
+
+
 def pose_grip(rig, body, t):
     _reset(rig)
     bpy.context.view_layer.update()
@@ -282,16 +379,39 @@ def pose_grip(rig, body, t):
     digits = [(f"{d}_{j}_{s}", GRIP[j]) for s in ("l", "r") for d in ("index", "middle", "ring", "pinky") for j in ("01", "02", "03")]
     digits += [(f"{j}_{s}", GRIP[j]) for s in ("l", "r") for j in ("thumb_01", "thumb_02", "thumb_03")]
     signs = {n: _palmar_sign(rig, rig.pose.bones[n]) for n, _ in digits}       # measured at rest (palms face the body)
+
+    def arms_and_fingers(kk):
+        for s in ("l", "r"):
+            _rot(rig.pose.bones[f"upperarm_{s}"], x=-GRIP_ARM["shoulder_flexion"])
+            _rot(rig.pose.bones[f"forearm_{s}"], x=-GRIP_ARM["elbow_flexion"])
+        for n, deg in digits:
+            if not n.startswith("thumb"):
+                _rot(rig.pose.bones[n], z=signs[n] * deg * kk)
+        bpy.context.view_layer.update()
+    if THUMB_OPPOSE and "solution" not in _THUMB_CACHE:
+        arms_and_fingers(1.0)
+        _THUMB_CACHE["solution"] = {s: _solve_thumb(rig, s, signs, body) for s in ("l", "r")}
+        _reset(rig)
+    arms_and_fingers(k)
     for s in ("l", "r"):
-        _rot(rig.pose.bones[f"upperarm_{s}"], x=-GRIP_ARM["shoulder_flexion"])
-        _rot(rig.pose.bones[f"forearm_{s}"], x=-GRIP_ARM["elbow_flexion"])
-    for n, deg in digits:
-        _rot(rig.pose.bones[n], z=signs[n] * deg * k)
+        if THUMB_OPPOSE:
+            (x, y, z), _ = _THUMB_CACHE["solution"][s]
+            _rot(rig.pose.bones[f"thumb_01_{s}"], x=x * k, y=y * k, z=z * k)
+            _rot(rig.pose.bones[f"thumb_02_{s}"], z=signs[f"thumb_02_{s}"] * THUMB_OPPOSITION["mcp_deg"] * k)
+            _rot(rig.pose.bones[f"thumb_03_{s}"], z=signs[f"thumb_03_{s}"] * THUMB_OPPOSITION["ip_deg"] * k)
+        else:
+            for j in ("thumb_01", "thumb_02", "thumb_03"):
+                _rot(rig.pose.bones[f"{j}_{s}"], z=signs[f"{j}_{s}"] * GRIP[j] * k)
     bpy.context.view_layer.update()
-    return {"mcp_flexion": GRIP["01"] * k, "pip_flexion": GRIP["02"] * k, "dip_flexion": GRIP["03"] * k,
-            "shoulder_flexion": GRIP_ARM["shoulder_flexion"], "elbow_flexion": GRIP_ARM["elbow_flexion"],
-            "fingertip_to_wrist_mm_l": _fingertip_palm_mm(rig, "l"), "fingertip_to_wrist_mm_r": _fingertip_palm_mm(rig, "r"),
-            "digit_tip_mirror_error_mm": _digit_mirror_error_mm(rig)}
+    out = {"mcp_flexion": GRIP["01"] * k, "pip_flexion": GRIP["02"] * k, "dip_flexion": GRIP["03"] * k,
+           "shoulder_flexion": GRIP_ARM["shoulder_flexion"], "elbow_flexion": GRIP_ARM["elbow_flexion"],
+           "fingertip_to_wrist_mm_l": _fingertip_palm_mm(rig, "l"), "fingertip_to_wrist_mm_r": _fingertip_palm_mm(rig, "r"),
+           "digit_tip_mirror_error_mm": _digit_mirror_error_mm(rig)}
+    pb = rig.pose.bones
+    for s in ("l", "r"):
+        target = sum(((pb[f"{d}_02_{s}"].head + pb[f"{d}_02_{s}"].tail) / 2 for d in ("index", "middle")), Vector()) / 2
+        out[f"thumb_tip_to_index_middle_mm_{s}"] = (pb[f"thumb_03_{s}"].tail - target).length * 1000
+    return out
 
 
 def _digit_mirror_error_mm(rig):

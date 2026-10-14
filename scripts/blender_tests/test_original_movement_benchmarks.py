@@ -24,10 +24,22 @@ class OriginalMovementBenchmarkNativeTests(unittest.TestCase):
 
     def test_first_frame_is_rest_and_unapproved(self):
         self.assertFalse(self.report["approved"])
-        for name in ("squat", "bent_over_row", "lunge", "trunk_rotation", "single_leg_stance", "calf_raise"):
+        for name in ("squat", "bent_over_row", "calf_raise"):               # no arm carriage: exact rest
             f0 = self.report["benchmarks"][name]["frames"][0]
             self.assertEqual(f0["self_intersecting_pairs"], 0, name)
             self.assertEqual(f0["body_volume_change_pct"], 0.0, name)
+        for name in ("lunge", "trunk_rotation", "single_leg_stance"):      # H1: standing with the 4 deg arm carriage
+            f0 = self.report["benchmarks"][name]["frames"][0]
+            self.assertEqual(f0["self_intersecting_pairs"], 0, name)
+            self.assertLess(abs(f0["body_volume_change_pct"]), 0.5, name)
+
+    def test_no_hand_thigh_contact_with_arm_carriage(self):
+        for name in ("walk_stride", "lunge", "trunk_rotation", "single_leg_stance"):
+            for f in self.report["benchmarks"][name]["frames"]:
+                for a, b, n in f["self_intersection_classes_top"]:
+                    hand = any(x.split("_")[0] in ("thumb", "index", "middle", "ring", "pinky", "hand", "metacarpal") for x in (a, b))
+                    thigh = any(x.startswith("thigh") for x in (a, b))
+                    self.assertFalse(hand and thigh, (name, f["t"], a, b, n))
 
     def test_feet_stay_on_the_floor(self):
         for name, b in self.report["benchmarks"].items():

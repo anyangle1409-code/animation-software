@@ -97,6 +97,34 @@ The seven earlier benchmarks are unchanged in every metric.
 - calf-raise heel rise, monotone and within the CDC plantarflexion mean;
 - plus the M1 floor, CDC and finiteness checks across all nine benchmarks.
 
+## H1 natural arm carriage and H2 thumb opposition (14 Oct)
+
+**H1: hand-to-thigh contact.**
+- **Cause:** with the arms hanging straight (0° abduction) the hand rests almost on the thigh, so any hip flexion, stride or trunk rotation drives the thumb into it.
+- **Fix:** both upper arms carry a constant **4° shoulder abduction** (`ARM_ABDUCTION_DEG`; upper-arm local −Z for `_r`, +Z for `_l`) in the walk, lunge, trunk rotation and single-leg stance.
+- **Choice of value:** 0 / 4 / 6 / 8° were measured, and 4° is the smallest that clears every hand–thigh contact. It is an authored natural carriage, not a sourced value.
+
+| Benchmark | Worst pairs (0° → 4°) | Remaining |
+|---|---|---|
+| Walk stride | 64 → **0** | — |
+| Trunk rotation | 84 → **0** | — |
+| Single-leg stance | 60 → 42 | calf/thigh only |
+| Lunge | 84 → 84 | calf/thigh only; thumb contact gone |
+
+The other five benchmarks are unchanged frame by frame.
+- **New native test:** `test_no_hand_thigh_contact_with_arm_carriage`. It fails with the carriage at 0°, which was checked.
+- **Updated test:** the first frame of the three carriage benchmarks is now "standing with carriage": 0 pairs and |volume| < 0.5%. The exact-rest check is kept for squat, row and calf raise.
+
+**H2: thumb opposition in the grip** (`THUMB_OPPOSITION`, `_solve_thumb`).
+- **No sourced thumb CMC opposition axis exists here, so the thumb pose is solved:**
+  - with the fingers fully flexed, the thumb base (CMC) Euler rotation is searched on a 15° grid, total ≤ 60°;
+  - MCP and IP are flexed 40° about their measured palmar axes;
+  - **every candidate is checked on the evaluated mesh**, and the closest thumb-tip placement to the flexed index/middle middle phalanges with ≤ 5 thumb/finger skin intersections **and 0 collapsed hand faces** wins;
+  - each side is solved independently, because the digit axes aren't mirrored. The solutions mirror exactly (CMC −15 / ±30 / ∓30°), with a digit mirror error of 0.0 mm.
+- **Result:** the thumb now lies over the top of the fist along the index finger, instead of sticking out sideways.
+- **Grip metrics:** worst collapse 0 → 0, stretch > 2 44 → 4, pairs 150 → 150 (all the 90° elbow crease).
+- **Still not a full wrap:** the thumb tip ends 60.7 mm from the index/middle middle phalanges. Closer placements (30–54 mm) all drive 126–316 thumb pairs into the fingers or palm, or collapse faces. Skinning has no contact model for the thenar pad, so these were rejected and recorded rather than shipped.
+
 ## Next
 
 - **Collision- or volume-aware correctives:** for deep knee and elbow flexion (squat, lunge, row, grip).

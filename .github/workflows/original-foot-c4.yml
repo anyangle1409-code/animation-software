@@ -21,3 +21,6 @@ jobs:
       - run: /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --python-exit-code 1 --python scripts/blender_tests/test_original_foot_c4_candidate.py
         env:
           BLENDER_BIN: /tmp/blender-5.2.1-linux-x64/blender
+      - run: /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --python-exit-code 1 --python scripts/blender_tests/test_original_foot_c5_heel_contact.py
+        env:
+          BLENDER_BIN: /tmp/blender-5.2.1-linux-x64/blender

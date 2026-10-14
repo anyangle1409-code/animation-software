@@ -54,3 +54,33 @@ Only x moves; y and z never change. Topology, weights, rigs and the 206-bone mas
 - **Nails:** absent.
 - **Individual toe articulation:** still the 67-joint single toe control. Work's 95-control trial keeps its own failing gate; individual toes remain a runtime-contract question for Work (F5).
 - **The ANSUR heel landmark wording** was not retrievable; the section definition used is disclosed.
+
+## C5 = C4 + plantar heel contact (same day)
+
+**Defect, inherited from the frozen a003.** In neutral standing, no heel skin behind the ankle-joint centre (AJC) is within 2 mm of the floor.
+- On true sections, the plantar contour is lowest 10 mm in front of the AJC (1.2 mm) and rises behind it. C4 measures 6.6 / 9.9 / 13.2 / 19.3 / 27.9 mm at +10 / +20 / +30 / +40 / +50 mm; a003 is worse (26.7 mm at +30).
+- The standing foot therefore rocks on its midfoot and forefoot.
+- A standing foot bears weight on the heel under the calcaneal tuberosity and on the first and fifth metatarsal heads (the plantar tripod). That is the qualitative reference used; no numeric heel-pad target.
+
+**Change.** `scripts/build_original_foot_heel_contact_blender.py` moves z only, mesh-only, mirrored, and updates every shape key.
+- Target sole: on the floor from 10 mm in front of the AJC, then a 35 mm round-off up to the heel back.
+- Each section is lowered rigidly to that target, with a vertical fade (full to 15 mm above the sole, zero at 60 mm). The heel pad thickens and the calcaneus stays inside. A 12 mm blend in front of the flat start avoids a midfoot step, and nothing goes below the floor.
+- **Variants measured on side renders:**
+  - R = 22 mm left a boxy heel corner;
+  - R = 45 mm left the pad 2–4 mm off the floor at +20/+30 mm;
+  - R = 35 mm was chosen.
+
+**Result.** `c5/HGPT_ORIGINAL_V1_FOOT_C5_CLAUDE.blend`, parent C4.
+- Profile at +10 / +20 / +30 / +40 / +50 mm: **0.2 / 0.6 / 1.1 / 5.7 / 14.2 mm**.
+- Heel contact vertices (within 2 mm): 0 → 6. Metatarsal-head (11), toe (41) and lateral-midfoot (3) contacts are unchanged.
+- 0 self-intersections, 0 flipped faces, area ratios 0.63–1.85, exact mirror, every station inside the skin.
+- Posed sweep (`c5/foot_posed_sweep_c5.json`): 0 collapse, stretch or intersection. The minimum area ratio at +20° foot is 0.79 (C4: 0.88).
+- Native tests: `scripts/blender_tests/test_original_foot_c5_heel_contact.py`, 5 pass, also in the C4 workflow.
+
+**Evidence:**
+- `c5/sheets_a003_vs_c5/` and `c5/sheets_c4_vs_c5/`: six foot views each;
+- `c5/fullbody_a003_vs_c5/`: six full-body views.
+
+**Still open:**
+- The heel back stays faceted: the a003 heel is low-poly, and no topology change was made.
+- The 2 "arch" contact vertices are the inherited medial midfoot skin. A real arch is off the floor, but no arch-height source was used, so it is left as is.

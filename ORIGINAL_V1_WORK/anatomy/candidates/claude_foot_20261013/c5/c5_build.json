@@ -1,0 +1,140 @@
+{
+ "schema_version": 1,
+ "stage": "ORIGINAL_V1_FOOT_HEEL_CONTACT_C5_CLAUDE",
+ "status": "PROVISIONAL_DEVELOPMENT_CANDIDATE_NOT_ACCEPTED",
+ "parent": {
+  "path": "HGPT_ORIGINAL_V1_FOOT_C4_CLAUDE.blend",
+  "sha256": "b1ecd3e5bb39dcca5aa631dfa94c793a722e7011b13aa47707ffc97bbadb05aa"
+ },
+ "evidence": "standing foot bears weight on the heel (calcaneal tuberosity) and first/fifth metatarsal heads; no numeric heel-pad target used",
+ "parameters": {
+  "flat_start_rel_ajc_m": -0.01,
+  "round_radius_m": 0.035,
+  "blend_m": 0.012,
+  "z_full_m": 0.015,
+  "z_zero_m": 0.06,
+  "heel_back_rel_ajc_mm": 60.0
+ },
+ "changed_vertices": 218,
+ "checks": {
+  "topology_groups_weights_unchanged": true,
+  "only_foot_z_lowered": true,
+  "mirror_map_max_error_m": 0.0,
+  "symmetry_max_m": 0.0,
+  "foot_stations_outside_skin": [],
+  "reversed_triangles": 0,
+  "area_ratio_range": [
+   0.6264,
+   1.8532
+  ],
+  "foot_self_intersecting_pairs": [
+   0,
+   0
+  ],
+  "lowest_point_mm": [
+   -0.0,
+   -0.0
+  ],
+  "plantar_profile_mm_vs_AJC": {
+   "before": [
+    [
+     -20,
+     1.7
+    ],
+    [
+     -10,
+     1.2
+    ],
+    [
+     0,
+     3.7
+    ],
+    [
+     10,
+     6.6
+    ],
+    [
+     20,
+     9.9
+    ],
+    [
+     30,
+     13.2
+    ],
+    [
+     40,
+     19.3
+    ],
+    [
+     50,
+     27.9
+    ]
+   ],
+   "after": [
+    [
+     -20,
+     1.7
+    ],
+    [
+     -10,
+     0.0
+    ],
+    [
+     0,
+     0.0
+    ],
+    [
+     10,
+     0.2
+    ],
+    [
+     20,
+     0.6
+    ],
+    [
+     30,
+     1.1
+    ],
+    [
+     40,
+     5.7
+    ],
+    [
+     50,
+     14.2
+    ]
+   ]
+  },
+  "contact_vertices_within_2mm": {
+   "before": {
+    "heel": 0,
+    "midfoot_lateral": 3,
+    "midfoot_medial_arch": 2,
+    "metatarsal_heads": 11,
+    "toes": 41
+   },
+   "after": {
+    "heel": 6,
+    "midfoot_lateral": 3,
+    "midfoot_medial_arch": 2,
+    "metatarsal_heads": 11,
+    "toes": 41
+   }
+  },
+  "max_drop_mm": 22.92,
+  "verdict": "PASS"
+ },
+ "shape_keys_updated": [
+  "Basis",
+  "HGPT_SHOULDER_CORR_L",
+  "HGPT_SHOULDER_CORR_R",
+  "HGPT_SHOULDER_FLEX_L",
+  "HGPT_SHOULDER_FLEX_R",
+  "HGPT_SHOULDER_SCAP_L",
+  "HGPT_SHOULDER_SCAP_R"
+ ],
+ "output": {
+  "path": "HGPT_ORIGINAL_V1_FOOT_C5_CLAUDE.blend",
+  "sha256": "92f5b34eaa4db3d75e772ccd85a1654129473acd7e3082b294ad6fec8f937c33"
+ }
+}

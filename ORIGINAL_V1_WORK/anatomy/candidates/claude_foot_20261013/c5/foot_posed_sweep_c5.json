@@ -1,0 +1,118 @@
+{
+ "schema_version": 1,
+ "scope": "FK sweep, leg fixed; diagnostic, not gait/deformation acceptance",
+ "results": [
+  {
+   "blend": "HGPT_ORIGINAL_V1_FOOT_C4_CLAUDE.blend",
+   "sha256": "b1ecd3e5bb39dcca5aa631dfa94c793a722e7011b13aa47707ffc97bbadb05aa",
+   "foot_faces": 6336,
+   "poses": {
+    "foot_-30": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.4499,
+     "area_ratio_max": 1.1534,
+     "self_intersecting_pairs": 0
+    },
+    "foot_-15": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.7312,
+     "area_ratio_max": 1.082,
+     "self_intersecting_pairs": 0
+    },
+    "foot_+10": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.9411,
+     "area_ratio_max": 1.17,
+     "self_intersecting_pairs": 0
+    },
+    "foot_+20": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.8767,
+     "area_ratio_max": 1.3311,
+     "self_intersecting_pairs": 0
+    },
+    "toe_-50": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.4901,
+     "area_ratio_max": 1.4818,
+     "self_intersecting_pairs": 0
+    },
+    "toe_-30": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.7104,
+     "area_ratio_max": 1.2771,
+     "self_intersecting_pairs": 0
+    },
+    "toe_+30": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.6873,
+     "area_ratio_max": 1.221,
+     "self_intersecting_pairs": 0
+    }
+   }
+  },
+  {
+   "blend": "HGPT_ORIGINAL_V1_FOOT_C5_CLAUDE.blend",
+   "sha256": "92f5b34eaa4db3d75e772ccd85a1654129473acd7e3082b294ad6fec8f937c33",
+   "foot_faces": 6336,
+   "poses": {
+    "foot_-30": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.4499,
+     "area_ratio_max": 1.26,
+     "self_intersecting_pairs": 0
+    },
+    "foot_-15": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.7312,
+     "area_ratio_max": 1.1418,
+     "self_intersecting_pairs": 0
+    },
+    "foot_+10": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.898,
+     "area_ratio_max": 1.17,
+     "self_intersecting_pairs": 0
+    },
+    "foot_+20": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.7948,
+     "area_ratio_max": 1.3311,
+     "self_intersecting_pairs": 0
+    },
+    "toe_-50": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.4901,
+     "area_ratio_max": 1.4818,
+     "self_intersecting_pairs": 0
+    },
+    "toe_-30": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.7104,
+     "area_ratio_max": 1.2771,
+     "self_intersecting_pairs": 0
+    },
+    "toe_+30": {
+     "collapse_lt_0_1": 0,
+     "stretch_gt_2": 0,
+     "area_ratio_min": 0.6873,
+     "area_ratio_max": 1.221,
+     "self_intersecting_pairs": 0
+    }
+   }
+  }
+ ]
+}

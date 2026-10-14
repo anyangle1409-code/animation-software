@@ -1,0 +1,28 @@
+{
+ "pelvis_forward_tilt": 47.5,
+ "hip_flexion": 135.488,
+ "knee_flexion": 105.836,
+ "metrics": {
+  "hip_flexion": 135.49,
+  "knee_flexion": 105.84,
+  "ankle_dorsiflexion": 17.85,
+  "shoulder_flexion": 47.5,
+  "trunk_inclination_from_vertical": 47.5,
+  "bar_offset_from_midfoot_mm": 0.01,
+  "hand_height_minus_knee_mm": -269.3,
+  "bar_height_mm": 225.0
+ },
+ "invariants": {
+  "bar_offset_abs_mm": 20.0,
+  "bar_height_mm": [
+   205.0,
+   245.0
+  ],
+  "ankle_dorsiflexion": [
+   3.0,
+   20.0
+  ]
+ },
+ "note": "solved start position (solver output 14 Oct, --solve-deadlift, 22 min); bar = knuckle line; 225 mm = 450 mm plate radius; most upright feasible trunk",
+ "finding": "hip flexion 135.5 deg exceeds the CDC passive mean 130.4 deg; with the hip limited to the mean no flat-back start exists (trunk 40-70 deg searched)"
+}

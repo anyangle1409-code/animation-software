@@ -1,0 +1,182 @@
+{
+ "squat": {
+  "before": {
+   "collapse_lt_0_1": 26,
+   "stretch_gt_2": 56,
+   "self_intersecting_pairs": 371
+  },
+  "after": {
+   "collapse_lt_0_1": 26,
+   "stretch_gt_2": 56,
+   "self_intersecting_pairs": 371
+  },
+  "vol_before": [
+   -4.3,
+   0.1839
+  ],
+  "vol_after": [
+   -4.3,
+   0.1839
+  ]
+ },
+ "bent_over_row": {
+  "before": {
+   "collapse_lt_0_1": 2,
+   "stretch_gt_2": 0,
+   "self_intersecting_pairs": 156
+  },
+  "after": {
+   "collapse_lt_0_1": 2,
+   "stretch_gt_2": 2,
+   "self_intersecting_pairs": 148
+  },
+  "vol_before": [
+   -3.0472,
+   0.5322
+  ],
+  "vol_after": [
+   -2.9579,
+   0.5902
+  ]
+ },
+ "shoulder_press": {
+  "before": {
+   "collapse_lt_0_1": 48,
+   "stretch_gt_2": 438,
+   "self_intersecting_pairs": 462
+  },
+  "after": {
+   "collapse_lt_0_1": 4,
+   "stretch_gt_2": 634,
+   "self_intersecting_pairs": 124
+  },
+  "vol_before": [
+   -5.0144,
+   1.4628
+  ],
+  "vol_after": [
+   -2.0056,
+   3.0456
+  ]
+ },
+ "lunge": {
+  "before": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 57,
+   "self_intersecting_pairs": 84
+  },
+  "after": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 57,
+   "self_intersecting_pairs": 84
+  },
+  "vol_before": [
+   -1.8349,
+   0.0886
+  ],
+  "vol_after": [
+   -1.8349,
+   0.0886
+  ]
+ },
+ "walk_stride": {
+  "before": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 0,
+   "self_intersecting_pairs": 64
+  },
+  "after": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 0,
+   "self_intersecting_pairs": 64
+  },
+  "vol_before": [
+   -0.2042,
+   0.071
+  ],
+  "vol_after": [
+   -0.1848,
+   0.0759
+  ]
+ },
+ "trunk_rotation": {
+  "before": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 7,
+   "self_intersecting_pairs": 84
+  },
+  "after": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 7,
+   "self_intersecting_pairs": 84
+  },
+  "vol_before": [
+   -0.5835,
+   0.0
+  ],
+  "vol_after": [
+   -0.5811,
+   -0.0
+  ]
+ },
+ "grip": {
+  "before": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 44,
+   "self_intersecting_pairs": 150
+  },
+  "after": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 46,
+   "self_intersecting_pairs": 146
+  },
+  "vol_before": [
+   -0.0398,
+   0.0124
+  ],
+  "vol_after": [
+   0.1756,
+   0.2277
+  ]
+ },
+ "single_leg_stance": {
+  "before": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 53,
+   "self_intersecting_pairs": 60
+  },
+  "after": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 53,
+   "self_intersecting_pairs": 60
+  },
+  "vol_before": [
+   -1.5628,
+   0.0792
+  ],
+  "vol_after": [
+   -1.5628,
+   0.0792
+  ]
+ },
+ "calf_raise": {
+  "before": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 0,
+   "self_intersecting_pairs": 0
+  },
+  "after": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 0,
+   "self_intersecting_pairs": 0
+  },
+  "vol_before": [
+   -0.168,
+   -0.0
+  ],
+  "vol_after": [
+   -0.168,
+   -0.0
+  ]
+ }
+}

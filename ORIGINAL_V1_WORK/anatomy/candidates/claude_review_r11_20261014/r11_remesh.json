@@ -1,0 +1,45 @@
+{
+ "kind": "ORIGINAL_V1_SHOULDER_REMESH",
+ "candidate": "R11",
+ "approved": false,
+ "status": "REVIEW_CANDIDATE_NOT_ACCEPTED",
+ "parent": {
+  "path": "HGPT_ORIGINAL_V1_CONSOLIDATED_REVIEW_R10_CLAUDE.blend",
+  "sha256": "bc7839244432a1d25294c32a3ebd9dabc513bd09df33ba4bb8616b446067f8be",
+  "vertices": 17946
+ },
+ "output": {
+  "path": "HGPT_ORIGINAL_V1_CONSOLIDATED_REVIEW_R11_CLAUDE.blend",
+  "sha256": "16edf3521c77a78beb63266c0fbffc14b703665c0d2995a8985d98717110f1ae"
+ },
+ "params": {
+  "region_r_m": 0.15,
+  "axilla_r_m": 0.1,
+  "axilla_offset_m": [
+   -0.05,
+   0.02,
+   -0.075
+  ],
+  "taubin_iters": 0
+ },
+ "remesh": {
+  "scheme": "Loop subdivision (region), midpoint on the region boundary",
+  "repositioned_original_vertices": 1070,
+  "region_faces": 2362,
+  "new_vertices": 3654,
+  "smoothed_vertices": 4864,
+  "edge_stats_within_12cm_of_pivots_before": {
+   "edges": 2282,
+   "median_edge_mm": 19.69,
+   "p90_edge_mm": 28.97
+  },
+  "after": {
+   "edges": 8938,
+   "median_edge_mm": 9.02,
+   "p90_edge_mm": 14.09
+  },
+  "vertices": 21600,
+  "faces": 43196,
+  "all_triangles": true
+ }
+}

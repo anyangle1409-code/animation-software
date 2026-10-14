@@ -1,14 +1,16 @@
 {
  "schema_version": 1,
  "kind": "claude_master_task_ledger",
- "updated": "2026-10-14 (W3 option A feasibility data)",
+ "updated": "2026-10-14 (F7, W5, H1, H2, P4, R2 tested)",
  "owner_rules": "skeleton is source of truth; no frozen-skeleton change without owner decision; no merge; no approval claims; no third-party assets",
  "environment": "cloud Linux container (Blender 5.2.1 as Python module); not the owner's Windows laptop; no battery telemetry available, protection = commit/push after every task",
  "branches": {
   "ledger": "claude/master-execution-20261013 (from PR108 head bd162c50)",
   "foot": "claude/original-v1-foot-shape-20261013",
   "w_guides": "claude/functional-original-shoulder-correction-20261013 (draft PR #111)",
-  "w_correctives": "claude/functional-shoulder-coupled-corrective-20261013"
+  "w_correctives": "claude/functional-shoulder-coupled-corrective-20261013",
+  "movement": "claude/movement-benchmarks-20261013 (draft PR #113) head ba05f924",
+  "review_r1": "claude/original-v1-consolidated-review-20261014 head 8963c524"
  },
  "tasks": [
   {
@@ -52,7 +54,7 @@
    "id": "F4",
    "description": "Forefoot breadth/toe girth candidate towards ANSUR foot breadth 104.1+-4.7 mm (model 96.7)",
    "priority": 1,
-   "status": "TESTED",
+   "status": "COMPLETE",
    "evidence": "docs/ORIGINAL_V1_FOOT_BREADTH_AND_POSED_SWEEP_CLAUDE_20261013.md (foot branch)",
    "tests": "breadth stage self-checks PASS (C2W, C3W)",
    "commit": "c16ec280",
@@ -61,7 +63,7 @@
     "lesser-toe girth still thin",
     "heel breadth ANSUR landmark ambiguous on this mesh"
    ],
-   "next": "toe girth pass (needs a toe-breadth source)"
+   "next": "superseded by F7 (C3W withdrawn: breadth stage crumpled the little toes; heel 'narrow' finding withdrawn: vertex-sampling error)"
   },
   {
    "id": "F5",
@@ -220,6 +222,91 @@
     "hip fold: method rejected; needs three-body contact model"
    ],
    "next": "none executable without a contract decision or a sourced contact/compression profile"
+  },
+  {
+   "id": "F7",
+   "description": "Foot C4 (from C3: geodesic toe tubes, gap closing, ANSUR ball breadth by sections) + C5 heel contact; C3W withdrawn (toe crumple)",
+   "priority": 1,
+   "status": "TESTED",
+   "evidence": "docs/ORIGINAL_V1_FOOT_C4_PROVISIONAL_CLAUDE_20261014.md; candidates/claude_foot_20261013/c4,c5 (sheets, full-body views)",
+   "tests": "8 + 5 native PASS; CI original-foot-c4.yml",
+   "commit": "claude/original-v1-foot-shape-20261013 ed5a11d7",
+   "blockers": [
+    "toe cross-sections still tall (no sourced toe sizes)",
+    "no nails",
+    "faceted heel back",
+    "individual toe articulation = F5 contract"
+   ],
+   "next": "consolidated into R1"
+  },
+  {
+   "id": "W5",
+   "description": "W3 option A in memory: stateless mid-elevation-reference helper drive + tuned transfer",
+   "priority": 1,
+   "status": "TESTED",
+   "evidence": "docs/CLAUDE_W3A_HELPER_DEFORMER_FEASIBILITY_20261014.md; audit/claude_w3a sheets",
+   "tests": "4 native PASS (CI)",
+   "commit": "claude/movement-benchmarks-20261013 a558208a",
+   "blockers": [
+    "armpit bulge",
+    "posterior axillary web",
+    "+230 stretched faces",
+    "69-joint contract: owner + Lane G"
+   ],
+   "next": "consolidated into R1"
+  },
+  {
+   "id": "H1",
+   "description": "Natural arm carriage (4 deg abduction) removes hand/thigh contact",
+   "priority": 2,
+   "status": "TESTED",
+   "evidence": "docs/CLAUDE_M1_MOVEMENT_BENCHMARKS_20261013.md H1/H2",
+   "tests": "new native test fails without carriage",
+   "commit": "fd736a17",
+   "blockers": [],
+   "next": null
+  },
+  {
+   "id": "H2",
+   "description": "Solved thumb opposition in the grip (mesh-checked)",
+   "priority": 2,
+   "status": "TESTED",
+   "evidence": null,
+   "tests": null,
+   "commit": "fd736a17",
+   "blockers": [
+    "full thumb wrap not reachable without contact handling"
+   ],
+   "next": null
+  },
+  {
+   "id": "P4",
+   "description": "Movement families: forearm rotation, wrist circuit (atlas active ranges), deadlift (solved start: bar 225 mm over midfoot), push-up (solved plank, 0 mm floor penetration)",
+   "priority": 2,
+   "status": "TESTED",
+   "evidence": "docs/CLAUDE_M1_MOVEMENT_BENCHMARKS_20261013.md; audit/claude_m1/{deadlift,push_up,forearm_rotation,wrist_circuit}_phone_sheet.jpg; deadlift_start_solution.json",
+   "tests": "scripts/blender_tests/test_original_movement_benchmarks.py (13 native, pass locally)",
+   "commit": "2a5c8aca (forearm/wrist), ba05f924 (deadlift, push-up)",
+   "blockers": [
+    "wrist dorsal crease at full extension",
+    "deadlift hip flexion 135.5 > CDC 130.4 (no flat-back start within it)",
+    "deadlift start objective is squat-like: needs sourced lifter kinematics"
+   ],
+   "next": "sourced real-human kinematic targets for deadlift/push-up comparison"
+  },
+  {
+   "id": "R2",
+   "description": "Consolidated review candidate R1 (C5 feet + W3A helper + K1 knee/elbow<=110) with drives, validation and phone sequences",
+   "priority": 1,
+   "status": "TESTED",
+   "evidence": "docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R1_20261014.md; candidates/claude_review_r1_20261014/{r1_build.json,r1_validation.json,fullbody,closeups,sequences}",
+   "tests": "scripts/blender_tests/test_original_review_candidate_r1.py (6 native, pass locally; CI workflow original-review-candidate-r1.yml)",
+   "commit": "05f0a5db (build), 8963c524 (validation, sequences, tests)",
+   "blockers": [
+    "shipping needs 69 joints + helper drive + K1 morphs + C3 foot decision (owner + Lane G, PR #26)",
+    "press +196 stretched faces (W3A armpit)"
+   ],
+   "next": "owner review; reduce W3A armpit stretch; hip-fold corrective"
   }
  ]
 }

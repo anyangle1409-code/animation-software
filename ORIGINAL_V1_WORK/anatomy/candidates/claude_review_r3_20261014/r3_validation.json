@@ -390,36 +390,36 @@
    "r3_worst": {
     "collapse_lt_0_1": 2,
     "stretch_gt_2": 72,
-    "self_intersecting_pairs": 166
+    "self_intersecting_pairs": 50
    },
    "a003_volume_pct": [
     -0.3343,
     -0.0407
    ],
    "r3_volume_pct": [
-    -0.347,
+    -0.3408,
     0.2227
    ],
    "r3_end_classes": [
     [
-     "forearm_tw0_l",
-     "upperarm_l",
-     66
+     "metacarpal_index_l",
+     "thumb_01_l",
+     4
     ],
     [
-     "forearm_tw0_r",
-     "upperarm_r",
-     66
+     "metacarpal_index_r",
+     "thumb_01_r",
+     4
     ],
     [
-     "forearm_tw1_l",
-     "upperarm_l",
-     10
+     "thumb_01_l",
+     "thumb_01_l",
+     3
     ],
     [
-     "forearm_tw1_r",
-     "upperarm_r",
-     10
+     "thumb_01_r",
+     "thumb_01_r",
+     3
     ]
    ],
    "r3_peak_angles": {
@@ -457,8 +457,8 @@
     "elbow_flexion": 90.0,
     "forearm_pronation": 0.0,
     "forearm_supination": 82.4,
-    "forearm_min_slice_radius_ratio_r": 0.88,
-    "forearm_min_slice_radius_ratio_l": 0.88
+    "forearm_min_slice_radius_ratio_r": 0.89,
+    "forearm_min_slice_radius_ratio_l": 0.89
    }
   },
   "wrist_circuit": {

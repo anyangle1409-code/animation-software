@@ -25,6 +25,21 @@ class KneeContactCorrectiveNativeTests(unittest.TestCase):
         cls.after = k1.knee_sweep(cls.result, True, angles=(0, 60, 90, 110, 120))
         cls.elbow_after = k1.hinge_sweep(cls.result, True, "elbow", angles=(0, 60, 90, 110))
 
+    def test_hinge_angle_ignores_forearm_twist(self):
+        import build_original_movement_benchmarks_blender as bench
+        rig = self.result["runtime"]
+        try:
+            for pro in (0.0, 68.8, -82.4):                    # atlas pronation / supination means
+                for el in (60.0, 100.0, 120.0):
+                    bench._reset(rig)
+                    for s in k1.SIDES:
+                        bench._forearm(rig, s, el, pro)
+                    bpy.context.view_layer.update()
+                    for s in k1.SIDES:
+                        self.assertAlmostEqual(k1.hinge_angle_deg(rig, "elbow", s), el, places=3, msg=(pro, el, s))
+        finally:
+            bench._reset(rig)
+
     def test_activation_hats(self):
         self.assertEqual(set(k1.activations(0).values()), {0.0})
         self.assertEqual(set(k1.activations(k1.ACTIVATION_START).values()), {0.0})

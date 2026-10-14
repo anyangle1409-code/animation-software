@@ -2,6 +2,7 @@
  "kind": "ORIGINAL_V1_REVIEW_CANDIDATE_VALIDATION",
  "approved": false,
  "candidate": "HGPT_ORIGINAL_V1_CONSOLIDATED_REVIEW_R1_CLAUDE.blend",
+ "name": "r1",
  "baseline": "HGPT_ANATOMICAL_AUDIT_r95_a003.blend",
  "benchmarks": {
   "squat": {
@@ -396,29 +397,29 @@
     -0.0407
    ],
    "r1_volume_pct": [
-    -0.3472,
+    -0.341,
     0.2222
    ],
    "r1_end_classes": [
     [
-     "forearm_tw0_l",
-     "upperarm_l",
-     66
-    ],
-    [
-     "forearm_tw0_r",
-     "upperarm_r",
-     66
-    ],
-    [
-     "forearm_tw1_l",
-     "upperarm_l",
+     "metacarpal_index_l",
+     "thumb_01_l",
      10
     ],
     [
-     "forearm_tw1_r",
-     "upperarm_r",
+     "metacarpal_index_r",
+     "thumb_01_r",
      10
+    ],
+    [
+     "thumb_01_l",
+     "thumb_01_l",
+     3
+    ],
+    [
+     "thumb_01_r",
+     "thumb_01_r",
+     3
     ]
    ],
    "r1_peak_angles": {
@@ -456,8 +457,8 @@
     "elbow_flexion": 90.0,
     "forearm_pronation": 0.0,
     "forearm_supination": 82.4,
-    "forearm_min_slice_radius_ratio_r": 0.88,
-    "forearm_min_slice_radius_ratio_l": 0.88
+    "forearm_min_slice_radius_ratio_r": 0.89,
+    "forearm_min_slice_radius_ratio_l": 0.89
    }
   },
   "wrist_circuit": {

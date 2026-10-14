@@ -61,11 +61,11 @@ Knee and elbow behave exactly as before; K1's 7 native tests pass.
   | | Collapse | Stretch | Pairs |
   |---|---|---|---|
   | R2 | 14 | 74 | 192 |
-  | R3 | 2 | 72 | 166 |
+  | R3 | 2 | 72 | 50 |
   | a003 | 12 | 64 | 196 |
 
   - The top frames' wrist pairs fall from 192 to 42.
-  - The remaining worst frame is the bottom elbow crease (166 pairs, forearm_tw0/upper arm). The K1 elbow keys were solved in pure flexion and do not cover elbow flexion under pronation.
+  - **K1 angle fix (same day):** K1 read the elbow angle from an XYZ Euler, which under-reported a pronated 110° elbow as 97.5°, so the elbow keys under-fired in the push-up's bottom frames (166 pairs). The read is now swing–twist and exact under twist (regression test added; K1 on the movement branch carries the same fix). With it, the bottom elbow crease is handled and the push-up's worst frame is 50 pairs (remaining: thumb base against index metacarpal). R1/R2/R3 validations were re-run with the fix; nothing else changed.
 - **Wrist circuit:** worst frame unchanged. The extension frame has 0 pairs instead of 2, with +2 stretched faces.
 
 ## Evidence
@@ -87,7 +87,6 @@ CI runs it (`original-review-candidate-r1.yml`), together with the K1 tests on t
 
 ## Still open
 
-- **Elbow crease under pronation:** push-up bottom, 166 pairs.
 - **Thenar stretch** from the push-up thumb extension.
 - **Hip fold:** deadlift and squat; needs a three-body contact model.
 - **W3A armpit bulge and posterior axillary web.**

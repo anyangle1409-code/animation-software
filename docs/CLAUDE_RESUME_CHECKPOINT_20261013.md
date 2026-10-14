@@ -33,7 +33,7 @@
 
 ## Next unblocked
 
-**14 Oct (late):** R5 built (owner: fix blade tilt and row contact): `docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R5_20261014.md`, review branch `d75263b5`. R5 is the current single review candidate. Resume point: (1) posterior-axillary curl at 140-160 deg (press pairs 216), (2) blade/thorax geometry (inferior angle 47 mm off the ellipsoid with profile angles), (3) mid-range collapsed faces; then the hip fold. Check CI on `d75263b5` first.
+**14 Oct (late):** R6 built (owner: press skin still stretched): `docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R6_20261014.md`, review branch `4b4691cf`. R6 is the current single review candidate. Resume point: (1) posterior-axillary curl (press pairs 216), (2) remaining lateral-back stretch band, (3) mid-range collapsed faces, (4) blade/thorax geometry; then the hip fold. Check CI on `4b4691cf` first.
 
 As of 14 Oct, none. Every open item needs an owner decision, a Lane G agreement, or a primary source that is unreachable from this cloud environment:
 

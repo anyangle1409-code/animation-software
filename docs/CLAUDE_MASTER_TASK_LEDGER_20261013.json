@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "kind": "claude_master_task_ledger",
- "updated": "2026-10-14 (R5: blade tilt + row contact)",
+ "updated": "2026-10-14 (R6: press stretch relax keys)",
  "owner_rules": "skeleton is source of truth; no frozen-skeleton change without owner decision; no merge; no approval claims; no third-party assets",
  "environment": "cloud Linux container (Blender 5.2.1 as Python module); not the owner's Windows laptop; no battery telemetry available, protection = commit/push after every task",
  "branches": {
@@ -10,7 +10,7 @@
   "w_guides": "claude/functional-original-shoulder-correction-20261013 (draft PR #111)",
   "w_correctives": "claude/functional-shoulder-coupled-corrective-20261013",
   "movement": "claude/movement-benchmarks-20261013 (draft PR #113) head 359c8865",
-  "review_r1": "claude/original-v1-consolidated-review-20261014 head d75263b5 (R1-R5)"
+  "review_r1": "claude/original-v1-consolidated-review-20261014 head 4b4691cf (R1-R6)"
  },
  "tasks": [
   {
@@ -392,6 +392,22 @@
     "press posterior-axillary curl; mid-range collapse 4-10"
    ],
    "next": "posterior-axillary curl; blade/thorax geometry review; hip fold"
+  },
+  {
+   "id": "R6",
+   "description": "R5 + S1 pull-only relax keys on the measured press stretch zone (lateral back below the armpit, inner arm), keys 105/120/145/160, mirror-symmetric guard",
+   "priority": 1,
+   "status": "TESTED",
+   "evidence": "docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R6_20261014.md; candidates/claude_review_r6_20261014/{r6_s6_build.json,r6_validation.json,stretch,sequences}",
+   "tests": "test_original_review_candidate_r6.py (6 native, pass locally); R2/R5 tests still pass",
+   "commit": "4b4691cf",
+   "blockers": [
+    "narrow lateral-back band still up to 6x (16 faces > 3x)",
+    "press pairs 216 (posterior-axillary curl)",
+    "mid-range collapse",
+    "inferior-angle lift-off"
+   ],
+   "next": "posterior-axillary curl; lateral-back band (latissimus-like helper or weights); hip fold"
   }
  ]
 }

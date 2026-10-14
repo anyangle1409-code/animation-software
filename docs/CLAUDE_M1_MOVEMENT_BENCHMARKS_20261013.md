@@ -147,6 +147,46 @@ Both start from the standard goniometric position: elbow flexed 90°, forearm ne
 - **Direction check (close-up renders in the phone sheets):** pronation turns the palm down with the thumb rolling medially; supination turns the palm up. Extension bends the hand dorsally; ulnar deviation drops the little-finger side.
 - **Tests:** 11 native tests. The two new ones require the peaks to equal the atlas means, no collapse, and a forearm slice radius above 0.85.
 
+## P4 families: deadlift start and push-up (14 Oct)
+
+**Deadlift (conventional start, solved).** Rather than hand-picked angles, the start is solved (`--solve-deadlift`, 22 min,
+result stored in `audit/claude_m1/deadlift_start_solution.json` and read by `pose_deadlift`) against invariants of a loaded
+barbell: bar (knuckle line, arms hanging vertically) 205–245 mm high (450 mm plates: 225 mm), bar within 20 mm of midfoot,
+ankle dorsiflexion 3–20°, flat back (pelvis tilt = trunk), choosing the most upright feasible trunk.
+
+| Solution | Value |
+|---|---|
+| Trunk from vertical / pelvis tilt | 47.5° |
+| Hip flexion | 135.5° (**exceeds the CDC passive mean 130.4°**) |
+| Knee flexion | 105.8° |
+| Ankle dorsiflexion | 17.9° (above the CDC passive mean by 5.2°) |
+| Bar height / offset from midfoot | 225.0 mm / 0.0 mm |
+
+- **Finding:** with hip flexion held to the CDC passive mean there is **no** flat-back start for trunk 40–70° (searched); a
+  1.82 m body with these segment lengths needs ~135° at the hip. The test allows this one exceedance for the deadlift only.
+- **Limitation (visible on the sheet):** the "most upright trunk" objective gives a squat-like start (knees 106°, hips low).
+  Typical conventional starts are more hip-dominant; the two rejected objectives (least dorsiflexion → stiff-legged; a fixed
+  below-knee bar band → bar too high) were worse. A sourced lifter-kinematics target is needed to choose between them.
+- **Deformation at the start:** worst collapse 38, stretch > 2 76, pairs 455 — the trunk/thigh (spine_01/thigh 78 each) and
+  calf/thigh folds. This is the known hip-fold defect (P3, no accepted corrective); volume −5.3 %.
+
+**Push-up (solved plank).** Elbow 0 → 100° (published ranges ~100–111°). Per frame the body pitch and shoulder flexion are
+solved (Newton) so that the **lowest hand skin (palm, thenar, fingers) sits exactly on the floor** at a fixed distance from
+the toe-pad contact (set at the top by a vertical arm). Toes extended 60°, forearms pronated to the atlas active mean,
+thumb_01 extended 40° (the rest thumb hung 46 mm through the floor), wrist extended until the hand lies flat, and the body
+grounded with a world-space translation (pose location is in rest space).
+
+| Frame | Pitch | Shoulder flexion | Wrist extension | Trunk clearance | Lowest skin |
+|---|---|---|---|---|---|
+| Top (elbow 0) | 14.3° | 67.4° | 97.3° | 271 mm | 0.0 mm |
+| Bottom (elbow 100) | 4.1° | 15.8° | 59.1° | 178 mm | 0.0 mm |
+
+- Contacts: toe pads, thenar and ulnar palm; palm/position solve errors < 0.1 mm.
+- **Finding:** wrist extension at the top (97°) exceeds the active mean (68°) — a loaded push-up does; recorded and allowed
+  for the push-up only. The dorsal wrist crease seen in the wrist circuit appears here too.
+- Worst: collapse 12, stretch > 2 64, pairs 196 (elbow crease forearm/upper arm 45 each side); volume −0.3 %.
+- **Tests:** 13 native tests, incl. deadlift invariants and push-up contacts (|lowest| < 1 mm, solve errors < 0.5 mm).
+
 ## Next
 
 - **Collision- or volume-aware correctives:** for deep knee and elbow flexion (squat, lunge, row, grip).

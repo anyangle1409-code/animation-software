@@ -45,6 +45,19 @@ SQUAT = {"pelvis_forward_tilt": 25.0, "hip_flexion": 110.0, "knee_flexion": 110.
 ROW = {"pelvis_forward_tilt": 45.0, "hip_flexion": 45.0, "knee_flexion": 20.0, "shoulder_flexion_start": 45.0,
        "shoulder_extension_end": 40.0, "elbow_flexion": 100.0, "clavicle_retraction": 12.0}
 PRESS = {"ht_start": 90.0, "ht_end": 160.0, "elbow_flexion_start": 90.0}
+# conventional deadlift, standing -> start position, flat back, arms hanging vertically.  The start position is SOLVED
+# (coarse grid then local refinement over pelvis tilt / hip / knee) for physical invariants:
+#   * bar height: a loaded bar rests on 450 mm diameter competition plates, so its centre is 225 mm above the floor (the
+#     knuckle line, middle_01 heads, stands in for the bar in the hand; +-20 mm);
+#   * bar over the mid-foot (|horizontal offset| <= 20 mm);
+#   * shins leaning forward (ankle dorsiflexion 3-20 deg: conventional, not stiff-legged);
+#   * (optional DEADLIFT_HIP_LIMIT) hip flexion <= the CDC passive mean: infeasible, see _solve_deadlift_start;
+# choosing the most upright trunk.  Rejected objectives, measured: least ankle dorsiflexion (stiff-legged, shins backward,
+# trunk 70 deg) and an arbitrary 40-120 mm below-knee bar band (bar ~275 mm too high for a loaded barbell).
+DEADLIFT_GRID = {"pelvis_forward_tilt": (20.0, 70.0), "hip_flexion": (80.0, 150.0), "knee_flexion": (60.0, 130.0)}
+DEADLIFT_LIMITS = {"bar_offset_abs_mm": 20.0, "bar_height_mm": (205.0, 245.0), "ankle_dorsiflexion": (3.0, 20.0)}
+DEADLIFT = {}
+DEADLIFT_HIP_LIMIT = False
 # M2 (anatomical side = runtime suffix per F-SIDE-001: _r is anatomical left, _l anatomical right)
 LUNGE = {"front": "r", "front_hip": 90.0, "front_knee": 90.0, "rear_hip_extension": 10.0, "rear_knee": 90.0, "rear_toe_extension": 45.0}
 WALK_KEYS = [  # hip (+flex), knee, ankle (+DF), toe (+toe extension), shoulder (+flex), elbow for (lead "r", trail "l")
@@ -157,6 +170,213 @@ def pose_row(rig, t, rest_heads, clavicle_basis):
             "shoulder_flexion": max(0.0, ROW["shoulder_flexion_start"] * k_hinge - (ROW["shoulder_flexion_start"] + ROW["shoulder_extension_end"]) * k_pull),
             "elbow_flexion": ROW["elbow_flexion"] * k_pull,
             "ankle_dorsiflexion": max(_ankle_dorsiflexion_deg(rig, s) for s in ("l", "r"))}
+
+
+def _hang_arms_vertically(rig):
+    """Solve shoulder flexion per side (bisection) so the hand is directly below the shoulder in y (arms hang)."""
+    out = {}
+    for s in ("l", "r"):
+        pb = rig.pose.bones[f"upperarm_{s}"]
+        lo, hi = -120.0, 120.0
+        for _ in range(22):                                   # ~0.06 deg
+            mid = 0.5 * (lo + hi)
+            _rot(pb, x=-mid)
+            bpy.context.view_layer.update()
+            dy = rig.pose.bones[f"hand_{s}"].head.y - pb.head.y        # +y is posterior
+            lo, hi = (mid, hi) if dy > 0 else (lo, mid)
+        out[s] = 0.5 * (lo + hi)
+    return out
+
+
+DEADLIFT_SOLUTION = ROOT / "ORIGINAL_V1_WORK/anatomy/audit/claude_m1/deadlift_start_solution.json"
+
+
+def _solve_deadlift_start(rig, rest_heads):
+    """For each pelvis tilt (trunk inclination; flat back) from upright down, find hip/knee by nested bisection so the bar
+    is exactly over the mid-foot (inner, knee) at exactly 225 mm (outer, hip); keep the first (most upright) tilt whose
+    solution has the shins leaning forward within the dorsiflexion band."""
+    def at(p, h, k):
+        DEADLIFT.update(pelvis_forward_tilt=p, hip_flexion=h, knee_flexion=k)
+        return _pose_deadlift_raw(rig, 1.0, rest_heads)
+
+    def knee_for_offset(p, h):
+        lo, hi = 30.0, 140.0
+        flo = at(p, h, lo)["bar_offset_from_midfoot_mm"]; fhi = at(p, h, hi)["bar_offset_from_midfoot_mm"]
+        if flo * fhi > 0:
+            return None
+        for _ in range(14):
+            mid = 0.5 * (lo + hi); fm = at(p, h, mid)["bar_offset_from_midfoot_mm"]
+            lo, hi, flo = (mid, hi, fm) if fm * flo > 0 else (lo, mid, flo)
+        return 0.5 * (lo + hi)
+
+    target = 0.5 * sum(DEADLIFT_LIMITS["bar_height_mm"])
+    dlo, dhi = DEADLIFT_LIMITS["ankle_dorsiflexion"]
+    # DEADLIFT_HIP_LIMIT: with the hip held to the CDC passive mean the problem has NO solution for trunk 40-70 deg (solved
+    # 14 Oct): a flat-back conventional start at 1.82 m with 450 mm plates needs ~135 deg hip flexion.  Off by default;
+    # the exceedance is recorded (tests allow it for the deadlift only).
+    hip_max = cdc_limits()["hip_flexion"] if DEADLIFT_HIP_LIMIT else 160.0
+    for p in [20.0 + 2.5 * i for i in range(21)]:
+        prev = None
+        for h in [80.0 + 2.5 * i for i in range(int((hip_max - 80.0) / 2.5) + 1)] + [hip_max]:
+            k = knee_for_offset(p, h)
+            if k is None:
+                prev = None
+                continue
+            f = at(p, h, k)["bar_height_mm"] - target
+            if prev is not None and prev[2] * f <= 0:                # bar height crosses 225 mm between prev and h
+                (h0, k0, f0), h1 = prev, h
+                for _ in range(12):
+                    hm = 0.5 * (h0 + h1); km = knee_for_offset(p, hm)
+                    if km is None:
+                        break
+                    fm = at(p, hm, km)["bar_height_mm"] - target
+                    h0, f0, h1 = (hm, fm, h1) if fm * f0 > 0 else (h0, f0, hm)
+                hs = 0.5 * (h0 + h1); ks = knee_for_offset(p, hs)
+                if ks is not None:
+                    m = at(p, hs, ks)
+                    if dlo <= m["ankle_dorsiflexion"] <= dhi:
+                        _reset(rig)
+                        return {"pelvis_forward_tilt": p, "hip_flexion": round(hs, 3), "knee_flexion": round(ks, 3),
+                                "metrics": {kk: round(v, 2) for kk, v in m.items()}}
+            prev = (h, k, f)
+    raise RuntimeError("no deadlift start satisfies the invariants")
+
+
+def pose_deadlift(rig, t, rest_heads):
+    if not DEADLIFT:
+        sol = json.loads(DEADLIFT_SOLUTION.read_text())      # written by: <this script> -- --solve-deadlift
+        DEADLIFT.update(pelvis_forward_tilt=sol["pelvis_forward_tilt"], hip_flexion=sol["hip_flexion"], knee_flexion=sol["knee_flexion"])
+    return _pose_deadlift_raw(rig, t, rest_heads)
+
+
+def _pose_deadlift_raw(rig, t, rest_heads):
+    _reset(rig)
+    k = smooth(t)
+    _rot(rig.pose.bones["pelvis"], x=DEADLIFT["pelvis_forward_tilt"] * k)
+    for s in ("l", "r"):
+        _rot(rig.pose.bones[f"thigh_{s}"], x=-DEADLIFT["hip_flexion"] * k)
+        _rot(rig.pose.bones[f"shin_{s}"], x=DEADLIFT["knee_flexion"] * k)
+    _plant_feet(rig, rest_heads)
+    sh = _hang_arms_vertically(rig)
+    _plant_feet(rig, rest_heads)
+    pb = rig.pose.bones
+    hands = [(rig.matrix_world @ pb[f"middle_01_{s}"].head) for s in ("l", "r")]          # knuckle line ~ bar in the hand
+    midfoot_y = sum(0.5 * ((rig.matrix_world @ pb[f"foot_{s}"].head).y + (rig.matrix_world @ pb[f"toe_{s}"].head).y) for s in ("l", "r")) / 2
+    knee_z = sum((rig.matrix_world @ pb[f"shin_{s}"].head).z for s in ("l", "r")) / 2
+    trunk = (rig.matrix_world @ pb["spine_03"].tail) - (rig.matrix_world @ pb["pelvis"].head)
+    return {"hip_flexion": DEADLIFT["hip_flexion"] * k, "knee_flexion": DEADLIFT["knee_flexion"] * k,
+            "ankle_dorsiflexion": max(_ankle_dorsiflexion_deg(rig, s) for s in ("l", "r")),
+            "shoulder_flexion": max(sh.values()),
+            "trunk_inclination_from_vertical": math.degrees(math.atan2(-trunk.y, trunk.z)),
+            "bar_offset_from_midfoot_mm": (sum(h.y for h in hands) / 2 - midfoot_y) * 1000,
+            "hand_height_minus_knee_mm": (sum(h.z for h in hands) / 2 - knee_z) * 1000,
+            "bar_height_mm": sum((rig.matrix_world @ pb[f"middle_01_{s}"].head).z for s in ("l", "r")) / 2 * 1000}
+
+
+# push-up: rigid plank on the toe pads and palms; elbow 0 (top) -> PUSHUP_ELBOW (bottom; published push-up elbow ranges
+# about 100-111 deg).  Per frame the body pitch and shoulder flexion are SOLVED (Newton, finite differences) so the palm
+# rests on the floor (lowest palm/finger skin at floor height) at a fixed horizontal distance from the toe contact, set at the
+# top by a vertical arm under the shoulder.  Toes extended TOE_EXT so the toe pads carry the feet; the forearm pronates to the
+# atlas active mean (fingers end ~20 deg turned out); the wrist extends until the hand lies flat (reported: a loaded
+# push-up needs more than the active mean).
+PUSHUP = {"elbow_bottom": 100.0, "toe_extension": 60.0, "thumb_extension": 40.0}
+
+
+def _foot_contact(rig, body):
+    """Lowest foot/toe-dominant skin point (world), evaluated."""
+    V, _ = _evaluated(body)
+    dom = _THUMB_CACHE.setdefault("dom", dominant_groups(body))
+    pts = [V[i] for i, g in enumerate(dom) if g.split("_")[0] in ("foot", "toe")]
+    return min(pts, key=lambda v: v.z)
+
+
+def _pushup_config(rig, body, phi, sigma, elbow):
+    _reset(rig)
+    rig.pose.bones["root"].rotation_mode = "XYZ"
+    rig.pose.bones["root"].rotation_euler = Euler((math.radians(90.0 - phi), 0.0, 0.0), "XYZ")
+    for s in ("l", "r"):
+        _rot(rig.pose.bones[f"toe_{s}"], x=-PUSHUP["toe_extension"])
+        _rot(rig.pose.bones[f"upperarm_{s}"], x=-sigma)
+        _forearm(rig, s, elbow, _atlas_mean("forearm_pronation"))   # palms turn toward the floor; fingers ~20 deg out
+        _rot(rig.pose.bones[f"thumb_01_{s}"], x=-PUSHUP["thumb_extension"])   # rest thumb would hang below the palm
+    bpy.context.view_layer.update()
+    c = _foot_contact(rig, body)                                   # toe pads on the floor
+    root = rig.pose.bones["root"]                                  # world-space lift (pose location is in rest space)
+    root.matrix = Matrix.Translation(Vector((0.0, 0.0, REST_FLOOR[0] - c.z))) @ root.matrix
+    bpy.context.view_layer.update()
+    ext = {}
+    for s in ("l", "r"):                                           # wrist extension until the hand lies flat
+        pb = rig.pose.bones[f"hand_{s}"]
+        sign = -_THUMB_CACHE["hand_palmar"][s]
+        lo, hi = 0.0, 120.0
+        for _ in range(18):
+            mid = 0.5 * (lo + hi)
+            _rot(pb, z=sign * mid)
+            bpy.context.view_layer.update()
+            d = rig.pose.bones[f"middle_01_{s}"].head - pb.head
+            lo, hi = (mid, hi) if d.z < 0 else (lo, mid)           # still pointing down: extend more
+        ext[s] = 0.5 * (lo + hi)
+    pb = rig.pose.bones
+    palm = sum((pb[f"middle_01_{s}"].head for s in ("l", "r")), Vector()) / 2
+    shoulder = sum((pb[f"upperarm_{s}"].head for s in ("l", "r")), Vector()) / 2
+    V, _ = _evaluated(body)                                        # lowest hand skin (palm, thenar, fingers)
+    dom = _THUMB_CACHE["dom"]
+    palm.z = min(V[i].z for i, g in enumerate(dom) if g.split("_")[0] in _HAND_SKIN)
+    return palm, shoulder, c, max(ext.values())
+
+
+_HAND_SKIN = ("hand", "metacarpal", "thumb", "index", "middle", "ring", "pinky")
+
+
+def pose_pushup(rig, body, t):
+    if "hand_palmar" not in _THUMB_CACHE:
+        _reset(rig)
+        _THUMB_CACHE["hand_palmar"] = {s: _palmar_sign(rig, rig.pose.bones[f"hand_{s}"]) for s in ("l", "r")}
+    elbow = PUSHUP["elbow_bottom"] * smooth(t)
+    h = REST_FLOOR[0]                                              # lowest palm/finger skin on the floor
+
+    def residual(phi, sigma):
+        palm, sh, c, _ = _pushup_config(rig, body, phi, sigma, elbow)
+        if "pushup_D" not in _THUMB_CACHE:
+            return (palm.z - h, palm.y - sh.y)                      # top: vertical arm under the shoulder
+        return (palm.z - h, (palm.y - c.y) - _THUMB_CACHE["pushup_D"])
+    x = list(_THUMB_CACHE.get("pushup_x", (15.0, 75.0)))
+    for _ in range(25):
+        f = residual(*x)
+        if max(abs(f[0]), abs(f[1])) < 2e-4:
+            break
+        J = []
+        for j in range(2):
+            xx = list(x); xx[j] += 0.5
+            g = residual(*xx)
+            J.append(((g[0] - f[0]) / 0.5, (g[1] - f[1]) / 0.5))
+        a, b, c_, d = J[0][0], J[1][0], J[0][1], J[1][1]           # columns: d/dphi, d/dsigma
+        det = a * d - b * c_
+        if abs(det) < 1e-12:
+            break
+        dx0 = (d * f[0] - b * f[1]) / det
+        dx1 = (-c_ * f[0] + a * f[1]) / det
+        step = max(abs(dx0), abs(dx1))
+        scale = min(1.0, 10.0 / step) if step > 0 else 1.0
+        x = [x[0] - dx0 * scale, x[1] - dx1 * scale]
+    palm, sh, c, wext = _pushup_config(rig, body, x[0], x[1], elbow)
+    if "pushup_D" not in _THUMB_CACHE:
+        _THUMB_CACHE["pushup_D"] = palm.y - c.y
+    _THUMB_CACHE["pushup_x"] = tuple(x)
+    res = residual(*x)
+    palm, sh, c, wext = _pushup_config(rig, body, x[0], x[1], elbow)
+    palm_knuckle_z = sum(rig.pose.bones[f"middle_01_{s}"].head.z for s in ("l", "r")) / 2
+    return {"elbow_flexion": elbow, "body_pitch_above_horizontal": x[0], "shoulder_flexion": x[1], "wrist_extension": wext,
+            "palm_floor_error_mm": res[0] * 1000, "hand_position_error_mm": res[1] * 1000,
+            "trunk_floor_clearance_mm": _trunk_clearance_mm(body),
+            "knuckle_height_mm": (palm_knuckle_z - REST_FLOOR[0]) * 1000}
+
+
+def _trunk_clearance_mm(body):
+    V, _ = _evaluated(body)
+    dom = _THUMB_CACHE.setdefault("dom", dominant_groups(body))
+    skip = ("foot", "toe", "hand", "thumb", "index", "middle", "ring", "pinky", "metacarpal", "forearm", "shin")
+    return (min(v.z for v, g in zip(V, dom) if g.split("_")[0] not in skip) - REST_FLOOR[0]) * 1000
 
 
 def pose_press(result, t, correction):
@@ -585,6 +805,8 @@ def run(render_dir=None, setup=None, post_pose=None, only=None):
         "grip": lambda t: pose_grip(rig, body, t),
         "single_leg_stance": lambda t: pose_single_leg(rig, body, t),
         "calf_raise": lambda t: pose_calf_raise(rig, body, t),
+        "deadlift": lambda t: pose_deadlift(rig, t, rest_heads),
+        "push_up": lambda t: pose_pushup(rig, body, t),
         "forearm_rotation": lambda t: pose_forearm_rotation(rig, body, t),
         "wrist_circuit": lambda t: pose_wrist(rig, body, t),
     }
@@ -606,7 +828,7 @@ def run(render_dir=None, setup=None, post_pose=None, only=None):
             m["angles_deg"] = {k: round(v, 2) for k, v in angles.items()}
             m["exceeds_cdc_passive_mean"] = {k: round(v - limits[k], 2) for k, v in angles.items() if k in limits and v > limits[k]}
             rows.append(m)
-            if render_dir and i in (0, FRAMES // 2, FRAMES - 1):
+            if render_dir and i in (RENDER_FRAMES if RENDER_FRAMES is not None else (0, FRAMES // 2, FRAMES - 1)):
                 renders.extend(_render(body, Path(render_dir), f"{name}__t{t:.2f}",
                                        hand=rig.pose.bones["hand_r"].head.copy() if name in ("grip", "forearm_rotation", "wrist_circuit") else None))
         report["benchmarks"][name] = {"frames": rows,
@@ -618,6 +840,11 @@ def run(render_dir=None, setup=None, post_pose=None, only=None):
 
 
 _CAM = {}
+
+
+RENDER_FRAMES = None          # None: (0, middle, last); a sequence renderer may set e.g. range(FRAMES)
+RENDER_VIEWS = (("front", (0.0, -5.0, 0.0)), ("side", (5.0, 0.0, 0.0)))
+THREE_QUARTER = ("three_quarter", (3.6, -3.6, 0.6))
 
 
 def _render(body, out, stem, hand=None):
@@ -641,8 +868,13 @@ def _render(body, out, stem, hand=None):
     cam = _CAM["cam"]
     written = []
     cam.data.ortho_scale = 0.32 if hand is not None else 2.3
-    for view, offset in (("front", (0.0, -5.0, 0.0)), ("side", (5.0, 0.0, 0.0))):
-        target = hand if hand is not None else Vector((0.0, 0.0, 0.95))
+    if hand is None:                                         # centre on the posed body (prone/hinged poses stay framed)
+        V, _ = _evaluated(body)
+        lo = Vector((min(v.x for v in V), min(v.y for v in V), min(v.z for v in V)))
+        hi = Vector((max(v.x for v in V), max(v.y for v in V), max(v.z for v in V)))
+        centre = (lo + hi) / 2
+    for view, offset in RENDER_VIEWS:
+        target = hand if hand is not None else centre
         cam.location = target + Vector(offset) * (0.2 if hand is not None else 1.0)
         cam.rotation_euler = (target - cam.location).to_track_quat("-Z", "Y").to_euler()
         path = out / f"{stem}__{view}.png"
@@ -654,6 +886,17 @@ def _render(body, out, stem, hand=None):
 
 if __name__ == "__main__":
     args = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
+    if "--solve-deadlift" in args:
+        import build_functional_shoulder_correction_blender as _corr
+        _res = _corr.build_corrected_scene()
+        _reset(_res["runtime"])
+        _heads = {s: _res["runtime"].pose.bones[f"foot_{s}"].head.copy() for s in ("l", "r")}
+        sol = _solve_deadlift_start(_res["runtime"], _heads)
+        sol["invariants"] = DEADLIFT_LIMITS
+        sol["note"] = "solved start position; bar = knuckle line; 225 mm = 450 mm plate radius; most upright feasible trunk"
+        DEADLIFT_SOLUTION.write_text(json.dumps(sol, indent=1) + "\n")
+        print("DEADLIFT", json.dumps(sol))
+        raise SystemExit(0)
     out = Path(args[args.index("--out") + 1]) if "--out" in args else None
     if out:
         out.parent.mkdir(parents=True, exist_ok=True)

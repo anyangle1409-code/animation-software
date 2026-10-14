@@ -15,16 +15,16 @@ class OriginalMovementBenchmarkNativeTests(unittest.TestCase):
     def setUpClass(cls):
         cls.report = m1.run(None)
 
-    def test_eleven_benchmarks_with_all_frames(self):
+    def test_thirteen_benchmarks_with_all_frames(self):
         self.assertEqual(sorted(self.report["benchmarks"]),
-                         ["bent_over_row", "calf_raise", "forearm_rotation", "grip", "lunge", "shoulder_press", "single_leg_stance",
-                          "squat", "trunk_rotation", "walk_stride", "wrist_circuit"])
+                         ["bent_over_row", "calf_raise", "deadlift", "forearm_rotation", "grip", "lunge", "push_up",
+                          "shoulder_press", "single_leg_stance", "squat", "trunk_rotation", "walk_stride", "wrist_circuit"])
         for b in self.report["benchmarks"].values():
             self.assertEqual(len(b["frames"]), m1.FRAMES)
 
     def test_first_frame_is_rest_and_unapproved(self):
         self.assertFalse(self.report["approved"])
-        for name in ("squat", "bent_over_row", "calf_raise"):               # no arm carriage: exact rest
+        for name in ("squat", "bent_over_row", "calf_raise", "deadlift"):   # no arm carriage: exact rest
             f0 = self.report["benchmarks"][name]["frames"][0]
             self.assertEqual(f0["self_intersecting_pairs"], 0, name)
             self.assertEqual(f0["body_volume_change_pct"], 0.0, name)
@@ -49,7 +49,8 @@ class OriginalMovementBenchmarkNativeTests(unittest.TestCase):
     def test_peak_angles_respect_cdc_except_recorded_ankle(self):
         for name, b in self.report["benchmarks"].items():
             for f in b["frames"]:
-                self.assertTrue(set(f["exceeds_cdc_passive_mean"]) <= {"ankle_dorsiflexion"}, (name, f["exceeds_cdc_passive_mean"]))
+                allowed = {"ankle_dorsiflexion"} | {"push_up": {"wrist_extension"}, "deadlift": {"hip_flexion"}}.get(name, set())  # recorded findings
+                self.assertTrue(set(f["exceeds_cdc_passive_mean"]) <= allowed, (name, f["exceeds_cdc_passive_mean"]))
 
     def test_walk_cycle_closes_and_is_left_right_symmetric(self):
         frames = self.report["benchmarks"]["walk_stride"]["frames"]
@@ -92,6 +93,25 @@ class OriginalMovementBenchmarkNativeTests(unittest.TestCase):
             self.assertAlmostEqual(max(f["angles_deg"][k] for f in frames), lim[k], places=1)
         for f in frames:
             self.assertEqual(f["collapse_lt_0_1"], 0, f["t"])
+
+    def test_deadlift_start_meets_bar_invariants(self):
+        end = self.report["benchmarks"]["deadlift"]["frames"][-1]["angles_deg"]
+        lim = m1.DEADLIFT_LIMITS
+        self.assertLessEqual(abs(end["bar_offset_from_midfoot_mm"]), lim["bar_offset_abs_mm"])
+        self.assertTrue(lim["bar_height_mm"][0] <= end["bar_height_mm"] <= lim["bar_height_mm"][1], end["bar_height_mm"])
+        self.assertTrue(lim["ankle_dorsiflexion"][0] <= end["ankle_dorsiflexion"] <= lim["ankle_dorsiflexion"][1])
+        start = self.report["benchmarks"]["deadlift"]["frames"][0]
+        self.assertEqual(start["self_intersecting_pairs"], 0)
+
+    def test_push_up_contacts_solved_and_trunk_clear_of_floor(self):
+        frames = self.report["benchmarks"]["push_up"]["frames"]
+        for f in frames:
+            a = f["angles_deg"]
+            self.assertLess(abs(a["palm_floor_error_mm"]), 0.5, f["t"])
+            self.assertLess(abs(a["hand_position_error_mm"]), 0.5, f["t"])
+            self.assertGreater(a["trunk_floor_clearance_mm"], 0.0, f["t"])
+            self.assertLess(abs(f["lowest_point_z_mm"]), 1.0, f["t"])
+        self.assertAlmostEqual(frames[-1]["angles_deg"]["elbow_flexion"], m1.PUSHUP["elbow_bottom"], places=3)
 
     def test_metrics_are_finite(self):
         for b in self.report["benchmarks"].values():

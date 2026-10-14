@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Anatomical close-ups of an ORIGINAL_v1 blend at fixed review poses (bpy, Workbench; identical cameras per pose).
 
-Poses: shoulder at 145 and 160 deg coupled elevation (front, rear, side), knee 110 deg (lateral), elbow 100 deg (lateral), closed fist
+Poses: shoulder at 145 and 160 deg coupled elevation (front, rear, side), knee 110 deg (lateral), elbow 100 deg (lateral),
+wrist extension 90 deg (lateral = dorsal side, front), closed fist
 (side), standing foot (medial).  With --drives the R1 helper/K1 drives run after every pose.  Nothing is saved.
 
   python3.13 render_review_candidate_closeups_blender.py -- --blend B.blend --out DIR --tag NAME [--drives]
@@ -68,6 +69,10 @@ def main():
     shoot("knee110_lateral", rig.pose.bones["shin_r"].head.copy(), (1, 0, 0), 0.55)
     k1._pose_pure(rig, "elbow", 100); finish()
     shoot("elbow100_lateral", rig.pose.bones["forearm_r"].head.copy(), (1, 0, 0), 0.45)
+    k1._pose_pure(rig, "wrist", 90); finish()                      # wrist extension: the dorsal crease
+    w = rig.pose.bones["hand_r"].head.copy()
+    shoot("wrist_ext90_lateral", w, (1, 0, 0), 0.30)
+    shoot("wrist_ext90_front", w, (0, -1, 0), 0.30)
     bench._reset(rig); bench.pose_grip(rig, body, 1.0); finish()
     shoot("fist_side", rig.pose.bones["hand_r"].head.copy(), (1, 0, 0), 0.32)
     bench._reset(rig); finish()

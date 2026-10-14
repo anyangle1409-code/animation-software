@@ -83,13 +83,13 @@ def drive_helpers(rig):
 
 def drive_k1(rig, body):
     keys = body.data.shape_keys.key_blocks
-    for hinge in ("knee", "elbow"):
+    for hinge in ("knee", "elbow", "wrist"):
         prefix = k1.HINGES[hinge]["prefix"]
         degs = sorted({int(kb.name.rsplit("_", 1)[1]) for kb in keys if kb.name.startswith(prefix)})
         if not degs:
             continue
         for s in ("l", "r"):
-            for deg, v in k1.activations(k1.hinge_angle_deg(rig, hinge, s), tuple(degs)).items():
+            for deg, v in k1.activations(k1.hinge_angle_deg(rig, hinge, s), tuple(degs), k1.HINGES[hinge].get("start")).items():
                 keys[f"{prefix}{s}_{deg}"].value = v
     bpy.context.view_layer.update()
 

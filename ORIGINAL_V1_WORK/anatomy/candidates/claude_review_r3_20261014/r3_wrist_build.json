@@ -1,0 +1,620 @@
+{
+ "kind": "ORIGINAL_V1_REVIEW_CANDIDATE_HINGE_KEYS",
+ "candidate": "R3",
+ "approved": false,
+ "hinge": "wrist",
+ "params": {
+  "proximal": "forearm_{s}",
+  "flexing": "hand_{s}",
+  "distal": "middle_01_{s}",
+  "proximal_groups": [
+   "forearm_{s}",
+   "forearm_tw0_{s}",
+   "forearm_tw1_{s}"
+  ],
+  "distal_groups": [
+   "hand_{s}",
+   "metacarpal_index_{s}",
+   "metacarpal_middle_{s}",
+   "metacarpal_ring_{s}",
+   "metacarpal_pinky_{s}"
+  ],
+  "axis": "z",
+  "side_sign": {
+   "l": 1.0,
+   "r": -1.0
+  },
+  "start": 30.0,
+  "soft_m": 0.003,
+  "guard": [
+   30,
+   35,
+   40,
+   45,
+   50,
+   55,
+   60,
+   65,
+   70,
+   75,
+   80,
+   85,
+   90,
+   95,
+   100
+  ],
+  "keys": [
+   60,
+   80,
+   100
+  ],
+  "zone_r_m": 0.1,
+  "prefix": "HGPT_K1_WRIST_"
+ },
+ "gap_m": 0.002,
+ "side_sign_matches_palmar": true,
+ "parent": {
+  "path": "HGPT_ORIGINAL_V1_CONSOLIDATED_REVIEW_R2_CLAUDE.blend",
+  "sha256": "73479741b21bdd63f871c05636df6faddddf8d49d5dc0f57e92455363603ba73"
+ },
+ "output": {
+  "path": "HGPT_ORIGINAL_V1_CONSOLIDATED_REVIEW_R3_CLAUDE.blend",
+  "sha256": "ec4e3c1a4c68c087336a7ad3202d468eb9a2209f1b773821ad6abe19c0e86a42"
+ },
+ "keys": [
+  "HGPT_K1_WRIST_l_100",
+  "HGPT_K1_WRIST_l_60",
+  "HGPT_K1_WRIST_l_80",
+  "HGPT_K1_WRIST_r_100",
+  "HGPT_K1_WRIST_r_60",
+  "HGPT_K1_WRIST_r_80"
+ ],
+ "solve": {
+  "60": {
+   "sides": {
+    "l": {
+     "contact_vertices": 136,
+     "taper_vertices": 217,
+     "max_posed_push_mm": 14.67
+    },
+    "r": {
+     "contact_vertices": 136,
+     "taper_vertices": 217,
+     "max_posed_push_mm": 14.67
+    }
+   },
+   "volume_lost_by_flattening_pct": -0.0025,
+   "band_normal_offset_mm": -0.068,
+   "volume_after_restoration_pct": 0.0,
+   "blended_lbs_sigma_min": 0.8662,
+   "rest_deltas_clipped": 0,
+   "max_rest_delta_mm": 16.62
+  },
+  "80": {
+   "sides": {
+    "l": {
+     "contact_vertices": 162,
+     "taper_vertices": 243,
+     "max_posed_push_mm": 14.35
+    },
+    "r": {
+     "contact_vertices": 162,
+     "taper_vertices": 243,
+     "max_posed_push_mm": 14.35
+    }
+   },
+   "volume_lost_by_flattening_pct": 0.0057,
+   "band_normal_offset_mm": 0.134,
+   "volume_after_restoration_pct": 0.0,
+   "blended_lbs_sigma_min": 0.7664,
+   "rest_deltas_clipped": 0,
+   "max_rest_delta_mm": 18.01
+  },
+  "100": {
+   "sides": {
+    "l": {
+     "contact_vertices": 200,
+     "taper_vertices": 277,
+     "max_posed_push_mm": 14.02
+    },
+    "r": {
+     "contact_vertices": 200,
+     "taper_vertices": 277,
+     "max_posed_push_mm": 14.02
+    }
+   },
+   "volume_lost_by_flattening_pct": 0.0194,
+   "band_normal_offset_mm": 0.403,
+   "volume_after_restoration_pct": 0.0001,
+   "blended_lbs_sigma_min": 0.6434,
+   "rest_deltas_clipped": 0,
+   "max_rest_delta_mm": 20.19
+  },
+  "guard": {
+   "extra_pairs_and_collapsed_per_round": [
+    {
+     "30": [
+      [
+       0,
+       0
+      ]
+     ],
+     "35": [
+      [
+       0,
+       0
+      ]
+     ],
+     "40": [
+      [
+       0,
+       0
+      ]
+     ],
+     "45": [
+      [
+       0,
+       0
+      ]
+     ],
+     "50": [
+      [
+       0,
+       0
+      ]
+     ],
+     "55": [
+      [
+       0,
+       0
+      ]
+     ],
+     "60": [
+      [
+       0,
+       2
+      ],
+      [
+       0,
+       0
+      ]
+     ],
+     "65": [
+      [
+       -2,
+       0
+      ]
+     ],
+     "70": [
+      [
+       -16,
+       0
+      ]
+     ],
+     "75": [
+      [
+       -40,
+       0
+      ]
+     ],
+     "80": [
+      [
+       -52,
+       -4
+      ]
+     ],
+     "85": [
+      [
+       -64,
+       -12
+      ]
+     ],
+     "90": [
+      [
+       -130,
+       -10
+      ]
+     ],
+     "95": [
+      [
+       -140,
+       -8
+      ]
+     ],
+     "100": [
+      [
+       -140,
+       -4
+      ]
+     ]
+    },
+    {
+     "30": [
+      [
+       0,
+       0
+      ]
+     ],
+     "35": [
+      [
+       0,
+       0
+      ]
+     ],
+     "40": [
+      [
+       0,
+       0
+      ]
+     ],
+     "45": [
+      [
+       0,
+       0
+      ]
+     ],
+     "50": [
+      [
+       0,
+       0
+      ]
+     ],
+     "55": [
+      [
+       0,
+       0
+      ]
+     ],
+     "60": [
+      [
+       0,
+       0
+      ]
+     ],
+     "65": [
+      [
+       -2,
+       0
+      ]
+     ],
+     "70": [
+      [
+       -16,
+       0
+      ]
+     ],
+     "75": [
+      [
+       -40,
+       0
+      ]
+     ],
+     "80": [
+      [
+       -52,
+       -4
+      ]
+     ],
+     "85": [
+      [
+       -64,
+       -12
+      ]
+     ],
+     "90": [
+      [
+       -130,
+       -10
+      ]
+     ],
+     "95": [
+      [
+       -140,
+       -8
+      ]
+     ],
+     "100": [
+      [
+       -140,
+       -4
+      ]
+     ]
+    }
+   ]
+  }
+ },
+ "sweep_before": {
+  "0": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 0,
+   "self_intersecting_pairs": 0,
+   "body_volume_change_pct": 0.0,
+   "area_ratio_min": 1.0,
+   "self_intersection_classes_top": []
+  },
+  "10": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 0,
+   "self_intersecting_pairs": 0,
+   "body_volume_change_pct": -0.0005,
+   "area_ratio_min": 0.7958,
+   "self_intersection_classes_top": []
+  },
+  "20": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 0,
+   "self_intersecting_pairs": 0,
+   "body_volume_change_pct": -0.002,
+   "area_ratio_min": 0.5868,
+   "self_intersection_classes_top": []
+  },
+  "30": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 0,
+   "self_intersecting_pairs": 0,
+   "body_volume_change_pct": -0.0044,
+   "area_ratio_min": 0.3783,
+   "self_intersection_classes_top": []
+  },
+  "40": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 0,
+   "self_intersecting_pairs": 0,
+   "body_volume_change_pct": -0.0077,
+   "area_ratio_min": 0.1896,
+   "self_intersection_classes_top": []
+  },
+  "50": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 2,
+   "self_intersecting_pairs": 0,
+   "body_volume_change_pct": -0.0116,
+   "area_ratio_min": 0.1627,
+   "self_intersection_classes_top": []
+  },
+  "60": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 4,
+   "self_intersecting_pairs": 0,
+   "body_volume_change_pct": -0.0161,
+   "area_ratio_min": 0.1211,
+   "self_intersection_classes_top": []
+  },
+  "70": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 8,
+   "self_intersecting_pairs": 16,
+   "body_volume_change_pct": -0.0212,
+   "area_ratio_min": 0.1701,
+   "self_intersection_classes_top": [
+    [
+     "forearm_l",
+     "hand_l",
+     7
+    ],
+    [
+     "forearm_r",
+     "hand_r",
+     7
+    ],
+    [
+     "forearm_l",
+     "forearm_l",
+     1
+    ],
+    [
+     "forearm_r",
+     "forearm_r",
+     1
+    ]
+   ]
+  },
+  "80": {
+   "collapse_lt_0_1": 4,
+   "stretch_gt_2": 10,
+   "self_intersecting_pairs": 52,
+   "body_volume_change_pct": -0.0265,
+   "area_ratio_min": 0.0607,
+   "self_intersection_classes_top": [
+    [
+     "forearm_l",
+     "hand_l",
+     22
+    ],
+    [
+     "forearm_r",
+     "hand_r",
+     22
+    ],
+    [
+     "forearm_l",
+     "forearm_l",
+     2
+    ],
+    [
+     "forearm_l",
+     "metacarpal_ring_l",
+     2
+    ],
+    [
+     "forearm_r",
+     "forearm_r",
+     2
+    ],
+    [
+     "forearm_r",
+     "metacarpal_ring_r",
+     2
+    ]
+   ]
+  },
+  "90": {
+   "collapse_lt_0_1": 10,
+   "stretch_gt_2": 12,
+   "self_intersecting_pairs": 130,
+   "body_volume_change_pct": -0.032,
+   "area_ratio_min": 0.0373,
+   "self_intersection_classes_top": [
+    [
+     "forearm_l",
+     "hand_l",
+     30
+    ],
+    [
+     "forearm_r",
+     "hand_r",
+     30
+    ],
+    [
+     "forearm_l",
+     "metacarpal_middle_l",
+     19
+    ],
+    [
+     "forearm_r",
+     "metacarpal_middle_r",
+     19
+    ],
+    [
+     "forearm_l",
+     "forearm_l",
+     6
+    ],
+    [
+     "forearm_r",
+     "forearm_r",
+     6
+    ]
+   ]
+  },
+  "100": {
+   "collapse_lt_0_1": 8,
+   "stretch_gt_2": 20,
+   "self_intersecting_pairs": 140,
+   "body_volume_change_pct": -0.0375,
+   "area_ratio_min": 0.0617,
+   "self_intersection_classes_top": [
+    [
+     "forearm_l",
+     "metacarpal_middle_l",
+     17
+    ],
+    [
+     "forearm_r",
+     "metacarpal_middle_r",
+     17
+    ],
+    [
+     "forearm_l",
+     "metacarpal_index_l",
+     15
+    ],
+    [
+     "forearm_r",
+     "metacarpal_index_r",
+     15
+    ],
+    [
+     "forearm_l",
+     "metacarpal_ring_l",
+     14
+    ],
+    [
+     "forearm_r",
+     "metacarpal_ring_r",
+     14
+    ]
+   ]
+  }
+ },
+ "sweep_after": {
+  "0": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 0,
+   "self_intersecting_pairs": 0,
+   "body_volume_change_pct": 0.0,
+   "area_ratio_min": 1.0,
+   "self_intersection_classes_top": []
+  },
+  "10": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 0,
+   "self_intersecting_pairs": 0,
+   "body_volume_change_pct": -0.0005,
+   "area_ratio_min": 0.7958,
+   "self_intersection_classes_top": []
+  },
+  "20": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 0,
+   "self_intersecting_pairs": 0,
+   "body_volume_change_pct": -0.002,
+   "area_ratio_min": 0.5868,
+   "self_intersection_classes_top": []
+  },
+  "30": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 0,
+   "self_intersecting_pairs": 0,
+   "body_volume_change_pct": -0.0044,
+   "area_ratio_min": 0.3783,
+   "self_intersection_classes_top": []
+  },
+  "40": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 0,
+   "self_intersecting_pairs": 0,
+   "body_volume_change_pct": -0.0073,
+   "area_ratio_min": 0.4399,
+   "self_intersection_classes_top": []
+  },
+  "50": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 2,
+   "self_intersecting_pairs": 0,
+   "body_volume_change_pct": -0.0112,
+   "area_ratio_min": 0.2876,
+   "self_intersection_classes_top": []
+  },
+  "60": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 6,
+   "self_intersecting_pairs": 0,
+   "body_volume_change_pct": -0.0159,
+   "area_ratio_min": 0.1936,
+   "self_intersection_classes_top": []
+  },
+  "70": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 10,
+   "self_intersecting_pairs": 0,
+   "body_volume_change_pct": -0.0205,
+   "area_ratio_min": 0.1615,
+   "self_intersection_classes_top": []
+  },
+  "80": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 12,
+   "self_intersecting_pairs": 0,
+   "body_volume_change_pct": -0.0253,
+   "area_ratio_min": 0.1324,
+   "self_intersection_classes_top": []
+  },
+  "90": {
+   "collapse_lt_0_1": 0,
+   "stretch_gt_2": 14,
+   "self_intersecting_pairs": 0,
+   "body_volume_change_pct": -0.0313,
+   "area_ratio_min": 0.1056,
+   "self_intersection_classes_top": []
+  },
+  "100": {
+   "collapse_lt_0_1": 4,
+   "stretch_gt_2": 22,
+   "self_intersecting_pairs": 0,
+   "body_volume_change_pct": -0.0373,
+   "area_ratio_min": 0.0926,
+   "self_intersection_classes_top": []
+  }
+ }
+}

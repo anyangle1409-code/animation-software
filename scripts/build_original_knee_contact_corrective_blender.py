@@ -55,7 +55,20 @@ HINGES = {
               "proximal_groups": ("upperarm_{s}",), "distal_groups": ("forearm_{s}", "forearm_tw0_{s}", "forearm_tw1_{s}"),
               "flex_sign": -1.0, "keys": (90, 120, 140), "zone_r_m": 0.22, "prefix": "HGPT_K1_ELBOW_",
               "benchmarks": ("bent_over_row", "grip")},
+    # wrist EXTENSION (dorsal crease): the hand flexes about its local Z with a per-side sign (the rig's digit axes are not
+    # mirrored; extension = -palmar sign: local -Z on _r, +Z on _l, checked against _palmar_sign by the tests)
+    "wrist": {"proximal": "forearm_{s}", "flexing": "hand_{s}", "distal": "middle_01_{s}",
+              "proximal_groups": ("forearm_{s}", "forearm_tw0_{s}", "forearm_tw1_{s}"),
+              "distal_groups": ("hand_{s}", "metacarpal_index_{s}", "metacarpal_middle_{s}", "metacarpal_ring_{s}",
+                                "metacarpal_pinky_{s}"),
+              "axis": "z", "side_sign": {"l": 1.0, "r": -1.0}, "start": 30.0, "soft_m": 0.003, "guard": range(30, 101, 5),
+              "keys": (60, 80, 100), "zone_r_m": 0.10, "prefix": "HGPT_K1_WRIST_",
+              "benchmarks": ("wrist_circuit", "push_up")},
 }
+
+
+def _sign(h, s):
+    return h["side_sign"][s] if "side_sign" in h else h["flex_sign"]
 KEYS_DEG = HINGES["knee"]["keys"]          # knee aliases (K1 tests and report)
 KEY_PREFIX = HINGES["knee"]["prefix"]
 ZONE_R_M = HINGES["knee"]["zone_r_m"]
@@ -66,17 +79,18 @@ def hinge_angle_deg(rig, hinge, s):
     prox, flex = h["proximal"].format(s=s), h["flexing"].format(s=s)
     rest_rel = rig.data.bones[prox].matrix_local.inverted() @ rig.data.bones[flex].matrix_local
     rel = rig.pose.bones[prox].matrix.inverted() @ rig.pose.bones[flex].matrix
-    return h["flex_sign"] * math.degrees((rest_rel.inverted() @ rel).to_euler("XYZ").x)
+    e = (rest_rel.inverted() @ rel).to_euler("XYZ")
+    return _sign(h, s) * math.degrees(getattr(e, h.get("axis", "x")))
 
 
 def knee_flexion_deg(rig, s):
     return hinge_angle_deg(rig, "knee", s)
 
 
-def activations(angle, keys=None):
-    """Piecewise-linear hats over (ACTIVATION_START, *keys); clamped to the last key above it."""
+def activations(angle, keys=None, start=None):
+    """Piecewise-linear hats over (start or ACTIVATION_START, *keys); clamped to the last key above it."""
     keys = keys or KEYS_DEG
-    knots = (ACTIVATION_START,) + tuple(keys)
+    knots = (ACTIVATION_START if start is None else start,) + tuple(keys)
     out = {k: 0.0 for k in keys}
     a = min(angle, keys[-1])
     for i, k in enumerate(keys):
@@ -110,7 +124,7 @@ def _pose_pure(rig, hinge, angle):
     h = HINGES[hinge]
     bench._reset(rig)
     for s in SIDES:
-        bench._rot(rig.pose.bones[h["flexing"].format(s=s)], x=h["flex_sign"] * angle)
+        bench._rot(rig.pose.bones[h["flexing"].format(s=s)], **{h.get("axis", "x"): _sign(h, s) * angle})
     bpy.context.view_layer.update()
 
 
@@ -134,6 +148,7 @@ def build(result, hinge="knee"):
     for kb in body.data.shape_keys.key_blocks[1:]:
         kb.value = 0.0
     log = {}
+    soft = h.get("soft_m", SOFT_M)
     for key in h["keys"]:
         _pose_pure(rig, hinge, key)
         V, F = bench._evaluated(body)
@@ -161,11 +176,11 @@ def build(result, hinge="knee"):
                 if r.length > h["zone_r_m"] or r.dot(b) <= 0:
                     continue
                 d = r.dot(n)
-                if SOFT_M > 0:                               # continuous contact: d' = g + s*softplus((d - g)/s) (thigh side)
+                if soft > 0:                               # continuous contact: d' = g + s*softplus((d - g)/s) (thigh side)
                     sgn = 1.0 if wt >= ws else -1.0                # calf side mirrored: d' = -g - s*softplus((-g - d)/s)
-                    x = (sgn * d - GAP_M) / SOFT_M
+                    x = (sgn * d - GAP_M) / soft
                     sp = math.log1p(math.exp(x)) if x < 30 else x
-                    push = sgn * (GAP_M + SOFT_M * sp) - d
+                    push = sgn * (GAP_M + soft * sp) - d
                     if abs(push) > 1e-5:
                         fixed[i] = n * push
                 elif wt >= ws and d < GAP_M:
@@ -225,10 +240,79 @@ def build(result, hinge="knee"):
                          "blended_lbs_sigma_min": round(sig_min, 4), "rest_deltas_clipped": clipped,
                          "max_rest_delta_mm": round(max((v.length for v in keyed.values()), default=0) * 1000, 2)}
     bench._reset(rig)
+    if "guard" in h:
+        log["guard"] = _guard(result, hinge, adj)
     result.setdefault("k1_logs", {})[hinge] = log
     if hinge == "knee":
         result["k1_log"] = log
     return log
+
+
+def _guard(result, hinge, adj, rounds=8, rings=2):
+    """Fold/collision guard over the hinge's driven range (pure poses at h["guard"] angles, interpolated key values): where
+    the keyed mesh has MORE collapsed faces (area < 0.1 x rest) or more intersecting pairs than the key-free mesh, the
+    vertices of the faces the key-free mesh lacks (+ rings) have their delta halved in the active keys; full passes repeat
+    until one is clean (counts, not sets: the contact turns pass-through skin into compressed skin)."""
+    from mathutils.bvhtree import BVHTree
+    h = HINGES[hinge]
+    body, rig = result["body"], result["runtime"]
+    keys = [kb for kb in body.data.shape_keys.key_blocks if kb.name.startswith(h["prefix"])]
+    rest = body.data.vertices
+    bench._reset(rig)
+    for kb in keys:
+        kb.value = 0.0
+    V0, F = bench._evaluated(body)
+    A0 = [bench._area(V0, f) for f in F]
+    moved = {kb.name: {i for i, d in enumerate(kb.data) if (d.co - rest[i].co).length > 1e-9} for kb in keys}
+
+    def bad():
+        V, _ = bench._evaluated(body)
+        tree = BVHTree.FromPolygons(V, F, all_triangles=True)
+        fs = [set(f) for f in F]
+        pairs = {(a, b) for a, b in tree.overlap(tree) if a < b and not (fs[a] & fs[b])}
+        return pairs, {k for k, f in enumerate(F) if A0[k] > 1e-12 and bench._area(V, f) / A0[k] < 0.1}
+    hist = []
+    for _pass in range(4):
+        passlog = {}
+        for a in h["guard"]:
+            _pose_pure(rig, hinge, a)
+            for s in SIDES:
+                for k, v in activations(hinge_angle_deg(rig, hinge, s), h["keys"], h.get("start")).items():
+                    body.data.shape_keys.key_blocks[f"{h['prefix']}{s}_{k}"].value = v
+            bpy.context.view_layer.update()
+            vals = {kb.name: kb.value for kb in keys}
+            active = [kb for kb in keys if kb.value > 0]
+            if not active:
+                continue
+            for kb in keys:
+                kb.value = 0.0
+            base_p, base_c = bad()
+            hh = []
+            for _ in range(rounds):
+                for kb in keys:
+                    kb.value = vals[kb.name]
+                p, c = bad()
+                new_p, new_c = p - base_p, c - base_c
+                hh.append((len(p) - len(base_p), len(c) - len(base_c)))
+                if len(p) <= len(base_p) and len(c) <= len(base_c):     # counts no worse than key-free (contact turns
+                    break                                                # pass-through skin into compressed skin)
+                new_p = new_p if len(p) > len(base_p) else set()
+                new_c = new_c if len(c) > len(base_c) else set()
+                ring = {v for a2, b2 in new_p for f in (a2, b2) for v in F[f]} | {v for f in new_c for v in F[f]}
+                for _r in range(rings):
+                    ring |= {j for i in ring for j in adj[i]}
+                for kb in active:
+                    for i in ring & moved[kb.name]:
+                        kb.data[i].co = rest[i].co + (kb.data[i].co - rest[i].co) * 0.5
+            passlog[str(a)] = hh
+            for kb in keys:
+                kb.value = 0.0
+        hist.append(passlog)
+        if all(len(x) == 1 for x in passlog.values()):
+            break
+    bench._reset(rig)
+    bpy.context.view_layer.update()
+    return {"extra_pairs_and_collapsed_per_round": hist}
 
 
 def drive(result):
@@ -238,7 +322,7 @@ def drive(result):
     for hinge in result.get("k1_logs", {}):
         h = HINGES[hinge]
         for s in SIDES:
-            for k, v in activations(hinge_angle_deg(rig, hinge, s), h["keys"]).items():
+            for k, v in activations(hinge_angle_deg(rig, hinge, s), h["keys"], h.get("start")).items():
                 keys[f"{h['prefix']}{s}_{k}"].value = v
     bpy.context.view_layer.update()
 

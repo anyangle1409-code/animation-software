@@ -1,9 +1,9 @@
-name: ORIGINAL_v1 consolidated review candidate R1 (Claude)
+name: ORIGINAL_v1 consolidated review candidates R1 and R2 (Claude)
 on:
   push:
     branches: [claude/original-v1-consolidated-review-20261014]
   pull_request:
-    paths: ['scripts/*review_candidate*', 'scripts/blender_tests/test_original_review_candidate_r1.py', 'ORIGINAL_V1_WORK/anatomy/candidates/claude_review_r1_20261014/**', '.github/workflows/original-review-candidate-r1.yml']
+    paths: ['scripts/*review_candidate*', 'scripts/blender_tests/test_original_review_candidate_r1.py', 'ORIGINAL_V1_WORK/anatomy/candidates/claude_review_r1_20261014/**', 'ORIGINAL_V1_WORK/anatomy/candidates/claude_review_r2_20261014/**', 'scripts/build_original_shoulder_relax_corrective_blender.py', 'scripts/blender_tests/test_original_review_candidate_r2.py', '.github/workflows/original-review-candidate-r1.yml']
 permissions:
   contents: read
 jobs:
@@ -19,3 +19,4 @@ jobs:
           echo 'a31f524fa99a527d3d52b7f5aaa68c34e1a19d5a1c9473f79c5cc610fd5b10e9  /tmp/blender-5.2.1-linux-x64.tar.xz' | sha256sum -c -
           tar -xJf /tmp/blender-5.2.1-linux-x64.tar.xz -C /tmp
       - run: /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --python-exit-code 1 --python scripts/blender_tests/test_original_review_candidate_r1.py
+      - run: /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --python-exit-code 1 --python scripts/blender_tests/test_original_review_candidate_r2.py

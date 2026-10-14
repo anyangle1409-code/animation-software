@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Anatomical close-ups of an ORIGINAL_v1 blend at fixed review poses (bpy, Workbench; identical cameras per pose).
 
-Poses: shoulder at 160 deg coupled elevation (front, rear, side), knee 110 deg (lateral), elbow 100 deg (lateral), closed fist
+Poses: shoulder at 145 and 160 deg coupled elevation (front, rear, side), knee 110 deg (lateral), elbow 100 deg (lateral), closed fist
 (side), standing foot (medial).  With --drives the R1 helper/K1 drives run after every pose.  Nothing is saved.
 
   python3.13 render_review_candidate_closeups_blender.py -- --blend B.blend --out DIR --tag NAME [--drives]
@@ -59,10 +59,11 @@ def main():
             drives.drive(rig, body)
         bpy.context.view_layer.update()
 
-    correction.apply_corrected_pose(res, 160); finish()
-    c = rig.pose.bones["upperarm_r"].head.copy() + Vector((0, 0, 0.02))
-    for view, d in (("front", (0, -1, 0)), ("rear", (0, 1, 0)), ("side", (1, 0, 0))):
-        shoot(f"shoulder160_{view}", c, d, 0.62)
+    for ht in (145, 160):
+        correction.apply_corrected_pose(res, ht); finish()
+        c = rig.pose.bones["upperarm_r"].head.copy() + Vector((0, 0, 0.02))
+        for view, d in (("front", (0, -1, 0)), ("rear", (0, 1, 0)), ("side", (1, 0, 0))):
+            shoot(f"shoulder{ht}_{view}", c, d, 0.62)
     k1._pose_pure(rig, "knee", 110); finish()
     shoot("knee110_lateral", rig.pose.bones["shin_r"].head.copy(), (1, 0, 0), 0.55)
     k1._pose_pure(rig, "elbow", 100); finish()

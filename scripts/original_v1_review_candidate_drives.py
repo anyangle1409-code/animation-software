@@ -7,6 +7,9 @@ The R1 blend carries corrections that the 67-joint production contract cannot dr
     `hgpt_w3a_ref_<s>` (the 120 deg coupled pose): stateless, identity at rest.
   * K1: shape keys `HGPT_K1_KNEE_<s>_<deg>` / `HGPT_K1_ELBOW_<s>_<deg>`, piecewise-linear hats on the measured hinge
     angle (0 at <= 60 deg, clamped above the last key).
+  * S1 (review candidate R2 only): shape keys `HGPT_S1_SHOULDER_<s>_<ht>`, hats on the measured humerothoracic elevation
+    (angle between the upper arm and the thorax's downward axis) through the key elevations stored on the rig as
+    `hgpt_s1_angles_<s>`, 0 below S1_START.
 Review-only: every one of these is a runtime-contract change that needs owner + Lane G agreement (PR #26).
 """
 from __future__ import annotations
@@ -91,7 +94,42 @@ def drive_k1(rig, body):
     bpy.context.view_layer.update()
 
 
+S1_PREFIX = "HGPT_S1_SHOULDER_"
+S1_START = 90.0
+
+
+def elevation_deg(rig, s):
+    pb = rig.pose.bones
+    arm = (pb[f"upperarm_{s}"].tail - pb[f"upperarm_{s}"].head).normalized()
+    down = -(pb["spine_03"].tail - pb["spine_03"].head).normalized()
+    return math.degrees(arm.angle(down))
+
+
+def drive_s1(rig, body):
+    keys = body.data.shape_keys.key_blocks
+    for s in ("l", "r"):
+        names = sorted((kb.name for kb in keys if kb.name.startswith(f"{S1_PREFIX}{s}_")), key=lambda n: int(n.rsplit("_", 1)[1]))
+        if not names or f"hgpt_s1_angles_{s}" not in rig:
+            continue
+        pts = (S1_START,) + tuple(rig[f"hgpt_s1_angles_{s}"])
+        e = elevation_deg(rig, s)
+        for n, name in enumerate(names):
+            lo, mid = pts[n], pts[n + 1]
+            hi = pts[n + 2] if n + 2 < len(pts) else None
+            if e <= lo:
+                v = 0.0
+            elif e <= mid:
+                v = (e - lo) / (mid - lo)
+            elif hi is None:
+                v = 1.0
+            else:
+                v = max(0.0, (hi - e) / (hi - mid))
+            keys[name].value = v
+    bpy.context.view_layer.update()
+
+
 def drive(rig, body):
     install_helpers(rig)
     drive_helpers(rig)
     drive_k1(rig, body)
+    drive_s1(rig, body)

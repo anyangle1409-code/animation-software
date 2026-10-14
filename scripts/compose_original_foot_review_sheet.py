@@ -26,6 +26,7 @@ def main():
     for a in ('--before', '--after', '--verify', '--out'):
         ap.add_argument(a, required=True)
     ap.add_argument('--after-label', default='C2')
+    ap.add_argument('--before-label', default='a003 native')
     ap.add_argument('--line', action='append', default=[], help='explicit caption line (replaces verify-derived lines)')
     ap.add_argument('--title-suffix', default='')
     o = ap.parse_args()
@@ -60,7 +61,7 @@ def main():
         d.text((24, 18), f'ORIGINAL_v1 foot - {p.stem}{o.title_suffix}', fill=(20, 20, 30), font=f_t)
         d.text((24, 70), 'orthographic, neutral rest pose; grid 10 mm, bar 50 mm', fill=(80, 80, 90), font=f_s)
         y = head
-        for img, lab in ((ia, 'BEFORE (a003 native)'), (ib, f'AFTER ({o.after_label} review candidate, not accepted)')):  # noqa
+        for img, lab in ((ia, f'BEFORE ({o.before_label})'), (ib, f'AFTER ({o.after_label}, not accepted)')):  # noqa
             sheet.paste(img, (0, y + 30)); d.text((24, y), lab, fill=(150, 40, 30) if 'BEFORE' in lab else (20, 100, 50), font=f_s)
             y += W + 30
         y += 10

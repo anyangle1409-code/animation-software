@@ -1,0 +1,122 @@
+{
+ "schema_version": 1,
+ "stage": "ORIGINAL_V1_FOOT_C4_CLAUDE",
+ "status": "PROVISIONAL_DEVELOPMENT_CANDIDATE_NOT_ACCEPTED",
+ "parent": {
+  "path": "HGPT_ORIGINAL_V1_FOOT_SKELETON_C3_CLAUDE.blend",
+  "sha256": "7545be4a069a5142ea2b88ecb244ac649932366815cb4b46f12c87f1eb2021f9"
+ },
+ "evidence": {
+  "ansur_ball_breadth_mm": 104.1,
+  "ansur_ball_sd_mm": 4.7,
+  "ansur_heel_breadth_mm": 73.7,
+  "ansur_heel_sd_mm": 5.3,
+  "heel_definition": "max breadth of true sections >=15 mm behind the AJC (posterior to the malleoli), any height < 100 mm; disclosed assumption. Not changed: C3 already measures within about +1 SD of ANSUR",
+  "toe_targets": "relational only: gaps closed to 0.6 mm (true sections); no sourced toe widths available"
+ },
+ "parameters": {
+  "y_cut_m": -0.17,
+  "y_grow_m": -0.15,
+  "toe_gap_m": 0.0006,
+  "web_fade_m": 0.008,
+  "ball_line_y_mm": -142.87,
+  "ball_margin_move_each_side_mm": 3.913,
+  "toe_half_gap_move_mm_max": {
+   "1-2": 2.81,
+   "2-3": 2.19,
+   "3-4": 1.47,
+   "4-5": 1.28
+  }
+ },
+ "changed_vertices": 1370,
+ "max_x_displacement_mm": 3.88,
+ "checks": {
+  "topology_groups_weights_unchanged": true,
+  "only_x_changed_in_foot_region": true,
+  "mirror_map_max_error_m": 2.9802322387695312e-08,
+  "symmetry_max_m": 0.0,
+  "foot_stations_outside_skin": [],
+  "ball_breadth_section_mm": [
+   96.65,
+   104.1
+  ],
+  "heel_breadth_section_mm": [
+   82.95,
+   82.95
+  ],
+  "toe_gap_min_along_whole_toe_mm": [
+   0.67,
+   0.71,
+   0.74,
+   1.0
+  ],
+  "toe_mean_width_mm": [
+   [
+    26.0,
+    14.83,
+    11.11,
+    8.23,
+    7.87
+   ],
+   [
+    26.49,
+    16.06,
+    13.45,
+    10.17,
+    9.29
+   ]
+  ],
+  "toe_min_gap_ref_band_mm": [
+   [
+    0.69,
+    2.78,
+    2.72,
+    2.75
+   ],
+   [
+    0.67,
+    0.71,
+    0.74,
+    1.0
+   ]
+  ],
+  "toe_webs_y_mm": {
+   "1": -171.9,
+   "2": -171.1,
+   "3": -174.1,
+   "4": -170.6,
+   "5": -172.0
+  },
+  "reversed_triangles": 0,
+  "foot_area_ratio_range": [
+   0.8663,
+   2.0933
+  ],
+  "foot_self_intersecting_pairs": [
+   0,
+   0
+  ],
+  "lowest_point_mm": [
+   -0.0,
+   -0.0
+  ],
+  "foot_length_mm": [
+   279.9,
+   279.9
+  ],
+  "verdict": "PASS"
+ },
+ "shape_keys_updated": [
+  "Basis",
+  "HGPT_SHOULDER_CORR_L",
+  "HGPT_SHOULDER_CORR_R",
+  "HGPT_SHOULDER_FLEX_L",
+  "HGPT_SHOULDER_FLEX_R",
+  "HGPT_SHOULDER_SCAP_L",
+  "HGPT_SHOULDER_SCAP_R"
+ ],
+ "output": {
+  "path": "HGPT_ORIGINAL_V1_FOOT_C4_CLAUDE.blend",
+  "sha256": "d8742bad79426caa29437871b4a595d948a6ca4c3c6735a5db031594c44183c5"
+ }
+}

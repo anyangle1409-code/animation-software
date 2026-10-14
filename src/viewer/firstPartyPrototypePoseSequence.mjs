@@ -22,7 +22,19 @@ const exactly=(x,fields,name)=>{
 };
 const label=v=>typeof v==='string'&&v.length>0&&v.length<=80&&
   /^[a-zA-Z0-9_-]+$/.test(v);
-const seqVerified=new WeakSet();
+const seqVerified=new WeakMap();
+const copiedFrame=frame=>Object.freeze({
+  timeSeconds:frame.timeSeconds,
+  sourceOrderedWorldMatrices:new Float32Array(frame.sourceOrderedWorldMatrices),
+});
+// Public inspection retains a stable frozen frame list. Each palette read
+// copies just that frame, so caller writes cannot alter validated state.
+const inspectableFrame=frame=>Object.freeze({
+  timeSeconds:frame.timeSeconds,
+  get sourceOrderedWorldMatrices(){
+    return new Float32Array(frame.sourceOrderedWorldMatrices);
+  },
+});
 
 /**
  * Never interpolates world matrices: naive linear matrix interpolation
@@ -98,7 +110,7 @@ export function compileProvisionalPoseSequence(model,clip){
     candidateId:clip.candidateId,sourceSha256:clip.sourceSha256,
     exerciseId:clip.exerciseId,durationSeconds:duration,
     runtimeBoneNames:Object.freeze([...names]),
-    frames:Object.freeze(frames),
+    frames:Object.freeze(frames.map(inspectableFrame)),
     audit:Object.freeze({
       allFramesOriginalSkinOrderNumericallyScreened:true,
       sampledFrameCount:frames.length,
@@ -112,14 +124,15 @@ export function compileProvisionalPoseSequence(model,clip){
       productionClipApproved:false,
     }),
   });
-  seqVerified.add(result);
+  seqVerified.set(result,frames);
   return result;
 }
 
 /** Exact authored keyframe only. Never round time or fabricate in-betweens. */
 export function getProvisionalPoseFrame(clip,index){
-  assert(seqVerified.has(clip),'validated G4b clip required');
-  assert(Number.isSafeInteger(index)&&index>=0&&index<clip.frames.length,
+  const frames=seqVerified.get(clip);
+  assert(Boolean(frames),'validated G4b clip required');
+  assert(Number.isSafeInteger(index)&&index>=0&&index<frames.length,
     'existing integer keyframe index required; no implicit interpolation');
-  return clip.frames[index];
+  return copiedFrame(frames[index]);
 }

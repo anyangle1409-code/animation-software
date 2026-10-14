@@ -19,7 +19,10 @@ jobs:
           node-version: '24'
       - run: node scripts/probe-r95-runtime-compatibility.mjs
       - run: node --test tests/firstPartyOriginalFullBody*.test.mjs tests/firstPartyOriginalReview*.test.mjs
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/verify-r95-neutral-browser.mjs
       - uses: actions/upload-artifact@v4
         with:
           name: provisional-r95-runtime-compatibility
-          path: artifacts/r95-runtime-compatibility.json
+          path: artifacts/r95-*.json

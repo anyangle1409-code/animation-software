@@ -64,6 +64,11 @@ def bound_glb(path,sha,revision,variant):
     meshes=[n for n in document.get('nodes',[]) if n.get('mesh') is not None]
     expected={BODY}|({SHORTS} if variant=='dressed' else set())
     if len(meshes)!=len(expected) or {n.get('name') for n in meshes}!=expected:raise ValueError('export mesh selection differs: '+variant)
+    payload=document.get('meshes',[])
+    indices=[n['mesh'] for n in meshes]
+    if (len(payload)!=len(expected) or any(type(i) is not int for i in indices) or
+        sorted(indices)!=list(range(len(payload)))):
+        raise ValueError('export mesh payload contains missing, shared or orphan components: '+variant)
     for node in meshes:
         extras=node.get('extras',{})
         if (extras.get('hgpt_export_source_candidate_sha256')!=sha or

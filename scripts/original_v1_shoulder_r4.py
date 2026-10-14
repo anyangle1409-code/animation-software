@@ -188,7 +188,10 @@ def _clav_rot(s, a, b):
 
 
 def apply_coupled_pose_r4(result, ht_elevation_deg):
-    profile = _S["orig"](result, ht_elevation_deg)            # clavicle (profile) + scapula (discarded) + arm aim
+    ext = _S.get("extend")                                     # review-only >160 deg / shrug hook (original_v1_press_extension)
+    profile = _S["orig"](result, min(ht_elevation_deg, 160.0) if ext else ht_elevation_deg)   # clavicle + arm aim
+    if ext:
+        profile = ext(result, profile, ht_elevation_deg)
     rig = result["runtime"]
     pb = rig.pose.bones
     log = {}

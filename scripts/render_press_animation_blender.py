@@ -8,7 +8,8 @@ every frame) run, as in the validation.  Front, back and side views per frame.  
   python3.13 render_press_animation_blender.py -- --blend B.blend --out DIR --tag NAME [--drives] [--steps 20]
 
 With --poses "ht:elbow,..." it renders those (humerothoracic elevation, elbow flexion) poses instead (front view + a front
-close-up of the runtime _l shoulder = anatomical right, F-SIDE-001), e.g. to match reference photos.
+close-up of the runtime _l shoulder = anatomical right, F-SIDE-001), e.g. to match reference photos; "ht:elbow:shrug" items
+and --full use the full-range press (scripts/original_v1_press_extension.py: to 172 deg, lockout shrug).
 """
 from __future__ import annotations
 
@@ -42,6 +43,10 @@ def main():
         kb.value = 0.0
     if use_drives:
         drives.setup(res)
+    full = "--full" in args
+    if full:
+        import original_v1_press_extension as px
+        px.install()
     bench._reset(rig)
     scene = bpy.context.scene
     for o in scene.objects:
@@ -59,9 +64,13 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
     if "--poses" in args:
         for n, item in enumerate(get("--poses").split(",")):
-            ht, elbow = (float(x) for x in item.split(":"))
+            vals = [float(x) for x in item.split(":")]
+            ht, elbow, shrug = vals[0], vals[1], (vals[2] if len(vals) > 2 else 0.0)
             bench._reset(rig)
-            correction.apply_corrected_pose(res, ht)
+            if full:
+                px.apply_pose(res, ht, shrug)
+            else:
+                correction.apply_corrected_pose(res, ht)
             for s in ("l", "r"):
                 bench._rot(rig.pose.bones[f"forearm_{s}"], x=-elbow)
             bpy.context.view_layer.update()
@@ -79,7 +88,10 @@ def main():
         return
     ts = [i / steps for i in range(steps + 1)] + [i / steps for i in range(steps - 1, 0, -1)]   # up, then down
     for n, t in enumerate(ts):
-        bench.pose_press(res, t, correction)
+        if full:
+            px.pose_press_full(res, t)
+        else:
+            bench.pose_press(res, t, correction)
         if use_drives:
             drives.drive(rig, body)
         bpy.context.view_layer.update()

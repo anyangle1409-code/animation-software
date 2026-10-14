@@ -35,3 +35,14 @@ All measurements are on the unchanged original male with the reviewed PR110/PR11
 2. Use **C** as the interim app limit.
 
 Claude will not change the runtime contract without that decision.
+
+## Addendum, 14 Oct: in-memory feasibility data for option A
+
+This addendum is measurement only. It is not the trial requested above, and no asset changed. Details are in `docs/CLAUDE_W3A_HELPER_DEFORMER_FEASIBILITY_20261014.md` on `claude/movement-benchmarks-20261013` (draft PR #113).
+
+- **Conditioning is fixed.** A half-motion helper per side (67 → 69 joints) lifts zone conditioning: σmin goes from 0.004 to 0.12–0.19, and vertices below 0.1 from 100 to 0. Collapse drops 5–10× where the drive is defined (e.g. 140°: 40 → 4).
+- **The drive is not defined overhead.** With the arms-down rest, the humerus turns about 177° relative to the scapula by 140°, and its twist is ill-defined near overhead.
+  - A **half-rotation** drive flips past 180° (volume +3.1 → −7.1% at 145°).
+  - A **half-swing** drive re-creates folds (630 pairs at 140°).
+  - Both inflate the region at 90° (+1.8 → +5.2%).
+- **What option A therefore needs:** a mid-elevation reference frame, a two-stage helper, or a stateful twist. Options B and C are unaffected. The owner + Lane G decision is still required.

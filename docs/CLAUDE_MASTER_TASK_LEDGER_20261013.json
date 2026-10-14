@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "kind": "claude_master_task_ledger",
- "updated": "2026-10-14 (K1 tested)",
+ "updated": "2026-10-14 (W3 option A feasibility data)",
  "owner_rules": "skeleton is source of truth; no frozen-skeleton change without owner decision; no merge; no approval claims; no third-party assets",
  "environment": "cloud Linux container (Blender 5.2.1 as Python module); not the owner's Windows laptop; no battery telemetry available, protection = commit/push after every task",
  "branches": {
@@ -118,13 +118,13 @@
    "description": "Shoulder-top helper deformer to remove LBS buckle",
    "priority": 2,
    "status": "BLOCKED",
-   "evidence": "docs/CLAUDE_W3_SHOULDER_RUNTIME_CONTRACT_PROPOSAL_20261013.md",
+   "evidence": "docs/CLAUDE_W3_SHOULDER_RUNTIME_CONTRACT_PROPOSAL_20261013.md; feasibility data docs/CLAUDE_W3A_HELPER_DEFORMER_FEASIBILITY_20261014.md (05a4a17f, PR #113)",
    "tests": null,
    "commit": null,
    "blockers": [
     "changes 67-joint runtime contract (Lane G/PR68); owner + Lane G decision"
    ],
-   "next": "owner + Lane G decision on options A/B/C"
+   "next": "owner + Lane G decision on A/B/C; option A needs a mid-elevation reference, two-stage helper or stateful twist (measured 14 Oct)"
   },
   {
    "id": "E1",

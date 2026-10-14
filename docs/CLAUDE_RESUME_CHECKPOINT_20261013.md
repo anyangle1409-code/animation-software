@@ -47,5 +47,5 @@ As of 14 Oct, none. Every open item needs an owner decision, a Lane G agreement,
 
 1. **C3 foot skeleton:** accept, accept with a different heel value, or keep a003 + C2.
 2. **Rest-pose hand clearance:** the A-pose hand hangs almost on the thigh, so thumb/thigh contact appears in the lunge, walk and trunk rotation (M2).
-3. **Rest-pose hand clearance** (above) and **thumb opposition axis.**
+3. **Thumb opposition axis:** the grip benchmark cannot oppose the thumb without a sourced axis (M2).
 4. **Runtime-contract extension:** a shoulder-top helper (W3; 14 Oct feasibility data: needs a mid-elevation reference), individual toe controls (F5) and the K1 knee/elbow driven morphs all need it; Lane G must agree as well.

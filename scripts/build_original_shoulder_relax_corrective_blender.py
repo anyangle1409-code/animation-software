@@ -18,8 +18,8 @@ volume loss, so it is structural.  S1 tries a pose-space corrective instead (no 
        DELTA_SMOOTH Laplacian passes (zero outside the zone; without it the key leaves faceted, lumpy skin: rejected);
     4. volume: a rest-normal offset tapered to 0 at the zone edge gives each key pair zero volume change at its pose;
     5. collision guard over the driven range (every 5 deg, 95-160, interpolated key values): zone vertices in NEW
-       intersecting or collapsed faces (+ 2 rings) have their delta halved in the active keys until no checked pose adds a
-       pair or a collapsed face.
+       intersecting or collapsed faces (+ 2 rings, + their mirror vertices so both sides stay symmetric) have their delta
+       halved in the active keys until no checked pose adds a pair or a collapsed face.
   Keys HGPT_S1_SHOULDER_<s>_<ht> are driven per side by the measured humerothoracic elevation (angle between the upper
   arm and the thorax's downward axis) with piecewise-linear hats from ACTIVATION_START
   (scripts/original_v1_review_candidate_drives.py drive_s1).
@@ -27,6 +27,7 @@ Measured: coupled sweep 0-160 (collapse / stretch > 2 / pairs / volume) R1 vs R1
 separate review blend R2 (R1 + S1, still a 67-bone file); nothing is approved.
 
   python3.13 build_original_shoulder_relax_corrective_blender.py -- --blend R1.blend [--report JSON] [--out R2.blend]
+  R6: S1_ZONE=stretch S1_SRINGS=20 S1_SRATIO=1.2 S1_ITERS=1000 ... -- --blend R5.blend --out R6.blend --name R6 --report JSON
 """
 from __future__ import annotations
 
@@ -46,9 +47,9 @@ sys.path.insert(0, str(ROOT / "scripts" / "anatomy_fit"))
 import build_original_movement_benchmarks_blender as bench  # noqa: E402
 import original_v1_review_candidate_drives as drives  # noqa: E402
 
-KEYS_HT = (120, 145, 160)          # coupled HT elevations at which keys are solved
-ACTIVATION_START = drives.S1_START  # measured elevation (deg) below which every key is 0
 import os as _os
+KEYS_HT = tuple(int(v) for v in _os.environ.get("S1_KEYS", "120,145,160").split(","))          # coupled HT elevations at which keys are solved
+ACTIVATION_START = drives.S1_START  # measured elevation (deg) below which every key is 0
 RELAX_ITERS = int(_os.environ.get("S1_ITERS", 150))
 RELAX_STEP = 0.5
 RELAX_MODE = _os.environ.get("S1_MODE", "pull")     # "pull": only shorten stretched edges (selected); "spring": both ways (rejected:
@@ -65,6 +66,32 @@ GIRDLE = ("clavicle_", "scapula_")
 
 
 elevation_deg = drives.elevation_deg
+
+
+ZONE_MODE = _os.environ.get("S1_ZONE", "helper")   # "helper": the W3A helper zone (R2); "stretch": measured (R6)
+STRETCH_RATIO = float(_os.environ.get("S1_SRATIO", 1.3))
+STRETCH_RINGS = int(_os.environ.get("S1_SRINGS", 6))
+
+
+def stretch_zones(result, adj, V0, F, ht=160):
+    """Per side: vertices of faces stretched > STRETCH_RATIO (area vs rest) at the coupled `ht` pose with all drives on,
+    plus STRETCH_RINGS rings - the skin that has to share the stretch (R6: lateral back below the armpit and the inner
+    upper arm, not the W3A helper zone)."""
+    import build_functional_shoulder_correction_blender as correction
+    body, rig = result["body"], result["runtime"]
+    correction.apply_corrected_pose(result, ht)
+    drives.drive(rig, body)
+    V, _ = bench._evaluated(body)
+    out = {}
+    for s in SIDES:
+        sign = 1.0 if s == "r" else -1.0                 # F-SIDE-001: runtime _r is +X
+        z = {v for f in F if bench._area(V0, f) > 1e-12 and bench._area(V, f) / bench._area(V0, f) > STRETCH_RATIO
+             for v in f if V0[v].x * sign > 0.03}
+        for _ in range(STRETCH_RINGS):
+            z |= {j for i in z for j in adj[i] if V0[j].x * sign > 0.03}
+        out[s] = sorted(z)
+    bench._reset(rig)
+    return out
 
 
 def zone(body, s):
@@ -133,8 +160,8 @@ def build(result):
     V0l, F = bench._evaluated(body)
     _F[0] = F
     V0 = np.array([tuple(v) for v in V0l])
-    zones = {s: zone(body, s) for s in SIDES}
-    log, key_angles = {}, {}
+    zones = stretch_zones(result, adj, V0l, F) if ZONE_MODE == "stretch" else {s: zone(body, s) for s in SIDES}
+    log, key_angles = {"zone_mode": ZONE_MODE, "zone_vertices": {s: len(z) for s, z in zones.items()}}, {}
     for ht in KEYS_HT:
         correction.apply_corrected_pose(result, ht)
         drives.drive(rig, body)
@@ -253,6 +280,9 @@ def _backoff(result, zones, adj, F, rounds=8, rings=2, check=range(95, 161, 5)):
     keys = [kb for kb in body.data.shape_keys.key_blocks if kb.name.startswith(PREFIX)]
     zset = set(zones["l"]) | set(zones["r"])
     side_zone = {s: set(zones[s]) for s in SIDES}
+    key = lambda v, sx: (round(sx * v.co.x, 5), round(v.co.y, 5), round(v.co.z, 5))
+    by_pos = {key(v, 1.0): v.index for v in body.data.vertices}
+    mirror = {v.index: by_pos[key(v, -1.0)] for v in body.data.vertices if key(v, -1.0) in by_pos}
     rest = body.data.vertices
     bench._reset(rig)
     for kb in keys:
@@ -286,6 +316,7 @@ def _backoff(result, zones, adj, F, rounds=8, rings=2, check=range(95, 161, 5)):
                 ring = set(hit)
                 for _r in range(rings):
                     ring |= {j for i in ring for j in adj[i] if j in zset}
+                ring |= {mirror[i] for i in ring if i in mirror and mirror[i] in zset}   # symmetric: both sides back off
                 for kb in active:
                     own = side_zone[kb.name.rsplit("_", 2)[1]]
                     for i in ring & own:
@@ -325,8 +356,9 @@ def sweep(result, use_keys, angles=range(0, 161, 10)):
     return rows
 
 
-def save(result, out, parent):
-    """R2 = R1 + S1 keys: a separate review blend; the in-memory helper bones are removed again (67-bone file)."""
+def save(result, out, parent, name="R2"):
+    """R2 = R1 + S1 keys (or R6 = R5 + stretch-zone S1 keys): a separate review blend; any in-memory helper bones are
+    removed again (67-bone file); the parent's scene markers (e.g. hgpt_shoulder_drive) are kept."""
     import hashlib
     if Path(out).exists():
         raise FileExistsError(out)
@@ -339,7 +371,8 @@ def save(result, out, parent):
     view.objects.active = rig; rig.select_set(True)
     bpy.ops.object.mode_set(mode="EDIT")
     for s in SIDES:
-        rig.data.edit_bones.remove(rig.data.edit_bones[f"deltoid_helper_{s}"])
+        if f"deltoid_helper_{s}" in rig.data.edit_bones:
+            rig.data.edit_bones.remove(rig.data.edit_bones[f"deltoid_helper_{s}"])
     bpy.ops.object.mode_set(mode="OBJECT")
     for pb in rig.pose.bones:
         pb.matrix_basis.identity()
@@ -347,9 +380,9 @@ def save(result, out, parent):
         kb.value = 0.0
     view.update()
     if sum(b.use_deform for b in rig.data.bones) != 67:
-        raise RuntimeError("R2 must stay a 67-bone file")
+        raise RuntimeError("the review blend must stay a 67-bone file")
     scene = bpy.context.scene
-    scene["hgpt_review_candidate"] = "ORIGINAL_V1_CONSOLIDATED_REVIEW_R2_CLAUDE"
+    scene["hgpt_review_candidate"] = f"ORIGINAL_V1_CONSOLIDATED_REVIEW_{name}_CLAUDE"
     scene["hgpt_review_candidate_approved"] = False
     bpy.ops.wm.save_as_mainfile(filepath=str(Path(out).resolve()), copy=True)
     sha = lambda p: hashlib.sha256(Path(p).read_bytes()).hexdigest()
@@ -363,7 +396,10 @@ def main():
     bpy.ops.wm.open_mainfile(filepath=str(Path(get("--blend")).resolve()))
     import build_functional_shoulder_correction_blender as correction
     result = correction.build_corrected_scene()
-    drives.install_helpers(result["runtime"])
+    for kb in result["body"].data.shape_keys.key_blocks[1:]:
+        kb.value = 0.0
+    drives.setup(result)                                 # R5+: anatomical shoulder drive
+    drives.install_helpers(result["runtime"])            # R1/R2 lineage only (no-op without W3A data)
     before = sweep(result, False)
     log = build(result)
     after = sweep(result, True)
@@ -372,10 +408,11 @@ def main():
               (b["collapse"], b["stretch"], b["pairs"], round(b["volume_pct"], 2)))
     rep = {"kind": "ORIGINAL_V1_S1_SHOULDER_RELAX_DIAGNOSTIC", "approved": False,
            "params": {"keys_ht": KEYS_HT, "activation_start": ACTIVATION_START, "relax_iters": RELAX_ITERS, "relax_mode": RELAX_MODE, "backoff": BACKOFF, "volume_restore": VOLUME_RESTORE, "delta_smooth": DELTA_SMOOTH,
-                      "relax_step": RELAX_STEP, "damp": DAMP, "delta_cap_m": DELTA_CAP_M},
+                      "relax_step": RELAX_STEP, "damp": DAMP, "delta_cap_m": DELTA_CAP_M,
+                      "zone_mode": ZONE_MODE, "stretch_ratio": STRETCH_RATIO, "stretch_rings": STRETCH_RINGS},
            "solve": log, "key_elevations": result["s1_angles"], "sweep_r1": before, "sweep_r1_s1": after}
     if get("--out"):
-        rep["output"] = save(result, get("--out"), get("--blend"))
+        rep["output"] = save(result, get("--out"), get("--blend"), get("--name") or "R2")
     if get("--report"):
         Path(get("--report")).write_text(json.dumps(rep, indent=1) + "\n")
     print("S1LOG", json.dumps(log))

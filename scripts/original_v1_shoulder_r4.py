@@ -25,7 +25,7 @@ from mathutils import Matrix, Vector
 
 import original_v1_scapula_isb_drive as isb
 
-TAPER_R0, TAPER_R1 = 0.10, 0.18
+TAPER_R0, TAPER_R1 = (float(v) for v in __import__("os").environ.get("R4_TAPER", "0.10,0.18").split(","))
 _E = __import__("os").environ
 DELTOID_SHIFT = float(_E.get("R4_SHIFT", 0.6))
 DELTOID_BAND = tuple(float(v) for v in _E.get("R4_BAND", "-0.02,0.08").split(","))   # lateral ramp 0 -> DELTOID_SHIFT

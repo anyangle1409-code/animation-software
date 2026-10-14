@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "kind": "claude_master_task_ledger",
- "updated": "2026-10-13 (M2 follow-ups, A1 CI green, K1 started)",
+ "updated": "2026-10-14 (K1 tested)",
  "owner_rules": "skeleton is source of truth; no frozen-skeleton change without owner decision; no merge; no approval claims; no third-party assets",
  "environment": "cloud Linux container (Blender 5.2.1 as Python module); not the owner's Windows laptop; no battery telemetry available, protection = commit/push after every task",
  "branches": {
@@ -207,14 +207,19 @@
   },
   {
    "id": "K1",
-   "description": "Experimental knee deep-flexion contact/volume corrective candidate (review-only; never replaces production weights or keys)",
+   "description": "Experimental hinge contact correctives (knee + elbow) for deep-flexion contact; review-only, in-memory keys",
    "priority": 3,
-   "status": "IN_PROGRESS",
-   "evidence": null,
-   "tests": null,
-   "commit": null,
-   "blockers": [],
-   "next": "measure knee LBS conditioning; build posed-space contact corrective at 90/110 deg; before/after on squat, lunge, single-leg"
+   "status": "TESTED",
+   "evidence": "docs/CLAUDE_K1_KNEE_CONTACT_CORRECTIVE_20261013.md; ORIGINAL_V1_WORK/anatomy/audit/claude_k1/ (branch claude/movement-benchmarks-20261013)",
+   "tests": "7 native PASS (knee + elbow; blend hash unchanged); CI green on f2b3f837",
+   "commit": "f2b3f837 knee, 0292f09c elbow, dc605bd6 hip rejected, 6a6aaf9a softplus variant (draft PR #113)",
+   "blockers": [
+    "shipping adds driven knee/elbow morphs: runtime-contract change (owner + Lane G, like W3)",
+    "knee: +2 collapsed faces at 110, 36 pairs at 130, visible calf band edge (softplus variant trades this)",
+    "elbow: pinched tip at 120 despite 0 pairs; usable to ~110",
+    "hip fold: method rejected; needs three-body contact model"
+   ],
+   "next": "none executable without a contract decision or a sourced contact/compression profile"
   }
  ]
 }

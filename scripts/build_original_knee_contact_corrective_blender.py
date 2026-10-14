@@ -37,30 +37,48 @@ sys.path.insert(0, str(ROOT / "scripts" / "anatomy_fit"))
 
 import build_original_movement_benchmarks_blender as bench
 
-KEYS_DEG = (90, 110, 130)
-ACTIVATION_START = 60.0
 GAP_M = 0.002
-ZONE_R_M = 0.30
 TAPER_RINGS = 4
 DELTA_CAP_M = 0.040            # knee LBS is well conditioned; 130 deg needs 37.6 mm (30 mm clipped 40 vertices)
 INFLATE_CAP_M = 0.010
-KEY_PREFIX = "HGPT_K1_KNEE_"
+ACTIVATION_START = 60.0
 SIDES = ("l", "r")
+# hinge joints with single-plane flexion: proximal bone, flexing bone, a distal point, skin groups of each side of the
+# crease, the local-X sign of flexion on the flexing bone, key poses, zone radius and the benchmarks that exercise them
+HINGES = {
+    "knee": {"proximal": "thigh_{s}", "flexing": "shin_{s}", "distal": "foot_{s}",
+             "proximal_groups": ("thigh_{s}",), "distal_groups": ("shin_{s}",), "flex_sign": 1.0,
+             "keys": (90, 110, 130), "zone_r_m": 0.30, "prefix": "HGPT_K1_KNEE_",
+             "benchmarks": ("squat", "lunge", "single_leg_stance")},
+    "elbow": {"proximal": "upperarm_{s}", "flexing": "forearm_{s}", "distal": "hand_{s}",
+              "proximal_groups": ("upperarm_{s}",), "distal_groups": ("forearm_{s}", "forearm_tw0_{s}", "forearm_tw1_{s}"),
+              "flex_sign": -1.0, "keys": (90, 120, 140), "zone_r_m": 0.22, "prefix": "HGPT_K1_ELBOW_",
+              "benchmarks": ("bent_over_row", "grip")},
+}
+KEYS_DEG = HINGES["knee"]["keys"]          # knee aliases (K1 tests and report)
+KEY_PREFIX = HINGES["knee"]["prefix"]
+ZONE_R_M = HINGES["knee"]["zone_r_m"]
+
+
+def hinge_angle_deg(rig, hinge, s):
+    h = HINGES[hinge]
+    prox, flex = h["proximal"].format(s=s), h["flexing"].format(s=s)
+    rest_rel = rig.data.bones[prox].matrix_local.inverted() @ rig.data.bones[flex].matrix_local
+    rel = rig.pose.bones[prox].matrix.inverted() @ rig.pose.bones[flex].matrix
+    return h["flex_sign"] * math.degrees((rest_rel.inverted() @ rel).to_euler("XYZ").x)
 
 
 def knee_flexion_deg(rig, s):
-    thigh, shin = rig.pose.bones[f"thigh_{s}"], rig.pose.bones[f"shin_{s}"]
-    rest_rel = rig.data.bones[f"thigh_{s}"].matrix_local.inverted() @ rig.data.bones[f"shin_{s}"].matrix_local
-    rel = thigh.matrix.inverted() @ shin.matrix
-    return math.degrees((rest_rel.inverted() @ rel).to_euler("XYZ").x)
+    return hinge_angle_deg(rig, "knee", s)
 
 
-def activations(angle):
-    """Piecewise-linear hats over (ACTIVATION_START, *KEYS_DEG); clamped to the last key above it."""
-    knots = (ACTIVATION_START,) + KEYS_DEG
-    out = {k: 0.0 for k in KEYS_DEG}
-    a = min(angle, KEYS_DEG[-1])
-    for i, k in enumerate(KEYS_DEG):
+def activations(angle, keys=None):
+    """Piecewise-linear hats over (ACTIVATION_START, *keys); clamped to the last key above it."""
+    keys = keys or KEYS_DEG
+    knots = (ACTIVATION_START,) + tuple(keys)
+    out = {k: 0.0 for k in keys}
+    a = min(angle, keys[-1])
+    for i, k in enumerate(keys):
         lo, hi = knots[i], (knots[i + 2] if i + 2 < len(knots) else None)
         if lo < a <= k:
             out[k] = (a - lo) / (k - lo)
@@ -87,15 +105,21 @@ def _rings(adj, seeds, n):
     return dist
 
 
-def _pose_pure_knee(rig, angle):
+def _pose_pure(rig, hinge, angle):
+    h = HINGES[hinge]
     bench._reset(rig)
     for s in SIDES:
-        bench._rot(rig.pose.bones[f"shin_{s}"], x=angle)
+        bench._rot(rig.pose.bones[h["flexing"].format(s=s)], x=h["flex_sign"] * angle)
     bpy.context.view_layer.update()
 
 
-def build(result):
-    """Solve and add the K1 keys (values 0) to the benchmark scene; returns the solve log."""
+def _pose_pure_knee(rig, angle):
+    _pose_pure(rig, "knee", angle)
+
+
+def build(result, hinge="knee"):
+    """Solve and add the hinge's K1 keys (values 0) to the benchmark scene; returns the solve log."""
+    h = HINGES[hinge]
     body, rig = result["body"], result["runtime"]
     names = {g.index: g.name for g in body.vertex_groups}
     deform = [b.name for b in rig.data.bones if b.use_deform]
@@ -109,8 +133,8 @@ def build(result):
     for kb in body.data.shape_keys.key_blocks[1:]:
         kb.value = 0.0
     log = {}
-    for key in KEYS_DEG:
-        _pose_pure_knee(rig, key)
+    for key in h["keys"]:
+        _pose_pure(rig, hinge, key)
         V, F = bench._evaluated(body)
         vol_before = _volume(V, F)
         mats = {n: np.array((rig.pose.bones[n].matrix @ rig.data.bones[n].matrix_local.inverted()).to_3x3()) for n in deform}
@@ -119,20 +143,21 @@ def build(result):
         entry = {}
         for s in SIDES:
             pb = rig.pose.bones
-            c = pb[f"shin_{s}"].head
-            ut = (pb[f"thigh_{s}"].head - c).normalized()
-            us = (pb[f"foot_{s}"].head - c).normalized()
-            n = (ut - us).normalized()                       # bisector-plane normal, towards the thigh
-            b = (ut + us).normalized()                       # into the flexion wedge (posterior)
+            c = pb[h["flexing"].format(s=s)].head
+            ut = (pb[h["proximal"].format(s=s)].head - c).normalized()
+            us = (pb[h["distal"].format(s=s)].head - c).normalized()
+            n = (ut - us).normalized()                       # bisector-plane normal, towards the proximal segment
+            b = (ut + us).normalized()                       # into the flexion wedge
             side_sign = 1.0 if c.x > 0 else -1.0
             fixed = {}
             for i, p in enumerate(V):
                 w = W[i]
-                wt, ws = w.get(f"thigh_{s}", 0.0), w.get(f"shin_{s}", 0.0)
+                wt = sum(w.get(g.format(s=s), 0.0) for g in h["proximal_groups"])
+                ws = sum(w.get(g.format(s=s), 0.0) for g in h["distal_groups"])
                 if wt + ws < 0.5 or p.x * side_sign <= 0:
                     continue
                 r = p - c
-                if r.length > ZONE_R_M or r.dot(b) <= 0:
+                if r.length > h["zone_r_m"] or r.dot(b) <= 0:
                     continue
                 d = r.dot(n)
                 if wt >= ws and d < GAP_M:
@@ -178,10 +203,10 @@ def build(result):
                 dr *= DELTA_CAP_M / L
                 clipped += 1
             keyed[i] = Vector(dr)
-        for s in SIDES:                                      # one key per side; a vertex belongs to its knee's x side
-            kb = body.shape_key_add(name=f"{KEY_PREFIX}{s}_{key}", from_mix=False)
+        for s in SIDES:                                      # one key per side; a vertex belongs to its joint's x side
+            kb = body.shape_key_add(name=f"{h['prefix']}{s}_{key}", from_mix=False)
             kb.value = 0.0
-            side_sign = 1.0 if rig.data.bones[f"shin_{s}"].head_local.x > 0 else -1.0
+            side_sign = 1.0 if rig.data.bones[h["flexing"].format(s=s)].head_local.x > 0 else -1.0
             for i, dv in keyed.items():
                 if body.data.vertices[i].co.x * side_sign > 0:
                     kb.data[i].co = body.data.vertices[i].co + dv
@@ -192,23 +217,32 @@ def build(result):
                          "blended_lbs_sigma_min": round(sig_min, 4), "rest_deltas_clipped": clipped,
                          "max_rest_delta_mm": round(max((v.length for v in keyed.values()), default=0) * 1000, 2)}
     bench._reset(rig)
-    result["k1_log"] = log
+    result.setdefault("k1_logs", {})[hinge] = log
+    if hinge == "knee":
+        result["k1_log"] = log
     return log
 
 
 def drive(result):
-    """Set every K1 key from the current measured knee flexion (per side)."""
+    """Set every built K1 key from the current measured hinge angle (per side)."""
     body, rig = result["body"], result["runtime"]
     keys = body.data.shape_keys.key_blocks
-    for s in SIDES:
-        act = activations(knee_flexion_deg(rig, s))
-        for k, v in act.items():
-            keys[f"{KEY_PREFIX}{s}_{k}"].value = v
+    for hinge in result.get("k1_logs", {}):
+        h = HINGES[hinge]
+        for s in SIDES:
+            for k, v in activations(hinge_angle_deg(rig, hinge, s), h["keys"]).items():
+                keys[f"{h['prefix']}{s}_{k}"].value = v
     bpy.context.view_layer.update()
 
 
-def render_knee(result, out, angles=(90, 110)):
-    """Close-ups of the right (+X, F-SIDE-001) knee in pure flexion, without and with the K1 keys."""
+VIEWS = {"knee": (0.55, (("lateral", (3.0, 0.0, 0.0)), ("posterolateral", (2.1, 2.1, 0.0)))),
+         "elbow": (0.45, (("lateral", (3.0, 0.0, 0.0)), ("anterolateral", (2.1, -2.1, 0.0))))}
+
+
+def render_hinge(result, out, hinge="knee", angles=None):
+    """Close-ups of the right (+X, F-SIDE-001) joint in pure flexion, without and with the K1 keys."""
+    h = HINGES[hinge]
+    angles = angles or h["keys"][:2]
     body, rig = result["body"], result["runtime"]
     scene = bpy.context.scene
     for o in scene.objects:
@@ -222,22 +256,23 @@ def render_knee(result, out, angles=(90, 110)):
     scene.display.shading.show_cavity = True
     scene.render.resolution_x, scene.render.resolution_y = 700, 700
     scene.render.image_settings.file_format = "PNG"
-    cd = bpy.data.cameras.new("HGPT_K1_CAM_TMP"); cd.type = "ORTHO"; cd.ortho_scale = 0.55
+    scale, views = VIEWS[hinge]
+    cd = bpy.data.cameras.new("HGPT_K1_CAM_TMP"); cd.type = "ORTHO"; cd.ortho_scale = scale
     cam = bpy.data.objects.new("HGPT_K1_CAM_TMP", cd); scene.collection.objects.link(cam); scene.camera = cam
     out.mkdir(parents=True, exist_ok=True)
     written = []
     for a in angles:
         for keyed in (False, True):
-            _pose_pure_knee(rig, a)
+            _pose_pure(rig, hinge, a)
             for kb in body.data.shape_keys.key_blocks[1:]:
                 kb.value = 0.0
             if keyed:
                 drive(result)
-            knee = rig.pose.bones["shin_r"].head.copy()
-            for view, off in (("lateral", Vector((3.0, 0.0, 0.0))), ("posterolateral", Vector((2.1, 2.1, 0.0)))):
-                cam.location = knee + off
-                cam.rotation_euler = (knee - cam.location).to_track_quat("-Z", "Y").to_euler()
-                name = f"knee_{a}__{'k1' if keyed else 'base'}__{view}.png"
+            joint = rig.pose.bones[h["flexing"].format(s="r")].head.copy()
+            for view, off in views:
+                cam.location = joint + Vector(off)
+                cam.rotation_euler = (joint - cam.location).to_track_quat("-Z", "Y").to_euler()
+                name = f"{hinge}_{a}__{'k1' if keyed else 'base'}__{view}.png"
                 scene.render.filepath = str(out / name)
                 bpy.ops.render.render(write_still=True)
                 written.append(name)
@@ -247,7 +282,9 @@ def render_knee(result, out, angles=(90, 110)):
     return written
 
 
-def knee_sweep(result, with_keys, angles=range(0, 131, 10)):
+def hinge_sweep(result, with_keys, hinge="knee", angles=None):
+    h = HINGES[hinge]
+    angles = angles if angles is not None else range(0, h["keys"][-1] + 1, 10)
     body, rig = result["body"], result["runtime"]
     for kb in body.data.shape_keys.key_blocks[1:]:
         kb.value = 0.0
@@ -257,7 +294,7 @@ def knee_sweep(result, with_keys, angles=range(0, 131, 10)):
     floor = min(v.z for v in V0)
     rows = {}
     for a in angles:
-        _pose_pure_knee(rig, a)
+        _pose_pure(rig, hinge, a)
         if with_keys:
             drive(result)
         V, _ = bench._evaluated(body)
@@ -270,36 +307,42 @@ def knee_sweep(result, with_keys, angles=range(0, 131, 10)):
     return rows
 
 
+def knee_sweep(result, with_keys, angles=range(0, 131, 10)):
+    return hinge_sweep(result, with_keys, "knee", angles)
+
+
 if __name__ == "__main__":
     args = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
-    only = ["squat", "lunge", "single_leg_stance"]
+    hinge = args[args.index("--hinge") + 1] if "--hinge" in args else "knee"
+    h = HINGES[hinge]
+    only = list(h["benchmarks"])
     baseline = bench.run(None, only=only)
     holder = {}
 
     def setup(result):
         holder["result"] = result
-        build(result)
-        holder["before"] = knee_sweep(result, False)
-        holder["after"] = knee_sweep(result, True)
+        build(result, hinge)
+        holder["before"] = hinge_sweep(result, False, hinge)
+        holder["after"] = hinge_sweep(result, True, hinge)
         if "--renders" in args:
-            holder["renders"] = render_knee(result, Path(args[args.index("--renders") + 1]))
+            holder["renders"] = render_hinge(result, Path(args[args.index("--renders") + 1]), hinge)
 
     corrected = bench.run(None, setup=setup, post_pose=drive, only=only)
-    rep = {"kind": "K1_KNEE_CONTACT_CORRECTIVE", "approved": False, "scope": "experimental, in-memory keys; review-only",
-           "parameters": {"keys_deg": KEYS_DEG, "activation_start_deg": ACTIVATION_START, "gap_mm": GAP_M * 1000,
-                          "zone_radius_m": ZONE_R_M, "taper_rings": TAPER_RINGS, "delta_cap_mm": DELTA_CAP_M * 1000},
-           "solve_log": holder["result"]["k1_log"],
-           "knee_sweep": {"before": holder["before"], "after": holder["after"]},
+    rep = {"kind": f"K1_{hinge.upper()}_CONTACT_CORRECTIVE", "approved": False, "scope": "experimental, in-memory keys; review-only",
+           "parameters": {"hinge": hinge, "keys_deg": h["keys"], "activation_start_deg": ACTIVATION_START, "gap_mm": GAP_M * 1000,
+                          "zone_radius_m": h["zone_r_m"], "taper_rings": TAPER_RINGS, "delta_cap_mm": DELTA_CAP_M * 1000},
+           "solve_log": holder["result"]["k1_logs"][hinge],
+           f"{hinge}_sweep": {"before": holder["before"], "after": holder["after"]},
            "benchmarks": {n: {"before": baseline["benchmarks"][n]["worst"], "after": corrected["benchmarks"][n]["worst"],
                               "volume_before": baseline["benchmarks"][n]["volume_change_pct_range"],
                               "volume_after": corrected["benchmarks"][n]["volume_change_pct_range"],
                               "frames_after": corrected["benchmarks"][n]["frames"]} for n in only},
            "renders": holder.get("renders", [])}
-    print("K1", json.dumps(rep["solve_log"]))
+    print("K1", hinge, json.dumps(rep["solve_log"]))
     for n, b in rep["benchmarks"].items():
         print("K1", n, b["before"], "->", b["after"], b["volume_before"], "->", b["volume_after"])
-    for a in rep["knee_sweep"]["before"]:
-        x, y = rep["knee_sweep"]["before"][a], rep["knee_sweep"]["after"][a]
+    for a in holder["before"]:
+        x, y = holder["before"][a], holder["after"][a]
         print("K1 sweep", a, x["self_intersecting_pairs"], "->", y["self_intersecting_pairs"], "collapse", x["collapse_lt_0_1"], "->",
               y["collapse_lt_0_1"], "stretch", x["stretch_gt_2"], "->", y["stretch_gt_2"], "vol", x["body_volume_change_pct"], "->", y["body_volume_change_pct"])
     if "--out" in args:

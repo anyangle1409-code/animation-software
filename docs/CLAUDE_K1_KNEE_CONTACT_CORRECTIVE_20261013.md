@@ -1,8 +1,8 @@
-# K1: experimental knee deep-flexion contact corrective (Claude, 13 Oct 2026)
+# K1: experimental hinge contact correctives — knee and elbow (Claude, 13–14 Oct 2026)
 
 - **Branch:** `claude/movement-benchmarks-20261013` (draft PR #113).
 - **Script:** `scripts/build_original_knee_contact_corrective_blender.py`.
-- **Tests:** `scripts/blender_tests/test_original_knee_contact_corrective.py` (6 native tests pass; run in the benchmark CI workflow).
+- **Tests:** `scripts/blender_tests/test_original_knee_contact_corrective.py` (7 native tests pass, knee and elbow; run in the benchmark CI workflow). Run with `-- --hinge knee|elbow`.
 - **Evidence:** `ORIGINAL_V1_WORK/anatomy/audit/claude_k1/` (report + phone sheet).
 
 **Scope:** a review-only engineering candidate on the unchanged original male (a003 `670a37bf…cbbe56`, 67-joint rig, existing weights).
@@ -56,6 +56,32 @@ M1/M2 showed calf/thigh interpenetration at deep knee flexion: squat 72, lunge 4
 
 **Visible:** at 110°, the compressed calf shows a flat contact band with a sharp edge where it meets the taper, and a crease behind the knee (see the phone sheet). The skin no longer passes through itself, but the band edge is harder than real soft tissue. A smoother contact profile, such as a curved contact surface or a longer taper, is the next refinement.
 
+## Elbow (the same method, 14 Oct)
+
+**Generalisation:** the script now takes hinge configurations. The knee results are reproduced exactly after the refactor.
+- **Elbow configuration:** upper-arm vs forearm (+ the two forearm twist groups); keys at 90, 120 and 140°; zone 0.22 m; flexion = forearm −X.
+- **Conditioning:** σmin = cos(θ/2), i.e. 0.71 / 0.50 / 0.34.
+- **Evidence:** `claude_k1/elbow_contact_corrective_report.json` and `elbow_contact_corrective_phone_sheet.jpg`.
+
+| Elbow flexion | Crease pairs (both arms) | Collapsed faces | Stretch > 2 | Body volume Δ % |
+|---|---|---|---|---|
+| 80° | 80 → **0** | 0 → 0 | 0 → 0 | −0.31 → −0.30 |
+| 90° | 124 → **0** | 0 → 0 | 0 → 0 | −0.35 → −0.35 |
+| 100° | 140 → **0** | 0 → 0 | 0 → 0 | −0.40 → −0.38 |
+| 110° | 168 → **0** | 4 → **0** | 0 → 0 | −0.43 → −0.41 |
+| 120° | 186 → **0** | 0 → **8** | 0 → 0 | −0.47 → −0.43 |
+| 130° | 208 → **0** | 12 → 8 | 0 → **8** | −0.50 → **−0.59** |
+| 140° | 238 → 2 | 20 → 14 | 0 → **84** | −0.52 → **−0.73** |
+
+- **Benchmarks (worst pairs):**
+  - Bent-over row: 156 → **16**.
+  - Grip: 150 → **26**.
+  - All elbow-crease classes are gone. What remains is finger/hand self-contact in the grip, and shoulder/neck pairs in the row.
+- **The 140° key is over-constrained.** Flattening removes 1.1% of body volume, the 10 mm band offset and the 40 mm rest cap both bind (14 vertices clipped), and new stretch appears. 140° is near the CDC passive mean (144.6°), where real tissue compression is not planar.
+- **Visible at 120° — a failure despite the metric:** the pair count is 0, but the renders show a **pinched elbow tip and a ridge on the upper arm**. That looks worse than the uncorrected crease. At 90° the change is mild and acceptable.
+  - **Usable range on the evidence: up to about 110°**, which covers the row (100°) and the grip (90°).
+  - Above that, a curved contact surface (or a compression profile from a source) is needed, not a plane.
+
 ## Limits and next
 
 - **The bisector plane is assumed.** Real calf/hamstring compression is not symmetric, and there is no sourced contact surface or pressure data.
@@ -63,4 +89,4 @@ M1/M2 showed calf/thigh interpenetration at deep knee flexion: squat 72, lunge 4
 - **It changes the runtime contract.** This is a pose-space corrective: shipping it would add 6 shape keys and a driver per knee. The Lane G GLB carries six zero-weight morphs, and the runtime has no knee-driven morphs, so it needs the same owner + Lane G decision as W3.
 - **Next:**
   - a hip-flexion fold corrective (squat thigh/thigh and pelvis/thigh) using the same method;
-  - an elbow-crease version (row, grip), where the elbow is likewise a well-conditioned hinge.
+  - a curved contact surface for elbow flexion above about 110° and for the knee band edge.

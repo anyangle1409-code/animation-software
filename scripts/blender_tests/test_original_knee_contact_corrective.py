@@ -19,8 +19,11 @@ class KneeContactCorrectiveNativeTests(unittest.TestCase):
     def setUpClass(cls):
         cls.result = correction.build_corrected_scene()
         cls.before = k1.knee_sweep(cls.result, False, angles=(0, 60, 90, 110, 120))
+        cls.elbow_before = k1.hinge_sweep(cls.result, False, "elbow", angles=(0, 60, 90, 110))
         cls.log = k1.build(cls.result)
+        cls.elbow_log = k1.build(cls.result, "elbow")
         cls.after = k1.knee_sweep(cls.result, True, angles=(0, 60, 90, 110, 120))
+        cls.elbow_after = k1.hinge_sweep(cls.result, True, "elbow", angles=(0, 60, 90, 110))
 
     def test_activation_hats(self):
         self.assertEqual(set(k1.activations(0).values()), {0.0})
@@ -63,6 +66,17 @@ class KneeContactCorrectiveNativeTests(unittest.TestCase):
             self.assertLessEqual(c["stretch_gt_2"], b["stretch_gt_2"], a)
             self.assertLessEqual(c["collapse_lt_0_1"], b["collapse_lt_0_1"] + 2, a)
             self.assertGreaterEqual(c["body_volume_change_pct"], b["body_volume_change_pct"] - 1e-4, a)
+
+    def test_elbow_crease_cleared_through_110_without_new_collapse_or_stretch(self):
+        for a in (0, 60):
+            self.assertEqual(self.elbow_after[a], self.elbow_before[a], a)
+        for a in (90, 110):
+            b, c = self.elbow_before[a], self.elbow_after[a]
+            self.assertGreater(b["self_intersecting_pairs"], 0, a)
+            self.assertEqual(c["self_intersecting_pairs"], 0, a)
+            self.assertLessEqual(c["collapse_lt_0_1"], b["collapse_lt_0_1"], a)
+            self.assertLessEqual(c["stretch_gt_2"], b["stretch_gt_2"], a)
+        self.assertEqual(self.elbow_log["90"]["rest_deltas_clipped"], 0)
 
     def test_solve_is_well_conditioned_and_unclipped_through_120(self):
         for deg in (90, 110):

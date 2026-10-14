@@ -117,3 +117,30 @@ def install(result):
     _STATE.update(coupled=coupled, orig=coupled.apply_coupled_pose, frames=rest_frames(),
                   ac_rest={s: rig.pose.bones[f"clavicle_{s}"].tail.copy() for s in ("r", "l")}, installed=True)
     coupled.apply_coupled_pose = apply_coupled_pose_isb
+
+
+def taper_scapula_weights(result, r0=0.10, r1=0.18):
+    """Diagnostic weight taper for the ISB drive: each vertex's scapula weight is kept in full within r0 of the AC joint
+    (runtime clavicle tail, rest) and faded (smoothstep) to zero at r1; the removed weight goes to the thorax (spine_03,
+    or spine_02 where that is already the vertex's spine influence).  Returns the number of vertices changed."""
+    body, rig = result["body"], result["runtime"]
+    names = {g.index: g.name for g in body.vertex_groups}
+    G = body.vertex_groups
+    moved = 0
+    for s in ("r", "l"):
+        ac = rig.data.bones[f"clavicle_{s}"].tail_local
+        for v in body.data.vertices:
+            w = {names[g.group]: g.weight for g in v.groups}
+            ws = w.get(f"scapula_{s}", 0.0)
+            if ws <= 0:
+                continue
+            d = (v.co - ac).length
+            if d <= r0:
+                continue
+            u = min(1.0, (d - r0) / (r1 - r0))
+            take = ws * u * u * (3 - 2 * u)
+            G[f"scapula_{s}"].add([v.index], ws - take, "REPLACE")
+            tgt = "spine_03" if "spine_03" in w or "spine_02" not in w else "spine_02"
+            G[tgt].add([v.index], w.get(tgt, 0.0) + take, "REPLACE")
+            moved += 1
+    return moved

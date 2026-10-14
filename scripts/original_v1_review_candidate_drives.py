@@ -41,7 +41,7 @@ def install_helpers(rig):
     """Recreate deltoid_helper_l/r (69 joints) in memory: the upper arm's rest frame, 40 % length, parented like the upper
     arm; the R1 blend stores their vertex groups, weights and reference vectors but not the bones, so the saved file stays
     a 67-bone rig that the shared bridge guard accepts.  Call after any guarded scene setup, before posing."""
-    if "deltoid_helper_l" in rig.data.bones:
+    if "deltoid_helper_l" in rig.data.bones or "hgpt_w3a_ref_l" not in rig:   # already installed / no W3A data (R4)
         return
     view = bpy.context.view_layer
     for o in view.objects:
@@ -63,7 +63,7 @@ def install_helpers(rig):
 
 
 def drive_helpers(rig):
-    if "deltoid_helper_l" not in rig.pose.bones:
+    if "deltoid_helper_l" not in rig.pose.bones or "hgpt_w3a_ref_l" not in rig:
         return
     bpy.context.view_layer.update()
     for s in ("l", "r"):
@@ -126,6 +126,14 @@ def drive_s1(rig, body):
                 v = max(0.0, (hi - e) / (hi - mid))
             keys[name].value = v
     bpy.context.view_layer.update()
+
+
+def setup(result):
+    """Scene-level drives that must be installed before posing (call once after build_corrected_scene()): the R4 shoulder
+    (anatomical-frame scapula with thorax contact, scripts/original_v1_shoulder_r4.py) when the blend asks for it."""
+    if bpy.context.scene.get("hgpt_shoulder_drive") == "R4":
+        import original_v1_shoulder_r4 as r4
+        r4.install(result)
 
 
 def drive(rig, body):

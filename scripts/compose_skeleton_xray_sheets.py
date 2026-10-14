@@ -13,7 +13,8 @@ LEGEND = ["Skin 22 % opaque.  Bones = the 67-joint rig the skin is weighted to:"
           "red scapula, yellow clavicle, orange upper arm, green forearm/hand, blue spine, grey legs;",
           "ivory = rib/sternum/clavicle/scapula guides.  Magenta = arm pivot (upper-arm head);",
           "cyan (rest only) = anatomical glenohumeral centre landmark.  Diagnostic, nothing approved."]
-NAMES = {"today": "today's rig (scapula driven in bone-local axes)", "isb": "anatomical-frame scapula + weight taper"}
+NAMES = {"today": "today's rig (scapula driven in bone-local axes)", "isb": "anatomical-frame scapula + weight taper",
+         "r4": "R4: anatomical scapula on the thorax, lowered pivot, new shoulder weights"}
 
 
 def grid(title, sub, cols, rows, cells, out, lines):
@@ -40,16 +41,18 @@ def grid(title, sub, cols, rows, cells, out, lines):
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--renders", required=True); ap.add_argument("--out", required=True)
+    ap.add_argument("--configs", default="today,isb")
     o = ap.parse_args(); R, out = Path(o.renders), Path(o.out); out.mkdir(parents=True, exist_ok=True)
+    cfgs = o.configs.split(",")
     poses = sorted({p.name.split("_")[1] for p in R.glob("*_ht*_front.png")})
-    for cfg in ("today", "isb"):
+    for cfg in cfgs:
         grid(f"Skeleton under the skin: {cfg}", NAMES[cfg], ["front", "side", "rear"],
              [f"coupled elevation {int(p[2:])} deg" for p in poses],
              [[R / f"{cfg}_{p}_{v}.png" for v in ("front", "side", "rear")] for p in poses], out / f"xray_fullbody_{cfg}.jpg", LEGEND)
     for view in ("front", "rear", "side"):
-        grid(f"Shoulder skeleton, {view} view", "left: today's rig; right: anatomical-frame scapula + weight taper",
-             ["today's rig", "anatomical scapula"], [f"coupled elevation {int(p[2:])} deg" for p in poses],
-             [[R / f"{c}_{p}_shoulder_{view}.png" for c in ("today", "isb")] for p in poses], out / f"xray_shoulder_{view}.jpg", LEGEND)
+        grid(f"Shoulder skeleton, {view} view", " vs ".join(NAMES[c].split(":")[0] for c in cfgs),
+             [NAMES[c].split(" (")[0].split(":")[0] for c in cfgs], [f"coupled elevation {int(p[2:])} deg" for p in poses],
+             [[R / f"{c}_{p}_shoulder_{view}.png" for c in cfgs] for p in poses], out / f"xray_shoulder_{view}.jpg", LEGEND)
     print("sheets in", out)
 
 

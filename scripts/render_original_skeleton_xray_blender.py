@@ -7,7 +7,7 @@ magenta) and - at rest only, since the anatomical landmarks are not posed - the 
 (cyan).  Configurations: the a003 coupled motion as is ("today"), or with scripts/original_v1_scapula_isb_drive.py
 (anatomical-frame scapula + weight taper, "isb").  Review/diagnostic only; nothing is saved.
 
-  python3.13 render_original_skeleton_xray_blender.py -- --blend a003.blend --config today|isb --out DIR [--poses 0,90,160]
+  python3.13 render_original_skeleton_xray_blender.py -- --blend a003.blend --config today|isb|<candidate tag, e.g. r4> --out DIR [--poses 0,90,160]
 """
 from __future__ import annotations
 
@@ -120,6 +120,8 @@ def main():
     if config == "isb":
         isb.install(res)
         print("taper vertices", isb.taper_scapula_weights(res))
+    import original_v1_review_candidate_drives as drives
+    drives.setup(res)                                   # R4 blends: anatomical scapula + thorax contact
     gh = {s: bpy.data.objects[f"LM_scapula_{a}__GH"].matrix_world.translation.copy() for s, a in isb.ANAT.items()}
     sc = bpy.context.scene
     sc.render.engine = "BLENDER_EEVEE"
@@ -143,6 +145,7 @@ def main():
     for ht in poses:
         coll = bpy.data.collections.new(f"XR_{ht}"); sc.collection.children.link(coll)
         correction.apply_corrected_pose(res, ht)
+        drives.drive(rig, body)
         bpy.context.view_layer.update()
         build_skeleton(rig, coll, mats)
         for s in ("r", "l"):

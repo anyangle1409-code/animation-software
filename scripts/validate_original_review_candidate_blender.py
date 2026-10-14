@@ -41,7 +41,8 @@ def main():
     bpy.ops.wm.open_mainfile(filepath=str(Path(cand).resolve()))
     bench._CAM.clear(); bench._THUMB_CACHE.clear()
     bench.RENDER_FRAMES = (0, 2, 4, 6, 8)
-    candidate = bench.run(rdir / name if rdir else None, post_pose=lambda r: drives.drive(r["runtime"], r["body"]))
+    candidate = bench.run(rdir / name if rdir else None, setup=drives.setup,
+                          post_pose=lambda r: drives.drive(r["runtime"], r["body"]))
 
     rep = {"kind": "ORIGINAL_V1_REVIEW_CANDIDATE_VALIDATION", "approved": False, "candidate": Path(cand).name, "name": name,
            "baseline": Path(base).name, "benchmarks": {}}

@@ -11,7 +11,11 @@ Parent: foot candidate C5 (not R3: R1-R3's W3A helper and S1 keys were tuned to 
     scripts/original_v1_shoulder_r4.py (ISB-frame scapula + thorax contact) before posing; drive() runs the K1 keys.
 Basis mesh, faces, legacy keys and every bone except the two upper arms are unchanged from C5.  Review only.
 
-  python3.13 build_original_review_candidate_r4_blender.py -- --blend C5.blend --out R4.blend --report JSON
+R5 (same builder, --name R5 --c1): the R4 drive with the scapula's upward rotation and tilt held to the profile (owner: "fix
+the blade tilt"; scripts/original_v1_shoulder_r4.py CONTACT_PENALTY) plus C1 upper-arm/trunk contact keys for shoulder
+extension (owner: "fix ... row contact"; scripts/build_original_arm_trunk_contact_corrective_blender.py).
+
+  python3.13 build_original_review_candidate_r4_blender.py -- --blend C5.blend --out R4.blend --report JSON [--name R5 --c1]
 """
 from __future__ import annotations
 
@@ -77,6 +81,8 @@ def main():
     args = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
     get = lambda k: args[args.index(k) + 1]
     parent, out, report = get("--blend"), Path(get("--out")), Path(get("--report"))
+    name = get("--name") if "--name" in args else "R4"
+    with_c1 = "--c1" in args
     if out.exists():
         raise FileExistsError(out)
     import build_functional_shoulder_correction_blender as correction
@@ -98,7 +104,7 @@ def main():
     pivot = r4.lower_pivot(result)
     w = r4.reweight(result)
     w["influence_limited"] = limit_influences(body)
-    r4.install(result)
+    r4.install(result, mode=r4.MODES[name])
     after = sweep(result)
     k1_logs = {"knee": k1.build(result, "knee")}
     saved = k1.HINGES["elbow"]["keys"]
@@ -108,6 +114,10 @@ def main():
     finally:
         k1.HINGES["elbow"]["keys"] = saved
     k1_logs["wrist"] = k1.build(result, "wrist")
+    c1_log = None
+    if with_c1:
+        import build_original_arm_trunk_contact_corrective_blender as c1
+        c1_log = c1.build(result)
     attachment._remove_previous()
     for pb in rig.pose.bones:
         pb.matrix_basis.identity()
@@ -121,26 +131,29 @@ def main():
         "bones_moved": moved_bones,
         "max_influences": max(sum(1 for g in v.groups if g.weight > 0) for v in body.data.vertices),
         "k1_keys": sorted(kb.name for kb in body.data.shape_keys.key_blocks if kb.name.startswith("HGPT_K1_")),
+        "c1_keys": sorted(kb.name for kb in body.data.shape_keys.key_blocks if kb.name.startswith("HGPT_C1_")),
         "guide_objects_left": [o.name for o in bpy.data.objects if o.name.endswith("_TMP")],
     }
     ok = (checks["basis_unchanged"] and checks["deforming_joints"] == 67 and moved_bones == ["upperarm_l", "upperarm_r"]
           and checks["max_influences"] <= MAX_INFLUENCES and len(checks["k1_keys"]) == 2 * (3 + len(ELBOW_KEYS) + 3)
+          and len(checks["c1_keys"]) == (4 if with_c1 else 0)
           and not checks["guide_objects_left"])
     checks["verdict"] = "PASS" if ok else "FAIL"
     print("R4CHECK", json.dumps(checks))
     if not ok:
         raise SystemExit("checks failed")
     scene = bpy.context.scene
-    scene["hgpt_review_candidate"] = "ORIGINAL_V1_CONSOLIDATED_REVIEW_R4_CLAUDE"
+    scene["hgpt_review_candidate"] = f"ORIGINAL_V1_CONSOLIDATED_REVIEW_{name}_CLAUDE"
     scene["hgpt_review_candidate_approved"] = False
-    scene["hgpt_shoulder_drive"] = "R4"
+    scene["hgpt_shoulder_drive"] = name
     out.parent.mkdir(parents=True, exist_ok=True)
     bpy.ops.wm.save_as_mainfile(filepath=str(out.resolve()), copy=True)
-    rep = {"kind": "ORIGINAL_V1_REVIEW_CANDIDATE", "candidate": "R4", "status": "REVIEW_CANDIDATE_NOT_ACCEPTED", "approved": False,
+    rep = {"kind": "ORIGINAL_V1_REVIEW_CANDIDATE", "candidate": name, "c1": c1_log, "status": "REVIEW_CANDIDATE_NOT_ACCEPTED", "approved": False,
            "parent": {"path": Path(parent).name, "sha256": sha(parent)}, "output": {"path": out.name, "sha256": sha(out)},
            "pivot_move_mm": pivot, "weights": w,
            "shoulder_params": {"taper_m": [r4.TAPER_R0, r4.TAPER_R1], "deltoid_shift": r4.DELTOID_SHIFT,
-                               "deltoid_band_m": list(r4.DELTOID_BAND), "contact_penalty": list(r4.CONTACT_PENALTY),
+                               "deltoid_band_m": list(r4.DELTOID_BAND), "contact_mode": r4.MODES[name],
+                               "contact_penalty": list(r4.WRAP_PENALTY if r4.MODES[name] == "wrap" else r4.CONTACT_PENALTY),
                                "thorax_ellipsoid_centre_m": list(r4._S["centre"]), "thorax_ellipsoid_radii_m": list(r4._S["radii"]),
                                "rest_contact_distance_m": r4._S["d0"]},
            "k1": {"logs": k1_logs, "elbow_keys": list(ELBOW_KEYS)},

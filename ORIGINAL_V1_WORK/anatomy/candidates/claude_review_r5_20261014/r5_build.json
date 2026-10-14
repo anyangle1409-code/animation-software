@@ -1,0 +1,1087 @@
+{
+ "kind": "ORIGINAL_V1_REVIEW_CANDIDATE",
+ "candidate": "R5",
+ "c1": {
+  "0.875": {
+   "l": {
+    "extension_deg": 25.1,
+    "contact_vertices": 115,
+    "taper_vertices": 206,
+    "max_posed_push_mm": 15.44,
+    "max_rest_delta_mm": 15.77,
+    "clipped": 0
+   },
+   "r": {
+    "extension_deg": 25.1,
+    "contact_vertices": 115,
+    "taper_vertices": 206,
+    "max_posed_push_mm": 15.44,
+    "max_rest_delta_mm": 15.78,
+    "clipped": 0
+   }
+  },
+  "1.0": {
+   "l": {
+    "extension_deg": 37.97,
+    "contact_vertices": 111,
+    "taper_vertices": 195,
+    "max_posed_push_mm": 13.45,
+    "max_rest_delta_mm": 14.12,
+    "clipped": 0
+   },
+   "r": {
+    "extension_deg": 37.97,
+    "contact_vertices": 112,
+    "taper_vertices": 194,
+    "max_posed_push_mm": 19.39,
+    "max_rest_delta_mm": 20.4,
+    "clipped": 0
+   }
+  },
+  "guard": {
+   "extra_pairs_and_collapsed_per_round": [
+    {
+     "0.85": [
+      [
+       -28,
+       2
+      ],
+      [
+       -32,
+       0
+      ]
+     ],
+     "0.90": [
+      [
+       -84,
+       0
+      ]
+     ],
+     "0.95": [
+      [
+       -68,
+       0
+      ]
+     ],
+     "1.00": [
+      [
+       -72,
+       0
+      ]
+     ]
+    },
+    {
+     "0.85": [
+      [
+       -32,
+       0
+      ]
+     ],
+     "0.90": [
+      [
+       -84,
+       0
+      ]
+     ],
+     "0.95": [
+      [
+       -68,
+       0
+      ]
+     ],
+     "1.00": [
+      [
+       -72,
+       0
+      ]
+     ]
+    }
+   ]
+  }
+ },
+ "status": "REVIEW_CANDIDATE_NOT_ACCEPTED",
+ "approved": false,
+ "parent": {
+  "path": "HGPT_ORIGINAL_V1_FOOT_C5_CLAUDE.blend",
+  "sha256": "92f5b34eaa4db3d75e772ccd85a1654129473acd7e3082b294ad6fec8f937c33"
+ },
+ "output": {
+  "path": "HGPT_ORIGINAL_V1_CONSOLIDATED_REVIEW_R5_CLAUDE.blend",
+  "sha256": "420b91556650be365d2e0b3760bebd49cff3d335d5985e72a1cce0371409da31"
+ },
+ "pivot_move_mm": {
+  "r": [
+   3.9,
+   2.5,
+   -52.6
+  ],
+  "l": [
+   -3.9,
+   2.5,
+   -52.6
+  ]
+ },
+ "weights": {
+  "scapula_tapered": 1984,
+  "deltoid_shifted": 512,
+  "smoothed_vertices": 3154,
+  "influence_limited": 0
+ },
+ "shoulder_params": {
+  "taper_m": [
+   0.1,
+   0.18
+  ],
+  "deltoid_shift": 0.6,
+  "deltoid_band_m": [
+   -0.02,
+   0.08
+  ],
+  "contact_mode": "isb",
+  "contact_penalty": [
+   0.25,
+   0.25,
+   0.01,
+   1.0,
+   1.0
+  ],
+  "thorax_ellipsoid_centre_m": [
+   -2.2403769435186405e-06,
+   0.003527782391756773,
+   1.3902349472045898
+  ],
+  "thorax_ellipsoid_radii_m": [
+   0.16017091274261475,
+   0.13264884054660797,
+   0.14759767055511475
+  ],
+  "rest_contact_distance_m": {
+   "r": {
+    "TS": 0.01406847705298634,
+    "AI": 0.03335446320805013
+   },
+   "l": {
+    "TS": 0.014067322458507317,
+    "AI": 0.03335268997736998
+   }
+  }
+ },
+ "k1": {
+  "logs": {
+   "knee": {
+    "90": {
+     "sides": {
+      "l": {
+       "contact_vertices": 72,
+       "taper_vertices": 185,
+       "max_posed_push_mm": 5.54
+      },
+      "r": {
+       "contact_vertices": 72,
+       "taper_vertices": 185,
+       "max_posed_push_mm": 5.54
+      }
+     },
+     "volume_lost_by_flattening_pct": 0.0617,
+     "band_normal_offset_mm": 0.722,
+     "volume_after_restoration_pct": 0.0004,
+     "blended_lbs_sigma_min": 0.7071,
+     "rest_deltas_clipped": 0,
+     "max_rest_delta_mm": 6.7
+    },
+    "110": {
+     "sides": {
+      "l": {
+       "contact_vertices": 131,
+       "taper_vertices": 207,
+       "max_posed_push_mm": 16.91
+      },
+      "r": {
+       "contact_vertices": 131,
+       "taper_vertices": 207,
+       "max_posed_push_mm": 16.91
+      }
+     },
+     "volume_lost_by_flattening_pct": 0.4484,
+     "band_normal_offset_mm": 3.874,
+     "volume_after_restoration_pct": 0.0137,
+     "blended_lbs_sigma_min": 0.5736,
+     "rest_deltas_clipped": 0,
+     "max_rest_delta_mm": 17.99
+    },
+    "130": {
+     "sides": {
+      "l": {
+       "contact_vertices": 199,
+       "taper_vertices": 231,
+       "max_posed_push_mm": 36.75
+      },
+      "r": {
+       "contact_vertices": 199,
+       "taper_vertices": 231,
+       "max_posed_push_mm": 36.75
+      }
+     },
+     "volume_lost_by_flattening_pct": 1.4067,
+     "band_normal_offset_mm": 9.991,
+     "volume_after_restoration_pct": 0.1048,
+     "blended_lbs_sigma_min": 0.4226,
+     "rest_deltas_clipped": 0,
+     "max_rest_delta_mm": 37.6
+    }
+   },
+   "elbow": {
+    "90": {
+     "sides": {
+      "l": {
+       "contact_vertices": 92,
+       "taper_vertices": 198,
+       "max_posed_push_mm": 7.72
+      },
+      "r": {
+       "contact_vertices": 92,
+       "taper_vertices": 198,
+       "max_posed_push_mm": 7.72
+      }
+     },
+     "volume_lost_by_flattening_pct": 0.0677,
+     "band_normal_offset_mm": 1.216,
+     "volume_after_restoration_pct": 0.0011,
+     "blended_lbs_sigma_min": 0.7071,
+     "rest_deltas_clipped": 0,
+     "max_rest_delta_mm": 9.5
+    },
+    "110": {
+     "sides": {
+      "l": {
+       "contact_vertices": 147,
+       "taper_vertices": 213,
+       "max_posed_push_mm": 15.56
+      },
+      "r": {
+       "contact_vertices": 147,
+       "taper_vertices": 213,
+       "max_posed_push_mm": 15.56
+      }
+     },
+     "volume_lost_by_flattening_pct": 0.2597,
+     "band_normal_offset_mm": 3.941,
+     "volume_after_restoration_pct": 0.0123,
+     "blended_lbs_sigma_min": 0.5736,
+     "rest_deltas_clipped": 0,
+     "max_rest_delta_mm": 18.8
+    }
+   },
+   "wrist": {
+    "60": {
+     "sides": {
+      "l": {
+       "contact_vertices": 136,
+       "taper_vertices": 217,
+       "max_posed_push_mm": 14.67
+      },
+      "r": {
+       "contact_vertices": 136,
+       "taper_vertices": 217,
+       "max_posed_push_mm": 14.67
+      }
+     },
+     "volume_lost_by_flattening_pct": -0.0025,
+     "band_normal_offset_mm": -0.068,
+     "volume_after_restoration_pct": 0.0,
+     "blended_lbs_sigma_min": 0.8662,
+     "rest_deltas_clipped": 0,
+     "max_rest_delta_mm": 16.62
+    },
+    "80": {
+     "sides": {
+      "l": {
+       "contact_vertices": 162,
+       "taper_vertices": 243,
+       "max_posed_push_mm": 14.35
+      },
+      "r": {
+       "contact_vertices": 162,
+       "taper_vertices": 243,
+       "max_posed_push_mm": 14.35
+      }
+     },
+     "volume_lost_by_flattening_pct": 0.0057,
+     "band_normal_offset_mm": 0.134,
+     "volume_after_restoration_pct": 0.0,
+     "blended_lbs_sigma_min": 0.7664,
+     "rest_deltas_clipped": 0,
+     "max_rest_delta_mm": 18.01
+    },
+    "100": {
+     "sides": {
+      "l": {
+       "contact_vertices": 200,
+       "taper_vertices": 277,
+       "max_posed_push_mm": 14.02
+      },
+      "r": {
+       "contact_vertices": 200,
+       "taper_vertices": 277,
+       "max_posed_push_mm": 14.02
+      }
+     },
+     "volume_lost_by_flattening_pct": 0.0194,
+     "band_normal_offset_mm": 0.403,
+     "volume_after_restoration_pct": 0.0001,
+     "blended_lbs_sigma_min": 0.6434,
+     "rest_deltas_clipped": 0,
+     "max_rest_delta_mm": 20.19
+    },
+    "guard": {
+     "extra_pairs_and_collapsed_per_round": [
+      {
+       "30": [
+        [
+         0,
+         0
+        ]
+       ],
+       "35": [
+        [
+         0,
+         0
+        ]
+       ],
+       "40": [
+        [
+         0,
+         0
+        ]
+       ],
+       "45": [
+        [
+         0,
+         0
+        ]
+       ],
+       "50": [
+        [
+         0,
+         0
+        ]
+       ],
+       "55": [
+        [
+         0,
+         0
+        ]
+       ],
+       "60": [
+        [
+         0,
+         2
+        ],
+        [
+         0,
+         0
+        ]
+       ],
+       "65": [
+        [
+         -2,
+         0
+        ]
+       ],
+       "70": [
+        [
+         -16,
+         0
+        ]
+       ],
+       "75": [
+        [
+         -40,
+         0
+        ]
+       ],
+       "80": [
+        [
+         -52,
+         -3
+        ]
+       ],
+       "85": [
+        [
+         -64,
+         -11
+        ]
+       ],
+       "90": [
+        [
+         -130,
+         -9
+        ]
+       ],
+       "95": [
+        [
+         -140,
+         -7
+        ]
+       ],
+       "100": [
+        [
+         -140,
+         -4
+        ]
+       ]
+      },
+      {
+       "30": [
+        [
+         0,
+         0
+        ]
+       ],
+       "35": [
+        [
+         0,
+         0
+        ]
+       ],
+       "40": [
+        [
+         0,
+         0
+        ]
+       ],
+       "45": [
+        [
+         0,
+         0
+        ]
+       ],
+       "50": [
+        [
+         0,
+         0
+        ]
+       ],
+       "55": [
+        [
+         0,
+         0
+        ]
+       ],
+       "60": [
+        [
+         0,
+         0
+        ]
+       ],
+       "65": [
+        [
+         -2,
+         0
+        ]
+       ],
+       "70": [
+        [
+         -16,
+         0
+        ]
+       ],
+       "75": [
+        [
+         -40,
+         0
+        ]
+       ],
+       "80": [
+        [
+         -52,
+         -3
+        ]
+       ],
+       "85": [
+        [
+         -64,
+         -11
+        ]
+       ],
+       "90": [
+        [
+         -130,
+         -9
+        ]
+       ],
+       "95": [
+        [
+         -140,
+         -7
+        ]
+       ],
+       "100": [
+        [
+         -140,
+         -4
+        ]
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "elbow_keys": [
+   90,
+   110
+  ]
+ },
+ "coupled_sweep_c5_today": [
+  {
+   "ht": 0,
+   "collapse": 0,
+   "stretch": 0,
+   "pairs": 0,
+   "volume_pct": -0.0,
+   "contact": null
+  },
+  {
+   "ht": 20,
+   "collapse": 0,
+   "stretch": 0,
+   "pairs": 0,
+   "volume_pct": 1.4045,
+   "contact": null
+  },
+  {
+   "ht": 40,
+   "collapse": 0,
+   "stretch": 0,
+   "pairs": 0,
+   "volume_pct": 2.6891,
+   "contact": null
+  },
+  {
+   "ht": 60,
+   "collapse": 0,
+   "stretch": 52,
+   "pairs": 0,
+   "volume_pct": 3.2186,
+   "contact": null
+  },
+  {
+   "ht": 80,
+   "collapse": 0,
+   "stretch": 238,
+   "pairs": 0,
+   "volume_pct": 2.5747,
+   "contact": null
+  },
+  {
+   "ht": 100,
+   "collapse": 0,
+   "stretch": 366,
+   "pairs": 0,
+   "volume_pct": 0.8404,
+   "contact": null
+  },
+  {
+   "ht": 120,
+   "collapse": 2,
+   "stretch": 424,
+   "pairs": 0,
+   "volume_pct": -1.4361,
+   "contact": null
+  },
+  {
+   "ht": 140,
+   "collapse": 40,
+   "stretch": 432,
+   "pairs": 132,
+   "volume_pct": -3.5615,
+   "contact": null
+  },
+  {
+   "ht": 160,
+   "collapse": 42,
+   "stretch": 400,
+   "pairs": 444,
+   "volume_pct": -5.0208,
+   "contact": null
+  }
+ ],
+ "coupled_sweep_r4": [
+  {
+   "ht": 0,
+   "collapse": 0,
+   "stretch": 0,
+   "pairs": 0,
+   "volume_pct": 0.0093,
+   "contact": {
+    "r": {
+     "clavicle_extra_protraction_deg": 0.0,
+     "clavicle_extra_elevation_deg": 0.0,
+     "mode": "isb",
+     "scapula_extra_rotation_deg": null,
+     "scapula_isb_deg": [
+      0.0,
+      -0.0,
+      0.0
+     ],
+     "scapula_isb_target_deg": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "contact_residual_mm": [
+      -0.0,
+      0.0
+     ]
+    },
+    "l": {
+     "clavicle_extra_protraction_deg": -0.0,
+     "clavicle_extra_elevation_deg": 0.0,
+     "mode": "isb",
+     "scapula_extra_rotation_deg": null,
+     "scapula_isb_deg": [
+      0.0,
+      -0.0,
+      0.0
+     ],
+     "scapula_isb_target_deg": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "contact_residual_mm": [
+      -0.0,
+      0.0
+     ]
+    }
+   }
+  },
+  {
+   "ht": 20,
+   "collapse": 0,
+   "stretch": 0,
+   "pairs": 0,
+   "volume_pct": 0.354,
+   "contact": {
+    "r": {
+     "clavicle_extra_protraction_deg": 0.0,
+     "clavicle_extra_elevation_deg": 0.09,
+     "mode": "isb",
+     "scapula_extra_rotation_deg": null,
+     "scapula_isb_deg": [
+      -0.15,
+      1.8,
+      0.73
+     ],
+     "scapula_isb_target_deg": [
+      0.34,
+      1.8,
+      0.73
+     ],
+     "contact_residual_mm": [
+      -0.72,
+      0.82
+     ]
+    },
+    "l": {
+     "clavicle_extra_protraction_deg": -0.0,
+     "clavicle_extra_elevation_deg": 0.09,
+     "mode": "isb",
+     "scapula_extra_rotation_deg": null,
+     "scapula_isb_deg": [
+      -0.15,
+      1.8,
+      0.73
+     ],
+     "scapula_isb_target_deg": [
+      0.34,
+      1.8,
+      0.73
+     ],
+     "contact_residual_mm": [
+      -0.72,
+      0.82
+     ]
+    }
+   }
+  },
+  {
+   "ht": 40,
+   "collapse": 0,
+   "stretch": 6,
+   "pairs": 0,
+   "volume_pct": 0.6272,
+   "contact": {
+    "r": {
+     "clavicle_extra_protraction_deg": 0.01,
+     "clavicle_extra_elevation_deg": 0.34,
+     "mode": "isb",
+     "scapula_extra_rotation_deg": null,
+     "scapula_isb_deg": [
+      -0.62,
+      6.54,
+      2.67
+     ],
+     "scapula_isb_target_deg": [
+      1.25,
+      6.56,
+      2.66
+     ],
+     "contact_residual_mm": [
+      -2.61,
+      3.23
+     ]
+    },
+    "l": {
+     "clavicle_extra_protraction_deg": -0.01,
+     "clavicle_extra_elevation_deg": 0.34,
+     "mode": "isb",
+     "scapula_extra_rotation_deg": null,
+     "scapula_isb_deg": [
+      -0.62,
+      6.54,
+      2.67
+     ],
+     "scapula_isb_target_deg": [
+      1.25,
+      6.56,
+      2.66
+     ],
+     "contact_residual_mm": [
+      -2.61,
+      3.22
+     ]
+    }
+   }
+  },
+  {
+   "ht": 60,
+   "collapse": 0,
+   "stretch": 14,
+   "pairs": 0,
+   "volume_pct": 0.6929,
+   "contact": {
+    "r": {
+     "clavicle_extra_protraction_deg": 0.04,
+     "clavicle_extra_elevation_deg": 0.78,
+     "mode": "isb",
+     "scapula_extra_rotation_deg": null,
+     "scapula_isb_deg": [
+      -1.51,
+      13.23,
+      5.41
+     ],
+     "scapula_isb_target_deg": [
+      2.53,
+      13.29,
+      5.38
+     ],
+     "contact_residual_mm": [
+      -5.2,
+      7.49
+     ]
+    },
+    "l": {
+     "clavicle_extra_protraction_deg": -0.04,
+     "clavicle_extra_elevation_deg": 0.78,
+     "mode": "isb",
+     "scapula_extra_rotation_deg": null,
+     "scapula_isb_deg": [
+      -1.51,
+      13.23,
+      5.41
+     ],
+     "scapula_isb_target_deg": [
+      2.53,
+      13.29,
+      5.38
+     ],
+     "contact_residual_mm": [
+      -5.2,
+      7.49
+     ]
+    }
+   }
+  },
+  {
+   "ht": 80,
+   "collapse": 4,
+   "stretch": 30,
+   "pairs": 0,
+   "volume_pct": 0.4362,
+   "contact": {
+    "r": {
+     "clavicle_extra_protraction_deg": 0.09,
+     "clavicle_extra_elevation_deg": 1.45,
+     "mode": "isb",
+     "scapula_extra_rotation_deg": null,
+     "scapula_isb_deg": [
+      -2.93,
+      20.89,
+      8.56
+     ],
+     "scapula_isb_target_deg": [
+      4.0,
+      21.0,
+      8.5
+     ],
+     "contact_residual_mm": [
+      -7.81,
+      14.14
+     ]
+    },
+    "l": {
+     "clavicle_extra_protraction_deg": -0.09,
+     "clavicle_extra_elevation_deg": 1.45,
+     "mode": "isb",
+     "scapula_extra_rotation_deg": null,
+     "scapula_isb_deg": [
+      -2.93,
+      20.89,
+      8.56
+     ],
+     "scapula_isb_target_deg": [
+      4.0,
+      21.0,
+      8.5
+     ],
+     "contact_residual_mm": [
+      -7.81,
+      14.14
+     ]
+    }
+   }
+  },
+  {
+   "ht": 100,
+   "collapse": 2,
+   "stretch": 54,
+   "pairs": 0,
+   "volume_pct": -0.1585,
+   "contact": {
+    "r": {
+     "clavicle_extra_protraction_deg": 0.21,
+     "clavicle_extra_elevation_deg": 2.39,
+     "mode": "isb",
+     "scapula_extra_rotation_deg": null,
+     "scapula_isb_deg": [
+      -4.87,
+      28.5,
+      11.71
+     ],
+     "scapula_isb_target_deg": [
+      5.47,
+      28.71,
+      11.62
+     ],
+     "contact_residual_mm": [
+      -9.41,
+      23.41
+     ]
+    },
+    "l": {
+     "clavicle_extra_protraction_deg": -0.21,
+     "clavicle_extra_elevation_deg": 2.4,
+     "mode": "isb",
+     "scapula_extra_rotation_deg": null,
+     "scapula_isb_deg": [
+      -4.86,
+      28.5,
+      11.71
+     ],
+     "scapula_isb_target_deg": [
+      5.47,
+      28.71,
+      11.62
+     ],
+     "contact_residual_mm": [
+      -9.4,
+      23.41
+     ]
+    }
+   }
+  },
+  {
+   "ht": 120,
+   "collapse": 10,
+   "stretch": 72,
+   "pairs": 10,
+   "volume_pct": -0.9943,
+   "contact": {
+    "r": {
+     "clavicle_extra_protraction_deg": 0.38,
+     "clavicle_extra_elevation_deg": 3.53,
+     "mode": "isb",
+     "scapula_extra_rotation_deg": null,
+     "scapula_isb_deg": [
+      -6.95,
+      35.1,
+      14.46
+     ],
+     "scapula_isb_target_deg": [
+      6.75,
+      35.44,
+      14.34
+     ],
+     "contact_residual_mm": [
+      -9.0,
+      34.09
+     ]
+    },
+    "l": {
+     "clavicle_extra_protraction_deg": -0.38,
+     "clavicle_extra_elevation_deg": 3.52,
+     "mode": "isb",
+     "scapula_extra_rotation_deg": null,
+     "scapula_isb_deg": [
+      -6.96,
+      35.1,
+      14.46
+     ],
+     "scapula_isb_target_deg": [
+      6.75,
+      35.44,
+      14.34
+     ],
+     "contact_residual_mm": [
+      -9.02,
+      34.09
+     ]
+    }
+   }
+  },
+  {
+   "ht": 140,
+   "collapse": 14,
+   "stretch": 88,
+   "pairs": 98,
+   "volume_pct": -1.9063,
+   "contact": {
+    "r": {
+     "clavicle_extra_protraction_deg": 0.55,
+     "clavicle_extra_elevation_deg": 4.54,
+     "mode": "isb",
+     "scapula_extra_rotation_deg": null,
+     "scapula_isb_deg": [
+      -8.54,
+      39.73,
+      16.4
+     ],
+     "scapula_isb_target_deg": [
+      7.66,
+      40.2,
+      16.27
+     ],
+     "contact_residual_mm": [
+      -7.05,
+      43.15
+     ]
+    },
+    "l": {
+     "clavicle_extra_protraction_deg": -0.55,
+     "clavicle_extra_elevation_deg": 4.54,
+     "mode": "isb",
+     "scapula_extra_rotation_deg": null,
+     "scapula_isb_deg": [
+      -8.55,
+      39.73,
+      16.4
+     ],
+     "scapula_isb_target_deg": [
+      7.66,
+      40.2,
+      16.27
+     ],
+     "contact_residual_mm": [
+      -7.07,
+      43.15
+     ]
+    }
+   }
+  },
+  {
+   "ht": 160,
+   "collapse": 26,
+   "stretch": 100,
+   "pairs": 216,
+   "volume_pct": -2.7339,
+   "contact": {
+    "r": {
+     "clavicle_extra_protraction_deg": 0.63,
+     "clavicle_extra_elevation_deg": 4.98,
+     "mode": "isb",
+     "scapula_extra_rotation_deg": null,
+     "scapula_isb_deg": [
+      -9.1,
+      41.48,
+      17.14
+     ],
+     "scapula_isb_target_deg": [
+      8.0,
+      42.0,
+      17.0
+     ],
+     "contact_residual_mm": [
+      -5.81,
+      46.89
+     ]
+    },
+    "l": {
+     "clavicle_extra_protraction_deg": -0.63,
+     "clavicle_extra_elevation_deg": 4.98,
+     "mode": "isb",
+     "scapula_extra_rotation_deg": null,
+     "scapula_isb_deg": [
+      -9.11,
+      41.48,
+      17.14
+     ],
+     "scapula_isb_target_deg": [
+      8.0,
+      42.0,
+      17.0
+     ],
+     "contact_residual_mm": [
+      -5.83,
+      46.88
+     ]
+    }
+   }
+  }
+ ],
+ "checks": {
+  "basis_unchanged": true,
+  "deforming_joints": 67,
+  "bones_moved": [
+   "upperarm_l",
+   "upperarm_r"
+  ],
+  "max_influences": 4,
+  "k1_keys": [
+   "HGPT_K1_ELBOW_l_110",
+   "HGPT_K1_ELBOW_l_90",
+   "HGPT_K1_ELBOW_r_110",
+   "HGPT_K1_ELBOW_r_90",
+   "HGPT_K1_KNEE_l_110",
+   "HGPT_K1_KNEE_l_130",
+   "HGPT_K1_KNEE_l_90",
+   "HGPT_K1_KNEE_r_110",
+   "HGPT_K1_KNEE_r_130",
+   "HGPT_K1_KNEE_r_90",
+   "HGPT_K1_WRIST_l_100",
+   "HGPT_K1_WRIST_l_60",
+   "HGPT_K1_WRIST_l_80",
+   "HGPT_K1_WRIST_r_100",
+   "HGPT_K1_WRIST_r_60",
+   "HGPT_K1_WRIST_r_80"
+  ],
+  "c1_keys": [
+   "HGPT_C1_ARMTRUNK_l_0",
+   "HGPT_C1_ARMTRUNK_l_1",
+   "HGPT_C1_ARMTRUNK_r_0",
+   "HGPT_C1_ARMTRUNK_r_1"
+  ],
+  "guide_objects_left": [],
+  "verdict": "PASS"
+ }
+}

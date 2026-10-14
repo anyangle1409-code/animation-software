@@ -14,7 +14,8 @@ LEGEND = ["Skin 22 % opaque.  Bones = the 67-joint rig the skin is weighted to:"
           "ivory = rib/sternum/clavicle/scapula guides.  Magenta = arm pivot (upper-arm head);",
           "cyan (rest only) = anatomical glenohumeral centre landmark.  Diagnostic, nothing approved."]
 NAMES = {"today": "today's rig (scapula driven in bone-local axes)", "isb": "anatomical-frame scapula + weight taper",
-         "r4": "R4: anatomical scapula on the thorax, lowered pivot, new shoulder weights"}
+         "r4": "R4: anatomical scapula on the thorax, lowered pivot, new shoulder weights",
+         "r5": "R5: R4 + blade tilt held to the profile + arm/chest contact keys"}
 
 
 def grid(title, sub, cols, rows, cells, out, lines):

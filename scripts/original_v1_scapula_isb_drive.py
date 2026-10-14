@@ -49,16 +49,19 @@ def rest_frames():
 
 
 def _signed(axis, angle_deg, pivot, point, want):
-    """Rotation about `axis` by +/-angle, sign chosen so `point` moves along `want` (a world direction)."""
-    for sgn in (1.0, -1.0):
-        R = Matrix.Rotation(math.radians(sgn * angle_deg), 3, axis)
-        if (R @ (point - pivot) - (point - pivot)).dot(want) > 0:
-            return R
-    return Matrix.Rotation(math.radians(angle_deg), 3, axis)
+    """Rotation about `axis` by angle_deg, where POSITIVE angles move `point` along `want` (a world direction); the sign is
+    probed once with +1 deg, so negative angles (e.g. external rotation) rotate the opposite way."""
+    probe = Matrix.Rotation(math.radians(1.0), 3, axis)
+    sgn = 1.0 if (probe @ (point - pivot) - (point - pivot)).dot(want) > 0 else -1.0
+    return Matrix.Rotation(math.radians(sgn * angle_deg), 3, axis)
 
 
-def scapula_rotation(s, profile):
-    """World rotation (3x3, about the AC joint) of the runtime scapula `s` for the profile's ISB angles."""
+def scapula_rotation(s, profile, angles=None):
+    """World rotation (3x3, about the AC joint) of the runtime scapula `s` for the profile's ISB angles, or for explicit
+    (internal, upward, tilt) degrees in `angles`."""
+    if angles is not None:
+        profile = {"scapula_internal_rotation_deg": angles[0], "scapula_upward_rotation_deg": angles[1],
+                   "scapula_posterior_tilt_deg": angles[2]}
     f = _STATE["frames"][s]
     x, y, z = f["axes"]
     p = f["points"]

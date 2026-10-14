@@ -37,7 +37,18 @@ WEIGHT_SMOOTH = int(_E.get("R4_WSMOOTH", 10))     # Laplacian passes over the ch
 # the blade wraps on the thorax by internal rotation; the clavicle is held near the profile (a clavicle-only solve produced
 # a 25-30 deg shrug, and freer clavicle protraction (0.04, 0.10) creased the skin between the blades: both rejected).  The
 # selected penalties leave 16-23 mm of lift-off at 160 deg HT (was 91-117 mm with no contact term).
-CONTACT_PENALTY = tuple(float(v) for v in __import__("os").environ.get("R4_PEN", "0.25,0.25,0.005").split(","))
+# five solver variables: clavicle protraction, clavicle elevation, and deviations of the scapula's ISB internal rotation,
+# upward rotation and posterior tilt from the profile.  Upward rotation and tilt are held near the profile (the first R4
+# let a free extra rotation reach ~9 deg EXTERNAL rotation, 6 deg less upward rotation and 11 deg more tilt than the
+# profile: the "hanging" blade seen in the x-ray).  Selected (owner: "fix the blade tilt"): upward rotation and tilt held
+# to the profile (penalty 1.0), internal rotation free (0.01) - it settles ~9 deg external at 160 deg HT to stay near the
+# thorax; with this model's blade and thorax shapes the profile's three angles cannot all hold with the blade on the ribs
+# (exact profile angles leave the inferior angle 49 mm off; the selected setting 47 mm; a freer clavicle shrugs).
+CONTACT_PENALTY = tuple(float(v) for v in __import__("os").environ.get("R4_PEN", "0.25,0.25,0.01,1.0,1.0").split(","))
+# R4 as published (52e375bd) used the "wrap" mode: clavicle protraction, clavicle elevation and a free extra rotation about
+# the blade's superior axis, penalties below.  Kept so the R4 blend replays exactly; R5 uses the "isb" mode above.
+WRAP_PENALTY = (0.25, 0.25, 0.005)
+MODES = {"R4": "wrap", "R5": "isb"}
 _S = {}
 
 
@@ -193,29 +204,35 @@ def apply_coupled_pose_r4(result, ht_elevation_deg):
         tail0 = cl.tail.copy()
         P = isb._STATE["frames"][s]["points"]
 
-        y_axis = R @ isb._STATE["frames"][s]["axes"][1]           # blade's superior axis after the ISB rotation
+        target = (profile["scapula_internal_rotation_deg"], profile["scapula_upward_rotation_deg"],
+                  profile["scapula_posterior_tilt_deg"])
+        wrap = _S.get("mode") == "wrap"
+        y_axis = R @ isb._STATE["frames"][s]["axes"][1]           # blade's superior axis after the profile rotation
 
-        def orient(c):
-            return Matrix.Rotation(c, 3, y_axis) @ R               # extra internal rotation: wraps the blade on the thorax
+        def orient(x):
+            if wrap:                                               # R4: free extra rotation about the superior axis
+                return Matrix.Rotation(x[2], 3, y_axis) @ R
+            return isb.scapula_rotation(s, profile, angles=(target[0] + math.degrees(x[2]), target[1] + math.degrees(x[3]),
+                                                            target[2] + math.degrees(x[4])))
 
         def landmarks(x):
             ac = head + _clav_rot(s, x[0], x[1]) @ (tail0 - head)
-            Ro = orient(x[2])
+            Ro = orient(x)
             return ac, {n: ac + Ro @ (P[n] - ac_rest) for n in ("TS", "AI")}
 
         def residual(x):
             _, L = landmarks(x)
             return [_dist(L["TS"]) - _S["d0"][s]["TS"], _dist(L["AI"]) - _S["d0"][s]["AI"]]
         import numpy as np
-        lam = np.array(CONTACT_PENALTY)
-        x = np.zeros(3)
+        lam = np.array(WRAP_PENALTY if wrap else CONTACT_PENALTY)
+        nv = len(lam)
+        x = np.zeros(nv)
         for _ in range(40):
             f = np.array(residual(x))
-            J = np.zeros((2, 3))
-            for j in range(3):
+            J = np.zeros((2, nv))
+            for j in range(nv):
                 xx = x.copy(); xx[j] += 1e-3
                 J[:, j] = (np.array(residual(xx)) - f) / 1e-3
-            # minimise |f + J dx|^2 + |lam * (x + dx)|^2
             A = J.T @ J + np.diag(lam ** 2)
             g = -(J.T @ f) - lam ** 2 * x
             dx = np.linalg.solve(A, g)
@@ -228,14 +245,19 @@ def apply_coupled_pose_r4(result, ht_elevation_deg):
         x = [float(v) for v in x]
         res = residual(x)
         Rc = _clav_rot(s, x[0], x[1]).to_4x4()
-        R = orient(x[2])
+        R = orient(x)
         cl.matrix = Matrix.Translation(head) @ Rc @ Matrix.Translation(-head) @ cl.matrix
         bpy.context.view_layer.update()
         ac = cl.tail.copy()
         pb[f"scapula_{s}"].matrix = Matrix.Translation(ac) @ R.to_4x4() @ Matrix.Translation(-ac_rest) @ sc_rest
         log[s] = {"clavicle_extra_protraction_deg": round(math.degrees(x[0]), 2),
                   "clavicle_extra_elevation_deg": round(math.degrees(x[1]), 2),
-                  "scapula_extra_internal_rotation_deg": round(math.degrees(x[2]), 2),
+                  "mode": _S.get("mode"),
+                  "scapula_extra_rotation_deg": round(math.degrees(x[2]), 2) if wrap else None,
+                  "scapula_isb_deg": None if wrap else [round(target[0] + math.degrees(x[2]), 2),
+                                                        round(target[1] + math.degrees(x[3]), 2),
+                                                        round(target[2] + math.degrees(x[4]), 2)],
+                  "scapula_isb_target_deg": [round(v, 2) for v in target],
                   "contact_residual_mm": [round(r * 1000, 2) for r in res]}
     bpy.context.view_layer.update()
     elevation, plane = math.radians(profile["ht_elevation_deg"]), math.radians(profile["plane_deg"])
@@ -252,7 +274,7 @@ def apply_coupled_pose_r4(result, ht_elevation_deg):
     return dict(profile, scapula_drive="R4: ISB thorax frame + scapulothoracic contact", r4_contact=log)
 
 
-def install(result, contact=True):
+def install(result, contact=True, mode="isb"):
     """Wrap the coupled pose (idempotent).  Call after build_corrected_scene() and any lower_pivot(), rig at rest."""
     import build_functional_original_coupled_motion_blender as coupled
     if _S.get("installed"):
@@ -264,7 +286,7 @@ def install(result, contact=True):
     isb.install(result)                                         # frames, AC rest; replaces apply_coupled_pose
     coupled.apply_coupled_pose = isb._STATE["orig"]             # undo the plain ISB wrap; R4 wraps the original
     centre, radii = _thorax_ellipsoid(result)
-    _S.update(orig=isb._STATE["orig"], centre=centre, radii=radii, installed=True,
+    _S.update(orig=isb._STATE["orig"], centre=centre, radii=radii, installed=True, mode=mode,
               ac_rest={s: rig.data.bones[f"clavicle_{s}"].tail_local.copy() for s in ("r", "l")},
               clav_dir={s: (rig.data.bones[f"clavicle_{s}"].tail_local - rig.data.bones[f"clavicle_{s}"].head_local).normalized()
                         for s in ("r", "l")})

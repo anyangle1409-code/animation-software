@@ -131,9 +131,39 @@ def drive_s1(rig, body):
 def setup(result):
     """Scene-level drives that must be installed before posing (call once after build_corrected_scene()): the R4 shoulder
     (anatomical-frame scapula with thorax contact, scripts/original_v1_shoulder_r4.py) when the blend asks for it."""
-    if bpy.context.scene.get("hgpt_shoulder_drive") == "R4":
+    tag = bpy.context.scene.get("hgpt_shoulder_drive")
+    if tag in ("R4", "R5"):
         import original_v1_shoulder_r4 as r4
-        r4.install(result)
+        r4.install(result, mode=r4.MODES[tag])
+
+
+C1_PREFIX = "HGPT_C1_ARMTRUNK_"
+C1_START = 18.0
+
+
+def drive_c1(rig, body):
+    """C1 arm/trunk contact keys: hats on the measured shoulder extension through the key angles stored on the rig."""
+    keys = body.data.shape_keys.key_blocks
+    import build_original_arm_trunk_contact_corrective_blender as c1
+    for s in ("l", "r"):
+        names = sorted((kb.name for kb in keys if kb.name.startswith(f"{C1_PREFIX}{s}_")), key=lambda n: int(n.rsplit("_", 1)[1]))
+        if not names or f"hgpt_c1_angles_{s}" not in rig:
+            continue
+        pts = (C1_START,) + tuple(rig[f"hgpt_c1_angles_{s}"])
+        e = c1.extension_deg(rig, s)
+        for n, name in enumerate(names):
+            lo, mid = pts[n], pts[n + 1]
+            hi = pts[n + 2] if n + 2 < len(pts) else None
+            if e <= lo:
+                v = 0.0
+            elif e <= mid:
+                v = (e - lo) / (mid - lo)
+            elif hi is None:
+                v = 1.0
+            else:
+                v = max(0.0, (hi - e) / (hi - mid))
+            keys[name].value = v
+    bpy.context.view_layer.update()
 
 
 def drive(rig, body):
@@ -141,3 +171,4 @@ def drive(rig, body):
     drive_helpers(rig)
     drive_k1(rig, body)
     drive_s1(rig, body)
+    drive_c1(rig, body)

@@ -473,8 +473,9 @@ def save(result, out, parent, name="R2"):
     view.objects.active = rig; rig.select_set(True)
     bpy.ops.object.mode_set(mode="EDIT")
     for s in SIDES:
-        if f"deltoid_helper_{s}" in rig.data.edit_bones:
-            rig.data.edit_bones.remove(rig.data.edit_bones[f"deltoid_helper_{s}"])
+        for helper in (f"deltoid_helper_{s}", f"shoulder_cap_{s}"):      # in-memory helpers (R1 W3A, R8 cap)
+            if helper in rig.data.edit_bones:
+                rig.data.edit_bones.remove(rig.data.edit_bones[helper])
     bpy.ops.object.mode_set(mode="OBJECT")
     for pb in rig.pose.bones:
         pb.matrix_basis.identity()

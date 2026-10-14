@@ -140,6 +140,8 @@ def setup(result):
     if tag in ("R4", "R5"):
         import original_v1_shoulder_r4 as r4
         r4.install(result, mode=r4.MODES[tag])
+    import original_v1_shoulder_cap_helper as cap        # R8: shoulder-cap helper joint (no-op without its rig data)
+    cap.install(result["runtime"])
 
 
 C1_PREFIX = "HGPT_C1_ARMTRUNK_"
@@ -174,6 +176,8 @@ def drive_c1(rig, body):
 def drive(rig, body):
     install_helpers(rig)
     drive_helpers(rig)
+    import original_v1_shoulder_cap_helper as cap
+    cap.drive(rig)
     drive_k1(rig, body)
     drive_s1(rig, body)
     drive_c1(rig, body)

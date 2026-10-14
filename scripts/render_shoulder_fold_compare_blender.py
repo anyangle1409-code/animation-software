@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Shoulder fold close-ups of an ORIGINAL_v1 review blend (bpy, Workbench): the coupled shoulder pose at each --hts angle
 (front / rear / side, identical cameras), all review drives on; faces in self-intersecting pairs are painted red, collapsed
-faces (< 0.1 x rest area) blue.  Nothing is saved.
+faces (< 0.1 x rest area) blue, stretched faces (> 2 x rest area) yellow.  Nothing is saved.
 
   python3.13 render_shoulder_fold_compare_blender.py -- --blend B.blend --out DIR --tag NAME [--hts 120,130,160]
 """
@@ -41,7 +41,7 @@ def main():
         if o.type in ("MESH", "CURVE") and o is not body:
             o.hide_render = True
     mats = []
-    for n, c in (("SKIN", (0.64, 0.46, 0.38, 1.0)), ("PAIR", (0.85, 0.08, 0.08, 1.0)), ("COLL", (0.1, 0.25, 0.9, 1.0))):
+    for n, c in (("SKIN", (0.64, 0.46, 0.38, 1.0)), ("PAIR", (0.85, 0.08, 0.08, 1.0)), ("COLL", (0.1, 0.25, 0.9, 1.0)), ("STR", (0.95, 0.8, 0.1, 1.0))):
         m = bpy.data.materials.new(f"HGPT_FOLD_{n}_TMP"); m.diffuse_color = c; mats.append(m)
     body.data.materials.clear()
     for m in mats:
@@ -67,8 +67,11 @@ def main():
         fs = [set(f) for f in F]
         pairs = {t for a, b in tree.overlap(tree) if a < b and not (fs[a] & fs[b]) for t in (a, b)}
         coll = {k for k, f in enumerate(F) if A0[k] > 1e-12 and bench._area(V, f) / A0[k] < 0.1}
+        strd = {k for k, f in enumerate(F) if A0[k] > 1e-12 and bench._area(V, f) / A0[k] > 2.0}
         idx = [0] * len(body.data.polygons)
         if len(owner) == len(F):
+            for t in strd:
+                idx[owner[t]] = 3
             for t in pairs:
                 idx[owner[t]] = 1
             for t in coll:
@@ -82,7 +85,7 @@ def main():
             cam.rotation_euler = (c - cam.location).to_track_quat("-Z", "Y").to_euler()
             scene.render.filepath = str(out / f"{tag}__fold{ht}_{view}.png")
             bpy.ops.render.render(write_still=True)
-        print("FOLD", tag, ht, "pairs_faces", len(pairs), "collapsed", len(coll), "mapped", len(owner) == len(F))
+        print("FOLD", tag, ht, "pairs_faces", len(pairs), "collapsed", len(coll), "stretched", len(strd), "mapped", len(owner) == len(F))
 
 
 if __name__ == "__main__":

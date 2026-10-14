@@ -82,6 +82,31 @@ M1/M2 showed calf/thigh interpenetration at deep knee flexion: squat 72, lunge 4
   - **Usable range on the evidence: up to about 110°**, which covers the row (100°) and the grip (90°).
   - Above that, a curved contact surface (or a compression profile from a source) is needed, not a plane.
 
+## Rejected: the same method at the hip (squat fold), measured 14 Oct
+
+**Configuration (scratch, not committed as a feature):**
+- proximal side: `pelvis` + `spine_01`;
+- distal side: `thigh_<s>`;
+- flexion = thigh −X;
+- keys at 90, 110 and 130°; zone 0.30 m.
+
+**Result — pure hip flexion, both legs, before → after:**
+
+| Hip flexion | Pairs | Collapse | Stretch > 2 | Volume Δ % |
+|---|---|---|---|---|
+| 90° | 0 → 49 | 2 → 16 | 46 → 78 | −2.55 → −2.55 |
+| 110° | 228 → 379 | 28 → 46 | 62 → 146 | −3.80 → −4.65 |
+| 130° | 266 → 776 | 24 → 28 | 76 → 263 | −5.02 → −6.14 |
+
+**Worse at every angle.** 12, 173 and 440 rest deltas hit the cap at 90, 110 and 130°, and the result is left/right asymmetric.
+
+**Why:**
+- The abdomen/groin fold is not a two-segment contact about one hinge.
+- Pelvis skin near the midline belongs to both sides' zones.
+- Much of the contact is thigh-on-thigh skin, which the proximal/distal weight split cannot separate.
+
+**What the hip fold needs instead:** a three-body contact model (trunk, left thigh, right thigh) or a different skinning approach. It is not pursued here.
+
 ## Limits and next
 
 - **The bisector plane is assumed.** Real calf/hamstring compression is not symmetric, and there is no sourced contact surface or pressure data.

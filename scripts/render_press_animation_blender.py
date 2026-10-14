@@ -6,6 +6,9 @@ elbow 90 -> 0 deg) is sampled up and back down; with --drives the blend's review
 every frame) run, as in the validation.  Front, back and side views per frame.  Nothing is saved.
 
   python3.13 render_press_animation_blender.py -- --blend B.blend --out DIR --tag NAME [--drives] [--steps 20]
+
+With --poses "ht:elbow,..." it renders those (humerothoracic elevation, elbow flexion) poses instead (front view + a front
+close-up of the runtime _l shoulder = anatomical right, F-SIDE-001), e.g. to match reference photos.
 """
 from __future__ import annotations
 
@@ -54,6 +57,26 @@ def main():
     cd = bpy.data.cameras.new("HGPT_PRESS_CAM_TMP"); cd.type = "ORTHO"; cd.ortho_scale = SCALE
     cam = bpy.data.objects.new("HGPT_PRESS_CAM_TMP", cd); scene.collection.objects.link(cam); scene.camera = cam
     out.mkdir(parents=True, exist_ok=True)
+    if "--poses" in args:
+        for n, item in enumerate(get("--poses").split(",")):
+            ht, elbow = (float(x) for x in item.split(":"))
+            bench._reset(rig)
+            correction.apply_corrected_pose(res, ht)
+            for s in ("l", "r"):
+                bench._rot(rig.pose.bones[f"forearm_{s}"], x=-elbow)
+            bpy.context.view_layer.update()
+            if use_drives:
+                drives.drive(rig, body)
+            bpy.context.view_layer.update()
+            sh_c = rig.pose.bones["upperarm_l"].head.copy() + Vector((0, 0, -0.03))
+            for view, target, scale in (("front", TARGET, SCALE), ("shoulder", sh_c, 0.50)):
+                cd.ortho_scale = scale
+                cam.location = target + Vector((0, -1, 0)) * 4.0
+                cam.rotation_euler = (target - cam.location).to_track_quat("-Z", "Y").to_euler()
+                scene.render.filepath = str(out / f"{tag}__pose{n}_{view}.png")
+                bpy.ops.render.render(write_still=True)
+        print("POSES", tag, "->", out)
+        return
     ts = [i / steps for i in range(steps + 1)] + [i / steps for i in range(steps - 1, 0, -1)]   # up, then down
     for n, t in enumerate(ts):
         bench.pose_press(res, t, correction)

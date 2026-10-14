@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "kind": "claude_master_task_ledger",
- "updated": "2026-10-14 (A: full-range press 6b821bd3; B: R10 402cd56e)",
+ "updated": "2026-10-14 (R11: re-meshed shoulder)",
  "owner_rules": "skeleton is source of truth; no frozen-skeleton change without owner decision; no merge; no approval claims; no third-party assets",
  "environment": "cloud Linux container (Blender 5.2.1 as Python module); not the owner's Windows laptop; no battery telemetry available, protection = commit/push after every task",
  "branches": {
@@ -10,7 +10,7 @@
   "w_guides": "claude/functional-original-shoulder-correction-20261013 (draft PR #111)",
   "w_correctives": "claude/functional-shoulder-coupled-corrective-20261013",
   "movement": "claude/movement-benchmarks-20261013 (draft PR #113) head 359c8865",
-  "review_r1": "claude/original-v1-consolidated-review-20261014 head 402cd56e (R1-R10)"
+  "review_r1": "claude/original-v1-consolidated-review-20261014 head 38f07e73 (R1-R11)"
  },
  "tasks": [
   {
@@ -478,6 +478,20 @@
     "vs owner photo: no deep armpit hollow, crease lines at lockout, deltoid less full, lumpy lockout silhouette by the neck - procedural shapes have reached their limit; needs authored sculpts / denser topology / muscle sim (owner decision)"
    ],
    "next": "owner review of R10 press GIF vs photo"
+  },
+  {
+   "id": "R11",
+   "description": "R10 with the shoulder/armpit re-meshed (Loop subdivision, edges 19.7 -> 8.8 mm, 21,600 vertices), weights and keys carried",
+   "priority": 1,
+   "status": "TESTED",
+   "commit": "38f07e73",
+   "evidence": "docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R11_20261014.md; candidates/claude_review_r11_20261014/{r11_remesh.json,r11_validation.json,press}",
+   "tests": "test_original_review_candidate_r11.py (6 native); R1-R10 pass",
+   "blockers": [
+    "17,946-vertex runtime contract (owner + Lane G)",
+    "shapes still R10's: deltoid mass and armpit hollow need authored sculpts or muscle simulation (owner decision)"
+   ],
+   "next": "owner decision: authored corrective sculpts on R11 at the press stages vs reference photos"
   }
  ]
 }

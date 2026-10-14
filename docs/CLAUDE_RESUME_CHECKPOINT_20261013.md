@@ -33,7 +33,7 @@
 
 ## Next unblocked
 
-**14 Oct (late):** owner compared the press with a reference photo series: "start with A then do B". A (full-range press, lockout 172 deg + shrug) `6b821bd3`; B = R10 (sculpt keys) `402cd56e`, `docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R10_20261014.md`. R10 is the current review candidate. Open vs photo: armpit hollow depth, lockout crease lines, deltoid fullness - procedural limit reached; owner decision on authored sculpts / topology / muscle sim. Check CI on `402cd56e` first.
+**14 Oct (late):** R11 built (owner approved the shoulder re-mesh): `docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R11_20261014.md`, review branch `38f07e73`. R11 (R10 + Loop re-meshed shoulder, 21,600 vertices) is the current review candidate. Smoother; shapes unchanged - next needs an owner decision (authored sculpts vs muscle sim) and the vertex-count contract. Check CI on `38f07e73` first.
 
 As of 14 Oct, none. Every open item needs an owner decision, a Lane G agreement, or a primary source that is unreachable from this cloud environment:
 

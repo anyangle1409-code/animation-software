@@ -77,3 +77,23 @@ The comparison sheet is kept outside the repo because it contains the owner's ph
 - **Benchmarks vs R11.**
 
 R1–R11 and the press-extension tests pass.
+
+## Phone review set and the next deformation issue (hip fold)
+
+**Phone review set:** `sequences/` holds every one of the 13 benchmarks as a filmstrip (three-quarter and side view, t = 0 to 1) plus a GIF, each with a peak frame of a003 next to R12.
+
+**Hip fold, measured after R12.** The worst remaining benchmarks are the squat and the deadlift. At their peaks there are 227 and 313
+self-intersecting pairs (28 and 38 collapsed faces).
+- **Where:** every pair is in the groin crease at the front of the hip (rest z 0.83–1.06 m, about 8 cm anterior). In the
+  squat the classes are thigh/thigh and pelvis/thigh; in the deadlift, spine_01/thigh and thigh/thigh.
+- **What it is:** a natural anatomical fold whose two layers pass through each other in a thin sliver. In the renders it
+  reads as a hip crease.
+
+**Attempted and rejected:** a K1-style hip contact corrective (hinge pelvis → thigh, keys 90/115/135, contact plane bisecting
+the trunk and thigh directions), tried two ways:
+- sides chosen by bone weight;
+- sides chosen by rest position across the joint plane, because the crease skin is thigh-weighted on both of its layers.
+
+Either way, in isolated hip-flexion poses the contact push creates new folds. The guard therefore backs the keys almost to zero on the crease vertices (at most 0.1–1 mm), and the squat and deadlift counts do not change (227 → 227, 313 → 313). The code was reverted.
+
+**What would work:** the shoulder approach (crease re-weighting or a hip-crease helper joint, with a delta-mush bake). The fold is barely visible, so this is queued below the owner's open decisions.

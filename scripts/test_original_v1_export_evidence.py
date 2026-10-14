@@ -17,7 +17,7 @@ class ExportEvidenceTests(unittest.TestCase):
         return candidate,manifest
     def write_glb(self,path,sha,revision,dressed):
         names=['HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE']+(['HGPT_ORIGINAL_V1_SHORTS_CANDIDATE'] if dressed else [])
-        doc={'asset':{'version':'2.0'},'nodes':[{'name':name,'mesh':i,'extras':{
+        doc={'asset':{'version':'2.0'},'meshes':[{'name':name} for name in names],'nodes':[{'name':name,'mesh':i,'extras':{
             'hgpt_export_source_candidate_sha256':sha,'hgpt_export_candidate_revision':revision,
             'hgpt_export_production_approved':False}} for i,name in enumerate(names)]}
         data=json.dumps(doc).encode();data+=b' '*((-len(data))%4)
@@ -54,6 +54,18 @@ class ExportEvidenceTests(unittest.TestCase):
             out,r=self.capture_fixture(Path(td));self.assertFalse(r['production_approved']);self.assertFalse(r['visual_review_available'])
             self.assertEqual(r['export_settings'],c.SETTINGS);self.assertEqual(r['pose_position'],'REST');self.assertEqual(r['rig_bone_count'],67);self.assertEqual(r['rig_revision'],'rev2_forearm_twist_only')
             self.assertEqual(set(r['exports']),{'bare','dressed'})
+    def test_unreferenced_display_mesh_payload_is_rejected(self):
+        c=self.module()
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);out,r=self.capture_fixture(root)
+            path=out/r['exports']['bare']['file']
+            doc,_=c.parse_glb(path)
+            # A leaked mesh definition is still shipped even if not attached to a node.
+            doc['meshes']=[{'name':c.BODY},{'name':'Icosphere'}]
+            data=json.dumps(doc).encode();data+=b' '*((-len(data))%4)
+            path.write_bytes(struct.pack('<III',0x46546c67,2,20+len(data))+struct.pack('<II',len(data),0x4e4f534a)+data)
+            with self.assertRaisesRegex(ValueError,'mesh payload'):
+                c.bound_glb(path,r['candidate_sha256'],'r29','bare')
     def test_source_changes_during_capture_are_refused(self):
         c=self.module()
         with tempfile.TemporaryDirectory() as td:
@@ -131,7 +143,7 @@ class ExportEvidenceTests(unittest.TestCase):
                 self.assertEqual(rig.data.pose_position,'REST');self.assertFalse(unrelated.selected)
                 self.assertEqual({k:v for k,v in kwargs.items() if k!='filepath'},c.SETTINGS)
                 if fail:return {'CANCELLED'}
-                doc={'asset':{'version':'2.0'},'nodes':[{'name':o.name,'mesh':i,'extras':dict(o)} for i,o in enumerate(meshes)]}
+                doc={'asset':{'version':'2.0'},'meshes':[{'name':o.name} for o in meshes],'nodes':[{'name':o.name,'mesh':i,'extras':dict(o)} for i,o in enumerate(meshes)]}
                 data=json.dumps(doc).encode();data+=b' '*((-len(data))%4)
                 Path(kwargs['filepath']).write_bytes(struct.pack('<III',0x46546c67,2,20+len(data))+struct.pack('<II',len(data),0x4e4f534a)+data)
                 return {'FINISHED'}

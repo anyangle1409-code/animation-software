@@ -10,7 +10,7 @@
 | Feet C2/C3, F4 breadth C2W/C3W, F6 posed sweep | `claude/original-v1-foot-shape-20261013` | `c16ec280` | TESTED; C3 BLOCKED on owner sign-off |
 | W1 shoulder guides | `claude/functional-original-shoulder-correction-20261013` (draft PR #111) | `13cea5a5` | TESTED, CI green |
 | W2 correctives (diagnostic) | `claude/functional-shoulder-coupled-corrective-20261013` (draft PR #112) | `a8942ae3` | TESTED as diagnostic, CI green |
-| M1/M2 benchmarks, W4 (rejected) | `claude/movement-benchmarks-20261013` (draft PR #113) | `81145f6a` | M1 TESTED (CI green); M2 TESTED locally, CI pending |
+| M1/M2 benchmarks (9), W4 (rejected), K1 hinge correctives, W3-A feasibility data | `claude/movement-benchmarks-20261013` (draft PR #113) | `05a4a17f` | M1/M2/K1 TESTED, CI green through `6a6aaf9a` |
 
 - **Blender source (unchanged):** `ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a003.blend`, SHA-256 `670a37bf…cbbe56`.
 - **Candidates:** C2/C3 BLENDs are committed under `ORIGINAL_V1_WORK/anatomy/candidates/claude_foot_20261013/`. The W candidates are rebuilt in memory by their scripts; there are no binary outputs.
@@ -31,10 +31,21 @@
 
 ## Next unblocked
 
-M2 follow-ups (single-leg stance, ankle/toe benchmarks).
+As of 14 Oct, none. Every open item needs an owner decision, a Lane G agreement, or a primary source that is unreachable from this cloud environment:
+
+| Item | Needs |
+|---|---|
+| F3 | C3 foot skeleton decision |
+| F4 remainder | toe-breadth source |
+| F5 / W3 / K1 shipping | runtime-contract extension (owner + Lane G) |
+| A1 fibula / MC1 | soft-tissue cover source |
+| Hip fold | three-body contact model |
+| Thumb opposition | thumb axis source |
+| E1 GLB leak | Icosphere leak is in the Lane G / Work exporter |
 
 ## Owner decisions pending
 
 1. **C3 foot skeleton:** accept, accept with a different heel value, or keep a003 + C2.
 2. **Rest-pose hand clearance:** the A-pose hand hangs almost on the thigh, so thumb/thigh contact appears in the lunge, walk and trunk rotation (M2).
-3. **Runtime-contract extension:** a shoulder-top helper (W3) and individual toe controls (F5) both need it; Lane G must agree as well.
+3. **Rest-pose hand clearance** (above) and **thumb opposition axis.**
+4. **Runtime-contract extension:** a shoulder-top helper (W3; 14 Oct feasibility data: needs a mid-elevation reference), individual toe controls (F5) and the K1 knee/elbow driven morphs all need it; Lane G must agree as well.

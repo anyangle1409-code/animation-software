@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "kind": "claude_master_task_ledger",
- "updated": "2026-10-14 (S1 shoulder relax; R2 review candidate)",
+ "updated": "2026-10-14 (K1 wrist; R3 review candidate)",
  "owner_rules": "skeleton is source of truth; no frozen-skeleton change without owner decision; no merge; no approval claims; no third-party assets",
  "environment": "cloud Linux container (Blender 5.2.1 as Python module); not the owner's Windows laptop; no battery telemetry available, protection = commit/push after every task",
  "branches": {
@@ -10,7 +10,7 @@
   "w_guides": "claude/functional-original-shoulder-correction-20261013 (draft PR #111)",
   "w_correctives": "claude/functional-shoulder-coupled-corrective-20261013",
   "movement": "claude/movement-benchmarks-20261013 (draft PR #113) head ba05f924",
-  "review_r1": "claude/original-v1-consolidated-review-20261014 head 0c3b77ac (R1 + R2)"
+  "review_r1": "claude/original-v1-consolidated-review-20261014 head 7cdb2e05 (R1, R2, R3)"
  },
  "tasks": [
   {
@@ -321,6 +321,20 @@
     "armpit bulge and posterior axillary web remain"
    ],
    "next": "owner review of R2; further stretch reduction needs a different deformer (e.g. second helper or dual-quaternion region)"
+  },
+  {
+   "id": "K1W",
+   "description": "K1 generalised (axis, per-side sign, start, soft contact, count-based guard); wrist-extension dorsal-crease keys 60/80/100 -> R3 = R2 + wrist keys",
+   "priority": 1,
+   "status": "TESTED",
+   "evidence": "docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R3_20261014.md; candidates/claude_review_r3_20261014/{r3_wrist_build.json,r3_validation.json,closeups,sequences}",
+   "tests": "scripts/blender_tests/test_original_review_candidate_r3.py (5 native) + test_original_knee_contact_corrective.py (7, generalised module); pass locally",
+   "commit": "7cdb2e05",
+   "blockers": [
+    "+2 stretched faces from 60 deg (recorded)",
+    "elbow crease under pronation (push-up bottom 166 pairs)"
+   ],
+   "next": "elbow keys under pronation; hip-fold three-body model"
   }
  ]
 }

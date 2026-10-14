@@ -12,7 +12,7 @@
 | W2 correctives (diagnostic) | `claude/functional-shoulder-coupled-corrective-20261013` (draft PR #112) | `a8942ae3` | TESTED as diagnostic, CI green |
 | M1/M2 benchmarks (9), W4 (rejected), K1 hinge correctives, W3-A feasibility data | `claude/movement-benchmarks-20261013` (draft PR #113) | `05a4a17f` | M1/M2/K1 TESTED, CI green through `6a6aaf9a` |
 | P4 families (forearm, wrist, deadlift, push-up; 13 benchmarks), H1/H2, W3A reference drive | `claude/movement-benchmarks-20261013` (draft PR #113) | `ba05f924` | TESTED (13 native tests pass locally) |
-| R1 consolidated review candidate (C5 feet + W3A + K1), validation vs a003, phone sequences; **R2 = R1 + S1 shoulder relax keys (current single candidate)** | `claude/original-v1-consolidated-review-20261014` | `0c3b77ac` | TESTED (6 + 6 native tests); NOT accepted |
+| R1 consolidated review candidate (C5 feet + W3A + K1), validation vs a003, phone sequences; R2 = R1 + S1 shoulder relax keys; **R3 = R2 + K1 wrist-extension keys (current single candidate)** | `claude/original-v1-consolidated-review-20261014` | `7cdb2e05` | TESTED (6 + 6 + 5 native tests); NOT accepted |
 
 - **Blender source (unchanged):** `ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a003.blend`, SHA-256 `670a37bf…cbbe56`.
 - **Candidates:** C2/C3 BLENDs are committed under `ORIGINAL_V1_WORK/anatomy/candidates/claude_foot_20261013/`. The W candidates are rebuilt in memory by their scripts; there are no binary outputs.
@@ -33,7 +33,7 @@
 
 ## Next unblocked
 
-**14 Oct (late):** S1 done (R2: press stretch 634 -> 542, nothing worse). Resume point: the hip-fold three-body contact model, then the wrist-extension corrective (K1 generalised to local Z). Check CI on `0c3b77ac` first.
+**14 Oct (late):** S1 done (R2: press stretch 634 -> 542, nothing worse); K1 wrist done (R3: push-up 14/74/192 -> 2/72/166). Resume point: elbow crease under pronation (push-up bottom 166 pairs), then the hip-fold three-body contact model. Check CI on `7cdb2e05` first.
 
 As of 14 Oct, none. Every open item needs an owner decision, a Lane G agreement, or a primary source that is unreachable from this cloud environment:
 

@@ -24,12 +24,14 @@ test('frame API returns isolated copies rather than writable validated state',as
 });
 test('legacy frame inspection yields fresh snapshots with immutable headers and unchanged safety gates',async()=>{
   const {seq}=await fixture();
-  const one=seq.frames,two=seq.frames;
+  const one=seq.frames[0].sourceOrderedWorldMatrices,two=seq.frames[0].sourceOrderedWorldMatrices;
   assert.notEqual(one,two);
-  one[0].sourceOrderedWorldMatrices.fill(NaN);
-  assert.equal(two[0].sourceOrderedWorldMatrices[0],1);
+  one.fill(NaN);
+  assert.equal(two[0],1);
   assert.equal(getProvisionalPoseFrame(seq,0).sourceOrderedWorldMatrices[0],1);
-  assert.ok(Object.isFrozen(one));assert.ok(Object.isFrozen(one[0]));
+  // Preserve the immutable frame-list interface; avoid copying every frame for one read.
+  assert.equal(seq.frames,seq.frames);
+  assert.ok(Object.isFrozen(seq.frames));assert.ok(Object.isFrozen(seq.frames[0]));
   assert.equal(seq.audit.productionClipApproved,false);
   assert.equal(seq.audit.wholeBodyExerciseAccuracyAccepted,false);
 });

@@ -8,7 +8,7 @@
 - Builder: `scripts/build_original_foot_c4_candidate_blender.py`.
 - Native tests: `scripts/blender_tests/test_original_foot_c4_candidate.py` (8 pass locally, including an exactly identical rebuild from C3).
 - CI: `.github/workflows/original-foot-c4.yml`.
-- Blend and report: `ORIGINAL_V1_WORK/anatomy/candidates/claude_foot_20261013/c4/` (`HGPT_ORIGINAL_V1_FOOT_C4_CLAUDE.blend`, SHA-256 `d8742bad…83c5`; parent C3 `7545be4a…21f9`).
+- Blend and report: `ORIGINAL_V1_WORK/anatomy/candidates/claude_foot_20261013/c4/` (`HGPT_ORIGINAL_V1_FOOT_C4_CLAUDE.blend`, SHA-256 `b1ecd3e5…05aa`; parent C3 `7545be4a…21f9`).
 
 ## Defects found in my earlier candidates (corrected here)
 

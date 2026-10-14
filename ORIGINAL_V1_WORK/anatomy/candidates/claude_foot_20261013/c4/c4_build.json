@@ -11,7 +11,7 @@
   "ansur_ball_sd_mm": 4.7,
   "ansur_heel_breadth_mm": 73.7,
   "ansur_heel_sd_mm": 5.3,
-  "heel_definition": "max breadth of true sections >=15 mm behind the AJC (posterior to the malleoli), any height < 100 mm; disclosed assumption. Not changed: C3 already measures within about +1 SD of ANSUR",
+  "heel_definition": "max breadth of true sections >=15 mm behind the AJC (posterior to the malleoli), any height < 100 mm; disclosed assumption. Not changed: C3 measures 82.9 mm (+1.75 SD), 75-81 mm at 20-30 mm behind the AJC",
   "toe_targets": "relational only: gaps closed to 0.6 mm (true sections); no sourced toe widths available"
  },
  "parameters": {
@@ -117,6 +117,6 @@
  ],
  "output": {
   "path": "HGPT_ORIGINAL_V1_FOOT_C4_CLAUDE.blend",
-  "sha256": "d8742bad79426caa29437871b4a595d948a6ca4c3c6735a5db031594c44183c5"
+  "sha256": "b1ecd3e5bb39dcca5aa631dfa94c793a722e7011b13aa47707ffc97bbadb05aa"
  }
 }

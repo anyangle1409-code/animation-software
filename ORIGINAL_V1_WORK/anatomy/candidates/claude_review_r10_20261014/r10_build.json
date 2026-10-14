@@ -1,0 +1,863 @@
+{
+ "kind": "ORIGINAL_V1_REVIEW_CANDIDATE",
+ "candidate": "R10",
+ "status": "REVIEW_CANDIDATE_NOT_ACCEPTED",
+ "approved": false,
+ "params": {
+  "S4_SCALE": "2.0"
+ },
+ "s4": {
+  "keys_ht": [
+   85.0,
+   110.0,
+   145.0,
+   172.0
+  ],
+  "regions": {
+   "deltoid": {
+    "centre": [
+     0.035,
+     0.0,
+     0.0
+    ],
+    "radius": 0.1
+   },
+   "armpit": {
+    "centre": [
+     -0.05,
+     0.02,
+     -0.075
+    ],
+    "radius": 0.07
+   },
+   "trapezius": {
+    "centre": [
+     -0.1,
+     0.03,
+     0.07
+    ],
+    "radius": 0.07
+   }
+  },
+  "depths_m": {
+   "85.0": {
+    "deltoid": 0.01,
+    "armpit": 0.0,
+    "trapezius": 0.0
+   },
+   "110.0": {
+    "deltoid": 0.012,
+    "armpit": -0.004,
+    "trapezius": 0.0
+   },
+   "145.0": {
+    "deltoid": 0.012,
+    "armpit": -0.012,
+    "trapezius": 0.004
+   },
+   "172.0": {
+    "deltoid": 0.01,
+    "armpit": -0.018,
+    "trapezius": 0.01
+   }
+  },
+  "scale": 2.0,
+  "unfold_iters": 30,
+  "log": {
+   "85.0": {
+    "l": {
+     "moved": 196,
+     "unfold_zone": 0,
+     "max_posed_mm": 15.3,
+     "clipped": 0,
+     "elevation_deg": 85.0
+    },
+    "r": {
+     "moved": 196,
+     "unfold_zone": 0,
+     "max_posed_mm": 15.3,
+     "clipped": 0,
+     "elevation_deg": 85.0
+    }
+   },
+   "110.0": {
+    "l": {
+     "moved": 296,
+     "unfold_zone": 0,
+     "max_posed_mm": 18.4,
+     "clipped": 0,
+     "elevation_deg": 110.0
+    },
+    "r": {
+     "moved": 296,
+     "unfold_zone": 0,
+     "max_posed_mm": 18.4,
+     "clipped": 0,
+     "elevation_deg": 110.0
+    }
+   },
+   "145.0": {
+    "l": {
+     "moved": 352,
+     "unfold_zone": 0,
+     "max_posed_mm": 23.5,
+     "clipped": 0,
+     "elevation_deg": 145.0
+    },
+    "r": {
+     "moved": 352,
+     "unfold_zone": 0,
+     "max_posed_mm": 23.5,
+     "clipped": 0,
+     "elevation_deg": 145.0
+    }
+   },
+   "172.0": {
+    "l": {
+     "moved": 477,
+     "unfold_zone": 158,
+     "max_posed_mm": 42.7,
+     "clipped": 29,
+     "elevation_deg": 172.0
+    },
+    "r": {
+     "moved": 477,
+     "unfold_zone": 158,
+     "max_posed_mm": 42.7,
+     "clipped": 29,
+     "elevation_deg": 172.0
+    }
+   },
+   "guard": {
+    "extra_pairs_and_collapsed_per_round": [
+     {
+      "0.00": [
+       [
+        0,
+        0
+       ]
+      ],
+      "0.05": [
+       [
+        0,
+        0
+       ]
+      ],
+      "0.10": [
+       [
+        0,
+        0
+       ]
+      ],
+      "0.15": [
+       [
+        0,
+        0
+       ]
+      ],
+      "0.20": [
+       [
+        0,
+        0
+       ]
+      ],
+      "0.25": [
+       [
+        0,
+        0
+       ]
+      ],
+      "0.30": [
+       [
+        0,
+        0
+       ]
+      ],
+      "0.35": [
+       [
+        0,
+        0
+       ]
+      ],
+      "0.40": [
+       [
+        0,
+        0
+       ]
+      ],
+      "0.45": [
+       [
+        0,
+        0
+       ]
+      ],
+      "0.50": [
+       [
+        0,
+        2
+       ],
+       [
+        0,
+        0
+       ]
+      ],
+      "0.55": [
+       [
+        0,
+        0
+       ]
+      ],
+      "0.60": [
+       [
+        0,
+        0
+       ]
+      ],
+      "0.65": [
+       [
+        0,
+        2
+       ],
+       [
+        0,
+        0
+       ]
+      ],
+      "0.70": [
+       [
+        0,
+        0
+       ]
+      ],
+      "0.75": [
+       [
+        0,
+        0
+       ]
+      ],
+      "0.80": [
+       [
+        -16,
+        6
+       ],
+       [
+        -16,
+        -6
+       ]
+      ],
+      "0.85": [
+       [
+        -30,
+        -6
+       ]
+      ],
+      "0.90": [
+       [
+        -70,
+        -4
+       ]
+      ],
+      "0.95": [
+       [
+        -86,
+        2
+       ],
+       [
+        -70,
+        -6
+       ]
+      ],
+      "1.00": [
+       [
+        -78,
+        -4
+       ]
+      ]
+     },
+     {
+      "0.00": [
+       [
+        0,
+        0
+       ]
+      ],
+      "0.05": [
+       [
+        0,
+        0
+       ]
+      ],
+      "0.10": [
+       [
+        0,
+        0
+       ]
+      ],
+      "0.15": [
+       [
+        0,
+        0
+       ]
+      ],
+      "0.20": [
+       [
+        0,
+        0
+       ]
+      ],
+      "0.25": [
+       [
+        0,
+        0
+       ]
+      ],
+      "0.30": [
+       [
+        0,
+        0
+       ]
+      ],
+      "0.35": [
+       [
+        0,
+        0
+       ]
+      ],
+      "0.40": [
+       [
+        0,
+        0
+       ]
+      ],
+      "0.45": [
+       [
+        0,
+        0
+       ]
+      ],
+      "0.50": [
+       [
+        0,
+        0
+       ]
+      ],
+      "0.55": [
+       [
+        0,
+        0
+       ]
+      ],
+      "0.60": [
+       [
+        0,
+        0
+       ]
+      ],
+      "0.65": [
+       [
+        0,
+        0
+       ]
+      ],
+      "0.70": [
+       [
+        0,
+        0
+       ]
+      ],
+      "0.75": [
+       [
+        0,
+        -4
+       ]
+      ],
+      "0.80": [
+       [
+        -16,
+        -8
+       ]
+      ],
+      "0.85": [
+       [
+        -30,
+        -6
+       ]
+      ],
+      "0.90": [
+       [
+        -70,
+        -8
+       ]
+      ],
+      "0.95": [
+       [
+        -70,
+        -6
+       ]
+      ],
+      "1.00": [
+       [
+        -78,
+        -4
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "press_extension": {
+  "lockout_ht": 172.0,
+  "shrug_max_deg": 12.0,
+  "ext_per_20_deg": {
+   "clavicle_elevation_deg": 3.0,
+   "clavicle_retraction_deg": 4.0,
+   "clavicle_posterior_rotation_deg": 6.0,
+   "scapula_upward_rotation_deg": 8.0,
+   "scapula_posterior_tilt_deg": 6.0,
+   "scapula_internal_rotation_deg": 0.0
+  }
+ },
+ "press_path_r9": [
+  {
+   "t": 0.0,
+   "ht": 85.0,
+   "elbow": 100.0,
+   "shrug": 0.0,
+   "collapse": 0,
+   "stretch": 44,
+   "pairs": 0,
+   "volume_pct": -0.1576
+  },
+  {
+   "t": 0.05,
+   "ht": 85.63,
+   "elbow": 99.28,
+   "shrug": 0.0,
+   "collapse": 0,
+   "stretch": 44,
+   "pairs": 0,
+   "volume_pct": -0.1686
+  },
+  {
+   "t": 0.1,
+   "ht": 87.44,
+   "elbow": 97.2,
+   "shrug": 0.0,
+   "collapse": 0,
+   "stretch": 46,
+   "pairs": 0,
+   "volume_pct": -0.2017
+  },
+  {
+   "t": 0.15,
+   "ht": 90.29,
+   "elbow": 93.92,
+   "shrug": 0.0,
+   "collapse": 0,
+   "stretch": 50,
+   "pairs": 0,
+   "volume_pct": -0.2598
+  },
+  {
+   "t": 0.2,
+   "ht": 94.05,
+   "elbow": 89.6,
+   "shrug": 0.0,
+   "collapse": 4,
+   "stretch": 50,
+   "pairs": 0,
+   "volume_pct": -0.3407
+  },
+  {
+   "t": 0.25,
+   "ht": 98.59,
+   "elbow": 84.38,
+   "shrug": 0.0,
+   "collapse": 0,
+   "stretch": 56,
+   "pairs": 0,
+   "volume_pct": -0.4218
+  },
+  {
+   "t": 0.3,
+   "ht": 103.79,
+   "elbow": 78.4,
+   "shrug": 0.0,
+   "collapse": 0,
+   "stretch": 60,
+   "pairs": 0,
+   "volume_pct": -0.2879
+  },
+  {
+   "t": 0.35,
+   "ht": 109.51,
+   "elbow": 71.83,
+   "shrug": 0.0,
+   "collapse": 0,
+   "stretch": 68,
+   "pairs": 0,
+   "volume_pct": -0.119
+  },
+  {
+   "t": 0.4,
+   "ht": 115.62,
+   "elbow": 64.8,
+   "shrug": 0.0,
+   "collapse": 0,
+   "stretch": 78,
+   "pairs": 0,
+   "volume_pct": 0.0374
+  },
+  {
+   "t": 0.45,
+   "ht": 122.0,
+   "elbow": 57.47,
+   "shrug": 0.0,
+   "collapse": 0,
+   "stretch": 84,
+   "pairs": 0,
+   "volume_pct": 0.1929
+  },
+  {
+   "t": 0.5,
+   "ht": 128.5,
+   "elbow": 50.0,
+   "shrug": 0.0,
+   "collapse": 0,
+   "stretch": 88,
+   "pairs": 0,
+   "volume_pct": 0.1472
+  },
+  {
+   "t": 0.55,
+   "ht": 135.0,
+   "elbow": 42.52,
+   "shrug": 0.0,
+   "collapse": 0,
+   "stretch": 96,
+   "pairs": 0,
+   "volume_pct": -0.0808
+  },
+  {
+   "t": 0.6,
+   "ht": 141.38,
+   "elbow": 35.2,
+   "shrug": 0.48,
+   "collapse": 0,
+   "stretch": 100,
+   "pairs": 0,
+   "volume_pct": -0.2856
+  },
+  {
+   "t": 0.65,
+   "ht": 147.49,
+   "elbow": 28.17,
+   "shrug": 2.53,
+   "collapse": 0,
+   "stretch": 112,
+   "pairs": 0,
+   "volume_pct": -0.3904
+  },
+  {
+   "t": 0.7,
+   "ht": 153.21,
+   "elbow": 21.6,
+   "shrug": 5.28,
+   "collapse": 0,
+   "stretch": 126,
+   "pairs": 0,
+   "volume_pct": -0.4636
+  },
+  {
+   "t": 0.75,
+   "ht": 158.41,
+   "elbow": 15.62,
+   "shrug": 7.94,
+   "collapse": 6,
+   "stretch": 142,
+   "pairs": 0,
+   "volume_pct": -0.549
+  },
+  {
+   "t": 0.8,
+   "ht": 162.95,
+   "elbow": 10.4,
+   "shrug": 9.99,
+   "collapse": 8,
+   "stretch": 148,
+   "pairs": 17,
+   "volume_pct": -0.6628
+  },
+  {
+   "t": 0.85,
+   "ht": 166.71,
+   "elbow": 6.08,
+   "shrug": 11.25,
+   "collapse": 6,
+   "stretch": 158,
+   "pairs": 31,
+   "volume_pct": -0.7983
+  },
+  {
+   "t": 0.9,
+   "ht": 169.56,
+   "elbow": 2.8,
+   "shrug": 11.83,
+   "collapse": 8,
+   "stretch": 168,
+   "pairs": 71,
+   "volume_pct": -0.9238
+  },
+  {
+   "t": 0.95,
+   "ht": 171.37,
+   "elbow": 0.72,
+   "shrug": 11.99,
+   "collapse": 6,
+   "stretch": 180,
+   "pairs": 87,
+   "volume_pct": -1.0127
+  },
+  {
+   "t": 1.0,
+   "ht": 172.0,
+   "elbow": 0.0,
+   "shrug": 12.0,
+   "collapse": 4,
+   "stretch": 182,
+   "pairs": 95,
+   "volume_pct": -1.0455
+  }
+ ],
+ "press_path_r10": [
+  {
+   "t": 0.0,
+   "ht": 85.0,
+   "elbow": 100.0,
+   "shrug": 0.0,
+   "collapse": 0,
+   "stretch": 44,
+   "pairs": 0,
+   "volume_pct": 0.297
+  },
+  {
+   "t": 0.05,
+   "ht": 85.63,
+   "elbow": 99.28,
+   "shrug": 0.0,
+   "collapse": 0,
+   "stretch": 44,
+   "pairs": 0,
+   "volume_pct": 0.2804
+  },
+  {
+   "t": 0.1,
+   "ht": 87.44,
+   "elbow": 97.2,
+   "shrug": 0.0,
+   "collapse": 0,
+   "stretch": 46,
+   "pairs": 0,
+   "volume_pct": 0.2313
+  },
+  {
+   "t": 0.15,
+   "ht": 90.29,
+   "elbow": 93.92,
+   "shrug": 0.0,
+   "collapse": 0,
+   "stretch": 52,
+   "pairs": 0,
+   "volume_pct": 0.1477
+  },
+  {
+   "t": 0.2,
+   "ht": 94.05,
+   "elbow": 89.6,
+   "shrug": 0.0,
+   "collapse": 4,
+   "stretch": 56,
+   "pairs": 0,
+   "volume_pct": 0.0296
+  },
+  {
+   "t": 0.25,
+   "ht": 98.59,
+   "elbow": 84.38,
+   "shrug": 0.0,
+   "collapse": 0,
+   "stretch": 60,
+   "pairs": 0,
+   "volume_pct": -0.0949
+  },
+  {
+   "t": 0.3,
+   "ht": 103.79,
+   "elbow": 78.4,
+   "shrug": 0.0,
+   "collapse": 0,
+   "stretch": 66,
+   "pairs": 0,
+   "volume_pct": -0.0076
+  },
+  {
+   "t": 0.35,
+   "ht": 109.51,
+   "elbow": 71.83,
+   "shrug": 0.0,
+   "collapse": 0,
+   "stretch": 72,
+   "pairs": 0,
+   "volume_pct": 0.1205
+  },
+  {
+   "t": 0.4,
+   "ht": 115.62,
+   "elbow": 64.8,
+   "shrug": 0.0,
+   "collapse": 0,
+   "stretch": 82,
+   "pairs": 0,
+   "volume_pct": 0.1852
+  },
+  {
+   "t": 0.45,
+   "ht": 122.0,
+   "elbow": 57.47,
+   "shrug": 0.0,
+   "collapse": 0,
+   "stretch": 86,
+   "pairs": 0,
+   "volume_pct": 0.2522
+  },
+  {
+   "t": 0.5,
+   "ht": 128.5,
+   "elbow": 50.0,
+   "shrug": 0.0,
+   "collapse": 0,
+   "stretch": 92,
+   "pairs": 0,
+   "volume_pct": 0.1199
+  },
+  {
+   "t": 0.55,
+   "ht": 135.0,
+   "elbow": 42.52,
+   "shrug": 0.0,
+   "collapse": 0,
+   "stretch": 94,
+   "pairs": 0,
+   "volume_pct": -0.1948
+  },
+  {
+   "t": 0.6,
+   "ht": 141.38,
+   "elbow": 35.2,
+   "shrug": 0.48,
+   "collapse": 0,
+   "stretch": 100,
+   "pairs": 0,
+   "volume_pct": -0.4798
+  },
+  {
+   "t": 0.65,
+   "ht": 147.49,
+   "elbow": 28.17,
+   "shrug": 2.53,
+   "collapse": 0,
+   "stretch": 100,
+   "pairs": 0,
+   "volume_pct": -0.6761
+  },
+  {
+   "t": 0.7,
+   "ht": 153.21,
+   "elbow": 21.6,
+   "shrug": 5.28,
+   "collapse": 0,
+   "stretch": 118,
+   "pairs": 0,
+   "volume_pct": -0.8541
+  },
+  {
+   "t": 0.75,
+   "ht": 158.41,
+   "elbow": 15.62,
+   "shrug": 7.94,
+   "collapse": 2,
+   "stretch": 124,
+   "pairs": 0,
+   "volume_pct": -1.0309
+  },
+  {
+   "t": 0.8,
+   "ht": 162.95,
+   "elbow": 10.4,
+   "shrug": 9.99,
+   "collapse": 0,
+   "stretch": 134,
+   "pairs": 1,
+   "volume_pct": -1.2278
+  },
+  {
+   "t": 0.85,
+   "ht": 166.71,
+   "elbow": 6.08,
+   "shrug": 11.25,
+   "collapse": 0,
+   "stretch": 144,
+   "pairs": 1,
+   "volume_pct": -1.4324
+  },
+  {
+   "t": 0.9,
+   "ht": 169.56,
+   "elbow": 2.8,
+   "shrug": 11.83,
+   "collapse": 0,
+   "stretch": 154,
+   "pairs": 1,
+   "volume_pct": -1.6077
+  },
+  {
+   "t": 0.95,
+   "ht": 171.37,
+   "elbow": 0.72,
+   "shrug": 11.99,
+   "collapse": 0,
+   "stretch": 156,
+   "pairs": 17,
+   "volume_pct": -1.7268
+  },
+  {
+   "t": 1.0,
+   "ht": 172.0,
+   "elbow": 0.0,
+   "shrug": 12.0,
+   "collapse": 0,
+   "stretch": 158,
+   "pairs": 17,
+   "volume_pct": -1.7698
+  }
+ ],
+ "output": {
+  "path": "HGPT_ORIGINAL_V1_CONSOLIDATED_REVIEW_R10_CLAUDE.blend",
+  "sha256": "bc7839244432a1d25294c32a3ebd9dabc513bd09df33ba4bb8616b446067f8be",
+  "parent": {
+   "path": "HGPT_ORIGINAL_V1_CONSOLIDATED_REVIEW_R9_CLAUDE.blend",
+   "sha256": "3359fd1ac44f1fad3e86580d85ee21bd720bda09a736b3a8c336463e9f0d6e63"
+  },
+  "s1_keys": [
+   "HGPT_S1_SHOULDER_l_105",
+   "HGPT_S1_SHOULDER_l_120",
+   "HGPT_S1_SHOULDER_l_145",
+   "HGPT_S1_SHOULDER_l_160",
+   "HGPT_S1_SHOULDER_r_105",
+   "HGPT_S1_SHOULDER_r_120",
+   "HGPT_S1_SHOULDER_r_145",
+   "HGPT_S1_SHOULDER_r_160"
+  ]
+ }
+}

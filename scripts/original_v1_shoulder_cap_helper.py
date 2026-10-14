@@ -33,7 +33,8 @@ Z_FADE = float(_E.get("CAP_ZFADE", 0.03))
 Z_OFFSET = float(_E.get("CAP_ZOFF", 0.0))      # cap starts this far above (+) / below (-) the pivot
 MODE = _E.get("CAP_MODE", "axial")
 CAP_ONLY_REDUCE = _E.get("CAP_REDUCE", "1") == "1"
-CAP_MEDIAL_KEEP = float(_E.get("CAP_MEDIAL", 0.0))   # R9: width of the lateral -> medial blend (0 = R8 behaviour)
+CAP_MEDIAL_KEEP = float(_E.get("CAP_MEDIAL", 0.0))
+CAP_POSTMED = float(_E.get("CAP_POSTMED", 0.0))     # R10: medial fade width for posterior skin below the pivot (0 = R8)   # R9: width of the lateral -> medial blend (0 = R8 behaviour)
 T1, T2 = (float(v) for v in _E.get("CAP_T", "-0.06,0.10").split(","))   # axial mode: girdle -> helper -> arm along the arm axis
 FADE_R0, FADE_R1 = (float(v) for v in _E.get("CAP_FADE", "0.16,0.22").split(","))   # blend back to the original weights
 SIDES = ("l", "r")
@@ -133,6 +134,12 @@ def assign_weights_axial(body, rig, fraction=None, t1=None, t2=None, r0=None, r1
             new_h = M * (1 - abs(2 * u - 1))
             new_g = M * max(0.0, 1 - 2 * u)
             fade = 1.0 - _smooth(d, r0, r1)
+            if CAP_POSTMED > 0:                    # R10: back-of-shoulder skin medial of the pivot keeps its weights
+                off = v.co - piv                   # (R8 gave it ~50 % helper: a lump behind the armpit at 145-172 deg)
+                medial = _smooth(-off.x * sign, 0.0, CAP_POSTMED)
+                posterior = _smooth(off.y, 0.0, 0.03)
+                below = 1.0 - _smooth(off.z, 0.0, 0.04)
+                fade *= 1.0 - medial * posterior * below
             arm_w = A + fade * (new_arm - A)
             h_w = fade * new_h
             g_tot = G + fade * (new_g - G)
@@ -151,7 +158,7 @@ def assign_weights_axial(body, rig, fraction=None, t1=None, t2=None, r0=None, r1
         counts[s] = n
     limited = _limit(body, max_influences)
     rig["hgpt_cap_fraction"] = fraction
-    rig["hgpt_cap_params"] = {"mode": "axial", "t_m": [t1, t2], "fade_m": [r0, r1], "medial_keep": CAP_MEDIAL_KEEP}
+    rig["hgpt_cap_params"] = {"mode": "axial", "t_m": [t1, t2], "fade_m": [r0, r1], "medial_keep": CAP_MEDIAL_KEEP, "posterior_medial_keep_m": CAP_POSTMED}
     return {"vertices": counts, "influence_limited": limited}
 
 

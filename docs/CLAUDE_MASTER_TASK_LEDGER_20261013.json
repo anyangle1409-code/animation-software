@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "kind": "claude_master_task_ledger",
- "updated": "2026-10-14 (R4: shoulder rebuilt on the anatomical scapula, owner-approved incl. pivot)",
+ "updated": "2026-10-14 (R5: blade tilt + row contact)",
  "owner_rules": "skeleton is source of truth; no frozen-skeleton change without owner decision; no merge; no approval claims; no third-party assets",
  "environment": "cloud Linux container (Blender 5.2.1 as Python module); not the owner's Windows laptop; no battery telemetry available, protection = commit/push after every task",
  "branches": {
@@ -10,7 +10,7 @@
   "w_guides": "claude/functional-original-shoulder-correction-20261013 (draft PR #111)",
   "w_correctives": "claude/functional-shoulder-coupled-corrective-20261013",
   "movement": "claude/movement-benchmarks-20261013 (draft PR #113) head 359c8865",
-  "review_r1": "claude/original-v1-consolidated-review-20261014 head 52e375bd (R1-R4)"
+  "review_r1": "claude/original-v1-consolidated-review-20261014 head d75263b5 (R1-R5)"
  },
  "tasks": [
   {
@@ -376,6 +376,22 @@
     "shipping: Work/Lane G scapula drive + canonical pivot change + K1 morphs"
    ],
    "next": "row arm-chest contact key; posterior-axillary curl 140-160; mid-range collapse"
+  },
+  {
+   "id": "R5",
+   "description": "R4 + scapular upward rotation/tilt held to the profile (drive mode 'isb'; R4 keeps 'wrap' and replays) + C1 upper-arm/trunk contact keys for shoulder extension",
+   "priority": 1,
+   "status": "TESTED",
+   "evidence": "docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R5_20261014.md; candidates/claude_review_r5_20261014/{r5_build.json,r5_validation.json,sequences}",
+   "tests": "test_original_review_candidate_r5.py (7 native, pass locally); R4 tests still pass",
+   "commit": "d75263b5",
+   "blockers": [
+    "inferior-angle lift-off 47 mm at 160 HT (profile angles vs thorax/blade geometry)",
+    "internal rotation ~9 deg external vs profile +8",
+    "row: 7 arm/chest pairs + 9 arm folds per side remain",
+    "press posterior-axillary curl; mid-range collapse 4-10"
+   ],
+   "next": "posterior-axillary curl; blade/thorax geometry review; hip fold"
   }
  ]
 }

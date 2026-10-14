@@ -9,9 +9,10 @@ What: one extra deforming joint per side, `shoulder_cap_<s>`:
   * head at the upper-arm pivot (GH centre), same rest frame as the upper arm, parented like the upper arm (it follows the
     girdle);
   * driven statelessly: FRACTION of the upper arm's rotation relative to the scapula (axis-angle, principal branch);
-  * weights: a cap of skin around the pivot (radius RADIUS, upper side only, faded below the pivot over Z_FADE) takes up to
-    AMOUNT helper weight, removed proportionally from the vertex's existing weights (sum stays 1), then the usual 4-influence
-    limit.
+  * weights (assign_weights_axial, selected): around the pivot each vertex's girdle + upper-arm share is redistributed by
+    its position along the rest arm axis (girdle -> helper -> arm between CAP_T), arm weight only ever reduced, faded back to
+    the original weights between CAP_FADE radii; then the 4-influence limit.  (assign_weights: the first, spherical version -
+    measured and rejected in R8: a hard line across the arm at the cap edge.)
 Like R1's W3A helper, the saved blend keeps the vertex groups and parameters (rig props `hgpt_cap_*`) but not the bones, so
 the file stays a 67-bone rig; install() recreates the bones in memory before posing.  Review only: a 69-joint runtime is a
 contract change (owner + Lane G, PR #26).
@@ -32,6 +33,7 @@ Z_FADE = float(_E.get("CAP_ZFADE", 0.03))
 Z_OFFSET = float(_E.get("CAP_ZOFF", 0.0))      # cap starts this far above (+) / below (-) the pivot
 MODE = _E.get("CAP_MODE", "axial")
 CAP_ONLY_REDUCE = _E.get("CAP_REDUCE", "1") == "1"
+CAP_MEDIAL_KEEP = float(_E.get("CAP_MEDIAL", 0.0))   # R9: width of the lateral -> medial blend (0 = R8 behaviour)
 T1, T2 = (float(v) for v in _E.get("CAP_T", "-0.06,0.10").split(","))   # axial mode: girdle -> helper -> arm along the arm axis
 FADE_R0, FADE_R1 = (float(v) for v in _E.get("CAP_FADE", "0.16,0.22").split(","))   # blend back to the original weights
 SIDES = ("l", "r")
@@ -118,7 +120,13 @@ def assign_weights_axial(body, rig, fraction=None, t1=None, t2=None, r0=None, r1
             M = A + G
             if A <= 1e-4 or M <= 1e-4:
                 continue
-            u = _smooth((v.co - piv).dot(axis), t1, t2)
+            t = (v.co - piv).dot(axis)
+            u = _smooth(t, t1, t2)
+            if CAP_MEDIAL_KEEP > 0 and t > 0:      # R9: the arm's underside (facing the trunk) keeps following the arm
+                radial = (v.co - piv) - axis * t
+                lat = radial.x * sign / radial.length if radial.length > 1e-6 else 0.0
+                k = _smooth(-lat, -CAP_MEDIAL_KEEP, CAP_MEDIAL_KEEP)   # 0 on the lateral side, 1 on the medial side
+                u = u + (1.0 - u) * k
             if CAP_ONLY_REDUCE:                    # never give the arm more of a vertex than it had (armpit / chest stay)
                 u = min(u, A / M)
             new_arm = M * max(0.0, 2 * u - 1)
@@ -143,7 +151,7 @@ def assign_weights_axial(body, rig, fraction=None, t1=None, t2=None, r0=None, r1
         counts[s] = n
     limited = _limit(body, max_influences)
     rig["hgpt_cap_fraction"] = fraction
-    rig["hgpt_cap_params"] = {"mode": "axial", "t_m": [t1, t2], "fade_m": [r0, r1]}
+    rig["hgpt_cap_params"] = {"mode": "axial", "t_m": [t1, t2], "fade_m": [r0, r1], "medial_keep": CAP_MEDIAL_KEEP}
     return {"vertices": counts, "influence_limited": limited}
 
 
@@ -207,7 +215,7 @@ def _limit(body, k):
 
 def remove(rig):
     """Delete the in-memory helper bones (before saving: the review blend stays a 67-bone file)."""
-    if name("l") not in rig.data.bones:
+    if name("l") not in rig.data.bones and ax_name("l") not in rig.data.bones:
         return
     view = bpy.context.view_layer
     for o in view.objects:
@@ -216,7 +224,102 @@ def remove(rig):
     rig.select_set(True)
     bpy.ops.object.mode_set(mode="EDIT")
     for s in SIDES:
-        if name(s) in rig.data.edit_bones:
-            rig.data.edit_bones.remove(rig.data.edit_bones[name(s)])
+        for n in (name(s), ax_name(s)):
+            if n in rig.data.edit_bones:
+                rig.data.edit_bones.remove(rig.data.edit_bones[n])
     bpy.ops.object.mode_set(mode="OBJECT")
     view.update()
+
+
+
+# --- R9: armpit helper ------------------------------------------------------------------------------------------------
+# A second joint per side, `axilla_<s>`, at the pivot, parented to the thorax (spine_03), turned by AX_FRACTION of the upper
+# arm's rotation relative to the thorax.  It takes part of the trunk (spine_*) weight of the armpit skin, so the side of
+# the chest / the axillary folds ride up a little with the arm instead of staying pinned to the static spine (R8: faces up
+# to 7x at the front fold, 3-5x at the back fold).  (A first try, Laplacian smoothing of the armpit weights, blurred the
+# girdle -> cap -> arm chain and raised stretch 124 -> 160-236 at 160 deg: rejected.)
+AX_FRACTION = float(_E.get("AX_FRACTION", 0.25))
+AX_AMOUNT = float(_E.get("AX_AMOUNT", 0.6))      # share of the trunk weight handed to the helper at the fold
+AX_RADIUS = float(_E.get("AX_RADIUS", 0.20))     # falls to 0 at this distance from the pivot
+AX_ABOVE = float(_E.get("AX_ABOVE", 0.0))        # only skin no higher than this above the pivot
+AX_FRONT_BACK = float(_E.get("AX_YLIM", 1.0))    # optional |y - pivot.y| limit (m)
+
+
+def ax_name(s):
+    return f"axilla_{s}"
+
+
+def install_axilla(rig):
+    if "hgpt_axilla_fraction" not in rig or ax_name("l") in rig.data.bones:
+        return
+    view = bpy.context.view_layer
+    for o in view.objects:
+        o.select_set(False)
+    view.objects.active = rig
+    rig.select_set(True)
+    bpy.ops.object.mode_set(mode="EDIT")
+    for s in SIDES:
+        up = rig.data.edit_bones[f"upperarm_{s}"]
+        h = rig.data.edit_bones.new(ax_name(s))
+        h.head = up.head.copy()
+        h.tail = up.head + (up.tail - up.head) * 0.3
+        h.roll = up.roll
+        h.parent = rig.data.edit_bones["spine_03"]
+        h.use_connect = False
+        h.use_deform = True
+    bpy.ops.object.mode_set(mode="OBJECT")
+    view.update()
+
+
+def drive_axilla(rig):
+    if ax_name("l") not in rig.pose.bones:
+        return
+    import original_v1_review_candidate_drives as drives
+    bpy.context.view_layer.update()
+    f = float(rig["hgpt_axilla_fraction"])
+    for s in SIDES:
+        q = drives._rel_quat(rig, f"upperarm_{s}", "spine_03")
+        if q.w < 0:
+            q.negate()
+        h = rig.pose.bones[ax_name(s)]
+        h.rotation_mode = "QUATERNION"
+        h.rotation_quaternion = Quaternion(q.axis, q.angle * f) if q.angle > 1e-9 else Quaternion()
+    bpy.context.view_layer.update()
+
+
+def assign_axilla_weights(body, rig, fraction=None, amount=None, radius=None, above=None, ylim=None, max_influences=4):
+    fraction = AX_FRACTION if fraction is None else fraction
+    amount = AX_AMOUNT if amount is None else amount
+    radius = AX_RADIUS if radius is None else radius
+    above = AX_ABOVE if above is None else above
+    ylim = AX_FRONT_BACK if ylim is None else ylim
+    names = {g.index: g.name for g in body.vertex_groups}
+    counts = {}
+    for s in SIDES:
+        sign = 1.0 if s == "r" else -1.0
+        piv = rig.data.bones[f"upperarm_{s}"].head_local
+        grp = body.vertex_groups.get(ax_name(s)) or body.vertex_groups.new(name=ax_name(s))
+        n = 0
+        for v in body.data.vertices:
+            if v.co.x * sign < 0.03 or v.co.z > piv.z + above or abs(v.co.y - piv.y) > ylim:
+                continue
+            d = (v.co - piv).length
+            if d >= radius:
+                continue
+            w = {names[g.group]: g.weight for g in v.groups if g.weight > 0}
+            tot = sum(w.values())
+            w = {k: x / tot for k, x in w.items()}
+            trunk = {k: x for k, x in w.items() if k.startswith("spine_")}
+            T = sum(trunk.values())
+            if T < 1e-4:
+                continue
+            h = amount * 0.5 * (1 + math.cos(math.pi * d / radius)) * T
+            for k, x in trunk.items():
+                body.vertex_groups[k].add([v.index], x - h * x / T, "REPLACE")
+            grp.add([v.index], h, "REPLACE")
+            n += 1
+        counts[s] = n
+    limited = _limit(body, max_influences)
+    rig["hgpt_axilla_fraction"] = fraction
+    rig["hgpt_axilla_params"] = {"amount": amount, "radius_m": radius, "above_m": above, "ylim_m": ylim}
+    return {"vertices": counts, "influence_limited": limited}

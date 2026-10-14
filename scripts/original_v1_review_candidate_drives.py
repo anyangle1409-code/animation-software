@@ -106,17 +106,20 @@ def elevation_deg(rig, s):
 
 
 # shoulder pose-space key families driven by humerothoracic elevation: (shape-key prefix, rig property with the key angles)
-S1_FAMILIES = (("HGPT_S1_SHOULDER_", "hgpt_s1_angles"), ("HGPT_S2_FOLD_", "hgpt_s2_angles"))
+S1_FAMILIES = (("HGPT_S1_SHOULDER_", "hgpt_s1_angles"), ("HGPT_S2_FOLD_", "hgpt_s2_angles"),
+               ("HGPT_S3_SHAPE_", "hgpt_s3_angles", 20.0))           # optional third item: the family's start elevation
 
 
 def drive_s1(rig, body):
     keys = body.data.shape_keys.key_blocks
-    for prefix, prop in S1_FAMILIES:
+    for family in S1_FAMILIES:
+        prefix, prop = family[:2]
+        start = family[2] if len(family) > 2 else S1_START
         for s in ("l", "r"):
             names = sorted((kb.name for kb in keys if kb.name.startswith(f"{prefix}{s}_")), key=lambda n: int(n.rsplit("_", 1)[1]))
             if not names or f"{prop}_{s}" not in rig:
                 continue
-            pts = (S1_START,) + tuple(rig[f"{prop}_{s}"])
+            pts = (start,) + tuple(rig[f"{prop}_{s}"])
             e = elevation_deg(rig, s)
             for n, name in enumerate(names):
                 lo, mid = pts[n], pts[n + 1]
@@ -142,6 +145,7 @@ def setup(result):
         r4.install(result, mode=r4.MODES[tag])
     import original_v1_shoulder_cap_helper as cap        # R8: shoulder-cap helper joint (no-op without its rig data)
     cap.install(result["runtime"])
+    cap.install_axilla(result["runtime"])              # R9: armpit helper joint (no-op without its rig data)
 
 
 C1_PREFIX = "HGPT_C1_ARMTRUNK_"
@@ -178,6 +182,7 @@ def drive(rig, body):
     drive_helpers(rig)
     import original_v1_shoulder_cap_helper as cap
     cap.drive(rig)
+    cap.drive_axilla(rig)
     drive_k1(rig, body)
     drive_s1(rig, body)
     drive_c1(rig, body)

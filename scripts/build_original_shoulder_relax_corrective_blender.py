@@ -63,7 +63,7 @@ BACKOFF = _os.environ.get("S1_BACKOFF", "1") == "1"   # collision guard at each 
 SCORE_C = float(_os.environ.get("S1_SCOREC", 10))   # "score" guard: one collapsed face weighs as SCORE_C pairs
 GUARD = _os.environ.get("S1_GUARD", "set")   # "set": no new pair/collapsed face; "count": no more than without the keys (R7)
 PREFIX = _os.environ.get("S1_PREFIX", drives.S1_PREFIX)          # R7 fold keys: HGPT_S2_FOLD_
-ANGLES_PROP = dict(drives.S1_FAMILIES)[PREFIX]
+ANGLES_PROP = {f[0]: f[1] for f in drives.S1_FAMILIES}[PREFIX]
 SIDES = ("l", "r")
 ZONE_Z, ZONE_X = 1.22, 0.12
 GIRDLE = ("clavicle_", "scapula_")
@@ -473,7 +473,7 @@ def save(result, out, parent, name="R2"):
     view.objects.active = rig; rig.select_set(True)
     bpy.ops.object.mode_set(mode="EDIT")
     for s in SIDES:
-        for helper in (f"deltoid_helper_{s}", f"shoulder_cap_{s}"):      # in-memory helpers (R1 W3A, R8 cap)
+        for helper in (f"deltoid_helper_{s}", f"shoulder_cap_{s}", f"axilla_{s}"):   # in-memory helpers (R1, R8, R9)
             if helper in rig.data.edit_bones:
                 rig.data.edit_bones.remove(rig.data.edit_bones[helper])
     bpy.ops.object.mode_set(mode="OBJECT")

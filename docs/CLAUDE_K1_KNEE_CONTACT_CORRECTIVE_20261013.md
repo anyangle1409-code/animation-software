@@ -138,3 +138,21 @@ M1/M2 showed calf/thigh interpenetration at deep knee flexion: squat 72, lunge 4
 - **Next:**
   - a hip-flexion fold corrective (squat thigh/thigh and pelvis/thigh) using the same method;
   - a curved contact surface for elbow flexion above about 110° and for the knee band edge.
+
+## Fix, 14 Oct: hinge angle under forearm twist
+
+`hinge_angle_deg` read the hinge as the X component of an XYZ Euler. With the forearm posed twist-first (YXZ), that
+under-reported elbow flexion under pronation or supination:
+
+| Forearm | True flexion | Old read |
+|---|---|---|
+| Pronated 68.8° | 110° | 97.5° |
+| Supinated 82.4° | 110° | 92.8° |
+
+So the elbow keys under-activated in twisted-forearm poses.
+
+- **The fix:** read the angle from a swing–twist decomposition (remove the twist about the flexing bone's own Y axis, then
+  take the swing component on the hinge axis).
+- **Unchanged:** pure hinge poses read exactly as before, so every result above is unchanged; none of these benchmarks
+  twists the forearm while the K1 keys are active.
+- **Regression test:** `test_hinge_angle_ignores_forearm_twist`. The consolidated review branch carries the same fix.

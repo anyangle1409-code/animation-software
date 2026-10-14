@@ -29,7 +29,7 @@ from pathlib import Path
 
 import bpy
 import numpy as np
-from mathutils import Vector
+from mathutils import Quaternion, Vector
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -66,7 +66,18 @@ def hinge_angle_deg(rig, hinge, s):
     prox, flex = h["proximal"].format(s=s), h["flexing"].format(s=s)
     rest_rel = rig.data.bones[prox].matrix_local.inverted() @ rig.data.bones[flex].matrix_local
     rel = rig.pose.bones[prox].matrix.inverted() @ rig.pose.bones[flex].matrix
-    return h["flex_sign"] * math.degrees((rest_rel.inverted() @ rel).to_euler("XYZ").x)
+    # swing-twist: remove the flexing bone's axial twist (about its own Y: forearm pronation/supination) before reading the
+    # flexion.  An XYZ-Euler read under-reported a pronated 110 deg elbow as 97.5 deg (supinated: 92.8), so the elbow keys
+    # under-activated in twisted-forearm poses.  Pure hinge poses read exactly as before.
+    q = (rest_rel.inverted() @ rel).to_quaternion()
+    tw = Quaternion((q.w, 0.0, q.y, 0.0))
+    swing = q @ (tw.normalized().inverted() if tw.magnitude > 1e-12 else Quaternion())
+    if swing.w < 0:
+        swing.negate()
+    ang = swing.angle
+    if ang < 1e-9:
+        return 0.0
+    return h["flex_sign"] * math.degrees(ang * swing.axis.x)
 
 
 def knee_flexion_deg(rig, s):

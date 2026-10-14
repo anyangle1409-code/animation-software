@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "kind": "claude_master_task_ledger",
- "updated": "2026-10-14 (shoulder root cause; K1 swing-twist fix)",
+ "updated": "2026-10-14 (R4: shoulder rebuilt on the anatomical scapula, owner-approved incl. pivot)",
  "owner_rules": "skeleton is source of truth; no frozen-skeleton change without owner decision; no merge; no approval claims; no third-party assets",
  "environment": "cloud Linux container (Blender 5.2.1 as Python module); not the owner's Windows laptop; no battery telemetry available, protection = commit/push after every task",
  "branches": {
@@ -10,7 +10,7 @@
   "w_guides": "claude/functional-original-shoulder-correction-20261013 (draft PR #111)",
   "w_correctives": "claude/functional-shoulder-coupled-corrective-20261013",
   "movement": "claude/movement-benchmarks-20261013 (draft PR #113) head 359c8865",
-  "review_r1": "claude/original-v1-consolidated-review-20261014 head ddf55c39 (R1, R2, R3, shoulder root cause)"
+  "review_r1": "claude/original-v1-consolidated-review-20261014 head 52e375bd (R1-R4)"
  },
  "tasks": [
   {
@@ -360,6 +360,22 @@
    "commit": "359c8865 (movement), 1607e853 (review)",
    "blockers": [],
    "next": "-"
+  },
+  {
+   "id": "R4",
+   "description": "Shoulder rebuilt on the anatomical scapula (owner: 'do all four including lowering the pivot'): ISB-frame scapula, thorax-ellipsoid contact with blade wrap, new shoulder weights, arm pivot at the GH landmark (52.6 mm lower); K1 re-solved; from C5 (W3A/S1 dropped)",
+   "priority": 1,
+   "status": "TESTED",
+   "evidence": "docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R4_20261014.md; candidates/claude_review_r4_20261014/{r4_build.json,r4_validation.json,sequences}",
+   "tests": "scripts/blender_tests/test_original_review_candidate_r4.py (5 native, pass locally); R1-R3 tests still pass",
+   "commit": "52e375bd",
+   "blockers": [
+    "mid-range (80-120 deg) collapsed faces 2-16",
+    "row arm-chest contact (116 pairs)",
+    "press pairs/collapse above R3 (R3 traded them for a detached-looking arm)",
+    "shipping: Work/Lane G scapula drive + canonical pivot change + K1 morphs"
+   ],
+   "next": "row arm-chest contact key; posterior-axillary curl 140-160; mid-range collapse"
   }
  ]
 }

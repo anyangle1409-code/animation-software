@@ -33,7 +33,7 @@
 
 ## Next unblocked
 
-**14 Oct (late):** S1 (R2), K1 wrist (R3), K1 swing-twist fix done. **Shoulder root cause found** (`docs/CLAUDE_SHOULDER_DETACHED_ARM_ROOT_CAUSE_20261014.md`, review branch `ddf55c39`): the coupled-motion scapula rotates downward because it is driven in bone-local axes. Resume point: build R4 on `scripts/original_v1_scapula_isb_drive.py` (scapula weight taper 10-18 cm, then re-solve or drop W3A/S1, target the posterior-axillary curl); then the hip fold. Owner decisions added: arm pivot 53 mm above the GH landmark; Work/Lane G to adopt the anatomical-frame scapula drive.
+**14 Oct (late):** R4 built (owner approved all four shoulder fixes incl. the pivot): `docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R4_20261014.md`, review branch `52e375bd`. R4 is the current single review candidate. Resume point: (1) row arm-chest contact key (spine_03/upperarm 46 pairs per side), (2) posterior-axillary curl at 140-160 deg, (3) mid-range collapsed faces; then the hip fold. Check CI on `52e375bd` first.
 
 As of 14 Oct, none. Every open item needs an owner decision, a Lane G agreement, or a primary source that is unreachable from this cloud environment:
 

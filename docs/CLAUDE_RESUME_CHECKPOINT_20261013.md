@@ -33,7 +33,7 @@
 
 ## Next unblocked
 
-**14 Oct (late):** R11 built (owner approved the shoulder re-mesh): `docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R11_20261014.md`, review branch `38f07e73`. R11 (R10 + Loop re-meshed shoulder, 21,600 vertices) is the current review candidate. Smoother; shapes unchanged - next needs an owner decision (authored sculpts vs muscle sim) and the vertex-count contract. Check CI on `38f07e73` first.
+**14 Oct (late):** R12 built (owner: "Continue to fix the issue"): `docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R12_20261014.md`, review branch `de704c0e`. R12 (R11 + baked delta-mush keys) is the current review candidate. Awaiting the owner's verdict against the reference photo; remaining gap: armpit hollow depth. Check CI on `de704c0e` first.
 
 As of 14 Oct, none. Every open item needs an owner decision, a Lane G agreement, or a primary source that is unreachable from this cloud environment:
 

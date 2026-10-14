@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "kind": "claude_master_task_ledger",
- "updated": "2026-10-14 (R11: re-meshed shoulder)",
+ "updated": "2026-10-14 (R12: baked delta-mush shoulder)",
  "owner_rules": "skeleton is source of truth; no frozen-skeleton change without owner decision; no merge; no approval claims; no third-party assets",
  "environment": "cloud Linux container (Blender 5.2.1 as Python module); not the owner's Windows laptop; no battery telemetry available, protection = commit/push after every task",
  "branches": {
@@ -10,7 +10,7 @@
   "w_guides": "claude/functional-original-shoulder-correction-20261013 (draft PR #111)",
   "w_correctives": "claude/functional-shoulder-coupled-corrective-20261013",
   "movement": "claude/movement-benchmarks-20261013 (draft PR #113) head 359c8865",
-  "review_r1": "claude/original-v1-consolidated-review-20261014 head 38f07e73 (R1-R11)"
+  "review_r1": "claude/original-v1-consolidated-review-20261014 head de704c0e (R1-R12)"
  },
  "tasks": [
   {
@@ -492,6 +492,21 @@
     "shapes still R10's: deltoid mass and armpit hollow need authored sculpts or muscle simulation (owner decision)"
    ],
    "next": "owner decision: authored corrective sculpts on R11 at the press stages vs reference photos"
+  },
+  {
+   "id": "R12",
+   "description": "R11 + S5 keys baked from a delta-mush target (smooth collision guard); no runtime deformer added",
+   "priority": 1,
+   "status": "TESTED",
+   "commit": "de704c0e",
+   "evidence": "docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R12_20261014.md; candidates/claude_review_r12_20261014/{r12_build.json,r12_validation.json,press}",
+   "tests": "test_original_review_candidate_r12.py (6 native); R1-R11 + press extension pass",
+   "results": "press path: no new overlap, lockout collapse 24->14, stretch ~halved >=120 deg; rounder deltoid, pec fold + hollow near top",
+   "blockers": [
+    "armpit hollow still shallower than the owner's photo; model build slimmer than the reference",
+    "17,946-vertex runtime contract; 69-joint helper; pose-space keys (owner + Lane G)"
+   ],
+   "next": "owner review of R12 vs photo"
   }
  ]
 }

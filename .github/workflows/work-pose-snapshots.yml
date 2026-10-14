@@ -1,0 +1,31 @@
+name: Work source-validated pose snapshot regression
+on:
+  push:
+    branches: [work/cloud-provisional-pose-snapshots-20261014]
+  pull_request:
+    paths:
+      - src/viewer/firstPartyPrototypePoseSequence.mjs
+      - tests/firstPartyProvisionalPoseSnapshots.test.mjs
+      - .github/workflows/work-pose-snapshots.yml
+permissions:
+  contents: read
+jobs:
+  pose-integrity-and-consumers:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24, cache: npm}
+      - run: node --test tests/firstPartyProvisionalPoseSnapshots.test.mjs
+      - run: node --test tests/firstParty*.test.mjs
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm test
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/verify-rig-extension-browser.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: synthetic-pose-integrity-gpu-playback-result
+          path: reports/browser-smoke/work-rig-extension/result.json

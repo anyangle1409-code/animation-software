@@ -5,6 +5,7 @@ on:
   pull_request:
     paths:
       - scripts/probe-r95-runtime-compatibility.mjs
+      - scripts/verify-r95-neutral-browser.mjs
       - .github/workflows/work-r95-runtime-compatibility.yml
 permissions:
   contents: read

@@ -33,7 +33,7 @@
 
 ## Next unblocked
 
-**14 Oct (late):** R8 built (owner: "Yes, build R8 with the helper joint"): `docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R8_20261014.md`, review branch `90c9ed45`. R8 (R5 + shoulder-cap helper joint + relax keys) is the current single review candidate. The top-of-shoulder crease is gone (0 pairs at 120-160 deg). Resume point: (1) front-armpit stretch, (2) rear-armpit lump, (3) squarer shoulder at 90 deg; then the hip fold. Check CI on `90c9ed45` first.
+**14 Oct (late):** R9 built (owner: "Go ahead yes"): `docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R9_20261014.md`, review branch `ab0b247c`. R9 (R8 + mid-range shape keys) is the current single review candidate: no top-of-shoulder fold, no shoulder pad. Open: the armpit (front stretch, rear crease). Four automatic approaches were rejected; it needs an owner scope decision (authored shapes / denser topology / skin sliding). Else the hip fold. Check CI on `ab0b247c` first.
 
 As of 14 Oct, none. Every open item needs an owner decision, a Lane G agreement, or a primary source that is unreachable from this cloud environment:
 

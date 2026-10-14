@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "kind": "claude_master_task_ledger",
- "updated": "2026-10-14 (R8: shoulder-cap helper joint)",
+ "updated": "2026-10-14 (R9: mid-range shoulder shape keys)",
  "owner_rules": "skeleton is source of truth; no frozen-skeleton change without owner decision; no merge; no approval claims; no third-party assets",
  "environment": "cloud Linux container (Blender 5.2.1 as Python module); not the owner's Windows laptop; no battery telemetry available, protection = commit/push after every task",
  "branches": {
@@ -10,7 +10,7 @@
   "w_guides": "claude/functional-original-shoulder-correction-20261013 (draft PR #111)",
   "w_correctives": "claude/functional-shoulder-coupled-corrective-20261013",
   "movement": "claude/movement-benchmarks-20261013 (draft PR #113) head 359c8865",
-  "review_r1": "claude/original-v1-consolidated-review-20261014 head 90c9ed45 (R1-R8)"
+  "review_r1": "claude/original-v1-consolidated-review-20261014 head ab0b247c (R1-R9)"
  },
  "tasks": [
   {
@@ -441,6 +441,21 @@
     "69-joint runtime is a contract change (owner + Lane G)"
    ],
    "next": "armpit: axillary weight rework or a second lower helper; then hip fold"
+  },
+  {
+   "id": "R9",
+   "description": "R8 + S3 shape-target keys (skin above the pivot pulled to R5's posed surface at 45/75/100 deg, closing 125)",
+   "priority": 1,
+   "status": "TESTED",
+   "evidence": "docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R9_20261014.md; candidates/claude_review_r9_20261014/{r9_build.json,r9_validation.json,shoulder}",
+   "tests": "test_original_review_candidate_r9.py (6 native, pass locally); R1-R8 tests still pass",
+   "commit": "ab0b247c",
+   "results": "shoulder pad fixed (90 deg volume +1.38 -> +0.19 %); 125-160 exactly R8; benchmarks identical worst frames; cost 2 collapse at 80",
+   "blockers": [
+    "armpit front stretch (to 7x) and rear crease: weight smoothing, armpit helper joint, underside weights, smoothing/relax keys all measured and rejected; needs authored corrective shapes, denser topology or skin sliding (owner scope decision)",
+    "69-joint runtime contract (owner + Lane G)"
+   ],
+   "next": "owner decision on armpit approach; else hip fold"
   }
  ]
 }

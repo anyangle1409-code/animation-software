@@ -75,9 +75,71 @@ for ht in KEYS:
         for k in range(LUMP):
             L = np.array([S[nbr[i]].mean(0) - S[i] for i in zl])
             S[zl] += 0.5 * L * wl[zl][:, None]
+    # 1c. extra zones (R25), each "passes:x,y,z:r0,r1" (offsets from the posed shoulder joint, x outward), separated by ";":
+    #     the corner on the back of the upper arm ~8 cm up the arm (where full-follow arm skin meets the half-follow
+    #     deltoid skin) and the pinched pocket between the arm and the neck - located on R24 by concavity and marked
+    GUARD_ZONES = os.environ.get("GUARD_ZONES", "1") == "1"
+    for zone in [z for z in os.environ.get("ZONES", "").split(";") if z]:
+        np_, o_, r_ = zone.split(":")
+        LUMP2 = int(np_)
+        off2 = np.array([float(x) for x in o_.split(",")])
+        q0, q1 = (float(x) for x in r_.split(","))
+        w2 = np.zeros(nv)
+        for s_ in "rl":
+            sg = 1.0 if s_ == "r" else -1.0
+            gh = np.array(tuple(W @ rig.pose.bones[f"upperarm_{s_}"].head))
+            c = gh + np.array([off2[0] * sg, off2[1], off2[2]])
+            dd = np.linalg.norm(P - c, axis=1)
+            x_ = np.clip((dd - q0) / (q1 - q0), 0, 1)
+            w2 = np.maximum(w2, 1 - x_ * x_ * (3 - 2 * x_))              # smoothstep fade (a linear fade left a crease ring)
+        z2 = np.where(w2 > 0)[0]
+        normal_only = LUMP2 < 0                     # negative passes: lift concave points along their normal only
+        for k in range(abs(LUMP2)):
+            L = np.array([S[nbr[i]].mean(0) - S[i] for i in z2])
+            if normal_only:
+                Fn = np.cross(S[Fa[:, 1]] - S[Fa[:, 0]], S[Fa[:, 2]] - S[Fa[:, 0]])
+                vn_ = np.zeros_like(S)
+                for c_ in range(3):
+                    np.add.at(vn_, Fa[:, c_], Fn)
+                vn_ = vn_[z2] / np.maximum(np.linalg.norm(vn_[z2], axis=1)[:, None], 1e-15)
+                h_ = (L * vn_).sum(1)
+                L = vn_ * np.maximum(h_, 0.0)[:, None]          # only where the centroid lies outward (a valley/pocket)
+            prop = S.copy()
+            prop[z2] += 0.5 * L * w2[z2][:, None]
+            if GUARD_ZONES:                         # R25: no step may crush a triangle below 25 % of its rest area
+                ar_ = np.linalg.norm(np.cross(prop[Fa[:, 1]] - prop[Fa[:, 0]], prop[Fa[:, 2]] - prop[Fa[:, 0]]), axis=1) / 2
+                badf = np.where(ar_ / A0 < 0.25)[0]
+                if len(badf):
+                    bv = np.unique(Fa[badf].reshape(-1))
+                    prop[bv] = S[bv]
+            S[:] = prop
+    # 1d. a final light Taubin blend over the whole region, so the zone edges leave no seam
+    for k in range(int(os.environ.get("BLEND", 0))):
+        for lam in (0.5, -0.53):
+            L = np.array([S[nbr[i]].mean(0) - S[i] for i in idx])
+            S[idx] += lam * L * wfree[idx][:, None]
+    # 1e. untangle (R25): crushed triangles left by the zone smoothing are spread back out IN the surface (each vertex of a
+    #     crushed face and its ring moves towards its neighbours' centroid, projected onto its tangent plane), so the bake's
+    #     guard has nothing to cut back - its local cut-backs left spikes / fins at the arm root (measured on R25 v1)
+    for k in range(int(os.environ.get("UNTANGLE", 0))):
+        ar_ = np.linalg.norm(np.cross(S[Fa[:, 1]] - S[Fa[:, 0]], S[Fa[:, 2]] - S[Fa[:, 0]]), axis=1) / 2
+        badf = np.where((ar_ / A0 < 0.25) & (wfree[Fa[:, 0]] > 0))[0]
+        if not len(badf):
+            break
+        bv = set(Fa[badf].reshape(-1))
+        bv |= {j for i in list(bv) for j in nbr[i]}
+        bv = np.array([i for i in bv if wfree[i] > 0])
+        Fn = np.cross(S[Fa[:, 1]] - S[Fa[:, 0]], S[Fa[:, 2]] - S[Fa[:, 0]])
+        vn_ = np.zeros_like(S)
+        for c_ in range(3):
+            np.add.at(vn_, Fa[:, c_], Fn)
+        vn_ = vn_[bv] / np.maximum(np.linalg.norm(vn_[bv], axis=1)[:, None], 1e-15)
+        L = np.array([S[nbr[i]].mean(0) - S[i] for i in bv])
+        L -= (L * vn_).sum(1)[:, None] * vn_
+        S[bv] += 0.5 * L
     import original_v1_skin_slide as walkslide
     lg = []
-    X = walkslide.slide(S, Fa, A0, idx, wfree, iters=SLIDE, eta=ETA, log=lg) if SLIDE > 0 else S.copy()
+    X = walkslide.slide(S, Fa, A0, idx, wfree, iters=SLIDE, eta=ETA, log=lg, crush_w=float(os.environ.get("CRUSH_W", 0))) if SLIDE > 0 else S.copy()
     print("ENERGY", lg, flush=True)
     rP = areas(P) / A0; rX = areas(X) / A0
     tr = BVHTree.FromPolygons([Vector(x) for x in X], F, all_triangles=True); fs = [set(f) for f in F]
@@ -91,7 +153,7 @@ for ht in KEYS:
     if ht == KEYS[-1]:
         np.save(out + "/P172.npy", P)
 np.savez(out + "/targets.npz", **out_t)
-import json; json.dump({"mode": "skin slide", "taubin": TAUB, "lump_passes": int(os.environ.get("LUMP", 0)), "lump_off": os.environ.get("LUMP_OFF", "0,0.04,-0.02"), "lump_r": os.environ.get("LUMP_R", "0.06,0.10"), "slide_iters": SLIDE, "eta": ETA, "region": [RIN, ROUT], "keys_ht": KEYS, "log": {str(k): v for k, v in logs.items()}}, open(out + "/targets.npz.json", "w"), indent=1)
+import json; json.dump({"mode": "skin slide", "taubin": TAUB, "lump_passes": int(os.environ.get("LUMP", 0)), "lump_off": os.environ.get("LUMP_OFF", "0,0.04,-0.02"), "lump_r": os.environ.get("LUMP_R", "0.06,0.10"), "zones": os.environ.get("ZONES", ""), "blend_passes": int(os.environ.get("BLEND", 0)), "untangle_iters": int(os.environ.get("UNTANGLE", 0)), "guard_zones": os.environ.get("GUARD_ZONES", "1") == "1", "crush_w": float(os.environ.get("CRUSH_W", 0)), "slide_iters": SLIDE, "eta": ETA, "region": [RIN, ROUT], "keys_ht": KEYS, "log": {str(k): v for k, v in logs.items()}}, open(out + "/targets.npz.json", "w"), indent=1)
 # render 172
 scene = bpy.context.scene
 for o in scene.objects:
@@ -110,7 +172,10 @@ cam = bpy.data.objects.new("C", cd); scene.collection.objects.link(cam); scene.c
 gh = W @ rig.pose.bones["upperarm_r"].head
 for tag, o in objs.items():
     for oo in objs.values(): oo.hide_render = oo is not o
-    for view, d in (("three_quarter", (0.7, 0.7, 0.1)), ("back", (0, 1, 0.1)), ("side", (1, 0, 0.05)), ("front", (0, -1, 0.05))):
+    for view, d in (("three_quarter", (0.7, 0.7, 0.1)), ("back", (0, 1, 0.1)), ("side", (1, 0, 0.05)), ("front", (0, -1, 0.05)), ("close", (0.7, 0.7, 0.1))):
         d = Vector(d).normalized(); tgt = Vector((0.0, 0, gh.z - 0.08))
+        cd.ortho_scale = 0.75
+        if view == "close":
+            tgt = Vector(tuple(gh)) + Vector((-0.04, 0.0, 0.0)); cd.ortho_scale = 0.32
         cam.location = tgt + d * 4.0; cam.rotation_mode = "QUATERNION"; cam.rotation_quaternion = (-d).to_track_quat("-Z", "Y")
         scene.render.filepath = f"{out}/{tag}_{view}.png"; bpy.ops.render.render(write_still=True)

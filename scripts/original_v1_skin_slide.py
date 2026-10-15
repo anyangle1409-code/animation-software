@@ -82,7 +82,7 @@ class Walker:
         return f, bc
 
 
-def slide(S, F, A0, idx, wfree, iters=80, eta=1.0, cap=0.0015, log=None):
+def slide(S, F, A0, idx, wfree, iters=80, eta=1.0, cap=0.0015, log=None, crush_w=0.0):
     """Returns the slid positions X (on S).  idx: vertices allowed to move; wfree: per-vertex step weight."""
     Wk = Walker(S, F)
     nv = len(S)
@@ -104,14 +104,20 @@ def slide(S, F, A0, idx, wfree, iters=80, eta=1.0, cap=0.0015, log=None):
     rejected = [0]
 
     def ok(i, xi):
-        """No incident triangle may turn over (normal vs the reference surface) or drop below 15 % of its rest area."""
+        """No incident triangle may turn over (normal vs the reference surface), and none may be pushed below 15 % of its
+        rest area - unless the step makes an already-crushed triangle larger (R25: otherwise a vertex next to a crushed
+        triangle could never move, and the crushed triangles left by the shape smoothing stayed crushed)."""
         for fi in vf[i]:
             f = F[fi]
             pts = [xi if v == i else X[v] for v in f]
             n = np.cross(pts[1] - pts[0], pts[2] - pts[0])
             a = np.linalg.norm(n) / 2
-            if a < 0.15 * A0[fi] or (n @ N0[fi]) <= 0.5 * np.linalg.norm(n):
+            if (n @ N0[fi]) <= 0.5 * np.linalg.norm(n):
                 return False
+            if a < 0.15 * A0[fi]:
+                a_old = np.linalg.norm(np.cross(X[f[1]] - X[f[0]], X[f[2]] - X[f[0]])) / 2
+                if a <= a_old:
+                    return False
         return True
     for it in range(iters):
         A = np.linalg.norm(np.cross(X[F[:, 1]] - X[F[:, 0]], X[F[:, 2]] - X[F[:, 0]]), axis=1) / 2
@@ -120,6 +126,8 @@ def slide(S, F, A0, idx, wfree, iters=80, eta=1.0, cap=0.0015, log=None):
         N /= np.maximum(np.linalg.norm(N, axis=1)[:, None], 1e-15)
         g = np.zeros_like(X)
         coef = (2 * (r - 1) / A0)[:, None]
+        if crush_w > 0:                              # R25: crushed triangles (< 30 % of rest area) pushed open much harder
+            coef -= (crush_w * 2 * np.maximum(0.3 - r, 0.0) / A0)[:, None]
         for c in range(3):
             i, j, k = F[:, c], F[:, (c + 1) % 3], F[:, (c + 2) % 3]
             np.add.at(g, i, coef * 0.5 * np.cross(N, X[k] - X[j]))

@@ -1,0 +1,85 @@
+{
+ "mode": "skin slide",
+ "taubin": 10,
+ "lump_passes": 200,
+ "lump_off": "0,0.04,-0.02",
+ "lump_r": "0.06,0.10",
+ "zones": "250:0.03,0.025,0.08:0.03,0.11;-300:-0.08,0.033,-0.013:0.025,0.08",
+ "blend_passes": 20,
+ "untangle_iters": 0,
+ "guard_zones": false,
+ "crush_w": 100.0,
+ "slide_iters": 100,
+ "eta": 0.3,
+ "region": [
+  0.14,
+  0.19
+ ],
+ "keys_ht": [
+  145.0,
+  160.0,
+  172.0
+ ],
+ "log": {
+  "145.0": {
+   "collapse": [
+    0,
+    0
+   ],
+   "squash<0.6": [
+    1740,
+    2323
+   ],
+   "stretch>1.5": [
+    969,
+    420
+   ],
+   "stretch>2": [
+    140,
+    4
+   ],
+   "pairs": 0,
+   "max_move_mm": 37.9
+  },
+  "160.0": {
+   "collapse": [
+    2,
+    0
+   ],
+   "squash<0.6": [
+    2144,
+    2940
+   ],
+   "stretch>1.5": [
+    1069,
+    540
+   ],
+   "stretch>2": [
+    210,
+    23
+   ],
+   "pairs": 0,
+   "max_move_mm": 35.1
+  },
+  "172.0": {
+   "collapse": [
+    0,
+    0
+   ],
+   "squash<0.6": [
+    2800,
+    3577
+   ],
+   "stretch>1.5": [
+    1137,
+    612
+   ],
+   "stretch>2": [
+    255,
+    38
+   ],
+   "pairs": 0,
+   "max_move_mm": 35.2
+  }
+ }
+}

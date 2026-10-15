@@ -474,7 +474,7 @@ def save(result, out, parent, name="R2"):
     bpy.ops.object.mode_set(mode="EDIT")
     for s in SIDES:
         for helper in (f"deltoid_helper_{s}", f"shoulder_cap_{s}", f"axilla_{s}", f"hip_crease_{s}",
-                       f"muscle_pec_{s}", f"muscle_lat_{s}"):   # in-memory helpers
+                       f"muscle_pec_{s}", f"muscle_lat_{s}", f"muscle_trap_{s}"):   # in-memory helpers
             if helper in rig.data.edit_bones:
                 rig.data.edit_bones.remove(rig.data.edit_bones[helper])
     bpy.ops.object.mode_set(mode="OBJECT")

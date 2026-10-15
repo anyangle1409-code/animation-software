@@ -38,6 +38,8 @@ MUSCLES = {
             # at the bent-over row's end pose (4 -> 36 pairs); trunk-only gives 0
             "takes": _E.get("ML_LAT_TAKES", "trunk"), "max_scale": float(_E.get("ML_LAT_SCALE", 1.0))},
 }
+ANATOMICAL = _E.get("ML_ANAT", "1") == "1"
+ACTIVE = tuple(_E.get("ML_MUSCLES", "pec,lat,trap").split(","))
 RADIUS = float(_E.get("ML_RADIUS", 0.14))
 INS_RADIUS = float(_E.get("ML_INS_RADIUS", 0.07))
 HELPER_MAX = float(_E.get("ML_MAX", 0.45))
@@ -49,11 +51,55 @@ S_FADE = (0.05, 0.25)        # fade in from the origin end (fraction of the segm
 S_END = (0.95, 1.15)         # fade out past the insertion
 
 
+# R14b (owner: "Continue with fix", after the muscle-evidence question): attachments from standard descriptive anatomy,
+# placed on this skeleton's own landmarks (LM_* empties of the anatomical audit: sternum IJ/PX, clavicle SC/AC, scapula
+# AA/AI/TS/GH, humerus EJC), no third-party model data (the MoBL-ARMS OpenSim model is licensed non-commercial only).
+# Muscle lengths along press path v2 measured on this rig (docs, R14): lat 156 %, teres major 139 %, pectoralis major
+# sternal head 132 % of rest at lockout (stretched: the axillary folds), deltoid middle 54 %, anterior 79 %, upper
+# trapezius 80 % (shortened: bunching).  Origin carried by `obone`, insertion by `ibone`; `bulge` caps the cross-scale
+# when the line shortens (the trapezius bunches, the others do not thicken).
+ANAT = {
+    "pec": {"obone": "spine_03", "ibone": "upperarm", "side": "front", "takes": "all", "bulge": 1.0, "radius": (0.14, 0.07)},
+    "lat": {"obone": "scapula", "ibone": "upperarm", "side": "back", "takes": "trunk", "bulge": 1.0, "radius": (0.12, 0.07)},
+    "trap": {"obone": "neck", "ibone": "clavicle", "side": "top", "takes": "neckgird", "radius": (0.06, 0.06),
+             "bulge": float(_E.get("ML_TRAP_BULGE", 1.25)), "max_scale": float(_E.get("ML_TRAP_SCALE", 1.0))},
+}
+
+
 def name(m, s):
     return f"muscle_{m}_{s}"
 
 
+def _lm(n):
+    o = bpy.data.objects.get(f"LM_{n}")
+    return o.matrix_world.translation.copy() if o else None
+
+
+def _anat_points(rig, m, s):
+    """(origin, insertion) of muscle m on side s from the skeleton landmarks (runtime _r = anatomical left)."""
+    side = "left" if s == "r" else "right"
+    GH, EJC = _lm(f"scapula_{side}__GH"), _lm(f"humerus_{side}__EJC")
+    IJ, PX, AI = _lm("sternum__ij_skin"), _lm("sternum__px_skin"), _lm(f"scapula_{side}__AI")
+    SC, AC = _lm(f"clavicle_{side}__SC"), _lm(f"clavicle_{side}__AC")
+    if None in (GH, EJC, IJ, PX, AI, SC, AC):
+        return None
+    sign = 1.0 if GH.x > 0 else -1.0
+    hum = lambda f: GH + (EJC - GH) * f
+    if m == "pec":      # sternocostal head: mid-sternum (2.5 cm deep to the skin landmarks, 2 cm lateral) -> lateral lip of
+        return (IJ.lerp(PX, 0.5) + Vector((sign * 0.02, 0.025, 0.0)), hum(0.17) + Vector((0.0, -0.012, 0.0)))  # the groove
+    if m == "lat":      # visible part of the posterior fold: inferior angle of the scapula -> floor of the groove
+        return (AI.copy(), hum(0.14) + Vector((-sign * 0.008, -0.004, 0.0)))
+    if m == "trap":     # descending part: nuchal line / C7 region -> lateral third of the clavicle
+        return (Vector((sign * 0.02, IJ.y + 0.12, IJ.z + 0.12)), SC.lerp(AC, 0.85))
+    return None
+
+
 def _points(rig, m, s):
+    if ANATOMICAL:
+        pts = _anat_points(rig, m, s)
+        if pts is None:
+            raise RuntimeError("anatomical muscle lines need the skeleton landmarks (LM_*) in the blend")
+        return pts
     sign = 1.0 if s == "r" else -1.0
     ub = rig.data.bones[f"upperarm_{s}"]
     gh = ub.head_local
@@ -66,8 +112,28 @@ def _points(rig, m, s):
     return origin, insertion
 
 
+def _active():
+    return ACTIVE if ANATOMICAL else tuple(MUSCLES)
+
+
+def _spec(m):
+    if ANATOMICAL:
+        return ANAT[m]
+    return {"obone": "spine_03", "ibone": "upperarm", "side": MUSCLES[m]["side"], "takes": MUSCLES[m].get("takes", "all"),
+            "bulge": BULGE_MAX, "max_scale": MUSCLES[m].get("max_scale", 1.0)}
+
+
+def _bone(key, s):
+    return {"spine_03": "spine_03", "neck": "neck", "scapula": f"scapula_{s}", "clavicle": f"clavicle_{s}",
+            "upperarm": f"upperarm_{s}"}[key]
+
+
+def _first(rig):
+    return name(_active()[0], "l")
+
+
 def install(rig):
-    if "hgpt_muscle_lines" not in rig or name("pec", "l") in rig.data.bones:
+    if "hgpt_muscle_lines" not in rig or _first(rig) in rig.data.bones:
         return
     view = bpy.context.view_layer
     for o in view.objects:
@@ -76,11 +142,11 @@ def install(rig):
     rig.select_set(True)
     bpy.ops.object.mode_set(mode="EDIT")
     for s in SIDES:
-        for m in MUSCLES:
+        for m in _active():
             origin, insertion = _points(rig, m, s)
             b = rig.data.edit_bones.new(name(m, s))
             b.head, b.tail = origin, insertion
-            b.parent = rig.data.edit_bones["spine_03"]
+            b.parent = rig.data.edit_bones[_bone(_spec(m)["obone"], s)]
             b.use_connect = False
             b.use_deform = True
     bpy.ops.object.mode_set(mode="OBJECT")
@@ -88,36 +154,30 @@ def install(rig):
 
 
 def drive(rig):
-    if name("pec", "l") not in rig.pose.bones:
+    if _first(rig) not in rig.pose.bones:
         return
     bpy.context.view_layer.update()
+    carry = lambda bn: rig.pose.bones[bn].matrix @ rig.data.bones[bn].matrix_local.inverted()
     for s in SIDES:
-        ua = rig.pose.bones[f"upperarm_{s}"]
-        arm = ua.matrix @ rig.data.bones[f"upperarm_{s}"].matrix_local.inverted()
-        th = rig.pose.bones["spine_03"]
-        trunk = th.matrix @ rig.data.bones["spine_03"].matrix_local.inverted()
-        for m in MUSCLES:
+        for m in _active():
+            spec = _spec(m)
+            ob, ib = carry(_bone(spec["obone"], s)), carry(_bone(spec["ibone"], s))
             bone = rig.data.bones[name(m, s)]
             o0, i0 = bone.head_local, bone.tail_local
-            o1, i1 = trunk @ o0, arm @ i0
-            gate = MUSCLES[m].get("elev_gate")
-            if gate:                                           # below the gate the insertion is carried by the thorax
-                import original_v1_review_candidate_drives as drives
-                k = _smooth(drives.elevation_deg(rig, s), *gate)
-                i1 = (trunk @ i0).lerp(i1, k)
-            d0 = (i0 - o0)
-            rest_rot = trunk.to_3x3() @ bone.matrix_local.to_3x3()       # rest frame carried by the thorax
-            d0w = trunk.to_3x3() @ d0
-            q = d0w.normalized().rotation_difference((i1 - o1).normalized())
+            o1, i1 = ob @ o0, ib @ i0
+            d0 = i0 - o0
+            rest_rot = ob.to_3x3() @ bone.matrix_local.to_3x3()          # rest frame carried by the origin bone
+            q = (ob.to_3x3() @ d0).normalized().rotation_difference((i1 - o1).normalized())
             sy = (i1 - o1).length / d0.length
-            sx = min(1.0 / math.sqrt(max(sy, 1e-6)), BULGE_MAX)    # thins when stretched; capped thickening when shortened
+            sx = min(1.0 / math.sqrt(max(sy, 1e-6)), spec["bulge"])  # thins when stretched; capped thickening when shortened
             M = Matrix.Translation(o1) @ (q.to_matrix() @ rest_rot).to_4x4() @ Matrix.Diagonal((sx, sy, sx, 1.0))
             rig.pose.bones[name(m, s)].matrix = M
     bpy.context.view_layer.update()
 
 
 def remove(rig):
-    if name("pec", "l") not in rig.data.bones:
+    names = [name(m, s) for s in SIDES for m in set(MUSCLES) | set(ANAT)]
+    if not any(n in rig.data.bones for n in names):
         return
     view = bpy.context.view_layer
     for o in view.objects:
@@ -125,10 +185,9 @@ def remove(rig):
     view.objects.active = rig
     rig.select_set(True)
     bpy.ops.object.mode_set(mode="EDIT")
-    for s in SIDES:
-        for m in MUSCLES:
-            if name(m, s) in rig.data.edit_bones:
-                rig.data.edit_bones.remove(rig.data.edit_bones[name(m, s)])
+    for n in names:
+        if n in rig.data.edit_bones:
+            rig.data.edit_bones.remove(rig.data.edit_bones[n])
     bpy.ops.object.mode_set(mode="OBJECT")
     view.update()
 
@@ -140,23 +199,25 @@ def _smooth(t, a, b):
 
 def assign_weights(body, rig, helper_max=None, radius=None, ins_radius=None, muscles=None):
     helper_max = HELPER_MAX if helper_max is None else helper_max
-    radius = RADIUS if radius is None else radius
-    ins_radius = INS_RADIUS if ins_radius is None else ins_radius
-    muscles = muscles or tuple(MUSCLES)
+    muscles = muscles or _active()
     counts = {}
     for s in SIDES:
         sign = 1.0 if s == "r" else -1.0
         gh = rig.data.bones[f"upperarm_{s}"].head_local
-        movable_all = ("spine_03", "spine_02", "spine_01", f"clavicle_{s}", f"scapula_{s}", f"shoulder_cap_{s}", f"upperarm_{s}")
+        sets = {"all": ("spine_03", "spine_02", "spine_01", f"clavicle_{s}", f"scapula_{s}", f"shoulder_cap_{s}", f"upperarm_{s}"),
+                "trunk": ("spine_03", "spine_02", "spine_01"),
+                "neckgird": ("head", "neck", "spine_03", f"clavicle_{s}", f"scapula_{s}")}
         for m in muscles:
+            spec = _spec(m)
+            r0 = spec.get("radius", (RADIUS, INS_RADIUS))[0] if radius is None else radius
+            r1 = spec.get("radius", (RADIUS, INS_RADIUS))[1] if ins_radius is None else ins_radius
             names = {g.index: g.name for g in body.vertex_groups}
             o, i = _points(rig, m, s)
             seg = i - o
             L2 = seg.length_squared
             grp = body.vertex_groups.get(name(m, s)) or body.vertex_groups.new(name=name(m, s))
-            front = MUSCLES[m]["side"] == "front"
-            movable = movable_all if MUSCLES[m].get("takes", "all") == "all" else tuple(k for k in movable_all if k.startswith("spine_"))
-            hmax = helper_max * MUSCLES[m].get("max_scale", 1.0)
+            movable = sets[spec["takes"]]
+            hmax = helper_max * spec.get("max_scale", 1.0)
             n = 0
             for v in body.data.vertices:
                 p = v.co
@@ -166,11 +227,14 @@ def assign_weights(body, rig, helper_max=None, radius=None, ins_radius=None, mus
                 if sp < S_FADE[0] or sp > S_END[1]:
                     continue
                 d = (p - (o + seg * min(max(sp, 0.0), 1.0))).length
-                r = radius + (ins_radius - radius) * min(max(sp, 0.0), 1.0)
+                r = r0 + (r1 - r0) * min(max(sp, 0.0), 1.0)
                 if d >= r:
                     continue
-                side = 1 - _smooth(p.y, gh.y - SIDE_BAND, gh.y + SIDE_BAND)    # 1 in front of the GH pivot, 0 behind
-                side = side if front else 1 - side
+                if spec["side"] == "top":
+                    side = 1.0
+                else:
+                    side = 1 - _smooth(p.y, gh.y - SIDE_BAND, gh.y + SIDE_BAND)    # 1 in front of the GH pivot, 0 behind
+                    side = side if spec["side"] == "front" else 1 - side
                 if side < 1e-3:
                     continue
                 w = {names[g.group]: g.weight for g in v.groups if g.weight > 0}
@@ -189,5 +253,5 @@ def assign_weights(body, rig, helper_max=None, radius=None, ins_radius=None, mus
                 grp.add([v.index], w.get(name(m, s), 0.0) + take, "REPLACE")
                 n += 1
             counts[f"{m}_{s}"] = n
-    rig["hgpt_muscle_lines"] = {"muscles": list(muscles), "helper_max": helper_max, "radius_m": [radius, ins_radius]}
+    rig["hgpt_muscle_lines"] = {"muscles": list(muscles), "helper_max": helper_max, "anatomical": ANATOMICAL}
     return counts

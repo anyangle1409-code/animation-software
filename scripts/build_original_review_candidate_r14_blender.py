@@ -112,7 +112,18 @@ def bake():
     V0, F = bench._evaluated(body)
     dom = bench.dominant_groups(body)
     floor = min(v.z for v in V0)
-    log = s5.build(res, targets)
+    # guard along the v2 press AND the shoulder-press benchmark's own coupled path (40 deg plane, to 160 deg): guarding the
+    # v2 press alone left 190 pairs on the benchmark path
+    import original_v1_shoulder_r4 as r4
+
+    def benchmark_press(t):                 # the benchmark's own path: without the press-extension hook (which would turn
+        hook = r4._S.get("extend")           # it into the v2 plane, as in the validation process, where it is not installed)
+        r4._S["extend"] = None
+        try:
+            bench.pose_press(res, t, correction)
+        finally:
+            r4._S["extend"] = hook
+    log = s5.build(res, targets, extra_guard_paths=[("benchmark_press", benchmark_press)])
 
     def path(use):
         rows = []

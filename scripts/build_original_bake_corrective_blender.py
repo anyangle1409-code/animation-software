@@ -48,6 +48,7 @@ POST_SMOOTH = int(os.environ.get("S5_POST_SMOOTH", 0))     # 8 passes weakened t
 RESOLVE = os.environ.get("S5_RESOLVE", "0") == "1"    # static collision repair of the target: did not converge (rejected)
 SMOOTH_GUARD = os.environ.get("S5_SMOOTH_GUARD", "1") == "1"
 SIDES = ("l", "r")
+_EXTRA = {"paths": []}
 
 
 def dump_targets(target_blend, out):
@@ -114,9 +115,11 @@ def resolve_collisions(T, F, adj, iters=40, margin=0.0015, step_cap=0.002, smoot
     return T, sum(1 for a, b in tree.overlap(tree) if a < b and not (fs[a] & fs[b]))
 
 
-def build(result, targets, prefix=None, keys_ht=None, angles_prop="hgpt_s5_angles"):
-    """prefix / keys_ht / angles_prop default to the S5 family; R14 reuses the bake for its S6 family."""
+def build(result, targets, prefix=None, keys_ht=None, angles_prop="hgpt_s5_angles", extra_guard_paths=None):
+    """prefix / keys_ht / angles_prop default to the S5 family; extra_guard_paths: [(name, fn(t))] posed (+ drives) by the
+    smooth guard in addition to the full press (R14: the shoulder-press benchmark's own coupled path)."""
     global PREFIX, KEYS_HT
+    _EXTRA["paths"] = list(extra_guard_paths or [])
     saved_family = PREFIX, KEYS_HT
     PREFIX = prefix or PREFIX
     KEYS_HT = keys_ht or KEYS_HT
@@ -250,10 +253,12 @@ def smooth_guard(result, adj, rounds=12, ring=5, passes=25, ts=tuple(i / 20 for 
         return ({(a, b) for a, b in tree.overlap(tree) if a < b and not (fs[a] & fs[b])},
                 {k for k, f in enumerate(F) if A0[k] > 1e-12 and bench._area(V, f) / A0[k] < 0.1})
     hist = []
+    poses = [("press", lambda t: px.pose_press_full(result, t))] + _EXTRA["paths"]
     for _pass in range(4):
         passlog = {}
-        for t in ts:
-            px.pose_press_full(result, t)
+        for (pname, pfn), t in ((pp, t) for pp in poses for t in ts):
+            bench._reset(rig)
+            pfn(t)
             drives.drive(rig, body)
             vals = {kb.name: kb.value for kb in keys}
             active = [kb for kb in keys if kb.value > 0]
@@ -288,7 +293,7 @@ def smooth_guard(result, adj, rounds=12, ring=5, passes=25, ts=tuple(i / 20 for 
                     for i, mi in m.items():
                         co[i] = R0[i] + (co[i] - R0[i]) * (0.5 + 0.5 * mi)
                     kb.data.foreach_set("co", co.reshape(-1))
-            passlog[f"{t:.2f}"] = h
+            passlog[f"{pname}@{t:.2f}"] = h
             for kb in keys:
                 kb.value = 0.0
         hist.append(passlog)

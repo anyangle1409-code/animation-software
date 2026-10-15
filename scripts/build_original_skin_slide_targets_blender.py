@@ -11,6 +11,8 @@ For each key pose of the press (KEYS_HT), starting from the candidate's posed su
 Measured at 172 deg on R18 (TAUB 10, LUMP 200, SLIDE 60): 0 self-intersecting pairs; collapse 0 -> 6; squashed < 0.6:
 2,800 -> 2,891; stretched > 1.5: 1,137 -> 621; stretched > 2: 255 -> 45.  Writes OUT/targets.npz (+ .json) for the S7 bake
 (build_original_review_candidate_r17_blender.py --bake) and renders the 172 deg current / slid surfaces.
+R26 adds FAIR / POSTFAIR (thin-plate rebuild of zones before / after the slide; the slide re-folded the hook beside the
+neck, measured) and DELT_BUMP (rounded deltoid cap); see docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R26_20261015.md.
   KEYS_HT=145,160,172 TAUB=10 LUMP=200 SLIDE=60 python3.13 build_original_skin_slide_targets_blender.py R18.blend OUTDIR
 """
 import sys, os
@@ -42,6 +44,29 @@ def areas(Y):
     return np.linalg.norm(np.cross(Y[Fa[:, 1]] - Y[Fa[:, 0]], Y[Fa[:, 2]] - Y[Fa[:, 0]]), axis=1) / 2
 A0 = np.maximum(areas(R), 1e-12)
 W = rig.matrix_world
+def fair_fill(S, spec, wfree):
+    for zone in [z for z in spec.split(";") if z]:
+        o_, r_ = zone.split(":")
+        off3 = np.array([float(x) for x in o_.split(",")]); rf = float(r_)
+        for s_ in "rl":
+            sg = 1.0 if s_ == "r" else -1.0
+            gh = np.array(tuple(W @ rig.pose.bones[f"upperarm_{s_}"].head))
+            c = gh + np.array([off3[0] * sg, off3[1], off3[2]])
+            inner = np.where((np.linalg.norm(S - c, axis=1) < rf) & (wfree > 0))[0]
+            if not len(inner):
+                continue
+            pos = -np.ones(nv, int); pos[inner] = np.arange(len(inner))
+            n_ = len(inner)
+            ring = np.unique(np.concatenate([nbr[i] for i in inner])); ring = ring[pos[ring] < 0]
+            rows = np.concatenate([inner, ring])         # bi-Laplacian: L applied at inner + first outside ring
+            Lr = np.zeros((len(rows), nv))
+            for k_, i in enumerate(rows):
+                Lr[k_, i] = -1.0; Lr[k_, nbr[i]] += 1.0 / len(nbr[i])
+            A_ = Lr[:, inner]; Bk = np.delete(np.arange(nv), inner)
+            rhs = -(Lr[:, Bk] @ S[Bk])
+            sol, *_ = np.linalg.lstsq(A_, rhs, rcond=None)
+            S[inner] = sol
+    return S
 out_t = {}; logs = {}
 for ht in KEYS:
     bench._reset(rig); s4.press_pose(res, ht); drives.drive(rig, body)
@@ -113,6 +138,37 @@ for ht in KEYS:
                     bv = np.unique(Fa[badf].reshape(-1))
                     prop[bv] = S[bv]
             S[:] = prop
+    # 1c''. fair fill (R26, owner item 1: the hook / curl beside the neck at lockout survived smoothing and normal lift):
+    #      each zone "x,y,z:r" (offset from the posed shoulder joint, x outward) is rebuilt as a thin-plate (bi-Laplacian)
+    #      surface from the ring of vertices just outside it, so no fold can remain inside; ";" separates zones
+    S = fair_fill(S, os.environ.get("FAIR", ""), wfree)
+    # 1c'. deltoid cap (R26, owner: the arm root had become thin and flat - "do both 1 and 2"): a smooth outward swell over the
+    #      outer / back of the arm root, an ellipsoid longer along the (vertical, at lockout) arm than across it, applied
+    #      along the vertex normal only where the surface faces away from the arm's axis (not into the armpit)
+    if os.environ.get("DELT_BUMP"):
+        a_, c_, ax_ = os.environ["DELT_BUMP"].split(":")
+        amp = float(a_); cofs = np.array([float(x) for x in c_.split(",")]); ax_up, ax_side = (float(x) for x in ax_.split(","))
+        Fn = np.cross(S[Fa[:, 1]] - S[Fa[:, 0]], S[Fa[:, 2]] - S[Fa[:, 0]])
+        vn_ = np.zeros_like(S)
+        for c2 in range(3):
+            np.add.at(vn_, Fa[:, c2], Fn)
+        vn_ /= np.maximum(np.linalg.norm(vn_, axis=1)[:, None], 1e-15)
+        for s_ in "rl":
+            sg = 1.0 if s_ == "r" else -1.0
+            pb_ = rig.pose.bones[f"upperarm_{s_}"]
+            gh = np.array(tuple(W @ pb_.head)); axis = np.array(tuple((W @ pb_.tail) - (W @ pb_.head))); axis /= np.linalg.norm(axis)
+            c = gh + np.array([cofs[0] * sg, cofs[1], cofs[2]])
+            rel_ = S - c
+            along = rel_ @ axis
+            perp = rel_ - along[:, None] * axis
+            q = np.sqrt((along / ax_up) ** 2 + (np.linalg.norm(perp, axis=1) / ax_side) ** 2)
+            x_ = np.clip(q, 0, 1)
+            fall = 1 - x_ * x_ * (3 - 2 * x_)
+            radial = (S - gh) - ((S - gh) @ axis)[:, None] * axis
+            radial /= np.maximum(np.linalg.norm(radial, axis=1)[:, None], 1e-9)
+            facing = np.clip((vn_ * radial).sum(1), 0, 1)              # surface facing away from the arm's axis
+            outer = np.clip((radial * np.array([sg, 0.6, 0.0])).sum(1) + 0.3, 0, 1)   # lateral / back faces
+            S += (amp * fall * facing * outer * (wfree > 0))[:, None] * vn_
     # 1d. a final light Taubin blend over the whole region, so the zone edges leave no seam
     for k in range(int(os.environ.get("BLEND", 0))):
         for lam in (0.5, -0.53):
@@ -141,6 +197,10 @@ for ht in KEYS:
     lg = []
     X = walkslide.slide(S, Fa, A0, idx, wfree, iters=SLIDE, eta=ETA, log=lg, crush_w=float(os.environ.get("CRUSH_W", 0))) if SLIDE > 0 else S.copy()
     print("ENERGY", lg, flush=True)
+    # 3b. post-slide fair fill (R26): the slide re-folded the zones rebuilt in 1c'' (measured), so the same rebuild is
+    #     repeated on the slid surface
+    if os.environ.get("POSTFAIR"):
+        X = fair_fill(X, os.environ["POSTFAIR"], wfree)
     rP = areas(P) / A0; rX = areas(X) / A0
     tr = BVHTree.FromPolygons([Vector(x) for x in X], F, all_triangles=True); fs = [set(f) for f in F]
     pairs = sum(1 for a, b in tr.overlap(tr) if a < b and not (fs[a] & fs[b]))
@@ -153,7 +213,7 @@ for ht in KEYS:
     if ht == KEYS[-1]:
         np.save(out + "/P172.npy", P)
 np.savez(out + "/targets.npz", **out_t)
-import json; json.dump({"mode": "skin slide", "taubin": TAUB, "lump_passes": int(os.environ.get("LUMP", 0)), "lump_off": os.environ.get("LUMP_OFF", "0,0.04,-0.02"), "lump_r": os.environ.get("LUMP_R", "0.06,0.10"), "zones": os.environ.get("ZONES", ""), "blend_passes": int(os.environ.get("BLEND", 0)), "untangle_iters": int(os.environ.get("UNTANGLE", 0)), "guard_zones": os.environ.get("GUARD_ZONES", "1") == "1", "crush_w": float(os.environ.get("CRUSH_W", 0)), "slide_iters": SLIDE, "eta": ETA, "region": [RIN, ROUT], "keys_ht": KEYS, "log": {str(k): v for k, v in logs.items()}}, open(out + "/targets.npz.json", "w"), indent=1)
+import json; json.dump({"mode": "skin slide", "taubin": TAUB, "lump_passes": int(os.environ.get("LUMP", 0)), "lump_off": os.environ.get("LUMP_OFF", "0,0.04,-0.02"), "lump_r": os.environ.get("LUMP_R", "0.06,0.10"), "zones": os.environ.get("ZONES", ""), "blend_passes": int(os.environ.get("BLEND", 0)), "untangle_iters": int(os.environ.get("UNTANGLE", 0)), "guard_zones": os.environ.get("GUARD_ZONES", "1") == "1", "crush_w": float(os.environ.get("CRUSH_W", 0)), "deltoid_bump": os.environ.get("DELT_BUMP", ""), "fair": os.environ.get("FAIR", ""), "postfair": os.environ.get("POSTFAIR", ""), "slide_iters": SLIDE, "eta": ETA, "region": [RIN, ROUT], "keys_ht": KEYS, "log": {str(k): v for k, v in logs.items()}}, open(out + "/targets.npz.json", "w"), indent=1)
 # render 172
 scene = bpy.context.scene
 for o in scene.objects:

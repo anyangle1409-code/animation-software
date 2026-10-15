@@ -67,13 +67,31 @@ def install(rig):
     view.update()
 
 
+def humerothoracic_deg(rig, s):
+    """Angle between the upper arm and the thorax's downward axis (spine_03 points up), posed."""
+    sp, ua = rig.pose.bones["spine_03"], rig.pose.bones[f"upperarm_{s}"]
+    return math.degrees((ua.tail - ua.head).angle(sp.head - sp.tail))
+
+
+def fraction_at(rig, s, f0, ramp):
+    """R16 (owner, 15 Oct 2026, on the R15 lockout: "I'm not sure the deforming is in the right place here"): at f0 = 0.5 the
+    cap swings the deltoid skin only half-way from arm-down to arm-overhead, i.e. to about arm-out-sideways, so at lockout the
+    deltoid bunches behind and below the joint instead of sitting on top of the shoulder.  Optional rig prop
+    hgpt_cap_fraction_ramp = (f1, ht0, ht1): the fraction rises smoothly from f0 at ht0 to f1 at ht1 deg humerothoracic
+    elevation (unchanged below ht0, where the R8-R14 tuning holds)."""
+    f1, ht0, ht1 = (float(v) for v in ramp)
+    return f0 + (f1 - f0) * _smooth(humerothoracic_deg(rig, s), ht0, ht1)
+
+
 def drive(rig):
     if name("l") not in rig.pose.bones:
         return
     import original_v1_review_candidate_drives as drives
     bpy.context.view_layer.update()
-    f = float(rig["hgpt_cap_fraction"])
+    f0 = float(rig["hgpt_cap_fraction"])
+    ramp = rig.get("hgpt_cap_fraction_ramp")
     for s in SIDES:
+        f = f0 if ramp is None else fraction_at(rig, s, f0, ramp)
         q = drives._rel_quat(rig, f"upperarm_{s}", f"scapula_{s}")
         if q.w < 0:
             q.negate()

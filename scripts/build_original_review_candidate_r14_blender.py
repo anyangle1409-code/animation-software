@@ -44,6 +44,7 @@ if "--make-target" in sys.argv:
 args, get = r12.args, r12.get
 PRESS_PATH = "v2"
 NAME = "R14"                 # R15 re-uses these steps with PRESS_PATH = "v4"
+EXTRA_RIG_PROPS = {}
 DROP = ("HGPT_S4_SCULPT_", "HGPT_S5_BAKE_")
 
 
@@ -80,6 +81,8 @@ def base():
             if f"{prop}_{s}" in rig:
                 del rig[f"{prop}_{s}"]
     bpy.context.scene["hgpt_press_path"] = PRESS_PATH
+    for k, v in EXTRA_RIG_PROPS.items():                       # R16: hgpt_cap_fraction_ramp
+        rig[k] = v
     out = Path(get("--out"))
     if out.exists():
         raise FileExistsError(out)
@@ -149,7 +152,7 @@ def bake():
     output = s1.save(res, out, parent, NAME)
     output["base_blend_sha256"] = sha(blend)
     rep = {"kind": "ORIGINAL_V1_REVIEW_CANDIDATE", "candidate": NAME, "status": "REVIEW_CANDIDATE_NOT_ACCEPTED", "approved": False,
-           "press_path": PRESS_PATH, "press_path_params": px.PATHS[PRESS_PATH], "dropped_families": DROP,
+           "press_path": PRESS_PATH, "press_path_params": px.PATHS[PRESS_PATH], "extra_rig_props": EXTRA_RIG_PROPS, "dropped_families": DROP,
            "target_recipe": {"s4_env": {**r12.TARGET_ENV, **R14_TARGET_ENV}, "corrective_smooth": r12.CS}, "bake_env": r12.BAKE_ENV,
            "targets_sha256": sha(get("--targets")), "s5": {"keys_ht": s5.KEYS_HT, "log": log},
            "press_path_without_s5": before, "press_path_r14": after, "output": output}

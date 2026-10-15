@@ -5,7 +5,7 @@ The benchmark press path (build_original_movement_benchmarks_blender.pose_press:
 elbow 90 -> 0 deg) is sampled up and back down; with --drives the blend's review drives (drives.setup once, drives.drive
 every frame) run, as in the validation.  Front, back and side views per frame.  Nothing is saved.
 
-  python3.13 render_press_animation_blender.py -- --blend B.blend --out DIR --tag NAME [--drives] [--steps 20]
+  python3.13 render_press_animation_blender.py -- --blend B.blend --out DIR --tag NAME [--drives] [--steps 20] [--closeups]
 
 With --poses "ht:elbow,..." it renders those (humerothoracic elevation, elbow flexion) poses instead (front view + a front
 close-up of the runtime _l shoulder = anatomical right, F-SIDE-001), e.g. to match reference photos; "ht:elbow:shrug" items
@@ -86,6 +86,9 @@ def main():
                 bpy.ops.render.render(write_still=True)
         print("POSES", tag, "->", out)
         return
+    views = [(v, d, TARGET, SCALE) for v, d in VIEWS]
+    if "--closeups" in args:        # three-quarter body + front-oblique shoulder close-up of runtime _l (anatomical right)
+        views += [("three_quarter", (-0.7, -1, 0.15), TARGET, SCALE), ("shoulder", (-0.45, -1, 0.1), None, 0.55)]
     ts = [i / steps for i in range(steps + 1)] + [i / steps for i in range(steps - 1, 0, -1)]   # up, then down
     for n, t in enumerate(ts):
         if full:
@@ -95,9 +98,11 @@ def main():
         if use_drives:
             drives.drive(rig, body)
         bpy.context.view_layer.update()
-        for view, d in VIEWS:
-            cam.location = TARGET + Vector(d).normalized() * 4.0
-            cam.rotation_euler = (TARGET - cam.location).to_track_quat("-Z", "Y").to_euler()
+        for view, d, target, scale in views:
+            target = target if target is not None else rig.pose.bones["upperarm_l"].head.copy()
+            cd.ortho_scale = scale
+            cam.location = target + Vector(d).normalized() * 4.0
+            cam.rotation_euler = (target - cam.location).to_track_quat("-Z", "Y").to_euler()
             scene.render.filepath = str(out / f"{tag}__{n:03d}_{view}.png")
             bpy.ops.render.render(write_still=True)
     print("PRESS", tag, len(ts), "frames ->", out)

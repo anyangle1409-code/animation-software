@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "kind": "claude_master_task_ledger",
- "updated": "2026-10-14 (R12 phone review set; hip fold measured)",
+ "updated": "2026-10-15 (R13: hip-crease helper + baked hip delta mush)",
  "owner_rules": "skeleton is source of truth; no frozen-skeleton change without owner decision; no merge; no approval claims; no third-party assets",
  "environment": "cloud Linux container (Blender 5.2.1 as Python module); not the owner's Windows laptop; no battery telemetry available, protection = commit/push after every task",
  "branches": {
@@ -10,7 +10,7 @@
   "w_guides": "claude/functional-original-shoulder-correction-20261013 (draft PR #111)",
   "w_correctives": "claude/functional-shoulder-coupled-corrective-20261013",
   "movement": "claude/movement-benchmarks-20261013 (draft PR #113) head 359c8865",
-  "review_r1": "claude/original-v1-consolidated-review-20261014 head b705a80c (R1-R12)"
+  "review_r1": "claude/original-v1-consolidated-review-20261014 head 49fb28cc (R1-R13)"
  },
  "tasks": [
   {
@@ -198,7 +198,7 @@
   },
   {
    "id": "W4",
-   "description": "Weights-only shoulder-top/axilla refit onto existing clavicle/scapula controls (keep LBS well conditioned at 145-160 deg) — REJECTED: self-intersection rises 110-145 deg",
+   "description": "Weights-only shoulder-top/axilla refit onto existing clavicle/scapula controls (keep LBS well conditioned at 145-160 deg) \u2014 REJECTED: self-intersection rises 110-145 deg",
    "priority": 2,
    "status": "COMPLETE",
    "evidence": "docs/CLAUDE_W4_SHOULDER_WEIGHT_REFIT_20261013.md (movement branch)",
@@ -512,10 +512,11 @@
    "id": "HIP1",
    "description": "hip/groin fold in squat (227 pairs) and deadlift (313): located in the groin crease; K1-style hip contact corrective tried (weight and rest-plane classification) - guard backs it to ~0, no effect, reverted",
    "priority": 2,
-   "status": "TODO",
+   "status": "TESTED",
    "commit": "b705a80c",
-   "evidence": "docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R12_20261014.md (hip fold section)",
-   "next": "shoulder recipe for the crease: crease re-weighting or hip-crease helper joint + delta-mush bake"
+   "evidence": "docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R13_20261015.md; test_original_review_candidate_r13.py (6 OK)",
+   "next": "owner review of hip close-ups; runtime contract (2 more helper joints, H1 keys) with Lane G",
+   "result": "R13 = R12 + hip_crease_l/r helper (chain weights) + 10 HGPT_H1_BAKE_ keys on hip flexion; squat 227->120 pairs (collapse 28->2), deadlift 313->295 (38->4); other 11 benchmarks no worse; cost deadlift stretch 26->38; remaining deadlift pairs = abdomen/thigh contact (needs contact solve)"
   }
  ]
 }

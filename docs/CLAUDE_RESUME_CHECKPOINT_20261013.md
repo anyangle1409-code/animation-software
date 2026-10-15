@@ -33,6 +33,8 @@
 
 ## Next unblocked
 
+**15 Oct:** R13 built (owner: "Yes. Continue", hip fold): `docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R13_20261015.md`, review branch `49fb28cc`. R13 = R12 + hip-crease helper + baked hip delta mush; it is the current review candidate (squat 227 -> 120 pairs, deadlift 313 -> 295, collapses almost gone). Check CI on `49fb28cc` first.
+
 **14 Oct (late):** R12 built (owner: "Continue to fix the issue"): `docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R12_20261014.md`, review branch `de704c0e`. R12 (R11 + baked delta-mush keys) is the current review candidate. Awaiting the owner's verdict against the reference photo; remaining gap: armpit hollow depth. Check CI on `de704c0e` first.
 
 As of 14 Oct, none. Every open item needs an owner decision, a Lane G agreement, or a primary source that is unreachable from this cloud environment:
@@ -43,7 +45,7 @@ As of 14 Oct, none. Every open item needs an owner decision, a Lane G agreement,
 | F4 remainder | toe-breadth source |
 | F5 / W3 / K1 shipping | runtime-contract extension (owner + Lane G) |
 | A1 fibula / MC1 | soft-tissue cover source |
-| Hip fold | three-body contact model |
+| Hip fold remainder | abdomen/thigh contact solve (deadlift 295 pairs) |
 | Thumb opposition | thumb axis source |
 | E1 GLB leak | Icosphere leak is in the Lane G / Work exporter |
 

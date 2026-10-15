@@ -114,6 +114,26 @@ def _abduct_arms(rig, extra_x=None):
         _rot(pb, x=x, z=(-1.0 if s == "r" else 1.0) * ARM_ABDUCTION_DEG)
 
 
+def _carry_arms(rig, deg):
+    """Arm carriage on top of whatever the pose set: each upper arm abducted by deg about the THORAX's anterior-posterior
+    axis through its shoulder (world space, so it composes with solved/bisected arm poses).  15 Oct 2026: the squat and the
+    deadlift had no carriage, and the hanging hands met the rising / forward thighs (squat 92-120, deadlift 44-116 hand-thigh
+    self-intersections per frame); the H1 carriage value (ARM_ABDUCTION_DEG, 4 deg) clears every frame on a003 and R13."""
+    if deg == 0.0:
+        return
+    t = rig.pose.bones["spine_03"]
+    ap = (t.matrix.to_3x3() @ rig.data.bones["spine_03"].matrix_local.to_3x3().inverted()) @ Vector((0.0, 1.0, 0.0))
+    for s, sg in (("r", -1.0), ("l", 1.0)):                    # hand moves away from the midline
+        pb = rig.pose.bones[f"upperarm_{s}"]
+        h = pb.head.copy()
+        R = Matrix.Rotation(math.radians(deg), 4, ap * sg)
+        pb.matrix = Matrix.Translation(h) @ R @ Matrix.Translation(-h) @ pb.matrix
+        bpy.context.view_layer.update()
+
+
+SQUAT_CARRIAGE_RAMP_T = 0.25          # carriage reaches ARM_ABDUCTION_DEG over the first quarter of the descent
+
+
 def _plant_feet(rig, rest_heads):
     """Keep both feet flat (foot world rotation = rest) and both ankle heads at their rest positions."""
     bpy.context.view_layer.update()
@@ -147,6 +167,7 @@ def pose_squat(rig, t, rest_heads):
         _rot(rig.pose.bones[f"thigh_{s}"], x=-SQUAT["hip_flexion"] * k)
         _rot(rig.pose.bones[f"shin_{s}"], x=SQUAT["knee_flexion"] * k)
     _plant_feet(rig, rest_heads)
+    _carry_arms(rig, ARM_ABDUCTION_DEG * smooth(t / SQUAT_CARRIAGE_RAMP_T))     # t = 0 stays the exact rest pose
     return {"hip_flexion": SQUAT["hip_flexion"] * k, "knee_flexion": SQUAT["knee_flexion"] * k,
             "ankle_dorsiflexion": max(_ankle_dorsiflexion_deg(rig, s) for s in ("l", "r"))}
 
@@ -258,6 +279,7 @@ def _pose_deadlift_raw(rig, t, rest_heads):
         _rot(rig.pose.bones[f"shin_{s}"], x=DEADLIFT["knee_flexion"] * k)
     _plant_feet(rig, rest_heads)
     sh = _hang_arms_vertically(rig)
+    _carry_arms(rig, ARM_ABDUCTION_DEG)                       # grip just outside the legs
     _plant_feet(rig, rest_heads)
     pb = rig.pose.bones
     hands = [(rig.matrix_world @ pb[f"middle_01_{s}"].head) for s in ("l", "r")]          # knuckle line ~ bar in the hand

@@ -24,11 +24,13 @@ class OriginalMovementBenchmarkNativeTests(unittest.TestCase):
 
     def test_first_frame_is_rest_and_unapproved(self):
         self.assertFalse(self.report["approved"])
-        for name in ("squat", "bent_over_row", "calf_raise", "deadlift"):   # no arm carriage: exact rest
+        for name in ("squat", "bent_over_row", "calf_raise"):   # no arm carriage at t = 0 (squat ramps in from 0): exact rest
             f0 = self.report["benchmarks"][name]["frames"][0]
             self.assertEqual(f0["self_intersecting_pairs"], 0, name)
             self.assertEqual(f0["body_volume_change_pct"], 0.0, name)
-        for name in ("lunge", "trunk_rotation", "single_leg_stance"):      # H1: standing with the 4 deg arm carriage
+        # H1: standing with the 4 deg arm carriage; the deadlift too since 15 Oct 2026 (grip just outside the legs from the
+        # start: without it the hanging hands met the thighs, 44-116 hand-thigh intersections per frame on R13)
+        for name in ("lunge", "trunk_rotation", "single_leg_stance", "deadlift"):
             f0 = self.report["benchmarks"][name]["frames"][0]
             self.assertEqual(f0["self_intersecting_pairs"], 0, name)
             self.assertLess(abs(f0["body_volume_change_pct"]), 0.5, name)
@@ -121,6 +123,13 @@ class OriginalMovementBenchmarkNativeTests(unittest.TestCase):
             for a, b, n in f["self_intersection_classes_top"]:
                 self.assertFalse(a.startswith("thumb_01") or b.startswith("thumb_01"), (f["t"], a, b, n))
             self.assertLess(abs(f["lowest_point_z_mm"]), 1.0, f["t"])
+
+    def test_squat_and_deadlift_hands_clear_of_thighs(self):
+        hand = ("thumb", "index", "middle", "ring", "pinky", "hand", "metacarpal")
+        for name in ("squat", "deadlift"):
+            for f in self.report["benchmarks"][name]["frames"]:
+                for a, b, n in f["self_intersection_classes_top"]:
+                    self.assertFalse((a.split("_")[0] in hand) != (b.split("_")[0] in hand), (name, f["t"], a, b, n))
 
     def test_metrics_are_finite(self):
         for b in self.report["benchmarks"].values():

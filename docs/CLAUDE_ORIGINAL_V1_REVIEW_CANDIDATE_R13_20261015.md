@@ -120,3 +120,37 @@ R13 adds two more in-memory joints (`hip_crease_l/r`) and 10 more pose-space key
 **Test:** `test_original_movement_benchmarks.py` gains `test_push_up_thumb_lies_beside_the_index_without_web_intersection` (live on a003; 14/14 pass).
 
 **Branch note:** the benchmark change is on the review branch only. The movement branch (PR #113) still has the old pose.
+
+## Squat and deadlift: hands in the thighs, also a fault in the pose (15 Oct, after R13)
+
+**Owner:** "Continue".
+
+**What the per-frame view showed:**
+- **Squat:** all 120 of R13's remaining pairs were **hand against thigh** (t = 0.125–0.5). The squat never posed the arms, so as the hips flexed, the rising thighs met the hanging thumbs. The groin crease itself is at 0 pairs on every frame.
+- **Deadlift:** the frames at t = 0–0.625 had 44–116 thumb/thigh pairs. The arms are solved to hang vertically for the bar, which put the hands on the thighs.
+
+**Fix** (`build_original_movement_benchmarks_blender._carry_arms`):
+- each upper arm is abducted about the thorax's front-to-back axis through its shoulder, by the existing H1 natural arm carriage (`ARM_ABDUCTION_DEG`, 4°);
+- **squat:** ramped in over the first quarter of the descent, so t = 0 is still the exact rest pose;
+- **deadlift:** applied throughout, so the grip sits just outside the legs, as in a real deadlift;
+- 4° is the smallest value tested (4–16°) that clears every frame on both a003 and R13.
+
+**Test change, made openly:**
+- `test_first_frame_is_rest_and_unapproved` now checks the deadlift's start the way it already checks the lunge, trunk rotation and single-leg stance: 0 pairs, volume change within ±0.5 % (it is 0.25 %);
+- it no longer requires an exact rest volume for the deadlift;
+- new: `test_squat_and_deadlift_hands_clear_of_thighs`.
+
+**Tests:**
+- movement benchmarks: 15/15 pass;
+- knee contact (8) and shoulder-helper reference (4): pass;
+- R13: 6/6 pass.
+
+**Re-measured** (`r13_validation_corrected_poses_20261015.json`, which supersedes the push-up-only file; no body asset changed):
+
+| Worst frame, self-intersecting pairs | a003 | R13 |
+|---|---|---|
+| Squat | 371 → 371 (its groin crease) | **120 → 0** |
+| Deadlift | 455 → 449 | 295 → 293 (the bottom position only) |
+| Push-up | 196 → 170 | 44 → 2 |
+
+**What is left in the deadlift:** only its bottom position (t = 0.875–1), where the abdomen meets the thigh. Penetration depth at t = 1 is 4 mm median, 11 mm at the 90th percentile and 25 mm maximum.

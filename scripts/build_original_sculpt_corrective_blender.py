@@ -67,7 +67,8 @@ SIDES = ("l", "r")
 
 def press_pose(result, ht):
     """The full-press path pose at elevation ht (inverse of press_state's smoothstep)."""
-    k = (ht - px.START_HT) / (px.LOCKOUT_HT - px.START_HT)
+    st = px.path()["start_ht"]                                  # v1: px.START_HT
+    k = (ht - st) / (px.LOCKOUT_HT - st)
     lo, hi = 0.0, 1.0
     for _ in range(40):
         mid = 0.5 * (lo + hi)

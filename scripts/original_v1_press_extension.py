@@ -27,6 +27,19 @@ START_HT, START_ELBOW = 85.0, 100.0
 SHRUG_MAX_DEG = 12.0
 SHRUG_FROM = 0.6
 _STATE = {"shrug_deg": 0.0}
+# Press path v2 (15 Oct 2026, owner's 7-view reference photo series of a standing dumbbell press): elbows out to the side
+# (elevation plane 15 deg instead of the coupled profile's 40 deg), start lower (70 deg, elbow 140 deg) and the forearms
+# aimed at the dumbbells just outside the shoulders while the elbow is bent.  Opt-in per blend (scene["hgpt_press_path"] == "v2"); v1 (R10-R13) is unchanged.
+PATHS = {"v1": {"plane_deg": None, "forearm_vertical": False, "start_ht": START_HT, "start_elbow": START_ELBOW},
+         "v2": {"plane_deg": 15.0, "forearm_vertical": True, "start_ht": float(__import__("os").environ.get("PRESS_V2_START", 70.0)),
+                "start_elbow": float(__import__("os").environ.get("PRESS_V2_ELBOW", 140.0))}}
+_PATH = {"name": "v1"}
+FOREARM_FADE_DEG = 30.0
+HAND_OUT_M = float(__import__("os").environ.get("PRESS_V2_HAND_OUT", 0.08))   # v2 hand target: this far lateral of the GH joint           # v2: the forearm-vertical turn is full above this elbow flexion, fading to 0 at lockout
+
+
+def path():
+    return PATHS[_PATH["name"]]
 
 
 def _smooth(t):
@@ -39,9 +52,12 @@ def extend(result, profile, ht):
     import build_functional_original_coupled_motion_blender as coupled
     extra = max(0.0, ht - 160.0) / 20.0
     shrug = _STATE["shrug_deg"]
-    if extra == 0.0 and shrug == 0.0:
+    plane = path()["plane_deg"]
+    if extra == 0.0 and shrug == 0.0 and plane is None:
         return profile
     p = dict(profile)
+    if plane is not None:
+        p["plane_deg"] = plane
     for k, v in EXT_PER_20_DEG.items():
         p[k] = profile[k] + v * extra
     p["clavicle_elevation_deg"] += shrug
@@ -59,6 +75,40 @@ def install():
     if not r4._S.get("installed"):
         raise RuntimeError("the R4+ shoulder drive must be installed first (drives.setup)")
     r4._S["extend"] = extend
+    _PATH["name"] = bpy.context.scene.get("hgpt_press_path", "v1")
+    if _PATH["name"] not in PATHS:
+        raise RuntimeError(f"unknown press path {_PATH['name']}")
+
+
+def _forearm_vertical(rig, weight=1.0):
+    """v2: turn each upper arm about its own shaft (humeral axial rotation) so the bent forearm points from the elbow at a
+    hand target above the elbow (by the forearm length), HAND_OUT_M lateral of the shoulder joint (the
+    reference: elbows out wide, dumbbells just outside the shoulders by the ears); grid search over a full turn, then ternary
+    refinement over a full turn; the solved turn is applied times weight."""
+    from mathutils import Matrix, Vector
+    for s in ("l", "r"):
+        sign = 1.0 if s == "r" else -1.0
+        ua = rig.pose.bones[f"upperarm_{s}"]
+        base = ua.matrix.copy()
+        pivot, axis = ua.head.copy(), (ua.tail - ua.head).normalized()
+        fa = rig.pose.bones[f"forearm_{s}"]
+        hand = rig.pose.bones[f"hand_{s}"]
+        flen = (hand.head - fa.head).length                   # elbow -> wrist (the forearm bone is shorter: twist bones)
+
+        def miss(a):
+            ua.matrix = Matrix.Translation(pivot) @ Matrix.Rotation(math.radians(a), 4, axis) @ Matrix.Translation(-pivot) @ base
+            bpy.context.view_layer.update()
+            e = fa.head
+            dx = sign * (abs(pivot.x) + HAND_OUT_M) - e.x
+            dz = math.sqrt(max(flen * flen - dx * dx, 1e-6))
+            want = Vector((dx, 0.0, dz)).normalized()
+            return (hand.head - fa.head).normalized().angle(want)
+        best = min(range(-180, 180, 3), key=miss)
+        lo, hi = best - 3.0, best + 3.0
+        for _ in range(30):
+            m1, m2 = lo + (hi - lo) / 3, hi - (hi - lo) / 3
+            lo, hi = (lo, m2) if miss(m1) < miss(m2) else (m1, hi)
+        miss(weight * 0.5 * (lo + hi))                        # faded out as the elbow straightens (no pop)
 
 
 def apply_pose(result, ht, shrug_deg=0.0):
@@ -87,8 +137,9 @@ def apply_pose(result, ht, shrug_deg=0.0):
 def press_state(t):
     """Full press path at t in 0..1: (humerothoracic elevation, elbow flexion, shrug) in degrees."""
     k = _smooth(t)
-    ht = START_HT + (LOCKOUT_HT - START_HT) * k
-    elbow = START_ELBOW * (1.0 - k)
+    p = path()
+    ht = p["start_ht"] + (LOCKOUT_HT - p["start_ht"]) * k
+    elbow = p["start_elbow"] * (1.0 - k)
     shrug = SHRUG_MAX_DEG * _smooth((k - SHRUG_FROM) / (1.0 - SHRUG_FROM))
     return ht, elbow, shrug
 
@@ -102,4 +153,6 @@ def pose_press_full(result, t):
     for s in ("l", "r"):
         bench._rot(rig.pose.bones[f"forearm_{s}"], x=-elbow)
     bpy.context.view_layer.update()
+    if path()["forearm_vertical"] and elbow > 0.0:
+        _forearm_vertical(rig, _smooth(elbow / FOREARM_FADE_DEG))
     return {"humerothoracic_elevation": ht, "elbow_flexion": elbow, "shrug": shrug}

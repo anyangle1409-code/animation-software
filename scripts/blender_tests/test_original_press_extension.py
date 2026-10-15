@@ -71,5 +71,36 @@ class PressExtensionNativeTests(unittest.TestCase):
             prev = (ht, elbow, shrug)
 
 
+    def test_press_path_v2_is_opt_in_and_matches_the_reference_shape(self):
+        # v2 (owner's 7-view photo series): plane 15 deg, start 70 deg / elbow 140 deg, forearms aimed at the dumbbells just
+        # outside the shoulders; R10-R13 blends carry no scene flag and stay on v1
+        self.px.install()
+        self.assertEqual(self.px._PATH["name"], "v1")
+        bpy.context.scene["hgpt_press_path"] = "v2"
+        try:
+            self.px.install()
+            pb = self.rig.pose.bones
+            self.assertEqual(self.px.press_state(0.0)[:2], (70.0, 140.0))
+            for t in (0.0, 0.5, 1.0):
+                a = self.px.pose_press_full(self.res, t)
+                self.drives.drive(self.rig, self.body)
+                sh, el, ha = pb["upperarm_r"].head, pb["forearm_r"].head, pb["hand_r"].head
+                u = el - sh
+                self.assertAlmostEqual(math.degrees(math.atan2(-u.y, abs(u.x))), 15.0, delta=0.5)
+                for n in ("forearm", "hand"):                      # mirror-symmetric
+                    r, l = pb[f"{n}_r"].head, pb[f"{n}_l"].head
+                    self.assertLess((r - type(r)((-l.x, l.y, l.z))).length, 1e-3, (t, n))
+                if t == 0.0:
+                    self.assertGreater(ha.z, el.z + 0.2)               # hands above the elbows, by the head
+                    self.assertLess(ha.x, el.x - 0.1)                  # elbows out wider than the hands
+                    self.assertLess(abs(ha.x - (sh.x + self.px.HAND_OUT_M)), 0.05)
+            self.assertAlmostEqual(a["humerothoracic_elevation"], self.px.LOCKOUT_HT)
+        finally:
+            del bpy.context.scene["hgpt_press_path"]
+            self.px.install()
+            self.r4._S["extend"] = self.hook_default
+        self.assertEqual(self.px._PATH["name"], "v1")
+
+
 if __name__ == "__main__":
     unittest.main(argv=[__file__])

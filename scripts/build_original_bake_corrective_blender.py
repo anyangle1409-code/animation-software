@@ -114,7 +114,19 @@ def resolve_collisions(T, F, adj, iters=40, margin=0.0015, step_cap=0.002, smoot
     return T, sum(1 for a, b in tree.overlap(tree) if a < b and not (fs[a] & fs[b]))
 
 
-def build(result, targets):
+def build(result, targets, prefix=None, keys_ht=None, angles_prop="hgpt_s5_angles"):
+    """prefix / keys_ht / angles_prop default to the S5 family; R14 reuses the bake for its S6 family."""
+    global PREFIX, KEYS_HT
+    saved_family = PREFIX, KEYS_HT
+    PREFIX = prefix or PREFIX
+    KEYS_HT = keys_ht or KEYS_HT
+    try:
+        return _build(result, targets, angles_prop)
+    finally:
+        PREFIX, KEYS_HT = saved_family
+
+
+def _build(result, targets, angles_prop):
     body, rig = result["body"], result["runtime"]
     names = {g.index: g.name for g in body.vertex_groups}
     deform = [b.name for b in rig.data.bones if b.use_deform]
@@ -185,7 +197,7 @@ def build(result, targets):
                         "elevation_deg": round(angles[s][-1], 2)}
         log[str(ht)] = entry
     for s in SIDES:
-        rig[f"hgpt_s5_angles_{s}"] = list(angles[s])
+        rig[f"{angles_prop}_{s}"] = list(angles[s])
     saved = s4.PREFIX
     s4.PREFIX = PREFIX                                   # reuse the S4 press-path guard for this family
     try:

@@ -1,0 +1,111 @@
+{
+ "kind": "ORIGINAL_V1_REVIEW_CANDIDATE",
+ "candidate": "R18",
+ "status": "REVIEW_CANDIDATE_NOT_ACCEPTED",
+ "approved": false,
+ "stage": "shoulder/armpit mesh rebuild 1: edges re-routed along the folds",
+ "params": {
+  "poses": {
+   "rest": 2.0,
+   "p121": 0.5,
+   "p145": 1.0,
+   "p160": 1.0,
+   "p172": 1.0,
+   "row10": 0.5,
+   "pushup10": 0.5
+  },
+  "region_r": 0.2,
+  "min_angle_deg": 12.0,
+  "rest_dihedral_deg": 20.0
+ },
+ "mirror_coverage": 1.0,
+ "flips_per_side_by_iteration": [
+  1185,
+  211,
+  60,
+  22,
+  4,
+  0
+ ],
+ "flips_per_side": 1482,
+ "vertices": 21600,
+ "faces": 43196,
+ "folds_before": {
+  "rest": {
+   "sharp_folds": 0,
+   "bending": 130.3
+  },
+  "p121": {
+   "sharp_folds": 100,
+   "bending": 194.5
+  },
+  "p145": {
+   "sharp_folds": 157,
+   "bending": 266.4
+  },
+  "p160": {
+   "sharp_folds": 244,
+   "bending": 376.0
+  },
+  "p172": {
+   "sharp_folds": 285,
+   "bending": 461.2
+  },
+  "row10": {
+   "sharp_folds": 40,
+   "bending": 209.6
+  },
+  "pushup10": {
+   "sharp_folds": 9,
+   "bending": 137.0
+  }
+ },
+ "folds_after": {
+  "rest": {
+   "sharp_folds": 0,
+   "bending": 116.6
+  },
+  "p121": {
+   "sharp_folds": 52,
+   "bending": 143.6
+  },
+  "p145": {
+   "sharp_folds": 92,
+   "bending": 182.2
+  },
+  "p160": {
+   "sharp_folds": 131,
+   "bending": 236.8
+  },
+  "p172": {
+   "sharp_folds": 162,
+   "bending": 275.8
+  },
+  "row10": {
+   "sharp_folds": 32,
+   "bending": 188.5
+  },
+  "pushup10": {
+   "sharp_folds": 8,
+   "bending": 121.7
+  }
+ },
+ "output": {
+  "path": "R18.blend",
+  "sha256": "d69e9fb1205dd0dc918f79287d4f2d48743ed6b96fa6a4fd76f2664e3be816ae",
+  "parent": {
+   "path": "HGPT_ORIGINAL_V1_CONSOLIDATED_REVIEW_R15_CLAUDE.blend",
+   "sha256": "619d328be96484b6af2e568dc7fe786fe79276077e1755e5623b331522017192"
+  },
+  "s1_keys": [
+   "HGPT_S1_SHOULDER_l_105",
+   "HGPT_S1_SHOULDER_l_120",
+   "HGPT_S1_SHOULDER_l_145",
+   "HGPT_S1_SHOULDER_l_160",
+   "HGPT_S1_SHOULDER_r_105",
+   "HGPT_S1_SHOULDER_r_120",
+   "HGPT_S1_SHOULDER_r_145",
+   "HGPT_S1_SHOULDER_r_160"
+  ]
+ }
+}

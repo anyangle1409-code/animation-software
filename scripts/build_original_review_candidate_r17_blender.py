@@ -43,6 +43,7 @@ import original_v1_review_candidate_drives as drives  # noqa: E402
 args = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
 PREFIX = "HGPT_S7_DELT_"
 ANGLES_PROP = "hgpt_s7_angles"
+NAME = os.environ.get("S7_NAME", "R17")                          # R20: the deflate variant on R18
 KEYS_HT = tuple(float(v) for v in os.environ.get("S7_KEYS", "145,160,172").split(","))
 F_HI = float(os.environ.get("S7_F_HI", 0.8))
 COLLAPSE_RATIO = float(os.environ.get("S7_COLLAPSE", 0.3))
@@ -71,10 +72,10 @@ def _setup(blend):
         kb.value = 0.0
     drives.setup(res)
     px.install()
-    if px._PATH["name"] != "v4":
-        raise RuntimeError("R17 needs the v4 press path (R15)")
     if "hgpt_cap_fraction_ramp" in rig:
         raise RuntimeError("the parent must not carry the rejected R16 cap ramp")
+    if px._PATH["name"] != "v4":
+        raise RuntimeError("needs press path v4")
     bench._reset(rig)
     return res
 
@@ -88,6 +89,59 @@ def _areas(V, F):
             a += np.linalg.norm(np.cross(V[f[i]] - p0, V[f[i + 1]] - p0)) / 2
         out[k] = a
     return out
+
+
+DEFLATE_M = float(os.environ.get("S7_DEFLATE_M", 0.0))        # >0: deflate mode (R20): inward along the posed normal
+DEFLATE_RATIO = (0.85, 0.45)                                 # area ratio: no deflation at 0.85, full at 0.45
+DEFLATE_R = 0.16                                             # metres from the shoulder joint
+
+
+def deflate_targets(res, adj, R, F, A0):
+    """R20: at the key poses, the squashed skin around the shoulder (area ratio below DEFLATE_RATIO[0] of rest) is eased
+    inward along its posed normal by up to DEFLATE_M, scaled by how squashed it is; the field is then smoothed over the
+    mesh (FIELD_PASSES).  Lifting the bunched deltoid skin up the arm (R17) only moved it into a crease ring."""
+    import build_original_movement_benchmarks_blender as bench
+    import build_original_sculpt_corrective_blender as s4
+    body, rig = res["body"], res["runtime"]
+    out, log = {}, {}
+    nv = len(R)
+    for ht in KEYS_HT:
+        bench._reset(rig)
+        s4.press_pose(res, ht)
+        drives.drive(rig, body)
+        V, _ = bench._evaluated(body)
+        P = np.array([tuple(v) for v in V])
+        ar = _areas(P, F)
+        num, den = np.zeros(nv), np.zeros(nv)
+        N = np.zeros((nv, 3))
+        for k, f in enumerate(F):
+            n = np.cross(P[f[1]] - P[f[0]], P[f[2]] - P[f[0]])
+            for v in f:
+                num[v] += ar[k]; den[v] += A0[k]; N[v] += n
+        N /= np.maximum(np.linalg.norm(N, axis=1)[:, None], 1e-15)
+        ratio = num / np.maximum(den, 1e-12)
+        W = rig.matrix_world
+        ghp = np.array(tuple(W @ rig.pose.bones["upperarm_r"].head)), np.array(tuple(W @ rig.pose.bones["upperarm_l"].head))
+        near = np.minimum(np.linalg.norm(P - ghp[0], axis=1), np.linalg.norm(P - ghp[1], axis=1))
+        hi, lo = DEFLATE_RATIO
+        c = np.clip((hi - ratio) / (hi - lo), 0, 1) * np.clip((DEFLATE_R - near) / 0.04, 0, 1)
+        D = -N * (DEFLATE_M * c)[:, None]
+        act = set(np.where(c > 0)[0])
+        zone = set(act)
+        for _ in range(6):
+            zone |= {j for i in zone for j in adj[i]}
+        zone = list(zone)
+        for _ in range(FIELD_PASSES):
+            upd = {i: (D[i] + sum(D[j] for j in adj[i])) / (1 + len(adj[i])) for i in zone}
+            for i, x in upd.items():
+                D[i] = x
+        D *= GAIN
+        out[str(ht)] = P + D
+        mv = np.linalg.norm(D, axis=1)
+        log[str(ht)] = {"squashed_vertices": int((c > 0).sum()), "moved_gt_1mm": int((mv > 1e-3).sum()), "max_mm": round(float(mv.max()) * 1000, 1)}
+        print("S7TARGET deflate", ht, log[str(ht)])
+    bench._reset(rig)
+    return out, log
 
 
 def make_targets():
@@ -104,6 +158,13 @@ def make_targets():
     for e in body.data.edges:
         a, b = e.vertices
         adj[a].add(b); adj[b].add(a)
+    if DEFLATE_M > 0:
+        out, log = deflate_targets(res, adj, R, F, A0)
+        np.savez(get("--out"), **out)
+        Path(get("--out") + ".json").write_text(json.dumps({"mode": "deflate", "keys_ht": KEYS_HT, "deflate_m": DEFLATE_M,
+                                                            "deflate_ratio": DEFLATE_RATIO, "deflate_r": DEFLATE_R,
+                                                            "field_passes": FIELD_PASSES, "gain": GAIN, "log": log}, indent=1) + "\n")
+        return
     out, log = {}, {}
     for ht in KEYS_HT:
         surf = {}
@@ -206,8 +267,8 @@ def bake():
     for a, b in zip(before, after):
         print("R17P", a["t"], a["ht"], (a["collapse"], a["stretch"], a["pairs"], round(a["volume_pct"], 2)), "->",
               (b["collapse"], b["stretch"], b["pairs"], round(b["volume_pct"], 2)))
-    output = s1.save(res, out, get("--parent"), "R17")
-    rep = {"kind": "ORIGINAL_V1_REVIEW_CANDIDATE", "candidate": "R17", "status": "REVIEW_CANDIDATE_NOT_ACCEPTED", "approved": False,
+    output = s1.save(res, out, get("--parent"), NAME)
+    rep = {"kind": "ORIGINAL_V1_REVIEW_CANDIDATE", "candidate": NAME, "status": "REVIEW_CANDIDATE_NOT_ACCEPTED", "approved": False,
            "press_path": "v4", "family": PREFIX, "keys_ht": KEYS_HT, "targets_sha256": sha(get("--targets")),
            "targets_recipe": json.loads(Path(get("--targets") + ".json").read_text()) if Path(get("--targets") + ".json").exists() else None,
            "s7": {"log": log}, "press_path_without_s7": before, "press_path_r17": after, "output": output}

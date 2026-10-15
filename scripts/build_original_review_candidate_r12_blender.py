@@ -67,6 +67,10 @@ def make_target():
     s4.build(res)
     bench._reset(rig)
     cap.remove(rig)
+    import original_v1_hip_crease_helper as hip                  # R13+: in-memory hip helpers (no-op for R12)
+    hip.remove(rig)
+    import original_v1_muscle_line_helpers as muscle             # R14+: in-memory muscle-line helpers (no-op for R12)
+    muscle.remove(rig)
     g = body.vertex_groups.new(name="HGPT_CS_SHOULDER")
     for s in ("l", "r"):
         piv = rig.data.bones[f"upperarm_{s}"].head_local

@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "kind": "claude_master_task_ledger",
- "updated": "2026-10-15 (R14 shoulder press: path v2, shoulder-top gradient, muscle-line helpers)",
+ "updated": "2026-10-15 (press lockout: skeleton fixed R15; shoulder edges re-routed R18)",
  "owner_rules": "skeleton is source of truth; no frozen-skeleton change without owner decision; no merge; no approval claims; no third-party assets",
  "environment": "cloud Linux container (Blender 5.2.1 as Python module); not the owner's Windows laptop; no battery telemetry available, protection = commit/push after every task",
  "branches": {
@@ -10,7 +10,7 @@
   "w_guides": "claude/functional-original-shoulder-correction-20261013 (draft PR #111)",
   "w_correctives": "claude/functional-shoulder-coupled-corrective-20261013",
   "movement": "claude/movement-benchmarks-20261013 (draft PR #113) head 359c8865",
-  "review_r1": "claude/original-v1-consolidated-review-20261014 head 9f44804e (R1-R14)"
+  "review_r1": "claude/original-v1-consolidated-review-20261014 head 523f2f57 (R1-R18)"
  },
  "tasks": [
   {
@@ -552,6 +552,24 @@
    "evidence": "docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R14_20261015.md; R14 4/4, movement 15/15, press ext 5/5, R12 6/6, R13 6/6",
    "open": "lockout back crease, rounded mass behind arm root, front-armpit fold lines; start-pose overlaps 196-226 pairs (cause not isolated)",
    "blocked_on": "owner: shoulder/axilla mesh rebuild (topology + spare skin; contract item), body build/posture, MoBL-ARMS licence (non-commercial; not used)"
+  },
+  {
+   "id": "SP15",
+   "description": "press lockout skeleton: clavicle swung forward (axial turn applied after elevation, cone); scapula 20 deg short of the arm line (owner: 'should end up like a Y')",
+   "priority": 1,
+   "status": "TESTED",
+   "result": "press path v3/v4: clavicle axial turn first (retraction 7 -> 22 deg, GH 5 -> 0.8 cm forward); +15 deg scapular upward rotation over 120-172 deg (humerus vs scapular spine 20 -> 8 deg). R15 = R14 recipe on v4: lockout 0 pairs / 4 collapse; benchmarks = R14",
+   "evidence": "docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R15_20261015.md; R15 5/5",
+   "coordination": "coupled.clavicle_basis composition order affects every movement (Work's module) - raised on PR #26"
+  },
+  {
+   "id": "SP16",
+   "description": "lockout lump behind the shoulder + crinkles at the arm root (owner circled both)",
+   "priority": 1,
+   "status": "PARTIAL",
+   "result": "R18: shoulder edges re-routed along the folds (vertices/weights/keys identical): lockout sharp folds 285 -> 162, benchmarks no worse. Rejected with measurements: cap-fraction ramp R16 (crush), inner cap hand-back, lift corrective R17 (crease ring), rest-vault spare skin (stretch up), R19 re-bake (folds back), deflate corrective (thins arm)",
+   "evidence": "docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R18_20261015.md; R18 3/3",
+   "blocked_on": "owner: lump needs (1) a hand-sculpted lockout corrective (artist) or (2) re-binding the body in a raised-arm rest shape (runtime-contract change)"
   }
  ]
 }

@@ -154,3 +154,24 @@ R13 adds two more in-memory joints (`hip_crease_l/r`) and 10 more pose-space key
 | Push-up | 196 → 170 | 44 → 2 |
 
 **What is left in the deadlift:** only its bottom position (t = 0.875–1), where the abdomen meets the thigh. Penetration depth at t = 1 is 4 mm median, 11 mm at the 90th percentile and 25 mm maximum.
+
+## Deadlift bottom: contact solve attempted, not solved (15 Oct)
+
+**What remains:** the deadlift's bottom position (t = 0.875–1) is R13's last large overlap, at 238–293 self-intersecting pairs. It is abdomen (spine_01) against the front of the thigh, plus folds inside the hip-crease band. The deadlift start is solved at **135.5° hip flexion**. That is above the CDC passive mean of 130.4° (already a recorded benchmark finding: with the hip limited to the mean, no flat-back start exists for this body at a 225 mm bar).
+
+**Three contact-solve attempts on the posed target surfaces, all rejected:**
+
+| Method | Result at t = 0.875 / 1.0 |
+|---|---|
+| Face-plane push-out (the S5 `resolve_collisions`) | diverges: 358–500 pairs |
+| Two-layer contact (abdomen layer / thigh layer by thigh-following weight), halfway push, diffused | diverges: 368 / 485 pairs, 63 mm pushes; the layers join at the crease, so "inside" is ambiguous there |
+| Same, restricted to the intersecting zone + 2–4 rings | 294–330 / 400–439 pairs |
+
+**Not tried properly:**
+- A wider stance (hips abducted, knees out). The quick probe broke the solved bar position, so this needs the deadlift start re-solved with a stance width.
+- Moderate lumbar flexion.
+
+**Options (owner):**
+- **(a)** Accept the deadlift bottom as real tissue contact.
+- **(b)** Redefine the deadlift start (stance width and/or a little lumbar flexion, re-solved so the bar stays over mid-foot at 225 mm). That lowers the hip flexion below the passive mean.
+- **(c)** A real-time contact deformer: a runtime-contract item (Lane G).

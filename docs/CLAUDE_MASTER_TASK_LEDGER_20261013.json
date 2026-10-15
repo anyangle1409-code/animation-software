@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "kind": "claude_master_task_ledger",
- "updated": "2026-10-15 (push-up thumb pose fix)",
+ "updated": "2026-10-15 (squat/deadlift arm carriage; deadlift contact options)",
  "owner_rules": "skeleton is source of truth; no frozen-skeleton change without owner decision; no merge; no approval claims; no third-party assets",
  "environment": "cloud Linux container (Blender 5.2.1 as Python module); not the owner's Windows laptop; no battery telemetry available, protection = commit/push after every task",
  "branches": {
@@ -10,7 +10,7 @@
   "w_guides": "claude/functional-original-shoulder-correction-20261013 (draft PR #111)",
   "w_correctives": "claude/functional-shoulder-coupled-corrective-20261013",
   "movement": "claude/movement-benchmarks-20261013 (draft PR #113) head 359c8865",
-  "review_r1": "claude/original-v1-consolidated-review-20261014 head af734880 (R1-R13 + push-up thumb pose)"
+  "review_r1": "claude/original-v1-consolidated-review-20261014 head 1b8db42e (R1-R13 + corrected push-up/squat/deadlift poses)"
  },
  "tasks": [
   {
@@ -526,6 +526,22 @@
    "result": "all 44 pairs in the thumb web, caused by the benchmark pose (40 deg CMC extension pressed thumb metacarpal into index); PUSHUP thumb_axial 10 deg (mirrored) -> R13 push-up 2 pairs (shoulder-cap single faces), stretch 71->75 (thumb web, palmar wrist, shoulder cap); a003 196->170; no body asset changed",
    "evidence": "docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R13_20261015.md (push-up section); test_original_movement_benchmarks.py 14/14",
    "next": "port the pose fix to the movement branch (PR #113) if the owner agrees"
+  },
+  {
+   "id": "HC1",
+   "description": "hand-thigh contact in squat (R13 120 pairs, t 0.125-0.5) and deadlift (t 0-0.625)",
+   "priority": 2,
+   "status": "TESTED",
+   "result": "benchmark poses: _carry_arms 4 deg (H1 value) about thorax AP axis; squat ramped over first quarter, deadlift throughout; R13 squat 120 -> 0, deadlift 295 -> 293 (bottom only); deadlift start test moved to the carriage group (0 pairs, |vol|<0.5%)",
+   "evidence": "docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R13_20261015.md; movement 15/15, knee 8/8, helper ref 4/4, R13 6/6"
+  },
+  {
+   "id": "DL1",
+   "description": "deadlift bottom abdomen/thigh contact (R13 238-293 pairs at t 0.875-1; hip flexion 135.5 > CDC passive mean 130.4)",
+   "priority": 2,
+   "status": "BLOCKED",
+   "result": "three contact solves on the posed target (face-plane push-out, two-layer contact, zone-restricted two-layer) all diverge",
+   "blocked_on": "owner: (a) accept as tissue contact, (b) redefine the deadlift start (stance width / lumbar flexion, re-solved), (c) runtime contact deformer (Lane G)"
   }
  ]
 }

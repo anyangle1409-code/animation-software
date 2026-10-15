@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "kind": "claude_master_task_ledger",
- "updated": "2026-10-15 (R24: press-lockout skin slide)",
+ "updated": "2026-10-15 (R25: press-lockout arm-root crease)",
  "owner_rules": "skeleton is source of truth; no frozen-skeleton change without owner decision; no merge; no approval claims; no third-party assets",
  "environment": "cloud Linux container (Blender 5.2.1 as Python module); not the owner's Windows laptop; no battery telemetry available, protection = commit/push after every task",
  "branches": {
@@ -10,7 +10,7 @@
   "w_guides": "claude/functional-original-shoulder-correction-20261013 (draft PR #111)",
   "w_correctives": "claude/functional-shoulder-coupled-corrective-20261013",
   "movement": "claude/movement-benchmarks-20261013 (draft PR #113) head 359c8865",
-  "review_r1": "claude/original-v1-consolidated-review-20261014 (R1-R24)"
+  "review_r1": "claude/original-v1-consolidated-review-20261014 (R1-R25)"
  },
  "tasks": [
   {
@@ -567,9 +567,9 @@
    "description": "lockout lump behind the shoulder + crinkles at the arm root (owner circled both)",
    "priority": 1,
    "status": "TESTED",
-   "result": "R18: shoulder edges re-routed along the folds (vertices/weights/keys identical): lockout sharp folds 285 -> 162, benchmarks no worse. Rejected with measurements: cap-fraction ramp R16 (crush), inner cap hand-back, lift corrective R17 (crease ring), rest-vault spare skin (stretch up), R19 re-bake (folds back), deflate corrective (thins arm); R24: lockout skin-slide corrective (faired ball + surface-walking slide, S7 keys from 130 deg): press collapse/pairs 0 above 130 deg, lockout stretch 314 -> 100, ball behind the shoulder gone, arm-root kink mostly gone; benchmarks = R18 (shoulder_press better)",
-   "evidence": "docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R24_20261015.md; R24 3/3",
-   "next": "owner review of R24; watch: faint ring 156-161 deg, armpit notch, front chest folds, -2.2 % volume at lockout"
+   "result": "R18: shoulder edges re-routed along the folds (vertices/weights/keys identical): lockout sharp folds 285 -> 162, benchmarks no worse. Rejected with measurements: cap-fraction ramp R16 (crush), inner cap hand-back, lift corrective R17 (crease ring), rest-vault spare skin (stretch up), R19 re-bake (folds back), deflate corrective (thins arm); R24: lockout skin-slide corrective (faired ball + surface-walking slide, S7 keys from 130 deg): press collapse/pairs 0 above 130 deg, lockout stretch 314 -> 100, ball behind the shoulder gone, arm-root kink mostly gone; benchmarks = R18 (shoulder_press better); owner on R24: still creasing at the arm root -> R25: corner on the back of the upper arm faired, pocket floor lifted, crushed triangles pushed open in the slide (bake within 3.1 mm of target): sharp folds 164 -> 92, lockout stretch 314 -> 91, benchmarks = R18",
+   "evidence": "docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R25_20261015.md; R25 3/3",
+   "next": "owner review of R25; watch: small curl at the pocket end by the neck, faint texture on the shoulder top, -2.8 % volume at lockout"
   }
  ]
 }

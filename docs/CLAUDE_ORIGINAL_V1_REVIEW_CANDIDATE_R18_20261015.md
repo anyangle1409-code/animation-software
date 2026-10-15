@@ -142,3 +142,23 @@ Map: `renders/r15_lockout_stretch_squash_fold_map.jpg`. Region: right shoulder, 
 - Meanwhile the armpit and the side of the chest are short of skin (`renders/r15_lockout_stretch_squash_fold_map.jpg`).
 - Real skin slides from the one to the other.
 - The remaining procedural route is a lockout corrective that slides the skin along a smoothed shoulder shape from the squashed deltoid into the stretched armpit.
+
+**Skin-slide target** (smoothed shoulder shape plus an area-equalising tangential slide, at 172°, on R18). **Not adopted.**
+
+| Step | Squashed (< 0.6) | Pairs | Notes |
+|---|---|---|---|
+| Unchanged | 2,800 | 0 | baseline |
+| Taubin smoothing alone (10 passes) | 3,194 | 0 | stretch > 2: 255 → 533 (a smoother shape holds less area) |
+| Slide alone (60 steps) | 2,540 | 2,360 | |
+
+- **Why the slide fails:** snapping back to the surface jumps across creases (the nearest point is on the other side of the fold).
+- **What would work instead:** a surface-parametrised slide. That is open research-level work.
+
+## Status
+
+- **R18 stays the current best** for the press lockout.
+- **The lump / arm-root kink stays open.** The evidence across all of the above is that the deltoid region holds more skin than the lockout shape can take, and every automatic way of reshaping or moving it has failed in a measured way.
+- **Remaining routes, owner's choice:**
+  1. a hand-sculpted lockout corrective (a small, well-defined freelance job; the slot, driver and guide maps can be prepared);
+  2. the surface-parametrised skin slide (uncertain);
+  3. park the shoulder and continue with other movements.

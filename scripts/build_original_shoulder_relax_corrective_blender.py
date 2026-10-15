@@ -473,7 +473,7 @@ def save(result, out, parent, name="R2"):
     view.objects.active = rig; rig.select_set(True)
     bpy.ops.object.mode_set(mode="EDIT")
     for s in SIDES:
-        for helper in (f"deltoid_helper_{s}", f"shoulder_cap_{s}", f"axilla_{s}"):   # in-memory helpers (R1, R8, R9)
+        for helper in (f"deltoid_helper_{s}", f"shoulder_cap_{s}", f"axilla_{s}", f"hip_crease_{s}"):   # in-memory helpers
             if helper in rig.data.edit_bones:
                 rig.data.edit_bones.remove(rig.data.edit_bones[helper])
     bpy.ops.object.mode_set(mode="OBJECT")

@@ -172,6 +172,8 @@ def setup(result):
     import original_v1_shoulder_cap_helper as cap        # R8: shoulder-cap helper joint (no-op without its rig data)
     cap.install(result["runtime"])
     cap.install_axilla(result["runtime"])              # R9: armpit helper joint (no-op without its rig data)
+    import original_v1_hip_crease_helper as hip         # R13: hip-crease helper joint (no-op without its rig data)
+    hip.install(result["runtime"])
 
 
 C1_PREFIX = "HGPT_C1_ARMTRUNK_"
@@ -209,6 +211,9 @@ def drive(rig, body):
     import original_v1_shoulder_cap_helper as cap
     cap.drive(rig)
     cap.drive_axilla(rig)
+    import original_v1_hip_crease_helper as hip
+    hip.drive(rig)
     drive_k1(rig, body)
     drive_s1(rig, body)
+    hip.drive_h1(rig, body)
     drive_c1(rig, body)

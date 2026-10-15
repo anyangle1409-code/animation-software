@@ -184,3 +184,32 @@ The body's muscle volume is also much smaller than the reference's.
 - **Next:** re-bake along v3 as R15.
 
 **Scope.** The same composition order is used for every movement that drives the clavicle through the coupled profile (row, push-up and the benchmarks). Changing it there is a Work / runtime-contract item, raised on PR #26.
+
+## The Y shape at lockout (press path v4)
+
+**Owner:** "In this pose it should basically end up like a Y shape."
+
+**Evidence.** At full elevation the humeral shaft lines up with the spine of the scapula (Saha's "zero position"). Seen from behind, the arm continues the line of the scapula.
+
+**Measured on R14 (v2) and v3 at lockout:** the humerus is 20–22° beyond the scapular spine, in the blade plane. The scapula stops rotating upward about 20° early, so the arm hinges at the glenoid and forms a T.
+
+**v4 = v3 + extra scapular upward rotation** over 120 → 172°:
+
+| Extra rotation | Humerus vs scapular spine | Scapular internal rotation | Contact residual (TS / AI) | Verdict |
+|---|---|---|---|---|
+| 0° (v3) | 20° | −7° | 0 / 28 mm | baseline |
+| 10° | 10.5° | −8° | 12 / 56 mm | works |
+| **15° (default)** | **7.9°** | **−2°** | **27 / 66 mm** | **default** |
+| 20° | 21° | 54° | 78 / 36 mm | **rejected:** the R4 contact solve jumps to a wrong branch |
+| 20°, internal-rotation penalty 0.1 | 11° | 12° | 47 / 70 mm | rejected |
+
+- The contact residual is the change in distance of the medial border (TS) and inferior angle (AI) from the thorax ellipsoid. It grows with the extra rotation: the blade lifts off the coarse ellipsoid.
+
+**What the skin does** (`diagnosis/lockout_Y_baked_shapes_on_off.jpg`):
+- With R14's baked S5 shapes on, the v4 skeleton still shows the horizontal shelf and the step at the arm root.
+- With them off, the back forms the Y: the slope from the neck runs straight up into the arms.
+- The S5 shapes were baked along v2, so on this skeleton they make the shelf. This leads to R15: the same recipe re-baked along v4.
+
+**Skin binding** (`diagnosis/lockout_skin_binding_by_bone.jpg`):
+- The shoulder cap is bound to the clavicle, and the back over the blade carries almost no scapula weight.
+- **Rejected:** handing the clavicle weight lateral of 30–50 % of the clavicle to the scapula. Both variants (2,856 and 3,214 vertices) crumple the deltoid.

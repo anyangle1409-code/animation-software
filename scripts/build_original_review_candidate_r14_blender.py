@@ -43,6 +43,7 @@ if "--make-target" in sys.argv:
 
 args, get = r12.args, r12.get
 PRESS_PATH = "v2"
+NAME = "R14"                 # R15 re-uses these steps with PRESS_PATH = "v4"
 DROP = ("HGPT_S4_SCULPT_", "HGPT_S5_BAKE_")
 
 
@@ -107,7 +108,7 @@ def bake():
     drives.setup(res)
     px.install()
     if px._PATH["name"] != PRESS_PATH:
-        raise RuntimeError("the R14 base must be on press path v2")
+        raise RuntimeError(f"the {NAME} base must be on press path {PRESS_PATH}")
     bench._reset(rig)
     V0, F = bench._evaluated(body)
     dom = bench.dominant_groups(body)
@@ -145,9 +146,9 @@ def bake():
     for a, b in zip(before, after):
         print("R14P", a["t"], a["ht"], (a["collapse"], a["stretch"], a["pairs"], round(a["volume_pct"], 2)), "->",
               (b["collapse"], b["stretch"], b["pairs"], round(b["volume_pct"], 2)))
-    output = s1.save(res, out, parent, "R14")
+    output = s1.save(res, out, parent, NAME)
     output["base_blend_sha256"] = sha(blend)
-    rep = {"kind": "ORIGINAL_V1_REVIEW_CANDIDATE", "candidate": "R14", "status": "REVIEW_CANDIDATE_NOT_ACCEPTED", "approved": False,
+    rep = {"kind": "ORIGINAL_V1_REVIEW_CANDIDATE", "candidate": NAME, "status": "REVIEW_CANDIDATE_NOT_ACCEPTED", "approved": False,
            "press_path": PRESS_PATH, "press_path_params": px.PATHS[PRESS_PATH], "dropped_families": DROP,
            "target_recipe": {"s4_env": {**r12.TARGET_ENV, **R14_TARGET_ENV}, "corrective_smooth": r12.CS}, "bake_env": r12.BAKE_ENV,
            "targets_sha256": sha(get("--targets")), "s5": {"keys_ht": s5.KEYS_HT, "log": log},

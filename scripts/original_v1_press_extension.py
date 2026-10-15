@@ -39,6 +39,15 @@ PATHS = {"v1": {"plane_deg": None, "forearm_vertical": False, "start_ht": START_
 # after the elevation, about the REST shaft line, so it swings the elevated clavicle around a cone - measured on R14 at
 # lockout: retraction 7 deg instead of 22.6 (the AC joint, scapula and glenoid come ~15 deg forward over the arm).
 PATHS["v3"] = dict(PATHS["v2"], clavicle_axial_first=True)
+# Press path v4 (owner: "In this pose it should basically end up like a Y shape"): v3 + extra scapular upward rotation over
+# the top of the lift so that at lockout the humerus lines up with the spine of the scapula (Saha's "zero position": at full
+# elevation the humeral shaft and the scapular spine are collinear - the arm continues the line of the scapula, the Y seen
+# from behind).  Measured on R14 (v2/v3): the humerus is 20-22 deg beyond the scapular spine, in the blade plane, at lockout.
+# 15 deg (default): humerus 7-8 deg from the scapular spine at lockout, scapular internal rotation stays -2 deg; 20 deg flips the
+# R4 contact solve onto a wrong branch (internal rotation 54 deg) - recorded in the R14 doc.
+Y_ALIGN_DEG = float(__import__("os").environ.get("PRESS_Y_ALIGN_DEG", 15.0))
+Y_ALIGN_FROM_HT = 120.0
+PATHS["v4"] = dict(PATHS["v3"], y_align_deg=Y_ALIGN_DEG)
 _PATH = {"name": "v1"}
 FOREARM_FADE_DEG = 30.0
 HAND_OUT_M = float(__import__("os").environ.get("PRESS_V2_HAND_OUT", 0.08))   # v2 hand target: this far lateral of the GH joint           # v2: the forearm-vertical turn is full above this elbow flexion, fading to 0 at lockout
@@ -76,6 +85,8 @@ def extend(result, profile, ht):
     for k, v in EXT_PER_20_DEG.items():
         p[k] = profile[k] + v * extra
     p["clavicle_elevation_deg"] += shrug
+    if path().get("y_align_deg"):
+        p["scapula_upward_rotation_deg"] += path()["y_align_deg"] * _smooth((ht - Y_ALIGN_FROM_HT) / (LOCKOUT_HT - Y_ALIGN_FROM_HT))
     p["ht_elevation_deg"] = float(ht)
     p["press_extension"] = {"beyond_160_deg": round(ht - 160.0, 2) if ht > 160 else 0.0, "shrug_deg": shrug}
     rig = result["runtime"]

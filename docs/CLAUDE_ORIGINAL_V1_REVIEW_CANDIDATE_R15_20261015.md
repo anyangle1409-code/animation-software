@@ -68,3 +68,26 @@ Owner: "I'm not sure the deforming is in the right place here".
 - At 0.8 the skin would have to hinge about 88° within a few centimetres around the cap's edge.
 
 **Next: R17**, a lockout deltoid corrective (option 1, approved by the owner). `build_original_review_candidate_r17_blender.py`
+
+## R17: lockout deltoid corrective (option 1), not adopted
+
+**Method** (`build_original_review_candidate_r17_blender.py`, family `HGPT_S7_DELT_`, keys at 145/160/172°, active from 130°): R15 plus a pose-space corrective. Its target is the higher-follow surface (cap 0.8), used only where that surface does not crush. Steps:
+- The vertices of faces whose area falls below 0.3 of rest, or that cross other faces, are held at zero (with 4 rings).
+- The displacement is smoothed over the mesh (60 passes) and scaled ×1.6.
+- It is baked with the S5 machinery and guards, including the benchmark path.
+
+**Tried on the way:**
+- A masked blend of the two surfaces tore at the arm root, giving jagged creases.
+- Smoothing the displacement fixed the tearing but halved the lift (51 → 23 mm).
+- A gain of ×2.2 put crease rings on the upper arm.
+
+**Result along the press path:**
+- Identical to R15 below 130°.
+- No new self-intersecting pairs or collapse anywhere.
+- Stretch above 150° goes up: 300 → 483 at lockout.
+
+**Visual** (`diagnosis/r17_lockout_deltoid_corrective_vs_r15.jpg`):
+- The lump behind the shoulder is only slightly smaller.
+- A new crease ring appears around the upper arm at the lower edge of the deltoid.
+
+**Not adopted.** A pose-space corrective on this mesh can only push the skin that is there. The lump is excess skin with nowhere to go, because the shoulder/axilla mesh has no spare skin and no loops along the folds. This is the evidence for option 2, the shoulder/axilla mesh rebuild, which is an owner decision and a runtime-contract item.

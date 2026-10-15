@@ -1,0 +1,107 @@
+{
+ "mode": "skin slide",
+ "taubin": 10,
+ "lump_passes": 200,
+ "lump_off": "0,0.04,-0.02",
+ "lump_r": "0.06,0.10",
+ "zones": "250:0.03,0.025,0.08:0.03,0.11;-300:-0.08,0.033,-0.013:0.025,0.08",
+ "blend_passes": 20,
+ "untangle_iters": 0,
+ "guard_zones": false,
+ "crush_w": 100.0,
+ "deltoid_bump": "0.015:0.04,0.0,0.06:0.11,0.07",
+ "fair": "-0.095,0.07,-0.035:0.055",
+ "postfair": "-0.095,0.07,-0.035:0.055;-0.017,-0.058,0.035:0.025",
+ "arm_restore": "",
+ "arm_uns5": "",
+ "arm_inflate": "",
+ "elbow_fair": "1:-27,-21,16,22:1.0",
+ "elbow_mode": "tube",
+ "postzones": "",
+ "post_slide": 30,
+ "post_slide2": 0,
+ "arm_key_gain": "145:0.5",
+ "tube": {
+  "TUBE_A": "14,20",
+  "TUBE_B": "-23,-19",
+  "TUBE_ITERS": "3",
+  "TUBE_RELAX": "80",
+  "TUBE_FILLROOT": "-18,-12",
+  "ARM_WMIN": "0.15",
+  "ELBOW_SMOOTH": "15",
+  "TUBE_ROOT_SCALE": "1.2"
+ },
+ "slide_iters": 100,
+ "eta": 0.3,
+ "region": [
+  0.14,
+  0.19
+ ],
+ "keys_ht": [
+  145.0,
+  160.0,
+  172.0
+ ],
+ "log": {
+  "145.0": {
+   "collapse": [
+    0,
+    0
+   ],
+   "squash<0.6": [
+    1740,
+    2100
+   ],
+   "stretch>1.5": [
+    969,
+    466
+   ],
+   "stretch>2": [
+    140,
+    4
+   ],
+   "pairs": 0,
+   "max_move_mm": 34.9
+  },
+  "160.0": {
+   "collapse": [
+    2,
+    0
+   ],
+   "squash<0.6": [
+    2144,
+    2426
+   ],
+   "stretch>1.5": [
+    1069,
+    704
+   ],
+   "stretch>2": [
+    210,
+    22
+   ],
+   "pairs": 0,
+   "max_move_mm": 34.2
+  },
+  "172.0": {
+   "collapse": [
+    0,
+    0
+   ],
+   "squash<0.6": [
+    2800,
+    3176
+   ],
+   "stretch>1.5": [
+    1137,
+    802
+   ],
+   "stretch>2": [
+    255,
+    40
+   ],
+   "pairs": 0,
+   "max_move_mm": 32.5
+  }
+ }
+}

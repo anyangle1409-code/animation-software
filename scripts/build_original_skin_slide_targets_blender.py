@@ -368,6 +368,9 @@ for ht in KEYS:
                     return ((lo + hi) / 2, np.percentile(u_[m_], 95), -np.percentile(u_[m_], 5),
                             np.percentile(v_[m_], 95), -np.percentile(v_[m_], 5))
                 A_, B_ = anchor(*ta_), anchor(*tb_)
+                # R28: widen the column's root end (owner reference: the upper arm is thicker near the shoulder than R27's)
+                rs_ = float(os.environ.get("TUBE_ROOT_SCALE", 1.0))
+                B_ = (B_[0],) + tuple(e * rs_ for e in B_[1:])
                 lam = np.clip((fr[cand] - B_[0]) / (A_[0] - B_[0]), -0.2, 1.2)
                 edge = [B_[q] + lam * (A_[q] - B_[q]) for q in range(1, 5)]   # straight lines between the anchors
                 for _it in range(int(os.environ.get("TUBE_ITERS", 1))):   # repeat: the smoothed move falls short of the lines
@@ -462,6 +465,44 @@ for ht in KEYS:
         # R27b: a short second skin slide after the arm column fit, so the triangles it squeezed at the arm root are spread
         # back out (the column fit left 3 crushed triangles / 2 crossing pairs - measured)
         X = walkslide.slide(X, Fa, A0, idx, wfree, iters=int(os.environ["POST_SLIDE"]), eta=ETA, log=[], crush_w=float(os.environ.get("CRUSH_W", 0)))
+    for zone in [z for z in os.environ.get("POSTZONES", "").split(";") if z]:
+        # R28 (owner reference: the arm meets the trapezius in a soft rounded U at the base of the neck; R27 has a flat
+        # floor with two sharp corners - measured): after everything else, concave skin in each zone "passes:x,y,z:r0,r1"
+        # (offset from the posed shoulder joint, x outward) is lifted along its normal only, so the corners fill into a
+        # fillet while flat or convex skin stays put
+        parts_ = zone.split(":"); np_, o_, r_ = parts_[:3]; off4 = np.array([float(x) for x in o_.split(",")]); q0, q1 = (float(x) for x in r_.split(","))
+        nrad = float(parts_[3]) if len(parts_) > 3 else 0.0     # >0: neighbourhood = all skin within nrad m (corner-sized)
+        w4 = np.zeros(nv)
+        for s_ in "rl":
+            sg = 1.0 if s_ == "r" else -1.0
+            gh_ = np.array(tuple(W @ rig.pose.bones[f"upperarm_{s_}"].head))
+            dd = np.linalg.norm(X - (gh_ + np.array([off4[0] * sg, off4[1], off4[2]])), axis=1)
+            x_ = np.clip((dd - q0) / (q1 - q0), 0, 1); w4 = np.maximum(w4, 1 - x_ * x_ * (3 - 2 * x_))
+        z4 = np.where(w4 > 0)[0]
+        for _ in range(abs(int(np_))):                 # (sign ignored: always normal-only here)
+            Fn = np.cross(X[Fa[:, 1]] - X[Fa[:, 0]], X[Fa[:, 2]] - X[Fa[:, 0]])
+            vn_ = np.zeros_like(X)
+            for c_ in range(3):
+                np.add.at(vn_, Fa[:, c_], Fn)
+            vn_ = vn_[z4] / np.maximum(np.linalg.norm(vn_[z4], axis=1)[:, None], 1e-15)
+            if nrad > 0:
+                # the one-ring umbrella only sees mm-scale creases; the arm/neck corner is cm-sized (measured: 800 passes
+                # moved it < 0.5 mm), so compare each point with the mean of all skin within nrad
+                if _ % 10 == 0:
+                    from mathutils.kdtree import KDTree
+                    kd = KDTree(len(X))
+                    for i_, p_ in enumerate(X): kd.insert(p_, i_)
+                    kd.balance()
+                    ball = [np.array([j for (_c, j, _d) in kd.find_range(X[i], nrad)]) for i in z4]
+                L = np.array([X[b_].mean(0) - X[i] for i, b_ in zip(z4, ball)])
+            else:
+                L = np.array([X[nbr[i]].mean(0) - X[i] for i in z4])
+            h_ = (L * vn_).sum(1)
+            X[z4] += (0.5 * np.maximum(h_, 0.0) * w4[z4])[:, None] * vn_
+            if os.environ.get("ELBOW_DEBUG") and _ in (0, abs(int(np_)) - 1):
+                print("PZDBG pass", _, "zone n", len(z4), "h mm max %.2f min %.2f, n concave %d" % (h_.max() * 1000, h_.min() * 1000, (h_ > 0).sum()))
+    if int(os.environ.get("POST_SLIDE2", 0)) > 0:
+        X = walkslide.slide(X, Fa, A0, idx, wfree, iters=int(os.environ["POST_SLIDE2"]), eta=ETA, log=[], crush_w=float(os.environ.get("CRUSH_W", 0)))
     if P_noS5 is not None:
         # cancel the S5 bake over the middle of the upper arm only (trapezoid window along the arm, arm skinning weight)
         a0, a1, a2, a3 = (float(x) for x in os.environ["ARM_UNS5"].split(","))
@@ -482,7 +523,7 @@ for ht in KEYS:
     if ht == KEYS[-1]:
         np.save(out + "/P172.npy", P)
 np.savez(out + "/targets.npz", **out_t)
-import json; json.dump({"mode": "skin slide", "taubin": TAUB, "lump_passes": int(os.environ.get("LUMP", 0)), "lump_off": os.environ.get("LUMP_OFF", "0,0.04,-0.02"), "lump_r": os.environ.get("LUMP_R", "0.06,0.10"), "zones": os.environ.get("ZONES", ""), "blend_passes": int(os.environ.get("BLEND", 0)), "untangle_iters": int(os.environ.get("UNTANGLE", 0)), "guard_zones": os.environ.get("GUARD_ZONES", "1") == "1", "crush_w": float(os.environ.get("CRUSH_W", 0)), "deltoid_bump": os.environ.get("DELT_BUMP", ""), "fair": os.environ.get("FAIR", ""), "postfair": os.environ.get("POSTFAIR", ""), "arm_restore": ARM_RESTORE, "arm_uns5": os.environ.get("ARM_UNS5", ""), "arm_inflate": os.environ.get("ARM_INFLATE", ""), "elbow_fair": os.environ.get("ELBOW_FAIR", ""), "elbow_mode": os.environ.get("ELBOW_MODE", "hull"), "slide_iters": SLIDE, "eta": ETA, "region": [RIN, ROUT], "keys_ht": KEYS, "log": {str(k): v for k, v in logs.items()}}, open(out + "/targets.npz.json", "w"), indent=1)
+import json; json.dump({"mode": "skin slide", "taubin": TAUB, "lump_passes": int(os.environ.get("LUMP", 0)), "lump_off": os.environ.get("LUMP_OFF", "0,0.04,-0.02"), "lump_r": os.environ.get("LUMP_R", "0.06,0.10"), "zones": os.environ.get("ZONES", ""), "blend_passes": int(os.environ.get("BLEND", 0)), "untangle_iters": int(os.environ.get("UNTANGLE", 0)), "guard_zones": os.environ.get("GUARD_ZONES", "1") == "1", "crush_w": float(os.environ.get("CRUSH_W", 0)), "deltoid_bump": os.environ.get("DELT_BUMP", ""), "fair": os.environ.get("FAIR", ""), "postfair": os.environ.get("POSTFAIR", ""), "arm_restore": ARM_RESTORE, "arm_uns5": os.environ.get("ARM_UNS5", ""), "arm_inflate": os.environ.get("ARM_INFLATE", ""), "elbow_fair": os.environ.get("ELBOW_FAIR", ""), "elbow_mode": os.environ.get("ELBOW_MODE", "hull"), "postzones": os.environ.get("POSTZONES", ""), "post_slide": int(os.environ.get("POST_SLIDE", 0)), "post_slide2": int(os.environ.get("POST_SLIDE2", 0)), "arm_key_gain": os.environ.get("ARM_KEY_GAIN", ""), "tube": {k: os.environ.get(k, "") for k in ("TUBE_A", "TUBE_B", "TUBE_ITERS", "TUBE_RELAX", "TUBE_FILLROOT", "ARM_WMIN", "ELBOW_SMOOTH", "TUBE_ROOT_SCALE")}, "slide_iters": SLIDE, "eta": ETA, "region": [RIN, ROUT], "keys_ht": KEYS, "log": {str(k): v for k, v in logs.items()}}, open(out + "/targets.npz.json", "w"), indent=1)
 # render 172
 scene = bpy.context.scene
 for o in scene.objects:

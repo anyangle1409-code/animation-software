@@ -67,10 +67,81 @@ def fair_fill(S, spec, wfree):
             sol, *_ = np.linalg.lstsq(A_, rhs, rcond=None)
             S[inner] = sol
     return S
+# R26b (owner, on R26: "check the shape of the arm in the upright position"): the same upper-arm vertices sit ~5 mm closer
+# to the arm's axis at lockout than at rest over the middle third (S5 bake mostly, S7 partly; measured with the keys toggled),
+# so the arm narrows between the deltoid cap and the elbow.  ARM_RESTORE="gain:f0,f1,f2,f3" moves those vertices radially
+# back towards their rest distance from the shoulder-elbow axis, in a trapezoid window along the arm (fractions of the
+# upper-arm length), weighted by their arm skinning weight.  Applied last, after the slide.
+ARM_RESTORE = os.environ.get("ARM_RESTORE", "")
+arm_rest = {}
+arm_w = {}
+arm_cyl = {}
+if os.environ.get("ELBOW_FAIR") and os.environ.get("ELBOW_MODE") == "rest":
+    # rest pose: each arm vertex's position along the arm (cm from the elbow), angle round it and radius from the
+    # shoulder-wrist line - the target shape is a smooth fit of the RESTING arm (a steady taper, measured)
+    bench._reset(rig); drives.drive(rig, body)
+    Vr2, _ = bench._evaluated(body); Pr2 = np.array([tuple(v) for v in Vr2])
+    for s_ in "rl":
+        gh_ = np.array(tuple(W @ rig.pose.bones[f"upperarm_{s_}"].head)); el_ = np.array(tuple(W @ rig.pose.bones[f"forearm_{s_}"].head))
+        wr_ = np.array(tuple(W @ rig.pose.bones[f"forearm_{s_}"].tail))
+        ax0 = (wr_ - gh_) / np.linalg.norm(wr_ - gh_)
+        rel = Pr2 - gh_; t0 = rel @ ax0; perp0 = rel - t0[:, None] * ax0
+        ref = np.array([0.0, -1.0, 0.0]) - (-ax0[1]) * ax0; ref /= np.linalg.norm(ref); ref2 = np.cross(ax0, ref)
+        arm_cyl[s_] = ((t0 - (el_ - gh_) @ ax0) * 100.0, np.arctan2(perp0 @ ref2, perp0 @ ref), np.linalg.norm(perp0, axis=1))
+if os.environ.get("ELBOW_FAIR"):
+    gi2 = {g.index: g.name for g in body.vertex_groups}
+    for s_ in "rl":
+        wa = np.zeros(nv)
+        for v in body.data.vertices:
+            for e in v.groups:
+                n_ = gi2[e.group]
+                if n_.endswith(f"_{s_}") and n_.startswith(("upperarm", "forearm", "lowerarm")):
+                    wa[v.index] += e.weight
+        arm_w[s_] = wa
+if ARM_RESTORE or os.environ.get("ARM_UNS5") or os.environ.get("ARM_INFLATE"):
+    gi_ = {g.index: g.name for g in body.vertex_groups}
+    bench._reset(rig); drives.drive(rig, body)
+    Vr_, _ = bench._evaluated(body); Pr_ = np.array([tuple(v) for v in Vr_])
+    for s_ in "rl":
+        wa = np.zeros(nv)
+        for v in body.data.vertices:
+            for e in v.groups:
+                if gi_[e.group].startswith((f"upperarm_{s_}", f"forearm_{s_}", "upperarm_twist")) and gi_[e.group].endswith(f"_{s_}"):
+                    wa[v.index] += e.weight
+        gh_ = np.array(tuple(W @ rig.pose.bones[f"upperarm_{s_}"].head)); el_ = np.array(tuple(W @ rig.pose.bones[f"forearm_{s_}"].head))
+        L_ = np.linalg.norm(el_ - gh_); ax0 = (el_ - gh_) / L_
+        d_ = (Pr_ - gh_) @ ax0
+        arm_rest[s_] = (np.clip(wa, 0, 1), d_ / L_, np.linalg.norm((Pr_ - gh_) - d_[:, None] * ax0, axis=1))
+def arm_restore(X):
+    g_, w_ = ARM_RESTORE.split(":"); gain = float(g_); a0, a1, a2, a3 = (float(x) for x in w_.split(","))
+    X = X.copy()
+    for s_ in "rl":
+        wa, fr, r0 = arm_rest[s_]
+        win = np.clip((fr - a0) / (a1 - a0), 0, 1) * np.clip((a3 - fr) / (a3 - a2), 0, 1)
+        win = win * win * (3 - 2 * win)
+        k = gain * win * wa
+        sel = np.where(k > 1e-4)[0]
+        gh_ = np.array(tuple(W @ rig.pose.bones[f"upperarm_{s_}"].head)); el_ = np.array(tuple(W @ rig.pose.bones[f"forearm_{s_}"].head))
+        ax = (el_ - gh_) / np.linalg.norm(el_ - gh_)
+        rel = X - gh_; d_ = rel @ ax; perp = rel - d_[:, None] * ax; r = np.linalg.norm(perp, axis=1)
+        dr = np.zeros(nv); dr[sel] = k[sel] * (r0[sel] - r[sel])
+        # the per-vertex radius change is noisy (vertices twist round the axis between rest and lockout): smooth the scalar
+        # field over the mesh first, or the arm ripples (measured on the first try)
+        zone = np.where(k > 1e-4)[0]
+        for _ in range(int(os.environ.get("ARM_SMOOTH", 40))):
+            dr[zone] = 0.5 * dr[zone] + 0.5 * np.array([dr[nbr[i]].mean() for i in zone])
+        X[zone] += (dr[zone] / np.maximum(r[zone], 1e-6))[:, None] * perp[zone]
+    return X
 out_t = {}; logs = {}
 for ht in KEYS:
     bench._reset(rig); s4.press_pose(res, ht); drives.drive(rig, body)
     V, _ = bench._evaluated(body); P = np.array([tuple(v) for v in V])
+    P_noS5 = None
+    if os.environ.get("ARM_UNS5"):                  # R26b: the same pose with the S5 bake keys off (they thin the mid upper arm)
+        kept = {kb.name: kb.value for kb in body.data.shape_keys.key_blocks[1:] if kb.name.startswith("HGPT_S5_BAKE_")}
+        for n_ in kept: body.data.shape_keys.key_blocks[n_].value = 0.0
+        V5, _ = bench._evaluated(body); P_noS5 = np.array([tuple(v) for v in V5])
+        for n_, v_ in kept.items(): body.data.shape_keys.key_blocks[n_].value = v_
     X = P.copy()
     wfree = np.zeros(nv)
     for s in "rl":
@@ -201,6 +272,204 @@ for ht in KEYS:
     #     repeated on the slid surface
     if os.environ.get("POSTFAIR"):
         X = fair_fill(X, os.environ["POSTFAIR"], wfree)
+    if ARM_RESTORE:
+        X = arm_restore(X)
+    if os.environ.get("ARM_INFLATE"):
+        # R26b: a smooth, even radial push (metres) over the middle of the upper arm, trapezoid window along the arm,
+        # weighted by arm skinning: restores the thickness the S5 bake takes off without re-opening the crumples it smooths
+        g_, w_ = os.environ["ARM_INFLATE"].split(":"); amp = float(g_); a0, a1, a2, a3 = (float(x) for x in w_.split(","))
+        for s_ in "rl":
+            wa, fr, _r0 = arm_rest[s_]
+            win = np.clip((fr - a0) / (a1 - a0), 0, 1) * np.clip((a3 - fr) / (a3 - a2), 0, 1)
+            win = win * win * (3 - 2 * win)
+            k = win * wa
+            for _ in range(20):                     # smooth the weight field so its edges leave no step
+                k = 0.5 * k + 0.5 * np.array([k[n].mean() if len(n) else 0.0 for n in nbr])
+            gh_ = np.array(tuple(W @ rig.pose.bones[f"upperarm_{s_}"].head)); el_ = np.array(tuple(W @ rig.pose.bones[f"forearm_{s_}"].head))
+            ax = (el_ - gh_) / np.linalg.norm(el_ - gh_)
+            rel = X - gh_; perp = rel - (rel @ ax)[:, None] * ax
+            X = X + (amp * k / np.maximum(np.linalg.norm(perp, axis=1), 1e-6))[:, None] * perp
+    if os.environ.get("ELBOW_FAIR"):
+        # R27 (owner: "the bicep should flow into the forearm without a big dip between"): with the arm overhead the skinned
+        # arm bulges at the lower biceps and narrows just past the elbow (present in the raw skinning, measured).  In
+        # cylindrical coordinates about the shoulder-wrist line, the radius profile of each of 16 sectors round the arm is
+        # smoothed ALONG the arm (Gaussian, sigma cm) inside a window (fractions of the shoulder-wrist length); the radius
+        # change is then smoothed over the mesh and applied radially, so the outline flows through the elbow.  The window is
+        # in cm from the elbow along the arm (negative towards the shoulder).  Measured on R27 (front view at lockout): the
+        # inner side of the lower upper arm juts ~4 cm over ~8 cm, then cuts in to the elbow (widths 12.7 / 8.7 / 9.7 cm)
+        sg_, w_, g_ = os.environ["ELBOW_FAIR"].split(":"); sig = float(sg_) / 100; gain = float(g_)
+        # per-key strength, "ht:gain,..." (R27: the full column fit at 145 deg, arm not yet overhead, crossed the skin -
+        # 196 pairs measured)
+        for kv in [x for x in os.environ.get("ARM_KEY_GAIN", "").split(",") if x]:
+            if abs(float(kv.split(":")[0]) - ht) < 0.5:
+                gain *= float(kv.split(":")[1])
+        a0, a1, a2, a3 = (float(x) for x in w_.split(","))
+        for s_ in "rl":
+            wa = arm_w[s_]
+            gh_ = np.array(tuple(W @ rig.pose.bones[f"upperarm_{s_}"].head)); wr_ = np.array(tuple(W @ rig.pose.bones[f"forearm_{s_}"].tail))
+            Lw = np.linalg.norm(wr_ - gh_); ax = (wr_ - gh_) / Lw
+            rel = X - gh_; t_ = rel @ ax; perp = rel - t_[:, None] * ax; r = np.linalg.norm(perp, axis=1)
+            el2 = np.array(tuple(W @ rig.pose.bones[f"forearm_{s_}"].head))
+            fr = (t_ - (el2 - gh_) @ ax) * 100.0       # cm along the arm from the elbow (negative towards the shoulder)
+            ref = np.array([0.0, 1.0, 0.0]) - ax[1] * ax; ref /= np.linalg.norm(ref); ref2 = np.cross(ax, ref)
+            th = np.arctan2(perp @ ref2, perp @ ref)
+            win = np.clip((fr - a0) / (a1 - a0), 0, 1) * np.clip((a3 - fr) / (a3 - a2), 0, 1); win = win * win * (3 - 2 * win)
+            cand = np.where((wa > float(os.environ.get("ARM_WMIN", 0.3))) & (fr > a0 - 3) & (fr < a3 + 3))[0]
+            NS, BW = 16, 0.01
+            sec = ((th[cand] + np.pi) / (2 * np.pi) * NS).astype(int) % NS
+            b = np.floor(t_[cand] / BW).astype(int); b0 = b.min(); b -= b0; NB = b.max() + 1
+            sm = np.zeros((NS, NB)); cnt = np.zeros((NS, NB))
+            np.add.at(sm, (sec, b), r[cand]); np.add.at(cnt, (sec, b), 1)
+            prof = np.where(cnt > 0, sm / np.maximum(cnt, 1), 0)
+            xs = np.arange(NB) * BW
+            G = np.exp(-0.5 * ((xs[:, None] - xs[None, :]) / sig) ** 2)
+            fair = np.zeros_like(prof)
+            for k_ in range(NS):
+                w8 = (cnt[k_] > 0).astype(float)
+                fair[k_] = (G @ (prof[k_] * w8)) / np.maximum(G @ w8, 1e-9)
+                if os.environ.get("ELBOW_MODE", "hull") == "poly":
+                    # owner (on R26/R27 trials, drawing the outline): the arm should be one smooth column from the forearm
+                    # through the upper arm into the back.  Each sector's radius profile over the whole window is replaced
+                    # by a low-degree polynomial fit (ARM_POLY_DEG, default 3): no bulb at the elbow, no jut at the biceps
+                    deg = int(os.environ.get("ARM_POLY_DEG", 3))
+                    if w8.sum() > deg + 2:
+                        c_ = np.polyfit(xs[w8 > 0], prof[k_][w8 > 0], deg)
+                        fair[k_] = np.polyval(c_, xs)
+                    continue
+                if os.environ.get("ELBOW_MODE", "hull") in ("hull", "both"):
+                    # fill-only: raise the profile to its upper hull (dips filled up to the line between the biceps and the
+                    # forearm); bulges kept.  Gaussian-faired first so single noisy bins do not set the hull
+                    xs_ = xs[w8 > 0]; ys_ = fair[k_][w8 > 0]
+                    hull = []
+                    for pt in zip(xs_, ys_):
+                        while len(hull) >= 2 and (hull[-1][0] - hull[-2][0]) * (pt[1] - hull[-2][1]) - (hull[-1][1] - hull[-2][1]) * (pt[0] - hull[-2][0]) >= 0:
+                            hull.pop()
+                        hull.append(pt)
+                    hx, hy = zip(*hull)
+                    hl = np.interp(xs, hx, hy)
+                    # hull: fill only (bulges kept); both: the hull of the Gaussian-faired profile (the biceps peak is
+                    # lowered to its faired height as well as the crease filled)
+                    fair[k_] = np.maximum(hl, prof[k_]) if os.environ.get("ELBOW_MODE", "hull") == "hull" else hl
+            dr = np.zeros(nv)
+            dr[cand] = (fair[sec, b] - prof[sec, b]) * gain * win[cand] * np.clip(wa[cand], 0, 1)
+            if os.environ.get("ELBOW_MODE") == "tube":
+                # owner reference (dumbbell press from behind): each arm is a straight, steadily widening column from the
+                # wrist into the shoulder.  The target is a tube about a straight centre line whose elliptical
+                # cross-section (across / front-back half-widths) and centre vary LINEARLY between two anchor slices of
+                # this body: the forearm near the wrist (TUBE_A cm from the elbow) and the arm root under the deltoid
+                # (TUBE_B); every arm vertex in the window is moved onto it along its direction from the centre line
+                ta_ = [float(x) for x in os.environ.get("TUBE_A", "14,20").split(",")]
+                tb_ = [float(x) for x in os.environ.get("TUBE_B", "-25,-21").split(",")]
+                u_ = perp @ ref2; v_ = perp @ ref                       # across (lateral) / front-back
+                def anchor(lo, hi):
+                    # the four edges of the slice (outer / inner / back / front), 95th percentile, measured from the arm's
+                    # bone line (a single centre leaned the tube outwards: the deltoid pulls the root slice's centre out)
+                    m_ = np.where((wa > 0.3) & (fr >= lo) & (fr < hi))[0]
+                    return ((lo + hi) / 2, np.percentile(u_[m_], 95), -np.percentile(u_[m_], 5),
+                            np.percentile(v_[m_], 95), -np.percentile(v_[m_], 5))
+                A_, B_ = anchor(*ta_), anchor(*tb_)
+                lam = np.clip((fr[cand] - B_[0]) / (A_[0] - B_[0]), -0.2, 1.2)
+                edge = [B_[q] + lam * (A_[q] - B_[q]) for q in range(1, 5)]   # straight lines between the anchors
+                for _it in range(int(os.environ.get("TUBE_ITERS", 1))):   # repeat: the smoothed move falls short of the lines
+                    rel_ = X - gh_; perp_ = rel_ - (rel_ @ ax)[:, None] * ax; u_ = perp_ @ ref2; v_ = perp_ @ ref
+                    du = u_[cand]; dv = v_[cand]; rr = np.maximum(np.hypot(du, dv), 1e-6)
+                    cs, sn = du / rr, dv / rr
+                    au = np.where(cs > 0, edge[0], edge[1]); av = np.where(sn > 0, edge[2], edge[3])
+                    rt = 1.0 / np.sqrt((cs / au) ** 2 + (sn / av) ** 2)
+                    k3 = gain * win[cand] * np.clip(wa[cand] / float(os.environ.get("ARM_WFULL", 0.5)), 0, 1)
+                    Dv = np.zeros((nv, 3))
+                    # radial move onto the tube about the straight centre line (also pulls slices the biceps jut had pushed
+                    # off that line back onto it)
+                    mv_ = rt - rr
+                    if os.environ.get("TUBE_FILLROOT"):
+                        # near the arm root only fill (the root is pinched); squeezing the deltoid edge onto the line
+                        # crumpled the skin into a knot there (measured).  Full fill-only below f0, blended out by f1 cm
+                        f0_, f1_ = (float(x) for x in os.environ["TUBE_FILLROOT"].split(","))
+                        bl = np.clip((fr[cand] - f0_) / (f1_ - f0_), 0, 1)
+                        mv_ = np.where(mv_ < 0, mv_ * bl, mv_)
+                    Dv[cand] = (k3 * mv_)[:, None] * (cs[:, None] * ref2 + sn[:, None] * ref)
+                    zone = np.unique(np.concatenate([cand] + [nbr[i] for i in cand]))
+                    for _ in range(int(os.environ.get("ELBOW_SMOOTH", 10))):
+                        Dv[zone] = 0.5 * Dv[zone] + 0.5 * np.array([Dv[nbr[i]].mean(0) for i in zone])
+                    X = X + Dv
+                # squeezing the biceps jut onto the line crumples its skin (measured on the first try): Taubin-smooth the
+                # arm zone afterwards, weighted the same way, so the column is smooth as well as straight
+                kz = np.zeros(nv); kz[cand] = k3
+                for _ in range(20):
+                    kz[zone] = 0.5 * kz[zone] + 0.5 * np.array([kz[nbr[i]].mean() for i in zone])
+                for _ in range(int(os.environ.get("TUBE_RELAX", 0))):
+                    for lam_ in (0.5, -0.53):
+                        L_ = np.array([X[nbr[i]].mean(0) - X[i] for i in zone])
+                        X[zone] += lam_ * L_ * kz[zone][:, None]
+                if os.environ.get("ELBOW_DEBUG"):
+                    rel2 = X - gh_; t2 = rel2 @ ax; p2 = rel2 - t2[:, None] * ax
+                    u2 = p2 @ ref2; v2 = p2 @ ref
+                    for lo in range(-27, 22, 3):
+                        mm = (fr[cand] >= lo) & (fr[cand] < lo + 3)
+                        if mm.sum():
+                            ii = cand[mm]
+                            print("TUBEDBG %s te %+3d n %3d  before u[%5.1f,%5.1f] v[%5.1f,%5.1f]  after u[%5.1f,%5.1f] v[%5.1f,%5.1f]  tube au %.1f av %.1f  k %.2f" % (s_, lo, mm.sum(), u_[ii].min()*100, u_[ii].max()*100, v_[ii].min()*100, v_[ii].max()*100, u2[ii].min()*100, u2[ii].max()*100, v2[ii].min()*100, v2[ii].max()*100, au[mm].mean()*100, av[mm].mean()*100, k3[mm].mean()))
+                    print("TUBEDBG", s_, "anchor wrist (te, inner, outer, back, front)", np.round(np.array(A_) * [1, 100, 100, 100, 100], 1), "root", np.round(np.array(B_) * [1, 100, 100, 100, 100], 1))
+                continue
+            if os.environ.get("ELBOW_MODE") == "rest":
+                # every arm vertex goes back to the radius a smooth fit of the RESTING arm gives it (cubic along the arm x
+                # Fourier round it, fitted on rest coordinates): raising the arm pinched the upper arm 6-9 cm below the
+                # shoulder (rest 5.8 cm -> 4.4 cm) and left the biceps as a bulb (owner: "why is it all bumpy")
+                t0, th0, r0 = arm_cyl[s_]
+                deg = int(os.environ.get("ARM_POLY_DEG", 3)); K = int(os.environ.get("ARM_FOURIER", 3))
+                def design(tv, thv):
+                    tt = tv / 30.0; cols = []
+                    for i_ in range(deg + 1):
+                        cols.append(tt ** i_)
+                        for k2 in range(1, K + 1):
+                            cols += [tt ** i_ * np.cos(k2 * thv), tt ** i_ * np.sin(k2 * thv)]
+                    return np.stack(cols, 1)
+                fitset = np.where((wa > 0.5) & (t0 > a0 - 3) & (t0 < a3 + 3))[0]
+                coef, *_ = np.linalg.lstsq(design(t0[fitset], th0[fitset]), r0[fitset], rcond=None)
+                rt = design(t0[cand], th0[cand]) @ coef * float(os.environ.get("ARM_SCALE", 1.0))
+                dr[cand] = (rt - r[cand]) * gain * win[cand] * np.clip(wa[cand] / float(os.environ.get("ARM_WFULL", 0.5)), 0, 1)
+            if os.environ.get("ELBOW_MODE") == "surf":
+                # one smooth surface for the whole arm: r(t, theta) = sum of t^i x (1, cos k theta, sin k theta), i <= deg,
+                # k <= K, least-squares over the arm vertices in the window; every vertex is moved onto it (its own radius,
+                # not a bin mean), so the small bumps go as well as the elbow bulb and the biceps jut
+                deg = int(os.environ.get("ARM_POLY_DEG", 3)); K = int(os.environ.get("ARM_FOURIER", 3))
+                tt = fr[cand] / 30.0; thc = th[cand]
+                cols = []
+                for i_ in range(deg + 1):
+                    cols.append(tt ** i_)
+                    for k2 in range(1, K + 1):
+                        cols += [tt ** i_ * np.cos(k2 * thc), tt ** i_ * np.sin(k2 * thc)]
+                Aq = np.stack(cols, 1)
+                wfit = (win[cand] > 0.05).astype(float) + 0.05
+                coef, *_ = np.linalg.lstsq(Aq * wfit[:, None], r[cand] * wfit, rcond=None)
+                # full strength wherever the skin is at least half arm (near the shoulder the skin is shared with the
+                # clavicle / cap bones, and scaling by the raw weight left the arm narrow there - measured)
+                dr[cand] = (Aq @ coef - r[cand]) * gain * win[cand] * np.clip(wa[cand] / float(os.environ.get("ARM_WFULL", 0.5)), 0, 1)
+                if os.environ.get("ELBOW_DEBUG"):
+                    fit_ = Aq @ coef
+                    for lo in range(-30, 24, 3):
+                        mm = (fr[cand] >= lo) & (fr[cand] < lo + 3)
+                        if mm.sum(): print("SURFDBG %s te %+3d n %3d  r_mean %.2f fit_mean %.2f  dr_mean %.2f  win %.2f  wscale %.2f" % (s_, lo, mm.sum(), r[cand][mm].mean() * 100, fit_[mm].mean() * 100, dr[cand][mm].mean() * 100, win[cand][mm].mean(), np.clip(wa[cand][mm] / 0.5, 0, 1).mean()))
+            zone = np.unique(np.concatenate([cand] + [nbr[i] for i in cand]))
+            for _ in range(int(os.environ.get("ELBOW_SMOOTH", 30))):
+                dr[zone] = 0.5 * dr[zone] + 0.5 * np.array([dr[nbr[i]].mean() for i in zone])
+            X = X + (dr / np.maximum(r, 1e-6))[:, None] * perp
+            if os.environ.get("ELBOW_DEBUG"):
+                print("ELBOWDBG", s_, "cand", len(cand), "dr mm max/min", round(dr.max() * 1000, 1), round(dr.min() * 1000, 1))
+                for bb in range(0, NB, 2):
+                    print("ELBOWDBG  t %.2f fr %.2f  r(cm) by sector:" % ((bb + b0) * BW, (bb + b0) * BW / Lw), " ".join("%4.1f" % (prof[k_, bb] * 100) for k_ in range(0, NS, 2)), " fair:", " ".join("%4.1f" % (fair[k_, bb] * 100) for k_ in range(0, NS, 2)))
+    if int(os.environ.get("POST_SLIDE", 0)) > 0:
+        # R27b: a short second skin slide after the arm column fit, so the triangles it squeezed at the arm root are spread
+        # back out (the column fit left 3 crushed triangles / 2 crossing pairs - measured)
+        X = walkslide.slide(X, Fa, A0, idx, wfree, iters=int(os.environ["POST_SLIDE"]), eta=ETA, log=[], crush_w=float(os.environ.get("CRUSH_W", 0)))
+    if P_noS5 is not None:
+        # cancel the S5 bake over the middle of the upper arm only (trapezoid window along the arm, arm skinning weight)
+        a0, a1, a2, a3 = (float(x) for x in os.environ["ARM_UNS5"].split(","))
+        for s_ in "rl":
+            wa, fr, _r0 = arm_rest[s_]
+            win = np.clip((fr - a0) / (a1 - a0), 0, 1) * np.clip((a3 - fr) / (a3 - a2), 0, 1)
+            win = win * win * (3 - 2 * win)
+            X += (win * wa)[:, None] * (P_noS5 - P)
     rP = areas(P) / A0; rX = areas(X) / A0
     tr = BVHTree.FromPolygons([Vector(x) for x in X], F, all_triangles=True); fs = [set(f) for f in F]
     pairs = sum(1 for a, b in tr.overlap(tr) if a < b and not (fs[a] & fs[b]))
@@ -213,7 +482,7 @@ for ht in KEYS:
     if ht == KEYS[-1]:
         np.save(out + "/P172.npy", P)
 np.savez(out + "/targets.npz", **out_t)
-import json; json.dump({"mode": "skin slide", "taubin": TAUB, "lump_passes": int(os.environ.get("LUMP", 0)), "lump_off": os.environ.get("LUMP_OFF", "0,0.04,-0.02"), "lump_r": os.environ.get("LUMP_R", "0.06,0.10"), "zones": os.environ.get("ZONES", ""), "blend_passes": int(os.environ.get("BLEND", 0)), "untangle_iters": int(os.environ.get("UNTANGLE", 0)), "guard_zones": os.environ.get("GUARD_ZONES", "1") == "1", "crush_w": float(os.environ.get("CRUSH_W", 0)), "deltoid_bump": os.environ.get("DELT_BUMP", ""), "fair": os.environ.get("FAIR", ""), "postfair": os.environ.get("POSTFAIR", ""), "slide_iters": SLIDE, "eta": ETA, "region": [RIN, ROUT], "keys_ht": KEYS, "log": {str(k): v for k, v in logs.items()}}, open(out + "/targets.npz.json", "w"), indent=1)
+import json; json.dump({"mode": "skin slide", "taubin": TAUB, "lump_passes": int(os.environ.get("LUMP", 0)), "lump_off": os.environ.get("LUMP_OFF", "0,0.04,-0.02"), "lump_r": os.environ.get("LUMP_R", "0.06,0.10"), "zones": os.environ.get("ZONES", ""), "blend_passes": int(os.environ.get("BLEND", 0)), "untangle_iters": int(os.environ.get("UNTANGLE", 0)), "guard_zones": os.environ.get("GUARD_ZONES", "1") == "1", "crush_w": float(os.environ.get("CRUSH_W", 0)), "deltoid_bump": os.environ.get("DELT_BUMP", ""), "fair": os.environ.get("FAIR", ""), "postfair": os.environ.get("POSTFAIR", ""), "arm_restore": ARM_RESTORE, "arm_uns5": os.environ.get("ARM_UNS5", ""), "arm_inflate": os.environ.get("ARM_INFLATE", ""), "elbow_fair": os.environ.get("ELBOW_FAIR", ""), "elbow_mode": os.environ.get("ELBOW_MODE", "hull"), "slide_iters": SLIDE, "eta": ETA, "region": [RIN, ROUT], "keys_ht": KEYS, "log": {str(k): v for k, v in logs.items()}}, open(out + "/targets.npz.json", "w"), indent=1)
 # render 172
 scene = bpy.context.scene
 for o in scene.objects:

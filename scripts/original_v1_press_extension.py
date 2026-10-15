@@ -33,6 +33,12 @@ _STATE = {"shrug_deg": 0.0}
 PATHS = {"v1": {"plane_deg": None, "forearm_vertical": False, "start_ht": START_HT, "start_elbow": START_ELBOW},
          "v2": {"plane_deg": 15.0, "forearm_vertical": True, "start_ht": float(__import__("os").environ.get("PRESS_V2_START", 70.0)),
                 "start_elbow": float(__import__("os").environ.get("PRESS_V2_ELBOW", 140.0))}}
+# Press path v3 (15 Oct 2026, owner on the R14 lockout: "The shoulder should move with the arm ... I think maybe the shoulder
+# is coming over too far"): v2 with the clavicle's axial (posterior) rotation applied FIRST, about the clavicle's own shaft.
+# coupled.clavicle_basis (Work's, unchanged) composes Rz(retraction) @ Ry(axial) @ Rx(elevation): the axial turn is applied
+# after the elevation, about the REST shaft line, so it swings the elevated clavicle around a cone - measured on R14 at
+# lockout: retraction 7 deg instead of 22.6 (the AC joint, scapula and glenoid come ~15 deg forward over the arm).
+PATHS["v3"] = dict(PATHS["v2"], clavicle_axial_first=True)
 _PATH = {"name": "v1"}
 FOREARM_FADE_DEG = 30.0
 HAND_OUT_M = float(__import__("os").environ.get("PRESS_V2_HAND_OUT", 0.08))   # v2 hand target: this far lateral of the GH joint           # v2: the forearm-vertical turn is full above this elbow flexion, fading to 0 at lockout
@@ -45,6 +51,15 @@ def path():
 def _smooth(t):
     t = max(0.0, min(1.0, t))
     return t * t * (3 - 2 * t)
+
+
+def clavicle_basis_axial_first(profile, side_sign):
+    """coupled.clavicle_basis with the axial turn first (about the shaft, local +Y: it moves no point on the shaft), then
+    elevation (local X), then retraction (local Z) - the same channels, signs and local axes."""
+    from mathutils import Matrix
+    return (Matrix.Rotation(math.radians(side_sign * profile["clavicle_retraction_deg"]), 4, "Z") @
+            Matrix.Rotation(math.radians(profile["clavicle_elevation_deg"]), 4, "X") @
+            Matrix.Rotation(math.radians(side_sign * profile["clavicle_posterior_rotation_deg"]), 4, "Y"))
 
 
 def extend(result, profile, ht):
@@ -64,8 +79,9 @@ def extend(result, profile, ht):
     p["ht_elevation_deg"] = float(ht)
     p["press_extension"] = {"beyond_160_deg": round(ht - 160.0, 2) if ht > 160 else 0.0, "shrug_deg": shrug}
     rig = result["runtime"]
+    basis = clavicle_basis_axial_first if path().get("clavicle_axial_first") else coupled.clavicle_basis
     for s in ("r", "l"):
-        rig.pose.bones[f"clavicle_{s}"].matrix_basis = coupled.clavicle_basis(p, 1.0 if s == "r" else -1.0)
+        rig.pose.bones[f"clavicle_{s}"].matrix_basis = basis(p, 1.0 if s == "r" else -1.0)
     bpy.context.view_layer.update()
     return p
 

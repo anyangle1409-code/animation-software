@@ -145,3 +145,42 @@ None of the blended-skinning fixes above removes these. What is left is mesh str
 The body's muscle volume is also much smaller than the reference's.
 
 **Owner decision:** rebuild the shoulder/axilla mesh. That means a topology change, re-transferring weights, and rebuilding every shape-key family. It is a contract item.
+
+## Skeleton diagnosis at lockout: the clavicle swings forward (found after R14)
+
+**Owner (on the R14 back view at lockout):** "The shoulder should move with the arm. If you show me the skeleton in this pose I want to work out what is causing this. I think maybe the shoulder is coming over too far."
+
+**Skeleton renders** are in `diagnosis/` (skin, skeleton and X-ray views, rest → lockout). The landmark numbers are in `diagnosis/girdle_landmarks_v2_vs_v3.json`.
+
+**From rest to lockout on R14 (path v2):**
+
+| Part | Movement |
+|---|---|
+| Glenohumeral joint | 5 cm forward, 11 cm up |
+| Acromion angle | 4 cm forward |
+| Root of the scapular spine | 10 cm lateral, 6 cm forward |
+| Clavicle | 26° up, but **5° forward**, although the motion profile asks for 10° back |
+
+**Cause.** `coupled.clavicle_basis` (Work's module, unchanged here) builds the clavicle rotation as `Rz(retraction) @ Ry(axial) @ Rx(elevation)`.
+- Each channel is correct on its own. A +20° test of each gives +20° of that motion and nothing else.
+- The problem is the order. The axial "posterior rotation" is applied after the elevation, and about the rest shaft line instead of the clavicle's current shaft.
+- So once the clavicle is raised, the axial turn swings it around a cone.
+- At lockout (elevation about 30° including the shrug, axial turn 31.6°), the cone swing is 15.6° forward. That matches the measured gap: 22.6° of retraction expected, 7.0° measured.
+- The acromion, scapula and glenoid are carried forward over the arm by this swing.
+
+**Fix: press path v3 (opt-in).** v3 is v2 with the axial turn applied first, about the shaft. The channels, signs and axes are the same (`original_v1_press_extension.clavicle_basis_axial_first`).
+
+| At lockout | v2 | v3 |
+|---|---|---|
+| Clavicle retraction | 7.0° | 22.1° |
+| Clavicle elevation | 30.4° | 34.0° |
+| Glenohumeral joint vs rest | 5.1 cm forward | 0.8 cm forward |
+| Acromioclavicular joint vs rest | 1.9 cm forward | 1.9 cm back |
+| Root of the scapular spine, lateral shift | 9.7 cm | 7.3 cm |
+
+- **Side view:** the arm now rises in line with the head, as in the reference.
+- **R14's own blend and path are unchanged.**
+- **Shapes not re-baked yet.** The baked S5 shapes were made along v2, so the v3 render uses them unchanged.
+- **Next:** re-bake along v3 as R15.
+
+**Scope.** The same composition order is used for every movement that drives the clavicle through the coupled profile (row, push-up and the benchmarks). Changing it there is a Work / runtime-contract item, raised on PR #26.

@@ -1,0 +1,311 @@
+{
+ "note": "R14 blend posed on press path v2 (as baked) vs v3 (clavicle axial turn first); no re-bake; right side (runtime _r = anatomical left); metres, world (front = -Y)",
+ "v2": {
+  "0rest": {
+   "state": null,
+   "r": {
+    "clavicle_elevation_deg": 4.3,
+    "clavicle_retraction_deg": 12.2,
+    "scapula_upward_rot_deg": 13.1,
+    "humerothoracic_deg": 1.0,
+    "humerus_vs_medial_border_deg": 14.2,
+    "AC": [
+     0.202,
+     0.027,
+     1.514
+    ],
+    "GH": [
+     0.219,
+     0.032,
+     1.462
+    ],
+    "AA": [
+     0.258,
+     0.061,
+     1.499
+    ],
+    "AI": [
+     0.08,
+     0.14,
+     1.32
+    ],
+    "TS": [
+     0.052,
+     0.136,
+     1.44
+    ]
+   }
+  },
+  "1start": {
+   "state": {
+    "humerothoracic_elevation": 70.0,
+    "elbow_flexion": 140.0,
+    "shrug": 0.0
+   },
+   "r": {
+    "clavicle_elevation_deg": 10.3,
+    "clavicle_retraction_deg": 14.2,
+    "scapula_upward_rot_deg": 27.3,
+    "humerothoracic_deg": 70.0,
+    "humerus_vs_medial_border_deg": 41.3,
+    "AC": [
+     0.198,
+     0.033,
+     1.533
+    ],
+    "GH": [
+     0.227,
+     0.027,
+     1.487
+    ],
+    "AA": [
+     0.258,
+     0.062,
+     1.527
+    ],
+    "AI": [
+     0.133,
+     0.106,
+     1.297
+    ],
+    "TS": [
+     0.077,
+     0.127,
+     1.405
+    ]
+   }
+  },
+  "2mid": {
+   "state": {
+    "humerothoracic_elevation": 121.0,
+    "elbow_flexion": 70.0,
+    "shrug": 0.0
+   },
+   "r": {
+    "clavicle_elevation_deg": 17.4,
+    "clavicle_retraction_deg": 14.7,
+    "scapula_upward_rot_deg": 44.7,
+    "humerothoracic_deg": 121.0,
+    "humerus_vs_medial_border_deg": 73.8,
+    "AC": [
+     0.192,
+     0.033,
+     1.556
+    ],
+    "GH": [
+     0.232,
+     0.018,
+     1.522
+    ],
+    "AA": [
+     0.253,
+     0.06,
+     1.561
+    ],
+    "AI": [
+     0.198,
+     0.058,
+     1.302
+    ],
+    "TS": [
+     0.117,
+     0.101,
+     1.384
+    ]
+   }
+  },
+  "3lockout": {
+   "state": {
+    "humerothoracic_elevation": 172.0,
+    "elbow_flexion": 0.0,
+    "shrug": 12.0
+   },
+   "r": {
+    "clavicle_elevation_deg": 30.4,
+    "clavicle_retraction_deg": 7.0,
+    "scapula_upward_rot_deg": 50.2,
+    "humerothoracic_deg": 172.0,
+    "humerus_vs_medial_border_deg": 115.1,
+    "AC": [
+     0.18,
+     0.008,
+     1.595
+    ],
+    "GH": [
+     0.219,
+     -0.019,
+     1.568
+    ],
+    "AA": [
+     0.244,
+     0.019,
+     1.608
+    ],
+    "AI": [
+     0.229,
+     0.01,
+     1.344
+    ],
+    "TS": [
+     0.149,
+     0.077,
+     1.41
+    ]
+   }
+  }
+ },
+ "v3": {
+  "0rest": {
+   "state": null,
+   "r": {
+    "clavicle_elevation_deg": 4.3,
+    "clavicle_retraction_deg": 12.2,
+    "scapula_upward_rot_deg": 13.1,
+    "humerothoracic_deg": 1.0,
+    "humerus_vs_medial_border_deg": 14.2,
+    "AC": [
+     0.202,
+     0.027,
+     1.514
+    ],
+    "GH": [
+     0.219,
+     0.032,
+     1.462
+    ],
+    "AA": [
+     0.258,
+     0.061,
+     1.499
+    ],
+    "AI": [
+     0.08,
+     0.14,
+     1.32
+    ],
+    "TS": [
+     0.052,
+     0.136,
+     1.44
+    ]
+   }
+  },
+  "1start": {
+   "state": {
+    "humerothoracic_elevation": 70.0,
+    "elbow_flexion": 140.0,
+    "shrug": 0.0
+   },
+   "r": {
+    "clavicle_elevation_deg": 10.4,
+    "clavicle_retraction_deg": 15.2,
+    "scapula_upward_rot_deg": 27.4,
+    "humerothoracic_deg": 70.0,
+    "humerus_vs_medial_border_deg": 41.2,
+    "AC": [
+     0.197,
+     0.036,
+     1.534
+    ],
+    "GH": [
+     0.226,
+     0.031,
+     1.488
+    ],
+    "AA": [
+     0.256,
+     0.066,
+     1.527
+    ],
+    "AI": [
+     0.131,
+     0.107,
+     1.297
+    ],
+    "TS": [
+     0.075,
+     0.128,
+     1.405
+    ]
+   }
+  },
+  "2mid": {
+   "state": {
+    "humerothoracic_elevation": 121.0,
+    "elbow_flexion": 70.0,
+    "shrug": 0.0
+   },
+   "r": {
+    "clavicle_elevation_deg": 18.2,
+    "clavicle_retraction_deg": 19.0,
+    "scapula_upward_rot_deg": 45.6,
+    "humerothoracic_deg": 121.0,
+    "humerus_vs_medial_border_deg": 73.1,
+    "AC": [
+     0.188,
+     0.046,
+     1.558
+    ],
+    "GH": [
+     0.228,
+     0.032,
+     1.524
+    ],
+    "AA": [
+     0.247,
+     0.075,
+     1.563
+    ],
+    "AI": [
+     0.193,
+     0.068,
+     1.304
+    ],
+    "TS": [
+     0.109,
+     0.107,
+     1.385
+    ]
+   }
+  },
+  "3lockout": {
+   "state": {
+    "humerothoracic_elevation": 172.0,
+    "elbow_flexion": 0.0,
+    "shrug": 12.0
+   },
+   "r": {
+    "clavicle_elevation_deg": 34.0,
+    "clavicle_retraction_deg": 22.1,
+    "scapula_upward_rot_deg": 54.6,
+    "humerothoracic_deg": 172.0,
+    "humerus_vs_medial_border_deg": 113.1,
+    "AC": [
+     0.163,
+     0.046,
+     1.604
+    ],
+    "GH": [
+     0.206,
+     0.024,
+     1.579
+    ],
+    "AA": [
+     0.225,
+     0.067,
+     1.617
+    ],
+    "AI": [
+     0.213,
+     0.044,
+     1.354
+    ],
+    "TS": [
+     0.125,
+     0.103,
+     1.417
+    ]
+   }
+  }
+ }
+}

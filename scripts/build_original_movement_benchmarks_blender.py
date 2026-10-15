@@ -279,7 +279,14 @@ def _pose_deadlift_raw(rig, t, rest_heads):
 # top by a vertical arm under the shoulder.  Toes extended TOE_EXT so the toe pads carry the feet; the forearm pronates to the
 # atlas active mean (fingers end ~20 deg turned out); the wrist extends until the hand lies flat (reported: a loaded
 # push-up needs more than the active mean).
-PUSHUP = {"elbow_bottom": 100.0, "toe_extension": 60.0, "thumb_extension": 40.0}
+PUSHUP = {"elbow_bottom": 100.0, "toe_extension": 60.0, "thumb_extension": 40.0,
+          # 15 Oct 2026: thumb metacarpal axial rotation (local Y; measured per side: + on _r, - on _l) that lets the thumb
+          # lie flat beside the index on the floor.  Without it the 40 deg CMC extension pressed the thumb metacarpal into
+          # the index metacarpal: 22-44 thumb-web self-intersections on every push-up frame (R13), all in the thumb web.
+          # 10 deg (the smallest tested that clears it on the whole path; the thumb stays 0.4 mm above the floor) turns the
+          # thumb's flexion plane ~6 deg away from the index (away from opposition).
+          "thumb_axial": float(__import__("os").environ.get("HGPT_PUSHUP_THUMB_AXIAL", 10.0))}
+PUSHUP_THUMB_AXIAL_SIDE = {"r": 1.0, "l": -1.0}
 
 
 def _foot_contact(rig, body):
@@ -298,7 +305,8 @@ def _pushup_config(rig, body, phi, sigma, elbow):
         _rot(rig.pose.bones[f"toe_{s}"], x=-PUSHUP["toe_extension"])
         _rot(rig.pose.bones[f"upperarm_{s}"], x=-sigma)
         _forearm(rig, s, elbow, _atlas_mean("forearm_pronation"))   # palms turn toward the floor; fingers ~20 deg out
-        _rot(rig.pose.bones[f"thumb_01_{s}"], x=-PUSHUP["thumb_extension"])   # rest thumb would hang below the palm
+        _rot(rig.pose.bones[f"thumb_01_{s}"], x=-PUSHUP["thumb_extension"],   # rest thumb would hang below the palm
+             y=PUSHUP_THUMB_AXIAL_SIDE[s] * PUSHUP["thumb_axial"])
     bpy.context.view_layer.update()
     c = _foot_contact(rig, body)                                   # toe pads on the floor
     root = rig.pose.bones["root"]                                  # world-space lift (pose location is in rest space)

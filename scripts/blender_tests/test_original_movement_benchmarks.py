@@ -113,6 +113,15 @@ class OriginalMovementBenchmarkNativeTests(unittest.TestCase):
             self.assertLess(abs(f["lowest_point_z_mm"]), 1.0, f["t"])
         self.assertAlmostEqual(frames[-1]["angles_deg"]["elbow_flexion"], m1.PUSHUP["elbow_bottom"], places=3)
 
+    def test_push_up_thumb_lies_beside_the_index_without_web_intersection(self):
+        # 15 Oct 2026: the 40 deg CMC extension alone pressed the thumb metacarpal into the index metacarpal (thumb-web
+        # self-intersections on every frame); PUSHUP["thumb_axial"] turns the thumb metacarpal so it lies flat beside it
+        self.assertEqual(m1.PUSHUP["thumb_axial"], 10.0)
+        for f in self.report["benchmarks"]["push_up"]["frames"]:
+            for a, b, n in f["self_intersection_classes_top"]:
+                self.assertFalse(a.startswith("thumb_01") or b.startswith("thumb_01"), (f["t"], a, b, n))
+            self.assertLess(abs(f["lowest_point_z_mm"]), 1.0, f["t"])
+
     def test_metrics_are_finite(self):
         for b in self.report["benchmarks"].values():
             for f in b["frames"]:

@@ -87,3 +87,36 @@ R8 and R12 tests still pass with the shared drives change (`hip.drive_h1` does n
 ## Runtime contract (owner and Lane G, PR #26)
 
 R13 adds two more in-memory joints (`hip_crease_l/r`) and 10 more pose-space keys driven by hip flexion. Like the shoulder helpers, these are contract items, not production.
+
+## Push-up thumb: a fault in the exercise pose, not in the body (15 Oct, after R13)
+
+**Owner:** "Yes" (do the push-up next).
+
+**Where the overlaps were:** after R13 the push-up was the next worst benchmark, at 44 self-intersecting pairs. Every pair was in the **thumb web**: the thumb metacarpal against the index metacarpal, on every frame from the top to the bottom of the push-up. The elbow, chest and wrist had none.
+
+**Cause:** the benchmark pose. To keep the thumb from hanging below the flat palm, the pose extends the thumb's base joint (CMC) by 40°, and that pressed the thumb metacarpal into the index.
+
+**Fix, in the benchmark** (`build_original_movement_benchmarks_blender.PUSHUP["thumb_axial"]`):
+- the thumb metacarpal also turns 10° about its own axis (+ on `_r`, − on `_l`, measured);
+- this turns the thumb's bending plane about 6° away from the index (away from opposition), so the thumb lies flat beside the index;
+- 10° is the smallest value tested (10–30°) that clears the overlap over the whole path on both hands;
+- the thumb stays 0.4 mm above the floor.
+
+**No body asset changed:** R13 is unchanged.
+
+**Re-measured** (`r13_validation_pushup_thumb_20261015.json`; only the push-up differs):
+
+| Push-up, worst frame (pairs / collapsed / stretched) | Old pose | Corrected pose |
+|---|---|---|
+| a003 | 196 / 12 / 64 | 170 / 12 / 68 |
+| R13 | 44 / 3 / 71 | **2 / 3 / 75** |
+
+**What remains in R13's push-up:**
+- the 2 pairs are single faces on the shoulder cap;
+- the stretched faces (about 35 per side) are in the thumb web (the thumb pulled back), the palm side of the wrist (67–98° extension) and the shoulder cap — places where skin genuinely stretches in this pose.
+
+**Close-up:** `pushup/pushup_thumb_r13_old_vs_new_pose.jpg`.
+
+**Test:** `test_original_movement_benchmarks.py` gains `test_push_up_thumb_lies_beside_the_index_without_web_intersection` (live on a003; 14/14 pass).
+
+**Branch note:** the benchmark change is on the review branch only. The movement branch (PR #113) still has the old pose.

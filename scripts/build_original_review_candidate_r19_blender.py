@@ -14,7 +14,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_original_review_candidate_r14_blender as r14  # noqa: E402
 
 r14.PRESS_PATH = "v4"
-r14.NAME = "R19"
+r14.NAME = __import__("os").environ.get("REBAKE_NAME", "R19")          # R21: the same re-bake on R20
 
 
 def base():
@@ -24,7 +24,7 @@ def base():
     res = correction.build_corrected_scene()
     body, rig = res["body"], res["runtime"]
     if bpy.context.scene.get("hgpt_press_path") != "v4" or not bpy.context.scene.get("hgpt_shoulder_fold_flip"):
-        raise RuntimeError("R19's base must be R18 (press path v4, shoulder fold flip)")
+        raise RuntimeError("the re-bake base must be R18 or a descendant (press path v4, shoulder fold flip)")
     dropped = [kb.name for kb in body.data.shape_keys.key_blocks if kb.name.startswith(r14.DROP)]
     for n in dropped:
         body.shape_key_remove(body.data.shape_keys.key_blocks[n])

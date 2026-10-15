@@ -99,3 +99,46 @@ Map: `renders/r15_lockout_stretch_squash_fold_map.jpg`. Region: right shoulder, 
   1. **A hand-sculpted lockout corrective** (artist, in Blender), the standard production fix.
   2. **Re-binding the body mesh in a raised-arm (A-pose) rest shape**, so the shoulder's skin is distributed for the overhead range.
   - Both are owner decisions. The second is a runtime-contract change.
+
+## After R18: option 2 and the arm-root kink (all measured, none adopted yet)
+
+**Owner's input.**
+- "I don't have an artist so maybe option 2. I want it fixed."
+- Then, circling the inner arm root in the three-quarter view: "Why is it deforming here? This should not be creating this."
+
+**Why the arm root kinks** (`renders/follow_map_r18_vs_handover.jpg`):
+- The follow map shows how much of the arm-vs-scapula turn each vertex makes.
+- On the upper arm the skin follows 100 %. Over the deltoid it follows about 50 % (the shoulder_cap helper and the girdle).
+- The change happens within a few centimetres at the arm root, so the arm's outline bends there.
+- The lagging skin is also the ball behind the joint.
+
+**Option 2: raised-arm (A-pose) bind** (`renders/rejected_raised_arm_bind.jpg`). **No-go.**
+- How it was done: a hidden bind rig copies the main rig every frame; the body is re-rested on the A-pose skinned surface, and the keys are converted with the A-pose linear part.
+- **At 45°:** raw lockout matches R18 (stretch 1,271 vs 1,230; the ball is unchanged). Arms-down drift is up to 12 mm.
+- **At 90°:** the same at lockout. Arms-down drift is up to 38 mm, with a visible dent.
+- Why: an LBS-generated A surface carries no new information. A real A-pose bind needs a separately modelled A-pose body.
+
+**R20: deltoid hand-over** (`original_v1_deltoid_handover.assign`, outer/back faces, -2..16 cm, 40 % of the girdle share).
+- Raw: the ball is smaller.
+- With R18's S5 shapes: 44 collapse / 128 pairs at lockout.
+- **R21** (S5 re-baked on R20): 4 collapse / 0 pairs, but the S5 shapes crumple the back of the armpit.
+
+**R22: continuous follow profile** (`assign_profile`, from the old value at 4 cm above the joint up to 100 % at 16 cm down; `renders/circled_area_r18_vs_r22.jpg`).
+- The arm-root kink is softer.
+- Raw collapse at lockout is 32 (R18: 3).
+- **R23** (S5 re-baked): 30 collapse (tiny, inside the crease on top of the shoulder), 0 pairs, stretch 624. In the three-quarter view the arm root still crumples (`renders/r18_vs_r23_lockout.jpg`).
+
+**Rejected outright:**
+
+| Attempt | Result |
+|---|---|
+| A target jump to a fixed follow value | tears where raised and unchanged vertices meet |
+| Starting the profile at the joint or 2 cm below it | 28–46 collapse |
+| Dual-quaternion skinning, with or without a cap ramp | body volume +9–10 %; armpit wings and front folds (`renders/rejected_dual_quaternion.jpg`) |
+| Relaxing the lockout skin toward its rest edge lengths | the squashed deltoid skin buckles; 1,205–1,807 pairs (`renders/rejected_relaxed_skin.jpg`) |
+
+**What this establishes.**
+- Over the deltoid at lockout there is more skin than the shape holds. Squeezing it crushes it, relaxing it buckles it, deflating it thins the arm, and lifting it folds it elsewhere.
+- Meanwhile the armpit and the side of the chest are short of skin (`renders/r15_lockout_stretch_squash_fold_map.jpg`).
+- Real skin slides from the one to the other.
+- The remaining procedural route is a lockout corrective that slides the skin along a smoothed shoulder shape from the squashed deltoid into the stretched armpit.

@@ -1,0 +1,51 @@
+{
+ "kind": "ORIGINAL_V1_REVIEW_CANDIDATE_STAGE",
+ "candidate": "R18Wg5",
+ "status": "REVIEW_CANDIDATE_NOT_ACCEPTED",
+ "approved": false,
+ "stage": "upper-arm follow weights (cap / girdle share of upper-arm skin handed to the humerus)",
+ "params": {
+  "t0_m": 0.0,
+  "t1_m": 0.08,
+  "radius_m": 0.085,
+  "donor_groups": [
+   "shoulder_cap",
+   "clavicle",
+   "scapula"
+  ],
+  "medial_limit": -1.1,
+  "medial_ramp": "-0.3,0.5"
+ },
+ "log": {
+  "l": {
+   "changed_vertices": 750,
+   "moved_weight_mean": 0.252,
+   "moved_weight_max": 0.629,
+   "torso_excluded": 0
+  },
+  "r": {
+   "changed_vertices": 750,
+   "moved_weight_mean": 0.252,
+   "moved_weight_max": 0.629,
+   "torso_excluded": 0
+  }
+ },
+ "output": {
+  "path": "R18Wg5.blend",
+  "sha256": "56e2fb5433ca8dac566501bddac7b4c84b0780e90779cb1ad8d9fc617ad5f20e",
+  "parent": {
+   "path": "R18.blend",
+   "sha256": "d69e9fb1205dd0dc918f79287d4f2d48743ed6b96fa6a4fd76f2664e3be816ae"
+  },
+  "s1_keys": [
+   "HGPT_S1_SHOULDER_l_105",
+   "HGPT_S1_SHOULDER_l_120",
+   "HGPT_S1_SHOULDER_l_145",
+   "HGPT_S1_SHOULDER_l_160",
+   "HGPT_S1_SHOULDER_r_105",
+   "HGPT_S1_SHOULDER_r_120",
+   "HGPT_S1_SHOULDER_r_145",
+   "HGPT_S1_SHOULDER_r_160"
+  ]
+ }
+}

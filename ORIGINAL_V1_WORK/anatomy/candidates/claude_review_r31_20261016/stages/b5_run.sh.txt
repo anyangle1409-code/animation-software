@@ -1,0 +1,12 @@
+set -e
+cd /home/user/p5
+export PYTHONPATH=/tmp/claude-0/-home-user-animation-software/b0b01a8a-22fb-52cd-85ad-39c74496ecb2/scratchpad/bpy52
+S=scripts/build_original_review_candidate_r15_blender.py
+python3.13 /tmp/claude-0/-home-user-animation-software/b0b01a8a-22fb-52cd-85ad-39c74496ecb2/scratchpad/tools/drops5.py /tmp/claude-0/-home-user-animation-software/b0b01a8a-22fb-52cd-85ad-39c74496ecb2/scratchpad/r18w1/R18Wg5.blend /tmp/claude-0/-home-user-animation-software/b0b01a8a-22fb-52cd-85ad-39c74496ecb2/scratchpad/b5/BASE.blend > /tmp/claude-0/-home-user-animation-software/b0b01a8a-22fb-52cd-85ad-39c74496ecb2/scratchpad/b5/drop.log 2>&1
+grep DROPPED /tmp/claude-0/-home-user-animation-software/b0b01a8a-22fb-52cd-85ad-39c74496ecb2/scratchpad/b5/drop.log
+python3.13 $S -- --make-target --blend /tmp/claude-0/-home-user-animation-software/b0b01a8a-22fb-52cd-85ad-39c74496ecb2/scratchpad/b5/BASE.blend --out /tmp/claude-0/-home-user-animation-software/b0b01a8a-22fb-52cd-85ad-39c74496ecb2/scratchpad/b5/T.blend > /tmp/claude-0/-home-user-animation-software/b0b01a8a-22fb-52cd-85ad-39c74496ecb2/scratchpad/b5/target.log 2>&1
+echo TARGET
+python3.13 $S -- --dump --blend /tmp/claude-0/-home-user-animation-software/b0b01a8a-22fb-52cd-85ad-39c74496ecb2/scratchpad/b5/T.blend --out /tmp/claude-0/-home-user-animation-software/b0b01a8a-22fb-52cd-85ad-39c74496ecb2/scratchpad/b5/targets.npz > /tmp/claude-0/-home-user-animation-software/b0b01a8a-22fb-52cd-85ad-39c74496ecb2/scratchpad/b5/dump.log 2>&1
+echo DUMP
+S5_MASK_RINGS=0 S5_RESOLVE=0 S5_SMOOTH_GUARD=1 S5_POST_SMOOTH=0 python3.13 $S -- --bake --blend /tmp/claude-0/-home-user-animation-software/b0b01a8a-22fb-52cd-85ad-39c74496ecb2/scratchpad/b5/BASE.blend --parent /tmp/claude-0/-home-user-animation-software/b0b01a8a-22fb-52cd-85ad-39c74496ecb2/scratchpad/r18w1/R18Wg5.blend --targets /tmp/claude-0/-home-user-animation-software/b0b01a8a-22fb-52cd-85ad-39c74496ecb2/scratchpad/b5/targets.npz --out /tmp/claude-0/-home-user-animation-software/b0b01a8a-22fb-52cd-85ad-39c74496ecb2/scratchpad/b5/B5.blend --report /tmp/claude-0/-home-user-animation-software/b0b01a8a-22fb-52cd-85ad-39c74496ecb2/scratchpad/b5/b5_build.json > /tmp/claude-0/-home-user-animation-software/b0b01a8a-22fb-52cd-85ad-39c74496ecb2/scratchpad/b5/bake.log 2>&1
+echo BAKED

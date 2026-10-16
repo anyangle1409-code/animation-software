@@ -108,7 +108,10 @@ def main():
                 ws[k] *= (1.0 - g[i])
             ws[up.index] = ws.get(up.index, 0.0) + m
             total = sum(ws.values())
-            keep = sorted(ws.items(), key=lambda kv: -kv[1])[:4]          # 4-influence limit
+            # 4-influence limit.  R31 note: the R18Wg5 stage behind R31 trimmed to the top 4 regardless, which on 22 vertices
+            # per side at the top of the shoulder (6 influences in R18) dropped the upperarm weight (by <= 0.032); keep it now
+            others = sorted(((k, w) for k, w in ws.items() if k != up.index), key=lambda kv: -kv[1])
+            keep = [(up.index, ws[up.index])] + others[:3] if ws[up.index] > 1e-6 else others[:4]
             ks = sum(w for _, w in keep)
             present = {e.group for e in v.groups}
             for k in ws:

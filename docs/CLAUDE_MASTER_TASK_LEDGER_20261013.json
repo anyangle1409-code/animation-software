@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "kind": "claude_master_task_ledger",
- "updated": "2026-10-15 (R28: fuller upper arm at lockout)",
+ "updated": "2026-10-16 (R29: wider V, arm in line with the back)",
  "owner_rules": "skeleton is source of truth; no frozen-skeleton change without owner decision; no merge; no approval claims; no third-party assets",
  "environment": "cloud Linux container (Blender 5.2.1 as Python module); not the owner's Windows laptop; no battery telemetry available, protection = commit/push after every task",
  "branches": {
@@ -10,7 +10,7 @@
   "w_guides": "claude/functional-original-shoulder-correction-20261013 (draft PR #111)",
   "w_correctives": "claude/functional-shoulder-coupled-corrective-20261013",
   "movement": "claude/movement-benchmarks-20261013 (draft PR #113) head 359c8865",
-  "review_r1": "claude/original-v1-consolidated-review-20261014 (R1-R28)"
+  "review_r1": "claude/original-v1-consolidated-review-20261014 (R1-R29)"
  },
  "tasks": [
   {
@@ -567,9 +567,9 @@
    "description": "lockout lump behind the shoulder + crinkles at the arm root (owner circled both)",
    "priority": 1,
    "status": "TESTED",
-   "result": "R18: shoulder edges re-routed along the folds (vertices/weights/keys identical): lockout sharp folds 285 -> 162, benchmarks no worse. Rejected with measurements: cap-fraction ramp R16 (crush), inner cap hand-back, lift corrective R17 (crease ring), rest-vault spare skin (stretch up), R19 re-bake (folds back), deflate corrective (thins arm); R24: lockout skin-slide corrective (faired ball + surface-walking slide, S7 keys from 130 deg): press collapse/pairs 0 above 130 deg, lockout stretch 314 -> 100, ball behind the shoulder gone, arm-root kink mostly gone; benchmarks = R18 (shoulder_press better); owner on R24: still creasing at the arm root -> R25: corner on the back of the upper arm faired, pocket floor lifted, crushed triangles pushed open in the slide (bake within 3.1 mm of target): sharp folds 164 -> 92, lockout stretch 314 -> 91, benchmarks = R18; owner on R25: still not right, do both (1) remove the hook by the neck (2) restore a rounded deltoid cap -> R26: hook zone rebuilt as a thin-plate surface before and after the slide (the slide re-folded it), front armpit fold rebuilt, 3 cm deltoid cap; targets 0 collapse/0 pairs, bake within 0.2 mm, sharp folds 92 -> 64, volume -2.81 -> -2.21 %, benchmarks = R25; owner on R26: arm bumpy (biceps bulb, elbow dip), reference photo = straight widening column -> R27: arm edges fitted to straight lines wrist->root (fill-only at root, smoothed, second slide, half at 145 deg): targets 0/0, bake 0.2 mm, lockout stretch 90, shoulder_press collapse 7 -> 3, volume -3.89 % recorded; owner: continue -> neck-base fillet tried and rejected (no change or crossing spikes); R28: column root +20 %: targets 0/0, bake 0.2 mm, volume -2.79 %, benchmarks = R27, sharp folds 94 (R27 70)",
-   "evidence": "docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R28_20261015.md; R28 3/3",
-   "next": "owner review of R28; watch: faint line on the far arm (3/4 view), sharp folds 94"
+   "result": "R18: shoulder edges re-routed along the folds (vertices/weights/keys identical): lockout sharp folds 285 -> 162, benchmarks no worse. Rejected with measurements: cap-fraction ramp R16 (crush), inner cap hand-back, lift corrective R17 (crease ring), rest-vault spare skin (stretch up), R19 re-bake (folds back), deflate corrective (thins arm); R24: lockout skin-slide corrective (faired ball + surface-walking slide, S7 keys from 130 deg): press collapse/pairs 0 above 130 deg, lockout stretch 314 -> 100, ball behind the shoulder gone, arm-root kink mostly gone; benchmarks = R18 (shoulder_press better); owner on R24: still creasing at the arm root -> R25: corner on the back of the upper arm faired, pocket floor lifted, crushed triangles pushed open in the slide (bake within 3.1 mm of target): sharp folds 164 -> 92, lockout stretch 314 -> 91, benchmarks = R18; owner on R25: still not right, do both (1) remove the hook by the neck (2) restore a rounded deltoid cap -> R26: hook zone rebuilt as a thin-plate surface before and after the slide (the slide re-folded it), front armpit fold rebuilt, 3 cm deltoid cap; targets 0 collapse/0 pairs, bake within 0.2 mm, sharp folds 92 -> 64, volume -2.81 -> -2.21 %, benchmarks = R25; owner on R26: arm bumpy (biceps bulb, elbow dip), reference photo = straight widening column -> R27: arm edges fitted to straight lines wrist->root (fill-only at root, smoothed, second slide, half at 145 deg): targets 0/0, bake 0.2 mm, lockout stretch 90, shoulder_press collapse 7 -> 3, volume -3.89 % recorded; owner: continue -> neck-base fillet tried and rejected (no change or crossing spikes); R28: column root +20 %: targets 0/0, bake 0.2 mm, volume -2.79 %, benchmarks = R27, sharp folds 94 (R27 70); owner: outer arm edge should run straight into the side of the back -> R29: lockout 166 deg (owner-approved, opt-in scene prop), back filled to the arm line, wider post slide, auto clean-up, arm column into the root (removes the inner-arm fold the owner circled): targets 0/0, press 0/0, lockout stretch 83, sharp folds 58, shoulder_press collapse 1, volume +4.41 % recorded",
+   "evidence": "docs/CLAUDE_ORIGINAL_V1_REVIEW_CANDIDATE_R29_20261016.md; R29 3/3",
+   "next": "owner review of R29; watch: +4.4 % volume at lockout (fuller back), lockout now 166 deg"
   }
  ]
 }

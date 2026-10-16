@@ -66,6 +66,8 @@ def _setup(blend):
     import build_original_movement_benchmarks_blender as bench
     import original_v1_press_extension as px
     bpy.ops.wm.open_mainfile(filepath=str(Path(blend).resolve()))
+    if os.environ.get("S7_LOCKOUT_HT"):                 # R29: lower lockout elevation (arms in a wider V), saved with the blend
+        bpy.context.scene["hgpt_press_lockout_ht"] = float(os.environ["S7_LOCKOUT_HT"])
     res = correction.build_corrected_scene()
     body, rig = res["body"], res["runtime"]
     for kb in body.data.shape_keys.key_blocks[1:]:

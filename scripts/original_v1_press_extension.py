@@ -103,6 +103,11 @@ def install():
         raise RuntimeError("the R4+ shoulder drive must be installed first (drives.setup)")
     r4._S["extend"] = extend
     _PATH["name"] = bpy.context.scene.get("hgpt_press_path", "v1")
+    # R29 (owner, with a reference photo of the press from behind: the outer edge of the arm runs in one straight line
+    # into the side of the back; R28's arms were too upright - outer edge 2-3 deg from vertical against ~8 deg): the
+    # lockout elevation is opt-in per blend via scene["hgpt_press_lockout_ht"]; blends without it keep 172 deg
+    global LOCKOUT_HT
+    LOCKOUT_HT = float(bpy.context.scene.get("hgpt_press_lockout_ht", 172.0))
     if _PATH["name"] not in PATHS:
         raise RuntimeError(f"unknown press path {_PATH['name']}")
 

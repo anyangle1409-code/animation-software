@@ -26,6 +26,8 @@ TAUB = int(os.environ.get("TAUB", 30)); SLIDE = int(os.environ.get("SLIDE", 200)
 RIN, ROUT = (float(x) for x in os.environ.get("RR", "0.14,0.19").split(","))
 KEYS = tuple(float(x) for x in os.environ.get("KEYS_HT", "145,160,172").split(","))
 bpy.ops.wm.open_mainfile(filepath=blend)
+if os.environ.get("LOCKOUT_HT"):                         # R29: lower lockout elevation (arms in a wider V)
+    bpy.context.scene["hgpt_press_lockout_ht"] = float(os.environ["LOCKOUT_HT"])
 import build_functional_shoulder_correction_blender as correction
 import build_original_movement_benchmarks_blender as bench
 import build_original_sculpt_corrective_blender as s4
@@ -461,10 +463,73 @@ for ht in KEYS:
                 print("ELBOWDBG", s_, "cand", len(cand), "dr mm max/min", round(dr.max() * 1000, 1), round(dr.min() * 1000, 1))
                 for bb in range(0, NB, 2):
                     print("ELBOWDBG  t %.2f fr %.2f  r(cm) by sector:" % ((bb + b0) * BW, (bb + b0) * BW / Lw), " ".join("%4.1f" % (prof[k_, bb] * 100) for k_ in range(0, NS, 2)), " fair:", " ".join("%4.1f" % (fair[k_, bb] * 100) for k_ in range(0, NS, 2)))
+    if os.environ.get("LAT_WEB"):
+        # R29 (owner reference, press from behind: the outer edge of the arm runs in ONE straight line into the side of the
+        # back; R28 steps in 4-6 cm under the arm - the web of back muscle from the arm into the torso below the armpit is
+        # too thin).  Seen from behind (x across, z up), a straight line is fitted to the outer edge of the upper arm and
+        # extended down; the side of the torso below the armpit is pushed out across (x) to meet it, the push fading out
+        # over LAT depth (cm) below the shoulder joint and with distance in from the side outline (sigma cm), then smoothed
+        g_, dep_, sig_ = (float(x) for x in os.environ["LAT_WEB"].split(":"))
+        for kv in [x for x in os.environ.get("LAT_KEY_GAIN", "").split(",") if x]:     # per-key strength "ht:gain"
+            if abs(float(kv.split(":")[0]) - ht) < 0.5:
+                g_ *= float(kv.split(":")[1])
+        dep_ /= 100; sig_ /= 100
+        gi3 = {g.index: g.name for g in body.vertex_groups}
+        if "lat_arm" not in arm_rest:
+            arm_rest["lat_arm"] = {}
+            for s_ in "rl":
+                wa = np.zeros(nv)
+                for v in body.data.vertices:
+                    for e in v.groups:
+                        n_ = gi3[e.group]
+                        if n_.endswith(f"_{s_}") and n_.startswith(("upperarm", "forearm", "lowerarm")):
+                            wa[v.index] += e.weight
+                arm_rest["lat_arm"][s_] = wa
+        D = np.zeros((nv, 3))
+        for s_ in "rl":
+            sg = 1.0 if s_ == "r" else -1.0
+            wa = arm_rest["lat_arm"][s_]
+            gh_ = np.array(tuple(W @ rig.pose.bones[f"upperarm_{s_}"].head)); el_ = np.array(tuple(W @ rig.pose.bones[f"forearm_{s_}"].head))
+            xs_ = sg * X[:, 0]; zs_ = X[:, 2]
+            # outer edge of the upper arm per 1 cm height slice (above the joint, below the elbow)
+            zz, xx = [], []
+            for z0 in np.arange(gh_[2] + 0.05, el_[2] - 0.03, 0.01):
+                m_ = (wa > 0.5) & (zs_ >= z0) & (zs_ < z0 + 0.01)
+                if m_.sum() > 2: zz.append(z0 + 0.005); xx.append(xs_[m_].max())
+            b_, a_ = np.polyfit(zz, xx, 1)                   # x = a + b z (outer arm edge, seen from behind)
+            torso = (wa < 0.5) & (xs_ > 0.03)
+            for z0 in np.arange(gh_[2] - dep_, gh_[2] + 0.02, 0.01):
+                m_ = np.where(torso & (zs_ >= z0) & (zs_ < z0 + 0.01))[0]
+                if len(m_) < 3: continue
+                edge = xs_[m_].max(); want = a_ + b_ * (z0 + 0.005)
+                fade = np.clip((z0 - (gh_[2] - dep_)) / (0.4 * dep_), 0, 1); fade = fade * fade * (3 - 2 * fade)
+                d_ = max(want - edge, 0.0) * g_ * fade
+                if d_ <= 0: continue
+                f_ = np.exp(-((edge - xs_[m_]) / sig_) ** 2)
+                D[m_, 0] = np.maximum(D[m_, 0] * sg, d_ * f_) * sg
+            if os.environ.get("ELBOW_DEBUG"):
+                print("LATDBG", s_, "arm edge line x = %.3f + %.3f z (deg from vertical %.1f)" % (a_, b_, np.degrees(np.arctan(abs(b_)))), "max push mm %.1f" % (np.abs(D[:, 0]).max() * 1000))
+        zl = np.where(np.abs(D[:, 0]) > 1e-5)[0]
+        zl = np.unique(np.concatenate([zl] + [nbr[i] for i in zl]))
+        for _ in range(int(os.environ.get("LAT_SMOOTH", 20))):
+            D[zl] = 0.5 * D[zl] + 0.5 * np.array([D[nbr[i]].mean(0) for i in zl])
+        X = X + D
+    if os.environ.get("POST_RR"):
+        # R29: the back fill reaches ~55 cm below the shoulder, beyond the slide region (RR) - the skin there could only
+        # stretch (measured: lockout stretch 282 after the bake).  The post-fit slides use their own, larger region
+        pin_, pout_ = (float(x) for x in os.environ["POST_RR"].split(","))
+        wfree2 = np.zeros(nv)
+        for s_ in "rl":
+            gh_ = np.array(tuple(W @ rig.pose.bones[f"upperarm_{s_}"].head))
+            dist_ = np.linalg.norm(X - gh_, axis=1)
+            wfree2 = np.maximum(wfree2, 1 - np.clip((dist_ - pin_) / (pout_ - pin_), 0, 1))
+        idx2 = np.where(wfree2 > 0)[0]
+    else:
+        wfree2, idx2 = wfree, idx
     if int(os.environ.get("POST_SLIDE", 0)) > 0:
         # R27b: a short second skin slide after the arm column fit, so the triangles it squeezed at the arm root are spread
         # back out (the column fit left 3 crushed triangles / 2 crossing pairs - measured)
-        X = walkslide.slide(X, Fa, A0, idx, wfree, iters=int(os.environ["POST_SLIDE"]), eta=ETA, log=[], crush_w=float(os.environ.get("CRUSH_W", 0)))
+        X = walkslide.slide(X, Fa, A0, idx2, wfree2, iters=int(os.environ["POST_SLIDE"]), eta=ETA, log=[], crush_w=float(os.environ.get("CRUSH_W", 0)))
     for zone in [z for z in os.environ.get("POSTZONES", "").split(";") if z]:
         # R28 (owner reference: the arm meets the trapezius in a soft rounded U at the base of the neck; R27 has a flat
         # floor with two sharp corners - measured): after everything else, concave skin in each zone "passes:x,y,z:r0,r1"
@@ -502,7 +567,60 @@ for ht in KEYS:
             if os.environ.get("ELBOW_DEBUG") and _ in (0, abs(int(np_)) - 1):
                 print("PZDBG pass", _, "zone n", len(z4), "h mm max %.2f min %.2f, n concave %d" % (h_.max() * 1000, h_.min() * 1000, (h_ > 0).sum()))
     if int(os.environ.get("POST_SLIDE2", 0)) > 0:
-        X = walkslide.slide(X, Fa, A0, idx, wfree, iters=int(os.environ["POST_SLIDE2"]), eta=ETA, log=[], crush_w=float(os.environ.get("CRUSH_W", 0)))
+        X = walkslide.slide(X, Fa, A0, idx2, wfree2, iters=int(os.environ["POST_SLIDE2"]), eta=ETA, log=[], crush_w=float(os.environ.get("CRUSH_W", 0)))
+    for _pass in range(2 if int(os.environ.get("FINAL_SLIDE", 0)) > 0 else 1):
+        if _pass == 1:
+            # R29: the patch rebuilds stretch the skin round them (measured 81 -> 145 over-stretched); let it slide, then
+            # clean up once more in case the slide re-folds anything
+            X = walkslide.slide(X, Fa, A0, idx2, wfree2, iters=int(os.environ["FINAL_SLIDE"]), eta=ETA, log=[], crush_w=float(os.environ.get("CRUSH_W", 0)))
+        for _round in range(int(os.environ.get("AUTO_UNCROSS", 0))):
+            # R29: small fold-overs right at the armpit move with the lockout angle (the hand-placed front-fold rebuild sat
+            # at the 172 deg position; measured 1-3 crossing pairs at 156 deg).  Each round finds the crossing pairs and
+            # rebuilds a small patch (UNCROSS_R m) round each as a thin-plate surface from its outside ring
+            tr_ = BVHTree.FromPolygons([Vector(x) for x in X], F, all_triangles=True); fs_ = [set(f) for f in F]
+            bad_ = [(a, b) for a, b in tr_.overlap(tr_) if a < b and not (fs_[a] & fs_[b])]
+            crushed_ = np.where(areas(X) / A0 < 0.1)[0]            # crushed triangles are rebuilt the same way
+            if os.environ.get("UNCROSS_FOLDS"):
+                # R29: sharp new folds (spikes / curls) near the shoulders are rebuilt the same way: edges whose dihedral is
+                # above F1 deg and at least F2 deg above rest, within 22 cm of a shoulder joint (the hook beside the neck and the
+                # front armpit fold moved with the 166 deg lockout - measured: dihedral up to 169 deg)
+                f1_, f2_ = (float(x) for x in os.environ["UNCROSS_FOLDS"].split(","))
+                if "edges" not in arm_rest:
+                    from collections import defaultdict
+                    ef_ = defaultdict(list)
+                    for k_, f in enumerate(F):
+                        for i_ in range(3): ef_[tuple(sorted((f[i_], f[(i_ + 1) % 3])))].append(k_)
+                    E_ = np.array([k for k, v in ef_.items() if len(v) == 2]); FF_ = np.array([ef_[tuple(e)] for e in E_])
+                    nR_ = np.cross(R[Fa[:, 1]] - R[Fa[:, 0]], R[Fa[:, 2]] - R[Fa[:, 0]]); nR_ /= np.maximum(np.linalg.norm(nR_, axis=1)[:, None], 1e-15)
+                    arm_rest["edges"] = (E_, FF_, np.degrees(np.arccos(np.clip((nR_[FF_[:, 0]] * nR_[FF_[:, 1]]).sum(1), -1, 1))))
+                E_, FF_, dR_ = arm_rest["edges"]
+                nX_ = np.cross(X[Fa[:, 1]] - X[Fa[:, 0]], X[Fa[:, 2]] - X[Fa[:, 0]]); nX_ /= np.maximum(np.linalg.norm(nX_, axis=1)[:, None], 1e-15)
+                dX_ = np.degrees(np.arccos(np.clip((nX_[FF_[:, 0]] * nX_[FF_[:, 1]]).sum(1), -1, 1)))
+                mid_ = (X[E_[:, 0]] + X[E_[:, 1]]) / 2
+                near_ = np.zeros(len(E_), bool)
+                for s_ in "rl":
+                    near_ |= np.linalg.norm(mid_ - np.array(tuple(W @ rig.pose.bones[f"upperarm_{s_}"].head)), axis=1) < 0.22
+                sharp_ = np.where(near_ & (dX_ > f1_) & (dX_ - dR_ > f2_))[0]
+                crushed_ = np.concatenate([crushed_, FF_[sharp_, 0]]).astype(int)
+            if not bad_ and not len(crushed_):
+                break
+            rr_ = float(os.environ.get("UNCROSS_R", 0.025)) * (1 + 0.3 * _round)
+            cents = np.array([X[list(F[a]) + list(F[b])].mean(0) for a, b in bad_] + [X[list(F[k])].mean(0) for k in crushed_])
+            done_ = np.zeros(nv, bool)
+            for c in cents:
+                inner = np.where((np.linalg.norm(X - c, axis=1) < rr_) & ~done_)[0]
+                if len(inner) < 3: continue
+                done_[inner] = True
+                pos = -np.ones(nv, int); pos[inner] = np.arange(len(inner))
+                ring = np.unique(np.concatenate([nbr[i] for i in inner])); ring = ring[pos[ring] < 0]
+                rows = np.concatenate([inner, ring])
+                Lr = np.zeros((len(rows), nv))
+                for k_, i in enumerate(rows):
+                    Lr[k_, i] = -1.0; Lr[k_, nbr[i]] += 1.0 / len(nbr[i])
+                Bk = np.delete(np.arange(nv), inner)
+                sol, *_ = np.linalg.lstsq(Lr[:, inner], -(Lr[:, Bk] @ X[Bk]), rcond=None)
+                X[inner] = sol
+            print("UNCROSS round", _round, "pairs", len(bad_), "crushed / sharp", len(crushed_), "radius mm", round(rr_ * 1000), flush=True)
     if P_noS5 is not None:
         # cancel the S5 bake over the middle of the upper arm only (trapezoid window along the arm, arm skinning weight)
         a0, a1, a2, a3 = (float(x) for x in os.environ["ARM_UNS5"].split(","))
@@ -517,13 +635,14 @@ for ht in KEYS:
     reg = np.zeros(len(F), bool); reg[[k for k, f in enumerate(F) if wfree[f[0]] > 0]] = True
     logs[ht] = {"collapse": [int((rP[reg] < 0.1).sum()), int((rX[reg] < 0.1).sum())], "squash<0.6": [int((rP[reg] < 0.6).sum()), int((rX[reg] < 0.6).sum())],
                 "stretch>1.5": [int((rP[reg] > 1.5).sum()), int((rX[reg] > 1.5).sum())], "stretch>2": [int((rP[reg] > 2).sum()), int((rX[reg] > 2).sum())],
-                "pairs": pairs, "max_move_mm": round(float(np.linalg.norm(X - P, axis=1).max()) * 1000, 1)}
+                "pairs": pairs, "max_move_mm": round(float(np.linalg.norm(X - P, axis=1).max()) * 1000, 1),
+                "whole_body_stretch>2": [int((rP > 2).sum()), int((rX > 2).sum())], "whole_body_collapse": [int((rP < 0.1).sum()), int((rX < 0.1).sum())]}
     print("SLIDE", ht, logs[ht], flush=True)
     out_t[str(ht)] = X
     if ht == KEYS[-1]:
         np.save(out + "/P172.npy", P)
 np.savez(out + "/targets.npz", **out_t)
-import json; json.dump({"mode": "skin slide", "taubin": TAUB, "lump_passes": int(os.environ.get("LUMP", 0)), "lump_off": os.environ.get("LUMP_OFF", "0,0.04,-0.02"), "lump_r": os.environ.get("LUMP_R", "0.06,0.10"), "zones": os.environ.get("ZONES", ""), "blend_passes": int(os.environ.get("BLEND", 0)), "untangle_iters": int(os.environ.get("UNTANGLE", 0)), "guard_zones": os.environ.get("GUARD_ZONES", "1") == "1", "crush_w": float(os.environ.get("CRUSH_W", 0)), "deltoid_bump": os.environ.get("DELT_BUMP", ""), "fair": os.environ.get("FAIR", ""), "postfair": os.environ.get("POSTFAIR", ""), "arm_restore": ARM_RESTORE, "arm_uns5": os.environ.get("ARM_UNS5", ""), "arm_inflate": os.environ.get("ARM_INFLATE", ""), "elbow_fair": os.environ.get("ELBOW_FAIR", ""), "elbow_mode": os.environ.get("ELBOW_MODE", "hull"), "postzones": os.environ.get("POSTZONES", ""), "post_slide": int(os.environ.get("POST_SLIDE", 0)), "post_slide2": int(os.environ.get("POST_SLIDE2", 0)), "arm_key_gain": os.environ.get("ARM_KEY_GAIN", ""), "tube": {k: os.environ.get(k, "") for k in ("TUBE_A", "TUBE_B", "TUBE_ITERS", "TUBE_RELAX", "TUBE_FILLROOT", "ARM_WMIN", "ELBOW_SMOOTH", "TUBE_ROOT_SCALE")}, "slide_iters": SLIDE, "eta": ETA, "region": [RIN, ROUT], "keys_ht": KEYS, "log": {str(k): v for k, v in logs.items()}}, open(out + "/targets.npz.json", "w"), indent=1)
+import json; json.dump({"mode": "skin slide", "taubin": TAUB, "lump_passes": int(os.environ.get("LUMP", 0)), "lump_off": os.environ.get("LUMP_OFF", "0,0.04,-0.02"), "lump_r": os.environ.get("LUMP_R", "0.06,0.10"), "zones": os.environ.get("ZONES", ""), "blend_passes": int(os.environ.get("BLEND", 0)), "untangle_iters": int(os.environ.get("UNTANGLE", 0)), "guard_zones": os.environ.get("GUARD_ZONES", "1") == "1", "crush_w": float(os.environ.get("CRUSH_W", 0)), "deltoid_bump": os.environ.get("DELT_BUMP", ""), "fair": os.environ.get("FAIR", ""), "postfair": os.environ.get("POSTFAIR", ""), "arm_restore": ARM_RESTORE, "arm_uns5": os.environ.get("ARM_UNS5", ""), "arm_inflate": os.environ.get("ARM_INFLATE", ""), "elbow_fair": os.environ.get("ELBOW_FAIR", ""), "elbow_mode": os.environ.get("ELBOW_MODE", "hull"), "postzones": os.environ.get("POSTZONES", ""), "lat_web": os.environ.get("LAT_WEB", ""), "lat_key_gain": os.environ.get("LAT_KEY_GAIN", ""), "post_rr": os.environ.get("POST_RR", ""), "auto_uncross": int(os.environ.get("AUTO_UNCROSS", 0)), "uncross_r": os.environ.get("UNCROSS_R", ""), "uncross_folds": os.environ.get("UNCROSS_FOLDS", ""), "final_slide": int(os.environ.get("FINAL_SLIDE", 0)), "lockout_ht": float(bpy.context.scene.get("hgpt_press_lockout_ht", 172.0)), "post_slide": int(os.environ.get("POST_SLIDE", 0)), "post_slide2": int(os.environ.get("POST_SLIDE2", 0)), "arm_key_gain": os.environ.get("ARM_KEY_GAIN", ""), "tube": {k: os.environ.get(k, "") for k in ("TUBE_A", "TUBE_B", "TUBE_ITERS", "TUBE_RELAX", "TUBE_FILLROOT", "ARM_WMIN", "ELBOW_SMOOTH", "TUBE_ROOT_SCALE")}, "slide_iters": SLIDE, "eta": ETA, "region": [RIN, ROUT], "keys_ht": KEYS, "log": {str(k): v for k, v in logs.items()}}, open(out + "/targets.npz.json", "w"), indent=1)
 # render 172
 scene = bpy.context.scene
 for o in scene.objects:

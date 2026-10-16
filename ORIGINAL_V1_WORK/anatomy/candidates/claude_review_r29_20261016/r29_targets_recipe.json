@@ -1,0 +1,139 @@
+{
+ "mode": "skin slide",
+ "taubin": 10,
+ "lump_passes": 200,
+ "lump_off": "0,0.04,-0.02",
+ "lump_r": "0.06,0.10",
+ "zones": "250:0.03,0.025,0.08:0.03,0.11;-300:-0.08,0.033,-0.013:0.025,0.08",
+ "blend_passes": 20,
+ "untangle_iters": 0,
+ "guard_zones": false,
+ "crush_w": 100.0,
+ "deltoid_bump": "0.015:0.04,0.0,0.06:0.11,0.07",
+ "fair": "-0.095,0.07,-0.035:0.055",
+ "postfair": "-0.095,0.07,-0.035:0.055;-0.017,-0.058,0.035:0.025",
+ "arm_restore": "",
+ "arm_uns5": "",
+ "arm_inflate": "",
+ "elbow_fair": "1:-38,-26,16,22:1.0",
+ "elbow_mode": "tube",
+ "postzones": "",
+ "lat_web": "0.6:55:6",
+ "lat_key_gain": "145:0.3,156:0.6",
+ "post_rr": "0.30,0.45",
+ "auto_uncross": 10,
+ "uncross_r": "",
+ "uncross_folds": "90,45",
+ "final_slide": 40,
+ "lockout_ht": 166.0,
+ "post_slide": 60,
+ "post_slide2": 0,
+ "arm_key_gain": "145:0.5",
+ "tube": {
+  "TUBE_A": "14,20",
+  "TUBE_B": "-23,-19",
+  "TUBE_ITERS": "3",
+  "TUBE_RELAX": "80",
+  "TUBE_FILLROOT": "-16,-10",
+  "ARM_WMIN": "0.15",
+  "ELBOW_SMOOTH": "15",
+  "TUBE_ROOT_SCALE": "1.2"
+ },
+ "slide_iters": 100,
+ "eta": 0.3,
+ "region": [
+  0.14,
+  0.19
+ ],
+ "keys_ht": [
+  145.0,
+  156.0,
+  166.0
+ ],
+ "log": {
+  "145.0": {
+   "collapse": [
+    0,
+    0
+   ],
+   "squash<0.6": [
+    1725,
+    2038
+   ],
+   "stretch>1.5": [
+    1031,
+    563
+   ],
+   "stretch>2": [
+    156,
+    29
+   ],
+   "pairs": 0,
+   "max_move_mm": 37.3,
+   "whole_body_stretch>2": [
+    160,
+    29
+   ],
+   "whole_body_collapse": [
+    0,
+    0
+   ]
+  },
+  "156.0": {
+   "collapse": [
+    4,
+    0
+   ],
+   "squash<0.6": [
+    2010,
+    2299
+   ],
+   "stretch>1.5": [
+    1089,
+    861
+   ],
+   "stretch>2": [
+    213,
+    73
+   ],
+   "pairs": 0,
+   "max_move_mm": 43.3,
+   "whole_body_stretch>2": [
+    231,
+    73
+   ],
+   "whole_body_collapse": [
+    4,
+    0
+   ]
+  },
+  "166.0": {
+   "collapse": [
+    2,
+    0
+   ],
+   "squash<0.6": [
+    2491,
+    2716
+   ],
+   "stretch>1.5": [
+    1108,
+    851
+   ],
+   "stretch>2": [
+    269,
+    78
+   ],
+   "pairs": 0,
+   "max_move_mm": 50.7,
+   "whole_body_stretch>2": [
+    318,
+    81
+   ],
+   "whole_body_collapse": [
+    2,
+    0
+   ]
+  }
+ }
+}

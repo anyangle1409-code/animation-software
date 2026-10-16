@@ -142,6 +142,7 @@ def drive_s1(rig, body):
     for family in S1_FAMILIES:
         prefix, prop = family[:2]
         start = family[2] if len(family) > 2 else S1_START
+        start = float(rig.get(f"{prop}_start", start))      # R30: opt-in per rig (owner: the S7 crease change was too sudden)
         for s in ("l", "r"):
             names = sorted((kb.name for kb in keys if kb.name.startswith(f"{prefix}{s}_")), key=lambda n: int(n.rsplit("_", 1)[1]))
             if not names or f"{prop}_{s}" not in rig:

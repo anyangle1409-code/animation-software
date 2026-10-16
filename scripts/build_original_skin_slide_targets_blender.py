@@ -153,6 +153,40 @@ for ht in KEYS:
     idx = np.where(wfree > 0)[0]
     # 1. shape: Taubin smoothing of the region (boundary held by wfree)
     S = P.copy()
+    if os.environ.get("ARM_RIGID"):
+        # R31b (owner: "there looks like there is a join here but there isn't.  The only joint will be the elbow.  That bone
+        # should continue on into the shoulder"): the upper half of the upper arm is bound mostly to the cap helper, the
+        # spine and the pec / lat helpers, so it lags 8-10 cm behind the humerus and the arm bends a third of the way down
+        # (measured).  Re-binding it broke every benchmark (R31: walk / grip / push-up crossing pairs), so instead, at this
+        # key, arm skin is moved to where it would be if it moved rigidly with the humerus: full from T1 m below the
+        # shoulder pivot along the rest arm axis, blended out by T0 m; within RADIUS of the arm axis; not the torso beside the
+        # arm (medial of the axis with the skin facing outwards)
+        g_, t_ = os.environ["ARM_RIGID"].split(":"); gain_r = float(g_); T0r, T1r = (float(x) for x in t_.split(","))
+        for kv in [x for x in os.environ.get("RIGID_KEY_GAIN", "").split(",") if x]:
+            if abs(float(kv.split(":")[0]) - ht) < 0.5:
+                gain_r *= float(kv.split(":")[1])
+        if "rest_normals" not in arm_rest:
+            Nf_ = np.cross(R[Fa[:, 1]] - R[Fa[:, 0]], R[Fa[:, 2]] - R[Fa[:, 0]]); Nv_ = np.zeros_like(R)
+            for c_ in range(3):
+                np.add.at(Nv_, Fa[:, c_], Nf_)
+            arm_rest["rest_normals"] = Nv_ / np.maximum(np.linalg.norm(Nv_, axis=1)[:, None], 1e-15)
+        Nv_ = arm_rest["rest_normals"]
+        for s_ in "rl":
+            sg = 1.0 if s_ == "r" else -1.0
+            b_ = rig.data.bones[f"upperarm_{s_}"]; pb_ = rig.pose.bones[f"upperarm_{s_}"]
+            h0 = np.array(tuple(W @ b_.head_local)); ax0 = np.array(tuple(W @ b_.tail_local)) - h0; Lb = np.linalg.norm(ax0); ax0 /= Lb
+            lat = np.array([sg, 0.0, 0.0]) - (sg * ax0[0]) * ax0; lat /= np.linalg.norm(lat)
+            rel = R - h0; tt = rel @ ax0; perp = rel - tt[:, None] * ax0; rr_ = np.linalg.norm(perp, axis=1)
+            dirn = perp / np.maximum(rr_[:, None], 1e-9)
+            torso = ((dirn @ lat) < -0.3) & ((Nv_ @ lat) > 0.2)
+            f_ = np.clip((tt - T0r) / (T1r - T0r), 0, 1); f_ = f_ * f_ * (3 - 2 * f_)
+            f_ *= ((rr_ < float(os.environ.get("RIGID_RADIUS", 0.085))) & ~torso & (tt < Lb * 0.95)).astype(float)
+            fe = np.clip((Lb * 0.95 - tt) / (Lb * 0.15), 0, 1)        # fade out before the elbow (the forearm bends there)
+            f_ *= fe
+            M = np.array(W @ pb_.matrix @ b_.matrix_local.inverted() @ W.inverted())
+            rigid = (np.c_[R, np.ones(len(R))] @ M.T)[:, :3]
+            S += (gain_r * f_)[:, None] * (rigid - S)
+
     for k in range(TAUB):
         for lam in (0.5, -0.53):
             L = np.array([S[nbr[i]].mean(0) - S[i] for i in idx])
@@ -306,7 +340,7 @@ for ht in KEYS:
             if abs(float(kv.split(":")[0]) - ht) < 0.5:
                 gain *= float(kv.split(":")[1])
         a0, a1, a2, a3 = (float(x) for x in w_.split(","))
-        for s_ in "rl":
+        for s_ in ("rl" if gain > 0 else ""):            # gain 0 (per-key): the arm column is skipped at this key
             wa = arm_w[s_]
             gh_ = np.array(tuple(W @ rig.pose.bones[f"upperarm_{s_}"].head)); wr_ = np.array(tuple(W @ rig.pose.bones[f"forearm_{s_}"].tail))
             Lw = np.linalg.norm(wr_ - gh_); ax = (wr_ - gh_) / Lw
@@ -510,8 +544,8 @@ for ht in KEYS:
             if os.environ.get("ELBOW_DEBUG"):
                 print("LATDBG", s_, "arm edge line x = %.3f + %.3f z (deg from vertical %.1f)" % (a_, b_, np.degrees(np.arctan(abs(b_)))), "max push mm %.1f" % (np.abs(D[:, 0]).max() * 1000))
         zl = np.where(np.abs(D[:, 0]) > 1e-5)[0]
-        zl = np.unique(np.concatenate([zl] + [nbr[i] for i in zl]))
-        for _ in range(int(os.environ.get("LAT_SMOOTH", 20))):
+        zl = np.unique(np.concatenate([zl] + [nbr[i] for i in zl])).astype(int)
+        for _ in range(int(os.environ.get("LAT_SMOOTH", 20)) if len(zl) else 0):   # nothing to smooth at gain 0
             D[zl] = 0.5 * D[zl] + 0.5 * np.array([D[nbr[i]].mean(0) for i in zl])
         X = X + D
     if os.environ.get("POST_RR"):
@@ -642,7 +676,7 @@ for ht in KEYS:
     if ht == KEYS[-1]:
         np.save(out + "/P172.npy", P)
 np.savez(out + "/targets.npz", **out_t)
-import json; json.dump({"mode": "skin slide", "taubin": TAUB, "lump_passes": int(os.environ.get("LUMP", 0)), "lump_off": os.environ.get("LUMP_OFF", "0,0.04,-0.02"), "lump_r": os.environ.get("LUMP_R", "0.06,0.10"), "zones": os.environ.get("ZONES", ""), "blend_passes": int(os.environ.get("BLEND", 0)), "untangle_iters": int(os.environ.get("UNTANGLE", 0)), "guard_zones": os.environ.get("GUARD_ZONES", "1") == "1", "crush_w": float(os.environ.get("CRUSH_W", 0)), "deltoid_bump": os.environ.get("DELT_BUMP", ""), "fair": os.environ.get("FAIR", ""), "postfair": os.environ.get("POSTFAIR", ""), "arm_restore": ARM_RESTORE, "arm_uns5": os.environ.get("ARM_UNS5", ""), "arm_inflate": os.environ.get("ARM_INFLATE", ""), "elbow_fair": os.environ.get("ELBOW_FAIR", ""), "elbow_mode": os.environ.get("ELBOW_MODE", "hull"), "postzones": os.environ.get("POSTZONES", ""), "lat_web": os.environ.get("LAT_WEB", ""), "lat_key_gain": os.environ.get("LAT_KEY_GAIN", ""), "post_rr": os.environ.get("POST_RR", ""), "auto_uncross": int(os.environ.get("AUTO_UNCROSS", 0)), "uncross_r": os.environ.get("UNCROSS_R", ""), "uncross_folds": os.environ.get("UNCROSS_FOLDS", ""), "final_slide": int(os.environ.get("FINAL_SLIDE", 0)), "lockout_ht": float(bpy.context.scene.get("hgpt_press_lockout_ht", 172.0)), "post_slide": int(os.environ.get("POST_SLIDE", 0)), "post_slide2": int(os.environ.get("POST_SLIDE2", 0)), "arm_key_gain": os.environ.get("ARM_KEY_GAIN", ""), "tube": {k: os.environ.get(k, "") for k in ("TUBE_A", "TUBE_B", "TUBE_ITERS", "TUBE_RELAX", "TUBE_FILLROOT", "ARM_WMIN", "ELBOW_SMOOTH", "TUBE_ROOT_SCALE")}, "slide_iters": SLIDE, "eta": ETA, "region": [RIN, ROUT], "keys_ht": KEYS, "log": {str(k): v for k, v in logs.items()}}, open(out + "/targets.npz.json", "w"), indent=1)
+import json; json.dump({"mode": "skin slide", "taubin": TAUB, "lump_passes": int(os.environ.get("LUMP", 0)), "lump_off": os.environ.get("LUMP_OFF", "0,0.04,-0.02"), "lump_r": os.environ.get("LUMP_R", "0.06,0.10"), "zones": os.environ.get("ZONES", ""), "blend_passes": int(os.environ.get("BLEND", 0)), "untangle_iters": int(os.environ.get("UNTANGLE", 0)), "guard_zones": os.environ.get("GUARD_ZONES", "1") == "1", "crush_w": float(os.environ.get("CRUSH_W", 0)), "deltoid_bump": os.environ.get("DELT_BUMP", ""), "fair": os.environ.get("FAIR", ""), "postfair": os.environ.get("POSTFAIR", ""), "arm_restore": ARM_RESTORE, "arm_uns5": os.environ.get("ARM_UNS5", ""), "arm_inflate": os.environ.get("ARM_INFLATE", ""), "elbow_fair": os.environ.get("ELBOW_FAIR", ""), "elbow_mode": os.environ.get("ELBOW_MODE", "hull"), "postzones": os.environ.get("POSTZONES", ""), "lat_web": os.environ.get("LAT_WEB", ""), "arm_rigid": os.environ.get("ARM_RIGID", ""), "rigid_key_gain": os.environ.get("RIGID_KEY_GAIN", ""), "lat_key_gain": os.environ.get("LAT_KEY_GAIN", ""), "post_rr": os.environ.get("POST_RR", ""), "auto_uncross": int(os.environ.get("AUTO_UNCROSS", 0)), "uncross_r": os.environ.get("UNCROSS_R", ""), "uncross_folds": os.environ.get("UNCROSS_FOLDS", ""), "final_slide": int(os.environ.get("FINAL_SLIDE", 0)), "lockout_ht": float(bpy.context.scene.get("hgpt_press_lockout_ht", 172.0)), "post_slide": int(os.environ.get("POST_SLIDE", 0)), "post_slide2": int(os.environ.get("POST_SLIDE2", 0)), "arm_key_gain": os.environ.get("ARM_KEY_GAIN", ""), "tube": {k: os.environ.get(k, "") for k in ("TUBE_A", "TUBE_B", "TUBE_ITERS", "TUBE_RELAX", "TUBE_FILLROOT", "ARM_WMIN", "ELBOW_SMOOTH", "TUBE_ROOT_SCALE")}, "slide_iters": SLIDE, "eta": ETA, "region": [RIN, ROUT], "keys_ht": KEYS, "log": {str(k): v for k, v in logs.items()}}, open(out + "/targets.npz.json", "w"), indent=1)
 # render 172
 scene = bpy.context.scene
 for o in scene.objects:

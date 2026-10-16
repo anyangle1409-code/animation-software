@@ -247,6 +247,10 @@ def bake():
             bench.pose_press(res, t, __import__("build_functional_shoulder_correction_blender"))
         finally:
             r4._S["extend"] = hook
+    if os.environ.get("S7_START"):
+        # R30 (owner: the arm-root crease disappears too quickly mid-press): the family fades in from this elevation instead
+        # of 130 deg (drives.drive_s1 reads rig[ANGLES_PROP + "_start"])
+        rig[ANGLES_PROP + "_start"] = float(os.environ["S7_START"])
     log = s5.build(res, targets, prefix=PREFIX, keys_ht=KEYS_HT, angles_prop=ANGLES_PROP,
                    extra_guard_paths=[("benchmark_press", benchmark_press)])
 

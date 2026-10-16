@@ -5,15 +5,28 @@ on:
     paths:
       - '.github/workflows/original-review-front-regression.yml'
       - 'scripts/blender_tests/test_original_review_candidate_r34_front.py'
+      - 'scripts/build_original_review_candidate_r34_blender.py'
+      - 'scripts/measure_original_review_r34_blender.py'
+      - 'scripts/render_original_review_r34_blender.py'
+      - 'scripts/package_original_review_r34.py'
+concurrency:
+  group: original-v1-r34-candidate
+  cancel-in-progress: false
 permissions:
   contents: read
 jobs:
-  reproduce-r33-front-failure:
+  build-review-r34:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 45
+    permissions:
+      contents: write
+    env:
+      LIBGL_ALWAYS_SOFTWARE: '1'
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
     steps:
       - uses: actions/checkout@v4
-      - run: sudo apt-get update && sudo apt-get install -y libegl1 libgl1-mesa-dri
+      - run: sudo apt-get update && sudo apt-get install -y libegl1 libgl1-mesa-dri xvfb ffmpeg python3-pil fonts-dejavu-core
       - name: Install pinned Blender 5.2.1
         run: |
           curl --fail --location --retry 3 https://download.blender.org/release/Blender5.2/blender-5.2.1-linux-x64.tar.xz --output /tmp/blender.tar.xz
@@ -24,14 +37,83 @@ jobs:
         env:
           HGPT_FRONT_TEST_BLEND: ORIGINAL_V1_WORK/anatomy/candidates/claude_review_r33_20261016/HGPT_ORIGINAL_V1_CONSOLIDATED_REVIEW_R33_CLAUDE.blend
         run: |
+          set +e
           set -uo pipefail
           /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --python-exit-code 1 --python scripts/blender_tests/test_original_review_candidate_r34_front.py 2>&1 | tee /tmp/r33-front-red.txt
           result=${PIPESTATUS[0]}
           set -e
           test "$result" -eq 1
           grep -F 'FAILED (failures=3)' /tmp/r33-front-red.txt
+      - name: Derive raw reference in its own process (no blend saved)
+        run: /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/build_original_review_candidate_r34_blender.py -- raw
+      - name: Build separate R34 with original guards
+        run: /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/build_original_review_candidate_r34_blender.py -- build
+      - name: Run fixed front goals on R34 and retain failures
+        shell: bash
+        run: |
+          set +e
+          set -uo pipefail
+          out=ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r34_20261016
+          /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/blender_tests/test_original_review_candidate_r34_front.py 2>&1 | tee "$out/front_test.txt"
+          result=${PIPESTATUS[0]}
+          printf '%s\n' "$result" > "$out/front_test_exit.txt"
+          exit 0
+      - name: Check preservation and measure both paths in fresh processes
+        shell: bash
+        run: |
+          set -euo pipefail
+          blender=/tmp/blender-5.2.1-linux-x64/blender
+          out=ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r34_20261016
+          r33=ORIGINAL_V1_WORK/anatomy/candidates/claude_review_r33_20261016/HGPT_ORIGINAL_V1_CONSOLIDATED_REVIEW_R33_CLAUDE.blend
+          r34="$out/HGPT_ORIGINAL_V1_REVIEW_R34_CODEX.blend"
+          "$blender" --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/measure_original_review_r34_blender.py -- identity "$r34" "$out/identity.json"
+          for version in r33 r34; do
+            model="$r33"
+            if [ "$version" = r34 ]; then model="$r34"; fi
+            "$blender" --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/measure_original_review_r34_blender.py -- press "$model" "$out/${version}_press.json"
+            "$blender" --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/measure_original_review_r34_blender.py -- benchmarks "$model" "$out/${version}_benchmarks.json"
+          done
+      - name: Render matching press views in fresh processes
+        shell: bash
+        run: |
+          set -euo pipefail
+          blender=/tmp/blender-5.2.1-linux-x64/blender
+          out=ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r34_20261016
+          r33=ORIGINAL_V1_WORK/anatomy/candidates/claude_review_r33_20261016/HGPT_ORIGINAL_V1_CONSOLIDATED_REVIEW_R33_CLAUDE.blend
+          r34="$out/HGPT_ORIGINAL_V1_REVIEW_R34_CODEX.blend"
+          for version in r33 r34; do
+            model="$r33"
+            if [ "$version" = r34 ]; then model="$r34"; fi
+            xvfb-run -a "$blender" --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/render_original_review_r34_blender.py -- "$model" "/tmp/r34-frames/$version"
+          done
+      - name: Package every regression, comparison and video
+        run: /usr/bin/python3 scripts/package_original_review_r34.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: r33-front-regression-red
-          path: /tmp/r33-front-red.txt
+          name: original-v1-r34-review-evidence
+          path: |
+            /tmp/r33-front-red.txt
+            ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r34_20261016/
+            docs/CODEX_ORIGINAL_V1_REVIEW_CANDIDATE_R34_20261016.md
+      - name: Preserve candidate and evidence on the requested branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          branch=claude/original-v1-consolidated-review-20261014
+          git fetch origin "$branch"
+          test "$(git rev-parse HEAD)" = "$(git rev-parse FETCH_HEAD)"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r34_20261016 docs/CODEX_ORIGINAL_V1_REVIEW_CANDIDATE_R34_20261016.md
+          git commit -m 'Preserve R34 review experiment with tests, metrics, comparisons and video'
+          git push origin "HEAD:$branch"
+      - name: Require numerical success without hiding rejected experiments
+        run: |
+          /usr/bin/python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r34_20261016/r34_review.json')
+          report = json.loads(p.read_text())
+          assert report['status'] == 'NUMERIC_CHECKS_PASSED_AWAITING_VISUAL_REVIEW', report['status']
+          PY

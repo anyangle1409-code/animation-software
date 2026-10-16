@@ -126,45 +126,5 @@ OUT.write_text(json.dumps({"status": "DIAGNOSTIC_ONLY_NO_BLEND_SAVED",
                            "stages": trace, "front_guard_events": events, "build_log": log}, indent=2) + "\n")
 print("TRACE_COMPLETE", str(OUT), flush=True)
 
-# Reproduce the exact nine-frame benchmark on the saved candidates, separately
-# from the rebuilt diagnostic scene.
-import build_functional_shoulder_correction_blender as correction
-benchmarks = {}
-for tag in ("r31", "r33"):
-    directory = ROOT / ("ORIGINAL_V1_WORK/anatomy/candidates/claude_review_" + tag + "_20261016")
-    blend = directory / ("HGPT_ORIGINAL_V1_CONSOLIDATED_REVIEW_" + tag.upper() + "_CLAUDE.blend")
-    bpy.ops.wm.open_mainfile(filepath=str(blend))
-    bench._CAM.clear()
-    bench._THUMB_CACHE.clear()
-    collapsed = []
-    reference = {}
-    def setup_benchmark(result):
-        # bench.run's own neutral reference is evaluated before setup, so capture
-        # the same unposed surface here before installing the review drives.
-        v0, f0 = bench._evaluated(result["body"])
-        reference["areas"] = np.array([bench._area(v0, f) for f in f0])
-        drives.setup(result)
-    def after_pose(result):
-        drives.drive(result["runtime"], result["body"])
-        vertices, faces = bench._evaluated(result["body"])
-        area = np.array([bench._area(vertices, f) for f in faces])
-        a0 = reference["areas"]
-        ids = np.where((a0 > 1e-12) & (area / np.maximum(a0, 1e-12) < 0.1))[0]
-        collapsed.append([
-            {"face": int(i), "vertices": list(faces[i]),
-             "area_ratio": float(area[i] / a0[i])}
-            for i in ids
-        ])
-    measured = bench.run(setup=setup_benchmark, post_pose=after_pose, only=("shoulder_press",))
-    rows = measured["benchmarks"]["shoulder_press"]["frames"]
-    for row, faces in zip(rows, collapsed):
-        row["collapsed_faces"] = faces
-    benchmarks[tag] = rows
-    print("EXACT_BENCHMARK", tag, json.dumps([
-        {"t": row["t"], "collapse": row["collapse_lt_0_1"],
-         "pairs": row["self_intersecting_pairs"], "stretch": row["stretch_gt_2"],
-         "collapsed_faces": row["collapsed_faces"]} for row in rows
-    ]), flush=True)
-data = json.loads(OUT.read_text())
-data["exact_benchmarks"] = benchmarks
-OUT.write_text(json.dumps(data, indent=2) + "\n")
+
+# Benchmark comparisons must use measure_original_review_r34_blender.py in fresh processes.

@@ -1,0 +1,290 @@
+{
+  "candidate": "R35",
+  "approved": false,
+  "status": "REJECTED_NUMERIC_CHECKS",
+  "front_test_passed": true,
+  "front_test_exit": 0,
+  "acceptance_checks": {
+    "front_test_process": true,
+    "original_lockout_volume": true,
+    "original_guards_rechecked": true,
+    "original_post95_collision_rule": true,
+    "preservation": true,
+    "no_frame_count_regressions": false,
+    "new_contour_goals": true
+  },
+  "guard_violations": [],
+  "invariants": {
+    "bones": true,
+    "basis": true,
+    "polygons": true,
+    "weights": true,
+    "non_s7": true
+  },
+  "regressions": [
+    {
+      "path": "press",
+      "t": 0.35,
+      "metric": "stretch",
+      "r34": 103,
+      "r35": 114
+    },
+    {
+      "path": "press",
+      "t": 0.375,
+      "metric": "stretch",
+      "r34": 88,
+      "r35": 142
+    },
+    {
+      "path": "press",
+      "t": 0.4,
+      "metric": "stretch",
+      "r34": 81,
+      "r35": 180
+    },
+    {
+      "path": "press",
+      "t": 0.425,
+      "metric": "stretch",
+      "r34": 86,
+      "r35": 247
+    },
+    {
+      "path": "press",
+      "t": 0.45,
+      "metric": "stretch",
+      "r34": 88,
+      "r35": 365
+    },
+    {
+      "path": "press",
+      "t": 0.475,
+      "metric": "stretch",
+      "r34": 85,
+      "r35": 490
+    },
+    {
+      "path": "press",
+      "t": 0.5,
+      "metric": "stretch",
+      "r34": 91,
+      "r35": 631
+    },
+    {
+      "path": "press",
+      "t": 0.525,
+      "metric": "stretch",
+      "r34": 91,
+      "r35": 705
+    },
+    {
+      "path": "press",
+      "t": 0.55,
+      "metric": "stretch",
+      "r34": 83,
+      "r35": 710
+    },
+    {
+      "path": "press",
+      "t": 0.575,
+      "metric": "stretch",
+      "r34": 88,
+      "r35": 717
+    },
+    {
+      "path": "press",
+      "t": 0.6,
+      "metric": "stretch",
+      "r34": 79,
+      "r35": 714
+    },
+    {
+      "path": "press",
+      "t": 0.625,
+      "metric": "stretch",
+      "r34": 81,
+      "r35": 701
+    },
+    {
+      "path": "press",
+      "t": 0.65,
+      "metric": "stretch",
+      "r34": 81,
+      "r35": 696
+    },
+    {
+      "path": "press",
+      "t": 0.675,
+      "metric": "stretch",
+      "r34": 82,
+      "r35": 672
+    },
+    {
+      "path": "press",
+      "t": 0.7,
+      "metric": "stretch",
+      "r34": 92,
+      "r35": 663
+    },
+    {
+      "path": "press",
+      "t": 0.725,
+      "metric": "stretch",
+      "r34": 66,
+      "r35": 523
+    },
+    {
+      "path": "press",
+      "t": 0.75,
+      "metric": "stretch",
+      "r34": 45,
+      "r35": 412
+    },
+    {
+      "path": "press",
+      "t": 0.775,
+      "metric": "stretch",
+      "r34": 36,
+      "r35": 295
+    },
+    {
+      "path": "press",
+      "t": 0.8,
+      "metric": "stretch",
+      "r34": 50,
+      "r35": 202
+    },
+    {
+      "path": "press",
+      "t": 0.825,
+      "metric": "stretch",
+      "r34": 53,
+      "r35": 149
+    },
+    {
+      "path": "press",
+      "t": 0.85,
+      "metric": "stretch",
+      "r34": 58,
+      "r35": 127
+    },
+    {
+      "path": "press",
+      "t": 0.875,
+      "metric": "stretch",
+      "r34": 65,
+      "r35": 87
+    },
+    {
+      "path": "press",
+      "t": 0.975,
+      "metric": "stretch",
+      "r34": 78,
+      "r35": 80
+    },
+    {
+      "path": "shoulder_press",
+      "t": 0.25,
+      "metric": "stretch_gt_2",
+      "r34": 83,
+      "r35": 127
+    },
+    {
+      "path": "shoulder_press",
+      "t": 0.375,
+      "metric": "stretch_gt_2",
+      "r34": 80,
+      "r35": 397
+    },
+    {
+      "path": "shoulder_press",
+      "t": 0.5,
+      "metric": "stretch_gt_2",
+      "r34": 86,
+      "r35": 712
+    },
+    {
+      "path": "shoulder_press",
+      "t": 0.625,
+      "metric": "stretch_gt_2",
+      "r34": 76,
+      "r35": 653
+    },
+    {
+      "path": "shoulder_press",
+      "t": 0.75,
+      "metric": "stretch_gt_2",
+      "r34": 46,
+      "r35": 428
+    },
+    {
+      "path": "shoulder_press",
+      "t": 0.875,
+      "metric": "stretch_gt_2",
+      "r34": 38,
+      "r35": 120
+    },
+    {
+      "path": "shoulder_press",
+      "t": 1.0,
+      "metric": "stretch_gt_2",
+      "r34": 49,
+      "r35": 96
+    }
+  ],
+  "r34_fit": {
+    "120.0": {
+      "max_mm": 8.37118455867237,
+      "p99_mm": 1.6752780021153026,
+      "v18633_mm": 0.07823243401538199,
+      "over_5mm": 59
+    },
+    "145.0": {
+      "max_mm": 9.135400630316616,
+      "p99_mm": 2.111851746460953,
+      "v18633_mm": 0.09121895140696665,
+      "over_5mm": 60
+    },
+    "156.0": {
+      "max_mm": 11.768494148744553,
+      "p99_mm": 1.0131891557640347,
+      "v18633_mm": 4.877662172936642,
+      "over_5mm": 27
+    },
+    "166.0": {
+      "max_mm": 8.800310273010027,
+      "p99_mm": 0.1208710345274054,
+      "v18633_mm": 0.10560186664847296,
+      "over_5mm": 7
+    }
+  },
+  "r35_fit": {
+    "120.0": {
+      "max_mm": 24.20116655069422,
+      "p99_mm": 11.26678062007018,
+      "v18633_mm": 0.07823243401538199,
+      "over_5mm": 2229
+    },
+    "145.0": {
+      "max_mm": 22.031104261633438,
+      "p99_mm": 12.147764189721405,
+      "v18633_mm": 0.09121895140696665,
+      "over_5mm": 2163
+    },
+    "156.0": {
+      "max_mm": 10.49605996043967,
+      "p99_mm": 5.066436454818072,
+      "v18633_mm": 4.877662172936642,
+      "over_5mm": 235
+    },
+    "166.0": {
+      "max_mm": 8.800310273010027,
+      "p99_mm": 0.1208710345274054,
+      "v18633_mm": 0.10560186664847296,
+      "over_5mm": 7
+    }
+  },
+  "contour_test_passed": true,
+  "contour_test_exit": 0
+}

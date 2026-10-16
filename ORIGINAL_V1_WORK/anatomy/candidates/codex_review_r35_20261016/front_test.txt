@@ -1,0 +1,10 @@
+00:00.482  blend            | Read blend: "/home/runner/work/animation-software/animation-software/ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r35_20261016/HGPT_ORIGINAL_V1_REVIEW_R35_CODEX.blend"
+FRONT_EDGE_130 20.64946605470373
+.FRONT_TARGET_FIT 120.0 0.07823243401538199
+FRONT_TARGET_FIT 145.0 0.09121895140696665
+.
+----------------------------------------------------------------------
+Ran 2 tests in 4.927s
+
+OK
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:12:34)

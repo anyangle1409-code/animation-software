@@ -344,6 +344,25 @@ for ht in KEYS:
             wa = arm_w[s_]
             gh_ = np.array(tuple(W @ rig.pose.bones[f"upperarm_{s_}"].head)); wr_ = np.array(tuple(W @ rig.pose.bones[f"forearm_{s_}"].tail))
             Lw = np.linalg.norm(wr_ - gh_); ax = (wr_ - gh_) / Lw
+            el_k = np.array(tuple(W @ rig.pose.bones[f"forearm_{s_}"].head))
+            flex_k = np.degrees(np.arccos(np.clip(((el_k - gh_) / np.linalg.norm(el_k - gh_)) @ ((wr_ - el_k) / np.linalg.norm(wr_ - el_k)), -1, 1)))
+            upper_mode = bool(os.environ.get("TUBE_UPPER")) and flex_k > float(os.environ.get("TUBE_UPPER_DEG", 8))
+            if upper_mode:
+                # R33 (owner, on R31 at 132 / 145 deg: "the arms as it's raising up should be in a straight line", the bend
+                # at the elbow "too sharp"): with the elbow still bent (30 deg at the 145 key) a column from the WRIST to the
+                # root cuts across the elbow and kinks the upper arm (measured: the kink is absent with S7 off).  At bent
+                # keys the column is the upper arm alone: its axis is shoulder -> elbow, the window and the far anchor end
+                # just above the elbow, and only upper-arm skin (rest position above the elbow) is moved
+                ax = (el_k - gh_) / np.linalg.norm(el_k - gh_)
+                a0, a1, a2, a3 = (float(x) for x in os.environ["TUBE_UPPER"].split(","))
+                if "upper_mask" not in arm_rest:
+                    arm_rest["upper_mask"] = {}
+                    for q_ in "rl":
+                        bh = np.array(tuple(W @ rig.data.bones[f"upperarm_{q_}"].head_local)); be = np.array(tuple(W @ rig.data.bones[f"forearm_{q_}"].head_local))
+                        au_ = (be - bh) / np.linalg.norm(be - bh)
+                        arm_rest["upper_mask"][q_] = ((R - be) @ au_) < -0.01
+                wa = wa * arm_rest["upper_mask"][s_]
+                print("TUBE_UPPER", ht, s_, "elbow flexion %.1f deg" % flex_k, flush=True)
             rel = X - gh_; t_ = rel @ ax; perp = rel - t_[:, None] * ax; r = np.linalg.norm(perp, axis=1)
             el2 = np.array(tuple(W @ rig.pose.bones[f"forearm_{s_}"].head))
             fr = (t_ - (el2 - gh_) @ ax) * 100.0       # cm along the arm from the elbow (negative towards the shoulder)
@@ -394,7 +413,7 @@ for ht in KEYS:
                 # cross-section (across / front-back half-widths) and centre vary LINEARLY between two anchor slices of
                 # this body: the forearm near the wrist (TUBE_A cm from the elbow) and the arm root under the deltoid
                 # (TUBE_B); every arm vertex in the window is moved onto it along its direction from the centre line
-                ta_ = [float(x) for x in os.environ.get("TUBE_A", "14,20").split(",")]
+                ta_ = [float(x) for x in os.environ.get("TUBE_UPPER_A" if upper_mode else "TUBE_A", "-9,-5" if upper_mode else "14,20").split(",")]
                 tb_ = [float(x) for x in os.environ.get("TUBE_B", "-25,-21").split(",")]
                 u_ = perp @ ref2; v_ = perp @ ref                       # across (lateral) / front-back
                 def anchor(lo, hi):
@@ -497,6 +516,28 @@ for ht in KEYS:
                 print("ELBOWDBG", s_, "cand", len(cand), "dr mm max/min", round(dr.max() * 1000, 1), round(dr.min() * 1000, 1))
                 for bb in range(0, NB, 2):
                     print("ELBOWDBG  t %.2f fr %.2f  r(cm) by sector:" % ((bb + b0) * BW, (bb + b0) * BW / Lw), " ".join("%4.1f" % (prof[k_, bb] * 100) for k_ in range(0, NS, 2)), " fair:", " ".join("%4.1f" % (fair[k_, bb] * 100) for k_ in range(0, NS, 2)))
+    if os.environ.get("ELBOW_ROUND"):
+        # R33 (owner, on R31: "the bend at the elbow is too sharp and not subtle at all"): the skinned elbow folds within
+        # ~3 cm of the joint (weights hand over from the humerus to the forearm over +-3 cm - measured; spreading that
+        # hand-over flattened the outside of the bent elbow into a notch instead - tried).  Taubin (volume-keeping)
+        # smoothing of the skin within RADIUS cm of the posed elbow joint, strength rising with the elbow bend (full at
+        # FULL deg), so the corner rounds without thinning the arm.  "radius_cm:passes:full_deg"
+        rad_, np2_, full_ = (float(x) for x in os.environ["ELBOW_ROUND"].split(":"))
+        for s_ in "rl":
+            gh_ = np.array(tuple(W @ rig.pose.bones[f"upperarm_{s_}"].head)); el_ = np.array(tuple(W @ rig.pose.bones[f"forearm_{s_}"].head))
+            wr_ = np.array(tuple(W @ rig.pose.bones[f"forearm_{s_}"].tail))
+            flex_ = np.degrees(np.arccos(np.clip(((el_ - gh_) / np.linalg.norm(el_ - gh_)) @ ((wr_ - el_) / np.linalg.norm(wr_ - el_)), -1, 1)))
+            amt = min(flex_ / full_, 1.0)
+            if amt <= 0.01:
+                continue
+            d_ = np.linalg.norm(X - el_, axis=1)
+            x_ = np.clip(d_ / (rad_ / 100), 0, 1); kw = amt * (1 - x_ * x_ * (3 - 2 * x_))
+            ze = np.where(kw > 1e-3)[0]
+            for _ in range(int(np2_)):
+                for lam_ in (0.5, -0.53):
+                    L_ = np.array([X[nbr[i]].mean(0) - X[i] for i in ze])
+                    X[ze] += lam_ * L_ * kw[ze][:, None]
+            print("ELBOW_ROUND", ht, s_, "flexion %.1f deg, strength %.2f, vertices %d" % (flex_, amt, len(ze)), flush=True)
     if os.environ.get("LAT_WEB"):
         # R29 (owner reference, press from behind: the outer edge of the arm runs in ONE straight line into the side of the
         # back; R28 steps in 4-6 cm under the arm - the web of back muscle from the arm into the torso below the armpit is
@@ -619,6 +660,12 @@ for ht in KEYS:
                 # above F1 deg and at least F2 deg above rest, within 22 cm of a shoulder joint (the hook beside the neck and the
                 # front armpit fold moved with the 166 deg lockout - measured: dihedral up to 169 deg)
                 f1_, f2_ = (float(x) for x in os.environ["UNCROSS_FOLDS"].split(","))
+                # R33: per-key override "ht:f1,f2;..." - the lower threshold that clears the crumpled arm root at the bent-
+                # elbow keys also catches the natural armpit fold at the lockout, and the growing patches crushed it there
+                # (measured at 166 deg with 40,20: 122 crushed triangles; 90,45 there: 0)
+                for kv in [x for x in os.environ.get("UNCROSS_FOLDS_AT", "").split(";") if x]:
+                    if abs(float(kv.split(":")[0]) - ht) < 0.5:
+                        f1_, f2_ = (float(x) for x in kv.split(":")[1].split(","))
                 if "edges" not in arm_rest:
                     from collections import defaultdict
                     ef_ = defaultdict(list)
@@ -639,6 +686,9 @@ for ht in KEYS:
             if not bad_ and not len(crushed_):
                 break
             rr_ = float(os.environ.get("UNCROSS_R", 0.025)) * (1 + 0.3 * _round)
+            # R33: cap the patch radius - at 156 deg with the lower fold threshold the rounds never settled and the patches
+            # grew to 12 cm, leaving a knot by the neck (measured: 23 sharp folds left after 14 rounds)
+            rr_ = min(rr_, float(os.environ.get("UNCROSS_RMAX", 1.0)))
             cents = np.array([X[list(F[a]) + list(F[b])].mean(0) for a, b in bad_] + [X[list(F[k])].mean(0) for k in crushed_])
             done_ = np.zeros(nv, bool)
             for c in cents:
@@ -676,7 +726,7 @@ for ht in KEYS:
     if ht == KEYS[-1]:
         np.save(out + "/P172.npy", P)
 np.savez(out + "/targets.npz", **out_t)
-import json; json.dump({"mode": "skin slide", "taubin": TAUB, "lump_passes": int(os.environ.get("LUMP", 0)), "lump_off": os.environ.get("LUMP_OFF", "0,0.04,-0.02"), "lump_r": os.environ.get("LUMP_R", "0.06,0.10"), "zones": os.environ.get("ZONES", ""), "blend_passes": int(os.environ.get("BLEND", 0)), "untangle_iters": int(os.environ.get("UNTANGLE", 0)), "guard_zones": os.environ.get("GUARD_ZONES", "1") == "1", "crush_w": float(os.environ.get("CRUSH_W", 0)), "deltoid_bump": os.environ.get("DELT_BUMP", ""), "fair": os.environ.get("FAIR", ""), "postfair": os.environ.get("POSTFAIR", ""), "arm_restore": ARM_RESTORE, "arm_uns5": os.environ.get("ARM_UNS5", ""), "arm_inflate": os.environ.get("ARM_INFLATE", ""), "elbow_fair": os.environ.get("ELBOW_FAIR", ""), "elbow_mode": os.environ.get("ELBOW_MODE", "hull"), "postzones": os.environ.get("POSTZONES", ""), "lat_web": os.environ.get("LAT_WEB", ""), "arm_rigid": os.environ.get("ARM_RIGID", ""), "rigid_key_gain": os.environ.get("RIGID_KEY_GAIN", ""), "lat_key_gain": os.environ.get("LAT_KEY_GAIN", ""), "post_rr": os.environ.get("POST_RR", ""), "auto_uncross": int(os.environ.get("AUTO_UNCROSS", 0)), "uncross_r": os.environ.get("UNCROSS_R", ""), "uncross_folds": os.environ.get("UNCROSS_FOLDS", ""), "final_slide": int(os.environ.get("FINAL_SLIDE", 0)), "lockout_ht": float(bpy.context.scene.get("hgpt_press_lockout_ht", 172.0)), "post_slide": int(os.environ.get("POST_SLIDE", 0)), "post_slide2": int(os.environ.get("POST_SLIDE2", 0)), "arm_key_gain": os.environ.get("ARM_KEY_GAIN", ""), "tube": {k: os.environ.get(k, "") for k in ("TUBE_A", "TUBE_B", "TUBE_ITERS", "TUBE_RELAX", "TUBE_FILLROOT", "ARM_WMIN", "ELBOW_SMOOTH", "TUBE_ROOT_SCALE")}, "slide_iters": SLIDE, "eta": ETA, "region": [RIN, ROUT], "keys_ht": KEYS, "log": {str(k): v for k, v in logs.items()}}, open(out + "/targets.npz.json", "w"), indent=1)
+import json; json.dump({"mode": "skin slide", "taubin": TAUB, "lump_passes": int(os.environ.get("LUMP", 0)), "lump_off": os.environ.get("LUMP_OFF", "0,0.04,-0.02"), "lump_r": os.environ.get("LUMP_R", "0.06,0.10"), "zones": os.environ.get("ZONES", ""), "blend_passes": int(os.environ.get("BLEND", 0)), "untangle_iters": int(os.environ.get("UNTANGLE", 0)), "guard_zones": os.environ.get("GUARD_ZONES", "1") == "1", "crush_w": float(os.environ.get("CRUSH_W", 0)), "deltoid_bump": os.environ.get("DELT_BUMP", ""), "fair": os.environ.get("FAIR", ""), "postfair": os.environ.get("POSTFAIR", ""), "arm_restore": ARM_RESTORE, "arm_uns5": os.environ.get("ARM_UNS5", ""), "arm_inflate": os.environ.get("ARM_INFLATE", ""), "elbow_fair": os.environ.get("ELBOW_FAIR", ""), "elbow_mode": os.environ.get("ELBOW_MODE", "hull"), "postzones": os.environ.get("POSTZONES", ""), "lat_web": os.environ.get("LAT_WEB", ""), "arm_rigid": os.environ.get("ARM_RIGID", ""), "rigid_key_gain": os.environ.get("RIGID_KEY_GAIN", ""), "lat_key_gain": os.environ.get("LAT_KEY_GAIN", ""), "post_rr": os.environ.get("POST_RR", ""), "auto_uncross": int(os.environ.get("AUTO_UNCROSS", 0)), "uncross_r": os.environ.get("UNCROSS_R", ""), "uncross_rmax": os.environ.get("UNCROSS_RMAX", ""), "uncross_folds": os.environ.get("UNCROSS_FOLDS", ""), "uncross_folds_at": os.environ.get("UNCROSS_FOLDS_AT", ""), "final_slide": int(os.environ.get("FINAL_SLIDE", 0)), "lockout_ht": float(bpy.context.scene.get("hgpt_press_lockout_ht", 172.0)), "post_slide": int(os.environ.get("POST_SLIDE", 0)), "post_slide2": int(os.environ.get("POST_SLIDE2", 0)), "arm_key_gain": os.environ.get("ARM_KEY_GAIN", ""), "tube_upper": {k: os.environ.get(k, "") for k in ("TUBE_UPPER", "TUBE_UPPER_A", "TUBE_UPPER_DEG")}, "elbow_round": os.environ.get("ELBOW_ROUND", ""), "tube": {k: os.environ.get(k, "") for k in ("TUBE_A", "TUBE_B", "TUBE_ITERS", "TUBE_RELAX", "TUBE_FILLROOT", "ARM_WMIN", "ELBOW_SMOOTH", "TUBE_ROOT_SCALE")}, "slide_iters": SLIDE, "eta": ETA, "region": [RIN, ROUT], "keys_ht": KEYS, "log": {str(k): v for k, v in logs.items()}}, open(out + "/targets.npz.json", "w"), indent=1)
 # render 172
 scene = bpy.context.scene
 for o in scene.objects:

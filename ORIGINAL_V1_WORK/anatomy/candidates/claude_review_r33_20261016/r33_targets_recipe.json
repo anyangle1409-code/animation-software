@@ -1,0 +1,179 @@
+{
+ "mode": "skin slide",
+ "taubin": 10,
+ "lump_passes": 200,
+ "lump_off": "0,0.04,-0.02",
+ "lump_r": "0.06,0.10",
+ "zones": "250:0.03,0.025,0.08:0.03,0.11;-300:-0.08,0.033,-0.013:0.025,0.08",
+ "blend_passes": 20,
+ "untangle_iters": 0,
+ "guard_zones": false,
+ "crush_w": 100.0,
+ "deltoid_bump": "0.015:0.04,0.0,0.06:0.11,0.07",
+ "fair": "-0.095,0.07,-0.035:0.055",
+ "postfair": "-0.095,0.07,-0.035:0.055;-0.017,-0.058,0.035:0.025",
+ "arm_restore": "",
+ "arm_uns5": "",
+ "arm_inflate": "",
+ "elbow_fair": "1:-38,-26,16,22:1.0",
+ "elbow_mode": "tube",
+ "postzones": "",
+ "lat_web": "0.35:55:6",
+ "arm_rigid": "",
+ "rigid_key_gain": "",
+ "lat_key_gain": "120:0.5,145:0.6,156:0.6",
+ "post_rr": "0.30,0.45",
+ "auto_uncross": 14,
+ "uncross_r": "",
+ "uncross_folds": "40,20",
+ "final_slide": 40,
+ "lockout_ht": 166.0,
+ "post_slide": 60,
+ "post_slide2": 0,
+ "arm_key_gain": "120:1,145:1",
+ "tube_upper": {
+  "TUBE_UPPER": "-38,-26,-7,-3",
+  "TUBE_UPPER_A": "-9,-5",
+  "TUBE_UPPER_DEG": ""
+ },
+ "elbow_round": "10:20:30",
+ "tube": {
+  "TUBE_A": "14,20",
+  "TUBE_B": "-23,-19",
+  "TUBE_ITERS": "3",
+  "TUBE_RELAX": "80",
+  "TUBE_FILLROOT": "-16,-10",
+  "ARM_WMIN": "0.15",
+  "ELBOW_SMOOTH": "15",
+  "TUBE_ROOT_SCALE": "1.2"
+ },
+ "slide_iters": 100,
+ "eta": 0.3,
+ "region": [
+  0.14,
+  0.19
+ ],
+ "keys_ht": [
+  120.0,
+  145.0,
+  156.0,
+  166.0
+ ],
+ "log": {
+  "120.0": {
+   "collapse": [
+    0,
+    0
+   ],
+   "squash<0.6": [
+    1278,
+    1684
+   ],
+   "stretch>1.5": [
+    624,
+    301
+   ],
+   "stretch>2": [
+    112,
+    99
+   ],
+   "pairs": 0,
+   "max_move_mm": 35.1,
+   "whole_body_stretch>2": [
+    112,
+    99
+   ],
+   "whole_body_collapse": [
+    0,
+    0
+   ]
+  },
+  "145.0": {
+   "collapse": [
+    4,
+    0
+   ],
+   "squash<0.6": [
+    1691,
+    2209
+   ],
+   "stretch>1.5": [
+    1014,
+    549
+   ],
+   "stretch>2": [
+    157,
+    95
+   ],
+   "pairs": 0,
+   "max_move_mm": 34.1,
+   "whole_body_stretch>2": [
+    161,
+    95
+   ],
+   "whole_body_collapse": [
+    4,
+    0
+   ]
+  },
+  "156.0": {
+   "collapse": [
+    4,
+    0
+   ],
+   "squash<0.6": [
+    1905,
+    2259
+   ],
+   "stretch>1.5": [
+    1177,
+    633
+   ],
+   "stretch>2": [
+    265,
+    27
+   ],
+   "pairs": 0,
+   "max_move_mm": 31.1,
+   "whole_body_stretch>2": [
+    308,
+    27
+   ],
+   "whole_body_collapse": [
+    4,
+    0
+   ]
+  },
+  "166.0": {
+   "collapse": [
+    12,
+    0
+   ],
+   "squash<0.6": [
+    2138,
+    2504
+   ],
+   "stretch>1.5": [
+    1216,
+    774
+   ],
+   "stretch>2": [
+    320,
+    81
+   ],
+   "pairs": 0,
+   "max_move_mm": 35.1,
+   "whole_body_stretch>2": [
+    385,
+    81
+   ],
+   "whole_body_collapse": [
+    12,
+    0
+   ]
+  }
+ },
+ "uncross_folds_at": "156:55,25;166:90,45",
+ "note": "keys 120/145 from one run (UNCROSS_FOLDS 40,20); key 156 from a single-key run with UNCROSS_FOLDS_AT 156:55,25 and UNCROSS_RMAX 0.06 (40,20 left a knot by the neck: the patch rounds never settled); key 166 from a single-key run with UNCROSS_FOLDS_AT 166:90,45 (40,20 crushed 122 triangles); merged",
+ "uncross_rmax_156": 0.06
+}

@@ -1,0 +1,41 @@
+set -u
+SP=/tmp/claude-0/-home-user-animation-software/b0b01a8a-22fb-52cd-85ad-39c74496ecb2/scratchpad; export SP
+cd /home/user/p5; export PYTHONPATH=$SP/bpy52
+BASEZ="250:0.03,0.025,0.08:0.03,0.11;-300:-0.08,0.033,-0.013:0.025,0.08"; HZ="-0.095,0.07,-0.035:0.055"; PF="$HZ;-0.017,-0.058,0.035:0.025"
+if [ ! -f $SP/r33/targets.npz ]; then
+FINAL_SLIDE=40 UNCROSS_FOLDS="${UF:-40,20}" AUTO_UNCROSS=${AU:-14} LOCKOUT_HT=166 LAT_WEB="0.35:55:6" LAT_KEY_GAIN="${LKG:-120:0.5,145:0.6,156:0.6}" POST_RR="0.30,0.45" LAT_SMOOTH=60 POST_SLIDE=60 ARM_KEY_GAIN="${AKG:-120:1,145:1}" TUBE_UPPER="${TU:--38,-26,-7,-3}" TUBE_UPPER_A="${TUA:--9,-5}" ELBOW_ROUND="${ER:-10:20:30}" TUBE_ROOT_SCALE=1.2 CRUSH_W=100 GUARD_ZONES=0 KEYS_HT=120,145,156,166 TAUB=10 LUMP=200 ZONES="$BASEZ" FAIR="$HZ" POSTFAIR="$PF" DELT_BUMP="0.015:0.04,0.0,0.06:0.11,0.07" ELBOW_MODE=tube TUBE_FILLROOT=-16,-10 TUBE_ITERS=3 TUBE_RELAX=80 TUBE_A=14,20 TUBE_B=-23,-19 ARM_WMIN=0.15 ELBOW_SMOOTH=15 ELBOW_FAIR="1:-38,-26,16,22:1.0" BLEND=20 SLIDE=100 timeout 7000 python3.13 scripts/build_original_skin_slide_targets_blender.py $SP/b5/B5.blend $SP/r33 > $SP/r33/targets.log 2>&1
+fi
+grep -E "SLIDE|Trace|Error" $SP/r33/targets.log | sed -E "s/'squash<0.6': \[[0-9, ]+\], //; s/'stretch>1.5': \[[0-9, ]+\], //"
+if [ ! -f $SP/r33/R33.blend ]; then
+S7_START=95 S7_LOCKOUT_HT=166 S7_KEYS=120,145,156,166 S7_NAME=R33 timeout 7000 python3.13 scripts/build_original_review_candidate_r17_blender.py -- --bake --blend $SP/b5/B5.blend --parent $SP/b5/B5.blend --targets $SP/r33/targets.npz --out $SP/r33/R33.blend --report $SP/r33/r33_build.json > $SP/r33/bake.log 2>&1
+fi
+grep -E "R17P|Error|Trace" $SP/r33/bake.log | tail -15
+for K in 120.0 145.0 166.0; do KEY=$K python3.13 $SP/tools/bakeerr_k.py $SP/r33/R33.blend $SP/r33/targets.npz 2>&1 | grep -E "err mm" | sed "s/^/$K /"; done
+[ -f $SP/r33/r33_validation.json ] || (timeout 7000 python3.13 scripts/validate_original_review_candidate_blender.py -- --candidate $SP/r33/R33.blend --baseline ORIGINAL_V1_WORK/anatomy/audit/HGPT_ANATOMICAL_AUDIT_r95_a003.blend --out $SP/r33/r33_validation.json --renders $SP/r33/val --name R33 > $SP/r33/val.log 2>&1; echo VAL $?) &
+[ -f $SP/mesh_press_r33.mp4 ] || (rm -rf $SP/skanim33; KEEP_S5=1 python3.13 $SP/tools/skelanim.py $SP/r33/R33.blend $SP/skanim33 > $SP/r33/anim.log 2>&1; MODE=skin CAPTION="R33 review candidate - straight upper arm, rounder elbow (not approved)" python3 $SP/tools/skelvid.py $SP/skanim33 $SP/mesh_press_r33.mp4 2>&1 | tail -1; echo VID) &
+[ -f $SP/fine33/f040_back_skin.png ] || (rm -rf $SP/fine33; STEPS=40 KEEP_S5=1 python3.13 $SP/tools/skelanim.py $SP/r33/R33.blend $SP/fine33 > /dev/null 2>&1; echo FINE) &
+[ -f $SP/r33/rr/map.json ] || (rm -rf $SP/r33/rr $SP/r33/rv; mkdir -p $SP/r33/rr $SP/r33/rv; KEYS=1 python3.13 $SP/tools/rawrender.py $SP/r33/R33.blend $SP/r33/rr >/dev/null 2>&1; KEYS=1 ORTHO=0.95 python3.13 $SP/tools/refview.py $SP/r33/R33.blend $SP/r33/rv >/dev/null 2>&1; FOLDONLY=1 ORTHO=0.32 python3.13 $SP/tools/foldclose.py $SP/r33/R33.blend $SP/r33/rr >/dev/null 2>&1; echo REN) &
+wait
+python3 -c "import json;d=json.load(open('$SP/r33/rr/map.json'));print({k:v for k,v in d.items() if not isinstance(v,(list,dict))})"
+python3 - <<PY
+import json
+a=json.load(open('/tmp/claude-0/-home-user-animation-software/b0b01a8a-22fb-52cd-85ad-39c74496ecb2/scratchpad/r31/r31_validation.json'))['benchmarks']; b=json.load(open('$SP/r33/r33_validation.json'))['benchmarks']
+for k in b:
+    A,B=a[k]['r31_worst'],b[k]['r33_worst']
+    print('BENCH %-18s'%k,(A['collapse_lt_0_1'],A['stretch_gt_2'],A['self_intersecting_pairs']),'->',(B['collapse_lt_0_1'],B['stretch_gt_2'],B['self_intersecting_pairs']), a[k]['r31_volume_pct'],'->',b[k]['r33_volume_pct'])
+PY
+python3 - <<PY
+import sys; sys.path.insert(0,'$SP/pil')
+from PIL import Image, ImageDraw, ImageFont
+F=ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf',15)
+frames=list(range(12,41,3)); W=180
+out=Image.new('RGB',(len(frames)*(W+6)+70,2*(W+24)+10),'white'); d=ImageDraw.Draw(out)
+for r,(lab,D) in enumerate([('R31','fine31'),('R33','fine33')]):
+    d.text((4,r*(W+24)+W//2),lab,fill='black',font=F)
+    for i,n in enumerate(frames):
+        a=Image.open(f'$SP/{D}/f{n:03d}_back_skin.png').convert('RGBA'); b=Image.new('RGBA',a.size,(28,28,30,255)); b.alpha_composite(a)
+        im=b.convert('RGB'); w,h=im.size; im=im.crop((0,int(h*0.12),int(w*0.5),int(h*0.62))).resize((W,W))
+        x=70+i*(W+6); y=r*(W+24); out.paste(im,(x,y+20)); d.text((x+4,y+2),f't={n/40:.2f}',fill='black',font=F)
+out.save('$SP/strip_r31_r33.jpg',quality=85)
+PY
+echo R33DONE

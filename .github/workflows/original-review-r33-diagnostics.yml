@@ -4,6 +4,7 @@ on:
     branches: [claude/original-v1-consolidated-review-20261014]
     paths:
       - '.github/workflows/original-review-r33-diagnostics.yml'
+      - 'scripts/claude_review_tools/trace_r33_bake.py'
 permissions:
   contents: read
 jobs:
@@ -51,6 +52,8 @@ jobs:
             if [ "$version" = r33 ]; then model="$r33"; fi
             HTS=120,125,130,132,139,145,151,156,166 "$blender" --background --factory-startup --python-exit-code 1 --python /tmp/r33-diagnostics/foldsweep2.py -- "$model" 2>&1 | tee "/tmp/r33-diagnostics/folds-$version.txt"
           done
+      - name: Trace bake stages in memory (no blend saved)
+        run: /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --python-exit-code 1 --python scripts/claude_review_tools/trace_r33_bake.py
       - name: Upload diagnostic measurements
         if: always()
         uses: actions/upload-artifact@v4

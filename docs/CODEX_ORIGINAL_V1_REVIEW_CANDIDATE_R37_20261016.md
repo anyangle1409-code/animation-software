@@ -29,3 +29,18 @@ The skeleton, basis, topology, weights and every non-S7 coordinate (including HG
 r36_r37_same_angle_comparison.jpg and bilateral junction/front closeups compare the preceding candidate at identical poses/cameras. shoulder_press_r37_three_views.mp4 is the full raw-skin press. Files are under codex_review_r37_20261016. Owner reference images stay out of the repo.
 
 Workflow .github/workflows/original-review-r37.yml uses pinned Blender5.2.1: export_original_review_r37_blender.py → solve_original_review_r37.py → build_original_review_candidate_r37_blender.py -- build → unchanged native measurements/guards/front test → fixed contour test → renders/package. No production assets, merge or force push.
+
+
+## Post-render review: 2026-10-16
+
+Native Blender 5.2.1 run 38970547784 passed, source commit 9fb54842128d0f436e083815d07105a78eaebce2. Generated model/evidence commit c400becd8e4fcc0694e18e1f3168a04e5388a5da. This numerical success does not establish visual acceptance.
+
+At the owner's exact marked full-press frame (135.625 degrees, t=0.625), measured stretched-triangle count (>2x neutral area) is **81 R34 → 66 R37**. R36 was 11, so R37 gives back some of that local improvement to preserve the rest of the motion. R37 rear contour corner peaks are left 9.0535/right 10.0042 degrees; three-quarter peaks are left 16.3636/right 52.7357. Both rear silhouettes are visibly rounder than R34 in the exact native-camera comparisons added here as R34_R37_marked_angle_left.jpg and R34_R37_marked_angle_right.jpg.
+
+**Remaining visual concern:** the front closeups still show an abrupt crease near 130 degrees, especially on the right. Do not call this finished from passing the numerical crease threshold. Top-of-press stretch stays 80, unchanged from R34; the shoulder-press benchmark still has two collapsed triangles at its worst frame. Those are unresolved.
+
+The broader changed target also fits the old R33 whole-surface target less closely: at 120 degrees max error 8.371→24.585mm and at 145 degrees 9.135→22.044mm. Protected anterior sentinel errors remain exactly 0.0782/0.0912mm. Do not present the sentinel as a measurement of the entire front patch.
+
+An additional offline solver diagnostic found face normals rotated >90 degrees relative to the initial R36-derived mid shape in 19 of 82 predicted poses, up to 18 faces (2 faces at the marked full-press pose). This is not by itself proof of inversion, since the reference is another deformed surface, but it warrants investigation with the front crease. The diagnostic uses the saved linear response and solved deltas, not a new native saved-model test; it does not replace or weaken any existing check. Counts and method are recorded in r37_normal_rotation_diagnostic.json.
+
+Status remains **owner visual review pending; front-crease concern open**. Canonical/protected assets and existing tests remain unchanged.

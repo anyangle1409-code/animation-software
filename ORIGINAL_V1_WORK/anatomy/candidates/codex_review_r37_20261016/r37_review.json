@@ -1,0 +1,79 @@
+{
+  "candidate": "R37",
+  "approved": false,
+  "status": "NUMERIC_CHECKS_PASSED_AWAITING_VISUAL_REVIEW",
+  "front_test_passed": true,
+  "front_test_exit": 0,
+  "acceptance_checks": {
+    "front_test_process": true,
+    "original_lockout_volume": true,
+    "original_guards_rechecked": true,
+    "original_post95_collision_rule": true,
+    "preservation": true,
+    "no_frame_count_regressions": true,
+    "new_contour_goals": true
+  },
+  "guard_violations": [],
+  "invariants": {
+    "bones": true,
+    "basis": true,
+    "polygons": true,
+    "weights": true,
+    "non_s7": true
+  },
+  "regressions": [],
+  "r34_fit": {
+    "120.0": {
+      "max_mm": 8.37118455867237,
+      "p99_mm": 1.6752780021153026,
+      "v18633_mm": 0.07823243401538199,
+      "over_5mm": 59
+    },
+    "145.0": {
+      "max_mm": 9.135400630316616,
+      "p99_mm": 2.111851746460953,
+      "v18633_mm": 0.09121895140696665,
+      "over_5mm": 60
+    },
+    "156.0": {
+      "max_mm": 11.768494148744553,
+      "p99_mm": 1.0131891557640347,
+      "v18633_mm": 4.877662172936642,
+      "over_5mm": 27
+    },
+    "166.0": {
+      "max_mm": 8.800310273010027,
+      "p99_mm": 0.1208710345274054,
+      "v18633_mm": 0.10560186664847296,
+      "over_5mm": 7
+    }
+  },
+  "r37_fit": {
+    "120.0": {
+      "max_mm": 24.585396024481348,
+      "p99_mm": 11.172257558543905,
+      "v18633_mm": 0.07823243401538199,
+      "over_5mm": 2458
+    },
+    "145.0": {
+      "max_mm": 22.04424577769762,
+      "p99_mm": 11.432809325524923,
+      "v18633_mm": 0.09121895140696665,
+      "over_5mm": 2351
+    },
+    "156.0": {
+      "max_mm": 11.768494148744553,
+      "p99_mm": 1.0131891557640347,
+      "v18633_mm": 4.877662172936642,
+      "over_5mm": 27
+    },
+    "166.0": {
+      "max_mm": 8.800310273010027,
+      "p99_mm": 0.1208710345274054,
+      "v18633_mm": 0.10560186664847296,
+      "over_5mm": 7
+    }
+  },
+  "contour_test_passed": true,
+  "contour_test_exit": 0
+}

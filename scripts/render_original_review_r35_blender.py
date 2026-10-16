@@ -50,16 +50,19 @@ if len(args) > 2 and args[2] in ("front_closeups", "junction_closeups"):
         bench._reset(rig)
         sculpt.press_pose(res, ht)
         drives.drive(rig, body)
-        gh = rig.matrix_world @ rig.pose.bones["upperarm_r"].head
-        target = gh + Vector((0.03, 0.01, -0.03))
-        for name, direction in ({"back": views["back"], "three_quarter": views["three_quarter"]} if junction else {"front": views["front"]}).items():
-            d = Vector(direction).normalized()
-            cd.ortho_scale = 0.42 if junction else 0.30
-            cam.location = target + d * 4
-            cam.rotation_mode = "QUATERNION"
-            cam.rotation_quaternion = (-d).to_track_quat("-Z", "Y")
-            scene.render.filepath = str(out / f"{name}_{ht}.png")
-            bpy.ops.render.render(write_still=True)
+        for side in ('l','r'):
+            sign = 1 if side == 'r' else -1
+            gh = rig.matrix_world @ rig.pose.bones['upperarm_'+side].head
+            target = gh + Vector((sign*0.03, 0.01 if junction else -0.02, -0.03))
+            close_views = {'back': views['back'], 'three_quarter': (sign*.7,.7,.05)} if junction else {'front':views['front']}
+            for name,direction in close_views.items():
+                d = Vector(direction).normalized()
+                cd.ortho_scale = 0.42 if junction else 0.30
+                cam.location = target + d * 4
+                cam.rotation_mode = 'QUATERNION'
+                cam.rotation_quaternion = (-d).to_track_quat('-Z','Y')
+                scene.render.filepath = str(out / f'{side}_{name}_{ht}.png')
+                bpy.ops.render.render(write_still=True)
     print("EXACT_CLOSEUPS", model.name, flush=True)
     raise SystemExit(0)
 

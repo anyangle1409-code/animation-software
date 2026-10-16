@@ -8,6 +8,8 @@ on:
       - 'scripts/fair_original_review_r35_targets.py'
       - 'scripts/probe_original_review_r35_blender.py'
       - 'scripts/original_review_contour.py'
+      - 'scripts/original_review_r35_reports.py'
+      - 'scripts/tests/test_original_review_r35_reporting.py'
       - 'scripts/build_original_review_candidate_r35_blender.py'
       - 'scripts/render_original_review_r35_blender.py'
       - 'scripts/package_original_review_r35.py'
@@ -48,7 +50,9 @@ jobs:
           test "$result" -eq 1
           grep -F 'FAILED (failures=2)' /tmp/r34-contour-red.txt
       - name: Verify reporting failure cases
-        run: /usr/bin/python3 -m unittest discover -s scripts/tests -p test_original_review_candidate_reporting.py
+        run: |
+          /usr/bin/python3 -m unittest discover -s scripts/tests -p test_original_review_candidate_reporting.py
+          /usr/bin/python3 -m unittest discover -s scripts/tests -p test_original_review_r35_reporting.py
       - name: Create broader fair skin targets outside Blender
         run: /usr/bin/python3 scripts/fair_original_review_r35_targets.py /tmp/r35-source.npz /tmp/r35-target-deltas.npz
       - name: Build separate R35 with original guards
@@ -130,6 +134,7 @@ jobs:
           for version in r34 r35; do
             model="ORIGINAL_V1_WORK/anatomy/candidates/codex_review_${version}_20261016/HGPT_ORIGINAL_V1_REVIEW_${version^^}_CODEX.blend"
             xvfb-run -a "$blender" --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/render_original_review_r35_blender.py -- "$model" "/tmp/r35-junction/$version" junction_closeups
+            xvfb-run -a "$blender" --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/render_original_review_r35_blender.py -- "$model" "/tmp/r35-front/$version" front_closeups
           done
       - name: Package every regression, comparison and video
         run: /usr/bin/python3 scripts/package_original_review_r35.py
@@ -140,6 +145,7 @@ jobs:
           path: |
             /tmp/r34-contour-red.txt
             /tmp/r35-junction/
+            /tmp/r35-front/
             ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r35_20261016/
             docs/CODEX_ORIGINAL_V1_REVIEW_CANDIDATE_R35_20261016.md
       - name: Preserve candidate and evidence on the requested branch

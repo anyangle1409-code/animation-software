@@ -1,5 +1,6 @@
 """Owner-approved R35 S7 junction rebuild, with unchanged original guards."""
 from __future__ import annotations
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -10,20 +11,29 @@ os.environ['S7_LOCKOUT_HT']='166'
 import bpy
 import numpy as np
 import build_original_review_candidate_r17_blender as r17
-import build_original_review_candidate_r34_blender as parent
 import build_original_bake_corrective_blender as bake
 import build_original_sculpt_corrective_blender as sculpt
 import build_original_movement_benchmarks_blender as bench
 import original_v1_review_candidate_drives as drives
 import original_v1_shoulder_r4 as r4
-PARENT=parent.OUT/'HGPT_ORIGINAL_V1_REVIEW_R34_CODEX.blend'
+PARENT=ROOT/'ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r34_20261016/HGPT_ORIGINAL_V1_REVIEW_R34_CODEX.blend'
 OUT=ROOT/'ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r35_20261016'
-PREFIX=parent.PREFIX
+PREFIX='HGPT_S7_DELT_'
 KEYS=(120.,130.,145.,156.,166.)
+
+def coords(kb):
+    a=np.empty(len(kb.data)*3)
+    kb.data.foreach_get('co',a)
+    return a.reshape(-1,3)
+
+
+def digest(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
 
 def export():
     res=r17._setup(PARENT);body,rig=res['body'],res['runtime']
-    data={'rest':parent.coords(body.data.shape_keys.key_blocks[0])}
+    data={'rest':coords(body.data.shape_keys.key_blocks[0])}
     for ht in (*KEYS,135.625):
         bench._reset(rig);sculpt.press_pose(res,ht);drives.drive(rig,body)
         vertices,faces=bench._evaluated(body)
@@ -37,7 +47,7 @@ def build():
         raise FileExistsError('Existing candidate is immutable; choose a new number')
     OUT.mkdir(parents=True)
     res=r17._setup(PARENT);body,rig=res['body'],res['runtime']
-    blocks=body.data.shape_keys.key_blocks;rest=parent.coords(blocks[0])
+    blocks=body.data.shape_keys.key_blocks;rest=coords(blocks[0])
     names={g.index:g.name for g in body.vertex_groups}
     deform={b.name for b in rig.data.bones if b.use_deform}
     inverse_log={}
@@ -54,7 +64,7 @@ def build():
             for side in ('l','r'):
                 change=dr.copy();change[rest[:,0]*(1 if side=='r' else -1)<=0]=0
                 kb=blocks[f'{PREFIX}{side}_{int(ht)}']
-                kb.data.foreach_set('co',(parent.coords(kb)+change).reshape(-1))
+                kb.data.foreach_set('co',(coords(kb)+change).reshape(-1))
             inverse_log[str(ht)]={'max_rest_delta_mm':float(np.linalg.norm(dr,axis=1).max()*1000)}
     adj=[set() for _ in rest]
     for e in body.data.edges:
@@ -92,7 +102,7 @@ def build():
     bpy.ops.wm.save_as_mainfile(filepath=str(model),copy=True)
     report={'candidate':'R35','approved':False,'status':'EXPERIMENT_NOT_ACCEPTED',
             'owner_scope_approved':'2026-10-16: broader local skin transition rebuild',
-            'parent_sha256':parent.digest(PARENT),'sha256':parent.digest(model),
+            'parent_sha256':digest(PARENT),'sha256':digest(model),
             'change':'broader anchored thin-plate S7 junction target at 120/130/145, 40% at 156, unchanged target at 166',
             'targets':json.loads(Path('/tmp/r35-target-deltas.npz.json').read_text()),
             'inverse_bake':inverse_log,'smooth_guard':smooth_log,'final_guard':final_log,'guard_samples':list(ts)}

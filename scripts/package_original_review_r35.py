@@ -10,6 +10,8 @@ def read(name):
     return json.loads((OUT / name).read_text())
 a, b = read("r34_press.json"), read("r35_press.json")
 ba, bb = read("r34_benchmarks.json"), read("r35_benchmarks.json")
+from original_review_r35_reports import validate_samples
+validate_samples(a,b,ba,bb)
 invariants = read("identity.json")
 regressions = []
 for x, y in zip(a["press"], b["press"]):
@@ -107,17 +109,29 @@ elif previous_status != status:
 
 font=ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',22)
 closeups=Path('/tmp/r35-junction')
-sheet=Image.new('RGB',(2400,5*640+64),'white');draw=ImageDraw.Draw(sheet)
-draw.text((12,10),'Arm-to-side junction: matched R34 / R35 cameras - REVIEW ONLY',fill='black',font=font)
-for row,ht in enumerate((120.,130.,135.625,145.,156.)):
-    for view_index,view in enumerate(('back','three_quarter')):
+for side in ('l','r'):
+    sheet=Image.new('RGB',(2400,5*640+64),'white');draw=ImageDraw.Draw(sheet)
+    draw.text((12,10),f'Arm-to-side junction ({side}): R34 / R35 same cameras - REVIEW ONLY',fill='black',font=font)
+    for row,ht in enumerate((120.,130.,135.625,145.,156.)):
+        for view_index,view in enumerate(('back','three_quarter')):
+            for tag_index,tag in enumerate(('r34','r35')):
+                image=Image.open(closeups/tag/f'{side}_{view}_{ht}.png').convert('RGBA')
+                base=Image.new('RGBA',image.size,(28,28,30,255));base.alpha_composite(image)
+                x,y=(view_index*2+tag_index)*600,64+row*640
+                draw.text((x+10,y+4),f'{tag.upper()} {ht:g} deg {view}',fill='black',font=font)
+                sheet.paste(base.convert('RGB').resize((600,600)),(x,y+36))
+    sheet.save(OUT/f'r34_r35_junction_{side}_closeups.jpg',quality=94)
+front=Image.new('RGB',(2400,3*640+64),'white');draw=ImageDraw.Draw(front)
+draw.text((12,10),'Bilateral front transition: R34 / R35 same cameras',fill='black',font=font)
+for row,ht in enumerate((120.,130.,145.)):
+    for side_index,side in enumerate(('l','r')):
         for tag_index,tag in enumerate(('r34','r35')):
-            image=Image.open(closeups/tag/f'{view}_{ht}.png').convert('RGBA')
+            image=Image.open(Path('/tmp/r35-front')/tag/f'{side}_front_{ht}.png').convert('RGBA')
             base=Image.new('RGBA',image.size,(28,28,30,255));base.alpha_composite(image)
-            x,y=(view_index*2+tag_index)*600,64+row*640
-            draw.text((x+10,y+4),f'{tag.upper()} {ht:g} deg {view}',fill='black',font=font)
-            sheet.paste(base.convert('RGB').resize((600,600)),(x,y+36))
-sheet.save(OUT/'r34_r35_junction_closeups.jpg',quality=94)
+            x,y=(side_index*2+tag_index)*600,64+row*640
+            draw.text((x+10,y+4),f'{tag.upper()} {side} front {ht:g} deg',fill='black',font=font)
+            front.paste(base.convert('RGB').resize((600,600)),(x,y+36))
+front.save(OUT/'r34_r35_front_closeups.jpg',quality=94)
 doc=f"""# ORIGINAL_v1 R35: broader arm-to-side skin transition
 
 **{report['status']}. Owner visual approval: pending.**
@@ -130,7 +144,7 @@ R35 uses an anchored thin-plate surface target over a broader shoulder/upper-arm
 
 The new rear contour test was fixed before the rebuild. At the owner's exact 135.625-degree frame, both rear outlines must have less than 12.5 degrees of tangent change over adjacent 10mm spans (sampled at 2mm, 15-80mm below GH). R34 fails twice: left 17.5147, right 16.9866. Three-quarter peaks must not worsen from R34 (left 35.407937, right 53.426476 degrees). These outline checks do not measure every visible surface ridge and never substitute for owner review.
 
-The R34 front tests run unchanged on R35; they retain the 10mm front-fit and 100-degree dihedral limits. Every old test remains intact. Final guard checks compare against no-S7 at 82 samples; the strict original 2.5% lockout-volume rule and zero pairs/collapses above 95 degrees remain intact. Every actual frame of 13 benchmarks and 41 full-press samples is compared with R34. Any count increase rejects the numerical candidate. Identity compares to R33, whose protected data R34 already exactly matches.
+The R34 front tests run unchanged on R35; they retain the 10mm front-fit and 100-degree dihedral limits. Every old test remains intact. New reporting tests reject truncated or mismatched frame lists before comparison; this strengthens reporting only. Final guard checks compare against no-S7 at 82 samples; the strict original 2.5% lockout-volume rule and zero pairs/collapses above 95 degrees remain intact. Every actual frame of 13 benchmarks and 41 full-press samples is compared with R34. Any count increase rejects the numerical candidate. Identity compares to R33, whose protected data R34 already exactly matches.
 
 Acceptance checks:
 
@@ -148,7 +162,8 @@ Front tests: exit {front_exit}; contour tests: exit {contour_exit}. Full logs, f
 
 ## Review and reproduction
 
-- r34_r35_junction_closeups.jpg: exact 120/130/135.625/145/156-degree rear and three-quarter details.
+- r34_r35_junction_l_closeups.jpg and r34_r35_junction_r_closeups.jpg: exact 120/130/135.625/145/156-degree rear and three-quarter details.
+- r34_r35_front_closeups.jpg: bilateral front-boundary inspection.
 - r34_r35_same_angle_comparison.jpg: matched full views.
 - shoulder_press_r35_three_views.mp4: complete up/down press, raw review skin.
 - r35_review.json and r35_build.json: status, all metrics and exact settings.

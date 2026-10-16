@@ -1,0 +1,60 @@
+name: ORIGINAL_v1 R33 read-only deformation diagnostics
+on:
+  push:
+    branches: [claude/original-v1-consolidated-review-20261014]
+    paths:
+      - '.github/workflows/original-review-r33-diagnostics.yml'
+permissions:
+  contents: read
+jobs:
+  measure-r33:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y libegl1 libgl1-mesa-dri
+      - name: Install pinned Blender 5.2.1
+        run: |
+          curl --fail --location --retry 3 https://download.blender.org/release/Blender5.2/blender-5.2.1-linux-x64.tar.xz --output /tmp/blender.tar.xz
+          echo 'a31f524fa99a527d3d52b7f5aaa68c34e1a19d5a1c9473f79c5cc610fd5b10e9  /tmp/blender.tar.xz' | sha256sum -c -
+          tar -xJf /tmp/blender.tar.xz -C /tmp
+      - name: R33 existing native tests (unchanged)
+        run: /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --python-exit-code 1 --python scripts/blender_tests/test_original_review_candidate_r33.py
+      - name: Measure saved R33 and R31 with existing tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/r33-diagnostics
+          python - <<'PY'
+          from pathlib import Path
+          import ast
+          root = Path.cwd()
+          out = Path("/tmp/r33-diagnostics")
+          # Adapt only the scratch tools' hard-coded import paths, in /tmp.
+          # No repository script, model or shape-key data is modified.
+          for name in ("bakeerr_k.py", "foldsweep2.py"):
+              source = (root / "scripts/claude_review_tools" / name).read_text()
+              source = source.replace("/home/user/p5/scripts/anatomy_fit", str(root / "scripts/anatomy_fit"))
+              source = source.replace("/home/user/p5/scripts", str(root / "scripts"))
+              ast.parse(source)
+              (out / name).write_text(source)
+          PY
+          blender=/tmp/blender-5.2.1-linux-x64/blender
+          r33=ORIGINAL_V1_WORK/anatomy/candidates/claude_review_r33_20261016/HGPT_ORIGINAL_V1_CONSOLIDATED_REVIEW_R33_CLAUDE.blend
+          r31=ORIGINAL_V1_WORK/anatomy/candidates/claude_review_r31_20261016/HGPT_ORIGINAL_V1_CONSOLIDATED_REVIEW_R31_CLAUDE.blend
+          targets=ORIGINAL_V1_WORK/anatomy/candidates/claude_review_r33_20261016/stages/r33_targets.npz
+          for angle in 120.0 145.0 156.0 166.0; do
+            KEY="$angle" "$blender" --background --factory-startup --python-exit-code 1 --python /tmp/r33-diagnostics/bakeerr_k.py -- "$r33" "$targets" 2>&1 | tee "/tmp/r33-diagnostics/bake-fit-$angle.txt"
+          done
+          for version in r31 r33; do
+            model="$r31"
+            if [ "$version" = r33 ]; then model="$r33"; fi
+            HTS=120,125,130,132,139,145,151,156,166 "$blender" --background --factory-startup --python-exit-code 1 --python /tmp/r33-diagnostics/foldsweep2.py -- "$model" 2>&1 | tee "/tmp/r33-diagnostics/folds-$version.txt"
+          done
+      - name: Upload diagnostic measurements
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: original-v1-r33-read-only-diagnostics
+          path: /tmp/r33-diagnostics/
+          if-no-files-found: warn

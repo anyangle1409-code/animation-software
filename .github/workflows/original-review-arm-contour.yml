@@ -1,0 +1,27 @@
+name: ORIGINAL_v1 arm-to-side contour probe
+on:
+  push:
+    branches: [claude/original-v1-consolidated-review-20261014]
+    paths:
+      - '.github/workflows/original-review-arm-contour.yml'
+      - 'scripts/probe_original_review_arm_contour_blender.py'
+permissions:
+  contents: read
+jobs:
+  measure-contour:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y libegl1 libgl1-mesa-dri
+      - name: Install pinned Blender 5.2.1
+        run: |
+          curl --fail --location --retry 3 https://download.blender.org/release/Blender5.2/blender-5.2.1-linux-x64.tar.xz --output /tmp/blender.tar.xz
+          echo 'a31f524fa99a527d3d52b7f5aaa68c34e1a19d5a1c9473f79c5cc610fd5b10e9  /tmp/blender.tar.xz' | sha256sum -c -
+          tar -xJf /tmp/blender.tar.xz -C /tmp
+      - name: Probe correction-layer contributions without saving a model
+        run: /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/probe_original_review_arm_contour_blender.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: original-v1-r34-arm-contour-probe
+          path: /tmp/r35-contour-probe/

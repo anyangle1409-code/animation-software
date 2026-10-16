@@ -1,0 +1,199 @@
+{
+  "candidate": "R36",
+  "approved": false,
+  "status": "REJECTED_NUMERIC_CHECKS",
+  "front_test_passed": true,
+  "front_test_exit": 0,
+  "acceptance_checks": {
+    "front_test_process": true,
+    "original_lockout_volume": true,
+    "original_guards_rechecked": true,
+    "original_post95_collision_rule": true,
+    "preservation": true,
+    "no_frame_count_regressions": false,
+    "new_contour_goals": true
+  },
+  "guard_violations": [],
+  "invariants": {
+    "bones": true,
+    "basis": true,
+    "polygons": true,
+    "weights": true,
+    "non_s7": true
+  },
+  "regressions": [
+    {
+      "path": "press",
+      "t": 0.35,
+      "metric": "stretch",
+      "r34": 103,
+      "r36": 104
+    },
+    {
+      "path": "press",
+      "t": 0.375,
+      "metric": "stretch",
+      "r34": 88,
+      "r36": 96
+    },
+    {
+      "path": "press",
+      "t": 0.4,
+      "metric": "stretch",
+      "r34": 81,
+      "r36": 83
+    },
+    {
+      "path": "press",
+      "t": 0.775,
+      "metric": "stretch",
+      "r34": 36,
+      "r36": 38
+    },
+    {
+      "path": "press",
+      "t": 0.825,
+      "metric": "stretch",
+      "r34": 53,
+      "r36": 58
+    },
+    {
+      "path": "press",
+      "t": 0.85,
+      "metric": "stretch",
+      "r34": 58,
+      "r36": 70
+    },
+    {
+      "path": "press",
+      "t": 0.875,
+      "metric": "stretch",
+      "r34": 65,
+      "r36": 79
+    },
+    {
+      "path": "press",
+      "t": 0.9,
+      "metric": "stretch",
+      "r34": 68,
+      "r36": 92
+    },
+    {
+      "path": "press",
+      "t": 0.925,
+      "metric": "stretch",
+      "r34": 73,
+      "r36": 102
+    },
+    {
+      "path": "press",
+      "t": 0.95,
+      "metric": "stretch",
+      "r34": 78,
+      "r36": 108
+    },
+    {
+      "path": "press",
+      "t": 0.975,
+      "metric": "stretch",
+      "r34": 78,
+      "r36": 110
+    },
+    {
+      "path": "press",
+      "t": 1.0,
+      "metric": "stretch",
+      "r34": 80,
+      "r36": 111
+    },
+    {
+      "path": "shoulder_press",
+      "t": 0.5,
+      "metric": "stretch_gt_2",
+      "r34": 86,
+      "r36": 118
+    },
+    {
+      "path": "shoulder_press",
+      "t": 0.625,
+      "metric": "stretch_gt_2",
+      "r34": 76,
+      "r36": 106
+    },
+    {
+      "path": "shoulder_press",
+      "t": 0.75,
+      "metric": "stretch_gt_2",
+      "r34": 46,
+      "r36": 86
+    },
+    {
+      "path": "shoulder_press",
+      "t": 0.875,
+      "metric": "stretch_gt_2",
+      "r34": 38,
+      "r36": 66
+    },
+    {
+      "path": "shoulder_press",
+      "t": 1.0,
+      "metric": "stretch_gt_2",
+      "r34": 49,
+      "r36": 65
+    }
+  ],
+  "r34_fit": {
+    "120.0": {
+      "max_mm": 8.37118455867237,
+      "p99_mm": 1.6752780021153026,
+      "v18633_mm": 0.07823243401538199,
+      "over_5mm": 59
+    },
+    "145.0": {
+      "max_mm": 9.135400630316616,
+      "p99_mm": 2.111851746460953,
+      "v18633_mm": 0.09121895140696665,
+      "over_5mm": 60
+    },
+    "156.0": {
+      "max_mm": 11.768494148744553,
+      "p99_mm": 1.0131891557640347,
+      "v18633_mm": 4.877662172936642,
+      "over_5mm": 27
+    },
+    "166.0": {
+      "max_mm": 8.800310273010027,
+      "p99_mm": 0.1208710345274054,
+      "v18633_mm": 0.10560186664847296,
+      "over_5mm": 7
+    }
+  },
+  "r36_fit": {
+    "120.0": {
+      "max_mm": 24.60008533584938,
+      "p99_mm": 11.247214316860692,
+      "v18633_mm": 0.07823243401538199,
+      "over_5mm": 2472
+    },
+    "145.0": {
+      "max_mm": 22.21072279978821,
+      "p99_mm": 11.914126730808796,
+      "v18633_mm": 0.09121895140696665,
+      "over_5mm": 2394
+    },
+    "156.0": {
+      "max_mm": 16.244706857507467,
+      "p99_mm": 5.233479534650555,
+      "v18633_mm": 9.700977165901607,
+      "over_5mm": 259
+    },
+    "166.0": {
+      "max_mm": 11.88372518033028,
+      "p99_mm": 0.8990574039136492,
+      "v18633_mm": 6.2885453436114584,
+      "over_5mm": 47
+    }
+  },
+  "contour_test_passed": true,
+  "contour_test_exit": 0
+}

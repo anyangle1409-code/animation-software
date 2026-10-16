@@ -41,6 +41,25 @@ cam = bpy.data.objects.new("R34_REVIEW_CAMERA", cd)
 scene.collection.objects.link(cam)
 scene.camera = cam
 views = {"back": (0, 1, 0.02), "front": (0, -1, 0.02), "three_quarter": (0.7, 0.7, 0.05)}
+if len(args) > 2 and args[2] == "front_closeups":
+    import build_original_sculpt_corrective_blender as sculpt
+    scene.render.resolution_x = scene.render.resolution_y = 768
+    cd.ortho_scale = 0.30
+    d = Vector((0, -1, 0.02)).normalized()
+    for ht in (120, 130, 145):
+        bench._reset(rig)
+        sculpt.press_pose(res, float(ht))
+        drives.drive(rig, body)
+        gh = rig.matrix_world @ rig.pose.bones["upperarm_r"].head
+        target = gh + Vector((0.01, -0.02, -0.025))
+        cam.location = target + d * 4
+        cam.rotation_mode = "QUATERNION"
+        cam.rotation_quaternion = (-d).to_track_quat("-Z", "Y")
+        scene.render.filepath = str(out / f"front_{ht}.png")
+        bpy.ops.render.render(write_still=True)
+    print("FRONT_CLOSEUPS", model.name, flush=True)
+    raise SystemExit(0)
+
 rows = []
 for n in range(41):
     bench._reset(rig)

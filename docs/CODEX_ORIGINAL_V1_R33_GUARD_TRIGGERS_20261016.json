@@ -1,0 +1,302 @@
+{
+  "source_commit": "c133b931d703943d9e6db96bb5c4d131c50a47a0",
+  "run": "https://github.com/anyangle1409-code/animation-software/actions/runs/38931095030",
+  "front_guard_events": [
+    {
+      "path": "press",
+      "t": 0.6,
+      "pass": 0,
+      "round": 0,
+      "extra_collapsed_face_ids": [
+        11116
+      ],
+      "extra_intersection_face_pairs": [],
+      "hit_vertices": [
+        241,
+        242,
+        18628,
+        18630,
+        18634,
+        18635
+      ],
+      "v18633_is_direct_hit": false,
+      "v18633_multiplier": 0.7483509655338528,
+      "active_keys": [
+        "HGPT_S7_DELT_l_120",
+        "HGPT_S7_DELT_r_120",
+        "HGPT_S7_DELT_l_145",
+        "HGPT_S7_DELT_r_145"
+      ],
+      "collapsed_faces": [
+        {
+          "id": 11116,
+          "vertices": [
+            18634,
+            18635,
+            242
+          ]
+        }
+      ]
+    },
+    {
+      "path": "press",
+      "t": 0.6,
+      "pass": 0,
+      "round": 1,
+      "extra_collapsed_face_ids": [
+        22187,
+        35679
+      ],
+      "extra_intersection_face_pairs": [],
+      "hit_vertices": [
+        18630,
+        18632,
+        18635,
+        18638,
+        21048,
+        21065
+      ],
+      "v18633_is_direct_hit": false,
+      "v18633_multiplier": 0.8109481269941397,
+      "active_keys": [
+        "HGPT_S7_DELT_l_120",
+        "HGPT_S7_DELT_r_120",
+        "HGPT_S7_DELT_l_145",
+        "HGPT_S7_DELT_r_145"
+      ],
+      "collapsed_faces": [
+        {
+          "id": 22187,
+          "vertices": [
+            18632,
+            21048,
+            18630
+          ]
+        },
+        {
+          "id": 35679,
+          "vertices": [
+            18635,
+            21065,
+            18638
+          ]
+        }
+      ]
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.55,
+      "pass": 0,
+      "round": 0,
+      "extra_collapsed_face_ids": [],
+      "extra_intersection_face_pairs": [
+        [
+          10856,
+          22183
+        ],
+        [
+          10857,
+          22180
+        ],
+        [
+          10857,
+          22183
+        ],
+        [
+          11116,
+          35683
+        ]
+      ],
+      "hit_vertices": [
+        241,
+        242,
+        18628,
+        18630,
+        18631,
+        18632,
+        18634,
+        18635,
+        18637,
+        18638,
+        21039,
+        21060,
+        21328,
+        21501
+      ],
+      "v18633_is_direct_hit": false,
+      "v18633_multiplier": 0.660562342990026,
+      "active_keys": [
+        "HGPT_S7_DELT_l_120",
+        "HGPT_S7_DELT_r_120",
+        "HGPT_S7_DELT_l_145",
+        "HGPT_S7_DELT_r_145"
+      ],
+      "collapsed_faces": []
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.55,
+      "pass": 0,
+      "round": 1,
+      "extra_collapsed_face_ids": [
+        35716
+      ],
+      "extra_intersection_face_pairs": [
+        [
+          10856,
+          22211
+        ],
+        [
+          11116,
+          35719
+        ],
+        [
+          22181,
+          22184
+        ],
+        [
+          22184,
+          22210
+        ],
+        [
+          22184,
+          22211
+        ],
+        [
+          35676,
+          35717
+        ],
+        [
+          35676,
+          35719
+        ]
+      ],
+      "hit_vertices": [
+        241,
+        242,
+        8717,
+        11778,
+        18628,
+        18630,
+        18631,
+        18632,
+        18633,
+        18634,
+        18635,
+        18637,
+        18638,
+        18639,
+        21328,
+        21329,
+        21501,
+        21502
+      ],
+      "v18633_is_direct_hit": true,
+      "v18633_multiplier": 0.5,
+      "active_keys": [
+        "HGPT_S7_DELT_l_120",
+        "HGPT_S7_DELT_r_120",
+        "HGPT_S7_DELT_l_145",
+        "HGPT_S7_DELT_r_145"
+      ],
+      "collapsed_faces": [
+        {
+          "id": 35716,
+          "vertices": [
+            242,
+            18637,
+            18639
+          ]
+        }
+      ]
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.55,
+      "pass": 0,
+      "round": 2,
+      "extra_collapsed_face_ids": [
+        22208
+      ],
+      "extra_intersection_face_pairs": [],
+      "hit_vertices": [
+        241,
+        242,
+        18631,
+        18633,
+        18637,
+        18639
+      ],
+      "v18633_is_direct_hit": true,
+      "v18633_multiplier": 0.5,
+      "active_keys": [
+        "HGPT_S7_DELT_l_120",
+        "HGPT_S7_DELT_r_120",
+        "HGPT_S7_DELT_l_145",
+        "HGPT_S7_DELT_r_145"
+      ],
+      "collapsed_faces": [
+        {
+          "id": 22208,
+          "vertices": [
+            241,
+            18633,
+            18631
+          ]
+        }
+      ]
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.8,
+      "pass": 0,
+      "round": 0,
+      "extra_collapsed_face_ids": [
+        11071,
+        11147
+      ],
+      "extra_intersection_face_pairs": [],
+      "hit_vertices": [
+        6294,
+        6314,
+        14321,
+        14334,
+        18624,
+        18641,
+        20965,
+        20999,
+        21033,
+        21046,
+        21058,
+        21066
+      ],
+      "v18633_is_direct_hit": false,
+      "v18633_multiplier": 0.8188559756970011,
+      "active_keys": [
+        "HGPT_S7_DELT_l_145",
+        "HGPT_S7_DELT_r_145",
+        "HGPT_S7_DELT_l_156",
+        "HGPT_S7_DELT_r_156"
+      ],
+      "collapsed_faces": [
+        {
+          "id": 11071,
+          "vertices": [
+            20999,
+            14334,
+            21058
+          ]
+        },
+        {
+          "id": 11147,
+          "vertices": [
+            21066,
+            6314,
+            18641
+          ]
+        }
+      ]
+    }
+  ],
+  "excluded": "EXACT_BENCHMARK lines from that run are excluded because the long-lived process retained a press hook; R34 comparisons use fresh Blender processes."
+}

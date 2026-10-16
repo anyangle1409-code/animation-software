@@ -46,7 +46,60 @@ if mode == "identity":
     print("R34_IDENTITY", json.dumps(report), flush=True)
     raise SystemExit(0)
 bpy.ops.wm.open_mainfile(filepath=str(source.resolve()))
-if mode == "benchmarks":
+if mode == "guard":
+    from mathutils import Vector
+    from mathutils.bvhtree import BVHTree
+    import original_v1_shoulder_r4 as r4
+    res = correction.build_corrected_scene()
+    body, rig = res["body"], res["runtime"]
+    for kb in body.data.shape_keys.key_blocks[1:]:
+        kb.value = 0
+    drives.setup(res)
+    px.install()
+    bench._reset(rig)
+    v0, faces = bench._evaluated(body)
+    f = np.asarray(faces)
+    a0 = np.array([bench._area(v0, face) for face in faces])
+    face_sets = [set(face) for face in faces]
+    def counts():
+        vertices, _ = bench._evaluated(body)
+        p = np.array([tuple(v) for v in vertices])
+        area = np.array([bench._area(vertices, face) for face in faces])
+        tree = BVHTree.FromPolygons(vertices, faces, all_triangles=True)
+        pairs = sum(1 for a, b in tree.overlap(tree) if a < b and not (face_sets[a] & face_sets[b]))
+        return {"pairs": pairs, "collapse": int(((a0 > 1e-12) & (area / np.maximum(a0, 1e-12) < 0.1)).sum())}
+    rows, violations = [], []
+    keys = [kb for kb in body.data.shape_keys.key_blocks if kb.name.startswith("HGPT_S7_DELT_")]
+    for path in ("press", "benchmark_press"):
+        for i in range(41):
+            t = i / 40
+            bench._reset(rig)
+            if path == "press":
+                px.pose_press_full(res, t)
+            else:
+                hook = r4._S.get("extend")
+                r4._S["extend"] = None
+                try:
+                    bench.pose_press(res, t, correction)
+                finally:
+                    r4._S["extend"] = hook
+            drives.drive(rig, body)
+            actual = counts()
+            values = [kb.value for kb in keys]
+            for kb in keys:
+                kb.value = 0
+            baseline = counts()
+            for kb, value in zip(keys, values):
+                kb.value = value
+            row = {"path": path, "t": t, "candidate": actual, "without_s7": baseline}
+            rows.append(row)
+            if any(actual[k] > baseline[k] for k in ("pairs", "collapse")):
+                violations.append(row)
+    report = {"sample_count": len(rows), "paths": ["press", "benchmark_press"],
+              "violations": violations, "rows": rows}
+    dest.write_text(json.dumps(report, indent=2) + "\n")
+    print("ORIGINAL_GUARD_RECHECK", json.dumps({"sample_count": len(rows), "violations": violations}), flush=True)
+elif mode == "benchmarks":
     # No px.install(): this is the standard 13-movement benchmark path,
     # in a clean process, with no full-press extension hook inherited.
     report = bench.run(setup=drives.setup,

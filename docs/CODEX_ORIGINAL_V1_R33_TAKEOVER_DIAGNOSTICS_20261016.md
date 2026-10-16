@@ -79,3 +79,18 @@ These were produced by the previous assistant; this takeover did not create new 
 
 - [R31/R33 back and three-quarter comparison](https://github.com/anyangle1409-code/animation-software/blob/08aaaf934e169f4afd73dc567cb585dd2a7488e4/ORIGINAL_V1_WORK/anatomy/candidates/claude_review_r33_20261016/renders/press_r31_r33.jpg)
 - [R33 press video](https://github.com/anyangle1409-code/animation-software/blob/08aaaf934e169f4afd73dc567cb585dd2a7488e4/ORIGINAL_V1_WORK/anatomy/candidates/claude_review_r33_20261016/press/shoulder_press_r33_views.mp4)
+
+## Continuation: exact triggers and R34
+
+The next trace reproduced these specific smooth-guard triggers:
+- Full press t=0.60: collapsed face 11116, followed by faces 22187 and 35679 after the first cutback.
+- Benchmark press t=0.55: four new intersection pairs, followed by seven pairs plus a collapsed face after attenuation. Vertex 18633 starts outside the direct hit set and subsequently becomes a direct hit, receiving repeated 0.5 multipliers.
+- The trace's later in-process EXACT_BENCHMARK lines are excluded: the process retained a press hook. The trace script was corrected, and every R33/R34 benchmark measurement now runs in a fresh Blender process.
+
+See `docs/CODEX_ORIGINAL_V1_R33_GUARD_TRIGGERS_20261016.json` for the exact event records.
+
+R34 was subsequently built as a separate bounded candidate. Its fixed front regression tests passed: 130-degree front dihedral 132.393 -> 38.423 degrees; maximum whole-body target miss at 120/145 changed from 20.979/23.443 mm to 8.371/9.135 mm. The original worst sentinel is within 0.078/0.091 mm. The first 41-frame/full 13-benchmark comparison found no count increases, and preservation checks passed.
+
+Independent source review required stricter reporting: carry forward lockout volume <2.5%, require the test process to exit zero, preserve zero pairs/collapse above95, and explicitly recheck the final saved model against both original no-S7 guard baselines. Eight focused reporting tests were demonstrated red then green. These are additional checks; no existing deformation test or threshold changed.
+
+The R34 geometry is not regenerated during that reporting recheck. See `docs/CODEX_ORIGINAL_V1_REVIEW_CANDIDATE_R34_20261016.md` and its `r34_review.json` for the final status. R34 is not accepted without owner visual review.

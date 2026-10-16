@@ -1,0 +1,44 @@
+{
+  "status": "DIAGNOSIS_COMPLETE_OWNER_APPROVAL_REQUIRED_FOR_BROADER_TARGET_REBUILD",
+  "source_commit": "3fa3168c80cb9a012d8d7c8eb478beca2763f771",
+  "probe_commit": "16402890e516a2fd9c715a51c8e93bd85a39531c",
+  "probe_run": "https://github.com/anyangle1409-code/animation-software/actions/runs/38946251822",
+  "pose_ht_degrees": 135.625,
+  "findings": [
+    "The shelf is contributed by the S7 target shape; turning S7 off removes the lobe but reintroduces upper-arm and shoulder folds.",
+    "Surface-only smoothing in a posterior patch does not adequately change the three-quarter junction.",
+    "Local S7 attenuation improves the rear profile but brings back folds; adding local fairing does not solve both views.",
+    "R34 remains unaccepted for this visible arm-to-side contour even though its earlier numerical checks pass."
+  ],
+  "trials": [
+    {
+      "method": "R34 unchanged",
+      "rear_profile_turn_degrees": 16.987,
+      "three_quarter_profile_turn_degrees": 53.426,
+      "max_move_mm": 0
+    },
+    {
+      "method": "local 50% S7 attenuation",
+      "rear_profile_turn_degrees": 13.891,
+      "three_quarter_profile_turn_degrees": 52.505,
+      "max_move_mm": 12.399,
+      "rejected_reason": "insufficient three-quarter improvement and visible shoulder folding"
+    },
+    {
+      "method": "local 60% attenuation plus 100 Taubin passes",
+      "rear_profile_turn_degrees": 11.447,
+      "three_quarter_profile_turn_degrees": 56.172,
+      "max_move_mm": 16.692,
+      "rejected_reason": "three-quarter profile became worse"
+    },
+    {
+      "method": "local 80% attenuation plus 100 Taubin passes",
+      "rear_profile_turn_degrees": 9.243,
+      "three_quarter_profile_turn_degrees": 58.692,
+      "max_move_mm": 21.554,
+      "rejected_reason": "three-quarter profile became worse"
+    }
+  ],
+  "limits": "These are evaluated-surface probes and software-view diagnostics, not saved Blender candidates or accepted corrections. No R35 blend was created.",
+  "proposed_scope": "Re-author the S7 skin targets across the complete local upper-arm/axilla/side junction, preserving the frozen skeleton, basis, weights and non-S7 families; create separate R35 with documented tests and matched native Blender review renders/video. Ask owner first because this is a larger target-shape change."
+}

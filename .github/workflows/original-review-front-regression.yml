@@ -1,0 +1,37 @@
+name: ORIGINAL_v1 front-armpit regression
+on:
+  push:
+    branches: [claude/original-v1-consolidated-review-20261014]
+    paths:
+      - '.github/workflows/original-review-front-regression.yml'
+      - 'scripts/blender_tests/test_original_review_candidate_r34_front.py'
+permissions:
+  contents: read
+jobs:
+  reproduce-r33-front-failure:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y libegl1 libgl1-mesa-dri
+      - name: Install pinned Blender 5.2.1
+        run: |
+          curl --fail --location --retry 3 https://download.blender.org/release/Blender5.2/blender-5.2.1-linux-x64.tar.xz --output /tmp/blender.tar.xz
+          echo 'a31f524fa99a527d3d52b7f5aaa68c34e1a19d5a1c9473f79c5cc610fd5b10e9  /tmp/blender.tar.xz' | sha256sum -c -
+          tar -xJf /tmp/blender.tar.xz -C /tmp
+      - name: Confirm new regression goals fail on unchanged R33
+        shell: bash
+        env:
+          HGPT_FRONT_TEST_BLEND: ORIGINAL_V1_WORK/anatomy/candidates/claude_review_r33_20261016/HGPT_ORIGINAL_V1_CONSOLIDATED_REVIEW_R33_CLAUDE.blend
+        run: |
+          set -uo pipefail
+          /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --python-exit-code 1 --python scripts/blender_tests/test_original_review_candidate_r34_front.py 2>&1 | tee /tmp/r33-front-red.txt
+          result=${PIPESTATUS[0]}
+          set -e
+          test "$result" -eq 1
+          grep -F 'FAILED (failures=3)' /tmp/r33-front-red.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: r33-front-regression-red
+          path: /tmp/r33-front-red.txt

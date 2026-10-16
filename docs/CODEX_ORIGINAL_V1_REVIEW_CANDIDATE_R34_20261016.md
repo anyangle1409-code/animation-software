@@ -16,10 +16,25 @@ No canonical bones, basis mesh, skin weights or non-S7 shape keys are intentiona
 
 - Front sentinel vertex 18633: under 10 mm from the unchanged R33 target at both 120 and 145 degrees.
 - Front-patch maximum dihedral at 130 degrees: under 100 degrees (R33 measured 132.393).
+- Lockout absolute volume change remains strictly below 2.5%, matching the existing R33 requirement.
+- Both original guard baselines are rechecked at 82 path/time combinations on the final saved model.
 - These new tests failed on unchanged R33 with exactly three assertion failures. No pre-existing test or tolerance was changed.
 - Numerical comparison uses clean Blender processes for each model/path, avoiding inherited module hooks.
 
-Front test passed: **True**.
+Front test passed: **True** (process exit 0).
+
+Acceptance checks:
+
+{
+  "front_test_process": true,
+  "original_lockout_volume": true,
+  "original_guards_rechecked": true,
+  "original_post95_collision_rule": true,
+  "preservation": true,
+  "no_frame_count_regressions": true
+}
+
+Reporting was strengthened after independent code review: retain the original volume limit, require exit zero, and remeasure the guards against their own no-S7 baseline. No deformation test was weakened.
 
 ## Target-fit measurement at the front sentinel
 
@@ -52,10 +67,11 @@ The skeleton matrices/parents/deform flags, basis, topology, all weights and eve
 []
 ```
 
-A failed front goal, preservation check or any recorded increase rejects the numerical experiment. Visual review is still required even if numerical checks pass. The tests do not establish anatomical correctness or medical approval.
+A failed front goal, nonzero test exit, preservation failure, original lockout-volume failure, residual guard violation or any recorded increase rejects the numerical experiment. Visual review is still required even if numerical checks pass. The tests do not establish anatomical correctness or medical approval.
 
 ## Review files and reproduction
 
+- r33_r34_front_closeups_120_130_145.jpg: same-camera closeups at exact 120/130/145-degree elevations.
 - r33_r34_same_angle_comparison.jpg: identical 118/132/145/156-degree vicinity press times, back/front/three-quarter views.
 - shoulder_press_r34_three_views.mp4: raw skin views along the complete up/down press.
 - front_test.txt: unchanged R34 regression test output.

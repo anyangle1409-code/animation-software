@@ -3,6 +3,16 @@
   "approved": false,
   "status": "NUMERIC_CHECKS_PASSED_AWAITING_VISUAL_REVIEW",
   "front_test_passed": true,
+  "front_test_exit": 0,
+  "acceptance_checks": {
+    "front_test_process": true,
+    "original_lockout_volume": true,
+    "original_guards_rechecked": true,
+    "original_post95_collision_rule": true,
+    "preservation": true,
+    "no_frame_count_regressions": true
+  },
+  "guard_violations": [],
   "invariants": {
     "bones": true,
     "basis": true,

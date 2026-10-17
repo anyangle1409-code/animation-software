@@ -43,6 +43,7 @@ def objective(data):
   reference_max=np.asarray(full_max)
  edges=np.unique(np.sort(np.concatenate((f[:,[0,1]],f[:,[1,2]],f[:,[2,0]])),axis=1),axis=0) if strain else None
  shape=initial.shape;count=0;start=time.time()
+ contact_weight=float(d.get('contact_weight',400. if strain else 4.))
  contacts=[]
  for row in contact_rows:
   cs=int(row['sample']);ca=rev[f0[int(row['a'])]];cb=rev[f0[int(row['b'])]]
@@ -74,14 +75,15 @@ def objective(data):
   gp=np.zeros_like(p)
   for s in range(len(base)):
    for ax in range(3):gp[s,:,ax]=np.bincount(f.ravel(),weights=g[s,:,:,ax].ravel(),minlength=len(verts))
-  contact_loss=0.;contact_safe=True
+  contact_loss=0.;contact_safe=True;contact_min_ratio=float('inf')
   for cs,ca,cb,cn,margin in contacts:
    qa=p[cs,ca]@cn;qb=p[cs,cb]@cn
    gap=qb[None,:]-qa[:,None];error=np.minimum(gap-margin,0.)
    contact_safe &= bool(np.all(gap>=.9*margin))
-   contact_loss+=4*np.sum((error/.001)**2)
-   gp[cs,ca]-=8*error.sum(1)[:,None]/.001**2*cn
-   gp[cs,cb]+=8*error.sum(0)[:,None]/.001**2*cn
+   contact_min_ratio=min(contact_min_ratio,float(gap.min()/margin))
+   contact_loss+=contact_weight*np.sum((error/.001)**2)
+   gp[cs,ca]-=2*contact_weight*error.sum(1)[:,None]/.001**2*cn
+   gp[cs,cb]+=2*contact_weight*error.sum(0)[:,None]/.001**2*cn
   gm=np.einsum('snji,snj->sni',mat,gp)
   grad=np.einsum('skn,snj->knj',weight,gm)
   front_loss=0.;front_excess=0.
@@ -113,7 +115,7 @@ def objective(data):
    st=fixed_stretch+(area>2*a0).sum(1);co=fixed_collapse+((area<.1*a0)&(a0>1e-12)).sum(1)
    quality_goals=bool(st[25]<=40 and st[40]<=70 and co[41:82].max()==0 and np.all((area/np.maximum(a0,1e-20)).max(1)<=reference_max*1.01))
    if count%20==0:print('R41_STRAIN',int(st[25]),int(st[40]),int(co[41:82].max()),flush=True)
-  state.update(delta=delta,area=area,signed=signed,contact_safe=contact_safe,front_excess=front_excess,quality_goals=quality_goals)
+  state.update(delta=delta,area=area,signed=signed,contact_safe=contact_safe,front_excess=front_excess,quality_goals=quality_goals,contact_min_ratio=contact_min_ratio)
   return val,grad.ravel()
  def expand(x):
   out=d['delta'].copy();out[:,verts]=initial+project(x)*.01
@@ -123,6 +125,7 @@ def objective(data):
   return (bool(np.all((area>2*a0).sum(1)<=(b>2*a0).sum(1))) and
           bool(np.all((area<.1*a0).sum(1)<=(b<.1*a0).sum(1))) and
           not np.any((signed<.04*b)&(b>1e-12)) and state['contact_safe'] and state['front_excess']<=.25 and state['quality_goals'])
+ safe.diagnostics=lambda:dict(contact_count=len(contacts),contact_safe=state['contact_safe'],contact_min_ratio=state['contact_min_ratio'] if contacts else None,front_excess_deg=state['front_excess'],quality_goals=state['quality_goals'],signed_margin_failures=int(((state['signed']<.04*b)&(b>1e-12)).sum()),extra_stretch_samples=int(((state['area']>2*a0).sum(1)>(b>2*a0).sum(1)).sum()),extra_collapse_samples=int(((state['area']<.1*a0).sum(1)>(b<.1*a0).sum(1)).sum()))
  return fun,expand,safe,shape
 
 def solve(data,epochs=1000):
@@ -150,7 +153,7 @@ def solve(data,epochs=1000):
  mask=data['constraint_mask'];n=data['constraint_normal'];v=data['constraint_value']
  error=float(abs((out*n).sum(2)[mask]-v[mask]).max(initial=0)*1000)
  if error>1e-5:raise ValueError(('Optimization erased approved line',error))
- return out,{'message':message,'iterations':iterations[0],'optimization_sample_count':len(data['base'])+int('front_base' in data),'constraints_satisfied':safe(),
+ return out,{'message':message,'iterations':iterations[0],'optimization_sample_count':len(data['base'])+int('front_base' in data),'constraints_satisfied':safe(),'safety_diagnostics':safe.diagnostics(),
              'max_line_component_error_mm':error,
              'max_material_adjustment_mm':float(np.linalg.norm(out-data['delta'],axis=2).max()*1000),
              'frozen_vertices_unchanged':bool(np.array_equal(out[~data['free']],data['delta'][~data['free']]))}

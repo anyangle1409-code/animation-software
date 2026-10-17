@@ -21,4 +21,11 @@ class BoundedStrain(unittest.TestCase):
   self.assertGreater(np.linalg.norm(delta[0,1]),0.)
   np.testing.assert_array_equal(delta[~d['free']],0.)
   self.assertAlmostEqual(float((delta*d['constraint_normal']).sum()),0.,places=12)
+ def test_strong_contact_penalty_gradient(self):
+  d=self.data();rest=np.vstack((d['rest'],d['rest']+[0,0,.0001]));base=np.vstack((d['base'][0],d['base'][0]+[0,0,.0001]))
+  d.update(rest=rest,faces=np.array([[0,1,2],[3,4,5]]),base=np.tile(base,(82,1,1)),mat=np.tile(np.eye(3),(82,6,1,1)),weight=np.ones((82,1,6)),delta=np.zeros((1,6,3)),free=np.ones((1,6),bool),constraint_normal=np.zeros((1,6,3)),constraint_mask=np.zeros((1,6),bool),constraint_value=np.zeros((1,6)),contacts=[dict(sample=0,a=0,b=1)])
+  fun,_,_,shape=objective(d);x=np.zeros(shape);x[0,1,2]=.02;x=x.ravel();_,g=fun(x)
+  for i in range(len(x)):
+   a=x.copy();b=x.copy();a[i]+=1e-7;b[i]-=1e-7
+   self.assertAlmostEqual(g[i],(fun(a)[0]-fun(b)[0])/2e-7,delta=max(1e-3,abs(g[i])*1e-5))
 if __name__=='__main__':unittest.main()

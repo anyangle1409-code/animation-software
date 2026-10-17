@@ -74,7 +74,10 @@ def staged_solve(data):
     from optimize_original_review_r41 import solve as redistribute
     data=dict(data)
     result,intermediate=redistribute(data,epochs=1000)
-    if not intermediate['constraints_satisfied']:raise ValueError('R41 front/area/contact constraints failed before build')
+    if '_diagnostic_destination' in data:
+        p=str(data['_diagnostic_destination']);np.savez_compressed(p,delta=result)
+        Path(p+'.json').write_text(json.dumps(intermediate,indent=2)+'\n')
+    if not intermediate['constraints_satisfied']:raise ValueError(('R41 front/area/contact constraints failed before build',intermediate))
     data['delta']=result
     result,report=solve(data,epochs=240)
     mask=data['constraint_mask'];n=data['constraint_normal'];v=data['constraint_value']
@@ -92,7 +95,8 @@ if __name__=='__main__':
     with np.load(source) as z:data={key:z[key] for key in z.files}
     if len(sys.argv)>3:
         data['contacts']=json.loads(Path(sys.argv[3]).read_text())['contacts']
-        data['warm_start']=np.load(dest)['delta']
+        if Path(dest).exists():data['warm_start']=np.load(dest)['delta']
+    data['_diagnostic_destination']=dest+'.attempt.npz'
     delta,report=staged_solve(data)
     np.savez_compressed(dest,delta=delta)
     Path(dest+'.json').write_text(json.dumps(report,indent=2)+'\n')

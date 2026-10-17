@@ -98,8 +98,12 @@ jobs:
 
         /usr/bin/python3 scripts/tests/test_original_review_r41_bounded_optimizer.py'
     - name: Solve coupled material-area constraints for both paths
-      run: /usr/bin/python3 scripts/solve_original_review_r41.py /tmp/r41-response/response.npz
-        /tmp/r41-response/solved.npz
+      run: 'cp scripts/data/r41_native_contact_constraints_20261017.json /tmp/r41-response/contacts_active.json
+
+        /usr/bin/python3 scripts/solve_original_review_r41.py /tmp/r41-response/response.npz
+        /tmp/r41-response/solved.npz /tmp/r41-response/contacts_active.json
+
+        '
     - name: Resolve native BVH contacts before unchanged guards
       shell: bash
       run: "set -euo pipefail\nout=/tmp/r41-response\nblender=/tmp/blender-5.2.1-linux-x64/blender\n\
@@ -411,3 +415,4 @@ jobs:
     - scripts/tests/test_original_review_r41_strain_math.py
     - scripts/tests/test_original_review_r41_bound.py
     - scripts/tests/test_original_review_r41_bounded_optimizer.py
+    - scripts/data/r41_native_contact_constraints_20261017.json

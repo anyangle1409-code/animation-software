@@ -1,0 +1,77 @@
+{
+  "contacts": [
+    {
+      "sample": 16,
+      "a": 10852,
+      "b": 10856
+    },
+    {
+      "sample": 18,
+      "a": 10844,
+      "b": 10848
+    },
+    {
+      "sample": 18,
+      "a": 11155,
+      "b": 35720
+    },
+    {
+      "sample": 27,
+      "a": 11118,
+      "b": 11124
+    },
+    {
+      "sample": 27,
+      "a": 11121,
+      "b": 11124
+    },
+    {
+      "sample": 28,
+      "a": 11118,
+      "b": 11124
+    },
+    {
+      "sample": 28,
+      "a": 11121,
+      "b": 11124
+    },
+    {
+      "sample": 29,
+      "a": 11118,
+      "b": 11124
+    },
+    {
+      "sample": 29,
+      "a": 11121,
+      "b": 11124
+    },
+    {
+      "sample": 32,
+      "a": 11118,
+      "b": 11124
+    },
+    {
+      "sample": 53,
+      "a": 10852,
+      "b": 10856
+    },
+    {
+      "sample": 54,
+      "a": 10852,
+      "b": 10856
+    },
+    {
+      "sample": 55,
+      "a": 10853,
+      "b": 22186
+    },
+    {
+      "sample": 55,
+      "a": 11155,
+      "b": 35720
+    }
+  ],
+  "source_run": 39043230358,
+  "source_commit": "22305ca438d08e6376d55376ff073e92186053fa",
+  "reference": "Immutable R40 native response; extra contact pairs found on first rejected R41 solve. Fixed separation constraints, not exemptions. All native BVH scans remain unchanged."
+}

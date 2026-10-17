@@ -18,12 +18,12 @@ def goals(metrics):
  return (metrics['marked_stretch']<=40 and metrics['top_stretch']<=70 and metrics['benchmark_max_collapse']==0
          and metrics['max_material_delta_mm']<=.75)
 
-def area_log_penalty(areas,reference):
+def area_log_penalty(areas,reference,under_weight=20.):
     safe=np.maximum(areas,1e-20);ref=np.maximum(reference,1e-20)
     over=np.maximum(np.log(safe/(1.85*ref)),0);under=np.maximum(np.log(.2*ref/safe),0)
     valid=np.asarray(reference)>1e-12
-    value=float(((over*over+under*under)*valid).sum())
-    return value,2*(over-under)/safe*valid
+    value=float(((over*over+under_weight*under*under)*valid).sum())
+    return value,2*(over-under_weight*under)/safe*valid
 
 
 def area_safety(points,parent,rest,faces):

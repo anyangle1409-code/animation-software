@@ -1,0 +1,25 @@
+{
+  "status": "DIAGNOSTIC_GUIDE_ONLY_NO_MODEL_CHANGE",
+  "parent": "R38",
+  "pose_degrees": 135.625,
+  "owner_mark_percent": [
+    74,
+    29
+  ],
+  "axis": "frozen shoulder-to-elbow axis projected into the unchanged rear camera",
+  "fit_interval_mm": [
+    60,
+    160
+  ],
+  "fit_samples_radius_mm": [
+    71.04559768202348,
+    69.45220627275282,
+    67.06174255853045,
+    63.763730488919286,
+    59.71836145984471,
+    55.63459141126901
+  ],
+  "fit_intercept_mm": 81.66175769055452,
+  "current_radius_at_shoulder_station_mm": 64.22826044667899,
+  "extension_at_shoulder_station_mm": 17.43349724387552
+}

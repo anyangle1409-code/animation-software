@@ -87,7 +87,7 @@ def build():
     report={'candidate':'R38','approved':False,'status':'EXPERIMENT_NOT_ACCEPTED',
             'owner_scope_approved':'2026-10-16: broader local skin transition rebuild',
             'parent_sha256':digest(PARENT),'sha256':digest(model),
-            'change':'R37 local broad-bow and posterior-lobe correction; coupled two-path area and orientation constraints; end keys frozen',
+            'change':'R37 local broad-bow and posterior-lobe target at45percent, coupled redistribution, local safety attenuation,0.75mm lower-junction blend; end keys frozen',
             'response':json.loads(Path('/tmp/r38-response/response.json').read_text()),
             'coupled_solver':json.loads(Path('/tmp/r38-response/solved.npz.json').read_text()),
             'frozen_156_166_unchanged':frozen_ok,

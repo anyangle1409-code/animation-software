@@ -8,6 +8,7 @@ on:
       - 'scripts/original_review_r38_target.py'
       - 'scripts/export_original_review_r38_blender.py'
       - 'scripts/solve_original_review_r38.py'
+      - 'scripts/redistribute_original_review_r38.py'
       - 'scripts/tests/test_original_review_r38_solver.py'
       - 'scripts/probe_original_review_r35_blender.py'
       - 'scripts/original_review_contour.py'

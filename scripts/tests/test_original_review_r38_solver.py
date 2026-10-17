@@ -6,6 +6,18 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from solve_original_review_r38 import solve
 
 class CoupledAreaSolverTests(unittest.TestCase):
+    def test_safety_correction_only_attenuates_authored_target(self):
+        rest=np.array([[0.,0.,0.],[.01,0.,0.],[0.,.01,0.]])
+        delta=np.zeros((1,3,3));delta[0,1]=[.015,.004,.002]
+        data={'rest':rest,'faces':np.array([[0,1,2]]),'base':rest[None],
+              'mat':np.broadcast_to(np.eye(3),(1,3,3,3)).copy(),
+              'weight':np.ones((1,1,3)),'delta':delta,
+              'free':np.array([[False,True,False]]),
+              'normal':np.tile([0.,0.,1.],(1,3,1))}
+        result,report=solve(data,epochs=40)
+        self.assertLess(np.linalg.norm(np.cross(result[0,1],delta[0,1])),1e-12)
+        self.assertLess(np.linalg.norm(result[0,1]),np.linalg.norm(delta[0,1]))
+
     def test_recoverable_reversal_does_not_stop_at_unsigned_convergence(self):
         rest=np.array([[0.,0.,0.],[.002,0.,0.],[0.,.002,0.]])
         delta=np.zeros((1,3,3));delta[0,1,0]=-.006

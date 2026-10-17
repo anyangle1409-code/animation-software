@@ -75,6 +75,8 @@ for path in ('press','benchmark_press'):
     for i in range(41):
         install(np.zeros_like(delta));pose(path,i/40)
         p=evaluate();a=matrix();c=coefficients()
+        if path=="press" and i==25:
+            data["marked_gh"]=np.asarray([tuple(rig.matrix_world@rig.pose.bones["upperarm_"+side].head) for side in ("l","r")])
         install(delta);actual=evaluate()
         predicted=p+np.einsum('nij,nj->ni',a,np.einsum('kn,knj->nj',c,delta))
         error=float(np.linalg.norm(predicted-actual,axis=1).max())

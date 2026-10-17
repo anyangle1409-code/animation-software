@@ -29,7 +29,7 @@ def guide(points,faces,gh,elbow,side):
 def errors(current,parent,side):
     ht='135.625';gh=parent[f'gh_{side}_{ht}'];el=parent[f'elbow_{side}_{ht}'];faces=parent['faces']
     fit=guide(parent['all_'+ht],faces,gh,el,side)
-    arm=np.arange(0,.06001,.005);join=np.arange(-.14,.00001,.005)
+    arm=np.arange(0,.16001,.005);join=np.arange(-.14,.00001,.005)
     a=profile(current['all_'+ht],faces,gh,el,side,arm)
     j=profile(current['all_'+ht],faces,gh,el,side,join)
     return float(abs(a-np.polyval(fit,arm)).max()*1000),float(np.maximum(np.polyval(fit,join)-j,0).max()*1000)

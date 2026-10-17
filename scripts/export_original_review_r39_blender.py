@@ -77,7 +77,7 @@ for k,ht in enumerate(KEYS):
         levels=np.arange(-.24,.20001,.002);outline=profile(p,faces,gh,el,side,levels)
         fit=guide(p,faces,gh,el,side)
         local=np.interp(station,levels,outline)
-        mask=(radius>local-.012)&(station>=-.14)&(station<=.065)&(np.polyval(fit,station)>local)&(d[:,1]>-.025)&(p[:,0]*(1 if side=='r' else -1)>0)
+        mask=(radius>local-.012)&(station>=-.14)&(station<=.16)&((np.polyval(fit,station)>local)|(station>=0))&(d[:,1]>-.025)&(p[:,0]*(1 if side=='r' else -1)>0)
         world_normal=n-fit[0]*axis
         covector=np.einsum('nji,j->ni',a,world_normal)
         covector/=np.maximum(np.linalg.norm(covector,axis=1)[:,None],1e-20)

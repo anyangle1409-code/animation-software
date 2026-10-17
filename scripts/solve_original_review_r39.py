@@ -69,3 +69,24 @@ def solve(data,epochs=180):
             'frozen_vertices_unchanged':bool(np.array_equal(delta[~free],initial[~free]))}
     return delta,report
 
+
+def staged_solve(data):
+    from redistribute_original_review_r39 import solve as redistribute
+    data=dict(data)
+    result,intermediate=redistribute(data,epochs=240)
+    data['delta']=result
+    result,report=solve(data,epochs=240)
+    mask=data['constraint_mask'];n=data['constraint_normal'];v=data['constraint_value']
+    error=float(abs((result*n).sum(2)[mask]-v[mask]).max(initial=0)*1000)
+    report.update(target_gain=1.,intermediate_redistribution=intermediate,max_line_component_error_mm=error)
+    if error>1e-5:raise ValueError(('Safety erased approved line component',error))
+    return result,report
+
+if __name__=='__main__':
+    source,dest=sys.argv[1:3]
+    with np.load(source) as z:data={key:z[key] for key in z.files}
+    delta,report=staged_solve(data)
+    np.savez_compressed(dest,delta=delta)
+    Path(dest+'.json').write_text(json.dumps(report,indent=2)+'\n')
+    if report['extra_stretch_samples'] or report['extra_collapse_samples'] or report['unsafe_vertices'] or any(report['normal_rotations_over_90_degrees']):
+        raise SystemExit('R39 constraints still fail; no candidate will be built')

@@ -1,0 +1,52 @@
+{
+  "candidate": "R42 study",
+  "status": "REJECTED_NUMERIC_CHECKS",
+  "approved": false,
+  "model_saved": false,
+  "parent": "immutable R41",
+  "native_source_commit": "0b95a2ada8a8b52e8ac00b79e81bdabba76a1eed",
+  "native_run": 39073116321,
+  "artifact_id": 12115574670,
+  "artifact_zip_sha256": "45db8415c45616af0151138fd91b6409682656a101100740f32bf76c0138bb30",
+  "delta_sha256": "6cb32e54ebc2cb7b8f033a09225b19d039b10f292142b3cfd5edd3f2f5834103",
+  "marked_stretch": {
+    "r41": 19,
+    "r42_study": 15
+  },
+  "top_stretch": {
+    "r41": 53,
+    "r42_study": 53
+  },
+  "benchmark_max_collapse": 0,
+  "native_checks": {
+    "sample_count": 83,
+    "failed_area_orientation_samples": [
+      27,
+      28,
+      30,
+      31,
+      72,
+      75
+    ],
+    "new_contact_pairs": 4,
+    "max_affine_error_mm": 0.0003179093381967951
+  },
+  "test_exit_codes": {
+    "r41_front_test_exit.txt": 0,
+    "r42_profile_test_exit.txt": 0,
+    "r41_line_test_exit.txt": 0,
+    "r37_contour_test_exit.txt": 0,
+    "r38_marks_test_exit.txt": 0
+  },
+  "new_contact_samples": [
+    27,
+    28
+  ],
+  "new_contact_records": 4,
+  "distinct_new_triangle_pairs": 3,
+  "max_material_update_mm": 36.27575635288045,
+  "material_limit_mm": 45.0,
+  "full_13_benchmarks_rerun": false,
+  "original_guarded_model_build_reached": false,
+  "next_geometry_version": "R43 only after owner discussion of fitting architecture"
+}

@@ -132,3 +132,18 @@ These were scratch tools.
 8. "The arms as it's raising up should be in a straight line … the bend at the elbow is too sharp and not subtle."
 
 The press movement itself (lockout 166°) is approved as fine ("it doesn't need to be exact as long as the exercise is done").
+
+
+## 17 October continuation: R42 contour study, not accepted
+
+The owner confirmed the older reference's arm-to-body transition while retaining
+newer arms/elbows. R42's native study and all results are documented in
+`docs/CODEX_ORIGINAL_V1_REVIEW_CANDIDATE_R42_20261017.md` and
+`ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r42_study_20261017/`.
+No R42 blend was saved. Marked stretch improves19→15, but six native area samples
+fail and new contacts occur in two poses. All five profile/legacy contour/front
+tests pass; every failure remains recorded. Native run39073116321.
+Before a fourth fitting approach, discuss a strict area/contact feasibility stage
+with the owner; keep the confirmed contour and newer arm/elbow fixed. A next
+geometry candidate must be separately named R43. R41 remains the immutable model
+baseline. Private reference photos are not in the repository.

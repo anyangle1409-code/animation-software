@@ -8,21 +8,27 @@ small=ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',17)
 def picture(p):
  im=Image.open(p).convert('RGBA');bg=Image.new('RGBA',im.size,(27,27,27,255));bg.alpha_composite(im);return bg.convert('RGB')
 for side in ('l','r'):
- canvas=Image.new('RGB',(1280,1400),'white');draw=ImageDraw.Draw(canvas)
+ canvas=Image.new('RGB',(1280,1430),'white');draw=ImageDraw.Draw(canvas)
  draw.text((12,8),'135.625 degrees — R41 / R42 unsaved contour study',font=font,fill='black')
  for row,view in enumerate(('back','three_quarter')):
   for col,name in enumerate(('R41','R42_study')):
    x=col*640;y=52+row*664;draw.text((x+12,y),name.replace('_',' ')+' — '+view.replace('_',' '),font=font,fill='black')
    canvas.paste(picture(source/name/f'{side}_{view}_135.625.png'),(x,y+28))
- draw.text((12,1380),'Native Blender 5.2.1. Diagnostic only; failed checks remain reported.',font=small,fill='black')
+ draw.text((12,1405),'Native Blender 5.2.1. Diagnostic only; failed checks remain reported.',font=small,fill='black')
  canvas.save(dest/f'R41_R42_study_{side}.jpg',quality=95)
 frames=dest/'video_frames';frames.mkdir(exist_ok=True)
 metrics=json.loads((source/'native_study.json').read_text())
-for i in range(41):
+if (source/'native_contacts.json').exists():
+ native=json.loads((source/'native_contacts.json').read_text())
+ metrics['native_83_checks']={'sample_count':len(native['samples']),'failed_area_orientation_samples':[r['sample'] for r in native['samples'] if not r['passed']],'new_contact_pairs':len(native['contacts']),'max_affine_error_mm':max(r['affine_error_mm'] for r in native['samples'])}
+metrics['test_exit_codes']={p.name:int(p.read_text().strip()) for p in source.glob('*_test_exit.txt')}
+metrics['accepted']=False
+sequence=[0]*8+list(range(41))+[40]*8+list(range(39,0,-1))
+for frame_number,i in enumerate(sequence):
  canvas=Image.new('RGB',(1536,584),(27,27,27));draw=ImageDraw.Draw(canvas)
  draw.text((12,8),'R42 UNSAVED CONTOUR STUDY — NOT ACCEPTED',font=font,fill='white')
  draw.text((12,38),f'Native press | t={i/40:.3f} | marked stretch: {metrics["marked_stretch"]} (R41: {metrics["parent_marked_stretch"]})',font=small,fill='white')
  for j,view in enumerate(('back','front','three_quarter')):canvas.paste(picture(source/'R42_study'/f'f{i:03d}_{view}.png'),(j*512,72))
- canvas.save(frames/f'{i:03d}.jpg',quality=93)
-subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-y','-framerate','10','-i',str(frames/'%03d.jpg'),'-c:v','libx264','-pix_fmt','yuv420p','-movflags','+faststart',str(dest/'R42_unsaved_contour_study.mp4')],check=True)
+ canvas.save(frames/f'{frame_number:03d}.jpg',quality=93)
+subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-y','-framerate','12','-i',str(frames/'%03d.jpg'),'-c:v','libx264','-pix_fmt','yuv420p','-movflags','+faststart',str(dest/'R42_unsaved_contour_study.mp4')],check=True)
 (dest/'native_study.json').write_text(json.dumps(metrics,indent=2)+'\n')

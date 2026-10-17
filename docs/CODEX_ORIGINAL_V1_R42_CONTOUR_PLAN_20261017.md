@@ -59,3 +59,17 @@ R42 diagnostic; the older R41 contact implementation remains unchanged. Before
 saving, unchanged rear, bow/ridge, arm-line and front tests plus the new owner
 profile test must pass on native post-guard geometry. Frozen arm/endpoint/anchor
 checks and45mm bound also run after guards and before saving.
+
+
+## Frozen trial 3 diagnostic
+
+Trial3 exhausted1,000 iterations without satisfying all gates. Predicted marked
+stretch15(vsR41:19), top53(unchanged), benchmark collapse0;4 samples still had
+extra stretch, no signed-margin failures, fixed components/frozen coordinates
+preserved. No model was saved. The exact diagnostic delta NPZ SHA256 is
+6cb32e54ebc2cb7b8f033a09225b19d039b10f292142b3cfd5edd3f2f5834103.
+Its native study workflow renders unchanged R41 versus this unsaved trial at
+matching angles and a full press video, then records83actual native area,
+orientation and BVH responses. These are diagnostics, not candidate acceptance.
+Native results supersede affine predictions. No fourth geometry approach is
+being attempted before discussion of the fitting method with the owner.

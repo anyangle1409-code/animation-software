@@ -45,7 +45,11 @@ for s in range(83):
  if error>.01:raise ValueError(('Native affine prediction invalid',s,error))
  before=pairs(base);after=pairs(p);extra=after-before
  contacts.extend(dict(sample=s,a=int(a),b=int(b)) for a,b in sorted(extra))
- row=area_safety(p,base,z['rest'],faces);row.update(sample=s,parent_pairs=len(before),current_pairs=len(after),new_contact_pairs=len(extra),affine_error_mm=error);samples.append(row)
+ row=area_safety(p,base,z['rest'],faces)
+ a=base[faces];b=p[faces];cr0=np.cross(a[:,1]-a[:,0],a[:,2]-a[:,0]);cr1=np.cross(b[:,1]-b[:,0],b[:,2]-b[:,0])
+ reversed_count=int((((cr0*cr1).sum(1)<0)&(np.linalg.norm(cr0,axis=1)>2e-12)).sum())
+ row['passed']=row['passed'] and reversed_count==0
+ row.update(sample=s,parent_pairs=len(before),current_pairs=len(after),new_contact_pairs=len(extra),affine_error_mm=error,normal_rotations_over_90_degrees=reversed_count);samples.append(row)
  print('R42_NATIVE_SAMPLE',s,len(extra),row['passed'],error,flush=True)
 Path(dest).write_text(json.dumps(dict(contacts=contacts,sample_count=82,front_130=samples[-1],samples=samples),indent=2)+'\n')
 print('R42_NATIVE_CONTACTS',len(contacts),flush=True)

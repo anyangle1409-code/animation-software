@@ -7,15 +7,31 @@ import json,time
 import numpy as np
 from scipy.optimize import minimize
 
+def separating_plane(a,b):
+ """Parent separating axis: face normals, edge crosses and coplanar axes."""
+ ea=np.roll(a,-1,axis=0)-a;eb=np.roll(b,-1,axis=0)-b
+ na=np.cross(ea[0],ea[1]);nb=np.cross(eb[0],eb[1])
+ axes=np.vstack((na,nb,np.cross(ea[:,None],eb[None]).reshape(-1,3),np.cross(ea,na),np.cross(eb,nb)))
+ axes=axes[np.linalg.norm(axes,axis=1)>1e-14];axes/=np.linalg.norm(axes,axis=1)[:,None]
+ axes=np.vstack((axes,-axes));gap=(b@axes.T).min(0)-(a@axes.T).max(0)
+ i=int(np.argmax(gap))
+ if gap[i]<-1e-7:raise ValueError('Parent contact has no separating axis')
+ return axes[i],float(np.clip(.2*gap[i],1e-5,2e-4))
+
 def objective(data):
  d=data
- f0=d['faces'];used=d['free'].any(0);fsel=used[f0].any(1);verts=np.unique(f0[fsel]);rev=np.full(len(used),-1);rev[verts]=np.arange(len(verts));f=rev[f0[fsel]]
+ f0=d['faces'];used=d['free'].any(0);fsel=used[f0].any(1);contact_rows=data.get('contacts',[]);contact_faces=[r[k] for r in contact_rows for k in ('a','b')];verts=np.unique(np.concatenate((f0[fsel].ravel(),f0[contact_faces].ravel())));rev=np.full(len(used),-1);rev[verts]=np.arange(len(verts));f=rev[f0[fsel]]
  free=d['free'][:,verts];n=d['constraint_normal'][:,verts]*d['constraint_mask'][:,verts,None]
  initial=d['delta'][:,verts].copy();base=d['base'][:,verts].astype(float);mat=d['mat'][:,verts].astype(float);weight=d['weight'][:,:,verts].astype(float)
  rest=d['rest'][verts];rf=rest[f];a0=.5*np.linalg.norm(np.cross(rf[:,1]-rf[:,0],rf[:,2]-rf[:,0]),axis=1)
  t=base[:,f];cross=np.cross(t[:,:,1]-t[:,:,0],t[:,:,2]-t[:,:,0]);b=.5*np.linalg.norm(cross,axis=2);ref=cross/np.maximum(2*b[:,:,None],1e-20)
  upper=np.maximum(1.95*a0,b*1.001);lower=np.minimum(.15*a0,b*.99);units=np.maximum(a0,1e-8)
  shape=initial.shape;count=0;start=time.time()
+ contacts=[]
+ for row in contact_rows:
+  cs=int(row['sample']);ca=rev[f0[int(row['a'])]];cb=rev[f0[int(row['b'])]]
+  cn,margin=separating_plane(base[cs,ca],base[cs,cb])
+  contacts.append((cs,ca,cb,cn,margin))
  state={}
  def project(x):
   x=x.reshape(shape)*free[:,:,None];return x-n*(x*n).sum(2)[:,:,None]
@@ -33,16 +49,24 @@ def objective(data):
   gp=np.zeros_like(p)
   for s in range(len(base)):
    for ax in range(3):gp[s,:,ax]=np.bincount(f.ravel(),weights=g[s,:,:,ax].ravel(),minlength=len(verts))
+  contact_loss=0.;contact_safe=True
+  for cs,ca,cb,cn,margin in contacts:
+   qa=p[cs,ca]@cn;qb=p[cs,cb]@cn
+   gap=qb[None,:]-qa[:,None];error=np.minimum(gap-margin,0.)
+   contact_safe &= bool(np.all(gap>=.9*margin))
+   contact_loss+=4*np.sum((error/.001)**2)
+   gp[cs,ca]-=8*error.sum(1)[:,None]/.001**2*cn
+   gp[cs,cb]+=8*error.sum(0)[:,None]/.001**2*cn
   gm=np.einsum('snji,snj->sni',mat,gp)
   grad=np.einsum('skn,snj->knj',weight,gm)
   reg=1e-4
-  val=loss.sum()+reg*np.sum((change/.01)**2)
+  val=loss.sum()+contact_loss+reg*np.sum((change/.01)**2)
   grad=project(grad)*.01+2*reg*project(x)
   count+=1
   if count%20==0:
    st=(area>2*a0).sum(1);bs=(b>2*a0).sum(1);co=(area<.1*a0).sum(1);bc=(b<.1*a0).sum(1)
    print(count,round(time.time()-start,1),'loss',val,'extra',int((st>bs).sum()),int((co>bc).sum()),'rev',int(((signed<0)&(b>1e-12)).sum()),flush=True)
-  state.update(delta=delta,area=area,signed=signed)
+  state.update(delta=delta,area=area,signed=signed,contact_safe=contact_safe)
   return val,grad.ravel()
  def expand(x):
   out=d['delta'].copy();out[:,verts]=initial+project(x)*.01
@@ -51,7 +75,7 @@ def objective(data):
   area,signed=state['area'],state['signed']
   return (bool(np.all((area>2*a0).sum(1)<=(b>2*a0).sum(1))) and
           bool(np.all((area<.1*a0).sum(1)<=(b<.1*a0).sum(1))) and
-          not np.any((signed<.04*b)&(b>1e-12)))
+          not np.any((signed<.04*b)&(b>1e-12)) and state['contact_safe'])
  return fun,expand,safe,shape
 
 def solve(data,epochs=1000):
@@ -60,6 +84,11 @@ def solve(data,epochs=1000):
  fun,expand,safe,shape=objective(data)
  class Satisfied(Exception):pass
  latest=[np.zeros(shape).ravel()];iterations=[0]
+ if 'warm_start' in data:
+  # Expand needs full vertex indices; use objective's compact inverse mapping.
+  f=data['faces'];active=data['free'].any(0);rows=data.get('contacts',[]);cf=[r[k] for r in rows for k in ('a','b')]
+  ids=np.unique(np.concatenate((f[active[f].any(1)].ravel(),f[cf].ravel())))
+  latest[0]=((data['warm_start'][:,ids]-data['delta'][:,ids])/.01).ravel()
  def callback(x):
   latest[0]=x.copy();iterations[0]+=1;fun(x)
   if safe():raise Satisfied()

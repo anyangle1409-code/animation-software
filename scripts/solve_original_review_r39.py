@@ -85,6 +85,9 @@ def staged_solve(data):
 if __name__=='__main__':
     source,dest=sys.argv[1:3]
     with np.load(source) as z:data={key:z[key] for key in z.files}
+    if len(sys.argv)>3:
+        data['contacts']=json.loads(Path(sys.argv[3]).read_text())['contacts']
+        data['warm_start']=np.load(dest)['delta']
     delta,report=staged_solve(data)
     np.savez_compressed(dest,delta=delta)
     Path(dest+'.json').write_text(json.dumps(report,indent=2)+'\n')

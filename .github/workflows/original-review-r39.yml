@@ -14,6 +14,7 @@ on:
       - 'scripts/solve_original_review_r39.py'
       - 'scripts/redistribute_original_review_r39.py'
       - 'scripts/optimize_original_review_r39.py'
+      - 'scripts/detect_original_review_r39_contacts_blender.py'
       - 'scripts/tests/test_original_review_r39_optimizer.py'
       - 'scripts/tests/test_original_review_r39_solver.py'
       - 'scripts/probe_original_review_r35_blender.py'
@@ -78,6 +79,28 @@ jobs:
           /usr/bin/python3 scripts/tests/test_original_review_r39_optimizer.py
       - name: Solve coupled material-area constraints for both paths
         run: /usr/bin/python3 scripts/solve_original_review_r39.py /tmp/r39-response/response.npz /tmp/r39-response/solved.npz
+      - name: Resolve native BVH contacts before unchanged guards
+        shell: bash
+        run: |
+          set -euo pipefail
+          out=/tmp/r39-response
+          blender=/tmp/blender-5.2.1-linux-x64/blender
+          for iteration in 0 1 2 3 4; do
+            contact="$out/contacts_$iteration.json"
+            "$blender" --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/detect_original_review_r39_contacts_blender.py -- "$out/response.npz" "$out/solved.npz" "$contact"
+            if /usr/bin/python3 -c 'import json,sys; raise SystemExit(bool(json.load(open(sys.argv[1]))["contacts"]))' "$contact"; then break; fi
+            /usr/bin/python3 - "$contact" "$out/contacts_active.json" <<'PYCONTACT'
+          import json,sys
+          from pathlib import Path
+          p=Path(sys.argv[2]);rows=json.loads(p.read_text())['contacts'] if p.exists() else []
+          rows+=json.load(open(sys.argv[1]))['contacts']
+          unique={(r['sample'],r['a'],r['b']):r for r in rows}
+          p.write_text(json.dumps({'contacts':list(unique.values())},indent=2))
+          PYCONTACT
+            /usr/bin/python3 scripts/solve_original_review_r39.py "$out/response.npz" "$out/solved.npz" "$out/contacts_active.json"
+          done
+          "$blender" --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/detect_original_review_r39_contacts_blender.py -- "$out/response.npz" "$out/solved.npz" "$out/contacts_final.json"
+          /usr/bin/python3 -c 'import json,sys; r=json.load(open(sys.argv[1])); assert r["sample_count"]==82 and not r["contacts"], r["contacts"]' "$out/contacts_final.json"
       - name: Build separate R39 with original guards
         if: hashFiles('ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r39_20261017/HGPT_ORIGINAL_V1_REVIEW_R39_CODEX.blend') == ''
         run: /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/build_original_review_candidate_r39_blender.py -- build

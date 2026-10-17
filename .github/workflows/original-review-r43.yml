@@ -7,7 +7,7 @@ name: ORIGINAL_v1 R43 whole-motion fit and native review
     - .github/workflows/original-review-r43.yml
 permissions:
   contents: write
-  actions: read
+  actions: write
 jobs:
   native-study:
     runs-on: ubuntu-latest
@@ -15,9 +15,16 @@ jobs:
     env:
       LIBGL_ALWAYS_SOFTWARE: '1'
       OMP_NUM_THREADS: '2'
-      OPENBLAS_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '1'
+      HGPT_R43_MATERIAL_FIELD: '1'
+      HGPT_R43_LP_METHOD: highs-ipm
     steps:
     - uses: actions/checkout@v4
+    - name: Stop superseded independent-vertex fitting run
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: gh api --method POST repos/anyangle1409-code/animation-software/actions/runs/39077216476/cancel
+        || true
     - name: Refuse to overwrite an existing R43 candidate or study
       run: 'test ! -e ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r43_20261017
 
@@ -67,11 +74,13 @@ jobs:
 
         import numpy as np
 
-        z=np.load(''/tmp/r43-response/source.npz'');np.savez_compressed(''/tmp/r43-response/zero.npz'',delta=np.zeros((7,len(z[''rest'']),3)))
+        from pathlib import Path
+
+        Path(''/tmp/r43-response/initial.npz'').write_bytes(Path(''scripts/data/r43_field_initial_20261018.npz'').read_bytes())
 
         PYZERO
 
-        for name in sampling gradients lp; do /usr/bin/python3 "scripts/tests/test_original_review_r43_${name}.py";
+        for name in sampling gradients lp field; do /usr/bin/python3 "scripts/tests/test_original_review_r43_${name}.py";
         done
 
         '
@@ -86,13 +95,13 @@ jobs:
       run: "set +e\n/usr/bin/python3 - <<'PYCONTACT'\nimport json\nfrom pathlib import\
         \ Path\np=Path('/tmp/r42-previous/r42-study/native_contacts.json');z=json.loads(p.read_text());Path('/tmp/r43-response/r42_contacts.json').write_text(json.dumps(z))\n\
         PYCONTACT\ntimeout 4800 /usr/bin/python3 -u scripts/solve_original_review_r43.py\
-        \ /tmp/r43-response/source.npz /tmp/r43-response/zero.npz ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r38_20261017/probe/r35_contour_surfaces.npz\
+        \ /tmp/r43-response/source.npz /tmp/r43-response/initial.npz ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r38_20261017/probe/r35_contour_surfaces.npz\
         \ /tmp/r43-response/r42_contacts.json /tmp/r43-response/solved.npz > /tmp/r43-response/fit.log\
         \ 2>&1\nresult=$?\nprintf '%s\\n' \"$result\" > /tmp/r43-response/solver_exit.txt\n\
         if [ ! -f /tmp/r43-response/solved.npz ]; then\n if [ -f /tmp/r43-response/solved.npz.progress.npz\
         \ ]; then cp /tmp/r43-response/solved.npz.progress.npz /tmp/r43-response/solved.npz;\
-        \ else cp /tmp/r43-response/zero.npz /tmp/r43-response/solved.npz; fi\nfi\n\
-        tail -50 /tmp/r43-response/fit.log\nexit 0\n"
+        \ else cp /tmp/r43-response/initial.npz /tmp/r43-response/solved.npz; fi\n\
+        fi\ntail -50 /tmp/r43-response/fit.log\nexit 0\n"
     - name: Preserve whole-motion and scope test results
       shell: bash
       run: "set +e\nexport HGPT_R43_RESPONSE=/tmp/r43-response/source.npz HGPT_R43_SOLUTION=/tmp/r43-response/solved.npz\n\
@@ -188,3 +197,6 @@ jobs:
         PYREQUIRE
 
         '
+concurrency:
+  group: original-v1-r43-whole-motion
+  cancel-in-progress: true

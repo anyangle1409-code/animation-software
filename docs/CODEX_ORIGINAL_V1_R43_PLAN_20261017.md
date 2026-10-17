@@ -61,3 +61,20 @@ material-bound checks still decide every accepted fitting step. A subproblem's
 convergence is never reported as candidate acceptance. Normal-vector cone cuts
 constrain the actual adjacent-normal difference, allowing existing folds to
 unfold instead of freezing the original normal difference.
+
+
+18Oct field refinement: independent vertex corrections remained slow and local.
+A compact C2 material field now shares corrections across nearby free skin
+vertices, with separate left/right controls and a smooth fade to fixed material.
+This reduces27483 independent scalar coordinates to924 smooth controls. Its
+linearized optimizer uses a minimum-L1 field step; original acceptance tests and
+exact nonlinear line-search gates are unchanged. Bounds apply to actual source
+and dense increments; source arms,166 and anchors remain fixed. A new field
+construction test checks nonnegative bounded weights and separate hemispheres.
+
+The initial field checkpoint passes the affine preservation,0.5mm motion and
+2degree posterior-crease tests. It still misses the junction target and is not
+an accepted candidate. Its binary source is scripts/data/r43_field_initial_20261018.npz.
+The replacement cloud run starts there and supersedes the slow independent-
+vertex run39077216476 before rendering and native validation. No model was
+saved by either local fitting method. Native Blender checks remain mandatory.

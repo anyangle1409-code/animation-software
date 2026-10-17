@@ -1,0 +1,99 @@
+name: ORIGINAL_v1 R41 bounded strain native export
+concurrency:
+  group: original-v1-r41-candidate
+  cancel-in-progress: false
+permissions:
+  contents: read
+jobs:
+  export-review-r41:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write
+    env:
+      LIBGL_ALWAYS_SOFTWARE: '1'
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
+    steps:
+    - uses: actions/checkout@v4
+    - run: sudo apt-get update && sudo apt-get install -y libegl1 libgl1-mesa-dri
+        xvfb ffmpeg python3-pil python3-scipy fonts-dejavu-core
+    - name: Install pinned Blender 5.2.1
+      run: 'curl --fail --location --retry 3 https://download.blender.org/release/Blender5.2/blender-5.2.1-linux-x64.tar.xz
+        --output /tmp/blender.tar.xz
+
+        echo ''a31f524fa99a527d3d52b7f5aaa68c34e1a19d5a1c9473f79c5cc610fd5b10e9  /tmp/blender.tar.xz''
+        | sha256sum -c -
+
+        tar -xJf /tmp/blender.tar.xz -C /tmp
+
+        '
+    - name: Verify immutable parent model hash
+      run: '/usr/bin/python3 - <<''PYHASH''
+
+        import hashlib,json
+
+        from pathlib import Path
+
+        p=Path(''ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r40_20261017'')
+
+        assert hashlib.sha256((p/''HGPT_ORIGINAL_V1_REVIEW_R40_CODEX.blend'').read_bytes()).hexdigest()==json.loads((p/''r40_build.json'').read_text())[''sha256'']
+
+        PYHASH
+
+        '
+    - name: Export parent geometry in a clean Blender process
+      run: /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads
+        2 --python-exit-code 1 --python scripts/export_original_review_r41_blender.py
+    - name: Confirm R38 fails the approved line goals
+      run: 'set +e
+
+        export HGPT_CONTOUR_NPZ=ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r40_20261017/probe/r35_contour_surfaces.npz
+
+        export HGPT_LINE_PARENT_NPZ="$HGPT_CONTOUR_NPZ"
+
+        /usr/bin/python3 scripts/tests/test_original_review_r41_line.py > /tmp/r41-parent-red.txt
+        2>&1
+
+        result=$?
+
+        cat /tmp/r41-parent-red.txt
+
+        test "$result" = 1
+
+        grep -q ''FAILED (failures=4)'' /tmp/r41-parent-red.txt
+
+        '
+    - name: Verify bounded strain derivatives and protection
+      run: '/usr/bin/python3 scripts/tests/test_original_review_r41_bounded_optimizer.py
+
+        /usr/bin/python3 scripts/tests/test_original_review_r41_strain_math.py
+
+        /usr/bin/python3 scripts/tests/test_original_review_r41_bound.py'
+    - name: Reproduce R40 failures against new strain goals
+      run: 'set +e
+
+        HGPT_STRAIN_CANDIDATE=ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r40_20261017
+        HGPT_STRAIN_TAG=r40 /usr/bin/python3 scripts/tests/test_original_review_r41_strain.py
+        > /tmp/r41-response/r40-strain-red.txt 2>&1
+
+        result=$?
+
+        cat /tmp/r41-response/r40-strain-red.txt
+
+        test "$result" = 1
+
+        grep -q ''FAILED (failures=3)'' /tmp/r41-response/r40-strain-red.txt'
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: original-v1-r41-native-response
+        path: /tmp/r41-response/
+'on':
+  push:
+    branches:
+    - claude/original-v1-consolidated-review-20261014
+    paths:
+    - .github/workflows/original-review-r41.yml
+    - scripts/*original_review_r41*.py
+    - scripts/tests/test_original_review_r41*.py

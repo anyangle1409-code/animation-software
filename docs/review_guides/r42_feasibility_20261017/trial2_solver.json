@@ -1,0 +1,19 @@
+{
+  "message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+  "iterations": 1000,
+  "optimization_sample_count": 83,
+  "constraints_satisfied": false,
+  "safety_diagnostics": {
+    "contact_count": 0,
+    "contact_safe": true,
+    "contact_min_ratio": null,
+    "front_excess_deg": 0.014092069726594048,
+    "quality_goals": false,
+    "signed_margin_failures": 0,
+    "extra_stretch_samples": 22,
+    "extra_collapse_samples": 0
+  },
+  "max_line_component_error_mm": 6.938893903907228e-15,
+  "max_material_adjustment_mm": 5.000000000000002,
+  "frozen_vertices_unchanged": true
+}

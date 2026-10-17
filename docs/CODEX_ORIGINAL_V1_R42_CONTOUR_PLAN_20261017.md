@@ -28,7 +28,7 @@ authored target is at most 36.567 mm in material coordinates, leaving room for a
 Trial 1 locked a broad band behind the visible contour. It stalled near 220
 stretched triangles at the marked pose (R41: 19) and was rejected before saving
 a model. Trial 2 narrows that lock to the visible 3 mm band, retaining the same
-target and acceptance gates. Its result is pending. Predictions are diagnostic
+target and acceptance gates. It exhausted 1,000 iterations: marked stretch187, top53, benchmark collapse0;22 samples had extra stretch. Exact contour components and frozen coordinates passed. No model was saved. Predictions are diagnostic
 affine responses, not final native Blender validation or owner approval.
 
 Temporary local trial files were lost between sessions. The native export and
@@ -37,3 +37,25 @@ branch source survived; trial 2 is being reproduced from those exact inputs.
 If feasible, R42 must undergo native guard/preservation, all movement benchmarks,
 front, contour, area, orientation and contact checks before acceptance. Delivery
 requires native R41/R42 matching back/three-quarter comparisons and a press video.
+
+
+## Trial 3 (in progress)
+
+Trial 2 reached its 5 mm residual limit (79 editable vertices exceeded4.9mm).
+The final vector limit was not binding: maximum material update36.205mm.
+Trial 3 keeps the same target, locks, editable domain and all acceptance gates,
+but replaces the residual box with a45mm ball on each final material vector.
+The fixed contour covector component is retained exactly; only its tangent
+component is clipped. An analytic pullback is checked against finite differences,
+including through the full coupled objective. The original R41 tests are unchanged.
+The new hard-cap tests initially failed before the helper existed, then passed.
+A transient local-name collision was caught by the existing optimizer checks and
+corrected before this geometry trial. This is not a saved or accepted candidate.
+
+The planned native detector evaluates actual unsaved geometry at all83 poses,
+requires affine prediction error<=0.01mm, and checks every new BVH contact pair
+regardless of whether total pair count happens to fall. This strengthens the
+R42 diagnostic; the older R41 contact implementation remains unchanged. Before
+saving, unchanged rear, bow/ridge, arm-line and front tests plus the new owner
+profile test must pass on native post-guard geometry. Frozen arm/endpoint/anchor
+checks and45mm bound also run after guards and before saving.

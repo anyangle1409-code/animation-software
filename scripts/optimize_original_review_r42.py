@@ -55,9 +55,14 @@ def objective(data):
  state={}
  def project(x):
   x=x.reshape(shape)*free[:,:,None];return x-n*(x*n).sum(2)[:,:,None]
+ def material_map(x):
+  if 'absolute_material_limit_mm' in d:
+   from original_review_r42_cap import bounded_material
+   return bounded_material(x.reshape(shape),initial,free,n,(float(d['absolute_material_limit_mm'])-1e-6)/1000)
+  return initial+.01*project(x),lambda g:.01*project(g)
  def fun(x):
   nonlocal count
-  change=project(x)*.01;delta=initial+change
+  delta,pullback=material_map(x);change=delta-initial
   dr=np.einsum('skn,knj->snj',weight,delta);p=base+np.einsum('snij,snj->sni',mat,dr)
   t=p[:,f];cr=np.cross(t[:,:,1]-t[:,:,0],t[:,:,2]-t[:,:,0]);area=.5*np.linalg.norm(cr,axis=2);nn=cr/np.maximum(2*area[:,:,None],1e-20)
   ae=np.maximum(area-upper,0)+np.minimum(area-lower,0)
@@ -105,7 +110,7 @@ def objective(data):
      grad[k,:,axis]+=2*coefficient*(np.bincount(edges[:,0],weights=edge_delta[k,:,axis],minlength=len(verts))-np.bincount(edges[:,1],weights=edge_delta[k,:,axis],minlength=len(verts)))
   reg=1e-4
   val=loss.sum()+contact_loss+front_loss+quality_loss+fair_loss+reg*np.sum((change/.01)**2)
-  grad=project(grad)*.01+2*reg*project(x)
+  grad=pullback(grad+2*reg*change/.01**2)
   count+=1
   if count%20==0:
    st=(area>2*a0).sum(1);bs=(b>2*a0).sum(1);co=(area<.1*a0).sum(1);bc=(b<.1*a0).sum(1)
@@ -118,7 +123,7 @@ def objective(data):
   state.update(delta=delta,area=area,signed=signed,contact_safe=contact_safe,front_excess=front_excess,quality_goals=quality_goals,contact_min_ratio=contact_min_ratio)
   return val,grad.ravel()
  def expand(x):
-  out=d['delta'].copy();out[:,verts]=initial+project(x)*.01
+  out=d['delta'].copy();out[:,verts]=material_map(x)[0]
   return out
  def safe():
   area,signed=state['area'],state['signed']
@@ -141,10 +146,13 @@ def solve(data,epochs=1000):
   latest[0]=((data['warm_start'][:,ids]-data['delta'][:,ids])/.01).ravel()
  def callback(x):
   latest[0]=x.copy();iterations[0]+=1;fun(x)
+  if '_diagnostic_destination' in data and iterations[0]%50==0:
+   # Reproducible unsafe checkpoints are evidence only; they cannot enter a build.
+   np.savez_compressed(str(data['_diagnostic_destination'])+'.progress.npz',delta=expand(x))
   if safe():raise Satisfied()
  try:
   bound=float(data.get('max_delta_mm',.70))/.01/1000/np.sqrt(3)
-  bounds=[(-bound,bound)]*len(latest[0]) if bool(data.get('strain_mode',False)) else None
+  bounds=[(-bound,bound)]*len(latest[0]) if bool(data.get('strain_mode',False)) and 'absolute_material_limit_mm' not in data else None
   result=minimize(fun,latest[0],jac=True,method='L-BFGS-B',callback=callback,bounds=bounds,
                   options={'maxiter':epochs,'maxls':40,'ftol':1e-12,'gtol':1e-8,'maxcor':20})
   latest[0]=result.x;message=str(result.message)

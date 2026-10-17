@@ -4,7 +4,7 @@ from pathlib import Path
 import numpy as np
 from original_review_r42_target import target
 from original_review_r42_line import frame
-def prepare(source,destination):
+def prepare(source,destination,absolute=False):
  with np.load(source) as z:d={k:z[k] for k in z.files}
  rest=d['rest'];n=len(rest);authored=np.zeros((7,n,3));free=np.zeros((7,n),bool);cn=np.zeros_like(authored);mask=np.zeros((7,n),bool);rows=[]
  region=(abs(rest[:,0])>.08)&(abs(rest[:,0])<.35)&(rest[:,2]>1.20)&(rest[:,2]<1.51)
@@ -25,5 +25,7 @@ def prepare(source,destination):
   rows.append(dict(elevation=ht,free=int(free[k].sum()),fixed=int(mask[k].sum()),max_world_mm=float(np.linalg.norm(world,axis=1).max()*1000),max_material_mm=float(np.linalg.norm(authored[k],axis=1).max()*1000)))
  assert np.linalg.norm(authored,axis=2).max()<=.040
  d.update(delta=authored,free=free,constraint_normal=cn,constraint_mask=mask,constraint_value=(cn*authored).sum(2),max_delta_mm=np.array(5.))
+ 
+ if absolute:d['absolute_material_limit_mm']=np.array(45.)
  np.savez_compressed(destination,**d);Path(destination+'.json').write_text(json.dumps(rows,indent=2)+'\n');print(json.dumps(rows),flush=True)
-if __name__=='__main__':prepare(*sys.argv[1:3])
+if __name__=='__main__':prepare(*sys.argv[1:3],absolute='--absolute-cap' in sys.argv[3:])

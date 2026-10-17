@@ -4,18 +4,24 @@ from scipy import sparse
 from scipy.optimize import linprog
 from scipy.sparse.linalg import factorized
 
-def minimum_norm(A,upper,trust,warm,tolerance=2e-6,maxiter=30000):
- n=A.shape[1]; C=sparse.vstack([A,sparse.eye(n)],format='csc');u=np.r_[upper,np.full(n,trust)];l=np.r_[np.full(len(upper),-np.inf),np.full(n,-trust)]
- x=warm.copy();z=np.clip(C@x,l,u);y=np.zeros(len(u));rho=1.;identity=sparse.eye(n,format='csc');factor=factorized(identity+rho*(C.T@C))
- for iteration in range(maxiter):
-  x=factor(rho*C.T@(z-y));cx=C@x;old=z;z=np.clip(1.6*cx-.6*old+y,l,u);y+=1.6*cx-.6*old-z
-  if iteration%100==0:
-   primal=np.max(abs(cx-z),initial=0);dual=np.max(abs(rho*C.T@(z-old)),initial=0)
-   if max(primal,dual)<tolerance:return x
-   if iteration and iteration%1000==0:
-    newrho=rho*(2 if primal>10*dual else .5 if dual>10*primal else 1)
-    if newrho!=rho:y*=rho/newrho;rho=newrho;factor=factorized(identity+rho*(C.T@C))
- raise RuntimeError(('Minimum norm QP did not converge',primal,dual))
+def make_factor(A,rho):
+ n=A.shape[1];a=1+rho
+ if A.shape[0]<n:
+  f=factorized(sparse.eye(A.shape[0],format='csc')+(rho/a)*(A@A.T).tocsc())
+  return lambda v:v/a-(rho/a**2)*A.T@f(A@v)
+ return factorized(a*sparse.eye(n,format='csc')+rho*(A.T@A).tocsc())
+
+def minimum_norm(A,upper,trust,warm,tolerance=2e-6,maxiter=3000):
+ from scipy.optimize import minimize
+ def objective(y):
+  v=A.T@y;x=np.clip(-v,-trust,trust)
+  return float(-.5*x@x-v@x+upper@y),upper-A@x
+ fit=minimize(objective,np.zeros(A.shape[0]),jac=True,method='L-BFGS-B',bounds=[(0,None)]*A.shape[0],options={'maxiter':maxiter,'maxls':50,'ftol':1e-14,'gtol':1e-9,'maxcor':30})
+ value=np.clip(-A.T@fit.x,-trust,trust);residual=float(np.max(A@value-upper,initial=0))
+ print('R43_QP_DUAL',fit.nit,residual,fit.message,flush=True)
+ # The nonlinear line search independently enforces every hard gate.
+ if residual>.02:raise RuntimeError(('Minimum norm QP residual',residual))
+ return value
 
 def step(A,rhs,trust,relaxed=None):
  m,n=A.shape;relaxed=np.ones(m) if relaxed is None else np.asarray(relaxed,float)

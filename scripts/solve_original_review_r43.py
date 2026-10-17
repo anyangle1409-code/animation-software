@@ -80,14 +80,17 @@ def solve(data,initial,reference,contacts,dest,epochs=400):
   for j in np.flatnonzero(cos<cl+.003):
    value,g=cosine_gradient(pts[j]);spatial(rows,82,ft[j].ravel(),-g.reshape(-1,3),float(value-cl[j]),'front')
   rt=p[:,rear_tri];rc=np.cross(rt[:,:,:,1]-rt[:,:,:,0],rt[:,:,:,2]-rt[:,:,:,0]);rl=np.maximum(np.linalg.norm(rc,axis=3),1e-20);rn=rc/rl[:,:,:,None];rd=rn[:,:,0]-rn[:,:,1]-rd0
-  cube_keys=set()
-  def add_cube(rs,j,axis,sign):
-   key=(rs,j,axis,sign)
-   if key in cube_keys:return False
-   cube_keys.add(key);direction=np.eye(3)[axis]*sign;_,g=normal_difference_gradient(rt[rs,j],direction)
-   spatial(rows,rs,rear_tri[j].ravel(),g.reshape(-1,3),float(rear_cube[rs,j]-sign*rd[rs,j,axis]),'posterior_normal_vector')
+  cone_keys=set()
+  def add_normal_cone(rs,j,direction):
+   key=(rs,j,*np.round(direction,4))
+   if key in cone_keys:return False
+   cone_keys.add(key);value,g=normal_difference_gradient(rt[rs,j],direction)
+   radius=2*np.sin(np.radians(rear_limits[rs,j])/2)
+   spatial(rows,rs,rear_tri[j].ravel(),g.reshape(-1,3),float(radius-value),'posterior_normal_cone')
    return True
-  for rs,j,axis in np.argwhere((abs(rd)>rear_cube[:,:,None]*.8)&rear_needed[:,:,None]):add_cube(int(rs),int(j),int(axis),1 if rd[rs,j,axis]>0 else -1)
+  normal_diff=rn[:,:,0]-rn[:,:,1];radius=2*np.sin(np.radians(rear_limits)/2)
+  norm=np.linalg.norm(normal_diff,axis=2)
+  for rs,j in np.argwhere((norm>radius*.99)&rear_needed):add_normal_cone(int(rs),int(j),normal_diff[rs,j]/max(norm[rs,j],1e-20))
   for side in ('l','r'):
    gh=reference[f'gh_{side}_135.625'];el=reference[f'elbow_{side}_135.625'];axis,n=frame(gh,el,side);fit=guide(reference['all_135.625'],faces,gh,el,side)
    for j,station in enumerate(levels):
@@ -110,14 +113,14 @@ def solve(data,initial,reference,contacts,dest,epochs=400):
    for k,v in np.argwhere(dense_length>.043):
     rows.add(ids[:,v],.001*d['sampling_basis'][k,:,None]*dense_delta[k,v]/dense_length[k,v],.044999-dense_length[k,v],'dense_material_bound')
   # Sparse LP phase I: minimize maximum constraint violation in millimetres.
-  # Phase II's L1 step cost picks the smallest material repair at that violation.
+  # Phase II seeks a minimum-norm step; exact nonlinear gates decide acceptance.
   for cut_round in range(16):
    A=rows.matrix();m=A.shape[0];movement,z=linear_step(A,np.asarray(rows.rhs),trust,np.array([name.startswith('profile_') for name in rows.labels]))
    step=np.zeros_like(delta);step[free]=movement.reshape(-1,3)*.001
    dq=np.einsum('snij,snj->sni',mat,np.einsum('skn,knj->snj',weight,step))
    dqt=dq[:,rear_tri];dc=np.cross(dqt[:,:,:,1]-dqt[:,:,:,0],rt[:,:,:,2]-rt[:,:,:,0])+np.cross(rt[:,:,:,1]-rt[:,:,:,0],dqt[:,:,:,2]-dqt[:,:,:,0]);dn=(dc-rn*(dc*rn).sum(3)[:,:,:,None])/rl[:,:,:,None]
-   forecast=rd+dn[:,:,0]-dn[:,:,1];added=0
-   for rs,j,axis in np.argwhere((abs(forecast)>rear_cube[:,:,None]+1e-7)&rear_needed[:,:,None]):added+=add_cube(int(rs),int(j),int(axis),1 if forecast[rs,j,axis]>0 else -1)
+   forecast=normal_diff+dn[:,:,0]-dn[:,:,1];forecast_norm=np.linalg.norm(forecast,axis=2);added=0
+   for rs,j in np.argwhere((forecast_norm>radius+1e-7)&rear_needed):added+=add_normal_cone(int(rs),int(j),forecast[rs,j]/max(forecast_norm[rs,j],1e-20))
    forecast_acc=acc+np.diff(dq[:41,backids],n=2,axis=0);forecast_length=np.linalg.norm(forecast_acc,axis=2)
    for si,j in np.argwhere(forecast_length>motion_limit+1e-8):
     vertex=backids[j];unit=forecast_acc[si,j]/max(forecast_length[si,j],1e-20)

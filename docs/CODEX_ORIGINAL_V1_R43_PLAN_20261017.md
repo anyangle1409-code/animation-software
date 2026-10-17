@@ -49,3 +49,15 @@ top-of-press geometry is preserved. This is an intentional R43 body-motion scope
 change; R42's endpoint-freeze tests remain unchanged for R42. The new whole-motion
 0.5mm test and all older general profile/front/area/contact/identity tests remain.
 The added S7 keys do not alter non-S7 keys or the canonical bone transforms.
+
+Additional RED diagnostic: posterior adjacent-face crease angles must not exceed
+R41 by more than2 degrees over both complete41-frame paths. R42 failed by
+109.0886 degrees. This test is new; no older threshold was altered.
+
+The minimum-step quadratic subproblem is solved through a bounded dual solve;
+its residual is logged. Approximate subproblem solutions are only proposals:
+exact nonlinear area, front, posterior crease, motion, contact separation and
+material-bound checks still decide every accepted fitting step. A subproblem's
+convergence is never reported as candidate acceptance. Normal-vector cone cuts
+constrain the actual adjacent-normal difference, allowing existing folds to
+unfold instead of freezing the original normal difference.

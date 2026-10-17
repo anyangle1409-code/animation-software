@@ -1,0 +1,105 @@
+{
+  "reference": "Rejected R39, additional comparison beyond unchanged R34/R38 acceptance baselines",
+  "count_increases": [
+    {
+      "path": "press",
+      "t": 0.375,
+      "metric": "stretch",
+      "r39": 58,
+      "r40": 59,
+      "delta": 1
+    },
+    {
+      "path": "press",
+      "t": 0.475,
+      "metric": "stretch",
+      "r39": 12,
+      "r40": 13,
+      "delta": 1
+    },
+    {
+      "path": "press",
+      "t": 0.7,
+      "metric": "stretch",
+      "r39": 54,
+      "r40": 55,
+      "delta": 1
+    },
+    {
+      "path": "press",
+      "t": 0.725,
+      "metric": "stretch",
+      "r39": 27,
+      "r40": 28,
+      "delta": 1
+    },
+    {
+      "path": "press",
+      "t": 0.75,
+      "metric": "stretch",
+      "r39": 13,
+      "r40": 15,
+      "delta": 2
+    },
+    {
+      "path": "shoulder_press",
+      "t": 0.5,
+      "metric": "stretch_gt_2",
+      "r39": 18,
+      "r40": 19,
+      "delta": 1
+    },
+    {
+      "path": "shoulder_press",
+      "t": 0.625,
+      "metric": "stretch_gt_2",
+      "r39": 31,
+      "r40": 32,
+      "delta": 1
+    },
+    {
+      "path": "shoulder_press",
+      "t": 0.75,
+      "metric": "stretch_gt_2",
+      "r39": 11,
+      "r40": 12,
+      "delta": 1
+    }
+  ],
+  "marked_frame": {
+    "r39": {
+      "t": 0.625,
+      "ht": 135.625,
+      "collapse": 0,
+      "pairs": 0,
+      "stretch": 46,
+      "volume_pct": 1.0067
+    },
+    "r40": {
+      "t": 0.625,
+      "ht": 135.625,
+      "collapse": 0,
+      "pairs": 0,
+      "stretch": 45,
+      "volume_pct": 1.0059
+    }
+  },
+  "top": {
+    "r39": {
+      "t": 1.0,
+      "ht": 166.0,
+      "collapse": 0,
+      "pairs": 0,
+      "stretch": 80,
+      "volume_pct": 1.5954
+    },
+    "r40": {
+      "t": 1.0,
+      "ht": 166.0,
+      "collapse": 0,
+      "pairs": 0,
+      "stretch": 80,
+      "volume_pct": 1.5954
+    }
+  }
+}

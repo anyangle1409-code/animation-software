@@ -1,0 +1,420 @@
+{
+  "contacts": [],
+  "sample_count": 82,
+  "front_130": {
+    "parent_pairs": 0,
+    "current_pairs": 0
+  },
+  "samples": [
+    {
+      "sample": 0,
+      "parent_pairs": 226,
+      "current_pairs": 226
+    },
+    {
+      "sample": 1,
+      "parent_pairs": 226,
+      "current_pairs": 226
+    },
+    {
+      "sample": 2,
+      "parent_pairs": 230,
+      "current_pairs": 230
+    },
+    {
+      "sample": 3,
+      "parent_pairs": 208,
+      "current_pairs": 208
+    },
+    {
+      "sample": 4,
+      "parent_pairs": 188,
+      "current_pairs": 188
+    },
+    {
+      "sample": 5,
+      "parent_pairs": 190,
+      "current_pairs": 190
+    },
+    {
+      "sample": 6,
+      "parent_pairs": 174,
+      "current_pairs": 174
+    },
+    {
+      "sample": 7,
+      "parent_pairs": 142,
+      "current_pairs": 142
+    },
+    {
+      "sample": 8,
+      "parent_pairs": 104,
+      "current_pairs": 104
+    },
+    {
+      "sample": 9,
+      "parent_pairs": 34,
+      "current_pairs": 34
+    },
+    {
+      "sample": 10,
+      "parent_pairs": 6,
+      "current_pairs": 6
+    },
+    {
+      "sample": 11,
+      "parent_pairs": 6,
+      "current_pairs": 6
+    },
+    {
+      "sample": 12,
+      "parent_pairs": 6,
+      "current_pairs": 6
+    },
+    {
+      "sample": 13,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 14,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 15,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 16,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 17,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 18,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 19,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 20,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 21,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 22,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 23,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 24,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 25,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 26,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 27,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 28,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 29,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 30,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 31,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 32,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 33,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 34,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 35,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 36,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 37,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 38,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 39,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 40,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 41,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 42,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 43,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 44,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 45,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 46,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 47,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 48,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 49,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 50,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 51,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 52,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 53,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 54,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 55,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 56,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 57,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 58,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 59,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 60,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 61,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 62,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 63,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 64,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 65,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 66,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 67,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 68,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 69,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 70,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 71,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 72,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 73,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 74,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 75,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 76,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 77,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 78,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 79,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 80,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    },
+    {
+      "sample": 81,
+      "parent_pairs": 0,
+      "current_pairs": 0
+    }
+  ]
+}

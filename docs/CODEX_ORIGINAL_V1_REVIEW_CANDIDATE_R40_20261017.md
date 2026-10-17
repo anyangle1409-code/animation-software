@@ -1,15 +1,32 @@
-# ORIGINAL_v1 R40: straight arm-to-body line with front crease control
+# R40 — straight arm-to-body line with front crease control
 
-**NUMERIC_CHECKS_PASSED_AWAITING_VISUAL_REVIEW. Owner visual review pending.**
+**NUMERIC_CHECKS_PASSED_AWAITING_VISUAL_REVIEW. Owner visual approval pending.** Built and tested in Blender 5.2.1, native run39039784992, source83720d43; preserved model commitc7b71bbc. R39 remains immutable and rejected.
 
-Owner approval:17October cyan straight guide continuing the upper-arm outline into the body without the inward bend. ImmutableR38 parent. The new test holds the final saved silhouette within2mm of the fixedR38 arm-edge line at stations0..160mm from the shoulder and prevents an inward bodyjoin deficit>2mm at-140..0mm. R38 reproduces four expected bilateral failures,17.5mm nearshoulder and up to26.4mm towardbody. This author-approved contour goal is not an anatomical/clinical validation.
+R40 retains the owner-approved straight upper-arm edge into the body. It adds an explicit front-dihedral penalty to the local S7 material solve because area/count safety alone allowed R39’s sharp front fold. The authoring baseline remains immutable R38. Only S7 controls110/120/130/136/145 are authored; the136control preserves parent interpolation before correction. The skeleton, basis, topology, weights, every non-S7 key(including HGPT_SHOULDER), front anchors and156/166endkeys pass preservation.
 
-Only S7 coordinates at110/120/130/136/145degrees are authored. The new136control exactly interpolatesR38(.6key130+.4key145) before correction; native owner-frame baseline preservation<0.01mm is required. Raw target continues the humerus-aligned skin edge into the torso, with35mm cap and a localized protectedfront taper8..26mm. Coupled material-area/orientation redistribution retains all82native path poses and adds an exact130degree front sample. An analytic adjacent-normal penalty controls the front crease; a new bilateral saved-model test requires<=25degrees. Native BVH contact separation also checks that extra front sample. R39 is retained as a rejected attempt(front102.267degrees right); the authored baseline remains immutableR38. Outer-line normal components are fixed; final safety can cut back tangential changes without erasing the line. Endkeys156/166 stay identicalR38/R34 or no model is saved. The original Blender guards are unchanged.
+| Saved-model measurement | R38 | R39(rejected) | R40 |
+|---|---:|---:|---:|
+| Arm-line max error L/R(mm),135.625° |17.517/17.433|1.148/1.122|1.148/1.122|
+| Inward body-join deficit L/R(mm) |25.196/26.415|0.240/0.202|0.242/0.202|
+| Front130° crease L/R(degrees) |23.065/23.423|90.678/102.267|23.147/23.020|
+| Three-quarter short corner L/R(degrees) |18.916/52.877|8.510/35.406|7.676/37.045|
+| Marked press frame: triangles stretched>2× |57|46|45|
+| Top press: triangles stretched>2× |80|80|80|
+| Old R33 target fit p99 at120°(mm) |11.447|19.716|19.729|
+| Old R33 target fit p99 at145°(mm) |12.024|26.792|26.781|
 
-Front changes versusR38:{"parent": {"edge_130": 23.422501823681007, "sentinel_120": 0.07823243401538199, "sentinel_145": 0.09121895140696665}, "current": {"edge_130": 23.019703388960508, "sentinel_120": 0.07823243401538199, "sentinel_145": 0.09121897885895888}, "changes": {"edge_130": -0.4027984347204985, "sentinel_120": 0.0, "sentinel_145": 2.7451992234972522e-08}, "edge_change_degrees": -0.4027984347204985, "worsened": []}. Whole-surface fit to the oldR33target is retained forR34/R38/R40 in the report.
+The unchanged R34/R38 acceptance baselines show zero frame-count regressions. **Versus rejected R39**, five press samples have1–2 additional stretched triangles, and three shoulder-benchmark samples have one additional stretched triangle. No collapse or collision count increases versus R39 were measured. The right three-quarter corner worsened35.406→37.045°, while remaining below the unchanged53.427° limit. The left front crease increased slightly23.065→23.147° versus R38. Old R33 whole-surface target fit remains worse than R38; max errors are33.754mm at120° and40.368mm at145°. This is retained as a tradeoff for owner review, not hidden by the new line goal. Full per-sample increases are in `r39_r40_measurement_comparison.json`.
 
-Acceptance checks:{"front_test_process": true, "original_lockout_volume": true, "original_guards_rechecked": true, "original_post95_collision_rule": true, "preservation": true, "no_frame_count_regressions": true, "new_contour_goals": true, "new_owner_mark_goals": true, "final_native_orientation": true, "approved_straight_line": true, "front_smoothness": true, "r39_line_unchanged": true}. Regressions againstR34/R38:0. All original front, contour, R38mark, guard, strictlockoutvolume, preservation and final82pose orientation checks run unchanged. No test was weakened or deleted. Canonical skeleton, basis, topology, weights and every non-S7 coordinate includingHGPT_SHOULDER remain identical. Owner photos are excluded. Counts are compared at all41pressframes and actualframes of13benchmarks. Any increase or failed new line/front goal rejects numerical status.
+All original front, contour, mark, strict-volume, collision, guard and preservation gates passed. The original R39 line test runs unchanged. Added tests require bilateral front crease<=25° and preserve the existing2mm line goal. Native orientation passes all82 original path samples plus the added exact130° front pose; native BVH preflight also checks the added pose. No existing test was weakened or deleted. Independent code review found no Critical/Important issue; derivative and complete native-matrix-chain tests passed. The final original guards preserve the anchors and endkeys exactly.
 
-Evidence lives in codex_review_r40_20261017: matchedR38/R40 rear/front/threequarter press images, exact135.625bilateral closeups, shoulder_press_r40_three_views.mp4, full JSON metrics and test logs. The new line is checked on the guarded saved model, not just the target. Topstretch and two crushed benchmarktriangles remain open unless actual reports demonstrate improvement. All regressions and oldR33 target-fit errors are retained in r40_review.json; inspect the renders even if numerical checks pass.
+**Still open:** top-press stretch80; shoulder-press benchmark collapse count2 at t=.875 and1 at t=1. Other inherited target-fit errors remain recorded. Numerical success does not replace owner review.
 
-Reproduction:.github/workflows/original-review-r40.yml with pinnedBlender5.2.1 exports native response, solves, builds the isolated candidate, measures/tests in fresh processes and renders/packages both versions. No production assets, merge or force push. See docs/superpowers/plans/2026-10-17-r40-front-smoothness.md for the execution ledger.
+Candidate folder: `ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r40_20261017/`. Review media:
+
+- `r38_r40_marked_135625_r.jpg` and `_l.jpg`: requested rear/three-quarter angle, same cameras.
+- `r39_r40_marked_135625_r.jpg`: previous-version comparison at the same angle.
+- `r39_r40_front_130_r.jpg`: front crease before/after.
+- `shoulder_press_r40_three_views.mp4`:8-second native press video.
+- Native test logs, build/report/measurement JSON, pre-guard BVH diagnostics and immutable `.blend` model.
+
+Reproduction: `.github/workflows/original-review-r40.yml`. Execution ledger: `docs/superpowers/plans/2026-10-17-r40-front-smoothness.md`. Work stays on `claude/original-v1-consolidated-review-20261014`; no merge or force push. Private reference photos are excluded.

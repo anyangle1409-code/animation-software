@@ -71,14 +71,14 @@ def solve(data,epochs=180):
 
 
 def staged_solve(data):
-    from redistribute_original_review_r39 import solve as redistribute
+    from optimize_original_review_r39 import solve as redistribute
     data=dict(data)
-    result,intermediate=redistribute(data,epochs=240)
+    result,intermediate=redistribute(data,epochs=1000)
     data['delta']=result
     result,report=solve(data,epochs=240)
     mask=data['constraint_mask'];n=data['constraint_normal'];v=data['constraint_value']
     error=float(abs((result*n).sum(2)[mask]-v[mask]).max(initial=0)*1000)
-    report.update(target_gain=1.,intermediate_redistribution=intermediate,max_line_component_error_mm=error)
+    report.update(target_gain=1.,coupled_optimization=intermediate,max_line_component_error_mm=error)
     if error>1e-5:raise ValueError(('Safety erased approved line component',error))
     return result,report
 

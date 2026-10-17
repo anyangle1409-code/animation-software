@@ -1,0 +1,129 @@
+{
+  "candidate": "R39",
+  "approved": false,
+  "status": "REJECTED_NUMERIC_CHECKS",
+  "front_test_passed": false,
+  "front_test_exit": 1,
+  "acceptance_checks": {
+    "front_test_process": false,
+    "original_lockout_volume": true,
+    "original_guards_rechecked": true,
+    "original_post95_collision_rule": true,
+    "preservation": true,
+    "no_frame_count_regressions": true,
+    "new_contour_goals": true,
+    "new_owner_mark_goals": true,
+    "final_native_orientation": true,
+    "approved_straight_line": true
+  },
+  "guard_violations": [],
+  "invariants": {
+    "bones": true,
+    "basis": true,
+    "polygons": true,
+    "weights": true,
+    "non_s7": true
+  },
+  "regressions": [],
+  "r34_fit": {
+    "120.0": {
+      "max_mm": 8.37118455867237,
+      "p99_mm": 1.6752780021153026,
+      "v18633_mm": 0.07823243401538199,
+      "over_5mm": 59
+    },
+    "145.0": {
+      "max_mm": 9.135400630316616,
+      "p99_mm": 2.111851746460953,
+      "v18633_mm": 0.09121895140696665,
+      "over_5mm": 60
+    },
+    "156.0": {
+      "max_mm": 11.768494148744553,
+      "p99_mm": 1.0131891557640347,
+      "v18633_mm": 4.877662172936642,
+      "over_5mm": 27
+    },
+    "166.0": {
+      "max_mm": 8.800310273010027,
+      "p99_mm": 0.1208710345274054,
+      "v18633_mm": 0.10560186664847296,
+      "over_5mm": 7
+    }
+  },
+  "r39_fit": {
+    "120.0": {
+      "max_mm": 33.77738133424519,
+      "p99_mm": 19.715857985317662,
+      "v18633_mm": 0.07823243401538199,
+      "over_5mm": 2702
+    },
+    "145.0": {
+      "max_mm": 40.38221426199296,
+      "p99_mm": 26.792497076437837,
+      "v18633_mm": 0.09121897885895888,
+      "over_5mm": 2957
+    },
+    "156.0": {
+      "max_mm": 11.768494148744553,
+      "p99_mm": 1.0131936110566933,
+      "v18633_mm": 4.877662172936642,
+      "over_5mm": 27
+    },
+    "166.0": {
+      "max_mm": 8.800310273010027,
+      "p99_mm": 0.1208710345274054,
+      "v18633_mm": 0.10560186664847296,
+      "over_5mm": 7
+    }
+  },
+  "front_comparison_vs_r38": {
+    "parent": {
+      "edge_130": 23.422501823681007,
+      "sentinel_120": 0.07823243401538199,
+      "sentinel_145": 0.09121895140696665
+    },
+    "current": {
+      "edge_130": 102.26741141371485,
+      "sentinel_120": 0.07823243401538199,
+      "sentinel_145": 0.09121897885895888
+    },
+    "changes": {
+      "edge_130": 78.84490959003385,
+      "sentinel_120": 0.0,
+      "sentinel_145": 2.7451992234972522e-08
+    },
+    "edge_change_degrees": 78.84490959003385,
+    "worsened": [
+      "edge_130"
+    ]
+  },
+  "r38_fit": {
+    "120.0": {
+      "max_mm": 24.585396024481348,
+      "p99_mm": 11.447068014177207,
+      "v18633_mm": 0.07823243401538199,
+      "over_5mm": 2502
+    },
+    "145.0": {
+      "max_mm": 22.04424577769762,
+      "p99_mm": 12.024479079367477,
+      "v18633_mm": 0.09121895140696665,
+      "over_5mm": 2518
+    },
+    "156.0": {
+      "max_mm": 11.768494148744553,
+      "p99_mm": 1.0131913834060575,
+      "v18633_mm": 4.877662172936642,
+      "over_5mm": 27
+    },
+    "166.0": {
+      "max_mm": 8.800310273010027,
+      "p99_mm": 0.1208710345274054,
+      "v18633_mm": 0.10560186664847296,
+      "over_5mm": 7
+    }
+  },
+  "contour_test_passed": true,
+  "contour_test_exit": 0
+}

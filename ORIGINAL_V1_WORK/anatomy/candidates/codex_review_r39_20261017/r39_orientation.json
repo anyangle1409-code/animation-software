@@ -1,0 +1,417 @@
+{
+  "reference": "R38 same-pose native surface",
+  "sample_count": 82,
+  "samples": [
+    {
+      "path": "press",
+      "t": 0.0,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.025,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.05,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.075,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.1,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.125,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.15,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.175,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.2,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.225,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.25,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.275,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.3,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.325,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.35,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.375,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.4,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.425,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.45,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.475,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.5,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.525,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.55,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.575,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.6,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.625,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.65,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.675,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.7,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.725,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.75,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.775,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.8,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.825,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.85,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.875,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.9,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.925,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.95,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 0.975,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "press",
+      "t": 1.0,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.0,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.025,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.05,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.075,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.1,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.125,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.15,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.175,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.2,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.225,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.25,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.275,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.3,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.325,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.35,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.375,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.4,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.425,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.45,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.475,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.5,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.525,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.55,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.575,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.6,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.625,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.65,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.675,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.7,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.725,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.75,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.775,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.8,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.825,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.85,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.875,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.9,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.925,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.95,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 0.975,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "path": "benchmark_press",
+      "t": 1.0,
+      "normal_rotations_over_90_degrees": 0
+    }
+  ],
+  "passed": true
+}

@@ -24,3 +24,15 @@ def area_log_penalty(areas,reference):
     valid=np.asarray(reference)>1e-12
     value=float(((over*over+under*under)*valid).sum())
     return value,2*(over-under)/safe*valid
+
+
+def area_safety(points,parent,rest,faces):
+ """Saved/native sample must retain count and maximum area severity gates."""
+ def areas(p):
+  t=np.asarray(p)[faces]
+  return .5*np.linalg.norm(np.cross(t[:,1]-t[:,0],t[:,2]-t[:,0]),axis=1)
+ a0=areas(rest);before=areas(parent);after=areas(points)
+ def metrics(a):
+  return dict(stretch=int((a>2*a0).sum()),collapse=int(((a<.1*a0)&(a0>1e-12)).sum()),max_area_ratio=float((a/np.maximum(a0,1e-20)).max()))
+ b=metrics(before);a=metrics(after)
+ return dict(current=a,parent=b,passed=bool(a['stretch']<=b['stretch'] and a['collapse']<=b['collapse'] and a['max_area_ratio']<=b['max_area_ratio']*1.01))

@@ -1,7 +1,7 @@
 """Coupled local skin optimization with exact approved-line components.
 
 All82 native responses remain in the objective. No skeleton, topology, weights,
-non-S7 coordinates, fixed anchors or terminal S7 keys are optimization variables.
+non-S7 coordinates or fixed anchors are optimization variables. R41 bounds all seven S7 keys.
 """
 import json,time
 import numpy as np
@@ -61,13 +61,15 @@ def objective(data):
   t=p[:,f];cr=np.cross(t[:,:,1]-t[:,:,0],t[:,:,2]-t[:,:,0]);area=.5*np.linalg.norm(cr,axis=2);nn=cr/np.maximum(2*area[:,:,None],1e-20)
   ae=np.maximum(area-upper,0)+np.minimum(area-lower,0)
   signed=.5*(cr*ref).sum(2);se=np.minimum(signed-.08*b,0)*(b>1e-12)
-  loss=(ae/units)**2+4*(se/units)**2
+  orientation_units=np.maximum(b,1e-8) if strain else units
+  orientation_weight=20. if strain else 4.
+  loss=(ae/units)**2+orientation_weight*(se/orientation_units)**2
   quality_loss=0.;quality_gradient=np.zeros_like(area)
   if strain:
    from original_review_r41_strain import area_log_penalty
    quality_loss,quality_gradient=area_log_penalty(area,a0)
   # derivative wrt cross: 0.5*normal for unsigned; same for signed
-  gnorm=(ae/units**2+.5*quality_gradient)[:,:,None]*nn+4*(se/units**2)[:,:,None]*ref
+  gnorm=(ae/units**2+.5*quality_gradient)[:,:,None]*nn+orientation_weight*(se/orientation_units**2)[:,:,None]*ref
   g=np.stack([np.cross(t[:,:,1]-t[:,:,2],gnorm),np.cross(t[:,:,2]-t[:,:,0],gnorm),np.cross(t[:,:,0]-t[:,:,1],gnorm)],axis=2)
   gp=np.zeros_like(p)
   for s in range(len(base)):

@@ -24,16 +24,16 @@ for name in ba["benchmarks"]:
             if y[metric] > x[metric]:
                 regressions.append({"path": name, "t": x["t"], "metric": metric, "r34": x[metric], "r41": y[metric]})
 # The parent is an additional baseline; R34 comparisons above remain intact.
-parent=ROOT/'ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r38_20261017'
-pa=json.loads((parent/'r38_press.json').read_text());pb=json.loads((parent/'r38_benchmarks.json').read_text())
+parent=ROOT/'ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r40_20261017'
+pa=json.loads((parent/'r40_press.json').read_text());pb=json.loads((parent/'r40_benchmarks.json').read_text())
 validate_samples(pa,b,pb,bb)
 for x,y in zip(pa['press'],b['press']):
     for metric in ('pairs','collapse','stretch'):
-        if y[metric]>x[metric]:regressions.append({'baseline':'R38','path':'press','t':x['t'],'metric':metric,'r38':x[metric],'r41':y[metric]})
+        if y[metric]>x[metric]:regressions.append({'baseline':'R40','path':'press','t':x['t'],'metric':metric,'r40':x[metric],'r41':y[metric]})
 for name in pb['benchmarks']:
     for x,y in zip(pb['benchmarks'][name]['frames'],bb['benchmarks'][name]['frames']):
         for metric in ('self_intersecting_pairs','collapse_lt_0_1','stretch_gt_2'):
-            if y[metric]>x[metric]:regressions.append({'baseline':'R38','path':name,'t':x['t'],'metric':metric,'r38':x[metric],'r41':y[metric]})
+            if y[metric]>x[metric]:regressions.append({'baseline':'R40','path':name,'t':x['t'],'metric':metric,'r40':x[metric],'r41':y[metric]})
 test_log = (OUT / "front_test.txt").read_text()
 from original_review_candidate_checks import acceptance
 front_exit = int((OUT / "front_test_exit.txt").read_text().strip())
@@ -47,8 +47,8 @@ report = {"candidate": "R41", "approved": False, "status": status,
           "guard_violations": guard_report["violations"], "invariants": invariants,
           "regressions": regressions, "r34_fit": a["fit"], "r41_fit": b["fit"]}
 from original_review_r41_checks import front_comparison
-report['front_comparison_vs_r38']=front_comparison((parent/'front_test.txt').read_text(),test_log)
-report['r38_fit']=pa['fit']
+report['front_comparison_vs_r40']=front_comparison((parent/'front_test.txt').read_text(),test_log)
+report['r40_fit']=pa['fit']
 contour_log=(OUT/'contour_test.txt').read_text()
 contour_exit=int((OUT/'contour_test_exit.txt').read_text())
 contour_pass=contour_exit==0 and bool(re.search(r'^OK$',contour_log,re.M))
@@ -62,7 +62,7 @@ marks_pass=marks_exit==0 and bool(re.search(r'^OK$',marks_log,re.M))
 report['acceptance_checks']['new_owner_mark_goals']=marks_pass
 if not marks_pass:report['status']='REJECTED_NUMERIC_CHECKS'
 orientation=read('r41_orientation.json')
-orientation_pass=orientation.get('sample_count')==82 and len(orientation.get('samples',[]))==82 and orientation.get('passed') is True and all(x['normal_rotations_over_90_degrees']==0 for x in orientation['samples'])
+orientation_pass=orientation.get('area_safety_passed') is True and len(orientation.get('area_samples',[]))==83 and all(x['passed'] for x in orientation['area_samples']) and orientation.get('sample_count')==82 and len(orientation.get('samples',[]))==82 and orientation.get('passed') is True and all(x['normal_rotations_over_90_degrees']==0 for x in orientation['samples'])
 report['acceptance_checks']['final_native_orientation']=orientation_pass
 if not orientation_pass:report['status']='REJECTED_NUMERIC_CHECKS'
 line_exit=int((OUT/'line_test_exit.txt').read_text())
@@ -70,15 +70,31 @@ line_log=(OUT/'line_test.txt').read_text()
 line_pass=line_exit==0 and bool(re.search(r'^OK$',line_log,re.M))
 report['acceptance_checks']['approved_straight_line']=line_pass
 if not line_pass:report['status']='REJECTED_NUMERIC_CHECKS'
-for label in ('front_smoothness','r39_line_unchanged'):
+for label in ('front_smoothness','r39_line_unchanged','r40_front_unchanged','strain'):
     code=int((OUT/f'{label}_test_exit.txt').read_text())
     log=(OUT/f'{label}_test.txt').read_text()
     passed=code==0 and bool(re.search(r'^OK$',log,re.M))
     report['acceptance_checks'][label]=passed
     if not passed:report['status']='REJECTED_NUMERIC_CHECKS'
+build=read('r41_build.json')
+bounded=build.get('bounded_s7_update') is True and build.get('max_s7_update_mm',1e99)<=.75 and build.get('sentinels_unchanged') is True
+report['acceptance_checks']['bounded_s7_update']=bounded
+if not bounded:report['status']='REJECTED_NUMERIC_CHECKS'
+# Keep the earlier R38 baseline explicitly, in addition to R34 and immediate parent R40.
+old=ROOT/'ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r38_20261017'
+oldp=json.loads((old/'r38_press.json').read_text());oldb=json.loads((old/'r38_benchmarks.json').read_text())
+validate_samples(oldp,b,oldb,bb)
+for x,y in zip(oldp['press'],b['press']):
+    for metric in ('pairs','collapse','stretch'):
+        if y[metric]>x[metric]:report['regressions'].append({'baseline':'R38','path':'press','t':x['t'],'metric':metric,'r38':x[metric],'r41':y[metric]})
+for name in oldb['benchmarks']:
+    for x,y in zip(oldb['benchmarks'][name]['frames'],bb['benchmarks'][name]['frames']):
+        for metric in ('self_intersecting_pairs','collapse_lt_0_1','stretch_gt_2'):
+            if y[metric]>x[metric]:report['regressions'].append({'baseline':'R38','path':name,'t':x['t'],'metric':metric,'r38':x[metric],'r41':y[metric]})
+if report['regressions']:report['status']='REJECTED_NUMERIC_CHECKS'
 # This new requirement only tightens the existing acceptance gate.
 status=report['status']
-had_visuals = (OUT / "r38_r41_same_angle_comparison.jpg").exists() and (OUT / "shoulder_press_r41_three_views.mp4").exists()
+had_visuals = (OUT / "r40_r41_same_angle_comparison.jpg").exists() and (OUT / "shoulder_press_r41_three_views.mp4").exists()
 previous_status = read("r41_review.json").get("status") if (OUT / "r41_review.json").exists() else None
 (OUT / "r41_review.json").write_text(json.dumps(report, indent=2) + "\n")
 if not had_visuals:
@@ -95,16 +111,16 @@ if not had_visuals:
     numbers = (20, 24, 28, 32)
     sheet = Image.new("RGB", (6 * 256, len(numbers) * 294 + 64), "white")
     draw = ImageDraw.Draw(sheet)
-    draw.text((12, 8), "R38 / R41 - same press times and cameras - REVIEW ONLY", fill="black", font=font)
+    draw.text((12, 8), "R40 / R41 - same press times and cameras - REVIEW ONLY", fill="black", font=font)
     draw.text((12, 34), status, fill="black", font=small)
     for row, n in enumerate(numbers):
         for v, view in enumerate(views):
-            for k, tag in enumerate(("r38", "r41")):
+            for k, tag in enumerate(("r40", "r41")):
                 x, y = (2 * v + k) * 256, 64 + row * 294
                 draw.text((x + 4, y + 2), f"{tag.upper()} {view.replace('_', ' ')} {b['press'][n]['ht']:.1f} deg",
                           fill="black", font=small)
                 sheet.paste(frame(tag, n, view).resize((256, 256)), (x, y + 30))
-    sheet.save(OUT / "r38_r41_same_angle_comparison.jpg", quality=92)
+    sheet.save(OUT / "r40_r41_same_angle_comparison.jpg", quality=92)
     video = Path("/tmp/r41-video")
     video.mkdir(exist_ok=True)
     sequence = [0] * 8 + list(range(41)) + [40] * 8 + list(range(39, 0, -1))
@@ -124,14 +140,14 @@ if not had_visuals:
 elif previous_status != status:
     # Re-label saved review media after stricter reporting checks; preserve the
     # already-rendered geometry instead of spending another Blender render.
-    image = Image.open(OUT / "r38_r41_same_angle_comparison.jpg").convert("RGB")
+    image = Image.open(OUT / "r40_r41_same_angle_comparison.jpg").convert("RGB")
     draw = ImageDraw.Draw(image)
     draw.rectangle((0, 0, image.width, 64), fill="white")
     font_path = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
-    draw.text((12, 8), "R38 / R41 - same press times and cameras - REVIEW ONLY", fill="black",
+    draw.text((12, 8), "R40 / R41 - same press times and cameras - REVIEW ONLY", fill="black",
               font=ImageFont.truetype(font_path, 18))
     draw.text((12, 34), status, fill="black", font=ImageFont.truetype(font_path, 14))
-    image.save(OUT / "r38_r41_same_angle_comparison.jpg", quality=92)
+    image.save(OUT / "r40_r41_same_angle_comparison.jpg", quality=92)
     original_video = OUT / "shoulder_press_r41_three_views.mp4"
     relabeled = Path("/tmp/r41-relabeled.mp4")
     vf = ("drawbox=x=0:y=544:w=1536:h=32:color=0x1c1c1e:t=fill,"
@@ -145,42 +161,38 @@ font=ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',22)
 closeups=Path('/tmp/r41-junction')
 for side in ('l','r'):
     sheet=Image.new('RGB',(2400,5*640+64),'white');draw=ImageDraw.Draw(sheet)
-    draw.text((12,10),f'Arm-to-side junction ({side}): R38 / R41 same cameras - REVIEW ONLY',fill='black',font=font)
+    draw.text((12,10),f'Arm-to-side junction ({side}): R40 / R41 same cameras - REVIEW ONLY',fill='black',font=font)
     for row,ht in enumerate((120.,130.,135.625,145.,156.)):
         for view_index,view in enumerate(('back','three_quarter')):
-            for tag_index,tag in enumerate(('r38','r41')):
+            for tag_index,tag in enumerate(('r40','r41')):
                 image=Image.open(closeups/tag/f'{side}_{view}_{ht}.png').convert('RGBA')
                 base=Image.new('RGBA',image.size,(28,28,30,255));base.alpha_composite(image)
                 x,y=(view_index*2+tag_index)*600,64+row*640
                 draw.text((x+10,y+4),f'{tag.upper()} {ht:g} deg {view}',fill='black',font=font)
                 sheet.paste(base.convert('RGB').resize((600,600)),(x,y+36))
-    sheet.save(OUT/f'r38_r41_junction_{side}_closeups.jpg',quality=94)
+    sheet.save(OUT/f'r40_r41_junction_{side}_closeups.jpg',quality=94)
 front=Image.new('RGB',(2400,3*640+64),'white');draw=ImageDraw.Draw(front)
-draw.text((12,10),'Bilateral front transition: R38 / R41 same cameras',fill='black',font=font)
+draw.text((12,10),'Bilateral front transition: R40 / R41 same cameras',fill='black',font=font)
 for row,ht in enumerate((120.,130.,145.)):
     for side_index,side in enumerate(('l','r')):
-        for tag_index,tag in enumerate(('r38','r41')):
+        for tag_index,tag in enumerate(('r40','r41')):
             image=Image.open(Path('/tmp/r41-front')/tag/f'{side}_front_{ht}.png').convert('RGBA')
             base=Image.new('RGBA',image.size,(28,28,30,255));base.alpha_composite(image)
             x,y=(side_index*2+tag_index)*600,64+row*640
             draw.text((x+10,y+4),f'{tag.upper()} {side} front {ht:g} deg',fill='black',font=font)
             front.paste(base.convert('RGB').resize((600,600)),(x,y+36))
-front.save(OUT/'r38_r41_front_closeups.jpg',quality=94)
-doc=f"""# ORIGINAL_v1 R41: straight arm-to-body line with front crease control
+front.save(OUT/'r40_r41_front_closeups.jpg',quality=94)
+doc=f"""# R41: bounded shoulder-press strain redistribution
 
-**{report['status']}. Owner visual review pending.**
+**{report['status']}. Owner visual review pending.** Parent: immutable R40. R40 is a review candidate, not owner-approved production.
 
-Owner approval:17October cyan straight guide continuing the upper-arm outline into the body without the inward bend. ImmutableR38 parent. The new test holds the final saved silhouette within2mm of the fixedR38 arm-edge line at stations0..160mm from the shoulder and prevents an inward bodyjoin deficit>2mm at-140..0mm. R38 reproduces four expected bilateral failures,17.5mm nearshoulder and up to26.4mm towardbody. This author-approved contour goal is not an anatomical/clinical validation.
+R41 authors increments in the seven existing S7 controls110/120/130/136/145/156/166. The optimizer limit is0.70mm and the saved-model maximum update must not exceed0.75mm after unchanged original guards. Earlier R34–R40 end-key freezes isolated the line/front fixes; they remain intact in those candidates. R41 intentionally replaces its inherited end-key freeze with the bounded-update check because otherwise the controls have zero influence at the top and crushed benchmark poses. No original test is weakened or deleted. Canonical bones, V-production assets, weights, basis, topology and all non-S7 keys includingHGPT_SHOULDER are preserved. Front anchors stay exact; private reference photos are excluded.
 
-Only S7 coordinates at110/120/130/136/145degrees are authored. The new136control exactly interpolatesR38(.6key130+.4key145) before correction; native owner-frame baseline preservation<0.01mm is required. Raw target continues the humerus-aligned skin edge into the torso, with35mm cap and a localized protectedfront taper8..26mm. Coupled material-area/orientation redistribution retains all82native path poses and adds an exact130degree front sample. An analytic adjacent-normal penalty controls the front crease; a new bilateral saved-model test requires<=25degrees. Native BVH contact separation also checks that extra front sample. R39 is retained as a rejected attempt(front102.267degrees right); the authored baseline remains immutableR38. Outer-line normal components are fixed; final safety can cut back tangential changes without erasing the line. Endkeys156/166 stay identicalR38/R34 or no model is saved. The original Blender guards are unchanged.
+New fixed goals: marked135.625degree stretch<=40(vsR40 45); top166degree stretch<=70(vs80); shoulder_press benchmark collapse0(vs2). R40 reproduced all3 failures before implementation. Smooth log-area energy and adjacent-vertex regularization are coupled to all82native path samples plus exact130front constraints, unchanged front/line tests and BVH contact separation. Existing R34/R38/R40 counts and all13 benchmarks remain acceptance baselines. There are {len(report['regressions'])} frame-count regressions. Acceptance: {json.dumps(report['acceptance_checks'])}.
 
-Front changes versusR38:{json.dumps(report['front_comparison_vs_r38'])}. Whole-surface fit to the oldR33target is retained forR34/R38/R41 in the report.
+Front comparison against R40: {json.dumps(report['front_comparison_vs_r40'])}. Old R33 target-fit errors remain in the full JSON report for honest comparison; inspect every field and the renders even when numerical tests pass.
 
-Acceptance checks:{json.dumps(report['acceptance_checks'])}. Regressions againstR34/R38:{len(report['regressions'])}. All original front, contour, R38mark, guard, strictlockoutvolume, preservation and final82pose orientation checks run unchanged. No test was weakened or deleted. Canonical skeleton, basis, topology, weights and every non-S7 coordinate includingHGPT_SHOULDER remain identical. Owner photos are excluded. Counts are compared at all41pressframes and actualframes of13benchmarks. Any increase or failed new line/front goal rejects numerical status.
-
-Evidence lives in codex_review_r41_20261017: matchedR38/R41 rear/front/threequarter press images, exact135.625bilateral closeups, shoulder_press_r41_three_views.mp4, full JSON metrics and test logs. The new line is checked on the guarded saved model, not just the target. Topstretch and two crushed benchmarktriangles remain open unless actual reports demonstrate improvement. All regressions and oldR33 target-fit errors are retained in r41_review.json; inspect the renders even if numerical checks pass.
-
-Reproduction:.github/workflows/original-review-r41.yml with pinnedBlender5.2.1 exports native response, solves, builds the isolated candidate, measures/tests in fresh processes and renders/packages both versions. No production assets, merge or force push. See docs/superpowers/plans/2026-10-17-r41-front-smoothness.md for the execution ledger.
+Evidence: `ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r41_20261017/` contains the immutable model, measured JSON and retained test logs, matched R40/R41 images and `shoulder_press_r41_three_views.mp4`. Reproduction: `.github/workflows/original-review-r41.yml`; plan `docs/superpowers/plans/2026-10-17-r41-bounded-strain.md`. No main merge or force push.
 """
 (ROOT/'docs/CODEX_ORIGINAL_V1_REVIEW_CANDIDATE_R41_20261017.md').write_text(doc)
 print('R41_REVIEW_FINAL',json.dumps(report),flush=True)

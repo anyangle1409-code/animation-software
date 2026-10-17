@@ -1,4 +1,4 @@
-"""Owner-approved R41 S7 junction rebuild, with unchanged original guards."""
+"""R41 bounded S7 strain candidate, with unchanged original guards."""
 from __future__ import annotations
 import hashlib
 import json
@@ -94,7 +94,7 @@ def build():
     model=OUT/'HGPT_ORIGINAL_V1_REVIEW_R41_CODEX.blend'
     bpy.ops.wm.save_as_mainfile(filepath=str(model),copy=True)
     report={'candidate':'R41','approved':False,'status':'EXPERIMENT_NOT_ACCEPTED',
-            'owner_scope_approved':'2026-10-17: cyan upper-arm line continued into body without inward curve',
+            'owner_scope':'Continue original stretch/crush priorities; preserve R40 line/front fixes; visual review pending',
             'parent_sha256':digest(PARENT),'sha256':digest(model),
             'change':'R40 bounded S7 strain redistribution; all7 existing controls may move at most0.75mm, including156/166; line, front anchors and non-S7 coordinates protected',
             'response':json.loads(Path('/tmp/r41-response/response.json').read_text()),

@@ -158,12 +158,12 @@ for name,value in data.items():
 np.savez_compressed(OUT/'response.npz',**data)
 report={'source':'R40','initial_midkeys':'zero increment; bounded strain optimization','keys':KEYS,'frozen_keys':[],'maximum_saved_update_mm':.75,
         'new_136_key':'inherited unchanged as baseline from R40',
-        'front_linear_error_mm':front_error*1000,'sample_count':len(rows),'max_linear_error_mm':max_error*1000,'samples':rows,
+        'front_linear_error_mm':front_error*1000,'free_vertices_per_key':free.sum(1).tolist(),'line_vertices_per_key':line_mask.sum(1).tolist(),'sample_count':len(rows),'max_linear_error_mm':max_error*1000,'samples':rows,
         'modifiers':[{'name':m.name,'type':m.type,'enabled':m.show_viewport} for m in body.modifiers]}
 with np.load(ROOT/'ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r40_20261017/probe/r35_contour_surfaces.npz') as reference:
     preserved_error=float(np.linalg.norm(data['base'][25]-reference['all_135.625'],axis=1).max())
 report['parent_baseline_error_mm']=preserved_error*1000
-if preserved_error>1e-5:raise RuntimeError(('New control changes parent interpolation',preserved_error))
+if preserved_error>1e-5:raise RuntimeError(('R41 untouched parent baseline mismatch',preserved_error))
 (OUT/'response.json').write_text(json.dumps(report,indent=2)+'\n')
 if max_error>1e-5:raise RuntimeError(('Native response is not sufficiently linear',max_error))
 

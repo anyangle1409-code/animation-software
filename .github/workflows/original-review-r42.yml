@@ -8,6 +8,7 @@ name: ORIGINAL_v1 R42 confirmed junction native export
     - scripts/export_original_review_r42_blender.py
     - scripts/original_review_r42_line.py
     - scripts/tests/test_original_review_r42_profile.py
+    - scripts/original_review_r42_front.py
 permissions:
   contents: read
 concurrency:
@@ -52,8 +53,11 @@ jobs:
 
         '
     - name: Export parent geometry in a clean Blender process
-      run: /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads
-        2 --python-exit-code 1 --python scripts/export_original_review_r42_blender.py
+      run: 'python3 -c "import sys; sys.path.insert(0,''scripts''); import original_review_r42_front,
+        original_review_r42_line"
+
+        /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads
+        2 --python-exit-code 1 --python scripts/export_original_review_r42_blender.py'
     - name: Confirm R38 fails the approved line goals
       run: 'set +e
 

@@ -13,6 +13,7 @@ import build_functional_shoulder_correction_blender as correction
 import original_v1_review_candidate_drives as drives
 import original_v1_press_extension as px
 import original_v1_shoulder_r4 as r4
+from original_review_r42_front import edge_pairs,angles
 PREFIX='HGPT_S7_DELT_'
 KEYS=(110,120,130,136,145,156,166)
 BASE=ROOT/'ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r41_20261017/HGPT_ORIGINAL_V1_REVIEW_R41_CODEX.blend'
@@ -84,7 +85,7 @@ for k,ht in enumerate(KEYS):
     delta[k,basis[:,0]==0]=0
 data={'rest':neutral,'faces':faces,'delta':delta,'constraint_normal':line_normal,'constraint_mask':line_mask,'constraint_value':(line_normal*delta).sum(2)}
 base=[];mats=[];w=[];rows=[]
-region=eligible_vertices(basis)
+region=(abs(basis[:,0])>.08)&(abs(basis[:,0])<.35)&(basis[:,2]>1.20)&(basis[:,2]<1.51)
 mirror=int(np.argmin(np.linalg.norm(basis-basis[18633]*np.array([-1,1,1]),axis=1)))
 validation_delta=np.asarray([.0001*np.sin(np.arange(len(basis))[:,None]*.11+k+np.arange(3)) for k in range(len(KEYS))])
 validation_delta[:,~region]=0;validation_delta[:,[18633,mirror]]=0
@@ -161,7 +162,6 @@ data.update(free=free,normal=np.asarray(normal),frozen_arm=frozen_arm,
 # Exact130 front quality response, independent of the fixed82 path samples.
 install(np.zeros_like(delta));bench._reset(rig);sculpt.press_pose(res,130.);drives.drive(rig,body)
 fp=evaluate();fm=matrix();fw=coefficients()
-from original_review_r42_front import edge_pairs,angles
 fe,ff=edge_pairs(faces);selected=np.zeros(len(fe),bool)
 for side in ('l','r'):
  gh=np.array(tuple(rig.matrix_world@rig.pose.bones['upperarm_'+side].head));rel=fp[fe].mean(1)-gh

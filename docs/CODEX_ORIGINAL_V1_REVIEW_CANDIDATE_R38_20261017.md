@@ -1,17 +1,32 @@
-# ORIGINAL_v1 R38: the two remaining owner marks
+# ORIGINAL_v1 R38 — remaining arm-root marks
 
-**NUMERIC_CHECKS_PASSED_AWAITING_VISUAL_REVIEW. Owner visual approval pending.**
+**Numerical checks passed. Owner visual review pending; not approved for production.**
 
-Parent: immutable R37. Owner feedback 17 October: remaining joint-like lobe at (77%,69%) in three-quarter and excess rear bow at (73%,32%), on the exact135.625-degree comparison. Private reference image is excluded.
+R38 addresses the owner's 17 October marks on R37: the joint-like posterior upper-arm lobe at77%,69%, and broad rear bow at73%,32%, at135.625degrees. Only existing S7 coordinates at110/120/130/145degrees change. Frozen canonical skeleton, basis, topology, weights and every non-S7 key, includingHGPT_SHOULDER, matchR33/R34/R37 exactly. The156/166degree keys remain identical toR37/R34. Private reference photos are excluded.
 
-R38 only changes existing S7 skin coordinates at110/120/130/145. The rear target blends the broad contour toward its anchored chord, capped at12mm; the posterior target blends a local quadratic surface capped at6mm. The front sentinel has a broad spatial protection fade. The raw target is scaled to45%, followed by coupled material-coordinate redistribution over both41-sample press paths. A local target attenuation safety stage then discards unsafe portions. A smooth0.75mm posterior blend through the lower junction preserves three-quarter continuity, followed by another safety pass. Final safety requires no extra stretch/collapse counts and no normal reversals versus the parent same-pose surface; it does not establish anatomical correctness. Endkeys156/166 remain exactly R37/R34. The original native guards are unchanged and must leave those endkeys untouched.
+The local skin target blends the rear outline toward an anchored chord and smooths the marked posterior patch. The raw target is scaled to45%, followed by material redistribution across both41-sample press paths. A local safety pass attenuates unsafe changes. A smooth0.75mm posterior shift through the lower junction preserves three-quarter continuity, followed by another safety pass. The original Blender guards remain unchanged. Final measurements use fresh native processes after saving.
 
-The local response trial increases the short rear corner peaks from R37 left9.0535/right10.0042 to approximately11.37/11.73degrees, while reducing the broader bow. This tradeoff must be checked again on the final saved model and visually reviewed. Both remain below the unchanged12.5degree goal.
+## Measured R37 → R38
 
-All prior R34 front tests and R37 contour tests run unchanged. Two additional owner-mark goals require rear broad-bow RMS<7.5mm (R37 left9.5747/right9.6932mm) and local posterior quadratic-fit residual p95<2mm (R37 left2.7149/right2.7158mm), both at135.625degrees. These are local shape diagnostics, not substitutes for the owner's visual review. R37 reproduces all four expected failing side-goals before the change. A synthetic reversed triangle reproduced the unsigned-area blind spot and the new signed-area check passes after the correction. No prior test/tolerance was weakened or deleted.
+| Diagnostic | R37 | R38 | Result |
+|---|---:|---:|---|
+| Broad rear bow RMS, left/right, mm |9.575 /9.693|7.121 /7.385|Improved|
+| Marked posterior surface residual p95, left/right, mm |2.715 /2.716|1.477 /1.501|Improved|
+| Short rear corner, left/right, degrees |9.054 /10.004|11.371 /11.735|Worse; unchanged12.5degree limit passes|
+| Short three-quarter corner, left/right, degrees |16.364 /52.736|18.916 /52.877|Worse; unchangedR34 limits35.408 /53.426 pass|
+| Stretched triangles at135.625degrees |66|57|Improved|
+| Front edge dihedral at130degrees |45.190|23.423|Improved; visible crease remains|
 
-Native checks: {"front_test_process": true, "original_lockout_volume": true, "original_guards_rechecked": true, "original_post95_collision_rule": true, "preservation": true, "no_frame_count_regressions": true, "new_contour_goals": true, "new_owner_mark_goals": true, "final_native_orientation": true}. Regressions retained: 0. Full measurements and logs are alongside the model. Numerical comparisons include R34 and R37 at every actual measured frame of the full press and13 benchmarks; every increase rejects the candidate.
+The new bow and posterior residual thresholds are local author goals, not proof of anatomical realism. R37 first reproduced four bilateral failures. Native final R38 passes both goals, every unchanged front/contour/guard/volume check, exact protection checks and no frame-count increases versus eitherR34 orR37 across41pressframes and all actual frames of13movement benchmarks. All82final native same-pose orientation comparisons have zero normal rotations over90degrees. No test was weakened or deleted.
 
-Comparison files show R37/R38 at identical cameras and press times. The video is shoulder_press_r38_three_views.mp4. Bilateral native closeups include the exact135.625degree owner frame and front120/130/145degrees. The full-press top remains R37/R34; existing top stretch and crushed shoulder-press benchmark triangles are not claimed resolved by this local change. Broader fit to the old R33 target may worsen and is fully retained in r38_review.json.
+## Remaining issues and tradeoffs
 
-Frozen canonical skeleton, basis, weights, topology and every non-S7 coordinate including HGPT_SHOULDER remain identical to R33/R34/R37. Workflow original-review-r38.yml uses pinned Blender5.2.1. No production assets, merge or force push.
+The native closeups show a straighter broad rear transition and reduced surface lobe, but a smaller junction crease remains visible. Short-corner diagnostics worsen as shown above. Top-of-press stretch remains80, and the shoulder-press benchmark still has two crushed triangles at its worst frame. The broader shape fits the oldR33 target less closely thanR34; versusR37 its whole-surface p99 error increases11.172→11.447mm at120degrees and11.433→12.024mm at145degrees. The protected front sentinel remains exactly0.0782/0.0912mm. These are not whole-patch errors.
+
+## Evidence and reproduction
+
+Candidate folder: `ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r38_20261017/`. Model:`HGPT_ORIGINAL_V1_REVIEW_R38_CODEX.blend`. Native source commit:`0f830325e9572c65fdee32fe183610dff0013b39`; successful Blender5.2.1 run:`39017187577`; generated evidence commit:`c6821223ac133ad26c30f337a4388cf36ab75baf`.
+
+`R37_R38_marked_angle_right.jpg` and its left counterpart compare the exact owner frame using unchanged native cameras. Full angle comparisons, bilateral junction/front sheets, press video, raw probe and reports remain alongside the model. `shoulder_press_r38_three_views.mp4` shows rear/front/three-quarter views.
+
+Rebuild in a new candidate number using `.github/workflows/original-review-r38.yml`: export native response → staged solve → separate build with original guards → native identity/press/benchmarks/guard/orientation/front/contour/mark tests → matched renders and package. Existing candidates are immutable. The first full-gain target was rejected before saving a model; its failures and subsequent trials are retained in `docs/superpowers/plans/2026-10-17-r38-owner-marks.md`. No production assets, merge or force push.

@@ -4,9 +4,11 @@ from pathlib import Path
 import numpy as np
 from scipy import sparse
 from scipy.optimize import linprog
-from original_review_r43_geometry import area_gradient,outline,cosine_gradient
+from original_review_r43_geometry import area_gradient,outline,cosine_gradient,normal_difference_gradient
 from original_review_r42_line import frame,guide
 from original_review_r41_strain import area_safety
+from original_review_r41_front import edge_pairs,angles
+from original_review_r43_lp import step as linear_step
 from optimize_original_review_r42 import separating_plane
 class Constraints:
  def __init__(self,count):self.count=count;self.rr=[];self.cc=[];self.vv=[];self.rhs=[];self.labels=[]
@@ -18,7 +20,7 @@ class Constraints:
    return
   r=len(self.rhs);self.rr.extend([r]*len(cols));self.cc.extend(cols.tolist());self.vv.extend((values/scale).tolist());self.rhs.append(rhs/scale);self.labels.append(label)
  def matrix(self):return sparse.coo_matrix((self.vv,(self.rr,self.cc)),shape=(len(self.rhs),self.count)).tocsr()
-def solve(data,initial,reference,contacts,dest,epochs=120):
+def solve(data,initial,reference,contacts,dest,epochs=400):
  d=data;free=d['free'];ids=np.full((*free.shape,3),-1,int);ids[free]=np.arange(int(free.sum())*3).reshape(-1,3);count=int(free.sum())*3
  delta=initial.copy();delta[~free]=0;faces=d['faces'];used=free.any(0);fids=np.flatnonzero(used[faces].any(1));f=faces[fids]
  base=np.concatenate((d['base'],d['front_base'][None]));mat=np.concatenate((d['mat'],d['front_mat'][None]));weight=np.concatenate((d['weight'],d['front_weight'][None]));rest=d['rest']
@@ -30,10 +32,10 @@ def solve(data,initial,reference,contacts,dest,epochs=120):
  lower=np.where(parent_area>=.1*a0,np.minimum(.1001*a0,parent_area),parent_area*.99)
  parent_tri=base[:,f];parent_cross=np.cross(parent_tri[:,:,1]-parent_tri[:,:,0],parent_tri[:,:,2]-parent_tri[:,:,0]);parent_normal=parent_cross/np.maximum(np.linalg.norm(parent_cross,axis=2)[:,:,None],1e-20)
  back=(abs(rest[:,0])>.08)&(abs(rest[:,0])<.25)&(rest[:,2]>1.27)&(rest[:,2]<1.49)&(rest[:,1]>.025)&used
- backids=np.flatnonzero(back);ba=np.diff(base[:41,backids],n=2,axis=0);motion_limit=np.linalg.norm(ba,axis=2)+.00048
+ backids=np.flatnonzero(back);ba=np.diff(base[:41,backids],n=2,axis=0);motion_limit=np.linalg.norm(ba,axis=2)+.00045
  separation=[]
  for r in contacts:
-  s=int(r['sample']);fa=faces[r['a']];fb=faces[r['b']];n,margin=separating_plane(base[s,fa],base[s,fb]);separation.append((s,fa,fb,n,margin))
+  s=int(r['sample']);fa=faces[r['a']];fb=faces[r['b']];n,margin=separating_plane(base[s,fa],base[s,fb]);gap=float((base[s,fb]@n).min()-(base[s,fa]@n).max());margin=min(margin,max(.1*gap,1e-9));separation.append((s,fa,fb,n,margin))
  def spatial(rows,s,v,g,rhs,label):
   v=np.asarray(v);g=np.asarray(g);coeff=weight[s][:,v]
   values=.001*coeff[:,:,None]*np.einsum('nji,nj->ni',mat[s,v],g)[None]
@@ -45,7 +47,25 @@ def solve(data,initial,reference,contacts,dest,epochs=120):
  for side in ('l','r'):
   gh=reference[f'gh_{side}_135.625'];el=reference[f'elbow_{side}_135.625'];axis,n=frame(gh,el,side)
   target[side]=[outline(p0,faces,gh,axis,n,side,s)[0] for s in levels]
- history=[];start=time.time();last_violation=float('inf');trust=1.
+ edges,pairs=edge_pairs(faces);cent=rest[edges].mean(1)
+ rear=(abs(cent[:,0])>.08)&(abs(cent[:,0])<.35)&(cent[:,1]>.025)&(cent[:,2]>1.20)&(cent[:,2]<1.51)&used[edges].any(1)
+ rear_tri=faces[pairs[rear]];rear_limits=np.array([np.minimum(angles(b,rear_tri)+1.8,179.999) for b in base]);rear_cos=np.cos(np.radians(rear_limits))
+ rb=base.astype(float)[:,rear_tri];rc0=np.cross(rb[:,:,:,1]-rb[:,:,:,0],rb[:,:,:,2]-rb[:,:,:,0]);rl0=np.maximum(np.linalg.norm(rc0,axis=3),1e-20);rn0=rc0/rl0[:,:,:,None];rd0=rn0[:,:,0]-rn0[:,:,1]
+ rear_cube=np.maximum(2*np.sin(np.radians(rear_limits)/2)-np.linalg.norm(rd0,axis=2),1e-9)*.99/np.sqrt(3)
+ rear_needed=rear_limits<179.9
+ def nonprofile_ok(candidate):
+  q=base+np.einsum('snij,snj->sni',mat,np.einsum('skn,knj->snj',weight,candidate));qt=q[:,f];qc=np.cross(qt[:,:,1]-qt[:,:,0],qt[:,:,2]-qt[:,:,0]);qa=.5*np.linalg.norm(qc,axis=2)
+  true_upper=np.where(parent_area<=2*a0,np.maximum(1.9999*a0,parent_area),parent_max[:,None]*1.0099*a0)
+  if np.any(qa>true_upper+np.maximum(1e-6*a0,1e-12)) or np.any(qa<np.minimum(.1*a0,parent_area)-np.maximum(1e-6*a0,1e-12)):return False
+  if np.any((.5*(qc*parent_normal).sum(2)<.04*parent_area)&(parent_area>1e-12)):return False
+  for cs,fa,fb,cn,margin in separation:
+   if (q[cs,fb]@cn).min()-(q[cs,fa]@cn).max()<margin*.8:return False
+  if np.any(angles(q[82],d['front_triangles'])>d['front_limits']+.01):return False
+  for cs in range(83):
+   if np.any(angles(q[cs],rear_tri)>rear_limits[cs]+.18):return False
+  if np.any(np.linalg.norm(np.diff(q[:41,backids],n=2,axis=0),axis=2)>motion_limit+.00003):return False
+  return True
+ history=[];start=time.time();last_violation=float('inf');trust=.5
  for epoch in range(epochs):
   p=base+np.einsum('snij,snj->sni',mat,np.einsum('skn,knj->snj',weight,delta))
   rows=Constraints(count);t=p[:,f];cr=np.cross(t[:,:,1]-t[:,:,0],t[:,:,2]-t[:,:,0]);ar=.5*np.linalg.norm(cr,axis=2)
@@ -59,6 +79,15 @@ def solve(data,initial,reference,contacts,dest,epochs=120):
   ft=d['front_triangles'];pts=p[82,ft];cc=np.cross(pts[:,:,1]-pts[:,:,0],pts[:,:,2]-pts[:,:,0]);nn=cc/np.maximum(np.linalg.norm(cc,axis=2)[:,:,None],1e-20);cos=np.einsum('ni,ni->n',nn[:,0],nn[:,1]);cl=np.cos(np.radians(d['front_limits']))
   for j in np.flatnonzero(cos<cl+.003):
    value,g=cosine_gradient(pts[j]);spatial(rows,82,ft[j].ravel(),-g.reshape(-1,3),float(value-cl[j]),'front')
+  rt=p[:,rear_tri];rc=np.cross(rt[:,:,:,1]-rt[:,:,:,0],rt[:,:,:,2]-rt[:,:,:,0]);rl=np.maximum(np.linalg.norm(rc,axis=3),1e-20);rn=rc/rl[:,:,:,None];rd=rn[:,:,0]-rn[:,:,1]-rd0
+  cube_keys=set()
+  def add_cube(rs,j,axis,sign):
+   key=(rs,j,axis,sign)
+   if key in cube_keys:return False
+   cube_keys.add(key);direction=np.eye(3)[axis]*sign;_,g=normal_difference_gradient(rt[rs,j],direction)
+   spatial(rows,rs,rear_tri[j].ravel(),g.reshape(-1,3),float(rear_cube[rs,j]-sign*rd[rs,j,axis]),'posterior_normal_vector')
+   return True
+  for rs,j,axis in np.argwhere((abs(rd)>rear_cube[:,:,None]*.8)&rear_needed[:,:,None]):add_cube(int(rs),int(j),int(axis),1 if rd[rs,j,axis]>0 else -1)
   for side in ('l','r'):
    gh=reference[f'gh_{side}_135.625'];el=reference[f'elbow_{side}_135.625'];axis,n=frame(gh,el,side);fit=guide(reference['all_135.625'],faces,gh,el,side)
    for j,station in enumerate(levels):
@@ -82,26 +111,34 @@ def solve(data,initial,reference,contacts,dest,epochs=120):
     rows.add(ids[:,v],.001*d['sampling_basis'][k,:,None]*dense_delta[k,v]/dense_length[k,v],.044999-dense_length[k,v],'dense_material_bound')
   # Sparse LP phase I: minimize maximum constraint violation in millimetres.
   # Phase II's L1 step cost picks the smallest material repair at that violation.
-  A=rows.matrix();m=A.shape[0];eye=sparse.eye(count,format='csr')
-  AA=sparse.vstack([sparse.hstack([A,sparse.csr_matrix((m,count)),-np.ones((m,1))]),sparse.hstack([eye,-eye,sparse.csr_matrix((count,1))]),sparse.hstack([-eye,-eye,sparse.csr_matrix((count,1))])],format='csr')
-  rhs=np.r_[rows.rhs,np.zeros(count*2)];objective=np.r_[np.zeros(count),np.full(count,.0001/max(count,1)),1.]
-  result=linprog(objective,A_ub=AA,b_ub=rhs,bounds=[(-trust,trust)]*count+[(0,trust)]*count+[(0,None)],method='highs',options={'dual_feasibility_tolerance':1e-8,'primal_feasibility_tolerance':1e-8})
-  if not result.success:raise RuntimeError(('Feasibility LP failed',result.message))
-  step=np.zeros_like(delta);step[free]=result.x[:count].reshape(-1,3)*.001
+  for cut_round in range(16):
+   A=rows.matrix();m=A.shape[0];movement,z=linear_step(A,np.asarray(rows.rhs),trust,np.array([name.startswith('profile_') for name in rows.labels]))
+   step=np.zeros_like(delta);step[free]=movement.reshape(-1,3)*.001
+   dq=np.einsum('snij,snj->sni',mat,np.einsum('skn,knj->snj',weight,step))
+   dqt=dq[:,rear_tri];dc=np.cross(dqt[:,:,:,1]-dqt[:,:,:,0],rt[:,:,:,2]-rt[:,:,:,0])+np.cross(rt[:,:,:,1]-rt[:,:,:,0],dqt[:,:,:,2]-dqt[:,:,:,0]);dn=(dc-rn*(dc*rn).sum(3)[:,:,:,None])/rl[:,:,:,None]
+   forecast=rd+dn[:,:,0]-dn[:,:,1];added=0
+   for rs,j,axis in np.argwhere((abs(forecast)>rear_cube[:,:,None]+1e-7)&rear_needed[:,:,None]):added+=add_cube(int(rs),int(j),int(axis),1 if forecast[rs,j,axis]>0 else -1)
+   forecast_acc=acc+np.diff(dq[:41,backids],n=2,axis=0);forecast_length=np.linalg.norm(forecast_acc,axis=2)
+   for si,j in np.argwhere(forecast_length>motion_limit+1e-8):
+    vertex=backids[j];unit=forecast_acc[si,j]/max(forecast_length[si,j],1e-20)
+    transform=weight[si,:,vertex,None,None]*mat[si,vertex]-2*weight[si+1,:,vertex,None,None]*mat[si+1,vertex]+weight[si+2,:,vertex,None,None]*mat[si+2,vertex]
+    rows.add(ids[:,vertex],.001*np.einsum('kji,j->ki',transform,unit),float(motion_limit[si,j]-acc[si,j]@unit),'back_motion_cone');added+=1
+   print('R43_CONE_CUTS',epoch,cut_round,added,flush=True)
+   if not added:break
   alpha=1.;accepted=False
-  for trial in range(12):
+  for trial in range(18):
    candidate=delta+alpha*step
    maximum=np.linalg.norm(candidate,axis=2).max()
    if 'sampling_basis' in d:maximum=max(maximum,np.linalg.norm(np.einsum('dk,knj->dnj',d['sampling_basis'],candidate),axis=2).max())
-   if maximum<=.045:accepted=True;break
+   if maximum<=.045 and nonprofile_ok(candidate):accepted=True;break
    alpha*=.5
-  if not accepted:raise RuntimeError('Material bound prevents linearized step')
-  violation=max(0.,float(-np.min(rows.rhs,initial=0)));z=float(result.x[-1]);delta=candidate
+  if not accepted:raise RuntimeError('No step maintains the hard motion/surface/area/contact gates')
+  violation=max(0.,float(-np.min(rows.rhs,initial=0)));delta=candidate
   worst=int(np.argmin(rows.rhs))
   row=dict(worst_constraint=rows.labels[worst],epoch=epoch,seconds=round(time.time()-start,1),constraints=m,violation_mm=violation,linearized_slack_mm=z,step_mm=float(np.linalg.norm(alpha*step,axis=2).max()*1000),motion_excess_mm=float((an-np.linalg.norm(ba,axis=2)).max()*1000))
   history.append(row);print('R43_FEASIBILITY',json.dumps(row),flush=True);np.savez_compressed(dest+'.progress.npz',delta=delta);Path(dest+'.progress.json').write_text(json.dumps(history,indent=2)+'\n')
   if violation<1e-4 and row['step_mm']<.001:break
-  if z>trust*.2:trust=min(2.,trust*1.2)
+  if alpha==1. and z>trust*.2:trust=min(1.,trust*1.15)
  np.savez_compressed(dest,delta=delta);Path(dest+'.json').write_text(json.dumps(dict(history=history,maximum_update_mm=float(np.linalg.norm(delta,axis=2).max()*1000)),indent=2)+'\n')
  return delta
 if __name__=='__main__':

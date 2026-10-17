@@ -20,3 +20,8 @@ def cosine_gradient(t):
  cosine=float(np.clip(n[0]@n[1],-1,1));gc=np.array([(n[1]-cosine*n[0])/length[0],(n[0]-cosine*n[1])/length[1]])
  g=np.stack([np.cross(t[:,1]-t[:,2],gc),np.cross(t[:,2]-t[:,0],gc),np.cross(t[:,0]-t[:,1],gc)],axis=1)
  return cosine,g
+def normal_difference_gradient(t,direction):
+ c=np.cross(t[:,1]-t[:,0],t[:,2]-t[:,0]);length=np.maximum(np.linalg.norm(c,axis=1),1e-20);n=c/length[:,None]
+ gc=(direction-n*(n@direction)[:,None])/length[:,None];gc[1]*=-1
+ g=np.stack([np.cross(t[:,1]-t[:,2],gc),np.cross(t[:,2]-t[:,0],gc),np.cross(t[:,0]-t[:,1],gc)],axis=1)
+ return float((n[0]-n[1])@direction),g

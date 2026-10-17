@@ -98,7 +98,7 @@ def build():
     report={'candidate':'R40','approved':False,'status':'EXPERIMENT_NOT_ACCEPTED',
             'owner_scope_approved':'2026-10-17: cyan upper-arm line continued into body without inward curve',
             'parent_sha256':digest(PARENT),'sha256':digest(model),
-            'change':'R38 to owner-approved arm-aligned outer line, new136 control preserving parent interpolation, line-preserving area redistribution and safety; end keys frozen',
+            'change':'R38 to owner-approved arm-aligned outer line, new136 control preserving parent interpolation, line-preserving coupled area/orientation/contact solve with exact130 front-dihedral control; end keys frozen',
             'response':json.loads(Path('/tmp/r40-response/response.json').read_text()),
             'coupled_solver':json.loads(Path('/tmp/r40-response/solved.npz.json').read_text()),
             'frozen_156_166_unchanged':frozen_ok,'sentinels_unchanged':sentinel_ok,

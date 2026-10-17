@@ -74,6 +74,7 @@ def staged_solve(data):
     from optimize_original_review_r40 import solve as redistribute
     data=dict(data)
     result,intermediate=redistribute(data,epochs=1000)
+    if not intermediate['constraints_satisfied']:raise ValueError('R40 front/area/contact constraints failed before build')
     data['delta']=result
     result,report=solve(data,epochs=240)
     mask=data['constraint_mask'];n=data['constraint_normal'];v=data['constraint_value']

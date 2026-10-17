@@ -139,13 +139,16 @@ for side in ('l','r'):
  gh=np.array(tuple(rig.matrix_world@rig.pose.bones['upperarm_'+side].head));rel=fp[fe].mean(1)-gh
  selected|=(np.linalg.norm(rel,axis=1)<.115)&(rel[:,0]*(1 if side=='r' else -1)>-.02)&(rel[:,1]<.03)&(rel[:,2]<.025)
 ft=faces[ff[selected]];limits=np.maximum(angles(fp,ft)+.1,23.5)
+install(delta);front_actual=evaluate();front_predicted=fp+np.einsum('nij,nj->ni',fm,np.einsum('kn,knj->nj',fw,delta))
+front_error=float(np.linalg.norm(front_actual-front_predicted,axis=1).max())
+if front_error>1e-5:raise RuntimeError(('Front response linearity failed',front_error))
 data.update(front_base=fp,front_mat=fm,front_weight=fw,front_triangles=ft,front_limits=limits)
 for name,value in data.items():
     if not np.isfinite(value).all():raise ValueError(('Nonfinite response export',name))
 np.savez_compressed(OUT/'response.npz',**data)
 report={'source':'R38','initial_midkeys':'approved straight arm-to-body line','keys':KEYS,'frozen_keys':[156,166],
         'new_136_key':'exact R38 130-to145 interpolation at fraction0.4',
-        'sample_count':len(rows),'max_linear_error_mm':max_error*1000,'samples':rows,
+        'front_linear_error_mm':front_error*1000,'sample_count':len(rows),'max_linear_error_mm':max_error*1000,'samples':rows,
         'modifiers':[{'name':m.name,'type':m.type,'enabled':m.show_viewport} for m in body.modifiers]}
 with np.load(ROOT/'ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r38_20261017/probe/r35_contour_surfaces.npz') as reference:
     preserved_error=float(np.linalg.norm(data['base'][25]-reference['all_135.625'],axis=1).max())

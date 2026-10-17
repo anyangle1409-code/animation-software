@@ -48,6 +48,19 @@ class OptimizerTests(unittest.TestCase):
    a=x.copy();b=x.copy();a[i]+=1e-6;b[i]-=1e-6
    numeric=(fun(a)[0]-fun(b)[0])/2e-6
    self.assertAlmostEqual(g[i],numeric,delta=max(1e-4,abs(numeric)*1e-6))
+ def test_area_safety_does_not_skip_front_smoothness(self):
+  p=np.array([[0.,0.,0.],[.01,0.,0.],[0.,.01,0.],[.01,.01,0.]])
+  delta=np.zeros((1,4,3));delta[0,3,2]=.008
+  tri=np.array([[[0,1,2],[1,3,2]]]);mat=np.tile(np.eye(3),(4,1,1));weight=np.ones((1,4))
+  d=dict(rest=p,faces=tri.reshape(-1,3),base=p[None],mat=mat[None],weight=weight[None],delta=delta,
+         free=np.array([[False,False,False,True]]),constraint_normal=np.zeros_like(delta),constraint_mask=np.zeros((1,4),bool),constraint_value=np.zeros((1,4)),
+         front_base=p,front_mat=mat,front_weight=weight,front_triangles=tri,front_limits=np.array([23.5]))
+  from original_review_r40_front import angles
+  self.assertGreater(float(angles(p+delta[0],tri)[0]),25.)
+  result,report=solve(d,epochs=200)
+  self.assertTrue(report['constraints_satisfied'])
+  self.assertLess(float(angles(p+result[0],tri)[0]),25.)
+  np.testing.assert_array_equal(result[~d['free']],delta[~d['free']])
  def test_nonfinite_input_rejected(self):
   d=self.data();d['delta'][0,1,0]=np.nan
   with self.assertRaises(ValueError):solve(d)

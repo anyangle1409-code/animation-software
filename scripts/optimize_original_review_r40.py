@@ -23,6 +23,8 @@ def objective(data):
  f0=d['faces'];used=d['free'].any(0);fsel=used[f0].any(1);contact_rows=data.get('contacts',[]);contact_faces=[r[k] for r in contact_rows for k in ('a','b')];verts=np.unique(np.concatenate((f0[fsel].ravel(),f0[contact_faces].ravel(),data.get('front_triangles',np.empty(0,int)).ravel())));rev=np.full(len(used),-1);rev[verts]=np.arange(len(verts));f=rev[f0[fsel]]
  free=d['free'][:,verts];n=d['constraint_normal'][:,verts]*d['constraint_mask'][:,verts,None]
  initial=d['delta'][:,verts].copy();base=d['base'][:,verts].astype(float);mat=d['mat'][:,verts].astype(float);weight=d['weight'][:,:,verts].astype(float)
+ if 'front_base' in data:
+  base=np.concatenate((base,data['front_base'][verts][None]));mat=np.concatenate((mat,data['front_mat'][verts][None]));weight=np.concatenate((weight,data['front_weight'][:,verts][None]))
  rest=d['rest'][verts];rf=rest[f];a0=.5*np.linalg.norm(np.cross(rf[:,1]-rf[:,0],rf[:,2]-rf[:,0]),axis=1)
  t=base[:,f];cross=np.cross(t[:,:,1]-t[:,:,0],t[:,:,2]-t[:,:,0]);b=.5*np.linalg.norm(cross,axis=2);ref=cross/np.maximum(2*b[:,:,None],1e-20)
  upper=np.maximum(1.95*a0,b*1.001);lower=np.minimum(.15*a0,b*.99);units=np.maximum(a0,1e-8)
@@ -108,12 +110,12 @@ def solve(data,epochs=1000):
   result=minimize(fun,latest[0],jac=True,method='L-BFGS-B',callback=callback,
                   options={'maxiter':epochs,'maxls':40,'ftol':1e-12,'gtol':1e-8,'maxcor':20})
   latest[0]=result.x;message=str(result.message)
- except Satisfied:message='All82 native area-count and signed-orientation constraints satisfied'
+ except Satisfied:message='All path, exact-front, area, orientation and contact constraints satisfied'
  fun(latest[0]);out=expand(latest[0])
  mask=data['constraint_mask'];n=data['constraint_normal'];v=data['constraint_value']
  error=float(abs((out*n).sum(2)[mask]-v[mask]).max(initial=0)*1000)
  if error>1e-5:raise ValueError(('Optimization erased approved line',error))
- return out,{'message':message,'iterations':iterations[0],'constraints_satisfied':safe(),
+ return out,{'message':message,'iterations':iterations[0],'optimization_sample_count':len(data['base'])+int('front_base' in data),'constraints_satisfied':safe(),
              'max_line_component_error_mm':error,
              'max_material_adjustment_mm':float(np.linalg.norm(out-data['delta'],axis=2).max()*1000),
              'frozen_vertices_unchanged':bool(np.array_equal(out[~data['free']],data['delta'][~data['free']]))}

@@ -1,0 +1,196 @@
+name: ORIGINAL_v1 R38 arm-to-side rebuild
+on:
+  push:
+    branches: [claude/original-v1-consolidated-review-20261014]
+    paths:
+      - '.github/workflows/original-review-r38.yml'
+      - 'scripts/tests/test_original_review_r38_marks.py'
+      - 'scripts/original_review_r38_target.py'
+      - 'scripts/export_original_review_r38_blender.py'
+      - 'scripts/solve_original_review_r38.py'
+      - 'scripts/tests/test_original_review_r38_solver.py'
+      - 'scripts/probe_original_review_r35_blender.py'
+      - 'scripts/original_review_contour.py'
+      - 'scripts/original_review_r35_reports.py'
+      - 'scripts/tests/test_original_review_r35_reporting.py'
+      - 'scripts/build_original_review_candidate_r38_blender.py'
+      - 'scripts/render_original_review_r38_blender.py'
+      - 'scripts/package_original_review_r38.py'
+      - 'scripts/measure_original_review_r38_orientation_blender.py'
+      - 'scripts/original_review_candidate_checks.py'
+      - 'scripts/tests/test_original_review_candidate_reporting.py'
+concurrency:
+  group: original-v1-r38-candidate
+  cancel-in-progress: false
+permissions:
+  contents: read
+jobs:
+  build-review-r38:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write
+    env:
+      LIBGL_ALWAYS_SOFTWARE: '1'
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y libegl1 libgl1-mesa-dri xvfb ffmpeg python3-pil python3-scipy fonts-dejavu-core
+      - name: Install pinned Blender 5.2.1
+        run: |
+          curl --fail --location --retry 3 https://download.blender.org/release/Blender5.2/blender-5.2.1-linux-x64.tar.xz --output /tmp/blender.tar.xz
+          echo 'a31f524fa99a527d3d52b7f5aaa68c34e1a19d5a1c9473f79c5cc610fd5b10e9  /tmp/blender.tar.xz' | sha256sum -c -
+          tar -xJf /tmp/blender.tar.xz -C /tmp
+      - name: Verify immutable parent model hash
+        run: |
+          /usr/bin/python3 - <<'PYHASH'
+          import hashlib,json
+          from pathlib import Path
+          p=Path('ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r37_20261016')
+          assert hashlib.sha256((p/'HGPT_ORIGINAL_V1_REVIEW_R37_CODEX.blend').read_bytes()).hexdigest()==json.loads((p/'r37_build.json').read_text())['sha256']
+          PYHASH
+      - name: Export parent geometry in a clean Blender process
+        run: /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/export_original_review_r38_blender.py
+      - name: Confirm parent fails the two new bilateral owner goals
+        run: |
+          set +e
+          HGPT_CONTOUR_NPZ=ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r37_20261016/probe/r35_contour_surfaces.npz /usr/bin/python3 scripts/tests/test_original_review_r38_marks.py > /tmp/r38-parent-red.txt 2>&1
+          result=$?
+          cat /tmp/r38-parent-red.txt
+          test "$result" = 1
+          grep -q 'FAILED (failures=4)' /tmp/r38-parent-red.txt
+      - name: Verify reporting failure cases
+        run: |
+          /usr/bin/python3 -m unittest discover -s scripts/tests -p test_original_review_candidate_reporting.py
+          /usr/bin/python3 -m unittest discover -s scripts/tests -p test_original_review_r35_reporting.py
+          /usr/bin/python3 scripts/tests/test_original_review_r38_solver.py
+      - name: Solve coupled material-area constraints for both paths
+        run: /usr/bin/python3 scripts/solve_original_review_r38.py /tmp/r38-response/response.npz /tmp/r38-response/solved.npz
+      - name: Build separate R38 with original guards
+        if: hashFiles('ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r38_20261017/HGPT_ORIGINAL_V1_REVIEW_R38_CODEX.blend') == ''
+        run: /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/build_original_review_candidate_r38_blender.py -- build
+      - name: Run fixed front goals on R38 and retain failures
+        shell: bash
+        run: |
+          set +e
+          set -uo pipefail
+          export HGPT_FRONT_TEST_BLEND=ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r38_20261017/HGPT_ORIGINAL_V1_REVIEW_R38_CODEX.blend
+          out=ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r38_20261017
+          /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/blender_tests/test_original_review_candidate_r34_front.py 2>&1 | tee "$out/front_test.txt"
+          result=${PIPESTATUS[0]}
+          printf '%s\n' "$result" > "$out/front_test_exit.txt"
+          exit 0
+      - name: Verify saved model against its build hash
+        run: |
+          /usr/bin/python3 - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          d = Path('ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r38_20261017')
+          expected = json.loads((d / 'r38_build.json').read_text())['sha256']
+          actual = hashlib.sha256((d / 'HGPT_ORIGINAL_V1_REVIEW_R38_CODEX.blend').read_bytes()).hexdigest()
+          assert actual == expected, (actual, expected)
+          PY
+      - name: Check preservation and measure both paths in fresh processes
+        shell: bash
+        run: |
+          set -euo pipefail
+          blender=/tmp/blender-5.2.1-linux-x64/blender
+          out=ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r38_20261017
+          r34=ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r34_20261016/HGPT_ORIGINAL_V1_REVIEW_R34_CODEX.blend
+          r38="$out/HGPT_ORIGINAL_V1_REVIEW_R38_CODEX.blend"
+          "$blender" --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/measure_original_review_r34_blender.py -- identity "$r38" "$out/identity.json"
+          base=ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r34_20261016
+          /usr/bin/python3 - <<'PYHASH'
+          import hashlib,json
+          from pathlib import Path
+          p=Path('ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r34_20261016')
+          assert hashlib.sha256((p/'HGPT_ORIGINAL_V1_REVIEW_R34_CODEX.blend').read_bytes()).hexdigest()==json.loads((p/'r34_build.json').read_text())['sha256']
+          PYHASH
+          cp "$base/r34_press.json" "$out/r34_press.json"
+          cp "$base/r34_benchmarks.json" "$out/r34_benchmarks.json"
+          "$blender" --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/measure_original_review_r34_blender.py -- press "$r38" "$out/r38_press.json"
+          "$blender" --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/measure_original_review_r34_blender.py -- benchmarks "$r38" "$out/r38_benchmarks.json"
+      - name: Recheck both original guard baselines on the final saved model
+        run: |
+          /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/measure_original_review_r34_blender.py -- guard ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r38_20261017/HGPT_ORIGINAL_V1_REVIEW_R38_CODEX.blend ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r38_20261017/r38_guard_recheck.json
+      - name: Recheck final saved-model orientation against parent at all82poses
+        run: /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/measure_original_review_r38_orientation_blender.py
+      - name: Render matching press views in fresh processes
+        if: hashFiles('ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r38_20261017/r37_r38_same_angle_comparison.jpg') == '' || hashFiles('ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r38_20261017/shoulder_press_r38_three_views.mp4') == ''
+        shell: bash
+        run: |
+          set -euo pipefail
+          blender=/tmp/blender-5.2.1-linux-x64/blender
+          out=ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r38_20261017
+          r37=ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r37_20261016/HGPT_ORIGINAL_V1_REVIEW_R37_CODEX.blend
+          r38="$out/HGPT_ORIGINAL_V1_REVIEW_R38_CODEX.blend"
+          for version in r37 r38; do
+            model="$r37"
+            if [ "$version" = r38 ]; then model="$r38"; fi
+            xvfb-run -a "$blender" --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/render_original_review_r38_blender.py -- "$model" "/tmp/r38-frames/$version"
+          done
+      - name: Measure final saved-model contour and retain all test failures
+        shell: bash
+        run: |
+          set -euo pipefail
+          out=ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r38_20261017
+          /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/probe_original_review_r35_blender.py -- "$out/HGPT_ORIGINAL_V1_REVIEW_R38_CODEX.blend" "$out/probe"
+          set +e
+          HGPT_CONTOUR_NPZ="$out/probe/r35_contour_surfaces.npz" /usr/bin/python3 scripts/tests/test_original_review_r37_contour.py > "$out/contour_test.txt" 2>&1
+          result=$?
+          printf '%s\n' "$result" > "$out/contour_test_exit.txt"
+          cat "$out/contour_test.txt"
+          HGPT_CONTOUR_NPZ="$out/probe/r35_contour_surfaces.npz" /usr/bin/python3 scripts/tests/test_original_review_r38_marks.py > "$out/marks_test.txt" 2>&1
+          result=$?
+          printf '%s\n' "$result" > "$out/marks_test_exit.txt"
+          cat "$out/marks_test.txt"
+
+      - name: Render exact junction closeups for both versions
+        shell: bash
+        run: |
+          set -euo pipefail
+          blender=/tmp/blender-5.2.1-linux-x64/blender
+          for version in r37 r38; do
+            date=20261016
+            if [ "$version" = r38 ]; then date=20261017; fi
+            model="ORIGINAL_V1_WORK/anatomy/candidates/codex_review_${version}_${date}/HGPT_ORIGINAL_V1_REVIEW_${version^^}_CODEX.blend"
+            xvfb-run -a "$blender" --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/render_original_review_r38_blender.py -- "$model" "/tmp/r38-junction/$version" junction_closeups
+            xvfb-run -a "$blender" --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/render_original_review_r38_blender.py -- "$model" "/tmp/r38-front/$version" front_closeups
+          done
+      - name: Package every regression, comparison and video
+        run: /usr/bin/python3 scripts/package_original_review_r38.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original-v1-r38-review-evidence
+          path: |
+            /tmp/r38-response/
+            /tmp/r38-junction/
+            /tmp/r38-front/
+            ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r38_20261017/
+            docs/CODEX_ORIGINAL_V1_REVIEW_CANDIDATE_R38_20261017.md
+      - name: Preserve candidate and evidence on the requested branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          branch=claude/original-v1-consolidated-review-20261014
+          git fetch origin "$branch"
+          test "$(git rev-parse HEAD)" = "$(git rev-parse FETCH_HEAD)"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r38_20261017 docs/CODEX_ORIGINAL_V1_REVIEW_CANDIDATE_R38_20261017.md
+          git commit -m 'Preserve R38 review experiment with tests, metrics, comparisons and video'
+          git push origin "HEAD:$branch"
+      - name: Require numerical success without hiding rejected experiments
+        run: |
+          /usr/bin/python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r38_20261017/r38_review.json')
+          report = json.loads(p.read_text())
+          assert report['status'] == 'NUMERIC_CHECKS_PASSED_AWAITING_VISUAL_REVIEW', report['status']
+          PY
+
+
+

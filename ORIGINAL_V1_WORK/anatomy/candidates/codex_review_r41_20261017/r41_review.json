@@ -19,7 +19,8 @@
     "r39_line_unchanged": true,
     "r40_front_unchanged": true,
     "strain": true,
-    "bounded_s7_update": true
+    "bounded_s7_update": true,
+    "final_dense_saved_strain": true
   },
   "guard_violations": [],
   "invariants": {
@@ -130,5 +131,12 @@
     }
   },
   "contour_test_passed": true,
-  "contour_test_exit": 0
+  "contour_test_exit": 0,
+  "final_dense_saved_strain": {
+    "marked_stretch": 19,
+    "top_stretch": 53,
+    "benchmark_max_collapse": 0,
+    "benchmark_samples": 41,
+    "test": "scripts/tests/test_original_review_r41_final_strain.py"
+  }
 }

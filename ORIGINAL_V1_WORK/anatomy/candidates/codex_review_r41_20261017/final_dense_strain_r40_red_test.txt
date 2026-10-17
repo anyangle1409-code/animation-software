@@ -1,0 +1,32 @@
+FFF
+======================================================================
+FAIL: test_all41_saved_benchmark_samples_have_no_crushed_triangles (__main__.SavedNativeStrain.test_all41_saved_benchmark_samples_have_no_crushed_triangles)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/4a7af4f914e1/r41-work/scripts/tests/test_original_review_r41_final_strain.py", line 16, in test_all41_saved_benchmark_samples_have_no_crushed_triangles
+    def test_all41_saved_benchmark_samples_have_no_crushed_triangles(self):self.assertEqual(max(x['current']['collapse'] for x in self.rows[41:82]),0)
+                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 0
+
+======================================================================
+FAIL: test_saved_marked_stretch (__main__.SavedNativeStrain.test_saved_marked_stretch)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/4a7af4f914e1/r41-work/scripts/tests/test_original_review_r41_final_strain.py", line 14, in test_saved_marked_stretch
+    def test_saved_marked_stretch(self):self.assertLessEqual(self.rows[25]['current']['stretch'],40)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 45 not less than or equal to 40
+
+======================================================================
+FAIL: test_saved_top_stretch (__main__.SavedNativeStrain.test_saved_top_stretch)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/4a7af4f914e1/r41-work/scripts/tests/test_original_review_r41_final_strain.py", line 15, in test_saved_top_stretch
+    def test_saved_top_stretch(self):self.assertLessEqual(self.rows[40]['current']['stretch'],70)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 80 not less than or equal to 70
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+FAILED (failures=3)

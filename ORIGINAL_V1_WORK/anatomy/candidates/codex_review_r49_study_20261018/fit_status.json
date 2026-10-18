@@ -1,0 +1,11 @@
+{
+  "fit_exit_code": 124,
+  "fit_completed": false,
+  "fit_timed_out": true,
+  "has_accepted_state": true,
+  "state_source": "accepted_main_fit_progress",
+  "model_saved": false,
+  "approved": false,
+  "native_validation": "PENDING",
+  "status": "PARTIAL_FIT_NATIVE_VALIDATION_PENDING"
+}

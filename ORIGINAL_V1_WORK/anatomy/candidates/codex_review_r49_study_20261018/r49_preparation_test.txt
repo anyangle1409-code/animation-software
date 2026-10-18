@@ -1,0 +1,6 @@
+test_all_parent_arrays_and_exact_scope_and_target_are_preserved (__main__.Preparation.test_all_parent_arrays_and_exact_scope_and_target_are_preserved) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.340s
+
+OK

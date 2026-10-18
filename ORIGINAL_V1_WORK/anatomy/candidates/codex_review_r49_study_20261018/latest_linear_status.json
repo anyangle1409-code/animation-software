@@ -1,0 +1,8 @@
+{
+  "call": 17,
+  "rows": 15713,
+  "columns": 7389,
+  "nnz": 4024870,
+  "trust_mm": 1.6875,
+  "status": "SOLVING"
+}

@@ -1,0 +1,79 @@
+R42_CONFIRMED_JUNCTION l [-2.694192615451077, -2.813901675473657, -2.7335551019485873, -2.920113971645766]
+FFFFR42_CONFIRMED_JUNCTION r [-1.446428532024799, -1.990272956062189, -2.3830260905026437, -2.7491442002900017]
+FFFF
+======================================================================
+FAIL: test_side_turns_into_body_at_confirmed_junction (__main__.OwnerConfirmedTransition.test_side_turns_into_body_at_confirmed_junction) (side='l', station=np.float64(-0.12))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r42_profile.py", line 22, in test_side_turns_into_body_at_confirmed_junction
+    with self.subTest(side=side,station=s):self.assertGreaterEqual(value,lo);self.assertLessEqual(value,hi)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: np.float64(-2.694192615451077) not greater than or equal to np.float64(20.0)
+
+======================================================================
+FAIL: test_side_turns_into_body_at_confirmed_junction (__main__.OwnerConfirmedTransition.test_side_turns_into_body_at_confirmed_junction) (side='l', station=np.float64(-0.1))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r42_profile.py", line 22, in test_side_turns_into_body_at_confirmed_junction
+    with self.subTest(side=side,station=s):self.assertGreaterEqual(value,lo);self.assertLessEqual(value,hi)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: np.float64(-2.813901675473657) not greater than or equal to np.float64(12.0)
+
+======================================================================
+FAIL: test_side_turns_into_body_at_confirmed_junction (__main__.OwnerConfirmedTransition.test_side_turns_into_body_at_confirmed_junction) (side='l', station=np.float64(-0.08))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r42_profile.py", line 22, in test_side_turns_into_body_at_confirmed_junction
+    with self.subTest(side=side,station=s):self.assertGreaterEqual(value,lo);self.assertLessEqual(value,hi)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: np.float64(-2.7335551019485873) not greater than or equal to np.float64(6.0)
+
+======================================================================
+FAIL: test_side_turns_into_body_at_confirmed_junction (__main__.OwnerConfirmedTransition.test_side_turns_into_body_at_confirmed_junction) (side='l', station=np.float64(-0.06))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r42_profile.py", line 22, in test_side_turns_into_body_at_confirmed_junction
+    with self.subTest(side=side,station=s):self.assertGreaterEqual(value,lo);self.assertLessEqual(value,hi)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: np.float64(-2.920113971645766) not greater than or equal to np.float64(0.0)
+
+======================================================================
+FAIL: test_side_turns_into_body_at_confirmed_junction (__main__.OwnerConfirmedTransition.test_side_turns_into_body_at_confirmed_junction) (side='r', station=np.float64(-0.12))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r42_profile.py", line 22, in test_side_turns_into_body_at_confirmed_junction
+    with self.subTest(side=side,station=s):self.assertGreaterEqual(value,lo);self.assertLessEqual(value,hi)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: np.float64(-1.446428532024799) not greater than or equal to np.float64(20.0)
+
+======================================================================
+FAIL: test_side_turns_into_body_at_confirmed_junction (__main__.OwnerConfirmedTransition.test_side_turns_into_body_at_confirmed_junction) (side='r', station=np.float64(-0.1))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r42_profile.py", line 22, in test_side_turns_into_body_at_confirmed_junction
+    with self.subTest(side=side,station=s):self.assertGreaterEqual(value,lo);self.assertLessEqual(value,hi)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: np.float64(-1.990272956062189) not greater than or equal to np.float64(12.0)
+
+======================================================================
+FAIL: test_side_turns_into_body_at_confirmed_junction (__main__.OwnerConfirmedTransition.test_side_turns_into_body_at_confirmed_junction) (side='r', station=np.float64(-0.08))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r42_profile.py", line 22, in test_side_turns_into_body_at_confirmed_junction
+    with self.subTest(side=side,station=s):self.assertGreaterEqual(value,lo);self.assertLessEqual(value,hi)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: np.float64(-2.3830260905026437) not greater than or equal to np.float64(6.0)
+
+======================================================================
+FAIL: test_side_turns_into_body_at_confirmed_junction (__main__.OwnerConfirmedTransition.test_side_turns_into_body_at_confirmed_junction) (side='r', station=np.float64(-0.06))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r42_profile.py", line 22, in test_side_turns_into_body_at_confirmed_junction
+    with self.subTest(side=side,station=s):self.assertGreaterEqual(value,lo);self.assertLessEqual(value,hi)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: np.float64(-2.7491442002900017) not greater than or equal to np.float64(0.0)
+
+----------------------------------------------------------------------
+Ran 1 test in 0.075s
+
+FAILED (failures=8)

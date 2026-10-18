@@ -1,0 +1,35 @@
+[
+  {
+    "worst_constraint": "profile_upper",
+    "epoch": 0,
+    "seconds": 7.5,
+    "constraints": 5270,
+    "violation_mm": 22.161065591333298,
+    "linearized_slack_mm": 21.66238609227698,
+    "step_mm": 0.2157563965167864,
+    "prior_motion_excess_mm": 0.0,
+    "approved_outline_error_mm": 40.79045243123919
+  },
+  {
+    "worst_constraint": "profile_upper",
+    "epoch": 1,
+    "seconds": 15.6,
+    "constraints": 5502,
+    "violation_mm": 22.03506397904855,
+    "linearized_slack_mm": 21.539105493810478,
+    "step_mm": 0.8625518054025146,
+    "prior_motion_excess_mm": 0.11362513134089564,
+    "approved_outline_error_mm": 39.894308955357175
+  },
+  {
+    "worst_constraint": "profile_upper",
+    "epoch": 2,
+    "seconds": 30.3,
+    "constraints": 6509,
+    "violation_mm": 21.533889076376756,
+    "linearized_slack_mm": 20.88883862425939,
+    "step_mm": 0.6343454421042132,
+    "prior_motion_excess_mm": 0.4541011495574566,
+    "approved_outline_error_mm": 39.31150904794628
+  }
+]

@@ -1,0 +1,7 @@
+test_three_step_preflight_reduces_actual_outline_error_by_one_mm (__main__.EarlyProgress.test_three_step_preflight_reduces_actual_outline_error_by_one_mm) ... R49_THREE_STEP_OUTLINE_IMPROVEMENT_MM 1.7234542685385656
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.190s
+
+OK

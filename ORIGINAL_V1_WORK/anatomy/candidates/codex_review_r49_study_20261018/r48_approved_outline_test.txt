@@ -1,0 +1,14 @@
+R48_APPROVED_OUTLINE_MAX_ERROR_MM 36.75435350089587
+F
+======================================================================
+FAIL: test_marked_rear_and_three_quarter_outlines_stay_within_one_mm (__main__.ApprovedOutline.test_marked_rear_and_three_quarter_outlines_stay_within_one_mm)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r48_approved_outline.py", line 32, in test_marked_rear_and_three_quarter_outlines_stay_within_one_mm
+    self.assertLessEqual(error,1.)
+AssertionError: 36.75435350089587 not less than or equal to 1.0
+
+----------------------------------------------------------------------
+Ran 1 test in 1.320s
+
+FAILED (failures=1)

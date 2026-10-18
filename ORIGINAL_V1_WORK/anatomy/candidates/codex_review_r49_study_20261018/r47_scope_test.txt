@@ -1,0 +1,17 @@
+test_elbow_and_distal_arm_are_preserved (__main__.AuthorizedScope.test_elbow_and_distal_arm_are_preserved) ... ok
+test_previously_locked_root_can_move_inward (__main__.AuthorizedScope.test_previously_locked_root_can_move_inward) ... FAIL
+test_source_and_dense_displacement_caps_are_unchanged (__main__.AuthorizedScope.test_source_and_dense_displacement_caps_are_unchanged) ... ok
+test_top_and_anchors_and_outside_scope_are_preserved (__main__.AuthorizedScope.test_top_and_anchors_and_outside_scope_are_preserved) ... ok
+
+======================================================================
+FAIL: test_previously_locked_root_can_move_inward (__main__.AuthorizedScope.test_previously_locked_root_can_move_inward)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r47_authorized_scope.py", line 22, in test_previously_locked_root_can_move_inward
+    self.assertGreater(float(change[ids,0].min()),.003)
+AssertionError: 0.0009923776799550023 not greater than 0.003
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.932s
+
+FAILED (failures=1)

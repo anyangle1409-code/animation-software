@@ -1,0 +1,7 @@
+test_missing_accepted_state_records_blocker_before_raising (__main__.FitRetention.test_missing_accepted_state_records_blocker_before_raising) ... ok
+test_timeout_retains_preflight_and_reports_incomplete (__main__.FitRetention.test_timeout_retains_preflight_and_reports_incomplete) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.002s
+
+OK

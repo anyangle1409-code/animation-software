@@ -1,0 +1,6 @@
+test_active_edge_derivative_in_both_review_views (__main__.OutlineDerivative.test_active_edge_derivative_in_both_review_views) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.329s
+
+OK

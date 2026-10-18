@@ -1,0 +1,12 @@
+{
+  "value": 3692.801411833977,
+  "crease_excess_deg": 20.000010223530584,
+  "posterior_crease_excess_deg": 2.030354648083826,
+  "contour_projection_max_mm": 4.425966084508959,
+  "source_max_mm": 44.85695455863437,
+  "elapsed_s": 166.468355178833,
+  "success": false,
+  "message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+  "iterations": 3000,
+  "gradient_relative_error": 4.1152422114443254e-07
+}

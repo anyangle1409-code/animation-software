@@ -1,0 +1,151 @@
+name: ORIGINAL_v1 R48 approved-outline joint surface repair study
+'on':
+  push:
+    branches:
+    - claude/original-v1-consolidated-review-20261014
+    paths:
+    - .github/workflows/original-review-r48.yml
+permissions:
+  contents: write
+  actions: read
+jobs:
+  native-shape-study:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    env:
+      LIBGL_ALWAYS_SOFTWARE: '1'
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+    - uses: actions/checkout@v4
+    - name: Refuse to overwrite R48 study
+      run: test ! -e ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r48_study_20261018
+    - run: sudo apt-get update && sudo apt-get install -y libegl1 libgl1-mesa-dri xvfb ffmpeg python3-pil python3-scipy
+        fonts-dejavu-core
+    - name: Install pinned Blender 5.2.1
+      run: 'curl --fail --location --retry 3 https://download.blender.org/release/Blender5.2/blender-5.2.1-linux-x64.tar.xz
+        --output /tmp/blender.tar.xz
+
+        echo ''a31f524fa99a527d3d52b7f5aaa68c34e1a19d5a1c9473f79c5cc610fd5b10e9  /tmp/blender.tar.xz'' | sha256sum
+        -c -
+
+        tar -xJf /tmp/blender.tar.xz -C /tmp
+
+        '
+    - name: Verify immutable parent model hash
+      run: '/usr/bin/python3 - <<''PYHASH''
+
+        import hashlib,json
+
+        from pathlib import Path
+
+        p=Path(''ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r41_20261017'')
+
+        assert hashlib.sha256((p/''HGPT_ORIGINAL_V1_REVIEW_R41_CODEX.blend'').read_bytes()).hexdigest()==json.loads((p/''r41_build.json'').read_text())[''sha256'']
+
+        PYHASH
+
+        '
+    - uses: actions/download-artifact@v4
+      with:
+        name: original-v1-r47-shape-study
+        run-id: 39153244090
+        github-token: ${{ github.token }}
+        path: /tmp/r47-previous
+    - name: Prepare exact R47 outline and unchanged source arrays; fit jointly under safety gates
+      run: "mkdir -p /tmp/r48-response\nprevious=/tmp/r47-previous/tmp/r47-response\n/usr/bin/python3 scripts/prepare_original_review_r48.py\
+        \ \"$previous/source.npz\" \"$previous/solved.npz\" /tmp/r48-response/source.npz /tmp/r48-response/zero.npz\n\
+        export HGPT_R48_PARENT_RESPONSE=\"$previous/source.npz\" HGPT_R48_RESPONSE=/tmp/r48-response/source.npz\
+        \ HGPT_R48_APPROVED_SOLUTION=\"$previous/solved.npz\"\n/usr/bin/python3 scripts/tests/test_original_review_r48_preparation.py\
+        \ -v > /tmp/r48-response/r48_preparation_test.txt 2>&1\nprintf '0\\n' > /tmp/r48-response/r48_preparation_test_exit.txt\n\
+        cat /tmp/r48-response/r48_preparation_test.txt\n/usr/bin/python3 scripts/tests/test_original_review_r48_outline_derivative.py\
+        \ -v > /tmp/r48-response/r48_derivative_test.txt 2>&1\nprintf '0\\n' > /tmp/r48-response/r48_derivative_test_exit.txt\n\
+        cat /tmp/r48-response/r48_derivative_test.txt\nset +e\ntimeout 25m env HGPT_R43_MATERIAL_FIELD=1 HGPT_R48_EPOCHS=120\
+        \ /usr/bin/python3 -u scripts/solve_original_review_r48.py /tmp/r48-response/source.npz /tmp/r48-response/zero.npz\
+        \ /tmp/r47-previous/tmp/r47-study/R47/native_probe.npz \"$previous/native_final.json\" /tmp/r48-response/solved.npz\
+        \ > /tmp/r48-response/fit.log 2>&1\nfit_code=$?\nprintf '%s\\n' \"$fit_code\" > /tmp/r48-response/fit_exit.txt\n\
+        set -e\n/usr/bin/python3 - <<'PYRETAIN'\nfrom pathlib import Path\nimport json,shutil\np=Path('/tmp/r48-response');code=int((p/'fit_exit.txt').read_text())\n\
+        if not (p/'solved.npz').exists():\n if not (p/'solved.npz.progress.npz').exists():raise RuntimeError('R48\
+        \ fitter produced no accepted state; inspect fit.log')\n shutil.copy2(p/'solved.npz.progress.npz',p/'solved.npz')\n\
+        \ history=json.loads((p/'solved.npz.progress.json').read_text())\n (p/'solved.npz.json').write_text(json.dumps(dict(status='PARTIAL_FIT_NOT_COMPLETED',fit_exit_code=code,history=history),indent=2)+'\\\
+        n')\n(p/'fit_status.json').write_text(json.dumps(dict(fit_exit_code=code,fit_completed=code==0,note='Retained\
+        \ state requires independent native checks and owner review.'),indent=2)+'\\n')\nPYRETAIN\ntail -20 /tmp/r48-response/fit.log\n\
+        set +e\nexport HGPT_R48_SOLUTION=/tmp/r48-response/solved.npz\nfor name in marked_surface approved_outline;\
+        \ do\n /usr/bin/python3 \"scripts/tests/test_original_review_r48_${name}.py\" > \"/tmp/r48-response/r48_${name}_test.txt\"\
+        \ 2>&1\n printf '%s\\n' \"$?\" > \"/tmp/r48-response/r48_${name}_test_exit.txt\"\n cat \"/tmp/r48-response/r48_${name}_test.txt\"\
+        \ndone\nexport HGPT_R47_RESPONSE=/tmp/r48-response/source.npz HGPT_R47_SOLUTION=/tmp/r48-response/solved.npz\n\
+        /usr/bin/python3 scripts/tests/test_original_review_r47_authorized_scope.py -v > /tmp/r48-response/r47_scope_test.txt\
+        \ 2>&1\nprintf '%s\\n' \"$?\" > /tmp/r48-response/r47_scope_test_exit.txt\ncat /tmp/r48-response/r47_scope_test.txt\n\
+        exit 0\n"
+      shell: bash
+    - name: Retain unchanged full-motion and back-surface check outcomes
+      shell: bash
+      run: "set +e\nexport HGPT_R43_RESPONSE=/tmp/r48-response/source.npz HGPT_R43_SOLUTION=/tmp/r48-response/solved.npz\n\
+        for name in motion back_surface; do\n /usr/bin/python3 \"scripts/tests/test_original_review_r43_${name}.py\"\
+        \ >\"/tmp/r48-response/r43_${name}_test.txt\" 2>&1\n printf '%s\\n' \"$?\" >\"/tmp/r48-response/r43_${name}_test_exit.txt\"\
+        \n cat \"/tmp/r48-response/r43_${name}_test.txt\"\ndone\nexit 0\n"
+    - name: Measure all83 native surface and contact responses
+      run: /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1
+        --python scripts/detect_original_review_r48_contacts_blender.py -- /tmp/r48-response/source.npz /tmp/r48-response/solved.npz
+        /tmp/r48-response/native_final.json
+    - name: Run13 unchanged movement benchmarks
+      run: /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1
+        --python scripts/validate_original_review_r48_benchmarks_blender.py -- /tmp/r48-response/source.npz /tmp/r48-response/solved.npz
+        /tmp/r48-response/benchmarks.json
+    - name: Render native shape study and press frames; verify protected identity
+      run: xvfb-run -a /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code
+        1 --python scripts/render_original_review_r48_blender.py -- /tmp/r48-response/source.npz /tmp/r48-response/solved.npz
+        /tmp/r48-study
+    - name: Retain all historical contour and front test results unchanged
+      shell: bash
+      run: "set +e\nexport HGPT_CONTOUR_NPZ=/tmp/r48-study/R48/native_probe.npz\nexport HGPT_LINE_PARENT_NPZ=ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r38_20261017/probe/r35_contour_surfaces.npz\n\
+        for name in r42_profile r37_contour r38_marks r41_line r41_front; do\n /usr/bin/python3 \"scripts/tests/test_original_review_${name}.py\"\
+        \ >\"/tmp/r48-response/${name}_test.txt\" 2>&1\n printf '%s\\n' \"$?\" >\"/tmp/r48-response/${name}_test_exit.txt\"\
+        \n cat \"/tmp/r48-response/${name}_test.txt\"\ndone\nexit 0\n"
+    - name: Package actual full-outline comparisons and press videos; no model save
+      run: /usr/bin/python3 scripts/package_original_review_r48.py
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: original-v1-r48-review
+        path: '/tmp/r48-response/
+
+          /tmp/r48-study/
+
+          ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r48_study_20261018/'
+        retention-days: 14
+    - name: Commit study evidence normally to authorized branch
+      run: 'git config user.name ''github-actions[bot]''
+
+        git config user.email ''41898282+github-actions[bot]@users.noreply.github.com''
+
+        git add ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r48_study_20261018/ docs/CODEX_ORIGINAL_V1_REVIEW_CANDIDATE_R48_20261018.md
+
+        git commit -m ''R48 native inward shape study; retain all failures; no saved model''
+
+        git push origin HEAD:claude/original-v1-consolidated-review-20261014
+
+        '
+    - name: Require honest study status and protected identity; never accept a model
+      run: '/usr/bin/python3 - <<''PYREQUIRE''
+
+        from pathlib import Path
+
+        import json
+
+        p=Path(''ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r48_study_20261018'')
+
+        z=json.loads((p/''r48_review.json'').read_text())
+
+        assert z[''status'']==''UNSAVED_SHAPE_STUDY_NOT_ACCEPTED'' and not z[''model_saved''] and not z[''approved'']
+
+        assert all(z[''protected_identity''].values())
+
+        assert not list(p.glob(''*.blend''))
+
+        PYREQUIRE
+
+        '
+concurrency:
+  group: original-v1-r48-surface-study
+  cancel-in-progress: true

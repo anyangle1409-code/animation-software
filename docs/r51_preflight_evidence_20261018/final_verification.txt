@@ -1,0 +1,11 @@
+lp 0 Ran 4 tests in 0.129s | OK
+bounded_proposal 0 Ran 3 tests in 0.072s | OK
+safety_policy 0 Ran 1 test in 0.053s | OK
+retention 0 Ran 3 tests in 0.027s | OK
+preparation 0 Ran 1 test in 0.065s | OK
+preflight 0 Ran 1 test in 0.000s | OK
+approved_outline 0 Ran 1 test in 1.244s | OK
+scope 0 Ran 4 tests in 0.865s | OK
+marked_surface 1 Ran 1 test in 0.435s | FAILED (failures=1)
+motion 1 Ran 1 test in 0.525s | FAILED (failures=1)
+back_surface 1 Ran 1 test in 1.780s | FAILED (failures=1)

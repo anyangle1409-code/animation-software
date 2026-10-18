@@ -1,0 +1,25 @@
+[
+  {
+    "repair_score": 30049.925233522255,
+    "repair_components": {
+      "area_upper": 80.57649172820656,
+      "area_lower": 0.04258875589281708,
+      "orientation": 128.1199798715331,
+      "contact": 25891.652197917712,
+      "front": 8.375683192556043,
+      "posterior": 184.47238810481093,
+      "motion": 3756.685903951545
+    },
+    "nonlinear_safety_passed": false,
+    "study_only": true,
+    "worst_constraint": "posterior_normal_cone",
+    "epoch": 0,
+    "seconds": 9.0,
+    "constraints": 49211,
+    "maximum_scaled_linear_residual": 509.6155628419781,
+    "linear_repair_objective": 8936.340164221088,
+    "step_mm": 1.948557152234526,
+    "prior_motion_excess_mm": 3.2269848088798936,
+    "approved_outline_error_mm": 0.9088975385311282
+  }
+]

@@ -1,0 +1,15 @@
+{
+  "proposal_optimal": false,
+  "algorithm": "bounded_diagonal_primal_dual_then_verified_hard_projection",
+  "requested_iterations": 400,
+  "iterations": 400,
+  "projection_failures": [],
+  "seconds": 7.6173864839997805,
+  "hard_violation": 9.50267555147738e-08,
+  "bound_violation": 0.0,
+  "projection_max_control_change_mm": 0.11468983537027544,
+  "objective": 8936.340164221088,
+  "initial_objective": 11285.296347546338,
+  "original_rows": 49211,
+  "iterated_rows": 37516
+}

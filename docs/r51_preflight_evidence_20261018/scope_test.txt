@@ -1,0 +1,9 @@
+test_elbow_and_distal_arm_are_preserved (__main__.AuthorizedScope.test_elbow_and_distal_arm_are_preserved) ... ok
+test_previously_locked_root_can_move_inward (__main__.AuthorizedScope.test_previously_locked_root_can_move_inward) ... ok
+test_source_and_dense_displacement_caps_are_unchanged (__main__.AuthorizedScope.test_source_and_dense_displacement_caps_are_unchanged) ... ok
+test_top_and_anchors_and_outside_scope_are_preserved (__main__.AuthorizedScope.test_top_and_anchors_and_outside_scope_are_preserved) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.865s
+
+OK

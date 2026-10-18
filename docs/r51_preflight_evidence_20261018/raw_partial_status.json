@@ -1,0 +1,13 @@
+{
+  "status": "Time limit reached",
+  "seconds": 12.552767164000215,
+  "value_valid": false,
+  "size": 43372,
+  "expected_size": 43372,
+  "finite": true,
+  "optimal": false,
+  "hard_violation": 0.9903033095841016,
+  "bound_violation": 1783.8697857656925,
+  "objective": 11518.788429789282,
+  "initial_objective": 11285.296347546338
+}

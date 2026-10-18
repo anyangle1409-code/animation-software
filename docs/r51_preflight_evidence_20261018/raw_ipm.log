@@ -1,0 +1,51 @@
+Running HiGHS 1.8.0 (git hash: 222cce7): Copyright (c) 2024 HiGHS under MIT licence terms
+WARNING: LP matrix packed vector contains 500045 |values| in [3.3834e-28, 9.99998e-10] less than or equal to 1e-09: ignored
+Coefficient ranges:
+  Matrix [1e-09, 1e+00]
+  Cost   [2e-16, 4e+01]
+  Bound  [1e+00, 1e+00]
+  RHS    [6e-10, 4e+02]
+Presolving model
+37368 rows, 43246 cols, 8763843 nonzeros  0s
+37112 rows, 43216 cols, 8693165 nonzeros  2s
+Presolve : Reductions: rows 37112(-404); columns 43216(-156); elements 8693165(-92915)
+Solving the presolved LP
+IPX model has 37112 rows, 43459 columns and 8693408 nonzeros
+Input
+    Number of variables:                                43459
+    Number of free variables:                           0
+    Number of constraints:                              37112
+    Number of equality constraints:                     243
+    Number of matrix entries:                           8693408
+    Matrix range:                                       [1e-09, 1e+00]
+    RHS range:                                          [6e-10, 1e+00]
+    Objective range:                                    [2e-16, 4e+01]
+    Bounds range:                                       [8e-04, 2e+00]
+Preprocessing
+    Dualized model:                                     no
+    Number of dense columns:                            0
+    Range of scaling factors:                           [1.00e+00, 6.71e+07]
+IPX version 1.0
+Interior point solve
+ Iter     P.res    D.res            P.obj           D.obj        mu     Time
+   0   3.58e+00 3.66e+01   2.68206540e+02 -4.38721099e+04  1.33e+02       1s
+   1   1.03e+00 1.10e+01   1.10697396e+05 -3.94324686e+04  4.14e+01       2s
+   2   4.38e-01 1.88e+00   1.27893570e+05 -3.00592599e+04  9.93e+00       2s
+   3   3.41e-02 2.94e-02   8.11976148e+04 -1.58127593e+04  1.34e+00       3s
+   4   1.08e-02 7.19e-03   2.95472815e+04 -6.08027532e+03  4.55e-01       3s
+   5   5.12e-03 2.72e-03   1.76065220e+04 -3.40039293e+03  2.59e-01       4s
+   6   2.66e-03 1.04e-03   9.43932238e+03 -1.65320489e+03  1.34e-01       5s
+   7   8.68e-04 3.41e-04   4.03440062e+03 -8.27387595e+02  5.77e-02       6s
+   8   3.99e-04 1.45e-04   2.26542618e+03 -4.20417642e+02  3.16e-02       8s
+Summary
+    Runtime:                                            9.22s
+    Status interior point solve:                        time limit
+    Status crossover:                                   not run
+WARNING: Ipx: Stopped
+WARNING: Ipx: IPM       reached time limit
+WARNING: LP solver residuals: primal = 0.000399362; dual = 0.00346059 yield num/max/sum primal (37111/0.000399362/14.7085) and dual (42124/0.00346059/11.2785) corrections
+Model status        : Time limit reached
+IPM       iterations: 8
+Objective value     :  2.2649339761e+03
+HiGHS run time      :         12.54
+RAW_PARTIAL_DIAGNOSTIC {"status": "Time limit reached", "seconds": 12.552767164000215, "value_valid": false, "size": 43372, "expected_size": 43372, "finite": true, "optimal": false, "hard_violation": 0.9903033095841016, "bound_violation": 1783.8697857656925, "objective": 11518.788429789282, "initial_objective": 11285.296347546338}

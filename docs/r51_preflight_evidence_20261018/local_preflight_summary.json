@@ -1,0 +1,33 @@
+{
+  "status": "LOCAL_PREFLIGHT_ONLY_UNSAFE_NOT_ACCEPTED",
+  "model_saved": false,
+  "approved": false,
+  "native_media_created": false,
+  "source_sha256": "2a6c01cf7eacd3d1ceb47ae9f131f76dd0487fce5d3518d5cd1df65bc059fa8d",
+  "seed_sha256": "c777f0dd05e7866c0f56b64af68edb6441ce2f1799069f00bf09bce5c3690241",
+  "source_parent_commit": "f88340bf92fbc4909dd64b8520d8772eff8094be",
+  "preflight_seconds": 53.9,
+  "retained_steps": 3,
+  "repair_score_reduction_pct": 31.425610887195177,
+  "approved_outline_error_mm": 0.948415705866873,
+  "marked_reversed_faces": 9,
+  "back_motion_excess_mm": 2.6222492393138825,
+  "posterior_crease_excess_degrees": 176.80511411637914,
+  "tests": {
+    "lp": 0,
+    "bounded_proposal": 0,
+    "safety_policy": 0,
+    "retention": 0,
+    "preparation": 0,
+    "preflight": 0,
+    "approved_outline": 0,
+    "scope": 0,
+    "marked_surface": 1,
+    "motion": 1,
+    "back_surface": 1
+  },
+  "nonoptimal_proposals": true,
+  "benchmark_harness_issue": "Two prototype benchmarks timed out before optimization due repeated NpzFile metadata decompression; fixed by caching scales. These are not optimizer performance measurements.",
+  "raw_solver_point": "REJECTED: value_valid false, hard violation0.9903, control bound violation1783.8698; never applied.",
+  "diagnostic_log_correction": "Early preflight log backtracking reason inherited stale nonprofile gate state. Production now logs actual material/merit/outline values; the retention condition and resulting geometry are unchanged."
+}

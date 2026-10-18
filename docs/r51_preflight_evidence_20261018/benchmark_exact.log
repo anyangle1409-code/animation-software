@@ -1,0 +1,10 @@
+R51_EXACT_PRESOLVE {"original_rows": 49211, "reduced_rows": 37516, "controls": 6606, "original_slacks": 48461, "remaining_slacks": 36766, "linear_rows": 8537, "zero_rows": 3158, "trust_mm": 1.125, "status": "SOLVING"}
+R51_LINEAR_FAILED {"original_rows": 49211, "reduced_rows": 37516, "controls": 6606, "original_slacks": 48461, "remaining_slacks": 36766, "linear_rows": 8537, "zero_rows": 3158, "trust_mm": 1.125, "status": "FAILED", "seconds": 47.68259111200018, "solver_status": 1, "solver_message": "Time limit reached. (HiGHS Status 13: model_status is Time limit reached; primal_status is None)"}
+Traceback (most recent call last):
+  File "/workspace/scratch/f2de7ed1f07f/r51-work/diagnostics/benchmark_exact.py", line 8, in <module>
+    x,f=step(A,d['rhs'],float(d['trust']),d['labels'].tolist(),d['scales'])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/f2de7ed1f07f/r51-work/scripts/original_review_r51_lp.py", line 47, in step
+    report['status']='FAILED';record();print('R51_LINEAR_FAILED',json.dumps(report),flush=True);raise RuntimeError(result.message)
+                                                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Time limit reached. (HiGHS Status 13: model_status is Time limit reached; primal_status is None)

@@ -1,0 +1,13 @@
+F..
+======================================================================
+FAIL: test_reduces_combined_loss_and_retains_hard_bounds (__main__.BoundedProposal.test_reduces_combined_loss_and_retains_hard_bounds)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/f2de7ed1f07f/r51-work/scripts/tests/test_original_review_r51_bounded_proposal.py", line 14, in test_reduces_combined_loss_and_retains_hard_bounds
+    self.assertGreater(float(x[0]),1.98)
+AssertionError: 0.0 not greater than 1.98
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+FAILED (failures=1)

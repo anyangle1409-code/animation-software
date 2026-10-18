@@ -1,0 +1,78 @@
+{
+  "status": "UNSAVED_UNACCEPTED_REPAIR_SEARCH",
+  "approved": false,
+  "model_saved": false,
+  "initial_repair_score": 35483.28232270044,
+  "history": [
+    {
+      "repair_score": 30049.925233522255,
+      "repair_components": {
+        "area_upper": 80.57649172820656,
+        "area_lower": 0.04258875589281708,
+        "orientation": 128.1199798715331,
+        "contact": 25891.652197917712,
+        "front": 8.375683192556043,
+        "posterior": 184.47238810481093,
+        "motion": 3756.685903951545
+      },
+      "nonlinear_safety_passed": false,
+      "study_only": true,
+      "worst_constraint": "posterior_normal_cone",
+      "epoch": 0,
+      "seconds": 16.4,
+      "constraints": 49211,
+      "maximum_scaled_linear_residual": 509.6155628419781,
+      "linear_repair_objective": 8936.340164221088,
+      "step_mm": 1.948557152234526,
+      "prior_motion_excess_mm": 3.2269848088798936,
+      "approved_outline_error_mm": 0.9088975385311282
+    },
+    {
+      "repair_score": 26439.458580881066,
+      "repair_components": {
+        "area_upper": 79.72981504837887,
+        "area_lower": 0.03405127801096698,
+        "orientation": 116.39955327151779,
+        "contact": 23447.002236204506,
+        "front": 7.8544219209043895,
+        "posterior": 171.33999365038233,
+        "motion": 2617.0985095073665
+      },
+      "nonlinear_safety_passed": false,
+      "study_only": true,
+      "worst_constraint": "posterior_normal_cone",
+      "epoch": 1,
+      "seconds": 35.1,
+      "constraints": 51169,
+      "maximum_scaled_linear_residual": 536.0630380410256,
+      "linear_repair_objective": 6733.437382016179,
+      "step_mm": 1.4595770507221406,
+      "prior_motion_excess_mm": 2.9302757027797255,
+      "approved_outline_error_mm": 0.9035567173252546
+    },
+    {
+      "repair_score": 24332.44408996369,
+      "repair_components": {
+        "area_upper": 77.64589422849757,
+        "area_lower": 0.020232533766207494,
+        "orientation": 110.11366439544989,
+        "contact": 21844.44642759931,
+        "front": 7.764514569149206,
+        "posterior": 161.77190128888344,
+        "motion": 2130.6814553486356
+      },
+      "nonlinear_safety_passed": false,
+      "study_only": true,
+      "worst_constraint": "posterior_normal_cone",
+      "epoch": 2,
+      "seconds": 53.9,
+      "constraints": 49160,
+      "maximum_scaled_linear_residual": 114.6293343348715,
+      "linear_repair_objective": 5721.0702054813055,
+      "step_mm": 1.0726036638386771,
+      "prior_motion_excess_mm": 2.749415903921175,
+      "approved_outline_error_mm": 0.948415705866873
+    }
+  ],
+  "maximum_update_mm": 43.376546558200324
+}

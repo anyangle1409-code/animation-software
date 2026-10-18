@@ -1,0 +1,8 @@
+test_reduces_combined_loss_and_retains_hard_bounds (__main__.BoundedProposal.test_reduces_combined_loss_and_retains_hard_bounds) ... ok
+test_rejects_infeasible_hard_bounds (__main__.BoundedProposal.test_rejects_infeasible_hard_bounds) ... ok
+test_rejects_nonfinite_input (__main__.BoundedProposal.test_rejects_nonfinite_input) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.072s
+
+OK

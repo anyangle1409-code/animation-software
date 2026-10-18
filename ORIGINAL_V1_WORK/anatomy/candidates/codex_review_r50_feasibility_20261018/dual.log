@@ -1,0 +1,13 @@
+R50_MATERIAL_FIELD (81654, 7389) 1199499
+R50_INITIAL_UNSAFE_STUDY {"score": 35483.28232270044, "components": {"area_upper": 87.40613337118641, "area_lower": 0.03384811126826824, "orientation": 147.14046931111145, "contact": 29999.096325742874, "front": 9.06463592185521, "posterior": 198.21735569535178, "motion": 5042.323554546794}, "outline_error_mm": 0.9077521283195056}
+R50_COMBINED_LP_BEGIN 49211 6606 48461
+Traceback (most recent call last):
+  File "/workspace/scratch/f2de7ed1f07f/r50-work/diagnostics/probe_dual_r50.py", line 194, in <module>
+    solve(d,np.load(initial)['delta'],ref,json.loads(Path(contacts).read_text())['contacts'],dest,epochs=int(os.environ.get('HGPT_R50_EPOCHS','2')))
+  File "/workspace/scratch/f2de7ed1f07f/r50-work/diagnostics/probe_dual_r50.py", line 158, in solve
+    A=rows.matrix();m=A.shape[0];movement,z=linear_step(A if field is None else (A@field).tocsr(),np.asarray(rows.rhs),trust,np.array([not name.startswith(('profile_','material_bound','dense_material_bound')) for name in rows.labels]),profile_opt_tolerance=.001)
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/f2de7ed1f07f/r50-work/diagnostics/dual_lp.py", line 17, in step
+    if not res.success:raise RuntimeError(res.message)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Time limit reached. (HiGHS Status 13: model_status is Time limit reached; primal_status is None)

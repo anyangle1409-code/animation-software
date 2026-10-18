@@ -1,0 +1,10 @@
+R50_MATERIAL_FIELD (81654, 7389) 1199499
+R50_INITIAL_UNSAFE_STUDY {"score": 44142.57809919897, "components": {"area_upper": 104.39930254158935, "area_lower": 0.048956760254605616, "orientation": 180.35629872693175, "contact": 35941.923418034756, "front": 10.069537820819477, "posterior": 231.27082910048222, "motion": 7674.509756214132}, "outline_error_mm": 0.0}
+R46_LP_PHASE_I 6511 46364 843.9512860117029
+R50_CONE_CUTS 0 0 16214
+R46_LP_PHASE_I 6511 62578 843.9512860117029
+R50_CONE_CUTS 0 1 11328
+R50_FEASIBILITY {"repair_score": 44084.816434254026, "repair_components": {"area_upper": 104.29290399929266, "area_lower": 0.03792316414596627, "orientation": 178.75580100936835, "contact": 35883.86569217769, "front": 9.69002760162374, "posterior": 228.7317442764567, "motion": 7679.442342025445}, "nonlinear_safety_passed": false, "study_only": true, "worst_constraint": "posterior_normal_cone", "epoch": 0, "seconds": 41.5, "constraints": 62578, "violation_mm": 844.0791100077987, "linearized_slack_mm": 843.9512860117029, "step_mm": 0.8548163223224755, "prior_motion_excess_mm": 3.5568797202760436, "approved_outline_error_mm": 0.6980848387111993}
+R46_LP_PHASE_I 6511 61355 366.0993501671139
+R50_CONE_CUTS 1 0 16831
+R46_LP_PHASE_I 6511 78186 366.0993501671139

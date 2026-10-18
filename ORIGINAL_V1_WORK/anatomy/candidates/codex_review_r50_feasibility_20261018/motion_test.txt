@@ -1,0 +1,15 @@
+test_back_frame_acceleration_stays_near_r41 (__main__.BackMotion.test_back_frame_acceleration_stays_near_r41) ... R43_BACK_MOTION_EXCESS_MM 3.2269848050272554
+FAIL
+
+======================================================================
+FAIL: test_back_frame_acceleration_stays_near_r41 (__main__.BackMotion.test_back_frame_acceleration_stays_near_r41)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/f2de7ed1f07f/r47-work/scripts/tests/test_original_review_r43_motion.py", line 16, in test_back_frame_acceleration_stays_near_r41
+    self.assertLessEqual(excess,.5)
+AssertionError: 3.2269848050272554 not less than or equal to 0.5
+
+----------------------------------------------------------------------
+Ran 1 test in 0.500s
+
+FAILED (failures=1)

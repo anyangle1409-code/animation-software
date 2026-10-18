@@ -1,0 +1,12 @@
+{
+  "seconds": 3.85612014000003,
+  "lsqr_status": 7,
+  "iterations": 200,
+  "target_material_mm": 44.76633516835173,
+  "current_material_mm": 4.190927543847327,
+  "field_fit_residual_max_mm": 15.008379371251571,
+  "field_projected_outline_error_mm": 3.1217203377361114,
+  "current_outline_error_mm": 36.75435350089587,
+  "controls_max_abs_mm": 51.44113120732032,
+  "field_projected_material_max_mm": 46.38958389446606
+}

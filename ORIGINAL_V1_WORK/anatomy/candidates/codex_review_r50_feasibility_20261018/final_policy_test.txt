@@ -1,0 +1,6 @@
+test_final_nonlinear_gate_and_limits_match_r49 (__main__.SafetyPolicy.test_final_nonlinear_gate_and_limits_match_r49) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.038s
+
+OK

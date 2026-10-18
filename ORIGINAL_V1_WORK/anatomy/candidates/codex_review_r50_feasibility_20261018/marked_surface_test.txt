@@ -1,0 +1,15 @@
+test_no_new_triangle_normal_reversals_at_approved_pose (__main__.MarkedSurface.test_no_new_triangle_normal_reversals_at_approved_pose) ... R48_MARKED_NORMAL_REVERSALS 14
+FAIL
+
+======================================================================
+FAIL: test_no_new_triangle_normal_reversals_at_approved_pose (__main__.MarkedSurface.test_no_new_triangle_normal_reversals_at_approved_pose)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/f2de7ed1f07f/r48-work/scripts/tests/test_original_review_r48_marked_surface.py", line 18, in test_no_new_triangle_normal_reversals_at_approved_pose
+    self.assertEqual(reversals,0)
+AssertionError: 14 != 0
+
+----------------------------------------------------------------------
+Ran 1 test in 0.433s
+
+FAILED (failures=1)

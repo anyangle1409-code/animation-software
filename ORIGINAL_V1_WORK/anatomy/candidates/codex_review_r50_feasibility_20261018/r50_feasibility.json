@@ -1,0 +1,89 @@
+{
+  "candidate": "R50_FEASIBILITY",
+  "status": "BLOCKED_UNSAFE_SEARCH_NOT_ACCEPTED",
+  "approved": false,
+  "model_saved": false,
+  "native_media_created": false,
+  "full_native_checks": "NOT_RUN",
+  "benchmarks": "NOT_RUN",
+  "workflow_started": false,
+  "retained_search_steps": 2,
+  "combined_repair_error_reduction_pct": 19.61665165328361,
+  "approved_outline_error_mm": 0.9077521283195056,
+  "approved_outline_guard_mm": 1.0,
+  "marked_reversed_faces": 14,
+  "back_motion_excess_mm": 3.2269848050272554,
+  "back_motion_limit_mm": 0.5,
+  "posterior_crease_excess_degrees": 177.65880336848542,
+  "posterior_crease_limit_degrees": 2.0,
+  "test_exit_codes": {
+    "approved_outline": 0,
+    "marked_surface": 1,
+    "motion": 1,
+    "back_surface": 1,
+    "scope": 0,
+    "final_policy": 0,
+    "lp": 0
+  },
+  "source_branch_head": "f675c3bab43f8589de0f8d04102127aa1b9e4ace",
+  "source_sha256": "2a6c01cf7eacd3d1ceb47ae9f131f76dd0487fce5d3518d5cd1df65bc059fa8d",
+  "r47_seed_sha256": "15e25ac3ae2e6b446d3836d49d43d58de9889adaf7ff04a9379e1077e2043d71",
+  "r49_artifact_sha256": "f16479c0417bc3ca695ad0bbdd52e9dd83cae2b6c3b5495f2a78e3c4b31766a3",
+  "retained_delta_sha256": "c777f0dd05e7866c0f56b64af68edb6441ce2f1799069f00bf09bce5c3690241",
+  "search_failures": {
+    "outline_first_minimax": "one retained step; later process killed (exit137); two memory-heavy probes had overlapped; do not run these together",
+    "combined_with_prediction": "second LP timed out at90s after constraint count grew46364 to83173",
+    "combined_current_only": "two retained steps in132s; third LP timed out at90s; no completed three-step preflight",
+    "same_third_problem_dual_simplex": "same third-state trust1.125 and49211 rows;45s LP time limit; no successful proposal",
+    "interrupted_dual_setup": "earlier dual trial was interrupted (exit130) before its result; restart required same1.125 trust to compare the same problem"
+  },
+  "history": [
+    {
+      "repair_score": 40331.56468027888,
+      "repair_components": {
+        "area_upper": 94.6128870860034,
+        "area_lower": 0.052530254303692854,
+        "orientation": 165.9040762515852,
+        "contact": 33370.28117525147,
+        "front": 9.286929999185215,
+        "posterior": 215.1130486670725,
+        "motion": 6476.3140327692645
+      },
+      "nonlinear_safety_passed": false,
+      "study_only": true,
+      "worst_constraint": "posterior_normal_cone",
+      "epoch": 0,
+      "seconds": 53.8,
+      "constraints": 46364,
+      "violation_mm": 844.0791100077987,
+      "linearized_slack_mm": 13173.742546982106,
+      "step_mm": 0.8660254037844392,
+      "prior_motion_excess_mm": 3.5568797202760436,
+      "approved_outline_error_mm": 0.8354975650683993
+    },
+    {
+      "repair_score": 35483.28232270044,
+      "repair_components": {
+        "area_upper": 87.40613337118641,
+        "area_lower": 0.03384811126826824,
+        "orientation": 147.14046931111145,
+        "contact": 29999.096325742874,
+        "front": 9.06463592185521,
+        "posterior": 198.21735569535178,
+        "motion": 5042.323554546794
+      },
+      "nonlinear_safety_passed": false,
+      "study_only": true,
+      "worst_constraint": "posterior_normal_cone",
+      "epoch": 1,
+      "seconds": 132.0,
+      "constraints": 46230,
+      "violation_mm": 699.1330140634625,
+      "linearized_slack_mm": 10875.721314817938,
+      "step_mm": 1.2990381056766587,
+      "prior_motion_excess_mm": 3.415126820571529,
+      "approved_outline_error_mm": 0.9077521283195056
+    }
+  ],
+  "r47_contacts_sha256": "e50691b8121d1598115a6b3adc9105571e0e15d3a647693f926b67628f0eb859"
+}

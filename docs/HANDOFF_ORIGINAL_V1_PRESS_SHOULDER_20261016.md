@@ -147,3 +147,24 @@ Before a fourth fitting approach, discuss a strict area/contact feasibility stag
 with the owner; keep the confirmed contour and newer arm/elbow fixed. A next
 geometry candidate must be separately named R43. R41 remains the immutable model
 baseline. Private reference photos are not in the repository.
+
+
+## Latest continuation — 18 October: R43 rejected; R44 area-bound repair
+
+R43 finished as a rejected unsaved study, with native comparison images and two
+press videos committed at21255f8b914f8fd0c98239742d741bd9c13a25bd. No R43 blend
+was saved. See docs/CODEX_ORIGINAL_V1_REVIEW_CANDIDATE_R43_20261017.md. It passes
+13 benchmarks and adds no contacts, but loses the owner-confirmed junction and
+fails area severity at two full-press samples. Motion/crease checks alone are
+not visual approval. Artifact12120445839, run39079213916 preserve all failures.
+
+The R43 optimizer applied the parent-relative area severity ceiling only to
+already-stretched faces, disagreeing with the unchanged native checker. R44
+fixes that mismatch, with a regression test seen failing before the fix and
+passing afterwards. Its finer smooth fitting controls use exactly the same
+editable material mask, verified by a new hash-based domain test. No older test,
+R43 evidence, skeleton, protected arm/elbow geometry or HGPT_SHOULDER key changes.
+See docs/CODEX_ORIGINAL_V1_R44_PLAN_20261018.md and workflow
+.github/workflows/original-review-r44.yml. Save a separately named R44 model
+only after native gates; retain and render a failed study otherwise. Owner
+visual approval remains pending.

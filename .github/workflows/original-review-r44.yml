@@ -1,0 +1,205 @@
+name: ORIGINAL_v1 R44 corrected area ceiling and finer body fit
+'on':
+  push:
+    branches:
+    - claude/original-v1-consolidated-review-20261014
+    paths:
+    - .github/workflows/original-review-r44.yml
+permissions:
+  contents: write
+  actions: read
+jobs:
+  native-study:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      LIBGL_ALWAYS_SOFTWARE: '1'
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '1'
+      HGPT_R43_MATERIAL_FIELD: '1'
+      HGPT_R43_LP_METHOD: highs-ipm
+    steps:
+    - uses: actions/checkout@v4
+    - name: Refuse to overwrite an existing R44 candidate or study
+      run: 'test ! -e ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r44_20261018
+
+        test ! -e ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r44_study_20261018'
+    - run: sudo apt-get update && sudo apt-get install -y libegl1 libgl1-mesa-dri
+        xvfb ffmpeg python3-pil python3-scipy fonts-dejavu-core
+    - name: Install pinned Blender 5.2.1
+      run: 'curl --fail --location --retry 3 https://download.blender.org/release/Blender5.2/blender-5.2.1-linux-x64.tar.xz
+        --output /tmp/blender.tar.xz
+
+        echo ''a31f524fa99a527d3d52b7f5aaa68c34e1a19d5a1c9473f79c5cc610fd5b10e9  /tmp/blender.tar.xz''
+        | sha256sum -c -
+
+        tar -xJf /tmp/blender.tar.xz -C /tmp
+
+        '
+    - name: Verify immutable parent model hash
+      run: '/usr/bin/python3 - <<''PYHASH''
+
+        import hashlib,json
+
+        from pathlib import Path
+
+        p=Path(''ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r41_20261017'')
+
+        assert hashlib.sha256((p/''HGPT_ORIGINAL_V1_REVIEW_R41_CODEX.blend'').read_bytes()).hexdigest()==json.loads((p/''r41_build.json'').read_text())[''sha256'']
+
+        PYHASH
+
+        '
+    - uses: actions/download-artifact@v4
+      with:
+        name: original-v1-r43-whole-motion-review
+        run-id: 39079213916
+        github-token: ${{ github.token }}
+        path: /tmp/r43-previous
+    - uses: actions/download-artifact@v4
+      with:
+        name: original-v1-r42-unsaved-contour-study
+        run-id: 39073116321
+        github-token: ${{ github.token }}
+        path: /tmp/r42-previous
+    - name: Prepare identical material domain; verify area-bound regression and field
+      run: 'mkdir -p /tmp/r44-response
+
+        /usr/bin/python3 - <<''PYPREP''
+
+        from pathlib import Path
+
+        import shutil,numpy as np
+
+        source=next(Path(''/tmp/r43-previous'').rglob(''source.npz''));shutil.copy2(source,''/tmp/r44-response/source.npz'');z=np.load(source)
+
+        np.savez_compressed(''/tmp/r44-response/initial.npz'',delta=np.zeros((7,len(z[''rest'']),3)))
+
+        raw=Path(''/tmp/r43-previous/tmp/r43-study/R43'');assert raw.exists();shutil.copytree(raw,Path(''/tmp/r42-previous/r42-study/R43''))
+
+        shutil.copy2(next(Path(''/tmp/r43-previous'').rglob(''r42_contacts.json'')),''/tmp/r44-response/r42_contacts.json'')
+
+        PYPREP
+
+        export HGPT_R44_RESPONSE=/tmp/r44-response/source.npz
+
+        for name in area_bounds field domain; do /usr/bin/python3 "scripts/tests/test_original_review_r44_${name}.py";
+        done
+
+        for name in gradients sampling lp; do /usr/bin/python3 "scripts/tests/test_original_review_r43_${name}.py";
+        done
+
+        '
+    - name: Fit finer body field with corrected severity ceiling
+      shell: bash
+      run: "set +e\ntimeout 1800 /usr/bin/python3 -u scripts/solve_original_review_r44.py\
+        \ /tmp/r44-response/source.npz /tmp/r44-response/initial.npz ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r38_20261017/probe/r35_contour_surfaces.npz\
+        \ /tmp/r44-response/r42_contacts.json /tmp/r44-response/solved.npz > /tmp/r44-response/fit.log\
+        \ 2>&1\nresult=$?\nprintf '%s\\n' \"$result\" > /tmp/r44-response/solver_exit.txt\n\
+        if [ ! -f /tmp/r44-response/solved.npz ]; then\n if [ -f /tmp/r44-response/solved.npz.progress.npz\
+        \ ]; then cp /tmp/r44-response/solved.npz.progress.npz /tmp/r44-response/solved.npz;\
+        \ else cp /tmp/r44-response/initial.npz /tmp/r44-response/solved.npz; fi\n\
+        fi\ntail -50 /tmp/r44-response/fit.log\nexit 0\n"
+    - name: Preserve source-scope and unchanged motion/surface test results
+      shell: bash
+      run: "set +e\nexport HGPT_R44_RESPONSE=/tmp/r44-response/source.npz HGPT_R44_SOLUTION=/tmp/r44-response/solved.npz\n\
+        export HGPT_R43_RESPONSE=/tmp/r44-response/source.npz HGPT_R43_SOLUTION=/tmp/r44-response/solved.npz\n\
+        for name in preservation domain area_bounds field; do\n /usr/bin/python3 \"\
+        scripts/tests/test_original_review_r44_${name}.py\" >\"/tmp/r44-response/r44_${name}_test.txt\"\
+        \ 2>&1\n printf '%s\\n' \"$?\" >\"/tmp/r44-response/r44_${name}_test_exit.txt\"\
+        \n cat \"/tmp/r44-response/r44_${name}_test.txt\"\ndone\nfor name in motion\
+        \ back_surface; do\n /usr/bin/python3 \"scripts/tests/test_original_review_r43_${name}.py\"\
+        \ >\"/tmp/r44-response/r43_${name}_test.txt\" 2>&1\n printf '%s\\n' \"$?\"\
+        \ >\"/tmp/r44-response/r43_${name}_test_exit.txt\"\n cat \"/tmp/r44-response/r43_${name}_test.txt\"\
+        \ndone\nexit 0\n"
+    - name: Measure all83 actual native responses before saving
+      run: /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads
+        2 --python-exit-code 1 --python scripts/detect_original_review_r44_contacts_blender.py
+        -- /tmp/r44-response/source.npz /tmp/r44-response/solved.npz /tmp/r44-response/native_final.json
+    - name: Run all13 original movement benchmarks before saving
+      run: /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads
+        2 --python-exit-code 1 --python scripts/validate_original_review_r44_benchmarks_blender.py
+        -- /tmp/r44-response/source.npz /tmp/r44-response/solved.npz /tmp/r44-response/benchmarks_before_save.json
+    - name: Save model only after all pre-save gates
+      run: /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads
+        2 --python-exit-code 1 --python scripts/build_original_review_candidate_r44_blender.py
+      continue-on-error: true
+    - name: Recheck saved identity and original82-pose guards
+      shell: bash
+      run: "set +e\nif [ -f ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r44_20261018/HGPT_ORIGINAL_V1_REVIEW_R44_CODEX.blend\
+        \ ]; then\n /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup\
+        \ --threads 2 --python-exit-code 1 --python scripts/measure_original_review_r34_blender.py\
+        \ -- identity ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r44_20261018/HGPT_ORIGINAL_V1_REVIEW_R44_CODEX.blend\
+        \ ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r44_20261018/identity.json\n\
+        \ printf '%s\\n' \"$?\" > /tmp/r44-response/identity_test_exit.txt\n /tmp/blender-5.2.1-linux-x64/blender\
+        \ --background --factory-startup --threads 2 --python-exit-code 1 --python\
+        \ scripts/measure_original_review_r34_blender.py -- guard ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r44_20261018/HGPT_ORIGINAL_V1_REVIEW_R44_CODEX.blend\
+        \ ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r44_20261018/r44_guard_recheck.json\n\
+        \ printf '%s\\n' \"$?\" > /tmp/r44-response/original_guard_test_exit.txt\n\
+        fi\nexit 0\n"
+    - name: Render actual saved model or clearly identified unsaved study
+      shell: bash
+      run: 'model=""
+
+        if [ -f ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r44_20261018/HGPT_ORIGINAL_V1_REVIEW_R44_CODEX.blend
+        ]; then model=ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r44_20261018/HGPT_ORIGINAL_V1_REVIEW_R44_CODEX.blend;
+        fi
+
+        xvfb-run -a /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup
+        --threads 2 --python-exit-code 1 --python scripts/render_original_review_r44_blender.py
+        -- /tmp/r44-response/source.npz /tmp/r44-response/solved.npz /tmp/r44-study
+        $model
+
+        '
+    - name: Run unchanged profile and contour acceptance tests
+      shell: bash
+      run: "set +e\nexport HGPT_CONTOUR_NPZ=/tmp/r44-study/R44/native_probe.npz\n\
+        export HGPT_LINE_PARENT_NPZ=ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r38_20261017/probe/r35_contour_surfaces.npz\n\
+        for name in r42_profile r37_contour r38_marks r41_line r41_front; do\n /usr/bin/python3\
+        \ \"scripts/tests/test_original_review_${name}.py\" >\"/tmp/r44-response/${name}_test.txt\"\
+        \ 2>&1\n printf '%s\\n' \"$?\" >\"/tmp/r44-response/${name}_test_exit.txt\"\
+        \n cat \"/tmp/r44-response/${name}_test.txt\"\ndone\nexit 0\n"
+    - name: Package native matching-angle images and two press videos
+      run: /usr/bin/python3 scripts/package_original_review_r44.py
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: original-v1-r44-review
+        path: '/tmp/r44-response/
+
+          /tmp/r44-study/
+
+          ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r44*20261018/'
+        retention-days: 14
+    - name: Commit native evidence on the authorized branch without force
+      run: 'git config user.name ''github-actions[bot]''
+
+        git config user.email ''41898282+github-actions[bot]@users.noreply.github.com''
+
+        git add ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r44*20261018/ docs/CODEX_ORIGINAL_V1_REVIEW_CANDIDATE_R44_20261018.md
+
+        git commit -m ''R44 native full-motion review evidence; retain numerical failures
+        and owner review pending''
+
+        git push origin HEAD:claude/original-v1-consolidated-review-20261014
+
+        '
+    - name: Require all acceptance gates after preserving evidence
+      run: '/usr/bin/python3 - <<''PYREQUIRE''
+
+        from pathlib import Path
+
+        import json
+
+        paths=list(Path(''ORIGINAL_V1_WORK/anatomy/candidates'').glob(''codex_review_r44*20261018/r44_review.json''))
+
+        assert len(paths)==1
+
+        z=json.loads(paths[0].read_text());assert z[''status'']==''NUMERIC_CHECKS_PASSED_AWAITING_VISUAL_REVIEW'',z[''status'']
+
+        PYREQUIRE
+
+        '
+concurrency:
+  group: original-v1-r44-whole-motion
+  cancel-in-progress: true

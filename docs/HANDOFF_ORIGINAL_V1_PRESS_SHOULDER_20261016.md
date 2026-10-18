@@ -194,3 +194,12 @@ No skeleton, protected arm/elbow source coordinate,166, anchor, Basis, weight,
 topology, HGPT_SHOULDER, non-S7 key or V-production asset changes are authorized.
 A new model may be saved only after all fixed native/shape gates; retain any
 failed study and report it honestly. Numerical checks are not owner approval.
+
+
+## R45 result and R46 bounded continuation — 2026-10-18
+
+R45 completed on run39115485844 and evidence commit a88afeb96a6c8429003a67478d8f84369cf2447c. It is rejected, with no saved model: all83 native responses and13 benchmarks passed, but the unchanged R42 owner-junction test still fails six measurements. Motion excess0.445976mm and posterior-crease excess1.797725deg. Its30-minute fitter limit interrupted ongoing progress after five accepted steps. The pre-save staging error from R44 is fixed; R45 reached the actual pre-save profile test and correctly refused saving.
+
+Native artifact12132988179 SHA2564fa00d6fe12dc0a107d83f7b33aca9053e388611972bdd0d122b464900e2d0d1. Local images/video reviewed. See docs/CODEX_ORIGINAL_V1_REVIEW_CANDIDATE_R45_20261018.md.
+
+R46 is a continuation from the exact retained R45 state, with150minutes maximum fitting and180minutes total. No fitting algorithm, skin domain, anatomical policy, test assertion or acceptance threshold changes. New named folder/test/workflow; normal source/evidence commits only. See docs/CODEX_ORIGINAL_V1_R46_CONTINUATION_PLAN_20261018.md. Source preparation/control tests are not model acceptance. Continue to inspect native outputs before claiming completion.

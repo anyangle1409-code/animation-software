@@ -1,0 +1,14 @@
+{
+  "mode": "default",
+  "scipy": "1.17.0",
+  "numpy": "2.3.5",
+  "elapsed_seconds": 0.9042236789999833,
+  "success": true,
+  "status": 0,
+  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+  "iterations": 9,
+  "crossover_iterations": 14,
+  "slack_mm": 21.661138133864224,
+  "max_constraint_violation": 4.249267647818411e-10,
+  "max_control_step_mm": 0.5
+}

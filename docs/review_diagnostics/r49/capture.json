@@ -1,0 +1,11 @@
+{
+  "status": "UNCHANGED_R48_LINEAR_PROBLEM_CAPTURED",
+  "shape": [
+    5079,
+    7389
+  ],
+  "nnz": 1321759,
+  "capture_seconds": 8.69060261300001,
+  "trust_mm": 0.5,
+  "model_saved": false
+}

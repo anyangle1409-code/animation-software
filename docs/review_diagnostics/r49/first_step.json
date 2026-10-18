@@ -1,0 +1,16 @@
+{
+  "history": [
+    {
+      "worst_constraint": "profile_upper",
+      "epoch": 0,
+      "seconds": 5.5,
+      "constraints": 5079,
+      "violation_mm": 22.161065591333298,
+      "linearized_slack_mm": 21.661138133864224,
+      "step_mm": 0.05412658773652745,
+      "prior_motion_excess_mm": 0.0,
+      "approved_outline_error_mm": 40.959122200924405
+    }
+  ],
+  "maximum_update_mm": 0.05412658773652745
+}

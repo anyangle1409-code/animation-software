@@ -1,0 +1,20 @@
+{
+  "candidate": "R48",
+  "status": "FAILED_BEFORE_FIRST_ACCEPTED_STEP",
+  "approved": false,
+  "model_saved": false,
+  "native_checks_run": false,
+  "benchmark_checks_run": false,
+  "renders_produced": false,
+  "videos_produced": false,
+  "actual_accepted_outline_error_mm": null,
+  "fit_exit_code": 124,
+  "fit_time_limit_minutes": 25,
+  "accepted_steps": 0,
+  "preparation_tests_passed": 3,
+  "derivative_tests_passed": 1,
+  "run_id": 39159707625,
+  "artifact_id": 12148394071,
+  "artifact_sha256": "b47cf9984492d46b5facd2829383413b3f23d5de2a4bb1c0ca7ba4a7fb269194",
+  "blocker": "Fitting timed out while refining its first proposed step; no accepted checkpoint existed. All downstream native evaluation and rendering were skipped."
+}

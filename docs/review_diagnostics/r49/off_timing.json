@@ -1,0 +1,11 @@
+{
+  "mode": "off",
+  "scipy": "1.17.0",
+  "numpy": "2.3.5",
+  "elapsed_seconds": 0.6124069940000254,
+  "success": false,
+  "status": 4,
+  "message": "The HiGHS status code was not recognized. (HiGHS Status 15: model_status is Unknown; primal_status is Feasible)",
+  "iterations": 24,
+  "crossover_iterations": 0
+}

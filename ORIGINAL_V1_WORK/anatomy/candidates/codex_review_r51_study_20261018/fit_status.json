@@ -1,0 +1,13 @@
+{
+  "fit_exit_code": 1,
+  "fit_completed": false,
+  "fit_timed_out": false,
+  "has_retained_search_state": true,
+  "state_source": "main_repair_search_progress",
+  "model_saved": false,
+  "approved": false,
+  "native_validation": "FAILED",
+  "retained_state_safety": "NATIVE_CHECKS_FAILED_UNACCEPTED",
+  "shape_repair_complete": false,
+  "status": "PARTIAL_SEARCH_NATIVE_VALIDATION_PENDING"
+}

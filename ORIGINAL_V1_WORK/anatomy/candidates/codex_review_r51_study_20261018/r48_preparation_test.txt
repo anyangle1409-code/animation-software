@@ -1,0 +1,8 @@
+test_editable_scope_is_exactly_owner_authorized_r47_scope (__main__.Preparation.test_editable_scope_is_exactly_owner_authorized_r47_scope) ... ok
+test_new_target_is_actual_approved_r47_pose (__main__.Preparation.test_new_target_is_actual_approved_r47_pose) ... ok
+test_parent_arrays_and_full_posterior_coverage_are_unchanged (__main__.Preparation.test_parent_arrays_and_full_posterior_coverage_are_unchanged) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 1.435s
+
+OK

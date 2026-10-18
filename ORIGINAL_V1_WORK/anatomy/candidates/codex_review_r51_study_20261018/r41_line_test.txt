@@ -1,0 +1,43 @@
+FFR41_APPROVED_LINE l 31.07493310755592 33.75146364722345
+FR41_APPROVED_LINE r 30.92923227461586 33.69788275047535
+F
+======================================================================
+FAIL: test_line_meets_body_without_the_inward_notch (__main__.ApprovedLineGoals.test_line_meets_body_without_the_inward_notch) (side='l')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r41_line.py", line 17, in test_line_meets_body_without_the_inward_notch
+    with self.subTest(side=side):self.assertLess(errors(current,parent,side)[1],2.)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 33.75146364722345 not less than 2.0
+
+======================================================================
+FAIL: test_line_meets_body_without_the_inward_notch (__main__.ApprovedLineGoals.test_line_meets_body_without_the_inward_notch) (side='r')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r41_line.py", line 17, in test_line_meets_body_without_the_inward_notch
+    with self.subTest(side=side):self.assertLess(errors(current,parent,side)[1],2.)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 33.69788275047535 not less than 2.0
+
+======================================================================
+FAIL: test_upper_arm_reaches_shoulder_without_the_early_bend (__main__.ApprovedLineGoals.test_upper_arm_reaches_shoulder_without_the_early_bend) (side='l')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r41_line.py", line 13, in test_upper_arm_reaches_shoulder_without_the_early_bend
+    with self.subTest(side=side):self.assertLess(a,2.)
+                                 ^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 31.07493310755592 not less than 2.0
+
+======================================================================
+FAIL: test_upper_arm_reaches_shoulder_without_the_early_bend (__main__.ApprovedLineGoals.test_upper_arm_reaches_shoulder_without_the_early_bend) (side='r')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r41_line.py", line 13, in test_upper_arm_reaches_shoulder_without_the_early_bend
+    with self.subTest(side=side):self.assertLess(a,2.)
+                                 ^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 30.92923227461586 not less than 2.0
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.328s
+
+FAILED (failures=4)

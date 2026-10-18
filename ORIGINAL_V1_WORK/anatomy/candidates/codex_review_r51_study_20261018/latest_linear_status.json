@@ -1,0 +1,20 @@
+{
+  "call": 24,
+  "stage": "main",
+  "proposal_optimal": false,
+  "model_saved": false,
+  "approved": false,
+  "status": "HARD_FEASIBLE_SEARCH_PROPOSAL_NOT_OPTIMAL",
+  "algorithm": "bounded_diagonal_primal_dual_then_verified_hard_projection",
+  "requested_iterations": 400,
+  "iterations": 400,
+  "projection_failures": [],
+  "seconds": 8.963875368999993,
+  "hard_violation": 6.061358407208339e-08,
+  "bound_violation": 0.0,
+  "projection_max_control_change_mm": 0.12119293837027612,
+  "objective": 4093.9189499505974,
+  "initial_objective": 5003.527522983454,
+  "original_rows": 49033,
+  "iterated_rows": 44285
+}

@@ -1,0 +1,6 @@
+test_immutable_source_and_seed (__main__.Preparation.test_immutable_source_and_seed) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.050s
+
+OK

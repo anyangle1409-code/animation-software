@@ -1,0 +1,8 @@
+test_main_progress_precedes_preflight (__main__.Retention.test_main_progress_precedes_preflight) ... ok
+test_missing_checkpoint_records_failure_before_raise (__main__.Retention.test_missing_checkpoint_records_failure_before_raise) ... ok
+test_preflight_fallback_is_explicitly_unverified (__main__.Retention.test_preflight_fallback_is_explicitly_unverified) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.025s
+
+OK

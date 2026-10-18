@@ -1,0 +1,15 @@
+R43_NEW_POSTERIOR_CREASE_DEGREES 173.8622946870935
+F
+======================================================================
+FAIL: test_no_new_sharp_posterior_folds_over_full_motion (__main__.BackSurface.test_no_new_sharp_posterior_folds_over_full_motion)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r43_back_surface.py", line 15, in test_no_new_sharp_posterior_folds_over_full_motion
+    print('R43_NEW_POSTERIOR_CREASE_DEGREES',worst,flush=True);self.assertLessEqual(worst,2.)
+                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 173.8622946870935 not less than or equal to 2.0
+
+----------------------------------------------------------------------
+Ran 1 test in 2.039s
+
+FAILED (failures=1)

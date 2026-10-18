@@ -1,0 +1,71 @@
+[
+  {
+    "repair_score": 30049.925233522255,
+    "repair_components": {
+      "area_upper": 80.57649172820658,
+      "area_lower": 0.0425887558928173,
+      "orientation": 128.11997987153308,
+      "contact": 25891.652197917712,
+      "front": 8.375683192556043,
+      "posterior": 184.47238810481093,
+      "motion": 3756.685903951545
+    },
+    "nonlinear_safety_passed": false,
+    "study_only": true,
+    "worst_constraint": "posterior_normal_cone",
+    "epoch": 0,
+    "seconds": 18.3,
+    "constraints": 49211,
+    "maximum_scaled_linear_residual": 509.6155628419781,
+    "linear_repair_objective": 8936.340164221085,
+    "step_mm": 1.948557152234526,
+    "prior_motion_excess_mm": 3.2269848088798936,
+    "approved_outline_error_mm": 0.9088975385311282
+  },
+  {
+    "repair_score": 26439.458580881095,
+    "repair_components": {
+      "area_upper": 79.72981504837918,
+      "area_lower": 0.03405127801096782,
+      "orientation": 116.39955327152312,
+      "contact": 23447.002236204527,
+      "front": 7.854421920904393,
+      "posterior": 171.33999365038233,
+      "motion": 2617.0985095073665
+    },
+    "nonlinear_safety_passed": false,
+    "study_only": true,
+    "worst_constraint": "posterior_normal_cone",
+    "epoch": 1,
+    "seconds": 39.5,
+    "constraints": 51169,
+    "maximum_scaled_linear_residual": 536.0630380410258,
+    "linear_repair_objective": 6733.437382016182,
+    "step_mm": 1.4595770507221406,
+    "prior_motion_excess_mm": 2.9302757027797255,
+    "approved_outline_error_mm": 0.9035567173252546
+  },
+  {
+    "repair_score": 24332.444089963617,
+    "repair_components": {
+      "area_upper": 77.64589422849805,
+      "area_lower": 0.0202325337662047,
+      "orientation": 110.11366439545131,
+      "contact": 21844.446427599225,
+      "front": 7.7645145691493225,
+      "posterior": 161.77190128888333,
+      "motion": 2130.6814553486433
+    },
+    "nonlinear_safety_passed": false,
+    "study_only": true,
+    "worst_constraint": "posterior_normal_cone",
+    "epoch": 2,
+    "seconds": 61.6,
+    "constraints": 49160,
+    "maximum_scaled_linear_residual": 114.62933433485317,
+    "linear_repair_objective": 5721.070205481315,
+    "step_mm": 1.0726036638386869,
+    "prior_motion_excess_mm": 2.7494159039211743,
+    "approved_outline_error_mm": 0.948415705866873
+  }
+]

@@ -1,0 +1,25 @@
+R38_MARK_METRICS l 11.484970874816554 1.294877624056752
+FR38_MARK_METRICS r 11.256036230564296 1.480848902804467
+F.
+======================================================================
+FAIL: test_bilateral_broad_bow_is_reduced (__main__.OwnerMarkGoals.test_bilateral_broad_bow_is_reduced) (side='l')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r38_marks.py", line 27, in test_bilateral_broad_bow_is_reduced
+    with self.subTest(side=side):self.assertLess(bow,7.5)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 11.484970874816554 not less than 7.5
+
+======================================================================
+FAIL: test_bilateral_broad_bow_is_reduced (__main__.OwnerMarkGoals.test_bilateral_broad_bow_is_reduced) (side='r')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r38_marks.py", line 27, in test_bilateral_broad_bow_is_reduced
+    with self.subTest(side=side):self.assertLess(bow,7.5)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 11.256036230564296 not less than 7.5
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.292s
+
+FAILED (failures=2)

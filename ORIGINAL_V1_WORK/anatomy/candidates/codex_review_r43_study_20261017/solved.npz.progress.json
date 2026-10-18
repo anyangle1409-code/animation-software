@@ -1,0 +1,1332 @@
+[
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 0,
+    "seconds": 28.2,
+    "constraints": 2173,
+    "violation_mm": 15.767215968062695,
+    "linearized_slack_mm": 15.631028809519846,
+    "step_mm": 0.37805627361142913,
+    "motion_excess_mm": 0.45002713113567555
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 1,
+    "seconds": 58.2,
+    "constraints": 2443,
+    "violation_mm": 15.701167836198028,
+    "linearized_slack_mm": 15.603511324294532,
+    "step_mm": 0.7359135972475873,
+    "motion_excess_mm": 0.44946644542887165
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 2,
+    "seconds": 93.9,
+    "constraints": 2727,
+    "violation_mm": 15.60677848043759,
+    "linearized_slack_mm": 15.564560675395747,
+    "step_mm": 0.5455050361692937,
+    "motion_excess_mm": 0.450014221946739
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 3,
+    "seconds": 135.5,
+    "constraints": 3243,
+    "violation_mm": 15.583025393804625,
+    "linearized_slack_mm": 15.546051720391581,
+    "step_mm": 0.5517037362670794,
+    "motion_excess_mm": 0.4498898648976268
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 4,
+    "seconds": 190.2,
+    "constraints": 3058,
+    "violation_mm": 15.563042150634484,
+    "linearized_slack_mm": 15.529505654363335,
+    "step_mm": 1.1308707651215535,
+    "motion_excess_mm": 0.4495978009387831
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 5,
+    "seconds": 241.2,
+    "constraints": 3468,
+    "violation_mm": 15.52776598014837,
+    "linearized_slack_mm": 15.490562099340664,
+    "step_mm": 1.5986487837093868,
+    "motion_excess_mm": 0.4513022196474162
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 6,
+    "seconds": 294.0,
+    "constraints": 4136,
+    "violation_mm": 15.489540169702053,
+    "linearized_slack_mm": 15.449881614258056,
+    "step_mm": 1.0863763480669661,
+    "motion_excess_mm": 0.45205250230819244
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 7,
+    "seconds": 419.4,
+    "constraints": 6036,
+    "violation_mm": 15.468942115424207,
+    "linearized_slack_mm": 15.435187901182774,
+    "step_mm": 1.1087206748284504,
+    "motion_excess_mm": 0.4499531005784699
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 8,
+    "seconds": 521.0,
+    "constraints": 5857,
+    "violation_mm": 15.451446763074923,
+    "linearized_slack_mm": 15.421842301498241,
+    "step_mm": 1.178612857278449,
+    "motion_excess_mm": 0.44994077395517124
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 9,
+    "seconds": 634.0,
+    "constraints": 5981,
+    "violation_mm": 15.436197485781323,
+    "linearized_slack_mm": 15.409190987577372,
+    "step_mm": 1.2298026428179714,
+    "motion_excess_mm": 0.44995663670861685
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 10,
+    "seconds": 713.2,
+    "constraints": 5759,
+    "violation_mm": 15.422341550432627,
+    "linearized_slack_mm": 15.400697686705433,
+    "step_mm": 1.214901077623885,
+    "motion_excess_mm": 0.44989560458777555
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 11,
+    "seconds": 809.8,
+    "constraints": 6034,
+    "violation_mm": 15.411282708783823,
+    "linearized_slack_mm": 15.394047201475152,
+    "step_mm": 1.0711080426049888,
+    "motion_excess_mm": 0.44993009047147414
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 12,
+    "seconds": 879.5,
+    "constraints": 5422,
+    "violation_mm": 15.40243377455593,
+    "linearized_slack_mm": 15.388715302412765,
+    "step_mm": 2.2882278749062857,
+    "motion_excess_mm": 0.44990422244986356
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 13,
+    "seconds": 955.8,
+    "constraints": 4693,
+    "violation_mm": 15.388633255596835,
+    "linearized_slack_mm": 15.379097840540679,
+    "step_mm": 1.6146115504599405,
+    "motion_excess_mm": 0.45087033523562897
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 14,
+    "seconds": 1045.4,
+    "constraints": 4957,
+    "violation_mm": 15.384115798673884,
+    "linearized_slack_mm": 15.376538910536407,
+    "step_mm": 1.6458485467442103,
+    "motion_excess_mm": 0.45033333554815247
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 15,
+    "seconds": 1144.5,
+    "constraints": 4945,
+    "violation_mm": 15.380770244950519,
+    "linearized_slack_mm": 15.374350393274163,
+    "step_mm": 1.64752209674561,
+    "motion_excess_mm": 0.4499924816273775
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 16,
+    "seconds": 1222.3,
+    "constraints": 4401,
+    "violation_mm": 15.378220904105754,
+    "linearized_slack_mm": 15.372571934304883,
+    "step_mm": 1.8298680519373494,
+    "motion_excess_mm": 0.44998927653652077
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 17,
+    "seconds": 1295.7,
+    "constraints": 4678,
+    "violation_mm": 15.375943100577729,
+    "linearized_slack_mm": 15.371093934232107,
+    "step_mm": 1.8010150103865266,
+    "motion_excess_mm": 0.4499956962871443
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 18,
+    "seconds": 1374.1,
+    "constraints": 4530,
+    "violation_mm": 15.37379204666784,
+    "linearized_slack_mm": 15.369598961602383,
+    "step_mm": 1.7583044500585678,
+    "motion_excess_mm": 0.4499988785582172
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 19,
+    "seconds": 1453.9,
+    "constraints": 5138,
+    "violation_mm": 15.371839937558736,
+    "linearized_slack_mm": 15.368250220992255,
+    "step_mm": 1.6105135763390401,
+    "motion_excess_mm": 0.4500007845733656
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 20,
+    "seconds": 1536.4,
+    "constraints": 5240,
+    "violation_mm": 15.370278013294891,
+    "linearized_slack_mm": 15.367755016674694,
+    "step_mm": 1.5760146600875422,
+    "motion_excess_mm": 0.44999738625958
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 21,
+    "seconds": 1620.2,
+    "constraints": 4925,
+    "violation_mm": 15.369354763635142,
+    "linearized_slack_mm": 15.36767758083233,
+    "step_mm": 0.8159107296254791,
+    "motion_excess_mm": 0.4499993468104085
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 22,
+    "seconds": 1712.3,
+    "constraints": 5134,
+    "violation_mm": 15.369081014583855,
+    "linearized_slack_mm": 15.367702394530085,
+    "step_mm": 1.6119610620183087,
+    "motion_excess_mm": 0.44999956872505986
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 23,
+    "seconds": 1804.7,
+    "constraints": 4534,
+    "violation_mm": 15.368677379168572,
+    "linearized_slack_mm": 15.367797142521646,
+    "step_mm": 1.4047335298071817,
+    "motion_excess_mm": 0.4499998794115926
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 24,
+    "seconds": 1889.2,
+    "constraints": 4247,
+    "violation_mm": 15.36846617798368,
+    "linearized_slack_mm": 15.367898526841424,
+    "step_mm": 1.3390165452288358,
+    "motion_excess_mm": 0.44999995465837817
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 25,
+    "seconds": 1972.1,
+    "constraints": 4201,
+    "violation_mm": 15.36836098279695,
+    "linearized_slack_mm": 15.3679771853219,
+    "step_mm": 1.3483558133406093,
+    "motion_excess_mm": 0.4499999775972223
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 26,
+    "seconds": 2057.5,
+    "constraints": 3798,
+    "violation_mm": 15.368370652012246,
+    "linearized_slack_mm": 15.368093763198376,
+    "step_mm": 1.4939946978143213,
+    "motion_excess_mm": 0.44999989961714487
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 27,
+    "seconds": 2134.4,
+    "constraints": 4027,
+    "violation_mm": 15.368338892577215,
+    "linearized_slack_mm": 15.368125005068212,
+    "step_mm": 2.7032602427793795,
+    "motion_excess_mm": 0.44999986580812285
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 28,
+    "seconds": 2209.4,
+    "constraints": 3802,
+    "violation_mm": 15.36815544272472,
+    "linearized_slack_mm": 15.368013568820457,
+    "step_mm": 2.2620528653823078,
+    "motion_excess_mm": 0.45047350561889293
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 29,
+    "seconds": 2286.0,
+    "constraints": 3839,
+    "violation_mm": 15.368004243705817,
+    "linearized_slack_mm": 15.367892964536301,
+    "step_mm": 2.0670384077709345,
+    "motion_excess_mm": 0.4500084237503444
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 30,
+    "seconds": 2362.5,
+    "constraints": 3979,
+    "violation_mm": 15.367904029671958,
+    "linearized_slack_mm": 15.367789129062132,
+    "step_mm": 1.685912910184272,
+    "motion_excess_mm": 0.45000236885406364
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 31,
+    "seconds": 2435.1,
+    "constraints": 3620,
+    "violation_mm": 15.3678456559799,
+    "linearized_slack_mm": 15.367715524249089,
+    "step_mm": 1.6467003539279081,
+    "motion_excess_mm": 0.4500007320151853
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 32,
+    "seconds": 2511.2,
+    "constraints": 3611,
+    "violation_mm": 15.367778256775145,
+    "linearized_slack_mm": 15.3676562749864,
+    "step_mm": 0.8270000889807552,
+    "motion_excess_mm": 0.45000205254470005
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 33,
+    "seconds": 2582.1,
+    "constraints": 3605,
+    "violation_mm": 15.367746821958692,
+    "linearized_slack_mm": 15.367634498146131,
+    "step_mm": 1.6683031915166364,
+    "motion_excess_mm": 0.4500015400466875
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 34,
+    "seconds": 2654.5,
+    "constraints": 3434,
+    "violation_mm": 15.367689235218396,
+    "linearized_slack_mm": 15.367598968050071,
+    "step_mm": 1.015384699428151,
+    "motion_excess_mm": 0.4500015494158393
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 35,
+    "seconds": 2732.7,
+    "constraints": 3515,
+    "violation_mm": 15.36766606584482,
+    "linearized_slack_mm": 15.367590194567406,
+    "step_mm": 1.6291098220245837,
+    "motion_excess_mm": 0.4500008846911709
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 36,
+    "seconds": 2806.2,
+    "constraints": 3536,
+    "violation_mm": 15.36762710196794,
+    "linearized_slack_mm": 15.367582953125293,
+    "step_mm": 1.6450692704556253,
+    "motion_excess_mm": 0.45000141692544243
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 37,
+    "seconds": 2880.4,
+    "constraints": 3428,
+    "violation_mm": 15.3676044298538,
+    "linearized_slack_mm": 15.367552630831149,
+    "step_mm": 3.0869325701183334,
+    "motion_excess_mm": 0.4500013370798393
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 38,
+    "seconds": 2944.2,
+    "constraints": 3385,
+    "violation_mm": 15.367551342540052,
+    "linearized_slack_mm": 15.367530494828372,
+    "step_mm": 2.8319839361170884,
+    "motion_excess_mm": 0.45001776206513566
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 39,
+    "seconds": 3016.1,
+    "constraints": 3359,
+    "violation_mm": 15.367529976878679,
+    "linearized_slack_mm": 15.367486443498644,
+    "step_mm": 1.2356484439179933,
+    "motion_excess_mm": 0.4500090242208892
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 40,
+    "seconds": 3088.1,
+    "constraints": 3261,
+    "violation_mm": 15.367507658271842,
+    "linearized_slack_mm": 15.367494060718345,
+    "step_mm": 0.9865973588227996,
+    "motion_excess_mm": 0.45000669191782794
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 41,
+    "seconds": 3140.7,
+    "constraints": 3233,
+    "violation_mm": 15.367513116454244,
+    "linearized_slack_mm": 15.367508012458645,
+    "step_mm": 0.9847284902572006,
+    "motion_excess_mm": 0.4500036111385277
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 42,
+    "seconds": 3198.4,
+    "constraints": 3237,
+    "violation_mm": 15.367504222175304,
+    "linearized_slack_mm": 15.367497873189821,
+    "step_mm": 1.065870608253955,
+    "motion_excess_mm": 0.4500036157200588
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 43,
+    "seconds": 3269.3,
+    "constraints": 3253,
+    "violation_mm": 15.36749930780124,
+    "linearized_slack_mm": 15.36748895047577,
+    "step_mm": 1.171819375611667,
+    "motion_excess_mm": 0.45000342871886595
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 44,
+    "seconds": 3331.6,
+    "constraints": 3245,
+    "violation_mm": 15.367494020561882,
+    "linearized_slack_mm": 15.367485816523786,
+    "step_mm": 2.3058151097977193,
+    "motion_excess_mm": 0.45000350876791784
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 45,
+    "seconds": 3396.0,
+    "constraints": 3341,
+    "violation_mm": 15.36748567132096,
+    "linearized_slack_mm": 15.367476941868436,
+    "step_mm": 1.2721083446649208,
+    "motion_excess_mm": 0.45000753244343744
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 46,
+    "seconds": 3462.0,
+    "constraints": 3342,
+    "violation_mm": 15.367511769283126,
+    "linearized_slack_mm": 15.367509416388128,
+    "step_mm": 1.9450327067429949,
+    "motion_excess_mm": 0.45000877123150856
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 47,
+    "seconds": 3535.2,
+    "constraints": 3442,
+    "violation_mm": 15.367557515475081,
+    "linearized_slack_mm": 15.367555512395832,
+    "step_mm": 1.945921751596635,
+    "motion_excess_mm": 0.4500099698842696
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 48,
+    "seconds": 3609.3,
+    "constraints": 3348,
+    "violation_mm": 15.367565339466628,
+    "linearized_slack_mm": 15.367563743109976,
+    "step_mm": 2.214963635493208,
+    "motion_excess_mm": 0.45000978510815853
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 49,
+    "seconds": 3667.6,
+    "constraints": 3373,
+    "violation_mm": 15.367584611274165,
+    "linearized_slack_mm": 15.367584384291883,
+    "step_mm": 0.8585024301917712,
+    "motion_excess_mm": 0.45000819768131833
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 50,
+    "seconds": 3723.1,
+    "constraints": 3270,
+    "violation_mm": 15.367573354342312,
+    "linearized_slack_mm": 15.367573262587449,
+    "step_mm": 0.25181849185676725,
+    "motion_excess_mm": 0.4500080807929143
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 51,
+    "seconds": 3764.6,
+    "constraints": 3278,
+    "violation_mm": 15.367574542302698,
+    "linearized_slack_mm": 15.367574457817772,
+    "step_mm": 0.035053747092335004,
+    "motion_excess_mm": 0.4500093252683661
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 52,
+    "seconds": 3782.1,
+    "constraints": 3153,
+    "violation_mm": 15.367575881999915,
+    "linearized_slack_mm": 15.367575784578397,
+    "step_mm": 0.15387120327169887,
+    "motion_excess_mm": 0.45000501171703144
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 53,
+    "seconds": 3794.2,
+    "constraints": 3127,
+    "violation_mm": 15.367575807170217,
+    "linearized_slack_mm": 15.367575727248674,
+    "step_mm": 4.613393774310131e-05,
+    "motion_excess_mm": 0.4500020732543335
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 54,
+    "seconds": 3806.3,
+    "constraints": 3128,
+    "violation_mm": 15.367575816565964,
+    "linearized_slack_mm": 15.367575727320212,
+    "step_mm": 7.735508013221216e-09,
+    "motion_excess_mm": 0.4500000000283236
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 55,
+    "seconds": 3818.6,
+    "constraints": 3128,
+    "violation_mm": 15.367575816656625,
+    "linearized_slack_mm": 15.367575727315558,
+    "step_mm": 2.792766560884095e-09,
+    "motion_excess_mm": 0.4500000001028252
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 56,
+    "seconds": 3830.7,
+    "constraints": 3128,
+    "violation_mm": 15.367575816635185,
+    "linearized_slack_mm": 15.367575727317673,
+    "step_mm": 7.072815434553873e-09,
+    "motion_excess_mm": 0.4500000000211113
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 57,
+    "seconds": 3843.1,
+    "constraints": 3128,
+    "violation_mm": 15.367575816488209,
+    "linearized_slack_mm": 15.367575727306805,
+    "step_mm": 4.662266702073468e-09,
+    "motion_excess_mm": 0.45000000056469175
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 58,
+    "seconds": 3855.6,
+    "constraints": 3128,
+    "violation_mm": 15.36757581696888,
+    "linearized_slack_mm": 15.367575727310514,
+    "step_mm": 1.7838752418185757e-08,
+    "motion_excess_mm": 0.450000000133904
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 59,
+    "seconds": 3868.5,
+    "constraints": 3128,
+    "violation_mm": 15.367575817275231,
+    "linearized_slack_mm": 15.36757572732284,
+    "step_mm": 1.7428114875044385e-08,
+    "motion_excess_mm": 0.4500000004626889
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 60,
+    "seconds": 3882.2,
+    "constraints": 3128,
+    "violation_mm": 15.367575817264088,
+    "linearized_slack_mm": 15.367575727322834,
+    "step_mm": 1.8723696285332788e-08,
+    "motion_excess_mm": 0.45000000007376273
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 61,
+    "seconds": 3896.1,
+    "constraints": 3128,
+    "violation_mm": 15.367575815431229,
+    "linearized_slack_mm": 15.36757572736304,
+    "step_mm": 2.5373945959027814e-08,
+    "motion_excess_mm": 0.450000000589902
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 62,
+    "seconds": 3910.4,
+    "constraints": 3128,
+    "violation_mm": 15.367575817293496,
+    "linearized_slack_mm": 15.367575727339958,
+    "step_mm": 2.993696949848013e-08,
+    "motion_excess_mm": 0.4500000006473276
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 63,
+    "seconds": 3923.9,
+    "constraints": 3128,
+    "violation_mm": 15.367575815595108,
+    "linearized_slack_mm": 15.367575727361869,
+    "step_mm": 1.50402431045112e-08,
+    "motion_excess_mm": 0.45000000242571586
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 64,
+    "seconds": 3936.9,
+    "constraints": 3128,
+    "violation_mm": 15.367575818140065,
+    "linearized_slack_mm": 15.367575727338943,
+    "step_mm": 1.3046358237281133e-08,
+    "motion_excess_mm": 0.45000000083068153
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 65,
+    "seconds": 3949.8,
+    "constraints": 3128,
+    "violation_mm": 15.367575818122013,
+    "linearized_slack_mm": 15.367575727341261,
+    "step_mm": 8.234866650404538e-09,
+    "motion_excess_mm": 0.4500000017838196
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 66,
+    "seconds": 3962.8,
+    "constraints": 3128,
+    "violation_mm": 15.367575819268218,
+    "linearized_slack_mm": 15.367575727313566,
+    "step_mm": 2.787950772809504e-09,
+    "motion_excess_mm": 0.45000000013130026
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 67,
+    "seconds": 3975.6,
+    "constraints": 3128,
+    "violation_mm": 15.367575819421969,
+    "linearized_slack_mm": 15.367575727319398,
+    "step_mm": 8.73211914325824e-09,
+    "motion_excess_mm": 0.4500000001862164
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 68,
+    "seconds": 3988.1,
+    "constraints": 3128,
+    "violation_mm": 15.367575819377143,
+    "linearized_slack_mm": 15.367575727319013,
+    "step_mm": 4.113715665483915e-09,
+    "motion_excess_mm": 0.450000000115106
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 69,
+    "seconds": 4000.8,
+    "constraints": 3128,
+    "violation_mm": 15.367575819335507,
+    "linearized_slack_mm": 15.36757572731893,
+    "step_mm": 1.0319232546052175e-09,
+    "motion_excess_mm": 0.45000000009116614
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 70,
+    "seconds": 4013.6,
+    "constraints": 3128,
+    "violation_mm": 15.3675758192344,
+    "linearized_slack_mm": 15.367575727319402,
+    "step_mm": 8.81085994246281e-09,
+    "motion_excess_mm": 0.4500000000385196
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 71,
+    "seconds": 4025.8,
+    "constraints": 3128,
+    "violation_mm": 15.367575819235793,
+    "linearized_slack_mm": 15.367575727317305,
+    "step_mm": 4.591795580658666e-08,
+    "motion_excess_mm": 0.45000000013580443
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 72,
+    "seconds": 4040.3,
+    "constraints": 3128,
+    "violation_mm": 15.367575819179544,
+    "linearized_slack_mm": 15.367575727319409,
+    "step_mm": 1.711776511620455e-08,
+    "motion_excess_mm": 0.4500000004255159
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 73,
+    "seconds": 4052.8,
+    "constraints": 3128,
+    "violation_mm": 15.367575819354837,
+    "linearized_slack_mm": 15.36757572730556,
+    "step_mm": 5.548336639767543e-09,
+    "motion_excess_mm": 0.4500000001991921
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 74,
+    "seconds": 4065.3,
+    "constraints": 3128,
+    "violation_mm": 15.367575819235311,
+    "linearized_slack_mm": 15.367575727313639,
+    "step_mm": 6.680468295324772e-09,
+    "motion_excess_mm": 0.4500000001524898
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 75,
+    "seconds": 4078.0,
+    "constraints": 3128,
+    "violation_mm": 15.367575819301951,
+    "linearized_slack_mm": 15.36757572730879,
+    "step_mm": 5.750525024646633e-09,
+    "motion_excess_mm": 0.45000000026124315
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 76,
+    "seconds": 4090.7,
+    "constraints": 3128,
+    "violation_mm": 15.36757581939044,
+    "linearized_slack_mm": 15.367575727307454,
+    "step_mm": 4.648346851832783e-09,
+    "motion_excess_mm": 0.45000000019004993
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 77,
+    "seconds": 4103.9,
+    "constraints": 3128,
+    "violation_mm": 15.367575819362687,
+    "linearized_slack_mm": 15.367575727308672,
+    "step_mm": 7.962558671248768e-09,
+    "motion_excess_mm": 0.4500000018162515
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 78,
+    "seconds": 4116.4,
+    "constraints": 3128,
+    "violation_mm": 15.367575820057489,
+    "linearized_slack_mm": 15.367575727303446,
+    "step_mm": 3.898119305372531e-08,
+    "motion_excess_mm": 0.4500000010328423
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 79,
+    "seconds": 4128.6,
+    "constraints": 3128,
+    "violation_mm": 15.367575819988291,
+    "linearized_slack_mm": 15.367575727303977,
+    "step_mm": 2.2497765321036874e-08,
+    "motion_excess_mm": 0.4500000000107904
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 80,
+    "seconds": 4141.1,
+    "constraints": 3128,
+    "violation_mm": 15.36757582018176,
+    "linearized_slack_mm": 15.36757572731166,
+    "step_mm": 2.728038912791887e-09,
+    "motion_excess_mm": 0.45000000082927194
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 81,
+    "seconds": 4153.6,
+    "constraints": 3128,
+    "violation_mm": 15.36757582005877,
+    "linearized_slack_mm": 15.36757572731199,
+    "step_mm": 5.027192165558114e-08,
+    "motion_excess_mm": 0.45000000081970176
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 82,
+    "seconds": 4166.2,
+    "constraints": 3128,
+    "violation_mm": 15.367575819634894,
+    "linearized_slack_mm": 15.367575727312145,
+    "step_mm": 1.6995368698562037e-08,
+    "motion_excess_mm": 0.4500000098204113
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 83,
+    "seconds": 4178.3,
+    "constraints": 3128,
+    "violation_mm": 15.36757581963248,
+    "linearized_slack_mm": 15.36757572731171,
+    "step_mm": 1.2088630746976827e-08,
+    "motion_excess_mm": 0.4500000006676585
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 84,
+    "seconds": 4190.5,
+    "constraints": 3128,
+    "violation_mm": 15.367575819636295,
+    "linearized_slack_mm": 15.367575727311774,
+    "step_mm": 2.796286840302488e-09,
+    "motion_excess_mm": 0.45000000013002095
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 85,
+    "seconds": 4202.7,
+    "constraints": 3128,
+    "violation_mm": 15.367575820842111,
+    "linearized_slack_mm": 15.367575727292463,
+    "step_mm": 7.546542688538208e-09,
+    "motion_excess_mm": 0.45000000010976365
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 86,
+    "seconds": 4215.0,
+    "constraints": 3128,
+    "violation_mm": 15.367575820619772,
+    "linearized_slack_mm": 15.367575727297877,
+    "step_mm": 4.725535074456481e-09,
+    "motion_excess_mm": 0.4500000000750166
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 87,
+    "seconds": 4227.4,
+    "constraints": 3128,
+    "violation_mm": 15.367575820571425,
+    "linearized_slack_mm": 15.367575727294264,
+    "step_mm": 5.107832955649914e-09,
+    "motion_excess_mm": 0.45000000002960644
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 88,
+    "seconds": 4239.9,
+    "constraints": 3128,
+    "violation_mm": 15.367575820620354,
+    "linearized_slack_mm": 15.367575727294017,
+    "step_mm": 1.6694980437406264e-08,
+    "motion_excess_mm": 0.45000000011968344
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 89,
+    "seconds": 4252.5,
+    "constraints": 3128,
+    "violation_mm": 15.36757582062237,
+    "linearized_slack_mm": 15.36757572729466,
+    "step_mm": 1.6293467846216505e-09,
+    "motion_excess_mm": 0.4500000001581405
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 90,
+    "seconds": 4264.9,
+    "constraints": 3128,
+    "violation_mm": 15.3675758206187,
+    "linearized_slack_mm": 15.367575727294414,
+    "step_mm": 3.0967076558626672e-09,
+    "motion_excess_mm": 0.45000000017516534
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 91,
+    "seconds": 4277.1,
+    "constraints": 3128,
+    "violation_mm": 15.36757582044581,
+    "linearized_slack_mm": 15.367575727294629,
+    "step_mm": 3.919941560349042e-09,
+    "motion_excess_mm": 0.45000000014711117
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 92,
+    "seconds": 4289.3,
+    "constraints": 3128,
+    "violation_mm": 15.367575820370867,
+    "linearized_slack_mm": 15.36757572729516,
+    "step_mm": 8.720856712902514e-10,
+    "motion_excess_mm": 0.4500000001456685
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 93,
+    "seconds": 4302.2,
+    "constraints": 3128,
+    "violation_mm": 15.367575820371298,
+    "linearized_slack_mm": 15.36757572729529,
+    "step_mm": 5.269228895536205e-09,
+    "motion_excess_mm": 0.45000000015345376
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 94,
+    "seconds": 4314.5,
+    "constraints": 3128,
+    "violation_mm": 15.367575820371377,
+    "linearized_slack_mm": 15.367575727295034,
+    "step_mm": 1.5216000226572273e-08,
+    "motion_excess_mm": 0.45000000001301954
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 95,
+    "seconds": 4327.4,
+    "constraints": 3128,
+    "violation_mm": 15.367575820382266,
+    "linearized_slack_mm": 15.367575727294971,
+    "step_mm": 5.128603047483234e-08,
+    "motion_excess_mm": 0.45000000011081975
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 96,
+    "seconds": 4339.9,
+    "constraints": 3128,
+    "violation_mm": 15.367575820340944,
+    "linearized_slack_mm": 15.367575727296376,
+    "step_mm": 4.14354554003048e-09,
+    "motion_excess_mm": 0.45000000123161443
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 97,
+    "seconds": 4352.6,
+    "constraints": 3128,
+    "violation_mm": 15.367575820324339,
+    "linearized_slack_mm": 15.36757572730257,
+    "step_mm": 3.570875757654906e-09,
+    "motion_excess_mm": 0.45000000000222296
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 98,
+    "seconds": 4364.8,
+    "constraints": 3128,
+    "violation_mm": 15.367575820396159,
+    "linearized_slack_mm": 15.367575727298831,
+    "step_mm": 1.469819181873268e-09,
+    "motion_excess_mm": 0.4500000003652463
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 99,
+    "seconds": 4377.5,
+    "constraints": 3128,
+    "violation_mm": 15.367575820424978,
+    "linearized_slack_mm": 15.367575727299554,
+    "step_mm": 1.1998054615201724e-08,
+    "motion_excess_mm": 0.4500000000325522
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 100,
+    "seconds": 4390.5,
+    "constraints": 3128,
+    "violation_mm": 15.367575820780194,
+    "linearized_slack_mm": 15.3675757273581,
+    "step_mm": 1.732372091196999e-08,
+    "motion_excess_mm": 0.4500000004466352
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 101,
+    "seconds": 4403.0,
+    "constraints": 3128,
+    "violation_mm": 15.367575820693204,
+    "linearized_slack_mm": 15.3675757273621,
+    "step_mm": 7.499526670104555e-09,
+    "motion_excess_mm": 0.45000000177970717
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 102,
+    "seconds": 4415.5,
+    "constraints": 3128,
+    "violation_mm": 15.367575820715869,
+    "linearized_slack_mm": 15.367575727365626,
+    "step_mm": 4.405125677148499e-09,
+    "motion_excess_mm": 0.4500000001341343
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 103,
+    "seconds": 4427.6,
+    "constraints": 3128,
+    "violation_mm": 15.367575820082495,
+    "linearized_slack_mm": 15.367575727378025,
+    "step_mm": 3.7293985299776264e-08,
+    "motion_excess_mm": 0.45000000001511203
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 104,
+    "seconds": 4440.2,
+    "constraints": 3128,
+    "violation_mm": 15.367575820104515,
+    "linearized_slack_mm": 15.367575727369356,
+    "step_mm": 2.5295248875335583e-08,
+    "motion_excess_mm": 0.45000000088895176
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 105,
+    "seconds": 4452.9,
+    "constraints": 3128,
+    "violation_mm": 15.3675758204088,
+    "linearized_slack_mm": 15.367575727364878,
+    "step_mm": 2.1858198344755753e-09,
+    "motion_excess_mm": 0.45000000006802426
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 106,
+    "seconds": 4465.4,
+    "constraints": 3128,
+    "violation_mm": 15.367575820346671,
+    "linearized_slack_mm": 15.367575727370822,
+    "step_mm": 1.954001885028659e-09,
+    "motion_excess_mm": 0.4500000000406043
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 107,
+    "seconds": 4477.7,
+    "constraints": 3128,
+    "violation_mm": 15.367575820367295,
+    "linearized_slack_mm": 15.367575727369502,
+    "step_mm": 3.535668801790085e-09,
+    "motion_excess_mm": 0.4500000000465564
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 108,
+    "seconds": 4490.2,
+    "constraints": 3128,
+    "violation_mm": 15.367575820290277,
+    "linearized_slack_mm": 15.367575727364313,
+    "step_mm": 8.019460834196017e-09,
+    "motion_excess_mm": 0.4500000005791133
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 109,
+    "seconds": 4502.5,
+    "constraints": 3128,
+    "violation_mm": 15.367575820308156,
+    "linearized_slack_mm": 15.367575727366281,
+    "step_mm": 1.1080526085756801e-08,
+    "motion_excess_mm": 0.4500000007993498
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 110,
+    "seconds": 4515.1,
+    "constraints": 3128,
+    "violation_mm": 15.367575820312538,
+    "linearized_slack_mm": 15.367575727361611,
+    "step_mm": 9.85420477711335e-09,
+    "motion_excess_mm": 0.4500000000644189
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 111,
+    "seconds": 4527.6,
+    "constraints": 3128,
+    "violation_mm": 15.367575820367135,
+    "linearized_slack_mm": 15.367575727341263,
+    "step_mm": 2.051374668889586e-08,
+    "motion_excess_mm": 0.45000000001469415
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 112,
+    "seconds": 4540.1,
+    "constraints": 3128,
+    "violation_mm": 15.367575820253398,
+    "linearized_slack_mm": 15.367575727345276,
+    "step_mm": 8.847688842946396e-09,
+    "motion_excess_mm": 0.4500000007744084
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 113,
+    "seconds": 4552.9,
+    "constraints": 3128,
+    "violation_mm": 15.367575820814785,
+    "linearized_slack_mm": 15.367575727352671,
+    "step_mm": 3.0017655957130214e-08,
+    "motion_excess_mm": 0.45000000004437724
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 114,
+    "seconds": 4565.7,
+    "constraints": 3128,
+    "violation_mm": 15.367575820817368,
+    "linearized_slack_mm": 15.367575727352905,
+    "step_mm": 1.174349946147461e-08,
+    "motion_excess_mm": 0.4500000000003619
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 115,
+    "seconds": 4578.0,
+    "constraints": 3128,
+    "violation_mm": 15.367575820921344,
+    "linearized_slack_mm": 15.367575727346683,
+    "step_mm": 5.0397431460158675e-08,
+    "motion_excess_mm": 0.4500000000825613
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 116,
+    "seconds": 4590.5,
+    "constraints": 3128,
+    "violation_mm": 15.367575819851032,
+    "linearized_slack_mm": 15.367575727369758,
+    "step_mm": 4.834734418637847e-08,
+    "motion_excess_mm": 0.4500000000675229
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 117,
+    "seconds": 4603.4,
+    "constraints": 3128,
+    "violation_mm": 15.3675758199772,
+    "linearized_slack_mm": 15.36757572736687,
+    "step_mm": 2.10396928308792e-08,
+    "motion_excess_mm": 0.4500000007069803
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 118,
+    "seconds": 4616.1,
+    "constraints": 3128,
+    "violation_mm": 15.367575818609456,
+    "linearized_slack_mm": 15.367575727312493,
+    "step_mm": 2.2259218049437727e-08,
+    "motion_excess_mm": 0.4500000041782811
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 119,
+    "seconds": 4628.4,
+    "constraints": 3128,
+    "violation_mm": 15.36757582023058,
+    "linearized_slack_mm": 15.367575727334184,
+    "step_mm": 8.740487176695237e-09,
+    "motion_excess_mm": 0.4500000015182316
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 120,
+    "seconds": 4640.9,
+    "constraints": 3128,
+    "violation_mm": 15.367575821341322,
+    "linearized_slack_mm": 15.367575727319263,
+    "step_mm": 4.2000047092677814e-09,
+    "motion_excess_mm": 0.4500000000348898
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 121,
+    "seconds": 4653.8,
+    "constraints": 3128,
+    "violation_mm": 15.367575821383031,
+    "linearized_slack_mm": 15.3675757273241,
+    "step_mm": 2.263971683790899e-08,
+    "motion_excess_mm": 0.4500000009790619
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 122,
+    "seconds": 4666.5,
+    "constraints": 3128,
+    "violation_mm": 15.367575821371952,
+    "linearized_slack_mm": 15.367575727323583,
+    "step_mm": 9.17502806106558e-09,
+    "motion_excess_mm": 0.450000000045869
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 123,
+    "seconds": 4678.9,
+    "constraints": 3128,
+    "violation_mm": 15.367575821305664,
+    "linearized_slack_mm": 15.367575727322446,
+    "step_mm": 2.6385949641513844e-09,
+    "motion_excess_mm": 0.4500000001813663
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 124,
+    "seconds": 4692.0,
+    "constraints": 3128,
+    "violation_mm": 15.367575821284623,
+    "linearized_slack_mm": 15.367575727322913,
+    "step_mm": 1.3803156401805116e-09,
+    "motion_excess_mm": 0.45000000022268327
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 125,
+    "seconds": 4704.7,
+    "constraints": 3128,
+    "violation_mm": 15.36757582142571,
+    "linearized_slack_mm": 15.36757572732044,
+    "step_mm": 2.7990135528676447e-09,
+    "motion_excess_mm": 0.4500000000560555
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 126,
+    "seconds": 4717.7,
+    "constraints": 3128,
+    "violation_mm": 15.367575821447089,
+    "linearized_slack_mm": 15.367575727322874,
+    "step_mm": 4.127446948756596e-09,
+    "motion_excess_mm": 0.4500000000565493
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 127,
+    "seconds": 4730.1,
+    "constraints": 3128,
+    "violation_mm": 15.367575821586414,
+    "linearized_slack_mm": 15.367575727317792,
+    "step_mm": 1.3209363850840485e-08,
+    "motion_excess_mm": 0.4500000000633459
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 128,
+    "seconds": 4742.4,
+    "constraints": 3128,
+    "violation_mm": 15.367575821527502,
+    "linearized_slack_mm": 15.367575727312477,
+    "step_mm": 2.646013672577101e-09,
+    "motion_excess_mm": 0.4500000000850901
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 129,
+    "seconds": 4754.4,
+    "constraints": 3128,
+    "violation_mm": 15.367575821526376,
+    "linearized_slack_mm": 15.36757572731268,
+    "step_mm": 4.317599906711212e-09,
+    "motion_excess_mm": 0.45000000012459285
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 130,
+    "seconds": 4766.8,
+    "constraints": 3128,
+    "violation_mm": 15.367575822130574,
+    "linearized_slack_mm": 15.367575727312781,
+    "step_mm": 7.802440918221086e-09,
+    "motion_excess_mm": 0.45000000006515567
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 131,
+    "seconds": 4779.2,
+    "constraints": 3128,
+    "violation_mm": 15.36757582215556,
+    "linearized_slack_mm": 15.367575727309081,
+    "step_mm": 4.82875877774393e-09,
+    "motion_excess_mm": 0.45000000004019036
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 132,
+    "seconds": 4792.3,
+    "constraints": 3128,
+    "violation_mm": 15.367575822149345,
+    "linearized_slack_mm": 15.367575727308987,
+    "step_mm": 4.8321453960217765e-09,
+    "motion_excess_mm": 0.4500000000409905
+  }
+]

@@ -203,3 +203,12 @@ R45 completed on run39115485844 and evidence commit a88afeb96a6c8429003a67478d8f
 Native artifact12132988179 SHA2564fa00d6fe12dc0a107d83f7b33aca9053e388611972bdd0d122b464900e2d0d1. Local images/video reviewed. See docs/CODEX_ORIGINAL_V1_REVIEW_CANDIDATE_R45_20261018.md.
 
 R46 is a continuation from the exact retained R45 state, with150minutes maximum fitting and180minutes total. No fitting algorithm, skin domain, anatomical policy, test assertion or acceptance threshold changes. New named folder/test/workflow; normal source/evidence commits only. See docs/CODEX_ORIGINAL_V1_R46_CONTINUATION_PLAN_20261018.md. Source preparation/control tests are not model acceptance. Continue to inspect native outputs before claiming completion.
+
+
+## R46 rejected; R47 scope investigation — 18 October
+
+R46 evidence commit5c9fb322d7e29cf0916ccef05f78296f13f6cd18. No model saved; owner-junction shape still fails despite all83 native checks and13 benchmarks passing. The owner re-supplied the older whole-body reference and rejected this outline.
+
+Read docs/CODEX_ORIGINAL_V1_R47_SHAPE_SCOPE_AUDIT_20261018.md before another fit. A reproducible read-only certificate finds12 upper-outline samples with exactly zero response to every permitted coordinate: that portion of arm-root skin was locked. The R42 outward-fill target also disagrees with the narrower whole-outline relationship in the supplied reference. A private, approximate2D outline overlay was prepared; no reference photo or trace is in the repo.
+
+No R47 geometry exists. Broader shoulder-side/proximal-arm/upper-flank skin edits await the owner's required confirmation on the concrete overlay. Preserve newer elbow/distal-arm detail and all canonical/protected assets. Existing R42 test stays unchanged as historical evidence; resolve its conflicting target interpretation explicitly, with full-outline requirements and all safety checks retained, before accepting any next candidate. Do not launch another long continuation unchanged.

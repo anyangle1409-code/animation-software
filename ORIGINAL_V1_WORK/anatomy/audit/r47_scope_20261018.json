@@ -1,0 +1,465 @@
+{
+  "status": "READ_ONLY_SCOPE_CERTIFICATE_NOT_A_MODEL",
+  "frame": 25,
+  "elevation_degrees": 135.625,
+  "locked_upper_outline_records": 12,
+  "explanation": "At these outline edges every active source coordinate is fixed. Any change confined to the existing free mask has exactly zero response there.",
+  "records": [
+    {
+      "side": "left",
+      "screen_row": 180,
+      "screen_x": 87.78522641576171,
+      "vertices": [
+        2164,
+        15614
+      ],
+      "locked_at_this_pose": true,
+      "maximum_free_coordinate_response": 0.0,
+      "current_increment_mm": 0.0
+    },
+    {
+      "side": "right",
+      "screen_row": 180,
+      "screen_x": 424.1990057822275,
+      "vertices": [
+        3686,
+        17154
+      ],
+      "locked_at_this_pose": true,
+      "maximum_free_coordinate_response": 0.0,
+      "current_increment_mm": 0.0
+    },
+    {
+      "side": "left",
+      "screen_row": 190,
+      "screen_x": 93.98968777035661,
+      "vertices": [
+        19173,
+        21411
+      ],
+      "locked_at_this_pose": true,
+      "maximum_free_coordinate_response": 0.0,
+      "current_increment_mm": 0.0
+    },
+    {
+      "side": "right",
+      "screen_row": 190,
+      "screen_x": 418.0087250201815,
+      "vertices": [
+        19486,
+        21582
+      ],
+      "locked_at_this_pose": true,
+      "maximum_free_coordinate_response": 0.0,
+      "current_increment_mm": 0.0
+    },
+    {
+      "side": "left",
+      "screen_row": 200,
+      "screen_x": 100.36581546684303,
+      "vertices": [
+        2144,
+        19169
+      ],
+      "locked_at_this_pose": true,
+      "maximum_free_coordinate_response": 0.0,
+      "current_increment_mm": 0.0
+    },
+    {
+      "side": "right",
+      "screen_row": 200,
+      "screen_x": 411.6606319911775,
+      "vertices": [
+        3666,
+        19482
+      ],
+      "locked_at_this_pose": true,
+      "maximum_free_coordinate_response": 0.0,
+      "current_increment_mm": 0.0
+    },
+    {
+      "side": "left",
+      "screen_row": 210,
+      "screen_x": 107.64693688255602,
+      "vertices": [
+        15575,
+        19050
+      ],
+      "locked_at_this_pose": true,
+      "maximum_free_coordinate_response": 0.0,
+      "current_increment_mm": 0.0
+    },
+    {
+      "side": "right",
+      "screen_row": 210,
+      "screen_x": 404.43479308731395,
+      "vertices": [
+        17115,
+        19363
+      ],
+      "locked_at_this_pose": true,
+      "maximum_free_coordinate_response": 0.0,
+      "current_increment_mm": 0.0
+    },
+    {
+      "side": "left",
+      "screen_row": 220,
+      "screen_x": 114.71437962746829,
+      "vertices": [
+        8712,
+        21318
+      ],
+      "locked_at_this_pose": true,
+      "maximum_free_coordinate_response": 0.0,
+      "current_increment_mm": 0.0
+    },
+    {
+      "side": "right",
+      "screen_row": 220,
+      "screen_x": 397.405900142431,
+      "vertices": [
+        11771,
+        19364
+      ],
+      "locked_at_this_pose": true,
+      "maximum_free_coordinate_response": 0.0,
+      "current_increment_mm": 0.0
+    },
+    {
+      "side": "left",
+      "screen_row": 230,
+      "screen_x": 121.59876248157082,
+      "vertices": [
+        15557,
+        21317
+      ],
+      "locked_at_this_pose": true,
+      "maximum_free_coordinate_response": 0.0,
+      "current_increment_mm": 0.0
+    },
+    {
+      "side": "right",
+      "screen_row": 230,
+      "screen_x": 390.56927675270197,
+      "vertices": [
+        17097,
+        21490
+      ],
+      "locked_at_this_pose": true,
+      "maximum_free_coordinate_response": 0.0,
+      "current_increment_mm": 0.0
+    },
+    {
+      "side": "left",
+      "screen_row": 240,
+      "screen_x": 128.48182087858066,
+      "vertices": [
+        18052,
+        19776
+      ],
+      "locked_at_this_pose": false,
+      "maximum_free_coordinate_response": 0.7035547469738378,
+      "current_increment_mm": 0.15739732145466703
+    },
+    {
+      "side": "right",
+      "screen_row": 240,
+      "screen_x": 383.74985179342394,
+      "vertices": [
+        18088,
+        18090
+      ],
+      "locked_at_this_pose": false,
+      "maximum_free_coordinate_response": 0.7131158515830799,
+      "current_increment_mm": 0.07074266824542327
+    },
+    {
+      "side": "left",
+      "screen_row": 250,
+      "screen_x": 135.11624171145752,
+      "vertices": [
+        23,
+        18058
+      ],
+      "locked_at_this_pose": false,
+      "maximum_free_coordinate_response": 0.7105651214446594,
+      "current_increment_mm": 0.878023091611095
+    },
+    {
+      "side": "right",
+      "screen_row": 250,
+      "screen_x": 377.22948944446705,
+      "vertices": [
+        37,
+        18083
+      ],
+      "locked_at_this_pose": false,
+      "maximum_free_coordinate_response": 0.7073797216566576,
+      "current_increment_mm": 0.9802551670562111
+    },
+    {
+      "side": "left",
+      "screen_row": 260,
+      "screen_x": 141.5933981043712,
+      "vertices": [
+        6295,
+        18819
+      ],
+      "locked_at_this_pose": false,
+      "maximum_free_coordinate_response": 0.6780602892341109,
+      "current_increment_mm": 1.3485330377977753
+    },
+    {
+      "side": "right",
+      "screen_row": 260,
+      "screen_x": 370.62702330777716,
+      "vertices": [
+        6310,
+        18839
+      ],
+      "locked_at_this_pose": false,
+      "maximum_free_coordinate_response": 0.6780993875408513,
+      "current_increment_mm": 1.3366620395052722
+    },
+    {
+      "side": "left",
+      "screen_row": 270,
+      "screen_x": 147.86650257937853,
+      "vertices": [
+        20951,
+        20953
+      ],
+      "locked_at_this_pose": false,
+      "maximum_free_coordinate_response": 0.7585043405928101,
+      "current_increment_mm": 2.370248250102836
+    },
+    {
+      "side": "right",
+      "screen_row": 270,
+      "screen_x": 364.3970631221198,
+      "vertices": [
+        20898,
+        20992
+      ],
+      "locked_at_this_pose": false,
+      "maximum_free_coordinate_response": 0.7666638005627133,
+      "current_increment_mm": 2.4119673852940378
+    },
+    {
+      "side": "left",
+      "screen_row": 280,
+      "screen_x": 154.15718435481432,
+      "vertices": [
+        14257,
+        20854
+      ],
+      "locked_at_this_pose": false,
+      "maximum_free_coordinate_response": 0.8188451873632946,
+      "current_increment_mm": 3.388903630753383
+    },
+    {
+      "side": "right",
+      "screen_row": 280,
+      "screen_x": 358.14808852216265,
+      "vertices": [
+        14270,
+        20807
+      ],
+      "locked_at_this_pose": false,
+      "maximum_free_coordinate_response": 0.8257148953007619,
+      "current_increment_mm": 3.446768631696833
+    },
+    {
+      "side": "left",
+      "screen_row": 290,
+      "screen_x": 160.5806489227237,
+      "vertices": [
+        20697,
+        20772
+      ],
+      "locked_at_this_pose": false,
+      "maximum_free_coordinate_response": 0.874114345155994,
+      "current_increment_mm": 4.311021277584219
+    },
+    {
+      "side": "right",
+      "screen_row": 290,
+      "screen_x": 351.6498536138733,
+      "vertices": [
+        20720,
+        20795
+      ],
+      "locked_at_this_pose": false,
+      "maximum_free_coordinate_response": 0.8741201981747442,
+      "current_increment_mm": 4.049239943957655
+    },
+    {
+      "side": "left",
+      "screen_row": 300,
+      "screen_x": 167.1953158676935,
+      "vertices": [
+        20637,
+        20694
+      ],
+      "locked_at_this_pose": false,
+      "maximum_free_coordinate_response": 0.9102619563271306,
+      "current_increment_mm": 4.41385834113916
+    },
+    {
+      "side": "right",
+      "screen_row": 300,
+      "screen_x": 344.7850407859475,
+      "vertices": [
+        20650,
+        20711
+      ],
+      "locked_at_this_pose": false,
+      "maximum_free_coordinate_response": 0.9102643790794656,
+      "current_increment_mm": 3.649891715628601
+    },
+    {
+      "side": "left",
+      "screen_row": 310,
+      "screen_x": 171.65076360986018,
+      "vertices": [
+        18658,
+        20634
+      ],
+      "locked_at_this_pose": false,
+      "maximum_free_coordinate_response": 0.9267919672545339,
+      "current_increment_mm": 4.22615455242086
+    },
+    {
+      "side": "right",
+      "screen_row": 310,
+      "screen_x": 339.90157347890687,
+      "vertices": [
+        20642,
+        20643
+      ],
+      "locked_at_this_pose": false,
+      "maximum_free_coordinate_response": 0.9349131050589238,
+      "current_increment_mm": 2.6380739301120677
+    },
+    {
+      "side": "left",
+      "screen_row": 320,
+      "screen_x": 176.21609248796787,
+      "vertices": [
+        5920,
+        14129
+      ],
+      "locked_at_this_pose": false,
+      "maximum_free_coordinate_response": 0.9589589777622061,
+      "current_increment_mm": 3.0912719708037883
+    },
+    {
+      "side": "right",
+      "screen_row": 320,
+      "screen_x": 335.3718851414321,
+      "vertices": [
+        5946,
+        14142
+      ],
+      "locked_at_this_pose": false,
+      "maximum_free_coordinate_response": 0.9589582998471323,
+      "current_increment_mm": 1.9172707889237222
+    },
+    {
+      "side": "left",
+      "screen_row": 330,
+      "screen_x": 180.6752767889519,
+      "vertices": [
+        5856,
+        14129
+      ],
+      "locked_at_this_pose": false,
+      "maximum_free_coordinate_response": 0.9632405980021799,
+      "current_increment_mm": 2.404257504256403
+    },
+    {
+      "side": "right",
+      "screen_row": 330,
+      "screen_x": 331.12403680884665,
+      "vertices": [
+        5882,
+        14142
+      ],
+      "locked_at_this_pose": false,
+      "maximum_free_coordinate_response": 0.9632394557011948,
+      "current_increment_mm": 1.737521909946285
+    },
+    {
+      "side": "left",
+      "screen_row": 340,
+      "screen_x": 184.9250708652577,
+      "vertices": [
+        5790,
+        5853
+      ],
+      "locked_at_this_pose": false,
+      "maximum_free_coordinate_response": 0.9632405980021799,
+      "current_increment_mm": 1.2074616506666058
+    },
+    {
+      "side": "right",
+      "screen_row": 340,
+      "screen_x": 326.92450021403437,
+      "vertices": [
+        715,
+        5881
+      ],
+      "locked_at_this_pose": false,
+      "maximum_free_coordinate_response": 0.9632394557011948,
+      "current_increment_mm": 0.7702646297076952
+    },
+    {
+      "side": "left",
+      "screen_row": 350,
+      "screen_x": 188.36186624372442,
+      "vertices": [
+        5790,
+        14064
+      ],
+      "locked_at_this_pose": false,
+      "maximum_free_coordinate_response": 0.9632405980021799,
+      "current_increment_mm": 0.3834496594435309
+    },
+    {
+      "side": "right",
+      "screen_row": 350,
+      "screen_x": 323.56620307152394,
+      "vertices": [
+        5820,
+        14079
+      ],
+      "locked_at_this_pose": false,
+      "maximum_free_coordinate_response": 0.9632394557011948,
+      "current_increment_mm": 0.1426981121972285
+    },
+    {
+      "side": "left",
+      "screen_row": 360,
+      "screen_x": 191.24205329756572,
+      "vertices": [
+        5723,
+        5726
+      ],
+      "locked_at_this_pose": false,
+      "maximum_free_coordinate_response": 0.9632405980021799,
+      "current_increment_mm": 0.04196741930317214
+    },
+    {
+      "side": "right",
+      "screen_row": 360,
+      "screen_x": 320.7463610409649,
+      "vertices": [
+        5756,
+        14047
+      ],
+      "locked_at_this_pose": false,
+      "maximum_free_coordinate_response": 0.9632394557011948,
+      "current_increment_mm": 7.94556873351393e-05
+    }
+  ]
+}

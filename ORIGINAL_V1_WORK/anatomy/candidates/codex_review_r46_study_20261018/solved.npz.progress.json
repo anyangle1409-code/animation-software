@@ -1,0 +1,52 @@
+[
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 0,
+    "seconds": 193.9,
+    "constraints": 4808,
+    "violation_mm": 14.648593514176554,
+    "linearized_slack_mm": 14.301706751268352,
+    "step_mm": 0.39143952922809333,
+    "motion_excess_mm": 0.44609289802920393
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 1,
+    "seconds": 606.0,
+    "constraints": 8375,
+    "violation_mm": 14.467578735182698,
+    "linearized_slack_mm": 14.139410508735088,
+    "step_mm": 0.5520239314452754,
+    "motion_excess_mm": 0.4475840838857453
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 2,
+    "seconds": 1401.3,
+    "constraints": 12839,
+    "violation_mm": 14.295768094528606,
+    "linearized_slack_mm": 13.94079256752151,
+    "step_mm": 0.8272073831483763,
+    "motion_excess_mm": 0.44805901411227433
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 3,
+    "seconds": 5943.8,
+    "constraints": 20603,
+    "violation_mm": 14.108634872141202,
+    "linearized_slack_mm": 13.726240622384747,
+    "step_mm": 0.6046623980428795,
+    "motion_excess_mm": 0.4484398534611823
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 4,
+    "seconds": 7491.2,
+    "constraints": 20778,
+    "violation_mm": 14.007058524104806,
+    "linearized_slack_mm": 13.666187326993866,
+    "step_mm": 0.5849683575624424,
+    "motion_excess_mm": 0.4472803519299852
+  }
+]

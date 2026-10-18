@@ -1,0 +1,1605 @@
+{
+  "contacts": [],
+  "sample_count": 82,
+  "front_130": {
+    "current": {
+      "stretch": 19,
+      "collapse": 0,
+      "max_area_ratio": 2.945147878922102
+    },
+    "parent": {
+      "stretch": 19,
+      "collapse": 0,
+      "max_area_ratio": 2.964500304209004
+    },
+    "passed": true,
+    "sample": 82,
+    "parent_pairs": 0,
+    "current_pairs": 0,
+    "new_contact_pairs": 0,
+    "affine_error_mm": 0.00027355529844382015,
+    "normal_rotations_over_90_degrees": 0
+  },
+  "samples": [
+    {
+      "current": {
+        "stretch": 76,
+        "collapse": 0,
+        "max_area_ratio": 5.513979223892513
+      },
+      "parent": {
+        "stretch": 76,
+        "collapse": 0,
+        "max_area_ratio": 5.513979443957494
+      },
+      "passed": true,
+      "sample": 0,
+      "parent_pairs": 226,
+      "current_pairs": 226,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 76,
+        "collapse": 0,
+        "max_area_ratio": 5.572437052441628
+      },
+      "parent": {
+        "stretch": 76,
+        "collapse": 0,
+        "max_area_ratio": 5.572436823599213
+      },
+      "passed": true,
+      "sample": 1,
+      "parent_pairs": 226,
+      "current_pairs": 226,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 76,
+        "collapse": 0,
+        "max_area_ratio": 5.74362176672634
+      },
+      "parent": {
+        "stretch": 76,
+        "collapse": 0,
+        "max_area_ratio": 5.743622223955647
+      },
+      "passed": true,
+      "sample": 2,
+      "parent_pairs": 230,
+      "current_pairs": 230,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 72,
+        "collapse": 0,
+        "max_area_ratio": 6.020976468711342
+      },
+      "parent": {
+        "stretch": 72,
+        "collapse": 0,
+        "max_area_ratio": 6.020976195264344
+      },
+      "passed": true,
+      "sample": 3,
+      "parent_pairs": 208,
+      "current_pairs": 208,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 72,
+        "collapse": 0,
+        "max_area_ratio": 6.399009814111812
+      },
+      "parent": {
+        "stretch": 72,
+        "collapse": 0,
+        "max_area_ratio": 6.399009194396288
+      },
+      "passed": true,
+      "sample": 4,
+      "parent_pairs": 188,
+      "current_pairs": 188,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 74,
+        "collapse": 0,
+        "max_area_ratio": 6.871340519125484
+      },
+      "parent": {
+        "stretch": 74,
+        "collapse": 0,
+        "max_area_ratio": 6.871341106382782
+      },
+      "passed": true,
+      "sample": 5,
+      "parent_pairs": 190,
+      "current_pairs": 190,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 76,
+        "collapse": 0,
+        "max_area_ratio": 7.428108951936156
+      },
+      "parent": {
+        "stretch": 76,
+        "collapse": 0,
+        "max_area_ratio": 7.428108178560211
+      },
+      "passed": true,
+      "sample": 6,
+      "parent_pairs": 174,
+      "current_pairs": 174,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 85,
+        "collapse": 0,
+        "max_area_ratio": 8.061555690466415
+      },
+      "parent": {
+        "stretch": 85,
+        "collapse": 0,
+        "max_area_ratio": 8.06155574166668
+      },
+      "passed": true,
+      "sample": 7,
+      "parent_pairs": 142,
+      "current_pairs": 142,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 91,
+        "collapse": 0,
+        "max_area_ratio": 8.769923839181205
+      },
+      "parent": {
+        "stretch": 91,
+        "collapse": 0,
+        "max_area_ratio": 8.769923650112252
+      },
+      "passed": true,
+      "sample": 8,
+      "parent_pairs": 104,
+      "current_pairs": 104,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 106,
+        "collapse": 0,
+        "max_area_ratio": 9.546337757203185
+      },
+      "parent": {
+        "stretch": 106,
+        "collapse": 0,
+        "max_area_ratio": 9.546338214841658
+      },
+      "passed": true,
+      "sample": 9,
+      "parent_pairs": 34,
+      "current_pairs": 34,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 112,
+        "collapse": 0,
+        "max_area_ratio": 10.384152372464078
+      },
+      "parent": {
+        "stretch": 112,
+        "collapse": 0,
+        "max_area_ratio": 10.38415172444038
+      },
+      "passed": true,
+      "sample": 10,
+      "parent_pairs": 6,
+      "current_pairs": 6,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 121,
+        "collapse": 2,
+        "max_area_ratio": 10.018045753810382
+      },
+      "parent": {
+        "stretch": 121,
+        "collapse": 2,
+        "max_area_ratio": 10.018045552242743
+      },
+      "passed": true,
+      "sample": 11,
+      "parent_pairs": 6,
+      "current_pairs": 6,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 112,
+        "collapse": 2,
+        "max_area_ratio": 9.57289377334573
+      },
+      "parent": {
+        "stretch": 112,
+        "collapse": 2,
+        "max_area_ratio": 9.57289403651963
+      },
+      "passed": true,
+      "sample": 12,
+      "parent_pairs": 6,
+      "current_pairs": 6,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 108,
+        "collapse": 0,
+        "max_area_ratio": 8.931982538653175
+      },
+      "parent": {
+        "stretch": 108,
+        "collapse": 0,
+        "max_area_ratio": 8.931982547477729
+      },
+      "passed": true,
+      "sample": 13,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 87,
+        "collapse": 0,
+        "max_area_ratio": 7.4118900599034
+      },
+      "parent": {
+        "stretch": 87,
+        "collapse": 0,
+        "max_area_ratio": 7.406792933726568
+      },
+      "passed": true,
+      "sample": 14,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00027314279645418167,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 54,
+        "collapse": 0,
+        "max_area_ratio": 5.514917867474433
+      },
+      "parent": {
+        "stretch": 54,
+        "collapse": 0,
+        "max_area_ratio": 5.495815374413046
+      },
+      "passed": true,
+      "sample": 15,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00029200193199910854,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 34,
+        "collapse": 0,
+        "max_area_ratio": 3.8377470977134642
+      },
+      "parent": {
+        "stretch": 34,
+        "collapse": 0,
+        "max_area_ratio": 3.8150809888776913
+      },
+      "passed": true,
+      "sample": 16,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00034240261593687703,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 15,
+        "collapse": 0,
+        "max_area_ratio": 3.4191055610121417
+      },
+      "parent": {
+        "stretch": 15,
+        "collapse": 0,
+        "max_area_ratio": 3.419079823534515
+      },
+      "passed": true,
+      "sample": 17,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00029222022019832007,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 6,
+        "collapse": 0,
+        "max_area_ratio": 3.0316094491708245
+      },
+      "parent": {
+        "stretch": 6,
+        "collapse": 0,
+        "max_area_ratio": 3.0316086744303083
+      },
+      "passed": true,
+      "sample": 18,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0002987127006485801,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 4,
+        "collapse": 0,
+        "max_area_ratio": 2.4094118563246503
+      },
+      "parent": {
+        "stretch": 4,
+        "collapse": 0,
+        "max_area_ratio": 2.409413436886782
+      },
+      "passed": true,
+      "sample": 19,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0003372570961045109,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 0,
+        "collapse": 0,
+        "max_area_ratio": 1.9338163528793775
+      },
+      "parent": {
+        "stretch": 0,
+        "collapse": 0,
+        "max_area_ratio": 1.9338163335375886
+      },
+      "passed": true,
+      "sample": 20,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00033717478808715227,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 0,
+        "collapse": 0,
+        "max_area_ratio": 1.9402918472074455
+      },
+      "parent": {
+        "stretch": 0,
+        "collapse": 0,
+        "max_area_ratio": 1.9295841655875905
+      },
+      "passed": true,
+      "sample": 21,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00031680303253932746,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 3,
+        "collapse": 0,
+        "max_area_ratio": 2.0853530040097548
+      },
+      "parent": {
+        "stretch": 3,
+        "collapse": 0,
+        "max_area_ratio": 2.0853566870205538
+      },
+      "passed": true,
+      "sample": 22,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00036256089987148164,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 15,
+        "collapse": 0,
+        "max_area_ratio": 2.587922374346476
+      },
+      "parent": {
+        "stretch": 15,
+        "collapse": 0,
+        "max_area_ratio": 2.608965622048314
+      },
+      "passed": true,
+      "sample": 23,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0003576327192578581,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 15,
+        "collapse": 0,
+        "max_area_ratio": 2.5773220605855536
+      },
+      "parent": {
+        "stretch": 15,
+        "collapse": 0,
+        "max_area_ratio": 2.5774318623011485
+      },
+      "passed": true,
+      "sample": 24,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0003601028315304092,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 19,
+        "collapse": 0,
+        "max_area_ratio": 2.512179342286154
+      },
+      "parent": {
+        "stretch": 19,
+        "collapse": 0,
+        "max_area_ratio": 2.512142576004614
+      },
+      "passed": true,
+      "sample": 25,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00047706993203109867,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 20,
+        "collapse": 0,
+        "max_area_ratio": 2.669492029701829
+      },
+      "parent": {
+        "stretch": 20,
+        "collapse": 0,
+        "max_area_ratio": 2.669489467497604
+      },
+      "passed": true,
+      "sample": 26,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00047740525398185006,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 26,
+        "collapse": 0,
+        "max_area_ratio": 2.8229793569204564
+      },
+      "parent": {
+        "stretch": 27,
+        "collapse": 0,
+        "max_area_ratio": 2.8229574393564096
+      },
+      "passed": true,
+      "sample": 27,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00047706993203109867,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 41,
+        "collapse": 0,
+        "max_area_ratio": 2.8760451569439494
+      },
+      "parent": {
+        "stretch": 44,
+        "collapse": 0,
+        "max_area_ratio": 2.876076784575245
+      },
+      "passed": true,
+      "sample": 28,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00027314279645418167,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 11,
+        "collapse": 0,
+        "max_area_ratio": 2.26798706931478
+      },
+      "parent": {
+        "stretch": 11,
+        "collapse": 0,
+        "max_area_ratio": 2.266202569754746
+      },
+      "passed": true,
+      "sample": 29,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00035762786865234375,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 2,
+        "collapse": 0,
+        "max_area_ratio": 2.2284759425172798
+      },
+      "parent": {
+        "stretch": 2,
+        "collapse": 0,
+        "max_area_ratio": 2.2106226096746915
+      },
+      "passed": true,
+      "sample": 30,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0002707605458345829,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 11,
+        "collapse": 0,
+        "max_area_ratio": 2.7941670019760285
+      },
+      "parent": {
+        "stretch": 11,
+        "collapse": 0,
+        "max_area_ratio": 2.93617190442067
+      },
+      "passed": true,
+      "sample": 31,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00026656007498500225,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 28,
+        "collapse": 0,
+        "max_area_ratio": 3.7931821370479657
+      },
+      "parent": {
+        "stretch": 29,
+        "collapse": 0,
+        "max_area_ratio": 3.9254937049130327
+      },
+      "passed": true,
+      "sample": 32,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0004777675730550706,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 23,
+        "collapse": 0,
+        "max_area_ratio": 3.036674561643494
+      },
+      "parent": {
+        "stretch": 25,
+        "collapse": 0,
+        "max_area_ratio": 3.112475818629662
+      },
+      "passed": true,
+      "sample": 33,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00027161428531346,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 30,
+        "collapse": 0,
+        "max_area_ratio": 4.1998960432783194
+      },
+      "parent": {
+        "stretch": 30,
+        "collapse": 0,
+        "max_area_ratio": 4.236714520375283
+      },
+      "passed": true,
+      "sample": 34,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0004786961795153919,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 31,
+        "collapse": 0,
+        "max_area_ratio": 6.061810704454336
+      },
+      "parent": {
+        "stretch": 34,
+        "collapse": 0,
+        "max_area_ratio": 6.089305661165005
+      },
+      "passed": true,
+      "sample": 35,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0004805480091749757,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 41,
+        "collapse": 0,
+        "max_area_ratio": 7.762095875637952
+      },
+      "parent": {
+        "stretch": 42,
+        "collapse": 0,
+        "max_area_ratio": 7.7776347510366275
+      },
+      "passed": true,
+      "sample": 36,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.000476837158203125,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 48,
+        "collapse": 0,
+        "max_area_ratio": 9.209644681472316
+      },
+      "parent": {
+        "stretch": 49,
+        "collapse": 0,
+        "max_area_ratio": 9.216246861718401
+      },
+      "passed": true,
+      "sample": 37,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0004777675730550706,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 49,
+        "collapse": 0,
+        "max_area_ratio": 10.327305068139706
+      },
+      "parent": {
+        "stretch": 50,
+        "collapse": 0,
+        "max_area_ratio": 10.329197042160374
+      },
+      "passed": true,
+      "sample": 38,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00028468628487799763,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 52,
+        "collapse": 0,
+        "max_area_ratio": 11.037231144369144
+      },
+      "parent": {
+        "stretch": 52,
+        "collapse": 0,
+        "max_area_ratio": 11.037786812355325
+      },
+      "passed": true,
+      "sample": 39,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00048147125307928054,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 53,
+        "collapse": 0,
+        "max_area_ratio": 11.28466623473042
+      },
+      "parent": {
+        "stretch": 53,
+        "collapse": 0,
+        "max_area_ratio": 11.28466690745961
+      },
+      "passed": true,
+      "sample": 40,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0002457562461863554,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 130,
+        "collapse": 0,
+        "max_area_ratio": 9.527078622546066
+      },
+      "parent": {
+        "stretch": 130,
+        "collapse": 0,
+        "max_area_ratio": 9.527078709259854
+      },
+      "passed": true,
+      "sample": 41,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 128,
+        "collapse": 0,
+        "max_area_ratio": 9.500001142352728
+      },
+      "parent": {
+        "stretch": 128,
+        "collapse": 0,
+        "max_area_ratio": 9.500000530061758
+      },
+      "passed": true,
+      "sample": 42,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 128,
+        "collapse": 0,
+        "max_area_ratio": 9.420831061979204
+      },
+      "parent": {
+        "stretch": 128,
+        "collapse": 0,
+        "max_area_ratio": 9.420831248591805
+      },
+      "passed": true,
+      "sample": 43,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 128,
+        "collapse": 0,
+        "max_area_ratio": 9.292808142823898
+      },
+      "parent": {
+        "stretch": 128,
+        "collapse": 0,
+        "max_area_ratio": 9.29280774362135
+      },
+      "passed": true,
+      "sample": 44,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 126,
+        "collapse": 0,
+        "max_area_ratio": 9.119822032937414
+      },
+      "parent": {
+        "stretch": 126,
+        "collapse": 0,
+        "max_area_ratio": 9.119821185504145
+      },
+      "passed": true,
+      "sample": 45,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 126,
+        "collapse": 0,
+        "max_area_ratio": 8.906516257237119
+      },
+      "parent": {
+        "stretch": 126,
+        "collapse": 0,
+        "max_area_ratio": 8.906516027441661
+      },
+      "passed": true,
+      "sample": 46,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 124,
+        "collapse": 0,
+        "max_area_ratio": 8.656374099286
+      },
+      "parent": {
+        "stretch": 124,
+        "collapse": 0,
+        "max_area_ratio": 8.656373914279081
+      },
+      "passed": true,
+      "sample": 47,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 110,
+        "collapse": 0,
+        "max_area_ratio": 8.07054698070598
+      },
+      "parent": {
+        "stretch": 110,
+        "collapse": 0,
+        "max_area_ratio": 8.069622173745197
+      },
+      "passed": true,
+      "sample": 48,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0002808582309629137,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 82,
+        "collapse": 0,
+        "max_area_ratio": 7.087873518898906
+      },
+      "parent": {
+        "stretch": 82,
+        "collapse": 0,
+        "max_area_ratio": 7.082192438487287
+      },
+      "passed": true,
+      "sample": 49,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.000279967400849699,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 64,
+        "collapse": 0,
+        "max_area_ratio": 6.073172574922671
+      },
+      "parent": {
+        "stretch": 64,
+        "collapse": 0,
+        "max_area_ratio": 6.060273739579894
+      },
+      "passed": true,
+      "sample": 50,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00032098083538618704,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 48,
+        "collapse": 0,
+        "max_area_ratio": 5.0716283104835576
+      },
+      "parent": {
+        "stretch": 48,
+        "collapse": 0,
+        "max_area_ratio": 5.052277212907872
+      },
+      "passed": true,
+      "sample": 51,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00031828894262453654,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 35,
+        "collapse": 0,
+        "max_area_ratio": 4.1015576322414695
+      },
+      "parent": {
+        "stretch": 35,
+        "collapse": 0,
+        "max_area_ratio": 4.080280961737317
+      },
+      "passed": true,
+      "sample": 52,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0003616410821530699,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 19,
+        "collapse": 0,
+        "max_area_ratio": 3.1529158304569482
+      },
+      "parent": {
+        "stretch": 20,
+        "collapse": 0,
+        "max_area_ratio": 3.1350421851861268
+      },
+      "passed": true,
+      "sample": 53,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00036378370570342843,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 10,
+        "collapse": 0,
+        "max_area_ratio": 2.9826020347761832
+      },
+      "parent": {
+        "stretch": 10,
+        "collapse": 0,
+        "max_area_ratio": 2.9825855234264873
+      },
+      "passed": true,
+      "sample": 54,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0003604110068812318,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 5,
+        "collapse": 0,
+        "max_area_ratio": 2.822549160042416
+      },
+      "parent": {
+        "stretch": 5,
+        "collapse": 0,
+        "max_area_ratio": 2.822545971565131
+      },
+      "passed": true,
+      "sample": 55,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0002905009942484185,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 2,
+        "collapse": 0,
+        "max_area_ratio": 2.469857352682139
+      },
+      "parent": {
+        "stretch": 2,
+        "collapse": 0,
+        "max_area_ratio": 2.4698574469841046
+      },
+      "passed": true,
+      "sample": 56,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00033717993292686917,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 1,
+        "collapse": 0,
+        "max_area_ratio": 2.1007374125201586
+      },
+      "parent": {
+        "stretch": 1,
+        "collapse": 0,
+        "max_area_ratio": 2.100738491364853
+      },
+      "passed": true,
+      "sample": 57,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00035762786865234375,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 0,
+        "collapse": 0,
+        "max_area_ratio": 1.9558597628941754
+      },
+      "parent": {
+        "stretch": 0,
+        "collapse": 0,
+        "max_area_ratio": 1.967135759083764
+      },
+      "passed": true,
+      "sample": 58,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00029200193199910854,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 6,
+        "collapse": 0,
+        "max_area_ratio": 2.172665758605392
+      },
+      "parent": {
+        "stretch": 7,
+        "collapse": 0,
+        "max_area_ratio": 2.187487137834939
+      },
+      "passed": true,
+      "sample": 59,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0003674277068954096,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 2,
+        "collapse": 0,
+        "max_area_ratio": 2.0840376233110973
+      },
+      "parent": {
+        "stretch": 2,
+        "collapse": 0,
+        "max_area_ratio": 2.101712224469687
+      },
+      "passed": true,
+      "sample": 60,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00035886748369909214,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 2,
+        "collapse": 0,
+        "max_area_ratio": 2.1530986157833847
+      },
+      "parent": {
+        "stretch": 2,
+        "collapse": 0,
+        "max_area_ratio": 2.1355440657342903
+      },
+      "passed": true,
+      "sample": 61,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00035762786865234375,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 4,
+        "collapse": 0,
+        "max_area_ratio": 2.243680223399469
+      },
+      "parent": {
+        "stretch": 4,
+        "collapse": 0,
+        "max_area_ratio": 2.249380989744014
+      },
+      "passed": true,
+      "sample": 62,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00036256089987148164,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 9,
+        "collapse": 0,
+        "max_area_ratio": 2.722346770767274
+      },
+      "parent": {
+        "stretch": 10,
+        "collapse": 0,
+        "max_area_ratio": 2.738110530057669
+      },
+      "passed": true,
+      "sample": 63,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00031161844935890745,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 5,
+        "collapse": 0,
+        "max_area_ratio": 2.2073258332708185
+      },
+      "parent": {
+        "stretch": 6,
+        "collapse": 0,
+        "max_area_ratio": 2.2011718151879474
+      },
+      "passed": true,
+      "sample": 64,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0004887944301026084,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 11,
+        "collapse": 0,
+        "max_area_ratio": 2.3958038840916656
+      },
+      "parent": {
+        "stretch": 11,
+        "collapse": 0,
+        "max_area_ratio": 2.425196639632919
+      },
+      "passed": true,
+      "sample": 65,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.000365306457046606,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 11,
+        "collapse": 0,
+        "max_area_ratio": 2.4346735473622063
+      },
+      "parent": {
+        "stretch": 11,
+        "collapse": 0,
+        "max_area_ratio": 2.4498085436878068
+      },
+      "passed": true,
+      "sample": 66,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00030538293021796937,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 13,
+        "collapse": 0,
+        "max_area_ratio": 2.4809094827473595
+      },
+      "parent": {
+        "stretch": 14,
+        "collapse": 0,
+        "max_area_ratio": 2.524603865451943
+      },
+      "passed": true,
+      "sample": 67,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00036378370570342843,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 16,
+        "collapse": 0,
+        "max_area_ratio": 2.5724520771057007
+      },
+      "parent": {
+        "stretch": 17,
+        "collapse": 0,
+        "max_area_ratio": 2.616920433870815
+      },
+      "passed": true,
+      "sample": 68,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0003674277068954096,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 25,
+        "collapse": 0,
+        "max_area_ratio": 2.7145220998585327
+      },
+      "parent": {
+        "stretch": 25,
+        "collapse": 0,
+        "max_area_ratio": 2.73801754447127
+      },
+      "passed": true,
+      "sample": 69,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00035886748369909214,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 7,
+        "collapse": 0,
+        "max_area_ratio": 2.3915699898370253
+      },
+      "parent": {
+        "stretch": 7,
+        "collapse": 0,
+        "max_area_ratio": 2.370569507923205
+      },
+      "passed": true,
+      "sample": 70,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.000298039327098886,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 3,
+        "collapse": 0,
+        "max_area_ratio": 2.3127856716222914
+      },
+      "parent": {
+        "stretch": 4,
+        "collapse": 0,
+        "max_area_ratio": 2.296385551030362
+      },
+      "passed": true,
+      "sample": 71,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00038743019104003906,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 2,
+        "collapse": 0,
+        "max_area_ratio": 2.1742904869185113
+      },
+      "parent": {
+        "stretch": 2,
+        "collapse": 0,
+        "max_area_ratio": 2.201266384182649
+      },
+      "passed": true,
+      "sample": 72,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00027314279645418167,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 2,
+        "collapse": 0,
+        "max_area_ratio": 2.065126642969812
+      },
+      "parent": {
+        "stretch": 3,
+        "collapse": 0,
+        "max_area_ratio": 2.1314199433068084
+      },
+      "passed": true,
+      "sample": 73,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0003775660284093658,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 5,
+        "collapse": 0,
+        "max_area_ratio": 2.3825631835491192
+      },
+      "parent": {
+        "stretch": 6,
+        "collapse": 0,
+        "max_area_ratio": 2.3825627273034815
+      },
+      "passed": true,
+      "sample": 74,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00026656007498500225,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 11,
+        "collapse": 0,
+        "max_area_ratio": 2.7322916895288296
+      },
+      "parent": {
+        "stretch": 12,
+        "collapse": 0,
+        "max_area_ratio": 2.824857374204097
+      },
+      "passed": true,
+      "sample": 75,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0002801015315195092,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 14,
+        "collapse": 0,
+        "max_area_ratio": 2.922545149607147
+      },
+      "parent": {
+        "stretch": 16,
+        "collapse": 0,
+        "max_area_ratio": 2.922575401963122
+      },
+      "passed": true,
+      "sample": 76,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.000477999893794818,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 20,
+        "collapse": 0,
+        "max_area_ratio": 3.3942109788892623
+      },
+      "parent": {
+        "stretch": 21,
+        "collapse": 0,
+        "max_area_ratio": 3.4365673367714
+      },
+      "passed": true,
+      "sample": 77,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00048794193059304184,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 21,
+        "collapse": 0,
+        "max_area_ratio": 4.283178843014988
+      },
+      "parent": {
+        "stretch": 23,
+        "collapse": 0,
+        "max_area_ratio": 4.3275950245822195
+      },
+      "passed": true,
+      "sample": 78,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0004777675730550706,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 25,
+        "collapse": 0,
+        "max_area_ratio": 4.983030242266475
+      },
+      "parent": {
+        "stretch": 26,
+        "collapse": 0,
+        "max_area_ratio": 5.027132334186538
+      },
+      "passed": true,
+      "sample": 79,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00029543759829961266,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 26,
+        "collapse": 0,
+        "max_area_ratio": 5.432589462800859
+      },
+      "parent": {
+        "stretch": 27,
+        "collapse": 0,
+        "max_area_ratio": 5.4760287338811615
+      },
+      "passed": true,
+      "sample": 80,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0004777675730550706,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 26,
+        "collapse": 0,
+        "max_area_ratio": 5.5896344695594316
+      },
+      "parent": {
+        "stretch": 27,
+        "collapse": 0,
+        "max_area_ratio": 5.632776647784243
+      },
+      "passed": true,
+      "sample": 81,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.0002669762502188819,
+      "normal_rotations_over_90_degrees": 0
+    },
+    {
+      "current": {
+        "stretch": 19,
+        "collapse": 0,
+        "max_area_ratio": 2.945147878922102
+      },
+      "parent": {
+        "stretch": 19,
+        "collapse": 0,
+        "max_area_ratio": 2.964500304209004
+      },
+      "passed": true,
+      "sample": 82,
+      "parent_pairs": 0,
+      "current_pairs": 0,
+      "new_contact_pairs": 0,
+      "affine_error_mm": 0.00027355529844382015,
+      "normal_rotations_over_90_degrees": 0
+    }
+  ],
+  "back_motion_excess_mm": 0.4476946563524368,
+  "posterior_crease_excess_degrees": 1.81888092976072,
+  "passed": true
+}

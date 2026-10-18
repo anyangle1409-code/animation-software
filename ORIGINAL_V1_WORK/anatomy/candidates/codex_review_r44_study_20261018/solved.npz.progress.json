@@ -1,0 +1,22 @@
+[
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 0,
+    "seconds": 23.9,
+    "constraints": 1010,
+    "violation_mm": 16.56742232534687,
+    "linearized_slack_mm": 16.068618989893388,
+    "step_mm": 0.8660252922967587,
+    "motion_excess_mm": 0.0
+  },
+  {
+    "worst_constraint": "profile_lower",
+    "epoch": 1,
+    "seconds": 843.0,
+    "constraints": 4770,
+    "violation_mm": 16.06942655937206,
+    "linearized_slack_mm": 15.435739474091239,
+    "step_mm": 0.6323425796092947,
+    "motion_excess_mm": 0.45000192851522414
+  }
+]

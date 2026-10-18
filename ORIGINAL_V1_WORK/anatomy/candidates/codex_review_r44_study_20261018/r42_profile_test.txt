@@ -1,0 +1,61 @@
+R42_CONFIRMED_JUNCTION l [1.1813165013754152, 1.1034586416724113, 0.8944645674511253, 0.4685979155967801]
+FFFR42_CONFIRMED_JUNCTION r [1.1070057010325733, 1.0642268533608417, 0.7956638644124048, 0.33004943755232663]
+FFF
+======================================================================
+FAIL: test_side_turns_into_body_at_confirmed_junction (__main__.OwnerConfirmedTransition.test_side_turns_into_body_at_confirmed_junction) (side='l', station=-0.12)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r42_profile.py", line 22, in test_side_turns_into_body_at_confirmed_junction
+    with self.subTest(side=side,station=s):self.assertGreaterEqual(value,lo);self.assertLessEqual(value,hi)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1.1813165013754152 not greater than or equal to 20.0
+
+======================================================================
+FAIL: test_side_turns_into_body_at_confirmed_junction (__main__.OwnerConfirmedTransition.test_side_turns_into_body_at_confirmed_junction) (side='l', station=-0.1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r42_profile.py", line 22, in test_side_turns_into_body_at_confirmed_junction
+    with self.subTest(side=side,station=s):self.assertGreaterEqual(value,lo);self.assertLessEqual(value,hi)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1.1034586416724113 not greater than or equal to 12.0
+
+======================================================================
+FAIL: test_side_turns_into_body_at_confirmed_junction (__main__.OwnerConfirmedTransition.test_side_turns_into_body_at_confirmed_junction) (side='l', station=-0.08)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r42_profile.py", line 22, in test_side_turns_into_body_at_confirmed_junction
+    with self.subTest(side=side,station=s):self.assertGreaterEqual(value,lo);self.assertLessEqual(value,hi)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.8944645674511253 not greater than or equal to 6.0
+
+======================================================================
+FAIL: test_side_turns_into_body_at_confirmed_junction (__main__.OwnerConfirmedTransition.test_side_turns_into_body_at_confirmed_junction) (side='r', station=-0.12)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r42_profile.py", line 22, in test_side_turns_into_body_at_confirmed_junction
+    with self.subTest(side=side,station=s):self.assertGreaterEqual(value,lo);self.assertLessEqual(value,hi)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1.1070057010325733 not greater than or equal to 20.0
+
+======================================================================
+FAIL: test_side_turns_into_body_at_confirmed_junction (__main__.OwnerConfirmedTransition.test_side_turns_into_body_at_confirmed_junction) (side='r', station=-0.1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r42_profile.py", line 22, in test_side_turns_into_body_at_confirmed_junction
+    with self.subTest(side=side,station=s):self.assertGreaterEqual(value,lo);self.assertLessEqual(value,hi)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1.0642268533608417 not greater than or equal to 12.0
+
+======================================================================
+FAIL: test_side_turns_into_body_at_confirmed_junction (__main__.OwnerConfirmedTransition.test_side_turns_into_body_at_confirmed_junction) (side='r', station=-0.08)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r42_profile.py", line 22, in test_side_turns_into_body_at_confirmed_junction
+    with self.subTest(side=side,station=s):self.assertGreaterEqual(value,lo);self.assertLessEqual(value,hi)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.7956638644124048 not greater than or equal to 6.0
+
+----------------------------------------------------------------------
+Ran 1 test in 0.080s
+
+FAILED (failures=6)

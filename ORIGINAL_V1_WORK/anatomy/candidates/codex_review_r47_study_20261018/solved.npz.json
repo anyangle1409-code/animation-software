@@ -1,0 +1,42 @@
+{
+  "status": "DIRECT_SHAPE_STUDY_NOT_ACCEPTED",
+  "keys": [
+    {
+      "key": 120.0,
+      "allowed": 5567,
+      "requested_world_max_mm": 24.248390521588796
+    },
+    {
+      "key": 130.0,
+      "allowed": 5521,
+      "requested_world_max_mm": 42.38572983161221
+    },
+    {
+      "key": 136.0,
+      "allowed": 5485,
+      "requested_world_max_mm": 44.707473540922344
+    },
+    {
+      "key": 145.0,
+      "allowed": 5365,
+      "requested_world_max_mm": 31.374132598851855
+    },
+    {
+      "key": 156.0,
+      "allowed": 5280,
+      "requested_world_max_mm": 8.963519073056593
+    }
+  ],
+  "global_cap_scale": 0.9180586728126766,
+  "unscaled_max_material_mm": 49.015385761931284,
+  "source_max_mm": 44.76633516835173,
+  "max_dense_mm": 44.99899999999999,
+  "distal_protection_from_m": 0.16,
+  "distal_fade_from_m": 0.12,
+  "anchors": [
+    18633,
+    18639
+  ],
+  "owner_scope_approved": "2026-10-18 19:05 Europe/London",
+  "target_policy": "inward whole-outline side cap; old R42 outward target retained only as legacy diagnostic"
+}

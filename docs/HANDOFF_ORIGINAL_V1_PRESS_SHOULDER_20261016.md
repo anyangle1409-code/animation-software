@@ -168,3 +168,29 @@ See docs/CODEX_ORIGINAL_V1_R44_PLAN_20261018.md and workflow
 .github/workflows/original-review-r44.yml. Save a separately named R44 model
 only after native gates; retain and render a failed study otherwise. Owner
 visual approval remains pending.
+
+
+## Latest continuation — 18 October: R44 rejected; R45 material-distance correction
+
+R44 native evidence is committed at961de0f578b3bfe2fc81064011e2e7bb874666e9.
+Run39112671734/artifact12131744259 preserve its before/after images, two press
+videos, logs and measurements. All83 native area/contact/motion/crease checks
+and13 benchmarks pass. The approved-junction test still fails. Its pre-save
+harness also hit a missing legacy temporary directory; no R44 model was saved.
+The later rendered owner-profile test ran and failed independently. The R44
+study remains immutable and rejected, with owner approval pending.
+
+R45 diagnoses the spatial field's use of straight-line distance across skin
+folds. It uses distance along rest-mesh edges for compact weights and boundary
+fading, in exactly the same free/frozen material domain. A folded-surface
+regression reproduces the old cross-surface control coupling and passes with
+the corrected distance. New domain/preservation tests and all prior model
+acceptance thresholds remain mandatory. The separately named R45 pre-save
+harness creates its own staging directory and runs the unchanged prior tests.
+See docs/CODEX_ORIGINAL_V1_R45_PLAN_20261018.md and workflow
+.github/workflows/original-review-r45.yml. R45 starts with R44's retained body
+increment; native evaluation and safety comparison still use immutable R41.
+No skeleton, protected arm/elbow source coordinate,166, anchor, Basis, weight,
+topology, HGPT_SHOULDER, non-S7 key or V-production asset changes are authorized.
+A new model may be saved only after all fixed native/shape gates; retain any
+failed study and report it honestly. Numerical checks are not owner approval.

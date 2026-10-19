@@ -1,0 +1,14 @@
+test_mismatched_bones_cannot_produce_same_pose_montage (test_original_arm_back_packaging.Packaging.test_mismatched_bones_cannot_produce_same_pose_montage) ... FAIL
+
+======================================================================
+FAIL: test_mismatched_bones_cannot_produce_same_pose_montage (test_original_arm_back_packaging.Packaging.test_mismatched_bones_cannot_produce_same_pose_montage)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/c852c4b4f4fc/recovery-native/scripts/tests/test_original_arm_back_packaging.py", line 21, in test_mismatched_bones_cannot_produce_same_pose_montage
+    self.assertFalse((root/'skeleton_skin_t0800.jpg').exists(),'Failed identity must not create a graphic claiming the same pose')
+AssertionError: True is not false : Failed identity must not create a graphic claiming the same pose
+
+----------------------------------------------------------------------
+Ran 1 test in 0.861s
+
+FAILED (failures=1)

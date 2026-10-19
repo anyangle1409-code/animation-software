@@ -1,0 +1,49 @@
+test_ablation_never_mutes_other_workstream (test_original_arm_back_audit.Audit.test_ablation_never_mutes_other_workstream) ... FAIL
+test_dense_spike_cannot_hide_in_coarse_samples (test_original_arm_back_audit.Audit.test_dense_spike_cannot_hide_in_coarse_samples) ... FAIL
+test_detects_posed_bone_translation (test_original_arm_back_audit.Audit.test_detects_posed_bone_translation) ... FAIL
+test_rejects_unknown_ablation (test_original_arm_back_audit.Audit.test_rejects_unknown_ablation) ... FAIL
+
+======================================================================
+FAIL: test_ablation_never_mutes_other_workstream (test_original_arm_back_audit.Audit.test_ablation_never_mutes_other_workstream)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/c852c4b4f4fc/recovery-native/scripts/tests/test_original_arm_back_audit.py", line 10, in test_ablation_never_mutes_other_workstream
+    self.assertEqual(muted_names('r41_no_s5_s7',names),names[:2])
+AssertionError: Lists differ: [] != ['HGPT_S5_BAKE_l_120', 'HGPT_S7_DELT_r_136']
+
+Second list contains 2 additional elements.
+First extra element 0:
+'HGPT_S5_BAKE_l_120'
+
+- []
++ ['HGPT_S5_BAKE_l_120', 'HGPT_S7_DELT_r_136']
+
+======================================================================
+FAIL: test_dense_spike_cannot_hide_in_coarse_samples (test_original_arm_back_audit.Audit.test_dense_spike_cannot_hide_in_coarse_samples)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/c852c4b4f4fc/recovery-native/scripts/tests/test_original_arm_back_audit.py", line 20, in test_dense_spike_cannot_hide_in_coarse_samples
+    self.assertAlmostEqual(z['dense161_excess_mm'],2.)
+AssertionError: 0.0 != 2.0 within 7 places (2.0 difference)
+
+======================================================================
+FAIL: test_detects_posed_bone_translation (test_original_arm_back_audit.Audit.test_detects_posed_bone_translation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/c852c4b4f4fc/recovery-native/scripts/tests/test_original_arm_back_audit.py", line 15, in test_detects_posed_bone_translation
+    self.assertAlmostEqual(pose_difference_mm(a,b),1.)
+AssertionError: 0.0 != 1.0 within 7 places (1.0 difference)
+
+======================================================================
+FAIL: test_rejects_unknown_ablation (test_original_arm_back_audit.Audit.test_rejects_unknown_ablation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/c852c4b4f4fc/recovery-native/scripts/tests/test_original_arm_back_audit.py", line 23, in test_rejects_unknown_ablation
+    with self.assertRaises(ValueError):muted_names('all_keys',[])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.001s
+
+FAILED (failures=4)

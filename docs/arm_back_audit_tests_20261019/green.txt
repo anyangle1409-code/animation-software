@@ -1,0 +1,9 @@
+test_ablation_never_mutes_other_workstream (test_original_arm_back_audit.Audit.test_ablation_never_mutes_other_workstream) ... ok
+test_dense_spike_cannot_hide_in_coarse_samples (test_original_arm_back_audit.Audit.test_dense_spike_cannot_hide_in_coarse_samples) ... ok
+test_detects_posed_bone_translation (test_original_arm_back_audit.Audit.test_detects_posed_bone_translation) ... ok
+test_rejects_unknown_ablation (test_original_arm_back_audit.Audit.test_rejects_unknown_ablation) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.002s
+
+OK

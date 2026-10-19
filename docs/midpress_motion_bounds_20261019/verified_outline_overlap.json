@@ -1,0 +1,73 @@
+{
+  "diagnostic_only": true,
+  "scope": "Current R51 active outline-support edges at original marked-pose stations; nonlinear support can change after editing.",
+  "motion_mask_count": 1796,
+  "outline_support_vertex_count": 236,
+  "overlap_count": 152,
+  "worst_vertex_is_current_outline_support": true,
+  "violating_motion_vertices": 1237,
+  "violating_motion_outline_support_vertices": 136,
+  "worst_outline_support_motion_excess_mm": 2.0736932605886045,
+  "top_motion_vertices": [
+    {
+      "vertex": 21317,
+      "excess_mm": 2.0736932605886045,
+      "current_outline_support": true
+    },
+    {
+      "vertex": 21490,
+      "excess_mm": 2.0412752586330463,
+      "current_outline_support": true
+    },
+    {
+      "vertex": 19366,
+      "excess_mm": 2.028539831927106,
+      "current_outline_support": false
+    },
+    {
+      "vertex": 19052,
+      "excess_mm": 2.022345551602006,
+      "current_outline_support": false
+    },
+    {
+      "vertex": 19057,
+      "excess_mm": 2.0192785662551866,
+      "current_outline_support": false
+    },
+    {
+      "vertex": 8711,
+      "excess_mm": 2.0182540298583262,
+      "current_outline_support": true
+    },
+    {
+      "vertex": 19370,
+      "excess_mm": 2.0131674833109883,
+      "current_outline_support": false
+    },
+    {
+      "vertex": 11772,
+      "excess_mm": 1.998684308782801,
+      "current_outline_support": true
+    },
+    {
+      "vertex": 19369,
+      "excess_mm": 1.9410822006673873,
+      "current_outline_support": true
+    },
+    {
+      "vertex": 18044,
+      "excess_mm": 1.9354506088341263,
+      "current_outline_support": false
+    },
+    {
+      "vertex": 21489,
+      "excess_mm": 1.9353663491835789,
+      "current_outline_support": false
+    },
+    {
+      "vertex": 18046,
+      "excess_mm": 1.9327025197539167,
+      "current_outline_support": false
+    }
+  ]
+}

@@ -1,0 +1,1274 @@
+{
+  "vertex": 21317,
+  "units": "mm",
+  "diagnostic_only": true,
+  "caveat": "Per-vertex point constraints are not the whole-outline acceptance test. Coordinate box45mm is a relaxation of the unchanged norm45mm cap. No spatial/native acceptance is inferred.",
+  "cases": {
+    "exact_marked_xyz": {
+      "converged_cone": true,
+      "minimum_motion_excess_lower_mm": 0.9587983636306225,
+      "exact_trial_motion_excess_upper_mm": 0.9587984049069385,
+      "unchanged_guard_mm": 0.5,
+      "meets_motion_guard": false,
+      "marked_world_change_mm": [
+        7.105427357601002e-15,
+        9.769962616701378e-15,
+        -8.881784197001252e-16
+      ],
+      "max_source_vector_norm_mm": 44.0979338042057,
+      "lp_primal_violation_mm": 3.9968028886505635e-15,
+      "lp_dual_stationarity_max": 7.806255641895632e-17,
+      "lp_duality_gap_mm": 6.661338147750939e-16,
+      "history": [
+        {
+          "iteration": 0,
+          "lp_lower_bound_mm": 0.7857615350470328,
+          "exact_norm_excess_mm": 2.257461760619683,
+          "rows": 234
+        },
+        {
+          "iteration": 1,
+          "lp_lower_bound_mm": 0.8499583207518523,
+          "exact_norm_excess_mm": 1.9257907796309472,
+          "rows": 248
+        },
+        {
+          "iteration": 2,
+          "lp_lower_bound_mm": 0.9002944652246311,
+          "exact_norm_excess_mm": 1.5854371097133475,
+          "rows": 257
+        },
+        {
+          "iteration": 3,
+          "lp_lower_bound_mm": 0.9311581777514879,
+          "exact_norm_excess_mm": 1.2975559831649879,
+          "rows": 269
+        },
+        {
+          "iteration": 4,
+          "lp_lower_bound_mm": 0.9446477413758493,
+          "exact_norm_excess_mm": 1.1380727250305793,
+          "rows": 277
+        },
+        {
+          "iteration": 5,
+          "lp_lower_bound_mm": 0.9522364070151673,
+          "exact_norm_excess_mm": 1.0443790896192038,
+          "rows": 285
+        },
+        {
+          "iteration": 6,
+          "lp_lower_bound_mm": 0.9547008791225091,
+          "exact_norm_excess_mm": 0.9818132912266824,
+          "rows": 293
+        },
+        {
+          "iteration": 7,
+          "lp_lower_bound_mm": 0.9573982013025095,
+          "exact_norm_excess_mm": 0.9772888872299104,
+          "rows": 301
+        },
+        {
+          "iteration": 8,
+          "lp_lower_bound_mm": 0.958205825489928,
+          "exact_norm_excess_mm": 0.9648954555566325,
+          "rows": 308
+        },
+        {
+          "iteration": 9,
+          "lp_lower_bound_mm": 0.9584608038685724,
+          "exact_norm_excess_mm": 0.9634463037643985,
+          "rows": 315
+        },
+        {
+          "iteration": 10,
+          "lp_lower_bound_mm": 0.9586596900872746,
+          "exact_norm_excess_mm": 0.9600527636012892,
+          "rows": 322
+        },
+        {
+          "iteration": 11,
+          "lp_lower_bound_mm": 0.9587346776617706,
+          "exact_norm_excess_mm": 0.9592169377920539,
+          "rows": 329
+        },
+        {
+          "iteration": 12,
+          "lp_lower_bound_mm": 0.9587542810700892,
+          "exact_norm_excess_mm": 0.9594270671436733,
+          "rows": 336
+        },
+        {
+          "iteration": 13,
+          "lp_lower_bound_mm": 0.9587772392351934,
+          "exact_norm_excess_mm": 0.9589413310276105,
+          "rows": 343
+        },
+        {
+          "iteration": 14,
+          "lp_lower_bound_mm": 0.9587907166619684,
+          "exact_norm_excess_mm": 0.95891089370771,
+          "rows": 350
+        },
+        {
+          "iteration": 15,
+          "lp_lower_bound_mm": 0.9587934528922414,
+          "exact_norm_excess_mm": 0.9590560884790411,
+          "rows": 357
+        },
+        {
+          "iteration": 16,
+          "lp_lower_bound_mm": 0.95879429804576,
+          "exact_norm_excess_mm": 0.9588344811121785,
+          "rows": 364
+        },
+        {
+          "iteration": 17,
+          "lp_lower_bound_mm": 0.9587966408089271,
+          "exact_norm_excess_mm": 0.9588599844054104,
+          "rows": 371
+        },
+        {
+          "iteration": 18,
+          "lp_lower_bound_mm": 0.9587978386207725,
+          "exact_norm_excess_mm": 0.9588151900450022,
+          "rows": 378
+        },
+        {
+          "iteration": 19,
+          "lp_lower_bound_mm": 0.9587980084923586,
+          "exact_norm_excess_mm": 0.9588058481724568,
+          "rows": 385
+        },
+        {
+          "iteration": 20,
+          "lp_lower_bound_mm": 0.9587980747665565,
+          "exact_norm_excess_mm": 0.9588054056115083,
+          "rows": 392
+        },
+        {
+          "iteration": 21,
+          "lp_lower_bound_mm": 0.9587982102365329,
+          "exact_norm_excess_mm": 0.9588025979638319,
+          "rows": 399
+        },
+        {
+          "iteration": 22,
+          "lp_lower_bound_mm": 0.9587983023692336,
+          "exact_norm_excess_mm": 0.9587992453119383,
+          "rows": 406
+        },
+        {
+          "iteration": 23,
+          "lp_lower_bound_mm": 0.9587983298954232,
+          "exact_norm_excess_mm": 0.9588001974681459,
+          "rows": 412
+        },
+        {
+          "iteration": 24,
+          "lp_lower_bound_mm": 0.9587983513535127,
+          "exact_norm_excess_mm": 0.958798900149527,
+          "rows": 416
+        },
+        {
+          "iteration": 25,
+          "lp_lower_bound_mm": 0.9587983574640287,
+          "exact_norm_excess_mm": 0.9587984981761475,
+          "rows": 420
+        },
+        {
+          "iteration": 26,
+          "lp_lower_bound_mm": 0.9587983636306225,
+          "exact_norm_excess_mm": 0.9587984049069385,
+          "rows": 424
+        }
+      ]
+    },
+    "within1mm_marked_xyz_box": {
+      "converged_cone": true,
+      "minimum_motion_excess_lower_mm": 0.9070667214194772,
+      "exact_trial_motion_excess_upper_mm": 0.9070667959886105,
+      "unchanged_guard_mm": 0.5,
+      "meets_motion_guard": false,
+      "marked_world_change_mm": [
+        -1.0,
+        1.0000000000000135,
+        -1.0000000000000386
+      ],
+      "max_source_vector_norm_mm": 43.70716807122484,
+      "lp_primal_violation_mm": 3.8191672047105385e-14,
+      "lp_dual_stationarity_max": 1.0278236595162582e-16,
+      "lp_duality_gap_mm": 3.1086244689504383e-15,
+      "history": [
+        {
+          "iteration": 0,
+          "lp_lower_bound_mm": 0.7467250966926674,
+          "exact_norm_excess_mm": 2.188723988614216,
+          "rows": 240
+        },
+        {
+          "iteration": 1,
+          "lp_lower_bound_mm": 0.8090952167431391,
+          "exact_norm_excess_mm": 1.8579347633795458,
+          "rows": 254
+        },
+        {
+          "iteration": 2,
+          "lp_lower_bound_mm": 0.8583119408596528,
+          "exact_norm_excess_mm": 1.5782110204827067,
+          "rows": 263
+        },
+        {
+          "iteration": 3,
+          "lp_lower_bound_mm": 0.8792187854906492,
+          "exact_norm_excess_mm": 1.0399720772811096,
+          "rows": 276
+        },
+        {
+          "iteration": 4,
+          "lp_lower_bound_mm": 0.892581931998998,
+          "exact_norm_excess_mm": 1.0367943148560874,
+          "rows": 283
+        },
+        {
+          "iteration": 5,
+          "lp_lower_bound_mm": 0.8991194053240577,
+          "exact_norm_excess_mm": 0.9471417608336656,
+          "rows": 290
+        },
+        {
+          "iteration": 6,
+          "lp_lower_bound_mm": 0.9031835824179939,
+          "exact_norm_excess_mm": 0.9578775749075448,
+          "rows": 298
+        },
+        {
+          "iteration": 7,
+          "lp_lower_bound_mm": 0.90602455399027,
+          "exact_norm_excess_mm": 0.9420574342263281,
+          "rows": 306
+        },
+        {
+          "iteration": 8,
+          "lp_lower_bound_mm": 0.9063629730979659,
+          "exact_norm_excess_mm": 0.9244584135394012,
+          "rows": 313
+        },
+        {
+          "iteration": 9,
+          "lp_lower_bound_mm": 0.906615131931207,
+          "exact_norm_excess_mm": 0.9183322917148793,
+          "rows": 321
+        },
+        {
+          "iteration": 10,
+          "lp_lower_bound_mm": 0.9069661741567825,
+          "exact_norm_excess_mm": 0.9158164645165818,
+          "rows": 328
+        },
+        {
+          "iteration": 11,
+          "lp_lower_bound_mm": 0.9070059138304352,
+          "exact_norm_excess_mm": 0.9117125942325328,
+          "rows": 335
+        },
+        {
+          "iteration": 12,
+          "lp_lower_bound_mm": 0.9070225366584432,
+          "exact_norm_excess_mm": 0.9082253914186829,
+          "rows": 342
+        },
+        {
+          "iteration": 13,
+          "lp_lower_bound_mm": 0.9070424209145401,
+          "exact_norm_excess_mm": 0.9077075850539849,
+          "rows": 349
+        },
+        {
+          "iteration": 14,
+          "lp_lower_bound_mm": 0.9070555909294706,
+          "exact_norm_excess_mm": 0.9076084047815516,
+          "rows": 356
+        },
+        {
+          "iteration": 15,
+          "lp_lower_bound_mm": 0.9070614613352636,
+          "exact_norm_excess_mm": 0.9072341628179892,
+          "rows": 363
+        },
+        {
+          "iteration": 16,
+          "lp_lower_bound_mm": 0.9070641005510391,
+          "exact_norm_excess_mm": 0.9073181486136672,
+          "rows": 370
+        },
+        {
+          "iteration": 17,
+          "lp_lower_bound_mm": 0.9070656868752465,
+          "exact_norm_excess_mm": 0.9071223891253573,
+          "rows": 377
+        },
+        {
+          "iteration": 18,
+          "lp_lower_bound_mm": 0.9070657999694992,
+          "exact_norm_excess_mm": 0.9070791028217466,
+          "rows": 384
+        },
+        {
+          "iteration": 19,
+          "lp_lower_bound_mm": 0.9070663827308003,
+          "exact_norm_excess_mm": 0.9070703304945618,
+          "rows": 391
+        },
+        {
+          "iteration": 20,
+          "lp_lower_bound_mm": 0.9070664896607892,
+          "exact_norm_excess_mm": 0.907071139759577,
+          "rows": 398
+        },
+        {
+          "iteration": 21,
+          "lp_lower_bound_mm": 0.9070665957404527,
+          "exact_norm_excess_mm": 0.9070675654206188,
+          "rows": 405
+        },
+        {
+          "iteration": 22,
+          "lp_lower_bound_mm": 0.9070667109681517,
+          "exact_norm_excess_mm": 0.9070679028804363,
+          "rows": 412
+        },
+        {
+          "iteration": 23,
+          "lp_lower_bound_mm": 0.9070667170024896,
+          "exact_norm_excess_mm": 0.9070673419813124,
+          "rows": 418
+        },
+        {
+          "iteration": 24,
+          "lp_lower_bound_mm": 0.907066720779144,
+          "exact_norm_excess_mm": 0.9070668559354174,
+          "rows": 423
+        },
+        {
+          "iteration": 25,
+          "lp_lower_bound_mm": 0.9070667214194772,
+          "exact_norm_excess_mm": 0.9070667959886105,
+          "rows": 426
+        }
+      ]
+    },
+    "within1mm_marked_x": {
+      "converged_cone": true,
+      "minimum_motion_excess_lower_mm": 0.8598674137651152,
+      "exact_trial_motion_excess_upper_mm": 0.8598674742033374,
+      "unchanged_guard_mm": 0.5,
+      "meets_motion_guard": false,
+      "marked_world_change_mm": [
+        -1.000000000000007,
+        2.7333452895243004,
+        -8.435571262834394
+      ],
+      "max_source_vector_norm_mm": 46.38051783770718,
+      "lp_primal_violation_mm": 3.552713678800501e-15,
+      "lp_dual_stationarity_max": 3.003240017784847e-17,
+      "lp_duality_gap_mm": 2.220446049250313e-15,
+      "history": [
+        {
+          "iteration": 0,
+          "lp_lower_bound_mm": 0.7374445646594484,
+          "exact_norm_excess_mm": 2.280645573023802,
+          "rows": 236
+        },
+        {
+          "iteration": 1,
+          "lp_lower_bound_mm": 0.7740432774101468,
+          "exact_norm_excess_mm": 1.6100563425257097,
+          "rows": 250
+        },
+        {
+          "iteration": 2,
+          "lp_lower_bound_mm": 0.8265988057917562,
+          "exact_norm_excess_mm": 1.0435373359788762,
+          "rows": 264
+        },
+        {
+          "iteration": 3,
+          "lp_lower_bound_mm": 0.8427269497082014,
+          "exact_norm_excess_mm": 1.0838475648277794,
+          "rows": 273
+        },
+        {
+          "iteration": 4,
+          "lp_lower_bound_mm": 0.8475959600162137,
+          "exact_norm_excess_mm": 0.9466732177804491,
+          "rows": 282
+        },
+        {
+          "iteration": 5,
+          "lp_lower_bound_mm": 0.8556782501708984,
+          "exact_norm_excess_mm": 0.9670407379495087,
+          "rows": 290
+        },
+        {
+          "iteration": 6,
+          "lp_lower_bound_mm": 0.8570299010960738,
+          "exact_norm_excess_mm": 0.8879667299778233,
+          "rows": 299
+        },
+        {
+          "iteration": 7,
+          "lp_lower_bound_mm": 0.8576803217744645,
+          "exact_norm_excess_mm": 0.878256914623077,
+          "rows": 307
+        },
+        {
+          "iteration": 8,
+          "lp_lower_bound_mm": 0.8594506040704649,
+          "exact_norm_excess_mm": 0.8671363858203307,
+          "rows": 314
+        },
+        {
+          "iteration": 9,
+          "lp_lower_bound_mm": 0.8596780833209761,
+          "exact_norm_excess_mm": 0.8632604839361449,
+          "rows": 321
+        },
+        {
+          "iteration": 10,
+          "lp_lower_bound_mm": 0.8596965222765749,
+          "exact_norm_excess_mm": 0.8616216649746606,
+          "rows": 329
+        },
+        {
+          "iteration": 11,
+          "lp_lower_bound_mm": 0.859786899620245,
+          "exact_norm_excess_mm": 0.8606857261343486,
+          "rows": 337
+        },
+        {
+          "iteration": 12,
+          "lp_lower_bound_mm": 0.859799048627587,
+          "exact_norm_excess_mm": 0.8602823727249587,
+          "rows": 344
+        },
+        {
+          "iteration": 13,
+          "lp_lower_bound_mm": 0.8598415314602263,
+          "exact_norm_excess_mm": 0.8600672824356246,
+          "rows": 352
+        },
+        {
+          "iteration": 14,
+          "lp_lower_bound_mm": 0.8598511141137729,
+          "exact_norm_excess_mm": 0.8599725258389532,
+          "rows": 360
+        },
+        {
+          "iteration": 15,
+          "lp_lower_bound_mm": 0.859860315602375,
+          "exact_norm_excess_mm": 0.8599170296295389,
+          "rows": 368
+        },
+        {
+          "iteration": 16,
+          "lp_lower_bound_mm": 0.8598650319581852,
+          "exact_norm_excess_mm": 0.8598955346002857,
+          "rows": 376
+        },
+        {
+          "iteration": 17,
+          "lp_lower_bound_mm": 0.8598653492169123,
+          "exact_norm_excess_mm": 0.8598795979706282,
+          "rows": 384
+        },
+        {
+          "iteration": 18,
+          "lp_lower_bound_mm": 0.859867073558788,
+          "exact_norm_excess_mm": 0.8598747370622619,
+          "rows": 392
+        },
+        {
+          "iteration": 19,
+          "lp_lower_bound_mm": 0.8598671122936169,
+          "exact_norm_excess_mm": 0.859870923196731,
+          "rows": 399
+        },
+        {
+          "iteration": 20,
+          "lp_lower_bound_mm": 0.8598672472943144,
+          "exact_norm_excess_mm": 0.8598692969426041,
+          "rows": 407
+        },
+        {
+          "iteration": 21,
+          "lp_lower_bound_mm": 0.8598673003880146,
+          "exact_norm_excess_mm": 0.8598682578514281,
+          "rows": 412
+        },
+        {
+          "iteration": 22,
+          "lp_lower_bound_mm": 0.8598673659649884,
+          "exact_norm_excess_mm": 0.8598678809254683,
+          "rows": 417
+        },
+        {
+          "iteration": 23,
+          "lp_lower_bound_mm": 0.8598673868910534,
+          "exact_norm_excess_mm": 0.8598676274474928,
+          "rows": 421
+        },
+        {
+          "iteration": 24,
+          "lp_lower_bound_mm": 0.8598674066819747,
+          "exact_norm_excess_mm": 0.8598675360624441,
+          "rows": 423
+        },
+        {
+          "iteration": 25,
+          "lp_lower_bound_mm": 0.8598674137651152,
+          "exact_norm_excess_mm": 0.8598674742033374,
+          "rows": 425
+        }
+      ]
+    },
+    "unconstrained_marked": {
+      "converged_cone": false,
+      "minimum_motion_excess_lower_mm": 0.0,
+      "exact_trial_motion_excess_upper_mm": 8.626962449520548e-06,
+      "unchanged_guard_mm": 0.5,
+      "meets_motion_guard": true,
+      "marked_world_change_mm": [
+        -32.0013991583687,
+        -2.6864300769023215,
+        -3.623070224126778
+      ],
+      "max_source_vector_norm_mm": 2.5866103967179614,
+      "lp_primal_violation_mm": 2.731486718667714e-10,
+      "lp_dual_stationarity_max": 0.0,
+      "lp_duality_gap_mm": 0.0,
+      "history": [
+        {
+          "iteration": 0,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 1.048595238477571,
+          "rows": 234
+        },
+        {
+          "iteration": 1,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 0.8103236797547533,
+          "rows": 253
+        },
+        {
+          "iteration": 2,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 0.12477734978294541,
+          "rows": 274
+        },
+        {
+          "iteration": 3,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 0.8711749179497024,
+          "rows": 295
+        },
+        {
+          "iteration": 4,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 0.15945621029709267,
+          "rows": 319
+        },
+        {
+          "iteration": 5,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 0.04873080244133421,
+          "rows": 336
+        },
+        {
+          "iteration": 6,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 0.018446688744454764,
+          "rows": 354
+        },
+        {
+          "iteration": 7,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 0.006460219376874798,
+          "rows": 373
+        },
+        {
+          "iteration": 8,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 0.0013037178948331896,
+          "rows": 385
+        },
+        {
+          "iteration": 9,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 0.0033976740515002657,
+          "rows": 400
+        },
+        {
+          "iteration": 10,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 0.0004090326703081182,
+          "rows": 415
+        },
+        {
+          "iteration": 11,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 4.8715116932607216e-05,
+          "rows": 428
+        },
+        {
+          "iteration": 12,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 0.0008583898204330698,
+          "rows": 441
+        },
+        {
+          "iteration": 13,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 9.230804797488723e-05,
+          "rows": 453
+        },
+        {
+          "iteration": 14,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 2.385018744766043e-05,
+          "rows": 464
+        },
+        {
+          "iteration": 15,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 0.00032642776780988925,
+          "rows": 474
+        },
+        {
+          "iteration": 16,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 0.00029240007240782795,
+          "rows": 487
+        },
+        {
+          "iteration": 17,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 9.447572866028153e-06,
+          "rows": 498
+        },
+        {
+          "iteration": 18,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 0.0005010304190278259,
+          "rows": 509
+        },
+        {
+          "iteration": 19,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 0.00021820168181818644,
+          "rows": 521
+        },
+        {
+          "iteration": 20,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 0.0041206743761654785,
+          "rows": 532
+        },
+        {
+          "iteration": 21,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 6.794087931805137e-05,
+          "rows": 545
+        },
+        {
+          "iteration": 22,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 0.00010579901335305841,
+          "rows": 555
+        },
+        {
+          "iteration": 23,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 2.484197408669786e-05,
+          "rows": 567
+        },
+        {
+          "iteration": 24,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 1.9425418118057536e-05,
+          "rows": 575
+        },
+        {
+          "iteration": 25,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 6.802995510724053e-05,
+          "rows": 586
+        },
+        {
+          "iteration": 26,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 4.3991090406647615e-05,
+          "rows": 596
+        },
+        {
+          "iteration": 27,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 0.000235485724889406,
+          "rows": 603
+        },
+        {
+          "iteration": 28,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 9.300041778681489e-05,
+          "rows": 613
+        },
+        {
+          "iteration": 29,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 0.00011817592446017322,
+          "rows": 624
+        },
+        {
+          "iteration": 30,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 0.00011428773809774029,
+          "rows": 633
+        },
+        {
+          "iteration": 31,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 7.865468756862448e-05,
+          "rows": 642
+        },
+        {
+          "iteration": 32,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 4.290808155937853e-05,
+          "rows": 651
+        },
+        {
+          "iteration": 33,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 0.00010935337809381274,
+          "rows": 660
+        },
+        {
+          "iteration": 34,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 3.947878759791301e-05,
+          "rows": 669
+        },
+        {
+          "iteration": 35,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 5.27186160124149e-05,
+          "rows": 679
+        },
+        {
+          "iteration": 36,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 3.0296785612504706e-05,
+          "rows": 688
+        },
+        {
+          "iteration": 37,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 0.00018013494930069207,
+          "rows": 696
+        },
+        {
+          "iteration": 38,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 1.073415027463831e-05,
+          "rows": 707
+        },
+        {
+          "iteration": 39,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 2.002631647646247e-05,
+          "rows": 715
+        },
+        {
+          "iteration": 40,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 2.3206277159681932e-05,
+          "rows": 725
+        },
+        {
+          "iteration": 41,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 6.9640694853045915e-06,
+          "rows": 732
+        },
+        {
+          "iteration": 42,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 3.0355230227208096e-06,
+          "rows": 739
+        },
+        {
+          "iteration": 43,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 3.217705820057759e-05,
+          "rows": 746
+        },
+        {
+          "iteration": 44,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 2.8207809127378525e-05,
+          "rows": 755
+        },
+        {
+          "iteration": 45,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 1.464264862494069e-05,
+          "rows": 763
+        },
+        {
+          "iteration": 46,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 1.539356804580727e-05,
+          "rows": 773
+        },
+        {
+          "iteration": 47,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 9.614470957375332e-06,
+          "rows": 782
+        },
+        {
+          "iteration": 48,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 1.374320944536045e-05,
+          "rows": 788
+        },
+        {
+          "iteration": 49,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 4.806612242225228e-05,
+          "rows": 796
+        },
+        {
+          "iteration": 50,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 6.4117197335678e-05,
+          "rows": 806
+        },
+        {
+          "iteration": 51,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 8.582648667432302e-06,
+          "rows": 814
+        },
+        {
+          "iteration": 52,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 9.049143084638445e-06,
+          "rows": 823
+        },
+        {
+          "iteration": 53,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 1.6385186648815164e-05,
+          "rows": 830
+        },
+        {
+          "iteration": 54,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 5.4315620787726004e-06,
+          "rows": 837
+        },
+        {
+          "iteration": 55,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 1.0847964728055715e-05,
+          "rows": 843
+        },
+        {
+          "iteration": 56,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 0.00023468786878177994,
+          "rows": 851
+        },
+        {
+          "iteration": 57,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 1.2006704066980234e-05,
+          "rows": 859
+        },
+        {
+          "iteration": 58,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 6.247955725457999e-06,
+          "rows": 866
+        },
+        {
+          "iteration": 59,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 5.313247234361995e-05,
+          "rows": 876
+        },
+        {
+          "iteration": 60,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 3.003371842336122e-06,
+          "rows": 884
+        },
+        {
+          "iteration": 61,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 1.7058286947868595e-05,
+          "rows": 891
+        },
+        {
+          "iteration": 62,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 6.904634613480454e-05,
+          "rows": 897
+        },
+        {
+          "iteration": 63,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 1.9199509583955887e-05,
+          "rows": 905
+        },
+        {
+          "iteration": 64,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 0.0013577387267096341,
+          "rows": 911
+        },
+        {
+          "iteration": 65,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 8.069176676994694e-05,
+          "rows": 921
+        },
+        {
+          "iteration": 66,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 1.7468489326821768e-05,
+          "rows": 929
+        },
+        {
+          "iteration": 67,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 4.723588201605011e-05,
+          "rows": 937
+        },
+        {
+          "iteration": 68,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 3.320071009826897e-05,
+          "rows": 943
+        },
+        {
+          "iteration": 69,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 0.00014902137743466604,
+          "rows": 951
+        },
+        {
+          "iteration": 70,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 0.00011545806296697769,
+          "rows": 959
+        },
+        {
+          "iteration": 71,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 1.978867477936408e-05,
+          "rows": 968
+        },
+        {
+          "iteration": 72,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 3.939077841463856e-05,
+          "rows": 976
+        },
+        {
+          "iteration": 73,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 2.0813522529250505e-05,
+          "rows": 984
+        },
+        {
+          "iteration": 74,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 2.97846794279355e-05,
+          "rows": 991
+        },
+        {
+          "iteration": 75,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 1.5461155010276784e-05,
+          "rows": 999
+        },
+        {
+          "iteration": 76,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 1.2395964913203272e-05,
+          "rows": 1007
+        },
+        {
+          "iteration": 77,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 1.8663640330096598e-05,
+          "rows": 1014
+        },
+        {
+          "iteration": 78,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 1.028672431857558e-05,
+          "rows": 1022
+        },
+        {
+          "iteration": 79,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 5.0642512869902845e-06,
+          "rows": 1031
+        },
+        {
+          "iteration": 80,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 2.7080268050871936e-05,
+          "rows": 1037
+        },
+        {
+          "iteration": 81,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 3.505108368395682e-05,
+          "rows": 1045
+        },
+        {
+          "iteration": 82,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 5.02442489502819e-06,
+          "rows": 1053
+        },
+        {
+          "iteration": 83,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 7.050171041411701e-05,
+          "rows": 1061
+        },
+        {
+          "iteration": 84,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 3.995937986278619e-06,
+          "rows": 1069
+        },
+        {
+          "iteration": 85,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 2.8235403892296063e-05,
+          "rows": 1076
+        },
+        {
+          "iteration": 86,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 1.1953219523075376e-05,
+          "rows": 1085
+        },
+        {
+          "iteration": 87,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 3.232249533735576e-05,
+          "rows": 1091
+        },
+        {
+          "iteration": 88,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 7.978220683546589e-06,
+          "rows": 1099
+        },
+        {
+          "iteration": 89,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 7.448351117878005e-06,
+          "rows": 1105
+        },
+        {
+          "iteration": 90,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 1.634495010893744e-06,
+          "rows": 1111
+        },
+        {
+          "iteration": 91,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 3.2408872910894004e-05,
+          "rows": 1118
+        },
+        {
+          "iteration": 92,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 1.7004971467615704e-05,
+          "rows": 1127
+        },
+        {
+          "iteration": 93,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 7.3330152741135635e-06,
+          "rows": 1133
+        },
+        {
+          "iteration": 94,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 9.412865724423014e-06,
+          "rows": 1140
+        },
+        {
+          "iteration": 95,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 3.5720237365755025e-06,
+          "rows": 1145
+        },
+        {
+          "iteration": 96,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 1.0084952008160286e-05,
+          "rows": 1151
+        },
+        {
+          "iteration": 97,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 1.4700811166612482e-05,
+          "rows": 1157
+        },
+        {
+          "iteration": 98,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 4.0547158457471255e-06,
+          "rows": 1166
+        },
+        {
+          "iteration": 99,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 9.311582611193359e-06,
+          "rows": 1172
+        },
+        {
+          "iteration": 100,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 2.8010464091732246e-05,
+          "rows": 1180
+        },
+        {
+          "iteration": 101,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 4.082895477042214e-06,
+          "rows": 1188
+        },
+        {
+          "iteration": 102,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 1.4825050818068064e-06,
+          "rows": 1195
+        },
+        {
+          "iteration": 103,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 1.8674054988787603e-05,
+          "rows": 1201
+        },
+        {
+          "iteration": 104,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 3.678264201001369e-06,
+          "rows": 1207
+        },
+        {
+          "iteration": 105,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 9.306558743427118e-06,
+          "rows": 1216
+        },
+        {
+          "iteration": 106,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 9.352981222843226e-07,
+          "rows": 1223
+        },
+        {
+          "iteration": 107,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 1.1847406895526547e-06,
+          "rows": 1230
+        },
+        {
+          "iteration": 108,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 1.1392547372146566e-06,
+          "rows": 1237
+        },
+        {
+          "iteration": 109,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 2.8583583622232567e-07,
+          "rows": 1243
+        },
+        {
+          "iteration": 110,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 2.680081708561488e-06,
+          "rows": 1248
+        },
+        {
+          "iteration": 111,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 2.6188085860745502e-05,
+          "rows": 1254
+        },
+        {
+          "iteration": 112,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 1.271641671207746e-05,
+          "rows": 1263
+        },
+        {
+          "iteration": 113,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 2.815847651316261e-05,
+          "rows": 1269
+        },
+        {
+          "iteration": 114,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 2.4281768373768386e-07,
+          "rows": 1276
+        },
+        {
+          "iteration": 115,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 1.6805052453272573e-05,
+          "rows": 1280
+        },
+        {
+          "iteration": 116,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 9.935877944622362e-06,
+          "rows": 1289
+        },
+        {
+          "iteration": 117,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 9.469069501832905e-06,
+          "rows": 1295
+        },
+        {
+          "iteration": 118,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 1.647921093494986e-05,
+          "rows": 1304
+        },
+        {
+          "iteration": 119,
+          "lp_lower_bound_mm": 0.0,
+          "exact_norm_excess_mm": 8.626962449520548e-06,
+          "rows": 1312
+        }
+      ]
+    }
+  }
+}

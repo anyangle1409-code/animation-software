@@ -1,0 +1,28 @@
+test_fixed_front_patch_stays_near_r38_smoothness (__main__.FrontSmoothness.test_fixed_front_patch_stays_near_r38_smoothness) ... R41_FRONT_PEAK l 155.5330553631727
+
+  test_fixed_front_patch_stays_near_r38_smoothness (__main__.FrontSmoothness.test_fixed_front_patch_stays_near_r38_smoothness) (side='l') ... FAIL
+R41_FRONT_PEAK r 56.352131593336765
+  test_fixed_front_patch_stays_near_r38_smoothness (__main__.FrontSmoothness.test_fixed_front_patch_stays_near_r38_smoothness) (side='r') ... FAIL
+
+======================================================================
+FAIL: test_fixed_front_patch_stays_near_r38_smoothness (__main__.FrontSmoothness.test_fixed_front_patch_stays_near_r38_smoothness) (side='l')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r41_front.py", line 13, in test_fixed_front_patch_stays_near_r38_smoothness
+    with self.subTest(side=s):self.assertLessEqual(peak,25.)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 155.5330553631727 not less than or equal to 25.0
+
+======================================================================
+FAIL: test_fixed_front_patch_stays_near_r38_smoothness (__main__.FrontSmoothness.test_fixed_front_patch_stays_near_r38_smoothness) (side='r')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r41_front.py", line 13, in test_fixed_front_patch_stays_near_r38_smoothness
+    with self.subTest(side=s):self.assertLessEqual(peak,25.)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 56.352131593336765 not less than or equal to 25.0
+
+----------------------------------------------------------------------
+Ran 1 test in 0.458s
+
+FAILED (failures=2)

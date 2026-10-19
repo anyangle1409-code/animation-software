@@ -1,0 +1,37 @@
+test_actual_marked_normals_with_unchanged_zero_guard (__main__.Native.test_actual_marked_normals_with_unchanged_zero_guard) ... FAIL
+test_actual_marked_outline_with_unchanged_one_mm_guard (__main__.Native.test_actual_marked_outline_with_unchanged_one_mm_guard) ... ok
+test_additional161_motion_and_integer_step_guards (__main__.Native.test_additional161_motion_and_integer_step_guards) ... FAIL
+test_original_native83_surface_motion_and_crease_guards (__main__.Native.test_original_native83_surface_motion_and_crease_guards) ... FAIL
+
+======================================================================
+FAIL: test_actual_marked_normals_with_unchanged_zero_guard (__main__.Native.test_actual_marked_normals_with_unchanged_zero_guard)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r52_actual_native.py", line 15, in test_actual_marked_normals_with_unchanged_zero_guard
+    f=self.d['faces'];a=self.d['base'][25,f];b=self.p[25,f];ca=np.cross(a[:,1]-a[:,0],a[:,2]-a[:,0]);cb=np.cross(b[:,1]-b[:,0],b[:,2]-b[:,0]);self.assertEqual(int(((ca*cb).sum(1)<=0).sum()),0)
+                                                                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 6 != 0
+
+======================================================================
+FAIL: test_additional161_motion_and_integer_step_guards (__main__.Native.test_additional161_motion_and_integer_step_guards)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r52_actual_native.py", line 19, in test_additional161_motion_and_integer_step_guards
+    z=json.loads((self.root/'dense_motion.json').read_text());self.assertEqual(z['samples'],161);self.assertLessEqual(z['original40_step_equivalent_excess_mm'],.5);self.assertTrue(z['oscillation']['passed']);self.assertLessEqual(z['early_outward_increment_mm'],.05)
+                                                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 40.644617997742905 not less than or equal to 0.5
+
+======================================================================
+FAIL: test_original_native83_surface_motion_and_crease_guards (__main__.Native.test_original_native83_surface_motion_and_crease_guards)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r52_actual_native.py", line 17, in test_original_native83_surface_motion_and_crease_guards
+    self.assertEqual(len(self.n['samples']),83);self.assertFalse(self.n['contacts']);self.assertTrue(all(x['passed'] for x in self.n['samples']));self.assertLessEqual(self.n['back_motion_excess_mm'],.5);self.assertLessEqual(self.n['posterior_crease_excess_degrees'],2.)
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: [{'sample': 25, 'a': 10855, 'b': 22184}, {'sample': 25, 'a': 10855, 'b': 22186}, {'sample': 25, 'a': 10855, 'b': 22187}, {'sample': 26, 'a': 10855, 'b': 22184}, {'sample': 26, 'a': 10855, 'b': 22187}, {'sample': 65, 'a': 10855, 'b': 22184}, {'sample': 66, 'a': 10855, 'b': 22184}] is not false
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.740s
+
+FAILED (failures=3)
+R52_ACTUAL_NATIVE_OUTLINE_ERROR_MM 0.9499480288829576

@@ -1,0 +1,12 @@
+{
+  "stage": "unit",
+  "tests": {
+    "r52_temporal": 0,
+    "r52_projection": 0,
+    "r52_study": 0,
+    "r52_envelope": 0,
+    "r48_preparation": 0,
+    "r48_outline_derivative": 0
+  },
+  "note": "unchanged original or additional direct check"
+}

@@ -1,0 +1,11 @@
+test_marked_frame_has_smoother_bilateral_rear_outline (__main__.ArmToSideContourTests.test_marked_frame_has_smoother_bilateral_rear_outline) ... R37_REAR_CORNER l 6.793144289043525
+R37_REAR_CORNER r 5.50825050635985
+ok
+test_marked_frame_three_quarter_outline_does_not_worsen (__main__.ArmToSideContourTests.test_marked_frame_three_quarter_outline_does_not_worsen) ... R37_THREE_QUARTER_CORNER l 12.52625731754355
+R37_THREE_QUARTER_CORNER r 41.198044687522426
+ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.381s
+
+OK

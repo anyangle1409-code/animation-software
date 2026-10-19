@@ -1,0 +1,12 @@
+{
+  "stage": "native",
+  "tests": {
+    "r52_actual_native": 1,
+    "r42_profile": 1,
+    "r37_contour": 0,
+    "r38_marks": 1,
+    "r41_line": 1,
+    "r41_front": 1
+  },
+  "note": "unchanged original or additional direct check"
+}

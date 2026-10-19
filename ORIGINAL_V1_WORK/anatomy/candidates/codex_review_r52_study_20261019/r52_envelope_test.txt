@@ -1,0 +1,6 @@
+test_moves_only_active_material_inside_boundary (__main__.Envelope.test_moves_only_active_material_inside_boundary) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.023s
+
+OK

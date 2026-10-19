@@ -1,0 +1,12 @@
+{
+  "stage": "projection",
+  "tests": {
+    "r47_authorized_scope": 0,
+    "r43_motion": 1,
+    "r43_back_surface": 1,
+    "r48_marked_surface": 1,
+    "r48_approved_outline": 0,
+    "r52_preservation": 0
+  },
+  "note": "projection stage original seven-control outcomes are legacy diagnostics, not actual dense-model certification"
+}

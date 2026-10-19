@@ -1,0 +1,7 @@
+test_marked_rear_and_three_quarter_outlines_stay_within_one_mm (__main__.ApprovedOutline.test_marked_rear_and_three_quarter_outlines_stay_within_one_mm) ... R48_APPROVED_OUTLINE_MAX_ERROR_MM 0.993126174264225
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.322s
+
+OK

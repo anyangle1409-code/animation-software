@@ -1,0 +1,18 @@
+{
+  "samples": 161,
+  "actual_native": true,
+  "extra_frame_acceleration_mm": 2.5402886248589316,
+  "original40_step_equivalent_excess_mm": 40.644617997742905,
+  "guard_original_grid_mm": 0.5,
+  "early_outward_increment_mm": 0.624537467956543,
+  "early_outward_guard_mm": 0.05,
+  "oscillation": {
+    "passed": false,
+    "maximum_adjacent_mm": 3.1391753334193933,
+    "limit_mm": 3.0
+  },
+  "passed": false,
+  "model_saved": false,
+  "approved": false,
+  "note": "New stricter temporal coverage; original41-pose test remains unchanged. Normalization uses squared frame-interval ratio(160/40)^2."
+}

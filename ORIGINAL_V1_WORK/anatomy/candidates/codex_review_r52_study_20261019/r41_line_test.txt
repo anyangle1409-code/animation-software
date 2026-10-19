@@ -1,0 +1,49 @@
+test_line_meets_body_without_the_inward_notch (__main__.ApprovedLineGoals.test_line_meets_body_without_the_inward_notch) ... 
+  test_line_meets_body_without_the_inward_notch (__main__.ApprovedLineGoals.test_line_meets_body_without_the_inward_notch) (side='l') ... FAIL
+  test_line_meets_body_without_the_inward_notch (__main__.ApprovedLineGoals.test_line_meets_body_without_the_inward_notch) (side='r') ... FAIL
+test_upper_arm_reaches_shoulder_without_the_early_bend (__main__.ApprovedLineGoals.test_upper_arm_reaches_shoulder_without_the_early_bend) ... R41_APPROVED_LINE l 30.986243398402724 33.75146798433712
+
+  test_upper_arm_reaches_shoulder_without_the_early_bend (__main__.ApprovedLineGoals.test_upper_arm_reaches_shoulder_without_the_early_bend) (side='l') ... FAIL
+R41_APPROVED_LINE r 30.90124014019381 33.66380327592816
+  test_upper_arm_reaches_shoulder_without_the_early_bend (__main__.ApprovedLineGoals.test_upper_arm_reaches_shoulder_without_the_early_bend) (side='r') ... FAIL
+
+======================================================================
+FAIL: test_line_meets_body_without_the_inward_notch (__main__.ApprovedLineGoals.test_line_meets_body_without_the_inward_notch) (side='l')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r41_line.py", line 17, in test_line_meets_body_without_the_inward_notch
+    with self.subTest(side=side):self.assertLess(errors(current,parent,side)[1],2.)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 33.75146798433712 not less than 2.0
+
+======================================================================
+FAIL: test_line_meets_body_without_the_inward_notch (__main__.ApprovedLineGoals.test_line_meets_body_without_the_inward_notch) (side='r')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r41_line.py", line 17, in test_line_meets_body_without_the_inward_notch
+    with self.subTest(side=side):self.assertLess(errors(current,parent,side)[1],2.)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 33.66380327592816 not less than 2.0
+
+======================================================================
+FAIL: test_upper_arm_reaches_shoulder_without_the_early_bend (__main__.ApprovedLineGoals.test_upper_arm_reaches_shoulder_without_the_early_bend) (side='l')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r41_line.py", line 13, in test_upper_arm_reaches_shoulder_without_the_early_bend
+    with self.subTest(side=side):self.assertLess(a,2.)
+                                 ^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 30.986243398402724 not less than 2.0
+
+======================================================================
+FAIL: test_upper_arm_reaches_shoulder_without_the_early_bend (__main__.ApprovedLineGoals.test_upper_arm_reaches_shoulder_without_the_early_bend) (side='r')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/animation-software/animation-software/scripts/tests/test_original_review_r41_line.py", line 13, in test_upper_arm_reaches_shoulder_without_the_early_bend
+    with self.subTest(side=side):self.assertLess(a,2.)
+                                 ^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 30.90124014019381 not less than 2.0
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.311s
+
+FAILED (failures=4)

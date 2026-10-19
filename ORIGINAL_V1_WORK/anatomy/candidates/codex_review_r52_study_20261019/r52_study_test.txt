@@ -1,0 +1,8 @@
+test_finite_iteration_never_means_model_acceptance (__main__.Study.test_finite_iteration_never_means_model_acceptance) ... ok
+test_motion_ball_dual_projection (__main__.Study.test_motion_ball_dual_projection) ... ok
+test_retains_feasible_state_before_smaller_motion_but_invalid_step (__main__.Study.test_retains_feasible_state_before_smaller_motion_but_invalid_step) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.023s
+
+OK

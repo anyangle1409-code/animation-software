@@ -1,0 +1,10 @@
+test_exact_old_cubic_including_negative_coefficients (__main__.Temporal.test_exact_old_cubic_including_negative_coefficients) ... ok
+test_forward_adjoint (__main__.Temporal.test_forward_adjoint) ... ok
+test_native_decoder_basis_needs_only_numpy (__main__.Temporal.test_native_decoder_basis_needs_only_numpy) ... ok
+test_reject_hidden_90mm_jump (__main__.Temporal.test_reject_hidden_90mm_jump) ... ok
+test_reject_invalid_weights (__main__.Temporal.test_reject_invalid_weights) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.346s
+
+OK

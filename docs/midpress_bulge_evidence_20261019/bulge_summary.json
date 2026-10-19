@@ -1,0 +1,319 @@
+{
+  "scope": "Original unchanged R43 back-motion mask; immutable R51 source response, R47 reauthored exactly. No model modified.",
+  "mask_vertices": 1796,
+  "states": {
+    "R41": {
+      "max_acceleration_excess_mm": 0.0,
+      "worst_vertex": 18,
+      "rest_xyz_m": [
+        -0.24949555099010468,
+        0.08352719247341156,
+        1.401114583015442
+      ],
+      "center_frame": 1,
+      "center_t": 0.025,
+      "max_world_update_mm": 0.0,
+      "timeline": [
+        {
+          "frame": 16,
+          "t": 0.4,
+          "elevation_deg": 103.792,
+          "worst_vertex_world_mm": [
+            -307.12199211120605,
+            63.493385910987854,
+            1483.1804037094116
+          ],
+          "worst_vertex_increment_mm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "max_increment_mm": 0.0,
+          "back_width_mm": 817.0894384384155,
+          "max_acceleration_excess_mm": 0.0
+        },
+        {
+          "frame": 18,
+          "t": 0.45,
+          "elevation_deg": 110.82400000000001,
+          "worst_vertex_world_mm": [
+            -309.8564147949219,
+            63.477277755737305,
+            1495.9779977798462
+          ],
+          "worst_vertex_increment_mm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "max_increment_mm": 0.0,
+          "back_width_mm": 814.5723342895508,
+          "max_acceleration_excess_mm": 0.0
+        },
+        {
+          "frame": 20,
+          "t": 0.5,
+          "elevation_deg": 118.0,
+          "worst_vertex_world_mm": [
+            -309.6367120742798,
+            62.92260438203812,
+            1509.3879699707031
+          ],
+          "worst_vertex_increment_mm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "max_increment_mm": 0.0,
+          "back_width_mm": 811.5060329437256,
+          "max_acceleration_excess_mm": 0.0
+        },
+        {
+          "frame": 25,
+          "t": 0.625,
+          "elevation_deg": 135.625,
+          "worst_vertex_world_mm": [
+            -306.28857016563416,
+            64.11527842283249,
+            1553.6682605743408
+          ],
+          "worst_vertex_increment_mm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "max_increment_mm": 0.0,
+          "back_width_mm": 763.2900774478912,
+          "max_acceleration_excess_mm": 0.0
+        },
+        {
+          "frame": 28,
+          "t": 0.7,
+          "elevation_deg": 145.264,
+          "worst_vertex_world_mm": [
+            -298.5105514526367,
+            63.12643736600876,
+            1587.8885984420776
+          ],
+          "worst_vertex_increment_mm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "max_increment_mm": 0.0,
+          "back_width_mm": 717.8976535797119,
+          "max_acceleration_excess_mm": 0.0
+        }
+      ]
+    },
+    "R47": {
+      "max_acceleration_excess_mm": 3.556879720276042,
+      "worst_vertex": 21490,
+      "rest_xyz_m": [
+        0.195541113615036,
+        0.09020817279815674,
+        1.384987235069275
+      ],
+      "center_frame": 18,
+      "center_t": 0.45,
+      "max_world_update_mm": 41.13654613585711,
+      "timeline": [
+        {
+          "frame": 16,
+          "t": 0.4,
+          "elevation_deg": 103.792,
+          "worst_vertex_world_mm": [
+            288.6327690385251,
+            30.114219363576066,
+            1451.8401997859557
+          ],
+          "worst_vertex_increment_mm": [
+            2.7945524953274914,
+            0.04916715229142743,
+            -0.3715378467957119
+          ],
+          "max_increment_mm": 2.8592710467147797,
+          "back_width_mm": 817.0894384384155,
+          "max_acceleration_excess_mm": 1.2839210677288055
+        },
+        {
+          "frame": 18,
+          "t": 0.45,
+          "elevation_deg": 110.82400000000001,
+          "worst_vertex_world_mm": [
+            290.6888746911608,
+            28.814178138158816,
+            1460.3617006659686
+          ],
+          "worst_vertex_increment_mm": [
+            -1.2217736547865108,
+            -0.00913795910070553,
+            0.06661952735784178
+          ],
+          "max_increment_mm": 1.237898556224462,
+          "back_width_mm": 814.5723342895508,
+          "max_acceleration_excess_mm": 3.556879720276042
+        },
+        {
+          "frame": 20,
+          "t": 0.5,
+          "elevation_deg": 118.0,
+          "worst_vertex_world_mm": [
+            280.05289667572765,
+            27.28255396529166,
+            1468.8937649737748
+          ],
+          "worst_vertex_increment_mm": [
+            -17.349991860725602,
+            -0.022326355734188015,
+            0.09691572298140341
+          ],
+          "max_increment_mm": 17.441308820892118,
+          "back_width_mm": 811.5060329437256,
+          "max_acceleration_excess_mm": 1.3633444785324653
+        },
+        {
+          "frame": 25,
+          "t": 0.625,
+          "elevation_deg": 135.625,
+          "worst_vertex_world_mm": [
+            265.306292263388,
+            25.55431475277093,
+            1509.0910525378706
+          ],
+          "worst_vertex_increment_mm": [
+            -37.06246784555975,
+            9.735460427488102e-05,
+            0.005397325468359596
+          ],
+          "max_increment_mm": 41.13654613585711,
+          "back_width_mm": 763.2900774478912,
+          "max_acceleration_excess_mm": 2.411860409558973
+        },
+        {
+          "frame": 28,
+          "t": 0.7,
+          "elevation_deg": 145.264,
+          "worst_vertex_world_mm": [
+            277.15121504663375,
+            23.617707318004083,
+            1543.301485207664
+          ],
+          "worst_vertex_increment_mm": [
+            -22.549194127331674,
+            0.012152022059868772,
+            0.003002312766455309
+          ],
+          "max_increment_mm": 28.25834315576716,
+          "back_width_mm": 717.8976535797119,
+          "max_acceleration_excess_mm": 0.714878139016736
+        }
+      ]
+    },
+    "R51": {
+      "max_acceleration_excess_mm": 2.0736932605886045,
+      "worst_vertex": 21317,
+      "rest_xyz_m": [
+        -0.195541113615036,
+        0.09020815044641495,
+        1.384987235069275
+      ],
+      "center_frame": 18,
+      "center_t": 0.45,
+      "max_world_update_mm": 37.31258015591905,
+      "timeline": [
+        {
+          "frame": 16,
+          "t": 0.4,
+          "elevation_deg": 103.792,
+          "worst_vertex_world_mm": [
+            -287.5447964413252,
+            29.629392100549772,
+            1451.9227019004823
+          ],
+          "worst_vertex_increment_mm": [
+            -1.5223717434492705,
+            -0.20322434785263266,
+            -0.3983506507871851
+          ],
+          "max_increment_mm": 2.120161767704734,
+          "back_width_mm": 817.0894384384155,
+          "max_acceleration_excess_mm": 0.8125679831084266
+        },
+        {
+          "frame": 18,
+          "t": 0.45,
+          "elevation_deg": 110.82400000000001,
+          "worst_vertex_world_mm": [
+            -291.54169719025197,
+            28.465199471500977,
+            1460.6549186555176
+          ],
+          "worst_vertex_increment_mm": [
+            0.6711765070289322,
+            0.09856671192990121,
+            0.11688898480218873
+          ],
+          "max_increment_mm": 0.9197932424167424,
+          "back_width_mm": 814.5723342895508,
+          "max_acceleration_excess_mm": 2.0736932605886045
+        },
+        {
+          "frame": 20,
+          "t": 0.5,
+          "elevation_deg": 118.0,
+          "worst_vertex_world_mm": [
+            -287.5837635812395,
+            28.050125033999855,
+            1470.5841719691648
+          ],
+          "worst_vertex_increment_mm": [
+            10.290836113966169,
+            1.3549033714784897,
+            1.3767659251584259
+          ],
+          "max_increment_mm": 12.97861761283532,
+          "back_width_mm": 811.5060329437256,
+          "max_acceleration_excess_mm": 1.5078519316127992
+        },
+        {
+          "frame": 25,
+          "t": 0.625,
+          "elevation_deg": 135.625,
+          "worst_vertex_world_mm": [
+            -270.36571455459523,
+            25.554149050622367,
+            1513.5347555655103
+          ],
+          "worst_vertex_increment_mm": [
+            32.10598277587959,
+            0.47547986021557065,
+            3.792376376972685
+          ],
+          "max_increment_mm": 37.04587313038497,
+          "back_width_mm": 763.2900774478912,
+          "max_acceleration_excess_mm": 1.7448201588139713
+        },
+        {
+          "frame": 28,
+          "t": 0.7,
+          "elevation_deg": 145.264,
+          "worst_vertex_world_mm": [
+            -274.63977923935494,
+            23.95403216990166,
+            1543.6419670729483
+          ],
+          "worst_vertex_increment_mm": [
+            24.82611545974171,
+            0.6643740406864184,
+            -0.2734238953745749
+          ],
+          "max_increment_mm": 32.07424609454463,
+          "back_width_mm": 717.8976535797119,
+          "max_acceleration_excess_mm": 0.9017190514751319
+        }
+      ]
+    }
+  },
+  "r47_target_reconstruction_error_mm": 2.2898349882893854e-13
+}

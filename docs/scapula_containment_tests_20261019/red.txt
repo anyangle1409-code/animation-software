@@ -1,0 +1,56 @@
+test_inside_requires_consistent_odd_votes (test_original_shoulder_containment_audit.Containment.test_inside_requires_consistent_odd_votes) ... ok
+test_mixed_votes_are_not_reported_contained (test_original_shoulder_containment_audit.Containment.test_mixed_votes_are_not_reported_contained) ... FAIL
+test_open_surface_cannot_be_watertight (test_original_shoulder_containment_audit.Containment.test_open_surface_cannot_be_watertight) ... FAIL
+test_outside_even_votes (test_original_shoulder_containment_audit.Containment.test_outside_even_votes) ... FAIL
+test_shared_triangle_hit_is_counted_once (test_original_shoulder_containment_audit.Containment.test_shared_triangle_hit_is_counted_once) ... ok
+test_surface_point_is_boundary_not_enclosed (test_original_shoulder_containment_audit.Containment.test_surface_point_is_boundary_not_enclosed) ... FAIL
+
+======================================================================
+FAIL: test_mixed_votes_are_not_reported_contained (test_original_shoulder_containment_audit.Containment.test_mixed_votes_are_not_reported_contained)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/c852c4b4f4fc/containment-audit/scripts/tests/test_original_shoulder_containment_audit.py", line 8, in test_mixed_votes_are_not_reported_contained
+    def test_mixed_votes_are_not_reported_contained(self):self.assertEqual(classify_hits([[1.],[],[3.]],.01)['classification'],'ambiguous')
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'inside' != 'ambiguous'
+- inside
++ ambiguous
+
+
+======================================================================
+FAIL: test_open_surface_cannot_be_watertight (test_original_shoulder_containment_audit.Containment.test_open_surface_cannot_be_watertight)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/c852c4b4f4fc/containment-audit/scripts/tests/test_original_shoulder_containment_audit.py", line 13, in test_open_surface_cannot_be_watertight
+    self.assertTrue(closed_triangle_surface(tetra));self.assertFalse(closed_triangle_surface(tetra[:-1]))
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_outside_even_votes (test_original_shoulder_containment_audit.Containment.test_outside_even_votes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/c852c4b4f4fc/containment-audit/scripts/tests/test_original_shoulder_containment_audit.py", line 7, in test_outside_even_votes
+    def test_outside_even_votes(self):self.assertEqual(classify_hits([[],[1.,2.],[]],.01)['classification'],'outside')
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'inside' != 'outside'
+- inside
++ outside
+
+
+======================================================================
+FAIL: test_surface_point_is_boundary_not_enclosed (test_original_shoulder_containment_audit.Containment.test_surface_point_is_boundary_not_enclosed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/c852c4b4f4fc/containment-audit/scripts/tests/test_original_shoulder_containment_audit.py", line 10, in test_surface_point_is_boundary_not_enclosed
+    def test_surface_point_is_boundary_not_enclosed(self):self.assertEqual(classify_hits([[],[],[]],1e-7)['classification'],'on_skin')
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'inside' != 'on_skin'
+- inside
++ on_skin
+
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=4)

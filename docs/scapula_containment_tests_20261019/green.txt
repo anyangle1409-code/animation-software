@@ -1,0 +1,11 @@
+test_inside_requires_consistent_odd_votes (test_original_shoulder_containment_audit.Containment.test_inside_requires_consistent_odd_votes) ... ok
+test_mixed_votes_are_not_reported_contained (test_original_shoulder_containment_audit.Containment.test_mixed_votes_are_not_reported_contained) ... ok
+test_open_surface_cannot_be_watertight (test_original_shoulder_containment_audit.Containment.test_open_surface_cannot_be_watertight) ... ok
+test_outside_even_votes (test_original_shoulder_containment_audit.Containment.test_outside_even_votes) ... ok
+test_shared_triangle_hit_is_counted_once (test_original_shoulder_containment_audit.Containment.test_shared_triangle_hit_is_counted_once) ... ok
+test_surface_point_is_boundary_not_enclosed (test_original_shoulder_containment_audit.Containment.test_surface_point_is_boundary_not_enclosed) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+OK

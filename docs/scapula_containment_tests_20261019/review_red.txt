@@ -1,0 +1,32 @@
+test_inside_requires_consistent_odd_votes (test_original_shoulder_containment_audit.Containment.test_inside_requires_consistent_odd_votes) ... ok
+test_mixed_votes_are_not_reported_contained (test_original_shoulder_containment_audit.Containment.test_mixed_votes_are_not_reported_contained) ... ok
+test_nonfinite_ray_is_rejected_before_filtering (test_original_shoulder_containment_audit.Containment.test_nonfinite_ray_is_rejected_before_filtering) ... 
+  test_nonfinite_ray_is_rejected_before_filtering (test_original_shoulder_containment_audit.Containment.test_nonfinite_ray_is_rejected_before_filtering) (value=nan) ... FAIL
+  test_nonfinite_ray_is_rejected_before_filtering (test_original_shoulder_containment_audit.Containment.test_nonfinite_ray_is_rejected_before_filtering) (value=-inf) ... FAIL
+test_open_surface_cannot_be_watertight (test_original_shoulder_containment_audit.Containment.test_open_surface_cannot_be_watertight) ... ok
+test_outside_even_votes (test_original_shoulder_containment_audit.Containment.test_outside_even_votes) ... ok
+test_shared_triangle_hit_is_counted_once (test_original_shoulder_containment_audit.Containment.test_shared_triangle_hit_is_counted_once) ... ok
+test_surface_point_is_boundary_not_enclosed (test_original_shoulder_containment_audit.Containment.test_surface_point_is_boundary_not_enclosed) ... ok
+
+======================================================================
+FAIL: test_nonfinite_ray_is_rejected_before_filtering (test_original_shoulder_containment_audit.Containment.test_nonfinite_ray_is_rejected_before_filtering) (value=nan)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/c852c4b4f4fc/containment-audit/scripts/tests/test_original_shoulder_containment_audit.py", line 14, in test_nonfinite_ray_is_rejected_before_filtering
+    with self.subTest(value=value),self.assertRaises(ValueError):classify_hits([[value],[value],[value]],.01)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_nonfinite_ray_is_rejected_before_filtering (test_original_shoulder_containment_audit.Containment.test_nonfinite_ray_is_rejected_before_filtering) (value=-inf)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/c852c4b4f4fc/containment-audit/scripts/tests/test_original_shoulder_containment_audit.py", line 14, in test_nonfinite_ray_is_rejected_before_filtering
+    with self.subTest(value=value),self.assertRaises(ValueError):classify_hits([[value],[value],[value]],.01)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.001s
+
+FAILED (failures=2)

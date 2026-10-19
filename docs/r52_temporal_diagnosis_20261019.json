@@ -1,0 +1,50 @@
+{
+  "control_118_curvature_mm": 3.206836785303516,
+  "control_118_119_step_mm": 2.9897767743742545,
+  "model_modified": false,
+  "model_saved": false,
+  "source_sha256": "2a6c01cf7eacd3d1ceb47ae9f131f76dd0487fce5d3518d5cd1df65bc059fa8d",
+  "coarse_baseline_match_max_mm": 0.0,
+  "coarse_current_match_max_mm": 0.0,
+  "original41_motion_excess_mm": 0.7066900487959598,
+  "worst_dense": {
+    "vertex": 19057,
+    "center_frame": 80,
+    "t": 0.5,
+    "ht_deg": 118.0,
+    "baseline_second_difference_mm": 0.014901893195411957,
+    "r52_second_difference_mm": 2.5551905180543435,
+    "excess_mm": 2.5402886248589316,
+    "normalized_excess_mm": 40.644617997742905,
+    "local_times": [
+      0.49375,
+      0.5,
+      0.50625
+    ],
+    "added_world_increment_mm": [
+      [
+        7.7190399169921875,
+        1.3130530714988708,
+        1.6481876373291016
+      ],
+      [
+        7.841587066650391,
+        1.420818269252777,
+        2.413153648376465
+      ],
+      [
+        10.221868753433228,
+        1.6598403453826904,
+        2.0177364349365234
+      ]
+    ]
+  },
+  "early_outward": {
+    "vertex": 20913,
+    "frame": 66,
+    "t": 0.4125,
+    "ht_deg": 105.52862499999999,
+    "outward_increment_mm": 0.624537467956543
+  },
+  "conclusion": "At the worst measured back point, the added R52 corrective creates the abrupt change. Original41 sampling misses its severity. This does not independently validate every skeleton bone or exclude baseline issues elsewhere."
+}

@@ -1,0 +1,67 @@
+{
+  "diagnostic_only": true,
+  "mask_vertices": 10638,
+  "rows": [
+    {
+      "mode": "r41",
+      "frame": 0,
+      "max_overall_mm": 18.677671432495117,
+      "max_any_source_frozen_arm_mm": 4.652864456176758
+    },
+    {
+      "mode": "r41",
+      "frame": 80,
+      "max_overall_mm": 35.972740173339844,
+      "max_any_source_frozen_arm_mm": 10.418609619140625
+    },
+    {
+      "mode": "r41",
+      "frame": 100,
+      "max_overall_mm": 43.824222564697266,
+      "max_any_source_frozen_arm_mm": 12.538653373718262
+    },
+    {
+      "mode": "r41",
+      "frame": 128,
+      "max_overall_mm": 51.22298049926758,
+      "max_any_source_frozen_arm_mm": 11.92090892791748
+    },
+    {
+      "mode": "r41",
+      "frame": 160,
+      "max_overall_mm": 57.0090217590332,
+      "max_any_source_frozen_arm_mm": 13.238258361816406
+    },
+    {
+      "mode": "r52",
+      "frame": 0,
+      "max_overall_mm": 18.677671432495117,
+      "max_any_source_frozen_arm_mm": 4.652864456176758
+    },
+    {
+      "mode": "r52",
+      "frame": 80,
+      "max_overall_mm": 36.06717300415039,
+      "max_any_source_frozen_arm_mm": 9.515704154968262
+    },
+    {
+      "mode": "r52",
+      "frame": 100,
+      "max_overall_mm": 44.21720886230469,
+      "max_any_source_frozen_arm_mm": 8.947795867919922
+    },
+    {
+      "mode": "r52",
+      "frame": 128,
+      "max_overall_mm": 51.737388610839844,
+      "max_any_source_frozen_arm_mm": 11.008406639099121
+    },
+    {
+      "mode": "r52",
+      "frame": 160,
+      "max_overall_mm": 57.00899124145508,
+      "max_any_source_frozen_arm_mm": 13.238258361816406
+    }
+  ],
+  "limitation": "Five actual native snapshots; union of original per-source frozen_arm masks, not a replacement for any-angle scope acceptance."
+}

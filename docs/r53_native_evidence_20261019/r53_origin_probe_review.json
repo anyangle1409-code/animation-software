@@ -1,0 +1,57 @@
+{
+  "diagnostic_only": true,
+  "model_saved": false,
+  "repair_complete": false,
+  "modes": {
+    "r41": {
+      "actual_approved_outline": {
+        "baseline_error_mm": 41.105287796383614,
+        "probe_error_mm": 34.215394300930846,
+        "guard_mm": 1.0
+      },
+      "baseline_original_grid_equivalent_motion_excess_mm": 0.0,
+      "probe_original_grid_equivalent_motion_excess_mm": 3.0172291237947695,
+      "original_motion_guard_mm": 0.5,
+      "maximum_baseline_replay_error_mm": 0,
+      "protected_identity": {
+        "runtime_rest": true,
+        "anatomy_rest": true,
+        "weights": true,
+        "groups": true,
+        "polygons": true,
+        "all_key_geometry": true
+      },
+      "full_acceptance_and_benchmarks_run": false,
+      "limitations": [
+        "This is an origin-motion isolation experiment, not a true broad latissimus reconstruction.",
+        "Only muscle_lat pose transforms change; no canonical/rest bones are edited.",
+        "Existing safety failures are not waived; full acceptance and benchmarks are not run on this diagnostic."
+      ]
+    },
+    "r52": {
+      "actual_approved_outline": {
+        "baseline_error_mm": 0.9499480288829576,
+        "probe_error_mm": 25.747078060545743,
+        "guard_mm": 1.0
+      },
+      "baseline_original_grid_equivalent_motion_excess_mm": 40.644617997742905,
+      "probe_original_grid_equivalent_motion_excess_mm": 39.02651351160083,
+      "original_motion_guard_mm": 0.5,
+      "maximum_baseline_replay_error_mm": 0,
+      "protected_identity": {
+        "runtime_rest": true,
+        "anatomy_rest": true,
+        "weights": true,
+        "groups": true,
+        "polygons": true,
+        "all_key_geometry": true
+      },
+      "full_acceptance_and_benchmarks_run": false,
+      "limitations": [
+        "This is an origin-motion isolation experiment, not a true broad latissimus reconstruction.",
+        "Only muscle_lat pose transforms change; no canonical/rest bones are edited.",
+        "Existing safety failures are not waived; full acceptance and benchmarks are not run on this diagnostic."
+      ]
+    }
+  }
+}

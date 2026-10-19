@@ -1,6 +1,6 @@
 # R53 shoulder root-cause investigation
 
-Status: INVESTIGATION_IN_PROGRESS. No R53 correction, saved model or visual approval.
+Status: VERIFIED_FINDINGS_REPAIR_UNRESOLVED. No R53 correction, saved model or visual approval. Latest controlling outcome: CODEX_ORIGINAL_V1_R53_ROOT_CAUSE_RESULT_20261019.md.
 
 ## Reconciliation and scope
 
@@ -37,16 +37,16 @@ Independently mute S1–S7, then all seven together, restoring values after each
 | Reconcile source, branches, PRs and R52/R47/handoff | Done | Pinned source and prior failures above |
 | Inspect completed scapula containment | Done | Verified artifact, actual four-panel renders reviewed |
 | Authoritative anatomy/biomechanics and real exercise photo references | Research gathered | Source URLs and limits in anatomy evidence note; do not import photos |
-| Full weight/mesh/key/bone interaction capture | Prepared; native execution pending | New isolated diagnostic workflow; original tests untouched |
-| Identify inherited arm-root cause from actual component results | Pending | Distinguish unsupported weight region, mesh arrangement and cancelling corrections |
-| Reversible R53 correction candidate | Not started | Only after evidence supports one scoped change |
+| Full weight/mesh/key/bone interaction capture | Done | Two completed native studies, 161 poses per mode; original tests untouched |
+| Identify inherited arm-root cause from actual component results | Local cause verified; whole outline unresolved | Native-checked weight-gradient stretch plus R52-specific S7 motion; helper-origin probe rejected |
+| Reversible R53 correction candidate | Blocked by frozen-weight scope | Proposed 26-vertex local weight test requires explicit authorization; no model saved |
 | Complete native acceptance tests, comparisons, owner review | Pending candidate | All original thresholds remain unchanged; no approval claim |
 
 Runtime blockers: local environment has no Blender/bpy. Native tests/rendering run in the pinned GitHub workflow. Local diagnostic arithmetic tests and compilation run here. Search completion or workflow success is evidence completion only.
 
 Five new diagnostic tests pass locally. Independent review found a packaging integrity gap: truncated bone arrays could broadcast as identical. A failing regression was added, then strict 161-pose array shape, ordered inventory, finite-data and protected-field checks fixed it. This adds evidence validation; no existing acceptance test or threshold changed.
 
-## Execution checkpoint
+## Historical execution checkpoints (superseded by final result)
 
 Source commit `f9f9bcb241ea16a3b460f30babdf4245616c0163` launched native run https://github.com/anyangle1409-code/animation-software/actions/runs/39264438580 . It passed input-hash verification and five helper tests and entered native capture. Results remain pending at this checkpoint; no new native pass is claimed.
 
@@ -69,3 +69,9 @@ Source inspection identifies a concrete hypothesis: `original_v1_muscle_line_hel
 The follow-up probe keeps the existing AI rest point and humeral insertion but temporarily carries the origin with spine_03 instead of scapula, after installing all existing helpers. It changes only muscle_lat_l/r pose transforms. All canonical/rest bones, stored weights, all key coordinates and activations must match; all other pose matrices must be identical. It replays each baseline against the first capture to within 0.001 mm, measures actual R47 marked-outline error with the unchanged original outline function and 1 mm limit, and records 161-pose back motion. This is **not** an authored broad lat muscle, approved runtime change or correction candidate. Existing complete acceptance tests/benchmarks are not run on this isolated diagnostic; their original failures remain unresolved. Four-view before/after images and forward/reverse replay video must be labeled accordingly.
 
 An independent review found no blocking source issue in this probe; actual native verification remains pending. No fitter is involved. A production/candidate helper-origin or weight change would expand the current S7-only scope and cannot be adopted silently.
+
+## Final checkpoint
+
+Both native studies are complete and hash-verified. The origin-motion probe is rejected: R52 outline error 25.747078 mm, motion excess 39.026514 mm, visible new side creases. A native-checked weight-gradient decomposition confirms one local inherited stretch mechanism. No candidate is started: a proposed 26-vertex local weight experiment requires an explicit exception to the frozen-weight/S7-only scope. Full candidate acceptance and owner review remain outstanding. Read the result document for tested/unrun checks, preserved evidence and exact boundaries.
+
+Final independent evidence review reproduced the LBS decomposition and found no Critical or Important issue in the report/script. Five diagnostic unit tests pass locally; actual native runs provide the integration evidence. All five owner-review media/archive saves succeeded.

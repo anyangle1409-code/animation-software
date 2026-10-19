@@ -1,0 +1,50 @@
+{
+  "diagnostic_only": true,
+  "model_saved": false,
+  "repair_complete": false,
+  "frame": 160,
+  "edge": [
+    18081,
+    21057
+  ],
+  "full_body_native_LBS_reconstruction_max_error_mm": 0.0061983662209869166,
+  "rest_edge_length_mm": 0.9863589590167822,
+  "raw_native_edge_length_mm": 7.001459121704102,
+  "corrected_native_edge_length_mm": 14.568944931030273,
+  "fixed_weight_edge_term_mm": [
+    0.2627791035774152,
+    -0.5166490744299423,
+    -0.7208494322679115
+  ],
+  "weight_gradient_term_mm": [
+    -3.700827685877428,
+    5.294056686384607,
+    -3.070671464307395
+  ],
+  "raw_edge_reconstruction_error_mm": 7.300616261045727e-05,
+  "corrective_added_edge_vector_mm": [
+    -3.3900439739227295,
+    0.20518898963928223,
+    -8.074522018432617
+  ],
+  "weights": {
+    "18081": {
+      "scapula_r": 0.0006106682121753693,
+      "upperarm_r": 0.092524953186512,
+      "shoulder_cap_r": 0.5856247544288635,
+      "muscle_lat_r": 0.3212396204471588
+    },
+    "21057": {
+      "scapula_r": 0.0018320046365261078,
+      "upperarm_r": 0.060982320457696915,
+      "shoulder_cap_r": 0.5327978134155273,
+      "muscle_lat_r": 0.40438786149024963
+    }
+  },
+  "limitations": [
+    "Vector norms cannot be added as scalar lengths.",
+    "Exact attribution for this edge/pose, not a complete whole-outline diagnosis.",
+    "No counterfactual weights are applied.",
+    "Candidate still requires all original safety and acceptance tests."
+  ]
+}

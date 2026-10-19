@@ -1,0 +1,65 @@
+name: ORIGINAL_v1 R53 root cause investigation
+'on':
+  push:
+    branches: [codex/r53-shoulder-root-cause-20261019]
+    paths: [.github/workflows/original-r53-root-cause-20261019.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: original-r53-root-cause-20261019
+  cancel-in-progress: false
+jobs:
+  native-read-only-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 80
+    env:
+      LIBGL_ALWAYS_SOFTWARE: '1'
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install diagnostic dependencies
+      run: sudo apt-get update && sudo apt-get install -y libegl1 libgl1-mesa-dri xvfb python3-pil python3-numpy fonts-dejavu-core ffmpeg
+    - name: Install pinned Blender5.2.1
+      run: |
+        curl --fail --location --retry 3 https://download.blender.org/release/Blender5.2/blender-5.2.1-linux-x64.tar.xz --output /tmp/blender.tar.xz
+        echo 'a31f524fa99a527d3d52b7f5aaa68c34e1a19d5a1c9473f79c5cc610fd5b10e9  /tmp/blender.tar.xz' | sha256sum -c -
+        tar -xJf /tmp/blender.tar.xz -C /tmp
+    - uses: actions/download-artifact@v4
+      with:
+        name: original-v1-r52-review
+        run-id: 39215634074
+        github-token: ${{ github.token }}
+        path: /tmp/r52-audit-input
+    - name: Verify exact inputs and diagnostic helper tests
+      run: |
+        set -euo pipefail
+        mkdir -p /tmp/r53-investigation
+        echo '2a6c01cf7eacd3d1ceb47ae9f131f76dd0487fce5d3518d5cd1df65bc059fa8d  /tmp/r52-audit-input/tmp/r52-response/source.npz' | sha256sum -c -
+        echo 'b3a6c404a944753facde5a92db8bc4547a1ca756960b6b82df2875f5e4eb804f  /tmp/r52-audit-input/tmp/r52-response/solved.npz' | sha256sum -c -
+        echo '4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e  ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r41_20261017/HGPT_ORIGINAL_V1_REVIEW_R41_CODEX.blend' | sha256sum -c -
+        /usr/bin/python3 -m unittest discover -s scripts/tests -p 'test_original_review_r53_diagnostics.py' -v 2>&1 | tee /tmp/r53-investigation/unit_tests.txt
+    - name: Two native component isolation processes; no fit and no model save
+      shell: bash
+      run: |
+        failed=0
+        for mode in r41 r52; do
+          set +e
+          timeout 30m xvfb-run -a /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/audit_original_review_r53_blender.py -- /tmp/r52-audit-input/tmp/r52-response/source.npz /tmp/r52-audit-input/tmp/r52-response/solved.npz /tmp/r53-investigation "$mode" > "/tmp/r53-investigation/$mode.log" 2>&1
+          code=$?
+          set -e
+          printf '%s\n' "$code" > "/tmp/r53-investigation/${mode}_exit.txt"
+          tail -4 "/tmp/r53-investigation/$mode.log"
+          if [ "$code" -ne 0 ]; then failed=1; fi
+        done
+        test "$failed" -eq 0
+    - name: Compare protected pose identity and package four-view evidence
+      run: /usr/bin/python3 scripts/package_original_review_r53_diagnostics.py /tmp/r53-investigation
+    - name: Preserve all native evidence and failures
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: original-v1-r53-root-cause-20261019
+        path: /tmp/r53-investigation/
+        retention-days: 14

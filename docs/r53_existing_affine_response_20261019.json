@@ -1,0 +1,18 @@
+{
+  "diagnostic_only": true,
+  "source_sha256": "2a6c01cf7eacd3d1ceb47ae9f131f76dd0487fce5d3518d5cd1df65bc059fa8d",
+  "samples": 82,
+  "rest_extent_m": [
+    0.5723074972629547,
+    0.3777189999818802,
+    1.820000167352518
+  ],
+  "minimum_response_singular_value": 0.4339151978492737,
+  "minimum_response_singular_value_ratio": 0.4095901846885681,
+  "region": "abs(rest.x) > .07 and 1.25 < rest.z < 1.7 metres",
+  "limitations": [
+    "Stored native affine response operators, not per-bone ISB anatomy.",
+    "No full161-pose guarantee.",
+    "Does not certify mesh triangle orientation, contacts or anatomical contour."
+  ]
+}

@@ -1,0 +1,10 @@
+test_jump_identifies_boundary (test_original_review_r53_diagnostics.Diagnostics.test_jump_identifies_boundary) ... ok
+test_metrics_rigid_rotation (test_original_review_r53_diagnostics.Diagnostics.test_metrics_rigid_rotation) ... ok
+test_no_broadcasted_motion_identity (test_original_review_r53_diagnostics.Diagnostics.test_no_broadcasted_motion_identity) ... ok
+test_parent_motion_removed (test_original_review_r53_diagnostics.Diagnostics.test_parent_motion_removed) ... ok
+test_protected_families_never_muted (test_original_review_r53_diagnostics.Diagnostics.test_protected_families_never_muted) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.014s
+
+OK

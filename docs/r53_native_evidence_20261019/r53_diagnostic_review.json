@@ -1,0 +1,233 @@
+{
+  "diagnostic_only": true,
+  "model_saved": false,
+  "repair_complete": false,
+  "approved": false,
+  "bone_matrix_difference": 0.0,
+  "modes": {
+    "r41": {
+      "protected_identity": {
+        "runtime": true,
+        "anatomy": true,
+        "basis": true,
+        "polygons": true,
+        "groups": true,
+        "weights": true,
+        "protected_keys": true
+      },
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE",
+          "show_viewport": true,
+          "show_render": true,
+          "use_deform_preserve_volume": false,
+          "use_vertex_groups": true,
+          "use_bone_envelopes": false
+        }
+      ],
+      "relative_bone_motion": {
+        "clavicle_l": {
+          "reference": "spine_03",
+          "maximum_change_from_first_deg": 34.51964046016566,
+          "note": "Relative rotation magnitude, not clinical ISB decomposition"
+        },
+        "scapula_l": {
+          "reference": "spine_03",
+          "maximum_change_from_first_deg": 42.405783439863264,
+          "note": "Relative rotation magnitude, not clinical ISB decomposition"
+        },
+        "upperarm_l": {
+          "reference": "scapula_l",
+          "maximum_change_from_first_deg": 55.21082363867919,
+          "note": "Relative rotation magnitude, not clinical ISB decomposition"
+        },
+        "clavicle_r": {
+          "reference": "spine_03",
+          "maximum_change_from_first_deg": 34.51906771734565,
+          "note": "Relative rotation magnitude, not clinical ISB decomposition"
+        },
+        "scapula_r": {
+          "reference": "spine_03",
+          "maximum_change_from_first_deg": 42.40502608179529,
+          "note": "Relative rotation magnitude, not clinical ISB decomposition"
+        },
+        "upperarm_r": {
+          "reference": "scapula_r",
+          "maximum_change_from_first_deg": 55.195029772666096,
+          "note": "Relative rotation magnitude, not clinical ISB decomposition"
+        }
+      },
+      "ablation": {
+        "no_S1": {
+          "maximum_shoulder_displacement_from_baseline_mm": 25.493433699011803,
+          "maximum_added_step_mm": 1.3088424457237124,
+          "maximum_added_second_difference_mm": 1.0415568249300122,
+          "family_present": true,
+          "note": "Diagnostic ablation, not a proposed correction or acceptance result"
+        },
+        "no_S2": {
+          "maximum_shoulder_displacement_from_baseline_mm": 0.0,
+          "maximum_added_step_mm": 0.0,
+          "maximum_added_second_difference_mm": 0.0,
+          "family_present": false,
+          "note": "Diagnostic ablation, not a proposed correction or acceptance result"
+        },
+        "no_S3": {
+          "maximum_shoulder_displacement_from_baseline_mm": 37.283118814229965,
+          "maximum_added_step_mm": 1.2861320283263922,
+          "maximum_added_second_difference_mm": 0.9589303517714143,
+          "family_present": true,
+          "note": "Diagnostic ablation, not a proposed correction or acceptance result"
+        },
+        "no_S4": {
+          "maximum_shoulder_displacement_from_baseline_mm": 0.0,
+          "maximum_added_step_mm": 0.0,
+          "maximum_added_second_difference_mm": 0.0,
+          "family_present": false,
+          "note": "Diagnostic ablation, not a proposed correction or acceptance result"
+        },
+        "no_S5": {
+          "maximum_shoulder_displacement_from_baseline_mm": 31.991582363843918,
+          "maximum_added_step_mm": 0.8490918553434312,
+          "maximum_added_second_difference_mm": 1.286261947825551,
+          "family_present": true,
+          "note": "Diagnostic ablation, not a proposed correction or acceptance result"
+        },
+        "no_S6": {
+          "maximum_shoulder_displacement_from_baseline_mm": 0.0,
+          "maximum_added_step_mm": 0.0,
+          "maximum_added_second_difference_mm": 0.0,
+          "family_present": false,
+          "note": "Diagnostic ablation, not a proposed correction or acceptance result"
+        },
+        "no_S7": {
+          "maximum_shoulder_displacement_from_baseline_mm": 37.484701722860336,
+          "maximum_added_step_mm": 2.668520901352167,
+          "maximum_added_second_difference_mm": 2.26522795855999,
+          "family_present": true,
+          "note": "Diagnostic ablation, not a proposed correction or acceptance result"
+        },
+        "all_shoulder_off": {
+          "maximum_shoulder_displacement_from_baseline_mm": 65.35103172063828,
+          "maximum_added_step_mm": 2.800846239551902,
+          "maximum_added_second_difference_mm": 2.265718299895525,
+          "family_present": true,
+          "note": "Diagnostic ablation, not a proposed correction or acceptance result"
+        }
+      }
+    },
+    "r52": {
+      "protected_identity": {
+        "runtime": true,
+        "anatomy": true,
+        "basis": true,
+        "polygons": true,
+        "groups": true,
+        "weights": true,
+        "protected_keys": true
+      },
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE",
+          "show_viewport": true,
+          "show_render": true,
+          "use_deform_preserve_volume": false,
+          "use_vertex_groups": true,
+          "use_bone_envelopes": false
+        }
+      ],
+      "relative_bone_motion": {
+        "clavicle_l": {
+          "reference": "spine_03",
+          "maximum_change_from_first_deg": 34.51964046016566,
+          "note": "Relative rotation magnitude, not clinical ISB decomposition"
+        },
+        "scapula_l": {
+          "reference": "spine_03",
+          "maximum_change_from_first_deg": 42.405783439863264,
+          "note": "Relative rotation magnitude, not clinical ISB decomposition"
+        },
+        "upperarm_l": {
+          "reference": "scapula_l",
+          "maximum_change_from_first_deg": 55.21082363867919,
+          "note": "Relative rotation magnitude, not clinical ISB decomposition"
+        },
+        "clavicle_r": {
+          "reference": "spine_03",
+          "maximum_change_from_first_deg": 34.51906771734565,
+          "note": "Relative rotation magnitude, not clinical ISB decomposition"
+        },
+        "scapula_r": {
+          "reference": "spine_03",
+          "maximum_change_from_first_deg": 42.40502608179529,
+          "note": "Relative rotation magnitude, not clinical ISB decomposition"
+        },
+        "upperarm_r": {
+          "reference": "scapula_r",
+          "maximum_change_from_first_deg": 55.195029772666096,
+          "note": "Relative rotation magnitude, not clinical ISB decomposition"
+        }
+      },
+      "ablation": {
+        "no_S1": {
+          "maximum_shoulder_displacement_from_baseline_mm": 25.49353986978531,
+          "maximum_added_step_mm": 1.3088437262922525,
+          "maximum_added_second_difference_mm": 1.0415568249300122,
+          "family_present": true,
+          "note": "Diagnostic ablation, not a proposed correction or acceptance result"
+        },
+        "no_S2": {
+          "maximum_shoulder_displacement_from_baseline_mm": 0.0,
+          "maximum_added_step_mm": 0.0,
+          "maximum_added_second_difference_mm": 0.0,
+          "family_present": false,
+          "note": "Diagnostic ablation, not a proposed correction or acceptance result"
+        },
+        "no_S3": {
+          "maximum_shoulder_displacement_from_baseline_mm": 37.283118814229965,
+          "maximum_added_step_mm": 1.2862157309427857,
+          "maximum_added_second_difference_mm": 0.9589160908944905,
+          "family_present": true,
+          "note": "Diagnostic ablation, not a proposed correction or acceptance result"
+        },
+        "no_S4": {
+          "maximum_shoulder_displacement_from_baseline_mm": 0.0,
+          "maximum_added_step_mm": 0.0,
+          "maximum_added_second_difference_mm": 0.0,
+          "family_present": false,
+          "note": "Diagnostic ablation, not a proposed correction or acceptance result"
+        },
+        "no_S5": {
+          "maximum_shoulder_displacement_from_baseline_mm": 31.99155256152153,
+          "maximum_added_step_mm": 0.8490918553434312,
+          "maximum_added_second_difference_mm": 1.286261947825551,
+          "family_present": true,
+          "note": "Diagnostic ablation, not a proposed correction or acceptance result"
+        },
+        "no_S6": {
+          "maximum_shoulder_displacement_from_baseline_mm": 0.0,
+          "maximum_added_step_mm": 0.0,
+          "maximum_added_second_difference_mm": 0.0,
+          "family_present": false,
+          "note": "Diagnostic ablation, not a proposed correction or acceptance result"
+        },
+        "no_S7": {
+          "maximum_shoulder_displacement_from_baseline_mm": 36.61361336708069,
+          "maximum_added_step_mm": 2.5935007724910975,
+          "maximum_added_second_difference_mm": 2.542519709095359,
+          "family_present": true,
+          "note": "Diagnostic ablation, not a proposed correction or acceptance result"
+        },
+        "all_shoulder_off": {
+          "maximum_shoulder_displacement_from_baseline_mm": 65.35101681947708,
+          "maximum_added_step_mm": 2.915092511102557,
+          "maximum_added_second_difference_mm": 2.6014726608991623,
+          "family_present": true,
+          "note": "Diagnostic ablation, not a proposed correction or acceptance result"
+        }
+      }
+    }
+  }
+}

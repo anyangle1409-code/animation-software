@@ -1,0 +1,38 @@
+{
+  "diagnostic_only": true,
+  "source_artifact_sha256": "6c42860db239afb618fd57168e9b787b3b955a071b35d8ecd690478d7b14b054",
+  "samples": 161,
+  "rows": [
+    {
+      "name": "clavicle_l",
+      "reference": "spine_03",
+      "maximum_change_from_first_deg": 34.51964046016573
+    },
+    {
+      "name": "scapula_l",
+      "reference": "spine_03",
+      "maximum_change_from_first_deg": 42.405783439863285
+    },
+    {
+      "name": "upperarm_l",
+      "reference": "scapula_l",
+      "maximum_change_from_first_deg": 55.21082363867922
+    },
+    {
+      "name": "clavicle_r",
+      "reference": "spine_03",
+      "maximum_change_from_first_deg": 34.51906771734572
+    },
+    {
+      "name": "scapula_r",
+      "reference": "spine_03",
+      "maximum_change_from_first_deg": 42.40502608179526
+    },
+    {
+      "name": "upperarm_r",
+      "reference": "scapula_r",
+      "maximum_change_from_first_deg": 55.19502977266616
+    }
+  ],
+  "limitation": "Relative rotation magnitude from initial pose, not anatomical ISB angles or validation. No skeleton edited."
+}

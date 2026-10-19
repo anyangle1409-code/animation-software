@@ -45,3 +45,11 @@ Independently mute S1–S7, then all seven together, restoring values after each
 Runtime blockers: local environment has no Blender/bpy. Native tests/rendering run in the pinned GitHub workflow. Local diagnostic arithmetic tests and compilation run here. Search completion or workflow success is evidence completion only.
 
 Five new diagnostic tests pass locally. Independent review found a packaging integrity gap: truncated bone arrays could broadcast as identical. A failing regression was added, then strict 161-pose array shape, ordered inventory, finite-data and protected-field checks fixed it. This adds evidence validation; no existing acceptance test or threshold changed.
+
+## Execution checkpoint
+
+Source commit `f9f9bcb241ea16a3b460f30babdf4245616c0163` launched native run https://github.com/anyangle1409-code/animation-software/actions/runs/39264438580 . It passed input-hash verification and five helper tests and entered native capture. Results remain pending at this checkpoint; no new native pass is claimed.
+
+Additional analysis of the already verified earlier native artifact establishes within-clip motion: clavicle relative to thorax changes by up to 34.52 degrees, scapula by 42.41 degrees, and humerus relative to scapula by 55.21 degrees from the starting pose. These are general rotation magnitudes, not ISB components, prescribed anatomical angles or a complete validation. Thus the inherited rig does participate during elevation; the R52-specific defect cannot be attributed simply to stationary shoulder-girdle bones.
+
+Existing S5/S7 native ablations also show broad opposing displacements: at t=0.5, 5,271 shoulder-region vertices have both contributions greater than 1 mm, with opposing dot products at 2,750. Their separate maximum contributions are 21.656 / 32.557 mm. Removing both and adding the individually measured contributions reconstructs the baseline within 0.000430 mm. This confirms a substantially cancelling corrective stack; cancellation itself is not proof of bad anatomy. Full S1–S7 and weight capture must establish which inherited component creates the arm-root contour before a correction is justified. Raw summary JSON records the region and limits.

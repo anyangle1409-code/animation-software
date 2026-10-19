@@ -1,0 +1,7 @@
+test_finite_iteration_never_means_model_acceptance (__main__.Study.test_finite_iteration_never_means_model_acceptance) ... ok
+test_motion_ball_dual_projection (__main__.Study.test_motion_ball_dual_projection) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.044s
+
+OK

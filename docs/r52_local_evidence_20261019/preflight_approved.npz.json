@@ -1,0 +1,118 @@
+{
+  "status": "UNSAVED_TEMPORAL_STUDY_NOT_ACCEPTED",
+  "approved": false,
+  "model_saved": false,
+  "shape_repair_complete": false,
+  "motion_and_step_goals_met": false,
+  "actual_outline_guard_met": true,
+  "motion_excess_mm": 0.7065185062982418,
+  "maximum_adjacent_mm": 3.13917533341939,
+  "approved_outline_error_mm": 0.949999016269687,
+  "note": "Finite iteration, source-knot projection and workflow success do not mean native surface safety or owner approval.",
+  "retained_state": "best_bounded_outline_preserving_temporal_study",
+  "history": [
+    {
+      "iteration": 0,
+      "seconds": 0.7,
+      "motion_excess_mm": 2.07369326058858,
+      "maximum_adjacent_mm": 2.445625250243089,
+      "approved_outline_error_mm": 0.949999016269798,
+      "maximum_material_mm": 42.85282845455575,
+      "early_outward_increment_mm": 2.0768703409373006,
+      "fully_feasible": false,
+      "retained": true
+    },
+    {
+      "iteration": 25,
+      "seconds": 9.57,
+      "motion_excess_mm": 1.2268128061012165,
+      "maximum_adjacent_mm": 3.931782348715957,
+      "approved_outline_error_mm": 0.949999016269798,
+      "maximum_material_mm": 42.36990252436701,
+      "early_outward_increment_mm": 0.0,
+      "fully_feasible": false,
+      "retained": true
+    },
+    {
+      "iteration": 50,
+      "seconds": 19.69,
+      "motion_excess_mm": 0.9397544376175859,
+      "maximum_adjacent_mm": 3.253729894006621,
+      "approved_outline_error_mm": 0.949999016269798,
+      "maximum_material_mm": 42.226995059383604,
+      "early_outward_increment_mm": 0.5477326307545686,
+      "fully_feasible": false,
+      "retained": true
+    },
+    {
+      "iteration": 75,
+      "seconds": 29.02,
+      "motion_excess_mm": 0.8547650297474223,
+      "maximum_adjacent_mm": 3.2717418820564657,
+      "approved_outline_error_mm": 0.949999016269687,
+      "maximum_material_mm": 42.044801779718,
+      "early_outward_increment_mm": 0.06266497142949737,
+      "fully_feasible": false,
+      "retained": true
+    },
+    {
+      "iteration": 100,
+      "seconds": 38.33,
+      "motion_excess_mm": 0.7537968509506173,
+      "maximum_adjacent_mm": 3.186221957601067,
+      "approved_outline_error_mm": 0.949999016269798,
+      "maximum_material_mm": 41.88776275866225,
+      "early_outward_increment_mm": 0.23229479035828887,
+      "fully_feasible": false,
+      "retained": true
+    },
+    {
+      "iteration": 125,
+      "seconds": 47.37,
+      "motion_excess_mm": 0.7065185062982418,
+      "maximum_adjacent_mm": 3.13917533341939,
+      "approved_outline_error_mm": 0.949999016269687,
+      "maximum_material_mm": 41.73469292028347,
+      "early_outward_increment_mm": 0.0673076808307668,
+      "fully_feasible": false,
+      "retained": true
+    },
+    {
+      "iteration": 150,
+      "seconds": 56.82,
+      "motion_excess_mm": 0.6657077489509786,
+      "maximum_adjacent_mm": 3.099719335018842,
+      "approved_outline_error_mm": 1.0151744449398703,
+      "maximum_material_mm": 41.58330213347184,
+      "early_outward_increment_mm": 0.09804899184774736,
+      "fully_feasible": false
+    },
+    {
+      "iteration": 175,
+      "seconds": 65.66,
+      "motion_excess_mm": 0.6546374027806512,
+      "maximum_adjacent_mm": 3.111643180814436,
+      "approved_outline_error_mm": 1.1138219595058507,
+      "maximum_material_mm": 41.43234816986842,
+      "early_outward_increment_mm": 0.04378099391777168,
+      "fully_feasible": false
+    },
+    {
+      "iteration": 200,
+      "seconds": 74.17,
+      "motion_excess_mm": 0.6277489596972996,
+      "maximum_adjacent_mm": 3.0763810097727715,
+      "approved_outline_error_mm": 1.2035626363935403,
+      "maximum_material_mm": 41.28066385948633,
+      "early_outward_increment_mm": 0.06700558574880368,
+      "fully_feasible": false
+    }
+  ],
+  "independent_nodes": 72,
+  "pinned_marked_vertices": 225,
+  "editable_vertices": 5567,
+  "iterations": 200,
+  "elapsed_seconds": 75.20529074999968,
+  "maximum_material_mm": 41.73469292028347,
+  "early_outward_increment_mm": 0.0673076808307668
+}

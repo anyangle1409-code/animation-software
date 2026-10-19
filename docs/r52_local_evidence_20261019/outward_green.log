@@ -1,0 +1,9 @@
+test_ball_mask_and_marked_boundary_projection (__main__.Projection.test_ball_mask_and_marked_boundary_projection) ... ok
+test_motion_adjoint_with_skinning (__main__.Projection.test_motion_adjoint_with_skinning) ... ok
+test_outward_halfspace_adjoint_and_inactive_frames (__main__.Projection.test_outward_halfspace_adjoint_and_inactive_frames) ... ok
+test_scope_never_releases_frozen_source_or_material (__main__.Projection.test_scope_never_releases_frozen_source_or_material) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.543s
+
+OK

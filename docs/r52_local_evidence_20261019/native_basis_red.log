@@ -1,0 +1,18 @@
+test_exact_old_cubic_including_negative_coefficients (__main__.Temporal.test_exact_old_cubic_including_negative_coefficients) ... ok
+test_forward_adjoint (__main__.Temporal.test_forward_adjoint) ... ok
+test_native_decoder_basis_needs_only_numpy (__main__.Temporal.test_native_decoder_basis_needs_only_numpy) ... FAIL
+test_reject_hidden_90mm_jump (__main__.Temporal.test_reject_hidden_90mm_jump) ... ok
+test_reject_invalid_weights (__main__.Temporal.test_reject_invalid_weights) ... ok
+
+======================================================================
+FAIL: test_native_decoder_basis_needs_only_numpy (__main__.Temporal.test_native_decoder_basis_needs_only_numpy)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/f735ec000ad4/r52-work/scripts/tests/test_original_review_r52_temporal.py", line 32, in test_native_decoder_basis_needs_only_numpy
+    self.assertIsNotNone(response_basis,'Native decoder requires a SciPy-free basis')
+AssertionError: unexpectedly None : Native decoder requires a SciPy-free basis
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.545s
+
+FAILED (failures=1)

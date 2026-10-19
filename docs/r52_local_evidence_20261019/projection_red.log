@@ -1,0 +1,32 @@
+test_ball_mask_and_marked_boundary_projection (__main__.Projection.test_ball_mask_and_marked_boundary_projection) ... FAIL
+test_motion_adjoint_with_skinning (__main__.Projection.test_motion_adjoint_with_skinning) ... FAIL
+test_scope_never_releases_frozen_source_or_material (__main__.Projection.test_scope_never_releases_frozen_source_or_material) ... FAIL
+
+======================================================================
+FAIL: test_ball_mask_and_marked_boundary_projection (__main__.Projection.test_ball_mask_and_marked_boundary_projection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/f735ec000ad4/r52-work/scripts/tests/test_original_review_r52_projection.py", line 16, in test_ball_mask_and_marked_boundary_projection
+    self.assertIsNotNone(project)
+AssertionError: unexpectedly None
+
+======================================================================
+FAIL: test_motion_adjoint_with_skinning (__main__.Projection.test_motion_adjoint_with_skinning)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/f735ec000ad4/r52-work/scripts/tests/test_original_review_r52_projection.py", line 23, in test_motion_adjoint_with_skinning
+    self.assertIsNotNone(motion)
+AssertionError: unexpectedly None
+
+======================================================================
+FAIL: test_scope_never_releases_frozen_source_or_material (__main__.Projection.test_scope_never_releases_frozen_source_or_material)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/f735ec000ad4/r52-work/scripts/tests/test_original_review_r52_projection.py", line 11, in test_scope_never_releases_frozen_source_or_material
+    self.assertIsNotNone(allowed_dense)
+AssertionError: unexpectedly None
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+FAILED (failures=3)

@@ -1,0 +1,41 @@
+test_exact_old_cubic_including_negative_coefficients (__main__.Temporal.test_exact_old_cubic_including_negative_coefficients) ... FAIL
+test_forward_adjoint (__main__.Temporal.test_forward_adjoint) ... FAIL
+test_reject_hidden_90mm_jump (__main__.Temporal.test_reject_hidden_90mm_jump) ... FAIL
+test_reject_invalid_weights (__main__.Temporal.test_reject_invalid_weights) ... FAIL
+
+======================================================================
+FAIL: test_exact_old_cubic_including_negative_coefficients (__main__.Temporal.test_exact_old_cubic_including_negative_coefficients)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/f735ec000ad4/r52-work/scripts/tests/test_original_review_r52_temporal.py", line 12, in test_exact_old_cubic_including_negative_coefficients
+    self.assertIsNotNone(decode,'Independent temporal decoder not implemented')
+AssertionError: unexpectedly None : Independent temporal decoder not implemented
+
+======================================================================
+FAIL: test_forward_adjoint (__main__.Temporal.test_forward_adjoint)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/f735ec000ad4/r52-work/scripts/tests/test_original_review_r52_temporal.py", line 17, in test_forward_adjoint
+    self.assertIsNotNone(decode)
+AssertionError: unexpectedly None
+
+======================================================================
+FAIL: test_reject_hidden_90mm_jump (__main__.Temporal.test_reject_hidden_90mm_jump)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/f735ec000ad4/r52-work/scripts/tests/test_original_review_r52_temporal.py", line 25, in test_reject_hidden_90mm_jump
+    self.assertIsNotNone(oscillation)
+AssertionError: unexpectedly None
+
+======================================================================
+FAIL: test_reject_invalid_weights (__main__.Temporal.test_reject_invalid_weights)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/f735ec000ad4/r52-work/scripts/tests/test_original_review_r52_temporal.py", line 21, in test_reject_invalid_weights
+    self.assertIsNotNone(decode)
+AssertionError: unexpectedly None
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.001s
+
+FAILED (failures=4)

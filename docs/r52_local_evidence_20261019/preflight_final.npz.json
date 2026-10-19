@@ -1,0 +1,145 @@
+{
+  "status": "UNSAVED_TEMPORAL_STUDY_NOT_ACCEPTED",
+  "approved": false,
+  "model_saved": false,
+  "shape_repair_complete": false,
+  "motion_and_step_goals_met": false,
+  "actual_outline_guard_met": true,
+  "motion_excess_mm": 0.5435526946159216,
+  "maximum_adjacent_mm": 3.0300544077755407,
+  "approved_outline_error_mm": 0.9788881096136071,
+  "note": "Finite iteration, source-knot projection and workflow success do not mean native surface safety or owner approval.",
+  "retained_state": "best_bounded_outline_preserving_temporal_study",
+  "history": [
+    {
+      "iteration": 0,
+      "seconds": 0.54,
+      "motion_excess_mm": 2.07369326058858,
+      "maximum_adjacent_mm": 2.445625250243089,
+      "approved_outline_error_mm": 0.949999016269798,
+      "maximum_material_mm": 42.85282845455575,
+      "fully_feasible": false,
+      "retained": true
+    },
+    {
+      "iteration": 25,
+      "seconds": 8.61,
+      "motion_excess_mm": 0.8435913013680302,
+      "maximum_adjacent_mm": 3.338286684046646,
+      "approved_outline_error_mm": 0.949999016269687,
+      "maximum_material_mm": 42.36992974430653,
+      "fully_feasible": false,
+      "retained": true
+    },
+    {
+      "iteration": 50,
+      "seconds": 17.6,
+      "motion_excess_mm": 0.7747912362635676,
+      "maximum_adjacent_mm": 3.2303379703744586,
+      "approved_outline_error_mm": 0.949999016269798,
+      "maximum_material_mm": 42.22708089207717,
+      "fully_feasible": false,
+      "retained": true
+    },
+    {
+      "iteration": 75,
+      "seconds": 26.1,
+      "motion_excess_mm": 0.6736461684775954,
+      "maximum_adjacent_mm": 3.1202971955634013,
+      "approved_outline_error_mm": 0.949999016269798,
+      "maximum_material_mm": 42.04490897634986,
+      "fully_feasible": false,
+      "retained": true
+    },
+    {
+      "iteration": 100,
+      "seconds": 33.94,
+      "motion_excess_mm": 0.5988890373939196,
+      "maximum_adjacent_mm": 3.1078252722932307,
+      "approved_outline_error_mm": 0.9499990162698535,
+      "maximum_material_mm": 41.88788747652263,
+      "fully_feasible": false,
+      "retained": true
+    },
+    {
+      "iteration": 125,
+      "seconds": 41.28,
+      "motion_excess_mm": 0.5937809237062612,
+      "maximum_adjacent_mm": 3.037585606121434,
+      "approved_outline_error_mm": 0.949999016269687,
+      "maximum_material_mm": 41.734834289135854,
+      "fully_feasible": false,
+      "retained": true
+    },
+    {
+      "iteration": 150,
+      "seconds": 49.58,
+      "motion_excess_mm": 0.5435526946159216,
+      "maximum_adjacent_mm": 3.0300544077755407,
+      "approved_outline_error_mm": 0.9788881096136071,
+      "maximum_material_mm": 41.58346160420691,
+      "fully_feasible": false,
+      "retained": true
+    },
+    {
+      "iteration": 175,
+      "seconds": 57.37,
+      "motion_excess_mm": 0.534245768768792,
+      "maximum_adjacent_mm": 3.0358251287107305,
+      "approved_outline_error_mm": 1.0826389012865145,
+      "maximum_material_mm": 41.43252948349205,
+      "fully_feasible": false
+    },
+    {
+      "iteration": 200,
+      "seconds": 64.35,
+      "motion_excess_mm": 0.5213706997755196,
+      "maximum_adjacent_mm": 3.026193928663193,
+      "approved_outline_error_mm": 1.1763410204921054,
+      "maximum_material_mm": 41.28087025193373,
+      "fully_feasible": false
+    },
+    {
+      "iteration": 225,
+      "seconds": 71.49,
+      "motion_excess_mm": 0.5212499927217342,
+      "maximum_adjacent_mm": 3.0246057175535035,
+      "approved_outline_error_mm": 1.2604996457543372,
+      "maximum_material_mm": 41.12862976095416,
+      "fully_feasible": false
+    },
+    {
+      "iteration": 250,
+      "seconds": 78.76,
+      "motion_excess_mm": 0.5281546632015979,
+      "maximum_adjacent_mm": 3.0132190593639483,
+      "approved_outline_error_mm": 1.335659652238974,
+      "maximum_material_mm": 40.97614310474833,
+      "fully_feasible": false
+    },
+    {
+      "iteration": 275,
+      "seconds": 87.69,
+      "motion_excess_mm": 0.49881218910297576,
+      "maximum_adjacent_mm": 3.007098346308866,
+      "approved_outline_error_mm": 1.4034774242299708,
+      "maximum_material_mm": 40.82341970516994,
+      "fully_feasible": false
+    },
+    {
+      "iteration": 300,
+      "seconds": 94.83,
+      "motion_excess_mm": 0.47097154447311707,
+      "maximum_adjacent_mm": 3.009262614922872,
+      "approved_outline_error_mm": 1.4646605143874558,
+      "maximum_material_mm": 40.69464009586736,
+      "fully_feasible": false
+    }
+  ],
+  "independent_nodes": 72,
+  "pinned_marked_vertices": 225,
+  "editable_vertices": 5567,
+  "iterations": 300,
+  "elapsed_seconds": 95.72538068500035,
+  "maximum_material_mm": 41.58346160420691
+}

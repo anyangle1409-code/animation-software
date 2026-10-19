@@ -1,0 +1,14 @@
+test_moves_only_active_material_inside_boundary (__main__.Envelope.test_moves_only_active_material_inside_boundary) ... FAIL
+
+======================================================================
+FAIL: test_moves_only_active_material_inside_boundary (__main__.Envelope.test_moves_only_active_material_inside_boundary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/f735ec000ad4/r52-work/scripts/tests/test_original_review_r52_envelope.py", line 8, in test_moves_only_active_material_inside_boundary
+    self.assertIsNotNone(clip_marked)
+AssertionError: unexpectedly None
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)

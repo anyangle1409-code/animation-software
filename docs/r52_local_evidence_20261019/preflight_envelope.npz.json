@@ -1,0 +1,70 @@
+{
+  "status": "UNSAVED_TEMPORAL_STUDY_NOT_ACCEPTED",
+  "approved": false,
+  "model_saved": false,
+  "shape_repair_complete": false,
+  "motion_and_step_goals_met": false,
+  "actual_outline_guard_met": true,
+  "motion_excess_mm": 0.5960692711450667,
+  "maximum_adjacent_mm": 3.1073219566210915,
+  "approved_outline_error_mm": 0.9906367882119849,
+  "note": "Finite iteration, source-knot projection and workflow success do not mean native surface safety or owner approval.",
+  "retained_state": "best_bounded_outline_preserving_temporal_study",
+  "history": [
+    {
+      "iteration": 0,
+      "seconds": 1.09,
+      "motion_excess_mm": 2.07369326058858,
+      "maximum_adjacent_mm": 2.445625250243089,
+      "approved_outline_error_mm": 0.949999016269798,
+      "maximum_material_mm": 42.85282845455575,
+      "fully_feasible": false,
+      "retained": true
+    },
+    {
+      "iteration": 25,
+      "seconds": 14.71,
+      "motion_excess_mm": 0.8435912525793102,
+      "maximum_adjacent_mm": 3.3382863499429742,
+      "approved_outline_error_mm": 1.0017045117094447,
+      "maximum_material_mm": 42.36992974430113,
+      "fully_feasible": false
+    },
+    {
+      "iteration": 50,
+      "seconds": 24.35,
+      "motion_excess_mm": 0.7746395701577637,
+      "maximum_adjacent_mm": 3.2303399797999255,
+      "approved_outline_error_mm": 0.9921592474961827,
+      "maximum_material_mm": 42.227080890236564,
+      "fully_feasible": false,
+      "retained": true
+    },
+    {
+      "iteration": 75,
+      "seconds": 35.56,
+      "motion_excess_mm": 0.6675867433266649,
+      "maximum_adjacent_mm": 3.1085952411558435,
+      "approved_outline_error_mm": 0.988840138709618,
+      "maximum_material_mm": 42.044908955310774,
+      "fully_feasible": false,
+      "retained": true
+    },
+    {
+      "iteration": 100,
+      "seconds": 46.42,
+      "motion_excess_mm": 0.5960692711450667,
+      "maximum_adjacent_mm": 3.1073219566210915,
+      "approved_outline_error_mm": 0.9906367882119849,
+      "maximum_material_mm": 41.8878873874338,
+      "fully_feasible": false,
+      "retained": true
+    }
+  ],
+  "independent_nodes": 72,
+  "pinned_marked_vertices": 225,
+  "editable_vertices": 5567,
+  "iterations": 100,
+  "elapsed_seconds": 48.4850736379999,
+  "maximum_material_mm": 41.8878873874338
+}

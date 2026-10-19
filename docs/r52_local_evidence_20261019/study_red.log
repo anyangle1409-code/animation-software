@@ -1,0 +1,23 @@
+test_finite_iteration_never_means_model_acceptance (__main__.Study.test_finite_iteration_never_means_model_acceptance) ... FAIL
+test_motion_ball_dual_projection (__main__.Study.test_motion_ball_dual_projection) ... FAIL
+
+======================================================================
+FAIL: test_finite_iteration_never_means_model_acceptance (__main__.Study.test_finite_iteration_never_means_model_acceptance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/f735ec000ad4/r52-work/scripts/tests/test_original_review_r52_study.py", line 13, in test_finite_iteration_never_means_model_acceptance
+    self.assertIsNotNone(study_status)
+AssertionError: unexpectedly None
+
+======================================================================
+FAIL: test_motion_ball_dual_projection (__main__.Study.test_motion_ball_dual_projection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/f735ec000ad4/r52-work/scripts/tests/test_original_review_r52_study.py", line 9, in test_motion_ball_dual_projection
+    self.assertIsNotNone(shrink_ball_dual)
+AssertionError: unexpectedly None
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.001s
+
+FAILED (failures=2)

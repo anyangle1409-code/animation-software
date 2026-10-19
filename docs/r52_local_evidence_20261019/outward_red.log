@@ -1,0 +1,17 @@
+test_ball_mask_and_marked_boundary_projection (__main__.Projection.test_ball_mask_and_marked_boundary_projection) ... ok
+test_motion_adjoint_with_skinning (__main__.Projection.test_motion_adjoint_with_skinning) ... ok
+test_outward_halfspace_adjoint_and_inactive_frames (__main__.Projection.test_outward_halfspace_adjoint_and_inactive_frames) ... FAIL
+test_scope_never_releases_frozen_source_or_material (__main__.Projection.test_scope_never_releases_frozen_source_or_material) ... ok
+
+======================================================================
+FAIL: test_outward_halfspace_adjoint_and_inactive_frames (__main__.Projection.test_outward_halfspace_adjoint_and_inactive_frames)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/f735ec000ad4/r52-work/scripts/tests/test_original_review_r52_projection.py", line 29, in test_outward_halfspace_adjoint_and_inactive_frames
+    self.assertIsNotNone(normal_response)
+AssertionError: unexpectedly None
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.610s
+
+FAILED (failures=1)

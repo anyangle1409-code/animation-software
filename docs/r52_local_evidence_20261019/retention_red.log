@@ -1,0 +1,16 @@
+test_finite_iteration_never_means_model_acceptance (__main__.Study.test_finite_iteration_never_means_model_acceptance) ... ok
+test_motion_ball_dual_projection (__main__.Study.test_motion_ball_dual_projection) ... ok
+test_retains_feasible_state_before_smaller_motion_but_invalid_step (__main__.Study.test_retains_feasible_state_before_smaller_motion_but_invalid_step) ... FAIL
+
+======================================================================
+FAIL: test_retains_feasible_state_before_smaller_motion_but_invalid_step (__main__.Study.test_retains_feasible_state_before_smaller_motion_but_invalid_step)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/f735ec000ad4/r52-work/scripts/tests/test_original_review_r52_study.py", line 21, in test_retains_feasible_state_before_smaller_motion_but_invalid_step
+    self.assertIsNotNone(retention_key)
+AssertionError: unexpectedly None
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.043s
+
+FAILED (failures=1)

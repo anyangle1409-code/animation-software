@@ -36,3 +36,23 @@ Isolated branch only. No edits to original blend, R41/R47/R52/R53 studies, bone 
 1. Inspect the exact-head CI screen and JSON, including any failed verification.
 2. If a pair meets both screen guards, propose it for **actual, separate** Blender area/contact/normal/crease/13-benchmark and visual evaluation, still respecting frozen anatomy and model rights.
 3. Otherwise retain the negative result, narrow down local posterior axilla influence ownership (deltoid cap / upper-arm / muscle_lat proxy / thorax) and design a local joint-weight/corrective strategy with protective masks; do not assume numerical redistribution will improve surface continuity.
+
+
+## Actual cloud outcome (20 October 2026)
+
+**Diagnostic execution completed; global family-amplitude tweaking is rejected as a correction path in the tested range.**
+
+- Final pinned source commit: `167551396b90297163992a1ecaa33ebde574f005`.
+- Exact native-data workflow: https://github.com/anyangle1409-code/animation-software/actions/runs/39407075261 — SUCCESS.
+- Eight synthetic/guard regressions PASS. All three checked original SHA256 values PASS. Actual 161-pose R53 captures and authentic R52 response are used; no synthetic substitute for the real-data screen.
+- Original R52 scale 1.0/1.0 reproduces the marked R47 historical outline error **0.949949 mm** (1 mm guard) and the original dense 161-pose motion excess **40.644618 mm** (0.5 mm guard).
+- Full screen evaluates **25** S5/S7 global amplitude pairs (0.90,0.95,1,1.05,1.10 on each). **Zero** satisfy both original outline and motion guards. The ranked best pair retaining the outline is the unchanged 1.0/1.0 baseline; it still fails motion.
+- Artifact `original-v1-r54-s5-s7-screen-20261020` retains JSON for all tested pairs. A successful data pipeline never indicates a passing model.
+- An earlier exact-head workflow 39406766371 correctly FAILED at the authentic motion replay when draft code took the norm of a difference instead of the project's existing difference of second-difference magnitudes. The formula was corrected without touching the numerical limit, and an eighth synthetic regression verifies this exact distinction. Its failed evidence remains available.
+- No native candidate was built or saved. Original skeleton, Basis, shape-key geometry, skin weights, bounds, photos, production assets, PRs and corrective control definitions remain unchanged.
+
+### Decision
+
+**Do not rerun simple uniform S5/S7 amplitude scaling or 26-vertex averaging.** The next implementable experiment needs spatially selective shoulder/axilla deformation work. It must explicitly co-model the inherited sharp weight-gradient edge (18081–21057), the t=0.5 S7 curvature jump near posterior vertex 19057, and the R47 approved silhouette, with native Blender evaluation and all unchanged guards.
+
+The sole previous weight exception covers exactly 26 vertices; do not silently enlarge it. Keep weights and shape modifications confined to separately named, reversible study files and approved source masks. An expanded weight region, new helper deformer, topological surgery or canonical bone move requires a separate owner scope decision. **R54 is an evidence milestone, not shoulder repair.**

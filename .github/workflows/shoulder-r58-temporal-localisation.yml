@@ -71,6 +71,10 @@ jobs:
       run: |
         set -euo pipefail
         python3 scripts/shoulder_r58/diagnose_r58_temporal_hotspots.py --source /tmp/r58/source.npz --r52 /tmp/r58/r52_solved.npz --r57 /tmp/r58/r57_candidate.npz --points52 /tmp/r58/r52_points.npz --points57 /tmp/r58/r57_points.npz --out /tmp/r58/r58_report.json
+    - name: S7-only feasibility lower bound (read-only LP)
+      run: |
+        set -euo pipefail
+        python3 scripts/shoulder_r58/feasibility_r58_lower_bound.py --source /tmp/r58/source.npz --r52 /tmp/r58/r52_solved.npz --points /tmp/r58/r52_points.npz --out /tmp/r58/r58_feasibility.json --top 40
     - uses: actions/upload-artifact@v4
       if: success() || failure()
       with:

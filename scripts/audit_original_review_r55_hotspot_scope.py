@@ -22,6 +22,19 @@ def dense_per_vertex_excess_mm(reference, actual):
             np.linalg.norm(second(a), axis=2)).max(axis=0)*16000.0
 
 
+def compare_both_s7_muted_mm(r41_baseline, r41_mute_delta,
+                             r52_baseline, r52_mute_delta):
+    """Compare matched family-off captures, not R52-off to R41 family-on."""
+    values=[np.asarray(v,float) for v in
+            (r41_baseline,r41_mute_delta,r52_baseline,r52_mute_delta)]
+    if (any(v.shape!=values[0].shape or v.ndim!=3 or v.shape[0]!=161 or
+            v.shape[-1]!=3 or not np.isfinite(v).all() for v in values)):
+        raise ValueError("Bad S7-muted comparison arrays")
+    r41_off=values[0]+values[1]
+    r52_off=values[2]+values[3]
+    return float(np.linalg.norm(r52_off-r41_off,axis=2).max()*1000)
+
+
 def allowed_weight_scope(spec, allowed_union, frozen_union, vertex_count):
     """Verify the historical owner-approved 26-vertex *trial* without expanding it."""
     edit = np.asarray(spec["proposed_edit_vertices"], dtype=int)
@@ -112,12 +125,9 @@ def audit(capture_dir, response_path, patch_json):
         # Both R41 and R52 contain an active S7 family. Match the original
         # R53 controlled experiment by muting S7 in BOTH, never comparing
         # R52-muted with R41-unmuted.
-        muted_r52=(np.asarray(r52["baseline"][:,subset_idx],float) +
-                   np.asarray(r52["no_S7"][:,subset_idx],float))
-        muted_r41=(np.asarray(r41["baseline"][:,subset_idx],float) +
-                   np.asarray(r41["no_S7"][:,subset_idx],float))
-        mute_replay_max_mm=float(
-            np.linalg.norm(muted_r52-muted_r41,axis=2).max()*1000)
+        mute_replay_max_mm=compare_both_s7_muted_mm(
+            r41["baseline"][:,subset_idx],r41["no_S7"][:,subset_idx],
+            r52["baseline"][:,subset_idx],r52["no_S7"][:,subset_idx])
         if mute_replay_max_mm>.01:
             raise ValueError("S7-only attribution failed actual captured replay")
         ranks=np.argsort(-per,kind="stable")

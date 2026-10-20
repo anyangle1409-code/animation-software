@@ -5,7 +5,8 @@ from pathlib import Path
 import numpy as np
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from audit_original_review_r55_hotspot_scope import (
-    dense_per_vertex_excess_mm, allowed_weight_scope, geodesic_to_patch_mm,\n    compare_both_s7_muted_mm)
+    dense_per_vertex_excess_mm, allowed_weight_scope, geodesic_to_patch_mm,
+    compare_both_s7_muted_mm)
 
 
 class R55(unittest.TestCase):

@@ -1,0 +1,52 @@
+name: ORIGINAL_v1 R56 S7 per-control authority audit
+'on':
+  push:
+    branches: [codex/r56-shoulder-per-control-feasibility-20261020]
+    paths: [.github/workflows/original-r56-per-control-audit.yml]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  source-and-dense-mask-certificate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install NumPy
+      run: sudo apt-get update && sudo apt-get install -y python3-numpy
+    - name: Run focused source-mask and dense-control regressions
+      run: |
+        set -euo pipefail
+        mkdir -p /tmp/r56
+        /usr/bin/python3 -m unittest discover -s scripts/tests -p 'test_original_review_r56_controls.py' -v 2>&1 | tee /tmp/r56/unit_tests.txt
+    - name: Fetch immutable R55 hotspot audit
+      uses: actions/download-artifact@v4
+      with:
+        name: original-v1-r55-shoulder-scope-20261020
+        run-id: 39408787280
+        github-token: ${{ github.token }}
+        path: /tmp/r55
+    - name: Fetch immutable R52 source and solution
+      uses: actions/download-artifact@v4
+      with:
+        name: original-v1-r52-review
+        run-id: 39215634074
+        github-token: ${{ github.token }}
+        path: /tmp/r52
+    - name: Verify source hashes and certify real per-key permissions
+      run: |
+        set -euo pipefail
+        echo '2a6c01cf7eacd3d1ceb47ae9f131f76dd0487fce5d3518d5cd1df65bc059fa8d  /tmp/r52/tmp/r52-response/source.npz' | sha256sum -c -
+        echo 'b3a6c404a944753facde5a92db8bc4547a1ca756960b6b82df2875f5e4eb804f  /tmp/r52/tmp/r52-response/solved.npz' | sha256sum -c -
+        test -f /tmp/r55/hotspot_scope.json
+        timeout 12m /usr/bin/python3 scripts/audit_original_review_r56_controls.py --response /tmp/r52/tmp/r52-response/source.npz --solution /tmp/r52/tmp/r52-response/solved.npz --r55 /tmp/r55/hotspot_scope.json --out /tmp/r56/per_control_certificate.json | tee /tmp/r56/summary.txt
+    - name: Preserve positive and negative outcomes
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: original-v1-r56-per-control-20261020
+        path: /tmp/r56/
+        retention-days: 14

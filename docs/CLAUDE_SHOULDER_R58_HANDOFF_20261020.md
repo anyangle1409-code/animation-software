@@ -789,3 +789,54 @@ The R68 fix now goes in through the dense increments (generator `--r68 <npz>`). 
 - **R68e adds no gate regressions** and removes one benchmark regression.
 - **The correction is NOT complete:** the inherited failures (contacts, normals, motion, crease, benchmarks) remain, and visually the restored rear deltoid still reads as a lump with posterior-axilla crinkles.
 - Before/after sheets: `review-assets/shoulder_r68/before_after/` (R67e against R68e at 135.6°, 156° and 166°; six views each).
+
+## R69 (20 Oct): "the shoulder looks good but the arm still has that bit at the armpit"
+
+**Owner on R68e:** the shoulder is good; the arm still has the bit at the armpit.
+
+**First attempts on bare R41, which failed in the press pipeline:**
+- R69a/b: thin-plate rebuild of the inner-arm crease inside the S7 keys. R69b's gates: outline 5.9 mm, 71 contacts, 12 benchmark regressions. The inner-arm patch lies on the front-lateral outline, whose support vertices differ in the R52 candidate from bare R41.
+- R69c: posterior-groove pass only. Contacts 7 → 1, but outline 2.5 mm and 13 reversed normals.
+- R69d: R69c plus candidate-geometry pinning in the generator (`--r68-pin`). Gates OK, but almost no visual change.
+
+**Finding the real source.** The close-up workflow now exports the candidate's dense increments (`candidate_dense_f32.npz`) and R52's. `diagnose_shoulder_skinning_blender.py` can install them locally (`R69_DENSE`); its local renders match CI exactly.
+
+Arm-underside folds (> 45°) at 156° in the press candidate:
+
+| Variant | Arm-underside folds at 156° |
+|---|---|
+| R52 | 0 |
+| candidate | 18 |
+| without the outline fill (`--hull`) | 9 |
+| without the fold relax | 14 |
+| without the shoulder relax | 18 |
+
+So the bit is made by my lockout outline fill plus the S7 rear restore.
+
+**Fix (R69f):**
+- The R68/R69 S7 change is added to the start candidate, so every posed-space stage sees it.
+- New `--armpit-tp 0.05`: in each lockout pose, a thin-plate (bi-Laplacian) rebuild of the arm-underside patch at the armpit (rest centre (±0.209, 0.005, 1.367), r 5 cm), with that pose's approved-outline support (Work's `support_vertices`) and a 2-ring pinned. It is solved into the controls like the other lockout targets.
+- Arm-underside folds > 45°: 156° 18 → **2**, 166° 13 → **0** (R52: 0 and 8).
+- Pinched triangles remain about 100, against R52's 40–69.
+
+**R69f gates (run 39513829888)** — no regressions against R68e:
+
+| Gate | R69f |
+|---|---|
+| Outline | 0.95 mm (pass) |
+| Early outward | 0 (pass) |
+| Adjacent step | pass |
+| Contacts | 7 (4 are R52 originals) |
+| Reversed normals | 6 |
+| Benchmark regressions | 6 |
+| Dense motion | 18.91 mm |
+| 41-pose motion | 7.62 mm |
+| Crease | 132.8° |
+
+- Media: `review-assets/shoulder_r64/R69f/`, `review-assets/shoulder_r64_closeups/R69f_closeups/`, `review-assets/shoulder_r68/before_after/R67e_vs_R69f_press_slow.mp4` and `R67e_R69d_R69f_R69g_*deg.jpg`.
+
+**Still open:**
+- A faint dark groove in the rear three-quarter view where the rear deltoid meets the back.
+- Arm-underside pinch above R52.
+- The front-axilla diagonal fold (present in R52 too).
+- The inherited gate failures.

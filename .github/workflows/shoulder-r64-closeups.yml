@@ -18,8 +18,8 @@ jobs:
       matrix:
         include:
         - {v: R67a, trap: 15, taper: '0.09,0.12', extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --step-limit 0.0029 --lat-bulge 0.015 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1'}
-        - {v: R67b, trap: 15, taper: '0.09,0.12', extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --step-limit 0.0029 --lat-bulge 0.015 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --shoulder-relax 60'}
-        - {v: R67c, trap: 30, taper: '0.09,0.12', extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --step-limit 0.0029 --lat-bulge 0.015 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --root-mm 25 --root-whole-back --root-smooth 40 --root-relax --shoulder-relax 60'}
+        - {v: R67b, trap: 15, taper: '0.09,0.12', extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --step-limit 0.0029 --lat-bulge 0.015 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --shoulder-relax 300'}
+        - {v: R67c, trap: 30, taper: '0.09,0.12', extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --step-limit 0.0029 --lat-bulge 0.015 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --root-mm 25 --root-whole-back --root-smooth 40 --root-relax --shoulder-relax 300'}
     timeout-minutes: 120
     env:
       LIBGL_ALWAYS_SOFTWARE: '1'

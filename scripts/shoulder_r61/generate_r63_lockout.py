@@ -106,6 +106,9 @@ def main():
     ap.add_argument("--torso-max", type=float, default=0.3, help="R63e: skin with whole-arm weight below this may be pushed")
     ap.add_argument("--top", type=float, default=0.02, help="R63e: fill up to this far (m) above the armpit")
     ap.add_argument("--include-bench", action="store_true", help="R63f: also solve against the benchmark press samples 41..81")
+    ap.add_argument("--guard-bench", action="store_true", help="R63g: benchmark press samples only guard against arm contact")
+    ap.add_argument("--guard-weight", type=float, default=4.0)
+    ap.add_argument("--guard-iters", type=int, default=6)
     a = ap.parse_args()
     global K0
     # R63c: the first solved control follows --from; never at or below 136 deg (the marked pose uses controls 135/136)
@@ -126,7 +129,8 @@ def main():
 
     samples = [s for s in range(41) if ht_of(s / 40) >= a.hfrom - 1.0]
     sample_ht = {s: ht_of(s / 40) for s in samples}
-    if a.include_bench:
+    guard_samples = set()
+    if a.include_bench or a.guard_bench:
         # R63f: the gates also pose the benchmark shoulder-press path (samples 41..81); R63e's corner fill touched the arm
         # there (18 new arm/torso contacts at samples 77-81).  Include every benchmark sample that uses the solved controls,
         # with its elevation read from Work's decoded control weights, so the fill is solved against both paths.
@@ -135,6 +139,8 @@ def main():
             e = float(np.median(95.0 + lo_[0] + t_[0]))
             if e >= a.hfrom - 1.0:
                 samples.append(s); sample_ht[s] = e
+                if a.guard_bench:
+                    guard_samples.add(s)
     targets, maps, report_s = {}, {}, []
     for s in samples:
         lo, hi, t = decode(z["weight"][s][None])
@@ -180,10 +186,13 @@ def main():
     # Data term: sum_s |M_sv (blend_sv(x) + fixed_sv) - want_sv|^2 ; smoothness: lam |2nd diff over 144..166|^2 ;
     # tie: tie |x - start|^2.
     H = np.zeros((nA, 3 * nk, 3 * nk)); g = np.zeros((nA, 3 * nk))
-    for s in samples:
-        lo, hi, t = maps[s]; P, D = targets[s]
+
+    def accumulate(s, target_pos, weight):
+        """add weight * |posed_s(x) - target_pos|^2 for every affected vertex (weight may be per-vertex, 0 = skip)"""
+        lo, hi, t = maps[s]
+        wv = np.broadcast_to(np.asarray(weight, float), (nA,))
         Mv = z["mat"][s][affected]                                   # (nA,3,3)
-        want = (P[affected] + D[affected]) - z["base"][s][affected]
+        want = target_pos - z["base"][s][affected]
         coef = np.zeros((nA, nk)); fixed = np.zeros((nA, 3))
         for kk, w in ((lo[affected], 1 - t[affected]), (hi[affected], t[affected])):
             inK = (kk >= K0) & (kk <= K1)
@@ -191,7 +200,7 @@ def main():
             out_ = np.flatnonzero(~inK)
             fixed[out_] += w[out_, None] * d0[kk[out_], affected[out_]]
         rhs = want - np.einsum("nij,nj->ni", Mv, fixed)               # (nA,3)
-        MtM = np.einsum("nki,nkj->nij", Mv, Mv); Mtr = np.einsum("nki,nk->ni", Mv, rhs)
+        MtM = np.einsum("nki,nkj->nij", Mv, Mv) * wv[:, None, None]; Mtr = np.einsum("nki,nk->ni", Mv, rhs) * wv[:, None]
         for p in range(nk):
             cp = coef[:, p]
             if not cp.any():
@@ -201,6 +210,17 @@ def main():
                 cq = coef[:, q]
                 if cq.any():
                     H[:, 3 * p:3 * p + 3, 3 * q:3 * q + 3] += (cp * cq)[:, None, None] * MtM
+
+    def posed_now(s, dense):
+        lo, hi, t = maps[s]
+        inc = (1 - t)[affected, None] * dense[lo[affected], affected] + t[affected, None] * dense[hi[affected], affected]
+        return z["base"][s][affected] + np.einsum("nij,nj->ni", z["mat"][s][affected], inc)
+
+    for s in samples:
+        if s in guard_samples:
+            continue                                                  # R63g: guard-only samples do not drive the shape
+        P, D = targets[s]
+        accumulate(s, P[affected] + D[affected], 1.0)
     # smoothness (span 144..166; 144/145 fixed from the start candidate)
     for j0 in range(1, len(span) - 1):
         ks = span[j0 - 1:j0 + 2]; cc = np.array([1.0, -2.0, 1.0])
@@ -217,9 +237,35 @@ def main():
     g += a.tie * d0[K][:, affected].transpose(1, 0, 2).reshape(nA, -1)
     x = np.linalg.solve(H, g[..., None])[..., 0]
     out[K[:, None], affected[None, :]] = x.reshape(nA, nk, 3).transpose(1, 0, 2)
+    guard_log = []
+    if guard_samples:
+        # R63g (owner chose option 1, 20 Oct): the benchmark-press samples only GUARD against arm contact.  After each
+        # solve, any affected vertex that a guard pose brings within --arm-margin of the upper-arm skin (and closer than
+        # the start candidate) is pinned back to its start-candidate position in that pose (weight --guard-weight); repeat
+        # until no new offenders.  The guard never adds fill, so it cannot pull the shape the way R63f's equal weighting did.
+        from scipy.spatial import cKDTree
+        armpts = np.flatnonzero(np.maximum(armw[0], armw[1]) >= max(0.3, a.torso_max))
+        pinned = {s: np.zeros(nA, bool) for s in guard_samples}
+        for it in range(a.guard_iters):
+            new = 0
+            for s in guard_samples:
+                lo, hi, t = maps[s]; v_all = np.arange(nv)
+                P0 = z["base"][s] + np.einsum("nij,nj->ni", z["mat"][s], (1 - t)[:, None] * d0[lo, v_all] + t[:, None] * d0[hi, v_all])
+                tree = cKDTree(P0[armpts])
+                Pn = posed_now(s, out)
+                dn, _ = tree.query(Pn, k=1); d_0, _ = tree.query(P0[affected], k=1)
+                bad = (dn < a.arm_margin) & (dn < d_0 - 1e-4) & ~pinned[s]
+                if bad.any():
+                    pinned[s] |= bad; new += int(bad.sum())
+                    accumulate(s, P0[affected], np.where(bad, a.guard_weight, 0.0))
+            guard_log.append(new)
+            if not new:
+                break
+            x = np.linalg.solve(H, g[..., None])[..., 0]
+            out[K[:, None], affected[None, :]] = x.reshape(nA, nk, 3).transpose(1, 0, 2)
     # posed fit error at the samples
     fit_err = []
-    for s in samples:
+    for s in [q for q in samples if q not in guard_samples]:
         lo, hi, t = maps[s]; P, D = targets[s]
         inc = (1 - t)[affected, None] * out[lo[affected], affected] + t[affected, None] * out[hi[affected], affected]
         Pn = z["base"][s][affected] + np.einsum("nij,nj->ni", z["mat"][s][affected], inc)
@@ -234,12 +280,12 @@ def main():
     np.savez_compressed(a.out, dense_delta=out, delta=out[SOURCE])
     metrics = {"status": "R63_IN_MEMORY_STUDY_NOT_ACCEPTED", "model_saved": False, "owner_approved": False,
                "scope_change": f"owner-approved lockout sculpt (20 Oct): controls {95 + K0}..166 re-solved in posed space; 166 released",
-               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top", "include_bench")},
+               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top", "include_bench", "guard_bench", "guard_weight", "guard_iters")},
                "samples": report_s, "affected_vertices": int(len(affected)), "vertices_capped_at_45mm": capped,
                "posed_fit_max_error_mm": round(max(fit_err, default=0) * 1000, 3), "posed_fit_error_by_sample_mm": [round(e * 1000, 2) for e in fit_err],
                "max_change_from_start_mm": round(float(np.linalg.norm(out - d0, axis=2).max() * 1000), 2),
                "max_adjacent_control_mm": oscillation(out)["maximum_adjacent_mm"],
-               "arm_file_match_mm": round(dpos, 4)}
+               "arm_file_match_mm": round(dpos, 4), "guard_new_pins_per_iteration": guard_log}
     Path(a.out + ".json").write_text(json.dumps(metrics, indent=2) + "\n")
     print("R63_GENERATOR", json.dumps({k: v for k, v in metrics.items() if k != "samples"}))
 

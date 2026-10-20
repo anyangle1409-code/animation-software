@@ -431,3 +431,11 @@ The owner chose to keep 15 mm and fix what it hits.
 **Next options:**
 - **(a)** Weight the benchmark samples low (e.g. 0.2), or make them gap-only constraints, so they only stop arm contact without driving the fill.
 - **(b)** Accept R63e's 18 benchmark-path contacts as a known issue of that path's slightly different pose. That needs the owner's decision.
+
+### R63g (owner chose option 1, 20 Oct): benchmark press as a contact guard only
+
+`--guard-bench`: the R63e corner fill is solved on the main press only. Benchmark-press samples that use the solved controls act as **guards**:
+- after each solve, any affected vertex brought within the 3 mm arm margin in a guard pose (and closer than the start) is pinned back to its start-candidate position in that pose (weight 4);
+- re-solve, up to 6 iterations.
+
+The guard never adds fill.

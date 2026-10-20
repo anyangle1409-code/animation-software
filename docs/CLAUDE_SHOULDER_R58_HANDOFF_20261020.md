@@ -287,3 +287,43 @@ At the marked pose the swell adds 0.0 mm, as designed.
 **Visual:** a subtle, fuller neck-to-shoulder mound at 145–156° (`R52_vs_R62_neck_closeup_145_156.jpg`). If the owner wants it stronger, raise `--trap-mm` (10 → 15–20 mm) and re-check contacts near the neck.
 
 **Still open:** the 148–166° arm-into-body dip, which needs posed-space lockout targets (see R61).
+
+## R62b (15 mm trapezius) and R63 (posed-space lockout sculpt), 20 Oct
+
+**R62b** (`--trap-mm 15`, run 39433070757):
+
+| Gate | R62b | Limit |
+|---|---|---|
+| Outline | 0.95 mm | 1 mm |
+| Dense motion | 9.25 mm | 0.5 mm |
+| Early outward | 0 | 0.05 mm |
+| **Contacts** | **98** (10 mm: 7) | 0 |
+| Crease | 137° | 2° |
+| Benchmark regressions | **8** | 0 |
+
+The owner chose to keep 15 mm and fix what it hits.
+
+**R63** (`scripts/shoulder_r61/generate_r63_lockout.py`, run 39437923899; first version kept in `review-assets/shoulder_r63_first/`):
+- **Method:** posed-space design using Work's exact affine pose model.
+  - Seen from behind, the side of the back below the armpit is pushed out to the arm's outer-edge line (gain 0.6, depth 25 cm), ramped in over 146–152°.
+  - The push is smoothed, and controls 146–166 are solved back by batched least squares with temporal smoothing.
+  - Posed fit ≤ 2 mm; 4,437 vertices affected; the outline is untouched.
+- **Visual:** the owner's circled dip is largely filled at 156°/166° (`R52_vs_R63_armpit_156_166.jpg`). But there are stringy wrinkles on the back of the shoulder, and the 15 mm trapezius looks lumpy.
+
+| Gate | R63 | Limit |
+|---|---|---|
+| Outline | 0.95 mm | 1 mm |
+| Dense motion | **22.2 mm** | 0.5 mm |
+| Early outward | 0 | 0.05 mm |
+| **Contacts** | **215** | 0 |
+| Crease | 171° | 2° |
+| 41-pose motion | 6.9 mm | 0.5 mm |
+| Benchmark regressions | 9 | 0 |
+
+- **Note:** the contact-location report crashed in CI after the total (it works locally). Its stderr is now captured.
+
+**R63b (next run):** cap each pushed vertex at its posed distance to the nearest upper-arm skin minus 8 mm, before and after smoothing (`--arm-margin`).
+
+**Still to do:**
+- localise the trapezius contacts from the new report, and cap the 15 mm swell where it meets the neck/head;
+- bring the R63 motion back toward R60's 9 mm (raise `--lam`, or ramp in over more degrees).

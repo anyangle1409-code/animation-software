@@ -102,6 +102,7 @@ def main():
     ap.add_argument("--smooth", type=int, default=30)
     ap.add_argument("--lam", type=float, default=0.3)
     ap.add_argument("--tie", type=float, default=0.02)
+    ap.add_argument("--arm-margin", type=float, default=0.008, help="R63b: keep pushed torso skin this far (m) from the arm")
     a = ap.parse_args()
     sys.path[:0] = [str(Path(a.r57src) / "scripts")]
     from original_review_r52_temporal import decode, oscillation
@@ -127,11 +128,26 @@ def main():
         inc = (1 - t)[:, None] * d0[lo, v] + t[:, None] * d0[hi, v]
         P = z["base"][s] + np.einsum("nij,nj->ni", z["mat"][s], inc)
         D, info = lat_fill(P, armw, whole, a.gain, a.depth, a.sigma, a.maxpush)
+        if a.arm_margin > 0 and np.abs(D).sum() > 0:
+            # R63b: never push torso skin into the arm - cap each vertex's push (and its 30-pass smoothing spread) at its
+            # posed distance to the nearest upper-arm skin minus --arm-margin (R63 without this: contacts 7 -> 215)
+            from scipy.spatial import cKDTree
+            armpts = np.flatnonzero(np.maximum(armw[0], armw[1]) >= 0.3)
+            dist, _ = cKDTree(P[armpts]).query(P, k=1)
+            room = np.maximum(dist - a.arm_margin, 0.0)
+            room[armpts] = 0.0
+            Dn = np.linalg.norm(D, axis=1)
+            scale = np.where(Dn > room, room / np.maximum(Dn, 1e-12), 1.0)
+            D *= scale[:, None]
+            info["arm_cap_vertices"] = int((scale < 1).sum())
         ramp = smoothstep((ht_of(s / 40) - a.hfrom) / (a.full - a.hfrom))
         D *= ramp
         if np.abs(D).sum() > 0:
             for _ in range(a.smooth):
                 D = 0.5 * D + 0.5 * (Avg @ D)
+            if a.arm_margin > 0:
+                Dn = np.linalg.norm(D, axis=1)          # smoothing must not spread the push back into the arm
+                D *= np.where(Dn > room, room / np.maximum(Dn, 1e-12), 1.0)[:, None]
         targets[s] = (P, D)
         report_s.append({"sample": s, "ht_deg": round(float(ht_of(s / 40)), 2), "ramp": round(float(ramp), 3), "sides": info,
                          "max_target_push_mm": round(float(np.linalg.norm(D, axis=1).max() * 1000), 2)})
@@ -202,7 +218,7 @@ def main():
     np.savez_compressed(a.out, dense_delta=out, delta=out[SOURCE])
     metrics = {"status": "R63_IN_MEMORY_STUDY_NOT_ACCEPTED", "model_saved": False, "owner_approved": False,
                "scope_change": "owner-approved lockout sculpt (20 Oct): controls 146..166 re-solved in posed space; 166 released",
-               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie")},
+               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin")},
                "samples": report_s, "affected_vertices": int(len(affected)), "vertices_capped_at_45mm": capped,
                "posed_fit_max_error_mm": round(max(fit_err, default=0) * 1000, 3), "posed_fit_error_by_sample_mm": [round(e * 1000, 2) for e in fit_err],
                "max_change_from_start_mm": round(float(np.linalg.norm(out - d0, axis=2).max() * 1000), 2),

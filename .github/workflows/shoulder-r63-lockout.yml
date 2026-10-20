@@ -1,4 +1,4 @@
-name: ORIGINAL_v1 R63 unsaved press study, posed-space lockout sculpt (Claude)
+name: ORIGINAL_v1 R63 unsaved press study, posed-space lockout sculpt (Claude; R63b: arm-distance cap)
 'on':
   push:
     branches: [claude/home-gym-pt-animation-txux66]
@@ -71,7 +71,7 @@ jobs:
       if: success() || failure()
       run: |
         set +e
-        python3 r59src/scripts/shoulder_r61/print_contacts.py /tmp/r57/source.npz /tmp/r57/native_final.json | tee /tmp/r57/contacts_where.txt
+        python3 r59src/scripts/shoulder_r61/print_contacts.py /tmp/r57/source.npz /tmp/r57/native_final.json 2>&1 | tee /tmp/r57/contacts_where.txt
         exit 0
     - name: Gate - 13 movement benchmarks (copy using the R61 installer)
       if: success() || failure()
@@ -94,7 +94,7 @@ jobs:
         R61_INSTALLER=1 xvfb-run -a /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python r59src/scripts/shoulder_r58/render_press_sequence_blender.py -- "$PWD" /tmp/r57/source.npz /tmp/r57/candidate.npz /tmp/seq R63 40 > /tmp/r57/seq_R63.log 2>&1
         echo $? > /tmp/r57/R57_local_study_render_exit.txt
         tail -2 /tmp/r57/seq_R52.log /tmp/r57/seq_R63.log
-        python3 r59src/scripts/shoulder_r58/compose_review_media.py /tmp/seq /tmp/media/r63 40 R63 "R63 (lockout sculpt + 15 mm trapezius)"
+        python3 r59src/scripts/shoulder_r58/compose_review_media.py /tmp/seq /tmp/media/r63 40 R63 "R63b (lockout sculpt, arm-capped + 15 mm trapezius)"
         exit 0
     - name: Evidence ledger (Work's report script, unchanged)
       if: success() || failure()

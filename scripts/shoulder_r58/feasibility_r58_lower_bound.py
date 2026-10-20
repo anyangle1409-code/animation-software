@@ -46,7 +46,7 @@ def interp_matrix(hts):
     return M
 
 
-def solve(target, outward_sign, coord, A2, M_mark, early_rows_M):
+def solve(target, outward_sign, coord, A2, M_mark, early_rows_M, protected=PROTECTED):
     # variables: 72 control values (m) + z (bound on |acc|); minimise z
     n = 72
     c = np.zeros(n + 1); c[-1] = 1.0
@@ -57,7 +57,7 @@ def solve(target, outward_sign, coord, A2, M_mark, early_rows_M):
         rows.append(np.hstack([outward_sign * early_rows_M, np.zeros((len(early_rows_M), 1))])); rhs.append(np.full(len(early_rows_M), 0.05e-3))
     A_ub = np.vstack(rows); b_ub = np.concatenate(rhs)
     A_eq = [np.hstack([M_mark, [0.0]])]; b_eq = [target]
-    for p in PROTECTED:
+    for p in protected:
         e = np.zeros(n + 1); e[p] = 1.0; A_eq.append(e); b_eq.append(0.0)
     bounds = [(-0.045, 0.045)] * n + [(0, None)]
     res = linprog(c, A_ub=A_ub, b_ub=b_ub, A_eq=np.array(A_eq), b_eq=np.array(b_eq), bounds=bounds, method="highs")
@@ -90,11 +90,17 @@ def main():
         if any(b is None for b in bounds):
             rows.append({"vertex": int(v), "infeasible": True}); continue
         lb = float(np.sqrt(sum(b * b for b in bounds)) * 1000 * 16)      # vector bound, mm, x16 guard scale
+        # scope variants (diagnostic only): release protected zeros to see what a scope decision would buy
+        var = {}
+        for name, prot in (("release_110", (0, 71)), ("release_166", (0, 15)), ("release_110_and_166", (0,))):
+            bb = [solve(target[c], side, c, A2, M_mark, early_M, prot) for c in range(3)]
+            var[name] = None if any(b is None for b in bb) else round(float(np.sqrt(sum(b * b for b in bb)) * 1000 * 16), 3)
         r52 = float(np.abs(A2 @ dense[:, v, :]).max(axis=0).max() * 1000 * 16)
         rows.append({"vertex": int(v), "marked_increment_mm": round(float(np.linalg.norm(target) * 1000), 2),
-                     "lower_bound_mm_x16": round(lb, 3), "r52_profile_mm_x16": round(r52, 3)})
+                     "lower_bound_mm_x16": round(lb, 3), "r52_profile_mm_x16": round(r52, 3), "scope_variants_mm_x16": var})
     ok = [r for r in rows if not r.get("infeasible")]
-    report = {"kind": "R58_S7_ONLY_FEASIBILITY_BOUND", "read_only": True, "model_saved": False, "approved": False,
+    vmax = {k: max((r["scope_variants_mm_x16"][k] for r in ok if r["scope_variants_mm_x16"][k] is not None), default=None) for k in ("release_110", "release_166", "release_110_and_166")}
+    report = {"kind": "R58_S7_ONLY_FEASIBILITY_BOUND", "scope_variant_max_mm_x16": vmax, "read_only": True, "model_saved": False, "approved": False,
               "guard_mm_x16": 0.5, "vertices": len(rows), "infeasible": sum(1 for r in rows if r.get("infeasible")),
               "max_lower_bound_mm_x16": max((r["lower_bound_mm_x16"] for r in ok), default=None),
               "vertices_whose_bound_exceeds_guard": sum(1 for r in ok if r["lower_bound_mm_x16"] > 0.5),
@@ -102,7 +108,7 @@ def main():
               "rows": rows}
     text = json.dumps(report, indent=1)
     open(a.out, "w").write(text + "\n")
-    print("R58_FEASIBILITY_SUMMARY", json.dumps({k: report[k] for k in ("vertices", "infeasible", "max_lower_bound_mm_x16", "vertices_whose_bound_exceeds_guard")}))
+    print("R58_FEASIBILITY_SUMMARY", json.dumps({k: report[k] for k in ("vertices", "infeasible", "max_lower_bound_mm_x16", "vertices_whose_bound_exceeds_guard", "scope_variant_max_mm_x16")}))
     for r in sorted(ok, key=lambda r: -r["lower_bound_mm_x16"])[:12]:
         print("R58_FEASIBILITY_ROW", json.dumps(r))
 

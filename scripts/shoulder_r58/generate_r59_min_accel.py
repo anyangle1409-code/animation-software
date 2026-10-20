@@ -205,7 +205,8 @@ def main():
     over = norms > 0.045
     out[over] *= (0.045 / norms[over])[:, None]
     assert scope_ok, "scope error"
-    assert not np.any(out[[0, 15] if getattr(a, "_r61", False) else [0, 15, 71]]), "protected control changed"
+    # 166 deg may be non-zero only under the owner-approved release (R61 fill, or the R62 trapezius swell, 20 Oct)
+    assert not np.any(out[[0, 15] if (getattr(a, "_r61", False) or a.trap_mm > 0) else [0, 15, 71]]), "protected control changed"
     marked_err = float(np.abs(np.einsum("k,knj->nj", c_mark, out) - target).max() * 1000)
     acc_old = np.abs(np.einsum("fk,knj->fnj", A2, old)).max() * 1000 * 16
     acc_new = np.abs(np.einsum("fk,knj->fnj", A2, out)).max() * 1000 * 16

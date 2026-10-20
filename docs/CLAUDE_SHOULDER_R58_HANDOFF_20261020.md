@@ -234,3 +234,36 @@ R57 only moved the maximum from 118° to 125°.
 - **(b) Claude forks the installer and the gate scripts** into its own lane under new names.
 
 Patching the guard inside the CI checkout was refused by the session's safety check. Do not do it that way.
+
+## R61 result (run 39428294376; media in `review-assets/shoulder_r61/`; REJECTED)
+
+**Setup:**
+- The owner approved releasing the 166° control (20 Oct; "finish the press first").
+- Claude's own installer and gate copies are in `scripts/shoulder_r61/`. They are identical to Work's apart from allowing the 166° control and locating Work's sources; all thresholds are unchanged.
+- Patching Work's guard in CI was refused by the session's safety check, so it was not done.
+
+**Results** (generator `--variant d --hold-from 145 --fidelity 0.03`, which holds each vertex's rest-space fill from 145° to 166°):
+
+| Gate | R60 | **R61** |
+|---|---|---|
+| Outline | 0.95 mm | 0.95 mm |
+| Dense motion | 9.25 mm | 9.25 mm |
+| Early outward | 0 | 0 |
+| **Contacts** | 7 | **165** |
+| Crease | 137° | 164° |
+| Benchmark regressions | 6 | 10 |
+
+The renders show the armpit crumple again at 156°.
+
+**Why:** a rest-space offset held while the humerus keeps rotating points into the arm at high elevation. Holding the fill needs a posed-space lockout target, not a held increment.
+
+**Next for 148–166° (the press, then the pull-up):**
+- Build posed-space targets at ~150/156/166° that keep the arm-into-body line.
+- Use the R24–R33 skin-slide approach: `build_original_skin_slide_targets_blender.py`, with surface-walking slide and auto clean-up of crossing pairs and folds.
+- Bake them into the released 156/166 controls with the R17 LBS-inverse bake, then run the same gates.
+
+## R62 (launched on top of R60, not R61)
+
+- **Change:** upper-trapezius bunching, `--variant c --fidelity 0.03 --trap-mm 10`. It is an outward swell over the model's `muscle_trap_l/r` helper region (634 vertices, region file `scripts/shoulder_r61/r62_upper_trap_region.npz`), faded in from 136° (the marked pose is untouched) to full at 160°.
+- **Sources** (owner asked to verify): the upper trapezius is part of the upward-rotation force couple and is highly active in the military press; the scapula rotates upward ~48–61° at 150° of elevation. The model's own press reaches 41°/49° at 132°/145°, consistent.
+- **Workflow:** `.github/workflows/shoulder-r62-trap.yml`.

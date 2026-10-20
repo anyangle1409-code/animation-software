@@ -40,11 +40,15 @@ def smoothstep(x):
     return x * x * (3 - 2 * x)
 
 
-def neighbours(faces, nv):
-    nb = [set() for _ in range(nv)]
-    for a, b, c in faces:
-        nb[a].update((b, c)); nb[b].update((a, c)); nb[c].update((a, b))
-    return [np.fromiter(s, int) for s in nb]
+def neighbour_mean(faces, nv):
+    """sparse row-normalised vertex adjacency: (Avg @ X)[i] = mean of X over i's one-ring"""
+    from scipy.sparse import coo_matrix, diags
+    e = np.concatenate([faces[:, [0, 1]], faces[:, [1, 2]], faces[:, [2, 0]]])
+    e = np.unique(np.sort(e, axis=1), axis=0)
+    r = np.concatenate([e[:, 0], e[:, 1]]); c = np.concatenate([e[:, 1], e[:, 0]])
+    A = coo_matrix((np.ones(len(r)), (r, c)), shape=(nv, nv)).tocsr()
+    deg = np.asarray(A.sum(1)).ravel()
+    return diags(1.0 / np.maximum(deg, 1)) @ A
 
 
 def lat_fill(P, armw, wholearm, gain, depth, sigma, maxpush):
@@ -111,7 +115,7 @@ def main():
     dpos = float(np.abs(arm["check_rest"] - rest[ci]).max() * 1000)
     assert dpos < 1.0, f"arm weight file does not match the source rest mesh ({dpos:.3f} mm)"
     armw = arm["upperarm_weight"].astype(float); whole = arm["whole_arm_weight"].astype(float)
-    nb = neighbours(faces, nv)
+    Avg = neighbour_mean(faces, nv)
 
     samples = [s for s in range(41) if ht_of(s / 40) >= a.hfrom - 1.0]
     targets, maps, report_s = {}, {}, []
@@ -125,11 +129,9 @@ def main():
         D, info = lat_fill(P, armw, whole, a.gain, a.depth, a.sigma, a.maxpush)
         ramp = smoothstep((ht_of(s / 40) - a.hfrom) / (a.full - a.hfrom))
         D *= ramp
-        zone = np.flatnonzero(np.abs(D).sum(1) > 0)
-        if len(zone):
-            zone = np.unique(np.concatenate([zone] + [nb[i] for i in zone]))
+        if np.abs(D).sum() > 0:
             for _ in range(a.smooth):
-                D[zone] = 0.5 * D[zone] + 0.5 * np.array([D[nb[i]].mean(0) for i in zone])
+                D = 0.5 * D + 0.5 * (Avg @ D)
         targets[s] = (P, D)
         report_s.append({"sample": s, "ht_deg": round(float(ht_of(s / 40)), 2), "ramp": round(float(ramp), 3), "sides": info,
                          "max_target_push_mm": round(float(np.linalg.norm(D, axis=1).max() * 1000), 2)})
@@ -141,43 +143,55 @@ def main():
     # temporal second differences over controls 144..166 (144/145 fixed from the start candidate)
     span = np.arange(K0 - 2, K1 + 1)
     out = d0.copy()
-    fit_err = []
-    for v in affected:
-        A_rows, b_rows = [], []
-        for s in samples:
-            lo, hi, t = maps[s]
-            P, D = targets[s]
-            Mv = z["mat"][s][v]                       # 3x3
-            want = (P[v] + D[v]) - z["base"][s][v]    # posed-space increment wanted, = Mv @ blend
-            coef = np.zeros(nk); fixed = np.zeros(3)
-            for k, w in ((lo[v], 1 - t[v]), (hi[v], t[v])):
-                if k in kidx:
-                    coef[kidx[k]] += w
-                else:
-                    fixed += w * d0[k, v]
-            if not coef.any():
+    nA = len(affected)
+    # Batched normal equations, one 3nk x 3nk system per affected vertex (unknowns control-major, xyz-minor).
+    # Data term: sum_s |M_sv (blend_sv(x) + fixed_sv) - want_sv|^2 ; smoothness: lam |2nd diff over 144..166|^2 ;
+    # tie: tie |x - start|^2.
+    H = np.zeros((nA, 3 * nk, 3 * nk)); g = np.zeros((nA, 3 * nk))
+    for s in samples:
+        lo, hi, t = maps[s]; P, D = targets[s]
+        Mv = z["mat"][s][affected]                                   # (nA,3,3)
+        want = (P[affected] + D[affected]) - z["base"][s][affected]
+        coef = np.zeros((nA, nk)); fixed = np.zeros((nA, 3))
+        for kk, w in ((lo[affected], 1 - t[affected]), (hi[affected], t[affected])):
+            inK = (kk >= K0) & (kk <= K1)
+            coef[np.flatnonzero(inK), kk[inK] - K0] += w[inK]
+            out_ = np.flatnonzero(~inK)
+            fixed[out_] += w[out_, None] * d0[kk[out_], affected[out_]]
+        rhs = want - np.einsum("nij,nj->ni", Mv, fixed)               # (nA,3)
+        MtM = np.einsum("nki,nkj->nij", Mv, Mv); Mtr = np.einsum("nki,nk->ni", Mv, rhs)
+        for p in range(nk):
+            cp = coef[:, p]
+            if not cp.any():
                 continue
-            A_rows.append(np.kron(coef[None], Mv))    # 3 x 3nk  (x laid out control-major, xyz-minor)
-            b_rows.append(want - Mv @ fixed)
-        if not A_rows:
-            continue
-        A = np.vstack(A_rows); bvec = np.concatenate(b_rows)
-        # smoothness over span, unknowns are K, 144/145 fixed
-        S_rows, S_rhs = [], []
-        for j in range(1, len(span) - 1):
-            ks = span[j - 1:j + 2]; c = np.array([1.0, -2.0, 1.0])
-            row = np.zeros((3, 3 * nk)); rhs = np.zeros(3)
-            for kk, cc in zip(ks, c):
-                if kk in kidx:
-                    row[:, 3 * kidx[kk]:3 * kidx[kk] + 3] += cc * np.eye(3)
-                else:
-                    rhs -= cc * d0[kk, v]
-            S_rows.append(row); S_rhs.append(rhs)
-        S = np.vstack(S_rows) * np.sqrt(a.lam); srhs = np.concatenate(S_rhs) * np.sqrt(a.lam)
-        T = np.sqrt(a.tie) * np.eye(3 * nk); trhs = np.sqrt(a.tie) * d0[K, v].reshape(-1)
-        x, *_ = np.linalg.lstsq(np.vstack([A, S, T]), np.concatenate([bvec, srhs, trhs]), rcond=None)
-        out[K, v] = x.reshape(nk, 3)
-        fit_err.append(float(np.abs(A @ x - bvec).max()))
+            g[:, 3 * p:3 * p + 3] += cp[:, None] * Mtr
+            for q in range(nk):
+                cq = coef[:, q]
+                if cq.any():
+                    H[:, 3 * p:3 * p + 3, 3 * q:3 * q + 3] += (cp * cq)[:, None, None] * MtM
+    # smoothness (span 144..166; 144/145 fixed from the start candidate)
+    for j0 in range(1, len(span) - 1):
+        ks = span[j0 - 1:j0 + 2]; cc = np.array([1.0, -2.0, 1.0])
+        crow = np.zeros(nk); cfix = np.zeros((nA, 3))
+        for kk, c in zip(ks, cc):
+            if K0 <= kk <= K1:
+                crow[kk - K0] += c
+            else:
+                cfix += c * d0[kk, affected]
+        Ck = np.kron(crow[None], np.eye(3))                          # (3, 3nk)
+        H += a.lam * (Ck.T @ Ck)[None]
+        g += -a.lam * np.einsum("ik,ni->nk", Ck, cfix)
+    H += a.tie * np.eye(3 * nk)[None]
+    g += a.tie * d0[K][:, affected].transpose(1, 0, 2).reshape(nA, -1)
+    x = np.linalg.solve(H, g[..., None])[..., 0]
+    out[K[:, None], affected[None, :]] = x.reshape(nA, nk, 3).transpose(1, 0, 2)
+    # posed fit error at the samples
+    fit_err = []
+    for s in samples:
+        lo, hi, t = maps[s]; P, D = targets[s]
+        inc = (1 - t)[affected, None] * out[lo[affected], affected] + t[affected, None] * out[hi[affected], affected]
+        Pn = z["base"][s][affected] + np.einsum("nij,nj->ni", z["mat"][s][affected], inc)
+        fit_err.append(float(np.linalg.norm(Pn - (P[affected] + D[affected]), axis=1).max()))
     norms = np.linalg.norm(out, axis=2)
     capped = int((norms > 0.045).any(axis=0).sum())
     over = norms > 0.045
@@ -190,7 +204,7 @@ def main():
                "scope_change": "owner-approved lockout sculpt (20 Oct): controls 146..166 re-solved in posed space; 166 released",
                "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie")},
                "samples": report_s, "affected_vertices": int(len(affected)), "vertices_capped_at_45mm": capped,
-               "posed_fit_max_error_mm": round(max(fit_err, default=0) * 1000, 3),
+               "posed_fit_max_error_mm": round(max(fit_err, default=0) * 1000, 3), "posed_fit_error_by_sample_mm": [round(e * 1000, 2) for e in fit_err],
                "max_change_from_start_mm": round(float(np.linalg.norm(out - d0, axis=2).max() * 1000), 2),
                "max_adjacent_control_mm": oscillation(out)["maximum_adjacent_mm"],
                "arm_file_match_mm": round(dpos, 4)}

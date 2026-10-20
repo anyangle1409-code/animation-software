@@ -1,11 +1,9 @@
-Traceback (most recent call last):
-  File "/home/runner/work/animation-software/animation-software/r59src/scripts/shoulder_r61/print_contacts.py", line 14, in <module>
-    rep = json.loads(Path(sys.argv[2]).read_text())
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/pathlib.py", line 1029, in read_text
-    with self.open(mode='r', encoding=encoding, errors=errors) as f:
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/pathlib.py", line 1015, in open
-    return io.open(self, mode, buffering, encoding, errors, newline)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: '/tmp/r57/native_final.json'
+CONTACTS_TOTAL 7
+CONTACTS_BY_REGION {"torso_other+torso_other": 7}
+CONTACTS_BY_SAMPLE {"19": 2, "25": 3, "65": 1, "75": 1}
+CONTACT sample 19 tri 11110 torso_other [0.174, 0.059, 1.405] | tri 35677 torso_other [0.174, 0.067, 1.403]
+CONTACT sample 19 tri 11114 torso_other [0.176, 0.054, 1.408] | tri 35677 torso_other [0.174, 0.067, 1.403]
+CONTACT sample 25 tri 10855 torso_other [-0.176, 0.054, 1.408] | tri 22184 torso_other [-0.177, 0.057, 1.405]
+CONTACT sample 25 tri 10855 torso_other [-0.176, 0.054, 1.408] | tri 22186 torso_other [-0.174, 0.067, 1.403]
+CONTACT sample 25 tri 10855 torso_other [-0.176, 0.054, 1.408] | tri 22187 torso_other [-0.176, 0.063, 1.402]
+CONTACT sample 75 tri 35147 torso_other [0.172, -0.033, 1.387] | tri 35746 torso_other [0.172, -0.03, 1.386]

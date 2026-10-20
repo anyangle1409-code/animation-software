@@ -23,6 +23,7 @@
     "step_limit": 0.0029,
     "lat_bulge": 0.015,
     "lat_bulge_span": 0.15,
+    "r68": "r59src/scripts/shoulder_r68/data/r68d_s7_rear_restore.npz",
     "shoulder_relax": 300,
     "shoulder_rise": 0.0,
     "shoulder_line_sigma": 0.03,
@@ -722,7 +723,7 @@
     0.66,
     0.59
   ],
-  "max_change_from_start_mm": 34.5,
+  "max_change_from_start_mm": 35.49,
   "max_adjacent_control_mm": 2.8999763029121017,
   "arm_file_match_mm": 0.0002,
   "step_limit": {
@@ -738,7 +739,7 @@
         1.376
       ]
     },
-    "iterations": 103,
+    "iterations": 108,
     "after_mm": 2.9
   },
   "pulse": {
@@ -752,6 +753,11 @@
       "before": 8.26,
       "after": 2.62
     }
+  },
+  "r68": {
+    "file": "r59src/scripts/shoulder_r68/data/r68d_s7_rear_restore.npz",
+    "max_added_mm": 35.89,
+    "vertices": 1006
   },
   "guard_new_pins_per_iteration": [
     0

@@ -762,3 +762,10 @@ The approved R48 outline is measured only in the ±x and (±x, −y)/√2 direct
 - (a) A per-vertex linear/dual-quaternion skinning blend in the shoulder only (multi-modifier), as the volume source instead of the S7-off skin, with outline re-pinning.
 - (b) Re-author the S7 keys with an explicit rest-area constraint plus smoothness (constrained Laplacian), which avoids both the bulge and the ARAP buckling.
 - (c) A topology/edge-flow check of the posterior axilla.
+
+**Option (a) tested (R68g): rejected.** A per-vertex linear/dual-quaternion blend in the shoulder only (second Armature modifier with Preserve Volume, multi-modifier, weight 0.6 around the pinch centre), with the correctives on:
+- rear pinch falls only modestly: 425 → 343 at 135.6°, 375 → 310 at 156°;
+- new folds (up to 26) and self-intersections (up to 36 at 166°);
+- **the approved outline moves 11–15 mm.**
+
+So the skinning-method change is not viable without re-approving the outline. The S7 key rebuild (R68e) remains the best root-cause fix found.

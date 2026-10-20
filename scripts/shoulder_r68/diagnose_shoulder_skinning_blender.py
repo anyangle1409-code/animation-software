@@ -45,6 +45,25 @@ if hashlib.sha256(MODEL.read_bytes()).hexdigest() != "4c44b1fe14aeefd9a976f45baa
 res = r17._setup(MODEL)
 rig, body = res["runtime"], res["body"]
 arm_mod = [m for m in body.modifiers if m.type == "ARMATURE"][0]
+if os.environ.get("R68_DQS_BLEND"):
+    # R68 option (a): per-vertex linear/dual-quaternion blend in the shoulder only.  A second Armature modifier with
+    # Preserve Volume runs on the same input (multi-modifier) and is mixed in by a vertex group: weight R68_DQS_BLEND
+    # inside 0.10 m of the measured pinch centre (both sides), smooth falloff to 0 at 0.16 m.
+    import numpy as _np
+    _mw = body.matrix_world; _co = _np.array([_mw @ v.co for v in body.data.vertices])
+    _w = _np.zeros(len(_co))
+    for _sg in (-1, 1):
+        _d = _np.linalg.norm(_co - _np.array([0.234 * _sg, 0.07, 1.49]), axis=1)
+        _x = _np.clip((0.16 - _d) / 0.06, 0, 1); _w = _np.maximum(_w, _x * _x * (3 - 2 * _x))
+    _vg = body.vertex_groups.new(name="R68_DQS_MIX")
+    for _i in _np.flatnonzero(_w > 1e-4):
+        _vg.add([int(_i)], float(_w[_i]) * float(os.environ["R68_DQS_BLEND"]), "REPLACE")
+    _m2 = body.modifiers.new("R68_DQS", "ARMATURE"); _m2.object = arm_mod.object; _m2.use_deform_preserve_volume = True
+    _m2.use_multi_modifier = True; _m2.vertex_group = "R68_DQS_MIX"
+    with bpy.context.temp_override(object=body):
+        while body.modifiers[:].index(_m2) > body.modifiers[:].index(arm_mod) + 1:
+            bpy.ops.object.modifier_move_up(modifier=_m2.name)
+    print("R68_DQS_BLEND_ON", os.environ["R68_DQS_BLEND"], [m.name for m in body.modifiers], flush=True)
 keys = body.data.shape_keys.key_blocks
 if os.environ.get("R68_S7_NPZ"):
     # R68 fix: corrected S7 key coordinates from rear_restore_s7_blender.py (in memory only)

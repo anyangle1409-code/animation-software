@@ -1,4 +1,4 @@
-name: ORIGINAL_v1 R64f/g R64d with stronger temporal smoothing (adjacent step), armpit close-ups (Claude)
+name: ORIGINAL_v1 R64h/i longer ramp for the adjacent step, armpit close-ups (Claude)
 'on':
   push:
     branches: [claude/home-gym-pt-animation-txux66]
@@ -17,8 +17,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - {v: R64f, extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --lam 1.0'}
-        - {v: R64g, extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --lam 3.0'}
+        - {v: R64h, extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --lam 3.0 --full 164'}
+        - {v: R64i, extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --lam 3.0 --full 164 --fold-iters 40 --fold-step 0.3'}
     timeout-minutes: 120
     env:
       LIBGL_ALWAYS_SOFTWARE: '1'

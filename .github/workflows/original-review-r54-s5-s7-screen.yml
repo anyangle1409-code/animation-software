@@ -1,0 +1,52 @@
+name: ORIGINAL_v1 R54 shoulder S5-S7 read-only screen
+'on':
+  push:
+    branches: [codex/r54-shoulder-corrective-interaction-screen-20261020]
+    paths: [.github/workflows/original-review-r54-s5-s7-screen.yml]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  screen-real-captured-key-interaction:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install numeric dependency
+      run: sudo apt-get update && sudo apt-get install -y python3-numpy
+    - name: Run exact diagnostic arithmetic regressions
+      run: |
+        set -euo pipefail
+        mkdir -p /tmp/r54-screen
+        /usr/bin/python3 -m unittest discover -s scripts/tests -p 'test_original_review_r54_s5_s7.py' -v 2>&1 | tee /tmp/r54-screen/unit_tests.txt
+    - name: Download pinned R53 original component capture
+      uses: actions/download-artifact@v4
+      with:
+        name: original-v1-r53-root-cause-20261019
+        run-id: 39264438580
+        github-token: ${{ github.token }}
+        path: /tmp/r54-r53-capture
+    - name: Download pinned R52 source response
+      uses: actions/download-artifact@v4
+      with:
+        name: original-v1-r52-review
+        run-id: 39215634074
+        github-token: ${{ github.token }}
+        path: /tmp/r54-r52-source
+    - name: Authenticate inputs and screen 25 S5-S7 pairs
+      run: |
+        set -euo pipefail
+        echo '2a6c01cf7eacd3d1ceb47ae9f131f76dd0487fce5d3518d5cd1df65bc059fa8d  /tmp/r54-r52-source/tmp/r52-response/source.npz' | sha256sum -c -
+        echo 'eaa2368df04b5e1b6bab27ed438349016348c487489c893ea0413bb6d17b784a  /tmp/r54-r53-capture/r52/clip.npz' | sha256sum -c -
+        echo '6821e11e84ea401d12569a4df17b583bbc20366c7def969e30468e5f47d4a983  /tmp/r54-r53-capture/r41/clip.npz' | sha256sum -c -
+        timeout 10m /usr/bin/python3 scripts/screen_original_review_r54_s5_s7.py --capture /tmp/r54-r53-capture --source /tmp/r54-r52-source/tmp/r52-response/source.npz --out /tmp/r54-screen/s5_s7_screen.json | tee /tmp/r54-screen/summary.txt
+    - name: Retain outcomes and negative results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: original-v1-r54-s5-s7-screen-20261020
+        path: /tmp/r54-screen/
+        retention-days: 14

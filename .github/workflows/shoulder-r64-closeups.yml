@@ -1,4 +1,4 @@
-name: ORIGINAL_v1 R67a/b/c shoulder-top relax, armpit close-ups (Claude)
+name: ORIGINAL_v1 R67d/e shoulder line rises to the arm, armpit close-ups (Claude)
 'on':
   push:
     branches: [claude/home-gym-pt-animation-txux66]
@@ -17,9 +17,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - {v: R67a, trap: 15, taper: '0.09,0.12', extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --step-limit 0.0029 --lat-bulge 0.015 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1'}
         - {v: R67b, trap: 15, taper: '0.09,0.12', extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --step-limit 0.0029 --lat-bulge 0.015 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --shoulder-relax 300'}
-        - {v: R67c, trap: 30, taper: '0.09,0.12', extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --step-limit 0.0029 --lat-bulge 0.015 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --root-mm 25 --root-whole-back --root-smooth 40 --root-relax --shoulder-relax 300'}
+        - {v: R67d, trap: 15, taper: '0.09,0.12', extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --step-limit 0.0029 --lat-bulge 0.015 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --shoulder-relax 300 --shoulder-rise 0.03'}
+        - {v: R67e, trap: 15, taper: '0.09,0.12', extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --step-limit 0.0029 --lat-bulge 0.015 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --shoulder-relax 300 --shoulder-rise 0.05'}
     timeout-minutes: 120
     env:
       LIBGL_ALWAYS_SOFTWARE: '1'

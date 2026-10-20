@@ -175,6 +175,56 @@ def taubin(Q, Avg, w, iters, lam=0.5, mu=-0.53):
     return Q - Q0
 
 
+def shoulder_line(P, cand, arm, neck, rise, gain, sigma, maxpush):
+    """R67d (owner photos; skeleton already at/above the literature girdle range, so this is soft tissue): seen from behind,
+    the top of the shoulder between the neck and the raised arm is a flat shelf meeting the arm in a hard corner.  Target:
+    the trapezius rises in one convex curve from the neck to a point `rise` up the inner side of the arm.  Per side, per
+    5 mm lateral bin between the neck edge and the arm's inner edge, lift the shelf's top skin (+z) to that curve, most at
+    the top surface (Gaussian `sigma` below the bin's top)."""
+    D = np.zeros_like(P)
+    info = {}
+    for side, sg in (("l", -1.0), ("r", 1.0)):
+        u = sg * P[:, 0]; z = P[:, 2]
+        c = np.flatnonzero(cand[side])
+        if len(c) < 20:
+            continue
+        zs = np.percentile(z[c], 90)
+        nk = np.flatnonzero(neck & (u > 0) & (np.abs(z - zs) < 0.04))
+        un = float(np.percentile(u[nk], 95)) if len(nk) > 5 else 0.08
+        ak = np.flatnonzero(arm[side] & (z > zs - 0.01) & (z < zs + 0.10))
+        if len(ak) < 5:
+            continue
+        ua = float(np.percentile(u[ak], 5))
+        if ua - un < 0.03:
+            continue
+        edges = np.arange(un, ua + 1e-9, 0.005)
+        tops = []
+        for b0 in edges[:-1]:
+            m = c[(u[c] >= b0) & (u[c] < b0 + 0.005)]
+            tops.append(z[m].max() if len(m) else np.nan)
+        tops = np.array(tops)
+        if np.isnan(tops).all():
+            continue
+        good = ~np.isnan(tops)
+        z0 = tops[good][0]; z1 = tops[good][-1] + rise
+        pushes = []
+        for i, b0 in enumerate(edges[:-1]):
+            if not good[i]:
+                continue
+            x = (b0 + 0.0025 - un) / (ua - un)
+            want = z0 + (z1 - z0) * (1.0 - (1.0 - x) ** 2)
+            d = min(max(want - tops[i], 0.0) * gain, maxpush)
+            if d <= 0:
+                continue
+            m = c[(u[c] >= b0) & (u[c] < b0 + 0.005)]
+            f = np.exp(-((tops[i] - z[m]) / sigma) ** 2)
+            D[m, 2] = np.maximum(D[m, 2], d * f)
+            pushes.append(d)
+        info[side] = {"neck_u": round(un, 3), "arm_u": round(ua, 3), "shelf_z": round(float(zs), 3),
+                      "max_lift_mm": round(float(max(pushes, default=0) * 1000), 1)}
+    return D, info
+
+
 def main():
     ap = argparse.ArgumentParser()
     for a in ("--r57src", "--response", "--start", "--out"):
@@ -203,6 +253,9 @@ def main():
     ap.add_argument("--root-smooth", type=int, default=0, help="R65e: smoothing passes for the arm-root normals and push")
     ap.add_argument("--root-relax", action="store_true", help="R65e: run the outward-only relax over the arm-root region too")
     ap.add_argument("--shoulder-relax", type=int, default=0, help="R67: Taubin smoothing passes over the shoulder top + trapezius (owner: arm looks detached, traps look horrible)")
+    ap.add_argument("--shoulder-rise", type=float, default=0.0, help="R67d: lift the shoulder line to a convex curve rising this far (m) up the arm")
+    ap.add_argument("--shoulder-line-sigma", type=float, default=0.03)
+    ap.add_argument("--shoulder-line-max", type=float, default=0.04)
     ap.add_argument("--shoulder-mu", type=float, default=-0.51, help="R67: Taubin mu (-0.51 removed a 4% knob to 1.3% on a test sphere)")
     ap.add_argument("--shoulder-centre", default="0.21,0.02,1.48")
     ap.add_argument("--shoulder-radius", type=float, default=0.10)
@@ -238,10 +291,12 @@ def main():
     assert dpos < 1.0, f"arm weight file does not match the source rest mesh ({dpos:.3f} mm)"
     armw = arm["upperarm_weight"].astype(float); whole = arm["whole_arm_weight"].astype(float)
     Avg = neighbour_mean(faces, nv)
+    hn_all = smoothstep((rest[:, 2] - 1.48) / 0.05) * smoothstep((0.14 - np.abs(rest[:, 0])) / 0.03)   # head + neck
     if a.protect_head:
         # R66: the rear-outline fill pushed the sides of the head/neck out at lockout (armpit at head height): +10 px head
         # width on the review video from R64d on.  Head vertices rest at z >= 1.59, |x| <= 0.08; neck z 1.51-1.61, |x| <= 0.11.
-        hn = smoothstep((rest[:, 2] - 1.48) / 0.05) * smoothstep((0.14 - np.abs(rest[:, 0])) / 0.03)
+        # R67d: narrower in x (full at |x| < 0.09, none beyond 0.115) so the medial trapezius can be shaped
+        hn = smoothstep((rest[:, 2] - 1.48) / 0.05) * smoothstep((0.115 - np.abs(rest[:, 0])) / 0.025)
         protect = 1.0 - hn
     else:
         protect = np.ones(nv)
@@ -323,12 +378,21 @@ def main():
             Df = fold_fill(P + D, faces, Avg, fw, a.fold_iters, a.fold_step, a.fold_max) * ramp
             D = D + Df
             fold_mm = float(np.linalg.norm(Df, axis=1).max() * 1000)
+        line_info = None
+        if a.shoulder_rise > 0 and shoulder_w is not None and ramp > 0 and s not in guard_samples:
+            cand = {sd: (shoulder_w > 0.2) & (armw[k_] < 0.5) & (hn_all < 0.5) & (sg_ * rest[:, 0] > 0)
+                    for k_, (sd, sg_) in enumerate((("l", -1.0), ("r", 1.0)))}
+            armm = {sd: armw[k_] >= 0.5 for k_, sd in enumerate("lr")}
+            Dl, line_info = shoulder_line(P + D, cand, armm, hn_all > 0.5, a.shoulder_rise, 1.0, a.shoulder_line_sigma, a.shoulder_line_max)
+            for _ in range(20):
+                Dl = 0.5 * Dl + 0.5 * (Avg @ Dl)
+            D = D + Dl * ramp
         if shoulder_w is not None and ramp > 0 and s not in guard_samples:
             D = D + taubin(P + D, Avg, shoulder_w, a.shoulder_relax, 0.5, a.shoulder_mu) * ramp
         D *= protect[:, None]
         targets[s] = (P, D)
         report_s.append({"sample": s, "ht_deg": round(float(sample_ht[s]), 2), "ramp": round(float(ramp), 3), "sides": info,
-                         "max_fold_push_mm": round(fold_mm, 2), "max_root_push_mm": round(root_max, 2),
+                         "shoulder_line": line_info, "max_fold_push_mm": round(fold_mm, 2), "max_root_push_mm": round(root_max, 2),
                          "max_target_push_mm": round(float(np.linalg.norm(D, axis=1).max() * 1000), 2)})
         print("R63_TARGET", json.dumps(report_s[-1]), flush=True)
 
@@ -476,7 +540,7 @@ def main():
     np.savez_compressed(a.out, dense_delta=out, delta=out[SOURCE])
     metrics = {"status": "R63_IN_MEMORY_STUDY_NOT_ACCEPTED", "model_saved": False, "owner_approved": False,
                "scope_change": f"owner-approved lockout sculpt (20 Oct): controls {95 + K0}..166 re-solved in posed space; 166 released",
-               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top", "include_bench", "guard_bench", "guard_weight", "guard_iters", "step_limit", "lat_bulge", "lat_bulge_span", "shoulder_relax", "shoulder_mu", "shoulder_centre", "shoulder_radius", "protect_head", "pulse_smooth", "pulse_beta", "pulse_zmax", "pulse_armw", "pulse_lam", "pulse_tie", "root_mm", "root_whole_back", "root_smooth", "root_relax", "hull", "fold", "fold_centre", "fold_radius", "fold_iters", "fold_step", "fold_max")},
+               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top", "include_bench", "guard_bench", "guard_weight", "guard_iters", "step_limit", "lat_bulge", "lat_bulge_span", "shoulder_relax", "shoulder_rise", "shoulder_line_sigma", "shoulder_line_max", "shoulder_mu", "shoulder_centre", "shoulder_radius", "protect_head", "pulse_smooth", "pulse_beta", "pulse_zmax", "pulse_armw", "pulse_lam", "pulse_tie", "root_mm", "root_whole_back", "root_smooth", "root_relax", "hull", "fold", "fold_centre", "fold_radius", "fold_iters", "fold_step", "fold_max")},
                "samples": report_s, "affected_vertices": int(len(affected)), "vertices_capped_at_45mm": capped,
                "posed_fit_max_error_mm": round(max(fit_err, default=0) * 1000, 3), "posed_fit_error_by_sample_mm": [round(e * 1000, 2) for e in fit_err],
                "max_change_from_start_mm": round(float(np.linalg.norm(out - d0, axis=2).max() * 1000), 2),

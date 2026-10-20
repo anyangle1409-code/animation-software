@@ -1,8 +1,28 @@
-CONTACTS_TOTAL 10
-CONTACTS_BY_REGION {"torso_other+torso_other": 10}
-CONTACTS_BY_SAMPLE {"25": 3, "65": 1, "72": 2, "73": 2, "74": 2}
+CONTACTS_TOTAL 314
+CONTACTS_BY_REGION {"trapezius+trapezius": 310, "torso_other+torso_other": 4}
+CONTACTS_BY_SAMPLE {"25": 3, "30": 2, "31": 10, "32": 22, "33": 25, "34": 23, "35": 22, "36": 20, "37": 18, "38": 18, "39": 22, "40": 23, "65": 1, "72": 1, "73": 5, "74": 8, "75": 6, "76": 6, "77": 15, "78": 17, "79": 17, "80": 15, "81": 15}
 CONTACT sample 25 tri 10855 torso_other [-0.176, 0.054, 1.408] | tri 22184 torso_other [-0.177, 0.057, 1.405]
 CONTACT sample 25 tri 10855 torso_other [-0.176, 0.054, 1.408] | tri 22186 torso_other [-0.174, 0.067, 1.403]
 CONTACT sample 25 tri 10855 torso_other [-0.176, 0.054, 1.408] | tri 22187 torso_other [-0.176, 0.063, 1.402]
-CONTACT sample 72 tri 35117 torso_other [0.185, -0.02, 1.369] | tri 36384 torso_other [0.184, -0.014, 1.361]
-CONTACT sample 72 tri 35119 torso_other [0.183, -0.021, 1.371] | tri 36384 torso_other [0.184, -0.014, 1.361]
+CONTACT sample 30 tri 3857 trapezius [0.074, 0.05, 1.587] | tri 12570 trapezius [0.068, 0.039, 1.598]
+CONTACT sample 30 tri 12567 trapezius [0.07, 0.039, 1.59] | tri 12570 trapezius [0.068, 0.039, 1.598]
+CONTACT sample 31 tri 3855 trapezius [0.077, 0.045, 1.585] | tri 12568 trapezius [0.068, 0.031, 1.597]
+CONTACT sample 31 tri 3855 trapezius [0.077, 0.045, 1.585] | tri 12570 trapezius [0.068, 0.039, 1.598]
+CONTACT sample 31 tri 3857 trapezius [0.074, 0.05, 1.587] | tri 12568 trapezius [0.068, 0.031, 1.597]
+CONTACT sample 31 tri 4100 trapezius [-0.074, 0.05, 1.587] | tri 12448 trapezius [-0.068, 0.039, 1.598]
+CONTACT sample 31 tri 4100 trapezius [-0.074, 0.05, 1.587] | tri 12450 trapezius [-0.068, 0.031, 1.597]
+CONTACT sample 31 tri 4101 trapezius [-0.077, 0.045, 1.585] | tri 12448 trapezius [-0.068, 0.039, 1.598]
+CONTACT sample 31 tri 4101 trapezius [-0.077, 0.045, 1.585] | tri 12450 trapezius [-0.068, 0.031, 1.597]
+CONTACT sample 31 tri 12445 trapezius [-0.07, 0.039, 1.59] | tri 12448 trapezius [-0.068, 0.039, 1.598]
+CONTACT sample 32 tri 3639 trapezius [0.085, 0.086, 1.57] | tri 12558 trapezius [0.068, 0.063, 1.592]
+CONTACT sample 32 tri 3855 trapezius [0.077, 0.045, 1.585] | tri 12561 trapezius [0.067, 0.042, 1.602]
+CONTACT sample 32 tri 3855 trapezius [0.077, 0.045, 1.585] | tri 12571 trapezius [0.067, 0.037, 1.601]
+CONTACT sample 32 tri 3855 trapezius [0.077, 0.045, 1.585] | tri 12815 trapezius [0.066, 0.035, 1.607]
+CONTACT sample 32 tri 3855 trapezius [0.077, 0.045, 1.585] | tri 12821 trapezius [0.067, 0.03, 1.607]
+CONTACT sample 32 tri 3857 trapezius [0.074, 0.05, 1.587] | tri 12561 trapezius [0.067, 0.042, 1.602]
+CONTACT sample 32 tri 3857 trapezius [0.074, 0.05, 1.587] | tri 12571 trapezius [0.067, 0.037, 1.601]
+CONTACT sample 32 tri 3868 trapezius [0.075, 0.063, 1.586] | tri 12558 trapezius [0.068, 0.063, 1.592]
+CONTACT sample 32 tri 3868 trapezius [0.075, 0.063, 1.586] | tri 12560 trapezius [0.066, 0.05, 1.599]
+CONTACT sample 32 tri 3868 trapezius [0.075, 0.063, 1.586] | tri 12561 trapezius [0.067, 0.042, 1.602]
+CONTACT sample 32 tri 3868 trapezius [0.075, 0.063, 1.586] | tri 12571 trapezius [0.067, 0.037, 1.601]
+CONTACT sample 32 tri 4094 trapezius [-0.075, 0.063, 1.586] | tri 12448 trapezius [-0.068, 0.039, 1.598]

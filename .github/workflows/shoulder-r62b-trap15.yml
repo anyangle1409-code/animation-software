@@ -1,0 +1,135 @@
+name: ORIGINAL_v1 R62b unsaved press study, R60 + 15 mm trapezius bunching (Claude)
+'on':
+  push:
+    branches: [claude/home-gym-pt-animation-txux66]
+    paths: [.github/workflows/shoulder-r62b-trap15.yml]
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: original-v1-r62b-press
+  cancel-in-progress: false
+jobs:
+  study:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      LIBGL_ALWAYS_SOFTWARE: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+    - name: Check out the pinned R57 study sources (Work's code, unchanged)
+      uses: actions/checkout@v4
+      with:
+        ref: 025d5f28fa7eba2064fba565b1c9b60119cdd2cb
+    - name: Check out Claude's branch (generator, R61 installer and gate copies)
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.sha }}
+        path: r59src
+    - name: Install dependencies and pinned Blender 5.2.1
+      run: |
+        set -euo pipefail
+        sudo apt-get update && sudo apt-get install -y libegl1 libgl1-mesa-dri xvfb python3-numpy python3-scipy fonts-dejavu-core ffmpeg python3-pil
+        curl --fail --location --retry 3 https://download.blender.org/release/Blender5.2/blender-5.2.1-linux-x64.tar.xz --output /tmp/blender.tar.xz
+        echo 'a31f524fa99a527d3d52b7f5aaa68c34e1a19d5a1c9473f79c5cc610fd5b10e9  /tmp/blender.tar.xz' | sha256sum -c -
+        tar -xJf /tmp/blender.tar.xz -C /tmp
+    - name: Download immutable R52 study
+      uses: actions/download-artifact@v4
+      with:
+        name: original-v1-r52-review
+        run-id: 39215634074
+        github-token: ${{ github.token }}
+        path: /tmp/r52-parent
+    - name: Verify inputs
+      run: |
+        set -euo pipefail
+        mkdir -p /tmp/r57
+        cp /tmp/r52-parent/tmp/r52-response/source.npz /tmp/r57/source.npz
+        cp /tmp/r52-parent/tmp/r52-response/solved.npz /tmp/r57/original_r52.npz
+        echo '2a6c01cf7eacd3d1ceb47ae9f131f76dd0487fce5d3518d5cd1df65bc059fa8d  /tmp/r57/source.npz' | sha256sum -c -
+        echo 'b3a6c404a944753facde5a92db8bc4547a1ca756960b6b82df2875f5e4eb804f  /tmp/r57/original_r52.npz' | sha256sum -c -
+        echo '4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e  ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r41_20261017/HGPT_ORIGINAL_V1_REVIEW_R41_CODEX.blend' | sha256sum -c -
+    - name: Generate the R62 candidate (unsaved)
+      run: |
+        set +e
+        timeout 10m /usr/bin/python3 r59src/scripts/shoulder_r58/generate_r59_min_accel.py --r57src . --response /tmp/r57/source.npz --solution /tmp/r57/original_r52.npz --out /tmp/r57/candidate.npz --variant c --fidelity 0.03 --trap-mm 15 > /tmp/r57/generate.log 2>&1
+        code=$?; echo "$code" > /tmp/r57/generate_exit.txt; tail -5 /tmp/r57/generate.log; exit "$code"
+    - name: Gate - 161-pose motion and early outward (copy using the R61 installer)
+      run: |
+        set +e
+        R57ROOT=$PWD timeout 20m /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python r59src/scripts/shoulder_r61/claude_r61_measure_original_review_r52_dense_motion_blender.py -- /tmp/r57/source.npz /tmp/r57/candidate.npz /tmp/r57/dense_motion.json > /tmp/r57/dense.log 2>&1
+        echo $? > /tmp/r57/dense_exit.txt; tail -4 /tmp/r57/dense.log; exit 0
+    - name: Gate - 83-pose contact, area, orientation, affine (copy using the R61 installer)
+      if: success() || failure()
+      run: |
+        set +e
+        R57ROOT=$PWD timeout 30m /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python r59src/scripts/shoulder_r61/claude_r61_detect_original_review_r52_contacts_blender.py -- /tmp/r57/source.npz /tmp/r57/candidate.npz /tmp/r57/native_final.json > /tmp/r57/native.log 2>&1
+        echo $? > /tmp/r57/native_exit.txt; tail -4 /tmp/r57/native.log; exit 0
+    - name: Gate - 13 movement benchmarks (copy using the R61 installer)
+      if: success() || failure()
+      run: |
+        set +e
+        R57ROOT=$PWD timeout 15m /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python r59src/scripts/shoulder_r61/claude_r61_validate_original_review_r52_benchmarks_blender.py -- /tmp/r57/source.npz /tmp/r57/candidate.npz /tmp/r57/benchmarks.json > /tmp/r57/benchmarks.log 2>&1
+        echo $? > /tmp/r57/benchmarks_exit.txt; tail -4 /tmp/r57/benchmarks.log; exit 0
+    - name: Original actual-native R52 tests (Work's, unchanged)
+      if: success() || failure()
+      run: |
+        set +e
+        HGPT_R52_REPORT_DIR=/tmp/r57 HGPT_R52_RESPONSE=/tmp/r57/source.npz /usr/bin/python3 scripts/tests/test_original_review_r52_actual_native.py -v > /tmp/r57/unchanged_native_tests.log 2>&1
+        echo $? > /tmp/r57/unchanged_native_tests_exit.txt; tail -8 /tmp/r57/unchanged_native_tests.log; exit 0
+    - name: Render R52 and R62 press sequences and compose review media
+      if: success() || failure()
+      run: |
+        set +e
+        xvfb-run -a /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python r59src/scripts/shoulder_r58/render_press_sequence_blender.py -- "$PWD" /tmp/r57/source.npz /tmp/r57/original_r52.npz /tmp/seq R52 40 > /tmp/r57/seq_R52.log 2>&1
+        echo $? > /tmp/r57/R52_original_render_exit.txt
+        R61_INSTALLER=1 xvfb-run -a /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python r59src/scripts/shoulder_r58/render_press_sequence_blender.py -- "$PWD" /tmp/r57/source.npz /tmp/r57/candidate.npz /tmp/seq R62 40 > /tmp/r57/seq_R62.log 2>&1
+        echo $? > /tmp/r57/R57_local_study_render_exit.txt
+        tail -2 /tmp/r57/seq_R52.log /tmp/r57/seq_R62.log
+        python3 r59src/scripts/shoulder_r58/compose_review_media.py /tmp/seq /tmp/media/r62b 40 R62 "R62b (R60 + 15 mm trapezius bunching)"
+        exit 0
+    - name: Evidence ledger (Work's report script, unchanged)
+      if: success() || failure()
+      run: |
+        set +e
+        /usr/bin/python3 scripts/report_original_review_r57_local.py /tmp/r57 > /tmp/r57/result.log 2>&1
+        cat /tmp/r57/result.log | head -60
+        mkdir -p /tmp/media/r62b && cp /tmp/r57/result.log /tmp/media/r62b/gate_report.json && cp /tmp/r57/candidate.npz.json /tmp/media/r62b/generator.json
+        exit 0
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: original-v1-r62b-trap15
+        path: /tmp/r57/
+        retention-days: 30
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: r62b-media
+        path: /tmp/media/
+        retention-days: 30
+  commit-media:
+    needs: study
+    if: success() || failure()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.ref_name }}
+    - uses: actions/download-artifact@v4
+      with:
+        name: r62b-media
+        path: /tmp/media
+    - name: Commit R62 review media
+      run: |
+        set -euo pipefail
+        mkdir -p review-assets/shoulder_r62b && cp -r /tmp/media/r62b/* review-assets/shoulder_r62b/
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git add review-assets/shoulder_r62b
+        git commit -m "Shoulder R62b review media: R52 vs R62b (15 mm) stills, press video and gate report (review only)"
+        for i in 1 2 3; do git pull --rebase origin "${{ github.ref_name }}" && git push origin "HEAD:${{ github.ref_name }}" && break; sleep 5; done

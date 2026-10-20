@@ -51,7 +51,18 @@ def neighbour_mean(faces, nv):
     return diags(1.0 / np.maximum(deg, 1)) @ A
 
 
-def lat_fill(P, armw, wholearm, gain, depth, sigma, maxpush, torso_max=0.3, top=0.02):
+def upper_hull(z, u):
+    """R64b: outward (max-u) convex envelope of outline points (z, u), as a function of z"""
+    o = np.argsort(z); pts = []
+    for p in zip(z[o], u[o]):
+        while len(pts) >= 2 and (pts[-1][0] - pts[-2][0]) * (p[1] - pts[-2][1]) - (pts[-1][1] - pts[-2][1]) * (p[0] - pts[-2][0]) >= 0:
+            pts.pop()
+        pts.append(p)
+    h = np.array(pts)
+    return lambda q: np.interp(q, h[:, 0], h[:, 1])
+
+
+def lat_fill(P, armw, wholearm, gain, depth, sigma, maxpush, torso_max=0.3, top=0.02, hull=False):
     D = np.zeros_like(P)
     info = {}
     for k, side in enumerate("lr"):
@@ -70,12 +81,23 @@ def lat_fill(P, armw, wholearm, gain, depth, sigma, maxpush, torso_max=0.3, top=
             continue
         b, a = np.polyfit(zz, uu, 1)
         torso = (wholearm[k] < torso_max) & (u > 0.03)   # R63e: torso_max 0.7 lets the shared arm/torso corner skin move
+        if hull:
+            # R64b (owner, 20 Oct: the arm-to-back outline steps in under the arm at lockout; references show one smooth
+            # convex line): the wanted outline is the outward convex envelope, seen from behind, of the whole skin outline
+            # from --depth below the armpit to the arm's top, so arm edge and back join in one curve with no notch.
+            side = u > 0.03
+            hz, hu = [], []
+            for z0 in np.arange(za0 - depth, za1, 0.01):
+                m = side & (z >= z0) & (z < z0 + 0.01)
+                if m.sum() > 2:
+                    hz.append(z0 + 0.005); hu.append(u[m].max())
+            env = upper_hull(np.array(hz), np.array(hu))
         pushes = []
         for z0 in np.arange(za0 - depth, za0 + top, 0.01):   # R63e: top 0.06 fills up into the corner under the arm
             m = np.flatnonzero(torso & (z >= z0) & (z < z0 + 0.01))
             if len(m) < 3:
                 continue
-            edge = u[m].max(); want = a + b * (z0 + 0.005)
+            edge = u[m].max(); want = env(z0 + 0.005) if hull else a + b * (z0 + 0.005)
             fade = smoothstep((z0 - (za0 - depth)) / (0.4 * depth))
             d = min(max(want - edge, 0.0) * gain * fade, maxpush)
             if d <= 0:
@@ -143,6 +165,7 @@ def main():
     ap.add_argument("--guard-bench", action="store_true", help="R63g: benchmark press samples only guard against arm contact")
     ap.add_argument("--guard-weight", type=float, default=4.0)
     ap.add_argument("--guard-iters", type=int, default=6)
+    ap.add_argument("--hull", action="store_true", help="R64b: fill the rear outline to its outward convex envelope")
     ap.add_argument("--fold", action="store_true", help="R64: sculpt the posterior axillary fold (outward-only relax)")
     ap.add_argument("--fold-centre", default="0.17,0.07,1.40", help="R64: rest-space centre of the posterior armpit (m)")
     ap.add_argument("--fold-radius", type=float, default=0.10)
@@ -190,7 +213,7 @@ def main():
         v = np.arange(nv)
         inc = (1 - t)[:, None] * d0[lo, v] + t[:, None] * d0[hi, v]
         P = z["base"][s] + np.einsum("nij,nj->ni", z["mat"][s], inc)
-        D, info = lat_fill(P, armw, whole, a.gain, a.depth, a.sigma, a.maxpush, a.torso_max, a.top)
+        D, info = lat_fill(P, armw, whole, a.gain, a.depth, a.sigma, a.maxpush, a.torso_max, a.top, a.hull)
         if a.arm_margin > 0 and np.abs(D).sum() > 0:
             # R63b: never push torso skin into the arm - cap each vertex's push (and its 30-pass smoothing spread) at its
             # posed distance to the nearest upper-arm skin minus --arm-margin (R63 without this: contacts 7 -> 215)
@@ -329,7 +352,7 @@ def main():
     np.savez_compressed(a.out, dense_delta=out, delta=out[SOURCE])
     metrics = {"status": "R63_IN_MEMORY_STUDY_NOT_ACCEPTED", "model_saved": False, "owner_approved": False,
                "scope_change": f"owner-approved lockout sculpt (20 Oct): controls {95 + K0}..166 re-solved in posed space; 166 released",
-               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top", "include_bench", "guard_bench", "guard_weight", "guard_iters", "fold", "fold_centre", "fold_radius", "fold_iters", "fold_step", "fold_max")},
+               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top", "include_bench", "guard_bench", "guard_weight", "guard_iters", "hull", "fold", "fold_centre", "fold_radius", "fold_iters", "fold_step", "fold_max")},
                "samples": report_s, "affected_vertices": int(len(affected)), "vertices_capped_at_45mm": capped,
                "posed_fit_max_error_mm": round(max(fit_err, default=0) * 1000, 3), "posed_fit_error_by_sample_mm": [round(e * 1000, 2) for e in fit_err],
                "max_change_from_start_mm": round(float(np.linalg.norm(out - d0, axis=2).max() * 1000), 2),

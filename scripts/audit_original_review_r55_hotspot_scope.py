@@ -109,10 +109,15 @@ def audit(capture_dir, response_path, patch_json):
         if (subset_idx.max() >= len(shoulder_ids) or
                 not np.array_equal(shoulder_ids[subset_idx],back_ids)):
             raise ValueError("Missing shoulder/back vertex identity")
-        muted=(
-            np.asarray(r52["baseline"][:,subset_idx],float) +
-            np.asarray(r52["no_S7"][:,subset_idx],float))
-        mute_replay_max_mm=float(np.linalg.norm(muted-np.asarray(base,float),axis=2).max()*1000)
+        # Both R41 and R52 contain an active S7 family. Match the original
+        # R53 controlled experiment by muting S7 in BOTH, never comparing
+        # R52-muted with R41-unmuted.
+        muted_r52=(np.asarray(r52["baseline"][:,subset_idx],float) +
+                   np.asarray(r52["no_S7"][:,subset_idx],float))
+        muted_r41=(np.asarray(r41["baseline"][:,subset_idx],float) +
+                   np.asarray(r41["no_S7"][:,subset_idx],float))
+        mute_replay_max_mm=float(
+            np.linalg.norm(muted_r52-muted_r41,axis=2).max()*1000)
         if mute_replay_max_mm>.01:
             raise ValueError("S7-only attribution failed actual captured replay")
         ranks=np.argsort(-per,kind="stable")

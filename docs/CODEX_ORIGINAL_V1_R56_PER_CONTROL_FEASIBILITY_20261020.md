@@ -29,3 +29,19 @@ Machine-readable certificate reports per-source permission and frozen status at 
 - Preserve original 1.82 m height, skeleton-first policy, R47 preferred arm-to-body contour and newer arm/elbow detail. No third-party assets; anatomy illustrations are references only.
 
 Keep this PR draft, stacked on R55. No merge, deploy or production model-save.
+
+
+## Verified real-source result (20 October 2026)
+
+Cloud run https://github.com/anyangle1409-code/animation-software/actions/runs/39409903836 — SUCCESS, all **5 focused unit tests pass**, both original R52 source and dense-solution hashes verified. This is only an editing-scope certificate.
+
+For the original 1,796-vertex posterior region:
+- Source 110° and lockout 166°: **0** R47 editable source vertices; dense nodes 95°,110°,166° remain zero.
+- Source 120°,130°,136°,145°,156°: **1,776** R47 editable source vertices at each key, with 20 outside that specific authorised back subset.
+- In the older `frozen_arm` source array, 120° marks 744 posterior vertices and 110° marks 755. These flags and later `r47_allowed` are **distinct**; R47's owner-approved source permissions can overlap older flags. We do NOT infer a new blanket right to alter all weights, geometry or source-locked controls.
+- Across the top 40 worst R55 motion hotspots, **40/40** have the *existing* R52 dense controls 118°/119° allowed. All 40 have an old frozen-arm flag at 110° or 120°. That does not mean the dense R52 mask was automatically rewritten or that surrounding motion is safe.
+- Worst vertex **19057**: source 110° R47 disallowed / frozen-arm flagged; source120° R47 allowed / older frozen-arm flagged. The exact existing 118° and119° dense controls are allowed, but the historical lockout remains zero.
+- Vertex **20913**: source110° R47 disallowed / not old-frozen; source120° R47 allowed / not old-frozen; 118°/119° dense allowed.
+- R52 161-pose movement excess **40.644618 mm**, S7-muted R41/R52 identity **0.0 mm**, unchanged from R55. No geometry, anatomy or exercise benchmark was revalidated by this certificate.
+
+**Decision:** an S7-only *unsaved, local temporal study* in the pre-existing dense allowance is supportable. Protect source110/166, ghost95, non-S7, skeleton/Basis/weights, topology, anchors, distal arm, 45 mm source/dense cap and original acceptance thresholds. Study design must avoid broad global S5/S7 amplitude changes (R54 rejected) and never repeat 26-vertex averaging (R53 rejected). If an actual correction needs more scope, request owner authorization separately. Any R57 result requires full native Blender movement/area/contact/crease/13 benchmark evidence and matched images before owner visual decision.

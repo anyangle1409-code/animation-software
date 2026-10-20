@@ -1,0 +1,11 @@
+CONTACTS_TOTAL 12
+CONTACTS_BY_REGION {"torso_other+torso_other": 12}
+CONTACTS_BY_SAMPLE {"18": 2, "19": 1, "22": 2, "25": 3, "57": 1, "58": 1, "61": 1, "65": 1}
+CONTACT sample 18 tri 824 torso_other [0.165, 0.096, 1.407] | tri 11123 torso_other [0.167, 0.086, 1.399]
+CONTACT sample 18 tri 824 torso_other [0.165, 0.096, 1.407] | tri 11125 torso_other [0.169, 0.084, 1.4]
+CONTACT sample 19 tri 11155 torso_other [0.177, 0.047, 1.409] | tri 35720 torso_other [0.179, 0.042, 1.408]
+CONTACT sample 22 tri 3167 torso_other [-0.252, -0.004, 1.506] | tri 23192 torso_other [-0.254, -0.01, 1.491]
+CONTACT sample 22 tri 12361 torso_other [-0.247, -0.013, 1.499] | tri 23239 torso_other [-0.246, -0.017, 1.491]
+CONTACT sample 25 tri 10855 torso_other [-0.176, 0.054, 1.408] | tri 22184 torso_other [-0.177, 0.057, 1.405]
+CONTACT sample 25 tri 10855 torso_other [-0.176, 0.054, 1.408] | tri 22186 torso_other [-0.174, 0.067, 1.403]
+CONTACT sample 25 tri 10855 torso_other [-0.176, 0.054, 1.408] | tri 22187 torso_other [-0.176, 0.063, 1.402]

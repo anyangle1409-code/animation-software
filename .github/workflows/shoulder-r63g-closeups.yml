@@ -1,0 +1,92 @@
+name: ORIGINAL_v1 R63g armpit close-ups for owner marking (Claude)
+'on':
+  push:
+    branches: [claude/home-gym-pt-animation-txux66]
+    paths: [.github/workflows/shoulder-r63g-closeups.yml]
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: original-v1-r63g-closeups
+  cancel-in-progress: false
+jobs:
+  study:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      LIBGL_ALWAYS_SOFTWARE: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+    - name: Check out the pinned R57 study sources (Work's code, unchanged)
+      uses: actions/checkout@v4
+      with:
+        ref: 025d5f28fa7eba2064fba565b1c9b60119cdd2cb
+    - name: Check out Claude's branch (generator, R61 installer and gate copies)
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.sha }}
+        path: r59src
+    - name: Install dependencies and pinned Blender 5.2.1
+      run: |
+        set -euo pipefail
+        sudo apt-get update && sudo apt-get install -y libegl1 libgl1-mesa-dri xvfb python3-numpy python3-scipy fonts-dejavu-core ffmpeg python3-pil
+        curl --fail --location --retry 3 https://download.blender.org/release/Blender5.2/blender-5.2.1-linux-x64.tar.xz --output /tmp/blender.tar.xz
+        echo 'a31f524fa99a527d3d52b7f5aaa68c34e1a19d5a1c9473f79c5cc610fd5b10e9  /tmp/blender.tar.xz' | sha256sum -c -
+        tar -xJf /tmp/blender.tar.xz -C /tmp
+    - name: Download immutable R52 study
+      uses: actions/download-artifact@v4
+      with:
+        name: original-v1-r52-review
+        run-id: 39215634074
+        github-token: ${{ github.token }}
+        path: /tmp/r52-parent
+    - name: Verify inputs
+      run: |
+        set -euo pipefail
+        mkdir -p /tmp/r57
+        cp /tmp/r52-parent/tmp/r52-response/source.npz /tmp/r57/source.npz
+        cp /tmp/r52-parent/tmp/r52-response/solved.npz /tmp/r57/original_r52.npz
+        echo '2a6c01cf7eacd3d1ceb47ae9f131f76dd0487fce5d3518d5cd1df65bc059fa8d  /tmp/r57/source.npz' | sha256sum -c -
+        echo 'b3a6c404a944753facde5a92db8bc4547a1ca756960b6b82df2875f5e4eb804f  /tmp/r57/original_r52.npz' | sha256sum -c -
+        echo '4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e  ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r41_20261017/HGPT_ORIGINAL_V1_REVIEW_R41_CODEX.blend' | sha256sum -c -
+    - name: Generate R62b start, then the R63 lockout sculpt (unsaved)
+      run: |
+        set +e
+        timeout 10m /usr/bin/python3 r59src/scripts/shoulder_r58/generate_r59_min_accel.py --r57src . --response /tmp/r57/source.npz --solution /tmp/r57/original_r52.npz --out /tmp/r57/start_r62b.npz --variant c --fidelity 0.03 --trap-mm 15 --trap-neck-taper 0.09,0.12 > /tmp/r57/generate.log 2>&1 && timeout 30m /usr/bin/python3 r59src/scripts/shoulder_r61/generate_r63_lockout.py --r57src . --response /tmp/r57/source.npz --start /tmp/r57/start_r62b.npz --out /tmp/r57/candidate.npz --from 137 --full 156 --gain 0.5 --sigma 0.08 --smooth 80 --torso-max 0.7 --top 0.06 --arm-margin 0.003 --guard-bench >> /tmp/r57/generate.log 2>&1
+        code=$?; echo "$code" > /tmp/r57/generate_exit.txt; grep -E 'R63_|R59_GENERATOR|Error|Trace' /tmp/r57/generate.log | tail -30; exit "$code"
+    - name: Render armpit close-ups (unsaved)
+      run: |
+        set -euo pipefail
+        xvfb-run -a /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python r59src/scripts/shoulder_r61/render_armpit_closeups_blender.py -- "$PWD" /tmp/r57/source.npz /tmp/r57/candidate.npz /tmp/close > /tmp/close.log 2>&1 || { tail -30 /tmp/close.log; exit 1; }
+        grep CLOSEUPS_DONE /tmp/close.log
+        mkdir -p /tmp/media/r63g_closeups
+        python3 r59src/scripts/shoulder_r61/label_closeups.py /tmp/close /tmp/media/r63g_closeups
+    - uses: actions/upload-artifact@v4
+      with:
+        name: r63g-closeups
+        path: /tmp/media/
+        retention-days: 30
+  commit-media:
+    needs: study
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.ref_name }}
+    - uses: actions/download-artifact@v4
+      with:
+        name: r63g-closeups
+        path: /tmp/media
+    - name: Commit close-ups
+      run: |
+        set -euo pipefail
+        mkdir -p review-assets/shoulder_r63g_closeups && cp -r /tmp/media/r63g_closeups/* review-assets/shoulder_r63g_closeups/
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git add review-assets/shoulder_r63g_closeups
+        git commit -m "Shoulder R63g armpit close-ups for owner marking (review only)"
+        for i in 1 2 3; do git pull --rebase origin "${{ github.ref_name }}" && git push origin "HEAD:${{ github.ref_name }}" && break; sleep 5; done

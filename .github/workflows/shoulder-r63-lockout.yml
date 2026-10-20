@@ -1,4 +1,4 @@
-name: ORIGINAL_v1 R67b unsaved press study, R65g + head protection + torso pulse smoothing (Claude)
+name: ORIGINAL_v1 R67d/e unsaved press study, shoulder line rises to the arm (Claude)
 'on':
   push:
     branches: [claude/home-gym-pt-animation-txux66]
@@ -17,7 +17,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - {v: R67b, trap: 15, taper: '0.09,0.12', extra: '--protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --shoulder-relax 300'}
+        - {v: R67d, trap: 15, taper: '0.09,0.12', extra: '--protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --shoulder-relax 300 --shoulder-rise 0.03'}
+        - {v: R67e, trap: 15, taper: '0.09,0.12', extra: '--protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --shoulder-relax 300 --shoulder-rise 0.05'}
     timeout-minutes: 120
     env:
       LIBGL_ALWAYS_SOFTWARE: '1'
@@ -143,5 +144,5 @@ jobs:
         git config user.name "github-actions[bot]"
         git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git add review-assets/shoulder_r64
-        git commit -m "Shoulder R67b review media: R52 vs R67b stills, press video and gate report (review only)"
+        git commit -m "Shoulder R67d/e review media: R52 vs R67d/e stills, press video and gate report (review only)"
         for i in 1 2 3; do git pull --rebase origin "${{ github.ref_name }}" && git push origin "HEAD:${{ github.ref_name }}" && break; sleep 5; done

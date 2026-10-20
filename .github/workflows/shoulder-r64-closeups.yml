@@ -1,4 +1,4 @@
-name: ORIGINAL_v1 R69d close-ups, S7 rear-shoulder + posterior armpit groove fix, candidate-outline pinned (Claude)
+name: ORIGINAL_v1 R69e layer ablation of the press candidate (arm-side armpit folds), close-ups + dense export (Claude)
 'on':
   push:
     branches: [claude/home-gym-pt-animation-txux66]
@@ -17,7 +17,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - {v: R69d, trap: 15, taper: '0.09,0.12', r68: '', extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --step-limit 0.0029 --lat-bulge 0.015 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --shoulder-relax 300 --r68 r59src/scripts/shoulder_r68/data/r69c_s7_rear_groove.npz --r68-pin'}
+        - {v: L69d, trap: 15, taper: '0.09,0.12', r68: '', extra: '--fold --hull --gain 1.0 --arm-margin 0 --smooth 30 --lat-bulge 0.015 --shoulder-relax 300 --step-limit 0.0029 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --r68 r59src/scripts/shoulder_r68/data/r69c_s7_rear_groove.npz --r68-pin'}
+        - {v: L_nofold, trap: 15, taper: '0.09,0.12', r68: '', extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --lat-bulge 0.015 --shoulder-relax 300 --step-limit 0.0029 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --r68 r59src/scripts/shoulder_r68/data/r69c_s7_rear_groove.npz --r68-pin'}
+        - {v: L_nohull, trap: 15, taper: '0.09,0.12', r68: '', extra: '--fold --shoulder-relax 300 --step-limit 0.0029 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --r68 r59src/scripts/shoulder_r68/data/r69c_s7_rear_groove.npz --r68-pin'}
+        - {v: L_norelax, trap: 15, taper: '0.09,0.12', r68: '', extra: '--fold --hull --gain 1.0 --arm-margin 0 --smooth 30 --lat-bulge 0.015 --step-limit 0.0029 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --r68 r59src/scripts/shoulder_r68/data/r69c_s7_rear_groove.npz --r68-pin'}
+        - {v: L_none, trap: 15, taper: '0.09,0.12', r68: '', extra: '--gain 0.0 --step-limit 0.0029 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --r68 r59src/scripts/shoulder_r68/data/r69c_s7_rear_groove.npz --r68-pin'}
     timeout-minutes: 120
     env:
       LIBGL_ALWAYS_SOFTWARE: '1'
@@ -60,7 +64,7 @@ jobs:
     - name: Generate R62b start, then the R63 lockout sculpt (unsaved)
       run: |
         set +e
-        timeout 10m /usr/bin/python3 r59src/scripts/shoulder_r58/generate_r59_min_accel.py --r57src . --response /tmp/r57/source.npz --solution /tmp/r57/original_r52.npz --out /tmp/r57/start_r62b.npz --variant c --fidelity 0.03 --trap-mm ${{ matrix.trap }} --trap-neck-taper ${{ matrix.taper }} > /tmp/r57/generate.log 2>&1 && timeout 30m /usr/bin/python3 r59src/scripts/shoulder_r61/generate_r63_lockout.py --r57src . --response /tmp/r57/source.npz --start /tmp/r57/start_r62b.npz --out /tmp/r57/candidate.npz --from 137 --full 156 --gain 0.5 --sigma 0.08 --smooth 80 --torso-max 0.7 --top 0.06 --arm-margin 0.003 --guard-bench --fold ${{ matrix.extra }} >> /tmp/r57/generate.log 2>&1
+        timeout 10m /usr/bin/python3 r59src/scripts/shoulder_r58/generate_r59_min_accel.py --r57src . --response /tmp/r57/source.npz --solution /tmp/r57/original_r52.npz --out /tmp/r57/start_r62b.npz --variant c --fidelity 0.03 --trap-mm ${{ matrix.trap }} --trap-neck-taper ${{ matrix.taper }} > /tmp/r57/generate.log 2>&1 && timeout 30m /usr/bin/python3 r59src/scripts/shoulder_r61/generate_r63_lockout.py --r57src . --response /tmp/r57/source.npz --start /tmp/r57/start_r62b.npz --out /tmp/r57/candidate.npz --from 137 --full 156 --gain 0.5 --sigma 0.08 --smooth 80 --torso-max 0.7 --top 0.06 --arm-margin 0.003 --guard-bench ${{ matrix.extra }} >> /tmp/r57/generate.log 2>&1
         code=$?; echo "$code" > /tmp/r57/generate_exit.txt; grep -E 'R63_|R59_GENERATOR|Error|Trace' /tmp/r57/generate.log | tail -30; exit "$code"
     - name: Render armpit close-ups (unsaved)
       run: |

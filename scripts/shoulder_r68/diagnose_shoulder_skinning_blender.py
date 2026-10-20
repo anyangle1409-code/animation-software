@@ -64,6 +64,14 @@ if os.environ.get("R68_DQS_BLEND"):
         while body.modifiers[:].index(_m2) > body.modifiers[:].index(arm_mod) + 1:
             bpy.ops.object.modifier_move_up(modifier=_m2.name)
     print("R68_DQS_BLEND_ON", os.environ["R68_DQS_BLEND"], [m.name for m in body.modifiers], flush=True)
+if os.environ.get("R69_DENSE"):
+    # R69e: install a press candidate's dense S7 increments (Claude's R61 installer copy) on the immutable R41 in memory
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "shoulder_r61"))
+    from claude_r61_native import install as _install
+    _zd = np.load(os.environ["R69_DENSE"])
+    _dense = _zd["dense"] if "dense" in _zd.files else _zd["dense_delta"]
+    _install(res, _dense.astype(float))
+    print("R69_DENSE_INSTALLED", os.environ["R69_DENSE"], flush=True)
 keys = body.data.shape_keys.key_blocks
 if os.environ.get("R68_S7_NPZ"):
     # R68 fix: corrected S7 key coordinates from rear_restore_s7_blender.py (in memory only)

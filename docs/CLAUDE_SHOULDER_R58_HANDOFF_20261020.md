@@ -769,3 +769,23 @@ The approved R48 outline is measured only in the ±x and (±x, −y)/√2 direct
 - **the approved outline moves 11–15 mm.**
 
 So the skinning-method change is not viable without re-approving the outline. The S7 key rebuild (R68e) remains the best root-cause fix found.
+
+### R68 in the press candidate: gates (run 39496277724)
+
+The R68 fix now goes in through the dense increments (generator `--r68 <npz>`). This is exactly equivalent to changing the R41 S7 keys, but keeps Work's affine pose model exact. The first attempt changed the keys inside the installer, which broke the native affine gate (execution = 1).
+
+| Gate | R67b (base) | **R68e** | R68d | Limit |
+|---|---|---|---|---|
+| Outline at marked pose | 0.95 | **0.95 (pass)** | 0.95 | 1 mm |
+| Early outward | 0 | **0 (pass)** | 0 | 0.05 mm |
+| Adjacent step | pass | **pass** | pass | 3 mm |
+| Contacts | 7 | **7 (unchanged; 4 are R52 originals)** | 7 | 0 |
+| Reversed normals | 6 | **6 (inherited)** | 6 | 0 |
+| Benchmark regressions | 7 | **6** | 6 | 0 |
+| Dense motion | 18.91 | **18.91** | 27.23 | 0.5 mm |
+| 41-pose motion | 7.62 | 7.62 | 7.62 | 0.5 mm |
+| Crease | 132.8° | 132.8° | 132.8° | 2° |
+
+- **R68e adds no gate regressions** and removes one benchmark regression.
+- **The correction is NOT complete:** the inherited failures (contacts, normals, motion, crease, benchmarks) remain, and visually the restored rear deltoid still reads as a lump with posterior-axilla crinkles.
+- Before/after sheets: `review-assets/shoulder_r68/before_after/` (R67e against R68e at 135.6°, 156° and 166°; six views each).

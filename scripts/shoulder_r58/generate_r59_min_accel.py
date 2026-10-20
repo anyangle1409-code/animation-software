@@ -45,6 +45,8 @@ def main():
     ap = argparse.ArgumentParser()
     for a in ("--r57src", "--response", "--solution", "--out"):
         ap.add_argument(a, required=True)
+    ap.add_argument("--variant", default="a", choices=("a", "b"))
+    ap.add_argument("--envelope-mm", type=float, default=2.0)
     a = ap.parse_args()
     sys.path[:0] = [str(Path(a.r57src) / "scripts"), str(Path(a.r57src) / "scripts" / "anatomy_fit")]
     from original_review_r52_projection import allowed_dense
@@ -68,7 +70,41 @@ def main():
     out = np.zeros_like(old)
     cache = {}
     unreachable = 0
-    for v in np.flatnonzero(np.abs(target).sum(axis=1) > 0):
+    if a.variant == "b":
+        # R59b: (1) every control up to 110 deg is zero for every coordinate (R59 rose early on the free 96..109 controls:
+        # early outward 0.62 -> 1.55 mm); (2) at every press frame each coordinate stays inside R52's own range there,
+        # widened by --envelope-mm (R59's smoother profile carried larger mid-press values: contacts 7 -> 39).
+        # Minimum-acceleration least squares with those bounds, by an active-set loop of equality-constrained solves.
+        delta = a.envelope_mm / 1000.0
+        R52f = np.einsum("fk,knj->fnj", M, old)                    # R52 increment per frame (161, nv, 3)
+        iters_hist = []
+        for v in np.flatnonzero(np.abs(target).sum(axis=1) > 0):
+            for c in range(3):
+                free = mask[:, v] & ~early_ctrl
+                F = np.flatnonzero(free)
+                if not np.any(c_mark[F]):
+                    unreachable += 1
+                    continue
+                lo = np.minimum(R52f[:, v, c], 0) - delta; hi = np.maximum(R52f[:, v, c], 0) + delta
+                QF = Q[np.ix_(F, F)]; MF = M[:, F]
+                rows = [c_mark[F]]; vals = [target[v, c]]; active = {}
+                for it in range(25):
+                    C = np.array(rows + [MF[f] for f in active]); d = np.array(vals + list(active.values()))
+                    keep = np.abs(C).sum(axis=1) > 0
+                    C, d = C[keep], d[keep]
+                    Y = np.linalg.solve(QF, C.T)
+                    lam = np.linalg.lstsq(C @ Y, d, rcond=None)[0]
+                    m = Y @ lam
+                    x = MF @ m
+                    bad = np.flatnonzero((x > hi + 1e-7) | (x < lo - 1e-7))
+                    bad = [f for f in bad if f not in active]
+                    if not bad:
+                        break
+                    for f in bad:
+                        active[f] = float(np.clip(x[f], lo[f], hi[f]))
+                iters_hist.append(it)
+                out[F, v, c] = m
+    for v in (np.flatnonzero(np.abs(target).sum(axis=1) > 0) if a.variant == "a" else []):
         for c in range(3):
             free = mask[:, v].copy()
             if c == 0 and early_out[v]:
@@ -100,7 +136,8 @@ def main():
     early_new = float(np.maximum((M[hts < 110.0] @ out[:, :, 0]) * side[None], 0).max() * 1000)
     Path(a.out).parent.mkdir(parents=True, exist_ok=True)
     np.savez_compressed(a.out, dense_delta=out, delta=out[SOURCE])
-    metrics = {"status": "R59_IN_MEMORY_STUDY_NOT_ACCEPTED", "model_saved": False, "owner_approved": False,
+    metrics = {"status": "R59_IN_MEMORY_STUDY_NOT_ACCEPTED", "variant": a.variant, "envelope_mm": a.envelope_mm if a.variant == "b" else None,
+               "active_set_iterations_max": (int(max(iters_hist)) if a.variant == "b" and iters_hist else None), "model_saved": False, "owner_approved": False,
                "material_scope_expanded": False, "permission_patterns": len(cache),
                "unreachable_vertex_coords_kept_zero": unreachable, "vertices_capped_at_45mm": capped,
                "marked_pose_increment_max_error_mm": round(marked_err, 6),

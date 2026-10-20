@@ -157,3 +157,30 @@ R57 only moved the maximum from 118° to 125°.
 - Zero all controls below 110° for every coordinate (as in the LP's protected case).
 - Add a per-frame cap: |R59 increment| ≤ |R52 increment| + 2 mm at each of the 83 safety samples, enforced as box constraints in the QP (an active-set loop or `scipy.optimize.lsq_linear` per permission pattern). Smoothness is then not bought with new skin intrusion.
 - Then localise the 39 contacts: the pairs are listed in `native_final.json` in the artifact.
+
+### R59b status (implemented, NOT launched)
+
+`generate_r59_min_accel.py --variant b --envelope-mm 2` implements the plan above:
+- all controls ≤ 110° are zero;
+- each frame and coordinate is kept inside [min(R52, 0) − 2 mm, max(R52, 0) + 2 mm], solved by an active-set loop.
+
+**The synthetic test shows the envelope defeats the purpose.** Rest-space acceleration only drops from 212 to 205 (×16), against 7 for R59, and the marked pose drifts by 0.17 mm. An envelope that follows R52's rough profile near its peak forces the smooth curve to copy that roughness. **Do not launch it as is.**
+
+## Exact next steps when usage resets (in order)
+
+1. **Localise R59's 39 contacts before any further timing change.**
+   - Add a step to `shoulder-r59-min-accel-study.yml` that prints the contact pairs, samples and press elevations from `/tmp/r57/native_final.json`. The artifact can't be downloaded from the Claude container, so print it to the log.
+   - Compare them with R57's 7 pairs (10855 vs 22184–22187).
+   - **If the new contacts are posterior skin against the arm**, R59 pushes those vertices past R52 in the direction of the contact. The fix is then a **one-sided** limit:
+     - cap only the component along the contact normal, not the whole envelope;
+     - or cap the increment magnitude at R52's own magnitude, not its per-frame values.
+2. **Early outward.** R59a's 1.55 mm came from controls 96–109°. Variant b's "zero ≤ 110°" part is correct and cheap. Run R59a plus that one change alone (a `--variant c`), with no envelope, to separate the two effects.
+3. **The owner scope decision (unchanged):** the smoothest S7-only timing still leaves ~1.3–1.9 mm motion excess against the 0.5 mm guard.
+   - Either the owner accepts an outline-specific motion tolerance after seeing R59-type renders;
+   - or authorises a non-S7 mechanism (weights or helper; R53 evidence);
+   - or relaxes the R47 marked offset.
+
+   Do not change thresholds without that decision.
+4. **R59's renders** (`visuals/R57_local_study/*` in artifact `original-v1-r59-min-accel-study-20261020`, run 39421297091; the folder name comes from the reused R57 render step) should go to the owner next to R52's, at t = 0.625 and t = 0.8. **Download them from the GitHub web UI**; this container cannot download them.
+
+**Everything is on `claude/home-gym-pt-animation-txux66`.** Read-only diagnostics and unsaved studies only; nothing merged; no model saved; Work's branches untouched.

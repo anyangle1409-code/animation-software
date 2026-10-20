@@ -1,0 +1,37 @@
+{
+  "status": "R59_IN_MEMORY_STUDY_NOT_ACCEPTED",
+  "variant": "c",
+  "envelope_mm": null,
+  "fidelity": 0.03,
+  "r61_released_166_hold_from": null,
+  "r62_upper_trap": {
+    "vertices": 634,
+    "peak_mm": 10.0,
+    "fade_deg": [
+      136.0,
+      160.0
+    ],
+    "region_match_mm": 0.0001,
+    "added_at_marked_pose_mm": 0.0
+  },
+  "active_set_iterations_max": null,
+  "model_saved": false,
+  "owner_approved": false,
+  "material_scope_expanded": false,
+  "scope_change": null,
+  "permission_patterns": 5,
+  "unreachable_vertex_coords_kept_zero": 0,
+  "vertices_capped_at_45mm": 0,
+  "marked_pose_increment_max_error_mm": 0.0,
+  "rest_space_profile_accel_mm_x16": {
+    "r52": 39.119,
+    "r59": 9.697
+  },
+  "rest_space_early_outward_mm": 0.0,
+  "vertices_with_early_outward_clamped": 1527,
+  "max_adjacent_control_mm": {
+    "r52": 3.1391753334193933,
+    "r59": 2.8061563527155102
+  },
+  "note": "rest-space figures are indicative; the native 161-pose, 83-pose, benchmark and render gates decide"
+}

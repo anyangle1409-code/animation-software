@@ -173,6 +173,25 @@ def pose(ht):
     bpy.context.view_layer.update()
 
 
+if os.environ.get("R68_MODE") == "rot":
+    # arm-rotation robustness: humeral axial rotation -30/0/+30 deg (about the shaft) at 90, 120 and 156 deg
+    from mathutils import Matrix
+    rr = {}
+    for ht in (90.0, 120.0, 156.0):
+        for rot in (-30.0, 0.0, 30.0):
+            pose(ht)
+            for s_, sg in (("l", -1.0), ("r", 1.0)):
+                b = rig.pose.bones[f"upperarm_{s_}"]
+                d_ = (b.tail - b.head).normalized(); pv = b.head.copy()
+                b.matrix = Matrix.Translation(pv) @ Matrix.Rotation(math.radians(sg * rot), 4, d_) @ Matrix.Translation(-pv) @ b.matrix
+            bpy.context.view_layer.update(); drives.drive(rig, body); bpy.context.view_layer.update()
+            m = metrics(evaluated())
+            rr[f"{ht:g}_{rot:g}"] = {"r_rear_pinched": m["r_rear"]["pinched_lt_0.5"], "l_rear_pinched": m["l_rear"]["pinched_lt_0.5"],
+                                     "r_folds": m["r_shoulder"]["folds_gt_100deg"], "self_x": [m["r_self_intersections"], m["l_self_intersections"]],
+                                     "stretched": m["r_shoulder"]["stretched_gt_1.8"]}
+            print("R68ROT", ht, rot, json.dumps(rr[f"{ht:g}_{rot:g}"]), flush=True)
+    (OUT / f"rotation_{os.environ.get('R68_TAG', 'x')}.json").write_text(json.dumps(rr, indent=1))
+    raise SystemExit
 if os.environ.get("R68_MODE") == "outline":
     # Work's approved-outline measure (R48 silhouette: +-x and (+-x,-y)/sqrt2, 1.18-1.62 m) at the marked pose and others
     from original_review_r48_outline import silhouette

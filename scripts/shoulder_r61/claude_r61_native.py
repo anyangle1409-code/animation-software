@@ -15,7 +15,10 @@ def install(res,dense,basis_unused=None):
  # from the S7-off skin; approved R48 outline vertices pinned, outline change 0.000 mm).  Env R68_S7_SPARSE=<npz>.
  import os
  if os.environ.get('R68_S7_SPARSE'):
-  z=np.load(os.environ['R68_S7_SPARSE'])
+  path=os.environ['R68_S7_SPARSE']
+  if not os.path.isabs(path) and not os.path.exists(path):
+   path=os.path.join(os.environ.get('GITHUB_WORKSPACE',''),path)
+  z=np.load(path)
   for name in {f.split('__')[0] for f in z.files}:
    kb=blocks[name];co=coords(kb);co[z[name+'__idx']]+=z[name+'__delta'];kb.data.foreach_set('co',co.ravel())
   print('R68_S7_FIX_APPLIED',os.environ['R68_S7_SPARSE'],flush=True)

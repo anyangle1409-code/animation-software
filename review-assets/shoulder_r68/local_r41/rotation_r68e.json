@@ -1,0 +1,92 @@
+{
+ "90_-30": {
+  "r_rear_pinched": 136,
+  "l_rear_pinched": 136,
+  "r_folds": 10,
+  "self_x": [
+   19,
+   19
+  ],
+  "stretched": 78
+ },
+ "90_0": {
+  "r_rear_pinched": 121,
+  "l_rear_pinched": 121,
+  "r_folds": 7,
+  "self_x": [
+   3,
+   3
+  ],
+  "stretched": 80
+ },
+ "90_30": {
+  "r_rear_pinched": 125,
+  "l_rear_pinched": 125,
+  "r_folds": 7,
+  "self_x": [
+   0,
+   0
+  ],
+  "stretched": 92
+ },
+ "120_-30": {
+  "r_rear_pinched": 227,
+  "l_rear_pinched": 233,
+  "r_folds": 9,
+  "self_x": [
+   9,
+   3
+  ],
+  "stretched": 93
+ },
+ "120_0": {
+  "r_rear_pinched": 241,
+  "l_rear_pinched": 243,
+  "r_folds": 0,
+  "self_x": [
+   0,
+   0
+  ],
+  "stretched": 143
+ },
+ "120_30": {
+  "r_rear_pinched": 303,
+  "l_rear_pinched": 307,
+  "r_folds": 1,
+  "self_x": [
+   0,
+   0
+  ],
+  "stretched": 289
+ },
+ "156_-30": {
+  "r_rear_pinched": 190,
+  "l_rear_pinched": 180,
+  "r_folds": 6,
+  "self_x": [
+   1,
+   1
+  ],
+  "stretched": 37
+ },
+ "156_0": {
+  "r_rear_pinched": 202,
+  "l_rear_pinched": 211,
+  "r_folds": 0,
+  "self_x": [
+   0,
+   0
+  ],
+  "stretched": 60
+ },
+ "156_30": {
+  "r_rear_pinched": 261,
+  "l_rear_pinched": 277,
+  "r_folds": 5,
+  "self_x": [
+   1,
+   0
+  ],
+  "stretched": 143
+ }
+}

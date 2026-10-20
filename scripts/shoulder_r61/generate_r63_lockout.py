@@ -195,6 +195,8 @@ def main():
     ap.add_argument("--root-relax", action="store_true", help="R65e: run the outward-only relax over the arm-root region too")
     ap.add_argument("--protect-head", action="store_true", help="R66: no lockout change on the head and neck (owner: head widens)")
     ap.add_argument("--pulse-smooth", action="store_true", help="R66: temporal torso smoothing over the press (owner: body pulses)")
+    ap.add_argument("--pulse-zmax", type=float, default=1.50, help="R66c: smooth torso skin below this rest height only")
+    ap.add_argument("--pulse-armw", type=float, default=0.2, help="R66c: and only where the whole-arm weight is below this")
     ap.add_argument("--pulse-beta", type=float, default=30.0)
     ap.add_argument("--pulse-lam", type=float, default=0.3)
     ap.add_argument("--pulse-tie", type=float, default=0.02)
@@ -403,7 +405,9 @@ def main():
     pulse_report = None
     if a.pulse_smooth:
         import pulse_smooth
-        torso_ids = np.flatnonzero((whole.max(axis=0) < 0.2) & (rest[:, 2] > 1.0) & (rest[:, 2] < 1.50))
+        # R66c: R66a's set reached the posterior armpit (z ~1.40) and the shoulder top (z ~1.50) and made 8 new
+        # self-contacts there; the pulse the owner sees is on the back below the armpits
+        torso_ids = np.flatnonzero((whole.max(axis=0) < a.pulse_armw) & (rest[:, 2] > 1.0) & (rest[:, 2] < a.pulse_zmax))
         out, pulse_report = pulse_smooth.run(z, decode, out, torso_ids, a.pulse_beta, a.pulse_lam, a.pulse_tie, 0.5)
         print("R66_PULSE", json.dumps(pulse_report), flush=True)
     step_log = {}
@@ -447,7 +451,7 @@ def main():
     np.savez_compressed(a.out, dense_delta=out, delta=out[SOURCE])
     metrics = {"status": "R63_IN_MEMORY_STUDY_NOT_ACCEPTED", "model_saved": False, "owner_approved": False,
                "scope_change": f"owner-approved lockout sculpt (20 Oct): controls {95 + K0}..166 re-solved in posed space; 166 released",
-               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top", "include_bench", "guard_bench", "guard_weight", "guard_iters", "step_limit", "lat_bulge", "lat_bulge_span", "protect_head", "pulse_smooth", "pulse_beta", "pulse_lam", "pulse_tie", "root_mm", "root_whole_back", "root_smooth", "root_relax", "hull", "fold", "fold_centre", "fold_radius", "fold_iters", "fold_step", "fold_max")},
+               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top", "include_bench", "guard_bench", "guard_weight", "guard_iters", "step_limit", "lat_bulge", "lat_bulge_span", "protect_head", "pulse_smooth", "pulse_beta", "pulse_zmax", "pulse_armw", "pulse_lam", "pulse_tie", "root_mm", "root_whole_back", "root_smooth", "root_relax", "hull", "fold", "fold_centre", "fold_radius", "fold_iters", "fold_step", "fold_max")},
                "samples": report_s, "affected_vertices": int(len(affected)), "vertices_capped_at_45mm": capped,
                "posed_fit_max_error_mm": round(max(fit_err, default=0) * 1000, 3), "posed_fit_error_by_sample_mm": [round(e * 1000, 2) for e in fit_err],
                "max_change_from_start_mm": round(float(np.linalg.norm(out - d0, axis=2).max() * 1000), 2),

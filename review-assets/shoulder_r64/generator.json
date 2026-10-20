@@ -20,6 +20,7 @@
     "guard_bench": true,
     "guard_weight": 4.0,
     "guard_iters": 6,
+    "step_limit": 0.0029,
     "hull": true,
     "fold": true,
     "fold_centre": "0.17,0.07,1.40",
@@ -639,9 +640,25 @@
     0.53,
     0.47
   ],
-  "max_change_from_start_mm": 35.01,
-  "max_adjacent_control_mm": 5.271555671772624,
+  "max_change_from_start_mm": 31.48,
+  "max_adjacent_control_mm": 2.899991562818376,
   "arm_file_match_mm": 0.0002,
+  "step_limit": {
+    "before_mm": 5.272,
+    "before_at": {
+      "controls": [
+        162,
+        163
+      ],
+      "rest": [
+        -0.285,
+        0.038,
+        1.437
+      ]
+    },
+    "iterations": 73,
+    "after_mm": 2.9
+  },
   "guard_new_pins_per_iteration": [
     0
   ]

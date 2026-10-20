@@ -19,7 +19,6 @@
     "R43_original_native_motion_le_0_5mm",
     "R43_posterior_crease_le_2deg",
     "R52_dense_161_motion_le_0_5mm",
-    "R52_adjacent_step_le_3mm",
     "13_original_benchmarks_no_regression"
   ],
   "checks": {
@@ -30,17 +29,17 @@
     "R43_posterior_crease_le_2deg": false,
     "R52_dense_161_motion_le_0_5mm": false,
     "R52_early_outward_le_0_05mm": true,
-    "R52_adjacent_step_le_3mm": false,
+    "R52_adjacent_step_le_3mm": true,
     "13_original_benchmarks_no_regression": false
   },
   "marked_outline_error_mm": 0.9499480288829576,
   "marked_reversed_normals": 6,
-  "actual_83_new_contacts": 13,
-  "actual_native_motion_excess_mm": 3.8408328204501276,
+  "actual_83_new_contacts": 10,
+  "actual_native_motion_excess_mm": 4.594565382228923,
   "posterior_crease_excess_deg": 136.61496251353194,
-  "dense161_motion_excess_mm": 9.250627105390048,
+  "dense161_motion_excess_mm": 12.066788178293525,
   "dense161_early_outward_mm": 0.0002384185791015625,
-  "benchmark_regressions": 7,
+  "benchmark_regressions": 6,
   "limitations": [
     "An experimental improvement in motion cannot independently establish lifelike anatomy.",
     "Original R47 marked-pose outline approval does not validate all 161 movement poses.",

@@ -1,0 +1,82 @@
+name: ORIGINAL_v1 R58 read-only shoulder temporal localisation
+'on':
+  push:
+    branches: [claude/home-gym-pt-animation-txux66]
+    paths: [.github/workflows/shoulder-r58-temporal-localisation.yml, scripts/shoulder_r58/**]
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: original-v1-r58-localisation
+  cancel-in-progress: false
+jobs:
+  localise:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      LIBGL_ALWAYS_SOFTWARE: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      R57_SHA: 025d5f28fa7eba2064fba565b1c9b60119cdd2cb
+    steps:
+    - uses: actions/checkout@v4
+    - name: Check out the R57 study sources (read-only, pinned)
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ env.R57_SHA }}
+        path: r57src
+    - name: Install numpy and pinned Blender 5.2.1
+      run: |
+        set -euo pipefail
+        sudo apt-get update && sudo apt-get install -y python3-numpy python3-scipy libegl1 libgl1-mesa-dri
+        curl --fail --location --retry 3 https://download.blender.org/release/Blender5.2/blender-5.2.1-linux-x64.tar.xz --output /tmp/blender.tar.xz
+        echo 'a31f524fa99a527d3d52b7f5aaa68c34e1a19d5a1c9473f79c5cc610fd5b10e9  /tmp/blender.tar.xz' | sha256sum -c -
+        tar -xJf /tmp/blender.tar.xz -C /tmp
+    - name: Download immutable R52 study
+      uses: actions/download-artifact@v4
+      with:
+        name: original-v1-r52-review
+        run-id: 39215634074
+        github-token: ${{ github.token }}
+        path: /tmp/r52
+    - name: Download immutable R57 study
+      uses: actions/download-artifact@v4
+      with:
+        name: original-v1-r57-local-s7-study-20261020
+        run-id: 39411211783
+        github-token: ${{ github.token }}
+        path: /tmp/r57
+    - name: Verify input hashes
+      run: |
+        set -euo pipefail
+        mkdir -p /tmp/r58
+        cp /tmp/r52/tmp/r52-response/source.npz /tmp/r58/source.npz
+        cp /tmp/r52/tmp/r52-response/solved.npz /tmp/r58/r52_solved.npz
+        echo '2a6c01cf7eacd3d1ceb47ae9f131f76dd0487fce5d3518d5cd1df65bc059fa8d  /tmp/r58/source.npz' | sha256sum -c -
+        echo 'b3a6c404a944753facde5a92db8bc4547a1ca756960b6b82df2875f5e4eb804f  /tmp/r58/r52_solved.npz' | sha256sum -c -
+        echo '4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e  r57src/ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r41_20261017/HGPT_ORIGINAL_V1_REVIEW_R41_CODEX.blend' | sha256sum -c -
+        find /tmp/r57 -maxdepth 3 -name '*.npz' | sort
+        cp "$(find /tmp/r57 -name candidate.npz | head -1)" /tmp/r58/r57_candidate.npz
+        cp "$(find /tmp/r57 -name 'dense_motion.json.points.npz' | head -1)" /tmp/r58/r57_points.npz
+    - name: Re-measure R52 161-pose points natively (unchanged R52 measurement script)
+      run: |
+        set +e
+        cd r57src
+        timeout 20m /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/measure_original_review_r52_dense_motion_blender.py -- /tmp/r58/source.npz /tmp/r58/r52_solved.npz /tmp/r58/r52_dense_motion.json > /tmp/r58/r52_dense.log 2>&1
+        echo $? > /tmp/r58/r52_dense_exit.txt
+        tail -5 /tmp/r58/r52_dense.log
+        cp /tmp/r58/r52_dense_motion.json.points.npz /tmp/r58/r52_points.npz || true
+    - name: Localise in time and in the S7 controls
+      run: |
+        set -euo pipefail
+        python3 scripts/shoulder_r58/diagnose_r58_temporal_hotspots.py --source /tmp/r58/source.npz --r52 /tmp/r58/r52_solved.npz --r57 /tmp/r58/r57_candidate.npz --points52 /tmp/r58/r52_points.npz --points57 /tmp/r58/r57_points.npz --out /tmp/r58/r58_report.json
+    - uses: actions/upload-artifact@v4
+      if: success() || failure()
+      with:
+        name: original-v1-r58-temporal-localisation
+        path: |
+          /tmp/r58/*.json
+          /tmp/r58/*.log
+          /tmp/r58/*.txt
+        retention-days: 30

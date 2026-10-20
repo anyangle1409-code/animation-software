@@ -133,3 +133,27 @@ R57 only moved the maximum from 118° to 125°.
 - The R47 marked silhouette is the owner-approved reference; keep it within 1 mm.
 - The newer arm and elbow detail is kept.
 - Reference photos stay out of Git.
+
+## R59 result (run 39421297091; artifact `original-v1-r59-min-accel-study-20261020`; unchanged R57 gates; REJECTED, all failures kept)
+
+| Gate | R52 | R57 | **R59** | Limit |
+|---|---|---|---|---|
+| R47 marked outline | 0.9499 mm | 0.9499 mm | **0.9499 mm** (held exactly) | 1 mm |
+| Dense 161-pose motion | 40.64 mm | 39.38 mm | **1.92 mm** | 0.5 mm |
+| Early outward | 0.62 mm | 0.62 mm | **1.55 mm** (worse) | 0.05 mm |
+| Original 41-pose native motion | — | 1.09 mm | 1.62 mm | 0.5 mm |
+| New contacts in the 83 safety checks | — | 7 | **39** (worse) | 0 |
+| Posterior crease | — | 142° | 176° | 2° |
+| Marked-pose reversed normals | — | 6 | 6 | 0 |
+| Benchmark regressions | — | 6 | 8 | 0 |
+
+**What it shows:**
+- **The motion spike is a timing problem, and it is fixed by timing alone:** 40.6 → 1.9 mm, with the outline unchanged. This matches the R58 bound (~1.3 mm in rest space, plus bone rotation).
+- **The remaining 1.9 mm cannot reach 0.5 mm with S7 alone.** This is the owner scope decision in step 1.
+- **Early outward got worse:** the smooth profile starts rising on the free controls 96–109° for vertices that R52 had not moved outward early. My clamp was in rest space and only applied to vertices R52 already moved outward.
+- **Contacts and crease got worse:** the smooth profile carries larger mid-press values than R52 at some poses (it no longer dips).
+
+**Next (R59b, small and in scope):**
+- Zero all controls below 110° for every coordinate (as in the LP's protected case).
+- Add a per-frame cap: |R59 increment| ≤ |R52 increment| + 2 mm at each of the 83 safety samples, enforced as box constraints in the QP (an active-set loop or `scipy.optimize.lsq_linear` per permission pattern). Smoothness is then not bought with new skin intrusion.
+- Then localise the 39 contacts: the pairs are listed in `native_final.json` in the artifact.

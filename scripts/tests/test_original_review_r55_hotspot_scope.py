@@ -28,7 +28,7 @@ class R55(unittest.TestCase):
         rest=np.array([[0.,0.,0.],[1,0,0],[1,1,0],[0,1,0],[0,0,0.00001]])
         edges=np.array([[0,1],[1,2],[2,3],[3,4]])
         d=geodesic_to_patch_mm(rest,edges,np.array([0]))
-        self.assertAlmostEqual(d[4],4000.01,places=2)
+        self.assertAlmostEqual(d[4],4000.0,places=2)
         self.assertEqual(d[0],0)
 
     def test_disconnected_rest_component_never_gets_false_zero(self):

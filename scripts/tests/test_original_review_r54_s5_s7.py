@@ -40,6 +40,15 @@ class ScreenMath(unittest.TestCase):
         # the existing coarse-grid-equivalent factor is 16.
         self.assertAlmostEqual(max_dense_motion_excess_mm(perturbation, self.base), 32.0)
 
+    def test_equal_curvature_magnitude_on_different_axes_is_not_failure(self):
+        a = self.base.copy()
+        b = self.base.copy()
+        a[80, 0, 0] += 0.001
+        b[80, 0, 1] += 0.001
+        # Norm(candidate curvature - baseline curvature) would fail,
+        # but the unchanged original R52 definition compares norms.
+        self.assertAlmostEqual(max_dense_motion_excess_mm(b, a), 0.0, places=7)
+
     def test_one_frame_clip_cannot_silently_pass(self):
         with self.assertRaises(ValueError):
             combine(self.base[:1], self.d5[:1], self.d7[:1], 1, 1)

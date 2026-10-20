@@ -166,6 +166,15 @@ def fold_fill(Q, faces, Avg, w, iters, step, maxpush):
     return D * np.minimum(1.0, maxpush / np.maximum(Dn, 1e-12))[:, None]
 
 
+def taubin(Q, Avg, w, iters, lam=0.5, mu=-0.53):
+    """R67: volume-preserving (Taubin) smoothing of the posed skin, weighted per vertex; returns the displacement"""
+    Q0 = Q; Q = Q.copy()
+    for _ in range(iters):
+        Q = Q + (lam * w)[:, None] * (Avg @ Q - Q)
+        Q = Q + (mu * w)[:, None] * (Avg @ Q - Q)
+    return Q - Q0
+
+
 def main():
     ap = argparse.ArgumentParser()
     for a in ("--r57src", "--response", "--start", "--out"):
@@ -193,6 +202,9 @@ def main():
     ap.add_argument("--root-whole-back", action="store_true", help="R65c: inflate the whole back half of the arm-root ring (rear deltoid too)")
     ap.add_argument("--root-smooth", type=int, default=0, help="R65e: smoothing passes for the arm-root normals and push")
     ap.add_argument("--root-relax", action="store_true", help="R65e: run the outward-only relax over the arm-root region too")
+    ap.add_argument("--shoulder-relax", type=int, default=0, help="R67: Taubin smoothing passes over the shoulder top + trapezius (owner: arm looks detached, traps look horrible)")
+    ap.add_argument("--shoulder-centre", default="0.21,0.02,1.48")
+    ap.add_argument("--shoulder-radius", type=float, default=0.10)
     ap.add_argument("--protect-head", action="store_true", help="R66: no lockout change on the head and neck (owner: head widens)")
     ap.add_argument("--pulse-smooth", action="store_true", help="R66: temporal torso smoothing over the press (owner: body pulses)")
     ap.add_argument("--pulse-zmax", type=float, default=1.50, help="R66c: smooth torso skin below this rest height only")
@@ -232,6 +244,16 @@ def main():
         protect = 1.0 - hn
     else:
         protect = np.ones(nv)
+    shoulder_w = None
+    if a.shoulder_relax > 0:
+        # R67: rest-space weight = shoulder top (acromion/deltoid cap, between the arm-root ring top ~(0.21,0.02,1.40)
+        # and the lateral trapezius ~z 1.51-1.65) plus the R62 trapezius region, smoothed over the mesh
+        shoulder_w = fold_region(rest, [float(c) for c in a.shoulder_centre.split(",")], a.shoulder_radius)
+        tr = np.load(Path(__file__).resolve().parent / "r62_upper_trap_region.npz")
+        tw = np.zeros(nv); tw[tr["vertex_ids"]] = 1.0
+        for _ in range(10):
+            tw = 0.5 * tw + 0.5 * (Avg @ tw)
+        shoulder_w = np.clip(np.maximum(shoulder_w, tw / max(tw.max(), 1e-12)), 0, 1)
     root_w = root_region(rest, armw, Avg, whole_back=a.root_whole_back) if a.root_mm > 0 else None
     fold_w = fold_region(rest, [float(c) for c in a.fold_centre.split(",")], a.fold_radius) if a.fold else None
 
@@ -300,6 +322,8 @@ def main():
             Df = fold_fill(P + D, faces, Avg, fw, a.fold_iters, a.fold_step, a.fold_max) * ramp
             D = D + Df
             fold_mm = float(np.linalg.norm(Df, axis=1).max() * 1000)
+        if shoulder_w is not None and ramp > 0 and s not in guard_samples:
+            D = D + taubin(P + D, Avg, shoulder_w, a.shoulder_relax) * ramp
         D *= protect[:, None]
         targets[s] = (P, D)
         report_s.append({"sample": s, "ht_deg": round(float(sample_ht[s]), 2), "ramp": round(float(ramp), 3), "sides": info,
@@ -451,7 +475,7 @@ def main():
     np.savez_compressed(a.out, dense_delta=out, delta=out[SOURCE])
     metrics = {"status": "R63_IN_MEMORY_STUDY_NOT_ACCEPTED", "model_saved": False, "owner_approved": False,
                "scope_change": f"owner-approved lockout sculpt (20 Oct): controls {95 + K0}..166 re-solved in posed space; 166 released",
-               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top", "include_bench", "guard_bench", "guard_weight", "guard_iters", "step_limit", "lat_bulge", "lat_bulge_span", "protect_head", "pulse_smooth", "pulse_beta", "pulse_zmax", "pulse_armw", "pulse_lam", "pulse_tie", "root_mm", "root_whole_back", "root_smooth", "root_relax", "hull", "fold", "fold_centre", "fold_radius", "fold_iters", "fold_step", "fold_max")},
+               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top", "include_bench", "guard_bench", "guard_weight", "guard_iters", "step_limit", "lat_bulge", "lat_bulge_span", "shoulder_relax", "shoulder_centre", "shoulder_radius", "protect_head", "pulse_smooth", "pulse_beta", "pulse_zmax", "pulse_armw", "pulse_lam", "pulse_tie", "root_mm", "root_whole_back", "root_smooth", "root_relax", "hull", "fold", "fold_centre", "fold_radius", "fold_iters", "fold_step", "fold_max")},
                "samples": report_s, "affected_vertices": int(len(affected)), "vertices_capped_at_45mm": capped,
                "posed_fit_max_error_mm": round(max(fit_err, default=0) * 1000, 3), "posed_fit_error_by_sample_mm": [round(e * 1000, 2) for e in fit_err],
                "max_change_from_start_mm": round(float(np.linalg.norm(out - d0, axis=2).max() * 1000), 2),

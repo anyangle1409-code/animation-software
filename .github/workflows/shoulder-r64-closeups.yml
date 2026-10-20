@@ -69,6 +69,9 @@ jobs:
         grep CLOSEUPS_DONE /tmp/close.log
         mkdir -p /tmp/media/${{ matrix.v }}_closeups
         python3 r59src/scripts/shoulder_r61/label_closeups.py /tmp/close /tmp/media/${{ matrix.v }}_closeups ${{ matrix.v }}
+        # R69e: publish the candidate's dense increments (float32) and R52's, so the full candidate can be diagnosed locally
+        python3 -c "import numpy as np; z=np.load('/tmp/r57/candidate.npz'); np.savez_compressed('/tmp/media/${{ matrix.v }}_closeups/candidate_dense_f32.npz', dense=z['dense_delta'].astype(np.float32)); r=np.load('/tmp/r57/original_r52.npz'); print({k: r[k].shape for k in r.files}); np.savez_compressed('/tmp/media/${{ matrix.v }}_closeups/r52_solution_f32.npz', **{k: r[k].astype(np.float32) for k in r.files})"
+        ls -la /tmp/media/${{ matrix.v }}_closeups/*.npz
     - uses: actions/upload-artifact@v4
       with:
         name: closeups-${{ matrix.v }}

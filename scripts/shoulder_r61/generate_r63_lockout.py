@@ -266,6 +266,7 @@ def main():
     ap.add_argument("--pulse-beta", type=float, default=30.0)
     ap.add_argument("--pulse-lam", type=float, default=0.3)
     ap.add_argument("--pulse-tie", type=float, default=0.02)
+    ap.add_argument("--r68-pin", action="store_true", help="R69d: fade the R68 fix out on this candidate's marked-pose outline support and on any triangle it flips")
     ap.add_argument("--r68", default="", help="R68: S7 rear-shoulder root-cause fix (sparse per-key deltas) added to the dense increments")
     ap.add_argument("--step-limit", type=float, default=0.0, help="R64j: smooth solved control curves until adjacent steps <= this (m)")
     ap.add_argument("--hull", action="store_true", help="R64b: fill the rear outline to its outward convex envelope")
@@ -518,6 +519,41 @@ def main():
             k = int(np.flatnonzero(KEYS == deg)[0])
             dk[k, zr[name + "__idx"]] += zr[name + "__delta"]
         add = np.einsum("jk,knc->jnc", Hm, dk)
+        if a.r68_pin:
+            # R69d: R69c (posterior groove pass) moved the approved outline 2.5 mm and flipped 7 more triangles at the
+            # marked pose in the R52 candidate - its outline runs through different vertices than on bare R41.  Protect
+            # them in THIS candidate's geometry: at the marked sample (25) take Work's outline support vertices
+            # (solve_original_review_r52.support_vertices) with and without the fix, plus any triangle the fix flips,
+            # grow by 2 rings and fade the fix to 0 there (smooth 3-ring ramp).
+            from solve_original_review_r52 import support_vertices
+            lo_m, hi_m, t_m = decode(z["weight"][25][None]); lo_m, hi_m, t_m = lo_m[0].astype(int), hi_m[0].astype(int), t_m[0]
+            vv = np.arange(nv)
+            def marked(dense):
+                inc = (1 - t_m)[:, None] * dense[lo_m, vv] + t_m[:, None] * dense[hi_m, vv]
+                return z["base"][25] + np.einsum("nij,nj->ni", z["mat"][25], inc)
+            def fnormals(Pm):
+                return np.cross(Pm[faces[:, 1]] - Pm[faces[:, 0]], Pm[faces[:, 2]] - Pm[faces[:, 0]])
+            A_ = (Avg > 0).astype(float)
+            keep = np.ones(nv)
+            for it_ in range(4):
+                trial = out.copy(); trial[1:] += add * keep[None, :, None]
+                P0 = marked(out); P1 = marked(trial)
+                bad = np.zeros(nv, bool)
+                bad[support_vertices(P0, faces)] = True; bad[support_vertices(P1, faces)] = True
+                flip = np.einsum("ij,ij->i", fnormals(P0), fnormals(P1)) < 0
+                bad[np.unique(faces[flip])] = True
+                for _ in range(2):
+                    bad = bad | (A_ @ bad.astype(float) > 0)
+                ramp = bad.astype(float)
+                for _ in range(3):
+                    ramp = np.maximum(ramp, 0.5 * (A_ @ ramp) / np.maximum(A_.sum(1).A1 if hasattr(A_.sum(1), "A1") else np.asarray(A_.sum(1)).ravel(), 1))
+                new_keep = np.minimum(keep, 1.0 - np.clip(ramp, 0, 1))
+                n_flip = int(flip.sum())
+                print("R69_PIN", it_, json.dumps({"pinned_vertices": int(bad.sum()), "flipped_triangles": n_flip}), flush=True)
+                if np.allclose(new_keep, keep) and n_flip == 0:
+                    break
+                keep = new_keep
+            add = add * keep[None, :, None]
         out[1:] += add
         out[[0, 15]] = 0.0
         r68_report = {"file": a.r68, "max_added_mm": round(float(np.linalg.norm(add, axis=2).max() * 1000), 2),
@@ -568,7 +604,7 @@ def main():
     np.savez_compressed(a.out, dense_delta=out, delta=out[SOURCE])
     metrics = {"status": "R63_IN_MEMORY_STUDY_NOT_ACCEPTED", "model_saved": False, "owner_approved": False,
                "scope_change": f"owner-approved lockout sculpt (20 Oct): controls {95 + K0}..166 re-solved in posed space; 166 released",
-               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top", "include_bench", "guard_bench", "guard_weight", "guard_iters", "step_limit", "lat_bulge", "lat_bulge_span", "r68", "shoulder_relax", "shoulder_rise", "shoulder_line_sigma", "shoulder_line_max", "shoulder_mu", "shoulder_centre", "shoulder_radius", "protect_head", "pulse_smooth", "pulse_beta", "pulse_zmax", "pulse_armw", "pulse_lam", "pulse_tie", "root_mm", "root_whole_back", "root_smooth", "root_relax", "hull", "fold", "fold_centre", "fold_radius", "fold_iters", "fold_step", "fold_max")},
+               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top", "include_bench", "guard_bench", "guard_weight", "guard_iters", "step_limit", "lat_bulge", "lat_bulge_span", "r68", "r68_pin", "shoulder_relax", "shoulder_rise", "shoulder_line_sigma", "shoulder_line_max", "shoulder_mu", "shoulder_centre", "shoulder_radius", "protect_head", "pulse_smooth", "pulse_beta", "pulse_zmax", "pulse_armw", "pulse_lam", "pulse_tie", "root_mm", "root_whole_back", "root_smooth", "root_relax", "hull", "fold", "fold_centre", "fold_radius", "fold_iters", "fold_step", "fold_max")},
                "samples": report_s, "affected_vertices": int(len(affected)), "vertices_capped_at_45mm": capped,
                "posed_fit_max_error_mm": round(max(fit_err, default=0) * 1000, 3), "posed_fit_error_by_sample_mm": [round(e * 1000, 2) for e in fit_err],
                "max_change_from_start_mm": round(float(np.linalg.norm(out - d0, axis=2).max() * 1000), 2),

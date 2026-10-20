@@ -1,5 +1,5 @@
 name: ORIGINAL_v1 R55 shoulder hotspot scope audit
-# Exact-head validation includes corrected synthetic geodesic expected value.
+# Exact-head validation uses corrected geodesic test and symmetric R41/R52 S7-muted replay.
 'on':
   push:
     branches: [codex/r55-shoulder-hotspot-scope-audit-20261020]

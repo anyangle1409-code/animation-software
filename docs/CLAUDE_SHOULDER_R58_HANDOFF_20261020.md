@@ -585,3 +585,30 @@ Lesson: the trapezius push near the neck needs the wider taper, as in R63d.
 **Running now:** R65g (trapezius 30 mm, taper 0.09–0.12) and R65h (25 mm, taper 0.06–0.10), as a matrix in `shoulder-r63-lockout.yml`. Media goes to `review-assets/shoulder_r64/R65g|R65h/`.
 
 **Still open:** the head sits high and the neck shows more than in the photos. Part of this is likely skeletal (the shoulder blades and collarbones don't lift enough). The owner chose the skin-only option, so the skeleton is untouched.
+
+### R65g / R65h gates (run 39473694860): R65f with the wide trapezius neck taper restored
+
+R65g is trapezius 30 mm with taper 0.09–0.12; R65h is 25 mm with taper 0.06–0.10. Both give the same gate maxima:
+
+| Gate | R65g | R64j | R63g | Limit |
+|---|---|---|---|---|
+| Outline | 0.95 mm | 0.95 | 0.95 | 1 mm |
+| Early outward | 0 | 0 | 0 | 0.05 mm |
+| Adjacent step | pass (2.9) | pass | pass | 3 mm |
+| **Contacts** | **4 (R52 originals only, samples 25/65)** | 10 | 21 | 0 |
+| Crease | 137° | 137° | 168° | 2° |
+| **Benchmark regressions** | **5** | 6 | 6 | 0 |
+| Dense motion | 21.2 mm | 12.1 | 9.25 | 0.5 mm |
+| 41-pose motion | 8.2 mm | 4.6 | 3.6 | 0.5 mm |
+| Reversed normals | 6 | 6 | 6 | 0 |
+
+**Current best press candidate: R65g.** It is unsaved and not approved.
+- Media: `review-assets/shoulder_r64/R65g/` and `review-assets/shoulder_r64_closeups/R65g_closeups/`.
+- Comparison image: `compare_R64j_R65g_166deg.jpg`.
+- Commands: the matrix entry R65g in `shoulder-r63-lockout.yml`.
+
+**Open items:**
+1. Motion rose (dense 21 mm). The arm-root fill moves quickly over 137–156°. Try `--full 160` or a lower `--root-mm` to bring it back down. This is judged by eye under the owner's option 1, but it should not grow.
+2. The neck still shows more than in the owner's photos. Skin-only trapezius bunching (option a) has reached what it can do without self-contacts. The rest would need the shoulder blades and collarbones to lift more (option b, skeleton), which needs an owner decision.
+3. Small crinkles remain where the top of the arm meets the trapezius.
+4. Then the pull-up dead hang.

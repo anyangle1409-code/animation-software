@@ -5,7 +5,7 @@ from pathlib import Path
 import numpy as np
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from audit_original_review_r55_hotspot_scope import (
-    dense_per_vertex_excess_mm, allowed_weight_scope, geodesic_to_patch_mm)
+    dense_per_vertex_excess_mm, allowed_weight_scope, geodesic_to_patch_mm,\n    compare_both_s7_muted_mm)
 
 
 class R55(unittest.TestCase):
@@ -17,6 +17,17 @@ class R55(unittest.TestCase):
         c=a.copy()
         c[80,0,1]=.001
         self.assertAlmostEqual(dense_per_vertex_excess_mm(b,c)[0],0.)
+
+    def test_requires_s7_muted_in_both_source_models(self):
+        base=np.zeros((161,1,3))
+        r52=base.copy()
+        r52[:,:,0]=.020
+        off41=base.copy()
+        off41[:,:,0]=.001
+        off52=base.copy()
+        off52[:,:,0]=-.019
+        self.assertAlmostEqual(compare_both_s7_muted_mm(base,off41,r52,off52),0)
+        self.assertGreater(np.linalg.norm(r52+off52-base,axis=2).max()*1000,0.9)
 
     def test_reject_incomplete_or_nonfinite_clip(self):
         a=np.zeros((161,2,3))

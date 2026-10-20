@@ -1,0 +1,52 @@
+name: ORIGINAL_v1 R55 shoulder hotspot scope audit
+'on':
+  push:
+    branches: [codex/r55-shoulder-hotspot-scope-audit-20261020]
+    paths: [.github/workflows/original-r55-hotspot-scope-20261020.yml]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  verified-read-only-scope:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install numeric dependency
+      run: sudo apt-get update && sudo apt-get install -y python3-numpy
+    - name: Focused read-only regressions
+      run: |
+        set -euo pipefail
+        mkdir -p /tmp/r55-audit
+        /usr/bin/python3 -m unittest discover -s scripts/tests -p 'test_original_review_r55_hotspot_scope.py' -v 2>&1 | tee /tmp/r55-audit/unit_tests.txt
+    - name: Download pinned native R53 capture
+      uses: actions/download-artifact@v4
+      with:
+        name: original-v1-r53-root-cause-20261019
+        run-id: 39264438580
+        github-token: ${{ github.token }}
+        path: /tmp/r55-r53
+    - name: Download pinned original R52 source
+      uses: actions/download-artifact@v4
+      with:
+        name: original-v1-r52-review
+        run-id: 39215634074
+        github-token: ${{ github.token }}
+        path: /tmp/r55-r52
+    - name: Verify hashes and map actual posterior motion hotspots to material permissions
+      run: |
+        set -euo pipefail
+        echo '2a6c01cf7eacd3d1ceb47ae9f131f76dd0487fce5d3518d5cd1df65bc059fa8d  /tmp/r55-r52/tmp/r52-response/source.npz' | sha256sum -c -
+        echo 'eaa2368df04b5e1b6bab27ed438349016348c487489c893ea0413bb6d17b784a  /tmp/r55-r53/r52/clip.npz' | sha256sum -c -
+        echo '6821e11e84ea401d12569a4df17b583bbc20366c7def969e30468e5f47d4a983  /tmp/r55-r53/r41/clip.npz' | sha256sum -c -
+        timeout 10m /usr/bin/python3 scripts/audit_original_review_r55_hotspot_scope.py --capture /tmp/r55-r53 --source /tmp/r55-r52/tmp/r52-response/source.npz --patch docs/r53_proposed_weight_investigation_patch_20261019.json --out /tmp/r55-audit/hotspot_scope.json | tee /tmp/r55-audit/summary.txt
+    - name: Retain full original results including failed diagnostics
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: original-v1-r55-shoulder-scope-20261020
+        path: /tmp/r55-audit/
+        retention-days: 14

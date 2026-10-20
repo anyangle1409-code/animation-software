@@ -51,7 +51,7 @@ def neighbour_mean(faces, nv):
     return diags(1.0 / np.maximum(deg, 1)) @ A
 
 
-def lat_fill(P, armw, wholearm, gain, depth, sigma, maxpush):
+def lat_fill(P, armw, wholearm, gain, depth, sigma, maxpush, torso_max=0.3, top=0.02):
     D = np.zeros_like(P)
     info = {}
     for k, side in enumerate("lr"):
@@ -69,9 +69,9 @@ def lat_fill(P, armw, wholearm, gain, depth, sigma, maxpush):
         if len(zz) < 4:
             continue
         b, a = np.polyfit(zz, uu, 1)
-        torso = (wholearm[k] < 0.3) & (u > 0.03)
+        torso = (wholearm[k] < torso_max) & (u > 0.03)   # R63e: torso_max 0.7 lets the shared arm/torso corner skin move
         pushes = []
-        for z0 in np.arange(za0 - depth, za0 + 0.02, 0.01):
+        for z0 in np.arange(za0 - depth, za0 + top, 0.01):   # R63e: top 0.06 fills up into the corner under the arm
             m = np.flatnonzero(torso & (z >= z0) & (z < z0 + 0.01))
             if len(m) < 3:
                 continue
@@ -103,6 +103,8 @@ def main():
     ap.add_argument("--lam", type=float, default=0.3)
     ap.add_argument("--tie", type=float, default=0.02)
     ap.add_argument("--arm-margin", type=float, default=0.008, help="R63b: keep pushed torso skin this far (m) from the arm")
+    ap.add_argument("--torso-max", type=float, default=0.3, help="R63e: skin with whole-arm weight below this may be pushed")
+    ap.add_argument("--top", type=float, default=0.02, help="R63e: fill up to this far (m) above the armpit")
     a = ap.parse_args()
     global K0
     # R63c: the first solved control follows --from; never at or below 136 deg (the marked pose uses controls 135/136)
@@ -130,12 +132,12 @@ def main():
         v = np.arange(nv)
         inc = (1 - t)[:, None] * d0[lo, v] + t[:, None] * d0[hi, v]
         P = z["base"][s] + np.einsum("nij,nj->ni", z["mat"][s], inc)
-        D, info = lat_fill(P, armw, whole, a.gain, a.depth, a.sigma, a.maxpush)
+        D, info = lat_fill(P, armw, whole, a.gain, a.depth, a.sigma, a.maxpush, a.torso_max, a.top)
         if a.arm_margin > 0 and np.abs(D).sum() > 0:
             # R63b: never push torso skin into the arm - cap each vertex's push (and its 30-pass smoothing spread) at its
             # posed distance to the nearest upper-arm skin minus --arm-margin (R63 without this: contacts 7 -> 215)
             from scipy.spatial import cKDTree
-            armpts = np.flatnonzero(np.maximum(armw[0], armw[1]) >= 0.3)
+            armpts = np.flatnonzero(np.maximum(armw[0], armw[1]) >= max(0.3, a.torso_max))
             dist, _ = cKDTree(P[armpts]).query(P, k=1)
             room = np.maximum(dist - a.arm_margin, 0.0)
             room[armpts] = 0.0
@@ -221,7 +223,7 @@ def main():
     np.savez_compressed(a.out, dense_delta=out, delta=out[SOURCE])
     metrics = {"status": "R63_IN_MEMORY_STUDY_NOT_ACCEPTED", "model_saved": False, "owner_approved": False,
                "scope_change": f"owner-approved lockout sculpt (20 Oct): controls {95 + K0}..166 re-solved in posed space; 166 released",
-               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin")},
+               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top")},
                "samples": report_s, "affected_vertices": int(len(affected)), "vertices_capped_at_45mm": capped,
                "posed_fit_max_error_mm": round(max(fit_err, default=0) * 1000, 3), "posed_fit_error_by_sample_mm": [round(e * 1000, 2) for e in fit_err],
                "max_change_from_start_mm": round(float(np.linalg.norm(out - d0, axis=2).max() * 1000), 2),

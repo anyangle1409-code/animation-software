@@ -612,3 +612,53 @@ R65g is trapezius 30 mm with taper 0.09–0.12; R65h is 25 mm with taper 0.06–
 2. The neck still shows more than in the owner's photos. Skin-only trapezius bunching (option a) has reached what it can do without self-contacts. The rest would need the shoulder blades and collarbones to lift more (option b, skeleton), which needs an owner decision.
 3. Small crinkles remain where the top of the arm meets the trapezius.
 4. Then the pull-up dead hang.
+
+## R66 (20 Oct): head widening and body pulse
+
+Owner, on R65g: "Why does the body still pulse when the arms move and why now does the head widen also?"
+
+**Measurement:** silhouette widths per frame on the review videos (rear panel, rows through the head and the upper back). The script is in the scratchpad; the method is to take the width of the lit run through the panel centre on each row.
+
+**Head widening:**
+- R65g was +10 px against R52 at the lower head over the last frames (about 20%), starting at about 150°.
+- History: R62b 0 px; R63 / R64 +5 px; R64d onward +10 px.
+- Cause: my rear-outline fill (`lat_fill`). At lockout the armpit is at head height, so the fill band (up to `--top` above the armpit, sides with u > 0.03) included the head and neck.
+- Fix: `--protect-head`. All lockout target changes are multiplied by 1 − smoothstep((z − 1.48)/0.05) × smoothstep((0.14 − |x|)/0.03), with rest-space head z ≥ 1.59 and neck z 1.51–1.61, |x| ≤ 0.11 (read from the R41 .blend).
+- Result: 0 px difference from R52.
+
+**Body pulse:**
+- The upper back under the arms narrows, widens, narrows and widens between about 118° and 166°: at row 285, 134 → 127 → 137 → 129 → 138 px, about 1.5 cm per side.
+- **R52 is identical, so this is inherited from the S7 increments.** The first dip sits on the approved marked pose.
+- Fix: `--pulse-smooth` (`scripts/shoulder_r61/pulse_smooth.py`).
+  1. Take each torso vertex's posed trajectory over the 41 main press samples.
+  2. Low-pass it in time with a second-difference penalty (β), holding samples that use only fixed controls exactly.
+  3. Batched least squares on the free controls 111–134 and 137–166.
+  - Controls 95–110 and 135/136 (the marked pose) are asserted unchanged. The step limit now also covers 111–134 with 135/136 kept.
+
+**Variants:**
+
+| Variant | Smoothed torso set | Contacts | Benchmark regressions | Row-285 width after the marked pose |
+|---|---|---|---|---|
+| R66a | z < 1.50, arm weight < 0.2, β 30 | 12 (8 new, armpit/shoulder top) | 7 | 128 → 134 → 132 → 138 |
+| R66b | same, β 100 | 28 | 10 | similar |
+| **R66c** | **z < 1.38, arm weight < 0.1, β 30** | **4 (R52 originals)** | **5** | **128 → 133 → 132 → 138 (1 px bump)** |
+| R66d | z < 1.34, arm weight < 0.05 | 4 | 5 | bounce 137 → 133 remains |
+
+**R66c gates (run 39482244424):**
+- Outline 0.95 mm (pass), early outward 0 (pass), adjacent step (pass).
+- Contacts 4, all R52 originals at samples 25 and 65.
+- Benchmark regressions 5.
+- Crease 132°.
+- Dense motion 23.4 mm and 41-pose motion 9.5 mm. These are worst-case figures not on the visible pulse; they are dominated by the lockout arm-root fill.
+- Head: 0 px difference from R52.
+- Torso second difference in the smoothed set: 8.3 → 2.6 mm.
+
+**Current best press candidate: R65g + head protection + pulse smoothing = R66c** (unsaved, not approved).
+- Media: `review-assets/shoulder_r64/R66c/`.
+- Command: the matrix entry R66c in `shoulder-r63-lockout.yml`.
+
+**Still open:**
+- The single narrowing into the approved 135.6° pose remains. Its width is locked by the approved outline.
+- Dense-motion worst case from the arm-root fill.
+- Neck exposure (skeleton option b, not authorised).
+- Then the pull-up dead hang.

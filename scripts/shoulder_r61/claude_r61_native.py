@@ -10,7 +10,16 @@ def install(res,dense,basis_unused=None):
  if np.linalg.norm(dense,axis=2).max()>.045+1e-10:raise ValueError('Dense material cap exceeded')
  # owner decision (20 Oct): the 166 deg control is released for the press; 95 and 110 stay protected
  if np.max(abs(dense[[0,15]]))>1e-12:raise ValueError('Protected95/110 increment changed')
- body,rig=res['body'],res['runtime'];blocks=body.data.shape_keys.key_blocks;rest=coords(blocks[0]);before={k.name:coords(k) for k in blocks if k.name.startswith(PREFIX)}
+ body,rig=res['body'],res['runtime'];blocks=body.data.shape_keys.key_blocks;rest=coords(blocks[0])
+ # R68 (Claude, 20 Oct): optional root-cause fix of the R41 S7 deltoid keys themselves (rear-shoulder compression rebuilt
+ # from the S7-off skin; approved R48 outline vertices pinned, outline change 0.000 mm).  Env R68_S7_SPARSE=<npz>.
+ import os
+ if os.environ.get('R68_S7_SPARSE'):
+  z=np.load(os.environ['R68_S7_SPARSE'])
+  for name in {f.split('__')[0] for f in z.files}:
+   kb=blocks[name];co=coords(kb);co[z[name+'__idx']]+=z[name+'__delta'];kb.data.foreach_set('co',co.ravel())
+  print('R68_S7_FIX_APPLIED',os.environ['R68_S7_SPARSE'],flush=True)
+ before={k.name:coords(k) for k in blocks if k.name.startswith(PREFIX)}
  interpolation=hats(DENSE,KEYS)
  for side in ('l','r'):
   old=np.array([before[f'{PREFIX}{side}_{int(ht)}'] for ht in KEYS]);baseline=rest+np.einsum('dk,knj->dnj',interpolation,old-rest);mask=rest[:,0]*(1 if side=='r' else -1)>0

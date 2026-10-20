@@ -23,6 +23,9 @@ from pathlib import Path
 import numpy as np
 
 
+ANGLES_ALL = np.arange(95.0, 167.0)
+
+
 def ht_of(t):
     k = np.clip(t, 0, 1)
     return 70.0 + 96.0 * k * k * (3 - 2 * k)
@@ -47,6 +50,10 @@ def main():
         ap.add_argument(a, required=True)
     ap.add_argument("--variant", default="a", choices=("a", "b", "c", "d"))
     ap.add_argument("--hold-from", type=float, default=145.0, help="R61 (variant d): hold the fill from this elevation to lockout")
+    ap.add_argument("--trap-mm", type=float, default=0.0, help="R62: upper-trapezius bunching peak, mm (0 = off)")
+    ap.add_argument("--trap-region", default=str(Path(__file__).resolve().parents[1] / "shoulder_r61" / "r62_upper_trap_region.npz"))
+    ap.add_argument("--trap-from", type=float, default=136.0)
+    ap.add_argument("--trap-full", type=float, default=160.0)
     ap.add_argument("--fidelity", type=float, default=1.0, help="R60 (variant c): weight of staying on R52 per frame vs smoothness")
     ap.add_argument("--envelope-mm", type=float, default=2.0)
     a = ap.parse_args()
@@ -172,11 +179,32 @@ def main():
                 unreachable += 1
                 continue
             out[:, v, c] = target[v, c] * shape
+    trap_info = None
+    scope_ok = not np.any(out[~mask])          # the S7 increments stay inside the (R61) permission, checked before R62
+    if a.trap_mm > 0:
+        # R62 (owner, 20 Oct: "there should be muscle bunching at the shoulder next to the neck in the higher position";
+        # sources: the upper trapezius is an upward rotator of the scapula and is strongly active in the overhead press,
+        # and the scapula rotates up ~48-61 deg at 150 deg of elevation): with the arms high the upper trapezius is short
+        # and contracted, so it bulges between the neck and the acromion.  Add an outward (rest-normal) swell over the
+        # model's own muscle_trap_l/r helper region, scaled by that weight, faded in by elevation (smoothstep from, default 136 deg so the approved marked pose is untouched,
+        # --trap-from to --trap-full deg).  Added on top of the R61 increments; marked pose (135.6 deg) moves only by
+        # the small fade-in amount there, which the outline gate measures.
+        tz = np.load(a.trap_region)
+        ids = tz["vertex_ids"].astype(int); w = tz["trap_weight"].astype(float); nrm = tz["rest_normal"].astype(float)
+        dpos = float(np.abs(tz["rest_position"] - rest[ids]).max() * 1000)
+        assert dpos < 1.0, f"trap region does not match the source rest mesh ({dpos:.3f} mm)"
+        k = np.clip(w / 0.35, 0, 1); k = k * k * (3 - 2 * k)
+        x = np.clip((ANGLES_ALL - a.trap_from) / (a.trap_full - a.trap_from), 0, 1); g = x * x * (3 - 2 * x)
+        g[[0, 15]] = 0.0
+        add = (a.trap_mm / 1000.0) * g[:, None, None] * (k[:, None] * nrm)[None]
+        out[:, ids, :] += add
+        trap_info = {"vertices": int(len(ids)), "peak_mm": a.trap_mm, "fade_deg": [a.trap_from, a.trap_full], "region_match_mm": round(dpos, 4),
+                     "added_at_marked_pose_mm": round(float(a.trap_mm * np.interp(135.625, ANGLES_ALL, g)), 3)}
     norms = np.linalg.norm(out, axis=2)
     capped = int((norms > 0.045).any(axis=0).sum())
     over = norms > 0.045
     out[over] *= (0.045 / norms[over])[:, None]
-    assert not np.any(out[~mask]), "scope error"
+    assert scope_ok, "scope error"
     assert not np.any(out[[0, 15] if getattr(a, "_r61", False) else [0, 15, 71]]), "protected control changed"
     marked_err = float(np.abs(np.einsum("k,knj->nj", c_mark, out) - target).max() * 1000)
     acc_old = np.abs(np.einsum("fk,knj->fnj", A2, old)).max() * 1000 * 16
@@ -184,7 +212,7 @@ def main():
     early_new = float(np.maximum((M[hts < 110.0] @ out[:, :, 0]) * side[None], 0).max() * 1000)
     Path(a.out).parent.mkdir(parents=True, exist_ok=True)
     np.savez_compressed(a.out, dense_delta=out, delta=out[SOURCE])
-    metrics = {"status": "R59_IN_MEMORY_STUDY_NOT_ACCEPTED", "variant": a.variant, "envelope_mm": a.envelope_mm if a.variant == "b" else None, "fidelity": a.fidelity if a.variant == "c" else None, "r61_released_166_hold_from": (a.hold_from if getattr(a, "_r61", False) else None),
+    metrics = {"status": "R59_IN_MEMORY_STUDY_NOT_ACCEPTED", "variant": a.variant, "envelope_mm": a.envelope_mm if a.variant == "b" else None, "fidelity": a.fidelity if a.variant == "c" else None, "r61_released_166_hold_from": (a.hold_from if getattr(a, "_r61", False) else None), "r62_upper_trap": trap_info,
                "active_set_iterations_max": (int(max(iters_hist)) if a.variant == "b" and iters_hist else None), "model_saved": False, "owner_approved": False,
                "material_scope_expanded": bool(getattr(a, "_r61", False)), "scope_change": ("release of the 166 deg S7 control requested by the owner (20 Oct); installed by Claude's R61 installer copy (scripts/shoulder_r61/claude_r61_native.py)" if getattr(a, "_r61", False) else None), "permission_patterns": len(cache),
                "unreachable_vertex_coords_kept_zero": unreachable, "vertices_capped_at_45mm": capped,

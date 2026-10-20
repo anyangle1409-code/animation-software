@@ -184,3 +184,38 @@ R57 only moved the maximum from 118° to 125°.
 4. **R59's renders** (`visuals/R57_local_study/*` in artifact `original-v1-r59-min-accel-study-20261020`, run 39421297091; the folder name comes from the reused R57 render step) should go to the owner next to R52's, at t = 0.625 and t = 0.8. **Download them from the GitHub web UI**; this container cannot download them.
 
 **Everything is on `claude/home-gym-pt-animation-txux66`.** Read-only diagnostics and unsaved studies only; nothing merged; no model saved; Work's branches untouched.
+
+## Owner review of R59, and R60 (run 39424412374)
+
+**Owner, on the R59 video:** "Something looks wrong … from 148 to 166 degrees you can see the weird deformation at the armpits. It then goes from being correct to having a bit of a dip in between instead of flowing arm into body." They also asked whether the press must end at 166°.
+
+**Diagnosis:**
+- **R59's crumple** at 145–156°: R59 replaced each vertex's R52 profile with one smooth shape scaled to the marked pose. After 136° it stopped following R52, and vertices with no marked-pose increment lost their correction entirely.
+- **The 148–166° dip in every version (R52/R57/R59/R60):** the 166° S7 control is a protected zero, held at the pre-R47 lockout shape. So the ~35 mm R47 arm-into-body fill must drain away between ~148° and 166°, and the armpit dips as it does.
+- **This is a scope limit, not a timing problem.**
+
+**R60 = smoothing R52 instead of replacing it** (`generate_r59_min_accel.py --variant c --fidelity f`):
+- per vertex: minimum frame acceleration plus a per-frame fidelity term to R52;
+- the marked pose held exactly;
+- controls ≤ 110° zero.
+
+| Gate | R52 | R60 f = 0.03 | R60 f = 0.3 | Limit |
+|---|---|---|---|---|
+| Marked outline | 0.95 mm | 0.95 mm | 0.95 mm | 1 mm |
+| Dense 161 motion | 40.6 mm | **9.25 mm** | 17.4 mm | 0.5 mm |
+| Early outward | 0.62 mm | **0.0002 mm (passes)** | 0.0002 mm (passes) | 0.05 mm |
+| Contacts (83 poses) | 7 | 7 | 7 | 0 |
+| Reversed normals in the marked pose | 6 | 6 | 6 | 0 |
+| Crease | 142° | 137° | 141° | 2° |
+| Original 41-pose motion | — | 3.60 mm | 3.10 mm | 0.5 mm |
+| Benchmark regressions | 6 | 6 | 6 | 0 |
+
+- **Visual:** R60 f = 0.03 is no worse than R52 at 145/156°. R59's crumple is gone.
+- **Media:** `review-assets/shoulder_r60/r60_fid0.03/` and `r60_fid0.3/`.
+- **Still failing:** R60 keeps R52's 7 contacts and 6 reversed normals, and it still has the 148–166° dip.
+
+**Pending owner decision (asked on 20 Oct):**
+- **Option 1 (recommended):** release the protected 166° control, letting the R47 arm-into-body flow continue to lockout. Re-solve R60 with control 71 free, holding the marked pose. Per R58, releasing 166° also lowers the motion bound.
+- **Option 2:** end the press earlier (~150–155°) instead.
+
+**Do not release the 166° control without the owner's explicit yes.**

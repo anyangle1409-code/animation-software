@@ -1,4 +1,4 @@
-name: ORIGINAL_v1 R66a close-ups (head protected, torso pulse smoothing), armpit close-ups (Claude)
+name: ORIGINAL_v1 R66c close-ups (head protected, torso pulse smoothing below the armpits), armpit close-ups (Claude)
 'on':
   push:
     branches: [claude/home-gym-pt-animation-txux66]
@@ -17,7 +17,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - {v: R66a, trap: 30, taper: '0.09,0.12', extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --step-limit 0.0029 --root-mm 25 --root-whole-back --lat-bulge 0.015 --root-smooth 40 --root-relax --protect-head --pulse-smooth --pulse-beta 30'}
+        - {v: R66c, trap: 30, taper: '0.09,0.12', extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --step-limit 0.0029 --root-mm 25 --root-whole-back --lat-bulge 0.015 --root-smooth 40 --root-relax --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1'}
     timeout-minutes: 120
     env:
       LIBGL_ALWAYS_SOFTWARE: '1'

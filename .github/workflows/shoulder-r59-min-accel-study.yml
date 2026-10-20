@@ -1,0 +1,142 @@
+name: ORIGINAL_v1 R59 unsaved minimum-acceleration S7 study (Claude)
+'on':
+  push:
+    branches: [claude/home-gym-pt-animation-txux66]
+    paths: [.github/workflows/shoulder-r59-min-accel-study.yml, scripts/shoulder_r58/generate_r59_min_accel.py]
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: original-v1-r59-unsaved-study
+  cancel-in-progress: false
+jobs:
+  native-reversible-local-study:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      LIBGL_ALWAYS_SOFTWARE: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    defaults:
+      run:
+        shell: bash
+    steps:
+    - name: Check out the pinned R57 study sources (all gates run unchanged from here)
+      uses: actions/checkout@v4
+      with:
+        ref: 025d5f28fa7eba2064fba565b1c9b60119cdd2cb
+    - name: Check out the R59 generator (Claude branch)
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.sha }}
+        path: r59src
+    - name: Install numeric and headless renderer dependencies
+      run: sudo apt-get update && sudo apt-get install -y libegl1 libgl1-mesa-dri xvfb python3-numpy python3-scipy fonts-dejavu-core
+    - name: Install pinned native Blender 5.2.1
+      run: |
+        set -euo pipefail
+        curl --fail --location --retry 3 https://download.blender.org/release/Blender5.2/blender-5.2.1-linux-x64.tar.xz --output /tmp/blender.tar.xz
+        echo 'a31f524fa99a527d3d52b7f5aaa68c34e1a19d5a1c9473f79c5cc610fd5b10e9  /tmp/blender.tar.xz' | sha256sum -c -
+        tar -xJf /tmp/blender.tar.xz -C /tmp
+    - name: Download immutable R52 rejected study
+      uses: actions/download-artifact@v4
+      with:
+        name: original-v1-r52-review
+        run-id: 39215634074
+        github-token: ${{ github.token }}
+        path: /tmp/r52-parent
+    - name: Download immutable R56 permission certificate
+      uses: actions/download-artifact@v4
+      with:
+        name: original-v1-r56-per-control-20261020
+        run-id: 39409903836
+        github-token: ${{ github.token }}
+        path: /tmp/r56-prerequisite
+    - name: Hash verify and run local S7 diagnostic tests
+      run: |
+        set -euo pipefail
+        mkdir -p /tmp/r57
+        cp /tmp/r52-parent/tmp/r52-response/source.npz /tmp/r57/source.npz
+        cp /tmp/r52-parent/tmp/r52-response/solved.npz /tmp/r57/original_r52.npz
+        echo '2a6c01cf7eacd3d1ceb47ae9f131f76dd0487fce5d3518d5cd1df65bc059fa8d  /tmp/r57/source.npz' | sha256sum -c -
+        echo 'b3a6c404a944753facde5a92db8bc4547a1ca756960b6b82df2875f5e4eb804f  /tmp/r57/original_r52.npz' | sha256sum -c -
+        echo '4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e  ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r41_20261017/HGPT_ORIGINAL_V1_REVIEW_R41_CODEX.blend' | sha256sum -c -
+        /usr/bin/python3 -m unittest discover -s scripts/tests -p 'test_original_review_r57_local_temporal.py' -v 2>&1 | tee /tmp/r57/unit_tests.txt
+    - name: Generate the R59 minimum-acceleration candidate (unsaved)
+      run: |
+        set +e
+        timeout 10m /usr/bin/python3 r59src/scripts/shoulder_r58/generate_r59_min_accel.py --r57src . --response /tmp/r57/source.npz --solution /tmp/r57/original_r52.npz --out /tmp/r57/candidate.npz > /tmp/r57/generate.log 2>&1
+        code=$?
+        echo "$code" > /tmp/r57/generate_exit.txt
+        tail -25 /tmp/r57/generate.log
+        exit "$code"
+    - name: Repeat unchanged 161-native motion and early outward safety
+      run: |
+        set +e
+        timeout 14m /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/measure_original_review_r52_dense_motion_blender.py -- /tmp/r57/source.npz /tmp/r57/candidate.npz /tmp/r57/dense_motion.json > /tmp/r57/dense.log 2>&1
+        code=$?
+        echo "$code" > /tmp/r57/dense_exit.txt
+        tail -12 /tmp/r57/dense.log
+        exit 0
+    - name: Repeat original 83-native contact, area, orientation and affine checks
+      if: success() || failure()
+      run: |
+        set +e
+        timeout 22m /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/detect_original_review_r52_contacts_blender.py -- /tmp/r57/source.npz /tmp/r57/candidate.npz /tmp/r57/native_final.json > /tmp/r57/native.log 2>&1
+        code=$?
+        echo "$code" > /tmp/r57/native_exit.txt
+        tail -15 /tmp/r57/native.log
+        exit 0
+    - name: Repeat unchanged 13 movement benchmarks
+      if: success() || failure()
+      run: |
+        set +e
+        timeout 10m /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/validate_original_review_r52_benchmarks_blender.py -- /tmp/r57/source.npz /tmp/r57/candidate.npz /tmp/r57/benchmarks.json > /tmp/r57/benchmarks.log 2>&1
+        code=$?
+        echo "$code" > /tmp/r57/benchmarks_exit.txt
+        tail -12 /tmp/r57/benchmarks.log
+        exit 0
+    - name: Run original additional actual-native R52 tests unchanged
+      if: success() || failure()
+      run: |
+        set +e
+        HGPT_R52_REPORT_DIR=/tmp/r57 HGPT_R52_RESPONSE=/tmp/r57/source.npz /usr/bin/python3 scripts/tests/test_original_review_r52_actual_native.py -v > /tmp/r57/unchanged_native_tests.log 2>&1
+        code=$?
+        echo "$code" > /tmp/r57/unchanged_native_tests_exit.txt
+        tail -22 /tmp/r57/unchanged_native_tests.log
+        exit 0
+    - name: Render matched actual R52 comparison views without saving source
+      if: success() || failure()
+      run: |
+        set +e
+        timeout 10m xvfb-run -a /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/render_original_review_r57_local_blender.py -- /tmp/r57/source.npz /tmp/r57/original_r52.npz /tmp/r57/visuals R52_original > /tmp/r57/R52_original_render.log 2>&1
+        code=$?
+        echo "$code" > /tmp/r57/R52_original_render_exit.txt
+        tail -10 /tmp/r57/R52_original_render.log
+        exit 0
+    - name: Render matched actual R57 candidate views without saving source
+      if: success() || failure()
+      run: |
+        set +e
+        timeout 10m xvfb-run -a /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/render_original_review_r57_local_blender.py -- /tmp/r57/source.npz /tmp/r57/candidate.npz /tmp/r57/visuals R57_local_study > /tmp/r57/R57_local_study_render.log 2>&1
+        code=$?
+        echo "$code" > /tmp/r57/R57_local_study_render_exit.txt
+        tail -10 /tmp/r57/R57_local_study_render.log
+        exit 0
+    - name: Produce honest negative or positive evidence ledger
+      if: success() || failure()
+      run: |
+        set +e
+        /usr/bin/python3 scripts/report_original_review_r57_local.py /tmp/r57 > /tmp/r57/result.log 2>&1
+        code=$?
+        echo "$code" > /tmp/r57/report_exit.txt
+        tail -80 /tmp/r57/result.log
+        exit 0
+    - name: Preserve all attempted tests, failures and genuine renders
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: original-v1-r59-min-accel-study-20261020
+        path: /tmp/r57/
+        retention-days: 30

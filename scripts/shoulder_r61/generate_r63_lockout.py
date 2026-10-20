@@ -193,6 +193,11 @@ def main():
     ap.add_argument("--root-whole-back", action="store_true", help="R65c: inflate the whole back half of the arm-root ring (rear deltoid too)")
     ap.add_argument("--root-smooth", type=int, default=0, help="R65e: smoothing passes for the arm-root normals and push")
     ap.add_argument("--root-relax", action="store_true", help="R65e: run the outward-only relax over the arm-root region too")
+    ap.add_argument("--protect-head", action="store_true", help="R66: no lockout change on the head and neck (owner: head widens)")
+    ap.add_argument("--pulse-smooth", action="store_true", help="R66: temporal torso smoothing over the press (owner: body pulses)")
+    ap.add_argument("--pulse-beta", type=float, default=30.0)
+    ap.add_argument("--pulse-lam", type=float, default=0.3)
+    ap.add_argument("--pulse-tie", type=float, default=0.02)
     ap.add_argument("--step-limit", type=float, default=0.0, help="R64j: smooth solved control curves until adjacent steps <= this (m)")
     ap.add_argument("--hull", action="store_true", help="R64b: fill the rear outline to its outward convex envelope")
     ap.add_argument("--fold", action="store_true", help="R64: sculpt the posterior axillary fold (outward-only relax)")
@@ -218,6 +223,13 @@ def main():
     assert dpos < 1.0, f"arm weight file does not match the source rest mesh ({dpos:.3f} mm)"
     armw = arm["upperarm_weight"].astype(float); whole = arm["whole_arm_weight"].astype(float)
     Avg = neighbour_mean(faces, nv)
+    if a.protect_head:
+        # R66: the rear-outline fill pushed the sides of the head/neck out at lockout (armpit at head height): +10 px head
+        # width on the review video from R64d on.  Head vertices rest at z >= 1.59, |x| <= 0.08; neck z 1.51-1.61, |x| <= 0.11.
+        hn = smoothstep((rest[:, 2] - 1.48) / 0.05) * smoothstep((0.14 - np.abs(rest[:, 0])) / 0.03)
+        protect = 1.0 - hn
+    else:
+        protect = np.ones(nv)
     root_w = root_region(rest, armw, Avg, whole_back=a.root_whole_back) if a.root_mm > 0 else None
     fold_w = fold_region(rest, [float(c) for c in a.fold_centre.split(",")], a.fold_radius) if a.fold else None
 
@@ -286,6 +298,7 @@ def main():
             Df = fold_fill(P + D, faces, Avg, fw, a.fold_iters, a.fold_step, a.fold_max) * ramp
             D = D + Df
             fold_mm = float(np.linalg.norm(Df, axis=1).max() * 1000)
+        D *= protect[:, None]
         targets[s] = (P, D)
         report_s.append({"sample": s, "ht_deg": round(float(sample_ht[s]), 2), "ramp": round(float(ramp), 3), "sides": info,
                          "max_fold_push_mm": round(fold_mm, 2), "max_root_push_mm": round(root_max, 2),
@@ -387,26 +400,37 @@ def main():
         inc = (1 - t)[affected, None] * out[lo[affected], affected] + t[affected, None] * out[hi[affected], affected]
         Pn = z["base"][s][affected] + np.einsum("nij,nj->ni", z["mat"][s][affected], inc)
         fit_err.append(float(np.linalg.norm(Pn - (P[affected] + D[affected]), axis=1).max()))
+    pulse_report = None
+    if a.pulse_smooth:
+        import pulse_smooth
+        torso_ids = np.flatnonzero((whole.max(axis=0) < 0.2) & (rest[:, 2] > 1.0) & (rest[:, 2] < 1.50))
+        out, pulse_report = pulse_smooth.run(z, decode, out, torso_ids, a.pulse_beta, a.pulse_lam, a.pulse_tie, 0.5)
+        print("R66_PULSE", json.dumps(pulse_report), flush=True)
     step_log = {}
     if a.step_limit > 0:
         # R64j: the gate limits the change between adjacent one-degree controls (3 mm).  Where a vertex's solved curve
         # over controls K0-1..166 steps more than --step-limit, relax only that vertex's curve in time ([1,2,1]/4 on the
         # free controls; K0-1 stays fixed, 166 is pulled half-way to 165) until it is under the limit.
+        # R66: with --pulse-smooth the free range starts at 111 deg (index 16); 135/136 (40/41) stay fixed
+        lo_k = 16 if a.pulse_smooth else K0
+        keep = [40, 41] if a.pulse_smooth else []
+
         def worst(o):
-            st = np.linalg.norm(np.diff(o[K0 - 1:K1 + 1], axis=0), axis=2)    # (nk, nv)
-            return st
+            return np.linalg.norm(np.diff(o[lo_k - 1:K1 + 1], axis=0), axis=2)    # (nk, nv)
         st = worst(out); k_, v_ = np.unravel_index(np.argmax(st), st.shape)
         step_log["before_mm"] = round(float(st.max() * 1000), 3)
-        step_log["before_at"] = {"controls": [int(95 + K0 - 1 + k_), int(95 + K0 + k_)], "rest": np.round(rest[v_], 3).tolist()}
+        step_log["before_at"] = {"controls": [int(95 + lo_k - 1 + k_), int(95 + lo_k + k_)], "rest": np.round(rest[v_], 3).tolist()}
         it = 0
-        while it < 2000:
+        while it < 3000:
             bad = np.flatnonzero(worst(out).max(axis=0) > a.step_limit)
             if not len(bad):
                 break
-            c = out[K0 - 1:K1 + 1][:, bad].copy()
+            c = out[lo_k - 1:K1 + 1][:, bad].copy()
             c[1:-1] = 0.25 * c[:-2] + 0.5 * c[1:-1] + 0.25 * c[2:]
             c[-1] = 0.5 * c[-1] + 0.5 * c[-2]
-            out[K0:K1 + 1, bad] = c[1:]
+            for kf in keep:
+                c[kf - (lo_k - 1)] = out[kf, bad]
+            out[lo_k:K1 + 1, bad] = c[1:]
             it += 1
         step_log.update({"iterations": it, "after_mm": round(float(worst(out).max() * 1000), 3)})
         print("R64_STEP", json.dumps(step_log), flush=True)
@@ -415,17 +439,20 @@ def main():
     over = norms > 0.045
     out[over] *= (0.045 / norms[over])[:, None]
     assert not np.any(out[[0, 15]]), "protected 95/110 control changed"
-    assert np.array_equal(out[:K0], d0[:K0]), "controls below the solved range (incl. the marked pose) must be untouched"
+    if a.pulse_smooth:
+        assert np.array_equal(out[:16], d0[:16]) and np.array_equal(out[40:42], d0[40:42]), "95..110 and the marked pose's 135/136 must be untouched"
+    else:
+        assert np.array_equal(out[:K0], d0[:K0]), "controls below the solved range (incl. the marked pose) must be untouched"
     from original_review_r52_temporal import SOURCE
     np.savez_compressed(a.out, dense_delta=out, delta=out[SOURCE])
     metrics = {"status": "R63_IN_MEMORY_STUDY_NOT_ACCEPTED", "model_saved": False, "owner_approved": False,
                "scope_change": f"owner-approved lockout sculpt (20 Oct): controls {95 + K0}..166 re-solved in posed space; 166 released",
-               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top", "include_bench", "guard_bench", "guard_weight", "guard_iters", "step_limit", "lat_bulge", "lat_bulge_span", "root_mm", "root_whole_back", "root_smooth", "root_relax", "hull", "fold", "fold_centre", "fold_radius", "fold_iters", "fold_step", "fold_max")},
+               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top", "include_bench", "guard_bench", "guard_weight", "guard_iters", "step_limit", "lat_bulge", "lat_bulge_span", "protect_head", "pulse_smooth", "pulse_beta", "pulse_lam", "pulse_tie", "root_mm", "root_whole_back", "root_smooth", "root_relax", "hull", "fold", "fold_centre", "fold_radius", "fold_iters", "fold_step", "fold_max")},
                "samples": report_s, "affected_vertices": int(len(affected)), "vertices_capped_at_45mm": capped,
                "posed_fit_max_error_mm": round(max(fit_err, default=0) * 1000, 3), "posed_fit_error_by_sample_mm": [round(e * 1000, 2) for e in fit_err],
                "max_change_from_start_mm": round(float(np.linalg.norm(out - d0, axis=2).max() * 1000), 2),
                "max_adjacent_control_mm": oscillation(out)["maximum_adjacent_mm"],
-               "arm_file_match_mm": round(dpos, 4), "step_limit": step_log, "guard_new_pins_per_iteration": guard_log}
+               "arm_file_match_mm": round(dpos, 4), "step_limit": step_log, "pulse": pulse_report, "guard_new_pins_per_iteration": guard_log}
     Path(a.out + ".json").write_text(json.dumps(metrics, indent=2) + "\n")
     print("R63_GENERATOR", json.dumps({k: v for k, v in metrics.items() if k != "samples"}))
 

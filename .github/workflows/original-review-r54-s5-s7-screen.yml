@@ -1,4 +1,5 @@
 name: ORIGINAL_v1 R54 shoulder S5-S7 read-only screen
+# R52 normalization compares the magnitudes of second differences, not their vector difference.
 'on':
   push:
     branches: [codex/r54-shoulder-corrective-interaction-screen-20261020]

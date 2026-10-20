@@ -54,6 +54,7 @@ def main():
     ap.add_argument("--trap-region", default=str(Path(__file__).resolve().parents[1] / "shoulder_r61" / "r62_upper_trap_region.npz"))
     ap.add_argument("--trap-from", type=float, default=136.0)
     ap.add_argument("--trap-full", type=float, default=160.0)
+    ap.add_argument("--trap-neck-taper", default="", help="R63d: 'x0,x1' (m from midline): no swell inside x0, full from x1")
     ap.add_argument("--fidelity", type=float, default=1.0, help="R60 (variant c): weight of staying on R52 per frame vs smoothness")
     ap.add_argument("--envelope-mm", type=float, default=2.0)
     a = ap.parse_args()
@@ -194,11 +195,16 @@ def main():
         dpos = float(np.abs(tz["rest_position"] - rest[ids]).max() * 1000)
         assert dpos < 1.0, f"trap region does not match the source rest mesh ({dpos:.3f} mm)"
         k = np.clip(w / 0.35, 0, 1); k = k * k * (3 - 2 * k)
+        if a.trap_neck_taper:
+            # R63d: the swell folded into itself right beside the neck (R63c: 85 trapezius self-contacts at |x| 7-9 cm,
+            # z 1.58-1.60, samples 32-40); taper it to zero there so the bunching sits on the shoulder top, not the neck
+            n0, n1 = (float(x) for x in a.trap_neck_taper.split(","))
+            q = np.clip((np.abs(rest[ids, 0]) - n0) / (n1 - n0), 0, 1); k = k * q * q * (3 - 2 * q)
         x = np.clip((ANGLES_ALL - a.trap_from) / (a.trap_full - a.trap_from), 0, 1); g = x * x * (3 - 2 * x)
         g[[0, 15]] = 0.0
         add = (a.trap_mm / 1000.0) * g[:, None, None] * (k[:, None] * nrm)[None]
         out[:, ids, :] += add
-        trap_info = {"vertices": int(len(ids)), "peak_mm": a.trap_mm, "fade_deg": [a.trap_from, a.trap_full], "region_match_mm": round(dpos, 4),
+        trap_info = {"vertices": int(len(ids)), "peak_mm": a.trap_mm, "neck_taper_m": a.trap_neck_taper, "fade_deg": [a.trap_from, a.trap_full], "region_match_mm": round(dpos, 4),
                      "added_at_marked_pose_mm": round(float(a.trap_mm * np.interp(135.625, ANGLES_ALL, g)), 3)}
     norms = np.linalg.norm(out, axis=2)
     capped = int((norms > 0.045).any(axis=0).sum())

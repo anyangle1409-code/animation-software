@@ -349,3 +349,23 @@ The owner chose to keep 15 mm and fix what it hits.
 **R63c parameters:** `--from 137 --full 156 --gain 0.5 --sigma 0.08 --smooth 80`.
 - The ramp now starts at 137°: the first solved control is 137, while 135/136 (the marked pose) stay untouched.
 - It gives a wider, gentler, smoother push.
+
+### R63c result (run 39442313870; media in `review-assets/shoulder_r63/`)
+
+| Gate | R63c | R60 | Limit |
+|---|---|---|---|
+| Outline | 0.95 mm | 0.95 mm | 1 mm |
+| Dense motion | **9.25 mm** | 9.25 mm | 0.5 mm |
+| Early outward | 0 | 0 | 0.05 mm |
+| 41-pose motion | 3.60 mm | 3.60 mm | 0.5 mm |
+| Benchmark regressions | **6** | 6 | 0 |
+| Contacts | 106 | 7 | 0 |
+| Crease | 173° | 137° | 2° |
+
+**Contact locations** (`contacts_where.txt`):
+- **85 are trapezius self-contacts:** the 15 mm swell folds into itself beside the neck (|x| 7–9 cm, z 1.58–1.60), samples 32–40.
+- **21 are posterior-armpit torso contacts** (around (−0.17, 0.07, 1.40)), including R52's original 7 (triangle 10855 vs 22184–22187).
+
+**Visual:** the owner's circled dip is filled with a straight, smooth arm-into-body line at 156/166° (`R52_vs_R63c_armpit_156_166.jpg`), and it is smoother than R63.
+
+**R63d:** taper the trapezius swell to zero within 9 cm of the midline, full from 12 cm (`--trap-neck-taper 0.09,0.12`).

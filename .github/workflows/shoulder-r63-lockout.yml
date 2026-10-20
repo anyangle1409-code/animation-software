@@ -1,4 +1,4 @@
-name: ORIGINAL_v1 R63c unsaved press study, gentler wider lockout sculpt (Claude)
+name: ORIGINAL_v1 R63d unsaved press study, lockout sculpt and neck-tapered trapezius (Claude)
 'on':
   push:
     branches: [claude/home-gym-pt-animation-txux66]
@@ -54,7 +54,7 @@ jobs:
     - name: Generate R62b start, then the R63 lockout sculpt (unsaved)
       run: |
         set +e
-        timeout 10m /usr/bin/python3 r59src/scripts/shoulder_r58/generate_r59_min_accel.py --r57src . --response /tmp/r57/source.npz --solution /tmp/r57/original_r52.npz --out /tmp/r57/start_r62b.npz --variant c --fidelity 0.03 --trap-mm 15 > /tmp/r57/generate.log 2>&1 && timeout 30m /usr/bin/python3 r59src/scripts/shoulder_r61/generate_r63_lockout.py --r57src . --response /tmp/r57/source.npz --start /tmp/r57/start_r62b.npz --out /tmp/r57/candidate.npz --from 137 --full 156 --gain 0.5 --sigma 0.08 --smooth 80 >> /tmp/r57/generate.log 2>&1
+        timeout 10m /usr/bin/python3 r59src/scripts/shoulder_r58/generate_r59_min_accel.py --r57src . --response /tmp/r57/source.npz --solution /tmp/r57/original_r52.npz --out /tmp/r57/start_r62b.npz --variant c --fidelity 0.03 --trap-mm 15 --trap-neck-taper 0.09,0.12 > /tmp/r57/generate.log 2>&1 && timeout 30m /usr/bin/python3 r59src/scripts/shoulder_r61/generate_r63_lockout.py --r57src . --response /tmp/r57/source.npz --start /tmp/r57/start_r62b.npz --out /tmp/r57/candidate.npz --from 137 --full 156 --gain 0.5 --sigma 0.08 --smooth 80 >> /tmp/r57/generate.log 2>&1
         code=$?; echo "$code" > /tmp/r57/generate_exit.txt; grep -E 'R63_|R59_GENERATOR|Error|Trace' /tmp/r57/generate.log | tail -30; exit "$code"
     - name: Gate - 161-pose motion and early outward (copy using the R61 installer)
       run: |
@@ -94,7 +94,7 @@ jobs:
         R61_INSTALLER=1 xvfb-run -a /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python r59src/scripts/shoulder_r58/render_press_sequence_blender.py -- "$PWD" /tmp/r57/source.npz /tmp/r57/candidate.npz /tmp/seq R63 40 > /tmp/r57/seq_R63.log 2>&1
         echo $? > /tmp/r57/R57_local_study_render_exit.txt
         tail -2 /tmp/r57/seq_R52.log /tmp/r57/seq_R63.log
-        python3 r59src/scripts/shoulder_r58/compose_review_media.py /tmp/seq /tmp/media/r63 40 R63 "R63c (gentler lockout sculpt + 15 mm trapezius)"
+        python3 r59src/scripts/shoulder_r58/compose_review_media.py /tmp/seq /tmp/media/r63 40 R63 "R63d (lockout sculpt + 15 mm trapezius, neck-tapered)"
         exit 0
     - name: Evidence ledger (Work's report script, unchanged)
       if: success() || failure()

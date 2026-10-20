@@ -110,7 +110,13 @@ R57 only moved the maximum from 118° to 125°.
    - **(b) Release the protected 110°/166° zeros:** bound ≥ 0.57 mm, still above the guard.
    - **(c) A smaller marked-pose offset:** changes the approved R47 silhouette.
    - **(d) A non-S7 mechanism:** weights or a helper deformer. Needs a new scope approval; R53's evidence on the weight gradient applies.
-2. **R59 = the minimum-acceleration S7 profile.** It is within the existing S7 permission and was not yet built. For every vertex:
+2. **R59 = the minimum-acceleration S7 profile.** It is within the existing S7 permission. **It has now been built and launched:**
+   - generator: `scripts/shoulder_r58/generate_r59_min_accel.py`;
+   - workflow: `.github/workflows/shoulder-r59-min-accel-study.yml`, which runs the pinned R57 sources' gates unchanged;
+   - run: 39421297091;
+   - artifact: `original-v1-r59-min-accel-study-20261020`.
+
+   The results are recorded below once read. The original plan: For every vertex:
    - **Objective:** minimise the sum of squared frame second differences of the increment along the 161-frame press. Use quadratic least squares, not the L∞ of the LP: it is linear in the target, so spatially smooth targets give spatially smooth profiles.
    - **Hold:** the R52 value at t = 0.625 exactly (outline unchanged); 0 at controls 95/110/166 and at every control the R52/R47 `allowed_dense` mask forbids for that vertex.
    - **Limits:** outward ≤ 0.05 mm before 110° (clamp, then re-solve); the 45 mm cap.

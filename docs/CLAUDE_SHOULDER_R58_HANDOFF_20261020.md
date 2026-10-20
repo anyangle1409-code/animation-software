@@ -700,3 +700,65 @@ Owner, on R65g: "Why does the body still pulse when the arms move and why now do
 | R67c | R65g's 30 mm trapezius + ring + relax | |
 
 Gates for R67d/e are running in `shoulder-r63-lockout.yml`.
+
+## R68 (20 Oct): root cause of the rear shoulder / armpit deformation
+
+**Owner brief:** fix the cause, not the look. The illustration is guidance only. Test the full range, all views, both sides and arm rotations; give before/after renders and numbers; don't mark it complete until the tests pass.
+
+**Method:** local bpy on Work's immutable R41 rig (sha-checked). Script: `scripts/shoulder_r68/diagnose_shoulder_skinning_blender.py`.
+- Poses: 0°, 45° (coupled arm raise); 90°, 120°, 135.6°, 156°, 166° (press path v4).
+- Metrics per side, on the shoulder region and its rear half:
+  - triangle area ratio posed/rest: pinched < 0.5, stretched > 1.8;
+  - folds: adjacent faces more than 100° apart;
+  - self-intersections (BVH);
+  - whole-body volume;
+  - left/right mirror asymmetry.
+- Results: `review-assets/shoulder_r68/local_r41/`.
+
+**Cause, layer by layer:**
+
+| Layer | Finding |
+|---|---|
+| Skeleton / joint motion | At or above the literature range (clavicle +35°, scapula 60° at lockout; see R67). Not the cause. Unchanged. |
+| Skinning method | One Armature modifier, linear blend (Preserve Volume off). Raw linear skinning loses rear-shoulder area above about 90° (rear pinched 38 → 159 from 90° to 166°). Dual-quaternion skinning keeps the area but over-inflates the whole shoulder (+9.6% body volume at 166°). |
+| **Corrective keys** | **The S7 deltoid family (HGPT_S7_DELT_*) compresses the posterior deltoid / posterior axillary fold.** Rear triangles < 50% area: current 425 → **63** with only S7 off at 135.6°; 375 → 109 at 156°. S1/S3/S5/H1/C1 change it little (`r68_family_ablation.json`). The pinched triangles' rest centroid is (0.234, 0.07, 1.49): the back of the shoulder cap. |
+| Topology | Not changed. Crinkles in the posterior axilla remain in every configuration, so edge flow there may also matter (not yet tested). |
+
+The approved R48 outline is measured only in the ±x and (±x, −y)/√2 directions, so the rear surface is free to change without touching it.
+
+**Fix at the source:** `scripts/shoulder_r68/rear_restore_s7_blender.py`, applied to each S7 key at its own elevation, both sides:
+1. Laplacian editing of the rear-shoulder region: surface detail from the S7-off skin, boundary from the current skin.
+2. Every approved-outline support vertex (Work's `silhouette()`) and its one-ring are pinned.
+3. A smooth weight centred on the measured pinch (r 0.10 m).
+4. The result is mapped back to rest-space key offsets through each vertex's exact skinning matrix (probe key).
+5. Output: sparse deltas in `scripts/shoulder_r68/data/r68{d,e}_s7_rear_restore.npz`. Claude's installer applies them with `R68_S7_SPARSE` before the dense increments.
+
+**Variant results (local R41, right side; left matches):**
+
+| Variant | Rear pinched, 120 / 135.6 / 156 / 166° | New folds / self-intersections | Outline change |
+|---|---|---|---|
+| current | 415 / 425 / 375 / 480 | — | — |
+| R68a (hard region) | 40 / 59 / 91 / 113 | folds +6–8, self-intersections up to 13 → **rejected** (crease at the shoulder top) | |
+| R68d (blend 1.0, weight) | 196 / 203 / 162 / 237 | 0 | 0.000 mm |
+| **R68e (blend 0.7)** | **241 / 248 / 202 / 311** | **0** | **0.000 mm** |
+| R68f (ARAP to rest) | 180 / 193 / 146 / 192 | 0, but buckles into a sharp flap visually → **rejected** | |
+
+- Rotation robustness (humeral axial ±30° at 90° / 120° / 156°): R68e lowers rear pinch 35–45% at 120° and 156° in every rotation, with no new self-intersections (1 at 156°/+30°) and symmetric sides.
+- 90°: unchanged, since S7 starts at 110°. The remaining 90° pinch comes from linear skinning plus S1/S5 (open item).
+
+**In the press candidate (CI, on R67b):**
+- R68d gives a distinct ball-like rear deltoid with a groove: an artificial bulge.
+- R68e is softer: a rounded rear deltoid mass, but still lumpy, with crinkles in the posterior axilla.
+- Reason: the S7-off reference skin carries linear-skinning bulge shapes of its own.
+- Gates for R68d/e are running in `shoulder-r63-lockout.yml`.
+
+**Not complete:**
+- **Visual:** the rear deltoid is a lump rather than a smooth taper into the arm.
+- **Crinkles:** remain in the posterior axilla.
+- **At 90°:** the pinch is untouched.
+- **Gates:** contacts, motion, benchmark and crease still need confirming on R68.
+
+**Next options:**
+- (a) A per-vertex linear/dual-quaternion skinning blend in the shoulder only (multi-modifier), as the volume source instead of the S7-off skin, with outline re-pinning.
+- (b) Re-author the S7 keys with an explicit rest-area constraint plus smoothness (constrained Laplacian), which avoids both the bulge and the ARAP buckling.
+- (c) A topology/edge-flow check of the posterior axilla.

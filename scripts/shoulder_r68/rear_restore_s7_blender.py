@@ -34,6 +34,8 @@ ROOT = Path(args[0]).resolve(); OUT = Path(args[1])
 RADIUS = float(args[2]) if len(args) > 2 else 0.15
 BLEND = float(args[3]) if len(args) > 3 else 1.0           # 1 = full B detail on R; <1 mixes with P's own detail
 CORE_R = float(args[4]) if len(args) > 4 else 0.0          # R68b: >0 = smooth falloff (m) around the rear deltoid / posterior fold
+MODE = args[5] if len(args) > 5 else "laplacian"            # R68f: "arap" = as-rigid-as-possible to the REST skin (no S7-off shape)
+ARAP_IT = int(args[6]) if len(args) > 6 else 15
 sys.path[:0] = [str(ROOT / "scripts"), str(ROOT / "scripts/anatomy_fit")]
 os.environ["S7_LOCKOUT_HT"] = "166"
 import build_original_review_candidate_r17_blender as r17
@@ -112,7 +114,7 @@ by_deg = {}
 for k in s7:
     m = re.match(r"HGPT_S7_DELT_([lr])_(\d+)", k.name)
     by_deg.setdefault(int(m.group(2)), []).append(k)
-report = {"radius_m": RADIUS, "blend": BLEND, "core_m": CORE_R, "keys": {}}
+report = {"radius_m": RADIUS, "blend": BLEND, "core_m": CORE_R, "mode": MODE, "arap_iterations": ARAP_IT, "keys": {}}
 new_co = {}
 for deg, ks in sorted(by_deg.items()):
     pose(float(deg))
@@ -147,12 +149,40 @@ for deg, ks in sorted(by_deg.items()):
     pin = pin | (Adj @ pin.astype(float) > 0)
     free = np.flatnonzero(region & ~pin)
     fixed = np.setdiff1d(np.arange(nv), free)
-    target_delta = L @ (BLEND * B + (1 - BLEND) * P)
-    LFF = L[free][:, free].tocsc(); LFC = L[free][:, fixed]
-    x = P.copy()
-    for ax in range(3):
-        rhs = target_delta[free, ax] - LFC @ P[fixed, ax]
-        x[free, ax] = spsolve(LFF, rhs)
+    if MODE == "arap":
+        # R68f: as-rigid-as-possible relaxation of the free region toward the REST skin's edge vectors (local rotations
+        # per vertex by SVD, global uniform-Laplacian solve), boundary = current skin.  Restores the compressed skin
+        # area without importing the S7-off (linear-skinning) bulge.
+        x = P.copy()
+        nbr = [Adj.indices[Adj.indptr[i]:Adj.indptr[i + 1]] for i in range(nv)]
+        fr = free
+        for _ in range(ARAP_IT):
+            Rm = {}
+            for i in fr:
+                j = nbr[i]
+                E0 = REST[j] - REST[i]; E1 = x[j] - x[i]
+                U, _s, Vt = np.linalg.svd(E0.T @ E1)
+                R_ = (U @ Vt).T
+                if np.linalg.det(R_) < 0:
+                    U[:, -1] *= -1; R_ = (U @ Vt).T
+                Rm[i] = R_
+            b = np.zeros((nv, 3))
+            for i in fr:
+                j = nbr[i]
+                Ri = Rm[i]
+                Rj = np.array([Rm.get(int(k), Ri) for k in j])
+                b[i] = (0.5 * ((Ri[None] + Rj) @ (REST[i] - REST[j])[..., None])[..., 0]).sum(axis=0)
+            target_delta = b
+            LFF = L[free][:, free].tocsc(); LFC = L[free][:, fixed]
+            for ax in range(3):
+                x[free, ax] = spsolve(LFF, BLEND * target_delta[free, ax] + (1 - BLEND) * (L @ P)[free, ax] - LFC @ P[fixed, ax])
+    else:
+        target_delta = L @ (BLEND * B + (1 - BLEND) * P)
+        LFF = L[free][:, free].tocsc(); LFC = L[free][:, fixed]
+        x = P.copy()
+        for ax in range(3):
+            rhs = target_delta[free, ax] - LFC @ P[fixed, ax]
+            x[free, ax] = spsolve(LFF, rhs)
     dpos = (x - P) * wgt[:, None]
     drest = np.linalg.solve(A[free], dpos[free][..., None])[..., 0]
     for k in ks:

@@ -501,3 +501,47 @@ The guard never adds fill.
 - Crease 168 → 146°.
 - Outline 0.95 mm (pass). Early outward 0 (pass).
 - Worse: dense motion 13.1 mm (R63g 9.25), benchmark regressions 9 (R63g 6), and the **adjacent step fails (4.58 mm > 3 mm)**. Fix: raise the temporal penalty `--lam`.
+
+### R64d → R64j: adjacent step (20 Oct)
+
+**R64d gates (run 39463799503):**
+- Contacts: 13. These are R52's 7 plus 6 torso self-contacts on the benchmark press at samples 72–74.
+- Dense motion: 9.25 mm. Crease: 137°. Benchmark regressions: 7.
+- **Adjacent step: 5.27 mm (fail).**
+
+Things that did not fix the step (R64f–i, close-ups only):
+- `--lam` 1 / 3: step 4.2 mm.
+- `--full 164`: step 4.1 mm.
+- lighter fold: step 4.3 mm.
+
+The worst step was a few vertices between controls 162 and 163, at rest (−0.285, 0.038, 1.437).
+
+**R64j:** `--step-limit 0.0029`. After the solve, any vertex whose control curve steps more than 2.9 mm between adjacent controls has that curve relaxed in time ([1,2,1]/4 on the free controls). This took 73 iterations, 5.27 → 2.90 mm. The 166° outline is visually unchanged from R64d.
+
+**R64j gates (run 39466912968) — current best for the press:**
+
+| Gate | R64j | R63g | Limit |
+|---|---|---|---|
+| Outline | 0.95 mm | 0.95 mm | 1 mm |
+| Early outward | 0 | 0 | 0.05 mm |
+| **Adjacent step** | **pass (2.9 mm)** | pass | 3 mm |
+| **Contacts** | **10** | 21 | 0 |
+| **Crease** | **137°** | 168° | 2° |
+| Benchmark regressions | 6 | 6 | 0 |
+| Dense motion | 12.07 mm | 9.25 mm | 0.5 mm |
+| 41-pose motion | 4.59 mm | 3.60 mm | 0.5 mm |
+| Reversed normals | 6 | 6 | 0 |
+
+**Contacts:**
+- 4 are R52's originals, at samples 25 and 65, on approved or protected controls.
+- 6 are benchmark-press torso self-contacts at samples 72–74. The guard only checks arm distance, so it misses torso-torso contacts.
+
+**Command:** see `shoulder-r63-lockout.yml`.
+- Generator flags: `--fold --hull --gain 1.0 --arm-margin 0 --smooth 30 --step-limit 0.0029`, on top of the R63g flags.
+- Media: `review-assets/shoulder_r64/R52_vs_R64j_press.mp4`, plus `review-assets/shoulder_r64_closeups/R64j_closeups/`.
+
+**Next:**
+1. Owner review of the 166° outline (R64d/j).
+2. Extend the benchmark guard to torso self-proximity at samples 72–74, for the 6 benchmark contacts.
+3. Reduce the dense-motion rise, 9.25 → 12.07 mm. This is an owner-accepted tolerance per "option 1", but it should not grow.
+4. Then the pull-up dead hang.

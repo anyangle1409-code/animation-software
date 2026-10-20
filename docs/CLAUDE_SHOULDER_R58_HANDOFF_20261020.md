@@ -545,3 +545,43 @@ The worst step was a few vertices between controls 162 and 163, at rest (−0.28
 2. Extend the benchmark guard to torso self-proximity at samples 72–74, for the 6 benchmark contacts.
 3. Reduce the dense-motion rise, 9.25 → 12.07 mm. This is an owner-accepted tolerance per "option 1", but it should not grow.
 4. Then the pull-up dead hang.
+
+## R65 (20 Oct): owner reference photos — fuller arm root, wider upper back, trapezius 25–30 mm
+
+**Owner's photos** (seen in chat only; reference photos stay out of git): a dumbbell press lockout, a pull-up dead hang and a barbell press lockout, all from behind.
+
+What they show, compared with R64j:
+1. The arm stays thick into the body. The rear deltoid, the underside of the arm and the top of the lat form one rounded mass; R64j's arm base looks pinched.
+2. The shoulders shrug up. The trapezius rises to about ear level and little neck shows.
+3. The upper back is widest just under the arms.
+
+**Owner decisions:** go ahead; **option (a)** for the shoulders, i.e. trapezius bunching raised to about 25–30 mm, skin only, with no skeleton change.
+
+**New generator flags** (`scripts/shoulder_r61/generate_r63_lockout.py`):
+- `--root-mm`, `--root-whole-back`: inflate the back half of the upper-arm weight-blend ring along the posed normal.
+- `--root-smooth N`: use smoothed normals and a smoothed push.
+- `--root-relax`: run the R64 outward-only relax over the arm root too.
+- `--lat-bulge`, `--lat-bulge-span`: add a sine bulge to the hull outline under the armpit.
+
+The close-up renderer now also writes `*_back_full.png`, a whole-back view framed like the photos.
+
+**Variants and close-ups** (`review-assets/shoulder_r64_closeups/R65*_closeups/`, plus the `compare_*`):
+
+| Variant | Settings | Result |
+|---|---|---|
+| R65a / R65b | arm-base fill 10/15 mm, lower ring only, bulge 8/12 mm, trapezius 25/30 mm, taper 0.09–0.12 | barely visible |
+| R65c / R65d | arm-base fill 25 mm, whole back of the ring, taper 0.06–0.10 / 0.04–0.08 | outline like the barbell photo, but lumps and a dark crease on the arm |
+| R65e | + `--root-smooth 40` | lumps gone |
+| **R65f** | + `--root-relax` | **smoothest; arm thicker into the body (visual pick)** |
+
+**R65f gates (run 39471273333):**
+- **314 contacts.** 310 are trapezius self-contacts, caused by the narrow neck taper (0.04–0.08); the rest are R52's 4. The 6 benchmark-path torso contacts from R64j are gone.
+- Dense motion 21.2 mm. 41-pose motion 8.2 mm.
+- Adjacent step: pass. Outline 0.95 mm: pass.
+- Benchmark regressions: 9.
+
+Lesson: the trapezius push near the neck needs the wider taper, as in R63d.
+
+**Running now:** R65g (trapezius 30 mm, taper 0.09–0.12) and R65h (25 mm, taper 0.06–0.10), as a matrix in `shoulder-r63-lockout.yml`. Media goes to `review-assets/shoulder_r64/R65g|R65h/`.
+
+**Still open:** the head sits high and the neck shows more than in the photos. Part of this is likely skeletal (the shoulder blades and collarbones don't lift enough). The owner chose the skin-only option, so the skeleton is untouched.

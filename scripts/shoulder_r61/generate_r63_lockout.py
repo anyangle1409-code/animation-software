@@ -85,10 +85,10 @@ def lat_fill(P, armw, wholearm, gain, depth, sigma, maxpush, torso_max=0.3, top=
             # R64b (owner, 20 Oct: the arm-to-back outline steps in under the arm at lockout; references show one smooth
             # convex line): the wanted outline is the outward convex envelope, seen from behind, of the whole skin outline
             # from --depth below the armpit to the arm's top, so arm edge and back join in one curve with no notch.
-            side = u > 0.03
+            outl = u > 0.03
             hz, hu = [], []
             for z0 in np.arange(za0 - depth, za1, 0.01):
-                m = side & (z >= z0) & (z < z0 + 0.01)
+                m = outl & (z >= z0) & (z < z0 + 0.01)
                 if m.sum() > 2:
                     hz.append(z0 + 0.005); hu.append(u[m].max())
             env = upper_hull(np.array(hz), np.array(hu))

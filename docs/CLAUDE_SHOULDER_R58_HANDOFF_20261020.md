@@ -63,17 +63,62 @@ Smoothing at 114–122° removed only 1.3 of 40.6 mm, so **the dominant extra ac
 - for each worst vertex, its peak frame and angle, and its increment profile over the 72 controls with the top three kinks;
 - the early-outward vertex and its angle, and the largest increment at 96–109°.
 
+## R58 results (cloud runs 39412967341, 39413796014, 39419730103; all read-only, all succeeded)
+
+Inputs were hash-verified. The unchanged R52 measurement script, re-run natively, reproduced R52's motion excess exactly (40.6446 mm).
+
+**1. When the excess happens.** It is spread over the whole raise, not concentrated at 118°.
+
+| Elevation band | R52 (mm, ×16) | R57 (mm, ×16) |
+|---|---|---|
+| 70–95° | 1.31 | 1.31 |
+| 95–110° | 34.0 | 34.0 |
+| 110–114° | 31.0 | 31.0 |
+| 114–123° | **40.6** | **24.0** (R57's only change) |
+| 123–136° | 39.4 | 39.4 |
+| 136–156° | 36.4 | 36.4 |
+| 156–166° | 1.39 | 1.39 |
+
+R57 only moved the maximum from 118° to 125°.
+
+**2. Why.**
+- **The profile shape:** the worst posterior vertices (19057, 19370, 18046, 21326, …) carry an S7 increment that rises from 0 at the protected 110° control to about 33–39 mm at 136–138°, close to the 45 mm cap, then falls to 0 at 166°.
+- **Roughness:** the profile is rough at 1° resolution, with node-to-node second differences of about 3–4 mm at many controls (110, 111, 118, 124, 125, 129, 142, 145°).
+- **Early outward:** 0.62 mm at 105.5° on vertex 20913; 1,306 vertices are over 0.05 mm. It comes from the free controls 96–109°, which reach 2.9 mm.
+
+**3. Feasibility (an LP per vertex over the 72 controls; indicative).**
+- **The question:** the smallest possible extra frame acceleration, ×16, for any S7-only increment that keeps:
+  - each vertex's R52 value at the R47 marked pose (t = 0.625, 135.6°);
+  - zero at the protected controls;
+  - the early-outward limit and the 45 mm cap.
+- **Approximation:** rest-space increment; bone rotation and R41's own acceleration ignored.
+
+| Scope | Worst of the 40 worst vertices (guard 0.5 mm) |
+|---|---|
+| Current protected 95/110/166° | **1.26 mm** (all 40 fail) |
+| 110° released | 0.88 mm |
+| 166° released | 1.03 mm |
+| 110° and 166° released | 0.57 mm |
+| R52's actual profiles | 27–33 mm |
+
+**Conclusion:** keeping the owner-approved R47 marked-pose offset (~35–37 mm posterior) and the 0.5 mm full-press motion guard is **not achievable with S7-only edits under the current scope**, even with the smoothest possible timing. The approximation can shift this by some tenths of a millimetre, but not by the factor of 2.5 needed. Every further S7-only study (R57-style) will fail the motion gate. Yet the smoothest profile would cut R52's excess by about 25–30×.
+
 ## Exact next steps (resume here)
 
-1. **Read the R58 artifact** `original-v1-r58-temporal-localisation`, file `r58_report.json`, from the workflow run on this branch. Check `excess_by_elevation_band_mm_x16`, `timeline_top_frames` and `worst_vertices[].top3_kinks`.
-2. **If the peak sits next to a protected zero (110/111° or 165/166°):** the next S7-only study (R59) should ramp the increment in over several controls *inside the existing permission*.
-   - Ease the free controls 111–11x toward the pinned zero so the profile has no kink. Do the same into 166°.
-   - Do not touch the protected controls, the 45 mm cap, weights, the skeleton or non-S7 data.
-   - **The ramp must not move the R47 marked pose** (t = 0.625, 135.6°), so keep the 123–145° controls unchanged.
-   - Run the unchanged R57 gates: the R57 workflow with the generator swapped.
-3. **If the peak is mid-press (123–156°):** that band supports the approved R47 marked outline. Any change there risks the outline (1 mm guard). Report this to the owner as a scope decision; do not change it silently.
-4. **If early outward comes from 96–109°:** clamp the outward component of the increments at those controls (it must be ≤ 0.05 mm before 110°). That is inside the S7 permission.
-5. **Separately, the 7 contacts** (vertex 10855 against 22184–22187 at samples 25/26/65/66) and the **6 reversed normals in the marked pose** exist in both R52 and R57. They need their own localisation before R59 can pass.
+1. **Owner decision needed (scope).** The two approved requirements conflict for S7-only edits. Options, best first:
+   - **(a) Build R59** (step 2) and judge it visually. Its expected motion excess is ~1.3 mm against the 0.5 mm guard. If the owner finds the motion smooth, they may accept an outline-specific motion tolerance. **Never relax a threshold without the owner's explicit decision.**
+   - **(b) Release the protected 110°/166° zeros:** bound ≥ 0.57 mm, still above the guard.
+   - **(c) A smaller marked-pose offset:** changes the approved R47 silhouette.
+   - **(d) A non-S7 mechanism:** weights or a helper deformer. Needs a new scope approval; R53's evidence on the weight gradient applies.
+2. **R59 = the minimum-acceleration S7 profile.** It is within the existing S7 permission and was not yet built. For every vertex:
+   - **Objective:** minimise the sum of squared frame second differences of the increment along the 161-frame press. Use quadratic least squares, not the L∞ of the LP: it is linear in the target, so spatially smooth targets give spatially smooth profiles.
+   - **Hold:** the R52 value at t = 0.625 exactly (outline unchanged); 0 at controls 95/110/166 and at every control the R52/R47 `allowed_dense` mask forbids for that vertex.
+   - **Limits:** outward ≤ 0.05 mm before 110° (clamp, then re-solve); the 45 mm cap.
+   - **Output and gates:** write `candidate.npz` with `dense_delta` and run the unchanged R57 workflow gates (generator swapped): dense 161 motion, 83 native contact/area/orientation/affine, 13 benchmarks, the R52 actual-native tests, matched renders.
+   - **Expect:** outline 0.95 mm (unchanged), early outward ≤ 0.05 mm, motion about 1.3 mm (fails 0.5; recorded). Contacts, normals and crease are unknown and must be measured.
+   - Keep every failure.
+3. **The 7 contacts** (vertex 10855 against 22184–22187 at samples 25/26/65/66) and the **6 reversed normals in the marked pose** are present in both R52 and R57. They need their own localisation; check whether R59 changes them.
+4. The R58 reports are artifacts `original-v1-r58-temporal-localisation` of runs 39412967341 and 39419730103, kept for 30 days. The numbers above are copied from them.
 
 **Rules unchanged:**
 - Skeleton, canonical bones, Basis, weights and topology stay frozen.

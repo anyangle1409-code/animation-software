@@ -88,6 +88,40 @@ def lat_fill(P, armw, wholearm, gain, depth, sigma, maxpush, torso_max=0.3, top=
     return D, info
 
 
+def vertex_normals(P, faces):
+    n = np.cross(P[faces[:, 1]] - P[faces[:, 0]], P[faces[:, 2]] - P[faces[:, 0]])
+    vn = np.zeros_like(P)
+    for j in range(3):
+        np.add.at(vn, faces[:, j], n)
+    return vn / np.maximum(np.linalg.norm(vn, axis=1, keepdims=True), 1e-12)
+
+
+def fold_region(rest, centre, radius):
+    """R64: rest-space weight (1 at the posterior-armpit centre, 0 at radius) for both sides (centre given for the left, x<0)"""
+    w = np.zeros(len(rest))
+    for sg in (-1.0, 1.0):
+        c = np.array([sg * abs(centre[0]), centre[1], centre[2]])
+        w = np.maximum(w, smoothstep(1.0 - np.linalg.norm(rest - c, axis=1) / radius))
+    return w
+
+
+def fold_fill(Q, faces, Avg, w, iters, step, maxpush):
+    """R64 posterior axillary fold (owner, 20 Oct: the arm-to-back join at lockout dips in and crumples; anatomy references
+    show one smooth convex band of latissimus + teres major from the arm's underside into the back, no notch).
+    Outward-only Laplacian: each pass moves a region vertex by the tangential part of (neighbour mean - vertex) - which
+    evens out the crumpled facets - plus the normal part ONLY where it points outward, i.e. where the vertex sits in a dent.
+    Bumps are never pushed in, dents are filled, so the patch converges to a taut convex skin bridging arm and back."""
+    Q0 = Q.copy(); Q = Q.copy()
+    for _ in range(iters):
+        n = vertex_normals(Q, faces)
+        L = Avg @ Q - Q
+        ln = np.einsum("ij,ij->i", L, n)
+        Q = Q + (step * w)[:, None] * (L - np.minimum(ln, 0.0)[:, None] * n)
+    D = Q - Q0
+    Dn = np.linalg.norm(D, axis=1)
+    return D * np.minimum(1.0, maxpush / np.maximum(Dn, 1e-12))[:, None]
+
+
 def main():
     ap = argparse.ArgumentParser()
     for a in ("--r57src", "--response", "--start", "--out"):
@@ -109,6 +143,12 @@ def main():
     ap.add_argument("--guard-bench", action="store_true", help="R63g: benchmark press samples only guard against arm contact")
     ap.add_argument("--guard-weight", type=float, default=4.0)
     ap.add_argument("--guard-iters", type=int, default=6)
+    ap.add_argument("--fold", action="store_true", help="R64: sculpt the posterior axillary fold (outward-only relax)")
+    ap.add_argument("--fold-centre", default="0.17,0.07,1.40", help="R64: rest-space centre of the posterior armpit (m)")
+    ap.add_argument("--fold-radius", type=float, default=0.10)
+    ap.add_argument("--fold-iters", type=int, default=80)
+    ap.add_argument("--fold-step", type=float, default=0.5)
+    ap.add_argument("--fold-max", type=float, default=0.025)
     a = ap.parse_args()
     global K0
     # R63c: the first solved control follows --from; never at or below 136 deg (the marked pose uses controls 135/136)
@@ -126,6 +166,7 @@ def main():
     assert dpos < 1.0, f"arm weight file does not match the source rest mesh ({dpos:.3f} mm)"
     armw = arm["upperarm_weight"].astype(float); whole = arm["whole_arm_weight"].astype(float)
     Avg = neighbour_mean(faces, nv)
+    fold_w = fold_region(rest, [float(c) for c in a.fold_centre.split(",")], a.fold_radius) if a.fold else None
 
     samples = [s for s in range(41) if ht_of(s / 40) >= a.hfrom - 1.0]
     sample_ht = {s: ht_of(s / 40) for s in samples}
@@ -170,8 +211,16 @@ def main():
             if a.arm_margin > 0:
                 Dn = np.linalg.norm(D, axis=1)          # smoothing must not spread the push back into the arm
                 D *= np.where(Dn > room, room / np.maximum(Dn, 1e-12), 1.0)[:, None]
+        fold_mm = 0.0
+        if fold_w is not None and ramp > 0 and s not in guard_samples:
+            # R64: no arm-distance cap here - that cap (distance to the arm skin) is ~0 right at the arm/back join and is
+            # what kept R63g's notch; the outward-only relax only smooths/fills, and the benchmark guard still runs below.
+            Df = fold_fill(P + D, faces, Avg, fold_w, a.fold_iters, a.fold_step, a.fold_max) * ramp
+            D = D + Df
+            fold_mm = float(np.linalg.norm(Df, axis=1).max() * 1000)
         targets[s] = (P, D)
         report_s.append({"sample": s, "ht_deg": round(float(sample_ht[s]), 2), "ramp": round(float(ramp), 3), "sides": info,
+                         "max_fold_push_mm": round(fold_mm, 2),
                          "max_target_push_mm": round(float(np.linalg.norm(D, axis=1).max() * 1000), 2)})
         print("R63_TARGET", json.dumps(report_s[-1]), flush=True)
 
@@ -280,7 +329,7 @@ def main():
     np.savez_compressed(a.out, dense_delta=out, delta=out[SOURCE])
     metrics = {"status": "R63_IN_MEMORY_STUDY_NOT_ACCEPTED", "model_saved": False, "owner_approved": False,
                "scope_change": f"owner-approved lockout sculpt (20 Oct): controls {95 + K0}..166 re-solved in posed space; 166 released",
-               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top", "include_bench", "guard_bench", "guard_weight", "guard_iters")},
+               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top", "include_bench", "guard_bench", "guard_weight", "guard_iters", "fold", "fold_centre", "fold_radius", "fold_iters", "fold_step", "fold_max")},
                "samples": report_s, "affected_vertices": int(len(affected)), "vertices_capped_at_45mm": capped,
                "posed_fit_max_error_mm": round(max(fit_err, default=0) * 1000, 3), "posed_fit_error_by_sample_mm": [round(e * 1000, 2) for e in fit_err],
                "max_change_from_start_mm": round(float(np.linalg.norm(out - d0, axis=2).max() * 1000), 2),

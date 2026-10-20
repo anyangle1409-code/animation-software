@@ -33,8 +33,11 @@ def max_dense_motion_excess_mm(candidate, reference):
         raise ValueError("Invalid full-length point histories")
     # Existing R52 normalization: (160 / 40)^2, NOT physical mm/s^2.
     second = lambda x: x[2:] - 2.0 * x[1:-1] + x[:-2]
-    return float(np.linalg.norm(second(candidate)-second(reference), axis=2).max()
-                 * 1000.0 * 16.0)
+    # Exact original R52 guard: compare the magnitudes of each trajectory's
+    # second difference; do NOT take the norm of the vector difference.
+    before = np.linalg.norm(second(reference), axis=2)
+    after = np.linalg.norm(second(candidate), axis=2)
+    return float((after-before).max() * 1000.0 * 16.0)
 
 
 def locate_subset(whole, subset):

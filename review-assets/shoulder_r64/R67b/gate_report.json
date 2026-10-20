@@ -1,0 +1,50 @@
+{
+  "status": "R57_REJECTED_OR_INCOMPLETE_NATIVE_GATES",
+  "model_saved": false,
+  "approved": false,
+  "production_ready": false,
+  "original_thresholds_unchanged": true,
+  "execution_exits": {
+    "generate": 0,
+    "native": 0,
+    "benchmarks": 0,
+    "dense": 0,
+    "R52_original_render": 0,
+    "R57_local_study_render": 0
+  },
+  "missing": [],
+  "failures": [
+    "R48_marked_normal_reversals_zero",
+    "R52_native_83_safety",
+    "R43_original_native_motion_le_0_5mm",
+    "R43_posterior_crease_le_2deg",
+    "R52_dense_161_motion_le_0_5mm",
+    "13_original_benchmarks_no_regression"
+  ],
+  "checks": {
+    "R47_marked_outline_le_1mm": true,
+    "R48_marked_normal_reversals_zero": false,
+    "R52_native_83_safety": false,
+    "R43_original_native_motion_le_0_5mm": false,
+    "R43_posterior_crease_le_2deg": false,
+    "R52_dense_161_motion_le_0_5mm": false,
+    "R52_early_outward_le_0_05mm": true,
+    "R52_adjacent_step_le_3mm": true,
+    "13_original_benchmarks_no_regression": false
+  },
+  "marked_outline_error_mm": 0.9499480288829576,
+  "marked_reversed_normals": 6,
+  "actual_83_new_contacts": 7,
+  "actual_native_motion_excess_mm": 7.617017861453199,
+  "posterior_crease_excess_deg": 132.8074510274851,
+  "dense161_motion_excess_mm": 18.907608419721058,
+  "dense161_early_outward_mm": 0.0002384185791015625,
+  "benchmark_regressions": 7,
+  "limitations": [
+    "An experimental improvement in motion cannot independently establish lifelike anatomy.",
+    "Original R47 marked-pose outline approval does not validate all 161 movement poses.",
+    "No Blender model was saved/promoted/merged or production PT app changed.",
+    "Visual owner approval remains separate even if all numerical checks pass.",
+    "R57 spatial/temporal kernel is a first-party diagnostic hypothesis, not a verified physiological soft-tissue model."
+  ]
+}

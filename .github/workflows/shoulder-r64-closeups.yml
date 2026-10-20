@@ -1,4 +1,4 @@
-name: ORIGINAL_v1 R64j/k per-vertex step limit, armpit close-ups (Claude)
+name: ORIGINAL_v1 R65a/b fuller arm root, wider upper back, trapezius 25/30 mm, armpit close-ups (Claude)
 'on':
   push:
     branches: [claude/home-gym-pt-animation-txux66]
@@ -17,8 +17,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - {v: R64j, extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --step-limit 0.0029'}
-        - {v: R64k, extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --lam 3.0 --step-limit 0.0029'}
+        - {v: R64j, trap: 15, extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --step-limit 0.0029'}
+        - {v: R65a, trap: 25, extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --step-limit 0.0029 --root-mm 10 --lat-bulge 0.008'}
+        - {v: R65b, trap: 30, extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --step-limit 0.0029 --root-mm 15 --lat-bulge 0.012'}
     timeout-minutes: 120
     env:
       LIBGL_ALWAYS_SOFTWARE: '1'
@@ -60,7 +61,7 @@ jobs:
     - name: Generate R62b start, then the R63 lockout sculpt (unsaved)
       run: |
         set +e
-        timeout 10m /usr/bin/python3 r59src/scripts/shoulder_r58/generate_r59_min_accel.py --r57src . --response /tmp/r57/source.npz --solution /tmp/r57/original_r52.npz --out /tmp/r57/start_r62b.npz --variant c --fidelity 0.03 --trap-mm 15 --trap-neck-taper 0.09,0.12 > /tmp/r57/generate.log 2>&1 && timeout 30m /usr/bin/python3 r59src/scripts/shoulder_r61/generate_r63_lockout.py --r57src . --response /tmp/r57/source.npz --start /tmp/r57/start_r62b.npz --out /tmp/r57/candidate.npz --from 137 --full 156 --gain 0.5 --sigma 0.08 --smooth 80 --torso-max 0.7 --top 0.06 --arm-margin 0.003 --guard-bench --fold ${{ matrix.extra }} >> /tmp/r57/generate.log 2>&1
+        timeout 10m /usr/bin/python3 r59src/scripts/shoulder_r58/generate_r59_min_accel.py --r57src . --response /tmp/r57/source.npz --solution /tmp/r57/original_r52.npz --out /tmp/r57/start_r62b.npz --variant c --fidelity 0.03 --trap-mm ${{ matrix.trap }} --trap-neck-taper 0.09,0.12 > /tmp/r57/generate.log 2>&1 && timeout 30m /usr/bin/python3 r59src/scripts/shoulder_r61/generate_r63_lockout.py --r57src . --response /tmp/r57/source.npz --start /tmp/r57/start_r62b.npz --out /tmp/r57/candidate.npz --from 137 --full 156 --gain 0.5 --sigma 0.08 --smooth 80 --torso-max 0.7 --top 0.06 --arm-margin 0.003 --guard-bench --fold ${{ matrix.extra }} >> /tmp/r57/generate.log 2>&1
         code=$?; echo "$code" > /tmp/r57/generate_exit.txt; grep -E 'R63_|R59_GENERATOR|Error|Trace' /tmp/r57/generate.log | tail -30; exit "$code"
     - name: Render armpit close-ups (unsaved)
       run: |

@@ -62,7 +62,7 @@ def upper_hull(z, u):
     return lambda q: np.interp(q, h[:, 0], h[:, 1])
 
 
-def lat_fill(P, armw, wholearm, gain, depth, sigma, maxpush, torso_max=0.3, top=0.02, hull=False):
+def lat_fill(P, armw, wholearm, gain, depth, sigma, maxpush, torso_max=0.3, top=0.02, hull=False, bulge=0.0, bulge_span=0.15):
     D = np.zeros_like(P)
     info = {}
     for k, side in enumerate("lr"):
@@ -98,6 +98,10 @@ def lat_fill(P, armw, wholearm, gain, depth, sigma, maxpush, torso_max=0.3, top=
             if len(m) < 3:
                 continue
             edge = u[m].max(); want = env(z0 + 0.005) if hull else a + b * (z0 + 0.005)
+            if hull and bulge > 0 and za0 - bulge_span <= z0 + 0.005 <= za0:
+                # R65 (owner photos, 20 Oct): the upper back is widest just under the arms (lat + teres major), so the
+                # outline below the armpit bulges out by up to --lat-bulge before narrowing to the waist
+                want += bulge * np.sin(np.pi * (za0 - z0 - 0.005) / bulge_span)
             fade = smoothstep((z0 - (za0 - depth)) / (0.4 * depth))
             d = min(max(want - edge, 0.0) * gain * fade, maxpush)
             if d <= 0:
@@ -125,6 +129,24 @@ def fold_region(rest, centre, radius):
         c = np.array([sg * abs(centre[0]), centre[1], centre[2]])
         w = np.maximum(w, smoothstep(1.0 - np.linalg.norm(rest - c, axis=1) / radius))
     return w
+
+
+def root_region(rest, armw, Avg, passes=20):
+    """R65: rest-space weight for the lower/back half of the arm-root blend ring (upper-arm weight ~0.5), both sides"""
+    w = np.zeros(len(rest))
+    for k, sg in enumerate((-1.0, 1.0)):
+        a_ = armw[k]
+        ring = (a_ > 0.15) & (a_ < 0.85)
+        if ring.sum() < 10:
+            continue
+        zc = np.median(rest[ring, 2])
+        r = np.clip(1.0 - np.abs(2.0 * a_ - 1.0), 0, 1)
+        low = smoothstep((zc + 0.02 - rest[:, 2]) / 0.04)          # under-arm half of the ring
+        back = smoothstep((rest[:, 1] + 0.02) / 0.06)              # posterior (+y is the back)
+        w = np.maximum(w, r * low * back * (sg * rest[:, 0] > 0))
+    for _ in range(passes):
+        w = 0.5 * w + 0.5 * (Avg @ w)
+    return w / max(w.max(), 1e-12)
 
 
 def fold_fill(Q, faces, Avg, w, iters, step, maxpush):
@@ -165,6 +187,9 @@ def main():
     ap.add_argument("--guard-bench", action="store_true", help="R63g: benchmark press samples only guard against arm contact")
     ap.add_argument("--guard-weight", type=float, default=4.0)
     ap.add_argument("--guard-iters", type=int, default=6)
+    ap.add_argument("--lat-bulge", type=float, default=0.0, help="R65: outline bulge (m) just under the armpit (hull mode)")
+    ap.add_argument("--lat-bulge-span", type=float, default=0.15)
+    ap.add_argument("--root-mm", type=float, default=0.0, help="R65: inflate the posterior arm root by this much (mm) along the posed normal")
     ap.add_argument("--step-limit", type=float, default=0.0, help="R64j: smooth solved control curves until adjacent steps <= this (m)")
     ap.add_argument("--hull", action="store_true", help="R64b: fill the rear outline to its outward convex envelope")
     ap.add_argument("--fold", action="store_true", help="R64: sculpt the posterior axillary fold (outward-only relax)")
@@ -190,6 +215,7 @@ def main():
     assert dpos < 1.0, f"arm weight file does not match the source rest mesh ({dpos:.3f} mm)"
     armw = arm["upperarm_weight"].astype(float); whole = arm["whole_arm_weight"].astype(float)
     Avg = neighbour_mean(faces, nv)
+    root_w = root_region(rest, armw, Avg) if a.root_mm > 0 else None
     fold_w = fold_region(rest, [float(c) for c in a.fold_centre.split(",")], a.fold_radius) if a.fold else None
 
     samples = [s for s in range(41) if ht_of(s / 40) >= a.hfrom - 1.0]
@@ -214,7 +240,7 @@ def main():
         v = np.arange(nv)
         inc = (1 - t)[:, None] * d0[lo, v] + t[:, None] * d0[hi, v]
         P = z["base"][s] + np.einsum("nij,nj->ni", z["mat"][s], inc)
-        D, info = lat_fill(P, armw, whole, a.gain, a.depth, a.sigma, a.maxpush, a.torso_max, a.top, a.hull)
+        D, info = lat_fill(P, armw, whole, a.gain, a.depth, a.sigma, a.maxpush, a.torso_max, a.top, a.hull, a.lat_bulge, a.lat_bulge_span)
         if a.arm_margin > 0 and np.abs(D).sum() > 0:
             # R63b: never push torso skin into the arm - cap each vertex's push (and its 30-pass smoothing spread) at its
             # posed distance to the nearest upper-arm skin minus --arm-margin (R63 without this: contacts 7 -> 215)
@@ -242,9 +268,16 @@ def main():
             Df = fold_fill(P + D, faces, Avg, fold_w, a.fold_iters, a.fold_step, a.fold_max) * ramp
             D = D + Df
             fold_mm = float(np.linalg.norm(Df, axis=1).max() * 1000)
+        root_max = 0.0
+        if root_w is not None and ramp > 0 and s not in guard_samples:
+            # R65 (owner photos): the arm stays thick into the body; the posterior deltoid, the arm's underside and the
+            # top of the lat merge into one rounded mass - inflate the back/under half of the arm-root ring
+            Dr = vertex_normals(P + D, faces) * (a.root_mm / 1000.0 * ramp * root_w)[:, None]
+            D = D + Dr
+            root_max = float(np.linalg.norm(Dr, axis=1).max() * 1000)
         targets[s] = (P, D)
         report_s.append({"sample": s, "ht_deg": round(float(sample_ht[s]), 2), "ramp": round(float(ramp), 3), "sides": info,
-                         "max_fold_push_mm": round(fold_mm, 2),
+                         "max_fold_push_mm": round(fold_mm, 2), "max_root_push_mm": round(root_max, 2),
                          "max_target_push_mm": round(float(np.linalg.norm(D, axis=1).max() * 1000), 2)})
         print("R63_TARGET", json.dumps(report_s[-1]), flush=True)
 
@@ -376,7 +409,7 @@ def main():
     np.savez_compressed(a.out, dense_delta=out, delta=out[SOURCE])
     metrics = {"status": "R63_IN_MEMORY_STUDY_NOT_ACCEPTED", "model_saved": False, "owner_approved": False,
                "scope_change": f"owner-approved lockout sculpt (20 Oct): controls {95 + K0}..166 re-solved in posed space; 166 released",
-               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top", "include_bench", "guard_bench", "guard_weight", "guard_iters", "step_limit", "hull", "fold", "fold_centre", "fold_radius", "fold_iters", "fold_step", "fold_max")},
+               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top", "include_bench", "guard_bench", "guard_weight", "guard_iters", "step_limit", "lat_bulge", "lat_bulge_span", "root_mm", "hull", "fold", "fold_centre", "fold_radius", "fold_iters", "fold_step", "fold_max")},
                "samples": report_s, "affected_vertices": int(len(affected)), "vertices_capped_at_45mm": capped,
                "posed_fit_max_error_mm": round(max(fit_err, default=0) * 1000, 3), "posed_fit_error_by_sample_mm": [round(e * 1000, 2) for e in fit_err],
                "max_change_from_start_mm": round(float(np.linalg.norm(out - d0, axis=2).max() * 1000), 2),

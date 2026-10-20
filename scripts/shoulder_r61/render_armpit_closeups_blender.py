@@ -52,4 +52,13 @@ for t in (0.625, 0.7, 0.75, 0.8, 0.9, 1.0):
         cam.rotation_mode = 'QUATERNION'; cam.rotation_quaternion = (-d).to_track_quat('-Z', 'Y')
         scene.render.filepath = str(out / f"armpit_{ht:05.1f}deg_{view}.png")
         bpy.ops.render.render(write_still=True)
+    # R65: whole upper back from behind, framed like the owner's reference photos (head, both arms, waist)
+    mid = (rig.matrix_world @ rig.pose.bones['upperarm_l'].head + rig.matrix_world @ rig.pose.bones['upperarm_r'].head) / 2
+    d = Vector((0.0, 1.0, 0.0))
+    cd.ortho_scale = 1.15
+    cam.location = mid + Vector((0.0, 0.0, 0.05)) + d * 3
+    cam.rotation_quaternion = (-d).to_track_quat('-Z', 'Y')
+    scene.render.filepath = str(out / f"armpit_{ht:05.1f}deg_back_full.png")
+    bpy.ops.render.render(write_still=True)
+    cd.ortho_scale = 0.42
 print('CLOSEUPS_DONE', flush=True)

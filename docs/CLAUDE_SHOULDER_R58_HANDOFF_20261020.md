@@ -439,3 +439,27 @@ The owner chose to keep 15 mm and fix what it hits.
 - re-solve, up to 6 iterations.
 
 The guard never adds fill.
+
+### R63g result (run 39452287262): best candidate so far for the press
+
+| Gate | R63g | R63e | R60 | Limit |
+|---|---|---|---|---|
+| Outline | 0.95 mm | 0.95 mm | 0.95 mm | 1 mm |
+| Dense motion | 9.25 mm | 9.25 mm | 9.25 mm | 0.5 mm |
+| Early outward | 0 | 0 | 0 | 0.05 mm |
+| 41-pose motion | 3.60 mm | — | — | 0.5 mm |
+| **Contacts** | **21** | 39 | 7 | 0 |
+| Reversed normals | 6 | — | — | 0 |
+| Crease | 168° | 168° | 137° | 2° |
+| Benchmark regressions | 6 | 7 | 6 | 0 |
+
+- **The guard:** it pinned 39 vertices in round 1 and none in round 2. The 18 benchmark-path arm contacts are gone.
+- **Visual:** the corner fill matches R63e (`rear_sweep_R52_R63e_R63g.jpg`).
+- **R63g contains:** R60 smoothing; the 15 mm neck-tapered trapezius bunching (fade 136→160°); and the posed-space lockout sculpt (137–166°, corner fill, 3 mm arm gap, benchmark guard).
+- **Remaining contacts:** 21 torso self-contacts at the back of the armpit (around (−0.17, 0.07, 1.40)), including R52's original 7.
+- **Still failing:** motion 9.25 mm against 0.5 mm (the S7-only bound, an owner-accepted tolerance per "option 1"), crease, and 6 reversed normals; all are inherited.
+
+**Next:**
+1. Owner review of R63g.
+2. Localise and fix the 21 posterior-armpit self-contacts.
+3. Then the pull-up (dead hang), using the same posed-space method.

@@ -267,3 +267,23 @@ The renders show the armpit crumple again at 156°.
 - **Change:** upper-trapezius bunching, `--variant c --fidelity 0.03 --trap-mm 10`. It is an outward swell over the model's `muscle_trap_l/r` helper region (634 vertices, region file `scripts/shoulder_r61/r62_upper_trap_region.npz`), faded in from 136° (the marked pose is untouched) to full at 160°.
 - **Sources** (owner asked to verify): the upper trapezius is part of the upward-rotation force couple and is highly active in the military press; the scapula rotates upward ~48–61° at 150° of elevation. The model's own press reaches 41°/49° at 132°/145°, consistent.
 - **Workflow:** `.github/workflows/shoulder-r62-trap.yml`.
+
+### R62 result (run 39430368223; media in `review-assets/shoulder_r62/`)
+
+**Gates:** identical to R60 on every check. The trapezius swell adds no new contact, crease, motion or benchmark problems:
+
+| Gate | R62 | Limit |
+|---|---|---|
+| Outline | 0.95 mm | 1 mm |
+| Dense motion | 9.25 mm | 0.5 mm |
+| Early outward | 0 | 0.05 mm |
+| Contacts | 7 | 0 |
+| Reversed normals | 6 | 0 |
+| Crease | 137° | 2° |
+| Benchmark regressions | 6 | 0 |
+
+At the marked pose the swell adds 0.0 mm, as designed.
+
+**Visual:** a subtle, fuller neck-to-shoulder mound at 145–156° (`R52_vs_R62_neck_closeup_145_156.jpg`). If the owner wants it stronger, raise `--trap-mm` (10 → 15–20 mm) and re-check contacts near the neck.
+
+**Still open:** the 148–166° arm-into-body dip, which needs posed-space lockout targets (see R61).

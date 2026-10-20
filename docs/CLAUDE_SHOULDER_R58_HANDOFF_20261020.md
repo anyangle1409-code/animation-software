@@ -662,3 +662,41 @@ Owner, on R65g: "Why does the body still pulse when the arms move and why now do
 - Dense-motion worst case from the arm-root fill.
 - Neck exposure (skeleton option b, not authorised).
 - Then the pull-up dead hang.
+
+## R67 (20 Oct): the arm looks detached from the shoulder; the trapezius looks wrong
+
+**Owner, on R66c at 156° rear** (circled the whole shoulder top): "It looks like the arm isn't attached to the shoulder. And also the traps are horrible looking."
+
+**Diagnosis** (156° rear across versions):
+- R63g / R64j already show a flat trapezius shelf with a small knob next to the neck, and a crease across the top of the arm root.
+- R65's 30 mm trapezius enlarged the knob.
+- R65's arm-root ring fill made a hard-edged collar, read as a seam, so the arm looks detached.
+
+**Girdle check** (option 3: skeleton first, report only; measured locally with bpy on the R41 rig, press path v4, lockout 166°):
+
+| t | Elevation | Clavicle above horizontal | Clavicle vs rest | Scapula vs rest | Acromion vs head base |
+|---|---|---|---|---|---|
+| 0 | 70° | 10.4° | 6.8° | 18.4° | −76 mm |
+| 0.625 | 135.6° | 22.2° | 19.4° | 45.4° | −40 mm |
+| 0.8 | 156° | 33.9° | 30.6° | 55.8° | −6 mm |
+| 1.0 | 166° | 38.0° | 35.0° | 60.3° | +5 mm |
+
+- Literature: SC clavicle elevation is typically under 10° during arm elevation ([PMC2730194](https://pmc.ncbi.nlm.nih.gov/articles/PMC2730194); [Ludewig handout](https://www.orthopt.org/uploads/content_files/2014_Annual_Meeting_Handouts/Sahrmann___with_Ludewig_Scap___humerus.pdf)); scapular upward rotation is about 50–60° at maximum.
+- The rig, at 35° and 60°, is already at or above the literature range. **No skeletal change is warranted**; the problem is soft tissue.
+
+**New generator flags:**
+- `--shoulder-relax N` with `--shoulder-mu` (−0.51): Taubin smoothing over the shoulder top (rest sphere (±0.21, 0.02, 1.48), r 0.10) plus the R62 trapezius region. Tested on a synthetic knob: 4% → 1.3% with no growth.
+- `--shoulder-rise`: the shoulder-line sculpt. Seen from behind, the top skin between the neck edge and the arm's inner edge is lifted in +z to a convex curve that rises `rise` up the arm (5 mm bins, Gaussian `--shoulder-line-sigma` below the top).
+- `--protect-head` narrowed: full at |x| < 0.09, none beyond 0.115.
+
+**Close-up variants** (`review-assets/shoulder_r64_closeups/R67*_closeups`):
+
+| Variant | Changes | Result |
+|---|---|---|
+| R67a | trapezius 15 mm, no root ring | |
+| R67b | + relax 300 | seam and creases softer, smaller knob; flat shelf remains |
+| R67d | + rise 30 mm | |
+| **R67e** | **+ rise 50 mm** | **the trapezius slopes up into the arm and the arm reads as attached (visual pick)** |
+| R67c | R65g's 30 mm trapezius + ring + relax | |
+
+Gates for R67d/e are running in `shoulder-r63-lockout.yml`.

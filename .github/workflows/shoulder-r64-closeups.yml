@@ -21,7 +21,6 @@ jobs:
         - {v: L_nofold, trap: 15, taper: '0.09,0.12', r68: '', extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --lat-bulge 0.015 --shoulder-relax 300 --step-limit 0.0029 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --r68 r59src/scripts/shoulder_r68/data/r69c_s7_rear_groove.npz --r68-pin'}
         - {v: L_nohull, trap: 15, taper: '0.09,0.12', r68: '', extra: '--fold --shoulder-relax 300 --step-limit 0.0029 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --r68 r59src/scripts/shoulder_r68/data/r69c_s7_rear_groove.npz --r68-pin'}
         - {v: L_norelax, trap: 15, taper: '0.09,0.12', r68: '', extra: '--fold --hull --gain 1.0 --arm-margin 0 --smooth 30 --lat-bulge 0.015 --step-limit 0.0029 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --r68 r59src/scripts/shoulder_r68/data/r69c_s7_rear_groove.npz --r68-pin'}
-        - {v: L_none, trap: 15, taper: '0.09,0.12', r68: '', extra: '--gain 0.0 --step-limit 0.0029 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --r68 r59src/scripts/shoulder_r68/data/r69c_s7_rear_groove.npz --r68-pin'}
     timeout-minutes: 120
     env:
       LIBGL_ALWAYS_SOFTWARE: '1'
@@ -83,6 +82,7 @@ jobs:
         retention-days: 30
   commit-media:
     needs: study
+    if: success() || failure()
     runs-on: ubuntu-latest
     permissions:
       contents: write

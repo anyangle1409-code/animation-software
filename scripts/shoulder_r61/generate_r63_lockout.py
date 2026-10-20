@@ -266,6 +266,7 @@ def main():
     ap.add_argument("--pulse-beta", type=float, default=30.0)
     ap.add_argument("--pulse-lam", type=float, default=0.3)
     ap.add_argument("--pulse-tie", type=float, default=0.02)
+    ap.add_argument("--r68", default="", help="R68: S7 rear-shoulder root-cause fix (sparse per-key deltas) added to the dense increments")
     ap.add_argument("--step-limit", type=float, default=0.0, help="R64j: smooth solved control curves until adjacent steps <= this (m)")
     ap.add_argument("--hull", action="store_true", help="R64b: fill the rear outline to its outward convex envelope")
     ap.add_argument("--fold", action="store_true", help="R64: sculpt the posterior axillary fold (outward-only relax)")
@@ -499,6 +500,29 @@ def main():
         torso_ids = np.flatnonzero((whole.max(axis=0) < a.pulse_armw) & (rest[:, 2] > 1.0) & (rest[:, 2] < a.pulse_zmax))
         out, pulse_report = pulse_smooth.run(z, decode, out, torso_ids, a.pulse_beta, a.pulse_lam, a.pulse_tie, 0.5)
         print("R66_PULSE", json.dumps(pulse_report), flush=True)
+    r68_report = None
+    if a.r68:
+        # R68: the root-cause fix rebuilds the rear-shoulder part of each R41 S7 key (HGPT_S7_DELT_<side>_<deg>).  The
+        # installer builds dense key j as rest + sum_k hats[j,k](old_k - rest) + dense[j+1], so changing old_k by d_k is
+        # exactly dense[j+1] += sum_k hats[j,k] d_k - added here, which keeps Work's affine pose model (and the native
+        # affine gate) exact.  The 110 deg key's delta is dropped (110 is a protected control), so the fix ramps in from
+        # 110 to 120 deg.
+        from original_review_r43_sampling import hats, KEYS, DENSE
+        zr = np.load(a.r68)
+        Hm = hats(DENSE, KEYS)                                       # (71, 7)
+        dk = np.zeros((len(KEYS), nv, 3))
+        for name in {f.split("__")[0] for f in zr.files}:
+            deg = float(name.rsplit("_", 1)[1])
+            if deg == 110.0:
+                continue
+            k = int(np.flatnonzero(KEYS == deg)[0])
+            dk[k, zr[name + "__idx"]] += zr[name + "__delta"]
+        add = np.einsum("jk,knc->jnc", Hm, dk)
+        out[1:] += add
+        out[[0, 15]] = 0.0
+        r68_report = {"file": a.r68, "max_added_mm": round(float(np.linalg.norm(add, axis=2).max() * 1000), 2),
+                      "vertices": int((np.abs(dk).max(axis=(0, 2)) > 0).sum())}
+        print("R68_DENSE", json.dumps(r68_report), flush=True)
     step_log = {}
     if a.step_limit > 0:
         # R64j: the gate limits the change between adjacent one-degree controls (3 mm).  Where a vertex's solved curve
@@ -532,7 +556,11 @@ def main():
     over = norms > 0.045
     out[over] *= (0.045 / norms[over])[:, None]
     assert not np.any(out[[0, 15]]), "protected 95/110 control changed"
-    if a.pulse_smooth:
+    if a.r68:
+        # R68 changes the S7 baseline itself from 110 deg up (incl. the marked pose's rear surface); the approved-outline
+        # vertices are pinned in its construction (outline change 0.000 mm on R41) and the native outline gate decides
+        assert np.array_equal(out[:15], d0[:15]), "95..109 must be untouched"
+    elif a.pulse_smooth:
         assert np.array_equal(out[:16], d0[:16]) and np.array_equal(out[40:42], d0[40:42]), "95..110 and the marked pose's 135/136 must be untouched"
     else:
         assert np.array_equal(out[:K0], d0[:K0]), "controls below the solved range (incl. the marked pose) must be untouched"
@@ -540,12 +568,12 @@ def main():
     np.savez_compressed(a.out, dense_delta=out, delta=out[SOURCE])
     metrics = {"status": "R63_IN_MEMORY_STUDY_NOT_ACCEPTED", "model_saved": False, "owner_approved": False,
                "scope_change": f"owner-approved lockout sculpt (20 Oct): controls {95 + K0}..166 re-solved in posed space; 166 released",
-               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top", "include_bench", "guard_bench", "guard_weight", "guard_iters", "step_limit", "lat_bulge", "lat_bulge_span", "shoulder_relax", "shoulder_rise", "shoulder_line_sigma", "shoulder_line_max", "shoulder_mu", "shoulder_centre", "shoulder_radius", "protect_head", "pulse_smooth", "pulse_beta", "pulse_zmax", "pulse_armw", "pulse_lam", "pulse_tie", "root_mm", "root_whole_back", "root_smooth", "root_relax", "hull", "fold", "fold_centre", "fold_radius", "fold_iters", "fold_step", "fold_max")},
+               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top", "include_bench", "guard_bench", "guard_weight", "guard_iters", "step_limit", "lat_bulge", "lat_bulge_span", "r68", "shoulder_relax", "shoulder_rise", "shoulder_line_sigma", "shoulder_line_max", "shoulder_mu", "shoulder_centre", "shoulder_radius", "protect_head", "pulse_smooth", "pulse_beta", "pulse_zmax", "pulse_armw", "pulse_lam", "pulse_tie", "root_mm", "root_whole_back", "root_smooth", "root_relax", "hull", "fold", "fold_centre", "fold_radius", "fold_iters", "fold_step", "fold_max")},
                "samples": report_s, "affected_vertices": int(len(affected)), "vertices_capped_at_45mm": capped,
                "posed_fit_max_error_mm": round(max(fit_err, default=0) * 1000, 3), "posed_fit_error_by_sample_mm": [round(e * 1000, 2) for e in fit_err],
                "max_change_from_start_mm": round(float(np.linalg.norm(out - d0, axis=2).max() * 1000), 2),
                "max_adjacent_control_mm": oscillation(out)["maximum_adjacent_mm"],
-               "arm_file_match_mm": round(dpos, 4), "step_limit": step_log, "pulse": pulse_report, "guard_new_pins_per_iteration": guard_log}
+               "arm_file_match_mm": round(dpos, 4), "step_limit": step_log, "pulse": pulse_report, "r68": r68_report, "guard_new_pins_per_iteration": guard_log}
     Path(a.out + ".json").write_text(json.dumps(metrics, indent=2) + "\n")
     print("R63_GENERATOR", json.dumps({k: v for k, v in metrics.items() if k != "samples"}))
 

@@ -369,3 +369,24 @@ The owner chose to keep 15 mm and fix what it hits.
 **Visual:** the owner's circled dip is filled with a straight, smooth arm-into-body line at 156/166° (`R52_vs_R63c_armpit_156_166.jpg`), and it is smoother than R63.
 
 **R63d:** taper the trapezius swell to zero within 9 cm of the midline, full from 12 cm (`--trap-neck-taper 0.09,0.12`).
+
+### R63d result (run 39444882093; trapezius neck taper 9–12 cm)
+
+| Gate | R63d | R60 | Limit |
+|---|---|---|---|
+| Contacts | **21** (R63c 106) | 7 | 0 |
+| Benchmark regressions | **5** | 6 | 0 |
+| Outline | 0.95 mm | 0.95 mm | 1 mm |
+| Dense motion | 9.25 mm | 9.25 mm | 0.5 mm |
+| Early outward | 0 | 0 | 0.05 mm |
+| Crease | 173° | 137° | 2° |
+
+- **The neck taper worked:** every trapezius self-contact is gone.
+- **The 21 contacts left** are all torso skin at the back of the armpit, around (−0.17, 0.07, 1.40), at samples 25/26 and 31–35. They include R52's original triangle 10855 vs 22184–22187.
+
+**Owner (20 Oct), on R63c:** "There is still the incorrect section at the armpit to solve." Claude's rear sweep (132–166°) confirms a smaller corner remains at the arm/torso junction from ~151°.
+
+**R63e (queued after R63d):**
+- `--torso-max 0.7`: the shared corner skin may move.
+- `--top 0.06`: fill 6 cm higher.
+- `--arm-margin 0.003`.

@@ -27,7 +27,7 @@ from pathlib import Path
 
 import numpy as np
 
-K0, K1 = 51, 71                      # controls 146 .. 166 (index = deg - 95)
+K0, K1 = 51, 71                      # controls 146 .. 166 by default (index = deg - 95); K0 follows --from
 
 
 def ht_of(t):
@@ -104,6 +104,9 @@ def main():
     ap.add_argument("--tie", type=float, default=0.02)
     ap.add_argument("--arm-margin", type=float, default=0.008, help="R63b: keep pushed torso skin this far (m) from the arm")
     a = ap.parse_args()
+    global K0
+    # R63c: the first solved control follows --from; never at or below 136 deg (the marked pose uses controls 135/136)
+    K0 = max(int(np.ceil(a.hfrom)) - 95, 42)
     sys.path[:0] = [str(Path(a.r57src) / "scripts")]
     from original_review_r52_temporal import decode, oscillation
 
@@ -213,11 +216,11 @@ def main():
     over = norms > 0.045
     out[over] *= (0.045 / norms[over])[:, None]
     assert not np.any(out[[0, 15]]), "protected 95/110 control changed"
-    assert np.array_equal(out[:K0], d0[:K0]), "controls <= 145 must be untouched"
+    assert np.array_equal(out[:K0], d0[:K0]), "controls below the solved range (incl. the marked pose) must be untouched"
     from original_review_r52_temporal import SOURCE
     np.savez_compressed(a.out, dense_delta=out, delta=out[SOURCE])
     metrics = {"status": "R63_IN_MEMORY_STUDY_NOT_ACCEPTED", "model_saved": False, "owner_approved": False,
-               "scope_change": "owner-approved lockout sculpt (20 Oct): controls 146..166 re-solved in posed space; 166 released",
+               "scope_change": f"owner-approved lockout sculpt (20 Oct): controls {95 + K0}..166 re-solved in posed space; 166 released",
                "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin")},
                "samples": report_s, "affected_vertices": int(len(affected)), "vertices_capped_at_45mm": capped,
                "posed_fit_max_error_mm": round(max(fit_err, default=0) * 1000, 3), "posed_fit_error_by_sample_mm": [round(e * 1000, 2) for e in fit_err],

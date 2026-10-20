@@ -327,3 +327,25 @@ The owner chose to keep 15 mm and fix what it hits.
 **Still to do:**
 - localise the trapezius contacts from the new report, and cap the 15 mm swell where it meets the neck/head;
 - bring the R63 motion back toward R60's 9 mm (raise `--lam`, or ramp in over more degrees).
+
+### R63b (run 39440663200) and R63c (launched)
+
+**R63b** (8 mm arm-distance cap on the fill):
+
+| Gate | R63b | Limit |
+|---|---|---|
+| Contacts | **235** (no better than R63's 215) | 0 |
+| Dense motion | 22.2 mm | 0.5 mm |
+| Crease | 170° | 2° |
+| Benchmark regressions | 9 | 0 |
+| Outline | 0.95 mm | 1 mm |
+
+- **So the contacts are not torso pushed into the arm.**
+- **Correction:** the gate's contact pairs are **triangle** indices, not vertex indices. That also applies to R57's "10855 vs 22184". `print_contacts.py` now labels each triangle by its corners.
+- **Likely causes:**
+  - **Contacts and wrinkles:** a purely sideways push concentrated near the outline (sigma 5 cm) shears the skin and folds it into itself.
+  - **Motion:** a 30 mm push ramped in over only 6° (146–152°).
+
+**R63c parameters:** `--from 137 --full 156 --gain 0.5 --sigma 0.08 --smooth 80`.
+- The ramp now starts at 137°: the first solved control is 137, while 135/136 (the marked pose) stay untouched.
+- It gives a wider, gentler, smoother push.

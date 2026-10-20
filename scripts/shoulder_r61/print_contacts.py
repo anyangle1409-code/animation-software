@@ -10,13 +10,19 @@ from pathlib import Path
 import numpy as np
 
 here = Path(__file__).resolve().parent
-src = np.load(sys.argv[1]); rest = src["rest"]
+src = np.load(sys.argv[1]); rest = src["rest"]; faces = src["faces"]   # the gate's contact pairs are TRIANGLE indices
 rep = json.loads(Path(sys.argv[2]).read_text())
 trap = set(np.load(here / "r62_upper_trap_region.npz")["vertex_ids"].tolist())
 armw = np.load(here / "r63_arm_weights.npz")["upperarm_weight"].astype(float).max(axis=0)
 
 
-def label(v):
+def label(f):
+    vs = faces[f]
+    labs = [vlabel(int(v)) for v in vs]
+    return max(set(labs), key=labs.count)
+
+
+def vlabel(v):
     if v in trap:
         return "trapezius"
     if armw[v] >= 0.5:
@@ -41,4 +47,5 @@ for e in c:
     seen.add(key)
     if len(seen) > 25:
         break
-    print("CONTACT", e["sample"], e["a"], label(e["a"]), np.round(rest[e["a"]], 3).tolist(), "|", e["b"], label(e["b"]), np.round(rest[e["b"]], 3).tolist())
+    ca = rest[faces[e["a"]]].mean(0); cb = rest[faces[e["b"]]].mean(0)
+    print("CONTACT sample", e["sample"], "tri", e["a"], label(e["a"]), np.round(ca, 3).tolist(), "| tri", e["b"], label(e["b"]), np.round(cb, 3).tolist())

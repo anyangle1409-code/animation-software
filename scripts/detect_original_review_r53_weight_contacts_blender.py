@@ -18,7 +18,10 @@ source,solution,dest=sys.argv[-3:];z={k:v for k,v in np.load(source).items()};de
 res=r17._setup(ROOT/'ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r41_20261017/HGPT_ORIGINAL_V1_REVIEW_R41_CODEX.blend');body,rig=res['body'],res['runtime'];blocks=body.data.shape_keys.key_blocks
 from original_review_r52_native import install
 from original_review_r53_weights import install_patch,linear_points
-install(res,delta,z['sampling_basis']);install_patch(res);bpy.context.view_layer.update()
+install(res,delta,z['sampling_basis']);patch=install_patch(res);bpy.context.view_layer.update()
+if os.environ.get('HGPT_R53_EXPECTED_PATCH'):
+ expected=np.load(os.environ['HGPT_R53_EXPECTED_PATCH'])
+ assert np.array_equal(patch['before'],expected['before']) and np.array_equal(patch['after'],expected['after']),'Validation replay changed the tested weights'
 def pairs(p):
  tree=BVHTree.FromPolygons([Vector(v) for v in p],faces,all_triangles=True)
  return {(a,b) for a,b in tree.overlap(tree) if a<b and not(fs[a]&fs[b])}

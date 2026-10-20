@@ -25,4 +25,17 @@ class Patch(unittest.TestCase):
   q=self.w.copy();q[1]=[.7,.3]
   with self.assertRaises(ValueError):validate(self.w,q,[1,2])
 
+
+
+class LinearNormalization(unittest.TestCase):
+ def test_inherited_nonunit_mass_is_normalized_like_blender(self):
+  from original_review_r53_weights import normalize_linear_blend
+  mass=np.array([.9999954923987389,1.])
+  expected=np.array([[.2,.1,1.4],[-.2,.1,1.4]])
+  np.testing.assert_allclose(normalize_linear_blend(expected*mass[:,None],mass),expected,atol=1e-12)
+ def test_missing_or_nonfinite_influence_is_rejected(self):
+  from original_review_r53_weights import normalize_linear_blend
+  for mass in (np.array([0.]),np.array([np.nan])):
+   with self.assertRaises(ValueError):normalize_linear_blend(np.ones((1,3)),mass)
+
 if __name__=='__main__':unittest.main()

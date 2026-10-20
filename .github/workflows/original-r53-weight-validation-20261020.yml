@@ -1,0 +1,75 @@
+name: ORIGINAL_v1 R53 same-weight validation replay
+'on':
+  push:
+    branches: [codex/r53-shoulder-root-cause-20261019]
+    paths: [.github/workflows/original-r53-weight-validation-20261020.yml]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  validate-same-weight-trial:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        shell: bash
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      HGPT_R53_RESPONSE: /tmp/r53-weight/source.npz
+      HGPT_R53_EXPECTED_PATCH: /tmp/r53-weight/r52/weight_patch.npz
+    steps:
+    - uses: actions/checkout@v4
+    - run: sudo apt-get update && sudo apt-get install -y libegl1 libgl1-mesa-dri python3-scipy
+    - name: Install pinned Blender
+      run: |
+        curl --fail --location --retry 3 https://download.blender.org/release/Blender5.2/blender-5.2.1-linux-x64.tar.xz --output /tmp/blender.tar.xz
+        echo 'a31f524fa99a527d3d52b7f5aaa68c34e1a19d5a1c9473f79c5cc610fd5b10e9  /tmp/blender.tar.xz' | sha256sum -c -
+        tar -xJf /tmp/blender.tar.xz -C /tmp
+    - uses: actions/download-artifact@v4
+      with:
+        name: original-v1-r53-weight-trial-20261019
+        run-id: 39387536138
+        github-token: ${{ github.token }}
+        path: /tmp/r53-weight
+    - name: Verify exact trial inputs and normalization regression
+      run: |
+        echo '2a6c01cf7eacd3d1ceb47ae9f131f76dd0487fce5d3518d5cd1df65bc059fa8d  /tmp/r53-weight/source.npz' | sha256sum -c -
+        echo 'b3a6c404a944753facde5a92db8bc4547a1ca756960b6b82df2875f5e4eb804f  /tmp/r53-weight/solved.npz' | sha256sum -c -
+        echo '4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e  ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r41_20261017/HGPT_ORIGINAL_V1_REVIEW_R41_CODEX.blend' | sha256sum -c -
+        mkdir -p /tmp/r53-weight/initial_execution
+        cp /tmp/r53-weight/native* /tmp/r53-weight/initial_execution/ || true
+        /usr/bin/python3 -m unittest discover -s scripts/tests -p 'test_original_review_r53*.py' -v 2>&1 | tee /tmp/r53-weight/normalization_unit_tests.txt
+    - name: Repeat83 safety checks on exactly the rendered weights
+      run: |
+        set +e
+        timeout 22m /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/detect_original_review_r53_weight_contacts_blender.py -- /tmp/r53-weight/source.npz /tmp/r53-weight/solved.npz /tmp/r53-weight/native_final.json > /tmp/r53-weight/native.log 2>&1
+        code=$?
+        echo "$code" > /tmp/r53-weight/native_exit.txt
+        tail -15 /tmp/r53-weight/native.log
+        exit "$code"
+    - name: Repeat13 unchanged benchmarks after helper setup
+      if: success() || failure()
+      run: |
+        cp /tmp/r53-weight/benchmarks* /tmp/r53-weight/initial_execution/
+        set +e
+        timeout 8m /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python scripts/run_original_review_r53_weight_checks_blender.py -- validate_original_review_r52_benchmarks_blender.py /tmp/r53-weight/source.npz /tmp/r53-weight/solved.npz /tmp/r53-weight/benchmarks.json > /tmp/r53-weight/benchmarks.log 2>&1
+        code=$?
+        echo "$code" > /tmp/r53-weight/benchmarks_exit.txt
+        tail -12 /tmp/r53-weight/benchmarks.log
+        exit "$code"
+    - name: Repeat unchanged actual native and historical tests
+      if: success() || failure()
+      run: |
+        mkdir -p /tmp/r52-study/R52
+        cp /tmp/r53-weight/r52/native_probe.npz /tmp/r52-study/R52/native_probe.npz
+        /usr/bin/python3 scripts/run_original_review_r52_checks.py /tmp/r53-weight native
+    - name: Require complete execution evidence
+      if: success() || failure()
+      run: /usr/bin/python3 scripts/report_original_review_r53_weights.py /tmp/r53-weight
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: original-v1-r53-weight-validation-20261020
+        path: /tmp/r53-weight/
+        retention-days: 14

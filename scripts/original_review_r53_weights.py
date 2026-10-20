@@ -65,5 +65,9 @@ def linear_points(res):
   if not w.any():continue
   transform=np.array(rig.matrix_world@rig.pose.bones[group.name].matrix@bone.matrix_local.inverted()@rig.matrix_world.inverted()@body.matrix_world)
   result+=w[:,None]*(h@transform.T);mass+=w
- assert np.all(abs(mass-1)<2e-6)
- return result[:,:3]/mass[:,None]
+ return normalize_linear_blend(result[:,:3],mass)
+
+def normalize_linear_blend(points,mass):
+ points,mass=np.asarray(points,float),np.asarray(mass,float)
+ if points.shape!=(len(mass),3) or not np.isfinite(points).all() or not np.isfinite(mass).all() or np.any(mass<=0):raise ValueError('Invalid linear skinning influence')
+ return points/mass[:,None]

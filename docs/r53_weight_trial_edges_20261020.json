@@ -1,0 +1,26 @@
+[
+  {
+    "frame": 80,
+    "seed_edge_before_mm": 1.964449167251587,
+    "seed_edge_after_mm": 2.4926583766937256,
+    "max_vertex_shift_mm": 0.8558902740478516
+  },
+  {
+    "frame": 100,
+    "seed_edge_before_mm": 2.2729837894439697,
+    "seed_edge_after_mm": 2.7956671714782715,
+    "max_vertex_shift_mm": 0.9071123600006104
+  },
+  {
+    "frame": 128,
+    "seed_edge_before_mm": 3.842371940612793,
+    "seed_edge_after_mm": 4.451690673828125,
+    "max_vertex_shift_mm": 0.9519699215888977
+  },
+  {
+    "frame": 160,
+    "seed_edge_before_mm": 14.568944931030273,
+    "seed_edge_after_mm": 15.224056243896484,
+    "max_vertex_shift_mm": 1.1154388189315796
+  }
+]

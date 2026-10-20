@@ -1,4 +1,4 @@
-name: ORIGINAL_v1 R63 unsaved press study, posed-space lockout sculpt (Claude; R63b: arm-distance cap)
+name: ORIGINAL_v1 R63b unsaved press study, posed-space lockout sculpt with arm-distance cap (Claude)
 'on':
   push:
     branches: [claude/home-gym-pt-animation-txux66]

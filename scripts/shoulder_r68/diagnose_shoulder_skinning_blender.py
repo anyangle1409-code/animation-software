@@ -343,7 +343,7 @@ for cfg, (dqs, corr) in CONFIGS.items():
         co = evaluated()
         results[cfg][f"{ht:g}"] = metrics(co)
         print("R68", cfg, ht, json.dumps(results[cfg][f"{ht:g}"]), flush=True)
-        if RENDER and cfg in ("current", "lbs_raw", "dqs_raw", "fixed") and ht in (0.0, 90.0, 135.6, 156.0, 166.0):
+        if RENDER and ht in (0.0, 90.0, 135.6, 156.0, 166.0):
             for view, (dv, scale) in VIEWS.items():
                 if view == "back_full":
                     tgt = (rig.matrix_world @ rig.pose.bones["upperarm_l"].head + rig.matrix_world @ rig.pose.bones["upperarm_r"].head) / 2 + Vector((0, 0, 0.05))

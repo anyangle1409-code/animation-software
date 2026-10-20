@@ -225,6 +225,29 @@ def shoulder_line(P, cand, arm, neck, rise, gain, sigma, maxpush):
     return D, info
 
 
+def armpit_thinplate(Q, faces, Avg, wgt, pin):
+    """R69f: thin-plate (bi-Laplacian) rebuild of the arm-underside patch at the armpit in THIS candidate's posed skin.
+    Free = vertices with wgt > 0 and not pinned; the rest of the skin (and its 2-ring) is the boundary.  Returns the
+    displacement times wgt (smooth fade)."""
+    from scipy.sparse import identity
+    from scipy.sparse.linalg import spsolve
+    nv = len(Q)
+    L = (identity(nv, format="csr") - Avg).tocsr()
+    free = np.flatnonzero((wgt > 1e-3) & ~pin)
+    if len(free) < 10:
+        return np.zeros_like(Q)
+    isf = np.zeros(nv, bool); isf[free] = True
+    nb = (abs(Avg) > 0).astype(float)
+    rows = np.flatnonzero(isf | (nb @ isf.astype(float) > 0))
+    fixed = np.flatnonzero(~isf)
+    M = L[rows]; MF = M[:, free].tocsc(); MC = M[:, fixed]
+    N = (MF.T @ MF).tocsc()
+    x = Q.copy()
+    for ax in range(3):
+        x[free, ax] = spsolve(N, -(MF.T @ (MC @ Q[fixed, ax])))
+    return (x - Q) * wgt[:, None]
+
+
 def main():
     ap = argparse.ArgumentParser()
     for a in ("--r57src", "--response", "--start", "--out"):
@@ -266,6 +289,8 @@ def main():
     ap.add_argument("--pulse-beta", type=float, default=30.0)
     ap.add_argument("--pulse-lam", type=float, default=0.3)
     ap.add_argument("--pulse-tie", type=float, default=0.02)
+    ap.add_argument("--armpit-tp", type=float, default=0.0, help="R69f: radius (m) of the arm-underside thin-plate patch at the armpit (0 = off)")
+    ap.add_argument("--armpit-tp-centre", default="0.209,0.005,1.367", help="R69f: rest centre (measured fold centroid, right side)")
     ap.add_argument("--r68-pin", action="store_true", help="R69d: fade the R68 fix out on this candidate's marked-pose outline support and on any triangle it flips")
     ap.add_argument("--r68", default="", help="R68: S7 rear-shoulder root-cause fix (sparse per-key deltas) added to the dense increments")
     ap.add_argument("--step-limit", type=float, default=0.0, help="R64j: smooth solved control curves until adjacent steps <= this (m)")
@@ -293,6 +318,65 @@ def main():
     assert dpos < 1.0, f"arm weight file does not match the source rest mesh ({dpos:.3f} mm)"
     armw = arm["upperarm_weight"].astype(float); whole = arm["whole_arm_weight"].astype(float)
     Avg = neighbour_mean(faces, nv)
+    d0_start = d0.copy()
+    r68_report = None
+    if a.r68:
+        # R68: the root-cause fix rebuilds the rear-shoulder part of each R41 S7 key (HGPT_S7_DELT_<side>_<deg>).  The
+        # installer builds dense key j as rest + sum_k hats[j,k](old_k - rest) + dense[j+1], so changing old_k by d_k is
+        # exactly dense[j+1] += sum_k hats[j,k] d_k - added here, which keeps Work's affine pose model (and the native
+        # affine gate) exact.  The 110 deg key's delta is dropped (110 is a protected control), so the fix ramps in from
+        # 110 to 120 deg.
+        from original_review_r43_sampling import hats, KEYS, DENSE
+        zr = np.load(a.r68)
+        Hm = hats(DENSE, KEYS)                                       # (71, 7)
+        dk = np.zeros((len(KEYS), nv, 3))
+        for name in {f.split("__")[0] for f in zr.files}:
+            deg = float(name.rsplit("_", 1)[1])
+            if deg == 110.0:
+                continue
+            k = int(np.flatnonzero(KEYS == deg)[0])
+            dk[k, zr[name + "__idx"]] += zr[name + "__delta"]
+        add = np.einsum("jk,knc->jnc", Hm, dk)
+        if a.r68_pin:
+            # R69d: R69c (posterior groove pass) moved the approved outline 2.5 mm and flipped 7 more triangles at the
+            # marked pose in the R52 candidate - its outline runs through different vertices than on bare R41.  Protect
+            # them in THIS candidate's geometry: at the marked sample (25) take Work's outline support vertices
+            # (solve_original_review_r52.support_vertices) with and without the fix, plus any triangle the fix flips,
+            # grow by 2 rings and fade the fix to 0 there (smooth 3-ring ramp).
+            from solve_original_review_r52 import support_vertices
+            lo_m, hi_m, t_m = decode(z["weight"][25][None]); lo_m, hi_m, t_m = lo_m[0].astype(int), hi_m[0].astype(int), t_m[0]
+            vv = np.arange(nv)
+            def marked(dense):
+                inc = (1 - t_m)[:, None] * dense[lo_m, vv] + t_m[:, None] * dense[hi_m, vv]
+                return z["base"][25] + np.einsum("nij,nj->ni", z["mat"][25], inc)
+            def fnormals(Pm):
+                return np.cross(Pm[faces[:, 1]] - Pm[faces[:, 0]], Pm[faces[:, 2]] - Pm[faces[:, 0]])
+            A_ = (Avg > 0).astype(float)
+            keep = np.ones(nv)
+            for it_ in range(4):
+                trial = d0.copy(); trial[1:] += add * keep[None, :, None]
+                P0 = marked(d0); P1 = marked(trial)
+                bad = np.zeros(nv, bool)
+                bad[support_vertices(P0, faces)] = True; bad[support_vertices(P1, faces)] = True
+                flip = np.einsum("ij,ij->i", fnormals(P0), fnormals(P1)) < 0
+                bad[np.unique(faces[flip])] = True
+                for _ in range(2):
+                    bad = bad | (A_ @ bad.astype(float) > 0)
+                ramp = bad.astype(float)
+                for _ in range(3):
+                    ramp = np.maximum(ramp, 0.5 * (A_ @ ramp) / np.maximum(A_.sum(1).A1 if hasattr(A_.sum(1), "A1") else np.asarray(A_.sum(1)).ravel(), 1))
+                new_keep = np.minimum(keep, 1.0 - np.clip(ramp, 0, 1))
+                n_flip = int(flip.sum())
+                print("R69_PIN", it_, json.dumps({"pinned_vertices": int(bad.sum()), "flipped_triangles": n_flip}), flush=True)
+                if np.allclose(new_keep, keep) and n_flip == 0:
+                    break
+                keep = new_keep
+            add = add * keep[None, :, None]
+        d0[1:] += add
+        d0[[0, 15]] = 0.0
+        r68_report = {"file": a.r68, "max_added_mm": round(float(np.linalg.norm(add, axis=2).max() * 1000), 2),
+                      "vertices": int((np.abs(dk).max(axis=(0, 2)) > 0).sum())}
+        print("R68_DENSE", json.dumps(r68_report), flush=True)
     hn_all = smoothstep((rest[:, 2] - 1.48) / 0.05) * smoothstep((0.14 - np.abs(rest[:, 0])) / 0.03)   # head + neck
     if a.protect_head:
         # R66: the rear-outline fill pushed the sides of the head/neck out at lockout (armpit at head height): +10 px head
@@ -389,6 +473,23 @@ def main():
             for _ in range(20):
                 Dl = 0.5 * Dl + 0.5 * (Avg @ Dl)
             D = D + Dl * ramp
+        if a.armpit_tp > 0 and ramp > 0 and s not in guard_samples:
+            # R69f (owner on R68e: "the arm still has that bit at the armpit"): measured in the press candidate itself -
+            # arm-underside folds > 45 deg at the armpit: R52 0, candidate 18 at 156 deg (rest centroid (0.209,0.005,1.367));
+            # the lockout outline fill and the S7 rear restore both feed it.  Thin-plate rebuild of that patch here, in this
+            # pose, with this pose's approved-outline support (Work's support_vertices) pinned.
+            from solve_original_review_r52 import support_vertices
+            cc = [float(v) for v in a.armpit_tp_centre.split(",")]
+            wtp = np.zeros(nv)
+            for sg_ in (-1.0, 1.0):
+                dd = np.linalg.norm(rest - np.array([sg_ * cc[0], cc[1], cc[2]]), axis=1)
+                wtp = np.maximum(wtp, smoothstep((a.armpit_tp - dd) / (0.5 * a.armpit_tp)))
+            Q_ = P + D
+            pin_ = np.zeros(nv, bool); pin_[support_vertices(Q_, faces)] = True
+            nbm = (abs(Avg) > 0).astype(float)
+            for _ in range(2):
+                pin_ = pin_ | (nbm @ pin_.astype(float) > 0)
+            D = D + armpit_thinplate(Q_, faces, Avg, wtp, pin_) * ramp
         if shoulder_w is not None and ramp > 0 and s not in guard_samples:
             D = D + taubin(P + D, Avg, shoulder_w, a.shoulder_relax, 0.5, a.shoulder_mu) * ramp
         D *= protect[:, None]
@@ -501,64 +602,6 @@ def main():
         torso_ids = np.flatnonzero((whole.max(axis=0) < a.pulse_armw) & (rest[:, 2] > 1.0) & (rest[:, 2] < a.pulse_zmax))
         out, pulse_report = pulse_smooth.run(z, decode, out, torso_ids, a.pulse_beta, a.pulse_lam, a.pulse_tie, 0.5)
         print("R66_PULSE", json.dumps(pulse_report), flush=True)
-    r68_report = None
-    if a.r68:
-        # R68: the root-cause fix rebuilds the rear-shoulder part of each R41 S7 key (HGPT_S7_DELT_<side>_<deg>).  The
-        # installer builds dense key j as rest + sum_k hats[j,k](old_k - rest) + dense[j+1], so changing old_k by d_k is
-        # exactly dense[j+1] += sum_k hats[j,k] d_k - added here, which keeps Work's affine pose model (and the native
-        # affine gate) exact.  The 110 deg key's delta is dropped (110 is a protected control), so the fix ramps in from
-        # 110 to 120 deg.
-        from original_review_r43_sampling import hats, KEYS, DENSE
-        zr = np.load(a.r68)
-        Hm = hats(DENSE, KEYS)                                       # (71, 7)
-        dk = np.zeros((len(KEYS), nv, 3))
-        for name in {f.split("__")[0] for f in zr.files}:
-            deg = float(name.rsplit("_", 1)[1])
-            if deg == 110.0:
-                continue
-            k = int(np.flatnonzero(KEYS == deg)[0])
-            dk[k, zr[name + "__idx"]] += zr[name + "__delta"]
-        add = np.einsum("jk,knc->jnc", Hm, dk)
-        if a.r68_pin:
-            # R69d: R69c (posterior groove pass) moved the approved outline 2.5 mm and flipped 7 more triangles at the
-            # marked pose in the R52 candidate - its outline runs through different vertices than on bare R41.  Protect
-            # them in THIS candidate's geometry: at the marked sample (25) take Work's outline support vertices
-            # (solve_original_review_r52.support_vertices) with and without the fix, plus any triangle the fix flips,
-            # grow by 2 rings and fade the fix to 0 there (smooth 3-ring ramp).
-            from solve_original_review_r52 import support_vertices
-            lo_m, hi_m, t_m = decode(z["weight"][25][None]); lo_m, hi_m, t_m = lo_m[0].astype(int), hi_m[0].astype(int), t_m[0]
-            vv = np.arange(nv)
-            def marked(dense):
-                inc = (1 - t_m)[:, None] * dense[lo_m, vv] + t_m[:, None] * dense[hi_m, vv]
-                return z["base"][25] + np.einsum("nij,nj->ni", z["mat"][25], inc)
-            def fnormals(Pm):
-                return np.cross(Pm[faces[:, 1]] - Pm[faces[:, 0]], Pm[faces[:, 2]] - Pm[faces[:, 0]])
-            A_ = (Avg > 0).astype(float)
-            keep = np.ones(nv)
-            for it_ in range(4):
-                trial = out.copy(); trial[1:] += add * keep[None, :, None]
-                P0 = marked(out); P1 = marked(trial)
-                bad = np.zeros(nv, bool)
-                bad[support_vertices(P0, faces)] = True; bad[support_vertices(P1, faces)] = True
-                flip = np.einsum("ij,ij->i", fnormals(P0), fnormals(P1)) < 0
-                bad[np.unique(faces[flip])] = True
-                for _ in range(2):
-                    bad = bad | (A_ @ bad.astype(float) > 0)
-                ramp = bad.astype(float)
-                for _ in range(3):
-                    ramp = np.maximum(ramp, 0.5 * (A_ @ ramp) / np.maximum(A_.sum(1).A1 if hasattr(A_.sum(1), "A1") else np.asarray(A_.sum(1)).ravel(), 1))
-                new_keep = np.minimum(keep, 1.0 - np.clip(ramp, 0, 1))
-                n_flip = int(flip.sum())
-                print("R69_PIN", it_, json.dumps({"pinned_vertices": int(bad.sum()), "flipped_triangles": n_flip}), flush=True)
-                if np.allclose(new_keep, keep) and n_flip == 0:
-                    break
-                keep = new_keep
-            add = add * keep[None, :, None]
-        out[1:] += add
-        out[[0, 15]] = 0.0
-        r68_report = {"file": a.r68, "max_added_mm": round(float(np.linalg.norm(add, axis=2).max() * 1000), 2),
-                      "vertices": int((np.abs(dk).max(axis=(0, 2)) > 0).sum())}
-        print("R68_DENSE", json.dumps(r68_report), flush=True)
     step_log = {}
     if a.step_limit > 0:
         # R64j: the gate limits the change between adjacent one-degree controls (3 mm).  Where a vertex's solved curve
@@ -595,7 +638,7 @@ def main():
     if a.r68:
         # R68 changes the S7 baseline itself from 110 deg up (incl. the marked pose's rear surface); the approved-outline
         # vertices are pinned in its construction (outline change 0.000 mm on R41) and the native outline gate decides
-        assert np.array_equal(out[:15], d0[:15]), "95..109 must be untouched"
+        assert np.array_equal(out[:15], d0_start[:15]), "95..109 must be untouched"
     elif a.pulse_smooth:
         assert np.array_equal(out[:16], d0[:16]) and np.array_equal(out[40:42], d0[40:42]), "95..110 and the marked pose's 135/136 must be untouched"
     else:
@@ -604,7 +647,7 @@ def main():
     np.savez_compressed(a.out, dense_delta=out, delta=out[SOURCE])
     metrics = {"status": "R63_IN_MEMORY_STUDY_NOT_ACCEPTED", "model_saved": False, "owner_approved": False,
                "scope_change": f"owner-approved lockout sculpt (20 Oct): controls {95 + K0}..166 re-solved in posed space; 166 released",
-               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top", "include_bench", "guard_bench", "guard_weight", "guard_iters", "step_limit", "lat_bulge", "lat_bulge_span", "r68", "r68_pin", "shoulder_relax", "shoulder_rise", "shoulder_line_sigma", "shoulder_line_max", "shoulder_mu", "shoulder_centre", "shoulder_radius", "protect_head", "pulse_smooth", "pulse_beta", "pulse_zmax", "pulse_armw", "pulse_lam", "pulse_tie", "root_mm", "root_whole_back", "root_smooth", "root_relax", "hull", "fold", "fold_centre", "fold_radius", "fold_iters", "fold_step", "fold_max")},
+               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top", "include_bench", "guard_bench", "guard_weight", "guard_iters", "step_limit", "lat_bulge", "lat_bulge_span", "r68", "r68_pin", "armpit_tp", "armpit_tp_centre", "shoulder_relax", "shoulder_rise", "shoulder_line_sigma", "shoulder_line_max", "shoulder_mu", "shoulder_centre", "shoulder_radius", "protect_head", "pulse_smooth", "pulse_beta", "pulse_zmax", "pulse_armw", "pulse_lam", "pulse_tie", "root_mm", "root_whole_back", "root_smooth", "root_relax", "hull", "fold", "fold_centre", "fold_radius", "fold_iters", "fold_step", "fold_max")},
                "samples": report_s, "affected_vertices": int(len(affected)), "vertices_capped_at_45mm": capped,
                "posed_fit_max_error_mm": round(max(fit_err, default=0) * 1000, 3), "posed_fit_error_by_sample_mm": [round(e * 1000, 2) for e in fit_err],
                "max_change_from_start_mm": round(float(np.linalg.norm(out - d0, axis=2).max() * 1000), 2),

@@ -131,7 +131,7 @@ def fold_region(rest, centre, radius):
     return w
 
 
-def root_region(rest, armw, Avg, passes=20):
+def root_region(rest, armw, Avg, passes=20, whole_back=False):
     """R65: rest-space weight for the lower/back half of the arm-root blend ring (upper-arm weight ~0.5), both sides"""
     w = np.zeros(len(rest))
     for k, sg in enumerate((-1.0, 1.0)):
@@ -141,7 +141,7 @@ def root_region(rest, armw, Avg, passes=20):
             continue
         zc = np.median(rest[ring, 2])
         r = np.clip(1.0 - np.abs(2.0 * a_ - 1.0), 0, 1)
-        low = smoothstep((zc + 0.02 - rest[:, 2]) / 0.04)          # under-arm half of the ring
+        low = 1.0 if whole_back else smoothstep((zc + 0.02 - rest[:, 2]) / 0.04)   # under-arm half (or the whole back)
         back = smoothstep((rest[:, 1] + 0.02) / 0.06)              # posterior (+y is the back)
         w = np.maximum(w, r * low * back * (sg * rest[:, 0] > 0))
     for _ in range(passes):
@@ -190,6 +190,7 @@ def main():
     ap.add_argument("--lat-bulge", type=float, default=0.0, help="R65: outline bulge (m) just under the armpit (hull mode)")
     ap.add_argument("--lat-bulge-span", type=float, default=0.15)
     ap.add_argument("--root-mm", type=float, default=0.0, help="R65: inflate the posterior arm root by this much (mm) along the posed normal")
+    ap.add_argument("--root-whole-back", action="store_true", help="R65c: inflate the whole back half of the arm-root ring (rear deltoid too)")
     ap.add_argument("--step-limit", type=float, default=0.0, help="R64j: smooth solved control curves until adjacent steps <= this (m)")
     ap.add_argument("--hull", action="store_true", help="R64b: fill the rear outline to its outward convex envelope")
     ap.add_argument("--fold", action="store_true", help="R64: sculpt the posterior axillary fold (outward-only relax)")
@@ -215,7 +216,7 @@ def main():
     assert dpos < 1.0, f"arm weight file does not match the source rest mesh ({dpos:.3f} mm)"
     armw = arm["upperarm_weight"].astype(float); whole = arm["whole_arm_weight"].astype(float)
     Avg = neighbour_mean(faces, nv)
-    root_w = root_region(rest, armw, Avg) if a.root_mm > 0 else None
+    root_w = root_region(rest, armw, Avg, whole_back=a.root_whole_back) if a.root_mm > 0 else None
     fold_w = fold_region(rest, [float(c) for c in a.fold_centre.split(",")], a.fold_radius) if a.fold else None
 
     samples = [s for s in range(41) if ht_of(s / 40) >= a.hfrom - 1.0]
@@ -409,7 +410,7 @@ def main():
     np.savez_compressed(a.out, dense_delta=out, delta=out[SOURCE])
     metrics = {"status": "R63_IN_MEMORY_STUDY_NOT_ACCEPTED", "model_saved": False, "owner_approved": False,
                "scope_change": f"owner-approved lockout sculpt (20 Oct): controls {95 + K0}..166 re-solved in posed space; 166 released",
-               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top", "include_bench", "guard_bench", "guard_weight", "guard_iters", "step_limit", "lat_bulge", "lat_bulge_span", "root_mm", "hull", "fold", "fold_centre", "fold_radius", "fold_iters", "fold_step", "fold_max")},
+               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top", "include_bench", "guard_bench", "guard_weight", "guard_iters", "step_limit", "lat_bulge", "lat_bulge_span", "root_mm", "root_whole_back", "hull", "fold", "fold_centre", "fold_radius", "fold_iters", "fold_step", "fold_max")},
                "samples": report_s, "affected_vertices": int(len(affected)), "vertices_capped_at_45mm": capped,
                "posed_fit_max_error_mm": round(max(fit_err, default=0) * 1000, 3), "posed_fit_error_by_sample_mm": [round(e * 1000, 2) for e in fit_err],
                "max_change_from_start_mm": round(float(np.linalg.norm(out - d0, axis=2).max() * 1000), 2),

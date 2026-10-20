@@ -17,7 +17,12 @@ import build_original_review_candidate_r17_blender as r17
 import build_original_movement_benchmarks_blender as bench
 import original_v1_review_candidate_drives as drives
 import original_v1_press_extension as px
-from original_review_r52_native import install
+if os.environ.get('R61_INSTALLER'):
+    # Claude R61 copy of the installer: the 166 deg control may be non-zero (owner decision, 20 Oct)
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'shoulder_r61'))
+    from claude_r61_native import install
+else:
+    from original_review_r52_native import install
 
 out = Path(out) / label
 out.mkdir(parents=True, exist_ok=True)

@@ -186,7 +186,7 @@ def main():
     np.savez_compressed(a.out, dense_delta=out, delta=out[SOURCE])
     metrics = {"status": "R59_IN_MEMORY_STUDY_NOT_ACCEPTED", "variant": a.variant, "envelope_mm": a.envelope_mm if a.variant == "b" else None, "fidelity": a.fidelity if a.variant == "c" else None, "r61_released_166_hold_from": (a.hold_from if getattr(a, "_r61", False) else None),
                "active_set_iterations_max": (int(max(iters_hist)) if a.variant == "b" and iters_hist else None), "model_saved": False, "owner_approved": False,
-               "material_scope_expanded": bool(getattr(a, "_r61", False)), "scope_change": ("release of the 166 deg S7 control requested by the owner (20 Oct); NOT installable with the current R52 installer, which rejects it" if getattr(a, "_r61", False) else None), "permission_patterns": len(cache),
+               "material_scope_expanded": bool(getattr(a, "_r61", False)), "scope_change": ("release of the 166 deg S7 control requested by the owner (20 Oct); installed by Claude's R61 installer copy (scripts/shoulder_r61/claude_r61_native.py)" if getattr(a, "_r61", False) else None), "permission_patterns": len(cache),
                "unreachable_vertex_coords_kept_zero": unreachable, "vertices_capped_at_45mm": capped,
                "marked_pose_increment_max_error_mm": round(marked_err, 6),
                "rest_space_profile_accel_mm_x16": {"r52": round(float(acc_old), 3), "r59": round(float(acc_new), 3)},

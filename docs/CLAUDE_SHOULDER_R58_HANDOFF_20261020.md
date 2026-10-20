@@ -463,3 +463,41 @@ The guard never adds fill.
 1. Owner review of R63g.
 2. Localise and fix the 21 posterior-armpit self-contacts.
 3. Then the pull-up (dead hang), using the same posed-space method.
+
+## R64 (20 Oct): posterior armpit shape from anatomy references
+
+**Owner mark:** R63g, 166° rear close-up. The posterior armpit, where the underside of the upper arm meets the side of the back, is wrong. The outline steps in, and the skin above the step crumples.
+
+**References:**
+- [Kenhub teres major](https://www.kenhub.com/en/library/anatomy/teres-major-muscle)
+- [Kenhub latissimus dorsi](https://www.kenhub.com/en/library/anatomy/latissimus-dorsi-muscle)
+- [Dartmouth BHA ch. 8](https://humananatomy.host.dartmouth.edu/BHA/public_html/part_2/chapter_8.html)
+- [Wikipedia latissimus dorsi](https://en.wikipedia.org/wiki/Latissimus_dorsi_muscle)
+- [Proko shoulder notes](https://www.proko.com/course-lesson/inventing-the-shoulder-muscles/notes)
+
+**Target shape:** with the arm overhead, latissimus dorsi and teres major form one smooth, convex posterior axillary fold, running from the medial underside of the arm diagonally into the back. There is no notch, the skin is taut and unwrinkled, and the hollow of the armpit lies in front of the fold.
+
+**Code changes** (`scripts/shoulder_r61/generate_r63_lockout.py`):
+- `--fold`: outward-only Laplacian relax in a rest-space posterior-armpit region (centre (±0.17, 0.07, 1.40), radius 0.10 m).
+  - Fills dents and evens out facets, and never pushes bumps in.
+  - Cap: 25 mm.
+- `--hull`: the rear-view outline is filled to its **outward convex envelope**. This replaces R63's straight arm-edge line, which used gain 0.5 and so only half-filled the gap.
+- **Finding:** R63's arm-distance cap (`--arm-margin`) is about 0 right at the arm/back join. That is what held the notch, so R64c onward run with `--arm-margin 0`. The benchmark guard is kept.
+
+**Variants and close-ups:**
+- Close-ups are in `review-assets/shoulder_r64_closeups/` (`R64b_closeups/` … `R64e_closeups/`, plus the `compare_*_166deg_*.jpg` comparisons).
+- Workflows: `shoulder-r64-closeups.yml` (matrix) and `shoulder-r63-lockout.yml` (gates and video; currently R64d).
+
+| Variant | Flags | 166° rear outline |
+|---|---|---|
+| R64 | `--fold` | crumples reduced, step remains |
+| R64b | + `--hull --gain 1.0`, arm cap 3 mm | step remains (cap) |
+| R64c | + arm cap 0 | step mostly gone; the 80-pass smoothing dilutes the push (40 → 27 mm) |
+| **R64d** | + `--smooth 30` | **one smooth convex arm-to-back line (best)** |
+| R64e | + `--top 0.10 --maxpush 0.045 --sigma 0.10` | similar outline; spreads towards the neck |
+
+**R64 gates (run 39460581242):**
+- Contacts 21 → **7**. These are only R52's original 7, at samples 25/26/65/66, on protected or approved controls.
+- Crease 168 → 146°.
+- Outline 0.95 mm (pass). Early outward 0 (pass).
+- Worse: dense motion 13.1 mm (R63g 9.25), benchmark regressions 9 (R63g 6), and the **adjacent step fails (4.58 mm > 3 mm)**. Fix: raise the temporal penalty `--lam`.

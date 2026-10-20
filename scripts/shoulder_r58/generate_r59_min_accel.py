@@ -45,7 +45,8 @@ def main():
     ap = argparse.ArgumentParser()
     for a in ("--r57src", "--response", "--solution", "--out"):
         ap.add_argument(a, required=True)
-    ap.add_argument("--variant", default="a", choices=("a", "b", "c"))
+    ap.add_argument("--variant", default="a", choices=("a", "b", "c", "d"))
+    ap.add_argument("--hold-from", type=float, default=145.0, help="R61 (variant d): hold the fill from this elevation to lockout")
     ap.add_argument("--fidelity", type=float, default=1.0, help="R60 (variant c): weight of staying on R52 per frame vs smoothness")
     ap.add_argument("--envelope-mm", type=float, default=2.0)
     a = ap.parse_args()
@@ -71,6 +72,20 @@ def main():
     out = np.zeros_like(old)
     cache = {}
     unreachable = 0
+    if a.variant == "d":
+        # R61 (owner, on R60 at 156 deg: the arm-into-body flow turns into a dip from ~148 deg to the top; "finish the
+        # press first"; owner wants the high range corrected): the 166 deg control was a protected zero holding the
+        # pre-R47 lockout shape, so the R47 fill had to drain away after ~148 deg.  R61 releases control 166 (owner's
+        # go-ahead, 20 Oct) for every vertex already allowed at 165 deg, and makes the fidelity target HOLD each vertex's
+        # R52 value at --hold-from deg from there to lockout instead of draining.  Then the R60 smoothing (variant c).
+        mask = mask.copy()
+        mask[71] = mask[70]
+        R52f_hold = np.einsum("fk,knj->fnj", M, old)
+        hold_ix = int(np.argmin(np.abs(hts - a.hold_from)))
+        late = hts >= a.hold_from
+        R52f_hold[late] = R52f_hold[hold_ix]
+        a.variant = "c"
+        a._r61 = True
     if a.variant == "c":
         # R60 (owner, on R59: "something looks wrong" - crumpled skin behind the armpit at 145-156 deg): R59 REPLACED
         # each vertex's R52 increment by one fixed smooth shape scaled to the marked pose, so after 136 deg it no longer
@@ -80,7 +95,7 @@ def main():
         # with the marked pose held exactly, protected / masked controls zero and every control up to 110 deg zero.
         # Linear: one solve per permission pattern, applied to every vertex sharing it.
         free_all = mask & ~early_ctrl[:, None]
-        R52f = np.einsum("fk,knj->fnj", M, old)
+        R52f = R52f_hold if getattr(a, "_r61", False) else np.einsum("fk,knj->fnj", M, old)
         s2 = (np.linalg.norm(A2, 2) / np.linalg.norm(M, 2)) ** 2
         lam = a.fidelity * s2
         H = Q + lam * (M.T @ M)
@@ -162,16 +177,16 @@ def main():
     over = norms > 0.045
     out[over] *= (0.045 / norms[over])[:, None]
     assert not np.any(out[~mask]), "scope error"
-    assert not np.any(out[[0, 15, 71]]), "protected control changed"
+    assert not np.any(out[[0, 15] if getattr(a, "_r61", False) else [0, 15, 71]]), "protected control changed"
     marked_err = float(np.abs(np.einsum("k,knj->nj", c_mark, out) - target).max() * 1000)
     acc_old = np.abs(np.einsum("fk,knj->fnj", A2, old)).max() * 1000 * 16
     acc_new = np.abs(np.einsum("fk,knj->fnj", A2, out)).max() * 1000 * 16
     early_new = float(np.maximum((M[hts < 110.0] @ out[:, :, 0]) * side[None], 0).max() * 1000)
     Path(a.out).parent.mkdir(parents=True, exist_ok=True)
     np.savez_compressed(a.out, dense_delta=out, delta=out[SOURCE])
-    metrics = {"status": "R59_IN_MEMORY_STUDY_NOT_ACCEPTED", "variant": a.variant, "envelope_mm": a.envelope_mm if a.variant == "b" else None, "fidelity": a.fidelity if a.variant == "c" else None,
+    metrics = {"status": "R59_IN_MEMORY_STUDY_NOT_ACCEPTED", "variant": a.variant, "envelope_mm": a.envelope_mm if a.variant == "b" else None, "fidelity": a.fidelity if a.variant == "c" else None, "r61_released_166_hold_from": (a.hold_from if getattr(a, "_r61", False) else None),
                "active_set_iterations_max": (int(max(iters_hist)) if a.variant == "b" and iters_hist else None), "model_saved": False, "owner_approved": False,
-               "material_scope_expanded": False, "permission_patterns": len(cache),
+               "material_scope_expanded": bool(getattr(a, "_r61", False)), "scope_change": ("release of the 166 deg S7 control requested by the owner (20 Oct); NOT installable with the current R52 installer, which rejects it" if getattr(a, "_r61", False) else None), "permission_patterns": len(cache),
                "unreachable_vertex_coords_kept_zero": unreachable, "vertices_capped_at_45mm": capped,
                "marked_pose_increment_max_error_mm": round(marked_err, 6),
                "rest_space_profile_accel_mm_x16": {"r52": round(float(acc_old), 3), "r59": round(float(acc_new), 3)},

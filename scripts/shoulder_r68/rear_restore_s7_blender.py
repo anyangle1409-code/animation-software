@@ -50,6 +50,11 @@ if hashlib.sha256(MODEL.read_bytes()).hexdigest() != "4c44b1fe14aeefd9a976f45baa
 res = r17._setup(MODEL)
 rig, body = res["runtime"], res["body"]
 keys = body.data.shape_keys.key_blocks
+if os.environ.get("R69_PRELOAD"):
+    # R69: start from an earlier corrected key set (R68e) and add this pass on top
+    zp = np.load(os.environ["R69_PRELOAD"])
+    for name in zp.files:
+        keys[name].data.foreach_set("co", zp[name].astype(np.float32).ravel())
 s7 = [k for k in keys if k.name.startswith("HGPT_S7_DELT_")]
 mw = body.matrix_world
 nv = len(body.data.vertices)
@@ -91,7 +96,7 @@ REST = evaluated()
 head = {s: np.array(rig.matrix_world @ rig.pose.bones[f"upperarm_{s}"].head) for s in "lr"}
 region = np.zeros(nv, bool)
 for s in "lr":
-    region |= (np.linalg.norm(REST - head[s], axis=1) < RADIUS) & (REST[:, 1] > head[s][1] - 0.01)
+    region |= (np.linalg.norm(REST - head[s], axis=1) < RADIUS) & ((REST[:, 1] > head[s][1] - 0.01) | bool(os.environ.get("R69_ALL_Y")))
 # R68b: smooth application weight.  R68a (hard region) left a crease where the region edge met the shoulder top (the
 # S7-off skin has its own linear-skinning crease there) - so the change is applied with a weight that is 1 on the rear
 # deltoid / posterior axillary fold (rest centre: 4 cm behind and 7 cm below the upper-arm head) and fades to 0 by
@@ -105,7 +110,8 @@ if CORE_R > 0:
         # R68d: centred on where the pinch actually is (measured: rest centroid of the rear triangles compressed < 50 %
         # at 120-166 deg = (0.234, 0.07, 1.49), the back of the shoulder cap / posterior deltoid, 3 cm above the
         # upper-arm head), no height fade
-        c = np.array([0.234 * (1 if s_ == "r" else -1), 0.07, 1.49])
+        cc = [float(v) for v in os.environ.get("R69_CENTRE", "0.234,0.07,1.49").split(",")]
+        c = np.array([cc[0] * (1 if s_ == "r" else -1), cc[1], cc[2]])
         wgt = np.maximum(wgt, sm(1.0 - np.linalg.norm(REST - c, axis=1) / CORE_R))
 probe = body.shape_key_add(name="R68_PROBE", from_mix=False)
 basis_co = np.array([v.co for v in keys["Basis"].data])
@@ -149,7 +155,22 @@ for deg, ks in sorted(by_deg.items()):
     pin = pin | (Adj @ pin.astype(float) > 0)
     free = np.flatnonzero(region & ~pin)
     fixed = np.setdiff1d(np.arange(nv), free)
-    if MODE == "arap":
+    if MODE == "thinplate":
+        # R69 (owner on R68e: "the arm still has that bit at the armpit"): measured on R41 - a sharp skin crease on the
+        # inner arm at the axilla (adjacent faces 80-100 deg apart at 135-166 deg) that NO layer removes (correctives
+        # reduce it, linear skinning makes it, DQS makes more folds).  A real armpit at full elevation is stretched
+        # smooth.  Target: the thin-plate (bi-Laplacian) surface over the region with the current skin as boundary
+        # (the 2-ring outside the region and the outline pins fixed) - the smoothest surface that meets its
+        # surroundings without kinks; no shape is imported from any other pose.
+        rows = np.flatnonzero((Adj @ np.isin(np.arange(nv), free).astype(float) > 0) | np.isin(np.arange(nv), free))
+        M = L[rows]
+        MF = M[:, free].tocsc(); MC = M[:, fixed]
+        N = (MF.T @ MF).tocsc()
+        x = P.copy()
+        for ax in range(3):
+            x[free, ax] = spsolve(N, -(MF.T @ (MC @ P[fixed, ax])))
+        x[free] = BLEND * x[free] + (1 - BLEND) * P[free]
+    elif MODE == "arap":
         # R68f: as-rigid-as-possible relaxation of the free region toward the REST skin's edge vectors (local rotations
         # per vertex by SVD, global uniform-Laplacian solve), boundary = current skin.  Restores the compressed skin
         # area without importing the S7-off (linear-skinning) bulge.

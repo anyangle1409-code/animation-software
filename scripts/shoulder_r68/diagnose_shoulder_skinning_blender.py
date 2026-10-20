@@ -222,6 +222,71 @@ if os.environ.get("R68_MODE") == "outline":
     (OUT / f"outline_{os.environ.get('R68_TAG', 'x')}.json").write_text(json.dumps(vals))
     print("R68O_DONE", flush=True)
     raise SystemExit
+if os.environ.get("R68_MODE") == "armpit_ablate":
+    # R69: which layer makes the inner-arm armpit fold?  Region: faces with rest centroid within 0.06 m of
+    # (+-0.19, 0.02, 1.37) (medial upper arm at the axilla, front-to-back).  Per family off, LBS raw, DQS raw.
+    cfa = REST[faces].mean(1)
+    regf = {sd: np.flatnonzero(np.linalg.norm(cfa - np.array([0.19 * sg, 0.02, 1.37]), axis=1) < 0.06) for sd, sg in (("l", -1), ("r", 1))}
+    from collections import defaultdict
+    def pairs_of(ff):
+        ed = defaultdict(list)
+        for f in ff:
+            t = faces[f]
+            for a_, b_ in ((t[0], t[1]), (t[1], t[2]), (t[2], t[0])):
+                ed[(min(a_, b_), max(a_, b_))].append(f)
+        return np.array([v for v in ed.values() if len(v) == 2])
+    PR = {sd: pairs_of(regf[sd]) for sd in "lr"}
+    def m_ax(co):
+        A, n = tri_area(co); n = n / np.maximum(np.linalg.norm(n, axis=1, keepdims=True), 1e-12); o = {}
+        for sd in "lr":
+            ang = np.degrees(np.arccos(np.clip(np.einsum("ij,ij->i", n[PR[sd][:, 0]], n[PR[sd][:, 1]]), -1, 1)))
+            r = A[regf[sd]] / A0[regf[sd]]
+            o[sd] = {"max_fold": round(float(ang.max()), 1), "folds45": int((ang > 45).sum()), "pinched": int((r < 0.5).sum()), "p5": round(float(np.percentile(r, 5)), 2)}
+        return o
+    FAMS = {"S1": ("_S1_",), "S3": ("_S3_",), "S5": ("_S5_",), "S7": ("_S7_",), "H1": ("_H1_",), "CORR": ("SHOULDER_CORR", "SHOULDER_FLEX", "SHOULDER_SCAP"), "C1": ("C1_ARMTRUNK",), "ALL": SHOULDER_FAMILIES}
+    for ht in (135.6, 156.0, 166.0):
+        for fam, pats in [("current", ())] + list(FAMS.items()):
+            pose(ht)
+            for k in shoulder_keys:
+                if pats and any(p_ in k.name for p_ in pats): k.value = 0.0
+            bpy.context.view_layer.update()
+            print("R69B", ht, fam, json.dumps(m_ax(evaluated())), flush=True)
+        arm_mod.use_deform_preserve_volume = True
+        pose(ht)
+        for k in shoulder_keys: k.value = 0.0
+        bpy.context.view_layer.update(); print("R69B", ht, "dqs_raw", json.dumps(m_ax(evaluated())), flush=True)
+        arm_mod.use_deform_preserve_volume = False
+    raise SystemExit
+if os.environ.get("R68_MODE") == "armpit":
+    # R69: where are the remaining defects on the ARM side of the armpit (owner on R68e: "the shoulder looks good but
+    # the arm still has that bit at the armpit")?  Right side, faces of the upper arm (upperarm weight > 0.3) within
+    # 0.16 m of the arm head: pinched (<0.5 area) and sharp folds (adjacent faces > 45 deg), rest-space locations.
+    wv = np.zeros(len(REST))
+    gi = body.vertex_groups["upperarm_r"].index
+    for v in body.data.vertices:
+        for g in v.groups:
+            if g.group == gi: wv[v.index] = g.weight
+    armf = np.flatnonzero((wv[faces].mean(1) > 0.3) & (np.linalg.norm(REST[faces].mean(1) - cen["r"], axis=1) < 0.16))
+    from collections import defaultdict
+    ed = defaultdict(list)
+    for f in armf:
+        t = faces[f]
+        for a_, b_ in ((t[0], t[1]), (t[1], t[2]), (t[2], t[0])):
+            ed[(min(a_, b_), max(a_, b_))].append(f)
+    pairs = np.array([v for v in ed.values() if len(v) == 2])
+    for ht in (135.6, 156.0, 166.0):
+        pose(ht); co = evaluated(); A, n = tri_area(co)
+        n = n / np.maximum(np.linalg.norm(n, axis=1, keepdims=True), 1e-12)
+        ang = np.degrees(np.arccos(np.clip(np.einsum("ij,ij->i", n[pairs[:, 0]], n[pairs[:, 1]]), -1, 1)))
+        fold_f = np.unique(pairs[ang > 45].ravel())
+        pin_f = armf[(A[armf] / A0[armf]) < 0.5]
+        for nm, ff in (("folds45", fold_f), ("pinched", pin_f)):
+            if len(ff) == 0:
+                print("R69A", ht, nm, 0, flush=True); continue
+            c = REST[faces[ff]].mean(1)
+            print("R69A", ht, nm, len(ff), "centroid", np.round(c.mean(0), 3).tolist(), "p10", np.round(np.percentile(c, 10, 0), 3).tolist(),
+                  "p90", np.round(np.percentile(c, 90, 0), 3).tolist(), "posed_centroid", np.round(co[faces[ff]].mean((0, 1)), 3).tolist(), flush=True)
+    raise SystemExit
 if os.environ.get("R68_MODE") == "locate":
     # where (rest space) are the rear-shoulder triangles compressed below half their area, per angle (right side)
     loc = {}

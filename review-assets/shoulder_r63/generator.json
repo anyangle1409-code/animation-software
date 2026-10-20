@@ -13,7 +13,9 @@
     "smooth": 80,
     "lam": 0.3,
     "tie": 0.02,
-    "arm_margin": 0.008
+    "arm_margin": 0.003,
+    "torso_max": 0.7,
+    "top": 0.06
   },
   "samples": [
     {
@@ -24,16 +26,16 @@
         "l": {
           "arm_edge_deg_from_vertical": 34.8,
           "armpit_z": 1.558,
-          "max_push_mm": 25.8
+          "max_push_mm": 40.0
         },
         "r": {
           "arm_edge_deg_from_vertical": 35.6,
           "armpit_z": 1.557,
-          "max_push_mm": 24.1
+          "max_push_mm": 40.0
         },
-        "arm_cap_vertices": 243
+        "arm_cap_vertices": 324
       },
-      "max_target_push_mm": 0.27
+      "max_target_push_mm": 0.33
     },
     {
       "sample": 27,
@@ -43,16 +45,16 @@
         "l": {
           "arm_edge_deg_from_vertical": 31.6,
           "armpit_z": 1.569,
-          "max_push_mm": 25.0
+          "max_push_mm": 40.0
         },
         "r": {
           "arm_edge_deg_from_vertical": 31.6,
           "armpit_z": 1.569,
-          "max_push_mm": 24.9
+          "max_push_mm": 40.0
         },
-        "arm_cap_vertices": 255
+        "arm_cap_vertices": 311
       },
-      "max_target_push_mm": 1.78
+      "max_target_push_mm": 1.81
     },
     {
       "sample": 28,
@@ -62,16 +64,16 @@
         "l": {
           "arm_edge_deg_from_vertical": 27.8,
           "armpit_z": 1.58,
-          "max_push_mm": 24.9
+          "max_push_mm": 40.0
         },
         "r": {
           "arm_edge_deg_from_vertical": 27.6,
           "armpit_z": 1.58,
-          "max_push_mm": 25.4
+          "max_push_mm": 40.0
         },
-        "arm_cap_vertices": 250
+        "arm_cap_vertices": 276
       },
-      "max_target_push_mm": 4.08
+      "max_target_push_mm": 2.77
     },
     {
       "sample": 29,
@@ -81,16 +83,16 @@
         "l": {
           "arm_edge_deg_from_vertical": 24.4,
           "armpit_z": 1.591,
-          "max_push_mm": 25.6
+          "max_push_mm": 40.0
         },
         "r": {
           "arm_edge_deg_from_vertical": 24.3,
           "armpit_z": 1.591,
-          "max_push_mm": 25.4
+          "max_push_mm": 40.0
         },
-        "arm_cap_vertices": 247
+        "arm_cap_vertices": 269
       },
-      "max_target_push_mm": 6.64
+      "max_target_push_mm": 6.37
     },
     {
       "sample": 30,
@@ -100,16 +102,16 @@
         "l": {
           "arm_edge_deg_from_vertical": 20.6,
           "armpit_z": 1.601,
-          "max_push_mm": 26.4
+          "max_push_mm": 40.0
         },
         "r": {
           "arm_edge_deg_from_vertical": 20.5,
           "armpit_z": 1.601,
-          "max_push_mm": 25.6
+          "max_push_mm": 40.0
         },
-        "arm_cap_vertices": 266
+        "arm_cap_vertices": 250
       },
-      "max_target_push_mm": 11.15
+      "max_target_push_mm": 11.34
     },
     {
       "sample": 31,
@@ -119,16 +121,16 @@
         "l": {
           "arm_edge_deg_from_vertical": 17.9,
           "armpit_z": 1.61,
-          "max_push_mm": 26.2
+          "max_push_mm": 40.0
         },
         "r": {
           "arm_edge_deg_from_vertical": 18.1,
           "armpit_z": 1.61,
-          "max_push_mm": 24.8
+          "max_push_mm": 40.0
         },
-        "arm_cap_vertices": 265
+        "arm_cap_vertices": 234
       },
-      "max_target_push_mm": 14.66
+      "max_target_push_mm": 14.81
     },
     {
       "sample": 32,
@@ -138,16 +140,16 @@
         "l": {
           "arm_edge_deg_from_vertical": 15.3,
           "armpit_z": 1.618,
-          "max_push_mm": 25.9
+          "max_push_mm": 40.0
         },
         "r": {
           "arm_edge_deg_from_vertical": 15.5,
           "armpit_z": 1.619,
-          "max_push_mm": 25.4
+          "max_push_mm": 40.0
         },
-        "arm_cap_vertices": 279
+        "arm_cap_vertices": 221
       },
-      "max_target_push_mm": 17.08
+      "max_target_push_mm": 17.21
     },
     {
       "sample": 33,
@@ -157,16 +159,16 @@
         "l": {
           "arm_edge_deg_from_vertical": 13.2,
           "armpit_z": 1.625,
-          "max_push_mm": 25.9
+          "max_push_mm": 40.0
         },
         "r": {
           "arm_edge_deg_from_vertical": 13.8,
           "armpit_z": 1.626,
-          "max_push_mm": 24.8
+          "max_push_mm": 40.0
         },
-        "arm_cap_vertices": 297
+        "arm_cap_vertices": 204
       },
-      "max_target_push_mm": 16.08
+      "max_target_push_mm": 16.18
     },
     {
       "sample": 34,
@@ -176,16 +178,16 @@
         "l": {
           "arm_edge_deg_from_vertical": 11.7,
           "armpit_z": 1.631,
-          "max_push_mm": 24.9
+          "max_push_mm": 40.0
         },
         "r": {
           "arm_edge_deg_from_vertical": 12.4,
           "armpit_z": 1.631,
-          "max_push_mm": 24.1
+          "max_push_mm": 40.0
         },
-        "arm_cap_vertices": 297
+        "arm_cap_vertices": 199
       },
-      "max_target_push_mm": 15.0
+      "max_target_push_mm": 15.1
     },
     {
       "sample": 35,
@@ -195,16 +197,16 @@
         "l": {
           "arm_edge_deg_from_vertical": 10.5,
           "armpit_z": 1.637,
-          "max_push_mm": 24.0
+          "max_push_mm": 40.0
         },
         "r": {
           "arm_edge_deg_from_vertical": 11.1,
           "armpit_z": 1.637,
-          "max_push_mm": 23.4
+          "max_push_mm": 40.0
         },
-        "arm_cap_vertices": 293
+        "arm_cap_vertices": 188
       },
-      "max_target_push_mm": 13.83
+      "max_target_push_mm": 13.9
     },
     {
       "sample": 36,
@@ -214,16 +216,16 @@
         "l": {
           "arm_edge_deg_from_vertical": 9.9,
           "armpit_z": 1.641,
-          "max_push_mm": 23.1
+          "max_push_mm": 40.0
         },
         "r": {
           "arm_edge_deg_from_vertical": 10.0,
           "armpit_z": 1.641,
-          "max_push_mm": 22.8
+          "max_push_mm": 40.0
         },
-        "arm_cap_vertices": 293
+        "arm_cap_vertices": 61
       },
-      "max_target_push_mm": 12.44
+      "max_target_push_mm": 12.49
     },
     {
       "sample": 37,
@@ -233,16 +235,16 @@
         "l": {
           "arm_edge_deg_from_vertical": 9.2,
           "armpit_z": 1.644,
-          "max_push_mm": 22.5
+          "max_push_mm": 40.0
         },
         "r": {
           "arm_edge_deg_from_vertical": 9.0,
           "armpit_z": 1.644,
-          "max_push_mm": 22.4
+          "max_push_mm": 40.0
         },
-        "arm_cap_vertices": 302
+        "arm_cap_vertices": 45
       },
-      "max_target_push_mm": 11.74
+      "max_target_push_mm": 11.79
     },
     {
       "sample": 38,
@@ -252,16 +254,16 @@
         "l": {
           "arm_edge_deg_from_vertical": 8.5,
           "armpit_z": 1.646,
-          "max_push_mm": 22.2
+          "max_push_mm": 40.0
         },
         "r": {
           "arm_edge_deg_from_vertical": 8.5,
           "armpit_z": 1.646,
-          "max_push_mm": 23.9
+          "max_push_mm": 40.0
         },
-        "arm_cap_vertices": 303
+        "arm_cap_vertices": 38
       },
-      "max_target_push_mm": 11.54
+      "max_target_push_mm": 11.58
     },
     {
       "sample": 39,
@@ -271,16 +273,16 @@
         "l": {
           "arm_edge_deg_from_vertical": 8.2,
           "armpit_z": 1.647,
-          "max_push_mm": 22.0
+          "max_push_mm": 40.0
         },
         "r": {
           "arm_edge_deg_from_vertical": 8.2,
           "armpit_z": 1.647,
-          "max_push_mm": 23.7
+          "max_push_mm": 40.0
         },
-        "arm_cap_vertices": 301
+        "arm_cap_vertices": 35
       },
-      "max_target_push_mm": 11.38
+      "max_target_push_mm": 11.41
     },
     {
       "sample": 40,
@@ -290,39 +292,39 @@
         "l": {
           "arm_edge_deg_from_vertical": 8.1,
           "armpit_z": 1.648,
-          "max_push_mm": 21.9
+          "max_push_mm": 40.0
         },
         "r": {
           "arm_edge_deg_from_vertical": 8.1,
           "armpit_z": 1.648,
-          "max_push_mm": 23.7
+          "max_push_mm": 40.0
         },
-        "arm_cap_vertices": 301
+        "arm_cap_vertices": 34
       },
-      "max_target_push_mm": 11.31
+      "max_target_push_mm": 11.34
     }
   ],
-  "affected_vertices": 4423,
+  "affected_vertices": 6539,
   "vertices_capped_at_45mm": 0,
-  "posed_fit_max_error_mm": 1.523,
+  "posed_fit_max_error_mm": 1.535,
   "posed_fit_error_by_sample_mm": [
     0.05,
-    0.13,
-    0.31,
-    0.54,
-    1.0,
-    1.23,
-    1.52,
+    0.24,
+    0.21,
+    0.56,
+    1.02,
+    1.24,
+    1.53,
     1.15,
-    1.04,
-    0.98,
+    1.05,
+    0.99,
     0.62,
     0.57,
     0.37,
     0.27,
     0.24
   ],
-  "max_change_from_start_mm": 19.54,
-  "max_adjacent_control_mm": 4.48911572334037,
+  "max_change_from_start_mm": 19.63,
+  "max_adjacent_control_mm": 4.497089402570533,
   "arm_file_match_mm": 0.0002
 }

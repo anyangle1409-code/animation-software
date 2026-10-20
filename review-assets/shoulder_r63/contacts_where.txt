@@ -1,12 +1,17 @@
-CONTACTS_TOTAL 21
-CONTACTS_BY_REGION {"torso_other+torso_other": 21}
-CONTACTS_BY_SAMPLE {"25": 3, "26": 2, "31": 1, "32": 2, "33": 6, "34": 3, "35": 2, "65": 1, "66": 1}
+CONTACTS_TOTAL 39
+CONTACTS_BY_REGION {"torso_other+torso_other": 21, "torso_other+upper_arm": 18}
+CONTACTS_BY_SAMPLE {"25": 3, "26": 2, "31": 2, "32": 2, "33": 5, "34": 3, "35": 2, "65": 1, "66": 1, "77": 2, "78": 4, "79": 4, "80": 4, "81": 4}
 CONTACT sample 25 tri 10855 torso_other [-0.176, 0.054, 1.408] | tri 22184 torso_other [-0.177, 0.057, 1.405]
 CONTACT sample 25 tri 10855 torso_other [-0.176, 0.054, 1.408] | tri 22186 torso_other [-0.174, 0.067, 1.403]
 CONTACT sample 25 tri 10855 torso_other [-0.176, 0.054, 1.408] | tri 22187 torso_other [-0.176, 0.063, 1.402]
+CONTACT sample 31 tri 2600 torso_other [-0.17, 0.083, 1.398] | tri 10844 torso_other [-0.172, 0.074, 1.402]
 CONTACT sample 31 tri 2608 torso_other [-0.171, 0.079, 1.396] | tri 10844 torso_other [-0.172, 0.074, 1.402]
-CONTACT sample 32 tri 2600 torso_other [-0.17, 0.083, 1.398] | tri 10844 torso_other [-0.172, 0.074, 1.402]
 CONTACT sample 33 tri 10844 torso_other [-0.172, 0.074, 1.402] | tri 10848 torso_other [-0.168, 0.087, 1.401]
 CONTACT sample 33 tri 10845 torso_other [-0.17, 0.077, 1.4] | tri 10848 torso_other [-0.168, 0.087, 1.401]
 CONTACT sample 33 tri 10852 torso_other [-0.174, 0.059, 1.405] | tri 22186 torso_other [-0.174, 0.067, 1.403]
 CONTACT sample 33 tri 10853 torso_other [-0.173, 0.066, 1.404] | tri 22186 torso_other [-0.174, 0.067, 1.403]
+CONTACT sample 35 tri 10842 torso_other [-0.168, 0.082, 1.398] | tri 10848 torso_other [-0.168, 0.087, 1.401]
+CONTACT sample 77 tri 1079 upper_arm [0.281, 0.042, 1.417] | tri 35698 torso_other [0.283, 0.034, 1.421]
+CONTACT sample 77 tri 35698 torso_other [0.283, 0.034, 1.421] | tri 35711 upper_arm [0.28, 0.041, 1.408]
+CONTACT sample 78 tri 376 upper_arm [-0.281, 0.042, 1.417] | tri 36414 torso_other [-0.283, 0.034, 1.421]
+CONTACT sample 78 tri 36391 upper_arm [-0.28, 0.041, 1.408] | tri 36414 torso_other [-0.283, 0.034, 1.421]

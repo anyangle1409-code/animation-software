@@ -1,0 +1,4 @@
+CONTACTS_TOTAL 1
+CONTACTS_BY_REGION {"torso_other+torso_other": 1}
+CONTACTS_BY_SAMPLE {"75": 1}
+CONTACT sample 75 tri 35147 torso_other [0.172, -0.033, 1.387] | tri 35746 torso_other [0.172, -0.03, 1.386]

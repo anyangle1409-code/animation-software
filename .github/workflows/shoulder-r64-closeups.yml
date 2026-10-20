@@ -1,4 +1,4 @@
-name: ORIGINAL_v1 R69b close-ups, S7 rear-shoulder + inner-armpit crease fix (Claude)
+name: ORIGINAL_v1 R69c close-ups, S7 rear-shoulder + posterior armpit groove fix (Claude)
 'on':
   push:
     branches: [claude/home-gym-pt-animation-txux66]
@@ -17,7 +17,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - {v: R69b, trap: 15, taper: '0.09,0.12', r68: '', extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --step-limit 0.0029 --lat-bulge 0.015 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --shoulder-relax 300 --r68 r59src/scripts/shoulder_r68/data/r69b_s7_rear_restore_armpit2.npz'}
+        - {v: R69c, trap: 15, taper: '0.09,0.12', r68: '', extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --step-limit 0.0029 --lat-bulge 0.015 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --shoulder-relax 300 --r68 r59src/scripts/shoulder_r68/data/r69c_s7_rear_groove.npz'}
     timeout-minutes: 120
     env:
       LIBGL_ALWAYS_SOFTWARE: '1'

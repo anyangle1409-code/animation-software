@@ -8,11 +8,13 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 seq, out, n = Path(sys.argv[1]), Path(sys.argv[2]), int(sys.argv[3])
+CAND = sys.argv[4] if len(sys.argv) > 4 else "R59"
+CAND_NAME = sys.argv[5] if len(sys.argv) > 5 else "R59 (smoothed timing)"
 out.mkdir(parents=True, exist_ok=True)
 tmp = out / "_frames"; tmp.mkdir(exist_ok=True)
 B = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 22)
 F = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', 18)
-LABELS = (("R52", "R52 (before)"), ("R59", "R59 (smoothed timing)"))
+LABELS = (("R52", "R52 (before)"), (CAND, CAND_NAME))
 VIEWS = ("rear", "three_quarter")
 BG = (28, 28, 30)
 
@@ -46,9 +48,9 @@ for i in range(n + 1):
     frame(i).save(tmp / f"{i:03d}.png")
 for t in (0.5, 0.625, 0.7, 0.8):
     i = round(t * n)
-    frame(i).save(out / f"R52_vs_R59_t{t:.3f}_{ht(t):.0f}deg.jpg", quality=90)
+    frame(i).save(out / f"R52_vs_{CAND}_t{t:.3f}_{ht(t):.0f}deg.jpg", quality=90)
 subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-framerate", "8", "-i", str(tmp / "%03d.png"),
-                "-vf", "pad=ceil(iw/2)*2:ceil(ih/2)*2", "-c:v", "libx264", "-pix_fmt", "yuv420p", str(out / "R52_vs_R59_press.mp4")], check=True)
+                "-vf", "pad=ceil(iw/2)*2:ceil(ih/2)*2", "-c:v", "libx264", "-pix_fmt", "yuv420p", str(out / f"R52_vs_{CAND}_press.mp4")], check=True)
 for p in tmp.glob("*.png"):
     p.unlink()
 tmp.rmdir()

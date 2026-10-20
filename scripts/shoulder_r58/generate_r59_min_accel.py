@@ -45,7 +45,8 @@ def main():
     ap = argparse.ArgumentParser()
     for a in ("--r57src", "--response", "--solution", "--out"):
         ap.add_argument(a, required=True)
-    ap.add_argument("--variant", default="a", choices=("a", "b"))
+    ap.add_argument("--variant", default="a", choices=("a", "b", "c"))
+    ap.add_argument("--fidelity", type=float, default=1.0, help="R60 (variant c): weight of staying on R52 per frame vs smoothness")
     ap.add_argument("--envelope-mm", type=float, default=2.0)
     a = ap.parse_args()
     sys.path[:0] = [str(Path(a.r57src) / "scripts"), str(Path(a.r57src) / "scripts" / "anatomy_fit")]
@@ -70,6 +71,38 @@ def main():
     out = np.zeros_like(old)
     cache = {}
     unreachable = 0
+    if a.variant == "c":
+        # R60 (owner, on R59: "something looks wrong" - crumpled skin behind the armpit at 145-156 deg): R59 REPLACED
+        # each vertex's R52 increment by one fixed smooth shape scaled to the marked pose, so after 136 deg it no longer
+        # followed R52 (whose late values keep the skin apart) and vertices with no marked-pose increment lost their
+        # correction entirely.  R60 SMOOTHS R52 instead: per vertex and coordinate, minimise
+        #     |A2 m|^2 + fidelity * s^2 * |M m - M m52|^2        (s = typical frame-acceleration-to-value scale)
+        # with the marked pose held exactly, protected / masked controls zero and every control up to 110 deg zero.
+        # Linear: one solve per permission pattern, applied to every vertex sharing it.
+        free_all = mask & ~early_ctrl[:, None]
+        R52f = np.einsum("fk,knj->fnj", M, old)
+        s2 = (np.linalg.norm(A2, 2) / np.linalg.norm(M, 2)) ** 2
+        lam = a.fidelity * s2
+        H = Q + lam * (M.T @ M)
+        pats = {}
+        for v in range(old.shape[1]):
+            if not free_all[:, v].any():
+                continue
+            pats.setdefault(free_all[:, v].tobytes(), []).append(v)
+        for key, vs in pats.items():
+            F = np.flatnonzero(np.frombuffer(key, dtype=bool))
+            HF = H[np.ix_(F, F)]; cF = c_mark[F]
+            vs = np.array(vs)
+            rhs = lam * (M[:, F].T @ R52f[:, vs, :].reshape(161, -1))      # (|F|, nv*3)
+            if not np.any(cF):
+                m = np.linalg.solve(HF, rhs)                                  # marked pose not in this pattern
+            else:
+                Hinv_c = np.linalg.solve(HF, cF); Hinv_r = np.linalg.solve(HF, rhs)
+                tgt = target[vs].reshape(-1)
+                mu = (tgt - cF @ Hinv_r) / (cF @ Hinv_c)
+                m = Hinv_r + np.outer(Hinv_c, mu)
+            out[np.ix_(F, vs)] = m.reshape(len(F), len(vs), 3)
+        cache = pats
     if a.variant == "b":
         # R59b: (1) every control up to 110 deg is zero for every coordinate (R59 rose early on the free 96..109 controls:
         # early outward 0.62 -> 1.55 mm); (2) at every press frame each coordinate stays inside R52's own range there,
@@ -136,7 +169,7 @@ def main():
     early_new = float(np.maximum((M[hts < 110.0] @ out[:, :, 0]) * side[None], 0).max() * 1000)
     Path(a.out).parent.mkdir(parents=True, exist_ok=True)
     np.savez_compressed(a.out, dense_delta=out, delta=out[SOURCE])
-    metrics = {"status": "R59_IN_MEMORY_STUDY_NOT_ACCEPTED", "variant": a.variant, "envelope_mm": a.envelope_mm if a.variant == "b" else None,
+    metrics = {"status": "R59_IN_MEMORY_STUDY_NOT_ACCEPTED", "variant": a.variant, "envelope_mm": a.envelope_mm if a.variant == "b" else None, "fidelity": a.fidelity if a.variant == "c" else None,
                "active_set_iterations_max": (int(max(iters_hist)) if a.variant == "b" and iters_hist else None), "model_saved": False, "owner_approved": False,
                "material_scope_expanded": False, "permission_patterns": len(cache),
                "unreachable_vertex_coords_kept_zero": unreachable, "vertices_capped_at_45mm": capped,

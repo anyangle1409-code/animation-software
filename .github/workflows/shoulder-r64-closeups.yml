@@ -1,4 +1,4 @@
-name: ORIGINAL_v1 R65c/d fuller arm root incl. rear deltoid, narrower neck taper, armpit close-ups (Claude)
+name: ORIGINAL_v1 R65e/f smoothed arm-root fill (+ relax), armpit close-ups (Claude)
 'on':
   push:
     branches: [claude/home-gym-pt-animation-txux66]
@@ -17,8 +17,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - {v: R65c, trap: 30, taper: '0.06,0.10', extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --step-limit 0.0029 --root-mm 25 --root-whole-back --lat-bulge 0.012'}
-        - {v: R65d, trap: 30, taper: '0.04,0.08', extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --step-limit 0.0029 --root-mm 25 --root-whole-back --lat-bulge 0.015'}
+        - {v: R65e, trap: 30, taper: '0.04,0.08', extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --step-limit 0.0029 --root-mm 25 --root-whole-back --lat-bulge 0.015 --root-smooth 40'}
+        - {v: R65f, trap: 30, taper: '0.04,0.08', extra: '--hull --gain 1.0 --arm-margin 0 --smooth 30 --step-limit 0.0029 --root-mm 25 --root-whole-back --lat-bulge 0.015 --root-smooth 40 --root-relax'}
     timeout-minutes: 120
     env:
       LIBGL_ALWAYS_SOFTWARE: '1'

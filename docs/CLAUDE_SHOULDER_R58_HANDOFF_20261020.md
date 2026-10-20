@@ -390,3 +390,21 @@ The owner chose to keep 15 mm and fix what it hits.
 - `--torso-max 0.7`: the shared corner skin may move.
 - `--top 0.06`: fill 6 cm higher.
 - `--arm-margin 0.003`.
+
+### R63e result (run 39445422665) and R63f
+
+**R63e** (corner fill: `--torso-max 0.7 --top 0.06 --arm-margin 0.003`):
+
+| Gate | R63e | R63d | Limit |
+|---|---|---|---|
+| Contacts | 39 | 21 | 0 |
+| Benchmark regressions | 7 | 5 | 0 |
+| Outline | 0.95 mm | 0.95 mm | 1 mm |
+| Dense motion | 9.25 mm | 9.25 mm | 0.5 mm |
+| Early outward | 0 | 0 | 0.05 mm |
+| Crease | 168° | 173° | 2° |
+
+- **Where the extra contacts are:** the 18 new ones are upper arm against torso at the **benchmark-press samples 77–81**. The generator had only been solved against the main press samples 0–40.
+- **Visual:** `rear_sweep_R52_R63d_R63e.jpg` shows the corner under the arm is largely gone in R63e from 156° up (R63d still has a small notch).
+
+**R63f:** `--include-bench` also solves against every benchmark-press sample that uses the solved controls, with the same corner fill and 3 mm arm gap built in that pose. Elevation is read from Work's decoded control weights.

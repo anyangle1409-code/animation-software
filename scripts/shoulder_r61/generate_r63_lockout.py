@@ -105,6 +105,7 @@ def main():
     ap.add_argument("--arm-margin", type=float, default=0.008, help="R63b: keep pushed torso skin this far (m) from the arm")
     ap.add_argument("--torso-max", type=float, default=0.3, help="R63e: skin with whole-arm weight below this may be pushed")
     ap.add_argument("--top", type=float, default=0.02, help="R63e: fill up to this far (m) above the armpit")
+    ap.add_argument("--include-bench", action="store_true", help="R63f: also solve against the benchmark press samples 41..81")
     a = ap.parse_args()
     global K0
     # R63c: the first solved control follows --from; never at or below 136 deg (the marked pose uses controls 135/136)
@@ -124,6 +125,16 @@ def main():
     Avg = neighbour_mean(faces, nv)
 
     samples = [s for s in range(41) if ht_of(s / 40) >= a.hfrom - 1.0]
+    sample_ht = {s: ht_of(s / 40) for s in samples}
+    if a.include_bench:
+        # R63f: the gates also pose the benchmark shoulder-press path (samples 41..81); R63e's corner fill touched the arm
+        # there (18 new arm/torso contacts at samples 77-81).  Include every benchmark sample that uses the solved controls,
+        # with its elevation read from Work's decoded control weights, so the fill is solved against both paths.
+        for s in range(41, 82):
+            lo_, hi_, t_ = decode(z["weight"][s][None])
+            e = float(np.median(95.0 + lo_[0] + t_[0]))
+            if e >= a.hfrom - 1.0:
+                samples.append(s); sample_ht[s] = e
     targets, maps, report_s = {}, {}, []
     for s in samples:
         lo, hi, t = decode(z["weight"][s][None])
@@ -145,7 +156,7 @@ def main():
             scale = np.where(Dn > room, room / np.maximum(Dn, 1e-12), 1.0)
             D *= scale[:, None]
             info["arm_cap_vertices"] = int((scale < 1).sum())
-        ramp = smoothstep((ht_of(s / 40) - a.hfrom) / (a.full - a.hfrom))
+        ramp = smoothstep((sample_ht[s] - a.hfrom) / (a.full - a.hfrom))
         D *= ramp
         if np.abs(D).sum() > 0:
             for _ in range(a.smooth):
@@ -154,7 +165,7 @@ def main():
                 Dn = np.linalg.norm(D, axis=1)          # smoothing must not spread the push back into the arm
                 D *= np.where(Dn > room, room / np.maximum(Dn, 1e-12), 1.0)[:, None]
         targets[s] = (P, D)
-        report_s.append({"sample": s, "ht_deg": round(float(ht_of(s / 40)), 2), "ramp": round(float(ramp), 3), "sides": info,
+        report_s.append({"sample": s, "ht_deg": round(float(sample_ht[s]), 2), "ramp": round(float(ramp), 3), "sides": info,
                          "max_target_push_mm": round(float(np.linalg.norm(D, axis=1).max() * 1000), 2)})
         print("R63_TARGET", json.dumps(report_s[-1]), flush=True)
 
@@ -223,7 +234,7 @@ def main():
     np.savez_compressed(a.out, dense_delta=out, delta=out[SOURCE])
     metrics = {"status": "R63_IN_MEMORY_STUDY_NOT_ACCEPTED", "model_saved": False, "owner_approved": False,
                "scope_change": f"owner-approved lockout sculpt (20 Oct): controls {95 + K0}..166 re-solved in posed space; 166 released",
-               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top")},
+               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top", "include_bench")},
                "samples": report_s, "affected_vertices": int(len(affected)), "vertices_capped_at_45mm": capped,
                "posed_fit_max_error_mm": round(max(fit_err, default=0) * 1000, 3), "posed_fit_error_by_sample_mm": [round(e * 1000, 2) for e in fit_err],
                "max_change_from_start_mm": round(float(np.linalg.norm(out - d0, axis=2).max() * 1000), 2),

@@ -1,4 +1,4 @@
-name: ORIGINAL_v1 R64j unsaved press study, posterior fold + rear-outline convex fill, light smoothing, step limit (Claude)
+name: ORIGINAL_v1 R65f unsaved press study, fuller arm root, wider upper back, trapezius 30 mm (Claude)
 'on':
   push:
     branches: [claude/home-gym-pt-animation-txux66]
@@ -54,7 +54,7 @@ jobs:
     - name: Generate R62b start, then the R63 lockout sculpt (unsaved)
       run: |
         set +e
-        timeout 10m /usr/bin/python3 r59src/scripts/shoulder_r58/generate_r59_min_accel.py --r57src . --response /tmp/r57/source.npz --solution /tmp/r57/original_r52.npz --out /tmp/r57/start_r62b.npz --variant c --fidelity 0.03 --trap-mm 15 --trap-neck-taper 0.09,0.12 > /tmp/r57/generate.log 2>&1 && timeout 30m /usr/bin/python3 r59src/scripts/shoulder_r61/generate_r63_lockout.py --r57src . --response /tmp/r57/source.npz --start /tmp/r57/start_r62b.npz --out /tmp/r57/candidate.npz --from 137 --full 156 --gain 0.5 --sigma 0.08 --smooth 80 --torso-max 0.7 --top 0.06 --arm-margin 0.003 --guard-bench --fold --hull --gain 1.0 --arm-margin 0 --smooth 30 --step-limit 0.0029 >> /tmp/r57/generate.log 2>&1
+        timeout 10m /usr/bin/python3 r59src/scripts/shoulder_r58/generate_r59_min_accel.py --r57src . --response /tmp/r57/source.npz --solution /tmp/r57/original_r52.npz --out /tmp/r57/start_r62b.npz --variant c --fidelity 0.03 --trap-mm 30 --trap-neck-taper 0.04,0.08 > /tmp/r57/generate.log 2>&1 && timeout 30m /usr/bin/python3 r59src/scripts/shoulder_r61/generate_r63_lockout.py --r57src . --response /tmp/r57/source.npz --start /tmp/r57/start_r62b.npz --out /tmp/r57/candidate.npz --from 137 --full 156 --gain 0.5 --sigma 0.08 --smooth 80 --torso-max 0.7 --top 0.06 --arm-margin 0.003 --guard-bench --fold --hull --gain 1.0 --arm-margin 0 --smooth 30 --step-limit 0.0029 --root-mm 25 --root-whole-back --lat-bulge 0.015 --root-smooth 40 --root-relax >> /tmp/r57/generate.log 2>&1
         code=$?; echo "$code" > /tmp/r57/generate_exit.txt; grep -E 'R63_GEN|R64_|R59_GENERATOR|Error|Trace' /tmp/r57/generate.log | tail -30; exit "$code"
     - name: Gate - 161-pose motion and early outward (copy using the R61 installer)
       run: |
@@ -91,10 +91,10 @@ jobs:
         set +e
         xvfb-run -a /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python r59src/scripts/shoulder_r58/render_press_sequence_blender.py -- "$PWD" /tmp/r57/source.npz /tmp/r57/original_r52.npz /tmp/seq R52 40 > /tmp/r57/seq_R52.log 2>&1
         echo $? > /tmp/r57/R52_original_render_exit.txt
-        R61_INSTALLER=1 xvfb-run -a /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python r59src/scripts/shoulder_r58/render_press_sequence_blender.py -- "$PWD" /tmp/r57/source.npz /tmp/r57/candidate.npz /tmp/seq R64j 40 > /tmp/r57/seq_R63.log 2>&1
+        R61_INSTALLER=1 xvfb-run -a /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python r59src/scripts/shoulder_r58/render_press_sequence_blender.py -- "$PWD" /tmp/r57/source.npz /tmp/r57/candidate.npz /tmp/seq R65f 40 > /tmp/r57/seq_R63.log 2>&1
         echo $? > /tmp/r57/R57_local_study_render_exit.txt
         tail -2 /tmp/r57/seq_R52.log /tmp/r57/seq_R63.log
-        python3 r59src/scripts/shoulder_r58/compose_review_media.py /tmp/seq /tmp/media/r64 40 R64j "R64j (posterior fold + convex rear outline, step limit)"
+        python3 r59src/scripts/shoulder_r58/compose_review_media.py /tmp/seq /tmp/media/r64 40 R65f "R65f (fuller arm root, wider upper back, trapezius 30 mm)"
         exit 0
     - name: Evidence ledger (Work's report script, unchanged)
       if: success() || failure()
@@ -137,5 +137,5 @@ jobs:
         git config user.name "github-actions[bot]"
         git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git add review-assets/shoulder_r64
-        git commit -m "Shoulder R64j review media: R52 vs R64j stills, press video and gate report (review only)"
+        git commit -m "Shoulder R65f review media: R52 vs R65f stills, press video and gate report (review only)"
         for i in 1 2 3; do git pull --rebase origin "${{ github.ref_name }}" && git push origin "HEAD:${{ github.ref_name }}" && break; sleep 5; done

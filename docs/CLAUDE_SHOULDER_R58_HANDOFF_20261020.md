@@ -408,3 +408,26 @@ The owner chose to keep 15 mm and fix what it hits.
 - **Visual:** `rear_sweep_R52_R63d_R63e.jpg` shows the corner under the arm is largely gone in R63e from 156° up (R63d still has a small notch).
 
 **R63f:** `--include-bench` also solves against every benchmark-press sample that uses the solved controls, with the same corner fill and 3 mm arm gap built in that pose. Elevation is read from Work's decoded control weights.
+
+### R63f result (run 39449120792; `--include-bench`)
+
+| Gate | R63f | R63e | Limit |
+|---|---|---|---|
+| Contacts | **72** | 39 | 0 |
+| Dense motion | **20.6 mm** | 9.25 mm | 0.5 mm |
+| Benchmark regressions | 8 | 7 | 0 |
+| Crease | 174° | 168° | 2° |
+| Outline | 0.95 mm | 0.95 mm | 1 mm |
+| Early outward | 0 | 0 | 0.05 mm |
+
+- **Contacts:** all 72 are torso self-folds. The arm/torso contacts are gone, but the back folds at samples 30–35 and 73–81.
+- **Visual:** the corner fill is similar to R63e (`rear_sweep_R52_R63e_R63f.jpg`).
+- **Diagnosis:** solving the main and benchmark press paths with equal weight gives conflicting targets for the same controls; the compromise folds the skin and adds motion.
+
+**Best candidate so far:**
+- **Visually, for the owner's corner:** R63e.
+- **Numerically:** R63d (21 contacts, 5 benchmark regressions).
+
+**Next options:**
+- **(a)** Weight the benchmark samples low (e.g. 0.2), or make them gap-only constraints, so they only stop arm contact without driving the fill.
+- **(b)** Accept R63e's 18 benchmark-path contacts as a known issue of that path's slightly different pose. That needs the owner's decision.

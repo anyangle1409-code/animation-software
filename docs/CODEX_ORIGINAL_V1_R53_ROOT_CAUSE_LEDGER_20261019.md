@@ -75,3 +75,14 @@ An independent review found no blocking source issue in this probe; actual nativ
 Both native studies are complete and hash-verified. The origin-motion probe is rejected: R52 outline error 25.747078 mm, motion excess 39.026514 mm, visible new side creases. A native-checked weight-gradient decomposition confirms one local inherited stretch mechanism. No candidate is started: a proposed 26-vertex local weight experiment requires an explicit exception to the frozen-weight/S7-only scope. Full candidate acceptance and owner review remain outstanding. Read the result document for tested/unrun checks, preserved evidence and exact boundaries.
 
 Final independent evidence review reproduced the LBS decomposition and found no Critical or Important issue in the report/script. Five diagnostic unit tests pass locally; actual native runs provide the integration evidence. All five owner-review media/archive saves succeeded.
+
+
+## Owner-authorised weight experiment — 20 October continuation
+
+The owner answered “Continue” to the explicit request for the mirrored26-vertex weight test on19October, and repeated “Continue” on20October. This authorises that isolated experiment only. The former frozen-weight blocker is resolved for precisely the proposed26 vertices; it does not authorise skeleton/helper changes, patch expansion or acceptance-test relaxation.
+
+The interrupted session prepared code but launched no workflow. Live20October reconciliation found isolatedHEAD d3de9221 and consolidatedHEAD cb4a7ac3 unchanged. The bounded weight-only test now uses one synchronous25% one-ring neighbour average, globally scaled to at most2.5percentage points per weight. Four test-first scope/validity tests pass. Original key geometry and bone motion stay fixed. No fitter, model save or promotion exists. Native execution and visual review remain pending at this checkpoint.
+
+Independent source review found three workflow issues: piped unit failures, non-propagated subprocess failure, and insufficient timeout headroom. These were corrected before launch. No remaining important source blocker was reported; this is not Blender verification.
+
+The original R52 affine cache assumes old weights, so a separate R53 copy of the83-pose safety runner replaces only the prediction calculation with independent actual-weight linear skinning. Its0.01mm replay guard and every original area/contact/orientation/motion/crease threshold remain unchanged. Original files/tests are not edited. Native R52 tests are rerun on actual R53 geometry. Original seven-knot scope tests remain explicitly legacy diagnostics, and the old weights-identical requirement is deliberately false under the owner-authorised exception. Do not equate their projection results with actual weight scope certification. The unchanged integer-step metric covers corrective increments only; extra weight-induced integer-step behaviour is not certified by it.

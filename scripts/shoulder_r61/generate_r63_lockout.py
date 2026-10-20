@@ -165,6 +165,7 @@ def main():
     ap.add_argument("--guard-bench", action="store_true", help="R63g: benchmark press samples only guard against arm contact")
     ap.add_argument("--guard-weight", type=float, default=4.0)
     ap.add_argument("--guard-iters", type=int, default=6)
+    ap.add_argument("--step-limit", type=float, default=0.0, help="R64j: smooth solved control curves until adjacent steps <= this (m)")
     ap.add_argument("--hull", action="store_true", help="R64b: fill the rear outline to its outward convex envelope")
     ap.add_argument("--fold", action="store_true", help="R64: sculpt the posterior axillary fold (outward-only relax)")
     ap.add_argument("--fold-centre", default="0.17,0.07,1.40", help="R64: rest-space centre of the posterior armpit (m)")
@@ -342,6 +343,29 @@ def main():
         inc = (1 - t)[affected, None] * out[lo[affected], affected] + t[affected, None] * out[hi[affected], affected]
         Pn = z["base"][s][affected] + np.einsum("nij,nj->ni", z["mat"][s][affected], inc)
         fit_err.append(float(np.linalg.norm(Pn - (P[affected] + D[affected]), axis=1).max()))
+    step_log = {}
+    if a.step_limit > 0:
+        # R64j: the gate limits the change between adjacent one-degree controls (3 mm).  Where a vertex's solved curve
+        # over controls K0-1..166 steps more than --step-limit, relax only that vertex's curve in time ([1,2,1]/4 on the
+        # free controls; K0-1 stays fixed, 166 is pulled half-way to 165) until it is under the limit.
+        def worst(o):
+            st = np.linalg.norm(np.diff(o[K0 - 1:K1 + 1], axis=0), axis=2)    # (nk, nv)
+            return st
+        st = worst(out); k_, v_ = np.unravel_index(np.argmax(st), st.shape)
+        step_log["before_mm"] = round(float(st.max() * 1000), 3)
+        step_log["before_at"] = {"controls": [int(95 + K0 - 1 + k_), int(95 + K0 + k_)], "rest": np.round(rest[v_], 3).tolist()}
+        it = 0
+        while it < 2000:
+            bad = np.flatnonzero(worst(out).max(axis=0) > a.step_limit)
+            if not len(bad):
+                break
+            c = out[K0 - 1:K1 + 1][:, bad].copy()
+            c[1:-1] = 0.25 * c[:-2] + 0.5 * c[1:-1] + 0.25 * c[2:]
+            c[-1] = 0.5 * c[-1] + 0.5 * c[-2]
+            out[K0:K1 + 1, bad] = c[1:]
+            it += 1
+        step_log.update({"iterations": it, "after_mm": round(float(worst(out).max() * 1000), 3)})
+        print("R64_STEP", json.dumps(step_log), flush=True)
     norms = np.linalg.norm(out, axis=2)
     capped = int((norms > 0.045).any(axis=0).sum())
     over = norms > 0.045
@@ -352,12 +376,12 @@ def main():
     np.savez_compressed(a.out, dense_delta=out, delta=out[SOURCE])
     metrics = {"status": "R63_IN_MEMORY_STUDY_NOT_ACCEPTED", "model_saved": False, "owner_approved": False,
                "scope_change": f"owner-approved lockout sculpt (20 Oct): controls {95 + K0}..166 re-solved in posed space; 166 released",
-               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top", "include_bench", "guard_bench", "guard_weight", "guard_iters", "hull", "fold", "fold_centre", "fold_radius", "fold_iters", "fold_step", "fold_max")},
+               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top", "include_bench", "guard_bench", "guard_weight", "guard_iters", "step_limit", "hull", "fold", "fold_centre", "fold_radius", "fold_iters", "fold_step", "fold_max")},
                "samples": report_s, "affected_vertices": int(len(affected)), "vertices_capped_at_45mm": capped,
                "posed_fit_max_error_mm": round(max(fit_err, default=0) * 1000, 3), "posed_fit_error_by_sample_mm": [round(e * 1000, 2) for e in fit_err],
                "max_change_from_start_mm": round(float(np.linalg.norm(out - d0, axis=2).max() * 1000), 2),
                "max_adjacent_control_mm": oscillation(out)["maximum_adjacent_mm"],
-               "arm_file_match_mm": round(dpos, 4), "guard_new_pins_per_iteration": guard_log}
+               "arm_file_match_mm": round(dpos, 4), "step_limit": step_log, "guard_new_pins_per_iteration": guard_log}
     Path(a.out + ".json").write_text(json.dumps(metrics, indent=2) + "\n")
     print("R63_GENERATOR", json.dumps({k: v for k, v in metrics.items() if k != "samples"}))
 

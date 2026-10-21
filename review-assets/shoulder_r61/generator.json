@@ -4,6 +4,7 @@
   "envelope_mm": null,
   "fidelity": 0.03,
   "r61_released_166_hold_from": 145.0,
+  "r62_upper_trap": null,
   "active_set_iterations_max": null,
   "model_saved": false,
   "owner_approved": false,

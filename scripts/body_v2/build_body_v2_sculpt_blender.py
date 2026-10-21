@@ -35,6 +35,10 @@ import build_original_review_candidate_r17_blender as r17
 
 res = r17._setup(ROOT / "ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r41_20261017/HGPT_ORIGINAL_V1_REVIEW_R41_CODEX.blend")
 body, rig = res["body"], res["runtime"]
+# R83 (owner chose "Refine the torso mesh"): split the coarse torso / pelvis / glute / neck triangles (13-26 mm edges)
+# down to <= V2_REFINE_MM, carrying skin weights and every shape key over linearly (refine_torso_blender.py).  0 = off.
+REFINE_MM = float(os.environ.get("V2_REFINE_MM", "8"))
+REFINE_REPORT = None
 me = body.data
 nv = len(me.vertices)
 rest = np.array([v.co[:] for v in me.vertices])
@@ -417,7 +421,7 @@ if SIL_LAT or SIL_MED:
     off[:, 1] += sil / 1000.0 * hn[:, 1] * 0.5 * (sil < 0)                  # pulling in: a little depth too (thigh taper)
 # R82b: belly button (both references: ~0.61-0.62 of stature; ANSUR omphalion 0.606) - a soft dimple on the front midline
 NAVEL_MM = float(os.environ.get("V2_NAVEL_MM", "7"))
-if NAVEL_MM > 0:
+if NAVEL_MM > 0 and REFINE_MM <= 0:
     Q = rest + off
     zn = Q[:, 2].min() + 0.612 * (Q[:, 2].max() - Q[:, 2].min())
     fr = (Q[:, 1] < 0) & (-nrm[:, 1] > 0.6)
@@ -500,7 +504,11 @@ if ARM_U or ARM_F or HAND_S != 1.0 or SH_UP:
     lift = np.maximum(np.clip(_armw, 0, 1), _girdle(rest) * (1 - HEAD))
     for _ in range(6):
         lift = 0.5 * lift + 0.5 * avg(lift)
-    lift = np.maximum(lift, np.clip(_armw, 0, 1))
+    # full lift on the arm itself; around the trapezius the raw arm weights jump vertex to vertex, and taking them
+    # unsmoothed pleated the neck once the mesh was refined (v5c-v5i) - only clearly-arm skin is forced to 1
+    lift = np.maximum(lift, ss((np.clip(_armw, 0, 1) - 0.6) / 0.35))
+    for _ in range(4):
+        lift = np.where(_armw > 0.95, lift, 0.5 * lift + 0.5 * avg(lift))
     PROP[:, 2] += SH_UP * lift
     for bname in list(SKEL_EDITS):
         SKEL_EDITS[bname] = [(np.array(p) + [0, 0, SH_UP]).tolist() for p in SKEL_EDITS[bname]]
@@ -529,7 +537,7 @@ if ARM_U or ARM_F or HAND_S != 1.0 or SH_UP:
 import math as _m
 import build_original_movement_benchmarks_blender as _bench
 import original_v1_review_candidate_drives as _drives
-_STAND = tuple(float(x) for x in os.environ.get("V2_STAND", "9:6").split(":"))
+_STAND = tuple(float(x) for x in os.environ.get("V2_STAND", "12:6").split(":"))
 _fitkey = body.shape_key_add(name="V2_FIT", from_mix=False); _fitkey.value = 1.0
 
 
@@ -561,6 +569,158 @@ for it in range(int(os.environ.get("V2_OVERLAP_ITERS", "40"))):
     zone = np.clip(hit * 3, 0, 1)[:, None]
     for _ in range(3):
         off = off + 0.5 * zone * (np.stack([avg(off[:, k]) for k in range(3)], axis=1) - off)
+# R83 (owner chose "Refine the torso mesh"): the shape above is sculpted on the R41 mesh, where every relax / smoothing
+# step was tuned (a first try that refined first, v5a, turned those hop-counted steps 3-4x shorter: noisy skin, crumpled
+# thighs).  Now the mesh is refined at the end (refine_torso_blender.py: torso / pelvis / glute / neck triangles split
+# to <= V2_REFINE_MM, skin weights and every shape key carried over linearly), the finished offset fields are carried
+# over by the exact linear map, and the details that need the finer mesh are added on it with sizes in millimetres.
+DETAIL_REPORT = {}
+if REFINE_MM > 0:
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from refine_torso_blender import refine
+    body.shape_key_remove(_fitkey)
+    # body-part label for the carry-over: the whole arm chain incl. hand and fingers, from the raw skin weights (ARM
+    # above stops at the hand bone, so fingers counted as "not arm")
+    _arm_c = np.zeros(nv)
+    for _gname, _gi in gidx.items():
+        if _gname.rsplit("_", 1)[0] in ("upperarm", "shoulder_cap", "forearm", "forearm_tw0", "forearm_tw1") + _HAND and _gi in W:
+            _arm_c += W[_gi]
+    _arm_c = np.clip(_arm_c, 0, 1)
+    _rest_c, _nrm_c, _off_c, _ft_c, _prop_c = rest.copy(), nrm_s.copy(), off.copy(), faces.copy(), PROP.copy()
+    REFINE_REPORT, _mi, _mw = refine(body, th_mm=REFINE_MM)
+    np.savez_compressed(OUT / "refine_map.npz", idx=_mi.astype(np.int32), w=_mw.astype(np.float32))
+    print("V2_REFINE", json.dumps(REFINE_REPORT), flush=True)
+
+    def _lift(X):
+        return (X[_mi] * (_mw[..., None] if X.ndim == 2 else _mw)).sum(1)
+
+    off, PROP, amt, ARM, LEG, HEAD, _arm_f = (_lift(X) for X in (off, PROP, amt, ARM, LEG, HEAD, _arm_c))
+    me = body.data; nv = len(me.vertices)
+    rest = np.array([v.co[:] for v in me.vertices]); nrm = np.array([v.normal[:] for v in me.vertices])
+    faces = np.array([p.vertices[:] for p in me.polygons])
+    nb = [[] for _ in range(nv)]
+    for f in faces:
+        for i in range(3):
+            nb[f[i]] += [f[(i + 1) % 3], f[i - 1]]
+    nb = [np.unique(n) for n in nb]
+    rows = np.repeat(np.arange(nv), [len(n) for n in nb]); cols = np.concatenate(nb); deg = np.array([len(n) for n in nb], float)
+    _fs = [set(f) for f in faces]; _ft = [tuple(f) for f in faces]
+    _fitkey = body.shape_key_add(name="V2_FIT", from_mix=False); _fitkey.value = 1.0
+    # the sculpt offsets carried over linearly are piecewise linear over the old triangles, and their kinks along every
+    # old edge showed as a diamond cross-hatch on the fine mesh (v5d/v5e).  Carry them over smoothly instead: Gaussian
+    # weights over the nearby old vertices (sigma from the local old edge length), only from skin facing the same way
+    from scipy.spatial import cKDTree as _KD
+    _ec = np.concatenate([_ft_c[:, [0, 1]], _ft_c[:, [1, 2]], _ft_c[:, [2, 0]]])
+    _el = np.linalg.norm(_rest_c[_ec[:, 0]] - _rest_c[_ec[:, 1]], axis=1)
+    # longest incident edge (not the mean): R41's slivers are dense one way and sparse the other, and a sigma from the
+    # mean left one bump per old vertex along the neck ring (v5f-v5m)
+    _hc = np.zeros(len(_rest_c)); np.maximum.at(_hc, _ec[:, 0], _el); np.maximum.at(_hc, _ec[:, 1], _el)
+    # search only the body's old vertices (arms keep the exact map below): in the bind pose the hands hang against the
+    # thighs, and their dense vertices filled the whole neighbour list of the hip skin (v5f-v5l: hip patches)
+    _bodyc = np.nonzero(_arm_c < 0.5)[0]
+    _dd, _jj = _KD(_rest_c[_bodyc]).query(rest, k=32); _jj = _bodyc[_jj]
+    _sig = np.maximum(0.5 * _hc[_jj[:, 0]], 0.003)[:, None]
+    nrm_f = nrm
+    _ww = np.exp(-0.5 * (_dd / _sig) ** 2) * np.clip((_nrm_c[_jj] * nrm_f[:, None, :]).sum(2), 0, 1) ** 2
+    _ww[:, 0] += 1e-9
+    _ww /= _ww.sum(1, keepdims=True)
+    # arms and hands (dense already, and the hands hang against the thighs in the bind pose) keep the exact linear map
+    _a = np.clip((_arm_f - 0.3) / 0.4, 0, 1)[:, None]
+    _off_lin = off.copy(); _off_g = (_off_c[_jj] * _ww[..., None]).sum(1)
+    off = _a * off + (1 - _a) * _off_g
+    if os.environ.get("V2_DEBUG_TRANSFER"):
+        np.savez_compressed(OUT / "transfer_debug.npz", lin=_off_lin.astype(np.float32), g=_off_g.astype(np.float32), a=_a[:, 0].astype(np.float32),
+                            arm=_arm_f.astype(np.float32), rest=rest.astype(np.float32), wsum=_ww.max(1).astype(np.float32))
+    # then remove the fine noise left by the coarse field (a cross-hatch 2-3 vertices across, v5d) and R41's own small
+    # ripples: Taubin steps along the vertex normal only (no sliding), everywhere except the hands
+    Q = rest + off
+    # cotangent weights (clamped >= 0): on R41's long thin triangles, now refined, a plain neighbour average moves the
+    # surface by its triangulation (neck pleats, v5c-v5j); the cotangent average smooths the surface itself
+    _A, _B, _C = (rest[faces[:, k]] for k in range(3))
+
+    def _cot(u, v):
+        return (u * v).sum(1) / np.maximum(np.linalg.norm(np.cross(u, v), axis=1), 1e-12)
+
+    _ci = np.clip(np.stack([_cot(_B - _A, _C - _A), _cot(_C - _B, _A - _B), _cot(_A - _C, _B - _C)], axis=1), 0, 20)
+    _er = np.concatenate([faces[:, 1], faces[:, 2], faces[:, 2], faces[:, 0], faces[:, 0], faces[:, 1]])
+    _ec2 = np.concatenate([faces[:, 2], faces[:, 1], faces[:, 0], faces[:, 2], faces[:, 1], faces[:, 0]])
+    _ew = np.concatenate([_ci[:, 0], _ci[:, 0], _ci[:, 1], _ci[:, 1], _ci[:, 2], _ci[:, 2]]) * 0.5 + 1e-6
+    _ws = np.zeros(nv); np.add.at(_ws, _er, _ew)
+
+    def cavg(X):
+        acc = np.zeros_like(X); np.add.at(acc, _er, _ew[:, None] * X[_ec2]); return acc / _ws[:, None]
+
+    _keep = np.clip((ARM - 0.5) * 4, 0, 1) * (rest[:, 2] < 0.97)
+    _w = 1.0 - _keep
+    # R41's own neck ring is slightly zig-zag (pleats once refined): many more steps there
+    _neck = ss(1 - np.abs(rest[:, 2] - 1.57) / 0.09) * (1 - _keep)
+    for _ in range(int(os.environ.get("V2_FINE_NECK_SMOOTH", "40"))):
+        for lam in (0.5, -0.53):
+            tri = Q[faces]; fn_ = np.cross(tri[:, 1] - tri[:, 0], tri[:, 2] - tri[:, 0])
+            vn_ = np.zeros_like(Q); np.add.at(vn_, faces.ravel(), np.repeat(fn_, 3, axis=0))
+            vn_ /= np.maximum(np.linalg.norm(vn_, axis=1, keepdims=True), 1e-12)
+            L_ = cavg(Q) - Q
+            Q = Q + lam * _neck[:, None] * (L_ * vn_).sum(1)[:, None] * vn_
+    for _ in range(int(os.environ.get("V2_FINE_NORMAL_SMOOTH", "12"))):
+        for lam in (0.5, -0.53):
+            tri = Q[faces]; fn_ = np.cross(tri[:, 1] - tri[:, 0], tri[:, 2] - tri[:, 0])
+            vn_ = np.zeros_like(Q); np.add.at(vn_, faces.ravel(), np.repeat(fn_, 3, axis=0))
+            vn_ /= np.maximum(np.linalg.norm(vn_, axis=1, keepdims=True), 1e-12)
+            L_ = cavg(Q) - Q
+            Q = Q + lam * _w[:, None] * (L_ * vn_).sum(1)[:, None] * vn_
+    off = Q - rest
+    # normals of the sculpted surface, smoothed ~1 cm
+    tri = Q[faces]; fn = np.cross(tri[:, 1] - tri[:, 0], tri[:, 2] - tri[:, 0])
+    qn = np.zeros_like(Q); np.add.at(qn, faces.ravel(), np.repeat(fn, 3, axis=0))
+    for _ in range(6):
+        qn = 0.5 * qn + 0.5 * np.stack([avg(qn[:, k]) for k in range(3)], axis=1)
+    qn /= np.maximum(np.linalg.norm(qn, axis=1, keepdims=True), 1e-12)
+    zb = Q[:, 2].min(); Hs = Q[:, 2].max() - zb
+
+    def groove(pts, half_w, depth_mm, facing):
+        """soft groove along a polyline of (|x|, z) points, on skin facing `facing` (y sign), faded at both ends"""
+        g = np.zeros(nv); ax = np.abs(Q[:, 0])
+        segs = list(zip(pts[:-1], pts[1:])); total = sum(np.linalg.norm(np.subtract(b, a)) for a, b in segs); run = 0.0
+        for a, b in segs:
+            a = np.array(a); b = np.array(b); d = b - a; L = np.linalg.norm(d); u = d / L
+            p = np.stack([ax, Q[:, 2]], axis=1) - a
+            t = np.clip(p @ u / L, 0, 1); dist = np.linalg.norm(p - np.outer(t * L, u), axis=1)
+            s_ = (run + t * L) / total
+            g = np.maximum(g, np.exp(-0.5 * (dist / half_w) ** 2) * ss(s_ / 0.15) * ss((1 - s_) / 0.15))
+            run += L
+        g *= ss((facing * qn[:, 1] - 0.15) / 0.4) * (1 - ARM)
+        return -qn * (depth_mm / 1000.0 * g)[:, None]
+
+    # belly button at 0.612 of stature: a dimple 9 mm across with a soft rim
+    NAVEL_MM = float(os.environ.get("V2_NAVEL_MM", "6"))
+    zn = zb + 0.612 * Hs
+    rr = np.sqrt(Q[:, 0] ** 2 + ((Q[:, 2] - zn) / 1.25) ** 2)
+    dimple = (np.exp(-0.5 * (rr / 0.0045) ** 2) - 0.18 * np.exp(-0.5 * ((rr - 0.010) / 0.004) ** 2)) * ss((-qn[:, 1] - 0.5) / 0.3)
+    off -= qn * (NAVEL_MM / 1000.0 * dimple)[:, None]
+    # inguinal creases (the V): from the front of the hip bone down to beside the crotch
+    ING_D = float(os.environ.get("V2_INGUINAL_DETAIL_MM", "4"))
+    cz = Q[np.abs(Q[:, 0]) < 0.006, 2].min()
+    off += groove([(0.118, cz + 0.135), (0.075, cz + 0.07), (0.035, cz + 0.022), (0.018, cz + 0.004)], 0.006, ING_D, -1)
+    # gluteal folds: under each buttock, rising slightly to the outside
+    GLUTE_D = float(os.environ.get("V2_GLUTE_FOLD_MM", "5"))
+    off += groove([(0.022, cz - 0.004), (0.06, cz - 0.022), (0.11, cz - 0.018), (0.15, cz + 0.005)], 0.007, GLUTE_D, +1)
+    DETAIL_REPORT = {"navel_mm": NAVEL_MM, "navel_z": round(float(zn), 4), "inguinal_mm": ING_D, "glute_fold_mm": GLUTE_D, "crotch_z": round(float(cz), 4)}
+    # overlaps on the refined surface, standing pose (same shrink as above, smaller steps)
+    ov2 = []
+    for it in range(int(os.environ.get("V2_OVERLAP_ITERS_FINE", "30"))):
+        P_ = stand_eval(off)
+        tr = _BVH.FromPolygons([Vector(v) for v in P_], _ft, all_triangles=True)
+        pr = [(a_, b_) for a_, b_ in tr.overlap(tr) if a_ < b_ and not (_fs[a_] & _fs[b_])]
+        ov2.append(len(pr))
+        if not pr or (len(ov2) > 4 and min(ov2[-4:]) >= min(ov2[:-4])):       # stop when it no longer improves
+            break
+        hit = np.zeros(nv); hit[np.unique(faces[np.array(pr).ravel()].ravel())] = 1.0
+        for _ in range(16):                              # fine mesh: ~3x the coarse loop's reach, so the shrink stays smooth
+            hit = np.maximum(hit, avg(hit))
+        for _ in range(60):
+            hit = 0.5 * hit + 0.5 * avg(hit)
+        off = off * (1.0 - 0.2 * np.clip(hit * 2, 0, 1))[:, None]
+    DETAIL_REPORT["overlap_iterations"] = ov2
 WIDTH_REPORT = {"overlap_iterations": ov_log, "clearance_iterations": clr_iters, "min_scale": round(float(scale.min()), 3), "waist_mm": WAIST_MM, "chest_mm": CHEST_MM, "max_side_push_mm": round(float(push.max() * 1000), 2)}
 np.savez_compressed(OUT / "body_v2_offsets.npz", offsets=(off + PROP).astype(np.float32), proportion=PROP.astype(np.float32))   # R81: offsets = sculpt + proportion
 mir = {}
@@ -584,6 +744,8 @@ def _pairs(P):
 rep["rest_self_intersections"] = {"v1": _pairs(rest), "v2": _pairs(rest + off)}
 rep["standing_self_intersections"] = {"v1": _pairs(stand_eval(np.zeros_like(off))), "v2": _pairs(stand_eval(off))}
 body.shape_key_remove(_fitkey); _bench._reset(rig)
+rep["refine"] = REFINE_REPORT; rep["detail"] = DETAIL_REPORT
+np.save(OUT / "rest.npy", rest.astype(np.float32)); np.save(OUT / "tris.npy", faces.astype(np.int32))
 (OUT / "body_v2_report.json").write_text(json.dumps(rep, indent=1))
 print("V2_SCULPT", json.dumps(rep), flush=True)
 
@@ -598,7 +760,7 @@ if os.environ.get("R76_RENDER") == "1":
     mat = bpy.data.materials.new("REVIEW_ONLY"); mat.diffuse_color = (.72, .55, .45, 1)
     body.data.materials.clear(); body.data.materials.append(mat)
     sc.render.engine = "BLENDER_WORKBENCH"; sc.display.shading.light = "STUDIO"; sc.display.shading.color_type = "MATERIAL"
-    sc.display.shading.show_cavity = True; sc.render.resolution_x = 900; sc.render.resolution_y = 1500
+    sc.display.shading.show_cavity = os.environ.get("V2_CAVITY", "1") == "1"; sc.render.resolution_x = 900; sc.render.resolution_y = 1500
     cd = bpy.data.cameras.new("C"); cd.type = "ORTHO"; cam = bpy.data.objects.new("C", cd); sc.collection.objects.link(cam); sc.camera = cam
     bpy.context.view_layer.update()
     lo, hi = rest.min(0), rest.max(0); mid = Vector(((lo + hi) / 2).tolist()); cd.ortho_scale = float(hi[2] - lo[2]) * 1.08
@@ -613,7 +775,7 @@ if os.environ.get("R76_RENDER") == "1":
     import math
     import build_original_movement_benchmarks_blender as bench
     import original_v1_review_candidate_drives as drives
-    abd, elb = (float(x) for x in os.environ.get("V2_STAND", "9:6").split(":"))
+    abd, elb = (float(x) for x in os.environ.get("V2_STAND", "12:6").split(":"))
     for tag, val in (("V1", 0.0), ("V2", 1.0)):
         key.data.foreach_set("co", _co[tag]); key.value = 1.0
         bench._reset(rig)

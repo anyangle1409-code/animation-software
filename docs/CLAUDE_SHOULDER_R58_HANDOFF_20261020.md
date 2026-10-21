@@ -1448,3 +1448,53 @@ The owner sent two reference figures, front, side and back, saying: "This is how
 | hand | 3.9 mm |
 
 The belly button (5 vertices within 15 mm), the sharp V crease, the pubic wedge, the gluteal fold and fine muscle separations cannot form at 13–15 mm spacing. So R82b and R82c barely show. This needs an owner decision on adding resolution.
+
+### Draft v5n: refined mesh plus fine detail (21 Oct)
+
+Owner chose "Refine the torso mesh". R41 has 13–15 mm edges on the belly and groin, and long thin triangles, 30–40 mm long, on the legs, chest, back and neck ring. At that spacing the belly button, the V, the pubic shape and the gluteal fold cannot form.
+
+**Pipeline (R83):**
+
+1. **Sculpt on R41.** The whole sculpt runs on R41 as before. Its relax and smoothing steps are counted in neighbour hops and were tuned at that mesh scale.
+2. **Refine at the end.** `scripts/body_v2/refine_torso_blender.py` does this.
+   - Any triangle with an edge over `V2_REFINE_MM` (8) is split at all three edge midpoints, then re-triangulated, repeated until none is left. It covers the whole body; the hands and arms are already finer.
+   - Skin weights and all 79 shape keys are carried over by linear interpolation, so the new vertices deform like the old surface.
+   - New vertices are placed by Phong tessellation (α 0.75) on their old triangle. Old vertices are unchanged, and the same rest move is added to every shape key.
+   - Result: 21,600 → 219,974 vertices, median edge 4.1 mm.
+   - `refine_map.npz` holds the exact linear map (old triangle and weights per new vertex). Use it to carry any 21,600-vertex array (dense correctives, hang/press fixes, earlier offsets) over to the refined mesh.
+3. **Carry the sculpt over smoothly.**
+   - Sculpt offsets: Gaussian over the nearby old body vertices, only from skin facing the same way. Sigma is 0.5 × the longest incident old edge.
+   - The arm chain, including the fingers, keeps the exact linear map. In the bind pose the hands hang against the thighs.
+   - The proportion field keeps the exact linear map. Its shoulder-lift weight is smoothed, so the arm weights no longer jump point to point around the trapezius.
+4. **Fine normal smoothing.** Cotangent-weighted, along the normal only: 12 Taubin steps everywhere except the hands, 40 at the neck base.
+5. **Details, in mm, on the fine mesh.**
+   - Belly button at 0.612 of stature: 6 mm deep, with a rim.
+   - Inguinal creases from the hip bone to beside the crotch: 4 mm.
+   - Gluteal folds: 5 mm.
+6. **Fine overlap loop.** Smoothed shrink; stops when it no longer improves.
+
+**What went wrong on the way (v5a–v5m, all rejected):**
+
+| Draft | Problem | Cause / fix |
+|---|---|---|
+| v5a | noisy skin, crumpled thighs | refining first, so every hop-counted step was 3–4× shorter |
+| v5c/v5d | ripples, neck pleats | Taubin relax on the slivers |
+| v5d/v5e | diamond cross-hatch | the linear carry-over kinks along every old edge |
+| v5f–v5l | finger prints on the hips | the hand vertices filled the hip skin's neighbour list |
+| v5k | degenerate triangles | splitting only the long edges |
+| v5f–v5m | neck pleats | sigma from the mean edge length; now the longest edge |
+
+**Other changes:**
+- The standing pose is now 12° of arm abduction (was 9°). With the longer arms, the thumbs pressed into the wider upper thigh.
+
+**Results:**
+- 0 standing-pose overlaps.
+- The front silhouette and the ANSUR landmarks are unchanged from v4b (all within 1 SD).
+
+**Still open:**
+- A faint horizontal line where the belly meets the thighs.
+- The pubic area is flatter and squarer than the references.
+- The glutes are less round and less projecting than the references.
+- A few dark specks on the upper back and chest (to check: degenerate triangles).
+- 220k vertices will need a lighter version for the app.
+- The press/hang dense correctives (21,600-based) must be carried over via `refine_map.npz` before the exercises.

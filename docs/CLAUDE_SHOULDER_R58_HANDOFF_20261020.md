@@ -1663,3 +1663,22 @@ The owner said: "Still too many abs … count how many you have."
 **Results:**
 - Counted on the same contrast view: three pairs.
 - 0 standing-pose overlaps.
+
+### Draft v9i: contoured ab blocks (21 Oct)
+
+The owner said: "The abs have more of a contour than what you have. Use the reference as a guide."
+
+**R90 changes:** each pair now has its own outline, measured on the contrast-stretched reference (fractions of stature).
+
+| Pair | Height | Width |x| | Shape | Amp |
+|---|---|---|---|---|
+| top | 0.705–0.735 | 0.060 at the top, 0.071 at the bottom | follows the rib arch; lower edge sloping down to the side | 7 mm |
+| middle | 0.665–0.705 | up to 0.075 | largest, rounded corners | 9 mm |
+| bottom | 0.642–0.665 | up to 0.063 | lower edge a soft U | 5.5 mm |
+
+- Each block is a super-ellipse dome (power 2.3), centred slightly above the middle of the block.
+- The dome falloff is cos². A steep (cos^0.9) edge read as a hard horizontal line (v9h). With cos² the pillows meet in gentle valleys.
+
+**Results:**
+- 0 standing-pose overlaps.
+- Contrast comparison tool: `scripts/body_v2/fit/abs_contrast.py`.

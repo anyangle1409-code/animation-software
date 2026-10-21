@@ -736,20 +736,30 @@ if REFINE_MM > 0:
         # upper edge follows the arch
         ints = [0.642, 0.665, 0.705]
         seg = np.zeros(nv)
-        # R88 (owner on v9e: "There looks to be too many [abs] ... There is less in my photo"): the reference shows three
-        # rows (a six-pack) - 0.640-0.665, 0.665-0.690, 0.690-top - and smooth skin from 0.640 down to the navel; v9e
-        # also domed the navel row, giving four.  The lowest intersection is now the bottom edge of the pack.
-        lows = [np.full(nv, z_) + 0.15 * ax_ ** 2 for z_ in ints]
-        highs = [np.full(nv, z_) + 0.15 * ax_ ** 2 for z_ in ints[1:]] + [ftop]
-        colx = np.clip((ax_ - 0.002) / np.maximum(xo - 0.002, 1e-3), 0, 1)
-        for a_, b_ in zip(lows, highs):
-            t_ = np.clip((fz_ - a_) / np.maximum(b_ - a_, 1e-4), 0, 1)
-            # each block a rounded-rectangle dome (super-ellipse, power 3): highest mid-column, curving down to rounded
-            # ends - a plateau across the 13 cm column read as horizontal stripes (v9a/v9b)
-            r_ = (np.abs(2 * colx - 1) ** 3 + np.abs(2 * t_ - 1) ** 3) ** (1 / 3)
-            seg += np.cos(0.5 * np.pi * np.clip(r_, 0, 1)) ** 1.0 * (fz_ > a_) * (fz_ < b_)
-        seg *= (ax_ < xo)
-        h += float(os.environ.get("V2_ABS_SEG_MM", "6.0")) * seg
+        # R90 (owner: "The abs have more of a contour than what you have. Use the reference as a guide"): each pair now
+        # has its own outline, measured on the contrast-stretched reference (x and z as fractions of stature):
+        #   top    0.705-0.735, narrower at the top (follows the rib arch: |x| 0.060 at the top, 0.071 at the bottom),
+        #          lower edge sloping down to the side;
+        #   middle 0.665-0.705, the largest and widest (|x| to 0.075), well rounded corners;
+        #   bottom 0.642-0.665, smaller (|x| to 0.063), lower edge a soft U.
+        # Each block is a rounder dome (super-ellipse power 2.3), its height highest a little above its centre.
+        xh = ax_ / Hs
+        blocks = [  # (z_lo(x), z_hi(x), x_out at z_lo, x_out at z_hi, amp mm)
+            (0.706 - 0.08 * xh, 0.735 - 0.20 * xh, 0.071, 0.060, 7.0),
+            (0.665 + 0.00 * xh, 0.706 - 0.08 * xh, 0.075, 0.073, 9.0),
+            (0.640 + 0.12 * xh, 0.665 + 0.00 * xh, 0.060, 0.065, 5.5),
+        ]
+        seg = np.zeros(nv)
+        for zlo_, zhi_, xa_, xb_, amp_ in blocks:
+            t_ = np.clip((fz_ - zlo_) / np.maximum(zhi_ - zlo_, 1e-4), 0, 1)
+            xout = Hs * (xa_ + (xb_ - xa_) * t_)
+            u_ = np.clip((ax_ - 0.004) / np.maximum(xout - 0.004, 1e-3), 0, 1)
+            # dome centred a little above the middle of the block and towards the middle of the column
+            r_ = (np.abs(2 * u_ - 1.0) ** 2.3 + np.abs((2 * t_ - 1.0) - 0.12) ** 2.3) ** (1 / 2.3)
+            # soft edges (cos^2): a steep edge read as a hard horizontal line (v9g/v9h); the pillows meet in gentle valleys
+            seg += amp_ * np.cos(0.5 * np.pi * np.clip(r_, 0, 1)) ** 2 * (fz_ > zlo_) * (fz_ < zhi_) * (ax_ < xout)
+        h += float(os.environ.get("V2_ABS_SEG_SCALE", "1.0")) * seg
+        top = ss((0.735 - 0.20 * xh - fz_) / 0.010)
         # linea alba: sternum to navel, fading out below it
         la = np.interp(fz_, [0.565, 0.60, 0.62, 0.72, 0.74], [0, 0.6, 1.0, 1.0, 0.6])
         h -= 4.5 * la * np.exp(-0.5 * (ax_ / 0.0060) ** 2)   # wide enough for the 4 mm mesh; frames the blocks (R87)

@@ -254,6 +254,14 @@ WAIST_MM = float(os.environ.get("V2_WAIST_MM", "24")); CHEST_MM = float(os.envir
 from scipy.spatial import cKDTree as _T
 z_ = rest[:, 2]
 prof_w = np.interp(z_, [0.84, 0.98, 1.10, 1.22, 1.34, 1.44, 1.50], [0, WAIST_MM * 0.55, WAIST_MM, WAIST_MM * 0.9, CHEST_MM, CHEST_MM * 0.6, 0]) / 1000.0
+# R80 (owner: "Can we sort out the waist also?"): the profile above pushed the natural waist (z 1.10-1.22, 0.59-0.66 of
+# stature, iliac crest to 10th rib) out as far as the chest, so the torso read as a box: front-view waist 0.171-0.174 of
+# stature against the reference's 0.166-0.170, and barely narrower than the hips.  Side push now (mm, at rest z):
+# hips kept, waist pulled in, ribs / lats fuller (still capped by the arm clearance below).
+SIDE_PROF = os.environ.get("V2_SIDE_PROFILE", "0.84:0,0.98:13,1.05:15,1.12:13,1.17:13,1.26:20,1.34:20,1.44:10,1.50:0")
+if SIDE_PROF:
+    _k = np.array([[float(v) for v in kv.split(":")] for kv in SIDE_PROF.split(",")])
+    prof_w = np.interp(z_, _k[:, 0], _k[:, 1]) / 1000.0
 lat_face = ss((np.abs(nrm[:, 0]) - 0.25) / 0.5)
 tors = (1 - ARM) * (1 - HEAD) * (1 - LEG)
 push = prof_w * lat_face * tors
@@ -333,12 +341,28 @@ if CROTCH_MM > 0:
         up = 0.5 * up + 0.5 * avg(up)
     off[:, 2] += CROTCH_MM / 1000.0 * up
 # (applied before the hip-band and groin relax below, so they smooth the lifted surface)
+# R80b (owner: "the groin looks to be very high"): the lower belly met the thighs along a horizontal line ~4-5 cm above
+# the crotch, so the legs seemed to start there.  On a lean man the junction is a V: the inguinal grooves run from the
+# front of the hip bone (ASIS landmark, |x| 0.108, z 1.00) down to the pubis beside the crotch.  A soft groove (depth
+# V2_INGUINAL_MM, half-width 18 mm) along that line on the front-facing skin, fading out at both ends.
+ING_MM = float(os.environ.get("V2_INGUINAL_MM", "6"))
+if ING_MM > 0:
+    Q = rest + off
+    A_ = np.array([0.112, 1.005]); B_ = np.array([0.028, 0.895])            # (|x|, z): ASIS -> pubic tubercle (lifted crotch)
+    d_ = B_ - A_; L_ = np.linalg.norm(d_); u_ = d_ / L_
+    p_ = np.stack([np.abs(Q[:, 0]), Q[:, 2]], axis=1) - A_
+    t_ = np.clip(p_ @ u_ / L_, 0, 1)
+    dist = np.linalg.norm(p_ - np.outer(t_ * L_, u_), axis=1)
+    g_ = ss(1 - dist / 0.018) * ss(t_ / 0.25) * ss((1 - t_) / 0.15) * ss((-nrm[:, 1] - 0.3) / 0.4) * (1 - ARM)
+    for _ in range(3):
+        g_ = 0.5 * g_ + 0.5 * avg(g_)
+    off = off - nrm_s * (ING_MM / 1000.0 * g_)[:, None]
 # R78c (owner: "a very noticeable line departing [torso and legs]"): a ridge runs round the hips where the torso meets
 # the thighs (faint in V1, stronger with the waist/abdomen fills ending above it and the thigh fills starting below).
 # Taubin-relax the POSITIONS in that band (removes the ridge itself, volume-preserving) and keep the change as offsets.
 HIPB = float(os.environ.get("V2_HIP_BLEND", "40"))
 if HIPB > 0:
-    band = ss(1 - np.abs(rest[:, 2] - 0.905) / 0.10) * (1 - ARM)
+    band = ss(1 - np.abs((rest + off)[:, 2] - float(os.environ.get("V2_HIP_BAND_Z", "0.905"))) / float(os.environ.get("V2_HIP_BAND_HW", "0.10"))) * (1 - ARM)
     for _ in range(4):
         band = 0.5 * band + 0.5 * avg(band)
     Q = rest + off
@@ -364,6 +388,88 @@ if GROIN > 0:
 _sh = ss((np.abs(rest[:, 0]) - 0.12) / 0.04) * ss((rest[:, 2] - 1.24) / 0.06) * ss((1.62 - rest[:, 2]) / 0.04)
 for _ in range(int(os.environ.get("V2_SHOULDER_RELAX", "8"))):
     off = off + 0.5 * _sh[:, None] * (np.stack([avg(off[:, k]) for k in range(3)], axis=1) - off)
+# R81 (owner: "Fix them now" - the arm and shoulder findings of the ANSUR check, scripts/body_v2/fit/proportions.py):
+# at the v3h stature (1.857 m) against ANSUR II male (stature-conditioned OLS), acromion -> fingertip 0.780 m vs 0.843 m
+# (-3.0 SD): acromion-radiale 0.329 vs 0.356, radiale-stylion 0.261 vs 0.284, hand 0.189 vs 0.203; acromion height
+# 1.510 vs 1.531 (-1.3 SD).  A skeleton change: the upper arm and forearm bones are lengthened, the hand scaled about the
+# wrist, and the shoulder girdle (clavicle tip, scapula, arm) raised.  The skin follows its own bones (skin-weighted,
+# like the skinning itself), so the elbow and wrist transitions stay continuous; the girdle lift fades out towards the
+# neck so the neck is not shortened.  Kept as a separate field (PROP) so the overlap shrink below cannot undo it; the rig
+# in this scene is edited to match (edits written to skeleton_edits.json).
+ARM_U = float(os.environ.get("V2_ARM_UPPER_MM", "27")) / 1000.0
+ARM_F = float(os.environ.get("V2_ARM_FORE_MM", "23")) / 1000.0
+HAND_S = 1.0 + float(os.environ.get("V2_HAND_MM", "14")) / 1000.0 / 0.189
+SH_UP = float(os.environ.get("V2_SHOULDER_UP_MM", "15")) / 1000.0
+PROP = np.zeros_like(rest)
+SKEL_EDITS = {}
+_FORE = ("forearm", "forearm_tw0", "forearm_tw1")
+_HAND = ("hand", "metacarpal_index", "metacarpal_middle", "metacarpal_ring", "metacarpal_pinky", "thumb_01", "thumb_02",
+         "thumb_03") + tuple(f"{f_}_0{i}" for f_ in ("index", "middle", "ring", "pinky") for i in (1, 2, 3))
+
+
+def _girdle(P):
+    """shoulder-girdle lift weight of points (torso side), 0 at the neck, 1 out at the shoulder"""
+    return ss((np.abs(P[..., 0]) - 0.08) / 0.12) * ss((P[..., 2] - 1.25) / 0.10)
+
+
+if ARM_U or ARM_F or HAND_S != 1.0 or SH_UP:
+    _armw = np.zeros(nv)
+    for sd in ("r", "l"):
+        bn = rig.data.bones
+        gh = np.array(bn[f"upperarm_{sd}"].head_local); el = np.array(bn[f"upperarm_{sd}"].tail_local)
+        wr = np.array(bn[f"hand_{sd}"].head_local)
+        dU = (el - gh) / np.linalg.norm(el - gh); dF = (wr - el) / np.linalg.norm(wr - el)
+        LU = np.linalg.norm(el - gh); LF = np.linalg.norm(wr - el)
+
+        def mapping(P, kind):
+            """displacement of points P belonging to a bone of the given kind"""
+            if kind == "upper":
+                t = np.clip((P - gh) @ dU / LU, 0, 1); return np.outer(t * ARM_U, dU)
+            if kind == "fore":
+                t = np.clip((P - el) @ dF / LF, 0, 1); return np.outer(np.ones(len(P)) * ARM_U, dU) + np.outer(t * ARM_F, dF)
+            if kind == "hand":
+                return ARM_U * dU + ARM_F * dF + (HAND_S - 1.0) * (P - wr)
+            return np.zeros_like(P)
+
+        kinds = [(f"upperarm_{sd}", "upper"), (f"shoulder_cap_{sd}", "upper")] + [(f"{b}_{sd}", "fore") for b in _FORE] + [(f"{b}_{sd}", "hand") for b in _HAND]
+        for bname, kind in kinds:
+            if bname not in gidx or gidx[bname] not in W:
+                continue
+            w = W[gidx[bname]]; m = w > 0
+            PROP[m] += w[m, None] * mapping(rest[m], kind); _armw[m] += w[m]
+        # skeleton: arm bones follow the same mapping (head with the parent's rule at the joint), girdle bones are lifted
+        for bname, kind in kinds:
+            if bname in bn:
+                h_, t_ = np.array(bn[bname].head_local), np.array(bn[bname].tail_local)
+                SKEL_EDITS[bname] = [(h_ + mapping(h_[None], kind)[0]).tolist(), (t_ + mapping(t_[None], kind)[0]).tolist()]
+    # shoulder girdle lift: the whole arm, plus the torso skin fading towards the neck and down the side
+    lift = np.maximum(np.clip(_armw, 0, 1), _girdle(rest) * (1 - HEAD))
+    for _ in range(6):
+        lift = 0.5 * lift + 0.5 * avg(lift)
+    lift = np.maximum(lift, np.clip(_armw, 0, 1))
+    PROP[:, 2] += SH_UP * lift
+    for bname in list(SKEL_EDITS):
+        SKEL_EDITS[bname] = [(np.array(p) + [0, 0, SH_UP]).tolist() for p in SKEL_EDITS[bname]]
+    for sd in ("r", "l"):
+        for bname in (f"scapula_{sd}", f"muscle_lat_{sd}", f"muscle_pec_{sd}", f"muscle_trap_{sd}", f"clavicle_{sd}"):
+            b_ = rig.data.bones[bname]; h_, t_ = np.array(b_.head_local), np.array(b_.tail_local)
+            SKEL_EDITS[bname] = [(h_ + [0, 0, SH_UP * float(_girdle(h_))]).tolist(), (t_ + [0, 0, SH_UP * float(_girdle(t_))]).tolist()]
+        # the scapula moves with the arm: full lift
+        b_ = rig.data.bones[f"scapula_{sd}"]
+        SKEL_EDITS[f"scapula_{sd}"] = [(np.array(b_.head_local) + [0, 0, SH_UP]).tolist(), (np.array(b_.tail_local) + [0, 0, SH_UP]).tolist()]
+    _before = {b.name: [list(b.head_local), list(b.tail_local)] for b in rig.data.bones if b.name in SKEL_EDITS}
+    bpy.context.view_layer.objects.active = rig
+    rig.hide_set(False); rig.hide_viewport = False
+    bpy.ops.object.mode_set(mode="EDIT")
+    eb = rig.data.edit_bones
+    for _pass in range(2):                                   # connected children snap to the parent's tail: set twice
+        for bname, (h_, t_) in SKEL_EDITS.items():
+            eb[bname].head = Vector(h_); eb[bname].tail = Vector(t_)
+    bpy.ops.object.mode_set(mode="OBJECT"); bpy.context.view_layer.update()
+    _err = max(float(np.linalg.norm(np.array(rig.data.bones[b].head_local) - np.array(h_))) for b, (h_, t_) in SKEL_EDITS.items())
+    (OUT / "skeleton_edits.json").write_text(json.dumps({"note": "R81 rig edits (rest head/tail, metres): before -> after", "arm_upper_mm": ARM_U * 1000,
+        "arm_fore_mm": ARM_F * 1000, "hand_scale": HAND_S, "shoulder_up_mm": SH_UP * 1000, "max_head_error_m": _err,
+        "bones": {b: {"before": _before[b], "after": SKEL_EDITS[b]} for b in SKEL_EDITS}}, indent=1))
 # R77 (owner chose "Standing pose"): the body is shown standing with the arms ~9 deg out, so overlaps are tested in that
 # pose (in the build pose the forearms hang against the hips, and testing there removed all new forearm volume)
 import math as _m
@@ -374,7 +480,7 @@ _fitkey = body.shape_key_add(name="V2_FIT", from_mix=False); _fitkey.value = 1.0
 
 
 def stand_eval(offsets):
-    _fitkey.data.foreach_set("co", (rest + offsets).ravel().astype(np.float32))
+    _fitkey.data.foreach_set("co", (rest + PROP + offsets).ravel().astype(np.float32))
     _bench._reset(rig)
     for sd, sg in (("r", -1.0), ("l", 1.0)):
         pb = rig.pose.bones[f"upperarm_{sd}"]; pb.rotation_mode = "XYZ"; pb.rotation_euler = (0.0, 0.0, _m.radians(sg * _STAND[0]))
@@ -402,7 +508,7 @@ for it in range(int(os.environ.get("V2_OVERLAP_ITERS", "40"))):
     for _ in range(3):
         off = off + 0.5 * zone * (np.stack([avg(off[:, k]) for k in range(3)], axis=1) - off)
 WIDTH_REPORT = {"overlap_iterations": ov_log, "clearance_iterations": clr_iters, "min_scale": round(float(scale.min()), 3), "waist_mm": WAIST_MM, "chest_mm": CHEST_MM, "max_side_push_mm": round(float(push.max() * 1000), 2)}
-np.savez_compressed(OUT / "body_v2_offsets.npz", offsets=off.astype(np.float32))
+np.savez_compressed(OUT / "body_v2_offsets.npz", offsets=(off + PROP).astype(np.float32), proportion=PROP.astype(np.float32))   # R81: offsets = sculpt + proportion
 mir = {}
 rep = {"gain": GAIN, "head_scale": HEAD_SCALE, "shoulder": SHOULDER_REPORT, "abs_mm": ABS_MM, "hamstring_mm": HAM_MM, "width": WIDTH_REPORT, "lumbar_mm": LUMBAR_MM, "spine_mm": SPINE_MM, "union_p": UNION_P, "relax": int(os.environ.get("V2_RELAX", "4")), "max_mm": round(float(amt.max() * 1000), 2), "mean_mm_nonzero": round(float(amt[amt > 1e-4].mean() * 1000), 2),
        "vertices_moved_gt_1mm": int((amt > 1e-3).sum())}
@@ -429,7 +535,8 @@ print("V2_SCULPT", json.dumps(rep), flush=True)
 
 if os.environ.get("R76_RENDER") == "1":
     key = body.shape_key_add(name="V2_BODY_SCULPT", from_mix=False)
-    key.data.foreach_set("co", (rest + off).ravel().astype(np.float32)); key.value = 1.0
+    key.data.foreach_set("co", (rest + PROP + off).ravel().astype(np.float32)); key.value = 1.0
+    _co = {"V1": (rest + PROP).ravel().astype(np.float32), "V2": (rest + PROP + off).ravel().astype(np.float32)}   # V1 = original surface on the R81 skeleton
     sc = bpy.context.scene
     for ob in sc.objects:
         if ob.type in ("MESH", "CURVE") and ob is not body:
@@ -442,7 +549,7 @@ if os.environ.get("R76_RENDER") == "1":
     bpy.context.view_layer.update()
     lo, hi = rest.min(0), rest.max(0); mid = Vector(((lo + hi) / 2).tolist()); cd.ortho_scale = float(hi[2] - lo[2]) * 1.08
     for tag, val in (("V1", 0.0), ("V2", 1.0)):
-        key.value = val; bpy.context.view_layer.update()
+        key.data.foreach_set("co", _co[tag]); key.value = 1.0; bpy.context.view_layer.update()
         for view, dv in {"front": (0, -1, 0), "back": (0, 1, 0), "side": (1, 0, 0), "front34": (0.7, -0.7, 0), "back34": (0.7, 0.7, 0)}.items():
             dvec = Vector(dv).normalized(); cam.location = mid + dvec * 4; cam.rotation_mode = "QUATERNION"; cam.rotation_quaternion = (-dvec).to_track_quat("-Z", "Y")
             sc.render.filepath = str(OUT / f"{tag}_full_standing_{view}.png"); bpy.ops.render.render(write_still=True)
@@ -454,7 +561,7 @@ if os.environ.get("R76_RENDER") == "1":
     import original_v1_review_candidate_drives as drives
     abd, elb = (float(x) for x in os.environ.get("V2_STAND", "9:6").split(":"))
     for tag, val in (("V1", 0.0), ("V2", 1.0)):
-        key.value = val
+        key.data.foreach_set("co", _co[tag]); key.value = 1.0
         bench._reset(rig)
         for sd, sg in (("r", -1.0), ("l", 1.0)):
             pb = rig.pose.bones[f"upperarm_{sd}"]; pb.rotation_mode = "XYZ"; pb.rotation_euler = (0.0, 0.0, math.radians(sg * abd))

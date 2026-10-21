@@ -41,6 +41,7 @@
     "pulse_armw": 0.1,
     "pulse_lam": 0.3,
     "pulse_tie": 0.02,
+    "pulse_taper": 0.0,
     "root_mm": 0.0,
     "root_whole_back": false,
     "root_smooth": 0,
@@ -727,7 +728,7 @@
     2.1
   ],
   "max_change_from_start_mm": 29.02,
-  "max_adjacent_control_mm": 2.899993956079376,
+  "max_adjacent_control_mm": 2.8999939560793786,
   "arm_file_match_mm": 0.0002,
   "step_limit": {
     "before_mm": 8.242,

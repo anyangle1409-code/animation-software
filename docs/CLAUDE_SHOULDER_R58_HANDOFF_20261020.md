@@ -1620,3 +1620,16 @@ The owner said: "No the abs need to be bigger … how wide they are in relation 
 **Still open:**
 - Small lumps along the sternum, from R41's sternal ring.
 - Wrinkles at the side of the chest by the armpit.
+
+### Draft v9f: three rows of abs (21 Oct)
+
+The owner said: "There looks to be too many [abs] … There is less in my photo."
+
+**Cause:** the reference shows three rows (a six-pack): 0.640–0.665, 0.665–0.690 and 0.690 up to the top. The skin from 0.640 down to the navel is smooth. v9e also domed the navel row, which made four.
+
+**Change (R88):**
+- The lowest intersection (0.640) is now the bottom edge of the pack.
+- The pad, linea alba and semilunaris below it are unchanged.
+
+**Results:**
+- 0 standing-pose overlaps.

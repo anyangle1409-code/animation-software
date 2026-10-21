@@ -732,8 +732,11 @@ if REFINE_MM > 0:
         # upper edge follows the arch
         ints = [0.640, 0.665, 0.690]
         seg = np.zeros(nv)
-        lows = [np.full(nv, 0.613)] + [np.full(nv, z_) + 0.15 * ax_ ** 2 for z_ in ints]
-        highs = [np.full(nv, z_) + 0.15 * ax_ ** 2 for z_ in ints] + [ftop]
+        # R88 (owner on v9e: "There looks to be too many [abs] ... There is less in my photo"): the reference shows three
+        # rows (a six-pack) - 0.640-0.665, 0.665-0.690, 0.690-top - and smooth skin from 0.640 down to the navel; v9e
+        # also domed the navel row, giving four.  The lowest intersection is now the bottom edge of the pack.
+        lows = [np.full(nv, z_) + 0.15 * ax_ ** 2 for z_ in ints]
+        highs = [np.full(nv, z_) + 0.15 * ax_ ** 2 for z_ in ints[1:]] + [ftop]
         colx = np.clip((ax_ - 0.002) / np.maximum(xo - 0.002, 1e-3), 0, 1)
         for a_, b_ in zip(lows, highs):
             t_ = np.clip((fz_ - a_) / np.maximum(b_ - a_, 1e-4), 0, 1)
@@ -742,7 +745,7 @@ if REFINE_MM > 0:
             r_ = (np.abs(2 * colx - 1) ** 3 + np.abs(2 * t_ - 1) ** 3) ** (1 / 3)
             seg += np.cos(0.5 * np.pi * np.clip(r_, 0, 1)) ** 1.0 * (fz_ > a_) * (fz_ < b_)
         seg *= (ax_ < xo)
-        h += float(os.environ.get("V2_ABS_SEG_MM", "6.0")) * seg * ss((fz_ - 0.608) / 0.01)
+        h += float(os.environ.get("V2_ABS_SEG_MM", "6.0")) * seg
         # linea alba: sternum to navel, fading out below it
         la = np.interp(fz_, [0.565, 0.60, 0.62, 0.70, 0.72], [0, 0.6, 1.0, 1.0, 0.6])
         h -= 4.5 * la * np.exp(-0.5 * (ax_ / 0.0060) ** 2)   # wide enough for the 4 mm mesh; frames the blocks (R87)

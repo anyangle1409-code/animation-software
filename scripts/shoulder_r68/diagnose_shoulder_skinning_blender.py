@@ -335,6 +335,15 @@ if os.environ.get("R68_MODE") == "front_views":
                 shoot(tgt, dv, scale * (1.15 if view == "front_full" else 1.3), OUT / f"vid_{tag}_{view}_{i:03d}.png", 600)
     print("R73_DONE", flush=True)
     raise SystemExit
+if os.environ.get("R68_MODE") == "traj":
+    # R73: native skin of every vertex over the 41 main press samples (to locate the body pulse the owner saw)
+    X = []
+    for i in range(41):
+        bench._reset(rig); px.pose_press_full(res, i / 40); drives.drive(rig, body); bpy.context.view_layer.update()
+        X.append(evaluated().astype(np.float32))
+    np.save(OUT / f"traj_{os.environ.get('R72_TAG', 'cand')}.npy", np.stack(X)); np.save(OUT / "rest.npy", REST)
+    print("R73_TRAJ_DONE", flush=True)
+    raise SystemExit
 if os.environ.get("R68_MODE") == "creases":
     # R71: list the sharpest creases (adjacent faces > 25 deg) near the right shoulder at one elevation, clustered, with
     # rest and posed centroids and where they land in the rear close-up camera (to match an owner mark)

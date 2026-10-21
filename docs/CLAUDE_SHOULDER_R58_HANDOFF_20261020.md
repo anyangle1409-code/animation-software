@@ -991,3 +991,70 @@ So R72c is no worse than Work's base, and slightly smoother at 150°.
 *Only difference from the photos:* the lower third of the line is a little narrower and darker than real skin (a groove rather than a soft hollow). It is minor, it is inherited from R52, and it is not counted as wrong.
 
 **Decision:** R72c's front of the armpit is kept as-is and locked in with the rest of R72c.
+
+## R73 (21 Oct): full-range check and the 120° side-chest crease
+
+### Full-range check of R72c against R52
+
+Measured at 0, 45, 90, 120, 135.6, 145 and 150°, on both sides, and again with the arm turned −30 / 0 / +30° at 90, 120, 135.6 and 150° (`R68_ANGLES` and `R68_ROT_ANGLES` in `diagnose_shoulder_skinning_blender.py`).
+- The rear-shoulder pinch counts match R52 at every angle, so the old pinch has not come back.
+- 0–90° and 135.6° are identical to R52.
+- At 145 and 150° R72c has no sharp folds, where R52 has some.
+- Asymmetry is the same as R52's.
+- Files: `review-assets/shoulder_r73_range/`.
+
+### New finding: a jagged crease on the side of the chest at 120°
+
+The crease sits at rest (0.161, 0.095, 1.381). Its sharpest angle is 134° in R72c against 63° in R52, and it was already present in R69d.
+
+Close-up ablation:
+
+| Version | 120° crease |
+|---|---|
+| R73a (R72c repeated, exact) | 134° |
+| R73b (no pulse smoothing) | 64° |
+| Start candidate | 64° |
+
+The cause is the hard edge of the R66 pulse-smoothing set at `--pulse-zmax 1.38`; the crease lies exactly on it.
+
+### Fix
+
+New option `--pulse-taper` fades the pulse correction out over the edge of the set.
+- R73c uses 4 cm. The crease drops to 57°.
+- The locked-in 150° look is unchanged (`locked150_R72c_vs_R73c.jpg`).
+- On the main part of the back the pulse smoothing still works as before: native-trajectory second difference at 1.25–1.32 m is p95 3.49 mm, as in R72c, against 3.75 mm with no smoothing (traj mode).
+- R73d (8 cm) gives the same result.
+
+### R73c gates
+
+Identical to R72c on every check:
+
+| Gate | R73c |
+|---|---|
+| Outline | 0.95 mm (pass) |
+| Reversed normals | 6 |
+| Contacts | 6 |
+| Native motion | 8.93 mm |
+| Crease | 150.7° |
+| Dense motion | 24.05 mm |
+| Benchmark regressions | 7 |
+
+The status is still `R57_REJECTED_OR_INCOMPLETE_NATIVE_GATES`. Not approved, and not saved, merged or deployed.
+- Video: `review-assets/shoulder_r68/before_after/R72c_vs_R73c_press_slow.mp4`.
+
+**R73c replaces R72c as the candidate.** It is the same locked look, plus the 120° fix.
+
+### Also found
+
+The back width just under the armpits (z 1.35) narrows and widens 3 times between t 0.35 and 1, against once in R52. It is the same in every candidate with or without pulse smoothing, so it comes from the top-of-press (≥137°) layers. It belongs with the motion and crease gate work.
+
+### Next
+
+The inherited gate failures, re-tuned for the 150° top without changing the locked look:
+- dense motion 24 mm;
+- crease 151°;
+- 7 benchmark regressions (find the R70a → R71b one);
+- 6 contacts and 6 reversed normals;
+- the z 1.35 width wobble.
+
+Then the pull-up dead hang.

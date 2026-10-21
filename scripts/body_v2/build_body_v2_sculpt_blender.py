@@ -78,8 +78,8 @@ LIMB = [  # bone, t0, tp, t1, facing, half-width deg, amp mm, mask groups
     ("thigh", 0.22, 0.50, 0.88, (0, 1, 0), 70, 8.0, ("thigh",)),                 # hamstrings
     ("thigh", 0.20, 0.40, 0.70, (-1, 0, 0), 60, 2.0, ("thigh",)),                # adductors
     ("thigh", 0.20, 0.60, 1.00, (1, 0, 0), 180, 2.0, ("thigh",)),
-    ("shin", 0.06, 0.26, 0.62, (-0.45, 1, 0), 55, 13.0, ("shin",)),              # gastrocnemius medial head
-    ("shin", 0.06, 0.24, 0.55, (0.5, 1, 0), 50, 10.0, ("shin",)),                # gastrocnemius lateral head
+    ("shin", 0.06, 0.26, 0.62, (-0.45, 1, 0), 55, 9.0, ("shin",)),               # gastrocnemius medial head (R76f: not sticking out)
+    ("shin", 0.06, 0.24, 0.55, (0.5, 1, 0), 50, 7.0, ("shin",)),                 # gastrocnemius lateral head
     ("shin", 0.10, 0.35, 0.70, (0.6, -0.8, 0), 45, 4.0, ("shin",)),              # tibialis anterior
     ("shin", 0.00, 0.40, 0.85, (1, 0, 0), 180, 2.0, ("shin",)),
 ]
@@ -96,7 +96,7 @@ BLOB = [  # centre, radii (x,y,z), facing, min facing dot, amp mm, mask ("torso"
     ((0.090, 0.145, 1.405), (0.075, 0.045, 0.085), (0.2, 1, 0), 0.2, 6.0, "torso"),          # middle trapezius / rhomboid
     ((0.140, 0.135, 1.380), (0.055, 0.050, 0.060), (0.6, 1, 0), 0.2, 7.0, "torso"),          # infraspinatus / teres
     ((0.035, 0.125, 1.140), (0.026, 0.050, 0.170), (0, 1, 0), 0.3, 7.0, "torso"),            # erector spinae column
-    ((0.080, 0.120, 0.880), (0.080, 0.075, 0.095), (0.2, 1, -0.1), 0.2, 10.0, "torso"),      # gluteus maximus
+    ((0.080, 0.120, 0.880), (0.080, 0.075, 0.095), (0.2, 1, -0.1), 0.2, 5.0, "torso"),       # gluteus maximus (R76e: owner - not sticking out)
     ((0.120, 0.070, 0.950), (0.045, 0.050, 0.050), (1, 0.6, 0), 0.0, 3.0, "torso"),          # gluteus medius
 ]
 
@@ -159,6 +159,14 @@ amt[np.abs(rest[:, 0]) < 1e-6] = 0.5 * (dr + dl)[np.abs(rest[:, 0]) < 1e-6] * GA
 amt *= (1 - HEAD)
 spine = ss(1 - np.abs(rest[:, 0]) / 0.022) * ss((rest[:, 2] - 0.98) / 0.06) * ss((1.45 - rest[:, 2]) / 0.06) * ss(nrm[:, 1] / 0.5) * (1 - ARM)
 amt -= SPINE_MM / 1000.0 * spine * GAIN / 2.0
+# R76e (owner: "Can we check the spine shape ... very harsh. Is there no muscle at lower back?"): measured side profile of
+# the back midline - the lumbar hollow sits 60-70 mm in from the glute-to-upper-back line (V1 already; v2 glutes made it
+# look harsher).  The erector spinae fill most of it in a fit man: absolute fill (mm, not scaled by the gain) peaking at
+# the deepest point (rest z 1.12), wide enough to cover both erector columns, fading at the glutes and the shoulder blades.
+LUMBAR_MM = float(os.environ.get("V2_LUMBAR_MM", "34"))
+zc, zw = 1.115, 0.16
+lum = ss(1 - np.abs(rest[:, 2] - zc) / zw) * ss(1 - np.abs(rest[:, 0]) / 0.13) * ss(nrm[:, 1] / 0.4) * (1 - ARM) * (rest[:, 1] > 0)
+amt += LUMBAR_MM / 1000.0 * lum
 # relax the amount on the surface so bellies blend (8 passes of neighbour averaging)
 nb = [[] for _ in range(nv)]
 for f in faces:
@@ -177,7 +185,7 @@ for _ in range(int(os.environ.get("V2_RELAX", "4"))):
 off = nrm * amt[:, None]
 np.savez_compressed(OUT / "body_v2_offsets.npz", offsets=off.astype(np.float32))
 mir = {}
-rep = {"gain": GAIN, "union_p": UNION_P, "relax": int(os.environ.get("V2_RELAX", "4")), "max_mm": round(float(amt.max() * 1000), 2), "mean_mm_nonzero": round(float(amt[amt > 1e-4].mean() * 1000), 2),
+rep = {"gain": GAIN, "lumbar_mm": LUMBAR_MM, "spine_mm": SPINE_MM, "union_p": UNION_P, "relax": int(os.environ.get("V2_RELAX", "4")), "max_mm": round(float(amt.max() * 1000), 2), "mean_mm_nonzero": round(float(amt[amt > 1e-4].mean() * 1000), 2),
        "vertices_moved_gt_1mm": int((amt > 1e-3).sum())}
 # symmetry check: mirror pairs by nearest neighbour
 from scipy.spatial import cKDTree

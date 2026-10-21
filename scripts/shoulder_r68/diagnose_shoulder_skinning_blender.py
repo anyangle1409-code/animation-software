@@ -398,6 +398,39 @@ if os.environ.get("R68_MODE") == "hang":
             sc.render.filepath = str(OUT / f"{tag}_hang_{spec.replace(':', '_')}_{view}.png"); bpy.ops.render.render(write_still=True)
     print("R75_DONE", flush=True)
     raise SystemExit
+if os.environ.get("R68_MODE") == "full_body":
+    # R76 (owner: "Can I please see the model in the finished pose? I want to check the overall muscles"): whole-body
+    # renders standing (rest pose) and in the dead hang, front / back / side / three-quarter, studio light with cavity
+    sc = bpy.context.scene
+    for ob in sc.objects:
+        if ob.type in ("MESH", "CURVE") and ob is not body:
+            ob.hide_render = True
+    mat = bpy.data.materials.new("REVIEW_ONLY"); mat.diffuse_color = (.72, .55, .45, 1)
+    body.data.materials.clear(); body.data.materials.append(mat)
+    sc.render.engine = "BLENDER_WORKBENCH"; sc.display.shading.light = "STUDIO"; sc.display.shading.color_type = "MATERIAL"
+    sc.display.shading.show_cavity = True; sc.render.resolution_x = 900; sc.render.resolution_y = 1500
+    cd = bpy.data.cameras.new("C"); cd.type = "ORTHO"; cam = bpy.data.objects.new("C", cd); sc.collection.objects.link(cam); sc.camera = cam
+    tag = os.environ.get("R72_TAG", "cand"); name = px._PATH["name"]; base_plane = px.PATHS[name]["plane_deg"]
+    poses = {"standing": None}
+    for spec in os.environ.get("R75_HANG", "178:0:25").split(","):
+        poses["hang_" + spec.replace(":", "_")] = spec
+    for pname, spec in poses.items():
+        bench._reset(rig)
+        if spec:
+            ht, plane, shrug = (float(x) for x in spec.split(":"))
+            px.PATHS[name]["plane_deg"] = plane
+            try:
+                px.apply_pose(res, ht, shrug)
+            finally:
+                px.PATHS[name]["plane_deg"] = base_plane
+        drives.drive(rig, body); bpy.context.view_layer.update()
+        co = evaluated(); lo, hi = co.min(0), co.max(0); mid = Vector(((lo + hi) / 2).tolist())
+        height = float(hi[2] - lo[2]); cd.ortho_scale = height * 1.08
+        for view, dv in {"front": (0, -1, 0), "back": (0, 1, 0), "side": (1, 0, 0), "front34": (0.7, -0.7, 0), "back34": (0.7, 0.7, 0)}.items():
+            dvec = Vector(dv).normalized(); cam.location = mid + dvec * 4; cam.rotation_mode = "QUATERNION"; cam.rotation_quaternion = (-dvec).to_track_quat("-Z", "Y")
+            sc.render.filepath = str(OUT / f"{tag}_full_{pname}_{view}.png"); bpy.ops.render.render(write_still=True)
+    print("R76_DONE", flush=True)
+    raise SystemExit
 if os.environ.get("R68_MODE") == "creases":
     # R71: list the sharpest creases (adjacent faces > 25 deg) near the right shoulder at one elevation, clustered, with
     # rest and posed centroids and where they land in the rear close-up camera (to match an owner mark)

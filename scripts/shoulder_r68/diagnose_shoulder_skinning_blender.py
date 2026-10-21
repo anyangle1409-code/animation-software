@@ -230,6 +230,39 @@ if os.environ.get("R68_MODE") == "outline":
     (OUT / f"outline_{os.environ.get('R68_TAG', 'x')}.json").write_text(json.dumps(vals))
     print("R68O_DONE", flush=True)
     raise SystemExit
+if os.environ.get("R68_MODE") == "traps_closeups":
+    # R72 (owner: "a close up of the traps and the arm where it meets the shoulder ... to mark up"): full-size renders
+    sc = bpy.context.scene
+    for ob in sc.objects:
+        if ob.type in ("MESH", "CURVE") and ob is not body:
+            ob.hide_render = True
+    mat = bpy.data.materials.new("REVIEW_ONLY"); mat.diffuse_color = (.72, .55, .45, 1)
+    body.data.materials.clear(); body.data.materials.append(mat)
+    sc.render.engine = "BLENDER_WORKBENCH"; sc.display.shading.light = "STUDIO"; sc.display.shading.color_type = "MATERIAL"
+    sc.display.shading.show_cavity = True; sc.render.resolution_x = sc.render.resolution_y = 1000
+    cd = bpy.data.cameras.new("C"); cd.type = "ORTHO"; cam = bpy.data.objects.new("C", cd); sc.collection.objects.link(cam); sc.camera = cam
+    for ht in [float(x) for x in os.environ.get("R72_HTS", "135.6,145,150").split(",")]:
+        pose(ht)
+        W = rig.matrix_world
+        neck = W @ rig.pose.bones["neck"].head
+        ua = {sd: W @ rig.pose.bones[f"upperarm_{sd}"].head for sd in "lr"}
+        mid_tr = (neck + ua["r"]) / 2 + Vector((0, 0, 0.03))
+        views = {
+            "traps_rear": ((neck + (ua["l"] + ua["r"]) / 2) / 2 + Vector((0, 0, 0.02)), (0, 1, 0.25), 0.55),
+            "traps_rear_high": (neck + Vector((0, 0.0, -0.01)), (0, 0.6, 1.0), 0.55),
+            "trap_right_rear34": (mid_tr, (0.6, 0.8, 0.25), 0.32),
+            "arm_shoulder_rear": (ua["r"] + Vector((0, 0, 0.02)), (0.15, 1, 0.1), 0.30),
+            "arm_shoulder_side": (ua["r"] + Vector((0, 0, 0.02)), (1, 0.15, 0.1), 0.30),
+            "arm_shoulder_front34": (ua["r"] + Vector((0, 0, 0.02)), (0.7, -0.7, 0.15), 0.30),
+            "arm_shoulder_above_rear": (ua["r"] + Vector((0, 0, 0.03)), (0.35, 0.7, 0.6), 0.30),
+        }
+        for view, (tgt, dv, scale) in views.items():
+            dvec = Vector(dv).normalized(); cd.ortho_scale = scale
+            cam.location = tgt + dvec * 3; cam.rotation_mode = "QUATERNION"; cam.rotation_quaternion = (-dvec).to_track_quat("-Z", "Y")
+            fn = OUT / f"{os.environ.get('R72_TAG', 'cand')}_{ht:05.1f}deg_{view}.png"
+            sc.render.filepath = str(fn); bpy.ops.render.render(write_still=True)
+    print("R72_DONE", flush=True)
+    raise SystemExit
 if os.environ.get("R68_MODE") == "creases":
     # R71: list the sharpest creases (adjacent faces > 25 deg) near the right shoulder at one elevation, clustered, with
     # rest and posed centroids and where they land in the rear close-up camera (to match an owner mark)

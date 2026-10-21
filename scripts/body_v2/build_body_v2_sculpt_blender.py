@@ -47,12 +47,25 @@ for v in me.vertices:
         W.setdefault(g.group, np.zeros(nv))[v.index] = g.weight
 
 
+_GW_CACHE = {}
+
+
 def gw(*names):
+    """skin-weight mask of the given groups, relaxed on the surface (R77d: the raw weights jump vertex to vertex around
+    the shoulder, where several bones blend, and turned smooth volume into crumpled skin on the deltoid)"""
+    key_ = tuple(names)
+    if key_ in _GW_CACHE:
+        return _GW_CACHE[key_]
     out = np.zeros(nv)
     for n in names:
         if n in gidx and gidx[n] in W:
             out += W[gidx[n]]
-    return np.clip(out, 0, 1)
+    out = np.clip(out, 0, 1)
+    if "_nbr" in globals():
+        for _ in range(int(os.environ.get("V2_MASK_SMOOTH", "10"))):
+            out = 0.5 * out + 0.5 * _nbr(out)
+    _GW_CACHE[key_] = out
+    return out
 
 
 def ss(x):
@@ -72,9 +85,9 @@ LIMB = [  # bone, t0, tp, t1, facing, half-width deg, amp mm, mask groups
     ("upperarm", 0.04, 0.35, 0.82, (0.3, 1, 0), 80, 11.0, ("upperarm",)),        # triceps (long + lateral heads)
     ("upperarm", 0.45, 0.75, 0.98, (1, -0.4, 0), 55, 4.0, ("upperarm",)),        # brachialis, lateral
     ("upperarm", 0.00, 0.50, 1.00, (1, 0, 0), 180, 4.0, ("upperarm",)),          # overall arm thickness (R77: ref 1.06-1.16x)
-    ("forearm", 0.00, 0.22, 0.70, (1, -0.3, 0), 75, 11.0, ("forearm", "forearm_tw0", "forearm_tw1")),   # brachioradialis / extensors
-    ("forearm", 0.00, 0.25, 0.68, (-0.6, -0.8, 0), 75, 10.0, ("forearm", "forearm_tw0", "forearm_tw1")),  # flexors
-    ("forearm", 0.00, 0.25, 0.95, (1, 0, 0), 180, 4.0, ("forearm", "forearm_tw0", "forearm_tw1")),
+    ("forearm", 0.06, 0.32, 0.75, (1, -0.3, 0), 75, 9.0, ("forearm", "forearm_tw0", "forearm_tw1")),   # brachioradialis / extensors
+    ("forearm", 0.06, 0.33, 0.72, (-0.6, -0.8, 0), 75, 8.0, ("forearm", "forearm_tw0", "forearm_tw1")),  # flexors
+    ("forearm", 0.10, 0.40, 0.95, (1, 0, 0), 180, 4.0, ("forearm", "forearm_tw0", "forearm_tw1")),
     ("forearm", 0.45, 0.82, 1.06, (1, 0, 0), 180, 5.0, ("forearm", "forearm_tw0", "forearm_tw1", "hand")),   # R77: lower forearm / wrist (wrist 37 mm wide, real ~60)
     ("thigh", 0.30, 0.62, 0.97, (0, -1, 0), 60, 8.0, ("thigh",)),                # rectus femoris (R76d: mid-thigh)
     ("thigh", 0.25, 0.60, 0.95, (1, -0.4, 0), 55, 8.0, ("thigh",)),              # vastus lateralis (R76c: lower, no hip bulge)
@@ -103,6 +116,18 @@ BLOB = [  # centre, radii (x,y,z), facing, min facing dot, amp mm, mask ("torso"
     ((0.080, 0.120, 0.880), (0.080, 0.075, 0.095), (0.2, 1, -0.1), 0.2, 5.0, "torso"),       # gluteus maximus (R76e: owner - not sticking out)
     ((0.120, 0.070, 0.950), (0.045, 0.050, 0.050), (1, 0.6, 0), 0.0, 3.0, "torso"),          # gluteus medius
 ]
+
+
+_nb0 = [[] for _ in range(nv)]
+for f_ in faces:
+    for i_ in range(len(f_)):
+        _nb0[f_[i_]] += [f_[(i_ + 1) % len(f_)], f_[i_ - 1]]
+_nb0 = [np.unique(n) for n in _nb0]
+_r0 = np.repeat(np.arange(nv), [len(n) for n in _nb0]); _c0 = np.concatenate(_nb0); _d0 = np.array([len(n) for n in _nb0], float)
+
+
+def _nbr(x):
+    acc = np.zeros_like(x); np.add.at(acc, _r0, x[_c0]); return acc / _d0
 
 
 def masks():
@@ -199,7 +224,13 @@ def avg(x):
 
 for _ in range(int(os.environ.get("V2_RELAX", "4"))):
     amt = 0.5 * amt + 0.5 * avg(amt)
-off = nrm * amt[:, None]
+# R77c: push along a smoothed normal field - around the deltoid the rest normals vary sharply vertex to vertex, which
+# turned smooth volume into crumpled skin (seen on drafts K-U, with and without the overlap step)
+nrm_s = nrm.copy()
+for _ in range(int(os.environ.get("V2_NORMAL_SMOOTH", "12"))):
+    nrm_s = 0.5 * nrm_s + 0.5 * np.stack([avg(nrm_s[:, k]) for k in range(3)], axis=1)
+    nrm_s /= np.maximum(np.linalg.norm(nrm_s, axis=1, keepdims=True), 1e-12)
+off = nrm_s * amt[:, None]
 # R77 (owner's photo grid): the shoulder line.  Top-of-shoulder contour on the front view, as y/H against |x|/H: the
 # model (V1 already) sits 6-8 cm above the reference - skin top 8 cm above the humeral-head centre, upper trapezius ~7 cm
 # above the clavicle (real: ~4-5 cm / ~3-5 cm).  Lower the upward-facing shoulder / trapezius skin along -z, sloping from
@@ -207,9 +238,12 @@ off = nrm * amt[:, None]
 DROP = [float(v) for v in os.environ.get("V2_SHOULDER_DROP", "0.055:0,0.08:24,0.12:32,0.17:36,0.21:38,0.25:30,0.29:0").replace(":", ",").split(",")]
 dx, dmm = np.array(DROP[0::2]), np.array(DROP[1::2])
 ax_ = np.abs(rest[:, 0])
-drop = np.interp(ax_, dx, dmm) / 1000.0 * ss((nrm[:, 2] - 0.05) / 0.5) * ss((rest[:, 2] - 1.40) / 0.06) * (1 - HEAD)
-drop *= ss((ax_ - 0.045) / 0.02)                                   # the neck itself stays
-for _ in range(10):
+# R77b (owner on draft T: "The shoulders look messed up now and sharp instead of sloped"): moving only the upward-facing
+# skin folded a jagged ridge where it met the side of the deltoid.  Now the whole shoulder cap moves down as one smooth
+# field of rest x and z only (no normal mask), fading out below the deltoid, so the slope from neck to arm is continuous.
+drop = np.interp(ax_, dx, dmm) / 1000.0 * ss((rest[:, 2] - 1.33) / 0.15) * (1 - HEAD)
+drop *= ss((ax_ - 0.045) / 0.03)                                   # the neck itself stays
+for _ in range(20):
     drop = 0.5 * drop + 0.5 * avg(drop)
 off[:, 2] -= drop
 SHOULDER_REPORT = {"max_drop_mm": round(float(drop.max() * 1000), 1)}
@@ -230,7 +264,7 @@ gap, _ = _T(armpts).query(rest[cand] + off[cand])                      # current
 push[cand] = np.minimum(push[cand], np.maximum(gap - 0.004, 0.0))
 for _ in range(6):
     push = 0.5 * push + 0.5 * avg(push)
-off = off + nrm * push[:, None]
+off = off + nrm_s * push[:, None]
 # R76i: clearance between the arms (incl. hands) and the body.  The muscle volume made the inner upper arm press into the
 # lats / armpit (~400 overlapping triangle pairs) and the hands into the front of the thighs (~70).  Wherever a vertex
 # of one part ends up closer to the other part than min(its rest clearance, 4 mm), shrink the new volume of both sides
@@ -258,6 +292,11 @@ off = off * scale[:, None]
 from mathutils.bvhtree import BVHTree as _BVH
 _fs = [set(f) for f in faces]; _ft = [tuple(f) for f in faces]
 ov_log = []
+# R77e: relax the offset field around the shoulders (drop field + deltoid bellies meeting) - measured extra roughness
+# on the deltoid came from the overlap shrink, the shoulder drop and the bellies, in that order
+_sh = ss((np.abs(rest[:, 0]) - 0.12) / 0.04) * ss((rest[:, 2] - 1.24) / 0.06) * ss((1.62 - rest[:, 2]) / 0.04)
+for _ in range(int(os.environ.get("V2_SHOULDER_RELAX", "8"))):
+    off = off + 0.5 * _sh[:, None] * (np.stack([avg(off[:, k]) for k in range(3)], axis=1) - off)
 # R77 (owner chose "Standing pose"): the body is shown standing with the arms ~9 deg out, so overlaps are tested in that
 # pose (in the build pose the forearms hang against the hips, and testing there removed all new forearm volume)
 import math as _m
@@ -278,7 +317,7 @@ def stand_eval(offsets):
     return np.array([tuple(v) for v in pp])
 
 
-for it in range(40):
+for it in range(int(os.environ.get("V2_OVERLAP_ITERS", "40"))):
     P_ = stand_eval(off)
     tr = _BVH.FromPolygons([Vector(v) for v in P_], _ft, all_triangles=True)
     pr = [(a_, b_) for a_, b_ in tr.overlap(tr) if a_ < b_ and not (_fs[a_] & _fs[b_])]
@@ -286,9 +325,15 @@ for it in range(40):
     if not pr:
         break
     hit = np.zeros(nv); hit[np.unique(faces[np.array(pr).ravel()].ravel())] = 1.0
-    for _ in range(2):
+    for _ in range(3):
         hit = np.maximum(hit, avg(hit))
-    off = off * (1.0 - 0.35 * np.clip(hit * 2, 0, 1))[:, None]
+    for _ in range(6):                                  # R77e: smooth shrink (patchy shrinking crumpled the deltoid skin)
+        hit = 0.5 * hit + 0.5 * avg(hit)
+    off = off * (1.0 - 0.30 * np.clip(hit * 2, 0, 1))[:, None]
+    # and relax the offset vectors where they were shrunk
+    zone = np.clip(hit * 3, 0, 1)[:, None]
+    for _ in range(3):
+        off = off + 0.5 * zone * (np.stack([avg(off[:, k]) for k in range(3)], axis=1) - off)
 WIDTH_REPORT = {"overlap_iterations": ov_log, "clearance_iterations": clr_iters, "min_scale": round(float(scale.min()), 3), "waist_mm": WAIST_MM, "chest_mm": CHEST_MM, "max_side_push_mm": round(float(push.max() * 1000), 2)}
 np.savez_compressed(OUT / "body_v2_offsets.npz", offsets=off.astype(np.float32))
 mir = {}

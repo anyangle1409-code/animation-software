@@ -1278,3 +1278,13 @@ Owner decision on the arms: a standing pose with the arms slightly out; the bind
 1. Head v2 at realistic size (0.13 H) with a realistic face.
 2. Region-by-region muscle definition from the close-ups.
 3. Side-view chest and posture.
+
+**Draft X** (owner on T: "The shoulders look messed up now and sharp instead of sloped"):
+- T had moved only the upward-facing skin down, which folded a jagged ridge at the side of the deltoid. The whole shoulder cap now moves as one smooth field of rest x and z.
+- The forearm bulk was moved off the elbow (T showed knobs there).
+- Roughness on the deltoid was still there with the overlap step off and in the bind pose. Measured extra surface roughness in the deltoid region (`fit/rough.py`) shows where it came from: the overlap shrink (largest share), then the shoulder drop, then the bellies.
+- Fixes:
+  - skin-weight masks relaxed on the surface;
+  - a smooth, wider overlap shrink with offset relax;
+  - a shoulder-region offset relax.
+- Result: vertices with more than 0.5 mm extra roughness went 165 (K) → 62 (W) → 0 (X). 0 standing-pose overlaps.

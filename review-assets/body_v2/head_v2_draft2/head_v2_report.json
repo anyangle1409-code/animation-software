@@ -1,0 +1,17 @@
+{
+ "cut_z": 1.585,
+ "head_vertices": 29289,
+ "head_faces": 58304,
+ "body_head_faces_replaced": 3644,
+ "boundary_vertices": 272,
+ "boundary_max_gap_mm": 10.0242,
+ "landmarks_z": {
+  "eye": 1.721,
+  "brow": 1.738,
+  "nose_base": 1.675,
+  "mouth": 1.653,
+  "chin": 1.622,
+  "top": 1.82
+ },
+ "max_sculpt_mm": 10.63
+}

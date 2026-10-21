@@ -1234,3 +1234,12 @@ Result:
 - The face has 318 vertices at about 10 mm spacing, which is too coarse for eyes, lips or nose detail.
 - Realistic features would need a denser head: a separate head mesh on the head bone, or a remesh, which would change Work's topology.
 - Owner decision needed.
+
+**Head v2** (owner chose "Detailed separate head"): `scripts/body_v2/build_head_v2_blender.py`.
+- The body's head above rest z 1.585 (3644 faces) is copied into a separate mesh.
+- It is subdivided twice, linearly: 29,289 vertices at about 2.5 mm spacing. The interior is Taubin-relaxed with the boundary fixed, so the seam follows the body's own edges.
+- Facial features are smooth normal-direction fields placed on the measured surface, from head-proportion canons: eye line at half head height, nose base, mouth, chin.
+- The body mesh is unchanged. Review renders hide the replaced faces with a mask.
+- The "boundary_max_gap" figure in the report is the distance from each boundary vertex to the nearest body vertex. Subdivision midpoints lie on body edges, so this is not a seam gap.
+
+Draft 2 (`review-assets/body_v2/head_v2_draft2/`) is still crude: the eyes read as holes and the features as separate bumps. A convincing realistic face needs many more rounds, or a different approach.

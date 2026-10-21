@@ -1,4 +1,4 @@
-name: ORIGINAL_v1 R73c unsaved press study, R72c + pulse smoothing faded at its edge (120 deg side-chest crease) (Claude)
+name: ORIGINAL_v1 R74c unsaved press study, R73c + straight-arm stretch guard above the press top (Claude)
 'on':
   push:
     branches: [claude/home-gym-pt-animation-txux66]
@@ -17,7 +17,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - {v: R73c, trap: 15, taper: '0.09,0.12', r68: '', extra: '--protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --pulse-taper 0.04 --shoulder-relax 300 --armpit-tp 0.06 --armpit-tp-centre 0.209,0.005,1.367/0.258,-0.011,1.456'}
+        - {v: R74c, trap: 15, taper: '0.09,0.12', r68: '', extra: '--protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --pulse-taper 0.04 --shoulder-relax 300 --armpit-tp 0.06 --armpit-tp-centre 0.209,0.005,1.367/0.258,-0.011,1.456 --guard-stretch 2.0 --guard-stretch-from 151 --guard-weight 4 --guard-iters 8'}
     timeout-minutes: 120
     env:
       LIBGL_ALWAYS_SOFTWARE: '1'
@@ -151,5 +151,5 @@ jobs:
         git config user.name "github-actions[bot]"
         git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git add review-assets/shoulder_r64
-        git commit -m "Shoulder R73c review media: R52 vs R73c stills, press video and gate report (review only)"
+        git commit -m "Shoulder R74c review media: R52 vs R74c stills, press video and gate report (review only)"
         for i in 1 2 3; do git pull --rebase origin "${{ github.ref_name }}" && git push origin "HEAD:${{ github.ref_name }}" && break; sleep 5; done

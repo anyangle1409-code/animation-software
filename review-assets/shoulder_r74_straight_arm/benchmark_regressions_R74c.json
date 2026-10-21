@@ -1,0 +1,46 @@
+{
+ "regressions": [
+  {
+   "path": "shoulder_press",
+   "t": 0.5,
+   "metric": "stretch_gt_2",
+   "parent": 2,
+   "current": 25
+  },
+  {
+   "path": "shoulder_press",
+   "t": 0.625,
+   "metric": "stretch_gt_2",
+   "parent": 11,
+   "current": 50
+  },
+  {
+   "path": "shoulder_press",
+   "t": 0.75,
+   "metric": "collapse_lt_0_1",
+   "parent": 0,
+   "current": 3
+  },
+  {
+   "path": "shoulder_press",
+   "t": 0.75,
+   "metric": "stretch_gt_2",
+   "parent": 4,
+   "current": 393
+  },
+  {
+   "path": "shoulder_press",
+   "t": 0.875,
+   "metric": "stretch_gt_2",
+   "parent": 16,
+   "current": 65
+  },
+  {
+   "path": "shoulder_press",
+   "t": 1.0,
+   "metric": "stretch_gt_2",
+   "parent": 27,
+   "current": 52
+  }
+ ]
+}

@@ -204,7 +204,7 @@ if os.environ.get("R68_MODE") == "rot":
     # arm-rotation robustness: humeral axial rotation -30/0/+30 deg (about the shaft) at 90, 120 and 156 deg
     from mathutils import Matrix
     rr = {}
-    for ht in (90.0, 120.0, 156.0):
+    for ht in [float(x) for x in os.environ.get("R68_ROT_ANGLES", "90,120,156").split(",")]:
         for rot in (-30.0, 0.0, 30.0):
             pose(ht)
             for s_, sg in (("l", -1.0), ("r", 1.0)):
@@ -485,7 +485,7 @@ if os.environ.get("R68_MODE") == "ablate":
 CONFIGS = {"current": (False, True), "lbs_raw": (False, False), "dqs_raw": (True, False), "dqs_current": (True, True)}
 if os.environ.get("R68_CONFIGS"):
     CONFIGS = {c.split("=")[0]: CONFIGS[c.split("=")[-1]] for c in os.environ["R68_CONFIGS"].split(",")}
-ANGLES = [0.0, 45.0, 90.0, 120.0, 135.6, 156.0, 166.0]
+ANGLES = [float(x) for x in os.environ.get("R68_ANGLES", "0,45,90,120,135.6,156,166").split(",")]   # R73: env override (150 deg top)
 results = {}
 cams = None
 if RENDER:
@@ -516,7 +516,7 @@ for cfg, (dqs, corr) in CONFIGS.items():
         co = evaluated()
         results[cfg][f"{ht:g}"] = metrics(co)
         print("R68", cfg, ht, json.dumps(results[cfg][f"{ht:g}"]), flush=True)
-        if RENDER and ht in (0.0, 90.0, 135.6, 156.0, 166.0):
+        if RENDER and ht in [float(x) for x in os.environ.get("R68_RENDER_ANGLES", "0,90,135.6,156,166").split(",")]:
             for view, (dv, scale) in VIEWS.items():
                 if view == "back_full":
                     tgt = (rig.matrix_world @ rig.pose.bones["upperarm_l"].head + rig.matrix_world @ rig.pose.bones["upperarm_r"].head) / 2 + Vector((0, 0, 0.05))

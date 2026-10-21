@@ -1,4 +1,4 @@
-name: ORIGINAL_v1 R72c/d arm-shoulder lump - S7 rear restore (r69c) removed for the 150 deg top, close-ups + dense export (Claude)
+name: ORIGINAL_v1 R73a/b 120 deg side-chest crease - R72c repeat vs R72c without pulse smoothing, start + candidate dense export (Claude)
 'on':
   push:
     branches: [claude/home-gym-pt-animation-txux66]
@@ -17,8 +17,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - {v: R72c, trap: 15, taper: '0.09,0.12', r68: '', extra: '--fold --hull --gain 1.0 --arm-margin 0 --smooth 30 --lat-bulge 0.015 --shoulder-relax 300 --step-limit 0.0029 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --armpit-tp 0.06 --armpit-tp-centre 0.209,0.005,1.367/0.258,-0.011,1.456'}
-        - {v: R72d, trap: 15, taper: '0.09,0.12', r68: '', extra: '--fold --hull --gain 1.0 --arm-margin 0 --smooth 30 --lat-bulge 0.015 --shoulder-relax 300 --step-limit 0.0029 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1'}
+        - {v: R73a, trap: 15, taper: '0.09,0.12', r68: '', extra: '--fold --hull --gain 1.0 --arm-margin 0 --smooth 30 --lat-bulge 0.015 --shoulder-relax 300 --step-limit 0.0029 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --armpit-tp 0.06 --armpit-tp-centre 0.209,0.005,1.367/0.258,-0.011,1.456'}
+        - {v: R73b, trap: 15, taper: '0.09,0.12', r68: '', extra: '--fold --hull --gain 1.0 --arm-margin 0 --smooth 30 --lat-bulge 0.015 --shoulder-relax 300 --step-limit 0.0029 --protect-head --armpit-tp 0.06 --armpit-tp-centre 0.209,0.005,1.367/0.258,-0.011,1.456'}
     timeout-minutes: 120
     env:
       LIBGL_ALWAYS_SOFTWARE: '1'
@@ -78,7 +78,7 @@ jobs:
         mkdir -p /tmp/media/${{ matrix.v }}_closeups
         python3 r59src/scripts/shoulder_r61/label_closeups.py /tmp/close /tmp/media/${{ matrix.v }}_closeups ${{ matrix.v }}
         # R69e: publish the candidate's dense increments (float32) and R52's, so the full candidate can be diagnosed locally
-        python3 -c "import numpy as np; z=np.load('/tmp/r57/candidate.npz'); np.savez_compressed('/tmp/media/${{ matrix.v }}_closeups/candidate_dense_f32.npz', dense=z['dense_delta'].astype(np.float32)); r=np.load('/tmp/r57/original_r52.npz'); print({k: r[k].shape for k in r.files}); np.savez_compressed('/tmp/media/${{ matrix.v }}_closeups/r52_solution_f32.npz', **{k: r[k].astype(np.float32) for k in r.files})"
+        python3 -c "import numpy as np; z=np.load('/tmp/r57/candidate.npz'); np.savez_compressed('/tmp/media/${{ matrix.v }}_closeups/candidate_dense_f32.npz', dense=z['dense_delta'].astype(np.float32)); st=np.load('/tmp/r57/start_r62b.npz'); np.savez_compressed('/tmp/media/${{ matrix.v }}_closeups/start_dense_f32.npz', dense=st['dense_delta'].astype(np.float32)); r=np.load('/tmp/r57/original_r52.npz'); print({k: r[k].shape for k in r.files}); np.savez_compressed('/tmp/media/${{ matrix.v }}_closeups/r52_solution_f32.npz', **{k: r[k].astype(np.float32) for k in r.files})"
         ls -la /tmp/media/${{ matrix.v }}_closeups/*.npz
     - uses: actions/upload-artifact@v4
       with:

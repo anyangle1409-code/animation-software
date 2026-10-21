@@ -20,6 +20,7 @@
     "guard_bench": true,
     "guard_weight": 4.0,
     "guard_iters": 6,
+    "guard_stretch": 0.0,
     "step_limit": 0.0029,
     "lat_bulge": 0.015,
     "lat_bulge_span": 0.15,

@@ -630,7 +630,17 @@ if REFINE_MM > 0:
             _arm_c += W[_gi]
     _arm_c = np.clip(_arm_c, 0, 1)
     _rest_c, _nrm_c, _off_c, _ft_c, _prop_c = rest.copy(), nrm_s.copy(), off.copy(), faces.copy(), PROP.copy()
-    REFINE_REPORT, _mi, _mw = refine(body, th_mm=REFINE_MM)
+    # R103: finer discs at the nipples (target 0.751 of stature, |x| 0.077, as in the detail stage), on the front skin
+    # (v12s: at |x| 0.077 the nipple sat on the pec's outer lower corner; the reference's are ~0.070 out, on the pec face)
+    NIP_X = float(os.environ.get("V2_NIPPLE_X", "0.072")); NIP_Z = float(os.environ.get("V2_NIPPLE_Z", "0.734"))
+    _Qc = rest + PROP + off; _zbc = _Qc[:, 2].min(); _Hc = _Qc[:, 2].max() - _zbc
+    _spots = []
+    if float(os.environ.get("V2_NIPPLE_REFINE_MM", "0")) > 0:
+        for _sg in (1, -1):
+            _rn = np.sqrt((np.abs(_Qc[:, 0]) / _Hc - NIP_X) ** 2 + ((_Qc[:, 2] - _zbc) / _Hc - NIP_Z) ** 2)
+            _rn = np.where((np.sign(_Qc[:, 0]) == _sg) & (_Qc[:, 1] < 0) & (ARM < 0.3), _rn, 9)
+            _spots.append((rest[int(np.argmin(_rn))].tolist(), 0.035, float(os.environ.get("V2_NIPPLE_REFINE_MM", "2.0"))))
+    REFINE_REPORT, _mi, _mw = refine(body, th_mm=REFINE_MM, spots=_spots)
     np.savez_compressed(OUT / "refine_map.npz", idx=_mi.astype(np.int32), w=_mw.astype(np.float32))
     print("V2_REFINE", json.dumps(REFINE_REPORT), flush=True)
 
@@ -832,19 +842,41 @@ if REFINE_MM > 0:
         # lower border, a dome fullest low down around the nipple, rolling under at the border, and a raised areola.  A male
         # pectoral is a flat fan-shaped plate: a lower border that rises from the sternum towards the armpit (only a slight
         # sag mid-pec), even thickness across, a firm lower edge, thinning up towards the clavicle; small flat nipples.
-        PSTY = os.environ.get("V2_PEC_STYLE", "plate")
-        if PSTY == "plate":
+        PSTY = os.environ.get("V2_PEC_STYLE", "mass")
+        # R103b: the pec is placed in the coordinates of the finished body (rest + PROP + off) - PROP's posture and girdle
+        # lift raise the chest ~1.7 cm, so heights measured on the reference landed that much too high.  Re-measured on the
+        # reference front panel (feet 918, top 18 px): nipples 0.734 of stature, |x| 0.072; lower border ~0.722 at the
+        # sternum, lowest ~0.717 under the nipple, 0.727 at |x| 0.09, then turning up into the armpit (0.76 at |x| 0.105);
+        # clavicles ~0.826.  (R94's 0.751 / 0.736 were ~0.017 high.)
+        _fz_det = fz_
+        if PSTY == "mass":
+            _Vr = rest + PROP + off; fz_ = (_Vr[:, 2] - _Vr[:, 2].min()) / (_Vr[:, 2].max() - _Vr[:, 2].min())
+        if PSTY == "mass":
+            # R103 (owner on v12k: "Still not happy with the pecs" - too flat / thin, outline wrong, side view wrong, nipples):
+            # the reference's own lower border again (R94's measurement: 0.735 sternum, ~0.729 mid-pec, 0.770 at |x| 0.105 -
+            # the nipple sits ~2 cm above it; R101's rising border made the pec small), with a rounded lower-outer corner
+            # turning up into the armpit.  What read as a breast was the dome across x, the roll-under and the raised
+            # areola, not this border.
+            zb_ = np.interp(xh, [0.0, 0.03, 0.05, 0.07, 0.09, 0.100, 0.108, 0.12], [0.722, 0.719, 0.717, 0.718, 0.727, 0.740, 0.758, 0.785])
+        elif PSTY == "plate":
             zb_ = 0.733 - 0.25 * xh + 5.5 * xh ** 2            # 0.733 sternum, 0.730 (|x| 0.023), 0.746 (|x| 0.077), 0.772 (|x| 0.11)
         else:
             zb_ = 0.736 - 0.643 * xh + 9.66 * xh ** 2       # R94: through 0.736 / 0.728 (|x| 0.05) / 0.775 (|x| 0.105)
-        zt_ = 0.832   # R97 (owner: "Too small / not full enough"): bigger, fuller pecs - higher, wider, 20 mm
+        zt_ = 0.826 if PSTY == "mass" else 0.832   # R97 (owner: "Too small / not full enough"): bigger, fuller pecs - higher, wider, 20 mm
         v_ = np.clip((fz_ - zb_) / (zt_ - zb_), 0, 1)
         # rounded mass (v10a's plate with a sharp step read as a shelf): a dome across the pec, fullest low-middle
         # R96: rounder and fuller up under the clavicle (v10e-g read flat above the nipple line)
         # R98 (owner, circling the side view: "just seems sharp finish. Refer to model"): the lower pec rolls under in a
         # rounded curve (sqrt-like rise from the border: near-vertical tangent, no corner), fullest around the nipple
         # line, then a long convex slope up to the clavicle
-        if PSTY == "plate":   # rounded lower edge (~5 cm rise), near-flat across the lower half, thinning to ~45 % towards the clavicle
+        if PSTY == "mass":
+            # a thick muscle mass: a firm, rounded lower edge (quarter-ellipse rise over ~0.2 of the pec height - steep at the
+            # border, no undercut), fullest from the nipple line to mid-pec, still ~80 % under the clavicle
+            # (v12m's quarter-ellipse over 0.22 was near-vertical: a groove and a step in the side view; a sine quarter over
+            # 0.40 keeps a definite but open ~30 deg edge)
+            e_ = np.clip(v_ / 0.40, 0, 1)
+            prof = np.sin(0.5 * np.pi * e_) * (1.0 - 0.20 * ss((v_ - 0.50) / 0.50)) * (fz_ > zb_ - 0.002)
+        elif PSTY == "plate":   # rounded lower edge (~5 cm rise), near-flat across the lower half, thinning to ~45 % towards the clavicle
             # R102 (owner: "Do the chest and pecs now", after v12h read flat up high): the reference pec stays full right up to
             # the clavicle - thinning only to ~80 % before the clavicle fade (v12h: ~55 %)
             prof = ss(v_ / 0.30) ** 0.75 * (1.0 - float(os.environ.get("V2_PEC_TOP_THIN", "0.20")) * ss((v_ - 0.55) / 0.45)) * (fz_ > zb_ - 0.002)   # v12g's 0.16 rise: a step in the side view
@@ -852,8 +884,10 @@ if REFINE_MM > 0:
             prof = np.sqrt(ss(v_ / 0.30)) * np.sin(np.pi * np.clip(0.12 + 0.88 * v_, 0, 1)) ** 0.8 * (fz_ > zb_ - 0.002)
             prof /= 0.85
         # rounded towards the sternum too, so the two pecs make a soft valley there (not a thin line); out to the armpit
-        if PSTY == "plate":   # even across the chest (a sin() dome across x read as a breast), soft valley at the sternum
-            lat_ = ss((xh - 0.004) / 0.022) * ss((0.120 - xh) / 0.032)   # R102: out to the deltopectoral line, as on the reference
+        if PSTY in ("plate", "mass"):   # even across the chest (a sin() dome across x read as a breast), soft valley at the sternum
+            # R102: out to the deltopectoral line, as on the reference; R103b: thinning into the armpit (|x| 0.085-0.113) -
+            # at full thickness there it pressed into the arm (2,000 standing overlaps, the shrink cut a crease, v12u)
+            lat_ = ss((xh - 0.004) / 0.022) * (ss((0.113 - xh) / 0.028) if PSTY == "mass" else ss((0.120 - xh) / 0.032))
         else:
             lat_ = np.sin(np.pi * np.clip(xh / 0.116, 0, 1)) ** 0.7 * ss((0.108 - xh) / 0.040)   # wide outer fade (v11b: crease at the edge)
         # R95 (owner on v10c: "Still looks wrong. They need to be like the reference model"): side silhouettes, front
@@ -861,8 +895,27 @@ if REFINE_MM > 0:
         # 0.75 +0.001 (the lower ribs / upper abs are as far forward as the pecs: one full, smooth chest curve; the pec
         # reads by its outline and a slight overhang); v10c: 0.72 +0.004, 0.74 +0.016, 0.75 +0.014 - the pec stood ~3 cm
         # proud of a recessed rib area, a shelf.  Lower pec projection, and fill the lower ribs forward up to the border.
-        PEC = float(os.environ.get("V2_PEC_MM", "16" if PSTY == "plate" else "20"))
-        h += PEC * prof * lat_ * ss((0.832 - fz_) / 0.030)   # tapers out below the clavicle (v11a/b: neck stripes)
+        PEC = float(os.environ.get("V2_PEC_MM", {"plate": "16", "mass": "20"}.get(PSTY, "20")))
+        _hp = PEC * prof * lat_ * ss(((0.828 if PSTY == "mass" else 0.832) - fz_) / 0.030)   # tapers out below the clavicle (v11a/b: neck stripes)
+        if PSTY == "mass" and os.environ.get("V2_PEC_CLEARANCE", "1") == "1":
+            # R103c: the fuller outer pec ran into the hanging arm in the standing pose (1,900 overlap pairs vs 305 without
+            # it; the overlap shrink then cut a crease into the front of the armpit, v12u/v12v).  Limit the pec's thickness
+            # to its clearance from the arm in that pose (less a 4 mm gap), as a smoothed ratio so the cut-back is soft.
+            from scipy.spatial import cKDTree as _KD
+            _Ps = stand_eval(off)
+            _am = _arm_f > 0.5
+            _cand = np.nonzero((_hp > 0.05) & ~_am)[0]
+            _dist = np.full(nv, 9.0)
+            _dist[_cand] = _KD(_Ps[_am]).query(_Ps[_cand])[0]
+            _cap = np.clip((_dist - 0.004) * 1000.0, 0, None)
+            _r = np.where(_hp > 0.05, np.clip(_cap / np.maximum(_hp, 1e-6), 0, 1), 1.0)
+            for _ in range(30):
+                _r = np.minimum(_r, 0.5 * _r + 0.5 * avg(_r))   # spread the cut-back (never raise it), then soften it
+            for _ in range(30):
+                _r = 0.5 * _r + 0.5 * avg(_r)
+            DETAIL_REPORT["pec_clearance"] = {"verts_limited": int((_r < 0.98).sum()), "min_ratio": round(float(_r.min()), 3)}
+            _hp *= _r
+        h += _hp
         RIB = float(os.environ.get("V2_LOWER_RIB_MM", "8"))
         rib = ss((fz_ - 0.686) / 0.025) * ss((zb_ - 0.002 - fz_) / 0.012) * ss((0.075 - xh) / 0.030)   # R98: off the lateral corner
         h -= float(os.environ.get("V2_PEC_SHADOW_MM", "1.4")) * np.exp(-0.5 * ((fz_ - zb_ + 0.001) / 0.0045) ** 2) * ss((0.098 - xh) / 0.012) * ss(xh / 0.012)   # soft shadow under the border
@@ -875,13 +928,25 @@ if REFINE_MM > 0:
         dl = np.abs(xh - np.interp(fz_, [0.76, 0.80, 0.83], [0.106, 0.100, 0.094]))
         h -= 0.7 * np.exp(-0.5 * (dl / 0.008) ** 2) * ss((fz_ - 0.765) / 0.01) * ss((0.83 - fz_) / 0.01)
         # nipples (small, as on the reference figure)
-        rn = np.sqrt((xh - (0.075 if PSTY == "plate" else 0.077)) ** 2 + (fz_ - (0.755 if PSTY == "plate" else 0.751)) ** 2) * Hs
+        _nx, _nz = {"plate": (0.075, 0.755), "mass": (NIP_X, NIP_Z)}.get(PSTY, (0.077, 0.751))   # mass: finished-body coords
+        rn = np.sqrt((xh - _nx) ** 2 + (fz_ - _nz) ** 2) * Hs
         # R98 (owner: "Do we add nipple also to complete the pecs?"): areola (raised disc ~13 mm radius) and nipple
-        NIP = float(os.environ.get("V2_NIPPLE_MM", "1.5" if PSTY == "plate" else "4"))
-        if PSTY == "plate":   # R101: a flat areola and a small nipple (the raised disc + 4 mm cone added to the breast look)
+        NIP = float(os.environ.get("V2_NIPPLE_MM", {"plate": "1.5", "mass": "6.0"}.get(PSTY, "4")))
+        if PSTY == "mass":   # R103: visible, like the reference's - a small firm nipple on a barely raised areola
+            # the reference's nipple reads as a ~2 cm bump; sigma 5 mm is what the ~4-5 mm chest mesh can carry (v12p's
+            # 3.2 mm vanished; v12s/v12t refined the mesh locally instead, and the unevenly smoothed patch crumpled)
+            h += 0.6 * ss((0.014 - rn) / 0.004) + NIP * np.exp(-0.5 * (rn / float(os.environ.get("V2_NIPPLE_SIGMA_MM", "5.0")) * 1000) ** 2)
+        elif PSTY == "plate":   # R101: a flat areola and a small nipple (the raised disc + 4 mm cone added to the breast look)
             h += 0.3 * ss((0.011 - rn) / 0.003) + NIP * np.exp(-0.5 * (rn / 0.0030) ** 2)
         else:
             h += 1.2 * ss((0.013 - rn) / 0.004) + NIP * np.exp(-0.5 * (rn / 0.0042) ** 2)
+        fz_ = _fz_det
+        # R103d: everything above (abs, linea alba, pecs, rib / belly fill, nipples) was placed by height and |x| alone, so
+        # it was ALSO pushed out of the upper back and the backs of the armpits at the same heights (found from where the
+        # standing-pose overlaps were, v12x: x +-0.17, y 0.0-0.12 - the back half).  Front-facing skin only from here on,
+        # fading across the side of the chest.
+        if os.environ.get("V2_FRONT_GATE", "1") == "1":
+            h *= ss((-qn[:, 1] + 0.10) / 0.35)
         # serratus anterior: four fingers on the side of the ribs, angled down and forward
         lat_ = ss((np.abs(qn[:, 0]) - 0.35) / 0.3) * ss((-qn[:, 1] + 0.3) / 0.4)
         for k_, zf_ in enumerate([0.735, 0.718, 0.701, 0.684]):
@@ -892,7 +957,7 @@ if REFINE_MM > 0:
             h = 0.5 * h + 0.5 * avg(h)
         off += qn * (h / 1000.0)[:, None]
         Q = rest + off
-        DETAIL_REPORT["nipple_h_mm"] = round(float(h[np.argmin(rn)]), 2)
+        DETAIL_REPORT["nipple_h_mm"] = round(float(h[np.argmin(rn)]), 2); _nip_i = int(np.argmin(rn))
         DETAIL_REPORT["front_muscles"] = {"abs_erase_steps": int(os.environ.get("V2_ABS_ERASE", "150")), "intersections": ints,
                                            "max_mm": round(float(h.max()), 2), "min_mm": round(float(h.min()), 2)}
     # R85 (owner, with the reference figure's groin close-ups: "Can we have the groin area match this ... I still see the
@@ -1021,11 +1086,14 @@ if REFINE_MM > 0:
                                      "back_corr_mm_at": {str(round(float(f_), 3)): round(float(v_ * Hs * 1000), 1) for f_, v_ in zip(_bf[::6], dB[::6])}}
     # overlaps on the refined surface, standing pose (same shrink as above, smaller steps)
     ov2 = []
+    _off_pre = off.copy(); _first_pairs = None
     for it in range(int(os.environ.get("V2_OVERLAP_ITERS_FINE", "30"))):
         P_ = stand_eval(off)
         tr = _BVH.FromPolygons([Vector(v) for v in P_], _ft, all_triangles=True)
         pr = [(a_, b_) for a_, b_ in tr.overlap(tr) if a_ < b_ and not (_fs[a_] & _fs[b_])]
         ov2.append(len(pr))
+        if _first_pairs is None and pr:
+            _first_pairs = np.array(pr)
         if not pr or (len(ov2) > 4 and min(ov2[-4:]) >= min(ov2[:-4])):       # stop when it no longer improves
             break
         hit = np.zeros(nv); hit[np.unique(faces[np.array(pr).ravel()].ravel())] = 1.0
@@ -1057,6 +1125,19 @@ if REFINE_MM > 0:
         tr = _BVH.FromPolygons([Vector(v) for v in P_], _ft, all_triangles=True)
         ov2.append(sum(1 for a_, b_ in tr.overlap(tr) if a_ < b_ and not (_fs[a_] & _fs[b_])))
     DETAIL_REPORT["overlap_iterations"] = ov2
+    # what the fine overlap loop took away (v12q: the nipples did not show at all)
+    _lost = np.linalg.norm(off - _off_pre, axis=1)
+    _diag = {"lost_max_mm": round(float(_lost.max() * 1000), 1), "verts_lost_gt_2mm": int((_lost > 0.002).sum())}
+    if "_nip_i" in globals():
+        _diag["nipple_off_mm_before_after"] = [round(float(np.linalg.norm(_off_pre[_nip_i]) * 1000), 1), round(float(np.linalg.norm(off[_nip_i]) * 1000), 1)]
+    if _first_pairs is not None:
+        _c = 0.5 * (rest[faces[_first_pairs[:, 0]]].mean(1) + rest[faces[_first_pairs[:, 1]]].mean(1))
+        _diag["first_pairs_rest_centre_pct"] = np.percentile(_c, [5, 50, 95], axis=0).round(3).tolist()
+        _diag["first_pairs_sample"] = _c[:: max(1, len(_c) // 8)].round(3).tolist()
+    _w = _lost > 0.002
+    if _w.any():
+        _diag["lost_region_pct"] = np.percentile(rest[_w], [5, 50, 95], axis=0).round(3).tolist()
+    DETAIL_REPORT["overlap_loss"] = _diag
     if ov2 and ov2[-1]:
         P_ = stand_eval(off)
         tr = _BVH.FromPolygons([Vector(v) for v in P_], _ft, all_triangles=True)
@@ -1127,5 +1208,49 @@ if os.environ.get("R76_RENDER") == "1":
         for view, dv in {"front": (0, -1, 0), "back": (0, 1, 0), "side": (1, 0, 0), "front34": (0.7, -0.7, 0), "back34": (0.7, 0.7, 0)}.items():
             dvec = Vector(dv).normalized(); cam.location = mid + dvec * 4; cam.rotation_mode = "QUATERNION"; cam.rotation_quaternion = (-dvec).to_track_quat("-Z", "Y")
             sc.render.filepath = str(OUT / f"{tag}_full_stand_{view}.png"); bpy.ops.render.render(write_still=True)
+    # R103 (owner chose "Yes, closer lighting"): the grey workbench renders flatten every form; skin-tone renders with soft
+    # studio lighting (Cycles, key / fill / rim area lights) closer to the reference figure's.  Review only - the model
+    # itself is unchanged.  Still in the V2 standing pose from the loop above.
+    if os.environ.get("V2_SKIN_RENDER", "1") == "1":
+        sc.render.engine = "CYCLES"; sc.cycles.device = "CPU"; sc.cycles.samples = int(os.environ.get("V2_SKIN_SAMPLES", "48"))
+        try:
+            sc.cycles.use_denoising = True
+        except Exception:
+            pass
+        sm = bpy.data.materials.new("REVIEW_SKIN"); sm.use_nodes = True
+        bsdf = sm.node_tree.nodes.get("Principled BSDF")
+        bsdf.inputs["Base Color"].default_value = (0.62, 0.40, 0.30, 1); bsdf.inputs["Roughness"].default_value = 0.42
+        for nm, val in (("Subsurface Weight", 0.12), ("Subsurface Scale", 0.01), ("Specular IOR Level", 0.45)):
+            if nm in bsdf.inputs:
+                bsdf.inputs[nm].default_value = val
+        body.data.materials.clear(); body.data.materials.append(sm)
+        if sc.world is None:
+            sc.world = bpy.data.worlds.new("W")
+        sc.world.use_nodes = True; sc.world.node_tree.nodes["Background"].inputs[0].default_value = (0.05, 0.05, 0.055, 1)
+        sc.world.node_tree.nodes["Background"].inputs[1].default_value = 1.0
+        try:
+            sc.view_settings.view_transform = "AgX"; sc.view_settings.look = "None"
+        except Exception:
+            pass
+        lights = []
+        for nm, loc, energy, size in (("KEY", (-1.6, -2.6, 2.6), 70, 1.6), ("FILL", (2.2, -2.0, 1.4), 18, 2.5), ("RIM", (1.2, 2.6, 2.4), 45, 1.2)):
+            ld = bpy.data.lights.new(nm, "AREA"); ld.energy = energy; ld.size = size
+            lo_ = bpy.data.objects.new(nm, ld); sc.collection.objects.link(lo_); lo_.location = loc
+            lo_.rotation_mode = "QUATERNION"; lo_.rotation_quaternion = (mid - Vector(loc)).to_track_quat("-Z", "Y"); lights.append(lo_)
+        for view, dv in {"front": (0, -1, 0), "side": (1, 0, 0), "front34": (0.7, -0.7, 0)}.items():
+            dvec = Vector(dv).normalized(); cam.location = mid + dvec * 4; cam.rotation_mode = "QUATERNION"; cam.rotation_quaternion = (-dvec).to_track_quat("-Z", "Y")
+            if view == "side":   # the reference side view is lit from its front: key light swings round with the camera
+                lights[0].location = (2.6, -1.6, 2.6); lights[0].rotation_quaternion = (mid - lights[0].location).to_track_quat("-Z", "Y")
+            sc.render.filepath = str(OUT / f"V2_skin_stand_{view}.png"); bpy.ops.render.render(write_still=True)
+        # chest close-ups (0.62-0.92 of stature)
+        _os = cd.ortho_scale; _H = float(hi[2] - lo[2]); sc.render.resolution_x = 1000; sc.render.resolution_y = 1000
+        cd.ortho_scale = 0.30 * _H; _cm = Vector((0.0, mid.y, lo[2] + 0.77 * _H))
+        lights[0].location = (-1.6, -2.6, 2.6); lights[0].rotation_quaternion = (mid - lights[0].location).to_track_quat("-Z", "Y")
+        for view, dv in {"front": (0, -1, 0), "front34": (0.7, -0.7, 0), "side": (1, 0, 0)}.items():
+            dvec = Vector(dv).normalized(); cam.location = _cm + dvec * 4; cam.rotation_quaternion = (-dvec).to_track_quat("-Z", "Y")
+            if view == "side":
+                lights[0].location = (2.6, -1.6, 2.6); lights[0].rotation_quaternion = (mid - lights[0].location).to_track_quat("-Z", "Y")
+            sc.render.filepath = str(OUT / f"V2_skin_chest_{view}.png"); bpy.ops.render.render(write_still=True)
+        cd.ortho_scale = _os; sc.render.resolution_x = 900; sc.render.resolution_y = 1500
     bench._reset(rig)
     print("V2_RENDERED", flush=True)

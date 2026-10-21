@@ -1899,3 +1899,39 @@ Owner: "Do the chest and pecs now", after v12h, where the upper chest read flat.
 **Still open:**
 - Front widths: ribs, shoulders, trapezius.
 - The creases on the side of the ribs behind the pec come from R41's lateral chest.
+
+### Draft v12z: pecs rebuilt again, skin-tone renders, chest detail limited to the front (R103, 21 Oct)
+
+The owner on v12k: "Still not happy with the pecs". Asked what was wrong, they picked all four options: too flat/thin, outline/shape wrong, side view wrong, nipples/finish. They also chose skin-tone renders with lighting closer to the reference.
+
+**Skin renders:**
+- `V2_SKIN_RENDER` (default on) adds Cycles renders after the grey ones: skin-tone Principled material, AgX, key/fill/rim area lights, the key swung to the front for the side view.
+- Files: `V2_skin_stand_{front,side,front34}.png` and chest close-ups `V2_skin_chest_*` (0.30 of stature, centred at 0.77).
+- These are review renders only.
+
+**Found while doing this (bugs, both fixed):**
+1. **Pec heights were too high.** The pec heights had been measured on the reference with errors and placed in pre-PROP coordinates. Re-measured on the reference front panel (feet 918 px, top 18 px):
+   - nipples at 0.734 of stature, |x| 0.072;
+   - lower border 0.722 at the sternum, about 0.717 under the nipple, 0.727 at |x| 0.09, then turning up into the armpit (0.76 at |x| 0.105);
+   - clavicles at about 0.826.
+   
+   R94's 0.751/0.736 were about 0.017 high, and PROP (posture plus girdle lift) raises the chest another ~0.009. The pec is now placed in finished-body coordinates (`rest + PROP + off`).
+2. **The front detail had no front/back gate.** It was placed by height and |x| only, so the abs, linea alba, pecs, fills and nipples were also pushed out of the upper back and the backs of the armpits. This was found from where the standing overlaps were (x ±0.17, y 0.0–0.12). Now `h *= ss((-qn_y+0.10)/0.35)` before the serratus (`V2_FRONT_GATE`).
+
+**R103 pec** (`V2_PEC_STYLE=mass`; `plate` and `dome` remain):
+- Lower border as above.
+- Even across x; sine-quarter rise over 0.40 of the pec height (a definite but open edge); about 80 % thickness under the clavicle; 20 mm.
+- Thins into the armpit (|x| 0.085–0.113).
+- **Arm clearance:** the pec's thickness is limited to its clearance from the arm in the standing pose, minus 4 mm (`V2_PEC_CLEARANCE`, smoothed ratio).
+- **Nipple:** 6 mm, sigma 5 mm, on a 0.6 mm areola of about 14 mm radius.
+- **Why the nipple settings:** v12p's 3 mm/3.2 mm nipple did not show on the ~4–5 mm mesh. v12s/v12t refined the mesh at the nipples (`refine(spots=...)`, `V2_NIPPLE_REFINE_MM`, now 0 = off), but the hop-counted smoothing left the dense patch crumpled.
+
+**Results:**
+- Fine-loop loss: v12u lost up to 23 mm on 7,400 vertices; v12z loses up to 11 mm on 3,000 (`detail.overlap_loss`).
+- 0 standing overlaps.
+- silfit: front within 0.003 from 0.67 to 0.83.
+
+**Still open:**
+- A fold in front of the armpit, under the outer pec, in the side view.
+- Creases on the side of the ribs from R41.
+- Front widths (ribs, shoulders, trapezius).

@@ -19,7 +19,9 @@ import numpy as np
 from mathutils.bvhtree import BVHTree
 
 
-def refine(body, th_mm=8.0, zlo=-1.0, zhi=1.95, phong_alpha=0.75, max_rounds=6):
+def refine(body, th_mm=8.0, zlo=-1.0, zhi=1.95, phong_alpha=0.75, max_rounds=6, spots=()):
+    """spots: extra (centre xyz, radius m, threshold mm) discs refined further, after the main pass (R103: the nipples -
+    ~8 mm edges cannot carry a nipple a few mm across)"""
     me = body.data
     n0 = len(me.vertices)
     old = np.array([v.co[:] for v in me.vertices])
@@ -41,6 +43,21 @@ def refine(body, th_mm=8.0, zlo=-1.0, zhi=1.95, phong_alpha=0.75, max_rounds=6):
         bmesh.ops.subdivide_edges(bm, edges=list(edges), cuts=1, use_grid_fill=True, smooth=0.0)
         bmesh.ops.triangulate(bm, faces=[f for f in bm.faces if len(f.verts) > 3])
         rounds.append(len(edges))
+    from mathutils import Vector as _V
+    for c_, r_, t_ in spots:
+        c_ = _V(c_)
+        for _ in range(max_rounds):
+            bm.faces.ensure_lookup_table()
+            edges = set()
+            for f in bm.faces:
+                c = sum((v.co for v in f.verts), f.verts[0].co * 0) / len(f.verts)
+                if (c - c_).length < r_ and max(e.calc_length() for e in f.edges) > t_ / 1000.0:
+                    edges.update(f.edges)
+            if not edges:
+                break
+            bmesh.ops.subdivide_edges(bm, edges=list(edges), cuts=1, use_grid_fill=True, smooth=0.0)
+            bmesh.ops.triangulate(bm, faces=[f for f in bm.faces if len(f.verts) > 3])
+            rounds.append(len(edges))
     bm.to_mesh(me); bm.free(); me.update()
     nv = len(me.vertices)
     P = np.array([v.co[:] for v in me.vertices])

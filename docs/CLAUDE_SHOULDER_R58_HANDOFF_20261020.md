@@ -1058,3 +1058,11 @@ The inherited gate failures, re-tuned for the 150° top without changing the loc
 - the z 1.35 width wobble.
 
 Then the pull-up dead hang.
+
+**Owner decision (21 Oct), after the R73c front views** (`review-assets/shoulder_r74_front_R73c/`): "No I think it's fine. I want the model to be accurate but I'm not sure delving into such fine detail is necessary."
+- R73c is confirmed as the visual candidate.
+- The small dark notch at the left armpit at 135.6° is left as-is. It is inherited from R52's approved marked pose.
+
+Owner guidance for later work: aim for accuracy, without chasing very fine surface detail.
+
+This is the owner's visual sign-off only. The numerical gates still fail, and nothing is approved, merged or deployed.

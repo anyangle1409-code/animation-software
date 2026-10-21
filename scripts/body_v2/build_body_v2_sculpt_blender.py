@@ -827,7 +827,15 @@ if REFINE_MM > 0:
         # sweeping up to ~0.772 at the armpit (|x| 0.105); fullest in the lower half (0.74-0.77), fading up under the
         # clavicle (~0.825); a valley between the two pecs at the sternum; a soft deltopectoral line from the clavicle
         # down to the armpit; nipples at ~0.751, |x| ~0.077.  v9m's pec had a flat, straight lower step and little mass.
-        zb_ = 0.736 - 0.643 * xh + 9.66 * xh ** 2           # smooth curve through 0.736 / 0.728 (|x| 0.05) / 0.775 (|x| 0.105)
+        # R101 (owner on v11e/v12: "the pecs look more like breasts rather than pecs"): R94-R98 had built a breast - a U-shaped
+        # lower border, a dome fullest low down around the nipple, rolling under at the border, and a raised areola.  A male
+        # pectoral is a flat fan-shaped plate: a lower border that rises from the sternum towards the armpit (only a slight
+        # sag mid-pec), even thickness across, a firm lower edge, thinning up towards the clavicle; small flat nipples.
+        PSTY = os.environ.get("V2_PEC_STYLE", "plate")
+        if PSTY == "plate":
+            zb_ = 0.733 - 0.25 * xh + 5.5 * xh ** 2            # 0.733 sternum, 0.730 (|x| 0.023), 0.746 (|x| 0.077), 0.772 (|x| 0.11)
+        else:
+            zb_ = 0.736 - 0.643 * xh + 9.66 * xh ** 2       # R94: through 0.736 / 0.728 (|x| 0.05) / 0.775 (|x| 0.105)
         zt_ = 0.832   # R97 (owner: "Too small / not full enough"): bigger, fuller pecs - higher, wider, 20 mm
         v_ = np.clip((fz_ - zb_) / (zt_ - zb_), 0, 1)
         # rounded mass (v10a's plate with a sharp step read as a shelf): a dome across the pec, fullest low-middle
@@ -835,16 +843,22 @@ if REFINE_MM > 0:
         # R98 (owner, circling the side view: "just seems sharp finish. Refer to model"): the lower pec rolls under in a
         # rounded curve (sqrt-like rise from the border: near-vertical tangent, no corner), fullest around the nipple
         # line, then a long convex slope up to the clavicle
-        prof = np.sqrt(ss(v_ / 0.30)) * np.sin(np.pi * np.clip(0.12 + 0.88 * v_, 0, 1)) ** 0.8 * (fz_ > zb_ - 0.002)
-        prof /= 0.85
+        if PSTY == "plate":   # rounded lower edge (~5 cm rise), near-flat across the lower half, thinning to ~45 % towards the clavicle
+            prof = ss(v_ / 0.30) ** 0.75 * (1.0 - 0.45 * ss((v_ - 0.40) / 0.60)) * (fz_ > zb_ - 0.002)   # v12g's 0.16 rise: a step in the side view
+        else:
+            prof = np.sqrt(ss(v_ / 0.30)) * np.sin(np.pi * np.clip(0.12 + 0.88 * v_, 0, 1)) ** 0.8 * (fz_ > zb_ - 0.002)
+            prof /= 0.85
         # rounded towards the sternum too, so the two pecs make a soft valley there (not a thin line); out to the armpit
-        lat_ = np.sin(np.pi * np.clip(xh / 0.116, 0, 1)) ** 0.7 * ss((0.108 - xh) / 0.040)   # wide outer fade (v11b: crease at the edge)
+        if PSTY == "plate":   # even across the chest (a sin() dome across x read as a breast), soft valley at the sternum
+            lat_ = ss((xh - 0.004) / 0.022) * ss((0.114 - xh) / 0.040)
+        else:
+            lat_ = np.sin(np.pi * np.clip(xh / 0.116, 0, 1)) ** 0.7 * ss((0.108 - xh) / 0.040)   # wide outer fade (v11b: crease at the edge)
         # R95 (owner on v10c: "Still looks wrong. They need to be like the reference model"): side silhouettes, front
         # edge ahead of the front at 0.70 of stature (fraction of stature) - reference: 0.72 -0.003, 0.74 +0.002,
         # 0.75 +0.001 (the lower ribs / upper abs are as far forward as the pecs: one full, smooth chest curve; the pec
         # reads by its outline and a slight overhang); v10c: 0.72 +0.004, 0.74 +0.016, 0.75 +0.014 - the pec stood ~3 cm
         # proud of a recessed rib area, a shelf.  Lower pec projection, and fill the lower ribs forward up to the border.
-        PEC = float(os.environ.get("V2_PEC_MM", "20"))
+        PEC = float(os.environ.get("V2_PEC_MM", "15" if PSTY == "plate" else "20"))
         h += PEC * prof * lat_ * ss((0.832 - fz_) / 0.030)   # tapers out below the clavicle (v11a/b: neck stripes)
         RIB = float(os.environ.get("V2_LOWER_RIB_MM", "8"))
         rib = ss((fz_ - 0.686) / 0.025) * ss((zb_ - 0.002 - fz_) / 0.012) * ss((0.075 - xh) / 0.030)   # R98: off the lateral corner
@@ -858,10 +872,13 @@ if REFINE_MM > 0:
         dl = np.abs(xh - np.interp(fz_, [0.76, 0.80, 0.83], [0.106, 0.100, 0.094]))
         h -= 0.7 * np.exp(-0.5 * (dl / 0.008) ** 2) * ss((fz_ - 0.765) / 0.01) * ss((0.83 - fz_) / 0.01)
         # nipples (small, as on the reference figure)
-        rn = np.sqrt((xh - 0.077) ** 2 + (fz_ - 0.751) ** 2) * Hs
+        rn = np.sqrt((xh - (0.075 if PSTY == "plate" else 0.077)) ** 2 + (fz_ - (0.755 if PSTY == "plate" else 0.751)) ** 2) * Hs
         # R98 (owner: "Do we add nipple also to complete the pecs?"): areola (raised disc ~13 mm radius) and nipple
-        NIP = float(os.environ.get("V2_NIPPLE_MM", "4"))
-        h += 1.2 * ss((0.013 - rn) / 0.004) + NIP * np.exp(-0.5 * (rn / 0.0042) ** 2)
+        NIP = float(os.environ.get("V2_NIPPLE_MM", "1.5" if PSTY == "plate" else "4"))
+        if PSTY == "plate":   # R101: a flat areola and a small nipple (the raised disc + 4 mm cone added to the breast look)
+            h += 0.3 * ss((0.011 - rn) / 0.003) + NIP * np.exp(-0.5 * (rn / 0.0030) ** 2)
+        else:
+            h += 1.2 * ss((0.013 - rn) / 0.004) + NIP * np.exp(-0.5 * (rn / 0.0042) ** 2)
         # serratus anterior: four fingers on the side of the ribs, angled down and forward
         lat_ = ss((np.abs(qn[:, 0]) - 0.35) / 0.3) * ss((-qn[:, 1] + 0.3) / 0.4)
         for k_, zf_ in enumerate([0.735, 0.718, 0.701, 0.684]):
@@ -968,12 +985,32 @@ if REFINE_MM > 0:
         t_ = np.clip((fwd - Babs) / np.maximum(Fabs - Babs, 1e-4), 0, 1)
         # off the arm entirely, and fading across the side of the chest towards the armpit (a half-moved deltoid crumpled,
         # v12a); the side silhouette at chest height is set by the front of the chest, well inside this fade
-        w_ = np.clip(1 - ARM / 0.2, 0, 1) * (1 - HEAD)
-        for _ in range(int(os.environ.get("V2_SIDE_FIT_BLEND", "80"))):   # a wide blend into the arm root (v12b's |x| fade lost
-            w_ = 0.5 * w_ + 0.5 * avg(w_)                # the chest silhouette; v12a's narrow one and v12e's 16 passes - over
-                                                         # the jagged arm weights - wrinkled the deltoid front)
-        off[:, 1] -= Hs * (bv + (fv - bv) * t_) * w_
-        DETAIL_REPORT["side_fit"] = {"max_front_corr_mm": round(float(np.abs(dF).max() * Hs * 1000), 1), "max_back_corr_mm": round(float(np.abs(dB).max() * Hs * 1000), 1),
+        # the arms: held still while the chest front beside them moved back 2-3 cm, the skin between sheared and the
+        # overlap loop crumpled it (deltoid-front wrinkles in v12a-v12f; gone with the fit off).  Now each arm moves as one
+        # piece by the correction at its shoulder joint (rig edited to match), blended into the local correction across a
+        # wide, smoothed arm-root zone.
+        a_ = np.clip(ARM / 0.6, 0, 1)
+        for _ in range(int(os.environ.get("V2_SIDE_FIT_BLEND", "80"))):
+            a_ = 0.5 * a_ + 0.5 * avg(a_)
+        loc_ = -Hs * (bv + (fv - bv) * t_)
+        _sh = np.array(rig.data.bones["upperarm_r"].head_local); fzj = (_sh[2] - zb) / Hs
+        tj = float(np.clip((-_sh[1] / Hs - np.interp(fzj, _bf, mB)) / max(np.interp(fzj, _bf, mF) - np.interp(fzj, _bf, mB), 1e-4), 0, 1))
+        dyj = float(-Hs * (np.interp(fzj, _bf, dB) + (np.interp(fzj, _bf, dF) - np.interp(fzj, _bf, dB)) * tj))
+        # into the skeleton-level field PROP, not the sculpt offsets: the overlap loop below shrinks the offsets where skin
+        # touches, and shrinking this 2-3 cm move patchily around the armpit was what wrinkled the deltoid front (v12g)
+        PROP[:, 1] += ((1 - a_) * loc_ + a_ * dyj) * (1 - HEAD)
+        _asub = [b.name for b in rig.data.bones if b.name in ("upperarm_r", "upperarm_l") or any(p.name in ("upperarm_r", "upperarm_l") for p in b.parent_recursive)]
+        _tgt = {bn: (Vector(rig.data.bones[bn].head_local) + Vector((0, dyj, 0)), Vector(rig.data.bones[bn].tail_local) + Vector((0, dyj, 0))) for bn in _asub}
+        bpy.context.view_layer.objects.active = rig
+        bpy.ops.object.mode_set(mode="EDIT")
+        for _pass in range(2):                           # connected children snap to the parent's tail: set twice
+            for bn, (h_, t_) in _tgt.items():
+                rig.data.edit_bones[bn].head = h_; rig.data.edit_bones[bn].tail = t_
+        bpy.ops.object.mode_set(mode="OBJECT"); bpy.context.view_layer.update()
+        _sk = json.loads((OUT / "skeleton_edits.json").read_text())
+        _sk["side_fit_arm_shift_y_m"] = {"dy": dyj, "bones": _asub}
+        (OUT / "skeleton_edits.json").write_text(json.dumps(_sk, indent=1))
+        DETAIL_REPORT["side_fit"] = {"arm_shift_y_mm": round(dyj * 1000, 1), "max_front_corr_mm": round(float(np.abs(dF).max() * Hs * 1000), 1), "max_back_corr_mm": round(float(np.abs(dB).max() * Hs * 1000), 1),
                                      "front_corr_mm_at": {str(round(float(f_), 3)): round(float(v_ * Hs * 1000), 1) for f_, v_ in zip(_bf[::6], dF[::6])},
                                      "back_corr_mm_at": {str(round(float(f_), 3)): round(float(v_ * Hs * 1000), 1) for f_, v_ in zip(_bf[::6], dB[::6])}}
     # overlaps on the refined surface, standing pose (same shrink as above, smaller steps)

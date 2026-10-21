@@ -1843,3 +1843,38 @@ The owner circled the v11d side view: "just seems sharp finish. Refer to model �
 
 **Still open:**
 - The crease lines at the side of the chest behind the pec come from R41's lateral chest.
+
+### Draft v12h: torso reshaped to the reference side outline; pecs rebuilt as male pecs (21 Oct)
+
+The owner chose "Reshape torso to reference first". On v11e/v12 they also said: "the pecs look more like breasts rather than pecs".
+
+**R99 side fit** (`V2_SIDE_FIT`, reads `scripts/body_v2/fit/ref_side_profile.json`):
+- Per-height front and back corrections toward the reference side silhouette, measured relative to 0.50 of stature.
+- v11e's torso was 3–4.5 cm too thick front to back.
+- The correction now goes into the skeleton-level field PROP, not into the sculpt offsets. The fine overlap loop shrinks the sculpt offsets, and shrinking a 2–3 cm move unevenly around the armpit was what wrinkled the deltoid fronts in v12a–v12g. Test builds confirmed it: the wrinkles were gone with the fit off and still there with the posture change off.
+- Each arm moves as one piece by the correction at its shoulder joint (+5.3 mm in y, rig edited to match; listed in `skeleton_edits.json` → `side_fit_arm_shift_y_mm`).
+- The arm is blended into the local correction across a wide arm-root zone (`V2_SIDE_FIT_BLEND` 80 passes).
+
+**R100 posture** (`V2_POSTURE_DEG` 9):
+- The spine_03 subtree is rotated back 9°, so the chest is up.
+- The neck subtree is counter-rotated so the head stays level.
+- Both weight fields are smoothed (`V2_POSTURE_SMOOTH` 20). The raw weights had drawn a line down the neck in v12e.
+
+**R101 pecs** (`V2_PEC_STYLE=plate`; the old breast-like shape is still available as `dome`):
+- **Why:** R94–R98 had built a breast shape: a U-shaped lower border, a dome fullest low down around the nipple that rolled under at the border, and a raised areola.
+- **Lower border:** now rises from the sternum toward the armpit: 0.733 at the sternum, 0.746 at |x| 0.077, 0.772 at |x| 0.11.
+- **Thickness:** even across the chest instead of a dome. A rounded lower edge with about a 5 cm rise, then thinning toward the clavicle; 15 mm.
+- **Nipple:** a flat areola (0.3 mm) and a small nipple (1.5 mm) at 0.755, |x| 0.075.
+- v12g's sharper edge (0.16 rise) read as a step in the side view and was rejected.
+
+**Results (silfit, fractions of stature):**
+- Side depth and front/back lines match the reference within about 0.004 from 0.50 to 0.84.
+- 0.87 is the chin/face, which is not fitted.
+- Standing-pose overlaps: v2 0. v1 shows 2: V1 is the original surface on the edited skeleton, and the side fit now lives in PROP.
+- Model-only images: `review-assets/body_v2/draft_v12h/chest_v11e_v12h.jpg` (top row v11e, bottom row v12h).
+
+**Still open:**
+- Front widths: reference ribs/lats wider at 0.70–0.74 (about +0.008), shoulders narrower at 0.76–0.82 (−0.006 to −0.013), trapezius/neck fuller at 0.84–0.86 (+0.02).
+- The upper pec may need to be fuller toward the clavicle (the reference is full high up).
+- The abs read softer under the new lighting angle.
+- Faint lines remain on the right deltoid front.

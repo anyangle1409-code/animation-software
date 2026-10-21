@@ -1,4 +1,4 @@
-name: ORIGINAL_v1 R73c/d pulse smoothing faded at its edge (4 / 8 cm) - 120 deg side-chest crease, close-ups + dense export (Claude)
+name: ORIGINAL_v1 R74a/b benchmark straight-arm press stretch guard (deep armpit 14x at ~149 deg), close-ups + dense export (Claude)
 'on':
   push:
     branches: [claude/home-gym-pt-animation-txux66]
@@ -17,8 +17,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - {v: R73c, trap: 15, taper: '0.09,0.12', r68: '', extra: '--fold --hull --gain 1.0 --arm-margin 0 --smooth 30 --lat-bulge 0.015 --shoulder-relax 300 --step-limit 0.0029 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --pulse-taper 0.04 --armpit-tp 0.06 --armpit-tp-centre 0.209,0.005,1.367/0.258,-0.011,1.456'}
-        - {v: R73d, trap: 15, taper: '0.09,0.12', r68: '', extra: '--fold --hull --gain 1.0 --arm-margin 0 --smooth 30 --lat-bulge 0.015 --shoulder-relax 300 --step-limit 0.0029 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --pulse-taper 0.08 --armpit-tp 0.06 --armpit-tp-centre 0.209,0.005,1.367/0.258,-0.011,1.456'}
+        - {v: R74a, trap: 15, taper: '0.09,0.12', r68: '', extra: '--fold --hull --gain 1.0 --arm-margin 0 --smooth 30 --lat-bulge 0.015 --shoulder-relax 300 --step-limit 0.0029 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --pulse-taper 0.04 --armpit-tp 0.06 --armpit-tp-centre 0.209,0.005,1.367/0.258,-0.011,1.456 --guard-stretch 2.0 --guard-weight 4 --guard-iters 8'}
+        - {v: R74b, trap: 15, taper: '0.09,0.12', r68: '', extra: '--fold --hull --gain 1.0 --arm-margin 0 --smooth 30 --lat-bulge 0.015 --shoulder-relax 300 --step-limit 0.0029 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --pulse-taper 0.04 --armpit-tp 0.06 --armpit-tp-centre 0.209,0.005,1.367/0.258,-0.011,1.456 --guard-stretch 2.0 --guard-weight 1 --guard-iters 8'}
     timeout-minutes: 120
     env:
       LIBGL_ALWAYS_SOFTWARE: '1'
@@ -69,7 +69,7 @@ jobs:
       run: |
         set +e
         timeout 10m /usr/bin/python3 r59src/scripts/shoulder_r58/generate_r59_min_accel.py --r57src . --response /tmp/r57/source.npz --solution /tmp/r57/original_r52.npz --out /tmp/r57/start_r62b.npz --variant c --fidelity 0.03 --trap-mm ${{ matrix.trap }} --trap-neck-taper ${{ matrix.taper }} > /tmp/r57/generate.log 2>&1 && timeout 30m /usr/bin/python3 r59src/scripts/shoulder_r61/generate_r63_lockout.py --r57src . --response /tmp/r57/source.npz --start /tmp/r57/start_r62b.npz --out /tmp/r57/candidate.npz --from 137 --full 148 --gain 0.5 --sigma 0.08 --smooth 80 --torso-max 0.7 --top 0.06 --arm-margin 0.003 --guard-bench ${{ matrix.extra }} >> /tmp/r57/generate.log 2>&1
-        code=$?; echo "$code" > /tmp/r57/generate_exit.txt; grep -E 'R63_|R66_PULSE|R59_GENERATOR|Error|Trace' /tmp/r57/generate.log | tail -30; exit "$code"
+        code=$?; echo "$code" > /tmp/r57/generate_exit.txt; grep -E 'R63_|R66_PULSE|R59_GENERATOR|guard|Error|Trace' /tmp/r57/generate.log | tail -30; exit "$code"
     - name: Render armpit close-ups (unsaved)
       run: |
         set -euo pipefail
@@ -80,6 +80,7 @@ jobs:
         # R69e: publish the candidate's dense increments (float32) and R52's, so the full candidate can be diagnosed locally
         python3 -c "import numpy as np; z=np.load('/tmp/r57/candidate.npz'); np.savez_compressed('/tmp/media/${{ matrix.v }}_closeups/candidate_dense_f32.npz', dense=z['dense_delta'].astype(np.float32)); st=np.load('/tmp/r57/start_r62b.npz'); np.savez_compressed('/tmp/media/${{ matrix.v }}_closeups/start_dense_f32.npz', dense=st['dense_delta'].astype(np.float32)); r=np.load('/tmp/r57/original_r52.npz'); print({k: r[k].shape for k in r.files}); np.savez_compressed('/tmp/media/${{ matrix.v }}_closeups/r52_solution_f32.npz', **{k: r[k].astype(np.float32) for k in r.files})"
         grep R66_PULSE /tmp/r57/generate.log > /tmp/media/${{ matrix.v }}_closeups/pulse_report.txt || true
+        cp /tmp/r57/candidate.npz.json /tmp/media/${{ matrix.v }}_closeups/generator.json || true
         ls -la /tmp/media/${{ matrix.v }}_closeups/*.npz
     - uses: actions/upload-artifact@v4
       with:

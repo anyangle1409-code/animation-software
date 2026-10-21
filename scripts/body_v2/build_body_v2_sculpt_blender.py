@@ -789,7 +789,10 @@ if REFINE_MM > 0:
         v_ = np.clip((fz_ - zb_) / (zt_ - zb_), 0, 1)
         # rounded mass (v10a's plate with a sharp step read as a shelf): a dome across the pec, fullest low-middle
         # R96: rounder and fuller up under the clavicle (v10e-g read flat above the nipple line)
-        prof = ss(v_ / 0.14) * np.sin(np.pi * np.clip(0.18 + 0.82 * v_, 0, 1)) ** 0.6 * (fz_ > zb_ - 0.002)
+        # R98 (owner, circling the side view: "just seems sharp finish. Refer to model"): the lower pec rolls under in a
+        # rounded curve (sqrt-like rise from the border: near-vertical tangent, no corner), fullest around the nipple
+        # line, then a long convex slope up to the clavicle
+        prof = np.sqrt(ss(v_ / 0.30)) * np.sin(np.pi * np.clip(0.12 + 0.88 * v_, 0, 1)) ** 0.8 * (fz_ > zb_ - 0.002)
         prof /= 0.85
         # rounded towards the sternum too, so the two pecs make a soft valley there (not a thin line); out to the armpit
         lat_ = np.sin(np.pi * np.clip(xh / 0.116, 0, 1)) ** 0.7 * ss((0.108 - xh) / 0.040)   # wide outer fade (v11b: crease at the edge)
@@ -801,7 +804,7 @@ if REFINE_MM > 0:
         PEC = float(os.environ.get("V2_PEC_MM", "20"))
         h += PEC * prof * lat_ * ss((0.832 - fz_) / 0.030)   # tapers out below the clavicle (v11a/b: neck stripes)
         RIB = float(os.environ.get("V2_LOWER_RIB_MM", "8"))
-        rib = ss((fz_ - 0.686) / 0.025) * ss((zb_ - 0.002 - fz_) / 0.012) * ss((0.090 - xh) / 0.025)
+        rib = ss((fz_ - 0.686) / 0.025) * ss((zb_ - 0.002 - fz_) / 0.012) * ss((0.075 - xh) / 0.030)   # R98: off the lateral corner
         h -= 0.9 * np.exp(-0.5 * ((fz_ - zb_ + 0.001) / 0.0045) ** 2) * ss((0.098 - xh) / 0.012) * ss(xh / 0.012)   # soft shadow under the border
         h += RIB * rib
         # the front of the abdomen as one broad smooth volume (reference side view: the front is a near-vertical column
@@ -813,7 +816,9 @@ if REFINE_MM > 0:
         h -= 0.7 * np.exp(-0.5 * (dl / 0.008) ** 2) * ss((fz_ - 0.765) / 0.01) * ss((0.83 - fz_) / 0.01)
         # nipples (small, as on the reference figure)
         rn = np.sqrt((xh - 0.077) ** 2 + (fz_ - 0.751) ** 2) * Hs
-        h += 1.5 * np.exp(-0.5 * (rn / 0.012) ** 2) + 3.5 * np.exp(-0.5 * (rn / 0.0045) ** 2)
+        # R98 (owner: "Do we add nipple also to complete the pecs?"): areola (raised disc ~13 mm radius) and nipple
+        NIP = float(os.environ.get("V2_NIPPLE_MM", "4"))
+        h += 1.2 * ss((0.013 - rn) / 0.004) + NIP * np.exp(-0.5 * (rn / 0.0042) ** 2)
         # serratus anterior: four fingers on the side of the ribs, angled down and forward
         lat_ = ss((np.abs(qn[:, 0]) - 0.35) / 0.3) * ss((-qn[:, 1] + 0.3) / 0.4)
         for k_, zf_ in enumerate([0.735, 0.718, 0.701, 0.684]):
@@ -824,6 +829,7 @@ if REFINE_MM > 0:
             h = 0.5 * h + 0.5 * avg(h)
         off += qn * (h / 1000.0)[:, None]
         Q = rest + off
+        DETAIL_REPORT["nipple_h_mm"] = round(float(h[np.argmin(rn)]), 2)
         DETAIL_REPORT["front_muscles"] = {"abs_erase_steps": int(os.environ.get("V2_ABS_ERASE", "150")), "intersections": ints,
                                            "max_mm": round(float(h.max()), 2), "min_mm": round(float(h.min()), 2)}
     # R85 (owner, with the reference figure's groin close-ups: "Can we have the groin area match this ... I still see the

@@ -1827,3 +1827,19 @@ The owner said "Still looks wrong". Asked what was most wrong, they chose: "Too 
 
 **Results:**
 - 0 standing-pose overlaps.
+
+### Draft v11e: pec side profile rounded, nipples added (21 Oct)
+
+The owner circled the v11d side view: "just seems sharp finish. Refer to model … Do we add nipple also to complete the pecs? Something just doesn't seem finished from the front view."
+
+**R98 changes:**
+- **Pec height profile:** `sqrt(ss(v/0.30))·sin(π(0.12+0.88v))^0.8`. The lower pec rolls under in a rounded curve (near-vertical tangent at the border), is fullest around the nipple line, and slopes up convexly to the clavicle. Before, it was a straight slope ending in a sharp corner and undercut.
+- **Lower-rib fill:** kept off the outer lower pec corner (fades from |x| 0.075).
+- **Areola and nipple:** areola a raised disc, 1.2 mm, radius about 13 mm. Nipple `V2_NIPPLE_MM` 4, sigma 4.2 mm, at 0.751 of stature, |x| 0.077.
+- The total relief at the nipple is reported (9.2 mm).
+
+**Results:**
+- 0 standing-pose overlaps.
+
+**Still open:**
+- The crease lines at the side of the chest behind the pec come from R41's lateral chest.

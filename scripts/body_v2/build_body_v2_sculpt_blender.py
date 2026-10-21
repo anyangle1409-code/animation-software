@@ -723,12 +723,12 @@ if REFINE_MM > 0:
         # the column edge in metres where it was measured as a fraction of stature.  Reference (fractions of stature, on
         # a x/y grid): rectus edge at |x| 0.065 (navel) - 0.072 (0.66) - 0.076 (0.70), i.e. ~80 % of the front of the
         # waist; top under the pecs at 0.715, arching down to ~0.70 at the edge; intersections ~0.640, 0.665, 0.690.
-        xo = Hs * np.interp(fz_, [0.50, 0.56, 0.61, 0.66, 0.70, 0.72], [0.030, 0.050, 0.064, 0.072, 0.076, 0.077])
+        xo = Hs * np.interp(fz_, [0.50, 0.56, 0.61, 0.64, 0.67, 0.70, 0.72], [0.030, 0.048, 0.056, 0.064, 0.071, 0.062, 0.058])
         # R89 (owner: "Still too many abs ... count how many you have"): contrast-stretched zoom of the reference - three
         # pairs: top 0.705-0.735 right under the pecs (pec lower border ~0.742 at the centre), middle (largest) 0.665-0.705,
         # bottom (faint) 0.642-0.665, then smooth to the navel.  v9f's pec border sat at ~0.725 and the abs top at 0.716,
         # so the strip between them read as a fourth row.
-        ftop = 0.735 - 0.11 * ax_                                              # rib arch: 0.735 at the sternum, lower at the edge
+        ftop = 0.706 - 0.10 * ax_ / Hs                                         # R91: top of the abs at the owner's line (0.706)
         top = ss((ftop - fz_) / 0.010)
         pad = ss((xo - ax_) / 0.018) * ss((fz_ - 0.505) / 0.03) * top
         h += 2.0 * pad
@@ -743,11 +743,16 @@ if REFINE_MM > 0:
         #   middle 0.665-0.705, the largest and widest (|x| to 0.075), well rounded corners;
         #   bottom 0.642-0.665, smaller (|x| to 0.063), lower edge a soft U.
         # Each block is a rounder dome (super-ellipse power 2.3), its height highest a little above its centre.
+        # R91 (owner drew the line: "It's the line of the top of the abs in the reference drawing. This is where it should
+        # be. Also look at the shape of the abs"): the top of the abs is at ~0.706 of stature; the band 0.706-0.74 under the
+        # pecs is smooth lower ribs, not a row (R89/R90 had counted it as the top pair).  Three pairs below the line -
+        # 0.684-0.706, 0.660-0.684, 0.636-0.660 - inside a rounded shield outline: widest at the middle pair (|x| ~0.071),
+        # narrower at the top (~0.060) and towards the navel (~0.056).
         xh = ax_ / Hs
         blocks = [  # (z_lo(x), z_hi(x), x_out at z_lo, x_out at z_hi, amp mm)
-            (0.706 - 0.08 * xh, 0.735 - 0.20 * xh, 0.071, 0.060, 7.0),
-            (0.665 + 0.00 * xh, 0.706 - 0.08 * xh, 0.075, 0.073, 9.0),
-            (0.640 + 0.12 * xh, 0.665 + 0.00 * xh, 0.060, 0.065, 5.5),
+            (0.684 - 0.03 * xh, 0.706 - 0.10 * xh, 0.068, 0.058, 7.0),
+            (0.660 + 0.00 * xh, 0.684 - 0.03 * xh, 0.071, 0.070, 9.0),
+            (0.636 + 0.10 * xh, 0.660 + 0.00 * xh, 0.056, 0.066, 5.5),
         ]
         seg = np.zeros(nv)
         for zlo_, zhi_, xa_, xb_, amp_ in blocks:
@@ -759,7 +764,7 @@ if REFINE_MM > 0:
             # soft edges (cos^2): a steep edge read as a hard horizontal line (v9g/v9h); the pillows meet in gentle valleys
             seg += amp_ * np.cos(0.5 * np.pi * np.clip(r_, 0, 1)) ** 2 * (fz_ > zlo_) * (fz_ < zhi_) * (ax_ < xout)
         h += float(os.environ.get("V2_ABS_SEG_SCALE", "1.0")) * seg
-        top = ss((0.735 - 0.20 * xh - fz_) / 0.010)
+        top = ss((0.706 - 0.10 * xh - fz_) / 0.010)
         # linea alba: sternum to navel, fading out below it
         la = np.interp(fz_, [0.565, 0.60, 0.62, 0.72, 0.74], [0, 0.6, 1.0, 1.0, 0.6])
         h -= 4.5 * la * np.exp(-0.5 * (ax_ / 0.0060) ** 2)   # wide enough for the 4 mm mesh; frames the blocks (R87)

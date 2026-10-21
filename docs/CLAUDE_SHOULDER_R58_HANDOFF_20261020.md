@@ -1682,3 +1682,25 @@ The owner said: "The abs have more of a contour than what you have. Use the refe
 **Results:**
 - 0 standing-pose overlaps.
 - Contrast comparison tool: `scripts/body_v2/fit/abs_contrast.py`.
+
+### Draft v9j: abs top at the owner's line (21 Oct)
+
+The owner drew a line on the reference at about 0.706 of stature: "It's the line of the top of the abs in the reference drawing. This is where it should be. Also look at the shape of the abs."
+
+**What R89/R90 got wrong:** the band from 0.706 to 0.74, under the pecs, is smooth lower ribs. R89/R90 had counted it as the top pair of abs.
+
+**R91 changes:**
+- Abs top at 0.706, with a slight drop towards the edge.
+- Three pairs below the line, inside a rounded shield outline:
+
+| Pair | Height (fraction of stature) |
+|---|---|
+| top | 0.684–0.706 |
+| middle | 0.660–0.684 |
+| bottom | 0.636–0.660 |
+
+- Rectus edge: about 0.071 at the middle pair, about 0.060 at the top, about 0.056 towards the navel.
+- Pec border unchanged (0.744). The linea alba still runs up through the rib band to the sternum.
+
+**Results:**
+- 0 standing-pose overlaps.

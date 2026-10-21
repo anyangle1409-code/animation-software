@@ -1160,3 +1160,32 @@ At 165° the fix is only partial (shoulder-top creases up to 98°). That matters
 Images: `review-assets/shoulder_r75_hang/hang170_R74c_vs_R75.jpg`.
 
 H7 is a local dense candidate, not yet through the CI gates. It needs a closeups/lockout workflow that installs it: generator output plus this increment on controls 161–166. Not approved, and not saved, merged or deployed.
+
+### R75b: the owner's real dead-hang photo (front and back); pose re-targeted
+
+**Owner's photo** (shown in chat only; it stays out of git): the upper arms are nearly vertical beside the head, the shoulders are lifted so the head sits between the arms, and the shoulder blades are rotated up so the lats show as a wide V.
+
+The model at 170 / 10 / 12 had a wider V from low, broad shoulders. That is mainly the skeleton pose, not the skin.
+
+**Pose trials** (`hang_pose_trials_{front,back}.jpg`):
+
+| Pose (elevation / plane / shrug) | Result |
+|---|---|
+| 175 / 5 / 20 | — |
+| 178 / 0 / 25 | Matches the photo's arm line and head-between-arms; used from now on |
+| 180 / 0 / 30 | — |
+
+At 178 the skin folds over at the shoulder top (edges near 170°) and the front armpit.
+
+**Hang fix re-run at 178 / 0 / 25** (`r75_hang178_dense_f32.npz`, H9):
+- centres: the armpit, the shoulder top, the front armpit and the pec;
+- fills of 16 mm at the front armpit and 10 mm at the shoulder top;
+- 300 Taubin iterations;
+- ramp from 160°, so only controls 161–166 change.
+
+Result:
+- the fold-overs are gone;
+- the local benchmark has 6 regressions, unchanged;
+- the press path is untouched.
+
+**Still visible:** a groove where the arm meets the top of the trapezius (rear armpit view), and small lumps near the trapezius–arm junction. The lats and back are smoother and less V-shaped than in the photo.

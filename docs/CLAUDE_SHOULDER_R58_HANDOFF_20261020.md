@@ -1066,3 +1066,47 @@ Then the pull-up dead hang.
 Owner guidance for later work: aim for accuracy, without chasing very fine surface detail.
 
 This is the owner's visual sign-off only. The numerical gates still fail, and nothing is approved, merged or deployed.
+
+## R74 (21 Oct): targeted cleanup, first part (owner chose "Targeted cleanup")
+
+**Owner direction:** fix what is real or visible, keep the locked look, report the remaining tiny-limit failures honestly, then move to the pull-up dead hang.
+
+### Benchmark regressions
+
+All 7 are in Work's `shoulder_press` benchmark (`bench.pose_press`: 90→160°, elbow straightening to 0). The other 12 movements are clean.
+- Tools: `scripts/shoulder_r68/bench_local.py` (the local gate copy) and `bench_locate.py`.
+- At t=0.75 (about 149°, elbow 14°) the top-of-press layers stretch the deep armpit to 14× its rest area (rest (±0.168, 0.086, 1.395)). 411 triangles are over 2×, against 10 for R52.
+- **Cause:** the S7 dense correctives are keyed by elevation only, so the bent-elbow press path and the straight-arm benchmark share the controls at 137–150°.
+
+### Fix attempts
+
+- **R74a/b** (new `--guard-stretch`, pinning over-stretched skin back to the start candidate in the benchmark guard poses): rejected. The t=0.75 stretch fell to 181 / 280, but there were 25 new self-intersections and blotchy side-chest bumps in the straight-arm pose (`review-assets/shoulder_r74_straight_arm/`).
+- **R74c** (the guard only in guard poses ≥ 151°, `--guard-stretch-from 151`, weight 4; controls the press path never uses):
+  - The locked 150° look is unchanged (mean pixel difference < 0.4).
+  - The local benchmark has 6 regressions. The t=0.875 self-intersection is gone; stretch at 0.875 / 1.0 is 65 / 52 (R73c 81 / 63, R52 23 / 30).
+  - t=0.75 is unchanged at about 392. This is a known limit of elevation-only correctives and is left as reported.
+
+### R74c gates
+
+| Gate | R73c | R74c |
+|---|---|---|
+| Outline | 0.95 mm (pass) | 0.95 mm (pass) |
+| Reversed normals | 6 | 6 |
+| Contacts | 6 | **4** |
+| Native motion | 8.93 mm | 8.90 mm |
+| Dense motion | 24.05 mm | 23.97 mm |
+| Benchmark regressions | 7 | **6** |
+| Posterior crease | 150.7° | **162.4°** |
+
+- The 4 contacts: 3 are at the marked pose t=0.625, in the left armpit (R52's notch, which the owner chose to leave). 1 is at benchmark sample 65.
+- **Crease, located locally** (`crease_local.py`, the gate's measure against R52 natively): the worst edge is in both versions, deep in the armpit hollow at rest (0.16, 0.10, 1.39), in Work's straight-arm benchmark at t=0.85.
+  - R73c 151° against R52, R74c 144°.
+  - R74c is higher at benchmark t 0.78–0.83 (about 81° against 50°).
+  - On the bent-elbow press path the same hollow folds 30–70° above R52 from sample 31 up.
+- **Not visible** in any owner view. Treated as fine detail, per the owner's direction.
+
+The status is still `R57_REJECTED_OR_INCOMPLETE_NATIVE_GATES`. Not approved, and not saved, merged or deployed.
+
+**R74c is the candidate:** fewer contacts and benchmark regressions, and the same look.
+
+**Next in the cleanup:** the back-width wobble at z 1.35 near the top of the press. Then the pull-up dead hang, where the straight-arm overhead armpit (controls above 150°) gets shaped for real.

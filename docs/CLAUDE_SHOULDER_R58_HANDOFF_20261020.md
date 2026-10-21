@@ -840,3 +840,41 @@ So the bit is made by my lockout outline fill plus the S7 rear restore.
 - Arm-underside pinch above R52.
 - The front-axilla diagonal fold (present in R52 too).
 - The inherited gate failures.
+
+## R70 (21 Oct): new top of the press (owner option C, chose "150 with 30")
+
+**Owner reference:** a real dumbbell-press photo from behind. The elbows stay slightly bent and flare out at the top. The owner chose the 150° elevation / 30° elbow option from a local render sheet (`review-assets/shoulder_r70/`).
+
+**Path** (`scripts/shoulder_r61/r70_press_path.py`, env `R70_TOP=150:30:10`, patched in by Claude's installer):
+- Identical to Work's path v4 up to the approved marked pose (t = 0.625, 135.6°, elbow 44.3°).
+- After that it eases to 150° elevation, 30° elbow bend and a 10° elevation plane.
+- Elevation and elbow are both monotonic, with the original slope at the join.
+
+**Pose model** (`build_r70_source_blender.py`, run in CI before everything else):
+- Rebuilds Work's affine model for main samples 26–40: native base with dense = 0, an exact per-vertex skinning matrix by probe key, and Work's `coefficients()` weights from the stored basis.
+- Self-check: samples 0–25 reproduce Work's model (base 0.0003 mm, mat 5e-5, weight 2e-6).
+- Native gates then run against it; the affine 0.01 mm check passes.
+
+**Generator:** sample elevations are now read from the pose model, and the lockout ramp reaches full at 148°.
+
+**R70a** (R69f configuration on the new path; gates run 39557102983):
+
+| Gate | Result |
+|---|---|
+| Outline | 0.95 mm (pass) |
+| Early outward | 0 (pass) |
+| Adjacent step | pass |
+| Contacts | 6 (3 are R52 originals at sample 25) |
+| Reversed normals | 6 |
+| Benchmark regressions | 6 |
+| Dense motion | 24.1 mm (R69f 18.9) |
+| 41-pose motion | 8.9 mm (R69f 7.6) |
+| Crease | 150.7° (R69f 132.8°) |
+
+- Media: `review-assets/shoulder_r64/R70a/`, `review-assets/shoulder_r64_closeups/R70a_closeups/`, `review-assets/shoulder_r68/before_after/R67e_vs_R70a_press_slow.mp4` and `top_R69f_166_vs_R70a_150.jpg`.
+
+**Still open:**
+- The motion and crease figures are worse: the lockout layers were tuned for the old straight-arm top and still sit at 137–150°.
+- The build differs from the photo (option A kept: no extra muscle).
+- The front-axilla fold.
+- The inherited gate failures.

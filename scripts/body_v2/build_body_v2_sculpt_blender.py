@@ -296,7 +296,7 @@ ov_log = []
 # the ridge"): the separate deltoid bellies left an edge where they met the lowered shoulder top.  Instead, expand the
 # original shoulder smoothly about the humeral head (a 3D field, not per-normal bumps), so the original's continuous
 # neck-to-arm curve is kept, just rounder.  Only skin on the outward side of the joint moves (no dent on the chest wall).
-SH_K = float(os.environ.get("V2_SHOULDER_EXPAND", "0.06"))   # owner chose Z2 (6 %); SH_R = float(os.environ.get("V2_SHOULDER_R", "0.13"))
+SH_K = float(os.environ.get("V2_SHOULDER_EXPAND", "0.06")); SH_R = float(os.environ.get("V2_SHOULDER_R", "0.13"))   # owner chose Z2 (6 %)
 for sd, sg in (("r", 1.0), ("l", -1.0)):
     c = np.array(rig.data.bones[f"upperarm_{sd}"].head_local)
     v_ = rest - c; dist = np.linalg.norm(v_, axis=1); u_ = v_ / np.maximum(dist[:, None], 1e-9)
@@ -304,6 +304,14 @@ for sd, sg in (("r", 1.0), ("l", -1.0)):
     for _ in range(6):
         w_ = 0.5 * w_ + 0.5 * avg(w_)
     off = off + v_ * (SH_K * w_)[:, None]
+# R78 (photo grid): the head is 0.11 of stature (chin 1.62 -> top 1.82 = 0.20 m); a real adult man is ~0.13 (~23 cm),
+# the reference ~0.14.  Scale the head about a pivot at ear level (top rises ~1.8 cm, chin drops ~1.2 cm), blended into
+# the neck over 3.5 cm so the neck surface stays continuous.
+HEAD_SCALE = float(os.environ.get("V2_HEAD_SCALE", "1.15"))
+if HEAD_SCALE != 1.0:
+    piv = np.array([0.0, 0.0, 1.70])
+    hw_ = ss((rest[:, 2] - 1.585) / 0.035) * ss((0.12 - np.abs(rest[:, 0])) / 0.03)
+    off = off + (rest + off - piv) * ((HEAD_SCALE - 1.0) * hw_)[:, None]
 # R77e: relax the offset field around the shoulders (drop field + deltoid bellies meeting) - measured extra roughness
 # on the deltoid came from the overlap shrink, the shoulder drop and the bellies, in that order
 _sh = ss((np.abs(rest[:, 0]) - 0.12) / 0.04) * ss((rest[:, 2] - 1.24) / 0.06) * ss((1.62 - rest[:, 2]) / 0.04)
@@ -349,7 +357,7 @@ for it in range(int(os.environ.get("V2_OVERLAP_ITERS", "40"))):
 WIDTH_REPORT = {"overlap_iterations": ov_log, "clearance_iterations": clr_iters, "min_scale": round(float(scale.min()), 3), "waist_mm": WAIST_MM, "chest_mm": CHEST_MM, "max_side_push_mm": round(float(push.max() * 1000), 2)}
 np.savez_compressed(OUT / "body_v2_offsets.npz", offsets=off.astype(np.float32))
 mir = {}
-rep = {"gain": GAIN, "shoulder": SHOULDER_REPORT, "abs_mm": ABS_MM, "hamstring_mm": HAM_MM, "width": WIDTH_REPORT, "lumbar_mm": LUMBAR_MM, "spine_mm": SPINE_MM, "union_p": UNION_P, "relax": int(os.environ.get("V2_RELAX", "4")), "max_mm": round(float(amt.max() * 1000), 2), "mean_mm_nonzero": round(float(amt[amt > 1e-4].mean() * 1000), 2),
+rep = {"gain": GAIN, "head_scale": HEAD_SCALE, "shoulder": SHOULDER_REPORT, "abs_mm": ABS_MM, "hamstring_mm": HAM_MM, "width": WIDTH_REPORT, "lumbar_mm": LUMBAR_MM, "spine_mm": SPINE_MM, "union_p": UNION_P, "relax": int(os.environ.get("V2_RELAX", "4")), "max_mm": round(float(amt.max() * 1000), 2), "mean_mm_nonzero": round(float(amt[amt > 1e-4].mean() * 1000), 2),
        "vertices_moved_gt_1mm": int((amt > 1e-3).sum())}
 # symmetry check: mirror pairs by nearest neighbour
 from scipy.spatial import cKDTree

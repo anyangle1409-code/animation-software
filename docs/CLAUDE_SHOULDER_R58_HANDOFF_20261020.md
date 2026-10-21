@@ -1298,3 +1298,10 @@ Owner decision on the arms: a standing pose with the arms slightly out; the bind
 - Z2 (6 %) was rendered for comparison.
 
 **Owner decision:** "Z2". The shoulder expansion is 6 %, now the default. The current body v2 candidate is `review-assets/body_v2/draft_z2/body_v2_offsets.npz`.
+
+**Draft v3a: head size.** The head was 0.11 of stature (0.20 m, chin to top); a real adult man is about 0.13 (~23 cm) and the reference about 0.14.
+- The head is scaled 1.15× about a pivot at ear level (z 1.70), blended into the neck over 3.5 cm.
+- Top of head 1.820 → 1.838; the chin drops about 1.2 cm.
+- Body below z 1.55 is identical to Z2 (0.000 mm).
+- The head outline now matches the photo grid.
+- The detailed face (head v2 builder) is built next, on top of this body.

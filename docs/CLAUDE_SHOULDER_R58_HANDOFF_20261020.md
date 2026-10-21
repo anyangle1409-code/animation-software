@@ -905,3 +905,29 @@ So the bit is made by my lockout outline fill plus the S7 rear restore.
 2. Re-tune the lockout layers for the new 150° top (motion 24 mm, crease 151°).
 3. The front-axilla fold.
 4. The pull-up dead hang.
+
+## R72 (21 Oct): lump and crease where the arm meets the shoulder, from behind
+
+**Owner on R71b:** circled the arm–shoulder junction on the 150° `arm_shoulder_rear` close-up: "It's this bit I'm not so sure about."
+
+**Location:** the `markmap` mode of `diagnose_shoulder_skinning_blender.py` maps the circle to 465 visible vertices. Their rest centroid is (0.244, 0.005, 1.432), and the p90 radius is 9.8 cm. The circle covers a rounded mound on the back of the arm root, with a crease above it and a dark groove below.
+
+**R72a/b (thin-plate patch over that area, r 6 / 8 cm):** barely changed the mound. A thin-plate patch smooths creases but cannot remove a broad, smooth bulge.
+
+**Cause, found by elimination at 150° on the R70 path:**
+
+| Mesh | Mound? |
+|---|---|
+| R41 rig, all dense increments zero | No |
+| Work's R52 | No |
+| Every Claude candidate since R69d (with or without hull, fold or shoulder relax) | Yes |
+| R52 + the r69c S7 rear restore alone | Yes, the same mound and crease; very visible from the side |
+| R52 + half of r69c | Still visible |
+
+The r69c S7 rear restore adds up to 25 mm to the posterior-deltoid keys (110–166). It was built against the old straight 166° lockout, where LBS pinched the rear shoulder. On the new 150° / elbow 30° / plane 10 top, R52 is not pinched there, so the restore overshoots into a lump.
+
+- Images: `review-assets/shoulder_r72_traps_closeups/cause/`.
+
+**R72c/d (close-ups workflow):** R71b settings without `--r68`.
+- R72c keeps the two crease patches.
+- R72d has no patches.

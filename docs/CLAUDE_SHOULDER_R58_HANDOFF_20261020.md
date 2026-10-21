@@ -1110,3 +1110,53 @@ The status is still `R57_REJECTED_OR_INCOMPLETE_NATIVE_GATES`. Not approved, and
 **R74c is the candidate:** fewer contacts and benchmark regressions, and the same look.
 
 **Next in the cleanup:** the back-width wobble at z 1.35 near the top of the press. Then the pull-up dead hang, where the straight-arm overhead armpit (controls above 150°) gets shaped for real.
+
+## R75 (21 Oct): pull-up dead hang, first pass
+
+**Owner decision:** "Match the photo." The hang is 170° elevation, a slightly wide grip (elevation plane 10°), straight elbows, and the shoulders shrugged up (12°).
+- Pose: Work's `px.apply_pose` (0–180° coupled shoulder plus shrug) with the plane overridden.
+- `diagnose_shoulder_skinning_blender.py`, `R68_MODE=hang`, `R75_HANG=ht:plane:shrug`. It renders the back, trapezius, rear and side armpit and front views, and lists the sharpest creases.
+
+### First look (R74c and R52 alike)
+
+| Problem | Where | Sharpest crease |
+|---|---|---|
+| Crumpled skin on top of the shoulder, where the deltoid meets the trapezius under the shrug | rest (0.28, 0.04, 1.45) | 115° |
+| A folded flap at the front of the armpit | rest (0.19, −0.02, 1.36) | 121° |
+| The chest pulled into thin straps to the arms | front view | — |
+
+### Method
+
+Our press stops at 150°, so the dense S7 controls above it are used only by straight-arm poses: Work's benchmark press up to 160°, and the hang, which reads the 166° control.
+
+`scripts/shoulder_r68/hang_fix_blender.py`:
+1. Poses the hang with the candidate installed.
+2. Measures the exact per-vertex map M from a rest-space offset to the posed skin (probe key).
+3. Builds the posed fix: Taubin relaxation over weighted regions (the armpit, the shoulder top and the front armpit), plus an optional outward fill along the normals of a heavily smoothed copy.
+4. Maps the fix back: d = M⁻¹ δ.
+5. Adds d to the controls with a smoothstep ramp. The native check against the target gives 0.000 mm.
+
+Tried:
+- **H1:** the armpit only. No visible change.
+- **H2:** adds the shoulder top. The crumples are gone.
+- **H3/H4:** a stronger front relax. Worse; the flap folded tighter.
+- **H5 / H7:** H2 plus a 12 mm fill at the front armpit. The flap is gone from the crease list.
+
+Ramp: a ramp from 151° made Work's straight-arm benchmark worse at 157–160° (stretch 158 / 330), because that pose has a different plane and no shrug. **H7** ramps from 160° instead, which changes only controls 161–166 (up to 31.6 mm at 166).
+
+### Result (H7, saved as `scripts/shoulder_r68/data/r75_hang_dense_f32.npz`)
+
+At the 170° hang:
+- the shoulder-top crumples are gone (traps and armpit-rear views);
+- the front-armpit flap is gone;
+- the chest straps are slightly softer but still visible from the front.
+
+Unchanged:
+- the press path (controls ≤ 160 identical to R74c), so the locked look is untouched;
+- the local benchmark: 6 regressions, the same as R74c.
+
+At 165° the fix is only partial (shoulder-top creases up to 98°). That matters only during the pull-up transition.
+
+Images: `review-assets/shoulder_r75_hang/hang170_R74c_vs_R75.jpg`.
+
+H7 is a local dense candidate, not yet through the CI gates. It needs a closeups/lockout workflow that installs it: generator output plus this increment on controls 161–166. Not approved, and not saved, merged or deployed.

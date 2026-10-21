@@ -1243,3 +1243,38 @@ Result:
 - The "boundary_max_gap" figure in the report is the distance from each boundary vertex to the nearest body vertex. Subdivision midpoints lie on body edges, so this is not a seam gap.
 
 Draft 2 (`review-assets/body_v2/head_v2_draft2/`) is still crude: the eyes read as holes and the features as separate bumps. A convincing realistic face needs many more rounds, or a different approach.
+
+**Body v2 photo fit (R77).** Owner: "This model needs to be close to the photos as you can get." The owner asked for:
+- a realistic head;
+- a look at the standing posture;
+- grids on all photos, with the build based on them, proportional;
+- the photo's muscles replicated.
+
+Owner decision on the arms: a standing pose with the arms slightly out; the bind pose is unchanged.
+
+**Tools** (`scripts/body_v2/fit/`), all with the reference stature normalised:
+- `overlay.py`: each reference view with the model's outline at the same stature and a 5% grid;
+- `profiles.py`: silhouette segments at every 2% of height;
+- `armw.py`: arm widths.
+- The person is segmented from the reference automatically (skin saturation or dark shorts/hair against the grey background).
+
+**Findings:**
+
+| Item | Model | Reference / target |
+|---|---|---|
+| Head height (fraction of stature) | 0.11 | ~0.14 in the reference; a real adult man is ~0.13 |
+| Shoulder line | 6–8 cm higher (V1) | — |
+| Forearm width | — | ~1.6× the model's (model forearm ~5 cm, wrist 37 mm) |
+| Elbows (front view) | — | ~5 cm further out (arm abduction) |
+
+**Draft T:**
+- **Standing pose:** arms abducted 9°, elbows flexed 6°. The elbows and hands now line up with the photo.
+- **Shoulder line:** lowered 2–4 cm, sloping from the neck to the acromion. It stops at realistic anatomy; the AI reference's long neck is not matched fully.
+- **Forearms:** the forearm muscles now run elbow → wrist (bug: the forearm bone ends mid-forearm). Forearm/wrist volume added: arm width ratio to the reference is now 1.09–1.18 against 1.50–1.64 before.
+- **Overlap test:** now runs in the standing pose. In the build pose the forearms lie against the hips; build-pose overlaps there are expected and not shown.
+- 0 standing-pose overlaps.
+
+**Next:**
+1. Head v2 at realistic size (0.13 H) with a realistic face.
+2. Region-by-region muscle definition from the close-ups.
+3. Side-view chest and posture.

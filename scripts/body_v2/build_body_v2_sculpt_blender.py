@@ -60,7 +60,10 @@ def ss(x):
 
 
 def bone(name):
-    b = rig.data.bones[name]; return np.array(b.head_local), np.array(b.tail_local)
+    b = rig.data.bones[name]
+    if name.startswith("forearm_"):                 # R77: the forearm bone ends mid-forearm (twist bones below) - use elbow -> wrist
+        return np.array(b.head_local), np.array(rig.data.bones["hand_" + name[-1]].head_local)
+    return np.array(b.head_local), np.array(b.tail_local)
 
 
 # ---- muscle specification (right side; rest coordinates: +x lateral right, -y front, +y back, +z up; metres, mm) ----
@@ -68,10 +71,11 @@ LIMB = [  # bone, t0, tp, t1, facing, half-width deg, amp mm, mask groups
     ("upperarm", 0.12, 0.58, 0.90, (0, -1, 0), 75, 11.0, ("upperarm",)),         # biceps
     ("upperarm", 0.04, 0.35, 0.82, (0.3, 1, 0), 80, 11.0, ("upperarm",)),        # triceps (long + lateral heads)
     ("upperarm", 0.45, 0.75, 0.98, (1, -0.4, 0), 55, 4.0, ("upperarm",)),        # brachialis, lateral
-    ("upperarm", 0.00, 0.50, 1.00, (1, 0, 0), 180, 2.5, ("upperarm",)),          # overall arm thickness
-    ("forearm", 0.00, 0.22, 0.65, (1, -0.3, 0), 70, 7.0, ("forearm", "forearm_tw0", "forearm_tw1")),   # brachioradialis / extensors
-    ("forearm", 0.00, 0.25, 0.62, (-0.6, -0.8, 0), 70, 6.0, ("forearm", "forearm_tw0", "forearm_tw1")),  # flexors
-    ("forearm", 0.00, 0.30, 0.80, (1, 0, 0), 180, 2.0, ("forearm", "forearm_tw0", "forearm_tw1")),
+    ("upperarm", 0.00, 0.50, 1.00, (1, 0, 0), 180, 4.0, ("upperarm",)),          # overall arm thickness (R77: ref 1.06-1.16x)
+    ("forearm", 0.00, 0.22, 0.70, (1, -0.3, 0), 75, 11.0, ("forearm", "forearm_tw0", "forearm_tw1")),   # brachioradialis / extensors
+    ("forearm", 0.00, 0.25, 0.68, (-0.6, -0.8, 0), 75, 10.0, ("forearm", "forearm_tw0", "forearm_tw1")),  # flexors
+    ("forearm", 0.00, 0.25, 0.95, (1, 0, 0), 180, 4.0, ("forearm", "forearm_tw0", "forearm_tw1")),
+    ("forearm", 0.45, 0.82, 1.06, (1, 0, 0), 180, 5.0, ("forearm", "forearm_tw0", "forearm_tw1", "hand")),   # R77: lower forearm / wrist (wrist 37 mm wide, real ~60)
     ("thigh", 0.30, 0.62, 0.97, (0, -1, 0), 60, 8.0, ("thigh",)),                # rectus femoris (R76d: mid-thigh)
     ("thigh", 0.25, 0.60, 0.95, (1, -0.4, 0), 55, 8.0, ("thigh",)),              # vastus lateralis (R76c: lower, no hip bulge)
     ("thigh", 0.55, 0.85, 1.00, (-0.7, -0.7, 0), 45, 9.0, ("thigh",)),           # vastus medialis (teardrop)
@@ -196,6 +200,19 @@ def avg(x):
 for _ in range(int(os.environ.get("V2_RELAX", "4"))):
     amt = 0.5 * amt + 0.5 * avg(amt)
 off = nrm * amt[:, None]
+# R77 (owner's photo grid): the shoulder line.  Top-of-shoulder contour on the front view, as y/H against |x|/H: the
+# model (V1 already) sits 6-8 cm above the reference - skin top 8 cm above the humeral-head centre, upper trapezius ~7 cm
+# above the clavicle (real: ~4-5 cm / ~3-5 cm).  Lower the upward-facing shoulder / trapezius skin along -z, sloping from
+# the neck out to the acromion; the side of the deltoid keeps its roundness (upward-facing skin only).
+DROP = [float(v) for v in os.environ.get("V2_SHOULDER_DROP", "0.055:0,0.08:24,0.12:32,0.17:36,0.21:38,0.25:30,0.29:0").replace(":", ",").split(",")]
+dx, dmm = np.array(DROP[0::2]), np.array(DROP[1::2])
+ax_ = np.abs(rest[:, 0])
+drop = np.interp(ax_, dx, dmm) / 1000.0 * ss((nrm[:, 2] - 0.05) / 0.5) * ss((rest[:, 2] - 1.40) / 0.06) * (1 - HEAD)
+drop *= ss((ax_ - 0.045) / 0.02)                                   # the neck itself stays
+for _ in range(10):
+    drop = 0.5 * drop + 0.5 * avg(drop)
+off[:, 2] -= drop
+SHOULDER_REPORT = {"max_drop_mm": round(float(drop.max() * 1000), 1)}
 # R76h (owner: "the torso ... seems very slim and the photos I sent are a bit wider"): measured as fractions of height on
 # the front view - waist (torso only) 0.156 vs reference 0.187, chest 0.179 vs 0.20.  Widen the ribcage / waist sides
 # (lateral-facing torso skin, rest z 0.95..1.45), most at the waist, but never closer than 4 mm to the hanging arm.
@@ -218,13 +235,13 @@ off = off + nrm * push[:, None]
 # lats / armpit (~400 overlapping triangle pairs) and the hands into the front of the thighs (~70).  Wherever a vertex
 # of one part ends up closer to the other part than min(its rest clearance, 4 mm), shrink the new volume of both sides
 # there, and repeat.
-CLEAR = float(os.environ.get("V2_CLEAR_MM", "4")) / 1000.0
+CLEAR = float(os.environ.get("V2_CLEAR_MM", "0")) / 1000.0   # R77: 0 = off (the overlap test now runs in the standing pose)
 A_ = ARM > 0.5; B_ = ~A_
 ta0 = _T(rest[B_]); tb0 = _T(rest[A_])
 d0A, _ = ta0.query(rest[A_]); d0B, _ = tb0.query(rest[B_])
 needA = np.minimum(d0A, CLEAR); needB = np.minimum(d0B, CLEAR)
 scale = np.ones(nv); clr_iters = 0
-for it in range(25):
+for it in range(25 if CLEAR > 0 else 0):
     P_ = rest + off * scale[:, None]
     dA, _ = _T(P_[B_]).query(P_[A_]); dB, _ = _T(P_[A_]).query(P_[B_])
     badA = dA < needA - 1e-4; badB = dB < needB - 1e-4
@@ -241,8 +258,28 @@ off = off * scale[:, None]
 from mathutils.bvhtree import BVHTree as _BVH
 _fs = [set(f) for f in faces]; _ft = [tuple(f) for f in faces]
 ov_log = []
+# R77 (owner chose "Standing pose"): the body is shown standing with the arms ~9 deg out, so overlaps are tested in that
+# pose (in the build pose the forearms hang against the hips, and testing there removed all new forearm volume)
+import math as _m
+import build_original_movement_benchmarks_blender as _bench
+import original_v1_review_candidate_drives as _drives
+_STAND = tuple(float(x) for x in os.environ.get("V2_STAND", "9:6").split(":"))
+_fitkey = body.shape_key_add(name="V2_FIT", from_mix=False); _fitkey.value = 1.0
+
+
+def stand_eval(offsets):
+    _fitkey.data.foreach_set("co", (rest + offsets).ravel().astype(np.float32))
+    _bench._reset(rig)
+    for sd, sg in (("r", -1.0), ("l", 1.0)):
+        pb = rig.pose.bones[f"upperarm_{sd}"]; pb.rotation_mode = "XYZ"; pb.rotation_euler = (0.0, 0.0, _m.radians(sg * _STAND[0]))
+        fb = rig.pose.bones[f"forearm_{sd}"]; fb.rotation_mode = "XYZ"; fb.rotation_euler = (_m.radians(-_STAND[1]), 0.0, 0.0)
+    bpy.context.view_layer.update(); _drives.drive(rig, body); bpy.context.view_layer.update()
+    pp, _ = _bench._evaluated(body)
+    return np.array([tuple(v) for v in pp])
+
+
 for it in range(40):
-    P_ = rest + off
+    P_ = stand_eval(off)
     tr = _BVH.FromPolygons([Vector(v) for v in P_], _ft, all_triangles=True)
     pr = [(a_, b_) for a_, b_ in tr.overlap(tr) if a_ < b_ and not (_fs[a_] & _fs[b_])]
     ov_log.append(len(pr))
@@ -255,7 +292,7 @@ for it in range(40):
 WIDTH_REPORT = {"overlap_iterations": ov_log, "clearance_iterations": clr_iters, "min_scale": round(float(scale.min()), 3), "waist_mm": WAIST_MM, "chest_mm": CHEST_MM, "max_side_push_mm": round(float(push.max() * 1000), 2)}
 np.savez_compressed(OUT / "body_v2_offsets.npz", offsets=off.astype(np.float32))
 mir = {}
-rep = {"gain": GAIN, "abs_mm": ABS_MM, "hamstring_mm": HAM_MM, "width": WIDTH_REPORT, "lumbar_mm": LUMBAR_MM, "spine_mm": SPINE_MM, "union_p": UNION_P, "relax": int(os.environ.get("V2_RELAX", "4")), "max_mm": round(float(amt.max() * 1000), 2), "mean_mm_nonzero": round(float(amt[amt > 1e-4].mean() * 1000), 2),
+rep = {"gain": GAIN, "shoulder": SHOULDER_REPORT, "abs_mm": ABS_MM, "hamstring_mm": HAM_MM, "width": WIDTH_REPORT, "lumbar_mm": LUMBAR_MM, "spine_mm": SPINE_MM, "union_p": UNION_P, "relax": int(os.environ.get("V2_RELAX", "4")), "max_mm": round(float(amt.max() * 1000), 2), "mean_mm_nonzero": round(float(amt[amt > 1e-4].mean() * 1000), 2),
        "vertices_moved_gt_1mm": int((amt > 1e-3).sum())}
 # symmetry check: mirror pairs by nearest neighbour
 from scipy.spatial import cKDTree
@@ -273,6 +310,8 @@ def _pairs(P):
 
 
 rep["rest_self_intersections"] = {"v1": _pairs(rest), "v2": _pairs(rest + off)}
+rep["standing_self_intersections"] = {"v1": _pairs(stand_eval(np.zeros_like(off))), "v2": _pairs(stand_eval(off))}
+body.shape_key_remove(_fitkey); _bench._reset(rig)
 (OUT / "body_v2_report.json").write_text(json.dumps(rep, indent=1))
 print("V2_SCULPT", json.dumps(rep), flush=True)
 
@@ -295,4 +334,22 @@ if os.environ.get("R76_RENDER") == "1":
         for view, dv in {"front": (0, -1, 0), "back": (0, 1, 0), "side": (1, 0, 0), "front34": (0.7, -0.7, 0), "back34": (0.7, 0.7, 0)}.items():
             dvec = Vector(dv).normalized(); cam.location = mid + dvec * 4; cam.rotation_mode = "QUATERNION"; cam.rotation_quaternion = (-dvec).to_track_quat("-Z", "Y")
             sc.render.filepath = str(OUT / f"{tag}_full_standing_{view}.png"); bpy.ops.render.render(write_still=True)
+    # R77 (owner chose "Standing pose"): natural standing pose with the arms slightly out, like the reference photos -
+    # upper arms abducted V2_STAND_ABD deg (Work's convention: upper-arm local -Z abducts _r, +Z abducts _l), elbows
+    # flexed V2_STAND_ELBOW deg.  The build (bind) pose is unchanged; this is a pose, like any exercise pose.
+    import math
+    import build_original_movement_benchmarks_blender as bench
+    import original_v1_review_candidate_drives as drives
+    abd, elb = (float(x) for x in os.environ.get("V2_STAND", "9:6").split(":"))
+    for tag, val in (("V1", 0.0), ("V2", 1.0)):
+        key.value = val
+        bench._reset(rig)
+        for sd, sg in (("r", -1.0), ("l", 1.0)):
+            pb = rig.pose.bones[f"upperarm_{sd}"]; pb.rotation_mode = "XYZ"; pb.rotation_euler = (0.0, 0.0, math.radians(sg * abd))
+            fb = rig.pose.bones[f"forearm_{sd}"]; fb.rotation_mode = "XYZ"; fb.rotation_euler = (math.radians(-elb), 0.0, 0.0)
+        bpy.context.view_layer.update(); drives.drive(rig, body); bpy.context.view_layer.update()
+        for view, dv in {"front": (0, -1, 0), "back": (0, 1, 0), "side": (1, 0, 0), "front34": (0.7, -0.7, 0), "back34": (0.7, 0.7, 0)}.items():
+            dvec = Vector(dv).normalized(); cam.location = mid + dvec * 4; cam.rotation_mode = "QUATERNION"; cam.rotation_quaternion = (-dvec).to_track_quat("-Z", "Y")
+            sc.render.filepath = str(OUT / f"{tag}_full_stand_{view}.png"); bpy.ops.render.render(write_still=True)
+    bench._reset(rig)
     print("V2_RENDERED", flush=True)

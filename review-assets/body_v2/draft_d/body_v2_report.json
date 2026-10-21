@@ -1,0 +1,9 @@
+{
+ "gain": 2.0,
+ "union_p": 3.0,
+ "relax": 4,
+ "max_mm": 23.9,
+ "mean_mm_nonzero": 5.9,
+ "vertices_moved_gt_1mm": 6713,
+ "symmetry_max_mm": 0.0114
+}

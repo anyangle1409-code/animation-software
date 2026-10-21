@@ -1,0 +1,1 @@
+R66_PULSE {"torso_vertices": 2414, "vertices_moved": 1132, "max_temporal_correction_mm": 7.83, "beta": 30.0, "fixed_samples_per_vertex_median": 19, "posed_fit_max_error_mm": 1.03, "torso_max_second_difference_mm": {"before": 4.63, "after": 2.55, "after_taper": 4.61}, "taper_m": 0.04, "taper_full_weight_vertices": 1728}

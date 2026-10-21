@@ -1560,3 +1560,36 @@ The owner sent the reference figure's groin close-ups: "Can we have the groin ar
 **Still open:**
 - The gluteal folds are slightly wavy.
 - Some small vertical streaks on the thigh tops.
+
+### Draft v8c: abs and pecs reworked to the reference figure (21 Oct)
+
+The owner wants the look of the reference figure for our model. The face, skin colour and so on come later.
+
+> "The abs are still not right … they aren't just blocks. They are more rounded and wider … The top of abs is curved and also the visibility of them is defined but not so prominent. The pecs still need better defined also like the picture I sent."
+
+**Measured on the reference torso:**
+- Rectus columns reach |x| about 0.07 m.
+- The top row sits under an arch that follows the rib margin.
+- Segments are soft and rounded, with shallow valleys between them.
+- The pecs are full masses reaching almost to the armpit. Their lower border is nearly level across the middle, rises towards the armpit, and has a crisp shadow under it.
+
+**R86 changes:**
+- **Chest erase:** the erase now covers the chest too (0.70–0.80 of stature, |x| < 0.165), removing R41's own crease across it.
+- **Abs:**
+  - columns wider (`xo` up to 0.08);
+  - rib-arch top: 0.708 at the sternum, falling 0.45 per metre outwards;
+  - segments are cos^1.5 × cos^1.2 domes (`V2_ABS_SEG_MM` 3.0) on a 2 mm pad;
+  - the intersections curve slightly;
+  - linea alba sigma 5.5 mm (narrower than the mesh could resolve before) and sternal groove sigma 7 mm.
+- **Pecs:**
+  - `V2_PEC_MM` 11, centred at |x| 0.095;
+  - lower border at 0.732, rising 0.30 per metre beyond |x| 0.10, sharp below (sigma 0.0065);
+  - stops short of the arm (|x| 0.175). The first try reached the arm: 895 standing overlaps before the shrink loop.
+
+**Results:**
+- 0 standing-pose overlaps after the fine loop (332 at its start).
+
+**Still open:**
+- The abs still read a little more blocky than the reference.
+- Small lumps along the sternum, from R41's sternal ring.
+- Wrinkles on the side of the chest at the armpit, seen from the side.

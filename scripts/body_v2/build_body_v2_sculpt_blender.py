@@ -703,6 +703,8 @@ if REFINE_MM > 0:
         fz_ = (Q[:, 2] - zb) / Hs; ax_ = np.abs(Q[:, 0])
         front_ = ss((-qn[:, 1] - 0.25) / 0.35)
         er = ss((fz_ - 0.545) / 0.02) * ss((0.735 - fz_) / 0.02) * ss((0.125 - ax_) / 0.03) * front_ * (1 - _keep)
+        # R86: the chest too (R41's own pec shape left a crease across it at ~0.75), so the new pecs start clean
+        er = np.maximum(er, ss((fz_ - 0.70) / 0.02) * ss((0.80 - fz_) / 0.02) * ss((0.165 - ax_) / 0.03) * front_ * (1 - _keep))
         for _ in range(int(os.environ.get("V2_ABS_ERASE", "150"))):
             for lam in (0.5,):                    # plain (shrinking) steps: Taubin keeps grooves this broad (v6a)
                 tri = Q[faces]; fn_ = np.cross(tri[:, 1] - tri[:, 0], tri[:, 2] - tri[:, 0])
@@ -711,34 +713,42 @@ if REFINE_MM > 0:
                 Q = Q + lam * er[:, None] * ((cavg(Q) - Q) * vn_).sum(1)[:, None] * vn_
         off = Q - rest
         h = np.zeros(nv)                                                     # mm, + out along the normal
-        # rectus abdominis: a raised pad between the linea semilunaris curves, wide at the ribs, narrow at the pubis
-        xo = np.interp(fz_, [0.50, 0.56, 0.61, 0.66, 0.70, 0.72], [0.040, 0.050, 0.060, 0.068, 0.080, 0.085])
-        top = ss((0.712 - fz_) / 0.012)
-        pad = ss((xo - ax_) / 0.012) * ss((fz_ - 0.505) / 0.03) * top
-        h += 2.5 * pad
-        # segments above the navel: smooth rounded pillows (zero slope at their edges); the valleys between them are the
-        # tendinous intersections (separate grooves on top read as stacks of thin lines, v6a/v6b)
-        ints = [0.640, 0.663, 0.686]
-        edges_ = [0.612] + ints + [0.712]
+        # R86 (owner on v7b: "The abs are still not right ... they aren't just blocks. They are more rounded and wider ...
+        # The top of abs is curved and also the visibility of them is defined but not so prominent.  The pecs still need
+        # better defined"): measured on the reference torso - rectus columns out to |x| ~0.07 m, the top row under an arch
+        # that follows the rib margin (high at the sternum, lower to the sides), segments soft rounded plateaus with shallow
+        # valleys; pecs full masses reaching almost to the armpit, lower border nearly level across the middle and rising
+        # towards the armpit, with a crisp shadow under it.
+        xo = np.interp(fz_, [0.50, 0.56, 0.61, 0.66, 0.70, 0.72], [0.042, 0.054, 0.064, 0.072, 0.078, 0.080])
+        ftop = 0.708 - 0.45 * ax_                                              # rib arch: 0.708 at the sternum, ~0.676 at |x| 0.07
+        top = ss((ftop - fz_) / 0.010)
+        pad = ss((xo - ax_) / 0.014) * ss((fz_ - 0.505) / 0.03) * top
+        h += 2.0 * pad
+        # segments: rounded plateaus (smoothstep shoulders), the valleys between them are the intersections; the top row's
+        # upper edge follows the arch
+        ints = [0.640, 0.662, 0.684]
         seg = np.zeros(nv)
-        for a_, b_ in zip(edges_[:-1], edges_[1:]):
-            t_ = np.clip((fz_ - a_) / (b_ - a_), 0, 1)
-            seg += np.sin(np.pi * t_) ** 2
-        colx = np.clip((ax_ - 0.003) / np.maximum(xo - 0.003, 1e-3), 0, 1)
-        seg *= np.sin(np.pi * colx) ** 0.6 * (ax_ < xo)
-        h += float(os.environ.get("V2_ABS_SEG_MM", "3.6")) * seg * ss((fz_ - 0.605) / 0.012)
+        lows = [np.full(nv, 0.613)] + [np.full(nv, z_) + 0.08 * ax_ ** 2 for z_ in ints]
+        highs = [np.full(nv, z_) + 0.08 * ax_ ** 2 for z_ in ints] + [ftop]
+        for a_, b_ in zip(lows, highs):
+            t_ = np.clip((fz_ - a_) / np.maximum(b_ - a_, 1e-4), 0, 1)
+            seg += np.cos(np.pi * (t_ - 0.5)) ** 1.5 * (fz_ > a_) * (fz_ < b_)     # domes (plateaus read as bars, v8a/v8b)
+        colx = np.clip((ax_ - 0.002) / np.maximum(xo - 0.002, 1e-3), 0, 1)
+        seg *= np.cos(np.pi * (colx - 0.5)) ** 1.2 * (ax_ < xo)
+        h += float(os.environ.get("V2_ABS_SEG_MM", "3.0")) * seg * ss((fz_ - 0.608) / 0.01)
         # linea alba: sternum to navel, fading out below it
         la = np.interp(fz_, [0.565, 0.60, 0.62, 0.70, 0.72], [0, 0.6, 1.0, 1.0, 0.6])
-        h -= 1.8 * la * np.exp(-0.5 * (ax_ / 0.004) ** 2)
+        h -= 1.2 * la * np.exp(-0.5 * (ax_ / 0.0055) ** 2)   # wide enough for the 4 mm mesh
         # linea semilunaris: soft groove at the rectus' outer edge, above the navel
-        h -= 1.0 * np.exp(-0.5 * ((ax_ - xo - 0.004) / 0.007) ** 2) * ss((fz_ - 0.60) / 0.03) * top
-        # pectoralis major: a full rounded mass, sharper along its lower border (which rises towards the armpit),
-        # and a shallow sternal groove
-        pc = 0.738 + 0.10 * np.clip(ax_ - 0.085, 0, None)
+        h -= 0.8 * np.exp(-0.5 * ((ax_ - xo - 0.005) / 0.008) ** 2) * ss((fz_ - 0.60) / 0.03) * top
+        # pectoralis major: full masses out towards the armpit; lower border level across the middle, rising at the side,
+        # sharp below (crisp shadow), long and soft above towards the clavicle; shallow sternal groove
+        pc = 0.732 + 0.30 * np.clip(ax_ - 0.10, 0, None)
         dz_ = fz_ - pc
-        pec = np.exp(-0.5 * ((ax_ - 0.085) / 0.058) ** 2) * np.exp(-0.5 * (dz_ / np.where(dz_ > 0, 0.036, 0.011)) ** 2)
-        h += float(os.environ.get("V2_PEC_MM", "7")) * pec * ss((ax_ - 0.006) / 0.012) * ss((0.18 - ax_) / 0.02)
-        h -= 1.2 * np.exp(-0.5 * (ax_ / 0.006) ** 2) * ss((fz_ - 0.712) / 0.01) * ss((0.80 - fz_) / 0.02)
+        pec = np.exp(-0.5 * ((ax_ - 0.095) / np.where(ax_ > 0.095, 0.060, 0.075)) ** 2) * \
+              np.where(dz_ > 0, np.exp(-0.5 * ((dz_ - 0.018) / 0.040) ** 2) * (dz_ > 0.018) + (dz_ <= 0.018) * 1.0, np.exp(-0.5 * (dz_ / 0.0065) ** 2))
+        h += float(os.environ.get("V2_PEC_MM", "11")) * pec * ss((ax_ - 0.004) / 0.012) * ss((0.175 - ax_) / 0.03)   # stops short of the arm
+        h -= 1.0 * np.exp(-0.5 * (ax_ / 0.007) ** 2) * ss((fz_ - 0.712) / 0.01) * ss((0.80 - fz_) / 0.02)
         # serratus anterior: four fingers on the side of the ribs, angled down and forward
         lat_ = ss((np.abs(qn[:, 0]) - 0.35) / 0.3) * ss((-qn[:, 1] + 0.3) / 0.4)
         for k_, zf_ in enumerate([0.735, 0.718, 0.701, 0.684]):

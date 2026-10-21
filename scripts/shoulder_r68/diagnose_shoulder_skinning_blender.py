@@ -289,6 +289,52 @@ if os.environ.get("R68_MODE") == "traps_closeups":
             sc.render.filepath = str(fn); bpy.ops.render.render(write_still=True)
     print("R72_DONE", flush=True)
     raise SystemExit
+if os.environ.get("R68_MODE") == "front_views":
+    # R73 (owner on R72c: "Can I have a view from the front too? ... a video and also a close up"): front stills at
+    # R72_HTS and a front press video (41 samples, t = 0..1, fixed cameras) of the chest, both armpits and the right armpit
+    sc = bpy.context.scene
+    for ob in sc.objects:
+        if ob.type in ("MESH", "CURVE") and ob is not body:
+            ob.hide_render = True
+    mat = bpy.data.materials.new("REVIEW_ONLY"); mat.diffuse_color = (.72, .55, .45, 1)
+    body.data.materials.clear(); body.data.materials.append(mat)
+    sc.render.engine = "BLENDER_WORKBENCH"; sc.display.shading.light = "STUDIO"; sc.display.shading.color_type = "MATERIAL"
+    sc.display.shading.show_cavity = True
+    cd = bpy.data.cameras.new("C"); cd.type = "ORTHO"; cam = bpy.data.objects.new("C", cd); sc.collection.objects.link(cam); sc.camera = cam
+    tag = os.environ.get("R72_TAG", "cand")
+
+    def views():
+        W = rig.matrix_world
+        neck = W @ rig.pose.bones["neck"].head
+        ua = {sd: W @ rig.pose.bones[f"upperarm_{sd}"].head for sd in "lr"}
+        mid = (ua["l"] + ua["r"]) / 2
+        return {
+            "front_full": (mid + Vector((0, 0, 0.12)), (0, -1, 0.1), 0.95),
+            "front_chest_armpits": ((neck + mid) / 2 + Vector((0, 0, -0.06)), (0, -1, 0.05), 0.62),
+            "armpit_front_right": (ua["r"] + Vector((-0.02, 0, -0.06)), (0.35, -1, 0.0), 0.32),
+            "armpit_front_low_right": (ua["r"] + Vector((-0.03, 0, -0.08)), (0.3, -0.85, -0.45), 0.32),
+            "armpit_front_left": (ua["l"] + Vector((0.02, 0, -0.06)), (-0.35, -1, 0.0), 0.32),
+        }
+
+    def shoot(tgt, dv, scale, fn, res_):
+        sc.render.resolution_x = sc.render.resolution_y = res_
+        dvec = Vector(dv).normalized(); cd.ortho_scale = scale
+        cam.location = tgt + dvec * 3; cam.rotation_mode = "QUATERNION"; cam.rotation_quaternion = (-dvec).to_track_quat("-Z", "Y")
+        sc.render.filepath = str(fn); bpy.ops.render.render(write_still=True)
+
+    for ht in [float(x) for x in os.environ.get("R72_HTS", "135.6,150").split(",") if x]:
+        pose(ht)
+        for view, (tgt, dv, scale) in views().items():
+            shoot(tgt, dv, scale, OUT / f"{tag}_{ht:05.1f}deg_{view}.png", 1000)
+    if os.environ.get("R73_VIDEO", "1") == "1":
+        pose(135.6); fixed = views()
+        for i in range(41):
+            bench._reset(rig); px.pose_press_full(res, i / 40); drives.drive(rig, body); bpy.context.view_layer.update()
+            for view in ("front_full", "armpit_front_right"):
+                tgt, dv, scale = fixed[view]
+                shoot(tgt, dv, scale * (1.15 if view == "front_full" else 1.3), OUT / f"vid_{tag}_{view}_{i:03d}.png", 600)
+    print("R73_DONE", flush=True)
+    raise SystemExit
 if os.environ.get("R68_MODE") == "creases":
     # R71: list the sharpest creases (adjacent faces > 25 deg) near the right shoulder at one elevation, clustered, with
     # rest and posed centroids and where they land in the rear close-up camera (to match an owner mark)

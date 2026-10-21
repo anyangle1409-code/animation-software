@@ -957,3 +957,13 @@ The status is still `R57_REJECTED_OR_INCOMPLETE_NATIVE_GATES`. Not approved, and
 - The motion, crease and benchmark failures that R70/R71 inherited.
 - The front-axilla fold.
 - The pull-up dead hang.
+
+**Owner decision (21 Oct), after seeing the R72c front views** (`review-assets/shoulder_r73_front/`): "Great let's lock that in now."
+
+R72c is now the visual baseline for the shoulder, armpit and arm-root shape on the 150° / elbow 30° / plane 10 press top:
+- generator settings: the R72c row in `shoulder-r63-lockout.yml`;
+- dense increments: `review-assets/shoulder_r64_closeups/R72c_closeups/candidate_dense_f32.npz`.
+
+Later work must keep this look; compare any change against R72c close-ups (rear, side, above-rear, front).
+
+This records the owner's visual sign-off on the shape only. The numerical gates still fail (see the R72c gate table above), and nothing is approved, saved, merged or deployed.

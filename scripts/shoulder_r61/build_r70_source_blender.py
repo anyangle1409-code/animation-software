@@ -27,7 +27,7 @@ import build_original_review_candidate_r17_blender as r17
 import build_original_movement_benchmarks_blender as bench
 import original_v1_review_candidate_drives as drives
 import original_v1_press_extension as px
-from original_review_r43_sampling import coefficients, hats, KEYS
+from original_review_r43_sampling import hats, KEYS, DENSE
 from claude_r61_native import install
 
 z = {k: v for k, v in np.load(src).items()}
@@ -48,8 +48,10 @@ def native():
 
 
 def weight_at(e):
-    old = np.repeat(hats(np.array([e]), KEYS)[0][:, None], nv, axis=1)    # (7, nv): the R41 seven-key weights at e
-    return coefficients(old)
+    # Work's coefficients(): seven-key weights at elevation e -> e -> hats(e, DENSE) @ basis(); basis() needs scipy (not
+    # in Blender's Python), so use the identical basis stored in the model (z["sampling_basis"])
+    ev = np.full(nv, float(e))
+    return (hats(ev, DENSE) @ z["sampling_basis"]).T
 
 
 report = {"top": os.environ["R70_TOP"], "samples": []}

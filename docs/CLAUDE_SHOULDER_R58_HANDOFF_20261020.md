@@ -1724,3 +1724,16 @@ The owner said: "you have the abs sitting too high and almost at the bottom of t
 
 **Results:**
 - 0 standing-pose overlaps.
+
+### Draft v9m: softer abs (21 Oct)
+
+The owner, marking the outer ends of the blocks on v9l, said: "The abs look too raised … it's a slight contour and definition."
+
+**R93 changes:**
+- `V2_ABS_SEG_SCALE` lowered from 1.45 to 0.6.
+- Each block fades towards its outer end: × (1 − 0.55·u^1.5).
+- The linea semilunaris is shallower and wider: 1.0 mm, sigma 14 mm (was 2.6 mm, sigma 10 mm). This removes the step at the outer ends.
+- Linea alba 2.5 mm (was 4.5 mm).
+
+**Results:**
+- 0 standing-pose overlaps.

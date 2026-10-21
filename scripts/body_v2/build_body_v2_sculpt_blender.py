@@ -765,14 +765,16 @@ if REFINE_MM > 0:
             # dome centred a little above the middle of the block and towards the middle of the column
             r_ = (np.abs(2 * u_ - 1.0) ** 2.3 + np.abs((2 * t_ - 1.0) - 0.12) ** 2.3) ** (1 / 2.3)
             # soft edges (cos^2): a steep edge read as a hard horizontal line (v9g/v9h); the pillows meet in gentle valleys
-            seg += amp_ * np.cos(0.5 * np.pi * np.clip(r_, 0, 1)) ** 2 * (fz_ > zlo_) * (fz_ < zhi_) * (ax_ < xout)
-        h += float(os.environ.get("V2_ABS_SEG_SCALE", "1.45")) * seg
+            # R93 (owner on v9l: "The abs look too raised ... it's a slight contour and definition", marking the outer
+            # ends of the blocks): lower relief, and each block fades towards its outer end instead of stepping down
+            seg += amp_ * (1 - 0.55 * u_ ** 1.5) * np.cos(0.5 * np.pi * np.clip(r_, 0, 1)) ** 2 * (fz_ > zlo_) * (fz_ < zhi_) * (ax_ < xout)
+        h += float(os.environ.get("V2_ABS_SEG_SCALE", "0.6")) * seg
         top = ss((0.706 - 0.10 * xh - fz_) / 0.010)
         # linea alba: sternum to navel, fading out below it
         la = np.interp(fz_, [0.565, 0.60, 0.62, 0.72, 0.74], [0, 0.6, 1.0, 1.0, 0.6])
-        h -= 4.5 * la * np.exp(-0.5 * (ax_ / 0.0060) ** 2)   # wide enough for the 4 mm mesh; frames the blocks (R87)
+        h -= 2.5 * la * np.exp(-0.5 * (ax_ / 0.0060) ** 2)   # wide enough for the 4 mm mesh; frames the blocks (R87)
         # linea semilunaris: soft groove at the rectus' outer edge, above the navel
-        h -= 2.6 * np.exp(-0.5 * ((ax_ - xo - 0.004) / 0.010) ** 2) * ss((fz_ - 0.60) / 0.03) * top
+        h -= 1.0 * np.exp(-0.5 * ((ax_ - xo - 0.004) / 0.014) ** 2) * ss((fz_ - 0.60) / 0.03) * top
         # pectoralis major: full masses out towards the armpit; lower border level across the middle, rising at the side,
         # sharp below (crisp shadow), long and soft above towards the clavicle; shallow sternal groove
         pc = 0.744 + 0.30 * np.clip(ax_ - 0.10, 0, None)

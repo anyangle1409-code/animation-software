@@ -931,3 +931,29 @@ The r69c S7 rear restore adds up to 25 mm to the posterior-deltoid keys (110–1
 **R72c/d (close-ups workflow):** R71b settings without `--r68`.
 - R72c keeps the two crease patches.
 - R72d has no patches.
+
+**Result:** in the close-ups (rear, side, above-rear and traps, at 135.6° and 150°), the mound is gone in both R72c and R72d, and the arm root runs smoothly into the back. The two look almost the same. R72c is the candidate because it keeps the two R71 crease patches.
+- Images: `review-assets/shoulder_r72_traps_closeups/fix/`.
+
+**R72c gates (lockout workflow):** the same as R71b on every check, so removing the rear restore cost nothing in the numbers.
+
+| Gate | R72c |
+|---|---|
+| Outline | 0.95 mm (pass) |
+| Reversed normals | 6 |
+| Contacts | 6 |
+| Native motion | 8.93 mm |
+| Crease | 150.7° |
+| Dense motion | 24.05 mm |
+| Early outward | pass |
+| Adjacent step | pass |
+| Benchmark regressions | 7 |
+
+The status is still `R57_REJECTED_OR_INCOMPLETE_NATIVE_GATES`. Not approved, and not saved, merged or deployed.
+- Media: `review-assets/shoulder_r64/R72c/`, `review-assets/shoulder_r68/before_after/R71b_vs_R72c_press_slow.mp4`.
+
+**Open:**
+- The pinch that r69c was made for (old 166° top) should be re-checked on the 150° path over the full range.
+- The motion, crease and benchmark failures that R70/R71 inherited.
+- The front-axilla fold.
+- The pull-up dead hang.

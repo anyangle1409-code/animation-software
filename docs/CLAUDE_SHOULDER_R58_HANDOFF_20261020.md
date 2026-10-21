@@ -1935,3 +1935,29 @@ The owner on v12k: "Still not happy with the pecs". Asked what was wrong, they p
 - A fold in front of the armpit, under the outer pec, in the side view.
 - Creases on the side of the ribs from R41.
 - Front widths (ribs, shoulders, trapezius).
+
+### Draft v13c: pecs lower, below the armpit (R104, 21 Oct)
+
+Owner on v12z: "the pecs start too high maybe and don't drop down low enough ... they go below the armpit".
+
+**Measured** (front silhouettes; the armpit is the highest row where the arm separates from the torso):
+- Armpit: model 0.747, reference 0.752.
+- Pec lower border in the model's finished geometry: 0.715–0.72 (reference about 0.717–0.722), so the border was already at the right height. It read high for two reasons:
+  1. The sine rise over 0.30 of the pec height put the visible edge about 2 cm above the true border.
+  2. The chest close-up camera was framed on the base mesh's height, not the finished body's. Against the reference, the model's chest looked about 0.02 of stature higher than it is. This also affected the v12q–v13a comparison images sent to the owner.
+
+**Changes:**
+- **Lower border:** stays low out to |x| 0.10 (0.726) and turns up only behind the arm (0.758 at |x| 0.115).
+- **Lateral fade:** pushed out to |x| 0.12.
+- **Mass placed low:** fullest from the border to the nipple line, about 45 % under the clavicle (`V2_PEC_TOP_THIN_MASS` 0.55).
+- **Edge:** about 45° over 0.20 of the pec height (`V2_PEC_EDGE`).
+- **Shadow:** 1.8 mm.
+- **Standing pose:** 16:6 (the reference's arms hang about 16° out); it was 12:6.
+- **Close-up framing:** now on `rest + PROP + off`.
+
+**Results:**
+- 0 standing overlaps; fine-loop loss up to 14.5 mm.
+
+**Still open:**
+- The fold in front of the armpit under the outer pec in the side view, and the R41 rib-side creases.
+- Front widths.

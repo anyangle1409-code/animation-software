@@ -580,7 +580,7 @@ if ARM_U or ARM_F or HAND_S != 1.0 or SH_UP:
 import math as _m
 import build_original_movement_benchmarks_blender as _bench
 import original_v1_review_candidate_drives as _drives
-_STAND = tuple(float(x) for x in os.environ.get("V2_STAND", "12:6").split(":"))
+_STAND = tuple(float(x) for x in os.environ.get("V2_STAND", "16:6").split(":"))   # R104: arms out ~16 deg like the reference
 _fitkey = body.shape_key_add(name="V2_FIT", from_mix=False); _fitkey.value = 1.0
 
 
@@ -857,7 +857,10 @@ if REFINE_MM > 0:
             # the nipple sits ~2 cm above it; R101's rising border made the pec small), with a rounded lower-outer corner
             # turning up into the armpit.  What read as a breast was the dome across x, the roll-under and the raised
             # areola, not this border.
-            zb_ = np.interp(xh, [0.0, 0.03, 0.05, 0.07, 0.09, 0.100, 0.108, 0.12], [0.722, 0.719, 0.717, 0.718, 0.727, 0.740, 0.758, 0.785])
+            # R104 (owner on v12z: "the pecs start too high maybe and don't drop down low enough ... they go below the
+            # armpit"): on the reference the outer lower corner sits ~0.03 below the armpit (0.755) - the border stays low
+            # out to |x| ~0.10 and only then turns up behind the arm
+            zb_ = np.interp(xh, [0.0, 0.03, 0.05, 0.07, 0.09, 0.100, 0.108, 0.115, 0.125], [0.722, 0.719, 0.717, 0.718, 0.721, 0.726, 0.738, 0.758, 0.790])
         elif PSTY == "plate":
             zb_ = 0.733 - 0.25 * xh + 5.5 * xh ** 2            # 0.733 sternum, 0.730 (|x| 0.023), 0.746 (|x| 0.077), 0.772 (|x| 0.11)
         else:
@@ -874,8 +877,12 @@ if REFINE_MM > 0:
             # border, no undercut), fullest from the nipple line to mid-pec, still ~80 % under the clavicle
             # (v12m's quarter-ellipse over 0.22 was near-vertical: a groove and a step in the side view; a sine quarter over
             # 0.40 keeps a definite but open ~30 deg edge)
-            e_ = np.clip(v_ / 0.40, 0, 1)
-            prof = np.sin(0.5 * np.pi * e_) * (1.0 - 0.20 * ss((v_ - 0.50) / 0.50)) * (fz_ > zb_ - 0.002)
+            # R104: the mass sits low - fullest from the border to the nipple line, then a long gentle slope up to the
+            # clavicle (~45 %); v12z (~80 % up high, R102) read as starting too high
+            # (v13b: a rise over 0.30 of the pec height read as an edge ~2 cm above the true border, so the pec still
+            # looked like it stopped at the armpit; ~45 deg over 0.20 puts the visible edge on the border)
+            e_ = np.clip(v_ / float(os.environ.get("V2_PEC_EDGE", "0.20")), 0, 1)
+            prof = np.sin(0.5 * np.pi * e_) * (1.0 - float(os.environ.get("V2_PEC_TOP_THIN_MASS", "0.55")) * ss((v_ - 0.30) / 0.70)) * (fz_ > zb_ - 0.002)
         elif PSTY == "plate":   # rounded lower edge (~5 cm rise), near-flat across the lower half, thinning to ~45 % towards the clavicle
             # R102 (owner: "Do the chest and pecs now", after v12h read flat up high): the reference pec stays full right up to
             # the clavicle - thinning only to ~80 % before the clavicle fade (v12h: ~55 %)
@@ -887,7 +894,7 @@ if REFINE_MM > 0:
         if PSTY in ("plate", "mass"):   # even across the chest (a sin() dome across x read as a breast), soft valley at the sternum
             # R102: out to the deltopectoral line, as on the reference; R103b: thinning into the armpit (|x| 0.085-0.113) -
             # at full thickness there it pressed into the arm (2,000 standing overlaps, the shrink cut a crease, v12u)
-            lat_ = ss((xh - 0.004) / 0.022) * (ss((0.113 - xh) / 0.028) if PSTY == "mass" else ss((0.120 - xh) / 0.032))
+            lat_ = ss((xh - 0.004) / 0.022) * (ss((0.120 - xh) / 0.028) if PSTY == "mass" else ss((0.120 - xh) / 0.032))   # R104: out under the arm
         else:
             lat_ = np.sin(np.pi * np.clip(xh / 0.116, 0, 1)) ** 0.7 * ss((0.108 - xh) / 0.040)   # wide outer fade (v11b: crease at the edge)
         # R95 (owner on v10c: "Still looks wrong. They need to be like the reference model"): side silhouettes, front
@@ -918,7 +925,7 @@ if REFINE_MM > 0:
         h += _hp
         RIB = float(os.environ.get("V2_LOWER_RIB_MM", "8"))
         rib = ss((fz_ - 0.686) / 0.025) * ss((zb_ - 0.002 - fz_) / 0.012) * ss((0.075 - xh) / 0.030)   # R98: off the lateral corner
-        h -= float(os.environ.get("V2_PEC_SHADOW_MM", "1.4")) * np.exp(-0.5 * ((fz_ - zb_ + 0.001) / 0.0045) ** 2) * ss((0.098 - xh) / 0.012) * ss(xh / 0.012)   # soft shadow under the border
+        h -= float(os.environ.get("V2_PEC_SHADOW_MM", "1.8" if PSTY == "mass" else "1.4")) * np.exp(-0.5 * ((fz_ - zb_ + 0.001) / 0.0045) ** 2) * ss((0.098 - xh) / 0.012) * ss(xh / 0.012)   # soft shadow under the border
         h += RIB * rib
         # the front of the abdomen as one broad smooth volume (reference side view: the front is a near-vertical column
         # from the abs up to the pecs; the model's belly sat ~1 cm behind the chest)
@@ -1197,7 +1204,7 @@ if os.environ.get("R76_RENDER") == "1":
     import math
     import build_original_movement_benchmarks_blender as bench
     import original_v1_review_candidate_drives as drives
-    abd, elb = (float(x) for x in os.environ.get("V2_STAND", "12:6").split(":"))
+    abd, elb = (float(x) for x in os.environ.get("V2_STAND", "16:6").split(":"))
     for tag, val in (("V1", 0.0), ("V2", 1.0)):
         key.data.foreach_set("co", _co[tag]); key.value = 1.0
         bench._reset(rig)
@@ -1244,7 +1251,10 @@ if os.environ.get("R76_RENDER") == "1":
             sc.render.filepath = str(OUT / f"V2_skin_stand_{view}.png"); bpy.ops.render.render(write_still=True)
         # chest close-ups (0.62-0.92 of stature)
         _os = cd.ortho_scale; _H = float(hi[2] - lo[2]); sc.render.resolution_x = 1000; sc.render.resolution_y = 1000
-        cd.ortho_scale = 0.30 * _H; _cm = Vector((0.0, mid.y, lo[2] + 0.77 * _H))
+        # framed on the finished body's own height (v12q-v13a framed on the base mesh's, so against the reference the
+        # model's chest looked ~0.02 of stature higher than it is)
+        _Vf = (rest + PROP + off); _z0 = float(_Vf[:, 2].min()); _H = float(_Vf[:, 2].max()) - _z0
+        cd.ortho_scale = 0.30 * _H; _cm = Vector((0.0, mid.y, _z0 + 0.77 * _H))
         lights[0].location = (-1.6, -2.6, 2.6); lights[0].rotation_quaternion = (mid - lights[0].location).to_track_quat("-Z", "Y")
         for view, dv in {"front": (0, -1, 0), "front34": (0.7, -0.7, 0), "side": (1, 0, 0)}.items():
             dvec = Vector(dv).normalized(); cam.location = _cm + dvec * 4; cam.rotation_quaternion = (-dvec).to_track_quat("-Z", "Y")

@@ -1296,3 +1296,5 @@ Owner decision on the arms: a standing pose with the arms slightly out; the bind
 - Roughness: 0 vertices over 0.5 mm. 0 standing-pose overlaps.
 - The photo's lower shoulder line is not matched; the owner prefers the original curve.
 - Z2 (6 %) was rendered for comparison.
+
+**Owner decision:** "Z2". The shoulder expansion is 6 %, now the default. The current body v2 candidate is `review-assets/body_v2/draft_z2/body_v2_offsets.npz`.

@@ -296,7 +296,7 @@ ov_log = []
 # the ridge"): the separate deltoid bellies left an edge where they met the lowered shoulder top.  Instead, expand the
 # original shoulder smoothly about the humeral head (a 3D field, not per-normal bumps), so the original's continuous
 # neck-to-arm curve is kept, just rounder.  Only skin on the outward side of the joint moves (no dent on the chest wall).
-SH_K = float(os.environ.get("V2_SHOULDER_EXPAND", "0.11")); SH_R = float(os.environ.get("V2_SHOULDER_R", "0.13"))
+SH_K = float(os.environ.get("V2_SHOULDER_EXPAND", "0.06"))   # owner chose Z2 (6 %); SH_R = float(os.environ.get("V2_SHOULDER_R", "0.13"))
 for sd, sg in (("r", 1.0), ("l", -1.0)):
     c = np.array(rig.data.bones[f"upperarm_{sd}"].head_local)
     v_ = rest - c; dist = np.linalg.norm(v_, axis=1); u_ = v_ / np.maximum(dist[:, None], 1e-9)

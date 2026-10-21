@@ -1,4 +1,4 @@
-name: ORIGINAL_v1 R74a/b benchmark straight-arm press stretch guard (deep armpit 14x at ~149 deg), close-ups + dense export (Claude)
+name: ORIGINAL_v1 R74c/d straight-arm stretch guard above the press top only (>= 151 deg), close-ups + dense export (Claude)
 'on':
   push:
     branches: [claude/home-gym-pt-animation-txux66]
@@ -17,8 +17,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - {v: R74a, trap: 15, taper: '0.09,0.12', r68: '', extra: '--fold --hull --gain 1.0 --arm-margin 0 --smooth 30 --lat-bulge 0.015 --shoulder-relax 300 --step-limit 0.0029 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --pulse-taper 0.04 --armpit-tp 0.06 --armpit-tp-centre 0.209,0.005,1.367/0.258,-0.011,1.456 --guard-stretch 2.0 --guard-weight 4 --guard-iters 8'}
-        - {v: R74b, trap: 15, taper: '0.09,0.12', r68: '', extra: '--fold --hull --gain 1.0 --arm-margin 0 --smooth 30 --lat-bulge 0.015 --shoulder-relax 300 --step-limit 0.0029 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --pulse-taper 0.04 --armpit-tp 0.06 --armpit-tp-centre 0.209,0.005,1.367/0.258,-0.011,1.456 --guard-stretch 2.0 --guard-weight 1 --guard-iters 8'}
+        - {v: R74c, trap: 15, taper: '0.09,0.12', r68: '', extra: '--fold --hull --gain 1.0 --arm-margin 0 --smooth 30 --lat-bulge 0.015 --shoulder-relax 300 --step-limit 0.0029 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --pulse-taper 0.04 --armpit-tp 0.06 --armpit-tp-centre 0.209,0.005,1.367/0.258,-0.011,1.456 --guard-stretch 2.0 --guard-stretch-from 151 --guard-weight 4 --guard-iters 8'}
+        - {v: R74d, trap: 15, taper: '0.09,0.12', r68: '', extra: '--fold --hull --gain 1.0 --arm-margin 0 --smooth 30 --lat-bulge 0.015 --shoulder-relax 300 --step-limit 0.0029 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --pulse-taper 0.04 --armpit-tp 0.06 --armpit-tp-centre 0.209,0.005,1.367/0.258,-0.011,1.456 --guard-stretch 2.0 --guard-stretch-from 151 --guard-weight 1 --guard-iters 8'}
     timeout-minutes: 120
     env:
       LIBGL_ALWAYS_SOFTWARE: '1'

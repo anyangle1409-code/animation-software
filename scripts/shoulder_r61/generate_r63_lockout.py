@@ -269,6 +269,7 @@ def main():
     ap.add_argument("--guard-bench", action="store_true", help="R63g: benchmark press samples only guard against arm contact")
     ap.add_argument("--guard-weight", type=float, default=4.0)
     ap.add_argument("--guard-iters", type=int, default=6)
+    ap.add_argument("--guard-stretch-from", type=float, default=0.0, help="R74c: apply the stretch guard only in guard poses at or above this elevation (deg); controls above the press top are not used by the press path, so the locked look is untouched")
     ap.add_argument("--guard-stretch", type=float, default=0.0, help="R74: benchmark-press guard poses also pin skin whose triangles stretch past this area ratio (and past the start candidate's) back to the start candidate (0 = off)")
     ap.add_argument("--lat-bulge", type=float, default=0.0, help="R65: outline bulge (m) just under the armpit (hull mode)")
     ap.add_argument("--lat-bulge-span", type=float, default=0.15)
@@ -590,7 +591,7 @@ def main():
                 Pn = posed_now(s, out)
                 dn, _ = tree.query(Pn, k=1); d_0, _ = tree.query(P0[affected], k=1)
                 bad = (dn < a.arm_margin) & (dn < d_0 - 1e-4) & ~pinned[s]
-                if a.guard_stretch > 0:
+                if a.guard_stretch > 0 and sample_ht[s] >= a.guard_stretch_from:
                     # R74 (benchmark gate: Work's straight-arm press at ~149 deg stretched the deep armpit skin to 14x its
                     # rest area, 411 triangles > 2x against 10 for R52): pin the vertices of triangles that stretch past
                     # --guard-stretch and past the start candidate in this guard pose
@@ -681,7 +682,7 @@ def main():
     np.savez_compressed(a.out, dense_delta=out, delta=out[SOURCE])
     metrics = {"status": "R63_IN_MEMORY_STUDY_NOT_ACCEPTED", "model_saved": False, "owner_approved": False,
                "scope_change": f"owner-approved lockout sculpt (20 Oct): controls {95 + K0}..166 re-solved in posed space; 166 released",
-               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top", "include_bench", "guard_bench", "guard_weight", "guard_iters", "guard_stretch", "step_limit", "lat_bulge", "lat_bulge_span", "r68", "r68_pin", "armpit_tp", "armpit_tp_centre", "shoulder_relax", "shoulder_rise", "shoulder_line_sigma", "shoulder_line_max", "shoulder_mu", "shoulder_centre", "shoulder_radius", "protect_head", "pulse_smooth", "pulse_beta", "pulse_zmax", "pulse_armw", "pulse_lam", "pulse_tie", "pulse_taper", "root_mm", "root_whole_back", "root_smooth", "root_relax", "hull", "fold", "fold_centre", "fold_radius", "fold_iters", "fold_step", "fold_max")},
+               "params": {k: getattr(a, k) for k in ("gain", "depth", "sigma", "maxpush", "hfrom", "full", "smooth", "lam", "tie", "arm_margin", "torso_max", "top", "include_bench", "guard_bench", "guard_weight", "guard_iters", "guard_stretch", "guard_stretch_from", "step_limit", "lat_bulge", "lat_bulge_span", "r68", "r68_pin", "armpit_tp", "armpit_tp_centre", "shoulder_relax", "shoulder_rise", "shoulder_line_sigma", "shoulder_line_max", "shoulder_mu", "shoulder_centre", "shoulder_radius", "protect_head", "pulse_smooth", "pulse_beta", "pulse_zmax", "pulse_armw", "pulse_lam", "pulse_tie", "pulse_taper", "root_mm", "root_whole_back", "root_smooth", "root_relax", "hull", "fold", "fold_centre", "fold_radius", "fold_iters", "fold_step", "fold_max")},
                "samples": report_s, "affected_vertices": int(len(affected)), "vertices_capped_at_45mm": capped,
                "posed_fit_max_error_mm": round(max(fit_err, default=0) * 1000, 3), "posed_fit_error_by_sample_mm": [round(e * 1000, 2) for e in fit_err],
                "max_change_from_start_mm": round(float(np.linalg.norm(out - d0, axis=2).max() * 1000), 2),

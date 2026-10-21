@@ -1223,3 +1223,14 @@ Result:
 - Region-by-region definition against the close-ups, plus bony landmarks.
 - Owner decisions pending: the head, and the standing posture (the skeleton is untouched).
 - Then re-fit the shoulder correctives on the v2 surface.
+
+**Body v2 draft N:**
+- **Owner:** "G looks better yes. I think it's the same thing with the hamstrings too", and asked to look at the head and the posture now.
+- **Hamstrings:** side profile of the back of the thigh. In K it dropped about 55 mm within 14 cm below the glute peak; the reference is about 34 mm to mid-thigh. A 20 mm fill (peak at rest z 0.76) brings the drop to 36 mm.
+- **Posture:** the spine bones are straight, so the forward-chest look is the surface. The chest stood 22 mm ahead of the abdomen in V1 and 40 mm in L; the reference is about 10 mm. Pecs 13 → 7 and an abdominal-wall fill of 15 mm bring it to 21 mm. No skeleton change.
+- Still 0 rest overlaps.
+
+**Head:**
+- The face has 318 vertices at about 10 mm spacing, which is too coarse for eyes, lips or nose detail.
+- Realistic features would need a denser head: a separate head mesh on the head bone, or a remesh, which would change Work's topology.
+- Owner decision needed.

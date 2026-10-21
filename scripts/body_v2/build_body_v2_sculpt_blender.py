@@ -87,7 +87,7 @@ BLOB = [  # centre, radii (x,y,z), facing, min facing dot, amp mm, mask ("torso"
     ((0.262, 0.030, 1.420), (0.055, 0.075, 0.085), (1, 0, 0.35), -0.3, 10.0, "shoulder"),   # deltoid (lateral; R76h: shoulders already 0.332 H vs reference 0.300)
     ((0.240, -0.035, 1.415), (0.045, 0.045, 0.075), (0.5, -1, 0.2), -0.1, 7.0, "shoulder"),  # anterior deltoid
     ((0.240, 0.095, 1.415), (0.045, 0.045, 0.075), (0.5, 1, 0.2), -0.1, 7.0, "shoulder"),    # posterior deltoid
-    ((0.095, -0.112, 1.365), (0.095, 0.060, 0.075), (0, -1, 0.15), 0.25, 13.0, "torso"),     # pectoralis major
+    ((0.100, -0.112, 1.360), (0.100, 0.060, 0.080), (0.25, -1, 0.15), 0.25, 7.0, "torso"),   # pectoralis major (R76m: was 13 - chest stood 40 mm ahead of the belly, reference ~10)
     ((0.160, -0.080, 1.395), (0.050, 0.050, 0.055), (0.6, -1, 0.1), 0.1, 6.0, "torso"),      # pec into the armpit
     ((0.150, 0.075, 1.320), (0.055, 0.085, 0.120), (1, 0.7, 0), 0.0, 12.0, "torso"),         # latissimus (V taper, high under the armpit)
     ((0.130, -0.055, 1.150), (0.055, 0.060, 0.090), (1, -0.6, 0), 0.0, 5.0, "torso"),        # serratus / obliques
@@ -167,6 +167,19 @@ LUMBAR_MM = float(os.environ.get("V2_LUMBAR_MM", "34"))
 zc, zw = 1.115, 0.16
 lum = ss(1 - np.abs(rest[:, 2] - zc) / zw) * ss(1 - np.abs(rest[:, 0]) / 0.13) * ss(nrm[:, 1] / 0.4) * (1 - ARM) * (rest[:, 1] > 0)
 amt += LUMBAR_MM / 1000.0 * lum
+# R76l (owner: "I think it's the same thing with the hamstrings too"): side profile of the back of the thigh - from the
+# glute peak it drops ~55 mm within 14 cm (a hard fold under the glutes), the reference ~34 mm to mid-thigh.  Fill the
+# upper / middle hamstrings (back-facing thigh skin, peak rest z 0.76) so the line from glute to knee runs smoothly.
+HAM_MM = float(os.environ.get("V2_HAM_MM", "20"))
+thw = gw("thigh_r", "thigh_l")
+ham = np.interp(rest[:, 2], [0.52, 0.62, 0.72, 0.80, 0.86, 0.90], [0, 0.45, 1.0, 0.85, 0.35, 0]) * ss(nrm[:, 1] / 0.45) * thw * (1 - ARM)
+amt += HAM_MM / 1000.0 * ham
+# R76m (owner: posture - chest pushed forward): the spine bones are straight; the forward chest is the surface (V1 chest
+# 22 mm ahead of the abdomen, v2 L 40 mm, reference ~10).  Fuller abdominal wall (front-facing skin, rest z 0.98..1.30),
+# keeping the sculpted ab lines (a normal push preserves them).
+ABS_MM = float(os.environ.get("V2_ABS_MM", "15"))
+abd = np.interp(rest[:, 2], [0.95, 1.02, 1.10, 1.22, 1.30, 1.34], [0, 0.7, 1.0, 1.0, 0.4, 0]) * ss(-nrm[:, 1] / 0.5) * ss(1 - np.abs(rest[:, 0]) / 0.13) * (1 - ARM) * (rest[:, 1] < 0)
+amt += ABS_MM / 1000.0 * abd
 # relax the amount on the surface so bellies blend (8 passes of neighbour averaging)
 nb = [[] for _ in range(nv)]
 for f in faces:
@@ -242,7 +255,7 @@ for it in range(40):
 WIDTH_REPORT = {"overlap_iterations": ov_log, "clearance_iterations": clr_iters, "min_scale": round(float(scale.min()), 3), "waist_mm": WAIST_MM, "chest_mm": CHEST_MM, "max_side_push_mm": round(float(push.max() * 1000), 2)}
 np.savez_compressed(OUT / "body_v2_offsets.npz", offsets=off.astype(np.float32))
 mir = {}
-rep = {"gain": GAIN, "width": WIDTH_REPORT, "lumbar_mm": LUMBAR_MM, "spine_mm": SPINE_MM, "union_p": UNION_P, "relax": int(os.environ.get("V2_RELAX", "4")), "max_mm": round(float(amt.max() * 1000), 2), "mean_mm_nonzero": round(float(amt[amt > 1e-4].mean() * 1000), 2),
+rep = {"gain": GAIN, "abs_mm": ABS_MM, "hamstring_mm": HAM_MM, "width": WIDTH_REPORT, "lumbar_mm": LUMBAR_MM, "spine_mm": SPINE_MM, "union_p": UNION_P, "relax": int(os.environ.get("V2_RELAX", "4")), "max_mm": round(float(amt.max() * 1000), 2), "mean_mm_nonzero": round(float(amt[amt > 1e-4].mean() * 1000), 2),
        "vertices_moved_gt_1mm": int((amt > 1e-3).sum())}
 # symmetry check: mirror pairs by nearest neighbour
 from scipy.spatial import cKDTree

@@ -1,0 +1,38 @@
+{
+  "status": "R57_EVIDENCE_INCOMPLETE",
+  "model_saved": false,
+  "approved": false,
+  "production_ready": false,
+  "original_thresholds_unchanged": true,
+  "execution_exits": {
+    "generate": null,
+    "native": 1,
+    "benchmarks": 1,
+    "dense": null,
+    "R52_original_render": 0,
+    "R57_local_study_render": 1
+  },
+  "missing": [
+    "candidate.npz",
+    "candidate.npz.json",
+    "native_final.json",
+    "native_final.json.points.npz",
+    "dense_motion.json",
+    "benchmarks.json"
+  ],
+  "failures": [
+    "Missing outputs: candidate.npz, candidate.npz.json, native_final.json, native_final.json.points.npz, dense_motion.json, benchmarks.json",
+    "generate execution=None",
+    "native execution=1",
+    "benchmarks execution=1",
+    "dense execution=None",
+    "R57_local_study_render execution=1"
+  ],
+  "limitations": [
+    "An experimental improvement in motion cannot independently establish lifelike anatomy.",
+    "Original R47 marked-pose outline approval does not validate all 161 movement poses.",
+    "No Blender model was saved/promoted/merged or production PT app changed.",
+    "Visual owner approval remains separate even if all numerical checks pass.",
+    "R57 spatial/temporal kernel is a first-party diagnostic hypothesis, not a verified physiological soft-tissue model."
+  ]
+}

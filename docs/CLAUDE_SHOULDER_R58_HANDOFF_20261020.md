@@ -878,3 +878,30 @@ So the bit is made by my lockout outline fill plus the S7 rear restore.
 - The build differs from the photo (option A kept: no extra muscle).
 - The front-axilla fold.
 - The inherited gate failures.
+
+## R71 (21 Oct): small crease inside the arm at the shoulder top
+
+**Owner on R70a:** "It looks good to me." The one doubt is a small fold on the inside of the arm, marked on the 150° rear close-up.
+
+**Location:** the owner's mark was matched through the rear close-up camera to a crease of about 33° between adjacent faces, at rest (0.258, −0.011, 1.456). Tool: the `creases` mode of `diagnose_shoulder_skinning_blender.py`, on the exported R70a dense with `R70_TOP`.
+
+**Fix:** a second thin-plate patch in the same generator stage (`--armpit-tp-centre` now takes several centres separated by "/"). R71b uses r 6 cm with centres (0.209, 0.005, 1.367) and (0.258, −0.011, 1.456). The zoom comparison `R70a_R71a_R71b_inner_crease_zoom_150deg.jpg` shows the corner rounded off.
+
+**R71b gates (run 39560785701)** — same as R70a, except benchmark regressions 6 → **7**:
+
+| Gate | R71b |
+|---|---|
+| Outline | 0.95 mm (pass) |
+| Contacts | 6 |
+| Reversed normals | 6 |
+| Dense motion | 24.1 mm |
+| Crease | 150.7° |
+| Adjacent step | pass |
+
+- Media: `review-assets/shoulder_r64/R71b/`, `review-assets/shoulder_r64_closeups/R71b_closeups/`, `review-assets/shoulder_r68/before_after/R70a_vs_R71b_press_slow.mp4`.
+
+**Next:**
+1. Find which benchmark regressed (R70a → R71b) and pin it.
+2. Re-tune the lockout layers for the new 150° top (motion 24 mm, crease 151°).
+3. The front-axilla fold.
+4. The pull-up dead hang.

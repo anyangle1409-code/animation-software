@@ -10,6 +10,10 @@ def install(res,dense,basis_unused=None):
  if np.linalg.norm(dense,axis=2).max()>.045+1e-10:raise ValueError('Dense material cap exceeded')
  # owner decision (20 Oct): the 166 deg control is released for the press; 95 and 110 stay protected
  if np.max(abs(dense[[0,15]]))>1e-12:raise ValueError('Protected95/110 increment changed')
+ # R70 (owner option C, 21 Oct): optional top-of-press path change (env R70_TOP), patched into Work's press module
+ import os as _os,sys as _sys
+ _sys.path.insert(0,_os.path.dirname(_os.path.abspath(__file__)))
+ import r70_press_path;r70_press_path.install_path()
  body,rig=res['body'],res['runtime'];blocks=body.data.shape_keys.key_blocks;rest=coords(blocks[0])
  # R68 (Claude, 20 Oct): optional root-cause fix of the R41 S7 deltoid keys themselves (rear-shoulder compression rebuilt
  # from the S7-off skin; approved R48 outline vertices pinned, outline change 0.000 mm).  Env R68_S7_SPARSE=<npz>.

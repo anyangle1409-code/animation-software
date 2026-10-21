@@ -399,8 +399,13 @@ def main():
     root_w = root_region(rest, armw, Avg, whole_back=a.root_whole_back) if a.root_mm > 0 else None
     fold_w = fold_region(rest, [float(c) for c in a.fold_centre.split(",")], a.fold_radius) if a.fold else None
 
-    samples = [s for s in range(41) if ht_of(s / 40) >= a.hfrom - 1.0]
-    sample_ht = {s: ht_of(s / 40) for s in samples}
+    # R70: read each main sample's elevation from the pose model itself (the R70 path is no longer 70 + 96 smoothstep(t))
+    def model_ht(s):
+        lo_, hi_, t_ = decode(z["weight"][s][None])
+        return float(np.median(95.0 + lo_[0] + t_[0]))
+    main_ht = {s: model_ht(s) for s in range(41)}
+    samples = [s for s in range(41) if main_ht[s] >= a.hfrom - 1.0]
+    sample_ht = {s: main_ht[s] for s in samples}
     guard_samples = set()
     if a.include_bench or a.guard_bench:
         # R63f: the gates also pose the benchmark shoulder-press path (samples 41..81); R63e's corner fill touched the arm

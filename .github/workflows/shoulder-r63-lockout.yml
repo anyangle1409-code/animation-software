@@ -1,4 +1,4 @@
-name: ORIGINAL_v1 R69f unsaved press study, S7 rear-shoulder + posterior armpit groove fix, arm-underside thin-plate (R69f) (Claude)
+name: ORIGINAL_v1 R70a unsaved press study, new top of press 150 deg / elbow 30 / plane 10 (Claude)
 'on':
   push:
     branches: [claude/home-gym-pt-animation-txux66]
@@ -17,13 +17,14 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - {v: R69f, trap: 15, taper: '0.09,0.12', r68: '', extra: '--protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --shoulder-relax 300 --r68 r59src/scripts/shoulder_r68/data/r69c_s7_rear_groove.npz --r68-pin --armpit-tp 0.05'}
+        - {v: R70a, trap: 15, taper: '0.09,0.12', r68: '', extra: '--protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --shoulder-relax 300 --r68 r59src/scripts/shoulder_r68/data/r69c_s7_rear_groove.npz --r68-pin --armpit-tp 0.05'}
     timeout-minutes: 120
     env:
       LIBGL_ALWAYS_SOFTWARE: '1'
       OPENBLAS_NUM_THREADS: '1'
       OMP_NUM_THREADS: '1'
       R68_S7_SPARSE: ${{ matrix.r68 }}
+      R70_TOP: '150:30:10'
     steps:
     - name: Check out the pinned R57 study sources (Work's code, unchanged)
       uses: actions/checkout@v4
@@ -57,10 +58,16 @@ jobs:
         echo '2a6c01cf7eacd3d1ceb47ae9f131f76dd0487fce5d3518d5cd1df65bc059fa8d  /tmp/r57/source.npz' | sha256sum -c -
         echo 'b3a6c404a944753facde5a92db8bc4547a1ca756960b6b82df2875f5e4eb804f  /tmp/r57/original_r52.npz' | sha256sum -c -
         echo '4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e  ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r41_20261017/HGPT_ORIGINAL_V1_REVIEW_R41_CODEX.blend' | sha256sum -c -
+    - name: R70 - rebuild Work's pose model for the new top-of-press path (samples 26-40; 0-25 self-checked)
+      run: |
+        set -euo pipefail
+        cp /tmp/r57/source.npz /tmp/r57/source_r52_original.npz
+        R57ROOT=$PWD timeout 20m /tmp/blender-5.2.1-linux-x64/blender --background --factory-startup --threads 2 --python-exit-code 1 --python r59src/scripts/shoulder_r61/build_r70_source_blender.py -- "$PWD" /tmp/r57/source_r52_original.npz /tmp/r57/source.npz > /tmp/r57/r70_source.log 2>&1 || { tail -30 /tmp/r57/r70_source.log; exit 1; }
+        grep -E 'R70_' /tmp/r57/r70_source.log | tail -20
     - name: Generate R62b start, then the R63 lockout sculpt (unsaved)
       run: |
         set +e
-        timeout 10m /usr/bin/python3 r59src/scripts/shoulder_r58/generate_r59_min_accel.py --r57src . --response /tmp/r57/source.npz --solution /tmp/r57/original_r52.npz --out /tmp/r57/start_r62b.npz --variant c --fidelity 0.03 --trap-mm ${{ matrix.trap }} --trap-neck-taper ${{ matrix.taper }} > /tmp/r57/generate.log 2>&1 && timeout 30m /usr/bin/python3 r59src/scripts/shoulder_r61/generate_r63_lockout.py --r57src . --response /tmp/r57/source.npz --start /tmp/r57/start_r62b.npz --out /tmp/r57/candidate.npz --from 137 --full 156 --gain 0.5 --sigma 0.08 --smooth 80 --torso-max 0.7 --top 0.06 --arm-margin 0.003 --guard-bench --fold --hull --gain 1.0 --arm-margin 0 --smooth 30 --step-limit 0.0029 --lat-bulge 0.015 ${{ matrix.extra }} >> /tmp/r57/generate.log 2>&1
+        timeout 10m /usr/bin/python3 r59src/scripts/shoulder_r58/generate_r59_min_accel.py --r57src . --response /tmp/r57/source.npz --solution /tmp/r57/original_r52.npz --out /tmp/r57/start_r62b.npz --variant c --fidelity 0.03 --trap-mm ${{ matrix.trap }} --trap-neck-taper ${{ matrix.taper }} > /tmp/r57/generate.log 2>&1 && timeout 30m /usr/bin/python3 r59src/scripts/shoulder_r61/generate_r63_lockout.py --r57src . --response /tmp/r57/source.npz --start /tmp/r57/start_r62b.npz --out /tmp/r57/candidate.npz --from 137 --full 148 --gain 0.5 --sigma 0.08 --smooth 80 --torso-max 0.7 --top 0.06 --arm-margin 0.003 --guard-bench --fold --hull --gain 1.0 --arm-margin 0 --smooth 30 --step-limit 0.0029 --lat-bulge 0.015 ${{ matrix.extra }} >> /tmp/r57/generate.log 2>&1
         code=$?; echo "$code" > /tmp/r57/generate_exit.txt; grep -E 'R63_GEN|R64_|R66_|R68_|R69_|R59_GENERATOR|Error|Trace' /tmp/r57/generate.log | tail -30; exit "$code"
     - name: Gate - 161-pose motion and early outward (copy using the R61 installer)
       run: |
@@ -144,5 +151,5 @@ jobs:
         git config user.name "github-actions[bot]"
         git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git add review-assets/shoulder_r64
-        git commit -m "Shoulder R69f review media: R52 vs R69f stills, press video and gate report (review only)"
+        git commit -m "Shoulder R70a review media: R52 vs R70a stills, press video and gate report (review only)"
         for i in 1 2 3; do git pull --rebase origin "${{ github.ref_name }}" && git push origin "HEAD:${{ github.ref_name }}" && break; sleep 5; done

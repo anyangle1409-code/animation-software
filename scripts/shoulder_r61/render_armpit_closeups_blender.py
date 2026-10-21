@@ -44,7 +44,7 @@ views = {"rear": (0.15, 1, 0.0), "rear_three_quarter": (0.75, 0.65, 0.05), "side
          "low_rear": (0.45, 0.8, -0.45), "front_three_quarter": (0.75, -0.65, 0.05)}
 for t in (0.625, 0.7, 0.75, 0.8, 0.9, 1.0):
     bench._reset(rig); px.pose_press_full(res, t); drives.drive(rig, body); bpy.context.view_layer.update()
-    k = t * t * (3 - 2 * t); ht = 70 + 96 * k
+    ht = float(px.press_state(t)[0])     # R70: the (possibly patched) press path's own elevation
     target = rig.matrix_world @ rig.pose.bones['upperarm_r'].head + Vector((0.0, 0.0, -0.06))
     for view, d in views.items():
         d = Vector(d).normalized()

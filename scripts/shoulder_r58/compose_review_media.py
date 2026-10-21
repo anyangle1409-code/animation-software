@@ -2,6 +2,7 @@
   python3 compose_review_media.py <seqdir> <outdir> <frames>
 """
 import subprocess
+import os
 import sys
 from pathlib import Path
 
@@ -21,6 +22,12 @@ BG = (28, 28, 30)
 
 def ht(t):
     k = t * t * (3 - 2 * t)
+    top = os.environ.get("R70_TOP")
+    k0 = 0.625 * 0.625 * (3 - 2 * 0.625)
+    if top and k > k0:
+        # R70: candidate on the new top-of-press path (r70_press_path.py); left panel R52 stays on Work's path
+        u = (k - k0) / (1 - k0); h = u * u * (3 - 2 * u)
+        return 70 + 96 * k - (166 - float(top.split(":")[0])) * h
     return 70 + 96 * k
 
 

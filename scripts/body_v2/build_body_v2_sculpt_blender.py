@@ -704,7 +704,7 @@ if REFINE_MM > 0:
         front_ = ss((-qn[:, 1] - 0.25) / 0.35)
         er = ss((fz_ - 0.545) / 0.02) * ss((0.75 - fz_) / 0.02) * ss((0.165 - ax_) / 0.03) * front_ * (1 - _keep)
         # R86: the chest too (R41's own pec shape left a crease across it at ~0.75), so the new pecs start clean
-        er = np.maximum(er, ss((fz_ - 0.70) / 0.02) * ss((0.80 - fz_) / 0.02) * ss((0.165 - ax_) / 0.03) * front_ * (1 - _keep))
+        er = np.maximum(er, ss((fz_ - 0.70) / 0.02) * ss((0.815 - fz_) / 0.02) * ss((0.17 - ax_) / 0.03) * front_ * (1 - _keep))
         for _ in range(int(os.environ.get("V2_ABS_ERASE", "150"))):
             for lam in (0.5,):                    # plain (shrinking) steps: Taubin keeps grooves this broad (v6a)
                 tri = Q[faces]; fn_ = np.cross(tri[:, 1] - tri[:, 0], tri[:, 2] - tri[:, 0])
@@ -775,14 +775,27 @@ if REFINE_MM > 0:
         h -= 2.5 * la * np.exp(-0.5 * (ax_ / 0.0060) ** 2)   # wide enough for the 4 mm mesh; frames the blocks (R87)
         # linea semilunaris: soft groove at the rectus' outer edge, above the navel
         h -= 1.0 * np.exp(-0.5 * ((ax_ - xo - 0.004) / 0.014) ** 2) * ss((fz_ - 0.60) / 0.03) * top
-        # pectoralis major: full masses out towards the armpit; lower border level across the middle, rising at the side,
-        # sharp below (crisp shadow), long and soft above towards the clavicle; shallow sternal groove
-        pc = 0.744 + 0.30 * np.clip(ax_ - 0.10, 0, None)
-        dz_ = fz_ - pc
-        pec = np.exp(-0.5 * ((ax_ - 0.095) / np.where(ax_ > 0.095, 0.060, 0.075)) ** 2) * \
-              np.where(dz_ > 0, np.exp(-0.5 * ((dz_ - 0.018) / 0.040) ** 2) * (dz_ > 0.018) + (dz_ <= 0.018) * 1.0, np.exp(-0.5 * (dz_ / 0.0065) ** 2))
-        h += float(os.environ.get("V2_PEC_MM", "11")) * pec * ss((ax_ - 0.004) / 0.012) * ss((0.175 - ax_) / 0.03)   # stops short of the arm
-        h -= 1.0 * np.exp(-0.5 * (ax_ / 0.007) ** 2) * ss((fz_ - 0.712) / 0.01) * ss((0.80 - fz_) / 0.02)
+        # R94 (owner: "the pecs need to be better defined like the reference drawing"): measured on the reference
+        # (fractions of stature): lower border a rounded curve - 0.736 at the sternum, lowest ~0.728 mid-pec (|x| 0.05),
+        # sweeping up to ~0.772 at the armpit (|x| 0.105); fullest in the lower half (0.74-0.77), fading up under the
+        # clavicle (~0.825); a valley between the two pecs at the sternum; a soft deltopectoral line from the clavicle
+        # down to the armpit; nipples at ~0.751, |x| ~0.077.  v9m's pec had a flat, straight lower step and little mass.
+        zb_ = 0.736 - 0.643 * xh + 9.66 * xh ** 2           # smooth curve through 0.736 / 0.728 (|x| 0.05) / 0.775 (|x| 0.105)
+        zt_ = 0.825
+        v_ = np.clip((fz_ - zb_) / (zt_ - zb_), 0, 1)
+        # rounded mass (v10a's plate with a sharp step read as a shelf): a dome across the pec, fullest low-middle
+        prof = ss(v_ / 0.16) * (1 - v_) ** 1.1 * (fz_ > zb_ - 0.002)
+        prof /= 0.62
+        lat_ = np.sin(np.pi * np.clip(xh / 0.104, 0, 1)) ** 0.55 * ss((0.100 - xh) / 0.018)
+        PEC = float(os.environ.get("V2_PEC_MM", "13"))
+        h += PEC * prof * lat_
+        # deltopectoral line
+        dl = np.abs(xh - np.interp(fz_, [0.76, 0.80, 0.83], [0.106, 0.100, 0.094]))
+        h -= 1.4 * np.exp(-0.5 * (dl / 0.006) ** 2) * ss((fz_ - 0.765) / 0.01) * ss((0.83 - fz_) / 0.01)
+        # nipples (small, as on the reference figure)
+        rn = np.sqrt((xh - 0.077) ** 2 + (fz_ - 0.751) ** 2) * Hs
+        h += 1.0 * np.exp(-0.5 * (rn / 0.011) ** 2) + 2.6 * np.exp(-0.5 * (rn / 0.0040) ** 2)
+        h -= 0.8 * np.exp(-0.5 * (ax_ / 0.007) ** 2) * ss((fz_ - 0.735) / 0.01) * ss((0.82 - fz_) / 0.02)   # sternal valley line
         # serratus anterior: four fingers on the side of the ribs, angled down and forward
         lat_ = ss((np.abs(qn[:, 0]) - 0.35) / 0.3) * ss((-qn[:, 1] + 0.3) / 0.4)
         for k_, zf_ in enumerate([0.735, 0.718, 0.701, 0.684]):

@@ -1737,3 +1737,33 @@ The owner, marking the outer ends of the blocks on v9l, said: "The abs look too 
 
 **Results:**
 - 0 standing-pose overlaps.
+
+### Draft v10c: pecs to the reference (21 Oct)
+
+The owner said: "the pecs need to be better defined like the reference drawing."
+
+**Measured on the reference (fractions of stature):**
+- The lower border is a rounded curve: 0.736 at the sternum, lowest at about 0.728 mid-pec (|x| 0.05), sweeping up to about 0.775 at the armpit (|x| 0.105).
+- Fullest in the lower half (0.74–0.77), fading up under the clavicle (about 0.825).
+- A valley between the two pecs at the sternum.
+- A soft deltopectoral line from the clavicle down to the armpit.
+- Nipples at about 0.751, |x| about 0.077.
+
+**R94 changes:**
+- The pec is a dome bounded below by the quadratic border curve `zb`.
+  - Height profile `ss(v/0.16)·(1−v)^1.1`, where v runs from the border up to 0.825.
+  - Across the pec: `sin(π·x/0.104)^0.55`, fading out from 0.10 so it does not run into the arm.
+  - `V2_PEC_MM` 13.
+- Deltopectoral line: 1.4 mm.
+- Subtle nipples.
+- The chest erase now reaches 0.815 of stature and |x| 0.17 m.
+
+**Rejected on the way:**
+- v10a: a flat plate with a sharp lower step and a crumpled outer edge (1,467 overlaps).
+- v10b: a separate shadow groove that doubled the edge, and a kink in the piecewise border.
+
+**Results:**
+- 0 standing-pose overlaps (199 at the start of the fine loop).
+
+**Still open:**
+- The nipples hardly show under the workbench light.

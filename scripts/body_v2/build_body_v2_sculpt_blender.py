@@ -101,9 +101,9 @@ LIMB = [  # bone, t0, tp, t1, facing, half-width deg, amp mm, mask groups
     ("shin", 0.00, 0.40, 0.85, (1, 0, 0), 180, 2.0, ("shin",)),
 ]
 BLOB = [  # centre, radii (x,y,z), facing, min facing dot, amp mm, mask ("torso" = off the arms, "arm" = upper arm/shoulder)
-    ((0.262, 0.030, 1.420), (0.055, 0.075, 0.085), (1, 0, 0.35), -0.3, 10.0, "shoulder"),   # deltoid (lateral; R76h: shoulders already 0.332 H vs reference 0.300)
-    ((0.240, -0.035, 1.415), (0.045, 0.045, 0.075), (0.5, -1, 0.2), -0.1, 7.0, "shoulder"),  # anterior deltoid
-    ((0.240, 0.095, 1.415), (0.045, 0.045, 0.075), (0.5, 1, 0.2), -0.1, 7.0, "shoulder"),    # posterior deltoid
+    # R77f removed (owner: ridge, keep the original's natural curve): ((0.262, 0.030, 1.420), (0.055, 0.075, 0.085), (1, 0, 0.35), -0.3, 10.0, "shoulder"),   # deltoid (lateral; R76h: shoulders already 0.332 H vs reference 0.300)
+    # R77f removed (owner: ridge, keep the original's natural curve): ((0.240, -0.035, 1.415), (0.045, 0.045, 0.075), (0.5, -1, 0.2), -0.1, 7.0, "shoulder"),  # anterior deltoid
+    # R77f removed (owner: ridge, keep the original's natural curve): ((0.240, 0.095, 1.415), (0.045, 0.045, 0.075), (0.5, 1, 0.2), -0.1, 7.0, "shoulder"),    # posterior deltoid
     ((0.100, -0.112, 1.360), (0.100, 0.060, 0.080), (0.25, -1, 0.15), 0.25, 7.0, "torso"),   # pectoralis major (R76m: was 13 - chest stood 40 mm ahead of the belly, reference ~10)
     ((0.160, -0.080, 1.395), (0.050, 0.050, 0.055), (0.6, -1, 0.1), 0.1, 6.0, "torso"),      # pec into the armpit
     ((0.150, 0.075, 1.320), (0.055, 0.085, 0.120), (1, 0.7, 0), 0.0, 12.0, "torso"),         # latissimus (V taper, high under the armpit)
@@ -235,7 +235,7 @@ off = nrm_s * amt[:, None]
 # model (V1 already) sits 6-8 cm above the reference - skin top 8 cm above the humeral-head centre, upper trapezius ~7 cm
 # above the clavicle (real: ~4-5 cm / ~3-5 cm).  Lower the upward-facing shoulder / trapezius skin along -z, sloping from
 # the neck out to the acromion; the side of the deltoid keeps its roundness (upward-facing skin only).
-DROP = [float(v) for v in os.environ.get("V2_SHOULDER_DROP", "0.055:0,0.08:24,0.12:32,0.17:36,0.21:38,0.25:30,0.29:0").replace(":", ",").split(",")]
+DROP = [float(v) for v in os.environ.get("V2_SHOULDER_DROP", "0.055:0,0.29:0").replace(":", ",").split(",")]
 dx, dmm = np.array(DROP[0::2]), np.array(DROP[1::2])
 ax_ = np.abs(rest[:, 0])
 # R77b (owner on draft T: "The shoulders look messed up now and sharp instead of sloped"): moving only the upward-facing
@@ -292,6 +292,18 @@ off = off * scale[:, None]
 from mathutils.bvhtree import BVHTree as _BVH
 _fs = [set(f) for f in faces]; _ft = [tuple(f) for f in faces]
 ov_log = []
+# R77f (owner, pointing at the ORIGINAL shoulder: "look at the natural curve of the shoulder ... how it slopes down without
+# the ridge"): the separate deltoid bellies left an edge where they met the lowered shoulder top.  Instead, expand the
+# original shoulder smoothly about the humeral head (a 3D field, not per-normal bumps), so the original's continuous
+# neck-to-arm curve is kept, just rounder.  Only skin on the outward side of the joint moves (no dent on the chest wall).
+SH_K = float(os.environ.get("V2_SHOULDER_EXPAND", "0.11")); SH_R = float(os.environ.get("V2_SHOULDER_R", "0.13"))
+for sd, sg in (("r", 1.0), ("l", -1.0)):
+    c = np.array(rig.data.bones[f"upperarm_{sd}"].head_local)
+    v_ = rest - c; dist = np.linalg.norm(v_, axis=1); u_ = v_ / np.maximum(dist[:, None], 1e-9)
+    w_ = ss(1 - dist / SH_R) * ss(np.einsum("ij,ij->i", u_, nrm_s) / 0.5) * (1 - HEAD) * (sg * rest[:, 0] > 0)
+    for _ in range(6):
+        w_ = 0.5 * w_ + 0.5 * avg(w_)
+    off = off + v_ * (SH_K * w_)[:, None]
 # R77e: relax the offset field around the shoulders (drop field + deltoid bellies meeting) - measured extra roughness
 # on the deltoid came from the overlap shrink, the shoulder drop and the bellies, in that order
 _sh = ss((np.abs(rest[:, 0]) - 0.12) / 0.04) * ss((rest[:, 2] - 1.24) / 0.06) * ss((1.62 - rest[:, 2]) / 0.04)

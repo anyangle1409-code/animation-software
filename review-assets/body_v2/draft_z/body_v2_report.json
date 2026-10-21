@@ -1,0 +1,39 @@
+{
+ "gain": 2.0,
+ "shoulder": {
+  "max_drop_mm": 0.0
+ },
+ "abs_mm": 15.0,
+ "hamstring_mm": 20.0,
+ "width": {
+  "overlap_iterations": [
+   232,
+   156,
+   118,
+   84,
+   36,
+   0
+  ],
+  "clearance_iterations": 0,
+  "min_scale": 1.0,
+  "waist_mm": 24.0,
+  "chest_mm": 16.0,
+  "max_side_push_mm": 22.2
+ },
+ "lumbar_mm": 34.0,
+ "spine_mm": 4.0,
+ "union_p": 3.0,
+ "relax": 4,
+ "max_mm": 33.97,
+ "mean_mm_nonzero": 6.71,
+ "vertices_moved_gt_1mm": 7908,
+ "symmetry_max_mm": 0.0117,
+ "rest_self_intersections": {
+  "v1": 0,
+  "v2": 430
+ },
+ "standing_self_intersections": {
+  "v1": 0,
+  "v2": 0
+ }
+}

@@ -1288,3 +1288,11 @@ Owner decision on the arms: a standing pose with the arms slightly out; the bind
   - a smooth, wider overlap shrink with offset relax;
   - a shoulder-region offset relax.
 - Result: vertices with more than 0.5 mm extra roughness went 165 (K) → 62 (W) → 0 (X). 0 standing-pose overlaps.
+
+**Draft Z.** The owner pointed at the ORIGINAL shoulder: "the natural curve of the shoulder ... how it slopes down without the ridge."
+- Y still had a crest where the lowered shoulder top met the deltoid side.
+- The separate deltoid bellies and the shoulder lowering were both removed. Instead, the original shoulder is expanded smoothly about the humeral head: a 3D field, 11 % at the joint fading to 0 at 13 cm, applied to the outward side only.
+- The original's neck-to-arm curve is kept, just rounder.
+- Roughness: 0 vertices over 0.5 mm. 0 standing-pose overlaps.
+- The photo's lower shoulder line is not matched; the owner prefers the original curve.
+- Z2 (6 %) was rendered for comparison.

@@ -484,11 +484,14 @@ def main():
             # the lockout outline fill and the S7 rear restore both feed it.  Thin-plate rebuild of that patch here, in this
             # pose, with this pose's approved-outline support (Work's support_vertices) pinned.
             from solve_original_review_r52 import support_vertices
-            cc = [float(v) for v in a.armpit_tp_centre.split(",")]
+            # R71: several patches allowed, "x,y,z/x,y,z" (owner on R70a: a small fold on the inside of the arm where it
+            # meets the shoulder top - measured crease 33 deg at rest (0.258,-0.011,1.456))
             wtp = np.zeros(nv)
-            for sg_ in (-1.0, 1.0):
-                dd = np.linalg.norm(rest - np.array([sg_ * cc[0], cc[1], cc[2]]), axis=1)
-                wtp = np.maximum(wtp, smoothstep((a.armpit_tp - dd) / (0.5 * a.armpit_tp)))
+            for cstr in a.armpit_tp_centre.replace(";", "/").split("/"):
+                cc = [float(v) for v in cstr.split(",")]
+                for sg_ in (-1.0, 1.0):
+                    dd = np.linalg.norm(rest - np.array([sg_ * cc[0], cc[1], cc[2]]), axis=1)
+                    wtp = np.maximum(wtp, smoothstep((a.armpit_tp - dd) / (0.5 * a.armpit_tp)))
             Q_ = P + D
             pin_ = np.zeros(nv, bool); pin_[support_vertices(Q_, faces)] = True
             nbm = (abs(Avg) > 0).astype(float)

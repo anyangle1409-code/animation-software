@@ -230,6 +230,40 @@ if os.environ.get("R68_MODE") == "outline":
     (OUT / f"outline_{os.environ.get('R68_TAG', 'x')}.json").write_text(json.dumps(vals))
     print("R68O_DONE", flush=True)
     raise SystemExit
+if os.environ.get("R68_MODE") == "creases":
+    # R71: list the sharpest creases (adjacent faces > 25 deg) near the right shoulder at one elevation, clustered, with
+    # rest and posed centroids and where they land in the rear close-up camera (to match an owner mark)
+    ht = float(os.environ.get("R71_HT", "150"))
+    pose(ht); co = evaluated(); A, n = tri_area(co)
+    n = n / np.maximum(np.linalg.norm(n, axis=1, keepdims=True), 1e-12)
+    from collections import defaultdict
+    F = rfaces["r"]; ed = defaultdict(list)
+    for f in F:
+        t = faces[f]
+        for a_, b_ in ((t[0], t[1]), (t[1], t[2]), (t[2], t[0])):
+            ed[(min(a_, b_), max(a_, b_))].append(f)
+    pr = np.array([v for v in ed.values() if len(v) == 2])
+    ang = np.degrees(np.arccos(np.clip(np.einsum("ij,ij->i", n[pr[:, 0]], n[pr[:, 1]]), -1, 1)))
+    sel = pr[ang > 25]; sa = ang[ang > 25]
+    pc = co[faces[sel[:, 0]]].mean(1); rc = REST[faces[sel[:, 0]]].mean(1)
+    # rear close-up camera (as render_armpit_closeups): dir (0.15,1,0) toward upperarm_r head - 6 cm, ortho 0.42, 900 px
+    tgt = np.array(rig.matrix_world @ rig.pose.bones["upperarm_r"].head) + np.array([0, 0, -0.06])
+    d = np.array([0.15, 1, 0]); d /= np.linalg.norm(d); right = np.cross(d, [0, 0, 1]); right /= np.linalg.norm(right); up = np.cross(right, d)
+    px_ = 450 + (pc - tgt) @ (-right) / 0.42 * 900 * 0 + ((pc - tgt) @ right) / 0.42 * 900
+    py_ = 450 - ((pc - tgt) @ up) / 0.42 * 900
+    lab = -np.ones(len(sel), int); c = 0
+    for i in np.argsort(-sa):
+        if lab[i] >= 0: continue
+        m = (np.linalg.norm(pc - pc[i], axis=1) < 0.02) & (lab < 0); lab[m] = c; c += 1
+    out = []
+    for k in range(c):
+        m = lab == k
+        out.append({"n": int(m.sum()), "max_deg": round(float(sa[m].max()), 1), "rest": np.round(rc[m].mean(0), 3).tolist(),
+                    "posed": np.round(pc[m].mean(0), 3).tolist(), "rear_px": [int(px_[m].mean()), int(py_[m].mean())]})
+    out.sort(key=lambda r: -r["max_deg"])
+    for r in out[:15]:
+        print("R71C", ht, json.dumps(r), flush=True)
+    raise SystemExit
 if os.environ.get("R68_MODE") == "toppose":
     # R70 (owner, option C, with a real dumbbell-press photo from behind): the top of the press with slightly bent,
     # flared elbows instead of a straight vertical lockout.  Pose = Work's coupled shoulder at elevation ht, elevation

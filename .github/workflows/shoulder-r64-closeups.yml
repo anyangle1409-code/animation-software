@@ -1,4 +1,4 @@
-name: ORIGINAL_v1 R70a close-ups, new top of press 150 deg / elbow 30 / plane 10 (Claude)
+name: ORIGINAL_v1 R71a/b inner arm-shoulder crease patch on R70a, close-ups + dense export (Claude)
 'on':
   push:
     branches: [claude/home-gym-pt-animation-txux66]
@@ -17,7 +17,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - {v: R70a, trap: 15, taper: '0.09,0.12', r68: '', extra: '--fold --hull --gain 1.0 --arm-margin 0 --smooth 30 --lat-bulge 0.015 --shoulder-relax 300 --step-limit 0.0029 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --r68 r59src/scripts/shoulder_r68/data/r69c_s7_rear_groove.npz --r68-pin --armpit-tp 0.05'}
+        - {v: R71a, trap: 15, taper: '0.09,0.12', r68: '', extra: '--fold --hull --gain 1.0 --arm-margin 0 --smooth 30 --lat-bulge 0.015 --shoulder-relax 300 --step-limit 0.0029 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --r68 r59src/scripts/shoulder_r68/data/r69c_s7_rear_groove.npz --r68-pin --armpit-tp 0.05 --armpit-tp-centre 0.209,0.005,1.367/0.258,-0.011,1.456'}
+        - {v: R71b, trap: 15, taper: '0.09,0.12', r68: '', extra: '--fold --hull --gain 1.0 --arm-margin 0 --smooth 30 --lat-bulge 0.015 --shoulder-relax 300 --step-limit 0.0029 --protect-head --pulse-smooth --pulse-beta 30 --pulse-zmax 1.38 --pulse-armw 0.1 --r68 r59src/scripts/shoulder_r68/data/r69c_s7_rear_groove.npz --r68-pin --armpit-tp 0.06 --armpit-tp-centre 0.209,0.005,1.367/0.258,-0.011,1.456'}
     timeout-minutes: 120
     env:
       LIBGL_ALWAYS_SOFTWARE: '1'

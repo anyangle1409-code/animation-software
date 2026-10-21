@@ -1593,3 +1593,30 @@ The owner wants the look of the reference figure for our model. The face, skin c
 - The abs still read a little more blocky than the reference.
 - Small lumps along the sternum, from R41's sternal ring.
 - Wrinkles on the side of the chest at the armpit, seen from the side.
+
+### Draft v9e: abs at the reference's size (21 Oct)
+
+The owner said: "No the abs need to be bigger … how wide they are in relation to the body and also height."
+
+**The cause was a units bug in v8c.** The rectus edge was set in metres, but it had been measured as a fraction of stature: 0.08 m against a measured 0.072 of stature, about 0.134 m.
+
+**Measured on the reference with an x/y grid in fractions of stature (`scripts/body_v2/fit/abs_grid.py`):**
+- Rectus edge at |x| 0.064 (navel), 0.072 (at 0.66 of stature) and 0.076 (at 0.70). That fills about 80 % of the front of the waist.
+- The top is at 0.716 under the pecs, arching down to about 0.70 at the edge.
+- Intersections at 0.640, 0.665 and 0.690.
+
+**R87 changes:**
+- `xo` is now a fraction of stature × Hs.
+- Each block is a rounded-rectangle dome (super-ellipse, power 3), 6 mm (`V2_ABS_SEG_MM`).
+- Linea alba 4.5 mm (sigma 6 mm).
+- Linea semilunaris 2.6 mm (sigma 10 mm).
+- The erase now covers |x| < 0.165 m.
+
+**Not working, for the record:** plateau or cos-shaped blocks across the 13 cm columns read as horizontal stripes under the studio light (v9a–v9d). They only read as blocks once the vertical lines framed them and each block got its own dome.
+
+**Results:**
+- 0 standing-pose overlaps.
+
+**Still open:**
+- Small lumps along the sternum, from R41's sternal ring.
+- Wrinkles at the side of the chest by the armpit.

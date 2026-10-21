@@ -702,7 +702,7 @@ if REFINE_MM > 0:
     if MUSC > 0:
         fz_ = (Q[:, 2] - zb) / Hs; ax_ = np.abs(Q[:, 0])
         front_ = ss((-qn[:, 1] - 0.25) / 0.35)
-        er = ss((fz_ - 0.545) / 0.02) * ss((0.735 - fz_) / 0.02) * ss((0.125 - ax_) / 0.03) * front_ * (1 - _keep)
+        er = ss((fz_ - 0.545) / 0.02) * ss((0.735 - fz_) / 0.02) * ss((0.165 - ax_) / 0.03) * front_ * (1 - _keep)
         # R86: the chest too (R41's own pec shape left a crease across it at ~0.75), so the new pecs start clean
         er = np.maximum(er, ss((fz_ - 0.70) / 0.02) * ss((0.80 - fz_) / 0.02) * ss((0.165 - ax_) / 0.03) * front_ * (1 - _keep))
         for _ in range(int(os.environ.get("V2_ABS_ERASE", "150"))):
@@ -719,28 +719,35 @@ if REFINE_MM > 0:
         # that follows the rib margin (high at the sternum, lower to the sides), segments soft rounded plateaus with shallow
         # valleys; pecs full masses reaching almost to the armpit, lower border nearly level across the middle and rising
         # towards the armpit, with a crisp shadow under it.
-        xo = np.interp(fz_, [0.50, 0.56, 0.61, 0.66, 0.70, 0.72], [0.042, 0.054, 0.064, 0.072, 0.078, 0.080])
-        ftop = 0.708 - 0.45 * ax_                                              # rib arch: 0.708 at the sternum, ~0.676 at |x| 0.07
+        # R87 (owner: "the abs need to be bigger ... how wide they are in relation to the body and also height"): v8c had
+        # the column edge in metres where it was measured as a fraction of stature.  Reference (fractions of stature, on
+        # a x/y grid): rectus edge at |x| 0.065 (navel) - 0.072 (0.66) - 0.076 (0.70), i.e. ~80 % of the front of the
+        # waist; top under the pecs at 0.715, arching down to ~0.70 at the edge; intersections ~0.640, 0.665, 0.690.
+        xo = Hs * np.interp(fz_, [0.50, 0.56, 0.61, 0.66, 0.70, 0.72], [0.030, 0.050, 0.064, 0.072, 0.076, 0.077])
+        ftop = 0.716 - 0.11 * ax_                                              # rib arch: 0.716 at the sternum, ~0.70 at the edge
         top = ss((ftop - fz_) / 0.010)
-        pad = ss((xo - ax_) / 0.014) * ss((fz_ - 0.505) / 0.03) * top
+        pad = ss((xo - ax_) / 0.018) * ss((fz_ - 0.505) / 0.03) * top
         h += 2.0 * pad
         # segments: rounded plateaus (smoothstep shoulders), the valleys between them are the intersections; the top row's
         # upper edge follows the arch
-        ints = [0.640, 0.662, 0.684]
+        ints = [0.640, 0.665, 0.690]
         seg = np.zeros(nv)
-        lows = [np.full(nv, 0.613)] + [np.full(nv, z_) + 0.08 * ax_ ** 2 for z_ in ints]
-        highs = [np.full(nv, z_) + 0.08 * ax_ ** 2 for z_ in ints] + [ftop]
+        lows = [np.full(nv, 0.613)] + [np.full(nv, z_) + 0.15 * ax_ ** 2 for z_ in ints]
+        highs = [np.full(nv, z_) + 0.15 * ax_ ** 2 for z_ in ints] + [ftop]
+        colx = np.clip((ax_ - 0.002) / np.maximum(xo - 0.002, 1e-3), 0, 1)
         for a_, b_ in zip(lows, highs):
             t_ = np.clip((fz_ - a_) / np.maximum(b_ - a_, 1e-4), 0, 1)
-            seg += np.cos(np.pi * (t_ - 0.5)) ** 1.5 * (fz_ > a_) * (fz_ < b_)     # domes (plateaus read as bars, v8a/v8b)
-        colx = np.clip((ax_ - 0.002) / np.maximum(xo - 0.002, 1e-3), 0, 1)
-        seg *= np.cos(np.pi * (colx - 0.5)) ** 1.2 * (ax_ < xo)
-        h += float(os.environ.get("V2_ABS_SEG_MM", "3.0")) * seg * ss((fz_ - 0.608) / 0.01)
+            # each block a rounded-rectangle dome (super-ellipse, power 3): highest mid-column, curving down to rounded
+            # ends - a plateau across the 13 cm column read as horizontal stripes (v9a/v9b)
+            r_ = (np.abs(2 * colx - 1) ** 3 + np.abs(2 * t_ - 1) ** 3) ** (1 / 3)
+            seg += np.cos(0.5 * np.pi * np.clip(r_, 0, 1)) ** 1.0 * (fz_ > a_) * (fz_ < b_)
+        seg *= (ax_ < xo)
+        h += float(os.environ.get("V2_ABS_SEG_MM", "6.0")) * seg * ss((fz_ - 0.608) / 0.01)
         # linea alba: sternum to navel, fading out below it
         la = np.interp(fz_, [0.565, 0.60, 0.62, 0.70, 0.72], [0, 0.6, 1.0, 1.0, 0.6])
-        h -= 1.2 * la * np.exp(-0.5 * (ax_ / 0.0055) ** 2)   # wide enough for the 4 mm mesh
+        h -= 4.5 * la * np.exp(-0.5 * (ax_ / 0.0060) ** 2)   # wide enough for the 4 mm mesh; frames the blocks (R87)
         # linea semilunaris: soft groove at the rectus' outer edge, above the navel
-        h -= 0.8 * np.exp(-0.5 * ((ax_ - xo - 0.005) / 0.008) ** 2) * ss((fz_ - 0.60) / 0.03) * top
+        h -= 2.6 * np.exp(-0.5 * ((ax_ - xo - 0.004) / 0.010) ** 2) * ss((fz_ - 0.60) / 0.03) * top
         # pectoralis major: full masses out towards the armpit; lower border level across the middle, rising at the side,
         # sharp below (crisp shadow), long and soft above towards the clavicle; shallow sternal groove
         pc = 0.732 + 0.30 * np.clip(ax_ - 0.10, 0, None)

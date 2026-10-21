@@ -702,7 +702,7 @@ if REFINE_MM > 0:
     if MUSC > 0:
         fz_ = (Q[:, 2] - zb) / Hs; ax_ = np.abs(Q[:, 0])
         front_ = ss((-qn[:, 1] - 0.25) / 0.35)
-        er = ss((fz_ - 0.545) / 0.02) * ss((0.735 - fz_) / 0.02) * ss((0.165 - ax_) / 0.03) * front_ * (1 - _keep)
+        er = ss((fz_ - 0.545) / 0.02) * ss((0.75 - fz_) / 0.02) * ss((0.165 - ax_) / 0.03) * front_ * (1 - _keep)
         # R86: the chest too (R41's own pec shape left a crease across it at ~0.75), so the new pecs start clean
         er = np.maximum(er, ss((fz_ - 0.70) / 0.02) * ss((0.80 - fz_) / 0.02) * ss((0.165 - ax_) / 0.03) * front_ * (1 - _keep))
         for _ in range(int(os.environ.get("V2_ABS_ERASE", "150"))):
@@ -724,13 +724,17 @@ if REFINE_MM > 0:
         # a x/y grid): rectus edge at |x| 0.065 (navel) - 0.072 (0.66) - 0.076 (0.70), i.e. ~80 % of the front of the
         # waist; top under the pecs at 0.715, arching down to ~0.70 at the edge; intersections ~0.640, 0.665, 0.690.
         xo = Hs * np.interp(fz_, [0.50, 0.56, 0.61, 0.66, 0.70, 0.72], [0.030, 0.050, 0.064, 0.072, 0.076, 0.077])
-        ftop = 0.716 - 0.11 * ax_                                              # rib arch: 0.716 at the sternum, ~0.70 at the edge
+        # R89 (owner: "Still too many abs ... count how many you have"): contrast-stretched zoom of the reference - three
+        # pairs: top 0.705-0.735 right under the pecs (pec lower border ~0.742 at the centre), middle (largest) 0.665-0.705,
+        # bottom (faint) 0.642-0.665, then smooth to the navel.  v9f's pec border sat at ~0.725 and the abs top at 0.716,
+        # so the strip between them read as a fourth row.
+        ftop = 0.735 - 0.11 * ax_                                              # rib arch: 0.735 at the sternum, lower at the edge
         top = ss((ftop - fz_) / 0.010)
         pad = ss((xo - ax_) / 0.018) * ss((fz_ - 0.505) / 0.03) * top
         h += 2.0 * pad
         # segments: rounded plateaus (smoothstep shoulders), the valleys between them are the intersections; the top row's
         # upper edge follows the arch
-        ints = [0.640, 0.665, 0.690]
+        ints = [0.642, 0.665, 0.705]
         seg = np.zeros(nv)
         # R88 (owner on v9e: "There looks to be too many [abs] ... There is less in my photo"): the reference shows three
         # rows (a six-pack) - 0.640-0.665, 0.665-0.690, 0.690-top - and smooth skin from 0.640 down to the navel; v9e
@@ -747,13 +751,13 @@ if REFINE_MM > 0:
         seg *= (ax_ < xo)
         h += float(os.environ.get("V2_ABS_SEG_MM", "6.0")) * seg
         # linea alba: sternum to navel, fading out below it
-        la = np.interp(fz_, [0.565, 0.60, 0.62, 0.70, 0.72], [0, 0.6, 1.0, 1.0, 0.6])
+        la = np.interp(fz_, [0.565, 0.60, 0.62, 0.72, 0.74], [0, 0.6, 1.0, 1.0, 0.6])
         h -= 4.5 * la * np.exp(-0.5 * (ax_ / 0.0060) ** 2)   # wide enough for the 4 mm mesh; frames the blocks (R87)
         # linea semilunaris: soft groove at the rectus' outer edge, above the navel
         h -= 2.6 * np.exp(-0.5 * ((ax_ - xo - 0.004) / 0.010) ** 2) * ss((fz_ - 0.60) / 0.03) * top
         # pectoralis major: full masses out towards the armpit; lower border level across the middle, rising at the side,
         # sharp below (crisp shadow), long and soft above towards the clavicle; shallow sternal groove
-        pc = 0.732 + 0.30 * np.clip(ax_ - 0.10, 0, None)
+        pc = 0.744 + 0.30 * np.clip(ax_ - 0.10, 0, None)
         dz_ = fz_ - pc
         pec = np.exp(-0.5 * ((ax_ - 0.095) / np.where(ax_ > 0.095, 0.060, 0.075)) ** 2) * \
               np.where(dz_ > 0, np.exp(-0.5 * ((dz_ - 0.018) / 0.040) ** 2) * (dz_ > 0.018) + (dz_ <= 0.018) * 1.0, np.exp(-0.5 * (dz_ / 0.0065) ** 2))

@@ -1633,3 +1633,33 @@ The owner said: "There looks to be too many [abs] … There is less in my photo.
 
 **Results:**
 - 0 standing-pose overlaps.
+
+### Draft v9g: ab rows re-counted (21 Oct)
+
+The owner said: "Still too many abs … count how many you have."
+
+**Counting method:** a contrast-stretched zoom of the reference (fractions of stature).
+
+**Reference:** three pairs.
+
+| Row | Height (fraction of stature) |
+|---|---|
+| top | 0.705–0.735, directly under the pecs |
+| middle (largest) | 0.665–0.705 |
+| bottom (faint) | 0.642–0.665 |
+
+- The pec lower border is at about 0.742 at the centre.
+- The skin is smooth from the bottom row down to the navel.
+
+**What v9f got wrong:** its pec border sat at about 0.725 and the abs top at 0.716, so the strip between them read as a fourth row.
+
+**R89 changes:**
+- Abs top (rib arch) at 0.735 at the sternum.
+- Intersections at 0.642, 0.665 and 0.705.
+- Pec lower border at 0.744.
+- The linea alba now runs up to 0.74.
+- The erase now reaches 0.75.
+
+**Results:**
+- Counted on the same contrast view: three pairs.
+- 0 standing-pose overlaps.

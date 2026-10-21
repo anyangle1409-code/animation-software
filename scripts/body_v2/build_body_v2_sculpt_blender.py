@@ -345,7 +345,7 @@ if CROTCH_MM > 0:
 # the crotch, so the legs seemed to start there.  On a lean man the junction is a V: the inguinal grooves run from the
 # front of the hip bone (ASIS landmark, |x| 0.108, z 1.00) down to the pubis beside the crotch.  A soft groove (depth
 # V2_INGUINAL_MM, half-width 18 mm) along that line on the front-facing skin, fading out at both ends.
-ING_MM = float(os.environ.get("V2_INGUINAL_MM", "6"))
+ING_MM = float(os.environ.get("V2_INGUINAL_MM", "12"))
 if ING_MM > 0:
     Q = rest + off
     A_ = np.array([0.112, 1.005]); B_ = np.array([0.028, 0.895])            # (|x|, z): ASIS -> pubic tubercle (lifted crotch)
@@ -360,9 +360,9 @@ if ING_MM > 0:
 # R78c (owner: "a very noticeable line departing [torso and legs]"): a ridge runs round the hips where the torso meets
 # the thighs (faint in V1, stronger with the waist/abdomen fills ending above it and the thigh fills starting below).
 # Taubin-relax the POSITIONS in that band (removes the ridge itself, volume-preserving) and keep the change as offsets.
-HIPB = float(os.environ.get("V2_HIP_BLEND", "40"))
+HIPB = float(os.environ.get("V2_HIP_BLEND", "120"))
 if HIPB > 0:
-    band = ss(1 - np.abs((rest + off)[:, 2] - float(os.environ.get("V2_HIP_BAND_Z", "0.905"))) / float(os.environ.get("V2_HIP_BAND_HW", "0.10"))) * (1 - ARM)
+    band = ss(1 - np.abs((rest + off)[:, 2] - float(os.environ.get("V2_HIP_BAND_Z", "0.95"))) / float(os.environ.get("V2_HIP_BAND_HW", "0.10"))) * (1 - ARM)
     for _ in range(4):
         band = 0.5 * band + 0.5 * avg(band)
     Q = rest + off

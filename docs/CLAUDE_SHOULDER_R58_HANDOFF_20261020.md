@@ -1368,3 +1368,43 @@ The project's own proportion audit (F-PROP-001) already had the V1 crotch at z �
 - The arms are short (acromion to fingertip z −2.18 on V1).
 - The armpit and sternal notch sit high (z ≈ 2).
 - The head enlargement raised the stature from 1.82 to 1.857 m, so the shoulders are now about 2 cm low for that height.
+
+### Draft v3k: arms, shoulders, waist and groin (21 Oct)
+
+The owner asked for the open proportion findings to be fixed ("Fix them now"), plus: "the groin looks to be very high too. Can we sort out the waist also?"
+
+**New measuring tool: `scripts/body_v2/fit/proportions.py`.**
+- It takes exact horizontal mesh sections of the bind surface (R41 rest + offsets) and compares them with ANSUR II male data, predicted from stature by linear regression at the model's own stature.
+- On V1 it reproduces the project's proportion audit (F-PROP-001) to within about 1 mm.
+- Chest and buttock girths are not compared: in the bind pose the arms touch the trunk.
+
+| ANSUR, 1.857 m | v3h | v3k |
+|---|---|---|
+| acromion height | −1.28 SD | −0.35 SD |
+| acromion → fingertip | **−2.96 SD** (0.780 vs 0.843 m) | 0.00 SD |
+| wrist height | +0.88 | −0.75 |
+| axilla height | −0.32 | +0.50 |
+| suprasternale | −0.43 | −0.43 |
+| crotch height | −0.94 | −0.77 |
+| waist breadth (omphalion) | −0.66 | −1.22 (lean; ANSUR is an average soldier population) |
+| hip breadth | −0.50 | −0.28 |
+
+**R81, skeleton change (review candidate):**
+- Upper arm lengthened 27 mm, forearm 23 mm.
+- Hand scaled ×1.074 about the wrist (+14 mm).
+- Shoulder girdle raised 15 mm. The lift fades out towards the neck so the neck is not shortened.
+- The skin follows its own bones through the skin weights, so the elbow and wrist stay continuous.
+- This is kept as a separate field (`proportion` in the npz), so the overlap shrink cannot undo it. The saved `offsets` = sculpt + proportion.
+- The scene rig is edited to match. The before/after head and tail of each bone are in `skeleton_edits.json`.
+- **Not yet done:** the anatomical master skeleton (humerus, radius/ulna, hand bones, clavicle, scapula) and the press/hang correctives still need to follow this change.
+
+**R80, waist:** the old side push gave the natural waist (z 1.10–1.22) as much as the chest, so the torso read as a box.
+- New `V2_SIDE_PROFILE`: hips kept, waist pulled in (24 → 13 mm), ribs/lats 20 mm.
+- Front-view waist is now narrower than the hips, and tapers up into the lats.
+
+**R80b plus hip-band changes, groin:** the lower belly met the thighs along a horizontal line about 4–5 cm above the crotch, so the legs seemed to start there.
+- Inguinal grooves 12 mm deep, running from the ASIS landmark down to the pubis (the V).
+- Hip-band relax re-centred on the lifted surface: z 0.95 ± 0.10, 120 Taubin iterations.
+- The line is much softer. It is still faintly visible in the shading.
+
+**Status:** 0 standing-pose overlaps. Assets are in `review-assets/body_v2/draft_v3k/`.

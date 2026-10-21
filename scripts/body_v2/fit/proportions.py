@@ -96,14 +96,9 @@ def main():
     zmin = min(prof, key=lambda r: r[1])
     m["min_trunk_breadth"] = zmin[1]
     hips = [(z, trunk(z)) for z in np.arange(0.44, 0.58, 0.005) * H]
-    hips = [(z, float(np.ptp(l[:, 0])), perim(l)) for z, l in hips if l is not None and np.ptp(l[:, 0]) < 0.50]
-    hb = max(hips, key=lambda r: r[1]); m["hipbreadth"] = hb[1]; m["buttockcircumference"] = max(r[2] for r in hips)
-    chest = [(z, trunk(z)) for z in np.arange(0.70, 0.76, 0.005) * H]
-    chest = [l for z, l in chest if l is not None]
-    chest = [l for l in chest if np.ptp(l[:, 0]) < 0.45]          # in the bind pose the arms can touch the chest: skip merged loops
-    if chest:
-        m["chestcircumference"] = max(perim(l) for l in chest); m["chestbreadth"] = max(float(np.ptp(l[:, 0])) for l in chest)
-
+    hips = [(z, float(np.ptp(l[:, 0])), perim(l)) for z, l in hips if l is not None and np.ptp(l[:, 0]) < 0.40]   # skip loops merged with the hands
+    hb = max(hips, key=lambda r: r[1]); m["hipbreadth"] = hb[1]
+    # buttock and chest circumference / chest breadth are not compared: in the bind pose the hanging arms touch the trunk
     out = {"stature_m": round(float(H), 4), "rows": {}}
     for k, v in m.items():
         if k in ("min_trunk_breadth",):

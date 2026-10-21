@@ -367,6 +367,26 @@ if os.environ.get("R68_MODE") == "hang":
         drives.drive(rig, body); bpy.context.view_layer.update()
         m = metrics(evaluated())
         print("R75", spec, json.dumps({k: m[k] for k in ("r_rear", "r_shoulder", "r_self_intersections", "max_asymmetry_mm")}), flush=True)
+        # sharpest creases on the right upper body (adjacent faces > 40 deg), clustered by rest position
+        co_ = evaluated(); _, nn = tri_area(co_); nn = nn / np.maximum(np.linalg.norm(nn, axis=1, keepdims=True), 1e-12)
+        if "hang_pairs" not in globals():
+            from collections import defaultdict
+            sel_f = np.flatnonzero((REST[faces].mean(1)[:, 0] > 0.05) & (REST[faces].mean(1)[:, 2] > 1.05))
+            ed = defaultdict(list)
+            for f_ in sel_f:
+                t_ = faces[f_]
+                for a_, b_ in ((t_[0], t_[1]), (t_[1], t_[2]), (t_[2], t_[0])):
+                    ed[(min(a_, b_), max(a_, b_))].append(f_)
+            globals()["hang_pairs"] = np.array([v for v in ed.values() if len(v) == 2])
+        hp = hang_pairs; ang = np.degrees(np.arccos(np.clip(np.einsum("ij,ij->i", nn[hp[:, 0]], nn[hp[:, 1]]), -1, 1)))
+        sel = hp[ang > 40]; sa = ang[ang > 40]; rc = REST[faces[sel[:, 0]]].mean(1); pc = co_[faces[sel[:, 0]]].mean(1)
+        lab = -np.ones(len(sel), int); c_ = 0
+        for i in np.argsort(-sa):
+            if lab[i] >= 0: continue
+            mm = (np.linalg.norm(rc - rc[i], axis=1) < 0.025) & (lab < 0); lab[mm] = c_; c_ += 1
+        cl = sorted([{"n": int((lab == k).sum()), "max_deg": round(float(sa[lab == k].max()), 1), "rest": np.round(rc[lab == k].mean(0), 3).tolist(), "posed": np.round(pc[lab == k].mean(0), 3).tolist()} for k in range(c_)], key=lambda r: -r["n"] * r["max_deg"])
+        for r in cl[:12]:
+            print("R75C", spec, json.dumps(r), flush=True)
         W = rig.matrix_world; neck = W @ rig.pose.bones["neck"].head
         ua = {sd: W @ rig.pose.bones[f"upperarm_{sd}"].head for sd in "lr"}; mid = (ua["l"] + ua["r"]) / 2
         views = {"back_full": (mid + Vector((0, 0, 0.05)), (0, 1, 0.12), 0.95), "traps_rear": ((neck + mid) / 2 + Vector((0, 0, 0.02)), (0, 1, 0.25), 0.55),

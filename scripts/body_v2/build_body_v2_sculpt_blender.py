@@ -691,6 +691,66 @@ if REFINE_MM > 0:
         g *= ss((facing * qn[:, 1] - 0.15) / 0.4) * (1 - ARM)
         return -qn * (depth_mm / 1000.0 * g)[:, None]
 
+    # R84 (owner: "please notice the detail in the muscles like the abs etc and how they should look"): measured on both
+    # reference figures (fractions of stature): abs top 0.70-0.71 under the pecs, tendinous intersections ~0.685, 0.663,
+    # 0.640, navel 0.61; each rectus column ~6-8 cm wide, soft rounded segments; linea alba thin, sternum to navel, gone
+    # below it; smooth lower belly; full rounded pecs with a curved lower border rising to the armpit and a sternal
+    # groove; serratus fingers on the side of the ribs.  The model's abs were R41's own boxy grid (too narrow, a deep
+    # groove running below the navel).  So: erase that grid (normal-only cotangent smoothing of the front of the belly),
+    # then sculpt the front torso muscles as a height field along the normal, sizes in mm.
+    MUSC = float(os.environ.get("V2_MUSCLE_FRONT", "1"))
+    if MUSC > 0:
+        fz_ = (Q[:, 2] - zb) / Hs; ax_ = np.abs(Q[:, 0])
+        front_ = ss((-qn[:, 1] - 0.25) / 0.35)
+        er = ss((fz_ - 0.545) / 0.02) * ss((0.735 - fz_) / 0.02) * ss((0.125 - ax_) / 0.03) * front_ * (1 - _keep)
+        for _ in range(int(os.environ.get("V2_ABS_ERASE", "150"))):
+            for lam in (0.5,):                    # plain (shrinking) steps: Taubin keeps grooves this broad (v6a)
+                tri = Q[faces]; fn_ = np.cross(tri[:, 1] - tri[:, 0], tri[:, 2] - tri[:, 0])
+                vn_ = np.zeros_like(Q); np.add.at(vn_, faces.ravel(), np.repeat(fn_, 3, axis=0))
+                vn_ /= np.maximum(np.linalg.norm(vn_, axis=1, keepdims=True), 1e-12)
+                Q = Q + lam * er[:, None] * ((cavg(Q) - Q) * vn_).sum(1)[:, None] * vn_
+        off = Q - rest
+        h = np.zeros(nv)                                                     # mm, + out along the normal
+        # rectus abdominis: a raised pad between the linea semilunaris curves, wide at the ribs, narrow at the pubis
+        xo = np.interp(fz_, [0.50, 0.56, 0.61, 0.66, 0.70, 0.72], [0.040, 0.050, 0.060, 0.068, 0.080, 0.085])
+        top = ss((0.712 - fz_) / 0.012)
+        pad = ss((xo - ax_) / 0.012) * ss((fz_ - 0.505) / 0.03) * top
+        h += 2.5 * pad
+        # segments above the navel: smooth rounded pillows (zero slope at their edges); the valleys between them are the
+        # tendinous intersections (separate grooves on top read as stacks of thin lines, v6a/v6b)
+        ints = [0.640, 0.663, 0.686]
+        edges_ = [0.612] + ints + [0.712]
+        seg = np.zeros(nv)
+        for a_, b_ in zip(edges_[:-1], edges_[1:]):
+            t_ = np.clip((fz_ - a_) / (b_ - a_), 0, 1)
+            seg += np.sin(np.pi * t_) ** 2
+        colx = np.clip((ax_ - 0.003) / np.maximum(xo - 0.003, 1e-3), 0, 1)
+        seg *= np.sin(np.pi * colx) ** 0.6 * (ax_ < xo)
+        h += float(os.environ.get("V2_ABS_SEG_MM", "3.6")) * seg * ss((fz_ - 0.605) / 0.012)
+        # linea alba: sternum to navel, fading out below it
+        la = np.interp(fz_, [0.565, 0.60, 0.62, 0.70, 0.72], [0, 0.6, 1.0, 1.0, 0.6])
+        h -= 1.8 * la * np.exp(-0.5 * (ax_ / 0.004) ** 2)
+        # linea semilunaris: soft groove at the rectus' outer edge, above the navel
+        h -= 1.0 * np.exp(-0.5 * ((ax_ - xo - 0.004) / 0.007) ** 2) * ss((fz_ - 0.60) / 0.03) * top
+        # pectoralis major: a full rounded mass, sharper along its lower border (which rises towards the armpit),
+        # and a shallow sternal groove
+        pc = 0.738 + 0.10 * np.clip(ax_ - 0.085, 0, None)
+        dz_ = fz_ - pc
+        pec = np.exp(-0.5 * ((ax_ - 0.085) / 0.058) ** 2) * np.exp(-0.5 * (dz_ / np.where(dz_ > 0, 0.036, 0.011)) ** 2)
+        h += float(os.environ.get("V2_PEC_MM", "7")) * pec * ss((ax_ - 0.006) / 0.012) * ss((0.18 - ax_) / 0.02)
+        h -= 1.2 * np.exp(-0.5 * (ax_ / 0.006) ** 2) * ss((fz_ - 0.712) / 0.01) * ss((0.80 - fz_) / 0.02)
+        # serratus anterior: four fingers on the side of the ribs, angled down and forward
+        lat_ = ss((np.abs(qn[:, 0]) - 0.35) / 0.3) * ss((-qn[:, 1] + 0.3) / 0.4)
+        for k_, zf_ in enumerate([0.735, 0.718, 0.701, 0.684]):
+            u_ = (fz_ - zf_) + 0.35 * (ax_ - 0.14)
+            h += 1.6 * np.exp(-0.5 * (u_ / 0.0045) ** 2) * ss((ax_ - 0.105) / 0.012) * ss((0.165 - ax_) / 0.012) * lat_
+        h *= (1 - _keep)
+        for _ in range(3):
+            h = 0.5 * h + 0.5 * avg(h)
+        off += qn * (h / 1000.0)[:, None]
+        Q = rest + off
+        DETAIL_REPORT["front_muscles"] = {"abs_erase_steps": int(os.environ.get("V2_ABS_ERASE", "150")), "intersections": ints,
+                                           "max_mm": round(float(h.max()), 2), "min_mm": round(float(h.min()), 2)}
     # belly button at 0.612 of stature: a dimple 9 mm across with a soft rim
     NAVEL_MM = float(os.environ.get("V2_NAVEL_MM", "6"))
     zn = zb + 0.612 * Hs
@@ -704,7 +764,7 @@ if REFINE_MM > 0:
     # gluteal folds: under each buttock, rising slightly to the outside
     GLUTE_D = float(os.environ.get("V2_GLUTE_FOLD_MM", "5"))
     off += groove([(0.022, cz - 0.004), (0.06, cz - 0.022), (0.11, cz - 0.018), (0.15, cz + 0.005)], 0.007, GLUTE_D, +1)
-    DETAIL_REPORT = {"navel_mm": NAVEL_MM, "navel_z": round(float(zn), 4), "inguinal_mm": ING_D, "glute_fold_mm": GLUTE_D, "crotch_z": round(float(cz), 4)}
+    DETAIL_REPORT.update({"navel_mm": NAVEL_MM, "navel_z": round(float(zn), 4), "inguinal_mm": ING_D, "glute_fold_mm": GLUTE_D, "crotch_z": round(float(cz), 4)})
     # overlaps on the refined surface, standing pose (same shrink as above, smaller steps)
     ov2 = []
     for it in range(int(os.environ.get("V2_OVERLAP_ITERS_FINE", "30"))):

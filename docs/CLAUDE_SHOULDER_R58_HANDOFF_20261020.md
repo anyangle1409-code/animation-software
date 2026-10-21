@@ -1498,3 +1498,37 @@ Owner chose "Refine the torso mesh". R41 has 13–15 mm edges on the belly and g
 - A few dark specks on the upper back and chest (to check: degenerate triangles).
 - 220k vertices will need a lighter version for the app.
 - The press/hang dense correctives (21,600-based) must be carried over via `refine_map.npz` before the exercises.
+
+### Draft v6d: front torso muscles (21 Oct)
+
+The owner asked: "please notice the detail in the muscles like the abs etc and how they should look."
+
+**Measured on both reference figures (fractions of stature):**
+- Abs: top of the abs at 0.70–0.71, under the pecs. Tendinous intersections at about 0.685, 0.663 and 0.640.
+- Navel: 0.61.
+- Rectus columns: about 6–8 cm wide each, with soft rounded segments.
+- Linea alba: thin, from the sternum to the navel, gone below it. The lower belly is smooth.
+- Pecs: a full rounded mass with a curved lower border rising towards the armpit, and a sternal groove.
+- Serratus: fingers on the side of the ribs.
+- The model's abs were R41's own boxy grid: too narrow, with a deep groove running below the navel.
+
+**R84, `V2_MUSCLE_FRONT`, on the refined mesh:**
+- **Erase:** 150 plain normal-only cotangent smoothing steps over the front of the belly (0.545–0.735 of stature, |x| < 0.125). Taubin steps kept grooves this broad (v6a).
+- **Relief:** a height field along the smoothed normal, sizes in mm:
+  - rectus pad 2.5 mm between the linea semilunaris curves;
+  - segments as smooth pillows (`V2_ABS_SEG_MM` 3.6) whose valleys form the intersections;
+  - linea alba 1.8 mm, from the sternum to the navel;
+  - linea semilunaris 1.0 mm;
+  - pec mass `V2_PEC_MM` 7, sharper along the lower border; sternal groove 1.2 mm;
+  - serratus, four fingers, 1.6 mm.
+
+**Results:**
+- 0 standing-pose overlaps.
+- Assets in `review-assets/body_v2/draft_v6d/`: model-only before/after. The reference comparison stays local.
+- The offsets are for the refined mesh. Use `draft_v5n/refine_map.npz`; the topology is identical.
+
+**Still open:**
+- The ab segments are still a little narrow and ridge-like compared with the references.
+- Some wrinkles on the side of the chest under the armpit.
+- The belly/thigh line.
+- Arms, back, shoulders and legs are next.

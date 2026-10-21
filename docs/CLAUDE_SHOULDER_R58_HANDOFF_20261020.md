@@ -1532,3 +1532,31 @@ The owner asked: "please notice the detail in the muscles like the abs etc and h
 - Some wrinkles on the side of the chest under the armpit.
 - The belly/thigh line.
 - Arms, back, shoulders and legs are next.
+
+### Draft v7b: groin rebuilt to the reference (21 Oct)
+
+The owner sent the reference figure's groin close-ups: "Can we have the groin area match this … I still see the weird line at the top of the legs where it meets the torso … There is no line there and it's smooth transition."
+
+**Before:**
+- A horizontal fold ran across both thigh tops at about 0.49 of stature, just above the crotch.
+- The pubic area was a flat, wide shelf.
+
+**Reference:**
+- The inguinal creases are long soft curves from the side of the hip (about 0.56 of stature) to beside the crotch (about 0.48).
+- Between them is a rounded pubic wedge with a U-shaped bottom.
+- There is no horizontal line.
+
+**R85, `V2_GROIN_REBUILD`, on the refined mesh:**
+- **Flatten:** 200 plain normal-only cotangent steps over the groin band, from the crotch −0.025 to +0.115 of stature, |x| < 0.20. Back-facing skin and inner-thigh skin facing the other leg are excluded.
+- **Creases:** follow the reference curve. 3 mm deep, sigma 10 mm, fading out before the crotch so the bottom reads as a U, not a point.
+- **Pubic mound:** 5 mm, a rounded Gaussian across x.
+- **Thigh side:** comes forward 2 mm along the crease.
+- The old R80b/R82 inguinal grooves are off while the rebuild is on.
+
+**Results:**
+- 0 standing-pose overlaps.
+- The horizontal line is gone from the front, side and three-quarter views.
+
+**Still open:**
+- The gluteal folds are slightly wavy.
+- Some small vertical streaks on the thigh tops.

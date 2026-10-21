@@ -751,6 +751,54 @@ if REFINE_MM > 0:
         Q = rest + off
         DETAIL_REPORT["front_muscles"] = {"abs_erase_steps": int(os.environ.get("V2_ABS_ERASE", "150")), "intersections": ints,
                                            "max_mm": round(float(h.max()), 2), "min_mm": round(float(h.min()), 2)}
+    # R85 (owner, with the reference figure's groin close-ups: "Can we have the groin area match this ... I still see the
+    # weird line at the top of the legs where it meets the torso ... There is no line there and it's smooth transition"):
+    # the model had a horizontal fold across both thigh tops at ~0.49 of stature, just above the crotch, and a flat wide
+    # shelf for the pubic area.  Reference: the inguinal creases are long soft curves from the side of the hip (~0.56,
+    # |x| ~0.08 of stature) to beside the crotch (~0.48); between them a rounded pubic wedge with a U-shaped bottom; no
+    # horizontal line.  So: flatten the whole groin band (plain normal-only cotangent steps: removes the fold and the
+    # shelf), then the wedge and the creases on the reference curve.
+    GROIN2 = float(os.environ.get("V2_GROIN_REBUILD", "1"))
+    if GROIN2 > 0:
+        fz_ = (Q[:, 2] - zb) / Hs; ax_ = np.abs(Q[:, 0])
+        cz = Q[np.abs(Q[:, 0]) < 0.006, 2].min(); fc = (cz - zb) / Hs
+        notback = ss((0.35 - qn[:, 1]) / 0.3)
+        inner_below = (fz_ < fc + 0.004) * ss((-(qn[:, 0] * np.sign(Q[:, 0])) - 0.2) / 0.3)    # thigh skin facing the other leg
+        er = ss((fz_ - (fc - 0.025)) / 0.02) * ss((fc + 0.115 - fz_) / 0.025) * ss((0.20 - ax_) / 0.03) * notback * (1 - inner_below) * (1 - _keep)
+        for _ in range(int(os.environ.get("V2_GROIN_ERASE", "200"))):
+            tri = Q[faces]; fn_ = np.cross(tri[:, 1] - tri[:, 0], tri[:, 2] - tri[:, 0])
+            vn_ = np.zeros_like(Q); np.add.at(vn_, faces.ravel(), np.repeat(fn_, 3, axis=0))
+            vn_ /= np.maximum(np.linalg.norm(vn_, axis=1, keepdims=True), 1e-12)
+            Q = Q + 0.5 * er[:, None] * ((cavg(Q) - Q) * vn_).sum(1)[:, None] * vn_
+        off = Q - rest
+        # crease curve (|x|, z) from the reference, as fractions of stature above the crotch
+        cpts = [(0.150, cz + 0.152), (0.118, cz + 0.112), (0.085, cz + 0.070), (0.058, cz + 0.038), (0.040, cz + 0.018), (0.030, cz + 0.006)]
+        # distance to the curve and which side of it (inside = the pubic side, up / towards the midline)
+        P2 = np.stack([ax_, Q[:, 2]], axis=1); best = np.full(nv, 9.0); sgn = np.zeros(nv); tpar = np.zeros(nv)
+        L_tot = sum(np.linalg.norm(np.subtract(b, a)) for a, b in zip(cpts[:-1], cpts[1:])); run = 0.0
+        for a, b in zip(cpts[:-1], cpts[1:]):
+            a = np.array(a); b = np.array(b); d = b - a; L = np.linalg.norm(d); u = d / L
+            p = P2 - a; t = np.clip(p @ u / L, 0, 1); q = p - np.outer(t * L, u); dist = np.linalg.norm(q, axis=1)
+            side_ = np.sign(q @ np.array([-u[1], u[0]]))                     # + = left of the walk = out / down (thigh side)
+            m = dist < best; best[m] = dist[m]; sgn[m] = side_[m]; tpar[m] = (run + t[m] * L) / L_tot
+            run += L
+        frontish = ss((-qn[:, 1] - 0.1) / 0.4) * (1 - _keep)
+        h = np.zeros(nv)
+        CR_MM = float(os.environ.get("V2_GROIN_CREASE_MM", "3.0"))
+        h -= CR_MM * np.exp(-0.5 * (best / 0.010) ** 2) * ss(tpar / 0.12) * ss((1 - tpar) / 0.30) * frontish   # fades before the crotch: a U, not a point
+        # pubic wedge: raised inside the creases, rounded, fading up into the lower belly
+        inside = (sgn < 0) * ss(best / 0.012)
+        PUB_MM = float(os.environ.get("V2_PUBIC_MM", "5"))
+        h += PUB_MM * inside * np.exp(-0.5 * (ax_ / 0.035) ** 2) * ss((fz_ - fc + 0.004) / 0.016) * ss((fc + 0.085 - fz_) / 0.04) * frontish   # rounded mound
+        # thigh side of the crease: the thigh front comes forward a little, so the crease reads as a soft fold
+        outside = (sgn > 0) * ss(best / 0.010) * ss((0.06 - best) / 0.03)
+        h += 2.0 * outside * ss(tpar / 0.15) * ss((1 - tpar) / 0.15) * frontish
+        for _ in range(4):
+            h = 0.5 * h + 0.5 * avg(h)
+        off += qn * (h / 1000.0)[:, None]
+        Q = rest + off
+        DETAIL_REPORT["groin_rebuild"] = {"erase_steps": int(os.environ.get("V2_GROIN_ERASE", "200")), "crease_mm": CR_MM, "pubic_mm": PUB_MM,
+                                           "crotch_frac": round(float(fc), 4), "crease_points": [[round(a, 3), round(float(b), 3)] for a, b in cpts]}
     # belly button at 0.612 of stature: a dimple 9 mm across with a soft rim
     NAVEL_MM = float(os.environ.get("V2_NAVEL_MM", "6"))
     zn = zb + 0.612 * Hs
@@ -758,7 +806,7 @@ if REFINE_MM > 0:
     dimple = (np.exp(-0.5 * (rr / 0.0045) ** 2) - 0.18 * np.exp(-0.5 * ((rr - 0.010) / 0.004) ** 2)) * ss((-qn[:, 1] - 0.5) / 0.3)
     off -= qn * (NAVEL_MM / 1000.0 * dimple)[:, None]
     # inguinal creases (the V): from the front of the hip bone down to beside the crotch
-    ING_D = float(os.environ.get("V2_INGUINAL_DETAIL_MM", "4"))
+    ING_D = float(os.environ.get("V2_INGUINAL_DETAIL_MM", "0" if GROIN2 > 0 else "4"))
     cz = Q[np.abs(Q[:, 0]) < 0.006, 2].min()
     off += groove([(0.118, cz + 0.135), (0.075, cz + 0.07), (0.035, cz + 0.022), (0.018, cz + 0.004)], 0.006, ING_D, -1)
     # gluteal folds: under each buttock, rising slightly to the outside

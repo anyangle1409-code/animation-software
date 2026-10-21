@@ -1408,3 +1408,43 @@ The owner asked for the open proportion findings to be fixed ("Fix them now"), p
 - The line is much softer. It is still faintly visible in the shading.
 
 **Status:** 0 standing-pose overlaps. Assets are in `review-assets/body_v2/draft_v3k/`.
+
+### Draft v4b: pelvis, groin and legs from the owner's reference figures (21 Oct)
+
+The owner sent two reference figures, front, side and back, saying: "This is how the pelvis and groin and legs should look."
+
+**Front-silhouette widths, as fractions of stature.** Measured on both figures and on the first photo; script `scripts/body_v2/fit/front_profile.py`.
+
+| Height | References | v3k | v4b |
+|---|---|---|---|
+| hips 0.50 | 0.207–0.211 | 0.187 | 0.207 |
+| waist 0.60 | 0.171–0.178 | 0.161 | 0.170 |
+| ribs 0.66 | 0.162–0.169 | 0.178 | 0.167 |
+| ribs 0.70 | 0.186–0.187 | 0.200 | 0.189 |
+| upper thigh 0.44 | 0.102–0.109 | 0.094 | 0.099 |
+| thigh 0.34 | 0.069–0.076 | 0.091 | 0.078 |
+| inner-thigh half-gap 0.34 | 0.016–0.032 | 0.009 | 0.017 |
+
+**What changed (R82, R82b, R82c):**
+- **R82:** a silhouette field with two parts.
+  - `V2_SIL_LAT`: a per-side push on the outward-facing skin, by height.
+  - `V2_SIL_MED`: a push on the medial leg skin, which also opens the gap between the thighs.
+  - Together they widen the hips and the top of the thighs, pull the lower thighs in to taper to the knee, and trim the R80 rib push.
+- **R82b:** a belly-button dimple at 0.612 of stature.
+- **R82c:** a fill on the thigh side of the inguinal V.
+
+**Results:**
+- 0 standing-pose overlaps.
+- The ANSUR landmarks are unchanged from v3k.
+
+**Limit found: mesh resolution.** Median edge lengths on R41:
+
+| Region | Median edge |
+|---|---|
+| belly | 12.8 mm |
+| groin | 15.1 mm |
+| face | 10.2 mm |
+| thigh | 3.6 mm |
+| hand | 3.9 mm |
+
+The belly button (5 vertices within 15 mm), the sharp V crease, the pubic wedge, the gluteal fold and fine muscle separations cannot form at 13–15 mm spacing. So R82b and R82c barely show. This needs an owner decision on adding resolution.

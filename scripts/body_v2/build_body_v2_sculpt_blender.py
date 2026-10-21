@@ -383,6 +383,60 @@ if GROIN > 0:
         L1 = np.stack([avg(Q[:, k]) for k in range(3)], axis=1) - Q; Q = Q + 0.5 * gz[:, None] * L1
         L2 = np.stack([avg(Q[:, k]) for k in range(3)], axis=1) - Q; Q = Q - 0.53 * gz[:, None] * L2
     off = Q - rest
+# R82 (owner, with two front/side/back reference figures: "This is how the pelvis and groin and legs should look"):
+# front silhouette measured on both figures and on the owner's first photo, as fractions of stature (stature-normalised
+# masks, scripts/body_v2/fit/proportions.py for ANSUR):
+#   hips at 0.50: 0.207-0.211 vs model 0.187; waist 0.58-0.62: 0.164-0.178 vs 0.161-0.166; ribs 0.66-0.70: 0.162-0.187
+#   vs 0.178-0.200 (R80 lat push too strong); one thigh just above the knee (0.32-0.36): 0.065-0.086 vs 0.083-0.097,
+#   upper thigh (0.44-0.46): ~0.105 vs 0.089-0.094 - the model's thighs were narrow at the top and bulged above the knee,
+#   the references are widest at the top and taper to the knee, with the legs parting soon below the crotch.
+# Silhouette field: per-side horizontal push (mm, + out) at height fractions of stature on the outward-facing skin, and
+# for the legs a second one on the inward-facing (medial) skin, which also opens the gap between the thighs.
+SIL_LAT = os.environ.get("V2_SIL_LAT", "0.27:0,0.30:-3,0.32:-12,0.34:-16,0.36:-15,0.38:-12,0.40:-5,0.42:6,0.44:18,0.46:24,"
+                                        "0.48:24,0.50:20,0.52:9,0.54:6,0.56:8,0.58:9,0.60:10,0.62:5,0.64:-4,0.66:-11,0.68:-14,0.70:-10,0.73:-4,0.76:0")
+SIL_MED = os.environ.get("V2_SIL_MED", "0.27:0,0.30:-4,0.32:-14,0.34:-19,0.36:-17,0.38:-14,0.40:-6,0.42:-1,0.44:0")
+if SIL_LAT or SIL_MED:
+    Q = rest + off
+    fz = (Q[:, 2] - Q[:, 2].min()) / (Q[:, 2].max() - Q[:, 2].min())
+    hn = nrm_s[:, :2] / np.maximum(np.linalg.norm(nrm_s[:, :2], axis=1, keepdims=True), 1e-9)
+    side = np.sign(Q[:, 0]) + (Q[:, 0] == 0)
+    outw = hn[:, 0] * side                                                   # +1 facing away from the midline
+    sil_l = np.zeros(nv); sil_m = np.zeros(nv)
+    if SIL_LAT:
+        k_ = np.array([[float(v) for v in kv.split(":")] for kv in SIL_LAT.split(",")])
+        sil_l = np.interp(fz, k_[:, 0], k_[:, 1], left=0, right=0) * ss((outw - 0.05) / 0.6)
+    if SIL_MED:                                                             # medial skin: + moves it towards the midline
+        k_ = np.array([[float(v) for v in kv.split(":")] for kv in SIL_MED.split(",")])
+        sil_m = np.interp(fz, k_[:, 0], k_[:, 1], left=0, right=0) * ss((-outw - 0.05) / 0.6) * (np.abs(Q[:, 0]) > 0.012)
+    for sil_ in (sil_l, sil_m):
+        sil_ *= (1 - ARM) * (1 - HEAD)
+        for _ in range(8):
+            sil_[:] = 0.5 * sil_ + 0.5 * avg(sil_)
+    off[:, 0] += side * (sil_l - sil_m) / 1000.0 * np.abs(hn[:, 0])
+    sil = sil_l + sil_m
+    off[:, 1] += sil / 1000.0 * hn[:, 1] * 0.5 * (sil < 0)                  # pulling in: a little depth too (thigh taper)
+# R82b: belly button (both references: ~0.61-0.62 of stature; ANSUR omphalion 0.606) - a soft dimple on the front midline
+NAVEL_MM = float(os.environ.get("V2_NAVEL_MM", "7"))
+if NAVEL_MM > 0:
+    Q = rest + off
+    zn = Q[:, 2].min() + 0.612 * (Q[:, 2].max() - Q[:, 2].min())
+    fr = (Q[:, 1] < 0) & (-nrm[:, 1] > 0.6)
+    rr = np.sqrt(Q[:, 0] ** 2 + ((Q[:, 2] - zn) / 1.2) ** 2)
+    dimple = np.where(fr, ss(1 - rr / 0.011) - 0.25 * ss(1 - np.abs(rr - 0.014) / 0.005), 0.0)
+    off -= nrm * (NAVEL_MM / 1000.0 * dimple)[:, None]
+# R82c: the V of the groin - the thigh front just below / outside the inguinal line comes forward a little (both
+# references), so the crease reads as a fold between the lower belly / pubic wedge and the thighs
+ING_FILL = float(os.environ.get("V2_INGUINAL_FILL_MM", "6"))
+if ING_FILL > 0:
+    Q = rest + off
+    A_ = np.array([0.112, 1.005]); B_ = np.array([0.028, 0.895]); d_ = B_ - A_; L_ = np.linalg.norm(d_); u_ = d_ / L_
+    nperp = np.array([u_[1], -u_[0]])                                      # points to the thigh side (out / down)
+    p_ = np.stack([np.abs(Q[:, 0]), Q[:, 2]], axis=1) - A_
+    t_ = np.clip(p_ @ u_ / L_, 0, 1); sd_ = p_ @ nperp
+    fill = ss(sd_ / 0.012) * ss(1 - (sd_ - 0.012) / 0.07) * ss(t_ / 0.2) * ss((1 - t_) / 0.2) * ss((-nrm[:, 1] - 0.3) / 0.4) * (1 - ARM)
+    for _ in range(4):
+        fill = 0.5 * fill + 0.5 * avg(fill)
+    off += nrm_s * (ING_FILL / 1000.0 * fill)[:, None]
 # R77e: relax the offset field around the shoulders (drop field + deltoid bellies meeting) - measured extra roughness
 # on the deltoid came from the overlap shrink, the shoulder drop and the bellies, in that order
 _sh = ss((np.abs(rest[:, 0]) - 0.12) / 0.04) * ss((rest[:, 2] - 1.24) / 0.06) * ss((1.62 - rest[:, 2]) / 0.04)

@@ -1,0 +1,72 @@
+{
+ "stature_m": 1.8568,
+ "rows": {
+  "acromialheight": {
+   "model_m": 1.5248,
+   "ansur_m": 1.5305,
+   "sd_m": 0.0162,
+   "z": -0.35
+  },
+  "suprasternaleheight": {
+   "model_m": 1.5217,
+   "ansur_m": 1.5268,
+   "sd_m": 0.0117,
+   "z": -0.43
+  },
+  "wristheight": {
+   "model_m": 0.8836,
+   "ansur_m": 0.8999,
+   "sd_m": 0.0215,
+   "z": -0.75
+  },
+  "axillaheight": {
+   "model_m": 1.42,
+   "ansur_m": 1.4137,
+   "sd_m": 0.0147,
+   "z": 0.43
+  },
+  "crotchheight": {
+   "model_m": 0.886,
+   "ansur_m": 0.9045,
+   "sd_m": 0.0239,
+   "z": -0.77
+  },
+  "waistcircumference": {
+   "model_m": 0.8792,
+   "ansur_m": 0.9747,
+   "sd_m": 0.1093,
+   "z": -0.87
+  },
+  "waistbreadth": {
+   "model_m": 0.3133,
+   "ansur_m": 0.3391,
+   "sd_m": 0.0336,
+   "z": -0.77
+  },
+  "waistdepth": {
+   "model_m": 0.2295,
+   "ansur_m": 0.2458,
+   "sd_m": 0.0343,
+   "z": -0.47
+  },
+  "min_trunk_breadth": {
+   "model_m": 0.3008,
+   "z_m": 1.188
+  },
+  "hipbreadth": {
+   "model_m": 0.3857,
+   "ansur_m": 0.3593,
+   "sd_m": 0.0223,
+   "z": 1.18
+  },
+  "acromion_to_dactylion": {
+   "model_m": 0.8428,
+   "ansur_m": 0.8428,
+   "sd_m": 0.0213,
+   "z": -0.0
+  },
+  "dactylion_height": {
+   "model_m": 0.682
+  }
+ }
+}

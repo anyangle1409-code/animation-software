@@ -967,3 +967,27 @@ R72c is now the visual baseline for the shoulder, armpit and arm-root shape on t
 Later work must keep this look; compare any change against R72c close-ups (rear, side, above-rear, front).
 
 This records the owner's visual sign-off on the shape only. The numerical gates still fail (see the R72c gate table above), and nothing is approved, saved, merged or deployed.
+
+**Front-axilla fold check (21 Oct).** The owner said it "looks fine to me", but asked for a check against other references before locking it in.
+
+*References used* (photos stay out of git):
+- the owner's arms-overhead front photo;
+- the owner's front-right 3/4 dumbbell-press series;
+- anatomy texts: the anterior axillary fold is the lower border of pectoralis major; the pectoralis major tendon untwists in full flexion; serratus digitations can show on the lateral chest in lean people.
+
+*What the references show:* with the arms overhead, the front of the armpit is one smooth, rounded diagonal ridge running from the chest up into the arm, with a soft hollow behind it.
+
+*What R72c shows:* the line circled on the 150° front close-up is in the right place, with the right direction and the right length. It is the pectoralis major edge, not a skinning fault.
+
+*Sharpest creases* (adjacent-face angle, front of the right armpit, posed y < 0, `creases` mode):
+
+| | 150° | 135.6° |
+|---|---|---|
+| R72c | ≤ 34° | the same as R52 |
+| Work's R52 | ≤ 40° | — |
+
+So R72c is no worse than Work's base, and slightly smoother at 150°.
+
+*Only difference from the photos:* the lower third of the line is a little narrower and darker than real skin (a groove rather than a soft hollow). It is minor, it is inherited from R52, and it is not counted as wrong.
+
+**Decision:** R72c's front of the armpit is kept as-is and locked in with the rest of R72c.

@@ -1305,3 +1305,14 @@ Owner decision on the arms: a standing pose with the arms slightly out; the bind
 - Body below z 1.55 is identical to Z2 (0.000 mm).
 - The head outline now matches the photo grid.
 - The detailed face (head v2 builder) is built next, on top of this body.
+
+**v3c.** Owner: "There's not much of a neck now ... a very noticeable line departing [torso and legs]."
+
+**Neck:**
+- The head pivot is now at chin level (z 1.628), so the chin no longer drops into the neck.
+- The blend from neck to head runs over 8.5 cm; a 3 cm blend left a ring round the neck.
+- The neck is lengthened by 8 mm. The top of the head is now at about 1.86 m.
+
+**Hips:** a ridge ran round the hips where the torso meets the thighs (faint in V1, made stronger by the waist and abdomen fills ending above it). The positions in that band (z 0.905 ± 0.10) are Taubin-relaxed (40 iterations) and kept as offsets. The line is gone.
+
+0 standing-pose overlaps.

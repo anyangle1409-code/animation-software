@@ -309,9 +309,24 @@ for sd, sg in (("r", 1.0), ("l", -1.0)):
 # the neck over 3.5 cm so the neck surface stays continuous.
 HEAD_SCALE = float(os.environ.get("V2_HEAD_SCALE", "1.15"))
 if HEAD_SCALE != 1.0:
-    piv = np.array([0.0, 0.0, 1.70])
-    hw_ = ss((rest[:, 2] - 1.585) / 0.035) * ss((0.12 - np.abs(rest[:, 0])) / 0.03)
+    piv = np.array([0.0, -0.02, float(os.environ.get("V2_HEAD_PIVOT_Z", "1.628"))])   # R78b (owner: "not much of a neck now"): pivot at chin level, the head grows upward, the neck keeps its length
+    hw_ = ss((rest[:, 2] - 1.555) / 0.085) * ss((0.12 - np.abs(rest[:, 0])) / 0.03)   # R78d: long blend (a 3 cm blend left a ring round the neck)
     off = off + (rest + off - piv) * ((HEAD_SCALE - 1.0) * hw_)[:, None]
+    NECK_MM = float(os.environ.get("V2_NECK_MM", "8"))         # R78d (owner: "need to have a neck"): lengthen the neck a little
+    off[:, 2] += NECK_MM / 1000.0 * hw_
+# R78c (owner: "a very noticeable line departing [torso and legs]"): a ridge runs round the hips where the torso meets
+# the thighs (faint in V1, stronger with the waist/abdomen fills ending above it and the thigh fills starting below).
+# Taubin-relax the POSITIONS in that band (removes the ridge itself, volume-preserving) and keep the change as offsets.
+HIPB = float(os.environ.get("V2_HIP_BLEND", "40"))
+if HIPB > 0:
+    band = ss(1 - np.abs(rest[:, 2] - 0.905) / 0.10) * (1 - ARM)
+    for _ in range(4):
+        band = 0.5 * band + 0.5 * avg(band)
+    Q = rest + off
+    for _ in range(int(HIPB)):
+        L1 = np.stack([avg(Q[:, k]) for k in range(3)], axis=1) - Q; Q = Q + 0.5 * band[:, None] * L1
+        L2 = np.stack([avg(Q[:, k]) for k in range(3)], axis=1) - Q; Q = Q - 0.53 * band[:, None] * L2
+    off = Q - rest
 # R77e: relax the offset field around the shoulders (drop field + deltoid bellies meeting) - measured extra roughness
 # on the deltoid came from the overlap shrink, the shoulder drop and the bellies, in that order
 _sh = ss((np.abs(rest[:, 0]) - 0.12) / 0.04) * ss((rest[:, 2] - 1.24) / 0.06) * ss((1.62 - rest[:, 2]) / 0.04)

@@ -90,11 +90,11 @@ LIMB = [  # bone, t0, tp, t1, facing, half-width deg, amp mm, mask groups
     ("forearm", 0.10, 0.40, 0.95, (1, 0, 0), 180, 4.0, ("forearm", "forearm_tw0", "forearm_tw1")),
     ("forearm", 0.45, 0.82, 1.06, (1, 0, 0), 180, 5.0, ("forearm", "forearm_tw0", "forearm_tw1", "hand")),   # R77: lower forearm / wrist (wrist 37 mm wide, real ~60)
     ("thigh", 0.30, 0.62, 0.97, (0, -1, 0), 60, 8.0, ("thigh",)),                # rectus femoris (R76d: mid-thigh)
-    ("thigh", 0.25, 0.60, 0.95, (1, -0.4, 0), 55, 8.0, ("thigh",)),              # vastus lateralis (R76c: lower, no hip bulge)
+    ("thigh", 0.38, 0.66, 0.95, (1, -0.4, 0), 55, 4.0, ("thigh",)),              # vastus lateralis (R76c: lower, no hip bulge)
     ("thigh", 0.55, 0.85, 1.00, (-0.7, -0.7, 0), 45, 9.0, ("thigh",)),           # vastus medialis (teardrop)
     ("thigh", 0.22, 0.50, 0.88, (0, 1, 0), 70, 8.0, ("thigh",)),                 # hamstrings
     ("thigh", 0.20, 0.40, 0.70, (-1, 0, 0), 60, 2.0, ("thigh",)),                # adductors
-    ("thigh", 0.20, 0.60, 1.00, (1, 0, 0), 180, 2.0, ("thigh",)),
+    ("thigh", 0.35, 0.65, 1.00, (1, 0, 0), 180, 2.0, ("thigh",)),
     ("shin", 0.06, 0.26, 0.62, (-0.45, 1, 0), 55, 9.0, ("shin",)),               # gastrocnemius medial head (R76f: not sticking out)
     ("shin", 0.06, 0.24, 0.55, (0.5, 1, 0), 50, 7.0, ("shin",)),                 # gastrocnemius lateral head
     ("shin", 0.10, 0.35, 0.70, (0.6, -0.8, 0), 45, 4.0, ("shin",)),              # tibialis anterior
@@ -207,7 +207,7 @@ amt += HAM_MM / 1000.0 * ham
 # 22 mm ahead of the abdomen, v2 L 40 mm, reference ~10).  Fuller abdominal wall (front-facing skin, rest z 0.98..1.30),
 # keeping the sculpted ab lines (a normal push preserves them).
 ABS_MM = float(os.environ.get("V2_ABS_MM", "15"))
-abd = np.interp(rest[:, 2], [0.95, 1.02, 1.10, 1.22, 1.30, 1.34], [0, 0.7, 1.0, 1.0, 0.4, 0]) * ss(-nrm[:, 1] / 0.5) * ss(1 - np.abs(rest[:, 0]) / 0.13) * (1 - ARM) * (rest[:, 1] < 0)
+abd = np.interp(rest[:, 2], [0.86, 0.98, 1.10, 1.22, 1.30, 1.34], [0, 0.45, 1.0, 1.0, 0.4, 0]) * ss(-nrm[:, 1] / 0.5) * ss(1 - np.abs(rest[:, 0]) / 0.13) * (1 - ARM) * (rest[:, 1] < 0)
 amt += ABS_MM / 1000.0 * abd
 # relax the amount on the surface so bellies blend (8 passes of neighbour averaging)
 nb = [[] for _ in range(nv)]
@@ -253,7 +253,7 @@ SHOULDER_REPORT = {"max_drop_mm": round(float(drop.max() * 1000), 1)}
 WAIST_MM = float(os.environ.get("V2_WAIST_MM", "24")); CHEST_MM = float(os.environ.get("V2_CHEST_MM", "16"))
 from scipy.spatial import cKDTree as _T
 z_ = rest[:, 2]
-prof_w = np.interp(z_, [0.92, 1.00, 1.10, 1.22, 1.34, 1.44, 1.50], [0, WAIST_MM * 0.6, WAIST_MM, WAIST_MM * 0.9, CHEST_MM, CHEST_MM * 0.6, 0]) / 1000.0
+prof_w = np.interp(z_, [0.84, 0.98, 1.10, 1.22, 1.34, 1.44, 1.50], [0, WAIST_MM * 0.55, WAIST_MM, WAIST_MM * 0.9, CHEST_MM, CHEST_MM * 0.6, 0]) / 1000.0
 lat_face = ss((np.abs(nrm[:, 0]) - 0.25) / 0.5)
 tors = (1 - ARM) * (1 - HEAD) * (1 - LEG)
 push = prof_w * lat_face * tors
@@ -326,6 +326,19 @@ if HIPB > 0:
     for _ in range(int(HIPB)):
         L1 = np.stack([avg(Q[:, k]) for k in range(3)], axis=1) - Q; Q = Q + 0.5 * band[:, None] * L1
         L2 = np.stack([avg(Q[:, k]) for k in range(3)], axis=1) - Q; Q = Q - 0.53 * band[:, None] * L2
+    off = Q - rest
+# R78e (owner circled the lower belly / groin / top of the thighs on v3c): the front of the groin read as a flat, boxy
+# panel with V1's faceted V-crease pattern along the groin lines, and the lower belly met it with a shelf.  Stronger
+# Taubin relax of the positions over the front of the lower belly, groin and top of the thighs.
+GROIN = float(os.environ.get("V2_GROIN_RELAX", "80"))
+if GROIN > 0:
+    gz = ss(1 - np.abs(rest[:, 2] - 0.95) / 0.13) * ss(1 - np.abs(rest[:, 0]) / 0.17) * ss((-nrm[:, 1] + 0.2) / 0.6) * (1 - ARM)
+    for _ in range(4):
+        gz = 0.5 * gz + 0.5 * avg(gz)
+    Q = rest + off
+    for _ in range(int(GROIN)):
+        L1 = np.stack([avg(Q[:, k]) for k in range(3)], axis=1) - Q; Q = Q + 0.5 * gz[:, None] * L1
+        L2 = np.stack([avg(Q[:, k]) for k in range(3)], axis=1) - Q; Q = Q - 0.53 * gz[:, None] * L2
     off = Q - rest
 # R77e: relax the offset field around the shoulders (drop field + deltoid bellies meeting) - measured extra roughness
 # on the deltoid came from the overlap shrink, the shoulder drop and the bellies, in that order

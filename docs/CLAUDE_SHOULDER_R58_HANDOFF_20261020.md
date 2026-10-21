@@ -1316,3 +1316,22 @@ Owner decision on the arms: a standing pose with the arms slightly out; the bind
 **Hips:** a ridge ran round the hips where the torso meets the thighs (faint in V1, made stronger by the waist and abdomen fills ending above it). The positions in that band (z 0.905 ± 0.10) are Taubin-relaxed (40 iterations) and kept as offsets. The line is gone.
 
 0 standing-pose overlaps.
+
+### Draft v3e: lower belly, groin and top of the thighs (21 Oct)
+
+The owner circled the lower belly, groin and upper thighs on v3c ("This point here needs fixing"). What was wrong, compared with the reference:
+- The front of the groin read as a flat, boxy panel, with V1's faceted V-crease lines along it.
+- A shelf/crease sat below the navel.
+- The tops of the thighs flared outward.
+
+Changes in `build_body_v2_sculpt_blender.py`:
+- **Abs fill:** now fades in from z 0.86 instead of 0.95.
+- **Waist side push:** now fades in from z 0.84 instead of 0.92.
+- **New groin relax:** `V2_GROIN_RELAX` (default 80) runs Taubin passes over the front of the lower belly, groin and upper thighs. Region: z 0.95 ± 0.13, |x| < 0.17, front-facing, arms excluded.
+- **Vastus lateralis:** starts lower (0.38–0.66 of the thigh) and is weaker (amp 4, was 8).
+- **Base thigh layer:** starts at 0.35 of the thigh instead of 0.20.
+
+Results:
+- 0 standing-pose overlaps.
+- Renders and before/after zoom are in `review-assets/body_v2/draft_v3e/`. The reference-photo comparison stays local.
+- **Still open:** a faint horizontal line remains at the top of the thighs, where the crotch starts. It is softer than before.

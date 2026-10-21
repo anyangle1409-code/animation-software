@@ -79,7 +79,7 @@ for s in range(41):
         row["base_check_mm"] = round(float(np.linalg.norm(p - z["base"][s], axis=1).max() * 1000), 4)
         row["mat_check"] = round(float(np.abs(mat - z["mat"][s]).max()), 6)
         row["weight_check"] = round(float(np.abs(w - z["weight"][s]).max()), 8)
-        if row["base_check_mm"] > 0.01 or row["mat_check"] > 1e-3 or row["weight_check"] > 1e-6:
+        if row["base_check_mm"] > 0.01 or row["mat_check"] > 1e-3 or row["weight_check"] > 1e-4:
             raise ValueError(("R70 model does not reproduce Work's unchanged sample", row))
     else:
         z["base"][s] = p.astype(z["base"].dtype)

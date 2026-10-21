@@ -749,10 +749,13 @@ if REFINE_MM > 0:
         # 0.684-0.706, 0.660-0.684, 0.636-0.660 - inside a rounded shield outline: widest at the middle pair (|x| ~0.071),
         # narrower at the top (~0.060) and towards the navel (~0.056).
         xh = ax_ / Hs
+        # R92 (owner: "you have the abs sitting too high and almost at the bottom of the pecs"): contrast zoom of the
+        # reference with the owner's top line at ~0.709 - below it only two pairs: a tall pair 0.665-0.707 and a pair
+        # 0.635-0.665, then smooth to the navel.  v9j squeezed three short rows into 0.636-0.706, so the visible blocks
+        # sat high, against the pecs.
         blocks = [  # (z_lo(x), z_hi(x), x_out at z_lo, x_out at z_hi, amp mm)
-            (0.684 - 0.03 * xh, 0.706 - 0.10 * xh, 0.068, 0.058, 7.0),
-            (0.660 + 0.00 * xh, 0.684 - 0.03 * xh, 0.071, 0.070, 9.0),
-            (0.636 + 0.10 * xh, 0.660 + 0.00 * xh, 0.056, 0.066, 5.5),
+            (0.665 + 0.00 * xh, 0.707 - 0.10 * xh, 0.071, 0.060, 9.0),
+            (0.635 + 0.10 * xh, 0.665 + 0.00 * xh, 0.060, 0.070, 7.5),
         ]
         seg = np.zeros(nv)
         for zlo_, zhi_, xa_, xb_, amp_ in blocks:
@@ -763,7 +766,7 @@ if REFINE_MM > 0:
             r_ = (np.abs(2 * u_ - 1.0) ** 2.3 + np.abs((2 * t_ - 1.0) - 0.12) ** 2.3) ** (1 / 2.3)
             # soft edges (cos^2): a steep edge read as a hard horizontal line (v9g/v9h); the pillows meet in gentle valleys
             seg += amp_ * np.cos(0.5 * np.pi * np.clip(r_, 0, 1)) ** 2 * (fz_ > zlo_) * (fz_ < zhi_) * (ax_ < xout)
-        h += float(os.environ.get("V2_ABS_SEG_SCALE", "1.0")) * seg
+        h += float(os.environ.get("V2_ABS_SEG_SCALE", "1.45")) * seg
         top = ss((0.706 - 0.10 * xh - fz_) / 0.010)
         # linea alba: sternum to navel, fading out below it
         la = np.interp(fz_, [0.565, 0.60, 0.62, 0.72, 0.74], [0, 0.6, 1.0, 1.0, 0.6])

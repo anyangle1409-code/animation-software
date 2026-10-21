@@ -1704,3 +1704,23 @@ The owner drew a line on the reference at about 0.706 of stature: "It's the line
 
 **Results:**
 - 0 standing-pose overlaps.
+
+### Draft v9l: two pairs below the owner's line (21 Oct)
+
+The owner said: "you have the abs sitting too high and almost at the bottom of the pecs."
+
+**Measured on a contrast zoom of the reference, with the owner's top line at about 0.709 of stature:** only two pairs lie below the line, then the skin is smooth to the navel.
+
+| Pair | Height (fraction of stature) |
+|---|---|
+| tall | 0.665–0.707 |
+| lower | 0.635–0.665 |
+
+**What v9j got wrong:** it squeezed three short rows into 0.636–0.706, so the visible blocks sat high, against the pecs.
+
+**R92 changes:**
+- Two pairs, at 9 mm and 7.5 mm.
+- `V2_ABS_SEG_SCALE` 1.45, so they read at full-body scale. At 1.0 they were barely visible there (v9k).
+
+**Results:**
+- 0 standing-pose overlaps.

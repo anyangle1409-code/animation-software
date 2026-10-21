@@ -1189,3 +1189,37 @@ Result:
 - the press path is untouched.
 
 **Still visible:** a groove where the arm meets the top of the trapezius (rear armpit view), and small lumps near the trapezius–arm junction. The lats and back are smoother and less V-shaped than in the photo.
+
+## Body v2 (21 Oct): muscle definition on the R41 body
+
+**Owner direction:**
+- "The muscles need better definition." The owner supplied a 7-view lean-athletic reference set: front, back, side, both three-quarters, arms raised front and back, and close-ups. It appears AI-generated, so it is used as a style target only; it stays out of git.
+- "Start now please."
+
+**Tool:** `scripts/body_v2/build_body_v2_sculpt_blender.py`. Same mesh, skeleton and skin weights; only the rest surface changes.
+- Skeleton-anchored muscle swellings: along the bones for the limbs, ellipsoids for the torso.
+- Combined as a soft union, so a groove forms where bellies meet.
+- The right side is mirrored to the left; symmetry error ≤ 0.012 mm.
+
+**Draft history:**
+
+| Draft | What changed |
+|---|---|
+| D | First full pass |
+| G | Owner: "spine very harsh, no lower-back muscle, nothing should stick out." The measured lumbar hollow was 65 mm below the glute-to-upper-back line (already in V1). An erector fill of 34 mm brings it to 39 mm; glutes and calves toned down. |
+| H–I | Owner: "torso very slim, photos a bit wider." Measured as fractions of height (front view): waist 0.156 against the reference's 0.187, chest 0.179 against 0.20, shoulders 0.332 against 0.300. The ribcage and waist sides were widened (waist 24 mm, chest 16 mm, kept clear of the arm) and the lateral deltoid trimmed. |
+
+**Rest-surface self-intersections:** none in V1, but 436 (D/G) and 494 (I), because the inner upper arm pushed into the lats and armpit and the hands into the thighs.
+- D–G were shown to the owner before this was measured.
+- **K** fixes it: clearance shrink, then an exact triangle-overlap loop. The overlap count goes 410 → 0 in 11 iterations.
+
+**K (current):**
+- waist 0.179 of height;
+- shoulders 0.332;
+- chest width is limited by the arms, which hang against the torso in the bind pose;
+- 0 overlaps.
+
+**Next:**
+- Region-by-region definition against the close-ups, plus bony landmarks.
+- Owner decisions pending: the head, and the standing posture (the skeleton is untouched).
+- Then re-fit the shoulder correctives on the v2 surface.

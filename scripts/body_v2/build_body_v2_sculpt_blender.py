@@ -84,7 +84,7 @@ LIMB = [  # bone, t0, tp, t1, facing, half-width deg, amp mm, mask groups
     ("shin", 0.00, 0.40, 0.85, (1, 0, 0), 180, 2.0, ("shin",)),
 ]
 BLOB = [  # centre, radii (x,y,z), facing, min facing dot, amp mm, mask ("torso" = off the arms, "arm" = upper arm/shoulder)
-    ((0.262, 0.030, 1.420), (0.055, 0.075, 0.085), (1, 0, 0.35), -0.3, 13.0, "shoulder"),   # deltoid (lateral)
+    ((0.262, 0.030, 1.420), (0.055, 0.075, 0.085), (1, 0, 0.35), -0.3, 10.0, "shoulder"),   # deltoid (lateral; R76h: shoulders already 0.332 H vs reference 0.300)
     ((0.240, -0.035, 1.415), (0.045, 0.045, 0.075), (0.5, -1, 0.2), -0.1, 7.0, "shoulder"),  # anterior deltoid
     ((0.240, 0.095, 1.415), (0.045, 0.045, 0.075), (0.5, 1, 0.2), -0.1, 7.0, "shoulder"),    # posterior deltoid
     ((0.095, -0.112, 1.365), (0.095, 0.060, 0.075), (0, -1, 0.15), 0.25, 13.0, "torso"),     # pectoralis major
@@ -183,15 +183,83 @@ def avg(x):
 for _ in range(int(os.environ.get("V2_RELAX", "4"))):
     amt = 0.5 * amt + 0.5 * avg(amt)
 off = nrm * amt[:, None]
+# R76h (owner: "the torso ... seems very slim and the photos I sent are a bit wider"): measured as fractions of height on
+# the front view - waist (torso only) 0.156 vs reference 0.187, chest 0.179 vs 0.20.  Widen the ribcage / waist sides
+# (lateral-facing torso skin, rest z 0.95..1.45), most at the waist, but never closer than 4 mm to the hanging arm.
+WAIST_MM = float(os.environ.get("V2_WAIST_MM", "24")); CHEST_MM = float(os.environ.get("V2_CHEST_MM", "16"))
+from scipy.spatial import cKDTree as _T
+z_ = rest[:, 2]
+prof_w = np.interp(z_, [0.92, 1.00, 1.10, 1.22, 1.34, 1.44, 1.50], [0, WAIST_MM * 0.6, WAIST_MM, WAIST_MM * 0.9, CHEST_MM, CHEST_MM * 0.6, 0]) / 1000.0
+lat_face = ss((np.abs(nrm[:, 0]) - 0.25) / 0.5)
+tors = (1 - ARM) * (1 - HEAD) * (1 - LEG)
+push = prof_w * lat_face * tors
+armpts = (rest + off)[ARM > 0.5]
+cand = push > 1e-5
+newpos = rest + off + nrm * push[:, None]
+gap, _ = _T(armpts).query(rest[cand] + off[cand])                      # current clearance to the arm skin
+push[cand] = np.minimum(push[cand], np.maximum(gap - 0.004, 0.0))
+for _ in range(6):
+    push = 0.5 * push + 0.5 * avg(push)
+off = off + nrm * push[:, None]
+# R76i: clearance between the arms (incl. hands) and the body.  The muscle volume made the inner upper arm press into the
+# lats / armpit (~400 overlapping triangle pairs) and the hands into the front of the thighs (~70).  Wherever a vertex
+# of one part ends up closer to the other part than min(its rest clearance, 4 mm), shrink the new volume of both sides
+# there, and repeat.
+CLEAR = float(os.environ.get("V2_CLEAR_MM", "4")) / 1000.0
+A_ = ARM > 0.5; B_ = ~A_
+ta0 = _T(rest[B_]); tb0 = _T(rest[A_])
+d0A, _ = ta0.query(rest[A_]); d0B, _ = tb0.query(rest[B_])
+needA = np.minimum(d0A, CLEAR); needB = np.minimum(d0B, CLEAR)
+scale = np.ones(nv); clr_iters = 0
+for it in range(25):
+    P_ = rest + off * scale[:, None]
+    dA, _ = _T(P_[B_]).query(P_[A_]); dB, _ = _T(P_[A_]).query(P_[B_])
+    badA = dA < needA - 1e-4; badB = dB < needB - 1e-4
+    if not badA.any() and not badB.any():
+        break
+    sA = np.ones(A_.sum()); sA[badA] = 0.7; sB = np.ones(B_.sum()); sB[badB] = 0.7
+    shrink = np.ones(nv); shrink[A_] = sA; shrink[B_] = sB
+    for _ in range(3):
+        shrink = np.minimum(shrink, 0.5 * shrink + 0.5 * avg(shrink))
+    scale *= shrink; clr_iters = it + 1
+off = off * scale[:, None]
+# then the exact test: triangles of the new rest surface that overlap (not sharing a vertex).  Shrink the new volume on
+# their vertices and a small neighbourhood, until none are left (the V1 rest surface has none).
+from mathutils.bvhtree import BVHTree as _BVH
+_fs = [set(f) for f in faces]; _ft = [tuple(f) for f in faces]
+ov_log = []
+for it in range(40):
+    P_ = rest + off
+    tr = _BVH.FromPolygons([Vector(v) for v in P_], _ft, all_triangles=True)
+    pr = [(a_, b_) for a_, b_ in tr.overlap(tr) if a_ < b_ and not (_fs[a_] & _fs[b_])]
+    ov_log.append(len(pr))
+    if not pr:
+        break
+    hit = np.zeros(nv); hit[np.unique(faces[np.array(pr).ravel()].ravel())] = 1.0
+    for _ in range(2):
+        hit = np.maximum(hit, avg(hit))
+    off = off * (1.0 - 0.35 * np.clip(hit * 2, 0, 1))[:, None]
+WIDTH_REPORT = {"overlap_iterations": ov_log, "clearance_iterations": clr_iters, "min_scale": round(float(scale.min()), 3), "waist_mm": WAIST_MM, "chest_mm": CHEST_MM, "max_side_push_mm": round(float(push.max() * 1000), 2)}
 np.savez_compressed(OUT / "body_v2_offsets.npz", offsets=off.astype(np.float32))
 mir = {}
-rep = {"gain": GAIN, "lumbar_mm": LUMBAR_MM, "spine_mm": SPINE_MM, "union_p": UNION_P, "relax": int(os.environ.get("V2_RELAX", "4")), "max_mm": round(float(amt.max() * 1000), 2), "mean_mm_nonzero": round(float(amt[amt > 1e-4].mean() * 1000), 2),
+rep = {"gain": GAIN, "width": WIDTH_REPORT, "lumbar_mm": LUMBAR_MM, "spine_mm": SPINE_MM, "union_p": UNION_P, "relax": int(os.environ.get("V2_RELAX", "4")), "max_mm": round(float(amt.max() * 1000), 2), "mean_mm_nonzero": round(float(amt[amt > 1e-4].mean() * 1000), 2),
        "vertices_moved_gt_1mm": int((amt > 1e-3).sum())}
 # symmetry check: mirror pairs by nearest neighbour
 from scipy.spatial import cKDTree
 tree = cKDTree(rest); dd, j = tree.query(rest * np.array([-1, 1, 1]))
 ok = dd < 1e-5
 rep["symmetry_max_mm"] = round(float(np.abs(amt[ok] - amt[j[ok]]).max() * 1000), 4)
+# self-intersections of the rest surface (pairs of non-adjacent triangles that overlap), before and after
+from mathutils.bvhtree import BVHTree
+
+
+def _pairs(P):
+    tree = BVHTree.FromPolygons([Vector(v) for v in P], [tuple(f) for f in faces], all_triangles=True)
+    fs = [set(f) for f in faces]
+    return sum(1 for a_, b_ in tree.overlap(tree) if a_ < b_ and not (fs[a_] & fs[b_]))
+
+
+rep["rest_self_intersections"] = {"v1": _pairs(rest), "v2": _pairs(rest + off)}
 (OUT / "body_v2_report.json").write_text(json.dumps(rep, indent=1))
 print("V2_SCULPT", json.dumps(rep), flush=True)
 

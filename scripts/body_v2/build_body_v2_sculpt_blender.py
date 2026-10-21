@@ -785,22 +785,22 @@ if REFINE_MM > 0:
         # clavicle (~0.825); a valley between the two pecs at the sternum; a soft deltopectoral line from the clavicle
         # down to the armpit; nipples at ~0.751, |x| ~0.077.  v9m's pec had a flat, straight lower step and little mass.
         zb_ = 0.736 - 0.643 * xh + 9.66 * xh ** 2           # smooth curve through 0.736 / 0.728 (|x| 0.05) / 0.775 (|x| 0.105)
-        zt_ = 0.825
+        zt_ = 0.832   # R97 (owner: "Too small / not full enough"): bigger, fuller pecs - higher, wider, 20 mm
         v_ = np.clip((fz_ - zb_) / (zt_ - zb_), 0, 1)
         # rounded mass (v10a's plate with a sharp step read as a shelf): a dome across the pec, fullest low-middle
         # R96: rounder and fuller up under the clavicle (v10e-g read flat above the nipple line)
         prof = ss(v_ / 0.14) * np.sin(np.pi * np.clip(0.18 + 0.82 * v_, 0, 1)) ** 0.6 * (fz_ > zb_ - 0.002)
         prof /= 0.85
         # rounded towards the sternum too, so the two pecs make a soft valley there (not a thin line); out to the armpit
-        lat_ = np.sin(np.pi * np.clip(xh / 0.110, 0, 1)) ** 0.8 * ss((0.106 - xh) / 0.020)
+        lat_ = np.sin(np.pi * np.clip(xh / 0.116, 0, 1)) ** 0.7 * ss((0.108 - xh) / 0.040)   # wide outer fade (v11b: crease at the edge)
         # R95 (owner on v10c: "Still looks wrong. They need to be like the reference model"): side silhouettes, front
         # edge ahead of the front at 0.70 of stature (fraction of stature) - reference: 0.72 -0.003, 0.74 +0.002,
         # 0.75 +0.001 (the lower ribs / upper abs are as far forward as the pecs: one full, smooth chest curve; the pec
         # reads by its outline and a slight overhang); v10c: 0.72 +0.004, 0.74 +0.016, 0.75 +0.014 - the pec stood ~3 cm
         # proud of a recessed rib area, a shelf.  Lower pec projection, and fill the lower ribs forward up to the border.
-        PEC = float(os.environ.get("V2_PEC_MM", "12"))
-        h += PEC * prof * lat_
-        RIB = float(os.environ.get("V2_LOWER_RIB_MM", "5"))
+        PEC = float(os.environ.get("V2_PEC_MM", "20"))
+        h += PEC * prof * lat_ * ss((0.832 - fz_) / 0.030)   # tapers out below the clavicle (v11a/b: neck stripes)
+        RIB = float(os.environ.get("V2_LOWER_RIB_MM", "8"))
         rib = ss((fz_ - 0.686) / 0.025) * ss((zb_ - 0.002 - fz_) / 0.012) * ss((0.090 - xh) / 0.025)
         h -= 0.9 * np.exp(-0.5 * ((fz_ - zb_ + 0.001) / 0.0045) ** 2) * ss((0.098 - xh) / 0.012) * ss(xh / 0.012)   # soft shadow under the border
         h += RIB * rib
@@ -810,7 +810,7 @@ if REFINE_MM > 0:
         h += BELLY * ss((fz_ - 0.585) / 0.03) * ss((0.735 - fz_) / 0.03) * np.exp(-0.5 * (xh / 0.055) ** 2)
         # deltopectoral line
         dl = np.abs(xh - np.interp(fz_, [0.76, 0.80, 0.83], [0.106, 0.100, 0.094]))
-        h -= 1.4 * np.exp(-0.5 * (dl / 0.006) ** 2) * ss((fz_ - 0.765) / 0.01) * ss((0.83 - fz_) / 0.01)
+        h -= 0.7 * np.exp(-0.5 * (dl / 0.008) ** 2) * ss((fz_ - 0.765) / 0.01) * ss((0.83 - fz_) / 0.01)
         # nipples (small, as on the reference figure)
         rn = np.sqrt((xh - 0.077) ** 2 + (fz_ - 0.751) ** 2) * Hs
         h += 1.5 * np.exp(-0.5 * (rn / 0.012) ** 2) + 3.5 * np.exp(-0.5 * (rn / 0.0045) ** 2)
@@ -903,7 +903,34 @@ if REFINE_MM > 0:
         for _ in range(60):
             hit = 0.5 * hit + 0.5 * avg(hit)
         off = off * (1.0 - 0.2 * np.clip(hit * 2, 0, 1))[:, None]
+    # a fold (neighbouring triangles crossing) cannot be shrunk away: relax the skin itself around what is left
+    for _fix in range(4):
+        if not (ov2 and ov2[-1]):
+            break
+        P_ = stand_eval(off)
+        tr = _BVH.FromPolygons([Vector(v) for v in P_], _ft, all_triangles=True)
+        pr = [(a_, b_) for a_, b_ in tr.overlap(tr) if a_ < b_ and not (_fs[a_] & _fs[b_])]
+        if not pr:
+            ov2.append(0); break
+        zone = np.zeros(nv); zone[np.unique(faces[np.array(pr).ravel()].ravel())] = 1.0
+        for _ in range(6):
+            zone = np.maximum(zone, avg(zone))
+        for _ in range(6):
+            zone = 0.5 * zone + 0.5 * avg(zone)
+        Q = rest + off
+        for _ in range(30):
+            Q = Q + 0.5 * zone[:, None] * (np.stack([avg(Q[:, k]) for k in range(3)], axis=1) - Q)
+            Q = Q - 0.53 * zone[:, None] * (np.stack([avg(Q[:, k]) for k in range(3)], axis=1) - Q)
+        off = Q - rest
+        P_ = stand_eval(off)
+        tr = _BVH.FromPolygons([Vector(v) for v in P_], _ft, all_triangles=True)
+        ov2.append(sum(1 for a_, b_ in tr.overlap(tr) if a_ < b_ and not (_fs[a_] & _fs[b_])))
     DETAIL_REPORT["overlap_iterations"] = ov2
+    if ov2 and ov2[-1]:
+        P_ = stand_eval(off)
+        tr = _BVH.FromPolygons([Vector(v) for v in P_], _ft, all_triangles=True)
+        pr = [(a_, b_) for a_, b_ in tr.overlap(tr) if a_ < b_ and not (_fs[a_] & _fs[b_])]
+        DETAIL_REPORT["overlap_where_rest"] = [[round(float(c), 3) for c in rest[faces[a_]].mean(0)] + [round(float(c), 3) for c in rest[faces[b_]].mean(0)] for a_, b_ in pr[:12]]
 WIDTH_REPORT = {"overlap_iterations": ov_log, "clearance_iterations": clr_iters, "min_scale": round(float(scale.min()), 3), "waist_mm": WAIST_MM, "chest_mm": CHEST_MM, "max_side_push_mm": round(float(push.max() * 1000), 2)}
 np.savez_compressed(OUT / "body_v2_offsets.npz", offsets=(off + PROP).astype(np.float32), proportion=PROP.astype(np.float32))   # R81: offsets = sculpt + proportion
 mir = {}

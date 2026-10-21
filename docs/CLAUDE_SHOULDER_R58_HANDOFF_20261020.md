@@ -1804,3 +1804,26 @@ The owner said: "Still looks wrong. They need to be like the reference model."
 **Still open:**
 - In the side view the chest is still a little proud below the nipple line compared with the reference.
 - Some wrinkles at the front of the armpit (R41).
+
+### Draft v11d: bigger, fuller pecs (21 Oct)
+
+The owner said "Still looks wrong". Asked what was most wrong, they chose: "Too small / not full enough".
+
+**R97 changes:**
+- `V2_PEC_MM` raised from 12 to 20.
+- The pec top is at 0.832 and tapers out below the clavicle (`ss((0.832−f)/0.03)`).
+- Wider across: `sin(π·x/0.116)^0.7`, with a broad outer fade from 0.108 (0.040 wide) so it stops short of the arm.
+- Deltopectoral line softened to 0.7 mm.
+- Lower-rib fill raised to 8 mm.
+
+**Rejected on the way:**
+- v11a: the chest erase reached 0.83, which striped the neck base.
+- v11a/v11b: a narrow outer fade left a crease where the pec met the arm.
+
+**Fine overlap loop:**
+- It stalled at 28 pairs, which were a local fold on the upper back (rest x 0.15, y 0.11, z 1.45), not the pecs.
+- It now ends with a fold relax: Taubin on the positions in a zone around the remaining pairs, up to 4 rounds.
+- Locations of any remaining pairs are reported in `detail.overlap_where_rest`.
+
+**Results:**
+- 0 standing-pose overlaps.

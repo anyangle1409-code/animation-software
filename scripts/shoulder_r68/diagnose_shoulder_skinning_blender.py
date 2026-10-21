@@ -230,6 +230,32 @@ if os.environ.get("R68_MODE") == "outline":
     (OUT / f"outline_{os.environ.get('R68_TAG', 'x')}.json").write_text(json.dumps(vals))
     print("R68O_DONE", flush=True)
     raise SystemExit
+if os.environ.get("R68_MODE") == "markmap":
+    # R72: map an owner's circled image region (ellipse in pixels) on a traps_closeups view back to mesh vertices
+    # (front-most visible ones), report their rest-space centroid / extent and the crease angles inside
+    ht = float(os.environ["R72_HT"]); cx, cy, rx, ry = [float(v) for v in os.environ["R72_ELLIPSE"].split(",")]
+    pose(ht); co = evaluated(); W = rig.matrix_world
+    ua = W @ rig.pose.bones["upperarm_r"].head
+    tgt = np.array(ua + Vector((0, 0, 0.02))); dv = np.array([0.15, 1, 0.1]); dv /= np.linalg.norm(dv)
+    fwd = -dv; right = np.cross(fwd, [0, 0, 1]); right /= np.linalg.norm(right); up = np.cross(right, fwd)
+    scale = 0.30; res_ = 1000
+    rel = co - tgt
+    px_ = res_ / 2 + (rel @ right) / scale * res_; py_ = res_ / 2 - (rel @ up) / scale * res_
+    depth = rel @ dv                                        # larger = closer to the camera
+    inside = ((px_ - cx) / rx) ** 2 + ((py_ - cy) / ry) ** 2 <= 1
+    # visibility: keep vertices within 1.5 cm of the front-most surface in their 6 px cell
+    cell = (np.floor(px_ / 6).astype(int), np.floor(py_ / 6).astype(int))
+    best = {}
+    for i in np.flatnonzero(inside):
+        k = (cell[0][i], cell[1][i]); best[k] = max(best.get(k, -9), depth[i])
+    vis = np.array([i for i in np.flatnonzero(inside) if depth[i] >= best[(cell[0][i], cell[1][i])] - 0.015])
+    r = REST[vis]
+    print("R72M", json.dumps({"vertices": int(len(vis)), "rest_centroid": np.round(r.mean(0), 3).tolist(),
+          "rest_p10": np.round(np.percentile(r, 10, 0), 3).tolist(), "rest_p90": np.round(np.percentile(r, 90, 0), 3).tolist(),
+          "rest_radius_p90": round(float(np.percentile(np.linalg.norm(r - r.mean(0), axis=1), 90)), 3),
+          "posed_centroid": np.round(co[vis].mean(0), 3).tolist()}), flush=True)
+    np.save(OUT / "r72_marked_vertices.npy", vis)
+    raise SystemExit
 if os.environ.get("R68_MODE") == "traps_closeups":
     # R72 (owner: "a close up of the traps and the arm where it meets the shoulder ... to mark up"): full-size renders
     sc = bpy.context.scene

@@ -818,7 +818,8 @@ if REFINE_MM > 0:
         h += float(os.environ.get("V2_ABS_SEG_SCALE", "0.6")) * seg
         top = ss((0.706 - 0.10 * xh - fz_) / 0.010)
         # linea alba: sternum to navel, fading out below it
-        la = np.interp(fz_, [0.565, 0.60, 0.62, 0.72, 0.74], [0, 0.6, 1.0, 1.0, 0.6])
+        # R102: stops at the top of the abs - between the pecs the reference has a soft valley, not a line (v12i)
+        la = np.interp(fz_, [0.565, 0.60, 0.62, 0.70, 0.73], [0, 0.6, 1.0, 1.0, 0.0])
         h -= 2.5 * la * np.exp(-0.5 * (ax_ / 0.0060) ** 2)   # wide enough for the 4 mm mesh; frames the blocks (R87)
         # linea semilunaris: soft groove at the rectus' outer edge, above the navel
         h -= 1.0 * np.exp(-0.5 * ((ax_ - xo - 0.004) / 0.014) ** 2) * ss((fz_ - 0.60) / 0.03) * top
@@ -844,13 +845,15 @@ if REFINE_MM > 0:
         # rounded curve (sqrt-like rise from the border: near-vertical tangent, no corner), fullest around the nipple
         # line, then a long convex slope up to the clavicle
         if PSTY == "plate":   # rounded lower edge (~5 cm rise), near-flat across the lower half, thinning to ~45 % towards the clavicle
-            prof = ss(v_ / 0.30) ** 0.75 * (1.0 - 0.45 * ss((v_ - 0.40) / 0.60)) * (fz_ > zb_ - 0.002)   # v12g's 0.16 rise: a step in the side view
+            # R102 (owner: "Do the chest and pecs now", after v12h read flat up high): the reference pec stays full right up to
+            # the clavicle - thinning only to ~80 % before the clavicle fade (v12h: ~55 %)
+            prof = ss(v_ / 0.30) ** 0.75 * (1.0 - float(os.environ.get("V2_PEC_TOP_THIN", "0.20")) * ss((v_ - 0.55) / 0.45)) * (fz_ > zb_ - 0.002)   # v12g's 0.16 rise: a step in the side view
         else:
             prof = np.sqrt(ss(v_ / 0.30)) * np.sin(np.pi * np.clip(0.12 + 0.88 * v_, 0, 1)) ** 0.8 * (fz_ > zb_ - 0.002)
             prof /= 0.85
         # rounded towards the sternum too, so the two pecs make a soft valley there (not a thin line); out to the armpit
         if PSTY == "plate":   # even across the chest (a sin() dome across x read as a breast), soft valley at the sternum
-            lat_ = ss((xh - 0.004) / 0.022) * ss((0.114 - xh) / 0.040)
+            lat_ = ss((xh - 0.004) / 0.022) * ss((0.120 - xh) / 0.032)   # R102: out to the deltopectoral line, as on the reference
         else:
             lat_ = np.sin(np.pi * np.clip(xh / 0.116, 0, 1)) ** 0.7 * ss((0.108 - xh) / 0.040)   # wide outer fade (v11b: crease at the edge)
         # R95 (owner on v10c: "Still looks wrong. They need to be like the reference model"): side silhouettes, front
@@ -858,11 +861,11 @@ if REFINE_MM > 0:
         # 0.75 +0.001 (the lower ribs / upper abs are as far forward as the pecs: one full, smooth chest curve; the pec
         # reads by its outline and a slight overhang); v10c: 0.72 +0.004, 0.74 +0.016, 0.75 +0.014 - the pec stood ~3 cm
         # proud of a recessed rib area, a shelf.  Lower pec projection, and fill the lower ribs forward up to the border.
-        PEC = float(os.environ.get("V2_PEC_MM", "15" if PSTY == "plate" else "20"))
+        PEC = float(os.environ.get("V2_PEC_MM", "16" if PSTY == "plate" else "20"))
         h += PEC * prof * lat_ * ss((0.832 - fz_) / 0.030)   # tapers out below the clavicle (v11a/b: neck stripes)
         RIB = float(os.environ.get("V2_LOWER_RIB_MM", "8"))
         rib = ss((fz_ - 0.686) / 0.025) * ss((zb_ - 0.002 - fz_) / 0.012) * ss((0.075 - xh) / 0.030)   # R98: off the lateral corner
-        h -= 0.9 * np.exp(-0.5 * ((fz_ - zb_ + 0.001) / 0.0045) ** 2) * ss((0.098 - xh) / 0.012) * ss(xh / 0.012)   # soft shadow under the border
+        h -= float(os.environ.get("V2_PEC_SHADOW_MM", "1.4")) * np.exp(-0.5 * ((fz_ - zb_ + 0.001) / 0.0045) ** 2) * ss((0.098 - xh) / 0.012) * ss(xh / 0.012)   # soft shadow under the border
         h += RIB * rib
         # the front of the abdomen as one broad smooth volume (reference side view: the front is a near-vertical column
         # from the abs up to the pecs; the model's belly sat ~1 cm behind the chest)
@@ -978,7 +981,10 @@ if REFINE_MM > 0:
         dF = _rF - (mF - mF[i50]); dB = _rB - (mB - mB[i50])
         _k = np.ones(7) / 7.0
         dF = np.convolve(np.pad(dF, 3, mode="edge"), _k, mode="valid"); dB = np.convolve(np.pad(dB, 3, mode="edge"), _k, mode="valid")
-        win = ss((_bf - 0.515) / 0.03) * ss((0.84 - _bf) / 0.06)     # long taper below the neck (abrupt ends striped / ridged, v12b/v12c)
+        # long taper below the neck (abrupt ends striped / ridged, v12b/v12c); R102: reaches up to the clavicles (v12j's upper
+        # chest stood ~1 cm proud at 0.81-0.84, so the chest front read flat, not the reference's slope down to the nipple);
+        # stops below the chin (the 0.87 bin is the chin, not the neck)
+        win = ss((_bf - 0.515) / 0.03) * ss((float(os.environ.get("V2_SIDE_FIT_TOP", "0.865")) - _bf) / 0.035)
         dF = np.clip(dF, -0.03, 0.03) * win * SIDEFIT; dB = np.clip(dB, -0.03, 0.03) * win * SIDEFIT
         fv = np.interp(fzq, _bf, dF); bv = np.interp(fzq, _bf, dB)
         Fabs = np.interp(fzq, _bf, mF); Babs = np.interp(fzq, _bf, mB)

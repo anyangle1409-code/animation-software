@@ -1878,3 +1878,24 @@ The owner chose "Reshape torso to reference first". On v11e/v12 they also said: 
 - The upper pec may need to be fuller toward the clavicle (the reference is full high up).
 - The abs read softer under the new lighting angle.
 - Faint lines remain on the right deltoid front.
+
+### Draft v12k: chest and pecs (R102, 21 Oct)
+
+Owner: "Do the chest and pecs now", after v12h, where the upper chest read flat.
+
+**Changes:**
+- **Upper pec fuller:** the pec now thins only to about 80 % before the clavicle fade (`V2_PEC_TOP_THIN` 0.20; v12h about 55 %), because the reference pec stays full right up to the clavicle.
+- **Pec width:** it reaches out to the deltopectoral line (outer fade 0.088–0.120 of stature).
+- **Thickness:** `V2_PEC_MM` 16.
+- **Lower-border shadow:** 1.4 mm (`V2_PEC_SHADOW_MM`).
+- **Linea alba:** stops at the top of the abs (0.73). Between the pecs there is a soft valley, not a line.
+- **Side fit:** now reaches up to the clavicles (`V2_SIDE_FIT_TOP` 0.865). In v12j the upper chest stood about 1 cm proud at 0.81–0.84, so the chest front read flat rather than sloping down to the nipple. The fit stops below the chin.
+
+**Results:**
+- silfit: the front matches the reference within 0.001 at 0.81 and 0.005 at 0.84.
+- 0 standing-pose overlaps.
+- Model-only image: `review-assets/body_v2/draft_v12k/chest_v12h_v12k.jpg`.
+
+**Still open:**
+- Front widths: ribs, shoulders, trapezius.
+- The creases on the side of the ribs behind the pec come from R41's lateral chest.

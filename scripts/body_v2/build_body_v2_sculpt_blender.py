@@ -314,6 +314,25 @@ if HEAD_SCALE != 1.0:
     off = off + (rest + off - piv) * ((HEAD_SCALE - 1.0) * hw_)[:, None]
     NECK_MM = float(os.environ.get("V2_NECK_MM", "8"))         # R78d (owner: "need to have a neck"): lengthen the neck a little
     off[:, 2] += NECK_MM / 1000.0 * hw_
+# R79 (owner: "The torso seem very long and the legs short"; chose "Longer legs, same height"): measured against ANSUR II
+# male (n = 4,082, stature-conditioned OLS at the v3e stature 1.857 m) the hip, knee and ankle joints are at normal heights
+# (knee 0.515 vs 0.525, trochanter ~0.968 vs 0.962) but the crotch is 0.837 m against 0.905 m (-2.8 SD); the
+# project's own proportion audit (F-PROP-001) already had it at z -1.85 on V1.  So the bones stay; the crotch and the top
+# of the inner thighs are lifted (height unchanged): a vertical lift, full at the midline and fading to zero at the thigh
+# axis, rising from z 0.60 to the old crotch and fading out by z 1.12 above it.
+CROTCH_MM = float(os.environ.get("V2_CROTCH_MM", "58"))
+if CROTCH_MM > 0:
+    Q = rest + off
+    zc = 0.84
+    up = np.where(Q[:, 2] < zc, ss((Q[:, 2] - 0.60) / (zc - 0.60)), ss((1.12 - Q[:, 2]) / (1.12 - zc)))
+    up = up * ss(1 - np.maximum(np.abs(rest[:, 0]) - 0.015, 0) / 0.095) * (1 - ARM)
+    # only the surfaces between the legs (facing sideways or down); lifting the front / back faces too pushed the lower
+    # belly into a fold above the groin (v3f/v3g)
+    up = up * ss((0.85 - np.abs(nrm[:, 1])) / 0.5)
+    for _ in range(3):
+        up = 0.5 * up + 0.5 * avg(up)
+    off[:, 2] += CROTCH_MM / 1000.0 * up
+# (applied before the hip-band and groin relax below, so they smooth the lifted surface)
 # R78c (owner: "a very noticeable line departing [torso and legs]"): a ridge runs round the hips where the torso meets
 # the thighs (faint in V1, stronger with the waist/abdomen fills ending above it and the thigh fills starting below).
 # Taubin-relax the POSITIONS in that band (removes the ridge itself, volume-preserving) and keep the change as offsets.

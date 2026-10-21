@@ -1335,3 +1335,36 @@ Results:
 - 0 standing-pose overlaps.
 - Renders and before/after zoom are in `review-assets/body_v2/draft_v3e/`. The reference-photo comparison stays local.
 - **Still open:** a faint horizontal line remains at the top of the thighs, where the crotch starts. It is softer than before.
+
+### Draft v3h: leg / torso proportion (21 Oct)
+
+The owner asked: "The torso seem very long and the legs short. Is this correct?" They chose "Longer legs, same height".
+
+**Measured against ANSUR II male data** (n = 4,082; values predicted from stature by linear regression, at the v3e stature of 1.857 m):
+
+| Landmark | Model | ANSUR prediction |
+|---|---|---|
+| Knee joint | 0.515 m | lateral femoral epicondyle 0.525 m |
+| Hip / trochanter | ~0.968 m | trochanterion 0.962 m |
+| Crotch | 0.837 m | 0.905 m (model is −2.8 SD) |
+
+The project's own proportion audit (F-PROP-001) already had the V1 crotch at z −1.85.
+
+**Conclusion:** the leg bones are the right length. The soft-tissue crotch hung about 6–7 cm too low, so the legs looked short and the torso long. The fix keeps the skeleton and the stature unchanged.
+
+**R79 (`V2_CROTCH_MM`, default 58):** a vertical lift of the crotch and the top of the inner thighs.
+- Strongest at the midline, fading to zero at the thigh axis.
+- Rises from z 0.60 up to the old crotch, then fades out by z 1.12.
+- Only applied to surfaces that face sideways or down (between the legs). Lifting the front and back faces too pushed the lower belly into a fold (v3f/v3g, rejected).
+- Applied before the hip-band and groin relax.
+
+**Result:**
+- Crotch at 0.882 m = 0.475 H (ANSUR mean 0.487, SD 0.013).
+- Stature unchanged at 1.857 m.
+- 0 standing-pose overlaps.
+- `review-assets/body_v2/draft_v3h/` holds the offsets, the proportion grid and the groin before/after.
+
+**Other findings from the same audit, not yet acted on:**
+- The arms are short (acromion to fingertip z −2.18 on V1).
+- The armpit and sternal notch sit high (z ≈ 2).
+- The head enlargement raised the stature from 1.82 to 1.857 m, so the shoulders are now about 2 cm low for that height.

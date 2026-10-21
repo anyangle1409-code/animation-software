@@ -230,6 +230,40 @@ if os.environ.get("R68_MODE") == "outline":
     (OUT / f"outline_{os.environ.get('R68_TAG', 'x')}.json").write_text(json.dumps(vals))
     print("R68O_DONE", flush=True)
     raise SystemExit
+if os.environ.get("R68_MODE") == "toppose":
+    # R70 (owner, option C, with a real dumbbell-press photo from behind): the top of the press with slightly bent,
+    # flared elbows instead of a straight vertical lockout.  Pose = Work's coupled shoulder at elevation ht, elevation
+    # plane `plane`, elbow flexion `elbow` with the forearm-vertical turn (as pose_press_full), drives on.
+    VARS = [tuple(float(x) for x in v.split(":")) for v in os.environ.get("R70_POSES", "166:0:15,150:25:15,145:35:5").split(",")]
+    sc = bpy.context.scene
+    for ob in sc.objects:
+        if ob.type in ("MESH", "CURVE") and ob is not body:
+            ob.hide_render = True
+    mat = bpy.data.materials.new("REVIEW_ONLY"); mat.diffuse_color = (.72, .55, .45, 1)
+    body.data.materials.clear(); body.data.materials.append(mat)
+    sc.render.engine = "BLENDER_WORKBENCH"; sc.display.shading.light = "STUDIO"; sc.display.shading.color_type = "MATERIAL"
+    sc.display.shading.show_cavity = True; sc.render.resolution_x = sc.render.resolution_y = 700
+    cd = bpy.data.cameras.new("C"); cd.type = "ORTHO"; cam = bpy.data.objects.new("C", cd); sc.collection.objects.link(cam); sc.camera = cam
+    for ht, elbow, plane in VARS:
+        bench._reset(rig)
+        px.PATHS[px._PATH["name"]]["plane_deg"] = plane
+        px.apply_pose(res, ht)
+        for sd in ("l", "r"):
+            bench._rot(rig.pose.bones[f"forearm_{sd}"], x=-elbow)
+        bpy.context.view_layer.update()
+        if elbow > 0:
+            px._forearm_vertical(rig, 1.0)
+        drives.drive(rig, body); bpy.context.view_layer.update()
+        m = metrics(evaluated())
+        print("R70", ht, elbow, plane, json.dumps({"r_rear_pinched": m["r_rear"]["pinched_lt_0.5"], "folds": m["r_shoulder"]["folds_gt_100deg"],
+              "selfx": [m["r_self_intersections"], m["l_self_intersections"]]}), flush=True)
+        for view, dv, scale in (("back_full", (0, 1, 0), 1.25), ("rear", (0.15, 1, 0), 0.45)):
+            mid = (rig.matrix_world @ rig.pose.bones["upperarm_l"].head + rig.matrix_world @ rig.pose.bones["upperarm_r"].head) / 2
+            tgt = mid + Vector((0, 0, 0.12)) if view == "back_full" else rig.matrix_world @ rig.pose.bones["upperarm_r"].head + Vector((0, 0, -0.04))
+            dvec = Vector(dv).normalized(); cd.ortho_scale = scale
+            cam.location = tgt + dvec * 3; cam.rotation_mode = "QUATERNION"; cam.rotation_quaternion = (-dvec).to_track_quat("-Z", "Y")
+            sc.render.filepath = str(OUT / f"top_{ht:g}_{elbow:g}_{plane:g}_{view}.png"); bpy.ops.render.render(write_still=True)
+    raise SystemExit
 if os.environ.get("R68_MODE") == "armpit_ablate":
     # R69: which layer makes the inner-arm armpit fold?  Region: faces with rest centroid within 0.06 m of
     # (+-0.19, 0.02, 1.37) (medial upper arm at the axilla, front-to-back).  Per family off, LBS raw, DQS raw.

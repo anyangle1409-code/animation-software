@@ -1767,3 +1767,40 @@ The owner said: "the pecs need to be better defined like the reference drawing."
 
 **Still open:**
 - The nipples hardly show under the workbench light.
+
+### Draft v10h: pecs reworked after "still looks wrong" (21 Oct)
+
+The owner said: "Still looks wrong. They need to be like the reference model."
+
+**Side silhouettes** (`scripts/body_v2/fit/side_prof.py`): front edge ahead of the front at 0.70, as a fraction of stature.
+
+| Height | Reference | v10c | v10h |
+|---|---|---|---|
+| 0.72 | −0.003 | +0.004 | — |
+| 0.74 | +0.002 | +0.016 | about +0.008 |
+| 0.75 | +0.001 | +0.014 | — |
+
+- On the reference, the lower ribs and upper abs are about as far forward as the pecs: one full chest curve, with the pec reading by its outline and a slight overhang.
+- v10c's pec stood about 3 cm proud of a recessed rib area, a shelf.
+
+**R95 changes:**
+- Pec projection reduced.
+- Lower ribs filled forward up to the border (`V2_LOWER_RIB_MM` 5).
+- A broad belly fill over the front of the abdomen (`V2_BELLY_FILL_MM` 8, 0.585–0.735 of stature).
+- A soft shadow under the border.
+- The outer lower pec corner fades earlier.
+
+**R96 changes** (front view, compared with the reference):
+- The pec profile in height is `ss(v/0.14)·sin(π(0.18+0.82v))^0.6`: fuller up under the clavicle.
+- Across the pec: `sin(π·x/0.110)^0.8`, so it is rounded towards the sternum and the two pecs make a soft valley. The separate thin sternal line is gone.
+- `V2_PEC_MM` 12.
+- Larger nipples (still faint under this light).
+
+**Tried and left in, but it did not move the silhouette (v10g):** an erase of the outer lower pec corner into the front of the armpit. The ledge comes from R41's chest form, not that corner.
+
+**Results:**
+- 0 standing-pose overlaps.
+
+**Still open:**
+- In the side view the chest is still a little proud below the nipple line compared with the reference.
+- Some wrinkles at the front of the armpit (R41).

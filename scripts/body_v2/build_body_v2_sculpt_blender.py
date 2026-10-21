@@ -705,6 +705,10 @@ if REFINE_MM > 0:
         er = ss((fz_ - 0.545) / 0.02) * ss((0.75 - fz_) / 0.02) * ss((0.165 - ax_) / 0.03) * front_ * (1 - _keep)
         # R86: the chest too (R41's own pec shape left a crease across it at ~0.75), so the new pecs start clean
         er = np.maximum(er, ss((fz_ - 0.70) / 0.02) * ss((0.815 - fz_) / 0.02) * ss((0.17 - ax_) / 0.03) * front_ * (1 - _keep))
+        # R95b: and the outer lower corner of the pec, into the front of the armpit (R41's own notch there, exaggerated by
+        # the pec into a crumpled 'beak' in the side view, v10c-v10f) - off the arm itself
+        er = np.maximum(er, ss((fz_ - 0.70) / 0.02) * ss((0.80 - fz_) / 0.02) * ss((ax_ - 0.12) / 0.02) * ss((0.215 - ax_) / 0.02)
+                        * ss((0.4 - ARM) / 0.3) * ss((-qn[:, 1] + 0.3) / 0.4) * (1 - _keep))
         for _ in range(int(os.environ.get("V2_ABS_ERASE", "150"))):
             for lam in (0.5,):                    # plain (shrinking) steps: Taubin keeps grooves this broad (v6a)
                 tri = Q[faces]; fn_ = np.cross(tri[:, 1] - tri[:, 0], tri[:, 2] - tri[:, 0])
@@ -784,18 +788,32 @@ if REFINE_MM > 0:
         zt_ = 0.825
         v_ = np.clip((fz_ - zb_) / (zt_ - zb_), 0, 1)
         # rounded mass (v10a's plate with a sharp step read as a shelf): a dome across the pec, fullest low-middle
-        prof = ss(v_ / 0.16) * (1 - v_) ** 1.1 * (fz_ > zb_ - 0.002)
-        prof /= 0.62
-        lat_ = np.sin(np.pi * np.clip(xh / 0.104, 0, 1)) ** 0.55 * ss((0.100 - xh) / 0.018)
-        PEC = float(os.environ.get("V2_PEC_MM", "13"))
+        # R96: rounder and fuller up under the clavicle (v10e-g read flat above the nipple line)
+        prof = ss(v_ / 0.14) * np.sin(np.pi * np.clip(0.18 + 0.82 * v_, 0, 1)) ** 0.6 * (fz_ > zb_ - 0.002)
+        prof /= 0.85
+        # rounded towards the sternum too, so the two pecs make a soft valley there (not a thin line); out to the armpit
+        lat_ = np.sin(np.pi * np.clip(xh / 0.110, 0, 1)) ** 0.8 * ss((0.106 - xh) / 0.020)
+        # R95 (owner on v10c: "Still looks wrong. They need to be like the reference model"): side silhouettes, front
+        # edge ahead of the front at 0.70 of stature (fraction of stature) - reference: 0.72 -0.003, 0.74 +0.002,
+        # 0.75 +0.001 (the lower ribs / upper abs are as far forward as the pecs: one full, smooth chest curve; the pec
+        # reads by its outline and a slight overhang); v10c: 0.72 +0.004, 0.74 +0.016, 0.75 +0.014 - the pec stood ~3 cm
+        # proud of a recessed rib area, a shelf.  Lower pec projection, and fill the lower ribs forward up to the border.
+        PEC = float(os.environ.get("V2_PEC_MM", "12"))
         h += PEC * prof * lat_
+        RIB = float(os.environ.get("V2_LOWER_RIB_MM", "5"))
+        rib = ss((fz_ - 0.686) / 0.025) * ss((zb_ - 0.002 - fz_) / 0.012) * ss((0.090 - xh) / 0.025)
+        h -= 0.9 * np.exp(-0.5 * ((fz_ - zb_ + 0.001) / 0.0045) ** 2) * ss((0.098 - xh) / 0.012) * ss(xh / 0.012)   # soft shadow under the border
+        h += RIB * rib
+        # the front of the abdomen as one broad smooth volume (reference side view: the front is a near-vertical column
+        # from the abs up to the pecs; the model's belly sat ~1 cm behind the chest)
+        BELLY = float(os.environ.get("V2_BELLY_FILL_MM", "8"))
+        h += BELLY * ss((fz_ - 0.585) / 0.03) * ss((0.735 - fz_) / 0.03) * np.exp(-0.5 * (xh / 0.055) ** 2)
         # deltopectoral line
         dl = np.abs(xh - np.interp(fz_, [0.76, 0.80, 0.83], [0.106, 0.100, 0.094]))
         h -= 1.4 * np.exp(-0.5 * (dl / 0.006) ** 2) * ss((fz_ - 0.765) / 0.01) * ss((0.83 - fz_) / 0.01)
         # nipples (small, as on the reference figure)
         rn = np.sqrt((xh - 0.077) ** 2 + (fz_ - 0.751) ** 2) * Hs
-        h += 1.0 * np.exp(-0.5 * (rn / 0.011) ** 2) + 2.6 * np.exp(-0.5 * (rn / 0.0040) ** 2)
-        h -= 0.8 * np.exp(-0.5 * (ax_ / 0.007) ** 2) * ss((fz_ - 0.735) / 0.01) * ss((0.82 - fz_) / 0.02)   # sternal valley line
+        h += 1.5 * np.exp(-0.5 * (rn / 0.012) ** 2) + 3.5 * np.exp(-0.5 * (rn / 0.0045) ** 2)
         # serratus anterior: four fingers on the side of the ribs, angled down and forward
         lat_ = ss((np.abs(qn[:, 0]) - 0.35) / 0.3) * ss((-qn[:, 1] + 0.3) / 0.4)
         for k_, zf_ in enumerate([0.735, 0.718, 0.701, 0.684]):

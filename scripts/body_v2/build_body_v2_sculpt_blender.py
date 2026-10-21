@@ -519,6 +519,49 @@ if ARM_U or ARM_F or HAND_S != 1.0 or SH_UP:
         # the scapula moves with the arm: full lift
         b_ = rig.data.bones[f"scapula_{sd}"]
         SKEL_EDITS[f"scapula_{sd}"] = [(np.array(b_.head_local) + [0, 0, SH_UP]).tolist(), (np.array(b_.tail_local) + [0, 0, SH_UP]).tolist()]
+    # R100 (reshape to the reference, owner's choice): posture.  Side silhouettes (scripts/body_v2/fit/silfit.py, both
+    # anchored at the hips) - above the chest the model's front AND back were both forward of the reference by about the
+    # same amount (0.80 of stature: centre -0.014; 0.84: -0.022), i.e. the upper body and head leaned forward (the
+    # reference stands chest-up).  A rest-posture change of the skeleton: the spine_03 subtree (upper chest, girdle,
+    # arms, neck, head) is rotated back by V2_POSTURE_DEG about the spine_02/03 joint; the skin follows through its own
+    # weights (like R81), the rig is edited to match.
+    POST = float(os.environ.get("V2_POSTURE_DEG", "9"))
+    if POST:
+        _piv = np.array(rig.data.bones["spine_03"].head_local)
+        _sub = [b.name for b in rig.data.bones if b.name == "spine_03" or any(p.name == "spine_03" for p in b.parent_recursive)]
+        _a = -np.radians(POST)
+        _R = np.array([[1, 0, 0], [0, np.cos(_a), -np.sin(_a)], [0, np.sin(_a), np.cos(_a)]])
+        _wr = np.zeros(nv)
+        for bname in _sub:
+            if bname in gidx and gidx[bname] in W:
+                _wr += W[gidx[bname]]
+        _wr = np.clip(_wr, 0, 1)
+        for _ in range(int(os.environ.get("V2_POSTURE_SMOOTH", "20"))):   # raw weights are jagged where spine_02 / helper
+            _wr = 0.5 * _wr + 0.5 * avg(_wr)                               # bones share skin: x a 2-3 cm move = wrinkles (v12e)
+        V1_ = rest + PROP
+        PROP += _wr[:, None] * (((V1_ - _piv) @ _R.T + _piv) - V1_)
+        for bname in _sub:
+            b_ = rig.data.bones[bname]
+            h_, t_ = SKEL_EDITS.get(bname, [list(b_.head_local), list(b_.tail_local)])
+            SKEL_EDITS[bname] = [((np.array(h_) - _piv) @ _R.T + _piv).tolist(), ((np.array(t_) - _piv) @ _R.T + _piv).tolist()]
+        # the head stays level (v12d: rotating it with the chest tipped the face up): counter-rotate the neck subtree about
+        # the (moved) neck base, using the neck's own skin weights - a chest-up posture with a level head, like the reference
+        _np = np.array(SKEL_EDITS["neck"][0])
+        _nsub = [b.name for b in rig.data.bones if b.name == "neck" or any(p.name == "neck" for p in b.parent_recursive)]
+        _Rb = _R.T
+        _wn = np.zeros(nv)
+        for bname in _nsub:
+            if bname in gidx and gidx[bname] in W:
+                _wn += W[gidx[bname]]
+        _wn = np.clip(_wn, 0, 1)
+        for _ in range(int(os.environ.get("V2_POSTURE_SMOOTH", "20"))):   # (v12e: a jagged neck weight drew a line down the neck)
+            _wn = 0.5 * _wn + 0.5 * avg(_wn)
+        V2_ = rest + PROP
+        PROP += _wn[:, None] * (((V2_ - _np) @ _Rb.T + _np) - V2_)
+        for bname in _nsub:
+            h_, t_ = SKEL_EDITS[bname]
+            SKEL_EDITS[bname] = [((np.array(h_) - _np) @ _Rb.T + _np).tolist(), ((np.array(t_) - _np) @ _Rb.T + _np).tolist()]
+        POSTURE_REPORT = {"deg": POST, "pivot": _piv.round(3).tolist(), "bones": len(_sub), "head_level_bones": len(_nsub)}
     _before = {b.name: [list(b.head_local), list(b.tail_local)] for b in rig.data.bones if b.name in SKEL_EDITS}
     bpy.context.view_layer.objects.active = rig
     rig.hide_set(False); rig.hide_viewport = False
@@ -894,6 +937,45 @@ if REFINE_MM > 0:
     GLUTE_D = float(os.environ.get("V2_GLUTE_FOLD_MM", "5"))
     off += groove([(0.022, cz - 0.004), (0.06, cz - 0.022), (0.11, cz - 0.018), (0.15, cz + 0.005)], 0.007, GLUTE_D, +1)
     DETAIL_REPORT.update({"navel_mm": NAVEL_MM, "navel_z": round(float(zn), 4), "inguinal_mm": ING_D, "glute_fold_mm": GLUTE_D, "crotch_z": round(float(cz), 4)})
+    # R99 (owner chose "Reshape torso to reference first"): fit the torso's side silhouette to the reference figure.
+    # Measured with scripts/body_v2/fit/silfit.py (side panel, skin-colour mask), front and back edges per height
+    # relative to their own value at 0.50 of stature: on v11e the model's chest front stood ~0.018 of stature (3.3 cm)
+    # further forward than the reference and the waist front ~0.009, while the lower back sat ~0.016 further back -
+    # the torso was 3-4.5 cm too thick front-to-back, which is why the pecs kept reading as a shelf.  Correction per
+    # height, blended across the depth (front edge gets the front correction, back edge the back one), on the torso
+    # only (arms and head excluded), after all the muscle relief so the pecs / abs keep their shape relative to the
+    # surface around them.
+    SIDEFIT = float(os.environ.get("V2_SIDE_FIT", "1"))
+    if SIDEFIT > 0:
+        _rp = json.load(open(Path(__file__).resolve().parent / "fit" / "ref_side_profile.json"))
+        _bf = np.array(_rp["f"]); _rF = np.array(_rp["front"]); _rB = np.array(_rp["back"])
+        Q = rest + PROP + off; fzq = (Q[:, 2] - zb) / Hs; fwd = -Q[:, 1] / Hs     # as rendered (incl. the R81/R100 skeleton field)
+        _tor = (ARM < 0.3) & (HEAD < 0.5)
+        mF = np.zeros(len(_bf)); mB = np.zeros(len(_bf))
+        for i_, fb_ in enumerate(_bf):
+            sel_ = _tor & (np.abs(fzq - fb_) < 0.003)
+            mF[i_], mB[i_] = (fwd[sel_].max(), fwd[sel_].min()) if sel_.any() else (np.nan, np.nan)
+        _ok = ~np.isnan(mF)
+        mF = np.interp(_bf, _bf[_ok], mF[_ok]); mB = np.interp(_bf, _bf[_ok], mB[_ok])
+        i50 = int(np.argmin(np.abs(_bf - 0.50)))
+        dF = _rF - (mF - mF[i50]); dB = _rB - (mB - mB[i50])
+        _k = np.ones(7) / 7.0
+        dF = np.convolve(np.pad(dF, 3, mode="edge"), _k, mode="valid"); dB = np.convolve(np.pad(dB, 3, mode="edge"), _k, mode="valid")
+        win = ss((_bf - 0.515) / 0.03) * ss((0.84 - _bf) / 0.06)     # long taper below the neck (abrupt ends striped / ridged, v12b/v12c)
+        dF = np.clip(dF, -0.03, 0.03) * win * SIDEFIT; dB = np.clip(dB, -0.03, 0.03) * win * SIDEFIT
+        fv = np.interp(fzq, _bf, dF); bv = np.interp(fzq, _bf, dB)
+        Fabs = np.interp(fzq, _bf, mF); Babs = np.interp(fzq, _bf, mB)
+        t_ = np.clip((fwd - Babs) / np.maximum(Fabs - Babs, 1e-4), 0, 1)
+        # off the arm entirely, and fading across the side of the chest towards the armpit (a half-moved deltoid crumpled,
+        # v12a); the side silhouette at chest height is set by the front of the chest, well inside this fade
+        w_ = np.clip(1 - ARM / 0.2, 0, 1) * (1 - HEAD)
+        for _ in range(int(os.environ.get("V2_SIDE_FIT_BLEND", "80"))):   # a wide blend into the arm root (v12b's |x| fade lost
+            w_ = 0.5 * w_ + 0.5 * avg(w_)                # the chest silhouette; v12a's narrow one and v12e's 16 passes - over
+                                                         # the jagged arm weights - wrinkled the deltoid front)
+        off[:, 1] -= Hs * (bv + (fv - bv) * t_) * w_
+        DETAIL_REPORT["side_fit"] = {"max_front_corr_mm": round(float(np.abs(dF).max() * Hs * 1000), 1), "max_back_corr_mm": round(float(np.abs(dB).max() * Hs * 1000), 1),
+                                     "front_corr_mm_at": {str(round(float(f_), 3)): round(float(v_ * Hs * 1000), 1) for f_, v_ in zip(_bf[::6], dF[::6])},
+                                     "back_corr_mm_at": {str(round(float(f_), 3)): round(float(v_ * Hs * 1000), 1) for f_, v_ in zip(_bf[::6], dB[::6])}}
     # overlaps on the refined surface, standing pose (same shrink as above, smaller steps)
     ov2 = []
     for it in range(int(os.environ.get("V2_OVERLAP_ITERS_FINE", "30"))):

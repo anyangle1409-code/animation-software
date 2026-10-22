@@ -1240,7 +1240,9 @@ if REFINE_MM > 0:
         _lg = np.clip(LEG, 0, 1)                         # (p2: a hard LEG > 0.5 cut-off drew a jagged ring around each thigh
         for _ in range(60):                              #  along the thigh / pelvis weight boundary)
             _lg = 0.5 * _lg + 0.5 * avg(_lg)
-        _ot = float(os.environ.get("V2_OUTER_THIGH_MM", "10")) * ss((fz_ - 0.36) / 0.04) * ss((fc + 0.035 - fz_) / 0.03) * legside * ss((_lg - 0.3) / 0.5) * (1 - _keep)
+        # sideways (see below): the whole outer half of the thigh, fading across its front and back
+        _side = ss((np.abs(qn[:, 0]) * np.sign(qn[:, 0] * Q[:, 0]) + 0.2) / 0.6)
+        _ot = float(os.environ.get("V2_OUTER_THIGH_MM", "10")) * ss((fz_ - 0.36) / 0.04) * ss((fc + 0.035 - fz_) / 0.03) * _side * ss((_lg - 0.3) / 0.5) * (1 - _keep)
         if _ot.max() > 0:
             # R112: limited by its clearance from the hanging hand / forearm in the standing pose (less 5 mm) - unlimited, it
             # ran into the hands and the overlap shrink crumpled the thighs (p2/p4)
@@ -1253,7 +1255,13 @@ if REFINE_MM > 0:
             for _ in range(30):
                 _r = 0.5 * _r + 0.5 * avg(_r)
             _ot *= _r
-        hp += _ot
+        # (p9: pushed along the surface normal, the sweep folded the skin where the thigh meets the buttock / hip - the
+        # normals converge there - and the overlap shrink crumpled it into a ring.  A sideways move in the skeleton-level
+        # field instead: no folding, and the overlap loop does not shrink it.)
+        _otx = _ot.copy()
+        for _ in range(10):
+            _otx = 0.5 * _otx + 0.5 * avg(_otx)
+        PROP[:, 0] += np.sign(Q[:, 0]) * _otx / 1000.0
         for _ in range(4):
             hp = 0.5 * hp + 0.5 * avg(hp)
         hp *= (1 - _keep)

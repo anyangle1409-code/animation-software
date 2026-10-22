@@ -606,13 +606,28 @@ if TORSO > 0:
         lam = 0.5 if it % 2 == 0 else -0.53
         M_ = np.array([Q[n].mean(0) if n else Q[i] for i, n in enumerate(nb_)])
         Q = Q + lam * wab[:, None] * (M_ - Q)
-    # v15: and the ledge across the back's sides at 0.66-0.68 (the old "lat line": 14-17 mm per 0.01 of stature
-    # at 6-12 % of stature out from the spine, smooth at the spine itself)
+    # v15: Taubin on the back's ledge (off: it is ~4 cm tall, beyond Taubin's reach, and it left pits - see v17)
     wbk = (ss((axt - 0.02) / 0.02) * ss((0.15 - axt) / 0.02) * ss((ft - 0.60) / 0.02) * ss((0.765 - ft) / 0.02) * wb)
-    for it in range(2 * int(os.environ.get("V2_BACK_ERASE", "100"))):
+    for it in range(2 * int(os.environ.get("V2_BACK_ERASE", "0"))):
         lam = 0.5 if it % 2 == 0 else -0.53
         M_ = np.array([Q[n].mean(0) if n else Q[i] for i, n in enumerate(nb_)])
         Q = Q + lam * wbk[:, None] * (M_ - Q)
+    # v17: the ledge across the back's sides at 0.66-0.68 (the old "lat line": the back steps 14-17 mm per 0.01 of
+    # stature at 6-12 % of stature out from the spine, smooth at the spine itself).  The back as a depth map
+    # y(x, f): depth averaged along the height (gaussian, sigma 0.022 of stature, ~4 cm), back-facing skin only.
+    BSM = float(os.environ.get("V2_BACK_DEPTH_SMOOTH", "1.0"))
+    if BSM > 0:
+        wbd = (ss((axt - 0.025) / 0.02) * ss((0.14 - axt) / 0.02) * ss((ft - 0.60) / 0.02) * ss((0.76 - ft) / 0.02)
+               * ss((Nt[:, 1] - 0.45) / 0.3)) * BSM
+        kq = cKDTree(np.c_[Pt[:, 0] / H / 0.008, ft / 0.022])
+        sel_ = np.where(wbd > 1e-3)[0]
+        for i in sel_:
+            nb = kq.query_ball_point([Pt[i, 0] / H / 0.008, ft[i] / 0.022], 2.5)
+            nb = [j for j in nb if Nt[j, 1] > 0.3]
+            d2 = (Pt[nb, 0] / H / 0.008 - Pt[i, 0] / H / 0.008) ** 2 + (ft[nb] / 0.022 - ft[i] / 0.022) ** 2
+            g_ = np.exp(-0.5 * d2)
+            Q[i, 1] = Q[i, 1] + wbd[i] * (float((g_ * Pt[nb, 1]).sum() / g_.sum()) - Pt[i, 1])
+        REP["back_depth_smooth"] = {"verts": int(len(sel_)), "max_mm": round(float(np.abs(Q[:, 1] - Pt[:, 1]).max()) * 1000, 1)}
     for v, q_, p_ in zip(tv, Q, Pt):
         dv = Vector((q_ - p_).tolist())
         if dv.length > 1e-7:

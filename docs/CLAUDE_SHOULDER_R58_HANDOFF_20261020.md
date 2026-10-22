@@ -2112,3 +2112,40 @@ Owner approved continuing with the remaining pelvis items, then the shoulder and
 **Remaining:**
 - The squat forms a horizontal crease band across the lower abdomen. It is the same in the original; it needs a hip-flexion corrective.
 - Faint lines on the outer thighs (R41).
+
+### Draft v13r: shoulder / armpit static fixes, last pelvis band (R113, 22 Oct)
+
+**Diagnosis:**
+- The front-deltoid / deltopectoral crinkles appear only on the sculpted surface. The V1 surface on the same skeleton is smooth there, in the unposed bind too, so they are not from the correctives.
+- The upper-back mottling is R41's sliver triangulation (it is in V1 too).
+
+**Changes** (each has an env switch):
+- **R113 `V2_SHOULDER_DENOISE` 40:** normal-only Taubin over the arm-root band and the upper back (0.66–0.835 of stature). The front chest (pecs, clavicles) is excluded.
+- **`V2_PEC_CLEAR_SOFTEN` 120** (was 30): the pec cut-back at the arm is spread wider, removing the hard vertical edge at the front of the armpit.
+- **R113b `V2_BACK_FLIPS`:** Delaunay edge flips over the upper back (rest z 1.16–1.44, |x| < 0.22), like the neck base. About 61,000 edges flipped; the mottling is mostly gone.
+- **R113c, lower back:**
+  - The side-fit back-edge ramp is now 0.60–0.66 (`V2_SIDE_FIT_BACK_FROM`). With the 0.03 ramp, s2 had a crease across the lower back at 0.60, with up to 2.9 cm forward inside the ramp.
+  - The gluteus maximus dome has a longer upper slope (sigma 0.058 above its centre).
+- **Tests:** shoulder tests added to the hip-test set: arms 90° out and 160° up, with pairs counted within 0.2 m of either shoulder joint.
+
+**Results:**
+- 0 standing overlaps; fine-loop loss 13.3 mm.
+- Hip tests unchanged from v13q: flexion 68, abduction 44, squat 215, hinge 33.
+- Shoulder overlap pairs, without the R113 shoulder fixes (s0) → with them (s4):
+
+| Pose | Without (s0) | With (s4) |
+|---|---|---|
+| Arms 90° out | 91 | 83 |
+| Arms 160° up | 2,653 | 2,845 |
+
+- Images: `review-assets/body_v2/draft_v13r_shoulders/`:
+  - static before/after;
+  - shoulder tests;
+  - pelvis v13q vs v13r;
+  - full body original vs v13r.
+
+**Remaining:**
+- **Overhead (160°)** crumples badly at the armpit and the chest/arm junction, with or without these fixes. The body v2 sculpt (pec, deltoid and arm volume) sits on correctives that were built for the R41 shape and carried over linearly. Next step: rebuild the shoulder corrective families (the B3/B4 recipes) on the v2 sculpted surface.
+- Fine streaks under the clavicles.
+- A lat lower-edge line across the mid back (about 0.68).
+- The pelvis squat abdominal crease (needs a hip-flexion corrective).

@@ -1,0 +1,32 @@
+{
+ "stand": {
+  "overlap_pairs": 1,
+  "overlap_pairs_pelvis": 0
+ },
+ "flex90": {
+  "overlap_pairs": 68,
+  "overlap_pairs_pelvis": 67
+ },
+ "abd40": {
+  "overlap_pairs": 45,
+  "overlap_pairs_pelvis": 44
+ },
+ "squat": {
+  "overlap_pairs": 1777,
+  "overlap_pairs_pelvis": 215
+ },
+ "hinge60": {
+  "overlap_pairs": 34,
+  "overlap_pairs_pelvis": 33
+ },
+ "armabd90": {
+  "overlap_pairs": 84,
+  "overlap_pairs_pelvis": 0,
+  "overlap_pairs_shoulders": 83
+ },
+ "armup160": {
+  "overlap_pairs": 2934,
+  "overlap_pairs_pelvis": 0,
+  "overlap_pairs_shoulders": 2845
+ }
+}

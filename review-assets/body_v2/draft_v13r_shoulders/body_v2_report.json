@@ -1,0 +1,334 @@
+{
+ "gain": 2.0,
+ "head_scale": 1.15,
+ "shoulder": {
+  "max_drop_mm": 0.0
+ },
+ "abs_mm": 15.0,
+ "hamstring_mm": 20.0,
+ "width": {
+  "overlap_iterations": [
+   228,
+   130,
+   96,
+   60,
+   0
+  ],
+  "clearance_iterations": 0,
+  "min_scale": 1.0,
+  "waist_mm": 24.0,
+  "chest_mm": 16.0,
+  "max_side_push_mm": 19.49
+ },
+ "lumbar_mm": 34.0,
+ "spine_mm": 4.0,
+ "union_p": 3.0,
+ "relax": 4,
+ "max_mm": 33.29,
+ "mean_mm_nonzero": 7.08,
+ "vertices_moved_gt_1mm": 138492,
+ "symmetry_max_mm": 0.0117,
+ "rest_self_intersections": {
+  "v1": 52,
+  "v2": 1855
+ },
+ "standing_self_intersections": {
+  "v1": 0,
+  "v2": 0
+ },
+ "refine": {
+  "vertices_before": 21600,
+  "vertices_after": 219974,
+  "triangles_after": 439944,
+  "rounds_edges_split": [
+   49836,
+   92974,
+   55564
+  ],
+  "threshold_mm": 8.0,
+  "regions": [
+   [
+    1.44,
+    1.58,
+    0.22,
+    99.0
+   ],
+   [
+    1.16,
+    1.44,
+    0.22,
+    99.0
+   ]
+  ],
+  "beautify_geom": [
+   45862,
+   1144,
+   60956,
+   1360
+  ],
+  "region_z": [
+   -1.0,
+   1.95
+  ],
+  "linear_map_max_err_mm": 0.0001,
+  "max_smoothing_move_mm": 4.1,
+  "region_edge_mm_median_max": [
+   4.02,
+   22.55
+  ]
+ },
+ "detail": {
+  "crotch_weights": {
+   "iterations": 40,
+   "groups": [
+    "pelvis",
+    "spine_01",
+    "spine_02",
+    "thumb_01_l",
+    "thumb_02_l",
+    "thumb_03_l",
+    "thumb_01_r",
+    "thumb_02_r",
+    "thumb_03_r",
+    "thigh_l",
+    "thigh_r",
+    "hip_crease_l",
+    "hip_crease_r"
+   ],
+   "vertices": 763,
+   "max_change": 0.588
+  },
+  "inner_thigh_pelvis": {
+   "max_share": 0.5,
+   "vertices": 746
+  },
+  "pec_clearance": {
+   "verts_limited": 11755,
+   "min_ratio": 0.221
+  },
+  "nipple_h_mm": 24.27,
+  "front_muscles": {
+   "abs_erase_steps": 150,
+   "intersections": [
+    0.642,
+    0.665,
+    0.705
+   ],
+   "max_mm": 24.68,
+   "min_mm": -0.25
+  },
+  "neck_detail": {
+   "clavicle_mm": 11.0,
+   "scm_mm": 5.0,
+   "trap_mm": 12.0,
+   "erase_steps": 150,
+   "max_mm": 10.9,
+   "min_mm": -2.89
+  },
+  "shoulder_denoise": {
+   "taubin_steps": 40,
+   "vertices": 26246
+  },
+  "groin_rebuild": {
+   "erase_steps": 200,
+   "crease_mm": 2.2,
+   "pubic_mm": 5.0,
+   "crotch_frac": 0.4733,
+   "crease_points": [
+    [
+     0.122,
+     1.006
+    ],
+    [
+     0.1,
+     0.978
+    ],
+    [
+     0.08,
+     0.952
+    ],
+    [
+     0.062,
+     0.928
+    ],
+    [
+     0.05,
+     0.91
+    ],
+    [
+     0.042,
+     0.896
+    ]
+   ]
+  },
+  "navel_mm": 6.0,
+  "navel_z": 1.1358,
+  "inguinal_mm": 0.0,
+  "glute_fold_mm": 0.0,
+  "crotch_z": 0.8781,
+  "pelvis_r110": {
+   "glute_mm": 9.0,
+   "glute_fold_mm": 4.0,
+   "glute_erase": 150,
+   "max_mm": 9.0,
+   "min_mm": -2.0
+  },
+  "side_fit": {
+   "arm_shift_y_mm": 12.7,
+   "leg_centre_offset_removed_mm": 0,
+   "max_front_corr_mm": 31.7,
+   "max_back_corr_mm": 16.6,
+   "front_corr_mm_at": {
+    "0.44": -0.0,
+    "0.47": 0.0,
+    "0.5": 0.0,
+    "0.53": -5.4,
+    "0.56": -3.3,
+    "0.59": -1.8,
+    "0.62": -9.6,
+    "0.65": -11.9,
+    "0.68": -13.2,
+    "0.71": -22.6,
+    "0.74": -31.7,
+    "0.77": -26.9,
+    "0.8": -10.9,
+    "0.83": 2.9,
+    "0.86": 1.9,
+    "0.89": 0.0
+   },
+   "back_corr_mm_at": {
+    "0.44": 0.0,
+    "0.47": 0.0,
+    "0.5": 0.0,
+    "0.53": -0.0,
+    "0.56": -0.0,
+    "0.59": 0.0,
+    "0.62": 4.4,
+    "0.65": 11.4,
+    "0.68": 3.9,
+    "0.71": -0.9,
+    "0.74": 1.2,
+    "0.77": -3.9,
+    "0.8": -12.1,
+    "0.83": -15.4,
+    "0.86": 0.1,
+    "0.89": 0.0
+   }
+  },
+  "overlap_iterations": [
+   1016,
+   454,
+   345,
+   260,
+   204,
+   111,
+   58,
+   35,
+   12,
+   8,
+   8,
+   3,
+   3,
+   3,
+   3,
+   0
+  ],
+  "overlap_loss": {
+   "lost_max_mm": 13.3,
+   "verts_lost_gt_2mm": 4781,
+   "nipple_off_mm_before_after": [
+    38.8,
+    38.8
+   ],
+   "first_pairs_rest_centre_pct": [
+    [
+     -0.176,
+     -0.106,
+     0.856
+    ],
+    [
+     0.0,
+     -0.01,
+     1.384
+    ],
+    [
+     0.176,
+     0.078,
+     1.407
+    ]
+   ],
+   "first_pairs_sample": [
+    [
+     0.196,
+     -0.027,
+     0.858
+    ],
+    [
+     -0.001,
+     -0.048,
+     0.857
+    ],
+    [
+     0.175,
+     -0.006,
+     1.406
+    ],
+    [
+     0.171,
+     0.058,
+     1.384
+    ],
+    [
+     0.165,
+     -0.028,
+     1.379
+    ],
+    [
+     0.001,
+     -0.107,
+     1.295
+    ],
+    [
+     -0.177,
+     0.017,
+     1.405
+    ],
+    [
+     -0.17,
+     0.018,
+     1.369
+    ]
+   ],
+   "lost_region_pct": [
+    [
+     -0.18,
+     -0.11,
+     0.822
+    ],
+    [
+     -0.0,
+     0.002,
+     1.373
+    ],
+    [
+     0.179,
+     0.089,
+     1.411
+    ]
+   ]
+  }
+ },
+ "hip_pivot": {
+  "thigh_head_before": [
+   0.092,
+   0.0,
+   0.96
+  ],
+  "thigh_head_after": [
+   0.0833,
+   -0.0193,
+   0.9297
+  ],
+  "source": "HGPT_ANATOMICAL_MASTER anat_femur_* heads"
+ }
+}

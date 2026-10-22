@@ -1248,6 +1248,59 @@ if REFINE_MM > 0:
                 vn_ /= np.maximum(np.linalg.norm(vn_, axis=1, keepdims=True), 1e-12)
                 Q = Q + lam * erK[:, None] * ((cavg(Q) - Q) * vn_).sum(1)[:, None] * vn_
         off = Q - rest
+        # R118: leg loft.  w5/w6 nudged R41's leg surface towards the reference and kept fighting its rings and lumps.
+        # Instead each leg is re-made at every height as a rounded cross-section about its BONE line (thigh / shin, as
+        # edited - skeleton first), whose front / back / inner / outer extents are the reference's own (side and front
+        # panels, relative to the reference leg's straight centre lines), and every leg vertex is moved radially onto it.
+        # The muscles below then go on top.  Blended out at the crotch (0.44-0.48) and above the ankle (0.07-0.10).
+        if float(os.environ.get("V2_LEG_LOFT", "1")) > 0:
+            _ls = json.load(open(Path(__file__).resolve().parent / "fit" / "ref_leg_side_profile.json"))
+            _lf = json.load(open(Path(__file__).resolve().parent / "fit" / "ref_front_profile.json"))
+            Fb = np.array(_ls["f"]); rFs = np.array(_ls["front"]); rBs = np.array(_ls["back"])
+            Ff = np.array(_lf["f"]); rIn = np.array([np.nan if v is None else v for v in _lf["leg_in"]]); rOut = np.array([np.nan if v is None else v for v in _lf["leg_out"]])
+            okf = ~np.isnan(rIn); rIn = np.interp(Fb, Ff[okf], rIn[okf]); rOut = np.interp(Fb, Ff[okf], rOut[okf])
+            def _cfit(c_):
+                out_ = np.zeros_like(c_)
+                for lo_, hi_, sel_ in ((0.30, 0.45, Fb >= 0.285), (0.09, 0.27, Fb < 0.285)):
+                    m_ = (Fb >= lo_) & (Fb <= hi_); k_ = np.polyfit(Fb[m_], c_[m_], 1); out_[sel_] = np.polyval(k_, Fb[sel_])
+                return out_
+            kk = np.ones(7) / 7.0
+            sm7 = lambda d_: np.convolve(np.pad(d_, 3, mode="edge"), kk, mode="valid")
+            cy = _cfit(0.5 * (rFs + rBs)); cx = _cfit(0.5 * (rIn + rOut))
+            eF, eB = sm7(rFs - cy), sm7(cy - rBs); eO, eI = sm7(rOut - cx), sm7(cx - rIn)      # extents about the centre line
+            _V = rest + PROP + off; _z0 = _V[:, 2].min(); _Hr = _V[:, 2].max() - _z0; frv = (_V[:, 2] - _z0) / _Hr
+            legm2 = np.clip(LEG, 0, 1)
+            for _ in range(10):
+                legm2 = 0.5 * legm2 + 0.5 * avg(legm2)
+            disp = np.zeros_like(_V)
+            for side_ in ("r", "l"):
+                tH, tT = _seg(f"thigh_{side_}"); sH, sT = _seg(f"shin_{side_}"); sgn = float(np.sign(tH[0]))
+                idx = np.nonzero((legm2 > 0.15) & (np.sign(_V[:, 0]) == sgn) & (ARM < 0.3) & (frv > 0.06) & (frv < 0.49))[0]
+                P = _V[idx]; z_ = P[:, 2]
+                # bone line at each vertex's height
+                def _axis_at(z):
+                    a_ = np.where(z >= sH[2], (z - sH[2]) / (tH[2] - sH[2]), (z - sT[2]) / (sH[2] - sT[2]))
+                    p0 = np.where((z >= sH[2])[:, None], sH + a_[:, None] * (tH - sH), sT + a_[:, None] * (sH - sT))
+                    return p0
+                A_ = _axis_at(z_)
+                dvec = P[:, :2] - A_[:, :2]; r_ = np.linalg.norm(dvec, axis=1)
+                fwd = -dvec[:, 1]; out = dvec[:, 0] * sgn
+                th = np.arctan2(out, fwd)
+                fz = (z_ - _z0) / _Hr
+                EF = np.interp(fz, Fb, eF) * _Hr; EB = np.interp(fz, Fb, eB) * _Hr; EO = np.interp(fz, Fb, eO) * _Hr; EI = np.interp(fz, Fb, eI) * _Hr
+                a1 = np.where(fwd >= 0, EF, EB); a2 = np.where(out >= 0, EO, EI)
+                pP = 2.3
+                c_, s_ = np.abs(np.cos(th)), np.abs(np.sin(th))
+                R_ = 1.0 / np.power((c_ / a1) ** pP + (s_ / a2) ** pP, 1.0 / pP)
+                w_ = ss((fz - 0.075) / 0.025) * ss((0.47 - fz) / 0.035) * np.clip((legm2[idx] - 0.15) / 0.5, 0, 1)
+                dr = np.clip(R_ - r_, -0.04, 0.04) * w_
+                disp[idx, :2] += (dvec / np.maximum(r_[:, None], 1e-6)) * dr[:, None]
+            for _ in range(6):
+                disp = 0.5 * disp + 0.5 * np.stack([avg(disp[:, k]) for k in range(3)], axis=1)
+            off += disp
+            DETAIL_REPORT["leg_loft"] = {"max_move_mm": round(float(np.linalg.norm(disp, axis=1).max() * 1000), 1),
+                                         "extents_at_0.20_mm": [round(float(v * _Hr * 1000), 1) for v in (np.interp(0.2, Fb, eF), np.interp(0.2, Fb, eB), np.interp(0.2, Fb, eI), np.interp(0.2, Fb, eO))],
+                                         "extents_at_0.40_mm": [round(float(v * _Hr * 1000), 1) for v in (np.interp(0.4, Fb, eF), np.interp(0.4, Fb, eB), np.interp(0.4, Fb, eI), np.interp(0.4, Fb, eO))]}
         _V = rest + PROP + off
         hl = np.zeros(nv)
         for side_ in ("r", "l"):
@@ -1258,10 +1311,10 @@ if REFINE_MM > 0:
             wT = np.clip(1 - ss((ts + 0.04) / 0.10), 0, 1)          # thigh frame -> shin frame across the knee (w3: a ring)
             h_ = np.zeros(len(idx))
             ht = (_bump(tt, tht, 0.12, 0.90, 0, 30, 5.0)                      # rectus femoris
-                  + _bump(tt, tht, 0.18, 0.95, 65, 38, 8.0, 1.2)              # vastus lateralis (outer sweep)
+                  + _bump(tt, tht, 0.18, 0.95, 65, 38, 4.0, 1.2)              # vastus lateralis (the loft already sets the outline)
                   + _bump(tt, tht, 0.60, 0.98, -45, 34, 6.0, 1.2)             # vastus medialis teardrop (w3: 9 mm read as a lump)
                   + _bump(tt, tht, 0.05, 0.55, -95, 40, 4.0)                  # adductors
-                  + _bump(tt, tht, 0.15, 0.88, 180, 45, 5.0)                  # hamstrings
+                  + _bump(tt, tht, 0.15, 0.88, 180, 45, 3.0)                  # hamstrings
                   - _bump(tt, tht, 0.50, 0.92, 180, 12, 1.5)                  # groove between the hamstrings
                   - _bump(tt, tht, 0.30, 0.92, 100, 14, 2.0)                  # flat band behind vastus lateralis (IT band)
                   + _bump(tt, tht, 0.94, 1.06, 0, 22, 3.0))                   # patella (upper part)
@@ -1274,8 +1327,8 @@ if REFINE_MM > 0:
             S = (ts > -0.2) & (ts < 1.05)
             hs = (_bump(ts, ths, -0.04, 0.06, 0, 30, 3.0)                     # patella (lower part)
                   - _bump(ts, ths, 0.0, 0.10, 50, 16, 3.0) - _bump(ts, ths, 0.0, 0.10, -50, 16, 3.0)   # hollows beside the tendon
-                  + _bump(ts, ths, 0.06, 0.52, -145, 38, 12.0, 0.9)           # gastrocnemius, medial head (fuller, lower)
-                  + _bump(ts, ths, 0.06, 0.44, 150, 32, 9.0, 0.9)             # gastrocnemius, lateral head
+                  + _bump(ts, ths, 0.06, 0.52, -145, 38, 6.0, 0.9)            # gastrocnemius, medial head (fuller, lower)
+                  + _bump(ts, ths, 0.06, 0.44, 150, 32, 4.5, 0.9)             # gastrocnemius, lateral head
                   + _bump(ts, ths, 0.30, 0.78, -110, 28, 3.0) + _bump(ts, ths, 0.30, 0.74, 110, 28, 3.0)   # soleus at the sides
                   + _bump(ts, ths, 0.06, 0.62, 30, 26, 4.0)                   # tibialis anterior
                   + _bump(ts, ths, 0.92, 1.02, -90, 22, 4.0) + _bump(ts, ths, 0.95, 1.05, 90, 22, 4.0))   # malleoli
@@ -1576,7 +1629,7 @@ if REFINE_MM > 0:
     # mid-points over the thigh (0.30-0.45) and the shin (0.09-0.27); the reference edges are taken relative to its own
     # centre lines the same way (fit/ref_leg_side_profile.json, fit/ref_front_profile.json) and put onto the model's.
     # Into PROP (skeleton-level, smooth), blended across each section like the torso side fit; feet and the hip excluded.
-    LFIT = float(os.environ.get("V2_LEG_FIT", "1"))
+    LFIT = float(os.environ.get("V2_LEG_FIT", "0"))   # off: replaced by the leg loft (R118) inside R116
     if LFIT > 0:
         _ls = json.load(open(Path(__file__).resolve().parent / "fit" / "ref_leg_side_profile.json"))
         _lf = json.load(open(Path(__file__).resolve().parent / "fit" / "ref_front_profile.json"))

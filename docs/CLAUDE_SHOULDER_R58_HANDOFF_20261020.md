@@ -2149,3 +2149,54 @@ Owner approved continuing with the remaining pelvis items, then the shoulder and
 - Fine streaks under the clavicles.
 - A lat lower-edge line across the mid back (about 0.68).
 - The pelvis squat abdominal crease (needs a hip-flexion corrective).
+
+### Draft v13s: standing pose - skin finish, whole-body clean-up, arm and leg muscles (R114-R118, 22 Oct)
+
+Owner: "finish the whole body in the standing pose first ... match the reference photo".
+- Muscle definition: biceps etc.
+- Legs: need proper proportions.
+- Feet: "terrible".
+- Skin: "shiny and not smooth ... a lot of wrinkly skin".
+- Elbow: "The bicep to the forearm doesn't seem right ... a little overlap of each".
+
+**Region comparison tool.** `fit/regioncmp.py` (scratchpad) crops the reference and the model at matched stature fractions for:
+- arms (front and back);
+- legs (front, side and back);
+- feet (front and side);
+- torso (front, side and back).
+
+The model crops come from 1800 × 3000 skin renders (`V2_SKIN_SCALE` 2; a back view is added).
+
+**Changes, default on:**
+- **R114:**
+  - satin skin render (roughness 0.62, specular 0.28, subsurface 0.2);
+  - whole-body Delaunay edge flips (rest z 0.03–1.60, `V2_BODY_FLIPS`), which remove most of the sliver-triangle wrinkle shading.
+- **R115 arm muscles** (`V2_ARM_MUSCLES`), in bone-local (t, θ) coordinates:
+  - deltoid cap 11 mm with its insertion V;
+  - biceps 11 mm; triceps 9 mm plus a lateral head; brachialis; medial bicipital groove;
+  - brachioradialis/ECRL rising from the lower outer upper arm across the elbow (overlapping the biceps, with the cubital fossa between);
+  - flexors and extensors; wrist taper.
+  - The two frames blend across the elbow.
+- **R116 leg muscles** (`V2_LEG_MUSCLES`), same tool:
+  - leg denoise up to 0.49 and a Taubin knee erase;
+  - quadriceps (vastus lateralis sweep, vastus medialis teardrop), sartorius groove, adductors, hamstrings and their groove, IT-band flat;
+  - patella with infrapatellar hollows;
+  - gastrocnemius (medial fuller and lower), soleus, tibialis anterior;
+  - malleoli; slimmer ankle/Achilles.
+  - The frames blend across the knee.
+- **R117 leg outline fit** (`V2_LEG_FIT`): about each leg's own centre line (straight fits over thigh and shin), not the hips. Corrections are smoothed (11 bins twice) and clipped to 1.5 cm.
+
+**Tried and rejected (switches kept, off):**
+- **R118 leg loft** (`V2_LEG_LOFT`): radial projection onto reference-sized cross-sections about the bone line. It wrinkled the legs, banded the crotch and knee, and pushed the inner thighs into each other (overlap loss 32 mm).
+- **R107 hip-anchored leg side fit:** see v13p.
+
+**Results:**
+- 0 standing overlaps; fine-loop loss 24 mm.
+- Images: `review-assets/body_v2/draft_v13s_standing/`.
+
+**State against the reference (honest):**
+- **Arms:** the deltoid, biceps, triceps and elbow blend now read, but are still weaker than the reference.
+- **Legs:** still blocky. The thighs flare at the top, and the knees and lower legs are columnar. They are not yet like the reference's lean, defined legs.
+- **Feet:** not started. They are still R41's crude feet: no arch, short flat toes, bulky heel and ankle.
+- **Torso:** abs, serratus and obliques read much weaker than the reference.
+- **Head and neck:** shape differs (out of scope for now).

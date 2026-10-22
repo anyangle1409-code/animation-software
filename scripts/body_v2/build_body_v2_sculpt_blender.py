@@ -1185,10 +1185,12 @@ if REFINE_MM > 0:
             idx = np.nonzero(sel)[0]; P = _V[idx]
             uH, uT = _seg(f"upperarm_{side_}"); fH, fT = _seg(f"forearm_{side_}"); sgn = float(np.sign(uH[0]))   # outward = this arm's side
             tu, thu, ru, Lu = _frame(uH, uT, sgn, P); tf, thf, rf, Lf = _frame(fH, fT, sgn, P)
-            onU = (tu < 1.02) | (tf < -0.02)
+            # blend the two frames across the elbow (a hard switch drew a seam, w3)
+            wU = np.clip(1 - ss((tf + 0.04) / 0.10), 0, 1)
+            onU = np.ones(len(idx), bool)
             h_ = np.zeros(len(idx))
             # upper arm
-            U = onU & (tu > -0.15)
+            U = tu > -0.15
             # (w2 amplitudes read weaker than the reference - deltoid 6, biceps 8, triceps 6.5; now larger, plus general girth)
             hu = (_bump(tu, thu, -0.05, 0.47, 90, 80, 11.0, 0.8)           # deltoid cap
                   + 3.0 * ss((tu - 0.1) / 0.1) * ss((0.9 - tu) / 0.1)      # upper-arm girth
@@ -1200,16 +1202,16 @@ if REFINE_MM > 0:
                   + _bump(tu, thu, 0.58, 0.92, 70, 22, 3.0)               # brachialis, outer side
                   - _bump(tu, thu, 0.40, 0.92, -95, 18, 2.0)              # medial bicipital groove
                   + _bump(tu, thu, 0.74, 1.10, 40, 30, 4.0))              # brachioradialis / ECRL origin, above the elbow
-            h_[U] += hu[U]
+            h_[U] += (hu * wU)[U]
             # forearm
-            F = ~onU & (tf < 1.05)
+            F = (tf > -0.2) & (tf < 1.05)
             hf = (_bump(tf, thf, -0.12, 0.55, 20, 38, 10.0, 0.9)          # brachioradialis / ECRL down the thumb side
                   + _bump(tf, thf, -0.02, 0.55, -70, 40, 6.0, 1.1)        # flexor mass
                   + _bump(tf, thf, 0.04, 0.60, 125, 40, 4.0, 1.1)         # extensors
                   - _bump(tf, thf, -0.05, 0.12, -10, 22, 2.5))            # cubital fossa
             hf -= 4.0 * ss((tf - 0.55) / 0.35)                            # slimmer towards the wrist
-            h_[F] += hf[F]
-            ha[idx] += h_ * ss((1.08 - np.where(onU, 0, tf)) / 0.08)      # off the hand
+            h_[F] += (hf * (1 - wU))[F]
+            ha[idx] += h_ * ss((1.08 - np.clip(tf, 0, None)) / 0.08)      # off the hand
         ha *= (1 - np.clip(HEAD, 0, 1))
         for _ in range(3):
             ha = 0.5 * ha + 0.5 * avg(ha)
@@ -1227,9 +1229,9 @@ if REFINE_MM > 0:
         for _ in range(10):
             legm = 0.5 * legm + 0.5 * avg(legm)
         _V = rest + PROP + off; _z0 = _V[:, 2].min(); _Hr = _V[:, 2].max() - _z0; frl = (_V[:, 2] - _z0) / _Hr
-        erL = ss((legm - 0.4) / 0.4) * ss((frl - 0.07) / 0.02) * ss((0.44 - frl) / 0.02) * (1 - _keep)
+        erL = ss((legm - 0.4) / 0.4) * ss((frl - 0.07) / 0.02) * ss((0.49 - frl) / 0.02) * (1 - _keep)   # up to the thigh top (w3 streaks at 0.44-0.48)
         Q = rest + off
-        for _ in range(int(os.environ.get("V2_LEG_DENOISE", "30"))):
+        for _ in range(int(os.environ.get("V2_LEG_DENOISE", "60"))):
             for lam in (0.5, -0.53):
                 tri = Q[faces]; fn_ = np.cross(tri[:, 1] - tri[:, 0], tri[:, 2] - tri[:, 0])
                 vn_ = np.zeros_like(Q); np.add.at(vn_, faces.ravel(), np.repeat(fn_, 3, axis=0))
@@ -1243,22 +1245,23 @@ if REFINE_MM > 0:
             sel = (legm > 0.2) & (np.sign(_V[:, 0]) == sgn)
             idx = np.nonzero(sel)[0]; P = _V[idx]
             tt, tht, rt, Lt = _frame(tH, tT, sgn, P); ts, ths, rs_, Ls = _frame(sH, sT, sgn, P)
-            onT = tt < 1.0
+            wT = np.clip(1 - ss((ts + 0.04) / 0.10), 0, 1)          # thigh frame -> shin frame across the knee (w3: a ring)
             h_ = np.zeros(len(idx))
             ht = (_bump(tt, tht, 0.12, 0.90, 0, 30, 5.0)                      # rectus femoris
                   + _bump(tt, tht, 0.18, 0.95, 65, 38, 8.0, 1.2)              # vastus lateralis (outer sweep)
-                  + _bump(tt, tht, 0.62, 1.00, -45, 30, 9.0, 1.4)             # vastus medialis teardrop
+                  + _bump(tt, tht, 0.60, 0.98, -45, 34, 6.0, 1.2)             # vastus medialis teardrop (w3: 9 mm read as a lump)
                   + _bump(tt, tht, 0.05, 0.55, -95, 40, 4.0)                  # adductors
                   + _bump(tt, tht, 0.15, 0.88, 180, 45, 5.0)                  # hamstrings
                   - _bump(tt, tht, 0.50, 0.92, 180, 12, 1.5)                  # groove between the hamstrings
                   - _bump(tt, tht, 0.30, 0.92, 100, 14, 2.0)                  # flat band behind vastus lateralis (IT band)
-                  + _bump(tt, tht, 0.95, 1.06, 0, 28, 4.0))                   # patella (upper part)
+                  + _bump(tt, tht, 0.94, 1.06, 0, 22, 3.0))                   # patella (upper part)
             # sartorius: a soft groove from the outer front of the hip down across the thigh to the inner knee
             sth = 40.0 - 140.0 * np.clip(tt, 0, 1)
             dth = (tht - sth + 180.0) % 360.0 - 180.0
             ht -= 2.0 * np.exp(-0.5 * (dth / 9.0) ** 2) * ss((tt - 0.08) / 0.08) * ss((0.85 - tt) / 0.1)
-            h_[onT] += ht[onT]
-            S = ~onT & (ts < 1.05)
+            T_ = tt > -0.1
+            h_[T_] += (ht * wT)[T_]
+            S = (ts > -0.2) & (ts < 1.05)
             hs = (_bump(ts, ths, -0.04, 0.06, 0, 30, 3.0)                     # patella (lower part)
                   - _bump(ts, ths, 0.0, 0.10, 50, 16, 3.0) - _bump(ts, ths, 0.0, 0.10, -50, 16, 3.0)   # hollows beside the tendon
                   + _bump(ts, ths, 0.06, 0.52, -145, 38, 12.0, 0.9)           # gastrocnemius, medial head (fuller, lower)
@@ -1267,7 +1270,7 @@ if REFINE_MM > 0:
                   + _bump(ts, ths, 0.06, 0.62, 30, 26, 4.0)                   # tibialis anterior
                   + _bump(ts, ths, 0.92, 1.02, -90, 22, 4.0) + _bump(ts, ths, 0.95, 1.05, 90, 22, 4.0))   # malleoli
             hs -= 4.0 * ss((ts - 0.62) / 0.28) * (1 - _bump(ts, ths, 0.92, 1.06, -90, 22, 1.0) - _bump(ts, ths, 0.95, 1.06, 90, 22, 1.0))   # slimmer ankle / Achilles (not over the malleoli)
-            h_[S] += hs[S]
+            h_[S] += (hs * (1 - wT))[S]
             hl[idx] += h_
         hl *= (1 - _keep)
         for _ in range(3):

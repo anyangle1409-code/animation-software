@@ -1237,7 +1237,7 @@ if REFINE_MM > 0:
         _lg = np.clip(LEG, 0, 1)                         # (p2: a hard LEG > 0.5 cut-off drew a jagged ring around each thigh
         for _ in range(60):                              #  along the thigh / pelvis weight boundary)
             _lg = 0.5 * _lg + 0.5 * avg(_lg)
-        hp += float(os.environ.get("V2_OUTER_THIGH_MM", "12")) * ss((fz_ - 0.36) / 0.04) * ss((fc + 0.035 - fz_) / 0.03) * legside * ss((_lg - 0.3) / 0.5) * (1 - _keep)
+        hp += float(os.environ.get("V2_OUTER_THIGH_MM", "0")) * ss((fz_ - 0.36) / 0.04) * ss((fc + 0.035 - fz_) / 0.03) * legside * ss((_lg - 0.3) / 0.5) * (1 - _keep)
         for _ in range(4):
             hp = 0.5 * hp + 0.5 * avg(hp)
         hp *= (1 - _keep)
@@ -1567,8 +1567,8 @@ if os.environ.get("R76_RENDER") == "1":
             bench._rot(rig.pose.bones["thigh_r"], x=-90.0); bench._rot(rig.pose.bones["shin_r"], x=90.0)
 
         def _hp_abd():
-            bench._rot(rig.pose.bones["thigh_r"], z=float(os.environ.get("V2_HIP_ABD_SIGN", "1")) * 40.0)
-            bench._rot(rig.pose.bones["thigh_l"], z=-float(os.environ.get("V2_HIP_ABD_SIGN", "1")) * 40.0)
+            bench._rot(rig.pose.bones["thigh_r"], z=float(os.environ.get("V2_HIP_ABD_SIGN", "-1")) * 40.0)
+            bench._rot(rig.pose.bones["thigh_l"], z=-float(os.environ.get("V2_HIP_ABD_SIGN", "-1")) * 40.0)
 
         def _hp_squat():
             bench.pose_squat(rig, 1.0, rest_heads)

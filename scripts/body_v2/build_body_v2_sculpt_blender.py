@@ -1216,6 +1216,65 @@ if REFINE_MM > 0:
         off += qn * (ARMDEF * ha / 1000.0)[:, None]
         Q = rest + off
         DETAIL_REPORT["arm_muscles"] = {"max_mm": round(float(ha.max()), 2), "min_mm": round(float(ha.min()), 2), "vertices": int((np.abs(ha) > 0.2).sum())}
+    # R116 (owner: "the legs still need proportioned properly"; reference front/side: strong quadriceps - the vastus
+    # lateralis sweep and the vastus medialis teardrop above the inner knee - a defined patella with hollows beside the
+    # patellar tendon, calves fuller and higher on the inside, a slim Achilles and ankle with the malleoli showing).
+    # Same bone-local tool as the arms on thigh_* / shin_*: first a normal-only Taubin pass over the legs (the remaining
+    # R41 streaks on the thighs), then the muscles (Gray's Anatomy; Drake - lower limb surface anatomy).
+    LEGDEF = float(os.environ.get("V2_LEG_MUSCLES", "1"))
+    if LEGDEF > 0 and ARMDEF > 0:
+        legm = np.clip(LEG, 0, 1)
+        for _ in range(10):
+            legm = 0.5 * legm + 0.5 * avg(legm)
+        _V = rest + PROP + off; _z0 = _V[:, 2].min(); _Hr = _V[:, 2].max() - _z0; frl = (_V[:, 2] - _z0) / _Hr
+        erL = ss((legm - 0.4) / 0.4) * ss((frl - 0.07) / 0.02) * ss((0.44 - frl) / 0.02) * (1 - _keep)
+        Q = rest + off
+        for _ in range(int(os.environ.get("V2_LEG_DENOISE", "30"))):
+            for lam in (0.5, -0.53):
+                tri = Q[faces]; fn_ = np.cross(tri[:, 1] - tri[:, 0], tri[:, 2] - tri[:, 0])
+                vn_ = np.zeros_like(Q); np.add.at(vn_, faces.ravel(), np.repeat(fn_, 3, axis=0))
+                vn_ /= np.maximum(np.linalg.norm(vn_, axis=1, keepdims=True), 1e-12)
+                Q = Q + lam * erL[:, None] * ((cavg(Q) - Q) * vn_).sum(1)[:, None] * vn_
+        off = Q - rest
+        _V = rest + PROP + off
+        hl = np.zeros(nv)
+        for side_ in ("r", "l"):
+            tH, tT = _seg(f"thigh_{side_}"); sH, sT = _seg(f"shin_{side_}"); sgn = float(np.sign(tH[0]))
+            sel = (legm > 0.2) & (np.sign(_V[:, 0]) == sgn)
+            idx = np.nonzero(sel)[0]; P = _V[idx]
+            tt, tht, rt, Lt = _frame(tH, tT, sgn, P); ts, ths, rs_, Ls = _frame(sH, sT, sgn, P)
+            onT = tt < 1.0
+            h_ = np.zeros(len(idx))
+            ht = (_bump(tt, tht, 0.12, 0.90, 0, 30, 5.0)                      # rectus femoris
+                  + _bump(tt, tht, 0.18, 0.95, 65, 38, 8.0, 1.2)              # vastus lateralis (outer sweep)
+                  + _bump(tt, tht, 0.62, 1.00, -45, 30, 9.0, 1.4)             # vastus medialis teardrop
+                  + _bump(tt, tht, 0.05, 0.55, -95, 40, 4.0)                  # adductors
+                  + _bump(tt, tht, 0.15, 0.88, 180, 45, 5.0)                  # hamstrings
+                  - _bump(tt, tht, 0.50, 0.92, 180, 12, 1.5)                  # groove between the hamstrings
+                  - _bump(tt, tht, 0.30, 0.92, 100, 14, 2.0)                  # flat band behind vastus lateralis (IT band)
+                  + _bump(tt, tht, 0.95, 1.06, 0, 28, 4.0))                   # patella (upper part)
+            # sartorius: a soft groove from the outer front of the hip down across the thigh to the inner knee
+            sth = 40.0 - 140.0 * np.clip(tt, 0, 1)
+            dth = (tht - sth + 180.0) % 360.0 - 180.0
+            ht -= 2.0 * np.exp(-0.5 * (dth / 9.0) ** 2) * ss((tt - 0.08) / 0.08) * ss((0.85 - tt) / 0.1)
+            h_[onT] += ht[onT]
+            S = ~onT & (ts < 1.05)
+            hs = (_bump(ts, ths, -0.04, 0.06, 0, 30, 3.0)                     # patella (lower part)
+                  - _bump(ts, ths, 0.0, 0.10, 50, 16, 3.0) - _bump(ts, ths, 0.0, 0.10, -50, 16, 3.0)   # hollows beside the tendon
+                  + _bump(ts, ths, 0.06, 0.52, -145, 38, 12.0, 0.9)           # gastrocnemius, medial head (fuller, lower)
+                  + _bump(ts, ths, 0.06, 0.44, 150, 32, 9.0, 0.9)             # gastrocnemius, lateral head
+                  + _bump(ts, ths, 0.30, 0.78, -110, 28, 3.0) + _bump(ts, ths, 0.30, 0.74, 110, 28, 3.0)   # soleus at the sides
+                  + _bump(ts, ths, 0.06, 0.62, 30, 26, 4.0)                   # tibialis anterior
+                  + _bump(ts, ths, 0.92, 1.02, -90, 22, 4.0) + _bump(ts, ths, 0.95, 1.05, 90, 22, 4.0))   # malleoli
+            hs -= 4.0 * ss((ts - 0.62) / 0.28) * (1 - _bump(ts, ths, 0.92, 1.06, -90, 22, 1.0) - _bump(ts, ths, 0.95, 1.06, 90, 22, 1.0))   # slimmer ankle / Achilles (not over the malleoli)
+            h_[S] += hs[S]
+            hl[idx] += h_
+        hl *= (1 - _keep)
+        for _ in range(3):
+            hl = 0.5 * hl + 0.5 * avg(hl)
+        off += qn * (LEGDEF * hl / 1000.0)[:, None]
+        Q = rest + off
+        DETAIL_REPORT["leg_muscles"] = {"max_mm": round(float(hl.max()), 2), "min_mm": round(float(hl.min()), 2)}
     # R85 (owner, with the reference figure's groin close-ups: "Can we have the groin area match this ... I still see the
     # weird line at the top of the legs where it meets the torso ... There is no line there and it's smooth transition"):
     # the model had a horizontal fold across both thigh tops at ~0.49 of stature, just above the crotch, and a flat wide

@@ -627,6 +627,31 @@ if TORSO > 0:
         for sl in shl:
             v[sl] = v[sl] + dv
     REP["torso_relief"] = {"verts": len(tv), "max_mm": round(float(dn.max()) * 1000, 1), "min_mm": round(float(dn.min()) * 1000, 1)}
+# v16: the pec / arm junction - a sharp vertical crest with a nub where the builder's pec clearance cap (R104) cut
+# the pec off against the arm, and crinkles over the clavicle and front deltoid.  Taubin over that patch (mesh
+# neighbours only, so the arm cannot merge into the chest), arm-weighted skin included up to 0.7.
+PECJ = int(os.environ.get("V2_PEC_JUNCTION", "80"))
+if PECJ > 0:
+    bm.normal_update()
+    zv = [v for v in bm.verts if v[oid] >= 0 and ARM[v[oid]] < 0.7 and z0 + 0.69 * H < v.co.z < z0 + 0.84 * H
+          and 0.05 * H < abs(v.co.x) < 0.20 * H and v.normal.y < 0.35]
+    Pz = np.array([tuple(v.co) for v in zv]); iz = {v: i for i, v in enumerate(zv)}
+    nz = [[iz[e.other_vert(v)] for e in v.link_edges if e.other_vert(v) in iz] for v in zv]
+    fz = (Pz[:, 2] - z0) / H; az = np.abs(Pz[:, 0]) / H
+    wz = ss((fz - 0.69) / 0.02) * ss((0.84 - fz) / 0.02) * ss((az - 0.05) / 0.02) * ss((0.20 - az) / 0.02)
+    wz *= np.array([float(ss((0.7 - ARM[v[oid]]) / 0.3)) for v in zv])
+    Qz = Pz.copy()
+    for it in range(2 * PECJ):
+        lam = 0.5 if it % 2 == 0 else -0.53
+        M_ = np.array([Qz[n].mean(0) if n else Qz[i] for i, n in enumerate(nz)])
+        Qz = Qz + lam * wz[:, None] * (M_ - Qz)
+    for v, q_, p_ in zip(zv, Qz, Pz):
+        dv = Vector((q_ - p_).tolist())
+        if dv.length > 1e-7:
+            v.co += dv
+            for sl in shl:
+                v[sl] = v[sl] + dv
+    REP["pec_junction"] = {"verts": len(zv), "max_move_mm": round(float(np.linalg.norm(Qz - Pz, axis=1).max()) * 1000, 1)}
 # orientation check: every interior edge used once each way
 bad = 0
 for e in bm.edges:

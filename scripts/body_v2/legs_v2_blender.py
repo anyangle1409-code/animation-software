@@ -95,16 +95,14 @@ def _smooth(d_, n=7):
     return np.convolve(np.pad(d_, n // 2, mode="edge"), k_, mode="valid")
 
 
-cRy, cRx = _centre(0.5 * (rFs + rBs)), _centre(0.5 * (rIn + rOut))
-# below 0.085 the side outline takes in the instep and heel: hold the ankle values there
+# v7: the legs follow the reference's own centre lines (smoothed), shifted once to stand where the old legs stood.
+# v1-v6 put reference-relative sizes about the old body's straight-line centre lines; the two disagree at the knee,
+# so the front edge jumped 47 mm forward within 0.255-0.31 of stature (the reference's moves as far, but over the
+# whole thigh) - a downward-facing slope that read as a dark band across each knee.
 _lo = Fb < 0.085
-TF, TB, TI, TO = (_smooth(_smooth(np.where(_lo, np.interp(0.085, Fb, a_), a_), 9), 9) for a_ in (rFs - cRy, cRy - rBs, cRx - rIn, rOut - cRx))
-# (v4: smoothed twice over 4.5 cm - the reference's knee-width dip at 0.27 made a ring-shaped dent below the knee;
-# v6: the band was the front instead: the outline's peak at the patella plus the patella relief, then a sharp
-# recess below it.  Front and back are smoothed again over ~6 cm through the knee only; the widths a little.)
-_kn = ss((Fb - 0.20) / 0.03) * ss((0.36 - Fb) / 0.03)
-TF, TB = ((1 - _kn) * a_ + _kn * _smooth(_smooth(a_, 13), 13) for a_ in (TF, TB))
-TI, TO = (_smooth(a_, 9) for a_ in (TI, TO))
+rFs, rBs, rIn, rOut = (np.where(_lo, np.interp(0.085, Fb, a_), a_) for a_ in (rFs, rBs, rIn, rOut))
+cRy, cRx = _smooth(_smooth(0.5 * (rFs + rBs), 9), 9), _smooth(_smooth(0.5 * (rIn + rOut), 9), 9)
+TF, TB, TI, TO = (_smooth(_smooth(a_, 9), 9) for a_ in (rFs - cRy, cRy - rBs, cRx - rIn, rOut - cRx))
 # the old legs' own centre lines (R117 fitted the outline about them, so the new legs stay where the old ones stood)
 MC = {}
 for sd, sg in SIDES:
@@ -390,6 +388,9 @@ for sd, sg in SIDES:
     zs = np.arange(zc - DZ, zj + 0.6 * DZ, -DZ)
     rings = []
     cyM, cxM = MC[sd]
+    _m = (Fb >= 0.10) & (Fb <= 0.42)
+    cyM = cRy + float(np.mean(cyM[_m] - cRy[_m])); cxM = cRx + float(np.mean(cxM[_m] - cRx[_m]))
+    REP.setdefault("centre_shift_mm", {})[sd] = [round(float(np.mean(MC[sd][k][_m] - (cRy, cRx)[k][_m])) * H * 1000, 1) for k in (0, 1)]
     for z in zs:
         f = (z - z0) / H
         b = ss((zc - z) / float(os.environ.get("V2_LEGS_BLEND", "0.08")))     # old cut shape -> designed shape

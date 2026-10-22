@@ -99,7 +99,10 @@ cRy, cRx = _centre(0.5 * (rFs + rBs)), _centre(0.5 * (rIn + rOut))
 # below 0.085 the side outline takes in the instep and heel: hold the ankle values there
 _lo = Fb < 0.085
 TF, TB, TI, TO = (_smooth(_smooth(np.where(_lo, np.interp(0.085, Fb, a_), a_), 9), 9) for a_ in (rFs - cRy, cRy - rBs, cRx - rIn, rOut - cRx))
-# (v4: smoothed twice over 4.5 cm - the reference's knee-width dip at 0.27 made a ring-shaped dent below the knee)
+# (v4: smoothed twice over 4.5 cm - the reference's knee-width dip at 0.27 made a ring-shaped dent below the knee;
+# v5: the side-to-side widths again over ~10 cm - an even all-round narrowing reads as a ring, the knee detail
+# comes from the relief instead)
+TI, TO = (_smooth(_smooth(a_, 21), 11) for a_ in (TI, TO))
 # the old legs' own centre lines (R117 fitted the outline about them, so the new legs stay where the old ones stood)
 MC = {}
 for sd, sg in SIDES:
@@ -212,11 +215,11 @@ def _smin(a, b, k):
 def foot_sdf(P):
     """P: (..., 3) in the foot frame (u outward, v forward, z up from the ground), metres; 290 mm foot"""
     S = lambda *x: np.array(x) * 1.0
-    d = _sd_ell(P, S(0.003, -0.026, 0.033), S(0.034, 0.034, 0.033))                    # heel (calcaneus)
+    d = _sd_ell(P, S(0.003, -0.026, 0.035), S(0.031, 0.034, 0.035))                    # heel (calcaneus)
     d = _smin(d, _sd_ell(P, S(-0.002, 0.012, 0.074), S(0.030, 0.036, 0.040)), 0.026)  # talus / ankle
-    d = _smin(d, _sd_cone(P, S(0.020, -0.015, 0.022), S(0.036, 0.118, 0.012), 0.017, 0.012), 0.018)   # lateral column
+    d = _smin(d, _sd_cone(P, S(0.014, 0.005, 0.020), S(0.034, 0.118, 0.012), 0.014, 0.012), 0.018)   # lateral column
     d = _smin(d, _sd_cone(P, S(-0.006, 0.005, 0.064), S(-0.024, 0.140, 0.030), 0.026, 0.018), 0.028)  # medial arch
-    d = _smin(d, _sd_ell(P, S(0.002, 0.062, 0.052), S(0.039, 0.085, 0.034)), 0.026)   # instep / dorsum
+    d = _smin(d, _sd_ell(P, S(0.002, 0.058, 0.058), S(0.038, 0.085, 0.037)), 0.026)   # instep / dorsum
     d = _smin(d, _sd_ell(P, S(0.006, 0.168, 0.015), S(0.044, 0.020, 0.012)), 0.012)   # toe web / forefoot pad
     d = _smin(d, _sd_cone(P, S(-0.029, 0.155, 0.021), S(0.040, 0.123, 0.015), 0.021, 0.014), 0.016)   # metatarsal heads
     d = _smin(d, _sd_cone(P, S(0.000, -0.045, 0.050), S(0.000, -0.034, 0.160), 0.013, 0.011), 0.014)  # Achilles tendon

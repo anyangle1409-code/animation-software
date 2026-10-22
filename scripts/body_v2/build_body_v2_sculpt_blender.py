@@ -1065,6 +1065,7 @@ if REFINE_MM > 0:
     # |x| ~0.08 of stature) to beside the crotch (~0.48); between them a rounded pubic wedge with a U-shaped bottom; no
     # horizontal line.  So: flatten the whole groin band (plain normal-only cotangent steps: removes the fold and the
     # shelf), then the wedge and the creases on the reference curve.
+    PELV = float(os.environ.get("V2_PELVIS", "1"))     # R110 pelvis-to-thigh transition (below); 0 = as v13l
     GROIN2 = float(os.environ.get("V2_GROIN_REBUILD", "1"))
     if GROIN2 > 0:
         fz_ = (Q[:, 2] - zb) / Hs; ax_ = np.abs(Q[:, 0])
@@ -1080,6 +1081,11 @@ if REFINE_MM > 0:
         off = Q - rest
         # crease curve (|x|, z) from the reference, as fractions of stature above the crotch
         cpts = [(0.150, cz + 0.152), (0.118, cz + 0.112), (0.085, cz + 0.070), (0.058, cz + 0.038), (0.040, cz + 0.018), (0.030, cz + 0.006)]
+        if PELV > 0:
+            # R110: the inguinal fold follows the inguinal ligament from the ASIS (skin landmark rest (0.108, 1.001)) down
+            # and in towards the pubic tubercle, then the thigh-pubis sulcus runs on down beside the mound; it ends ~2 cm
+            # above the crotch and ~4 cm out from the midline - the two sides no longer meet in a point (v13l's pinch)
+            cpts = [(0.122, cz + 0.128), (0.100, cz + 0.100), (0.080, cz + 0.074), (0.062, cz + 0.050), (0.050, cz + 0.032), (0.042, cz + 0.018)]
         # distance to the curve and which side of it (inside = the pubic side, up / towards the midline)
         P2 = np.stack([ax_, Q[:, 2]], axis=1); best = np.full(nv, 9.0); sgn = np.zeros(nv); tpar = np.zeros(nv)
         L_tot = sum(np.linalg.norm(np.subtract(b, a)) for a, b in zip(cpts[:-1], cpts[1:])); run = 0.0
@@ -1091,8 +1097,8 @@ if REFINE_MM > 0:
             run += L
         frontish = ss((-qn[:, 1] - 0.1) / 0.4) * (1 - _keep)
         h = np.zeros(nv)
-        CR_MM = float(os.environ.get("V2_GROIN_CREASE_MM", "3.0"))
-        h -= CR_MM * np.exp(-0.5 * (best / 0.010) ** 2) * ss(tpar / 0.12) * ss((1 - tpar) / 0.30) * frontish   # fades before the crotch: a U, not a point
+        CR_MM = float(os.environ.get("V2_GROIN_CREASE_MM", "2.2" if PELV > 0 else "3.0"))
+        h -= CR_MM * np.exp(-0.5 * (best / (0.013 if PELV > 0 else 0.010)) ** 2) * ss(tpar / 0.12) * ss((1 - tpar) / 0.30) * frontish   # fades before the crotch: a U, not a point
         # pubic wedge: raised inside the creases, rounded, fading up into the lower belly
         inside = (sgn < 0) * ss(best / 0.012)
         PUB_MM = float(os.environ.get("V2_PUBIC_MM", "5"))
@@ -1117,9 +1123,65 @@ if REFINE_MM > 0:
     cz = Q[np.abs(Q[:, 0]) < 0.006, 2].min()
     off += groove([(0.118, cz + 0.135), (0.075, cz + 0.07), (0.035, cz + 0.022), (0.018, cz + 0.004)], 0.006, ING_D, -1)
     # gluteal folds: under each buttock, rising slightly to the outside
-    GLUTE_D = float(os.environ.get("V2_GLUTE_FOLD_MM", "5"))
+    GLUTE_D = float(os.environ.get("V2_GLUTE_FOLD_MM", "0" if PELV > 0 else "5"))   # R110 re-makes it below
     off += groove([(0.022, cz - 0.004), (0.06, cz - 0.022), (0.11, cz - 0.018), (0.15, cz + 0.005)], 0.007, GLUTE_D, +1)
     DETAIL_REPORT.update({"navel_mm": NAVEL_MM, "navel_z": round(float(zn), 4), "inguinal_mm": ING_D, "glute_fold_mm": GLUTE_D, "crotch_z": round(float(cz), 4)})
+    # R110 (owner: "Correct the pelvis-to-thigh anatomical transition ... overly flat lower pelvis, a pinched central groin
+    # junction and an abrupt gluteal-to-thigh transition").  Measured first (v13l / p0 standing renders, fractions of
+    # stature): crotch 0.473 (reference 0.475), navel 0.612 (0.616) - heights kept; hip half-width at 0.50 0.104 (0.106);
+    # upper outer thigh 0.40-0.47 0.100-0.109 against 0.107-0.116 (the reference's thigh sweeps out below the hip, the
+    # model's outline ran straight down); inner-thigh gap similar.  Surface anatomy (Gray's Anatomy; Drake, Gray's Anatomy
+    # for Students, surface anatomy of the gluteal region and the femoral triangle): the gluteal fold (infragluteal sulcus)
+    # is a crease under the medial part of gluteus maximus, at about the ischial tuberosity, fading out laterally (it is
+    # not a full-width crease); gluteus maximus is a rounded mass whose top blends into the lower back over the iliac
+    # crest / sacrum without a step; the hypogastric (lower) abdomen is gently convex down to the pubis; the adductors
+    # fill the upper inner thigh up to the pubis.  All of it below on Q = rest + off (heights as the groin rebuild above).
+    if PELV > 0:
+        fz_ = (Q[:, 2] - zb) / Hs; ax_ = np.abs(Q[:, 0]); xh_ = ax_ / Hs; fc = (cz - zb) / Hs
+        back_ = ss((qn[:, 1] - 0.05) / 0.35); front_ = ss((-qn[:, 1] - 0.05) / 0.35)
+        inner_ = ss((-(qn[:, 0] * np.sign(Q[:, 0])) - 0.2) / 0.3)
+        legside = ss((qn[:, 0] * np.sign(Q[:, 0]) - 0.2) / 0.3)
+        # 1. buttocks: erase the shelf under them and the band across their top (normal-only cotangent steps)
+        er = ss((fz_ - (fc - 0.045)) / 0.015) * ss((fc + 0.12 - fz_) / 0.02) * ss((0.18 - ax_) / 0.03) * back_ * (1 - _keep)
+        for _ in range(int(os.environ.get("V2_GLUTE_ERASE", "150"))):
+            tri = Q[faces]; fn_ = np.cross(tri[:, 1] - tri[:, 0], tri[:, 2] - tri[:, 0])
+            vn_ = np.zeros_like(Q); np.add.at(vn_, faces.ravel(), np.repeat(fn_, 3, axis=0))
+            vn_ /= np.maximum(np.linalg.norm(vn_, axis=1, keepdims=True), 1e-12)
+            Q = Q + 0.5 * er[:, None] * ((cavg(Q) - Q) * vn_).sum(1)[:, None] * vn_
+        off = Q - rest
+        hp = np.zeros(nv)
+        # 2. gluteus maximus: a rounded mass, fullest a little below its middle, blending up into the lower back
+        GMAX = float(os.environ.get("V2_GLUTE_MM", "9"))
+        hp += GMAX * np.exp(-0.5 * (((xh_ - 0.052) / 0.034) ** 2 + ((fz_ - fc - 0.035) / 0.032) ** 2)) * back_
+        # 3. gluteal fold: medial two thirds only, rising slightly outwards, fading laterally into the outer thigh
+        gpts = [(0.012, cz - 0.004), (0.040, cz - 0.014), (0.075, cz - 0.016), (0.110, cz - 0.008)]
+        P2 = np.stack([ax_, Q[:, 2]], axis=1); gd = np.full(nv, 9.0); gt = np.zeros(nv); run = 0.0
+        gL = sum(np.linalg.norm(np.subtract(b, a)) for a, b in zip(gpts[:-1], gpts[1:]))
+        for a, b in zip(gpts[:-1], gpts[1:]):
+            a = np.array(a); b = np.array(b); dd = b - a; L = np.linalg.norm(dd); u = dd / L
+            p = P2 - a; t = np.clip(p @ u / L, 0, 1); dist = np.linalg.norm(p - np.outer(t * L, u), axis=1)
+            m = dist < gd; gd[m] = dist[m]; gt[m] = (run + t[m] * L) / gL; run += L
+        GF = float(os.environ.get("V2_GLUTE_FOLD_R110_MM", "4"))
+        hp -= GF * np.exp(-0.5 * (gd / 0.0065) ** 2) * ss(gt / 0.10) * ss((1 - gt) / 0.45) * back_
+        # 4. gluteal-to-hamstring transition: the upper hamstrings fill just under the fold, so the thigh carries on
+        #    from the buttock instead of stepping in under a shelf
+        hp += 3.0 * np.exp(-0.5 * (((xh_ - 0.050) / 0.035) ** 2 + ((fz_ - fc + 0.040) / 0.025) ** 2)) * back_
+        # 5. lower abdomen: gently convex from below the navel down to the pubis (v13l: a flat plane)
+        hp += float(os.environ.get("V2_LOWER_ABS_MM", "4")) * np.exp(-0.5 * (((xh_) / 0.050) ** 2 + ((fz_ - fc - 0.075) / 0.030) ** 2)) * front_
+        # 6. crotch junction: the upper inner thighs ease away from the junction (a rounded U under the mound, not a
+        #    slit), and the adductors fill the upper inner thigh just below it so it blends into the pubis
+        hp -= 3.0 * np.exp(-0.5 * ((fz_ - fc + 0.008) / 0.010) ** 2) * ss((0.035 - xh_) / 0.02) * inner_ * (1 - back_)
+        hp += 2.5 * np.exp(-0.5 * ((fz_ - fc + 0.035) / 0.020) ** 2) * ss((0.06 - xh_) / 0.03) * inner_
+        # 7. outer upper thigh: sweeps out below the hip as on the reference (+~1.2 cm at 0.40-0.47, the vastus lateralis /
+        #    tensor fasciae latae), tapering into the hip above and the knee below
+        hp += float(os.environ.get("V2_OUTER_THIGH_MM", "12")) * ss((fz_ - 0.36) / 0.04) * ss((fc + 0.035 - fz_) / 0.03) * legside * (LEG > 0.5) * (1 - _keep)
+        for _ in range(4):
+            hp = 0.5 * hp + 0.5 * avg(hp)
+        hp *= (1 - _keep)
+        off += qn * (hp / 1000.0)[:, None]
+        Q = rest + off
+        DETAIL_REPORT["pelvis_r110"] = {"glute_mm": GMAX, "glute_fold_mm": GF, "glute_erase": int(os.environ.get("V2_GLUTE_ERASE", "150")),
+                                        "max_mm": round(float(hp.max()), 2), "min_mm": round(float(hp.min()), 2)}
     # R99 (owner chose "Reshape torso to reference first"): fit the torso's side silhouette to the reference figure.
     # Measured with scripts/body_v2/fit/silfit.py (side panel, skin-colour mask), front and back edges per height
     # relative to their own value at 0.50 of stature: on v11e the model's chest front stood ~0.018 of stature (3.3 cm)

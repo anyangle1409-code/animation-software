@@ -98,7 +98,8 @@ def _smooth(d_, n=7):
 cRy, cRx = _centre(0.5 * (rFs + rBs)), _centre(0.5 * (rIn + rOut))
 # below 0.085 the side outline takes in the instep and heel: hold the ankle values there
 _lo = Fb < 0.085
-TF, TB, TI, TO = (_smooth(np.where(_lo, np.interp(0.085, Fb, a_), a_)) for a_ in (rFs - cRy, cRy - rBs, cRx - rIn, rOut - cRx))
+TF, TB, TI, TO = (_smooth(_smooth(np.where(_lo, np.interp(0.085, Fb, a_), a_), 9), 9) for a_ in (rFs - cRy, cRy - rBs, cRx - rIn, rOut - cRx))
+# (v4: smoothed twice over 4.5 cm - the reference's knee-width dip at 0.27 made a ring-shaped dent below the knee)
 # the old legs' own centre lines (R117 fitted the outline about them, so the new legs stay where the old ones stood)
 MC = {}
 for sd, sg in SIDES:
@@ -113,7 +114,7 @@ for sd, sg in SIDES:
     mF, mB, mI, mO = (np.interp(Fb, Fb[ok_], m_[ok_]) for m_ in (mF, mB, mI, mO))
     MC[sd] = (_centre(0.5 * (mF + mB)), _centre(0.5 * (mI + mO)))
 
-CUT = float(os.environ.get("V2_LEGS_CUT", "0.43"))          # fraction of stature
+CUT = float(os.environ.get("V2_LEGS_CUT", "0.45"))          # fraction of stature
 zc = z0 + CUT * H
 FJ = float(os.environ.get("V2_LEGS_JOIN", "0.085"))         # foot / leg join
 zj = z0 + FJ * H
@@ -135,12 +136,12 @@ def relief(th, f):
     lines across the knee and calf)."""
     r = np.zeros_like(th)
     # thigh, front and sides
-    r += _blob(th, f, 60, 30, 0.355, 0.045, 6.0, -0.02)    # vastus lateralis sweep
+    r += _blob(th, f, 62, 24, 0.350, 0.040, 8.0, -0.02)    # vastus lateralis sweep
     r += _blob(th, f, 5, 20, 0.370, 0.050, 4.0)            # rectus femoris
-    r += _blob(th, f, 32, 8, 0.360, 0.050, -3.0)           # rectus / vastus lateralis groove
-    r += _blob(th, f, -50, 22, 0.305, 0.022, 9.0, 0.01)    # vastus medialis teardrop, above the inner knee
+    r += _blob(th, f, 32, 6, 0.360, 0.050, -4.0)           # rectus / vastus lateralis groove
+    r += _blob(th, f, -52, 16, 0.307, 0.018, 12.0, 0.012)  # vastus medialis teardrop, above the inner knee
     ths = -70.0 + (f - 0.31) / 0.12 * 60.0                  # sartorius: upper outer -> lower inner
-    r += -2.5e-3 * np.exp(-0.5 * (((th - ths + 180) % 360 - 180) / 7.0) ** 2) * ss((f - 0.30) / 0.03) * ss((0.44 - f) / 0.03)
+    r += -3.5e-3 * np.exp(-0.5 * (((th - ths + 180) % 360 - 180) / 6.0) ** 2) * ss((f - 0.30) / 0.03) * ss((0.44 - f) / 0.03)
     r += _blob(th, f, -100, 30, 0.400, 0.040, 3.0)         # adductors
     r += _blob(th, f, 95, 12, 0.340, 0.050, -2.5)          # IT band flat
     # thigh, back

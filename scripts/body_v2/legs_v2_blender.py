@@ -100,9 +100,11 @@ cRy, cRx = _centre(0.5 * (rFs + rBs)), _centre(0.5 * (rIn + rOut))
 _lo = Fb < 0.085
 TF, TB, TI, TO = (_smooth(_smooth(np.where(_lo, np.interp(0.085, Fb, a_), a_), 9), 9) for a_ in (rFs - cRy, cRy - rBs, cRx - rIn, rOut - cRx))
 # (v4: smoothed twice over 4.5 cm - the reference's knee-width dip at 0.27 made a ring-shaped dent below the knee;
-# v5: the side-to-side widths again over ~10 cm - an even all-round narrowing reads as a ring, the knee detail
-# comes from the relief instead)
-TI, TO = (_smooth(_smooth(a_, 21), 11) for a_ in (TI, TO))
+# v6: the band was the front instead: the outline's peak at the patella plus the patella relief, then a sharp
+# recess below it.  Front and back are smoothed again over ~6 cm through the knee only; the widths a little.)
+_kn = ss((Fb - 0.20) / 0.03) * ss((0.36 - Fb) / 0.03)
+TF, TB = ((1 - _kn) * a_ + _kn * _smooth(_smooth(a_, 13), 13) for a_ in (TF, TB))
+TI, TO = (_smooth(a_, 9) for a_ in (TI, TO))
 # the old legs' own centre lines (R117 fitted the outline about them, so the new legs stay where the old ones stood)
 MC = {}
 for sd, sg in SIDES:
@@ -152,7 +154,7 @@ def relief(th, f):
     r += _blob(th, f, -150, 22, 0.350, 0.050, 4.0)         # semitendinosus / semimembranosus
     r += _blob(th, f, 180, 7, 0.360, 0.050, -2.5)          # hamstring split
     # knee
-    r += _blob(th, f, 0, 18, 0.287, 0.010, 4.0)            # patella
+    r += _blob(th, f, 0, 16, 0.287, 0.012, 2.5)            # patella
     r += _blob(th, f, 35, 10, 0.268, 0.009, -3.0)          # infrapatellar hollows
     r += _blob(th, f, -35, 10, 0.268, 0.009, -3.0)
     r += _blob(th, f, 180, 30, 0.280, 0.012, -2.5)         # popliteal hollow

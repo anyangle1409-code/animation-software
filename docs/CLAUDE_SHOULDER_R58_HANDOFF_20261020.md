@@ -1961,3 +1961,28 @@ Owner on v12z: "the pecs start too high maybe and don't drop down low enough ...
 **Still open:**
 - The fold in front of the armpit under the outer pec in the side view, and the R41 rib-side creases.
 - Front widths.
+
+### Draft v13h: collarbones, neck muscles, trapezius (R105, 22 Oct)
+
+The owner circled the reference's collarbone and neck-base area: "Can we create this on my model?"
+
+**Measured on the reference front panel** (fractions of stature, finished-body coordinates):
+- **Clavicles:** a ridge from the jugular notch (0.826), arched to about 0.834 mid-length, out to the acromion (|x| 0.125).
+- **Infraclavicular area:** a soft hollow under the clavicle, and a deltopectoral dimple at |x| 0.085, 0.821.
+- **Sternocleidomastoids:** from |x| 0.045, 0.872 (under the ears) down to the notch (|x| 0.012, 0.830), with a pit between their heads.
+- **Trapezius slope:** the model's silhouette at 0.84/0.86 was 0.161/0.079 against the reference's 0.180/0.103.
+
+**R105** (`V2_NECK_DETAIL`), after the front muscles, in `rest + PROP + off` coordinates:
+1. **Clean-up of the neck-base area** (0.815–0.875, |x| < 0.20): Taubin relax (`V2_NECK_RELAX` 25), then normal-only cotangent erase (`V2_NECK_ERASE` 150).
+2. **Clavicle:** ridge 7 mm (sigma 5.5 mm) plus a 2.5 mm hollow under it.
+3. **Deltopectoral dimple:** 2.5 mm.
+4. **Supraclavicular hollow:** 3.5 mm at |x| 0.060, 0.843.
+5. **Sternocleidomastoids:** 5 mm (sigma 6.5 mm), plus a 4.5 mm jugular pit. Items 2–5 are on front-facing skin only.
+6. **Trapezius fill:** 12 mm at |x| 0.075, 0.848, on upward-facing skin, front and back.
+
+**Also changed:** PROP is now carried to the refined mesh with the same Gaussian weights as the sculpt offsets (`V2_PROP_SMOOTH_TRANSFER`).
+
+**Results:**
+- 0 standing overlaps.
+- The sternocleidomastoids and the hollows read; the clavicle ridge reads only faintly under this lighting.
+- Fine streaks remain across the neck base. They are in R41's own neck topology: the V1 render (the original surface) shows them too, and the measured high-frequency roughness is only about 0.14–0.19 mm. They come from long sliver triangles, and only a local remesh of the neck base would remove them.

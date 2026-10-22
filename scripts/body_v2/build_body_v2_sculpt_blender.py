@@ -681,6 +681,11 @@ if REFINE_MM > 0:
     _a = np.clip((_arm_f - 0.3) / 0.4, 0, 1)[:, None]
     _off_lin = off.copy(); _off_g = (_off_c[_jj] * _ww[..., None]).sum(1)
     off = _a * off + (1 - _a) * _off_g
+    # R105b: the skeleton-level field PROP the same way.  Carried over linearly, its 2-3 cm posture / girdle moves (R81,
+    # R100) kinked along every old edge where they change fast - the streaky neck base and trapezius seen since v11e/v12
+    # (in the unposed renders too, so not the correctives)
+    if os.environ.get("V2_PROP_SMOOTH_TRANSFER", "1") == "1":
+        PROP = _a * PROP + (1 - _a) * (_prop_c[_jj] * _ww[..., None]).sum(1)
     if os.environ.get("V2_DEBUG_TRANSFER"):
         np.savez_compressed(OUT / "transfer_debug.npz", lin=_off_lin.astype(np.float32), g=_off_g.astype(np.float32), a=_a[:, 0].astype(np.float32),
                             arm=_arm_f.astype(np.float32), rest=rest.astype(np.float32), wsum=_ww.max(1).astype(np.float32))
@@ -967,6 +972,74 @@ if REFINE_MM > 0:
         DETAIL_REPORT["nipple_h_mm"] = round(float(h[np.argmin(rn)]), 2); _nip_i = int(np.argmin(rn))
         DETAIL_REPORT["front_muscles"] = {"abs_erase_steps": int(os.environ.get("V2_ABS_ERASE", "150")), "intersections": ints,
                                            "max_mm": round(float(h.max()), 2), "min_mm": round(float(h.min()), 2)}
+    # R105 (owner circled the reference's collarbone / neck-base area: "Can we create this on my model?").  Measured on the
+    # reference front panel (fractions of stature, finished-body coordinates): clavicles a ridge from the jugular notch
+    # (0.826) out to the acromion, arched to ~0.834 mid-length, a soft infraclavicular hollow under it and a dimple at the
+    # deltopectoral triangle (|x| 0.085, 0.822); sternocleidomastoids from under the ears (|x| ~0.045, 0.872) down to the
+    # notch (|x| ~0.012, 0.830), with a pit between their heads; trapezius slope fuller (silhouette widths 0.84 / 0.86:
+    # reference 0.180 / 0.103 of stature, model 0.161 / 0.079).  The model had none of it, and fine crinkles there.
+    NECKD = float(os.environ.get("V2_NECK_DETAIL", "1"))
+    if NECKD > 0:
+        _Vr = rest + PROP + off; _z0 = _Vr[:, 2].min(); _Hr = _Vr[:, 2].max() - _z0
+        fr = (_Vr[:, 2] - _z0) / _Hr; xr = np.abs(_Vr[:, 0]) / _Hr
+        noarm = np.clip(1 - _arm_f / 0.7, 0, 1); nohead = 1 - np.clip(HEAD, 0, 1)
+        # 1. erase the crinkles over the neck base, collarbones and top of the shoulders (normal-only smoothing)
+        er = ss((fr - 0.815) / 0.012) * ss((0.875 - fr) / 0.012)   # (from 0.815: keeps the upper pec) * ss((0.20 - xr) / 0.02) * noarm * nohead * (1 - _keep)
+        Q = rest + off
+        # even out R41's long thin neck-base triangles first (their streaky shading stayed after v13e/v13f's normal-only
+        # smoothing): Taubin relax of the positions (uniform weights - slides vertices along the surface towards even
+        # spacing, no shrinking); the vertices move a few mm at most and keep their skin weights
+        for _ in range(int(os.environ.get("V2_NECK_RELAX", "25"))):
+            Q = Q + 0.5 * er[:, None] * (np.stack([avg(Q[:, k]) for k in range(3)], axis=1) - Q)
+            Q = Q - 0.53 * er[:, None] * (np.stack([avg(Q[:, k]) for k in range(3)], axis=1) - Q)
+        for _ in range(int(os.environ.get("V2_NECK_ERASE", "150"))):
+            tri = Q[faces]; fn_ = np.cross(tri[:, 1] - tri[:, 0], tri[:, 2] - tri[:, 0])
+            vn_ = np.zeros_like(Q); np.add.at(vn_, faces.ravel(), np.repeat(fn_, 3, axis=0))
+            vn_ /= np.maximum(np.linalg.norm(vn_, axis=1, keepdims=True), 1e-12)
+            Q = Q + 0.5 * er[:, None] * ((cavg(Q) - Q) * vn_).sum(1)[:, None] * vn_
+        off = Q - rest
+
+        def _segd(px, pz, pts):
+            """distance (stature units, front projection) from (|x|, f) to a polyline, and the position along it 0..1"""
+            best = np.full(len(px), 9.0); tt = np.zeros(len(px)); L = 0.0
+            segs = list(zip(pts[:-1], pts[1:])); lens = [np.hypot(b_[0] - a_[0], b_[1] - a_[1]) for a_, b_ in segs]; tot = sum(lens)
+            for (a_, b_), l_ in zip(segs, lens):
+                dx, dz = b_[0] - a_[0], b_[1] - a_[1]
+                u = np.clip(((px - a_[0]) * dx + (pz - a_[1]) * dz) / max(l_ * l_, 1e-12), 0, 1)
+                d = np.hypot(px - a_[0] - u * dx, pz - a_[1] - u * dz)
+                m = d < best; best[m] = d[m]; tt[m] = (L + u[m] * l_) / tot
+                L += l_
+            return best, tt
+        fronty = ss((-qn[:, 1] + 0.10) / 0.35)
+        hn = np.zeros(nv)
+        # 2. clavicles: a rounded ridge, a soft hollow under it, a dimple at the deltopectoral triangle
+        cl = [(0.012, 0.826), (0.030, 0.830), (0.050, 0.833), (0.070, 0.834), (0.090, 0.833), (0.110, 0.830), (0.125, 0.827)]
+        dcl, tcl = _segd(xr, fr, cl)
+        endf = ss(tcl / 0.08) * ss((1 - tcl) / 0.15)
+        CLAV = float(os.environ.get("V2_CLAVICLE_MM", "7.0"))   # (v13d: 3 mm hardly read)
+        hn += CLAV * np.exp(-0.5 * (dcl * _Hr / 0.0055) ** 2) * endf
+        below = (fr < np.interp(xr, [c_[0] for c_ in cl], [c_[1] for c_ in cl]))
+        hn -= 2.5 * np.exp(-0.5 * ((dcl * _Hr - 0.012) / 0.007) ** 2) * below * endf
+        hn -= 2.5 * np.exp(-0.5 * (np.hypot(xr - 0.085, fr - 0.821) * _Hr / 0.008) ** 2)
+        # 3. sternocleidomastoids, and the jugular notch between their heads
+        dsc, tsc = _segd(xr, fr, [(0.012, 0.830), (0.026, 0.850), (0.045, 0.872)])
+        SCM = float(os.environ.get("V2_SCM_MM", "5.0"))
+        hn += SCM * np.exp(-0.5 * (dsc * _Hr / 0.0065) ** 2) * ss((1 - tsc) / 0.25) * ss(tsc / 0.05)
+        hn -= 4.5 * np.exp(-0.5 * (np.hypot(xr, (fr - 0.829) * 1.3) * _Hr / 0.007) ** 2)
+        # the hollow above each clavicle, between the sternocleidomastoid and the trapezius (it is what makes the
+        # reference's clavicle read; v13e's ridge alone was faint)
+        hn -= float(os.environ.get("V2_SUPRACLAV_MM", "3.5")) * np.exp(-0.5 * (((xr - 0.060) / 0.016) ** 2 + ((fr - 0.843) / 0.0065) ** 2))
+        hn *= fronty * noarm * nohead
+        # 4. trapezius: fuller neck-to-shoulder slope (front and back - it is one muscle over the top)
+        upf = ss((qn[:, 2] + 0.1) / 0.4)
+        TRAP = float(os.environ.get("V2_TRAP_MM", "12"))
+        hn += TRAP * np.exp(-0.5 * (((xr - 0.075) / 0.030) ** 2 + ((fr - 0.848) / 0.012) ** 2)) * upf * noarm * nohead * (1 - _keep)
+        for _ in range(3):
+            hn = 0.5 * hn + 0.5 * avg(hn)
+        off += qn * (hn / 1000.0)[:, None]
+        Q = rest + off
+        DETAIL_REPORT["neck_detail"] = {"clavicle_mm": CLAV, "scm_mm": SCM, "trap_mm": TRAP, "erase_steps": int(os.environ.get("V2_NECK_ERASE", "150")),
+                                        "max_mm": round(float(hn.max()), 2), "min_mm": round(float(hn.min()), 2)}
     # R85 (owner, with the reference figure's groin close-ups: "Can we have the groin area match this ... I still see the
     # weird line at the top of the legs where it meets the torso ... There is no line there and it's smooth transition"):
     # the model had a horizontal fold across both thigh tops at ~0.49 of stature, just above the crotch, and a flat wide

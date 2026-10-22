@@ -656,6 +656,34 @@ if REFINE_MM > 0:
     # also split the area to 4 mm, and the denser patch broke the hop-counted smoothing (jaw creases, 84 overlaps left)
     _rmm = float(os.environ.get("V2_NECK_REMESH_MM", "99"))
     _regions = [((1.44, 1.58, 0.22), _rmm)] if _rmm > 0 else []
+    # R111 (owner: "Fix mesh topology, skin weights and corrective deformations as necessary"): the crotch skin was
+    # pulled between thigh_l, thigh_r and the pelvis with sharp weight boundaries - in 40 deg abduction the two inner
+    # thighs crossed in an X at the crotch (2,000+ overlap pairs, p0/p1).  Relax all deform weights together around the
+    # crotch and the upper inner thighs (sum per vertex kept), on the coarse mesh so the refinement carries it over.
+    CROTCH_W = int(os.environ.get("V2_CROTCH_WEIGHTS", "15"))
+    if CROTCH_W > 0:
+        _Qc2 = rest + off
+        _mid = (np.abs(_Qc2[:, 0]) < 0.006) & (ARM < 0.3)
+        _ic = np.nonzero(_mid)[0][np.argmin(_Qc2[_mid, 2])]
+        _dc = np.linalg.norm(_Qc2 - _Qc2[_ic], axis=1)
+        _a = ss((float(os.environ.get("V2_CROTCH_WEIGHTS_R", "0.11")) - _dc) / 0.05) * (ARM < 0.3)
+        _defn = {b_.name for b_ in rig.data.bones if b_.use_deform}
+        _gs = [g for g, i in gidx.items() if g in _defn and i in W and (W[i][_a > 0] > 1e-4).any()]
+        Wm = np.stack([W[gidx[g]] for g in _gs], axis=1); _sum0 = Wm.sum(1); _W0 = Wm.copy()
+        for _ in range(CROTCH_W):
+            Wm = Wm + 0.5 * _a[:, None] * (np.stack([avg(Wm[:, k]) for k in range(Wm.shape[1])], axis=1) - Wm)
+        Wm *= (_sum0 / np.maximum(Wm.sum(1), 1e-9))[:, None]
+        _chg = np.nonzero(_a > 0)[0]
+        for k, g in enumerate(_gs):
+            vg = body.vertex_groups[g]
+            for i in _chg:
+                if Wm[i, k] > 1e-4:
+                    vg.add([int(i)], float(Wm[i, k]), "REPLACE")
+                elif W[gidx[g]][i] > 0:
+                    vg.remove([int(i)])
+            W[gidx[g]] = Wm[:, k]
+        DETAIL_REPORT["crotch_weights"] = {"iterations": CROTCH_W, "groups": _gs, "vertices": int(len(_chg)),
+                                           "max_change": round(float(np.abs(Wm - _W0).max()), 3)}
     REFINE_REPORT, _mi, _mw = refine(body, th_mm=REFINE_MM, spots=_spots, regions=_regions)
     np.savez_compressed(OUT / "refine_map.npz", idx=_mi.astype(np.int32), w=_mw.astype(np.float32))
     print("V2_REFINE", json.dumps(REFINE_REPORT), flush=True)

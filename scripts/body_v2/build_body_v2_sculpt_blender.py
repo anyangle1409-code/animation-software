@@ -1922,3 +1922,22 @@ if os.environ.get("R76_RENDER") == "1":
         cd.ortho_scale = _osc; sc.render.resolution_x = 900; sc.render.resolution_y = 1500
     bench._reset(rig)
     print("V2_RENDERED", flush=True)
+
+# R119 (owner chose "New leg & foot mesh"): save the finished body - the V2 shape baked into the basis (every shape key
+# moved with it, so the correctives keep their deltas), skin weights and the edited rig - for legs_v2_blender.py.
+if os.environ.get("V2_SAVE_BLEND", "0") == "1":
+    bench._reset(rig) if "bench" in globals() else None
+    _V2 = (rest + PROP + off).astype(np.float64)
+    _co = np.empty(nv * 3); body.data.vertices.foreach_get("co", _co); _D = _V2 - _co.reshape(-1, 3)
+    if body.data.shape_keys:
+        for kb in body.data.shape_keys.key_blocks:
+            if kb.name in ("V2_BODY_SCULPT", "V2_FIT"):
+                continue
+            c_ = np.empty(nv * 3); kb.data.foreach_get("co", c_); kb.data.foreach_set("co", (c_.reshape(-1, 3) + _D).ravel())
+        for nm_ in ("V2_BODY_SCULPT", "V2_FIT"):
+            if nm_ in body.data.shape_keys.key_blocks:
+                body.shape_key_remove(body.data.shape_keys.key_blocks[nm_])
+    body.data.vertices.foreach_set("co", _V2.ravel()); body.data.update()
+    bpy.ops.wm.save_as_mainfile(filepath=str(OUT / "body_v2.blend"), copy=True)
+    print("V2_SAVED", OUT / "body_v2.blend", flush=True)
+

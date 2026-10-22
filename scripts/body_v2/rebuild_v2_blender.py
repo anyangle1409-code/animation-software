@@ -126,22 +126,40 @@ for p in me.polygons:
         tris.append((vs[0], vs[k], vs[k + 1]))
 tris = np.array(tris)
 bvh = BVHTree.FromPolygons([Vector(p) for p in P0], tris.tolist(), all_triangles=True)
-occ = np.zeros((nx, ny, nz), bool)
-zs = lo[2] + hv * np.arange(nz)
-for i in range(nx):
-    x = lo[0] + hv * i
-    for j in range(ny):
-        y = lo[1] + hv * j
-        o = Vector((x, y, lo[2] - 0.05)); hits = []
-        for _ in range(64):
-            r = bvh.ray_cast(o, Vector((0, 0, 1)))
-            if r[0] is None:
-                break
-            if not hits or r[0].z - hits[-1] > 1e-6:
-                hits.append(r[0].z)
-            o = r[0] + Vector((0, 0, 1e-5))
-        for a, b in zip(hits[0::2], hits[1::2]):
-            occ[i, j, (zs > a) & (zs < b)] = True
+# inside / outside by ray parity along each axis, majority of the three (v1 used z only: a ray grazing an edge
+# between two triangles misses a crossing and fills the whole span between the arm and the torso)
+axes_c = [lo[k] + hv * np.arange(n_) for k, n_ in enumerate((nx, ny, nz))]
+
+
+def parity(ax_):
+    o1, o2 = [k for k in range(3) if k != ax_]
+    occ_ = np.zeros((nx, ny, nz), bool)
+    dvec = Vector([1.0 if k == ax_ else 0.0 for k in range(3)])
+    for i, a in enumerate(axes_c[o1]):
+        for j, b in enumerate(axes_c[o2]):
+            o = [0.0, 0.0, 0.0]; o[o1] = a; o[o2] = b; o[ax_] = lo[ax_] - 0.05
+            o = Vector(o); hits = []
+            for _ in range(64):
+                r = bvh.ray_cast(o, dvec)
+                if r[0] is None:
+                    break
+                t = r[0][ax_]
+                if not hits or t - hits[-1] > 1e-6:
+                    hits.append(t)
+                o = r[0] + dvec * 1e-5
+            sl = [slice(None)] * 3; sl[o1] = i; sl[o2] = j
+            line = np.zeros(len(axes_c[ax_]), bool)
+            for p_, q_ in zip(hits[0::2], hits[1::2]):
+                line |= (axes_c[ax_] > p_) & (axes_c[ax_] < q_)
+            occ_[tuple(sl)] = line
+    return occ_
+
+
+_ov = [(a_, b_) for a_, b_ in bvh.overlap(bvh) if a_ < b_ and not (set(tris[a_]) & set(tris[b_]))]
+REP["posed_self_overlap_pairs"] = len(_ov)
+votes = parity(2).astype(np.int8) + parity(0) + parity(1)
+occ = votes >= 2
+REP["parity_disagreement_voxels"] = int(((votes == 1) | (votes == 2)).sum())
 REP["occupied_voxels"] = int(occ.sum())
 sdf = (distance_transform_edt(~occ) - distance_transform_edt(occ)) * hv
 sdf = gaussian_filter(sdf, float(os.environ.get("V2_RB_BLUR_MM", "6")) * 1e-3 / hv)

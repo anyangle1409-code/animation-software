@@ -63,6 +63,7 @@ ARMK = ("upperarm", "forearm", "hand", "thumb", "index", "middle", "ring", "pink
 ARM = W0[:, [i for i, n in enumerate(GN) if any(k in n.lower() for k in ARMK)]].sum(1)
 SIDES = (("r", 1.0), ("l", -1.0))     # R41: _r is +x
 LEGW = {sd: sum(W0[:, gi[f"{b}_{sd}"]] for b in ("thigh", "shin", "foot", "toe") if f"{b}_{sd}" in gi) for sd, _ in SIDES}
+LEGW_ANY = LEGW['r'] + LEGW['l']
 KEYS = [kb.name for kb in me.shape_keys.key_blocks] if me.shape_keys else []
 KD0 = {}
 for kb in (me.shape_keys.key_blocks if me.shape_keys else []):
@@ -219,18 +220,19 @@ def foot_sdf(P):
     d = _smin(d, _sd_ell(P, S(-0.002, 0.012, 0.074), S(0.030, 0.036, 0.040)), 0.026)  # talus / ankle
     d = _smin(d, _sd_cone(P, S(0.014, 0.005, 0.020), S(0.034, 0.118, 0.012), 0.014, 0.012), 0.018)   # lateral column
     d = _smin(d, _sd_cone(P, S(-0.006, 0.005, 0.064), S(-0.024, 0.140, 0.030), 0.026, 0.018), 0.028)  # medial arch
-    d = _smin(d, _sd_ell(P, S(0.002, 0.058, 0.058), S(0.038, 0.085, 0.037)), 0.026)   # instep / dorsum
+    d = _smin(d, _sd_ell(P, S(0.002, 0.070, 0.044), S(0.038, 0.090, 0.030)), 0.026)   # instep / dorsum
+    d = _smin(d, _sd_cone(P, S(0.000, 0.000, 0.105), S(0.000, 0.100, 0.042), 0.028, 0.020), 0.030)   # ankle front -> dorsum slope
     d = _smin(d, _sd_ell(P, S(0.006, 0.168, 0.015), S(0.044, 0.020, 0.012)), 0.012)   # toe web / forefoot pad
     d = _smin(d, _sd_cone(P, S(-0.029, 0.155, 0.021), S(0.040, 0.123, 0.015), 0.021, 0.014), 0.016)   # metatarsal heads
     d = _smin(d, _sd_cone(P, S(0.000, -0.045, 0.050), S(0.000, -0.034, 0.160), 0.013, 0.011), 0.014)  # Achilles tendon
-    d = _smin(d, _sd_ell(P, S(0.000, -0.004, 0.230), S(0.031, 0.040, 0.140)), 0.030)  # ankle column (cut away above)
+    d = _smin(d, _sd_ell(P, S(0.000, -0.004, 0.300), S(0.034, 0.042, 0.400)), 0.030)  # ankle column (cut away above)
     d = _smin(d, _sd_ell(P, S(-0.027, 0.002, 0.080), S(0.008, 0.012, 0.016)), 0.016)  # medial malleolus
     d = _smin(d, _sd_ell(P, S(0.029, -0.010, 0.066), S(0.008, 0.012, 0.018)), 0.016)  # lateral malleolus (lower, behind)
-    toes = (((-0.027, 0.160, 0.022), (-0.028, 0.196, 0.021), (-0.029, 0.220, 0.015), 0.017, 0.0145, 0.0135),
-            ((-0.006, 0.165, 0.017), (-0.005, 0.198, 0.017), (-0.004, 0.221, 0.009), 0.0110, 0.0090, 0.0078),
-            ((0.010, 0.158, 0.016), (0.011, 0.188, 0.016), (0.012, 0.208, 0.009), 0.0105, 0.0085, 0.0074),
-            ((0.024, 0.149, 0.015), (0.025, 0.175, 0.015), (0.026, 0.194, 0.009), 0.0100, 0.0080, 0.0070),
-            ((0.037, 0.136, 0.014), (0.039, 0.158, 0.013), (0.040, 0.175, 0.009), 0.0095, 0.0075, 0.0067))
+    toes = (((-0.027, 0.160, 0.022), (-0.028, 0.196, 0.022), (-0.029, 0.219, 0.017), 0.019, 0.0165, 0.0150),
+            ((-0.006, 0.165, 0.018), (-0.005, 0.198, 0.018), (-0.004, 0.219, 0.011), 0.0125, 0.0105, 0.0092),
+            ((0.010, 0.158, 0.017), (0.011, 0.188, 0.017), (0.012, 0.207, 0.010), 0.0120, 0.0100, 0.0088),
+            ((0.024, 0.149, 0.016), (0.025, 0.175, 0.016), (0.026, 0.193, 0.010), 0.0115, 0.0095, 0.0084),
+            ((0.037, 0.136, 0.015), (0.039, 0.158, 0.014), (0.040, 0.174, 0.010), 0.0110, 0.0090, 0.0080))
     dt = None
     for a_, m_, b_, ra, rm, rb in toes:
         a_, m_, b_ = S(*a_), S(*m_), S(*b_)
@@ -448,6 +450,27 @@ for _ in range(int(os.environ.get("V2_LEGS_RELAX", "4"))):
         m_ = sum(nb, Vector()) / len(nb)
         near_join = abs(cos[v].z - zj) < 0.012 or abs(cos[v].z - zc) < 0.02
         v.co = cos[v] + (0.5 if near_join else 0.15) * (m_ - cos[v])
+# v9: a light Taubin band on the old surface just above the cut (its R110 sculpt ripples and the last of the tone
+# change at the seam), fading out over V2_LEGS_ABOVE metres
+ABOVE = float(os.environ.get("V2_LEGS_ABOVE", "0.06"))
+if ABOVE > 0:
+    band = {}
+    for v in bm.verts:
+        if v[oid] >= 0 and zc - 0.002 < v.co.z < zc + ABOVE and LEGW_ANY[v[oid]] > 0.5 and ARM[v[oid]] < 0.3:
+            band[v] = float(ss((zc + ABOVE - v.co.z) / (0.6 * ABOVE))) * (0.0 if abs(v.co.z - zc) < 1e-4 else 1.0)
+    for it in range(2 * int(os.environ.get("V2_LEGS_ABOVE_STEPS", "15"))):
+        lam = 0.5 if it % 2 == 0 else -0.53
+        cos = {v: v.co.copy() for v in band}
+        for v, w in band.items():
+            nb = [e.other_vert(v).co for e in v.link_edges]
+            v.co = cos[v] + lam * w * (sum(nb, Vector()) / len(nb) - cos[v])
+    for v in band:                       # every shape key moves with the basis (the correctives keep their deltas)
+        d0 = v.co - v[shl[0]] if shl else None
+        for sl in shl[1:]:
+            v[sl] = v[sl] + d0
+        if shl:
+            v[shl[0]] = v.co.copy()
+    REP["above_cut_smoothed_verts"] = len(band)
 # orientation check: every interior edge used once each way
 bad = 0
 for e in bm.edges:

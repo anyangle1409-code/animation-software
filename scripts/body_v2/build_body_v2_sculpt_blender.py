@@ -1151,6 +1151,69 @@ if REFINE_MM > 0:
                 Q = Q + lam * er[:, None] * ((cavg(Q) - Q) * vn_).sum(1)[:, None] * vn_
         off = Q - rest
         DETAIL_REPORT["shoulder_denoise"] = {"taubin_steps": SHDN, "vertices": int((er > 0.05).sum())}
+    # R115 (owner: "look out for muscle definition in the likes of biceps etc. ... The bicep to the forearm doesn't seem
+    # right. In the reference model it shows how they both blend together and there I think is a little overlap of
+    # each"): limb muscles in bone-local coordinates.  For each arm vertex: the nearest of upperarm / forearm (as edited),
+    # t along the bone (0 = proximal joint, 1 = distal), theta around it measured in world terms (0 = front, +90 = outward,
+    # 180 = back, -90 = towards the body) - the arms hang in the bind pose with the palms towards the thighs, so the thumb
+    # side of the forearm faces forward.  Muscles as smooth bumps along the normal (mm), placed per surface anatomy
+    # (Gray's Anatomy; Drake, Gray's Anatomy for Students - upper limb): deltoid cap with its insertion V at ~0.45 of the
+    # arm, biceps in front peaking a little below mid-arm, triceps behind (lateral head showing), brachialis to the outer
+    # side above the elbow, the medial bicipital groove; brachioradialis / ECRL rising from the lower outer upper arm and
+    # running down the thumb side of the forearm - so it overlaps the lower end of the biceps at the elbow, with the
+    # cubital fossa between them; flexor mass inside, extensors outside, tapering to a slimmer wrist.
+    ARMDEF = float(os.environ.get("V2_ARM_MUSCLES", "1"))
+    if ARMDEF > 0:
+        _V = rest + PROP + off
+        def _seg(bn):
+            b_ = rig.data.bones[bn]; return np.array(b_.head_local), np.array(b_.tail_local)
+        def _frame(Hh, Tt, sgn, P):
+            ax = Tt - Hh; L = np.linalg.norm(ax); u = ax / L
+            t = ((P - Hh) @ u) / L
+            dv = P - Hh - np.outer(t * L, u)
+            ant = np.array([0.0, -1.0, 0.0]); ant = ant - (ant @ u) * u; ant /= np.linalg.norm(ant)
+            lat = np.cross(u, ant); lat *= np.sign(lat[0] * sgn) if lat[0] != 0 else 1.0
+            th = np.degrees(np.arctan2(dv @ lat, dv @ ant)); r = np.linalg.norm(dv, axis=1)
+            return t, th, r, L
+        def _bump(t, th, t0, t1, thc, thw, amp, pk=1.0):
+            x_ = np.clip((t - t0) / (t1 - t0), 0, 1); prof = np.sin(np.pi * x_) ** pk
+            dth = (th - thc + 180.0) % 360.0 - 180.0
+            return amp * prof * np.exp(-0.5 * (dth / thw) ** 2)
+        ha = np.zeros(nv); armm = np.clip(_arm_f, 0, 1)
+        for side_, sgn in (("r", 1.0), ("l", -1.0)):
+            sel = (armm > 0.2) & (np.sign(_V[:, 0]) == np.sign(np.array(rig.data.bones[f"upperarm_{side_}"].head_local)[0]))
+            idx = np.nonzero(sel)[0]; P = _V[idx]
+            uH, uT = _seg(f"upperarm_{side_}"); fH, fT = _seg(f"forearm_{side_}"); sgn = float(np.sign(uH[0]))   # outward = this arm's side
+            tu, thu, ru, Lu = _frame(uH, uT, sgn, P); tf, thf, rf, Lf = _frame(fH, fT, sgn, P)
+            onU = (tu < 1.02) | (tf < -0.02)
+            h_ = np.zeros(len(idx))
+            # upper arm
+            U = onU & (tu > -0.15)
+            hu = (_bump(tu, thu, -0.05, 0.46, 90, 75, 6.0, 0.8)            # deltoid cap
+                  + _bump(tu, thu, 0.05, 0.42, 25, 35, 3.0) + _bump(tu, thu, 0.05, 0.42, 160, 35, 3.0)   # anterior / posterior heads
+                  - _bump(tu, thu, 0.38, 0.50, 90, 55, 2.0)               # insertion V under the cap
+                  + _bump(tu, thu, 0.28, 0.90, 0, 42, 8.0, 1.3)           # biceps
+                  + _bump(tu, thu, 0.12, 0.80, 180, 50, 6.5, 1.2)         # triceps (long + medial heads)
+                  + _bump(tu, thu, 0.22, 0.58, 135, 30, 3.0)              # triceps lateral head
+                  + _bump(tu, thu, 0.58, 0.92, 70, 22, 3.0)               # brachialis, outer side
+                  - _bump(tu, thu, 0.40, 0.92, -95, 18, 2.0)              # medial bicipital groove
+                  + _bump(tu, thu, 0.74, 1.10, 40, 30, 4.0))              # brachioradialis / ECRL origin, above the elbow
+            h_[U] += hu[U]
+            # forearm
+            F = ~onU & (tf < 1.05)
+            hf = (_bump(tf, thf, -0.12, 0.55, 20, 38, 8.0, 0.9)           # brachioradialis / ECRL down the thumb side
+                  + _bump(tf, thf, -0.02, 0.55, -70, 40, 6.0, 1.1)        # flexor mass
+                  + _bump(tf, thf, 0.04, 0.60, 125, 40, 4.0, 1.1)         # extensors
+                  - _bump(tf, thf, -0.05, 0.12, -10, 22, 2.5))            # cubital fossa
+            hf -= 4.0 * ss((tf - 0.55) / 0.35)                            # slimmer towards the wrist
+            h_[F] += hf[F]
+            ha[idx] += h_ * ss((1.08 - np.where(onU, 0, tf)) / 0.08)      # off the hand
+        ha *= (1 - np.clip(HEAD, 0, 1))
+        for _ in range(3):
+            ha = 0.5 * ha + 0.5 * avg(ha)
+        off += qn * (ARMDEF * ha / 1000.0)[:, None]
+        Q = rest + off
+        DETAIL_REPORT["arm_muscles"] = {"max_mm": round(float(ha.max()), 2), "min_mm": round(float(ha.min()), 2), "vertices": int((np.abs(ha) > 0.2).sum())}
     # R85 (owner, with the reference figure's groin close-ups: "Can we have the groin area match this ... I still see the
     # weird line at the top of the legs where it meets the torso ... There is no line there and it's smooth transition"):
     # the model had a horizontal fold across both thigh tops at ~0.49 of stature, just above the crotch, and a flat wide

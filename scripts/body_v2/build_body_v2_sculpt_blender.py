@@ -1242,7 +1242,10 @@ if REFINE_MM > 0:
         # 2. gluteus maximus: a rounded mass, fullest a little below its middle, blending up into the lower back
         GMAX = float(os.environ.get("V2_GLUTE_MM", "9"))
         # R112: taller and longer, so it curves into the lower back above and the hamstrings below (v13p still stepped)
-        hp += GMAX * np.exp(-0.5 * (((xh_ - 0.052) / 0.036) ** 2 + ((fz_ - fc - 0.040) / 0.042) ** 2)) * back_
+        # R113c: fuller towards the top (longer upper slope) - the reference's buttock carries its volume higher, which the
+        # side fit had tried to add as a separate band at 0.53-0.56
+        _gs = np.where(fz_ > fc + 0.035, 0.058, 0.036)
+        hp += GMAX * np.exp(-0.5 * (((xh_ - 0.052) / 0.036) ** 2 + ((fz_ - fc - 0.035) / _gs) ** 2)) * back_
         # 3. gluteal fold: medial two thirds only, rising slightly outwards, fading laterally into the outer thigh
         gpts = [(0.012, cz - 0.004), (0.040, cz - 0.014), (0.075, cz - 0.016), (0.110, cz - 0.008)]
         P2 = np.stack([ax_, Q[:, 2]], axis=1); gd = np.full(nv, 9.0); gt = np.zeros(nv); run = 0.0
@@ -1342,7 +1345,8 @@ if REFINE_MM > 0:
         win = (ss((_bf - 0.10) / 0.03) if SFULL else ss((_bf - 0.515) / 0.03)) * ss((float(os.environ.get("V2_SIDE_FIT_TOP", "0.865")) - _bf) / 0.035)
         # R112: the back edge only from above the buttocks - starting at 0.515 it pushed the lower back out by up to 2.5 cm
         # at 0.53-0.56, a second bump over the buttock (the band across the top of the buttocks, v13p)
-        winB = win * (ss((_bf - float(os.environ.get("V2_SIDE_FIT_BACK_FROM", "0.60"))) / 0.03) if PELV > 0 else 1.0)
+        # (s2: a 0.03 ramp put a crease across the lower back at ~0.60 - up to 2.9 cm forward within it; 0.06 now)
+        winB = win * (ss((_bf - float(os.environ.get("V2_SIDE_FIT_BACK_FROM", "0.60"))) / 0.06) if PELV > 0 else 1.0)
         dF = np.clip(dF, -0.03, 0.03) * win * SIDEFIT; dB = np.clip(dB, -0.03, 0.03) * winB * SIDEFIT
         fv = np.interp(fzq, _bf, dF); bv = np.interp(fzq, _bf, dB)
         Fabs = np.interp(fzq, _bf, mF); Babs = np.interp(fzq, _bf, mB)

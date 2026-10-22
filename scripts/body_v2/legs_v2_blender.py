@@ -521,6 +521,72 @@ if HIPFILL > 0:
                 v.co.x += sg * d_
                 for sl in shl:
                     v[sl] = v[sl] + Vector((sg * d_, 0, 0))
+# v11 (owner: "Really look at the definition of each area"): torso relief.  The torso's front and side outlines
+# already match the reference within ~5 mm (0.48-0.74 of stature); what it lacks is surface definition.  Gaussian
+# reliefs along the vertex normal, laid out on the reference figure's front panel (x and height as fractions of
+# stature, midline 0; rows of the rectus at 0.699 / 0.672 / 0.646 / 0.624, navel 0.615), and the back.
+TORSO = float(os.environ.get("V2_TORSO_RELIEF", "1.0"))
+
+
+def _g(x, f, xc, sx, fc, sf, amp):
+    return amp * 1e-3 * np.exp(-0.5 * (((x - xc) / sx) ** 2 + ((f - fc) / sf) ** 2))
+
+
+def _win(f, f0, f1, e=0.01):
+    return ss((f - f0) / e) * ss((f1 - f) / e)
+
+
+def torso_front(ax, f):
+    """ax = |x| / H; relief (m), positive outward, for front-facing skin"""
+    r = np.zeros_like(ax)
+    r += -3.0e-3 * np.exp(-0.5 * (ax / 0.0032) ** 2) * _win(f, 0.625, 0.716)            # linea alba
+    r += -1.2e-3 * np.exp(-0.5 * (ax / 0.0035) ** 2) * _win(f, 0.55, 0.625)
+    for fi, dep in ((0.699, 2.5), (0.672, 2.8), (0.646, 2.5), (0.624, 1.5)):        # tendinous intersections
+        fl = fi + 0.10 * ax ** 2 / 0.065                                              # rising a little to the sides
+        r += -dep * 1e-3 * np.exp(-0.5 * ((f - fl) / 0.0034) ** 2) * ss((0.068 - ax) / 0.012)
+    for fc in (0.7075, 0.6855, 0.659, 0.635):                                        # the blocks between them
+        r += _g(ax, f, 0.034, 0.015, fc + 0.03 * 0.034 ** 2 / 0.065, 0.0075, 3.0 if fc > 0.64 else 2.2)
+    xs = np.interp(f, [0.52, 0.58, 0.63, 0.70, 0.72], [0.040, 0.057, 0.066, 0.070, 0.070])   # linea semilunaris
+    r += -3.0e-3 * np.exp(-0.5 * ((ax - xs) / 0.0040) ** 2) * _win(f, 0.53, 0.712, 0.015)
+    r += _g(ax, f, 0.096, 0.014, 0.597, 0.022, 5.0)                                  # external oblique (flank)
+    for xc, fc in ((0.100, 0.700), (0.096, 0.684), (0.091, 0.668)):                  # serratus anterior digits
+        r += _g(ax, f, xc, 0.0065, fc, 0.0048, 2.5)
+    return r
+
+
+def torso_back(ax, f):
+    r = np.zeros_like(ax)
+    r += -4.0e-3 * np.exp(-0.5 * (ax / 0.0040) ** 2) * _win(f, 0.55, 0.79, 0.02)       # spine groove
+    r += _g(ax, f, 0.028, 0.011, 0.600, 0.045, 6.0)                                  # erector spinae
+    r += _g(ax, f, 0.100, 0.024, 0.695, 0.030, 5.0)                                  # latissimus
+    r += _g(ax, f, 0.070, 0.020, 0.757, 0.014, 4.0)                                  # infraspinatus over the scapula
+    r += _g(ax, f, 0.104, 0.012, 0.737, 0.010, 3.0)                                  # teres major
+    r += _g(ax, f, 0.035, 0.022, 0.745, 0.030, 3.0)                                  # lower trapezius
+    r += _g(ax, f, 0.062, 0.034, 0.515, 0.030, 12.0)                                 # gluteus maximus
+    r += _g(ax, f, 0.105, 0.018, 0.548, 0.016, 3.0)                                  # gluteus medius
+    return r
+
+
+if TORSO > 0:
+    bm.normal_update()
+    tv = [v for v in bm.verts if v[oid] >= 0 and ARM[v[oid]] < 0.15 and z0 + 0.47 * H < v.co.z < z0 + 0.80 * H]
+    Pt = np.array([tuple(v.co) for v in tv]); Nt = np.array([tuple(v.normal) for v in tv])
+    idx_ = {v: i for i, v in enumerate(tv)}
+    nb_ = [[idx_[e.other_vert(v)] for e in v.link_edges if e.other_vert(v) in idx_] for v in tv]
+    for _ in range(6):                                   # smoothed normals: the skin's small ripples must not steer it
+        Nt = 0.5 * Nt + 0.5 * np.array([Nt[n].mean(0) if n else Nt[i] for i, n in enumerate(nb_)])
+    Nt /= np.linalg.norm(Nt, axis=1, keepdims=True)
+    axt, ft = np.abs(Pt[:, 0]) / H, (Pt[:, 2] - z0) / H
+    wf = ss((-Nt[:, 1] + 0.05) / 0.40); wb = ss((Nt[:, 1] + 0.05) / 0.40)
+    armfade = np.array([float(ss((0.15 - ARM[v[oid]]) / 0.15)) for v in tv])
+    dn = (wf * torso_front(axt, ft) + wb * torso_back(axt, ft)) * armfade * TORSO
+    for _ in range(2):
+        dn = 0.5 * dn + 0.5 * np.array([dn[n].mean() if n else dn[i] for i, n in enumerate(nb_)])
+    for v, d_, n_ in zip(tv, dn, Nt):
+        dv = Vector((n_ * d_).tolist()); v.co += dv
+        for sl in shl:
+            v[sl] = v[sl] + dv
+    REP["torso_relief"] = {"verts": len(tv), "max_mm": round(float(dn.max()) * 1000, 1), "min_mm": round(float(dn.min()) * 1000, 1)}
 # orientation check: every interior edge used once each way
 bad = 0
 for e in bm.edges:

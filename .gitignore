@@ -6,3 +6,4 @@ coverage/
 .vite/
 scratchpad
 HOME_GYM_PT_GPT_MESH_HANDOFF.zip
+__pycache__/

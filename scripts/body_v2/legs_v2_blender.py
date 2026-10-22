@@ -119,7 +119,7 @@ FJ = float(os.environ.get("V2_LEGS_JOIN", "0.085"))         # foot / leg join
 zj = z0 + FJ * H
 DZ = float(os.environ.get("V2_LEGS_DZ", "0.004"))
 NEX = float(os.environ.get("V2_LEGS_SUPER", "2.25"))        # super-ellipse exponent (2 = ellipse)
-RELIEF = float(os.environ.get("V2_LEGS_RELIEF", "1.0"))
+RELIEF = float(os.environ.get("V2_LEGS_RELIEF", "1.8"))
 
 
 def _bump(th, f, thc, thw, f0, f1, amp, fe=0.012):
@@ -144,7 +144,7 @@ def relief(th, f):
     r += _bump(th, f, -150, 25, 0.31, 0.43, 3.0)      # semitendinosus / semimembranosus
     r += _bump(th, f, 180, 10, 0.32, 0.42, -1.5)      # hamstring split
     # knee
-    r += _bump(th, f, 0, 30, 0.272, 0.300, 4.0, 0.008)     # patella
+    r += _bump(th, f, 0, 24, 0.274, 0.298, 4.0, 0.010)     # patella
     r += _bump(th, f, 35, 14, 0.255, 0.280, -3.0, 0.008)   # infrapatellar hollows either side of the tendon
     r += _bump(th, f, -35, 14, 0.255, 0.280, -3.0, 0.008)
     r += _bump(th, f, 180, 35, 0.262, 0.295, -2.0, 0.010)  # popliteal hollow
@@ -168,7 +168,7 @@ def design_section(f):
     F_, B_, I_, O_ = (float(np.interp(f, Fb, a_)) * H for a_ in (TF, TB, TI, TO))
     t = np.radians(TH); su, cw = np.sin(t), np.cos(t)
     a_ = np.where(su >= 0, O_, I_); b_ = np.where(cw >= 0, F_, B_)
-    n = NEX + 0.25 * ss((f - 0.255) / 0.02) * ss((0.31 - f) / 0.02)       # a little squarer at the knee
+    n = NEX + 0.10 * ss((f - 0.255) / 0.02) * ss((0.31 - f) / 0.02)       # a little squarer at the knee
     r = 1.0 / ((np.abs(su) / a_) ** n + (np.abs(cw) / b_) ** n) ** (1.0 / n)
     r = r + relief(TH, f)
     u, w = r * su, r * cw
@@ -374,7 +374,7 @@ for sd, sg in SIDES:
     cyM, cxM = MC[sd]
     for z in zs:
         f = (z - z0) / H
-        b = ss((zc - z) / float(os.environ.get("V2_LEGS_BLEND", "0.045")))     # old cut shape -> designed shape
+        b = ss((zc - z) / float(os.environ.get("V2_LEGS_BLEND", "0.08")))     # old cut shape -> designed shape
         bf = ss((zj + 0.06 - z) / 0.06)                                       # designed -> foot join shape
         cd = np.array([sg * float(np.interp(f, Fb, cxM)) * H, -float(np.interp(f, Fb, cyM)) * H])
         u_, w_ = design_section(min(max(f, Fb[0]), Fb[-1]))
@@ -423,7 +423,7 @@ for _ in range(int(os.environ.get("V2_LEGS_RELAX", "4"))):
     for v in NEW:
         nb = [e.other_vert(v).co for e in v.link_edges]
         m_ = sum(nb, Vector()) / len(nb)
-        near_join = abs(cos[v].z - zj) < 0.012 or abs(cos[v].z - zc) < 0.012
+        near_join = abs(cos[v].z - zj) < 0.012 or abs(cos[v].z - zc) < 0.02
         v.co = cos[v] + (0.5 if near_join else 0.15) * (m_ - cos[v])
 # orientation check: every interior edge used once each way
 bad = 0

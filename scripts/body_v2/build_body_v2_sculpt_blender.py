@@ -1197,7 +1197,7 @@ if REFINE_MM > 0:
     # R108 (owner circled the chest / torso sides and the legs on the full-body sheet): front widths fitted to the reference
     # front silhouette per height (fit/ref_front_profile.json): torso half-width above the crotch (up to the armpits),
     # inner and outer edge of each leg below it.  Into PROP (x only), arms and head held, like the side fit.
-    FFIT = float(os.environ.get("V2_FRONT_FIT", "1"))
+    FFIT = float(os.environ.get("V2_FRONT_FIT", "0"))   # off until reviewed
     if FFIT > 0:
         _fp = json.load(open(Path(__file__).resolve().parent / "fit" / "ref_front_profile.json"))
         _ff = np.array(_fp["f"]); _nan = lambda L: np.array([np.nan if v is None else v for v in L])

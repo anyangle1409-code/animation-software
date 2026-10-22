@@ -1986,3 +1986,24 @@ The owner circled the reference's collarbone and neck-base area: "Can we create 
 - 0 standing overlaps.
 - The sternocleidomastoids and the hollows read; the clavicle ridge reads only faintly under this lighting.
 - Fine streaks remain across the neck base. They are in R41's own neck topology: the V1 render (the original surface) shows them too, and the measured high-frequency roughness is only about 0.14–0.19 mm. They come from long sliver triangles, and only a local remesh of the neck base would remove them.
+
+### Draft v13l: neck-base mesh rebuilt, collarbones shown (R106, 22 Oct)
+
+Owner: "Yes rebuild the neck mesh and make the collarbones show".
+
+**Mesh:**
+- `refine(regions=...)` (`refine_torso_blender.py`): flips edges in a region toward a Delaunay triangulation (bmesh `beautify_fill`, ANGLE), optionally splitting further. No vertex moves, so every layer stays exact.
+- Neck base: rest z 1.44–1.58 (below the jaw), |x| < 0.22. About 46,000 edges flipped.
+- Rejected, v13i: also splitting the area to 4 mm. That patch is about 3× denser, so the hop-counted smoothing passes reached about a third as far there. The result was jaw creases, a rough upper chest and 84 standing overlaps left. Splitting is now off by default (`V2_NECK_REMESH_MM` 99 = flips only).
+
+**Collarbones:**
+- v13k measured the ridge at only about 3.5 mm of the 6.5 mm asked for, because of the smoothing passes after it.
+- Now: ridge 11 mm (sigma 4 mm, `V2_CLAVICLE_SIGMA_MM`); a 3.5 mm shadow line 8 mm under it; supraclavicular hollow 7 mm.
+
+**Also:**
+- Python bytecode caches are no longer tracked (`.gitignore`).
+
+**Results:**
+- 0 standing overlaps.
+- The clavicles read as a ridge from the notch to the shoulders in the front and three-quarter views. The highlight along them is still slightly wavy.
+- Fine streaks remain under the clavicle on the upper chest, just outside the flipped region.

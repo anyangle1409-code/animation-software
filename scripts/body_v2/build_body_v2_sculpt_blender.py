@@ -660,13 +660,13 @@ if REFINE_MM > 0:
     # pulled between thigh_l, thigh_r and the pelvis with sharp weight boundaries - in 40 deg abduction the two inner
     # thighs crossed in an X at the crotch (2,000+ overlap pairs, p0/p1).  Relax all deform weights together around the
     # crotch and the upper inner thighs (sum per vertex kept), on the coarse mesh so the refinement carries it over.
-    CROTCH_W = int(os.environ.get("V2_CROTCH_WEIGHTS", "15"))
+    CROTCH_W = int(os.environ.get("V2_CROTCH_WEIGHTS", "40"))   # p3: 15 passes within 11 cm moved too little
     if CROTCH_W > 0:
         _Qc2 = rest + off
         _mid = (np.abs(_Qc2[:, 0]) < 0.006) & (ARM < 0.3)
         _ic = np.nonzero(_mid)[0][np.argmin(_Qc2[_mid, 2])]
         _dc = np.linalg.norm(_Qc2 - _Qc2[_ic], axis=1)
-        _a = ss((float(os.environ.get("V2_CROTCH_WEIGHTS_R", "0.11")) - _dc) / 0.05) * (ARM < 0.3)
+        _a = ss((float(os.environ.get("V2_CROTCH_WEIGHTS_R", "0.18")) - _dc) / 0.05) * (ARM < 0.3)
         _defn = {b_.name for b_ in rig.data.bones if b_.use_deform}
         _gs = [g for g, i in gidx.items() if g in _defn and i in W and (W[i][_a > 0] > 1e-4).any()]
         Wm = np.stack([W[gidx[g]] for g in _gs], axis=1); _sum0 = Wm.sum(1); _W0 = Wm.copy()

@@ -1175,6 +1175,54 @@ if REFINE_MM > 0:
         DETAIL_REPORT["side_fit"] = {"arm_shift_y_mm": round(dyj * 1000, 1), "max_front_corr_mm": round(float(np.abs(dF).max() * Hs * 1000), 1), "max_back_corr_mm": round(float(np.abs(dB).max() * Hs * 1000), 1),
                                      "front_corr_mm_at": {str(round(float(f_), 3)): round(float(v_ * Hs * 1000), 1) for f_, v_ in zip(_bf[::6], dF[::6])},
                                      "back_corr_mm_at": {str(round(float(f_), 3)): round(float(v_ * Hs * 1000), 1) for f_, v_ in zip(_bf[::6], dB[::6])}}
+    # R108 (owner circled the chest / torso sides and the legs on the full-body sheet): front widths fitted to the reference
+    # front silhouette per height (fit/ref_front_profile.json): torso half-width above the crotch (up to the armpits),
+    # inner and outer edge of each leg below it.  Into PROP (x only), arms and head held, like the side fit.
+    FFIT = float(os.environ.get("V2_FRONT_FIT", "1"))
+    if FFIT > 0:
+        _fp = json.load(open(Path(__file__).resolve().parent / "fit" / "ref_front_profile.json"))
+        _ff = np.array(_fp["f"]); _nan = lambda L: np.array([np.nan if v is None else v for v in L])
+        rT, rI, rO = _nan(_fp["torso_half"]), _nan(_fp["leg_in"]), _nan(_fp["leg_out"])
+        _Vr = rest + PROP + off; _z0 = _Vr[:, 2].min(); _Hr = _Vr[:, 2].max() - _z0
+        fr = (_Vr[:, 2] - _z0) / _Hr; xs_ = _Vr[:, 0] / _Hr; ax = np.abs(xs_)
+        body_ = (ARM < 0.3) & (HEAD < 0.5)
+        crm = float(fr[body_ & (ax < 0.004)].min())
+        mT = np.full(len(_ff), np.nan); mI = mT.copy(); mO = mT.copy()
+        for i_, fb_ in enumerate(_ff):
+            sel_ = body_ & (np.abs(fr - fb_) < 0.0025)
+            if not sel_.any():
+                continue
+            if fb_ > crm + 0.004:
+                mT[i_] = 0.5 * (xs_[sel_].max() - xs_[sel_].min())
+            elif fb_ < crm - 0.004:
+                lg_ = sel_ & (LEG > 0.5)
+                if lg_.any():
+                    mI[i_], mO[i_] = ax[lg_].min(), ax[lg_].max()
+        def _fill(d_):
+            ok_ = ~np.isnan(d_)
+            if ok_.sum() < 2:
+                return np.zeros_like(d_)
+            d_ = np.interp(_ff, _ff[ok_], d_[ok_])
+            return np.convolve(np.pad(d_, 3, mode="edge"), np.ones(7) / 7.0, mode="valid")
+        dT, dI, dO = (_fill(r_ - m_) for r_, m_ in ((rT, mT), (rI, mI), (rO, mO)))
+        CL = 0.02
+        wtop = ss((0.745 - _ff) / 0.02); wbot = ss((_ff - 0.07) / 0.02)
+        dT = np.clip(dT, -CL, CL) * wtop * FFIT; dI = np.clip(dI, -CL, CL) * wbot * FFIT; dO = np.clip(dO, -CL, CL) * wbot * FFIT
+        mTf, mIf, mOf = (np.interp(fr, _ff, np.interp(_ff, _ff[~np.isnan(m_)], m_[~np.isnan(m_)])) for m_ in (mT, mI, mO))
+        tT = np.clip(ax / np.maximum(mTf, 1e-3), 0, 1)
+        dxT = np.interp(fr, _ff, dT) * tT
+        tL = np.clip((ax - mIf) / np.maximum(mOf - mIf, 1e-3), 0, 1)
+        dxL = np.interp(fr, _ff, dI) + (np.interp(fr, _ff, dO) - np.interp(fr, _ff, dI)) * tL
+        up_ = ss((fr - crm) / 0.012)
+        dx_ = (up_ * dxT + (1 - up_) * dxL) * np.sign(xs_)
+        a2_ = np.clip(ARM / 0.6, 0, 1)
+        for _ in range(60):
+            a2_ = 0.5 * a2_ + 0.5 * avg(a2_)
+        PROP[:, 0] += _Hr * dx_ * (1 - a2_) * (1 - np.clip(HEAD, 0, 1))
+        DETAIL_REPORT["front_fit"] = {"crotch_f_model": round(crm, 4),
+            "torso_half_corr_mm_at": {str(round(float(f_), 3)): round(float(v_ * _Hr * 1000), 1) for f_, v_ in zip(_ff[::8], dT[::8]) if f_ > 0.48},
+            "leg_in_corr_mm_at": {str(round(float(f_), 3)): round(float(v_ * _Hr * 1000), 1) for f_, v_ in zip(_ff[::8], dI[::8]) if f_ < 0.47},
+            "leg_out_corr_mm_at": {str(round(float(f_), 3)): round(float(v_ * _Hr * 1000), 1) for f_, v_ in zip(_ff[::8], dO[::8]) if f_ < 0.47}}
     # overlaps on the refined surface, standing pose (same shrink as above, smaller steps)
     ov2 = []
     _off_pre = off.copy(); _first_pairs = None

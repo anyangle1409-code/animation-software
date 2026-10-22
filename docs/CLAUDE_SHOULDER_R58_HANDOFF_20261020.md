@@ -2260,3 +2260,46 @@ Owner chose "New leg & foot mesh" after v13s:
   - The builder's hip and shoulder tests do not yet run on `body_v2_legs.blend`.
 
 Images (model only): `review-assets/body_v2/draft_v14a_legs/`. They include `before_after_legs.jpg` (v13s against v14a), the legs and feet close-ups, and the grey renders.
+
+### Draft v14b: torso definition, hip outline, glutes (R119 v10–v14, 22 Oct)
+
+All of this lives in the same post-step, `legs_v2_blender.py`, with env switches.
+
+**Measured first (stand pose, against the reference):**
+- **Front widths** (torso half-width, 0.48–0.72 of stature) match within 3–9 mm.
+- **Side profile** (front and back edges, 0.48–0.80) matches within a few mm. The exception is 0.54–0.56: the lower back and top of the glutes were 20–26 mm thin, with the glutes too low.
+- **Conclusion:** the torso's outline was already right. What it lacked was surface definition.
+- **Subsurface:** turning subsurface off changes almost nothing (scratch test), so the material is not hiding the forms.
+
+**Changes:**
+- **`V2_LEGS_HIPFILL`:** the outer hip/thigh edge dipped up to 13 mm inside the reference at 0.46–0.49 (the "saddlebag"). It is now moved sideways to the reference outline, as a smoothed field on the outer side only, kept 15 mm clear of the hands in the standing pose. The fill reaches 10 mm at 0.48.
+- **`V2_LEGS_ABOVE`:** the Taubin band above the leg cut is now 9 cm.
+- **`V2_TORSO_RELIEF`:** gaussian relief along smoothed normals, laid out on the reference front panel in stature fractions. Every shape key moves with it.
+  - **Abs:** the builder's own abs are erased first (Taubin ×120 over the front of the abdomen). Then added:
+    - linea alba;
+    - tendinous intersections at 0.699 / 0.672 / 0.646 / 0.624, with the blocks between them;
+    - navel at 0.613;
+    - linea semilunaris.
+  - **Sides:**
+    - external oblique flank bulge;
+    - three serratus digitations.
+  - **Back:** muscles laid along their fibres:
+    - erector columns and spine groove;
+    - latissimus (armpit to lower back);
+    - spine of the scapula, infraspinatus and teres major;
+    - lower and middle trapezius;
+    - medial scapular border.
+  - **Glutes:**
+    - gluteus maximus centred at 0.525, with fullness to 0.55;
+    - cleft, gluteal fold and gluteus medius.
+  - The glute depth is now within about 12 mm of the reference at 0.48–0.58 (it was 24–26 mm thin).
+
+**Remaining (honest):**
+- **Abs:** some thin doubled grooves remain between the rows, from the builder's older detail.
+- **Back:** the relief barely reads under the current back lighting. There is also a pre-existing horizontal shelf at about 0.70 (the "lat line"), which is in the builder geometry, not this relief.
+- **Chest:** still lumpy in side view.
+- **Arms:** heavier and less defined than the reference.
+- **Head:** a hood, tilted chin-up.
+- **Movement:** not re-tested on the new legs or torso.
+
+Images (model only): `review-assets/body_v2/draft_v14b_torso/`.

@@ -684,6 +684,38 @@ if REFINE_MM > 0:
             W[gidx[g]] = Wm[:, k]
         DETAIL_REPORT["crotch_weights"] = {"iterations": CROTCH_W, "groups": _gs, "vertices": int(len(_chg)),
                                            "max_change": round(float(np.abs(Wm - _W0).max()), 3)}
+    # R111b: designed inner-thigh weights.  Relaxing did not stop the inner thighs crossing in an X at 40 deg abduction
+    # (p3/p5, already in p0): the upper inner-thigh skin is all thigh weight, so averaging changes nothing there.  On a
+    # real body that skin stays largely with the pelvis and stretches: move part of each thigh's weight on the inner
+    # upper thigh to the pelvis - up to V2_INNER_THIGH_PELVIS (0.5) at the crotch, fading out ~10 cm down the thigh.
+    ITP = float(os.environ.get("V2_INNER_THIGH_PELVIS", "0.5"))
+    if ITP > 0 and "pelvis" in gidx:
+        _Qc3 = rest + off; _zb3 = _Qc3[:, 2].min(); _H3 = _Qc3[:, 2].max() - _zb3
+        _mid = (np.abs(_Qc3[:, 0]) < 0.006) & (ARM < 0.3)
+        _cz3 = _Qc3[_mid, 2].min()
+        _tri = _Qc3[faces]; _fn = np.cross(_tri[:, 1] - _tri[:, 0], _tri[:, 2] - _tri[:, 0])
+        _vn = np.zeros_like(_Qc3); np.add.at(_vn, faces.ravel(), np.repeat(_fn, 3, axis=0))
+        for _ in range(4):
+            _vn = 0.5 * _vn + 0.5 * np.stack([avg(_vn[:, k]) for k in range(3)], axis=1)
+        _vn /= np.maximum(np.linalg.norm(_vn, axis=1, keepdims=True), 1e-12)
+        _inner = ss((-(_vn[:, 0] * np.sign(_Qc3[:, 0])) + 0.1) / 0.5)
+        _band = ss((_Qc3[:, 2] - (_cz3 - 0.10)) / 0.08) * ss((_cz3 + 0.03 - _Qc3[:, 2]) / 0.03)
+        _med = ss((0.06 - (np.abs(_Qc3[:, 0]))) / 0.04)
+        _sh = ITP * _inner * _band * _med * (ARM < 0.3)
+        for _ in range(10):
+            _sh = 0.5 * _sh + 0.5 * avg(_sh)
+        _pg = body.vertex_groups["pelvis"]; _moved = 0
+        for side_ in ("thigh_l", "thigh_r"):
+            if side_ not in gidx or gidx[side_] not in W:
+                continue
+            wt = W[gidx[side_]]; mv = wt * _sh; idx = np.nonzero(mv > 1e-4)[0]
+            vg = body.vertex_groups[side_]
+            for i in idx:
+                vg.add([int(i)], float(wt[i] - mv[i]), "REPLACE")
+                _pg.add([int(i)], float(W[gidx["pelvis"]][i] + mv[i]), "REPLACE")
+                W[gidx["pelvis"]][i] += mv[i]
+            W[gidx[side_]] = wt - mv; _moved += len(idx)
+        DETAIL_REPORT["inner_thigh_pelvis"] = {"max_share": ITP, "vertices": _moved}
     REFINE_REPORT, _mi, _mw = refine(body, th_mm=REFINE_MM, spots=_spots, regions=_regions)
     np.savez_compressed(OUT / "refine_map.npz", idx=_mi.astype(np.int32), w=_mw.astype(np.float32))
     print("V2_REFINE", json.dumps(REFINE_REPORT), flush=True)

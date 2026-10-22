@@ -999,8 +999,8 @@ if REFINE_MM > 0:
             _r = np.where(_hp > 0.05, np.clip(_cap / np.maximum(_hp, 1e-6), 0, 1), 1.0)
             for _ in range(30):
                 _r = np.minimum(_r, 0.5 * _r + 0.5 * avg(_r))   # spread the cut-back (never raise it), then soften it
-            for _ in range(30):
-                _r = 0.5 * _r + 0.5 * avg(_r)
+            for _ in range(int(os.environ.get("V2_PEC_CLEAR_SOFTEN", "120"))):   # R113: 30 left a hard vertical edge
+                _r = 0.5 * _r + 0.5 * avg(_r)                                    # at the front of the armpit
             DETAIL_REPORT["pec_clearance"] = {"verts_limited": int((_r < 0.98).sum()), "min_ratio": round(float(_r.min()), 3)}
             _hp *= _r
         h += _hp
@@ -1118,6 +1118,31 @@ if REFINE_MM > 0:
         Q = rest + off
         DETAIL_REPORT["neck_detail"] = {"clavicle_mm": CLAV, "scm_mm": SCM, "trap_mm": TRAP, "erase_steps": int(os.environ.get("V2_NECK_ERASE", "150")),
                                         "max_mm": round(float(hn.max()), 2), "min_mm": round(float(hn.min()), 2)}
+    # R113 (shoulder / armpit review after the pelvis work): fine crinkles over the front deltoids and the deltopectoral
+    # area appeared with the sculpt layers (the V1 surface on the same skeleton is smooth there), and the upper back /
+    # scapulae carry R41's faint mottling.  Normal-only Taubin smoothing (no shrinking, no sliding) of the shoulder joint
+    # band and the upper back - removes the fine noise, keeps the forms; the clavicle ridge and the pec are left out.
+    SHDN = int(os.environ.get("V2_SHOULDER_DENOISE", "40"))
+    if SHDN > 0:
+        _Vr = rest + PROP + off; _z0 = _Vr[:, 2].min(); _Hr = _Vr[:, 2].max() - _z0
+        fr = (_Vr[:, 2] - _z0) / _Hr; xr = np.abs(_Vr[:, 0]) / _Hr
+        _as = np.clip(_arm_f, 0, 1)
+        for _ in range(20):
+            _as = 0.5 * _as + 0.5 * avg(_as)
+        root_ = ss(_as / 0.15) * ss((0.95 - _as) / 0.2)                         # the arm-root band (deltoid / armpit)
+        upb_ = ss((qn[:, 1] - 0.1) / 0.3) * ss((xr - 0.02) / 0.02) * ss((0.17 - xr) / 0.03)   # upper back, off the spine line
+        band_ = ss((fr - 0.66) / 0.02) * ss((0.835 - fr) / 0.015)
+        keep_ = ss((0.135 - xr) / 0.02) * ss((-qn[:, 1] - 0.2) / 0.3)               # the front chest (pecs, clavicles)
+        er = np.clip(np.maximum(root_, upb_) * band_ * (1 - keep_) * (1 - np.clip(HEAD, 0, 1)), 0, 1)
+        Q = rest + off
+        for _ in range(SHDN):
+            for lam in (0.5, -0.53):
+                tri = Q[faces]; fn_ = np.cross(tri[:, 1] - tri[:, 0], tri[:, 2] - tri[:, 0])
+                vn_ = np.zeros_like(Q); np.add.at(vn_, faces.ravel(), np.repeat(fn_, 3, axis=0))
+                vn_ /= np.maximum(np.linalg.norm(vn_, axis=1, keepdims=True), 1e-12)
+                Q = Q + lam * er[:, None] * ((cavg(Q) - Q) * vn_).sum(1)[:, None] * vn_
+        off = Q - rest
+        DETAIL_REPORT["shoulder_denoise"] = {"taubin_steps": SHDN, "vertices": int((er > 0.05).sum())}
     # R85 (owner, with the reference figure's groin close-ups: "Can we have the groin area match this ... I still see the
     # weird line at the top of the legs where it meets the torso ... There is no line there and it's smooth transition"):
     # the model had a horizontal fold across both thigh tops at ~0.49 of stature, just above the crotch, and a flat wide

@@ -1239,12 +1239,14 @@ if REFINE_MM > 0:
                 Q = Q + lam * erL[:, None] * ((cavg(Q) - Q) * vn_).sum(1)[:, None] * vn_
         # the knee: R41's own surface has a horizontal ring around both knees (in the V1 surface too) - a stronger, local
         # normal-only erase there before the patella / hollows are placed
-        erK = ss((legm - 0.4) / 0.4) * np.exp(-0.5 * ((frl - 0.285) / 0.022) ** 2) * (1 - _keep)
-        for _ in range(int(os.environ.get("V2_KNEE_ERASE", "150"))):
-            tri = Q[faces]; fn_ = np.cross(tri[:, 1] - tri[:, 0], tri[:, 2] - tri[:, 0])
-            vn_ = np.zeros_like(Q); np.add.at(vn_, faces.ravel(), np.repeat(fn_, 3, axis=0))
-            vn_ /= np.maximum(np.linalg.norm(vn_, axis=1, keepdims=True), 1e-12)
-            Q = Q + 0.5 * erK[:, None] * ((cavg(Q) - Q) * vn_).sum(1)[:, None] * vn_
+        # (w5: 150 plain steps in a narrow band flattened the knee into a dark straight band; Taubin keeps the volume)
+        erK = ss((legm - 0.4) / 0.4) * np.exp(-0.5 * ((frl - 0.285) / 0.035) ** 2) * (1 - _keep)
+        for _ in range(int(os.environ.get("V2_KNEE_ERASE", "60"))):
+            for lam in (0.5, -0.53):
+                tri = Q[faces]; fn_ = np.cross(tri[:, 1] - tri[:, 0], tri[:, 2] - tri[:, 0])
+                vn_ = np.zeros_like(Q); np.add.at(vn_, faces.ravel(), np.repeat(fn_, 3, axis=0))
+                vn_ /= np.maximum(np.linalg.norm(vn_, axis=1, keepdims=True), 1e-12)
+                Q = Q + lam * erK[:, None] * ((cavg(Q) - Q) * vn_).sum(1)[:, None] * vn_
         off = Q - rest
         _V = rest + PROP + off
         hl = np.zeros(nv)
@@ -1600,10 +1602,10 @@ if REFINE_MM > 0:
         cMy, cRy = _centre(mF, mB), _centre(rFs, rBs); cMx, cRx = _centre(mI, mO), _centre(rIn, rOut)
         dF = (cMy + (rFs - cRy)) - mF; dB = (cMy + (rBs - cRy)) - mB
         dI = (cMx + (rIn - cRx)) - mI; dO = (cMx + (rOut - cRx)) - mO
-        kk = np.ones(5) / 5.0
-        sm = lambda d_: np.convolve(np.pad(d_, 2, mode="edge"), kk, mode="valid")
+        kk = np.ones(11) / 11.0                    # (w5: 5 bins left 2-3 cm swings between neighbouring heights - bands)
+        sm = lambda d_: np.convolve(np.pad(d_, 5, mode="edge"), kk, mode="valid")
         wl = ss((Fb - 0.085) / 0.03) * ss((0.45 - Fb) / 0.03) * LFIT
-        dF, dB, dI, dO = (np.clip(sm(d_), -0.02, 0.02) * wl for d_ in (dF, dB, dI, dO))
+        dF, dB, dI, dO = (np.clip(sm(sm(d_)), -0.015, 0.015) * wl for d_ in (dF, dB, dI, dO))
         ty = np.clip((fw - np.interp(fr, Fb, mB)) / np.maximum(np.interp(fr, Fb, mF) - np.interp(fr, Fb, mB), 1e-4), 0, 1)
         tx = np.clip((ax - np.interp(fr, Fb, mI)) / np.maximum(np.interp(fr, Fb, mO) - np.interp(fr, Fb, mI), 1e-4), 0, 1)
         dy_ = np.interp(fr, Fb, dB) + (np.interp(fr, Fb, dF) - np.interp(fr, Fb, dB)) * ty

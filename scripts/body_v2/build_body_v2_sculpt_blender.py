@@ -1253,7 +1253,7 @@ if REFINE_MM > 0:
         # edited - skeleton first), whose front / back / inner / outer extents are the reference's own (side and front
         # panels, relative to the reference leg's straight centre lines), and every leg vertex is moved radially onto it.
         # The muscles below then go on top.  Blended out at the crotch (0.44-0.48) and above the ankle (0.07-0.10).
-        if float(os.environ.get("V2_LEG_LOFT", "1")) > 0:
+        if float(os.environ.get("V2_LEG_LOFT", "0")) > 0:   # off by default (w7: wrinkled cylinders, crotch / knee bands, inner thighs overlapping)
             _ls = json.load(open(Path(__file__).resolve().parent / "fit" / "ref_leg_side_profile.json"))
             _lf = json.load(open(Path(__file__).resolve().parent / "fit" / "ref_front_profile.json"))
             Fb = np.array(_ls["f"]); rFs = np.array(_ls["front"]); rBs = np.array(_ls["back"])
@@ -1311,10 +1311,10 @@ if REFINE_MM > 0:
             wT = np.clip(1 - ss((ts + 0.04) / 0.10), 0, 1)          # thigh frame -> shin frame across the knee (w3: a ring)
             h_ = np.zeros(len(idx))
             ht = (_bump(tt, tht, 0.12, 0.90, 0, 30, 5.0)                      # rectus femoris
-                  + _bump(tt, tht, 0.18, 0.95, 65, 38, 4.0, 1.2)              # vastus lateralis (the loft already sets the outline)
+                  + _bump(tt, tht, 0.18, 0.95, 65, 38, 8.0, 1.2)              # vastus lateralis (outer sweep)
                   + _bump(tt, tht, 0.60, 0.98, -45, 34, 6.0, 1.2)             # vastus medialis teardrop (w3: 9 mm read as a lump)
                   + _bump(tt, tht, 0.05, 0.55, -95, 40, 4.0)                  # adductors
-                  + _bump(tt, tht, 0.15, 0.88, 180, 45, 3.0)                  # hamstrings
+                  + _bump(tt, tht, 0.15, 0.88, 180, 45, 5.0)                  # hamstrings
                   - _bump(tt, tht, 0.50, 0.92, 180, 12, 1.5)                  # groove between the hamstrings
                   - _bump(tt, tht, 0.30, 0.92, 100, 14, 2.0)                  # flat band behind vastus lateralis (IT band)
                   + _bump(tt, tht, 0.94, 1.06, 0, 22, 3.0))                   # patella (upper part)
@@ -1327,8 +1327,8 @@ if REFINE_MM > 0:
             S = (ts > -0.2) & (ts < 1.05)
             hs = (_bump(ts, ths, -0.04, 0.06, 0, 30, 3.0)                     # patella (lower part)
                   - _bump(ts, ths, 0.0, 0.10, 50, 16, 3.0) - _bump(ts, ths, 0.0, 0.10, -50, 16, 3.0)   # hollows beside the tendon
-                  + _bump(ts, ths, 0.06, 0.52, -145, 38, 6.0, 0.9)            # gastrocnemius, medial head (fuller, lower)
-                  + _bump(ts, ths, 0.06, 0.44, 150, 32, 4.5, 0.9)             # gastrocnemius, lateral head
+                  + _bump(ts, ths, 0.06, 0.52, -145, 38, 12.0, 0.9)           # gastrocnemius, medial head (fuller, lower)
+                  + _bump(ts, ths, 0.06, 0.44, 150, 32, 9.0, 0.9)             # gastrocnemius, lateral head
                   + _bump(ts, ths, 0.30, 0.78, -110, 28, 3.0) + _bump(ts, ths, 0.30, 0.74, 110, 28, 3.0)   # soleus at the sides
                   + _bump(ts, ths, 0.06, 0.62, 30, 26, 4.0)                   # tibialis anterior
                   + _bump(ts, ths, 0.92, 1.02, -90, 22, 4.0) + _bump(ts, ths, 0.95, 1.05, 90, 22, 4.0))   # malleoli
@@ -1629,7 +1629,7 @@ if REFINE_MM > 0:
     # mid-points over the thigh (0.30-0.45) and the shin (0.09-0.27); the reference edges are taken relative to its own
     # centre lines the same way (fit/ref_leg_side_profile.json, fit/ref_front_profile.json) and put onto the model's.
     # Into PROP (skeleton-level, smooth), blended across each section like the torso side fit; feet and the hip excluded.
-    LFIT = float(os.environ.get("V2_LEG_FIT", "0"))   # off: replaced by the leg loft (R118) inside R116
+    LFIT = float(os.environ.get("V2_LEG_FIT", "1"))   # (the leg loft R118 is off: it wrinkled and banded the legs, w7)
     if LFIT > 0:
         _ls = json.load(open(Path(__file__).resolve().parent / "fit" / "ref_leg_side_profile.json"))
         _lf = json.load(open(Path(__file__).resolve().parent / "fit" / "ref_front_profile.json"))

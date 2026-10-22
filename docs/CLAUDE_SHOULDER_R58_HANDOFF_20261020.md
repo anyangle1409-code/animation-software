@@ -2007,3 +2007,77 @@ Owner: "Yes rebuild the neck mesh and make the collarbones show".
 - 0 standing overlaps.
 - The clavicles read as a ridge from the notch to the shoulders in the front and three-quarter views. The highlight along them is still slightly wavy.
 - Fine streaks remain under the clavicle on the upper chest, just outside the flipped region.
+
+### Pelvis-to-thigh transition, draft v13p (R109–R111b, 22 Oct)
+
+The owner asked for a pelvis-to-thigh correction:
+- **Priority:** the unnatural lower-torso-to-leg connection, a flat lower pelvis, a pinched groin junction, and an abrupt gluteal-to-thigh transition.
+- **Constraints:** skeleton first; verify the pelvis and hip joint centres; measure before changing heights; mannequin groin with no genital detail.
+- **Tests:** stand, hip flexion, abduction, squat, hinge.
+- **Deliverables:** before/after renders, then a separate chest/shoulder/armpit review. Reversible; no merge or deploy.
+
+**Verified first:**
+- **Hip joint centres.** The approved anatomical master's hip joint centres (`anat_femur_*` heads, `LM_hip_bone_*__HJC`) are at (±0.0833, −0.0193, 0.9297). They agree with the regressions from the skin ASIS landmarks (inter-ASIS 0.216 m) within about 5–6 mm:
+  - Bell et al. 1990: lateral 0.36, inferior 0.30, posterior 0.19 of the inter-ASIS distance;
+  - Harrington et al. 2007: lateral 0.33 PW + 7.3 mm, inferior 0.30 PW + 10.9 mm.
+- **Deformation rig.** Its thigh heads were at (±0.092, 0, 0.960): about 3 cm above and 2 cm behind the real hip joint.
+- **Heights.**
+  - Crotch: 0.473 of stature against the reference's 0.475. ANSUR II crotch height z −0.95.
+  - Navel: 0.612 against 0.616.
+  - Not moved.
+- **Widths** (standing render, fractions of stature):
+  - Hip half-width at 0.50: 0.104 against 0.106. Hips are not too wide; the ANSUR hip-breadth z of +1.13 reflects that the reference figure is broad there too.
+  - Upper outer thigh at 0.40–0.47: 0.100–0.109 against 0.107–0.116.
+  - Inner-thigh gap: similar.
+
+**Changes** (each has an env switch; all on by default except where noted):
+- **R109 `V2_HIP_PIVOT=anat`:** thigh heads moved onto the anatomical HJC; tails (knees) unchanged. Rest shape unchanged.
+- **R110 `V2_PELVIS`** (surface anatomy per Gray's Anatomy / Drake, Gray's Anatomy for Students):
+  - **Inguinal fold:** follows the ASIS → pubic tubercle line, 2.2 mm, sigma 13 mm. It ends about 2 cm above and 4 cm beside the crotch, so the two sides no longer meet in a point.
+  - **Lower abdomen:** convex, 4 mm.
+  - **Crotch junction:** rounded (inner thighs ease off 3 mm), with an adductor fill of 2.5 mm below it.
+  - **Gluteal region:**
+    - shelf and top band erased (150 normal-only steps);
+    - gluteus maximus re-shaped, 9 mm;
+    - gluteal fold on the medial two thirds only, 4 mm, fading laterally;
+    - hamstring fill of 3 mm under the fold;
+    - the old full-width fold is off.
+  - **Outer-thigh sweep (`V2_OUTER_THIGH_MM`): off by default.** At 12 mm it ran into the hanging hands in the standing pose, and the overlap shrink crumpled the thighs into a ring of ruffles (p2/p4, confirmed by p6).
+- **R111 `V2_CROTCH_WEIGHTS`:** relaxation of all deform weights around the crotch (40 passes, 18 cm radius, sum per vertex kept).
+- **R111b `V2_INNER_THIGH_PELVIS` 0.5:** up to half of each thigh's weight on the upper inner thigh moves to the pelvis, fading out about 10 cm down the thigh, on the coarse mesh before refinement.
+
+**Also, in the same session:**
+- The full-body side fit (R107, `V2_SIDE_FIT_FULL`) and the front-width fit (R108, `V2_FRONT_FIT`) are **off by default**. Measuring the legs against the hip outline turned posture differences into 5 cm whole-leg shifts and ridged the thighs (v13m/v13n). The legs need a fit measured against each leg's own bones.
+- The hip-test "abduction" initially used the wrong sign: it crossed the legs (adduction). It is fixed (`V2_HIP_ABD_SIGN` −1). The p1–p7 "abd40" counts are adduction and are void.
+
+**Results.** Overlap pairs within 25 cm of the pelvis, before (p0b: all of the above off) → after (p8):
+
+| Pose | Before | After |
+|---|---|---|
+| Stand | 0 | 0 |
+| Hip flexion 90° | 545 | 76 |
+| Abduction 40° (both legs) | 9 | 46 |
+| Squat | 1,158 | 195 |
+| Hinge 60° | 141 | 56 |
+
+- In abduction, the "before" keeps its count low by stretching the crotch into a flat web. The "after" crotch stays rounded with a few more contacts.
+- Standing: 0 overlaps. Fine-loop loss unchanged (14.7 mm).
+- Images: `review-assets/body_v2/draft_v13p_pelvis/`:
+  - pelvis close-ups before/after (front, side, back, three-quarter);
+  - hip tests before/after;
+  - full body before/after (same camera, aligned);
+  - `chest_shoulder_review.jpg`.
+
+**Remaining pelvis defects:**
+- A lighter band still crosses the top of the buttocks at about 0.55 (back view).
+- The side view still shows the buttock ending in a step rather than a long curve into the hamstrings.
+- The pubic triangle between the folds is flat.
+- The upper outer thigh is still about 1.3 cm per side narrower than the reference. It needs a version that keeps clear of the hands.
+- The squat still crumples the lower abdomen (it did before too).
+
+**Chest / shoulder / armpit review** (after the pelvis work; nothing changed there):
+1. Fine crinkles and streaks on the front deltoids and the deltopectoral area (R41 shoulder topology and correctives).
+2. A hard vertical edge where the outer pec meets the arm at the front armpit (the pec-clearance cut-back).
+3. A fold in front of the armpit under the outer pec, and vertical creases on the side of the ribs (side view).
+4. A mottled, crinkled texture across the upper back and scapulae, and streaky rear deltoids.
+5. Fine streaks under the clavicles.

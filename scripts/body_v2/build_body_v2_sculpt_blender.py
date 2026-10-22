@@ -562,6 +562,17 @@ if ARM_U or ARM_F or HAND_S != 1.0 or SH_UP:
             h_, t_ = SKEL_EDITS[bname]
             SKEL_EDITS[bname] = [((np.array(h_) - _np) @ _Rb.T + _np).tolist(), ((np.array(t_) - _np) @ _Rb.T + _np).tolist()]
         POSTURE_REPORT = {"deg": POST, "pivot": _piv.round(3).tolist(), "bones": len(_sub), "head_level_bones": len(_nsub)}
+    # R109 (owner: "Verify the pelvic skeleton and hip joint centres before modifying proportions"): the deformation rig's
+    # thigh heads sit at (+-0.092, 0.0, 0.960), the approved anatomical master's hip joint centres (anat_femur_* heads,
+    # LM_hip_bone_*__HJC) at (+-0.0833, -0.0193, 0.9297) - which agree with the Bell et al. 1990 and Harrington et al. 2007
+    # HJC regressions from the ASIS landmarks within ~5 mm.  So the skin pivoted ~3 cm above and 2 cm behind the real hip
+    # joint.  V2_HIP_PIVOT=anat moves the thigh heads onto the anatomical HJC (tails - the knees - unchanged).
+    if os.environ.get("V2_HIP_PIVOT", "anat") == "anat":
+        for bname, sg in (("thigh_r", 1.0), ("thigh_l", -1.0)):
+            b_ = rig.data.bones[bname]
+            h_, t_ = SKEL_EDITS.get(bname, [list(b_.head_local), list(b_.tail_local)])
+            SKEL_EDITS[bname] = [[sg * 0.0833, -0.0193, 0.9297], list(t_)]
+        HIP_PIVOT_REPORT = {"thigh_head_before": [0.092, 0.0, 0.96], "thigh_head_after": [0.0833, -0.0193, 0.9297], "source": "HGPT_ANATOMICAL_MASTER anat_femur_* heads"}
     _before = {b.name: [list(b.head_local), list(b.tail_local)] for b in rig.data.bones if b.name in SKEL_EDITS}
     bpy.context.view_layer.objects.active = rig
     rig.hide_set(False); rig.hide_viewport = False
@@ -1313,7 +1324,7 @@ def _pairs(P):
 rep["rest_self_intersections"] = {"v1": _pairs(rest), "v2": _pairs(rest + off)}
 rep["standing_self_intersections"] = {"v1": _pairs(stand_eval(np.zeros_like(off))), "v2": _pairs(stand_eval(off))}
 body.shape_key_remove(_fitkey); _bench._reset(rig)
-rep["refine"] = REFINE_REPORT; rep["detail"] = DETAIL_REPORT
+rep["refine"] = REFINE_REPORT; rep["detail"] = DETAIL_REPORT; rep["hip_pivot"] = globals().get("HIP_PIVOT_REPORT")
 np.save(OUT / "rest.npy", rest.astype(np.float32)); np.save(OUT / "tris.npy", faces.astype(np.int32))
 (OUT / "body_v2_report.json").write_text(json.dumps(rep, indent=1))
 print("V2_SCULPT", json.dumps(rep), flush=True)
@@ -1402,5 +1413,64 @@ if os.environ.get("R76_RENDER") == "1":
                 lights[0].location = (2.6, -1.6, 2.6); lights[0].rotation_quaternion = (mid - lights[0].location).to_track_quat("-Z", "Y")
             sc.render.filepath = str(OUT / f"V2_skin_chest_{view}.png"); bpy.ops.render.render(write_still=True)
         cd.ortho_scale = _os; sc.render.resolution_x = 900; sc.render.resolution_y = 1500
+    # R109: pelvis close-ups (standing, skin + grey) and hip deformation tests (owner: "Test standing, hip flexion,
+    # abduction, squatting and hip hinging for natural deformation"), each framed on the pelvis, with the standing-pose
+    # style overlap count for every pose.
+    if os.environ.get("V2_HIP_TESTS", "1") == "1":
+        _Vf = (rest + PROP + off); _z0 = float(_Vf[:, 2].min()); _H = float(_Vf[:, 2].max()) - _z0
+        sc.render.resolution_x = 900; sc.render.resolution_y = 900
+        _osc = cd.ortho_scale
+        def _shot(name, centre, scale, views, engine):
+            sc.render.engine = engine
+            cd.ortho_scale = scale
+            for view, dv in views.items():
+                dvec = Vector(dv).normalized(); cam.location = centre + dvec * 4; cam.rotation_mode = "QUATERNION"; cam.rotation_quaternion = (-dvec).to_track_quat("-Z", "Y")
+                sc.render.filepath = str(OUT / f"{name}_{view}.png"); bpy.ops.render.render(write_still=True)
+        V4 = {"front": (0, -1, 0), "back": (0, 1, 0), "side": (1, 0, 0), "front34": (0.7, -0.7, 0)}
+        _pc = Vector((0.0, mid.y, _z0 + 0.49 * _H))
+        if os.environ.get("V2_SKIN_RENDER", "1") == "1":
+            lights[0].location = (-1.6, -2.6, 2.6); lights[0].rotation_quaternion = (mid - lights[0].location).to_track_quat("-Z", "Y")
+            _shot("V2_skin_pelvis", _pc, 0.36 * _H, V4, "CYCLES")
+        body.data.materials.clear(); body.data.materials.append(mat)
+        _shot("V2_grey_pelvis", _pc, 0.36 * _H, V4, "BLENDER_WORKBENCH")
+        rest_heads = {s_: rig.pose.bones[f"foot_{s_}"].head.copy() for s_ in ("l", "r")}
+
+        def _hp_stand():
+            pass
+
+        def _hp_flex():
+            bench._rot(rig.pose.bones["thigh_r"], x=-90.0); bench._rot(rig.pose.bones["shin_r"], x=90.0)
+
+        def _hp_abd():
+            bench._rot(rig.pose.bones["thigh_r"], z=float(os.environ.get("V2_HIP_ABD_SIGN", "1")) * 40.0)
+            bench._rot(rig.pose.bones["thigh_l"], z=-float(os.environ.get("V2_HIP_ABD_SIGN", "1")) * 40.0)
+
+        def _hp_squat():
+            bench.pose_squat(rig, 1.0, rest_heads)
+
+        def _hp_hinge():
+            bench._rot(rig.pose.bones["pelvis"], x=60.0)
+            for s_ in ("l", "r"):
+                bench._rot(rig.pose.bones[f"thigh_{s_}"], x=-60.0); bench._rot(rig.pose.bones[f"shin_{s_}"], x=10.0)
+
+        HIPTEST = {}
+        for nm, fn in (("stand", _hp_stand), ("flex90", _hp_flex), ("abd40", _hp_abd), ("squat", _hp_squat), ("hinge60", _hp_hinge)):
+            bench._reset(rig)
+            for s_, sg in (("r", -1.0), ("l", 1.0)):
+                pb = rig.pose.bones[f"upperarm_{s_}"]; pb.rotation_mode = "XYZ"; pb.rotation_euler = (0.0, 0.0, math.radians(sg * 25.0))
+            fn()
+            bpy.context.view_layer.update(); drives.drive(rig, body); bpy.context.view_layer.update()
+            pp_, _ = bench._evaluated(body); P_ = np.array([tuple(v) for v in pp_])
+            tr_ = _BVH.FromPolygons([Vector(v) for v in P_], _ft, all_triangles=True)
+            prs = [(a_, b_) for a_, b_ in tr_.overlap(tr_) if a_ < b_ and not (_fs[a_] & _fs[b_])]
+            # pairs near the pelvis (within 0.25 m of the pelvis bone head) - the region under test
+            ph = np.array(rig.pose.bones["pelvis"].head)
+            near = [p_ for p_ in prs if np.linalg.norm(P_[faces[p_[0]]].mean(0) - ph) < 0.25]
+            HIPTEST[nm] = {"overlap_pairs": len(prs), "overlap_pairs_pelvis": len(near)}
+            _c = Vector(tuple(P_[np.linalg.norm(P_ - ph, axis=1) < 0.30].mean(0)))
+            _shot(f"V2_hip_{nm}", _c, 0.55 * _H, {"front": (0, -1, 0), "side": (1, 0, 0), "back": (0, 1, 0)}, "BLENDER_WORKBENCH")
+        (OUT / "hip_tests.json").write_text(json.dumps(HIPTEST, indent=1))
+        print("V2_HIPTESTS", json.dumps(HIPTEST), flush=True)
+        cd.ortho_scale = _osc; sc.render.resolution_x = 900; sc.render.resolution_y = 1500
     bench._reset(rig)
     print("V2_RENDERED", flush=True)

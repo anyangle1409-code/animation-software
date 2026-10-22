@@ -21,30 +21,38 @@ def expand(seed):
     for side in ('L','R'):
         for rule in seed['interaction_rules']:
             item=copy.deepcopy(rule)
-            item['id']=rule['id']+'.'+side
-            item['muscle_ids']=[x+'.'+side for x in rule['muscle_ids']]
+            item['id']='hgpt.interaction.'+rule['id']+'.'+side
+            item['muscle_ids']=['hgpt.muscle.'+x+'.'+side for x in rule['muscle_ids']]
             interactions.append(item)
         for original in seed['muscles']:
-            mid=original['id']+'.'+side
+            mid='hgpt.muscle.'+original['id']+'.'+side
             related=[x for x in interactions if mid in x['muscle_ids']]
             muscles.append({
                 'id':mid,'seed_id':original['id'],'side':side,
+                'identity':{'namespace':'hgpt.muscle','anatomical_name':original['id'],
+                            'functional_head_id':original['id'],'immutable':True,'deprecated_aliases':[original['id']+'.'+side]},
                 'region':original['region'],'depth':original['depth'],
                 'pilot':original['region'] in PILOT_REGIONS or original['id'] in {'biceps_brachii_long','triceps_long'},
                 'origin':{'description':original['origin_landmark'],'anatomical_landmark_id':None},
                 'insertion':{'description':original['insertion_landmark'],'anatomical_landmark_id':None},
                 'joints_crossed':original['joints_crossed'],'actions':original['actions'],
+                'relationships':{'joint_ids':['hgpt.joint.'+j for j in original['joints_crossed']],
+                                 'neighbor_ids':[]},
                 'neighbors':sorted({x for rule in related for x in rule['muscle_ids'] if x!=mid}),
                 'layer_relations_status':'requires_local_anatomy_review',
                 'path':{'mode':'reviewed_bone_local_via_points','wrap_targets':None,'status':'unresolved'},
                 'tissue':{'contractile_belly':True,'tendon_lengths_m':None,'rest_volume_m3':None,
                           'note':'Tendon/aponeurosis/fascia routing must be authored separately; no fitted numeric parameters.'},
+                'contraction':{'length_driver':'evaluated_attachment_path','activation_driver':'explicit_exercise_rule',
+                               'supported_states':['shortening','lengthening','near_isometric','variable'],
+                               'activation_independent_of_pose':True},
                 'activation':{'mode':'explicit_visual_channel','default':0,'force_claim':False},
                 'skin':{'mask':None,'direct_transfer_allowed':original['depth']=='superficial',
                         'rest_relative_only':True},
                 'provenance':{'url':original['reference_url'],'confidence':original['anatomy_status'],
                               'license':'reference_only_no_asset_redistribution_reviewed'},
                 'binding':None,'status':'semantic_seed_only'})
+            muscles[-1]['relationships']['neighbor_ids']=muscles[-1]['neighbors']
     return {'schema_version':1,'experimental_only':True,'PT_MODEL_VERSION':'1.0',
             'coordinate_convention':'SI metres, bone-local anchors, explicit anatomical-side mapping',
             'muscles':muscles,'interactions':interactions}
@@ -61,9 +69,10 @@ def validate(data):
     for m in muscles:
         mid=m.get('id','')
         side=m.get('side')
-        if side not in ('L','R') or mid!=m.get('seed_id','')+'.'+str(side): errors.append(f'{mid}: side identity')
-        other=m.get('seed_id','')+'.'+('R' if side=='L' else 'L')
+        if side not in ('L','R') or mid!='hgpt.muscle.'+m.get('seed_id','')+'.'+str(side): errors.append(f'{mid}: side identity')
+        other='hgpt.muscle.'+m.get('seed_id','')+'.'+('R' if side=='L' else 'L')
         if other not in idset: errors.append(f'{mid}: missing contralateral entry')
+        if m.get('identity',{}).get('immutable') is not True: errors.append(f'{mid}: mutable identity')
         if m.get('depth') not in ('deep','intermediate','superficial'): errors.append(f'{mid}: depth')
         if not m.get('joints_crossed'): errors.append(f'{mid}: joint crossings')
         for end in ('origin','insertion'):
@@ -73,6 +82,8 @@ def validate(data):
             errors.append(f'{mid}: provenance')
         for n in m.get('neighbors',[]):
             if n not in idset or n==mid or not n.endswith('.'+str(side)): errors.append(f'{mid}: invalid neighbor')
+        if m.get('contraction',{}).get('activation_independent_of_pose') is not True: errors.append(f'{mid}: contraction coupling')
+        if m.get('relationships',{}).get('neighbor_ids')!=m.get('neighbors'): errors.append(f'{mid}: neighbor relationship mismatch')
         if m.get('activation',{}).get('mode')!='explicit_visual_channel': errors.append(f'{mid}: activation mode')
         if m.get('activation',{}).get('force_claim') is not False: errors.append(f'{mid}: force claim')
     ruleids=[]

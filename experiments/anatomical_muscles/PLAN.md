@@ -16,4 +16,12 @@ Review focus: anatomical side is not runtime suffix; missing landmarks must not 
 Rulings: retain PR123 as code base, with newer R57 source pinned externally rather than merging unrelated experimental model branches. Latest application branch a4f0c100 is Body v2 WIP, not a validated ORIGINAL_v1 replacement. No existing production files will be changed. New binding coordinates require local review, not inference from control rods.
 
 ## Execution ledger
-All five foundation tasks executed; native/actual-anatomy work remains blocked as itemized in CLAUDE_HANDOFF.md. 24 pure tests PASS; native inventory script syntax PASS only. App suite blocked: Vitest absent. Independent code review found overflow false-clear and empty-readiness gaps; both reproduced RED then fixed GREEN. Full final suite 24/24. Compressed source-copy guard corrected against actual R41 zstd bytes, with regression test. No production files changed.
+All five foundation tasks executed; native/actual-anatomy work remains blocked as itemized in CLAUDE_HANDOFF.md. 34 pure tests PASS; native inventory script syntax PASS only. App suite blocked: Vitest absent. Independent code review found overflow false-clear and empty-readiness gaps; both reproduced RED then fixed GREEN. Full final suite 34/34. Compressed source-copy guard corrected against actual R41 zstd bytes, with regression test. No production files changed.
+
+## Additional requirement — permanent IDs and reusable exercise rules
+
+- [x] Replace provisional IDs with immutable `hgpt.muscle.<head>.<side>` IDs while retaining the old form as a deprecated alias.
+- [x] Add a versioned exercise-to-muscle contract with independent joint targets, path-length state, visual activation, stabilization, deformation and skin response.
+- [x] Add bilateral curl, shoulder-press and bodyweight-squat phase examples with source ledger and explicit uncertainty.
+- [x] Add a reusable compiler CLI plus committed curl output example and tests.
+- [x] Document naming, extension and Claude Blender consumption rules.

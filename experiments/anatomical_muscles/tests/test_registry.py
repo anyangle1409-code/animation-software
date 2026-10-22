@@ -16,14 +16,14 @@ class RegistryTests(unittest.TestCase):
         self.assertTrue(all(m['binding'] is None for m in self.data['muscles']))
     def test_pilot_includes_both_regions(self):
         ids={m['id'] for m in self.data['muscles'] if m['pilot']}
-        self.assertIn('deltoid_middle.L',ids)
-        self.assertIn('gluteus_maximus.R',ids)
-        self.assertNotIn('thenar_group.L',ids)
+        self.assertIn('hgpt.muscle.deltoid_middle.L',ids)
+        self.assertIn('hgpt.muscle.gluteus_maximus.R',ids)
+        self.assertNotIn('hgpt.muscle.thenar_group.L',ids)
     def test_missing_side_duplicate_and_unknown_neighbor_rejected(self):
         self.data['muscles'].pop()
         self.assertTrue(r.validate(self.data))
         self.data=r.expand(SEED)
-        self.data['muscles'][0]['neighbors']=['unknown.L']
+        self.data['muscles'][0]['neighbors']=['hgpt.muscle.unknown.L']
         self.assertTrue(r.validate(self.data))
         self.data=r.expand(SEED)
         self.data['muscles'][1]['id']=self.data['muscles'][0]['id']
@@ -34,7 +34,7 @@ class RegistryTests(unittest.TestCase):
     def test_unresolved_registry_cannot_be_ready(self):
         self.assertEqual(len(r.readiness(self.data,[])),120)
     def test_binding_checks_real_ids_coordinates_review_and_deep_mask(self):
-        m=next(m for m in self.data['muscles'] if m['id']=='iliacus.L')
+        m=next(m for m in self.data['muscles'] if m['id']=='hgpt.muscle.iliacus.L')
         m['binding']={'anchors':[{'bone':'pelvis','local_m':[0,0,0]},{'bone':'femur','local_m':[0,0,1]}],
                       'review':{'reviewer':'test','evidence':'synthetic fixture'},'skin_mask':None,'wrap_reviewed':True,
                       'direct_skin_weight':0,'source_sha256':'a'*64,'anatomical_side':'L'}

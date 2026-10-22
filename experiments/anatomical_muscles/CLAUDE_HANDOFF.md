@@ -35,7 +35,7 @@ Ruling: implementation remains on the PR123-based experimental branch. Later mod
 
 ## Actual checks
 
-See `test-results.txt` for the final pure test run: **24/24 PASS**. Independent code review found numeric-overflow clearance and empty-registry readiness defects; both reproduced with failing tests and corrected before this checkpoint. Tests cover synthetic geometry only: transforms, segment-interior clearance, authored via routing, equal volume during shortening/lengthening/activation, mask/cap blending, return-to-neutral, binding/source rejection, bilateral completeness, invalid numbers, copy alias/overwrite/hash/LFS protection.
+See `test-results.txt` for the final pure test run: **34/34 PASS**. Independent code review found numeric-overflow clearance and empty-registry readiness defects; both reproduced with failing tests and corrected before this checkpoint. Tests cover synthetic geometry only: transforms, segment-interior clearance, authored via routing, equal volume during shortening/lengthening/activation, mask/cap blending, return-to-neutral, binding/source rejection, bilateral completeness, invalid numbers, copy alias/overwrite/hash/LFS protection.
 `python -m compileall -q experiments/anatomical_muscles`: PASS (includes native script syntax only).
 `npm test -- --reporter=dot`: BLOCKED before execution, `vitest: not found` (exit 127). No existing app suite success claimed.
 `command -v blender`: absent. Native Blender version, rig inventory, 3D attachments, anatomy, motion, tissue overlaps, skin deformation, images and mobile parity: **BLOCKED / NOT RUN**.
@@ -97,3 +97,17 @@ W2/W3 PARTIAL: general authoring kernel and region work instructions; no native 
 W4 PARTIAL: tested skin blending primitive; actual body response absent.
 W5 BLOCKED: Blender not executed, no new images or anatomy/motion acceptance.
 W6 COMPLETE FOR THIS CHECKPOINT: reproducible code/tests/provenance/handoff in experiment branch; final body objective remains incomplete.
+
+## Added reusable exercise-to-muscle contract
+
+Read `EXERCISE_MUSCLE_CONTRACT.md`, `exercise_contracts.json` and the committed curl example before authoring animation behavior. All defined records now have immutable namespaced IDs such as `hgpt.muscle.biceps_brachii_long.L`; their former short IDs are deprecated aliases only. The registry also explicitly carries attachment descriptions, joints, neighbor IDs, contraction semantics and skin-transfer permissions. Actual landmark/rig IDs and masks remain unresolved until native review.
+
+Initial versioned exercise definitions:
+
+- `hgpt.exercise.biceps_curl.bilateral.v1`
+- `hgpt.exercise.shoulder_press.bilateral.v1`
+- `hgpt.exercise.squat.bodyweight.v1`
+
+Each phase keeps joint targets separate from visual activation estimates and declares muscle role, path-length direction, stabilization, deformation and skin response. The activation range is a qualitative animation prior, never EMG or force. Load/variant-specific rules may scale or replace estimates without moving the skeleton. Run `compile_exercise.py` as documented to generate per-phase instructions. In Blender, verify actual path-length direction against the scene; fail and correct the contract when it disagrees. Do not make object proximity or joint angle silently drive activation.
+
+Current aggregate seed entries are not falsely described as every detailed human muscle. Expand an aggregate into individually sourced permanent head/bundle IDs before detailed modelling when attachments/path/behavior differ. Never create ad-hoc muscle IDs inside one exercise scene.

@@ -1,7 +1,17 @@
+test_reusable_curl_example (test_compile_exercise.CompileExerciseTests.test_reusable_curl_example) ... ok
+test_unknown_exercise_rejected (test_compile_exercise.CompileExerciseTests.test_unknown_exercise_rejected) ... ok
 test_collision_unresolved_and_source_mismatch_fail_closed (test_evaluate.EvaluationTests.test_collision_unresolved_and_source_mismatch_fail_closed) ... ok
 test_return_to_neutral_has_no_state_drift (test_evaluate.EvaluationTests.test_return_to_neutral_has_no_state_drift) ... ok
 test_safe_evaluation_and_source_not_mutated (test_evaluate.EvaluationTests.test_safe_evaluation_and_source_not_mutated) ... ok
 test_tendon_longer_than_path_rejected (test_evaluate.EvaluationTests.test_tendon_longer_than_path_rejected) ... ok
+test_every_rule_has_pose_length_activation_stabilization_and_skin (test_exercise_contract.ExerciseContractTests.test_every_rule_has_pose_length_activation_stabilization_and_skin) ... ok
+test_example_contracts_validate_and_resolve (test_exercise_contract.ExerciseContractTests.test_example_contracts_validate_and_resolve) ... ok
+test_invalid_ids_ranges_and_pose_coupling_rejected (test_exercise_contract.ExerciseContractTests.test_invalid_ids_ranges_and_pose_coupling_rejected) ... ok
+test_joint_pose_and_activation_are_independent_inputs (test_exercise_contract.ExerciseContractTests.test_joint_pose_and_activation_are_independent_inputs) ... ok
+test_library_has_sources_and_no_exact_emg_claim (test_exercise_contract.ExerciseContractTests.test_library_has_sources_and_no_exact_emg_claim) ... ok
+test_permanent_ids_are_namespaced_unique_and_bilateral (test_exercise_contract.ExerciseContractTests.test_permanent_ids_are_namespaced_unique_and_bilateral) ... ok
+test_phase_sampling_interpolates_ranges_without_inferring_force (test_exercise_contract.ExerciseContractTests.test_phase_sampling_interpolates_ranges_without_inferring_force) ... ok
+test_progress_moves_pose_without_silently_changing_activation (test_exercise_contract.ExerciseContractTests.test_progress_moves_pose_without_silently_changing_activation) ... ok
 test_anchored_path_uses_each_bone (test_kernel.KernelTests.test_anchored_path_uses_each_bone) ... ok
 test_authored_via_points_clear_obstacle (test_kernel.KernelTests.test_authored_via_points_clear_obstacle) ... ok
 test_blend_does_not_double_bulge_and_respects_region (test_kernel.KernelTests.test_blend_does_not_double_bulge_and_respects_region) ... ok
@@ -24,6 +34,6 @@ test_pilot_includes_both_regions (test_registry.RegistryTests.test_pilot_include
 test_unresolved_registry_cannot_be_ready (test_registry.RegistryTests.test_unresolved_registry_cannot_be_ready) ... ok
 
 ----------------------------------------------------------------------
-Ran 24 tests in 0.073s
+Ran 34 tests in 0.056s
 
 OK

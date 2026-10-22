@@ -660,6 +660,10 @@ if REFINE_MM > 0:
     # normal-only Taubin steps did not remove it), like the neck base
     if os.environ.get("V2_BACK_FLIPS", "1") == "1":
         _regions.append(((1.16, 1.44, 0.22), 99.0))
+    # R114 (owner: "There look to be a lot of wrinkly skin"): the same Delaunay flips over the whole body below the head
+    # (arms, legs, torso; rest z 0.03-1.60) - R41's sliver triangles everywhere shade as fine wrinkles
+    if os.environ.get("V2_BODY_FLIPS", "1") == "1":
+        _regions.append(((0.03, 1.60, 0.40), 99.0))
     # R111 (owner: "Fix mesh topology, skin weights and corrective deformations as necessary"): the crotch skin was
     # pulled between thigh_l, thigh_r and the pelvis with sharp weight boundaries - in 40 deg abduction the two inner
     # thighs crossed in an X at the crotch (2,000+ overlap pairs, p0/p1).  Relax all deform weights together around the
@@ -1564,8 +1568,10 @@ if os.environ.get("R76_RENDER") == "1":
             pass
         sm = bpy.data.materials.new("REVIEW_SKIN"); sm.use_nodes = True
         bsdf = sm.node_tree.nodes.get("Principled BSDF")
-        bsdf.inputs["Base Color"].default_value = (0.62, 0.40, 0.30, 1); bsdf.inputs["Roughness"].default_value = 0.42
-        for nm, val in (("Subsurface Weight", 0.12), ("Subsurface Scale", 0.01), ("Specular IOR Level", 0.45)):
+        # R114 (owner: "The texture of the body seems shiny and not smooth"): a satin skin finish - rougher, less specular,
+        # a little more subsurface (was roughness 0.42, specular 0.45, subsurface 0.12)
+        bsdf.inputs["Base Color"].default_value = (0.62, 0.40, 0.30, 1); bsdf.inputs["Roughness"].default_value = float(os.environ.get("V2_SKIN_ROUGH", "0.62"))
+        for nm, val in (("Subsurface Weight", 0.2), ("Subsurface Scale", 0.012), ("Specular IOR Level", 0.28)):
             if nm in bsdf.inputs:
                 bsdf.inputs[nm].default_value = val
         body.data.materials.clear(); body.data.materials.append(sm)
@@ -1582,11 +1588,17 @@ if os.environ.get("R76_RENDER") == "1":
             ld = bpy.data.lights.new(nm, "AREA"); ld.energy = energy; ld.size = size
             lo_ = bpy.data.objects.new(nm, ld); sc.collection.objects.link(lo_); lo_.location = loc
             lo_.rotation_mode = "QUATERNION"; lo_.rotation_quaternion = (mid - Vector(loc)).to_track_quat("-Z", "Y"); lights.append(lo_)
-        for view, dv in {"front": (0, -1, 0), "side": (1, 0, 0), "front34": (0.7, -0.7, 0)}.items():
+        _sk = float(os.environ.get("V2_SKIN_SCALE", "2"))     # R114: 1800 x 3000 for region close-ups against the reference
+        sc.render.resolution_x = int(900 * _sk); sc.render.resolution_y = int(1500 * _sk)
+        for view, dv in {"front": (0, -1, 0), "side": (1, 0, 0), "front34": (0.7, -0.7, 0), "back": (0, 1, 0)}.items():
             dvec = Vector(dv).normalized(); cam.location = mid + dvec * 4; cam.rotation_mode = "QUATERNION"; cam.rotation_quaternion = (-dvec).to_track_quat("-Z", "Y")
             if view == "side":   # the reference side view is lit from its front: key light swings round with the camera
                 lights[0].location = (2.6, -1.6, 2.6); lights[0].rotation_quaternion = (mid - lights[0].location).to_track_quat("-Z", "Y")
+            if view == "back":
+                lights[0].location = (-1.6, 2.6, 2.6); lights[0].rotation_quaternion = (mid - lights[0].location).to_track_quat("-Z", "Y")
             sc.render.filepath = str(OUT / f"V2_skin_stand_{view}.png"); bpy.ops.render.render(write_still=True)
+        lights[0].location = (-1.6, -2.6, 2.6); lights[0].rotation_quaternion = (mid - lights[0].location).to_track_quat("-Z", "Y")
+        sc.render.resolution_x = 900; sc.render.resolution_y = 1500
         # chest close-ups (0.62-0.92 of stature)
         _os = cd.ortho_scale; _H = float(hi[2] - lo[2]); sc.render.resolution_x = 1000; sc.render.resolution_y = 1000
         # framed on the finished body's own height (v12q-v13a framed on the base mesh's, so against the reference the

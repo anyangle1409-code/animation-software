@@ -1237,6 +1237,14 @@ if REFINE_MM > 0:
                 vn_ = np.zeros_like(Q); np.add.at(vn_, faces.ravel(), np.repeat(fn_, 3, axis=0))
                 vn_ /= np.maximum(np.linalg.norm(vn_, axis=1, keepdims=True), 1e-12)
                 Q = Q + lam * erL[:, None] * ((cavg(Q) - Q) * vn_).sum(1)[:, None] * vn_
+        # the knee: R41's own surface has a horizontal ring around both knees (in the V1 surface too) - a stronger, local
+        # normal-only erase there before the patella / hollows are placed
+        erK = ss((legm - 0.4) / 0.4) * np.exp(-0.5 * ((frl - 0.285) / 0.022) ** 2) * (1 - _keep)
+        for _ in range(int(os.environ.get("V2_KNEE_ERASE", "150"))):
+            tri = Q[faces]; fn_ = np.cross(tri[:, 1] - tri[:, 0], tri[:, 2] - tri[:, 0])
+            vn_ = np.zeros_like(Q); np.add.at(vn_, faces.ravel(), np.repeat(fn_, 3, axis=0))
+            vn_ /= np.maximum(np.linalg.norm(vn_, axis=1, keepdims=True), 1e-12)
+            Q = Q + 0.5 * erK[:, None] * ((cavg(Q) - Q) * vn_).sum(1)[:, None] * vn_
         off = Q - rest
         _V = rest + PROP + off
         hl = np.zeros(nv)
@@ -1560,6 +1568,53 @@ if REFINE_MM > 0:
             "torso_half_corr_mm_at": {str(round(float(f_), 3)): round(float(v_ * _Hr * 1000), 1) for f_, v_ in zip(_ff[::8], dT[::8]) if f_ > 0.48},
             "leg_in_corr_mm_at": {str(round(float(f_), 3)): round(float(v_ * _Hr * 1000), 1) for f_, v_ in zip(_ff[::8], dI[::8]) if f_ < 0.47},
             "leg_out_corr_mm_at": {str(round(float(f_), 3)): round(float(v_ * _Hr * 1000), 1) for f_, v_ in zip(_ff[::8], dO[::8]) if f_ < 0.47}}
+    # R117 (owner: "the legs still need proportioned properly"): each leg's outline fitted to the reference about the
+    # leg's OWN centre line (the hip-anchored fit, R107, turned posture differences into whole-leg shifts).  Per height:
+    # model front / back (side view) and inner / outer (front view) edges of one leg; centre lines = straight fits of the
+    # mid-points over the thigh (0.30-0.45) and the shin (0.09-0.27); the reference edges are taken relative to its own
+    # centre lines the same way (fit/ref_leg_side_profile.json, fit/ref_front_profile.json) and put onto the model's.
+    # Into PROP (skeleton-level, smooth), blended across each section like the torso side fit; feet and the hip excluded.
+    LFIT = float(os.environ.get("V2_LEG_FIT", "1"))
+    if LFIT > 0:
+        _ls = json.load(open(Path(__file__).resolve().parent / "fit" / "ref_leg_side_profile.json"))
+        _lf = json.load(open(Path(__file__).resolve().parent / "fit" / "ref_front_profile.json"))
+        Fb = np.array(_ls["f"]); rFs = np.array(_ls["front"]); rBs = np.array(_ls["back"])
+        Ff = np.array(_lf["f"]); rIn = np.array([np.nan if v is None else v for v in _lf["leg_in"]]); rOut = np.array([np.nan if v is None else v for v in _lf["leg_out"]])
+        okf = ~np.isnan(rIn); rIn = np.interp(Fb, Ff[okf], rIn[okf]); rOut = np.interp(Fb, Ff[okf], rOut[okf])
+        _V = rest + PROP + off; _z0 = _V[:, 2].min(); _Hr = _V[:, 2].max() - _z0
+        fr = (_V[:, 2] - _z0) / _Hr; fw = -_V[:, 1] / _Hr; ax = np.abs(_V[:, 0]) / _Hr
+        legm = np.clip(LEG, 0, 1)
+        one = (legm > 0.6) & (_V[:, 0] > 0) & (ARM < 0.3)
+        mF = np.full(len(Fb), np.nan); mB = mF.copy(); mI = mF.copy(); mO = mF.copy()
+        for i_, fb_ in enumerate(Fb):
+            s_ = one & (np.abs(fr - fb_) < 0.0025)
+            if s_.sum() > 5:
+                mF[i_], mB[i_], mI[i_], mO[i_] = fw[s_].max(), fw[s_].min(), ax[s_].min(), ax[s_].max()
+        ok_ = ~np.isnan(mF)
+        mF, mB, mI, mO = (np.interp(Fb, Fb[ok_], m_[ok_]) for m_ in (mF, mB, mI, mO))
+        def _centre(a_, b_):
+            c_ = 0.5 * (a_ + b_); out_ = np.zeros_like(c_)
+            for lo_, hi_, sel_ in ((0.30, 0.45, Fb >= 0.285), (0.09, 0.27, Fb < 0.285)):
+                m_ = (Fb >= lo_) & (Fb <= hi_); k_ = np.polyfit(Fb[m_], c_[m_], 1); out_[sel_] = np.polyval(k_, Fb[sel_])
+            return out_
+        cMy, cRy = _centre(mF, mB), _centre(rFs, rBs); cMx, cRx = _centre(mI, mO), _centre(rIn, rOut)
+        dF = (cMy + (rFs - cRy)) - mF; dB = (cMy + (rBs - cRy)) - mB
+        dI = (cMx + (rIn - cRx)) - mI; dO = (cMx + (rOut - cRx)) - mO
+        kk = np.ones(5) / 5.0
+        sm = lambda d_: np.convolve(np.pad(d_, 2, mode="edge"), kk, mode="valid")
+        wl = ss((Fb - 0.085) / 0.03) * ss((0.45 - Fb) / 0.03) * LFIT
+        dF, dB, dI, dO = (np.clip(sm(d_), -0.02, 0.02) * wl for d_ in (dF, dB, dI, dO))
+        ty = np.clip((fw - np.interp(fr, Fb, mB)) / np.maximum(np.interp(fr, Fb, mF) - np.interp(fr, Fb, mB), 1e-4), 0, 1)
+        tx = np.clip((ax - np.interp(fr, Fb, mI)) / np.maximum(np.interp(fr, Fb, mO) - np.interp(fr, Fb, mI), 1e-4), 0, 1)
+        dy_ = np.interp(fr, Fb, dB) + (np.interp(fr, Fb, dF) - np.interp(fr, Fb, dB)) * ty
+        dx_ = np.interp(fr, Fb, dI) + (np.interp(fr, Fb, dO) - np.interp(fr, Fb, dI)) * tx
+        wv = np.clip((legm - 0.2) / 0.5, 0, 1) * (ARM < 0.3) * (fr < 0.47)
+        for _ in range(20):
+            wv = 0.5 * wv + 0.5 * avg(wv)
+        PROP[:, 1] -= _Hr * dy_ * wv
+        PROP[:, 0] += _Hr * dx_ * wv * np.sign(_V[:, 0])
+        DETAIL_REPORT["leg_fit"] = {k_: {str(round(float(f_), 3)): round(float(v_ * _Hr * 1000), 1) for f_, v_ in zip(Fb[::8], d_[::8])}
+                                    for k_, d_ in (("front_mm", dF), ("back_mm", dB), ("inner_mm", dI), ("outer_mm", dO))}
     # overlaps on the refined surface, standing pose (same shrink as above, smaller steps)
     ov2 = []
     _off_pre = off.copy(); _first_pairs = None

@@ -528,6 +528,19 @@ if HIPFILL > 0:
 TORSO = float(os.environ.get("V2_TORSO_RELIEF", "1.0"))
 
 
+def hc_smooth(P, nb, w, steps, beta=0.6):
+    """HC-Laplacian smoothing (Vollmer et al. 1999): smooths without shrinking and stays stable on this mesh's sliver
+    triangles, where the Taubin lambda/mu pair blew up into pits (v15, v16).  w = per-vertex weight 0..1."""
+    O = P.copy(); Q = P.copy()
+    for _ in range(steps):
+        Pn = np.array([Q[n].mean(0) if n else Q[i] for i, n in enumerate(nb)])
+        Pn = Q + w[:, None] * (Pn - Q)
+        B = Pn - O
+        Bn = np.array([B[n].mean(0) if n else B[i] for i, n in enumerate(nb)])
+        Q = Pn - w[:, None] * (beta * B + (1 - beta) * Bn)
+    return Q
+
+
 def _g(x, f, xc, sx, fc, sf, amp):
     return amp * 1e-3 * np.exp(-0.5 * (((x - xc) / sx) ** 2 + ((f - fc) / sf) ** 2))
 
@@ -601,11 +614,7 @@ if TORSO > 0:
     # on the front of the abdomen only
     abz = (wf > 0.5) & (axt < 0.085) & (ft > 0.585) & (ft < 0.725)
     wab = (ss((0.085 - axt) / 0.02) * ss((ft - 0.585) / 0.015) * ss((0.725 - ft) / 0.015) * wf)
-    Q = Pt.copy()
-    for it in range(2 * int(os.environ.get("V2_ABS_ERASE", "120"))):
-        lam = 0.5 if it % 2 == 0 else -0.53
-        M_ = np.array([Q[n].mean(0) if n else Q[i] for i, n in enumerate(nb_)])
-        Q = Q + lam * wab[:, None] * (M_ - Q)
+    Q = hc_smooth(Pt, nb_, wab, int(os.environ.get("V2_ABS_ERASE", "120")))
     # v15: Taubin on the back's ledge (off: it is ~4 cm tall, beyond Taubin's reach, and it left pits - see v17)
     wbk = (ss((axt - 0.02) / 0.02) * ss((0.15 - axt) / 0.02) * ss((ft - 0.60) / 0.02) * ss((0.765 - ft) / 0.02) * wb)
     for it in range(2 * int(os.environ.get("V2_BACK_ERASE", "0"))):
@@ -645,7 +654,7 @@ if TORSO > 0:
 # v16: the pec / arm junction - a sharp vertical crest with a nub where the builder's pec clearance cap (R104) cut
 # the pec off against the arm, and crinkles over the clavicle and front deltoid.  Taubin over that patch (mesh
 # neighbours only, so the arm cannot merge into the chest), arm-weighted skin included up to 0.7.
-PECJ = int(os.environ.get("V2_PEC_JUNCTION", "80"))
+PECJ = int(os.environ.get("V2_PEC_JUNCTION", "60"))
 if PECJ > 0:
     bm.normal_update()
     zv = [v for v in bm.verts if v[oid] >= 0 and ARM[v[oid]] < 0.7 and z0 + 0.69 * H < v.co.z < z0 + 0.84 * H
@@ -655,11 +664,7 @@ if PECJ > 0:
     fz = (Pz[:, 2] - z0) / H; az = np.abs(Pz[:, 0]) / H
     wz = ss((fz - 0.69) / 0.02) * ss((0.84 - fz) / 0.02) * ss((az - 0.05) / 0.02) * ss((0.20 - az) / 0.02)
     wz *= np.array([float(ss((0.7 - ARM[v[oid]]) / 0.3)) for v in zv])
-    Qz = Pz.copy()
-    for it in range(2 * PECJ):
-        lam = 0.5 if it % 2 == 0 else -0.53
-        M_ = np.array([Qz[n].mean(0) if n else Qz[i] for i, n in enumerate(nz)])
-        Qz = Qz + lam * wz[:, None] * (M_ - Qz)
+    Qz = hc_smooth(Pz, nz, wz, PECJ)
     for v, q_, p_ in zip(zv, Qz, Pz):
         dv = Vector((q_ - p_).tolist())
         if dv.length > 1e-7:

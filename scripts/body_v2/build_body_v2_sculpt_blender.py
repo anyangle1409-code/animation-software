@@ -1135,12 +1135,20 @@ if REFINE_MM > 0:
         mF = np.interp(_bf, _bf[_ok], mF[_ok]); mB = np.interp(_bf, _bf[_ok], mB[_ok])
         i50 = int(np.argmin(np.abs(_bf - 0.50)))
         dF = _rF - (mF - mF[i50]); dB = _rB - (mB - mB[i50])
+        if SFULL:
+            # the legs: shape only.  v13m moved both legs back 5.6 cm (clip) - relative to the hips the model's legs stand
+            # a near-constant 2.5-4 cm further forward than the reference's, which is posture (the skeleton), not shape.
+            # Remove that constant centre offset below the buttocks (blended out over 0.46-0.54).
+            _lg = (_bf > 0.12) & (_bf < 0.44)
+            _cs = float(np.mean(0.5 * (dF[_lg] + dB[_lg])))
+            _wl = ss((0.50 - _bf) / 0.04)
+            dF = dF - _cs * _wl; dB = dB - _cs * _wl
         _k = np.ones(7) / 7.0
         dF = np.convolve(np.pad(dF, 3, mode="edge"), _k, mode="valid"); dB = np.convolve(np.pad(dB, 3, mode="edge"), _k, mode="valid")
         # long taper below the neck (abrupt ends striped / ridged, v12b/v12c); R102: reaches up to the clavicles (v12j's upper
         # chest stood ~1 cm proud at 0.81-0.84, so the chest front read flat, not the reference's slope down to the nipple);
         # stops below the chin (the 0.87 bin is the chin, not the neck)
-        win = (ss((_bf - 0.07) / 0.02) if SFULL else ss((_bf - 0.515) / 0.03)) * ss((float(os.environ.get("V2_SIDE_FIT_TOP", "0.865")) - _bf) / 0.035)
+        win = (ss((_bf - 0.10) / 0.03) if SFULL else ss((_bf - 0.515) / 0.03)) * ss((float(os.environ.get("V2_SIDE_FIT_TOP", "0.865")) - _bf) / 0.035)
         dF = np.clip(dF, -0.03, 0.03) * win * SIDEFIT; dB = np.clip(dB, -0.03, 0.03) * win * SIDEFIT
         fv = np.interp(fzq, _bf, dF); bv = np.interp(fzq, _bf, dB)
         Fabs = np.interp(fzq, _bf, mF); Babs = np.interp(fzq, _bf, mB)
@@ -1172,7 +1180,7 @@ if REFINE_MM > 0:
         _sk = json.loads((OUT / "skeleton_edits.json").read_text())
         _sk["side_fit_arm_shift_y_m"] = {"dy": dyj, "bones": _asub}
         (OUT / "skeleton_edits.json").write_text(json.dumps(_sk, indent=1))
-        DETAIL_REPORT["side_fit"] = {"arm_shift_y_mm": round(dyj * 1000, 1), "max_front_corr_mm": round(float(np.abs(dF).max() * Hs * 1000), 1), "max_back_corr_mm": round(float(np.abs(dB).max() * Hs * 1000), 1),
+        DETAIL_REPORT["side_fit"] = {"arm_shift_y_mm": round(dyj * 1000, 1), "leg_centre_offset_removed_mm": round(_cs * Hs * 1000, 1) if SFULL else 0, "max_front_corr_mm": round(float(np.abs(dF).max() * Hs * 1000), 1), "max_back_corr_mm": round(float(np.abs(dB).max() * Hs * 1000), 1),
                                      "front_corr_mm_at": {str(round(float(f_), 3)): round(float(v_ * Hs * 1000), 1) for f_, v_ in zip(_bf[::6], dF[::6])},
                                      "back_corr_mm_at": {str(round(float(f_), 3)): round(float(v_ * Hs * 1000), 1) for f_, v_ in zip(_bf[::6], dB[::6])}}
     # R108 (owner circled the chest / torso sides and the legs on the full-body sheet): front widths fitted to the reference

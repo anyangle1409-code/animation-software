@@ -32,8 +32,12 @@ test_empty_registry_is_not_ready (test_registry.RegistryTests.test_empty_registr
 test_missing_side_duplicate_and_unknown_neighbor_rejected (test_registry.RegistryTests.test_missing_side_duplicate_and_unknown_neighbor_rejected) ... ok
 test_pilot_includes_both_regions (test_registry.RegistryTests.test_pilot_includes_both_regions) ... ok
 test_unresolved_registry_cannot_be_ready (test_registry.RegistryTests.test_unresolved_registry_cannot_be_ready) ... ok
+test_current_review_is_structurally_valid (test_visual_qa.VisualQATests.test_current_review_is_structurally_valid) ... ok
+test_evidence_metadata_is_pinned (test_visual_qa.VisualQATests.test_evidence_metadata_is_pinned) ... ok
+test_unknown_muscle_and_phase_references_are_rejected (test_visual_qa.VisualQATests.test_unknown_muscle_and_phase_references_are_rejected) ... ok
+test_visual_review_cannot_claim_native_validation_or_causation (test_visual_qa.VisualQATests.test_visual_review_cannot_claim_native_validation_or_causation) ... ok
 
 ----------------------------------------------------------------------
-Ran 34 tests in 0.056s
+Ran 38 tests in 0.176s
 
 OK

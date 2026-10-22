@@ -111,3 +111,9 @@ Initial versioned exercise definitions:
 Each phase keeps joint targets separate from visual activation estimates and declares muscle role, path-length direction, stabilization, deformation and skin response. The activation range is a qualitative animation prior, never EMG or force. Load/variant-specific rules may scale or replace estimates without moving the skeleton. Run `compile_exercise.py` as documented to generate per-phase instructions. In Blender, verify actual path-length direction against the scene; fail and correct the contract when it disagrees. Do not make object proximity or joint angle silently drive activation.
 
 Current aggregate seed entries are not falsely described as every detailed human muscle. Expand an aggregate into individually sourced permanent head/bundle IDs before detailed modelling when attachments/path/behavior differ. Never create ad-hoc muscle IDs inside one exercise scene.
+
+## Added current W8 screenshot triage
+
+Read `CURRENT_W8_VISUAL_QA_20261022.md` and `current_w8_visual_qa.json` before the next native pass. Four supplied screenshots now have pinned hashes and eight stable finding IDs tied to the permanent muscle registry and relevant curl, press, and squat phases. The highest priorities are the axillary slit/spherical shoulder and the pinched groin/smooth hip-thigh transition.
+
+This evidence is visual-only: Blender was not executed, cameras and crops are unmatched, and the screenshots cannot prove causes or measurements. First record the exact branch, commit, `.blend` path/hash, and Blender version, then follow the one-variable diagnostic order. Run `python -m experiments.anatomical_muscles.visual_qa`; it deliberately rejects native-validation claims, causal conclusions, unknown muscle IDs, and unknown exercise phases in this screenshot record.

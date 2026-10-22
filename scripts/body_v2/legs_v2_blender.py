@@ -95,7 +95,7 @@ def _smooth(d_, n=7):
     return np.convolve(np.pad(d_, n // 2, mode="edge"), k_, mode="valid")
 
 
-# v7: the legs follow the reference's own centre lines (smoothed), shifted once to stand where the old legs stood.
+# v7: the legs follow the reference's own centre-line curve (smoothed), set on the old legs' overall line (v8).
 # v1-v6 put reference-relative sizes about the old body's straight-line centre lines; the two disagree at the knee,
 # so the front edge jumped 47 mm forward within 0.255-0.31 of stature (the reference's moves as far, but over the
 # whole thigh) - a downward-facing slope that read as a dark band across each knee.
@@ -388,9 +388,13 @@ for sd, sg in SIDES:
     zs = np.arange(zc - DZ, zj + 0.6 * DZ, -DZ)
     rings = []
     cyM, cxM = MC[sd]
+    # v8: the old legs' overall line (straight fit, so the feet stay under the ankles and the top meets the cut) plus
+    # the reference's own local curve about its straight fit (v7 took the reference centre whole: its feet stand
+    # wider apart, so the legs leaned out - a ledge at the cut and a bent ankle)
     _m = (Fb >= 0.10) & (Fb <= 0.42)
-    cyM = cRy + float(np.mean(cyM[_m] - cRy[_m])); cxM = cRx + float(np.mean(cxM[_m] - cRx[_m]))
-    REP.setdefault("centre_shift_mm", {})[sd] = [round(float(np.mean(MC[sd][k][_m] - (cRy, cRx)[k][_m])) * H * 1000, 1) for k in (0, 1)]
+    lin = lambda c_: np.polyval(np.polyfit(Fb[_m], c_[_m], 1), Fb)
+    cyM, cxM = lin(cyM) + (cRy - lin(cRy)), lin(cxM) + (cRx - lin(cRx))
+    REP.setdefault("centre_local_curve_mm", {})[sd] = [round(float(np.abs(c_ - lin(c_))[_m].max()) * H * 1000, 1) for c_ in (cRy, cRx)]
     for z in zs:
         f = (z - z0) / H
         b = ss((zc - z) / float(os.environ.get("V2_LEGS_BLEND", "0.08")))     # old cut shape -> designed shape

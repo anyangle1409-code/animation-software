@@ -641,8 +641,10 @@ if REFINE_MM > 0:
             _rn = np.where((np.sign(_Qc[:, 0]) == _sg) & (_Qc[:, 1] < 0) & (ARM < 0.3), _rn, 9)
             _spots.append((rest[int(np.argmin(_rn))].tolist(), 0.035, float(os.environ.get("V2_NIPPLE_REFINE_MM", "2.0"))))
     # R106 (owner: "rebuild the neck mesh and make the collarbones show"): the neck base / collarbone area rebuilt with
-    # even ~4 mm triangles (rest z 1.44-1.66, |x| < 0.22)
-    _regions = [((1.44, 1.66, 0.22), float(os.environ.get("V2_NECK_REMESH_MM", "4.0")))] if float(os.environ.get("V2_NECK_REMESH_MM", "4.0")) > 0 else []
+    # even triangles (rest z 1.44-1.58 - below the jaw, |x| < 0.22).  Edge flips only by default (V2_NECK_REMESH_MM 99): v13i
+    # also split the area to 4 mm, and the denser patch broke the hop-counted smoothing (jaw creases, 84 overlaps left)
+    _rmm = float(os.environ.get("V2_NECK_REMESH_MM", "99"))
+    _regions = [((1.44, 1.58, 0.22), _rmm)] if _rmm > 0 else []
     REFINE_REPORT, _mi, _mw = refine(body, th_mm=REFINE_MM, spots=_spots, regions=_regions)
     np.savez_compressed(OUT / "refine_map.npz", idx=_mi.astype(np.int32), w=_mw.astype(np.float32))
     print("V2_REFINE", json.dumps(REFINE_REPORT), flush=True)

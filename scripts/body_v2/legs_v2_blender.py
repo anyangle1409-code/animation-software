@@ -606,6 +606,13 @@ if TORSO > 0:
         lam = 0.5 if it % 2 == 0 else -0.53
         M_ = np.array([Q[n].mean(0) if n else Q[i] for i, n in enumerate(nb_)])
         Q = Q + lam * wab[:, None] * (M_ - Q)
+    # v15: and the ledge across the back's sides at 0.66-0.68 (the old "lat line": 14-17 mm per 0.01 of stature
+    # at 6-12 % of stature out from the spine, smooth at the spine itself)
+    wbk = (ss((axt - 0.02) / 0.02) * ss((0.15 - axt) / 0.02) * ss((ft - 0.60) / 0.02) * ss((0.765 - ft) / 0.02) * wb)
+    for it in range(2 * int(os.environ.get("V2_BACK_ERASE", "100"))):
+        lam = 0.5 if it % 2 == 0 else -0.53
+        M_ = np.array([Q[n].mean(0) if n else Q[i] for i, n in enumerate(nb_)])
+        Q = Q + lam * wbk[:, None] * (M_ - Q)
     for v, q_, p_ in zip(tv, Q, Pt):
         dv = Vector((q_ - p_).tolist())
         if dv.length > 1e-7:
@@ -726,7 +733,7 @@ if os.environ.get("V2_LEGS_RENDER", "1") == "1":
     _sk = float(os.environ.get("V2_SKIN_SCALE", "2"))
     sc.render.resolution_x = int(900 * _sk); sc.render.resolution_y = int(1500 * _sk)
     for view, dv in {"front": (0, -1, 0), "side": (1, 0, 0), "front34": (0.7, -0.7, 0), "back": (0, 1, 0)}.items():
-        key_at({"side": (2.6, -1.6, 2.6), "back": (-1.6, 2.6, 2.6)}.get(view, (-1.6, -2.6, 2.6)))
+        key_at({"side": (2.6, -1.6, 2.6), "back": (-2.5, 1.5, 2.6)}.get(view, (-1.6, -2.6, 2.6)))
         aim(mid, dv); sc.render.filepath = str(OUT / f"V2_skin_stand_{view}.png"); bpy.ops.render.render(write_still=True)
     # leg and foot close-ups
     sc.render.resolution_x = 1000; sc.render.resolution_y = 1400
@@ -735,7 +742,7 @@ if os.environ.get("V2_LEGS_RENDER", "1") == "1":
         if name == "feet":
             sc.render.resolution_y = 1000
         for view, dv in {"front": (0, -1, 0), "side": (1, 0, 0), "back": (0, 1, 0), "front34": (0.7, -0.7, 0)}.items():
-            key_at({"side": (2.6, -1.6, 2.6), "back": (-1.6, 2.6, 2.6)}.get(view, (-1.6, -2.6, 2.6)))
+            key_at({"side": (2.6, -1.6, 2.6), "back": (-2.5, 1.5, 2.6)}.get(view, (-1.6, -2.6, 2.6)))
             aim(c_, dv); sc.render.filepath = str(OUT / f"V2_skin_{name}_{view}.png"); bpy.ops.render.render(write_still=True)
     bench._reset(rig)
     print("LEGS_V2_RENDERED", flush=True)

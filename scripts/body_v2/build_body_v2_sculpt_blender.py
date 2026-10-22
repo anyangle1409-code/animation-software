@@ -1119,7 +1119,11 @@ if REFINE_MM > 0:
     # surface around them.
     SIDEFIT = float(os.environ.get("V2_SIDE_FIT", "1"))
     if SIDEFIT > 0:
-        _rp = json.load(open(Path(__file__).resolve().parent / "fit" / "ref_side_profile.json"))
+        # R107 (owner circled the lower back / buttocks, the backs of the legs and the feet in the side view): the fit now
+        # runs from the shins up (fit/ref_side_profile_full.json, 0.02-0.89; the reference's hand hangs in front of the
+        # thigh at 0.37-0.53, so the thigh front is interpolated there).  The feet (below ~0.06) are left to their own step.
+        SFULL = os.environ.get("V2_SIDE_FIT_FULL", "1") == "1"
+        _rp = json.load(open(Path(__file__).resolve().parent / "fit" / ("ref_side_profile_full.json" if SFULL else "ref_side_profile.json")))
         _bf = np.array(_rp["f"]); _rF = np.array(_rp["front"]); _rB = np.array(_rp["back"])
         Q = rest + PROP + off; fzq = (Q[:, 2] - zb) / Hs; fwd = -Q[:, 1] / Hs     # as rendered (incl. the R81/R100 skeleton field)
         _tor = (ARM < 0.3) & (HEAD < 0.5)
@@ -1136,7 +1140,7 @@ if REFINE_MM > 0:
         # long taper below the neck (abrupt ends striped / ridged, v12b/v12c); R102: reaches up to the clavicles (v12j's upper
         # chest stood ~1 cm proud at 0.81-0.84, so the chest front read flat, not the reference's slope down to the nipple);
         # stops below the chin (the 0.87 bin is the chin, not the neck)
-        win = ss((_bf - 0.515) / 0.03) * ss((float(os.environ.get("V2_SIDE_FIT_TOP", "0.865")) - _bf) / 0.035)
+        win = (ss((_bf - 0.07) / 0.02) if SFULL else ss((_bf - 0.515) / 0.03)) * ss((float(os.environ.get("V2_SIDE_FIT_TOP", "0.865")) - _bf) / 0.035)
         dF = np.clip(dF, -0.03, 0.03) * win * SIDEFIT; dB = np.clip(dB, -0.03, 0.03) * win * SIDEFIT
         fv = np.interp(fzq, _bf, dF); bv = np.interp(fzq, _bf, dB)
         Fabs = np.interp(fzq, _bf, mF); Babs = np.interp(fzq, _bf, mB)

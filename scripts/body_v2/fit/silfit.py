@@ -11,7 +11,7 @@ def runs(xs):
         if x==out[-1][1]+1: out[-1][1]=x
         else: out.append([x,x])
     return out
-FS=[round(0.50+0.01*i,2) for i in range(39)]
+FS=[round(0.05+0.01*i,2) for i in range(84)]
 def side_ref():
     g,H=ref_panel(600,985); return {f:(max(g(f))/H, min(g(f))/H) for f in FS}   # front faces +x: (front, back)
 def front_ref():

@@ -2081,3 +2081,34 @@ The owner asked for a pelvis-to-thigh correction:
 3. A fold in front of the armpit under the outer pec, and vertical creases on the side of the ribs (side view).
 4. A mottled, crinkled texture across the upper back and scapulae, and streaky rear deltoids.
 5. Fine streaks under the clavicles.
+
+### Draft v13q: pelvis round 2 (R112, 22 Oct)
+
+Owner approved continuing with the remaining pelvis items, then the shoulder and armpit.
+
+**Fixes:**
+- **Band across the top of the buttocks.** It was the torso side fit (R99) pushing the back out by up to 2.5 cm at 0.53–0.56: PROP y +25 mm, a second hump over the gluteus.
+  - The back edge of the side fit now starts at 0.60 (`V2_SIDE_FIT_BACK_FROM`).
+  - The gluteus maximus dome is taller (sigma 0.042 of stature) so it curves into the lower back and hamstrings.
+- **Pubic triangle:** gently convex (`V2_PUBIC_DOME_MM` 3).
+- **Outer-thigh sweep** (`V2_OUTER_THIGH_MM` 10). It is now a sideways move in the skeleton-level field (PROP x), only on the outer, outward-facing part of each thigh, and limited by clearance from the hanging hand. Earlier versions, all rejected:
+  - along the normal: folded the thigh top where the normals converge, and the overlap loop crumpled it into a ring (p2/p4/p9);
+  - with front-facing skin included: pulled the two sides of the crotch apart, giving a fold and 74 standing overlaps (p10).
+
+**Results:**
+- Outer thigh half-width at 0.41–0.44: 0.113–0.114 against the reference's 0.116 (v13p 0.108).
+- 0 standing overlaps; fine-loop loss 14.7 mm.
+- Pelvis overlap pairs, original → v13p → v13q:
+
+| Pose | Original | v13p | v13q |
+|---|---|---|---|
+| Flexion | 545 | 76 | 63 |
+| Abduction | 9 | 46 | 44 |
+| Squat | 1,158 | 195 | 208 |
+| Hinge | 141 | 56 | 34 |
+
+- Images: `review-assets/body_v2/draft_v13q_pelvis2/`.
+
+**Remaining:**
+- The squat forms a horizontal crease band across the lower abdomen. It is the same in the original; it needs a hip-flexion corrective.
+- Faint lines on the outer thighs (R41).

@@ -263,6 +263,24 @@ def build_foot(sg, ank):
     return X, f
 
 
+# hands in the standing pose (for the hip fill's clearance) - the mesh is still the old one here
+import build_original_movement_benchmarks_blender as bench
+import original_v1_review_candidate_drives as drives
+STAND = tuple(float(x) for x in os.environ.get("V2_STAND", "16:6").split(":"))
+
+
+def stand_pose():
+    bench._reset(rig)
+    for sd_, sg_ in (("r", -1.0), ("l", 1.0)):
+        pb = rig.pose.bones[f"upperarm_{sd_}"]; pb.rotation_mode = "XYZ"; pb.rotation_euler = (0.0, 0.0, math.radians(sg_ * STAND[0]))
+        fb_ = rig.pose.bones[f"forearm_{sd_}"]; fb_.rotation_mode = "XYZ"; fb_.rotation_euler = (math.radians(-STAND[1]), 0.0, 0.0)
+    bpy.context.view_layer.update(); drives.drive(rig, body); bpy.context.view_layer.update()
+
+
+stand_pose()
+_pp, _ = bench._evaluated(body); PP0 = np.array([tuple(v) for v in _pp]); bench._reset(rig); bpy.context.view_layer.update()
+HANDS = cKDTree(PP0[(ARM > 0.5) & (V0[:, 2] < z0 + 0.62 * H)])
+
 # ------------------------------------------------------------------ cut the old legs
 bm = bmesh.new(); bm.from_mesh(me)
 bm.verts.ensure_lookup_table()
@@ -452,7 +470,7 @@ for _ in range(int(os.environ.get("V2_LEGS_RELAX", "4"))):
         v.co = cos[v] + (0.5 if near_join else 0.15) * (m_ - cos[v])
 # v9: a light Taubin band on the old surface just above the cut (its R110 sculpt ripples and the last of the tone
 # change at the seam), fading out over V2_LEGS_ABOVE metres
-ABOVE = float(os.environ.get("V2_LEGS_ABOVE", "0.06"))
+ABOVE = float(os.environ.get("V2_LEGS_ABOVE", "0.09"))
 if ABOVE > 0:
     band = {}
     for v in bm.verts:
@@ -471,6 +489,37 @@ if ABOVE > 0:
         if shl:
             v[shl[0]] = v.co.copy()
     REP["above_cut_smoothed_verts"] = len(band)
+# v10: outer hip fill.  The old outline dips up to 13 mm inside the reference's at 0.46-0.49 (between the thigh and
+# the hip), which reads as a saddlebag; the reference narrows smoothly from thigh to waist.  The outer side is moved
+# sideways to the reference outline (smoothed field), kept 15 mm clear of the hands in the standing pose.
+HIPFILL = float(os.environ.get("V2_LEGS_HIPFILL", "1.0"))
+if HIPFILL > 0:
+    bm.normal_update()
+    _fo = np.array([np.nan if a_ is None else a_ for a_ in _lf["leg_out"]]); _ft = np.array([np.nan if a_ is None else a_ for a_ in _lf["torso_half"]])
+    _ref = np.where(np.isnan(_fo), _ft, _fo); _okr = ~np.isnan(_ref)
+    Fh = np.arange(0.40, 0.58, 0.005); refo = np.interp(Fh, Ff[_okr], _ref[_okr]) * H
+    zone = [v for v in bm.verts if z0 + 0.41 * H < v.co.z < z0 + 0.57 * H and (v[oid] < 0 or ARM[v[oid]] < 0.3)]
+    REP["hip_fill_mm"] = {}
+    for sd, sg in SIDES:
+        zs_ = [v for v in zone if v.co.x * sg > 0.02]
+        P_ = np.array([tuple(v.co) for v in zs_]); fv_ = (P_[:, 2] - z0) / H
+        mo = np.array([np.abs(P_[np.abs(fv_ - f_) < 0.003, 0]).max() for f_ in Fh])
+        dfc = np.clip(refo - mo, 0, 0.015)
+        dfc = _smooth(_smooth(dfc, 5), 5) * ss((Fh - 0.425) / 0.02) * ss((0.545 - Fh) / 0.02) * HIPFILL
+        REP["hip_fill_mm"][sd] = {str(round(float(f_), 3)): round(float(d_) * 1000, 1) for f_, d_ in zip(Fh[::4], dfc[::4])}
+        w_ = np.array([float(ss((v.normal.x * sg - 0.15) / 0.6)) for v in zs_])
+        dx = np.interp(fv_, Fh, dfc) * w_
+        idx_ = {v: i for i, v in enumerate(zs_)}
+        nb_ = [[idx_[e.other_vert(v)] for e in v.link_edges if e.other_vert(v) in idx_] for v in zs_]
+        for _ in range(12):
+            dx = 0.5 * dx + 0.5 * np.array([dx[n].mean() if n else dx[i] for i, n in enumerate(nb_)])
+        dh, _j = HANDS.query(P_ + np.c_[sg * dx, np.zeros((len(dx), 2))])
+        dx = np.minimum(dx, np.maximum(0.0, dx - (0.015 - dh)))
+        for v, d_ in zip(zs_, dx):
+            if d_ > 1e-5:
+                v.co.x += sg * d_
+                for sl in shl:
+                    v[sl] = v[sl] + Vector((sg * d_, 0, 0))
 # orientation check: every interior edge used once each way
 bad = 0
 for e in bm.edges:

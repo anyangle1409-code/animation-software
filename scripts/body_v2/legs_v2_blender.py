@@ -83,11 +83,11 @@ fr0 = (V0[:, 2] - z0) / H; fw0 = -V0[:, 1] / H
 
 
 def _centre(c_):
-    """straight-line fits of a centre line over the thigh and the shin (as R117)"""
-    out_ = np.zeros_like(c_)
-    for lo_, hi_, sel_ in ((0.30, 0.45, Fb >= 0.285), (0.09, 0.27, Fb < 0.285)):
-        m_ = (Fb >= lo_) & (Fb <= hi_); k_ = np.polyfit(Fb[m_], c_[m_], 1); out_[sel_] = np.polyval(k_, Fb[sel_])
-    return out_
+    """straight-line fits of a centre line over the thigh and the shin (as R117), blended across the knee (R117 switched
+    between them at 0.285, which is a step of up to a centimetre - harmless for a displacement, a ledge for new rings)"""
+    fit_ = [np.polyval(np.polyfit(Fb[(Fb >= lo_) & (Fb <= hi_)], c_[(Fb >= lo_) & (Fb <= hi_)], 1), Fb) for lo_, hi_ in ((0.09, 0.27), (0.30, 0.45))]
+    w_ = ss((Fb - 0.255) / 0.06)
+    return (1 - w_) * fit_[0] + w_ * fit_[1]
 
 
 def _smooth(d_, n=7):
@@ -115,7 +115,7 @@ for sd, sg in SIDES:
 
 CUT = float(os.environ.get("V2_LEGS_CUT", "0.43"))          # fraction of stature
 zc = z0 + CUT * H
-FJ = float(os.environ.get("V2_LEGS_JOIN", "0.072"))         # foot / leg join
+FJ = float(os.environ.get("V2_LEGS_JOIN", "0.085"))         # foot / leg join
 zj = z0 + FJ * H
 DZ = float(os.environ.get("V2_LEGS_DZ", "0.004"))
 NEX = float(os.environ.get("V2_LEGS_SUPER", "2.25"))        # super-ellipse exponent (2 = ellipse)
@@ -209,14 +209,14 @@ def foot_sdf(P):
     """P: (..., 3) in the foot frame (u outward, v forward, z up from the ground), metres; 290 mm foot"""
     S = lambda *x: np.array(x) * 1.0
     d = _sd_ell(P, S(0.003, -0.026, 0.033), S(0.034, 0.034, 0.033))                    # heel (calcaneus)
-    d = _smin(d, _sd_ell(P, S(-0.002, 0.000, 0.070), S(0.030, 0.034, 0.036)), 0.026)  # talus / ankle
+    d = _smin(d, _sd_ell(P, S(-0.002, 0.012, 0.074), S(0.030, 0.036, 0.040)), 0.026)  # talus / ankle
     d = _smin(d, _sd_cone(P, S(0.020, -0.015, 0.022), S(0.036, 0.118, 0.012), 0.017, 0.012), 0.018)   # lateral column
     d = _smin(d, _sd_cone(P, S(-0.006, 0.005, 0.064), S(-0.024, 0.140, 0.030), 0.026, 0.018), 0.028)  # medial arch
-    d = _smin(d, _sd_ell(P, S(0.004, 0.070, 0.046), S(0.040, 0.080, 0.028)), 0.024)   # instep / dorsum
+    d = _smin(d, _sd_ell(P, S(0.002, 0.062, 0.052), S(0.039, 0.085, 0.034)), 0.026)   # instep / dorsum
     d = _smin(d, _sd_ell(P, S(0.006, 0.168, 0.015), S(0.044, 0.020, 0.012)), 0.012)   # toe web / forefoot pad
     d = _smin(d, _sd_cone(P, S(-0.029, 0.155, 0.021), S(0.040, 0.123, 0.015), 0.021, 0.014), 0.016)   # metatarsal heads
     d = _smin(d, _sd_cone(P, S(0.000, -0.045, 0.050), S(0.000, -0.034, 0.160), 0.013, 0.011), 0.014)  # Achilles tendon
-    d = _smin(d, _sd_ell(P, S(0.000, -0.004, 0.200), S(0.034, 0.044, 0.120)), 0.020)  # ankle column (cut away above)
+    d = _smin(d, _sd_ell(P, S(0.000, -0.004, 0.230), S(0.031, 0.040, 0.140)), 0.030)  # ankle column (cut away above)
     d = _smin(d, _sd_ell(P, S(-0.027, 0.002, 0.080), S(0.008, 0.012, 0.016)), 0.016)  # medial malleolus
     d = _smin(d, _sd_ell(P, S(0.029, -0.010, 0.066), S(0.008, 0.012, 0.018)), 0.016)  # lateral malleolus (lower, behind)
     toes = (((-0.027, 0.160, 0.022), (-0.028, 0.196, 0.021), (-0.029, 0.220, 0.015), 0.017, 0.0145, 0.0135),
@@ -308,7 +308,7 @@ def stitch(A, B, flip):
         else:
             tri = (A[i % na], B[(j + 1) % nb], B[j]); j += 1
         try:
-            bm.faces.new(tri[::-1] if flip else tri)
+            bm.faces.new(tri[::-1] if flip else tri).smooth = True
         except ValueError:
             pass
 
@@ -375,7 +375,7 @@ for sd, sg in SIDES:
     for z in zs:
         f = (z - z0) / H
         b = ss((zc - z) / float(os.environ.get("V2_LEGS_BLEND", "0.045")))     # old cut shape -> designed shape
-        bf = ss((zj + 0.035 - z) / 0.035)                                       # designed -> foot join shape
+        bf = ss((zj + 0.06 - z) / 0.06)                                       # designed -> foot join shape
         cd = np.array([sg * float(np.interp(f, Fb, cxM)) * H, -float(np.interp(f, Fb, cyM)) * H])
         u_, w_ = design_section(min(max(f, Fb[0]), Fb[-1]))
         rd = polar(u_, w_)
@@ -401,13 +401,13 @@ for sd, sg in SIDES:
         for i in range(M):
             j = (i + 1) % M
             q = (A[j], A[i], B[i], B[j]) if fwd else (A[i], A[j], B[j], B[i])
-            bm.faces.new(q)
+            bm.faces.new(q).smooth = True
     # foot into the body mesh, then stitch the last ring to the foot's join loop (zipper by arc length)
     fmap = {}
     for v in fb.verts:
         nvv = bm.verts.new(v.co); nvv[oid] = -3; fmap[v] = nvv; newv.append(nvv)
     for f in fb.faces:
-        bm.faces.new([fmap[v] for v in f.verts])
+        bm.faces.new([fmap[v] for v in f.verts]).smooth = True
     A = rings[-1]; Bl = [fmap[v] for v in fl]
     # align the foot loop's start with the ring's start
     pa = np.array([tuple(v.co) for v in A]); pb = np.array([tuple(v.co) for v in Bl])

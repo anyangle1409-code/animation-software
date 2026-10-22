@@ -24,8 +24,8 @@ import os
 import sys
 from pathlib import Path
 
-import bmesh
 import bpy
+import bmesh
 import numpy as np
 from mathutils import Vector
 
@@ -230,7 +230,7 @@ def foot_sdf(P):
         t_ = np.minimum(_sd_cone(P, a_, m_, ra, rm), _sd_cone(P, m_, b_, rm, rb))
         dt = t_ if dt is None else _smin(dt, t_, 0.0035)
     d = _smin(d, dt, 0.010)
-    return np.maximum(d, -(P[..., 2] - 0.0015))           # flat sole on the ground
+    return np.maximum(d, -(P[..., 2] - 0.0))           # flat sole on the ground
 
 
 def build_foot(sg, ank):
@@ -294,6 +294,25 @@ for sd, sg in SIDES:
     DEL |= (LEGW[sd] > 0.5) & (V0[:, 0] * sg > 0) & (ARM < 0.3) & (V0[:, 2] < zc + 0.004)
 
 # ------------------------------------------------------------------ new legs and feet
+def stitch(A, B, flip):
+    """triangle strip between closed loops A and B running the same way round (zipper by arc length).  Unflipped it
+    uses A's edges forward and B's backward; flip when A's edges are already used forward by the faces beyond it."""
+    pa = np.array([tuple(v.co) for v in A]); pb = np.array([tuple(v.co) for v in B])
+    s0 = int(np.argmin(np.linalg.norm(pb - pa[0], axis=1))); B = B[s0:] + B[:s0]; pb = np.roll(pb, -s0, 0)
+    sa = np.concatenate([[0], np.cumsum(np.linalg.norm(np.diff(np.vstack([pa, pa[:1]]), axis=0), axis=1))]); sa /= sa[-1]
+    sb = np.concatenate([[0], np.cumsum(np.linalg.norm(np.diff(np.vstack([pb, pb[:1]]), axis=0), axis=1))]); sb /= sb[-1]
+    i = j = 0; na, nb = len(A), len(B)
+    while i < na or j < nb:
+        if j >= nb or (i < na and sa[i + 1] <= sb[j + 1]):
+            tri = (A[i], A[(i + 1) % na], B[j % nb]); i += 1
+        else:
+            tri = (A[i % na], B[(j + 1) % nb], B[j]); j += 1
+        try:
+            bm.faces.new(tri[::-1] if flip else tri)
+        except ValueError:
+            pass
+
+
 newv = []           # (bm vert, world position)
 REP["rings"] = {}
 for sd, sg in SIDES:
@@ -306,8 +325,11 @@ for sd, sg in SIDES:
     if dth.sum() < 0:
         loop = loop[:1] + loop[1:][::-1]; L = np.array([tuple(v.co) for v in loop])
         th0 = np.degrees(np.arctan2(sg * (L[:, 0] - c0[0]), -(L[:, 1] - c0[1])))
-    thu = np.unwrap(np.radians(th0)); thu = np.degrees(thu)
-    unif = thu[0] + 360.0 * np.arange(N) / N
+    # the cut crosses the fine triangles every ~1 mm: the new rings get their own count, ~V2_LEGS_DU apart, and are
+    # stitched to the cut loop with a strip of triangles
+    per = float(np.linalg.norm(np.diff(np.vstack([L, L[:1]]), axis=0), axis=1).sum())
+    M = int(round(per / float(os.environ.get("V2_LEGS_DU", "0.004"))))
+    unif = th0[0] + 360.0 * np.arange(M) / M
     r0 = polar(sg * (L[:, 0] - c0[0]), -(L[:, 1] - c0[1]))
     # ankle (shin tail) - the foot is placed under it
     ank = BONE[f"shin_{sd}"][1]
@@ -348,36 +370,36 @@ for sd, sg in SIDES:
                          "breadth_mm": round(float(np.ptp(FX[FX[:, 2] < z0 + 0.03, 0])) * 1000, 1)}
     # rings
     zs = np.arange(zc - DZ, zj + 0.6 * DZ, -DZ)
-    rings = [loop]
+    rings = []
     cyM, cxM = MC[sd]
     for z in zs:
         f = (z - z0) / H
         b = ss((zc - z) / float(os.environ.get("V2_LEGS_BLEND", "0.045")))     # old cut shape -> designed shape
-        bq = ss((zc - z) / 0.03)                                                # old vertex angles -> even angles
         bf = ss((zj + 0.035 - z) / 0.035)                                       # designed -> foot join shape
         cd = np.array([sg * float(np.interp(f, Fb, cxM)) * H, -float(np.interp(f, Fb, cyM)) * H])
         u_, w_ = design_section(min(max(f, Fb[0]), Fb[-1]))
         rd = polar(u_, w_)
-        ang = (1 - bq) * thu + bq * unif
+        ang = unif
         R = (1 - b) * r0(ang) + b * rd(ang)
         C = (1 - b) * c0 + b * cd
         R = (1 - bf) * R + bf * rf(ang); C = (1 - bf) * C + bf * cf
         a_ = np.radians(ang)
-        X = np.stack([C[0] + sg * R * np.sin(a_), C[1] - R * np.cos(a_), np.full(N, z)], 1)
+        X = np.stack([C[0] + sg * R * np.sin(a_), C[1] - R * np.cos(a_), np.full(M, z)], 1)
         ring = []
         for p in X:
             v = bm.verts.new(p); v[oid] = -2; ring.append(v); newv.append(v)
         rings.append(ring)
-    REP["rings"][sd] = {"count": len(rings), "verts_per_ring": N, "spacing_mm": DZ * 1000}
+    REP["rings"][sd] = {"count": len(rings), "verts_per_ring": M, "cut_loop_verts": N, "spacing_mm": DZ * 1000}
     # face winding: the old face on each cut-loop edge uses it one way; the new face must use it the other way
     a0, a1 = loop[0], loop[1]
     ef = [f for f in a0.link_faces if a1 in f.verts][0]
     fv = list(ef.verts); ia = fv.index(a0)
     fwd = fv[(ia + 1) % len(fv)] is a1           # old face runs a0 -> a1
+    stitch(loop, rings[0], fwd)
     for k in range(len(rings) - 1):
         A, B = rings[k], rings[k + 1]
-        for i in range(N):
-            j = (i + 1) % N
+        for i in range(M):
+            j = (i + 1) % M
             q = (A[j], A[i], B[i], B[j]) if fwd else (A[i], A[j], B[j], B[i])
             bm.faces.new(q)
     # foot into the body mesh, then stitch the last ring to the foot's join loop (zipper by arc length)
@@ -390,24 +412,7 @@ for sd, sg in SIDES:
     # align the foot loop's start with the ring's start
     pa = np.array([tuple(v.co) for v in A]); pb = np.array([tuple(v.co) for v in Bl])
     s0 = int(np.argmin(np.linalg.norm(pb - pa[0], axis=1))); Bl = Bl[s0:] + Bl[:s0]; pb = np.roll(pb, -s0, 0)
-    # which way does the foot's own boundary face use its loop?  new triangles must use each edge the other way
-    b0, b1 = Bl[0], Bl[1]
-    efb = [f for f in b0.link_faces if b1 in f.verts][0]; fv = list(efb.verts); ib = fv.index(b0)
-    bfwd = fv[(ib + 1) % len(fv)] is b1
-    sa = np.concatenate([[0], np.cumsum(np.linalg.norm(np.diff(np.vstack([pa, pa[:1]]), axis=0), axis=1))]); sa /= sa[-1]
-    sb = np.concatenate([[0], np.cumsum(np.linalg.norm(np.diff(np.vstack([pb, pb[:1]]), axis=0), axis=1))]); sb /= sb[-1]
-    i = j = 0; na, nb_ = len(A), len(Bl)
-    while i < na or j < nb_:
-        if j >= nb_ or (i < na and sa[i + 1] <= sb[j + 1]):
-            tri = (A[i], A[(i + 1) % na], Bl[j % nb_]); i += 1         # advance on the ring
-            tri = tri if not fwd else (tri[1], tri[0], tri[2])
-        else:
-            tri = (Bl[j % nb_], Bl[(j + 1) % nb_], A[i % na]); j += 1  # advance on the foot loop
-            tri = (tri[1], tri[0], tri[2]) if bfwd else tri
-        try:
-            bm.faces.new(tri)
-        except ValueError:
-            pass
+    stitch(A, Bl, fwd)
     fb.free()
 
 # the cut seam and the join: a light relaxation of the new vertices only (old ones held)

@@ -119,44 +119,47 @@ FJ = float(os.environ.get("V2_LEGS_JOIN", "0.085"))         # foot / leg join
 zj = z0 + FJ * H
 DZ = float(os.environ.get("V2_LEGS_DZ", "0.004"))
 NEX = float(os.environ.get("V2_LEGS_SUPER", "2.25"))        # super-ellipse exponent (2 = ellipse)
-RELIEF = float(os.environ.get("V2_LEGS_RELIEF", "1.8"))
+RELIEF = float(os.environ.get("V2_LEGS_RELIEF", "1.0"))
 
 
-def _bump(th, f, thc, thw, f0, f1, amp, fe=0.012):
-    """relief (m) at angle th (deg; 0 front, +90 outward), fraction f: cosine lobe in angle, smooth band in height"""
+def _blob(th, f, thc, sth, fc, sf, amp, tilt=0.0):
+    """muscle belly / hollow (m): a gaussian in angle (deg; 0 front, +90 outward) and height (fraction of stature),
+    optionally tilted (fc moves by tilt per 90 deg of angle) so its ends run diagonally like the real muscles'"""
     dth = (th - thc + 180.0) % 360.0 - 180.0
-    a_ = np.where(np.abs(dth) < thw, 0.5 + 0.5 * np.cos(np.pi * dth / thw), 0.0)
-    return amp * 1e-3 * a_ * ss((f - f0) / fe) * ss((f1 - f) / fe)
+    df = f - fc - tilt * dth / 90.0
+    return amp * 1e-3 * np.exp(-0.5 * ((dth / sth) ** 2 + (df / sf) ** 2))
 
 
 def relief(th, f):
-    """anatomical relief, mm-scaled lobes; positive outward.  Angles as R115/R116 (0 = front, +90 = outward)."""
+    """anatomical relief, positive outward.  v3: rounded bellies (v2's angle x height-band lobes ended in horizontal
+    lines across the knee and calf)."""
     r = np.zeros_like(th)
-    # thigh
-    r += _bump(th, f, 55, 40, 0.30, 0.44, 4.0)        # vastus lateralis sweep
-    r += _bump(th, f, 28, 12, 0.31, 0.44, -2.5)       # groove: rectus femoris / vastus lateralis
-    r += _bump(th, f, 0, 26, 0.32, 0.44, 2.5)         # rectus femoris
-    r += _bump(th, f, -55, 30, 0.285, 0.335, 6.0, 0.015)   # vastus medialis teardrop (low, inner)
-    r += _bump(th, f, -40, 12, 0.34, 0.44, -2.0)      # sartorius line
-    r += _bump(th, f, -95, 35, 0.36, 0.44, 2.0)       # adductors
-    r += _bump(th, f, 95, 18, 0.31, 0.42, -2.0)       # IT band flat
-    r += _bump(th, f, 150, 25, 0.31, 0.43, 3.0)       # biceps femoris
-    r += _bump(th, f, -150, 25, 0.31, 0.43, 3.0)      # semitendinosus / semimembranosus
-    r += _bump(th, f, 180, 10, 0.32, 0.42, -1.5)      # hamstring split
+    # thigh, front and sides
+    r += _blob(th, f, 60, 30, 0.355, 0.045, 6.0, -0.02)    # vastus lateralis sweep
+    r += _blob(th, f, 5, 20, 0.370, 0.050, 4.0)            # rectus femoris
+    r += _blob(th, f, 32, 8, 0.360, 0.050, -3.0)           # rectus / vastus lateralis groove
+    r += _blob(th, f, -50, 22, 0.305, 0.022, 9.0, 0.01)    # vastus medialis teardrop, above the inner knee
+    ths = -70.0 + (f - 0.31) / 0.12 * 60.0                  # sartorius: upper outer -> lower inner
+    r += -2.5e-3 * np.exp(-0.5 * (((th - ths + 180) % 360 - 180) / 7.0) ** 2) * ss((f - 0.30) / 0.03) * ss((0.44 - f) / 0.03)
+    r += _blob(th, f, -100, 30, 0.400, 0.040, 3.0)         # adductors
+    r += _blob(th, f, 95, 12, 0.340, 0.050, -2.5)          # IT band flat
+    # thigh, back
+    r += _blob(th, f, 150, 22, 0.350, 0.050, 4.0)          # biceps femoris
+    r += _blob(th, f, -150, 22, 0.350, 0.050, 4.0)         # semitendinosus / semimembranosus
+    r += _blob(th, f, 180, 7, 0.360, 0.050, -2.5)          # hamstring split
     # knee
-    r += _bump(th, f, 0, 24, 0.274, 0.298, 4.0, 0.010)     # patella
-    r += _bump(th, f, 35, 14, 0.255, 0.280, -3.0, 0.008)   # infrapatellar hollows either side of the tendon
-    r += _bump(th, f, -35, 14, 0.255, 0.280, -3.0, 0.008)
-    r += _bump(th, f, 180, 35, 0.262, 0.295, -2.0, 0.010)  # popliteal hollow
+    r += _blob(th, f, 0, 18, 0.287, 0.010, 4.0)            # patella
+    r += _blob(th, f, 35, 10, 0.268, 0.009, -3.0)          # infrapatellar hollows
+    r += _blob(th, f, -35, 10, 0.268, 0.009, -3.0)
+    r += _blob(th, f, 180, 30, 0.280, 0.012, -2.5)         # popliteal hollow
     # lower leg
-    r += _bump(th, f, -140, 35, 0.175, 0.255, 7.0, 0.020)  # gastrocnemius, medial head (fuller, lower)
-    r += _bump(th, f, 140, 32, 0.190, 0.255, 5.0, 0.018)   # gastrocnemius, lateral head
-    r += _bump(th, f, 180, 8, 0.19, 0.25, -1.5)            # between the heads
-    r += _bump(th, f, -100, 25, 0.12, 0.20, 2.0, 0.02)     # soleus, inner
-    r += _bump(th, f, 105, 25, 0.12, 0.20, 2.0, 0.02)      # soleus, outer
-    r += _bump(th, f, 28, 20, 0.14, 0.25, 3.0, 0.02)       # tibialis anterior
-    r += _bump(th, f, -15, 10, 0.12, 0.25, -1.5, 0.02)     # tibial crest (flat inner face beside it)
-    r += _bump(th, f, -45, 25, 0.12, 0.25, -1.5, 0.02)
+    r += _blob(th, f, -145, 28, 0.205, 0.035, 10.0, 0.01)  # gastrocnemius, medial head (fuller, lower)
+    r += _blob(th, f, 140, 26, 0.225, 0.030, 7.0, -0.01)   # gastrocnemius, lateral head
+    r += _blob(th, f, 180, 6, 0.225, 0.030, -2.0)          # between the heads
+    r += _blob(th, f, -105, 22, 0.150, 0.030, 3.0)         # soleus, inner
+    r += _blob(th, f, 105, 22, 0.150, 0.030, 3.0)          # soleus, outer
+    r += _blob(th, f, 30, 18, 0.200, 0.040, 4.0)           # tibialis anterior
+    r += _blob(th, f, -40, 20, 0.180, 0.050, -2.0)         # flat inner face of the tibia
     return r * RELIEF
 
 
@@ -331,6 +334,15 @@ for sd, sg in SIDES:
     M = int(round(per / float(os.environ.get("V2_LEGS_DU", "0.004"))))
     unif = th0[0] + 360.0 * np.arange(M) / M
     r0 = polar(sg * (L[:, 0] - c0[0]), -(L[:, 1] - c0[1]))
+    # v3: the old surface's slope just above the cut, carried on into the new rings (v2's rings started straight
+    # down from the cut while the thigh above was still flaring - a crease that read as a tone line across the leg)
+    up = (LEGW[sd] > 0.5) & (V0[:, 0] * sg > 0) & (ARM < 0.3) & (V0[:, 2] > zc + 0.008) & (V0[:, 2] < zc + 0.020)
+    Pu = V0[up]; cu = Pu[:, :2].mean(0); zu = float(Pu[:, 2].mean())
+    thp = np.degrees(np.arctan2(sg * (Pu[:, 0] - cu[0]), -(Pu[:, 1] - cu[1]))); rp = np.hypot(Pu[:, 0] - cu[0], Pu[:, 1] - cu[1])
+    bins = np.linspace(-180, 180, 73); bc = 0.5 * (bins[1:] + bins[:-1])
+    rb = np.array([np.median(rp[(thp >= bins[k]) & (thp < bins[k + 1])]) if ((thp >= bins[k]) & (thp < bins[k + 1])).any() else np.nan for k in range(72)])
+    okb = ~np.isnan(rb); ru = polar(rb[okb] * np.sin(np.radians(bc[okb])), rb[okb] * np.cos(np.radians(bc[okb])))
+    dRdz = lambda q: (r0(q) - ru(q)) / (zc - zu); dCdz = (c0 - cu) / (zc - zu)
     # ankle (shin tail) - the foot is placed under it
     ank = BONE[f"shin_{sd}"][1]
     FX, FT = build_foot(sg, ank[:2])
@@ -380,8 +392,8 @@ for sd, sg in SIDES:
         u_, w_ = design_section(min(max(f, Fb[0]), Fb[-1]))
         rd = polar(u_, w_)
         ang = unif
-        R = (1 - b) * r0(ang) + b * rd(ang)
-        C = (1 - b) * c0 + b * cd
+        R = (1 - b) * (r0(ang) + dRdz(ang) * (z - zc) * (1 - b)) + b * rd(ang)
+        C = (1 - b) * (c0 + dCdz * (z - zc) * (1 - b)) + b * cd
         R = (1 - bf) * R + bf * rf(ang); C = (1 - bf) * C + bf * cf
         a_ = np.radians(ang)
         X = np.stack([C[0] + sg * R * np.sin(a_), C[1] - R * np.cos(a_), np.full(M, z)], 1)

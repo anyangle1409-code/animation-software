@@ -1189,11 +1189,13 @@ if REFINE_MM > 0:
             h_ = np.zeros(len(idx))
             # upper arm
             U = onU & (tu > -0.15)
-            hu = (_bump(tu, thu, -0.05, 0.46, 90, 75, 6.0, 0.8)            # deltoid cap
+            # (w2 amplitudes read weaker than the reference - deltoid 6, biceps 8, triceps 6.5; now larger, plus general girth)
+            hu = (_bump(tu, thu, -0.05, 0.47, 90, 80, 11.0, 0.8)           # deltoid cap
+                  + 3.0 * ss((tu - 0.1) / 0.1) * ss((0.9 - tu) / 0.1)      # upper-arm girth
                   + _bump(tu, thu, 0.05, 0.42, 25, 35, 3.0) + _bump(tu, thu, 0.05, 0.42, 160, 35, 3.0)   # anterior / posterior heads
-                  - _bump(tu, thu, 0.38, 0.50, 90, 55, 2.0)               # insertion V under the cap
-                  + _bump(tu, thu, 0.28, 0.90, 0, 42, 8.0, 1.3)           # biceps
-                  + _bump(tu, thu, 0.12, 0.80, 180, 50, 6.5, 1.2)         # triceps (long + medial heads)
+                  - _bump(tu, thu, 0.38, 0.52, 90, 55, 3.0)               # insertion V under the cap
+                  + _bump(tu, thu, 0.28, 0.90, 0, 45, 11.0, 1.3)          # biceps
+                  + _bump(tu, thu, 0.12, 0.80, 180, 52, 9.0, 1.2)         # triceps (long + medial heads)
                   + _bump(tu, thu, 0.22, 0.58, 135, 30, 3.0)              # triceps lateral head
                   + _bump(tu, thu, 0.58, 0.92, 70, 22, 3.0)               # brachialis, outer side
                   - _bump(tu, thu, 0.40, 0.92, -95, 18, 2.0)              # medial bicipital groove
@@ -1201,7 +1203,7 @@ if REFINE_MM > 0:
             h_[U] += hu[U]
             # forearm
             F = ~onU & (tf < 1.05)
-            hf = (_bump(tf, thf, -0.12, 0.55, 20, 38, 8.0, 0.9)           # brachioradialis / ECRL down the thumb side
+            hf = (_bump(tf, thf, -0.12, 0.55, 20, 38, 10.0, 0.9)          # brachioradialis / ECRL down the thumb side
                   + _bump(tf, thf, -0.02, 0.55, -70, 40, 6.0, 1.1)        # flexor mass
                   + _bump(tf, thf, 0.04, 0.60, 125, 40, 4.0, 1.1)         # extensors
                   - _bump(tf, thf, -0.05, 0.12, -10, 22, 2.5))            # cubital fossa

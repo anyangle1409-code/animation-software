@@ -503,7 +503,8 @@ if HIPFILL > 0:
     for sd, sg in SIDES:
         zs_ = [v for v in zone if v.co.x * sg > 0.02]
         P_ = np.array([tuple(v.co) for v in zs_]); fv_ = (P_[:, 2] - z0) / H
-        mo = np.array([np.abs(P_[np.abs(fv_ - f_) < 0.003, 0]).max() for f_ in Fh])
+        mo = np.array([np.abs(P_[np.abs(fv_ - f_) < 0.003, 0]).max() if (np.abs(fv_ - f_) < 0.003).any() else np.nan for f_ in Fh])
+        mo = np.interp(Fh, Fh[~np.isnan(mo)], mo[~np.isnan(mo)])
         dfc = np.clip(refo - mo, 0, 0.015)
         dfc = _smooth(_smooth(dfc, 5), 5) * ss((Fh - 0.425) / 0.02) * ss((0.545 - Fh) / 0.02) * HIPFILL
         REP["hip_fill_mm"][sd] = {str(round(float(f_), 3)): round(float(d_) * 1000, 1) for f_, d_ in zip(Fh[::4], dfc[::4])}

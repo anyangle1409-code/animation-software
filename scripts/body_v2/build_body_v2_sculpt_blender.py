@@ -1202,7 +1202,10 @@ if REFINE_MM > 0:
         hp += 2.5 * np.exp(-0.5 * ((fz_ - fc + 0.035) / 0.020) ** 2) * ss((0.06 - xh_) / 0.03) * inner_
         # 7. outer upper thigh: sweeps out below the hip as on the reference (+~1.2 cm at 0.40-0.47, the vastus lateralis /
         #    tensor fasciae latae), tapering into the hip above and the knee below
-        hp += float(os.environ.get("V2_OUTER_THIGH_MM", "12")) * ss((fz_ - 0.36) / 0.04) * ss((fc + 0.035 - fz_) / 0.03) * legside * (LEG > 0.5) * (1 - _keep)
+        _lg = np.clip(LEG, 0, 1)                         # (p2: a hard LEG > 0.5 cut-off drew a jagged ring around each thigh
+        for _ in range(60):                              #  along the thigh / pelvis weight boundary)
+            _lg = 0.5 * _lg + 0.5 * avg(_lg)
+        hp += float(os.environ.get("V2_OUTER_THIGH_MM", "12")) * ss((fz_ - 0.36) / 0.04) * ss((fc + 0.035 - fz_) / 0.03) * legside * ss((_lg - 0.3) / 0.5) * (1 - _keep)
         for _ in range(4):
             hp = 0.5 * hp + 0.5 * avg(hp)
         hp *= (1 - _keep)

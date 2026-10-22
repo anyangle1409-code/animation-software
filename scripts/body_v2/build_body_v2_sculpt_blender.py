@@ -1133,7 +1133,7 @@ if REFINE_MM > 0:
         # R107 (owner circled the lower back / buttocks, the backs of the legs and the feet in the side view): the fit now
         # runs from the shins up (fit/ref_side_profile_full.json, 0.02-0.89; the reference's hand hangs in front of the
         # thigh at 0.37-0.53, so the thigh front is interpolated there).  The feet (below ~0.06) are left to their own step.
-        SFULL = os.environ.get("V2_SIDE_FIT_FULL", "1") == "1"
+        SFULL = os.environ.get("V2_SIDE_FIT_FULL", "0") == "1"   # off: v13m/v13n (hip-anchored leg fit) banded the thighs; legs need a leg-local fit
         _rp = json.load(open(Path(__file__).resolve().parent / "fit" / ("ref_side_profile_full.json" if SFULL else "ref_side_profile.json")))
         _bf = np.array(_rp["f"]); _rF = np.array(_rp["front"]); _rB = np.array(_rp["back"])
         Q = rest + PROP + off; fzq = (Q[:, 2] - zb) / Hs; fwd = -Q[:, 1] / Hs     # as rendered (incl. the R81/R100 skeleton field)

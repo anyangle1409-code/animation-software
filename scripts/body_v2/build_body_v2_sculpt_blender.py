@@ -656,6 +656,10 @@ if REFINE_MM > 0:
     # also split the area to 4 mm, and the denser patch broke the hop-counted smoothing (jaw creases, 84 overlaps left)
     _rmm = float(os.environ.get("V2_NECK_REMESH_MM", "99"))
     _regions = [((1.44, 1.58, 0.22), _rmm)] if _rmm > 0 else []
+    # R113b: the upper back / scapulae too - their mottling is R41's sliver triangulation (in the V1 surface too, and 40
+    # normal-only Taubin steps did not remove it), like the neck base
+    if os.environ.get("V2_BACK_FLIPS", "1") == "1":
+        _regions.append(((1.16, 1.44, 0.22), 99.0))
     # R111 (owner: "Fix mesh topology, skin weights and corrective deformations as necessary"): the crotch skin was
     # pulled between thigh_l, thigh_r and the pelvis with sharp weight boundaries - in 40 deg abduction the two inner
     # thighs crossed in an X at the crotch (2,000+ overlap pairs, p0/p1).  Relax all deform weights together around the

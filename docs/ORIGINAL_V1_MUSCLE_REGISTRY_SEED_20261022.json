@@ -1,0 +1,1675 @@
+{
+  "schema_version": "muscle-registry-seed-v0.1",
+  "date": "2026-10-22",
+  "intended_repo": "anyangle1409-code/animation-software",
+  "purpose": "Source-led initial per-muscle/head plan. Not a validated skeleton-to-muscle coordinate attachment. No production geometry, numerical force or activation parameters.",
+  "creator_note": "This seed is NOT exhaustive. Split hand groups and spinal extensor groups in subsequent milestones. Individual bones/landmarks and wrapping paths must be reconciled with native ORIGINAL_v1 rig and reference anatomy before approval. Never infer exact activation from pose.",
+  "source_pointers": {
+    "shoulder": "https://www.ncbi.nlm.nih.gov/sites/books/NBK482410/",
+    "cuff": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8111677/",
+    "scap": "https://www.frontiersin.org/journals/neurorobotics/articles/10.3389/fnbot.2019.00090/full",
+    "hip": "https://www.ncbi.nlm.nih.gov/books/NBK526019/",
+    "thigh": "https://www.ncbi.nlm.nih.gov/sites/books/NBK482445/",
+    "ham": "https://www.ncbi.nlm.nih.gov/books/NBK500008/",
+    "sar": "https://www.ncbi.nlm.nih.gov/sites/books/NBK532889/",
+    "ab": "https://www.ncbi.nlm.nih.gov/sites/books/NBK553137/",
+    "calf": "https://www.ncbi.nlm.nih.gov/books/NBK459362/",
+    "hand": "https://www.ncbi.nlm.nih.gov/books/NBK539810/",
+    "lat": "https://www.ncbi.nlm.nih.gov/sites/books/NBK448120/"
+  },
+  "muscles": [
+    {
+      "id": "deltoid_anterior",
+      "region": "shoulder",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "lateral clavicle",
+      "insertion_landmark": "deltoid tuberosity, humerus",
+      "joints_crossed": [
+        "glenohumeral"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "shoulder flexion",
+        "internal rotation"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK482410/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "deltoid_middle",
+      "region": "shoulder",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "acromion",
+      "insertion_landmark": "deltoid tuberosity, humerus",
+      "joints_crossed": [
+        "glenohumeral"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "shoulder abduction"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK482410/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "deltoid_posterior",
+      "region": "shoulder",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "scapular spine",
+      "insertion_landmark": "deltoid tuberosity, humerus",
+      "joints_crossed": [
+        "glenohumeral"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "shoulder extension",
+        "external rotation"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK482410/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "supraspinatus",
+      "region": "shoulder",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "supraspinous fossa",
+      "insertion_landmark": "greater tubercle, humerus",
+      "joints_crossed": [
+        "glenohumeral"
+      ],
+      "depth": "deep",
+      "actions": [
+        "abduction assist",
+        "humeral head stabilization"
+      ],
+      "reference_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8111677/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "infraspinatus",
+      "region": "shoulder",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "infraspinous fossa",
+      "insertion_landmark": "greater tubercle, humerus",
+      "joints_crossed": [
+        "glenohumeral"
+      ],
+      "depth": "deep",
+      "actions": [
+        "external rotation",
+        "cuff stabilization"
+      ],
+      "reference_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8111677/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "teres_minor",
+      "region": "shoulder",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "lateral scapular border",
+      "insertion_landmark": "greater tubercle, humerus",
+      "joints_crossed": [
+        "glenohumeral"
+      ],
+      "depth": "deep",
+      "actions": [
+        "external rotation",
+        "cuff stabilization"
+      ],
+      "reference_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8111677/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "subscapularis",
+      "region": "shoulder",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "subscapular fossa",
+      "insertion_landmark": "lesser tubercle, humerus",
+      "joints_crossed": [
+        "glenohumeral"
+      ],
+      "depth": "deep",
+      "actions": [
+        "internal rotation",
+        "cuff stabilization"
+      ],
+      "reference_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8111677/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "trapezius_upper",
+      "region": "scapula",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "occiput and posterior cervical line",
+      "insertion_landmark": "lateral clavicle",
+      "joints_crossed": [
+        "scapuloclavicular"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "scapular elevation",
+        "upward rotation synergy"
+      ],
+      "reference_url": "https://www.frontiersin.org/journals/neurorobotics/articles/10.3389/fnbot.2019.00090/full",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "trapezius_middle",
+      "region": "scapula",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "upper thoracic spine",
+      "insertion_landmark": "acromion and scapular spine",
+      "joints_crossed": [
+        "scapulothoracic"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "scapular retraction and stabilization"
+      ],
+      "reference_url": "https://www.frontiersin.org/journals/neurorobotics/articles/10.3389/fnbot.2019.00090/full",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "trapezius_lower",
+      "region": "scapula",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "middle/lower thoracic spine",
+      "insertion_landmark": "medial scapular spine",
+      "joints_crossed": [
+        "scapulothoracic"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "upward rotation and posterior tilt synergy",
+        "depression"
+      ],
+      "reference_url": "https://www.frontiersin.org/journals/neurorobotics/articles/10.3389/fnbot.2019.00090/full",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "serratus_anterior",
+      "region": "scapula",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "upper lateral ribs",
+      "insertion_landmark": "anterior surface of scapular medial border",
+      "joints_crossed": [
+        "scapulothoracic"
+      ],
+      "depth": "intermediate",
+      "actions": [
+        "scapular protraction",
+        "upward rotation",
+        "posterior tilt"
+      ],
+      "reference_url": "https://www.frontiersin.org/journals/neurorobotics/articles/10.3389/fnbot.2019.00090/full",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "rhomboid_major",
+      "region": "scapula",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "upper thoracic spinous processes",
+      "insertion_landmark": "medial scapular border inferior to spine",
+      "joints_crossed": [
+        "scapulothoracic"
+      ],
+      "depth": "deep",
+      "actions": [
+        "scapular retraction",
+        "downward rotation"
+      ],
+      "reference_url": "https://www.frontiersin.org/journals/neurorobotics/articles/10.3389/fnbot.2019.00090/full",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "rhomboid_minor",
+      "region": "scapula",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "lower cervical/upper thoracic spine",
+      "insertion_landmark": "medial scapular border at root of spine",
+      "joints_crossed": [
+        "scapulothoracic"
+      ],
+      "depth": "deep",
+      "actions": [
+        "scapular retraction",
+        "downward rotation"
+      ],
+      "reference_url": "https://www.frontiersin.org/journals/neurorobotics/articles/10.3389/fnbot.2019.00090/full",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "levator_scapulae",
+      "region": "scapula",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "upper cervical transverse processes",
+      "insertion_landmark": "superior medial scapular border",
+      "joints_crossed": [
+        "scapulothoracic"
+      ],
+      "depth": "deep",
+      "actions": [
+        "scapular elevation",
+        "downward rotation"
+      ],
+      "reference_url": "https://www.frontiersin.org/journals/neurorobotics/articles/10.3389/fnbot.2019.00090/full",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "pectoralis_major_clavicular",
+      "region": "chest",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "medial clavicle",
+      "insertion_landmark": "lateral lip of intertubercular sulcus, humerus",
+      "joints_crossed": [
+        "glenohumeral"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "shoulder flexion",
+        "adduction"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK482410/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "pectoralis_major_sternocostal",
+      "region": "chest",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "sternum and costal cartilages",
+      "insertion_landmark": "lateral lip of intertubercular sulcus, humerus",
+      "joints_crossed": [
+        "glenohumeral"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "horizontal adduction",
+        "internal rotation",
+        "adduction"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK482410/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "pectoralis_minor",
+      "region": "chest",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "ribs three to five",
+      "insertion_landmark": "coracoid process, scapula",
+      "joints_crossed": [
+        "scapulothoracic"
+      ],
+      "depth": "deep",
+      "actions": [
+        "scapular anterior tilt and stabilization"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK482410/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "latissimus_dorsi",
+      "region": "back",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "thoracolumbar fascia/iliac crest/lower thorax",
+      "insertion_landmark": "floor of intertubercular sulcus, humerus",
+      "joints_crossed": [
+        "glenohumeral"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "shoulder extension",
+        "adduction",
+        "internal rotation"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK448120/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "teres_major",
+      "region": "back",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "inferior lateral scapula",
+      "insertion_landmark": "medial lip of intertubercular sulcus, humerus",
+      "joints_crossed": [
+        "glenohumeral"
+      ],
+      "depth": "intermediate",
+      "actions": [
+        "shoulder extension",
+        "adduction",
+        "internal rotation"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK482410/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "biceps_brachii_long",
+      "region": "arm",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "supraglenoid region, scapula",
+      "insertion_landmark": "radial tuberosity and bicipital aponeurosis",
+      "joints_crossed": [
+        "shoulder",
+        "elbow",
+        "radioulnar"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "supination",
+        "elbow flexion",
+        "shoulder stabilization"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK482410/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "biceps_brachii_short",
+      "region": "arm",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "coracoid process, scapula",
+      "insertion_landmark": "radial tuberosity and bicipital aponeurosis",
+      "joints_crossed": [
+        "shoulder",
+        "elbow",
+        "radioulnar"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "supination",
+        "elbow flexion"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK482410/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "brachialis",
+      "region": "arm",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "anterior distal humerus",
+      "insertion_landmark": "ulnar tuberosity",
+      "joints_crossed": [
+        "elbow"
+      ],
+      "depth": "deep",
+      "actions": [
+        "elbow flexion"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK482410/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "brachioradialis",
+      "region": "arm",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "lateral supracondylar ridge, humerus",
+      "insertion_landmark": "distal lateral radius",
+      "joints_crossed": [
+        "elbow"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "elbow flexion"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK482410/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "triceps_long",
+      "region": "arm",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "infraglenoid tubercle, scapula",
+      "insertion_landmark": "olecranon, ulna",
+      "joints_crossed": [
+        "shoulder",
+        "elbow"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "elbow extension",
+        "shoulder extension/adduction assist"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK482410/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "triceps_lateral",
+      "region": "arm",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "posterior humerus superior to radial groove",
+      "insertion_landmark": "olecranon, ulna",
+      "joints_crossed": [
+        "elbow"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "elbow extension"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK482410/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "triceps_medial",
+      "region": "arm",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "posterior humerus inferior to radial groove",
+      "insertion_landmark": "olecranon, ulna",
+      "joints_crossed": [
+        "elbow"
+      ],
+      "depth": "deep",
+      "actions": [
+        "elbow extension"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK482410/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "iliacus",
+      "region": "pelvis",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "iliac fossa",
+      "insertion_landmark": "lesser trochanter of femur through iliopsoas tendon",
+      "joints_crossed": [
+        "hip"
+      ],
+      "depth": "deep",
+      "actions": [
+        "hip flexion"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/books/NBK526019/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "psoas_major",
+      "region": "pelvis",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "lumbar vertebral bodies and transverse processes",
+      "insertion_landmark": "lesser trochanter of femur through iliopsoas tendon",
+      "joints_crossed": [
+        "hip",
+        "lumbar_spine"
+      ],
+      "depth": "deep",
+      "actions": [
+        "hip flexion",
+        "lumbar/pelvic stabilization"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/books/NBK526019/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "gluteus_maximus",
+      "region": "pelvis",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "posterior ilium/dorsal sacrum",
+      "insertion_landmark": "gluteal tuberosity, femur; iliotibial tract",
+      "joints_crossed": [
+        "hip"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "hip extension",
+        "external rotation"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/books/NBK526019/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "gluteus_medius",
+      "region": "pelvis",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "lateral ilium",
+      "insertion_landmark": "greater trochanter, femur",
+      "joints_crossed": [
+        "hip"
+      ],
+      "depth": "intermediate",
+      "actions": [
+        "hip abduction",
+        "pelvic stabilization",
+        "region-specific rotation"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/books/NBK526019/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "gluteus_minimus",
+      "region": "pelvis",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "lateral ilium deep to medius",
+      "insertion_landmark": "greater trochanter, femur",
+      "joints_crossed": [
+        "hip"
+      ],
+      "depth": "deep",
+      "actions": [
+        "hip abduction",
+        "pelvic stabilization",
+        "rotation"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/books/NBK526019/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "tensor_fasciae_latae",
+      "region": "pelvis",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "anterior iliac crest/ASIS",
+      "insertion_landmark": "iliotibial tract to lateral tibia",
+      "joints_crossed": [
+        "hip",
+        "knee_via_fascia"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "hip abduction/flexion",
+        "lateral fascia tension"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/books/NBK526019/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "piriformis",
+      "region": "pelvis",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "anterior sacrum",
+      "insertion_landmark": "greater trochanter, femur",
+      "joints_crossed": [
+        "hip"
+      ],
+      "depth": "deep",
+      "actions": [
+        "hip external rotation in extension, role posture-dependent"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/books/NBK526019/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "obturator_internus",
+      "region": "pelvis",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "pelvic surface obturator membrane",
+      "insertion_landmark": "medial greater trochanter",
+      "joints_crossed": [
+        "hip"
+      ],
+      "depth": "deep",
+      "actions": [
+        "hip external rotation/stabilization"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/books/NBK526019/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "quadratus_femoris",
+      "region": "pelvis",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "ischial tuberosity",
+      "insertion_landmark": "intertrochanteric crest, femur",
+      "joints_crossed": [
+        "hip"
+      ],
+      "depth": "deep",
+      "actions": [
+        "hip external rotation/stabilization"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/books/NBK526019/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "sartorius",
+      "region": "thigh",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "ASIS",
+      "insertion_landmark": "medial proximal tibia, pes anserinus",
+      "joints_crossed": [
+        "hip",
+        "knee"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "hip flexion/abduction/external rotation",
+        "knee flexion"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK532889/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "rectus_femoris",
+      "region": "thigh",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "AIIS and superior acetabular region",
+      "insertion_landmark": "patella through quadriceps tendon and tibial tuberosity through ligament",
+      "joints_crossed": [
+        "hip",
+        "knee"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "knee extension",
+        "hip flexion"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK482445/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "vastus_lateralis",
+      "region": "thigh",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "proximal lateral femur and linea aspera",
+      "insertion_landmark": "quadriceps tendon/patella, then tibial tuberosity",
+      "joints_crossed": [
+        "knee"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "knee extension"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK482445/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "vastus_medialis",
+      "region": "thigh",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "medial linea aspera/proximal femur",
+      "insertion_landmark": "quadriceps tendon/patella, then tibial tuberosity",
+      "joints_crossed": [
+        "knee"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "knee extension",
+        "patellar tracking influence"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK482445/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "vastus_intermedius",
+      "region": "thigh",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "anterior femoral shaft",
+      "insertion_landmark": "quadriceps tendon/patella, then tibial tuberosity",
+      "joints_crossed": [
+        "knee"
+      ],
+      "depth": "deep",
+      "actions": [
+        "knee extension"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK482445/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "pectineus",
+      "region": "thigh",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "superior pubic ramus",
+      "insertion_landmark": "pectineal line of femur",
+      "joints_crossed": [
+        "hip"
+      ],
+      "depth": "deep",
+      "actions": [
+        "hip adduction",
+        "flexion assist"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/books/NBK526019/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "adductor_longus",
+      "region": "thigh",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "pubic body",
+      "insertion_landmark": "middle third linea aspera, femur",
+      "joints_crossed": [
+        "hip"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "hip adduction",
+        "flexion posture-dependent"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/books/NBK526019/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "adductor_brevis",
+      "region": "thigh",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "inferior pubic ramus",
+      "insertion_landmark": "proximal linea aspera/pectineal line, femur",
+      "joints_crossed": [
+        "hip"
+      ],
+      "depth": "deep",
+      "actions": [
+        "hip adduction",
+        "flexion assist"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/books/NBK526019/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "adductor_magnus_adductor",
+      "region": "thigh",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "ischiopubic ramus",
+      "insertion_landmark": "linea aspera of femur",
+      "joints_crossed": [
+        "hip"
+      ],
+      "depth": "intermediate",
+      "actions": [
+        "hip adduction"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/books/NBK526019/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "adductor_magnus_hamstring",
+      "region": "thigh",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "ischial tuberosity",
+      "insertion_landmark": "adductor tubercle, femur",
+      "joints_crossed": [
+        "hip"
+      ],
+      "depth": "deep",
+      "actions": [
+        "hip extension from flexion",
+        "adduction"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/books/NBK526019/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "gracilis",
+      "region": "thigh",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "pubic body and inferior ramus",
+      "insertion_landmark": "medial proximal tibia, pes anserinus",
+      "joints_crossed": [
+        "hip",
+        "knee"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "hip adduction",
+        "knee flexion"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/books/NBK526019/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "biceps_femoris_long",
+      "region": "thigh",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "ischial tuberosity",
+      "insertion_landmark": "fibular head",
+      "joints_crossed": [
+        "hip",
+        "knee"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "hip extension",
+        "knee flexion",
+        "external rotation of flexed leg"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/books/NBK500008/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "biceps_femoris_short",
+      "region": "thigh",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "posterior femoral shaft",
+      "insertion_landmark": "fibular head",
+      "joints_crossed": [
+        "knee"
+      ],
+      "depth": "deep",
+      "actions": [
+        "knee flexion",
+        "external rotation of flexed leg"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/books/NBK500008/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "semitendinosus",
+      "region": "thigh",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "ischial tuberosity",
+      "insertion_landmark": "pes anserinus, medial tibia",
+      "joints_crossed": [
+        "hip",
+        "knee"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "hip extension",
+        "knee flexion",
+        "medial rotation"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/books/NBK500008/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "semimembranosus",
+      "region": "thigh",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "ischial tuberosity",
+      "insertion_landmark": "medial tibial condyle",
+      "joints_crossed": [
+        "hip",
+        "knee"
+      ],
+      "depth": "deep",
+      "actions": [
+        "hip extension",
+        "knee flexion",
+        "medial rotation"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/books/NBK500008/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "rectus_abdominis",
+      "region": "core",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "pubic crest and symphysis",
+      "insertion_landmark": "xiphoid process and costal cartilages",
+      "joints_crossed": [
+        "thoracolumbar_spine"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "trunk flexion",
+        "abdominal wall tension"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK553137/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "external_oblique",
+      "region": "core",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "lower eight ribs",
+      "insertion_landmark": "linea alba/iliac crest/pubis",
+      "joints_crossed": [
+        "thoracolumbar_spine"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "contralateral trunk rotation",
+        "flexion/pressure support"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK553137/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "internal_oblique",
+      "region": "core",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "thoracolumbar fascia/iliac crest/inguinal ligament",
+      "insertion_landmark": "lower ribs/linea alba/pubis",
+      "joints_crossed": [
+        "thoracolumbar_spine"
+      ],
+      "depth": "intermediate",
+      "actions": [
+        "ipsilateral rotation",
+        "flexion/pressure support"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK553137/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "transversus_abdominis",
+      "region": "core",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "lower costal cartilages/thoracolumbar fascia/iliac crest",
+      "insertion_landmark": "linea alba and pubic crest",
+      "joints_crossed": [
+        "thoracolumbar_spine"
+      ],
+      "depth": "deep",
+      "actions": [
+        "abdominal compression/trunk stabilization"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK553137/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "gastrocnemius_medial",
+      "region": "calf",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "medial femoral condyle",
+      "insertion_landmark": "calcaneus via Achilles tendon",
+      "joints_crossed": [
+        "knee",
+        "ankle"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "ankle plantarflexion",
+        "knee flexion"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/books/NBK459362/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "gastrocnemius_lateral",
+      "region": "calf",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "lateral femoral condyle",
+      "insertion_landmark": "calcaneus via Achilles tendon",
+      "joints_crossed": [
+        "knee",
+        "ankle"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "ankle plantarflexion",
+        "knee flexion"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/books/NBK459362/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "soleus",
+      "region": "calf",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "posterior tibia and fibula",
+      "insertion_landmark": "calcaneus via Achilles tendon",
+      "joints_crossed": [
+        "ankle"
+      ],
+      "depth": "deep",
+      "actions": [
+        "ankle plantarflexion",
+        "stance support"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/books/NBK459362/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "tibialis_anterior",
+      "region": "calf",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "anterior lateral tibia",
+      "insertion_landmark": "medial cuneiform and first metatarsal",
+      "joints_crossed": [
+        "ankle",
+        "foot"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "ankle dorsiflexion",
+        "inversion"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/books/NBK459362/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "thenar_group",
+      "region": "hand",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "carpal region",
+      "insertion_landmark": "thumb proximal phalanx and first metacarpal",
+      "joints_crossed": [
+        "thumb"
+      ],
+      "depth": "superficial",
+      "actions": [
+        "thumb flexion/opposition/abduction: expand individual heads later"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/books/NBK539810/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    },
+    {
+      "id": "interossei_lumbricals_group",
+      "region": "hand",
+      "laterality": "bilateral_seed_expand_l_r",
+      "origin_landmark": "metacarpals and flexor digitorum profundus tendons",
+      "insertion_landmark": "extensor expansions and proximal phalanges",
+      "joints_crossed": [
+        "finger"
+      ],
+      "depth": "deep",
+      "actions": [
+        "MCP flexion, IP extension",
+        "digit ab/adduction: expand individually"
+      ],
+      "reference_url": "https://www.ncbi.nlm.nih.gov/books/NBK539810/",
+      "anatomy_status": "coarse_source_backed_seed_requires_anchor_verification",
+      "mesh_status": "not_implemented",
+      "runtime_status": "not_implemented",
+      "rig_bone_ids": null,
+      "origin_xyz": null,
+      "insertion_xyz": null,
+      "wrap_points": null,
+      "activation_parameterization": null,
+      "license_review_required": true
+    }
+  ],
+  "interaction_rules": [
+    {
+      "id": "scapular_upward_rotation",
+      "type": "synergy",
+      "muscle_ids": [
+        "trapezius_upper",
+        "trapezius_lower",
+        "serratus_anterior"
+      ],
+      "motion": "shoulder overhead elevation",
+      "caution": "scapula moves independently; cannot impose universal constant humerus/scapula ratio"
+    },
+    {
+      "id": "glenohumeral_elevation",
+      "type": "synergy",
+      "muscle_ids": [
+        "deltoid_middle",
+        "deltoid_anterior",
+        "supraspinatus"
+      ],
+      "motion": "arm elevation",
+      "caution": "force/activation varies by angle and load; cuff stabilizes"
+    },
+    {
+      "id": "rotator_cuff_centring",
+      "type": "joint_stabilization",
+      "muscle_ids": [
+        "supraspinatus",
+        "infraspinatus",
+        "teres_minor",
+        "subscapularis"
+      ],
+      "motion": "multi-plane shoulder motion",
+      "caution": "not all four are visible as surface bulges"
+    },
+    {
+      "id": "anterior_axillary_fold",
+      "type": "surface_layer_relation",
+      "muscle_ids": [
+        "pectoralis_major_sternocostal",
+        "pectoralis_major_clavicular",
+        "deltoid_anterior"
+      ],
+      "motion": "press and overhead reach",
+      "caution": "pec folds into armpit and follows humerus; avoid full-volume overlap"
+    },
+    {
+      "id": "posterior_axillary_fold",
+      "type": "surface_layer_relation",
+      "muscle_ids": [
+        "latissimus_dorsi",
+        "teres_major",
+        "triceps_long"
+      ],
+      "motion": "pull and overhead reach",
+      "caution": "lat and teres under rear axillary skin; control sliding"
+    },
+    {
+      "id": "hip_extension",
+      "type": "synergy",
+      "muscle_ids": [
+        "gluteus_maximus",
+        "adductor_magnus_hamstring",
+        "biceps_femoris_long",
+        "semitendinosus",
+        "semimembranosus"
+      ],
+      "motion": "squat ascent/hinge",
+      "caution": "moment arms shift with hip flexion"
+    },
+    {
+      "id": "hip_flexion_antagonists",
+      "type": "antagonism",
+      "muscle_ids": [
+        "iliacus",
+        "psoas_major",
+        "gluteus_maximus"
+      ],
+      "motion": "squat/hip hinge",
+      "caution": "antagonistic coactivation possible"
+    },
+    {
+      "id": "inner_thigh_surface",
+      "type": "surface_layer_relation",
+      "muscle_ids": [
+        "adductor_longus",
+        "adductor_magnus_adductor",
+        "gracilis",
+        "sartorius"
+      ],
+      "motion": "hip flexion and abduction",
+      "caution": "sartorius superficial and oblique; prevent groin central pinch and horizontal seam"
+    },
+    {
+      "id": "quadriceps_mechanism",
+      "type": "shared_tendon",
+      "muscle_ids": [
+        "rectus_femoris",
+        "vastus_lateralis",
+        "vastus_medialis",
+        "vastus_intermedius"
+      ],
+      "motion": "knee extension",
+      "caution": "route via patella to tibial tuberosity"
+    },
+    {
+      "id": "posterior_leg_volume",
+      "type": "surface_layer_relation",
+      "muscle_ids": [
+        "gluteus_maximus",
+        "biceps_femoris_long",
+        "semitendinosus",
+        "semimembranosus"
+      ],
+      "motion": "hip hinge/knee flexion",
+      "caution": "avoid glute-to-hamstring shelf"
+    },
+    {
+      "id": "ankle_plantarflexors",
+      "type": "synergy",
+      "muscle_ids": [
+        "gastrocnemius_medial",
+        "gastrocnemius_lateral",
+        "soleus"
+      ],
+      "motion": "calf raise",
+      "caution": "gastrocnemius crosses knee, soleus doesn't"
+    }
+  ],
+  "verified_counts": {
+    "seed_muscle_or_subdivision_entries": 60,
+    "coordinate_verified_entries": 0,
+    "production_approved_entries": 0
+  },
+  "requirements": [
+    "resolve_laterality_against_real_rig",
+    "record_published_anatomical_landmark_sources",
+    "assign_src_license",
+    "test_muscle_paths_and_wrap",
+    "test_no_deep_to_surface_double_volume",
+    "distinguish_activation_from_joint_angle",
+    "test_export_runtime_parity"
+  ]
+}

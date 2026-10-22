@@ -19,7 +19,7 @@ import numpy as np
 from mathutils.bvhtree import BVHTree
 
 
-def refine(body, th_mm=8.0, zlo=-1.0, zhi=1.95, phong_alpha=0.75, max_rounds=6, spots=()):
+def refine(body, th_mm=8.0, zlo=-1.0, zhi=1.95, phong_alpha=0.75, max_rounds=6, spots=(), regions=()):
     """spots: extra (centre xyz, radius m, threshold mm) discs refined further, after the main pass (R103: the nipples -
     ~8 mm edges cannot carry a nipple a few mm across)"""
     me = body.data
@@ -58,6 +58,32 @@ def refine(body, th_mm=8.0, zlo=-1.0, zhi=1.95, phong_alpha=0.75, max_rounds=6, 
             bmesh.ops.subdivide_edges(bm, edges=list(edges), cuts=1, use_grid_fill=True, smooth=0.0)
             bmesh.ops.triangulate(bm, faces=[f for f in bm.faces if len(f.verts) > 3])
             rounds.append(len(edges))
+    # R106: regions ((zlo, zhi, xmax), threshold mm) rebuilt with even triangles - R41's neck base is long sliver
+    # triangles, and subdividing them only made smaller slivers (streaky shading, v13h).  Split further, then flip edges
+    # towards a Delaunay triangulation (bmesh beautify), repeated: no vertex moves, so every layer stays exact.
+    beaut = []
+    for (rz0, rz1, rx), t_ in regions:
+        for _ in range(max_rounds):
+            bm.faces.ensure_lookup_table()
+            def _inr(f):
+                c = sum((v.co for v in f.verts), f.verts[0].co * 0) / len(f.verts)
+                return rz0 < c.z < rz1 and abs(c.x) < rx
+            reg = [f for f in bm.faces if _inr(f)]
+            res = bmesh.ops.beautify_fill(bm, faces=reg, edges=list({e for f in reg for e in f.edges}), method="ANGLE")
+            beaut.append(len(res.get("geom", [])))
+            edges = set()
+            for f in bm.faces:
+                if _inr(f) and max(e.calc_length() for e in f.edges) > t_ / 1000.0:
+                    edges.update(f.edges)
+            if not edges:
+                break
+            bmesh.ops.subdivide_edges(bm, edges=list(edges), cuts=1, use_grid_fill=True, smooth=0.0)
+            bmesh.ops.triangulate(bm, faces=[f for f in bm.faces if len(f.verts) > 3])
+            rounds.append(len(edges))
+        bm.faces.ensure_lookup_table()
+        reg = [f for f in bm.faces if _inr(f)]
+        res = bmesh.ops.beautify_fill(bm, faces=reg, edges=list({e for f in reg for e in f.edges}), method="ANGLE")
+        beaut.append(len(res.get("geom", [])))
     bm.to_mesh(me); bm.free(); me.update()
     nv = len(me.vertices)
     P = np.array([v.co[:] for v in me.vertices])
@@ -101,7 +127,7 @@ def refine(body, th_mm=8.0, zlo=-1.0, zhi=1.95, phong_alpha=0.75, max_rounds=6, 
     L = np.linalg.norm(Q[E[:, 0]] - Q[E[:, 1]], axis=1); mz = 0.5 * (Q[E[:, 0], 2] + Q[E[:, 1], 2])
     inreg = (mz > zlo) & (mz < zhi)
     report = {"vertices_before": n0, "vertices_after": nv, "triangles_after": len(tris), "rounds_edges_split": rounds,
-              "threshold_mm": th_mm, "region_z": [zlo, zhi], "linear_map_max_err_mm": round(map_err * 1000, 4),
+              "threshold_mm": th_mm, "regions": [list(r[0]) + [r[1]] for r in regions], "beautify_geom": beaut if regions else [], "region_z": [zlo, zhi], "linear_map_max_err_mm": round(map_err * 1000, 4),
               "max_smoothing_move_mm": round(float(np.linalg.norm(D, axis=1).max() * 1000), 2),
               "region_edge_mm_median_max": [round(float(np.median(L[inreg]) * 1000), 2), round(float(L[inreg].max() * 1000), 2)]}
     return report, map_idx, map_w

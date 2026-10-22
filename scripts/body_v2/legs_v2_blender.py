@@ -576,7 +576,8 @@ def torso_back(ax, f):
     r += _seg(ax, f, (0.000, 0.700), (0.055, 0.770), 0.016, 4.0, 2.0)                # lower trapezius (diamond, lower half)
     r += _seg(ax, f, (0.000, 0.800), (0.090, 0.795), 0.016, 4.0, 2.0)                # middle / upper trapezius
     r += _seg(ax, f, (0.048, 0.700), (0.040, 0.770), 0.005, -2.0)                    # medial border of the scapula
-    r += _g(ax, f, 0.060, 0.036, 0.512, 0.028, 20.0)                                 # gluteus maximus
+    r += _g(ax, f, 0.060, 0.036, 0.525, 0.026, 18.0)                                 # gluteus maximus (v14: centred higher -
+    r += _g(ax, f, 0.055, 0.032, 0.552, 0.014, 10.0)                                 #   the reference stays full to 0.55)
     r += -4.0e-3 * np.exp(-0.5 * (ax / 0.005) ** 2) * _win(f, 0.475, 0.56, 0.015)      # cleft
     r += _g(ax, f, 0.105, 0.018, 0.548, 0.016, 4.0)                                  # gluteus medius
     r += -3.0e-3 * np.exp(-0.5 * ((f - 0.474 - 0.15 * ax) / 0.004) ** 2) * ss((ax - 0.01) / 0.01) * ss((0.10 - ax) / 0.02)   # gluteal fold

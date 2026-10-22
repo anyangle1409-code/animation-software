@@ -1241,7 +1241,9 @@ if REFINE_MM > 0:
         for _ in range(60):                              #  along the thigh / pelvis weight boundary)
             _lg = 0.5 * _lg + 0.5 * avg(_lg)
         # sideways (see below): the whole outer half of the thigh, fading across its front and back
-        _side = ss((np.abs(qn[:, 0]) * np.sign(qn[:, 0] * Q[:, 0]) + 0.2) / 0.6)
+        # (p10: with front-facing skin near the midline included, sign(x) pulled the two sides of the crotch apart - a
+        # pinched fold and 74 standing overlaps; only the outer, outward-facing part of each thigh now)
+        _side = ss((qn[:, 0] * np.sign(Q[:, 0]) - 0.05) / 0.5) * ss((xh_ - 0.045) / 0.025)
         _ot = float(os.environ.get("V2_OUTER_THIGH_MM", "10")) * ss((fz_ - 0.36) / 0.04) * ss((fc + 0.035 - fz_) / 0.03) * _side * ss((_lg - 0.3) / 0.5) * (1 - _keep)
         if _ot.max() > 0:
             # R112: limited by its clearance from the hanging hand / forearm in the standing pose (less 5 mm) - unlimited, it

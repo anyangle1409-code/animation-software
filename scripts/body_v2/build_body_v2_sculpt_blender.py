@@ -1212,7 +1212,8 @@ if REFINE_MM > 0:
         hp = np.zeros(nv)
         # 2. gluteus maximus: a rounded mass, fullest a little below its middle, blending up into the lower back
         GMAX = float(os.environ.get("V2_GLUTE_MM", "9"))
-        hp += GMAX * np.exp(-0.5 * (((xh_ - 0.052) / 0.034) ** 2 + ((fz_ - fc - 0.035) / 0.032) ** 2)) * back_
+        # R112: taller and longer, so it curves into the lower back above and the hamstrings below (v13p still stepped)
+        hp += GMAX * np.exp(-0.5 * (((xh_ - 0.052) / 0.036) ** 2 + ((fz_ - fc - 0.040) / 0.042) ** 2)) * back_
         # 3. gluteal fold: medial two thirds only, rising slightly outwards, fading laterally into the outer thigh
         gpts = [(0.012, cz - 0.004), (0.040, cz - 0.014), (0.075, cz - 0.016), (0.110, cz - 0.008)]
         P2 = np.stack([ax_, Q[:, 2]], axis=1); gd = np.full(nv, 9.0); gt = np.zeros(nv); run = 0.0
@@ -1227,6 +1228,8 @@ if REFINE_MM > 0:
         #    from the buttock instead of stepping in under a shelf
         hp += 3.0 * np.exp(-0.5 * (((xh_ - 0.050) / 0.035) ** 2 + ((fz_ - fc + 0.040) / 0.025) ** 2)) * back_
         # 5. lower abdomen: gently convex from below the navel down to the pubis (v13l: a flat plane)
+        # R112: the pubic triangle between the folds gently convex (mannequin, no genital detail; v13p read flat)
+        hp += float(os.environ.get("V2_PUBIC_DOME_MM", "3")) * np.exp(-0.5 * (((xh_) / 0.032) ** 2 + ((fz_ - fc - 0.035) / 0.022) ** 2)) * front_
         hp += float(os.environ.get("V2_LOWER_ABS_MM", "4")) * np.exp(-0.5 * (((xh_) / 0.050) ** 2 + ((fz_ - fc - 0.075) / 0.030) ** 2)) * front_
         # 6. crotch junction: the upper inner thighs ease away from the junction (a rounded U under the mound, not a
         #    slit), and the adductors fill the upper inner thigh just below it so it blends into the pubis
@@ -1237,7 +1240,20 @@ if REFINE_MM > 0:
         _lg = np.clip(LEG, 0, 1)                         # (p2: a hard LEG > 0.5 cut-off drew a jagged ring around each thigh
         for _ in range(60):                              #  along the thigh / pelvis weight boundary)
             _lg = 0.5 * _lg + 0.5 * avg(_lg)
-        hp += float(os.environ.get("V2_OUTER_THIGH_MM", "0")) * ss((fz_ - 0.36) / 0.04) * ss((fc + 0.035 - fz_) / 0.03) * legside * ss((_lg - 0.3) / 0.5) * (1 - _keep)
+        _ot = float(os.environ.get("V2_OUTER_THIGH_MM", "10")) * ss((fz_ - 0.36) / 0.04) * ss((fc + 0.035 - fz_) / 0.03) * legside * ss((_lg - 0.3) / 0.5) * (1 - _keep)
+        if _ot.max() > 0:
+            # R112: limited by its clearance from the hanging hand / forearm in the standing pose (less 5 mm) - unlimited, it
+            # ran into the hands and the overlap shrink crumpled the thighs (p2/p4)
+            from scipy.spatial import cKDTree as _KD
+            _Ps = stand_eval(off); _am = _arm_f > 0.5; _cd = np.nonzero(_ot > 0.05)[0]
+            _dd = np.full(nv, 9.0); _dd[_cd] = _KD(_Ps[_am]).query(_Ps[_cd])[0]
+            _r = np.where(_ot > 0.05, np.clip((_dd - 0.005) * 1000.0 / np.maximum(_ot, 1e-6), 0, 1), 1.0)
+            for _ in range(30):
+                _r = np.minimum(_r, 0.5 * _r + 0.5 * avg(_r))
+            for _ in range(30):
+                _r = 0.5 * _r + 0.5 * avg(_r)
+            _ot *= _r
+        hp += _ot
         for _ in range(4):
             hp = 0.5 * hp + 0.5 * avg(hp)
         hp *= (1 - _keep)
@@ -1285,7 +1301,10 @@ if REFINE_MM > 0:
         # chest stood ~1 cm proud at 0.81-0.84, so the chest front read flat, not the reference's slope down to the nipple);
         # stops below the chin (the 0.87 bin is the chin, not the neck)
         win = (ss((_bf - 0.10) / 0.03) if SFULL else ss((_bf - 0.515) / 0.03)) * ss((float(os.environ.get("V2_SIDE_FIT_TOP", "0.865")) - _bf) / 0.035)
-        dF = np.clip(dF, -0.03, 0.03) * win * SIDEFIT; dB = np.clip(dB, -0.03, 0.03) * win * SIDEFIT
+        # R112: the back edge only from above the buttocks - starting at 0.515 it pushed the lower back out by up to 2.5 cm
+        # at 0.53-0.56, a second bump over the buttock (the band across the top of the buttocks, v13p)
+        winB = win * (ss((_bf - float(os.environ.get("V2_SIDE_FIT_BACK_FROM", "0.60"))) / 0.03) if PELV > 0 else 1.0)
+        dF = np.clip(dF, -0.03, 0.03) * win * SIDEFIT; dB = np.clip(dB, -0.03, 0.03) * winB * SIDEFIT
         fv = np.interp(fzq, _bf, dF); bv = np.interp(fzq, _bf, dB)
         Fabs = np.interp(fzq, _bf, mF); Babs = np.interp(fzq, _bf, mB)
         t_ = np.clip((fwd - Babs) / np.maximum(Fabs - Babs, 1e-4), 0, 1)

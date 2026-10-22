@@ -1,0 +1,55 @@
+{
+ "groups": 77,
+ "shape_keys": 79,
+ "stature_m": 1.8562,
+ "cut_loop_r": 699,
+ "cut_loop_l": 696,
+ "rings": {
+  "r": {
+   "count": 168,
+   "verts_per_ring": 165,
+   "cut_loop_verts": 699,
+   "spacing_mm": 4.0
+  },
+  "l": {
+   "count": 168,
+   "verts_per_ring": 166,
+   "cut_loop_verts": 696,
+   "spacing_mm": 4.0
+  }
+ },
+ "foot_r": {
+  "verts": 26877,
+  "join_loop": 276,
+  "length_mm": 289.6,
+  "breadth_mm": 106.0
+ },
+ "centre_local_curve_mm": {
+  "r": [
+   23.4,
+   8.1
+  ],
+  "l": [
+   23.4,
+   8.1
+  ]
+ },
+ "foot_l": {
+  "verts": 26877,
+  "join_loop": 276,
+  "length_mm": 289.6,
+  "breadth_mm": 106.0
+ },
+ "above_cut_smoothed_verts": 6664,
+ "winding_conflicts": 0,
+ "non_manifold_edges_new": 0,
+ "weight_source_dist_mm": {
+  "median": 5.6,
+  "max": 30.5
+ },
+ "verts_before_after": [
+  219974,
+  238067
+ ],
+ "stature_after_m": 1.8562
+}

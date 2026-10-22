@@ -2200,3 +2200,63 @@ The model crops come from 1800 × 3000 skin renders (`V2_SKIN_SCALE` 2; a back v
 - **Feet:** not started. They are still R41's crude feet: no arch, short flat toes, bulky heel and ankle.
 - **Torso:** abs, serratus and obliques read much weaker than the reference.
 - **Head and neck:** shape differs (out of scope for now).
+
+### Draft v14a: new legs and feet (R119, 22 Oct)
+
+Owner chose "New leg & foot mesh" after v13s:
+- "the legs still need proportioned properly";
+- "the feet are terrible".
+
+**Pipeline (two steps, reversible).**
+1. **Save the body.** `build_body_v2_sculpt_blender.py` with `V2_SAVE_BLEND=1` saves the finished body as `body_v2.blend`. The V2 shape is baked into the basis, every shape key moves with it, and the skin weights and edited rig are kept.
+2. **Rebuild the legs.** `scripts/body_v2/legs_v2_blender.py -- <body_v2.blend> <r57src> <out>` rebuilds the legs below a horizontal cut and writes `body_v2_legs.blend` and the renders. It needs scikit-image (marching cubes) on `PYTHONPATH`.
+
+**Legs.**
+- **Structure:**
+  - The cut is at `V2_LEGS_CUT` 0.45 of stature.
+  - The rings are 4 mm apart and about 171 vertices round. A triangle strip stitches the first ring to the cut loop, which has about 700 vertices.
+- **Cross-sections:**
+  - Each section is a super-ellipse sized to the reference: front widths, and side depths below 0.085 held at ankle values. The sizes are smoothed twice over 4.5 cm.
+  - Anatomical relief is then added as tilted gaussian muscle bellies, using the R115/R116 angle convention:
+    - thigh: vastus lateralis, rectus femoris and its groove, vastus medialis teardrop, sartorius diagonal, adductors, IT-band flat, hamstrings and their split;
+    - knee: patella, infrapatellar hollows, popliteal hollow;
+    - lower leg: both gastrocnemius heads (the medial one lower), soleus, tibialis anterior, flat tibial face.
+  - Each quadrant is rescaled back to the reference outline afterwards.
+- **Centre line:** the old legs' overall straight line, plus the reference's own local curve about its straight fit. Each leg blends from the old surface over 8 cm below the cut, continuing the old slope.
+- **Above the cut:** a Taubin band over 6 cm of the old surface, with every shape key moved with the basis.
+
+**Feet.**
+- A signed-distance model built from:
+  - heel, talus, lateral column, medial arch, instep, and a slope from the ankle front to the top of the foot;
+  - metatarsal heads, toe web, five two-segment toes;
+  - Achilles tendon, malleoli, ankle column.
+- Dimensions: length 0.156 H (reference 0.159, ANSUR II 0.1535), 290 mm here; breadth 106 mm.
+- Surfaced with marching cubes on a 2.2 mm voxel grid, Taubin-smoothed, cut at 0.085 H, then stitched and blended into the leg over 6 cm.
+
+**Weights and shape keys.** Both are carried to the new vertices from the removed old leg and foot vertices: inverse-distance weighting over the 4 nearest, median 3.5 mm away, then 10 smoothing passes.
+
+**Checks.**
+- 0 winding conflicts and 0 non-manifold edges.
+- Stature is unchanged.
+
+**What went wrong on the way (v1–v9, all in the script's comments).**
+- The first rings copied the cut loop's roughly 700-vertex count.
+- New faces were flat-shaded.
+- R117's centre-line switch at 0.285 left a step at the knee.
+- The width dip around the knee read as a ring.
+- **Dark knee band.** Its real cause: the leg was centred on the old body's centre line but sized from the reference, so the front edge jumped 47 mm within 0.255–0.31 of stature.
+- Taking the reference centre line whole made the legs lean out, because the reference stands with its feet wider apart.
+- The foot's instep had a hump and the ankle pinched.
+
+**State against the reference (honest).**
+- **Legs:** the outlines now follow the reference. The knees, calves and gastrocnemius heads read; the thigh definition is softer than the reference.
+- **Upper thigh:** above the cut, up to the crotch, the old surface still has ripples and an outer-hip bulge.
+- **Feet:**
+  - The side view slopes naturally from shin to toes.
+  - From the front, the ankle narrows and then widens into the foot; the toes are small and short.
+  - From behind, the heel is broad.
+- **Not yet tested:**
+  - The movement tests (hip and knee bend, squat) have not been re-run on the new legs.
+  - The builder's hip and shoulder tests do not yet run on `body_v2_legs.blend`.
+
+Images (model only): `review-assets/body_v2/draft_v14a_legs/`. They include `before_after_legs.jpg` (v13s against v14a), the legs and feet close-ups, and the grey renders.

@@ -1,0 +1,43 @@
+test_reusable_curl_example (test_compile_exercise.CompileExerciseTests.test_reusable_curl_example) ... ok
+test_unknown_exercise_rejected (test_compile_exercise.CompileExerciseTests.test_unknown_exercise_rejected) ... ok
+test_collision_unresolved_and_source_mismatch_fail_closed (test_evaluate.EvaluationTests.test_collision_unresolved_and_source_mismatch_fail_closed) ... ok
+test_return_to_neutral_has_no_state_drift (test_evaluate.EvaluationTests.test_return_to_neutral_has_no_state_drift) ... ok
+test_safe_evaluation_and_source_not_mutated (test_evaluate.EvaluationTests.test_safe_evaluation_and_source_not_mutated) ... ok
+test_tendon_longer_than_path_rejected (test_evaluate.EvaluationTests.test_tendon_longer_than_path_rejected) ... ok
+test_every_rule_has_pose_length_activation_stabilization_and_skin (test_exercise_contract.ExerciseContractTests.test_every_rule_has_pose_length_activation_stabilization_and_skin) ... ok
+test_example_contracts_validate_and_resolve (test_exercise_contract.ExerciseContractTests.test_example_contracts_validate_and_resolve) ... ok
+test_invalid_ids_ranges_and_pose_coupling_rejected (test_exercise_contract.ExerciseContractTests.test_invalid_ids_ranges_and_pose_coupling_rejected) ... ok
+test_joint_pose_and_activation_are_independent_inputs (test_exercise_contract.ExerciseContractTests.test_joint_pose_and_activation_are_independent_inputs) ... ok
+test_library_has_sources_and_no_exact_emg_claim (test_exercise_contract.ExerciseContractTests.test_library_has_sources_and_no_exact_emg_claim) ... ok
+test_permanent_ids_are_namespaced_unique_and_bilateral (test_exercise_contract.ExerciseContractTests.test_permanent_ids_are_namespaced_unique_and_bilateral) ... ok
+test_phase_sampling_interpolates_ranges_without_inferring_force (test_exercise_contract.ExerciseContractTests.test_phase_sampling_interpolates_ranges_without_inferring_force) ... ok
+test_progress_moves_pose_without_silently_changing_activation (test_exercise_contract.ExerciseContractTests.test_progress_moves_pose_without_silently_changing_activation) ... ok
+test_anchored_path_uses_each_bone (test_kernel.KernelTests.test_anchored_path_uses_each_bone) ... ok
+test_authored_via_points_clear_obstacle (test_kernel.KernelTests.test_authored_via_points_clear_obstacle) ... ok
+test_blend_does_not_double_bulge_and_respects_region (test_kernel.KernelTests.test_blend_does_not_double_bulge_and_respects_region) ... ok
+test_huge_finite_inputs_do_not_false_clear_or_zero_out (test_kernel.KernelTests.test_huge_finite_inputs_do_not_false_clear_or_zero_out) ... ok
+test_invalid_geometry_rejected (test_kernel.KernelTests.test_invalid_geometry_rejected) ... ok
+test_isometric_activation_changes_shape_not_volume (test_kernel.KernelTests.test_isometric_activation_changes_shape_not_volume) ... ok
+test_segment_interior_clearance_not_only_endpoints (test_kernel.KernelTests.test_segment_interior_clearance_not_only_endpoints) ... ok
+test_small_influences_fade_without_normalizing_to_full (test_kernel.KernelTests.test_small_influences_fade_without_normalizing_to_full) ... ok
+test_volume_preserved_across_shortening_and_activation (test_kernel.KernelTests.test_volume_preserved_across_shortening_and_activation) ... ok
+test_copy_is_exact_and_source_untouched (test_prepare.PreparationTests.test_copy_is_exact_and_source_untouched) ... ok
+test_lfs_pointer_refused (test_prepare.PreparationTests.test_lfs_pointer_refused) ... ok
+test_wrong_hash_and_alias_and_existing_destination_refused (test_prepare.PreparationTests.test_wrong_hash_and_alias_and_existing_destination_refused) ... ok
+test_zstd_compressed_blender_copy (test_prepare.PreparationTests.test_zstd_compressed_blender_copy) ... ok
+test_activation_is_never_inferred_from_action (test_registry.RegistryTests.test_activation_is_never_inferred_from_action) ... ok
+test_bilateral_seed_and_relations (test_registry.RegistryTests.test_bilateral_seed_and_relations) ... ok
+test_binding_checks_real_ids_coordinates_review_and_deep_mask (test_registry.RegistryTests.test_binding_checks_real_ids_coordinates_review_and_deep_mask) ... ok
+test_empty_registry_is_not_ready (test_registry.RegistryTests.test_empty_registry_is_not_ready) ... ok
+test_missing_side_duplicate_and_unknown_neighbor_rejected (test_registry.RegistryTests.test_missing_side_duplicate_and_unknown_neighbor_rejected) ... ok
+test_pilot_includes_both_regions (test_registry.RegistryTests.test_pilot_includes_both_regions) ... ok
+test_unresolved_registry_cannot_be_ready (test_registry.RegistryTests.test_unresolved_registry_cannot_be_ready) ... ok
+test_current_review_is_structurally_valid (test_visual_qa.VisualQATests.test_current_review_is_structurally_valid) ... ok
+test_evidence_metadata_is_pinned (test_visual_qa.VisualQATests.test_evidence_metadata_is_pinned) ... ok
+test_unknown_muscle_and_phase_references_are_rejected (test_visual_qa.VisualQATests.test_unknown_muscle_and_phase_references_are_rejected) ... ok
+test_visual_review_cannot_claim_native_validation_or_causation (test_visual_qa.VisualQATests.test_visual_review_cannot_claim_native_validation_or_causation) ... ok
+
+----------------------------------------------------------------------
+Ran 38 tests in 0.176s
+
+OK

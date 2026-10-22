@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "review_id": "hgpt.qa.current_w8.screenshot_review.20261022",
+  "evidence_scope": "visual_only",
+  "blender_executed": false,
+  "source_identity": {
+    "status": "unresolved",
+    "required_before_native_work": ["git_branch", "git_commit", "blend_path", "blend_sha256", "blender_version"]
+  },
+  "limitations": [
+    "Images use unmatched crops and cameras, so pixel dimensions are not anatomical measurements.",
+    "Screenshots cannot identify topology, normals, weights, modifier order, collisions, or corrective drivers as causes.",
+    "No rest-pose equivalence, animation trajectory, muscle layer, or source file was available for this review."
+  ],
+  "evidence_images": [
+    {"id": "full_w8", "filename": "full_w8.jpeg", "sha256": "b9f92d67a2948a5776ccb6375af94058c142017ffb73a548fb243e7613a12438", "pixel_dimensions": [2059, 1040]},
+    {"id": "arm_front", "filename": "arm_front.jpeg", "sha256": "93bac98ed25e79391f37aee2d57fcc9f05070fc7230a1b10eedebdc4f8d33a8d", "pixel_dimensions": [675, 724]},
+    {"id": "legs_front", "filename": "legs_front.jpeg", "sha256": "e7405219a10e066529880e63b5bc0d5f84e6545c84a970260b54269d27516d9f", "pixel_dimensions": [959, 724]},
+    {"id": "feet_side", "filename": "feet_side.jpeg", "sha256": "6894aeb202655d6d9865cd8e25a4da95b6424ace5f5c6863b6ee0137910acd99", "pixel_dimensions": [2241, 444]}
+  ],
+  "findings": [
+    {
+      "id": "W8-VIS-AXILLA-001", "priority": "P0", "region": "shoulder_axilla",
+      "status": "visual_observation_unverified", "confidence": "high",
+      "evidence_image_ids": ["arm_front", "full_w8"],
+      "symptom": "The anterior axilla reads as a deep narrow slit; the pectoral-to-deltoid and posterior fold transitions are not anatomically legible.",
+      "causal_conclusion": null,
+      "diagnostic_hypotheses": ["surface overlap", "weight transition", "modifier or normal artifact", "rest-shape construction"],
+      "affected_muscle_ids": ["hgpt.muscle.pectoralis_major_clavicular.L", "hgpt.muscle.pectoralis_major_clavicular.R", "hgpt.muscle.pectoralis_major_sternocostal.L", "hgpt.muscle.pectoralis_major_sternocostal.R", "hgpt.muscle.latissimus_dorsi.L", "hgpt.muscle.latissimus_dorsi.R", "hgpt.muscle.teres_major.L", "hgpt.muscle.teres_major.R", "hgpt.muscle.triceps_long.L", "hgpt.muscle.triceps_long.R"],
+      "exercise_phase_refs": [{"exercise_id": "hgpt.exercise.shoulder_press.bilateral.v1", "phase_id": "rack"}, {"exercise_id": "hgpt.exercise.shoulder_press.bilateral.v1", "phase_id": "overhead_hold"}],
+      "diagnostic_tests": ["matched-camera rest overlay", "one-at-a-time surface/modifier/normal/weight toggles", "front/back axillary fold clearance through full press trajectory"]
+    },
+    {
+      "id": "W8-VIS-SHOULDER-002", "priority": "P0", "region": "shoulder",
+      "status": "visual_observation_unverified", "confidence": "high",
+      "evidence_image_ids": ["arm_front", "full_w8"],
+      "symptom": "The shoulder cap appears oversized and nearly spherical, with weak separation among deltoid heads and adjacent chest, cuff, and upper-arm planes.",
+      "causal_conclusion": null,
+      "diagnostic_hypotheses": ["rest-envelope proportions", "deltoid region weights", "missing layered transition", "camera mismatch"],
+      "affected_muscle_ids": ["hgpt.muscle.deltoid_anterior.L", "hgpt.muscle.deltoid_anterior.R", "hgpt.muscle.deltoid_middle.L", "hgpt.muscle.deltoid_middle.R", "hgpt.muscle.deltoid_posterior.L", "hgpt.muscle.deltoid_posterior.R", "hgpt.muscle.supraspinatus.L", "hgpt.muscle.supraspinatus.R"],
+      "exercise_phase_refs": [{"exercise_id": "hgpt.exercise.shoulder_press.bilateral.v1", "phase_id": "rack"}, {"exercise_id": "hgpt.exercise.shoulder_press.bilateral.v1", "phase_id": "press"}, {"exercise_id": "hgpt.exercise.shoulder_press.bilateral.v1", "phase_id": "lower"}],
+      "diagnostic_tests": ["neutral silhouette overlay", "muscle-only envelope views", "deltoid-to-humerus clearance and continuity at sampled press angles"]
+    },
+    {
+      "id": "W8-VIS-ARM-003", "priority": "P1", "region": "upper_arm_forearm",
+      "status": "visual_observation_unverified", "confidence": "medium",
+      "evidence_image_ids": ["arm_front", "full_w8"],
+      "symptom": "The upper arm and forearm read as smooth tapered volumes; biceps/triceps separation, elbow landmarks, and forearm flexor-extensor structure are weak.",
+      "causal_conclusion": null,
+      "diagnostic_hypotheses": ["rest-shape simplification", "missing local landmarks", "uniform skin transfer"],
+      "affected_muscle_ids": ["hgpt.muscle.biceps_brachii_long.L", "hgpt.muscle.biceps_brachii_long.R", "hgpt.muscle.biceps_brachii_short.L", "hgpt.muscle.biceps_brachii_short.R", "hgpt.muscle.brachialis.L", "hgpt.muscle.brachialis.R", "hgpt.muscle.brachioradialis.L", "hgpt.muscle.brachioradialis.R", "hgpt.muscle.triceps_long.L", "hgpt.muscle.triceps_long.R"],
+      "exercise_phase_refs": [{"exercise_id": "hgpt.exercise.biceps_curl.bilateral.v1", "phase_id": "setup"}, {"exercise_id": "hgpt.exercise.biceps_curl.bilateral.v1", "phase_id": "concentric"}, {"exercise_id": "hgpt.exercise.biceps_curl.bilateral.v1", "phase_id": "top_hold"}, {"exercise_id": "hgpt.exercise.biceps_curl.bilateral.v1", "phase_id": "eccentric"}],
+      "diagnostic_tests": ["fixed-pose activation sweep", "path length and belly volume trace", "front/side/back elbow trajectory comparison"]
+    },
+    {
+      "id": "W8-VIS-GROIN-004", "priority": "P0", "region": "pelvis_upper_thigh",
+      "status": "visual_observation_unverified", "confidence": "high",
+      "evidence_image_ids": ["legs_front", "full_w8"],
+      "symptom": "The central groin cleft appears high, deep, and pinched; the inner-thigh transition lacks a readable adductor plane.",
+      "causal_conclusion": null,
+      "diagnostic_hypotheses": ["overlapping tissue", "inner-thigh weights", "rest-topology shape", "corrective interaction"],
+      "affected_muscle_ids": ["hgpt.muscle.adductor_longus.L", "hgpt.muscle.adductor_longus.R", "hgpt.muscle.adductor_brevis.L", "hgpt.muscle.adductor_brevis.R", "hgpt.muscle.adductor_magnus_adductor.L", "hgpt.muscle.adductor_magnus_adductor.R", "hgpt.muscle.sartorius.L", "hgpt.muscle.sartorius.R"],
+      "exercise_phase_refs": [{"exercise_id": "hgpt.exercise.squat.bodyweight.v1", "phase_id": "stand"}, {"exercise_id": "hgpt.exercise.squat.bodyweight.v1", "phase_id": "bottom_hold"}],
+      "diagnostic_tests": ["genital-neutral front/three-quarter rest review", "inner-thigh interpenetration trace", "one-at-a-time corrective and weight toggles through squat"]
+    },
+    {
+      "id": "W8-VIS-HIP-005", "priority": "P0", "region": "pelvis_upper_thigh",
+      "status": "visual_observation_unverified", "confidence": "medium",
+      "evidence_image_ids": ["full_w8", "legs_front"],
+      "symptom": "The lateral hip, gluteal fold, and upper thigh form broad smooth transitions with a shelf-like posterior pelvis transition and limited muscular planes.",
+      "causal_conclusion": null,
+      "diagnostic_hypotheses": ["rest-envelope proportions", "missing fascial transition", "broad weight gradients", "camera mismatch"],
+      "affected_muscle_ids": ["hgpt.muscle.gluteus_maximus.L", "hgpt.muscle.gluteus_maximus.R", "hgpt.muscle.gluteus_medius.L", "hgpt.muscle.gluteus_medius.R", "hgpt.muscle.gluteus_minimus.L", "hgpt.muscle.gluteus_minimus.R", "hgpt.muscle.tensor_fasciae_latae.L", "hgpt.muscle.tensor_fasciae_latae.R", "hgpt.muscle.rectus_femoris.L", "hgpt.muscle.rectus_femoris.R", "hgpt.muscle.vastus_lateralis.L", "hgpt.muscle.vastus_lateralis.R"],
+      "exercise_phase_refs": [{"exercise_id": "hgpt.exercise.squat.bodyweight.v1", "phase_id": "descent"}, {"exercise_id": "hgpt.exercise.squat.bodyweight.v1", "phase_id": "bottom_hold"}, {"exercise_id": "hgpt.exercise.squat.bodyweight.v1", "phase_id": "ascent"}],
+      "diagnostic_tests": ["matched side/back silhouette", "muscle-only pelvis envelope", "hip flexion and extension clearance before skin transfer"]
+    },
+    {
+      "id": "W8-VIS-KNEE-006", "priority": "P1", "region": "knee_calf_ankle",
+      "status": "visual_observation_unverified", "confidence": "high",
+      "evidence_image_ids": ["legs_front", "full_w8"],
+      "symptom": "The knee shows horizontal banding with weak patellar and condylar landmarks; calf contours are smooth and the ankle transition appears thick.",
+      "causal_conclusion": null,
+      "diagnostic_hypotheses": ["topology ring", "normal or modifier artifact", "weight transition", "rest-shape simplification"],
+      "affected_muscle_ids": ["hgpt.muscle.rectus_femoris.L", "hgpt.muscle.rectus_femoris.R", "hgpt.muscle.vastus_medialis.L", "hgpt.muscle.vastus_medialis.R", "hgpt.muscle.vastus_lateralis.L", "hgpt.muscle.vastus_lateralis.R", "hgpt.muscle.gastrocnemius_medial.L", "hgpt.muscle.gastrocnemius_medial.R", "hgpt.muscle.gastrocnemius_lateral.L", "hgpt.muscle.gastrocnemius_lateral.R", "hgpt.muscle.soleus.L", "hgpt.muscle.soleus.R"],
+      "exercise_phase_refs": [{"exercise_id": "hgpt.exercise.squat.bodyweight.v1", "phase_id": "stand"}, {"exercise_id": "hgpt.exercise.squat.bodyweight.v1", "phase_id": "bottom_hold"}],
+      "diagnostic_tests": ["topology/normals/modifier/weight isolation", "patellar route overlay", "full knee-flexion temporal pop and circumference trace"]
+    },
+    {
+      "id": "W8-VIS-FOOT-007", "priority": "P2", "region": "foot_ankle",
+      "status": "visual_observation_unverified", "confidence": "high",
+      "evidence_image_ids": ["feet_side"],
+      "symptom": "The heel and midfoot appear blocky and thick, the arch/Achilles transition is weak, and the forefoot/toe envelope is simplified.",
+      "causal_conclusion": null,
+      "diagnostic_hypotheses": ["foot rest-shape proportions", "camera mismatch", "simplified toe envelope"],
+      "affected_muscle_ids": ["hgpt.muscle.gastrocnemius_medial.L", "hgpt.muscle.gastrocnemius_medial.R", "hgpt.muscle.gastrocnemius_lateral.L", "hgpt.muscle.gastrocnemius_lateral.R", "hgpt.muscle.soleus.L", "hgpt.muscle.soleus.R"],
+      "exercise_phase_refs": [{"exercise_id": "hgpt.exercise.squat.bodyweight.v1", "phase_id": "stand"}, {"exercise_id": "hgpt.exercise.squat.bodyweight.v1", "phase_id": "bottom_hold"}],
+      "diagnostic_tests": ["matched-camera lateral measurements in scene units", "Achilles and plantar silhouette overlay", "ankle dorsiflexion contact and volume trace"]
+    },
+    {
+      "id": "W8-VIS-TORSO-008", "priority": "P2", "region": "neck_torso",
+      "status": "visual_observation_unverified", "confidence": "medium",
+      "evidence_image_ids": ["full_w8"],
+      "symptom": "The neck appears thick and cylindrical, while chest-to-abdomen transitions are smooth and the abdomen projects strongly in side view.",
+      "causal_conclusion": null,
+      "diagnostic_hypotheses": ["rest-envelope proportions", "camera mismatch", "missing superficial planes"],
+      "affected_muscle_ids": ["hgpt.muscle.trapezius_upper.L", "hgpt.muscle.trapezius_upper.R", "hgpt.muscle.pectoralis_major_clavicular.L", "hgpt.muscle.pectoralis_major_clavicular.R", "hgpt.muscle.pectoralis_major_sternocostal.L", "hgpt.muscle.pectoralis_major_sternocostal.R", "hgpt.muscle.serratus_anterior.L", "hgpt.muscle.serratus_anterior.R"],
+      "exercise_phase_refs": [{"exercise_id": "hgpt.exercise.shoulder_press.bilateral.v1", "phase_id": "rack"}, {"exercise_id": "hgpt.exercise.shoulder_press.bilateral.v1", "phase_id": "overhead_hold"}],
+      "diagnostic_tests": ["matched orthographic front/side/back overlay", "neutral breathing-independent rest comparison", "scapular/torso stabilizer activation sweep at fixed pose"]
+    }
+  ]
+}

@@ -555,16 +555,29 @@ def torso_front(ax, f):
     return r
 
 
+def _seg(ax, f, a, b, sg_, amp0, amp1=None):
+    """relief along a line from a=(x, f) to b (stature fractions): gaussian across it, amplitude amp0 -> amp1 (mm)"""
+    a, b = np.array(a), np.array(b); d = b - a
+    t = np.clip(((ax - a[0]) * d[0] + (f - a[1]) * d[1]) / (d @ d), 0, 1)
+    dist = np.hypot(ax - (a[0] + t * d[0]), f - (a[1] + t * d[1]))
+    amp = amp0 + ((amp0 if amp1 is None else amp1) - amp0) * t
+    return amp * 1e-3 * np.exp(-0.5 * (dist / sg_) ** 2)
+
+
 def torso_back(ax, f):
+    """v13: muscles as lines along their fibres (v12's round lat lumps made a shelf at 0.70)"""
     r = np.zeros_like(ax)
-    r += -6.0e-3 * np.exp(-0.5 * (ax / 0.0045) ** 2) * _win(f, 0.55, 0.79, 0.02)       # spine groove
-    r += _g(ax, f, 0.026, 0.011, 0.600, 0.045, 10.0)                                 # erector spinae
-    r += _g(ax, f, 0.100, 0.022, 0.695, 0.030, 8.0)                                  # latissimus
-    r += _g(ax, f, 0.070, 0.018, 0.757, 0.013, 6.0)                                  # infraspinatus over the scapula
-    r += _g(ax, f, 0.104, 0.011, 0.737, 0.010, 5.0)                                  # teres major
-    r += _g(ax, f, 0.035, 0.020, 0.745, 0.028, 4.0)                                  # lower trapezius
-    r += _g(ax, f, 0.050, 0.010, 0.735, 0.020, -3.0)                                 # medial scapular border hollow
-    r += _g(ax, f, 0.060, 0.034, 0.515, 0.026, 14.0)                                 # gluteus maximus
+    r += -6.0e-3 * np.exp(-0.5 * (ax / 0.0045) ** 2) * _win(f, 0.53, 0.80, 0.02)       # spine groove
+    r += _seg(ax, f, (0.026, 0.505), (0.024, 0.68), 0.011, 9.0, 3.0)                 # erector spinae columns
+    r += _seg(ax, f, (0.112, 0.735), (0.045, 0.600), 0.020, 6.0, 2.0)                # latissimus: armpit -> lower back
+    r += _seg(ax, f, (0.035, 0.775), (0.105, 0.790), 0.0045, -2.5)                   # spine of the scapula (groove under the trapezius edge)
+    r += _seg(ax, f, (0.045, 0.757), (0.095, 0.762), 0.014, 6.0)                     # infraspinatus below it
+    r += _seg(ax, f, (0.090, 0.745), (0.115, 0.728), 0.008, 4.0)                     # teres major
+    r += _seg(ax, f, (0.000, 0.700), (0.055, 0.770), 0.016, 4.0, 2.0)                # lower trapezius (diamond, lower half)
+    r += _seg(ax, f, (0.000, 0.800), (0.090, 0.795), 0.016, 4.0, 2.0)                # middle / upper trapezius
+    r += _seg(ax, f, (0.048, 0.700), (0.040, 0.770), 0.005, -2.0)                    # medial border of the scapula
+    r += _g(ax, f, 0.060, 0.036, 0.512, 0.028, 20.0)                                 # gluteus maximus
+    r += -4.0e-3 * np.exp(-0.5 * (ax / 0.005) ** 2) * _win(f, 0.475, 0.56, 0.015)      # cleft
     r += _g(ax, f, 0.105, 0.018, 0.548, 0.016, 4.0)                                  # gluteus medius
     r += -3.0e-3 * np.exp(-0.5 * ((f - 0.474 - 0.15 * ax) / 0.004) ** 2) * ss((ax - 0.01) / 0.01) * ss((0.10 - ax) / 0.02)   # gluteal fold
     return r
@@ -588,7 +601,7 @@ if TORSO > 0:
     abz = (wf > 0.5) & (axt < 0.085) & (ft > 0.585) & (ft < 0.725)
     wab = (ss((0.085 - axt) / 0.02) * ss((ft - 0.585) / 0.015) * ss((0.725 - ft) / 0.015) * wf)
     Q = Pt.copy()
-    for it in range(2 * int(os.environ.get("V2_ABS_ERASE", "60"))):
+    for it in range(2 * int(os.environ.get("V2_ABS_ERASE", "120"))):
         lam = 0.5 if it % 2 == 0 else -0.53
         M_ = np.array([Q[n].mean(0) if n else Q[i] for i, n in enumerate(nb_)])
         Q = Q + lam * wab[:, None] * (M_ - Q)

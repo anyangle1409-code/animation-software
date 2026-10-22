@@ -1021,8 +1021,10 @@ if REFINE_MM > 0:
         cl = [(0.012, 0.826), (0.030, 0.830), (0.050, 0.833), (0.070, 0.834), (0.090, 0.833), (0.110, 0.830), (0.125, 0.827)]
         dcl, tcl = _segd(xr, fr, cl)
         endf = ss(tcl / 0.08) * ss((1 - tcl) / 0.15)
-        CLAV = float(os.environ.get("V2_CLAVICLE_MM", "7.0"))   # (v13d: 3 mm hardly read)
-        hn += CLAV * np.exp(-0.5 * (dcl * _Hr / 0.0055) ** 2) * endf
+        CLAV = float(os.environ.get("V2_CLAVICLE_MM", "6.5"))   # (v13d: 3 mm hardly read)
+        # R106: narrower ridge with a crisp shadow line right under it (v13h-v13j: a 5.5 mm-wide ridge read faintly)
+        hn += CLAV * np.exp(-0.5 * (dcl * _Hr / float(os.environ.get("V2_CLAVICLE_SIGMA_MM", "4.0")) * 1000) ** 2) * endf
+        hn -= 2.5 * np.exp(-0.5 * ((dcl * _Hr - 0.008) / 0.0035) ** 2) * below * endf
         below = (fr < np.interp(xr, [c_[0] for c_ in cl], [c_[1] for c_ in cl]))
         hn -= 2.5 * np.exp(-0.5 * ((dcl * _Hr - 0.012) / 0.007) ** 2) * below * endf
         hn -= 2.5 * np.exp(-0.5 * (np.hypot(xr - 0.085, fr - 0.821) * _Hr / 0.008) ** 2)
@@ -1033,7 +1035,7 @@ if REFINE_MM > 0:
         hn -= 4.5 * np.exp(-0.5 * (np.hypot(xr, (fr - 0.829) * 1.3) * _Hr / 0.007) ** 2)
         # the hollow above each clavicle, between the sternocleidomastoid and the trapezius (it is what makes the
         # reference's clavicle read; v13e's ridge alone was faint)
-        hn -= float(os.environ.get("V2_SUPRACLAV_MM", "3.5")) * np.exp(-0.5 * (((xr - 0.060) / 0.016) ** 2 + ((fr - 0.843) / 0.0065) ** 2))
+        hn -= float(os.environ.get("V2_SUPRACLAV_MM", "5.0")) * np.exp(-0.5 * (((xr - 0.060) / 0.016) ** 2 + ((fr - 0.843) / 0.0065) ** 2))
         hn *= fronty * noarm * nohead
         # 4. trapezius: fuller neck-to-shoulder slope (front and back - it is one muscle over the top)
         upf = ss((qn[:, 2] + 0.1) / 0.4)

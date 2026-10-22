@@ -1022,10 +1022,10 @@ if REFINE_MM > 0:
         dcl, tcl = _segd(xr, fr, cl)
         endf = ss(tcl / 0.08) * ss((1 - tcl) / 0.15)
         CLAV = float(os.environ.get("V2_CLAVICLE_MM", "6.5"))   # (v13d: 3 mm hardly read)
+        below = (fr < np.interp(xr, [c_[0] for c_ in cl], [c_[1] for c_ in cl]))
         # R106: narrower ridge with a crisp shadow line right under it (v13h-v13j: a 5.5 mm-wide ridge read faintly)
         hn += CLAV * np.exp(-0.5 * (dcl * _Hr / float(os.environ.get("V2_CLAVICLE_SIGMA_MM", "4.0")) * 1000) ** 2) * endf
         hn -= 2.5 * np.exp(-0.5 * ((dcl * _Hr - 0.008) / 0.0035) ** 2) * below * endf
-        below = (fr < np.interp(xr, [c_[0] for c_ in cl], [c_[1] for c_ in cl]))
         hn -= 2.5 * np.exp(-0.5 * ((dcl * _Hr - 0.012) / 0.007) ** 2) * below * endf
         hn -= 2.5 * np.exp(-0.5 * (np.hypot(xr - 0.085, fr - 0.821) * _Hr / 0.008) ** 2)
         # 3. sternocleidomastoids, and the jugular notch between their heads

@@ -1640,13 +1640,21 @@ if os.environ.get("R76_RENDER") == "1":
             for s_ in ("l", "r"):
                 bench._rot(rig.pose.bones[f"thigh_{s_}"], x=-60.0); bench._rot(rig.pose.bones[f"shin_{s_}"], x=10.0)
 
+        def _arm(deg):
+            def f_():
+                for s_, sg in (("r", -1.0), ("l", 1.0)):
+                    bench._rot(rig.pose.bones[f"upperarm_{s_}"], z=sg * deg)
+            return f_
+
         HIPTEST = {}
-        for nm, fn in (("stand", _hp_stand), ("flex90", _hp_flex), ("abd40", _hp_abd), ("squat", _hp_squat), ("hinge60", _hp_hinge)):
+        for nm, fn in (("stand", _hp_stand), ("flex90", _hp_flex), ("abd40", _hp_abd), ("squat", _hp_squat), ("hinge60", _hp_hinge),
+                       ("armabd90", _arm(90.0)), ("armup160", _arm(160.0))):
             bench._reset(rig)
             for s_, sg in (("r", -1.0), ("l", 1.0)):
                 pb = rig.pose.bones[f"upperarm_{s_}"]; pb.rotation_mode = "XYZ"; pb.rotation_euler = (0.0, 0.0, math.radians(sg * 25.0))
             fn()
             bpy.context.view_layer.update(); drives.drive(rig, body); bpy.context.view_layer.update()
+            _isarm = nm.startswith("arm")
             pp_, _ = bench._evaluated(body); P_ = np.array([tuple(v) for v in pp_])
             tr_ = _BVH.FromPolygons([Vector(v) for v in P_], _ft, all_triangles=True)
             prs = [(a_, b_) for a_, b_ in tr_.overlap(tr_) if a_ < b_ and not (_fs[a_] & _fs[b_])]
@@ -1654,6 +1662,10 @@ if os.environ.get("R76_RENDER") == "1":
             ph = np.array(rig.pose.bones["pelvis"].head)
             near = [p_ for p_ in prs if np.linalg.norm(P_[faces[p_[0]]].mean(0) - ph) < 0.25]
             HIPTEST[nm] = {"overlap_pairs": len(prs), "overlap_pairs_pelvis": len(near)}
+            if _isarm:            # R113: shoulder tests - pairs within 0.2 m of either shoulder joint, framed on the chest
+                shs = [np.array(rig.pose.bones[f"upperarm_{s_}"].head) for s_ in ("r", "l")]
+                HIPTEST[nm]["overlap_pairs_shoulders"] = sum(1 for p_ in prs if min(np.linalg.norm(P_[faces[p_[0]]].mean(0) - h_) for h_ in shs) < 0.2)
+                ph = 0.5 * (shs[0] + shs[1])
             _c = Vector(tuple(P_[np.linalg.norm(P_ - ph, axis=1) < 0.30].mean(0)))
             _shot(f"V2_hip_{nm}", _c, 0.55 * _H, {"front": (0, -1, 0), "side": (1, 0, 0), "back": (0, 1, 0)}, "BLENDER_WORKBENCH")
         (OUT / "hip_tests.json").write_text(json.dumps(HIPTEST, indent=1))

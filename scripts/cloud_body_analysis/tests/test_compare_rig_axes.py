@@ -97,7 +97,7 @@ class RigAxesComparatorTests(unittest.TestCase):
             mod.compare(self.root)
 
     def test_nonorthogonal_basis_rejected(self):
-        self.edit("V14", lambda d: d["bones"][0]["rest_local_X_Y_Z_unit_in_body_coordinates"][0].__setitem__(1, 0.0015))
+        self.edit("V14", lambda d: d["bones"][0]["rest_local_X_Y_Z_unit_in_body_coordinates"].__setitem__(0, [0.9987492178, 0.05, 0]))
         with self.assertRaisesRegex(ValueError, "nonorthogonal"):
             mod.compare(self.root)
 

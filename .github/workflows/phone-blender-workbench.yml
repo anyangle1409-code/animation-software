@@ -1,0 +1,58 @@
+name: Phone Blender workbench
+on:
+  push:
+    branches: [work/phone-blender-workbench-20261023]
+    paths: ['scripts/phone_blender/**', '.github/workflows/phone-blender-workbench.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: phone-blender-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - model: W8
+            artifact: '12487119841'
+          - model: V14
+            artifact: '12487932177'
+          - model: R120
+            artifact: '12488550235'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install cloud Blender dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y libegl1 libgl1 libxrender1 libxi6 libxkbcommon0
+          python -m pip install bpy==5.2.0 numpy scipy
+      - name: Retrieve preserved reconstruction
+        uses: actions/download-artifact@v4
+        with:
+          artifact-ids: ${{ matrix.artifact }}
+          run-id: 39922636070
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/model
+      - name: Run isolated read-only task
+        env:
+          MODEL: ${{ matrix.model }}
+          INPUT_DIR: ${{ runner.temp }}/model
+          OPENBLAS_NUM_THREADS: '1'
+          OMP_NUM_THREADS: '2'
+        run: python scripts/phone_blender/task.py
+      - name: Preserve phone-readable results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phone-blender-${{ matrix.model }}-${{ github.run_id }}
+          path: phone-results/
+          retention-days: 90
+          if-no-files-found: error

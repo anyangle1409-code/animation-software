@@ -1,0 +1,72 @@
+name: Body v2 isolated recovery
+'on':
+  push:
+    branches: [work/body-v2-actions-recovery-20261023]
+    paths:
+      - .github/workflows/body-v2-recovery.yml
+      - scripts/body_v2/**
+  pull_request:
+    branches: [claude/home-gym-pt-animation-txux66]
+    paths:
+      - .github/workflows/body-v2-recovery.yml
+      - scripts/body_v2/**
+  workflow_dispatch: {}
+permissions:
+  contents: read
+concurrency:
+  group: body-v2-recovery-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  recover:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    env:
+      PY: python
+      LIBGL_ALWAYS_SOFTWARE: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      V2_SKIN_SCALE: '1'
+      V2_SKIN_SAMPLES: '24'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install Blender 5.2 and scientific dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libegl1 libgl1 libxrender1 libxi6 libxkbcommon0 xvfb
+          python -m pip install bpy==5.2.0 numpy scipy scikit-image lazy_loader packaging Pillow
+          python -m pip freeze > "$RUNNER_TEMP/dependencies.txt"
+          python -c "import bpy; assert bpy.app.version[:2] == (5, 2); print(bpy.app.version_string, bpy.app.build_hash)"
+      - name: Reconstruct and verify W8, v14 and separate experimental R120
+        run: |
+          set -o pipefail
+          xvfb-run -a bash scripts/body_v2/rebuild_w8_v14_verified.sh "$RUNNER_TEMP/body-v2" 2>&1 | tee "$RUNNER_TEMP/recovery.log"
+      - name: Preserve exact environment and run identity
+        if: always()
+        run: |
+          mkdir -p "$RUNNER_TEMP/body-v2/ci"
+          cp "$RUNNER_TEMP/dependencies.txt" "$RUNNER_TEMP/body-v2/ci/" || true
+          cp "$RUNNER_TEMP/recovery.log" "$RUNNER_TEMP/body-v2/ci/" || true
+          git rev-parse HEAD > "$RUNNER_TEMP/body-v2/ci/commit.txt"
+          printf '%s\n' "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" > "$RUNNER_TEMP/body-v2/ci/run-url.txt"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: body-v2-recovery-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/body-v2/W8
+            ${{ runner.temp }}/body-v2/V14
+            ${{ runner.temp }}/body-v2/R120
+            ${{ runner.temp }}/body-v2/R120_base
+            ${{ runner.temp }}/body-v2/verify
+            ${{ runner.temp }}/body-v2/logs
+            ${{ runner.temp }}/body-v2/ci
+            ${{ runner.temp }}/body-v2/MANIFEST*
+          retention-days: 90
+          compression-level: 0
+          if-no-files-found: error

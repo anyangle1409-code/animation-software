@@ -64,3 +64,17 @@ Read [PHONE_NATIVE_SHOULDER_SQUAT_GRIP_LOCALIZATION_20261023.md](PHONE_NATIVE_SH
 - User may use a separate Claude cloud branch for *read-only V14 topology provenance investigation*. Keep Claude's lane separate. Do not overwrite original reconstruction artifacts or alter source acceptance gates.
 
 Next: verify final five-job workflow; review 5 cm evaluated-coordinate shoulder hotspots at press sample6/8, build a reversible hypothesis checklist for clavicle/scapula/axilla skin deformation; do not edit preserved models, unfreeze anatomy, attach muscles, merge or deploy without explicit authorization. PT_MODEL_VERSION1.0 untouched.
+
+
+## 2026-10-23 tracked rest-space movement failures — VERIFIED
+
+New read-only native evidence: [shoulder/axilla triage](PHONE_SHOULDER_AXILLA_TRIAGE_20261023.md).
+
+- Code `scripts/cloud_body_analysis/track_rest_hotspots.py` and 8 new synthetic tests `scripts/cloud_body_analysis/tests/test_track_rest_hotspots.py` landed on the isolated cloud branch. The cloud-localization job now outputs `tracked_rest_hotspots.json` and `tracked_rest_hotspots.md` alongside its existing evidence.
+- [Cloud run 40021689794](https://github.com/anyangle1409-code/animation-software/actions/runs/40021689794): **SUCCESS, all five jobs**. Native report tests: **20/20 PASS**; W8/V14/R120 Blender inspection and comparison jobs also passed.
+- [Native artifact 12531201008](https://github.com/anyangle1409-code/animation-software/actions/runs/40021689794/artifacts/12531201008) independently downloaded. ZIP SHA256 = GitHub digest = `8535f61575f13665bf1a472c33d26e6ca0808d55ad3f2bfdb29a1ce362a17097`. Inspection confirmed both old and new JSON/Markdown reports.
+- At sample6, newly stretched (vs sample0), of which still stretched at sample8: W8 3072/491, V14 3550/699, R120 7337/3025. At squat sample7, newly stretched (vs sample0), of which still stretched at sample8: W8 885/862, V14 1238/1210, R120 3363/3345. These are **within-model exact triangle IDs**, not across-model quality ranking.
+- W8 newly stretched press rest-space 5cm hotspot centres include (+0.125,+0.175,1.475) metres (363 triangle records) and (-0.125,+0.175,1.475) (325); weight-group proxy leaders spine_03 and shoulder caps/scapulae. These are not anatomical attachments or approved correction coordinates.
+- A controlled hypothesis/testing protocol has been committed; no skeleton, model mesh, shape key, muscle attachment, production application or source artifact altered. The V14 two-vertex archival mismatch and all movement acceptance failures remain unresolved.
+
+**Next safe work:** assess baseline/pose shape-key influence and local shoulder-region weight distribution without saving any model; review original evidence for bone-side orientation. Only after explicit scope may independent experimental candidate edits be attempted. Do not merge or deploy.

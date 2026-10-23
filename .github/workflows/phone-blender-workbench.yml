@@ -59,6 +59,42 @@ jobs:
           retention-days: 90
           if-no-files-found: warn
 
+  verify-actual-shoulder-driver-math:
+    needs: [inspect, pose-state-w8]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Test measured-pose vs actual-driver math semantics
+        run: python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_verify_pose_driver_contract.py -v
+      - name: Retrieve exactly this run's original W8 static driver properties
+        uses: actions/download-artifact@v4
+        with:
+          name: phone-blender-W8-${{ github.run_id }}
+          path: ${{ runner.temp }}/static
+      - name: Retrieve exactly this run's nine-frame W8 observed pose states
+        uses: actions/download-artifact@v4
+        with:
+          name: phone-w8-shoulder-pose-state-${{ github.run_id }}
+          path: ${{ runner.temp }}/actual
+      - name: Enforce measured-elevation driver consistency without anatomical approval
+        run: |
+          python scripts/cloud_body_analysis/verify_pose_driver_contract.py \
+            --static "${{ runner.temp }}/static/W8/shoulder_activation_rules.json" \
+            --actual "${{ runner.temp }}/actual/w8_shoulder_driver_pose_state.json" \
+            --out phone-pose-consistency
+      - name: Publish W8 driver consistency evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phone-w8-driver-consistency-${{ github.run_id }}
+          path: phone-pose-consistency/
+          retention-days: 90
+          if-no-files-found: warn
+
   inspect:
     runs-on: ubuntu-24.04
     timeout-minutes: 25

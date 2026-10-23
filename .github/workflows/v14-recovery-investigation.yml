@@ -85,6 +85,67 @@ jobs:
           path: out/
           retention-days: 90
           if-no-files-found: error
+  replay-l0-archived-v14:
+    # rebuild W8 with L0's preserved triangulation (replay_build_blender.py), then the V14 leg step at the archived
+    # v14b script version (bd439886), then compare with the preserved L0 arrays and the archived V14 report
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.R57_COMMIT }}
+          path: r57src
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install cloud Blender dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y libegl1 libgl1 libxrender1 libxi6 libxkbcommon0
+          python -m pip install bpy==5.2.0 numpy scipy scikit-image==0.25.2 lazy_loader packaging
+      - name: Replay W8 (L0 triangulation)
+        env:
+          V2_SAVE_BLEND: '1'
+        run: |
+          python scripts/v14_investigation/replay_build_blender.py -- "$GITHUB_WORKSPACE/r57src" "$RUNNER_TEMP/W8r" 2.0 \
+            scripts/v14_investigation/evidence/build_L0/refined_mesh_and_offsets.npz 2>&1 | grep -E "V2_REPLAY|V2_SAVED|Error|Traceback" || true
+          test -f "$RUNNER_TEMP/W8r/body_v2.blend"
+      - name: V14 leg step at the archived script version (bd439886), scratch copy
+        env:
+          V2_LEGS_RENDER: '0'
+        run: |
+          D="$RUNNER_TEMP/legs_bd439886"; mkdir -p "$D/fit"
+          git show bd439886:scripts/body_v2/legs_v2_blender.py > "$D/legs_v2_blender.py"
+          for f in ref_leg_side_profile.json ref_front_profile.json; do git show bd439886:scripts/body_v2/fit/$f > "$D/fit/$f"; done
+          python "$D/legs_v2_blender.py" -- "$RUNNER_TEMP/W8r/body_v2.blend" "$GITHUB_WORKSPACE/r57src" "$RUNNER_TEMP/V14r" 2>&1 | grep -E "LEGS_V2 |Traceback" | cut -c1-300 || true
+          python scripts/v14_investigation/cut_accounting_blender.py -- "$RUNNER_TEMP/W8r/body_v2.blend" "$RUNNER_TEMP/cut_W8r.json" | cut -c1-200
+      - name: Compare with L0 and the archived V14
+        run: |
+          set +e
+          python scripts/v14_investigation/compare_replay.py "$GITHUB_WORKSPACE" "$RUNNER_TEMP/W8r" "$RUNNER_TEMP/V14r" "$RUNNER_TEMP/cut_W8r.json" out/replay_compare.json
+          rc=$?
+          python - <<'PY'
+          import json
+          d = json.load(open("out/replay_compare.json"))
+          for k in ("PASS_exact_archived_V14_reproduced", "V14_vertices", "W8_rest_identical", "W8_tris_identical", "W8_offsets_max_dev_mm",
+                    "W8_proportion_max_dev_mm", "cut_fingerprints_identical_to_L0", "V14_report_leaves_vs_archive"):
+              print(f"::notice title=replay {k}::{d[k]}")
+          print(f"::notice title=replay V14 report differences::{json.dumps(d['V14_report_leaves_differing_from_archive'])[:900]}")
+          print(f"::notice title=replay W8 report differences::{json.dumps(d['W8_report_leaves_differing'])[:900]}")
+          PY
+          cp "$RUNNER_TEMP/V14r/legs_v2_report.json" out/ ; cp "$RUNNER_TEMP/cut_W8r.json" out/
+          ( cd "$RUNNER_TEMP" && sha256sum W8r/body_v2.blend V14r/body_v2_legs.blend ) > out/replay_blend_sha256.txt
+          exit $rc
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v14inv-replay-l0-${{ github.run_id }}
+          path: out/
+          retention-days: 90
+          if-no-files-found: error
   summarize:
     needs: [refine-determinism, cut-accounting-reconstructed-w8]
     if: always()

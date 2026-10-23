@@ -78,3 +78,14 @@ New read-only native evidence: [shoulder/axilla triage](PHONE_SHOULDER_AXILLA_TR
 - A controlled hypothesis/testing protocol has been committed; no skeleton, model mesh, shape key, muscle attachment, production application or source artifact altered. The V14 two-vertex archival mismatch and all movement acceptance failures remain unresolved.
 
 **Next safe work:** assess baseline/pose shape-key influence and local shoulder-region weight distribution without saving any model; review original evidence for bone-side orientation. Only after explicit scope may independent experimental candidate edits be attempted. Do not merge or deploy.
+
+
+## 2026-10-23 static shoulder shape-key and skin-weight inventory — CLOUD VALIDATION PENDING
+
+Following the verified rest-space triangle tracking, an additional **read-only** native Blender inspection was committed to the same isolated branch:
+- `scripts/phone_blender/rest_roi_audit.py`: inspect six 5cm body-local rest-coordinate cubes around W8 shoulder and clavicle/neck hotspot centres, reporting per-cell influenced vertex counts, total skin weight, top vertex-group mean weights, dominant groups, and stored shape-key absolute differences from Basis.
+- `scripts/cloud_body_analysis/tests/test_rest_roi_audit.py`: six pure-Python tests were executed locally and passed (sampling, shape-key delta, absent keys, malformed topology, negative weights, nonfinite vertices, empty regions).
+- `scripts/phone_blender/task.py`: outputs a `shoulder_shape_weight_rois.json` inventory per model, with exact source SHA256 guard before/after; does not save/modify any `.blend`.
+- Final script commit: `c1985b4a465278d3ce0f3275d490feb736f6de8d`. The new code's [Actions run 40022355554](https://github.com/anyangle1409-code/animation-software/actions/runs/40022355554) was **pending** at the time of this handover update. Do not label the native ROI report verified until its jobs pass and its artifacts have been inspected.
+
+**Important limitations:** A static shape key's stored Basis offset does not establish that the key fires in the shoulder-press pose or causes deformation. Cube centres originated from prior saved native rest-triangle snapshots and must be checked for exact coordinate-frame correspondence with the as-loaded body mesh. No anatomical left/right side accepted by label alone; no muscle attachments or experimental geometry edits authorized. Do not merge or deploy.

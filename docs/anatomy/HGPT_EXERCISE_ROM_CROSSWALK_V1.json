@@ -1,0 +1,234 @@
+{
+  "schema_version": 1,
+  "status": "CROSS_SOURCE_SEMANTIC_MAPPING_ONLY_NATIVE_NOT_APPROVED",
+  "source_experimental_pr": 124,
+  "source_experimental_branch": "work/experimental-anatomical-muscles-20261022",
+  "source_contract_commit_sha": "7c820d68de69dcdef7d567e836302123df953446",
+  "source_contract_blob_sha": "109faffc477a9a9e73092c67da75ef9d37275424",
+  "reference_document": "docs/anatomy/HGPT_HUMAN_JOINT_ROM_REFERENCE_V1.json",
+  "scope": "exact 16 distinct exercise joint-plus-coordinate combinations in 3 experimental exercise contracts, not all human joint axes",
+  "rules": [
+    "Matching semantic words does NOT calibrate native Blender axes, prove anatomical laterality or grant physiologic approval.",
+    "Humerothoracic elevation is a shoulder complex motion involving scapula/clavicle and cannot be assigned to the GH flexion axis by string matching.",
+    "The existing contract has both 'elevation' and 'humerothoracic_elevation'; preserve this ambiguity as blocked until movement plane and coordinate frames are reviewed.",
+    "CDC shoulder flexion mean is not a hard limit on a shoulder press angle in an unspecified plane.",
+    "CDC ankle dorsiflexion adult mean is not a maximum or proof that squat 25-degree target is unsafe; measure the posed ankle/foot contact and technique in context.",
+    "All lateral L/R IDs are semantic anatomical sides; runtime suffix mapping still needs independent verification.",
+    "Muscle activation estimates remain separate from joint pose and not physical muscle force.",
+    "Future muscle highlighting is deferred by owner; no visual/UI implementation is authorized."
+  ],
+  "mappings": [
+    {
+      "exercise_joint_id": "hgpt.joint.elbow.L",
+      "exercise_coordinate": "flexion",
+      "anatomical_side": "L",
+      "reference_coordinate_id": "hgpt.coordinate.elbow_flexion",
+      "semantic_match_status": "semantic_motion_matching_only",
+      "model_axis": null,
+      "model_side_suffix": null,
+      "clinical_hard_limit_deg": null,
+      "native_validation": "NOT_GRANTED",
+      "exercise_motion_acceptance": "NOT_GRANTED"
+    },
+    {
+      "exercise_joint_id": "hgpt.joint.elbow.R",
+      "exercise_coordinate": "flexion",
+      "anatomical_side": "R",
+      "reference_coordinate_id": "hgpt.coordinate.elbow_flexion",
+      "semantic_match_status": "semantic_motion_matching_only",
+      "model_axis": null,
+      "model_side_suffix": null,
+      "clinical_hard_limit_deg": null,
+      "native_validation": "NOT_GRANTED",
+      "exercise_motion_acceptance": "NOT_GRANTED"
+    },
+    {
+      "exercise_joint_id": "hgpt.joint.radioulnar.L",
+      "exercise_coordinate": "supination",
+      "anatomical_side": "L",
+      "reference_coordinate_id": "hgpt.coordinate.forearm_supination",
+      "semantic_match_status": "semantic_motion_matching_only",
+      "model_axis": null,
+      "model_side_suffix": null,
+      "clinical_hard_limit_deg": null,
+      "native_validation": "NOT_GRANTED",
+      "exercise_motion_acceptance": "NOT_GRANTED"
+    },
+    {
+      "exercise_joint_id": "hgpt.joint.radioulnar.R",
+      "exercise_coordinate": "supination",
+      "anatomical_side": "R",
+      "reference_coordinate_id": "hgpt.coordinate.forearm_supination",
+      "semantic_match_status": "semantic_motion_matching_only",
+      "model_axis": null,
+      "model_side_suffix": null,
+      "clinical_hard_limit_deg": null,
+      "native_validation": "NOT_GRANTED",
+      "exercise_motion_acceptance": "NOT_GRANTED"
+    },
+    {
+      "exercise_joint_id": "hgpt.joint.shoulder.L",
+      "exercise_coordinate": "elevation",
+      "anatomical_side": "L",
+      "reference_coordinate_id": null,
+      "semantic_match_status": "AMBIGUOUS_UNDEFINED_PLANE",
+      "model_axis": null,
+      "model_side_suffix": null,
+      "clinical_hard_limit_deg": null,
+      "native_validation": "NOT_GRANTED",
+      "exercise_motion_acceptance": "NOT_GRANTED"
+    },
+    {
+      "exercise_joint_id": "hgpt.joint.shoulder.R",
+      "exercise_coordinate": "elevation",
+      "anatomical_side": "R",
+      "reference_coordinate_id": null,
+      "semantic_match_status": "AMBIGUOUS_UNDEFINED_PLANE",
+      "model_axis": null,
+      "model_side_suffix": null,
+      "clinical_hard_limit_deg": null,
+      "native_validation": "NOT_GRANTED",
+      "exercise_motion_acceptance": "NOT_GRANTED"
+    },
+    {
+      "exercise_joint_id": "hgpt.joint.shoulder.L",
+      "exercise_coordinate": "humerothoracic_elevation",
+      "anatomical_side": "L",
+      "reference_coordinate_id": null,
+      "semantic_match_status": "COMPLEX_ELEVATION_PLANE_AND_AXIS_UNRESOLVED",
+      "model_axis": null,
+      "model_side_suffix": null,
+      "clinical_hard_limit_deg": null,
+      "native_validation": "NOT_GRANTED",
+      "exercise_motion_acceptance": "NOT_GRANTED"
+    },
+    {
+      "exercise_joint_id": "hgpt.joint.shoulder.R",
+      "exercise_coordinate": "humerothoracic_elevation",
+      "anatomical_side": "R",
+      "reference_coordinate_id": null,
+      "semantic_match_status": "COMPLEX_ELEVATION_PLANE_AND_AXIS_UNRESOLVED",
+      "model_axis": null,
+      "model_side_suffix": null,
+      "clinical_hard_limit_deg": null,
+      "native_validation": "NOT_GRANTED",
+      "exercise_motion_acceptance": "NOT_GRANTED"
+    },
+    {
+      "exercise_joint_id": "hgpt.joint.scapulothoracic.L",
+      "exercise_coordinate": "upward_rotation",
+      "anatomical_side": "L",
+      "reference_coordinate_id": "hgpt.coordinate.scapulothoracic_upward_rotation",
+      "semantic_match_status": "semantic_motion_matching_only",
+      "model_axis": null,
+      "model_side_suffix": null,
+      "clinical_hard_limit_deg": null,
+      "native_validation": "NOT_GRANTED",
+      "exercise_motion_acceptance": "NOT_GRANTED"
+    },
+    {
+      "exercise_joint_id": "hgpt.joint.scapulothoracic.R",
+      "exercise_coordinate": "upward_rotation",
+      "anatomical_side": "R",
+      "reference_coordinate_id": "hgpt.coordinate.scapulothoracic_upward_rotation",
+      "semantic_match_status": "semantic_motion_matching_only",
+      "model_axis": null,
+      "model_side_suffix": null,
+      "clinical_hard_limit_deg": null,
+      "native_validation": "NOT_GRANTED",
+      "exercise_motion_acceptance": "NOT_GRANTED"
+    },
+    {
+      "exercise_joint_id": "hgpt.joint.hip.L",
+      "exercise_coordinate": "flexion",
+      "anatomical_side": "L",
+      "reference_coordinate_id": "hgpt.coordinate.hip_flexion",
+      "semantic_match_status": "semantic_motion_matching_only",
+      "model_axis": null,
+      "model_side_suffix": null,
+      "clinical_hard_limit_deg": null,
+      "native_validation": "NOT_GRANTED",
+      "exercise_motion_acceptance": "NOT_GRANTED"
+    },
+    {
+      "exercise_joint_id": "hgpt.joint.hip.R",
+      "exercise_coordinate": "flexion",
+      "anatomical_side": "R",
+      "reference_coordinate_id": "hgpt.coordinate.hip_flexion",
+      "semantic_match_status": "semantic_motion_matching_only",
+      "model_axis": null,
+      "model_side_suffix": null,
+      "clinical_hard_limit_deg": null,
+      "native_validation": "NOT_GRANTED",
+      "exercise_motion_acceptance": "NOT_GRANTED"
+    },
+    {
+      "exercise_joint_id": "hgpt.joint.knee.L",
+      "exercise_coordinate": "flexion",
+      "anatomical_side": "L",
+      "reference_coordinate_id": "hgpt.coordinate.knee_flexion",
+      "semantic_match_status": "semantic_motion_matching_only",
+      "model_axis": null,
+      "model_side_suffix": null,
+      "clinical_hard_limit_deg": null,
+      "native_validation": "NOT_GRANTED",
+      "exercise_motion_acceptance": "NOT_GRANTED"
+    },
+    {
+      "exercise_joint_id": "hgpt.joint.knee.R",
+      "exercise_coordinate": "flexion",
+      "anatomical_side": "R",
+      "reference_coordinate_id": "hgpt.coordinate.knee_flexion",
+      "semantic_match_status": "semantic_motion_matching_only",
+      "model_axis": null,
+      "model_side_suffix": null,
+      "clinical_hard_limit_deg": null,
+      "native_validation": "NOT_GRANTED",
+      "exercise_motion_acceptance": "NOT_GRANTED"
+    },
+    {
+      "exercise_joint_id": "hgpt.joint.ankle.L",
+      "exercise_coordinate": "dorsiflexion",
+      "anatomical_side": "L",
+      "reference_coordinate_id": "hgpt.coordinate.ankle_dorsiflexion",
+      "semantic_match_status": "semantic_motion_matching_only",
+      "model_axis": null,
+      "model_side_suffix": null,
+      "clinical_hard_limit_deg": null,
+      "native_validation": "NOT_GRANTED",
+      "exercise_motion_acceptance": "NOT_GRANTED"
+    },
+    {
+      "exercise_joint_id": "hgpt.joint.ankle.R",
+      "exercise_coordinate": "dorsiflexion",
+      "anatomical_side": "R",
+      "reference_coordinate_id": "hgpt.coordinate.ankle_dorsiflexion",
+      "semantic_match_status": "semantic_motion_matching_only",
+      "model_axis": null,
+      "model_side_suffix": null,
+      "clinical_hard_limit_deg": null,
+      "native_validation": "NOT_GRANTED",
+      "exercise_motion_acceptance": "NOT_GRANTED"
+    }
+  ],
+  "blocked_mappings": [
+    {
+      "joint": "hgpt.joint.shoulder.L",
+      "coordinate": "elevation"
+    },
+    {
+      "joint": "hgpt.joint.shoulder.R",
+      "coordinate": "elevation"
+    },
+    {
+      "joint": "hgpt.joint.shoulder.L",
+      "coordinate": "humerothoracic_elevation"
+    },
+    {
+      "joint": "hgpt.joint.shoulder.R",
+      "coordinate": "humerothoracic_elevation"
+    }
+  ],
+  "calibration_approved": false,
+  "production_integration": false
+}

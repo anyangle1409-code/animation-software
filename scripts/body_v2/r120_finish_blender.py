@@ -176,12 +176,26 @@ if ARMDEF > 0:
 
     P2 = V + D
     ha = np.zeros(n)
+    # a smooth arm mask (v1's hard ARM > 0.2 cut drew a crease across the shoulder top)
+    am = ss((ARM - 0.2) / 0.5) * NEWR
+    for _ in range(8):
+        am = 0.5 * am + 0.5 * mean(am)
+    SLIM_U = float(os.environ.get("V2_R121_SLIM_UPPER", "0.15")); SLIM_F = float(os.environ.get("V2_R121_SLIM_FORE", "0.12"))
+    AMP = float(os.environ.get("V2_R121_ARM_AMP", "0.6"))
+    DS = np.zeros_like(P2)
     for side_ in ("r", "l"):
         uH, uT = _seg(f"upperarm_{side_}"); fH, fT = _seg(f"forearm_{side_}"); sgn = float(np.sign(uH[0]))
-        idx = np.nonzero((ARM > 0.2) & NEWR & (np.sign(P2[:, 0]) == sgn))[0]; P = P2[idx]
+        idx = np.nonzero((am > 1e-3) & (np.sign(P2[:, 0]) == sgn))[0]; P = P2[idx]
         tu, thu = _frame(uH, uT, sgn, P); tf, thf = _frame(fH, fT, sgn, P)
         wU = np.clip(1 - ss((tf + 0.04) / 0.10), 0, 1)
-        hu = (_bump(tu, thu, -0.05, 0.47, 90, 80, 11.0, 0.8) + 3.0 * ss((tu - 0.1) / 0.1) * ss((0.9 - tu) / 0.1)
+        # v2: slim the arms towards their bone axes first - the rebuilt arms were ~25 % wider than the reference's at
+        # the biceps (front view); fades out at the shoulder and before the wrist
+        for (Hh, Tt, t_, k_, w_) in ((uH, uT, tu, SLIM_U, wU), (fH, fT, tf, SLIM_F, 1 - wU)):
+            u_ = (Tt - Hh) / np.linalg.norm(Tt - Hh)
+            axp = Hh + np.outer(t_ * np.linalg.norm(Tt - Hh), u_)
+            fade = ss((t_ - 0.02) / 0.18) * ss((0.98 - t_) / 0.15) if k_ is SLIM_U else ss((t_ + 0.1) / 0.15) * ss((0.92 - t_) / 0.12)
+            DS[idx] += -(P - axp) * (k_ * fade * w_ * am[idx])[:, None]
+        hu = (_bump(tu, thu, -0.05, 0.47, 90, 80, 11.0, 0.8)
               + _bump(tu, thu, 0.05, 0.42, 25, 35, 3.0) + _bump(tu, thu, 0.05, 0.42, 160, 35, 3.0)
               - _bump(tu, thu, 0.38, 0.52, 90, 55, 3.0) + _bump(tu, thu, 0.28, 0.90, 0, 45, 11.0, 1.3)
               + _bump(tu, thu, 0.12, 0.80, 180, 52, 9.0, 1.2) + _bump(tu, thu, 0.22, 0.58, 135, 30, 3.0)
@@ -191,10 +205,13 @@ if ARMDEF > 0:
               + _bump(tf, thf, 0.04, 0.60, 125, 40, 4.0, 1.1) - _bump(tf, thf, -0.05, 0.12, -10, 22, 2.5))
         hf -= 4.0 * ss((tf - 0.55) / 0.35)
         h_ = np.where(tu > -0.15, hu * wU, 0.0) + np.where((tf > -0.2) & (tf < 1.05), hf * (1 - wU), 0.0)
-        ha[idx] += h_ * ss((1.08 - np.clip(tf, 0, None)) / 0.08)
+        ha[idx] += h_ * ss((1.08 - np.clip(tf, 0, None)) / 0.08) * am[idx]
     for _ in range(3):
         ha = 0.5 * ha + 0.5 * mean(ha)
-    D = D + fn * (ARMDEF * ha / 1000.0)[:, None]
+    for _ in range(4):
+        DS = 0.5 * DS + 0.5 * mean(DS)
+    D = D + DS * ARMDEF + fn * (ARMDEF * AMP * ha / 1000.0)[:, None]
+    REP["arm_slim_max_mm"] = round(float(np.linalg.norm(DS, axis=1).max() * 1000), 1)
     REP["arm_muscles"] = {"max_mm": round(float(ha.max()), 2), "min_mm": round(float(ha.min()), 2), "vertices": int((np.abs(ha) > 0.2).sum())}
 
 # ------------------------------------------------------------------ write: basis and every shape key move together

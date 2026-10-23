@@ -90,3 +90,34 @@ Failure/error records:
 - FAIL: test_current_candidate_status_matches_repository_evidence (test_verify_original_v1_candidate_status.CandidateStatusTests.test_current_candidate_status_matches_repository_evidence)
 
 Causes: missing archived evidence (18 missing vs committed allowance 1), historical orchestration phase/test expectations disagree with current pinned recovery plan; production-control fixtures now correctly refuse a development freeze while shoulder/axilla blockers remain; exact floating-point dictionary comparison differs in rejected spine reconstruction; candidate-status fixture expects candidate_not_production but evidence reports candidate_rejected_for_anatomical_repair. These baseline tests were not edited or weakened. Cloud repeats retain full logs; reconstructed-model native validation continues independently.
+
+## Cloud recovery evidence — 23 October, follow-up
+
+Reconstruction run 39916468327 actually wrote all three .blend candidates and rendered all requested views.
+Its final ci-folder write failed because output permissions were read-only; artifacts were still uploaded.
+Expanded run 39918805189 fixed that bookkeeping issue, repeated native verification, and correctly FAILED archive/content gates.
+Actual files: W8 208,036,008 bytes (SHA256 2434afd0daa231ab3a03c873cad4187ffcbc1bab78132375221160b0b0f09e4c);
+v14 211,149,283 bytes (5969aa98122e267b6bdd94fdfaf6d2877a1b27f7ea8d11c6a8e078b467b0ff91);
+R120 314,795,547 bytes (fb3b0acfc68bc59952b0fc6c45f7d7715717207fd9ba0b7f2b124e905ce2ddcb), experimental.
+
+W8 native structural checks: 5 PASS, 0 FAIL; v14: 6 PASS, 1 FAIL (238,065 vs expected 238,067 vertices); R120: 4 PASS, 0 FAIL, measurement only.
+W8 archive comparison: 0 PASS, 4 FAIL. Offset-array difference maximum 3.5928599834 mm and proportion-array difference 0.8375732899 mm against unchanged 0.01 mm guard. Mesh correspondence is not independently established, so these array differences are not a measured anatomical point displacement.
+Full JSON discrepancies: 1 W8 skeleton-edit field, 12 W8 report fields, 10 v14 report fields, all retained in all_archive_json_discrepancies.json.
+The single skeleton-edit difference is a 0.000431996 mm change in side-fit arm Y shift. v14 also has back_depth_smooth and pec_junction report fields absent from the archived report; current defaults include those operations. BMesh operations consume unordered edge sets; possible refinement non-repeatability is an unproven cause, not a resolved diagnosis.
+
+Native inventory on all recovered models PASSED, recording 206 reference bones and 77 runtime authoring bones.
+The older native benchmark setup refused all recovered models before posing: production bridge expects 67 runtime bones.
+This is a harness applicability failure, not a demonstrated deformation defect. Production guard remains unchanged.
+Muscle attachment/copy gate correctly BLOCKED. No native attachments or anatomy approval granted.
+
+Artifact access run 39922636070 PASSED. Separate exact per-model artifacts are below the connector 512 MiB cap;
+the original 1,031,651,971-byte combined artifact was too large for that connector. See docs/BODY_V2_RECOVERED_ACCESS_20261023.json and .md for links and hashes.
+The 55,269,994-byte render/discrepancy ZIP was retrieved and SHA256 verified locally:
+7c4bd7dd6e56393aabe8b3fa6ad86e6464663d9653fc9b01649460d59a8256b2.
+The actual four-view comparison was visually inspected; no anatomical acceptance inferred from appearance.
+
+Ruling: add a separate SHA-pinned recovered-candidate diagnostic cohort using saved reference guides and rest matrices,
+with the unchanged R57 pose paths/metrics. It does not run through, modify, or pass the 67-bone production bridge;
+archive FAIL and anatomy NOT_GRANTED remain explicit. Rest-bone signatures and source bytes are checked unchanged.
+Unknown candidate hashes are refused. Independent static review found no Important findings; 15 combined guard tests pass.
+Native execution of this new adapter is still pending. No reconstruction is repeated for this diagnostic continuation.

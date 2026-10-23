@@ -1,3 +1,5 @@
+> **Cloud recovery follow-up, 23 October 2026:** isolated [draft PR #125](https://github.com/anyangle1409-code/animation-software/pull/125) now configures Blender 5.2.0 / Python 3.13 recovery, retained artifacts, four native validation jobs and guarded PR124 muscle staging. GitHub confirms Blender/dependency installation passed in [initial run 39916468327](https://github.com/anyangle1409-code/animation-software/actions/runs/39916468327). Reconstruction remains in progress; no rebuilt model or anatomy pass is claimed yet. [Expanded run 39918805189](https://github.com/anyangle1409-code/animation-software/actions/runs/39918805189) is queued and reuses completed exact model bytes when available. See `docs/BODY_V2_ACTIONS_RECOVERY_LEDGER_20261023.md`; final cloud results will be appended below. The original blocked-session account follows unchanged.
+
 # Body v2 recovery handover — 23 October 2026
 
 **Bottom line: no Blender file was rebuilt, saved, rendered or tested in this session.** The session's container had no

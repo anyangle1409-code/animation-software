@@ -137,3 +137,20 @@ assert sha(source) == EXPECTED[MODEL], "Read-only audit altered source"
     "unweighted_vertices": unweighted, "approval": "NOT_GRANTED"
 }, indent=2))
 print("READ_ONLY_REST_AUDIT_VALIDATED", MODEL)
+
+
+# W8 shoulder-press flagged REST-coordinate cells: static, source-preserving
+# weight-group and stored shape-key inventory. No deformation operator called.
+from rest_roi_audit import analyze as inspect_rest_roi
+roi = inspect_rest_roi(body)
+roi["model"] = MODEL
+roi["source_sha256"] = EXPECTED[MODEL]
+roi["original_source_unchanged"] = (sha(source) == EXPECTED[MODEL])
+assert roi["original_source_unchanged"], "Shoulder ROI inspection changed model input"
+assert roi["shape_key_count"] == report["shape_keys"]
+assert roi["vertex_group_count"] == report["groups"]
+assert roi["mesh_vertices"] == report["vertices"]
+assert roi["status"] == "READ_ONLY_REST_MESH_PROBE_NOT_ANATOMICAL_APPROVAL"
+(out / "shoulder_shape_weight_rois.json").write_text(json.dumps(roi, indent=2) + "\n")
+print("READ_ONLY_SHOULDER_SHAPE_WEIGHT_ROIS", MODEL,
+      [(entry["name"], entry["sampled_vertices"]) for entry in roi["regions"]])

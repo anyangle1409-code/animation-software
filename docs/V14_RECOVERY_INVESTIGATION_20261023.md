@@ -127,7 +127,7 @@ The right leg's skin near the cut differs in all three. The third build's total 
 
 It applies cleanly (`git apply --check`) and has **not** been applied to `scripts/body_v2`.
 
-Applied to a scratch copy and run in two fresh processes, it gives `beautify_geom` 45864, 1144, 60934, 1357, 269375, 10890 and triangle hash `aaf86a9f…` both times. That is identical to the index-sorted runs locally and on GitHub. Evidence: `evidence/local_refine_candidate_patch_{1,2}.json`; the workflow's `patched` matrix leg runs the same check on GitHub-hosted Blender.
+Applied to a scratch copy and run in two fresh processes, it gives `beautify_geom` 45864, 1144, 60934, 1357, 269375, 10890 and triangle hash `aaf86a9f…` both times. That is identical to the index-sorted runs locally and on GitHub. Evidence: `evidence/local_refine_candidate_patch_{1,2}.json`. **Confirmed on GitHub-hosted Blender** in run [40021718681](https://github.com/anyangle1409-code/animation-software/actions/runs/40021718681) (all jobs passed): the `patched` leg twice produced `beautify_geom` 45864, 1144, 60934, 1357, 269375, 10890 and triangles `aaf86a9f…`, the same as the sorted leg. Verdicts: R1 (set order non-deterministic) True, R2 (sorted deterministic) True, R3 (patch deterministic and equal to sorted) True.
 
 Integrating it is the owner's decision. It changes W8 itself to a new, reproducible triangulation that is not L0's, so W8, V14 and R120 would need to be rebuilt and re-reviewed. Other `list({...})` set inputs to `bmesh.ops` remain:
 - `legs_v2_blender.py`: the leg-cut bisect;

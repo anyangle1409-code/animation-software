@@ -64,12 +64,38 @@ The full builder logs give more independent `beautify_geom` values for the same 
 
 **C. The later stages are not involved.** Every leg-step run I made from L0 with `legs_v2_blender.py` (L10–L18, versions v10–v18, with and without torso relief, `back_depth_smooth`, `pec_junction` and the hip fill), plus the legs-only base, reported cut loops 699 / 696 and 238,067 vertices. The stages that appear only in the reconstruction's report move vertices and never add or remove them.
 
-**D. GitHub-hosted runs.** Workflow: `.github/workflows/v14-recovery-investigation.yml`, run 40020020099. It does the following:
-- runs `refine()` four times on the R41 checkout at 025d5f28: twice as the builder runs it, twice index-sorted;
-- replays the cut on the preserved reconstructed W8 (artifact 12487119841);
-- summarises the results.
+**D. GitHub-hosted runs.** Workflow: `.github/workflows/v14-recovery-investigation.yml`, on `ubuntu-24.04` with the `bpy==5.2.0` wheel and R41 checked out at 025d5f28.
 
-Results are recorded below once the run has finished.
+Runs (all jobs passed):
+- [40020020099](https://github.com/anyangle1409-code/animation-software/actions/runs/40020020099)
+- [40020438245](https://github.com/anyangle1409-code/animation-software/actions/runs/40020438245)
+- [40020914504](https://github.com/anyangle1409-code/animation-software/actions/runs/40020914504)
+
+The results are published as check-run annotations on the `summarize` job, which can be read through the API without downloading artifacts.
+
+*`refine()` on GitHub:*
+
+| Run | `beautify_geom` | Vertex set | Triangles |
+|---|---|---|---|
+| As the builder, 1 | 45859, 1144, 60962, 1360, 269434, 10880 | `ce90d1d7…` | `210ad3c1…` |
+| As the builder, 2 | 45859, 1150, 60947, 1357, 269407, 10901 | `ce90d1d7…` | `9377e6ff…` |
+| Index-sorted, 1 | 45864, 1144, 60934, 1357, 269375, 10890 | `ce90d1d7…` | **`aaf86a9f…`** |
+| Index-sorted, 2 | 45864, 1144, 60934, 1357, 269375, 10890 | `ce90d1d7…` | **`aaf86a9f…`** |
+
+The vertex set is identical in all eight runs, local and GitHub. The as-builder triangulation differs every time. The sorted triangulation is identical locally (bpy 5.2.1) and on GitHub (bpy 5.2.0): it is deterministic across machines and Blender patch versions.
+
+*The V14 cut replayed on the preserved reconstructed W8* (artifact 12487119841, read-only), next to L0:
+
+| W8 input | Cut height `zc` (m) | Stature (m) | Right loop / removed | Left loop / removed | Predicted V14 total |
+|---|---|---|---|---|---|
+| L0, the archived V14's input | 0.8338477725 | 1.8561579757 | 699 / 46,336 | 696 / 46,328 | **238,067** (= archive) |
+| Reconstructed W8 | 0.8338477725 | 1.8561579757 | **700 / 46,339** | 696 / 46,328 | **238,065** (= reconstruction) |
+
+The cut plane and stature are identical to the last digit, and the left leg is identical.
+
+The whole difference is on the right leg: bisect creates one more vertex there (700 vs 699) and deletes three more old vertices (46,339 vs 46,336), net −2.
+
+The right leg's skin within 1 cm of the cut differs between the two W8 files in both vertex positions (band hash `cdaee16f…` vs `56bc5edc…`) and triangles (`864d4581…` vs `6f855116…`). That is what the non-deterministic refinement and the neighbour-average sculpting downstream of it produce.
 
 ## What this means for integration
 

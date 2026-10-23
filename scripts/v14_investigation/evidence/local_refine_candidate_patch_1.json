@@ -1,0 +1,27 @@
+{
+ "mode": "CANDIDATE_deterministic_refine.patch applied to a scratch copy (python-set code path, patched)",
+ "pythonhashseed": null,
+ "bpy": "5.2.1 LTS",
+ "r41_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+ "seconds": 38.4,
+ "refine_report": {
+  "vertices_after": 219974,
+  "triangles_after": 439944,
+  "rounds_edges_split": [
+   49836,
+   92974,
+   55564
+  ],
+  "beautify_geom": [
+   45864,
+   1144,
+   60934,
+   1357,
+   269375,
+   10890
+  ]
+ },
+ "sha256_vertex_positions_as_set": "ce90d1d7ecd42ea2007efff69e0c785ae94cdfac75f6a1e0d0590fd9e45b5d4f",
+ "sha256_triangles_geometric": "aaf86a9f041348b1242517ba6154dbcdf8c3433a9874b7e70b3b84fa33046873",
+ "sha256_index_order": "7ec53f0bdc8df0e32cb327490cc66c4fa0e40769244f0872553407713e57437a"
+}

@@ -25,7 +25,8 @@ args = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else sys.argv[1:]
 ROOT, OUTF = Path(args[0]).resolve(), Path(args[1])
 SORTED = "--sorted" in args
 HERE = Path(__file__).resolve().parent
-sys.path[:0] = [str(ROOT / "scripts"), str(ROOT / "scripts/anatomy_fit"), str(HERE.parent / "body_v2")]
+sys.path[:0] = [str(ROOT / "scripts"), str(ROOT / "scripts/anatomy_fit"),
+                os.environ.get("V14INV_REFINE_DIR", str(HERE.parent / "body_v2"))]   # override: test a patched copy
 import build_original_review_candidate_r17_blender as r17
 import refine_torso_blender as rt
 
@@ -77,7 +78,7 @@ tri_geo = np.sort(tri_geo.view(np.int64).reshape(len(T), 9).view([(f"c{i}", np.i
 geo_sha = hashlib.sha256(tri_geo.tobytes()).hexdigest()
 vert_set_sha = hashlib.sha256(np.sort(Pr.view([("x", np.int64), ("y", np.int64), ("z", np.int64)]).ravel()).tobytes()).hexdigest()
 idx_sha = hashlib.sha256(T.astype(np.int64).tobytes() + Pr.tobytes()).hexdigest()
-out = {"mode": "sorted" if SORTED else "python-set order (as the builder)", "pythonhashseed": os.environ.get("PYTHONHASHSEED"),
+out = {"mode": "sorted" if SORTED else ("patched module: " + os.environ["V14INV_REFINE_DIR"] if "V14INV_REFINE_DIR" in os.environ else "python-set order (as the builder)"), "pythonhashseed": os.environ.get("PYTHONHASHSEED"),
        "bpy": bpy.app.version_string, "r41_sha256": src_sha, "seconds": round(time.time() - t0, 1),
        "refine_report": {k: rep[k] for k in ("vertices_after", "triangles_after", "rounds_edges_split", "beautify_geom")},
        "sha256_vertex_positions_as_set": vert_set_sha, "sha256_triangles_geometric": geo_sha,

@@ -102,3 +102,27 @@ The right leg's skin within 1 cm of the cut differs between the two W8 files in 
 - **Do not add or delete two vertices.** The archived V14 is one sample from a non-deterministic build. A reconstruction can only match it by chance.
 - **Make the build deterministic first.** In `refine()`, pass sorted lists instead of sets, e.g. `sorted(edges, key=lambda e: e.index)` after `index_update()`. Do the same for every other `list({...})` passed to a `bmesh.ops` call: `legs_v2_blender.py` (bisect geometry) and `rebuild_v2_blender.py` (bisect). `--sorted` above shows this gives identical runs. This is a code change for a separate candidate branch. It is **not** applied to the original scripts here.
 - **Exact equivalence with the archive is not recoverable** without L0's triangulation, because L0 was never committed. Equivalence would have to be redefined: matching counts within run-to-run spread, or a deterministic rebuild declared as the new reference by the owner.
+
+## Candidate fix (not applied)
+
+`scripts/v14_investigation/CANDIDATE_deterministic_refine.patch` changes only `refine_torso_blender.py`. It adds `_ordered(bm, elems)`, which updates the indices and sorts by index, and uses it for:
+- `subdivide_edges`;
+- `triangulate`;
+- both `beautify_fill` calls (faces and edges).
+
+It applies cleanly (`git apply --check`) and has **not** been applied to `scripts/body_v2`.
+
+Applied to a scratch copy and run in two fresh processes, it gives `beautify_geom` 45864, 1144, 60934, 1357, 269375, 10890 and triangle hash `aaf86a9f…` both times. That is identical to the index-sorted runs locally and on GitHub. Evidence: `evidence/local_refine_candidate_patch_{1,2}.json`; the workflow's `patched` matrix leg runs the same check on GitHub-hosted Blender.
+
+Integrating it is the owner's decision. It changes W8 itself to a new, reproducible triangulation that is not L0's, so W8, V14 and R120 would need to be rebuilt and re-reviewed. Other `list({...})` set inputs to `bmesh.ops` remain:
+- `legs_v2_blender.py`: the leg-cut bisect;
+- `rebuild_v2_blender.py`: bisect.
+
+A bisect's result does not depend on input order, but sorting those inputs too would be the conservative choice.
+
+## Remaining blockers
+
+1. **Exact equivalence with the archived V14 needs L0's triangulation.** L0's refined positions, triangles, coarse map and offsets are preserved in `evidence/build_L0/` (with the original files' SHA-256s). A "replay L0" builder mode that loads them instead of calling `refine()` has not been written or tested.
+2. **The archived w8 .blend never existed.** That run saved renders and arrays only, and its arrays are preserved in `evidence/build_w8/`. The archive's W8 offsets are therefore also only reproducible by replay.
+3. **Owner decision needed:** which W8 becomes the reference (L0 replay, archived w8 replay, or a new deterministic build), and whether to adopt the patch.
+4. **GitHub artifacts and logs can't be downloaded from the Claude session** (the blob host is refused), so evidence is read from job annotations. ChatGPT's workbench can download the artifacts directly.

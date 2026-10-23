@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        mode: [unsorted, sorted]
+        mode: [unsorted, sorted, patched]
         rep: [1, 2]
     steps:
       - uses: actions/checkout@v4
@@ -40,6 +40,12 @@ jobs:
       - name: refine() determinism run
         run: |
           FLAG=""; [ "${{ matrix.mode }}" = "sorted" ] && FLAG="--sorted"
+          if [ "${{ matrix.mode }}" = "patched" ]; then
+            # the candidate fix, applied to a scratch copy only (scripts/body_v2 is not modified)
+            mkdir -p "$RUNNER_TEMP/patched" && cp scripts/body_v2/refine_torso_blender.py "$RUNNER_TEMP/patched/"
+            patch "$RUNNER_TEMP/patched/refine_torso_blender.py" scripts/v14_investigation/CANDIDATE_deterministic_refine.patch
+            export V14INV_REFINE_DIR="$RUNNER_TEMP/patched"
+          fi
           python scripts/v14_investigation/refine_determinism_blender.py -- "$GITHUB_WORKSPACE/r57src" \
             "out/gh_refine_${{ matrix.mode }}_${{ matrix.rep }}.json" $FLAG
       - uses: actions/upload-artifact@v4

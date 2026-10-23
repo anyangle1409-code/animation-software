@@ -31,8 +31,11 @@ def main():
                                ("cut_loop_boundary_vertices", "old_vertices_removed", "sha256_band_vertex_positions", "sha256_band_triangles")}}
                         for k, v in cut.items()},
            "verdicts": {}}
-    uns = [v for v in ref.values() if v["mode"] != "sorted"]; srt = [v for v in ref.values() if v["mode"] == "sorted"]
+    uns = [v for v in ref.values() if v["mode"].startswith("python-set")]; srt = [v for v in ref.values() if v["mode"] == "sorted"]
+    pat = [v for v in ref.values() if "patch" in v["mode"]]
     V = res["verdicts"]
+    if pat:
+        V["R3_candidate_patch_deterministic_and_equal_to_sorted"] = len({v["sha256_triangles_geometric"] for v in pat + srt}) == 1
     if len(uns) >= 2:
         V["R1_set_order_nondeterministic"] = len({v["sha256_triangles_geometric"] for v in uns}) > 1 and \
             len({v["sha256_vertex_positions_as_set"] for v in uns}) == 1

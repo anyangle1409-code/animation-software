@@ -18,8 +18,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - model: W8
-          file: body_v2.blend
         - model: V14
           file: body_v2_legs.blend
         - model: R120
@@ -85,6 +83,13 @@ jobs:
     - uses: actions/checkout@v4
       with:
         ref: work/body-v2-actions-recovery-20261023
+    - name: Reuse completed W8 diagnostics without repeating native measurements
+      uses: actions/download-artifact@v4
+      with:
+        name: candidate-movement-W8-39923681466
+        run-id: 39923681466
+        github-token: ${{ github.token }}
+        path: ${{ runner.temp }}/diagnostic
     - uses: actions/download-artifact@v4
       with:
         pattern: candidate-movement-*-${{ github.run_id }}
@@ -93,21 +98,25 @@ jobs:
     - name: Record true candidate diagnostics while preserving failed archive and production gates
       env:
         RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        RUN_ID: ${{ github.run_id }}
       run: "python - <<'EOF'\nimport os,json\nfrom pathlib import Path\nroot=Path(os.environ['RUNNER_TEMP'])/'diagnostic'\n\
         reports={name:json.loads((root/name/'diagnostics.json').read_text()) if (root/name/'diagnostics.json').exists()\
         \ else {'status':'MISSING'} for name in ('W8','V14','R120')}\nsummary={'run_url':os.environ['RUN_URL'],'archive_equivalence':'FAIL','production_bridge':'INCOMPATIBLE\
-        \ \u2014 unchanged 67-bone production vs 77-bone authoring rig','anatomical_approval':'NOT_GRANTED','candidates':{k:{f:r.get(f)\
-        \ for f in ('source_sha256','source_unchanged','summary','errors')} for k,r in reports.items()}}\nPath('docs/BODY_V2_CANDIDATE_MOVEMENT_DIAGNOSTICS_20261023.json').write_text(json.dumps(summary,indent=2)+'\\\
+        \ \u2014 unchanged 67-bone production vs 77-bone authoring rig','anatomical_approval':'NOT_GRANTED','candidate_run_ids':{'W8':39923681466,'V14':int(os.environ['RUN_ID']),'R120':int(os.environ['RUN_ID'])},'candidates':{k:{f:r.get(f)\
+        \ for f in ('source_sha256','source_unchanged','measurement_tessellation','summary','errors')} for k,r in\
+        \ reports.items()}}\nPath('docs/BODY_V2_CANDIDATE_MOVEMENT_DIAGNOSTICS_20261023.json').write_text(json.dumps(summary,indent=2)+'\\\
         n')\nlines=['# Recovered-candidate movement diagnostics','','Run: '+os.environ['RUN_URL'],'','Archive equivalence\
         \ remains FAILED. Production bridge remains incompatible (67 vs 77 bones). Anatomy and production approval\
         \ are NOT GRANTED. These diagnostics use existing saved guides and unchanged R57 movement paths; they do\
         \ not make the candidate a production rig.','','| Candidate | All 13 paths / 9 frames complete | Zero collapse/stretch/intersections\
         \ | Source bytes unchanged |','|---|---|---|---|']\nfor name,r in reports.items():\n s=r.get('summary',{});lines.append(f\"\
         | {name} | {s.get('complete',False)} | {s.get('quality_pass',False)} | {r.get('source_unchanged',False)}\
-        \ |\")\nlines+=['','Full per-frame measurements and tracebacks are retained in the candidate-movement artifacts.\
-        \ R120 remains experimental. Muscle attachment stays blocked until source/content gates and anatomical review\
-        \ are resolved.']\nPath('docs/BODY_V2_CANDIDATE_MOVEMENT_DIAGNOSTICS_20261023.md').write_text('\\n'.join(lines)+'\\\
-        n')\nEOF\ngit config user.name 'github-actions[bot]'\ngit config user.email '41898282+github-actions[bot]@users.noreply.github.com'\n\
+        \ |\")\nlines+=['','W8 measurements are reused from run 39923681466, preserving all failures. V14 and R120\
+        \ use fixed native rest loop-triangle indices for every pose; source polygons, vertices, metrics and thresholds\
+        \ are unchanged.','','Full per-frame measurements and tracebacks are retained in the candidate-movement\
+        \ artifacts. R120 remains experimental. Muscle attachment stays blocked until source/content gates and anatomical\
+        \ review are resolved.']\nPath('docs/BODY_V2_CANDIDATE_MOVEMENT_DIAGNOSTICS_20261023.md').write_text('\\\
+        n'.join(lines)+'\\n')\nEOF\ngit config user.name 'github-actions[bot]'\ngit config user.email '41898282+github-actions[bot]@users.noreply.github.com'\n\
         git add docs/BODY_V2_CANDIDATE_MOVEMENT_DIAGNOSTICS_20261023.json docs/BODY_V2_CANDIDATE_MOVEMENT_DIAGNOSTICS_20261023.md\n\
         git commit -m \"docs: record candidate diagnostics without promoting failed recovery gates\"\ngit push origin\
         \ HEAD:work/body-v2-actions-recovery-20261023"

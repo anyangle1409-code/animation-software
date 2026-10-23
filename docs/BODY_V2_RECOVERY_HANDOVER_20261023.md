@@ -201,3 +201,12 @@ Native inventories passed. Recovered-model movement setup hit the older 67-bone 
 The first run completed reconstruction but failed its final read-only-folder bookkeeping step; outputs were retained. That permission issue was fixed in the expanded workflow.
 The combined artifact exceeds the connector 512 MiB download cap. These individual model artifacts preserve exact bytes with separate SHA256SUMS.txt files.
 No original/production model or skeletal data changed. PT_MODEL_VERSION remains 1.0.
+
+
+### 2026-10-23 — completed movement diagnostics and bounded measurement fix
+
+Run [39923681466](https://github.com/anyangle1409-code/animation-software/actions/runs/39923681466) completed. W8 measured 12 of 13 paths at 9 frames each; grip failed the unchanged thumb-placement pair limit. There are 253 per-frame collapse/stretch/intersection failure records. Worst counts across measured frames: 229 collapsed triangles, 3509 stretched triangles, 3499 intersecting pairs. These are density-dependent diagnostic counts, not anatomical approval. All three source-file hashes remained unchanged.
+
+V14 and R120 could not reach frame metrics on 12 paths because their polygon snapshots include non-triangles; grip independently failed its solver limit. This is a measurement-format blocker, not a passing model result. The isolated adapter now freezes Blender native loop-triangle indices from each path's rest snapshot and uses those exact indices for every pose, preserving coordinates, source polygons, bone data, original R57 paths/metrics and thresholds. Changes in evaluated topology fail closed. Existing W8 triangle order and completed failures are retained. Three new regression tests failed before implementation and then passed; 18 combined recovery/diagnostic/access guards pass. Native cloud verification of this fix remains pending. Follow-up runs only V14/R120 and reuses W8 artifact from run39923681466.
+
+Archive/content gates remain FAILED; the unchanged 67-bone production bridge remains incompatible with the 77-bone authoring rigs. R120 remains experimental, anatomical approval NOT_GRANTED, and muscle attachment BLOCKED. No original assets, PT_MODEL_VERSION1.0, skeletal source data, production files or source branch were changed.

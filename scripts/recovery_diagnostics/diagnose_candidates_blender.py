@@ -74,7 +74,10 @@ def main():
     report={'candidate':name,'source_sha256':digest,'blender':bpy.app.version_string,'benchmarks':{},'errors':{},
             'production_bridge':'INCOMPATIBLE — unchanged 67-bone contract; recovered authoring rig has 77',
             'archive_equivalence':'FAIL','anatomical_approval':'NOT_GRANTED','approved':False}
+    from fixed_measurement_triangles import freeze_evaluated
     original=correction.build_corrected_scene
+    original_evaluated=bench._evaluated
+    report['measurement_tessellation']={}
     try:
         for path in NAMES:
             try:
@@ -85,6 +88,15 @@ def main():
                 px.install()
                 if 'hgpt_cap_fraction_ramp' in rig or px._PATH['name']!='v4':raise ValueError('Unexpected press setup')
                 correction.build_corrected_scene=lambda:result
+                def native_triangles(ob):
+                    evaluated=ob.evaluated_get(bpy.context.evaluated_depsgraph_get())
+                    mesh=evaluated.to_mesh()
+                    try:
+                        mesh.calc_loop_triangles()
+                        return [tuple(t.vertices) for t in mesh.loop_triangles]
+                    finally:evaluated.to_mesh_clear()
+                bench._evaluated,tessellation=freeze_evaluated(original_evaluated,native_triangles)
+                report['measurement_tessellation'][path]=tessellation
                 outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))
                 report['benchmarks'][path]=outcome['benchmarks'][path]
                 if rest_signature(rig,body)!=rest_before:raise ValueError('Transient setup changed candidate rest bones')
@@ -97,7 +109,9 @@ def main():
             if report['errors']:report['summary']['complete']=False;report['summary']['quality_pass']=False
             report['source_unchanged']=sha(source)==digest
             out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,indent=2,default=str)+'\n')
-    finally:correction.build_corrected_scene=original
+    finally:
+        correction.build_corrected_scene=original
+        bench._evaluated=original_evaluated
     if not report['summary']['complete'] or not report['source_unchanged']:raise SystemExit(1)
 
 if __name__=='__main__':main()

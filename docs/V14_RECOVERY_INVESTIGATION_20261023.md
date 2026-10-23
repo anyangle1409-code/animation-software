@@ -195,6 +195,21 @@ Script: `compare_w8_replay.py`. Evidence: `evidence/local_w8_replay_compare.json
 - R120 is EXPERIMENTAL in any case.
 - **Recommendation:** treat the replayed R120 as the reference if one is needed, and record this tolerance (5,210 vertices, ≤ 1.14 mm). If R120 is pursued, sort the set-ordered seam loops in `rebuild_v2_blender.py` too.
 
+## Deterministic pipeline: proven on a separate candidate branch
+
+Branch `claude/v14-deterministic-candidate-20261023`; see `docs/V14_DETERMINISTIC_CANDIDATE_20261023.md` there.
+
+In GitHub run 40032993456, two independent runners built W8, V14 and R120 from R41. All three came out **bit-identical** (positions, faces, weights, offsets and reports). That needed:
+- the `refine()` patch;
+- Jacobi relaxation and index-sorted lists in the leg step;
+- index-sorted seam loops and bisect inputs in the rebuild.
+
+The run before those leg-step and rebuild fixes (40030796708) showed that the leg step and rebuild had run-to-run variation of their own: up to 0.4 mm in V14, and ±1 vertex in R120.
+
+**Owner choice:**
+- **Archived models:** reproduce them by replay (W8 and V14 exact; R120 within 1.14 mm).
+- **New reproducible models:** adopt the deterministic candidate.
+
 ## Candidate fix (not applied)
 
 `scripts/v14_investigation/CANDIDATE_deterministic_refine.patch` changes only `refine_torso_blender.py`. It adds `_ordered(bm, elems)`, which updates the indices and sorts by index, and uses it for:

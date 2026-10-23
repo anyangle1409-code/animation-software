@@ -60,3 +60,15 @@ At frame6, the **3509** stretch and **110** collapse counts reproduce the earlie
 - Native ISB coordinate frame, axilla placement, muscle paths/attachments, foot and elbow acceptance **NOT_GRANTED**.
 
 **Next safe item:** compare measured actual pose samples and S7 key values against shape-key **vector** displacements around the previously verified rear shoulder hot spots; do not change S7 thresholds or add an axilla helper just because current weights are large. For the owner's elbow concern, test forearm rotation and arm contour on body-local moving plane snapshots with independent landmarks, not arbitrary elbow circumference guesses.
+
+
+## Exact S1–S7 mathematical comparison with measured angle
+
+An independent offline check took `w8_shoulder_driver_pose_state.json` from the verified native-run artifact above and `shoulder_activation_rules.json` from the same run's [W8 static artifact 12535503988](https://github.com/anyangle1409-code/animation-software/actions/runs/40034242376/artifacts/12535503988) (original ZIP SHA256 `41a5f00bed46842a7b4857d35893a653695ca23d24d237234dedaadaae63a822`, independently downloaded and checked against GitHub). Using the **MEASURED** vector elevation, not the authored pose target, the exact pinned S1–S7 piecewise linear hat rules were evaluated for:
+- Nine native press frames × both runtime suffix sides × 21 defined S1–S7 keys per side = **378 individual shape-key observations**.
+- The maximum absolute difference between reported actual key value and an independent hat calculation was **about `0.000001`** (primarily JSON/angle decimal rounding).
+- This is strong evidence that the saved S1–S7 *interpolation equation follows its measured input* consistently. **It does not prove the measured joint axes, underlying muscle shape, skin weights, helper cap or output deforming mesh are anatomically correct.**
+- C1 arm/trunk-contact keys use a **different measured shoulder-extension driver** and are explicitly outside this elevation comparison.
+- Versioned numeric comparator script `scripts/cloud_body_analysis/verify_pose_driver_contract.py` and regression tests were committed, with an independent seventh job `verify-actual-shoulder-driver-math` added to `.github/workflows/phone-blender-workbench.yml`. [Cloud run 40034863130](https://github.com/anyangle1409-code/animation-software/actions/runs/40034863130) was pending at documentation time, and must complete before the new CI comparator is labelled verified.
+
+**Root-cause implication:** There is no present evidence of a basic S1–S7 linear-hat arithmetic bug. The actionable next comparison is model joint kinematics, helper cap/axilla behaviour and actual signed shape-key displacement plus skin-weight topology in the posterior scapula/shoulder hotspots. Avoid 'fixing' the 95° S7 start or 0.45 cap fraction without controlled causal evidence.

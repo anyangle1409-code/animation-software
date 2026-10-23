@@ -1,4 +1,5 @@
 """Pure-Python fail-closed tests for read-only Blender bone-axis metadata."""
+import ast
 import importlib.util
 from pathlib import Path
 import unittest
@@ -69,9 +70,23 @@ class RestAxisMetadataTests(unittest.TestCase):
 
     def test_only_metadata_no_save_or_ops(self):
         content = MODULE.read_text()
-        self.assertNotIn("bpy.ops", content)
-        self.assertNotIn("save_as_mainfile", content)
-        self.assertNotIn("mode_set", content)
+        tree = ast.parse(content)
+        forbidden_calls = []
+        for node in ast.walk(tree):
+            if not isinstance(node, ast.Call):
+                continue
+            fn = node.func
+            parts = []
+            while isinstance(fn, ast.Attribute):
+                parts.append(fn.attr)
+                fn = fn.value
+            if isinstance(fn, ast.Name):
+                parts.append(fn.id)
+            qualified = ".".join(reversed(parts))
+            if (qualified.startswith("bpy.ops.") or qualified.endswith(".save_as_mainfile")
+                or qualified.endswith(".mode_set")):
+                forbidden_calls.append(qualified)
+        self.assertEqual(forbidden_calls, [], "unexpected model-editing operator calls")
         self.assertNotIn("EditBone.roll", content.split("def inspect", 1)[0])
 
 if __name__ == "__main__":

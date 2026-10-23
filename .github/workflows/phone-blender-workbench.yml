@@ -74,7 +74,9 @@ jobs:
       - name: Test and aggregate read-only evidence
         run: |
           python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_compare_reports.py -v
+          python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_compare_rig_axes.py -v
           python scripts/cloud_body_analysis/compare_reports.py --root "${{ runner.temp }}/phone-audit-reports" --out phone-comparison
+          python scripts/cloud_body_analysis/compare_rig_axes.py --root "${{ runner.temp }}/phone-audit-reports" --out phone-comparison
       - name: Preserve cross-model comparison
         if: always()
         uses: actions/upload-artifact@v4

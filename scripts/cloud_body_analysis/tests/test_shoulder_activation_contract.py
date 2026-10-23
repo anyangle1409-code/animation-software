@@ -84,6 +84,43 @@ class TestActivationAudit(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "nonfinite"):
             act.inspect(rig, body)
 
+    def test_nominal_float_noise_is_not_warning(self):
+        rig, body = self.fixture()
+        rig["hgpt_s7_angles_l"] = [145.00002, 165.90001]
+        row = self.family(act.inspect(rig, body), "HGPT_S7_DELT", "l")
+        self.assertTrue(row["safe_to_evaluate_rule"])
+        self.assertEqual(row["warnings"], [])
+        self.assertAlmostEqual(row["key_name_property_max_absolute_difference_deg"], 0.09999, places=5)
+        self.assertEqual(row["key_name_warning_tolerance_deg"], 0.25)
+
+    def test_large_angle_name_difference_warns(self):
+        rig, body = self.fixture()
+        rig["hgpt_s7_angles_l"] = [145, 164]
+        row = self.family(act.inspect(rig, body), "HGPT_S7_DELT", "l")
+        self.assertTrue(row["safe_to_evaluate_rule"])
+        self.assertIn("KEY_NAME_DEGREES_DIFFER_FROM_PROPERTY_ANGLES_OVER_0_25_DEG", row["warnings"])
+
+    def test_nominal_shoulder_press_targets_are_not_actual_angles(self):
+        rig, body = self.fixture()
+        row = self.family(act.inspect(rig, body), "HGPT_S7_DELT", "r")
+        last = row["keys"][1]["predicted_at_authored_press_targets_NOT_measured"]
+        self.assertAlmostEqual(last["sample6"], (149.0625 - 145) / (166 - 145), places=6)
+        self.assertAlmostEqual(last["sample8"], (160 - 145) / (166 - 145), places=6)
+        self.assertEqual(act.PRESS_TARGET_DEGREES["sample0"], 90.0)
+        self.assertNotIn("predicted_at_authored_press_targets_NOT_measured",
+                         self.family(act.inspect(rig, body), "HGPT_C1_ARMTRUNK", "l")["keys"][0])
+
+    def test_saved_cap_axilla_helper_properties_are_metadata(self):
+        rig, body = self.fixture()
+        rig["hgpt_cap_fraction"] = 0.5
+        rig["hgpt_cap_fraction_ramp"] = [0.8, 110.0, 160.0]
+        rig["hgpt_axilla_fraction"] = 0.25
+        rig["hgpt_axilla_params"] = {"radius_m": 0.2, "amount": 0.6}
+        data = act.inspect(rig, body)
+        self.assertEqual(data["helper_rig_properties_saved_without_evaluation"]["hgpt_cap_fraction_ramp"], [0.8, 110.0, 160.0])
+        self.assertEqual(data["helper_rig_properties_saved_without_evaluation"]["hgpt_axilla_params"]["radius_m"], 0.2)
+        self.assertIsNone(data["helper_bones_present_in_saved_rig"]["axilla_l"])
+
     def test_no_unsupported_mesh_editing(self):
         import inspect as pyinspect
         text = pyinspect.getsource(act.inspect)

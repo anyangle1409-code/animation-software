@@ -11,6 +11,7 @@ from pathlib import Path
 W8 = "2434afd0daa231ab3a03c873cad4187ffcbc1bab78132375221160b0b0f09e4c"
 FAMILIES = {"HGPT_S1_SHOULDER", "HGPT_S2_FOLD", "HGPT_S3_SHAPE",
             "HGPT_S4_SCULPT", "HGPT_S5_BAKE", "HGPT_S6_RELAX", "HGPT_S7_DELT"}
+EXPECTED_POPULATED = {"HGPT_S1_SHOULDER", "HGPT_S3_SHAPE", "HGPT_S5_BAKE", "HGPT_S7_DELT"}
 ABS_TOLERANCE = 0.0001  # Numeric IO/rounding allowance, NOT anatomical tolerance.
 BASELINE = {
     0: {"collapse_lt_0_1": 9, "stretch_gt_2": 1004, "self_intersecting_pairs": 11},
@@ -57,10 +58,18 @@ def compare(static, dynamic):
                 if r["family"] in FAMILIES and r["side_suffix"] in ("l","r")}
     if len(families) != 14:
         raise ValueError("seven shoulder corrective families required on both sides")
-    if any(not f.get("safe_to_evaluate_rule") or f.get("measurement") != "humerothoracic_elevation"
-           or len(f["keys"]) != len(f["angle_properties_deg"])
-           for f in families.values()):
-        raise ValueError("incomplete shoulder family angles/key contract")
+    populated = {(f["family"], f["side_suffix"]) for f in families.values() if f["keys"]}
+    expected_populated = {(name, side) for name in EXPECTED_POPULATED for side in ("l", "r")}
+    if populated != expected_populated:
+        raise ValueError("W8 configured shoulder family set changed")
+    if any((not f.get("safe_to_evaluate_rule")
+            or f.get("measurement") != "humerothoracic_elevation"
+            or len(f["keys"]) != len(f["angle_properties_deg"]))
+           for f in families.values() if f["keys"]):
+        raise ValueError("incomplete installed shoulder family angles/key contract")
+    if any(f.get("angle_properties_deg") or f.get("safe_to_evaluate_rule")
+           for f in families.values() if not f["keys"]):
+        raise ValueError("nominally absent family unexpectedly has angles or claims rule readiness")
     samples = dynamic.get("samples")
     if not isinstance(samples, list) or len(samples) != 9 or [s.get("sample") for s in samples] != list(range(9)):
         raise ValueError("missing or unordered 9 native W8 samples")
@@ -104,6 +113,9 @@ def compare(static, dynamic):
         "model":"W8","source_sha256":W8,
         "actual_compared_shape_key_values":len(deviations),
         "nominal_family_count":len(FAMILIES),
+        "populated_family_count":len(EXPECTED_POPULATED),
+        "populated_family_names":sorted(EXPECTED_POPULATED),
+        "nominally_absent_families":sorted(FAMILIES-EXPECTED_POPULATED),
         "actual_absolutemax_key_residual":round(max_err,9),
         "numeric_residual_tolerance_not_anatomical":ABS_TOLERANCE,
         "all_measured_driver_hats_match":True,

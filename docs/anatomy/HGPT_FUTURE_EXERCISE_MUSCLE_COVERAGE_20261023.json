@@ -26,8 +26,12 @@
       "Proposed categories include some variable/optional anatomy and grouped segments. All proposed IDs require independent anatomical review and registry acceptance before becoming immutable published IDs.",
       "Midline/unpaired or segmental muscles may require a nonbilateral convention at approval; two sides here are planning placeholders only.",
       "Existing thenar_group and interossei_lumbricals_group are aggregate seeds, not individually validated muscles; new proposed individual hand records do not overwrite them.",
-      "Exact origin/insertion bone-local coordinates, wrapping, fascia relationships, realistic soft tissue volumes and side mappings remain unresolved."
-    ]
+      "Exact origin/insertion bone-local coordinates, wrapping, fascia relationships, realistic soft tissue volumes and side mappings remain unresolved.",
+      "Functional-group membership is an indicative list for future exercise authoring only, NOT a claim that all members are active in a specific task or that these lists exhaust human anatomy."
+    ],
+    "existing_anatomical_region_groups": 10,
+    "additional_future_groups": 12,
+    "cross_region_functional_group_count": 21
   },
   "groups": [
     {
@@ -2855,6 +2859,485 @@
       "skin_mask": null,
       "layer_neighbour_proof": null,
       "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    }
+  ],
+  "existing_groups": [
+    {
+      "id": "hgpt.musclegroup.existing_arm",
+      "label": "Existing arm muscle/head seeds",
+      "established_stems": [
+        "biceps_brachii_long",
+        "biceps_brachii_short",
+        "brachialis",
+        "brachioradialis",
+        "triceps_lateral",
+        "triceps_long",
+        "triceps_medial"
+      ],
+      "semantic_registry_source_sha": "14af50be7d68d6006cb44c16e3a171e2fba06601",
+      "meaning": "Existing semantic IDs only; not a Blender rig group",
+      "status": "FOUNDATION_SEMANTICS_NOT_ANATOMICAL_BINDINGS"
+    },
+    {
+      "id": "hgpt.musclegroup.existing_back",
+      "label": "Existing back muscle/head seeds",
+      "established_stems": [
+        "latissimus_dorsi",
+        "teres_major"
+      ],
+      "semantic_registry_source_sha": "14af50be7d68d6006cb44c16e3a171e2fba06601",
+      "meaning": "Existing semantic IDs only; not a Blender rig group",
+      "status": "FOUNDATION_SEMANTICS_NOT_ANATOMICAL_BINDINGS"
+    },
+    {
+      "id": "hgpt.musclegroup.existing_calf",
+      "label": "Existing calf muscle/head seeds",
+      "established_stems": [
+        "gastrocnemius_lateral",
+        "gastrocnemius_medial",
+        "soleus",
+        "tibialis_anterior"
+      ],
+      "semantic_registry_source_sha": "14af50be7d68d6006cb44c16e3a171e2fba06601",
+      "meaning": "Existing semantic IDs only; not a Blender rig group",
+      "status": "FOUNDATION_SEMANTICS_NOT_ANATOMICAL_BINDINGS"
+    },
+    {
+      "id": "hgpt.musclegroup.existing_chest",
+      "label": "Existing chest muscle/head seeds",
+      "established_stems": [
+        "pectoralis_major_clavicular",
+        "pectoralis_major_sternocostal",
+        "pectoralis_minor"
+      ],
+      "semantic_registry_source_sha": "14af50be7d68d6006cb44c16e3a171e2fba06601",
+      "meaning": "Existing semantic IDs only; not a Blender rig group",
+      "status": "FOUNDATION_SEMANTICS_NOT_ANATOMICAL_BINDINGS"
+    },
+    {
+      "id": "hgpt.musclegroup.existing_core",
+      "label": "Existing core muscle/head seeds",
+      "established_stems": [
+        "external_oblique",
+        "internal_oblique",
+        "rectus_abdominis",
+        "transversus_abdominis"
+      ],
+      "semantic_registry_source_sha": "14af50be7d68d6006cb44c16e3a171e2fba06601",
+      "meaning": "Existing semantic IDs only; not a Blender rig group",
+      "status": "FOUNDATION_SEMANTICS_NOT_ANATOMICAL_BINDINGS"
+    },
+    {
+      "id": "hgpt.musclegroup.existing_hand",
+      "label": "Existing hand muscle/head seeds",
+      "established_stems": [
+        "interossei_lumbricals_group",
+        "thenar_group"
+      ],
+      "semantic_registry_source_sha": "14af50be7d68d6006cb44c16e3a171e2fba06601",
+      "meaning": "Existing semantic IDs only; not a Blender rig group",
+      "status": "FOUNDATION_SEMANTICS_NOT_ANATOMICAL_BINDINGS"
+    },
+    {
+      "id": "hgpt.musclegroup.existing_pelvis",
+      "label": "Existing pelvis muscle/head seeds",
+      "established_stems": [
+        "gluteus_maximus",
+        "gluteus_medius",
+        "gluteus_minimus",
+        "iliacus",
+        "obturator_internus",
+        "piriformis",
+        "psoas_major",
+        "quadratus_femoris",
+        "tensor_fasciae_latae"
+      ],
+      "semantic_registry_source_sha": "14af50be7d68d6006cb44c16e3a171e2fba06601",
+      "meaning": "Existing semantic IDs only; not a Blender rig group",
+      "status": "FOUNDATION_SEMANTICS_NOT_ANATOMICAL_BINDINGS"
+    },
+    {
+      "id": "hgpt.musclegroup.existing_scapula",
+      "label": "Existing scapula muscle/head seeds",
+      "established_stems": [
+        "levator_scapulae",
+        "rhomboid_major",
+        "rhomboid_minor",
+        "serratus_anterior",
+        "trapezius_lower",
+        "trapezius_middle",
+        "trapezius_upper"
+      ],
+      "semantic_registry_source_sha": "14af50be7d68d6006cb44c16e3a171e2fba06601",
+      "meaning": "Existing semantic IDs only; not a Blender rig group",
+      "status": "FOUNDATION_SEMANTICS_NOT_ANATOMICAL_BINDINGS"
+    },
+    {
+      "id": "hgpt.musclegroup.existing_shoulder",
+      "label": "Existing shoulder muscle/head seeds",
+      "established_stems": [
+        "deltoid_anterior",
+        "deltoid_middle",
+        "deltoid_posterior",
+        "infraspinatus",
+        "subscapularis",
+        "supraspinatus",
+        "teres_minor"
+      ],
+      "semantic_registry_source_sha": "14af50be7d68d6006cb44c16e3a171e2fba06601",
+      "meaning": "Existing semantic IDs only; not a Blender rig group",
+      "status": "FOUNDATION_SEMANTICS_NOT_ANATOMICAL_BINDINGS"
+    },
+    {
+      "id": "hgpt.musclegroup.existing_thigh",
+      "label": "Existing thigh muscle/head seeds",
+      "established_stems": [
+        "adductor_brevis",
+        "adductor_longus",
+        "adductor_magnus_adductor",
+        "adductor_magnus_hamstring",
+        "biceps_femoris_long",
+        "biceps_femoris_short",
+        "gracilis",
+        "pectineus",
+        "rectus_femoris",
+        "sartorius",
+        "semimembranosus",
+        "semitendinosus",
+        "vastus_intermedius",
+        "vastus_lateralis",
+        "vastus_medialis"
+      ],
+      "semantic_registry_source_sha": "14af50be7d68d6006cb44c16e3a171e2fba06601",
+      "meaning": "Existing semantic IDs only; not a Blender rig group",
+      "status": "FOUNDATION_SEMANTICS_NOT_ANATOMICAL_BINDINGS"
+    }
+  ],
+  "functional_groups": [
+    {
+      "id": "hgpt.musclefunction.elbow_flexion",
+      "exercise_context": "elbow flexion tasks",
+      "muscle_stems": [
+        "biceps_brachii_long",
+        "biceps_brachii_short",
+        "brachialis",
+        "brachioradialis"
+      ],
+      "source": "research_curated_semantic_membership_only",
+      "activation_is_not_implied": true,
+      "anatomical_attachment_approved": false,
+      "status": "FUTURE_EXERCISE_PLANNING"
+    },
+    {
+      "id": "hgpt.musclefunction.elbow_extension",
+      "exercise_context": "elbow extension tasks",
+      "muscle_stems": [
+        "triceps_long",
+        "triceps_lateral",
+        "triceps_medial",
+        "anconeus"
+      ],
+      "source": "research_curated_semantic_membership_only",
+      "activation_is_not_implied": true,
+      "anatomical_attachment_approved": false,
+      "status": "FUTURE_EXERCISE_PLANNING"
+    },
+    {
+      "id": "hgpt.musclefunction.shoulder_elevation",
+      "exercise_context": "overhead reach/press",
+      "muscle_stems": [
+        "deltoid_anterior",
+        "deltoid_middle",
+        "deltoid_posterior",
+        "supraspinatus",
+        "serratus_anterior",
+        "trapezius_upper",
+        "trapezius_lower"
+      ],
+      "source": "research_curated_semantic_membership_only",
+      "activation_is_not_implied": true,
+      "anatomical_attachment_approved": false,
+      "status": "FUTURE_EXERCISE_PLANNING"
+    },
+    {
+      "id": "hgpt.musclefunction.shoulder_rotation_stabilization",
+      "exercise_context": "shoulder rotation and centring",
+      "muscle_stems": [
+        "subscapularis",
+        "infraspinatus",
+        "teres_minor",
+        "supraspinatus",
+        "pectoralis_major_sternocostal",
+        "latissimus_dorsi"
+      ],
+      "source": "research_curated_semantic_membership_only",
+      "activation_is_not_implied": true,
+      "anatomical_attachment_approved": false,
+      "status": "FUTURE_EXERCISE_PLANNING"
+    },
+    {
+      "id": "hgpt.musclefunction.scapular_control",
+      "exercise_context": "rowing pushing and overhead",
+      "muscle_stems": [
+        "trapezius_upper",
+        "trapezius_middle",
+        "trapezius_lower",
+        "serratus_anterior",
+        "rhomboid_major",
+        "rhomboid_minor",
+        "levator_scapulae"
+      ],
+      "source": "research_curated_semantic_membership_only",
+      "activation_is_not_implied": true,
+      "anatomical_attachment_approved": false,
+      "status": "FUTURE_EXERCISE_PLANNING"
+    },
+    {
+      "id": "hgpt.musclefunction.chest_pushing",
+      "exercise_context": "horizontal push",
+      "muscle_stems": [
+        "pectoralis_major_clavicular",
+        "pectoralis_major_sternocostal",
+        "triceps_long",
+        "triceps_lateral",
+        "deltoid_anterior"
+      ],
+      "source": "research_curated_semantic_membership_only",
+      "activation_is_not_implied": true,
+      "anatomical_attachment_approved": false,
+      "status": "FUTURE_EXERCISE_PLANNING"
+    },
+    {
+      "id": "hgpt.musclefunction.back_pulling",
+      "exercise_context": "vertical/horizontal pull",
+      "muscle_stems": [
+        "latissimus_dorsi",
+        "teres_major",
+        "rhomboid_major",
+        "rhomboid_minor",
+        "trapezius_middle",
+        "biceps_brachii_long"
+      ],
+      "source": "research_curated_semantic_membership_only",
+      "activation_is_not_implied": true,
+      "anatomical_attachment_approved": false,
+      "status": "FUTURE_EXERCISE_PLANNING"
+    },
+    {
+      "id": "hgpt.musclefunction.grip_and_wrist",
+      "exercise_context": "grip carries and dumbbells",
+      "muscle_stems": [
+        "flexor_digitorum_superficialis",
+        "flexor_digitorum_profundus",
+        "flexor_carpi_radialis",
+        "flexor_carpi_ulnaris",
+        "extensor_digitorum",
+        "extensor_carpi_radialis_longus",
+        "extensor_carpi_ulnaris",
+        "thenar_group"
+      ],
+      "source": "research_curated_semantic_membership_only",
+      "activation_is_not_implied": true,
+      "anatomical_attachment_approved": false,
+      "status": "FUTURE_EXERCISE_PLANNING"
+    },
+    {
+      "id": "hgpt.musclefunction.forearm_rotation",
+      "exercise_context": "curl grip and rotational tasks",
+      "muscle_stems": [
+        "supinator",
+        "pronator_teres",
+        "pronator_quadratus",
+        "biceps_brachii_long",
+        "biceps_brachii_short"
+      ],
+      "source": "research_curated_semantic_membership_only",
+      "activation_is_not_implied": true,
+      "anatomical_attachment_approved": false,
+      "status": "FUTURE_EXERCISE_PLANNING"
+    },
+    {
+      "id": "hgpt.musclefunction.trunk_anti_motion",
+      "exercise_context": "core loading and carries",
+      "muscle_stems": [
+        "transversus_abdominis",
+        "internal_oblique",
+        "external_oblique",
+        "rectus_abdominis",
+        "multifidus_lumbar",
+        "quadratus_lumborum",
+        "diaphragm"
+      ],
+      "source": "research_curated_semantic_membership_only",
+      "activation_is_not_implied": true,
+      "anatomical_attachment_approved": false,
+      "status": "FUTURE_EXERCISE_PLANNING"
+    },
+    {
+      "id": "hgpt.musclefunction.spinal_extension",
+      "exercise_context": "hinges and deadlifts",
+      "muscle_stems": [
+        "iliocostalis_lumborum",
+        "longissimus_thoracis",
+        "spinalis_thoracis",
+        "multifidus_lumbar",
+        "gluteus_maximus"
+      ],
+      "source": "research_curated_semantic_membership_only",
+      "activation_is_not_implied": true,
+      "anatomical_attachment_approved": false,
+      "status": "FUTURE_EXERCISE_PLANNING"
+    },
+    {
+      "id": "hgpt.musclefunction.hip_extension",
+      "exercise_context": "hinge and sprint",
+      "muscle_stems": [
+        "gluteus_maximus",
+        "biceps_femoris_long",
+        "semitendinosus",
+        "semimembranosus",
+        "adductor_magnus_hamstring"
+      ],
+      "source": "research_curated_semantic_membership_only",
+      "activation_is_not_implied": true,
+      "anatomical_attachment_approved": false,
+      "status": "FUTURE_EXERCISE_PLANNING"
+    },
+    {
+      "id": "hgpt.musclefunction.hip_flexion",
+      "exercise_context": "marching steps and lunges",
+      "muscle_stems": [
+        "iliacus",
+        "psoas_major",
+        "rectus_femoris",
+        "sartorius",
+        "tensor_fasciae_latae"
+      ],
+      "source": "research_curated_semantic_membership_only",
+      "activation_is_not_implied": true,
+      "anatomical_attachment_approved": false,
+      "status": "FUTURE_EXERCISE_PLANNING"
+    },
+    {
+      "id": "hgpt.musclefunction.hip_abduction_stabilization",
+      "exercise_context": "single leg balance",
+      "muscle_stems": [
+        "gluteus_medius",
+        "gluteus_minimus",
+        "tensor_fasciae_latae",
+        "piriformis"
+      ],
+      "source": "research_curated_semantic_membership_only",
+      "activation_is_not_implied": true,
+      "anatomical_attachment_approved": false,
+      "status": "FUTURE_EXERCISE_PLANNING"
+    },
+    {
+      "id": "hgpt.musclefunction.hip_adduction",
+      "exercise_context": "lateral movement",
+      "muscle_stems": [
+        "adductor_longus",
+        "adductor_brevis",
+        "adductor_magnus_adductor",
+        "adductor_magnus_hamstring",
+        "gracilis",
+        "pectineus"
+      ],
+      "source": "research_curated_semantic_membership_only",
+      "activation_is_not_implied": true,
+      "anatomical_attachment_approved": false,
+      "status": "FUTURE_EXERCISE_PLANNING"
+    },
+    {
+      "id": "hgpt.musclefunction.knee_extension",
+      "exercise_context": "squats/steps",
+      "muscle_stems": [
+        "rectus_femoris",
+        "vastus_lateralis",
+        "vastus_medialis",
+        "vastus_intermedius"
+      ],
+      "source": "research_curated_semantic_membership_only",
+      "activation_is_not_implied": true,
+      "anatomical_attachment_approved": false,
+      "status": "FUTURE_EXERCISE_PLANNING"
+    },
+    {
+      "id": "hgpt.musclefunction.knee_flexion",
+      "exercise_context": "leg curls and gait",
+      "muscle_stems": [
+        "biceps_femoris_long",
+        "biceps_femoris_short",
+        "semitendinosus",
+        "semimembranosus",
+        "gastrocnemius_medial",
+        "gastrocnemius_lateral"
+      ],
+      "source": "research_curated_semantic_membership_only",
+      "activation_is_not_implied": true,
+      "anatomical_attachment_approved": false,
+      "status": "FUTURE_EXERCISE_PLANNING"
+    },
+    {
+      "id": "hgpt.musclefunction.ankle_plantarflexion",
+      "exercise_context": "calf raise walking sprint",
+      "muscle_stems": [
+        "gastrocnemius_medial",
+        "gastrocnemius_lateral",
+        "soleus",
+        "tibialis_posterior",
+        "fibularis_longus",
+        "flexor_hallucis_longus"
+      ],
+      "source": "research_curated_semantic_membership_only",
+      "activation_is_not_implied": true,
+      "anatomical_attachment_approved": false,
+      "status": "FUTURE_EXERCISE_PLANNING"
+    },
+    {
+      "id": "hgpt.musclefunction.ankle_dorsiflexion",
+      "exercise_context": "gait and toe clearance",
+      "muscle_stems": [
+        "tibialis_anterior",
+        "extensor_hallucis_longus",
+        "extensor_digitorum_longus",
+        "fibularis_tertius"
+      ],
+      "source": "research_curated_semantic_membership_only",
+      "activation_is_not_implied": true,
+      "anatomical_attachment_approved": false,
+      "status": "FUTURE_EXERCISE_PLANNING"
+    },
+    {
+      "id": "hgpt.musclefunction.foot_arch_and_toes",
+      "exercise_context": "balance and foot-ground contact",
+      "muscle_stems": [
+        "abductor_hallucis",
+        "flexor_digitorum_brevis",
+        "quadratus_plantae",
+        "plantar_interosseous_foot_1",
+        "tibialis_posterior",
+        "fibularis_longus"
+      ],
+      "source": "research_curated_semantic_membership_only",
+      "activation_is_not_implied": true,
+      "anatomical_attachment_approved": false,
+      "status": "FUTURE_EXERCISE_PLANNING"
+    },
+    {
+      "id": "hgpt.musclefunction.neck_posture",
+      "exercise_context": "posture and loaded carries",
+      "muscle_stems": [
+        "sternocleidomastoid",
+        "scalenus_anterior",
+        "longus_colli",
+        "splenius_capitis",
+        "semispinalis_capitis"
+      ],
+      "source": "research_curated_semantic_membership_only",
+      "activation_is_not_implied": true,
+      "anatomical_attachment_approved": false,
+      "status": "FUTURE_EXERCISE_PLANNING"
     }
   ]
 }

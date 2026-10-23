@@ -182,3 +182,12 @@ The overnight hourly cloud continuation automation is configured separately; eac
 5. Eventually show matched annotated before/after images when an owner-authorized correction is successfully validated. Do not invent new pictures of a fixed model.
 
 **Keep all production and original Blender inputs unchanged**. Muscle highlighting future appearance is owner-DEFERRED. The overnight hourly automation should resume from latest live branch and this ledger.
+
+
+## FINAL VERIFIED: corrected seven-job shoulder driver test
+
+- [Corrected run 40035351859](https://github.com/anyangle1409-code/animation-software/actions/runs/40035351859) completed **SUCCESS across all seven jobs**: W8/V14/R120 preservation inspections, W8 in-memory shoulder press, native pose failure localization, cross-model rest metadata and new verified shape-key/math comparator. No native model was saved or modified.
+- [Driver-consistency artifact 12536234494](https://github.com/anyangle1409-code/animation-software/actions/runs/40035351859/artifacts/12536234494) ZIP independently downloaded and SHA256 checked against GitHub: `fddfd366589a6648e3cc188217dc0997f329cc851c2d8ac0ebf2f968ed33f709`. Embedded `w8_driver_math_consistency.json` inspected, result `PINNED_W8_DRIVER_MATH_REPRODUCED_ONLY_HUMAN_MOTION_NOT_APPROVED`.
+- **378 actual observed shape-key values** agree with independent piecewise-linear rules using actual measured vector elevation; maximum recorded absolute difference `0.000001`. W8 has **four installed** S1/S3/S5/S7 corrective families, not all seven possible S1–S7 placeholders. S2/S4/S6 are **nominally absent** (zero source keys). C1 arm/trunk contact uses shoulder extension rather than humerothoracic elevation and was not part of the 378-key math comparison.
+- Previously failed run40034863130 was a validator assumption error (it required all seven nominal families populated); fixed comparator `f18b70e8`, tests `f353309f`, **full green outcome** above. No underlying Blender source fault is established by this CI test failure.
+- **Scope strictly limited:** proof of mathematical driver consistency only. The authored-to-measured angle discrepancy (~2.3°–3.9°), shoulder/axilla surface defects, muscle paths, elbow continuity and native anatomical JCS calibration remain open; original deformation acceptance is **FAIL**.

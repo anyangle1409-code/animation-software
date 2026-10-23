@@ -2874,7 +2874,7 @@
         "triceps_long",
         "triceps_medial"
       ],
-      "semantic_registry_source_sha": "14af50be7d68d6006cb44c16e3a171e2fba06601",
+      "semantic_registry_source_sha": "16885571e16ca380da5ad85981570c3625a8d7a3",
       "meaning": "Existing semantic IDs only; not a Blender rig group",
       "status": "FOUNDATION_SEMANTICS_NOT_ANATOMICAL_BINDINGS"
     },
@@ -2885,7 +2885,7 @@
         "latissimus_dorsi",
         "teres_major"
       ],
-      "semantic_registry_source_sha": "14af50be7d68d6006cb44c16e3a171e2fba06601",
+      "semantic_registry_source_sha": "16885571e16ca380da5ad85981570c3625a8d7a3",
       "meaning": "Existing semantic IDs only; not a Blender rig group",
       "status": "FOUNDATION_SEMANTICS_NOT_ANATOMICAL_BINDINGS"
     },
@@ -2898,7 +2898,7 @@
         "soleus",
         "tibialis_anterior"
       ],
-      "semantic_registry_source_sha": "14af50be7d68d6006cb44c16e3a171e2fba06601",
+      "semantic_registry_source_sha": "16885571e16ca380da5ad85981570c3625a8d7a3",
       "meaning": "Existing semantic IDs only; not a Blender rig group",
       "status": "FOUNDATION_SEMANTICS_NOT_ANATOMICAL_BINDINGS"
     },
@@ -2910,7 +2910,7 @@
         "pectoralis_major_sternocostal",
         "pectoralis_minor"
       ],
-      "semantic_registry_source_sha": "14af50be7d68d6006cb44c16e3a171e2fba06601",
+      "semantic_registry_source_sha": "16885571e16ca380da5ad85981570c3625a8d7a3",
       "meaning": "Existing semantic IDs only; not a Blender rig group",
       "status": "FOUNDATION_SEMANTICS_NOT_ANATOMICAL_BINDINGS"
     },
@@ -2923,7 +2923,7 @@
         "rectus_abdominis",
         "transversus_abdominis"
       ],
-      "semantic_registry_source_sha": "14af50be7d68d6006cb44c16e3a171e2fba06601",
+      "semantic_registry_source_sha": "16885571e16ca380da5ad85981570c3625a8d7a3",
       "meaning": "Existing semantic IDs only; not a Blender rig group",
       "status": "FOUNDATION_SEMANTICS_NOT_ANATOMICAL_BINDINGS"
     },
@@ -2934,7 +2934,7 @@
         "interossei_lumbricals_group",
         "thenar_group"
       ],
-      "semantic_registry_source_sha": "14af50be7d68d6006cb44c16e3a171e2fba06601",
+      "semantic_registry_source_sha": "16885571e16ca380da5ad85981570c3625a8d7a3",
       "meaning": "Existing semantic IDs only; not a Blender rig group",
       "status": "FOUNDATION_SEMANTICS_NOT_ANATOMICAL_BINDINGS"
     },
@@ -2952,7 +2952,7 @@
         "quadratus_femoris",
         "tensor_fasciae_latae"
       ],
-      "semantic_registry_source_sha": "14af50be7d68d6006cb44c16e3a171e2fba06601",
+      "semantic_registry_source_sha": "16885571e16ca380da5ad85981570c3625a8d7a3",
       "meaning": "Existing semantic IDs only; not a Blender rig group",
       "status": "FOUNDATION_SEMANTICS_NOT_ANATOMICAL_BINDINGS"
     },
@@ -2968,7 +2968,7 @@
         "trapezius_middle",
         "trapezius_upper"
       ],
-      "semantic_registry_source_sha": "14af50be7d68d6006cb44c16e3a171e2fba06601",
+      "semantic_registry_source_sha": "16885571e16ca380da5ad85981570c3625a8d7a3",
       "meaning": "Existing semantic IDs only; not a Blender rig group",
       "status": "FOUNDATION_SEMANTICS_NOT_ANATOMICAL_BINDINGS"
     },
@@ -2984,7 +2984,7 @@
         "supraspinatus",
         "teres_minor"
       ],
-      "semantic_registry_source_sha": "14af50be7d68d6006cb44c16e3a171e2fba06601",
+      "semantic_registry_source_sha": "16885571e16ca380da5ad85981570c3625a8d7a3",
       "meaning": "Existing semantic IDs only; not a Blender rig group",
       "status": "FOUNDATION_SEMANTICS_NOT_ANATOMICAL_BINDINGS"
     },
@@ -3008,7 +3008,7 @@
         "vastus_lateralis",
         "vastus_medialis"
       ],
-      "semantic_registry_source_sha": "14af50be7d68d6006cb44c16e3a171e2fba06601",
+      "semantic_registry_source_sha": "16885571e16ca380da5ad85981570c3625a8d7a3",
       "meaning": "Existing semantic IDs only; not a Blender rig group",
       "status": "FOUNDATION_SEMANTICS_NOT_ANATOMICAL_BINDINGS"
     }

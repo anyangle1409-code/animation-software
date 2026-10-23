@@ -154,3 +154,19 @@ assert roi["status"] == "READ_ONLY_REST_MESH_PROBE_NOT_ANATOMICAL_APPROVAL"
 (out / "shoulder_shape_weight_rois.json").write_text(json.dumps(roi, indent=2) + "\n")
 print("READ_ONLY_SHOULDER_SHAPE_WEIGHT_ROIS", MODEL,
       [(entry["name"], entry["sampled_vertices"]) for entry in roi["regions"]])
+
+
+# Pinned-source mathematical SHOULDER CORRECTIVE CONTRACT (metadata only).
+# No joint pose is set and no corrective key value is changed.
+from shoulder_activation_contract import inspect as inspect_activation_rules
+activation_rules = inspect_activation_rules(rig, body)
+activation_rules["model"] = MODEL
+activation_rules["source_sha256"] = EXPECTED[MODEL]
+activation_rules["original_source_unchanged"] = sha(source) == EXPECTED[MODEL]
+assert activation_rules["original_source_unchanged"], "Shape-key contract inspection changed input model"
+assert activation_rules["shape_key_count"] == report["shape_keys"]
+assert activation_rules["status"] == "READ_ONLY_ANGULAR_ACTIVATION_CONTRACT_NOT_APPLIED_TO_POSE"
+(out / "shoulder_activation_rules.json").write_text(json.dumps(activation_rules, indent=2) + "\n")
+print("READ_ONLY_SHOULDER_ACTIVATION_CONTRACT", MODEL,
+      [(row["family"], row["side_suffix"], row["safe_to_evaluate_rule"], row["warnings"])
+       for row in activation_rules["family_records"] if row["keys"]])

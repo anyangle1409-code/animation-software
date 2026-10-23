@@ -1,0 +1,19 @@
+{
+ "holes_filled_faces": 9,
+ "fold_vertices_per_round": [
+  2400,
+  86,
+  46,
+  19,
+  3,
+  3
+ ],
+ "folds_left": 3,
+ "rebuilt_vertices": 227559,
+ "seam_vertices": 26614,
+ "seam_max_move_mm": 1.67,
+ "torso_relief": {
+  "max_mm": 23.2,
+  "min_mm": -6.4
+ }
+}

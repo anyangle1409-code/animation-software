@@ -151,6 +151,52 @@ for _ in range(2):
 D = D + fn * dn[:, None]
 REP["torso_relief"] = {"max_mm": round(float(dn.max() * 1000), 1), "min_mm": round(float(dn.min() * 1000), 1)}
 
+# ------------------------------------------------------------------ 3. arm muscles on the rebuilt arms
+# R120's 6 mm blur took the R115 arm definition with the lumps.  The same bone-local bumps as R115 (Gray's Anatomy;
+# Drake - upper limb surface anatomy; build_body_v2_sculpt_blender.py "R115"), on the rebuilt arm skin only.
+ARMDEF = float(os.environ.get("V2_R121_ARMS", "1.0"))
+if ARMDEF > 0:
+    rig = bpy.data.objects["HGPT_CANONICAL_V4_ORIGINAL"]
+
+    def _seg(bn):
+        b_ = rig.data.bones[bn]; return np.array(rig.matrix_world @ b_.head_local), np.array(rig.matrix_world @ b_.tail_local)
+
+    def _frame(Hh, Tt, sgn, P):
+        ax_ = Tt - Hh; L = np.linalg.norm(ax_); u = ax_ / L
+        t = ((P - Hh) @ u) / L
+        dv = P - Hh - np.outer(t * L, u)
+        ant = np.array([0.0, -1.0, 0.0]); ant = ant - (ant @ u) * u; ant /= np.linalg.norm(ant)
+        lat = np.cross(u, ant); lat *= np.sign(lat[0] * sgn) if lat[0] != 0 else 1.0
+        return t, np.degrees(np.arctan2(dv @ lat, dv @ ant))
+
+    def _bump(t, th, t0, t1, thc, thw, amp, pk=1.0):
+        x_ = np.clip((t - t0) / (t1 - t0), 0, 1); prof = np.sin(np.pi * x_) ** pk
+        dth = (th - thc + 180.0) % 360.0 - 180.0
+        return amp * prof * np.exp(-0.5 * (dth / thw) ** 2)
+
+    P2 = V + D
+    ha = np.zeros(n)
+    for side_ in ("r", "l"):
+        uH, uT = _seg(f"upperarm_{side_}"); fH, fT = _seg(f"forearm_{side_}"); sgn = float(np.sign(uH[0]))
+        idx = np.nonzero((ARM > 0.2) & NEWR & (np.sign(P2[:, 0]) == sgn))[0]; P = P2[idx]
+        tu, thu = _frame(uH, uT, sgn, P); tf, thf = _frame(fH, fT, sgn, P)
+        wU = np.clip(1 - ss((tf + 0.04) / 0.10), 0, 1)
+        hu = (_bump(tu, thu, -0.05, 0.47, 90, 80, 11.0, 0.8) + 3.0 * ss((tu - 0.1) / 0.1) * ss((0.9 - tu) / 0.1)
+              + _bump(tu, thu, 0.05, 0.42, 25, 35, 3.0) + _bump(tu, thu, 0.05, 0.42, 160, 35, 3.0)
+              - _bump(tu, thu, 0.38, 0.52, 90, 55, 3.0) + _bump(tu, thu, 0.28, 0.90, 0, 45, 11.0, 1.3)
+              + _bump(tu, thu, 0.12, 0.80, 180, 52, 9.0, 1.2) + _bump(tu, thu, 0.22, 0.58, 135, 30, 3.0)
+              + _bump(tu, thu, 0.58, 0.92, 70, 22, 3.0) - _bump(tu, thu, 0.40, 0.92, -95, 18, 2.0)
+              + _bump(tu, thu, 0.74, 1.10, 40, 30, 4.0))
+        hf = (_bump(tf, thf, -0.12, 0.55, 20, 38, 10.0, 0.9) + _bump(tf, thf, -0.02, 0.55, -70, 40, 6.0, 1.1)
+              + _bump(tf, thf, 0.04, 0.60, 125, 40, 4.0, 1.1) - _bump(tf, thf, -0.05, 0.12, -10, 22, 2.5))
+        hf -= 4.0 * ss((tf - 0.55) / 0.35)
+        h_ = np.where(tu > -0.15, hu * wU, 0.0) + np.where((tf > -0.2) & (tf < 1.05), hf * (1 - wU), 0.0)
+        ha[idx] += h_ * ss((1.08 - np.clip(tf, 0, None)) / 0.08)
+    for _ in range(3):
+        ha = 0.5 * ha + 0.5 * mean(ha)
+    D = D + fn * (ARMDEF * ha / 1000.0)[:, None]
+    REP["arm_muscles"] = {"max_mm": round(float(ha.max()), 2), "min_mm": round(float(ha.min()), 2), "vertices": int((np.abs(ha) > 0.2).sum())}
+
 # ------------------------------------------------------------------ write: basis and every shape key move together
 me.vertices.foreach_set("co", (V + D).ravel())
 if me.shape_keys:

@@ -46,3 +46,17 @@ The pinned source at `025d5f28fa7eba2064fba565b1c9b60119cdd2cb`, `scripts/origin
 These defaults alone do **not** establish the per-model saved angles, actual shoulder-press elevation or active shape-key values. A follow-on read-only cloud job should inspect exact rig custom-property angles and compare them with existing key names. Do not adjust thresholds, change bone positions, attach muscles or reduce movement-quality tests without separately validated evidence.
 
 See [rig label consistency](PHONE_BONE_SIDE_CONVENTION_20261023.md) and [shoulder/axilla rest-space hotspot triage](PHONE_SHOULDER_AXILLA_TRIAGE_20261023.md). Anatomical laterality and model fitness remain NOT_GRANTED.
+
+## Authored shoulder-press target angles — not yet measured key activation
+
+Pinned source `scripts/build_original_movement_benchmarks_blender.py` at `025d5f28fa7eba2064fba565b1c9b60119cdd2cb` uses `PRESS = {ht_start:90°, ht_end:160°}`, with `smooth(t)=3t²−2t³` and nine samples at `t=i/8`.
+
+| Saved shoulder-press sample | t | *Target* humerothoracic elevation |
+|---|---:|---:|
+| 0 | 0 | 90° |
+| 6 | 0.75 | 149.0625° |
+| 8 | 1 | 160° |
+
+These are **requested pose targets**, not a measured independently certified joint angle or the actual `drive_s1()` input. For a rig with default S7 start (130°), samples 6 and 8 lie within the *nominal* S7 activation band. A rig property `hgpt_s7_angles_start` can override the threshold. The active key values at samples 6/8 still need native read-only measurement.
+
+Pinned shoulder-cap helper source `scripts/original_v1_shoulder_cap_helper.py` separately documents a `hgpt_cap_fraction`, optional `hgpt_cap_fraction_ramp`, and `hgpt_axilla_fraction`. These helper-bone rotations are **separate from shape-key value hats**, so a complete diagnosis must examine both. The historical source notes past shoulder-cap fold problems in the 140–160° range. That history is not a new model-failure proof, but it establishes a specific target for further testing.

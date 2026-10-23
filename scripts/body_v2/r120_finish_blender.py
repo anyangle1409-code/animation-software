@@ -36,8 +36,57 @@ def ss(x):
     return x * x * (3 - 2 * x)
 
 
+# ------------------------------------------------------------------ 0. repair R120's stitch defects
+# R120 left 172 open edges round the thigh seams (zipper triangles refused as duplicates) and ~560 folded triangle
+# pairs (neighbours facing opposite ways), mostly in the neck stitch strip: both showed as thin bright lines.
+import bmesh
+bm = bmesh.new(); bm.from_mesh(me)
+bnd_e = [e for e in bm.edges if len(e.link_faces) == 1]
+res_ = bmesh.ops.holes_fill(bm, edges=bnd_e, sides=0)
+bmesh.ops.triangulate(bm, faces=[f_ for f_ in res_["faces"] if len(f_.verts) > 3])
+for f_ in res_["faces"]:
+    f_.smooth = True
+REP["holes_filled_faces"] = len(res_["faces"])
+wire = [e for e in bm.edges if not e.link_faces]
+bmesh.ops.delete(bm, geom=wire, context="EDGES")
+bm.to_mesh(me); bm.free(); me.update()
+
+
+def fold_verts():
+    bm_ = bmesh.new(); bm_.from_mesh(me); bm_.normal_update()
+    out_ = set()
+    for e in bm_.edges:
+        if len(e.link_faces) == 2 and e.link_faces[0].normal.dot(e.link_faces[1].normal) < -0.5:
+            for f_ in e.link_faces:
+                out_.update(v.index for v in f_.verts)
+    nb_ = len(out_); bm_.free()
+    return np.array(sorted(out_), dtype=np.int64), nb_
+
+
 n = len(me.vertices)
 V = np.empty(n * 3); me.vertices.foreach_get("co", V); V = V.reshape(-1, 3)
+E0 = np.empty(len(me.edges) * 2, np.int32); me.edges.foreach_get("vertices", E0); E0 = E0.reshape(-1, 2)
+A0 = csr_matrix((np.ones(2 * len(E0)), (np.r_[E0[:, 0], E0[:, 1]], np.r_[E0[:, 1], E0[:, 0]])), shape=(n, n))
+D0 = 1.0 / np.maximum(np.asarray(A0.sum(1)).ravel(), 1)
+fixes = []
+for rnd in range(int(os.environ.get("V2_R121_UNFOLD_ROUNDS", "6"))):
+    fv, nf = fold_verts(); fixes.append(int(nf))
+    if nf == 0:
+        break
+    m = np.zeros(n); m[fv] = 1.0
+    for _ in range(3):                                  # the folded triangles and two rings round them
+        m = np.maximum(m, (A0 @ m) * D0 > 0)
+    Q = V.copy()
+    for _ in range(30):
+        Q = Q + 0.6 * m[:, None] * ((A0 @ Q) * D0[:, None] - Q)
+    dV = Q - V
+    me.vertices.foreach_set("co", Q.ravel())
+    if me.shape_keys:
+        for kb in me.shape_keys.key_blocks:
+            c = np.empty(n * 3); kb.data.foreach_get("co", c); kb.data.foreach_set("co", (c.reshape(-1, 3) + dV).ravel())
+    me.update(); V = Q
+REP["fold_vertices_per_round"] = fixes
+REP["folds_left"] = int(fold_verts()[1])
 z0 = float(V[:, 2].min()); H = float(V[:, 2].max()) - z0
 attr = me.attributes.get("old_id.001") or me.attributes.get("old_id")
 oid = np.empty(n, np.int32); attr.data.foreach_get("value", oid)

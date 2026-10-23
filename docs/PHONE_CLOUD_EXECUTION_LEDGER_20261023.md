@@ -13,7 +13,8 @@ Date: 2026-10-23
 
 ## Important status distinction
 - VERIFIED: The original cloud smoke test retrieved and opened each reconstruction in Blender 5.2.0 and preserved expected source SHA256.
-- VERIFIED: Commit `c064ecb` passed cloud run `40003658521` (3/3); `d0446b6` passed run `40010003731` (3/3). All six model job outputs exist; W8/V14/R120 report ZIP digests were independently matched to GitHub.\n- VERIFIED: New four-job workflow at `3f25e57` passed run [40015895314](https://github.com/anyangle1409-code/animation-software/actions/runs/40015895314) (three native models plus cross-model comparison). The combined artifact `12529220072` was downloaded, inspected and matched published ZIP SHA256 `3a8b94c53880b2ee94ec6fffaa0f96150c2c077b5501e5b75787b47feb4e6416`.
+- VERIFIED: Commit `c064ecb` passed cloud run `40003658521` (3/3); `d0446b6` passed run `40010003731` (3/3). All six model job outputs exist; W8/V14/R120 report ZIP digests were independently matched to GitHub.
+- VERIFIED: New four-job workflow at `3f25e57` passed run [40015895314](https://github.com/anyangle1409-code/animation-software/actions/runs/40015895314) (three native models plus cross-model comparison). The combined artifact `12529220072` was downloaded, inspected and matched published ZIP SHA256 `3a8b94c53880b2ee94ec6fffaa0f96150c2c077b5501e5b75787b47feb4e6416`.
 - NOT APPROVED: anatomy, archive equivalence, movement/grip deformation, and experimental muscle attachments.
 
 ## Immutable reconstruction IDs and hashes

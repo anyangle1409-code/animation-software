@@ -18,6 +18,34 @@ VISUAL_SHA256 = {
     "V14": "5f11a9441cf5bb1d29ba3fae72c945f59c9109a26023cea15508d3310cb774e0",
     "R120": "cf26902334a90cb3928821d797fcc88e27340a7837911a0e080b6973b5017a2f",
 }
+# Individually pinned images SHA256-verified against ORIGINAL cloud diagnostic ZIPs.
+# This guards Actions' extracted-directory path, for which parent ZIP bytes are unavailable.
+PINNED_PNG_SHA256 = {
+    "W8": {
+        "shoulder_press__sample00__overlay__back": "bc2814dea5835ec5aa2dae9f940dc691fa61d18bd1b522fa073ab643b3643a74",
+        "shoulder_press__sample06__overlay__back": "e5a948e23ffb941c68240295855a3d312166a543ecb08869af9c39b611d0c417",
+        "shoulder_press__sample08__overlay__back": "1e2cfa7817678ecdad7cd3cfe0ebf145834a115d9c06f4042bf39ae563fd0430",
+        "squat__sample00__overlay__side": "07681bbe930ae387344c006a70ef5934fffe2401dbd23b0bb1984874ba2e5bc4",
+        "squat__sample07__overlay__side": "91c54230d89b7e7dd0aa151ff18b2e6356a1fb47abda4b0d1ea720c4a26dac9e",
+        "squat__sample08__overlay__side": "8782fdc2638c6e26c476924358099255ca74f4407241e5b327699dd927630687"
+    },
+    "V14": {
+        "shoulder_press__sample00__overlay__back": "5366a279ad668d4e7ac529ce8e14a0f1bf99c38da02f67f190d271b88e101f84",
+        "shoulder_press__sample06__overlay__back": "b53b2fdbf29b7009d4a087b34ce6618588d20af19d63a79c18242a48882601ed",
+        "shoulder_press__sample08__overlay__back": "1f87f0b10b6831c507092fb4ad015f37f2051eea938f02e472ccb0a51198f0cc",
+        "squat__sample00__overlay__side": "6998ebb57c193b33a685ac388fbf28869dc7a10fafc130ae1876a256c865b416",
+        "squat__sample07__overlay__side": "043e706a56eec2ccf385d5834dd28e06bc35cca6225b50042a3fcba1d7e88aaf",
+        "squat__sample08__overlay__side": "f6fa2bb07546c432995c96782a417bbfb4b0463ae8f30ffbb7f117242abe431c"
+    },
+    "R120": {
+        "shoulder_press__sample00__overlay__back": "d1718a62215ad1f32ab0cd436580d2d0299d2889611af1e4526217bc85464669",
+        "shoulder_press__sample06__overlay__back": "90349d7dcbfb1558ff176b6b4ffaa1c208eb9a49407a1ebfca69259ba6ab3d64",
+        "shoulder_press__sample08__overlay__back": "f9e8c0f974fca193bbb12aaf118650cee7ff0d1faa59b8c51050d8395a5695a3",
+        "squat__sample00__overlay__side": "2a86c077024ffd643bb804cfe580c5675bffaad2e54934cd544c67b6398d3e94",
+        "squat__sample07__overlay__side": "8d788194037f05cb889717008aa8eea58d633f21ef9f4f7b5fd2d23380e68c00",
+        "squat__sample08__overlay__side": "7591f03b44115b0e3cd4467471ffdb228056c363c7365380169fa50fa5b3b6c1"
+    }
+}
 MODELS = ("W8", "V14", "R120")
 REVIEWS = {
     "shoulder_press": {"samples": ("00", "06", "08"),
@@ -51,14 +79,21 @@ class PinnedEvidence:
             self.archive = zipfile.ZipFile(self.path)
             self.source = {"kind": "pinned_ZIP", "sha256_verified": actual}
         elif self.path.is_dir():
-            # Directory inputs are for synthetic tests/manual inspection only.
-            self.source = {"kind": "extracted_directory_UNVERIFIED", "sha256_verified": None}
+            self.source = {"kind": "extracted_directory_with_PINNED_PNG_SHA256",
+                           "parent_zip_sha256_reference": VISUAL_SHA256[model],
+                           "individual_png_sha256_verified": True}
         else:
             raise FileNotFoundError(self.path)
 
     def read(self, name):
         relative = f"visual_evidence_new/{self.model}__{name}.png"
-        return self.archive.read(relative) if self.archive else (self.path / relative).read_bytes()
+        expected = PINNED_PNG_SHA256[self.model].get(name)
+        if expected is None:
+            raise ValueError(f"{self.model}: no pinned SHA256 for source image {name}")
+        contents = self.archive.read(relative) if self.archive else (self.path / relative).read_bytes()
+        if hashlib.sha256(contents).hexdigest() != expected:
+            raise ValueError(f"{self.model}: pinned source PNG SHA256 mismatch: {name}")
+        return contents
 
     def close(self):
         if self.archive:

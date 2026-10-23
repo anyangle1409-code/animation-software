@@ -114,6 +114,39 @@ def validate(document):
         if not str(rule.get("solver_constraint", "")).startswith("UNDEFINED_"):
             errors.append("unverified coupling must not claim a numeric solver constraint")
 
+    # Secondary nominal AAOS-style norms and a different age-restricted spine
+    # cohort are informative but CANNOT be merged into the CDC reference
+    # distribution, or used to assign per-vertebra or shoulder-hinge limits.
+    context = document.get("secondary_reference_context", {})
+    if context.get("safety_approval") != "NOT_GRANTED":
+        errors.append("secondary context cannot claim safety approval")
+    for key, expected_source, expected_size in (
+            ("aaos_illustrative_goniometry", "norkin_white_goniometry_6e", 12),
+            ("young_adult_spine_means", "young_adult_spine_goniometry_2023", 12)):
+        values = context.get(key, [])
+        if len(values) != expected_size:
+            errors.append(key + ": incomplete source-specific series")
+        names = set()
+        for record in values:
+            if not isinstance(record, dict):
+                errors.append(key + ": invalid record")
+                continue
+            motion = record.get("movement")
+            if motion in names:
+                errors.append(key + ": duplicate motion")
+            names.add(motion)
+            if (not motion or record.get("source_id") != expected_source
+                or record.get("hard_limit") is not False):
+                errors.append(key + ": source/limit guard")
+            if key == "aaos_illustrative_goniometry":
+                if not finite_number(record.get("nominal_deg")) or record.get("evidence_class") != "AAOS_table_illustrative_goniometric_normative_value":
+                    errors.append(key + ": invalid nominal context")
+            else:
+                if (not finite_number(record.get("mean_deg")) or
+                    not finite_number(record.get("sd_deg")) or record["sd_deg"] <= 0
+                    or record.get("evidence_class") != "clinical_group_mean_plus_SD_not_bone_level_range"):
+                    errors.append(key + ": invalid SD/mean context")
+
     tests = document.get("motion_test_program", [])
     testids = [t.get("id") for t in tests if isinstance(t, dict)]
     if len(testids) != len(set(testids)) or len(testids) < 15:

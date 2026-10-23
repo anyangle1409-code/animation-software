@@ -70,3 +70,23 @@ Ruling: the expanded run may reuse exact .blend bytes from the first cloud run i
 then repeat archive/structural verification with the corrected tools. Original build provenance is preserved.
 This avoids rebuilding completed outputs solely because validation coverage improved. Force fresh reconstruction
 with the workflow_dispatch reuse_initial=false input if script reconstruction changes are being investigated.
+
+## Additional pinned root-suite execution
+
+`python -m unittest discover -s scripts -v` on untouched R57 code: 1,224 tests, seven failures, four errors, one skipped (256.442 seconds). R41 input rehashed unchanged at the pinned SHA256. No tracked R57 source files changed.
+
+Failure/error records:
+
+- ERROR: test_live_plan_covers_support_and_selects_active_r96_recovery (test_original_v1_execution_orchestration.ExecutionOrchestrationTests.test_live_plan_covers_support_and_selects_active_r96_recovery)
+- ERROR: test_operational_tool_artifacts_are_validated (test_original_v1_execution_orchestration.ExecutionOrchestrationTests.test_operational_tool_artifacts_are_validated)
+- ERROR: test_future_candidate_with_verified_sources_is_selected (test_original_v1_production_control.ControlTests.test_future_candidate_with_verified_sources_is_selected)
+- ERROR: test_owner_accepted_regression_is_bound_to_exact_candidate_and_values (test_original_v1_production_control.ControlTests.test_owner_accepted_regression_is_bound_to_exact_candidate_and_values)
+- FAIL: test_live_reverification_matches_committed (test_evidence_integrity_audit.Committed.test_live_reverification_matches_committed)
+- FAIL: test_unknown_support_stage_refused (test_original_v1_execution_orchestration.ExecutionOrchestrationTests.test_unknown_support_stage_refused)
+- FAIL: test_next_action_requires_both_source_bound_diagnostics (test_original_v1_production_control.ControlTests.test_next_action_requires_both_source_bound_diagnostics)
+- FAIL: test_wrist_repair_precedes_grip_and_lunge_after_hand_recovery (test_original_v1_production_control.ControlTests.test_wrist_repair_precedes_grip_and_lunge_after_hand_recovery)
+- FAIL: test_zero_blockers_cannot_hide_inherited_regressions (test_original_v1_production_control.ControlTests.test_zero_blockers_cannot_hide_inherited_regressions)
+- FAIL: test_rebuild_is_deterministic (test_spine_trunk_audits.P003Rejected.test_rebuild_is_deterministic)
+- FAIL: test_current_candidate_status_matches_repository_evidence (test_verify_original_v1_candidate_status.CandidateStatusTests.test_current_candidate_status_matches_repository_evidence)
+
+Causes: missing archived evidence (18 missing vs committed allowance 1), historical orchestration phase/test expectations disagree with current pinned recovery plan; production-control fixtures now correctly refuse a development freeze while shoulder/axilla blockers remain; exact floating-point dictionary comparison differs in rejected spine reconstruction; candidate-status fixture expects candidate_not_production but evidence reports candidate_rejected_for_anatomical_repair. These baseline tests were not edited or weakened. Cloud repeats retain full logs; reconstructed-model native validation continues independently.

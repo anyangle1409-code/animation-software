@@ -1,0 +1,80 @@
+name: Body v2 read-only failure visualization
+'on':
+  push:
+    branches: [work/body-v2-readonly-visual-diagnosis-20261023]
+    paths: [.github/workflows/body-v2-readonly-visual-diagnosis.yml, scripts/recovery_visual_diagnosis/**]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  diagnose:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 80
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+        - model: W8
+          file: body_v2.blend
+          prior_run: 39923681466
+        - model: V14
+          file: body_v2_legs.blend
+          prior_run: 39927465329
+        - model: R120
+          file: body_v2_rebuilt.blend
+          prior_run: 39927465329
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      LIBGL_ALWAYS_SOFTWARE: '1'
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
+      with:
+        ref: 025d5f28fa7eba2064fba565b1c9b60119cdd2cb
+        path: _r57
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+    - name: Install native read-only visualization environment
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libegl1 libgl1 libxrender1 libxi6 libxkbcommon0 xvfb
+        python -m pip install bpy==5.2.0 numpy scipy Pillow
+    - name: Diagnostic regression and existing preservation guards
+      run: |
+        DIAG_DIR="$PWD/scripts/recovery_visual_diagnosis" python -m unittest discover -s scripts/recovery_visual_diagnosis/tests -v
+        python -m unittest discover -s scripts/recovery_diagnostics/tests -v
+        python -m unittest discover -s scripts/body_v2/tests -v
+        python -m unittest discover -s scripts/recovery_access/tests -v
+    - uses: actions/download-artifact@v4
+      with:
+        name: body-v2-${{ matrix.model }}-UNVERIFIED-39922636070
+        run-id: 39922636070
+        github-token: ${{ github.token }}
+        path: ${{ runner.temp }}/received_model_new
+    - uses: actions/download-artifact@v4
+      with:
+        name: candidate-movement-${{ matrix.model }}-${{ matrix.prior_run }}
+        run-id: ${{ matrix.prior_run }}
+        github-token: ${{ github.token }}
+        path: ${{ runner.temp }}/prior_reports_new
+    - name: Verify unchanged bytes and capture only read-only pose evidence
+      run: |
+        cd "$RUNNER_TEMP/received_model_new"
+        sha256sum -c SHA256SUMS.txt
+        cd "$GITHUB_WORKSPACE"
+        set -o pipefail
+        xvfb-run -a python scripts/recovery_visual_diagnosis/visual_diagnosis_blender.py -- "$RUNNER_TEMP/received_model_new/${{ matrix.file }}" "$PWD/_r57" "$RUNNER_TEMP/prior_reports_new/${{ matrix.model }}/diagnostics.json" "$RUNNER_TEMP/visual_evidence_new" 2>&1 | tee "$RUNNER_TEMP/visual_diagnosis.log"
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: readonly-visual-${{ matrix.model }}-${{ github.run_id }}
+        path: |
+          ${{ runner.temp }}/visual_evidence_new/*.json
+          ${{ runner.temp }}/visual_evidence_new/*.npz
+          ${{ runner.temp }}/visual_evidence_new/*.png
+          ${{ runner.temp }}/visual_diagnosis.log
+        retention-days: 90
+        if-no-files-found: error
+        compression-level: 6

@@ -1,0 +1,62 @@
+name: Body v2 immutable preservation inspection
+'on':
+  push:
+    branches: [work/body-v2-preservation-audit-20261023]
+    paths: [.github/workflows/body-v2-preservation-audit.yml, scripts/recovery_preservation/**]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    strategy:
+      fail-fast: true
+      max-parallel: 1
+      matrix:
+        include:
+        - model: W8
+          file: body_v2.blend
+          sha: 2434afd0daa231ab3a03c873cad4187ffcbc1bab78132375221160b0b0f09e4c
+        - model: V14
+          file: body_v2_legs.blend
+          sha: 5969aa98122e267b6bdd94fdfaf6d2877a1b27f7ea8d11c6a8e078b467b0ff91
+        - model: R120
+          file: body_v2_rebuilt.blend
+          sha: fb3b0acfc68bc59952b0fc6c45f7d7715717207fd9ba0b7f2b124e905ce2ddcb
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
+      with:
+        ref: 9fb56a2763cda3036421c075013277bd5dee262e
+        path: _claude_source
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+    - name: Install native read-only inspection environment
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libegl1 libgl1 libxrender1 libxi6 libxkbcommon0
+        python -m pip install bpy==5.2.0 numpy scipy
+    - uses: actions/download-artifact@v4
+      with:
+        name: body-v2-${{ matrix.model }}-UNVERIFIED-39922636070
+        run-id: 39922636070
+        github-token: ${{ github.token }}
+        path: ${{ runner.temp }}/artifact_received
+    - name: Check hashes and inspect a new read-only copy; never save
+      run: |
+        cd "$RUNNER_TEMP/artifact_received"
+        sha256sum -c SHA256SUMS.txt
+        cd "$GITHUB_WORKSPACE"
+        python scripts/recovery_preservation/inspect_readonly.py "$RUNNER_TEMP/artifact_received/${{ matrix.file }}" "${{ matrix.sha }}" "$PWD/_claude_source/scripts/body_v2/verify_body_v2_blend.py" "$RUNNER_TEMP/inspection_new"
+    - name: Preserve reports only
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: immutable-inspection-${{ matrix.model }}-${{ github.run_id }}
+        path: |
+          ${{ runner.temp }}/inspection_new/inspection.json
+          ${{ runner.temp }}/inspection_new/claude_verifier.json
+        if-no-files-found: error
+        retention-days: 90

@@ -47,7 +47,7 @@ Distances below are **Euclidean separations of vertex-weighted body-local centro
 
 ## New cloud analyzer
 
-Added `scripts/cloud_body_analysis/compare_reports.py`, unit tests under `scripts/cloud_body_analysis/tests/`, and a new `compare-rest-audits` GitHub Actions job on the isolated phone workbench branch. Workflow commit: `3f25e5737c0668cfa005417a82f0d14e36ca83d1`, run [40015895314](https://github.com/anyangle1409-code/animation-software/actions/runs/40015895314). **Its outcome was not yet verified at the time this evidence page was authored.** The job is intended to upload `rest_comparison.json` and `rest_comparison.md` without touching model binaries.
+Added `scripts/cloud_body_analysis/compare_reports.py`, unit tests under `scripts/cloud_body_analysis/tests/`, and a new `compare-rest-audits` GitHub Actions job on the isolated phone workbench branch. Workflow commit: `3f25e5737c0668cfa005417a82f0d14e36ca83d1`, run [40015895314](https://github.com/anyangle1409-code/animation-software/actions/runs/40015895314). **VERIFIED 4/4 jobs SUCCESS.** [Cross-model artifact 12529220072](https://github.com/anyangle1409-code/animation-software/actions/runs/40015895314/artifacts/12529220072) contains `rest_comparison.json` and `rest_comparison.md`. Its downloaded ZIP SHA256 matches GitHub's published digest: `3a8b94c53880b2ee94ec6fffaa0f96150c2c077b5501e5b75787b47feb4e6416`. All three Blender model checks and the comparison unit tests succeeded; no model binaries modified.
 
 ## Safe next phase
 
@@ -57,3 +57,24 @@ Added `scripts/cloud_body_analysis/compare_reports.py`, unit tests under `script
 4. Keep all model-edit proposals as separate candidate-only plans pending explicit owner scope and anatomical landmark approval.
 
 Source .blend hashes, production assets, validated skeletal data, PT_MODEL_VERSION 1.0, and Claude branches were not changed by this analysis.
+
+## V14 archive discrepancy — narrower read-only localization
+
+Source: [recovery run 39922636070 evidence artifact 12488495610](https://github.com/anyangle1409-code/animation-software/actions/runs/39922636070/artifacts/12488495610), downloaded and inspected as `all_archive_json_discrepancies.json`, `model_reports/V14/legs_v2_report.json`, `verify/v14_report_vs_archive.json`, against tracked `review-assets/body_v2/draft_v14b_torso/legs_v2_report.json`.
+
+| Stage/report field | Archived V14 | Reconstruction |
+|---|---:|---:|
+| Initial W8 source vertices | 219974 | 219974 |
+| Final V14 vertices | 238067 | 238065 |
+| Right leg cut-loop vertices | 699 | 700 |
+| Left leg cut-loop vertices | 696 | 696 |
+| Right leg ring count × width | 168 × 165 | 168 × 165 |
+| Left leg ring count × width | 168 × 166 | 168 × 166 |
+| Right foot mesh vertices | 26877 | 26877 |
+| Left foot mesh vertices | 26877 | 26877 |
+| Above-cut smoothed vertices | 6675 | 6672 |
+| Torso-relief vertices | 60485 | 60483 |
+
+The reconstructed report additionally includes `back_depth_smooth` and `pec_junction` operations that are **absent** from the archived report, demonstrating a recorded stage/settings or code-history difference. The first *observable* count divergence in these recorded fields is the right cut loop (one additional reconstructed vertex); this does **not** prove the entire final −2 vertex difference is caused by that loop. Mesh-cut source-input and BMesh ordering, later topology processing, and additional operative stages remain plausible hypotheses, not established causation. Any detailed diagnosis must compare native intermediate topologies on isolated read-only copies; do not patch by adding/deleting two vertices.
+
+No archived original .blend has been verified. V14 archive equivalence remains FAILED.

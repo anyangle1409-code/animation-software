@@ -15,7 +15,10 @@
     "Simultaneous multi-joint configurations may collide or be infeasible even if each scalar angle is individually within a norm.",
     "Never infer muscle excitation/force from angle; physiology and skin deformation have independent constraints.",
     "This repository has not measured real joint angles on the reconstructed W8/V14/R120 rigs.",
-    "Exercise motion and rendering approval require measured poses, joint coordination, contact and nonpenetration across a trajectory."
+    "Exercise motion and rendering approval require measured poses, joint coordination, contact and nonpenetration across a trajectory.",
+    "Published nominal goniometry tables (AAOS) are separate from CDC age/sex-specific group means; neither is an individual's joint hard stop.",
+    "Cervical and lumbar studies report region-complex motion, not independent limits for each vertebra; do not spread a total neck/lumbar angle evenly across spine bones.",
+    "A goniometric number does not specify the exact Blender local axis, order of Euler rotations, or motion-dependent joint coupling."
   ],
   "sources": [
     {
@@ -58,6 +61,13 @@
       "title": "ISB recommendations for skin-marker-based multi-segment foot kinematics (2021)",
       "url": "https://www.isbweb.org/activities/standards",
       "source_role": "multi-segment foot methods; not a single ankle hinge",
+      "reference_only": true
+    },
+    {
+      "id": "young_adult_spine_goniometry_2023",
+      "title": "Normative values for cervical and lumbar range of motion in healthy young adults (2023), n=300",
+      "url": "https://jtss.org/articles/normative-values-for-cervical-and-lumbar-range-of-motion-in-healthy-young-adults/jtss.galenos.2023.33042",
+      "source_role": "population mean plus SD for segment-complex spine motions in ages 18–29; distinct group and measurement method",
       "reference_only": true
     }
   ],
@@ -1668,5 +1678,218 @@
     "muscle_highlighting": "DEFERRED_BY_OWNER",
     "visual_style": "UNDECIDED",
     "permanent_ids_only": true
+  },
+  "secondary_reference_context": {
+    "safety_approval": "NOT_GRANTED",
+    "status": "context only; no 3D rig coordinate calibration or joint safety limits",
+    "why_separate": "AAOS illustrative single-reference goniometric norms and published young adult spine means/SD cannot be mixed with CDC group mean CI nor promoted to individual physiological maxima.",
+    "aaos_illustrative_goniometry": [
+      {
+        "movement": "shoulder_complex_flexion",
+        "nominal_deg": 180,
+        "source_id": "norkin_white_goniometry_6e",
+        "evidence_class": "AAOS_table_illustrative_goniometric_normative_value",
+        "scope": "joint/complex clinical measurement, individual ROM not established",
+        "hard_limit": false
+      },
+      {
+        "movement": "shoulder_complex_extension",
+        "nominal_deg": 60,
+        "source_id": "norkin_white_goniometry_6e",
+        "evidence_class": "AAOS_table_illustrative_goniometric_normative_value",
+        "scope": "joint/complex clinical measurement, individual ROM not established",
+        "hard_limit": false
+      },
+      {
+        "movement": "shoulder_complex_abduction",
+        "nominal_deg": 180,
+        "source_id": "norkin_white_goniometry_6e",
+        "evidence_class": "AAOS_table_illustrative_goniometric_normative_value",
+        "scope": "joint/complex clinical measurement, individual ROM not established",
+        "hard_limit": false
+      },
+      {
+        "movement": "shoulder_internal_rotation",
+        "nominal_deg": 70,
+        "source_id": "norkin_white_goniometry_6e",
+        "evidence_class": "AAOS_table_illustrative_goniometric_normative_value",
+        "scope": "joint/complex clinical measurement, individual ROM not established",
+        "hard_limit": false
+      },
+      {
+        "movement": "shoulder_external_rotation",
+        "nominal_deg": 90,
+        "source_id": "norkin_white_goniometry_6e",
+        "evidence_class": "AAOS_table_illustrative_goniometric_normative_value",
+        "scope": "joint/complex clinical measurement, individual ROM not established",
+        "hard_limit": false
+      },
+      {
+        "movement": "elbow_flexion",
+        "nominal_deg": 150,
+        "source_id": "norkin_white_goniometry_6e",
+        "evidence_class": "AAOS_table_illustrative_goniometric_normative_value",
+        "scope": "joint/complex clinical measurement, individual ROM not established",
+        "hard_limit": false
+      },
+      {
+        "movement": "forearm_pronation",
+        "nominal_deg": 80,
+        "source_id": "norkin_white_goniometry_6e",
+        "evidence_class": "AAOS_table_illustrative_goniometric_normative_value",
+        "scope": "joint/complex clinical measurement, individual ROM not established",
+        "hard_limit": false
+      },
+      {
+        "movement": "forearm_supination",
+        "nominal_deg": 80,
+        "source_id": "norkin_white_goniometry_6e",
+        "evidence_class": "AAOS_table_illustrative_goniometric_normative_value",
+        "scope": "joint/complex clinical measurement, individual ROM not established",
+        "hard_limit": false
+      },
+      {
+        "movement": "wrist_flexion",
+        "nominal_deg": 80,
+        "source_id": "norkin_white_goniometry_6e",
+        "evidence_class": "AAOS_table_illustrative_goniometric_normative_value",
+        "scope": "joint/complex clinical measurement, individual ROM not established",
+        "hard_limit": false
+      },
+      {
+        "movement": "wrist_extension",
+        "nominal_deg": 70,
+        "source_id": "norkin_white_goniometry_6e",
+        "evidence_class": "AAOS_table_illustrative_goniometric_normative_value",
+        "scope": "joint/complex clinical measurement, individual ROM not established",
+        "hard_limit": false
+      },
+      {
+        "movement": "wrist_radial_deviation",
+        "nominal_deg": 20,
+        "source_id": "norkin_white_goniometry_6e",
+        "evidence_class": "AAOS_table_illustrative_goniometric_normative_value",
+        "scope": "joint/complex clinical measurement, individual ROM not established",
+        "hard_limit": false
+      },
+      {
+        "movement": "wrist_ulnar_deviation",
+        "nominal_deg": 30,
+        "source_id": "norkin_white_goniometry_6e",
+        "evidence_class": "AAOS_table_illustrative_goniometric_normative_value",
+        "scope": "joint/complex clinical measurement, individual ROM not established",
+        "hard_limit": false
+      }
+    ],
+    "young_adult_spine_means": [
+      {
+        "movement": "cervical_flexion",
+        "mean_deg": 57.7,
+        "sd_deg": 8.2,
+        "population": "n=300, 18–29 years, mean age 21.4, digital goniometer, combined-groups average",
+        "source_id": "young_adult_spine_goniometry_2023",
+        "evidence_class": "clinical_group_mean_plus_SD_not_bone_level_range",
+        "hard_limit": false
+      },
+      {
+        "movement": "cervical_extension",
+        "mean_deg": 59.1,
+        "sd_deg": 10.2,
+        "population": "n=300, 18–29 years, mean age 21.4, digital goniometer, combined-groups average",
+        "source_id": "young_adult_spine_goniometry_2023",
+        "evidence_class": "clinical_group_mean_plus_SD_not_bone_level_range",
+        "hard_limit": false
+      },
+      {
+        "movement": "cervical_lateral_flexion_right",
+        "mean_deg": 42.1,
+        "sd_deg": 7.9,
+        "population": "n=300, 18–29 years, mean age 21.4, digital goniometer, combined-groups average",
+        "source_id": "young_adult_spine_goniometry_2023",
+        "evidence_class": "clinical_group_mean_plus_SD_not_bone_level_range",
+        "hard_limit": false
+      },
+      {
+        "movement": "cervical_lateral_flexion_left",
+        "mean_deg": 41.4,
+        "sd_deg": 7.7,
+        "population": "n=300, 18–29 years, mean age 21.4, digital goniometer, combined-groups average",
+        "source_id": "young_adult_spine_goniometry_2023",
+        "evidence_class": "clinical_group_mean_plus_SD_not_bone_level_range",
+        "hard_limit": false
+      },
+      {
+        "movement": "cervical_rotation_right",
+        "mean_deg": 71.1,
+        "sd_deg": 10.5,
+        "population": "n=300, 18–29 years, mean age 21.4, digital goniometer, combined-groups average",
+        "source_id": "young_adult_spine_goniometry_2023",
+        "evidence_class": "clinical_group_mean_plus_SD_not_bone_level_range",
+        "hard_limit": false
+      },
+      {
+        "movement": "cervical_rotation_left",
+        "mean_deg": 70.2,
+        "sd_deg": 9.7,
+        "population": "n=300, 18–29 years, mean age 21.4, digital goniometer, combined-groups average",
+        "source_id": "young_adult_spine_goniometry_2023",
+        "evidence_class": "clinical_group_mean_plus_SD_not_bone_level_range",
+        "hard_limit": false
+      },
+      {
+        "movement": "lumbar_flexion",
+        "mean_deg": 69.9,
+        "sd_deg": 14.5,
+        "population": "n=300, 18–29 years, mean age 21.4, digital goniometer, combined-groups average",
+        "source_id": "young_adult_spine_goniometry_2023",
+        "evidence_class": "clinical_group_mean_plus_SD_not_bone_level_range",
+        "hard_limit": false
+      },
+      {
+        "movement": "lumbar_extension",
+        "mean_deg": 40,
+        "sd_deg": 10.2,
+        "population": "n=300, 18–29 years, mean age 21.4, digital goniometer, combined-groups average",
+        "source_id": "young_adult_spine_goniometry_2023",
+        "evidence_class": "clinical_group_mean_plus_SD_not_bone_level_range",
+        "hard_limit": false
+      },
+      {
+        "movement": "lumbar_lateral_flexion_right",
+        "mean_deg": 36.3,
+        "sd_deg": 6.4,
+        "population": "n=300, 18–29 years, mean age 21.4, digital goniometer, combined-groups average",
+        "source_id": "young_adult_spine_goniometry_2023",
+        "evidence_class": "clinical_group_mean_plus_SD_not_bone_level_range",
+        "hard_limit": false
+      },
+      {
+        "movement": "lumbar_lateral_flexion_left",
+        "mean_deg": 36.2,
+        "sd_deg": 6.6,
+        "population": "n=300, 18–29 years, mean age 21.4, digital goniometer, combined-groups average",
+        "source_id": "young_adult_spine_goniometry_2023",
+        "evidence_class": "clinical_group_mean_plus_SD_not_bone_level_range",
+        "hard_limit": false
+      },
+      {
+        "movement": "lumbar_rotation_right",
+        "mean_deg": 38.4,
+        "sd_deg": 8.7,
+        "population": "n=300, 18–29 years, mean age 21.4, digital goniometer, combined-groups average",
+        "source_id": "young_adult_spine_goniometry_2023",
+        "evidence_class": "clinical_group_mean_plus_SD_not_bone_level_range",
+        "hard_limit": false
+      },
+      {
+        "movement": "lumbar_rotation_left",
+        "mean_deg": 38.6,
+        "sd_deg": 9.4,
+        "population": "n=300, 18–29 years, mean age 21.4, digital goniometer, combined-groups average",
+        "source_id": "young_adult_spine_goniometry_2023",
+        "evidence_class": "clinical_group_mean_plus_SD_not_bone_level_range",
+        "hard_limit": false
+      }
+    ]
   }
 }

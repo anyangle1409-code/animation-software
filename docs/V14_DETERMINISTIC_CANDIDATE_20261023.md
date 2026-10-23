@@ -42,6 +42,23 @@ So W8 is now deterministic. The **leg step has its own run-to-run variation**, a
 - `legs_v2_blender.py`: those loops are made Jacobi (neighbours' previous positions), the bisect inputs are index-sorted, and the weight-transfer list is index-sorted.
 - `rebuild_v2_blender.py`: the cut's bisect inputs and the new-vertex list are index-sorted.
 
+**Run 2** ([40032993456](https://github.com/anyangle1409-code/animation-software/actions/runs/40032993456), all jobs passed): **the whole pipeline is deterministic.** Two independent runners built every stage from R41:
+
+| Output | Vertices / faces | Across the two runners |
+|---|---|---|
+| W8 | 219,974 | `rest.npy`, `tris.npy`, offsets and proportion **bit-identical** (max deviation 0.0) |
+| V14 (default leg step) | 238,068 / 419,879 | positions, face lists and weights **bit-identical** |
+| R120 (legs-only base, then rebuild) | 347,955 / 646,174 | positions, face lists and weights **bit-identical** |
+
+All three reports are identical as well.
+
+**The full set of changes needed:**
+- `refine_torso_blender.py`: elements sorted by index before every `bmesh.ops` call.
+- `legs_v2_blender.py`: Jacobi relaxation in the seam relax and in the band above the cut; index-sorted bisect inputs and weight-transfer list.
+- `rebuild_v2_blender.py`: index-sorted seam loops, bisect inputs and new-vertex list.
+
+**These candidate models are new.** W8 has the same vertex count as the archive but its own triangulation, and V14 has 238,068 vertices against the archive's 238,067. They are not the archived models. The archived W8 and V14 are reproducible exactly only by the replay on the investigation branch.
+
 See `docs/V14_RECOVERY_INVESTIGATION_20261023.md` for the investigation this follows from.
 
 ## Decision needed (owner)

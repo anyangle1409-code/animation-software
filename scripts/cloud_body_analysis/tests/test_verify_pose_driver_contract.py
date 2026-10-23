@@ -11,14 +11,21 @@ SPEC.loader.exec_module(mod)
 
 def fixtures():
     families=[]
+    configured = {
+        "HGPT_S1_SHOULDER": [105,120,145,160],
+        "HGPT_S3_SHAPE": [100,120,140,160],
+        "HGPT_S5_BAKE": [95,110,125,140,155,170],
+        "HGPT_S7_DELT": [100,110,120,130,140,150,160],
+    }
     for f in sorted(mod.FAMILIES):
         for side in ("l","r"):
+            angles=configured.get(f,[])
             families.append({
-                "family":f,"side_suffix":side,"safe_to_evaluate_rule":True,
+                "family":f,"side_suffix":side,"safe_to_evaluate_rule":bool(angles),
                 "measurement":"humerothoracic_elevation",
                 "effective_start_deg":90.0,
-                "angle_properties_deg":[110.0,130.0,160.0],
-                "keys":[{"name":f+"_"+side+"_"+str(angle)} for angle in (110,130,160)],
+                "angle_properties_deg":angles,
+                "keys":[{"name":f+"_"+side+"_"+str(angle)} for angle in angles],
             })
     static={
         "model":"W8","source_sha256":mod.W8,
@@ -37,7 +44,7 @@ def fixtures():
                 if family["side_suffix"]!=side:continue
                 for index,key in enumerate(family["keys"]):
                     keys.append({"name":key["name"],
-                                 "actual_value":round(mod.value_hat(measured,90,[110,130,160],index),6)})
+                                 "actual_value":round(mod.value_hat(measured,family["effective_start_deg"],family["angle_properties_deg"],index),6)})
             row["sides"][side]={
                 "humerothoracic_elevation_measured_by_pinned_driver_deg":measured,
                 "actual_shape_key_values":keys,
@@ -62,6 +69,20 @@ class DriverConsistencyTests(unittest.TestCase):
         self.assertFalse(report["shoulder_surface_deformation_approved"])
         self.assertFalse(report["joint_coordinate_ISB_verified"])
         self.assertTrue(report["failing_baseline_metrics_unchanged"])
+
+    def test_nominally_absent_family_is_not_an_error_or_silent_reconfiguration(self):
+        static,dynamic=fixtures()
+        report=mod.compare(static,dynamic)
+        self.assertEqual(report["populated_family_count"],4)
+        self.assertEqual(len(report["nominally_absent_families"]),3)
+        tampered_static=copy.deepcopy(static)
+        family=next(row for row in tampered_static["family_records"]
+                    if row["family"]=="HGPT_S2_FOLD" and row["side_suffix"]=="l")
+        family["safe_to_evaluate_rule"]=True
+        family["angle_properties_deg"]=[120]
+        family["keys"]=[{"name":"HGPT_S2_FOLD_l_120"}]
+        with self.assertRaisesRegex(ValueError,"configured shoulder family set changed"):
+            mod.compare(tampered_static,dynamic)
 
     def test_reject_tampered_actual_shape_key(self):
         static,dynamic=fixtures()

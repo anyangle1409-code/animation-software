@@ -1,0 +1,26 @@
+{
+ "vertices": [
+  347917,
+  347917
+ ],
+ "triangles": [
+  646098,
+  646098
+ ],
+ "nn_dist_mm_a_to_b": {
+  "max": 0.0,
+  "p99_9": 0.0,
+  "count_gt_0.01mm": 0,
+  "count_gt_1mm": 0
+ },
+ "nn_dist_mm_b_to_a": {
+  "max": 0.0,
+  "count_gt_0.01mm": 0,
+  "count_gt_1mm": 0
+ },
+ "weights_max_dev_on_matched_vertices": 0.0,
+ "weights_max_dev_on_exactly_matched_vertices": 0.0,
+ "faces_geometric_only_in_replay": 1057,
+ "faces_geometric_only_in_archive": 1057,
+ "PASS_archived_R120_reproduced": true
+}

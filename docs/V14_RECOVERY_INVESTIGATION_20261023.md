@@ -155,6 +155,37 @@ The same run also repeated the earlier legs: refine as-builder non-deterministic
 
 **Consequence for the blockers:** blocker 1 (exact archived V14) is resolved by replay. The remaining open question is the owner's choice of the W8/V14 reference: an L0 replay (matches the archive) or a deterministic patched build (new, reproducible, does not match the archive).
 
+## Archived w8 (v13s) and R120 replays
+
+**w8 / v13s:** reproduced. Replaying the preserved w8 arrays (`evidence/build_w8`) gives the following against the committed `review-assets/body_v2/draft_v13s_standing` files, which are byte-identical to that build's originals (SHA-256 checked):
+
+| Check | Result |
+|---|---|
+| Offsets | max **0.0000347 mm** (the workbench reported 3.59 mm for its reconstruction) |
+| Proportion | max 0.0000075 mm |
+| Skeleton edits | identical |
+| `body_v2_report.json` (275 numeric fields) | only the `refine/beautify_geom` counts of the discarded triangulation differ |
+
+Script: `compare_w8_replay.py`. Evidence: `evidence/local_w8_replay_compare.json`. Verdict: **PASS_archived_w8_reproduced**.
+
+**R120:** close, but not exact. The chain was the L0 replay, then the legs-only base (`legs_v2_blender.py` at bee05007 with `V2_TORSO_RELIEF=0 V2_PEC_JUNCTION=0`), then the rebuild (`rebuild_v2_blender.py` at d5141ad3). It was compared with the session's archived R120 run (RB2; reports in `evidence/archive_R120`, .blend SHA-256 recorded, .blend not committed).
+
+- **Legs-only base report:** 51 / 51 fields identical.
+- **R120:** 347,917 vertices and 646,098 faces, both equal to the archive. The rebuild report differs in two places:
+  - **Voxels:** occupied voxels differ by 1 (of about 2.97 million), and the parity-disagreement count by 8.
+  - **Thigh seams:** they are listed in swapped order, and one seam has one more vertex.
+- **Geometry, order-independent** (`compare_r120_replay_blender.py`; evidence `local_r120_replay_geometry_compare.json`):
+  - 342,707 of 347,917 vertices are within 0.01 mm of an archived vertex;
+  - 5,210 differ, by at most **1.14 mm**, and only 2 by more than 1 mm;
+  - matched skin weights differ by at most 0.011.
+- **The rebuild twice on the same input file** (`local_r120_rebuild_same_input_twice.json`): every vertex position and weight is identical (0.0 mm). 1,057 seam faces differ, because the seam loops come from a Python set (`loop_on_plane`), so the zipper starts at a different vertex.
+
+**Conclusion for R120.**
+- The rebuild's geometry is deterministic for a given input, but extremely input-sensitive. The replayed W8 differs from L0 by about 35 nanometres (float rounding in the builder), and that is enough to flip one ray-parity voxel, which changes the marching-cubes surface locally.
+- An exact R120 would need a bit-identical W8. That is not available, because L0's .blend was never preserved and the builder's float rounding is not bit-stable.
+- R120 is EXPERIMENTAL in any case.
+- **Recommendation:** treat the replayed R120 as the reference if one is needed, and record this tolerance (5,210 vertices, ≤ 1.14 mm). If R120 is pursued, sort the set-ordered seam loops in `rebuild_v2_blender.py` too.
+
 ## Candidate fix (not applied)
 
 `scripts/v14_investigation/CANDIDATE_deterministic_refine.patch` changes only `refine_torso_blender.py`. It adds `_ordered(bm, elems)`, which updates the indices and sorts by index, and uses it for:

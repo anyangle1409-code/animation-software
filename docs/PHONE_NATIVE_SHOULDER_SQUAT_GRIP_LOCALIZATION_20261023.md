@@ -60,7 +60,13 @@ Implementation: `scripts/cloud_body_analysis/localize_failures.py` with isolated
 
 A dedicated fifth job, `localize-native-movement-failures`, was added to `.github/workflows/phone-blender-workbench.yml` at commit `e50af1477bf7674a1ca7382944bfcef89405ff93`. It installs only NumPy, fetches pinned diagnostic artifacts from the older successful run, checks the source hashes and recorded values, and uploads JSON/Markdown reports. It never opens or saves any `.blend`.
 
-[Run 40019611125](https://github.com/anyangle1409-code/animation-software/actions/runs/40019611125) was **in progress at the time this document was authored**. Its passing status and resulting artifact must be checked before claiming the new cloud job is verified. Earlier W8/V14/R120 rest-audit and cross-model cloud runs have already passed.
+The **new localization job PASSED** on [run 40019611125](https://github.com/anyangle1409-code/animation-software/actions/runs/40019611125), with **12/12 regression tests passing**. Its [artifact 12530431044](https://github.com/anyangle1409-code/animation-software/actions/runs/40019611125/artifacts/12530431044) was independently downloaded and SHA256-verified as `d84aab7fcec286b58350a22104b82e4b5590ce9a000f1492b773920c91fee3c3`.
+
+The **overall first five-job workflow had failed** in an unrelated pre-existing comparison job because its generic unittest discovery found NumPy-dependent new tests but did not install NumPy. This was reproduced from the Actions log. At corrective commit `78173b749d0e7ff669043847b2fd3d5567fb1517`, the older standard-library comparison job was scoped to `test_compare_reports.py` while the native-localization job retains all 12 tests and installs NumPy.
+
+The corrected [run 40019877883](https://github.com/anyangle1409-code/animation-software/actions/runs/40019877883) has **passed its localization job**, and its [native report artifact 12530565814](https://github.com/anyangle1409-code/animation-software/actions/runs/40019877883/artifacts/12530565814) was independently downloaded and digest verified as `595a971897bedce022ca88f57f0cae1d59f2e526d7617484f382f58c5bf660ef`. The **full run** was still in progress at time of this document update, so do not claim all five jobs pass until confirmed. No model file was modified.
+
+Example precise movement hotspots in existing W8 evaluated XYZ coordinate bins at shoulder-press sample 6: the most populated 5cm stretched-triangle bins are approximately `(+0.175,+0.125,1.475)`m (221 flagged triangles) and `(-0.175,+0.125,1.475)`m (198 flagged triangles). These are recorded evaluated coordinate positions, NOT certified anatomical landmarks or proposed attachment targets.
 
 ## Safe next technical work
 

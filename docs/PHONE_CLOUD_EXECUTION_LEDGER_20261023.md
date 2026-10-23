@@ -105,3 +105,22 @@ The owner's iPhone-based visual review requirement now has a tested source-prese
 - [Full picture-review protocol and artifact provenance](PHONE_VISUAL_REVIEW_PROTOCOL_20261023.md). This is baseline read-only evidence, **NOT** an improvement to the shoulder mesh; no new candidate was saved or approved.
 
 **Next safe technical priority:** instrument actual in-memory shoulder-press S7/S5 shape-key activation and cap helper rotations at benchmark samples 0/6/8; compare against observed rear-shoulder flagged triangle geometry, with exact source input guards and no saving. Existing S7 95° start override, cap fraction 0.45 and missing axilla helper are hypotheses, not approved fixes. Do not change original models, weights, production rig, PT_MODEL_VERSION, Claude branches, or acceptance thresholds without new authorized isolated candidate work.
+
+
+## Human ROM and general movement reference — 2026-10-23
+
+**Owner rule:** human-looking, naturally moving generic body FIRST, then reuse the same rig/deformation foundation for many future exercise templates; preserve correct muscle interactions and overlap. This is a design requirement, not a current anatomy certification.
+
+Research and new versioned machine-readable files committed on isolated cloud branch:
+- [Full study/source interpretation, clinical vs skeletal angles, motion gates](HGPT_HUMAN_JOINT_ROM_AND_MOVEMENT_PLAN_20261023.md).
+- [Human joint ROM reference V1](anatomy/HGPT_HUMAN_JOINT_ROM_REFERENCE_V1.json): 43 named joint coordinates spanning entire body, **44 CDC adult grouped clinical means + CIs**, 12 separately labelled AAOS illustrative clinical-goniometry norms, 12 cervical/lumbar young-adult mean+SD values, seven referenced sources, 19 conceptual isolated/compound movement test scenarios.
+- [Exercise movement contract crosswalk](anatomy/HGPT_EXERCISE_ROM_CROSSWALK_V1.json): **16 unique PR124 bilateral exercise coordinate pairs**, 12 semantic coordinate matches and **four unresolved bilateral shoulder coordinate mappings** due ambiguous `elevation` versus `humerothoracic_elevation` and unknown plane/axis. Referenced PR124 `7c820d68de69dcdef7d567e836302123df953446` directly, not merged.
+- `scripts/cloud_body_analysis/human_rom_reference.py` and `tests/test_human_rom_reference.py`: pure Python study-source validation, descriptive adult population comparisons **without pose approval or angle clamping**, missing-coordinate/side review guards and test-matrix completeness checks.
+- Source examples: CDC adult 20–44 shoulder flexion mean 172.0° (female), 168.8° (male); knee flexion 141.9°/137.7°; ankle dorsiflexion 13.8°/12.7°. **These are study population means, never human maximums or safe exercise endpoints.** Secondary source goniometric values and spinal group means are kept separate and similarly NOT hard stops.
+- ISB JCS papers (2002/2005) specify anatomical motion coordinate/reporting standards, not numerical safety limits. 2025 shoulder review rejects universal fixed scapula ratio; forearm and foot multisegment couplings are separately documented.
+- All 43 actual Blender joint axes, 19 motion test pose recipes and measured trajectories, source binding, clinical hard limits, and native anatomical approvals remain **NULL / NOT_GRANTED / NOT_MEASURED**.
+- Owner has deferred muscle highlighting: preserve stable semantic muscle IDs but no display UI or guessed colours/activation implementation.
+
+Verification status at authoring: test code is committed; latest script-triggered cloud job must pass its report-only regression suite and all five jobs before native CI is marked verified. Prior run40028687862 successfully tested the initial schema; new expanded AAOS/spine/crosswalk tests require re-verification. Do not conflate green CI with an anatomically correct human model.
+
+**Next safe action:** establish each actual bone/joint axis on existing W8/V14/R120 rigs with a *read-only* numeric native inventory and independent 3D landmark review, then implement controlled pose-only movement tests with documented frame transforms and return-to-neutral. Continue shoulder and elbow/forearm/joint shape diagnostics, while preserving the original files, 77-bone authoring rig data, production bridge and PT_MODEL_VERSION 1.0. No exercise animation or muscle attachment may be promoted from averages/contract labels alone.

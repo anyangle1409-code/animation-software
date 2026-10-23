@@ -170,3 +170,20 @@ assert activation_rules["status"] == "READ_ONLY_ANGULAR_ACTIVATION_CONTRACT_NOT_
 print("READ_ONLY_SHOULDER_ACTIVATION_CONTRACT", MODEL,
       [(row["family"], row["side_suffix"], row["safe_to_evaluate_rule"], row["warnings"])
        for row in activation_rules["family_records"] if row["keys"]])
+
+
+# Source-preserving native rest-axis inventory for later HUMAN joint-coordinate
+# calibration. These are Blender bone-local axes ONLY; ISB mapping remains NULL.
+from rig_axes_inventory import inspect as inspect_rig_axes, validate as validate_rig_axes
+rest_axes = inspect_rig_axes(rig, body)
+rest_axes["model"] = MODEL
+rest_axes["source_sha256"] = EXPECTED[MODEL]
+rest_axes["original_source_unchanged"] = sha(source) == EXPECTED[MODEL]
+assert rest_axes["original_source_unchanged"], "Rig axis inspection changed preserved input source"
+assert rest_axes["bone_count"] == report["bones"], "Bone count changed during read-only axis inspection"
+axis_errors = validate_rig_axes(rest_axes)
+assert not axis_errors, "Unusable bone-local rest matrix inventory: " + "; ".join(axis_errors)
+assert rest_axes["model_motion_axes_calibrated_to_ISB"] is False
+assert rest_axes["native_human_ROM_limits_validated"] is False
+(out / "rig_rest_axes_metadata.json").write_text(json.dumps(rest_axes, indent=2) + "\n")
+print("READ_ONLY_RIG_LOCAL_AXES", MODEL, rest_axes["bone_count"], "BONES; ANATOMY_NOT_APPROVED")

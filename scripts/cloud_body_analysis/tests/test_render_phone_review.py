@@ -1,10 +1,12 @@
 """Synthetic tests for source-preserving phone review contact sheets."""
 import importlib.util
 import io
+import hashlib
 import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from PIL import Image
 
@@ -19,6 +21,10 @@ class TestPhoneReview(unittest.TestCase):
         self.addCleanup(temp.cleanup)
         self.root = Path(temp.name)
         self.sources = {}
+        self.synthetic_checksums = {m: {} for m in review.MODELS}
+        checksum_fixture = patch.object(review, "PINNED_PNG_SHA256", self.synthetic_checksums)
+        checksum_fixture.start()
+        self.addCleanup(checksum_fixture.stop)
         for i, model in enumerate(review.MODELS):
             folder = self.root / model / "visual_evidence_new"
             folder.mkdir(parents=True)
@@ -27,6 +33,8 @@ class TestPhoneReview(unittest.TestCase):
                     name = f"{model}__{movement}__sample{number}__overlay__{spec['view']}.png"
                     im = Image.new("RGB", (160, 180), (70 + 40*i, 80, 90))
                     im.save(folder / name, "PNG")
+                    key = name[len(model) + 2:-4]
+                    self.synthetic_checksums[model][key] = hashlib.sha256((folder / name).read_bytes()).hexdigest()
             self.sources[model] = self.root / model
         self.out = self.root / "out"
 
@@ -63,7 +71,15 @@ class TestPhoneReview(unittest.TestCase):
         f = (self.sources["R120"] / "visual_evidence_new" /
              "R120__shoulder_press__sample08__overlay__back.png")
         Image.new("RGB", (5, 5)).save(f)
+        self.synthetic_checksums["R120"]["shoulder_press__sample08__overlay__back"] = hashlib.sha256(f.read_bytes()).hexdigest()
         with self.assertRaisesRegex(ValueError, "too small"):
+            review.produce(self.sources, self.out)
+
+    def test_valid_modified_png_is_rejected_by_pinned_sha(self):
+        f = (self.sources["W8"] / "visual_evidence_new" /
+             "W8__shoulder_press__sample06__overlay__back.png")
+        Image.new("RGB", (160, 180), (255, 0, 0)).save(f)
+        with self.assertRaisesRegex(ValueError, "pinned source PNG SHA256 mismatch"):
             review.produce(self.sources, self.out)
 
     def test_tampered_zip_rejected_before_use(self):

@@ -121,6 +121,18 @@ class TestActivationAudit(unittest.TestCase):
         self.assertEqual(data["helper_rig_properties_saved_without_evaluation"]["hgpt_axilla_params"]["radius_m"], 0.2)
         self.assertIsNone(data["helper_bones_present_in_saved_rig"]["axilla_l"])
 
+    def test_C1_suffix_is_order_not_angle(self):
+        rig, body = self.fixture()
+        # The _25/_35 fixture is just a name; the C1 code sorts integer
+        # suffixes by ordinal position, without assuming numeric angle equality.
+        rig["hgpt_c1_angles_l"] = [25.1, 37.96547]
+        row = self.family(act.inspect(rig, body), "HGPT_C1_ARMTRUNK", "l")
+        self.assertTrue(row["safe_to_evaluate_rule"])
+        self.assertEqual(row["key_name_suffix_semantics"], "ordered_key_index")
+        self.assertIsNone(row["key_name_property_max_absolute_difference_deg"])
+        self.assertIsNone(row["key_name_warning_tolerance_deg"])
+        self.assertNotIn("KEY_NAME_DEGREES_DIFFER_FROM_PROPERTY_ANGLES_OVER_0_25_DEG", row["warnings"])
+
     def test_no_unsupported_mesh_editing(self):
         import inspect as pyinspect
         text = pyinspect.getsource(act.inspect)

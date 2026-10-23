@@ -146,6 +146,101 @@ jobs:
           path: out/
           retention-days: 90
           if-no-files-found: error
+  replay-w8-archived-v13s:
+    # rebuild the archived w8 / v13s with its preserved triangulation and compare with draft_v13s_standing
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.R57_COMMIT }}
+          path: r57src
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install cloud Blender dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y libegl1 libgl1 libxrender1 libxi6 libxkbcommon0
+          python -m pip install bpy==5.2.0 numpy scipy scikit-image==0.25.2 lazy_loader packaging
+      - name: Replay w8 and compare with the archive
+        run: |
+          python scripts/v14_investigation/replay_build_blender.py -- "$GITHUB_WORKSPACE/r57src" "$RUNNER_TEMP/W8wr" 2.0 \
+            scripts/v14_investigation/evidence/build_w8/refined_mesh_and_offsets.npz 2>&1 | grep -E "V2_REPLAY|Traceback" || true
+          set +e
+          python scripts/v14_investigation/compare_w8_replay.py "$GITHUB_WORKSPACE" "$RUNNER_TEMP/W8wr" out/w8_replay_compare.json > /dev/null
+          rc=$?
+          python - <<'PY'
+          import json
+          d = json.load(open("out/w8_replay_compare.json"))
+          for k in ("PASS_archived_w8_reproduced", "W8_rest_identical_to_preserved", "W8_tris_identical_to_preserved",
+                    "offsets_max_dev_mm_vs_archive", "proportion_max_dev_mm_vs_archive", "skeleton_edit_leaves_differing_rel_1e-9"):
+              print(f"::notice title=w8 replay {k}::{d[k]}")
+          print(f"::notice title=w8 replay report differences::{json.dumps(d['report_leaves_differing_rel_1e-4'])[:900]}")
+          PY
+          exit $rc
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v14inv-replay-w8-${{ github.run_id }}
+          path: out/
+          retention-days: 90
+          if-no-files-found: error
+  replay-r120-archived:
+    # L0 replay -> legs-only base (legs_v2 at bee05007, torso relief / pec junction off) -> rebuild (d5141ad3); compare
+    # the reports with the archived R120 (session run RB2) and its legs-only base (LB)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.R57_COMMIT }}
+          path: r57src
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install cloud Blender dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y libegl1 libgl1 libxrender1 libxi6 libxkbcommon0
+          python -m pip install bpy==5.2.0 numpy scipy scikit-image==0.25.2 lazy_loader packaging
+      - name: Replay W8 (L0), legs-only base, rebuild - archived script versions from scratch copies
+        run: |
+          V="$RUNNER_TEMP/ver"; mkdir -p "$V/legs/fit" "$V/rb"
+          git show bee05007:scripts/body_v2/legs_v2_blender.py > "$V/legs/legs_v2_blender.py"
+          for f in ref_leg_side_profile.json ref_front_profile.json; do git show bee05007:scripts/body_v2/fit/$f > "$V/legs/fit/$f"; done
+          git show d5141ad3:scripts/body_v2/rebuild_v2_blender.py > "$V/rb/rebuild_v2_blender.py"
+          V2_SAVE_BLEND=1 python scripts/v14_investigation/replay_build_blender.py -- "$GITHUB_WORKSPACE/r57src" "$RUNNER_TEMP/W8r" 2.0 \
+            scripts/v14_investigation/evidence/build_L0/refined_mesh_and_offsets.npz 2>&1 | grep -E "V2_REPLAY|Traceback" || true
+          V2_TORSO_RELIEF=0 V2_PEC_JUNCTION=0 V2_LEGS_RENDER=0 python "$V/legs/legs_v2_blender.py" -- "$RUNNER_TEMP/W8r/body_v2.blend" "$GITHUB_WORKSPACE/r57src" "$RUNNER_TEMP/LBr" 2>&1 | grep -E "Traceback" || true
+          V2_RB_RENDER=0 python "$V/rb/rebuild_v2_blender.py" -- "$RUNNER_TEMP/LBr/body_v2_legs.blend" "$GITHUB_WORKSPACE/r57src" "$RUNNER_TEMP/RBr" 2>&1 | grep -E "Traceback" || true
+      - name: Compare with the archived R120 reports
+        run: |
+          set +e
+          python scripts/v14_investigation/compare_r120_reports.py "$GITHUB_WORKSPACE" "$RUNNER_TEMP/LBr" "$RUNNER_TEMP/RBr" out/r120_replay_compare.json > /dev/null
+          rc=$?
+          python - <<'PY'
+          import json
+          d = json.load(open("out/r120_replay_compare.json"))
+          for k in ("PASS_reports_identical", "R120_vertices", "legs_only_base_leaves", "rebuild_leaves"):
+              print(f"::notice title=r120 replay {k}::{d[k]}")
+          print(f"::notice title=r120 replay legs-only base differences::{json.dumps(d['legs_only_base_differing'])[:900]}")
+          print(f"::notice title=r120 replay rebuild differences::{json.dumps(d['rebuild_differing'])[:900]}")
+          PY
+          cp "$RUNNER_TEMP/RBr/rebuild_report.json" "$RUNNER_TEMP/LBr/legs_v2_report.json" out/ 2>/dev/null
+          ( cd "$RUNNER_TEMP" && sha256sum RBr/body_v2_rebuilt.blend ) > out/r120_replay_blend_sha256.txt 2>/dev/null
+          exit $rc
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v14inv-replay-r120-${{ github.run_id }}
+          path: out/
+          retention-days: 90
+          if-no-files-found: error
   summarize:
     needs: [refine-determinism, cut-accounting-reconstructed-w8]
     if: always()

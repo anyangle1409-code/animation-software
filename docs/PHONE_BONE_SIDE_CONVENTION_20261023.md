@@ -56,3 +56,7 @@ A prior handover warns that anatomical left (+X) may correspond to runtime `_r`.
 4. Preserve original source SHA256 and keep all reports read-only; do not alter the validated skeleton, existing production, `PT_MODEL_VERSION 1.0`, or Claude branches.
 
 **Gate:** internal naming consistency PASS; anatomical laterality NOT_GRANTED; muscle attachment BLOCKED.
+
+## Independent source-code convention clue (still not anatomical certification)
+
+The pinned benchmark source `scripts/build_original_movement_benchmarks_blender.py` at `025d5f28fa7eba2064fba565b1c9b60119cdd2cb` explicitly comments under M2 that runtime suffix `_r` is anatomical left and `_l` anatomical right, citing F-SIDE-001. This agrees with the measured suffix-to-X-sign mapping but is an **authored assumption/contract statement**, not independent external orientation evidence. The native camera/landmark and pose-based verification gate remains open.

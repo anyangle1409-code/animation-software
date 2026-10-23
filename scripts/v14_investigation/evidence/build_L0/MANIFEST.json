@@ -1,0 +1,14 @@
+{
+ "build": "L0",
+ "role": "input W8 of the archived V14 (v14b, L15 and all L10-L18 leg runs)",
+ "original_file_sha256": {
+  "rest.npy": "42ee5f52692e0ede0f39e6df71dd3f6b281af4b3d4d3f2826a515793ebc2e592",
+  "tris.npy": "8cc0a354b0f24d8a4969f14c207189ca1def99ff3b53b9d546d6b9db5fed6b9f",
+  "refine_map.npz": "dd40e4795ac595ea4d281ab9ff4ff3130c4a170c172237b780887126d3fbc22c",
+  "body_v2_offsets.npz": "50fcc00c510f898274ad52569d4f0aebee33d93198dff3acbdcc19ea5a21c270",
+  "body_v2_report.json": "d008206392feecbcce52e6823b82087273f09e8a4bbb9211df4b7c96dc1b0026",
+  "skeleton_edits.json": "5f9bff8b32ba5c6a6d593c6fb93427704fc82bea946d6179da383745477c9d2f"
+ },
+ "contents": "refined_mesh_and_offsets.npz = rest (refined rest positions, run's index order), tris, refine_idx/refine_w (map from R41 coarse vertices), offsets, proportion (W8 = rest + proportion + offsets)",
+ "body_v2_blend_sha256_not_committed": "78f30e5983bcd03bfb4cbf34b9c7602c031b73810d80af1c59877bcd41097432"
+}

@@ -100,6 +100,18 @@ jobs:
           cp scripts/v14_investigation/evidence/*.json "${{ runner.temp }}/res/"
           python scripts/v14_investigation/summarize.py "${{ runner.temp }}/res" summary/with_local
           cat summary/github_only/v14_investigation_summary.md summary/with_local/v14_investigation_summary.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Publish the results as annotations (readable through the API without downloading artifacts)
+        run: |
+          python - <<'PY'
+          import json
+          d = json.load(open("summary/with_local/v14_investigation_summary.json"))
+          for k, v in d["verdicts"].items():
+              print(f"::notice title=verdict {k}::{v}")
+          for k, v in d["refine_runs"].items():
+              print(f"::notice title=refine {k}::{v['mode']} beautify={v['beautify_geom']} tri={v['sha256_triangles_geometric'][:16]} verts={v['sha256_vertex_positions_as_set'][:16]}")
+          for k, v in d["cut_runs"].items():
+              print(f"::notice title=cut {k}::" + json.dumps(v))
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: v14inv-summary-${{ github.run_id }}

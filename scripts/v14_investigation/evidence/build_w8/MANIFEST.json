@@ -1,0 +1,13 @@
+{
+ "build": "w8",
+ "role": "the archived w8 / v13s run (draft_v13s_standing assets)",
+ "original_file_sha256": {
+  "rest.npy": "42ee5f52692e0ede0f39e6df71dd3f6b281af4b3d4d3f2826a515793ebc2e592",
+  "tris.npy": "ffdba6f7ac50e1f253f6fcf24365126f39449ab6b52a8c01e6c2238fa6e188fa",
+  "refine_map.npz": "dd40e4795ac595ea4d281ab9ff4ff3130c4a170c172237b780887126d3fbc22c",
+  "body_v2_offsets.npz": "5d74fc0c490c6b001430d730e778b7d4b6a81b0a8721a252031cd461807322aa",
+  "body_v2_report.json": "bc0873fb5f8d0fe8cac1c16d41515d6260b367a1009c9d1a7bbae6314818e69a",
+  "skeleton_edits.json": "c58b76975ec50418b97aca4dbe2cbdbd069bf0dae87521a063dda96fe2ce04e4"
+ },
+ "contents": "refined_mesh_and_offsets.npz = rest (refined rest positions, run's index order), tris, refine_idx/refine_w (map from R41 coarse vertices), offsets, proportion (W8 = rest + proportion + offsets)"
+}

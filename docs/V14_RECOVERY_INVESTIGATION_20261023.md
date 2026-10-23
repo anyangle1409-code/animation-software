@@ -103,6 +103,21 @@ The right leg's skin within 1 cm of the cut differs between the two W8 files in 
 - **Make the build deterministic first.** In `refine()`, pass sorted lists instead of sets, e.g. `sorted(edges, key=lambda e: e.index)` after `index_update()`. Do the same for every other `list({...})` passed to a `bmesh.ops` call: `legs_v2_blender.py` (bisect geometry) and `rebuild_v2_blender.py` (bisect). `--sorted` above shows this gives identical runs. This is a code change for a separate candidate branch. It is **not** applied to the original scripts here.
 - **Exact equivalence with the archive is not recoverable** without L0's triangulation, because L0 was never committed. Equivalence would have to be redefined: matching counts within run-to-run spread, or a deterministic rebuild declared as the new reference by the owner.
 
+## A third unpatched build (local, 23 Oct)
+
+The unchanged builder, run again on the same R41, was followed by the V14 leg step and the cut replay. Evidence: `evidence/local_cut_W8b_third_build.json` and `evidence/local_V14b_third_build_legs_report.txt`.
+- `beautify_geom`: 45864, 1144, 60955, 1357, 269431, 10888.
+- **Right leg:** 701 / 46,338. **Left leg:** 696 / 46,328.
+- **Final count: 238,067.**
+
+| W8 build | Right leg: loop / removed | V14 total |
+|---|---|---|
+| L0 (the archived V14's input) | 699 / 46,336 | 238,067 |
+| Reconstruction (GitHub, 39922636070) | 700 / 46,339 | 238,065 |
+| Third build | 701 / 46,338 | 238,067 |
+
+The right leg's skin near the cut differs in all three. The third build's total equals the archive's **by coincidence** (+2 −2 on the right leg). **A matching vertex count is not evidence that two models are the same.** Acceptance checks should compare triangle and position fingerprints, as `cut_accounting_blender.py` does, not counts alone.
+
 ## Candidate fix (not applied)
 
 `scripts/v14_investigation/CANDIDATE_deterministic_refine.patch` changes only `refine_torso_blender.py`. It adds `_ordered(bm, elems)`, which updates the indices and sorts by index, and uses it for:

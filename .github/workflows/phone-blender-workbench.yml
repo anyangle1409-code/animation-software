@@ -56,3 +56,30 @@ jobs:
           path: phone-results/
           retention-days: 90
           if-no-files-found: error
+  compare-rest-audits:
+    needs: [inspect]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Retrieve this run's W8 V14 R120 read-only JSON reports
+        uses: actions/download-artifact@v4
+        with:
+          pattern: phone-blender-*-${{ github.run_id }}
+          path: ${{ runner.temp }}/phone-audit-reports
+          merge-multiple: true
+      - name: Test and aggregate read-only evidence
+        run: |
+          python -m unittest discover -s scripts/cloud_body_analysis/tests -v
+          python scripts/cloud_body_analysis/compare_reports.py --root "${{ runner.temp }}/phone-audit-reports" --out phone-comparison
+      - name: Preserve cross-model comparison
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phone-rest-cross-model-${{ github.run_id }}
+          path: phone-comparison/
+          retention-days: 90
+          if-no-files-found: error

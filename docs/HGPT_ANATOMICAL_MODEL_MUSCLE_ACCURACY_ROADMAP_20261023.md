@@ -144,3 +144,18 @@ Scientific/source material is referenced for facts and implementation strategy o
 - Do not pretend an authoring-only muscle proxy or registry passes Blender native validation. Don't automatically bind muscle names to body vertex groups as their origins.
 
 **Decision:** build **one accurate model**, not three competing production models. Keep W8 and R120 as controlled baselines; V14 is provisional, not accepted. Add verified muscle anatomy incrementally after primary joint/skin defects are solved. This plan is compatible with laptop-off GitHub-based development and preserves Claude and PR124 lanes.
+
+
+## Joint coordinate and human ROM foundational research (owner clarification, 23 October)
+
+The owner has adopted a critical additional **FOUNDATION-FIRST** rule: build a generally human-like articulated body with verified interactions **before** teaching it dozens of exercise-specific movements. Generic body deformation quality must not depend on manually sculpting a new correction for every exercise.
+
+Source-backed data/plan in:
+- [Human Joint ROM Reference](anatomy/HGPT_HUMAN_JOINT_ROM_REFERENCE_V1.json): **43 semantic coordinates, 44 CDC adult age/sex reference means with confidence intervals of population means, 12 AAOS-style secondary nominal goniometry values, 12 cervical/lumbar regional means + SD, 19 conceptual full-body motion tests**.
+- [Research interpretation / actual test gates](HGPT_HUMAN_JOINT_ROM_AND_MOVEMENT_PLAN_20261023.md).
+- [PR124 motion vocabulary crosswalk](anatomy/HGPT_EXERCISE_ROM_CROSSWALK_V1.json): 16 joint/coordinate pairs from three existing exercise contracts. **Four bilateral shoulder records BLOCKED on ambiguous 'elevation' vs 'humerothoracic_elevation' anatomical plane/axis terminology**. Other pairs are semantic matches only and not native calibrated bones.
+- `scripts/cloud_body_analysis/human_rom_reference.py`: compares clinical population means **descriptively**; no joint angle clamping or editing. Regression tests ensure means/CI, normative goniometry and rig data never get confused.
+
+**Mandatory distinction:** Range-of-motion research is not a model-specific constrained skeleton. Each real rig axis, joint center, movement-specific contact and anatomical laterality must be checked in Blender before any numeric hard stop or exercise target can be accepted. Clinical ROM reference values differ across age, sex, load, posture, task and testing method. The existing PR124 shoulder press angles are authoring envelopes, not automatically validated anatomical kinematics.
+
+**Priority order amended:** Stage 0 trustworthy provenance and side-axis calibration → isolated joint range & surface test suite across whole body → coupled joint kinetic movement and contact → native muscle attachment / path checks → exercise template reuse → app. Existing movement-gate failures remain open. More complex variants **may** still require individual geometry/contact validation, even when a credible general rig is finally established. Future muscle highlighting remains a naming-only, owner-deferred requirement.

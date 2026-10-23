@@ -105,8 +105,10 @@ def inspect(rig, body):
                 warnings.append("KEY_COUNT_ANGLE_COUNT_DISAGREEMENT")
             if configured and not is_strict_increase:
                 warnings.append("NONMONOTONE_OR_OUT_OF_RANGE_ANGLES")
+            # C1_ARMTRUNK source uses integer key-name suffixes as ORDER labels
+            # (e.g. _1/_2), NOT joint angles. Compare nominal degrees only for S1-S7.
             nominal_max_delta = (max((abs(n - a) for (n, _), a in zip(candidates, angles)), default=0.0)
-                                 if counts_match else None)
+                                 if counts_match and measurement == "humerothoracic_elevation" else None)
             if configured and nominal_max_delta is not None and nominal_max_delta > NOMINAL_ANGLE_TOLERANCE_DEG:
                 warnings.append("KEY_NAME_DEGREES_DIFFER_FROM_PROPERTY_ANGLES_OVER_0_25_DEG")
             key_records = []
@@ -138,7 +140,8 @@ def inspect(rig, body):
                 "angle_property_count_matches_key_count": counts_match,
                 "safe_to_evaluate_rule": evaluable,
                 "key_name_property_max_absolute_difference_deg": (round(nominal_max_delta, 6) if nominal_max_delta is not None else None),
-                "key_name_warning_tolerance_deg": NOMINAL_ANGLE_TOLERANCE_DEG,
+                "key_name_warning_tolerance_deg": (NOMINAL_ANGLE_TOLERANCE_DEG if measurement == "humerothoracic_elevation" else None),
+                "key_name_suffix_semantics": ("nominal_degrees" if measurement == "humerothoracic_elevation" else "ordered_key_index"),
                 "warnings": warnings,
                 "keys": key_records,
             })
@@ -169,6 +172,7 @@ def inspect(rig, body):
             "Helper property and saved-bone inventories do not establish actual dynamic cap/axilla rotation",
             "This report does not call drive(), move bones, animate the body or activate a shape key",
             "As-loaded key values are not the values applied during prior movement benchmarks",
+            "C1 trailing key numbers are ordering indexes; its rig property contains shoulder extension angles",
             "Rule activation does not establish mesh deformation causation or anatomical correctness",
             "Side suffixes are not independently certified anatomical laterality",
         ],

@@ -6,7 +6,12 @@ name: Body v2 isolated recovery
     paths:
     - .github/workflows/body-v2-recovery.yml
     - scripts/body_v2/**
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      reuse_initial:
+        description: Reuse first run outputs when present, then reverify exact bytes
+        type: boolean
+        default: true
 permissions:
   contents: read
   actions: read
@@ -46,12 +51,36 @@ jobs:
         '
     - name: Recovery guard regression tests
       run: python -m unittest discover -s scripts/body_v2/tests -v
+    - name: Retrieve first recovery outputs without repeating completed reconstruction
+      uses: actions/download-artifact@v4
+      continue-on-error: true
+      with:
+        name: body-v2-recovery-39916468327-1
+        run-id: 39916468327
+        github-token: ${{ github.token }}
+        path: ${{ runner.temp }}/initial-recovery
     - name: Reconstruct and verify W8, v14 and separate experimental R120
-      run: 'set -o pipefail
-
-        xvfb-run -a bash scripts/body_v2/rebuild_w8_v14_verified.sh "$RUNNER_TEMP/body-v2" 2>&1 | tee "$RUNNER_TEMP/recovery.log"
-
-        '
+      run: "set -o pipefail\ninitial=\"$RUNNER_TEMP/initial-recovery\"\nout=\"$RUNNER_TEMP/body-v2\"\nif [ \"$REUSE_INITIAL\"\
+        \ = true ] && [ -f \"$initial/W8/body_v2.blend\" ] && [ -f \"$initial/V14/body_v2_legs.blend\" ] && [ -f\
+        \ \"$initial/R120/body_v2_rebuilt.blend\" ]; then\n  mv \"$initial\" \"$out\"\n  chmod -R u+w \"$out\"\n\
+        \  git fetch origin codex/r57-local-s7-temporal-study-20261020\n  src=\"$RUNNER_TEMP/reverify-r57\"\n  git\
+        \ worktree add --detach \"$src\" 025d5f28fa7eba2064fba565b1c9b60119cdd2cb\n  failed=0\n  python -I scripts/body_v2/verify_offline_evidence.py\
+        \ \"$PWD\" \"$src\" \"$out/verify/offline_evidence_check.json\" || failed=1\n  python -I scripts/body_v2/compare_rebuild_to_archive.py\
+        \ \"$PWD\" \"$out/W8\" \"$out/verify/w8_vs_archive.json\" || failed=1\n  python scripts/body_v2/verify_body_v2_blend.py\
+        \ -- \"$out/W8/body_v2.blend\" v13s_w8 \"$out/verify/offline_evidence_check.json\" \"$out/verify/w8_blend.json\"\
+        \ || failed=1\n  python scripts/body_v2/verify_body_v2_blend.py -- \"$out/V14/body_v2_legs.blend\" draft_v14b_torso\
+        \ \"$out/verify/offline_evidence_check.json\" \"$out/verify/v14_blend.json\" || failed=1\n  python scripts/body_v2/verify_body_v2_blend.py\
+        \ -- \"$out/R120/body_v2_rebuilt.blend\" none \"$out/verify/offline_evidence_check.json\" \"$out/verify/r120_blend.json\"\
+        \ || failed=1\n  python - \"$PWD\" \"$out\" <<'EOF'\nimport json,sys\nfrom pathlib import Path\nrepo,out=map(Path,sys.argv[1:])\n\
+        a=json.loads((repo/'review-assets/body_v2/draft_v14b_torso/legs_v2_report.json').read_text())\nb=json.loads((out/'V14/legs_v2_report.json').read_text())\n\
+        bad={k:[a.get(k),b.get(k)] for k in set(a)|set(b) if a.get(k)!=b.get(k)}\n(out/'verify/v14_report_vs_archive.json').write_text(json.dumps({'identical':not\
+        \ bad,'differences':bad},indent=2))\nEOF\n  python -c \"import json,sys;sys.exit(not json.load(open(sys.argv[1]))['identical'])\"\
+        \ \"$out/verify/v14_report_vs_archive.json\" || failed=1\n  mkdir -p \"$out/ci\"\n  printf '%s\\n' 'Exact\
+        \ model bytes reused from run 39916468327; native verification repeated at current commit.' > \"$out/ci/reuse-provenance.txt\"\
+        \n  git worktree remove --force \"$src\"\n  exit \"$failed\"\nelse\n  xvfb-run -a bash scripts/body_v2/rebuild_w8_v14_verified.sh\
+        \ \"$out\" 2>&1 | tee \"$RUNNER_TEMP/recovery.log\"\nfi"
+      env:
+        REUSE_INITIAL: ${{ github.event_name != 'workflow_dispatch' || inputs.reuse_initial }}
     - name: Preserve exact environment and run identity
       if: always()
       run: 'mkdir -p "$RUNNER_TEMP/body-v2"

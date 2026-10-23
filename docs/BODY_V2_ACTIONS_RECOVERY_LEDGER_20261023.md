@@ -57,3 +57,16 @@ Actual reconstruction hashes, archive discrepancy results, native movement resul
 Independent visual/anatomical review and actual landmark/tissue authoring remain after source recovery.
 
 Independent review: three Important findings (remesh setup, test-status propagation, v14 mismatch propagation) addressed; 13 guard tests pass. Minor path wording corrected. Actual native execution remains pending.
+
+## Additional executed legacy suite
+
+Pinned R57 `python -m unittest discover -s scripts/tests -v`: 228 tests executed, 41 environment errors.
+All error records are absent historical fixture environment variables (including HGPT_CONTOUR_NPZ,
+HGPT_R41_NATIVE_AREA, HGPT_STRAIN_CANDIDATE and HGPT_R42–R52 response/solution/report paths).
+These historical experiments cannot be certified by substituting reconstructed W8 arrays with a different topology.
+Cloud logs retain each named error; no legacy suite pass is claimed. Independent recovery/native checks continue.
+
+Ruling: the expanded run may reuse exact .blend bytes from the first cloud run if all three outputs exist,
+then repeat archive/structural verification with the corrected tools. Original build provenance is preserved.
+This avoids rebuilding completed outputs solely because validation coverage improved. Force fresh reconstruction
+with the workflow_dispatch reuse_initial=false input if script reconstruction changes are being investigated.

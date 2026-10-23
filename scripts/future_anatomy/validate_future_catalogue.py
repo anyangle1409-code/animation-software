@@ -121,6 +121,57 @@ def validate(catalogue: dict, registry: dict) -> dict:
         require(isinstance(declared, list) and len(declared) == len(set(declared)) and
                 sorted(declared) == actual and actual,
                 f"Group incomplete or duplicates declared: {gid}")
+    existing_regions = catalogue.get("existing_groups")
+    require(isinstance(existing_regions, list) and len(existing_regions) >= 8,
+            "Existing body region family taxonomy missing")
+    region_ids = set()
+    covered_old = []
+    for family in existing_regions:
+        gid = family.get("id")
+        require(isinstance(gid, str) and GROUP_ID.fullmatch(gid) is not None and
+                gid not in group_ids and gid not in region_ids,
+                f"Existing region ID invalid/collides: {gid}")
+        region_ids.add(gid)
+        require(family.get("status") == "FOUNDATION_SEMANTICS_NOT_ANATOMICAL_BINDINGS",
+                f"Existing group claims anatomical binding: {gid}")
+        require(family.get("semantic_registry_source_sha") == EXPECTED_BLOB_SHA1,
+                f"Unpinned existing group {gid}")
+        stems = family.get("established_stems")
+        require(isinstance(stems, list) and stems and len(stems) == len(set(stems)),
+                f"Missing/duplicated existing group members: {gid}")
+        require(all(stem in old_stems for stem in stems),
+                f"Unknown existing group member: {gid}")
+        region = gid.removeprefix("hgpt.musclegroup.existing_")
+        expected = sorted(m["seed_id"] for m in existing if m["region"] == region and m["side"] == "L")
+        require(sorted(stems) == expected, f"Existing region composition mismatch: {gid}")
+        covered_old.extend(stems)
+    require(len(covered_old) == len(set(covered_old)) == len(old_stems)
+            and set(covered_old) == old_stems,
+            "Existing group taxonomy does not cover each original stem exactly once")
+
+    functional_groups = catalogue.get("functional_groups")
+    require(isinstance(functional_groups, list) and len(functional_groups) >= 15,
+            "Future functional exercise groups missing")
+    function_ids = set()
+    total_stems = old_stems | new_stems
+    for function in functional_groups:
+        fid = function.get("id")
+        require(isinstance(fid, str) and fid.startswith("hgpt.musclefunction.")
+                and STEM.fullmatch(fid.removeprefix("hgpt.musclefunction."))
+                and fid not in function_ids, f"Invalid/duplicated functional ID {fid}")
+        function_ids.add(fid)
+        members = function.get("muscle_stems")
+        require(isinstance(members, list) and members and len(members) == len(set(members))
+                and all(m in total_stems for m in members),
+                f"Functional group references missing or duplicate stem: {fid}")
+        require(function.get("status") == "FUTURE_EXERCISE_PLANNING"
+                and function.get("activation_is_not_implied") is True
+                and function.get("anatomical_attachment_approved") is False,
+                f"Functional group falsely claims anatomical/activation proof: {fid}")
+    require(catalogue["scope"].get("existing_anatomical_region_groups") == len(existing_regions)
+            and catalogue["scope"].get("additional_future_groups") == len(groups)
+            and catalogue["scope"].get("cross_region_functional_group_count") == len(function_ids),
+            "Anatomical/functional taxonomy summary count mismatch")
     require(catalogue["scope"].get("existing_unique_stems") == len(old_stems) and
             catalogue["scope"].get("existing_bilateral_records") == len(old_ids) and
             catalogue["scope"].get("proposed_additional_unique_stems") == len(new_stems) and
@@ -135,6 +186,8 @@ def validate(catalogue: dict, registry: dict) -> dict:
         "new_proposed_bilateral_names": 2 * len(new_stems),
         "total_planned_bilateral_names": len(old_ids) + 2 * len(new_stems),
         "major_future_group_count": len(groups),
+        "existing_region_group_count": len(existing_regions),
+        "functional_exercise_group_count": len(function_ids),
         "proposed_by_region": dict(sorted(regions.items())),
         "proposed_by_group": dict(sorted(group_counts.items())),
         "explicit_not_approved": ["actual muscle origin/insertion coordinates",

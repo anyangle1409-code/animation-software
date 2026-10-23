@@ -1,0 +1,1590 @@
+{
+  "run_url": "https://github.com/anyangle1409-code/animation-software/actions/runs/39923681466",
+  "archive_equivalence": "FAIL",
+  "production_bridge": "INCOMPATIBLE \u2014 unchanged 67-bone production vs 77-bone authoring rig",
+  "anatomical_approval": "NOT_GRANTED",
+  "candidates": {
+    "W8": {
+      "source_sha256": "2434afd0daa231ab3a03c873cad4187ffcbc1bab78132375221160b0b0f09e4c",
+      "source_unchanged": true,
+      "summary": {
+        "complete": false,
+        "quality_pass": false,
+        "quality_failures": [
+          {
+            "benchmark": "squat",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 2687
+          },
+          {
+            "benchmark": "squat",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 856
+          },
+          {
+            "benchmark": "squat",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 4
+          },
+          {
+            "benchmark": "squat",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 257
+          },
+          {
+            "benchmark": "squat",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 21
+          },
+          {
+            "benchmark": "squat",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 253
+          },
+          {
+            "benchmark": "squat",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 163
+          },
+          {
+            "benchmark": "squat",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 621
+          },
+          {
+            "benchmark": "squat",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 4
+          },
+          {
+            "benchmark": "squat",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 402
+          },
+          {
+            "benchmark": "squat",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 589
+          },
+          {
+            "benchmark": "squat",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 18
+          },
+          {
+            "benchmark": "squat",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 604
+          },
+          {
+            "benchmark": "squat",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 1141
+          },
+          {
+            "benchmark": "squat",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 34
+          },
+          {
+            "benchmark": "squat",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 885
+          },
+          {
+            "benchmark": "squat",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 1593
+          },
+          {
+            "benchmark": "squat",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 26
+          },
+          {
+            "benchmark": "squat",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 973
+          },
+          {
+            "benchmark": "squat",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 1939
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 2687
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 1149
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 2,
+            "metric": "collapse_lt_0_1",
+            "value": 1
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 27
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 864
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 3,
+            "metric": "collapse_lt_0_1",
+            "value": 2
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 88
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 824
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 5
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 156
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 770
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 108
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 918
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 67
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 1109
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 35
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 100
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 1637
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 58
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 135
+          },
+          {
+            "benchmark": "bent_over_row",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 1916
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 0,
+            "metric": "collapse_lt_0_1",
+            "value": 9
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 0,
+            "metric": "stretch_gt_2",
+            "value": 1004
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 11
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 1,
+            "metric": "collapse_lt_0_1",
+            "value": 2
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 1,
+            "metric": "stretch_gt_2",
+            "value": 1006
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 11
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 2,
+            "metric": "collapse_lt_0_1",
+            "value": 3
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 809
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 7
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 3,
+            "metric": "collapse_lt_0_1",
+            "value": 38
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 954
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 163
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 116
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 2546
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 337
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 102
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 2723
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 83
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 110
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 3509
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 146
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 116
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 1437
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 245
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 173
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 1594
+          },
+          {
+            "benchmark": "shoulder_press",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 441
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 268
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 268
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 2,
+            "metric": "collapse_lt_0_1",
+            "value": 1
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 4
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 274
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 24
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 274
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 2
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 81
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 445
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 1
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 192
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 504
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 6
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 350
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 440
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 13
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 467
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 906
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 17
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 514
+          },
+          {
+            "benchmark": "lunge",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 1140
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 0,
+            "metric": "collapse_lt_0_1",
+            "value": 1
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 0,
+            "metric": "stretch_gt_2",
+            "value": 34
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 509
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 1,
+            "metric": "stretch_gt_2",
+            "value": 3
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 240
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 10
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 270
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 23
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 225
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 37
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 498
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 4
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 225
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 6
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 272
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 14
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 241
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 1
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 34
+          },
+          {
+            "benchmark": "walk_stride",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 509
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 268
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 260
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 225
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 293
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 2
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 498
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 2
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 30
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 530
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 7
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 71
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 484
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 15
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 124
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 503
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 20
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 136
+          },
+          {
+            "benchmark": "trunk_rotation",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 502
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 268
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 268
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 2
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 273
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 18
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 278
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 3
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 76
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 438
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 183
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 502
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 6
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 359
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 443
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 10
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 493
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 619
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 8
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 550
+          },
+          {
+            "benchmark": "single_leg_stance",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 764
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 2687
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 2687
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 2
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 2687
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 2
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 2687
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 2
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 2687
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 2
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 2687
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 2
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 2687
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 2
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 2687
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 2
+          },
+          {
+            "benchmark": "calf_raise",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 2687
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 0,
+            "metric": "stretch_gt_2",
+            "value": 3
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 826
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 1,
+            "metric": "stretch_gt_2",
+            "value": 2
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 740
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 5
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 315
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 57
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 32
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 1
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 304
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 59
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 3
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 682
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 295
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 83
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 1139
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 1175
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 229
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 1532
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 2355
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 184
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 1674
+          },
+          {
+            "benchmark": "deadlift",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 3499
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 0,
+            "metric": "collapse_lt_0_1",
+            "value": 17
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 0,
+            "metric": "stretch_gt_2",
+            "value": 469
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 1284
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 1,
+            "metric": "collapse_lt_0_1",
+            "value": 13
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 1,
+            "metric": "stretch_gt_2",
+            "value": 454
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 1271
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 2,
+            "metric": "collapse_lt_0_1",
+            "value": 20
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 410
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 1149
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 3,
+            "metric": "collapse_lt_0_1",
+            "value": 16
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 3,
+            "metric": "stretch_gt_2",
+            "value": 352
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 1085
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 14
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 308
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 1160
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 19
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 5,
+            "metric": "stretch_gt_2",
+            "value": 286
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 1025
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 53
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 6,
+            "metric": "stretch_gt_2",
+            "value": 261
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 1852
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 57
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 7,
+            "metric": "stretch_gt_2",
+            "value": 258
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 2020
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 59
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 8,
+            "metric": "stretch_gt_2",
+            "value": 258
+          },
+          {
+            "benchmark": "push_up",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 2031
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 0,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 1878
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 1,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 1862
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 2,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 1870
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 3,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 1850
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 1837
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 1857
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 1876
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 1853
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "forearm_rotation",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 1813
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 0,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 0,
+            "metric": "self_intersecting_pairs",
+            "value": 1878
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 1,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 1,
+            "metric": "stretch_gt_2",
+            "value": 9
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 1,
+            "metric": "self_intersecting_pairs",
+            "value": 1878
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 2,
+            "metric": "collapse_lt_0_1",
+            "value": 33
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 2,
+            "metric": "stretch_gt_2",
+            "value": 178
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 2,
+            "metric": "self_intersecting_pairs",
+            "value": 1945
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 3,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 3,
+            "metric": "self_intersecting_pairs",
+            "value": 1878
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 4,
+            "metric": "collapse_lt_0_1",
+            "value": 39
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 4,
+            "metric": "stretch_gt_2",
+            "value": 34
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 4,
+            "metric": "self_intersecting_pairs",
+            "value": 2037
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 5,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 5,
+            "metric": "self_intersecting_pairs",
+            "value": 1878
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 6,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 6,
+            "metric": "self_intersecting_pairs",
+            "value": 1878
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 7,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 7,
+            "metric": "self_intersecting_pairs",
+            "value": 1878
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 8,
+            "metric": "collapse_lt_0_1",
+            "value": 31
+          },
+          {
+            "benchmark": "wrist_circuit",
+            "frame": 8,
+            "metric": "self_intersecting_pairs",
+            "value": 1878
+          }
+        ],
+        "scope": "zero self-intersections, area collapse below 0.1 and stretch above 2; diagnostic only, no anatomical approval"
+      },
+      "errors": {
+        "grip": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 88, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 852, in run\n    angles = fn(t)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 835, in <lambda>\n    \"grip\": lambda t: pose_grip(rig, body, t),\n                      ~~~~~~~~~^^^^^^^^^^^^^^\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 730, in pose_grip\n    _THUMB_CACHE[\"solution\"] = {s: _solve_thumb(rig, s, signs, body) for s in (\"l\", \"r\")}\n                                   ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 708, in _solve_thumb\n    raise RuntimeError(\"no thumb placement within the pair limit\")\nRuntimeError: no thumb placement within the pair limit\n"
+      }
+    },
+    "V14": {
+      "source_sha256": "5969aa98122e267b6bdd94fdfaf6d2877a1b27f7ea8d11c6a8e078b467b0ff91",
+      "source_unchanged": true,
+      "summary": {
+        "complete": false,
+        "quality_pass": false,
+        "quality_failures": [],
+        "scope": "zero self-intersections, area collapse below 0.1 and stretch above 2; diagnostic only, no anatomical approval"
+      },
+      "errors": {
+        "squat": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 88, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 856, in run\n    m = frame_metrics(V0, V, F, dom, rest_floor)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 781, in frame_metrics\n    raise RuntimeError(\"triangulated body required\")\nRuntimeError: triangulated body required\n",
+        "bent_over_row": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 88, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 856, in run\n    m = frame_metrics(V0, V, F, dom, rest_floor)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 781, in frame_metrics\n    raise RuntimeError(\"triangulated body required\")\nRuntimeError: triangulated body required\n",
+        "shoulder_press": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 88, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 856, in run\n    m = frame_metrics(V0, V, F, dom, rest_floor)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 781, in frame_metrics\n    raise RuntimeError(\"triangulated body required\")\nRuntimeError: triangulated body required\n",
+        "lunge": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 88, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 856, in run\n    m = frame_metrics(V0, V, F, dom, rest_floor)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 781, in frame_metrics\n    raise RuntimeError(\"triangulated body required\")\nRuntimeError: triangulated body required\n",
+        "walk_stride": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 88, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 856, in run\n    m = frame_metrics(V0, V, F, dom, rest_floor)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 781, in frame_metrics\n    raise RuntimeError(\"triangulated body required\")\nRuntimeError: triangulated body required\n",
+        "trunk_rotation": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 88, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 856, in run\n    m = frame_metrics(V0, V, F, dom, rest_floor)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 781, in frame_metrics\n    raise RuntimeError(\"triangulated body required\")\nRuntimeError: triangulated body required\n",
+        "grip": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 88, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 852, in run\n    angles = fn(t)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 835, in <lambda>\n    \"grip\": lambda t: pose_grip(rig, body, t),\n                      ~~~~~~~~~^^^^^^^^^^^^^^\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 730, in pose_grip\n    _THUMB_CACHE[\"solution\"] = {s: _solve_thumb(rig, s, signs, body) for s in (\"l\", \"r\")}\n                                   ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 708, in _solve_thumb\n    raise RuntimeError(\"no thumb placement within the pair limit\")\nRuntimeError: no thumb placement within the pair limit\n",
+        "single_leg_stance": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 88, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 856, in run\n    m = frame_metrics(V0, V, F, dom, rest_floor)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 781, in frame_metrics\n    raise RuntimeError(\"triangulated body required\")\nRuntimeError: triangulated body required\n",
+        "calf_raise": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 88, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 856, in run\n    m = frame_metrics(V0, V, F, dom, rest_floor)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 781, in frame_metrics\n    raise RuntimeError(\"triangulated body required\")\nRuntimeError: triangulated body required\n",
+        "deadlift": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 88, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 856, in run\n    m = frame_metrics(V0, V, F, dom, rest_floor)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 781, in frame_metrics\n    raise RuntimeError(\"triangulated body required\")\nRuntimeError: triangulated body required\n",
+        "push_up": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 88, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 856, in run\n    m = frame_metrics(V0, V, F, dom, rest_floor)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 781, in frame_metrics\n    raise RuntimeError(\"triangulated body required\")\nRuntimeError: triangulated body required\n",
+        "forearm_rotation": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 88, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 856, in run\n    m = frame_metrics(V0, V, F, dom, rest_floor)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 781, in frame_metrics\n    raise RuntimeError(\"triangulated body required\")\nRuntimeError: triangulated body required\n",
+        "wrist_circuit": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 88, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 856, in run\n    m = frame_metrics(V0, V, F, dom, rest_floor)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 781, in frame_metrics\n    raise RuntimeError(\"triangulated body required\")\nRuntimeError: triangulated body required\n"
+      }
+    },
+    "R120": {
+      "source_sha256": "fb3b0acfc68bc59952b0fc6c45f7d7715717207fd9ba0b7f2b124e905ce2ddcb",
+      "source_unchanged": true,
+      "summary": {
+        "complete": false,
+        "quality_pass": false,
+        "quality_failures": [],
+        "scope": "zero self-intersections, area collapse below 0.1 and stretch above 2; diagnostic only, no anatomical approval"
+      },
+      "errors": {
+        "squat": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 88, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 856, in run\n    m = frame_metrics(V0, V, F, dom, rest_floor)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 781, in frame_metrics\n    raise RuntimeError(\"triangulated body required\")\nRuntimeError: triangulated body required\n",
+        "bent_over_row": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 88, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 856, in run\n    m = frame_metrics(V0, V, F, dom, rest_floor)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 781, in frame_metrics\n    raise RuntimeError(\"triangulated body required\")\nRuntimeError: triangulated body required\n",
+        "shoulder_press": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 88, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 856, in run\n    m = frame_metrics(V0, V, F, dom, rest_floor)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 781, in frame_metrics\n    raise RuntimeError(\"triangulated body required\")\nRuntimeError: triangulated body required\n",
+        "lunge": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 88, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 856, in run\n    m = frame_metrics(V0, V, F, dom, rest_floor)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 781, in frame_metrics\n    raise RuntimeError(\"triangulated body required\")\nRuntimeError: triangulated body required\n",
+        "walk_stride": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 88, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 856, in run\n    m = frame_metrics(V0, V, F, dom, rest_floor)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 781, in frame_metrics\n    raise RuntimeError(\"triangulated body required\")\nRuntimeError: triangulated body required\n",
+        "trunk_rotation": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 88, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 856, in run\n    m = frame_metrics(V0, V, F, dom, rest_floor)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 781, in frame_metrics\n    raise RuntimeError(\"triangulated body required\")\nRuntimeError: triangulated body required\n",
+        "grip": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 88, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 852, in run\n    angles = fn(t)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 835, in <lambda>\n    \"grip\": lambda t: pose_grip(rig, body, t),\n                      ~~~~~~~~~^^^^^^^^^^^^^^\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 730, in pose_grip\n    _THUMB_CACHE[\"solution\"] = {s: _solve_thumb(rig, s, signs, body) for s in (\"l\", \"r\")}\n                                   ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 708, in _solve_thumb\n    raise RuntimeError(\"no thumb placement within the pair limit\")\nRuntimeError: no thumb placement within the pair limit\n",
+        "single_leg_stance": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 88, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 856, in run\n    m = frame_metrics(V0, V, F, dom, rest_floor)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 781, in frame_metrics\n    raise RuntimeError(\"triangulated body required\")\nRuntimeError: triangulated body required\n",
+        "calf_raise": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 88, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 856, in run\n    m = frame_metrics(V0, V, F, dom, rest_floor)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 781, in frame_metrics\n    raise RuntimeError(\"triangulated body required\")\nRuntimeError: triangulated body required\n",
+        "deadlift": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 88, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 856, in run\n    m = frame_metrics(V0, V, F, dom, rest_floor)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 781, in frame_metrics\n    raise RuntimeError(\"triangulated body required\")\nRuntimeError: triangulated body required\n",
+        "push_up": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 88, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 856, in run\n    m = frame_metrics(V0, V, F, dom, rest_floor)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 781, in frame_metrics\n    raise RuntimeError(\"triangulated body required\")\nRuntimeError: triangulated body required\n",
+        "forearm_rotation": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 88, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 856, in run\n    m = frame_metrics(V0, V, F, dom, rest_floor)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 781, in frame_metrics\n    raise RuntimeError(\"triangulated body required\")\nRuntimeError: triangulated body required\n",
+        "wrist_circuit": "Traceback (most recent call last):\n  File \"/home/runner/work/animation-software/animation-software/scripts/recovery_diagnostics/diagnose_candidates_blender.py\", line 88, in main\n    outcome=bench.run(only=[path],post_pose=lambda r:drives.drive(r['runtime'],r['body']))\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 856, in run\n    m = frame_metrics(V0, V, F, dom, rest_floor)\n  File \"/home/runner/work/animation-software/animation-software/_r57/scripts/build_original_movement_benchmarks_blender.py\", line 781, in frame_metrics\n    raise RuntimeError(\"triangulated body required\")\nRuntimeError: triangulated body required\n"
+      }
+    }
+  }
+}

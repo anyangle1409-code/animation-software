@@ -1,0 +1,85 @@
+{
+ "lbs_check_max_mm": 0.0,
+ "planes": {
+  "thigh": [
+   0.0,
+   0.0,
+   0.741
+  ],
+  "neck": [
+   0.0,
+   0.0,
+   1.585
+  ],
+  "wrist_r": [
+   0.5886,
+   0.0025,
+   1.0279
+  ],
+  "wrist_l": [
+   -0.5886,
+   0.0025,
+   1.0279
+  ]
+ },
+ "grid": [
+  508,
+  124,
+  303
+ ],
+ "old_mesh_open_edges": 0,
+ "posed_self_overlap_pairs": 7,
+ "parity_disagreement_voxels": 1308746,
+ "occupied_voxels": 2965298,
+ "mc": {
+  "verts": 251892,
+  "tris": 503064
+ },
+ "mc_islands_dropped": 8,
+ "old_verts_after_cut": 120358,
+ "stitches": {
+  "thigh": [
+   {
+    "old": 166,
+    "new": 506,
+    "tris": 672
+   },
+   {
+    "old": 165,
+    "new": 503,
+    "tris": 668
+   }
+  ],
+  "neck": [
+   {
+    "old": 530,
+    "new": 435,
+    "tris": 965
+   }
+  ],
+  "wrist_r": [
+   {
+    "old": 158,
+    "new": 172,
+    "tris": 330
+   }
+  ],
+  "wrist_l": [
+   {
+    "old": 159,
+    "new": 174,
+    "tris": 333
+   }
+  ]
+ },
+ "weight_source_dist_mm": {
+  "median": 1.6,
+  "max": 5.9
+ },
+ "winding_conflicts": 0,
+ "non_manifold_edges": 173,
+ "verts_before_after": [
+  238067,
+  347917
+ ]
+}

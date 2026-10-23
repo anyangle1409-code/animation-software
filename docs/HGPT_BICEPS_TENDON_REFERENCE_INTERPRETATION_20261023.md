@@ -37,11 +37,11 @@ The owner supplied six illustrative examples: an elbow-flexion biceps/triceps an
 | `hgpt.muscle.biceps_brachii_short.L/R` | coracoid process/scapula | radial insertion/bicipital aponeurosis complex | elbow flexion and supination with long head | superficial; *reviewed* capped skin response only |
 | `hgpt.muscle.brachialis.L/R` | anterior/distal humerus | proximal ulna/coronoid process | elbow flexion independent of pronation/supination | deep to biceps; do NOT directly deform outer skin |
 | `hgpt.muscle.brachioradialis.L/R` | lateral supracondylar ridge/distal humerus | distal radius/styloid region | elbow flexion, especially neutral forearm | superficial forearm region only |
-| `hgpt.muscle.triceps_brachii_long.L/R` | infraglenoid tubercle/scapula | olecranon/ulna | elbow extension, shoulder contribution | posterior arm; reviewed |
-| `hgpt.muscle.triceps_brachii_lateral.L/R` | posterior humerus (superior to radial groove) | olecranon/ulna | elbow extension | posterior arm; reviewed |
-| `hgpt.muscle.triceps_brachii_medial.L/R` | posterior humerus (inferior to radial groove) | olecranon/ulna | elbow extension | deep/posterior; constrain direct skin influence |
+| `hgpt.muscle.triceps_long.L/R` | infraglenoid tubercle/scapula | olecranon/ulna | elbow extension, shoulder contribution | posterior arm; reviewed |
+| `hgpt.muscle.triceps_lateral.L/R` | posterior humerus (superior to radial groove) | olecranon/ulna | elbow extension | posterior arm; reviewed |
+| `hgpt.muscle.triceps_medial.L/R` | posterior humerus (inferior to radial groove) | olecranon/ulna | elbow extension | deep/posterior; constrain direct skin influence |
 
-IDs are intended to match the immutable muscle vocabulary from [PR #124](https://github.com/anyangle1409-code/animation-software/pull/124); verify registry membership for each proposed ID before any future programmatic binding. If a head is not in the current registry, add and validate it in the **separate experimental lane**, not the phone workbench or production code. **Every rig-local anchor and actual mesh representation is UNRESOLVED.**
+IDs are intended to match the immutable muscle vocabulary from [PR #124](https://github.com/anyangle1409-code/animation-software/pull/124); verify registry membership for each proposed ID before any future programmatic binding. All seven heads named above were independently checked against the current PR124 120-record registry: biceps long/short, brachialis, brachioradialis and `triceps_long`, `triceps_lateral`, `triceps_medial` each have both `.L` and `.R` records. The `triceps_brachii_*` forms are **not** registered permanent IDs and must not be used as runtime bindings. Never create new aliases automatically or substitute muscle names without registry validation. **Every rig-local anchor and actual mesh representation is UNRESOLVED.**
 
 ## A reusable biceps curl rule (phase-specific, not a medical prediction)
 
@@ -72,3 +72,11 @@ For rotation/supination variants, treat radioulnar orientation explicitly rather
 - OpenSim musculoskeletal model paper — muscle path forces and independent excitation/activation: https://pmc.ncbi.nlm.nih.gov/articles/PMC4397580/
 
 Scientific sources establish plausible regional anatomy and conceptual modelling constraints. They do NOT validate exact coordinates or demonstrate that our current Blender model has accurate arms. No original files, muscle geometry, runtime implementation or source artifacts changed.
+
+## Owner-reviewed elbow transition requirement
+
+The user specifically identified an abrupt, excessively narrow upper-arm-to-elbow silhouette in the existing model, despite educational anatomy illustrating overlapping deep/superficial tissue. This is a **visual concern**, not yet an independently measured diagnosis in the pinned reconstruction. It must be turned into reproducible visual and topology measurements, not assumed to be one missing muscle.
+
+Test hypotheses independently: (1) missing brachialis-derived deep volume, (2) misplaced/too-long distal biceps muscle belly or tendon, (3) inadequate brachioradialis/forearm transition, (4) upper-arm/elbow vertex-weight falloff, (5) unsuitable joint skinning and corrective keys, (6) elbow flexion/forearm-supination path or scale/pose presentation.
+
+**Acceptance design:** compare matched front/back/side/three-quarter camera renders at elbow 0/45/90/120° and forearm neutral/supinated; calculate cross-sectional perimeters or radii at fixed anatomically verified humeral/ulnar/radial offsets; identify over-pinching relative to the rest baseline, not a guessed ideal circumference. Preserve elbow pit and distal tendon narrowing, but require anatomically plausible medial/lateral continuity under the skin. Overlay true superficial/deep muscle geometry when independently fitted, and ensure skin remains smooth without cylindrical segments or visible seams. No body sculpt or new muscle binding is approved by this finding.

@@ -126,6 +126,13 @@ jobs:
             --v14 "${{ runner.temp }}/native/V14" \
             --r120 "${{ runner.temp }}/native/R120" \
             --out phone-native-localization
+      - name: Track stable REST-coordinate hotspots across saved shoulder/squat poses
+        run: |
+          python scripts/cloud_body_analysis/track_rest_hotspots.py \
+            --w8 "${{ runner.temp }}/native/W8" \
+            --v14 "${{ runner.temp }}/native/V14" \
+            --r120 "${{ runner.temp }}/native/R120" \
+            --out phone-native-localization
       - name: Preserve phone-readable, non-editing native failure reports
         if: always()
         uses: actions/upload-artifact@v4

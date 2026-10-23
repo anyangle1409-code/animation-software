@@ -124,6 +124,31 @@ class HumanRangeReferenceTests(unittest.TestCase):
                      "compound_overhead_press", "compound_squat", "compound_dumbbell_curl"):
             self.assertIn("hgpt.motion_test." + name, tests)
 
+    def test_secondary_aaos_and_spine_studies_are_separate(self):
+        context = self.data["secondary_reference_context"]
+        self.assertEqual(context["safety_approval"], "NOT_GRANTED")
+        nominal = {r["movement"]: r for r in context["aaos_illustrative_goniometry"]}
+        spine = {r["movement"]: r for r in context["young_adult_spine_means"]}
+        self.assertEqual(nominal["wrist_flexion"]["nominal_deg"], 80)
+        self.assertEqual(nominal["shoulder_complex_abduction"]["nominal_deg"], 180)
+        self.assertFalse(nominal["shoulder_complex_abduction"]["hard_limit"])
+        self.assertEqual(spine["cervical_flexion"]["mean_deg"], 57.7)
+        self.assertEqual(spine["cervical_flexion"]["sd_deg"], 8.2)
+        self.assertEqual(spine["lumbar_rotation_left"]["mean_deg"], 38.6)
+        self.assertNotEqual(spine["cervical_flexion"]["source_id"],
+                            self.data["population_statistics"]["population_source"])
+
+    def test_reject_bad_secondary_limit_and_missing_spine_record(self):
+        altered = copy.deepcopy(self.data)
+        altered["secondary_reference_context"]["aaos_illustrative_goniometry"][0]["hard_limit"] = True
+        self.assertTrue(any("source/limit guard" in e for e in reference.validate(altered)))
+        altered = copy.deepcopy(self.data)
+        altered["secondary_reference_context"]["young_adult_spine_means"][0]["sd_deg"] = float("nan")
+        self.assertTrue(any("invalid SD/mean" in e for e in reference.validate(altered)))
+        altered = copy.deepcopy(self.data)
+        altered["secondary_reference_context"]["young_adult_spine_means"].pop()
+        self.assertTrue(any("incomplete source-specific" in e for e in reference.validate(altered)))
+
     def test_deferred_highlighting_not_implemented(self):
         self.assertEqual(self.data["future_display"]["muscle_highlighting"], "DEFERRED_BY_OWNER")
         altered = copy.deepcopy(self.data)

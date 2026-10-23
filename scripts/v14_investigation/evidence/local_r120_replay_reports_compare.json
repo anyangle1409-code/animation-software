@@ -1,0 +1,57 @@
+{
+ "legs_only_base_leaves": 51,
+ "legs_only_base_differing": [],
+ "rebuild_leaves": 45,
+ "rebuild_differing": [
+  [
+   "/parity_disagreement_voxels",
+   1308746,
+   1308754
+  ],
+  [
+   "/occupied_voxels",
+   2965298,
+   2965299
+  ],
+  [
+   "/stitches/thigh[0]/old",
+   166,
+   165
+  ],
+  [
+   "/stitches/thigh[0]/new",
+   506,
+   503
+  ],
+  [
+   "/stitches/thigh[0]/tris",
+   672,
+   668
+  ],
+  [
+   "/stitches/thigh[1]/old",
+   165,
+   166
+  ],
+  [
+   "/stitches/thigh[1]/new",
+   503,
+   507
+  ],
+  [
+   "/stitches/thigh[1]/tris",
+   668,
+   673
+  ],
+  [
+   "/non_manifold_edges",
+   173,
+   172
+  ]
+ ],
+ "R120_vertices": [
+  238067,
+  347917
+ ],
+ "PASS_reports_identical": false
+}

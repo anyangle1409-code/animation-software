@@ -1,0 +1,76 @@
+{
+ "vertices": [
+  347917,
+  347917
+ ],
+ "triangles": [
+  646098,
+  646098
+ ],
+ "nn_dist_mm_a_to_b": {
+  "max": 1.1362719348115486,
+  "p99_9": 0.31237184360551634,
+  "count_gt_0.01mm": 5210,
+  "count_gt_1mm": 2
+ },
+ "nn_dist_mm_b_to_a": {
+  "max": 1.0363814461951586,
+  "count_gt_0.01mm": 5210,
+  "count_gt_1mm": 2
+ },
+ "weights_max_dev_on_matched_vertices": 0.010753467679023743,
+ "weights_max_dev_on_exactly_matched_vertices": 0.0008548647165298462,
+ "faces_geometric_only_in_replay": 136558,
+ "faces_geometric_only_in_archive": 136558,
+ "rebuild_report_leaves": 45,
+ "rebuild_report_differing": [
+  [
+   "/parity_disagreement_voxels",
+   1308746,
+   1308754
+  ],
+  [
+   "/occupied_voxels",
+   2965298,
+   2965299
+  ],
+  [
+   "/stitches/thigh[0]/old",
+   166,
+   165
+  ],
+  [
+   "/stitches/thigh[0]/new",
+   506,
+   503
+  ],
+  [
+   "/stitches/thigh[0]/tris",
+   672,
+   668
+  ],
+  [
+   "/stitches/thigh[1]/old",
+   165,
+   166
+  ],
+  [
+   "/stitches/thigh[1]/new",
+   503,
+   507
+  ],
+  [
+   "/stitches/thigh[1]/tris",
+   668,
+   673
+  ],
+  [
+   "/non_manifold_edges",
+   173,
+   172
+  ]
+ ],
+ "legs_only_base_report_leaves": 51,
+ "legs_only_base_report_differing": [],
+ "PASS_archived_R120_reproduced": false
+}

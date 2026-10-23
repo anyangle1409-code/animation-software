@@ -1,6 +1,6 @@
 # W8 source-pinned elbow taper PCA audit — 23 October 2026
 
-**STAGED, not yet native-CI verified.** This adds read-only repeatability to the previously observed W8 distal upper-arm surface narrowing. It does not establish anatomical correctness or repair any model.
+**VERIFIED read-only cloud execution; anatomical validation NOT GRANTED.** This adds read-only repeatability to the previously observed W8 distal upper-arm surface narrowing. It does not establish anatomical correctness or repair any model.
 
 - Code: scripts/cloud_body_analysis/elbow_taper_audit.py, with eight synthetic tests and a phone-readable GitHub Actions report. Source: W8 visual diagnostic artifact 12495910312 from run 39937882229; W8 rest-axis artifact 12534047239 from run 40029398965.
 - W8 reconstructed .blend SHA256: 2434afd0daa231ab3a03c873cad4187ffcbc1bab78132375221160b0b0f09e4c; rig_rest_axes_metadata.json member SHA256: 01ef8a7cf4eab8ea8eb29d2fcb2f5cd310ce8a936062624b06868a2e38b7b677. Prior independent W8 diagnostic ZIP SHA256: 3be4322ba67da8b3827c96c0afdb58ffa8adb998cf8d1814aab0978a9e68d63e. Extracted directories are source-identity checked but do not reproduce ZIP-byte hash validation.
@@ -8,3 +8,12 @@
 - Product of square roots of two largest **3D covariance** eigenvalues is reported as a spread proxy in mm² and a dimensionless distal/mid ratio. It is NOT a physical cross-section, true circumference, muscle volume, human normal or clinical safety limit. Prior observational rest ratio ~0.407/0.408 is a hypothesis to reproduce, not a newly confirmed result.
 - Reference: Wu et al. (2005), ISB upper-limb coordinate standards, https://pubmed.ncbi.nlm.nih.gov/15844264/ . Bone control endpoints and suffix sides are not verified elbow landmarks or anatomical coordinate systems. Clinical ROM population means remain descriptive.
 - Pending: inspect the new CI job, verify report and artifact digest; independently calibrate elbow centre/epicondyles, radius-ulna pronation, shoulder/clavicle/scapula and hip/knee/ankle chains. All 19 generic movement scenarios still unapproved. No preserved Blender model, rig, skin, muscle attachment, Claude branch, PT-App, PT_MODEL_VERSION or deployment modified. Muscle highlighting remains deferred.
+
+## Verified cloud execution — 23 October 2026
+
+- [Run 40037024262](https://github.com/anyangle1409-code/animation-software/actions/runs/40037024262) completed SUCCESS across **all seven jobs** (W8/V14/R120 native inspections, W8 in-memory shoulder pose, independent driver-math check, rest comparison, and native movement localization/PCA).
+- Native localization test step: **123/123 unit tests PASS**, including eight new elbow PCA synthetic guards.
+- [Native report artifact 12536994234](https://github.com/anyangle1409-code/animation-software/actions/runs/40037024262/artifacts/12536994234) independently downloaded; archive SHA256 `0a6d0f3ff38b12c936fe9cc76fd2800ed12adce755800eba375a6f91d86dcfe3` matches GitHub artifact digest. Embedded `w8_elbow_taper_pca_proxy.json` SHA256 `1d6679adcfee04780d8cbef61faf9d61221b703708f9bb00ca473575a6b7fd99` was independently inspected.
+- W8 fixed rest bands: suffix l **398 middle / 225 distal vertices**, suffix r **397 middle / 225 distal**. Rest distal/mid PCA proxy l **0.40662**, r **0.40725**. Press sample 0: l **0.40438**, r **0.40500**; sample 6: l **0.42721**, r **0.42720**; sample 8: l **0.41658**, r **0.41608**. These reproduce the prior independently observed narrowing to the expected rounding, without certifying whether the shape is human-correct.
+- JSON records stable W8 rest topology fingerprint `64dfbe701c5a76fc8a942c0e7d2e98612c8bf2a0d7ab2722c9ca83b4450b56a6`, exact pinned source hash and pinned rig member hash, with all anatomical/skin approval flags FALSE.
+- **No physical or anatomical improvement was made.** Elbow/forearm curl/pronation, true ISB axes, shoulder/scapula/clavicle coupling, hip/knee/ankle chains, full-body generic motion tests and source archive equivalence remain unapproved.

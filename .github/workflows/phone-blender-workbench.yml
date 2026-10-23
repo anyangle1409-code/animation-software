@@ -205,6 +205,20 @@ jobs:
           github-token: ${{ github.token }}
           path: ${{ runner.temp }}/native/R120
           merge-multiple: true
+      - name: Retrieve pinned W8 read-only rig axes metadata
+        uses: actions/download-artifact@v4
+        with:
+          artifact-ids: '12534047239'
+          run-id: 40029398965
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/native/rig-W8
+          merge-multiple: true
+      - name: Audit fixed rest-vertex W8 elbow PCA taper (NOT anatomical area)
+        run: |
+          python scripts/cloud_body_analysis/elbow_taper_audit.py \
+            --w8 "${{ runner.temp }}/native/W8" \
+            --rig "${{ runner.temp }}/native/rig-W8/W8/rig_rest_axes_metadata.json" \
+            --out phone-native-localization
       - name: Localize native failures in previously saved exact frames
         run: |
           python scripts/cloud_body_analysis/localize_failures.py \

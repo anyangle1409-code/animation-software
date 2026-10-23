@@ -1,5 +1,6 @@
 """Fail-closed tests for human reference data; NEVER certify an anatomical rig."""
 import copy
+import json
 import importlib.util
 from pathlib import Path
 import unittest
@@ -154,6 +155,41 @@ class HumanRangeReferenceTests(unittest.TestCase):
         altered = copy.deepcopy(self.data)
         altered["future_display"]["muscle_highlighting"] = "READY"
         self.assertTrue(any("highlight appearance" in e for e in reference.validate(altered)))
+
+    def test_exercise_to_rom_crosswalk_semantics_and_conflicts(self):
+        crosswalk = json.loads((MODULE.parents[2] / "docs" / "anatomy" /
+                                "HGPT_EXERCISE_ROM_CROSSWALK_V1.json").read_text())
+        self.assertEqual(crosswalk["source_experimental_pr"], 124)
+        self.assertEqual(len(crosswalk["mappings"]), 16)
+        self.assertFalse(crosswalk["calibration_approved"])
+        self.assertFalse(crosswalk["production_integration"])
+        self.assertEqual(len(crosswalk["blocked_mappings"]), 4)
+        refids = {c["id"] for c in self.data["coordinate_catalog"]}
+        names = set()
+        for row in crosswalk["mappings"]:
+            key = (row["exercise_joint_id"], row["exercise_coordinate"])
+            self.assertNotIn(key, names)
+            names.add(key)
+            self.assertEqual(row["native_validation"], "NOT_GRANTED")
+            self.assertEqual(row["exercise_motion_acceptance"], "NOT_GRANTED")
+            self.assertIsNone(row["model_axis"])
+            self.assertIsNone(row["model_side_suffix"])
+            self.assertIsNone(row["clinical_hard_limit_deg"])
+            if row["reference_coordinate_id"] is not None:
+                self.assertIn(row["reference_coordinate_id"], refids)
+            else:
+                self.assertEqual(row["exercise_joint_id"].split(".")[2], "shoulder")
+                self.assertIn(row["exercise_coordinate"], ("elevation", "humerothoracic_elevation"))
+            other = row["exercise_joint_id"][:-1] + ("R" if row["anatomical_side"] == "L" else "L")
+            self.assertIn((other, row["exercise_coordinate"]),
+                          {(r["exercise_joint_id"], r["exercise_coordinate"]) for r in crosswalk["mappings"]})
+
+    def test_crosswalk_keeps_clinical_rom_separate_from_exercise_targets(self):
+        crosswalk = json.loads((MODULE.parents[2] / "docs" / "anatomy" /
+                                "HGPT_EXERCISE_ROM_CROSSWALK_V1.json").read_text())
+        self.assertTrue(any("not a maximum" in note for note in crosswalk["rules"]))
+        self.assertTrue(all(row["clinical_hard_limit_deg"] is None
+                            for row in crosswalk["mappings"]))
 
     def test_no_blender_dependency_or_model_save(self):
         code = MODULE.read_text(encoding="utf-8")

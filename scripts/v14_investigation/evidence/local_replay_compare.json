@@ -1,0 +1,20 @@
+{
+ "W8_rest_identical": true,
+ "W8_tris_identical": true,
+ "W8_offsets_max_dev_mm": 3.5011908039450645e-05,
+ "W8_proportion_max_dev_mm": 7.450580596923828e-06,
+ "W8_report_leaves_differing": [
+  "/refine/beautify_geom[0]",
+  "/refine/beautify_geom[1]",
+  "/refine/beautify_geom[2]",
+  "/refine/beautify_geom[3]",
+  "/refine/beautify_geom[4]",
+  "/refine/beautify_geom[5]"
+ ],
+ "W8_skeleton_edit_leaves_differing_beyond_1e-12_rel": [],
+ "cut_fingerprints_identical_to_L0": true,
+ "V14_report_leaves_vs_archive": 54,
+ "V14_report_leaves_differing_from_archive": [],
+ "V14_vertices": 238067,
+ "PASS_exact_archived_V14_reproduced": true
+}

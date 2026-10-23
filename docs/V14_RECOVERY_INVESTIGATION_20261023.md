@@ -118,6 +118,37 @@ The unchanged builder, run again on the same R41, was followed by the V14 leg st
 
 The right leg's skin near the cut differs in all three. The third build's total equals the archive's **by coincidence** (+2 −2 on the right leg). **A matching vertex count is not evidence that two models are the same.** Acceptance checks should compare triangle and position fingerprints, as `cut_accounting_blender.py` does, not counts alone.
 
+## Recovery: the archived V14 reproduced exactly by replaying L0
+
+`scripts/v14_investigation/replay_build_blender.py` runs the unchanged builder in-process. Immediately after `refine()`, it gives the refined mesh the preserved L0 vertex order and triangles:
+- every refined vertex is matched to the preserved L0 vertex at the same position (checked to be a one-to-one match at 0.0 mm);
+- the vertices are re-ordered and the triangles replaced (R41 has no UVs or other face data);
+- L0's refine map is returned, so the builder continues exactly as in the L0 build.
+
+The V14 leg step is then run at the **archived script version** (`legs_v2_blender.py` at bd439886, taken from a scratch copy).
+
+Local result (bpy 5.2.1). Evidence: `evidence/local_replay_*`, `evidence/local_cut_W8r_replay.json`.
+
+| Check | Result |
+|---|---|
+| Refined rest positions and triangles vs L0 | **identical** (array equality) |
+| W8 offsets / proportion vs L0's preserved arrays | max **0.000035 mm** / 0.0000075 mm (float rounding; guard 0.01 mm) |
+| `body_v2_report.json` vs L0 | identical except the 6 `refine/beautify_geom` counts. These describe the discarded original triangulation (expected). |
+| `skeleton_edits.json` vs L0 | one value differs, in the 16th significant digit (0.01263357708668723 vs …046) |
+| Leg-cut fingerprints, both legs (faces, crossings, created / removed vertex IDs, band positions and triangles) | **all identical** to L0 |
+| V14 `legs_v2_report.json` vs the archived `draft_v14b_torso/legs_v2_report.json` | **54 / 54 fields identical**: 238,067 vertices, loops 699 / 696, above-cut 6,675, torso relief 60,485, and every other field |
+| `compare_replay.py` verdict | **PASS_exact_archived_V14_reproduced = True** |
+
+The new files (not committed, about 200 MB each) have these SHA-256s:
+- W8: `1798d839…4c9a`
+- V14: `2d707be4…6b84`
+
+The .blend bytes cannot match the archive's own files. L0's .blend hash is `78f30e59…`; it embeds session data and float rounding. Equivalence is established on the geometry, topology, report and cut, not on file bytes.
+
+The GitHub job `replay-l0-archived-v14` repeats the whole chain on GitHub-hosted Blender 5.2.0; see the run list on this branch.
+
+**Consequence for the blockers:** blocker 1 (exact archived V14) is resolved by replay. The remaining open question is the owner's choice of the W8/V14 reference: an L0 replay (matches the archive) or a deterministic patched build (new, reproducible, does not match the archive).
+
 ## Candidate fix (not applied)
 
 `scripts/v14_investigation/CANDIDATE_deterministic_refine.patch` changes only `refine_torso_blender.py`. It adds `_ordered(bm, elems)`, which updates the indices and sorts by index, and uses it for:
@@ -137,7 +168,7 @@ A bisect's result does not depend on input order, but sorting those inputs too w
 
 ## Remaining blockers
 
-1. **Exact equivalence with the archived V14 needs L0's triangulation.** L0's refined positions, triangles, coarse map and offsets are preserved in `evidence/build_L0/` (with the original files' SHA-256s). A "replay L0" builder mode that loads them instead of calling `refine()` has not been written or tested.
+1. ~~**Exact equivalence with the archived V14 needs L0's triangulation.**~~ **Resolved by the replay (see Recovery).** Originally: L0's refined positions, triangles, coarse map and offsets are preserved in `evidence/build_L0/` (with the original files' SHA-256s). A "replay L0" builder mode that loads them instead of calling `refine()` has not been written or tested.
 2. **The archived w8 .blend never existed.** That run saved renders and arrays only, and its arrays are preserved in `evidence/build_w8/`. The archive's W8 offsets are therefore also only reproducible by replay.
 3. **Owner decision needed:** which W8 becomes the reference (L0 replay, archived w8 replay, or a new deterministic build), and whether to adopt the patch.
 4. **GitHub artifacts and logs can't be downloaded from the Claude session** (the blob host is refused), so evidence is read from job annotations. ChatGPT's workbench can download the artifacts directly.

@@ -45,6 +45,44 @@ result={
  'polygons_ordered_json_sha256':hashlib.sha256(json.dumps(polygons,separators=(',',':')).encode()).hexdigest(),
  'archive_equivalence':'FAIL / NOT_ESTABLISHED','anatomical_approval':'NOT_GRANTED','saved':False,
 }
+
+# Existing non-sided landmarks define an anatomical frame without trusting limb suffixes.
+try:
+    def point(name):
+        ob=bpy.data.objects.get(name)
+        if ob is None:raise ValueError('Missing saved landmark '+name)
+        return ob.matrix_world.translation.copy()
+    landmark_names=['LM_sternum__ij_skin','HGPT_JOINT_disc_t1_t2','LM_frontal__vertex_skin','HGPT_JOINT_disc_l5_sacrum']
+    points={name:point(name) for name in landmark_names}
+    up=points[landmark_names[2]]-points[landmark_names[3]]
+    if up.length<0.5:raise ValueError('Insufficient superior/inferior landmark separation')
+    up.normalize()
+    anterior=points[landmark_names[0]]-points[landmark_names[1]]
+    anterior-=up*anterior.dot(up)
+    if anterior.length<0.03:raise ValueError('Insufficient sternum/spine anterior separation')
+    anterior.normalize()
+    left=up.cross(anterior).normalized()
+    if not all(np.isfinite(v) for p in points.values() for v in p):raise ValueError('Nonfinite landmarks')
+    rig=bpy.data.objects['HGPT_CANONICAL_V4_ORIGINAL']
+    mid=(points[landmark_names[0]]+points[landmark_names[1]])*0.5
+    mappings={}
+    for stem in ('upperarm','forearm','hand','thigh','shin','foot'):
+        centers={suffix:rig.matrix_world@((rig.data.bones[stem+'_'+suffix].head_local+rig.data.bones[stem+'_'+suffix].tail_local)*0.5) for suffix in ('l','r')}
+        projections={suffix:(co-mid).dot(left) for suffix,co in centers.items()}
+        if projections['l']*projections['r']>=0 or min(abs(x) for x in projections.values())<0.01:
+            raise ValueError('Ambiguous bilateral projection '+stem)
+        mappings[stem]={suffix:{'world_rest_midpoint_m':list(centers[suffix]),'left_projection_m':projections[suffix],
+                               'geometric_anatomical_side':'LEFT' if projections[suffix]>0 else 'RIGHT'} for suffix in ('l','r')}
+    result['anatomical_frame_evidence']={
+        'status':'MEASURED_GEOMETRIC_MAPPING; anatomical review NOT_GRANTED',
+        'landmark_world_coordinates_m':{name:list(p) for name,p in points.items()},
+        'superior_unit':list(up),'anterior_unit':list(anterior),'anatomical_left_unit':list(left),
+        'definition':'superior=head vertex minus lumbosacral disc; anterior=sternum IJ minus T1/T2 disc projected perpendicular to superior; anatomical left=superior cross anterior',
+        'runtime_rest_midpoint_mapping':mappings,
+        'limits':'Uses identities of existing non-sided landmarks; orientation and mappings need independent native visual review before bindings; no new landmarks or anchors created'}
+except Exception as e:
+    result['anatomical_frame_evidence']={'status':'BLOCKED','reason':str(e)}
+
 assert result['source_sha256_after']==expected==result['inspection_copy_sha256_after'],'Inspection changed bytes'
 assert result['vertex_groups']==77 and result['shape_keys']==79,'Inventory mismatch'
 (out/'inspection.json').write_text(json.dumps(result,indent=2)+'\n')

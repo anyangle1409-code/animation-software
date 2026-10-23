@@ -109,8 +109,15 @@ jobs:
               print(f"::notice title=verdict {k}::{v}")
           for k, v in d["refine_runs"].items():
               print(f"::notice title=refine {k}::{v['mode']} beautify={v['beautify_geom']} tri={v['sha256_triangles_geometric'][:16]} verts={v['sha256_vertex_positions_as_set'][:16]}")
+          PY
+      - name: Publish the cut accounting as annotations (own step - GitHub keeps at most 10 notices per step)
+        run: |
+          python - <<'PY'
+          import json
+          d = json.load(open("summary/with_local/v14_investigation_summary.json"))
           for k, v in d["cut_runs"].items():
-              print(f"::notice title=cut {k}::" + json.dumps(v))
+              print(f"::notice title=cut {k}::" + ", ".join(f"{a}={b}" for a, b in v.items() if not a.endswith("sha256")
+                    and "sha256_band" not in a) + f", band_tri_r={v['r_sha256_band_triangles'][:12]}, band_vert_r={v['r_sha256_band_vertex_positions'][:12]}")
           PY
       - uses: actions/upload-artifact@v4
         with:

@@ -26,8 +26,6 @@ print(json.dumps(report,indent=2))
 
 # Supplemental numerical audit only. No operators modifying a mesh, rig or source.
 # Coordinates and group names are evidence, NOT certified anatomical laterality.
-from mathutils import Vector
-groups = {g.index: g.name for g in body.vertex_groups}
 acc = {
     g.index: {
         "name": g.name, "vertices": 0, "weight_mass": 0.0,
@@ -105,3 +103,37 @@ audit = {
 assert sha(source) == EXPECTED[MODEL], "Source changed during rest audit"
 (out / "rest_anatomy_inventory.json").write_text(json.dumps(audit, indent=2))
 print("READ_ONLY_REST_AUDIT", MODEL, len(bone_rows), len(group_rows), "unweighted", unweighted)
+
+
+# Fail closed on corrupt or inconsistent numerical report structures.
+# These checks establish report integrity ONLY, never anatomical correctness.
+import math
+assert report["source_unchanged"] is True
+assert audit["source_sha256"] == report["source_sha256"] == EXPECTED[MODEL]
+assert audit["approval"] == "NOT_GRANTED" and report["approved"] is False
+assert report["vertices"] == audit["mesh"]["vertices"] > 0
+assert report["bones"] == audit["rig"]["bone_count"] == len(audit["rig"]["bones"])
+assert report["groups"] == len(audit["groups"])
+assert 0 <= audit["mesh"]["unweighted_vertices"] <= report["vertices"]
+assert all(math.isfinite(t) for t in coords_min + coords_max)
+assert all(lo <= hi for lo, hi in zip(coords_min, coords_max))
+assert len({entry["name"] for entry in bone_rows}) == len(bone_rows)
+assert len({entry["index"] for entry in group_rows}) == len(group_rows)
+for b in bone_rows:
+    assert b["parent"] is None or b["parent"] in bone_names, b
+    assert all(math.isfinite(c) for c in b["head_body_local_m"] + b["tail_body_local_m"]), b
+for g in group_rows:
+    assert 0 <= g["vertices_with_influence"] <= report["vertices"], g
+    assert math.isfinite(g["weight_mass"]) and g["weight_mass"] >= 0, g
+    assert sum(g["vertex_x_sign_counts"].values()) == g["vertices_with_influence"], g
+    if g["weight_mass"] > 0:
+        assert g["weighted_centroid_body_local_m"] is not None, g
+        assert all(math.isfinite(c) for c in g["weighted_centroid_body_local_m"]), g
+assert sha(source) == EXPECTED[MODEL], "Read-only audit altered source"
+(out / "integrity_checks.json").write_text(json.dumps({
+    "model": MODEL, "source_sha256": EXPECTED[MODEL],
+    "result": "PASS", "scope": "READ_ONLY_REPORT_INTEGRITY_NOT_ANATOMICAL_APPROVAL",
+    "rig_bones": len(bone_rows), "groups": len(group_rows),
+    "unweighted_vertices": unweighted, "approval": "NOT_GRANTED"
+}, indent=2))
+print("READ_ONLY_REST_AUDIT_VALIDATED", MODEL)

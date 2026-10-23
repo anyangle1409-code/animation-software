@@ -1,0 +1,53 @@
+{
+ "input": "body_v2.blend",
+ "input_sha256": "78f30e5983bcd03bfb4cbf34b9c7602c031b73810d80af1c59877bcd41097432",
+ "bpy": "5.2.1 LTS",
+ "vertices": 219974,
+ "z0_m": -0.0014233165420591831,
+ "stature_m": 1.8561579757370055,
+ "cut_fraction": 0.45,
+ "zc_m": 0.8338477725395933,
+ "sides": {
+  "r": {
+   "faces_selected": 96465,
+   "edges_crossing_plane": 699,
+   "old_vertices_exactly_on_plane": 0,
+   "closest_vertex_to_plane_mm": [
+    0.001025,
+    0.009965,
+    0.01942,
+    0.034105,
+    0.05107
+   ],
+   "vertices_created_by_bisect": 699,
+   "cut_loop_boundary_vertices": 699,
+   "old_vertices_removed": 46336,
+   "sha256_removed_old_indices": "e156be98d9595964c39c1702abbb2eb6a9ca4f76f470b7da7f1f76f0452ddeff",
+   "band_vertices": 1307,
+   "band_triangles": 1915,
+   "sha256_band_vertex_positions": "cdaee16fd7561c2dddc785079e125535a5b8b3d3d431cae683518f8ea449add4",
+   "sha256_band_triangles": "864d4581a01e84b4b19265c3b5cd56454fc9c9f5caead740b73d45f0a214c8e8"
+  },
+  "l": {
+   "faces_selected": 96458,
+   "edges_crossing_plane": 696,
+   "old_vertices_exactly_on_plane": 0,
+   "closest_vertex_to_plane_mm": [
+    0.011373,
+    0.032794,
+    0.03482,
+    0.040877,
+    0.043738
+   ],
+   "vertices_created_by_bisect": 696,
+   "cut_loop_boundary_vertices": 696,
+   "old_vertices_removed": 46328,
+   "sha256_removed_old_indices": "a03346f415922878e7b1d4a14c49294beb36b5b432e25ea3ceffdf6eaa3eafa7",
+   "band_vertices": 1295,
+   "band_triangles": 1896,
+   "sha256_band_vertex_positions": "05f23d6659ce0e3f8161566cb2c1d76930de2380674f7cd7e9cc34952a954e46",
+   "sha256_band_triangles": "4c9348ddc07ea02d9997335fd0e5bcd0d1a892846ae3303d5e093a43762887bc"
+  }
+ },
+ "net_change_from_cut": -91269
+}

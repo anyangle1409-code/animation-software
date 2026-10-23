@@ -1,0 +1,108 @@
+name: V14 recovery investigation (read-only)
+on:
+  push:
+    branches: ['claude/v14-recovery-investigation-*']
+    paths: ['scripts/v14_investigation/**', '.github/workflows/v14-recovery-investigation.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: v14-investigation-${{ github.ref }}
+  cancel-in-progress: false
+env:
+  R57_COMMIT: 025d5f28fa7eba2064fba565b1c9b60119cdd2cb
+jobs:
+  refine-determinism:
+    # refine() on the R41 source in four fresh processes: twice exactly as the builder runs it (Python-set order into
+    # bmesh.ops), twice with index-sorted element lists.  Read-only: R41 is checked out at its commit, nothing is saved.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [unsorted, sorted]
+        rep: [1, 2]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.R57_COMMIT }}
+          path: r57src
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install cloud Blender dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y libegl1 libgl1 libxrender1 libxi6 libxkbcommon0
+          python -m pip install bpy==5.2.0 numpy scipy
+      - name: refine() determinism run
+        run: |
+          FLAG=""; [ "${{ matrix.mode }}" = "sorted" ] && FLAG="--sorted"
+          python scripts/v14_investigation/refine_determinism_blender.py -- "$GITHUB_WORKSPACE/r57src" \
+            "out/gh_refine_${{ matrix.mode }}_${{ matrix.rep }}.json" $FLAG
+      - uses: actions/upload-artifact@v4
+        with:
+          name: v14inv-refine-${{ matrix.mode }}-${{ matrix.rep }}-${{ github.run_id }}
+          path: out/
+          retention-days: 90
+          if-no-files-found: error
+  cut-accounting-reconstructed-w8:
+    # the V14 leg cut replayed on the preserved reconstructed W8 (run 39922636070, artifact 12487119841) - read-only
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install cloud Blender dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y libegl1 libgl1 libxrender1 libxi6 libxkbcommon0
+          python -m pip install bpy==5.2.0 numpy scipy
+      - uses: actions/download-artifact@v4
+        with:
+          artifact-ids: '12487119841'
+          run-id: 39922636070
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/w8
+      - name: Cut accounting
+        run: |
+          B="$(find "${{ runner.temp }}/w8" -name '*.blend' | head -1)"; echo "input: $B"; sha256sum "$B"
+          python scripts/v14_investigation/cut_accounting_blender.py -- "$B" out/gh_cut_reconstructed_W8.json
+          sha256sum "$B"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: v14inv-cut-recon-w8-${{ github.run_id }}
+          path: out/
+          retention-days: 90
+          if-no-files-found: error
+  summarize:
+    needs: [refine-determinism, cut-accounting-reconstructed-w8]
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: v14inv-*-${{ github.run_id }}
+          path: ${{ runner.temp }}/res
+          merge-multiple: true
+      - name: Summarise (GitHub runs, and GitHub plus the committed local evidence)
+        run: |
+          python scripts/v14_investigation/summarize.py "${{ runner.temp }}/res" summary/github_only
+          cp scripts/v14_investigation/evidence/*.json "${{ runner.temp }}/res/"
+          python scripts/v14_investigation/summarize.py "${{ runner.temp }}/res" summary/with_local
+          cat summary/github_only/v14_investigation_summary.md summary/with_local/v14_investigation_summary.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: v14inv-summary-${{ github.run_id }}
+          path: summary/
+          retention-days: 90
+          if-no-files-found: error

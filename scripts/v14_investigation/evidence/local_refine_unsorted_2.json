@@ -1,0 +1,27 @@
+{
+ "mode": "python-set order (as the builder)",
+ "pythonhashseed": null,
+ "bpy": "5.2.1 LTS",
+ "r41_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+ "seconds": 31.6,
+ "refine_report": {
+  "vertices_after": 219974,
+  "triangles_after": 439944,
+  "rounds_edges_split": [
+   49836,
+   92974,
+   55564
+  ],
+  "beautify_geom": [
+   45869,
+   1147,
+   60965,
+   1360,
+   269440,
+   10884
+  ]
+ },
+ "sha256_vertex_positions_as_set": "ce90d1d7ecd42ea2007efff69e0c785ae94cdfac75f6a1e0d0590fd9e45b5d4f",
+ "sha256_triangles_geometric": "83d4b26bad0bfe483bcb8a55f7d901a89d2e8a4d390b8508b6943c9997df446d",
+ "sha256_index_order": "9edef6e5b416affd441868fdaa9c0dc1d32a8dc999db2c742d97a3a8e4d6fdd3"
+}

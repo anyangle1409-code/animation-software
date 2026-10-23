@@ -145,7 +145,13 @@ The new files (not committed, about 200 MB each) have these SHA-256s:
 
 The .blend bytes cannot match the archive's own files. L0's .blend hash is `78f30e59…`; it embeds session data and float rounding. Equivalence is established on the geometry, topology, report and cut, not on file bytes.
 
-The GitHub job `replay-l0-archived-v14` repeats the whole chain on GitHub-hosted Blender 5.2.0; see the run list on this branch.
+**Confirmed on GitHub-hosted Blender 5.2.0** in run [40024573317](https://github.com/anyangle1409-code/animation-software/actions/runs/40024573317) (all 9 jobs passed). Job `replay-l0-archived-v14` annotations:
+- `PASS_exact_archived_V14_reproduced` True; V14 vertices 238,067; 54 / 54 report fields equal to the archive.
+- Cut fingerprints identical to L0; refined rest and triangles identical.
+- W8 offsets max deviation 3.5011908e-05 mm, **the same value as locally**, so the replay is reproducible across machines and Blender patch versions.
+- The W8 report differs only in `refine/beautify_geom` (5 of the 6 counts on this run). These are the counts of the discarded triangulation.
+
+The same run also repeated the earlier legs: refine as-builder non-deterministic, sorted and patched identical, reconstructed-W8 cut 700/46,339.
 
 **Consequence for the blockers:** blocker 1 (exact archived V14) is resolved by replay. The remaining open question is the owner's choice of the W8/V14 reference: an L0 replay (matches the archive) or a deterministic patched build (new, reproducible, does not match the archive).
 

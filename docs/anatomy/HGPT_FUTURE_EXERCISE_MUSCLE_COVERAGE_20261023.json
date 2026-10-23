@@ -1,0 +1,2860 @@
+{
+  "schema_version": 1,
+  "created_on": "2026-10-23",
+  "experimental_only": true,
+  "production_ready": false,
+  "anatomical_accuracy_approved": false,
+  "PT_MODEL_VERSION": "1.0",
+  "owner_requirement": "Future exercise expansion with permanently identifiable group/member taxonomy; muscle highlight appearance undecided and NOT implemented",
+  "existing_source": {
+    "repo": "anyangle1409-code/animation-software",
+    "branch": "work/experimental-anatomical-muscles-20261022",
+    "commit": "7c820d68de69dcdef7d567e836302123df953446",
+    "path": "experiments/anatomical_muscles/registry_seed.json",
+    "content_blob_sha": "16885571e16ca380da5ad85981570c3625a8d7a3",
+    "status": "120_existing_semantic_records_not_anatomically_bound"
+  },
+  "scope": {
+    "existing_unique_stems": 60,
+    "existing_bilateral_records": 120,
+    "proposed_additional_unique_stems": 97,
+    "proposed_additional_bilateral_records": 194,
+    "claims_complete_human_musculature": false,
+    "semantic_names_are_not_rig_attachments": true,
+    "custom_visual_highlights_implemented": false,
+    "notes": [
+      "Proposed categories include some variable/optional anatomy and grouped segments. All proposed IDs require independent anatomical review and registry acceptance before becoming immutable published IDs.",
+      "Midline/unpaired or segmental muscles may require a nonbilateral convention at approval; two sides here are planning placeholders only.",
+      "Existing thenar_group and interossei_lumbricals_group are aggregate seeds, not individually validated muscles; new proposed individual hand records do not overwrite them.",
+      "Exact origin/insertion bone-local coordinates, wrapping, fascia relationships, realistic soft tissue volumes and side mappings remain unresolved."
+    ]
+  },
+  "groups": [
+    {
+      "id": "hgpt.musclegroup.forearm_flexor",
+      "label": "Forearm flexion and pronation",
+      "future_exercise_family": "wrist_finger_grip_control",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK536975/",
+      "proposed_stems": [
+        "pronator_teres",
+        "pronator_quadratus",
+        "flexor_carpi_radialis",
+        "flexor_carpi_ulnaris",
+        "palmaris_longus",
+        "flexor_digitorum_superficialis",
+        "flexor_digitorum_profundus",
+        "flexor_pollicis_longus"
+      ],
+      "status": "COVERAGE_PLAN_ONLY"
+    },
+    {
+      "id": "hgpt.musclegroup.forearm_extensor",
+      "label": "Forearm extension and supination",
+      "future_exercise_family": "wrist_finger_grip_control",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK536975/",
+      "proposed_stems": [
+        "supinator",
+        "extensor_carpi_radialis_longus",
+        "extensor_carpi_radialis_brevis",
+        "extensor_carpi_ulnaris",
+        "extensor_digitorum",
+        "extensor_digiti_minimi",
+        "extensor_indicis",
+        "extensor_pollicis_longus",
+        "extensor_pollicis_brevis",
+        "abductor_pollicis_longus",
+        "anconeus"
+      ],
+      "status": "COVERAGE_PLAN_ONLY"
+    },
+    {
+      "id": "hgpt.musclegroup.intrinsic_hand",
+      "label": "Intrinsic hand and finger control",
+      "future_exercise_family": "hand_dumbbell_grip",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539810/",
+      "proposed_stems": [
+        "abductor_pollicis_brevis",
+        "flexor_pollicis_brevis",
+        "opponens_pollicis",
+        "adductor_pollicis",
+        "abductor_digiti_minimi_hand",
+        "flexor_digiti_minimi_brevis_hand",
+        "opponens_digiti_minimi",
+        "palmaris_brevis",
+        "lumbrical_hand_1",
+        "lumbrical_hand_2",
+        "lumbrical_hand_3",
+        "lumbrical_hand_4",
+        "dorsal_interosseous_hand_1",
+        "dorsal_interosseous_hand_2",
+        "dorsal_interosseous_hand_3",
+        "dorsal_interosseous_hand_4",
+        "palmar_interosseous_hand_1",
+        "palmar_interosseous_hand_2",
+        "palmar_interosseous_hand_3"
+      ],
+      "status": "COVERAGE_PLAN_ONLY"
+    },
+    {
+      "id": "hgpt.musclegroup.lower_leg_anterior",
+      "label": "Anterior lower-leg/toe dorsiflexors",
+      "future_exercise_family": "gait_lunge_step_up",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "proposed_stems": [
+        "extensor_digitorum_longus",
+        "extensor_hallucis_longus",
+        "fibularis_tertius"
+      ],
+      "status": "COVERAGE_PLAN_ONLY"
+    },
+    {
+      "id": "hgpt.musclegroup.lower_leg_lateral",
+      "label": "Lateral lower-leg evertors",
+      "future_exercise_family": "balance_running",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "proposed_stems": [
+        "fibularis_longus",
+        "fibularis_brevis"
+      ],
+      "status": "COVERAGE_PLAN_ONLY"
+    },
+    {
+      "id": "hgpt.musclegroup.lower_leg_posterior",
+      "label": "Deep posterior lower-leg/ankle",
+      "future_exercise_family": "gait_balance",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "proposed_stems": [
+        "tibialis_posterior",
+        "flexor_digitorum_longus",
+        "flexor_hallucis_longus",
+        "popliteus",
+        "plantaris"
+      ],
+      "status": "COVERAGE_PLAN_ONLY"
+    },
+    {
+      "id": "hgpt.musclegroup.intrinsic_foot",
+      "label": "Intrinsic foot arch and toe control",
+      "future_exercise_family": "balance_squat_gait",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "proposed_stems": [
+        "abductor_hallucis",
+        "flexor_hallucis_brevis",
+        "adductor_hallucis_oblique",
+        "adductor_hallucis_transverse",
+        "flexor_digitorum_brevis",
+        "quadratus_plantae",
+        "abductor_digiti_minimi_foot",
+        "flexor_digiti_minimi_brevis_foot",
+        "extensor_digitorum_brevis",
+        "extensor_hallucis_brevis",
+        "lumbrical_foot_1",
+        "lumbrical_foot_2",
+        "lumbrical_foot_3",
+        "lumbrical_foot_4",
+        "dorsal_interosseous_foot_1",
+        "dorsal_interosseous_foot_2",
+        "dorsal_interosseous_foot_3",
+        "dorsal_interosseous_foot_4",
+        "plantar_interosseous_foot_1",
+        "plantar_interosseous_foot_2",
+        "plantar_interosseous_foot_3"
+      ],
+      "status": "COVERAGE_PLAN_ONLY"
+    },
+    {
+      "id": "hgpt.musclegroup.spinal_extensor",
+      "label": "Erector spinae subdivisions",
+      "future_exercise_family": "deadlift_hip_hinge",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK537074/",
+      "proposed_stems": [
+        "iliocostalis_lumborum",
+        "iliocostalis_thoracis",
+        "longissimus_thoracis",
+        "longissimus_cervicis",
+        "spinalis_thoracis"
+      ],
+      "status": "COVERAGE_PLAN_ONLY"
+    },
+    {
+      "id": "hgpt.musclegroup.spinal_stabilizer",
+      "label": "Deep segmental spinal stabilizers",
+      "future_exercise_family": "core_stability",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK537074/",
+      "proposed_stems": [
+        "multifidus_lumbar",
+        "multifidus_thoracic",
+        "rotatores",
+        "semispinalis_thoracis"
+      ],
+      "status": "COVERAGE_PLAN_ONLY"
+    },
+    {
+      "id": "hgpt.musclegroup.trunk_stabilizer",
+      "label": "Trunk stability and breathing",
+      "future_exercise_family": "bracing_resisted_exercise",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK537074/",
+      "proposed_stems": [
+        "quadratus_lumborum",
+        "diaphragm",
+        "intercostales_externi",
+        "intercostales_interni",
+        "serratus_posterior_superior",
+        "serratus_posterior_inferior"
+      ],
+      "status": "COVERAGE_PLAN_ONLY"
+    },
+    {
+      "id": "hgpt.musclegroup.neck_stabilizer",
+      "label": "Cervical support",
+      "future_exercise_family": "posture_loaded_carry",
+      "source_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK557555/",
+      "proposed_stems": [
+        "sternocleidomastoid",
+        "scalenus_anterior",
+        "scalenus_medius",
+        "scalenus_posterior",
+        "longus_colli",
+        "longus_capitis",
+        "splenius_capitis",
+        "splenius_cervicis",
+        "semispinalis_capitis"
+      ],
+      "status": "COVERAGE_PLAN_ONLY"
+    },
+    {
+      "id": "hgpt.musclegroup.hip_rotator",
+      "label": "Additional deep hip rotators",
+      "future_exercise_family": "lunges_hip_rotation",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK526019/",
+      "proposed_stems": [
+        "obturator_externus",
+        "gemellus_superior",
+        "gemellus_inferior",
+        "adductor_minimus"
+      ],
+      "status": "COVERAGE_PLAN_ONLY"
+    }
+  ],
+  "proposed_members": [
+    {
+      "proposed_stem": "pronator_teres",
+      "proposed_ids": [
+        "hgpt.muscle.pronator_teres.L",
+        "hgpt.muscle.pronator_teres.R"
+      ],
+      "name": "pronator teres",
+      "region": "forearm",
+      "group_id": "hgpt.musclegroup.forearm_flexor",
+      "depth_category_for_research": "intermediate",
+      "high_level_function_tag": "forearm_pronation",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK536975/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "pronator_quadratus",
+      "proposed_ids": [
+        "hgpt.muscle.pronator_quadratus.L",
+        "hgpt.muscle.pronator_quadratus.R"
+      ],
+      "name": "pronator quadratus",
+      "region": "forearm",
+      "group_id": "hgpt.musclegroup.forearm_flexor",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "forearm_pronation",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK536975/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "flexor_carpi_radialis",
+      "proposed_ids": [
+        "hgpt.muscle.flexor_carpi_radialis.L",
+        "hgpt.muscle.flexor_carpi_radialis.R"
+      ],
+      "name": "flexor carpi radialis",
+      "region": "forearm",
+      "group_id": "hgpt.musclegroup.forearm_flexor",
+      "depth_category_for_research": "superficial",
+      "high_level_function_tag": "wrist_flexion_radial_deviation",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK536975/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "flexor_carpi_ulnaris",
+      "proposed_ids": [
+        "hgpt.muscle.flexor_carpi_ulnaris.L",
+        "hgpt.muscle.flexor_carpi_ulnaris.R"
+      ],
+      "name": "flexor carpi ulnaris",
+      "region": "forearm",
+      "group_id": "hgpt.musclegroup.forearm_flexor",
+      "depth_category_for_research": "superficial",
+      "high_level_function_tag": "wrist_flexion_ulnar_deviation",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK536975/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "palmaris_longus",
+      "proposed_ids": [
+        "hgpt.muscle.palmaris_longus.L",
+        "hgpt.muscle.palmaris_longus.R"
+      ],
+      "name": "palmaris longus",
+      "region": "forearm",
+      "group_id": "hgpt.musclegroup.forearm_flexor",
+      "depth_category_for_research": "superficial",
+      "high_level_function_tag": "palmar_fascia_tension_variable_presence",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK536975/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "flexor_digitorum_superficialis",
+      "proposed_ids": [
+        "hgpt.muscle.flexor_digitorum_superficialis.L",
+        "hgpt.muscle.flexor_digitorum_superficialis.R"
+      ],
+      "name": "flexor digitorum superficialis",
+      "region": "forearm",
+      "group_id": "hgpt.musclegroup.forearm_flexor",
+      "depth_category_for_research": "intermediate",
+      "high_level_function_tag": "finger_pip_flexion",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK536975/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "flexor_digitorum_profundus",
+      "proposed_ids": [
+        "hgpt.muscle.flexor_digitorum_profundus.L",
+        "hgpt.muscle.flexor_digitorum_profundus.R"
+      ],
+      "name": "flexor digitorum profundus",
+      "region": "forearm",
+      "group_id": "hgpt.musclegroup.forearm_flexor",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "finger_dip_flexion",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK536975/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "flexor_pollicis_longus",
+      "proposed_ids": [
+        "hgpt.muscle.flexor_pollicis_longus.L",
+        "hgpt.muscle.flexor_pollicis_longus.R"
+      ],
+      "name": "flexor pollicis longus",
+      "region": "forearm",
+      "group_id": "hgpt.musclegroup.forearm_flexor",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "thumb_ip_flexion",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK536975/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "supinator",
+      "proposed_ids": [
+        "hgpt.muscle.supinator.L",
+        "hgpt.muscle.supinator.R"
+      ],
+      "name": "supinator",
+      "region": "forearm",
+      "group_id": "hgpt.musclegroup.forearm_extensor",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "forearm_supination",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK536975/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "extensor_carpi_radialis_longus",
+      "proposed_ids": [
+        "hgpt.muscle.extensor_carpi_radialis_longus.L",
+        "hgpt.muscle.extensor_carpi_radialis_longus.R"
+      ],
+      "name": "extensor carpi radialis longus",
+      "region": "forearm",
+      "group_id": "hgpt.musclegroup.forearm_extensor",
+      "depth_category_for_research": "superficial",
+      "high_level_function_tag": "wrist_extension_radial_deviation",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK536975/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "extensor_carpi_radialis_brevis",
+      "proposed_ids": [
+        "hgpt.muscle.extensor_carpi_radialis_brevis.L",
+        "hgpt.muscle.extensor_carpi_radialis_brevis.R"
+      ],
+      "name": "extensor carpi radialis brevis",
+      "region": "forearm",
+      "group_id": "hgpt.musclegroup.forearm_extensor",
+      "depth_category_for_research": "superficial",
+      "high_level_function_tag": "wrist_extension_radial_deviation",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK536975/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "extensor_carpi_ulnaris",
+      "proposed_ids": [
+        "hgpt.muscle.extensor_carpi_ulnaris.L",
+        "hgpt.muscle.extensor_carpi_ulnaris.R"
+      ],
+      "name": "extensor carpi ulnaris",
+      "region": "forearm",
+      "group_id": "hgpt.musclegroup.forearm_extensor",
+      "depth_category_for_research": "superficial",
+      "high_level_function_tag": "wrist_extension_ulnar_deviation",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK536975/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "extensor_digitorum",
+      "proposed_ids": [
+        "hgpt.muscle.extensor_digitorum.L",
+        "hgpt.muscle.extensor_digitorum.R"
+      ],
+      "name": "extensor digitorum",
+      "region": "forearm",
+      "group_id": "hgpt.musclegroup.forearm_extensor",
+      "depth_category_for_research": "superficial",
+      "high_level_function_tag": "finger_extension",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK536975/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "extensor_digiti_minimi",
+      "proposed_ids": [
+        "hgpt.muscle.extensor_digiti_minimi.L",
+        "hgpt.muscle.extensor_digiti_minimi.R"
+      ],
+      "name": "extensor digiti minimi",
+      "region": "forearm",
+      "group_id": "hgpt.musclegroup.forearm_extensor",
+      "depth_category_for_research": "superficial",
+      "high_level_function_tag": "little_finger_extension",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK536975/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "extensor_indicis",
+      "proposed_ids": [
+        "hgpt.muscle.extensor_indicis.L",
+        "hgpt.muscle.extensor_indicis.R"
+      ],
+      "name": "extensor indicis",
+      "region": "forearm",
+      "group_id": "hgpt.musclegroup.forearm_extensor",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "index_finger_extension",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK536975/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "extensor_pollicis_longus",
+      "proposed_ids": [
+        "hgpt.muscle.extensor_pollicis_longus.L",
+        "hgpt.muscle.extensor_pollicis_longus.R"
+      ],
+      "name": "extensor pollicis longus",
+      "region": "forearm",
+      "group_id": "hgpt.musclegroup.forearm_extensor",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "thumb_extension",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK536975/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "extensor_pollicis_brevis",
+      "proposed_ids": [
+        "hgpt.muscle.extensor_pollicis_brevis.L",
+        "hgpt.muscle.extensor_pollicis_brevis.R"
+      ],
+      "name": "extensor pollicis brevis",
+      "region": "forearm",
+      "group_id": "hgpt.musclegroup.forearm_extensor",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "thumb_extension",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK536975/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "abductor_pollicis_longus",
+      "proposed_ids": [
+        "hgpt.muscle.abductor_pollicis_longus.L",
+        "hgpt.muscle.abductor_pollicis_longus.R"
+      ],
+      "name": "abductor pollicis longus",
+      "region": "forearm",
+      "group_id": "hgpt.musclegroup.forearm_extensor",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "thumb_abduction",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK536975/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "anconeus",
+      "proposed_ids": [
+        "hgpt.muscle.anconeus.L",
+        "hgpt.muscle.anconeus.R"
+      ],
+      "name": "anconeus",
+      "region": "forearm",
+      "group_id": "hgpt.musclegroup.forearm_extensor",
+      "depth_category_for_research": "superficial",
+      "high_level_function_tag": "elbow_extension_and_joint_stabilization",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK536975/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "abductor_pollicis_brevis",
+      "proposed_ids": [
+        "hgpt.muscle.abductor_pollicis_brevis.L",
+        "hgpt.muscle.abductor_pollicis_brevis.R"
+      ],
+      "name": "abductor pollicis brevis",
+      "region": "hand",
+      "group_id": "hgpt.musclegroup.intrinsic_hand",
+      "depth_category_for_research": "superficial",
+      "high_level_function_tag": "thumb_abduction",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539810/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "flexor_pollicis_brevis",
+      "proposed_ids": [
+        "hgpt.muscle.flexor_pollicis_brevis.L",
+        "hgpt.muscle.flexor_pollicis_brevis.R"
+      ],
+      "name": "flexor pollicis brevis",
+      "region": "hand",
+      "group_id": "hgpt.musclegroup.intrinsic_hand",
+      "depth_category_for_research": "superficial",
+      "high_level_function_tag": "thumb_flexion",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539810/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "opponens_pollicis",
+      "proposed_ids": [
+        "hgpt.muscle.opponens_pollicis.L",
+        "hgpt.muscle.opponens_pollicis.R"
+      ],
+      "name": "opponens pollicis",
+      "region": "hand",
+      "group_id": "hgpt.musclegroup.intrinsic_hand",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "thumb_opposition",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539810/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "adductor_pollicis",
+      "proposed_ids": [
+        "hgpt.muscle.adductor_pollicis.L",
+        "hgpt.muscle.adductor_pollicis.R"
+      ],
+      "name": "adductor pollicis",
+      "region": "hand",
+      "group_id": "hgpt.musclegroup.intrinsic_hand",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "thumb_adduction",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539810/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "abductor_digiti_minimi_hand",
+      "proposed_ids": [
+        "hgpt.muscle.abductor_digiti_minimi_hand.L",
+        "hgpt.muscle.abductor_digiti_minimi_hand.R"
+      ],
+      "name": "abductor digiti minimi hand",
+      "region": "hand",
+      "group_id": "hgpt.musclegroup.intrinsic_hand",
+      "depth_category_for_research": "superficial",
+      "high_level_function_tag": "little_finger_abduction",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539810/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "flexor_digiti_minimi_brevis_hand",
+      "proposed_ids": [
+        "hgpt.muscle.flexor_digiti_minimi_brevis_hand.L",
+        "hgpt.muscle.flexor_digiti_minimi_brevis_hand.R"
+      ],
+      "name": "flexor digiti minimi brevis hand",
+      "region": "hand",
+      "group_id": "hgpt.musclegroup.intrinsic_hand",
+      "depth_category_for_research": "superficial",
+      "high_level_function_tag": "little_finger_flexion",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539810/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "opponens_digiti_minimi",
+      "proposed_ids": [
+        "hgpt.muscle.opponens_digiti_minimi.L",
+        "hgpt.muscle.opponens_digiti_minimi.R"
+      ],
+      "name": "opponens digiti minimi",
+      "region": "hand",
+      "group_id": "hgpt.musclegroup.intrinsic_hand",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "little_finger_opposition",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539810/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "palmaris_brevis",
+      "proposed_ids": [
+        "hgpt.muscle.palmaris_brevis.L",
+        "hgpt.muscle.palmaris_brevis.R"
+      ],
+      "name": "palmaris brevis",
+      "region": "hand",
+      "group_id": "hgpt.musclegroup.intrinsic_hand",
+      "depth_category_for_research": "superficial",
+      "high_level_function_tag": "palmar_skin_tension",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539810/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "lumbrical_hand_1",
+      "proposed_ids": [
+        "hgpt.muscle.lumbrical_hand_1.L",
+        "hgpt.muscle.lumbrical_hand_1.R"
+      ],
+      "name": "lumbrical hand 1",
+      "region": "hand",
+      "group_id": "hgpt.musclegroup.intrinsic_hand",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "finger_mcp_flexion_ip_extension",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539810/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "lumbrical_hand_2",
+      "proposed_ids": [
+        "hgpt.muscle.lumbrical_hand_2.L",
+        "hgpt.muscle.lumbrical_hand_2.R"
+      ],
+      "name": "lumbrical hand 2",
+      "region": "hand",
+      "group_id": "hgpt.musclegroup.intrinsic_hand",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "finger_mcp_flexion_ip_extension",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539810/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "lumbrical_hand_3",
+      "proposed_ids": [
+        "hgpt.muscle.lumbrical_hand_3.L",
+        "hgpt.muscle.lumbrical_hand_3.R"
+      ],
+      "name": "lumbrical hand 3",
+      "region": "hand",
+      "group_id": "hgpt.musclegroup.intrinsic_hand",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "finger_mcp_flexion_ip_extension",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539810/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "lumbrical_hand_4",
+      "proposed_ids": [
+        "hgpt.muscle.lumbrical_hand_4.L",
+        "hgpt.muscle.lumbrical_hand_4.R"
+      ],
+      "name": "lumbrical hand 4",
+      "region": "hand",
+      "group_id": "hgpt.musclegroup.intrinsic_hand",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "finger_mcp_flexion_ip_extension",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539810/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "dorsal_interosseous_hand_1",
+      "proposed_ids": [
+        "hgpt.muscle.dorsal_interosseous_hand_1.L",
+        "hgpt.muscle.dorsal_interosseous_hand_1.R"
+      ],
+      "name": "dorsal interosseous hand 1",
+      "region": "hand",
+      "group_id": "hgpt.musclegroup.intrinsic_hand",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "finger_abduction",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539810/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "dorsal_interosseous_hand_2",
+      "proposed_ids": [
+        "hgpt.muscle.dorsal_interosseous_hand_2.L",
+        "hgpt.muscle.dorsal_interosseous_hand_2.R"
+      ],
+      "name": "dorsal interosseous hand 2",
+      "region": "hand",
+      "group_id": "hgpt.musclegroup.intrinsic_hand",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "finger_abduction",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539810/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "dorsal_interosseous_hand_3",
+      "proposed_ids": [
+        "hgpt.muscle.dorsal_interosseous_hand_3.L",
+        "hgpt.muscle.dorsal_interosseous_hand_3.R"
+      ],
+      "name": "dorsal interosseous hand 3",
+      "region": "hand",
+      "group_id": "hgpt.musclegroup.intrinsic_hand",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "finger_abduction",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539810/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "dorsal_interosseous_hand_4",
+      "proposed_ids": [
+        "hgpt.muscle.dorsal_interosseous_hand_4.L",
+        "hgpt.muscle.dorsal_interosseous_hand_4.R"
+      ],
+      "name": "dorsal interosseous hand 4",
+      "region": "hand",
+      "group_id": "hgpt.musclegroup.intrinsic_hand",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "finger_abduction",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539810/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "palmar_interosseous_hand_1",
+      "proposed_ids": [
+        "hgpt.muscle.palmar_interosseous_hand_1.L",
+        "hgpt.muscle.palmar_interosseous_hand_1.R"
+      ],
+      "name": "palmar interosseous hand 1",
+      "region": "hand",
+      "group_id": "hgpt.musclegroup.intrinsic_hand",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "finger_adduction",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539810/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "palmar_interosseous_hand_2",
+      "proposed_ids": [
+        "hgpt.muscle.palmar_interosseous_hand_2.L",
+        "hgpt.muscle.palmar_interosseous_hand_2.R"
+      ],
+      "name": "palmar interosseous hand 2",
+      "region": "hand",
+      "group_id": "hgpt.musclegroup.intrinsic_hand",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "finger_adduction",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539810/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "palmar_interosseous_hand_3",
+      "proposed_ids": [
+        "hgpt.muscle.palmar_interosseous_hand_3.L",
+        "hgpt.muscle.palmar_interosseous_hand_3.R"
+      ],
+      "name": "palmar interosseous hand 3",
+      "region": "hand",
+      "group_id": "hgpt.musclegroup.intrinsic_hand",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "finger_adduction",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539810/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "extensor_digitorum_longus",
+      "proposed_ids": [
+        "hgpt.muscle.extensor_digitorum_longus.L",
+        "hgpt.muscle.extensor_digitorum_longus.R"
+      ],
+      "name": "extensor digitorum longus",
+      "region": "lower_leg",
+      "group_id": "hgpt.musclegroup.lower_leg_anterior",
+      "depth_category_for_research": "superficial",
+      "high_level_function_tag": "toe_extension_and_dorsiflexion",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "extensor_hallucis_longus",
+      "proposed_ids": [
+        "hgpt.muscle.extensor_hallucis_longus.L",
+        "hgpt.muscle.extensor_hallucis_longus.R"
+      ],
+      "name": "extensor hallucis longus",
+      "region": "lower_leg",
+      "group_id": "hgpt.musclegroup.lower_leg_anterior",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "great_toe_extension_and_dorsiflexion",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "fibularis_tertius",
+      "proposed_ids": [
+        "hgpt.muscle.fibularis_tertius.L",
+        "hgpt.muscle.fibularis_tertius.R"
+      ],
+      "name": "fibularis tertius",
+      "region": "lower_leg",
+      "group_id": "hgpt.musclegroup.lower_leg_anterior",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "dorsiflexion_and_eversion",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "fibularis_longus",
+      "proposed_ids": [
+        "hgpt.muscle.fibularis_longus.L",
+        "hgpt.muscle.fibularis_longus.R"
+      ],
+      "name": "fibularis longus",
+      "region": "lower_leg",
+      "group_id": "hgpt.musclegroup.lower_leg_lateral",
+      "depth_category_for_research": "superficial",
+      "high_level_function_tag": "eversion_and_arch_support",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "fibularis_brevis",
+      "proposed_ids": [
+        "hgpt.muscle.fibularis_brevis.L",
+        "hgpt.muscle.fibularis_brevis.R"
+      ],
+      "name": "fibularis brevis",
+      "region": "lower_leg",
+      "group_id": "hgpt.musclegroup.lower_leg_lateral",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "eversion",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "tibialis_posterior",
+      "proposed_ids": [
+        "hgpt.muscle.tibialis_posterior.L",
+        "hgpt.muscle.tibialis_posterior.R"
+      ],
+      "name": "tibialis posterior",
+      "region": "lower_leg",
+      "group_id": "hgpt.musclegroup.lower_leg_posterior",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "inversion_and_plantarflexion",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "flexor_digitorum_longus",
+      "proposed_ids": [
+        "hgpt.muscle.flexor_digitorum_longus.L",
+        "hgpt.muscle.flexor_digitorum_longus.R"
+      ],
+      "name": "flexor digitorum longus",
+      "region": "lower_leg",
+      "group_id": "hgpt.musclegroup.lower_leg_posterior",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "toe_flexion_and_arch_support",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "flexor_hallucis_longus",
+      "proposed_ids": [
+        "hgpt.muscle.flexor_hallucis_longus.L",
+        "hgpt.muscle.flexor_hallucis_longus.R"
+      ],
+      "name": "flexor hallucis longus",
+      "region": "lower_leg",
+      "group_id": "hgpt.musclegroup.lower_leg_posterior",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "great_toe_flexion",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "popliteus",
+      "proposed_ids": [
+        "hgpt.muscle.popliteus.L",
+        "hgpt.muscle.popliteus.R"
+      ],
+      "name": "popliteus",
+      "region": "lower_leg",
+      "group_id": "hgpt.musclegroup.lower_leg_posterior",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "knee_rotation_control",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "plantaris",
+      "proposed_ids": [
+        "hgpt.muscle.plantaris.L",
+        "hgpt.muscle.plantaris.R"
+      ],
+      "name": "plantaris",
+      "region": "lower_leg",
+      "group_id": "hgpt.musclegroup.lower_leg_posterior",
+      "depth_category_for_research": "superficial",
+      "high_level_function_tag": "minor_plantarflexion_variable_presence",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "abductor_hallucis",
+      "proposed_ids": [
+        "hgpt.muscle.abductor_hallucis.L",
+        "hgpt.muscle.abductor_hallucis.R"
+      ],
+      "name": "abductor hallucis",
+      "region": "foot",
+      "group_id": "hgpt.musclegroup.intrinsic_foot",
+      "depth_category_for_research": "superficial",
+      "high_level_function_tag": "great_toe_abduction_and_arch_support",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "flexor_hallucis_brevis",
+      "proposed_ids": [
+        "hgpt.muscle.flexor_hallucis_brevis.L",
+        "hgpt.muscle.flexor_hallucis_brevis.R"
+      ],
+      "name": "flexor hallucis brevis",
+      "region": "foot",
+      "group_id": "hgpt.musclegroup.intrinsic_foot",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "great_toe_mtp_flexion",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "adductor_hallucis_oblique",
+      "proposed_ids": [
+        "hgpt.muscle.adductor_hallucis_oblique.L",
+        "hgpt.muscle.adductor_hallucis_oblique.R"
+      ],
+      "name": "adductor hallucis oblique",
+      "region": "foot",
+      "group_id": "hgpt.musclegroup.intrinsic_foot",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "great_toe_adduction_arch_support",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "adductor_hallucis_transverse",
+      "proposed_ids": [
+        "hgpt.muscle.adductor_hallucis_transverse.L",
+        "hgpt.muscle.adductor_hallucis_transverse.R"
+      ],
+      "name": "adductor hallucis transverse",
+      "region": "foot",
+      "group_id": "hgpt.musclegroup.intrinsic_foot",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "great_toe_adduction_arch_support",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "flexor_digitorum_brevis",
+      "proposed_ids": [
+        "hgpt.muscle.flexor_digitorum_brevis.L",
+        "hgpt.muscle.flexor_digitorum_brevis.R"
+      ],
+      "name": "flexor digitorum brevis",
+      "region": "foot",
+      "group_id": "hgpt.musclegroup.intrinsic_foot",
+      "depth_category_for_research": "superficial",
+      "high_level_function_tag": "lesser_toe_flexion",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "quadratus_plantae",
+      "proposed_ids": [
+        "hgpt.muscle.quadratus_plantae.L",
+        "hgpt.muscle.quadratus_plantae.R"
+      ],
+      "name": "quadratus plantae",
+      "region": "foot",
+      "group_id": "hgpt.musclegroup.intrinsic_foot",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "adjust_flexor_digitorum_longus_tension",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "abductor_digiti_minimi_foot",
+      "proposed_ids": [
+        "hgpt.muscle.abductor_digiti_minimi_foot.L",
+        "hgpt.muscle.abductor_digiti_minimi_foot.R"
+      ],
+      "name": "abductor digiti minimi foot",
+      "region": "foot",
+      "group_id": "hgpt.musclegroup.intrinsic_foot",
+      "depth_category_for_research": "superficial",
+      "high_level_function_tag": "fifth_toe_abduction",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "flexor_digiti_minimi_brevis_foot",
+      "proposed_ids": [
+        "hgpt.muscle.flexor_digiti_minimi_brevis_foot.L",
+        "hgpt.muscle.flexor_digiti_minimi_brevis_foot.R"
+      ],
+      "name": "flexor digiti minimi brevis foot",
+      "region": "foot",
+      "group_id": "hgpt.musclegroup.intrinsic_foot",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "fifth_toe_flexion",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "extensor_digitorum_brevis",
+      "proposed_ids": [
+        "hgpt.muscle.extensor_digitorum_brevis.L",
+        "hgpt.muscle.extensor_digitorum_brevis.R"
+      ],
+      "name": "extensor digitorum brevis",
+      "region": "foot",
+      "group_id": "hgpt.musclegroup.intrinsic_foot",
+      "depth_category_for_research": "superficial",
+      "high_level_function_tag": "toe_extension",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "extensor_hallucis_brevis",
+      "proposed_ids": [
+        "hgpt.muscle.extensor_hallucis_brevis.L",
+        "hgpt.muscle.extensor_hallucis_brevis.R"
+      ],
+      "name": "extensor hallucis brevis",
+      "region": "foot",
+      "group_id": "hgpt.musclegroup.intrinsic_foot",
+      "depth_category_for_research": "superficial",
+      "high_level_function_tag": "great_toe_extension",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "lumbrical_foot_1",
+      "proposed_ids": [
+        "hgpt.muscle.lumbrical_foot_1.L",
+        "hgpt.muscle.lumbrical_foot_1.R"
+      ],
+      "name": "lumbrical foot 1",
+      "region": "foot",
+      "group_id": "hgpt.musclegroup.intrinsic_foot",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "toe_mtp_flexion_ip_extension",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "lumbrical_foot_2",
+      "proposed_ids": [
+        "hgpt.muscle.lumbrical_foot_2.L",
+        "hgpt.muscle.lumbrical_foot_2.R"
+      ],
+      "name": "lumbrical foot 2",
+      "region": "foot",
+      "group_id": "hgpt.musclegroup.intrinsic_foot",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "toe_mtp_flexion_ip_extension",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "lumbrical_foot_3",
+      "proposed_ids": [
+        "hgpt.muscle.lumbrical_foot_3.L",
+        "hgpt.muscle.lumbrical_foot_3.R"
+      ],
+      "name": "lumbrical foot 3",
+      "region": "foot",
+      "group_id": "hgpt.musclegroup.intrinsic_foot",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "toe_mtp_flexion_ip_extension",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "lumbrical_foot_4",
+      "proposed_ids": [
+        "hgpt.muscle.lumbrical_foot_4.L",
+        "hgpt.muscle.lumbrical_foot_4.R"
+      ],
+      "name": "lumbrical foot 4",
+      "region": "foot",
+      "group_id": "hgpt.musclegroup.intrinsic_foot",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "toe_mtp_flexion_ip_extension",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "dorsal_interosseous_foot_1",
+      "proposed_ids": [
+        "hgpt.muscle.dorsal_interosseous_foot_1.L",
+        "hgpt.muscle.dorsal_interosseous_foot_1.R"
+      ],
+      "name": "dorsal interosseous foot 1",
+      "region": "foot",
+      "group_id": "hgpt.musclegroup.intrinsic_foot",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "toe_abduction",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "dorsal_interosseous_foot_2",
+      "proposed_ids": [
+        "hgpt.muscle.dorsal_interosseous_foot_2.L",
+        "hgpt.muscle.dorsal_interosseous_foot_2.R"
+      ],
+      "name": "dorsal interosseous foot 2",
+      "region": "foot",
+      "group_id": "hgpt.musclegroup.intrinsic_foot",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "toe_abduction",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "dorsal_interosseous_foot_3",
+      "proposed_ids": [
+        "hgpt.muscle.dorsal_interosseous_foot_3.L",
+        "hgpt.muscle.dorsal_interosseous_foot_3.R"
+      ],
+      "name": "dorsal interosseous foot 3",
+      "region": "foot",
+      "group_id": "hgpt.musclegroup.intrinsic_foot",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "toe_abduction",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "dorsal_interosseous_foot_4",
+      "proposed_ids": [
+        "hgpt.muscle.dorsal_interosseous_foot_4.L",
+        "hgpt.muscle.dorsal_interosseous_foot_4.R"
+      ],
+      "name": "dorsal interosseous foot 4",
+      "region": "foot",
+      "group_id": "hgpt.musclegroup.intrinsic_foot",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "toe_abduction",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "plantar_interosseous_foot_1",
+      "proposed_ids": [
+        "hgpt.muscle.plantar_interosseous_foot_1.L",
+        "hgpt.muscle.plantar_interosseous_foot_1.R"
+      ],
+      "name": "plantar interosseous foot 1",
+      "region": "foot",
+      "group_id": "hgpt.musclegroup.intrinsic_foot",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "toe_adduction",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "plantar_interosseous_foot_2",
+      "proposed_ids": [
+        "hgpt.muscle.plantar_interosseous_foot_2.L",
+        "hgpt.muscle.plantar_interosseous_foot_2.R"
+      ],
+      "name": "plantar interosseous foot 2",
+      "region": "foot",
+      "group_id": "hgpt.musclegroup.intrinsic_foot",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "toe_adduction",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "plantar_interosseous_foot_3",
+      "proposed_ids": [
+        "hgpt.muscle.plantar_interosseous_foot_3.L",
+        "hgpt.muscle.plantar_interosseous_foot_3.R"
+      ],
+      "name": "plantar interosseous foot 3",
+      "region": "foot",
+      "group_id": "hgpt.musclegroup.intrinsic_foot",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "toe_adduction",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK539705/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "iliocostalis_lumborum",
+      "proposed_ids": [
+        "hgpt.muscle.iliocostalis_lumborum.L",
+        "hgpt.muscle.iliocostalis_lumborum.R"
+      ],
+      "name": "iliocostalis lumborum",
+      "region": "back",
+      "group_id": "hgpt.musclegroup.spinal_extensor",
+      "depth_category_for_research": "intermediate",
+      "high_level_function_tag": "trunk_extension_lateral_flexion",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK537074/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "iliocostalis_thoracis",
+      "proposed_ids": [
+        "hgpt.muscle.iliocostalis_thoracis.L",
+        "hgpt.muscle.iliocostalis_thoracis.R"
+      ],
+      "name": "iliocostalis thoracis",
+      "region": "back",
+      "group_id": "hgpt.musclegroup.spinal_extensor",
+      "depth_category_for_research": "intermediate",
+      "high_level_function_tag": "trunk_extension_lateral_flexion",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK537074/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "longissimus_thoracis",
+      "proposed_ids": [
+        "hgpt.muscle.longissimus_thoracis.L",
+        "hgpt.muscle.longissimus_thoracis.R"
+      ],
+      "name": "longissimus thoracis",
+      "region": "back",
+      "group_id": "hgpt.musclegroup.spinal_extensor",
+      "depth_category_for_research": "intermediate",
+      "high_level_function_tag": "trunk_extension",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK537074/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "longissimus_cervicis",
+      "proposed_ids": [
+        "hgpt.muscle.longissimus_cervicis.L",
+        "hgpt.muscle.longissimus_cervicis.R"
+      ],
+      "name": "longissimus cervicis",
+      "region": "back",
+      "group_id": "hgpt.musclegroup.spinal_extensor",
+      "depth_category_for_research": "intermediate",
+      "high_level_function_tag": "neck_extension_lateral_flexion",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK537074/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "spinalis_thoracis",
+      "proposed_ids": [
+        "hgpt.muscle.spinalis_thoracis.L",
+        "hgpt.muscle.spinalis_thoracis.R"
+      ],
+      "name": "spinalis thoracis",
+      "region": "back",
+      "group_id": "hgpt.musclegroup.spinal_extensor",
+      "depth_category_for_research": "intermediate",
+      "high_level_function_tag": "trunk_extension",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK537074/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "multifidus_lumbar",
+      "proposed_ids": [
+        "hgpt.muscle.multifidus_lumbar.L",
+        "hgpt.muscle.multifidus_lumbar.R"
+      ],
+      "name": "multifidus lumbar",
+      "region": "back",
+      "group_id": "hgpt.musclegroup.spinal_stabilizer",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "segmental_spinal_stabilization",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK537074/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "multifidus_thoracic",
+      "proposed_ids": [
+        "hgpt.muscle.multifidus_thoracic.L",
+        "hgpt.muscle.multifidus_thoracic.R"
+      ],
+      "name": "multifidus thoracic",
+      "region": "back",
+      "group_id": "hgpt.musclegroup.spinal_stabilizer",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "segmental_spinal_stabilization",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK537074/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "rotatores",
+      "proposed_ids": [
+        "hgpt.muscle.rotatores.L",
+        "hgpt.muscle.rotatores.R"
+      ],
+      "name": "rotatores",
+      "region": "back",
+      "group_id": "hgpt.musclegroup.spinal_stabilizer",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "segmental_rotation_and_stability",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK537074/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "semispinalis_thoracis",
+      "proposed_ids": [
+        "hgpt.muscle.semispinalis_thoracis.L",
+        "hgpt.muscle.semispinalis_thoracis.R"
+      ],
+      "name": "semispinalis thoracis",
+      "region": "back",
+      "group_id": "hgpt.musclegroup.spinal_stabilizer",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "spinal_extension_rotation",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK537074/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "quadratus_lumborum",
+      "proposed_ids": [
+        "hgpt.muscle.quadratus_lumborum.L",
+        "hgpt.muscle.quadratus_lumborum.R"
+      ],
+      "name": "quadratus lumborum",
+      "region": "core",
+      "group_id": "hgpt.musclegroup.trunk_stabilizer",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "lateral_trunk_stabilization",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK537074/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "diaphragm",
+      "proposed_ids": [
+        "hgpt.muscle.diaphragm.L",
+        "hgpt.muscle.diaphragm.R"
+      ],
+      "name": "diaphragm",
+      "region": "thorax",
+      "group_id": "hgpt.musclegroup.trunk_stabilizer",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "respiration_and_pressure_regulation",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK537074/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "intercostales_externi",
+      "proposed_ids": [
+        "hgpt.muscle.intercostales_externi.L",
+        "hgpt.muscle.intercostales_externi.R"
+      ],
+      "name": "intercostales externi",
+      "region": "thorax",
+      "group_id": "hgpt.musclegroup.trunk_stabilizer",
+      "depth_category_for_research": "intermediate",
+      "high_level_function_tag": "respiratory_rib_motion",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK537074/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "intercostales_interni",
+      "proposed_ids": [
+        "hgpt.muscle.intercostales_interni.L",
+        "hgpt.muscle.intercostales_interni.R"
+      ],
+      "name": "intercostales interni",
+      "region": "thorax",
+      "group_id": "hgpt.musclegroup.trunk_stabilizer",
+      "depth_category_for_research": "intermediate",
+      "high_level_function_tag": "respiratory_rib_motion",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK537074/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "serratus_posterior_superior",
+      "proposed_ids": [
+        "hgpt.muscle.serratus_posterior_superior.L",
+        "hgpt.muscle.serratus_posterior_superior.R"
+      ],
+      "name": "serratus posterior superior",
+      "region": "thorax",
+      "group_id": "hgpt.musclegroup.trunk_stabilizer",
+      "depth_category_for_research": "intermediate",
+      "high_level_function_tag": "rib_motion",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK537074/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "serratus_posterior_inferior",
+      "proposed_ids": [
+        "hgpt.muscle.serratus_posterior_inferior.L",
+        "hgpt.muscle.serratus_posterior_inferior.R"
+      ],
+      "name": "serratus posterior inferior",
+      "region": "thorax",
+      "group_id": "hgpt.musclegroup.trunk_stabilizer",
+      "depth_category_for_research": "intermediate",
+      "high_level_function_tag": "rib_motion",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK537074/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "sternocleidomastoid",
+      "proposed_ids": [
+        "hgpt.muscle.sternocleidomastoid.L",
+        "hgpt.muscle.sternocleidomastoid.R"
+      ],
+      "name": "sternocleidomastoid",
+      "region": "neck",
+      "group_id": "hgpt.musclegroup.neck_stabilizer",
+      "depth_category_for_research": "superficial",
+      "high_level_function_tag": "neck_rotation_flexion",
+      "source_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK557555/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "scalenus_anterior",
+      "proposed_ids": [
+        "hgpt.muscle.scalenus_anterior.L",
+        "hgpt.muscle.scalenus_anterior.R"
+      ],
+      "name": "scalenus anterior",
+      "region": "neck",
+      "group_id": "hgpt.musclegroup.neck_stabilizer",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "neck_lateral_flexion_and_rib_stabilization",
+      "source_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK557555/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "scalenus_medius",
+      "proposed_ids": [
+        "hgpt.muscle.scalenus_medius.L",
+        "hgpt.muscle.scalenus_medius.R"
+      ],
+      "name": "scalenus medius",
+      "region": "neck",
+      "group_id": "hgpt.musclegroup.neck_stabilizer",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "neck_lateral_flexion_and_rib_stabilization",
+      "source_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK557555/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "scalenus_posterior",
+      "proposed_ids": [
+        "hgpt.muscle.scalenus_posterior.L",
+        "hgpt.muscle.scalenus_posterior.R"
+      ],
+      "name": "scalenus posterior",
+      "region": "neck",
+      "group_id": "hgpt.musclegroup.neck_stabilizer",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "neck_lateral_flexion_and_rib_stabilization",
+      "source_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK557555/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "longus_colli",
+      "proposed_ids": [
+        "hgpt.muscle.longus_colli.L",
+        "hgpt.muscle.longus_colli.R"
+      ],
+      "name": "longus colli",
+      "region": "neck",
+      "group_id": "hgpt.musclegroup.neck_stabilizer",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "cervical_flexion_stabilization",
+      "source_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK557555/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "longus_capitis",
+      "proposed_ids": [
+        "hgpt.muscle.longus_capitis.L",
+        "hgpt.muscle.longus_capitis.R"
+      ],
+      "name": "longus capitis",
+      "region": "neck",
+      "group_id": "hgpt.musclegroup.neck_stabilizer",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "cervical_flexion_stabilization",
+      "source_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK557555/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "splenius_capitis",
+      "proposed_ids": [
+        "hgpt.muscle.splenius_capitis.L",
+        "hgpt.muscle.splenius_capitis.R"
+      ],
+      "name": "splenius capitis",
+      "region": "neck",
+      "group_id": "hgpt.musclegroup.neck_stabilizer",
+      "depth_category_for_research": "superficial",
+      "high_level_function_tag": "neck_extension_rotation",
+      "source_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK557555/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "splenius_cervicis",
+      "proposed_ids": [
+        "hgpt.muscle.splenius_cervicis.L",
+        "hgpt.muscle.splenius_cervicis.R"
+      ],
+      "name": "splenius cervicis",
+      "region": "neck",
+      "group_id": "hgpt.musclegroup.neck_stabilizer",
+      "depth_category_for_research": "superficial",
+      "high_level_function_tag": "neck_extension_rotation",
+      "source_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK557555/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "semispinalis_capitis",
+      "proposed_ids": [
+        "hgpt.muscle.semispinalis_capitis.L",
+        "hgpt.muscle.semispinalis_capitis.R"
+      ],
+      "name": "semispinalis capitis",
+      "region": "neck",
+      "group_id": "hgpt.musclegroup.neck_stabilizer",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "head_extension_stabilization",
+      "source_url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK557555/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "obturator_externus",
+      "proposed_ids": [
+        "hgpt.muscle.obturator_externus.L",
+        "hgpt.muscle.obturator_externus.R"
+      ],
+      "name": "obturator externus",
+      "region": "pelvis",
+      "group_id": "hgpt.musclegroup.hip_rotator",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "hip_external_rotation_stabilization",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK526019/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "gemellus_superior",
+      "proposed_ids": [
+        "hgpt.muscle.gemellus_superior.L",
+        "hgpt.muscle.gemellus_superior.R"
+      ],
+      "name": "gemellus superior",
+      "region": "pelvis",
+      "group_id": "hgpt.musclegroup.hip_rotator",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "hip_external_rotation_stabilization",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK526019/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "gemellus_inferior",
+      "proposed_ids": [
+        "hgpt.muscle.gemellus_inferior.L",
+        "hgpt.muscle.gemellus_inferior.R"
+      ],
+      "name": "gemellus inferior",
+      "region": "pelvis",
+      "group_id": "hgpt.musclegroup.hip_rotator",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "hip_external_rotation_stabilization",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK526019/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    },
+    {
+      "proposed_stem": "adductor_minimus",
+      "proposed_ids": [
+        "hgpt.muscle.adductor_minimus.L",
+        "hgpt.muscle.adductor_minimus.R"
+      ],
+      "name": "adductor minimus",
+      "region": "thigh",
+      "group_id": "hgpt.musclegroup.hip_rotator",
+      "depth_category_for_research": "deep",
+      "high_level_function_tag": "hip_adduction_stabilization_anatomic_variation",
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK526019/",
+      "origin": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "insertion": {
+        "anatomical_landmark_id": null,
+        "bone_local_m": null,
+        "status": "unreviewed"
+      },
+      "binding": null,
+      "skin_mask": null,
+      "layer_neighbour_proof": null,
+      "status": "PROPOSED_SEMANTIC_NAME_ONLY"
+    }
+  ]
+}

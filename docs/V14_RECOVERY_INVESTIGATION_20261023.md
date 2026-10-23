@@ -168,6 +168,15 @@ The same run also repeated the earlier legs: refine as-builder non-deterministic
 
 Script: `compare_w8_replay.py`. Evidence: `evidence/local_w8_replay_compare.json`. Verdict: **PASS_archived_w8_reproduced**.
 
+**On GitHub-hosted Blender** (run [40030600165](https://github.com/anyangle1409-code/animation-software/actions/runs/40030600165)):
+- **w8 replay: PASS.** Offsets 3.47e-05 mm, proportion 7.5e-06 mm, skeleton edits identical, rest and triangles identical to the preserved arrays. Only the discarded `beautify_geom` counts differ.
+- **L0 → V14 replay: PASS again.**
+- **R120 replay: 347,916 vertices** (archive 347,917, local replay 347,917).
+  - **Occupied voxels:** 2,965,289 (archive 2,965,298, local replay 2,965,299).
+  - **Marching cubes:** 251,890 / 503,060 (archive 251,892 / 503,064).
+  - **Legs-only base:** 51 / 51 identical again.
+  - **Reading:** the rebuild's voxelisation is sensitive at the level of single voxels to sub-micrometre input differences. The marching-cubes counts change by a few between machines; the geometry stays within about 1 mm.
+
 **R120:** close, but not exact. The chain was the L0 replay, then the legs-only base (`legs_v2_blender.py` at bee05007 with `V2_TORSO_RELIEF=0 V2_PEC_JUNCTION=0`), then the rebuild (`rebuild_v2_blender.py` at d5141ad3). It was compared with the session's archived R120 run (RB2; reports in `evidence/archive_R120`, .blend SHA-256 recorded, .blend not committed).
 
 - **Legs-only base report:** 51 / 51 fields identical.

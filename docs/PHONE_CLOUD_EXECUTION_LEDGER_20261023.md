@@ -46,3 +46,21 @@ These are *reconstructions*, not verified originals. Artifacts expire under GitH
 Laptop OFF is supported for GitHub-hosted scripts; the original-session search and interactive desktop-only Blender tasks remain unavailable until laptop return. No production asset, validated skeleton, `ORIGINAL_v1`, `PT_MODEL_VERSION 1.0`, original reconstructive artifact, Claude branch, merge or deployment should be changed. Do not commit binary .blend files.
 
 The assistant/Work does not run indefinitely after chat termination. GitHub Actions does execute independently once triggered; further code commits require an active authorized cloud session.
+
+
+## 2026-10-23 native failure-localization extension
+
+Read [PHONE_NATIVE_SHOULDER_SQUAT_GRIP_LOCALIZATION_20261023.md](PHONE_NATIVE_SHOULDER_SQUAT_GRIP_LOCALIZATION_20261023.md) for exact read-only reproducible evidence.
+
+- W8/V14/R120 diagnostic ZIPs from run39937882229 (W8=12495910312, V14=12494932817, R120=12495970648) were independently downloaded and SHA256 matched their recorded digests.
+- New script scripts/cloud_body_analysis/localize_failures.py reads immutable triangle flags, geometry snapshots, dominant weight labels and finite-grid grip records. Does not import Blender or write a model.
+- Seven new synthetic regression tests + five existing cross-model tests = 12/12 PASS in the native-localization cloud job at run40019611125.
+- Native localization job PASSED in run40019611125 and again in corrected run40019877883.
+- W8 75% shoulder press: 3,509 stretched, 3,072 newly flagged vs baseline; dominant proxy regions spine_03, shoulder_cap_r/l, scapula. Press flags recorded in all models; no anatomical approval.
+- W8 squat sample7: 885 stretched, concentrated hip_crease_r/l, spine_01, pelvis. Pair collisions remain present and are not equivalent to distinct triangles.
+- Grip: 263 attempts on runtime suffix l per model; combined acceptance unresolved, suffix r untested.
+- Uploaded native ZIP: run40019877883 artifact12530565814, downloaded and SHA256 verified = 595a971897bedce022ca88f57f0cae1d59f2e526d7617484f382f58c5bf660ef. Contains movement_failure_localization.json and .md.
+- Initial expanded five-job run40019611125 overall FAILED because older rest-compare job discovered numpy tests without numpy installed. Fixed in commit 78173b749d0e7ff669043847b2fd3d5567fb1517 by restricting rest job to its standard-library tests. Corrected run40019877883 has passed native localization, V14 and R120; W8 was still installing dependencies when this record was authored. Check full run before claiming pipeline green.
+- User may use a separate Claude cloud branch for *read-only V14 topology provenance investigation*. Keep Claude's lane separate. Do not overwrite original reconstruction artifacts or alter source acceptance gates.
+
+Next: verify final five-job workflow; review 5 cm evaluated-coordinate shoulder hotspots at press sample6/8, build a reversible hypothesis checklist for clavicle/scapula/axilla skin deformation; do not edit preserved models, unfreeze anatomy, attach muscles, merge or deploy without explicit authorization. PT_MODEL_VERSION1.0 untouched.

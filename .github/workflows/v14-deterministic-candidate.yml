@@ -1,0 +1,108 @@
+name: V14 deterministic candidate (two independent builds)
+# CANDIDATE ONLY - this branch carries the deterministic refine() patch and sorted rebuild seam loops.  Two runners
+# each build W8 -> V14 (default settings) and W8 -> legs-only base -> R120 from R41; a third job compares them.
+# Nothing is merged, deployed or committed back; outputs are artifacts only (no .blend files).
+on:
+  push:
+    branches: ['claude/v14-deterministic-candidate-*']
+    paths: ['scripts/body_v2/**', 'scripts/v14_investigation/**', '.github/workflows/v14-deterministic-candidate.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: v14-candidate-${{ github.ref }}
+  cancel-in-progress: false
+env:
+  R57_COMMIT: 025d5f28fa7eba2064fba565b1c9b60119cdd2cb
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        rep: [a, b]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.R57_COMMIT }}
+          path: r57src
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install cloud Blender dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y libegl1 libgl1 libxrender1 libxi6 libxkbcommon0
+          python -m pip install bpy==5.2.0 numpy scipy scikit-image==0.25.2 lazy_loader packaging
+      - name: W8 (patched refine)
+        working-directory: scripts/body_v2
+        env:
+          V2_SAVE_BLEND: '1'
+        run: python build_body_v2_sculpt_blender.py -- "$GITHUB_WORKSPACE/r57src" "$RUNNER_TEMP/W8" 2.0 2>&1 | grep -E "V2_REFINE|V2_SAVED|Traceback" | cut -c1-400
+      - name: V14 (default leg step)
+        working-directory: scripts/body_v2
+        env:
+          V2_LEGS_RENDER: '0'
+        run: python legs_v2_blender.py -- "$RUNNER_TEMP/W8/body_v2.blend" "$GITHUB_WORKSPACE/r57src" "$RUNNER_TEMP/V14" 2>&1 | grep -E "LEGS_V2 |Traceback" | cut -c1-400
+      - name: R120 (legs-only base, rebuild with sorted seam loops)
+        working-directory: scripts/body_v2
+        env:
+          V2_LEGS_RENDER: '0'
+          V2_TORSO_RELIEF: '0'
+          V2_PEC_JUNCTION: '0'
+          V2_RB_RENDER: '0'
+        run: |
+          python legs_v2_blender.py -- "$RUNNER_TEMP/W8/body_v2.blend" "$GITHUB_WORKSPACE/r57src" "$RUNNER_TEMP/R120base" 2>&1 | grep -E "Traceback" || true
+          python rebuild_v2_blender.py -- "$RUNNER_TEMP/R120base/body_v2_legs.blend" "$GITHUB_WORKSPACE/r57src" "$RUNNER_TEMP/R120" 2>&1 | grep -E "REBUILD_V2|Traceback" | cut -c1-300
+      - name: Collect arrays and reports (no .blend files)
+        run: |
+          O=out/${{ matrix.rep }}; mkdir -p "$O/W8" "$O/V14" "$O/R120"
+          cp "$RUNNER_TEMP"/W8/{rest.npy,tris.npy,body_v2_offsets.npz,body_v2_report.json,skeleton_edits.json} "$O/W8/"
+          cp "$RUNNER_TEMP/V14/legs_v2_report.json" "$O/V14/"; cp "$RUNNER_TEMP/R120/rebuild_report.json" "$O/R120/"
+          python scripts/v14_investigation/export_mesh_arrays_blender.py -- "$RUNNER_TEMP/V14/body_v2_legs.blend" "$O/V14_mesh.npz"
+          python scripts/v14_investigation/export_mesh_arrays_blender.py -- "$RUNNER_TEMP/R120/body_v2_rebuilt.blend" "$O/R120_mesh.npz"
+          ( cd "$RUNNER_TEMP" && sha256sum W8/body_v2.blend V14/body_v2_legs.blend R120/body_v2_rebuilt.blend ) > "$O/blend_sha256.txt"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: v14cand-${{ matrix.rep }}-${{ github.run_id }}
+          path: out/
+          retention-days: 90
+          if-no-files-found: error
+  compare:
+    needs: [build]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: python -m pip install numpy scipy
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: v14cand-*-${{ github.run_id }}
+          path: ${{ runner.temp }}/res
+          merge-multiple: true
+      - name: Compare the two builds
+        run: |
+          python scripts/v14_investigation/compare_candidate_runs.py "${{ runner.temp }}/res/a" "${{ runner.temp }}/res/b" summary/candidate_compare.json > /dev/null
+          python - <<'PY'
+          import json
+          d = json.load(open("summary/candidate_compare.json"))
+          for k in ("PASS_W8_triangulation_identical", "PASS_V14_identical_topology", "PASS_R120_identical_topology"):
+              print(f"::notice title=candidate {k}::{d[k]}")
+          print(f"::notice title=candidate W8 arrays::" + json.dumps({k: d[k] for k in d if k.startswith('W8_')})[:900])
+          print(f"::notice title=candidate V14 mesh::" + json.dumps(d["V14_mesh"])[:900])
+          print(f"::notice title=candidate R120 mesh::" + json.dumps(d["R120_mesh"])[:900])
+          print(f"::notice title=candidate reports identical::" + json.dumps({k: v for k, v in d.items() if k.startswith('report_')})[:900])
+          PY
+          cat "${{ runner.temp }}"/res/a/blend_sha256.txt "${{ runner.temp }}"/res/b/blend_sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: v14cand-summary-${{ github.run_id }}
+          path: summary/
+          retention-days: 90
+          if-no-files-found: error

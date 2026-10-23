@@ -249,13 +249,17 @@ nb.free()
 
 
 def loop_on_plane(c, nn, verts):
-    """ordered boundary loop(s) lying on a plane, from the given vertex set"""
+    """ordered boundary loop(s) lying on a plane, from the given vertex set.  Deterministic (candidate,
+    2026-10-23): loops start at their lowest-index vertex and are walked lowest-index-first - a Python set of BMesh
+    vertices iterates in memory-address order, which changed the seam strips from run to run."""
+    bm.verts.index_update()
     on = {v for v in verts if v.is_boundary and abs((np.array(v.co) - c) @ nn) < 1e-5}
     loops = []
     while on:
-        s = next(iter(on)); lp = [s]; on.discard(s); prev = None
+        s = min(on, key=lambda v: v.index); lp = [s]; on.discard(s); prev = None
         while True:
-            nx_ = [e.other_vert(lp[-1]) for e in lp[-1].link_edges if e.is_boundary and e.other_vert(lp[-1]) in on]
+            nx_ = sorted((e.other_vert(lp[-1]) for e in lp[-1].link_edges if e.is_boundary and e.other_vert(lp[-1]) in on),
+                         key=lambda v: v.index)
             if not nx_:
                 break
             lp.append(nx_[0]); on.discard(nx_[0])

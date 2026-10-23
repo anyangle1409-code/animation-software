@@ -19,6 +19,14 @@ import numpy as np
 from mathutils.bvhtree import BVHTree
 
 
+def _ordered(bm, elems):
+    """BMesh elements in index order.  A Python set of BMesh elements iterates in memory-address order, which differs
+    from run to run; bmesh.ops.beautify_fill (tie-breaking) and subdivide_edges (new-vertex order) then give different
+    triangulations from identical input (V14 investigation, 2026-10-23)."""
+    bm.verts.index_update(); bm.edges.index_update(); bm.faces.index_update()
+    return sorted(elems, key=lambda e: e.index)
+
+
 def refine(body, th_mm=8.0, zlo=-1.0, zhi=1.95, phong_alpha=0.75, max_rounds=6, spots=(), regions=()):
     """spots: extra (centre xyz, radius m, threshold mm) discs refined further, after the main pass (R103: the nipples -
     ~8 mm edges cannot carry a nipple a few mm across)"""
@@ -40,8 +48,8 @@ def refine(body, th_mm=8.0, zlo=-1.0, zhi=1.95, phong_alpha=0.75, max_rounds=6, 
                 edges.update(f.edges)
         if not edges:
             break
-        bmesh.ops.subdivide_edges(bm, edges=list(edges), cuts=1, use_grid_fill=True, smooth=0.0)
-        bmesh.ops.triangulate(bm, faces=[f for f in bm.faces if len(f.verts) > 3])
+        bmesh.ops.subdivide_edges(bm, edges=_ordered(bm, edges), cuts=1, use_grid_fill=True, smooth=0.0)
+        bmesh.ops.triangulate(bm, faces=_ordered(bm, [f for f in bm.faces if len(f.verts) > 3]))
         rounds.append(len(edges))
     from mathutils import Vector as _V
     for c_, r_, t_ in spots:
@@ -55,8 +63,8 @@ def refine(body, th_mm=8.0, zlo=-1.0, zhi=1.95, phong_alpha=0.75, max_rounds=6, 
                     edges.update(f.edges)
             if not edges:
                 break
-            bmesh.ops.subdivide_edges(bm, edges=list(edges), cuts=1, use_grid_fill=True, smooth=0.0)
-            bmesh.ops.triangulate(bm, faces=[f for f in bm.faces if len(f.verts) > 3])
+            bmesh.ops.subdivide_edges(bm, edges=_ordered(bm, edges), cuts=1, use_grid_fill=True, smooth=0.0)
+            bmesh.ops.triangulate(bm, faces=_ordered(bm, [f for f in bm.faces if len(f.verts) > 3]))
             rounds.append(len(edges))
     # R106: regions ((zlo, zhi, xmax), threshold mm) rebuilt with even triangles - R41's neck base is long sliver
     # triangles, and subdividing them only made smaller slivers (streaky shading, v13h).  Split further, then flip edges
@@ -69,7 +77,7 @@ def refine(body, th_mm=8.0, zlo=-1.0, zhi=1.95, phong_alpha=0.75, max_rounds=6, 
                 c = sum((v.co for v in f.verts), f.verts[0].co * 0) / len(f.verts)
                 return rz0 < c.z < rz1 and abs(c.x) < rx
             reg = [f for f in bm.faces if _inr(f)]
-            res = bmesh.ops.beautify_fill(bm, faces=reg, edges=list({e for f in reg for e in f.edges}), method="ANGLE")
+            res = bmesh.ops.beautify_fill(bm, faces=_ordered(bm, reg), edges=_ordered(bm, {e for f in reg for e in f.edges}), method="ANGLE")
             beaut.append(len(res.get("geom", [])))
             edges = set()
             for f in bm.faces:
@@ -77,12 +85,12 @@ def refine(body, th_mm=8.0, zlo=-1.0, zhi=1.95, phong_alpha=0.75, max_rounds=6, 
                     edges.update(f.edges)
             if not edges:
                 break
-            bmesh.ops.subdivide_edges(bm, edges=list(edges), cuts=1, use_grid_fill=True, smooth=0.0)
-            bmesh.ops.triangulate(bm, faces=[f for f in bm.faces if len(f.verts) > 3])
+            bmesh.ops.subdivide_edges(bm, edges=_ordered(bm, edges), cuts=1, use_grid_fill=True, smooth=0.0)
+            bmesh.ops.triangulate(bm, faces=_ordered(bm, [f for f in bm.faces if len(f.verts) > 3]))
             rounds.append(len(edges))
         bm.faces.ensure_lookup_table()
         reg = [f for f in bm.faces if _inr(f)]
-        res = bmesh.ops.beautify_fill(bm, faces=reg, edges=list({e for f in reg for e in f.edges}), method="ANGLE")
+        res = bmesh.ops.beautify_fill(bm, faces=_ordered(bm, reg), edges=_ordered(bm, {e for f in reg for e in f.edges}), method="ANGLE")
         beaut.append(len(res.get("geom", [])))
     bm.to_mesh(me); bm.free(); me.update()
     nv = len(me.vertices)

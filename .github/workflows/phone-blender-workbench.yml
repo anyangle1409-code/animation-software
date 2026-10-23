@@ -11,6 +11,54 @@ concurrency:
   group: phone-blender-${{ github.ref }}
   cancel-in-progress: false
 jobs:
+  pose-state-w8:
+    # First native W8 movement-state trial; an isolated in-memory probe.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      LIBGL_ALWAYS_SOFTWARE: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: 025d5f28fa7eba2064fba565b1c9b60119cdd2cb
+          path: _r57
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install native Blender 5.2 pose-probe dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y libegl1 libgl1 libxrender1 libxi6 libxkbcommon0 xvfb
+          python -m pip install bpy==5.2.0 numpy scipy
+      - name: Verify unchanged reference code revision and pose report tests
+        run: |
+          test "$(git -C _r57 rev-parse HEAD)" = "025d5f28fa7eba2064fba565b1c9b60119cdd2cb"
+          python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_pose_state_probe.py -v
+      - name: Retrieve immutable W8 reconstruction
+        uses: actions/download-artifact@v4
+        with:
+          artifact-ids: '12487119841'
+          run-id: 39922636070
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/W8
+      - name: Measure actual S1-S7 and shoulder-cap motion without model save
+        run: |
+          python scripts/phone_blender/pose_state_probe.py \
+            --source-dir "${{ runner.temp }}/W8" \
+            --r57-root "$GITHUB_WORKSPACE/_r57" \
+            --out "$GITHUB_WORKSPACE/phone-pose-probe"
+      - name: Preserve observed W8 pose-state evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phone-w8-shoulder-pose-state-${{ github.run_id }}
+          path: phone-pose-probe/
+          retention-days: 90
+          if-no-files-found: warn
+
   inspect:
     runs-on: ubuntu-24.04
     timeout-minutes: 25

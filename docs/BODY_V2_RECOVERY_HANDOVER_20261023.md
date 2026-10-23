@@ -1,3 +1,5 @@
+> **Cloud recovery follow-up, 23 October 2026:** isolated [draft PR #125](https://github.com/anyangle1409-code/animation-software/pull/125) now configures Blender 5.2.0 / Python 3.13 recovery, retained artifacts, four native validation jobs and guarded PR124 muscle staging. GitHub confirms Blender/dependency installation passed in [initial run 39916468327](https://github.com/anyangle1409-code/animation-software/actions/runs/39916468327). Reconstruction remains in progress; no rebuilt model or anatomy pass is claimed yet. [Expanded run 39918805189](https://github.com/anyangle1409-code/animation-software/actions/runs/39918805189) is queued and reuses completed exact model bytes when available. See `docs/BODY_V2_ACTIONS_RECOVERY_LEDGER_20261023.md`; final cloud results will be appended below. The original blocked-session account follows unchanged.
+
 # Body v2 recovery handover — 23 October 2026
 
 **Bottom line: no Blender file was rebuilt, saved, rendered or tested in this session.** The session's container had no
@@ -155,3 +157,61 @@ blender --background --factory-startup --disable-autoexec --python-exit-code 1 \
   experiments (see `CLAUDE_HANDOFF.md`, "Prior failures").
 - R120 "is still being validated" per the sources doc; its status here is unknown.
 - Left/right, R52/R57 contents and the original W8 provenance remain unconfirmed, as above.
+
+<!-- CLOUD_RECOVERY_RESULTS -->
+
+# Cloud Body v2 recovery results
+
+Run: https://github.com/anyangle1409-code/animation-software/actions/runs/39918805189
+Commit: `6e4823e50ce8081fc5ec3a722d88dfa4e03ca1bb`
+
+Reconstruction/archive checks: FAIL / INCOMPLETE.
+All 13 × 9 movement paths executed for all four inputs: False.
+Zero collapse/stretch/intersection quality gate across all inputs: False.
+Application and pinned test suites: FAIL / INCOMPLETE; exit codes {'vitest': '0', 'typecheck': '0', 'scripts': '1', 'scripts_tests': '1', 'scripts_blender_tests': '1', 'muscles': '0', 'guards': '0'}.
+Anatomical and visual approval: NOT GRANTED. R120 remains EXPERIMENTAL.
+
+| Model | Path | SHA256 |
+|---|---|---|
+| W8 | W8/body_v2.blend | 2434afd0daa231ab3a03c873cad4187ffcbc1bab78132375221160b0b0f09e4c |
+| V14 | V14/body_v2_legs.blend | 5969aa98122e267b6bdd94fdfaf6d2877a1b27f7ea8d11c6a8e078b467b0ff91 |
+| R120 | R120/body_v2_rebuilt.blend | fb3b0acfc68bc59952b0fc6c45f7d7715717207fd9ba0b7f2b124e905ce2ddcb |
+
+See RECOVERY_RESULT.json, verify/, native/, tests/, native/V14/muscle/ and logs/ for exact failures and discrepancies.
+Missing reports or renders are never a pass. Raw failure counts across different mesh topologies are diagnostic, not a like-for-like improvement claim.
+W8 screenshot source identity and unsaved R52/R57 increments remain unresolved.
+PT_MODEL_VERSION 1.0 preserved. No production replacement, merge or deployment.
+
+<!-- RECOVERED_CANDIDATE_ACCESS -->
+
+# Actual recovered Body v2 candidates — 23 October 2026
+
+Native .blend files and actual Blender renders now exist. Archive equivalence FAILED; anatomy, movement and production approval are not granted. R120 remains experimental.
+
+| Model | Download | SHA256 |
+|---|---|---|
+| W8 | [Exact candidate](https://github.com/anyangle1409-code/animation-software/actions/runs/39922636070/artifacts/12487119841) | `2434afd0daa231ab3a03c873cad4187ffcbc1bab78132375221160b0b0f09e4c` |
+| V14 | [Exact candidate](https://github.com/anyangle1409-code/animation-software/actions/runs/39922636070/artifacts/12487932177) | `5969aa98122e267b6bdd94fdfaf6d2877a1b27f7ea8d11c6a8e078b467b0ff91` |
+| R120 | [Exact candidate](https://github.com/anyangle1409-code/animation-software/actions/runs/39922636070/artifacts/12488550235) | `fb3b0acfc68bc59952b0fc6c45f7d7715717207fd9ba0b7f2b124e905ce2ddcb` |
+
+[Actual Blender renders and all archived JSON discrepancies](https://github.com/anyangle1409-code/animation-software/actions/runs/39922636070/artifacts/12488495610)
+
+W8 offset maximum difference: 3.59286 mm vs unchanged 0.01 mm guard. Proportion maximum difference: 0.837573 mm. v14: 238,065 vertices vs archived 238,067. Skeleton-edit and report differences remain unresolved.
+Native inventories passed. Recovered-model movement setup hit the older 67-bone production bridge on the 77-bone authoring rig before posing; this is a harness applicability blocker, not a movement pass. Muscle attachment staging remains blocked by failed source/content gates.
+The first run completed reconstruction but failed its final read-only-folder bookkeeping step; outputs were retained. That permission issue was fixed in the expanded workflow.
+The combined artifact exceeds the connector 512 MiB download cap. These individual model artifacts preserve exact bytes with separate SHA256SUMS.txt files.
+No original/production model or skeletal data changed. PT_MODEL_VERSION remains 1.0.
+
+
+### 2026-10-23 — completed movement diagnostics and bounded measurement fix
+
+Run [39923681466](https://github.com/anyangle1409-code/animation-software/actions/runs/39923681466) completed. W8 measured 12 of 13 paths at 9 frames each; grip failed the unchanged thumb-placement pair limit. There are 253 per-frame collapse/stretch/intersection failure records. Worst counts across measured frames: 229 collapsed triangles, 3509 stretched triangles, 3499 intersecting pairs. These are density-dependent diagnostic counts, not anatomical approval. All three source-file hashes remained unchanged.
+
+V14 and R120 could not reach frame metrics on 12 paths because their polygon snapshots include non-triangles; grip independently failed its solver limit. This is a measurement-format blocker, not a passing model result. The isolated adapter now freezes Blender native loop-triangle indices from each path's rest snapshot and uses those exact indices for every pose, preserving coordinates, source polygons, bone data, original R57 paths/metrics and thresholds. Changes in evaluated topology fail closed. Existing W8 triangle order and completed failures are retained. Three new regression tests failed before implementation and then passed; 18 combined recovery/diagnostic/access guards pass. Native cloud verification of this fix remains pending. Follow-up runs only V14/R120 and reuses W8 artifact from run39923681466.
+
+Archive/content gates remain FAILED; the unchanged 67-bone production bridge remains incompatible with the 77-bone authoring rigs. R120 remains experimental, anatomical approval NOT_GRANTED, and muscle attachment BLOCKED. No original assets, PT_MODEL_VERSION1.0, skeletal source data, production files or source branch were changed.
+
+
+### 2026-10-23 — final native diagnostic outcome: recovery accessible, acceptance blocked
+
+Run39927465329 has completed; V14/R120 now measured12paths x9frames each after the safe fixed-rest native tessellation adaptation. Each, like W8, failed grip at the unchanged thumb pair limit and failed zero collapse/stretch/intersection quality. Failure-record totals: W8=253,V14=256,R120=282. All source bytes remained unchanged. No path exception other than grip remains in this run; this resolves the polygon measurement blocker but does not resolve deformation, archive equivalence or production applicability. The record commit is1decd3d663cdb62c54e42832dad40ab3ba203bb2. V14/R120 diagnostic ZIP hashes were independently verified after retrieval. See [final recovery outcome](BODY_V2_RECOVERY_FINAL_OUTCOME_20261023.md) for exact gates, all hashes/artifact links, measurement limitations and required next evidence. Archive/content FAIL; anatomyNOT_GRANTED; muscle attachment and draft prerelease BLOCKED. R120 remains experimental. No production/source-branch/original asset or PT_MODEL_VERSION1.0 change. This supersedes earlier pending-native-execution entries; further monitoring stops because completed runs cannot resolve missing archive correspondence or repair/review requirements.

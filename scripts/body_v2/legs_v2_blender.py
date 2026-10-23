@@ -294,7 +294,9 @@ for sd, sg in SIDES:
     legv = (LEGW[sd] > 0.5) & (V0[:, 0] * sg > 0) & (ARM < 0.3)
     faces = [f for f in bm.faces if all(legv[v[oid]] if v[oid] >= 0 else True for v in f.verts)
              and min(v.co.z for v in f.verts) < zc + 0.03]
-    geom = list({e for f in faces for e in f.edges}) + faces + list({v for f in faces for v in f.verts})
+    bm.verts.index_update(); bm.edges.index_update()     # (candidate: index order, not Python-set order)
+    geom = sorted({e for f in faces for e in f.edges}, key=lambda e: e.index) + faces + \
+        sorted({v for f in faces for v in f.verts}, key=lambda v: v.index)
     pre = set(bm.verts)
     res = bmesh.ops.bisect_plane(bm, geom=geom, plane_co=(0, 0, zc), plane_no=(0, 0, 1), clear_inner=True)
     cutv = [e for e in res["geom_cut"] if isinstance(e, bmesh.types.BMVert)]
@@ -463,8 +465,8 @@ bm.verts.ensure_lookup_table(); bm.verts.index_update()
 NEW = set(newv)
 for _ in range(int(os.environ.get("V2_LEGS_RELAX", "4"))):
     cos = {v: v.co.copy() for v in NEW}
-    for v in NEW:
-        nb = [e.other_vert(v).co for e in v.link_edges]
+    for v in NEW:                       # (candidate: Jacobi - neighbours' previous positions, so set order cannot matter)
+        nb = [cos[e.other_vert(v)] if e.other_vert(v) in cos else e.other_vert(v).co for e in v.link_edges]
         m_ = sum(nb, Vector()) / len(nb)
         near_join = abs(cos[v].z - zj) < 0.012 or abs(cos[v].z - zc) < 0.02
         v.co = cos[v] + (0.5 if near_join else 0.15) * (m_ - cos[v])
@@ -479,8 +481,8 @@ if ABOVE > 0:
     for it in range(2 * int(os.environ.get("V2_LEGS_ABOVE_STEPS", "15"))):
         lam = 0.5 if it % 2 == 0 else -0.53
         cos = {v: v.co.copy() for v in band}
-        for v, w in band.items():
-            nb = [e.other_vert(v).co for e in v.link_edges]
+        for v, w in band.items():       # (candidate: Jacobi, as above)
+            nb = [cos[e.other_vert(v)] if e.other_vert(v) in cos else e.other_vert(v).co for e in v.link_edges]
             v.co = cos[v] + lam * w * (sum(nb, Vector()) / len(nb) - cos[v])
     for v in band:                       # every shape key moves with the basis (the correctives keep their deltas)
         d0 = v.co - v[shl[0]] if shl else None
@@ -686,7 +688,7 @@ REP["non_manifold_edges_new"] = sum(1 for e in bm.edges if not e.is_manifold and
 # ------------------------------------------------------------------ weights and shape keys from the old legs
 src = np.where(DEL)[0]
 tree = cKDTree(V0[src])
-TGT = list(NEW)                 # (the cut-loop vertices keep the weights the bisect interpolated)
+TGT = sorted(NEW, key=lambda v: v.index)   # (candidate: index order) (the cut-loop vertices keep the weights the bisect interpolated)
 P = np.array([tuple(v.co) for v in TGT])
 d_, j_ = tree.query(P, k=4)
 w_ = 1.0 / np.maximum(d_, 1e-4) ** 2; w_ /= w_.sum(1, keepdims=True)

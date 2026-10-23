@@ -24,7 +24,25 @@ Results are published as job annotations and recorded below.
 
 ## Results
 
-Pending the first run. See `docs/V14_RECOVERY_INVESTIGATION_20261023.md` for the investigation this follows from.
+**Run 1** ([40030796708](https://github.com/anyangle1409-code/animation-software/actions/runs/40030796708), patched `refine()` and sorted seam loops only; all jobs passed):
+
+| Output | Result |
+|---|---|
+| W8 `rest.npy`, `tris.npy`, proportion | **bit-identical** across the two runners |
+| W8 offsets | identical to 2.8e-17 m (the limit of floating-point rounding) |
+| W8 and V14 reports | identical |
+| V14 | 238,068 vertices on both runners, but the vertex order and faces differ, and positions differ by up to 0.40 mm (4,928 vertices more than 0.01 mm) |
+| R120 | 347,903 vs 347,904 vertices; nearest-vertex distance up to 1.03 mm |
+
+So W8 is now deterministic. The **leg step has its own run-to-run variation**, and R120 inherits it through its legs-only base:
+- **In-place relaxation loops:** the cut-seam relax and the band above the cut read neighbours' *current* positions while walking a Python set, so the result depends on the order the set comes out in.
+- **Bisect inputs** built from sets.
+
+**Run 2 changes:**
+- `legs_v2_blender.py`: those loops are made Jacobi (neighbours' previous positions), the bisect inputs are index-sorted, and the weight-transfer list is index-sorted.
+- `rebuild_v2_blender.py`: the cut's bisect inputs and the new-vertex list are index-sorted.
+
+See `docs/V14_RECOVERY_INVESTIGATION_20261023.md` for the investigation this follows from.
 
 ## Decision needed (owner)
 

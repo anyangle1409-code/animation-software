@@ -191,7 +191,9 @@ def cut(bm_, keep_old):
               if min(abs((v.co - cv).dot(nv_)) for v in f.verts) < 0.03
               and (wc is None or min((Vector(wc) - v.co).length for v in f.verts) < 0.12)
               and (wc is not None or n != "thigh" or max(v.co.z for v in f.verts) < ZT + 0.05)]
-        geom = list({e for f in fs for e in f.edges}) + fs + list({v for f in fs for v in f.verts})
+        bm_.verts.index_update(); bm_.edges.index_update()   # (candidate: index order, not Python-set order)
+        geom = sorted({e for f in fs for e in f.edges}, key=lambda e: e.index) + fs + \
+            sorted({v for f in fs for v in f.verts}, key=lambda v: v.index)
         # clear_inner deletes the side the normal points away from
         bmesh.ops.bisect_plane(bm_, geom=geom, plane_co=cv, plane_no=nv_ if keep_old else -nv_, clear_inner=True)
     # then everything on the wrong side, away from the planes
@@ -316,7 +318,7 @@ for n, c, nn, wc in PLANES:
 
 # seam relax (new vertices only), HC
 bm.verts.ensure_lookup_table(); bm.verts.index_update()
-NL = list(NEW); idn = {v: i for i, v in enumerate(NL)}
+NL = sorted(NEW, key=lambda v: v.index); idn = {v: i for i, v in enumerate(NL)}
 nbr = [[idn[e.other_vert(v)] for e in v.link_edges if e.other_vert(v) in idn] for v in NL]
 Pn = np.array([tuple(v.co) for v in NL])
 dpl = np.min(np.stack([np.abs((Pn - c) @ nn) + (0 if wc is None else 0) for n, c, nn, wc in PLANES]), axis=0)

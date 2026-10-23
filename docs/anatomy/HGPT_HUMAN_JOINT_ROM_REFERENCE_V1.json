@@ -1,0 +1,1672 @@
+{
+  "schema_version": 1,
+  "artifact_type": "human_joint_motion_research_reference",
+  "created": "2026-10-23",
+  "scope": "generic adult musculoskeletal animation reference; not person-specific clinical assessment",
+  "model_adoption": "NOT_GRANTED",
+  "angle_unit": "degree",
+  "rom_mean_is_a_hard_limit": false,
+  "clinical_confidence_interval_is_an_individual_limit": false,
+  "notes": [
+    "CDC averages are group means with confidence intervals for the MEAN, not ranges of physiological possibility nor safe prescriptions.",
+    "Shoulder complex flexion is NOT isolated glenohumeral flexion; scapula and clavicle contribute.",
+    "Axes, zero angles and side conventions must be explicitly calibrated to each actual model; no suffix assumption.",
+    "Joint ranges vary by age, exercise, training, anthropometry, posture, load, pain and active/passive examination.",
+    "Simultaneous multi-joint configurations may collide or be infeasible even if each scalar angle is individually within a norm.",
+    "Never infer muscle excitation/force from angle; physiology and skin deformation have independent constraints.",
+    "This repository has not measured real joint angles on the reconstructed W8/V14/R120 rigs.",
+    "Exercise motion and rendering approval require measured poses, joint coordination, contact and nonpenetration across a trajectory."
+  ],
+  "sources": [
+    {
+      "id": "cdc_joint_rom_soucie2010",
+      "title": "CDC Joint Range of Motion Study, Soucie et al. (2010), population reference values",
+      "url": "https://archive.cdc.gov/www_cdc_gov/ncbddd/jointrom/index.html",
+      "source_role": "age-sex stratified group mean and 95-percent confidence interval for mean, 11 motion types",
+      "reference_only": true
+    },
+    {
+      "id": "isb_joint_coordinate_part1",
+      "title": "Wu et al. 2002, ISB joint coordinate recommendations: ankle hip spine",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/11934426/",
+      "source_role": "coordinate conventions, not normative limits",
+      "reference_only": true
+    },
+    {
+      "id": "isb_joint_coordinate_part2",
+      "title": "Wu et al. 2005, ISB joint coordinate recommendations: shoulder elbow wrist hand",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/15844264/",
+      "source_role": "coordinate conventions, not normative limits",
+      "reference_only": true
+    },
+    {
+      "id": "norkin_white_goniometry_6e",
+      "title": "Norkin & White 6e, Appendix A: normative goniometric motion",
+      "url": "https://fadavispt.mhmedical.com/content.aspx?bookid=3621&sectionid=303386712",
+      "source_role": "additional joint motions and method/context; no numerical adaptation until per-joint convention reviewed",
+      "reference_only": true
+    },
+    {
+      "id": "scapula_2025_systematic_review",
+      "title": "Scapular kinematics variability in individuals with and without rotator cuff-related shoulder pain (2025)",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12398250/",
+      "source_role": "no universal fixed scapulohumeral rhythm; scapula contributes across elevation",
+      "reference_only": true
+    },
+    {
+      "id": "isb_foot_2021",
+      "title": "ISB recommendations for skin-marker-based multi-segment foot kinematics (2021)",
+      "url": "https://www.isbweb.org/activities/standards",
+      "source_role": "multi-segment foot methods; not a single ankle hinge",
+      "reference_only": true
+    }
+  ],
+  "population_statistics": {
+    "population_source": "cdc_joint_rom_soucie2010",
+    "meaning": "degree-valued mean and 95% confidence interval of group mean; not physiological min/max",
+    "age_bands": [
+      "20_44",
+      "45_69"
+    ],
+    "reference_groups": [
+      "female",
+      "male"
+    ],
+    "measurements": [
+      {
+        "movement": "hip_extension",
+        "joint_complex": "hip_complex",
+        "age_band": "20_44",
+        "reference_group": "female",
+        "mean_deg": 18.1,
+        "ci95_for_population_mean_deg": [
+          17,
+          19.2
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "hip_extension",
+        "joint_complex": "hip_complex",
+        "age_band": "20_44",
+        "reference_group": "male",
+        "mean_deg": 17.4,
+        "ci95_for_population_mean_deg": [
+          16.3,
+          18.5
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "hip_extension",
+        "joint_complex": "hip_complex",
+        "age_band": "45_69",
+        "reference_group": "female",
+        "mean_deg": 16.7,
+        "ci95_for_population_mean_deg": [
+          15.5,
+          17.9
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "hip_extension",
+        "joint_complex": "hip_complex",
+        "age_band": "45_69",
+        "reference_group": "male",
+        "mean_deg": 13.5,
+        "ci95_for_population_mean_deg": [
+          12.5,
+          14.5
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "hip_flexion",
+        "joint_complex": "hip_complex",
+        "age_band": "20_44",
+        "reference_group": "female",
+        "mean_deg": 133.8,
+        "ci95_for_population_mean_deg": [
+          132.5,
+          135.1
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "hip_flexion",
+        "joint_complex": "hip_complex",
+        "age_band": "20_44",
+        "reference_group": "male",
+        "mean_deg": 130.4,
+        "ci95_for_population_mean_deg": [
+          129,
+          131.8
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "hip_flexion",
+        "joint_complex": "hip_complex",
+        "age_band": "45_69",
+        "reference_group": "female",
+        "mean_deg": 130.8,
+        "ci95_for_population_mean_deg": [
+          129.2,
+          132.4
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "hip_flexion",
+        "joint_complex": "hip_complex",
+        "age_band": "45_69",
+        "reference_group": "male",
+        "mean_deg": 127.2,
+        "ci95_for_population_mean_deg": [
+          125.7,
+          128.7
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "knee_flexion",
+        "joint_complex": "knee_complex",
+        "age_band": "20_44",
+        "reference_group": "female",
+        "mean_deg": 141.9,
+        "ci95_for_population_mean_deg": [
+          140.9,
+          142.9
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "knee_flexion",
+        "joint_complex": "knee_complex",
+        "age_band": "20_44",
+        "reference_group": "male",
+        "mean_deg": 137.7,
+        "ci95_for_population_mean_deg": [
+          136.5,
+          138.9
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "knee_flexion",
+        "joint_complex": "knee_complex",
+        "age_band": "45_69",
+        "reference_group": "female",
+        "mean_deg": 137.8,
+        "ci95_for_population_mean_deg": [
+          136.5,
+          139.1
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "knee_flexion",
+        "joint_complex": "knee_complex",
+        "age_band": "45_69",
+        "reference_group": "male",
+        "mean_deg": 132.9,
+        "ci95_for_population_mean_deg": [
+          131.6,
+          134.2
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "knee_extension",
+        "joint_complex": "knee_complex",
+        "age_band": "20_44",
+        "reference_group": "female",
+        "mean_deg": 1.6,
+        "ci95_for_population_mean_deg": [
+          1.1,
+          2.1
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "knee_extension",
+        "joint_complex": "knee_complex",
+        "age_band": "20_44",
+        "reference_group": "male",
+        "mean_deg": 1,
+        "ci95_for_population_mean_deg": [
+          0.6,
+          1.4
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "knee_extension",
+        "joint_complex": "knee_complex",
+        "age_band": "45_69",
+        "reference_group": "female",
+        "mean_deg": 1.2,
+        "ci95_for_population_mean_deg": [
+          0.7,
+          1.7
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "knee_extension",
+        "joint_complex": "knee_complex",
+        "age_band": "45_69",
+        "reference_group": "male",
+        "mean_deg": 0.5,
+        "ci95_for_population_mean_deg": [
+          0.1,
+          0.9
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "ankle_dorsiflexion",
+        "joint_complex": "ankle_complex",
+        "age_band": "20_44",
+        "reference_group": "female",
+        "mean_deg": 13.8,
+        "ci95_for_population_mean_deg": [
+          12.9,
+          14.7
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "ankle_dorsiflexion",
+        "joint_complex": "ankle_complex",
+        "age_band": "20_44",
+        "reference_group": "male",
+        "mean_deg": 12.7,
+        "ci95_for_population_mean_deg": [
+          11.6,
+          13.8
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "ankle_dorsiflexion",
+        "joint_complex": "ankle_complex",
+        "age_band": "45_69",
+        "reference_group": "female",
+        "mean_deg": 11.6,
+        "ci95_for_population_mean_deg": [
+          10.6,
+          12.6
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "ankle_dorsiflexion",
+        "joint_complex": "ankle_complex",
+        "age_band": "45_69",
+        "reference_group": "male",
+        "mean_deg": 11.9,
+        "ci95_for_population_mean_deg": [
+          10.9,
+          12.9
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "ankle_plantarflexion",
+        "joint_complex": "ankle_complex",
+        "age_band": "20_44",
+        "reference_group": "female",
+        "mean_deg": 62.1,
+        "ci95_for_population_mean_deg": [
+          60.6,
+          63.6
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "ankle_plantarflexion",
+        "joint_complex": "ankle_complex",
+        "age_band": "20_44",
+        "reference_group": "male",
+        "mean_deg": 54.6,
+        "ci95_for_population_mean_deg": [
+          53.2,
+          56
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "ankle_plantarflexion",
+        "joint_complex": "ankle_complex",
+        "age_band": "45_69",
+        "reference_group": "female",
+        "mean_deg": 56.5,
+        "ci95_for_population_mean_deg": [
+          55,
+          58
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "ankle_plantarflexion",
+        "joint_complex": "ankle_complex",
+        "age_band": "45_69",
+        "reference_group": "male",
+        "mean_deg": 49.4,
+        "ci95_for_population_mean_deg": [
+          47.7,
+          51.1
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "shoulder_flexion",
+        "joint_complex": "shoulder_complex",
+        "age_band": "20_44",
+        "reference_group": "female",
+        "mean_deg": 172,
+        "ci95_for_population_mean_deg": [
+          170.9,
+          173.1
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "shoulder_flexion",
+        "joint_complex": "shoulder_complex",
+        "age_band": "20_44",
+        "reference_group": "male",
+        "mean_deg": 168.8,
+        "ci95_for_population_mean_deg": [
+          167.3,
+          170.3
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "shoulder_flexion",
+        "joint_complex": "shoulder_complex",
+        "age_band": "45_69",
+        "reference_group": "female",
+        "mean_deg": 168.1,
+        "ci95_for_population_mean_deg": [
+          166.7,
+          169.5
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "shoulder_flexion",
+        "joint_complex": "shoulder_complex",
+        "age_band": "45_69",
+        "reference_group": "male",
+        "mean_deg": 164,
+        "ci95_for_population_mean_deg": [
+          162.3,
+          165.7
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "elbow_flexion",
+        "joint_complex": "elbow_complex",
+        "age_band": "20_44",
+        "reference_group": "female",
+        "mean_deg": 150,
+        "ci95_for_population_mean_deg": [
+          149.1,
+          150.9
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "elbow_flexion",
+        "joint_complex": "elbow_complex",
+        "age_band": "20_44",
+        "reference_group": "male",
+        "mean_deg": 144.6,
+        "ci95_for_population_mean_deg": [
+          143.6,
+          145.6
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "elbow_flexion",
+        "joint_complex": "elbow_complex",
+        "age_band": "45_69",
+        "reference_group": "female",
+        "mean_deg": 148.3,
+        "ci95_for_population_mean_deg": [
+          147.3,
+          149.3
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "elbow_flexion",
+        "joint_complex": "elbow_complex",
+        "age_band": "45_69",
+        "reference_group": "male",
+        "mean_deg": 143.5,
+        "ci95_for_population_mean_deg": [
+          142.3,
+          144.7
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "elbow_extension",
+        "joint_complex": "elbow_complex",
+        "age_band": "20_44",
+        "reference_group": "female",
+        "mean_deg": 4.7,
+        "ci95_for_population_mean_deg": [
+          3.9,
+          5.5
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "elbow_extension",
+        "joint_complex": "elbow_complex",
+        "age_band": "20_44",
+        "reference_group": "male",
+        "mean_deg": 0.8,
+        "ci95_for_population_mean_deg": [
+          0.1,
+          1.5
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "elbow_extension",
+        "joint_complex": "elbow_complex",
+        "age_band": "45_69",
+        "reference_group": "female",
+        "mean_deg": 3.6,
+        "ci95_for_population_mean_deg": [
+          2.6,
+          4.6
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "elbow_extension",
+        "joint_complex": "elbow_complex",
+        "age_band": "45_69",
+        "reference_group": "male",
+        "mean_deg": -0.7,
+        "ci95_for_population_mean_deg": [
+          -1.5,
+          0.1
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "forearm_pronation",
+        "joint_complex": "radioulnar_complex",
+        "age_band": "20_44",
+        "reference_group": "female",
+        "mean_deg": 82,
+        "ci95_for_population_mean_deg": [
+          81,
+          83
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "forearm_pronation",
+        "joint_complex": "radioulnar_complex",
+        "age_band": "20_44",
+        "reference_group": "male",
+        "mean_deg": 76.9,
+        "ci95_for_population_mean_deg": [
+          75.6,
+          78.2
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "forearm_pronation",
+        "joint_complex": "radioulnar_complex",
+        "age_band": "45_69",
+        "reference_group": "female",
+        "mean_deg": 80.8,
+        "ci95_for_population_mean_deg": [
+          79.7,
+          81.9
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "forearm_pronation",
+        "joint_complex": "radioulnar_complex",
+        "age_band": "45_69",
+        "reference_group": "male",
+        "mean_deg": 77.7,
+        "ci95_for_population_mean_deg": [
+          76.5,
+          78.9
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "forearm_supination",
+        "joint_complex": "radioulnar_complex",
+        "age_band": "20_44",
+        "reference_group": "female",
+        "mean_deg": 90.6,
+        "ci95_for_population_mean_deg": [
+          89.2,
+          92
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "forearm_supination",
+        "joint_complex": "radioulnar_complex",
+        "age_band": "20_44",
+        "reference_group": "male",
+        "mean_deg": 85,
+        "ci95_for_population_mean_deg": [
+          83.8,
+          86.2
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "forearm_supination",
+        "joint_complex": "radioulnar_complex",
+        "age_band": "45_69",
+        "reference_group": "female",
+        "mean_deg": 87.2,
+        "ci95_for_population_mean_deg": [
+          86,
+          88.4
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      },
+      {
+        "movement": "forearm_supination",
+        "joint_complex": "radioulnar_complex",
+        "age_band": "45_69",
+        "reference_group": "male",
+        "mean_deg": 82.4,
+        "ci95_for_population_mean_deg": [
+          80.9,
+          83.9
+        ],
+        "source_id": "cdc_joint_rom_soucie2010"
+      }
+    ]
+  },
+  "coordinate_catalog": [
+    {
+      "id": "hgpt.coordinate.shoulder_complex_flexion",
+      "region": "shoulder",
+      "measurement_scope": "clinical_complex",
+      "cdc_reference_key": "shoulder_flexion",
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "population_mean_available",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.shoulder_complex_abduction",
+      "region": "shoulder",
+      "measurement_scope": "clinical_complex",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.shoulder_complex_extension",
+      "region": "shoulder",
+      "measurement_scope": "clinical_complex",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.glenohumeral_flexion",
+      "region": "shoulder",
+      "measurement_scope": "isolated_component",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.glenohumeral_abduction",
+      "region": "shoulder",
+      "measurement_scope": "isolated_component",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.glenohumeral_axial_rotation",
+      "region": "shoulder",
+      "measurement_scope": "isolated_component",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.scapulothoracic_upward_rotation",
+      "region": "scapula",
+      "measurement_scope": "coupled_component",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.scapulothoracic_posterior_tilt",
+      "region": "scapula",
+      "measurement_scope": "coupled_component",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.scapulothoracic_internal_external_rotation",
+      "region": "scapula",
+      "measurement_scope": "coupled_component",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.clavicle_elevation_depression",
+      "region": "shoulder_girdle",
+      "measurement_scope": "coupled_component",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.clavicle_protraction_retraction",
+      "region": "shoulder_girdle",
+      "measurement_scope": "coupled_component",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.clavicle_axial_rotation",
+      "region": "shoulder_girdle",
+      "measurement_scope": "coupled_component",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.elbow_flexion",
+      "region": "elbow",
+      "measurement_scope": "clinical_complex",
+      "cdc_reference_key": "elbow_flexion",
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "population_mean_available",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.elbow_extension",
+      "region": "elbow",
+      "measurement_scope": "clinical_complex",
+      "cdc_reference_key": "elbow_extension",
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "population_mean_available",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.forearm_pronation",
+      "region": "forearm",
+      "measurement_scope": "clinical_complex",
+      "cdc_reference_key": "forearm_pronation",
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "population_mean_available",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.forearm_supination",
+      "region": "forearm",
+      "measurement_scope": "clinical_complex",
+      "cdc_reference_key": "forearm_supination",
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "population_mean_available",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.wrist_flexion",
+      "region": "wrist",
+      "measurement_scope": "clinical_complex",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.wrist_extension",
+      "region": "wrist",
+      "measurement_scope": "clinical_complex",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.wrist_radial_deviation",
+      "region": "wrist",
+      "measurement_scope": "clinical_complex",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.wrist_ulnar_deviation",
+      "region": "wrist",
+      "measurement_scope": "clinical_complex",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.finger_mcp_flexion",
+      "region": "hand",
+      "measurement_scope": "complex",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.finger_pip_flexion",
+      "region": "hand",
+      "measurement_scope": "complex",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.finger_dip_flexion",
+      "region": "hand",
+      "measurement_scope": "complex",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.thumb_opposition",
+      "region": "hand",
+      "measurement_scope": "complex",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.cervical_flexion_extension",
+      "region": "neck",
+      "measurement_scope": "multisegment",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.cervical_axial_rotation",
+      "region": "neck",
+      "measurement_scope": "multisegment",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.thoracolumbar_flexion_extension",
+      "region": "trunk",
+      "measurement_scope": "multisegment",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.thoracolumbar_lateral_bend",
+      "region": "trunk",
+      "measurement_scope": "multisegment",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.thoracolumbar_axial_rotation",
+      "region": "trunk",
+      "measurement_scope": "multisegment",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.hip_flexion",
+      "region": "hip",
+      "measurement_scope": "clinical_complex",
+      "cdc_reference_key": "hip_flexion",
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "population_mean_available",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.hip_extension",
+      "region": "hip",
+      "measurement_scope": "clinical_complex",
+      "cdc_reference_key": "hip_extension",
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "population_mean_available",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.hip_abduction_adduction",
+      "region": "hip",
+      "measurement_scope": "clinical_complex",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.hip_internal_external_rotation",
+      "region": "hip",
+      "measurement_scope": "clinical_complex",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.knee_flexion",
+      "region": "knee",
+      "measurement_scope": "clinical_complex",
+      "cdc_reference_key": "knee_flexion",
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "population_mean_available",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.knee_extension",
+      "region": "knee",
+      "measurement_scope": "clinical_complex",
+      "cdc_reference_key": "knee_extension",
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "population_mean_available",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.knee_axial_rotation",
+      "region": "knee",
+      "measurement_scope": "coupled_component",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.patellofemoral_tracking",
+      "region": "knee",
+      "measurement_scope": "coupled_component",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.ankle_dorsiflexion",
+      "region": "ankle",
+      "measurement_scope": "clinical_complex",
+      "cdc_reference_key": "ankle_dorsiflexion",
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "population_mean_available",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.ankle_plantarflexion",
+      "region": "ankle",
+      "measurement_scope": "clinical_complex",
+      "cdc_reference_key": "ankle_plantarflexion",
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "population_mean_available",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.subtalar_inversion_eversion",
+      "region": "foot",
+      "measurement_scope": "complex",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.midtarsal_motion",
+      "region": "foot",
+      "measurement_scope": "complex",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.hallux_mtp_extension",
+      "region": "foot",
+      "measurement_scope": "complex",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    },
+    {
+      "id": "hgpt.coordinate.toe_flexion_extension",
+      "region": "foot",
+      "measurement_scope": "complex",
+      "cdc_reference_key": null,
+      "rig_axis_binding": null,
+      "anatomical_side_mapping": null,
+      "hard_lower_limit_deg": null,
+      "hard_upper_limit_deg": null,
+      "reference_status": "coordinate_only_source_range_not_yet_selected",
+      "approval": "NOT_GRANTED"
+    }
+  ],
+  "coupling_rules": [
+    {
+      "id": "shoulder_complex_requires_scaps",
+      "status": "research_supported",
+      "source_ids": [
+        "isb_joint_coordinate_part2",
+        "scapula_2025_systematic_review"
+      ],
+      "statement": "Arm elevation combines glenohumeral, scapulothoracic and clavicular motion; do not impose a single fixed 2:1 or 3:1 ratio or a fixed scapular setting phase.",
+      "solver_constraint": "UNDEFINED_REQUIRE_MOTION_SPECIFIC_VALIDATION"
+    },
+    {
+      "id": "forearm_rotation_not_elbow_hinge",
+      "status": "anatomical_standard",
+      "source_ids": [
+        "isb_joint_coordinate_part2"
+      ],
+      "statement": "Pronation/supination occur across proximal and distal radioulnar articulation; do not twist the entire forearm as a single fixed cylinder.",
+      "solver_constraint": "UNDEFINED_REQUIRE_SEGMENT_MAPPING"
+    },
+    {
+      "id": "knee_flexion_not_free_ball",
+      "status": "anatomical_review_required",
+      "source_ids": [
+        "isb_joint_coordinate_part1"
+      ],
+      "statement": "Knee flexion should be coupled to patellar tracking, tibiofemoral contact and restricted axial motion; do not allow unrestricted independent 3-axis rotation.",
+      "solver_constraint": "UNDEFINED_REQUIRE_REVIEW"
+    },
+    {
+      "id": "foot_multisegment",
+      "status": "research_supported",
+      "source_ids": [
+        "isb_foot_2021"
+      ],
+      "statement": "Foot-ground support involves ankle, subtalar, mid-foot and toes; ensure heel/forefoot and toe-off contact instead of only one ankle rotation.",
+      "solver_constraint": "UNDEFINED_REQUIRE_REVIEW"
+    },
+    {
+      "id": "biarticular_muscles",
+      "status": "modeling_requirement",
+      "source_ids": [
+        "isb_joint_coordinate_part1",
+        "isb_joint_coordinate_part2"
+      ],
+      "statement": "A muscle crossing two joints can change path length when either joint moves; do not drive it solely by one angle or confuse activation with length.",
+      "solver_constraint": "UNDEFINED_REQUIRE_MUSCLE_BINDING"
+    }
+  ],
+  "motion_test_program": [
+    {
+      "id": "hgpt.motion_test.shoulder_flexion",
+      "region": "shoulder",
+      "side_scope": "both",
+      "conceptual_samples": [
+        "neutral",
+        "mid_elevation",
+        "near_overhead",
+        "return"
+      ],
+      "required_joint_families": [
+        "glenohumeral",
+        "scapula",
+        "clavicle"
+      ],
+      "inspection_targets": [
+        "surface_stretch",
+        "axilla_continuity",
+        "scapular_coupling",
+        "no_popping"
+      ],
+      "blender_pose_recipe": null,
+      "actual_joint_measurement_status": "NOT_MEASURED",
+      "native_acceptance": "NOT_GRANTED",
+      "model_source_hash": null,
+      "review_render_artifact": null
+    },
+    {
+      "id": "hgpt.motion_test.shoulder_abduction",
+      "region": "shoulder",
+      "side_scope": "both",
+      "conceptual_samples": [
+        "neutral",
+        "partial_abduction",
+        "high_abduction",
+        "return"
+      ],
+      "required_joint_families": [
+        "glenohumeral",
+        "scapula",
+        "clavicle"
+      ],
+      "inspection_targets": [
+        "surface_stretch",
+        "axilla_continuity",
+        "scapular_coupling"
+      ],
+      "blender_pose_recipe": null,
+      "actual_joint_measurement_status": "NOT_MEASURED",
+      "native_acceptance": "NOT_GRANTED",
+      "model_source_hash": null,
+      "review_render_artifact": null
+    },
+    {
+      "id": "hgpt.motion_test.shoulder_axial_rotation",
+      "region": "shoulder",
+      "side_scope": "both",
+      "conceptual_samples": [
+        "neutral",
+        "external_rotation",
+        "internal_rotation",
+        "return"
+      ],
+      "required_joint_families": [
+        "glenohumeral",
+        "scapula"
+      ],
+      "inspection_targets": [
+        "contact",
+        "axilla_continuity"
+      ],
+      "blender_pose_recipe": null,
+      "actual_joint_measurement_status": "NOT_MEASURED",
+      "native_acceptance": "NOT_GRANTED",
+      "model_source_hash": null,
+      "review_render_artifact": null
+    },
+    {
+      "id": "hgpt.motion_test.shoulder_horizontal_motion",
+      "region": "shoulder",
+      "side_scope": "both",
+      "conceptual_samples": [
+        "neutral",
+        "horizontal_adduction",
+        "horizontal_abduction",
+        "return"
+      ],
+      "required_joint_families": [
+        "glenohumeral",
+        "scapula"
+      ],
+      "inspection_targets": [
+        "contact",
+        "chest_fold"
+      ],
+      "blender_pose_recipe": null,
+      "actual_joint_measurement_status": "NOT_MEASURED",
+      "native_acceptance": "NOT_GRANTED",
+      "model_source_hash": null,
+      "review_render_artifact": null
+    },
+    {
+      "id": "hgpt.motion_test.elbow_flexion_supinated",
+      "region": "arm",
+      "side_scope": "both",
+      "conceptual_samples": [
+        "neutral",
+        "partial_flexion",
+        "high_flexion",
+        "return"
+      ],
+      "required_joint_families": [
+        "elbow",
+        "radioulnar"
+      ],
+      "inspection_targets": [
+        "elbow_silhouette",
+        "volume_continuity",
+        "muscle_path_proxies",
+        "skin_collisions"
+      ],
+      "blender_pose_recipe": null,
+      "actual_joint_measurement_status": "NOT_MEASURED",
+      "native_acceptance": "NOT_GRANTED",
+      "model_source_hash": null,
+      "review_render_artifact": null
+    },
+    {
+      "id": "hgpt.motion_test.elbow_flexion_neutral_forearm",
+      "region": "arm",
+      "side_scope": "both",
+      "conceptual_samples": [
+        "neutral",
+        "partial_flexion",
+        "high_flexion",
+        "return"
+      ],
+      "required_joint_families": [
+        "elbow",
+        "radioulnar"
+      ],
+      "inspection_targets": [
+        "elbow_silhouette",
+        "volume_continuity",
+        "skin_collisions"
+      ],
+      "blender_pose_recipe": null,
+      "actual_joint_measurement_status": "NOT_MEASURED",
+      "native_acceptance": "NOT_GRANTED",
+      "model_source_hash": null,
+      "review_render_artifact": null
+    },
+    {
+      "id": "hgpt.motion_test.elbow_flexion_pronated",
+      "region": "arm",
+      "side_scope": "both",
+      "conceptual_samples": [
+        "neutral",
+        "partial_flexion",
+        "high_flexion",
+        "return"
+      ],
+      "required_joint_families": [
+        "elbow",
+        "radioulnar"
+      ],
+      "inspection_targets": [
+        "elbow_silhouette",
+        "volume_continuity",
+        "skin_collisions"
+      ],
+      "blender_pose_recipe": null,
+      "actual_joint_measurement_status": "NOT_MEASURED",
+      "native_acceptance": "NOT_GRANTED",
+      "model_source_hash": null,
+      "review_render_artifact": null
+    },
+    {
+      "id": "hgpt.motion_test.forearm_rotation",
+      "region": "arm",
+      "side_scope": "both",
+      "conceptual_samples": [
+        "neutral",
+        "supinated",
+        "pronated",
+        "return"
+      ],
+      "required_joint_families": [
+        "radioulnar"
+      ],
+      "inspection_targets": [
+        "radius_ulna_coordination",
+        "elbow_silhouette"
+      ],
+      "blender_pose_recipe": null,
+      "actual_joint_measurement_status": "NOT_MEASURED",
+      "native_acceptance": "NOT_GRANTED",
+      "model_source_hash": null,
+      "review_render_artifact": null
+    },
+    {
+      "id": "hgpt.motion_test.wrist_motion",
+      "region": "hand",
+      "side_scope": "both",
+      "conceptual_samples": [
+        "neutral",
+        "flexion",
+        "extension",
+        "radial_ulnar_deviation"
+      ],
+      "required_joint_families": [
+        "wrist"
+      ],
+      "inspection_targets": [
+        "skin_collisions",
+        "hand_grip"
+      ],
+      "blender_pose_recipe": null,
+      "actual_joint_measurement_status": "NOT_MEASURED",
+      "native_acceptance": "NOT_GRANTED",
+      "model_source_hash": null,
+      "review_render_artifact": null
+    },
+    {
+      "id": "hgpt.motion_test.finger_grip",
+      "region": "hand",
+      "side_scope": "both",
+      "conceptual_samples": [
+        "open",
+        "partial_grip",
+        "held_object",
+        "release"
+      ],
+      "required_joint_families": [
+        "finger",
+        "thumb",
+        "wrist"
+      ],
+      "inspection_targets": [
+        "hand_contact",
+        "skin_collisions"
+      ],
+      "blender_pose_recipe": null,
+      "actual_joint_measurement_status": "NOT_MEASURED",
+      "native_acceptance": "NOT_GRANTED",
+      "model_source_hash": null,
+      "review_render_artifact": null
+    },
+    {
+      "id": "hgpt.motion_test.cervical_trunk_motion",
+      "region": "spine",
+      "side_scope": "midline",
+      "conceptual_samples": [
+        "neutral",
+        "flexion",
+        "extension",
+        "axial_turn"
+      ],
+      "required_joint_families": [
+        "cervical",
+        "thoracolumbar"
+      ],
+      "inspection_targets": [
+        "skin_collisions",
+        "head_neck_continuity"
+      ],
+      "blender_pose_recipe": null,
+      "actual_joint_measurement_status": "NOT_MEASURED",
+      "native_acceptance": "NOT_GRANTED",
+      "model_source_hash": null,
+      "review_render_artifact": null
+    },
+    {
+      "id": "hgpt.motion_test.hip_flexion_extension",
+      "region": "hip",
+      "side_scope": "both",
+      "conceptual_samples": [
+        "standing",
+        "mid_flexion",
+        "deep_functional_flexion",
+        "return"
+      ],
+      "required_joint_families": [
+        "hip",
+        "lumbopelvic"
+      ],
+      "inspection_targets": [
+        "groin_continuity",
+        "hip_volume",
+        "ground_contact"
+      ],
+      "blender_pose_recipe": null,
+      "actual_joint_measurement_status": "NOT_MEASURED",
+      "native_acceptance": "NOT_GRANTED",
+      "model_source_hash": null,
+      "review_render_artifact": null
+    },
+    {
+      "id": "hgpt.motion_test.hip_abduction_rotation",
+      "region": "hip",
+      "side_scope": "both",
+      "conceptual_samples": [
+        "neutral",
+        "abduction",
+        "rotation",
+        "return"
+      ],
+      "required_joint_families": [
+        "hip",
+        "lumbopelvic"
+      ],
+      "inspection_targets": [
+        "groin_continuity",
+        "skin_collisions"
+      ],
+      "blender_pose_recipe": null,
+      "actual_joint_measurement_status": "NOT_MEASURED",
+      "native_acceptance": "NOT_GRANTED",
+      "model_source_hash": null,
+      "review_render_artifact": null
+    },
+    {
+      "id": "hgpt.motion_test.knee_flexion_extension",
+      "region": "leg",
+      "side_scope": "both",
+      "conceptual_samples": [
+        "straight",
+        "mid_flexion",
+        "functional_deep_flexion",
+        "return"
+      ],
+      "required_joint_families": [
+        "knee",
+        "patellofemoral"
+      ],
+      "inspection_targets": [
+        "knee_shape",
+        "skin_collisions",
+        "temporal_continuity"
+      ],
+      "blender_pose_recipe": null,
+      "actual_joint_measurement_status": "NOT_MEASURED",
+      "native_acceptance": "NOT_GRANTED",
+      "model_source_hash": null,
+      "review_render_artifact": null
+    },
+    {
+      "id": "hgpt.motion_test.ankle_dorsi_plantarflexion",
+      "region": "foot",
+      "side_scope": "both",
+      "conceptual_samples": [
+        "neutral",
+        "dorsiflexed",
+        "plantarflexed",
+        "return"
+      ],
+      "required_joint_families": [
+        "talocrural",
+        "subtalar"
+      ],
+      "inspection_targets": [
+        "foot_contact",
+        "achilles_continuity"
+      ],
+      "blender_pose_recipe": null,
+      "actual_joint_measurement_status": "NOT_MEASURED",
+      "native_acceptance": "NOT_GRANTED",
+      "model_source_hash": null,
+      "review_render_artifact": null
+    },
+    {
+      "id": "hgpt.motion_test.foot_roll_toe_off",
+      "region": "foot",
+      "side_scope": "both",
+      "conceptual_samples": [
+        "standing",
+        "heel_raise",
+        "toe_extension",
+        "return"
+      ],
+      "required_joint_families": [
+        "subtalar",
+        "midtarsal",
+        "metatarsophalangeal"
+      ],
+      "inspection_targets": [
+        "arch_continuity",
+        "ground_contact"
+      ],
+      "blender_pose_recipe": null,
+      "actual_joint_measurement_status": "NOT_MEASURED",
+      "native_acceptance": "NOT_GRANTED",
+      "model_source_hash": null,
+      "review_render_artifact": null
+    },
+    {
+      "id": "hgpt.motion_test.compound_overhead_press",
+      "region": "full_body",
+      "side_scope": "both",
+      "conceptual_samples": [
+        "rack",
+        "partial_press",
+        "overhead",
+        "return"
+      ],
+      "required_joint_families": [
+        "shoulder",
+        "scapula",
+        "clavicle",
+        "elbow",
+        "wrist",
+        "trunk"
+      ],
+      "inspection_targets": [
+        "contact",
+        "axilla_continuity",
+        "dynamic_joint_envelope",
+        "no_popping"
+      ],
+      "blender_pose_recipe": null,
+      "actual_joint_measurement_status": "NOT_MEASURED",
+      "native_acceptance": "NOT_GRANTED",
+      "model_source_hash": null,
+      "review_render_artifact": null
+    },
+    {
+      "id": "hgpt.motion_test.compound_squat",
+      "region": "full_body",
+      "side_scope": "both",
+      "conceptual_samples": [
+        "stand",
+        "descent",
+        "bottom",
+        "return"
+      ],
+      "required_joint_families": [
+        "hip",
+        "knee",
+        "ankle",
+        "trunk",
+        "foot"
+      ],
+      "inspection_targets": [
+        "ground_contact",
+        "groin_continuity",
+        "hip_volume",
+        "knee_shape"
+      ],
+      "blender_pose_recipe": null,
+      "actual_joint_measurement_status": "NOT_MEASURED",
+      "native_acceptance": "NOT_GRANTED",
+      "model_source_hash": null,
+      "review_render_artifact": null
+    },
+    {
+      "id": "hgpt.motion_test.compound_dumbbell_curl",
+      "region": "full_body",
+      "side_scope": "both",
+      "conceptual_samples": [
+        "setup",
+        "lift",
+        "top",
+        "lower"
+      ],
+      "required_joint_families": [
+        "elbow",
+        "radioulnar",
+        "wrist",
+        "shoulder"
+      ],
+      "inspection_targets": [
+        "object_contact",
+        "elbow_silhouette",
+        "muscle_path_proxies"
+      ],
+      "blender_pose_recipe": null,
+      "actual_joint_measurement_status": "NOT_MEASURED",
+      "native_acceptance": "NOT_GRANTED",
+      "model_source_hash": null,
+      "review_render_artifact": null
+    }
+  ],
+  "acceptance": {
+    "numerical_population_comparison": "RESEARCH_ONLY_NOT_A_PHYSIOLOGICAL_LIMIT",
+    "coordinate_frame": "NOT_VERIFIED_ON_NATIVE_RIG",
+    "per_joint_trajectory": "NOT_VALIDATED",
+    "multi_joint_coordination": "NOT_VALIDATED",
+    "skin_and_contact": "NOT_VALIDATED",
+    "rig_sides": "NOT_VALIDATED",
+    "annotated_muscle_layer": "NOT_BOUND",
+    "app_runtime": "NOT_VALIDATED",
+    "hardware_requirements": "No laptop needed for cloud review; interactive anatomy correction remains separately gated"
+  },
+  "future_display": {
+    "muscle_highlighting": "DEFERRED_BY_OWNER",
+    "visual_style": "UNDECIDED",
+    "permanent_ids_only": true
+  }
+}

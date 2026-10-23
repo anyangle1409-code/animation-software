@@ -2,7 +2,7 @@ name: Phone Blender workbench
 on:
   push:
     branches: [work/phone-blender-workbench-20261023]
-    paths: ['scripts/phone_blender/**', '.github/workflows/phone-blender-workbench.yml']
+    paths: ['scripts/phone_blender/**', 'scripts/cloud_body_analysis/**', '.github/workflows/phone-blender-workbench.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -81,5 +81,56 @@ jobs:
         with:
           name: phone-rest-cross-model-${{ github.run_id }}
           path: phone-comparison/
+          retention-days: 90
+          if-no-files-found: error
+  localize-native-movement-failures:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install report-only dependencies
+        run: python -m pip install numpy
+      - name: Verify independent failure-localization unit tests
+        run: python -m unittest discover -s scripts/cloud_body_analysis/tests -v
+      - name: Retrieve pinned W8 read-only visual evidence
+        uses: actions/download-artifact@v4
+        with:
+          artifact-ids: '12495910312'
+          run-id: 39937882229
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/native/W8
+          merge-multiple: true
+      - name: Retrieve pinned V14 read-only visual evidence
+        uses: actions/download-artifact@v4
+        with:
+          artifact-ids: '12494932817'
+          run-id: 39937882229
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/native/V14
+          merge-multiple: true
+      - name: Retrieve pinned R120 read-only visual evidence
+        uses: actions/download-artifact@v4
+        with:
+          artifact-ids: '12495970648'
+          run-id: 39937882229
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/native/R120
+          merge-multiple: true
+      - name: Localize native failures in previously saved exact frames
+        run: |
+          python scripts/cloud_body_analysis/localize_failures.py \
+            --w8 "${{ runner.temp }}/native/W8" \
+            --v14 "${{ runner.temp }}/native/V14" \
+            --r120 "${{ runner.temp }}/native/R120" \
+            --out phone-native-localization
+      - name: Preserve phone-readable, non-editing native failure reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phone-native-failure-localization-${{ github.run_id }}
+          path: phone-native-localization/
           retention-days: 90
           if-no-files-found: error

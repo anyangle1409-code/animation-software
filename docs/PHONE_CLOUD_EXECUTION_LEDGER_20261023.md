@@ -147,3 +147,16 @@ Added `scripts/phone_blender/rig_axes_inventory.py`, `scripts/cloud_body_analysi
 **Extra foot control clue:** W8 `foot_l` + `toe_l` rest controls extend roughly **307.7 mm along local forward Y** from foot control head to toe control tail; toe-control segment is about **172.4 mm**. These are **authored bone control spans, NOT anatomical toe or foot mesh lengths**. The values warrant independent mesh/heel/metatarsal/toe inspection given the owner's known excessive-foot concern, not automatic shortening.
 
 **Next safe focus:** actual native ISB landmark/side calibration, in-memory shoulder/scapula/clavicle and elbow/forearm pose-state evidence, joint-chain contact and skin deformation, with original model source SHA checks. No original `.blend` changed, no muscle attached, no clinical hard limits imposed, no production/Claude/PT-App edits or merge/deploy. Muscle highlighting remains deferred.
+
+
+## Native W8 shoulder pose-state probe — execution pending
+
+At current task milestone, the new isolated first actual movement-state probe is committed:
+- `scripts/phone_blender/pose_state_probe.py`: SHA256-pin source W8 `.blend`, pin prior benchmark implementation to r57 commit `025d5f28fa7eba2064fba565b1c9b60119cdd2cb`, use the old `pose_press` / `drives.drive` in Blender **IN MEMORY** through all 9 preserved press samples, and capture **actual measured** driver humerothoracic elevations, individual S1/S2/S3/S4/S5/S6/S7 and C1 shape-key values, shoulder-cap/axilla helper presence and quaternion delta, plus existing native deformation metrics. No blend is written; source/rest bone signatures checked.
+- `scripts/cloud_body_analysis/tests/test_pose_state_probe.py`: fail closed on bad source hashes, incomplete samples, nonfinite shape activations, false anatomy approval, and non-human body/sides. Pure-Python tests do NOT substitute for native Blender execution.
+- New GitHub Actions `pose-state-w8` job uses pinned source artifact `12487119841` and two independent Git checkouts (current isolated branch + frozen r57 source). It uploads `phone-w8-shoulder-pose-state-<runid>` JSON **only when generated**. Existing 5 proven jobs remain present and independent.
+- [First workflow run 40034242376](https://github.com/anyangle1409-code/animation-software/actions/runs/40034242376) was QUEUED when inspected. **Do not call native shape-key/cap movement verified until the pose-state-w8 job finishes and its JSON artifact is read.** Intermediate older push runs may be cancelled by concurrency; only verified job conclusions count.
+
+Next: inspect job logs and patch isolated script only if failure; verify all nine frames and native metric continuity, distinguish dynamic measured elevation from authored 90°→160° target, then investigate whether shoulder-cap fraction 0.45 and missing axilla helper actually contribute to posterior crease at sample6/8. No muscle anchors or production changes. High-value later sequel: elbow cross-section silhouette test at neutral/partial/high flexion with radioulnar rotation and restored skin-neutral control.
+
+The overnight hourly cloud continuation automation is configured separately; each run should read current GitHub state and resume safely without duplicating work, reporting verified outcomes only. It is not an always-on persistent session and does not override source-preservation rules.

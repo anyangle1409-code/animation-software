@@ -1,0 +1,98 @@
+name: Body v2 candidate artifact access
+'on':
+  push:
+    branches:
+    - work/body-v2-actions-recovery-20261023
+    paths:
+    - .github/workflows/body-v2-artifact-access.yml
+    - scripts/recovery_access/**
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  actions: read
+jobs:
+  package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    permissions:
+      contents: write
+      actions: read
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.sha }}
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+    - name: Verify artifact packaging guards
+      run: python -m unittest discover -s scripts/recovery_access/tests -v
+    - uses: actions/download-artifact@v4
+      with:
+        name: body-v2-recovery-39918805189-1
+        run-id: 39918805189
+        github-token: ${{ github.token }}
+        path: ${{ runner.temp }}/recovered
+    - name: Preserve exact model bytes, renders and all archive report differences
+      run: python scripts/recovery_access/package_candidates.py "$RUNNER_TEMP/recovered" "$RUNNER_TEMP/access" "$PWD"
+    - uses: actions/upload-artifact@v4
+      id: w8
+      with:
+        name: body-v2-W8-UNVERIFIED-${{ github.run_id }}
+        path: ${{ runner.temp }}/access/W8
+        retention-days: 90
+        compression-level: 6
+        if-no-files-found: error
+    - uses: actions/upload-artifact@v4
+      id: v14
+      with:
+        name: body-v2-V14-UNVERIFIED-${{ github.run_id }}
+        path: ${{ runner.temp }}/access/V14
+        retention-days: 90
+        compression-level: 6
+        if-no-files-found: error
+    - uses: actions/upload-artifact@v4
+      id: r120
+      with:
+        name: body-v2-R120-UNVERIFIED-${{ github.run_id }}
+        path: ${{ runner.temp }}/access/R120
+        retention-days: 90
+        compression-level: 6
+        if-no-files-found: error
+    - uses: actions/upload-artifact@v4
+      id: evidence
+      with:
+        name: body-v2-renders-and-discrepancies-${{ github.run_id }}
+        path: ${{ runner.temp }}/access/evidence
+        retention-days: 90
+        compression-level: 6
+        if-no-files-found: error
+    - name: Record actual hashes, discrepancies and accessible candidate locations
+      env:
+        RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        W8_URL: ${{ steps.w8.outputs.artifact-url }}
+        V14_URL: ${{ steps.v14.outputs.artifact-url }}
+        R120_URL: ${{ steps.r120.outputs.artifact-url }}
+        EVIDENCE_URL: ${{ steps.evidence.outputs.artifact-url }}
+      run: "python - <<'EOF'\nimport json,os\nfrom pathlib import Path\nr=json.loads((Path(os.environ['RUNNER_TEMP'])/'access/evidence/ACCESS_RESULT.json').read_text())\n\
+        r['artifact_urls']={m:os.environ[m+'_URL'] for m in ('W8','V14','R120')};r['evidence_url']=os.environ['EVIDENCE_URL'];r['packaging_run_url']=os.environ['RUN_URL']\n\
+        Path('docs/BODY_V2_RECOVERED_ACCESS_20261023.json').write_text(json.dumps(r,indent=2)+'\\n')\nlines=['#\
+        \ Actual recovered Body v2 candidates \u2014 23 October 2026','','Native .blend files and actual Blender\
+        \ renders now exist. Archive equivalence FAILED; anatomy, movement and production approval are not granted.\
+        \ R120 remains experimental.','','| Model | Download | SHA256 |','|---|---|---|']\nfor model,data in r['models'].items():lines.append(f\"\
+        | {model} | [Exact candidate]({r['artifact_urls'][model]}) | `{data['sha256']}` |\")\nlines += ['',f\"[Actual\
+        \ Blender renders and all archived JSON discrepancies]({r['evidence_url']})\",'', 'W8 offset maximum difference:\
+        \ 3.59286 mm vs unchanged 0.01 mm guard. Proportion maximum difference: 0.837573 mm. v14: 238,065 vertices\
+        \ vs archived 238,067. Skeleton-edit and report differences remain unresolved.','Native inventories passed.\
+        \ Recovered-model movement setup hit the older 67-bone production bridge on the 77-bone authoring rig before\
+        \ posing; this is a harness applicability blocker, not a movement pass. Muscle attachment staging remains\
+        \ blocked by failed source/content gates.','The first run completed reconstruction but failed its final\
+        \ read-only-folder bookkeeping step; outputs were retained. That permission issue was fixed in the expanded\
+        \ workflow.','The combined artifact exceeds the connector 512 MiB download cap. These individual model artifacts\
+        \ preserve exact bytes with separate SHA256SUMS.txt files.','No original/production model or skeletal data\
+        \ changed. PT_MODEL_VERSION remains 1.0.']\nPath('docs/BODY_V2_RECOVERED_ACCESS_20261023.md').write_text('\\\
+        n'.join(lines)+'\\n')\np=Path('docs/BODY_V2_RECOVERY_HANDOVER_20261023.md');s=p.read_text();marker='<!--\
+        \ RECOVERED_CANDIDATE_ACCESS -->';s=s.split(marker)[0].rstrip();p.write_text(s+'\\n\\n'+marker+'\\n\\n'+Path('docs/BODY_V2_RECOVERED_ACCESS_20261023.md').read_text())\n\
+        EOF\ngit config user.name 'github-actions[bot]'\ngit config user.email '41898282+github-actions[bot]@users.noreply.github.com'\n\
+        git add docs/BODY_V2_RECOVERED_ACCESS_20261023.json docs/BODY_V2_RECOVERED_ACCESS_20261023.md docs/BODY_V2_RECOVERY_HANDOVER_20261023.md\n\
+        git commit -m \"docs: publish recovered candidate artifact locations and failed verification gates\"\ngit\
+        \ push origin HEAD:work/body-v2-actions-recovery-20261023"

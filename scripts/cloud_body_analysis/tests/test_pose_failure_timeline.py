@@ -61,6 +61,24 @@ class PoseFailureTimelineTests(unittest.TestCase):
         self.assertEqual(report["generic_motion_tests_executed"], 0)
         self.assertIn("No causality", pf.markdown(report))
 
+    def test_accepts_and_summarizes_new_observed_k1_without_requiring_old_reports(self):
+        for sample in self.doc['samples']:
+            for suffix in ('l', 'r'):
+                sample['sides'][suffix]['actual_shape_key_values'].append(
+                    {'name': f'HGPT_K1_ELBOW_{suffix}_90', 'actual_value': 0.75})
+        report = pf.summarize(self.doc, input_sha256='synthetic')
+        family = report['observed_frames'][0]['suffixes_NOT_anatomical_sides']['l']['families']['K1_ELBOW']
+        self.assertEqual(family['largest_weight'], 0.75)
+        self.assertEqual(family['active_key_count'], 1)
+        old_report = pf.summarize(fixture(), input_sha256='old_synthetic')
+        self.assertNotIn('K1_ELBOW', old_report['observed_frames'][0]['suffixes_NOT_anatomical_sides']['l']['families'])
+
+    def test_new_k1_observations_still_reject_wrong_suffix_and_unknown_family(self):
+        for name in ('HGPT_K1_ELBOW_r_90', 'HGPT_UNKNOWN_l_90'):
+            with self.subTest(name=name):
+                self.reject(lambda d: d['samples'][0]['sides']['l']['actual_shape_key_values'].append(
+                    {'name': name, 'actual_value': 0.1}), 'invalid, wrong-suffix')
+
     def test_rejects_unpinned_source(self):
         self.reject(lambda d: d.update(source_sha256="0"*64), "provenance")
 

@@ -14,7 +14,7 @@ W8_SOURCE_SHA256 = "2434afd0daa231ab3a03c873cad4187ffcbc1bab78132375221160b0b0f0
 PINNED_DRIVER_REV = "025d5f28fa7eba2064fba565b1c9b60119cdd2cb"
 COUNT_METRICS = ("collapse_lt_0_1", "stretch_gt_2", "self_intersecting_pairs")
 VOLUME_METRIC = "body_volume_change_pct"
-KEY_RE = re.compile(r"^HGPT_(C1_ARMTRUNK|S1_SHOULDER|S3_SHAPE|S5_BAKE|S7_DELT)_([lr])_(-?\d+)$")
+KEY_RE = re.compile(r"^HGPT_(C1_ARMTRUNK|S1_SHOULDER|S3_SHAPE|S5_BAKE|S7_DELT|K1_ELBOW)_([lr])_(-?\d+)$")
 
 
 def finite_number(value, label):
@@ -102,6 +102,14 @@ def validated_samples(doc):
                                   "weight_sum": round(sum(fam.values()), 6),
                                   "largest_key": max(fam, key=fam.get),
                                   "largest_weight": max(fam.values())}
+            # New probe versions observe K1 separately; old reports leave it unknown.
+            elbow = {k: v for k, v in values.items() if k.startswith("HGPT_K1_ELBOW_")}
+            if elbow:
+                active["K1_ELBOW"] = {
+                    "active_key_count": sum(v > 1e-6 for v in elbow.values()),
+                    "weight_sum": round(sum(elbow.values()), 6),
+                    "largest_key": max(elbow, key=elbow.get),
+                    "largest_weight": max(elbow.values())}
             side_rows[suffix] = {"driver_measured_ht_deg_NOT_ISB": angle,
                                  "authored_minus_measured_deg": offset,
                                  "cap_helper_present": cap,

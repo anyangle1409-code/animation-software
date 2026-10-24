@@ -42,3 +42,27 @@ python scripts/cloud_body_analysis/elbow_edge_continuity.py \
 **Hip, knee, ankle and foot:** ISB [Part I](https://pubmed.ncbi.nlm.nih.gov/11934426/) and [multisegment foot standards](https://www.isbweb.org/activities/standards) require distinct pelvis/femur/tibia/hindfoot/forefoot coordinates and actual ground contact. Squat trajectories need pelvis/hip/knee/ankle coupling, patella tracking and foot/toe contact checks, not independent Euler-angle clipping. CDC [adult ROM population means](https://archive.cdc.gov/www_cdc_gov/ncbddd/jointrom/index.html) are **descriptive group statistics**, never model-specific hard limits.
 
 **Gates unchanged:** 46 unbound landmark requirements; 0/19 generic human movement tests executed/approved; native shoulder press/squat/grip acceptance failed/blocked. No skeletal, skin, muscle attachment, original `.blend`, PT-App, production, or Claude-owned changes. Permanent muscle IDs retained; muscle highlighting remains deferred.
+
+
+## Independent local archived-data replay (same session; not CI)
+
+After the initial staging, the two historical ZIP artifacts were downloaded again and independently SHA256-checked:
+
+| Archived artifact | Downloaded ZIP SHA256 | Result |
+|---|---|---|
+| W8 native saved pose `12495910312` | `3be4322ba67da8b3827c96c0afdb58ffa8adb998cf8d1814aab0978a9e68d63e` | Matches pinned digest |
+| W8 rest rig `12534047239` | `adaba1780dcde12b589f590bc6de7ae2227485471f9ff0817a56dff888188267` | Matches published digest |
+| W8 `rig_rest_axes_metadata.json` member | `01ef8a7cf4eab8ea8eb29d2fcb2f5cd310ce8a936062624b06868a2e38b7b677` | Matches pinned member SHA256 |
+
+The locally staged edge diagnostic was executed against the **actual hash-verified ZIP and rig member** using faithful local copies of its two existing helper modules. It completed with four descriptive regions. This is a **local real-evidence replay**, not yet an Actions execution of the committed branch; local synthetic tests remained 10/10.
+
+| Authored suffix | Rest band | Unique edges | Press 0 p95 | Press 6 p95 | Press 8 p95 |
+|---|---|---:|---:|---:|---:|
+| l | middle | 901 | 1.2954 | 1.7229 | 1.5885 |
+| l | distal | 488 | 1.4136 | 1.1902 | 1.1374 |
+| r | middle | 897 | 1.2954 | 1.7066 | 1.5834 |
+| r | distal | 486 | 1.4177 | 1.1956 | 1.1389 |
+
+The 95th percentile is a **ratio of saved pose edge length to saved rest edge length**, not a physical muscle strain or safe upper limit. The mid-band p95 increases at sample 6 relative to sample 0 while distal p95 decreases; this is a reproducible **geometric observation only**. No causal inference about elbow taper, skin weights, shoulder cap, muscle overlap or anatomical correctness is justified. Local output JSON SHA256 was `0eda56b171af4195dd50bddd9f745d647e441544bedbe4f9f16d28a47c8107ca`; do not treat it as a GitHub Actions artifact hash.
+
+**Still pending:** Verify the workflow's newly committed exact source/test versions, job conclusion, real artifact members and artifact ZIP digest. No native anatomy, movement or skin approval.

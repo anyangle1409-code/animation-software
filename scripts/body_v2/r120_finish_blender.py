@@ -166,6 +166,12 @@ wf = ss((-fn[:, 1] + 0.05) / 0.40); wb = ss((fn[:, 1] + 0.05) / 0.40)
 region = NEWR.astype(float) * ss((ARM < 0.15).astype(float)) * ss((f - 0.425) / 0.02) * ss((0.795 - f) / 0.02)
 for _ in range(4):
     region = 0.5 * region + 0.5 * mean(region)
+# v3: the relief along the normals inside the narrow armpit crease folded it (pleats past 120 deg: 0 without the relief,
+# 85 with it) - optionally fade the relief out smoothly towards the arm instead of the hard ARM < 0.15 cut
+if os.environ.get("V2_R121_ARMFADE", "0") == "1":
+    region = NEWR.astype(float) * ss((0.12 - ARM) / 0.12) * ss((f - 0.425) / 0.02) * ss((0.795 - f) / 0.02)
+    for _ in range(12):
+        region = 0.5 * region + 0.5 * mean(region)
 dn = (wf * ns["torso_front"](ax, f) + wb * ns["torso_back"](ax, f)) * region * TORSO
 # v3: torso_back's spine groove (-6 mm, sigma 0.0045 H ~ 8 mm) bends the skin ~16 deg per 3 mm edge and read as a ladder
 # of facets down the spine; the reference's groove is broad and soft - swap it for a wider, shallower one
@@ -266,6 +272,28 @@ if ARMDEF > 0:
                             uH=_seg("upperarm_r")[0], uT=_seg("upperarm_r")[1], fH=_seg("forearm_r")[0], fT=_seg("forearm_r")[1])
     REP["arm_slim_max_mm"] = round(float(np.linalg.norm(DS, axis=1).max() * 1000), 1)
     REP["arm_muscles"] = {"max_mm": round(float(ha.max()), 2), "min_mm": round(float(ha.min()), 2), "vertices": int((np.abs(ha) > 0.2).sum())}
+
+# ------------------------------------------------------------------ 4. final unfold (optional)
+# v3: the relief and the arm stage fold a few dozen triangle pairs past 120 deg inside the armpit crease (rear fold) -
+# the stage-0 unfold again, on the finished shape
+FU = int(os.environ.get("V2_R121_FINAL_UNFOLD", "0"))
+if FU > 0:
+    fixes = []
+    for rnd in range(FU):
+        me.vertices.foreach_set("co", (V + D).ravel()); me.update()
+        fv, nf = fold_verts(); fixes.append(int(nf))
+        if nf == 0:
+            break
+        m = np.zeros(n); m[fv] = 1.0
+        for _ in range(3):
+            m = np.maximum(m, (A @ m) * Dinv > 0)
+        Q = V + D
+        for _ in range(30):
+            Q = Q + 0.6 * m[:, None] * (mean(Q) - Q)
+        D = Q - V
+    me.vertices.foreach_set("co", (V + D).ravel()); me.update()
+    REP["final_unfold_vertices_per_round"] = fixes + [int(fold_verts()[1])]
+    me.vertices.foreach_set("co", V.ravel()); me.update()
 
 # ------------------------------------------------------------------ write: basis and every shape key move together
 me.vertices.foreach_set("co", (V + D).ravel())

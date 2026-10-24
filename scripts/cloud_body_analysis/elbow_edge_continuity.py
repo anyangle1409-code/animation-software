@@ -75,6 +75,63 @@ def describe(ratios, baseline=None):
     return result
 
 
+
+def ranked_rest_edge_hotspots(rest, edges, ratios, top_n=5):
+    """Deterministic mesh-edge IDs for reviewing extremes; NOT clinical thresholds.
+
+    Same rest edge IDs across saved pose samples; ranks use no anatomical
+    left/right inference. This does not label causes or approve deformation.
+    """
+    points = np.asarray(rest, dtype=float)
+    links = np.asarray(edges)
+    if (points.ndim != 2 or points.shape[1] != 3 or not np.isfinite(points).all()
+        or links.ndim != 2 or links.shape[1] != 2
+        or not np.issubdtype(links.dtype, np.integer) or len(links) == 0
+        or int(links.min()) < 0 or int(links.max()) >= len(points)
+        or np.any(links[:, 0] == links[:, 1])
+        or len(np.unique(np.sort(links, axis=1), axis=0)) != len(links)
+        or type(top_n) is not int or not 1 <= top_n <= 10
+        or set(ratios) != set(FRAMES)):
+        raise ValueError("invalid fixed-rest hotspot inputs")
+    values = {i: np.asarray(ratios[i], dtype=float) for i in FRAMES}
+    if any(v.shape != (len(links),) or not np.isfinite(v).all()
+           or np.any(v < 0) for v in values.values()):
+        raise ValueError("invalid saved pose edge ratios")
+
+    def rows(indices):
+        result = []
+        for k in indices[:top_n]:
+            a, b = map(int, links[k])
+            result.append({
+                "rest_mesh_edge_vertex_ids": [a, b],
+                "rest_midpoint_body_local_m": [
+                    round(float(v), 6) for v in (points[a] + points[b]) / 2],
+                "pose_over_rest_edge_ratio_by_sample": {
+                    str(i): round(float(values[i][k]), 6) for i in FRAMES},
+                "abs_ratio_change_sample0_to_6": round(
+                    float(abs(values[6][k] - values[0][k])), 6),
+                "abs_ratio_change_sample0_to_8": round(
+                    float(abs(values[8][k] - values[0][k])), 6)})
+        return result
+
+    def order(metric, reverse=False):
+        return sorted(range(len(links)),
+                      key=lambda k: ((-1 if reverse else 1) * float(metric[k]),
+                                     int(min(links[k])), int(max(links[k]))))
+
+    return {
+        "interpretation": "Ranked fixed mesh edges only; not tissue strain, "
+                          "anatomical landmarks, joint axes or repair coordinates.",
+        "shortest_pose_over_rest_edges": {
+            str(i): rows(order(values[i])) for i in FRAMES},
+        "longest_pose_over_rest_edges": {
+            str(i): rows(order(values[i], reverse=True)) for i in FRAMES},
+        "largest_absolute_ratio_change_from_sample0": {
+            str(i): rows(order(np.abs(values[i] - values[0]), reverse=True))
+            for i in FRAMES if i != 0},
+    }
+
+
 def audit(w8, rig):
     axes = controls(rig)  # exact pinned W8 rig JSON member hash; unapproved anatomy
     source = Evidence("W8", w8)
@@ -111,7 +168,9 @@ def audit(w8, rig):
                 regions[suffix][name] = {
                     "fixed_rest_vertex_count": int(len(ids)), "unique_mesh_edge_count": int(len(edges)),
                     "authored_upperarm_axis_fraction_NOT_elbow_joint": fraction,
-                    "pose_samples": {str(i): describe(ratios[i], ratios[0]) for i in FRAMES}}
+                    "pose_samples": {str(i): describe(ratios[i], ratios[0]) for i in FRAMES},
+                    "ranked_rest_edge_hotspots_NOT_anatomical_landmarks":
+                        ranked_rest_edge_hotspots(first["rest"], edges, ratios)}
         return {"status": STATUS, "model": "W8", "source_blend_sha256": W8_SHA,
                 "pinned_rig_json_sha256": RIG_SHA, "native_source_run": 39937882229,
                 "native_rig_run": 40029398965, "triangle_indices_sha256": fingerprint,

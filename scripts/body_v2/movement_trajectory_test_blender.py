@@ -1,7 +1,7 @@
 """Full-trajectory movement tests for a body_v2 blend (read-only; nothing is saved to the blend).
 
 Trajectories (each starts and ends at neutral, so return-to-neutral is measured):
-  press  - neutral -> rack (humerothoracic 90 deg, elbow 90) -> lockout (160, elbow 0) -> rack -> neutral.  Shoulder from the
+  press  - neutral (16 deg carriage, V2_TRAJ_PRESS_START) -> rack (humerothoracic 90 deg, elbow 90) -> lockout (160, elbow 0) -> rack -> neutral.  Shoulder from the
            r57 coupled path (correction.apply_corrected_pose: clavicle / scapula coupling + humeral axial rotation, plane
            40 deg) - the same path the r57 movement benchmark's shoulder_press uses (project-authored, not cohort-fit).
   curl   - elbow 0 -> 140 -> 0 with the arms at the sides (16 deg carriage).
@@ -50,6 +50,8 @@ USE_R121 = os.environ.get("V2_TRAJ_R121", "1") == "1"
 GIRDLE = os.environ.get("V2_TRAJ_GIRDLE", "r57")           # r57: apply_corrected_pose; candidate: shoulder_girdle_candidate
 NF = int(os.environ.get("V2_TRAJ_FRAMES", "17"))           # frames per trajectory (odd: the turning point is sampled)
 RENDER = os.environ.get("V2_TRAJ_RENDER", "1") == "1"
+HT0 = float(os.environ.get("V2_TRAJ_PRESS_START", "16"))   # press neutral: humerothoracic 16 deg (the standing carriage);
+#                                                          0 points the arm straight down through the hip (test artifact)
 body = bpy.data.objects["HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"]
 rig = bpy.data.objects["HGPT_CANONICAL_V4_ORIGINAL"]
 me = body.data
@@ -148,8 +150,8 @@ def elbows(deg):
 def press(u):
     """u in [0, 1] out and back: 0 neutral, 0.25 rack, 0.5 lockout, 0.75 rack, 1 neutral"""
     p = 1.0 - abs(2.0 * u - 1.0)                                  # 0 -> 1 -> 0
-    if p <= 0.5:                                                    # neutral -> rack
-        k = bench.smooth(p / 0.5); ht, elb = 90.0 * k, 90.0 * k
+    if p <= 0.5:                                                    # neutral (standing carriage) -> rack
+        k = bench.smooth(p / 0.5); ht, elb = HT0 + (90.0 - HT0) * k, 90.0 * k
     else:                                                           # rack -> lockout (the benchmark's own path)
         k = bench.smooth((p - 0.5) / 0.5); ht, elb = 90.0 + 70.0 * k, 90.0 * (1.0 - k)
     bench._reset(rig)

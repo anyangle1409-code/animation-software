@@ -168,6 +168,73 @@ Still open:
 Images: `elbow_closeups_before.jpg`, `elbow_closeups_elbow_keys.jpg`, `curl_elbow_keys.jpg`,
 `press_corrected_girdle_elbow_keys.jpg`, `squat_all_keys.jpg`. Report: `report_TT_all8.json`.
 
+## Shoulder system (T3): one girdle for every arm raise, on the ISB scapula frame
+
+**ISB frame.** R41 and body_v2 carry ISB landmark empties (`LM_scapula_*__AA/TS/AI`). The ISB scapula frame built from
+them (Wu et al. 2005: Zs from TS to AA, Xs normal to the AA–TS–AI plane pointing forward, Ys = Zs × Xs) gives a
+scapular plane **18.5°** from the frontal plane, tipped 6° forward. That replaces the 35° assumption
+(`V2_GIRDLE_FRAME=isb`). Upward rotation is about Xs, posterior tilt about Zs, and internal rotation about Ys.
+
+**Internal-rotation sign fixed.** It was being chosen from the glenoid end, which lies almost on the AC pivot, so the
+sign was unreliable and the inferior angle moved forward. It is now probed at the inferior angle, which moves backward,
+as it should for internal rotation.
+
+**Same girdle for every raise.** `apply_arm_pose(rig, elevation, plane)` applies the coupled girdle for any arm raise,
+not only the press. The arm keys (sideways and forward families) are re-authored with it active
+(`V2_R121_ARMKEY_GIRDLE=1`). Every arm raise therefore runs one shoulder mechanism.
+
+**Press lockout:**
+
+| | r57 girdle + keys | girdle (35° plane) + keys authored on it | **girdle (ISB) + keys authored on it** |
+|---|---|---|---|
+| folds over 90° | 869 | 156 | **136** |
+| crumple over 35° | 5071 | 1251 | **1201** |
+| shoulder folds over 90° | 778 | 143 | **119** |
+| self-intersections | 3738 | 41 | **24** |
+
+The press now starts from the standing carriage, humerothoracic 16° (`V2_TRAJ_PRESS_START`); 0° drove the arm through
+the hip. Over the full press trajectory (I5), self-intersections are 0–2 everywhere except 24–25 at the lockout armpit.
+Return to neutral is 0.0000 mm.
+
+**Squat sole (I5).** 3,622 sole vertices carried shin weight, under the heel. The heel pad is bound to the calcaneus, so
+`foot_sole_weights_candidate_blender.py` moves shin weight to the foot bone on the sole, fading back to the original
+weights by 30 mm above the floor. About 4,040 vertices per foot change, symmetric left and right.
+
+- Squat heel lift: **11.3 → 0.0 mm**.
+- Sole slide: 19.3 → 17.4 mm. The remaining slide is not from shin weights; still to be investigated.
+
+Images: `I5_press.jpg`, `I5_curl.jpg`, `I5_squat.jpg`. Reports: `report_TT_I5.json`,
+`report_TT_I4_isb_girdle_keys.json`, `report_TT_G4_plane35_girdle_keys.json`.
+
+## Joint centres (body_v2 R121p)
+
+`joint_centre_audit_blender.py` compares each rig pivot with the ISB/clinical centre derived from skin prominences, which
+needs no regression coefficients:
+
+- knee = midpoint of the femoral epicondyles;
+- ankle = midpoint of the malleoli;
+- elbow = midpoint of the humeral epicondyles;
+- wrist = midpoint of the styloids.
+
+Results (pivot minus centre, mm; left and right within 1.4 mm):
+
+| Joint | Lateral | Anterior | Up | Reading |
+|---|---|---|---|---|
+| knee | −7 | −6 | −1 | well placed |
+| ankle | +1 | +1 | **+16** | pivot above the widest malleolar line; a plausible contributor to squat foot slide |
+| elbow | −1 | **−17** | **+22** | above and behind the epicondyle line |
+| wrist | −6 | −3 | +18 | above the styloid line |
+| hip | n/a | n/a | n/a | rig thigh heads coincide with R41's `LM_hip_bone_*__HJC` |
+
+The skin "widest point" can be pulled by muscle bulk, so the elbow and wrist offsets are indicative. **Not changed:**
+moving a validated joint centre means re-skinning, and the rules forbid overwriting validated skeletal data. These are
+candidates for an isolated skeleton-shift test.
+
+Literature servers (NCBI/PMC) were not reachable from this sandbox, so regression-based hip joint centres (Harrington
+2007, Bell 1990) were not applied: their coefficients could not be verified.
+
+Report: `joint_centre_audit_R121p.json`.
+
 ## Open items (measured, next)
 
 - **Elbow:** see the T2 section. Open there: the contact slit, volume preservation and the press-rack elbow.

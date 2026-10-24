@@ -187,3 +187,29 @@ assert rest_axes["model_motion_axes_calibrated_to_ISB"] is False
 assert rest_axes["native_human_ROM_limits_validated"] is False
 (out / "rig_rest_axes_metadata.json").write_text(json.dumps(rest_axes, indent=2) + "\n")
 print("READ_ONLY_RIG_LOCAL_AXES", MODEL, rest_axes["bone_count"], "BONES; ANATOMY_NOT_APPROVED")
+
+
+
+# W8-only fixed-ID investigation of ranked elbow-region mesh edges.
+# Reads rest vertices, group weights and STORED key geometry; does not pose rig.
+# Edge IDs are specific to the hash-pinned reconstructed W8 topology.
+if MODEL == "W8":
+    from elbow_edge_endpoint_audit import (
+        analyze as inspect_pinned_elbow_edges,
+        markdown as pinned_elbow_markdown,
+        STATUS as PINNED_ELBOW_STATUS,
+    )
+    endpoint_audit = inspect_pinned_elbow_edges(body, EXPECTED[MODEL])
+    assert endpoint_audit["status"] == PINNED_ELBOW_STATUS
+    assert endpoint_audit["mesh_vertices"] == report["vertices"]
+    assert endpoint_audit["shape_key_count"] == report["shape_keys"]
+    assert endpoint_audit["target_edge_count"] == 4
+    assert endpoint_audit["anatomical_side_verified"] is False
+    assert endpoint_audit["skin_deformation_validated"] is False
+    assert sha(source) == EXPECTED[MODEL], "W8 source changed during endpoint inspection"
+    (out / "w8_elbow_edge_endpoint_weights_and_keys.json").write_text(
+        json.dumps(endpoint_audit, indent=2) + "\n")
+    (out / "w8_elbow_edge_endpoint_weights_and_keys.md").write_text(
+        pinned_elbow_markdown(endpoint_audit))
+    print("READ_ONLY_W8_ELBOW_EDGE_ENDPOINTS", endpoint_audit["target_edge_count"],
+          "ANATOMY_AND_SKIN_NOT_APPROVED")

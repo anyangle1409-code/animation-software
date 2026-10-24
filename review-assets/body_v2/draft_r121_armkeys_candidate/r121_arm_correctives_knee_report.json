@@ -1,0 +1,115 @@
+{
+ "mode": "knee",
+ "angles_deg": [
+  50,
+  75,
+  100
+ ],
+ "keys": {
+  "50": {
+   "elevation_deg": {
+    "l": 52.35,
+    "r": 52.35
+   },
+   "folds_gt90_before": 64,
+   "unfold_history": [
+    108,
+    41,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40
+   ],
+   "contact_history": {
+    "r": 573,
+    "l": 573
+   },
+   "crumple_gt35_history": [
+    4059,
+    3999,
+    3988,
+    3982,
+    3969,
+    3966,
+    3960
+   ],
+   "folds_gt90_with_key": 40,
+   "max_offset_mm": 10.55,
+   "vertices": 2624,
+   "fit_residual_max_mm": 0.001
+  },
+  "75": {
+   "elevation_deg": {
+    "l": 90.15,
+    "r": 90.15
+   },
+   "folds_gt90_before": 106,
+   "unfold_history": [
+    201,
+    112,
+    89,
+    63,
+    62,
+    63,
+    55,
+    55,
+    55
+   ],
+   "contact_history": {
+    "r": 2066,
+    "l": 2082
+   },
+   "crumple_gt35_history": [
+    4761,
+    4616,
+    4552,
+    4517,
+    4484,
+    4460,
+    4441
+   ],
+   "folds_gt90_with_key": 55,
+   "max_offset_mm": 29.65,
+   "vertices": 5769,
+   "fit_residual_max_mm": 0.001
+  },
+  "100": {
+   "elevation_deg": {
+    "l": 107.33,
+    "r": 107.33
+   },
+   "folds_gt90_before": 187,
+   "unfold_history": [
+    288,
+    134,
+    107,
+    68,
+    73,
+    70,
+    64,
+    64,
+    84
+   ],
+   "contact_history": {
+    "r": 3149,
+    "l": 3174
+   },
+   "crumple_gt35_history": [
+    5086,
+    4910,
+    4848,
+    4800,
+    4773,
+    4755,
+    4734
+   ],
+   "folds_gt90_with_key": 84,
+   "max_offset_mm": 31.52,
+   "vertices": 9209,
+   "fit_residual_max_mm": 0.001
+  }
+ }
+}

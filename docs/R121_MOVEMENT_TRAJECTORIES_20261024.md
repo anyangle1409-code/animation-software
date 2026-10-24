@@ -235,13 +235,37 @@ Literature servers (NCBI/PMC) were not reachable from this sandbox, so regressio
 
 Report: `joint_centre_audit_R121p.json`.
 
+## Squat knee contact (I6)
+
+**Method:** the elbow's hinge-contact recipe applied to the knee. Thigh-side and shin-side skin within 18 cm of the
+knee is flattened onto the plane bisecting the knee angle, on its inner side, behind the knee. Then unfold and
+de-crumple, and take the keys back to rest space.
+
+- Keys: `R121_KNEE_<s>_<pct>` at benchmark squat depths 50 / 75 / 100 %.
+- Driven by `r121_drives.knee_flex_deg` (thigh against shin direction), with hats from 20°.
+- Measured knee flexion at the three depths: 52 / 90 / 107°.
+- Flattened vertices per side: 573 / 2066–2082 / 3149–3174 (left and right within 1 %).
+
+**Deep-squat results:**
+
+| Measure | Before (I5) | With knee keys (I6) |
+|---|---|---|
+| Knee self-intersections | 722 | **0** |
+| Knee folds over 90° | 123 | **20** |
+| Whole-body folds | 138 | 43 |
+| Whole-body crumple | 941 | 659 |
+
+The remaining squat intersections (115) are all in the armpit, from the arm carriage: the rest-pose issue below. The
+arm movements are unchanged (keys at 0).
+
+Images: `squat_knees_knee_contact_keys.jpg`. Report: `report_TT_I6_squat_knee_keys.json`.
+
 ## Open items (measured, next)
 
 - **Elbow:** see the T2 section. Open there: the contact slit, volume preservation and the press-rack elbow.
 - **Press lockout:** 6619 edges are still stretched more than 2× (armpit and lat skin), with residual armpit wrinkles.
-- **Squat:**
-  - the back of the knee interpenetrates (722 pairs at depth);
-  - sole skin slides 19 mm and lifts 11 mm (shin-weighted heel and ankle skin).
+- **Squat:** the knee contact and heel lift are fixed (see above). Sole slide is still 17 mm and is not from shin
+  weights.
 - **Rest-pose armpit and arm-hip intersections:** above.
 - **Corrected girdle:**
   - the magnitudes are still the r57 project profile;

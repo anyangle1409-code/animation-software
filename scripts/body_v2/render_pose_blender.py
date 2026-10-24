@@ -55,7 +55,7 @@ def pose(name):
         r121_drives.drive(rig, body)
     else:
         for kb in body.data.shape_keys.key_blocks:
-            if kb.name.startswith(("R121_ARM_", "R121_FLEX_", "R121_HIP_")):
+            if kb.name.startswith(("R121_ARM_", "R121_FLEX_", "R121_HIP_", "R121_ELBOW_", "R121_KNEE_")):
                 kb.value = 0.0
     bpy.context.view_layer.update()
 
@@ -69,7 +69,8 @@ sc.display.shading.show_cavity = True; sc.render.resolution_x = 1000; sc.render.
 sc.render.film_transparent = False
 for name in POSES:
     pose(name)
-    centre = Vector((0.0, 0.05, 0.62 if name.startswith("squat") else 1.42))
+    cz = os.environ.get("V2_POSE_CENTER_Z")                 # framing override (m)
+    centre = Vector((0.0, 0.05, float(cz) if cz else (0.62 if name.startswith("squat") else 1.42)))
     for view, dv in {"front": (0, -1, 0), "back": (0, 1, 0), "side": (1, 0, 0), "back34": (0.7, 0.7, 0.3)}.items():
         d = Vector(dv).normalized(); cam.location = centre + d * 4; cam.rotation_mode = "QUATERNION"
         cam.rotation_quaternion = (-d).to_track_quat("-Z", "Y")

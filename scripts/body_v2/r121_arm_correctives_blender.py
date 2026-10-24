@@ -81,7 +81,9 @@ MODE = os.environ.get("V2_R121_ARMKEY_MODE", "abd")        # abd: sideways raise
 #                                                            squat: benchmark squat at depth ANGLES / 100 (hip family)
 FAMILY = {"abd": (r121_drives.PREFIX, r121_drives.PROP), "flex": (r121_drives.FLEX_PREFIX, r121_drives.FLEX_PROP),
           "squat": (r121_drives.HIP_PREFIX, r121_drives.HIP_PROP),
-          "elbow": (r121_drives.ELBOW_PREFIX, r121_drives.ELBOW_PROP)}[MODE]
+          "elbow": (r121_drives.ELBOW_PREFIX, r121_drives.ELBOW_PROP),
+          "knee": (r121_drives.KNEE_PREFIX, r121_drives.KNEE_PROP)}[MODE]
+HINGE = {"elbow": ("upperarm", "forearm", 0.16), "knee": ("thigh", "shin", 0.18)}   # upper bone, lower bone, reach (m)
 WGT = {}
 for v in me.vertices:
     for g in v.groups:
@@ -98,14 +100,18 @@ def gsum(*keys):
 
 CONTACT = None
 ARMGIRDLE = os.environ.get("V2_R121_ARMKEY_GIRDLE", "0") == "1"   # author abd / flex keys with the candidate girdle
-if MODE == "elbow":                                        # the arm within 16 cm of each elbow; hands held
-    wu, wf = gsum("upperarm"), gsum("forearm")
+if MODE in HINGE:                                           # the limb within reach of each hinge; hands / feet held
+    ub_, lb_, reach = HINGE[MODE]
+    wu, wf = gsum(ub_), gsum(lb_)
     near = np.zeros(n, bool)
     for s_ in ("l", "r"):
-        e_ = np.array(rig.data.bones[f"forearm_{s_}"].head_local)
-        near |= np.linalg.norm(R0 - e_, axis=1) < 0.16
+        e_ = np.array(rig.data.bones[f"{lb_}_{s_}"].head_local)
+        near |= np.linalg.norm(R0 - e_, axis=1) < reach
     UPPER = near & ((wu + wf) > 0.3) & ~HOLD
-    CONTACT = (UPPER & (wu >= wf), UPPER & (wf > wu))      # upper-arm side / forearm side of the elbow
+    CONTACT = (UPPER & (wu >= wf), UPPER & (wf > wu))      # proximal side / distal side of the hinge
+if MODE == "knee":
+    bench._reset(rig)
+    REST_HEADS = {s_: rig.pose.bones[f"foot_{s_}"].head.copy() for s_ in ("l", "r")}
 if MODE == "squat":                                        # hips, glutes, groin, lower back - not the knees
     fz = (R0[:, 2] - z0) / H
     arm_g = {i for i, g in enumerate(GN) if any(k in g for k in ("upperarm", "forearm"))}
@@ -123,7 +129,7 @@ def pose(ang):
             fb = rig.pose.bones[f"forearm_{sd}"]; fb.rotation_mode = "XYZ"; fb.rotation_euler = (math.radians(-ang), 0.0, 0.0)
         bpy.context.view_layer.update(); drives.drive(rig, body); r121_drives.drive(rig, body); bpy.context.view_layer.update()
         return
-    if MODE == "squat":
+    if MODE in ("squat", "knee"):
         bench.pose_squat(rig, ang / 100.0, REST_HEADS)
         bpy.context.view_layer.update(); drives.drive(rig, body); r121_drives.drive(rig, body); bpy.context.view_layer.update()
         return
@@ -156,8 +162,9 @@ def contact(T, margin=0.0008):
     out = {}
     D = np.zeros_like(T)
     for s_ in ("r", "l"):
-        side = np.sign(R0[:, 0]) == (1.0 if rig.data.bones[f"upperarm_{s_}"].head_local.x > 0 else -1.0)
-        ub, fb = rig.pose.bones[f"upperarm_{s_}"], rig.pose.bones[f"forearm_{s_}"]
+        ubn, lbn = HINGE[MODE][:2]
+        side = np.sign(R0[:, 0]) == (1.0 if rig.data.bones[f"{ubn}_{s_}"].head_local.x > 0 else -1.0)
+        ub, fb = rig.pose.bones[f"{ubn}_{s_}"], rig.pose.bones[f"{lbn}_{s_}"]
         e = np.array(fb.head)
         u = np.array((ub.head - ub.tail).normalized())         # elbow -> shoulder
         f = np.array((fb.tail - fb.head).normalized())         # elbow -> wrist
@@ -192,7 +199,8 @@ REP = {"mode": MODE, "angles_deg": ANGLES, "keys": {}}
 made = {}
 for ang in ANGLES:
     pose(ang)
-    measure = {"squat": r121_drives.hip_flex_deg, "elbow": r121_drives.elbow_flex_deg}.get(MODE, drives.elevation_deg)
+    measure = {"squat": r121_drives.hip_flex_deg, "elbow": r121_drives.elbow_flex_deg,
+               "knee": r121_drives.knee_flex_deg}.get(MODE, drives.elevation_deg)
     elev = {s: round(float(measure(rig, s)), 2) for s in ("l", "r")}
     P = evaluated()
     T = P.copy(); hist = []
@@ -256,7 +264,7 @@ for s in ("l", "r"):
     rig[f"{FAMILY[1]}_{s}"] = made[s]
 bench._reset(rig)
 for kb in me.shape_keys.key_blocks:
-    if kb.name.startswith(("R121_ARM_", "R121_FLEX_", "R121_HIP_", "R121_ELBOW_")):
+    if kb.name.startswith(("R121_ARM_", "R121_FLEX_", "R121_HIP_", "R121_ELBOW_", "R121_KNEE_")):
         kb.value = 0.0
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT / "body_v2_r121_arms.blend"), copy=True)
 (OUT / f"r121_arm_correctives_{MODE}_report.json").write_text(json.dumps(REP, indent=1))

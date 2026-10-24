@@ -80,6 +80,24 @@ so earlier candidates (R121b–d) rebuild unchanged.
     - local delete-and-refill: left holes (117 boundary edges) and the fills folded again. Not committed.
   - Fix: the final unfold.
 
+## Motion check (R121p vs its R120 input)
+
+The check uses `scripts/body_v2/r121_motion_check_blender.py`, which is read-only and saves nothing. It poses the rig
+with the correctives driven (the r57 drives), then counts edges whose faces differ by more than 90 / 120 deg on the
+deformed mesh. Hands and feet are excluded. "Band" means the arm root: 0.70–0.82 H, \|x\| > 0.12 m.
+
+| Pose | RB2 >90 / >120 (band) | R121p >90 / >120 (band) |
+|---|---|---|
+| rest | 2583 / 1147 (58 / 28) | 43 / 2 (41 / 2) |
+| arm abduction 90 | 2998 / 1256 (527 / 253) | 584 / 281 (528 / 268) |
+| arm abduction 150 | 6365 / 3080 (3532 / 1746) | 4005 / 2001 (3261 / 1624) |
+| elbow 120 | 2709 / 1218 (13 / 5) | 142 / 89 (4 / 3) |
+| squat (benchmark t = 1) | 2534 / 1174 (51 / 25) | 736 / 342 (13 / 5) |
+
+R121 removes most folds in every pose. Raising the arm is still bad at the arm root, about equally in RB2 and R121p.
+That comes from the R120 rebuild: its shoulder correctives were authored on the old surface and carried across by
+transfer. It is the largest open problem for movement. JSON: `review-assets/body_v2/draft_r121p_candidate/motion_check_*.json`.
+
 ## Tried, not adopted
 
 - **Back gain** (`V2_R121_BACK_GAIN`, back relief above 0.60 H only).
@@ -95,8 +113,7 @@ so earlier candidates (R121b–d) rebuild unchanged.
 - **Rear upper arm:** still lumpier than the reference.
 - **Thigh seam:** faint traces in the back view.
 - **Head:** still the hood.
-- **Movement:** not re-tested on R121. All shape keys move with the basis, but the correctives were authored on the old
-  surface.
+- **Movement:** see the motion check above. Arm raising folds the arm root (inherited from R120).
 - **Determinism:** R121 itself is deterministic numpy on a fixed input. Its input (RB2) is the local R120 build, which
   matches the archive to within 1.14 mm on 5,210 / 347,917 vertices (see `docs/V14_RECOVERY_INVESTIGATION_20261023.md`).
 

@@ -1,0 +1,33 @@
+{
+ "source": "body_v2_rebuilt.blend",
+ "rest": {
+  "gt90": 2583,
+  "gt120": 1147,
+  "band_gt90": 58,
+  "band_gt120": 28
+ },
+ "abduct_90": {
+  "gt90": 2998,
+  "gt120": 1256,
+  "band_gt90": 527,
+  "band_gt120": 253
+ },
+ "abduct_150": {
+  "gt90": 6365,
+  "gt120": 3080,
+  "band_gt90": 3532,
+  "band_gt120": 1746
+ },
+ "elbow_120": {
+  "gt90": 2709,
+  "gt120": 1218,
+  "band_gt90": 13,
+  "band_gt120": 5
+ },
+ "squat": {
+  "gt90": 2534,
+  "gt120": 1174,
+  "band_gt90": 51,
+  "band_gt120": 25
+ }
+}

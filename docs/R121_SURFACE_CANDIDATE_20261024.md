@@ -133,3 +133,63 @@ This is the largest open problem for movement. The fix is new abduction correcti
   matches the archive to within 1.14 mm on 5,210 / 347,917 vertices (see `docs/V14_RECOVERY_INVESTIGATION_20261023.md`).
 
 Review images (model only): `review-assets/body_v2/draft_r121p_candidate/`.
+
+## Arm-raise correctives (candidate, 24 Oct 2026)
+
+These are candidate-only keys authored on the rebuilt surface. The r57 drives are not changed; the new keys are driven
+by `scripts/body_v2/r121_drives.py`, called after the r57 `drives.drive`.
+
+```
+V2_R121_ARMKEY_CRUMPLE=6 V2_R121_ARMKEY_CRUMPLE_DEG=21 \
+  python3.13 scripts/body_v2/r121_arm_correctives_blender.py -- body_v2_r121.blend <r57src> <A>
+V2_R121_ARMKEY_CRUMPLE=6 V2_R121_ARMKEY_CRUMPLE_DEG=21 V2_R121_ARMKEY_MODE=flex \
+  python3.13 scripts/body_v2/r121_arm_correctives_blender.py -- <A>/body_v2_r121_arms.blend <r57src> <B>
+```
+
+**Recipe.** For each key angle (60 / 90 / 120 / 150 deg):
+
+1. Pose both arms with every existing drive active.
+2. Relax the posed upper body (above 0.62 H; hands and feet held):
+   - unfold rounds (local averaging over folded triangle pairs and 4 rings);
+   - de-crumple rounds (shrink-free HC over edges past 21 deg, dilated).
+3. Take the correction back to rest space through each vertex's measured deformation matrix. The matrix comes from
+   three 1 mm unit test keys, which is exact for LBS plus additive keys. Two fixed-point passes follow; the fit residual
+   is 0.000 mm.
+
+**Keys.**
+
+- `R121_ARM_<s>_<deg>`: authored in a sideways raise (abduction). Hats on the humerothoracic elevation, the measure
+  `drive_s1` uses, from 25 deg.
+- `R121_FLEX_<s>_<deg>`: authored in a forward raise as the residual on top of `R121_ARM_*`. It is weighted by
+  `plane_factor`, the sin² of the plane of elevation measured from the arm's displacement off its rest direction. The
+  factor is 0.000 for sideways raises and 0.97–1.0 for forward ones, so the sideways results are unaffected.
+
+**Motion check** (`r121_motion_check_blender.py`, band = arm root). Mean edge angle in the band: 2.83 deg at rest.
+
+| Pose | R121p band >35 / >90 / mean angle | + arm keys band >35 / >90 / mean angle |
+|---|---|---|
+| abduction 90 | 3718 / 528 / 7.31 | 34 / 0 / 3.49 |
+| abduction 120 | 12890 / 2691 / 13.65 | 92 / 0 / 3.25 |
+| abduction 135 (between keys) | 14792 / 3271 / 14.74 | 433 / 32 / 4.40 |
+| abduction 150 | 14819 / 3261 / 14.79 | 138 / 0 / 3.44 |
+| forward 90 | 3738 / 459 / 7.89 | 227 / 5 / 3.98 |
+| forward 150 | 13673 / 2664 / 14.34 | 467 / 34 / 4.27 |
+| rest, elbow 120, squat | unchanged | unchanged (keys at 0) |
+
+Images: `review-assets/body_v2/draft_r121_armkeys_candidate/sheet_*.jpg`, workbench with cavity, upper body, front /
+back / side / back-3/4. Top row is R121p; bottom row adds the keys.
+
+**What is clean and what is not.**
+
+- The tangled armpit and the rear-shoulder crumple are gone in the side, back and back-3/4 views.
+- The front of the raised upper arm still shows fine wrinkle texture. That comes from the skinning itself (LBS on the
+  rebuilt arm), which keys can only mask.
+- Keys move vertices by up to 37 mm (150 deg, forward).
+
+**Not tested:**
+
+- Combined raise + elbow bend.
+- Raises with axial rotation.
+- The movement benchmarks (press, row, pull-up).
+
+Adopting these keys is a runtime-contract change: new keys plus a drive call. That is the owner's decision.

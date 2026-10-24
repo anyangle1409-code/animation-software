@@ -1,0 +1,93 @@
+{
+ "source": "body_v2_r121_arms.blend",
+ "rest": {
+  "gt35": 469,
+  "gt90": 43,
+  "gt120": 2,
+  "band_gt35": 327,
+  "band_gt90": 41,
+  "band_gt120": 2,
+  "band_mean_angle_deg": 2.83,
+  "band_p95_angle_deg": 8.98
+ },
+ "abduct_90": {
+  "gt35": 523,
+  "gt90": 3,
+  "gt120": 3,
+  "band_gt35": 34,
+  "band_gt90": 0,
+  "band_gt120": 0,
+  "band_mean_angle_deg": 3.49,
+  "band_p95_angle_deg": 10.06
+ },
+ "abduct_120": {
+  "gt35": 236,
+  "gt90": 1,
+  "gt120": 0,
+  "band_gt35": 92,
+  "band_gt90": 0,
+  "band_gt120": 0,
+  "band_mean_angle_deg": 3.25,
+  "band_p95_angle_deg": 9.95
+ },
+ "abduct_135": {
+  "gt35": 620,
+  "gt90": 38,
+  "gt120": 18,
+  "band_gt35": 433,
+  "band_gt90": 32,
+  "band_gt120": 18,
+  "band_mean_angle_deg": 4.4,
+  "band_p95_angle_deg": 13.12
+ },
+ "abduct_150": {
+  "gt35": 271,
+  "gt90": 0,
+  "gt120": 0,
+  "band_gt35": 138,
+  "band_gt90": 0,
+  "band_gt120": 0,
+  "band_mean_angle_deg": 3.44,
+  "band_p95_angle_deg": 10.57
+ },
+ "flex_90": {
+  "gt35": 580,
+  "gt90": 8,
+  "gt120": 6,
+  "band_gt35": 227,
+  "band_gt90": 5,
+  "band_gt120": 3,
+  "band_mean_angle_deg": 3.98,
+  "band_p95_angle_deg": 11.3
+ },
+ "flex_150": {
+  "gt35": 629,
+  "gt90": 34,
+  "gt120": 14,
+  "band_gt35": 467,
+  "band_gt90": 34,
+  "band_gt120": 14,
+  "band_mean_angle_deg": 4.27,
+  "band_p95_angle_deg": 12.37
+ },
+ "elbow_120": {
+  "gt35": 1299,
+  "gt90": 142,
+  "gt120": 89,
+  "band_gt35": 160,
+  "band_gt90": 4,
+  "band_gt120": 3,
+  "band_mean_angle_deg": 2.63,
+  "band_p95_angle_deg": 8.26
+ },
+ "squat": {
+  "gt35": 5723,
+  "gt90": 736,
+  "gt120": 342,
+  "band_gt35": 253,
+  "band_gt90": 13,
+  "band_gt120": 5,
+  "band_mean_angle_deg": 2.72,
+  "band_p95_angle_deg": 8.58
+ }
+}

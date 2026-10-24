@@ -94,9 +94,24 @@ deformed mesh. Hands and feet are excluded. "Band" means the arm root: 0.70–0.
 | elbow 120 | 2709 / 1218 (13 / 5) | 142 / 89 (4 / 3) |
 | squat (benchmark t = 1) | 2534 / 1174 (51 / 25) | 736 / 342 (13 / 5) |
 
+For comparison, V14 (the pre-rebuild mesh, 238k vertices against R120's 347k, so raw counts are not directly
+comparable) gives:
+
+| Pose | V14 >90 / >120 (band) |
+|---|---|
+| rest | 259 / 146 (217 / 122) |
+| arm abduction 90 | 583 / 242 (364 / 180) |
+| arm abduction 150 | 2471 / 1422 (1368 / 730) |
+| elbow 120 | 296 / 178 (184 / 101) |
+| squat | 937 / 515 (210 / 122) |
+
 R121 removes most folds in every pose. Raising the arm is still bad at the arm root, about equally in RB2 and R121p.
 That comes from the R120 rebuild: its shoulder correctives were authored on the old surface and carried across by
-transfer. It is the largest open problem for movement. JSON: `review-assets/body_v2/draft_r121p_candidate/motion_check_*.json`.
+transfer. At 150 deg the arm-root band has about 2.4 times V14's folds.
+
+This is the largest open problem for movement. The fix is new abduction correctives authored on the rebuilt surface
+(the R30 recipe: relax the posed arm root, invert through LBS, store as keys). That changes the r57 corrective drives
+(`original_v1_review_candidate_drives.py`), so it is left for the owner to approve rather than done here. JSON: `review-assets/body_v2/draft_r121p_candidate/motion_check_*.json`.
 
 ## Tried, not adopted
 

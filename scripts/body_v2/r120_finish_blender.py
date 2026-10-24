@@ -153,15 +153,25 @@ for p in me.polygons:                                    # area-weighted vertex 
     nn = np.cross(b_ - a_, c_ - a_)
     for vi in vs:
         fn[vi] += nn
-for _ in range(6):
+# v3: 6 steps left the normals noisy at the rebuilt mesh's 3 mm scale, and the relief's ~15 mm swing along them showed as
+# a ladder down the spine (edge angles 1.1 -> 4.4 deg); more steps give the relief a smooth direction field
+for _ in range(int(os.environ.get("V2_R121_NORMAL_SMOOTH", "6"))):
     fn = 0.5 * fn + 0.5 * mean(fn)
 fn /= np.maximum(np.linalg.norm(fn, axis=1, keepdims=True), 1e-12)
-ax, f = np.abs(P1[:, 0]) / H, (P1[:, 2] - z0) / H
+# v3: |x| has a kink at the midline, and the trapezius segments that start at x = 0 turned it into alternating
+# displacements on the zig-zag midline vertices (a ladder down the spine); optionally soften it to sqrt(x^2 + e^2)
+AXS = float(os.environ.get("V2_R121_AX_SOFT", "0"))
+ax, f = np.sqrt(P1[:, 0] ** 2 + AXS ** 2) / H, (P1[:, 2] - z0) / H
 wf = ss((-fn[:, 1] + 0.05) / 0.40); wb = ss((fn[:, 1] + 0.05) / 0.40)
 region = NEWR.astype(float) * ss((ARM < 0.15).astype(float)) * ss((f - 0.425) / 0.02) * ss((0.795 - f) / 0.02)
 for _ in range(4):
     region = 0.5 * region + 0.5 * mean(region)
 dn = (wf * ns["torso_front"](ax, f) + wb * ns["torso_back"](ax, f)) * region * TORSO
+# v3: torso_back's spine groove (-6 mm, sigma 0.0045 H ~ 8 mm) bends the skin ~16 deg per 3 mm edge and read as a ladder
+# of facets down the spine; the reference's groove is broad and soft - swap it for a wider, shallower one
+if os.environ.get("V2_R121_SPINE_SOFT", "0") == "1":
+    win = ns["_win"](f, 0.53, 0.80, 0.02)
+    dn += wb * region * TORSO * win * (6.0e-3 * np.exp(-0.5 * (ax / 0.0045) ** 2) - 4.0e-3 * np.exp(-0.5 * (ax / 0.009) ** 2))
 for _ in range(2):
     dn = 0.5 * dn + 0.5 * mean(dn)
 # v3: the back relief's spine groove is narrower than the rebuilt mesh rows and read as a ladder - extra smoothing of the
@@ -169,6 +179,9 @@ for _ in range(2):
 for _ in range(int(os.environ.get("V2_R121_BACK_SMOOTH", "0"))):
     dn = dn + wb * 0.5 * (mean(dn) - dn)
 D = D + fn * dn[:, None]
+if os.environ.get("V2_R121_DUMP"):                       # diagnostics only
+    np.savez_compressed(OUT / "r121_relief_dump.npz", P1=P1, fn=fn, dn=dn, region=region, wf=wf, wb=wb,
+                        rows=A.tocoo().row, cols=A.tocoo().col)
 REP["torso_relief"] = {"max_mm": round(float(dn.max() * 1000), 1), "min_mm": round(float(dn.min() * 1000), 1)}
 
 # ------------------------------------------------------------------ 3. arm muscles on the rebuilt arms

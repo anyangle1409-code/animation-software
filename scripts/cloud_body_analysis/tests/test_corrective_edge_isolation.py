@@ -113,18 +113,27 @@ class CorrectiveIsolationTests(unittest.TestCase):
                 'actual_value': 0.25,
             }],
             'edges': [
-                {'edge_role': 'ranked_seed', 'length_ratios_to_benchmark_rest_NOT_strain':
+                {'edge_role': 'ranked_seed', 'vertex_ids': [0, 1],
+                 'length_ratios_to_benchmark_rest_NOT_strain':
                     {'observed': 0.5, condition: 0.75}},
-                {'edge_role': 'ranked_seed', 'length_ratios_to_benchmark_rest_NOT_strain':
+                {'edge_role': 'ranked_seed', 'vertex_ids': [3, 4],
+                 'length_ratios_to_benchmark_rest_NOT_strain':
                     {'observed': 1.2, condition: 1.3}},
-                {'edge_role': 'adjacent_topology_control',
+                {'edge_role': 'adjacent_topology_control', 'vertex_ids': [0, 2],
                  'length_ratios_to_benchmark_rest_NOT_strain':
                     {'observed': 1.1, condition: 1.1}},
+            ],
+            'adjacent_control_selection': [
+                {'seed_vertex_ids': [0, 1], 'control_edges': [[0, 2]]},
+                {'seed_vertex_ids': [3, 4], 'control_edges': []},
             ],
         }}
         self.assertTrue(hasattr(self.mod, 'individual_summary'))
         self.assertTrue(hasattr(self.mod, 'individual_markdown'))
-        summary = self.mod.individual_summary([sample])
+        import inspect
+        self.assertIn('seed_suffixes', inspect.signature(self.mod.individual_summary).parameters)
+        summary = self.mod.individual_summary(
+            [sample], seed_suffixes={(0, 1): 'l', (3, 4): 'r'})
         row = summary['individual_conditions'][0]
         self.assertEqual(row['ranked_seed_edges'],
                          {'count': 2, 'closer_to_unit_ratio': 1,
@@ -132,6 +141,14 @@ class CorrectiveIsolationTests(unittest.TestCase):
         self.assertEqual(row['adjacent_topology_control_edges'],
                          {'count': 1, 'closer_to_unit_ratio': 0,
                           'farther_from_unit_ratio': 0, 'unchanged': 1})
+        self.assertEqual(row['matching_authored_suffix_NOT_anatomical_side'], {
+            'suffix': 'l',
+            'ranked_seed_edges': {'count': 1, 'closer_to_unit_ratio': 1,
+                                  'farther_from_unit_ratio': 0, 'unchanged': 0},
+            'adjacent_topology_control_edges': {
+                'count': 1, 'closer_to_unit_ratio': 0,
+                'farther_from_unit_ratio': 0, 'unchanged': 1},
+        })
         self.assertFalse(summary['anatomical_approval'])
         self.assertIn('NOT anatomical', self.mod.individual_markdown(summary))
 

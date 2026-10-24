@@ -11,6 +11,7 @@ FAMILY_PREFIXES = {'S7_muted': 'HGPT_S7_DELT_', 'K1_muted': 'HGPT_K1_ELBOW_',
                    'S5_muted': 'HGPT_S5_BAKE_'}
 VARIANTS = (*FAMILY_PREFIXES, 'all_nonbasis_keys_muted')
 INDIVIDUAL_PREFIXES = ('HGPT_S5_BAKE_', 'HGPT_S7_DELT_')
+SEED_SUFFIXES = {EDGES[0]: 'l', EDGES[1]: 'r', EDGES[2]: 'l', EDGES[3]: 'r'}
 
 
 def adjacent_controls(faces, seeds=EDGES):
@@ -174,8 +175,26 @@ def measure(body, evaluate, update, pose_signature, rest_vertices, observed_vert
             ]}
 
 
-def individual_summary(samples, tolerance=1e-7):
+def individual_summary(samples, tolerance=1e-7, seed_suffixes=SEED_SUFFIXES):
     """Count geometric direction-of-change; unit distance is not a quality target."""
+    def counts(rows, condition):
+        result = {'count': len(rows), 'closer_to_unit_ratio': 0,
+                  'farther_from_unit_ratio': 0, 'unchanged': 0}
+        for row in rows:
+            ratios = row['length_ratios_to_benchmark_rest_NOT_strain']
+            observed = abs(float(ratios['observed']) - 1.0)
+            muted = abs(float(ratios[condition]) - 1.0)
+            if muted < observed - tolerance:
+                result['closer_to_unit_ratio'] += 1
+            elif muted > observed + tolerance:
+                result['farther_from_unit_ratio'] += 1
+            else:
+                result['unchanged'] += 1
+        return result
+
+    suffix_by_seed = {tuple(sorted(seed)): suffix for seed, suffix in seed_suffixes.items()}
+    if not suffix_by_seed or any(suffix not in ('l', 'r') for suffix in suffix_by_seed.values()):
+        raise ValueError('invalid authored suffix mapping')
     output = []
     for sample in samples:
         isolation = sample['corrective_edge_isolation']
@@ -184,28 +203,39 @@ def individual_summary(samples, tolerance=1e-7):
             groups = {}
             for role in ('ranked_seed', 'adjacent_topology_control'):
                 rows = [row for row in isolation['edges'] if row.get('edge_role') == role]
-                counts = {'count': len(rows), 'closer_to_unit_ratio': 0,
-                          'farther_from_unit_ratio': 0, 'unchanged': 0}
-                for row in rows:
-                    ratios = row['length_ratios_to_benchmark_rest_NOT_strain']
-                    observed = abs(float(ratios['observed']) - 1.0)
-                    muted = abs(float(ratios[condition]) - 1.0)
-                    if muted < observed - tolerance:
-                        counts['closer_to_unit_ratio'] += 1
-                    elif muted > observed + tolerance:
-                        counts['farther_from_unit_ratio'] += 1
-                    else:
-                        counts['unchanged'] += 1
-                groups[role + '_edges'] = counts
+                groups[role + '_edges'] = counts(rows, condition)
+            parts = item['key_name'].split('_')
+            if len(parts) < 3 or parts[-2] not in ('l', 'r'):
+                raise ValueError('individual key lacks authored l/r suffix')
+            suffix = parts[-2]
+            selected_seeds = {seed for seed, value in suffix_by_seed.items() if value == suffix}
+            selected_controls = set()
+            for selection in isolation['adjacent_control_selection']:
+                seed = tuple(sorted(selection['seed_vertex_ids']))
+                if seed in selected_seeds:
+                    selected_controls.update(tuple(sorted(edge))
+                                             for edge in selection['control_edges'])
+            seed_rows = [row for row in isolation['edges']
+                         if row.get('edge_role') == 'ranked_seed'
+                         and tuple(sorted(row['vertex_ids'])) in selected_seeds]
+            control_rows = [row for row in isolation['edges']
+                            if row.get('edge_role') == 'adjacent_topology_control'
+                            and tuple(sorted(row['vertex_ids'])) in selected_controls]
             output.append({
                 'sample': sample['sample'], 'condition': condition,
                 'key_name': item['key_name'], 'actual_value': item['actual_value'],
                 **groups,
+                'matching_authored_suffix_NOT_anatomical_side': {
+                    'suffix': suffix,
+                    'ranked_seed_edges': counts(seed_rows, condition),
+                    'adjacent_topology_control_edges': counts(control_rows, condition),
+                },
             })
     return {
         'status': 'NATIVE_INDIVIDUAL_KEY_GEOMETRY_SUMMARY_NOT_REPAIR',
         'anatomical_approval': False,
         'unit_ratio_is_not_anatomical_target': True,
+        'authored_suffix_scope_is_anatomical_side': False,
         'individual_conditions': output,
     }
 
@@ -214,18 +244,20 @@ def individual_markdown(summary):
     lines = [
         '# W8 individual active S5/S7 key isolation', '',
         '**NATIVE FIXED-POSE GEOMETRY — NOT anatomical improvement, repair or approval.**', '',
-        '| Sample | Active key muted | Value | Seed closer / farther / same | Adjacent closer / farther / same |',
-        '|---:|---|---:|---:|---:|',
+        '| Sample | Active key muted | Value | Authored suffix | Local seed closer / farther / same | Local adjacent closer / farther / same |',
+        '|---:|---|---:|---:|---:|---:|',
     ]
     for row in summary['individual_conditions']:
-        seed = row['ranked_seed_edges']
-        adjacent = row['adjacent_topology_control_edges']
-        lines.append('| {} | {} | {:.6f} | {} / {} / {} | {} / {} / {} |'.format(
-            row['sample'], row['key_name'], row['actual_value'],
+        local = row['matching_authored_suffix_NOT_anatomical_side']
+        seed = local['ranked_seed_edges']
+        adjacent = local['adjacent_topology_control_edges']
+        lines.append('| {} | {} | {:.6f} | {} | {} / {} / {} | {} / {} / {} |'.format(
+            row['sample'], row['key_name'], row['actual_value'], local['suffix'],
             seed['closer_to_unit_ratio'], seed['farther_from_unit_ratio'], seed['unchanged'],
             adjacent['closer_to_unit_ratio'], adjacent['farther_from_unit_ratio'],
             adjacent['unchanged']))
-    lines += ['', 'Closer to a unit edge ratio is only a geometric descriptor; it is not a tissue-safety or anatomy criterion.',
+    lines += ['', 'The l/r scope is an authored key suffix, NOT independently reviewed anatomical laterality.',
+              'Closer to a unit edge ratio is only a geometric descriptor; it is not a tissue-safety or anatomy criterion.',
               'Each condition temporarily mutes one active unmuted S5/S7 key and restores the original pose/key state.', '']
     return '\n'.join(lines)
 

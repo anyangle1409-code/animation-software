@@ -31,4 +31,10 @@ At sample0, muting the low-weight S5 110 key on either suffix moved one of four 
 
 Pose artifact12560597148 independently matches GitHub SHA256 `5ccf5e78d1bb815584708456096bceb342add8beb8eff0a3fda9cd58282a801c`; driver artifact12560327616 matches `ed3ca5d7e56d5dce563a26c03c9436533f79dbe08426c2d6ada2bb948db571a4`. The new individual JSON member is `270205a6963efad9c6ea3eeedf4ba4a94035b7786d9aa21b1fd8200c8e999dc2`. The previous pose artifact was re-downloaded and reverified; after removing only new individual fields, all existing pose data is equal, and camera plans plus all eight snapshot/vertex hashes match. Full record: `recovery_20261023/cloud_verification_20261024_run40095096697.json`.
 
-**Conclusion:** neither S5 nor S7, nor either interpolated endpoint key, has a uniform local geometric effect across the selected seeds and adjacent controls. No blanket disable or repair is justified. A next diagnostic may refine the report to key-suffix-associated neighborhoods, but suffix naming remains an authored convention rather than reviewed anatomical laterality.
+**Conclusion:** neither S5 nor S7, nor either interpolated endpoint key, has a uniform local geometric effect across the selected seeds and adjacent controls. No blanket disable or repair is justified.
+
+## Authored-suffix neighborhood refinement — staged
+
+The first verified summary counts all four seeds and all16 controls per key, so unchanged counts include the opposite suffix. The report now also selects the two ranked seed neighborhoods associated with the key's authored `l` or `r` suffix and emits those local counts separately, while retaining the all-edge counts in JSON. The Markdown leads with the local counts and labels the suffix as **NOT independently reviewed anatomical laterality**. This changes reporting only; it adds no shape-key evaluation and does not alter the source, snapshots, cameras or existing geometry measurements.
+
+The refinement test was observed failing before implementation, then the focused18-test suite and full247-test local suite passed; compilation and whitespace checks passed. Native cloud output remains pending until a new run completes and the artifact is inspected.

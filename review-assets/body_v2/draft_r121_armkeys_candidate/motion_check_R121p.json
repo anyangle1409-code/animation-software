@@ -70,6 +70,46 @@
   "band_mean_angle_deg": 14.34,
   "band_p95_angle_deg": 52.07
  },
+ "diag_120": {
+  "gt35": 7310,
+  "gt90": 619,
+  "gt120": 269,
+  "band_gt35": 4214,
+  "band_gt90": 567,
+  "band_gt120": 254,
+  "band_mean_angle_deg": 7.71,
+  "band_p95_angle_deg": 26.16
+ },
+ "diag_150": {
+  "gt35": 9485,
+  "gt90": 995,
+  "gt120": 497,
+  "band_gt35": 5029,
+  "band_gt90": 879,
+  "band_gt120": 459,
+  "band_mean_angle_deg": 8.28,
+  "band_p95_angle_deg": 28.04
+ },
+ "abduct_150_elbow_90": {
+  "gt35": 19811,
+  "gt90": 4027,
+  "gt120": 2031,
+  "band_gt35": 14670,
+  "band_gt90": 3221,
+  "band_gt120": 1624,
+  "band_mean_angle_deg": 14.73,
+  "band_p95_angle_deg": 55.57
+ },
+ "flex_120_elbow_90": {
+  "gt35": 19471,
+  "gt90": 3891,
+  "gt120": 2003,
+  "band_gt35": 14094,
+  "band_gt90": 2886,
+  "band_gt120": 1532,
+  "band_mean_angle_deg": 14.45,
+  "band_p95_angle_deg": 52.78
+ },
  "elbow_120": {
   "gt35": 1299,
   "gt90": 142,

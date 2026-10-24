@@ -1,7 +1,8 @@
 """Read-only motion check for a body_v2 blend (R120 / R121 candidates): pose the rig in a few benchmark poses with the
 correctives driven, and count folded / sharp triangle pairs on the evaluated (deformed) mesh.  Nothing is saved.
 
-Poses: rest; arm abduction 90 / 120 / 135 / 150 deg; forward flexion 90 / 150 deg; elbow flexion 120 deg; the movement benchmark's own deep squat (t = 1).
+Poses: rest; arm abduction 90 / 120 / 135 / 150 deg; forward flexion 90 / 150 deg; diagonal (between the two) 120 / 150;
+raises with the elbow at 90; elbow flexion 120 deg; the movement benchmark's own deep squat (t = 1).
 Counts per pose: edges whose two faces differ by more than 90 deg and by more than 120 deg (folds), over the whole body
 and over the arm-root band (0.70-0.82 H, |x| > 0.12 m), hands and feet excluded.
 
@@ -63,9 +64,30 @@ def flex(deg):
     bpy.context.view_layer.update()
 
 
+def diag(deg, elb=0.0):
+    """raise in the plane halfway between forward and sideways (Euler X and Z at deg / sqrt 2 each), optional elbow"""
+    flex(deg / math.sqrt(2.0))
+    for sd, sg in (("r", -1.0), ("l", 1.0)):
+        pb = rig.pose.bones[f"upperarm_{sd}"]
+        pb.rotation_euler = (pb.rotation_euler.x, 0.0, math.radians(sg * deg / math.sqrt(2.0)))
+        fb = rig.pose.bones[f"forearm_{sd}"]; fb.rotation_mode = "XYZ"; fb.rotation_euler = (math.radians(-elb), 0.0, 0.0)
+    bpy.context.view_layer.update()
+
+
+def with_elbow(f, elb):
+    def g():
+        f()
+        for sd in ("r", "l"):
+            fb = rig.pose.bones[f"forearm_{sd}"]; fb.rotation_mode = "XYZ"; fb.rotation_euler = (math.radians(-elb), 0.0, 0.0)
+        bpy.context.view_layer.update()
+    return g
+
+
 POSES = {"rest": lambda: arms(), "abduct_90": lambda: arms(90.0), "abduct_120": lambda: arms(120.0), "abduct_135": lambda: arms(135.0),
          "abduct_150": lambda: arms(150.0),
          "flex_90": lambda: flex(90.0), "flex_150": lambda: flex(150.0),
+         "diag_120": lambda: diag(120.0), "diag_150": lambda: diag(150.0),
+         "abduct_150_elbow_90": with_elbow(lambda: arms(150.0), 90.0), "flex_120_elbow_90": with_elbow(lambda: flex(120.0), 90.0),
          "elbow_120": lambda: arms(16.0, 120.0), "squat": lambda: bench.pose_squat(rig, 1.0, rest_heads)}
 REP = {"source": SRC.name}
 for name, fn in POSES.items():

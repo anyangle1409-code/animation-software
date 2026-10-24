@@ -174,6 +174,10 @@ V2_R121_ARMKEY_CRUMPLE=6 V2_R121_ARMKEY_CRUMPLE_DEG=21 V2_R121_ARMKEY_MODE=flex 
 | abduction 150 | 14819 / 3261 / 14.79 | 138 / 0 / 3.44 |
 | forward 90 | 3738 / 459 / 7.89 | 227 / 5 / 3.98 |
 | forward 150 | 13673 / 2664 / 14.34 | 467 / 34 / 4.27 |
+| diagonal 120 (not authored) | 4214 / 567 / 7.71 | 406 / 45 / 3.92 |
+| diagonal 150 (not authored) | 5029 / 879 / 8.28 | 912 / 186 / 4.51 |
+| abduction 150 + elbow 90 | 14670 / 3221 / 14.73 | 138 / 0 / 3.47 |
+| forward 120 + elbow 90 | 14094 / 2886 / 14.45 | 424 / 41 / 4.11 |
 | rest, elbow 120, squat | unchanged | unchanged (keys at 0) |
 
 Images: `review-assets/body_v2/draft_r121_armkeys_candidate/sheet_*.jpg`, workbench with cavity, upper body, front /
@@ -188,7 +192,6 @@ back / side / back-3/4. Top row is R121p; bottom row adds the keys.
 
 **Not tested:**
 
-- Combined raise + elbow bend.
 - Raises with axial rotation.
 - The movement benchmarks (press, row, pull-up).
 

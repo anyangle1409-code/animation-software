@@ -83,9 +83,11 @@ those angles uses them, which makes this a reusable movement system rather than 
 
 **Next unblocked:**
 
-1. **Remaining sole slide** (17 mm) in the squat.
-2. **Squat arm path:** the benchmark's hanging arms sweep through the thighs at mid-depth.
-3. **Curl top contact:** forearm and hand against the shoulder.
+1. **Curl top contact:** forearm and hand against the shoulder.
+
+   (Done since the first version of this handover: the squat's 17 mm sole slide was the r57 path planting only the
+   mean ankle. A per-leg plant in the test now gives 0.0 mm. Arms forward is available, through the thorax-relative
+   girdle.)
 4. **Skeleton-shift tests on a candidate copy:**
    - ankle pivot 16 mm above the malleolar line;
    - elbow pivot about 2 cm above and behind the epicondyle line.

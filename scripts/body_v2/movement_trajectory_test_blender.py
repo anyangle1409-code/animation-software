@@ -5,7 +5,7 @@ Trajectories (each starts and ends at neutral, so return-to-neutral is measured)
            r57 coupled path (correction.apply_corrected_pose: clavicle / scapula coupling + humeral axial rotation, plane
            40 deg) - the same path the r57 movement benchmark's shoulder_press uses (project-authored, not cohort-fit).
   curl   - elbow 0 -> 140 -> 0 with the arms at the sides (16 deg carriage).
-  squat  - the r57 benchmark squat, depth 0 -> 1 -> 0.
+  squat  - the r57 benchmark squat, depth 0 -> 1 -> 0, with a per-leg foot plant (V2_TRAJ_PLANT=0 for the raw r57 path).
 V2_TRAJ_GIRDLE=candidate uses shoulder_girdle_candidate.apply_press_pose (corrected girdle directions) for the press.
 r57 drives (correctives, helpers) always run; the R121 candidate drives run unless V2_TRAJ_R121=0.
 
@@ -50,6 +50,8 @@ USE_R121 = os.environ.get("V2_TRAJ_R121", "1") == "1"
 GIRDLE = os.environ.get("V2_TRAJ_GIRDLE", "r57")           # r57: apply_corrected_pose; candidate: shoulder_girdle_candidate
 NF = int(os.environ.get("V2_TRAJ_FRAMES", "17"))           # frames per trajectory (odd: the turning point is sampled)
 RENDER = os.environ.get("V2_TRAJ_RENDER", "1") == "1"
+PLANT = os.environ.get("V2_TRAJ_PLANT", "1") == "1"
+SQUAT_ARMS = os.environ.get("V2_TRAJ_SQUAT_ARMS", "hang")   # hang (r57 path) or forward (counterbalance cue)      # per-leg foot plant in the squat (the r57 path plants the mean only)
 HT0 = float(os.environ.get("V2_TRAJ_PRESS_START", "16"))   # press neutral: humerothoracic 16 deg (the standing carriage);
 #                                                          0 points the arm straight down through the hip (test artifact)
 body = bpy.data.objects["HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"]
@@ -172,9 +174,28 @@ def curl(u):
     return {"elbow_flexion_deg": round(elb, 2)}
 
 
+def plant_feet(iters=4):
+    """the r57 benchmark squat plants only the average of the two ankles (root translation), so each ankle drifts ~16 mm
+    medially at depth with the feet flat.  Per leg: turn the thigh about the forward axis through its hip until the
+    ankle is back over its rest position (the knee tracks a little outwards), then re-plant the feet flat."""
+    from mathutils import Matrix
+    for _ in range(iters):
+        for s in ("l", "r"):
+            th = rig.pose.bones[f"thigh_{s}"]; hip = th.head.copy()
+            a = rig.pose.bones[f"foot_{s}"].head - hip; t = REST_HEADS[s] - hip
+            ang = math.atan2(t.x, -t.z) - math.atan2(a.x, -a.z)      # in the frontal plane, about the forward axis
+            th.matrix = Matrix.Translation(hip) @ Matrix.Rotation(-ang, 4, "Y") @ Matrix.Translation(-hip) @ th.matrix
+            bpy.context.view_layer.update()
+        bench._plant_feet(rig, REST_HEADS)
+
+
 def squat(u):
     p = 1.0 - abs(2.0 * u - 1.0)
     out = bench.pose_squat(rig, p, REST_HEADS)
+    if PLANT:
+        plant_feet()
+    if SQUAT_ARMS == "forward":                                     # arms raised forwards to horizontal with the descent
+        girdle.apply_arm_pose(rig, 16.0 + 74.0 * bench.smooth(min(1.0, p / 0.6)), 90.0, reset=False)
     return {k: round(float(v), 2) for k, v in out.items()} | {"depth": round(p, 3)}
 
 

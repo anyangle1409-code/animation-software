@@ -292,12 +292,35 @@ The standing look is preserved: the inner arm is slightly flatter where it meets
 
 Images: `I8_press.jpg`, `I8_curl.jpg`, `I8_squat.jpg`. Report: `report_TT_I8.json`.
 
+## Squat ground contact and arms (I8)
+
+**Cause of the sole slide.** The remaining 17 mm was not skin. Both **foot bones** slide 16.4 mm medially at depth while
+staying flat. The r57 benchmark squat is forward kinematics and plants only the **mean** of the two ankles (via the
+root), so the symmetric inward drift cancels in the mean.
+
+**Fix (test path).** `plant_feet()` in the trajectory test turns each thigh about the forward axis through its hip
+until the ankle is back over its rest position (the knee tracks slightly outwards), then re-plants the feet flat. The
+r57 benchmark is unchanged. Result: sole slide **17.4 → 0.0 mm**, heel lift 0.0 mm, lowest skin exactly on the floor.
+This meets the contract's "feet planted, knees tracking over feet" (`hgpt.exercise.squat.bodyweight.v1`).
+
+**Arms.** The contract does not specify an arm posture. The r57 path lets the arms hang, so the hands sweep through the
+rising thighs (up to 228 pairs). `V2_TRAJ_SQUAT_ARMS=forward` raises the arms forward to horizontal with the descent,
+the usual counterbalance cue, through the girdle.
+
+**Thorax-relative girdle.** For the arms-forward squat the girdle was made thorax-relative: it is built in the rest
+frame and carried by the current spine_03 pose. It now works with trunk lean. Press results are identical, since the
+thorax is at rest in the press.
+
+**Squat, arms forward, feet planted:** self-intersections 0 except up to 30 at the armpit at depth; folds 52; knee
+folds 20. Return to neutral is 0.0000 mm.
+
+Images: `I8_squat_arms_forward_planted.jpg`. Report: `report_TT_I8_squat_arms_forward_planted.json`.
+
 ## Open items (measured, next)
 
 - **Elbow:** see the T2 section. Open there: the contact slit, volume preservation and the press-rack elbow.
 - **Press lockout:** 6619 edges are still stretched more than 2× (armpit and lat skin), with residual armpit wrinkles.
-- **Squat:** the knee contact and heel lift are fixed (see above). Sole slide is still 17 mm and is not from shin
-  weights.
+- **Squat:** the knee contact, heel lift and sole slide are fixed; the arm path is above.
 - **Rest-pose armpit and arm-hip intersections:** above.
 - **Corrected girdle:**
   - the magnitudes are still the r57 project profile;

@@ -79,7 +79,11 @@ def _signed(rig, s, axis, pivot, probe, want):
 
 
 def apply_girdle(rig, profile):
+    """thorax-relative: everything is built in the rest frame and carried by the current thorax (spine_03) pose, so the
+    girdle works with any trunk posture (identical to the earlier behaviour when the thorax is at rest)"""
     B = rig.data.bones
+    T = rig.pose.bones["spine_03"].matrix @ B["spine_03"].matrix_local.inverted()
+    Ti = T.inverted()
     for s in ("r", "l"):
         lat, normal, medlat, up = _axes(rig, s)
         cb = rig.pose.bones[f"clavicle_{s}"]
@@ -101,7 +105,7 @@ def apply_girdle(rig, profile):
              @ _rot_about(ac_rest, normal, up_s * profile["scapula_upward_rotation_deg"])
              @ _rot_about(ac_rest, medlat, tilt_s * profile["scapula_posterior_tilt_deg"]))
         sb = rig.pose.bones[f"scapula_{s}"]
-        sb.matrix = Matrix.Translation(ac_now - ac_rest) @ R @ B[f"scapula_{s}"].matrix_local
+        sb.matrix = T @ Matrix.Translation(Ti @ ac_now - ac_rest) @ R @ B[f"scapula_{s}"].matrix_local
         bpy.context.view_layer.update()
 
 
@@ -133,14 +137,19 @@ def apply_press_pose(rig, ht_elevation_deg, rest_axial_deg, axial=True):
     return profile
 
 
-def apply_arm_pose(rig, elevation_deg, plane_deg, sides=("r", "l")):
+def apply_arm_pose(rig, elevation_deg, plane_deg, sides=("r", "l"), reset=True):
     """any arm raise: the coupled girdle for this humerothoracic elevation (same profile as the press), then the humerus
-    pointed at the elevation in the given plane (0 = sideways, 90 = forwards); no humeral axial rotation.  The rig is
-    reset first.  Used to author the arm keys so that every raise - not only the press - carries the girdle with it."""
+    pointed at the elevation in the given plane (0 = sideways, 90 = forwards; world frame, e.g. "arms parallel to the
+    floor"); no humeral axial rotation.  reset=True resets the rig first; reset=False keeps the trunk and legs.  Used to author the arm keys so that every raise - not only the press - carries the girdle with it."""
     import functional_original_coupled_motion as motion
     profile = motion.pose_profile(elevation_deg)
-    for pb in rig.pose.bones:
-        pb.matrix_basis.identity()
+    if reset:
+        for pb in rig.pose.bones:
+            pb.matrix_basis.identity()
+    else:                                                    # keep the trunk / legs; re-pose only the girdle and arms
+        for n_ in ("clavicle", "scapula", "upperarm"):
+            for s_ in sides:
+                rig.pose.bones[f"{n_}_{s_}"].matrix_basis.identity()
     bpy.context.view_layer.update()
     apply_girdle(rig, profile)
     e = math.radians(elevation_deg); p = math.radians(plane_deg)

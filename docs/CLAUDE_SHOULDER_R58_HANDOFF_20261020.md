@@ -2336,3 +2336,20 @@ Every shape key moves with the basis. New behaviour is env-flagged; the R121p se
 - The back is flatter than the reference.
 - The rear upper arm is lumpy.
 - Head.
+
+## 24 Oct 2026 (later): movement system pass
+
+See `docs/CLAUDE_MOVEMENT_SYSTEM_HANDOVER_20261024.md`.
+
+**Root causes:**
+- **Press collapse:** the r57 girdle channels move the scapula the wrong way on this rig (upward rotation and posterior
+  tilt inverted).
+- **Elbow:** a broad weight blend and no contact.
+- **Heel:** shin-weighted sole skin.
+
+**Fixes (candidate only):** an ISB-frame girdle, keys authored on the rebuilt surface (raised arm, hip, elbow with
+hinge contact), and sole weights.
+
+**Press lockout:** folds 4666 → 136, self-intersections 4759 → 24.
+
+**Muscle native pass:** on `claude/muscle-layer-native-20261024`.

@@ -1,6 +1,6 @@
 # W8 adjacent controls and matched native views — 24 October 2026
 
-Status: **241/241 Python diagnostic tests PASS; native cloud execution PENDING.** No repair, anatomical calibration or production approval.
+Status: **native run40078883271 PASS7/7 with243 diagnostic tests; frozen replay40078981970 PASS1/1 with13 checks.** No repair, anatomical calibration or production approval.
 
 ## Question and controlled comparison
 
@@ -37,3 +37,11 @@ All six sheets were visually inspected. Views are geometrically matched and popu
 Adjacent control report: `recovery_20261023/w8_adjacent_control_summary_20261024.json`. At sample0, S5 muting moves all8 distal neighboring ratios closer to rest, while moving all8 middle neighboring ratios farther from rest. At sample6, S7 muting moves3/4 neighboring ratios per middle seed closer to rest and1/4 farther; S5 muting moves all8 middle neighbors farther. A ratio nearer1 is only a geometric comparison, not anatomically correct deformation. This mixed response reinforces the need for localized, reviewed investigation rather than global key disable.
 
 Raw NPZ snapshots will now be preserved as a separate `phone-w8-evaluated-snapshots-RUN_ID` artifact. Initial review treated non-retention as a minor issue; actual lighting QA demonstrated a concrete replay need. Keeping them enables a future isolated cloud re-render without recomputing the probe. This resolves that deferred reproducibility limitation; no standalone replay is claimed for run40077762287's missing raw NPZs.
+
+## Final verified outcome for this batch
+
+Native run40078883271 at `67c24bc704fd92cd78e90fd9e3324a569b004b28` passed7/7 and243 cloud diagnostic tests. Native source/rest and20-edge restoration checks remain intact; the enriched pose JSON parses identically to run40078234201. Current pose/driver archives independently rehashed; other current published digests recorded without claiming independent rehash. An incomplete initial pose download was detected; a fresh4,733,205-byte ZIP matched GitHub and passed all CRCs. Details are in its verification JSON.
+
+Independent replay40078981970 passed1/1 and13 checks, strictly verified8 frozen NPZs and rendered24 images/6 sheets with balanced exposure0.25/light90. All8 evaluated vertex-buffer hashes and both camera plans match the native source. Its artifact12554691427 ZIP SHA256 `a21e3ccaeeb282b89f0a13bae8311a4177c8633650062609d3feb8f48fbbdb24` and all24 PNG hashes match. All6 final sheets inspected: populated, correctly matched, with surface detail visible; axis+X views overlap bilateral surfaces and high-position hands are cropped because the focus is upper-arm geometry. These are image-comparison limitations, not grounds for an anatomical pass. Two selected sheets preserved for phone review.
+
+No corrective family was permanently disabled. Mixed adjacent-edge responses and persistent visible surface defects leave model/skin/press/squat/grip acceptance unapproved. Next unblocked investigation is individual-key contribution and localized matched region metrics; independent anatomical landmarks/side/ISB frames and generic return/neutral/contact tests remain separate gates.

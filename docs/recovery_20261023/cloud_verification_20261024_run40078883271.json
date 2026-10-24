@@ -1,0 +1,119 @@
+{
+  "run_id": 40078883271,
+  "execution_sha": "67c24bc704fd92cd78e90fd9e3324a569b004b28",
+  "workflow_conclusion": "success",
+  "successful_jobs": 7,
+  "total_jobs": 7,
+  "cloud_diagnostic_tests": 243,
+  "pose_data_equal_to_run40078234201": true,
+  "anatomical_approval": false,
+  "download_retry": {
+    "artifact_id": 12554631623,
+    "initial_bytes": 1929216,
+    "initial_sha256": "ce7a9febb6481993a5d9e820ea72699ade92b7803a6b178f70014ce317060574",
+    "initial_zip_complete": false,
+    "retry_bytes": 4733205,
+    "retry_sha256_matched": true,
+    "retry_crc_pass": true
+  },
+  "artifacts": [
+    {
+      "artifact_id": 12554800980,
+      "name": "phone-visual-review-40078883271",
+      "published_digest": "sha256:f907953aa009af60cfde19e41d1cddbb10ac54a4626ae7ca30d1c801c6e8ede4",
+      "independently_rehashed_this_run": false
+    },
+    {
+      "artifact_id": 12554761350,
+      "name": "phone-w8-driver-consistency-40078883271",
+      "published_digest": "sha256:7e2bde267f1f3c11859d972f4db8ee19025431ed67868659617377e70535dbb5",
+      "independently_rehashed_this_run": true,
+      "zip_sha256": "7e2bde267f1f3c11859d972f4db8ee19025431ed67868659617377e70535dbb5",
+      "member_sha256": {
+        "w8_driver_math_consistency.json": "e42b96e02d4406784760a6b58593d3ddfe71fd37caa59dba5a37fdb1fd74a493",
+        "w8_elbow_corrective_crosswalk.json": "cb71edd28e70bfdb1483ac24736fa30649ccd35eb24893c5ae249beffbf5e3ae",
+        "w8_elbow_corrective_crosswalk.md": "7a3e4e100f80bb302e03167101a9b66125cac4efc9b8931c4eacb22e002a3ff3",
+        "w8_press_deformation_timeline.json": "736ebfe9618761b34152db8fa14ddfd780a02361eb752603ee5cff1a0512a2d9",
+        "w8_press_deformation_timeline.md": "7a1c61031dbbf5f98a5654a1e2ba1fc9ddc069fdcf8e377a4d9ce6b1f7f117be"
+      }
+    },
+    {
+      "artifact_id": 12554631623,
+      "name": "phone-w8-shoulder-pose-state-40078883271",
+      "published_digest": "sha256:b14aa2ad11422500ee00ca7408e2ca9b277c5b3ac5896f244270cc8e4353b2c0",
+      "independently_rehashed_this_run": true,
+      "zip_sha256": "b14aa2ad11422500ee00ca7408e2ca9b277c5b3ac5896f244270cc8e4353b2c0",
+      "member_sha256": {
+        "control_views/native_control_view_manifest.json": "777691a73ad68e0cad91dfb1162057ce32a3b0a1d4e509df0d74811d00ded488",
+        "control_views/sample00__S5_muted__axis_posX.png": "f18538539db27ffe3fb55d1cc3529fe607d554f2916286aba5c818c9e9bb1dda",
+        "control_views/sample00__S5_muted__axis_negY.png": "24aea18d5dcf7ee1359a559aefb1d3a554a32d42d4c86aaa6195850e972226bf",
+        "control_views/sample00__S5_muted__axis_posY.png": "d8bb12472961339ff4e7b54666f57a8bce15db7dbd9e6854ec4b22112684a279",
+        "control_views/sample00__S7_muted__axis_negY.png": "010109f3719e33635ea7367542a8fb0f8794062674ba6d1d5893e8378f502786",
+        "control_views/sample00__S7_muted__axis_posX.png": "7251df4a43b77fc9832b705c483153328d0a7010fba5165cb555c7e796863afb",
+        "control_views/sample00__S7_muted__axis_posY.png": "d7d2c41acdcbb95441e089d058e640b4b6e156c0f6091bd75c36e7f148a7ef34",
+        "control_views/sample00__all_nonbasis_keys_muted__axis_negY.png": "c1a970fc65ba76085717a89232070489fa70fd71e9758d14e8c234b9ce2acd27",
+        "control_views/sample00__all_nonbasis_keys_muted__axis_posX.png": "e3c1f14aa2f36931d9618f213a597fb9bce6065ecc0894464d21754c0a7bae73",
+        "control_views/sample00__all_nonbasis_keys_muted__axis_posY.png": "cfba24d923e7e689a66d21bc261596e371db3db18a9f5f757eb251048a7e2734",
+        "control_views/sample00__axis_negY__comparison.png": "2b676e81d2854ff9e56a4d9c1f0e3021d4874b7242664006420f3628747dd833",
+        "control_views/sample00__axis_posX__comparison.png": "79a0f92aa70f489df31b19aa3ecb15a80b7a3d02e1e581cdd51dd020e1ba44e5",
+        "control_views/sample00__axis_posY__comparison.png": "a3178b5fe9110547b5dd6dda0a93b31410a8ef78504b906b2fde24e589bcb74d",
+        "control_views/sample00__observed__axis_negY.png": "6535d8ec5b10fc82b81787edc962f7408dca11cc9bb10ae07f0a9e3096877f76",
+        "control_views/sample00__observed__axis_posX.png": "6f994175e88e902f21d8bc1e0dc6cb2d79cc004815a6fe7fcef281e03b1d2bf7",
+        "control_views/sample00__observed__axis_posY.png": "b0d2edc886b46aaa4911aa8aa8bd87b0600d3ce992bf16bf18412fecce674806",
+        "control_views/sample06__S5_muted__axis_negY.png": "4f7ca27d21fae5144d8897ebea896da0bf972d2b197b3f701d069748134ffa13",
+        "control_views/sample06__S5_muted__axis_posX.png": "661b3ece8aef54ff01d4686b72e9548619d409726f68d6575d0e8ae1d7c1ed6f",
+        "control_views/sample06__S5_muted__axis_posY.png": "30bd7a76940bab03cde1a754c156105279b57728122f855b533435502b6a18f4",
+        "control_views/sample06__S7_muted__axis_negY.png": "33c8e9770d57e3ee47f1025203233fd4e9d395347323ded36147cd38fd019378",
+        "control_views/sample06__S7_muted__axis_posX.png": "f67f402c52f3337273ea7b4773e8ae687802f3feb6a195d5ada92e4b4cabb1fa",
+        "control_views/sample06__S7_muted__axis_posY.png": "07c9d1b783b869f64656f632cd5064c740099761a8e9d2991918813d961e4d1f",
+        "control_views/sample06__all_nonbasis_keys_muted__axis_negY.png": "2c064b732da60966a389e0bebc4b2bc618dc66e7b1baad8f5c2f59645e412ef9",
+        "control_views/sample06__all_nonbasis_keys_muted__axis_posX.png": "debada17ca730075d39a5a81da3d0b3d614b672474a8c1a949526622ef07b289",
+        "control_views/sample06__all_nonbasis_keys_muted__axis_posY.png": "169f81ae905cbab7a0b563e30b3c9d8780e06734840aed51389bd0591d55c1e0",
+        "control_views/sample06__axis_negY__comparison.png": "f0cfadf5c34b4eb646863b4c0838d73a37aa2cbb3f812e359423f02d1e36ff38",
+        "control_views/sample06__axis_posX__comparison.png": "bca06106fe501bb21a26e169177db01f57d13d9b07a51955edce52b58e7afefe",
+        "control_views/sample06__axis_posY__comparison.png": "5a821928fdaf0fb087b212413308f883e475b8bbc99a2977853cc19d7f74c861",
+        "control_views/sample06__observed__axis_negY.png": "a24e1bc90c4c63a7d245a97c9f47167e9fa83dac2398060c96cbee8cbc77bea7",
+        "control_views/sample06__observed__axis_posX.png": "82b1c121c3745bfdd36c92c82ac7338c777f667de5e5b3a81805d72642578392",
+        "control_views/sample06__observed__axis_posY.png": "449af5b3c8512837c591e19c9156145f798169415b8c55f88709ba0d66457a4d",
+        "w8_fixed_pose_corrective_edge_isolation.md": "bbdd3571a1e8a30cb0b6134b336b1ca8d77eb1c72b716ab4496d4913251cc3da",
+        "w8_shoulder_driver_pose_state.json": "c538e5fa93d14b1311b666bfd6d59d2e33a52cfb27ebb7d4a3f6b81cf6ad3bb5"
+      }
+    },
+    {
+      "artifact_id": 12554556635,
+      "name": "phone-native-failure-localization-40078883271",
+      "published_digest": "sha256:90d89ff5e6708efd61fe061a9e6e131cc2dfbc5a4b05fa4524bd5d8add9caa9f",
+      "independently_rehashed_this_run": false
+    },
+    {
+      "artifact_id": 12554422256,
+      "name": "phone-blender-W8-40078883271",
+      "published_digest": "sha256:b5dc5c9c2812245532c920d4899a559ea37f70e5adbda7d4b02db36e506cc61c",
+      "independently_rehashed_this_run": false
+    },
+    {
+      "artifact_id": 12554357366,
+      "name": "phone-blender-R120-40078883271",
+      "published_digest": "sha256:fe96f3407f281efb96bc2650cbe838e979a70cac7374b67681a64e3c2e966d3a",
+      "independently_rehashed_this_run": false
+    },
+    {
+      "artifact_id": 12553949341,
+      "name": "phone-rest-cross-model-40078883271",
+      "published_digest": "sha256:33687e347ef8384927e8a9d0d2ae158a26724c94cb9e8569ed836e1a28b6d582",
+      "independently_rehashed_this_run": false
+    },
+    {
+      "artifact_id": 12553929294,
+      "name": "phone-blender-V14-40078883271",
+      "published_digest": "sha256:d7e17246f254d91a5c337b53b7620d8f6dc77635b931f9e48eff6adab99f9cda",
+      "independently_rehashed_this_run": false
+    },
+    {
+      "artifact_id": 12553823606,
+      "name": "phone-w8-evaluated-snapshots-40078883271",
+      "published_digest": "sha256:c7040f545bd9c2d0964298dbadc502f1ee41c5ad6ecc6a66db91250c4b60588d",
+      "independently_rehashed_this_run": false
+    }
+  ]
+}

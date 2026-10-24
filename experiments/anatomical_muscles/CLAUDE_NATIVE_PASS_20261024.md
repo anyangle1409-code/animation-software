@@ -191,3 +191,64 @@ first run's serratus therefore lengthened in the press.
 `…_right_coupled.json`.
 
 **Not covered:** the squat. No lower-limb anchors are proposed yet.
+
+## Lower limb: proposed anchors and the squat path-length check (added)
+
+**Proposed anchors.** `propose_lower_limb_anchors_blender.py` (read-only; the copy is unchanged) proposes origin and
+insertion anchors for the 12 muscles in Work's squat contract, on both sides:
+`native_20261024/proposed_anchors_lower_{left,right}.json`.
+
+- Both sides were derived independently. They mirror to within 0.01 mm.
+- The status is PROPOSED_UNREVIEWED: `review` is empty and `wrap_reviewed` is false.
+- R41 has no landmarks for PSIS, AIIS, the ischial tuberosity, the tibial tuberosity or the femoral condyles. Those
+  anchors are rule-of-thumb offsets from HJC, ASIS, the trochanterion, KJC, the epicondyles, AJC and the tibial plateau,
+  and each one records its rule.
+- Several muscles carry a `wrap_hint`:
+
+  | Muscles | Wrap |
+  |---|---|
+  | Quadriceps | in front of the knee, radius 40 mm |
+  | Hamstrings and gastrocnemius | behind the knee, radius 25 mm |
+  | Gluteus maximus | behind the hip, radius 50 mm |
+
+**Squat check.** `squat_path_length_check_blender.py` poses R41's anatomical leg natively:
+
+- hip flexion about HJC;
+- knee flexion about KJC, on the epicondyle axis;
+- ankle dorsiflexion about AJC, on the malleolar axis.
+
+Every sign is fixed by a landmark probe. The descent runs hip 5° → 100°, knee 5° → 102° and ankle 2° → 17°; the ascent
+reverses it. Result files: `native_20261024/squat_path_length_check_{left,right}.json`.
+
+| Result (each side, descent and ascent) | Count |
+|---|---|
+| Match | 10 |
+| Contract "variable" | 12 |
+| Mismatch | 2 (gluteus medius) |
+
+Descent changes as a fraction of rest length:
+
+| Muscle | Change | Contract |
+|---|---|---|
+| Gluteus maximus | +52 % | lengthening |
+| Adductor magnus (hamstring part) | +26 % | lengthening |
+| Vastus lateralis / medialis / intermedius | +16 / +22 / +21 % | lengthening |
+| Rectus femoris | +1 % | variable |
+| Biceps femoris long | +2 % | variable |
+| Semitendinosus | +1 % | variable |
+| Semimembranosus | +7 % | variable |
+| Gastrocnemius medial | +9 % | variable |
+| Soleus | +2 % | variable |
+| Gluteus medius | −6 % | near-isometric (**mismatch**) |
+
+**Findings**
+
+- **Gluteus maximus needs its wrap.** As a straight line it ran through the hip joint and came out near-isometric
+  (−2 %). That is anatomically wrong for the main hip extensor. With the posterior hip wrap it lengthens.
+  - The +52 % magnitude depends on the rule-of-thumb 50 mm radius and is probably high.
+- **Gluteus medius is a fan.** Anterior fibres shorten by 20 % in the deep squat, middle fibres by 6 %, and posterior
+  fibres lengthen by 9 %.
+  - The contract's whole-muscle "near-isometric" cannot be checked with one line.
+  - It needs a fibre fan (or separate functional heads) first. The anchor was **not** tuned to match.
+- The two-joint muscles (rectus femoris and the hamstrings) come out close to isometric. This agrees with the
+  contract's "variable".

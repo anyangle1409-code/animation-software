@@ -1,0 +1,352 @@
+{
+ "status": "proposal_check_only",
+ "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+ "side": "left",
+ "iso_threshold_fraction": 0.03,
+ "rest_round_trip_mm": 0.0067,
+ "r41_rest_knee_flexion_deg": 0.9,
+ "probe_signs": {
+  "hip_flexion": -1.0,
+  "knee_flexion": 1.0,
+  "ankle_dorsiflexion": -1.0
+ },
+ "path_model": "straight; knee cylinder wrap where the proposal has a wrap_hint",
+ "phases": {
+  "descent": {
+   "control_poses_hip_knee_ankle": [
+    [
+     5,
+     5,
+     2
+    ],
+    [
+     100,
+     102,
+     17
+    ]
+   ],
+   "muscles": {
+    "hgpt.muscle.gluteus_maximus.L": {
+     "contract": "lengthening",
+     "result": "lengthening",
+     "verdict": "match",
+     "change_fraction_of_rest": 0.5208,
+     "start_mm": 218.1,
+     "end_mm": 329.6,
+     "min_mm": 218.1,
+     "max_mm": 329.6,
+     "wrapped_frames": 13,
+     "frames": 13
+    },
+    "hgpt.muscle.adductor_magnus_hamstring.L": {
+     "contract": "lengthening",
+     "result": "lengthening",
+     "verdict": "match",
+     "change_fraction_of_rest": 0.2611,
+     "start_mm": 347.5,
+     "end_mm": 437.4,
+     "min_mm": 347.5,
+     "max_mm": 437.4,
+     "wrapped_frames": 0,
+     "frames": 13
+    },
+    "hgpt.muscle.rectus_femoris.L": {
+     "contract": "variable",
+     "result": "near_isometric",
+     "verdict": "variable_ok",
+     "change_fraction_of_rest": 0.0114,
+     "start_mm": 504.5,
+     "end_mm": 510.3,
+     "min_mm": 504.5,
+     "max_mm": 510.3,
+     "wrapped_frames": 13,
+     "frames": 13
+    },
+    "hgpt.muscle.vastus_lateralis.L": {
+     "contract": "lengthening",
+     "result": "lengthening",
+     "verdict": "match",
+     "change_fraction_of_rest": 0.1635,
+     "start_mm": 417.2,
+     "end_mm": 484.9,
+     "min_mm": 417.2,
+     "max_mm": 484.9,
+     "wrapped_frames": 13,
+     "frames": 13
+    },
+    "hgpt.muscle.vastus_medialis.L": {
+     "contract": "lengthening",
+     "result": "lengthening",
+     "verdict": "match",
+     "change_fraction_of_rest": 0.2158,
+     "start_mm": 316.8,
+     "end_mm": 384.4,
+     "min_mm": 316.8,
+     "max_mm": 384.4,
+     "wrapped_frames": 13,
+     "frames": 13
+    },
+    "hgpt.muscle.vastus_intermedius.L": {
+     "contract": "lengthening",
+     "result": "lengthening",
+     "verdict": "match",
+     "change_fraction_of_rest": 0.2052,
+     "start_mm": 333.5,
+     "end_mm": 401.2,
+     "min_mm": 333.5,
+     "max_mm": 401.2,
+     "wrapped_frames": 13,
+     "frames": 13
+    },
+    "hgpt.muscle.biceps_femoris_long.L": {
+     "contract": "variable",
+     "result": "near_isometric",
+     "verdict": "variable_ok",
+     "change_fraction_of_rest": 0.0173,
+     "start_mm": 415.3,
+     "end_mm": 422.5,
+     "min_mm": 415.3,
+     "max_mm": 422.5,
+     "wrapped_frames": 0,
+     "frames": 13
+    },
+    "hgpt.muscle.semitendinosus.L": {
+     "contract": "variable",
+     "result": "near_isometric",
+     "verdict": "variable_ok",
+     "change_fraction_of_rest": 0.0053,
+     "start_mm": 447.4,
+     "end_mm": 449.8,
+     "min_mm": 447.4,
+     "max_mm": 462.1,
+     "wrapped_frames": 3,
+     "frames": 13
+    },
+    "hgpt.muscle.semimembranosus.L": {
+     "contract": "variable",
+     "result": "lengthening",
+     "verdict": "variable_ok",
+     "change_fraction_of_rest": 0.0743,
+     "start_mm": 405.1,
+     "end_mm": 435.2,
+     "min_mm": 405.1,
+     "max_mm": 435.2,
+     "wrapped_frames": 2,
+     "frames": 13
+    },
+    "hgpt.muscle.gluteus_medius.L": {
+     "contract": "near_isometric",
+     "result": "shortening",
+     "verdict": "MISMATCH",
+     "change_fraction_of_rest": -0.058,
+     "start_mm": 154.4,
+     "end_mm": 145.6,
+     "min_mm": 145.6,
+     "max_mm": 161.9,
+     "wrapped_frames": 0,
+     "frames": 13
+    },
+    "hgpt.muscle.gastrocnemius_medial.L": {
+     "contract": "variable",
+     "result": "lengthening",
+     "verdict": "variable_ok",
+     "change_fraction_of_rest": 0.0859,
+     "start_mm": 494.3,
+     "end_mm": 536.9,
+     "min_mm": 482.4,
+     "max_mm": 542.6,
+     "wrapped_frames": 8,
+     "frames": 13
+    },
+    "hgpt.muscle.soleus.L": {
+     "contract": "variable",
+     "result": "near_isometric",
+     "verdict": "variable_ok",
+     "change_fraction_of_rest": 0.0235,
+     "start_mm": 367.4,
+     "end_mm": 375.9,
+     "min_mm": 367.4,
+     "max_mm": 375.9,
+     "wrapped_frames": 0,
+     "frames": 13
+    }
+   },
+   "gluteus_medius_fibres": {
+    "anterior": -0.2044,
+    "middle": -0.0573,
+    "posterior": 0.0948
+   }
+  },
+  "ascent": {
+   "control_poses_hip_knee_ankle": [
+    [
+     100,
+     102,
+     17
+    ],
+    [
+     5,
+     5,
+     2
+    ]
+   ],
+   "muscles": {
+    "hgpt.muscle.gluteus_maximus.L": {
+     "contract": "shortening",
+     "result": "shortening",
+     "verdict": "match",
+     "change_fraction_of_rest": -0.5208,
+     "start_mm": 329.6,
+     "end_mm": 218.1,
+     "min_mm": 218.1,
+     "max_mm": 329.6,
+     "wrapped_frames": 13,
+     "frames": 13
+    },
+    "hgpt.muscle.adductor_magnus_hamstring.L": {
+     "contract": "shortening",
+     "result": "shortening",
+     "verdict": "match",
+     "change_fraction_of_rest": -0.2611,
+     "start_mm": 437.4,
+     "end_mm": 347.5,
+     "min_mm": 347.5,
+     "max_mm": 437.4,
+     "wrapped_frames": 0,
+     "frames": 13
+    },
+    "hgpt.muscle.rectus_femoris.L": {
+     "contract": "variable",
+     "result": "near_isometric",
+     "verdict": "variable_ok",
+     "change_fraction_of_rest": -0.0114,
+     "start_mm": 510.3,
+     "end_mm": 504.5,
+     "min_mm": 504.5,
+     "max_mm": 510.3,
+     "wrapped_frames": 13,
+     "frames": 13
+    },
+    "hgpt.muscle.vastus_lateralis.L": {
+     "contract": "shortening",
+     "result": "shortening",
+     "verdict": "match",
+     "change_fraction_of_rest": -0.1635,
+     "start_mm": 484.9,
+     "end_mm": 417.2,
+     "min_mm": 417.2,
+     "max_mm": 484.9,
+     "wrapped_frames": 13,
+     "frames": 13
+    },
+    "hgpt.muscle.vastus_medialis.L": {
+     "contract": "shortening",
+     "result": "shortening",
+     "verdict": "match",
+     "change_fraction_of_rest": -0.2158,
+     "start_mm": 384.4,
+     "end_mm": 316.8,
+     "min_mm": 316.8,
+     "max_mm": 384.4,
+     "wrapped_frames": 13,
+     "frames": 13
+    },
+    "hgpt.muscle.vastus_intermedius.L": {
+     "contract": "shortening",
+     "result": "shortening",
+     "verdict": "match",
+     "change_fraction_of_rest": -0.2052,
+     "start_mm": 401.2,
+     "end_mm": 333.5,
+     "min_mm": 333.5,
+     "max_mm": 401.2,
+     "wrapped_frames": 13,
+     "frames": 13
+    },
+    "hgpt.muscle.biceps_femoris_long.L": {
+     "contract": "variable",
+     "result": "near_isometric",
+     "verdict": "variable_ok",
+     "change_fraction_of_rest": -0.0173,
+     "start_mm": 422.5,
+     "end_mm": 415.3,
+     "min_mm": 415.3,
+     "max_mm": 422.5,
+     "wrapped_frames": 0,
+     "frames": 13
+    },
+    "hgpt.muscle.semitendinosus.L": {
+     "contract": "variable",
+     "result": "near_isometric",
+     "verdict": "variable_ok",
+     "change_fraction_of_rest": -0.0053,
+     "start_mm": 449.8,
+     "end_mm": 447.4,
+     "min_mm": 447.4,
+     "max_mm": 462.1,
+     "wrapped_frames": 3,
+     "frames": 13
+    },
+    "hgpt.muscle.semimembranosus.L": {
+     "contract": "variable",
+     "result": "shortening",
+     "verdict": "variable_ok",
+     "change_fraction_of_rest": -0.0743,
+     "start_mm": 435.2,
+     "end_mm": 405.1,
+     "min_mm": 405.1,
+     "max_mm": 435.2,
+     "wrapped_frames": 2,
+     "frames": 13
+    },
+    "hgpt.muscle.gluteus_medius.L": {
+     "contract": "near_isometric",
+     "result": "lengthening",
+     "verdict": "MISMATCH",
+     "change_fraction_of_rest": 0.058,
+     "start_mm": 145.6,
+     "end_mm": 154.4,
+     "min_mm": 145.6,
+     "max_mm": 161.9,
+     "wrapped_frames": 0,
+     "frames": 13
+    },
+    "hgpt.muscle.gastrocnemius_medial.L": {
+     "contract": "variable",
+     "result": "shortening",
+     "verdict": "variable_ok",
+     "change_fraction_of_rest": -0.0859,
+     "start_mm": 536.9,
+     "end_mm": 494.3,
+     "min_mm": 482.4,
+     "max_mm": 542.6,
+     "wrapped_frames": 8,
+     "frames": 13
+    },
+    "hgpt.muscle.soleus.L": {
+     "contract": "variable",
+     "result": "near_isometric",
+     "verdict": "variable_ok",
+     "change_fraction_of_rest": -0.0235,
+     "start_mm": 375.9,
+     "end_mm": 367.4,
+     "min_mm": 367.4,
+     "max_mm": 375.9,
+     "wrapped_frames": 0,
+     "frames": 13
+    }
+   },
+   "gluteus_medius_fibres": {
+    "anterior": 0.2569,
+    "middle": 0.0607,
+    "posterior": -0.0866
+   }
+  }
+ },
+ "summary": {
+  "match": 10,
+  "mismatch": 2,
+  "variable": 12,
+  "no_anchor": 0
+ }
+}

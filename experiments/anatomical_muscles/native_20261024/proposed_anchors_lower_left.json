@@ -1,0 +1,586 @@
+{
+ "status": "proposal_only",
+ "blender_version": "5.2.1 LTS",
+ "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+ "source_unchanged": true,
+ "side": "left",
+ "region": "lower_limb",
+ "proposals": {
+  "hgpt.muscle.gluteus_maximus.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_sacrum",
+     "local_m": [
+      0.03,
+      0.0861,
+      -0.026679
+     ],
+     "world_rest_m": [
+      0.03,
+      0.06997,
+      1.03604
+     ],
+     "rule": "posterior ilium / dorsal sacrum: hip-bone head (posterior ilium) + 20 mm posterior, 15 mm medial (broad origin - a fan is required)"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_femur_left",
+     "local_m": [
+      -0.009999,
+      0.082991,
+      -0.011994
+     ],
+     "world_rest_m": [
+      0.09473,
+      -0.00563,
+      0.84714
+     ],
+     "rule": "gluteal tuberosity: 20 % HJC->KJC, 12 mm posterior, 10 mm lateral (ITT part not represented)"
+    }
+   ],
+   "rest_straight_length_m": 0.2135,
+   "wrap_hint": {
+    "joint": "hip",
+    "side": "posterior",
+    "radius_m": 0.05
+   },
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.gluteus_medius.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_hip_bone_left",
+     "local_m": [
+      -0.055846,
+      0.050217,
+      0.034469
+     ],
+     "world_rest_m": [
+      0.09331,
+      -0.0093,
+      1.00469
+     ],
+     "rule": "outer ilium between the gluteal lines: HJC + 75 mm up, 10 mm lateral, 10 mm posterior (broad origin - a fan is required)"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_femur_left",
+     "local_m": [
+      -0.072183,
+      0.061794,
+      -0.041482
+     ],
+     "world_rest_m": [
+      0.15653,
+      0.02342,
+      0.87
+     ],
+     "rule": "greater trochanter, lateral facet: trochanterion skin inset 15 mm, 10 mm up"
+    }
+   ],
+   "rest_straight_length_m": 0.1523,
+   "wrap_hint": null,
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.rectus_femoris.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_hip_bone_left",
+     "local_m": [
+      -0.060932,
+      0.111027,
+      0.033322
+     ],
+     "world_rest_m": [
+      0.08331,
+      -0.0493,
+      0.95969
+     ],
+     "rule": "AIIS (no native landmark): HJC + 30 mm anterior, 30 mm up"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_tibia_left",
+     "local_m": [
+      0.000119,
+      0.059052,
+      0.030704
+     ],
+     "world_rest_m": [
+      0.09059,
+      -0.03995,
+      0.45704
+     ],
+     "rule": "tibial tuberosity via the patella: 8 % plateau->AJC, 30 mm anterior"
+    }
+   ],
+   "rest_straight_length_m": 0.5028,
+   "wrap_hint": {
+    "joint": "knee",
+    "side": "anterior",
+    "radius_m": 0.04
+   },
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.vastus_lateralis.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_femur_left",
+     "local_m": [
+      -0.024996,
+      0.062363,
+      9e-06
+     ],
+     "world_rest_m": [
+      0.10937,
+      -0.01805,
+      0.86778
+     ],
+     "rule": "proximal lateral femur / greater trochanter base: 15 % HJC->KJC, 25 mm lateral"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_tibia_left",
+     "local_m": [
+      0.000119,
+      0.059052,
+      0.030704
+     ],
+     "world_rest_m": [
+      0.09059,
+      -0.03995,
+      0.45704
+     ],
+     "rule": "tibial tuberosity via the patella"
+    }
+   ],
+   "rest_straight_length_m": 0.4118,
+   "wrap_hint": {
+    "joint": "knee",
+    "side": "anterior",
+    "radius_m": 0.04
+   },
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.vastus_medialis.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_femur_left",
+     "local_m": [
+      0.014998,
+      0.165096,
+      -0.010003
+     ],
+     "world_rest_m": [
+      0.07115,
+      -0.00596,
+      0.7646
+     ],
+     "rule": "medial linea aspera: 40 % HJC->KJC, 15 mm medial, 10 mm posterior"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_tibia_left",
+     "local_m": [
+      0.000119,
+      0.059052,
+      0.030704
+     ],
+     "world_rest_m": [
+      0.09059,
+      -0.03995,
+      0.45704
+     ],
+     "rule": "tibial tuberosity via the patella"
+    }
+   ],
+   "rest_straight_length_m": 0.31,
+   "wrap_hint": {
+    "joint": "knee",
+    "side": "anterior",
+    "radius_m": 0.04
+   },
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.vastus_intermedius.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_femur_left",
+     "local_m": [
+      -0.0,
+      0.144206,
+      0.014997
+     ],
+     "world_rest_m": [
+      0.0858,
+      -0.03138,
+      0.78523
+     ],
+     "rule": "anterior femoral shaft: 35 % HJC->KJC, 15 mm anterior"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_tibia_left",
+     "local_m": [
+      0.000119,
+      0.059052,
+      0.030704
+     ],
+     "world_rest_m": [
+      0.09059,
+      -0.03995,
+      0.45704
+     ],
+     "rule": "tibial tuberosity via the patella"
+    }
+   ],
+   "rest_straight_length_m": 0.3283,
+   "wrap_hint": {
+    "joint": "knee",
+    "side": "anterior",
+    "radius_m": 0.04
+   },
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.adductor_magnus_hamstring.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_hip_bone_left",
+     "local_m": [
+      -0.072603,
+      0.127033,
+      -0.068941
+     ],
+     "world_rest_m": [
+      0.06831,
+      0.0157,
+      0.87969
+     ],
+     "rule": "ischial tuberosity (no native landmark): HJC - 50 mm, 35 mm posterior, 15 mm medial"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_femur_left",
+     "local_m": [
+      0.041873,
+      0.392257,
+      -0.005186
+     ],
+     "world_rest_m": [
+      0.0482,
+      -0.0062,
+      0.53696
+     ],
+     "rule": "adductor tubercle: medial epicondyle (skin inset 12 mm) + 20 mm up"
+    }
+   ],
+   "rest_straight_length_m": 0.344,
+   "wrap_hint": null,
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.biceps_femoris_long.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_hip_bone_left",
+     "local_m": [
+      -0.072603,
+      0.127033,
+      -0.068941
+     ],
+     "world_rest_m": [
+      0.06831,
+      0.0157,
+      0.87969
+     ],
+     "rule": "ischial tuberosity"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_fibula_left",
+     "local_m": [
+      -0.0,
+      -0.0,
+      0.0
+     ],
+     "world_rest_m": [
+      0.13332,
+      0.01923,
+      0.47
+     ],
+     "rule": "fibular head: head of the anat_fibula bone"
+    }
+   ],
+   "rest_straight_length_m": 0.4148,
+   "wrap_hint": {
+    "joint": "knee",
+    "side": "posterior",
+    "radius_m": 0.025
+   },
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.semitendinosus.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_hip_bone_left",
+     "local_m": [
+      -0.072603,
+      0.127033,
+      -0.068941
+     ],
+     "world_rest_m": [
+      0.06831,
+      0.0157,
+      0.87969
+     ],
+     "rule": "ischial tuberosity"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_tibia_left",
+     "local_m": [
+      0.020114,
+      0.076022,
+      0.010679
+     ],
+     "world_rest_m": [
+      0.07067,
+      -0.01944,
+      0.44056
+     ],
+     "rule": "pes anserinus: 12 % plateau->AJC, 20 mm medial, 10 mm anterior"
+    }
+   ],
+   "rest_straight_length_m": 0.4405,
+   "wrap_hint": {
+    "joint": "knee",
+    "side": "posterior",
+    "radius_m": 0.025
+   },
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.semimembranosus.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_hip_bone_left",
+     "local_m": [
+      -0.072603,
+      0.127033,
+      -0.068941
+     ],
+     "world_rest_m": [
+      0.06831,
+      0.0157,
+      0.87969
+     ],
+     "rule": "ischial tuberosity"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_tibia_left",
+     "local_m": [
+      0.022126,
+      0.039551,
+      -0.011242
+     ],
+     "world_rest_m": [
+      0.06848,
+      0.00141,
+      0.47764
+     ],
+     "rule": "posteromedial medial tibial condyle: 3 % plateau->AJC, 22 mm medial, 12 mm posterior"
+    }
+   ],
+   "rest_straight_length_m": 0.4023,
+   "wrap_hint": {
+    "joint": "knee",
+    "side": "posterior",
+    "radius_m": 0.025
+   },
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.gastrocnemius_medial.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_femur_left",
+     "local_m": [
+      0.042045,
+      0.402657,
+      -0.024981
+     ],
+     "world_rest_m": [
+      0.0482,
+      0.0138,
+      0.52696
+     ],
+     "rule": "posterior medial femoral condyle: medial epicondyle (inset) + 20 mm posterior, 10 mm up"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_calcaneus_left",
+     "local_m": [
+      -0.0,
+      0.038435,
+      -0.0
+     ],
+     "world_rest_m": [
+      0.09532,
+      0.04581,
+      0.035
+     ],
+     "rule": "calcaneal tuberosity via the Achilles tendon: posterior end of anat_calcaneus"
+    }
+   ],
+   "rest_straight_length_m": 0.4952,
+   "wrap_hint": {
+    "joint": "knee",
+    "side": "posterior",
+    "radius_m": 0.025
+   },
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.soleus.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_tibia_left",
+     "local_m": [
+      -0.009899,
+      0.118254,
+      -0.019382
+     ],
+     "world_rest_m": [
+      0.10088,
+      0.01183,
+      0.39936
+     ],
+     "rule": "soleal line / posterior tibia and fibula: 22 % plateau->AJC, 20 mm posterior, 10 mm lateral"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_calcaneus_left",
+     "local_m": [
+      -0.0,
+      0.038435,
+      -0.0
+     ],
+     "world_rest_m": [
+      0.09532,
+      0.04581,
+      0.035
+     ],
+     "rule": "calcaneal tuberosity via the Achilles tendon"
+    }
+   ],
+   "rest_straight_length_m": 0.366,
+   "wrap_hint": null,
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  }
+ }
+}

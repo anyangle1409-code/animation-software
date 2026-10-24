@@ -271,6 +271,21 @@ for ang in ANGLES:
             Q = Pm - w[:, None] * (0.6 * B + 0.4 * mean(B))
         T = Q
     crum.append(folds(T, CT)[1])
+    # skin slide (optional): tangential relaxation - vertices move only within the surface, which keeps the shape and
+    # evens out the stretch the skinning concentrates (armpit / lat skin at full elevation)
+    SL = int(os.environ.get("V2_R121_ARMKEY_SLIDE", "0"))
+    if SL > 0:
+        ws = UPPER.astype(float)
+        for _ in range(SL):
+            a_, b_, c_ = T[FA[:, 0]], T[FA[:, 1]], T[FA[:, 2]]
+            fn_ = np.cross(b_ - a_, c_ - a_)
+            vn = np.zeros_like(T)
+            for k_ in range(3):
+                np.add.at(vn, FA[:, k_], fn_)
+            vn /= np.maximum(np.linalg.norm(vn, axis=1, keepdims=True), 1e-15)
+            L_ = mean(T) - T
+            L_ -= np.einsum("ij,ij->i", L_, vn)[:, None] * vn
+            T = T + 0.5 * ws[:, None] * L_
     m90, n90 = folds(T, 0.0)
     hist.append(n90)
     # deformation matrices: posed response to unit rest offsets through a temporary key (1 mm)

@@ -69,6 +69,16 @@ those angles uses them, which makes this a reusable movement system rather than 
 - Work's 46 ISB landmark requirements: **34 have native candidates** in R41; 12 are missing.
 - Proposed origin and insertion anchors, with explicit textbook rules, for 20 left shoulder and arm muscles. They are
   **unreviewed**, so the validator still reports them as not ready.
+- **Path-length direction check against Work's exercise contract** (`path_length_direction_check_blender.py`):
+  - The script poses R41's anatomical chain natively. That chain has no constraints to the runtime rig.
+  - **Curl: 12 of 12 match** (biceps, brachialis and brachioradialis shorten; triceps long lengthens).
+  - **Press: 10 match, with 3 muscles flagged** (each fails in both phases):
+    - *Triceps long* lengthens 5 %, because 125° of shoulder elevation outweighs the elbow extension. This is a contract
+      question for Work or the owner; the contract is not edited.
+    - *Trapezius lower* needs scapulothoracic gliding before it can be judged.
+    - *Infraspinatus* needs a wrap and humeral rotation.
+  - The check also found a defect in the serratus origin: it was a rib-chord point inside the thorax. The rule was
+    fixed on both sides, and serratus now shortens in the press, as the contract says.
 
 ## Blockers and next unblocked steps
 

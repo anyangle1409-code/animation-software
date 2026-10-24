@@ -41,18 +41,19 @@ def main():
     scene = bpy.data.scenes.new('HGPT_DIAGNOSTIC_SNAPSHOT_SCENE')
     scene.render.engine = 'CYCLES'
     scene.cycles.device = 'CPU'
-    scene.cycles.samples = 8
+    scene.cycles.samples = 32
     scene.cycles.use_denoising = False
     scene.cycles.max_bounces = 2
     scene.render.resolution_x = scene.render.resolution_y = 384
     scene.render.resolution_percentage = 100
     scene.render.image_settings.file_format = 'PNG'
-    scene.view_settings.view_transform = 'Standard'
+    scene.view_settings.view_transform = 'AgX'
+    scene.view_settings.exposure = -0.5
     scene.world = bpy.data.worlds.new('diagnostic_world')
     scene.world.use_nodes = True
     background = scene.world.node_tree.nodes.get('Background')
     background.inputs['Color'].default_value = (0.18, 0.18, 0.18, 1)
-    background.inputs['Strength'].default_value = 0.6
+    background.inputs['Strength'].default_value = 0.35
     camera_data = bpy.data.cameras.new('fixed_orthographic_camera')
     camera = bpy.data.objects.new('fixed_orthographic_camera', camera_data)
     scene.collection.objects.link(camera)
@@ -67,12 +68,12 @@ def main():
     lights = []
     for i, offset in enumerate(((1, -2, 2), (-1, 2, 1))):
         ld = bpy.data.lights.new('fixed_area_'+str(i), 'AREA')
-        ld.energy, ld.size = 180, 2
+        ld.energy, ld.size = 35, 2
         ob = bpy.data.objects.new(ld.name, ld)
         scene.collection.objects.link(ob)
         lights.append((ob, offset))
     manifest = {'status': 'ACTUAL_BLENDER_RENDER_OF_FROZEN_EVALUATED_GEOMETRY_NOT_REPAIR',
-                'source_sha256': W8_SHA, 'renderer': 'Blender Cycles CPU, 8 samples, 384 square',
+                'source_sha256': W8_SHA, 'renderer': 'Blender Cycles CPU, 32 samples, 384 square, AgX exposure -0.5',
                 'original_blend_opened_by_renderer': False, 'saved_blend': False,
                 'anatomical_approval': False, 'samples': [],
                 'limitations': ['Diagnostic gray material and smooth normals; source geometry unchanged.',

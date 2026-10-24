@@ -1,0 +1,424 @@
+{
+  "status": "NATIVE_ADJACENT_GEOMETRY_DIAGNOSTIC_NOT_REPAIR_OR_ANATOMICAL_ACCEPTANCE",
+  "run_id": 40077762287,
+  "execution_sha": "13c809807a41873987e74acf27ab99df941fec51",
+  "pose_member_sha256": "c538e5fa93d14b1311b666bfd6d59d2e33a52cfb27ebb7d4a3f6b81cf6ad3bb5",
+  "samples": 9,
+  "ranked_seed_edges": 4,
+  "unique_adjacent_control_edges": 16,
+  "measured_edges_per_sample": 20,
+  "conditions": 7,
+  "restored_endpoint_max_error_m": 0,
+  "prior_ranked_edge_ratios_and_deformation_metrics_unchanged": true,
+  "anatomical_approval": false,
+  "summary_at_prior_hotspots": [
+    {
+      "sample": 0,
+      "seed_vertex_ids": [
+        15645,
+        53019
+      ],
+      "control_edges": [
+        [
+          15645,
+          64571
+        ],
+        [
+          15645,
+          64627
+        ],
+        [
+          53019,
+          64571
+        ],
+        [
+          53019,
+          64627
+        ]
+      ],
+      "conditions": {
+        "observed": {
+          "minimum_length_ratio_NOT_strain": 0.3994948,
+          "maximum_length_ratio_NOT_strain": 0.9394222,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 0,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 0
+        },
+        "S5_muted": {
+          "minimum_length_ratio_NOT_strain": 0.7224967,
+          "maximum_length_ratio_NOT_strain": 0.9799385,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 4,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 0
+        },
+        "S7_muted": {
+          "minimum_length_ratio_NOT_strain": 0.3994948,
+          "maximum_length_ratio_NOT_strain": 0.9394222,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 0,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 0
+        },
+        "all_nonbasis_keys_muted": {
+          "minimum_length_ratio_NOT_strain": 0.7246852,
+          "maximum_length_ratio_NOT_strain": 0.9791337,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 4,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 0
+        }
+      }
+    },
+    {
+      "sample": 0,
+      "seed_vertex_ids": [
+        17185,
+        44317
+      ],
+      "control_edges": [
+        [
+          17185,
+          32495
+        ],
+        [
+          17185,
+          44316
+        ],
+        [
+          32495,
+          44317
+        ],
+        [
+          44316,
+          44317
+        ]
+      ],
+      "conditions": {
+        "observed": {
+          "minimum_length_ratio_NOT_strain": 0.5286888,
+          "maximum_length_ratio_NOT_strain": 0.9542727,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 0,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 0
+        },
+        "S5_muted": {
+          "minimum_length_ratio_NOT_strain": 0.7137813,
+          "maximum_length_ratio_NOT_strain": 0.9769821,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 4,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 0
+        },
+        "S7_muted": {
+          "minimum_length_ratio_NOT_strain": 0.5286888,
+          "maximum_length_ratio_NOT_strain": 0.9542727,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 0,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 0
+        },
+        "all_nonbasis_keys_muted": {
+          "minimum_length_ratio_NOT_strain": 0.7091315,
+          "maximum_length_ratio_NOT_strain": 0.9774863,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 4,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 0
+        }
+      }
+    },
+    {
+      "sample": 0,
+      "seed_vertex_ids": [
+        29237,
+        71026
+      ],
+      "control_edges": [
+        [
+          29237,
+          29238
+        ],
+        [
+          29237,
+          52873
+        ],
+        [
+          29238,
+          71026
+        ],
+        [
+          52873,
+          71026
+        ]
+      ],
+      "conditions": {
+        "observed": {
+          "minimum_length_ratio_NOT_strain": 0.9891421,
+          "maximum_length_ratio_NOT_strain": 1.1547746,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 0,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 0
+        },
+        "S5_muted": {
+          "minimum_length_ratio_NOT_strain": 1.0493268,
+          "maximum_length_ratio_NOT_strain": 1.503004,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 0,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 4
+        },
+        "S7_muted": {
+          "minimum_length_ratio_NOT_strain": 0.9891421,
+          "maximum_length_ratio_NOT_strain": 1.1547746,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 0,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 0
+        },
+        "all_nonbasis_keys_muted": {
+          "minimum_length_ratio_NOT_strain": 1.0493268,
+          "maximum_length_ratio_NOT_strain": 1.503004,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 0,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 4
+        }
+      }
+    },
+    {
+      "sample": 0,
+      "seed_vertex_ids": [
+        32352,
+        71428
+      ],
+      "control_edges": [
+        [
+          32348,
+          32352
+        ],
+        [
+          32348,
+          71428
+        ],
+        [
+          32352,
+          67583
+        ],
+        [
+          67583,
+          71428
+        ]
+      ],
+      "conditions": {
+        "observed": {
+          "minimum_length_ratio_NOT_strain": 0.9865052,
+          "maximum_length_ratio_NOT_strain": 1.160347,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 0,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 0
+        },
+        "S5_muted": {
+          "minimum_length_ratio_NOT_strain": 1.0473475,
+          "maximum_length_ratio_NOT_strain": 1.5118293,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 0,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 4
+        },
+        "S7_muted": {
+          "minimum_length_ratio_NOT_strain": 0.9865052,
+          "maximum_length_ratio_NOT_strain": 1.160347,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 0,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 0
+        },
+        "all_nonbasis_keys_muted": {
+          "minimum_length_ratio_NOT_strain": 1.0473475,
+          "maximum_length_ratio_NOT_strain": 1.5118293,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 0,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 4
+        }
+      }
+    },
+    {
+      "sample": 6,
+      "seed_vertex_ids": [
+        15645,
+        53019
+      ],
+      "control_edges": [
+        [
+          15645,
+          64571
+        ],
+        [
+          15645,
+          64627
+        ],
+        [
+          53019,
+          64571
+        ],
+        [
+          53019,
+          64627
+        ]
+      ],
+      "conditions": {
+        "observed": {
+          "minimum_length_ratio_NOT_strain": 0.955834,
+          "maximum_length_ratio_NOT_strain": 1.1356626,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 0,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 0
+        },
+        "S5_muted": {
+          "minimum_length_ratio_NOT_strain": 0.955834,
+          "maximum_length_ratio_NOT_strain": 1.1356626,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 0,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 0
+        },
+        "S7_muted": {
+          "minimum_length_ratio_NOT_strain": 0.9050075,
+          "maximum_length_ratio_NOT_strain": 1.0859916,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 1,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 3
+        },
+        "all_nonbasis_keys_muted": {
+          "minimum_length_ratio_NOT_strain": 0.9023364,
+          "maximum_length_ratio_NOT_strain": 0.9993556,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 1,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 3
+        }
+      }
+    },
+    {
+      "sample": 6,
+      "seed_vertex_ids": [
+        17185,
+        44317
+      ],
+      "control_edges": [
+        [
+          17185,
+          32495
+        ],
+        [
+          17185,
+          44316
+        ],
+        [
+          32495,
+          44317
+        ],
+        [
+          44316,
+          44317
+        ]
+      ],
+      "conditions": {
+        "observed": {
+          "minimum_length_ratio_NOT_strain": 0.955285,
+          "maximum_length_ratio_NOT_strain": 1.1418552,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 0,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 0
+        },
+        "S5_muted": {
+          "minimum_length_ratio_NOT_strain": 0.955285,
+          "maximum_length_ratio_NOT_strain": 1.1418552,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 0,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 0
+        },
+        "S7_muted": {
+          "minimum_length_ratio_NOT_strain": 0.9027164,
+          "maximum_length_ratio_NOT_strain": 1.1068798,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 2,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 2
+        },
+        "all_nonbasis_keys_muted": {
+          "minimum_length_ratio_NOT_strain": 0.9109686,
+          "maximum_length_ratio_NOT_strain": 0.9992994,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 2,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 2
+        }
+      }
+    },
+    {
+      "sample": 6,
+      "seed_vertex_ids": [
+        29237,
+        71026
+      ],
+      "control_edges": [
+        [
+          29237,
+          29238
+        ],
+        [
+          29237,
+          52873
+        ],
+        [
+          29238,
+          71026
+        ],
+        [
+          52873,
+          71026
+        ]
+      ],
+      "conditions": {
+        "observed": {
+          "minimum_length_ratio_NOT_strain": 0.5796131,
+          "maximum_length_ratio_NOT_strain": 2.4998571,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 0,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 0
+        },
+        "S5_muted": {
+          "minimum_length_ratio_NOT_strain": 0.496198,
+          "maximum_length_ratio_NOT_strain": 2.641216,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 0,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 4
+        },
+        "S7_muted": {
+          "minimum_length_ratio_NOT_strain": 1.0476554,
+          "maximum_length_ratio_NOT_strain": 1.474603,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 3,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 1
+        },
+        "all_nonbasis_keys_muted": {
+          "minimum_length_ratio_NOT_strain": 1.0293878,
+          "maximum_length_ratio_NOT_strain": 1.801223,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 3,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 1
+        }
+      }
+    },
+    {
+      "sample": 6,
+      "seed_vertex_ids": [
+        32352,
+        71428
+      ],
+      "control_edges": [
+        [
+          32348,
+          32352
+        ],
+        [
+          32348,
+          71428
+        ],
+        [
+          32352,
+          67583
+        ],
+        [
+          67583,
+          71428
+        ]
+      ],
+      "conditions": {
+        "observed": {
+          "minimum_length_ratio_NOT_strain": 0.5789414,
+          "maximum_length_ratio_NOT_strain": 2.4768829,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 0,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 0
+        },
+        "S5_muted": {
+          "minimum_length_ratio_NOT_strain": 0.4952644,
+          "maximum_length_ratio_NOT_strain": 2.6215481,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 0,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 4
+        },
+        "S7_muted": {
+          "minimum_length_ratio_NOT_strain": 1.0449688,
+          "maximum_length_ratio_NOT_strain": 1.4803933,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 3,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 1
+        },
+        "all_nonbasis_keys_muted": {
+          "minimum_length_ratio_NOT_strain": 1.0274635,
+          "maximum_length_ratio_NOT_strain": 1.8111358,
+          "edges_closer_to_rest_ratio_NOT_acceptance": 3,
+          "edges_farther_from_rest_ratio_NOT_acceptance": 1
+        }
+      }
+    }
+  ]
+}

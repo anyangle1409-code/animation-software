@@ -58,6 +58,14 @@ jobs:
           python scripts/phone_blender/native_control_views.py \
             --snapshots "$GITHUB_WORKSPACE/_phone-control-snapshots" \
             --out "$GITHUB_WORKSPACE/phone-pose-probe/control_views"
+      - name: Preserve evaluated snapshots for independent cloud render replay
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phone-w8-evaluated-snapshots-${{ github.run_id }}
+          path: _phone-control-snapshots/
+          retention-days: 90
+          if-no-files-found: error
       - name: Preserve observed W8 pose-state evidence
         if: always()
         uses: actions/upload-artifact@v4

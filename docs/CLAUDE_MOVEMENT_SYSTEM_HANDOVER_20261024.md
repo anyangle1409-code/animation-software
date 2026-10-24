@@ -79,6 +79,12 @@ those angles uses them, which makes this a reusable movement system rather than 
     - *Infraspinatus* needs a wrap and humeral rotation.
   - The check also found a defect in the serratus origin: it was a rib-chord point inside the thorax. The rule was
     fixed on both sides, and serratus now shortens in the press, as the contract says.
+- **Legs:** proposed anchors for the 12 squat muscles on both sides (unreviewed, mirror-exact), and a squat
+  path-length check.
+  - Result: **10 match, 12 contract "variable", 2 mismatches** (gluteus medius in the descent and the ascent).
+  - Gluteus maximus only lengthens once it wraps behind the hip; as a straight line it runs through the joint.
+  - Gluteus medius is a fan: its anterior fibres shorten by 20 % while its posterior fibres lengthen by 9 %. It needs
+    a fibre fan before the contract's "near-isometric" can be checked.
 
 ## Blockers and next unblocked steps
 
@@ -107,7 +113,8 @@ those angles uses them, which makes this a reusable movement system rather than 
    - elbow pivot about 2 cm above and behind the epicondyle line.
 5. **Elbow contact:** volume preservation, and the contact slit at 120–140°.
 6. **Muscle layer:**
-   - right side, derived independently rather than mirrored;
+   - fibre fans for gluteus medius, trapezius, latissimus, pectoralis and serratus;
+   - scapulothoracic gliding, needed for the trapezius lower verdict;
    - fans and digitations for the broad muscles;
    - wrap paths;
    - belly and tendon geometry on an experiment copy.

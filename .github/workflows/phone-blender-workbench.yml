@@ -87,7 +87,7 @@ jobs:
             --static "${{ runner.temp }}/static/W8/shoulder_activation_rules.json" \
             --actual "${{ runner.temp }}/actual/w8_shoulder_driver_pose_state.json" \
             --out phone-pose-consistency
-      - name: Validate and summarize actual W8 nine-frame deformation timeline (read-only)
+      - name: Validate W8 nine-frame deformation timeline with optional observed K1 elbow channels
         run: |
           python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_pose_failure_timeline.py -v
           python scripts/cloud_body_analysis/pose_failure_timeline.py \

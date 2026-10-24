@@ -183,6 +183,7 @@ POLYS = [p.vertices[:] for p in me.polygons]
 
 
 BULGE = float(os.environ.get("V2_R121_CONTACT_BULGE", "0"))   # sideways bulge per unit flattening depth
+SOFT = float(os.environ.get("V2_R121_CONTACT_SOFT", "0"))     # width (m) of the rounded lip band beside the contact face
 
 
 def contact(T, margin=0.0008):
@@ -211,6 +212,12 @@ def contact(T, margin=0.0008):
         cf = fo_side & inner & (h > -margin)                   # forearm skin on the upper-arm side
         D[cu] += np.outer(margin - h[cu], nb)
         D[cf] += np.outer(-margin - h[cf], nb)
+        if SOFT > 0:                                           # rounded lips: skin within SOFT of the plane is drawn
+            for sm, sg in ((up_side, 1.0), (fo_side, -1.0)):   # towards it, tangent at the plane -> a tight crease
+                g = sg * h - margin                            # distance outside the contact face (on its own side)
+                lip = sm & inner & (g > 0) & (g < SOFT)
+                t = g[lip] / SOFT
+                D[lip] += np.outer(-sg * g[lip] * (1.0 - t) ** 2, nb)
         if BULGE > 0:                                          # displaced tissue bulges out at the contact's edges
             hx = np.array(fb.x_axis.normalized())              # hinge (flexion) axis
             ex_ = r @ hx                                       # signed distance from the limb's mid-plane

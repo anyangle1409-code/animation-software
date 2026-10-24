@@ -172,12 +172,15 @@ if os.environ.get("V2_R121_ARMFADE", "0") == "1":
     region = NEWR.astype(float) * ss((0.12 - ARM) / 0.12) * ss((f - 0.425) / 0.02) * ss((0.795 - f) / 0.02)
     for _ in range(12):
         region = 0.5 * region + 0.5 * mean(region)
-dn = (wf * ns["torso_front"](ax, f) + wb * ns["torso_back"](ax, f)) * region * TORSO
+# v3: the back relief reads faint under the back light - optional gain on the back muscles above 0.60 H only (at 1.7 on
+# the whole back the glutes grew a shelf at the hips)
+BG = 1.0 + (float(os.environ.get("V2_R121_BACK_GAIN", "1.0")) - 1.0) * ss((f - 0.60) / 0.04)
+dn = (wf * ns["torso_front"](ax, f) + BG * wb * ns["torso_back"](ax, f)) * region * TORSO
 # v3: torso_back's spine groove (-6 mm, sigma 0.0045 H ~ 8 mm) bends the skin ~16 deg per 3 mm edge and read as a ladder
 # of facets down the spine; the reference's groove is broad and soft - swap it for a wider, shallower one
 if os.environ.get("V2_R121_SPINE_SOFT", "0") == "1":
     win = ns["_win"](f, 0.53, 0.80, 0.02)
-    dn += wb * region * TORSO * win * (6.0e-3 * np.exp(-0.5 * (ax / 0.0045) ** 2) - 4.0e-3 * np.exp(-0.5 * (ax / 0.009) ** 2))
+    dn += BG * wb * region * TORSO * win * (6.0e-3 * np.exp(-0.5 * (ax / 0.0045) ** 2) - 4.0e-3 * np.exp(-0.5 * (ax / 0.009) ** 2))
 for _ in range(2):
     dn = 0.5 * dn + 0.5 * mean(dn)
 # v3: the back relief's spine groove is narrower than the rebuilt mesh rows and read as a ladder - extra smoothing of the

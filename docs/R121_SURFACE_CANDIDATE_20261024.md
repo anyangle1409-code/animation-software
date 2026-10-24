@@ -80,6 +80,14 @@ so earlier candidates (R121b–d) rebuild unchanged.
     - local delete-and-refill: left holes (117 boundary edges) and the fills folded again. Not committed.
   - Fix: the final unfold.
 
+## Tried, not adopted
+
+- **Back gain** (`V2_R121_BACK_GAIN`, back relief above 0.60 H only).
+  - At 1.4 (R121r) the scapula region reads a little more, but it adds a lump at mid-back and brings armpit folds back:
+    the final unfold leaves 50 folded vertices instead of 6.
+  - At 1.7 on the whole back (R121q) the glutes grew a shelf at the hips.
+  - Default stays 1.0.
+
 ## Remaining (honest)
 
 - **Back:** reads flatter than the reference. The scapula/infraspinatus/teres relief is faint, and there is a

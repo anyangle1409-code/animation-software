@@ -25,6 +25,9 @@ KNEE_START = 20.0
 HANDCONTACT_PREFIX = "R121_REST_HANDCONTACT_"
 HANDCONTACT_PROP = "hgpt_r121_handcontact_rest_elev"   # the arm's rest elevation when the key was made
 HANDCONTACT_FADE = 8.0
+COMBO_PREFIX = "R121_COMBO_"
+COMBO_PROP = "hgpt_r121_combo"        # per side: [elevation, elbow] the combination key was authored at
+COMBO_HALF = 45.0
 
 
 def knee_flex_deg(rig, s):
@@ -104,6 +107,12 @@ def drive(rig, body):
                 continue
             for name, v in _hats(names, (start,) + tuple(rig[f"{prop}_{s}"])[:len(names)], ang):
                 keys[name].value = v * gain
+        # combination corrective (arm raised AND elbow bent, e.g. the press rack): product of two triangles
+        kn = f"{COMBO_PREFIX}{s}"
+        if kn in keys and f"{COMBO_PROP}_{s}" in rig:
+            e0, b0 = rig[f"{COMBO_PROP}_{s}"]
+            tri = lambda x, c: max(0.0, 1.0 - abs(x - c) / COMBO_HALF)
+            keys[kn].value = tri(e, e0) * tri(elbow_flex_deg(rig, s), b0)
         # transient hand-on-thigh contact: full at the rest elevation, gone HANDCONTACT_FADE degrees above it
         kn = f"{HANDCONTACT_PREFIX}{s}"
         if kn in keys and f"{HANDCONTACT_PROP}_{s}" in rig:

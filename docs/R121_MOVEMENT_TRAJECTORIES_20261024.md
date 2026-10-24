@@ -356,10 +356,28 @@ above it. The small inner-arm/chest flattening (≤ 5 mm) stays in the basis.
 
 With the r57 hanging arms the squat has up to 234 pairs at mid-depth, from the hands sweeping the thighs (path).
 
+## Press rack: a combination corrective (I12)
+
+**Cause.** At the rack (arm raised about 84° by the girdle, elbow 90°, humeral external rotation 21°), 115 folds
+remained. 84 of them were on the proximal forearm (`forearm_tw0`) next to the elbow. Muting the arm keys there gives
+986 folds, so the arm keys work; the remainder is the **combination** that neither family was authored for.
+
+**Fix.** Key `R121_COMBO_<s>`, authored at the rack in the elbow and upper-arm region (within 18 cm of the elbow). It is
+driven by `tri(elevation; 84°, ±45°) × tri(elbow; 90°, ±45°)` (`r121_drives`), so it acts in any movement that reaches
+that joint combination.
+
+| Press | Before | With the combination key |
+|---|---|---|
+| Elbow folds over 90° | 90 | **20**; per frame 0 0 0 0 0 20 3 0 0 0 3 20 0 0 0 0 0 |
+| Elbow crumple | 1445 | **268** |
+| Whole-body crumple | 1673 | 1251 |
+
+The curl and squat are unchanged: the key is off at their joint combinations. Report: `report_TT_I12_combo.json`.
+
 ## Open items (measured, next)
 
-- **Elbow:** the curl is now intersection-free (I9). Still open: the flat contact face and slit at 120–140°, and
-  the press-rack elbow folds (90).
+- **Elbow:** the curl is intersection-free (I9) and the press rack is fixed (I12). Still open: the flat contact face
+  and slit at 120–140°.
 - **Press lockout:** 6619 edges are still stretched more than 2× (armpit and lat skin), with residual armpit wrinkles.
 - **Squat:** the knee contact, heel lift and sole slide are fixed; the arm path is above.
 - **Rest-pose armpit and arm-hip intersections:** above.

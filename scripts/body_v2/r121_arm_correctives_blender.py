@@ -82,7 +82,8 @@ MODE = os.environ.get("V2_R121_ARMKEY_MODE", "abd")        # abd: sideways raise
 FAMILY = {"abd": (r121_drives.PREFIX, r121_drives.PROP), "flex": (r121_drives.FLEX_PREFIX, r121_drives.FLEX_PROP),
           "squat": (r121_drives.HIP_PREFIX, r121_drives.HIP_PROP),
           "elbow": (r121_drives.ELBOW_PREFIX, r121_drives.ELBOW_PROP),
-          "knee": (r121_drives.KNEE_PREFIX, r121_drives.KNEE_PROP)}[MODE]
+          "knee": (r121_drives.KNEE_PREFIX, r121_drives.KNEE_PROP),
+          "combo": (r121_drives.COMBO_PREFIX, r121_drives.COMBO_PROP)}[MODE]
 HINGE = {"elbow": ("upperarm", "forearm", float(os.environ.get("V2_R121_HINGE_REACH", "0.16"))),
          "knee": ("thigh", "shin", float(os.environ.get("V2_R121_HINGE_REACH", "0.18")))}   # upper bone, lower bone, reach (m)
 if os.environ.get("V2_R121_ARMKEY_REPLACE") == "1":         # re-author: drop this family's keys and drive data first
@@ -116,6 +117,19 @@ if MODE in HINGE:                                           # the limb within re
         near |= np.linalg.norm(R0 - e_, axis=1) < reach
     UPPER = near & ((wu + wf) > 0.3) & ~HOLD
     CONTACT = (UPPER & (wu >= wf), UPPER & (wf > wu))      # proximal side / distal side of the hinge
+if MODE == "combo":                                         # press rack: the arm and the elbow region
+    near = np.zeros(n, bool)
+    for s_ in ("l", "r"):
+        e_ = np.array(rig.data.bones[f"forearm_{s_}"].head_local)
+        near |= np.linalg.norm(R0 - e_, axis=1) < 0.18
+    UPPER = near & ((gsum("upperarm") + gsum("forearm")) > 0.3) & ~HOLD
+    import build_functional_shoulder_correction_blender as correction
+    import functional_shoulder_correction as corr
+    RA = {}
+    for side_, name_ in correction.HUMERI:
+        b_ = rig.data.bones[name_]
+        RA[name_] = corr.humeral_axial_angle_deg(tuple(b_.tail_local - b_.head_local), tuple(b_.matrix_local.col[0].xyz), 40.0, side_)
+    COMBO_ELBOW = float(os.environ.get("V2_R121_COMBO_ELBOW", "90"))
 if MODE == "knee":
     bench._reset(rig)
     REST_HEADS = {s_: rig.pose.bones[f"foot_{s_}"].head.copy() for s_ in ("l", "r")}
@@ -129,6 +143,13 @@ if MODE == "squat":                                        # hips, glutes, groin
 
 
 def pose(ang):
+    if MODE == "combo":                                    # press rack: girdle + humerus (press plane) + elbow
+        import shoulder_girdle_candidate as girdle
+        girdle.apply_press_pose(rig, float(ang), RA)
+        for sd in ("r", "l"):
+            fb = rig.pose.bones[f"forearm_{sd}"]; fb.rotation_mode = "XYZ"; fb.rotation_euler = (math.radians(-COMBO_ELBOW), 0.0, 0.0)
+        bpy.context.view_layer.update(); drives.drive(rig, body); r121_drives.drive(rig, body); bpy.context.view_layer.update()
+        return
     if MODE == "elbow":                                    # standing carriage, both elbows flexed
         bench._reset(rig)
         for sd, sg in (("r", -1.0), ("l", 1.0)):
@@ -270,19 +291,20 @@ for ang in ANGLES:
     tmp.value = 0.0; set_key(tmp, np.zeros((n, 3)))
     for s, sg in (("r", 1.0), ("l", -1.0)):
         side = (np.sign(R0[:, 0]) == sg)
-        kb = body.shape_key_add(name=f"{FAMILY[0]}{s}_{ang}", from_mix=False); kb.value = 0.0
+        kb = body.shape_key_add(name=f"{FAMILY[0]}{s}" if MODE == "combo" else f"{FAMILY[0]}{s}_{ang}", from_mix=False); kb.value = 0.0
         set_key(kb, Dk * side[:, None])
-        made.setdefault(s, []).append(elev[s])
+        made.setdefault(s, []).append(elev[s] if MODE != "combo" else
+                                      [float(drives.elevation_deg(rig, s)), float(r121_drives.elbow_flex_deg(rig, s))])
     REP["keys"][str(ang)] = {"elevation_deg": elev, "folds_gt90_before": int(folds(P, 0.0)[1]), "unfold_history": hist, "contact_history": contact_hist, "crumple_gt35_history": crum,
                              "folds_gt90_with_key": nk, "max_offset_mm": round(float(np.linalg.norm(Dk, axis=1).max() * 1000), 2),
                              "vertices": int(len(sel)), "fit_residual_max_mm": round(resid, 3)}
     print("ARMKEY", ang, json.dumps(REP["keys"][str(ang)]), flush=True)
 body.shape_key_remove(tmp)
 for s in ("l", "r"):
-    rig[f"{FAMILY[1]}_{s}"] = made[s]
+    rig[f"{FAMILY[1]}_{s}"] = made[s][0] if MODE == "combo" else made[s]
 bench._reset(rig)
 for kb in me.shape_keys.key_blocks:
-    if kb.name.startswith(("R121_ARM_", "R121_FLEX_", "R121_HIP_", "R121_ELBOW_", "R121_KNEE_")):
+    if kb.name.startswith(("R121_ARM_", "R121_FLEX_", "R121_HIP_", "R121_ELBOW_", "R121_KNEE_", "R121_COMBO_", "R121_REST_")):
         kb.value = 0.0
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT / "body_v2_r121_arms.blend"), copy=True)
 (OUT / f"r121_arm_correctives_{MODE}_report.json").write_text(json.dumps(REP, indent=1))

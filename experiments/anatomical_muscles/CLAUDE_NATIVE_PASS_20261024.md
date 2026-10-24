@@ -95,3 +95,15 @@ This frame now drives the corrected shoulder girdle in the Body v2 lane (`should
 - **Belly and tendon geometry**, volumes, layer and contact maps, and skin masks.
 - **No muscle mesh was added** to any blend; the experiment copy is unchanged.
 - The **12 missing ISB landmarks** above.
+
+## Right side (added)
+
+`native_20261024/proposed_anchors_right.json` was derived **independently** from the right-side landmarks, using the same
+rules and the same script with `right`. The copy was unchanged afterwards (SHA256 `4c44b1fe…`).
+
+**Mirror check against the left proposals:** 39 of 40 anchors agree with the mirrored left anchor to within 0.01 mm.
+The exception is the pectoralis major sternocostal origin, which differs by **2.44 mm**. Its rule uses the IJ–PX
+midpoint, and R41's own `LM_sternum__px_skin` sits 2.4 mm off the midline (x = −0.0024 m). That asymmetry is in the
+source landmark; it is flagged for landmark review, not corrected here.
+
+Both sides remain **PROPOSED, UNREVIEWED**.

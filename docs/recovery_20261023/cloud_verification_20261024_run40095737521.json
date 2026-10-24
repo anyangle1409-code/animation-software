@@ -1,0 +1,39 @@
+{
+  "run_id": 40095737521,
+  "execution_sha": "7b54e75c41817772d163a7143c077167681c3aff",
+  "workflow_conclusion": "success",
+  "successful_jobs": 7,
+  "total_jobs": 7,
+  "cloud_diagnostic_tests": 247,
+  "focused_pose_job_tests": [9, 18, 6, 6],
+  "native_pose_samples": 9,
+  "individual_active_s5_s7_conditions": 60,
+  "authored_suffix_scope_is_anatomical_side": false,
+  "anatomical_approval": false,
+  "artifacts": [
+    {"id": 12561340127, "name": "phone-blender-R120-40095737521", "published_sha256": "efa50a9bd56b5c799ae39d75af9add4a1531dd6389870a8a0ac7410533997d42", "independently_rehashed": false},
+    {"id": 12561290967, "name": "phone-w8-evaluated-snapshots-40095737521", "published_sha256": "28cf3fc3e708de7a60603607142bac969db50797ef7916d1e55c258fa4041a40", "independently_rehashed": false},
+    {"id": 12561056872, "name": "phone-w8-shoulder-pose-state-40095737521", "published_sha256": "9296ca4fbc94bb7adb9841112253dfe7a9396da502164a6057bf12c0b0ff0551", "independently_rehashed": true, "zip_sha256": "9296ca4fbc94bb7adb9841112253dfe7a9396da502164a6057bf12c0b0ff0551", "zip_crc_pass": true, "member_count": 35, "member_listing_sha256": "527640c2647057b82f458d3d0a4df1bec7dda8ed43cc14d9e2c5569190f35779"},
+    {"id": 12561036386, "name": "phone-native-failure-localization-40095737521", "published_sha256": "6b2c9f9419494294ea0a53be90388ed95eb1eb60795126a9b54e44a29d5b6463", "independently_rehashed": false},
+    {"id": 12561001571, "name": "phone-visual-review-40095737521", "published_sha256": "c746e1c8b0f5a060b6e56954ee462ca2c4df3e6af0f53f598aee48d954dc9730", "independently_rehashed": false},
+    {"id": 12560887064, "name": "phone-blender-V14-40095737521", "published_sha256": "dba4c508b2b5778f3e1f9b043dcf93819901a9ed944a2ffd3bed79a7c5f0db0e", "independently_rehashed": false},
+    {"id": 12560682038, "name": "phone-w8-driver-consistency-40095737521", "published_sha256": "78638960fdc66115e648f8e3dcc878c5ea17f1380a8e378ce7a129adf533a3e3", "independently_rehashed": false},
+    {"id": 12560627931, "name": "phone-rest-cross-model-40095737521", "published_sha256": "75a8262090d7d0678ed52628d35f96ff497c4403fbb91fab46b6d1d32be7459a", "independently_rehashed": false},
+    {"id": 12560094112, "name": "phone-blender-W8-40095737521", "published_sha256": "1935db84ea252acfad1d716bd83f033f23a0864824afaf0ac8106a775a7e348c", "independently_rehashed": false}
+  ],
+  "pose_member_sha256": {
+    "w8_individual_active_key_isolation.json": "31434bd713ac8cd0dd2d90e72899fa48e670371e2d70822bcc83f10061ff8ffa",
+    "w8_individual_active_key_isolation.md": "6cfcd997bb909a0de8bca2cd3188ce744eb6d9949905712147ac41ae811ffc36",
+    "w8_shoulder_driver_pose_state.json": "9c2ea82a6a876471903bf9f7a6d03655b81d31269579d76113610164ce2c18b7",
+    "control_views/native_control_view_manifest.json": "df286b0c6e76af06cc9507c09b13d7e83a2c824025ff92592814828c893c67be"
+  },
+  "native_measurements_exactly_equal_to_run40095096697": true,
+  "local_focus": {
+    "sample0_s5_110_each_suffix": {"seed_closer_farther_same": [1, 0, 1], "adjacent_closer_farther_same": [0, 4, 4]},
+    "sample0_s5_85_each_suffix": {"seed_closer_farther_same": [1, 1, 0], "adjacent_closer_farther_same": [4, 4, 0]},
+    "sample6_s5_145_or_160_each_suffix": {"seed_closer_farther_same": [0, 1, 1], "adjacent_closer_farther_same": [0, 4, 4]},
+    "sample6_s7_145_suffix_l": {"seed_closer_farther_same": [2, 0, 0], "adjacent_closer_farther_same": [4, 4, 0]},
+    "sample6_s7_145_suffix_r": {"seed_closer_farther_same": [2, 0, 0], "adjacent_closer_farther_same": [5, 3, 0]},
+    "sample6_s7_156_each_suffix": {"seed_closer_farther_same": [1, 1, 0], "adjacent_closer_farther_same": [6, 2, 0]}
+  }
+}

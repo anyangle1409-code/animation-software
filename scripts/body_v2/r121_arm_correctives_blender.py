@@ -80,7 +80,31 @@ def evaluated():
 MODE = os.environ.get("V2_R121_ARMKEY_MODE", "abd")        # abd: sideways raise; flex: forward raise (on top of abd keys)
 #                                                            squat: benchmark squat at depth ANGLES / 100 (hip family)
 FAMILY = {"abd": (r121_drives.PREFIX, r121_drives.PROP), "flex": (r121_drives.FLEX_PREFIX, r121_drives.FLEX_PROP),
-          "squat": (r121_drives.HIP_PREFIX, r121_drives.HIP_PROP)}[MODE]
+          "squat": (r121_drives.HIP_PREFIX, r121_drives.HIP_PROP),
+          "elbow": (r121_drives.ELBOW_PREFIX, r121_drives.ELBOW_PROP)}[MODE]
+WGT = {}
+for v in me.vertices:
+    for g in v.groups:
+        WGT.setdefault(GN[g.group], np.zeros(n))[v.index] = g.weight
+
+
+def gsum(*keys):
+    out = np.zeros(n)
+    for name, w_ in WGT.items():
+        if any(k in name for k in keys):
+            out += w_
+    return out
+
+
+CONTACT = None
+if MODE == "elbow":                                        # the arm within 16 cm of each elbow; hands held
+    wu, wf = gsum("upperarm"), gsum("forearm")
+    near = np.zeros(n, bool)
+    for s_ in ("l", "r"):
+        e_ = np.array(rig.data.bones[f"forearm_{s_}"].head_local)
+        near |= np.linalg.norm(R0 - e_, axis=1) < 0.16
+    UPPER = near & ((wu + wf) > 0.3) & ~HOLD
+    CONTACT = (UPPER & (wu >= wf), UPPER & (wf > wu))      # upper-arm side / forearm side of the elbow
 if MODE == "squat":                                        # hips, glutes, groin, lower back - not the knees
     fz = (R0[:, 2] - z0) / H
     arm_g = {i for i, g in enumerate(GN) if any(k in g for k in ("upperarm", "forearm"))}
@@ -91,6 +115,13 @@ if MODE == "squat":                                        # hips, glutes, groin
 
 
 def pose(ang):
+    if MODE == "elbow":                                    # standing carriage, both elbows flexed
+        bench._reset(rig)
+        for sd, sg in (("r", -1.0), ("l", 1.0)):
+            pb = rig.pose.bones[f"upperarm_{sd}"]; pb.rotation_mode = "XYZ"; pb.rotation_euler = (0.0, 0.0, math.radians(sg * 16.0))
+            fb = rig.pose.bones[f"forearm_{sd}"]; fb.rotation_mode = "XYZ"; fb.rotation_euler = (math.radians(-ang), 0.0, 0.0)
+        bpy.context.view_layer.update(); drives.drive(rig, body); r121_drives.drive(rig, body); bpy.context.view_layer.update()
+        return
     if MODE == "squat":
         bench.pose_squat(rig, ang / 100.0, REST_HEADS)
         bpy.context.view_layer.update(); drives.drive(rig, body); r121_drives.drive(rig, body); bpy.context.view_layer.update()
@@ -108,6 +139,43 @@ def pose(ang):
     bpy.context.view_layer.update(); drives.drive(rig, body); r121_drives.drive(rig, body); bpy.context.view_layer.update()
 
 
+POLYS = [p.vertices[:] for p in me.polygons]
+
+
+def contact(T, margin=0.0008):
+    """hinge contact: the plane through the flexion axis that bisects the joint angle is where the two sides' inner
+    skin meets.  Skin of either side that has crossed it, on the inner side of the angle, is flattened onto it (each
+    side keeps a small margin on its own side); the flattening is then spread a few rings so the contact face is
+    smooth.  In place on T; returns the number of flattened vertices per side."""
+    out = {}
+    D = np.zeros_like(T)
+    for s_ in ("r", "l"):
+        side = np.sign(R0[:, 0]) == (1.0 if rig.data.bones[f"upperarm_{s_}"].head_local.x > 0 else -1.0)
+        ub, fb = rig.pose.bones[f"upperarm_{s_}"], rig.pose.bones[f"forearm_{s_}"]
+        e = np.array(fb.head)
+        u = np.array((ub.head - ub.tail).normalized())         # elbow -> shoulder
+        f = np.array((fb.tail - fb.head).normalized())         # elbow -> wrist
+        if np.dot(u, f) < -0.95:                               # nearly straight: no inner angle
+            out[s_] = 0; continue
+        b = u + f; b /= np.linalg.norm(b)                      # into the inner angle
+        nb = u - f; nb /= np.linalg.norm(nb)                   # plane normal, towards the upper-arm side
+        up_side, fo_side = CONTACT[0] & side, CONTACT[1] & side
+        r = T - e
+        inner = r @ b > 0.0
+        h = r @ nb
+        cu = up_side & inner & (h < margin)                    # upper-arm skin on the forearm side
+        cf = fo_side & inner & (h > -margin)                   # forearm skin on the upper-arm side
+        D[cu] += np.outer(margin - h[cu], nb)
+        D[cf] += np.outer(-margin - h[cf], nb)
+        out[s_] = int(cu.sum() + cf.sum())
+    w = (np.linalg.norm(D, axis=1) > 0).astype(float)
+    for _ in range(4):                                         # spread so the contact face stays smooth
+        D = np.where(w[:, None] > 0, D, mean(D) * UPPER[:, None])
+        w = np.maximum(w, ((A @ w) * Dinv > 0) * UPPER)
+    T += D
+    return out
+
+
 def set_key(kb, d):
     kb.data.foreach_set("co", (R0 + d).ravel()); me.update()
 
@@ -118,11 +186,12 @@ REP = {"mode": MODE, "angles_deg": ANGLES, "keys": {}}
 made = {}
 for ang in ANGLES:
     pose(ang)
-    measure = r121_drives.hip_flex_deg if MODE == "squat" else drives.elevation_deg
+    measure = {"squat": r121_drives.hip_flex_deg, "elbow": r121_drives.elbow_flex_deg}.get(MODE, drives.elevation_deg)
     elev = {s: round(float(measure(rig, s)), 2) for s in ("l", "r")}
     P = evaluated()
-    # relax: unfold rounds, then a light Laplacian over the folded area (posed space)
     T = P.copy(); hist = []
+    contact_hist = contact(T) if CONTACT is not None else None
+    # relax: unfold rounds, then a light Laplacian over the folded area (posed space)
     for rnd in range(int(os.environ.get("V2_R121_ARMKEY_ROUNDS", "8"))):
         m, nf = folds(T); hist.append(nf)
         if nf == 0:
@@ -172,7 +241,7 @@ for ang in ANGLES:
         kb = body.shape_key_add(name=f"{FAMILY[0]}{s}_{ang}", from_mix=False); kb.value = 0.0
         set_key(kb, Dk * side[:, None])
         made.setdefault(s, []).append(elev[s])
-    REP["keys"][str(ang)] = {"elevation_deg": elev, "folds_gt90_before": int(folds(P, 0.0)[1]), "unfold_history": hist, "crumple_gt35_history": crum,
+    REP["keys"][str(ang)] = {"elevation_deg": elev, "folds_gt90_before": int(folds(P, 0.0)[1]), "unfold_history": hist, "contact_history": contact_hist, "crumple_gt35_history": crum,
                              "folds_gt90_with_key": nk, "max_offset_mm": round(float(np.linalg.norm(Dk, axis=1).max() * 1000), 2),
                              "vertices": int(len(sel)), "fit_residual_max_mm": round(resid, 3)}
     print("ARMKEY", ang, json.dumps(REP["keys"][str(ang)]), flush=True)
@@ -181,7 +250,7 @@ for s in ("l", "r"):
     rig[f"{FAMILY[1]}_{s}"] = made[s]
 bench._reset(rig)
 for kb in me.shape_keys.key_blocks:
-    if kb.name.startswith(("R121_ARM_", "R121_FLEX_", "R121_HIP_")):
+    if kb.name.startswith(("R121_ARM_", "R121_FLEX_", "R121_HIP_", "R121_ELBOW_")):
         kb.value = 0.0
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT / "body_v2_r121_arms.blend"), copy=True)
 (OUT / f"r121_arm_correctives_{MODE}_report.json").write_text(json.dumps(REP, indent=1))

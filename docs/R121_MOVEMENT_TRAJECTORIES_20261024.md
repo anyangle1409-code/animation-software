@@ -111,10 +111,66 @@ Images (phone sheets) are in `review-assets/body_v2/movement_trajectories_202610
 - `curl.jpg` and `squat.jpg`;
 - the per-frame JSON reports `report_*.json`.
 
+## Elbow: cause and candidate fix (T2)
+
+**Cause**, measured on the rebuilt arm. These are rig and skinning properties, not muscle geometry.
+
+- **Pivot:** the forearm pivot (`forearm_*` head) sits near mid-depth of the elbow cross-section, 40.6 mm from the
+  posterior skin and 48.0 mm from the anterior skin.
+- **Flexion axis:** exactly medio-lateral (rig X), with no carrying angle.
+- **Skin weights:** a broad, symmetric linear blend from about −40 mm to +40 mm round the joint line (0.50/0.50 at the
+  pivot).
+- **Correctives:** the only elbow keys are the old-surface K1 keys at 90° and 110°.
+
+With plain linear-blend skinning this gives, in `elbow_closeups_before.jpg`:
+
+- 60–90°: acceptable;
+- 120°: a sharp V-fold at the front crease and a pointed "beak" at the back;
+- 140°: the forearm passes into the biceps (1641 intersecting pairs), so the arm reads as one flat slab from the front.
+
+There is no contact between forearm and biceps.
+
+**Candidate fix:** keys `R121_ELBOW_<s>_<deg>` at 45 / 90 / 120 / 140°, authored on the rebuilt surface. They are driven
+by `r121_drives.elbow_flex_deg`, the angle between the posed upper-arm and forearm, with hats from 10°. The keys are in
+arm-local space through the skinning, so the same keys act in the press rack or any other shoulder pose. To author each
+pose:
+
+1. **Hinge contact.** The plane through the flexion axis that bisects the elbow angle is where the inner forearm and
+   biceps skin meet. Skin of either side that has crossed it, on the inner side of the angle, is flattened onto it, then
+   spread over 4 rings. Flattened vertices per side: 103 / 1529 / 5206 / 7470 at the four angles; left and right agree
+   to within 0.3 %.
+2. **Unfold and de-crumple**, as for the arm keys.
+3. **Rest-space conversion** through the measured deformation matrices; fit residual ≤ 0.001 mm.
+
+Rejected on the way: a nearest-surface "inside" test. It flags crease skin next to the joint line as penetrating (4469
+at 45°) and its iterations do not converge (about 14k at 140°).
+
+**Results:**
+
+| Measure | Before | With elbow keys |
+|---|---|---|
+| Curl, elbow folds over 90° | 147 | 4 |
+| Curl, elbow crumple over 35° | 1032 | 373 |
+| Curl, self-intersections | 1641 | 865 |
+| Press rack (arm at 90°), elbow folds | 204 | 106 |
+| Press rack, elbow crumple | 1506 | 1437 |
+
+The remaining curl intersections are all forearm or hand against the front of the shoulder at 134–140°: real contact at
+the top of a curl. The squat is unchanged, and every trajectory returns to neutral (0.0000 mm).
+
+Still open:
+
+- The contact face leaves a sharp slit in the side view at 120–140°.
+- Compressed tissue does not bulge sideways, so there is no volume preservation yet.
+- The key's reach up the biceps adds 61 folds inside the rest-space shoulder box at 140°.
+- The press rack is only partly fixed; its keys were authored with the arm at the side.
+
+Images: `elbow_closeups_before.jpg`, `elbow_closeups_elbow_keys.jpg`, `curl_elbow_keys.jpg`,
+`press_corrected_girdle_elbow_keys.jpg`, `squat_all_keys.jpg`. Report: `report_TT_all8.json`.
+
 ## Open items (measured, next)
 
-- **Elbow crease** at 90° (press rack) and in the curl: up to 206 folds. The curl at 140° has 1641 self-intersection
-  pairs; the forearm sinks into the biceps where real tissue is in contact. That is task T2.
+- **Elbow:** see the T2 section. Open there: the contact slit, volume preservation and the press-rack elbow.
 - **Press lockout:** 6619 edges are still stretched more than 2× (armpit and lat skin), with residual armpit wrinkles.
 - **Squat:**
   - the back of the knee interpenetrates (722 pairs at depth);

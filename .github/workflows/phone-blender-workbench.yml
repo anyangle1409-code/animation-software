@@ -45,7 +45,7 @@ jobs:
           run-id: 39922636070
           github-token: ${{ github.token }}
           path: ${{ runner.temp }}/W8
-      - name: Measure actual shoulder/elbow keys and fixed-pose edge isolation without model save
+      - name: Measure W8 S1/S3/S5/S7/K1 fixed-pose edge controls without model save
         run: |
           python scripts/phone_blender/pose_state_probe.py \
             --source-dir "${{ runner.temp }}/W8" \

@@ -13,6 +13,8 @@ Here the same magnitudes (motion.pose_profile, unchanged) are applied about anat
   * clavicle: elevation and retraction about the sternoclavicular joint (the r57 local X / Z channels, verified above);
     its posterior axial rotation is kept on the clavicle bone (its own skin) but NOT passed to the scapula;
   * scapula (ISB Part II, Wu et al. 2005 - scapulothoracic angles): it follows the AC joint, and turns about the AC joint
+    (axes: V2_GIRDLE_FRAME=isb uses the ISB scapula frame built from the blend's AA / TS / AI landmark empties - on R41
+    that plane is 18.5 deg from frontal, tipped 6 deg forward; default: a 35 deg upright scapular plane)
     by posterior tilt (in-plane medio-lateral axis), upward rotation (axis normal to the scapular plane), internal
     rotation (vertical axis), each with its direction fixed by the anatomical sense - upward rotation swings the inferior
     angle laterally, posterior tilt brings it towards the thorax, internal rotation turns the glenoid forwards.  The
@@ -33,9 +35,35 @@ def _rot_about(pivot, axis, deg):
     return Matrix.Translation(pivot) @ Matrix.Rotation(math.radians(deg), 4, axis.normalized()) @ Matrix.Translation(-pivot)
 
 
+def _isb_scapula(s, lat):
+    """ISB scapula axes (Wu et al. 2005) from the blend's landmark empties LM_scapula_<side>__AA / TS / AI, if present:
+    Zs from TS to AA, Xs normal to the AA-TS-AI plane (anterior), Ys = Zs x Xs.  The landmarks carry anatomical side
+    names; anatomical left is at +X (runtime _r on this rig), so the side is chosen by position, not by suffix."""
+    side = "left" if lat > 0 else "right"
+    try:
+        AA, TS, AI = (bpy.data.objects[f"LM_scapula_{side}__{k}"].matrix_world.translation.copy() for k in ("AA", "TS", "AI"))
+    except KeyError:
+        return None
+    Zs = (AA - TS).normalized()
+    Xs = (AA - AI).cross(TS - AI).normalized()
+    if Xs.y > 0:
+        Xs = -Xs
+    Ys = Zs.cross(Xs).normalized()
+    return Xs, Ys, Zs
+
+
 def _axes(rig, s):
-    """thorax-frame axes for side s (rest armature space; the thorax is not moved by the press)"""
+    """thorax-frame axes for side s (rest armature space; the thorax is not moved by the press):
+    returns lat, upward-rotation axis, posterior-tilt axis, internal-rotation axis.  V2_GIRDLE_FRAME=isb takes them from
+    the ISB scapula frame (upward rotation about Xs, tilt about Zs, internal rotation about Ys); otherwise a scapular
+    plane PLANE_DEG anterior to the frontal plane, upright."""
+    import os
     lat = 1.0 if rig.data.bones[f"clavicle_{s}"].tail_local.x > 0 else -1.0
+    if os.environ.get("V2_GIRDLE_FRAME", "plane35") == "isb":
+        f = _isb_scapula(s, lat)
+        if f is not None:
+            Xs, Ys, Zs = f
+            return lat, Xs, Zs, Ys
     a = math.radians(PLANE_DEG)
     normal = Vector((lat * math.sin(a), math.cos(a), 0.0))          # posterior normal of the scapular plane
     medlat = Vector((lat * math.cos(a), -math.sin(a), 0.0))         # in-plane, towards the acromion
@@ -66,7 +94,9 @@ def apply_girdle(rig, profile):
         # scapula: rest orientation, turned about the AC joint in the thorax frame, then carried with the AC joint
         tilt_s = _signed(rig, s, medlat, ac_rest, "AI", Vector((0.0, -1.0, 0.0)))          # inferior angle forwards
         up_s = _signed(rig, s, normal, ac_rest, "AI", Vector((lat, 0.0, 0.0)))             # inferior angle laterally
-        ir_s = _signed(rig, s, up, ac_rest, "G", Vector((0.0, -1.0, 0.0)))                 # glenoid forwards
+        # internal rotation: glenoid forwards, medial border (inferior angle) backwards - probed at the inferior angle,
+        # the glenoid end lies too close to the AC pivot to give the sign reliably
+        ir_s = _signed(rig, s, up, ac_rest, "AI", Vector((0.0, 1.0, 0.0)))
         R = (_rot_about(ac_rest, up, ir_s * profile["scapula_internal_rotation_deg"])
              @ _rot_about(ac_rest, normal, up_s * profile["scapula_upward_rotation_deg"])
              @ _rot_about(ac_rest, medlat, tilt_s * profile["scapula_posterior_tilt_deg"]))
@@ -100,4 +130,25 @@ def apply_press_pose(rig, ht_elevation_deg, rest_axial_deg, axial=True):
             piv = bone.head.copy()
             bone.matrix = Matrix.Translation(piv) @ Matrix.Rotation(math.radians(delta), 4, d) @ Matrix.Translation(-piv) @ bone.matrix
             bpy.context.view_layer.update()
+    return profile
+
+
+def apply_arm_pose(rig, elevation_deg, plane_deg, sides=("r", "l")):
+    """any arm raise: the coupled girdle for this humerothoracic elevation (same profile as the press), then the humerus
+    pointed at the elevation in the given plane (0 = sideways, 90 = forwards); no humeral axial rotation.  The rig is
+    reset first.  Used to author the arm keys so that every raise - not only the press - carries the girdle with it."""
+    import functional_original_coupled_motion as motion
+    profile = motion.pose_profile(elevation_deg)
+    for pb in rig.pose.bones:
+        pb.matrix_basis.identity()
+    bpy.context.view_layer.update()
+    apply_girdle(rig, profile)
+    e = math.radians(elevation_deg); p = math.radians(plane_deg)
+    for s in sides:
+        bone = rig.pose.bones[f"upperarm_{s}"]
+        lat = 1.0 if rig.data.bones[f"upperarm_{s}"].head_local.x > 0 else -1.0
+        target = Vector((lat * math.sin(e) * math.cos(p), -math.sin(e) * math.sin(p), -math.cos(e)))
+        pivot = bone.head.copy(); cur = (bone.tail - bone.head).normalized()
+        bone.matrix = Matrix.Translation(pivot) @ cur.rotation_difference(target).to_matrix().to_4x4() @ Matrix.Translation(-pivot) @ bone.matrix
+        bpy.context.view_layer.update()
     return profile

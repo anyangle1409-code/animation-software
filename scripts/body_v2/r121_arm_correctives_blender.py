@@ -97,6 +97,7 @@ def gsum(*keys):
 
 
 CONTACT = None
+ARMGIRDLE = os.environ.get("V2_R121_ARMKEY_GIRDLE", "0") == "1"   # author abd / flex keys with the candidate girdle
 if MODE == "elbow":                                        # the arm within 16 cm of each elbow; hands held
     wu, wf = gsum("upperarm"), gsum("forearm")
     near = np.zeros(n, bool)
@@ -124,6 +125,11 @@ def pose(ang):
         return
     if MODE == "squat":
         bench.pose_squat(rig, ang / 100.0, REST_HEADS)
+        bpy.context.view_layer.update(); drives.drive(rig, body); r121_drives.drive(rig, body); bpy.context.view_layer.update()
+        return
+    if ARMGIRDLE:                                           # coupled girdle + humerus in the frontal / sagittal plane
+        import shoulder_girdle_candidate as girdle
+        girdle.apply_arm_pose(rig, float(ang), 0.0 if MODE == "abd" else 90.0)
         bpy.context.view_layer.update(); drives.drive(rig, body); r121_drives.drive(rig, body); bpy.context.view_layer.update()
         return
     bench._reset(rig)

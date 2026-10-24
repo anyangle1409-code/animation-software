@@ -2303,3 +2303,36 @@ All of this lives in the same post-step, `legs_v2_blender.py`, with env switches
 - **Movement:** not re-tested on the new legs or torso.
 
 Images (model only): `review-assets/body_v2/draft_v14b_torso/`.
+
+## R121: finishing the R120 clean rebuild (24 Oct 2026, candidate branch `claude/r120-surface-candidate-20261023`)
+
+Full write-up: `docs/R121_SURFACE_CANDIDATE_20261024.md`. Images (model only) and motion-check JSON:
+`review-assets/body_v2/draft_r121p_candidate/`.
+
+`scripts/body_v2/r120_finish_blender.py` is a post-step on the R120 blend. It runs these stages:
+
+1. Repair the stitch.
+2. HC-blend the seams.
+3. Add the reference torso relief, with a soft spine groove.
+4. Slim the arms and add bone-local arm muscles. The forearm frame now runs elbow → wrist.
+5. Run a final unfold.
+
+Every shape key moves with the basis. New behaviour is env-flagged; the R121p settings are in the doc.
+
+**Measured:**
+- Spine-band facet angle: 4.4 → 2.6 deg.
+- Arm-root folds over 120 deg at rest: 84 → 2.
+- Motion check vs RB2, whole-body folds over 120 deg:
+
+  | Pose | RB2 | R121p |
+  |---|---|---|
+  | rest | 1147 | 2 |
+  | squat | 1174 | 342 |
+  | elbow 120 | 1218 | 89 |
+
+**Open:**
+- Arm raising folds the rebuilt arm root, about 2.4 times V14 at 150 deg. It needs new abduction correctives on the
+  rebuilt surface, which is an owner decision because it touches the r57 drives.
+- The back is flatter than the reference.
+- The rear upper arm is lumpy.
+- Head.

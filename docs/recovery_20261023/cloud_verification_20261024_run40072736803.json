@@ -1,0 +1,186 @@
+{
+  "status": "ARTIFACT_INTEGRITY_VERIFIED_NOT_ANATOMICAL_APPROVAL",
+  "baseline_commit": "5071ca0af4c9e1421fa20836ae7aaf8373bb38c0",
+  "artifacts": [
+    {
+      "run_id": 40072736803,
+      "artifact_id": 12552515201,
+      "name": "phone-native-failure-localization-40072736803",
+      "zip_sha256": "f78f58a2838577c48d609e1f23a3da51d4138cbeddf9b4a993e245b4319568d0",
+      "github_digest_matched": true,
+      "members": {
+        "movement_failure_localization.json": "1beae3e99a3fa5911a14d27262e2333c0f5b7cf3fb9a8d485b79a74f853b1c1b",
+        "movement_failure_localization.md": "6cd0d2f7b9bfa64a484a63339cd7577f830a3ecf792a26499f8c4b5807985618",
+        "tracked_rest_hotspots.json": "2623ff1d73d99e3c00864a617f3d3708fea40cc8d48d1c408296d9a9daa30999",
+        "tracked_rest_hotspots.md": "8dd609eb2555a29b38a97ede778f4c7d4af44653c74452038e68b458f15833a3",
+        "visual_reviews/phone_review_manifest.json": "7bc714db46794115e2faa3eab3ec76b5b2a9a5afa2924674e504cf0426390115",
+        "visual_reviews/phone_review_shoulder_press_back_full_body.jpg": "44a3029455756e48c30e9e67b2c56cef430f186e40a48646e822a04381720bb7",
+        "visual_reviews/phone_review_shoulder_press_back_upper_torso.jpg": "e610ecdc95eb8dcaf390f3bc0db70c4f1b3fb015101e4442d20d896a16a1f033",
+        "visual_reviews/phone_review_squat_side_full_body.jpg": "084ea5195c440f069d493182da7ab85feb5c44162f5c173a1911a59e164974a2",
+        "w8_elbow_edge_continuity.json": "5fb76a15d8bcee051b7b1e2f3696c5cb692e247ca9268cd694aadf3217412df9",
+        "w8_elbow_edge_continuity.md": "3b896c23d4bdee2dbe9bb68e042a09a846d00ed8c8a65270c090ce1702bf79db",
+        "w8_elbow_taper_pca_proxy.json": "1d6679adcfee04780d8cbef61faf9d61221b703708f9bb00ca473575a6b7fd99",
+        "w8_elbow_taper_pca_proxy.md": "b660e285de73a353514a47deb9d7c6aaa6c1a51a65e550aa31c1e8b029c7f437"
+      }
+    },
+    {
+      "run_id": 40072736803,
+      "artifact_id": 12552395667,
+      "name": "phone-rest-cross-model-40072736803",
+      "zip_sha256": "94f6272ca2498f4eca9facff13540cd21c452b90368b52088498de691a2858ca",
+      "github_digest_matched": true,
+      "members": {
+        "joint_frame_readiness.json": "643f35d583107bd6f65a83e29194fab1c519a8c8917de1d93ecaf79649ee7902",
+        "joint_frame_readiness.md": "5b56bc9c6d514b33b72e19b82684b8c140654beefea7e6d6601c912dd3ab1cf3",
+        "rest_comparison.json": "cea7b25bd09fe2bba325f8c3b2c632b66360afd7c0ef493ce71b785579f3b661",
+        "rest_comparison.md": "8ac5fd7b95f89c32461e2f301ed450c26660c38df99d1033588ab55f3d92f73f",
+        "rig_rest_axis_comparison.json": "1c9525640b98ecd717335097e0c86da4b6c2bdbd327d2abdfcc6cfe81b4a030a",
+        "rig_rest_axis_comparison.md": "7d2ce30837798e27d90fc72aa435eeb56d163157464657af5510d0315b4e91f1",
+        "synthetic_frame_math_guards.json": "1d1d499792cb988fd6144817c3cfed892ea95bd59bf2b03b92a9bef9ca39d78b",
+        "synthetic_frame_math_guards.md": "027fe33e3c27016861e760c62be35f876ff070c732bb0c253af5488e057199fb",
+        "synthetic_joint_chain_skin_preflight.json": "e688b500af4ed3a735a4add342052496f54ce0027d1994679e00369a93a4f905",
+        "synthetic_joint_chain_skin_preflight.md": "91de27a5dc9bcdf420fd2be6cd6dd2246e9b53dddfe3bc06b854bff5664dec2a"
+      }
+    },
+    {
+      "run_id": 40072736803,
+      "artifact_id": 12552211200,
+      "name": "phone-visual-review-40072736803",
+      "zip_sha256": "88036745e415ab30110487d6405762ff2f0901d087d7ac98eba66806f13c1abf",
+      "github_digest_matched": true,
+      "members": {
+        "phone_review_manifest.json": "7bc714db46794115e2faa3eab3ec76b5b2a9a5afa2924674e504cf0426390115",
+        "phone_review_shoulder_press_back_upper_torso.jpg": "e610ecdc95eb8dcaf390f3bc0db70c4f1b3fb015101e4442d20d896a16a1f033",
+        "phone_review_shoulder_press_back_full_body.jpg": "44a3029455756e48c30e9e67b2c56cef430f186e40a48646e822a04381720bb7",
+        "phone_review_squat_side_full_body.jpg": "084ea5195c440f069d493182da7ab85feb5c44162f5c173a1911a59e164974a2"
+      }
+    },
+    {
+      "run_id": 40072736803,
+      "artifact_id": 12551992447,
+      "name": "phone-w8-driver-consistency-40072736803",
+      "zip_sha256": "76989694f0f62521c0e7bfcb81a00375400092933dc62449b8671b4ee2b1af61",
+      "github_digest_matched": true,
+      "members": {
+        "w8_driver_math_consistency.json": "e42b96e02d4406784760a6b58593d3ddfe71fd37caa59dba5a37fdb1fd74a493",
+        "w8_elbow_corrective_crosswalk.json": "4f2447819b70044c69a75a3eccb48d94925ce671085fd3e128aae206a5972ca3",
+        "w8_elbow_corrective_crosswalk.md": "893b20411d5133d6c409623d36e0dab62ed623297976907fc2c9725ab8d2019e",
+        "w8_press_deformation_timeline.json": "1a3c3aa1fee9badd35127b0356158a66ccd4695af2a853bebf21cd9b38d2ca9e",
+        "w8_press_deformation_timeline.md": "edde927d9a1edacdeeafb219412861d3a085f7a3e6fe6d0febe0fee427a69e8b"
+      }
+    },
+    {
+      "run_id": 40072736803,
+      "artifact_id": 12551972511,
+      "name": "phone-w8-shoulder-pose-state-40072736803",
+      "zip_sha256": "a814c448f3499653d9a8e9a5ff180382e445232f9a4b4fda0df1ed18769c78e5",
+      "github_digest_matched": true,
+      "members": {
+        "w8_shoulder_driver_pose_state.json": "7768c427cb13901faab42cce2c6299cfb179016230078b31889289940ede56bb"
+      }
+    },
+    {
+      "run_id": 40072736803,
+      "artifact_id": 12551788540,
+      "name": "phone-blender-W8-40072736803",
+      "zip_sha256": "b1977e640be149bf8775a1cdea167040821d3116e7da0849bf460b8af4aadcf2",
+      "github_digest_matched": true,
+      "members": {
+        "W8/integrity_checks.json": "d87392113ea6c965139ad90579bdbd152ab76b028815b6a0bba327204f183fc7",
+        "W8/inventory.json": "8d79d9c5e7f790048130fcea5d2b0bafab3901b3b51808439d175c0c695edfb6",
+        "W8/rest_anatomy_inventory.json": "cdce7ae430f3848a296ed74652a4f58d5e753abf0216785682a3d54d3cf5595b",
+        "W8/rig_rest_axes_metadata.json": "01ef8a7cf4eab8ea8eb29d2fcb2f5cd310ce8a936062624b06868a2e38b7b677",
+        "W8/shoulder_activation_rules.json": "f84c295d971bdec7a845feef84f3102008f99a5b560995b613630fb4cbdf8c0b",
+        "W8/shoulder_shape_weight_rois.json": "f6da2eb580656b3a33be9fd6625f115677781d34e77ef29279cc60eb22e4b4e7",
+        "W8/w8_elbow_edge_endpoint_weights_and_keys.json": "f6eae5169797780118db5eabd172f913f9d1933a2c5bfffa0b240da22a0b0865",
+        "W8/w8_elbow_edge_endpoint_weights_and_keys.md": "2b28d47d056257f53f4c4f300ed184b4cc0469ccb44e9b46b9636f9015fc0145"
+      }
+    },
+    {
+      "run_id": 40072736803,
+      "artifact_id": 12551738825,
+      "name": "phone-blender-V14-40072736803",
+      "zip_sha256": "ed391e159e1b2d99d87cbbb0a061dd5d9375bd0fe9c2e1085ab6dc41a89c7bc4",
+      "github_digest_matched": true,
+      "members": {
+        "V14/integrity_checks.json": "010766dc6f6f3d963b3d3874dce323882af6f8a07147bd6f640b43fb4b4c4d0a",
+        "V14/inventory.json": "911df536e7c2b58463eb3182d3135553597689e5a4033175203726ae1c53fe5c",
+        "V14/rest_anatomy_inventory.json": "da677cec3ce616e289d5193438fd6c3b2ae97f069c7f3a68af2c68d5bdb88028",
+        "V14/rig_rest_axes_metadata.json": "4f4927fd0e31c6418cd78b5763f4450de574689247379bcd628361b5a1781998",
+        "V14/shoulder_activation_rules.json": "950377d3804dacbd8982c30d8e0a2ea9fbdfbc23084ce87bf60f54f230234a8e",
+        "V14/shoulder_shape_weight_rois.json": "dbff75132e9e78e0efa4e80c2a1b84f87087f998d6fd02214672a8d152f7d6ab"
+      }
+    },
+    {
+      "run_id": 40072736803,
+      "artifact_id": 12551683946,
+      "name": "phone-blender-R120-40072736803",
+      "zip_sha256": "1e0486a9eda23ffc32a410ed867c05969d148ea7b33bfc3d3cc940833533dc2b",
+      "github_digest_matched": true,
+      "members": {
+        "R120/integrity_checks.json": "0f47d455ab36c853ffc0316ac09301738dce1abc3ca48d7f118af2a0fb538320",
+        "R120/inventory.json": "dbccbc985c0c09fa107e72405a111e9e0de553dd3be1d7b8c6c4a9e5614f674d",
+        "R120/rest_anatomy_inventory.json": "0e19cb4f6fbd2e502659640cf501af6231609669fab084806aca53ddeefcfee2",
+        "R120/rig_rest_axes_metadata.json": "7a77b55f51f592eef42a293583b4974212e7594834644962b496c6b877acc13f",
+        "R120/shoulder_activation_rules.json": "9a4ce364e3ae2865f94a1441c52d8d754436273f700063591ff0360b18464994",
+        "R120/shoulder_shape_weight_rois.json": "44a219a8ca453abcead62bb767eb715014329bbf05ac102385e6628936ab45db"
+      }
+    },
+    {
+      "run_id": 40029398965,
+      "artifact_id": 12534805303,
+      "name": "phone-rest-cross-model-40029398965",
+      "zip_sha256": "3391425922f772ce4633c93456b0bf61a189cb4791e15c3b905432769f46f865",
+      "github_digest_matched": true,
+      "members": {
+        "rest_comparison.json": "e1e55f1bf9c77966e2c70aa498558274d2aa7e48fc17fe38409a799f807e1db4",
+        "rest_comparison.md": "8ac5fd7b95f89c32461e2f301ed450c26660c38df99d1033588ab55f3d92f73f"
+      }
+    },
+    {
+      "run_id": 40029398965,
+      "artifact_id": 12534222622,
+      "name": "phone-blender-R120-40029398965",
+      "zip_sha256": "17266fbc256cc775ce21c16b556d6a0fbff36499a1f2f78d05a6c058d6e56018",
+      "github_digest_matched": true,
+      "members": {
+        "R120/integrity_checks.json": "0f47d455ab36c853ffc0316ac09301738dce1abc3ca48d7f118af2a0fb538320",
+        "R120/inventory.json": "814007ab1c71b043a4de9f9bef7b2152a144df812b5589b364d0a268fd3cc365",
+        "R120/rest_anatomy_inventory.json": "c90f3ae74d6926d04ff4d4dbc261947a1c64b7613b0beebdefce230f40a05eaf",
+        "R120/rig_rest_axes_metadata.json": "7a77b55f51f592eef42a293583b4974212e7594834644962b496c6b877acc13f",
+        "R120/shoulder_activation_rules.json": "9a4ce364e3ae2865f94a1441c52d8d754436273f700063591ff0360b18464994",
+        "R120/shoulder_shape_weight_rois.json": "44a219a8ca453abcead62bb767eb715014329bbf05ac102385e6628936ab45db"
+      }
+    },
+    {
+      "run_id": 40029398965,
+      "artifact_id": 12534147742,
+      "name": "phone-blender-V14-40029398965",
+      "zip_sha256": "098c34ab14d8e14dbf21735b11808067df4296247dcc7efb7e9420b7b43545a9",
+      "github_digest_matched": true,
+      "members": {
+        "V14/integrity_checks.json": "010766dc6f6f3d963b3d3874dce323882af6f8a07147bd6f640b43fb4b4c4d0a",
+        "V14/rest_anatomy_inventory.json": "7568c2680d58eb13f46a1a33e79f32192e6dd1dae08039e0c985cad7e653a49b",
+        "V14/inventory.json": "dde7491b754cf56b962f91cd8a2433885319a2c2fe060611b44b0f70ea02b533",
+        "V14/rig_rest_axes_metadata.json": "4f4927fd0e31c6418cd78b5763f4450de574689247379bcd628361b5a1781998",
+        "V14/shoulder_activation_rules.json": "950377d3804dacbd8982c30d8e0a2ea9fbdfbc23084ce87bf60f54f230234a8e",
+        "V14/shoulder_shape_weight_rois.json": "dbff75132e9e78e0efa4e80c2a1b84f87087f998d6fd02214672a8d152f7d6ab"
+      }
+    },
+    {
+      "run_id": 40029398965,
+      "artifact_id": 12534047239,
+      "name": "phone-blender-W8-40029398965",
+      "zip_sha256": "adaba1780dcde12b589f590bc6de7ae2227485471f9ff0817a56dff888188267",
+      "github_digest_matched": true,
+      "members": {
+        "W8/inventory.json": "6fad8ffeac57429a53a477bea4453aa9537dd831c81ace5b25bbbfdaa6e4443d",
+        "W8/rest_anatomy_inventory.json": "b1adb9e1b44392e4c275e38c97fcb282851a7c968eaf14a0b0dac2bf63e83f80",
+        "W8/integrity_checks.json": "d87392113ea6c965139ad90579bdbd152ab76b028815b6a0bba327204f183fc7",
+        "W8/rig_rest_axes_metadata.json": "01ef8a7cf4eab8ea8eb29d2fcb2f5cd310ce8a936062624b06868a2e38b7b677",
+        "W8/shoulder_activation_rules.json": "f84c295d971bdec7a845feef84f3102008f99a5b560995b613630fb4cbdf8c0b",
+        "W8/shoulder_shape_weight_rois.json": "f6da2eb580656b3a33be9fd6625f115677781d34e77ef29279cc60eb22e4b4e7"
+      }
+    }
+  ]
+}

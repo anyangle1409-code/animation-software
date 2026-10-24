@@ -35,3 +35,7 @@ The reference chain covers thorax–clavicle, thorax–scapula, scapula–humeru
 All **46 landmark requirements remain unbound**; **0/19 generic human motion scenarios executed or approved**. Do not use this synthetic test to promote anatomical acceptance. A future *native* diagnostic requires independently reviewed segment landmark positions and coordinate conventions, correct side identity, full time-series transforms, actual skin topology, ground/hand contacts and independent movement review. V14's two-vertex archival mismatch and W8's archive discrepancy remain open.
 
 No original `.blend`, source mesh/weights, validated skeleton, Claude-owned branch, PT-App, production asset, `PT_MODEL_VERSION 1.0`, permanent muscle IDs or owner-deferred muscle highlighting changed. No merge or deployment.
+
+## Independent cloud verification completed — 24 October
+
+Run40072736803 passed 7/7 jobs. Comparison job120810188042 explicitly ran all 13 tests with the real repository math helper; localization job120809935896 passed all 214 tests. The downloaded comparison artifact12552395667 SHA256 `94f6272ca2498f4eca9facff13540cd21c452b90368b52088498de691a2858ca` independently matches GitHub. Its JSON contains eight synthetic pairs and two edges. All eight latest and four historical archive/member hashes are recorded in `recovery_20261023/cloud_verification_20261024_run40072736803.json`. This closes software/cloud verification only; anatomical and native motion gates remain blocked.

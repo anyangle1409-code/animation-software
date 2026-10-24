@@ -1,0 +1,159 @@
+{
+  "run_id": 40077762287,
+  "execution_sha": "13c809807a41873987e74acf27ab99df941fec51",
+  "workflow_conclusion": "success",
+  "successful_jobs": 7,
+  "total_jobs": 7,
+  "anatomical_approval": false,
+  "visual_qa": "REJECTED_FOR_OVEREXPOSED_REAR_VIEW_PENDING_LIGHTING_REVISION",
+  "artifacts": [
+    {
+      "artifact_id": 12554340470,
+      "name": "phone-blender-R120-40077762287",
+      "zip_sha256": "03fbcc65392d53463a235cccbca381f4cad9cb9c5cb220b32a246502af72aa7c",
+      "github_digest_matched": true,
+      "member_sha256": {
+        "R120/integrity_checks.json": "0f47d455ab36c853ffc0316ac09301738dce1abc3ca48d7f118af2a0fb538320",
+        "R120/rest_anatomy_inventory.json": "aab105cb5334e5b7685f100f9139efeefa8c182cf41e035944e27dc6beee820c",
+        "R120/inventory.json": "9a357ab3a43460947d000a9c65e2e65b7966eac8a8aae233d15f170f070b8867",
+        "R120/rig_rest_axes_metadata.json": "7a77b55f51f592eef42a293583b4974212e7594834644962b496c6b877acc13f",
+        "R120/shoulder_activation_rules.json": "9a4ce364e3ae2865f94a1441c52d8d754436273f700063591ff0360b18464994",
+        "R120/shoulder_shape_weight_rois.json": "44a219a8ca453abcead62bb767eb715014329bbf05ac102385e6628936ab45db"
+      }
+    },
+    {
+      "artifact_id": 12553972380,
+      "name": "phone-w8-shoulder-pose-state-40077762287",
+      "zip_sha256": "ad5874a4d627cf3729f879b06004fde6f1474d470ec2181d4d9c6c24368cabe8",
+      "github_digest_matched": true,
+      "member_sha256": {
+        "control_views/sample00__S5_muted__axis_negY.png": "6d95b21c6cde4c277f78472c8c42926a3101b76881abd2b4edfe615a1148cde9",
+        "control_views/sample00__S5_muted__axis_posX.png": "1bc2a336a4a6425818bf36f8822689a732a6481b1ac3a3bd99ff4fcc6f25bf88",
+        "control_views/native_control_view_manifest.json": "696dc485e02d723206933afee70cf48c6e11a5d9ca3189fdc8ba0c5347d5d9b2",
+        "control_views/sample00__S5_muted__axis_posY.png": "9970c604c5003a0d4e6e316ce769775ec90621a52e8022f3384355fd6a55f9bb",
+        "control_views/sample00__S7_muted__axis_negY.png": "cde4ccd677d26f29334e23fa78616c6530e522e9fe267c523ea8a4f5b94889f0",
+        "control_views/sample00__S7_muted__axis_posX.png": "8e0ecc4d94cc1a9260575de7032e8e02efad1d85511da07e2b10213e89e62dc7",
+        "control_views/sample00__S7_muted__axis_posY.png": "0d60c8a4e781f621984e0eae464adcf4548aca306832722f05eb21c2662c38d6",
+        "control_views/sample00__all_nonbasis_keys_muted__axis_negY.png": "f111a9463e2d7d0fd91cf11de64226beb2c410d3c3986fd64049cdee99277105",
+        "control_views/sample00__all_nonbasis_keys_muted__axis_posX.png": "936c3fdf737b91d4be5e0ae388af76de0b234e2fe4c0ea1e1e1421d1931e5475",
+        "control_views/sample00__all_nonbasis_keys_muted__axis_posY.png": "1e61a95d67a81c5bbb7adaeabd2b05ba44d9d8a7f64cbb14c0f48318a4f4e47d",
+        "control_views/sample00__axis_negY__comparison.png": "3b3915d8945d3b2a25bc7f9f02e377580dd083ccef2305693a8688035c899b57",
+        "control_views/sample00__axis_posX__comparison.png": "2b25ce6b07d89c9707a94956e451d73454057101e7d2368ed54c9059478eb7c6",
+        "control_views/sample00__axis_posY__comparison.png": "74b7f25b171fcf29ad8776ac19b15e807a611001bbf39272c64acce5c6a9f3c9",
+        "control_views/sample00__observed__axis_posX.png": "d5628c2274bd873c37b83fe3ed905183cdd263a83d2d0f5b6009612d124276e3",
+        "control_views/sample00__observed__axis_negY.png": "b8dcd84cc21d118807700ef52a1fe82550a17bcc00c5445f818ea8a65943a3e2",
+        "control_views/sample06__S5_muted__axis_negY.png": "71a4027032c4ebf1ea848e89b8ed94777341e93b7d21f95f087ee06edbd555ce",
+        "control_views/sample00__observed__axis_posY.png": "a260299caaa1bf4fe6805dd559b6e3803765e0a458f33339fe0d777eb21fd93e",
+        "control_views/sample06__S5_muted__axis_posX.png": "8858a10a79e3d14631659d832a484d1cb694f78bef20c724d8d1fe4d64a5e562",
+        "control_views/sample06__S5_muted__axis_posY.png": "6a2692d5d7670f5c6baa81be80ecfddc70734f8bf4a113e9e3415eb4faa595f8",
+        "control_views/sample06__S7_muted__axis_negY.png": "f1673378c6e98497c1a962a4602fdc06102619565834eb1ae8102293a459d90b",
+        "control_views/sample06__S7_muted__axis_posY.png": "a9e634de209551abfe3d12d237a30b89a1e7f7068b5b054c5b9547a809919af5",
+        "control_views/sample06__all_nonbasis_keys_muted__axis_negY.png": "1663613e96bc0e63b846763e282164d9ffe6ffa576ae5a0a9a3208e1f55d7e9a",
+        "control_views/sample06__S7_muted__axis_posX.png": "7024b3a4eaf9b2ceb42444f5ee7eb0779158fa51e8958728355ff7738d26a061",
+        "control_views/sample06__all_nonbasis_keys_muted__axis_posX.png": "6ffd289efd1636b02ef8483e4c0b6b105b23bef36ef50fd3aaecf3570cb9a500",
+        "control_views/sample06__all_nonbasis_keys_muted__axis_posY.png": "e87d340976ce387118bc75070ebc364a3107787b0ddfded25bb5d74799b853c1",
+        "control_views/sample06__axis_negY__comparison.png": "46497228fa11465dd99ef8068fe78188d62934ef67d4dcb49dd985eef8e60669",
+        "control_views/sample06__axis_posX__comparison.png": "0497543a5806d3aab216e83d1fc64439979e3adaa26cb3b52fa095095cdfa59e",
+        "control_views/sample06__axis_posY__comparison.png": "9ac8e8920fed2c3e12e88c6f687a698bcb26be448a1619eda3947ab4c56c27c2",
+        "control_views/sample06__observed__axis_posX.png": "45d62b53fe31b7e1417a7eb1c499f2d1dd1552d143151e24d757227129f7f0f6",
+        "control_views/sample06__observed__axis_negY.png": "690254ff71b954f8a03568cb580b08c04060f9f8009b6068c21eda15c8522fb2",
+        "control_views/sample06__observed__axis_posY.png": "28434cd3419d66e5717c5068b0860557f53a184e4f01c25339740dc1e4832631",
+        "w8_fixed_pose_corrective_edge_isolation.md": "bbdd3571a1e8a30cb0b6134b336b1ca8d77eb1c72b716ab4496d4913251cc3da",
+        "w8_shoulder_driver_pose_state.json": "c538e5fa93d14b1311b666bfd6d59d2e33a52cfb27ebb7d4a3f6b81cf6ad3bb5"
+      }
+    },
+    {
+      "artifact_id": 12553852768,
+      "name": "phone-blender-W8-40077762287",
+      "zip_sha256": "8cd3521d80b528df62923676991f716415a7dd246b7409bfb42db692731e7fcb",
+      "github_digest_matched": true,
+      "member_sha256": {
+        "W8/inventory.json": "f2947c587cdd3d3cdd5ced1f1842c67e403773a0ef2c40a472696b1e14ea5967",
+        "W8/rest_anatomy_inventory.json": "03b3bde6c7f163fc2cd8df573c17b0eb244ab4a93fc94cac992a84a49c315598",
+        "W8/integrity_checks.json": "d87392113ea6c965139ad90579bdbd152ab76b028815b6a0bba327204f183fc7",
+        "W8/rig_rest_axes_metadata.json": "01ef8a7cf4eab8ea8eb29d2fcb2f5cd310ce8a936062624b06868a2e38b7b677",
+        "W8/shoulder_activation_rules.json": "f84c295d971bdec7a845feef84f3102008f99a5b560995b613630fb4cbdf8c0b",
+        "W8/w8_elbow_edge_endpoint_weights_and_keys.json": "f6eae5169797780118db5eabd172f913f9d1933a2c5bfffa0b240da22a0b0865",
+        "W8/shoulder_shape_weight_rois.json": "f6da2eb580656b3a33be9fd6625f115677781d34e77ef29279cc60eb22e4b4e7",
+        "W8/w8_elbow_edge_endpoint_weights_and_keys.md": "2b28d47d056257f53f4c4f300ed184b4cc0469ccb44e9b46b9636f9015fc0145"
+      }
+    },
+    {
+      "artifact_id": 12553836805,
+      "name": "phone-visual-review-40077762287",
+      "zip_sha256": "99676e01797a6ba3a550e05ce88cb763dce36cd941572c444074d3d3a5d71892",
+      "github_digest_matched": true,
+      "member_sha256": {
+        "phone_review_shoulder_press_back_full_body.jpg": "44a3029455756e48c30e9e67b2c56cef430f186e40a48646e822a04381720bb7",
+        "phone_review_shoulder_press_back_upper_torso.jpg": "e610ecdc95eb8dcaf390f3bc0db70c4f1b3fb015101e4442d20d896a16a1f033",
+        "phone_review_manifest.json": "7bc714db46794115e2faa3eab3ec76b5b2a9a5afa2924674e504cf0426390115",
+        "phone_review_squat_side_full_body.jpg": "084ea5195c440f069d493182da7ab85feb5c44162f5c173a1911a59e164974a2"
+      }
+    },
+    {
+      "artifact_id": 12553644060,
+      "name": "phone-rest-cross-model-40077762287",
+      "zip_sha256": "fb06ad65d2ac8649f4d4f6d410250dc4426e7959c8d77dae690e5dd4a1360f4c",
+      "github_digest_matched": true,
+      "member_sha256": {
+        "joint_frame_readiness.json": "643f35d583107bd6f65a83e29194fab1c519a8c8917de1d93ecaf79649ee7902",
+        "joint_frame_readiness.md": "5b56bc9c6d514b33b72e19b82684b8c140654beefea7e6d6601c912dd3ab1cf3",
+        "rest_comparison.json": "8b1f5c5583862fecabe0765cca340434452456298b37d9f34fd1b6addf14cfac",
+        "rest_comparison.md": "8ac5fd7b95f89c32461e2f301ed450c26660c38df99d1033588ab55f3d92f73f",
+        "rig_rest_axis_comparison.json": "1c9525640b98ecd717335097e0c86da4b6c2bdbd327d2abdfcc6cfe81b4a030a",
+        "synthetic_frame_math_guards.json": "1d1d499792cb988fd6144817c3cfed892ea95bd59bf2b03b92a9bef9ca39d78b",
+        "rig_rest_axis_comparison.md": "7d2ce30837798e27d90fc72aa435eeb56d163157464657af5510d0315b4e91f1",
+        "synthetic_frame_math_guards.md": "027fe33e3c27016861e760c62be35f876ff070c732bb0c253af5488e057199fb",
+        "synthetic_joint_chain_skin_preflight.json": "e688b500af4ed3a735a4add342052496f54ce0027d1994679e00369a93a4f905",
+        "synthetic_joint_chain_skin_preflight.md": "91de27a5dc9bcdf420fd2be6cd6dd2246e9b53dddfe3bc06b854bff5664dec2a"
+      }
+    },
+    {
+      "artifact_id": 12553589140,
+      "name": "phone-blender-V14-40077762287",
+      "zip_sha256": "cd92ea0104464a850585f2e453b9f82ce7ca1d3c0388dcb60126ac2a9c7d6216",
+      "github_digest_matched": true,
+      "member_sha256": {
+        "V14/integrity_checks.json": "010766dc6f6f3d963b3d3874dce323882af6f8a07147bd6f640b43fb4b4c4d0a",
+        "V14/inventory.json": "a504a8aed88277d063d9b1ca168b2911a3f7af03f9f0ba4c06487393d942b5ce",
+        "V14/rest_anatomy_inventory.json": "af964e95dfbc4d4c1e595cc2ce1eaf377085ab5ddaad6bf21b0061be592f5e56",
+        "V14/rig_rest_axes_metadata.json": "4f4927fd0e31c6418cd78b5763f4450de574689247379bcd628361b5a1781998",
+        "V14/shoulder_activation_rules.json": "950377d3804dacbd8982c30d8e0a2ea9fbdfbc23084ce87bf60f54f230234a8e",
+        "V14/shoulder_shape_weight_rois.json": "dbff75132e9e78e0efa4e80c2a1b84f87087f998d6fd02214672a8d152f7d6ab"
+      }
+    },
+    {
+      "artifact_id": 12553577908,
+      "name": "phone-native-failure-localization-40077762287",
+      "zip_sha256": "9927d854dff4e09d04c6310d3edc3c1b882cb231572cd9d4b00cb7efb372fd90",
+      "github_digest_matched": true,
+      "member_sha256": {
+        "movement_failure_localization.json": "1beae3e99a3fa5911a14d27262e2333c0f5b7cf3fb9a8d485b79a74f853b1c1b",
+        "movement_failure_localization.md": "6cd0d2f7b9bfa64a484a63339cd7577f830a3ecf792a26499f8c4b5807985618",
+        "tracked_rest_hotspots.json": "2623ff1d73d99e3c00864a617f3d3708fea40cc8d48d1c408296d9a9daa30999",
+        "tracked_rest_hotspots.md": "8dd609eb2555a29b38a97ede778f4c7d4af44653c74452038e68b458f15833a3",
+        "visual_reviews/phone_review_manifest.json": "7bc714db46794115e2faa3eab3ec76b5b2a9a5afa2924674e504cf0426390115",
+        "visual_reviews/phone_review_shoulder_press_back_full_body.jpg": "44a3029455756e48c30e9e67b2c56cef430f186e40a48646e822a04381720bb7",
+        "visual_reviews/phone_review_shoulder_press_back_upper_torso.jpg": "e610ecdc95eb8dcaf390f3bc0db70c4f1b3fb015101e4442d20d896a16a1f033",
+        "visual_reviews/phone_review_squat_side_full_body.jpg": "084ea5195c440f069d493182da7ab85feb5c44162f5c173a1911a59e164974a2",
+        "w8_elbow_edge_continuity.json": "5fb76a15d8bcee051b7b1e2f3696c5cb692e247ca9268cd694aadf3217412df9",
+        "w8_elbow_edge_continuity.md": "3b896c23d4bdee2dbe9bb68e042a09a846d00ed8c8a65270c090ce1702bf79db",
+        "w8_elbow_taper_pca_proxy.json": "1d6679adcfee04780d8cbef61faf9d61221b703708f9bb00ca473575a6b7fd99",
+        "w8_elbow_taper_pca_proxy.md": "b660e285de73a353514a47deb9d7c6aaa6c1a51a65e550aa31c1e8b029c7f437"
+      }
+    },
+    {
+      "artifact_id": 12553258731,
+      "name": "phone-w8-driver-consistency-40077762287",
+      "zip_sha256": "3cc2fd18fb559e9ce50ed4c4a6aea42eeb0687a5370034cab2552d2b3ecdda53",
+      "github_digest_matched": true,
+      "member_sha256": {
+        "w8_driver_math_consistency.json": "e42b96e02d4406784760a6b58593d3ddfe71fd37caa59dba5a37fdb1fd74a493",
+        "w8_elbow_corrective_crosswalk.md": "7a3e4e100f80bb302e03167101a9b66125cac4efc9b8931c4eacb22e002a3ff3",
+        "w8_elbow_corrective_crosswalk.json": "cb71edd28e70bfdb1483ac24736fa30649ccd35eb24893c5ae249beffbf5e3ae",
+        "w8_press_deformation_timeline.json": "736ebfe9618761b34152db8fa14ddfd780a02361eb752603ee5cff1a0512a2d9",
+        "w8_press_deformation_timeline.md": "7a1c61031dbbf5f98a5654a1e2ba1fc9ddc069fdcf8e377a4d9ce6b1f7f117be"
+      }
+    }
+  ]
+}

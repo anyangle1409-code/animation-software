@@ -1,0 +1,85 @@
+name: Phone frozen W8 snapshot render replay
+on:
+  push:
+    branches: [work/phone-blender-workbench-20261023]
+    paths:
+      - '.github/workflows/phone-control-snapshot-replay.yml'
+      - 'scripts/control_snapshot_replay/**'
+      - 'docs/recovery_20261023/w8_control_snapshot_replay_source_v1.json'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: phone-control-replay-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  verify-and-render-frozen-snapshots:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      LIBGL_ALWAYS_SOFTWARE: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Read exact frozen snapshot source identity
+        id: source
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          source=json.loads(Path('docs/recovery_20261023/w8_control_snapshot_replay_source_v1.json').read_text())
+          assert source['anatomical_approval'] is False
+          with open(os.environ['GITHUB_OUTPUT'],'a') as out:
+              for key in ('source_run_id','snapshot_artifact_id','pose_artifact_id','manifest_sha256'):
+                  out.write(f'{key}={source[key]}\n')
+          PY
+      - name: Verify byte-integrity and camera software guards
+        run: |
+          python -m unittest discover -s scripts/control_snapshot_replay -p 'test_*.py' -v
+          python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_native_control_views.py -v
+      - name: Retrieve exact native evaluated snapshots
+        uses: actions/download-artifact@v4
+        with:
+          artifact-ids: ${{ steps.source.outputs.snapshot_artifact_id }}
+          run-id: ${{ steps.source.outputs.source_run_id }}
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/snapshots
+      - name: Retrieve paired native pose and render manifest
+        uses: actions/download-artifact@v4
+        with:
+          artifact-ids: ${{ steps.source.outputs.pose_artifact_id }}
+          run-id: ${{ steps.source.outputs.source_run_id }}
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/native-pose
+      - name: Verify all eight snapshot hashes before rendering
+        run: |
+          python scripts/control_snapshot_replay/verify.py \
+            --manifest "${{ runner.temp }}/native-pose/control_views/native_control_view_manifest.json" \
+            --snapshots "${{ runner.temp }}/snapshots" \
+            --expected-manifest-sha256 "${{ steps.source.outputs.manifest_sha256 }}" \
+            --out phone-control-replay/replay_input_verification.json
+      - name: Install pinned Blender renderer without model authoring dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y libegl1 libgl1 libxrender1 libxi6 libxkbcommon0
+          python -m pip install bpy==5.2.0 numpy pillow
+      - name: Render only the frozen evaluated geometry
+        run: |
+          python scripts/phone_blender/native_control_views.py \
+            --snapshots "${{ runner.temp }}/snapshots" \
+            --out phone-control-replay/views \
+            --exposure 0.25 --light-energy 90
+          cp docs/recovery_20261023/w8_control_snapshot_replay_source_v1.json phone-control-replay/
+      - name: Preserve independent native render replay evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phone-w8-control-render-replay-${{ github.run_id }}
+          path: phone-control-replay/
+          retention-days: 90
+          if-no-files-found: error

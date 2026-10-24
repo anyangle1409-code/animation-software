@@ -40,6 +40,20 @@ class NativeControlViewTests(unittest.TestCase):
                  if isinstance(n, ast.Call)]
         self.assertFalse(any('open_mainfile' in c or 'save_as_mainfile' in c for c in calls))
 
+    def test_replay_exposure_and_light_options_available_without_blender_import(self):
+        import subprocess, sys
+        result = subprocess.run([sys.executable, str(PATH), '--help'], capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0)
+        self.assertIn('--exposure', result.stdout)
+        self.assertIn('--light-energy', result.stdout)
+
+    def test_nonfinite_replay_settings_rejected_before_blender_import(self):
+        import subprocess, sys
+        result = subprocess.run([sys.executable, str(PATH), '--snapshots', '/unused',
+                                 '--out', '/unused', '--exposure', 'nan'], capture_output=True, text=True)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('finite render settings', result.stderr)
+
 
 if __name__ == '__main__':
     unittest.main()

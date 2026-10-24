@@ -1,0 +1,11 @@
+{
+  "source_run_id": 40078234201,
+  "execution_commit": "4358b5c09db52bbd6a4a149a72e0c97de32ddbd9",
+  "snapshot_artifact_id": 12553804248,
+  "snapshot_artifact_zip_sha256": "d116d4fb3cfa74a963a9f5e2b5b43e27fb2649fbd853119a51ceb1939ca9128d",
+  "pose_artifact_id": 12554635454,
+  "pose_artifact_zip_sha256": "f1d4b1ed3ed10349b3a66f26d67f04298f012b5fb057ca82550ab6180515ba6d",
+  "manifest_sha256": "f474ae8cc8b6a4c89b491f29f981005402de97b8e371a9d5a0e92e9ad841dfb9",
+  "model_source_sha256": "2434afd0daa231ab3a03c873cad4187ffcbc1bab78132375221160b0b0f09e4c",
+  "anatomical_approval": false
+}

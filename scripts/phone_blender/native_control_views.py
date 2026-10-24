@@ -32,7 +32,12 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--snapshots', type=Path, required=True)
     parser.add_argument('--out', type=Path, required=True)
+    parser.add_argument('--exposure', type=float, default=-0.5)
+    parser.add_argument('--light-energy', type=float, default=35.0)
     args = parser.parse_args()
+    if (not math.isfinite(args.exposure) or not math.isfinite(args.light_energy)
+            or args.light_energy <= 0):
+        raise ValueError('positive light energy and finite render settings required')
     import numpy as np
     import bpy
     from mathutils import Vector
@@ -48,7 +53,7 @@ def main():
     scene.render.resolution_percentage = 100
     scene.render.image_settings.file_format = 'PNG'
     scene.view_settings.view_transform = 'AgX'
-    scene.view_settings.exposure = -0.5
+    scene.view_settings.exposure = args.exposure
     scene.world = bpy.data.worlds.new('diagnostic_world')
     scene.world.use_nodes = True
     background = scene.world.node_tree.nodes.get('Background')
@@ -68,12 +73,13 @@ def main():
     lights = []
     for i, offset in enumerate(((1, -2, 2), (-1, 2, 1))):
         ld = bpy.data.lights.new('fixed_area_'+str(i), 'AREA')
-        ld.energy, ld.size = 35, 2
+        ld.energy, ld.size = args.light_energy, 2
         ob = bpy.data.objects.new(ld.name, ld)
         scene.collection.objects.link(ob)
         lights.append((ob, offset))
     manifest = {'status': 'ACTUAL_BLENDER_RENDER_OF_FROZEN_EVALUATED_GEOMETRY_NOT_REPAIR',
-                'source_sha256': W8_SHA, 'renderer': 'Blender Cycles CPU, 32 samples, 384 square, AgX exposure -0.5',
+                'source_sha256': W8_SHA, 'renderer': 'Blender Cycles CPU, 32 samples, 384 square, AgX',
+                'exposure': args.exposure, 'area_light_energy': args.light_energy,
                 'original_blend_opened_by_renderer': False, 'saved_blend': False,
                 'anatomical_approval': False, 'samples': [],
                 'limitations': ['Diagnostic gray material and smooth normals; source geometry unchanged.',

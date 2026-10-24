@@ -10,6 +10,7 @@ FAMILY_PREFIXES = {'S7_muted': 'HGPT_S7_DELT_', 'K1_muted': 'HGPT_K1_ELBOW_',
                    'S1_muted': 'HGPT_S1_SHOULDER_', 'S3_muted': 'HGPT_S3_SHAPE_',
                    'S5_muted': 'HGPT_S5_BAKE_'}
 VARIANTS = (*FAMILY_PREFIXES, 'all_nonbasis_keys_muted')
+INDIVIDUAL_PREFIXES = ('HGPT_S5_BAKE_', 'HGPT_S7_DELT_')
 
 
 def adjacent_controls(faces, seeds=EDGES):
@@ -70,6 +71,11 @@ def measure(body, evaluate, update, pose_signature, rest_vertices, observed_vert
     keys = list(body.data.shape_keys.key_blocks)
     if len(keys) < 2 or keys[0].name != 'Basis':
         raise ValueError('relative Basis and corrective keys required')
+    names = [key.name for key in keys]
+    if len(set(names)) != len(names):
+        raise ValueError('duplicate shape-key name')
+    if any(not math.isfinite(float(key.value)) for key in keys):
+        raise ValueError('nonfinite shape-key value')
     if len(rest_vertices) != len(observed_vertices):
         raise ValueError('reference vertex count mismatch')
     ids = sorted({i for edge in edges for i in edge})
@@ -80,6 +86,14 @@ def measure(body, evaluate, update, pose_signature, rest_vertices, observed_vert
         raise ValueError('degenerate reference edge')
     faces = tuple(tuple(int(i) for i in f) for f in observed_faces)
     state = [(key, bool(key.mute), float(key.value)) for key in keys]
+    individual = sorted(((key, value) for key, muted, value in state[1:]
+                         if not muted and value > 1e-8
+                         and key.name.startswith(INDIVIDUAL_PREFIXES)),
+                        key=lambda item: item[0].name)
+    individual_conditions = [
+        {'condition': 'individual_key_muted::' + key.name,
+         'key_name': key.name, 'actual_value': value}
+        for key, value in individual]
     pose = pose_signature()
     measured = {'observed': observed}
     if snapshot_sink is not None:
@@ -103,6 +117,20 @@ def measure(body, evaluate, update, pose_signature, rest_vertices, observed_vert
             measured[variant] = _points(vertices, ids)
             if snapshot_sink is not None:
                 snapshot_sink(variant, vertices, current_faces)
+            if pose_signature() != pose:
+                raise ValueError('skeletal pose changed during key isolation')
+        for item, (selected_key, _) in zip(individual_conditions, individual):
+            for key, original_mute, _ in state[1:]:
+                key.mute = original_mute or key is selected_key
+            update()
+            vertices, current_faces = evaluate()
+            if (len(vertices) != len(observed_vertices)
+                    or tuple(tuple(int(i) for i in f) for f in current_faces) != faces):
+                raise ValueError('evaluated topology changed')
+            condition = item['condition']
+            measured[condition] = _points(vertices, ids)
+            if snapshot_sink is not None:
+                snapshot_sink(condition, vertices, current_faces)
             if pose_signature() != pose:
                 raise ValueError('skeletal pose changed during key isolation')
     finally:
@@ -137,12 +165,69 @@ def measure(body, evaluate, update, pose_signature, rest_vertices, observed_vert
             'pose_and_key_state_restored': True,
             'restored_endpoint_max_error_m': restoration_error,
             'temporarily_muted_key_names': counts, 'edges': rows,
+            'individual_active_key_conditions': individual_conditions,
             'limitations': [
                 'All keys muted retains authored rig helpers, constraints, weights and modifiers.',
                 'Relative effects at a fixed W8 press pose are not additive causality or a repair.',
                 'Edge ratios are geometric descriptors, not tissue strain or acceptance limits.',
                 'No anatomical side, joint axis, muscle attachment or movement approved.',
             ]}
+
+
+def individual_summary(samples, tolerance=1e-7):
+    """Count geometric direction-of-change; unit distance is not a quality target."""
+    output = []
+    for sample in samples:
+        isolation = sample['corrective_edge_isolation']
+        for item in isolation['individual_active_key_conditions']:
+            condition = item['condition']
+            groups = {}
+            for role in ('ranked_seed', 'adjacent_topology_control'):
+                rows = [row for row in isolation['edges'] if row.get('edge_role') == role]
+                counts = {'count': len(rows), 'closer_to_unit_ratio': 0,
+                          'farther_from_unit_ratio': 0, 'unchanged': 0}
+                for row in rows:
+                    ratios = row['length_ratios_to_benchmark_rest_NOT_strain']
+                    observed = abs(float(ratios['observed']) - 1.0)
+                    muted = abs(float(ratios[condition]) - 1.0)
+                    if muted < observed - tolerance:
+                        counts['closer_to_unit_ratio'] += 1
+                    elif muted > observed + tolerance:
+                        counts['farther_from_unit_ratio'] += 1
+                    else:
+                        counts['unchanged'] += 1
+                groups[role + '_edges'] = counts
+            output.append({
+                'sample': sample['sample'], 'condition': condition,
+                'key_name': item['key_name'], 'actual_value': item['actual_value'],
+                **groups,
+            })
+    return {
+        'status': 'NATIVE_INDIVIDUAL_KEY_GEOMETRY_SUMMARY_NOT_REPAIR',
+        'anatomical_approval': False,
+        'unit_ratio_is_not_anatomical_target': True,
+        'individual_conditions': output,
+    }
+
+
+def individual_markdown(summary):
+    lines = [
+        '# W8 individual active S5/S7 key isolation', '',
+        '**NATIVE FIXED-POSE GEOMETRY — NOT anatomical improvement, repair or approval.**', '',
+        '| Sample | Active key muted | Value | Seed closer / farther / same | Adjacent closer / farther / same |',
+        '|---:|---|---:|---:|---:|',
+    ]
+    for row in summary['individual_conditions']:
+        seed = row['ranked_seed_edges']
+        adjacent = row['adjacent_topology_control_edges']
+        lines.append('| {} | {} | {:.6f} | {} / {} / {} | {} / {} / {} |'.format(
+            row['sample'], row['key_name'], row['actual_value'],
+            seed['closer_to_unit_ratio'], seed['farther_from_unit_ratio'], seed['unchanged'],
+            adjacent['closer_to_unit_ratio'], adjacent['farther_from_unit_ratio'],
+            adjacent['unchanged']))
+    lines += ['', 'Closer to a unit edge ratio is only a geometric descriptor; it is not a tissue-safety or anatomy criterion.',
+              'Each condition temporarily mutes one active unmuted S5/S7 key and restores the original pose/key state.', '']
+    return '\n'.join(lines)
 
 
 def markdown(samples):

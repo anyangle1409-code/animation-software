@@ -38,11 +38,15 @@ class CorrectiveIsolationTests(unittest.TestCase):
     def test_fixed_pose_separates_observed_s7_k1_and_all_muted(self):
         report = self.run_probe()
         row = report['edges'][0]
-        self.assertEqual(row['length_ratios_to_benchmark_rest_NOT_strain'],
+        values = row['length_ratios_to_benchmark_rest_NOT_strain']
+        self.assertEqual({name: values[name] for name in
+                          ('observed', 'S7_muted', 'K1_muted', 'S1_muted',
+                           'S3_muted', 'S5_muted', 'all_nonbasis_keys_muted')},
                          {'observed': 1.75, 'S7_muted': 1.25,
                           'K1_muted': 1.5, 'S1_muted': 1.75,
                           'S3_muted': 1.75, 'S5_muted': 1.75,
                           'all_nonbasis_keys_muted': 1.0})
+        self.assertEqual(values['individual_key_muted::HGPT_S7_DELT_l_145'], 1.25)
         self.assertFalse(report['anatomical_approval'])
         self.assertFalse(report['skinning_alone_certified'])
         self.assertTrue(report['pose_and_key_state_restored'])
@@ -68,6 +72,69 @@ class CorrectiveIsolationTests(unittest.TestCase):
         self.assertIn('S3 muted', text)
         self.assertIn('2.350000', text)
 
+    def test_individual_conditions_only_include_active_unmuted_s5_s7_keys(self):
+        self.keys.extend([
+            NS(name='HGPT_S5_BAKE_l_110', value=0.25, mute=False),
+            NS(name='HGPT_S5_BAKE_l_85', value=0.0, mute=False),
+            NS(name='HGPT_S7_DELT_l_156', value=0.75, mute=True),
+        ])
+        before = [(k.value, k.mute) for k in self.keys]
+        report = self.run_probe()
+        self.assertIn('individual_active_key_conditions', report)
+        self.assertEqual(report['individual_active_key_conditions'], [{
+            'condition': 'individual_key_muted::HGPT_S5_BAKE_l_110',
+            'key_name': 'HGPT_S5_BAKE_l_110',
+            'actual_value': 0.25,
+        }, {
+            'condition': 'individual_key_muted::HGPT_S7_DELT_l_145',
+            'key_name': 'HGPT_S7_DELT_l_145',
+            'actual_value': 0.5,
+        }])
+        ratios = report['edges'][0]['length_ratios_to_benchmark_rest_NOT_strain']
+        self.assertEqual(ratios['individual_key_muted::HGPT_S5_BAKE_l_110'], 1.75)
+        self.assertEqual(ratios['individual_key_muted::HGPT_S7_DELT_l_145'], 1.5)
+        self.assertEqual([(k.value, k.mute) for k in self.keys], before)
+
+    def test_rejects_duplicate_shape_key_names_before_individual_isolation(self):
+        self.keys.append(NS(name='HGPT_S7_DELT_l_145', value=0.2, mute=False))
+        with self.assertRaisesRegex(ValueError, 'duplicate shape-key name'):
+            self.run_probe()
+
+    def test_rejects_nonfinite_shape_key_value_before_individual_isolation(self):
+        self.keys[1].value = float('nan')
+        with self.assertRaisesRegex(ValueError, 'nonfinite shape-key value'):
+            self.run_probe()
+
+    def test_individual_summary_separates_seed_and_adjacent_geometry(self):
+        condition = 'individual_key_muted::HGPT_S5_BAKE_l_110'
+        sample = {'sample': 0, 'corrective_edge_isolation': {
+            'individual_active_key_conditions': [{
+                'condition': condition, 'key_name': 'HGPT_S5_BAKE_l_110',
+                'actual_value': 0.25,
+            }],
+            'edges': [
+                {'edge_role': 'ranked_seed', 'length_ratios_to_benchmark_rest_NOT_strain':
+                    {'observed': 0.5, condition: 0.75}},
+                {'edge_role': 'ranked_seed', 'length_ratios_to_benchmark_rest_NOT_strain':
+                    {'observed': 1.2, condition: 1.3}},
+                {'edge_role': 'adjacent_topology_control',
+                 'length_ratios_to_benchmark_rest_NOT_strain':
+                    {'observed': 1.1, condition: 1.1}},
+            ],
+        }}
+        self.assertTrue(hasattr(self.mod, 'individual_summary'))
+        self.assertTrue(hasattr(self.mod, 'individual_markdown'))
+        summary = self.mod.individual_summary([sample])
+        row = summary['individual_conditions'][0]
+        self.assertEqual(row['ranked_seed_edges'],
+                         {'count': 2, 'closer_to_unit_ratio': 1,
+                          'farther_from_unit_ratio': 1, 'unchanged': 0})
+        self.assertEqual(row['adjacent_topology_control_edges'],
+                         {'count': 1, 'closer_to_unit_ratio': 0,
+                          'farther_from_unit_ratio': 0, 'unchanged': 1})
+        self.assertFalse(summary['anatomical_approval'])
+        self.assertIn('NOT anatomical', self.mod.individual_markdown(summary))
+
     def test_restores_keys_on_evaluation_failure(self):
         before = [(k.value, k.mute) for k in self.keys]
         def broken():
@@ -85,7 +152,8 @@ class CorrectiveIsolationTests(unittest.TestCase):
         self.assertEqual(seen['observed'], 1.75)
         self.assertEqual(seen['S7_muted'], 1.25)
         self.assertEqual(seen['K1_muted'], 1.5)
-        self.assertEqual(len(seen), 7)
+        self.assertEqual(seen['individual_key_muted::HGPT_S7_DELT_l_145'], 1.25)
+        self.assertEqual(len(seen), 8)
 
     def test_snapshot_sink_failure_restores_original_mutes(self):
         baseline, faces = self.evaluate()

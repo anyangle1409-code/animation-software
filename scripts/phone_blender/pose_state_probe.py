@@ -131,6 +131,7 @@ def main():
     import original_v1_press_extension as press_extension
     from fixed_measurement_triangles import freeze_evaluated
     from corrective_edge_isolation import (measure as isolate_edges, markdown as isolation_markdown,
+                                           individual_summary, individual_markdown,
                                            adjacent_controls, EDGES)
     import numpy as np
 
@@ -253,6 +254,11 @@ def main():
         json.dumps(data, indent=2) + "\n", encoding="utf-8")
     (a.out / "w8_fixed_pose_corrective_edge_isolation.md").write_text(
         isolation_markdown(captures), encoding="utf-8")
+    individual = individual_summary(captures)
+    (a.out / "w8_individual_active_key_isolation.json").write_text(
+        json.dumps(individual, indent=2) + "\n", encoding="utf-8")
+    (a.out / "w8_individual_active_key_isolation.md").write_text(
+        individual_markdown(individual), encoding="utf-8")
     print("W8_SHOULDER_DRIVER_ACTUAL_POSE_STATE_WRITTEN", len(captures), flush=True)
 
 if __name__ == "__main__":

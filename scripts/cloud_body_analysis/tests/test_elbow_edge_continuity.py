@@ -84,5 +84,54 @@ class EdgeContinuityTests(unittest.TestCase):
         self.assertIn("ANATOMY AND SKIN NOT APPROVED", e.markdown({"suffixes_NOT_anatomical_sides": {}}))
 
 
+    def test_ranked_hotspots_identify_stable_edges_without_thresholds(self):
+        edges = np.array([[0, 1], [1, 2], [4, 5]])
+        ratios = {0: np.array([1., 1., 1.]),
+                  6: np.array([.2, 2., .5]),
+                  8: np.array([1., .8, 1.4])}
+        d = e.ranked_rest_edge_hotspots(self.rest, edges, ratios, top_n=1)
+        self.assertEqual(d["shortest_pose_over_rest_edges"]["6"][0]["rest_mesh_edge_vertex_ids"], [0, 1])
+        self.assertEqual(d["longest_pose_over_rest_edges"]["6"][0]["rest_mesh_edge_vertex_ids"], [1, 2])
+        self.assertEqual(d["largest_absolute_ratio_change_from_sample0"]["6"][0]["rest_mesh_edge_vertex_ids"], [1, 2])
+        self.assertEqual(d["largest_absolute_ratio_change_from_sample0"]["8"][0]["rest_mesh_edge_vertex_ids"], [4, 5])
+        self.assertEqual(d["shortest_pose_over_rest_edges"]["0"][0]["rest_midpoint_body_local_m"], [.5, 0., 0.])
+        self.assertNotIn("approved", d)
+
+    def test_ranked_hotspot_tie_break_uses_edge_ids(self):
+        edges = np.array([[4, 5], [1, 2], [0, 1]])
+        ratios = {i: np.array([1., 1., 1.]) for i in e.FRAMES}
+        d = e.ranked_rest_edge_hotspots(self.rest, edges, ratios, top_n=3)
+        self.assertEqual([r["rest_mesh_edge_vertex_ids"] for r in
+                          d["shortest_pose_over_rest_edges"]["6"]],
+                         [[0, 1], [1, 2], [4, 5]])
+
+    def test_ranked_hotspot_rejects_invalid_inputs(self):
+        edges = np.array([[0, 1], [1, 2], [4, 5]])
+        ratios = {i: np.array([1., 1., 1.]) for i in e.FRAMES}
+        bad_cases = [
+            (np.array([[0, 1], [1, 0]]), ratios),
+            (np.array([[0, 0]]), ratios),
+            (np.array([[0, 99]]), ratios),
+            (edges, {0: ratios[0], 6: ratios[6]}),
+            (edges, {0: ratios[0], 6: ratios[6], 8: np.array([1., np.nan, 1.])}),
+            (edges, {0: ratios[0], 6: ratios[6], 8: np.array([1.])}),
+        ]
+        for links, r in bad_cases:
+            with self.subTest(links=links.tolist()):
+                with self.assertRaises(ValueError):
+                    e.ranked_rest_edge_hotspots(self.rest, links, r)
+        with self.assertRaises(ValueError):
+            e.ranked_rest_edge_hotspots(self.rest, edges, ratios, top_n=0)
+
+    def test_ranked_hotspot_midpoint_moves_only_under_rest_translation(self):
+        edges = np.array([[0, 1], [1, 2], [4, 5]])
+        ratios = {i: np.array([1., 1., 1.]) for i in e.FRAMES}
+        a = e.ranked_rest_edge_hotspots(self.rest, edges, ratios, top_n=1)
+        b = e.ranked_rest_edge_hotspots(self.rest + [2., 3., -1.], edges, ratios, top_n=1)
+        pa = np.array(a["shortest_pose_over_rest_edges"]["0"][0]["rest_midpoint_body_local_m"])
+        pb = np.array(b["shortest_pose_over_rest_edges"]["0"][0]["rest_midpoint_body_local_m"])
+        np.testing.assert_allclose(pb - pa, [2., 3., -1.])
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -20,7 +20,7 @@ The permanent muscle IDs are used unchanged. Muscle highlighting is not implemen
 The test is `scripts/body_v2/movement_trajectory_test_blender.py`. Sheets: `trajectory_sheets.py`, written to
 `review-assets/body_v2/movement_trajectories_20261024/`, sized for a phone.
 
-| | Before (R121p, r57 girdle, no new keys) | Now (candidate I8; I9 for the curl) |
+| | Before (R121p, r57 girdle, no new keys) | Now (candidate I11: review set `REVIEW_I11_*`) |
 |---|---|---|
 | Press lockout: folds over 90° / self-intersections | 4666 / 4759 (peak) | 137 / 22 |
 | Curl: elbow folds over 90° / self-intersections | 147 / 1641 | 4 / 0 (I9) |
@@ -52,7 +52,9 @@ The test is `scripts/body_v2/movement_trajectory_test_blender.py`. Sheets: `traj
    - *Hips:* hip keys.
    - *Knees:* hinge-contact knee keys.
    - *Heel lift:* sole skin was shin-weighted; it now follows the foot.
-5. **Rest pose:** the arms interpenetrated the body. *Fix:* a contact pass, plus the left-armpit flap removed.
+5. **Rest pose:** the arms interpenetrated the body.
+   - *Fix:* a contact pass, plus the left-armpit flap removed.
+   - The hand-on-thigh part is a transient key (driven by arm elevation), not a dent in the basis.
 
 All the keys are driven by joint angles (`scripts/body_v2/r121_drives.py`), not by exercise. Any movement that reaches
 those angles uses them, which makes this a reusable movement system rather than a set of per-exercise fixes.

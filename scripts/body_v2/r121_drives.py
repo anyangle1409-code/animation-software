@@ -22,6 +22,9 @@ ELBOW_START = 10.0
 KNEE_PREFIX = "R121_KNEE_"
 KNEE_PROP = "hgpt_r121_knee_angles"
 KNEE_START = 20.0
+HANDCONTACT_PREFIX = "R121_REST_HANDCONTACT_"
+HANDCONTACT_PROP = "hgpt_r121_handcontact_rest_elev"   # the arm's rest elevation when the key was made
+HANDCONTACT_FADE = 8.0
 
 
 def knee_flex_deg(rig, s):
@@ -101,4 +104,10 @@ def drive(rig, body):
                 continue
             for name, v in _hats(names, (start,) + tuple(rig[f"{prop}_{s}"])[:len(names)], ang):
                 keys[name].value = v * gain
+        # transient hand-on-thigh contact: full at the rest elevation, gone HANDCONTACT_FADE degrees above it
+        kn = f"{HANDCONTACT_PREFIX}{s}"
+        if kn in keys and f"{HANDCONTACT_PROP}_{s}" in rig:
+            x = (e - rig[f"{HANDCONTACT_PROP}_{s}"]) / HANDCONTACT_FADE
+            x = min(max(x, 0.0), 1.0)
+            keys[kn].value = 1.0 - x * x * (3 - 2 * x)
     bpy.context.view_layer.update()

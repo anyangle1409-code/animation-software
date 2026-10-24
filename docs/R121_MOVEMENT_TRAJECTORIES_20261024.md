@@ -337,6 +337,25 @@ flattening depth (`V2_R121_CONTACT_BULGE`). Little visible effect (`elbow140_fla
 
 **Open.** At 120–140° the contact still reads as a flat face with a crease slit (`elbow_closeups_I9_reach26.jpg`).
 
+## Hand-on-thigh contact made transient (I11): the current review set
+
+The rest-contact pass had flattened the outer thighs where the hanging hands touched them, up to 18.9 mm on about 1,640
+thigh vertices, and stored that in the **basis**. The dent therefore stayed when the hands moved away.
+
+`hand_contact_to_key_blender.py` takes the part below 0.52 H (3,821 vertices) out of the basis and every key, and stores
+it as keys `R121_REST_HANDCONTACT_<s>`, driven by the arm's elevation: 1 at the rest elevation (0.97°), 0 eight degrees
+above it. The small inner-arm/chest flattening (≤ 5 mm) stays in the basis.
+
+**Review set, I11** (`REVIEW_I11_press.jpg`, `REVIEW_I11_curl.jpg`, `REVIEW_I11_squat.jpg`, `REVIEW_I11_report.json`):
+
+| Movement | Folds over 90° | Self-intersections per frame | Feet | Return to neutral |
+|---|---|---|---|---|
+| press | 137 | 0 0 0 0 2 0 0 25 22 25 0 0 2 0 0 0 0 | n/a | 0.0000 mm |
+| curl | 7 | 0 at every frame | n/a | 0.0000 mm |
+| squat (arms forward, feet planted) | 52 | 0 1 0 0 0 0 14 30 27 30 14 0 0 0 0 1 0 | slide 0.0 mm, lift 0.0 mm | 0.0000 mm |
+
+With the r57 hanging arms the squat has up to 234 pairs at mid-depth, from the hands sweeping the thighs (path).
+
 ## Open items (measured, next)
 
 - **Elbow:** the curl is now intersection-free (I9). Still open: the flat contact face and slit at 120–140°, and

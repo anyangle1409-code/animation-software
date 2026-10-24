@@ -79,3 +79,17 @@ A **subsequent** isolated read-only code extension ranks the five shortest and l
 **New extension status:** commits `fe4651643849116c97ba55428a6858ee77a96b75` and `ae75f4ed5c0ef2d97bcbadd5bd77f2e563672acb` are staged on the isolated branch. Their full Actions execution and new JSON member hash are **not verified at the time of writing**. The previously verified artifact predates the ranking extension. Inspect the next successful native-localization ZIP before treating new rankings as observed evidence.
 
 **Research interpretation remains unchanged:** ISB upper-limb joint-coordinate conventions require independent humerus/radius/ulna and side/landmark calibration ([ISB Part II](https://pubmed.ncbi.nlm.nih.gov/15844264/)). Fixed rest skin edge IDs do not establish joint centres, segment axes or soft-tissue mechanical strain. Do not turn descriptive [CDC clinical ROM means](https://archive.cdc.gov/www_cdc_gov/ncbddd/jointrom/index.html) into hard limits. Shoulder/scapula/clavicle, elbow/pronation and hip/knee/ankle general-motion validation remains blocked; 46 anatomical landmarks unbound and 0/19 generic tests accepted. No original model or production file changed.
+
+
+### First source-pinned ranked-edge report (code-only workflow run; synthetic extension tests pending)
+
+The native-localization job in [run 40060666110](https://github.com/anyangle1409-code/animation-software/actions/runs/40060666110), at code commit `fe4651643849116c97ba55428a6858ee77a96b75`, completed **SUCCESS** and emitted the new ranking. Its [native artifact 12546669848](https://github.com/anyangle1409-code/animation-software/actions/runs/40060666110/artifacts/12546669848) was independently downloaded: ZIP SHA256 **MATCH** `257e6de31cc14e2b1b7d3aee1ddd520061cb00f33aa3c98f15929e1576701738`; embedded `w8_elbow_edge_continuity.json` SHA256 `5fb76a15d8bcee051b7b1e2f3696c5cb692e247ca9268cd694aadf3217412df9`. This **does not** certify the entire run or the subsequently added four tests. The later full-test run `40060680693` must be checked separately.
+
+| Authored suffix / rest band | Ranking and saved sample | Fixed rest mesh vertex IDs | Rest midpoint (body-local m) | Pose/rest ratio |
+|---|---|---|---|---:|
+| l / distal | Shortest at sample 0 | 15645, 53019 | −0.234720, −0.025484, 1.193890 | 0.167612 |
+| r / distal | Shortest at sample 0 | 17185, 44317 | +0.234709, −0.025419, 1.193933 | 0.163126 |
+| l / middle | Longest at sample 6 | 29237, 71026 | −0.159497, +0.010991, 1.313827 | 2.673372 |
+| r / middle | Longest at sample 6 | 32352, 71428 | +0.159445, +0.010973, 1.313840 | 2.648593 |
+
+The ranked JSON includes the **top five** for each category/region and all three ratios per edge, so the same mesh edges can be located and followed later. The roughly mirrored coordinates and similar values across authored suffixes are **observations**, not proof of anatomical L/R, normal morphology or causality. Mesh-edge vertex IDs and rest midpoints must not be promoted to humeral epicondyles, radius/ulna landmarks, muscle origins or proposed geometry corrections. Sample 0 and 6 are **shoulder-press poses**, not a controlled isolated elbow movement. Do not change acceptance gates or the preserved model.

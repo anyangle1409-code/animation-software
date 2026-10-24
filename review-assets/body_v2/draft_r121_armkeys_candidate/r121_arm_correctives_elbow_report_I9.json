@@ -1,0 +1,151 @@
+{
+ "mode": "elbow",
+ "angles_deg": [
+  45,
+  90,
+  120,
+  140
+ ],
+ "keys": {
+  "45": {
+   "elevation_deg": {
+    "l": 44.48,
+    "r": 44.48
+   },
+   "folds_gt90_before": 43,
+   "unfold_history": [
+    50,
+    36,
+    36,
+    36,
+    36,
+    36,
+    36,
+    36,
+    36
+   ],
+   "contact_history": {
+    "r": 103,
+    "l": 95
+   },
+   "crumple_gt35_history": [
+    3743,
+    3629,
+    3619,
+    3617,
+    3618,
+    3616,
+    3615
+   ],
+   "folds_gt90_with_key": 36,
+   "max_offset_mm": 2.2,
+   "vertices": 2237,
+   "fit_residual_max_mm": 0.001
+  },
+  "90": {
+   "elevation_deg": {
+    "l": 89.48,
+    "r": 89.48
+   },
+   "folds_gt90_before": 161,
+   "unfold_history": [
+    113,
+    39,
+    42,
+    37,
+    36,
+    36,
+    36,
+    36,
+    37
+   ],
+   "contact_history": {
+    "r": 1529,
+    "l": 1531
+   },
+   "crumple_gt35_history": [
+    4123,
+    3886,
+    3847,
+    3843,
+    3831,
+    3822,
+    3817
+   ],
+   "folds_gt90_with_key": 37,
+   "max_offset_mm": 7.66,
+   "vertices": 6841,
+   "fit_residual_max_mm": 0.001
+  },
+  "120": {
+   "elevation_deg": {
+    "l": 119.48,
+    "r": 119.48
+   },
+   "folds_gt90_before": 172,
+   "unfold_history": [
+    178,
+    38,
+    39,
+    39,
+    41,
+    36,
+    36,
+    36,
+    40
+   ],
+   "contact_history": {
+    "r": 5429,
+    "l": 5406
+   },
+   "crumple_gt35_history": [
+    5591,
+    4688,
+    4558,
+    4518,
+    4472,
+    4439,
+    4422
+   ],
+   "folds_gt90_with_key": 40,
+   "max_offset_mm": 25.23,
+   "vertices": 22681,
+   "fit_residual_max_mm": 0.001
+  },
+  "140": {
+   "elevation_deg": {
+    "l": 139.47,
+    "r": 139.47
+   },
+   "folds_gt90_before": 76,
+   "unfold_history": [
+    145,
+    42,
+    46,
+    56,
+    44,
+    51,
+    46,
+    55,
+    37
+   ],
+   "contact_history": {
+    "r": 8886,
+    "l": 8878
+   },
+   "crumple_gt35_history": [
+    5708,
+    4981,
+    4948,
+    4932,
+    4929,
+    4923,
+    4899
+   ],
+   "folds_gt90_with_key": 37,
+   "max_offset_mm": 48.81,
+   "vertices": 28809,
+   "fit_residual_max_mm": 0.001
+  }
+ }
+}

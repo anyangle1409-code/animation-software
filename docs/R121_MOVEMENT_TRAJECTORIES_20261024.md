@@ -316,9 +316,31 @@ folds 20. Return to neutral is 0.0000 mm.
 
 Images: `I8_squat_arms_forward_planted.jpg`. Report: `report_TT_I8_squat_arms_forward_planted.json`.
 
+## Curl top contact (I9)
+
+**Cause.** The remaining curl intersections (865 at 140°) were the distal forearm and hand meeting the upper biceps and
+the front of the shoulder, more than 16 cm from the elbow: outside the elbow keys' contact reach.
+
+**Fix.** The elbow family was re-authored on I8 with a 26 cm reach. `V2_R121_ARMKEY_REPLACE=1` drops the family's old
+keys and drive data first, so the old keys aren't active during authoring and names don't collide.
+
+| Curl | Before | I9 |
+|---|---|---|
+| Self-intersections | up to 865 | **0 at every frame** |
+| Folds over 90° | 64 | 7 |
+| Edges stretched over 2× | 559 | 60 |
+
+The press is unchanged.
+
+**Tried, not adopted.** A volume-preserving bulge: flattened tissue pushed sideways along the hinge axis by 0.6 × its
+flattening depth (`V2_R121_CONTACT_BULGE`). Little visible effect (`elbow140_flatten_vs_bulge.jpg`).
+
+**Open.** At 120–140° the contact still reads as a flat face with a crease slit (`elbow_closeups_I9_reach26.jpg`).
+
 ## Open items (measured, next)
 
-- **Elbow:** see the T2 section. Open there: the contact slit, volume preservation and the press-rack elbow.
+- **Elbow:** the curl is now intersection-free (I9). Still open: the flat contact face and slit at 120–140°, and
+  the press-rack elbow folds (90).
 - **Press lockout:** 6619 edges are still stretched more than 2× (armpit and lat skin), with residual armpit wrinkles.
 - **Squat:** the knee contact, heel lift and sole slide are fixed; the arm path is above.
 - **Rest-pose armpit and arm-hip intersections:** above.

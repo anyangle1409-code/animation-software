@@ -83,7 +83,14 @@ FAMILY = {"abd": (r121_drives.PREFIX, r121_drives.PROP), "flex": (r121_drives.FL
           "squat": (r121_drives.HIP_PREFIX, r121_drives.HIP_PROP),
           "elbow": (r121_drives.ELBOW_PREFIX, r121_drives.ELBOW_PROP),
           "knee": (r121_drives.KNEE_PREFIX, r121_drives.KNEE_PROP)}[MODE]
-HINGE = {"elbow": ("upperarm", "forearm", 0.16), "knee": ("thigh", "shin", 0.18)}   # upper bone, lower bone, reach (m)
+HINGE = {"elbow": ("upperarm", "forearm", float(os.environ.get("V2_R121_HINGE_REACH", "0.16"))),
+         "knee": ("thigh", "shin", float(os.environ.get("V2_R121_HINGE_REACH", "0.18")))}   # upper bone, lower bone, reach (m)
+if os.environ.get("V2_R121_ARMKEY_REPLACE") == "1":         # re-author: drop this family's keys and drive data first
+    for kb in [k for k in me.shape_keys.key_blocks if k.name.startswith(FAMILY[0])]:
+        body.shape_key_remove(kb)
+    for s_ in ("l", "r"):
+        if f"{FAMILY[1]}_{s_}" in rig:
+            del rig[f"{FAMILY[1]}_{s_}"]
 WGT = {}
 for v in me.vertices:
     for g in v.groups:
@@ -154,6 +161,9 @@ def pose(ang):
 POLYS = [p.vertices[:] for p in me.polygons]
 
 
+BULGE = float(os.environ.get("V2_R121_CONTACT_BULGE", "0"))   # sideways bulge per unit flattening depth
+
+
 def contact(T, margin=0.0008):
     """hinge contact: the plane through the flexion axis that bisects the joint angle is where the two sides' inner
     skin meets.  Skin of either side that has crossed it, on the inner side of the angle, is flattened onto it (each
@@ -180,6 +190,14 @@ def contact(T, margin=0.0008):
         cf = fo_side & inner & (h > -margin)                   # forearm skin on the upper-arm side
         D[cu] += np.outer(margin - h[cu], nb)
         D[cf] += np.outer(-margin - h[cf], nb)
+        if BULGE > 0:                                          # displaced tissue bulges out at the contact's edges
+            hx = np.array(fb.x_axis.normalized())              # hinge (flexion) axis
+            ex_ = r @ hx                                       # signed distance from the limb's mid-plane
+            half = max(float(np.percentile(np.abs(ex_[cu | cf]), 95)), 1e-3) if (cu | cf).any() else 1.0
+            for cm, hh in ((cu, h), (cf, h)):
+                depth = np.abs(hh[cm]) + margin
+                k = BULGE * depth * np.clip(np.abs(ex_[cm]) / half, 0, 1) ** 2
+                D[cm] += np.outer(k * np.sign(ex_[cm]), hx)
         out[s_] = int(cu.sum() + cf.sum())
     w = (np.linalg.norm(D, axis=1) > 0).astype(float)
     for _ in range(4):                                         # spread so the contact face stays smooth

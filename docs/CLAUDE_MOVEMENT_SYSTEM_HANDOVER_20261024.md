@@ -20,10 +20,10 @@ The permanent muscle IDs are used unchanged. Muscle highlighting is not implemen
 The test is `scripts/body_v2/movement_trajectory_test_blender.py`. Sheets: `trajectory_sheets.py`, written to
 `review-assets/body_v2/movement_trajectories_20261024/`, sized for a phone.
 
-| | Before (R121p, r57 girdle, no new keys) | Now (candidate I8) |
+| | Before (R121p, r57 girdle, no new keys) | Now (candidate I8; I9 for the curl) |
 |---|---|---|
 | Press lockout: folds over 90° / self-intersections | 4666 / 4759 (peak) | 137 / 22 |
-| Curl: elbow folds over 90° / self-intersections | 147 / 1641 | 4 / 865 (forearm meets the shoulder at 140°) |
+| Curl: elbow folds over 90° / self-intersections | 147 / 1641 | 4 / 0 (I9) |
 | Squat: hip and knee folds / knee intersections / heel lift | 586 and 123 / 722 / 11.3 mm | 0 and 20 / 0 / 0.0 mm |
 | Rest pose self-intersections | 1929 | 0 |
 | Return to neutral, all movements | 0.0000 mm | 0.0000 mm |
@@ -83,7 +83,7 @@ those angles uses them, which makes this a reusable movement system rather than 
 
 **Next unblocked:**
 
-1. **Curl top contact:** forearm and hand against the shoulder.
+1. **Elbow at 120–140°:** the flat contact face and slit. (The curl top contact itself is fixed in I9.)
 
    (Done since the first version of this handover: the squat's 17 mm sole slide was the r57 path planting only the
    mean ankle. A per-leg plant in the test now gives 0.0 mm. Arms forward is available, through the thorax-relative

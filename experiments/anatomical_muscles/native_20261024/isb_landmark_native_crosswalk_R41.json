@@ -1,0 +1,658 @@
+{
+ "source_blend": "HGPT_ORIGINAL_V1_REVIEW_R41_CODEX.blend",
+ "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+ "blender_version": "5.2.1 LTS",
+ "requirements_file": "work/phone-blender-workbench-20261023:docs/anatomy/HGPT_ISB_LANDMARK_REQUIREMENTS_V1.json",
+ "side_convention_observed": "anatomical *_left landmarks/bones at +X; runtime V4 '_l' bones at -X on R41 (anatomical left = runtime _r)",
+ "counts": {
+  "requirements": 46,
+  "native_candidates": 34,
+  "missing": 12
+ },
+ "verified": false,
+ "note": "candidates only - not reviewed anatomical landmarks; scapula placement metadata says confidence low; body_v2 blends carry these at R41 positions although their runtime skeleton was refitted (stale for body_v2)",
+ "rows": [
+  {
+   "requirement_id": "hgpt.landmark.thorax.IJ.MIDLINE",
+   "label": "IJ",
+   "side": "MIDLINE",
+   "r41_native_candidate": "LM_sternum__ij_skin",
+   "r41_world_m": [
+    0.0,
+    -0.0429,
+    1.5192
+   ],
+   "r41_parent_bone": "anat_sternum",
+   "kind": "skin projection",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.thorax.PX.MIDLINE",
+   "label": "PX",
+   "side": "MIDLINE",
+   "r41_native_candidate": "LM_sternum__px_skin",
+   "r41_world_m": [
+    -0.0024,
+    -0.111,
+    1.3161
+   ],
+   "r41_parent_bone": "anat_sternum",
+   "kind": "skin projection",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.thorax.C7.MIDLINE",
+   "label": "C7",
+   "side": "MIDLINE",
+   "r41_native_candidate": null,
+   "r41_world_m": null,
+   "r41_parent_bone": null,
+   "kind": null,
+   "derivable_from": "anat_c7 bone (spinous tip not marked)",
+   "status": "MISSING"
+  },
+  {
+   "requirement_id": "hgpt.landmark.thorax.T8.MIDLINE",
+   "label": "T8",
+   "side": "MIDLINE",
+   "r41_native_candidate": null,
+   "r41_world_m": null,
+   "r41_parent_bone": null,
+   "kind": null,
+   "derivable_from": "anat_t8 bone (spinous tip not marked)",
+   "status": "MISSING"
+  },
+  {
+   "requirement_id": "hgpt.landmark.scapula.TS.L",
+   "label": "TS",
+   "side": "L",
+   "r41_native_candidate": "LM_scapula_left__TS",
+   "r41_world_m": [
+    0.052,
+    0.136,
+    1.44
+   ],
+   "r41_parent_bone": "anat_scapula_left",
+   "kind": "joint centre / bony point",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.scapula.AI.L",
+   "label": "AI",
+   "side": "L",
+   "r41_native_candidate": "LM_scapula_left__AI",
+   "r41_world_m": [
+    0.08,
+    0.14,
+    1.32
+   ],
+   "r41_parent_bone": "anat_scapula_left",
+   "kind": "joint centre / bony point",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.scapula.AA.L",
+   "label": "AA",
+   "side": "L",
+   "r41_native_candidate": "LM_scapula_left__AA",
+   "r41_world_m": [
+    0.2577,
+    0.0606,
+    1.4995
+   ],
+   "r41_parent_bone": "anat_scapula_left",
+   "kind": "joint centre / bony point",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.scapula.PC.L",
+   "label": "PC",
+   "side": "L",
+   "r41_native_candidate": null,
+   "r41_world_m": null,
+   "r41_parent_bone": null,
+   "kind": null,
+   "derivable_from": "none (anat_scapula only)",
+   "status": "MISSING"
+  },
+  {
+   "requirement_id": "hgpt.landmark.clavicle.SC.L",
+   "label": "SC",
+   "side": "L",
+   "r41_native_candidate": "LM_clavicle_left__SC",
+   "r41_world_m": [
+    0.025,
+    -0.0279,
+    1.5142
+   ],
+   "r41_parent_bone": "anat_clavicle_left",
+   "kind": "joint centre / bony point",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.clavicle.AC.L",
+   "label": "AC",
+   "side": "L",
+   "r41_native_candidate": "LM_clavicle_left__AC",
+   "r41_world_m": [
+    0.2407,
+    0.0256,
+    1.4975
+   ],
+   "r41_parent_bone": "anat_clavicle_left",
+   "kind": "joint centre / bony point",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.humerus.GH_CENTER.L",
+   "label": "GH_CENTER",
+   "side": "L",
+   "r41_native_candidate": "LM_scapula_left__GH",
+   "r41_world_m": [
+    0.2189,
+    0.0325,
+    1.4624
+   ],
+   "r41_parent_bone": "anat_scapula_left",
+   "kind": "joint centre / bony point",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.humerus.EL.L",
+   "label": "EL",
+   "side": "L",
+   "r41_native_candidate": "LM_humerus_left__epicondyle_lateral_skin",
+   "r41_world_m": [
+    0.2595,
+    0.0273,
+    1.18
+   ],
+   "r41_parent_bone": "anat_humerus_left",
+   "kind": "skin projection",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.humerus.EM.L",
+   "label": "EM",
+   "side": "L",
+   "r41_native_candidate": "LM_humerus_left__epicondyle_medial_skin",
+   "r41_world_m": [
+    0.1706,
+    0.029,
+    1.18
+   ],
+   "r41_parent_bone": "anat_humerus_left",
+   "kind": "skin projection",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.forearm.RS.L",
+   "label": "RS",
+   "side": "L",
+   "r41_native_candidate": "LM_humerus_left__styloid_radial_skin",
+   "r41_world_m": [
+    0.2152,
+    -0.0008,
+    0.919
+   ],
+   "r41_parent_bone": "anat_humerus_left",
+   "kind": "skin projection",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.forearm.US.L",
+   "label": "US",
+   "side": "L",
+   "r41_native_candidate": "LM_humerus_left__styloid_ulnar_skin",
+   "r41_world_m": [
+    0.2165,
+    0.0589,
+    0.919
+   ],
+   "r41_parent_bone": "anat_humerus_left",
+   "kind": "skin projection",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.scapula.TS.R",
+   "label": "TS",
+   "side": "R",
+   "r41_native_candidate": "LM_scapula_right__TS",
+   "r41_world_m": [
+    -0.052,
+    0.136,
+    1.44
+   ],
+   "r41_parent_bone": "anat_scapula_right",
+   "kind": "joint centre / bony point",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.scapula.AI.R",
+   "label": "AI",
+   "side": "R",
+   "r41_native_candidate": "LM_scapula_right__AI",
+   "r41_world_m": [
+    -0.08,
+    0.14,
+    1.32
+   ],
+   "r41_parent_bone": "anat_scapula_right",
+   "kind": "joint centre / bony point",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.scapula.AA.R",
+   "label": "AA",
+   "side": "R",
+   "r41_native_candidate": "LM_scapula_right__AA",
+   "r41_world_m": [
+    -0.2577,
+    0.0606,
+    1.4995
+   ],
+   "r41_parent_bone": "anat_scapula_right",
+   "kind": "joint centre / bony point",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.scapula.PC.R",
+   "label": "PC",
+   "side": "R",
+   "r41_native_candidate": null,
+   "r41_world_m": null,
+   "r41_parent_bone": null,
+   "kind": null,
+   "derivable_from": "none (anat_scapula only)",
+   "status": "MISSING"
+  },
+  {
+   "requirement_id": "hgpt.landmark.clavicle.SC.R",
+   "label": "SC",
+   "side": "R",
+   "r41_native_candidate": "LM_clavicle_right__SC",
+   "r41_world_m": [
+    -0.025,
+    -0.0279,
+    1.5142
+   ],
+   "r41_parent_bone": "anat_clavicle_right",
+   "kind": "joint centre / bony point",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.clavicle.AC.R",
+   "label": "AC",
+   "side": "R",
+   "r41_native_candidate": "LM_clavicle_right__AC",
+   "r41_world_m": [
+    -0.2407,
+    0.0256,
+    1.4975
+   ],
+   "r41_parent_bone": "anat_clavicle_right",
+   "kind": "joint centre / bony point",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.humerus.GH_CENTER.R",
+   "label": "GH_CENTER",
+   "side": "R",
+   "r41_native_candidate": "LM_scapula_right__GH",
+   "r41_world_m": [
+    -0.2189,
+    0.0325,
+    1.4624
+   ],
+   "r41_parent_bone": "anat_scapula_right",
+   "kind": "joint centre / bony point",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.humerus.EL.R",
+   "label": "EL",
+   "side": "R",
+   "r41_native_candidate": "LM_humerus_right__epicondyle_lateral_skin",
+   "r41_world_m": [
+    -0.2595,
+    0.0273,
+    1.18
+   ],
+   "r41_parent_bone": "anat_humerus_right",
+   "kind": "skin projection",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.humerus.EM.R",
+   "label": "EM",
+   "side": "R",
+   "r41_native_candidate": "LM_humerus_right__epicondyle_medial_skin",
+   "r41_world_m": [
+    -0.1706,
+    0.029,
+    1.18
+   ],
+   "r41_parent_bone": "anat_humerus_right",
+   "kind": "skin projection",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.forearm.RS.R",
+   "label": "RS",
+   "side": "R",
+   "r41_native_candidate": "LM_humerus_right__styloid_radial_skin",
+   "r41_world_m": [
+    -0.2152,
+    -0.0008,
+    0.919
+   ],
+   "r41_parent_bone": "anat_humerus_right",
+   "kind": "skin projection",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.forearm.US.R",
+   "label": "US",
+   "side": "R",
+   "r41_native_candidate": "LM_humerus_right__styloid_ulnar_skin",
+   "r41_world_m": [
+    -0.2165,
+    0.0589,
+    0.919
+   ],
+   "r41_parent_bone": "anat_humerus_right",
+   "kind": "skin projection",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.pelvis.ASIS.L",
+   "label": "ASIS",
+   "side": "L",
+   "r41_native_candidate": "LM_hip_bone_left__asis_skin",
+   "r41_world_m": [
+    0.1083,
+    -0.075,
+    1.001
+   ],
+   "r41_parent_bone": "anat_hip_bone_left",
+   "kind": "skin projection",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.pelvis.PSIS.L",
+   "label": "PSIS",
+   "side": "L",
+   "r41_native_candidate": null,
+   "r41_world_m": null,
+   "r41_parent_bone": null,
+   "kind": null,
+   "derivable_from": "none (anat_hip_bone only)",
+   "status": "MISSING"
+  },
+  {
+   "requirement_id": "hgpt.landmark.femur.FEMORAL_HEAD_CENTER.L",
+   "label": "FEMORAL_HEAD_CENTER",
+   "side": "L",
+   "r41_native_candidate": "LM_hip_bone_left__HJC",
+   "r41_world_m": [
+    0.0833,
+    -0.0193,
+    0.9297
+   ],
+   "r41_parent_bone": "anat_hip_bone_left",
+   "kind": "joint centre / bony point",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.femur.KNEE_MEDIAL_EPICONDYLE.L",
+   "label": "KNEE_MEDIAL_EPICONDYLE",
+   "side": "L",
+   "r41_native_candidate": "LM_femur_left__epicondyle_medial_skin",
+   "r41_world_m": [
+    0.0362,
+    -0.0062,
+    0.517
+   ],
+   "r41_parent_bone": "anat_femur_left",
+   "kind": "skin projection",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.femur.KNEE_LATERAL_EPICONDYLE.L",
+   "label": "KNEE_LATERAL_EPICONDYLE",
+   "side": "L",
+   "r41_native_candidate": "LM_femur_left__epicondyle_lateral_skin",
+   "r41_world_m": [
+    0.1446,
+    -0.004,
+    0.517
+   ],
+   "r41_parent_bone": "anat_femur_left",
+   "kind": "skin projection",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.tibia.ANKLE_MEDIAL_MALLEOLUS.L",
+   "label": "ANKLE_MEDIAL_MALLEOLUS",
+   "side": "L",
+   "r41_native_candidate": "LM_tibia_left__malleolus_medial_skin",
+   "r41_world_m": [
+    0.054,
+    0.0058,
+    0.078
+   ],
+   "r41_parent_bone": "anat_tibia_left",
+   "kind": "skin projection",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.fibula.ANKLE_LATERAL_MALLEOLUS.L",
+   "label": "ANKLE_LATERAL_MALLEOLUS",
+   "side": "L",
+   "r41_native_candidate": "LM_tibia_left__malleolus_lateral_skin",
+   "r41_world_m": [
+    0.1311,
+    0.0026,
+    0.078
+   ],
+   "r41_parent_bone": "anat_tibia_left",
+   "kind": "skin projection",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.foot.CALCANEUS.L",
+   "label": "CALCANEUS",
+   "side": "L",
+   "r41_native_candidate": null,
+   "r41_world_m": null,
+   "r41_parent_bone": null,
+   "kind": null,
+   "derivable_from": "anat_calcaneus bone (posterior point not marked)",
+   "status": "MISSING"
+  },
+  {
+   "requirement_id": "hgpt.landmark.foot.METATARSAL_II_HEAD.L",
+   "label": "METATARSAL_II_HEAD",
+   "side": "L",
+   "r41_native_candidate": null,
+   "r41_world_m": null,
+   "r41_parent_bone": null,
+   "kind": null,
+   "derivable_from": "anat metatarsal 2 bone (head not marked)",
+   "status": "MISSING"
+  },
+  {
+   "requirement_id": "hgpt.landmark.foot.HALLUX_MTP.L",
+   "label": "HALLUX_MTP",
+   "side": "L",
+   "r41_native_candidate": null,
+   "r41_world_m": null,
+   "r41_parent_bone": null,
+   "kind": null,
+   "derivable_from": "HGPT_JOINT_mtp_1_<side> joint object",
+   "status": "MISSING"
+  },
+  {
+   "requirement_id": "hgpt.landmark.pelvis.ASIS.R",
+   "label": "ASIS",
+   "side": "R",
+   "r41_native_candidate": "LM_hip_bone_right__asis_skin",
+   "r41_world_m": [
+    -0.1083,
+    -0.075,
+    1.001
+   ],
+   "r41_parent_bone": "anat_hip_bone_right",
+   "kind": "skin projection",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.pelvis.PSIS.R",
+   "label": "PSIS",
+   "side": "R",
+   "r41_native_candidate": null,
+   "r41_world_m": null,
+   "r41_parent_bone": null,
+   "kind": null,
+   "derivable_from": "none (anat_hip_bone only)",
+   "status": "MISSING"
+  },
+  {
+   "requirement_id": "hgpt.landmark.femur.FEMORAL_HEAD_CENTER.R",
+   "label": "FEMORAL_HEAD_CENTER",
+   "side": "R",
+   "r41_native_candidate": "LM_hip_bone_right__HJC",
+   "r41_world_m": [
+    -0.0833,
+    -0.0193,
+    0.9297
+   ],
+   "r41_parent_bone": "anat_hip_bone_right",
+   "kind": "joint centre / bony point",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.femur.KNEE_MEDIAL_EPICONDYLE.R",
+   "label": "KNEE_MEDIAL_EPICONDYLE",
+   "side": "R",
+   "r41_native_candidate": "LM_femur_right__epicondyle_medial_skin",
+   "r41_world_m": [
+    -0.0362,
+    -0.0062,
+    0.517
+   ],
+   "r41_parent_bone": "anat_femur_right",
+   "kind": "skin projection",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.femur.KNEE_LATERAL_EPICONDYLE.R",
+   "label": "KNEE_LATERAL_EPICONDYLE",
+   "side": "R",
+   "r41_native_candidate": "LM_femur_right__epicondyle_lateral_skin",
+   "r41_world_m": [
+    -0.1446,
+    -0.004,
+    0.517
+   ],
+   "r41_parent_bone": "anat_femur_right",
+   "kind": "skin projection",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.tibia.ANKLE_MEDIAL_MALLEOLUS.R",
+   "label": "ANKLE_MEDIAL_MALLEOLUS",
+   "side": "R",
+   "r41_native_candidate": "LM_tibia_right__malleolus_medial_skin",
+   "r41_world_m": [
+    -0.054,
+    0.0058,
+    0.078
+   ],
+   "r41_parent_bone": "anat_tibia_right",
+   "kind": "skin projection",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.fibula.ANKLE_LATERAL_MALLEOLUS.R",
+   "label": "ANKLE_LATERAL_MALLEOLUS",
+   "side": "R",
+   "r41_native_candidate": "LM_tibia_right__malleolus_lateral_skin",
+   "r41_world_m": [
+    -0.1311,
+    0.0026,
+    0.078
+   ],
+   "r41_parent_bone": "anat_tibia_right",
+   "kind": "skin projection",
+   "derivable_from": null,
+   "status": "NATIVE_CANDIDATE_UNVERIFIED"
+  },
+  {
+   "requirement_id": "hgpt.landmark.foot.CALCANEUS.R",
+   "label": "CALCANEUS",
+   "side": "R",
+   "r41_native_candidate": null,
+   "r41_world_m": null,
+   "r41_parent_bone": null,
+   "kind": null,
+   "derivable_from": "anat_calcaneus bone (posterior point not marked)",
+   "status": "MISSING"
+  },
+  {
+   "requirement_id": "hgpt.landmark.foot.METATARSAL_II_HEAD.R",
+   "label": "METATARSAL_II_HEAD",
+   "side": "R",
+   "r41_native_candidate": null,
+   "r41_world_m": null,
+   "r41_parent_bone": null,
+   "kind": null,
+   "derivable_from": "anat metatarsal 2 bone (head not marked)",
+   "status": "MISSING"
+  },
+  {
+   "requirement_id": "hgpt.landmark.foot.HALLUX_MTP.R",
+   "label": "HALLUX_MTP",
+   "side": "R",
+   "r41_native_candidate": null,
+   "r41_world_m": null,
+   "r41_parent_bone": null,
+   "kind": null,
+   "derivable_from": "HGPT_JOINT_mtp_1_<side> joint object",
+   "status": "MISSING"
+  }
+ ]
+}

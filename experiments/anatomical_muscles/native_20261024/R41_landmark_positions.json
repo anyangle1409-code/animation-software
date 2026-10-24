@@ -1,0 +1,665 @@
+{
+ "LM_clavicle_left__AC": {
+  "world": [
+   0.2407,
+   0.0256,
+   1.4975
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_clavicle_left",
+  "props": {
+   "hgpt_landmark_id": "clavicle_left/AC"
+  }
+ },
+ "LM_clavicle_left__SC": {
+  "world": [
+   0.025,
+   -0.0279,
+   1.5142
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_clavicle_left",
+  "props": {
+   "hgpt_landmark_id": "clavicle_left/SC"
+  }
+ },
+ "LM_clavicle_right__AC": {
+  "world": [
+   -0.2407,
+   0.0256,
+   1.4975
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_clavicle_right",
+  "props": {
+   "hgpt_landmark_id": "clavicle_right/AC"
+  }
+ },
+ "LM_clavicle_right__SC": {
+  "world": [
+   -0.025,
+   -0.0279,
+   1.5142
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_clavicle_right",
+  "props": {
+   "hgpt_landmark_id": "clavicle_right/SC"
+  }
+ },
+ "LM_femur_left__epicondyle_lateral_skin": {
+  "world": [
+   0.1446,
+   -0.004,
+   0.517
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_femur_left",
+  "props": {
+   "hgpt_landmark_id": "femur_left/epicondyle_lateral_skin"
+  }
+ },
+ "LM_femur_left__epicondyle_medial_skin": {
+  "world": [
+   0.0362,
+   -0.0062,
+   0.517
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_femur_left",
+  "props": {
+   "hgpt_landmark_id": "femur_left/epicondyle_medial_skin"
+  }
+ },
+ "LM_femur_left__KJC": {
+  "world": [
+   0.0904,
+   -0.011,
+   0.517
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_femur_left",
+  "props": {
+   "hgpt_landmark_id": "femur_left/KJC"
+  }
+ },
+ "LM_femur_right__epicondyle_lateral_skin": {
+  "world": [
+   -0.1446,
+   -0.004,
+   0.517
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_femur_right",
+  "props": {
+   "hgpt_landmark_id": "femur_right/epicondyle_lateral_skin"
+  }
+ },
+ "LM_femur_right__epicondyle_medial_skin": {
+  "world": [
+   -0.0362,
+   -0.0062,
+   0.517
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_femur_right",
+  "props": {
+   "hgpt_landmark_id": "femur_right/epicondyle_medial_skin"
+  }
+ },
+ "LM_femur_right__KJC": {
+  "world": [
+   -0.0904,
+   -0.011,
+   0.517
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_femur_right",
+  "props": {
+   "hgpt_landmark_id": "femur_right/KJC"
+  }
+ },
+ "LM_frontal__chin_skin": {
+  "world": [
+   0.0,
+   -0.1056,
+   1.6212
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_frontal",
+  "props": {
+   "hgpt_landmark_id": "frontal/chin_skin"
+  }
+ },
+ "LM_frontal__nasion_skin": {
+  "world": [
+   0.0,
+   -0.1055,
+   1.7118
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_frontal",
+  "props": {
+   "hgpt_landmark_id": "frontal/nasion_skin"
+  }
+ },
+ "LM_frontal__vertex_skin": {
+  "world": [
+   -0.0,
+   0.0059,
+   1.82
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_frontal",
+  "props": {
+   "hgpt_landmark_id": "frontal/vertex_skin"
+  }
+ },
+ "LM_hip_bone_left__asis_skin": {
+  "world": [
+   0.1083,
+   -0.075,
+   1.001
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_hip_bone_left",
+  "props": {
+   "hgpt_landmark_id": "hip_bone_left/asis_skin"
+  }
+ },
+ "LM_hip_bone_left__HJC": {
+  "world": [
+   0.0833,
+   -0.0193,
+   0.9297
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_hip_bone_left",
+  "props": {
+   "hgpt_landmark_id": "hip_bone_left/HJC"
+  }
+ },
+ "LM_hip_bone_left__trochanterion_skin": {
+  "world": [
+   0.1715,
+   0.0234,
+   0.86
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_hip_bone_left",
+  "props": {
+   "hgpt_landmark_id": "hip_bone_left/trochanterion_skin"
+  }
+ },
+ "LM_hip_bone_right__asis_skin": {
+  "world": [
+   -0.1083,
+   -0.075,
+   1.001
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_hip_bone_right",
+  "props": {
+   "hgpt_landmark_id": "hip_bone_right/asis_skin"
+  }
+ },
+ "LM_hip_bone_right__HJC": {
+  "world": [
+   -0.0833,
+   -0.0193,
+   0.9297
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_hip_bone_right",
+  "props": {
+   "hgpt_landmark_id": "hip_bone_right/HJC"
+  }
+ },
+ "LM_hip_bone_right__trochanterion_skin": {
+  "world": [
+   -0.1715,
+   0.0234,
+   0.86
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_hip_bone_right",
+  "props": {
+   "hgpt_landmark_id": "hip_bone_right/trochanterion_skin"
+  }
+ },
+ "LM_humerus_left__EJC": {
+  "world": [
+   0.215,
+   0.0278,
+   1.18
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_humerus_left",
+  "props": {
+   "hgpt_landmark_id": "humerus_left/EJC"
+  }
+ },
+ "LM_humerus_left__epicondyle_lateral_skin": {
+  "world": [
+   0.2595,
+   0.0273,
+   1.18
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_humerus_left",
+  "props": {
+   "hgpt_landmark_id": "humerus_left/epicondyle_lateral_skin"
+  }
+ },
+ "LM_humerus_left__epicondyle_medial_skin": {
+  "world": [
+   0.1706,
+   0.029,
+   1.18
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_humerus_left",
+  "props": {
+   "hgpt_landmark_id": "humerus_left/epicondyle_medial_skin"
+  }
+ },
+ "LM_humerus_left__styloid_radial_skin": {
+  "world": [
+   0.2152,
+   -0.0008,
+   0.919
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_humerus_left",
+  "props": {
+   "hgpt_landmark_id": "humerus_left/styloid_radial_skin"
+  }
+ },
+ "LM_humerus_left__styloid_ulnar_skin": {
+  "world": [
+   0.2165,
+   0.0589,
+   0.919
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_humerus_left",
+  "props": {
+   "hgpt_landmark_id": "humerus_left/styloid_ulnar_skin"
+  }
+ },
+ "LM_humerus_right__EJC": {
+  "world": [
+   -0.215,
+   0.0278,
+   1.18
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_humerus_right",
+  "props": {
+   "hgpt_landmark_id": "humerus_right/EJC"
+  }
+ },
+ "LM_humerus_right__epicondyle_lateral_skin": {
+  "world": [
+   -0.2595,
+   0.0273,
+   1.18
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_humerus_right",
+  "props": {
+   "hgpt_landmark_id": "humerus_right/epicondyle_lateral_skin"
+  }
+ },
+ "LM_humerus_right__epicondyle_medial_skin": {
+  "world": [
+   -0.1706,
+   0.029,
+   1.18
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_humerus_right",
+  "props": {
+   "hgpt_landmark_id": "humerus_right/epicondyle_medial_skin"
+  }
+ },
+ "LM_humerus_right__styloid_radial_skin": {
+  "world": [
+   -0.2152,
+   -0.0008,
+   0.919
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_humerus_right",
+  "props": {
+   "hgpt_landmark_id": "humerus_right/styloid_radial_skin"
+  }
+ },
+ "LM_humerus_right__styloid_ulnar_skin": {
+  "world": [
+   -0.2165,
+   0.0589,
+   0.919
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_humerus_right",
+  "props": {
+   "hgpt_landmark_id": "humerus_right/styloid_ulnar_skin"
+  }
+ },
+ "LM_radius_left__WJC": {
+  "world": [
+   0.2161,
+   0.029,
+   0.919
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_radius_left",
+  "props": {
+   "hgpt_landmark_id": "radius_left/WJC"
+  }
+ },
+ "LM_radius_right__WJC": {
+  "world": [
+   -0.2161,
+   0.029,
+   0.919
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_radius_right",
+  "props": {
+   "hgpt_landmark_id": "radius_right/WJC"
+  }
+ },
+ "LM_scapula_left__AA": {
+  "world": [
+   0.2577,
+   0.0606,
+   1.4995
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_scapula_left",
+  "props": {
+   "hgpt_landmark_id": "scapula_left/AA"
+  }
+ },
+ "LM_scapula_left__acromion_lateral_skin": {
+  "world": [
+   0.2627,
+   0.0256,
+   1.5095
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_scapula_left",
+  "props": {
+   "hgpt_landmark_id": "scapula_left/acromion_lateral_skin"
+  }
+ },
+ "LM_scapula_left__AI": {
+  "world": [
+   0.08,
+   0.14,
+   1.32
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_scapula_left",
+  "props": {
+   "hgpt_landmark_id": "scapula_left/AI"
+  }
+ },
+ "LM_scapula_left__GH": {
+  "world": [
+   0.2189,
+   0.0325,
+   1.4624
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_scapula_left",
+  "props": {
+   "hgpt_landmark_id": "scapula_left/GH"
+  }
+ },
+ "LM_scapula_left__TS": {
+  "world": [
+   0.052,
+   0.136,
+   1.44
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_scapula_left",
+  "props": {
+   "hgpt_landmark_id": "scapula_left/TS"
+  }
+ },
+ "LM_scapula_right__AA": {
+  "world": [
+   -0.2577,
+   0.0606,
+   1.4995
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_scapula_right",
+  "props": {
+   "hgpt_landmark_id": "scapula_right/AA"
+  }
+ },
+ "LM_scapula_right__acromion_lateral_skin": {
+  "world": [
+   -0.2627,
+   0.0256,
+   1.5095
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_scapula_right",
+  "props": {
+   "hgpt_landmark_id": "scapula_right/acromion_lateral_skin"
+  }
+ },
+ "LM_scapula_right__AI": {
+  "world": [
+   -0.08,
+   0.14,
+   1.32
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_scapula_right",
+  "props": {
+   "hgpt_landmark_id": "scapula_right/AI"
+  }
+ },
+ "LM_scapula_right__GH": {
+  "world": [
+   -0.2189,
+   0.0325,
+   1.4624
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_scapula_right",
+  "props": {
+   "hgpt_landmark_id": "scapula_right/GH"
+  }
+ },
+ "LM_scapula_right__TS": {
+  "world": [
+   -0.052,
+   0.136,
+   1.44
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_scapula_right",
+  "props": {
+   "hgpt_landmark_id": "scapula_right/TS"
+  }
+ },
+ "LM_sternum__ij_skin": {
+  "world": [
+   0.0,
+   -0.0429,
+   1.5192
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_sternum",
+  "props": {
+   "hgpt_landmark_id": "sternum/ij_skin"
+  }
+ },
+ "LM_sternum__px_skin": {
+  "world": [
+   -0.0024,
+   -0.111,
+   1.3161
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_sternum",
+  "props": {
+   "hgpt_landmark_id": "sternum/px_skin"
+  }
+ },
+ "LM_tibia_left__AJC": {
+  "world": [
+   0.0925,
+   0.0017,
+   0.078
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_tibia_left",
+  "props": {
+   "hgpt_landmark_id": "tibia_left/AJC"
+  }
+ },
+ "LM_tibia_left__malleolus_lateral_skin": {
+  "world": [
+   0.1311,
+   0.0026,
+   0.078
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_tibia_left",
+  "props": {
+   "hgpt_landmark_id": "tibia_left/malleolus_lateral_skin"
+  }
+ },
+ "LM_tibia_left__malleolus_medial_skin": {
+  "world": [
+   0.054,
+   0.0058,
+   0.078
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_tibia_left",
+  "props": {
+   "hgpt_landmark_id": "tibia_left/malleolus_medial_skin"
+  }
+ },
+ "LM_tibia_left__tibial_plateau": {
+  "world": [
+   0.0904,
+   -0.011,
+   0.49
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_tibia_left",
+  "props": {
+   "hgpt_landmark_id": "tibia_left/tibial_plateau"
+  }
+ },
+ "LM_tibia_right__AJC": {
+  "world": [
+   -0.0925,
+   0.0017,
+   0.078
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_tibia_right",
+  "props": {
+   "hgpt_landmark_id": "tibia_right/AJC"
+  }
+ },
+ "LM_tibia_right__malleolus_lateral_skin": {
+  "world": [
+   -0.1311,
+   0.0026,
+   0.078
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_tibia_right",
+  "props": {
+   "hgpt_landmark_id": "tibia_right/malleolus_lateral_skin"
+  }
+ },
+ "LM_tibia_right__malleolus_medial_skin": {
+  "world": [
+   -0.054,
+   0.0058,
+   0.078
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_tibia_right",
+  "props": {
+   "hgpt_landmark_id": "tibia_right/malleolus_medial_skin"
+  }
+ },
+ "LM_tibia_right__tibial_plateau": {
+  "world": [
+   -0.0904,
+   -0.011,
+   0.49
+  ],
+  "parent": "HGPT_ANATOMICAL_MASTER",
+  "parent_type": "BONE",
+  "parent_bone": "anat_tibia_right",
+  "props": {
+   "hgpt_landmark_id": "tibia_right/tibial_plateau"
+  }
+ }
+}

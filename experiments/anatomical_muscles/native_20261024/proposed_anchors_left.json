@@ -1,0 +1,889 @@
+{
+ "status": "proposal_only",
+ "blender_version": "5.2.1 LTS",
+ "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+ "source_unchanged": true,
+ "side": "left",
+ "proposals": {
+  "hgpt.muscle.deltoid_anterior.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_clavicle_left",
+     "local_m": [
+      0.007743,
+      0.176367,
+      -0.000599
+     ],
+     "world_rest_m": [
+      0.19756,
+      0.00687,
+      1.50082
+     ],
+     "rule": "anterior border, lateral third of clavicle: 80 % SC->AC, 8 mm anterior"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_humerus_left",
+     "local_m": [
+      -0.011999,
+      0.126959,
+      3e-06
+     ],
+     "world_rest_m": [
+      0.22917,
+      0.03038,
+      1.33534
+     ],
+     "rule": "deltoid tuberosity: 45 % GH->EJC, 12 mm lateral"
+    }
+   ],
+   "rest_straight_length_m": 0.1701,
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.deltoid_middle.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_scapula_left",
+     "local_m": [
+      -0.025766,
+      -0.050583,
+      -0.046175
+     ],
+     "world_rest_m": [
+      0.2559,
+      0.04657,
+      1.49868
+     ],
+     "rule": "lateral margin of acromion: 40 % AA->AC, 5 mm lateral"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_humerus_left",
+     "local_m": [
+      -0.011999,
+      0.126959,
+      3e-06
+     ],
+     "world_rest_m": [
+      0.22917,
+      0.03038,
+      1.33534
+     ],
+     "rule": "deltoid tuberosity"
+    }
+   ],
+   "rest_straight_length_m": 0.1663,
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.deltoid_posterior.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_scapula_left",
+     "local_m": [
+      0.005378,
+      0.017102,
+      -0.048793
+     ],
+     "world_rest_m": [
+      0.19599,
+      0.0832,
+      1.47364
+     ],
+     "rule": "inferior lip of the spine of the scapula: 70 % TS->AA, 8 mm below"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_humerus_left",
+     "local_m": [
+      -0.011999,
+      0.126959,
+      3e-06
+     ],
+     "world_rest_m": [
+      0.22917,
+      0.03038,
+      1.33534
+     ],
+     "rule": "deltoid tuberosity"
+    }
+   ],
+   "rest_straight_length_m": 0.1517,
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.supraspinatus.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_scapula_left",
+     "local_m": [
+      0.078508,
+      0.067138,
+      -0.054322
+     ],
+     "world_rest_m": [
+      0.11371,
+      0.11337,
+      1.48784
+     ],
+     "rule": "supraspinous fossa, medial two-thirds: 30 % TS->AA, 30 mm above the spine"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_humerus_left",
+     "local_m": [
+      -0.021833,
+      -0.012299,
+      0.000203
+     ],
+     "world_rest_m": [
+      0.24091,
+      0.03248,
+      1.47443
+     ],
+     "rule": "greater tubercle, superior facet: GH + 22 mm lateral, 12 mm up"
+    }
+   ],
+   "rest_straight_length_m": 0.1513,
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.infraspinatus.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_scapula_left",
+     "local_m": [
+      0.043963,
+      0.135085,
+      -0.027487
+     ],
+     "world_rest_m": [
+      0.09562,
+      0.12476,
+      1.40991
+     ],
+     "rule": "infraspinous fossa: centroid of TS, AI and mid-spine"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_humerus_left",
+     "local_m": [
+      -0.021998,
+      -0.000467,
+      -0.009994
+     ],
+     "world_rest_m": [
+      0.24091,
+      0.04248,
+      1.46243
+     ],
+     "rule": "greater tubercle, middle facet: GH + 22 mm lateral, 10 mm posterior"
+    }
+   ],
+   "rest_straight_length_m": 0.175,
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.teres_major.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_scapula_left",
+     "local_m": [
+      -0.009372,
+      0.205259,
+      -0.003806
+     ],
+     "world_rest_m": [
+      0.092,
+      0.14,
+      1.32
+     ],
+     "rule": "dorsal surface of the inferior angle: AI + 12 mm lateral"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_humerus_left",
+     "local_m": [
+      0.005999,
+      0.056746,
+      0.009997
+     ],
+     "world_rest_m": [
+      0.21214,
+      0.02155,
+      1.40594
+     ],
+     "rule": "medial lip of the intertubercular sulcus: 20 % GH->EJC, anterior-medial"
+    }
+   ],
+   "rest_straight_length_m": 0.1893,
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.latissimus_dorsi.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_t9",
+     "local_m": [
+      0.0,
+      0.001595,
+      -0.039968
+     ],
+     "world_rest_m": [
+      0.0,
+      0.11573,
+      1.33355
+     ],
+     "rule": "spinous processes T7-L5 / thoracolumbar fascia (represented at T9 spinous; broad origin - a fan is required)"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_humerus_left",
+     "local_m": [
+      0.0,
+      0.042572,
+      0.011998
+     ],
+     "world_rest_m": [
+      0.21833,
+      0.01978,
+      1.42007
+     ],
+     "rule": "floor of the intertubercular sulcus: 15 % GH->EJC, 12 mm anterior"
+    }
+   ],
+   "rest_straight_length_m": 0.2537,
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.pectoralis_major_clavicular.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_clavicle_left",
+     "local_m": [
+      0.007743,
+      0.064937,
+      -0.000599
+     ],
+     "world_rest_m": [
+      0.08971,
+      -0.01989,
+      1.50916
+     ],
+     "rule": "anterior surface, medial half of clavicle: 30 % SC->AC"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_humerus_left",
+     "local_m": [
+      -0.005999,
+      0.050965,
+      0.012
+     ],
+     "world_rest_m": [
+      0.22422,
+      0.01964,
+      1.41159
+     ],
+     "rule": "lateral lip of the intertubercular sulcus: 18 % GH->EJC"
+    }
+   ],
+   "rest_straight_length_m": 0.1708,
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.pectoralis_major_sternocostal.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_sternum",
+     "local_m": [
+      -0.013784,
+      0.110732,
+      0.012856
+     ],
+     "world_rest_m": [
+      0.01378,
+      -0.07697,
+      1.41764
+     ],
+     "rule": "anterior sternum and costal cartilages 1-6: mid-sternum, 15 mm lateral (broad origin - a fan is required)"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_humerus_left",
+     "local_m": [
+      -0.005999,
+      0.056615,
+      0.012
+     ],
+     "world_rest_m": [
+      0.22414,
+      0.01955,
+      1.40594
+     ],
+     "rule": "lateral lip of the intertubercular sulcus, below the clavicular head"
+    }
+   ],
+   "rest_straight_length_m": 0.2317,
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.biceps_brachii_long.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_scapula_left",
+     "local_m": [
+      -0.007032,
+      -0.026906,
+      -0.015862
+     ],
+     "world_rest_m": [
+      0.21891,
+      0.03248,
+      1.48243
+     ],
+     "rule": "supraglenoid tubercle: 20 mm above the GH centre (tendon runs in the intertubercular groove)"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_radius_left",
+     "local_m": [
+      0.0,
+      0.031594,
+      0.007969
+     ],
+     "world_rest_m": [
+      0.22828,
+      0.0171,
+      1.14428
+     ],
+     "rule": "radial tuberosity: 12 % along the radius, 8 mm anterior"
+    }
+   ],
+   "rest_straight_length_m": 0.3386,
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.biceps_brachii_short.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_scapula_left",
+     "local_m": [
+      0.002341,
+      -0.024653,
+      0.020291
+     ],
+     "world_rest_m": [
+      0.19891,
+      0.00248,
+      1.47243
+     ],
+     "rule": "coracoid process tip (no native PC landmark): GH + 30 mm anterior, 20 mm medial, 10 mm up"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_radius_left",
+     "local_m": [
+      0.0,
+      0.031594,
+      0.007969
+     ],
+     "world_rest_m": [
+      0.22828,
+      0.0171,
+      1.14428
+     ],
+     "rule": "radial tuberosity"
+    }
+   ],
+   "rest_straight_length_m": 0.3298,
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.brachialis.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_humerus_left",
+     "local_m": [
+      0.0,
+      0.155538,
+      0.009999
+     ],
+     "world_rest_m": [
+      0.21678,
+      0.01992,
+      1.30709
+     ],
+     "rule": "distal half of the anterior humerus: 55 % GH->EJC, 10 mm anterior"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_ulna_left",
+     "local_m": [
+      0.0,
+      0.019617,
+      0.009952
+     ],
+     "world_rest_m": [
+      0.20779,
+      0.01983,
+      1.15452
+     ],
+     "rule": "ulnar tuberosity / coronoid: 8 % along the ulna, 10 mm anterior"
+    }
+   ],
+   "rest_straight_length_m": 0.1528,
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.triceps_long.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_scapula_left",
+     "local_m": [
+      -0.035139,
+      0.00743,
+      -0.004906
+     ],
+     "world_rest_m": [
+      0.21891,
+      0.04048,
+      1.43743
+     ],
+     "rule": "infraglenoid tubercle: 25 mm below, 8 mm posterior to GH"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_ulna_left",
+     "local_m": [
+      -0.008178,
+      -0.002535,
+      -0.022354
+     ],
+     "world_rest_m": [
+      0.21504,
+      0.04982,
+      1.18
+     ],
+     "rule": "olecranon: 22 mm posterior to the elbow joint centre"
+    }
+   ],
+   "rest_straight_length_m": 0.2576,
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.triceps_lateral.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_humerus_left",
+     "local_m": [
+      -0.007999,
+      0.084474,
+      -0.009997
+     ],
+     "world_rest_m": [
+      0.22575,
+      0.04108,
+      1.3777
+     ],
+     "rule": "posterior humerus above the radial groove: 30 % GH->EJC"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_ulna_left",
+     "local_m": [
+      -0.008178,
+      -0.002535,
+      -0.022354
+     ],
+     "world_rest_m": [
+      0.21504,
+      0.04982,
+      1.18
+     ],
+     "rule": "olecranon"
+    }
+   ],
+   "rest_straight_length_m": 0.1982,
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.triceps_medial.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_humerus_left",
+     "local_m": [
+      0.004,
+      0.169387,
+      -0.01
+     ],
+     "world_rest_m": [
+      0.21259,
+      0.03968,
+      1.29297
+     ],
+     "rule": "posterior humerus below the radial groove: 60 % GH->EJC"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_ulna_left",
+     "local_m": [
+      -0.008178,
+      -0.002535,
+      -0.022354
+     ],
+     "world_rest_m": [
+      0.21504,
+      0.04982,
+      1.18
+     ],
+     "rule": "olecranon"
+    }
+   ],
+   "rest_straight_length_m": 0.1135,
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.brachioradialis.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_humerus_left",
+     "local_m": [
+      -0.014999,
+      0.211666,
+      3e-06
+     ],
+     "world_rest_m": [
+      0.23101,
+      0.02898,
+      1.25061
+     ],
+     "rule": "lateral supracondylar ridge: 75 % GH->EJC, 15 mm lateral"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_radius_left",
+     "local_m": [
+      -0.003993,
+      0.249467,
+      2e-05
+     ],
+     "world_rest_m": [
+      0.21985,
+      0.00584,
+      0.92668
+     ],
+     "rule": "radial styloid base: 97 % along the radius"
+    }
+   ],
+   "rest_straight_length_m": 0.3249,
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.trapezius_upper.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_c4",
+     "local_m": [
+      0.0,
+      -0.007125,
+      -0.03936
+     ],
+     "world_rest_m": [
+      0.0,
+      0.06375,
+      1.61797
+     ],
+     "rule": "ligamentum nuchae / C1-C6 (represented at C4 spinous)"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_clavicle_left",
+     "local_m": [
+      -0.007743,
+      0.180208,
+      0.000599
+     ],
+     "world_rest_m": [
+      0.19756,
+      0.02287,
+      1.50082
+     ],
+     "rule": "posterior border, lateral third of clavicle"
+    }
+   ],
+   "rest_straight_length_m": 0.2333,
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.trapezius_middle.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_t2",
+     "local_m": [
+      0.0,
+      -0.015001,
+      -0.037081
+     ],
+     "world_rest_m": [
+      0.0,
+      0.08816,
+      1.51917
+     ],
+     "rule": "spinous processes C7-T3 (represented at T2)"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_scapula_left",
+     "local_m": [
+      -0.023549,
+      -0.048343,
+      -0.061106
+     ],
+     "world_rest_m": [
+      0.2577,
+      0.06057,
+      1.50448
+     ],
+     "rule": "acromion medial margin / superior lip of the spine (at AA)"
+    }
+   ],
+   "rest_straight_length_m": 0.2596,
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.trapezius_lower.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_t9",
+     "local_m": [
+      0.0,
+      0.001595,
+      -0.039968
+     ],
+     "world_rest_m": [
+      0.0,
+      0.11573,
+      1.33355
+     ],
+     "rule": "spinous processes T4-T12 (represented at T9)"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_scapula_left",
+     "local_m": [
+      0.089008,
+      0.138639,
+      -0.038438
+     ],
+     "world_rest_m": [
+      0.062,
+      0.136,
+      1.44
+     ],
+     "rule": "root of the spine of the scapula (TS + 10 mm lateral)"
+    }
+   ],
+   "rest_straight_length_m": 0.1248,
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.serratus_anterior.L": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_rib_05_left",
+     "local_m": [
+      -0.0,
+      0.119192,
+      -0.0
+     ],
+     "world_rest_m": [
+      0.04146,
+      -0.02663,
+      1.41113
+     ],
+     "rule": "lateral surfaces of ribs 1-8/9 (represented at rib 5, 55 % along; digitations required)"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_scapula_left",
+     "local_m": [
+      0.048409,
+      0.172789,
+      -0.009019
+     ],
+     "world_rest_m": [
+      0.066,
+      0.128,
+      1.38
+     ],
+     "rule": "costal surface of the medial border: mid TS->AI, 10 mm anterior"
+    }
+   ],
+   "rest_straight_length_m": 0.1596,
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "left",
+   "anatomical_side_x_sign": 1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  }
+ }
+}

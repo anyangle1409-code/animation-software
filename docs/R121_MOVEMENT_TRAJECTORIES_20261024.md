@@ -388,3 +388,27 @@ The curl and squat are unchanged: the key is off at their joint combinations. Re
     there is no thorax-contact check yet.
 - **ISB landmarks:** still unbound (Work's gate). The axes here are thorax-frame constructions, not calibrated ISB
   segment frames.
+
+## Tried, not adopted: tangential skin slide in the arm keys (J3)
+
+**What was tried.** The arm (sideways and forward) keys were re-authored on I12 with an extra step, `V2_R121_ARMKEY_SLIDE=30`:
+- 30 passes of Laplacian relaxation restricted to the surface tangent plane, on the upper body.
+- The aim was to even out the skin stretch at lockout.
+- The combination key was then rebuilt and the full trajectories re-run.
+
+**Result (I12 → J3).**
+
+| Measure | I12 | J3 |
+|---|---|---|
+| Press, folds over 90° | 137 | 124 |
+| Press, shoulder crumple | 984 | 802 |
+| Press, edges stretched over 2× | 7361 | 8297 |
+| Press, edge-length p99 | 1.94 | 1.99 |
+| Press, elbow folds | 20 | 65 |
+| Press, self-intersections | 25 | 61 |
+| Squat, self-intersections | 30 | 2 |
+
+The slide made the skin smoother but more unevenly stretched: Laplacian smoothing evens out vertex positions, not edge
+lengths. It is not adopted. I12 remains the current best.
+
+The option stays in the script (default off). Report: `report_TT_J3_slide_not_adopted.json`.

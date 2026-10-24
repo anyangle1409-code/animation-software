@@ -229,6 +229,12 @@ jobs:
             --w8 "${{ runner.temp }}/native/W8" \
             --rig "${{ runner.temp }}/native/rig-W8/W8/rig_rest_axes_metadata.json" \
             --out phone-native-localization
+      - name: Audit fixed-rest W8 elbow-region mesh edge continuity (not anatomical strain)
+        run: |
+          python scripts/cloud_body_analysis/elbow_edge_continuity.py \
+            --w8 "${{ runner.temp }}/native/W8" \
+            --rig "${{ runner.temp }}/native/rig-W8/W8/rig_rest_axes_metadata.json" \
+            --out phone-native-localization
       - name: Localize native failures in previously saved exact frames
         run: |
           python scripts/cloud_body_analysis/localize_failures.py \

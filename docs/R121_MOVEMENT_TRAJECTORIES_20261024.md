@@ -429,3 +429,14 @@ tissue is compressed only where the forearm touches.
 
 **Next test.** `V2_R121_CONTACT_FOOTPRINT=<tol>` flattens each side only where the other side actually reaches the
 contact plane. The run is in progress.
+
+**Footprint, first run (K1, 4 mm slab).**
+
+- **Renders.** At 120° the exposed flat triangle is mostly gone, and the biceps stays rounder
+  (`elbow_I12_vs_footprint4mm.jpg`). 140° is little changed.
+- **Curl metrics.** Elbow crumple falls from 377 to 308, but self-intersections rise from **0 to 968**. The footprint
+  counted only forearm skin within 4 mm of the plane, so the unflattened biceps passed into the forearm's side walls.
+- **Press.** Unchanged.
+- **Verdict.** Not adopted as is. Report: `report_TT_K1_footprint4mm.json`.
+- **Next.** Re-running with the footprint taken as the forearm's silhouette, from skin within a 30 mm slab
+  (`V2_R121_CONTACT_FOOTPRINT_SLAB=0.030`).

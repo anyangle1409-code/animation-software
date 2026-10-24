@@ -185,6 +185,7 @@ POLYS = [p.vertices[:] for p in me.polygons]
 BULGE = float(os.environ.get("V2_R121_CONTACT_BULGE", "0"))   # sideways bulge per unit flattening depth
 SOFT = float(os.environ.get("V2_R121_CONTACT_SOFT", "0"))     # width (m) of the rounded lip band beside the contact face
 FOOT = float(os.environ.get("V2_R121_CONTACT_FOOTPRINT", "0"))  # >0: flatten only inside the other side's footprint (tol m)
+FOOT_SLAB = float(os.environ.get("V2_R121_CONTACT_FOOTPRINT_SLAB", "0.004"))  # footprint = other side's skin this near the plane
 
 
 def contact(T, margin=0.0008):
@@ -215,8 +216,8 @@ def contact(T, margin=0.0008):
             from scipy.spatial import cKDTree                  # the other side actually reaches the plane, so the
             hx_ = np.array(fb.x_axis.normalized())             # wider biceps is not cut flat beyond the forearm
             uv = np.c_[r @ hx_, r @ b]
-            near_u = up_side & inner & (h < margin + 0.004)
-            near_f = fo_side & inner & (h > -margin - 0.004)
+            near_u = up_side & inner & (h < margin + FOOT_SLAB)
+            near_f = fo_side & inner & (h > -margin - FOOT_SLAB)
             du, _ = cKDTree(uv[near_f]).query(uv[cu])
             df, _ = cKDTree(uv[near_u]).query(uv[cf])
             cu[np.flatnonzero(cu)[du > FOOT]] = False

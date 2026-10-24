@@ -130,7 +130,9 @@ def main():
     import original_v1_review_candidate_drives as drives
     import original_v1_press_extension as press_extension
     from fixed_measurement_triangles import freeze_evaluated
-    from corrective_edge_isolation import measure as isolate_edges, markdown as isolation_markdown
+    from corrective_edge_isolation import (measure as isolate_edges, markdown as isolation_markdown,
+                                           adjacent_controls, EDGES)
+    import numpy as np
 
     if adapter.candidate_name(digest(source)) != "W8":
         raise ValueError("W8 registry mismatch")
@@ -151,6 +153,9 @@ def main():
     original_eval = bench._evaluated
     original_metric = bench.frame_metrics
     captures = []
+    neighborhood = [None]
+    snapshot_dir = a.out.parent / '_phone-control-snapshots'
+    snapshot_dir.mkdir(parents=True, exist_ok=False)
     index = [0]
     def native_triangles(ob):
         ev = ob.evaluated_get(bpy.context.evaluated_depsgraph_get())
@@ -180,9 +185,25 @@ def main():
         metric = original_metric(V0, V, F, dom, rest_floor)
         target = bench.PRESS["ht_start"] + (bench.PRESS["ht_end"] - bench.PRESS["ht_start"]) * bench.smooth(i / 8)
         snapshot = recorded_pose(rig, body, drives, i, target)
+        if neighborhood[0] is None:
+            neighborhood[0] = adjacent_controls(F)
+        control_edges = sorted({tuple(e) for group in neighborhood[0] for e in group['control_edges']})
+        def save_snapshot(condition, vertices, faces):
+            if i in (0, 6) and condition in ('observed', 'S5_muted', 'S7_muted', 'all_nonbasis_keys_muted'):
+                np.savez_compressed(snapshot_dir / f'sample{i:02d}__{condition}.npz',
+                                    vertices=np.asarray(vertices, dtype=np.float64),
+                                    faces=np.asarray(faces, dtype=np.int64),
+                                    focus_ids=sorted({v for edge in EDGES for v in edge}),
+                                    source_sha256=W8_SHA256)
         snapshot["corrective_edge_isolation"] = isolate_edges(
             body, lambda: bench._evaluated(body), refresh_keys,
-            skeletal_pose_signature, V0, V, F)
+            skeletal_pose_signature, V0, V, F, edges=(*EDGES, *control_edges),
+            snapshot_sink=save_snapshot)
+        isolation = snapshot['corrective_edge_isolation']
+        isolation['adjacent_control_selection'] = neighborhood[0]
+        for edge in isolation['edges']:
+            edge['edge_role'] = ('ranked_seed' if tuple(edge['vertex_ids']) in EDGES
+                                 else 'adjacent_topology_control')
         snapshot["actual_native_deformation_metrics"] = {
             name: metric[name] for name in
             ("collapse_lt_0_1", "stretch_gt_2", "self_intersecting_pairs", "body_volume_change_pct")

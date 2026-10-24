@@ -76,6 +76,28 @@ class CorrectiveIsolationTests(unittest.TestCase):
             self.run_probe(broken)
         self.assertEqual([(k.value, k.mute) for k in self.keys], before)
 
+    def test_snapshot_sink_receives_actual_condition_geometry(self):
+        seen = {}
+        baseline, faces = self.evaluate()
+        self.mod.measure(self.body, self.evaluate, lambda: None, lambda: self.pose,
+                         self.rest, baseline, faces, edges=((0, 1),),
+                         snapshot_sink=lambda name, v, f: seen.update({name: v[1][0]}))
+        self.assertEqual(seen['observed'], 1.75)
+        self.assertEqual(seen['S7_muted'], 1.25)
+        self.assertEqual(seen['K1_muted'], 1.5)
+        self.assertEqual(len(seen), 7)
+
+    def test_snapshot_sink_failure_restores_original_mutes(self):
+        baseline, faces = self.evaluate()
+        before = [k.mute for k in self.keys]
+        def fail(name, vertices, triangles):
+            if name == 'S7_muted':
+                raise RuntimeError('snapshot write failed')
+        with self.assertRaisesRegex(RuntimeError, 'snapshot write failed'):
+            self.mod.measure(self.body, self.evaluate, lambda: None, lambda: self.pose,
+                             self.rest, baseline, faces, edges=((0, 1),), snapshot_sink=fail)
+        self.assertEqual([k.mute for k in self.keys], before)
+
     def test_rejects_topology_change_and_restores(self):
         before = [k.mute for k in self.keys]
         def changed():

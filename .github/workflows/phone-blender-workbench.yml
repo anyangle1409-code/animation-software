@@ -32,12 +32,14 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y libegl1 libgl1 libxrender1 libxi6 libxkbcommon0 xvfb
-          python -m pip install bpy==5.2.0 numpy scipy
+          python -m pip install bpy==5.2.0 numpy scipy pillow
       - name: Verify unchanged reference code revision and pose report tests
         run: |
           test "$(git -C _r57 rev-parse HEAD)" = "025d5f28fa7eba2064fba565b1c9b60119cdd2cb"
           python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_pose_state_probe.py -v
           python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_corrective_edge_isolation.py -v
+          python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_adjacent_edge_controls.py -v
+          python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_native_control_views.py -v
       - name: Retrieve immutable W8 reconstruction
         uses: actions/download-artifact@v4
         with:
@@ -51,6 +53,11 @@ jobs:
             --source-dir "${{ runner.temp }}/W8" \
             --r57-root "$GITHUB_WORKSPACE/_r57" \
             --out "$GITHUB_WORKSPACE/phone-pose-probe"
+      - name: Render frozen native corrective comparisons in a separate process
+        run: |
+          python scripts/phone_blender/native_control_views.py \
+            --snapshots "$GITHUB_WORKSPACE/_phone-control-snapshots" \
+            --out "$GITHUB_WORKSPACE/phone-pose-probe/control_views"
       - name: Preserve observed W8 pose-state evidence
         if: always()
         uses: actions/upload-artifact@v4

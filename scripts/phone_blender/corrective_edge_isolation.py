@@ -12,6 +12,41 @@ FAMILY_PREFIXES = {'S7_muted': 'HGPT_S7_DELT_', 'K1_muted': 'HGPT_K1_ELBOW_',
 VARIANTS = (*FAMILY_PREFIXES, 'all_nonbasis_keys_muted')
 
 
+def adjacent_controls(faces, seeds=EDGES):
+    """Other edges of triangles containing an entire seed; no anatomy inferred."""
+    canonical = []
+    for edge in seeds:
+        if (len(edge) != 2 or any(type(i) is not int or i < 0 for i in edge)
+                or edge[0] == edge[1]):
+            raise ValueError('invalid seed edge')
+        key = tuple(sorted(edge))
+        if key in canonical:
+            raise ValueError('duplicate seed edge')
+        canonical.append(key)
+    found = {edge: [] for edge in canonical}
+    triangles = set()
+    for face in faces:
+        if (len(face) != 3 or len(set(face)) != 3
+                or any(type(i) is not int or i < 0 for i in face)):
+            raise ValueError('invalid triangle')
+        key = tuple(sorted(face))
+        if key in triangles:
+            raise ValueError('duplicate triangle')
+        triangles.add(key)
+        for edge in canonical:
+            if set(edge).issubset(face):
+                found[edge].append(tuple(face))
+    result = []
+    for edge, incident in found.items():
+        if not incident:
+            raise ValueError('missing seed from frozen triangle topology')
+        controls = {tuple(sorted((f[i], f[j]))) for f in incident
+                    for i, j in ((0, 1), (1, 2), (2, 0))} - set(canonical)
+        result.append({'seed_vertex_ids': list(edge), 'incident_triangle_count': len(incident),
+                       'control_edges': [list(e) for e in sorted(controls)]})
+    return result
+
+
 def _points(vertices, ids):
     result = {}
     for i in ids:
@@ -25,7 +60,7 @@ def _points(vertices, ids):
 
 
 def measure(body, evaluate, update, pose_signature, rest_vertices, observed_vertices,
-            observed_faces, edges=EDGES):
+            observed_faces, edges=EDGES, snapshot_sink=None):
     """evaluate() returns common-space vertices/faces; update() refreshes depsgraph.
 
     Caller supplies native observed/rest arrays and a full skeletal pose signature.
@@ -47,6 +82,8 @@ def measure(body, evaluate, update, pose_signature, rest_vertices, observed_vert
     state = [(key, bool(key.mute), float(key.value)) for key in keys]
     pose = pose_signature()
     measured = {'observed': observed}
+    if snapshot_sink is not None:
+        snapshot_sink('observed', observed_vertices, observed_faces)
     counts = {}
     try:
         for variant in VARIANTS:
@@ -64,6 +101,8 @@ def measure(body, evaluate, update, pose_signature, rest_vertices, observed_vert
                     or tuple(tuple(int(i) for i in f) for f in current_faces) != faces):
                 raise ValueError('evaluated topology changed')
             measured[variant] = _points(vertices, ids)
+            if snapshot_sink is not None:
+                snapshot_sink(variant, vertices, current_faces)
             if pose_signature() != pose:
                 raise ValueError('skeletal pose changed during key isolation')
     finally:
@@ -113,6 +152,8 @@ def markdown(samples):
              '|---|---|---:|---:|---:|---:|']
     for sample in samples:
         for row in sample['corrective_edge_isolation']['edges']:
+            if row.get('edge_role') == 'adjacent_topology_control':
+                continue
             values = row['length_ratios_to_benchmark_rest_NOT_strain']
             lines.append('| {} | {} | {:.6f} | {:.6f} | {:.6f} | {:.6f} |'.format(
                 sample['sample'], row['vertex_ids'], values['observed'],
@@ -122,6 +163,8 @@ def markdown(samples):
               '|---|---|---:|---:|---:|']
     for sample in samples:
         for row in sample['corrective_edge_isolation']['edges']:
+            if row.get('edge_role') == 'adjacent_topology_control':
+                continue
             values = row['length_ratios_to_benchmark_rest_NOT_strain']
             lines.append('| {} | {} | {:.6f} | {:.6f} | {:.6f} |'.format(
                 sample['sample'], row['vertex_ids'], values['S1_muted'],

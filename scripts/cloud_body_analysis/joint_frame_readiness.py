@@ -113,7 +113,7 @@ def audit(rom, landmarks, ledger, rig):
         required_ids = set()
         for seg in segments:
             for label in segment_specs[seg]["required_landmarks"]:
-                sides = ("MIDLINE",) if label.endswith(".MIDLINE") else (("L", "R") if scenario["side_scope"] == "both" else ("MIDLINE",))
+                sides = ("MIDLINE",) if label.endswith(".MIDLINE") else ("L", "R")
                 for side in sides:
                     full = expand_required_id(label, side)
                     if full not in by_id:

@@ -49,6 +49,7 @@ jobs:
           run-id: ${{ steps.source.outputs.source_run_id }}
           github-token: ${{ github.token }}
           path: ${{ runner.temp }}/snapshots
+          merge-multiple: true
       - name: Retrieve paired native pose and render manifest
         uses: actions/download-artifact@v4
         with:
@@ -56,6 +57,7 @@ jobs:
           run-id: ${{ steps.source.outputs.source_run_id }}
           github-token: ${{ github.token }}
           path: ${{ runner.temp }}/native-pose
+          merge-multiple: true
       - name: Verify all eight snapshot hashes before rendering
         run: |
           python scripts/control_snapshot_replay/verify.py \

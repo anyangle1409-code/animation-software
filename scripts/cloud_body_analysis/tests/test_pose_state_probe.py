@@ -75,6 +75,15 @@ class ShoulderPoseProbeTests(unittest.TestCase):
         self.assertEqual(output[1]["actual_value"], 0.4)
         self.assertEqual(keys[1].value, 0.4)
 
+    def test_records_actual_k1_elbow_activation_separately_by_suffix(self):
+        keys = [NS(name="Basis", value=0),
+                NS(name="HGPT_K1_ELBOW_l_90", value=0.37),
+                NS(name="HGPT_K1_ELBOW_r_90", value=0.72)]
+        body = NS(data=NS(shape_keys=NS(key_blocks=keys)))
+        self.assertEqual(probe.shape_key_state(body, "l"),
+                         [{"name": "HGPT_K1_ELBOW_l_90", "actual_value": 0.37}])
+        self.assertEqual(keys[1].value, 0.37)
+
     def test_quantified_target_separate_from_measured_angle(self):
         d = mock_report()
         d["samples"][8]["sides"]["l"]["humerothoracic_elevation_measured_by_pinned_driver_deg"] = 149.0

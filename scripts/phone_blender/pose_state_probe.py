@@ -16,7 +16,7 @@ W8_SHA256 = "2434afd0daa231ab3a03c873cad4187ffcbc1bab78132375221160b0b0f09e4c"
 R57_SHA = "025d5f28fa7eba2064fba565b1c9b60119cdd2cb"
 KEY_PREFIXES = ("HGPT_S1_SHOULDER_", "HGPT_S2_FOLD_", "HGPT_S3_SHAPE_",
                 "HGPT_S4_SCULPT_", "HGPT_S5_BAKE_", "HGPT_S6_RELAX_", "HGPT_S7_DELT_",
-                "HGPT_C1_ARMTRUNK_")
+                "HGPT_C1_ARMTRUNK_", "HGPT_K1_ELBOW_")
 
 def digest(path):
     with Path(path).open("rb") as f:
@@ -130,6 +130,7 @@ def main():
     import original_v1_review_candidate_drives as drives
     import original_v1_press_extension as press_extension
     from fixed_measurement_triangles import freeze_evaluated
+    from corrective_edge_isolation import measure as isolate_edges, markdown as isolation_markdown
 
     if adapter.candidate_name(digest(source)) != "W8":
         raise ValueError("W8 registry mismatch")
@@ -162,12 +163,26 @@ def main():
     bench._evaluated, tessellation = freeze_evaluated(original_eval, native_triangles)
     correction.build_corrected_scene = lambda: result
 
+    def skeletal_pose_signature():
+        return (tuple(float(x) for row in rig.matrix_world for x in row),
+                tuple((bone.name, tuple(float(x) for row in bone.matrix for x in row),
+                       tuple(float(x) for row in bone.matrix_basis for x in row))
+                      for bone in rig.pose.bones))
+
+    def refresh_keys():
+        body.data.update()
+        body.update_tag()
+        bpy.context.view_layer.update()
+
     def capture(V0, V, F, dom, rest_floor):
         i = index[0]
         index[0] += 1
         metric = original_metric(V0, V, F, dom, rest_floor)
         target = bench.PRESS["ht_start"] + (bench.PRESS["ht_end"] - bench.PRESS["ht_start"]) * bench.smooth(i / 8)
         snapshot = recorded_pose(rig, body, drives, i, target)
+        snapshot["corrective_edge_isolation"] = isolate_edges(
+            body, lambda: bench._evaluated(body), refresh_keys,
+            skeletal_pose_signature, V0, V, F)
         snapshot["actual_native_deformation_metrics"] = {
             name: metric[name] for name in
             ("collapse_lt_0_1", "stretch_gt_2", "self_intersecting_pairs", "body_volume_change_pct")
@@ -215,6 +230,8 @@ def main():
     a.out.mkdir(parents=True, exist_ok=False)
     (a.out / "w8_shoulder_driver_pose_state.json").write_text(
         json.dumps(data, indent=2) + "\n", encoding="utf-8")
+    (a.out / "w8_fixed_pose_corrective_edge_isolation.md").write_text(
+        isolation_markdown(captures), encoding="utf-8")
     print("W8_SHOULDER_DRIVER_ACTUAL_POSE_STATE_WRITTEN", len(captures), flush=True)
 
 if __name__ == "__main__":

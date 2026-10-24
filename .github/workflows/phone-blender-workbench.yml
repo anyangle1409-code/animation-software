@@ -37,6 +37,7 @@ jobs:
         run: |
           test "$(git -C _r57 rev-parse HEAD)" = "025d5f28fa7eba2064fba565b1c9b60119cdd2cb"
           python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_pose_state_probe.py -v
+          python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_corrective_edge_isolation.py -v
       - name: Retrieve immutable W8 reconstruction
         uses: actions/download-artifact@v4
         with:

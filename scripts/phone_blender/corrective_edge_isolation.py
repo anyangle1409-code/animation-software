@@ -1,0 +1,122 @@
+"""Temporary, restored shape-key muting at fixed native poses; never save a model.
+
+All-keys-muted still includes rig helpers, weights, constraints and modifiers.
+It is not an isolated physiological tissue or skeletal-skinning ground truth.
+"""
+import math
+
+EDGES = ((15645, 53019), (17185, 44317), (29237, 71026), (32352, 71428))
+VARIANTS = ('S7_muted', 'K1_muted', 'all_nonbasis_keys_muted')
+
+
+def _points(vertices, ids):
+    result = {}
+    for i in ids:
+        if i < 0 or i >= len(vertices):
+            raise ValueError('pinned endpoint absent')
+        co = tuple(float(v) for v in vertices[i])
+        if len(co) != 3 or not all(math.isfinite(v) for v in co):
+            raise ValueError('nonfinite or invalid endpoint coordinate')
+        result[i] = co
+    return result
+
+
+def measure(body, evaluate, update, pose_signature, rest_vertices, observed_vertices,
+            observed_faces, edges=EDGES):
+    """evaluate() returns common-space vertices/faces; update() refreshes depsgraph.
+
+    Caller supplies native observed/rest arrays and a full skeletal pose signature.
+    Muting only removes key contributions: group comparisons are conditional,
+    nonlinear modifier-stack effects, not additive causal percentages.
+    """
+    keys = list(body.data.shape_keys.key_blocks)
+    if len(keys) < 2 or keys[0].name != 'Basis':
+        raise ValueError('relative Basis and corrective keys required')
+    if len(rest_vertices) != len(observed_vertices):
+        raise ValueError('reference vertex count mismatch')
+    ids = sorted({i for edge in edges for i in edge})
+    rest = _points(rest_vertices, ids)
+    observed = _points(observed_vertices, ids)
+    reference = {edge: math.dist(rest[edge[0]], rest[edge[1]]) for edge in edges}
+    if any(v <= 1e-10 or not math.isfinite(v) for v in reference.values()):
+        raise ValueError('degenerate reference edge')
+    faces = tuple(tuple(int(i) for i in f) for f in observed_faces)
+    state = [(key, bool(key.mute), float(key.value)) for key in keys]
+    pose = pose_signature()
+    measured = {'observed': observed}
+    counts = {}
+    try:
+        for variant in VARIANTS:
+            muted = []
+            for key, original_mute, _ in state[1:]:
+                selected = (variant == 'all_nonbasis_keys_muted'
+                            or (variant == 'S7_muted' and key.name.startswith('HGPT_S7_DELT_'))
+                            or (variant == 'K1_muted' and key.name.startswith('HGPT_K1_ELBOW_')))
+                key.mute = original_mute or selected
+                if selected:
+                    muted.append(key.name)
+            counts[variant] = muted
+            update()
+            vertices, current_faces = evaluate()
+            if (len(vertices) != len(observed_vertices)
+                    or tuple(tuple(int(i) for i in f) for f in current_faces) != faces):
+                raise ValueError('evaluated topology changed')
+            measured[variant] = _points(vertices, ids)
+            if pose_signature() != pose:
+                raise ValueError('skeletal pose changed during key isolation')
+    finally:
+        for key, original_mute, _ in state:
+            key.mute = original_mute
+        update()
+    if pose_signature() != pose:
+        raise ValueError('skeletal pose not preserved')
+    if any(bool(key.mute) != mute or float(key.value) != value for key, mute, value in state):
+        raise ValueError('shape-key activation/mute state not preserved')
+    restored_vertices, restored_faces = evaluate()
+    if (len(restored_vertices) != len(observed_vertices)
+            or tuple(tuple(int(i) for i in f) for f in restored_faces) != faces):
+        raise ValueError('restored topology mismatch')
+    restored = _points(restored_vertices, ids)
+    restoration_error = max(math.dist(restored[i], observed[i]) for i in ids)
+    if restoration_error > 1e-8:
+        raise ValueError('restored coordinates differ from observed baseline')
+    rows = []
+    for edge in edges:
+        lengths = {variant: math.dist(coords[edge[0]], coords[edge[1]])
+                   for variant, coords in measured.items()}
+        rows.append({'vertex_ids': list(edge),
+                     'benchmark_rest_length_mm': round(reference[edge] * 1000, 7),
+                     'length_ratios_to_benchmark_rest_NOT_strain': {
+                         variant: round(value / reference[edge], 7)
+                         for variant, value in lengths.items()},
+                     'length_mm': {variant: round(value * 1000, 7)
+                                   for variant, value in lengths.items()}})
+    return {'status': 'NATIVE_FIXED_POSE_KEY_MUTING_DIAGNOSTIC_NOT_REPAIR',
+            'anatomical_approval': False, 'skinning_alone_certified': False,
+            'pose_and_key_state_restored': True,
+            'restored_endpoint_max_error_m': restoration_error,
+            'temporarily_muted_key_names': counts, 'edges': rows,
+            'limitations': [
+                'All keys muted retains authored rig helpers, constraints, weights and modifiers.',
+                'Relative effects at a fixed W8 press pose are not additive causality or a repair.',
+                'Edge ratios are geometric descriptors, not tissue strain or acceptance limits.',
+                'No anatomical side, joint axis, muscle attachment or movement approved.',
+            ]}
+
+
+def markdown(samples):
+    lines = ['# W8 fixed-pose corrective key isolation', '',
+             '**NATIVE GEOMETRY DIAGNOSTIC — NOT ANATOMICAL APPROVAL OR REPAIR.**', '',
+             '| Press sample | Edge IDs | Observed / rest | S7 muted / rest | K1 muted / rest | All keys muted / rest |',
+             '|---|---|---:|---:|---:|---:|']
+    for sample in samples:
+        for row in sample['corrective_edge_isolation']['edges']:
+            values = row['length_ratios_to_benchmark_rest_NOT_strain']
+            lines.append('| {} | {} | {:.6f} | {:.6f} | {:.6f} | {:.6f} |'.format(
+                sample['sample'], row['vertex_ids'], values['observed'],
+                values['S7_muted'], values['K1_muted'], values['all_nonbasis_keys_muted']))
+    lines += ['', 'All-keys-muted retains rig helpers, weights, constraints and modifiers.',
+              'These ratios are geometry, not tissue strain, safe limits or additive causal percentages.',
+              'Original key state, endpoint coordinates and skeletal pose are checked after restoration.',
+              'No joint frame, anatomical side, muscle attachment, generic motion or repair approved.', '']
+    return '\n'.join(lines)

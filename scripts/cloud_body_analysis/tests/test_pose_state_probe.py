@@ -17,6 +17,17 @@ def mock_report():
         "saved_blend": False, "source_unchanged": True,
         "anatomical_approval": "NOT_GRANTED",
         "quality_approval": "NOT_GRANTED",
+        "post_benchmark_return_to_start_state": {
+            "status": "MEASURED_RUNTIME_RETURN_NOT_ANATOMICAL_NEUTRAL",
+            "anatomical_neutral_claimed": False,
+            "runtime_state_restored_exactly": True,
+            "vertex_count": 2,
+            "max_vertex_displacement_m": 0.0,
+            "rms_vertex_displacement_m": 0.0,
+            "vertices_moved_gt_1e_9_m": 0,
+            "active_nonbasis_shape_keys": [],
+            "skeletal_pose_signature_restored_exactly": True,
+        },
         "samples": [{
             "sample": i,
             "authored_press_ht_target_deg_NOT_measured": 90 + 70 * i / 8,
@@ -90,6 +101,50 @@ class ShoulderPoseProbeTests(unittest.TestCase):
         self.assertEqual(probe.validate_report(d), [])
         self.assertEqual(d["samples"][8]["authored_press_ht_target_deg_NOT_measured"], 160.0)
         self.assertEqual(d["samples"][8]["sides"]["l"]["humerothoracic_elevation_measured_by_pinned_driver_deg"], 149.0)
+
+    def test_return_state_summary_distinguishes_exact_start_from_anatomical_neutral(self):
+        self.assertTrue(hasattr(probe, "return_state_summary"))
+        result = probe.return_state_summary(
+            [(0, 0, 0), (1, 2, 3)], [(0, 0, 0), (1, 2, 3)], [], True)
+        self.assertEqual(result["status"], "MEASURED_RUNTIME_RETURN_NOT_ANATOMICAL_NEUTRAL")
+        self.assertFalse(result["anatomical_neutral_claimed"])
+        self.assertTrue(result["runtime_state_restored_exactly"])
+        self.assertEqual(result["max_vertex_displacement_m"], 0.0)
+
+    def test_return_state_summary_reports_geometry_keys_and_pose_residuals(self):
+        result = probe.return_state_summary(
+            [(0, 0, 0), (1, 0, 0)], [(0, 0, 0), (1, 0.003, 0)],
+            [{"name": "HGPT_S7_DELT_l_156", "actual_value": 0.25}], False)
+        self.assertAlmostEqual(result["max_vertex_displacement_m"], 0.003)
+        self.assertAlmostEqual(result["rms_vertex_displacement_m"],
+                               (0.003**2 / 2) ** 0.5)
+        self.assertEqual(result["vertices_moved_gt_1e_9_m"], 1)
+        self.assertFalse(result["runtime_state_restored_exactly"])
+
+    def test_return_state_summary_rejects_changed_topology_and_nonfinite_data(self):
+        with self.assertRaisesRegex(ValueError, "vertex count"):
+            probe.return_state_summary([(0, 0, 0)], [], [], True)
+        with self.assertRaisesRegex(ValueError, "Nonfinite"):
+            probe.return_state_summary([(0, 0, 0)], [(float("nan"), 0, 0)], [], True)
+
+    def test_report_requires_truthful_return_state_without_demanding_a_pass(self):
+        d = mock_report()
+        d["post_benchmark_return_to_start_state"]["runtime_state_restored_exactly"] = False
+        d["post_benchmark_return_to_start_state"]["max_vertex_displacement_m"] = 0.002
+        d["post_benchmark_return_to_start_state"]["rms_vertex_displacement_m"] = 0.001
+        d["post_benchmark_return_to_start_state"]["vertices_moved_gt_1e_9_m"] = 1
+        self.assertEqual(probe.validate_report(d), [])
+        d = mock_report()
+        d["post_benchmark_return_to_start_state"]["anatomical_neutral_claimed"] = True
+        self.assertIn("invalid return-to-start evidence", probe.validate_report(d))
+        d = mock_report()
+        d.pop("post_benchmark_return_to_start_state")
+        self.assertIn("invalid return-to-start evidence", probe.validate_report(d))
+        d = mock_report()
+        returned = d["post_benchmark_return_to_start_state"]
+        returned["runtime_state_restored_exactly"] = False
+        returned["active_nonbasis_shape_keys"] = [{"name": "", "actual_value": float("nan")}]
+        self.assertIn("invalid return-to-start evidence", probe.validate_report(d))
 
     def test_no_model_save_in_source(self):
         txt = MODULE.read_text()

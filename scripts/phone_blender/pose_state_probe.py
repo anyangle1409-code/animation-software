@@ -46,6 +46,40 @@ def shape_key_state(body, side):
         result.append({"name": key.name, "actual_value": round(value, 6)})
     return sorted(result, key=lambda x: x["name"])
 
+
+def return_state_summary(reference_vertices, returned_vertices, active_keys,
+                         skeletal_pose_signature_restored_exactly):
+    if len(reference_vertices) != len(returned_vertices) or not reference_vertices:
+        raise ValueError("return-state vertex count changed or empty")
+    squared = []
+    for start, returned in zip(reference_vertices, returned_vertices):
+        if len(start) != 3 or len(returned) != 3:
+            raise ValueError("return-state vertices must be 3D")
+        delta = tuple(finite(b) - finite(a) for a, b in zip(start, returned))
+        squared.append(sum(v * v for v in delta))
+    keys = []
+    for key in active_keys:
+        name = key.get("name")
+        value = finite(key.get("actual_value"))
+        if not isinstance(name, str) or not name:
+            raise ValueError("invalid active nonbasis shape key")
+        keys.append({"name": name, "actual_value": value})
+    keys.sort(key=lambda row: row["name"])
+    maximum = math.sqrt(max(squared))
+    pose_restored = skeletal_pose_signature_restored_exactly is True
+    exact = maximum == 0.0 and not keys and pose_restored
+    return {
+        "status": "MEASURED_RUNTIME_RETURN_NOT_ANATOMICAL_NEUTRAL",
+        "anatomical_neutral_claimed": False,
+        "runtime_state_restored_exactly": exact,
+        "vertex_count": len(squared),
+        "max_vertex_displacement_m": maximum,
+        "rms_vertex_displacement_m": math.sqrt(sum(squared) / len(squared)),
+        "vertices_moved_gt_1e_9_m": sum(d > 1e-18 for d in squared),
+        "active_nonbasis_shape_keys": keys,
+        "skeletal_pose_signature_restored_exactly": pose_restored,
+    }
+
 def recorded_pose(rig, body, drives, sample, target_elevation):
     snapshot = {"sample": sample, "t": round(sample / 8.0, 4),
                 "authored_press_ht_target_deg_NOT_measured": round(target_elevation, 5),
@@ -78,6 +112,41 @@ def validate_report(data):
         errors.append("source preservation not demonstrated")
     if data.get("anatomical_approval") != "NOT_GRANTED" or data.get("quality_approval") != "NOT_GRANTED":
         errors.append("unearned approval")
+    returned = data.get("post_benchmark_return_to_start_state")
+    valid_return = isinstance(returned, dict)
+    if valid_return:
+        numeric = (returned.get("max_vertex_displacement_m"),
+                   returned.get("rms_vertex_displacement_m"))
+        active = returned.get("active_nonbasis_shape_keys")
+        active_names = ([row.get("name") for row in active]
+                        if isinstance(active, list)
+                        and all(isinstance(row, dict) for row in active) else [])
+        active_valid = (
+            isinstance(active, list)
+            and len(active_names) == len(active)
+            and len(set(active_names)) == len(active_names)
+            and all(isinstance(row.get("name"), str) and row["name"]
+                    and isinstance(row.get("actual_value"), (int, float))
+                    and math.isfinite(row["actual_value"])
+                    and row["actual_value"] != 0.0 for row in active))
+        expected_exact = (returned.get("max_vertex_displacement_m") == 0.0
+                          and active == []
+                          and returned.get("skeletal_pose_signature_restored_exactly") is True)
+        valid_return = (
+            returned.get("status") == "MEASURED_RUNTIME_RETURN_NOT_ANATOMICAL_NEUTRAL"
+            and returned.get("anatomical_neutral_claimed") is False
+            and isinstance(returned.get("runtime_state_restored_exactly"), bool)
+            and returned.get("runtime_state_restored_exactly") is expected_exact
+            and isinstance(returned.get("vertex_count"), int)
+            and returned.get("vertex_count", 0) > 0
+            and all(isinstance(value, (int, float)) and math.isfinite(value) and value >= 0
+                    for value in numeric)
+            and isinstance(returned.get("vertices_moved_gt_1e_9_m"), int)
+            and 0 <= returned.get("vertices_moved_gt_1e_9_m", -1) <= returned.get("vertex_count", -1)
+            and active_valid
+            and isinstance(returned.get("skeletal_pose_signature_restored_exactly"), bool))
+    if not valid_return:
+        errors.append("invalid return-to-start evidence")
     rows = data.get("samples")
     if not isinstance(rows, list) or len(rows) != 9 or [r.get("sample") for r in rows] != list(range(9)):
         errors.append("nine exact pose samples required")
@@ -167,14 +236,26 @@ def main():
             return [tuple(t.vertices) for t in me.loop_triangles]
         finally:
             ev.to_mesh_clear()
-    bench._evaluated, tessellation = freeze_evaluated(original_eval, native_triangles)
+    frozen_evaluated, tessellation = freeze_evaluated(original_eval, native_triangles)
     correction.build_corrected_scene = lambda: result
+
+    reference_vertices = [None]
+    benchmark_start_pose_signature = [None]
 
     def skeletal_pose_signature():
         return (tuple(float(x) for row in rig.matrix_world for x in row),
                 tuple((bone.name, tuple(float(x) for row in bone.matrix for x in row),
                        tuple(float(x) for row in bone.matrix_basis for x in row))
                       for bone in rig.pose.bones))
+
+    def tracked_evaluated(ob):
+        vertices, faces = frozen_evaluated(ob)
+        if reference_vertices[0] is None:
+            reference_vertices[0] = [tuple(float(x) for x in vertex) for vertex in vertices]
+            benchmark_start_pose_signature[0] = skeletal_pose_signature()
+        return vertices, faces
+
+    bench._evaluated = tracked_evaluated
 
     def refresh_keys():
         body.data.update()
@@ -222,6 +303,15 @@ def main():
         bench.frame_metrics = original_metric
         bench._evaluated = original_eval
         correction.build_corrected_scene = original_build
+    bpy.context.view_layer.update()
+    returned_vertices, _ = original_eval(body)
+    active_keys = [
+        {"name": key.name, "actual_value": finite(key.value)}
+        for key in body.data.shape_keys.key_blocks[1:] if finite(key.value) != 0.0
+    ]
+    returned = return_state_summary(
+        reference_vertices[0], returned_vertices, active_keys,
+        benchmark_start_pose_signature[0] == skeletal_pose_signature())
     after = adapter.rest_signature(rig, body)
     unchanged = digest(source) == W8_SHA256
     if before != after or not unchanged:
@@ -238,12 +328,14 @@ def main():
         "anatomical_approval": "NOT_GRANTED", "quality_approval": "NOT_GRANTED",
         "model_is_reconstruction_not_approved_original": True,
         "key_values_measured_after_actual_post_pose_driver_call": True,
+        "post_benchmark_return_to_start_state": returned,
         "samples": captures,
         "limitations": [
             "Actual geometric pose/shape-key state, but actual angles still depend on project-authored shoulder rig assumptions",
             "Cap quaternion angle is local helper delta, not an anatomical joint rotation",
             "These are W8 candidate in-memory poses, not an authorized model repair",
             "Measured metrics describe current failed benchmark, never clinical exercise safety",
+            "Return compares runtime state after the forward sweep with its benchmark start; it is not an anatomical neutral pose or a reverse trajectory",
             "No muscle anchors, ISB joint axes or anatomical left/right certified",
         ],
     }

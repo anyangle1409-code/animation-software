@@ -123,6 +123,22 @@ for _ in range(int(os.environ.get("V2_R121_SEAM_STEPS", "40"))):
 D = Q - V
 REP["seam_max_move_mm"] = round(float(np.linalg.norm(D, axis=1).max() * 1000), 2)
 
+# v3: the rebuilt surface along the back midline carries a ladder of short horizontal ticks (marching-cubes rows meeting
+# at the symmetry plane) - HC-smooth a narrow band down the back of the spine before the relief goes on
+SP = int(os.environ.get("V2_R121_SPINE_HC", "0"))
+if SP > 0:
+    P0 = V + D
+    fz = (P0[:, 2] - z0) / H
+    wsp = (NEWR * ss((0.035 - np.abs(P0[:, 0])) / 0.02) * ss((P0[:, 1] - 0.0) / 0.03)
+           * ss((fz - 0.45) / 0.03) * ss((0.84 - fz) / 0.03)).astype(float)
+    O = P0; Q = O.copy()
+    for _ in range(SP):
+        Pm = Q + wsp[:, None] * (mean(Q) - Q)
+        B = Pm - O
+        Q = Pm - wsp[:, None] * (0.6 * B + 0.4 * mean(B))
+    D = Q - V
+    REP["spine_hc"] = {"steps": SP, "vertices": int((wsp > 0.05).sum())}
+
 # ------------------------------------------------------------------ 2. torso relief on the rebuilt skin
 src = (HERE / "legs_v2_blender.py").read_text()
 a = src.index("def _g(x, f, xc, sx, fc, sf, amp):"); b = src.index("if TORSO > 0:")
@@ -148,6 +164,10 @@ for _ in range(4):
 dn = (wf * ns["torso_front"](ax, f) + wb * ns["torso_back"](ax, f)) * region * TORSO
 for _ in range(2):
     dn = 0.5 * dn + 0.5 * mean(dn)
+# v3: the back relief's spine groove is narrower than the rebuilt mesh rows and read as a ladder - extra smoothing of the
+# relief on the back only (front abs unchanged)
+for _ in range(int(os.environ.get("V2_R121_BACK_SMOOTH", "0"))):
+    dn = dn + wb * 0.5 * (mean(dn) - dn)
 D = D + fn * dn[:, None]
 REP["torso_relief"] = {"max_mm": round(float(dn.max() * 1000), 1), "min_mm": round(float(dn.min() * 1000), 1)}
 
@@ -159,7 +179,11 @@ if ARMDEF > 0:
     rig = bpy.data.objects["HGPT_CANONICAL_V4_ORIGINAL"]
 
     def _seg(bn):
-        b_ = rig.data.bones[bn]; return np.array(rig.matrix_world @ b_.head_local), np.array(rig.matrix_world @ b_.tail_local)
+        b_ = rig.data.bones[bn]
+        # v3: forearm_* ends mid-forearm (twist bones below) - elbow -> wrist as the builder's R77 bone(); with the
+        # 146 mm bone the forearm relief and slimming stopped half-way down and drew rings round the forearm
+        t_ = rig.data.bones["hand_" + bn[-1]].head_local if bn.startswith("forearm_") else b_.tail_local
+        return np.array(rig.matrix_world @ b_.head_local), np.array(rig.matrix_world @ t_)
 
     def _frame(Hh, Tt, sgn, P):
         ax_ = Tt - Hh; L = np.linalg.norm(ax_); u = ax_ / L
@@ -208,9 +232,25 @@ if ARMDEF > 0:
         ha[idx] += h_ * ss((1.08 - np.clip(tf, 0, None)) / 0.08) * am[idx]
     for _ in range(3):
         ha = 0.5 * ha + 0.5 * mean(ha)
-    for _ in range(4):
+    for _ in range(int(os.environ.get("V2_R121_SLIM_SMOOTH", "4"))):
         DS = 0.5 * DS + 0.5 * mean(DS)
-    D = D + DS * ARMDEF + fn * (ARMDEF * AMP * ha / 1000.0)[:, None]
+    D = D + DS * ARMDEF
+    # v3: the slimmed arm skin carried the rebuild's triangle rows as rings round the forearm - HC-smooth the slimmed
+    # arm surface (shrink-free) before the relief goes on, hands excluded
+    AS = int(os.environ.get("V2_R121_ARM_HC", "0"))
+    if AS > 0:
+        wa = am * ss((0.6 - HAND) / 0.3)
+        O = V + D; Q = O.copy()
+        for _ in range(AS):
+            Pm = Q + wa[:, None] * (mean(Q) - Q)
+            B = Pm - O
+            Q = Pm - wa[:, None] * (0.6 * B + 0.4 * mean(B))
+        D = Q - V
+        REP["arm_hc_steps"] = AS
+    D = D + fn * (ARMDEF * AMP * ha / 1000.0)[:, None]
+    if os.environ.get("V2_R121_DUMP"):                   # diagnostics only
+        np.savez_compressed(OUT / "r121_arm_dump.npz", V=V, D=D, DS=DS, ha=ha, am=am, NEWR=NEWR, HAND=HAND, ARM=ARM,
+                            uH=_seg("upperarm_r")[0], uT=_seg("upperarm_r")[1], fH=_seg("forearm_r")[0], fT=_seg("forearm_r")[1])
     REP["arm_slim_max_mm"] = round(float(np.linalg.norm(DS, axis=1).max() * 1000), 1)
     REP["arm_muscles"] = {"max_mm": round(float(ha.max()), 2), "min_mm": round(float(ha.min()), 2), "vertices": int((np.abs(ha) > 0.2).sum())}
 

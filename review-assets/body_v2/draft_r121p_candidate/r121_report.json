@@ -1,0 +1,35 @@
+{
+ "holes_filled_faces": 9,
+ "fold_vertices_per_round": [
+  2400,
+  86,
+  46,
+  19,
+  3,
+  3
+ ],
+ "folds_left": 3,
+ "rebuilt_vertices": 227559,
+ "seam_vertices": 26614,
+ "seam_max_move_mm": 1.67,
+ "torso_relief": {
+  "max_mm": 23.2,
+  "min_mm": -4.5
+ },
+ "arm_hc_steps": 30,
+ "arm_slim_max_mm": 15.4,
+ "arm_muscles": {
+  "max_mm": 16.88,
+  "min_mm": -4.0,
+  "vertices": 66735
+ },
+ "final_unfold_vertices_per_round": [
+  195,
+  70,
+  17,
+  7,
+  11,
+  7,
+  6
+ ]
+}

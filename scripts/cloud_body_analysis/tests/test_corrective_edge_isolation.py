@@ -40,7 +40,9 @@ class CorrectiveIsolationTests(unittest.TestCase):
         row = report['edges'][0]
         self.assertEqual(row['length_ratios_to_benchmark_rest_NOT_strain'],
                          {'observed': 1.75, 'S7_muted': 1.25,
-                          'K1_muted': 1.5, 'all_nonbasis_keys_muted': 1.0})
+                          'K1_muted': 1.5, 'S1_muted': 1.75,
+                          'S3_muted': 1.75, 'S5_muted': 1.75,
+                          'all_nonbasis_keys_muted': 1.0})
         self.assertFalse(report['anatomical_approval'])
         self.assertFalse(report['skinning_alone_certified'])
         self.assertTrue(report['pose_and_key_state_restored'])
@@ -50,6 +52,21 @@ class CorrectiveIsolationTests(unittest.TestCase):
         self.run_probe()
         self.assertEqual([(k.value, k.mute) for k in self.keys], before)
         self.assertEqual(self.pose, (1, 2, 3))
+
+    def test_s1_s3_s5_controls_are_independent_and_restore_combined_keys(self):
+        self.keys.extend([NS(name='HGPT_S1_SHOULDER_l_105', value=0.2, mute=False),
+                          NS(name='HGPT_S3_SHAPE_l_100', value=0.3, mute=False),
+                          NS(name='HGPT_S5_BAKE_l_110', value=0.4, mute=False)])
+        report = self.run_probe()
+        values = report['edges'][0]['length_ratios_to_benchmark_rest_NOT_strain']
+        self.assertEqual(values['observed'], 2.65)
+        self.assertEqual(values['S1_muted'], 2.45)
+        self.assertEqual(values['S3_muted'], 2.35)
+        self.assertEqual(values['S5_muted'], 2.25)
+        self.assertTrue(all(not k.mute for k in self.keys[4:]))
+        text = self.mod.markdown([{'sample': 0, 'corrective_edge_isolation': report}])
+        self.assertIn('S3 muted', text)
+        self.assertIn('2.350000', text)
 
     def test_restores_keys_on_evaluation_failure(self):
         before = [(k.value, k.mute) for k in self.keys]

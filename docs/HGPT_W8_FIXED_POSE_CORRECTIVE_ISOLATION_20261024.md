@@ -27,3 +27,22 @@ K1 omission regression observed FAIL (empty extracted list), then PASS after add
 ISB Part II (Wu et al. 2005, DOI 10.1016/j.jbiomech.2004.05.042; https://pubmed.ncbi.nlm.nih.gov/15844264/) concerns standardized motion coordinates, not automatic rig-axis identity. Seth et al. 2019 (https://pmc.ncbi.nlm.nih.gov/articles/PMC6856649/) models independent scapular movement and validates muscle path behavior; neither justifies treating arbitrary Blender helpers as anatomical joints. Existing foundation-first roadmap and permanent muscle IDs remain authoritative. No new attachments, clinical ROM clamps or highlighting.
 
 The 46 landmarks remain unbound; 0/19 native generic human movement scenarios approved. Shoulder/squat/grip, archive identity and real contact/skin acceptance remain open.
+
+## Native result verified, with separate downstream reporting failure
+
+Run40076138093 at `39d65c0bc766fa81d71fd64e5eea33ce69f852e8` succeeded in 6/7 jobs, including the native W8 pose probe. Overall workflow FAILED: timeline reporting rejected newly observed K1 names. That parser is fixed in `75affbdddc6922c6570fc39bcb098164b844aded`; real JSON replay and 228 tests pass; cloud confirmation is separate.
+
+All eight ZIPs freshly downloaded and SHA256-matched to GitHub. Every ZIP/member hash is in `recovery_20261023/cloud_verification_20261024_run40076138093.json`. Native pose artifact12553561589 ZIP `fe888f196f3fab7548b52b22262025815f9f50e9d1eabfc7cadbb7de8f1ae516`; JSON `19ec870df061f22be1f466e72b55a124b3a06ff13fdc422a515052a9d7ba883d`. Restoration endpoint error 0 m for all nine native samples. All nine previously measured elevations and baseline deformation metric dictionaries remain exactly equal to run40072736803.
+
+| Native sample / edge | Observed / rest | S7 muted / rest | K1 muted / rest | All keys muted / rest |
+|---|---:|---:|---:|---:|
+| 0 / [15645,53019] | 0.1676121 | 0.1676121 | 0.0773237 | 0.7065723 |
+| 0 / [17185,44317] | 0.1631255 | 0.1631255 | 0.0667802 | 0.7057421 |
+| 6 / [29237,71026] | 2.6733724 | 1.2014833 | 2.6733724 | 1.4132507 |
+| 6 / [32352,71428] | 2.6485931 | 1.2034341 | 2.6485931 | 1.4227250 |
+
+K1_90 actual values for both suffixes: samples0–3 = 1.0, 0.871094, 0.53125, 0.050781; recorded K1 values are all zero at samples4–8. Thus K1 omission is resolved for this native probe. Local sampled distortion decreases when S7 is muted at sample6; muting K1 worsens the distal sampled compression at sample0. This does not authorize disabling either family: no matched visual assessment, adjacent controls or whole-body revalidation exists.
+
+## Next isolated controls staged
+
+At sample0, observed S3_75/S3_100 and S5_85/S5_110 are active alongside K1_90. The next probe adds separate S1, S3 and S5 mute conditions at all nine existing poses, preserving the same state/coordinate checks. Synthetic combined-family regression observed FAIL before implementation and PASS after; complete suite now **229/229 PASS locally**. Additional family native results are pending. S2/S4/S6 are nominally absent in the verified W8 configuration; no invented activation is added. These controls still sample only four edges and cannot establish whole-body improvement or joint physiology.

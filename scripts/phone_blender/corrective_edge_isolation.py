@@ -6,7 +6,10 @@ It is not an isolated physiological tissue or skeletal-skinning ground truth.
 import math
 
 EDGES = ((15645, 53019), (17185, 44317), (29237, 71026), (32352, 71428))
-VARIANTS = ('S7_muted', 'K1_muted', 'all_nonbasis_keys_muted')
+FAMILY_PREFIXES = {'S7_muted': 'HGPT_S7_DELT_', 'K1_muted': 'HGPT_K1_ELBOW_',
+                   'S1_muted': 'HGPT_S1_SHOULDER_', 'S3_muted': 'HGPT_S3_SHAPE_',
+                   'S5_muted': 'HGPT_S5_BAKE_'}
+VARIANTS = (*FAMILY_PREFIXES, 'all_nonbasis_keys_muted')
 
 
 def _points(vertices, ids):
@@ -50,8 +53,7 @@ def measure(body, evaluate, update, pose_signature, rest_vertices, observed_vert
             muted = []
             for key, original_mute, _ in state[1:]:
                 selected = (variant == 'all_nonbasis_keys_muted'
-                            or (variant == 'S7_muted' and key.name.startswith('HGPT_S7_DELT_'))
-                            or (variant == 'K1_muted' and key.name.startswith('HGPT_K1_ELBOW_')))
+                            or key.name.startswith(FAMILY_PREFIXES[variant]))
                 key.mute = original_mute or selected
                 if selected:
                     muted.append(key.name)
@@ -115,6 +117,15 @@ def markdown(samples):
             lines.append('| {} | {} | {:.6f} | {:.6f} | {:.6f} | {:.6f} |'.format(
                 sample['sample'], row['vertex_ids'], values['observed'],
                 values['S7_muted'], values['K1_muted'], values['all_nonbasis_keys_muted']))
+    lines += ['', '## Additional populated shoulder-family controls', '',
+              '| Press sample | Edge IDs | S1 muted / rest | S3 muted / rest | S5 muted / rest |',
+              '|---|---|---:|---:|---:|']
+    for sample in samples:
+        for row in sample['corrective_edge_isolation']['edges']:
+            values = row['length_ratios_to_benchmark_rest_NOT_strain']
+            lines.append('| {} | {} | {:.6f} | {:.6f} | {:.6f} |'.format(
+                sample['sample'], row['vertex_ids'], values['S1_muted'],
+                values['S3_muted'], values['S5_muted']))
     lines += ['', 'All-keys-muted retains rig helpers, weights, constraints and modifiers.',
               'These ratios are geometry, not tissue strain, safe limits or additive causal percentages.',
               'Original key state, endpoint coordinates and skeletal pose are checked after restoration.',

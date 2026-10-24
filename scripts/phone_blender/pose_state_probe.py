@@ -133,6 +133,7 @@ def main():
     from corrective_edge_isolation import (measure as isolate_edges, markdown as isolation_markdown,
                                            individual_summary, individual_markdown,
                                            adjacent_controls, EDGES)
+    from native_control_views import selected_snapshot_condition, snapshot_filename
     import numpy as np
 
     if adapter.candidate_name(digest(source)) != "W8":
@@ -190,8 +191,8 @@ def main():
             neighborhood[0] = adjacent_controls(F)
         control_edges = sorted({tuple(e) for group in neighborhood[0] for e in group['control_edges']})
         def save_snapshot(condition, vertices, faces):
-            if i in (0, 6) and condition in ('observed', 'S5_muted', 'S7_muted', 'all_nonbasis_keys_muted'):
-                np.savez_compressed(snapshot_dir / f'sample{i:02d}__{condition}.npz',
+            if selected_snapshot_condition(i, condition):
+                np.savez_compressed(snapshot_dir / snapshot_filename(i, condition),
                                     vertices=np.asarray(vertices, dtype=np.float64),
                                     faces=np.asarray(faces, dtype=np.int64),
                                     focus_ids=sorted({v for edge in EDGES for v in edge}),

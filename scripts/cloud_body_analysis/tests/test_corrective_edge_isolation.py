@@ -183,6 +183,17 @@ class CorrectiveIsolationTests(unittest.TestCase):
                              self.rest, baseline, faces, edges=((0, 1),), snapshot_sink=fail)
         self.assertEqual([k.mute for k in self.keys], before)
 
+    def test_individual_snapshot_failure_restores_original_mutes(self):
+        baseline, faces = self.evaluate()
+        before = [k.mute for k in self.keys]
+        def fail(name, vertices, triangles):
+            if name.startswith('individual_key_muted::'):
+                raise RuntimeError('individual snapshot write failed')
+        with self.assertRaisesRegex(RuntimeError, 'individual snapshot write failed'):
+            self.mod.measure(self.body, self.evaluate, lambda: None, lambda: self.pose,
+                             self.rest, baseline, faces, edges=((0, 1),), snapshot_sink=fail)
+        self.assertEqual([k.mute for k in self.keys], before)
+
     def test_rejects_topology_change_and_restores(self):
         before = [k.mute for k in self.keys]
         def changed():

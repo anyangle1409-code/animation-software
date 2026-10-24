@@ -7,9 +7,62 @@ import hashlib
 import json
 import math
 from pathlib import Path
+import re
 
 W8_SHA = '2434afd0daa231ab3a03c873cad4187ffcbc1bab78132375221160b0b0f09e4c'
 CONDITIONS = ('observed', 'S5_muted', 'S7_muted', 'all_nonbasis_keys_muted')
+VIEWS = ('axis_negY', 'axis_posY', 'axis_posX')
+INDIVIDUAL_GROUPS = (
+    (0, 'S5', 'l', ('individual_key_muted::HGPT_S5_BAKE_l_85',
+                     'individual_key_muted::HGPT_S5_BAKE_l_110')),
+    (0, 'S5', 'r', ('individual_key_muted::HGPT_S5_BAKE_r_85',
+                     'individual_key_muted::HGPT_S5_BAKE_r_110')),
+    (6, 'S7', 'l', ('individual_key_muted::HGPT_S7_DELT_l_145',
+                     'individual_key_muted::HGPT_S7_DELT_l_156')),
+    (6, 'S7', 'r', ('individual_key_muted::HGPT_S7_DELT_r_145',
+                     'individual_key_muted::HGPT_S7_DELT_r_156')),
+)
+
+
+def individual_comparison_groups():
+    return [
+        {'sample': sample, 'family': family, 'authored_suffix': suffix,
+         'authored_suffix_is_anatomical_side': False,
+         'conditions': ['observed', *individual, family + '_muted']}
+        for sample, family, suffix, individual in INDIVIDUAL_GROUPS
+    ]
+
+
+def snapshot_filename(sample, condition):
+    if type(sample) is not int or not 0 <= sample <= 99:
+        raise ValueError('invalid sample')
+    if not re.fullmatch(r'[A-Za-z0-9_]+(?:::[A-Za-z0-9_]+)?', condition):
+        raise ValueError('invalid snapshot condition')
+    return f'sample{sample:02d}__{condition.replace("::", "--")}.npz'
+
+
+def selected_snapshot_condition(sample, condition):
+    selected = set(CONDITIONS)
+    selected.update(c for group in individual_comparison_groups()
+                    if group['sample'] == sample for c in group['conditions'])
+    return sample in (0, 6) and condition in selected
+
+
+def comparison_sheet_specs(include_individual=False):
+    specs = []
+    for sample in (0, 6):
+        for view in VIEWS:
+            specs.append({'kind': 'family_baseline', 'sample': sample, 'view': view,
+                          'conditions': list(CONDITIONS),
+                          'file': f'sample{sample:02d}__{view}__comparison.png'})
+    if include_individual:
+        for group in individual_comparison_groups():
+            for view in VIEWS:
+                specs.append({**group, 'kind': 'individual_key_focus', 'view': view,
+                              'file': (f"sample{group['sample']:02d}__{group['family']}__"
+                                       f"suffix_{group['authored_suffix']}__{view}__"
+                                       'individual_comparison.png')})
+    return specs
 
 
 def camera_plan(vertices, focus_ids):
@@ -34,6 +87,7 @@ def main():
     parser.add_argument('--out', type=Path, required=True)
     parser.add_argument('--exposure', type=float, default=-0.5)
     parser.add_argument('--light-energy', type=float, default=35.0)
+    parser.add_argument('--include-individual', action='store_true')
     args = parser.parse_args()
     if (not math.isfinite(args.exposure) or not math.isfinite(args.light_energy)
             or args.light_energy <= 0):
@@ -81,12 +135,19 @@ def main():
                 'source_sha256': W8_SHA, 'renderer': 'Blender Cycles CPU, 32 samples, 384 square, AgX',
                 'exposure': args.exposure, 'area_light_energy': args.light_energy,
                 'original_blend_opened_by_renderer': False, 'saved_blend': False,
-                'anatomical_approval': False, 'samples': [],
+                'anatomical_approval': False, 'samples': [], 'comparison_sheets': [],
                 'limitations': ['Diagnostic gray material and smooth normals; source geometry unchanged.',
                                'Shared cameras/lights per pose; no view labels certify anatomical sides.',
+                               'Authored l/r key suffixes are not independently reviewed anatomical sides.',
                                'Only sampled press conditions; no new generic motion, contact or repair approved.']}
+    records_by_sample = {}
     for sample in (0, 6):
-        files = {c: args.snapshots / f'sample{sample:02d}__{c}.npz' for c in CONDITIONS}
+        condition_names = list(CONDITIONS)
+        if args.include_individual:
+            condition_names.extend(sorted({condition for group in individual_comparison_groups()
+                                           if group['sample'] == sample
+                                           for condition in group['conditions'][1:3]}))
+        files = {c: args.snapshots / snapshot_filename(sample, c) for c in condition_names}
         with np.load(files['observed'], allow_pickle=False) as observed:
             plan = camera_plan(observed['vertices'], observed['focus_ids'].tolist())
             reference_faces = observed['faces'].copy()
@@ -120,7 +181,8 @@ def main():
                     for view, direction in plan['axis_views'].items():
                         camera.location = focus + Vector(direction)*(scale*3)
                         camera.rotation_euler = (focus-camera.location).to_track_quat('-Z', 'Y').to_euler()
-                        target = args.out / f'sample{sample:02d}__{condition}__{view}.png'
+                        target = args.out / (Path(snapshot_filename(sample, condition)).stem
+                                             + f'__{view}.png')
                         scene.render.filepath = str(target.resolve())
                         bpy.ops.render.render(write_still=True, scene=scene.name)
                         images[view] = {'file': target.name, 'sha256': hashlib.sha256(target.read_bytes()).hexdigest()}
@@ -131,19 +193,33 @@ def main():
                     'snapshot_npz_sha256': hashlib.sha256(file.read_bytes()).hexdigest(),
                     'vertices_float64_sha256': hashlib.sha256(vertices.astype('<f8').tobytes()).hexdigest(),
                     'images': images})
-        for view in plan['axis_views']:
-            sheet = Image.new('RGB', (768, 854), '#eef0f4')
-            draw = ImageDraw.Draw(sheet)
-            draw.text((12, 8), f'W8 sample {sample} / {view} / native diagnostic / NOT APPROVED', fill='black')
-            for i, record_condition in enumerate(record['conditions']):
-                x, y = (i%2)*384, 38+(i//2)*408
-                draw.text((x+8, y), record_condition['condition'], fill='black')
-                with Image.open(args.out / record_condition['images'][view]['file']) as im:
-                    sheet.paste(im.convert('RGB'), (x, y+20))
-            sheet.save(args.out / f'sample{sample:02d}__{view}__comparison.png')
         manifest['samples'].append(record)
+        records_by_sample[sample] = {item['condition']: item for item in record['conditions']}
+    for spec in comparison_sheet_specs(args.include_individual):
+        sample, view = spec['sample'], spec['view']
+        sheet = Image.new('RGB', (768, 854), '#eef0f4')
+        draw = ImageDraw.Draw(sheet)
+        if spec['kind'] == 'individual_key_focus':
+            title = (f"W8 sample {sample} / {view} / {spec['family']} authored suffix "
+                     f"{spec['authored_suffix']} / NOT ANATOMICAL SIDE")
+        else:
+            title = f'W8 sample {sample} / {view} / native diagnostic / NOT APPROVED'
+        draw.text((12, 8), title, fill='black')
+        for i, condition in enumerate(spec['conditions']):
+            record_condition = records_by_sample[sample][condition]
+            x, y = (i%2)*384, 38+(i//2)*408
+            label = condition.replace('individual_key_muted::HGPT_', 'mute ')
+            draw.text((x+8, y), label, fill='black')
+            with Image.open(args.out / record_condition['images'][view]['file']) as im:
+                sheet.paste(im.convert('RGB'), (x, y+20))
+        target = args.out / spec['file']
+        sheet.save(target)
+        manifest['comparison_sheets'].append({**spec,
+            'sha256': hashlib.sha256(target.read_bytes()).hexdigest()})
     (args.out / 'native_control_view_manifest.json').write_text(json.dumps(manifest, indent=2)+'\n')
-    print('NATIVE_CONTROL_VIEWS_WRITTEN', 24, 'renders', 6, 'sheets; NO_ANATOMICAL_APPROVAL', flush=True)
+    render_count = sum(len(sample['conditions']) * len(VIEWS) for sample in manifest['samples'])
+    print('NATIVE_CONTROL_VIEWS_WRITTEN', render_count, 'renders',
+          len(manifest['comparison_sheets']), 'sheets; NO_ANATOMICAL_APPROVAL', flush=True)
 
 
 if __name__ == '__main__':

@@ -54,6 +54,61 @@ class NativeControlViewTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn('finite render settings', result.stderr)
 
+    def test_individual_groups_are_narrow_and_deny_anatomical_side(self):
+        self.assertTrue(hasattr(self.mod, 'individual_comparison_groups'))
+        groups = self.mod.individual_comparison_groups()
+        self.assertEqual([(g['sample'], g['family'], g['authored_suffix']) for g in groups],
+                         [(0, 'S5', 'l'), (0, 'S5', 'r'),
+                          (6, 'S7', 'l'), (6, 'S7', 'r')])
+        self.assertTrue(all(g['authored_suffix_is_anatomical_side'] is False
+                            for g in groups))
+        self.assertEqual(groups[0]['conditions'], [
+            'observed',
+            'individual_key_muted::HGPT_S5_BAKE_l_85',
+            'individual_key_muted::HGPT_S5_BAKE_l_110',
+            'S5_muted',
+        ])
+        self.assertEqual(groups[2]['conditions'], [
+            'observed',
+            'individual_key_muted::HGPT_S7_DELT_l_145',
+            'individual_key_muted::HGPT_S7_DELT_l_156',
+            'S7_muted',
+        ])
+
+    def test_snapshot_filename_is_portable_and_selection_is_exact(self):
+        self.assertTrue(hasattr(self.mod, 'snapshot_filename'))
+        condition = 'individual_key_muted::HGPT_S5_BAKE_l_85'
+        self.assertEqual(self.mod.snapshot_filename(0, condition),
+                         'sample00__individual_key_muted--HGPT_S5_BAKE_l_85.npz')
+        self.assertTrue(self.mod.selected_snapshot_condition(0, condition))
+        self.assertFalse(self.mod.selected_snapshot_condition(
+            6, 'individual_key_muted::HGPT_S5_BAKE_l_85'))
+        with self.assertRaisesRegex(ValueError, 'condition'):
+            self.mod.snapshot_filename(0, '../unsafe')
+
+    def test_sheet_plan_keeps_six_baselines_and_adds_twelve_focused_views(self):
+        self.assertTrue(hasattr(self.mod, 'comparison_sheet_specs'))
+        specs = self.mod.comparison_sheet_specs(include_individual=True)
+        self.assertEqual(len(specs), 18)
+        self.assertEqual(len({s['file'] for s in specs}), 18)
+        baseline = [s for s in specs if s['kind'] == 'family_baseline']
+        focused = [s for s in specs if s['kind'] == 'individual_key_focus']
+        self.assertEqual(len(baseline), 6)
+        self.assertEqual(len(focused), 12)
+        self.assertTrue(all(len(s['conditions']) == 4 for s in specs))
+        self.assertTrue(all(s['authored_suffix_is_anatomical_side'] is False
+                            for s in focused))
+
+    def test_default_plan_remains_compatible_with_frozen_eight_snapshots(self):
+        specs = self.mod.comparison_sheet_specs()
+        self.assertEqual(len(specs), 6)
+        self.assertTrue(all(s['kind'] == 'family_baseline' for s in specs))
+        import subprocess, sys
+        result = subprocess.run([sys.executable, str(PATH), '--help'],
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0)
+        self.assertIn('--include-individual', result.stdout)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -64,6 +64,20 @@ def spinous(v):
     return (anat.matrix_world @ B[f"anat_{v}"].head_local) + Vector((0, 0.04, 0))
 
 
+def chest_wall(z, inset=0.015):
+    """lateral thoracic wall at height z on the mid-axillary line, from the body skin (no rib meshes in R41)"""
+    body_ = bpy.data.objects["HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"]
+    best = None
+    for v in body_.data.vertices:
+        w = body_.matrix_world @ v.co
+        if abs(w.z - z) < 0.004 and abs(w.y - GH.y) < 0.010 and 0 < w.x * lat_sign < abs(GH.x) - 0.035:
+            if best is None or w.x * lat_sign > best.x * lat_sign:
+                best = w
+    if best is None:
+        raise RuntimeError("no chest-wall skin found")
+    return best - LAT * inset
+
+
 R_ = {  # muscle: [(role, bone, point, rule)]
     "deltoid_anterior": [("origin", f"anat_clavicle_{S}", SC.lerp(AC, 0.80) + ANT * 0.008, "anterior border, lateral third of clavicle: 80 % SC->AC, 8 mm anterior"),
                          ("insertion", f"anat_humerus_{S}", hum(0.45) + LAT * 0.012, "deltoid tuberosity: 45 % GH->EJC, 12 mm lateral")],
@@ -103,7 +117,7 @@ R_ = {  # muscle: [(role, bone, point, rule)]
                          ("insertion", f"anat_scapula_{S}", AA + UP * 0.005, "acromion medial margin / superior lip of the spine (at AA)")],
     "trapezius_lower": [("origin", "anat_t9", spinous("t9"), "spinous processes T4-T12 (represented at T9)"),
                         ("insertion", f"anat_scapula_{S}", TS + LAT * 0.010, "root of the spine of the scapula (TS + 10 mm lateral)")],
-    "serratus_anterior": [("origin", f"anat_rib_05_{S}", bone_pt(f"anat_rib_05_{S}", 0.55), "lateral surfaces of ribs 1-8/9 (represented at rib 5, 55 % along; digitations required)"),
+    "serratus_anterior": [("origin", f"anat_rib_05_{S}", chest_wall((anat.matrix_world @ B[f"anat_rib_05_{S}"].tail_local).z), "lateral surfaces of ribs 1-8/9 (represented at rib 5 on the mid-axillary line: the most lateral torso skin point at the height of rib 5's anterior end, within 10 mm of the coronal plane through GH and medial of GH - 35 mm, inset 15 mm; digitations required).  Replaces 'rib 5, 55 % along' (20261024 path-length check: the rib bone is a straight chord, so that point lay inside the thorax, 4 cm from the midline)"),
                           ("insertion", f"anat_scapula_{S}", TS.lerp(AI, 0.5) + ANT * 0.010, "costal surface of the medial border: mid TS->AI, 10 mm anterior")],
 }
 

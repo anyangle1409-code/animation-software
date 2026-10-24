@@ -1,0 +1,486 @@
+{
+ "status": "proposal_check_only",
+ "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+ "side": "left",
+ "girdle_model": "coupled",
+ "upward_rotation_pivot_ts_to_ac": 0.5,
+ "girdle_ratios_per_deg_elevation": {
+  "upward_rotation": 0.33,
+  "posterior_tilt": 0.12,
+  "clavicle_elevation": 0.08,
+  "clavicle_retraction": 0.12
+ },
+ "iso_threshold_fraction": 0.03,
+ "elevation_plane_deg_anterior_to_frontal": 30.0,
+ "rest_round_trip_mm": 0.0068,
+ "rest_pose_round_trip_mm": 1.79,
+ "r41_rest": {
+  "humerothoracic_elevation_deg": 1.2,
+  "elbow_flexion_deg": 1.6
+ },
+ "probe_signs": {
+  "clavicle_elevation": 1.0,
+  "clavicle_retraction": 1.0,
+  "upward_rotation": -1.0,
+  "posterior_tilt": -1.0,
+  "elbow_flexion": -1.0
+ },
+ "press_top_probe": {
+  "girdle_deg": {
+   "upward_rotation": 52.4,
+   "posterior_tilt": 19.1,
+   "clavicle_elevation": 12.7,
+   "clavicle_retraction": 19.1
+  },
+  "ac_joint_gap_mm": 93.6,
+  "AC": [
+   -106,
+   47,
+   100
+  ],
+  "TS": [
+   35,
+   25,
+   -45
+  ],
+  "AI": [
+   98,
+   -38,
+   17
+  ],
+  "GH": [
+   -75,
+   31,
+   95
+  ]
+ },
+ "serratus_wrap_ellipse": {
+  "z_m": 1.3722,
+  "centre_y_m": 0.0164,
+  "semi_axis_x_m": 0.1622,
+  "semi_axis_y_m": 0.1155
+ },
+ "path_model": "straight origin->insertion; serratus wrapped on the thorax ellipse; no other wraps",
+ "exercises": {
+  "hgpt.exercise.biceps_curl.bilateral.v1": {
+   "concentric": {
+    "control_poses_ht_elbow": [
+     [
+      1.2290786128975155,
+      10
+     ],
+     [
+      1.2290786128975155,
+      112
+     ]
+    ],
+    "muscles": {
+     "hgpt.muscle.biceps_brachii_long.L": {
+      "contract": "shortening",
+      "result": "shortening",
+      "verdict": "match",
+      "change_fraction_of_rest": -0.161,
+      "start_mm": 337.0,
+      "end_mm": 282.4,
+      "min_mm": 282.4,
+      "max_mm": 337.0,
+      "monotonic": true
+     },
+     "hgpt.muscle.biceps_brachii_short.L": {
+      "contract": "shortening",
+      "result": "shortening",
+      "verdict": "match",
+      "change_fraction_of_rest": -0.1696,
+      "start_mm": 328.5,
+      "end_mm": 272.5,
+      "min_mm": 272.5,
+      "max_mm": 328.5,
+      "monotonic": true
+     },
+     "hgpt.muscle.brachialis.L": {
+      "contract": "shortening",
+      "result": "shortening",
+      "verdict": "match",
+      "change_fraction_of_rest": -0.2597,
+      "start_mm": 151.4,
+      "end_mm": 111.7,
+      "min_mm": 111.7,
+      "max_mm": 151.4,
+      "monotonic": true
+     },
+     "hgpt.muscle.brachioradialis.L": {
+      "contract": "shortening",
+      "result": "shortening",
+      "verdict": "match",
+      "change_fraction_of_rest": -0.2745,
+      "start_mm": 323.8,
+      "end_mm": 234.6,
+      "min_mm": 234.6,
+      "max_mm": 323.8,
+      "monotonic": true
+     },
+     "hgpt.muscle.triceps_long.L": {
+      "contract": "lengthening",
+      "result": "lengthening",
+      "verdict": "match",
+      "change_fraction_of_rest": 0.0697,
+      "start_mm": 260.8,
+      "end_mm": 278.8,
+      "min_mm": 260.8,
+      "max_mm": 279.7,
+      "monotonic": false
+     },
+     "hgpt.muscle.infraspinatus.L": {
+      "contract": "near_isometric",
+      "result": "near_isometric",
+      "verdict": "match",
+      "change_fraction_of_rest": 0.0,
+      "start_mm": 175.3,
+      "end_mm": 175.3,
+      "min_mm": 175.3,
+      "max_mm": 175.3,
+      "monotonic": true
+     },
+     "hgpt.muscle.subscapularis.L": {
+      "contract": "near_isometric",
+      "result": "no_proposed_anchors"
+     }
+    }
+   },
+   "eccentric": {
+    "control_poses_ht_elbow": [
+     [
+      1.2290786128975155,
+      112
+     ],
+     [
+      1.2290786128975155,
+      10
+     ]
+    ],
+    "muscles": {
+     "hgpt.muscle.biceps_brachii_long.L": {
+      "contract": "lengthening",
+      "result": "lengthening",
+      "verdict": "match",
+      "change_fraction_of_rest": 0.161,
+      "start_mm": 282.4,
+      "end_mm": 337.0,
+      "min_mm": 282.4,
+      "max_mm": 337.0,
+      "monotonic": true
+     },
+     "hgpt.muscle.biceps_brachii_short.L": {
+      "contract": "lengthening",
+      "result": "lengthening",
+      "verdict": "match",
+      "change_fraction_of_rest": 0.1696,
+      "start_mm": 272.5,
+      "end_mm": 328.5,
+      "min_mm": 272.5,
+      "max_mm": 328.5,
+      "monotonic": true
+     },
+     "hgpt.muscle.brachialis.L": {
+      "contract": "lengthening",
+      "result": "lengthening",
+      "verdict": "match",
+      "change_fraction_of_rest": 0.2597,
+      "start_mm": 111.7,
+      "end_mm": 151.4,
+      "min_mm": 111.7,
+      "max_mm": 151.4,
+      "monotonic": true
+     },
+     "hgpt.muscle.brachioradialis.L": {
+      "contract": "lengthening",
+      "result": "lengthening",
+      "verdict": "match",
+      "change_fraction_of_rest": 0.2745,
+      "start_mm": 234.6,
+      "end_mm": 323.8,
+      "min_mm": 234.6,
+      "max_mm": 323.8,
+      "monotonic": true
+     },
+     "hgpt.muscle.triceps_long.L": {
+      "contract": "shortening",
+      "result": "shortening",
+      "verdict": "match",
+      "change_fraction_of_rest": -0.0697,
+      "start_mm": 278.8,
+      "end_mm": 260.8,
+      "min_mm": 260.8,
+      "max_mm": 279.7,
+      "monotonic": false
+     },
+     "hgpt.muscle.infraspinatus.L": {
+      "contract": "near_isometric",
+      "result": "near_isometric",
+      "verdict": "match",
+      "change_fraction_of_rest": 0.0,
+      "start_mm": 175.3,
+      "end_mm": 175.3,
+      "min_mm": 175.3,
+      "max_mm": 175.3,
+      "monotonic": true
+     },
+     "hgpt.muscle.subscapularis.L": {
+      "contract": "near_isometric",
+      "result": "no_proposed_anchors"
+     }
+    }
+   }
+  },
+  "hgpt.exercise.shoulder_press.bilateral.v1": {
+   "press": {
+    "control_poses_ht_elbow": [
+     [
+      35,
+      92
+     ],
+     [
+      160,
+      8
+     ]
+    ],
+    "muscles": {
+     "hgpt.muscle.deltoid_anterior.L": {
+      "contract": "shortening",
+      "result": "shortening",
+      "verdict": "match",
+      "change_fraction_of_rest": -0.0573,
+      "start_mm": 151.5,
+      "end_mm": 141.8,
+      "min_mm": 119.6,
+      "max_mm": 151.5,
+      "monotonic": false
+     },
+     "hgpt.muscle.deltoid_middle.L": {
+      "contract": "shortening",
+      "result": "shortening",
+      "verdict": "match",
+      "change_fraction_of_rest": -0.3927,
+      "start_mm": 153.6,
+      "end_mm": 88.3,
+      "min_mm": 88.3,
+      "max_mm": 153.6,
+      "monotonic": true
+     },
+     "hgpt.muscle.supraspinatus.L": {
+      "contract": "variable",
+      "result": "shortening",
+      "verdict": "variable_ok",
+      "change_fraction_of_rest": -0.2042,
+      "start_mm": 144.2,
+      "end_mm": 113.3,
+      "min_mm": 113.3,
+      "max_mm": 144.2,
+      "monotonic": true
+     },
+     "hgpt.muscle.triceps_long.L": {
+      "contract": "shortening",
+      "result": "lengthening",
+      "verdict": "MISMATCH",
+      "change_fraction_of_rest": 0.0493,
+      "start_mm": 283.4,
+      "end_mm": 296.1,
+      "min_mm": 283.4,
+      "max_mm": 296.1,
+      "monotonic": true
+     },
+     "hgpt.muscle.triceps_lateral.L": {
+      "contract": "shortening",
+      "result": "shortening",
+      "verdict": "match",
+      "change_fraction_of_rest": -0.0997,
+      "start_mm": 220.4,
+      "end_mm": 200.6,
+      "min_mm": 200.6,
+      "max_mm": 220.4,
+      "monotonic": true
+     },
+     "hgpt.muscle.trapezius_upper.L": {
+      "contract": "shortening",
+      "result": "shortening",
+      "verdict": "match",
+      "change_fraction_of_rest": -0.1555,
+      "start_mm": 224.4,
+      "end_mm": 188.1,
+      "min_mm": 188.1,
+      "max_mm": 224.4,
+      "monotonic": true
+     },
+     "hgpt.muscle.trapezius_lower.L": {
+      "contract": "shortening",
+      "result": "lengthening",
+      "verdict": "MISMATCH",
+      "change_fraction_of_rest": 0.0617,
+      "start_mm": 116.8,
+      "end_mm": 124.5,
+      "min_mm": 113.0,
+      "max_mm": 124.5,
+      "monotonic": false
+     },
+     "hgpt.muscle.serratus_anterior.L": {
+      "contract": "shortening",
+      "result": "shortening",
+      "verdict": "match",
+      "change_fraction_of_rest": -0.2612,
+      "start_mm": 134.5,
+      "end_mm": 97.0,
+      "min_mm": 97.0,
+      "max_mm": 134.5,
+      "monotonic": true
+     },
+     "hgpt.muscle.infraspinatus.L": {
+      "contract": "near_isometric",
+      "result": "shortening",
+      "verdict": "MISMATCH",
+      "change_fraction_of_rest": -0.0972,
+      "start_mm": 175.7,
+      "end_mm": 158.6,
+      "min_mm": 158.6,
+      "max_mm": 175.7,
+      "monotonic": true
+     },
+     "hgpt.muscle.teres_minor.L": {
+      "contract": "near_isometric",
+      "result": "no_proposed_anchors"
+     },
+     "hgpt.muscle.subscapularis.L": {
+      "contract": "near_isometric",
+      "result": "no_proposed_anchors"
+     }
+    }
+   },
+   "lower": {
+    "control_poses_ht_elbow": [
+     [
+      160,
+      8
+     ],
+     [
+      35,
+      92
+     ]
+    ],
+    "muscles": {
+     "hgpt.muscle.deltoid_anterior.L": {
+      "contract": "lengthening",
+      "result": "lengthening",
+      "verdict": "match",
+      "change_fraction_of_rest": 0.0573,
+      "start_mm": 141.8,
+      "end_mm": 151.5,
+      "min_mm": 119.6,
+      "max_mm": 151.5,
+      "monotonic": false
+     },
+     "hgpt.muscle.deltoid_middle.L": {
+      "contract": "lengthening",
+      "result": "lengthening",
+      "verdict": "match",
+      "change_fraction_of_rest": 0.3927,
+      "start_mm": 88.3,
+      "end_mm": 153.6,
+      "min_mm": 88.3,
+      "max_mm": 153.6,
+      "monotonic": true
+     },
+     "hgpt.muscle.supraspinatus.L": {
+      "contract": "variable",
+      "result": "lengthening",
+      "verdict": "variable_ok",
+      "change_fraction_of_rest": 0.2042,
+      "start_mm": 113.3,
+      "end_mm": 144.2,
+      "min_mm": 113.3,
+      "max_mm": 144.2,
+      "monotonic": true
+     },
+     "hgpt.muscle.triceps_long.L": {
+      "contract": "lengthening",
+      "result": "shortening",
+      "verdict": "MISMATCH",
+      "change_fraction_of_rest": -0.0493,
+      "start_mm": 296.1,
+      "end_mm": 283.4,
+      "min_mm": 283.4,
+      "max_mm": 296.1,
+      "monotonic": true
+     },
+     "hgpt.muscle.triceps_lateral.L": {
+      "contract": "lengthening",
+      "result": "lengthening",
+      "verdict": "match",
+      "change_fraction_of_rest": 0.0997,
+      "start_mm": 200.6,
+      "end_mm": 220.4,
+      "min_mm": 200.6,
+      "max_mm": 220.4,
+      "monotonic": true
+     },
+     "hgpt.muscle.trapezius_upper.L": {
+      "contract": "lengthening",
+      "result": "lengthening",
+      "verdict": "match",
+      "change_fraction_of_rest": 0.1555,
+      "start_mm": 188.1,
+      "end_mm": 224.4,
+      "min_mm": 188.1,
+      "max_mm": 224.4,
+      "monotonic": true
+     },
+     "hgpt.muscle.trapezius_lower.L": {
+      "contract": "lengthening",
+      "result": "shortening",
+      "verdict": "MISMATCH",
+      "change_fraction_of_rest": -0.0617,
+      "start_mm": 124.5,
+      "end_mm": 116.8,
+      "min_mm": 113.0,
+      "max_mm": 124.5,
+      "monotonic": false
+     },
+     "hgpt.muscle.serratus_anterior.L": {
+      "contract": "lengthening",
+      "result": "lengthening",
+      "verdict": "match",
+      "change_fraction_of_rest": 0.2612,
+      "start_mm": 97.0,
+      "end_mm": 134.5,
+      "min_mm": 97.0,
+      "max_mm": 134.5,
+      "monotonic": true
+     },
+     "hgpt.muscle.infraspinatus.L": {
+      "contract": "near_isometric",
+      "result": "lengthening",
+      "verdict": "MISMATCH",
+      "change_fraction_of_rest": 0.0972,
+      "start_mm": 158.6,
+      "end_mm": 175.7,
+      "min_mm": 158.6,
+      "max_mm": 175.7,
+      "monotonic": true
+     },
+     "hgpt.muscle.teres_minor.L": {
+      "contract": "near_isometric",
+      "result": "no_proposed_anchors"
+     },
+     "hgpt.muscle.subscapularis.L": {
+      "contract": "near_isometric",
+      "result": "no_proposed_anchors"
+     }
+    }
+   }
+  }
+ },
+ "summary": {
+  "match": 22,
+  "mismatch": 6,
+  "variable": 2,
+  "no_anchor": 6
+ }
+}

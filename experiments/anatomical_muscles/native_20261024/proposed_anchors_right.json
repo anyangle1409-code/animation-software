@@ -847,16 +847,16 @@
      "role": "origin",
      "bone": "anat_rib_05_right",
      "local_m": [
-      0.0,
-      0.11919,
-      0.0
+      -0.051354,
+      0.104063,
+      0.12768
      ],
      "world_rest_m": [
-      -0.04147,
-      -0.02662,
-      1.41113
+      -0.16223,
+      0.02876,
+      1.37217
      ],
-     "rule": "lateral surfaces of ribs 1-8/9 (represented at rib 5, 55 % along; digitations required)"
+     "rule": "lateral surfaces of ribs 1-8/9 (represented at rib 5 on the mid-axillary line: the most lateral torso skin point at the height of rib 5's anterior end, within 10 mm of the coronal plane through GH and medial of GH - 35 mm, inset 15 mm; digitations required).  Replaces 'rib 5, 55 % along' (20261024 path-length check: the rib bone is a straight chord, so that point lay inside the thorax, 4 cm from the midline)"
     },
     {
      "role": "insertion",
@@ -874,7 +874,7 @@
      "rule": "costal surface of the medial border: mid TS->AI, 10 mm anterior"
     }
    ],
-   "rest_straight_length_m": 0.1596,
+   "rest_straight_length_m": 0.1385,
    "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
    "anatomical_side": "right",
    "anatomical_side_x_sign": -1.0,

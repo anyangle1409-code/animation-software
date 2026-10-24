@@ -107,3 +107,87 @@ midpoint, and R41's own `LM_sternum__px_skin` sits 2.4 mm off the midline (x = �
 source landmark; it is flagged for landmark review, not corrected here.
 
 Both sides remain **PROPOSED, UNREVIEWED**.
+
+## Path-length direction check against the exercise contract (added)
+
+Work's contract asks for path-length directions to be checked "in Blender ... against the scene". That check is now run
+natively by `path_length_direction_check_blender.py` (read-only; the copy's SHA256 is unchanged, `4c44b1fe…`).
+
+**How it works**
+
+- R41's `HGPT_ANATOMICAL_MASTER` has **no constraints** to the runtime rig (posing `forearm_r` moved `anat_ulna_left`
+  by 0.0 mm). The anatomical chain is therefore posed directly: clavicle → scapula → humerus → ulna/radius, as rigid
+  rotations about R41's own SC, AC, GH and EJC landmarks.
+- Every rotation sign is fixed by a landmark probe.
+- The anchors are the proposals' bone-local points. Posing to rest reproduces `world_rest_m` within 0.007 mm.
+- The girdle is coupled to humerothoracic elevation by approximate literature ratios (rule of thumb, not patient
+  values). Per degree of elevation:
+
+  | Motion | Ratio |
+  |---|---|
+  | Upward rotation | 0.33 |
+  | Posterior tilt | 0.12 |
+  | Clavicle elevation | 0.08 |
+  | Clavicle retraction | 0.12 |
+
+  External rotation is about 0.
+- Control poses are the mid-points of the contract's joint targets:
+  - curl: elbow flexion 10° → 112°;
+  - press: elevation 35° → 160° with the elbow going from 92° to 8°.
+- Paths are straight lines. Serratus anterior is the exception: it is wrapped on an elliptic cylinder fitted to the
+  torso at its origin height.
+
+**Results (left side; the right side is identical, 22 / 6 / 2 / 6)**
+
+| Exercise | Matches | Mismatches | Contract "variable" | No anchors in proposal |
+|---|---|---|---|---|
+| Curl (concentric and eccentric) | 12 of 12 | 0 | – | subscapularis (2) |
+| Press (press and lower) | 10 | 6 | supraspinatus (2) | teres minor, subscapularis (4) |
+
+Curl changes as a fraction of rest length:
+
+| Muscle | Change | Contract |
+|---|---|---|
+| Biceps long | −16 % | shortening |
+| Biceps short | −17 % | shortening |
+| Brachialis | −26 % | shortening |
+| Brachioradialis | −27 % | shortening |
+| Triceps long | +7 % | lengthening |
+| Infraspinatus | 0 % | near-isometric |
+
+Every curl result matches the contract.
+
+The press mismatches are three muscles, each failing in both the press and lower phases:
+
+1. **Triceps long: the model says lengthening (+4.9 %); the contract says shortening.**
+   - The head crosses both joints. 125° of shoulder elevation lengthens it more than 84° of elbow extension shortens it.
+   - The result is the same under both girdle models.
+   - This is a contract question for Work or the owner, not an anchor error. The overhead position is the one that
+     stretches the long head. "Near-isometric or lengthening" may be the correct entry.
+   - The contract is Work's file, so it is **not edited here**.
+2. **Trapezius lower: the model says lengthening (+55 %); the contract says shortening.**
+   - This result is **not trustworthy**. With the pivot at the AC joint (the only pivot that keeps the AC joint closed
+     in a rigid chain), 52° of upward rotation swings the root of the spine about 11 cm laterally and 10 cm down. That is
+     more lateral travel than the scapula shows in vivo.
+   - Moving the pivot towards the root of the spine makes the result near-isometric (+1 %), but it opens the AC joint by
+     9 to 19 cm. That is impossible, so that setting is reported only as a bound.
+   - The direction needs scapulothoracic gliding (the scapula on the rib cage), which this rigid chain does not have.
+   - **Unresolved; flagged.**
+3. **Infraspinatus: the model says shortening (−9.7 %); the contract says near-isometric.**
+   - The straight line cuts across the humeral head, and there is no humeral axial rotation in the pose.
+   - It needs the wrap path and the press's humeral external rotation before it can be judged.
+
+**An anchor defect found and fixed by this check.** The serratus anterior origin rule took a point 55 % along the
+rib-5 bone. R41's rib bones are straight chords, so that point lay inside the thorax, 4 cm from the midline. The
+first run's serratus therefore lengthened in the press.
+
+- The new rule puts the origin on the lateral chest wall on the mid-axillary line, at the height of rib 5's anterior
+  end. It is taken from the torso skin and inset 15 mm.
+- Both sides were regenerated. Only the serratus origin changed, as the diff of the two proposal files confirmed.
+- With the new rule and the thorax wrap, serratus shortens in the press (−25 %), as the contract says.
+
+**Files:** `native_20261024/path_length_check_left_coupled.json` (main result),
+`…_left_ac_only.json` (the first crude girdle), `…_left_coupled_pivot0.5.json` (pivot bound),
+`…_right_coupled.json`.
+
+**Not covered:** the squat. No lower-limb anchors are proposed yet.

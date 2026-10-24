@@ -440,3 +440,24 @@ contact plane. The run is in progress.
 - **Verdict.** Not adopted as is. Report: `report_TT_K1_footprint4mm.json`.
 - **Next.** Re-running with the footprint taken as the forearm's silhouette, from skin within a 30 mm slab
   (`V2_R121_CONTACT_FOOTPRINT_SLAB=0.030`).
+
+**Footprint, adopted (K1, 30 mm slab).** The footprint is now the other side's skin within 30 mm of the contact plane,
+so it is the forearm's silhouette, not just its nearest strip. Elbow keys were re-authored on I12 with
+`V2_R121_CONTACT_FOOTPRINT=0.004 V2_R121_CONTACT_FOOTPRINT_SLAB=0.030` (45 / 90 / 120 / 140°, reach 26 cm).
+
+| Curl | I12 | K1 |
+|---|---|---|
+| Self-intersections | 0 | 0 |
+| Elbow crumple over 35° | 377 | **308** |
+| Elbow folds over 90° | 4 | 4 |
+| Edges stretched over 2× | 60 | 68 |
+
+- Press: elbow crumple 268 → 263; everything else unchanged.
+- Squat: unchanged.
+- Every movement returns to neutral exactly.
+
+Renders (`elbow120_140_I12_vs_K1_footprint30mm.jpg`): in the inner and front views the exposed flat face at 120–140°
+is narrower. In the side view the crease is still a fairly sharp V. This is **partly fixed, not solved**: the remaining
+crease is where the two contact faces meet the silhouette.
+
+K1 is the current best candidate. Report: `report_TT_K1_footprint30mm.json`.

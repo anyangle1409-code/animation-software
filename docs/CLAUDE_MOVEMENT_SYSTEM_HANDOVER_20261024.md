@@ -57,6 +57,9 @@ The test is `scripts/body_v2/movement_trajectory_test_blender.py`. Sheets: `traj
    - The hand-on-thigh part is a transient key (driven by arm elevation), not a dent in the basis.
 
 6. **Press rack:** a combination corrective (arm about 84° and elbow 90°): press elbow folds 90 → 20.
+7. **Elbow at 120–140° (K1, current best):** the upper arm was flattened wider than the forearm that presses on it.
+   Mutual-footprint contact narrows the exposed flat face, and curl elbow crumple falls from 377 to 308 with 0
+   intersections. The side-view crease is only partly fixed.
 
 All the keys are driven by joint angles (`scripts/body_v2/r121_drives.py`), not by exercise. Any movement that reaches
 those angles uses them, which makes this a reusable movement system rather than a set of per-exercise fixes.

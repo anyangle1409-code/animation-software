@@ -2,7 +2,7 @@
 after the r57 original_v1_review_candidate_drives.drive(rig, body).  No-op on a blend without the keys.
 
 Keys R121_ARM_<s>_<deg> (authored in a sideways raise) and R121_FLEX_<s>_<deg> (forward raise, residual on top,
-weighted by plane_factor): piecewise-linear hats on the humerothoracic elevation (drives.elevation_deg, as drive_s1)
+weighted by plane_factor), and R121_HIP_<s>_<pct> (squat depth, hats on hip_flex_deg): piecewise-linear hats on the humerothoracic elevation (drives.elevation_deg, as drive_s1)
 through the elevations measured when each key was authored (rig["hgpt_r121_arm_angles_<s>"]), 0 below START.
 CANDIDATE ONLY - not part of the runtime contract.
 """
@@ -12,7 +12,21 @@ PREFIX = "R121_ARM_"
 PROP = "hgpt_r121_arm_angles"
 FLEX_PREFIX = "R121_FLEX_"
 FLEX_PROP = "hgpt_r121_flex_angles"
+HIP_PREFIX = "R121_HIP_"
+HIP_PROP = "hgpt_r121_hip_angles"
 START = 25.0
+HIP_START = 30.0
+
+
+def hip_flex_deg(rig, s):
+    """hip joint angle: between the posed thigh and where the thigh would point if it followed the pelvis rigidly"""
+    pel = rig.pose.bones["pelvis"]; bp = rig.data.bones["pelvis"]
+    th = rig.pose.bones[f"thigh_{s}"]; bt = rig.data.bones[f"thigh_{s}"]
+    rest_dir = (bt.tail_local - bt.head_local).normalized()
+    follow = (pel.matrix.to_3x3() @ bp.matrix_local.to_3x3().inverted()) @ rest_dir
+    u = (th.tail - th.head).normalized()
+    import math
+    return math.degrees(math.acos(max(-1.0, min(1.0, u.dot(follow.normalized())))))
 
 
 def plane_factor(rig, s):
@@ -55,10 +69,12 @@ def drive(rig, body):
     for s in ("l", "r"):
         e = drives.elevation_deg(rig, s)
         pf = plane_factor(rig, s)
-        for prefix, prop, gain in ((PREFIX, PROP, 1.0), (FLEX_PREFIX, FLEX_PROP, pf)):
+        hf = hip_flex_deg(rig, s)
+        for prefix, prop, gain, ang, start in ((PREFIX, PROP, 1.0, e, START), (FLEX_PREFIX, FLEX_PROP, pf, e, START),
+                                               (HIP_PREFIX, HIP_PROP, 1.0, hf, HIP_START)):
             names = sorted((kb.name for kb in keys if kb.name.startswith(f"{prefix}{s}_")), key=lambda n: int(n.rsplit("_", 1)[1]))
             if not names or f"{prop}_{s}" not in rig:
                 continue
-            for name, v in _hats(names, (START,) + tuple(rig[f"{prop}_{s}"])[:len(names)], e):
+            for name, v in _hats(names, (start,) + tuple(rig[f"{prop}_{s}"])[:len(names)], ang):
                 keys[name].value = v * gain
     bpy.context.view_layer.update()

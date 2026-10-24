@@ -1,7 +1,7 @@
 """Review renders of a body_v2 blend in raised-arm poses (upper body, front / back / side), r57 drives active and the
 R121 candidate drives on or off (V2_POSE_R121=0 switches the candidate keys off).  Read-only on the blend.
 
-usage: python3.13 render_pose_blender.py -- <body.blend> <r57src> <out dir> [pose ...]   (poses: abduct_<deg>, flex_<deg>)
+usage: python3.13 render_pose_blender.py -- <body.blend> <r57src> <out dir> [pose ...]   (poses: abduct_<deg>, flex_<deg>, squat_<depth %>)
 """
 import math
 import os
@@ -31,10 +31,17 @@ USE = os.environ.get("V2_POSE_R121", "1") == "1"
 tag = os.environ.get("V2_POSE_TAG", "keys" if USE else "nokeys")
 
 
+bench._reset(rig)
+REST_HEADS = {s_: rig.pose.bones[f"foot_{s_}"].head.copy() for s_ in ("l", "r")}
+
+
 def pose(name):
     kind, ang = name.rsplit("_", 1); ang = float(ang)
-    bench._reset(rig)
-    for sd, sg in (("r", -1.0), ("l", 1.0)):
+    if kind == "squat":                                         # the movement benchmark's squat at depth ang %
+        bench.pose_squat(rig, ang / 100.0, REST_HEADS)
+    else:
+        bench._reset(rig)
+    for sd, sg in (("r", -1.0), ("l", 1.0)) if kind != "squat" else ():
         pb = rig.pose.bones[f"upperarm_{sd}"]; pb.rotation_mode = "XYZ"
         if kind == "abduct":
             pb.rotation_euler = (0.0, 0.0, math.radians(sg * ang))
@@ -48,7 +55,7 @@ def pose(name):
         r121_drives.drive(rig, body)
     else:
         for kb in body.data.shape_keys.key_blocks:
-            if kb.name.startswith(("R121_ARM_", "R121_FLEX_")):
+            if kb.name.startswith(("R121_ARM_", "R121_FLEX_", "R121_HIP_")):
                 kb.value = 0.0
     bpy.context.view_layer.update()
 
@@ -62,7 +69,7 @@ sc.display.shading.show_cavity = True; sc.render.resolution_x = 1000; sc.render.
 sc.render.film_transparent = False
 for name in POSES:
     pose(name)
-    centre = Vector((0.0, 0.05, 1.42))
+    centre = Vector((0.0, 0.05, 0.62 if name.startswith("squat") else 1.42))
     for view, dv in {"front": (0, -1, 0), "back": (0, 1, 0), "side": (1, 0, 0), "back34": (0.7, 0.7, 0.3)}.items():
         d = Vector(dv).normalized(); cam.location = centre + d * 4; cam.rotation_mode = "QUATERNION"
         cam.rotation_quaternion = (-d).to_track_quat("-Z", "Y")

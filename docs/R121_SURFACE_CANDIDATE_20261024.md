@@ -196,3 +196,32 @@ back / side / back-3/4. Top row is R121p; bottom row adds the keys.
 - The movement benchmarks (press, row, pull-up).
 
 Adopting these keys is a runtime-contract change: new keys plus a drive call. That is the owner's decision.
+
+### Squat hip keys (candidate)
+
+`R121_HIP_<s>_<pct>` are authored with the same recipe at benchmark squat depths 50 / 75 / 100 %. They are restricted to
+0.38–0.66 H (hips, glutes, groin, lower back), with the knees, hands and hanging arms held:
+
+```
+V2_R121_ARMKEY_ANGLES=50,75,100 V2_R121_ARMKEY_MODE=squat V2_R121_ARMKEY_CRUMPLE=6 V2_R121_ARMKEY_CRUMPLE_DEG=21 \
+  python3.13 scripts/body_v2/r121_arm_correctives_blender.py -- <B>/body_v2_r121_arms.blend <r57src> <C>
+```
+
+They are driven by hats from 30 deg on `r121_drives.hip_flex_deg`: the angle between the posed thigh and where it would
+point if it followed the pelvis rigidly. The measured angle is 55 / 93 / 110 deg at the three depths.
+
+Whole-body counts (hands and feet excluded):
+
+| Pose | Without hip keys >35 / >90 | With hip keys >35 / >90 |
+|---|---|---|
+| squat 50 % | 860 / 52 | 487 / 41 |
+| squat 100 % | 5723 / 736 | 793 / 119 |
+
+The arm-raise results are unchanged. Keys move vertices by up to 43 mm at full depth. In
+`sheet_squat_100.jpg` / `sheet_squat_75.jpg`:
+
+- **Gone:** the lumbar crumple, the dotted line at the waist and the crumpled glute cleft.
+- **Remaining:** horizontal texture on the lower belly (front).
+- **Not covered:** the knee crease. Contact (thigh against calf and belly) is not modelled; these keys only smooth the
+  skin.
+

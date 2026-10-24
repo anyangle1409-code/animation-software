@@ -78,10 +78,23 @@ def evaluated():
 
 
 MODE = os.environ.get("V2_R121_ARMKEY_MODE", "abd")        # abd: sideways raise; flex: forward raise (on top of abd keys)
-FAMILY = {"abd": (r121_drives.PREFIX, r121_drives.PROP), "flex": (r121_drives.FLEX_PREFIX, r121_drives.FLEX_PROP)}[MODE]
+#                                                            squat: benchmark squat at depth ANGLES / 100 (hip family)
+FAMILY = {"abd": (r121_drives.PREFIX, r121_drives.PROP), "flex": (r121_drives.FLEX_PREFIX, r121_drives.FLEX_PROP),
+          "squat": (r121_drives.HIP_PREFIX, r121_drives.HIP_PROP)}[MODE]
+if MODE == "squat":                                        # hips, glutes, groin, lower back - not the knees
+    fz = (R0[:, 2] - z0) / H
+    arm_g = {i for i, g in enumerate(GN) if any(k in g for k in ("upperarm", "forearm"))}
+    ARMV = np.array([sum(g.weight for g in v.groups if g.group in arm_g) > 0.3 for v in me.vertices])
+    UPPER = (fz > 0.38) & (fz < 0.66) & ~HOLD & ~ARMV          # the hanging arms stay as they are
+    bench._reset(rig)
+    REST_HEADS = {s_: rig.pose.bones[f"foot_{s_}"].head.copy() for s_ in ("l", "r")}
 
 
 def pose(ang):
+    if MODE == "squat":
+        bench.pose_squat(rig, ang / 100.0, REST_HEADS)
+        bpy.context.view_layer.update(); drives.drive(rig, body); r121_drives.drive(rig, body); bpy.context.view_layer.update()
+        return
     bench._reset(rig)
     for sd, sg in (("r", -1.0), ("l", 1.0)):
         pb = rig.pose.bones[f"upperarm_{sd}"]; pb.rotation_mode = "XYZ"
@@ -105,7 +118,8 @@ REP = {"mode": MODE, "angles_deg": ANGLES, "keys": {}}
 made = {}
 for ang in ANGLES:
     pose(ang)
-    elev = {s: round(float(drives.elevation_deg(rig, s)), 2) for s in ("l", "r")}
+    measure = r121_drives.hip_flex_deg if MODE == "squat" else drives.elevation_deg
+    elev = {s: round(float(measure(rig, s)), 2) for s in ("l", "r")}
     P = evaluated()
     # relax: unfold rounds, then a light Laplacian over the folded area (posed space)
     T = P.copy(); hist = []
@@ -167,7 +181,7 @@ for s in ("l", "r"):
     rig[f"{FAMILY[1]}_{s}"] = made[s]
 bench._reset(rig)
 for kb in me.shape_keys.key_blocks:
-    if kb.name.startswith(("R121_ARM_", "R121_FLEX_")):
+    if kb.name.startswith(("R121_ARM_", "R121_FLEX_", "R121_HIP_")):
         kb.value = 0.0
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT / "body_v2_r121_arms.blend"), copy=True)
 (OUT / f"r121_arm_correctives_{MODE}_report.json").write_text(json.dumps(REP, indent=1))

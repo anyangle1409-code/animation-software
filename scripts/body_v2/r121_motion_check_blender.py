@@ -88,7 +88,7 @@ POSES = {"rest": lambda: arms(), "abduct_90": lambda: arms(90.0), "abduct_120": 
          "flex_90": lambda: flex(90.0), "flex_150": lambda: flex(150.0),
          "diag_120": lambda: diag(120.0), "diag_150": lambda: diag(150.0),
          "abduct_150_elbow_90": with_elbow(lambda: arms(150.0), 90.0), "flex_120_elbow_90": with_elbow(lambda: flex(120.0), 90.0),
-         "elbow_120": lambda: arms(16.0, 120.0), "squat": lambda: bench.pose_squat(rig, 1.0, rest_heads)}
+         "elbow_120": lambda: arms(16.0, 120.0), "squat_50": lambda: bench.pose_squat(rig, 0.5, rest_heads), "squat": lambda: bench.pose_squat(rig, 1.0, rest_heads)}
 REP = {"source": SRC.name}
 for name, fn in POSES.items():
     fn(); bpy.context.view_layer.update(); drives.drive(rig, body); r121_drives.drive(rig, body)

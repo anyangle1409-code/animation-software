@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "status": "verified_diagnostic_only_not_anatomical_approval",
+  "commit_sha": "9a1605430bc8728f169b42a1013c79d4c58f875b",
+  "run_id": 40115516526,
+  "run_conclusion": "success",
+  "job_count": 7,
+  "localization_test_count": 252,
+  "pose_focused_test_counts": [9, 19, 6, 10],
+  "render_output": {"snapshots": 16, "renders": 48, "comparison_sheets": 18, "focused_sheets": 12},
+  "source": {
+    "candidate": "W8",
+    "sha256": "2434afd0daa231ab3a03c873cad4187ffcbc1bab78132375221160b0b0f09e4c",
+    "original_blend_opened_by_renderer": false,
+    "saved_blend": false
+  },
+  "artifacts": {
+    "evaluated_snapshots": {"id": 12568316535, "zip_sha256": "5c172dad0958f4ba2beeebe53256ceae488087f01b2ddf621028a9c834632d6c", "crc_ok": true, "members": 16},
+    "pose_state": {"id": 12568221823, "zip_sha256": "a5bdb3561be936104ead254c73c1b2bbd42875aebbe52eaac7a241e0144d4113", "crc_ok": true, "members": 71},
+    "driver_consistency": {"id": 12568547087, "zip_sha256": "172d0305c4460ce6ba55c2716942a4e2f8b4b346fbc0118c82772bebef4f0831"},
+    "r120": {"id": 12568292143, "zip_sha256": "640d2e41200908705f7aaabb059964f9bcad46f2e74831ed06bf67462ad55c14"},
+    "v14": {"id": 12568292137, "zip_sha256": "fbf24512f00896fa2b77b954c664fd9d695f05758e7948c6d93397f4210696cf"},
+    "visual_review": {"id": 12568217430, "zip_sha256": "0420e007642afe37c9180def750e3cbadcbcfdff20040d4a6fc21e758a0709d7"},
+    "rest_cross_model": {"id": 12568172667, "zip_sha256": "2f2af5e6b12e2fb17523b794a6636a0d757d247d6ea6af01507208e14333c85e"},
+    "w8": {"id": 12567952678, "zip_sha256": "99ea7a0c960003938a50086790c1a60d1f4da943a0583c89c4697f2dd79d7456"},
+    "localization": {"id": 12567889389, "zip_sha256": "03f73feac80681627f0f3706cfd8dc0ce597144dee536abd8bd8feb9d4e72111"}
+  },
+  "content_verification": {
+    "manifest_sha256": "029e05b81d909063063678112fd0e4dbf7ac7c9fdf93f28f10ed8906fb8129ad",
+    "snapshot_hashes_checked": 16,
+    "render_hashes_checked": 48,
+    "sheet_hashes_checked": 18,
+    "hash_mismatches": 0,
+    "blend_members": 0,
+    "all_focused_suffixes_declared_non_anatomical": true
+  },
+  "image_rmse_normalized_against_observed": {
+    "S5_85": {"min": 0.00127157, "max": 0.00917125},
+    "S5_110": {"min": 0.000216237, "max": 0.0013844},
+    "S7_145": {"min": 0.00557721, "max": 0.0265422},
+    "S7_156": {"min": 0.000285034, "max": 0.00218436}
+  },
+  "visual_review": {"focused_sheets_inspected": 12, "full_resolution_sheets_inspected": 4, "readable": true},
+  "anatomical_approval": false,
+  "generic_motions_approved": 0,
+  "generic_motion_count": 19,
+  "unbound_landmarks": 46,
+  "historical_run_40029398965": "failed_overall_read_only_docstring_false_positive_successful_rig_evidence_remains_valid"
+}

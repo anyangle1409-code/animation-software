@@ -260,6 +260,38 @@ arm movements are unchanged (keys at 0).
 
 Images: `squat_knees_knee_contact_keys.jpg`. Report: `report_TT_I6_squat_knee_keys.json`.
 
+## Rest-pose contact and the left-armpit flap (I7, I8)
+
+**Rest contact** (`rest_contact_candidate_blender.py`). The rig's rest pose, with the arms hanging and no carriage, had
+1929 self-intersecting pairs.
+
+- **Method:** arm triangles intersecting body triangles push their vertices laterally and the body's medially, 0.4 mm
+  per step, spread over 3 rings. This repeats until no pair remains (101 iterations), then the displacement is smoothed.
+  The basis and every key move together.
+- **Result:** 6911 vertices moved, at most 18.9 mm.
+
+**Flap fix** (`local_flap_fix_candidate_blender.py`). The evaluated rest pose, with the r57 drives applied, still had 168
+pairs. All were in a 4 mm patch at the back of the **left** armpit: shoulder-cap skin overlapping itself, an R120 stitch
+pleat that R121's unfold had left on that side.
+
+- **Method:** local plain Laplacian smoothing over those triangles plus 4 rings.
+- **Result:** 168 → 103 → 0, at most 5 mm, 944 vertices.
+
+**Self-intersections per frame (I8):**
+
+| Movement | Frames |
+|---|---|
+| press | 0 0 0 0 2 0 0 25 22 25 0 0 2 0 0 0 0 |
+| curl | 0 … 0 598 865 598 0 … 0 (forearm and hand against the shoulder at 134–140°) |
+| squat | 0 0 0 37 192 0 … 0 192 37 0 0 0 |
+
+At mid-squat the benchmark keeps the arms hanging, so the hands sweep through the rising thighs. That is a test-path
+matter, not a skin defect. Before these passes the squat's neutral frame had 1929 pairs and its deep frames 115.
+
+The standing look is preserved: the inner arm is slightly flatter where it meets the chest (`standing_before_after_I8.jpg`).
+
+Images: `I8_press.jpg`, `I8_curl.jpg`, `I8_squat.jpg`. Report: `report_TT_I8.json`.
+
 ## Open items (measured, next)
 
 - **Elbow:** see the T2 section. Open there: the contact slit, volume preservation and the press-rack elbow.

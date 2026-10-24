@@ -20,11 +20,12 @@ The permanent muscle IDs are used unchanged. Muscle highlighting is not implemen
 The test is `scripts/body_v2/movement_trajectory_test_blender.py`. Sheets: `trajectory_sheets.py`, written to
 `review-assets/body_v2/movement_trajectories_20261024/`, sized for a phone.
 
-| | Before (R121p, r57 girdle, no new keys) | Now (candidate I5) |
+| | Before (R121p, r57 girdle, no new keys) | Now (candidate I8) |
 |---|---|---|
-| Press lockout: folds over 90° / self-intersections | 4666 / 4759 (peak) | 136 / 24 |
+| Press lockout: folds over 90° / self-intersections | 4666 / 4759 (peak) | 137 / 22 |
 | Curl: elbow folds over 90° / self-intersections | 147 / 1641 | 4 / 865 (forearm meets the shoulder at 140°) |
-| Squat: hip folds / heel lift | 586 / 11.3 mm | 0 / 0.0 mm |
+| Squat: hip and knee folds / knee intersections / heel lift | 586 and 123 / 722 / 11.3 mm | 0 and 20 / 0 / 0.0 mm |
+| Rest pose self-intersections | 1929 | 0 |
 | Return to neutral, all movements | 0.0000 mm | 0.0000 mm |
 | Left/right asymmetry p95 | ≤ 3 mm | ≤ 3 mm |
 
@@ -47,7 +48,11 @@ The test is `scripts/body_v2/movement_trajectory_test_blender.py`. Sheets: `traj
    - There is no forearm–biceps contact.
 
    *Fix:* elbow keys with hinge-contact flattening on the plane that bisects the elbow angle.
-4. **Squat hips:** hip keys. **Heel lift:** sole skin was shin-weighted; it now follows the foot.
+4. **Squat:**
+   - *Hips:* hip keys.
+   - *Knees:* hinge-contact knee keys.
+   - *Heel lift:* sole skin was shin-weighted; it now follows the foot.
+5. **Rest pose:** the arms interpenetrated the body. *Fix:* a contact pass, plus the left-armpit flap removed.
 
 All the keys are driven by joint angles (`scripts/body_v2/r121_drives.py`), not by exercise. Any movement that reaches
 those angles uses them, which makes this a reusable movement system rather than a set of per-exercise fixes.
@@ -78,10 +83,9 @@ those angles uses them, which makes this a reusable movement system rather than 
 
 **Next unblocked:**
 
-1. **Rest-pose self-intersections** (1929: armpit 608, forearm–hip 420, hands 731). Resolve these as contact in the
-   basis.
-2. **Remaining sole slide** (17 mm) in the squat.
-3. **Squat knee contact** (722 pairs at depth): hinge-contact keys for the knee, using the same method as the elbow.
+1. **Remaining sole slide** (17 mm) in the squat.
+2. **Squat arm path:** the benchmark's hanging arms sweep through the thighs at mid-depth.
+3. **Curl top contact:** forearm and hand against the shoulder.
 4. **Skeleton-shift tests on a candidate copy:**
    - ankle pivot 16 mm above the malleolar line;
    - elbow pivot about 2 cm above and behind the epicondyle line.

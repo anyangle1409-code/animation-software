@@ -412,3 +412,20 @@ The slide made the skin smoother but more unevenly stretched: Laplacian smoothin
 lengths. It is not adopted. I12 remains the current best.
 
 The option stays in the script (default off). Report: `report_TT_J3_slide_not_adopted.json`.
+
+## Elbow slit at 120–140°: soft lip tried, not adopted (K1 soft)
+
+**What was tried.** `V2_R121_CONTACT_SOFT=0.012` draws skin within 12 mm of the hinge-contact face towards it, with a
+falloff that meets the face tangentially. The aim was to roll the edges of the contact into a tight crease.
+
+**Result.**
+- The renders barely change (`elbow120_140_I12_vs_softlip.jpg`).
+- Curl elbow folds rise from 4 to 17, and press elbow folds from 20 to 29.
+- It is not adopted.
+
+**What the comparison shows.** The visible flat triangle in the side view is the **upper arm's** flattened contact
+face. It is left exposed because the biceps is wider along the hinge axis than the forearm that presses on it. Real
+tissue is compressed only where the forearm touches.
+
+**Next test.** `V2_R121_CONTACT_FOOTPRINT=<tol>` flattens each side only where the other side actually reaches the
+contact plane. The run is in progress.

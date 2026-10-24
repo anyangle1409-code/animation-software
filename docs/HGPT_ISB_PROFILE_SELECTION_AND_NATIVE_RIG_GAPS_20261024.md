@@ -33,3 +33,15 @@ Each future frame binding must carry: permanent semantic segment ID; model/sourc
 Before acceptance, test landmark perturbation/degeneracy, side/sign round trips, global rigid-motion invariance, singular configurations, reference→movement→reference trajectories, and native skin/contact evidence. Show both the measured transform and the derived named angle. A numerical SO(3) pass never fills missing profile fields. Do not import clinical ROM means as stops or attach muscles to twist-helper centroids.
 
 This is a future implementation contract, not a new approved JSON binding. The existing 46 records remain null/unbound; 0/19 generic motions approved. Hip/knee/ankle frame selection still needs its own precise primary-standard review, not extrapolation from the upper limb. Existing press/squat/grip failures remain.
+
+## Lower-body primary-standard clarification
+
+Directly checked [ISB Part I, 2002](https://media.isbweb.org/images/documents/standards/Wu%20et%20al%20J%20Biomech%2035%20%282002%29%20543%E2%80%93548.pdf), DOI 10.1016/S0021-9290(01)00222-6:
+
+- Sections 3.1 and 3.3–3.5 define an ankle-complex measurement using tibia/fibula and calcaneus. This does not independently resolve talocrural versus subtalar motion. A shin-to-foot angle cannot silently become separate measurements of both.
+- Sections 4.3–4.5 require pelvic/femoral frames with hip-centre and pelvic/epicondylar references. A rig thigh head is not verified hip-centre evidence.
+- Section 5.1 distinguishes intervertebral, regional and overall spinal motion. Three authored spine controls do not provide one reviewed frame per vertebra.
+
+The primary [Grood–Suntay knee paper](https://pubmed.ncbi.nlm.nih.gov/6865355/), DOI 10.1115/1.3138397, describes a joint coordinate system for three-dimensional rotational and translational motion. Its abstract was verified; full knee axis/landmark implementation is **not** certified from that abstract. ISB Part I cites it as foundational but is not a standalone detailed knee recipe.
+
+Engineering next step: select and document separate ankle-complex, multisegment foot, hip, knee and regional-spine profiles before binding. Keep ankle-complex and individual ankle-joint fields distinct; retain translation alongside orientation in future measurement schemas. Existing null bindings stay null. A planted-looking foot, matched control endpoints or a balanced silhouette cannot establish these internal joint centres or physical balance. Contact testing and a mass/inertia model would be separate evidence if dynamic balance is later claimed.

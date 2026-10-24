@@ -1,0 +1,32 @@
+{
+  "run_id": 40076501814,
+  "execution_sha": "75affbdddc6922c6570fc39bcb098164b844aded",
+  "workflow_conclusion": "success",
+  "successful_jobs": 7,
+  "total_jobs": 7,
+  "scope_of_independent_download": "pose and driver artifacts only; remaining published digests not independently rehashed this run",
+  "artifacts": [
+    {
+      "artifact_id": 12553527306,
+      "zip_sha256": "a78587114ab9f672fd29dd698da8854f980fd0f8efb4ad81cef0b39010eea680",
+      "github_digest_matched": true,
+      "member_sha256": {
+        "w8_driver_math_consistency.json": "e42b96e02d4406784760a6b58593d3ddfe71fd37caa59dba5a37fdb1fd74a493",
+        "w8_elbow_corrective_crosswalk.json": "e21c9b1dcafb48c9c902432ee4fce10820f883b53c1693467a5de40a2a011399",
+        "w8_elbow_corrective_crosswalk.md": "7a3e4e100f80bb302e03167101a9b66125cac4efc9b8931c4eacb22e002a3ff3",
+        "w8_press_deformation_timeline.json": "c20f1a2b2fc9c533899b2804e45137eac9239c5b847d6922170787fba4c2c603",
+        "w8_press_deformation_timeline.md": "a1046a68fbedf8522c5998b995a4a1cd29c07e5e3a2f8382c9872f55ea79a58d"
+      }
+    },
+    {
+      "artifact_id": 12553088763,
+      "zip_sha256": "e199ead9d17cd1fe9ea5da17fa3ecdfcb5d0a5b3e1e75357f693e10fe8e4a45a",
+      "github_digest_matched": true,
+      "member_sha256": {
+        "w8_fixed_pose_corrective_edge_isolation.md": "cd8c75275a254ead859144fc06f72694a5297dbfcf66aa80544ecf7dc49b58f8",
+        "w8_shoulder_driver_pose_state.json": "19ec870df061f22be1f466e72b55a124b3a06ff13fdc422a515052a9d7ba883d"
+      }
+    }
+  ],
+  "anatomical_approval": false
+}

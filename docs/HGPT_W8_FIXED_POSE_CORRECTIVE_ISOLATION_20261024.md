@@ -46,3 +46,20 @@ K1_90 actual values for both suffixes: samples0–3 = 1.0, 0.871094, 0.53125, 0.
 ## Next isolated controls staged
 
 At sample0, observed S3_75/S3_100 and S5_85/S5_110 are active alongside K1_90. The next probe adds separate S1, S3 and S5 mute conditions at all nine existing poses, preserving the same state/coordinate checks. Synthetic combined-family regression observed FAIL before implementation and PASS after; complete suite now **229/229 PASS locally**. Additional family native results are pending. S2/S4/S6 are nominally absent in the verified W8 configuration; no invented activation is added. These controls still sample only four edges and cannot establish whole-body improvement or joint physiology.
+
+## Expanded native controls independently verified
+
+Run40076658568 at `22dd4a31af3580be024421f8b61b04c2a1ab017c`: **SUCCESS 7/7 jobs, 229/229 cloud diagnostic tests**. Native probe ran 9 poses, 4 edges and 7 conditions (observed, five separate key families, all non-Basis keys muted). Source preserved; all nine endpoint-restoration errors exactly 0 m; baseline deformation dictionaries and original condition ratios exactly match the preceding native probe. All eight latest ZIPs independently SHA256-matched; archive/member hashes: `recovery_20261023/cloud_verification_20261024_run40076658568.json`.
+
+Pose artifact12553865827 ZIP `4599a34cbfa0f9a3537f356b42c241380d43081836ece5caffbbfaa88305f0f9`; enriched JSON member `bbdd933cb106cd6e49f8fe1ab58954490f4be0f61201f66af4c2a14ebdb1278d`.
+
+| Sample / edge | Observed / rest | S1 muted | S3 muted | S5 muted |
+|---|---:|---:|---:|---:|
+| 0 / [15645,53019] | 0.1676121 | 0.1676121 | 0.1676121 | 0.7050926 |
+| 0 / [17185,44317] | 0.1631255 | 0.1631255 | 0.1631255 | 0.7039565 |
+| 6 / [29237,71026] | 2.6733724 | 2.6939575 | 2.6733724 | 2.8612098 |
+| 6 / [32352,71428] | 2.6485931 | 2.6710333 | 2.6485931 | 2.8409026 |
+
+Interpretation limited to these controlled local measurements: S5 muting reduces distal sampled compression at sample0 but increases middle sampled stretching at sample6. S7 muting has the larger sampled middle-edge effect at sample6. S3 muting leaves the four sampled ratios unchanged at these positions; this does not establish that it is unnecessary elsewhere. A blanket S5/S7/K1 disable is not a validated repair. The evidence now separates actual corrective-family effects from the residual rig/modifier condition; no clinical tissue mechanics or whole-body visual improvement is asserted.
+
+Next unblocked diagnostic: frozen-topology adjacent-edge controls and matched local views, then individual-key contributions only if those controls support further localization. Anatomical side/segment calibration remains a separate blocker; do not use these edge IDs as muscle origins or insertions.

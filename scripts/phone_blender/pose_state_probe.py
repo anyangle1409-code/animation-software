@@ -47,6 +47,13 @@ def shape_key_state(body, side):
     return sorted(result, key=lambda x: x["name"])
 
 
+def corrective_key_family(name):
+    matches = [prefix[:-1] for prefix in KEY_PREFIXES if name.startswith(prefix)]
+    if len(matches) != 1:
+        raise ValueError("active nonbasis key has unknown or ambiguous family: " + name)
+    return matches[0]
+
+
 def vertex_residual_summary(reference_vertices, observed_vertices):
     if len(reference_vertices) != len(observed_vertices) or not reference_vertices:
         raise ValueError("return-state vertex count changed or empty")
@@ -112,6 +119,93 @@ def reverse_trajectory_summary(forward_vertices_by_sample, reverse_vertices_by_s
             row["max_vertex_displacement_m"] == 0.0 for row in rows),
         "samples": rows,
     }
+
+
+def terminal_key_clear_attribution_summary(reference_vertices, observed_terminal_vertices,
+                                           trials, terminal_state_restored_exactly):
+    if not isinstance(trials, list) or not trials:
+        raise ValueError("at least one terminal key-clear trial required")
+    families = [trial.get("family") for trial in trials]
+    if (any(not isinstance(family, str) or not family for family in families)
+            or len(set(families)) != len(families)):
+        raise ValueError("terminal key-clear families must be unique nonempty strings")
+    rows = []
+    seen_keys = set()
+    for trial in trials:
+        names = trial.get("cleared_key_names")
+        if (not isinstance(names, list) or not names
+                or any(not isinstance(name, str) or not name for name in names)
+                or len(set(names)) != len(names)
+                or seen_keys.intersection(names)):
+            raise ValueError("cleared key names must be nonempty and unique across trials")
+        if any(corrective_key_family(name) != trial["family"] for name in names):
+            raise ValueError("cleared key does not match its canonical corrective family")
+        seen_keys.update(names)
+        vertices = trial.get("vertices")
+        rows.append({
+            "family": trial["family"],
+            "cleared_key_names": sorted(names),
+            "residual_to_benchmark_reference": vertex_residual_summary(
+                reference_vertices, vertices),
+            "displacement_from_observed_terminal": vertex_residual_summary(
+                observed_terminal_vertices, vertices),
+        })
+    return {
+        "status": "READ_ONLY_RUNTIME_KEY_CLEAR_ATTRIBUTION_NOT_REPAIR",
+        "model_repair_claimed": False,
+        "skeletal_skinning_causality_claimed": False,
+        "terminal_state_restored_after_trials_exactly":
+            terminal_state_restored_exactly is True,
+        "trials": rows,
+    }
+
+
+def run_terminal_key_clear_trials(key_by_name, groups, refresh_keys,
+                                  evaluate_vertices, skeletal_pose_signature,
+                                  baseline_vertices=None):
+    saved = {}
+    for name, key in key_by_name.items():
+        if not isinstance(name, str) or not name or not isinstance(key.mute, bool):
+            raise ValueError("invalid terminal key state")
+        saved[name] = (finite(key.value), key.mute)
+
+    def state_signature():
+        return (skeletal_pose_signature(), tuple(
+            (name, finite(key_by_name[name].value), key_by_name[name].mute)
+            for name in sorted(key_by_name)))
+
+    baseline = state_signature()
+    rows = []
+    for family in sorted(groups):
+        names = sorted(groups[family])
+        if not names or any(name not in key_by_name for name in names):
+            raise ValueError("terminal family contains missing or empty key set")
+        try:
+            for name in names:
+                key_by_name[name].value = 0.0
+            refresh_keys()
+            expected_condition = (baseline[0], tuple(
+                (name, 0.0 if name in names else saved[name][0], saved[name][1])
+                for name in sorted(key_by_name)))
+            if state_signature() != expected_condition:
+                raise ValueError("terminal family clear condition was not established")
+            vertices = evaluate_vertices()
+            if state_signature() != expected_condition:
+                raise ValueError("terminal family clear condition changed during evaluation")
+            rows.append({"family": family, "cleared_key_names": names,
+                         "vertices": vertices})
+        finally:
+            for name, (value, mute) in saved.items():
+                key_by_name[name].value = value
+                key_by_name[name].mute = mute
+            refresh_keys()
+        if state_signature() != baseline:
+            raise ValueError("terminal key-clear trial did not restore exact runtime state")
+        if (baseline_vertices is not None
+                and vertex_residual_summary(
+                    baseline_vertices, evaluate_vertices())["max_vertex_displacement_m"] != 0.0):
+            raise ValueError("terminal key-clear trial did not restore exact evaluated geometry")
+    return rows
 
 
 def valid_residual(row):
@@ -247,6 +341,49 @@ def validate_report(data):
             and isinstance(cleared.get("skeletal_pose_signature_restored_exactly"), bool))
     if not valid_clear:
         errors.append("invalid explicit-clear evidence")
+    attribution = data.get("terminal_corrective_key_clear_attribution")
+    trials = attribution.get("trials") if isinstance(attribution, dict) else None
+    active_names = ({row.get("name") for row in returned.get("active_nonbasis_shape_keys", [])}
+                    if isinstance(returned, dict) else set())
+    valid_attribution = (
+        isinstance(attribution, dict)
+        and attribution.get("status") == "READ_ONLY_RUNTIME_KEY_CLEAR_ATTRIBUTION_NOT_REPAIR"
+        and attribution.get("model_repair_claimed") is False
+        and attribution.get("skeletal_skinning_causality_claimed") is False
+        and attribution.get("terminal_state_restored_after_trials_exactly") is True
+        and isinstance(trials, list) and bool(trials)
+        and all(isinstance(trial, dict) for trial in trials))
+    if valid_attribution:
+        families = [trial.get("family") for trial in trials]
+        key_lists = [trial.get("cleared_key_names") for trial in trials]
+        structurally_valid = (
+            all(isinstance(family, str) and family for family in families)
+            and len(set(families)) == len(families)
+            and all(isinstance(names, list) and bool(names)
+                    and all(isinstance(name, str) and name for name in names)
+                    and len(set(names)) == len(names)
+                    for names in key_lists))
+        expected_groups = {}
+        if structurally_valid:
+            try:
+                for name in active_names:
+                    expected_groups.setdefault(corrective_key_family(name), set()).add(name)
+            except ValueError:
+                structurally_valid = False
+        reported_groups = ({family: set(names) for family, names in zip(families, key_lists)}
+                           if structurally_valid else {})
+        valid_attribution = (
+            structurally_valid
+            and reported_groups == expected_groups
+            and all(valid_residual(trial.get("residual_to_benchmark_reference"))
+                    and valid_residual(trial.get("displacement_from_observed_terminal"))
+                    and trial["residual_to_benchmark_reference"].get("vertex_count")
+                        == reference_vertex_count
+                    and trial["displacement_from_observed_terminal"].get("vertex_count")
+                        == reference_vertex_count
+                    for trial in trials))
+    if not valid_attribution:
+        errors.append("invalid terminal key-clear attribution")
     rows = data.get("samples")
     if not isinstance(rows, list) or len(rows) != 9 or [r.get("sample") for r in rows] != list(range(9)):
         errors.append("nine exact pose samples required")
@@ -414,6 +551,23 @@ def main():
     returned = return_state_summary(
         reference_vertices[0], returned_vertices, active_keys,
         benchmark_start_pose_signature[0] == skeletal_pose_signature())
+    key_by_name = {key.name: key for key in body.data.shape_keys.key_blocks[1:]}
+    terminal_groups = {}
+    for key in active_keys:
+        terminal_groups.setdefault(corrective_key_family(key["name"]), []).append(key["name"])
+    def evaluate_terminal_vertices():
+        vertices, _ = frozen_evaluated(body)
+        return [tuple(float(x) for x in vertex) for vertex in vertices]
+    terminal_trials = run_terminal_key_clear_trials(
+        key_by_name, terminal_groups, refresh_keys, evaluate_terminal_vertices,
+        skeletal_pose_signature, returned_vertices)
+    restored_terminal_vertices, _ = frozen_evaluated(body)
+    restored_terminal_residual = vertex_residual_summary(
+        returned_vertices, restored_terminal_vertices)
+    terminal_attribution = terminal_key_clear_attribution_summary(
+        reference_vertices[0], returned_vertices, terminal_trials,
+        restored_terminal_residual["max_vertex_displacement_m"] == 0.0
+        and benchmark_start_pose_signature[0] == skeletal_pose_signature())
     reverse_vertices_by_sample = {}
     for i in range(8, -1, -1):
         bench.pose_press(result, i / 8.0, correction)
@@ -455,6 +609,7 @@ def main():
         "model_is_reconstruction_not_approved_original": True,
         "key_values_measured_after_actual_post_pose_driver_call": True,
         "post_benchmark_return_to_start_state": returned,
+        "terminal_corrective_key_clear_attribution": terminal_attribution,
         "reverse_press_trajectory": reverse,
         "explicit_key_clear_experiment": cleared,
         "samples": captures,
@@ -464,6 +619,7 @@ def main():
             "These are W8 candidate in-memory poses, not an authorized model repair",
             "Measured metrics describe current failed benchmark, never clinical exercise safety",
             "Return compares runtime state after the forward sweep with its benchmark start; it is not an anatomical neutral pose or a reverse trajectory",
+            "Terminal family-clear trials isolate authored corrective-key effects only at the reset skeleton; they do not prove skeletal-skinning causality or authorize a key edit",
             "Reverse replay only tests deterministic retracing of the same authored press parameter samples; it is not a physiological return trajectory",
             "Explicit skeletal reset plus zeroing all non-Basis keys is an isolated in-memory experiment, not a source edit or model repair",
             "No muscle anchors, ISB joint axes or anatomical left/right certified",

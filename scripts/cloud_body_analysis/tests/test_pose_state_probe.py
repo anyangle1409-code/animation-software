@@ -20,12 +20,13 @@ def mock_report():
         "post_benchmark_return_to_start_state": {
             "status": "MEASURED_RUNTIME_RETURN_NOT_ANATOMICAL_NEUTRAL",
             "anatomical_neutral_claimed": False,
-            "runtime_state_restored_exactly": True,
+            "runtime_state_restored_exactly": False,
             "vertex_count": 2,
-            "max_vertex_displacement_m": 0.0,
-            "rms_vertex_displacement_m": 0.0,
-            "vertices_moved_gt_1e_9_m": 0,
-            "active_nonbasis_shape_keys": [],
+            "max_vertex_displacement_m": 0.002,
+            "rms_vertex_displacement_m": 0.001,
+            "vertices_moved_gt_1e_9_m": 1,
+            "active_nonbasis_shape_keys": [
+                {"name": "HGPT_S7_DELT_l_156", "actual_value": 0.5}],
             "skeletal_pose_signature_restored_exactly": True,
         },
         "reverse_press_trajectory": {
@@ -51,6 +52,28 @@ def mock_report():
             "vertices_moved_gt_1e_9_m": 0,
             "active_nonbasis_shape_keys": [],
             "skeletal_pose_signature_restored_exactly": True,
+        },
+        "terminal_corrective_key_clear_attribution": {
+            "status": "READ_ONLY_RUNTIME_KEY_CLEAR_ATTRIBUTION_NOT_REPAIR",
+            "model_repair_claimed": False,
+            "skeletal_skinning_causality_claimed": False,
+            "terminal_state_restored_after_trials_exactly": True,
+            "trials": [{
+                "family": "HGPT_S7_DELT",
+                "cleared_key_names": ["HGPT_S7_DELT_l_156"],
+                "residual_to_benchmark_reference": {
+                    "vertex_count": 2,
+                    "max_vertex_displacement_m": 0.0,
+                    "rms_vertex_displacement_m": 0.0,
+                    "vertices_moved_gt_1e_9_m": 0,
+                },
+                "displacement_from_observed_terminal": {
+                    "vertex_count": 2,
+                    "max_vertex_displacement_m": 0.0,
+                    "rms_vertex_displacement_m": 0.0,
+                    "vertices_moved_gt_1e_9_m": 0,
+                },
+            }],
         },
         "samples": [{
             "sample": i,
@@ -179,6 +202,64 @@ class ShoulderPoseProbeTests(unittest.TestCase):
         self.assertFalse(result["anatomical_neutral_claimed"])
         self.assertTrue(result["runtime_state_restored_exactly"])
 
+    def test_terminal_key_clear_attribution_reports_family_residuals(self):
+        result = probe.terminal_key_clear_attribution_summary(
+            [(0, 0, 0)], [(0, 0.002, 0)],
+            [{"family": "HGPT_S7_DELT",
+              "cleared_key_names": ["HGPT_S7_DELT_l_156"],
+              "vertices": [(0, 0.001, 0)]}], True)
+        self.assertEqual(result["status"], "READ_ONLY_RUNTIME_KEY_CLEAR_ATTRIBUTION_NOT_REPAIR")
+        self.assertFalse(result["model_repair_claimed"])
+        self.assertFalse(result["skeletal_skinning_causality_claimed"])
+        self.assertAlmostEqual(result["trials"][0]["residual_to_benchmark_reference"]["max_vertex_displacement_m"], 0.001)
+        self.assertAlmostEqual(result["trials"][0]["displacement_from_observed_terminal"]["max_vertex_displacement_m"], 0.001)
+
+    def test_terminal_key_clear_attribution_rejects_duplicate_family_or_empty_keys(self):
+        common = {"family": "HGPT_S7_DELT", "cleared_key_names": ["k"], "vertices": [(0, 0, 0)]}
+        with self.assertRaisesRegex(ValueError, "unique"):
+            probe.terminal_key_clear_attribution_summary([(0, 0, 0)], [(0, 0, 0)], [common, common], True)
+        bad = {"family": "HGPT_S7_DELT", "cleared_key_names": [], "vertices": [(0, 0, 0)]}
+        with self.assertRaisesRegex(ValueError, "cleared key"):
+            probe.terminal_key_clear_attribution_summary([(0, 0, 0)], [(0, 0, 0)], [bad], True)
+
+    def test_terminal_family_trial_failure_restores_all_key_values_and_mutes(self):
+        keys = {
+            "HGPT_S7_DELT_l_156": NS(value=0.7, mute=False),
+            "HGPT_S5_BAKE_l_160": NS(value=0.4, mute=True),
+        }
+        before = {name: (key.value, key.mute) for name, key in keys.items()}
+        with self.assertRaisesRegex(RuntimeError, "evaluation failed"):
+            probe.run_terminal_key_clear_trials(
+                keys, {"HGPT_S7_DELT": ["HGPT_S7_DELT_l_156"]},
+                lambda: None,
+                lambda: (_ for _ in ()).throw(RuntimeError("evaluation failed")),
+                lambda: ("same pose",))
+        self.assertEqual({name: (key.value, key.mute) for name, key in keys.items()}, before)
+
+    def test_terminal_family_trial_rejects_evaluated_geometry_restore_drift(self):
+        keys = {"HGPT_S7_DELT_l_156": NS(value=0.7, mute=False)}
+        observed = iter(([(0, 0.001, 0)], [(0, 0.0001, 0)]))
+        with self.assertRaisesRegex(ValueError, "evaluated geometry"):
+            probe.run_terminal_key_clear_trials(
+                keys, {"HGPT_S7_DELT": ["HGPT_S7_DELT_l_156"]},
+                lambda: None, lambda: next(observed), lambda: ("same pose",),
+                baseline_vertices=[(0, 0, 0)])
+        self.assertEqual((keys["HGPT_S7_DELT_l_156"].value,
+                          keys["HGPT_S7_DELT_l_156"].mute), (0.7, False))
+
+    def test_terminal_family_trial_rejects_key_reactivation_before_measurement(self):
+        key = NS(value=0.7, mute=False)
+        def reactivating_refresh():
+            if key.value == 0.0:
+                key.value = 0.7
+        with self.assertRaisesRegex(ValueError, "clear condition"):
+            probe.run_terminal_key_clear_trials(
+                {"HGPT_S7_DELT_l_156": key},
+                {"HGPT_S7_DELT": ["HGPT_S7_DELT_l_156"]},
+                reactivating_refresh, lambda: [(0, 0, 0)],
+                lambda: ("same pose",), baseline_vertices=[(0, 0, 0)])
+        self.assertEqual((key.value, key.mute), (0.7, False))
+
     def test_report_rejects_reverse_or_clear_claim_inconsistency(self):
         d = mock_report()
         d["reverse_press_trajectory"]["physiological_return_claimed"] = True
@@ -194,6 +275,15 @@ class ShoulderPoseProbeTests(unittest.TestCase):
         cleared["runtime_state_restored_exactly"] = False
         cleared["active_nonbasis_shape_keys"] = [{"name": "", "actual_value": float("nan")}]
         self.assertIn("invalid explicit-clear evidence", probe.validate_report(d))
+        d = mock_report()
+        d["terminal_corrective_key_clear_attribution"]["trials"][0]["cleared_key_names"] = ["not-active"]
+        self.assertIn("invalid terminal key-clear attribution", probe.validate_report(d))
+        d = mock_report()
+        d["terminal_corrective_key_clear_attribution"]["terminal_state_restored_after_trials_exactly"] = False
+        self.assertIn("invalid terminal key-clear attribution", probe.validate_report(d))
+        d = mock_report()
+        d["terminal_corrective_key_clear_attribution"]["trials"][0]["family"] = "HGPT"
+        self.assertIn("invalid terminal key-clear attribution", probe.validate_report(d))
 
     def test_report_requires_truthful_return_state_without_demanding_a_pass(self):
         d = mock_report()
@@ -215,6 +305,7 @@ class ShoulderPoseProbeTests(unittest.TestCase):
         self.assertIn("invalid return-to-start evidence", probe.validate_report(d))
         d = mock_report()
         returned = d["post_benchmark_return_to_start_state"]
+        returned["max_vertex_displacement_m"] = 0.0
         returned["rms_vertex_displacement_m"] = 0.001
         returned["vertices_moved_gt_1e_9_m"] = 1
         self.assertIn("invalid return-to-start evidence", probe.validate_report(d))
@@ -226,6 +317,7 @@ class ShoulderPoseProbeTests(unittest.TestCase):
         returned["runtime_state_restored_exactly"] = False
         returned["max_vertex_displacement_m"] = 0.002
         returned["rms_vertex_displacement_m"] = 0.001
+        returned["vertices_moved_gt_1e_9_m"] = 0
         self.assertIn("invalid return-to-start evidence", probe.validate_report(d))
 
     def test_no_model_save_in_source(self):

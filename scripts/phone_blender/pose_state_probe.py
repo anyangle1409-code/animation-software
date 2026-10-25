@@ -126,10 +126,20 @@ def validate_report(data):
             and len(active_names) == len(active)
             and len(set(active_names)) == len(active_names)
             and all(isinstance(row.get("name"), str) and row["name"]
-                    and isinstance(row.get("actual_value"), (int, float))
+                    and type(row.get("actual_value")) in (int, float)
                     and math.isfinite(row["actual_value"])
                     and row["actual_value"] != 0.0 for row in active))
-        expected_exact = (returned.get("max_vertex_displacement_m") == 0.0
+        maximum, rms = numeric
+        moved = returned.get("vertices_moved_gt_1e_9_m")
+        metric_consistent = (
+            type(maximum) in (int, float) and type(rms) in (int, float)
+            and math.isfinite(maximum) and math.isfinite(rms)
+            and 0 <= rms <= maximum
+            and type(moved) is int
+            and not (maximum == 0.0 and (rms != 0.0 or moved != 0))
+            and not (rms == 0.0 and maximum != 0.0)
+            and (moved > 0) == (maximum > 1e-9))
+        expected_exact = (maximum == 0.0 and rms == 0.0 and moved == 0
                           and active == []
                           and returned.get("skeletal_pose_signature_restored_exactly") is True)
         valid_return = (
@@ -137,12 +147,10 @@ def validate_report(data):
             and returned.get("anatomical_neutral_claimed") is False
             and isinstance(returned.get("runtime_state_restored_exactly"), bool)
             and returned.get("runtime_state_restored_exactly") is expected_exact
-            and isinstance(returned.get("vertex_count"), int)
+            and type(returned.get("vertex_count")) is int
             and returned.get("vertex_count", 0) > 0
-            and all(isinstance(value, (int, float)) and math.isfinite(value) and value >= 0
-                    for value in numeric)
-            and isinstance(returned.get("vertices_moved_gt_1e_9_m"), int)
-            and 0 <= returned.get("vertices_moved_gt_1e_9_m", -1) <= returned.get("vertex_count", -1)
+            and metric_consistent
+            and 0 <= moved <= returned.get("vertex_count", -1)
             and active_valid
             and isinstance(returned.get("skeletal_pose_signature_restored_exactly"), bool))
     if not valid_return:
@@ -304,7 +312,7 @@ def main():
         bench._evaluated = original_eval
         correction.build_corrected_scene = original_build
     bpy.context.view_layer.update()
-    returned_vertices, _ = original_eval(body)
+    returned_vertices, _ = frozen_evaluated(body)
     active_keys = [
         {"name": key.name, "actual_value": finite(key.value)}
         for key in body.data.shape_keys.key_blocks[1:] if finite(key.value) != 0.0

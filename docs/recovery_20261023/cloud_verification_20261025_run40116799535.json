@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "status": "diagnostic_execution_success_runtime_return_fail_not_anatomical_neutral",
+  "commit_sha": "ed90d3bb8e1d8473809fff3f968ff1a77577ad75",
+  "run_id": 40116799535,
+  "run_conclusion": "success",
+  "job_count": 7,
+  "localization_test_count": 256,
+  "pose_focused_test_counts": [13, 19, 6, 10],
+  "driver_test_counts": [10, 20, 8],
+  "source": {
+    "candidate": "W8",
+    "sha256": "2434afd0daa231ab3a03c873cad4187ffcbc1bab78132375221160b0b0f09e4c",
+    "source_unchanged": true,
+    "saved_blend": false,
+    "rest_bone_signature_unchanged": true
+  },
+  "return_to_benchmark_start": {
+    "status": "fail",
+    "anatomical_neutral_claimed": false,
+    "skeletal_pose_signature_restored_exactly": true,
+    "active_nonbasis_shape_key_count": 14,
+    "vertex_count": 219974,
+    "vertices_moved_gt_1e_9_m": 102253,
+    "vertices_moved_percent": 46.484130,
+    "max_vertex_displacement_m": 0.06231378350054487,
+    "rms_vertex_displacement_m": 0.012929646292009458,
+    "residual_key_names_equal_terminal_sample8": true,
+    "max_abs_key_value_delta_from_rounded_sample8": 4.897594451658271e-7
+  },
+  "independently_downloaded": {
+    "pose_artifact_id": 12569756252,
+    "zip_sha256": "7efe9f7a1686e1439a4315eac59bbce3a19f5b811b987800637b89bb4f9045e7",
+    "github_digest_match": true,
+    "zip_crc_ok": true,
+    "member_count": 71,
+    "png_count": 66,
+    "blend_member_count": 0,
+    "pose_json_sha256": "9b831723b9f438152d9b9fd9495c4afb79173bd79a24751aab770e3a5f265b3e"
+  },
+  "unchanged_forward_reports": {
+    "individual_json_sha256": "31434bd713ac8cd0dd2d90e72899fa48e670371e2d70822bcc83f10061ff8ffa",
+    "individual_markdown_sha256": "6cfcd997bb909a0de8bca2cd3188ce744eb6d9949905712147ac41ae811ffc36",
+    "fixed_edge_markdown_sha256": "bbdd3571a1e8a30cb0b6134b336b1ca8d77eb1c72b716ab4496d4913251cc3da"
+  },
+  "anatomical_approval": false,
+  "generic_motions_approved": 0,
+  "generic_motion_count": 19,
+  "unbound_landmarks": 46
+}

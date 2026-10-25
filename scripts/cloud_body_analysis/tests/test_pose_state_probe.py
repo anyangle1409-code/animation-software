@@ -145,6 +145,20 @@ class ShoulderPoseProbeTests(unittest.TestCase):
         returned["runtime_state_restored_exactly"] = False
         returned["active_nonbasis_shape_keys"] = [{"name": "", "actual_value": float("nan")}]
         self.assertIn("invalid return-to-start evidence", probe.validate_report(d))
+        d = mock_report()
+        returned = d["post_benchmark_return_to_start_state"]
+        returned["rms_vertex_displacement_m"] = 0.001
+        returned["vertices_moved_gt_1e_9_m"] = 1
+        self.assertIn("invalid return-to-start evidence", probe.validate_report(d))
+        d = mock_report()
+        d["post_benchmark_return_to_start_state"]["vertex_count"] = True
+        self.assertIn("invalid return-to-start evidence", probe.validate_report(d))
+        d = mock_report()
+        returned = d["post_benchmark_return_to_start_state"]
+        returned["runtime_state_restored_exactly"] = False
+        returned["max_vertex_displacement_m"] = 0.002
+        returned["rms_vertex_displacement_m"] = 0.001
+        self.assertIn("invalid return-to-start evidence", probe.validate_report(d))
 
     def test_no_model_save_in_source(self):
         txt = MODULE.read_text()

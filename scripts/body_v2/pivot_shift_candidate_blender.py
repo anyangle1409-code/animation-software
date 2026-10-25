@@ -1,4 +1,4 @@
-"""Candidate (new blend): move the rig's elbow pivot towards the epicondyle-line centre, nothing else.
+"""Candidate (new blend): move the rig's elbow or ankle pivot to the skin-landmark joint centre, nothing else.
 
 joint_centre_audit_blender.py measured the rig's elbow pivot (forearm head) on R121p about 17-18 mm posterior and 22 mm
 above the midpoint of the skin epicondyles (the ISB elbow centre, Wu et al. 2005).  Here, on a copy, each forearm bone is
@@ -7,7 +7,10 @@ the audit's method (in world axes) and mirror-averaged so the rig stays symmetri
 (wrist), the mesh, the weights and every shape key are unchanged, so the rest pose is identical; only the elbow's rotation centre moves.  This is a skeleton-shift TEST: the
 validated skeleton is not changed, and adopting it would be an owner decision.
 
-usage: python3.13 elbow_pivot_shift_candidate_blender.py -- <in.blend> <out.blend> [fraction (1.0)]
+The ankle works the same way: the foot bone's head is moved to the midpoint of the malleoli (skin extremes of the
+shin / foot within +-BAND of the pivot); the audit measured the ankle pivot 16 mm above the malleolar line.
+
+usage: python3.13 pivot_shift_candidate_blender.py -- <in.blend> <out.blend> [fraction (1.0)] [elbow|ankle]
 """
 import json
 import sys
@@ -20,6 +23,10 @@ from mathutils import Vector
 args = sys.argv[sys.argv.index("--") + 1:]
 SRC, OUT = Path(args[0]), Path(args[1])
 FRACTION = float(args[2]) if len(args) > 2 else 1.0
+JOINT = args[3] if len(args) > 3 else "elbow"
+# joint: (moved bone (its head is the pivot), proximal bone, vertex groups of the limb near the joint)
+J = {"elbow": ("forearm_{s}", "upperarm_{s}", ("upperarm_{s}", "forearm_{s}")),
+     "ankle": ("foot_{s}", "shin_{s}", ("shin_{s}", "foot_{s}"))}[JOINT]
 BAND = 0.025
 if OUT.exists():
     raise ValueError("output must be new")
@@ -43,9 +50,10 @@ def wpt(v):
 
 def epicondyle_mid(s):
     """the audit's method: most medial / lateral skin points of the arm within +-BAND of the pivot, along the limb"""
-    piv = wpt(B[f"forearm_{s}"].head_local)
-    ax = wpt(B[f"upperarm_{s}"].head_local) - wpt(B[f"forearm_{s}"].tail_local); ax /= np.linalg.norm(ax)
-    limb = (W.get(f"upperarm_{s}", 0) + W.get(f"forearm_{s}", 0)) > 0.5
+    mv, px, groups = J[0].format(s=s), J[1].format(s=s), [g.format(s=s) for g in J[2]]
+    piv = wpt(B[mv].head_local)
+    ax = wpt(B[px].head_local) - piv; ax /= np.linalg.norm(ax)                 # along the proximal segment
+    limb = sum(W.get(g, 0) for g in groups) > 0.5
     near = limb & (np.abs((P - piv) @ ax) < BAND)
     lat = np.array([1.0 if piv[0] > 0 else -1.0, 0, 0]); lat -= ax * (lat @ ax); lat /= np.linalg.norm(lat)
     q = P[near]; d = q @ lat
@@ -53,7 +61,7 @@ def epicondyle_mid(s):
     return piv, mid
 
 
-rep = {"fraction": FRACTION}
+rep = {"joint": JOINT, "fraction": FRACTION}
 moves = {}
 for s in ("l", "r"):
     piv, mid = epicondyle_mid(s)
@@ -72,12 +80,13 @@ bpy.ops.object.mode_set(mode="EDIT")
 eb = rig.data.edit_bones
 inv = np.linalg.inv(MWr)
 for s in ("l", "r"):
-    fb = eb[f"forearm_{s}"]
+    name = J[0].format(s=s)
+    fb = eb[name]
     fb.use_connect = False
-    fb.head = Vector((inv @ np.r_[wpt(B[f"forearm_{s}"].head_local) + moves[s], 1.0])[:3])
+    fb.head = Vector((inv @ np.r_[wpt(B[name].head_local) + moves[s], 1.0])[:3])
 bpy.ops.object.mode_set(mode="OBJECT")
 for s in ("l", "r"):
-    rep[s]["new_pivot_m"] = [round(float(x), 4) for x in wpt(rig.data.bones[f"forearm_{s}"].head_local)]
-body["hgpt_r121_elbow_pivot_shift"] = json.dumps(rep)
+    rep[s]["new_pivot_m"] = [round(float(x), 4) for x in wpt(rig.data.bones[J[0].format(s=s)].head_local)]
+body[f"hgpt_r121_{JOINT}_pivot_shift"] = json.dumps(rep)
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT), copy=True)
 print("PIVOT", json.dumps(rep), flush=True)

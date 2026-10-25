@@ -138,13 +138,19 @@
      "contract": "near_isometric",
      "result": "shortening",
      "verdict": "MISMATCH",
-     "change_fraction_of_rest": -0.058,
+     "change_fraction_of_rest": -0.0492,
      "start_mm": 154.4,
      "end_mm": 145.6,
      "min_mm": 145.6,
      "max_mm": 161.9,
      "wrapped_frames": 0,
-     "frames": 13
+     "frames": 13,
+     "fibres_change_fraction": {
+      "anterior": -0.2411,
+      "middle": -0.058,
+      "posterior": 0.1515
+     },
+     "judged_on": "mean fibre change"
     },
     "hgpt.muscle.gastrocnemius_medial.R": {
      "contract": "variable",
@@ -170,11 +176,6 @@
      "wrapped_frames": 0,
      "frames": 13
     }
-   },
-   "gluteus_medius_fibres": {
-    "anterior": -0.2044,
-    "middle": -0.0573,
-    "posterior": 0.0948
    }
   },
   "ascent": {
@@ -303,13 +304,19 @@
      "contract": "near_isometric",
      "result": "lengthening",
      "verdict": "MISMATCH",
-     "change_fraction_of_rest": 0.058,
+     "change_fraction_of_rest": 0.0492,
      "start_mm": 145.6,
      "end_mm": 154.4,
      "min_mm": 145.6,
      "max_mm": 161.9,
      "wrapped_frames": 0,
-     "frames": 13
+     "frames": 13,
+     "fibres_change_fraction": {
+      "anterior": 0.2411,
+      "middle": 0.058,
+      "posterior": -0.1515
+     },
+     "judged_on": "mean fibre change"
     },
     "hgpt.muscle.gastrocnemius_medial.R": {
      "contract": "variable",
@@ -335,11 +342,6 @@
      "wrapped_frames": 0,
      "frames": 13
     }
-   },
-   "gluteus_medius_fibres": {
-    "anterior": 0.2569,
-    "middle": 0.0607,
-    "posterior": -0.0866
    }
   }
  },

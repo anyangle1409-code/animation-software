@@ -14,6 +14,7 @@ condyles, gluteus maximus behind the hip).  The wrapped length is the 2-D
 tangent-arc-tangent length in the plane normal to the axis, combined with the axial offset.
 
 Phases (contract mid-points): descent hip 5 -> 100, knee 5 -> 102, ankle dorsiflexion 2 -> 17 deg; ascent reversed.
+Fan muscles (a proposal with `fibres`) are judged on the mean of their fibres' changes; each fibre is reported.
 (L_end - L_start) / L_rest is classified: |x| < ISO near_isometric, else shortening / lengthening.
 
 usage: python3.13 squat_path_length_check_blender.py -- COPY.blend SHA256 anchors_lower.json contracts.json OUT.json
@@ -105,20 +106,28 @@ def wrapped_length(p, q, c, axis, side, r):
     return math.hypot(L2, dz), True
 
 
+def path_length(T, o, i, w):
+    if w and w["joint"] == "knee":                     # moves with the femur
+        R = T[CHAIN[0]].to_3x3()
+        side = R @ (ANT if w["side"] == "anterior" else -ANT)
+        return wrapped_length(o, i, T[CHAIN[0]] @ KJC, R @ KNEE_AX, side, w["radius_m"])
+    if w and w["joint"] == "hip":                      # pelvis-fixed
+        return wrapped_length(o, i, HJC, LAT, ANT if w["side"] == "anterior" else -ANT, w["radius_m"])
+    return (i - o).length, False
+
+
+def world(a):
+    return MW @ anat.pose.bones[a["bone"]].matrix @ Vector(a["local_m"])
+
+
 def lengths(T):
+    """per muscle: path length (for a fan muscle, keyed per fibre as mid + '#' + fibre name as well)"""
     res, wr = {}, {}
     for mid, rec in PROP["proposals"].items():
-        pts = {a["role"]: MW @ anat.pose.bones[a["bone"]].matrix @ Vector(a["local_m"]) for a in rec["anchors"]}
-        w = rec.get("wrap_hint")
-        if w and w["joint"] == "knee":                 # moves with the femur
-            R = T[CHAIN[0]].to_3x3()
-            side = R @ (ANT if w["side"] == "anterior" else -ANT)
-            res[mid], wr[mid] = wrapped_length(pts["origin"], pts["insertion"], T[CHAIN[0]] @ KJC, R @ KNEE_AX, side, w["radius_m"])
-        elif w and w["joint"] == "hip":                # pelvis-fixed
-            side = ANT if w["side"] == "anterior" else -ANT
-            res[mid], wr[mid] = wrapped_length(pts["origin"], pts["insertion"], HJC, LAT, side, w["radius_m"])
-        else:
-            res[mid], wr[mid] = (pts["insertion"] - pts["origin"]).length, False
+        pts = {a["role"]: world(a) for a in rec["anchors"]}
+        res[mid], wr[mid] = path_length(T, pts["origin"], pts["insertion"], rec.get("wrap_hint"))
+        for fb in rec.get("fibres", []):
+            res[f"{mid}#{fb['name']}"], wr[f"{mid}#{fb['name']}"] = path_length(T, world(fb["origin"]), pts["insertion"], rec.get("wrap_hint"))
     return res, wr
 
 
@@ -137,25 +146,6 @@ def sweep(k0, k1):
         t = i / SAMPLES
         p = [a + (b - a) * t for a, b in zip(k0, k1)]
         res.append((p, *lengths(apply(pose(*p)))))
-    return res
-
-
-def medius_fibres(k0, k1):
-    """gluteus medius is a fan: the one-point proposal stands for its middle; anterior and posterior fibres (origin moved
-    FAN m along the iliac crest, pelvis-fixed) are reported separately as a sensitivity, not as contract verdicts"""
-    mid = f"hgpt.muscle.gluteus_medius.{SUF}"
-    rec = PROP["proposals"].get(mid)
-    if not rec:
-        return None
-    o = next(a for a in rec["anchors"] if a["role"] == "origin"); i = next(a for a in rec["anchors"] if a["role"] == "insertion")
-    res = {}
-    for name, off in (("anterior", ANT * 0.035), ("middle", Vector()), ("posterior", -ANT * 0.035)):
-        O = Vector(o["world_rest_m"]) + off
-        L = []
-        for T in (pose(*k0), pose(*k1)):
-            apply(T)
-            L.append((MW @ anat.pose.bones[i["bone"]].matrix @ Vector(i["local_m"]) - O).length)
-        res[name] = round((L[1] - L[0]) / L[0], 4)
     return res
 
 
@@ -181,16 +171,17 @@ for ph in ex["phases"]:
             rows[mid] = {"contract": want, "result": "no_proposed_anchors"}; summary["no_anchor"] += 1
             continue
         series = [s[1][mid] for s in sw]
-        x = (L1[mid] - L0[mid]) / L_REST[mid]
+        fib = {k.split("#")[1]: round((L1[k] - L0[k]) / L_REST[k], 4) for k in L_REST if k.startswith(mid + "#")}
+        x = sum(fib.values()) / len(fib) if fib else (L1[mid] - L0[mid]) / L_REST[mid]   # a fan: mean fibre change
         got = "near_isometric" if abs(x) < ISO else ("shortening" if x < 0 else "lengthening")
         verdict = "variable_ok" if want == "variable" else ("match" if got == want else "MISMATCH")
         summary["match" if verdict == "match" else "mismatch" if verdict == "MISMATCH" else "variable"] += 1
         rows[mid] = {"contract": want, "result": got, "verdict": verdict, "change_fraction_of_rest": round(x, 4),
                      "start_mm": round(L0[mid] * 1000, 1), "end_mm": round(L1[mid] * 1000, 1),
                      "min_mm": round(min(series) * 1000, 1), "max_mm": round(max(series) * 1000, 1),
-                     "wrapped_frames": sum(1 for s in sw if s[2][mid]), "frames": len(sw)}
-    report["phases"][ph["id"]] = {"control_poses_hip_knee_ankle": PH[ph["id"]], "muscles": rows,
-                                  "gluteus_medius_fibres": medius_fibres(*PH[ph["id"]])}
+                     "wrapped_frames": sum(1 for s in sw if s[2][mid]), "frames": len(sw),
+                     **({"fibres_change_fraction": fib, "judged_on": "mean fibre change"} if fib else {})}
+    report["phases"][ph["id"]] = {"control_poses_hip_knee_ankle": PH[ph["id"]], "muscles": rows}
 report["summary"] = summary
 out.write_text(json.dumps(report, indent=1))
 print("SQUATCHECK", json.dumps({"round_trip_mm": report["rest_round_trip_mm"], "rest_knee": report["r41_rest_knee_flexion_deg"],

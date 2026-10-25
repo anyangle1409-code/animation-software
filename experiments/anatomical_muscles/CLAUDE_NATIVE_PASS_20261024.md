@@ -252,3 +252,37 @@ Descent changes as a fraction of rest length:
   - It needs a fibre fan (or separate functional heads) first. The anchor was **not** tuned to match.
 - The two-joint muscles (rectus femoris and the hamstrings) come out close to isometric. This agrees with the
   contract's "variable".
+
+### Gluteus medius as a fibre fan (added)
+
+**Schema.** Proposals may now carry `fibres`: extra origins that share the muscle's insertion, with the main origin
+as the middle fibre. The squat check judges a fan muscle on the **mean** of its fibres' changes and reports each fibre.
+
+**Gluteus medius origins.**
+
+| Fibre | Origin rule |
+|---|---|
+| Anterior | Below the iliac crest, behind the ASIS |
+| Middle | The original anchor |
+| Posterior | In front of the posterior gluteal line |
+
+The rules are recorded in the proposal.
+
+**Squat descent (both sides).**
+
+| Fibre | Change |
+|---|---|
+| Anterior | −24 % |
+| Middle | −6 % |
+| Posterior | +15 % |
+| **Mean** | **−4.9 %** |
+
+The mean is still just outside the 3 % near-isometric band, so the contract's "near-isometric" is **not** confirmed.
+
+At 100° of hip flexion the medius's fibres change by different amounts. This is consistent with its known reversal of
+rotation action in deep flexion. Two choices are left for Work or the owner:
+
+- treat the whole-muscle entry as "variable" (per-fibre);
+- or split the muscle into functional heads. That needs new permanent IDs, which only the owner can approve.
+
+No other anchor changed. The diff of the regenerated proposals confirmed this, and the unit tests still pass.

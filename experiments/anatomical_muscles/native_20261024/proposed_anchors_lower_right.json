@@ -98,7 +98,63 @@
     "evidence": null
    },
    "wrap_reviewed": false,
-   "status": "PROPOSED_UNREVIEWED"
+   "status": "PROPOSED_UNREVIEWED",
+   "fibres": [
+    {
+     "name": "anterior",
+     "origin": {
+      "role": "origin",
+      "bone": "anat_hip_bone_right",
+      "local_m": [
+       0.06381,
+       0.0829,
+       0.058829
+      ],
+      "world_rest_m": [
+       -0.09831,
+       -0.0493,
+       0.99469
+      ],
+      "rule": "anterior fibres: outer ilium below the iliac crest, behind the ASIS: HJC + 65 mm up, 15 mm lateral, 30 mm anterior"
+     }
+    },
+    {
+     "name": "middle",
+     "origin": {
+      "role": "origin",
+      "bone": "anat_hip_bone_right",
+      "local_m": [
+       0.055846,
+       0.050217,
+       0.034469
+      ],
+      "world_rest_m": [
+       -0.09331,
+       -0.0093,
+       1.00469
+      ],
+      "rule": "outer ilium between the gluteal lines: HJC + 75 mm up, 10 mm lateral, 10 mm posterior (broad origin - a fan is required)"
+     }
+    },
+    {
+     "name": "posterior",
+     "origin": {
+      "role": "origin",
+      "bone": "anat_hip_bone_right",
+      "local_m": [
+       0.051233,
+       0.036256,
+       -0.006868
+      ],
+      "world_rest_m": [
+       -0.08331,
+       0.0307,
+       0.98969
+      ],
+      "rule": "posterior fibres: in front of the posterior gluteal line: HJC + 60 mm up, 50 mm posterior"
+     }
+    }
+   ]
   },
   "hgpt.muscle.rectus_femoris.R": {
    "anchors": [

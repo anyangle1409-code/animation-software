@@ -100,6 +100,17 @@ R_ = {  # muscle: ([(role, bone, point, rule)], wrap)
 }
 
 
+# broad (fan) muscles: extra fibre origins sharing the muscle's insertion.  The main origin is the middle fibre; the check
+# judges the muscle by its mean fibre change and reports each fibre.
+FIBRES = {
+    "gluteus_medius": [
+        ("anterior", f"anat_hip_bone_{S}", HJC + UP * 0.065 + LAT * 0.015 + ANT * 0.030, "anterior fibres: outer ilium below the iliac crest, behind the ASIS: HJC + 65 mm up, 15 mm lateral, 30 mm anterior"),
+        ("middle", None, None, "the main origin"),
+        ("posterior", f"anat_hip_bone_{S}", HJC + UP * 0.060 - ANT * 0.050, "posterior fibres: in front of the posterior gluteal line: HJC + 60 mm up, 50 mm posterior"),
+    ],
+}
+
+
 def local(bone_name, p):
     b = B[bone_name]
     return list((anat.matrix_world @ b.matrix_local).inverted() @ p)
@@ -115,6 +126,11 @@ for m, (items, wrap) in R_.items():
                                        "wrap_hint": wrap, "source_sha256": before, "anatomical_side": SIDE,
                                        "anatomical_side_x_sign": lat_sign, "review": {"reviewer": None, "evidence": None},
                                        "wrap_reviewed": False, "status": "PROPOSED_UNREVIEWED"}
+    if m in FIBRES:
+        props[f"hgpt.muscle.{m}.{sid}"]["fibres"] = [
+            {"name": n, "origin": anchors[0] if b_ is None else
+             {"role": "origin", "bone": b_, "local_m": [round(x, 6) for x in local(b_, p_)],
+              "world_rest_m": [round(x, 5) for x in p_], "rule": r_}} for n, b_, p_, r_ in FIBRES[m]]
 if hashlib.sha256(src.read_bytes()).hexdigest() != before:
     raise RuntimeError("source changed")
 with out.open("x") as f:

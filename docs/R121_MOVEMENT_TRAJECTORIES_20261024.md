@@ -490,3 +490,21 @@ the validated skeleton and the runtime rig's joint, so it is **not adopted: owne
 
 If it is approved, the elbow, combination and press keys would be re-authored on the shifted rig. Reports:
 `report_TT_EP0_pivot_as_built.json` and `report_TT_EP1_pivot_shifted.json`.
+
+**Ankle (same script, `ankle`).** On a copy of R121p2, the foot bone's head was moved 16.4 mm down to the skin
+malleolar midpoint. The shift is symmetric and matches the audit. Squat with the arms forward and the feet planted:
+
+| Squat | Pivot as built | Pivot shifted |
+|---|---|---|
+| Sole slide | 11.1 mm | 8.8 mm |
+| Heel lift | 11.4 mm | 10.6 mm |
+| Self-intersections | 1282 | **1666** |
+
+The new 333 intersections are foot against shin, at the front of the ankle: the lower pivot folds the dorsiflexed foot
+into the shin.
+
+The current candidate already has 0.0 mm sole slide and lift, through the sole weights and per-leg planting. The shift
+therefore gains little and costs ankle-front contact that new keys would have to handle. **Not recommended.** It
+stays recorded in case a future ankle corrective family is built.
+
+Reports: `report_TT_AP0_ankle_as_built.json` and `report_TT_AP1_ankle_shifted.json`.

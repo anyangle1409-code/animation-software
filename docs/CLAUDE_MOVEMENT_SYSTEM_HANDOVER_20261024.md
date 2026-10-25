@@ -114,9 +114,9 @@ those angles uses them, which makes this a reusable movement system rather than 
    (Done since the first version of this handover: the squat's 17 mm sole slide was the r57 path planting only the
    mean ankle. A per-leg plant in the test now gives 0.0 mm. Arms forward is available, through the thorax-relative
    girdle.)
-4. **Skeleton-shift tests on a candidate copy:**
-   - ankle pivot 16 mm above the malleolar line;
-   - elbow pivot about 2 cm above and behind the epicondyle line.
+4. **Skeleton-shift tests on a candidate copy: done.**
+   - *Elbow:* a moderate gain (owner decision, above).
+   - *Ankle:* not recommended. Sole slide improves only slightly, and 333 new foot–shin intersections appear.
 5. **Elbow contact:** volume preservation, and the contact slit at 120–140°.
 6. **Muscle layer:**
    - fibre fans for gluteus medius, trapezius, latissimus, pectoralis and serratus;

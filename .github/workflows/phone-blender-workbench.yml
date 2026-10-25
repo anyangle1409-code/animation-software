@@ -47,7 +47,7 @@ jobs:
           run-id: 39922636070
           github-token: ${{ github.token }}
           path: ${{ runner.temp }}/W8
-      - name: Measure W8 corrective controls and post-run return residual without model save
+      - name: Measure W8 controls, reverse replay and explicit clear without model save
         run: |
           python scripts/phone_blender/pose_state_probe.py \
             --source-dir "${{ runner.temp }}/W8" \

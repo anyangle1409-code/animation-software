@@ -47,16 +47,26 @@ def shape_key_state(body, side):
     return sorted(result, key=lambda x: x["name"])
 
 
-def return_state_summary(reference_vertices, returned_vertices, active_keys,
-                         skeletal_pose_signature_restored_exactly):
-    if len(reference_vertices) != len(returned_vertices) or not reference_vertices:
+def vertex_residual_summary(reference_vertices, observed_vertices):
+    if len(reference_vertices) != len(observed_vertices) or not reference_vertices:
         raise ValueError("return-state vertex count changed or empty")
     squared = []
-    for start, returned in zip(reference_vertices, returned_vertices):
-        if len(start) != 3 or len(returned) != 3:
+    for start, observed in zip(reference_vertices, observed_vertices):
+        if len(start) != 3 or len(observed) != 3:
             raise ValueError("return-state vertices must be 3D")
-        delta = tuple(finite(b) - finite(a) for a, b in zip(start, returned))
+        delta = tuple(finite(b) - finite(a) for a, b in zip(start, observed))
         squared.append(sum(v * v for v in delta))
+    return {
+        "vertex_count": len(squared),
+        "max_vertex_displacement_m": math.sqrt(max(squared)),
+        "rms_vertex_displacement_m": math.sqrt(sum(squared) / len(squared)),
+        "vertices_moved_gt_1e_9_m": sum(d > 1e-18 for d in squared),
+    }
+
+
+def return_state_summary(reference_vertices, returned_vertices, active_keys,
+                         skeletal_pose_signature_restored_exactly):
+    residual = vertex_residual_summary(reference_vertices, returned_vertices)
     keys = []
     for key in active_keys:
         name = key.get("name")
@@ -65,20 +75,73 @@ def return_state_summary(reference_vertices, returned_vertices, active_keys,
             raise ValueError("invalid active nonbasis shape key")
         keys.append({"name": name, "actual_value": value})
     keys.sort(key=lambda row: row["name"])
-    maximum = math.sqrt(max(squared))
+    maximum = residual["max_vertex_displacement_m"]
     pose_restored = skeletal_pose_signature_restored_exactly is True
     exact = maximum == 0.0 and not keys and pose_restored
     return {
         "status": "MEASURED_RUNTIME_RETURN_NOT_ANATOMICAL_NEUTRAL",
         "anatomical_neutral_claimed": False,
         "runtime_state_restored_exactly": exact,
-        "vertex_count": len(squared),
-        "max_vertex_displacement_m": maximum,
-        "rms_vertex_displacement_m": math.sqrt(sum(squared) / len(squared)),
-        "vertices_moved_gt_1e_9_m": sum(d > 1e-18 for d in squared),
+        **residual,
         "active_nonbasis_shape_keys": keys,
         "skeletal_pose_signature_restored_exactly": pose_restored,
     }
+
+
+def explicit_clear_summary(reference_vertices, returned_vertices, active_keys,
+                           skeletal_pose_signature_restored_exactly):
+    result = return_state_summary(reference_vertices, returned_vertices, active_keys,
+                                  skeletal_pose_signature_restored_exactly)
+    result["status"] = "EXPLICIT_IN_MEMORY_CLEAR_EXPERIMENT_NOT_MODEL_REPAIR"
+    result["model_repair_claimed"] = False
+    return result
+
+
+def reverse_trajectory_summary(forward_vertices_by_sample, reverse_vertices_by_sample):
+    expected = set(range(9))
+    if set(forward_vertices_by_sample) != expected or set(reverse_vertices_by_sample) != expected:
+        raise ValueError("reverse trajectory requires samples 0 through 8")
+    rows = []
+    for sample in range(8, -1, -1):
+        rows.append({"sample": sample, **vertex_residual_summary(
+            forward_vertices_by_sample[sample], reverse_vertices_by_sample[sample])})
+    return {
+        "status": "MEASURED_REVERSE_REPLAY_NOT_PHYSIOLOGICAL_RETURN",
+        "physiological_return_claimed": False,
+        "retraced_forward_samples_exactly": all(
+            row["max_vertex_displacement_m"] == 0.0 for row in rows),
+        "samples": rows,
+    }
+
+
+def valid_residual(row):
+    if not isinstance(row, dict):
+        return False
+    maximum = row.get("max_vertex_displacement_m")
+    rms = row.get("rms_vertex_displacement_m")
+    moved = row.get("vertices_moved_gt_1e_9_m")
+    count = row.get("vertex_count")
+    return (
+        type(maximum) in (int, float) and type(rms) in (int, float)
+        and math.isfinite(maximum) and math.isfinite(rms)
+        and 0 <= rms <= maximum
+        and type(moved) is int and type(count) is int and count > 0
+        and 0 <= moved <= count
+        and not (maximum == 0.0 and (rms != 0.0 or moved != 0))
+        and not (rms == 0.0 and maximum != 0.0)
+        and (moved > 0) == (maximum > 1e-9))
+
+
+def valid_active_nonbasis_keys(active):
+    if not isinstance(active, list) or not all(isinstance(row, dict) for row in active):
+        return False
+    names = [row.get("name") for row in active]
+    return (
+        len(set(names)) == len(names)
+        and all(isinstance(row.get("name"), str) and row["name"]
+                and type(row.get("actual_value")) in (int, float)
+                and math.isfinite(row["actual_value"])
+                and row["actual_value"] != 0.0 for row in active))
 
 def recorded_pose(rig, body, drives, sample, target_elevation):
     snapshot = {"sample": sample, "t": round(sample / 8.0, 4),
@@ -118,17 +181,7 @@ def validate_report(data):
         numeric = (returned.get("max_vertex_displacement_m"),
                    returned.get("rms_vertex_displacement_m"))
         active = returned.get("active_nonbasis_shape_keys")
-        active_names = ([row.get("name") for row in active]
-                        if isinstance(active, list)
-                        and all(isinstance(row, dict) for row in active) else [])
-        active_valid = (
-            isinstance(active, list)
-            and len(active_names) == len(active)
-            and len(set(active_names)) == len(active_names)
-            and all(isinstance(row.get("name"), str) and row["name"]
-                    and type(row.get("actual_value")) in (int, float)
-                    and math.isfinite(row["actual_value"])
-                    and row["actual_value"] != 0.0 for row in active))
+        active_valid = valid_active_nonbasis_keys(active)
         maximum, rms = numeric
         moved = returned.get("vertices_moved_gt_1e_9_m")
         metric_consistent = (
@@ -155,6 +208,45 @@ def validate_report(data):
             and isinstance(returned.get("skeletal_pose_signature_restored_exactly"), bool))
     if not valid_return:
         errors.append("invalid return-to-start evidence")
+    reference_vertex_count = returned.get("vertex_count") if isinstance(returned, dict) else None
+    reverse = data.get("reverse_press_trajectory")
+    reverse_rows = reverse.get("samples") if isinstance(reverse, dict) else None
+    valid_reverse = (
+        isinstance(reverse, dict)
+        and reverse.get("status") == "MEASURED_REVERSE_REPLAY_NOT_PHYSIOLOGICAL_RETURN"
+        and reverse.get("physiological_return_claimed") is False
+        and isinstance(reverse.get("retraced_forward_samples_exactly"), bool)
+        and isinstance(reverse_rows, list)
+        and all(type(row.get("sample")) is int for row in reverse_rows)
+        and [row.get("sample") for row in reverse_rows] == list(range(8, -1, -1))
+        and all(valid_residual(row) for row in reverse_rows)
+        and all(row.get("vertex_count") == reference_vertex_count
+                for row in reverse_rows)
+        and reverse.get("retraced_forward_samples_exactly") is all(
+            row.get("max_vertex_displacement_m") == 0.0 for row in reverse_rows))
+    if not valid_reverse:
+        errors.append("invalid reverse trajectory evidence")
+    cleared = data.get("explicit_key_clear_experiment")
+    valid_clear = isinstance(cleared, dict) and valid_residual(cleared)
+    if valid_clear:
+        active = cleared.get("active_nonbasis_shape_keys")
+        expected_exact = (
+            cleared.get("max_vertex_displacement_m") == 0.0
+            and cleared.get("rms_vertex_displacement_m") == 0.0
+            and cleared.get("vertices_moved_gt_1e_9_m") == 0
+            and active == []
+            and cleared.get("skeletal_pose_signature_restored_exactly") is True)
+        valid_clear = (
+            cleared.get("status") == "EXPLICIT_IN_MEMORY_CLEAR_EXPERIMENT_NOT_MODEL_REPAIR"
+            and cleared.get("anatomical_neutral_claimed") is False
+            and cleared.get("model_repair_claimed") is False
+            and isinstance(cleared.get("runtime_state_restored_exactly"), bool)
+            and cleared.get("runtime_state_restored_exactly") is expected_exact
+            and valid_active_nonbasis_keys(active)
+            and cleared.get("vertex_count") == reference_vertex_count
+            and isinstance(cleared.get("skeletal_pose_signature_restored_exactly"), bool))
+    if not valid_clear:
+        errors.append("invalid explicit-clear evidence")
     rows = data.get("samples")
     if not isinstance(rows, list) or len(rows) != 9 or [r.get("sample") for r in rows] != list(range(9)):
         errors.append("nine exact pose samples required")
@@ -232,6 +324,7 @@ def main():
     original_eval = bench._evaluated
     original_metric = bench.frame_metrics
     captures = []
+    forward_vertices_by_sample = {}
     neighborhood = [None]
     snapshot_dir = a.out.parent / '_phone-control-snapshots'
     snapshot_dir.mkdir(parents=True, exist_ok=False)
@@ -273,6 +366,7 @@ def main():
     def capture(V0, V, F, dom, rest_floor):
         i = index[0]
         index[0] += 1
+        forward_vertices_by_sample[i] = [tuple(float(x) for x in vertex) for vertex in V]
         metric = original_metric(V0, V, F, dom, rest_floor)
         target = bench.PRESS["ht_start"] + (bench.PRESS["ht_end"] - bench.PRESS["ht_start"]) * bench.smooth(i / 8)
         snapshot = recorded_pose(rig, body, drives, i, target)
@@ -320,6 +414,30 @@ def main():
     returned = return_state_summary(
         reference_vertices[0], returned_vertices, active_keys,
         benchmark_start_pose_signature[0] == skeletal_pose_signature())
+    reverse_vertices_by_sample = {}
+    for i in range(8, -1, -1):
+        bench.pose_press(result, i / 8.0, correction)
+        drives.drive(result["runtime"], result["body"])
+        bpy.context.view_layer.update()
+        vertices, _ = frozen_evaluated(body)
+        reverse_vertices_by_sample[i] = [
+            tuple(float(x) for x in vertex) for vertex in vertices]
+        print("READ_ONLY_REVERSE_POSE_CAPTURE", i, flush=True)
+    reverse = reverse_trajectory_summary(
+        forward_vertices_by_sample, reverse_vertices_by_sample)
+
+    bench._reset(rig)
+    for key in body.data.shape_keys.key_blocks[1:]:
+        key.value = 0.0
+    refresh_keys()
+    cleared_vertices, _ = frozen_evaluated(body)
+    cleared_active_keys = [
+        {"name": key.name, "actual_value": finite(key.value)}
+        for key in body.data.shape_keys.key_blocks[1:] if finite(key.value) != 0.0
+    ]
+    cleared = explicit_clear_summary(
+        reference_vertices[0], cleared_vertices, cleared_active_keys,
+        benchmark_start_pose_signature[0] == skeletal_pose_signature())
     after = adapter.rest_signature(rig, body)
     unchanged = digest(source) == W8_SHA256
     if before != after or not unchanged:
@@ -337,6 +455,8 @@ def main():
         "model_is_reconstruction_not_approved_original": True,
         "key_values_measured_after_actual_post_pose_driver_call": True,
         "post_benchmark_return_to_start_state": returned,
+        "reverse_press_trajectory": reverse,
+        "explicit_key_clear_experiment": cleared,
         "samples": captures,
         "limitations": [
             "Actual geometric pose/shape-key state, but actual angles still depend on project-authored shoulder rig assumptions",
@@ -344,6 +464,8 @@ def main():
             "These are W8 candidate in-memory poses, not an authorized model repair",
             "Measured metrics describe current failed benchmark, never clinical exercise safety",
             "Return compares runtime state after the forward sweep with its benchmark start; it is not an anatomical neutral pose or a reverse trajectory",
+            "Reverse replay only tests deterministic retracing of the same authored press parameter samples; it is not a physiological return trajectory",
+            "Explicit skeletal reset plus zeroing all non-Basis keys is an isolated in-memory experiment, not a source edit or model repair",
             "No muscle anchors, ISB joint axes or anatomical left/right certified",
         ],
     }

@@ -28,6 +28,30 @@ def mock_report():
             "active_nonbasis_shape_keys": [],
             "skeletal_pose_signature_restored_exactly": True,
         },
+        "reverse_press_trajectory": {
+            "status": "MEASURED_REVERSE_REPLAY_NOT_PHYSIOLOGICAL_RETURN",
+            "physiological_return_claimed": False,
+            "retraced_forward_samples_exactly": True,
+            "samples": [{
+                "sample": i,
+                "vertex_count": 2,
+                "max_vertex_displacement_m": 0.0,
+                "rms_vertex_displacement_m": 0.0,
+                "vertices_moved_gt_1e_9_m": 0,
+            } for i in range(8, -1, -1)],
+        },
+        "explicit_key_clear_experiment": {
+            "status": "EXPLICIT_IN_MEMORY_CLEAR_EXPERIMENT_NOT_MODEL_REPAIR",
+            "anatomical_neutral_claimed": False,
+            "model_repair_claimed": False,
+            "runtime_state_restored_exactly": True,
+            "vertex_count": 2,
+            "max_vertex_displacement_m": 0.0,
+            "rms_vertex_displacement_m": 0.0,
+            "vertices_moved_gt_1e_9_m": 0,
+            "active_nonbasis_shape_keys": [],
+            "skeletal_pose_signature_restored_exactly": True,
+        },
         "samples": [{
             "sample": i,
             "authored_press_ht_target_deg_NOT_measured": 90 + 70 * i / 8,
@@ -126,6 +150,50 @@ class ShoulderPoseProbeTests(unittest.TestCase):
             probe.return_state_summary([(0, 0, 0)], [], [], True)
         with self.assertRaisesRegex(ValueError, "Nonfinite"):
             probe.return_state_summary([(0, 0, 0)], [(float("nan"), 0, 0)], [], True)
+
+    def test_reverse_trajectory_summary_is_geometric_not_physiological(self):
+        forward = {i: [(0, 0, 0), (i, 0, 0)] for i in range(9)}
+        reverse = {i: list(vertices) for i, vertices in forward.items()}
+        result = probe.reverse_trajectory_summary(forward, reverse)
+        self.assertEqual(result["status"], "MEASURED_REVERSE_REPLAY_NOT_PHYSIOLOGICAL_RETURN")
+        self.assertFalse(result["physiological_return_claimed"])
+        self.assertTrue(result["retraced_forward_samples_exactly"])
+        self.assertEqual([row["sample"] for row in result["samples"]], list(range(8, -1, -1)))
+
+    def test_reverse_trajectory_summary_reports_residual_and_rejects_missing_sample(self):
+        forward = {i: [(0, 0, 0)] for i in range(9)}
+        reverse = {i: [(0, 0, 0)] for i in range(9)}
+        reverse[3] = [(0, 0.002, 0)]
+        result = probe.reverse_trajectory_summary(forward, reverse)
+        self.assertFalse(result["retraced_forward_samples_exactly"])
+        self.assertAlmostEqual(result["samples"][5]["max_vertex_displacement_m"], 0.002)
+        del reverse[4]
+        with self.assertRaisesRegex(ValueError, "samples 0 through 8"):
+            probe.reverse_trajectory_summary(forward, reverse)
+
+    def test_explicit_clear_summary_is_not_a_repair_or_neutral_claim(self):
+        result = probe.explicit_clear_summary(
+            [(0, 0, 0)], [(0, 0, 0)], [], True)
+        self.assertEqual(result["status"], "EXPLICIT_IN_MEMORY_CLEAR_EXPERIMENT_NOT_MODEL_REPAIR")
+        self.assertFalse(result["model_repair_claimed"])
+        self.assertFalse(result["anatomical_neutral_claimed"])
+        self.assertTrue(result["runtime_state_restored_exactly"])
+
+    def test_report_rejects_reverse_or_clear_claim_inconsistency(self):
+        d = mock_report()
+        d["reverse_press_trajectory"]["physiological_return_claimed"] = True
+        self.assertIn("invalid reverse trajectory evidence", probe.validate_report(d))
+        d = mock_report()
+        d["explicit_key_clear_experiment"]["model_repair_claimed"] = True
+        self.assertIn("invalid explicit-clear evidence", probe.validate_report(d))
+        d = mock_report()
+        d["reverse_press_trajectory"]["samples"][4]["vertex_count"] = 3
+        self.assertIn("invalid reverse trajectory evidence", probe.validate_report(d))
+        d = mock_report()
+        cleared = d["explicit_key_clear_experiment"]
+        cleared["runtime_state_restored_exactly"] = False
+        cleared["active_nonbasis_shape_keys"] = [{"name": "", "actual_value": float("nan")}]
+        self.assertIn("invalid explicit-clear evidence", probe.validate_report(d))
 
     def test_report_requires_truthful_return_state_without_demanding_a_pass(self):
         d = mock_report()

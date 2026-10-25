@@ -26,6 +26,13 @@ Neither result is an anatomical neutral, a physiological return trajectory, an I
 - Population range-of-motion averages are not used as hard limits.
 - Muscle attachment/highlighting, source geometry, skeletons, weights, drivers and corrective keys remain unchanged.
 
-## Verification state
+## Verified native result
 
-Pure-Python behavior tests were observed RED before implementation and GREEN afterward. Native Blender results and artifact hashes remain pending until a new GitHub Actions run completes and its archive is independently checked.
+Commit `401faa2fda53c5dbfde511dc87af480604271594` ran as GitHub Actions run `40203540066`: SUCCESS 7/7.
+
+- All nine reverse samples reproduced the matching forward evaluated mesh exactly: zero vertices moved above 1 nm, zero maximum displacement and zero RMS displacement at every sample.
+- The explicit in-memory skeletal reset plus zeroing all non-Basis keys restored the 219,974-vertex evaluated reference exactly, with no active non-Basis keys and an identical skeletal pose signature.
+- The unchanged forward-only postcondition still fails: 102,253 vertices moved, maximum displacement 0.06231378350054487 m, RMS 0.012929646292009458 m, and 14 terminal keys remain active despite exact skeletal reset.
+- Pose artifact `12603071682` was independently downloaded, CRC checked and rehashed as `5521331f7cfd224eb2e41f1eef71bf61ffdff62f8efd5f3a783025e2c797d1dc`. It contains 71 members, 66 PNGs and no `.blend`.
+
+The result establishes deterministic reversibility of this authored nine-sample state function and shows the cause of the prior endpoint mismatch can be cleared in disposable runtime state. It does not establish physiological return, tissue hysteresis, anatomical neutral or a source repair.

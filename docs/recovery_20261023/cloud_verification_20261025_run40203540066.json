@@ -1,0 +1,74 @@
+{
+  "workflow_run": {
+    "id": 40203540066,
+    "head_sha": "401faa2fda53c5dbfde511dc87af480604271594",
+    "event": "push",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "success",
+    "jobs_successful": 7,
+    "jobs_total": 7
+  },
+  "jobs": {
+    "pose_state_w8": 121199566845,
+    "inspect_r120": 121199566841,
+    "localize_native_movement_failures": 121199566855,
+    "inspect_w8": 121199566941,
+    "inspect_v14": 121199567027,
+    "compare_rest_audits": 121199817493,
+    "verify_actual_shoulder_driver_math": 121200981230
+  },
+  "artifacts": [
+    {"id": 12603071682, "name": "phone-w8-shoulder-pose-state-40203540066", "sha256": "5521331f7cfd224eb2e41f1eef71bf61ffdff62f8efd5f3a783025e2c797d1dc", "independently_downloaded_and_rehashed": true},
+    {"id": 12603056631, "name": "phone-w8-evaluated-snapshots-40203540066", "sha256": "febb2a94d36b3b56c621bfcd60ec52e35e9e9b542ae37c2f444fde23c3c4ae7c", "independently_downloaded_and_rehashed": false},
+    {"id": 12603041044, "name": "phone-native-failure-localization-40203540066", "sha256": "b4cc3a10ece111d9a0b8ac80aebd4d77c93557031aa5ef730381a86c0953d189", "independently_downloaded_and_rehashed": false},
+    {"id": 12602981252, "name": "phone-rest-cross-model-40203540066", "sha256": "61df49cc2e64eea5766f593307f7b8ea69d22251ca5d7f6b149b113adc3f89de", "independently_downloaded_and_rehashed": false},
+    {"id": 12602677061, "name": "phone-visual-review-40203540066", "sha256": "9fa9f0368bd6c217ed8aada622f851889e95572f30fe004d8debc06e43f636cd", "independently_downloaded_and_rehashed": false},
+    {"id": 12602568674, "name": "phone-blender-V14-40203540066", "sha256": "4f9375cb76a5cacf72eba23e5d485bc03f881b8f828ec6bf3f57a5e885ff2569", "independently_downloaded_and_rehashed": false},
+    {"id": 12602533780, "name": "phone-blender-W8-40203540066", "sha256": "3295252544f5e45960b2b9ac9334972ec2672ced23c1eef4d74e04f538c01553", "independently_downloaded_and_rehashed": false},
+    {"id": 12602289032, "name": "phone-blender-R120-40203540066", "sha256": "469a050f04cc2f56c89236409a2d18a67feb12c227fc4929a0518c70feadaff6", "independently_downloaded_and_rehashed": false},
+    {"id": 12602279836, "name": "phone-w8-driver-consistency-40203540066", "sha256": "2338ea97879388b3d41e405b1912d51c56d2901ba3a805e17734c0622d958ef3", "independently_downloaded_and_rehashed": false}
+  ],
+  "pose_artifact": {
+    "zip_crc_clean": true,
+    "member_count": 71,
+    "png_count": 66,
+    "blend_member_count": 0,
+    "pose_json_sha256": "aaa2d8ff2210077613cf99eb0247d500f2870ebd621be76087938b636104932c",
+    "prior_fields_equal_run40188223743_after_stripping_only_new_evidence": true
+  },
+  "measurements": {
+    "forward_post_benchmark": {
+      "runtime_state_restored_exactly": false,
+      "vertex_count": 219974,
+      "vertices_moved_gt_1e_9_m": 102253,
+      "max_vertex_displacement_m": 0.06231378350054487,
+      "rms_vertex_displacement_m": 0.012929646292009458,
+      "active_nonbasis_shape_key_count": 14,
+      "skeletal_pose_signature_restored_exactly": true
+    },
+    "reverse_replay": {
+      "status": "MEASURED_REVERSE_REPLAY_NOT_PHYSIOLOGICAL_RETURN",
+      "retraced_forward_samples_exactly": true,
+      "sample_order": [8, 7, 6, 5, 4, 3, 2, 1, 0],
+      "vertices_moved_gt_1e_9_m_each_sample": [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      "max_vertex_displacement_m_each_sample": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    },
+    "explicit_clear": {
+      "status": "EXPLICIT_IN_MEMORY_CLEAR_EXPERIMENT_NOT_MODEL_REPAIR",
+      "runtime_state_restored_exactly": true,
+      "vertex_count": 219974,
+      "vertices_moved_gt_1e_9_m": 0,
+      "max_vertex_displacement_m": 0.0,
+      "rms_vertex_displacement_m": 0.0,
+      "active_nonbasis_shape_key_count": 0,
+      "skeletal_pose_signature_restored_exactly": true
+    }
+  },
+  "approval": {
+    "anatomical_neutral": false,
+    "physiological_return": false,
+    "model_repair": false,
+    "exercise_safety": false
+  }
+}

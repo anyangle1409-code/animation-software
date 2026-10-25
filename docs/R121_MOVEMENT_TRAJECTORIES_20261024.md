@@ -508,3 +508,44 @@ therefore gains little and costs ankle-front contact that new keys would have to
 stays recorded in case a future ankle corrective family is built.
 
 Reports: `report_TT_AP0_ankle_as_built.json` and `report_TT_AP1_ankle_shifted.json`.
+
+## Landmark staleness audit and re-binding proposal (read-only)
+
+`landmark_staleness_audit_blender.py` checks each `LM_*` empty against the blend's own rest skin:
+
+- *Skin landmarks* are stale if they are more than 4 mm from the skin.
+- *Joint and bony landmarks* are stale if they lie outside the body (ray parity, 6 directions).
+
+Run on the approved R41 copy (hash unchanged), **0 of 51** are stale. On body_v2 (K1), **20 of 51** are stale. The
+landmarks were carried over unchanged when the surface was rebuilt and refitted.
+
+| Landmark | Problem on body_v2 |
+|---|---|
+| Trochanterion | 35 mm inside the skin |
+| Vertex | 30 mm inside the skin |
+| IJ | 22 mm outside |
+| Ulnar styloid | 18 mm outside |
+| **Wrist centre (WJC)** | **18 mm outside the body, 66 mm from the rig's wrist pivot** |
+| Chin | 16 mm outside |
+| Lateral femoral epicondyle | 15 mm inside |
+| Radial styloid | 12 mm inside |
+| PX | 10 mm outside |
+| ASIS | 5 mm inside |
+| Medial malleolus | 4 mm inside |
+| SC joints | about 3 mm outside |
+
+**Re-binding proposal (JSON only; nothing applied).**
+
+- Stale skin landmarks: the nearest skin point.
+- EJC, WJC, KJC and AJC: the ISB skin midpoints from `joint_centre_audit_blender.py`. All of them are inside the body.
+  - The re-bound WJC is 19 mm from the rig's wrist pivot (the stale one is 66 mm away).
+  - Projecting R41's styloids to the nearest skin does not work: body_v2's wrist sits about 57 mm further forward, so
+    both styloids land on the back of the wrist.
+- HJC and GH: not proposed, because a skin proxy cannot give a deep joint centre.
+  - HJC agrees with the rig (0 mm).
+  - GH is 36 mm from the rig's shoulder pivot. It is inside the body, but it needs regression or imaging data before it
+    can be resolved.
+
+Applying the proposal would change landmark data in the candidate. That is left for review.
+
+Files: `landmark_staleness_K1.json` and `landmark_staleness_R41_reference.json`.

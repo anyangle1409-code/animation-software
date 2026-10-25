@@ -104,8 +104,11 @@ those angles uses them, which makes this a reusable movement system rather than 
 
 - Anatomical review of the landmarks and anchors needs a human or anatomical reviewer.
 - The NCBI/PMC literature servers are unreachable from this sandbox, so regression hip joint centres were not used.
-- The body_v2 landmark empties are stale (R41 positions; body_v2's skeleton was refitted). They need re-binding before
-  being used for positions; orientation use is fine.
+- The body_v2 landmark empties are stale: 20 of 51 fail on K1, against 0 of 51 on R41
+  (`landmark_staleness_audit_blender.py`).
+  - A re-binding proposal exists as JSON (skin landmarks to the nearest skin; EJC, WJC, KJC and AJC to the ISB skin
+    midpoints). It awaits review before being applied.
+  - GH (36 mm from the rig pivot) needs regression or imaging data.
 
 **Next unblocked:**
 

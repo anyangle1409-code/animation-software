@@ -43,6 +43,22 @@
     "individual_markdown_sha256": "6cfcd997bb909a0de8bca2cd3188ce744eb6d9949905712147ac41ae811ffc36",
     "fixed_edge_markdown_sha256": "bbdd3571a1e8a30cb0b6134b336b1ca8d77eb1c72b716ab4496d4913251cc3da"
   },
+  "review_hardening_rerun": {
+    "commit_sha": "884678ddb8b572e555a25f20c8f2510e94f8ec78",
+    "run_id": 40188223743,
+    "run_conclusion": "success",
+    "job_count": 7,
+    "pose_artifact_id": 12596877953,
+    "pose_zip_sha256": "6016cf2b9bb5bc0f16486a165494be56197f9d97b5b58e419452c3282e62e148",
+    "github_digest_match": true,
+    "zip_crc_ok": true,
+    "member_count": 71,
+    "png_count": 66,
+    "blend_member_count": 0,
+    "pose_json_sha256": "9b831723b9f438152d9b9fd9495c4afb79173bd79a24751aab770e3a5f265b3e",
+    "pose_json_byte_identical_to_run_40116799535": true,
+    "frozen_topology_guard_executed": true
+  },
   "anatomical_approval": false,
   "generic_motions_approved": 0,
   "generic_motion_count": 19,

@@ -95,7 +95,10 @@ those angles uses them, which makes this a reusable movement system rather than 
 
 - adopting the candidate drives and keys, which changes the runtime contract;
 - replacing the r57 girdle directions;
-- the reference build choice (V14 replay or deterministic).
+- the reference build choice (V14 replay or deterministic);
+- moving the elbow pivot about 6 mm forward and 10 mm up, to the skin epicondyle midpoint. The test on a copy gives
+  curl elbow folds 147 → 111 before keys (`R121_MOVEMENT_TRAJECTORIES` doc, skeleton-shift test). It changes the
+  validated skeleton.
 
 **Blocked:**
 

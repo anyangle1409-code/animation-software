@@ -461,3 +461,32 @@ is narrower. In the side view the crease is still a fairly sharp V. This is **pa
 crease is where the two contact faces meet the silhouette.
 
 K1 is the current best candidate. Report: `report_TT_K1_footprint30mm.json`.
+
+## Skeleton-shift test: elbow pivot (candidate copy, owner decision)
+
+**Script.** `elbow_pivot_shift_candidate_blender.py`, run on a copy of the base R121p2, which has none of the new arm
+keys. It moves only the forearm bone's head (disconnected from the upper arm) to the skin epicondyle midpoint. The rest
+pose, mesh, weights and keys are unchanged.
+
+**The shift.** Re-measured in world axes and mirror-averaged, it is 6.3 mm anterior and 9.6 mm up. That is smaller
+than the joint audit's limb-frame figure; the left and right measurements were 11.7 and 7.5 mm up.
+
+**Curl, before any elbow keys:**
+
+| Measure | Pivot as built | Pivot shifted |
+|---|---|---|
+| Elbow folds over 90° | 147 | **111** |
+| Elbow crumple over 35° | 1032 | **920** |
+| All folds over 90° | 153 | 117 |
+| Self-intersections | 1641 | 1559 |
+| Edges stretched over 2× | 63 | 75 |
+| Return to neutral | 0.0 mm | 0.0 mm |
+
+- In `elbow_pivot_shift_R121p2.jpg` the elbow is slightly rounder at 60–90°. At 140° the result is still dominated by
+  the missing contact handling.
+
+**Verdict.** A moderate gain. This is the skin-landmark joint centre, so it supports moving the pivot. But it changes
+the validated skeleton and the runtime rig's joint, so it is **not adopted: owner decision.**
+
+If it is approved, the elbow, combination and press keys would be re-authored on the shifted rig. Reports:
+`report_TT_EP0_pivot_as_built.json` and `report_TT_EP1_pivot_shifted.json`.

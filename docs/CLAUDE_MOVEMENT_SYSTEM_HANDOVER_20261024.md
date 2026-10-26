@@ -57,7 +57,14 @@ The test is `scripts/body_v2/movement_trajectory_test_blender.py`. Sheets: `traj
    - The hand-on-thigh part is a transient key (driven by arm elevation), not a dent in the basis.
 
 6. **Press rack:** a combination corrective (arm about 84° and elbow 90°): press elbow folds 90 → 20.
-7. **Elbow at 120–140° (K1, current best):** the upper arm was flattened wider than the forearm that presses on it.
+8. **Rough skin at the press lockout (L4, current best).** The legacy S1 / S3 / S5 / S7 shoulder keys transferred from
+   the old surface injected the texture. Neutralising them and re-authoring the R121 arm families on the clean base
+   gives:
+   - lockout roughness p95 0.125 → 0.086 mm;
+   - press folds 137 → 13;
+   - press self-intersections 25 → 10;
+   - squat self-intersections 30 → 1.
+7. **Elbow at 120–140° (K1):** the upper arm was flattened wider than the forearm that presses on it.
    Mutual-footprint contact narrows the exposed flat face, and curl elbow crumple falls from 377 to 308 with 0
    intersections. The side-view crease is only partly fixed.
 

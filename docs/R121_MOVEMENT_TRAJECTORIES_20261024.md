@@ -578,3 +578,34 @@ Renders: `lockout_K1_vs_no_legacy_vs_lbs.jpg`.
    The names and drives are kept, so this is reversible.
 2. The R121 arm, forward-raise and combination families are re-authored on that clean base (L1 → L4).
 3. The K1 elbow keys are kept.
+
+**Result: L4 is adopted as the current best candidate.** L4 is K1 with the legacy S1 / S3 / S5 / S7 keys
+neutralised, and the R121 arm, forward-raise and combination families re-authored on the clean base. The K1 elbow keys
+are kept.
+
+| | K1 | L4 |
+|---|---|---|
+| Lockout roughness p95 / p99 (rest: 0.066 / 0.131 mm) | 0.125 / 0.212 mm | **0.086 / 0.143 mm** |
+| Press, folds over 90° | 137 | **13** |
+| Press, shoulder crumple / folds | 984 / 120 | **326 / 13** |
+| Press, elbow folds | 20 | **2** |
+| Press, self-intersections | 25 | **10** |
+| Press, edges collapsed under 0.5× | 9670 | **5384** |
+| Press, edges stretched over 2× | 7361 | 9041 |
+| Press, edge-length p99 | 1.94 | 2.04 |
+| Press, asymmetry p95 | 2.88 mm | **1.40 mm** |
+| Squat, self-intersections | 30 | **1** |
+| Squat, edges stretched over 2× | 5524 | **4213** |
+| Curl | – | unchanged |
+| Return to neutral | exact | exact |
+
+Renders: `lockout_K1_vs_L4_clean.jpg`.
+
+- The upper back and deltoids are smooth now; the mottled texture is gone.
+- What remains at the lockout:
+  - more stretch at the armpit;
+  - a rounded bulge at the back of the armpit in the side view. Plain skinning shows it too, so it comes from the
+    binding, not from the keys.
+
+Reports: `report_TT_L4_clean_shoulder.json`, `lockout_roughness_diag_L4.json`, and per-family authoring reports
+`*_L4.json`.

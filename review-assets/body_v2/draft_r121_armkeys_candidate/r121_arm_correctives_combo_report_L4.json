@@ -1,0 +1,40 @@
+{
+ "mode": "combo",
+ "angles_deg": [
+  90
+ ],
+ "keys": {
+  "90": {
+   "elevation_deg": {
+    "l": 84.23,
+    "r": 84.23
+   },
+   "folds_gt90_before": 26,
+   "unfold_history": [
+    26,
+    25,
+    25,
+    25,
+    25,
+    25,
+    25,
+    25,
+    27
+   ],
+   "contact_history": null,
+   "crumple_gt35_history": [
+    3083,
+    3077,
+    3076,
+    3074,
+    3074,
+    3075,
+    3074
+   ],
+   "folds_gt90_with_key": 27,
+   "max_offset_mm": 1.26,
+   "vertices": 1702,
+   "fit_residual_max_mm": 0.001
+  }
+ }
+}

@@ -78,9 +78,12 @@ def return_state_summary(reference_vertices, returned_vertices, active_keys,
     for key in active_keys:
         name = key.get("name")
         value = finite(key.get("actual_value"))
+        mute = key.get("mute")
         if not isinstance(name, str) or not name:
             raise ValueError("invalid active nonbasis shape key")
-        keys.append({"name": name, "actual_value": value})
+        if not isinstance(mute, bool):
+            raise ValueError("active nonbasis shape key mute must be boolean")
+        keys.append({"name": name, "actual_value": value, "mute": mute})
     keys.sort(key=lambda row: row["name"])
     maximum = residual["max_vertex_displacement_m"]
     pose_restored = skeletal_pose_signature_restored_exactly is True
@@ -235,7 +238,8 @@ def valid_active_nonbasis_keys(active):
         and all(isinstance(row.get("name"), str) and row["name"]
                 and type(row.get("actual_value")) in (int, float)
                 and math.isfinite(row["actual_value"])
-                and row["actual_value"] != 0.0 for row in active))
+                and row["actual_value"] != 0.0
+                and isinstance(row.get("mute"), bool) for row in active))
 
 def recorded_pose(rig, body, drives, sample, target_elevation):
     snapshot = {"sample": sample, "t": round(sample / 8.0, 4),
@@ -545,7 +549,7 @@ def main():
     bpy.context.view_layer.update()
     returned_vertices, _ = frozen_evaluated(body)
     active_keys = [
-        {"name": key.name, "actual_value": finite(key.value)}
+        {"name": key.name, "actual_value": finite(key.value), "mute": bool(key.mute)}
         for key in body.data.shape_keys.key_blocks[1:] if finite(key.value) != 0.0
     ]
     returned = return_state_summary(
@@ -586,7 +590,7 @@ def main():
     refresh_keys()
     cleared_vertices, _ = frozen_evaluated(body)
     cleared_active_keys = [
-        {"name": key.name, "actual_value": finite(key.value)}
+        {"name": key.name, "actual_value": finite(key.value), "mute": bool(key.mute)}
         for key in body.data.shape_keys.key_blocks[1:] if finite(key.value) != 0.0
     ]
     cleared = explicit_clear_summary(

@@ -26,7 +26,7 @@ def mock_report():
             "rms_vertex_displacement_m": 0.001,
             "vertices_moved_gt_1e_9_m": 1,
             "active_nonbasis_shape_keys": [
-                {"name": "HGPT_S7_DELT_l_156", "actual_value": 0.5}],
+                {"name": "HGPT_S7_DELT_l_156", "actual_value": 0.5, "mute": False}],
             "skeletal_pose_signature_restored_exactly": True,
         },
         "reverse_press_trajectory": {
@@ -161,7 +161,7 @@ class ShoulderPoseProbeTests(unittest.TestCase):
     def test_return_state_summary_reports_geometry_keys_and_pose_residuals(self):
         result = probe.return_state_summary(
             [(0, 0, 0), (1, 0, 0)], [(0, 0, 0), (1, 0.003, 0)],
-            [{"name": "HGPT_S7_DELT_l_156", "actual_value": 0.25}], False)
+            [{"name": "HGPT_S7_DELT_l_156", "actual_value": 0.25, "mute": False}], False)
         self.assertAlmostEqual(result["max_vertex_displacement_m"], 0.003)
         self.assertAlmostEqual(result["rms_vertex_displacement_m"],
                                (0.003**2 / 2) ** 0.5)
@@ -173,6 +173,14 @@ class ShoulderPoseProbeTests(unittest.TestCase):
             probe.return_state_summary([(0, 0, 0)], [], [], True)
         with self.assertRaisesRegex(ValueError, "Nonfinite"):
             probe.return_state_summary([(0, 0, 0)], [(float("nan"), 0, 0)], [], True)
+        with self.assertRaisesRegex(ValueError, "mute"):
+            probe.return_state_summary(
+                [(0, 0, 0)], [(0, 0, 0)],
+                [{"name": "HGPT_S3_SHAPE_l_125", "actual_value": 1.0}], True)
+        with self.assertRaisesRegex(ValueError, "mute"):
+            probe.return_state_summary(
+                [(0, 0, 0)], [(0, 0, 0)],
+                [{"name": "HGPT_S3_SHAPE_l_125", "actual_value": 1.0, "mute": 0}], True)
 
     def test_reverse_trajectory_summary_is_geometric_not_physiological(self):
         forward = {i: [(0, 0, 0), (i, 0, 0)] for i in range(9)}
@@ -301,7 +309,7 @@ class ShoulderPoseProbeTests(unittest.TestCase):
         d = mock_report()
         returned = d["post_benchmark_return_to_start_state"]
         returned["runtime_state_restored_exactly"] = False
-        returned["active_nonbasis_shape_keys"] = [{"name": "", "actual_value": float("nan")}]
+        returned["active_nonbasis_shape_keys"] = [{"name": "", "actual_value": float("nan"), "mute": False}]
         self.assertIn("invalid return-to-start evidence", probe.validate_report(d))
         d = mock_report()
         returned = d["post_benchmark_return_to_start_state"]

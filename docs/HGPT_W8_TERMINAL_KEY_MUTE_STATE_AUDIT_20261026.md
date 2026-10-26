@@ -15,4 +15,10 @@ A muted key with a nonzero numeric value explains why the driver state can appea
 
 ## Verification state
 
-The new missing/nonboolean mute regression was observed RED before implementation and GREEN afterward. Focused22/22, full265/265 diagnostic tests and7/7 replay guards pass locally. Native key mute values and artifact evidence are pending.
+The new missing/nonboolean mute regression was observed RED before implementation and GREEN afterward. Focused22/22, full265/265 diagnostic tests and7/7 replay guards pass.
+
+Run `40372539682` at commit `ed2df25a324d41f67397fa0110b659895ee1dde4` completed SUCCESS 7/7. All14 nonzero terminal keys are unmuted, including both S3_125 keys. Mute state therefore does **not** explain S3's zero evaluated family-clear effect.
+
+Pose artifact `12673696292` was independently downloaded, CRC checked and rehashed as `b8880c99995153a2a6a0215986cfa78196704a3d3a3ad9a6cedce5ef497f03dc`;71 members/66 PNG/no `.blend`. After removing only the newly reported mute fields, the full prior pose report equals run40204767570.
+
+Next safe discriminator: read S3_125 stored coordinates relative to its actual `relative_key`, then individually clear the left and right keys under the same fixed-skeleton state. Do not infer that a zero effect means the shape should be deleted.

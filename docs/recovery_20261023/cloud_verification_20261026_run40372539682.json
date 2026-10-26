@@ -1,0 +1,51 @@
+{
+  "workflow_run": {
+    "id": 40372539682,
+    "head_sha": "ed2df25a324d41f67397fa0110b659895ee1dde4",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs_successful": 7,
+    "jobs_total": 7
+  },
+  "jobs": {
+    "inspect_w8": 121746789926,
+    "pose_state_w8": 121746789943,
+    "inspect_v14": 121746789985,
+    "localize_native_movement_failures": 121746790146,
+    "inspect_r120": 121746790148,
+    "compare_rest_audits": 121747527232,
+    "verify_actual_shoulder_driver_math": 121749708478
+  },
+  "artifacts": [
+    {"id": 12673696292, "name": "phone-w8-shoulder-pose-state-40372539682", "sha256": "b8880c99995153a2a6a0215986cfa78196704a3d3a3ad9a6cedce5ef497f03dc", "independently_downloaded_and_rehashed": true},
+    {"id": 12673905611, "name": "phone-blender-V14-40372539682", "sha256": "43b72b72f30c5ceeec4bffbeaf55bc1e85bc64c3f59fd849c43d05a35c271a50", "independently_downloaded_and_rehashed": false},
+    {"id": 12673411437, "name": "phone-native-failure-localization-40372539682", "sha256": "c487db64639f877207897dafeaa57fca5514e1181272347a59a913df48898f10", "independently_downloaded_and_rehashed": false},
+    {"id": 12673112094, "name": "phone-blender-R120-40372539682", "sha256": "707b8f6ad6ecd2c891e082421569dff02c18a5df4424ee4b1c949f371088780a", "independently_downloaded_and_rehashed": false},
+    {"id": 12673058985, "name": "phone-w8-driver-consistency-40372539682", "sha256": "e46141c3478ef7cfb9882e441d2aa9b6e48a86dd42bc1eb7375bf98a036f72da", "independently_downloaded_and_rehashed": false},
+    {"id": 12672718834, "name": "phone-blender-W8-40372539682", "sha256": "ca98ddff1fc0f0eb97dddd332d634bb70b65c13c34515edff9fda267e8c649fc", "independently_downloaded_and_rehashed": false},
+    {"id": 12672584581, "name": "phone-w8-evaluated-snapshots-40372539682", "sha256": "11cca3be0cd404e5e0dfa08f1066fa26306993892fb02244680353e52f0c5b2c", "independently_downloaded_and_rehashed": false},
+    {"id": 12672443170, "name": "phone-rest-cross-model-40372539682", "sha256": "d4be06d9e5704687a7a819b19842386ab1848df876e3ac6e7adbe3dea85b9a84", "independently_downloaded_and_rehashed": false},
+    {"id": 12672039280, "name": "phone-visual-review-40372539682", "sha256": "2ae29daad6e5bc96ce3bf9ff18d318e9b0f3120e30893451ed3c4ef98f3c377b", "independently_downloaded_and_rehashed": false}
+  ],
+  "pose_artifact": {
+    "zip_crc_clean": true,
+    "member_count": 71,
+    "png_count": 66,
+    "blend_member_count": 0,
+    "pose_json_sha256": "83dd04321ab87542bfc76a6a867e540e4342206b1d5db5a05f38a98423feca38",
+    "prior_fields_equal_run40204767570_after_stripping_only_mute_fields": true
+  },
+  "terminal_active_key_mutes": {
+    "key_count": 14,
+    "muted_count": 0,
+    "unmuted_count": 14,
+    "s3_125_left": false,
+    "s3_125_right": false
+  },
+  "interpretation": {
+    "mute_explains_s3_zero_evaluated_effect": false,
+    "stored_delta_or_relative_key_investigation_required": true,
+    "source_change_authorized": false,
+    "anatomical_or_repair_approval": false
+  }
+}

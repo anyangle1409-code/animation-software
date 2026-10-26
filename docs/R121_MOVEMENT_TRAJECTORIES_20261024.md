@@ -549,3 +549,32 @@ landmarks were carried over unchanged when the surface was rebuilt and refitted.
 Applying the proposal would change landmark data in the candidate. That is left for review.
 
 Files: `landmark_staleness_K1.json` and `landmark_staleness_R41_reference.json`.
+
+## Press lockout: rough skin on the deltoids and upper back, cause found
+
+`lockout_roughness_diag_blender.py` measures high-frequency roughness on the upper body at the press lockout (K1),
+per vertex: |normal Laplacian − its neighbourhood mean|.
+
+| State | p95 | p99 |
+|---|---|---|
+| Rest | 0.066 mm | 0.131 mm |
+| Plain skinning, no corrective keys | 0.117 mm | 0.220 mm |
+| Plus the legacy HGPT_S1 / S3 / S5 / S7 families | **0.268 mm** | **0.529 mm** |
+| Plus the R121 keys (K1, what the review sheets show) | 0.125 mm | 0.212 mm |
+| R121 keys without the legacy families | 0.238 mm | 0.499 mm |
+
+Renders: `lockout_K1_vs_no_legacy_vs_lbs.jpg`.
+
+- **Plain skinning:** the back is smooth, but the armpit and deltoid fold.
+- **Legacy families:** they were transferred from the old surface and **inject the mottled texture**.
+- **R121 keys:** they were authored *on top of* the legacy keys. They cancel the folds but carry the texture, so
+  removing the legacy keys alone makes things worse.
+
+**Cause.** The legacy shoulder families do not fit the rebuilt surface.
+
+**Fix being tested.**
+
+1. `neutralize_legacy_shoulder_keys_candidate_blender.py` zeroes the offsets of the S1 / S3 / S5 / S7 keys on a copy.
+   The names and drives are kept, so this is reversible.
+2. The R121 arm, forward-raise and combination families are re-authored on that clean base (L1 → L4).
+3. The K1 elbow keys are kept.

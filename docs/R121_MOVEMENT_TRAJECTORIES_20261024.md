@@ -607,5 +607,6 @@ Renders: `lockout_K1_vs_L4_clean.jpg`.
   - a rounded bulge at the back of the armpit in the side view. Plain skinning shows it too, so it comes from the
     binding, not from the keys.
 
-Reports: `report_TT_L4_clean_shoulder.json`, `lockout_roughness_diag_L4.json`, and per-family authoring reports
-`*_L4.json`.
+Reports: `report_TT_L4_clean_shoulder.json`, `lockout_roughness_diag_L4.json` and
+`r121_arm_correctives_combo_report_L4.json`. The arm and forward-raise authoring reports were lost when the
+intermediate blends were cleaned up. The trajectory and roughness reports above are the evaluation.

@@ -20,14 +20,25 @@ The permanent muscle IDs are used unchanged. Muscle highlighting is not implemen
 The test is `scripts/body_v2/movement_trajectory_test_blender.py`. Sheets: `trajectory_sheets.py`, written to
 `review-assets/body_v2/movement_trajectories_20261024/`, sized for a phone.
 
-| | Before (R121p, r57 girdle, no new keys) | Now (candidate I11: review set `REVIEW_I11_*`) |
+| | Before (R121p, r57 girdle, no new keys) | Now (candidate **L4**: review set `REVIEW_L4_*`) |
 |---|---|---|
-| Press lockout: folds over 90° / self-intersections | 4666 / 4759 (peak) | 137 / 22 |
-| Curl: elbow folds over 90° / self-intersections | 147 / 1641 | 4 / 0 (I9) |
-| Squat: hip and knee folds / knee intersections / heel lift | 586 and 123 / 722 / 11.3 mm | 0 and 20 / 0 / 0.0 mm |
+| Press: folds over 90° / self-intersections (peak) | 4666 / 4759 | **13 / 10** |
+| Press lockout skin roughness, p95 (rest pose: 0.066 mm) | – (K1 had 0.125 mm, a mottled back) | **0.086 mm** |
+| Curl: elbow folds over 90° / self-intersections | 147 / 1641 | 4 / 0 |
+| Squat: self-intersections / heel lift | 1282 / 11.3 mm | **1 / 0.0 mm** |
 | Rest pose self-intersections | 1929 | 0 |
 | Return to neutral, all movements | 0.0000 mm | 0.0000 mm |
-| Left/right asymmetry p95 | ≤ 3 mm | ≤ 3 mm |
+| Left/right asymmetry p95 | ≤ 3 mm | ≤ 1.5 mm |
+
+The candidate chain is:
+
+1. R121p, the rebuilt surface.
+2. Rest contact, the flap fix, and the hand contact made transient.
+3. Sole weights.
+4. Hip and knee keys (I-series).
+5. K1 elbow keys (footprint contact).
+6. **L4**: the legacy S1 / S3 / S5 / S7 shoulder keys neutralised, and the R121 arm, forward-raise and combination keys
+   re-authored on the clean base.
 
 ## Root causes established, each measured before anything was changed
 

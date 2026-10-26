@@ -24,4 +24,17 @@ It is an attribution diagnostic, not an instruction to delete or disable any cor
 
 ## Verification state
 
-Five new behavior tests were observed RED before implementation and GREEN afterward, alongside the existing report integrity cases. Review hardening requires the selected values to remain exactly zero before and after evaluation while the skeleton and every nonselected value/mute remain fixed; every trial then restores all saved key values and mute flags in `finally` and verifies exact pose/key/evaluated-geometry restoration. The report's family partition must equal the canonical prefix-derived partition. Native Blender family inventory and measurements are pending a new cloud run.
+Five new behavior tests were observed RED before implementation and GREEN afterward, alongside the existing report integrity cases. Review hardening requires the selected values to remain exactly zero before and after evaluation while the skeleton and every nonselected value/mute remain fixed; every trial then restores all saved key values and mute flags in `finally` and verifies exact pose/key/evaluated-geometry restoration. The report's family partition must equal the canonical prefix-derived partition.
+
+Run `40204767570` at commit `188fdc66aef28c45cfbde424b4820336eecc31f1` completed SUCCESS 7/7. The exact terminal partition is S1 four keys, S3 two keys, S5 four keys and S7 four keys. Trial results:
+
+| Cleared family | Moved vs terminal | Max vs terminal | RMS vs terminal | Remaining max vs reference | Remaining RMS vs reference |
+|---|---:|---:|---:|---:|---:|
+| S1 | 93,118 | 28.590 mm | 7.613 mm | 56.181 mm | 9.503 mm |
+| S3 | 0 | 0 mm | 0 mm | 62.314 mm | 12.930 mm |
+| S5 | 53,514 | 46.298 mm | 5.202 mm | 45.486 mm | 11.313 mm |
+| S7 | 98,765 | 40.656 mm | 7.702 mm | 51.097 mm | 9.655 mm |
+
+S3 is active by value but has no evaluated geometric effect in this reset-skeleton condition. S1, S5 and S7 each have material, overlapping marginal effects; no single-family clear restores the reference. The experiment therefore supports a stale multi-family runtime-state diagnosis, not disabling or editing any family.
+
+Pose artifact `12603526912` was independently downloaded, CRC checked and rehashed as `3017fc9851527c137ce65ddce28bbd9bf31fc80afd9dfcf3e3c12ccfe3371c3f`. It contains 71 members, 66 PNGs and no `.blend`.

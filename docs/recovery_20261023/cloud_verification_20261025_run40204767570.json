@@ -1,0 +1,84 @@
+{
+  "workflow_run": {
+    "id": 40204767570,
+    "head_sha": "188fdc66aef28c45cfbde424b4820336eecc31f1",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs_successful": 7,
+    "jobs_total": 7
+  },
+  "jobs": {
+    "inspect_w8": 121203260563,
+    "localize_native_movement_failures": 121203260646,
+    "inspect_r120": 121203260669,
+    "inspect_v14": 121203260680,
+    "pose_state_w8": 121203260776,
+    "compare_rest_audits": 121203507659,
+    "verify_actual_shoulder_driver_math": 121204444536
+  },
+  "artifacts": [
+    {"id": 12603526912, "name": "phone-w8-shoulder-pose-state-40204767570", "sha256": "3017fc9851527c137ce65ddce28bbd9bf31fc80afd9dfcf3e3c12ccfe3371c3f", "independently_downloaded_and_rehashed": true},
+    {"id": 12604015142, "name": "phone-w8-driver-consistency-40204767570", "sha256": "e09f9bba7e0385d9589dae9b642590d618429c68a8215d203689c9ac0aa91f83", "independently_downloaded_and_rehashed": false},
+    {"id": 12603820722, "name": "phone-rest-cross-model-40204767570", "sha256": "20833c74b08b89e44eb9f2c437799542e88ad7f8c35e995d7b69941c6f75d81a", "independently_downloaded_and_rehashed": false},
+    {"id": 12603810575, "name": "phone-blender-R120-40204767570", "sha256": "72ea5a8726e934121e66ae0e50796fb22d9af27e4c80d0604b322d9d663a4690", "independently_downloaded_and_rehashed": false},
+    {"id": 12603327238, "name": "phone-w8-evaluated-snapshots-40204767570", "sha256": "7ae8e209339fb0a4eb165b211542bd010af0e6a5ffd11216ffefdd26b1db6173", "independently_downloaded_and_rehashed": false},
+    {"id": 12603027699, "name": "phone-blender-W8-40204767570", "sha256": "e195d2dc0d791ea2d7d05f4f64689621bdcd27d1702fb026380c1afdacadf3e0", "independently_downloaded_and_rehashed": false},
+    {"id": 12603027679, "name": "phone-native-failure-localization-40204767570", "sha256": "d4a9994f7451e4e38540985f483c929cb7255015face3a39f0d9589887c60f36", "independently_downloaded_and_rehashed": false},
+    {"id": 12602947994, "name": "phone-blender-V14-40204767570", "sha256": "da97b5abb38f7bb7c4e57d5e4678763c76f191f05b17aa87c7e687e1997cdfed", "independently_downloaded_and_rehashed": false},
+    {"id": 12602942802, "name": "phone-visual-review-40204767570", "sha256": "9eaf07ce35c2d1a2d60275809b49ecadc6a84b5a84a1f74d55f849d31b0ad5ff", "independently_downloaded_and_rehashed": false}
+  ],
+  "pose_artifact": {
+    "zip_crc_clean": true,
+    "member_count": 71,
+    "png_count": 66,
+    "blend_member_count": 0,
+    "pose_json_sha256": "844da05ac9b6d65104ca38f3bdc5a98f7663cc554a6faf2297b7cec733051a74",
+    "prior_fields_equal_run40203540066_after_stripping_only_new_attribution": true
+  },
+  "terminal_corrective_key_clear_attribution": {
+    "status": "READ_ONLY_RUNTIME_KEY_CLEAR_ATTRIBUTION_NOT_REPAIR",
+    "terminal_state_restored_after_trials_exactly": true,
+    "vertex_count": 219974,
+    "trials": [
+      {
+        "family": "HGPT_S1_SHOULDER",
+        "cleared_key_count": 4,
+        "cleared_key_names": ["HGPT_S1_SHOULDER_l_145", "HGPT_S1_SHOULDER_l_160", "HGPT_S1_SHOULDER_r_145", "HGPT_S1_SHOULDER_r_160"],
+        "residual_to_reference": {"vertices_moved_gt_1e_9_m": 98765, "max_vertex_displacement_m": 0.05618112502777075, "rms_vertex_displacement_m": 0.009503131496886408},
+        "displacement_from_observed_terminal": {"vertices_moved_gt_1e_9_m": 93118, "max_vertex_displacement_m": 0.028590426519973768, "rms_vertex_displacement_m": 0.0076125906876776195}
+      },
+      {
+        "family": "HGPT_S3_SHAPE",
+        "cleared_key_count": 2,
+        "cleared_key_names": ["HGPT_S3_SHAPE_l_125", "HGPT_S3_SHAPE_r_125"],
+        "residual_to_reference": {"vertices_moved_gt_1e_9_m": 102253, "max_vertex_displacement_m": 0.06231378350054487, "rms_vertex_displacement_m": 0.012929646292009458},
+        "displacement_from_observed_terminal": {"vertices_moved_gt_1e_9_m": 0, "max_vertex_displacement_m": 0.0, "rms_vertex_displacement_m": 0.0}
+      },
+      {
+        "family": "HGPT_S5_BAKE",
+        "cleared_key_count": 4,
+        "cleared_key_names": ["HGPT_S5_BAKE_l_145", "HGPT_S5_BAKE_l_160", "HGPT_S5_BAKE_r_145", "HGPT_S5_BAKE_r_160"],
+        "residual_to_reference": {"vertices_moved_gt_1e_9_m": 102253, "max_vertex_displacement_m": 0.04548567163195455, "rms_vertex_displacement_m": 0.011312825029356571},
+        "displacement_from_observed_terminal": {"vertices_moved_gt_1e_9_m": 53514, "max_vertex_displacement_m": 0.04629784067335521, "rms_vertex_displacement_m": 0.005202147279765462}
+      },
+      {
+        "family": "HGPT_S7_DELT",
+        "cleared_key_count": 4,
+        "cleared_key_names": ["HGPT_S7_DELT_l_156", "HGPT_S7_DELT_l_166", "HGPT_S7_DELT_r_156", "HGPT_S7_DELT_r_166"],
+        "residual_to_reference": {"vertices_moved_gt_1e_9_m": 95188, "max_vertex_displacement_m": 0.05109741628738928, "rms_vertex_displacement_m": 0.009654848597865917},
+        "displacement_from_observed_terminal": {"vertices_moved_gt_1e_9_m": 98765, "max_vertex_displacement_m": 0.04065570003585082, "rms_vertex_displacement_m": 0.007701687956687967}
+      }
+    ]
+  },
+  "unchanged_prior_results": {
+    "forward_runtime_state_restored_exactly": false,
+    "reverse_retraced_forward_samples_exactly": true,
+    "explicit_clear_restored_reference_exactly": true
+  },
+  "approval": {
+    "anatomical_causality": false,
+    "skeletal_skinning_causality": false,
+    "model_repair": false,
+    "family_disable_recommended": false
+  }
+}

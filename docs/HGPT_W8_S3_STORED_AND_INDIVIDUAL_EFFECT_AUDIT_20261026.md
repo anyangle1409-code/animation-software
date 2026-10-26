@@ -22,4 +22,10 @@ Stored key coordinates are authoring data, not evaluated skin deformation. Indiv
 
 ## Verification state
 
-Two focused behaviors were observed RED before implementation and GREEN after: separation of stored/evaluated quantities and exact bilateral endpoint enforcement. Review hardening also rejects boolean/nonfinite activation masquerading as numeric evidence. Focused24/24, full267/267 diagnostic tests and7/7 replay guards pass locally. Native values and artifact hashes are pending.
+Two focused behaviors were observed RED before implementation and GREEN after: separation of stored/evaluated quantities and exact bilateral endpoint enforcement. Review hardening also rejects boolean/nonfinite activation masquerading as numeric evidence. Focused24/24, full267/267 diagnostic tests and7/7 replay guards pass.
+
+Run `40374313339` at commit `cfd0e219723554ef29d6f140795afa1648e34937` completed SUCCESS 7/7. Both endpoint keys have `relative_key=Basis`, an empty vertex-group string, and zero stored-coordinate delta across all219,974 vertices. Clearing either key individually changes zero evaluated vertices and leaves the terminal residual exactly unchanged. Exact terminal state restoration passed.
+
+Conclusion: bilateral S3_125 are unmuted, numeric value1.0, but stored-coordinate-equivalent to Basis and therefore no-op endpoint keys in this W8 source. The zero family effect is not bilateral cancellation. This may be an intentional endpoint that terminates S3 interpolation; it does not authorize deletion or source modification.
+
+Pose artifact `12673313863` was independently downloaded, CRC checked and rehashed as `129ecc9bc07544e7f3bc0954cb12a531c90eb4e650ea03aa529c6d24db9cd4c2`;71 members/66 PNG/no `.blend`. After stripping only this new diagnostic and limitation, the prior report equals run40372539682.

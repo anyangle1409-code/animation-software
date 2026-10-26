@@ -1,0 +1,76 @@
+{
+  "workflow_run": {
+    "id": 40374313339,
+    "head_sha": "cfd0e219723554ef29d6f140795afa1648e34937",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs_successful": 7,
+    "jobs_total": 7
+  },
+  "jobs": {
+    "localize_native_movement_failures": 121753080444,
+    "inspect_w8": 121753080497,
+    "pose_state_w8": 121753080600,
+    "inspect_r120": 121753080856,
+    "inspect_v14": 121753080943,
+    "compare_rest_audits": 121753747498,
+    "verify_actual_shoulder_driver_math": 121756508261
+  },
+  "artifacts": [
+    {"id": 12673313863, "name": "phone-w8-shoulder-pose-state-40374313339", "sha256": "129ecc9bc07544e7f3bc0954cb12a531c90eb4e650ea03aa529c6d24db9cd4c2", "independently_downloaded_and_rehashed": true},
+    {"id": 12674386829, "name": "phone-blender-V14-40374313339", "sha256": "6f67b7037431f40eb3f529cee5d1f44fdf18113d90d7ea87bdfc6b49ef37a6f5", "independently_downloaded_and_rehashed": false},
+    {"id": 12673833022, "name": "phone-w8-driver-consistency-40374313339", "sha256": "b670cf1df94e0dce585da151a4dccb1a0ed2471c5f9d214e969b54e2c6d40fbc", "independently_downloaded_and_rehashed": false},
+    {"id": 12673827495, "name": "phone-native-failure-localization-40374313339", "sha256": "d48f161715a6cb18accf6e58fbb95c5a1d0c6903cc43a893fda739b60a3b4e98", "independently_downloaded_and_rehashed": false},
+    {"id": 12673797639, "name": "phone-visual-review-40374313339", "sha256": "8408026ae00fe601bf986b8e3d961edd16a68f1fd72b75a8bd54c6d6a696579d", "independently_downloaded_and_rehashed": false},
+    {"id": 12673752740, "name": "phone-blender-W8-40374313339", "sha256": "3eb5a9ef0b2d45402ba35f7b8dcd99111bf707cea39eed750c9221c62f866c6b", "independently_downloaded_and_rehashed": false},
+    {"id": 12673358794, "name": "phone-w8-evaluated-snapshots-40374313339", "sha256": "b62d7a8e7fe30c8aca18ed40d3195a1f123872cfcb5628c776919769288d297f", "independently_downloaded_and_rehashed": false},
+    {"id": 12673323244, "name": "phone-blender-R120-40374313339", "sha256": "f1651115448223188a2149cfe805da32a31be1bbcd7fab54d59284c88ffd0a70", "independently_downloaded_and_rehashed": false},
+    {"id": 12673213527, "name": "phone-rest-cross-model-40374313339", "sha256": "7588c07a4e490c47d1f9ca4e5bb9e771e60b28c3cd1b1947a4c1ff6b2b01ce54", "independently_downloaded_and_rehashed": false}
+  ],
+  "pose_artifact": {
+    "zip_crc_clean": true,
+    "member_count": 71,
+    "png_count": 66,
+    "blend_member_count": 0,
+    "pose_json_sha256": "2eb9888735444b6ba50282087eb48d0dff43604885e64c97ec0a0995a2c9035e",
+    "prior_fields_equal_run40372539682_after_stripping_only_new_s3_diagnostic": true
+  },
+  "terminal_s3_individual_key_diagnostic": {
+    "status": "READ_ONLY_S3_STORED_AND_EVALUATED_KEY_DIAGNOSTIC_NOT_REPAIR",
+    "terminal_state_restored_after_trials_exactly": true,
+    "keys": [
+      {
+        "name": "HGPT_S3_SHAPE_l_125",
+        "actual_value": 1.0,
+        "mute": false,
+        "relative_key_name": "Basis",
+        "vertex_group": "",
+        "stored_coordinate_vertex_count": 219974,
+        "stored_vertices_moved_gt_1e_9_m": 0,
+        "stored_max_delta_m": 0.0,
+        "individual_clear_vertices_moved_gt_1e_9_m": 0,
+        "individual_clear_max_delta_m": 0.0
+      },
+      {
+        "name": "HGPT_S3_SHAPE_r_125",
+        "actual_value": 1.0,
+        "mute": false,
+        "relative_key_name": "Basis",
+        "vertex_group": "",
+        "stored_coordinate_vertex_count": 219974,
+        "stored_vertices_moved_gt_1e_9_m": 0,
+        "stored_max_delta_m": 0.0,
+        "individual_clear_vertices_moved_gt_1e_9_m": 0,
+        "individual_clear_max_delta_m": 0.0
+      }
+    ]
+  },
+  "interpretation": {
+    "s3_125_keys_are_stored_coordinate_equivalent_to_basis": true,
+    "bilateral_cancellation_explains_zero_family_effect": false,
+    "mute_explains_zero_family_effect": false,
+    "active_numeric_noop_endpoint_keys": true,
+    "source_change_authorized": false,
+    "anatomical_or_repair_approval": false
+  }
+}

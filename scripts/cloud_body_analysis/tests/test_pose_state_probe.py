@@ -26,6 +26,8 @@ def mock_report():
             "rms_vertex_displacement_m": 0.001,
             "vertices_moved_gt_1e_9_m": 1,
             "active_nonbasis_shape_keys": [
+                {"name": "HGPT_S3_SHAPE_l_125", "actual_value": 1.0, "mute": False},
+                {"name": "HGPT_S3_SHAPE_r_125", "actual_value": 1.0, "mute": False},
                 {"name": "HGPT_S7_DELT_l_156", "actual_value": 0.5, "mute": False}],
             "skeletal_pose_signature_restored_exactly": True,
         },
@@ -73,7 +75,40 @@ def mock_report():
                     "rms_vertex_displacement_m": 0.0,
                     "vertices_moved_gt_1e_9_m": 0,
                 },
+            }, {
+                "family": "HGPT_S3_SHAPE",
+                "cleared_key_names": ["HGPT_S3_SHAPE_l_125", "HGPT_S3_SHAPE_r_125"],
+                "residual_to_benchmark_reference": {
+                    "vertex_count": 2, "max_vertex_displacement_m": 0.0,
+                    "rms_vertex_displacement_m": 0.0, "vertices_moved_gt_1e_9_m": 0,
+                },
+                "displacement_from_observed_terminal": {
+                    "vertex_count": 2, "max_vertex_displacement_m": 0.0,
+                    "rms_vertex_displacement_m": 0.0, "vertices_moved_gt_1e_9_m": 0,
+                },
             }],
+        },
+        "terminal_s3_individual_key_diagnostic": {
+            "status": "READ_ONLY_S3_STORED_AND_EVALUATED_KEY_DIAGNOSTIC_NOT_REPAIR",
+            "model_repair_claimed": False,
+            "anatomical_causality_claimed": False,
+            "terminal_state_restored_after_trials_exactly": True,
+            "keys": [{
+                "name": name, "actual_value": 1.0, "mute": False,
+                "relative_key_name": "Basis", "vertex_group": "",
+                "stored_coordinate_delta_to_relative_key": {
+                    "vertex_count": 2, "max_vertex_displacement_m": 0.001,
+                    "rms_vertex_displacement_m": 0.001, "vertices_moved_gt_1e_9_m": 2,
+                },
+                "individual_clear_residual_to_benchmark_reference": {
+                    "vertex_count": 2, "max_vertex_displacement_m": 0.0,
+                    "rms_vertex_displacement_m": 0.0, "vertices_moved_gt_1e_9_m": 0,
+                },
+                "individual_clear_displacement_from_observed_terminal": {
+                    "vertex_count": 2, "max_vertex_displacement_m": 0.0,
+                    "rms_vertex_displacement_m": 0.0, "vertices_moved_gt_1e_9_m": 0,
+                },
+            } for name in ("HGPT_S3_SHAPE_l_125", "HGPT_S3_SHAPE_r_125")],
         },
         "samples": [{
             "sample": i,
@@ -222,6 +257,30 @@ class ShoulderPoseProbeTests(unittest.TestCase):
         self.assertAlmostEqual(result["trials"][0]["residual_to_benchmark_reference"]["max_vertex_displacement_m"], 0.001)
         self.assertAlmostEqual(result["trials"][0]["displacement_from_observed_terminal"]["max_vertex_displacement_m"], 0.001)
 
+    def test_s3_stored_and_individual_summary_keeps_coordinate_and_evaluated_effects_distinct(self):
+        active = [
+            {"name": "HGPT_S3_SHAPE_l_125", "actual_value": 1.0, "mute": False},
+            {"name": "HGPT_S3_SHAPE_r_125", "actual_value": 1.0, "mute": False},
+        ]
+        stored = [{"name": row["name"], "relative_key_name": "Basis", "vertex_group": "",
+                   "key_vertices": [(0, 0.001, 0)], "relative_vertices": [(0, 0, 0)]}
+                  for row in active]
+        trials = [{"family": row["name"], "cleared_key_names": [row["name"]],
+                   "vertices": [(0, 0.002, 0)]} for row in active]
+        result = probe.terminal_s3_key_diagnostic_summary(
+            [(0, 0, 0)], [(0, 0.003, 0)], active, stored, trials, True)
+        self.assertEqual(result["status"], "READ_ONLY_S3_STORED_AND_EVALUATED_KEY_DIAGNOSTIC_NOT_REPAIR")
+        self.assertAlmostEqual(result["keys"][0]["stored_coordinate_delta_to_relative_key"]["max_vertex_displacement_m"], 0.001)
+        self.assertAlmostEqual(result["keys"][0]["individual_clear_displacement_from_observed_terminal"]["max_vertex_displacement_m"], 0.001)
+        self.assertFalse(result["model_repair_claimed"])
+
+    def test_s3_summary_requires_exact_bilateral_endpoint_keys(self):
+        with self.assertRaisesRegex(ValueError, "exact bilateral S3_125"):
+            probe.terminal_s3_key_diagnostic_summary(
+                [(0, 0, 0)], [(0, 0, 0)],
+                [{"name": "HGPT_S3_SHAPE_l_125", "actual_value": 1.0, "mute": False}],
+                [], [], True)
+
     def test_terminal_key_clear_attribution_rejects_duplicate_family_or_empty_keys(self):
         common = {"family": "HGPT_S7_DELT", "cleared_key_names": ["k"], "vertices": [(0, 0, 0)]}
         with self.assertRaisesRegex(ValueError, "unique"):
@@ -292,6 +351,12 @@ class ShoulderPoseProbeTests(unittest.TestCase):
         d = mock_report()
         d["terminal_corrective_key_clear_attribution"]["trials"][0]["family"] = "HGPT"
         self.assertIn("invalid terminal key-clear attribution", probe.validate_report(d))
+        d = mock_report()
+        d["terminal_s3_individual_key_diagnostic"]["model_repair_claimed"] = True
+        self.assertIn("invalid terminal S3 key diagnostic", probe.validate_report(d))
+        d = mock_report()
+        d["terminal_s3_individual_key_diagnostic"]["keys"][0]["actual_value"] = True
+        self.assertIn("invalid terminal S3 key diagnostic", probe.validate_report(d))
 
     def test_report_requires_truthful_return_state_without_demanding_a_pass(self):
         d = mock_report()

@@ -163,6 +163,60 @@ def terminal_key_clear_attribution_summary(reference_vertices, observed_terminal
     }
 
 
+def terminal_s3_key_diagnostic_summary(reference_vertices, observed_terminal_vertices,
+                                       active_keys, stored_records, trials,
+                                       terminal_state_restored_exactly):
+    expected = {"HGPT_S3_SHAPE_l_125", "HGPT_S3_SHAPE_r_125"}
+    active_by_name = {row.get("name"): row for row in active_keys}
+    if set(active_by_name) != expected or len(active_by_name) != len(active_keys):
+        raise ValueError("exact bilateral S3_125 active keys required")
+    stored_by_name = {row.get("name"): row for row in stored_records}
+    trial_by_name = {row.get("family"): row for row in trials}
+    if set(stored_by_name) != expected or len(stored_by_name) != len(stored_records):
+        raise ValueError("exact bilateral S3_125 stored records required")
+    if set(trial_by_name) != expected or len(trial_by_name) != len(trials):
+        raise ValueError("exact bilateral S3_125 individual trials required")
+    rows = []
+    for name in sorted(expected):
+        active = active_by_name[name]
+        stored = stored_by_name[name]
+        trial = trial_by_name[name]
+        if trial.get("cleared_key_names") != [name]:
+            raise ValueError("S3 individual trial must clear exactly its named key")
+        relative_name = stored.get("relative_key_name")
+        vertex_group = stored.get("vertex_group")
+        if not isinstance(relative_name, str) or not relative_name:
+            raise ValueError("S3 relative key name required")
+        if not isinstance(vertex_group, str):
+            raise ValueError("S3 vertex group must be a string")
+        value = finite(active.get("actual_value"))
+        mute = active.get("mute")
+        if not isinstance(mute, bool):
+            raise ValueError("S3 mute must be boolean")
+        vertices = trial.get("vertices")
+        rows.append({
+            "name": name,
+            "actual_value": value,
+            "mute": mute,
+            "relative_key_name": relative_name,
+            "vertex_group": vertex_group,
+            "stored_coordinate_delta_to_relative_key": vertex_residual_summary(
+                stored.get("relative_vertices"), stored.get("key_vertices")),
+            "individual_clear_residual_to_benchmark_reference":
+                vertex_residual_summary(reference_vertices, vertices),
+            "individual_clear_displacement_from_observed_terminal":
+                vertex_residual_summary(observed_terminal_vertices, vertices),
+        })
+    return {
+        "status": "READ_ONLY_S3_STORED_AND_EVALUATED_KEY_DIAGNOSTIC_NOT_REPAIR",
+        "model_repair_claimed": False,
+        "anatomical_causality_claimed": False,
+        "terminal_state_restored_after_trials_exactly":
+            terminal_state_restored_exactly is True,
+        "keys": rows,
+    }
+
+
 def run_terminal_key_clear_trials(key_by_name, groups, refresh_keys,
                                   evaluate_vertices, skeletal_pose_signature,
                                   baseline_vertices=None):
@@ -388,6 +442,37 @@ def validate_report(data):
                     for trial in trials))
     if not valid_attribution:
         errors.append("invalid terminal key-clear attribution")
+    s3 = data.get("terminal_s3_individual_key_diagnostic")
+    s3_rows = s3.get("keys") if isinstance(s3, dict) else None
+    expected_s3 = ["HGPT_S3_SHAPE_l_125", "HGPT_S3_SHAPE_r_125"]
+    active_by_name = ({row.get("name"): row
+                       for row in returned.get("active_nonbasis_shape_keys", [])}
+                      if isinstance(returned, dict) else {})
+    valid_s3 = (
+        isinstance(s3, dict)
+        and s3.get("status") == "READ_ONLY_S3_STORED_AND_EVALUATED_KEY_DIAGNOSTIC_NOT_REPAIR"
+        and s3.get("model_repair_claimed") is False
+        and s3.get("anatomical_causality_claimed") is False
+        and s3.get("terminal_state_restored_after_trials_exactly") is True
+        and isinstance(s3_rows, list)
+        and [row.get("name") for row in s3_rows] == expected_s3
+        and valid_active_nonbasis_keys(s3_rows))
+    if valid_s3:
+        valid_s3 = all(
+            row["name"] in active_by_name
+            and row.get("actual_value") == active_by_name[row["name"]].get("actual_value")
+            and row.get("mute") is active_by_name[row["name"]].get("mute")
+            and isinstance(row.get("relative_key_name"), str)
+            and bool(row.get("relative_key_name"))
+            and isinstance(row.get("vertex_group"), str)
+            and all(valid_residual(row.get(field))
+                    and row[field].get("vertex_count") == reference_vertex_count
+                    for field in ("stored_coordinate_delta_to_relative_key",
+                                  "individual_clear_residual_to_benchmark_reference",
+                                  "individual_clear_displacement_from_observed_terminal"))
+            for row in s3_rows)
+    if not valid_s3:
+        errors.append("invalid terminal S3 key diagnostic")
     rows = data.get("samples")
     if not isinstance(rows, list) or len(rows) != 9 or [r.get("sample") for r in rows] != list(range(9)):
         errors.append("nine exact pose samples required")
@@ -572,6 +657,29 @@ def main():
         reference_vertices[0], returned_vertices, terminal_trials,
         restored_terminal_residual["max_vertex_displacement_m"] == 0.0
         and benchmark_start_pose_signature[0] == skeletal_pose_signature())
+    s3_active_keys = [
+        row for row in active_keys if corrective_key_family(row["name"]) == "HGPT_S3_SHAPE"
+    ]
+    s3_groups = {row["name"]: [row["name"]] for row in s3_active_keys}
+    s3_trials = run_terminal_key_clear_trials(
+        key_by_name, s3_groups, refresh_keys, evaluate_terminal_vertices,
+        skeletal_pose_signature, returned_vertices)
+    s3_stored_records = []
+    for row in s3_active_keys:
+        key = key_by_name[row["name"]]
+        relative = getattr(key, "relative_key", None)
+        if relative is None:
+            raise ValueError("S3 active key missing relative key: " + key.name)
+        s3_stored_records.append({
+            "name": key.name,
+            "relative_key_name": relative.name,
+            "vertex_group": key.vertex_group,
+            "key_vertices": [tuple(float(x) for x in point.co) for point in key.data],
+            "relative_vertices": [tuple(float(x) for x in point.co) for point in relative.data],
+        })
+    s3_diagnostic = terminal_s3_key_diagnostic_summary(
+        reference_vertices[0], returned_vertices, s3_active_keys,
+        s3_stored_records, s3_trials, True)
     reverse_vertices_by_sample = {}
     for i in range(8, -1, -1):
         bench.pose_press(result, i / 8.0, correction)
@@ -614,6 +722,7 @@ def main():
         "key_values_measured_after_actual_post_pose_driver_call": True,
         "post_benchmark_return_to_start_state": returned,
         "terminal_corrective_key_clear_attribution": terminal_attribution,
+        "terminal_s3_individual_key_diagnostic": s3_diagnostic,
         "reverse_press_trajectory": reverse,
         "explicit_key_clear_experiment": cleared,
         "samples": captures,
@@ -624,6 +733,7 @@ def main():
             "Measured metrics describe current failed benchmark, never clinical exercise safety",
             "Return compares runtime state after the forward sweep with its benchmark start; it is not an anatomical neutral pose or a reverse trajectory",
             "Terminal family-clear trials isolate authored corrective-key effects only at the reset skeleton; they do not prove skeletal-skinning causality or authorize a key edit",
+            "S3 stored-coordinate deltas are relative-key data, not evaluated deformation; individual clears remain fixed-skeleton marginal effects, not anatomical causality",
             "Reverse replay only tests deterministic retracing of the same authored press parameter samples; it is not a physiological return trajectory",
             "Explicit skeletal reset plus zeroing all non-Basis keys is an isolated in-memory experiment, not a source edit or model repair",
             "No muscle anchors, ISB joint axes or anatomical left/right certified",

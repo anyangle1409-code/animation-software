@@ -1,10 +1,13 @@
 """Evidence-gated W8 runtime corrective cleanup contract tests."""
 import copy
 import importlib.util
+import io
 import json
+import os
 from pathlib import Path
 import tempfile
 import unittest
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
 PROBE_PATH = ROOT.parent / "phone_blender" / "pose_state_probe.py"
@@ -59,6 +62,16 @@ class RuntimeCleanupContractTests(unittest.TestCase):
              "displacement_from_observed_terminal": dict(residual)}
             for family, names in terminal_names.items()
         ]
+        for row in self.report["terminal_s3_individual_key_diagnostic"]["keys"]:
+            for field in (
+                "stored_coordinate_delta_to_relative_key",
+                "individual_clear_displacement_from_observed_terminal",
+            ):
+                row[field].update({
+                    "max_vertex_displacement_m": 0.0,
+                    "rms_vertex_displacement_m": 0.0,
+                    "vertices_moved_gt_1e_9_m": 0,
+                })
         self.evidence = {
             "workflow_run_id": 40374313339,
             "artifact_id": 12673313863,
@@ -101,15 +114,51 @@ class RuntimeCleanupContractTests(unittest.TestCase):
 
     def test_requires_exact_explicit_clear_and_full_terminal_partition(self):
         report = copy.deepcopy(self.report)
-        report["explicit_key_clear_experiment"]["max_vertex_displacement_m"] = 0.001
-        report["explicit_key_clear_experiment"]["runtime_state_restored_exactly"] = False
-        with self.assertRaisesRegex(ValueError, "pose report invalid"):
+        cleared = report["explicit_key_clear_experiment"]
+        cleared.update({
+            "runtime_state_restored_exactly": False,
+            "max_vertex_displacement_m": 0.001,
+            "rms_vertex_displacement_m": 0.001,
+            "vertices_moved_gt_1e_9_m": 1,
+        })
+        with self.assertRaisesRegex(ValueError, "exact explicit cleanup"):
+            contract.build_contract(report, self.evidence)
+
+        report = copy.deepcopy(self.report)
+        cleared = report["explicit_key_clear_experiment"]
+        cleared["runtime_state_restored_exactly"] = False
+        cleared["skeletal_pose_signature_restored_exactly"] = False
+        with self.assertRaisesRegex(ValueError, "exact explicit cleanup"):
+            contract.build_contract(report, self.evidence)
+
+        report = copy.deepcopy(self.report)
+        cleared = report["explicit_key_clear_experiment"]
+        cleared["runtime_state_restored_exactly"] = False
+        cleared["active_nonbasis_shape_keys"] = [
+            {"name": "HGPT_S7_DELT_l_156", "actual_value": 0.5, "mute": False}]
+        with self.assertRaisesRegex(ValueError, "exact explicit cleanup"):
             contract.build_contract(report, self.evidence)
 
         report = copy.deepcopy(self.report)
         report["terminal_corrective_key_clear_attribution"]["trials"].pop()
         with self.assertRaisesRegex(ValueError, "pose report invalid"):
             contract.build_contract(report, self.evidence)
+
+    def test_s3_noop_claim_requires_zero_stored_and_evaluated_effects(self):
+        for field in (
+            "stored_coordinate_delta_to_relative_key",
+            "individual_clear_displacement_from_observed_terminal",
+        ):
+            with self.subTest(field=field):
+                report = copy.deepcopy(self.report)
+                residual = report["terminal_s3_individual_key_diagnostic"]["keys"][0][field]
+                residual.update({
+                    "max_vertex_displacement_m": 0.001,
+                    "rms_vertex_displacement_m": 0.001,
+                    "vertices_moved_gt_1e_9_m": 1,
+                })
+                with self.assertRaisesRegex(ValueError, "S3 numeric-noop evidence"):
+                    contract.build_contract(report, self.evidence)
 
     def test_rejects_unverified_evidence_metadata(self):
         for field, value in (
@@ -140,6 +189,59 @@ class RuntimeCleanupContractTests(unittest.TestCase):
             self.assertIn("Skeleton reset alone", markdown)
             self.assertIn("not anatomical neutral", markdown.lower())
             self.assertIn("S3", markdown)
+
+    def test_run_rejects_input_and_output_path_aliases_before_writing(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            report_path = root / "pose.json"
+            report_path.write_text(json.dumps(self.report) + "\n", encoding="utf-8")
+            evidence = dict(self.evidence)
+            evidence["report_sha256"] = contract.digest(report_path)
+            hardlink = root / "pose-hardlink.json"
+            os.link(report_path, hardlink)
+            symlink = root / "pose-symlink.json"
+            symlink.symlink_to(report_path)
+            for json_path, markdown_path in (
+                (report_path, root / "out.md"),
+                (hardlink, root / "out.md"),
+                (symlink, root / "out.md"),
+                (root / "same", root / "same"),
+            ):
+                with self.subTest(json_path=json_path, markdown_path=markdown_path):
+                    before = report_path.read_bytes()
+                    with self.assertRaisesRegex(ValueError, "distinct paths"):
+                        contract.run(report_path, json_path, markdown_path, evidence)
+                    self.assertEqual(report_path.read_bytes(), before)
+
+    def test_run_hashes_and_parses_one_byte_snapshot(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            report_path = root / "pose.json"
+            good = (json.dumps(self.report) + "\n").encode()
+            report_path.write_bytes(good)
+            evidence = dict(self.evidence)
+            evidence["report_sha256"] = contract.hash_bytes(good)
+            json_path = root / "contract.json"
+            markdown_path = root / "contract.md"
+            original_open = Path.open
+            report_reads = 0
+
+            def controlled_open(path, *args, **kwargs):
+                nonlocal report_reads
+                mode = args[0] if args else kwargs.get("mode", "r")
+                if path == report_path and "r" in mode:
+                    report_reads += 1
+                    if report_reads == 1:
+                        return io.BytesIO(good)
+                    return io.StringIO("{}")
+                return original_open(path, *args, **kwargs)
+
+            with mock.patch.object(Path, "open", controlled_open):
+                contract.run(report_path, json_path, markdown_path, evidence)
+            self.assertEqual(report_reads, 1)
+            self.assertEqual(
+                json.loads(json_path.read_text(encoding="utf-8"))["status"],
+                "MEASURED_W8_RUNTIME_CORRECTIVE_CLEANUP_CONTRACT_NOT_MODEL_REPAIR")
 
 
 if __name__ == "__main__":

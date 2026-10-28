@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import importlib.util
 import json
+import os
 import re
 from pathlib import Path
 
@@ -30,11 +31,13 @@ SHA256 = re.compile(r"^[0-9a-f]{64}$")
 
 
 def digest(path):
-    hasher = hashlib.sha256()
-    with Path(path).open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            hasher.update(chunk)
-    return hasher.hexdigest()
+    return hash_bytes(Path(path).read_bytes())
+
+
+def hash_bytes(data):
+    if not isinstance(data, bytes):
+        raise TypeError("hash_bytes requires bytes")
+    return hashlib.sha256(data).hexdigest()
 
 
 def _validate_evidence(evidence):
@@ -53,6 +56,24 @@ def _validate_evidence(evidence):
 def _terminal_partition(report):
     trials = report["terminal_corrective_key_clear_attribution"]["trials"]
     return {trial["family"]: list(trial["cleared_key_names"]) for trial in trials}
+
+
+def _zero_residual(residual):
+    return (
+        residual.get("max_vertex_displacement_m") == 0.0
+        and residual.get("rms_vertex_displacement_m") == 0.0
+        and residual.get("vertices_moved_gt_1e_9_m") == 0)
+
+
+def _paths_alias(first, second):
+    first = Path(first)
+    second = Path(second)
+    if first.resolve(strict=False) == second.resolve(strict=False):
+        return True
+    try:
+        return first.exists() and second.exists() and os.path.samefile(first, second)
+    except OSError:
+        return False
 
 
 def build_contract(report, evidence):
@@ -84,6 +105,21 @@ def build_contract(report, evidence):
         raise ValueError("pose report invalid: terminal active-key inventory mismatch")
 
     cleared = report["explicit_key_clear_experiment"]
+    exact_clear = (
+        cleared.get("runtime_state_restored_exactly") is True
+        and cleared.get("skeletal_pose_signature_restored_exactly") is True
+        and _zero_residual(cleared)
+        and cleared.get("active_nonbasis_shape_keys") == [])
+    if not exact_clear:
+        raise ValueError("exact explicit cleanup evidence required")
+
+    s3_rows = report["terminal_s3_individual_key_diagnostic"]["keys"]
+    s3_numeric_noop = all(
+        _zero_residual(row["stored_coordinate_delta_to_relative_key"])
+        and _zero_residual(row["individual_clear_displacement_from_observed_terminal"])
+        for row in s3_rows)
+    if not s3_numeric_noop:
+        raise ValueError("zero stored and evaluated S3 numeric-noop evidence required")
     return {
         "status": STATUS,
         "scope": {
@@ -169,12 +205,17 @@ def markdown(contract):
 
 
 def run(report_path, json_path, markdown_path, evidence):
-    if digest(report_path) != evidence.get("report_sha256"):
+    paths = (Path(report_path), Path(json_path), Path(markdown_path))
+    if any(_paths_alias(paths[left], paths[right])
+           for left, right in ((0, 1), (0, 2), (1, 2))):
+        raise ValueError("report, JSON output and Markdown output require distinct paths")
+    report_bytes = paths[0].read_bytes()
+    if hash_bytes(report_bytes) != evidence.get("report_sha256"):
         raise ValueError("invalid evidence metadata: report_sha256 does not match input")
-    report = json.loads(Path(report_path).read_text(encoding="utf-8"))
+    report = json.loads(report_bytes.decode("utf-8"))
     result = build_contract(report, evidence)
-    Path(json_path).write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
-    Path(markdown_path).write_text(markdown(result), encoding="utf-8")
+    paths[1].write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+    paths[2].write_text(markdown(result), encoding="utf-8")
     return result
 
 

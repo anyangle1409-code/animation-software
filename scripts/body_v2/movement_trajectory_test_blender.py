@@ -130,6 +130,10 @@ def _mirror_name(s):
 
 
 MOK &= np.array([_mirror_name(DOM[i]) == DOM[MIR[i]] for i in range(n)])
+# ... and its rest normal must be the mirror of the vertex's: where the arms rest against the torso, torso and arm skin
+# lie within the 4 mm tolerance of each other's mirror images but face opposite ways (512 such pairs on L4)
+_N = np.empty(n * 3); me.vertices.foreach_get("normal", _N); _N = _N.reshape(-1, 3)
+MOK &= np.einsum("ij,ij->i", _N, _N[MIR] * np.array([-1.0, 1.0, 1.0])) > 0.7
 # feet
 SOLE = (gw("foot", "toe", "ball") > 0.3) & (R[:, 2] < z0 + 0.012)
 # triangle region label for intersection pairs (by first vertex)

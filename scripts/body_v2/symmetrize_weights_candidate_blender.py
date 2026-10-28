@@ -3,8 +3,9 @@
 movement_trajectory_test_blender.py (with dominant-bone-checked mirror partners) measured a press-lockout asymmetry of
 up to 92 mm at the posterior armpit.  Cause: the weights there differ between the sides (e.g. runtime-right vertices
 ~0.37 upperarm_r, their left partners ~0.0 upperarm_l with spine_03 instead).  On R121p and L4 about 400 vertex pairs
-have a total-variation distance > 0.2 between their weight vector and their mirror partner's (mirrored group names),
-mostly the posterior armpit and the hip crease; the asymmetry was inherited from the surface rebuild.
+appeared to differ, but almost all of those were contact mispairs (see the strict pairing below); with strict pairing
+28 pairs differ by > 0.2, the largest posed effect being a ~44-vertex patch at the posterior armpit (~40 mm at the
+press lockout).
 
 Here every mirror pair (rest positions within PAIR_TOL) whose weights differ by more than TV_MIN gets the mirror
 average of the two (each side the mean of its own weights and its partner's mirrored weights), renormalised, repeated
@@ -45,6 +46,14 @@ perm = np.array([gi.get(mirror_name(g), i) for i, g in enumerate(GN)])
 missing = sorted({mirror_name(g) for g in GN if mirror_name(g) not in gi})
 Wm = np.zeros_like(Wt); Wm[:, perm] = Wt                 # each row's weights with the groups mirrored
 ok = d < PAIR_TOL
+# strict pairing: the partner's rest normal must mirror the vertex's (where the arms / hands rest against the torso /
+# thighs, the touching surfaces lie within PAIR_TOL of each other's mirror images but face opposite ways) and its
+# dominant bone must be the mirror of the vertex's own.  The first version of this script paired by distance only,
+# averaged torso skin with arm skin, and wrecked every movement (rejected, see docs).
+N = np.empty(n * 3); me.vertices.foreach_get("normal", N); N = N.reshape(-1, 3)
+ok &= np.einsum("ij,ij->i", N, N[MIR] * np.array([-1.0, 1.0, 1.0])) > 0.7
+dom = Wt.argmax(1)
+ok &= perm[dom] == dom[MIR]
 tv0 = 0.5 * np.abs(Wt - Wm[MIR]).sum(1)
 W1 = Wt.copy(); hist = []
 for _ in range(ROUNDS):                                  # simultaneous mirror-averaging (partners need not be mutual)

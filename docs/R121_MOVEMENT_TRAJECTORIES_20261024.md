@@ -625,33 +625,38 @@ corrective keys.
 - **If it is judged too big:** the next step would be a lat / teres helper weight, or a corrective on the posterior
   axillary fold at 120–160°.
 
-## Asymmetry metric fixed; real weight asymmetry found
+## Asymmetry metric fixed; a small real asymmetry at the posterior armpit
 
 **A measurement bug.** The trajectory test's maximum left/right asymmetry read about 800 mm while its p95 was about
-1.3 mm. Where the hanging hands touch the thighs at rest, a thigh vertex's mirror image lands on the other hand's
-fingers, which produced 229 wrong partners.
+1.3 mm. Wherever the arms or hands rest against the torso or thighs, the nearest mirror partner of a skin point can be
+the *other* surface: for example a thigh vertex paired with the other hand's fingers, or torso skin paired with arm
+skin.
 
-A mirror partner now counts only if its dominant bone is the mirror of the vertex's own. Before this fix, every earlier
-`asymmetry_max_mm` value was meaningless; the p95 values were unaffected. On L4 with the fix
-(`report_TT_L4_mirrorfix.json`):
+A partner now counts only if:
+
+- its dominant bone is the mirror of the vertex's own; and
+- its rest normal is the mirror of the vertex's (the touching surfaces face opposite ways; this rejects 512 pairs).
+
+Before this fix, every earlier `asymmetry_max_mm` value was meaningless; the p95 values were unaffected. On L4 with the
+fix (`report_TT_L4_mirrorfix.json`):
 
 | Movement | Max | p95 |
 |---|---|---|
-| Press | **92 mm** | 1.39 mm |
-| Curl | 11 mm | 1.29 mm |
-| Squat | **57 mm** | 1.47 mm |
+| Press | **40 mm** | 1.38 mm |
+| Curl | 6 mm | 1.28 mm |
+| Squat | 23 mm | 1.47 mm |
 
-**The real asymmetry behind those maxima.** The press maximum is at the posterior armpit. Runtime-right vertices carry
-about 0.37 upperarm_r; their left partners carry about 0.0 upperarm_l, with spine_03 instead.
+**The real asymmetry.** The press maximum is a patch of about 44 vertices at the posterior armpit (x ≈ ±0.174,
+z ≈ 1.39). Its weights genuinely differ: one side carries about 0.19 upper-arm weight and the other none. With strict
+pairing, only 28 pairs in the whole body differ by more than 0.2 (total-variation distance).
 
-A weight-symmetry check (total-variation distance between a vertex's weights and its mirror partner's) finds
-**402 pairs over 0.2** on L4 and 518 on R121p. They lie mainly at the posterior armpit and the hip crease. The
-asymmetry was inherited from the surface rebuild.
+**A mistake on the way, rejected.** The first version of `symmetrize_weights_candidate_blender.py` paired by distance
+only. It "found" 402 asymmetric pairs, which were almost all contact mispairs, and averaged torso skin with arm skin.
+After re-authoring (M5 in the first run), every movement was wrecked:
 
-**Fix being tested.** `symmetrize_weights_candidate_blender.py` mirror-averages every pair over 0.05, in rounds,
-because nearest partners are not always mutual.
+- curl self-intersections 0 → 880;
+- press self-intersections 10 → 4111.
 
-- It changes 1192 vertices (735 at the shoulder / armpit, 289 at the hip / thigh).
-- Pairs over 0.2 fall from 402 to **1**.
-
-The arm, forward-raise, hip and combination families are then re-authored on that base (M1 → M5).
+It was not adopted. The script now uses the strict pairing. It changes 508 vertices by at most 0.24 weight, and the
+pairs over 0.2 fall from 26 to 2. The arm, forward-raise, hip and combination families are being re-authored on that
+base.

@@ -1,0 +1,67 @@
+{
+  "workflow_run": {
+    "id": 40751934405,
+    "head_sha": "418c9098b751d3bb2347384f5a8e54eb8dc7bb5b",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs_successful": 7,
+    "jobs_total": 7
+  },
+  "published_commits": {
+    "implementation": "3144b34fab42b9392460555232b93b4f60e7b9b1",
+    "evidence_hardening": "418c9098b751d3bb2347384f5a8e54eb8dc7bb5b"
+  },
+  "jobs": {
+    "pose_state_w8": 123040630391,
+    "inspect_w8": 123040630872,
+    "inspect_v14": 123040630914,
+    "localize_native_movement_failures": 123040631120,
+    "inspect_r120": 123040631174,
+    "compare_rest_audits": 123041770352,
+    "verify_actual_shoulder_driver_math": 123043740388
+  },
+  "tests": {
+    "localization": {"passed": 288, "failed": 0},
+    "pose_focused_suites": [24, 19, 6, 10],
+    "driver_focused_suites": [10, 20, 8]
+  },
+  "artifacts": [
+    {"id": 12844596044, "name": "phone-blender-V14-40751934405", "sha256": "048cfccfe4200ac0a8454f8c80e5f0c1e28f88a2fde335f664952204ba7776a4", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12844590847, "name": "phone-native-failure-localization-40751934405", "sha256": "4cc8f072064ad86739b38890c3d5c9dbdcb54a108f7ba5d795a25cfd2ffc9c17", "independently_downloaded_crc_checked_and_rehashed": true},
+    {"id": 12844182250, "name": "phone-w8-driver-consistency-40751934405", "sha256": "fa99f1039b887ae095ce9765542a36ae3ad0c9d651a717226a086a44d1dee0da", "independently_downloaded_crc_checked_and_rehashed": true},
+    {"id": 12844112227, "name": "phone-rest-cross-model-40751934405", "sha256": "089436bbe9075c6b95cf0df2bf77b1c6350314d85a5bf50e0003f875e0854f70", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12843684436, "name": "phone-blender-W8-40751934405", "sha256": "480827dd114dede9e37fd8dd351ab91a69e22cef85960112e2258c9a778d2a99", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12843599350, "name": "phone-w8-shoulder-pose-state-40751934405", "sha256": "7f7dea47a0ac2fb0d97316f94ea5a378f7691521c0595ce1771ab09e92edf40f", "independently_downloaded_crc_checked_and_rehashed": true},
+    {"id": 12843219983, "name": "phone-w8-evaluated-snapshots-40751934405", "sha256": "c1b00c1c37465361a48dc5bb600b1a16af206fb5b6843c5ede09bf4caf4233b3", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12843014602, "name": "phone-visual-review-40751934405", "sha256": "ed26da09d773a25438a9a4cd40f62ceb59fc1e89ab428d4fef196d9f3bf9611b", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12842909876, "name": "phone-blender-R120-40751934405", "sha256": "aee130936e1dc2ae87a6a4f7e20f7a4d995f8cebb68d02b99e22be919dee5abb", "independently_downloaded_crc_checked_and_rehashed": false}
+  ],
+  "grip_evidence_coverage": {
+    "status": "READ_ONLY_GRIP_COVERAGE_AND_GUARD_AUDIT_NOT_ACCEPTANCE",
+    "json_sha256": "59bbc41598bb8c47bee3e1c0c500eaf2874c44852e1ecc9ea73bb82d7ef46cb4",
+    "markdown_sha256": "eb7bb27699a5a0c9814a2d70580c2f607cd68b6f1aaed929397489a23bb44a25",
+    "models": {
+      "W8": {"trial_count": 263, "suffix_counts": {"l": 263, "r": 0}, "pair_guard_trials": 1, "collapse_counts": [24]},
+      "V14": {"trial_count": 263, "suffix_counts": {"l": 263, "r": 0}, "pair_guard_trials": 1, "collapse_counts": [24]},
+      "R120": {"trial_count": 263, "suffix_counts": {"l": 263, "r": 0}, "pair_guard_trials": 3, "collapse_counts": [23, 23, 24]}
+    },
+    "bilateral_coverage_complete": false,
+    "pair_guard_is_anatomical_threshold": false,
+    "contact_validation": "NOT_RUN",
+    "collapse_acceptance_threshold": "NOT_DEFINED",
+    "grip_acceptance": false,
+    "anatomical_approval": "NOT_GRANTED"
+  },
+  "pose_json_sha256": "2eb9888735444b6ba50282087eb48d0dff43604885e64c97ec0a0995a2c9035e",
+  "historical_run40029398965": {
+    "overall_conclusion": "failure",
+    "successful_w8_v14_r120_and_cross_model_evidence_remains_valid": true
+  },
+  "anatomical_status": {
+    "unbound_landmarks": 46,
+    "generic_movements_approved": 0,
+    "generic_movements_total": 19,
+    "grip_acceptance": "FAILED_OR_BLOCKED",
+    "muscle_highlighting": "DEFERRED"
+  }
+}

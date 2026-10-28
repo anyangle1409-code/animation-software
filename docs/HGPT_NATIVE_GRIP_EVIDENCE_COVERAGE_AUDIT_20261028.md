@@ -19,8 +19,18 @@ The value five is a pinned project solver guard. It is not an anatomical limit, 
 
 The parser fails closed on wrong source/preservation/approval metadata, unexpected solver outcome, missing or unknown suffixes, nonfinite Euler values, boolean or negative counts, and any inconsistency between the pair guard and whether collapse was measured. Output paths are prevented from aliasing or nesting inside evidence inputs, including hardlinks and symlinks to members of an extracted evidence tree. Atomic replacement prevents output writes from following and truncating a linked destination introduced after validation.
 
-## Current status
+## Verified cloud result
 
-Synthetic regression coverage is staged. Exact phone-readable W8/V14/R120 counts and cloud artifact hashes are **PENDING** until the branch workflow completes. Existing evidence already indicates only authored suffix `l` was trialled, so bilateral trial coverage is incomplete; this must be reproduced by the new report before final verification.
+[Run 40751934405](https://github.com/anyangle1409-code/animation-software/actions/runs/40751934405) at published commit `418c9098b751d3bb2347384f5a8e54eb8dc7bb5b` completed SUCCESS 7/7. The localization job ran 288/288 tests and generated the audit from all three pinned diagnosis members.
+
+| Model | Trials | Authored suffix counts | Reached pair guard | Collapse counts | Solver result |
+|---|---:|---|---:|---|---|
+| W8 | 263 | `l=263`, `r=0` | 1 | `24` | no placement within pair limit |
+| V14 | 263 | `l=263`, `r=0` | 1 | `24` | no placement within pair limit |
+| R120 | 263 | `l=263`, `r=0` | 3 | `23, 23, 24` | no placement within pair limit |
+
+The only W8/V14 guard-reaching trial used thumb Euler `[0, 0.5235987901687622, 0]` radians and reported five pairs. R120 additionally reached the guard at `[0.2617993950843811, -0.7853981852531433, 0.2617993950843811]` and `[0, -0.5235987901687622, 0.2617993950843811]`, also with five pairs. These are finite rejected solver observations, not accepted grips.
+
+The localization artifact `12844590847` was independently downloaded, CRC-checked and SHA256-matched at `4cc8f072064ad86739b38890c3d5c9dbdcb54a108f7ba5d795a25cfd2ffc9c17`. Embedded JSON SHA256 is `59bbc41598bb8c47bee3e1c0c500eaf2874c44852e1ecc9ea73bb82d7ef46cb4`; Markdown SHA256 is `eb7bb27699a5a0c9814a2d70580c2f607cd68b6f1aaed929397489a23bb44a25`.
 
 No anatomical side, digit contact, object fit, grasp stability, pressure, load transfer, safe technique or reusable grip acceptance is granted. The last rendered trial is explicitly rejected solver state, not a closest or accepted grip.

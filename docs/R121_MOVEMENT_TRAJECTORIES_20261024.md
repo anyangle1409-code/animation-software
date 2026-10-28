@@ -660,3 +660,23 @@ After re-authoring (M5 in the first run), every movement was wrecked:
 It was not adopted. The script now uses the strict pairing. It changes 508 vertices by at most 0.24 weight, and the
 pairs over 0.2 fall from 26 to 2. The arm, forward-raise, hip and combination families are being re-authored on that
 base.
+
+**Strict symmetrisation, re-authored (M5): not adopted.** The arm, forward-raise, hip and combination families were
+re-authored on the strictly symmetrised weights. Changes from L4:
+
+| | L4 | M5 |
+|---|---|---|
+| Press asymmetry max | 40 mm | 29 mm |
+| Squat asymmetry max | 23 mm | 15 mm |
+| Press shoulder folds over 90° | 13 | **183** |
+| Press self-intersections | 10 | 22 |
+| Curl shoulder folds over 90° | 1 | 19 |
+| Lockout roughness p95 | 0.086 mm | 0.089 mm |
+
+All other measures are unchanged, and every movement still returns to neutral.
+
+The changed weights include the armpit patch that the rest-contact and corrective passes were tuned for. The trade is
+worse, so L4 stays. Report: `report_TT_M5_symweights_not_adopted.json`.
+
+**The armpit asymmetry stays open.** p95 is 1.4 mm, with a local maximum of 40 mm on a patch of about 44 vertices. The
+safer next step is to symmetrise only that patch and re-check, rather than the whole body.

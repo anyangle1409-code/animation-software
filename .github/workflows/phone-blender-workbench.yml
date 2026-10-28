@@ -289,6 +289,11 @@ jobs:
             --v14 "${{ runner.temp }}/native/V14" \
             --r120 "${{ runner.temp }}/native/R120" \
             --out phone-native-localization
+      - name: Publish prospective symmetric grip capture contract (NO native search)
+        run: |
+          python scripts/cloud_body_analysis/grip_capture_contract.py \
+            --contract docs/anatomy/HGPT_GRIP_CAPTURE_CONTRACT_V1.json \
+            --out phone-native-localization
       - name: Create phone review sheets from existing Blender screenshots
         run: |
           python scripts/cloud_body_analysis/render_phone_review.py \

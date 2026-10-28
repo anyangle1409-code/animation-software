@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "status": "PROSPECTIVE_SYMMETRIC_GRIP_CAPTURE_CONTRACT_NOT_ACCEPTANCE",
+  "coverage": {
+    "required_authored_runtime_suffixes": ["l", "r"],
+    "authored_suffix_is_anatomical_side": false,
+    "pairing_key_fields": ["object_id", "search_cell_id"],
+    "pairing_rule": "Each finite search cell must be captured once for each authored runtime suffix; suffix-specific Euler observations are recorded independently and are not assumed mirrored."
+  },
+  "evidence_schema": {
+    "object_evidence_fields": [
+      "object_id",
+      "mesh_sha256",
+      "length_unit_m",
+      "object_frame_4x4",
+      "surface_triangle_sha256"
+    ],
+    "per_trial_observation_fields": [
+      "trial_id",
+      "object_id",
+      "search_cell_id",
+      "runtime_suffix",
+      "thumb_01_euler_rad",
+      "self_intersection_pairs",
+      "body_object_intersection_pairs",
+      "digit_object_contact_samples",
+      "returned_state_residual"
+    ],
+    "contact_sample_fields": [
+      "digit_label",
+      "body_triangle_id",
+      "object_triangle_id",
+      "signed_surface_separation_m",
+      "body_point_xyz_m",
+      "object_point_xyz_m",
+      "object_surface_normal_xyz"
+    ],
+    "returned_state_residual_fields": [
+      "moved_vertex_count",
+      "maximum_m",
+      "rms_m",
+      "active_nonbasis_key_count",
+      "skeletal_pose_equal"
+    ]
+  },
+  "acceptance_thresholds": {
+    "self_intersection": "NOT_DEFINED",
+    "body_object_contact": "NOT_DEFINED",
+    "hand_collapse": "NOT_DEFINED",
+    "return_residual": "NOT_DEFINED"
+  },
+  "limitations": {
+    "force_or_pressure_measurement": "NOT_MEASURED_BY_GEOMETRIC_CAPTURE",
+    "friction_or_slip_validation": "NOT_RUN",
+    "contact_acceptance": false,
+    "grip_acceptance": false,
+    "anatomical_approval": "NOT_GRANTED",
+    "native_search_executed": false
+  },
+  "research_basis": [
+    {
+      "title": "ISB recommendation on definitions of joint coordinate systems, Part II: shoulder, elbow, wrist and hand",
+      "doi": "10.1016/j.jbiomech.2004.05.042",
+      "use": "Coordinate reporting basis only; model landmarks and segment frames remain unbound."
+    },
+    {
+      "title": "Initiation and development of fingertip forces during whole-hand grasping",
+      "doi": "10.1007/s002210100838",
+      "use": "Motivates per-digit contact timing and force evidence; geometric capture cannot substitute for force transducers."
+    },
+    {
+      "title": "Integration of marker and force data to compute three-dimensional joint moments of thumb and index during pinch",
+      "doi": "10.1080/10255842.2013.820722",
+      "use": "Motivates aligned digit/object frames, joint centres and synchronized contact-force evidence."
+    },
+    {
+      "title": "Quantifying Digit Force Vector Coordination during Precision Pinch",
+      "doi": "10.1142/S0219519413500474",
+      "use": "Motivates contact locations, vector directions and centre-of-pressure evidence; no population mean is used as a limit."
+    }
+  ]
+}

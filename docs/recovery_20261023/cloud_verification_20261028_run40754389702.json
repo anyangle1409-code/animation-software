@@ -1,0 +1,64 @@
+{
+  "workflow_run": {
+    "id": 40754389702,
+    "head_sha": "1f732a3d659e27df8ffe1d39a75064e758bea3c9",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs_successful": 7,
+    "jobs_total": 7
+  },
+  "published_commits": {
+    "implementation": "caa9ca194c2a71fbd59fb8d944c2d5f26eed8d79",
+    "evidence_hardening": "1f732a3d659e27df8ffe1d39a75064e758bea3c9"
+  },
+  "jobs": {
+    "pose_state_w8": 123049293770,
+    "inspect_w8": 123049293930,
+    "localize_native_movement_failures": 123049294025,
+    "inspect_r120": 123049294240,
+    "inspect_v14": 123049294274,
+    "compare_rest_audits": 123050444057,
+    "verify_actual_shoulder_driver_math": 123053895611
+  },
+  "tests": {
+    "localization": {"passed": 298, "failed": 0},
+    "pose_focused_suites": [24, 19, 6, 10],
+    "driver_focused_suites": [10, 20, 8]
+  },
+  "artifacts": [
+    {"id": 12846055463, "name": "phone-blender-W8-40754389702", "sha256": "2218c4c39875eea39b685c3256e5262ded4cecfd69dfccb74810a41b665162da", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12846045573, "name": "phone-blender-V14-40754389702", "sha256": "c852d0a248768bfd315fd062e15992a4ffe70e41594e6a7df2c8eb7c50ac38fc", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12846001745, "name": "phone-w8-driver-consistency-40754389702", "sha256": "c9c01bcf8fecfeaa34474e1b78693072fcfea0189e5fedb322924c1d8ce851df", "independently_downloaded_crc_checked_and_rehashed": true},
+    {"id": 12845492862, "name": "phone-w8-shoulder-pose-state-40754389702", "sha256": "4907334c0f30f8e7a801f4026bcd2debe6f7323ae813ebbf69658dffb436358f", "independently_downloaded_crc_checked_and_rehashed": true},
+    {"id": 12845418212, "name": "phone-visual-review-40754389702", "sha256": "f4a179e60f85806f87f4b2ba7e71bf47f8001095bb109d5e7b12c1e99edc9795", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12844682968, "name": "phone-native-failure-localization-40754389702", "sha256": "1a3b9f89111bf466add42f004742d5aa001311e9578e994e3a3f3f348ffbe57c", "independently_downloaded_crc_checked_and_rehashed": true},
+    {"id": 12844069643, "name": "phone-w8-evaluated-snapshots-40754389702", "sha256": "4fe046530b65229a6300b67411f5a0afd4632fba50932c3ce119d9c7b1a0a2b2", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12844003960, "name": "phone-blender-R120-40754389702", "sha256": "55b0031de632287b0ca02c2559a32564a3f99bcb8871bbd336dfdacced4223e3", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12843874393, "name": "phone-rest-cross-model-40754389702", "sha256": "38e45d3c1946054ccf89c543b3375ea45c6a51e92920b64fa34b88c34c20ef9b", "independently_downloaded_crc_checked_and_rehashed": false}
+  ],
+  "grip_capture_contract": {
+    "status": "PROSPECTIVE_SYMMETRIC_GRIP_CAPTURE_CONTRACT_NOT_ACCEPTANCE",
+    "json_sha256": "e1f00b12077ae637e6f37d4a7f544b3622908a8148f5450b7eb9ebe3bc8dc941",
+    "markdown_sha256": "39d12f698668e29efc4b81e0a1fdbbb7fbae9f0fc6c898ff83a920f5bcbf015d",
+    "native_grip_search_run": false,
+    "bilateral_pose_evidence_captured": false,
+    "contact_validation": "NOT_RUN",
+    "force_pressure_measurement": "UNAVAILABLE",
+    "friction_slip_validation": "NOT_RUN",
+    "acceptance_thresholds": "NOT_DEFINED",
+    "anatomical_approval": "NOT_GRANTED"
+  },
+  "pose_json_sha256": "2eb9888735444b6ba50282087eb48d0dff43604885e64c97ec0a0995a2c9035e",
+  "historical_run40029398965": {
+    "overall_conclusion": "failure",
+    "failed_read_only_test_reason": "documented_bpy_ops_docstring_false_positive",
+    "successful_w8_v14_r120_and_cross_model_evidence_remains_valid": true
+  },
+  "anatomical_status": {
+    "unbound_landmarks": 46,
+    "generic_movements_approved": 0,
+    "generic_movements_total": 19,
+    "grip_acceptance": "FAILED_OR_BLOCKED",
+    "muscle_highlighting": "DEFERRED"
+  }
+}

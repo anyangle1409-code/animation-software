@@ -275,6 +275,13 @@ jobs:
             --v14 "${{ runner.temp }}/native/V14" \
             --r120 "${{ runner.temp }}/native/R120" \
             --out phone-native-localization
+      - name: Measure squat foot-surface lower-envelope proxy (NOT verified ground contact)
+        run: |
+          python scripts/cloud_body_analysis/squat_foot_support_proxy.py \
+            --w8 "${{ runner.temp }}/native/W8" \
+            --v14 "${{ runner.temp }}/native/V14" \
+            --r120 "${{ runner.temp }}/native/R120" \
+            --out phone-native-localization
       - name: Create phone review sheets from existing Blender screenshots
         run: |
           python scripts/cloud_body_analysis/render_phone_review.py \

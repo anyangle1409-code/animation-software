@@ -610,3 +610,17 @@ Renders: `lockout_K1_vs_L4_clean.jpg`.
 Reports: `report_TT_L4_clean_shoulder.json`, `lockout_roughness_diag_L4.json` and
 `r121_arm_correctives_combo_report_L4.json`. The arm and forward-raise authoring reports were lost when the
 intermediate blends were cleaned up. The trajectory and roughness reports above are the evaluation.
+
+## Posterior armpit at the lockout (L4): recorded, not changed
+
+`lockout_posterior_axilla_L4.jpg` shows the side, back-three-quarter and back views at the lockout, with and without
+corrective keys.
+
+- **What it shows:** a rounded mass behind the armpit (latissimus / teres major), with a crease above it. It is
+  identical with and without keys, so it comes from the skin weights, not the keys.
+- **Anatomy:** a real overhead press also forms a convex posterior axillary fold there. Whether this one is too large
+  is a judgement against reference photographs. It cannot be read off a metric, so nothing was changed.
+- **Weights:** the region's weights are mixed — upperarm_r (0.49 mean), shoulder_cap_r, spine_02/03, muscle_lat_r and
+  scapula_r.
+- **If it is judged too big:** the next step would be a lat / teres helper weight, or a corrective on the posterior
+  axillary fold at 120–160°.

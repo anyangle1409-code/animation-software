@@ -10,6 +10,7 @@ import math
 import os
 from pathlib import Path
 import sys
+import tempfile
 
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -213,9 +214,29 @@ def write_outputs(report, out, evidence_paths):
             raise ValueError("outputs must be outside and distinct from evidence")
         if any(_aliases(output, evidence_path) for output in outputs):
             raise ValueError("outputs must be outside and distinct from evidence")
+        if evidence_path.is_dir():
+            members = (member for member in evidence_path.rglob("*")
+                       if member.is_file())
+            if any(_aliases(output, member)
+                   for member in members for output in outputs):
+                raise ValueError("outputs must be outside and distinct from evidence")
     out.mkdir(parents=True, exist_ok=True)
-    json_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
-    markdown_path.write_text(markdown(report), encoding="utf-8")
+    for path, content in (
+            (json_path, json.dumps(report, indent=2) + "\n"),
+            (markdown_path, markdown(report))):
+        temporary = None
+        try:
+            with tempfile.NamedTemporaryFile(
+                    mode="w", encoding="utf-8", dir=out,
+                    prefix=f".{path.name}.", delete=False) as handle:
+                temporary = Path(handle.name)
+                handle.write(content)
+                handle.flush()
+                os.fsync(handle.fileno())
+            os.replace(temporary, path)
+        finally:
+            if temporary is not None:
+                temporary.unlink(missing_ok=True)
 
 
 def main():

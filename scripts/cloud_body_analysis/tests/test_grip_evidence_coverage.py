@@ -134,6 +134,29 @@ class GripEvidenceCoverageTests(unittest.TestCase):
             self.assertEqual(json.loads((safe / "grip_evidence_coverage.json").read_text()),
                              report)
 
+    def test_output_writer_rejects_aliases_to_extracted_evidence_members(self):
+        report = {"status": audit.STATUS, "models": {},
+                  "anatomical_approval": "NOT_GRANTED", "grip_acceptance": False}
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            evidence_dir = root / "evidence"
+            member_dir = evidence_dir / "visual_evidence_new"
+            member_dir.mkdir(parents=True)
+            member = member_dir / "diagnosis.json"
+            member.write_bytes(b"pinned diagnosis")
+            for link_type in ("hardlink", "symlink"):
+                out = root / (link_type + "-output")
+                out.mkdir()
+                destination = out / "grip_evidence_coverage.json"
+                if link_type == "hardlink":
+                    os.link(member, destination)
+                else:
+                    destination.symlink_to(member)
+                with self.subTest(link_type=link_type):
+                    with self.assertRaisesRegex(ValueError, "outside and distinct"):
+                        audit.write_outputs(report, out, [evidence_dir])
+                    self.assertEqual(member.read_bytes(), b"pinned diagnosis")
+
 
 if __name__ == "__main__":
     unittest.main()

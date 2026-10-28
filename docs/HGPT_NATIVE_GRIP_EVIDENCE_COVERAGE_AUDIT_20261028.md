@@ -17,7 +17,7 @@ The value five is a pinned project solver guard. It is not an anatomical limit, 
 - V14 artifact `12494932817`, ZIP SHA256 `5f11a9441cf5bb1d29ba3fae72c945f59c9109a26023cea15508d3310cb774e0`, pinned `diagnosis.json` SHA256 `2f49c51a780acf3834e35ef9e9a122515d16c8bed3e069a71282cd6983dd9321`.
 - R120 artifact `12495970648`, ZIP SHA256 `cf26902334a90cb3928821d797fcc88e27340a7837911a0e080b6973b5017a2f`, pinned `diagnosis.json` SHA256 `399cca503451fea4f84812e97675bdcc8c57c26aaa9c2a9c6c18b0ad2fb68e5e`.
 
-The parser fails closed on wrong source/preservation/approval metadata, unexpected solver outcome, missing or unknown suffixes, nonfinite Euler values, boolean or negative counts, and any inconsistency between the pair guard and whether collapse was measured. Output paths are prevented from aliasing or nesting inside evidence inputs.
+The parser fails closed on wrong source/preservation/approval metadata, unexpected solver outcome, missing or unknown suffixes, nonfinite Euler values, boolean or negative counts, and any inconsistency between the pair guard and whether collapse was measured. Output paths are prevented from aliasing or nesting inside evidence inputs, including hardlinks and symlinks to members of an extracted evidence tree. Atomic replacement prevents output writes from following and truncating a linked destination introduced after validation.
 
 ## Current status
 

@@ -282,6 +282,13 @@ jobs:
             --v14 "${{ runner.temp }}/native/V14" \
             --r120 "${{ runner.temp }}/native/R120" \
             --out phone-native-localization
+      - name: Audit bilateral grip evidence coverage (NOT grip acceptance)
+        run: |
+          python scripts/cloud_body_analysis/grip_evidence_coverage.py \
+            --w8 "${{ runner.temp }}/native/W8" \
+            --v14 "${{ runner.temp }}/native/V14" \
+            --r120 "${{ runner.temp }}/native/R120" \
+            --out phone-native-localization
       - name: Create phone review sheets from existing Blender screenshots
         run: |
           python scripts/cloud_body_analysis/render_phone_review.py \

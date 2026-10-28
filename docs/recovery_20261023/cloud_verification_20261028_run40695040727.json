@@ -1,0 +1,71 @@
+{
+  "workflow_run": {
+    "id": 40695040727,
+    "head_sha": "9cc16a82e141681b267d39235b1ae1efa4f39acb",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs_successful": 7,
+    "jobs_total": 7
+  },
+  "commits": {
+    "implementation": "cb2bd9cddefcec1f19de0db0a1f5ff35d7fc0ced",
+    "review_hardening": "9cc16a82e141681b267d39235b1ae1efa4f39acb"
+  },
+  "jobs": {
+    "pose_state_w8": 122839441776,
+    "inspect_w8": 122839441974,
+    "localize_native_movement_failures": 122839442108,
+    "inspect_r120": 122839442120,
+    "inspect_v14": 122839442264,
+    "compare_rest_audits": 122840002819,
+    "verify_actual_shoulder_driver_math": 122842873692
+  },
+  "tests": {
+    "localization": {"passed": 275, "failed": 0},
+    "pose_focused_suites": [24, 19, 6, 10],
+    "driver_focused_suites": [10, 20, 8]
+  },
+  "artifacts": [
+    {"id": 12819247496, "name": "phone-w8-driver-consistency-40695040727", "sha256": "d3a1185d2770c14857ac03ea68fabe4abb51b9bf02417029b4106f4079967b82", "independently_downloaded_crc_checked_and_rehashed": true},
+    {"id": 12819012862, "name": "phone-blender-R120-40695040727", "sha256": "0ee62a70b8bac19d188e883c5f12795cbce50eaa2311e6520de31ce3c8b57adf", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12818807330, "name": "phone-visual-review-40695040727", "sha256": "52a17af2347ff01f982df25da52827e39de5244d334f4f64c0be378b8126cf7e", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12818602625, "name": "phone-blender-V14-40695040727", "sha256": "314f7400bb94426b3efa79848e5904750ceb895d2d025a259ea73832e426a1df", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12818592655, "name": "phone-native-failure-localization-40695040727", "sha256": "daedb7de1a2c0c2244d667ac3a9aec18396de3c5da38227c5b1267748665cfd9", "independently_downloaded_crc_checked_and_rehashed": true},
+    {"id": 12818349194, "name": "phone-w8-evaluated-snapshots-40695040727", "sha256": "77c4c2a87567d344a866233a06990ee2acb4d4ee4a6039edfcdfabf03975ba53", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12818309769, "name": "phone-w8-shoulder-pose-state-40695040727", "sha256": "83d805ba48bbe9f939b5293d06bb906118aa2c7d486e1b5918b5a32c194186fb", "independently_downloaded_crc_checked_and_rehashed": true},
+    {"id": 12818308678, "name": "phone-blender-W8-40695040727", "sha256": "288c2af4bbe210a42e4e1a5cb26a99d373db84fc21528c7ee99bc42973a7c221", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12818268339, "name": "phone-rest-cross-model-40695040727", "sha256": "70c4de399cc760b2f2f1d15b7d3787c31da70f7fd67aaffc03d983a43f6f60e2", "independently_downloaded_crc_checked_and_rehashed": false}
+  ],
+  "pose_artifact": {
+    "zip_crc_clean": true,
+    "member_count": 71,
+    "png_count": 66,
+    "blend_member_count": 0,
+    "pose_json_sha256": "2eb9888735444b6ba50282087eb48d0dff43604885e64c97ec0a0995a2c9035e",
+    "pose_json_byte_identical_to_run40374313339": true,
+    "saved_blend": false,
+    "anatomical_approval": "NOT_GRANTED"
+  },
+  "runtime_cleanup_contract": {
+    "status": "MEASURED_W8_RUNTIME_CORRECTIVE_CLEANUP_CONTRACT_NOT_MODEL_REPAIR",
+    "regenerated_from_this_run_pose_report": true,
+    "generated_json_sha256": "b63719755cec7111f483ffc33c7bbf296090f91bd5ba3c0d59b5b1ea7a664088",
+    "generated_markdown_sha256": "2267d146b5232c62fef437b18082ecdf89a47bfe93c5f312747e6cab984cf87b",
+    "non_evidence_fields_equal_checked_run40374313339_contract": true,
+    "skeleton_reset_alone_insufficient": true,
+    "explicit_reset_and_clear_postconditions_exact": true,
+    "anatomical_or_model_repair_approval": false
+  },
+  "historical_run40029398965": {
+    "overall_conclusion": "failure",
+    "failure_scope": "read-only source-test docstring false positive",
+    "successful_w8_v14_r120_and_cross_model_evidence_remains_valid": true
+  },
+  "anatomical_status": {
+    "unbound_landmarks": 46,
+    "generic_movements_approved": 0,
+    "generic_movements_total": 19,
+    "shoulder_press_squat_grip_acceptance": "FAILED_OR_BLOCKED",
+    "muscle_highlighting": "DEFERRED"
+  }
+}

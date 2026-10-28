@@ -115,6 +115,21 @@ EF = EF[~(HOLD[EF[:, 0]] | HOLD[EF[:, 1]])]
 Rm = R * np.array([-1.0, 1.0, 1.0])
 dmir, MIR = cKDTree(R).query(Rm)
 MOK = (dmir < 0.004) & ~HOLD
+# a partner only counts if its dominant bone is the mirror of the vertex's own: where the hanging hands touch the
+# thighs at rest, a thigh vertex's mirror image lands on the other hand's fingers (229 such pairs made the max
+# asymmetry read ~800 mm while p95 was ~1.3 mm)
+DOM = np.full(n, "", dtype=object); DW = np.zeros(n)
+for name, d in W.items():
+    for i, w in d.items():
+        if w > DW[i]:
+            DW[i], DOM[i] = w, name
+
+
+def _mirror_name(s):
+    return s[:-2] + {"_l": "_r", "_r": "_l"}[s[-2:]] if s[-2:] in ("_l", "_r") else s
+
+
+MOK &= np.array([_mirror_name(DOM[i]) == DOM[MIR[i]] for i in range(n)])
 # feet
 SOLE = (gw("foot", "toe", "ball") > 0.3) & (R[:, 2] < z0 + 0.012)
 # triangle region label for intersection pairs (by first vertex)

@@ -35,3 +35,11 @@ This does not prove the mesh lacks radius/ulna form, nor that the twist helpers 
 - The workflow comparison job will run the audit against the current run's three native inspection artifacts. Cloud execution is pending; the historical replay above is actual pinned evidence, not a synthetic anatomy result.
 - No elbow flexion, pronation/supination, skin deformation, muscle/tendon behavior, return-to-neutral, contact, or exercise acceptance was tested. Population ROM means remain descriptive and are not limits.
 - No original `.blend`, skeleton, weights, shape key, permanent muscle ID, attachment, highlight, PT-App, production asset, version, merge or deployment changed.
+
+## Cloud verification
+
+- Published commit `8d1eed530b313966626146f7488d917f41c82afc`; [run 40757123834](https://github.com/anyangle1409-code/animation-software/actions/runs/40757123834) completed **SUCCESS 7/7**. Job IDs: localization `123058912402`, pose `123058912800`, W8 `123058912897`, V14 `123058912939`, R120 `123058913069`, comparison `123059579663`, driver `123062344349`.
+- Cloud logs confirm localization `307/307`; comparison suites `5/5 + 12/12 + 9/9 + 12/12 + 15/15 + 13/13`; pose `24/24 + 19/19 + 6/6 + 10/10`; and driver `10/10 + 20/20 + 8/8` tests passed.
+- Comparison artifact `12847530191` was independently downloaded, CRC-checked and SHA256-matched GitHub at `08a827ee665d180a58ccbd6509ce1c538fa7c7784107413678498616f693fc66`. Embedded forearm JSON SHA256 is `ee72349c97ccbef8aec20e294560d7b5ff084f4ff0931a0372fae9b4f729ab58`; Markdown SHA256 is `32cb63512da2825b879ff3a6ee9a624a8d2686168fb0a962edb16ccfd6a78b54`. Both are byte-identical to the independent historical-artifact replay.
+- All nine artifact digests are recorded in `docs/recovery_20261023/cloud_verification_20261028_run40757123834.json`; the other eight are GitHub metadata hashes and are not claimed as independently downloaded in this task.
+- Native cloud reproduction preserves the blocker: no separate radius/ulna skeletal controls observed, no anatomical binding, no pronation/supination trial and no model change.

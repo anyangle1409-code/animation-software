@@ -1,0 +1,62 @@
+{
+  "workflow_run": {
+    "id": 40757123834,
+    "head_sha": "8d1eed530b313966626146f7488d917f41c82afc",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs_successful": 7,
+    "jobs_total": 7
+  },
+  "published_commit": "8d1eed530b313966626146f7488d917f41c82afc",
+  "jobs": {
+    "localize_native_movement_failures": 123058912402,
+    "pose_state_w8": 123058912800,
+    "inspect_w8": 123058912897,
+    "inspect_v14": 123058912939,
+    "inspect_r120": 123058913069,
+    "compare_rest_audits": 123059579663,
+    "verify_actual_shoulder_driver_math": 123062344349
+  },
+  "tests": {
+    "localization": {"passed": 307, "failed": 0},
+    "comparison_focused_suites": [5, 12, 9, 12, 15, 13],
+    "pose_focused_suites": [24, 19, 6, 10],
+    "driver_focused_suites": [10, 20, 8]
+  },
+  "artifacts": [
+    {"id": 12847830361, "name": "phone-w8-driver-consistency-40757123834", "sha256": "1d6b1817f0009105a0d2287f5b1f840fe4f951f0948b8eae3ded617a1cae37a3", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12847530191, "name": "phone-rest-cross-model-40757123834", "sha256": "08a827ee665d180a58ccbd6509ce1c538fa7c7784107413678498616f693fc66", "independently_downloaded_crc_checked_and_rehashed": true},
+    {"id": 12846896516, "name": "phone-w8-shoulder-pose-state-40757123834", "sha256": "7d7cb53a5a738f6e2596f72e6ef19b0a75c749687211874f9c60cd5eb9ce1c8d", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12846776615, "name": "phone-w8-evaluated-snapshots-40757123834", "sha256": "4082da19881028d3297779d22a8e43ff5ffbccb464b57bb7394eb43e2a6bdf09", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12846696291, "name": "phone-native-failure-localization-40757123834", "sha256": "6a55852b837df17e41caaa0c57d1cfaeda01b0e1123abb7b19e4aa50da0f30d0", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12846226749, "name": "phone-blender-V14-40757123834", "sha256": "90a4a3577c67977ebdc2b39c4d03b3247472b10d4d03ed25756fdca7e831cd5f", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12846067062, "name": "phone-blender-R120-40757123834", "sha256": "fd0c65cf7541e241f84e8ad7c29da21de68d5542d7e209fbd954efd69c012906", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12845882746, "name": "phone-visual-review-40757123834", "sha256": "9525113ab2839ada84fa71b7c9ad4b8b679a44dfee0ce0694415a22815f30d48", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12845124576, "name": "phone-blender-W8-40757123834", "sha256": "e0ccea618dafd140ffc57e95ba527fa707a65ff98ae8bfd0614f3d3e79501609", "independently_downloaded_crc_checked_and_rehashed": false}
+  ],
+  "forearm_chain_readiness": {
+    "status": "BLOCKED_NO_INDEPENDENT_RADIUS_ULNA_CONTROL_EVIDENCE",
+    "json_sha256": "ee72349c97ccbef8aec20e294560d7b5ff084f4ff0931a0372fae9b4f729ab58",
+    "markdown_sha256": "32cb63512da2825b879ff3a6ee9a624a8d2686168fb0a962edb16ccfd6a78b54",
+    "common_chain_fingerprint_sha256": "3f623b6bb994ede5cbdc875cb40ef645072ae49a3c073bb0872f54119dc0ac52",
+    "separate_radius_ulna_skeletal_controls_observed": false,
+    "forearm_pronation_supination_tested": false,
+    "anatomical_approval": "NOT_GRANTED"
+  },
+  "consumed_rig_member_sha256": {
+    "W8": "01ef8a7cf4eab8ea8eb29d2fcb2f5cd310ce8a936062624b06868a2e38b7b677",
+    "V14": "4f4927fd0e31c6418cd78b5763f4450de574689247379bcd628361b5a1781998",
+    "R120": "7a77b55f51f592eef42a293583b4974212e7594834644962b496c6b877acc13f"
+  },
+  "historical_run40029398965": {
+    "overall_conclusion": "failure",
+    "failed_read_only_test_reason": "documented_bpy_ops_docstring_false_positive",
+    "successful_w8_v14_r120_and_cross_model_evidence_remains_valid": true
+  },
+  "anatomical_status": {
+    "unbound_landmarks": 46,
+    "generic_movements_approved": 0,
+    "generic_movements_total": 19,
+    "muscle_highlighting": "DEFERRED"
+  }
+}

@@ -12,9 +12,10 @@ average of the two (each side the mean of its own weights and its partner's mirr
 for a few rounds because nearest mirror partners are not always mutual; nothing else changes.  This is neutral (it favours neither side); the corrective keys that cover the changed regions should be
 re-authored afterwards.
 
-usage: python3.13 symmetrize_weights_candidate_blender.py -- <in.blend> <out.blend>
+usage: [V2_WSYM_BOX=ax0,ax1,y0,y1,z0,z1] python3.13 symmetrize_weights_candidate_blender.py -- <in.blend> <out.blend>
 """
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -25,6 +26,8 @@ from scipy.spatial import cKDTree
 args = sys.argv[sys.argv.index("--") + 1:]
 SRC, OUT = Path(args[0]), Path(args[1])
 PAIR_TOL, TV_MIN, ROUNDS = 0.002, 0.05, 8
+BOX = [float(x) for x in os.environ["V2_WSYM_BOX"].split(",")] if os.environ.get("V2_WSYM_BOX") else None
+# optional V2_WSYM_BOX="ax0,ax1,y0,y1,z0,z1": only vertices with ax0 < |x| < ax1, y0 < y < y1, z0 < z < z1
 if OUT.exists():
     raise ValueError("output must be new")
 bpy.ops.wm.open_mainfile(filepath=str(SRC))
@@ -54,6 +57,9 @@ N = np.empty(n * 3); me.vertices.foreach_get("normal", N); N = N.reshape(-1, 3)
 ok &= np.einsum("ij,ij->i", N, N[MIR] * np.array([-1.0, 1.0, 1.0])) > 0.7
 dom = Wt.argmax(1)
 ok &= perm[dom] == dom[MIR]
+if BOX:
+    ax = np.abs(R[:, 0])
+    ok &= (ax > BOX[0]) & (ax < BOX[1]) & (R[:, 1] > BOX[2]) & (R[:, 1] < BOX[3]) & (R[:, 2] > BOX[4]) & (R[:, 2] < BOX[5])
 tv0 = 0.5 * np.abs(Wt - Wm[MIR]).sum(1)
 W1 = Wt.copy(); hist = []
 for _ in range(ROUNDS):                                  # simultaneous mirror-averaging (partners need not be mutual)
@@ -79,7 +85,7 @@ after = np.zeros((len(idx), len(GN)))
 for k, vi in enumerate(idx):
     for g in me.vertices[vi].groups:
         after[k, g.group] = g.weight
-rep = {"pair_tol_m": PAIR_TOL, "tv_min": TV_MIN, "pairs_over_tv_min_per_round": hist, "pairs": int(ok.sum()), "changed_vertices": int(len(idx)),
+rep = {"box": BOX, "pair_tol_m": PAIR_TOL, "tv_min": TV_MIN, "pairs_over_tv_min_per_round": hist, "pairs": int(ok.sum()), "changed_vertices": int(len(idx)),
        "tv_gt_0.2_before": int((ok & (tv > 0.2)).sum()), "max_tv_before": round(float(tv[ok].max()), 3),
        "max_weight_change": round(float(np.abs(after - Wt[idx]).max()), 3) if len(idx) else 0.0,
        "groups_without_mirror": missing,

@@ -680,3 +680,19 @@ worse, so L4 stays. Report: `report_TT_M5_symweights_not_adopted.json`.
 
 **The armpit asymmetry stays open.** p95 is 1.4 mm, with a local maximum of 40 mm on a patch of about 44 vertices. The
 safer next step is to symmetrise only that patch and re-check, rather than the whole body.
+
+**Patch-only symmetrisation (P1): not adopted.** `V2_WSYM_BOX=0.16,0.19,0.03,0.09,1.35,1.42` changes 71 armpit vertices
+by at most 0.08 weight. L4's keys were kept, without re-authoring.
+
+| | L4 | P1 |
+|---|---|---|
+| Press asymmetry max | 40 mm | **40 mm** |
+| Press folds over 90° | 13 | 112 |
+| Press self-intersections | 10 | 24 |
+| Squat folds over 90° | 40 | 103 |
+
+The maximum does not move at all, so the remaining 40 mm armpit asymmetry is **not** caused by the weights. It most
+likely comes from the per-side corrective keys or the rest-contact pass.
+
+Even 0.08 weight changes in that patch disturb the folds the keys were tuned for. **L4 stays.** The armpit asymmetry
+(p95 1.4 mm everywhere, a 40 mm local maximum) stays open, to be traced in the key offsets.

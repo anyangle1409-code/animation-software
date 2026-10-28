@@ -691,8 +691,14 @@ by at most 0.08 weight. L4's keys were kept, without re-authoring.
 | Press self-intersections | 10 | 24 |
 | Squat folds over 90° | 40 | 103 |
 
-The maximum does not move at all, so the remaining 40 mm armpit asymmetry is **not** caused by the weights. It most
-likely comes from the per-side corrective keys or the rest-contact pass.
+The maximum does not move at all. A follow-up check found why:
+
+- With **all shape keys off**, the lockout asymmetry maximum is the same 39.7 mm, so the keys are not the cause.
+- The worst pair (vertices 297893 ↔ 112989) is 2.5 mm apart in rest-mirror space. That is outside the 2 mm pairing
+  tolerance, so the patch fix never touched it: the rest mesh itself is slightly off-mirror there.
+
+So it is a skinning asymmetry on a locally non-mirrored part of the mesh.
 
 Even 0.08 weight changes in that patch disturb the folds the keys were tuned for. **L4 stays.** The armpit asymmetry
-(p95 1.4 mm everywhere, a 40 mm local maximum) stays open, to be traced in the key offsets.
+(p95 1.4 mm everywhere, a 40 mm local maximum) stays open. A fix would need a local re-mirroring of that patch's rest
+shape and weights, with the keys re-authored afterwards.

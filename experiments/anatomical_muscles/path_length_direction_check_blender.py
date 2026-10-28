@@ -24,7 +24,11 @@ the torso skin at the origin's height, inset 15 mm (WRAP).  A phase's change (L_
 classified: |x| < ISO -> near_isometric, else shortening / lengthening.  'variable' in the contract accepts any result.
 
 usage: python3.13 path_length_direction_check_blender.py -- COPY.blend SHA256 anchors.json contracts.json OUT.json
-env: PATHCHECK_GIRDLE=coupled|ac_only, PATHCHECK_UR_PIVOT=0..1 (1)
+GIRDLE=glide adds scapulothoracic contact: a thorax ellipsoid fitted to the torso skin, with the clavicle angles and an
+extra scapular rotation solved so TS and AI stay on it (see the glide section below; PATHCHECK_GLIDE_REG sets the pull
+towards the ratio angles, m per deg).
+
+env: PATHCHECK_GIRDLE=coupled|ac_only|glide, PATHCHECK_GLIDE_REG (0.002), PATHCHECK_UR_PIVOT=0..1 (1)
 """
 import hashlib
 import json
@@ -42,6 +46,7 @@ ISO, PLANE_DEG, SAMPLES, INSET = 0.03, 30.0, 12, 0.015
 GIRDLE = os.environ.get("PATHCHECK_GIRDLE", "coupled")
 UR_PIVOT = float(os.environ.get("PATHCHECK_UR_PIVOT", "1.0"))   # upward-rotation pivot: 0 = root of spine (TS), 1 = AC
 MODEL = {"coupled": {"upward_rotation": 0.33, "posterior_tilt": 0.12, "clavicle_elevation": 0.08, "clavicle_retraction": 0.12},
+         "glide": {"upward_rotation": 0.33, "posterior_tilt": 0.12, "clavicle_elevation": 0.08, "clavicle_retraction": 0.12},
          "ac_only": {"upward_rotation": 0.32, "posterior_tilt": 0.0, "clavicle_elevation": 0.16, "clavicle_retraction": 0.0}}[GIRDLE]
 if out.exists():
     raise ValueError("output must be new")
@@ -91,16 +96,82 @@ def girdle(ht_deg):
     return {k: v * e for k, v in MODEL.items()}
 
 
+def girdle_chain(g, elev, retr, er):
+    """clavicle (SC) and scapula (AC) transforms for upward rotation / posterior tilt g, clavicle elevation / retraction
+    and an extra scapular external rotation er (deg, about the vertical at AC)"""
+    Tc = rot_about(SC, UP, SIGN["clavicle_retraction"] * retr) @ rot_about(SC, ANT, SIGN["clavicle_elevation"] * elev)
+    ac = Tc @ TS.lerp(AC, UR_PIVOT)
+    R = Tc.to_3x3()
+    ts = rot_about(ac, R @ SCAP_N, SIGN["upward_rotation"] * (g["upward_rotation"] - elev)) @ Tc
+    ts = rot_about(ac, ts.to_3x3() @ SPINE, SIGN["posterior_tilt"] * g["posterior_tilt"]) @ ts
+    ts = rot_about(ac, UP, -SIGN["clavicle_retraction"] * retr + er) @ ts   # scapular ER ~ 0 (+ er)
+    return Tc, ts
+
+
+# ------------------------------------------------------------------ scapulothoracic glide (GIRDLE=glide)
+# The thorax is an axis-aligned ellipsoid fitted (least squares) to the torso skin over the scapular region, inset to the
+# level set that passes through the rest TS and AI.  Upward rotation and posterior tilt follow the ratios; clavicle
+# elevation, clavicle retraction and an extra scapular external rotation are solved so that TS and AI stay on that
+# surface (the scapula glides on the ribs), with a soft pull of the clavicle angles and the extra rotation towards the
+# ratio values (REG m per deg).  Contact errors are reported per pose.
+GLIDE_REG = float(os.environ.get("PATHCHECK_GLIDE_REG", "0.002"))
+if GIRDLE == "glide":
+    import numpy as np
+    from scipy.optimize import least_squares
+    body_ = bpy.data.objects["HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"]
+    V = np.array([tuple(body_.matrix_world @ v.co) for v in body_.data.vertices])
+    zlo, zhi = AI.z - 0.04, TS.z + 0.06
+    xmax = abs(GH.x) - 0.06
+    band = V[(V[:, 2] > zlo) & (V[:, 2] < zhi) & (np.abs(V[:, 0]) < xmax)]
+    # centred on (0, y0, z0):  x^2 A + y^2 B + z^2 C + y D + z E = 1;  an elliptic cylinder (C = E = 0) if the
+    # vertical curvature comes out non-positive over this short band
+    C0 = np.array([0.0, band[:, 1].mean(), band[:, 2].mean()])
+    Q = band - C0
+    M = np.c_[Q[:, 0] ** 2, Q[:, 1] ** 2, Q[:, 2] ** 2, Q[:, 1], Q[:, 2]]
+    coef, *_ = np.linalg.lstsq(M, np.ones(len(band)), rcond=None)
+    if coef[2] <= 0:
+        M = np.c_[Q[:, 0] ** 2, Q[:, 1] ** 2, Q[:, 1]]
+        c3, *_ = np.linalg.lstsq(M, np.ones(len(band)), rcond=None)
+        coef = np.array([c3[0], c3[1], 0.0, c3[2], 0.0])
+
+    def F(p):
+        q = (p[0] - C0[0], p[1] - C0[1], p[2] - C0[2])
+        return coef[0] * q[0] ** 2 + coef[1] * q[1] ** 2 + coef[2] * q[2] ** 2 + coef[3] * q[1] + coef[4] * q[2]
+    K = 0.5 * (F(TS) + F(AI))
+    print("GLIDEFIT", [round(float(c), 3) for c in coef], round(float(F(TS)), 4), round(float(F(AI)), 4), len(band), flush=True)
+    SCALE = 0.5 * (math.sqrt(1 / coef[0]) + math.sqrt(1 / coef[1]))   # ~ mean horizontal semi-axis (m)
+
+    def contact_m(p):
+        return (math.sqrt(max(F(p), 0.0)) - math.sqrt(K)) * SCALE / math.sqrt(max(K, 1e-9))
+
+    GLIDE_LOG = {}
+
+
+def glide(g):
+    """solve clavicle elevation / retraction and extra scapular ER so TS and AI stay on the thorax ellipsoid"""
+    x0 = np.array([g["clavicle_elevation"], g["clavicle_retraction"], 0.0])
+
+    def res(x):
+        _, ts = girdle_chain(g, *x)
+        return [contact_m(ts @ TS), contact_m(ts @ AI), GLIDE_REG * (x[0] - x0[0]), GLIDE_REG * (x[1] - x0[1]),
+                GLIDE_REG * x[2]]
+    sol = least_squares(res, x0, diff_step=1e-2)      # mathutils is single precision: finite-difference steps of ~0.01 deg+
+    _, ts = girdle_chain(g, *sol.x)
+    key = round(g["upward_rotation"], 1)
+    GLIDE_LOG[key] = {"clavicle_elevation_deg": round(float(sol.x[0]), 1), "clavicle_retraction_deg": round(float(sol.x[1]), 1),
+                      "extra_scapular_er_deg": round(float(sol.x[2]), 1),
+                      "TS_off_thorax_mm": round(contact_m(ts @ TS) * 1000, 1), "AI_off_thorax_mm": round(contact_m(ts @ AI) * 1000, 1)}
+    return sol.x
+
+
 def pose(ht_deg, elbow_deg):
     """world rigid transforms of the chain at humerothoracic elevation ht_deg and elbow flexion elbow_deg"""
     g = girdle(ht_deg)
-    Tc = rot_about(SC, UP, SIGN["clavicle_retraction"] * g["clavicle_retraction"]) @ \
-        rot_about(SC, ANT, SIGN["clavicle_elevation"] * g["clavicle_elevation"])
-    ac = Tc @ TS.lerp(AC, UR_PIVOT)
-    R = Tc.to_3x3()
-    ts = rot_about(ac, R @ SCAP_N, SIGN["upward_rotation"] * (g["upward_rotation"] - g["clavicle_elevation"])) @ Tc
-    ts = rot_about(ac, ts.to_3x3() @ SPINE, SIGN["posterior_tilt"] * g["posterior_tilt"]) @ ts
-    ts = rot_about(ac, UP, -SIGN["clavicle_retraction"] * g["clavicle_retraction"]) @ ts   # scapular ER ~ 0
+    if GIRDLE == "glide":
+        elev, retr, er = glide(g)
+    else:
+        elev, retr, er = g["clavicle_elevation"], g["clavicle_retraction"], 0.0
+    Tc, ts = girdle_chain(g, elev, retr, er)
     gh, ejc = ts @ GH, ts @ EJC
     plane = (math.cos(math.radians(PLANE_DEG)) * LAT + math.sin(math.radians(PLANE_DEG)) * ANT).normalized()
     want = (math.cos(math.radians(ht_deg)) * -UP + math.sin(math.radians(ht_deg)) * plane).normalized()
@@ -237,6 +308,9 @@ for ex in contracts["exercises"]:
                          "monotonic": mono}
         exr[ph["id"]] = {"control_poses_ht_elbow": PH[ex["id"]][ph["id"]], "muscles": rows}
 report["summary"] = summary
+if GIRDLE == "glide":
+    report["glide"] = {"thorax_ellipsoid_coef": [float(c) for c in coef], "thorax_centre_m": [float(c) for c in C0], "contact_level": float(K),
+                       "reg_m_per_deg": GLIDE_REG, "per_upward_rotation": {str(k): v for k, v in sorted(GLIDE_LOG.items())[::6]}}
 out.write_text(json.dumps(report, indent=1))
 print("PATHCHECK", json.dumps({"girdle": GIRDLE, "pivot": UR_PIVOT, "round_trip_mm": report["rest_round_trip_mm"],
                                "pose_round_trip_mm": report["rest_pose_round_trip_mm"], "rest": report["r41_rest"],

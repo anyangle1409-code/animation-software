@@ -286,3 +286,39 @@ rotation action in deep flexion. Two choices are left for Work or the owner:
 - or split the muscle into functional heads. That needs new permanent IDs, which only the owner can approve.
 
 No other anchor changed. The diff of the regenerated proposals confirmed this, and the unit tests still pass.
+
+### Scapulothoracic glide for the trapezius lower verdict (added)
+
+**The model.** `PATHCHECK_GIRDLE=glide` keeps the scapula on the rib cage. The thorax is an ellipsoid fitted to R41's
+torso skin over the scapular region, and its level set passes through the rest TS and AI. Upward rotation and
+posterior tilt follow the ratios. Clavicle elevation, clavicle retraction and an extra scapular rotation are solved so
+that TS and AI stay on the thorax, with a soft pull towards the ratio angles.
+
+The solver needs finite-difference steps of about 0.01°: mathutils is single precision, and the default step gave a
+zero Jacobian.
+
+**Results at the press top (upward rotation 49°).**
+
+| Pull towards the ratio angles | Clavicle elevation | TS / AI off the thorax |
+|---|---|---|
+| 0.002 m per degree | 45° | 24 / 68 mm |
+| 0.0005 m per degree | **72°** (in vivo about 10–30°) | 3 / 10 mm (contact achieved) |
+
+**What this shows.** With R41's AC position, its scapular-plane axis, and 49–52° of upward rotation about the AC joint,
+the scapula cannot stay on the thorax at physiological clavicle angles. The lower angle swings out to about 25 cm from
+the midline. Real kinematics needs scapular translation around the chest (protraction), which a rigid AC-pinned chain
+cannot produce.
+
+**The lower trapezius verdict.** In every girdle model tried (ac_only, coupled, glide at both settings), the
+straight-line lower trapezius **lengthens by 36–56 %** in the press. The contract says "shortening".
+
+The flag stays. Its next steps are:
+
+- a proper scapulothoracic model with translation (for example, a closed-loop chain with the scapula gliding on the
+  ellipsoid);
+- and/or a fibre fan from T4–T12 instead of the single T9 point.
+
+The other press verdicts are unchanged under glide, except serratus. Serratus depends on the girdle model: it shortens
+at a pull of 0.002 and lengthens at 0.0005.
+
+Files: `native_20261024/path_length_check_left_glide_reg0.002.json` and `…_reg0.0005.json`.

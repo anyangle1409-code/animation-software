@@ -1,0 +1,76 @@
+{
+  "workflow_run": {
+    "id": 40698093896,
+    "head_sha": "c9476dc71931ad2b1b600f5f80bb8d1135b459e2",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs_successful": 7,
+    "jobs_total": 7
+  },
+  "implementation_commit": "c9476dc71931ad2b1b600f5f80bb8d1135b459e2",
+  "jobs": {
+    "pose_state_w8": 122850158042,
+    "localize_native_movement_failures": 122850158412,
+    "inspect_v14": 122850158719,
+    "inspect_w8": 122850158794,
+    "inspect_r120": 122850159038,
+    "compare_rest_audits": 122850860159,
+    "verify_actual_shoulder_driver_math": 122853659779
+  },
+  "tests": {
+    "localization": {"passed": 281, "failed": 0},
+    "pose_focused_suites": [24, 19, 6, 10],
+    "driver_focused_suites": [10, 20, 8]
+  },
+  "pinned_input_artifacts_independently_downloaded_crc_checked_and_rehashed": [
+    {"model": "W8", "id": 12495910312, "sha256": "3be4322ba67da8b3827c96c0afdb58ffa8adb998cf8d1814aab0978a9e68d63e"},
+    {"model": "V14", "id": 12494932817, "sha256": "5f11a9441cf5bb1d29ba3fae72c945f59c9109a26023cea15508d3310cb774e0"},
+    {"model": "R120", "id": 12495970648, "sha256": "cf26902334a90cb3928821d797fcc88e27340a7837911a0e080b6973b5017a2f"}
+  ],
+  "artifacts": [
+    {"id": 12821575074, "name": "phone-w8-driver-consistency-40698093896", "sha256": "026140e1e08fd010360eb9b693264224bfebb364c47034444250d9d9a485d509", "independently_downloaded_and_rehashed": false},
+    {"id": 12820880489, "name": "phone-blender-V14-40698093896", "sha256": "acc016eed5b39edec79fe0d7242d4091fd2dad7f4c1a4975ff875d9e36dee47c", "independently_downloaded_and_rehashed": false},
+    {"id": 12820757425, "name": "phone-w8-shoulder-pose-state-40698093896", "sha256": "4fabfcefc7815bfa1174d2622cd76c3e3413476a47834449e11c86fdb0361015", "independently_downloaded_and_rehashed": false},
+    {"id": 12820730738, "name": "phone-rest-cross-model-40698093896", "sha256": "0ff29023c7f11253b28d21b25e01a5de884849f4a64d3b56364cd99b4c067466", "independently_downloaded_and_rehashed": false},
+    {"id": 12820526787, "name": "phone-w8-evaluated-snapshots-40698093896", "sha256": "33cdfb26448b6f0918c4fcb19735323e58e694ce9b49259aca987e3f2a573dda", "independently_downloaded_and_rehashed": false},
+    {"id": 12820067912, "name": "phone-blender-W8-40698093896", "sha256": "1316eab3e8d8ca560b8fde217e27fef36966f984a3555880ee26f56b001cf1ae", "independently_downloaded_and_rehashed": false},
+    {"id": 12819972905, "name": "phone-blender-R120-40698093896", "sha256": "09e4d404cc6c2201f3ccde5bc1ddc0f801f917f91f2ca447f6627a1773d8ccbd", "independently_downloaded_and_rehashed": false},
+    {"id": 12819917656, "name": "phone-native-failure-localization-40698093896", "sha256": "97787634b061775aeceed8b78552c89b7b9d0997ea537551d8a8905f94c7bb24", "independently_downloaded_and_rehashed": true},
+    {"id": 12819354515, "name": "phone-visual-review-40698093896", "sha256": "ddbe545418c32279f26fa0d39120a1d4d58d769ea53e814f7c5cfc0505de1ae", "independently_downloaded_and_rehashed": false}
+  ],
+  "squat_foot_surface_proxy": {
+    "status": "READ_ONLY_SQUAT_FOOT_SURFACE_PROXY_NOT_GROUND_CONTACT_APPROVAL",
+    "json_sha256": "d03d176f030b21c64876d3d047552186faf6cd09d380e285791598d477203601",
+    "markdown_sha256": "5205e45ed878c0ee8533b6ba687a5f2d5194c35aa97cd69ce67323b153e02e1b",
+    "cloud_outputs_byte_identical_to_local_three_model_replay": true,
+    "ground_contact_approval": "NOT_GRANTED",
+    "anatomical_approval": "NOT_GRANTED",
+    "sample7": {
+      "W8": {
+        "l": {"selected_vertices": 6865, "minimum_z_delta_m": 0.0008137944969348609, "centroid_x_delta_m": 0.016733184457, "lowest_one_percent_overlap": [37, 69]},
+        "r": {"selected_vertices": 6865, "minimum_z_delta_m": 0.0008138163830153644, "centroid_x_delta_m": -0.016733244061, "lowest_one_percent_overlap": [37, 69]}
+      },
+      "V14": {
+        "l": {"selected_vertices": 20176, "minimum_z_delta_m": -0.00042235327418893576, "centroid_x_delta_m": 0.016748465598, "lowest_one_percent_overlap": [104, 202]},
+        "r": {"selected_vertices": 20174, "minimum_z_delta_m": -0.00042800477240234613, "centroid_x_delta_m": -0.016748599708, "lowest_one_percent_overlap": [107, 202]}
+      },
+      "R120": {
+        "l": {"selected_vertices": 20175, "minimum_z_delta_m": -0.00042233208660036325, "centroid_x_delta_m": 0.016748428345, "lowest_one_percent_overlap": [102, 202]},
+        "r": {"selected_vertices": 20175, "minimum_z_delta_m": -0.0004219601396471262, "centroid_x_delta_m": -0.016748562455, "lowest_one_percent_overlap": [107, 202]}
+      }
+    },
+    "cross_model_quality_ranking_authorized": false,
+    "verified_ground_plane_or_pressure_model": false
+  },
+  "historical_run40029398965": {
+    "overall_conclusion": "failure",
+    "successful_w8_v14_r120_and_cross_model_evidence_remains_valid": true
+  },
+  "anatomical_status": {
+    "unbound_landmarks": 46,
+    "generic_movements_approved": 0,
+    "generic_movements_total": 19,
+    "squat_acceptance": "FAILED_OR_BLOCKED",
+    "muscle_highlighting": "DEFERRED"
+  }
+}

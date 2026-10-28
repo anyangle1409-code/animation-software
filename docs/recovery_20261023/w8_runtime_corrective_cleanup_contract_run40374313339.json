@@ -1,0 +1,71 @@
+{
+  "status": "MEASURED_W8_RUNTIME_CORRECTIVE_CLEANUP_CONTRACT_NOT_MODEL_REPAIR",
+  "scope": {
+    "model": "W8",
+    "source_sha256": "2434afd0daa231ab3a03c873cad4187ffcbc1bab78132375221160b0b0f09e4c",
+    "path": "current W8 nine-sample shoulder-press diagnostic",
+    "reference": "benchmark start state, not anatomical neutral"
+  },
+  "evidence": {
+    "workflow_run_id": 40374313339,
+    "artifact_id": 12673313863,
+    "artifact_sha256": "129ecc9bc07544e7f3bc0954cb12a531c90eb4e650ea03aa529c6d24db9cd4c2",
+    "report_sha256": "2eb9888735444b6ba50282087eb48d0dff43604885e64c97ec0a0995a2c9035e"
+  },
+  "trigger": {
+    "skeleton_reset_alone_insufficient": true,
+    "skeletal_pose_signature_restored_exactly": true,
+    "vertex_count": 219974,
+    "vertices_moved_gt_1e_9_m": 102253,
+    "max_vertex_displacement_m": 0.06231378350054487,
+    "rms_vertex_displacement_m": 0.012929646292009458,
+    "terminal_active_nonbasis_key_count": 14
+  },
+  "terminal_active_key_partition": {
+    "HGPT_S1_SHOULDER": [
+      "HGPT_S1_SHOULDER_l_145",
+      "HGPT_S1_SHOULDER_l_160",
+      "HGPT_S1_SHOULDER_r_145",
+      "HGPT_S1_SHOULDER_r_160"
+    ],
+    "HGPT_S3_SHAPE": [
+      "HGPT_S3_SHAPE_l_125",
+      "HGPT_S3_SHAPE_r_125"
+    ],
+    "HGPT_S5_BAKE": [
+      "HGPT_S5_BAKE_l_145",
+      "HGPT_S5_BAKE_l_160",
+      "HGPT_S5_BAKE_r_145",
+      "HGPT_S5_BAKE_r_160"
+    ],
+    "HGPT_S7_DELT": [
+      "HGPT_S7_DELT_l_156",
+      "HGPT_S7_DELT_l_166",
+      "HGPT_S7_DELT_r_156",
+      "HGPT_S7_DELT_r_166"
+    ]
+  },
+  "tested_cleanup_operation": "RESET_SKELETON_AND_ZERO_ALL_NONBASIS_KEY_VALUES_IN_MEMORY",
+  "runtime_requirement": {
+    "lifecycle_boundary": "before reference reuse and after the exercised path",
+    "operation": "reset skeletal pose and clear lifecycle-owned non-Basis corrective state; an equivalent recomputation is acceptable only if every postcondition holds",
+    "selective_family_clear_is_not_sufficient_evidence": true,
+    "s3_numeric_noop_endpoints_remain_in_cleanup_ownership": true
+  },
+  "postconditions": {
+    "skeletal_pose_signature_exact": true,
+    "benchmark_reference_geometry_exact": true,
+    "max_vertex_displacement_m": 0.0,
+    "rms_vertex_displacement_m": 0.0,
+    "vertices_moved_gt_1e_9_m": 0,
+    "active_nonbasis_shape_keys": []
+  },
+  "claims": {
+    "anatomical_neutral": false,
+    "physiological_return": false,
+    "model_repair": false,
+    "source_edit_authorized": false,
+    "selective_family_disable_authorized": false,
+    "generic_movement_approved": false
+  }
+}

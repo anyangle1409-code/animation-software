@@ -158,7 +158,7 @@ def _validate_native_doc(doc, model):
     return doc
 
 
-def audit(root):
+def load_native_evidence(root):
     root = Path(root)
     docs = {}
     hashes = {}
@@ -171,6 +171,11 @@ def audit(root):
         except (UnicodeDecodeError, json.JSONDecodeError) as exc:
             raise ValueError(model + ": invalid rig JSON") from exc
         docs[model] = _validate_native_doc(parsed, model)
+    return docs, hashes
+
+
+def audit(root):
+    docs, hashes = load_native_evidence(root)
     return audit_loaded(docs, hashes)
 
 

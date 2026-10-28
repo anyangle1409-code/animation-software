@@ -19,10 +19,10 @@ Population means from these studies are not joint limits or acceptance threshold
 
 Machine source: `docs/anatomy/HGPT_GRIP_CAPTURE_CONTRACT_V1.json`.
 
-- Every finite `(object_id, search_cell_id)` must be captured independently for authored suffixes `l` and `r`.
+- A hash-pinned finite search-cell manifest must be declared before capture. Observed unique keys must equal its exact Cartesian product with authored suffixes `l/r`, with no missing or duplicate records.
 - Suffix-specific Euler observations are recorded independently; the contract does not assume the two runtime bone frames mirror.
 - Object evidence requires an object ID, mesh and surface-triangle hashes, metre unit declaration and 4x4 object frame.
-- Every trial separately records self-intersection pairs, body/object intersection pairs, per-digit body/object triangle IDs, closest points, surface normal, signed separation and return-state residual.
+- Every trial separately records self-intersection pairs, body/object intersection pairs, and at least one closest-surface sample for each authored digit label (`thumb/index/middle/ring/little`). Samples use zero-based pinned topology, points and unit outward normals in the object frame, and signed separation defined as positive=separated, zero=touching, negative=penetrating. These labels remain authored identifiers, not independently bound anatomy.
 - Force, pressure, friction and slip remain unmeasured by a geometric capture.
 - Self-intersection, contact, collapse and return-residual acceptance thresholds all remain `NOT_DEFINED`.
 

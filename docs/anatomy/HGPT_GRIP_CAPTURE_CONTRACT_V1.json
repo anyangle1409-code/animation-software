@@ -5,9 +5,22 @@
     "required_authored_runtime_suffixes": ["l", "r"],
     "authored_suffix_is_anatomical_side": false,
     "pairing_key_fields": ["object_id", "search_cell_id"],
-    "pairing_rule": "Each finite search cell must be captured once for each authored runtime suffix; suffix-specific Euler observations are recorded independently and are not assumed mirrored."
+    "pairing_rule": "Each finite search cell must be captured once for each authored runtime suffix; suffix-specific Euler observations are recorded independently and are not assumed mirrored.",
+    "completeness_rule": "Observed unique keys must equal the exact Cartesian product of the predeclared manifest (object_id, search_cell_id) and authored suffixes [l, r], with no missing or duplicate records."
   },
   "evidence_schema": {
+    "search_manifest_fields": [
+      "manifest_id",
+      "manifest_sha256",
+      "declared_before_capture",
+      "object_id",
+      "search_cells",
+      "expected_unique_trial_keys"
+    ],
+    "search_cell_fields": [
+      "search_cell_id",
+      "control_parameters"
+    ],
     "object_evidence_fields": [
       "object_id",
       "mesh_sha256",
@@ -42,6 +55,20 @@
       "active_nonbasis_key_count",
       "skeletal_pose_equal"
     ]
+  },
+  "measurement_semantics": {
+    "required_authored_digit_labels_NOT_anatomical_ids": [
+      "thumb",
+      "index",
+      "middle",
+      "ring",
+      "little"
+    ],
+    "minimum_samples_per_required_digit": 1,
+    "point_coordinate_frame": "object_frame_4x4",
+    "triangle_indexing": "zero_based_pinned_source_topology",
+    "signed_separation_convention": "positive_separated_zero_touching_negative_penetration",
+    "object_surface_normal_convention": "unit_outward_in_object_frame"
   },
   "acceptance_thresholds": {
     "self_intersection": "NOT_DEFINED",

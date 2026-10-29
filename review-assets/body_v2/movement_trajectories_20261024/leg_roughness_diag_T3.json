@@ -1,0 +1,128 @@
+{
+ "rest_all": {
+  "roughness_legs_mm": {
+   "p50": 0.005,
+   "p95": 0.063,
+   "p99": 0.189
+  },
+  "active_leg_keys": {}
+ },
+ "squat_all": {
+  "roughness_legs_mm": {
+   "p50": 0.009,
+   "p95": 0.087,
+   "p99": 0.178
+  },
+  "active_leg_keys": {
+   "HGPT_K1_KNEE_l_110": 1.0,
+   "HGPT_K1_KNEE_r_110": 1.0,
+   "HGPT_H1_BAKE_l_110": 0.9,
+   "HGPT_H1_BAKE_r_110": 0.9,
+   "HGPT_H1_BAKE_l_135": 0.1,
+   "HGPT_H1_BAKE_r_135": 0.1,
+   "R121_HIP_r_100": 1.0,
+   "R121_HIP_l_100": 1.0,
+   "R121_KNEE_r_100": 1.0,
+   "R121_KNEE_l_100": 1.0
+  }
+ },
+ "squat_no_legacy_leg": {
+  "roughness_legs_mm": {
+   "p50": 0.009,
+   "p95": 0.095,
+   "p99": 0.21
+  },
+  "active_leg_keys": {
+   "R121_HIP_r_100": 1.0,
+   "R121_HIP_l_100": 1.0,
+   "R121_KNEE_r_100": 1.0,
+   "R121_KNEE_l_100": 1.0
+  }
+ },
+ "squat_no_r121": {
+  "roughness_legs_mm": {
+   "p50": 0.01,
+   "p95": 0.115,
+   "p99": 0.234
+  },
+  "active_leg_keys": {
+   "HGPT_K1_KNEE_l_110": 1.0,
+   "HGPT_K1_KNEE_r_110": 1.0,
+   "HGPT_H1_BAKE_l_110": 0.9,
+   "HGPT_H1_BAKE_r_110": 0.9,
+   "HGPT_H1_BAKE_l_135": 0.1,
+   "HGPT_H1_BAKE_r_135": 0.1
+  }
+ },
+ "squat_lbs": {
+  "roughness_legs_mm": {
+   "p50": 0.009,
+   "p95": 0.116,
+   "p99": 0.231
+  },
+  "active_leg_keys": {}
+ },
+ "deadlift_all": {
+  "roughness_legs_mm": {
+   "p50": 0.009,
+   "p95": 0.086,
+   "p99": 0.173
+  },
+  "active_leg_keys": {
+   "HGPT_K1_KNEE_l_90": 0.98,
+   "HGPT_K1_KNEE_r_90": 0.98,
+   "HGPT_H1_BAKE_l_110": 0.74,
+   "HGPT_H1_BAKE_r_110": 0.74,
+   "HGPT_H1_BAKE_l_135": 0.26,
+   "HGPT_H1_BAKE_r_135": 0.26,
+   "R121_HIP_r_100": 0.83,
+   "R121_HIP_l_100": 0.83,
+   "R121_KNEE_r_50": 0.09,
+   "R121_KNEE_l_50": 0.09,
+   "R121_KNEE_r_75": 0.91,
+   "R121_KNEE_l_75": 0.91,
+   "R121_HIP_r_135": 0.17,
+   "R121_HIP_l_135": 0.17
+  }
+ },
+ "deadlift_no_legacy_leg": {
+  "roughness_legs_mm": {
+   "p50": 0.009,
+   "p95": 0.092,
+   "p99": 0.202
+  },
+  "active_leg_keys": {
+   "R121_HIP_r_100": 0.83,
+   "R121_HIP_l_100": 0.83,
+   "R121_KNEE_r_50": 0.09,
+   "R121_KNEE_l_50": 0.09,
+   "R121_KNEE_r_75": 0.91,
+   "R121_KNEE_l_75": 0.91,
+   "R121_HIP_r_135": 0.17,
+   "R121_HIP_l_135": 0.17
+  }
+ },
+ "deadlift_no_r121": {
+  "roughness_legs_mm": {
+   "p50": 0.01,
+   "p95": 0.119,
+   "p99": 0.24
+  },
+  "active_leg_keys": {
+   "HGPT_K1_KNEE_l_90": 0.98,
+   "HGPT_K1_KNEE_r_90": 0.98,
+   "HGPT_H1_BAKE_l_110": 0.74,
+   "HGPT_H1_BAKE_r_110": 0.74,
+   "HGPT_H1_BAKE_l_135": 0.26,
+   "HGPT_H1_BAKE_r_135": 0.26
+  }
+ },
+ "deadlift_lbs": {
+  "roughness_legs_mm": {
+   "p50": 0.009,
+   "p95": 0.117,
+   "p99": 0.233
+  },
+  "active_leg_keys": {}
+ }
+}

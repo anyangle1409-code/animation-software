@@ -20,7 +20,7 @@ The permanent muscle IDs are used unchanged. Muscle highlighting is not implemen
 The test is `scripts/body_v2/movement_trajectory_test_blender.py`. Sheets: `trajectory_sheets.py`, written to
 `review-assets/body_v2/movement_trajectories_20261024/`, sized for a phone.
 
-| | Before (R121p, r57 girdle, no new keys) | Now (candidate **H1** = L4 + low forward key + deep hip key; review sets `REVIEW_L4_*`, `REVIEW_N2_*`) |
+| | Before (R121p, r57 girdle, no new keys) | Now (candidate **T3** = H1 with the legacy leg keys cleaned and the leg families re-authored; review sets `REVIEW_L4_*`, `REVIEW_T3_*`) |
 |---|---|---|
 | Press: folds over 90° / self-intersections (peak) | 4666 / 4759 | **13 / 10** |
 | Press lockout skin roughness, p95 (rest pose: 0.066 mm) | – (K1 had 0.125 mm, a mottled back) | **0.086 mm** |
@@ -42,6 +42,12 @@ The candidate chain is:
    re-authored on the clean base.
 7. **N2**: a low forward key (20°, measuring 11°) with the forward family's own start at 0°.
 8. **H1**: a deep hip key at 135°, authored in the deadlift (`hinge` mode) and appended to the hip family.
+9. **T3**: the legacy leg keys cleaned up, and the R121 hip, knee and deep-hip families re-authored on top.
+   - Legacy hip family (H1_BAKE): low-pass filtered (`smooth_legacy_keys_candidate_blender.py`). This keeps its
+     lower-back fold fix and drops the old surface's texture.
+   - Legacy knee family (K1_KNEE): zeroed.
+   - Results: leg roughness 0.107 → 0.087 mm; lunge folds 278 → 50; deadlift and lunge knee folds 0.
+   - The deadlift's extreme-depth abdomen–thigh contact is still open.
    - Deadlift hip folds 349 → 28.
    - The deadlift bottom still has abdomen–thigh interpenetration: a hip contact step is needed.
 

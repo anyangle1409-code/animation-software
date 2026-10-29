@@ -971,3 +971,27 @@ The upper-body movements are unchanged, and every movement returns to neutral.
 
 **Running now (T-chain).** Smooth the legacy hip family, zero the legacy knee family, re-author all three.
 Reports: `report_TT_S3_smoothed_legacy_legs.json`, `leg_roughness_diag_S3.json`.
+
+**T3: legacy hip family smoothed, legacy knee family zeroed, hip / knee / deep-hip re-authored. Adopted as the current
+best.**
+
+| | H1 | S3 | **T3** |
+|---|---|---|---|
+| Lower-back ridge (edges past 21° at z 1.10) | about 1 | 0 | **0** |
+| Leg roughness p95, squat / deadlift | 0.107 / 0.098 mm | 0.087 / 0.086 | **0.087 / 0.086 mm** |
+| Squat folds over 90° | 20 | 10 | 13 |
+| Squat collapsed under 0.5× | 8314 | 7702 | **7598** |
+| Deadlift folds over 90° (hip / knee) | 72 (28 / 18) | 70 (21 / 31) | **70 (21 / 0)** |
+| Deadlift stretched over 2× | 2257 | 1961 | **1961** |
+| Deadlift self-intersections | 1827 | 1885 | 1885 |
+| Lunge folds over 90° (hip / knee) | 278 (242 / 21) | 78 (32 / 33) | **50 (32 / 0)** |
+| Lunge stretched over 2× | 2140 | 1895 | **1895** |
+
+Press, curl and both raises are unchanged, and all seven movements return to neutral exactly. The deadlift's 3 %
+higher intersection count is all at the extreme 130–135° depth (the open abdomen–thigh contact).
+
+**The lesson, which also applies to the shoulders.** Legacy keys transferred from the old surface should be
+**low-pass filtered, not zeroed**: their centimetre-scale corrections still fit; only their millimetre texture does
+not. The knee family is the exception, because the R121 knee hinge-contact keys replace it entirely.
+
+Reports: `report_TT_T3_all7.json`, `leg_roughness_diag_T3.json`.

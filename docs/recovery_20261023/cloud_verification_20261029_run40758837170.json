@@ -1,0 +1,59 @@
+{
+  "workflow_run": {
+    "id": 40758837170,
+    "head_sha": "bf6a83f4b0c5cb5a8932182c299435d1b3906d48",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs_successful": 7,
+    "jobs_total": 7
+  },
+  "published_commit": "bf6a83f4b0c5cb5a8932182c299435d1b3906d48",
+  "jobs": {
+    "pose_state_w8": 123064928473,
+    "inspect_r120": 123064928707,
+    "inspect_v14": 123064928733,
+    "localize_native_movement_failures": 123064928737,
+    "inspect_w8": 123064928778,
+    "compare_rest_audits": 123065544026,
+    "verify_actual_shoulder_driver_math": 123068429094
+  },
+  "tests": {
+    "localization": {"passed": 314, "failed": 0},
+    "comparison_focused_suites": [5, 12, 9, 7, 12, 15, 13],
+    "pose_focused_suites": [24, 19, 6, 10],
+    "driver_focused_suites": [10, 20, 8]
+  },
+  "artifacts": [
+    {"id": 12848255288, "name": "phone-w8-driver-consistency-40758837170", "sha256": "4169bb7c9adcd1221b60083fe5d11256f7da4d62d52a0ecf52f156dd76b5a31c", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12848235273, "name": "phone-w8-shoulder-pose-state-40758837170", "sha256": "ddf77a9c34d7420142962db491002d1ca3d6492451a0352933e329ca8fac9cdb", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12848125147, "name": "phone-visual-review-40758837170", "sha256": "d5da58d7be7ae2bb0227d71e4c5fa012828a361b33b7c2c2cce4a294993d7629", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12848030496, "name": "phone-blender-W8-40758837170", "sha256": "9499840fc1c4caaec30d9ebe092b473c34a01b210d0473f17834e4f37c2b9fda", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12847317363, "name": "phone-blender-V14-40758837170", "sha256": "118fe49b4cc1316d16af4bf2dac592d0baa1aef4130466e17765063d64cc982f", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12847173728, "name": "phone-rest-cross-model-40758837170", "sha256": "21a11414c1bb985586cb4931f792bbcb14378f38519e41f5b6a21ce6dc3968f9", "independently_downloaded_crc_checked_and_rehashed": true},
+    {"id": 12846858027, "name": "phone-native-failure-localization-40758837170", "sha256": "11f9aba556122244c8288611c57a1b28cc572c0b9ae822ddb736c75ae208fbc7", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12846503545, "name": "phone-blender-R120-40758837170", "sha256": "7ec4650dee187f98c88d05241c58d7fa1950d90de01c94cb817f2ff9922e4e24", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12846258850, "name": "phone-w8-evaluated-snapshots-40758837170", "sha256": "eb3a455ab44f6d9421871d9cded82a525bdb4b143a47c2815177bc36dc877d7a", "independently_downloaded_crc_checked_and_rehashed": false}
+  ],
+  "native_limb_chain_readiness": {
+    "status": "AUTHORED_LIMB_CHAINS_PRESENT_ANATOMICAL_FRAMES_AND_COUPLING_BLOCKED",
+    "json_sha256": "3aba6e8a484de9afd6745166986ab61f796a74674a9dc581d4b4b642ab9cd5a7",
+    "markdown_sha256": "fb09b41638d99d03790c2682c680af9ffe13c416ef80f6e41cf2ff5ed23fb3d1",
+    "common_chain_fingerprint_sha256": "6b2fbbe17a4ab18a2c054755138d682ba0115ff1b43080582f6ef7efbc304519",
+    "scapulohumeral_coordination_tested": false,
+    "hip_knee_ankle_joint_centres_verified": false,
+    "ground_contact_tested": false,
+    "balance_tested": false,
+    "anatomical_approval": "NOT_GRANTED"
+  },
+  "historical_run40029398965": {
+    "overall_conclusion": "failure",
+    "failed_read_only_test_reason": "documented_bpy_ops_docstring_false_positive",
+    "successful_w8_v14_r120_and_cross_model_evidence_remains_valid": true
+  },
+  "anatomical_status": {
+    "unbound_landmarks": 46,
+    "generic_movements_approved": 0,
+    "generic_movements_total": 19,
+    "muscle_highlighting": "DEFERRED"
+  }
+}

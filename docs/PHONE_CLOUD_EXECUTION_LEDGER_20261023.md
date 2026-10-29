@@ -1,5 +1,5 @@
-Warning: truncated output (original token count: 41046)
-Total output lines: 688
+Warning: truncated output (original token count: 41383)
+Total output lines: 695
 
 # Home Gym PT — phone-only cloud Blender execution ledger
 Date: 2026-10-23
@@ -283,13 +283,7 @@ The overnight hourly cloud continuation automation is configured separately; eac
 ### Addendum — independent historical rig re-download and first ranked-edge artifact
 
 - Re-downloaded **all four** ZIPs from historical [run40029398965](https://github.com/anyangle1409-code/animation-software/actions/runs/40029398965) again in this session. ZIP SHA256 MATCH GitHub for W8 `adaba1780dcde12b589f590bc6de7ae2227485471f9ff0817a56dff888188267`, V14 `098c34ab14d8e14dbf21735b11808067df4296247dcc7efb7e9420b7b43545a9`, R120 `17266fbc256cc775ce21c16b556d6a0fbff36499a1f2f78d05a6c058d6e56018`, rest comparison `3391425922f772ce4633c93456b0bf61a189cb4791e15c3b905432769f46f865`. Embedded `rig_rest_axes_metadata.json` member hashes again match the full values in the earlier historical entry. All 77-bone rest JSON objects are **byte-identical** between historical run40029398965 and current run40056461299 for each respective W8/V14/R120 model. Selected rest heads/tails/axes, hierarchy and rotation/constraint metadata also match across the three models. These are **rest structural metadata**, not certified ISB coordinates or deformation. Historical run remains FAILED overall from its read-only test.
-- [Run40060666110](https://github.com/anyangle1409-code/animation-software/actions/runs/40060666110) at `fe4651643…11046 tokens truncated…oduces one closer/one farther seed and four closer/four farther controls per suffix. Sample6 S5 endpoint muting moves one seed/four controls farther; S7 145 moves two seeds closer but adjacent controls mixed, and S7 156 remains mixed for both seeds and controls. Counts include unaffected opposite-suffix geometry and do not certify anatomical laterality. No global S5/S7 disable or source repair is supported.
-- Historical run40029398965 remains FAILED overall for its read-only docstring guard, while its W8/V14/R120 and cross-model rig evidence remains valid as previously hashed. Current success does not rewrite that history.46 landmarks remain unbound;0/19 generic motion scenarios approved; existing shoulder press/squat/grip and joint/contact/return-to-neutral gates remain failed or blocked. No model, rig, weight, muscle attachment/highlight, app, production, merge or deployment change.
-
-
-## 2026-10-24 authored-suffix local individual-key summary — staged, native CI pending
-
-- The verified run40095096697 individual summary intentionally counted all4 seeds and16 controls per key, which made unaffected opposite-suffix edges appear as unchanged. The report now additionally maps each key's authored `l`/`r` suffix to the two pre-existing seed neighborhoods and their deduplicated adjacent controls, while retaining the global counts in JSON.
+- [Run40060666110](https://github.com/anyangle1409-code/animation-software/actions/runs/40060666110) at `fe4651643…11383 tokens truncated…s in JSON.
 - The mapping uses only existing authored suffix labels and exact frozen seed IDs. It is explicitly `matching_authored_suffix_NOT_anatomical_side`; it does **not** independently certify human left/right, landmark identity, ISB axes or tissue locality.
 - The updated summary test was observed RED before implementation and GREEN after; focused18/18 and full247/247 local suites, Python compilation and whitespace checks PASS. No new native evaluations or snapshots are introduced. New cloud report/artifact verification is **PENDING**.
 - No source `.blend`, model, rig, weights, muscle attachment/highlight, app, production asset, version, merge or deployment changed. Existing anatomical and generic-motion blockers remain.
@@ -529,3 +523,10 @@ The overnight hourly cloud continuation automation is configured separately; eac
 - The selected chain subset is identical across W8/V14/R120 at fingerprint `6b2fbbe17a4ab18a2c054755138d682ba0115ff1b43080582f6ef7efbc304519`. Status is `AUTHORED_LIMB_CHAINS_PRESENT_ANATOMICAL_FRAMES_AND_COUPLING_BLOCKED`.
 - Seven initial synthetic regressions were observed RED then GREEN. Fresh review found three Important wording/gating gaps: an overbroad multisegment-foot field, concatenated segment-name bypasses, and unsupported helper-role terminology. Expanded tests reproduced the first two RED. The one fix pass narrows the machine claim, matches segment tokens as case-insensitive substrings and records shoulder-cap/hip-crease only as authored controls. Focused7/7 and actual replay PASS; final JSON `3aba6e8a484de9afd6745166986ab61f796a74674a9dc581d4b4b642ab9cd5a7`, Markdown `fb09b41638d99d03790c2682c680af9ffe13c416ef80f6e41cf2ff5ed23fb3d1`; no deferred finding. Cloud run is pending.
 - Method: [native limb chain readiness](HGPT_NATIVE_LIMB_CHAIN_READINESS_20261028.md). No shoulder rhythm, squat/gait/contact/balance, skin, return or generic motion approval;46 landmarks unbound,0/19 motions approved. No source/model/rig/weight/key/muscle/app/production/version/merge/deploy change; attachment and highlighting deferred.
+
+### Cloud result — verified
+
+- Published commit `bf6a83f4b0c5cb5a8932182c299435d1b3906d48`; [run40758837170](https://github.com/anyangle1409-code/animation-software/actions/runs/40758837170) completed **SUCCESS7/7**. Job IDs: pose `123064928473`, R120 `123064928707`, V14 `123064928733`, localization `123064928737`, W8 `123064928778`, comparison `123065544026`, driver `123068429094`.
+- Cloud logs confirm localization314/314; comparison suites5/5 +12/12 +9/9 +7/7 +12/12 +15/15 +13/13; pose24/24 +19/19 +6/6 +10/10; driver10/10 +20/20 +8/8. No failed step or retry.
+- Comparison artifact12847173728 independently downloaded, CRC-checked and SHA256-matched GitHub: `21a11414c1bb985586cb4931f792bbcb14378f38519e41f5b6a21ce6dc3968f9`. Embedded limb JSON `3aba6e8a484de9afd6745166986ab61f796a74674a9dc581d4b4b642ab9cd5a7` and Markdown `fb09b41638d99d03790c2682c680af9ffe13c416ef80f6e41cf2ff5ed23fb3d1` are byte-identical to the independent historical-artifact replay.
+- Machine evidence: `recovery_20261023/cloud_verification_20261029_run40758837170.json`. Result remains authored-chain evidence only; anatomical side/frames/joint centres, scapulohumeral rhythm, hip-knee-ankle-foot coupling, contact, balance, skin and generic motion approval remain blocked.46 landmarks unbound,0/19 motions approved; no protected asset or deployment changed.

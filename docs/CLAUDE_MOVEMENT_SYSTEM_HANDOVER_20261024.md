@@ -183,6 +183,10 @@ The flagged muscles:
 - **Infraspinatus** needs a wrap and humeral rotation.
 - **Trapezius lower** lengthens 36–56 % under every girdle model tried, including a scapulothoracic-glide model with
   thorax contact. A rigid AC-pinned scapula cannot stay on the ribs at physiological clavicle angles.
+  - This traces to the known a003/R41 transverse scapula defect: AA→TS is 227 mm against 113 ± 6.6 mm in male CT, and
+    the AC breadth is 481 mm.
+  - The skeleton tracker already records it as a confirmed rebuild defect.
+  - The re-check belongs on the corrected girdle (c003/c004).
 - **Gluteus medius** is a fan: its fibres change by −24 / −6 / +15 %, with a mean of −4.9 %.
 
 **Defect fixed:** the serratus origin rule had placed it inside the thorax.
@@ -197,6 +201,9 @@ The flagged muscles:
 - **Landmark re-binding.**
   - 20 of 51 body_v2 landmarks are stale (0 of 51 on R41).
   - A JSON proposal exists (`landmark_staleness_K1.json`).
+- **Shoulder-girdle width** (a003/R41: AC breadth 481 mm, scapular spine about twice the CT length). Adopting the
+  corrected c003/c004 girdle is the owner's call on validated skeletal data. The trapezius-lower verdict, and the
+  serratus verdict's dependence on the girdle model, wait on it.
 - **Muscle contract entries:** triceps long (press), trapezius lower (press), gluteus medius (squat). Each needs
   either a "variable" entry or functional heads, which would need new permanent IDs.
 

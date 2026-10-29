@@ -193,7 +193,11 @@ for the rows the deep hip key touches).
 The flagged muscles:
 
 - **Triceps long** lengthens in the press. This is a contract question.
-- **Infraspinatus** needs a wrap and humeral rotation.
+- **Infraspinatus** (and the new subscapularis) shorten in the press under a humeral-head wrap and any external
+  rotation from 0 to 60°. This is consistent with their elevation moment arms (Otis et al. 1994), so the contract's
+  "near-isometric" is the questionable entry.
+  - Teres minor (new) becomes near-isometric from about 40° of external rotation.
+  - Teres minor and subscapularis anchors were added on 29 Oct (unreviewed).
 - **Trapezius lower** lengthens 36–56 % under every girdle model tried, including a scapulothoracic-glide model with
   thorax contact. A rigid AC-pinned scapula cannot stay on the ribs at physiological clavicle angles.
   - This traces to the known a003/R41 transverse scapula defect: AA→TS is 227 mm against 113 ± 6.6 mm in male CT, and
@@ -217,7 +221,8 @@ The flagged muscles:
 - **Shoulder-girdle width** (a003/R41: AC breadth 481 mm, scapular spine about twice the CT length). Adopting the
   corrected c003/c004 girdle is the owner's call on validated skeletal data. The trapezius-lower verdict, and the
   serratus verdict's dependence on the girdle model, wait on it.
-- **Muscle contract entries:** triceps long (press), trapezius lower (press), gluteus medius (squat). Each needs
+- **Muscle contract entries:** triceps long (press), trapezius lower (press), infraspinatus and subscapularis
+  (press), gluteus medius (squat). Each needs
   either a "variable" entry or functional heads, which would need new permanent IDs.
 
 ## Blocked

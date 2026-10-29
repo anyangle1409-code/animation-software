@@ -1352,3 +1352,7 @@ The knee keys stay as in T3.
 
 **Phone review sheets for H3** (the changed movements): `REVIEW_H3_curl.jpg`, `REVIEW_H3_deadlift.jpg` and
 `REVIEW_H3_lunge.jpg` (arms at the sides, `V2_TRAJ_LUNGE_ARMS=side`).
+
+**Note on the deadlift's first frame.** It shows 403 hand-against-thigh intersections in every candidate (T3 and H3
+alike). The r57 deadlift starts with the arms hanging straight down, through the thighs. By frame 4 they are gone. This
+is a test-path artifact, like the lunge's.

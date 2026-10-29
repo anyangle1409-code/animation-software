@@ -285,7 +285,8 @@ def metrics(P):
     return out
 
 
-REP = {"source": SRC.name, "r121_drives": USE_R121, "press_girdle": GIRDLE, "frames_per_trajectory": NF, "vertices": n,
+REP = {"source": SRC.name, "r121_drives": USE_R121, "press_girdle": GIRDLE,
+       "girdle_frame": os.environ.get("V2_GIRDLE_FRAME", "plane35"), "frames_per_trajectory": NF, "vertices": n,
        "regions": {k: int(v.sum()) for k, v in REG.items()}, "mirror_partners": int(MOK.sum()), "movements": {}}
 FRAMES = {}
 for mv in MOVES:

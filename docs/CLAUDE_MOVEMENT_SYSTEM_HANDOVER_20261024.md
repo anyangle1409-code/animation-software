@@ -38,6 +38,14 @@ script in `scripts/body_v2/` and is recorded in the trajectories doc.
    - legacy knee family (K1_KNEE) zeroed;
    - hip, knee and deep-hip families re-authored.
 
+**Reproducing.** Every step of the chain, and every test or diagnostic of it, runs with
+`V2_GIRDLE_FRAME=isb V2_R121_ARMKEY_CRUMPLE=6 V2_R121_ARMKEY_CRUMPLE_DEG=21` exported. The trajectory test also needs
+`V2_TRAJ_GIRDLE=candidate V2_TRAJ_SQUAT_ARMS=forward`.
+
+- Without `V2_GIRDLE_FRAME=isb` the candidate girdle falls back to a 35° scapular plane. The press and raises then
+  measure differently: lockout folds 50 instead of 13, stretched edges 8766 instead of 9041.
+- The reports now record the frame (`girdle_frame`).
+
 All keys are driven by joint angles (`scripts/body_v2/r121_drives.py`), not by exercise. Two movements were never used
 for authoring (the lateral and front raises), and two more were only used for one deep key (the deadlift and lunge);
 they test that the system generalises.
@@ -188,7 +196,7 @@ The flagged muscles:
 ## Open, unblocked (in rough priority)
 
 1. **Press-lockout armpit stretch:** 9041 edges over 2×.
-   - It is the skinning's: there are 10,736 with no corrective keys (`lockout_stretch_diag_blender.py`).
+   - It is the skinning's: there are 11,421 with no corrective keys (`lockout_stretch_diag_blender.py`).
    - The shaded shape is right; it matters once a skin texture is used.
    - Three slide methods were measured and not adopted (above).
    - Next step: a parameter-domain (2D chart) slide, or wider upper-arm weights over the lat and side chest. The weights

@@ -111,7 +111,7 @@ sc.render.engine = "BLENDER_WORKBENCH"; sc.display.shading.light = "STUDIO"; sc.
 sc.render.resolution_x = 700; sc.render.resolution_y = 700
 attr = me.color_attributes.get("HGPT_STRETCH") or me.color_attributes.new("HGPT_STRETCH", "FLOAT_COLOR", "POINT")
 me.color_attributes.active_color = attr
-rep = {"press_ht_deg": HT, "edges": int(EOK.sum())}
+rep = {"press_ht_deg": HT, "girdle_frame": os.environ.get("V2_GIRDLE_FRAME", "plane35"), "edges": int(EOK.sum())}
 for tag, r121, leg in (("lock_all", True, True), ("lock_no_r121", False, True), ("lock_lbs_only", False, False)):
     pose(r121, leg); P = ev()
     L = np.linalg.norm(P[E[:, 0]] - P[E[:, 1]], axis=1)

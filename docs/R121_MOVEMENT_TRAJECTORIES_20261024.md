@@ -1054,24 +1054,29 @@ Report: `report_TT_V3_stretch_relief_rejected.json`.
 
 ### Where the stretch is and what causes it
 
-`scripts/body_v2/lockout_stretch_diag_blender.py` (read-only) measures the press lockout (candidate girdle, 160°,
-elbows straight) in three configurations:
+`scripts/body_v2/lockout_stretch_diag_blender.py` (read-only) measures the press lockout (candidate girdle with the ISB
+scapula frame, `V2_GIRDLE_FRAME=isb` as in T3's chain, 160°, elbows straight) in three configurations:
 
 | Lockout | Over 2× | Over 1.5× | Under 0.5× | Max ratio |
 |---|---|---|---|---|
-| All keys (T3) | 8766 | 27,935 | 5691 | 68.9 |
-| Without R121 keys | 8548 | 27,347 | 5113 | 68.9 |
-| Plain skinning (no corrective keys) | 10,736 | 30,399 | 3471 | 55.8 |
+| All keys (T3; matches T3's trajectory table) | 9041 | 28,987 | 5384 | 68.4 |
+| Without R121 keys | 8890 | 28,442 | 4816 | 68.4 |
+| Plain skinning (no corrective keys) | 11,421 | 30,504 | 2990 | 55.6 |
 
 - **The stretch comes from the skinning, not the keys.**
   - The upper-arm and shoulder-cap bones drag the skin of the side chest, lat and lower scapula up with the arm.
-  - The R121 keys add only about 200 stretched edges.
+  - The R121 keys add only about 150 stretched edges.
   - The legacy (non-shoulder) families move some of it from the upper arm onto spine_03 and the back.
 - **Location, all keys:**
-  - stretched: deltoid cap 3699, back side / lat 2871, axilla floor 992, side chest 837;
-  - compressed: deltoid cap 4187, mostly at shoulder_cap and clavicle (skin bunching over the acromion).
-- **Size.** Stretched edges are short at rest (median 1.95 mm against 2.82 mm for all edges). Posed they measure
-  5.5 mm median and 9.9 mm at p95.
+  - stretched: deltoid cap 3764, back side / lat 3034, axilla floor 1030, side chest 695;
+  - compressed: deltoid cap 4158, mostly at shoulder_cap and clavicle (skin bunching over the acromion).
+- **Size.** Stretched edges are short at rest (median about 2 mm against 2.82 mm for all edges). Posed they measure
+  about 5.5 mm median and 10 mm at p95.
+
+**Measurement note.** The slide prototypes below (V4, V5) ran without `V2_GIRDLE_FRAME=isb`, so they use the default
+35° scapular plane, whose lockout gives 8747–8766 over 2×. Each of their tables compares against that same pose, so the
+comparisons hold, but their absolute counts are not T3's. The trajectory test and the diagnostics now record the girdle
+frame in their reports.
 - **The fix has to be a skin slide.** Real skin draws the area the opening axilla needs from a wide surround.
 
 Renders: `lockout_stretch_diag_T3.jpg` (heat maps: red = an adjacent edge at 2× or more, blue = 0.5× or less; top row
@@ -1097,7 +1102,7 @@ all keys, bottom row plain skinning).
 
 **Results at the lockout:**
 
-| | T3 | 3 rounds, full step | 6 rounds, full step | 4 rounds, half step, crease contact pinned |
+| (35° plane frame) | T3 | 3 rounds, full step | 6 rounds, full step | 4 rounds, half step, crease contact pinned |
 |---|---|---|---|---|
 | Over 2× | 8747 | 4606 | 4727 | 4442 |
 | Under 0.5× | 5652 | 3769 | 5666 | 3355 |
@@ -1149,7 +1154,7 @@ order of 10⁴ iterations.
 
 **V4's global field carried out by the guarded walker** (`V2_SLIDE_METHOD=mvcwalk`):
 
-| | T3 | 4 rounds, half step | 8 rounds, full step |
+| (35° plane frame) | T3 | 4 rounds, half step | 8 rounds, full step |
 |---|---|---|---|
 | Over 2× | 8747 | 8040 | 7745 |
 | Folds over 90° | 50 | 93 | 160 |

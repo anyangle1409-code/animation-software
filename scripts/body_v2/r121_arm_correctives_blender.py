@@ -262,7 +262,7 @@ def contact(T, margin=0.0008):
     return out
 
 
-CMODE = os.environ.get("V2_R121_CONTACT_MODE", "plane")    # plane: contact() above; mutual: contact_mutual() below
+CMODE = os.environ.get("V2_R121_CONTACT_MODE", "plane")    # plane: contact() above; mutual / plane_restore: below
 TRI = np.array([(p.vertices[0], p.vertices[k], p.vertices[k + 1]) for p in me.polygons for k in range(1, len(p.vertices) - 1)])
 
 
@@ -316,6 +316,49 @@ def contact_mutual(T, margin=0.0008, iters=int(os.environ.get("V2_R121_CONTACT_I
     return out
 
 
+def contact_plane_restore(T, margin=0.0008, rest_sep=float(os.environ.get("V2_R121_CONTACT_REST_SEP", "0.025"))):
+    """plane contact (robust where the limbs overlap deeply), then every proximal-side vertex it moved goes back towards where it was
+    by the largest fraction (1, 3/4, 1/2, 1/4) that keeps it outside the other side's (contacted) skin - so the flat
+    face shrinks to where the other limb really touches, and the biceps stays round beyond the forearm.  The restore
+    fractions are eroded over two rings (never raised), so restored and contacted skin blend.  In place on T."""
+    from mathutils import Vector as V_
+    from mathutils.bvhtree import BVHTree
+    T0 = T.copy()
+    out = contact(T)
+    moved = np.linalg.norm(T - T0, axis=1) > 1e-7
+    t = np.zeros(n)
+    distal = gsum(*(("forearm", "hand", "thumb", "index", "middle", "ring", "pinky", "metacarpal") if MODE == "elbow"
+                    else ("shin", "foot", "toe", "ball"))) > 0.5
+    for s_ in ("r", "l"):
+        lbn = HINGE[MODE][1]
+        side = np.sign(R0[:, 0]) == (1.0 if rig.data.bones[f"{lbn}_{s_}"].head_local.x > 0 else -1.0)
+        sides = (CONTACT[0] & side, distal & side)          # obstacle: the WHOLE distal limb (at 140 deg the wrist
+        tris = [TRI[sm[TRI].all(1)] for sm in sides]        # reaches the upper biceps, beyond the contact reach)
+        for a_, b_ in ((0, 1),):                           # the proximal side only: restoring both sides against
+            tb = tris[b_]                                   # each other's flattened state let them overlap again
+            if not len(tb):                                 # (measured); the narrower distal side stays covered
+                continue
+            bvh = BVHTree.FromPolygons([V_(p) for p in T], tb.tolist(), all_triangles=True)
+            for i in np.flatnonzero(sides[a_] & moved):
+                for f_ in (1.0, 0.75, 0.5, 0.25):
+                    x = T[i] + f_ * (T0[i] - T[i])
+                    hit = bvh.find_nearest(V_(x), 0.04)
+                    if hit[0] is not None:
+                        dep = float(np.dot(x - np.array(hit[0]), np.array(hit[1])))
+                        tri_ = tb[hit[2]]
+                        if (dep < margin and np.linalg.norm(R0[tri_] - R0[i], axis=1).min() >= rest_sep
+                                and not (hit[3] > 1e-4 and dep > -0.7 * hit[3])):
+                            continue                        # still inside the other side: try a smaller fraction
+                    t[i] = f_
+                    break
+    for _ in range(2):                                         # erode: restored skin next to contact skin blends
+        tt = np.where(moved, t, 1.0)                           # (skin the contact never moved counts as restored)
+        t = np.where(moved, np.minimum(t, (A @ tt) * Dinv), t)
+    T += t[:, None] * (T0 - T)
+    return {"contact": out, "moved": int(moved.sum()), "restored_full": int(((t > 0.99) & moved).sum()),
+            "restored_part": int(((t > 0) & (t <= 0.99) & moved).sum()), "kept": int(((t == 0) & moved).sum())}
+
+
 def set_key(kb, d):
     kb.data.foreach_set("co", (R0 + d).ravel()); me.update()
 
@@ -345,7 +388,8 @@ for ang in ANGLES:
     elev = {s: round(float(measure(rig, s)), 2) for s in ("l", "r")}
     P = evaluated()
     T = P.copy(); hist = []
-    contact_hist = (contact_mutual(T) if CMODE == "mutual" else contact(T)) if CONTACT is not None else None
+    contact_hist = ({"mutual": contact_mutual, "plane_restore": contact_plane_restore}.get(CMODE, contact)(T)
+                    if CONTACT is not None else None)
     # relax: unfold rounds, then a light Laplacian over the folded area (posed space).  V2_R121_ARMKEY_UNFOLD_DEG < 90
     # also flattens broad creases (the shape-preserving de-crumple below keeps them), e.g. the lower-back fold the
     # skinning makes at the squat bottom

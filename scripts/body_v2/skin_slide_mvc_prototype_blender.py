@@ -225,7 +225,7 @@ def slide(P, free):
     return X, hist
 
 
-rep = {"method": METHOD, "radius_m": RAD, "rounds": ROUNDS, "damping": DAMP, "contact_pin_m": PIN, "rest_rings_with_reflex_angle": bad_ring, "pinned_rest_residual": int((RESID >= 1e-5).sum())}
+rep = {"girdle_frame": os.environ.get("V2_GIRDLE_FRAME", "plane35"), "method": METHOD, "radius_m": RAD, "rounds": ROUNDS, "damping": DAMP, "contact_pin_m": PIN, "rest_rings_with_reflex_angle": bad_ring, "pinned_rest_residual": int((RESID >= 1e-5).sum())}
 bench._reset(rig)
 for kb in me.shape_keys.key_blocks[1:]:
     kb.value = 0.0

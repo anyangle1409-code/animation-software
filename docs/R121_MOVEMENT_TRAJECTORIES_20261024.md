@@ -923,3 +923,25 @@ Reports: `report_TT_G3_legacy_legs_neutralised.json`, `leg_roughness_diag_G3.jso
 **Next try (G3c).** A new option, `V2_R121_ARMKEY_UNFOLD_DEG` (default 90, so behaviour is unchanged by default), lets
 the unfold step also flatten creases. The hip family (squat and hinge) is being re-authored at 45°; the knee family is
 unchanged.
+
+**G3c, unfold threshold 45° on the hip family: partial, not adopted.**
+
+- **Ridge:** the band maximum falls from 71° to 44°, but 57 edges past 21° remain at z 1.10, and the ridge is still
+  visible (`legs_H1_G3_G3c.jpg`).
+- **Not a mesh seam:** the ridge vertices lie on one rest edge loop at z = 1.102 with smooth rest angles (under 11°)
+  and even density, so the ridge only forms in the pose.
+- **Lunge:** worse than G3 (folds 61 → 127, hip folds 43 → 109). Deadlift crumple improves (717 → 517).
+
+Report: `report_TT_G3c_unfold45.json`.
+
+**Change of approach: smooth the legacy keys instead of zeroing them.** The legacy families carry two things:
+
+- centimetre-scale corrections that still fit, such as the lower-back fold fix;
+- millimetre-scale texture from the old surface, which is the roughness.
+
+`smooth_legacy_keys_candidate_blender.py` low-pass filters each key's rest-space offset field (30 Laplacian rounds, about
+16 mm characteristic length) and keeps the low-frequency correction. Running now (S-chain):
+
+1. Smooth the H1_BAKE and K1_KNEE offset fields on H1.
+2. Re-author the hip, knee and hinge families on top.
+3. Re-run the ridge, leg roughness and all seven movements.

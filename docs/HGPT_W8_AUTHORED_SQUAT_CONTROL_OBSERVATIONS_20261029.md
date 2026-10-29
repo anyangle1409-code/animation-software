@@ -42,6 +42,31 @@ The authored targets use the frozen smoothstep path from rest to 25° pelvis for
 
 Status remains `READ_ONLY_AUTHORED_SQUAT_CONTROL_STATE_ANATOMY_NOT_APPROVED`. The newly measured mediolateral foot-head drift is a reusable full-body coordination defect to investigate before claiming planted feet, balance or ground contact. It does not authorize a rig, weight, shape-key or source-model edit.
 
-The next safe diagnostic is a read-only decomposition of the frozen foot-plant solve: record pre-solve and post-solve bilateral ankle-head residual vectors, root correction and foot orientation at all nine samples. This can determine whether the inward drift comes from the single averaged root translation, the coupled pelvis/leg hierarchy, or both. Do not add corrective deformation until the skeletal trajectory and anatomical frames are independently separated.
+The foot-plant decomposition requested here has now been completed and is recorded below. No corrective deformation is authorized.
 
 No original `.blend`, mesh, skeleton, weights, driver, shape key, permanent muscle ID, attachment, highlighting, PT-App, production asset, PT_MODEL_VERSION 1.0, Claude-owned branch, merge or deployment changed. Muscle attachment/highlighting remain deferred; 46 landmarks remain unbound and 0/19 generic motions approved.
+
+
+## Foot-plant solve decomposition — corrected native verification
+
+The follow-up probe wraps the unchanged frozen \`_plant_feet\` call and observes evaluated control state immediately before and after it. Implementation commit \`aac74b36d40098756c4c2a82aef496fc436b572d\` added the decomposition. Run [40858906795](https://github.com/anyangle1409-code/animation-software/actions/runs/40858906795) completed SUCCESS 7/7, but independent artifact review found that its pre-solve observation preceded Blender's dependency-graph update and therefore contained stale rest-state heads. That run remains a successful CI execution, but its pre-solve evidence is superseded and must not be used.
+
+Corrective commit \`b268375790150a30745de9c88a3d4c92728e7691\` requires an evaluated dependency-graph update before both observations. Replacement run [40919982094](https://github.com/anyangle1409-code/animation-software/actions/runs/40919982094) completed **SUCCESS 7/7**. Job IDs: localization \`123610262859\`, pose \`123610263090\`, V14 \`123610263160\`, R120 \`123610263190\`, W8 \`123610263334\`, comparison \`123610905509\`, driver \`123613572401\`. Cloud logs confirm 333/333 localization tests and pose suites 29/29 + 14/14 + 19/19 + 6/6 + 10/10.
+
+Corrected squat artifact \`12917508191\` was independently downloaded, CRC-checked and SHA256-matched GitHub: \`718eee9b5ea8b5fedc76e091a5f58cd59389ba44a7b9ca14467d9262c402de2f\`. Embedded JSON SHA256 is \`998c3db075317a4549d7130c965bf38e08d3ad147fe3669214465d5303c47b69\`; Markdown SHA256 is \`e97810311ff7b4b9e6b9e5e843889e2b0d0b3d7e36e4dedd6d04eb1fa1da83bd\`.
+
+At sample 6, immediately before the solve, authored foot-head residuals from captured rest targets are:
+
+- suffix \`l\`: \`(+17.394640, -229.035827, +292.100161) mm\` in world X/Y/Z;
+- suffix \`r\`: \`(-17.394312, -229.035840, +292.100161) mm\`.
+
+After the unchanged solve they are:
+
+- suffix \`l\`: \`(+17.394468, +0.000001, +0.000052) mm\`;
+- suffix \`r\`: \`(-17.394468, +0.000024, +0.000030) mm\`.
+
+Across all nine samples, the magnitude of the mean bilateral post-solve residual is at most \`0.000058 mm\`. The shared fore-aft and vertical residual is therefore removed to numerical precision, while the equal-and-opposite mediolateral residual cancels in the bilateral average and remains on each side. This directly localizes the inward foot-head drift to a limitation of using one averaged root correction for two opposing lateral residuals. It does not prove an anatomical ankle error, because the authored foot heads are still not independently verified joint centres.
+
+The recorded root matrix-basis translation is expressed in the root control's local basis and must not be compared component-for-component with world-space foot residuals. No contact, balance, pressure, force, friction or movement approval follows from the near-zero bilateral mean.
+
+Next safe work is to measure the evaluated foot/toe-dominant skin support envelope at the same nine in-memory samples and compare it with these control residuals. This should remain descriptive and must not invent a contact or balance threshold.

@@ -1097,12 +1097,12 @@ all keys, bottom row plain skinning).
 
 **Results at the lockout:**
 
-| | T3 | 1 round, full step | 3 rounds, full step | 6 rounds, full step | 4 rounds, half step, crease contact pinned |
-|---|---|---|---|---|---|
-| Over 2× | 8747 | n/a | 4606 | 4727 | 4442 |
-| Under 0.5× | 5652 | n/a | 3769 | 5666 | 3355 |
-| Folds over 90° | 50 | n/a | 61 | 166 | 82 |
-| Self-intersections | 27 | n/a | 108 | 664 | 195 |
+| | T3 | 3 rounds, full step | 6 rounds, full step | 4 rounds, half step, crease contact pinned |
+|---|---|---|---|---|
+| Over 2× | 8747 | 4606 | 4727 | 4442 |
+| Under 0.5× | 5652 | 3769 | 5666 | 3355 |
+| Folds over 90° | 50 | 61 | 166 | 82 |
+| Self-intersections | 27 | 108 | 664 | 195 |
 
 - The stretch spreads smoothly (heat maps) and the shaded shape is unchanged.
 - The linearised steps do not converge: each round moves 10–35 mm whatever the damping. Every extra round adds

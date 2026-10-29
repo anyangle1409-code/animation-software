@@ -9,6 +9,8 @@ Trajectories (each starts and ends at neutral, so return-to-neutral is measured)
   lateral_raise / front_raise (on request) - straight arms raised sideways / forwards from the 16 deg carriage to 90 deg
            and back, coupled girdle: movements the keys were not authored for, testing that the angle-driven keys
            generalise.
+  deadlift / lunge (on request) - the r57 benchmark poses (deadlift: solved hip hinge with soft knees; lunge: one leg
+           forward, asymmetric by design, so its asymmetry numbers are not meaningful).
 V2_TRAJ_GIRDLE=candidate uses shoulder_girdle_candidate.apply_press_pose (corrected girdle directions) for the press.
 r57 drives (correctives, helpers) always run; the R121 candidate drives run unless V2_TRAJ_R121=0.
 
@@ -234,7 +236,9 @@ def raise_in_plane(plane_deg, top=90.0):
 
 
 MOVE_FN = {"press": press, "curl": curl, "squat": squat,
-           "lateral_raise": raise_in_plane(0.0), "front_raise": raise_in_plane(90.0)}
+           "lateral_raise": raise_in_plane(0.0), "front_raise": raise_in_plane(90.0),
+           "deadlift": lambda u: {k: round(float(v), 2) for k, v in bench.pose_deadlift(rig, 1.0 - abs(2.0 * u - 1.0), REST_HEADS).items()},
+           "lunge": lambda u: {k: round(float(v), 2) for k, v in bench.pose_lunge(rig, body, 1.0 - abs(2.0 * u - 1.0)).items()}}
 
 
 def metrics(P):

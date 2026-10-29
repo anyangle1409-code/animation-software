@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-29",
+  "repository": "anyangle1409-code/animation-software",
+  "branch": "work/phone-blender-workbench-20261023",
+  "implementation_commit": "a1b1cf8acaa9272c9d3fa1bb6e0defc54ed3da17",
+  "plan_commit": "6e47b39b61d265ea32ba9ba2b76c3ef54a91ed01",
+  "workflow_run": {
+    "id": 40923708948,
+    "conclusion": "success",
+    "attempt": 1,
+    "jobs": [
+      {
+        "id": 123623474520,
+        "name": "inspect (V14, 12487932177)",
+        "conclusion": "success"
+      },
+      {
+        "id": 123623474675,
+        "name": "localize-native-movement-failures",
+        "conclusion": "success"
+      },
+      {
+        "id": 123623474793,
+        "name": "inspect (W8, 12487119841)",
+        "conclusion": "success"
+      },
+      {
+        "id": 123623474843,
+        "name": "pose-state-w8",
+        "conclusion": "success"
+      },
+      {
+        "id": 123623474954,
+        "name": "inspect (R120, 12488550235)",
+        "conclusion": "success"
+      },
+      {
+        "id": 123624237260,
+        "name": "compare-rest-audits",
+        "conclusion": "success"
+      },
+      {
+        "id": 123627194483,
+        "name": "verify-actual-shoulder-driver-math",
+        "conclusion": "success"
+      }
+    ],
+    "test_evidence": {
+      "localization": "339/339 PASS",
+      "squat_pose_state_focused": "20/20 PASS",
+      "other_pose_suites": [
+        "29/29 PASS",
+        "19/19 PASS",
+        "6/6 PASS",
+        "10/10 PASS"
+      ],
+      "driver_suites": [
+        "10/10 PASS",
+        "20/20 PASS",
+        "8/8 PASS"
+      ],
+      "native_samples": 9
+    }
+  },
+  "artifact": {
+    "id": 12920285983,
+    "name": "phone-w8-squat-pose-state-40923708948",
+    "size_in_bytes": 17297,
+    "github_sha256": "7693ae61b4016ed65e0b83aa463514b775e07f2f3f401adb25d04cdec6f5cec2",
+    "independently_downloaded_sha256": "7693ae61b4016ed65e0b83aa463514b775e07f2f3f401adb25d04cdec6f5cec2",
+    "zip_crc": "clean",
+    "members": {
+      "w8_authored_squat_control_state.json": "a8c52b51fe9c96f3be25c7bc46b4d0f6cda8ec0c8b275b8097815ec5aed2c561",
+      "w8_authored_squat_control_state.md": "12b6d26fe0cc9592fe520ffb92e7a33f8b4819c2c9416503b2a161d2473ff7cc"
+    }
+  },
+  "skin_control_relative_motion": {
+    "status": "DESCRIPTIVE_FOOT_CONTROL_TO_SKIN_LOWER_CENTROID_RELATIVE_MOTION_NOT_CONTACT",
+    "contact_claimed": false,
+    "reference_sample": 0,
+    "sample6_change_from_sample0_mm": {
+      "l": [
+        9.533495034860534,
+        65.91121537674688,
+        -0.3460586647080349
+      ],
+      "r": [
+        -9.533492767292525,
+        65.91124383158335,
+        -0.3460464043240352
+      ]
+    },
+    "sample8_change_from_sample0_mm": {
+      "l": [
+        9.533489905837648,
+        65.91121594594111,
+        -0.34603614706914254
+      ],
+      "r": [
+        -9.533497950305115,
+        65.91122675124139,
+        -0.34604378287032833
+      ]
+    },
+    "maximum_change_vector_magnitude_mm": 66.5980465114564,
+    "control_head_to_lower_centroid_distance_mm": {
+      "sample0": {
+        "l": 103.47847792256538,
+        "r": 103.47847056359576
+      },
+      "sample6": {
+        "l": 151.1023608602961,
+        "r": 151.1023828352363
+      },
+      "sample8": {
+        "l": 151.10237338277946,
+        "r": 151.1023710226726
+      }
+    }
+  },
+  "interpretation": [
+    "The authored foot control moves inward more than the selected skin lower centroid, increasing the mediolateral head-minus-centroid component by about 9.5335 mm per side.",
+    "The approximately 65.9112 mm fore-aft change is dominated by lower-centroid motion while the post-solve authored foot head remains near its rest Y coordinate.",
+    "The approximately -0.3461 mm vertical component reflects the evaluated lower centroid rising relative to the authored foot head.",
+    "These are descriptive relative coordinates and do not establish contact, slip, support, pressure, force, friction, balance, tissue safety or anatomical joint centres."
+  ],
+  "approvals": {
+    "anatomy": "NOT_GRANTED",
+    "ground_contact": "NOT_GRANTED",
+    "landmark_requirements_bound": "0/46",
+    "generic_motion_scenarios_approved": "0/19"
+  },
+  "historical_status_preserved": {
+    "run_40029398965": "FAILED overall; documented read-only docstring false positive; separately verified W8/V14/R120/cross rig evidence remains valid",
+    "run_40858906795": "SUCCESS CI but superseded for pre-solve causality because the pre-solve observation was stale",
+    "run_40919982094": "SUCCESS corrected foot-plant decomposition",
+    "run_40921817758": "SUCCESS verified foot/toe-dominant evaluated skin lower envelope"
+  }
+}

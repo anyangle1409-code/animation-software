@@ -1,0 +1,65 @@
+{
+  "workflow_run": {
+    "id": 40857162884,
+    "head_sha": "30a2eaa5c0d661adb6ea5367aec91fcdcd23a09f",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs_passed": 7,
+    "jobs_total": 7
+  },
+  "jobs": {
+    "localize_native_movement_failures": 123390905953,
+    "inspect_v14": 123390906307,
+    "pose_state_w8": 123390906355,
+    "inspect_r120": 123390906415,
+    "inspect_w8": 123390906434,
+    "compare_rest_audits": 123391565826,
+    "verify_actual_shoulder_driver_math": 123393963372
+  },
+  "tests": {
+    "localization_full_suite": "330/330 PASS",
+    "squat_pose_state_focused": "11/11 PASS",
+    "local_full_suite_before_publish": "330/330 PASS"
+  },
+  "artifacts": [
+    {"id": 12890660409, "name": "phone-w8-driver-consistency-40857162884", "sha256": "9ed50712ba2e35b58fae1d2e10e56199204c8bee508a7b1ea300a98f41f0f5ac", "verification": "github_metadata"},
+    {"id": 12890610821, "name": "phone-w8-squat-pose-state-40857162884", "sha256": "4a90f5bfb042140fc2136d9d1a91f455aa1f076c05ffb8679db2e225a54f3043", "verification": "independently_downloaded_crc_clean_sha256_match"},
+    {"id": 12890415409, "name": "phone-blender-R120-40857162884", "sha256": "16eb1c3936b6cc1868243c9616a2279744bbabb54d0cb6a53e324ed7e063084c", "verification": "github_metadata"},
+    {"id": 12890337016, "name": "phone-w8-shoulder-pose-state-40857162884", "sha256": "d8d148081425b0e2455662453057f00c81f6b2632110e8f4ef260e237b30043d", "verification": "github_metadata"},
+    {"id": 12890316715, "name": "phone-w8-evaluated-snapshots-40857162884", "sha256": "a643c9035decb16a472899d1ce0d4d6096202501ad71dda500bf19e7db1ce655", "verification": "github_metadata"},
+    {"id": 12889991972, "name": "phone-native-failure-localization-40857162884", "sha256": "be598cf52a3864dd2f28dc1b1bae2ec60aa7bd771bfe4cc3a344e6be2f4a79e9", "verification": "github_metadata"},
+    {"id": 12889861695, "name": "phone-visual-review-40857162884", "sha256": "8a8f477a9bc86179d671bec10441b255595d4bce75e247480d93f1831209f2a5", "verification": "github_metadata"},
+    {"id": 12889453436, "name": "phone-rest-cross-model-40857162884", "sha256": "9029f6ac825bd2d7b1c2b205c24a67feb3ef439795cdd96ed6704daae60f62c6", "verification": "github_metadata"},
+    {"id": 12889113878, "name": "phone-blender-W8-40857162884", "sha256": "2736038601ede83bc7a836ea983d5282626fc3d5397d2b981b865d795565c4a5", "verification": "github_metadata"},
+    {"id": 12888824420, "name": "phone-blender-V14-40857162884", "sha256": "5a84c96e496f5997b780e07891d1fc56db7e7cf5adf20a24a049d824e6d7cbb4", "verification": "github_metadata"}
+  ],
+  "squat_artifact_members": {
+    "w8_authored_squat_control_state.json": "79331c557fe8ced962f154ed5dab7dba1693b50404fdec5da62af6f418a68f05",
+    "w8_authored_squat_control_state.md": "c10cc5eb8019c23f142522a45be85f8a026164b5ff0d37f756dbbcee6bba4383"
+  },
+  "native_result": {
+    "status": "READ_ONLY_AUTHORED_SQUAT_CONTROL_STATE_ANATOMY_NOT_APPROVED",
+    "source_sha256": "2434afd0daa231ab3a03c873cad4187ffcbc1bab78132375221160b0b0f09e4c",
+    "pinned_r57_source_commit": "025d5f28fa7eba2064fba565b1c9b60119cdd2cb",
+    "samples": 9,
+    "maximum_inward_foot_head_drift_per_side_mm": 17.394468,
+    "maximum_foot_head_separation_narrowing_mm": 34.788936,
+    "terminal_foot_head_separation_narrowing_mm": 32.803737,
+    "terminal_lowest_evaluated_body_z_change_from_sample0_mm": 0.813764,
+    "anatomical_approval": "NOT_GRANTED",
+    "ground_contact_approval": "NOT_GRANTED"
+  },
+  "historical_run_40029398965": {
+    "overall_conclusion": "failure",
+    "failure": "documented read-only docstring false positive",
+    "w8_v14_r120_and_cross_model_rig_evidence": "separately_verified_and_still_valid"
+  },
+  "protected_state": {
+    "original_blends_modified": false,
+    "rig_or_weights_modified": false,
+    "shape_keys_or_drivers_modified": false,
+    "muscles_attached": false,
+    "muscle_highlighting_implemented": false,
+    "merged_or_deployed": false
+  }
+}

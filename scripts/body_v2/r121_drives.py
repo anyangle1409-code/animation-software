@@ -12,6 +12,7 @@ PREFIX = "R121_ARM_"
 PROP = "hgpt_r121_arm_angles"
 FLEX_PREFIX = "R121_FLEX_"
 FLEX_PROP = "hgpt_r121_flex_angles"
+FLEX_START_PROP = "hgpt_r121_flex_start"   # optional rig property: the forward family's own start (deg); default START
 HIP_PREFIX = "R121_HIP_"
 HIP_PROP = "hgpt_r121_hip_angles"
 START = 25.0
@@ -98,7 +99,8 @@ def drive(rig, body):
         e = drives.elevation_deg(rig, s)
         pf = plane_factor(rig, s)
         hf = hip_flex_deg(rig, s)
-        for prefix, prop, gain, ang, start in ((PREFIX, PROP, 1.0, e, START), (FLEX_PREFIX, FLEX_PROP, pf, e, START),
+        flex_start = float(rig.get(FLEX_START_PROP, START))  # own start once a low forward key exists (see FLEX_START_PROP)
+        for prefix, prop, gain, ang, start in ((PREFIX, PROP, 1.0, e, START), (FLEX_PREFIX, FLEX_PROP, pf, e, flex_start),
                                                (HIP_PREFIX, HIP_PROP, 1.0, hf, HIP_START),
                                                (ELBOW_PREFIX, ELBOW_PROP, 1.0, elbow_flex_deg(rig, s), ELBOW_START),
                                                (KNEE_PREFIX, KNEE_PROP, 1.0, knee_flex_deg(rig, s), KNEE_START)):

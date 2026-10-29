@@ -253,6 +253,8 @@ def set_key(kb, d):
 
 keys = me.shape_keys.key_blocks
 tmp = body.shape_key_add(name="R121_TMP", from_mix=False); tmp.value = 0.0
+if MODE == "flex" and min(ANGLES) <= r121_drives.START:   # a low forward key needs the family's own, lower start
+    rig[r121_drives.FLEX_START_PROP] = float(os.environ.get("V2_R121_FLEX_START", "10"))   # set before authoring
 REP = {"mode": MODE, "angles_deg": ANGLES, "keys": {}}
 made = {}
 for ang in ANGLES:

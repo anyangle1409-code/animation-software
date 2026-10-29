@@ -90,3 +90,23 @@ Across the trajectory, lower-centroid spans are approximately `7.86098 mm` medio
 Status is `DESCRIPTIVE_EVALUATED_FOOT_SKIN_LOWER_ENVELOPE_NOT_CONTACT` with `contact_claimed=false`. No floor plane, support polygon, pressure, force, friction, slip, balance or tissue-safety threshold is measured or inferred. The selected groups are rig labels, not independently verified foot segments, and the authored foot controls remain unverified anatomical centres. Anatomy and ground-contact approval remain NOT_GRANTED; 46 landmarks remain unbound and 0/19 generic motions approved.
 
 Machine record: `recovery_20261023/cloud_verification_20261029_run40921817758.json`. Historical run `40029398965` remains FAILED overall for its documented read-only docstring false positive; its separately verified W8/V14/R120/cross rig evidence remains valid. Run `40858906795` remains superseded for pre-solve causality despite successful CI. No protected source, model, rig, weights, shape keys, muscles, app, version, merge or deployment changed.
+
+
+## Foot-control to evaluated-skin relative motion — native verification
+
+Implementation commit `a1b1cf8acaa9272c9d3fa1bb6e0defc54ed3da17` adds an arithmetic-verified cross-reference between each authored foot-control head and the previously verified foot/toe-dominant skin lower centroid. [Run 40923708948](https://github.com/anyangle1409-code/animation-software/actions/runs/40923708948) completed **SUCCESS 7/7**. Job IDs: V14 `123623474520`, localization `123623474675`, W8 `123623474793`, pose `123623474843`, R120 `123623474954`, comparison `123624237260`, driver `123627194483`. Logs confirm 339/339 localization tests, 20/20 focused squat-probe tests, pose suites 29/29 + 19/19 + 6/6 + 10/10, and driver suites 10/10 + 20/20 + 8/8.
+
+Artifact `12920285983` was independently downloaded and CRC-checked. ZIP SHA256 exactly matches GitHub at `7693ae61b4016ed65e0b83aa463514b775e07f2f3f401adb25d04cdec6f5cec2`; JSON SHA256 is `a8c52b51fe9c96f3be25c7bc46b4d0f6cda8ec0c8b275b8097815ec5aed2c561`; Markdown SHA256 is `12b6d26fe0cc9592fe520ffb92e7a33f8b4819c2c9416503b2a161d2473ff7cc`.
+
+The report stores authored foot-control head minus evaluated skin lower centroid in world space, plus the change from sample 0. By sample 6 the changes are:
+
+- suffix `l`: `(+9.533495, +65.911215, -0.346059) mm`;
+- suffix `r`: `(-9.533493, +65.911244, -0.346046) mm`.
+
+At sample 8 they remain approximately `(±9.53349, +65.91122, -0.34604) mm`. The maximum three-dimensional change-vector magnitude is `66.598047 mm`. The authored-control-head to lower-centroid distance rises from about `103.47847 mm` at sample 0 to `151.10238 mm` at samples 6–8.
+
+This decomposition distinguishes two motions that a single planted-foot label would conceal. At sample 6 the authored foot head moved inward `17.394468 mm`, while the skin lower centroid moved inward only `7.860973 mm`; their mediolateral gap therefore increased by `9.533495 mm` on the left and the mirrored amount on the right. The approximately `65.9112 mm` fore-aft vector change is dominated by lower-centroid motion while the post-solve authored foot head stays near its captured rest Y coordinate. The approximately `-0.3461 mm` vertical change reflects the evaluated lower centroid rising relative to the authored foot head.
+
+Status is `DESCRIPTIVE_FOOT_CONTROL_TO_SKIN_LOWER_CENTROID_RELATIVE_MOTION_NOT_CONTACT` with `contact_claimed=false`. These are not slip distances because no floor plane or persistent material contact point exists; the lowest-69 membership itself changes across seven sets. They do not establish support, pressure, force, friction, balance, tissue safety, multisegment foot anatomy or anatomical joint centres.
+
+Machine record: `recovery_20261023/cloud_verification_20261029_run40923708948.json`. Historical run `40029398965` remains FAILED overall for the documented read-only docstring false positive; separately verified rig evidence remains valid. Run `40858906795` remains superseded for pre-solve causality. Anatomy/contact/movement approval remains NOT_GRANTED; 46 landmarks remain unbound and 0/19 generic motions approved. No protected source/model/rig/weights/keys/muscles/app/version/merge/deploy change.

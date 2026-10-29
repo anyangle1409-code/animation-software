@@ -337,6 +337,27 @@ for ang in ANGLES:
             L_ = mean(T) - T
             L_ -= np.einsum("ij,ij->i", L_, vn)[:, None] * vn
             T = T + 0.5 * ws[:, None] * L_
+    # stretch relief (optional): tangential springs towards the REST edge lengths - unlike the Laplacian slide above,
+    # this evens out edge length, not vertex spacing, so the stretch the skinning piles into the armpit at the lockout
+    # is shared with the surrounding skin; vertices move only within the surface (shape kept)
+    SR = int(os.environ.get("V2_R121_ARMKEY_STRETCH", "0"))
+    if SR > 0:
+        L0 = np.linalg.norm(R0[E[:, 0]] - R0[E[:, 1]], axis=1)
+        ws = UPPER.astype(float)
+        for _ in range(SR):
+            a_, b_, c_ = T[FA[:, 0]], T[FA[:, 1]], T[FA[:, 2]]
+            fn_ = np.cross(b_ - a_, c_ - a_)
+            vn = np.zeros_like(T)
+            for k_ in range(3):
+                np.add.at(vn, FA[:, k_], fn_)
+            vn /= np.maximum(np.linalg.norm(vn, axis=1, keepdims=True), 1e-15)
+            ev = T[E[:, 1]] - T[E[:, 0]]; el = np.maximum(np.linalg.norm(ev, axis=1), 1e-12)
+            f = ((el - L0) / el)[:, None] * ev                 # pulls the two ends together when stretched
+            F = np.zeros_like(T)
+            np.add.at(F, E[:, 0], f); np.add.at(F, E[:, 1], -f)
+            F *= Dinv[:, None]
+            F -= np.einsum("ij,ij->i", F, vn)[:, None] * vn
+            T = T + 0.4 * ws[:, None] * F
     m90, n90 = folds(T, 0.0)
     hist.append(n90)
     # deformation matrices: posed response to unit rest offsets through a temporary key (1 mm)

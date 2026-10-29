@@ -1313,3 +1313,24 @@ it could not clear.
   past a conventional deadlift's depth.
 
 Reports: `report_TT_H3_deadlift_squat_lunge.json`, `r121_deep_hip_key_H3_report.json`.
+
+## Lunge without the hanging-hands artifact (29 Oct 2026)
+
+In the r57 benchmark lunge the hanging hands meet the rising front thigh. That accounts for 130 of the 169 peak
+intersections ("hand_foot|other" and "hand_foot|hip").
+
+`V2_TRAJ_LUNGE_ARMS=side` (test path only; the default stays `bench`) holds the arms at 22° of abduction through the
+candidate girdle, as when carrying dumbbells at the sides.
+
+| Lunge on H3 | bench arms | side arms |
+|---|---|---|
+| Self-intersections (peak) | 169 | **11** (all hip/hip, front groin) |
+| Folds over 90° | 50 | 35 |
+| Crumple over 35° | 932 | 803 |
+| Edges stretched over 2× | 1895 | 2007 |
+| Return to neutral | 0.0 mm | 0.0 mm |
+
+The lunge is essentially clean once the test path stops driving the hands into the thigh. The reports now record the
+squat and lunge arm settings.
+
+Report: `report_TT_H3_lunge_arms_side.json`.

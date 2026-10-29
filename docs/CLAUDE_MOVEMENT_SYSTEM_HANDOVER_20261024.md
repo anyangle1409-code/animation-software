@@ -234,7 +234,8 @@ The flagged muscles:
    - 135° is past a conventional deadlift's depth.
 4. **Posterior armpit fold at the lockout:** comes from the skin weights, and part of it is anatomical. Needs a
    judgement against reference photos.
-5. **Lunge:** the benchmark's abducted arms touch the legs. This is a test-path artifact.
+5. **Lunge.** The benchmark's hanging hands meet the rising front thigh, a test-path artifact. With
+   `V2_TRAJ_LUNGE_ARMS=side` (arms at 22°) the lunge has 11 intersections (front groin) and 35 folds.
 6. **Muscle layer:**
    - a scapulothoracic model with translation;
    - fibre fans for trapezius, latissimus, pectoralis and serratus;

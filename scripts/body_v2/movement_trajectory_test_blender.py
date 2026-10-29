@@ -57,6 +57,8 @@ NF = int(os.environ.get("V2_TRAJ_FRAMES", "17"))           # frames per trajecto
 RENDER = os.environ.get("V2_TRAJ_RENDER", "1") == "1"
 PLANT = os.environ.get("V2_TRAJ_PLANT", "1") == "1"
 SQUAT_ARMS = os.environ.get("V2_TRAJ_SQUAT_ARMS", "hang")   # hang (r57 path) or forward (counterbalance cue)      # per-leg foot plant in the squat (the r57 path plants the mean only)
+LUNGE_ARMS = os.environ.get("V2_TRAJ_LUNGE_ARMS", "bench")  # bench (r57 path: the hanging hands meet the rising front thigh)
+#                                                          or side (22 deg abduction, as when carrying dumbbells at the sides)
 HT0 = float(os.environ.get("V2_TRAJ_PRESS_START", "16"))   # press neutral: humerothoracic 16 deg (the standing carriage);
 #                                                          0 points the arm straight down through the hip (test artifact)
 body = bpy.data.objects["HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"]
@@ -230,6 +232,13 @@ def deadlift(u):
     return {k: round(float(v), 2) for k, v in out.items()}
 
 
+def lunge(u):
+    out = {k: round(float(v), 2) for k, v in bench.pose_lunge(rig, body, 1.0 - abs(2.0 * u - 1.0)).items()}
+    if LUNGE_ARMS == "side":
+        girdle.apply_arm_pose(rig, 22.0, 0.0, reset=False)
+    return out
+
+
 def raise_in_plane(plane_deg, top=90.0):
     """straight-arm raise in a fixed plane (0 = sideways / lateral raise, 90 = forwards / front raise), from the 16 deg
     standing carriage to `top` deg humerothoracic elevation and back, with the coupled girdle (apply_arm_pose)"""
@@ -245,7 +254,7 @@ def raise_in_plane(plane_deg, top=90.0):
 MOVE_FN = {"press": press, "curl": curl, "squat": squat,
            "lateral_raise": raise_in_plane(0.0), "front_raise": raise_in_plane(90.0),
            "deadlift": lambda u: deadlift(u),
-           "lunge": lambda u: {k: round(float(v), 2) for k, v in bench.pose_lunge(rig, body, 1.0 - abs(2.0 * u - 1.0)).items()}}
+           "lunge": lambda u: lunge(u)}
 
 
 def metrics(P):
@@ -286,7 +295,8 @@ def metrics(P):
 
 
 REP = {"source": SRC.name, "r121_drives": USE_R121, "press_girdle": GIRDLE,
-       "girdle_frame": os.environ.get("V2_GIRDLE_FRAME", "plane35"), "frames_per_trajectory": NF, "vertices": n,
+       "girdle_frame": os.environ.get("V2_GIRDLE_FRAME", "plane35"), "squat_arms": SQUAT_ARMS, "lunge_arms": LUNGE_ARMS,
+       "frames_per_trajectory": NF, "vertices": n,
        "regions": {k: int(v.sum()) for k, v in REG.items()}, "mirror_partners": int(MOK.sum()), "movements": {}}
 FRAMES = {}
 for mv in MOVES:

@@ -2353,3 +2353,26 @@ hinge contact), and sole weights.
 **Press lockout:** folds 4666 → 136, self-intersections 4759 → 24.
 
 **Muscle native pass:** on `claude/muscle-layer-native-20261024`.
+
+## Update 29 Oct 2026: body v2 movement system (summary; see `docs/CLAUDE_MOVEMENT_SYSTEM_HANDOVER_20261024.md`)
+
+**Current best candidate: T3,** on branch `claude/r120-surface-candidate-20261023`.
+
+**Shoulder state in T3:**
+
+- the ISB-frame candidate girdle;
+- legacy S1 / S3 / S5 / S7 shoulder keys neutralised;
+- angle-driven arm and forward-raise keys, plus a press-rack combination key, re-authored on the clean base.
+
+**Press results:**
+
+- Folds over 90°: 4666 → 13.
+- Self-intersections: 4759 → 10.
+- Lockout roughness p95: 0.086 mm (rest 0.066 mm).
+- Lateral and front raises, which were never used for authoring: 4 and 7 folds, 0 intersections.
+
+**Open at the shoulder:**
+
+- lockout armpit stretch (9041 edges over 2×);
+- the size of the posterior armpit fold, which needs a reference-photo judgement;
+- a 40 mm local asymmetry on a differently tessellated armpit patch.

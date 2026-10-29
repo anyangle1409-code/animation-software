@@ -1030,3 +1030,22 @@ Press-lockout stretch at the armpit remains the shoulder's open item. A girdle-c
 legacy transplant, is the better route.
 
 Report: `report_TT_U3_smoothed_legacy_shoulder_not_adopted.json`.
+
+**V3: stretch relief (tangential springs towards the rest edge lengths), rejected.** `V2_R121_ARMKEY_STRETCH=60` was
+used on the arm and forward-raise families.
+
+| | T3 | V3 |
+|---|---|---|
+| Press folds over 90° | 13 | **9207** |
+| Press self-intersections | 10 | 4193 |
+| Front raise folds over 90° | 7 | 5626 |
+| Lateral raise folds over 90° | 4 | 3397 |
+| Press lockout roughness p95 | 0.086 mm | 0.176 mm |
+| Press stretched over 2× | 9041 | 8274 |
+| Press collapsed under 0.5× | 5384 | 2235 |
+
+Stretch and collapse improve, but sliding vertices within the surface without a fold guard flips triangles wherever the
+skin is compressed. It is not adopted; the option stays off by default.
+
+A usable version would need an inversion guard: reject or halve any step that flips a face. That was not pursued here.
+Report: `report_TT_V3_stretch_relief_rejected.json`.

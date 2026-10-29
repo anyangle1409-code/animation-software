@@ -758,3 +758,38 @@ of humerothoracic elevation once posed with the girdle. The family now has its o
 
 **N2 is the current best candidate.** The script default for `V2_R121_FLEX_START` is now 0. Report:
 `report_TT_N2_all_movements.json`.
+
+## Generalisation, lower body: deadlift and lunge (N2)
+
+The trajectory test now has `deadlift` and `lunge`, using the r57 benchmark poses.
+
+| N2, keys off → on | Deadlift | Lunge |
+|---|---|---|
+| Crumple over 35° | 9149 → 2700 | 2462 → 1682 |
+| Folds over 90° | 1867 → 399 | 339 → 278 |
+| Hip folds over 90° | 1600 → 349 | 284 → 242 |
+| Knee folds over 90° | 117 → 18 | 45 → 21 |
+| Self-intersections (peak) | 4115 → 2052 | 824 → 180 |
+| Return to neutral | exact | exact |
+
+**Deadlift: where the peak comes from.** Hip flexion runs to **135°** (knee 103°), while the hip keys only cover the
+squat range (55 / 93 / 110°).
+
+- The movement is clean up to 114°.
+- At 130–135° the abdomen and thighs interpenetrate (1755 hip-against-hip pairs).
+- 135° is deeper than a conventional deadlift (about 80–110°) but within a full-depth squat, so a deeper hip key is
+  worth adding (below).
+
+**Deadlift: the start frames.** Their 300–400 hand-against-thigh intersections are a test-path artifact. The r57
+deadlift hangs the arms vertically, closer in than the standing carriage, and they clear once the hinge begins.
+
+**Deadlift: sole slide.** The 25 mm comes from the r57 deadlift path, which plants only the mean ankle. That is the
+same issue the squat had, and it is fixed by the per-leg plant there, but the plant is not applied to the deadlift yet.
+
+**Lunge.** It is asymmetric by design, and its root moves, so its asymmetry and sole numbers are not meaningful. Its
+remaining intersections are hand-against-hip and leg, from the benchmark's abducted-arm pose.
+
+**Next step.** A new authoring mode, `V2_R121_ARMKEY_MODE=hinge`, poses the benchmark deadlift and **appends** a key to
+the hip family, named by its measured hip angle. The hip keys stay purely angle-driven. Running now, at about 135°.
+
+Sheets: `REVIEW_N2_deadlift.jpg` and `REVIEW_N2_lunge.jpg`. Reports: `report_TT_N2_deadlift_lunge*.json`.

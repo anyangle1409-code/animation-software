@@ -79,8 +79,11 @@ def evaluated():
 
 MODE = os.environ.get("V2_R121_ARMKEY_MODE", "abd")        # abd: sideways raise; flex: forward raise (on top of abd keys)
 #                                                            squat: benchmark squat at depth ANGLES / 100 (hip family)
+#                                                            hinge: benchmark deadlift at ANGLES / 100, APPENDED to the
+#                                                            hip family (deeper hip flexion than the squat reaches); keys
+#                                                            are named by their measured hip angle
 FAMILY = {"abd": (r121_drives.PREFIX, r121_drives.PROP), "flex": (r121_drives.FLEX_PREFIX, r121_drives.FLEX_PROP),
-          "squat": (r121_drives.HIP_PREFIX, r121_drives.HIP_PROP),
+          "squat": (r121_drives.HIP_PREFIX, r121_drives.HIP_PROP), "hinge": (r121_drives.HIP_PREFIX, r121_drives.HIP_PROP),
           "elbow": (r121_drives.ELBOW_PREFIX, r121_drives.ELBOW_PROP),
           "knee": (r121_drives.KNEE_PREFIX, r121_drives.KNEE_PROP),
           "combo": (r121_drives.COMBO_PREFIX, r121_drives.COMBO_PROP)}[MODE]
@@ -133,7 +136,7 @@ if MODE == "combo":                                         # press rack: the ar
 if MODE == "knee":
     bench._reset(rig)
     REST_HEADS = {s_: rig.pose.bones[f"foot_{s_}"].head.copy() for s_ in ("l", "r")}
-if MODE == "squat":                                        # hips, glutes, groin, lower back - not the knees
+if MODE in ("squat", "hinge"):                             # hips, glutes, groin, lower back - not the knees
     fz = (R0[:, 2] - z0) / H
     arm_g = {i for i, g in enumerate(GN) if any(k in g for k in ("upperarm", "forearm"))}
     ARMV = np.array([sum(g.weight for g in v.groups if g.group in arm_g) > 0.3 for v in me.vertices])
@@ -155,6 +158,10 @@ def pose(ang):
         for sd, sg in (("r", -1.0), ("l", 1.0)):
             pb = rig.pose.bones[f"upperarm_{sd}"]; pb.rotation_mode = "XYZ"; pb.rotation_euler = (0.0, 0.0, math.radians(sg * 16.0))
             fb = rig.pose.bones[f"forearm_{sd}"]; fb.rotation_mode = "XYZ"; fb.rotation_euler = (math.radians(-ang), 0.0, 0.0)
+        bpy.context.view_layer.update(); drives.drive(rig, body); r121_drives.drive(rig, body); bpy.context.view_layer.update()
+        return
+    if MODE == "hinge":
+        bench.pose_deadlift(rig, ang / 100.0, REST_HEADS)
         bpy.context.view_layer.update(); drives.drive(rig, body); r121_drives.drive(rig, body); bpy.context.view_layer.update()
         return
     if MODE in ("squat", "knee"):
@@ -257,9 +264,11 @@ if MODE == "flex" and min(ANGLES) <= r121_drives.START:   # a low forward key ne
     rig[r121_drives.FLEX_START_PROP] = float(os.environ.get("V2_R121_FLEX_START", "0"))   # set before authoring
 REP = {"mode": MODE, "angles_deg": ANGLES, "keys": {}}
 made = {}
+if MODE == "hinge":                                        # append to the existing hip family
+    made = {s_: list(rig.get(f"{FAMILY[1]}_{s_}", [])) for s_ in ("l", "r")}
 for ang in ANGLES:
     pose(ang)
-    measure = {"squat": r121_drives.hip_flex_deg, "elbow": r121_drives.elbow_flex_deg,
+    measure = {"squat": r121_drives.hip_flex_deg, "hinge": r121_drives.hip_flex_deg, "elbow": r121_drives.elbow_flex_deg,
                "knee": r121_drives.knee_flex_deg}.get(MODE, drives.elevation_deg)
     elev = {s: round(float(measure(rig, s)), 2) for s in ("l", "r")}
     P = evaluated()
@@ -327,7 +336,8 @@ for ang in ANGLES:
     tmp.value = 0.0; set_key(tmp, np.zeros((n, 3)))
     for s, sg in (("r", 1.0), ("l", -1.0)):
         side = (np.sign(R0[:, 0]) == sg)
-        kb = body.shape_key_add(name=f"{FAMILY[0]}{s}" if MODE == "combo" else f"{FAMILY[0]}{s}_{ang}", from_mix=False); kb.value = 0.0
+        kname = f"{FAMILY[0]}{s}" if MODE == "combo" else f"{FAMILY[0]}{s}_{int(round(elev[s])) if MODE == 'hinge' else ang}"
+        kb = body.shape_key_add(name=kname, from_mix=False); kb.value = 0.0
         set_key(kb, Dk * side[:, None])
         made.setdefault(s, []).append(elev[s] if MODE != "combo" else
                                       [float(drives.elevation_deg(rig, s)), float(r121_drives.elbow_flex_deg(rig, s))])

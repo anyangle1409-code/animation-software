@@ -845,3 +845,15 @@ conventional deadlift (about 80–110°), and the movement is clean up to 114°.
 
 The abdomen–thigh interpenetration at the extreme is recorded as open. A better approach would be a contact surface
 shaped like the abdomen (not a plane), or limiting the test path to realistic deadlift depth.
+
+**Deadlift feet planted.** The test's deadlift now uses the same per-leg foot plant as the squat. On H1:
+
+| Measure | Value |
+|---|---|
+| Sole slide / lift | **0.0 / 0.0 mm** (was 25 mm) |
+| Folds over 90° | 68 |
+| Hip folds | 19 |
+| Knee folds | 18 |
+| Self-intersections | 1861 (the extreme-depth abdomen–thigh contact above) |
+
+Sheet: `REVIEW_H1_deadlift.jpg`. Report: `report_TT_H1_deadlift_planted.json`.

@@ -223,6 +223,13 @@ def squat(u):
     return {k: round(float(v), 2) for k, v in out.items()} | {"depth": round(p, 3)}
 
 
+def deadlift(u):
+    out = bench.pose_deadlift(rig, 1.0 - abs(2.0 * u - 1.0), REST_HEADS)
+    if PLANT:                                                       # same per-leg plant as the squat
+        plant_feet()
+    return {k: round(float(v), 2) for k, v in out.items()}
+
+
 def raise_in_plane(plane_deg, top=90.0):
     """straight-arm raise in a fixed plane (0 = sideways / lateral raise, 90 = forwards / front raise), from the 16 deg
     standing carriage to `top` deg humerothoracic elevation and back, with the coupled girdle (apply_arm_pose)"""
@@ -237,7 +244,7 @@ def raise_in_plane(plane_deg, top=90.0):
 
 MOVE_FN = {"press": press, "curl": curl, "squat": squat,
            "lateral_raise": raise_in_plane(0.0), "front_raise": raise_in_plane(90.0),
-           "deadlift": lambda u: {k: round(float(v), 2) for k, v in bench.pose_deadlift(rig, 1.0 - abs(2.0 * u - 1.0), REST_HEADS).items()},
+           "deadlift": lambda u: deadlift(u),
            "lunge": lambda u: {k: round(float(v), 2) for k, v in bench.pose_lunge(rig, body, 1.0 - abs(2.0 * u - 1.0)).items()}}
 
 

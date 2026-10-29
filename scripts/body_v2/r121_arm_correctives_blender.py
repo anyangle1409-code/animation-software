@@ -292,9 +292,12 @@ for ang in ANGLES:
     P = evaluated()
     T = P.copy(); hist = []
     contact_hist = contact(T) if CONTACT is not None else None
-    # relax: unfold rounds, then a light Laplacian over the folded area (posed space)
+    # relax: unfold rounds, then a light Laplacian over the folded area (posed space).  V2_R121_ARMKEY_UNFOLD_DEG < 90
+    # also flattens broad creases (the shape-preserving de-crumple below keeps them), e.g. the lower-back fold the
+    # skinning makes at the squat bottom
+    UT = math.cos(math.radians(float(os.environ.get("V2_R121_ARMKEY_UNFOLD_DEG", "90"))))   # unfold edges past this
     for rnd in range(int(os.environ.get("V2_R121_ARMKEY_ROUNDS", "8"))):
-        m, nf = folds(T); hist.append(nf)
+        m, nf = folds(T, UT); hist.append(nf)
         if nf == 0:
             break
         w = m.astype(float)

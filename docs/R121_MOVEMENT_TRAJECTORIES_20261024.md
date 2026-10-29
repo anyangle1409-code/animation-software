@@ -908,3 +908,18 @@ skin really does stretch in a deep squat. The legacy H1_BAKE key had added slack
 
 **Not adopted yet.** Re-running (G3b) with twice the relaxation rounds for the hip family (16 unfold, 12 de-crumple).
 Reports: `report_TT_G3_legacy_legs_neutralised.json`, `leg_roughness_diag_G3.json`.
+
+**G3b, twice the relaxation rounds: no effect.** The lower-back ridge is unchanged (54 edges past 21° at z 1.10, against
+61 in G3), and every movement metric is within noise of G3. Report: `report_TT_G3b_more_rounds.json`.
+
+**Why more rounds did not help.**
+
+- The de-crumple step is HC smoothing, which is shape-preserving by design, so it keeps broad creases.
+- The unfold step, a plain Laplacian, only acts on edges past 90°.
+- The ridge's remaining edges are bent 21–71°, so neither step can remove them.
+- (The "127 remaining folds" in the authoring report counts the whole body; 40 of them lie outside the hip region and
+  never change.)
+
+**Next try (G3c).** A new option, `V2_R121_ARMKEY_UNFOLD_DEG` (default 90, so behaviour is unchanged by default), lets
+the unfold step also flatten creases. The hip family (squat and hinge) is being re-authored at 45°; the knee family is
+unchanged.

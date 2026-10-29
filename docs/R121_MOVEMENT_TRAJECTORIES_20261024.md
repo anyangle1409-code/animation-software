@@ -821,3 +821,18 @@ Press, curl, squat, both raises and the lunge are identical to N2, and all seven
 **Still open.** At 130–135° there are 1530 hip-against-hip intersections: the abdomen and front of the thigh pass
 through each other. That needs a contact step for the hip, like the knee and elbow hinge contact; relaxation alone
 does not separate them.
+
+**Hip contact in the deep hip key, 26 cm reach (H2): mixed, not adopted.** `V2_R121_HIP_CONTACT=1` flattens trunk and
+thigh skin onto the plane bisecting the hip angle. About 7,600 vertices per side are flattened.
+
+| Deadlift | H1 | H2 |
+|---|---|---|
+| Self-intersections | 1827 | **966** |
+| Self-intersections at 130° | 668 | **177** |
+| Folds over 90° | 72 | 160 |
+| Hip folds | 28 | 111 |
+| Edges collapsed under 0.5× | 10,438 | 14,353 |
+| Edges stretched over 2× | 2257 | 3275 |
+
+The other six movements are identical. The reach probably pulls in too much of the abdomen and thigh; retrying at
+18 cm. Report: `report_TT_H2_hipcontact26.json`.

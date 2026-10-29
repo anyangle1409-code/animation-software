@@ -945,3 +945,29 @@ Report: `report_TT_G3c_unfold45.json`.
 1. Smooth the H1_BAKE and K1_KNEE offset fields on H1.
 2. Re-author the hip, knee and hinge families on top.
 3. Re-run the ridge, leg roughness and all seven movements.
+
+**S3: smoothed legacy leg keys, hip / knee / deep-hip re-authored. Best leg result so far.**
+
+- **After smoothing alone:** the smoothed legacy keys give leg roughness 0.115 mm, the same as plain skinning, so the
+  texture is gone. They still hold most of the lower-back fix: 27 edges past 21° at z 1.10, against 525 with plain
+  skinning.
+
+| | H1 | G3 (legacy zeroed) | S3 (legacy smoothed) |
+|---|---|---|---|
+| Lower-back ridge, edges past 21° at z 1.10 | about 1 | 61 | **0** |
+| Leg roughness p95, squat / deadlift | 0.107 / 0.098 mm | 0.087 / 0.085 mm | **0.087 / 0.086 mm** |
+| Squat folds over 90° | 20 | 13 | **10** |
+| Squat stretched over 2× / collapsed | 4213 / 8314 | 7181 / 8510 | **4096 / 7702** |
+| Deadlift folds over 90° (hip / knee) | 72 (28 / 18) | 51 (8 / 0) | 70 (21 / **31**) |
+| Deadlift self-intersections | 1827 | 1252 | 1885 |
+| Deadlift stretched over 2× | 2257 | 7215 | **1961** |
+| Lunge folds over 90° (hip / knee) | 278 (242 / 21) | 61 (43 / 0) | 78 (32 / **33**) |
+| Lunge stretched over 2× | 2140 | 2657 | **1895** |
+
+The upper-body movements are unchanged, and every movement returns to neutral.
+
+**The knee is the regression.** The smoothed K1_KNEE leaves knee folds of 31 (deadlift) and 33 (lunge); zeroed K1_KNEE
+(G3) gave 0 in both.
+
+**Running now (T-chain).** Smooth the legacy hip family, zero the legacy knee family, re-author all three.
+Reports: `report_TT_S3_smoothed_legacy_legs.json`, `leg_roughness_diag_S3.json`.

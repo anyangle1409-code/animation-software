@@ -713,3 +713,28 @@ shape. A proper fix would carry weights across by surface interpolation onto the
 vertex, and then re-author the armpit keys. That was not done, given how sensitive those folds proved.
 
 **Closed for now.** p95 asymmetry is 1.4 mm; the armpit has a local 40 mm maximum at the full lockout.
+
+## Generalisation: lateral and front raises (movements the keys were not authored for)
+
+The trajectory test now has `lateral_raise` (plane 0°) and `front_raise` (plane 90°). Each runs straight-armed from the
+16° standing carriage to 90° and back, through the coupled girdle. The R121 keys are driven by joint angles, so they
+apply here without any exercise-specific authoring.
+
+| L4 | Lateral raise, keys off → on | Front raise, keys off → on |
+|---|---|---|
+| Crumple over 35° | 524 → **295** | 1007 → **430** |
+| Shoulder crumple | 274 → **140** | 779 → **275** |
+| Folds over 90° | 17 → **4** | 52 → 47 |
+| Self-intersections | 0 → 0 | 6 → **3** |
+| Edges stretched over 2× | 1824 → 1970 | 2010 → 2277 |
+| Asymmetry p95 / max | 1.3 / 27 mm | 1.3 / 20 mm |
+| Return to neutral | exact | exact |
+
+**One gap.** The front raise's remaining folds over 90° (about 40) are at its **start frame**: arms 16° forward of the
+body, plane 90°. At 90° of elevation there are 0. The forward-raise keys start at 25° of elevation (`r121_drives.START`),
+so a small forward carriage gets no correction.
+
+**Next step.** A low forward key at about 16–20°, or an earlier start for the FLEX family.
+
+Sheets: `REVIEW_L4_lateral_raise.jpg` and `REVIEW_L4_front_raise.jpg`. Reports: `report_TT_L4_raises.json` and
+`report_TT_L4_raises_no_r121.json`.

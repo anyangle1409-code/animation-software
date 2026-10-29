@@ -1,0 +1,145 @@
+{
+  "workflow_run": {
+    "id": 40919982094,
+    "head_sha": "b268375790150a30745de9c88a3d4c92728e7691",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs_passed": 7,
+    "jobs_total": 7
+  },
+  "jobs": {
+    "localize_native_movement_failures": 123610262859,
+    "pose_state_w8": 123610263090,
+    "inspect_v14": 123610263160,
+    "inspect_r120": 123610263190,
+    "inspect_w8": 123610263334,
+    "compare_rest_audits": 123610905509,
+    "verify_actual_shoulder_driver_math": 123613572401
+  },
+  "tests": {
+    "localization_full_suite": "333/333 PASS",
+    "pose_suites": [
+      "29/29 PASS",
+      "14/14 PASS",
+      "19/19 PASS",
+      "6/6 PASS",
+      "10/10 PASS"
+    ]
+  },
+  "artifacts": [
+    {
+      "id": 12918091732,
+      "name": "phone-w8-shoulder-pose-state-40919982094",
+      "sha256": "7d7daf0535054d9537918ede1b31e095e8327d739d79f2c0d7ab27a92048fa86",
+      "verification": "github_metadata"
+    },
+    {
+      "id": 12918086741,
+      "name": "phone-w8-evaluated-snapshots-40919982094",
+      "sha256": "744dcdfce4f5a0cd90b7723bdc67ac84b34a97c5cc4cfa3536b153d9b2bfbc46",
+      "verification": "github_metadata"
+    },
+    {
+      "id": 12917927661,
+      "name": "phone-native-failure-localization-40919982094",
+      "sha256": "cb425ab1f214d8f7ec79d1be2edf6f4cd1b1fbe6368f6575fb234b1649b8af7e",
+      "verification": "github_metadata"
+    },
+    {
+      "id": 12917872451,
+      "name": "phone-blender-W8-40919982094",
+      "sha256": "8c258d166c32d5f7f8ce40e282d31feea48684f2cf55b1c0203e989da422505a",
+      "verification": "github_metadata"
+    },
+    {
+      "id": 12917867362,
+      "name": "phone-blender-R120-40919982094",
+      "sha256": "fba2e9f0f477cab26ef4fb54967e6991bcb426e99197ea96fdfe13553bf4b3f9",
+      "verification": "github_metadata"
+    },
+    {
+      "id": 12917718373,
+      "name": "phone-visual-review-40919982094",
+      "sha256": "c5e3c7d08092b2802af3ed116ef0167a12d51d378eef008917408fac0bd0b618",
+      "verification": "github_metadata"
+    },
+    {
+      "id": 12917688124,
+      "name": "phone-blender-V14-40919982094",
+      "sha256": "bcce9eb2844531c34d606473ffba5c2def1dbc66fecc883ecb9e7da5a648bc9b",
+      "verification": "github_metadata"
+    },
+    {
+      "id": 12917508191,
+      "name": "phone-w8-squat-pose-state-40919982094",
+      "sha256": "718eee9b5ea8b5fedc76e091a5f58cd59389ba44a7b9ca14467d9262c402de2f",
+      "verification": "independently_downloaded_crc_clean_sha256_match"
+    },
+    {
+      "id": 12916879368,
+      "name": "phone-w8-driver-consistency-40919982094",
+      "sha256": "e87bb826d6e9cf878901856bbc23571b8e5df9b72f3bf91a0eda042793551f66",
+      "verification": "github_metadata"
+    },
+    {
+      "id": 12916314480,
+      "name": "phone-rest-cross-model-40919982094",
+      "sha256": "343a71f1c45fb391de12bef48689d493e4e303c47d2d556b58ad2ee404ac88e5",
+      "verification": "github_metadata"
+    }
+  ],
+  "squat_artifact_members": {
+    "w8_authored_squat_control_state.json": "998c3db075317a4549d7130c965bf38e08d3ad147fe3669214465d5303c47b69",
+    "w8_authored_squat_control_state.md": "e97810311ff7b4b9e6b9e5e843889e2b0d0b3d7e36e4dedd6d04eb1fa1da83bd"
+  },
+  "corrected_native_result": {
+    "status": "READ_ONLY_AUTHORED_SQUAT_CONTROL_STATE_ANATOMY_NOT_APPROVED",
+    "samples": 9,
+    "maximum_mean_bilateral_post_solve_residual_mm": 0.000058,
+    "sample6_pre_residual_mm": {
+      "l": [
+        17.39464,
+        -229.035827,
+        292.100161
+      ],
+      "r": [
+        -17.394312,
+        -229.03584,
+        292.100161
+      ]
+    },
+    "sample6_post_residual_mm": {
+      "l": [
+        17.394468,
+        0.000001,
+        0.000052
+      ],
+      "r": [
+        -17.394468,
+        0.000024,
+        0.00003
+      ]
+    },
+    "anatomical_approval": "NOT_GRANTED",
+    "ground_contact_approval": "NOT_GRANTED"
+  },
+  "superseded_run": {
+    "id": 40858906795,
+    "conclusion": "success",
+    "head_sha": "aac74b36d40098756c4c2a82aef496fc436b572d",
+    "reason": "pre-solve capture occurred before dependency-graph update and read stale rest-state heads; do not use its pre-solve evidence"
+  },
+  "historical_run_40029398965": {
+    "overall_conclusion": "failure",
+    "failure": "documented read-only docstring false positive",
+    "w8_v14_r120_and_cross_model_rig_evidence": "separately_verified_and_still_valid"
+  },
+  "protected_state": {
+    "original_blends_modified": false,
+    "rig_or_weights_modified": false,
+    "shape_keys_or_drivers_modified": false,
+    "muscles_attached": false,
+    "muscle_highlighting_implemented": false,
+    "merged_or_deployed": false
+  }
+}

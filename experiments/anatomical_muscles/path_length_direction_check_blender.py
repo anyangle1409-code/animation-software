@@ -28,7 +28,10 @@ GIRDLE=glide adds scapulothoracic contact: a thorax ellipsoid fitted to the tors
 extra scapular rotation solved so TS and AI stay on it (see the glide section below; PATHCHECK_GLIDE_REG sets the pull
 towards the ratio angles, m per deg).
 
-env: PATHCHECK_GIRDLE=coupled|ac_only|glide, PATHCHECK_GLIDE_REG (0.002), PATHCHECK_UR_PIVOT=0..1 (1)
+env: PATHCHECK_GIRDLE=coupled|ac_only|glide, PATHCHECK_GLIDE_REG (0.002), PATHCHECK_UR_PIVOT=0..1 (1),
+     PATHCHECK_HEAD_WRAP=1 (supraspinatus / infraspinatus / teres minor / subscapularis wrapped on a ball at the humeral
+     head, PATHCHECK_HEAD_R m, 0.020), PATHCHECK_HUM_ER_TOP (deg of humeral external rotation reached at 160 deg
+     elevation, linear in elevation above rest; 0 = none, as before)
 """
 import hashlib
 import json
@@ -45,6 +48,9 @@ src, expected, anchors_p, contracts_p, out = Path(args[0]), args[1], Path(args[2
 ISO, PLANE_DEG, SAMPLES, INSET = 0.03, 30.0, 12, 0.015
 GIRDLE = os.environ.get("PATHCHECK_GIRDLE", "coupled")
 UR_PIVOT = float(os.environ.get("PATHCHECK_UR_PIVOT", "1.0"))   # upward-rotation pivot: 0 = root of spine (TS), 1 = AC
+HEAD_WRAP = os.environ.get("PATHCHECK_HEAD_WRAP", "0") == "1"    # rotator cuff wrapped on a sphere at the humeral head
+HEAD_R = float(os.environ.get("PATHCHECK_HEAD_R", "0.020"))      # (inside the tubercle anchors, 24-26 mm from GH)
+HUM_ER_TOP = float(os.environ.get("PATHCHECK_HUM_ER_TOP", "0"))  # humeral external rotation (deg) reached at 160 deg
 MODEL = {"coupled": {"upward_rotation": 0.33, "posterior_tilt": 0.12, "clavicle_elevation": 0.08, "clavicle_retraction": 0.12},
          "glide": {"upward_rotation": 0.33, "posterior_tilt": 0.12, "clavicle_elevation": 0.08, "clavicle_retraction": 0.12},
          "ac_only": {"upward_rotation": 0.32, "posterior_tilt": 0.0, "clavicle_elevation": 0.16, "clavicle_retraction": 0.0}}[GIRDLE]
@@ -83,9 +89,11 @@ def signed(axis, probe, want, pivot):
     return 1.0 if ((rot_about(pivot, axis, 5.0) @ probe) - probe).dot(want) > 0 else -1.0
 
 
+HUM_AX = (EJC - GH).normalized()
 SIGN = {"clavicle_elevation": signed(ANT, AC, UP, SC), "clavicle_retraction": signed(UP, AC, -ANT, SC),
         "upward_rotation": signed(SCAP_N, AI, LAT, AC), "posterior_tilt": signed(SPINE, AI, ANT, AC),
-        "elbow_flexion": signed(ELB_AX, WJC, ANT, EJC)}
+        "elbow_flexion": signed(ELB_AX, WJC, ANT, EJC),
+        "humeral_external_rotation": signed(HUM_AX, GH + ANT * 0.02, LAT, GH)}   # the anterior humerus turns laterally
 CHAIN = [f"anat_clavicle_{S}", f"anat_scapula_{S}", f"anat_humerus_{S}", f"anat_ulna_{S}", f"anat_radius_{S}"]
 REST_HT = math.degrees(math.acos((EJC - GH).normalized().dot(-UP)))
 REST_ELB = 180.0 - math.degrees(math.acos(max(-1.0, min(1.0, (GH - EJC).normalized().dot((WJC - EJC).normalized())))))
@@ -177,6 +185,9 @@ def pose(ht_deg, elbow_deg):
     want = (math.cos(math.radians(ht_deg)) * -UP + math.sin(math.radians(ht_deg)) * plane).normalized()
     q = (ejc - gh).normalized().rotation_difference(want)
     Th = Matrix.Translation(gh) @ q.to_matrix().to_4x4() @ Matrix.Translation(-gh) @ ts
+    if HUM_ER_TOP:                                          # axial rotation about the humerus (applied in rest space)
+        er = HUM_ER_TOP * max(0.0, ht_deg - REST_HT) / (160.0 - REST_HT)
+        Th = Th @ rot_about(GH, HUM_AX, SIGN["humeral_external_rotation"] * er)
     Tf = Th @ rot_about(EJC, ELB_AX, SIGN["elbow_flexion"] * (elbow_deg - REST_ELB))
     return {CHAIN[0]: Tc, CHAIN[1]: ts, CHAIN[2]: Th, CHAIN[3]: Tf, CHAIN[4]: Tf}
 
@@ -220,10 +231,34 @@ def wrapped(o, i):
     return math.hypot(ellipse_arc(to, ti), i.z - o.z)
 
 
+HUM_B = f"anat_humerus_{S}"
+GH_LOCAL = (MW @ anat.data.bones[HUM_B].matrix_local).inverted() @ GH
+CUFF = [f"hgpt.muscle.{m}.{SUF}" for m in ("supraspinatus", "infraspinatus", "teres_minor", "subscapularis")]
+WRAPPED_ON_HEAD = {}
+
+
+def sphere_wrap(p, q, c, r):
+    """shortest path p -> q around a ball (centre c, radius r): straight unless the segment passes through the ball,
+    then tangent + great-circle arc + tangent, in the plane of p, q and c"""
+    d1, d2 = (p - c).length, (q - c).length
+    if d1 <= r or d2 <= r:
+        return (q - p).length, False
+    arc = (p - c).angle(q - c) - math.acos(r / d1) - math.acos(r / d2)
+    if arc <= 0:
+        return (q - p).length, False
+    return math.sqrt(d1 * d1 - r * r) + math.sqrt(d2 * d2 - r * r) + r * arc, True
+
+
 def lengths():
     aw = anchors_world()
     L = {m: (p["insertion"] - p["origin"]).length for m, p in aw.items()}
     L[SER] = wrapped(aw[SER]["origin"], aw[SER]["insertion"])
+    if HEAD_WRAP:
+        c = MW @ anat.pose.bones[HUM_B].matrix @ GH_LOCAL
+        for m in CUFF:
+            if m in aw:
+                L[m], on = sphere_wrap(aw[m]["origin"], aw[m]["insertion"], c, HEAD_R)
+                WRAPPED_ON_HEAD[m] = WRAPPED_ON_HEAD.get(m, False) or on
     return L
 
 
@@ -269,7 +304,8 @@ PH = {
 }
 contracts = json.loads(contracts_p.read_text())
 report = {"status": "proposal_check_only", "source_sha256": expected, "side": S, "girdle_model": GIRDLE,
-          "upward_rotation_pivot_ts_to_ac": UR_PIVOT,
+          "upward_rotation_pivot_ts_to_ac": UR_PIVOT, "humeral_head_wrap": {"on": HEAD_WRAP, "radius_m": HEAD_R},
+          "humeral_external_rotation_at_160_deg": HUM_ER_TOP,
           "girdle_ratios_per_deg_elevation": MODEL, "iso_threshold_fraction": ISO,
           "elevation_plane_deg_anterior_to_frontal": PLANE_DEG, "rest_round_trip_mm": round(rt * 1000, 4),
           "rest_pose_round_trip_mm": round(rt_pose * 1000, 4),
@@ -308,11 +344,12 @@ for ex in contracts["exercises"]:
                          "monotonic": mono}
         exr[ph["id"]] = {"control_poses_ht_elbow": PH[ex["id"]][ph["id"]], "muscles": rows}
 report["summary"] = summary
+report["cuff_wrapped_on_head_somewhere"] = WRAPPED_ON_HEAD
 if GIRDLE == "glide":
     report["glide"] = {"thorax_ellipsoid_coef": [float(c) for c in coef], "thorax_centre_m": [float(c) for c in C0], "contact_level": float(K),
                        "reg_m_per_deg": GLIDE_REG, "per_upward_rotation": {str(k): v for k, v in sorted(GLIDE_LOG.items())[::6]}}
 out.write_text(json.dumps(report, indent=1))
-print("PATHCHECK", json.dumps({"girdle": GIRDLE, "pivot": UR_PIVOT, "round_trip_mm": report["rest_round_trip_mm"],
+print("PATHCHECK", json.dumps({"girdle": GIRDLE, "pivot": UR_PIVOT, "head_wrap": HEAD_WRAP, "er_top": HUM_ER_TOP, "round_trip_mm": report["rest_round_trip_mm"],
                                "pose_round_trip_mm": report["rest_pose_round_trip_mm"], "rest": report["r41_rest"],
                                "top": report["press_top_probe"], "wrap": WRAP, **summary}), flush=True)
 for e, phs in report["exercises"].items():

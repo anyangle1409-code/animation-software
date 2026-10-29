@@ -225,6 +225,94 @@
    "wrap_reviewed": false,
    "status": "PROPOSED_UNREVIEWED"
   },
+  "hgpt.muscle.teres_minor.R": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_scapula_right",
+     "local_m": [
+      0.02284,
+      0.078828,
+      -0.003017
+     ],
+     "world_rest_m": [
+      -0.17029,
+      0.07511,
+      1.39633
+     ],
+     "rule": "dorsal surface, upper two-thirds of the lateral border: 35 % from the infraglenoid tubercle (GH - 25 mm up) towards AI, 5 mm posterior"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_humerus_right",
+     "local_m": [
+      0.020163,
+      0.011525,
+      -0.012192
+     ],
+     "world_rest_m": [
+      -0.23891,
+      0.04448,
+      1.45043
+     ],
+     "rule": "greater tubercle, inferior facet: GH + 20 mm lateral, 12 mm posterior, 12 mm down"
+    }
+   ],
+   "rest_straight_length_m": 0.0926,
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "right",
+   "anatomical_side_x_sign": -1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
+  "hgpt.muscle.subscapularis.R": {
+   "anchors": [
+    {
+     "role": "origin",
+     "bone": "anat_scapula_right",
+     "local_m": [
+      -0.025764,
+      0.106477,
+      -0.001477
+     ],
+     "world_rest_m": [
+      -0.11697,
+      0.08783,
+      1.40748
+     ],
+     "rule": "subscapular fossa (costal surface): centroid of TS, AI and GH, 15 mm anterior"
+    },
+    {
+     "role": "insertion",
+     "bone": "anat_humerus_right",
+     "local_m": [
+      0.009999,
+      0.000226,
+      0.021999
+     ],
+     "world_rest_m": [
+      -0.22891,
+      0.01048,
+      1.46243
+     ],
+     "rule": "lesser tubercle: GH + 22 mm anterior, 10 mm lateral"
+    }
+   ],
+   "rest_straight_length_m": 0.1467,
+   "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+   "anatomical_side": "right",
+   "anatomical_side_x_sign": -1.0,
+   "review": {
+    "reviewer": null,
+    "evidence": null
+   },
+   "wrap_reviewed": false,
+   "status": "PROPOSED_UNREVIEWED"
+  },
   "hgpt.muscle.teres_major.R": {
    "anchors": [
     {

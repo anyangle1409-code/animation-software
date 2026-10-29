@@ -364,3 +364,60 @@ Sources for the dry-bone figures:
 - [Scapula Morphometry and Types of Acromion](https://jcpres.com/article/2709) (spine length 128.0 ± 10.7 mm).
 - [The Scapula: Osseous Dimensions and Gender Dimorphism in Thais](https://he02.tci-thaijo.org/index.php/sirirajmedj/article/view/245524)
   (spine 12.89 ± 0.94 cm).
+
+### Rotator cuff: teres minor and subscapularis anchors, humeral-head wrap, humeral rotation (added 29 Oct 2026)
+
+**New proposed anchors** (unreviewed; permanent IDs `hgpt.muscle.teres_minor.*` and `hgpt.muscle.subscapularis.*`,
+both already in the registry seed and in the exercise contract). Both sides were regenerated. The diff against the
+previous proposals shows exactly these two muscles added per side and nothing else changed. The source hash is
+unchanged.
+
+| Muscle | Origin rule | Insertion rule |
+|---|---|---|
+| Teres minor | Dorsal surface, upper two-thirds of the lateral border: 35 % from the infraglenoid tubercle (GH − 25 mm up) towards AI, 5 mm posterior | Greater tubercle, inferior facet: GH + 20 mm lateral, 12 mm posterior, 12 mm down |
+| Subscapularis | Subscapular fossa (costal surface): centroid of TS, AI and GH, 15 mm anterior | Lesser tubercle: GH + 22 mm anterior, 10 mm lateral |
+
+**New path options** (`path_length_direction_check_blender.py`):
+
+- `PATHCHECK_HEAD_WRAP=1` wraps supraspinatus, infraspinatus, teres minor and subscapularis on a ball at the humeral
+  head. The path is tangent, then a great-circle arc, then a tangent, in the plane of origin, insertion and centre.
+  The radius is 20 mm (`PATHCHECK_HEAD_R`), just inside the tubercle anchors, which lie 24–26 mm from GH.
+- `PATHCHECK_HUM_ER_TOP=<deg>` adds humeral external rotation, linear in elevation, reaching the given angle at 160°.
+  Its sign is fixed by a landmark probe: the anterior humerus turns laterally.
+- Both default off, so earlier results are unchanged.
+
+**Press phase, left side, coupled girdle** (change as a fraction of rest length):
+
+| | Straight | Head wrap | Wrap + ER 20° | Wrap + ER 40° | Wrap + ER 60° | Contract |
+|---|---|---|---|---|---|---|
+| Supraspinatus | −20.4 % | −20.4 % | −20.3 % | −18.9 % | −16.3 % | variable |
+| Infraspinatus | −9.7 % | −9.7 % | −9.8 % | −9.4 % | −8.4 % | near-isometric |
+| Teres minor | +7.7 % | +7.7 % | +5.1 % | **+2.7 %** | **+1.0 %** | near-isometric |
+| Subscapularis | −8.8 % | −9.9 % | −11.4 % | −13.1 % | −15.2 % | near-isometric |
+
+In the curl every cuff muscle is near-isometric, as the contract says. The curl does not move the shoulder.
+
+**What this shows.**
+
+- **The head wrap engages but barely changes the lengths.** The cuff lines touch a 20 mm ball only in some poses.
+- **Humeral external rotation** behaves as expected at the start of the press: the subscapularis lengthens and the
+  infraspinatus shortens. **Teres minor** becomes near-isometric from about 40° of external rotation.
+- **Infraspinatus and subscapularis shorten in the press in every configuration.**
+  - Both change length only with glenohumeral motion, since both ends ride on the scapula and humerus.
+  - Their shortening during scapular-plane elevation is consistent with the elevation moment arms reported for both
+    muscles (Otis et al. 1994; the infraspinatus contribution grows with internal rotation).
+  - The contract's "near-isometric" for these two is therefore the questionable entry, like the triceps long head.
+    These are contract questions for Work or the owner, not anchor errors. The contract file is Work's and is
+    **not edited here**.
+- How much external rotation the press really carries is not sourced here. The sweep shows the verdicts' sensitivity
+  to it.
+
+**Files:** `native_20261024/path_length_check_left_coupled_cuff_{straight,wrap,wrap_er20,wrap_er40,wrap_er60}.json`.
+The unit tests still pass (38 / 38, run from the repository root).
+
+Sources:
+
+- [Changes in the moment arms of the rotator cuff and deltoid muscles with abduction and rotation](https://www.bisp-surf.de/Record/PU199509102783)
+  (Otis et al., 1994).
+- [PMC9149620](https://pmc.ncbi.nlm.nih.gov/articles/PMC9149620): the infraspinatus as an abductor or elevator in the
+  scapular plane, especially with internal rotation.

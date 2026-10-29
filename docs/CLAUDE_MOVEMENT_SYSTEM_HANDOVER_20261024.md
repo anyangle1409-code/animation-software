@@ -17,9 +17,9 @@ summary.
 | `claude/muscle-layer-native-20261024` | Based on Work's muscle experiment. Native R41 inventory, ISB landmark crosswalk, proposed anchors for the upper and lower limbs, path-length checks against the exercise contract. Doc: `experiments/anatomical_muscles/CLAUDE_NATIVE_PASS_20261024.md`. |
 | `claude/v14-recovery-investigation-20261023` / `claude/v14-deterministic-candidate-20261023` | The V14 vertex-count cause and the deterministic build (earlier). |
 
-## Current best candidate: E8c (T3 plus re-authored elbow keys)
+## Current best candidate: H3 (T3 plus re-authored elbow keys and deep hip key)
 
-The blend is not in git (no `.blend` files are committed). E8c is rebuilt from R121p by this chain; every step is a
+The blend is not in git (no `.blend` files are committed). H3 is rebuilt from R121p by this chain; every step is a
 script in `scripts/body_v2/` and is recorded in the trajectories doc.
 
 1. **R121p**: the rebuilt surface.
@@ -41,6 +41,8 @@ script in `scripts/body_v2/` and is recorded in the trajectories doc.
    - elbow keys re-authored with `V2_R121_CONTACT_MODE=plane_restore` (`V2_R121_POSTGUARD_ROUNDS=3`);
    - the press-rack combination key re-authored on top of them.
    - The exact commands are at the end of the trajectories doc's section E.
+10. **Deep hip key (H3):** the 135° key re-authored with the guarded-restore hip contact. The command is in the
+    trajectories doc's H3 section.
 
 **Reproducing.** Every step of the chain, and every test or diagnostic of it, runs with
 `V2_GIRDLE_FRAME=isb V2_R121_ARMKEY_CRUMPLE=6 V2_R121_ARMKEY_CRUMPLE_DEG=21` exported. The trajectory test also needs
@@ -54,10 +56,14 @@ All keys are driven by joint angles (`scripts/body_v2/r121_drives.py`), not by e
 for authoring (the lateral and front raises), and two more were only used for one deep key (the deadlift and lunge);
 they test that the system generalises.
 
-**E8c, full out-and-back trajectories** (`scripts/body_v2/movement_trajectory_test_blender.py`;
-report `review-assets/body_v2/movement_trajectories_20261024/report_TT_E8c_all7.json`).
+**H3, full out-and-back trajectories** (`scripts/body_v2/movement_trajectory_test_blender.py`; reports in
+`review-assets/body_v2/movement_trajectories_20261024/`: `report_TT_E8c_all7.json`, plus `report_TT_H3_deadlift_squat_lunge.json`
+for the rows the deep hip key touches).
 
-- Identical to T3 except the curl row (T3: 7 / 697 / 0 / 68 / 1.28 / 6 mm) and the press-rack elbow folds (2 → 6).
+- Against T3, three things changed:
+  - the curl row (T3: 7 / 697 / 0 / 68 / 1.28 / 6 mm);
+  - the deadlift row (T3: 70 / 771 / 1885 / 1961);
+  - the press-rack elbow folds (2 → 6).
 - T3's own report, `report_TT_T3_all7.json`, is kept for rollback.
 
 | Movement | Folds over 90° | Crumple over 35° | Self-intersections | Edges stretched over 2× | Asymmetry p95 / max | Return to neutral |
@@ -67,7 +73,7 @@ report `review-assets/body_v2/movement_trajectories_20261024/report_TT_E8c_all7.
 | Squat (arms forward, feet planted) | 13 | 502 | 0 | 4096 | 1.42 / 23 mm | 0.0 mm |
 | Lateral raise, 0 → 90° (not authored for) | 4 | 295 | 0 | 1970 | 1.32 / 27 mm | 0.0 mm |
 | Front raise, 0 → 90° (not authored for) | 7 | 287 | 0 | 2277 | 1.31 / 20 mm | 0.0 mm |
-| Deadlift (hip to 135°, feet planted) | 70 | 771 | 1885 | 1961 | 1.34 / 8 mm | 0.0 mm |
+| Deadlift (hip to 135°, feet planted) | 68 | 801 | 1011 | 1980 | 1.36 / 8 mm | 0.0 mm |
 | Lunge (benchmark pose, asymmetric by design) | 50 | 932 | 169 | 1895 | n/a | 0.0 mm |
 
 **Other measures:**
@@ -222,8 +228,10 @@ The flagged muscles:
      change the bind, so that needs owner approval, and every arm key would need re-authoring.
 2. **Elbow at 140°.** Some flattening remains near the upper biceps, where the guards return skin to the plane contact
    (E8c fixed 120°).
-3. **Deadlift abdomen–thigh contact at 130–135°.** It is clean to 114°. Needs a non-planar contact surface, or a test
-   path at realistic deadlift depth.
+3. **Deadlift abdomen–thigh contact at 135°.**
+   - H3 cut it from 1885 to 1011 intersections (25 at the ~120° frame).
+   - The rest lies outside the contact reach or in the groin.
+   - 135° is past a conventional deadlift's depth.
 4. **Posterior armpit fold at the lockout:** comes from the skin weights, and part of it is anatomical. Needs a
    judgement against reference photos.
 5. **Lunge:** the benchmark's abducted arms touch the legs. This is a test-path artifact.

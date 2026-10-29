@@ -2396,3 +2396,6 @@ them.
 - Next step: a 2D-chart slide, or wider upper-arm weights. The weights need owner approval.
 
 **Reproducing.** Export `V2_GIRDLE_FRAME=isb`. Without it, the press and raises measure differently.
+
+**Later (29 Oct): H3 is now the current best candidate.** It is E8c plus a deep hip key (135°) re-authored with the
+same guarded-restore contact. Deadlift intersections fall from 1885 to 1011, and the other movements are unchanged.

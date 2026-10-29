@@ -1272,3 +1272,44 @@ Report: `report_TT_E8c_all7.json`.
    V2_R121_HINGE_REACH=0.26 V2_R121_CONTACT_FOOTPRINT=0.004 V2_R121_CONTACT_FOOTPRINT_SLAB=0.030
    V2_R121_CONTACT_MODE=plane_restore V2_R121_POSTGUARD_ROUNDS=3`.
 2. Then the combination key, as above.
+
+## H3: deep hip key with the guarded-restore hip contact (29 Oct 2026), adopted
+
+**Why try again.** The plane hip contact (H2) halved the deadlift's abdomen–thigh intersections, but doubled the folds
+and raised collapse and stretch. It flattened the wide abdomen, the same fault E8 fixed at the elbow. The
+`plane_restore` contact now covers the hip too: in `hinge` mode the distal limb is the thigh, shin and foot.
+
+**Chain.** On E8c, in the reproduction environment, the deep hip key (135°) is dropped and re-authored with the fold-in:
+
+```
+V2_R121_ARMKEY_MODE=hinge V2_R121_ARMKEY_ANGLES=100 V2_R121_HINGE_DROP_ABOVE=120 V2_R121_HIP_CONTACT=1
+V2_R121_CONTACT_MODE=plane_restore V2_R121_POSTGUARD_ROUNDS=3 V2_R121_CONTACT_FOOTPRINT=0.004
+V2_R121_CONTACT_FOOTPRINT_SLAB=0.030
+```
+
+At 135°, of 13,107 contacted vertices, 7053 were restored fully, 3993 partly and 2061 kept. The guard left 31 overlaps
+it could not clear.
+
+| Deadlift | E8c (= T3 legs) | H2 (plane only; on H1) | **H3** |
+|---|---|---|---|
+| Self-intersections (peak, 135°) | 1885 | 966 | **1011** |
+| Self-intersections at the ~120° frame | 364 | n/a | **25** |
+| Folds over 90° | 70 | 160 | **68** |
+| Hip folds | 21 | 111 | **19** |
+| Hip crumple over 35° | 297 | n/a | 327 |
+| Edges stretched over 2× | 1961 | 3275 | 1980 |
+| Edges collapsed under 0.5× | 10,103 | 14,353 | 10,176 |
+
+- Squat and lunge are identical.
+- Press, curl and both raises were not re-run: the deep key's weight is zero below 110° of hip flexion, and those
+  movements have no hip flexion.
+- Every movement returns to neutral exactly.
+- The deadlift-bottom renders show no change in shape (`deadlift_bottom_E8c_vs_H3.jpg`).
+
+**Verdict:** H3 is the current best candidate.
+
+- Intersections at the bottom of the deadlift nearly halve, without H2's costs.
+- The remaining 1011 at 135° (632 hip/hip, 347 hip/other) are outside the 26 cm contact reach or in the groin. 135° is
+  past a conventional deadlift's depth.
+
+Reports: `report_TT_H3_deadlift_squat_lunge.json`, `r121_deep_hip_key_H3_report.json`.

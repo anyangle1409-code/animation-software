@@ -139,6 +139,49 @@ def plant_solve_summary(pre, post):
     return result
 
 
+def foot_skin_lower_envelope(vertices, dominant_groups, side, foot_control_head,
+                             lower_fraction=0.01):
+    """Describe evaluated foot/toe-dominant skin; never infer physical contact."""
+    if len(vertices) != len(dominant_groups) or not vertices:
+        raise ValueError("vertex/group count mismatch or empty geometry")
+    if side not in ("l", "r") or lower_fraction != 0.01:
+        raise ValueError("unsupported authored suffix or lower fraction")
+    selected = []
+    names = set()
+    for vertex_id, (vertex, group) in enumerate(zip(vertices, dominant_groups)):
+        if (isinstance(group, str) and group.endswith("_" + side)
+                and group.split("_")[0] in ("foot", "toe")):
+            selected.append((vertex_id, vector3(vertex)))
+            names.add(group)
+    if not selected:
+        raise ValueError("no foot/toe-dominant skin vertices for authored suffix")
+    count = max(1, math.ceil(len(selected) * lower_fraction))
+    lower = sorted(selected, key=lambda row: (row[1][2], row[0]))[:count]
+    ids = [row[0] for row in lower]
+    points = [row[1] for row in lower]
+    centroid = [sum(point[axis] for point in points) / count for axis in range(3)]
+    bounds = {
+        "min": [min(point[axis] for point in points) for axis in range(3)],
+        "max": [max(point[axis] for point in points) for axis in range(3)],
+    }
+    selected_ids = [row[0] for row in selected]
+    return {
+        "evaluated_mesh_vertex_count": len(vertices),
+        "selected_vertex_count": len(selected),
+        "selected_vertex_ids_sha256": hashlib.sha256(json.dumps(
+            selected_ids, separators=(",", ":")).encode("utf-8")).hexdigest(),
+        "dominant_group_names": sorted(names),
+        "lower_fraction": lower_fraction,
+        "lower_vertex_count": count,
+        "lower_vertex_ids": ids,
+        "minimum_world_z_m": min(point[2] for _, point in selected),
+        "lower_centroid_world_m": centroid,
+        "lower_bounds_world_m": bounds,
+        "foot_control_head_minus_lower_centroid_world_m": _subtract(
+            foot_control_head, centroid),
+    }
+
+
 def _valid_vector(value):
     return (isinstance(value, list) and len(value) == 3
             and all(type(x) in (int, float) and math.isfinite(x) for x in value))
@@ -187,6 +230,53 @@ def _valid_plant_solve(solve, final_root):
     return _vectors_close(solve.get("mean_post_solve_residual_world_m"), mean)
 
 
+def _valid_skin_envelope(envelope):
+    if (not isinstance(envelope, dict)
+            or envelope.get("status") != "DESCRIPTIVE_EVALUATED_FOOT_SKIN_LOWER_ENVELOPE_NOT_CONTACT"
+            or envelope.get("contact_claimed") is not False):
+        return False
+    sides = envelope.get("sides")
+    if not isinstance(sides, dict) or set(sides) != {"l", "r"}:
+        return False
+    for side in ("l", "r"):
+        row = sides[side]
+        mesh_count = row.get("evaluated_mesh_vertex_count")
+        selected = row.get("selected_vertex_count")
+        lower_count = row.get("lower_vertex_count")
+        ids = row.get("lower_vertex_ids")
+        digest_value = row.get("selected_vertex_ids_sha256")
+        groups = row.get("dominant_group_names")
+        if (type(mesh_count) is not int or mesh_count <= 0
+                or type(selected) is not int or not 0 < selected <= mesh_count
+                or row.get("lower_fraction") != 0.01
+                or type(lower_count) is not int
+                or lower_count != max(1, math.ceil(selected * 0.01))
+                or not isinstance(ids, list) or len(ids) != lower_count
+                or any(type(vertex_id) is not int or not 0 <= vertex_id < mesh_count
+                       for vertex_id in ids)
+                or len(set(ids)) != len(ids)
+                or not isinstance(digest_value, str) or len(digest_value) != 64
+                or any(char not in "0123456789abcdef" for char in digest_value)
+                or not isinstance(groups, list) or groups != sorted(set(groups)) or not groups
+                or any(not name.endswith("_" + side)
+                       or name.split("_")[0] not in ("foot", "toe") for name in groups)):
+            return False
+        centroid = row.get("lower_centroid_world_m")
+        bounds = row.get("lower_bounds_world_m")
+        minimum = row.get("minimum_world_z_m")
+        if (not _valid_vector(centroid) or not isinstance(bounds, dict)
+                or set(bounds) != {"min", "max"}
+                or not _valid_vector(bounds["min"]) or not _valid_vector(bounds["max"])
+                or type(minimum) not in (int, float) or not math.isfinite(minimum)
+                or not math.isclose(minimum, bounds["min"][2], abs_tol=1e-9)
+                or any(not bounds["min"][axis] <= centroid[axis] <= bounds["max"][axis]
+                       for axis in range(3))
+                or not _valid_vector(row.get(
+                    "foot_control_head_minus_lower_centroid_world_m"))):
+            return False
+    return True
+
+
 def validate_report(data):
     errors = []
     if (data.get("status") != "READ_ONLY_AUTHORED_SQUAT_CONTROL_STATE_ANATOMY_NOT_APPROVED"
@@ -227,6 +317,8 @@ def validate_report(data):
         elif not _valid_plant_solve(
                 row.get("foot_plant_solve"), row["root_matrix_basis_translation_m"]):
             errors.append("invalid foot-plant solve evidence")
+        if not _valid_skin_envelope(row.get("foot_skin_lower_envelope")):
+            errors.append("invalid foot-skin lower envelope")
         controls = []
         centreline = row.get("centreline")
         if not isinstance(centreline, dict) or set(centreline) != {"pelvis", "spine_01"}:
@@ -237,6 +329,17 @@ def validate_report(data):
         if not isinstance(sides, dict) or set(sides) != {"l", "r"}:
             errors.append("both runtime suffix sides required")
             continue
+        envelope = row.get("foot_skin_lower_envelope")
+        if _valid_skin_envelope(envelope):
+            for side in ("l", "r"):
+                skin = envelope["sides"][side]
+                foot_head = sides[side]["foot"].get(
+                    "head_world_m_not_anatomical_joint_centre")
+                if (not _valid_vector(foot_head) or not _vectors_close(
+                        skin["foot_control_head_minus_lower_centroid_world_m"],
+                        [a - b for a, b in zip(
+                            foot_head, skin["lower_centroid_world_m"])])):
+                    errors.append("foot-skin/control cross-reference mismatch")
         for side in ("l", "r"):
             if not isinstance(sides[side], dict) or set(sides[side]) != {"thigh", "shin", "foot", "toe"}:
                 errors.append("missing authored lower-limb controls")
@@ -255,6 +358,18 @@ def validate_report(data):
             if (not _valid_vector(control.get("head_world_m_not_anatomical_joint_centre"))
                     or not _valid_vector(control.get("tail_world_m"))):
                 errors.append("invalid authored control trajectory point")
+    for side in ("l", "r"):
+        signatures = []
+        for row in samples:
+            envelope = row.get("foot_skin_lower_envelope")
+            if not _valid_skin_envelope(envelope):
+                continue
+            skin = envelope["sides"][side]
+            signatures.append((skin["selected_vertex_count"],
+                               skin["selected_vertex_ids_sha256"],
+                               tuple(skin["dominant_group_names"])))
+        if signatures and len(set(signatures)) != 1:
+            errors.append("foot-skin selection changed across samples")
     return errors
 
 
@@ -277,7 +392,23 @@ def markdown(data):
             f"{row['measured_authored_ankle_dorsiflexion_deg_not_isb']:.5f} | "
             f"{row['root_matrix_basis_translation_m'][2]:.7f} | "
             f"{row['evaluated_body_lowest_world_z_m_not_contact']:.7f} |")
-    lines += ["", "## Foot-plant solve residuals", "",
+    lines += ["", "## Evaluated foot-skin lower envelope (not contact)", "",
+              "The lowest 1% is selected independently per authored suffix from evaluated vertices whose dominant group token is foot or toe.", "",
+              "| Sample | Suffix | selected | lower vertices | centroid X/Y/Z mm | lower X span mm | lower Y span mm |",
+              "|---:|:---:|---:|---:|---:|---:|---:|"]
+    for row in data["samples"]:
+        for side in ("l", "r"):
+            skin = row["foot_skin_lower_envelope"]["sides"][side]
+            bounds = skin["lower_bounds_world_m"]
+            centroid = "/".join(
+                f"{value * 1000:.3f}" for value in skin["lower_centroid_world_m"])
+            lines.append(
+                f"| {row['sample']} | {side} | {skin['selected_vertex_count']} | "
+                f"{skin['lower_vertex_count']} | {centroid} | "
+                f"{(bounds['max'][0] - bounds['min'][0]) * 1000:.3f} | "
+                f"{(bounds['max'][1] - bounds['min'][1]) * 1000:.3f} |")
+    lines += ["", "These vertices are a descriptive lower envelope only; no floor plane, support polygon, force, pressure, friction, slip or balance threshold is inferred.",
+              "", "## Foot-plant solve residuals", "",
               "Residuals are foot-control head minus its captured rest target after the frozen solve; they are not anatomical ankle-centre errors.", "",
               "| Sample | root correction X/Y/Z mm | l post residual X/Y/Z mm | r post residual X/Y/Z mm | mean post residual X/Y/Z mm |",
               "|---:|---:|---:|---:|---:|"]
@@ -366,6 +497,15 @@ def main():
                 bones["root"].matrix_basis.to_translation()),
             "evaluated_body_lowest_world_z_m_not_contact": min(finite(vertex.z) for vertex in V),
             "foot_plant_solve": plant_records[sample],
+            "foot_skin_lower_envelope": {
+                "status": "DESCRIPTIVE_EVALUATED_FOOT_SKIN_LOWER_ENVELOPE_NOT_CONTACT",
+                "contact_claimed": False,
+                "sides": {
+                    side: foot_skin_lower_envelope(
+                        V, dom, side, rig.matrix_world @ bones[f"foot_{side}"].head)
+                    for side in ("l", "r")
+                },
+            },
             "centreline": {
                 name: bone_record(bones, rig.matrix_world, name)
                 for name in ("pelvis", "spine_01")
@@ -410,6 +550,7 @@ def main():
             "Bone heads are authored rig locations, not independently verified anatomical joint centres",
             "The benchmark foot solve and lowest evaluated vertex do not prove pressure, balance or ground contact",
             "Pre/post solve residuals expose authored root-correction behavior, not anatomical foot planting",
+            "Foot/toe-dominant lower-envelope skin samples are descriptive geometry, not contact patches",
             "The single foot and toe controls do not establish talus, calcaneus or multisegment foot coordination",
             "Population range-of-motion means are not hard movement limits and no movement is approved",
         ],
@@ -427,3 +568,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

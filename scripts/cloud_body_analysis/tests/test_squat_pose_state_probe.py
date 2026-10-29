@@ -1,5 +1,6 @@
 """Pure-Python guards for the read-only W8 authored squat pose report."""
 import copy
+import hashlib
 import importlib.util
 import math
 from pathlib import Path
@@ -42,6 +43,23 @@ def report():
                 "pre_solve_foot_local_delta_deg_not_anatomical": 0.0,
                 "post_solve_foot_local_delta_deg_not_anatomical": 5 * k,
             }
+        envelope_sides = {}
+        for side, ids, x in (("l", [0], -0.1), ("r", [2], 0.1)):
+            all_ids = [0, 1] if side == "l" else [2, 3]
+            envelope_sides[side] = {
+                "evaluated_mesh_vertex_count": 4,
+                "selected_vertex_count": 2,
+                "selected_vertex_ids_sha256": hashlib.sha256(
+                    json_bytes(all_ids)).hexdigest(),
+                "dominant_group_names": [f"foot_{side}", f"toe_{side}"],
+                "lower_fraction": 0.01,
+                "lower_vertex_count": 1,
+                "lower_vertex_ids": ids,
+                "minimum_world_z_m": 0.0,
+                "lower_centroid_world_m": [x, 0.0, 0.0],
+                "lower_bounds_world_m": {"min": [x, 0.0, 0.0], "max": [x, 0.0, 0.0]},
+                "foot_control_head_minus_lower_centroid_world_m": [-x, 0.0, 1.0],
+            }
         samples.append({
             "sample": i,
             "t": i / 8,
@@ -61,6 +79,11 @@ def report():
                 "mean_post_solve_residual_world_m": [0.0, 0.0, 0.0],
                 "sides": solve_sides,
             },
+            "foot_skin_lower_envelope": {
+                "status": "DESCRIPTIVE_EVALUATED_FOOT_SKIN_LOWER_ENVELOPE_NOT_CONTACT",
+                "contact_claimed": False,
+                "sides": envelope_sides,
+            },
             "centreline": {"pelvis": bone(), "spine_01": bone()},
             "sides": {
                 side: {
@@ -78,6 +101,11 @@ def report():
         "anatomical_approval": "NOT_GRANTED", "ground_contact_approval": "NOT_GRANTED",
         "samples": samples,
     }
+
+
+def json_bytes(value):
+    import json
+    return json.dumps(value, separators=(",", ":")).encode()
 
 
 class SquatPoseStateProbeTests(unittest.TestCase):
@@ -103,6 +131,7 @@ class SquatPoseStateProbeTests(unittest.TestCase):
         self.assertIn("not ISB", text)
         self.assertIn("NOT verified ground contact", text)
         self.assertIn("Foot-plant solve residuals", text)
+        self.assertIn("Evaluated foot-skin lower envelope (not contact)", text)
 
     def test_requires_exact_nine_ordered_samples(self):
         data = report()
@@ -184,6 +213,36 @@ class SquatPoseStateProbeTests(unittest.TestCase):
     def test_report_rejects_tampered_solve_residual_or_root_delta(self):
         data = report(); data["samples"][3]["foot_plant_solve"]["sides"]["l"]["post_solve_residual_world_m"][0] += 0.001
         self.assertIn("invalid foot-plant solve evidence", probe.validate_report(data))
+
+    def test_foot_skin_envelope_selects_exact_dominant_suffix_and_lowest_percent(self):
+        vertices = [(0, 0, 0.3), (1, 0, 0.1), (2, 0, 0.2),
+                    (10, 0, 0.0), (11, 0, 0.4)]
+        groups = ["foot_l", "toe_l", "shin_l", "foot_r", "toe_r"]
+        left = probe.foot_skin_lower_envelope(vertices, groups, "l", (0, 0, 1))
+        right = probe.foot_skin_lower_envelope(vertices, groups, "r", (10, 0, 1))
+        self.assertEqual(left["selected_vertex_count"], 2)
+        self.assertEqual(left["lower_vertex_ids"], [1])
+        self.assertEqual(left["dominant_group_names"], ["foot_l", "toe_l"])
+        self.assertEqual(right["lower_vertex_ids"], [3])
+        self.assertEqual(right["foot_control_head_minus_lower_centroid_world_m"], [0.0, 0.0, 1.0])
+
+    def test_foot_skin_envelope_rejects_bad_topology_or_missing_side(self):
+        with self.assertRaisesRegex(ValueError, "vertex/group count"):
+            probe.foot_skin_lower_envelope([(0, 0, 0)], [], "l", (0, 0, 0))
+        with self.assertRaisesRegex(ValueError, "no foot/toe-dominant"):
+            probe.foot_skin_lower_envelope([(0, 0, 0)], ["shin_l"], "l", (0, 0, 0))
+
+    def test_report_rejects_false_skin_contact_or_tampered_lower_ids(self):
+        data = report(); data["samples"][0]["foot_skin_lower_envelope"]["contact_claimed"] = True
+        self.assertIn("invalid foot-skin lower envelope", probe.validate_report(data))
+        data = report(); data["samples"][0]["foot_skin_lower_envelope"]["sides"]["l"]["lower_vertex_ids"] = [1, 1]
+        self.assertIn("invalid foot-skin lower envelope", probe.validate_report(data))
+        data = report(); data["samples"][0]["foot_skin_lower_envelope"]["sides"]["l"]["lower_vertex_ids"] = [4]
+        self.assertIn("invalid foot-skin lower envelope", probe.validate_report(data))
+        data = report(); data["samples"][4]["foot_skin_lower_envelope"]["sides"]["l"]["selected_vertex_ids_sha256"] = "a" * 64
+        self.assertIn("foot-skin selection changed across samples", probe.validate_report(data))
+        data = report(); data["samples"][0]["foot_skin_lower_envelope"]["sides"]["l"]["foot_control_head_minus_lower_centroid_world_m"][0] += 0.01
+        self.assertIn("foot-skin/control cross-reference mismatch", probe.validate_report(data))
         data = report(); data["samples"][3]["foot_plant_solve"]["root_matrix_basis_translation_delta_m"][2] += 0.001
         self.assertIn("invalid foot-plant solve evidence", probe.validate_report(data))
 
@@ -212,3 +271,4 @@ class SquatPoseStateProbeTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

@@ -1002,3 +1002,31 @@ stretch rose (edges over 2×: 7361 → 9041), just as zeroing raised the leg str
 `transplant_key_offsets_candidate_blender.py` brings the original S1 / S3 / S5 / S7 offsets back from R121p2. The
 topology is the same, and the bases differ by at most 5 mm. The offsets are low-pass filtered (30 rounds), and then the
 arm, forward-raise (with the 20° key) and combination families are re-authored on top.
+
+**U3: smoothed legacy shoulder families under re-authored arm keys. Mixed, not adopted.**
+
+The smoothed families alone have lockout roughness 0.128 mm (raw: 0.268 mm; plain skinning: 0.117 mm), so the texture is
+gone. With the arm keys re-authored on top, lockout roughness is 0.088 mm (T3: 0.086 mm).
+
+| | T3 | U3 |
+|---|---|---|
+| Press: edges stretched over 2× | 9041 | **4977** |
+| Press: edge-length p99 | 2.04 | **1.78** |
+| Press: self-intersections | 10 | **5** |
+| Press: elbow folds | 2 | **0** |
+| Press: folds over 90° | 13 | 20 |
+| Press: edges collapsed under 0.5× | 5384 | 6320 |
+| Press: asymmetry p95 | 1.38 mm | **2.46 mm** |
+| Lateral raise: stretched over 2× | 1970 | 3846 |
+| Front raise: stretched over 2× | 2277 | 3781 |
+
+The legs and curl are unchanged.
+
+**Verdict.** The legacy shoulder families help the press, the path they were originally tuned on (the r57 coupled
+press). They hurt the raises that use the candidate girdle, and they nearly double the press asymmetry. That works
+against a reusable, angle-driven system. **T3 stays.**
+
+Press-lockout stretch at the armpit remains the shoulder's open item. A girdle-consistent stretch-relief step, not a
+legacy transplant, is the better route.
+
+Report: `report_TT_U3_smoothed_legacy_shoulder_not_adopted.json`.

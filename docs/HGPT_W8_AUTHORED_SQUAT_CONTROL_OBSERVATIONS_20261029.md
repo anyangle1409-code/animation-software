@@ -70,3 +70,23 @@ Across all nine samples, the magnitude of the mean bilateral post-solve residual
 The recorded root matrix-basis translation is expressed in the root control's local basis and must not be compared component-for-component with world-space foot residuals. No contact, balance, pressure, force, friction or movement approval follows from the near-zero bilateral mean.
 
 Next safe work is to measure the evaluated foot/toe-dominant skin support envelope at the same nine in-memory samples and compare it with these control residuals. This should remain descriptive and must not invent a contact or balance threshold.
+
+
+## Evaluated foot/toe-dominant skin lower envelope — native verification
+
+Implementation commit `925106926653eaf002acc4a63b6ba1490fe65c08` extends the same source-preserving nine-frame probe with evaluated skin geometry. [Run 40921817758](https://github.com/anyangle1409-code/animation-software/actions/runs/40921817758) completed **SUCCESS 7/7**. Job IDs: pose `123616797572`, V14 `123616798041`, W8 `123616798153`, R120 `123616798155`, localization `123616798186`, comparison `123617575108`, driver `123620651993`. Cloud logs confirm 336/336 localization tests, 17/17 focused squat-probe tests, and the other pose suites at 29/29 + 19/19 + 6/6 + 10/10.
+
+Artifact `12919471465` (`phone-w8-squat-pose-state-40921817758`) was independently downloaded and CRC-checked. Its ZIP SHA256 exactly matches GitHub at `e6aa66566ca220b224acb9157212ef6545f2b4a9f56b726f7d4864b4813ad4d7`. Member SHA256 values are JSON `dca20d29a49d65113c61fa7ce54d9b6bde9e55fb4bcc6b127bba7cae6e77e53a` and Markdown `f212fb7f217de68e770ce55c2fefdd60b3e73beb6a58e98063d5e2f8f82d9843`.
+
+At each sample the probe evaluates the 219,974-vertex body mesh, selects vertices whose single dominant weight-group token is exactly `foot` or `toe` with the matching runtime suffix, and then reports the lowest 1% by world Z with vertex-ID tie-breaking. This produces 6,865 selected vertices and 69 lower-envelope vertices per side. The full selected-ID fingerprints remain constant across all nine samples:
+
+- `l`: `e364be8f7e6735b11492afe3fd26f1d1a39c9954fa8988a7d8df463393a0c6df`, groups `foot_l` and `toe_l`;
+- `r`: `8b066cf0408f3a0701d057908d0bb5c968f1d5f1bcd9af599823e12dcb60b858`, groups `foot_r` and `toe_r`.
+
+The lowest-69 membership is not fixed: it occupies seven distinct vertex-ID sets per side over nine samples. This is evidence of a moving evaluated lower envelope, not a persistent anatomical or physical contact patch.
+
+Across the trajectory, lower-centroid spans are approximately `7.86098 mm` mediolateral, `65.91125 mm` fore-aft and `0.34611 mm` vertical per side. Minimum Z spans `0.81388 mm` left and `0.81386 mm` right. Bilateral mirrored centroid disagreement is at most `0.000069 mm`. The world-space distance between each authored foot-control head and its skin lower centroid ranges from `103.47847 mm` to `151.10239 mm`; these different observables must not be treated as interchangeable joint/contact coordinates.
+
+Status is `DESCRIPTIVE_EVALUATED_FOOT_SKIN_LOWER_ENVELOPE_NOT_CONTACT` with `contact_claimed=false`. No floor plane, support polygon, pressure, force, friction, slip, balance or tissue-safety threshold is measured or inferred. The selected groups are rig labels, not independently verified foot segments, and the authored foot controls remain unverified anatomical centres. Anatomy and ground-contact approval remain NOT_GRANTED; 46 landmarks remain unbound and 0/19 generic motions approved.
+
+Machine record: `recovery_20261023/cloud_verification_20261029_run40921817758.json`. Historical run `40029398965` remains FAILED overall for its documented read-only docstring false positive; its separately verified W8/V14/R120/cross rig evidence remains valid. Run `40858906795` remains superseded for pre-solve causality despite successful CI. No protected source, model, rig, weights, shape keys, muscles, app, version, merge or deployment changed.

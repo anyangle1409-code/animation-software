@@ -1,5 +1,5 @@
-Warning: truncated output (original token count: 41716)
-Total output lines: 703
+Warning: truncated output (original token count: 42139)
+Total output lines: 712
 
 # Home Gym PT — phone-only cloud Blender execution ledger
 Date: 2026-10-23
@@ -283,15 +283,7 @@ The overnight hourly cloud continuation automation is configured separately; eac
 ### Addendum — independent historical rig re-download and first ranked-edge artifact
 
 - Re-downloaded **all four** ZIPs from historical [run40029398965](https://github.com/anyangle1409-code/animation-software/actions/runs/40029398965) again in this session. ZIP SHA256 MATCH GitHub for W8 `adaba1780dcde12b589f590bc6de7ae2227485471f9ff0817a56dff888188267`, V14 `098c34ab14d8e14dbf21735b11808067df4296247dcc7efb7e9420b7b43545a9`, R120 `17266fbc256cc775ce21c16b556d6a0fbff36499a1f2f78d05a6c058d6e56018`, rest comparison `3391425922f772ce4633c93456b0bf61a189cb4791e15c3b905432769f46f865`. Embedded `rig_rest_axes_metadata.json` member hashes again match the full values in the earlier historical entry. All 77-bone rest JSON objects are **byte-identical** between historical run40029398965 and current run40056461299 for each respective W8/V14/R120 model. Selected rest heads/tails/axes, hierarchy and rotation/constraint metadata also match across the three models. These are **rest structural metadata**, not certified ISB coordinates or deformation. Historical run remains FAILED overall from its read-only test.
-- [Run40060666110](https://github.com/anyangle1409-code/animation-software/actions/runs/40060666110) at `fe4651643…11716 tokens truncated…1.json`.
-- Native pose JSON SHA256 `9c2ea82a6a876471903bf9f7a6d03655b81d31269579d76113610164ce2c18b7` is byte-identical to run40095096697, proving the refinement changed summary partitioning only. New suffix-local summary JSON SHA256 `31434bd713ac8cd0dd2d90e72899fa48e670371e2d70822bcc83f10061ff8ffa` and Markdown `6cfcd997bb909a0de8bca2cd3188ce744eb6d9949905712147ac41ae811ffc36`.
-- Local counts remove opposite-suffix unchanged rows but remain mixed: sample0 S5 110 local seed `1 closer/0 farther/1 same`, adjacent `0/4/4`; S5 85 `1/1/0`, adjacent `4/4/0`. Sample6 each S5 endpoint `0/1/1`, adjacent `0/4/4`; S7 145 seeds `2/0/0`, adjacent l `4/4/0`, r `5/3/0`; S7 156 `1/1/0`, adjacent `6/2/0`. Authored suffixes are explicitly not certified anatomical sides. No blanket disable/repair.
-- Anatomical status unchanged:46 landmarks unbound,0/19 generic motions approved; shoulder/elbow/lower-body/grip/contact/balance/return and archive provenance gates remain open. Historical run40029398965 still FAILED overall as documented. No original model/rig/weight/muscle/app/production/version/merge/deploy change; highlighting deferred.
-
-### Final review and branch disposition
-
-- Fresh-context read-only review of `3bc15bfa..0504731b` found **no Critical, Important or Minor issues**. Reviewer verified247/247 tests and18/18 focused isolation tests and judged the scoped diagnostic ready. Optional recommendation only: add a future synthetic exception specifically inside an individual-key evaluation; existing state restoration is correct by inspection and broader family/callback failure paths are tested.
-- Final: Ruling: reviewer declined anatomical correctness, physiological safety and repair suitability — these remain explicitly outside this geometric diagnostic and blocked on independent landmarks/segment frames/human review — cost if wrong: authored suffix geometry could be misrepresented as human anatomy or a safe repair.
+- [Run40060666110](https://github.com/anyangle1409-code/animation-software/actions/runs/40060666110) at `fe4651643…12139 tokens truncated…ir suitability — these remain explicitly outside this geometric diagnostic and blocked on independent landmarks/segment frames/human review — cost if wrong: authored suffix geometry could be misrepresented as human anatomy or a safe repair.
 - Final: Ruling: reviewer did not independently redownload cloud artifact bytes — executor separately downloaded, CRC-checked and SHA256-matched pose artifacts12560597148 and12561056872 plus driver12560327616, with exact hashes recorded above — cost if wrong: a workflow-success badge alone would not establish artifact integrity.
 - Owner instruction already selects finishing disposition: keep isolated branch `work/phone-blender-workbench-20261023` as-is. No merge, PR, deployment or workspace cleanup performed.
 
@@ -531,3 +523,12 @@ The overnight hourly cloud continuation automation is configured separately; eac
 - Each value is an unsigned local `matrix_basis` rotation magnitude plus the original pose rotation mode. It is not a signed component, ISB angle, anatomical side, scapulohumeral rhythm or clinical limit. The existing failed shoulder benchmark is not reclassified.
 - Four initial focused behaviors were observed RED then GREEN. Fresh review found two Important evidence-integrity gaps: arbitrary rotation-mode strings passed and quaternion sign-equivalent rotations were not explicitly canonicalized. Two expanded regressions reproduced both RED. The one fix pass requires pinned clavicle/scapula `QUATERNION` and upperarm `XYZ` modes and canonical shortest `0..180°` magnitude. Focused29/29 passes locally with no deferred finding; full suite/native values/artifact hashes pending.
 - Method: [W8 shoulder-chain pose observations](HGPT_W8_SHOULDER_CHAIN_POSE_OBSERVATIONS_20261029.md). No source/model/rig/weight/driver/key/muscle/app/production/version/merge/deploy change;46 landmarks unbound,0/19 generic motions approved; highlighting deferred.
+
+### Native cloud result — verified
+
+- Published commit `35b75861c63c0054be5e0e67b369aabed904282f`; [run40855460996](https://github.com/anyangle1409-code/animation-software/actions/runs/40855460996) completed **SUCCESS7/7**. Job IDs: pose `123385171697`, R120 `123385172051`, V14 `123385172065`, W8 `123385172088`, localization `123385172159`, comparison `123385658405`, driver `123387019122`.
+- Cloud logs confirm localization319/319; pose29/29 +19/19 +6/6 +10/10; comparison5/5 +12/12 +9/9 +7/7 +12/12 +15/15 +13/13; driver10/10 +20/20 +8/8.
+- Pose artifact12888194458 independently downloaded, CRC-checked and SHA256-matched GitHub: `2471ef5da07b93f657f0d702d4b24175f4ddd8fb6f4c83fdd8b4140b5b31f2fd`. Pose JSON `53800d2a74b816510097ecaea6031512fde0103148b68af36162c0d236a37d7b`; phone table `b43ff8e825cd1881d2a3dca8fc839dc5c1c3e2f7815711efc5e9fac8123a295f`.
+- Native observations: clavicle/scapula/upperarm unsigned local magnitudes rise monotonically from sample0 to8 and are near-bilateral (maximum l/r magnitude differences `0.00320°/0.01117°/0.01150°`). These are not signed rotations, ISB components, contribution ratios or proof of natural scapulohumeral coordination.
+- Stripping only the new shoulder-chain fields and limitation yields exact semantic equality with the prior verified pose report; all pre-existing return/corrective/deformation evidence is unchanged. Machine record: `recovery_20261023/cloud_verification_20261029_run40855460996.json`.
+- Anatomical/quality approval remains NOT_GRANTED;46 landmarks remain unbound and0/19 generic motions approved. No source/model/rig/weight/driver/key/muscle/app/production/version/merge/deploy change; highlighting deferred.

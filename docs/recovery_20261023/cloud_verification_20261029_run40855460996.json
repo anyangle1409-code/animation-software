@@ -1,0 +1,61 @@
+{
+  "workflow_run": {
+    "id": 40855460996,
+    "head_sha": "35b75861c63c0054be5e0e67b369aabed904282f",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs_successful": 7,
+    "jobs_total": 7
+  },
+  "published_commit": "35b75861c63c0054be5e0e67b369aabed904282f",
+  "jobs": {
+    "pose_state_w8": 123385171697,
+    "inspect_r120": 123385172051,
+    "inspect_v14": 123385172065,
+    "inspect_w8": 123385172088,
+    "localize_native_movement_failures": 123385172159,
+    "compare_rest_audits": 123385658405,
+    "verify_actual_shoulder_driver_math": 123387019122
+  },
+  "tests": {
+    "localization": {"passed": 319, "failed": 0},
+    "pose_focused_suites": [29, 19, 6, 10],
+    "comparison_focused_suites": [5, 12, 9, 7, 12, 15, 13],
+    "driver_focused_suites": [10, 20, 8]
+  },
+  "artifacts": [
+    {"id": 12889635985, "name": "phone-w8-driver-consistency-40855460996", "sha256": "fbb860c6ebd89eb0a660c5dd597ea53215d49c0ce73c3ab634b71b22b8c0234b", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12889610260, "name": "phone-blender-V14-40855460996", "sha256": "9de28a348c74fcc23c5203ee8691e2b5b4c98843d8bb80a4815a334055dd7eab", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12889540662, "name": "phone-blender-W8-40855460996", "sha256": "9760cbc8d48479c9f17d69d2244cb52ca66d01bf6f4ba21bcd0d954938e0d6dd", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12889516675, "name": "phone-native-failure-localization-40855460996", "sha256": "aa9ba087f843b4a5fab43a08923b0453f53a6179f8cc8e1fc0261ec9abf4077c", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12889411216, "name": "phone-rest-cross-model-40855460996", "sha256": "59360ae62fe4ea98433f8f09fb67b74203286d4f071ea51b299a2af1ec018e30", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12889386123, "name": "phone-w8-evaluated-snapshots-40855460996", "sha256": "4c67687911c9d3f17c047072d0c81e6bcd3718abcffca8c0824d2b2631913b31", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12888986959, "name": "phone-visual-review-40855460996", "sha256": "957bf7b937451a33f25d785f89ce19d6448909d49b7e59a9a3f53105f0968fe3", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12888444108, "name": "phone-blender-R120-40855460996", "sha256": "2720fa20354b4fbc262e5f5b90caa4833a52e6f779411db8366c8c02fa0305b2", "independently_downloaded_crc_checked_and_rehashed": false},
+    {"id": 12888194458, "name": "phone-w8-shoulder-pose-state-40855460996", "sha256": "2471ef5da07b93f657f0d702d4b24175f4ddd8fb6f4c83fdd8b4140b5b31f2fd", "independently_downloaded_crc_checked_and_rehashed": true}
+  ],
+  "shoulder_chain_pose_observations": {
+    "status": "READ_ONLY_IN_MEMORY_POSE_STATE_ANATOMY_NOT_APPROVED",
+    "pose_json_sha256": "53800d2a74b816510097ecaea6031512fde0103148b68af36162c0d236a37d7b",
+    "phone_markdown_sha256": "b43ff8e825cd1881d2a3dca8fc839dc5c1c3e2f7815711efc5e9fac8123a295f",
+    "samples": 9,
+    "authored_controls_present_every_sample": true,
+    "unsigned_local_magnitudes_monotone": true,
+    "max_bilateral_magnitude_difference_deg": {
+      "clavicle": 0.0032,
+      "scapula": 0.01117,
+      "upperarm": 0.0115
+    },
+    "signed_component_rotations_measured": false,
+    "isb_angles_measured": false,
+    "scapulohumeral_rhythm_approved": false,
+    "anatomical_approval": "NOT_GRANTED"
+  },
+  "prior_pose_report_after_stripping_new_fields_and_limitation_equal": true,
+  "anatomical_status": {
+    "unbound_landmarks": 46,
+    "generic_movements_approved": 0,
+    "generic_movements_total": 19,
+    "muscle_highlighting": "DEFERRED"
+  }
+}

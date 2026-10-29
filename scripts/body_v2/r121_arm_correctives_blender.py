@@ -354,8 +354,31 @@ def contact_plane_restore(T, margin=0.0008, rest_sep=float(os.environ.get("V2_R1
     for _ in range(2):                                         # erode: restored skin next to contact skin blends
         tt = np.where(moved, t, 1.0)                           # (skin the contact never moved counts as restored)
         t = np.where(moved, np.minimum(t, (A @ tt) * Dinv), t)
+    # triangle guard: a vertex test misses triangles that join restored and flattened skin and cut through the side
+    # wall of the distal limb (measured at 140 deg: upper biceps through the wrist end of the forearm).  Proximal
+    # vertices of any proximal triangle that overlaps the distal limb (and one ring) go back to fully flattened.
+    prox_all = np.zeros(n, bool); dist_all = np.zeros(n, bool)
+    for s_ in ("r", "l"):
+        lbn = HINGE[MODE][1]
+        side = np.sign(R0[:, 0]) == (1.0 if rig.data.bones[f"{lbn}_{s_}"].head_local.x > 0 else -1.0)
+        prox_all |= CONTACT[0] & side; dist_all |= distal & side
+    tp = TRI[prox_all[TRI].any(1) & ~dist_all[TRI].any(1)]; td = TRI[dist_all[TRI].all(1)]
+    guard = []
+    for _ in range(6):
+        X_ = T + t[:, None] * (T0 - T)
+        ba = BVHTree.FromPolygons([V_(p) for p in X_], tp.tolist(), all_triangles=True)
+        bb = BVHTree.FromPolygons([V_(p) for p in X_], td.tolist(), all_triangles=True)
+        ov = np.array(ba.overlap(bb), dtype=np.int64).reshape(-1, 2)
+        guard.append(int(len(ov)))
+        if not len(ov):
+            break
+        bad = np.zeros(n, bool); bad[tp[ov[:, 0]].ravel()] = True
+        bad = (bad | ((A @ bad.astype(float)) > 0)) & moved & prox_all
+        if not (t[bad] > 0).any():
+            break
+        t[bad] = 0.0
     T += t[:, None] * (T0 - T)
-    return {"contact": out, "moved": int(moved.sum()), "restored_full": int(((t > 0.99) & moved).sum()),
+    return {"contact": out, "moved": int(moved.sum()), "triangle_guard_overlaps": guard, "restored_full": int(((t > 0.99) & moved).sum()),
             "restored_part": int(((t > 0) & (t <= 0.99) & moved).sum()), "kept": int(((t == 0) & moved).sum())}
 
 

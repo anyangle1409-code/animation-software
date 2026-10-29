@@ -20,7 +20,7 @@ The permanent muscle IDs are used unchanged. Muscle highlighting is not implemen
 The test is `scripts/body_v2/movement_trajectory_test_blender.py`. Sheets: `trajectory_sheets.py`, written to
 `review-assets/body_v2/movement_trajectories_20261024/`, sized for a phone.
 
-| | Before (R121p, r57 girdle, no new keys) | Now (candidate **N2** = L4 + low forward key; review set `REVIEW_L4_*`) |
+| | Before (R121p, r57 girdle, no new keys) | Now (candidate **H1** = L4 + low forward key + deep hip key; review sets `REVIEW_L4_*`, `REVIEW_N2_*`) |
 |---|---|---|
 | Press: folds over 90° / self-intersections (peak) | 4666 / 4759 | **13 / 10** |
 | Press lockout skin roughness, p95 (rest pose: 0.066 mm) | – (K1 had 0.125 mm, a mottled back) | **0.086 mm** |
@@ -41,6 +41,9 @@ The candidate chain is:
 6. **L4**: the legacy S1 / S3 / S5 / S7 shoulder keys neutralised, and the R121 arm, forward-raise and combination keys
    re-authored on the clean base.
 7. **N2**: a low forward key (20°, measuring 11°) with the forward family's own start at 0°.
+8. **H1**: a deep hip key at 135°, authored in the deadlift (`hinge` mode) and appended to the hip family.
+   - Deadlift hip folds 349 → 28.
+   - The deadlift bottom still has abdomen–thigh interpenetration: a hip contact step is needed.
 
 ## Root causes established, each measured before anything was changed
 

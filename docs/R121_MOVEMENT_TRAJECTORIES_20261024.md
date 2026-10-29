@@ -803,3 +803,21 @@ disappears at the bottom.
 
 **Fix.** Hinge mode now folds what the earlier keys lose at the new angle into the new key, so the family reproduces
 the authored pose exactly. Re-running.
+
+**Deep hip key with the fold-in: adopted as H1.** The fold-in transfers the 110° key's full weight into the new 135° key.
+
+| Deadlift | N2 | H1 |
+|---|---|---|
+| Crumple over 35° | 2700 | **745** |
+| Folds over 90° | 399 | **72** |
+| Hip folds over 90° | 349 | **28** |
+| Edges stretched over 2× | 2784 | 2257 |
+| Self-intersections | 2052 | 1827 |
+
+Press, curl, squat, both raises and the lunge are identical to N2, and all seven movements return to neutral exactly.
+
+**H1 is the current best candidate.** Report: `report_TT_H1_all7.json`.
+
+**Still open.** At 130–135° there are 1530 hip-against-hip intersections: the abdomen and front of the thigh pass
+through each other. That needs a contact step for the hip, like the knee and elbow hinge contact; relaxation alone
+does not separate them.

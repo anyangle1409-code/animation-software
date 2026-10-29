@@ -1,0 +1,52 @@
+{
+ "mode": "hinge",
+ "angles_deg": [
+  100
+ ],
+ "keys": {
+  "100": {
+   "elevation_deg": {
+    "l": 135.49,
+    "r": 135.49
+   },
+   "folds_gt90_before": 428,
+   "unfold_history": [
+    428,
+    177,
+    157,
+    147,
+    151,
+    127,
+    133,
+    113,
+    95
+   ],
+   "contact_history": null,
+   "crumple_gt35_history": [
+    8108,
+    5819,
+    5325,
+    5194,
+    5124,
+    5071,
+    5049
+   ],
+   "folds_gt90_with_key": 95,
+   "max_offset_mm": 36.38,
+   "vertices": 31088,
+   "fit_residual_max_mm": 0.001
+  }
+ },
+ "folded_in": {
+  "R121_HIP_l_135": {
+   "R121_HIP_l_50": 0.0,
+   "R121_HIP_l_75": 0.0,
+   "R121_HIP_l_100": 1.0
+  },
+  "R121_HIP_r_135": {
+   "R121_HIP_r_50": 0.0,
+   "R121_HIP_r_75": 0.0,
+   "R121_HIP_r_100": 1.0
+  }
+ }
+}

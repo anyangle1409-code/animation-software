@@ -316,6 +316,35 @@ def contact_mutual(T, margin=0.0008, iters=int(os.environ.get("V2_R121_CONTACT_I
     return out
 
 
+POSTGUARD = {}
+
+
+def post_guard(T):
+    """after the unfold / de-crumple relaxation (which shrinks the restored, rounded proximal skin back towards the
+    distal limb - measured at 140 deg): proximal vertices of any proximal triangle that overlaps the distal limb, and
+    one ring, take their contact-flattened position again.  In place on T; returns the overlap counts."""
+    from mathutils import Vector as V_
+    from mathutils.bvhtree import BVHTree
+    hist = []
+    if not POSTGUARD:
+        return hist
+    tp, td, prox, flat = POSTGUARD["tp"], POSTGUARD["td"], POSTGUARD["prox"], POSTGUARD["flat"]
+    done = np.zeros(n, bool)
+    for _ in range(8):
+        ba = BVHTree.FromPolygons([V_(p) for p in T], tp.tolist(), all_triangles=True)
+        bb = BVHTree.FromPolygons([V_(p) for p in T], td.tolist(), all_triangles=True)
+        ov = np.array(ba.overlap(bb), dtype=np.int64).reshape(-1, 2)
+        hist.append(int(len(ov)))
+        if not len(ov):
+            break
+        bad = np.zeros(n, bool); bad[tp[ov[:, 0]].ravel()] = True
+        bad = (bad | ((A @ bad.astype(float)) > 0)) & prox & ~done
+        if not bad.any():
+            break
+        T[bad] = flat[bad]; done |= bad
+    return hist
+
+
 def contact_plane_restore(T, margin=0.0008, rest_sep=float(os.environ.get("V2_R121_CONTACT_REST_SEP", "0.025"))):
     """plane contact (robust where the limbs overlap deeply), then every proximal-side vertex it moved goes back towards where it was
     by the largest fraction (1, 3/4, 1/2, 1/4) that keeps it outside the other side's (contacted) skin - so the flat
@@ -377,6 +406,7 @@ def contact_plane_restore(T, margin=0.0008, rest_sep=float(os.environ.get("V2_R1
         if not (t[bad] > 0).any():
             break
         t[bad] = 0.0
+    POSTGUARD.update(flat=T.copy(), tp=tp, td=td, prox=prox_all & moved)   # for post_guard() after the relaxation
     T += t[:, None] * (T0 - T)
     return {"contact": out, "moved": int(moved.sum()), "triangle_guard_overlaps": guard, "restored_full": int(((t > 0.99) & moved).sum()),
             "restored_part": int(((t > 0) & (t <= 0.99) & moved).sum()), "kept": int(((t == 0) & moved).sum())}
@@ -443,6 +473,7 @@ for ang in ANGLES:
             Q = Pm - w[:, None] * (0.6 * B + 0.4 * mean(B))
         T = Q
     crum.append(folds(T, CT)[1])
+    postguard_hist = post_guard(T) if (CMODE == "plane_restore" and CONTACT is not None) else None
     # skin slide (optional): tangential relaxation - vertices move only within the surface, which keeps the shape and
     # evens out the stretch the skinning concentrates (armpit / lat skin at full elevation)
     SL = int(os.environ.get("V2_R121_ARMKEY_SLIDE", "0"))
@@ -504,7 +535,7 @@ for ang in ANGLES:
         set_key(kb, Dk * side[:, None])
         made.setdefault(s, []).append(elev[s] if MODE != "combo" else
                                       [float(drives.elevation_deg(rig, s)), float(r121_drives.elbow_flex_deg(rig, s))])
-    REP["keys"][str(ang)] = {"elevation_deg": elev, "folds_gt90_before": int(folds(P, 0.0)[1]), "unfold_history": hist, "contact_history": contact_hist, "crumple_gt35_history": crum,
+    REP["keys"][str(ang)] = {"elevation_deg": elev, "folds_gt90_before": int(folds(P, 0.0)[1]), "unfold_history": hist, "contact_history": contact_hist, "post_guard_overlaps": postguard_hist, "crumple_gt35_history": crum,
                              "folds_gt90_with_key": nk, "max_offset_mm": round(float(np.linalg.norm(Dk, axis=1).max() * 1000), 2),
                              "vertices": int(len(sel)), "fit_residual_max_mm": round(resid, 3)}
     print("ARMKEY", ang, json.dumps(REP["keys"][str(ang)]), flush=True)

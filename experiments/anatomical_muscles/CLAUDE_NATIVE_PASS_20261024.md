@@ -322,3 +322,45 @@ The other press verdicts are unchanged under glide, except serratus. Serratus de
 at a pull of 0.002 and lengthens at 0.0005.
 
 Files: `native_20261024/path_length_check_left_glide_reg0.002.json` and `…_reg0.0005.json`.
+
+### Why the trapezius lower flag will not resolve on R41 (added 29 Oct 2026)
+
+R41's scapula landmarks (left; the right side mirrors them):
+
+| Landmark | Position (m) | From the midline |
+|---|---|---|
+| TS | (0.052, 0.136, 1.440) | 52 mm |
+| AI | (0.080, 0.140, 1.320) | |
+| AA | (0.258, 0.061, 1.500) | 258 mm |
+
+| Measure | R41 | Reference |
+|---|---|---|
+| **AA → TS** | **227 mm** | 113.0 ± 6.6 mm (male 3D-CT, posterolateral acromion to medial spine; range 90–129) |
+| TS → AI | 123 mm | |
+| AA → AI | 265 mm | |
+| AC breadth (left to right) | 481 mm | 333–353 mm (the feasible clavicle family of the earlier skeleton work) |
+
+Dry-bone studies put the whole scapular spine at about 128–129 mm, from the acromion tip to the medial edge.
+
+**This is already established.** The skeleton tracker (`COMPLETE_HUMAN_SKELETON_LIVE_TRACKER_20261007.md`) records
+the reference above and calls transverse scapular geometry "a confirmed rebuild defect" of a003. R41 carries a003's AC
+breadth (481 mm). The corrected-width girdle candidates (c003 / c004: clavicle 151 mm, AC breadth 338 mm) are
+non-canonical; adopting them is the owner's decision on validated skeletal data.
+
+**Consequence for the muscle layer.**
+
+- With a spine about twice the CT length, 50° of upward rotation about the AC joint swings the root of the spine through
+  a chord of about 19 cm. Every girdle model tried therefore lengthens the T9 → root-of-spine line by 36–56 %.
+- The glide model needed 72° of clavicle elevation to keep TS and AI on the thorax.
+- The lower trapezius flag, and the girdle-dependence of the serratus verdict, are downstream of that defect, not anchor
+  errors.
+
+**Re-checking needs a corrected girdle.** A test that shrinks only the scapula (the clavicle still 481 mm wide) would put
+TS about 155 mm from the midline, so it does not settle the question and was not run. The re-check should be made on the
+c003/c004 girdle once the owner chooses it.
+
+Sources for the dry-bone figures:
+
+- [Scapula Morphometry and Types of Acromion](https://jcpres.com/article/2709) (spine length 128.0 ± 10.7 mm).
+- [The Scapula: Osseous Dimensions and Gender Dimorphism in Thais](https://he02.tci-thaijo.org/index.php/sirirajmedj/article/view/245524)
+  (spine 12.89 ± 0.94 cm).

@@ -1,16 +1,21 @@
-"""Prototype (read-only): skin slide by rest mean-value coordinates, measured at the press lockout.
+"""Prototype (read-only): skin slide at the press lockout - measured, NOT adopted (docs/R121_MOVEMENT_TRAJECTORIES, S1).
 
 lockout_stretch_diag_blender.py: the lockout stretch is plain skinning (~10,700 edges > 2x with no corrective keys; the
 keys change it little) - the arm bones pull the side-chest, lat and back skin up with them.  Real skin slides: the area
-the opening axilla needs is drawn from a wide surround.  Earlier tries: a uniform Laplacian slide (evens out vertex
-SPACING, so the dense rest armpit got more stretched) and tangential edge springs (fold-overs: nothing stops a vertex
-crossing its neighbours).  Here each vertex's rest 1-ring gives positive mean-value weights (Floater 2003) that reproduce
-its rest position in its tangent plane exactly; in the posed mesh the skin region is re-solved so every vertex sits, in
-its posed tangent plane, at the same weighted barycentre of its neighbours (boundary fixed; normal part of the posed
-Laplacian kept: the vertices move only within their tangent planes), then projected back onto the posed surface.  Positive barycentric weights make
-this a Tutte-type map: no fold-overs in the planar case, and the rest parametrisation is the fixed point at rest.
+the opening axilla needs is drawn from a wide surround.  Methods (V2_SLIDE_METHOD):
+  mvc      each vertex's rest 1-ring gives positive mean-value weights (Floater 2003) that reproduce its rest position in
+           its tangent plane (rest = fixed point, checked; reflex / degenerate rest rings pinned).  The posed region is
+           re-solved for 2 tangential unknowns per vertex (sparse direct solve) so each vertex sits, tangentially, at the
+           same weighted barycentre; projected back onto the posed surface (nearest point, opposite-facing sheets
+           refused), optionally with crease-contact pinning (pin_m) - does not converge, crease sheets interpenetrate
+  mvcwalk  the same solved field carried out by guarded surface walking (skin_slide_walk_vec.Slider) - no new
+           intersections, but the guard's rejections fragment the field (more folds)
+  walk     r57 original_v1_skin_slide as is (sequential; ~35 min per pose here, and its 1.5 mm scale-free step jitters
+           on this ~3 mm mesh - see skin_slide_walk_vec)
+Renders before / after (shaded and stretch heat maps).  Nothing is saved.
 
-usage: python3.13 skin_slide_mvc_prototype_blender.py -- <body.blend> <r57src> <out_dir> [radius_m=0.30] [rounds=3] [damping=1] [pin_m=0]
+usage: python3.13 skin_slide_mvc_prototype_blender.py -- <body.blend> <r57src> <out_dir> [radius_m=0.30] [rounds=3]
+       [damping=1] [pin_m=0]     env V2_SLIDE_METHOD (mvc), V2_SLIDE_SUB (4, mvcwalk sub-steps)
 """
 import json
 import os
@@ -28,7 +33,8 @@ RAD = float(a[3]) if len(a) > 3 else 0.30
 ROUNDS = int(a[4]) if len(a) > 4 else 3
 DAMP = float(a[5]) if len(a) > 5 else 1.0                  # fraction of each linearised tangential step taken
 PIN = float(a[6]) if len(a) > 6 else 0.0                   # >0: pin skin with another sheet this near along its normal
-METHOD = os.environ.get("V2_SLIDE_METHOD", "mvc")           # mvc (this file) or walk (r57 original_v1_skin_slide)
+METHOD = os.environ.get("V2_SLIDE_METHOD", "mvc")           # mvc (projection), mvcwalk (the solved field carried out by
+#                                                            guarded surface walking, skin_slide_walk_vec) or walk (r57)
 os.makedirs(OUT, exist_ok=True)
 sys.path[:0] = [ROOT + "/scripts", ROOT + "/scripts/anatomy_fit", os.path.dirname(os.path.abspath(__file__))]
 bpy.ops.wm.open_mainfile(filepath=SRC)
@@ -160,6 +166,10 @@ def slide(P, free):
     ri, ci, wv = pos[Lw.row[sel]], pos[Lw.col[sel]], Lw.data[sel]
     bvh = BVHTree.FromPolygons([Vector(p) for p in P], TRI.tolist(), all_triangles=True)
     X = P.copy(); hist = []; REJ.clear()
+    if METHOD == "mvcwalk":                                 # carry the solved field out by guarded surface walking
+        import skin_slide_walk_vec as swv
+        A0r = np.maximum(0.5 * np.linalg.norm(np.cross(R[TRI[:, 1]] - R[TRI[:, 0]], R[TRI[:, 2]] - R[TRI[:, 0]]), axis=1), 1e-12)
+        sl = swv.Slider(P, TRI, A0r); classes = swv.colour_classes(TRI, idx, n)
     for rnd in range(ROUNDS):
         N = normals(X); T1, T2 = frames(N); T = np.stack([T1, T2], axis=2)        # n x 3 x 2
         r = -(Lw.tocsr() @ X)                                                     # want tangential (Lw X) = 0
@@ -173,6 +183,18 @@ def slide(P, free):
         rhs = np.einsum("kab,ka->kb", T[idx], r[idx]).ravel()
         u = DAMP * splu(M).solve(rhs).reshape(-1, 2)
         Xn = X.copy(); Xn[idx] += np.einsum("kab,kb->ka", T[idx], u)
+        if METHOD == "mvcwalk":
+            disp = np.zeros_like(X); disp[idx] = Xn[idx] - X[idx]
+            rj = sl.apply(disp, classes, sub=int(os.environ.get("V2_SLIDE_SUB", "4")))
+            REJ.append(int((rj > 0).sum()))
+            Xn = sl.X.copy()
+            hist.append(round(float(np.linalg.norm(Xn - X, axis=1).max() * 1000), 2))
+            X = Xn
+            if TRACE:
+                mt, _ = metrics(X)
+                print("ROUND", rnd, json.dumps({k: mt[k] for k in ("stretch_gt2", "compress_lt0.5", "folds_gt90", "self_intersections",
+                                                                 "self_intersections_by_zone")}), flush=True)
+            continue
         rej = 0
         HN = N.copy()                                                            # posed-surface normal under each vertex
         for i in idx:                                                            # back onto the posed surface - but

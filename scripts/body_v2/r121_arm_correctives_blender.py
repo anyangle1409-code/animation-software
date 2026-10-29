@@ -58,8 +58,6 @@ for fi, p in enumerate(me.polygons):
     for e_ in p.edge_keys:
         ek.setdefault(e_, []).append(fi)
 EF = np.array([(k[0], k[1], f[0], f[1]) for k, f in ek.items() if len(f) == 2])
-TRI = np.array([(p.vertices[0], p.vertices[k], p.vertices[k + 1]) for p in me.polygons for k in range(1, len(p.vertices) - 1)])
-A0T = np.maximum(0.5 * np.linalg.norm(np.cross(R0[TRI[:, 1]] - R0[TRI[:, 0]], R0[TRI[:, 2]] - R0[TRI[:, 0]]), axis=1), 1e-12)
 
 
 def folds(P, th=0.0):
@@ -360,21 +358,6 @@ for ang in ANGLES:
             F *= Dinv[:, None]
             F -= np.einsum("ij,ij->i", F, vn)[:, None] * vn
             T = T + 0.4 * ws[:, None] * F
-    # surface-walking skin slide (optional, V2_R121_ARMKEY_WALK = iterations): r57 original_v1_skin_slide (R24) - the
-    # vertices walk across the posed target's own triangles (so none can cross a crease), every step guarded against
-    # turning a triangle over or crushing it; the energy evens out triangle AREA change, so the area the opening axilla
-    # needs is drawn from the surround (the lockout stretch is the skinning's - lockout_stretch_diag_blender.py)
-    WK = int(os.environ.get("V2_R121_ARMKEY_WALK", "0"))
-    if WK > 0:
-        import original_v1_skin_slide as walkslide
-        rin, rout = (float(x) for x in os.environ.get("V2_R121_ARMKEY_WALK_RR", "0.16,0.26").split(","))
-        gh = [np.array(rig.matrix_world @ rig.pose.bones[f"upperarm_{s_}"].head) for s_ in ("l", "r")]
-        dgh = np.min([np.linalg.norm(T - g_, axis=1) for g_ in gh], axis=0)
-        wf = np.clip((rout - dgh) / (rout - rin), 0, 1) * UPPER
-        wlog = []
-        T = walkslide.slide(T, TRI, A0T, np.flatnonzero(wf > 0), wf, iters=WK,
-                            eta=float(os.environ.get("V2_R121_ARMKEY_WALK_ETA", "1.0")), cap=0.0015, log=wlog)
-        REP.setdefault("walk", {})[str(ang)] = {"vertices": int((wf > 0).sum()), "rr_m": [rin, rout], "log": wlog}
     m90, n90 = folds(T, 0.0)
     hist.append(n90)
     # deformation matrices: posed response to unit rest offsets through a temporary key (1 mm)

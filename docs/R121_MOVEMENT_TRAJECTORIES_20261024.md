@@ -1115,4 +1115,60 @@ all keys, bottom row plain skinning).
 
 **Verdict:** not adopted. Projection onto the posed surface lets vertices cross creases. The r57 surface-walking slide
 (`original_v1_skin_slide.py`, R24) is built to avoid exactly that: vertices walk across triangle edges, and every step is
-guarded. That is tried next.
+guarded. That is tried next (V5).
+
+### V5: surface-walking slide (not adopted)
+
+**r57 walker as is.** A run on the lockout (region 0.16–0.26 m around the GH joints, about 80k vertices, 60 iterations)
+was stopped. The sequential walker costs about 390 µs per vertex step (about 35 min per pose). A benchmark also showed
+its step is wrong for this mesh.
+
+**`scripts/body_v2/skin_slide_walk_vec.py`** is the same algorithm vectorised. Free vertices are split into colour
+classes (no two share a triangle), so each class walks and is guarded at once and the guards stay exact. It was checked
+against r57 on a 3 mm test grid (36 cm square, with a compressed blob):
+
+| 20 iterations | r57 | vectorised |
+|---|---|---|
+| Time | 68 s | 1.4 s |
+| Energy (start 651) | 5649 | 5546 |
+| Largest distance off the surface | 0.014 mm | 0.014 mm |
+
+**Step size.** In both versions the energy *rises*, from 651 to about 5600. r57 moves every vertex a fixed 1.5 mm,
+whatever its gradient, which jitters on a ~3 mm mesh; R24 ran on the coarser old mesh. Alternatives, measured as energy
+after 150 iterations:
+
+| Step | Energy |
+|---|---|
+| η = 0.3 | 1153 |
+| Gradient-proportional | about 5700 |
+| η = 0.1 | 633 |
+| Diagonally preconditioned (α = 1) | 580 |
+
+The stable steps are local, so the relief spreads like diffusion. Moving it across a 30 cm region would take on the
+order of 10⁴ iterations.
+
+**V4's global field carried out by the guarded walker** (`V2_SLIDE_METHOD=mvcwalk`):
+
+| | T3 | 4 rounds, half step | 8 rounds, full step |
+|---|---|---|---|
+| Over 2× | 8747 | 8040 | 7745 |
+| Folds over 90° | 50 | 93 | 160 |
+| Crumple over 35° | 661 | n/a | 2069 |
+| Self-intersections | 27 | 23 | 28 |
+
+- No vertex crosses a crease any more: the intersections stay at T3's level.
+- But the guard rejects 10k–44k vertex steps per round, mostly next to the triangles already crushed at the deltoid
+  cap. The vertices next to them move without them, which fragments the field: stretch falls only 11 %, folds triple.
+
+### Conclusion for S1
+
+- The press-lockout stretch is a property of the skinning, not a defect of the corrective keys.
+- The skin shape is right either way. Every tangential method above leaves the shaded surface unchanged. The stretch
+  would show only once a skin texture or normal map is applied (texels about 2× larger under the arm).
+- Two robust routes, both larger pieces of work:
+  1. **A parameter-domain slide.** Relax in a 2D chart of the shoulder region (a UV island, or the rest surface with
+     the arm hanging), then evaluate on the posed surface. That is how production skin-slide deformers avoid both crease
+     crossing and guard fragmentation.
+  2. **Wider skin weights.** Spread the upper-arm influence over the lat and side chest. This changes the bind, so every
+     arm key would need re-authoring.
+- **T3 stays.** The authoring hook added while testing (`V2_R121_ARMKEY_WALK`) was removed again, untested in authoring.

@@ -130,6 +130,10 @@ report `review-assets/body_v2/movement_trajectories_20261024/report_TT_T3_all7.j
 - **More relaxation rounds, and a 45° unfold, for the lower-back fold.**
 - **Smoothed legacy shoulder keys:** better press, worse raises and symmetry.
 - **Ankle pivot shift.**
+- **Skin slide for the lockout stretch** (S1, 29 Oct):
+  - posed-space mean-value tangential solve with projection (does not converge; crease sheets interpenetrate);
+  - r57 surface walking (its 1.5 mm step jitters on this ~3 mm mesh; stable steps are diffusion-slow);
+  - the solved field carried out by guarded walking (no new intersections, but folds triple for −11 % stretch).
 
 ## Muscle layer (native pass, branch `claude/muscle-layer-native-20261024`)
 
@@ -183,7 +187,12 @@ The flagged muscles:
 
 ## Open, unblocked (in rough priority)
 
-1. **Press-lockout armpit stretch:** 9041 edges over 2×. Needs stretch relief with an inversion guard.
+1. **Press-lockout armpit stretch:** 9041 edges over 2×.
+   - It is the skinning's: there are 10,736 with no corrective keys (`lockout_stretch_diag_blender.py`).
+   - The shaded shape is right; it matters once a skin texture is used.
+   - Three slide methods were measured and not adopted (above).
+   - Next step: a parameter-domain (2D chart) slide, or wider upper-arm weights over the lat and side chest. The weights
+     change the bind, so that needs owner approval, and every arm key would need re-authoring.
 2. **Elbow side crease at 120–140°:** partly fixed.
 3. **Deadlift abdomen–thigh contact at 130–135°.** It is clean to 114°. Needs a non-planar contact surface, or a test
    path at realistic deadlift depth.

@@ -322,14 +322,32 @@ POSTGUARD = {}
 def post_guard(T):
     """after the unfold / de-crumple relaxation (which shrinks the restored, rounded proximal skin back towards the
     distal limb - measured at 140 deg): proximal vertices of any proximal triangle that overlaps the distal limb, and
-    one ring, take their contact-flattened position again.  In place on T; returns the overlap counts."""
-    from mathutils import Vector as V_
-    from mathutils.bvhtree import BVHTree
+    one ring, take their contact-flattened position again.  With V2_R121_POSTGUARD_ROUNDS > 1 the border of the
+    snapped skin is then blended (4 rings, snapped vertices held) and checked again (snapping alone left seams: curl
+    folds 7 -> 80 at 140 deg).  In place on T; returns the overlap counts per round."""
     hist = []
     if not POSTGUARD:
         return hist
     tp, td, prox, flat = POSTGUARD["tp"], POSTGUARD["td"], POSTGUARD["prox"], POSTGUARD["flat"]
     done = np.zeros(n, bool)
+    for _ in range(int(os.environ.get("V2_R121_POSTGUARD_ROUNDS", "1"))):
+        if _ > 0:                                           # blend the border of the snapped skin (snapped vertices
+            band = done.astype(float)                       # held), then check again
+            for _k in range(4):
+                band = np.maximum(band, ((A @ band) * Dinv > 0).astype(float))
+            band = (band > 0) & ~done & UPPER
+            for _k in range(20):
+                T[band] += 0.5 * (mean(T)[band] - T[band])
+        hist.append(_post_snap(T, tp, td, prox, flat, done))
+        if hist[-1][-1] == 0:
+            break
+    return hist
+
+
+def _post_snap(T, tp, td, prox, flat, done):
+    from mathutils import Vector as V_
+    from mathutils.bvhtree import BVHTree
+    hist = []
     for _ in range(8):
         ba = BVHTree.FromPolygons([V_(p) for p in T], tp.tolist(), all_triangles=True)
         bb = BVHTree.FromPolygons([V_(p) for p in T], td.tolist(), all_triangles=True)

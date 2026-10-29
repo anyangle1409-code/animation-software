@@ -262,6 +262,60 @@ def contact(T, margin=0.0008):
     return out
 
 
+CMODE = os.environ.get("V2_R121_CONTACT_MODE", "plane")    # plane: contact() above; mutual: contact_mutual() below
+TRI = np.array([(p.vertices[0], p.vertices[k], p.vertices[k + 1]) for p in me.polygons for k in range(1, len(p.vertices) - 1)])
+
+
+def contact_mutual(T, margin=0.0008, iters=int(os.environ.get("V2_R121_CONTACT_ITERS", "6")),
+                   rest_sep=float(os.environ.get("V2_R121_CONTACT_REST_SEP", "0.025"))):
+    """hinge contact without a plane: skin of either side that lies INSIDE the other side's skin (signed by the normal
+    of the nearest face of the other side) moves out by half the depth plus a margin, along that normal, so the two
+    meet on a curved interface and nothing outside the overlap is touched (the plane version flattens each side onto
+    the bisecting plane, which cuts the wider biceps flat beyond the forearm and leaves a straight crease edge).  Pairs
+    closer than rest_sep at REST are the continuous skin across the crease, not contact, and are ignored.  Iterated,
+    then spread a few rings as in contact().  In place on T; returns the number of moved vertices per side."""
+    from mathutils import Vector as V_
+    from mathutils.bvhtree import BVHTree
+    out = {}
+    D = np.zeros_like(T)
+    for s_ in ("r", "l"):
+        lbn = HINGE[MODE][1]
+        side = np.sign(R0[:, 0]) == (1.0 if rig.data.bones[f"{lbn}_{s_}"].head_local.x > 0 else -1.0)
+        sides = (CONTACT[0] & side, CONTACT[1] & side)
+        tris = [TRI[sm[TRI].all(1)] for sm in sides]
+        moved = np.zeros(n, bool)
+        for _ in range(iters):
+            P_ = T + D
+            step = np.zeros_like(T)
+            for a_, b_ in ((0, 1), (1, 0)):                 # vertices of side a against the surface of side b
+                tb = tris[b_]
+                if not len(tb) or not sides[a_].any():
+                    continue
+                bvh = BVHTree.FromPolygons([V_(p) for p in P_], tb.tolist(), all_triangles=True)
+                for i in np.flatnonzero(sides[a_]):
+                    hit = bvh.find_nearest(V_(P_[i]), 0.04)
+                    if hit[0] is None:
+                        continue
+                    nrm = np.array(hit[1]); dep = float(np.dot(P_[i] - np.array(hit[0]), nrm))
+                    if dep >= margin or (hit[3] > 1e-4 and dep > -0.7 * hit[3]):
+                        continue                            # outside, or off the patch edge (offset not along the normal)
+                    f_ = tb[hit[2]]
+                    if np.linalg.norm(R0[f_] - R0[i], axis=1).min() < rest_sep:
+                        continue                            # the same skin across the crease
+                    step[i] = nrm * (0.5 * (margin - dep))
+                    moved[i] = True
+            if not np.abs(step).any():
+                break
+            D += step
+        out[s_] = int(moved.sum())
+    w = (np.linalg.norm(D, axis=1) > 0).astype(float)
+    for _ in range(4):                                         # spread so the contact face stays smooth
+        D = np.where(w[:, None] > 0, D, mean(D) * UPPER[:, None])
+        w = np.maximum(w, ((A @ w) * Dinv > 0) * UPPER)
+    T += D
+    return out
+
+
 def set_key(kb, d):
     kb.data.foreach_set("co", (R0 + d).ravel()); me.update()
 
@@ -291,7 +345,7 @@ for ang in ANGLES:
     elev = {s: round(float(measure(rig, s)), 2) for s in ("l", "r")}
     P = evaluated()
     T = P.copy(); hist = []
-    contact_hist = contact(T) if CONTACT is not None else None
+    contact_hist = (contact_mutual(T) if CMODE == "mutual" else contact(T)) if CONTACT is not None else None
     # relax: unfold rounds, then a light Laplacian over the folded area (posed space).  V2_R121_ARMKEY_UNFOLD_DEG < 90
     # also flattens broad creases (the shape-preserving de-crumple below keeps them), e.g. the lower-back fold the
     # skinning makes at the squat bottom

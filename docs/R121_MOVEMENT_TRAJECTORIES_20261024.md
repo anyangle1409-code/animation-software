@@ -878,3 +878,33 @@ and knee keys, authored on top of them, cancel it. This is exactly the shoulder 
 3. Re-run all seven movements and the leg roughness.
 
 Report: `leg_roughness_diag_H1.json`.
+
+**G3: legacy leg keys neutralised, hip / knee / deep-hip families re-authored.** Changes from H1:
+
+| | H1 | G3 |
+|---|---|---|
+| Leg roughness p95, squat | 0.107 mm | **0.087 mm** |
+| Leg roughness p95, deadlift | 0.098 mm | **0.085 mm** |
+| Deadlift folds over 90° | 72 | **51** |
+| Deadlift hip / knee folds | 28 / 18 | **8 / 0** |
+| Deadlift self-intersections | 1827 | **1252** |
+| Lunge folds over 90° | 278 | **61** |
+| Lunge hip / knee folds | 242 / 21 | **43 / 0** |
+| Squat knee folds | 20 | **13** |
+| Squat edges stretched over 2× | 4213 | 7181 |
+| Deadlift edges stretched over 2× | 2257 | 7215 |
+
+Plain skinning gives 0.116 / 0.117 mm roughness, so G3 is now below it. The upper-body movements are unchanged.
+
+**The extra stretch.** It is almost all on the buttocks and lower back (squat bottom: 869 → 3844 edges over 2×), where
+skin really does stretch in a deep squat. The legacy H1_BAKE key had added slack there.
+
+**A visible regression: a ridge across the lower back, at the top of the buttocks** (`legs_H1_vs_G3.jpg`,
+`legs_squat_lbs_vs_H1nolegacy_vs_G3.jpg`). Measured as edge angles on the back of the waist at the squat bottom:
+
+- Plain skinning has a real fold at z ≈ 1.08–1.10, with over 500 edges per 2 cm band past 21°.
+- In H1, the legacy key cancelled it (about 0 edges).
+- G3's relaxation leaves 61 edges past 21° at z 1.10; its squat-100 authoring report still shows 127 folds.
+
+**Not adopted yet.** Re-running (G3b) with twice the relaxation rounds for the hip family (16 unfold, 12 de-crumple).
+Reports: `report_TT_G3_legacy_legs_neutralised.json`, `leg_roughness_diag_G3.json`.

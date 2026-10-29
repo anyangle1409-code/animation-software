@@ -995,3 +995,10 @@ higher intersection count is all at the extreme 130–135° depth (the open abdo
 not. The knee family is the exception, because the R121 knee hinge-contact keys replace it entirely.
 
 Reports: `report_TT_T3_all7.json`, `leg_roughness_diag_T3.json`.
+
+**Applying the lesson to the shoulders (U-chain, running).** L4 zeroed the legacy shoulder families, and press-lockout
+stretch rose (edges over 2×: 7361 → 9041), just as zeroing raised the leg stretch.
+
+`transplant_key_offsets_candidate_blender.py` brings the original S1 / S3 / S5 / S7 offsets back from R121p2. The
+topology is the same, and the bases differ by at most 5 mm. The offsets are low-pass filtered (30 rounds), and then the
+arm, forward-raise (with the 20° key) and combination families are re-authored on top.

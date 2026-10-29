@@ -1,0 +1,172 @@
+{
+ "mode": "flex",
+ "angles_deg": [
+  20,
+  60,
+  90,
+  120,
+  150
+ ],
+ "keys": {
+  "20": {
+   "elevation_deg": {
+    "l": 11.0,
+    "r": 11.0
+   },
+   "folds_gt90_before": 73,
+   "unfold_history": [
+    73,
+    45,
+    43,
+    38,
+    43,
+    46,
+    37,
+    39,
+    25
+   ],
+   "contact_history": null,
+   "crumple_gt35_history": [
+    3336,
+    2949,
+    2901,
+    2879,
+    2867,
+    2855,
+    2850
+   ],
+   "folds_gt90_with_key": 25,
+   "max_offset_mm": 10.6,
+   "vertices": 8678,
+   "fit_residual_max_mm": 0.001
+  },
+  "60": {
+   "elevation_deg": {
+    "l": 51.0,
+    "r": 51.0
+   },
+   "folds_gt90_before": 31,
+   "unfold_history": [
+    31,
+    31,
+    29,
+    27,
+    25,
+    25,
+    25,
+    25,
+    25
+   ],
+   "contact_history": null,
+   "crumple_gt35_history": [
+    3631,
+    2982,
+    2907,
+    2883,
+    2861,
+    2868,
+    2868
+   ],
+   "folds_gt90_with_key": 25,
+   "max_offset_mm": 6.49,
+   "vertices": 13023,
+   "fit_residual_max_mm": 0.001
+  },
+  "90": {
+   "elevation_deg": {
+    "l": 81.0,
+    "r": 81.0
+   },
+   "folds_gt90_before": 30,
+   "unfold_history": [
+    30,
+    28,
+    25,
+    25,
+    25,
+    25,
+    25,
+    25,
+    25
+   ],
+   "contact_history": null,
+   "crumple_gt35_history": [
+    4170,
+    3116,
+    2961,
+    2903,
+    2885,
+    2870,
+    2857
+   ],
+   "folds_gt90_with_key": 25,
+   "max_offset_mm": 4.27,
+   "vertices": 16058,
+   "fit_residual_max_mm": 0.001
+  },
+  "120": {
+   "elevation_deg": {
+    "l": 111.0,
+    "r": 111.0
+   },
+   "folds_gt90_before": 60,
+   "unfold_history": [
+    60,
+    38,
+    27,
+    26,
+    25,
+    25,
+    25,
+    25,
+    25
+   ],
+   "contact_history": null,
+   "crumple_gt35_history": [
+    4349,
+    3178,
+    3016,
+    2954,
+    2912,
+    2906,
+    2884
+   ],
+   "folds_gt90_with_key": 25,
+   "max_offset_mm": 9.41,
+   "vertices": 18085,
+   "fit_residual_max_mm": 0.001
+  },
+  "150": {
+   "elevation_deg": {
+    "l": 141.0,
+    "r": 141.0
+   },
+   "folds_gt90_before": 57,
+   "unfold_history": [
+    57,
+    43,
+    32,
+    27,
+    25,
+    25,
+    25,
+    25,
+    26
+   ],
+   "contact_history": null,
+   "crumple_gt35_history": [
+    4265,
+    3259,
+    3090,
+    3016,
+    2992,
+    2955,
+    2944
+   ],
+   "folds_gt90_with_key": 26,
+   "max_offset_mm": 12.62,
+   "vertices": 16972,
+   "fit_residual_max_mm": 0.001
+  }
+ }
+}

@@ -738,3 +738,23 @@ so a small forward carriage gets no correction.
 
 Sheets: `REVIEW_L4_lateral_raise.jpg` and `REVIEW_L4_front_raise.jpg`. Reports: `report_TT_L4_raises.json` and
 `report_TT_L4_raises_no_r121.json`.
+
+**Low forward key: adopted as N2.** The FLEX family was re-authored on L4 with an extra key at 20°, which measures 11°
+of humerothoracic elevation once posed with the girdle. The family now has its own start angle, rig property
+`hgpt_r121_flex_start`. Existing blends without that property behave as before.
+
+- **Start 10° (N1):** small gain only. The front raise's start frame still has 38 shoulder folds, because its measured
+  elevation is below 10°.
+- **Start 0° (N2):** front-raise start-frame shoulder folds 38 → **7**, and the squat (arms forward) shoulder folds
+  38 → **7**. Press, curl and lateral raise are **unchanged**, and every movement returns to neutral exactly.
+
+| N2 | Folds over 90° (peak) | Self-intersections | Asymmetry p95 / max |
+|---|---|---|---|
+| Press | 13 | 10 | 1.38 / 40 mm |
+| Curl | 7 | 0 | 1.28 / 6 mm |
+| Squat, arms forward | 20 | 0 | 1.47 / 23 mm |
+| Lateral raise | 4 | 0 | 1.32 / 27 mm |
+| Front raise | 7 | 0 | 1.31 / 20 mm |
+
+**N2 is the current best candidate.** The script default for `V2_R121_FLEX_START` is now 0. Report:
+`report_TT_N2_all_movements.json`.

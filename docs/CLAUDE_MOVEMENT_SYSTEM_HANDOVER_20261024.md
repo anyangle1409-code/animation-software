@@ -20,12 +20,13 @@ The permanent muscle IDs are used unchanged. Muscle highlighting is not implemen
 The test is `scripts/body_v2/movement_trajectory_test_blender.py`. Sheets: `trajectory_sheets.py`, written to
 `review-assets/body_v2/movement_trajectories_20261024/`, sized for a phone.
 
-| | Before (R121p, r57 girdle, no new keys) | Now (candidate **L4**: review set `REVIEW_L4_*`) |
+| | Before (R121p, r57 girdle, no new keys) | Now (candidate **N2** = L4 + low forward key; review set `REVIEW_L4_*`) |
 |---|---|---|
 | Press: folds over 90° / self-intersections (peak) | 4666 / 4759 | **13 / 10** |
 | Press lockout skin roughness, p95 (rest pose: 0.066 mm) | – (K1 had 0.125 mm, a mottled back) | **0.086 mm** |
 | Curl: elbow folds over 90° / self-intersections | 147 / 1641 | 4 / 0 |
-| Squat: self-intersections / heel lift | 1282 / 11.3 mm | **1 / 0.0 mm** |
+| Squat: self-intersections / heel lift | 1282 / 11.3 mm | **0 / 0.0 mm** |
+| Lateral / front raise (not authored for): folds over 90° / self-intersections | – | **4 / 0** and **7 / 0** |
 | Rest pose self-intersections | 1929 | 0 |
 | Return to neutral, all movements | 0.0000 mm | 0.0000 mm |
 | Left/right asymmetry p95 | ≤ 3 mm | ≤ 1.5 mm |
@@ -39,6 +40,7 @@ The candidate chain is:
 5. K1 elbow keys (footprint contact).
 6. **L4**: the legacy S1 / S3 / S5 / S7 shoulder keys neutralised, and the R121 arm, forward-raise and combination keys
    re-authored on the clean base.
+7. **N2**: a low forward key (20°, measuring 11°) with the forward family's own start at 0°.
 
 ## Root causes established, each measured before anything was changed
 

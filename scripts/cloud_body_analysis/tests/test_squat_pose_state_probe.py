@@ -286,9 +286,17 @@ class SquatPoseStateProbeTests(unittest.TestCase):
         data["skin_control_relative_motion"]["samples"][5]["sides"]["r"][
             "change_from_sample0_world_m"][2] += 0.001
         self.assertIn("invalid skin/control relative motion", probe.validate_report(data))
+        data = report()
+        data["skin_control_relative_motion"]["contact_claimed"] = 0
+        self.assertIn("invalid skin/control relative motion", probe.validate_report(data))
+        data = report()
+        data["skin_control_relative_motion"]["samples"][0]["sides"]["l"][
+            "change_from_sample0_world_m"][0] = False
+        self.assertIn("invalid skin/control relative motion", probe.validate_report(data))
         text = probe.markdown(report())
         self.assertIn("Authored foot control relative to skin lower centroid", text)
         self.assertIn("not contact", text.lower())
+        self.assertIn("tissue safety", text.lower())
 
     def test_bone_record_uses_matrix_basis_and_model_space(self):
         class Q:

@@ -306,6 +306,33 @@ def _valid_skin_envelope(envelope):
     return True
 
 
+def _valid_skin_control_relative_motion(record):
+    if (not isinstance(record, dict)
+            or record.get("status") !=
+            "DESCRIPTIVE_FOOT_CONTROL_TO_SKIN_LOWER_CENTROID_RELATIVE_MOTION_NOT_CONTACT"
+            or record.get("contact_claimed") is not False
+            or type(record.get("reference_sample")) is not int
+            or record["reference_sample"] != 0):
+        return False
+    samples = record.get("samples")
+    if (not isinstance(samples, list) or len(samples) != 9
+            or [row.get("sample") for row in samples] != list(range(9))):
+        return False
+    for row in samples:
+        sides = row.get("sides")
+        if not isinstance(sides, dict) or set(sides) != {"l", "r"}:
+            return False
+        for side in ("l", "r"):
+            relative = sides[side]
+            if (not isinstance(relative, dict)
+                    or not _valid_vector(relative.get(
+                        "foot_control_head_minus_lower_centroid_world_m"))
+                    or not _valid_vector(relative.get(
+                        "change_from_sample0_world_m"))):
+                return False
+    return True
+
+
 def validate_report(data):
     errors = []
     if (data.get("status") != "READ_ONLY_AUTHORED_SQUAT_CONTROL_STATE_ANATOMY_NOT_APPROVED"
@@ -326,8 +353,10 @@ def validate_report(data):
         expected_relative_motion = skin_control_relative_motion(samples)
     except (KeyError, TypeError, ValueError):
         expected_relative_motion = None
+    relative_motion = data.get("skin_control_relative_motion")
     if (expected_relative_motion is None
-            or data.get("skin_control_relative_motion") != expected_relative_motion):
+            or not _valid_skin_control_relative_motion(relative_motion)
+            or relative_motion != expected_relative_motion):
         errors.append("invalid skin/control relative motion")
     for index, row in enumerate(samples):
         expected_t = index / 8.0
@@ -456,7 +485,7 @@ def markdown(data):
             change = "/".join(f"{value * 1000:.3f}" for value in relative[
                 "change_from_sample0_world_m"])
             lines.append(f"| {row['sample']} | {side} | {vector} | {change} |")
-    lines += ["", "This is a geometric cross-reference only, not contact, support, pressure, force, friction, slip, balance or an anatomical joint-centre measurement.",
+    lines += ["", "This is a geometric cross-reference only, not contact, support, pressure, force, friction, slip, balance, tissue safety or an anatomical joint-centre measurement.",
               "", "## Foot-plant solve residuals", "",
               "Residuals are foot-control head minus its captured rest target after the frozen solve; they are not anatomical ankle-centre errors.", "",
               "| Sample | root correction X/Y/Z mm | l post residual X/Y/Z mm | r post residual X/Y/Z mm | mean post residual X/Y/Z mm |",

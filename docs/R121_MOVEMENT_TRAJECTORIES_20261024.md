@@ -1240,3 +1240,35 @@ press-rack combination key was authored on top of the old elbow keys. It is re-a
   forearm along a curved crease.
 - At 140°, the flat area is smaller. Some flattening remains near the upper biceps, where the guards return skin to
   the plane contact.
+
+### E8c: the press-rack key re-authored on E8, adopted as the current best
+
+The press-rack combination key was re-authored on E8 (`V2_R121_ARMKEY_REPLACE=1 V2_R121_ARMKEY_ANGLES=90
+V2_R121_ARMKEY_MODE=combo`, ISB frame, crumple 6 rounds at 21°). All seven movements against T3:
+
+| | T3 | E8c |
+|---|---|---|
+| Press elbow folds over 90° (rack) | 2 | 6 |
+| Press elbow crumple | 98 | 100 |
+| Press, everything else | | identical |
+| Curl | see the E8 table | identical to E8 |
+| Squat, both raises, deadlift, lunge | | identical |
+| Return to neutral, every movement | 0.0 mm | 0.0 mm |
+
+The press-rack renders are unchanged (`press_rack_T3_vs_E8c.jpg`).
+
+**Verdict:** E8c is the current best candidate.
+
+- **Gained:** at 120° the flat faces are gone, and elbow crumple falls 308 → 284.
+- **Cost:** a few folds (curl elbow +2, rack elbow +4), stretched edges 68 → 96 in the curl, and curl asymmetry max
+  5.7 → 9.7 mm (p95 unchanged).
+- **Rollback:** the T3 blend is kept. The new contact mode is off by default, so re-running the T3 chain reproduces T3.
+
+Report: `report_TT_E8c_all7.json`.
+
+**E8c chain:** on T3, in the reproduction environment (ISB girdle frame, crumple 6 at 21°):
+
+1. Elbow keys: `V2_R121_ARMKEY_MODE=elbow V2_R121_ARMKEY_REPLACE=1 V2_R121_ARMKEY_ANGLES=45,90,120,140
+   V2_R121_HINGE_REACH=0.26 V2_R121_CONTACT_FOOTPRINT=0.004 V2_R121_CONTACT_FOOTPRINT_SLAB=0.030
+   V2_R121_CONTACT_MODE=plane_restore V2_R121_POSTGUARD_ROUNDS=3`.
+2. Then the combination key, as above.

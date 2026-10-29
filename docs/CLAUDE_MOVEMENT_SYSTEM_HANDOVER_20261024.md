@@ -17,9 +17,9 @@ summary.
 | `claude/muscle-layer-native-20261024` | Based on Work's muscle experiment. Native R41 inventory, ISB landmark crosswalk, proposed anchors for the upper and lower limbs, path-length checks against the exercise contract. Doc: `experiments/anatomical_muscles/CLAUDE_NATIVE_PASS_20261024.md`. |
 | `claude/v14-recovery-investigation-20261023` / `claude/v14-deterministic-candidate-20261023` | The V14 vertex-count cause and the deterministic build (earlier). |
 
-## Current best candidate: T3
+## Current best candidate: E8c (T3 plus re-authored elbow keys)
 
-The blend is not in git (no `.blend` files are committed). T3 is rebuilt from R121p by this chain; every step is a
+The blend is not in git (no `.blend` files are committed). E8c is rebuilt from R121p by this chain; every step is a
 script in `scripts/body_v2/` and is recorded in the trajectories doc.
 
 1. **R121p**: the rebuilt surface.
@@ -37,6 +37,10 @@ script in `scripts/body_v2/` and is recorded in the trajectories doc.
    - legacy hip family (H1_BAKE) low-pass filtered;
    - legacy knee family (K1_KNEE) zeroed;
    - hip, knee and deep-hip families re-authored.
+9. **Elbow (E8c):**
+   - elbow keys re-authored with `V2_R121_CONTACT_MODE=plane_restore` (`V2_R121_POSTGUARD_ROUNDS=3`);
+   - the press-rack combination key re-authored on top of them.
+   - The exact commands are at the end of the trajectories doc's section E.
 
 **Reproducing.** Every step of the chain, and every test or diagnostic of it, runs with
 `V2_GIRDLE_FRAME=isb V2_R121_ARMKEY_CRUMPLE=6 V2_R121_ARMKEY_CRUMPLE_DEG=21` exported. The trajectory test also needs
@@ -50,13 +54,16 @@ All keys are driven by joint angles (`scripts/body_v2/r121_drives.py`), not by e
 for authoring (the lateral and front raises), and two more were only used for one deep key (the deadlift and lunge);
 they test that the system generalises.
 
-**T3, full out-and-back trajectories** (`scripts/body_v2/movement_trajectory_test_blender.py`;
-report `review-assets/body_v2/movement_trajectories_20261024/report_TT_T3_all7.json`):
+**E8c, full out-and-back trajectories** (`scripts/body_v2/movement_trajectory_test_blender.py`;
+report `review-assets/body_v2/movement_trajectories_20261024/report_TT_E8c_all7.json`).
+
+- Identical to T3 except the curl row (T3: 7 / 697 / 0 / 68 / 1.28 / 6 mm) and the press-rack elbow folds (2 → 6).
+- T3's own report, `report_TT_T3_all7.json`, is kept for rollback.
 
 | Movement | Folds over 90° | Crumple over 35° | Self-intersections | Edges stretched over 2× | Asymmetry p95 / max | Return to neutral |
 |---|---|---|---|---|---|---|
 | Press (16° → rack → 160° → back) | 13 | 489 | 10 | 9041 | 1.38 / 40 mm | 0.0 mm |
-| Curl (0 → 140° → 0) | 7 | 697 | 0 | 68 | 1.28 / 6 mm | 0.0 mm |
+| Curl (0 → 140° → 0) | 9 | 832 | 0 | 96 | 1.29 / 10 mm | 0.0 mm |
 | Squat (arms forward, feet planted) | 13 | 502 | 0 | 4096 | 1.42 / 23 mm | 0.0 mm |
 | Lateral raise, 0 → 90° (not authored for) | 4 | 295 | 0 | 1970 | 1.32 / 27 mm | 0.0 mm |
 | Front raise, 0 → 90° (not authored for) | 7 | 287 | 0 | 2277 | 1.31 / 20 mm | 0.0 mm |
@@ -96,6 +103,9 @@ report `review-assets/body_v2/movement_trajectories_20261024/report_TT_T3_all7.j
    - *Causes:* a mid-depth pivot, a broad symmetric weight blend, and no forearm–biceps contact.
    - *Fix:* hinge-contact elbow keys. Mutual-footprint contact stops the wider biceps being cut flat beyond the
      forearm.
+   - **Flat faces at 120–140° (E8c).** A plane contact still cuts the wider biceps flat. Now the upper-arm skin the
+     contact moved is restored wherever it stays clear of the forearm, checked triangle against triangle both after
+     the contact and after the relaxation.
 4. **Squat.**
    - *Fix:* hip keys, hinge-contact knee keys, and sole skin bound to the foot (not the shin).
    - The sole slide was the test path's mean-ankle plant; the test now plants each leg.
@@ -138,6 +148,8 @@ report `review-assets/body_v2/movement_trajectories_20261024/report_TT_T3_all7.j
 - **More relaxation rounds, and a 45° unfold, for the lower-back fold.**
 - **Smoothed legacy shoulder keys:** better press, worse raises and symmetry.
 - **Ankle pivot shift.**
+- **Elbow mutual-penetration contact (E1):** no plane, but at 140° it threw forearm skin into the chest (6193
+  intersections).
 - **Skin slide for the lockout stretch** (S1, 29 Oct):
   - posed-space mean-value tangential solve with projection (does not converge; crease sheets interpenetrate);
   - r57 surface walking (its 1.5 mm step jitters on this ~3 mm mesh; stable steps are diffusion-slow);
@@ -201,7 +213,8 @@ The flagged muscles:
    - Three slide methods were measured and not adopted (above).
    - Next step: a parameter-domain (2D chart) slide, or wider upper-arm weights over the lat and side chest. The weights
      change the bind, so that needs owner approval, and every arm key would need re-authoring.
-2. **Elbow side crease at 120–140°:** partly fixed.
+2. **Elbow at 140°.** Some flattening remains near the upper biceps, where the guards return skin to the plane contact
+   (E8c fixed 120°).
 3. **Deadlift abdomen–thigh contact at 130–135°.** It is clean to 114°. Needs a non-planar contact surface, or a test
    path at realistic deadlift depth.
 4. **Posterior armpit fold at the lockout:** comes from the skin weights, and part of it is anatomical. Needs a

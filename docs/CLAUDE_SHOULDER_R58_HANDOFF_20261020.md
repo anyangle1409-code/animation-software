@@ -2376,3 +2376,23 @@ hinge contact), and sole weights.
 - lockout armpit stretch (9041 edges over 2×);
 - the size of the posterior armpit fold, which needs a reference-photo judgement;
 - a 40 mm local asymmetry on a differently tessellated armpit patch.
+
+## Update 29 Oct 2026 (later): elbow and lockout stretch
+
+**Current best candidate: E8c,** on `claude/r120-surface-candidate-20261023`. It is T3 with re-authored elbow and
+press-rack keys.
+
+**Elbow at 120–140°.** The plane contact now restores upper-arm skin wherever it stays clear of the forearm, checked
+triangle against triangle.
+
+- At 120° the flat faces are gone; at 140° the flat area is smaller.
+- Curl: 0 intersections, elbow crumple 308 → 284. A few more folds.
+- Every other movement is identical to T3.
+
+**Press-lockout stretch.** It is the skinning's, not the keys': 11,421 edges over 2× with no corrective keys, 9041 with
+them.
+
+- Three skin-slide methods were measured and not adopted.
+- Next step: a 2D-chart slide, or wider upper-arm weights. The weights need owner approval.
+
+**Reproducing.** Export `V2_GIRDLE_FRAME=isb`. Without it, the press and raises measure differently.

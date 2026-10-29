@@ -165,6 +165,22 @@ class SquatPoseStateProbeTests(unittest.TestCase):
         self.assertAlmostEqual(result["sides"]["l"]["post_solve_residual_world_m"][0], 0.01)
         self.assertAlmostEqual(result["sides"]["r"]["post_solve_residual_world_m"][0], -0.01)
 
+    def test_tracked_plant_capture_updates_before_pre_and_post_observation(self):
+        events = []
+        stages = iter(("pre", "post"))
+        result = probe.run_tracked_plant_solve(
+            "rig", "heads",
+            update=lambda: events.append("update"),
+            original_solve=lambda rig, heads: events.append(("solve", rig, heads)),
+            stage=lambda rig, heads: (events.append(("stage", rig, heads)), next(stages))[1],
+        )
+        self.assertEqual(result, ("pre", "post"))
+        self.assertEqual(events, [
+            "update", ("stage", "rig", "heads"),
+            ("solve", "rig", "heads"),
+            "update", ("stage", "rig", "heads"),
+        ])
+
     def test_report_rejects_tampered_solve_residual_or_root_delta(self):
         data = report(); data["samples"][3]["foot_plant_solve"]["sides"]["l"]["post_solve_residual_world_m"][0] += 0.001
         self.assertIn("invalid foot-plant solve evidence", probe.validate_report(data))

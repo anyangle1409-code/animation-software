@@ -94,6 +94,17 @@ def plant_stage_record(rig, rest_heads):
     }
 
 
+def run_tracked_plant_solve(rig, rest_heads, update, original_solve,
+                            stage=plant_stage_record):
+    """Observe the evaluated state on both sides of the unchanged solve."""
+    update()
+    pre = stage(rig, rest_heads)
+    original_solve(rig, rest_heads)
+    update()
+    post = stage(rig, rest_heads)
+    return pre, post
+
+
 def plant_solve_summary(pre, post):
     result = {
         "pre_root_matrix_basis_translation_m": vector3(
@@ -329,9 +340,9 @@ def main():
     correction.build_corrected_scene = lambda: result
 
     def tracked_plant_feet(loaded_rig, rest_heads):
-        pre = plant_stage_record(loaded_rig, rest_heads)
-        original_plant_feet(loaded_rig, rest_heads)
-        post = plant_stage_record(loaded_rig, rest_heads)
+        pre, post = run_tracked_plant_solve(
+            loaded_rig, rest_heads, bpy.context.view_layer.update,
+            original_plant_feet)
         plant_records.append(plant_solve_summary(pre, post))
 
     bench._plant_feet = tracked_plant_feet

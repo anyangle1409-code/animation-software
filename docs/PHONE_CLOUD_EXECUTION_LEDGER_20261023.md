@@ -1,6 +1,3 @@
-Warning: truncated output (original token count: 42139)
-Total output lines: 712
-
 # Home Gym PT — phone-only cloud Blender execution ledger
 Date: 2026-10-23
 
@@ -554,3 +551,14 @@ The overnight hourly cloud continuation automation is configured separately; eac
 - Ruling: the one averaged root correction removes the shared fore-aft/vertical residual to numerical precision, while opposing mediolateral residuals cancel in the average and remain per side. This localizes the authored inward foot-head drift to the bilateral-average solver limitation; it does not certify foot heads as anatomical ankle centres or establish ground contact/balance.
 - Root matrix-basis translation is local-basis data and is not compared componentwise with world residuals. Anatomy/contact/movement approval remains NOT_GRANTED;46 landmarks unbound,0/19 motions approved. Historical run40029398965 remains FAILED overall for its documented read-only docstring false positive; its separately verified rig evidence remains valid. No protected source/model/rig/weights/keys/muscles/app/version/merge/deploy change; highlighting deferred.
 - Next safe task: measure foot/toe-dominant evaluated skin support envelopes at the same nine in-memory samples and cross-reference them with these control residuals without inventing contact or balance thresholds.
+
+## 2026-10-29 — foot/toe-dominant evaluated skin lower envelope — native verified
+
+- Implementation commit `925106926653eaf002acc4a63b6ba1490fe65c08` extends the unchanged hash-pinned nine-frame W8 squat probe with descriptive evaluated skin geometry. It selects vertices whose single dominant group token is exactly `foot` or `toe` with matching runtime suffix, then reports the lowest 1% by world Z and vertex-ID tie-break. It never saves a `.blend`.
+- [Run 40921817758](https://github.com/anyangle1409-code/animation-software/actions/runs/40921817758) completed **SUCCESS 7/7**. Job IDs: pose `123616797572`, V14 `123616798041`, W8 `123616798153`, R120 `123616798155`, localization `123616798186`, comparison `123617575108`, driver `123620651993`. Logs confirm 336/336 localization tests, 17/17 focused squat-probe tests, and pose suites 29/29 + 19/19 + 6/6 + 10/10.
+- Artifact `12919471465` independently downloaded and CRC-checked. ZIP SHA256 matched GitHub exactly: `e6aa66566ca220b224acb9157212ef6545f2b4a9f56b726f7d4864b4813ad4d7`; JSON `dca20d29a49d65113c61fa7ce54d9b6bde9e55fb4bcc6b127bba7cae6e77e53a`; Markdown `f212fb7f217de68e770ce55c2fefdd60b3e73beb6a58e98063d5e2f8f82d9843`.
+- Native selection is stable at 6,865 of 219,974 evaluated mesh vertices per side, with 69 vertices in each lower envelope. Full selected-ID fingerprints are `e364be8f7e6735b11492afe3fd26f1d1a39c9954fa8988a7d8df463393a0c6df` left and `8b066cf0408f3a0701d057908d0bb5c968f1d5f1bcd9af599823e12dcb60b858` right. The lowest-69 membership changes across seven distinct sets per side, so it is not a fixed contact patch.
+- Lower-centroid spans are about 7.86098mm mediolateral, 65.91125mm fore-aft and 0.34611mm vertical per side; minimum-Z spans 0.81388mm. Maximum mirrored bilateral centroid disagreement is 0.000069mm. Authored foot-control-head to lower-centroid distance ranges 103.47847–151.10239mm; control heads and skin envelope are not interchangeable coordinates.
+- Status remains `DESCRIPTIVE_EVALUATED_FOOT_SKIN_LOWER_ENVELOPE_NOT_CONTACT`, `contact_claimed=false`. No floor, support polygon, pressure, force, friction, slip, balance, tissue safety or anatomical foot segmentation is inferred. Anatomy/contact/movement approval remains NOT_GRANTED; 46 landmarks unbound, 0/19 motions approved.
+- Machine record: `recovery_20261023/cloud_verification_20261029_run40921817758.json`. Historical run40029398965 remains FAILED overall for the documented read-only docstring false positive; separately verified W8/V14/R120/cross rig evidence remains valid. Run40858906795 remains superseded for pre-solve causality. No protected source/model/rig/weights/keys/muscles/app/version/merge/deploy change; attachment/highlighting deferred.
+- Next safe task: quantify the relationship between lower-envelope centroid motion and the corrected per-side foot-control residuals without declaring contact, then extend the same read-only trajectory discipline to knee/hip coordination and return-to-neutral.

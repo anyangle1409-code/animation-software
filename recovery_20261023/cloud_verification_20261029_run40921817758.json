@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-29",
+  "repository": "anyangle1409-code/animation-software",
+  "branch": "work/phone-blender-workbench-20261023",
+  "head_sha": "925106926653eaf002acc4a63b6ba1490fe65c08",
+  "workflow_run": {
+    "id": 40921817758,
+    "conclusion": "success",
+    "attempt": 1,
+    "jobs": [
+      {
+        "id": 123616797572,
+        "name": "pose-state-w8",
+        "conclusion": "success"
+      },
+      {
+        "id": 123616798041,
+        "name": "inspect (V14, 12487932177)",
+        "conclusion": "success"
+      },
+      {
+        "id": 123616798153,
+        "name": "inspect (W8, 12487119841)",
+        "conclusion": "success"
+      },
+      {
+        "id": 123616798155,
+        "name": "inspect (R120, 12488550235)",
+        "conclusion": "success"
+      },
+      {
+        "id": 123616798186,
+        "name": "localize-native-movement-failures",
+        "conclusion": "success"
+      },
+      {
+        "id": 123617575108,
+        "name": "compare-rest-audits",
+        "conclusion": "success"
+      },
+      {
+        "id": 123620651993,
+        "name": "verify-actual-shoulder-driver-math",
+        "conclusion": "success"
+      }
+    ],
+    "test_evidence": {
+      "localization": "336/336 PASS",
+      "squat_pose_state_focused": "17/17 PASS",
+      "other_pose_suites": [
+        "29/29 PASS",
+        "19/19 PASS",
+        "6/6 PASS",
+        "10/10 PASS"
+      ],
+      "native_samples": 9
+    }
+  },
+  "artifact": {
+    "id": 12919471465,
+    "name": "phone-w8-squat-pose-state-40921817758",
+    "size_in_bytes": 15744,
+    "github_sha256": "e6aa66566ca220b224acb9157212ef6545f2b4a9f56b726f7d4864b4813ad4d7",
+    "independently_downloaded_sha256": "e6aa66566ca220b224acb9157212ef6545f2b4a9f56b726f7d4864b4813ad4d7",
+    "zip_crc": "clean",
+    "members": {
+      "w8_authored_squat_control_state.json": "dca20d29a49d65113c61fa7ce54d9b6bde9e55fb4bcc6b127bba7cae6e77e53a",
+      "w8_authored_squat_control_state.md": "f212fb7f217de68e770ce55c2fefdd60b3e73beb6a58e98063d5e2f8f82d9843"
+    }
+  },
+  "evaluated_foot_skin_lower_envelope": {
+    "status": "DESCRIPTIVE_EVALUATED_FOOT_SKIN_LOWER_ENVELOPE_NOT_CONTACT",
+    "contact_claimed": false,
+    "evaluated_mesh_vertex_count": 219974,
+    "per_side": {
+      "l": {
+        "selected_vertex_count": 6865,
+        "selected_vertex_ids_sha256": "e364be8f7e6735b11492afe3fd26f1d1a39c9954fa8988a7d8df463393a0c6df",
+        "dominant_group_names": [
+          "foot_l",
+          "toe_l"
+        ],
+        "lower_vertex_count": 69,
+        "unique_lower_id_sets_across_samples": 7
+      },
+      "r": {
+        "selected_vertex_count": 6865,
+        "selected_vertex_ids_sha256": "8b066cf0408f3a0701d057908d0bb5c968f1d5f1bcd9af599823e12dcb60b858",
+        "dominant_group_names": [
+          "foot_r",
+          "toe_r"
+        ],
+        "lower_vertex_count": 69,
+        "unique_lower_id_sets_across_samples": 7
+      }
+    },
+    "spans_mm": {
+      "l_centroid_x": 7.860973153425293,
+      "r_centroid_x": 7.860975420993302,
+      "l_centroid_y": 65.91125210895595,
+      "r_centroid_y": 65.91122302537163,
+      "l_centroid_z": 0.34611081877222244,
+      "r_centroid_z": 0.34608365722701623,
+      "l_minimum_z": 0.8138757548294961,
+      "r_minimum_z": 0.8138592820614576
+    },
+    "maximum_bilateral_centroid_symmetry_error_mm": 0.00006887737824534668,
+    "foot_control_head_minus_lower_centroid_norm_mm": {
+      "minimum": 103.47847056359576,
+      "maximum": 151.10238954157217
+    }
+  },
+  "interpretation": [
+    "The dominant foot/toe vertex selection is stable across all nine samples, but the lowest-one-percent membership changes across seven sets per side.",
+    "The lower envelope is descriptive evaluated geometry and is not a contact patch.",
+    "No floor, support, pressure, force, friction, slip or balance threshold is inferred.",
+    "Authored control heads are not independently verified anatomical joint centres."
+  ],
+  "approvals": {
+    "anatomy": "NOT_GRANTED",
+    "ground_contact": "NOT_GRANTED",
+    "generic_motion_scenarios_approved": "0/19",
+    "landmark_requirements_bound": "0/46"
+  },
+  "historical_status_preserved": {
+    "run_40029398965": "FAILED overall; documented read-only docstring false positive; separately verified W8/V14/R120/cross rig evidence remains valid",
+    "run_40858906795": "SUCCESS CI but superseded for pre-solve causality because the pre-solve observation was stale",
+    "run_40919982094": "SUCCESS corrected foot-plant decomposition"
+  }
+}

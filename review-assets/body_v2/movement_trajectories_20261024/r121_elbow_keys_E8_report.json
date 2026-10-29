@@ -1,0 +1,217 @@
+{
+ "mode": "elbow",
+ "angles_deg": [
+  45,
+  90,
+  120,
+  140
+ ],
+ "keys": {
+  "45": {
+   "elevation_deg": {
+    "l": 44.48,
+    "r": 44.48
+   },
+   "folds_gt90_before": 35,
+   "unfold_history": [
+    40,
+    28,
+    28,
+    28,
+    28,
+    28,
+    28,
+    28,
+    28
+   ],
+   "contact_history": {
+    "contact": {
+     "r": 103,
+     "l": 95
+    },
+    "moved": 1446,
+    "triangle_guard_overlaps": [
+     0
+    ],
+    "restored_full": 431,
+    "restored_part": 307,
+    "kept": 708
+   },
+   "post_guard_overlaps": [
+    [
+     0
+    ]
+   ],
+   "crumple_gt35_history": [
+    3252,
+    3119,
+    3103,
+    3103,
+    3103,
+    3102,
+    3101
+   ],
+   "folds_gt90_with_key": 28,
+   "max_offset_mm": 2.23,
+   "vertices": 2325,
+   "fit_residual_max_mm": 0.001
+  },
+  "90": {
+   "elevation_deg": {
+    "l": 89.48,
+    "r": 89.48
+   },
+   "folds_gt90_before": 153,
+   "unfold_history": [
+    144,
+    30,
+    34,
+    32,
+    30,
+    30,
+    30,
+    30,
+    32
+   ],
+   "contact_history": {
+    "contact": {
+     "r": 1529,
+     "l": 1531
+    },
+    "moved": 5706,
+    "triangle_guard_overlaps": [
+     111,
+     0
+    ],
+    "restored_full": 1616,
+    "restored_part": 1044,
+    "kept": 3046
+   },
+   "post_guard_overlaps": [
+    [
+     0
+    ]
+   ],
+   "crumple_gt35_history": [
+    3642,
+    3365,
+    3321,
+    3312,
+    3311,
+    3305,
+    3302
+   ],
+   "folds_gt90_with_key": 33,
+   "max_offset_mm": 7.66,
+   "vertices": 6544,
+   "fit_residual_max_mm": 0.001
+  },
+  "120": {
+   "elevation_deg": {
+    "l": 119.48,
+    "r": 119.48
+   },
+   "folds_gt90_before": 164,
+   "unfold_history": [
+    176,
+    31,
+    46,
+    31,
+    39,
+    32,
+    31,
+    30,
+    41
+   ],
+   "contact_history": {
+    "contact": {
+     "r": 5146,
+     "l": 5123
+    },
+    "moved": 13425,
+    "triangle_guard_overlaps": [
+     755,
+     10,
+     0
+    ],
+    "restored_full": 2369,
+    "restored_part": 2475,
+    "kept": 8581
+   },
+   "post_guard_overlaps": [
+    [
+     0
+    ]
+   ],
+   "crumple_gt35_history": [
+    6017,
+    4551,
+    4328,
+    4269,
+    4208,
+    4181,
+    4162
+   ],
+   "folds_gt90_with_key": 41,
+   "max_offset_mm": 25.23,
+   "vertices": 21360,
+   "fit_residual_max_mm": 0.001
+  },
+  "140": {
+   "elevation_deg": {
+    "l": 139.47,
+    "r": 139.47
+   },
+   "folds_gt90_before": 68,
+   "unfold_history": [
+    225,
+    44,
+    45,
+    50,
+    34,
+    43,
+    38,
+    50,
+    31
+   ],
+   "contact_history": {
+    "contact": {
+     "r": 7977,
+     "l": 7961
+    },
+    "moved": 19688,
+    "triangle_guard_overlaps": [
+     821,
+     360,
+     49,
+     0
+    ],
+    "restored_full": 2643,
+    "restored_part": 2051,
+    "kept": 14994
+   },
+   "post_guard_overlaps": [
+    [
+     340,
+     0
+    ],
+    [
+     0
+    ]
+   ],
+   "crumple_gt35_history": [
+    6230,
+    5033,
+    4719,
+    4563,
+    4497,
+    4442,
+    4401
+   ],
+   "folds_gt90_with_key": 31,
+   "max_offset_mm": 48.81,
+   "vertices": 27293,
+   "fit_residual_max_mm": 0.001
+  }
+ }
+}

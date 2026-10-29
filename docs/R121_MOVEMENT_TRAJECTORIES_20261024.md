@@ -1177,3 +1177,66 @@ order of 10⁴ iterations.
   2. **Wider skin weights.** Spread the upper-arm influence over the lat and side chest. This changes the bind, so every
      arm key would need re-authoring.
 - **T3 stays.** The authoring hook added while testing (`V2_R121_ARMKEY_WALK`) was removed again, untested in authoring.
+
+## E: elbow side crease at 120–140° (29 Oct 2026)
+
+### The fault
+
+The hinge contact (`contact()`, K1 footprint) flattens each side onto the plane that bisects the elbow angle.
+
+- From the side at 120°, the upper arm shows a flat triangle with a straight edge.
+- From the front-medial view, a flat face is exposed beyond the forearm.
+
+The biceps is wider than the forearm that presses on it, and the footprint (30 mm slab) still flattens skin the forearm
+never reaches.
+
+All E keys below are elbow keys re-authored on T3 (45 / 90 / 120 / 140°, reach 26 cm, crumple 6 rounds at 21°). Every
+other family is T3's.
+
+### E1: mutual penetration (not adopted)
+
+**Mode:** `V2_R121_CONTACT_MODE=mutual`. Skin inside the other limb's skin (signed by the nearest face's normal) moves
+out half the depth along that normal. Pairs closer than 25 mm at rest are skipped, since they are the same skin across
+the crease.
+
+**Renders:** the cleanest. The flat faces are gone.
+
+**Curl at 140°:** 6193 self-intersections against 0, and stretched edges 3331 against 68. At 140° the forearm lies deep
+inside the biceps volume, and pushing each buried vertex out along the nearest normal throws forearm skin sideways into
+the shoulder and chest. The plane contact handles deep overlap; the per-vertex push does not.
+
+### E2–E8: plane contact, then restore (`V2_R121_CONTACT_MODE=plane_restore`)
+
+The plane contact runs first, as in K1. Then every proximal (upper-arm) vertex it moved goes back towards its original
+position by the largest fraction (1, ¾, ½, ¼) that keeps it outside the distal limb. The restore fractions are eroded
+over two rings, so restored and contacted skin blend.
+
+| Step | Change | Curl at 140° (T3: 0 self-intersections, elbow folds 4) |
+|---|---|---|
+| E2 | both sides restored | 1427 intersections. Each side was restored against the other's *flattened* state, so both came back and overlapped again. |
+| E3 / E4 | proximal side only; obstacle widened to the whole distal limb | 395 intersections, all upper biceps against the wrist end of the forearm. Vertices pass a vertex test, but the triangles joining restored and flattened skin cut through the forearm's side wall. |
+| E5 | **triangle guard:** proximal triangles overlapping the distal limb go back to flattened, plus one ring | 0 up to 134°; 340 at exactly 140°. The unfold / de-crumple relaxation, which runs after the contact, shrinks the restored round biceps back into the forearm. |
+| E6 | **post-relaxation guard:** the same check after the relaxation, snapping offenders to their flattened position | 0 at every frame, but whole-body folds 7 → 80. The snapped skin leaves seams. |
+| E7 | border blending (`V2_R121_POSTGUARD_ROUNDS=3`) | identical to E6: the loop stopped before blending, because the snap itself had cleared the overlaps (fixed) |
+| **E8** | blend a 4-ring band around the snapped skin (snapped vertices held), then check again | **0 at every frame**; folds 9 |
+
+**E8 against T3** (ISB girdle frame, as T3):
+
+| Curl | T3 | E8 |
+|---|---|---|
+| Self-intersections (every frame) | 0 | **0** |
+| Folds over 90° (peak) | 7 | 9 |
+| Elbow folds over 90° | 4 | 6 |
+| Elbow crumple over 35° | 308 | **284** |
+| Edges stretched over 2× | 68 | 96 |
+| Asymmetry max | 5.7 mm | 9.7 mm |
+
+Squat, both raises, deadlift and lunge are identical. The press rack's elbow folds rise from 2 to 14, because the
+press-rack combination key was authored on top of the old elbow keys. It is re-authored on E8 as E8c (below).
+
+**Renders** (`elbow120_140_T3_vs_E8.jpg`; rows T3 120°, T3 140°, E8 120°, E8 140°; columns lateral, front-medial, back):
+
+- At 120°, the flat triangle on the upper arm and the exposed flat face are gone. The biceps stays round and meets the
+  forearm along a curved crease.
+- At 140°, the flat area is smaller. Some flattening remains near the upper biceps, where the guards return skin to
+  the plane contact.

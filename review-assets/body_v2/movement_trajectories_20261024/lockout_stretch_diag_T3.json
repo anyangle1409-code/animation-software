@@ -1,0 +1,232 @@
+{
+ "press_ht_deg": 160.0,
+ "edges": 853168,
+ "lock_all": {
+  "stretch_gt2": 8766,
+  "compress_lt0.5": 5691,
+  "stretch_gt1.5": 27935,
+  "stretched_rest_len_mm_p50": 1.95,
+  "all_rest_len_mm_p50": 2.82,
+  "stretched_len_mm_p50_p95": [
+   5.48,
+   9.92
+  ],
+  "stretch_by_zone": {
+   "deltoid_cap": 3699,
+   "back_side_lat": 2871,
+   "axilla_floor": 992,
+   "chest_side_pec": 837,
+   "upper_arm": 185,
+   "trapezius_neck": 157,
+   "torso_mid": 25
+  },
+  "stretch_by_bone": {
+   "spine_03": 2860,
+   "shoulder_cap_r": 1288,
+   "shoulder_cap_l": 1277,
+   "upperarm_l": 640,
+   "upperarm_r": 622,
+   "spine_02": 441,
+   "muscle_lat_r": 440,
+   "muscle_lat_l": 418
+  },
+  "compress_by_zone": {
+   "deltoid_cap": 4187,
+   "trapezius_neck": 502,
+   "axilla_floor": 387,
+   "chest_side_pec": 376,
+   "back_side_lat": 181,
+   "upper_arm": 53,
+   "torso_mid": 5
+  },
+  "compress_by_bone": {
+   "shoulder_cap_r": 1554,
+   "shoulder_cap_l": 1504,
+   "clavicle_l": 581,
+   "clavicle_r": 572,
+   "spine_03": 462,
+   "upperarm_r": 429,
+   "upperarm_l": 400,
+   "muscle_lat_r": 51
+  },
+  "tri_area_gt3": 1906,
+  "tri_area_lt0.25": 2491,
+  "max_ratio": 68.91,
+  "stretch_rest_bbox_left(+x)_m": [
+   [
+    0.002,
+    -0.106,
+    1.262
+   ],
+   [
+    0.26,
+    0.18,
+    1.589
+   ]
+  ],
+  "stretch_rest_bbox_right(-x)_m": [
+   [
+    -0.271,
+    -0.107,
+    1.264
+   ],
+   [
+    -0.007,
+    0.18,
+    1.549
+   ]
+  ]
+ },
+ "lock_no_r121": {
+  "stretch_gt2": 8548,
+  "compress_lt0.5": 5113,
+  "stretch_gt1.5": 27347,
+  "stretched_rest_len_mm_p50": 2.01,
+  "all_rest_len_mm_p50": 2.82,
+  "stretched_len_mm_p50_p95": [
+   5.63,
+   10.3
+  ],
+  "stretch_by_zone": {
+   "deltoid_cap": 3569,
+   "back_side_lat": 2831,
+   "axilla_floor": 977,
+   "chest_side_pec": 799,
+   "upper_arm": 185,
+   "trapezius_neck": 155,
+   "torso_mid": 32
+  },
+  "stretch_by_bone": {
+   "spine_03": 2790,
+   "shoulder_cap_l": 1235,
+   "shoulder_cap_r": 1232,
+   "upperarm_l": 637,
+   "upperarm_r": 618,
+   "muscle_lat_r": 442,
+   "muscle_lat_l": 421,
+   "spine_02": 418
+  },
+  "compress_by_zone": {
+   "deltoid_cap": 3840,
+   "trapezius_neck": 402,
+   "axilla_floor": 388,
+   "chest_side_pec": 252,
+   "back_side_lat": 143,
+   "upper_arm": 52,
+   "torso_mid": 36
+  },
+  "compress_by_bone": {
+   "shoulder_cap_r": 1383,
+   "shoulder_cap_l": 1374,
+   "clavicle_r": 526,
+   "clavicle_l": 506,
+   "upperarm_r": 420,
+   "upperarm_l": 403,
+   "spine_03": 337,
+   "neck": 36
+  },
+  "tri_area_gt3": 1812,
+  "tri_area_lt0.25": 2331,
+  "max_ratio": 68.91,
+  "stretch_rest_bbox_left(+x)_m": [
+   [
+    0.0,
+    -0.106,
+    1.262
+   ],
+   [
+    0.26,
+    0.18,
+    1.59
+   ]
+  ],
+  "stretch_rest_bbox_right(-x)_m": [
+   [
+    -0.262,
+    -0.107,
+    1.264
+   ],
+   [
+    -0.0,
+    0.18,
+    1.589
+   ]
+  ]
+ },
+ "lock_lbs_only": {
+  "stretch_gt2": 10736,
+  "compress_lt0.5": 3471,
+  "stretch_gt1.5": 30399,
+  "stretched_rest_len_mm_p50": 1.71,
+  "all_rest_len_mm_p50": 2.82,
+  "stretched_len_mm_p50_p95": [
+   4.31,
+   7.68
+  ],
+  "stretch_by_zone": {
+   "deltoid_cap": 4928,
+   "back_side_lat": 2559,
+   "axilla_floor": 1843,
+   "upper_arm": 1195,
+   "chest_side_pec": 165,
+   "torso_mid": 40,
+   "trapezius_neck": 6
+  },
+  "stretch_by_bone": {
+   "upperarm_l": 3457,
+   "upperarm_r": 3426,
+   "shoulder_cap_r": 1290,
+   "shoulder_cap_l": 1271,
+   "spine_03": 751,
+   "muscle_pec_r": 115,
+   "muscle_pec_l": 112,
+   "muscle_lat_r": 92
+  },
+  "compress_by_zone": {
+   "deltoid_cap": 2367,
+   "chest_side_pec": 437,
+   "axilla_floor": 324,
+   "trapezius_neck": 134,
+   "back_side_lat": 122,
+   "upper_arm": 50,
+   "torso_mid": 37
+  },
+  "compress_by_bone": {
+   "shoulder_cap_l": 988,
+   "shoulder_cap_r": 936,
+   "spine_03": 579,
+   "upperarm_r": 339,
+   "upperarm_l": 316,
+   "clavicle_l": 76,
+   "clavicle_r": 72,
+   "neck": 58
+  },
+  "tri_area_gt3": 2762,
+  "tri_area_lt0.25": 1388,
+  "max_ratio": 55.8,
+  "stretch_rest_bbox_left(+x)_m": [
+   [
+    0.0,
+    -0.106,
+    1.262
+   ],
+   [
+    0.297,
+    0.18,
+    1.59
+   ]
+  ],
+  "stretch_rest_bbox_right(-x)_m": [
+   [
+    -0.297,
+    -0.107,
+    1.271
+   ],
+   [
+    -0.0,
+    0.18,
+    1.589
+   ]
+  ]
+ }
+}

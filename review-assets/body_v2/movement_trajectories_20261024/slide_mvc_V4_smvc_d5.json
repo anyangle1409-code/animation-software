@@ -1,0 +1,79 @@
+{
+ "radius_m": 0.3,
+ "rounds": 8,
+ "damping": 0.5,
+ "rest_rings_with_reflex_angle": 18,
+ "pinned_rest_residual": 18,
+ "rest_check": {
+  "self_intersections_by_zone": {
+   "axilla": 0,
+   "hand_thigh": 970,
+   "other": 0
+  },
+  "stretch_gt2": 0,
+  "stretch_gt1.5": 0,
+  "compress_lt0.5": 0,
+  "ratio_p99": 1.0,
+  "ratio_max": 1.0,
+  "folds_gt90": 45,
+  "crumple_gt35": 397,
+  "self_intersections": 970
+ },
+ "rest_fixed_point_max_mm": 0.004,
+ "free_vertices": 106696,
+ "before": {
+  "self_intersections_by_zone": {
+   "axilla": 23,
+   "hand_thigh": 0,
+   "other": 4
+  },
+  "stretch_gt2": 8747,
+  "stretch_gt1.5": 27622,
+  "compress_lt0.5": 5652,
+  "ratio_p99": 2.109,
+  "ratio_max": 68.91,
+  "folds_gt90": 50,
+  "crumple_gt35": 661,
+  "self_intersections": 27
+ },
+ "after": {
+  "self_intersections_by_zone": {
+   "axilla": 50,
+   "hand_thigh": 0,
+   "other": 159
+  },
+  "stretch_gt2": 4653,
+  "stretch_gt1.5": 18088,
+  "compress_lt0.5": 4309,
+  "ratio_p99": 1.845,
+  "ratio_max": 14.1,
+  "folds_gt90": 92,
+  "crumple_gt35": 586,
+  "self_intersections": 209
+ },
+ "round_moves_mm": [
+  16.48,
+  16.12,
+  14.16,
+  10.81,
+  8.53,
+  14.26,
+  14.51,
+  7.32
+ ],
+ "projection_rejected_per_round": [
+  26,
+  22,
+  18,
+  15,
+  16,
+  18,
+  23,
+  23
+ ],
+ "slide_mm_p50_p95_max": [
+  12.6,
+  39.23,
+  77.02
+ ]
+}

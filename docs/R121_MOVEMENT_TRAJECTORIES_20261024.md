@@ -1049,3 +1049,70 @@ skin is compressed. It is not adopted; the option stays off by default.
 
 A usable version would need an inversion guard: reject or halve any step that flips a face. That was not pursued here.
 Report: `report_TT_V3_stretch_relief_rejected.json`.
+
+## S1: press-lockout stretch (29 Oct 2026)
+
+### Where the stretch is and what causes it
+
+`scripts/body_v2/lockout_stretch_diag_blender.py` (read-only) measures the press lockout (candidate girdle, 160°,
+elbows straight) in three configurations:
+
+| Lockout | Over 2× | Over 1.5× | Under 0.5× | Max ratio |
+|---|---|---|---|---|
+| All keys (T3) | 8766 | 27,935 | 5691 | 68.9 |
+| Without R121 keys | 8548 | 27,347 | 5113 | 68.9 |
+| Plain skinning (no corrective keys) | 10,736 | 30,399 | 3471 | 55.8 |
+
+- **The stretch comes from the skinning, not the keys.**
+  - The upper-arm and shoulder-cap bones drag the skin of the side chest, lat and lower scapula up with the arm.
+  - The R121 keys add only about 200 stretched edges.
+  - The legacy (non-shoulder) families move some of it from the upper arm onto spine_03 and the back.
+- **Location, all keys:**
+  - stretched: deltoid cap 3699, back side / lat 2871, axilla floor 992, side chest 837;
+  - compressed: deltoid cap 4187, mostly at shoulder_cap and clavicle (skin bunching over the acromion).
+- **Size.** Stretched edges are short at rest (median 1.95 mm against 2.82 mm for all edges). Posed they measure
+  5.5 mm median and 9.9 mm at p95.
+- **The fix has to be a skin slide.** Real skin draws the area the opening axilla needs from a wide surround.
+
+Renders: `lockout_stretch_diag_T3.jpg` (heat maps: red = an adjacent edge at 2× or more, blue = 0.5× or less; top row
+all keys, bottom row plain skinning).
+
+### V4: posed-space slide with rest mean-value weights (not adopted)
+
+**Script:** `skin_slide_mvc_prototype_blender.py`, read-only.
+
+**Method:**
+
+- Each vertex's rest 1-ring gives positive mean-value weights (Floater). These reproduce the rest vertex exactly in its
+  tangent plane, so the rest pose is a fixed point (checked: 0.004 mm).
+- The posed shoulder region (0.30 m around each GH joint) is re-solved so each vertex sits, in its posed tangent plane,
+  at the same weighted barycentre. There are 2 tangential unknowns per vertex, solved with a sparse direct solve, then
+  projected back onto the posed surface.
+
+**What it took to get a fixed point:**
+
+- A first formulation (full 3D Laplacian keeping only its normal part) did not hold the surface. Rest drifted 94 mm.
+- Even with exact weights, 18 rest rings with a reflex angle (and 2 degenerate hand–thigh vertices) leave residuals.
+  A Laplacian solve spreads a point residual over centimetres, so those vertices are pinned.
+
+**Results at the lockout:**
+
+| | T3 | 1 round, full step | 3 rounds, full step | 6 rounds, full step | 4 rounds, half step, crease contact pinned |
+|---|---|---|---|---|---|
+| Over 2× | 8747 | n/a | 4606 | 4727 | 4442 |
+| Under 0.5× | 5652 | n/a | 3769 | 5666 | 3355 |
+| Folds over 90° | 50 | n/a | 61 | 166 | 82 |
+| Self-intersections | 27 | n/a | 108 | 664 | 195 |
+
+- The stretch spreads smoothly (heat maps) and the shaded shape is unchanged.
+- The linearised steps do not converge: each round moves 10–35 mm whatever the damping. Every extra round adds
+  self-intersections at the axilla and the posterior arm fold. Both sheets of the crease slide along each other.
+- Pinning skin that has another sheet within 10 mm along its normal (240 vertices plus 3 rings) helps the first round
+  (41 intersections) but not the later ones.
+- A per-triangle inversion guard (revert flipped triangles' vertices) made things worse: 1349 intersections and 775
+  folds. Partial reverts leave the slide field discontinuous, and folds already in the posed mesh trigger reverts every
+  round.
+
+**Verdict:** not adopted. Projection onto the posed surface lets vertices cross creases. The r57 surface-walking slide
+(`original_v1_skin_slide.py`, R24) is built to avoid exactly that: vertices walk across triangle edges, and every step is
+guarded. That is tried next.

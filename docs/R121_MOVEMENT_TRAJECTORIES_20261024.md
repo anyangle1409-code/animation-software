@@ -793,3 +793,13 @@ remaining intersections are hand-against-hip and leg, from the benchmark's abduc
 the hip family, named by its measured hip angle. The hip keys stay purely angle-driven. Running now, at about 135°.
 
 Sheets: `REVIEW_N2_deadlift.jpg` and `REVIEW_N2_lunge.jpg`. Reports: `report_TT_N2_deadlift_lunge*.json`.
+
+**Deep hip key, first attempt: rejected.** The key was authored at 135°, the deadlift bottom. Deadlift hip folds rose
+from 349 to **1381** and self-intersections from 2052 to 3175. The other six movements were unchanged.
+
+**Cause.** The key was authored as a residual on top of the hip family's 110° key, which was fully on beyond 110°
+during authoring. Once the 135° key is appended, the 110° key fades out between 110° and 135°, so its correction
+disappears at the bottom.
+
+**Fix.** Hinge mode now folds what the earlier keys lose at the new angle into the new key, so the family reproduces
+the authored pose exactly. Re-running.

@@ -346,6 +346,29 @@ for ang in ANGLES:
                              "vertices": int(len(sel)), "fit_residual_max_mm": round(resid, 3)}
     print("ARMKEY", ang, json.dumps(REP["keys"][str(ang)]), flush=True)
 body.shape_key_remove(tmp)
+if MODE == "hinge":
+    # each appended key was authored with the family's earlier keys at their OLD hat values (the last one fully on
+    # beyond its angle); once appended, those earlier keys fade out towards the new angle.  Fold what they lose at the
+    # new key's angle into the new key, so the family reproduces the authored pose exactly.
+    for s in ("l", "r"):
+        names = sorted((kb.name for kb in me.shape_keys.key_blocks if kb.name.startswith(f"{FAMILY[0]}{s}_")),
+                       key=lambda n_: int(n_.rsplit("_", 1)[1]))
+        old_pts = (r121_drives.HIP_START,) + tuple(rig.get(f"{FAMILY[1]}_{s}", []))
+        new_pts = (r121_drives.HIP_START,) + tuple(made[s])
+        n_old = len(old_pts) - 1
+        for k_new in range(n_old, len(made[s])):
+            a_new = made[s][k_new]
+            before = dict(r121_drives._hats(names[:n_old], old_pts[:n_old + 1], a_new))
+            after = dict(r121_drives._hats(names, new_pts, a_new))
+            kn = me.shape_keys.key_blocks[names[k_new]]
+            c = np.empty(n * 3); kn.data.foreach_get("co", c); c = c.reshape(-1, 3)
+            for nm, v0 in before.items():
+                dv = v0 - after.get(nm, 0.0)
+                if abs(dv) > 1e-6:
+                    o = np.empty(n * 3); me.shape_keys.key_blocks[nm].data.foreach_get("co", o)
+                    c += dv * (o.reshape(-1, 3) - R0)
+            kn.data.foreach_set("co", c.ravel())
+            REP.setdefault("folded_in", {})[names[k_new]] = {nm: round(v0 - after.get(nm, 0.0), 3) for nm, v0 in before.items()}
 for s in ("l", "r"):
     rig[f"{FAMILY[1]}_{s}"] = made[s][0] if MODE == "combo" else made[s]
 bench._reset(rig)

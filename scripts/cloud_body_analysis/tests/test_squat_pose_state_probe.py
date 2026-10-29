@@ -26,6 +26,22 @@ def report():
     samples = []
     for i in range(9):
         k = probe.smooth(i / 8)
+        pre_root = [0.0, 0.0, 0.0]
+        post_root = [0.0, 0.01 * k, -0.02 * k]
+        solve_sides = {}
+        for side, sign in (("l", -1), ("r", 1)):
+            target = [0.09 * sign, 0.0, 0.085]
+            pre_head = [target[0] + 0.002 * sign * k, 0.03 * k, 0.04 * k]
+            post_head = [target[0] + 0.002 * sign * k, 0.0, 0.085]
+            solve_sides[side] = {
+                "rest_target_head_world_m_not_verified_joint_centre": target,
+                "pre_solve_foot_head_world_m": pre_head,
+                "pre_solve_residual_world_m": [a - b for a, b in zip(pre_head, target)],
+                "post_solve_foot_head_world_m": post_head,
+                "post_solve_residual_world_m": [a - b for a, b in zip(post_head, target)],
+                "pre_solve_foot_local_delta_deg_not_anatomical": 0.0,
+                "post_solve_foot_local_delta_deg_not_anatomical": 5 * k,
+            }
         samples.append({
             "sample": i,
             "t": i / 8,
@@ -37,7 +53,14 @@ def report():
             },
             "measured_authored_ankle_dorsiflexion_deg_not_isb": 15 * k,
             "evaluated_body_lowest_world_z_m_not_contact": 0.001,
-            "root_matrix_basis_translation_m": [0.0, 0.01 * k, -0.02 * k],
+            "root_matrix_basis_translation_m": post_root,
+            "foot_plant_solve": {
+                "pre_root_matrix_basis_translation_m": pre_root,
+                "post_root_matrix_basis_translation_m": post_root,
+                "root_matrix_basis_translation_delta_m": [b - a for a, b in zip(pre_root, post_root)],
+                "mean_post_solve_residual_world_m": [0.0, 0.0, 0.0],
+                "sides": solve_sides,
+            },
             "centreline": {"pelvis": bone(), "spine_01": bone()},
             "sides": {
                 side: {
@@ -79,6 +102,7 @@ class SquatPoseStateProbeTests(unittest.TestCase):
         self.assertIn("authored squat-control observations", text)
         self.assertIn("not ISB", text)
         self.assertIn("NOT verified ground contact", text)
+        self.assertIn("Foot-plant solve residuals", text)
 
     def test_requires_exact_nine_ordered_samples(self):
         data = report()
@@ -119,6 +143,33 @@ class SquatPoseStateProbeTests(unittest.TestCase):
     def test_rejects_authored_target_drift(self):
         data = report(); data["samples"][4]["authored_targets_deg_not_measured"]["hip_flexion"] += 0.01
         self.assertIn("authored target drift", probe.validate_report(data))
+
+    def test_plant_solve_summary_separates_average_from_bilateral_residual(self):
+        pre = {
+            "root_matrix_basis_translation_m": [0.0, 0.0, 0.0],
+            "sides": {
+                "l": {"foot_head_world_m": [-0.08, 0.03, 0.04], "rest_target_head_world_m": [-0.09, 0.0, 0.085], "foot_local_delta_deg": 0.0},
+                "r": {"foot_head_world_m": [0.08, 0.03, 0.04], "rest_target_head_world_m": [0.09, 0.0, 0.085], "foot_local_delta_deg": 0.0},
+            },
+        }
+        post = {
+            "root_matrix_basis_translation_m": [0.0, -0.03, 0.045],
+            "sides": {
+                "l": {"foot_head_world_m": [-0.08, 0.0, 0.085], "rest_target_head_world_m": [-0.09, 0.0, 0.085], "foot_local_delta_deg": 10.0},
+                "r": {"foot_head_world_m": [0.08, 0.0, 0.085], "rest_target_head_world_m": [0.09, 0.0, 0.085], "foot_local_delta_deg": 10.0},
+            },
+        }
+        result = probe.plant_solve_summary(pre, post)
+        self.assertEqual(result["root_matrix_basis_translation_delta_m"], [0.0, -0.03, 0.045])
+        self.assertEqual(result["mean_post_solve_residual_world_m"], [0.0, 0.0, 0.0])
+        self.assertAlmostEqual(result["sides"]["l"]["post_solve_residual_world_m"][0], 0.01)
+        self.assertAlmostEqual(result["sides"]["r"]["post_solve_residual_world_m"][0], -0.01)
+
+    def test_report_rejects_tampered_solve_residual_or_root_delta(self):
+        data = report(); data["samples"][3]["foot_plant_solve"]["sides"]["l"]["post_solve_residual_world_m"][0] += 0.001
+        self.assertIn("invalid foot-plant solve evidence", probe.validate_report(data))
+        data = report(); data["samples"][3]["foot_plant_solve"]["root_matrix_basis_translation_delta_m"][2] += 0.001
+        self.assertIn("invalid foot-plant solve evidence", probe.validate_report(data))
 
     def test_bone_record_uses_matrix_basis_and_model_space(self):
         class Q:

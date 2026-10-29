@@ -73,9 +73,107 @@ def bone_record(pose_bones, rig_world, name):
     }
 
 
+def _subtract(a, b):
+    return [finite(x) - finite(y) for x, y in zip(vector3(a), vector3(b))]
+
+
+def plant_stage_record(rig, rest_heads):
+    bones = rig.pose.bones
+    sides = {}
+    for side in ("l", "r"):
+        foot = bones[f"foot_{side}"]
+        sides[side] = {
+            "foot_head_world_m": vector3(rig.matrix_world @ foot.head),
+            "rest_target_head_world_m": vector3(rig.matrix_world @ rest_heads[side]),
+            "foot_local_delta_deg": q_angle_deg(foot.matrix_basis.to_quaternion()),
+        }
+    return {
+        "root_matrix_basis_translation_m": vector3(
+            bones["root"].matrix_basis.to_translation()),
+        "sides": sides,
+    }
+
+
+def plant_solve_summary(pre, post):
+    result = {
+        "pre_root_matrix_basis_translation_m": vector3(
+            pre["root_matrix_basis_translation_m"]),
+        "post_root_matrix_basis_translation_m": vector3(
+            post["root_matrix_basis_translation_m"]),
+        "root_matrix_basis_translation_delta_m": _subtract(
+            post["root_matrix_basis_translation_m"],
+            pre["root_matrix_basis_translation_m"]),
+        "sides": {},
+    }
+    for side in ("l", "r"):
+        before, after = pre["sides"][side], post["sides"][side]
+        target = vector3(before["rest_target_head_world_m"])
+        if target != vector3(after["rest_target_head_world_m"]):
+            raise ValueError("foot-plant rest target changed during solve")
+        result["sides"][side] = {
+            "rest_target_head_world_m_not_verified_joint_centre": target,
+            "pre_solve_foot_head_world_m": vector3(before["foot_head_world_m"]),
+            "pre_solve_residual_world_m": _subtract(before["foot_head_world_m"], target),
+            "post_solve_foot_head_world_m": vector3(after["foot_head_world_m"]),
+            "post_solve_residual_world_m": _subtract(after["foot_head_world_m"], target),
+            "pre_solve_foot_local_delta_deg_not_anatomical": finite(
+                before["foot_local_delta_deg"]),
+            "post_solve_foot_local_delta_deg_not_anatomical": finite(
+                after["foot_local_delta_deg"]),
+        }
+    result["mean_post_solve_residual_world_m"] = [
+        sum(result["sides"][side]["post_solve_residual_world_m"][axis]
+            for side in ("l", "r")) / 2.0 for axis in range(3)
+    ]
+    return result
+
+
 def _valid_vector(value):
     return (isinstance(value, list) and len(value) == 3
             and all(type(x) in (int, float) and math.isfinite(x) for x in value))
+
+
+def _vectors_close(a, b, tolerance=1e-9):
+    return (_valid_vector(a) and _valid_vector(b)
+            and all(math.isclose(x, y, abs_tol=tolerance) for x, y in zip(a, b)))
+
+
+def _valid_plant_solve(solve, final_root):
+    if not isinstance(solve, dict) or not _vectors_close(
+            solve.get("post_root_matrix_basis_translation_m"), final_root):
+        return False
+    pre_root = solve.get("pre_root_matrix_basis_translation_m")
+    post_root = solve.get("post_root_matrix_basis_translation_m")
+    if (not _valid_vector(pre_root) or not _valid_vector(post_root)
+            or not _vectors_close(solve.get("root_matrix_basis_translation_delta_m"),
+                                  [b - a for a, b in zip(pre_root, post_root)])):
+        return False
+    sides = solve.get("sides")
+    if not isinstance(sides, dict) or set(sides) != {"l", "r"}:
+        return False
+    post_residuals = []
+    for side in ("l", "r"):
+        row = sides[side]
+        if not isinstance(row, dict):
+            return False
+        target = row.get("rest_target_head_world_m_not_verified_joint_centre")
+        pre = row.get("pre_solve_foot_head_world_m")
+        post = row.get("post_solve_foot_head_world_m")
+        if (not _valid_vector(target) or not _valid_vector(pre) or not _valid_vector(post)
+                or not _vectors_close(row.get("pre_solve_residual_world_m"),
+                                      [a - b for a, b in zip(pre, target)])
+                or not _vectors_close(row.get("post_solve_residual_world_m"),
+                                      [a - b for a, b in zip(post, target)])):
+            return False
+        for key in ("pre_solve_foot_local_delta_deg_not_anatomical",
+                    "post_solve_foot_local_delta_deg_not_anatomical"):
+            angle = row.get(key)
+            if (type(angle) not in (int, float) or not math.isfinite(angle)
+                    or not 0.0 <= angle <= 180.000001):
+                return False
+        post_residuals.append(row["post_solve_residual_world_m"])
+    mean = [sum(row[axis] for row in post_residuals) / 2.0 for axis in range(3)]
+    return _vectors_close(solve.get("mean_post_solve_residual_world_m"), mean)
 
 
 def validate_report(data):
@@ -115,6 +213,9 @@ def validate_report(data):
             errors.append("invalid evaluated body floor proxy")
         if not _valid_vector(row.get("root_matrix_basis_translation_m")):
             errors.append("invalid root translation")
+        elif not _valid_plant_solve(
+                row.get("foot_plant_solve"), row["root_matrix_basis_translation_m"]):
+            errors.append("invalid foot-plant solve evidence")
         controls = []
         centreline = row.get("centreline")
         if not isinstance(centreline, dict) or set(centreline) != {"pelvis", "spine_01"}:
@@ -165,7 +266,20 @@ def markdown(data):
             f"{row['measured_authored_ankle_dorsiflexion_deg_not_isb']:.5f} | "
             f"{row['root_matrix_basis_translation_m'][2]:.7f} | "
             f"{row['evaluated_body_lowest_world_z_m_not_contact']:.7f} |")
-    lines += ["", "The benchmark solves foot orientation and ankle-head placement, but this is **NOT verified ground contact** or pressure/balance evidence.",
+    lines += ["", "## Foot-plant solve residuals", "",
+              "Residuals are foot-control head minus its captured rest target after the frozen solve; they are not anatomical ankle-centre errors.", "",
+              "| Sample | root correction X/Y/Z mm | l post residual X/Y/Z mm | r post residual X/Y/Z mm | mean post residual X/Y/Z mm |",
+              "|---:|---:|---:|---:|---:|"]
+    for row in data["samples"]:
+        solve = row["foot_plant_solve"]
+        def millimetres(values):
+            return "/".join(f"{value * 1000:.5f}" for value in values)
+        lines.append(
+            f"| {row['sample']} | {millimetres(solve['root_matrix_basis_translation_delta_m'])} | "
+            f"{millimetres(solve['sides']['l']['post_solve_residual_world_m'])} | "
+            f"{millimetres(solve['sides']['r']['post_solve_residual_world_m'])} | "
+            f"{millimetres(solve['mean_post_solve_residual_world_m'])} |")
+    lines += ["", "The benchmark solves foot orientation and applies one averaged root correction, but this is **NOT verified ground contact** or pressure/balance evidence.",
               "Toe controls remain observed even when their local delta is zero; no multisegment foot anatomy is inferred.", ""]
     return "\n".join(lines)
 
@@ -209,14 +323,26 @@ def main():
 
     original_build = correction.build_corrected_scene
     original_metric = bench.frame_metrics
+    original_plant_feet = bench._plant_feet
     captures = []
+    plant_records = []
     correction.build_corrected_scene = lambda: result
+
+    def tracked_plant_feet(loaded_rig, rest_heads):
+        pre = plant_stage_record(loaded_rig, rest_heads)
+        original_plant_feet(loaded_rig, rest_heads)
+        post = plant_stage_record(loaded_rig, rest_heads)
+        plant_records.append(plant_solve_summary(pre, post))
+
+    bench._plant_feet = tracked_plant_feet
 
     def capture(V0, V, F, dom, rest_floor):
         sample = len(captures)
         t = sample / 8.0
         k = smooth(t)
         bones = rig.pose.bones
+        if len(plant_records) != sample + 1:
+            raise ValueError("Expected exactly one foot-plant solve per squat sample")
         row = {
             "sample": sample,
             "t": t,
@@ -228,6 +354,7 @@ def main():
             "root_matrix_basis_translation_m": vector3(
                 bones["root"].matrix_basis.to_translation()),
             "evaluated_body_lowest_world_z_m_not_contact": min(finite(vertex.z) for vertex in V),
+            "foot_plant_solve": plant_records[sample],
             "centreline": {
                 name: bone_record(bones, rig.matrix_world, name)
                 for name in ("pelvis", "spine_01")
@@ -250,12 +377,14 @@ def main():
                 loaded["runtime"], loaded["body"]))
     finally:
         bench.frame_metrics = original_metric
+        bench._plant_feet = original_plant_feet
         correction.build_corrected_scene = original_build
     after = adapter.rest_signature(rig, body)
     unchanged = digest(source) == W8_SHA256
     if before != after or not unchanged:
         raise ValueError("Preserved source or in-memory rest bones changed")
-    if len(captures) != 9 or len(outcome["benchmarks"]["squat"]["frames"]) != 9:
+    if (len(captures) != 9 or len(plant_records) != 9
+            or len(outcome["benchmarks"]["squat"]["frames"]) != 9):
         raise ValueError("Incomplete authored squat benchmark")
     data = {
         "status": "READ_ONLY_AUTHORED_SQUAT_CONTROL_STATE_ANATOMY_NOT_APPROVED",
@@ -269,6 +398,7 @@ def main():
             "Authored FK controls and world-space control trajectories are not ISB joint-coordinate measurements",
             "Bone heads are authored rig locations, not independently verified anatomical joint centres",
             "The benchmark foot solve and lowest evaluated vertex do not prove pressure, balance or ground contact",
+            "Pre/post solve residuals expose authored root-correction behavior, not anatomical foot planting",
             "The single foot and toe controls do not establish talus, calcaneus or multisegment foot coordination",
             "Population range-of-motion means are not hard movement limits and no movement is approved",
         ],

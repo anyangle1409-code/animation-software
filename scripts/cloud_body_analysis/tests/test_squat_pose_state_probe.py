@@ -92,7 +92,7 @@ def report():
                 } for side in ("l", "r")
             },
         })
-    return {
+    data = {
         "status": "READ_ONLY_AUTHORED_SQUAT_CONTROL_STATE_ANATOMY_NOT_APPROVED",
         "model": "W8", "source_sha256": probe.W8_SHA256,
         "pinned_r57_source_commit": probe.R57_SHA,
@@ -101,6 +101,8 @@ def report():
         "anatomical_approval": "NOT_GRANTED", "ground_contact_approval": "NOT_GRANTED",
         "samples": samples,
     }
+    data["skin_control_relative_motion"] = probe.skin_control_relative_motion(samples)
+    return data
 
 
 def json_bytes(value):
@@ -245,6 +247,48 @@ class SquatPoseStateProbeTests(unittest.TestCase):
         self.assertIn("foot-skin/control cross-reference mismatch", probe.validate_report(data))
         data = report(); data["samples"][3]["foot_plant_solve"]["root_matrix_basis_translation_delta_m"][2] += 0.001
         self.assertIn("invalid foot-plant solve evidence", probe.validate_report(data))
+
+    def test_skin_control_relative_motion_uses_sample_zero_reference(self):
+        samples = report()["samples"]
+        samples[8]["sides"]["l"]["foot"][
+            "head_world_m_not_anatomical_joint_centre"][0] = 0.01
+        result = probe.skin_control_relative_motion(samples)
+        self.assertEqual(
+            result["status"],
+            "DESCRIPTIVE_FOOT_CONTROL_TO_SKIN_LOWER_CENTROID_RELATIVE_MOTION_NOT_CONTACT")
+        self.assertIs(result["contact_claimed"], False)
+        self.assertEqual(result["reference_sample"], 0)
+        self.assertEqual(
+            result["samples"][0]["sides"]["l"]["change_from_sample0_world_m"],
+            [0.0, 0.0, 0.0])
+        self.assertAlmostEqual(
+            result["samples"][8]["sides"]["l"][
+                "foot_control_head_minus_lower_centroid_world_m"][0], 0.11)
+        self.assertAlmostEqual(
+            result["samples"][8]["sides"]["l"]["change_from_sample0_world_m"][0],
+            0.01)
+
+    def test_skin_control_relative_motion_rejects_missing_or_nonfinite_inputs(self):
+        samples = report()["samples"]
+        del samples[2]["foot_skin_lower_envelope"]["sides"]["r"][
+            "lower_centroid_world_m"]
+        with self.assertRaisesRegex((KeyError, ValueError, TypeError), "centroid|3D|vector"):
+            probe.skin_control_relative_motion(samples)
+        samples = report()["samples"]
+        samples[4]["sides"]["l"]["foot"][
+            "head_world_m_not_anatomical_joint_centre"][1] = float("nan")
+        with self.assertRaisesRegex(ValueError, "Nonfinite"):
+            probe.skin_control_relative_motion(samples)
+
+    def test_report_rejects_tampered_skin_control_relative_motion(self):
+        data = report()
+        self.assertEqual(probe.validate_report(data), [])
+        data["skin_control_relative_motion"]["samples"][5]["sides"]["r"][
+            "change_from_sample0_world_m"][2] += 0.001
+        self.assertIn("invalid skin/control relative motion", probe.validate_report(data))
+        text = probe.markdown(report())
+        self.assertIn("Authored foot control relative to skin lower centroid", text)
+        self.assertIn("not contact", text.lower())
 
     def test_bone_record_uses_matrix_basis_and_model_space(self):
         class Q:

@@ -182,6 +182,35 @@ def foot_skin_lower_envelope(vertices, dominant_groups, side, foot_control_head,
     }
 
 
+def skin_control_relative_motion(samples):
+    """Cross-reference authored foot controls and skin without contact claims."""
+    if not isinstance(samples, list) or not samples:
+        raise ValueError("ordered pose samples required")
+    reference = {}
+    rows = []
+    for sample_index, sample in enumerate(samples):
+        sides = {}
+        for side in ("l", "r"):
+            head = vector3(sample["sides"][side]["foot"][
+                "head_world_m_not_anatomical_joint_centre"])
+            centroid = vector3(sample["foot_skin_lower_envelope"]["sides"][side][
+                "lower_centroid_world_m"])
+            relative = _subtract(head, centroid)
+            if sample_index == 0:
+                reference[side] = relative
+            sides[side] = {
+                "foot_control_head_minus_lower_centroid_world_m": relative,
+                "change_from_sample0_world_m": _subtract(relative, reference[side]),
+            }
+        rows.append({"sample": sample["sample"], "sides": sides})
+    return {
+        "status": "DESCRIPTIVE_FOOT_CONTROL_TO_SKIN_LOWER_CENTROID_RELATIVE_MOTION_NOT_CONTACT",
+        "contact_claimed": False,
+        "reference_sample": 0,
+        "samples": rows,
+    }
+
+
 def _valid_vector(value):
     return (isinstance(value, list) and len(value) == 3
             and all(type(x) in (int, float) and math.isfinite(x) for x in value))
@@ -293,6 +322,13 @@ def validate_report(data):
             or [row.get("sample") for row in samples] != list(range(9))):
         errors.append("samples 0 through 8 required")
         return errors
+    try:
+        expected_relative_motion = skin_control_relative_motion(samples)
+    except (KeyError, TypeError, ValueError):
+        expected_relative_motion = None
+    if (expected_relative_motion is None
+            or data.get("skin_control_relative_motion") != expected_relative_motion):
+        errors.append("invalid skin/control relative motion")
     for index, row in enumerate(samples):
         expected_t = index / 8.0
         if type(row.get("t")) not in (int, float) or not math.isclose(
@@ -408,6 +444,19 @@ def markdown(data):
                 f"{(bounds['max'][0] - bounds['min'][0]) * 1000:.3f} | "
                 f"{(bounds['max'][1] - bounds['min'][1]) * 1000:.3f} |")
     lines += ["", "These vertices are a descriptive lower envelope only; no floor plane, support polygon, force, pressure, friction, slip or balance threshold is inferred.",
+              "", "## Authored foot control relative to skin lower centroid (not contact)", "",
+              "Vectors are authored foot-control head minus evaluated skin lower centroid in world space; changes use sample 0 as the descriptive reference.", "",
+              "| Sample | Suffix | head minus centroid X/Y/Z mm | change from sample 0 X/Y/Z mm |",
+              "|---:|:---:|---:|---:|"]
+    for row in data["skin_control_relative_motion"]["samples"]:
+        for side in ("l", "r"):
+            relative = row["sides"][side]
+            vector = "/".join(f"{value * 1000:.3f}" for value in relative[
+                "foot_control_head_minus_lower_centroid_world_m"])
+            change = "/".join(f"{value * 1000:.3f}" for value in relative[
+                "change_from_sample0_world_m"])
+            lines.append(f"| {row['sample']} | {side} | {vector} | {change} |")
+    lines += ["", "This is a geometric cross-reference only, not contact, support, pressure, force, friction, slip, balance or an anatomical joint-centre measurement.",
               "", "## Foot-plant solve residuals", "",
               "Residuals are foot-control head minus its captured rest target after the frozen solve; they are not anatomical ankle-centre errors.", "",
               "| Sample | root correction X/Y/Z mm | l post residual X/Y/Z mm | r post residual X/Y/Z mm | mean post residual X/Y/Z mm |",
@@ -545,6 +594,7 @@ def main():
         "rest_bone_signature_unchanged": True,
         "anatomical_approval": "NOT_GRANTED", "ground_contact_approval": "NOT_GRANTED",
         "samples": captures,
+        "skin_control_relative_motion": skin_control_relative_motion(captures),
         "limitations": [
             "Authored FK controls and world-space control trajectories are not ISB joint-coordinate measurements",
             "Bone heads are authored rig locations, not independently verified anatomical joint centres",

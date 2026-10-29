@@ -857,3 +857,24 @@ shaped like the abdomen (not a plane), or limiting the test path to realistic de
 | Self-intersections | 1861 (the extreme-depth abdomen–thigh contact above) |
 
 Sheet: `REVIEW_H1_deadlift.jpg`. Report: `report_TT_H1_deadlift_planted.json`.
+
+## Legacy leg keys: the same pattern as the shoulders
+
+`leg_roughness_diag_blender.py` measures leg and hip roughness on H1: per vertex, |normal Laplacian − its neighbourhood
+mean|, p95, over 0.30 < z < 1.15 m. The rest pose is 0.063 mm.
+
+| Pose | Plain skinning | Legacy H1_BAKE / K1_KNEE only | All keys (H1) | R121 without legacy |
+|---|---|---|---|---|
+| Squat bottom | 0.116 mm | **0.187 mm** | 0.107 mm | 0.151 mm |
+| Deadlift (114°) | 0.117 mm | **0.180 mm** | 0.098 mm | 0.135 mm |
+
+The legacy hip and knee families were transferred from the old surface. They add about 60 % roughness, and the R121 hip
+and knee keys, authored on top of them, cancel it. This is exactly the shoulder finding (L4).
+
+**Running now (G-chain).**
+
+1. Neutralise HGPT_H1_* and HGPT_K1_KNEE*.
+2. Re-author the R121 hip family (squat 50 / 75 / 100), the knee family (with hinge contact) and the deep hinge key.
+3. Re-run all seven movements and the leg roughness.
+
+Report: `leg_roughness_diag_H1.json`.

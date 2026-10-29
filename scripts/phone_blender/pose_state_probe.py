@@ -32,7 +32,13 @@ def q_angle_deg(quaternion):
     """Pose-bone local delta from quaternion, not absolute anatomical joint rotation."""
     q = quaternion.copy()
     q.normalize()
-    return math.degrees(q.angle)
+    angle = math.degrees(q.angle) % 360.0
+    return min(angle, 360.0 - angle)
+
+
+def bone_local_delta_angle_deg(pose_bone):
+    """Unsigned matrix-basis rotation magnitude; not an anatomical/JCS angle."""
+    return finite(q_angle_deg(pose_bone.matrix_basis.to_quaternion()))
 
 def shape_key_state(body, side):
     keys = body.data.shape_keys.key_blocks
@@ -305,6 +311,8 @@ def recorded_pose(rig, body, drives, sample, target_elevation):
         cap = rig.pose.bones.get(cap_name)
         axilla_name = "axilla_" + side
         axilla = rig.pose.bones.get(axilla_name)
+        chain = {name: rig.pose.bones.get(name + "_" + side)
+                 for name in ("clavicle", "scapula", "upperarm")}
         snapshot["sides"][side] = {
             "humerothoracic_elevation_measured_by_pinned_driver_deg": round(measured, 5),
             "target_minus_driver_measurement_deg": round(target_elevation - measured, 5),
@@ -313,6 +321,16 @@ def recorded_pose(rig, body, drives, sample, target_elevation):
             "cap_pose_rotation_mode": cap.rotation_mode if cap else None,
             "axilla_helper_present": axilla is not None,
             "axilla_local_delta_angle_deg_not_absolute": round(q_angle_deg(axilla.rotation_quaternion), 5) if axilla and axilla.rotation_mode == "QUATERNION" else None,
+            **{
+                field: value
+                for name, bone in chain.items()
+                for field, value in (
+                    (name + "_control_present", bone is not None),
+                    (name + "_local_delta_angle_deg_not_anatomical",
+                     round(bone_local_delta_angle_deg(bone), 5) if bone else None),
+                    (name + "_pose_rotation_mode", bone.rotation_mode if bone else None),
+                )
+            },
             "actual_shape_key_values": shape_key_state(body, side),
         }
     return snapshot
@@ -489,6 +507,18 @@ def validate_report(data):
             e = r.get("humerothoracic_elevation_measured_by_pinned_driver_deg")
             if not isinstance(e, (int, float)) or not math.isfinite(e):
                 errors.append("missing actual measured elevation")
+            expected_modes = {"clavicle": "QUATERNION", "scapula": "QUATERNION",
+                              "upperarm": "XYZ"}
+            for name, expected_mode in expected_modes.items():
+                if r.get(name + "_control_present") is not True:
+                    errors.append("missing authored shoulder-chain control")
+                delta = r.get(name + "_local_delta_angle_deg_not_anatomical")
+                if (type(delta) not in (int, float) or not math.isfinite(delta)
+                        or not 0.0 <= delta <= 180.000001):
+                    errors.append("invalid authored shoulder-chain local delta")
+                mode = r.get(name + "_pose_rotation_mode")
+                if mode != expected_mode:
+                    errors.append("invalid authored shoulder-chain rotation mode")
             keys = r.get("actual_shape_key_values", [])
             names = [k.get("name") for k in keys]
             if not keys or len(set(names)) != len(names):
@@ -500,6 +530,32 @@ def validate_report(data):
                     or not -1e-6 <= k["actual_value"] <= 1.000001) for k in keys):
                 errors.append("invalid shape key activation")
     return errors
+
+
+def shoulder_chain_markdown(data):
+    errors = validate_report(data)
+    if errors:
+        raise ValueError("invalid shoulder-chain report: " + "; ".join(errors))
+    lines = [
+        "# W8 9-frame authored shoulder-chain observations", "",
+        "Values are **unsigned local control rotation** magnitudes from each pose bone's matrix basis.",
+        "They are **not ISB angles** and **not scapulohumeral rhythm**, signed component rotations, anatomical side approval or movement acceptance.", "",
+        "| Sample | Target° (authored) | l clavicle° | l scapula° | l upperarm° | r clavicle° | r scapula° | r upperarm° |",
+        "|---:|---:|---:|---:|---:|---:|---:|---:|",
+    ]
+    for sample in data["samples"]:
+        left, right = sample["sides"]["l"], sample["sides"]["r"]
+        lines.append(
+            f"| {sample['sample']} | {sample['authored_press_ht_target_deg_NOT_measured']:.5f} | "
+            f"{left['clavicle_local_delta_angle_deg_not_anatomical']:.5f} | "
+            f"{left['scapula_local_delta_angle_deg_not_anatomical']:.5f} | "
+            f"{left['upperarm_local_delta_angle_deg_not_anatomical']:.5f} | "
+            f"{right['clavicle_local_delta_angle_deg_not_anatomical']:.5f} | "
+            f"{right['scapula_local_delta_angle_deg_not_anatomical']:.5f} | "
+            f"{right['upperarm_local_delta_angle_deg_not_anatomical']:.5f} |")
+    lines += ["", "All three authored controls were present for both runtime suffixes in every captured frame.",
+              "No clinical limit, muscle attachment, skin quality or exercise approval is inferred.", ""]
+    return "\n".join(lines)
 
 def main():
     parser = argparse.ArgumentParser()
@@ -729,6 +785,7 @@ def main():
         "limitations": [
             "Actual geometric pose/shape-key state, but actual angles still depend on project-authored shoulder rig assumptions",
             "Cap quaternion angle is local helper delta, not an anatomical joint rotation",
+            "Clavicle, scapula and upperarm matrix-basis angles are unsigned authored-control local rotation magnitudes, not ISB axes, signed component rotations or scapulohumeral rhythm",
             "These are W8 candidate in-memory poses, not an authorized model repair",
             "Measured metrics describe current failed benchmark, never clinical exercise safety",
             "Return compares runtime state after the forward sweep with its benchmark start; it is not an anatomical neutral pose or a reverse trajectory",
@@ -745,6 +802,8 @@ def main():
     a.out.mkdir(parents=True, exist_ok=False)
     (a.out / "w8_shoulder_driver_pose_state.json").write_text(
         json.dumps(data, indent=2) + "\n", encoding="utf-8")
+    (a.out / "w8_shoulder_chain_pose_observations.md").write_text(
+        shoulder_chain_markdown(data), encoding="utf-8")
     (a.out / "w8_fixed_pose_corrective_edge_isolation.md").write_text(
         isolation_markdown(captures), encoding="utf-8")
     individual = individual_summary(captures)

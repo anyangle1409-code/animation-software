@@ -1,6 +1,7 @@
 """Pure Python W8 shoulder pose report guards; no Blender import needed."""
 import copy
 import importlib.util
+import math
 from pathlib import Path
 from types import SimpleNamespace as NS
 import unittest
@@ -115,6 +116,15 @@ def mock_report():
             "authored_press_ht_target_deg_NOT_measured": 90 + 70 * i / 8,
             "sides": {side: {
                 "humerothoracic_elevation_measured_by_pinned_driver_deg": 90.0,
+                "clavicle_control_present": True,
+                "clavicle_local_delta_angle_deg_not_anatomical": 2.0,
+                "clavicle_pose_rotation_mode": "QUATERNION",
+                "scapula_control_present": True,
+                "scapula_local_delta_angle_deg_not_anatomical": 8.0,
+                "scapula_pose_rotation_mode": "QUATERNION",
+                "upperarm_control_present": True,
+                "upperarm_local_delta_angle_deg_not_anatomical": 45.0,
+                "upperarm_pose_rotation_mode": "XYZ",
                 "actual_shape_key_values": [{"name": "HGPT_S7_DELT_" + side + "_156", "actual_value": 0.5}],
             } for side in ("l", "r")},
         } for i in range(9)],
@@ -183,6 +193,60 @@ class ShoulderPoseProbeTests(unittest.TestCase):
         self.assertEqual(probe.validate_report(d), [])
         self.assertEqual(d["samples"][8]["authored_press_ht_target_deg_NOT_measured"], 160.0)
         self.assertEqual(d["samples"][8]["sides"]["l"]["humerothoracic_elevation_measured_by_pinned_driver_deg"], 149.0)
+
+    def test_requires_authored_clavicle_scapula_upperarm_observations(self):
+        for field in ("clavicle_control_present", "scapula_control_present", "upperarm_control_present"):
+            with self.subTest(field=field):
+                d = mock_report()
+                d["samples"][3]["sides"]["l"][field] = False
+                self.assertIn("missing authored shoulder-chain control", probe.validate_report(d))
+        d = mock_report()
+        d["samples"][3]["sides"]["r"].pop("scapula_local_delta_angle_deg_not_anatomical")
+        self.assertIn("invalid authored shoulder-chain local delta", probe.validate_report(d))
+
+    def test_rejects_nonfinite_chain_delta_and_invalid_rotation_mode(self):
+        d = mock_report()
+        d["samples"][4]["sides"]["l"]["clavicle_local_delta_angle_deg_not_anatomical"] = float("nan")
+        self.assertIn("invalid authored shoulder-chain local delta", probe.validate_report(d))
+        d = mock_report()
+        d["samples"][4]["sides"]["r"]["upperarm_pose_rotation_mode"] = "INVALID"
+        self.assertIn("invalid authored shoulder-chain rotation mode", probe.validate_report(d))
+        d = mock_report()
+        d["samples"][4]["sides"]["r"]["scapula_pose_rotation_mode"] = "XYZ"
+        self.assertIn("invalid authored shoulder-chain rotation mode", probe.validate_report(d))
+
+    def test_matrix_basis_delta_angle_is_rotation_mode_independent_and_nonmutating(self):
+        class Quaternion:
+            angle = math.pi / 3
+            def copy(self): return self
+            def normalize(self): pass
+        class Matrix:
+            calls = 0
+            def to_quaternion(self):
+                self.calls += 1
+                return Quaternion()
+        matrix = Matrix()
+        bone = NS(matrix_basis=matrix, rotation_mode="XYZ")
+        self.assertAlmostEqual(probe.bone_local_delta_angle_deg(bone), 60.0)
+        self.assertEqual(matrix.calls, 1)
+        self.assertEqual(bone.rotation_mode, "XYZ")
+
+    def test_quaternion_angle_is_canonical_shortest_sign_invariant_magnitude(self):
+        class Quaternion:
+            def __init__(self, angle): self.angle = angle
+            def copy(self): return Quaternion(self.angle)
+            def normalize(self): pass
+        self.assertAlmostEqual(probe.q_angle_deg(Quaternion(math.pi / 3)), 60.0)
+        self.assertAlmostEqual(probe.q_angle_deg(Quaternion(5 * math.pi / 3)), 60.0)
+
+    def test_phone_markdown_labels_unsigned_control_deltas_as_nonanatomical(self):
+        text = probe.shoulder_chain_markdown(mock_report())
+        self.assertIn("9-frame authored shoulder-chain observations", text)
+        self.assertIn("unsigned local control rotation", text)
+        self.assertIn("not ISB angles", text)
+        self.assertIn("not scapulohumeral rhythm", text)
+        self.assertEqual(text.count("| 0 |"), 1)
+        self.assertEqual(text.count("| 8 |"), 1)
 
     def test_return_state_summary_distinguishes_exact_start_from_anatomical_neutral(self):
         self.assertTrue(hasattr(probe, "return_state_summary"))

@@ -1,5 +1,5 @@
-Warning: truncated output (original token count: 41383)
-Total output lines: 695
+Warning: truncated output (original token count: 41716)
+Total output lines: 703
 
 # Home Gym PT — phone-only cloud Blender execution ledger
 Date: 2026-10-23
@@ -283,14 +283,7 @@ The overnight hourly cloud continuation automation is configured separately; eac
 ### Addendum — independent historical rig re-download and first ranked-edge artifact
 
 - Re-downloaded **all four** ZIPs from historical [run40029398965](https://github.com/anyangle1409-code/animation-software/actions/runs/40029398965) again in this session. ZIP SHA256 MATCH GitHub for W8 `adaba1780dcde12b589f590bc6de7ae2227485471f9ff0817a56dff888188267`, V14 `098c34ab14d8e14dbf21735b11808067df4296247dcc7efb7e9420b7b43545a9`, R120 `17266fbc256cc775ce21c16b556d6a0fbff36499a1f2f78d05a6c058d6e56018`, rest comparison `3391425922f772ce4633c93456b0bf61a189cb4791e15c3b905432769f46f865`. Embedded `rig_rest_axes_metadata.json` member hashes again match the full values in the earlier historical entry. All 77-bone rest JSON objects are **byte-identical** between historical run40029398965 and current run40056461299 for each respective W8/V14/R120 model. Selected rest heads/tails/axes, hierarchy and rotation/constraint metadata also match across the three models. These are **rest structural metadata**, not certified ISB coordinates or deformation. Historical run remains FAILED overall from its read-only test.
-- [Run40060666110](https://github.com/anyangle1409-code/animation-software/actions/runs/40060666110) at `fe4651643…11383 tokens truncated…s in JSON.
-- The mapping uses only existing authored suffix labels and exact frozen seed IDs. It is explicitly `matching_authored_suffix_NOT_anatomical_side`; it does **not** independently certify human left/right, landmark identity, ISB axes or tissue locality.
-- The updated summary test was observed RED before implementation and GREEN after; focused18/18 and full247/247 local suites, Python compilation and whitespace checks PASS. No new native evaluations or snapshots are introduced. New cloud report/artifact verification is **PENDING**.
-- No source `.blend`, model, rig, weights, muscle attachment/highlight, app, production asset, version, merge or deployment changed. Existing anatomical and generic-motion blockers remain.
-
-### Final verified — run40095737521
-
-- [Run40095737521](https://github.com/anyangle1409-code/animation-software/actions/runs/40095737521) at `7b54e75c41817772d163a7143c077167681c3aff` completed SUCCESS7/7. Native-localization ran247/247 tests; pose job suites9+18+6+6 passed and wrote9 samples. Pose artifact12561056872 independently matched GitHub SHA256 `9296ca4fbc94bb7adb9841112253dfe7a9396da502164a6057bf12c0b0ff0551` and CRC. All nine published digests are recorded; only the pose artifact is claimed independently rehashed in `recovery_20261023/cloud_verification_20261024_run40095737521.json`.
+- [Run40060666110](https://github.com/anyangle1409-code/animation-software/actions/runs/40060666110) at `fe4651643…11716 tokens truncated…1.json`.
 - Native pose JSON SHA256 `9c2ea82a6a876471903bf9f7a6d03655b81d31269579d76113610164ce2c18b7` is byte-identical to run40095096697, proving the refinement changed summary partitioning only. New suffix-local summary JSON SHA256 `31434bd713ac8cd0dd2d90e72899fa48e670371e2d70822bcc83f10061ff8ffa` and Markdown `6cfcd997bb909a0de8bca2cd3188ce744eb6d9949905712147ac41ae811ffc36`.
 - Local counts remove opposite-suffix unchanged rows but remain mixed: sample0 S5 110 local seed `1 closer/0 farther/1 same`, adjacent `0/4/4`; S5 85 `1/1/0`, adjacent `4/4/0`. Sample6 each S5 endpoint `0/1/1`, adjacent `0/4/4`; S7 145 seeds `2/0/0`, adjacent l `4/4/0`, r `5/3/0`; S7 156 `1/1/0`, adjacent `6/2/0`. Authored suffixes are explicitly not certified anatomical sides. No blanket disable/repair.
 - Anatomical status unchanged:46 landmarks unbound,0/19 generic motions approved; shoulder/elbow/lower-body/grip/contact/balance/return and archive provenance gates remain open. Historical run40029398965 still FAILED overall as documented. No original model/rig/weight/muscle/app/production/version/merge/deploy change; highlighting deferred.
@@ -530,3 +523,11 @@ The overnight hourly cloud continuation automation is configured separately; eac
 - Cloud logs confirm localization314/314; comparison suites5/5 +12/12 +9/9 +7/7 +12/12 +15/15 +13/13; pose24/24 +19/19 +6/6 +10/10; driver10/10 +20/20 +8/8. No failed step or retry.
 - Comparison artifact12847173728 independently downloaded, CRC-checked and SHA256-matched GitHub: `21a11414c1bb985586cb4931f792bbcb14378f38519e41f5b6a21ce6dc3968f9`. Embedded limb JSON `3aba6e8a484de9afd6745166986ab61f796a74674a9dc581d4b4b642ab9cd5a7` and Markdown `fb09b41638d99d03790c2682c680af9ffe13c416ef80f6e41cf2ff5ed23fb3d1` are byte-identical to the independent historical-artifact replay.
 - Machine evidence: `recovery_20261023/cloud_verification_20261029_run40758837170.json`. Result remains authored-chain evidence only; anatomical side/frames/joint centres, scapulohumeral rhythm, hip-knee-ankle-foot coupling, contact, balance, skin and generic motion approval remain blocked.46 landmarks unbound,0/19 motions approved; no protected asset or deployment changed.
+
+
+## 2026-10-29 — W8 authored shoulder-chain pose observations staged
+
+- Extended the existing hash-pinned nine-frame W8 pose probe to require and record authored clavicle, scapula and upperarm controls for each runtime suffix after the actual pinned r57 pose/driver evaluation.
+- Each value is an unsigned local `matrix_basis` rotation magnitude plus the original pose rotation mode. It is not a signed component, ISB angle, anatomical side, scapulohumeral rhythm or clinical limit. The existing failed shoulder benchmark is not reclassified.
+- Four initial focused behaviors were observed RED then GREEN. Fresh review found two Important evidence-integrity gaps: arbitrary rotation-mode strings passed and quaternion sign-equivalent rotations were not explicitly canonicalized. Two expanded regressions reproduced both RED. The one fix pass requires pinned clavicle/scapula `QUATERNION` and upperarm `XYZ` modes and canonical shortest `0..180°` magnitude. Focused29/29 passes locally with no deferred finding; full suite/native values/artifact hashes pending.
+- Method: [W8 shoulder-chain pose observations](HGPT_W8_SHOULDER_CHAIN_POSE_OBSERVATIONS_20261029.md). No source/model/rig/weight/driver/key/muscle/app/production/version/merge/deploy change;46 landmarks unbound,0/19 generic motions approved; highlighting deferred.

@@ -330,17 +330,17 @@ def post_guard(T):
         return hist
     tp, td, prox, flat = POSTGUARD["tp"], POSTGUARD["td"], POSTGUARD["prox"], POSTGUARD["flat"]
     done = np.zeros(n, bool)
-    for _ in range(int(os.environ.get("V2_R121_POSTGUARD_ROUNDS", "1"))):
-        if _ > 0:                                           # blend the border of the snapped skin (snapped vertices
-            band = done.astype(float)                       # held), then check again
-            for _k in range(4):
-                band = np.maximum(band, ((A @ band) * Dinv > 0).astype(float))
-            band = (band > 0) & ~done & UPPER
-            for _k in range(20):
-                T[band] += 0.5 * (mean(T)[band] - T[band])
+    rounds = int(os.environ.get("V2_R121_POSTGUARD_ROUNDS", "1"))
+    for r_ in range(rounds):
         hist.append(_post_snap(T, tp, td, prox, flat, done))
-        if hist[-1][-1] == 0:
-            break
+        if (r_ > 0 and hist[-1][0] == 0) or not done.any() or r_ == rounds - 1:
+            break                                           # clean after blending / nothing snapped / last round
+        band = done.astype(float)                           # blend the border of the snapped skin (snapped vertices
+        for _k in range(4):                                 # held), then check again
+            band = np.maximum(band, ((A @ band) * Dinv > 0).astype(float))
+        band = (band > 0) & ~done & UPPER
+        for _k in range(20):
+            T[band] += 0.5 * (mean(T)[band] - T[band])
     return hist
 
 

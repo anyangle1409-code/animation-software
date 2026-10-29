@@ -1334,3 +1334,21 @@ The lunge is essentially clean once the test path stops driving the hands into t
 squat and lunge arm settings.
 
 Report: `report_TT_H3_lunge_arms_side.json`.
+
+**Knee keys with the guarded restore (K2): mixed, not adopted.** The knee family (50 / 75 / 100 % squat depth, 52°, 90°
+and 107°) was re-authored on H3 with `V2_R121_CONTACT_MODE=plane_restore`.
+
+At 107°, 6608 of 7978 contacted vertices stay in contact. The calf and hamstring really do overlap broadly, so there is
+little exposed flat face to restore.
+
+| | H3 | K2 |
+|---|---|---|
+| Squat knee folds | 13 | 11 |
+| Squat knee crumple | 281 | 304 |
+| Deadlift knee folds | 0 | 4 |
+| Lunge knee crumple | 144 | 159 |
+
+The knee keys stay as in T3.
+
+**Phone review sheets for H3** (the changed movements): `REVIEW_H3_curl.jpg`, `REVIEW_H3_deadlift.jpg` and
+`REVIEW_H3_lunge.jpg` (arms at the sides, `V2_TRAJ_LUNGE_ARMS=side`).

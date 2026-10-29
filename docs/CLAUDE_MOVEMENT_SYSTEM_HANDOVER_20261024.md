@@ -95,7 +95,12 @@ for the rows the deep hip key touches).
 
 - `REVIEW_L4_press.jpg`, `REVIEW_L4_curl.jpg`, `REVIEW_L4_lateral_raise.jpg`, `REVIEW_L4_front_raise.jpg`. The arm
   and shoulder keys behind these sheets are the same as T3's, except the front raise's start.
-- `REVIEW_T3_squat.jpg`, `REVIEW_T3_deadlift.jpg`, `REVIEW_T3_lunge.jpg`.
+- `REVIEW_T3_squat.jpg`. The squat is unchanged in H3.
+- **H3:** `REVIEW_H3_curl.jpg`, `REVIEW_H3_deadlift.jpg`, `REVIEW_H3_lunge.jpg` (arms at the sides).
+- **Close-ups:**
+  - `elbow120_140_T3_vs_E8.jpg` (the elbow fix);
+  - `press_rack_T3_vs_E8c.jpg`;
+  - `deadlift_bottom_E8c_vs_H3.jpg`.
 
 ## Root causes established (each measured before anything was changed)
 
@@ -154,6 +159,8 @@ for the rows the deep hip key touches).
 - **More relaxation rounds, and a 45° unfold, for the lower-back fold.**
 - **Smoothed legacy shoulder keys:** better press, worse raises and symmetry.
 - **Ankle pivot shift.**
+- **Knee keys with the guarded restore (K2):** mixed (squat knee crumple 281 → 304). The knee contact is mostly real
+  calf-on-hamstring overlap.
 - **Elbow mutual-penetration contact (E1):** no plane, but at 140° it threw forearm skin into the chest (6193
   intersections).
 - **Skin slide for the lockout stretch** (S1, 29 Oct):

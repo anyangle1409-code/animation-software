@@ -374,8 +374,8 @@ def contact_plane_restore(T, margin=0.0008, rest_sep=float(os.environ.get("V2_R1
     out = contact(T)
     moved = np.linalg.norm(T - T0, axis=1) > 1e-7
     t = np.zeros(n)
-    distal = gsum(*(("forearm", "hand", "thumb", "index", "middle", "ring", "pinky", "metacarpal") if MODE == "elbow"
-                    else ("shin", "foot", "toe", "ball"))) > 0.5
+    distal = gsum(*{"elbow": ("forearm", "hand", "thumb", "index", "middle", "ring", "pinky", "metacarpal"),
+                    "hinge": ("thigh", "shin", "foot", "toe", "ball")}.get(MODE, ("shin", "foot", "toe", "ball"))) > 0.5
     for s_ in ("r", "l"):
         lbn = HINGE[MODE][1]
         side = np.sign(R0[:, 0]) == (1.0 if rig.data.bones[f"{lbn}_{s_}"].head_local.x > 0 else -1.0)

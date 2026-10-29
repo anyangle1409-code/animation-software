@@ -836,3 +836,12 @@ thigh skin onto the plane bisecting the hip angle. About 7,600 vertices per side
 
 The other six movements are identical. The reach probably pulls in too much of the abdomen and thigh; retrying at
 18 cm. Report: `report_TT_H2_hipcontact26.json`.
+
+**Hip contact, 18 cm reach: worse, not adopted.** Deadlift self-intersections are 1646 (26 cm gave 966). Folds,
+collapse and stretch rise as much as at 26 cm. Report: `report_TT_H2_hipcontact18.json`.
+
+**Conclusion.** Bisector-plane contact does not give a clean win at 130–135° of hip flexion. That is beyond a
+conventional deadlift (about 80–110°), and the movement is clean up to 114°. **H1 stays the current best.**
+
+The abdomen–thigh interpenetration at the extreme is recorded as open. A better approach would be a contact surface
+shaped like the abdomen (not a plane), or limiting the test path to realistic deadlift depth.

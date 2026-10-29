@@ -6,6 +6,9 @@ Trajectories (each starts and ends at neutral, so return-to-neutral is measured)
            40 deg) - the same path the r57 movement benchmark's shoulder_press uses (project-authored, not cohort-fit).
   curl   - elbow 0 -> 140 -> 0 with the arms at the sides (16 deg carriage).
   squat  - the r57 benchmark squat, depth 0 -> 1 -> 0, with a per-leg foot plant (V2_TRAJ_PLANT=0 for the raw r57 path).
+  lateral_raise / front_raise (on request) - straight arms raised sideways / forwards from the 16 deg carriage to 90 deg
+           and back, coupled girdle: movements the keys were not authored for, testing that the angle-driven keys
+           generalise.
 V2_TRAJ_GIRDLE=candidate uses shoulder_girdle_candidate.apply_press_pose (corrected girdle directions) for the press.
 r57 drives (correctives, helpers) always run; the R121 candidate drives run unless V2_TRAJ_R121=0.
 
@@ -218,7 +221,20 @@ def squat(u):
     return {k: round(float(v), 2) for k, v in out.items()} | {"depth": round(p, 3)}
 
 
-MOVE_FN = {"press": press, "curl": curl, "squat": squat}
+def raise_in_plane(plane_deg, top=90.0):
+    """straight-arm raise in a fixed plane (0 = sideways / lateral raise, 90 = forwards / front raise), from the 16 deg
+    standing carriage to `top` deg humerothoracic elevation and back, with the coupled girdle (apply_arm_pose)"""
+    def fn(u):
+        p = 1.0 - abs(2.0 * u - 1.0); e = HT0 + (top - HT0) * bench.smooth(p)
+        bench._reset(rig)
+        girdle.apply_arm_pose(rig, e, plane_deg)
+        elbows(0.0)
+        return {"humerothoracic_target_deg": round(e, 2), "plane_deg": plane_deg}
+    return fn
+
+
+MOVE_FN = {"press": press, "curl": curl, "squat": squat,
+           "lateral_raise": raise_in_plane(0.0), "front_raise": raise_in_plane(90.0)}
 
 
 def metrics(P):

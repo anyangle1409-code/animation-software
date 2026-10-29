@@ -702,3 +702,14 @@ So it is a skinning asymmetry on a locally non-mirrored part of the mesh.
 Even 0.08 weight changes in that patch disturb the folds the keys were tuned for. **L4 stays.** The armpit asymmetry
 (p95 1.4 mm everywhere, a 40 mm local maximum) stays open. A fix would need a local re-mirroring of that patch's rest
 shape and weights, with the keys re-authored afterwards.
+
+**The armpit patch's off-mirror pair, measured.** Each vertex's mirror image was measured against the nearest *surface*
+point, not the nearest vertex. On L4 that distance is p50 0.04 mm, p99 0.68 mm and max 9.5 mm, so the rest surface is
+mirror-symmetric to well under 1 mm almost everywhere. In the posterior-armpit patch the maximum is 4.9 mm, where the
+left-only flap fix moved vertices by up to 5 mm.
+
+The 2.5 mm vertex-pair gap therefore comes from the two sides being **tessellated differently**, not from a different
+shape. A proper fix would carry weights across by surface interpolation onto the mirrored triangle instead of nearest
+vertex, and then re-author the armpit keys. That was not done, given how sensitive those folds proved.
+
+**Closed for now.** p95 asymmetry is 1.4 mm; the armpit has a local 40 mm maximum at the full lockout.

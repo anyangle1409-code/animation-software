@@ -88,7 +88,11 @@ FAMILY = {"abd": (r121_drives.PREFIX, r121_drives.PROP), "flex": (r121_drives.FL
           "knee": (r121_drives.KNEE_PREFIX, r121_drives.KNEE_PROP),
           "combo": (r121_drives.COMBO_PREFIX, r121_drives.COMBO_PROP)}[MODE]
 HINGE = {"elbow": ("upperarm", "forearm", float(os.environ.get("V2_R121_HINGE_REACH", "0.16"))),
-         "knee": ("thigh", "shin", float(os.environ.get("V2_R121_HINGE_REACH", "0.18")))}   # upper bone, lower bone, reach (m)
+         "knee": ("thigh", "shin", float(os.environ.get("V2_R121_HINGE_REACH", "0.18"))),   # upper bone, lower bone, reach (m)
+         # hip (hinge mode, V2_R121_HIP_CONTACT=1): the trunk side is the pelvis / spine-weighted skin, its axis runs from
+         # the hip joint up to the posed spine_02; abdomen and thigh meet on the bisecting plane
+         **({"hinge": (("pelvis", "spine", "hip_crease"), "thigh", float(os.environ.get("V2_R121_HINGE_REACH", "0.26")))}
+            if os.environ.get("V2_R121_HIP_CONTACT") == "1" else {})}
 if os.environ.get("V2_R121_ARMKEY_REPLACE") == "1":         # re-author: drop this family's keys and drive data first
     for kb in [k for k in me.shape_keys.key_blocks if k.name.startswith(FAMILY[0])]:
         body.shape_key_remove(kb)
@@ -113,7 +117,7 @@ CONTACT = None
 ARMGIRDLE = os.environ.get("V2_R121_ARMKEY_GIRDLE", "0") == "1"   # author abd / flex keys with the candidate girdle
 if MODE in HINGE:                                           # the limb within reach of each hinge; hands / feet held
     ub_, lb_, reach = HINGE[MODE]
-    wu, wf = gsum(ub_), gsum(lb_)
+    wu, wf = (gsum(*ub_) if isinstance(ub_, tuple) else gsum(ub_)), gsum(lb_)
     near = np.zeros(n, bool)
     for s_ in ("l", "r"):
         e_ = np.array(rig.data.bones[f"{lb_}_{s_}"].head_local)
@@ -204,10 +208,14 @@ def contact(T, margin=0.0008):
     D = np.zeros_like(T)
     for s_ in ("r", "l"):
         ubn, lbn = HINGE[MODE][:2]
-        side = np.sign(R0[:, 0]) == (1.0 if rig.data.bones[f"{ubn}_{s_}"].head_local.x > 0 else -1.0)
-        ub, fb = rig.pose.bones[f"{ubn}_{s_}"], rig.pose.bones[f"{lbn}_{s_}"]
+        side = np.sign(R0[:, 0]) == (1.0 if rig.data.bones[f"{lbn}_{s_}"].head_local.x > 0 else -1.0)
+        fb = rig.pose.bones[f"{lbn}_{s_}"]
         e = np.array(fb.head)
-        u = np.array((ub.head - ub.tail).normalized())         # elbow -> shoulder
+        if isinstance(ubn, tuple):                             # hip: hinge axis from the joint up the trunk
+            u = np.array(rig.pose.bones["spine_02"].head) - e; u /= np.linalg.norm(u)
+        else:
+            ub = rig.pose.bones[f"{ubn}_{s_}"]
+            u = np.array((ub.head - ub.tail).normalized())     # elbow -> shoulder
         f = np.array((fb.tail - fb.head).normalized())         # elbow -> wrist
         if np.dot(u, f) < -0.95:                               # nearly straight: no inner angle
             out[s_] = 0; continue
@@ -266,6 +274,16 @@ REP = {"mode": MODE, "angles_deg": ANGLES, "keys": {}}
 made = {}
 if MODE == "hinge":                                        # append to the existing hip family
     made = {s_: list(rig.get(f"{FAMILY[1]}_{s_}", [])) for s_ in ("l", "r")}
+    above = float(os.environ.get("V2_R121_HINGE_DROP_ABOVE", "1e9"))   # re-author: drop appended keys past this angle
+    for s_ in ("l", "r"):
+        names_ = sorted((kb.name for kb in me.shape_keys.key_blocks if kb.name.startswith(f"{FAMILY[0]}{s_}_")),
+                        key=lambda n_: int(n_.rsplit("_", 1)[1]))
+        keep = [i for i, a_ in enumerate(made[s_]) if a_ <= above]
+        for i, nm in enumerate(names_):
+            if i not in keep:
+                body.shape_key_remove(me.shape_keys.key_blocks[nm])
+        made[s_] = [made[s_][i] for i in keep]
+        rig[f"{FAMILY[1]}_{s_}"] = made[s_]
 for ang in ANGLES:
     pose(ang)
     measure = {"squat": r121_drives.hip_flex_deg, "hinge": r121_drives.hip_flex_deg, "elbow": r121_drives.elbow_flex_deg,

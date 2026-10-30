@@ -264,7 +264,16 @@ The flagged muscles:
   - The fans stretch up to 15.5×.
   - The bound proxies need a per-pose rebuild for elevation. Its skin has to come from a posed body, which R41's guide
     skeleton does not drive.
+- **MG7 (leg muscles for the squat, both sides, 30 Oct; muscle branch fa650288):** quadriceps (rectus femoris and the
+  three vasti), biceps femoris long, semitendinosus, semimembranosus, adductor magnus (hamstring part), medial
+  gastrocnemius and soleus (`build_leg_muscle_envelopes_blender.py`).
+  - MG1's compartment method on a femoral-shaft line and on KJC → AJC.
+  - 0 outside the skin, 0 shallower than the layer, 0 inside the bone proxy, 0 self-crossings, 0 overlaps.
+  - Squat check (native leg posing): 0 overlaps to knee 78°. At 102° the hamstrings meet the medial gastrocnemius
+    behind the knee (92 face pairs), which needs a contact response.
+  - The glutes are not built yet; they need cap / fan treatment, like the deltoid.
 - **Muscle layer, next:**
+  - glutes; a contact response behind the knee; the squat length response (MG2 / MG3's method);
   - a per-pose sweep for arm elevation, for the deltoid and the MG5 fans. Proxies bound by blending an origin bone into
     the humerus cannot follow 160° (MG6a measured it). The sweep needs a posed skin: R41's guide skeleton does not
     drive the body, so the body's own rig has to be posed alongside;

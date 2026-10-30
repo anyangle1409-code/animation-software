@@ -2436,3 +2436,11 @@ H3 is still the current best candidate. Details are in `docs/R121_MOVEMENT_TRAJE
   - the middle deltoid falls to 0.22 of its volume;
   - a per-pose rebuild is needed.
 - **H3 phone sheets** for the press, both raises and the squat are added (`REVIEW_H3_*.jpg`).
+
+**Later (30 Oct): MG7, the leg muscles for the squat** (muscle branch fa650288).
+
+- Ten muscles per side: quadriceps ×4, hamstrings ×3, adductor magnus, medial gastrocnemius and soleus.
+- All checks are zero on both sides.
+- Squat: clean to knee 78°. At 102° the hamstrings and gastrocnemius meet behind the knee; this needs a contact
+  response.
+- The glutes are not built yet.

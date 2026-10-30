@@ -58,7 +58,7 @@ def report():
                 "minimum_world_z_m": 0.0,
                 "lower_centroid_world_m": [x, 0.0, 0.0],
                 "lower_bounds_world_m": {"min": [x, 0.0, 0.0], "max": [x, 0.0, 0.0]},
-                "foot_control_head_minus_lower_centroid_world_m": [-x, 0.0, 1.0],
+                "foot_control_head_minus_lower_centroid_world_m": [0.0, 0.0, 0.2],
             }
         samples.append({
             "sample": i,
@@ -87,9 +87,11 @@ def report():
             "centreline": {"pelvis": bone(), "spine_01": bone()},
             "sides": {
                 side: {
-                    "thigh": bone(), "shin": bone(),
-                    "foot": bone("XYZ"), "toe": bone("XYZ", 0.0),
-                } for side in ("l", "r")
+                    "thigh": bone(head=(x, 0.0, 1.0)),
+                    "shin": bone(head=(x, 0.0, 0.6)),
+                    "foot": bone("XYZ", head=(x, 0.0, 0.2)),
+                    "toe": bone("XYZ", 0.0, head=(x, -0.15, 0.2)),
+                } for side, x in (("l", -0.1), ("r", 0.1))
             },
         })
     data = {
@@ -103,6 +105,8 @@ def report():
     }
     data["skin_control_relative_motion"] = probe.skin_control_relative_motion(samples)
     data["authored_lower_chain_trajectory"] = probe.lower_chain_trajectory(samples)
+    data["authored_lower_chain_angle_geometry"] = probe.lower_chain_angle_geometry(
+        data["authored_lower_chain_trajectory"])
     baseline_keys = probe.shape_key_state([
         NS(name="Basis", value=0.0), NS(name="HGPT_K1_KNEE_l_110", value=0.0)])
     stale_keys = probe.shape_key_state([
@@ -168,7 +172,8 @@ def report():
         },
     }
     data["limitations"] = [probe.CORRECTIVE_RETURN_LIMITATION,
-                           probe.LOWER_CHAIN_LIMITATION]
+                           probe.LOWER_CHAIN_LIMITATION,
+                           probe.LOWER_CHAIN_ANGLE_LIMITATION]
     return data
 
 
@@ -178,19 +183,44 @@ def json_bytes(value):
 
 
 class SquatPoseStateProbeTests(unittest.TestCase):
+    def test_lower_chain_angle_geometry_has_hand_calculated_values(self):
+        trajectory = report()["authored_lower_chain_trajectory"]
+        points = trajectory["samples"][4]["sides"]["l"][
+            "points_world_m_not_anatomical_joint_centres"]
+        points.update({"hip": [0, 0, 0], "knee": [0, 0, -1],
+                       "ankle": [1, 0, -1], "toe": [1, -1, -1]})
+        result = probe.lower_chain_angle_geometry(trajectory)
+        row = result["samples"][4]["sides"]["l"]
+        self.assertEqual(row["segment_orientation_change_from_sample0_deg_not_isb"],
+                         {"thigh": 0.0, "shank": 90.0, "foot": 0.0})
+        self.assertEqual(row["included_point_angles_deg_not_isb"],
+                         {"knee": 90.0, "ankle": 90.0})
+        self.assertEqual(row["included_angle_change_from_sample0_deg_not_isb"],
+                         {"knee": -90.0, "ankle": 0.0})
+
+    def test_report_rejects_tampered_lower_chain_angle_geometry(self):
+        data = report()
+        data["authored_lower_chain_angle_geometry"]["samples"][3]["sides"]["r"][
+            "included_point_angles_deg_not_isb"]["knee"] += 1.0
+        self.assertIn("invalid authored lower-chain angle geometry", probe.validate_report(data))
+        data = report(); data["limitations"].remove(probe.LOWER_CHAIN_ANGLE_LIMITATION)
+        self.assertIn("missing lower-chain angle limitation", probe.validate_report(data))
+        with self.assertRaisesRegex(ValueError, "nonzero finite chain vectors"):
+            probe._angle_between_deg([0, 0, 0], [1, 0, 0])
+
     def test_lower_chain_trajectory_uses_sample0_and_authored_points(self):
         samples = report()["samples"]
         samples[8]["sides"]["l"]["thigh"][
-            "head_world_m_not_anatomical_joint_centre"] = [0.01, 0.0, 1.0]
+            "head_world_m_not_anatomical_joint_centre"] = [-0.09, 0.0, 1.0]
         result = probe.lower_chain_trajectory(samples)
         self.assertEqual(result["reference_sample"], 0)
         self.assertIs(result["anatomical_joint_centres_verified"], False)
         self.assertEqual(result["samples"][0]["sides"]["l"][
             "change_from_sample0_world_m"]["hip"], [0.0, 0.0, 0.0])
-        self.assertEqual(result["samples"][8]["sides"]["l"][
-            "change_from_sample0_world_m"]["hip"], [0.01, 0.0, 0.0])
         self.assertAlmostEqual(result["samples"][8]["sides"]["l"][
-            "authored_chain_lengths_m"]["hip_to_knee"], 0.01)
+            "change_from_sample0_world_m"]["hip"][0], 0.01)
+        self.assertAlmostEqual(result["samples"][8]["sides"]["l"][
+            "authored_chain_lengths_m"]["hip_to_knee"], math.hypot(0.4, 0.01))
 
     def test_lower_chain_distances_and_x_reflection_are_independent(self):
         samples = report()["samples"]
@@ -228,6 +258,11 @@ class SquatPoseStateProbeTests(unittest.TestCase):
         data = report()
         del data["authored_lower_chain_trajectory"]["samples"][0]["sides"]["l"][
             "points_world_m_not_anatomical_joint_centres"]
+        self.assertIn("invalid authored lower-chain trajectory", probe.validate_report(data))
+        data = report()
+        data["authored_lower_chain_trajectory"]["samples"][0]["sides"]["l"][
+            "points_world_m_not_anatomical_joint_centres"] = [
+                "hip", "knee", "ankle", "toe"]
         self.assertIn("invalid authored lower-chain trajectory", probe.validate_report(data))
 
     def test_skeletal_basis_state_localizes_residual_deterministically(self):
@@ -507,7 +542,7 @@ class SquatPoseStateProbeTests(unittest.TestCase):
     def test_skin_control_relative_motion_uses_sample_zero_reference(self):
         samples = report()["samples"]
         samples[8]["sides"]["l"]["foot"][
-            "head_world_m_not_anatomical_joint_centre"][0] = 0.01
+            "head_world_m_not_anatomical_joint_centre"][0] = -0.09
         result = probe.skin_control_relative_motion(samples)
         self.assertEqual(
             result["status"],
@@ -519,7 +554,7 @@ class SquatPoseStateProbeTests(unittest.TestCase):
             [0.0, 0.0, 0.0])
         self.assertAlmostEqual(
             result["samples"][8]["sides"]["l"][
-                "foot_control_head_minus_lower_centroid_world_m"][0], 0.11)
+                "foot_control_head_minus_lower_centroid_world_m"][0], 0.01)
         self.assertAlmostEqual(
             result["samples"][8]["sides"]["l"]["change_from_sample0_world_m"][0],
             0.01)

@@ -32,6 +32,9 @@ LOWER_CHAIN_LIMITATION = (
     "Authored hip-knee-ankle-toe control points, lengths and X-reflection "
     "disagreement are not anatomical joint centres, human segment lengths, "
     "a verified sagittal plane or anatomical bilateral symmetry")
+LOWER_CHAIN_ANGLE_LIMITATION = (
+    "Unsigned authored segment-orientation changes and included point-chain "
+    "angles are not signed ISB joint coordinates, anatomical ROM or motion limits")
 
 
 def digest(path):
@@ -359,6 +362,67 @@ def lower_chain_trajectory(samples):
     }
 
 
+def _vector_between(a, b):
+    return [finite(y) - finite(x) for x, y in zip(vector3(a), vector3(b))]
+
+
+def _angle_between_deg(a, b):
+    first, second = vector3(a), vector3(b)
+    first_length = math.sqrt(sum(value * value for value in first))
+    second_length = math.sqrt(sum(value * value for value in second))
+    if first_length <= 1e-12 or second_length <= 1e-12:
+        raise ValueError("nonzero finite chain vectors required")
+    cosine = sum(x * y for x, y in zip(first, second)) / (first_length * second_length)
+    return math.degrees(math.acos(max(-1.0, min(1.0, cosine))))
+
+
+def lower_chain_angle_geometry(trajectory):
+    """Unsigned authored point-chain angles; never ISB joint coordinates."""
+    if not _valid_lower_chain(trajectory):
+        raise ValueError("valid authored lower-chain trajectory required")
+    reference_segments, reference_included, rows = {}, {}, []
+    for row in trajectory["samples"]:
+        sides = {}
+        for side in ("l", "r"):
+            points = row["sides"][side][
+                "points_world_m_not_anatomical_joint_centres"]
+            segments = {
+                "thigh": _vector_between(points["hip"], points["knee"]),
+                "shank": _vector_between(points["knee"], points["ankle"]),
+                "foot": _vector_between(points["ankle"], points["toe"]),
+            }
+            included = {
+                "knee": _angle_between_deg(
+                    _vector_between(points["knee"], points["hip"]),
+                    _vector_between(points["knee"], points["ankle"])),
+                "ankle": _angle_between_deg(
+                    _vector_between(points["ankle"], points["knee"]),
+                    _vector_between(points["ankle"], points["toe"])),
+            }
+            if row["sample"] == 0:
+                reference_segments[side] = segments
+                reference_included[side] = included
+            sides[side] = {
+                "segment_orientation_change_from_sample0_deg_not_isb": {
+                    name: _angle_between_deg(reference_segments[side][name], value)
+                    for name, value in segments.items()
+                },
+                "included_point_angles_deg_not_isb": included,
+                "included_angle_change_from_sample0_deg_not_isb": {
+                    name: included[name] - reference_included[side][name]
+                    for name in included
+                },
+            }
+        rows.append({"sample": row["sample"], "sides": sides})
+    return {
+        "status": "DESCRIPTIVE_AUTHORED_LOWER_CHAIN_ANGLE_GEOMETRY_NOT_ISB",
+        "isb_joint_coordinates_verified": False,
+        "signed_rotation_axes_verified": False,
+        "reference_sample": 0,
+        "samples": rows,
+    }
+
+
 def _valid_vector(value):
     return (isinstance(value, list) and len(value) == 3
             and all(type(x) in (int, float) and math.isfinite(x) for x in value))
@@ -512,17 +576,63 @@ def _valid_lower_chain(record):
                     "points_world_m_not_anatomical_joint_centres",
                     "change_from_sample0_world_m", "authored_chain_lengths_m"}:
                 return False
-            if (set(side_row["points_world_m_not_anatomical_joint_centres"]) != points
-                    or set(side_row["change_from_sample0_world_m"]) != points
+            point_rows = side_row["points_world_m_not_anatomical_joint_centres"]
+            change_rows = side_row["change_from_sample0_world_m"]
+            if (not isinstance(point_rows, dict) or set(point_rows) != points
+                    or not isinstance(change_rows, dict) or set(change_rows) != points
                     or any(not _valid_vector(value) for value in
-                           side_row["points_world_m_not_anatomical_joint_centres"].values())
+                           point_rows.values())
                     or any(not _valid_vector(value) for value in
-                           side_row["change_from_sample0_world_m"].values())
+                           change_rows.values())
                     or not isinstance(side_row["authored_chain_lengths_m"], dict)
                     or set(side_row["authored_chain_lengths_m"]) != segments
                     or any(type(value) not in (int, float) or not math.isfinite(value)
                            or value < 0.0 for value in
                            side_row["authored_chain_lengths_m"].values())):
+                return False
+    return True
+
+
+def _valid_lower_chain_angles(record):
+    if (not isinstance(record, dict) or set(record) != {
+            "status", "isb_joint_coordinates_verified",
+            "signed_rotation_axes_verified", "reference_sample", "samples"}
+            or record["status"] !=
+            "DESCRIPTIVE_AUTHORED_LOWER_CHAIN_ANGLE_GEOMETRY_NOT_ISB"
+            or record["isb_joint_coordinates_verified"] is not False
+            or record["signed_rotation_axes_verified"] is not False
+            or type(record["reference_sample"]) is not int
+            or record["reference_sample"] != 0):
+        return False
+    samples = record["samples"]
+    if (not isinstance(samples, list) or len(samples) != 9
+            or [row.get("sample") for row in samples] != list(range(9))):
+        return False
+    segments, joints = {"thigh", "shank", "foot"}, {"knee", "ankle"}
+    for row in samples:
+        sides = row.get("sides")
+        if not isinstance(sides, dict) or set(sides) != {"l", "r"}:
+            return False
+        for side in ("l", "r"):
+            side_row = sides[side]
+            if not isinstance(side_row, dict) or set(side_row) != {
+                    "segment_orientation_change_from_sample0_deg_not_isb",
+                    "included_point_angles_deg_not_isb",
+                    "included_angle_change_from_sample0_deg_not_isb"}:
+                return False
+            orientation = side_row[
+                "segment_orientation_change_from_sample0_deg_not_isb"]
+            included = side_row["included_point_angles_deg_not_isb"]
+            change = side_row["included_angle_change_from_sample0_deg_not_isb"]
+            if (not isinstance(orientation, dict) or set(orientation) != segments
+                    or not isinstance(included, dict) or set(included) != joints
+                    or not isinstance(change, dict) or set(change) != joints
+                    or any(type(value) not in (int, float) or not math.isfinite(value)
+                           or not 0.0 <= value <= 180.0 for value in
+                           list(orientation.values()) + list(included.values()))
+                    or any(type(value) not in (int, float) or not math.isfinite(value)
+                           or not -180.0 <= value <= 180.0
+                           for value in change.values())):
                 return False
     return True
 
@@ -744,6 +854,14 @@ def validate_report(data):
     if (expected_lower_chain is None or not _valid_lower_chain(lower_chain)
             or lower_chain != expected_lower_chain):
         errors.append("invalid authored lower-chain trajectory")
+    try:
+        expected_lower_angles = lower_chain_angle_geometry(expected_lower_chain)
+    except (KeyError, TypeError, ValueError):
+        expected_lower_angles = None
+    lower_angles = data.get("authored_lower_chain_angle_geometry")
+    if (expected_lower_angles is None or not _valid_lower_chain_angles(lower_angles)
+            or lower_angles != expected_lower_angles):
+        errors.append("invalid authored lower-chain angle geometry")
     mesh_counts = set()
     try:
         for sample in samples:
@@ -762,6 +880,9 @@ def validate_report(data):
         errors.append("missing corrective return-to-neutral limitation")
     if (not isinstance(limitations, list) or LOWER_CHAIN_LIMITATION not in limitations):
         errors.append("missing lower-chain trajectory limitation")
+    if (not isinstance(limitations, list)
+            or LOWER_CHAIN_ANGLE_LIMITATION not in limitations):
+        errors.append("missing lower-chain angle limitation")
     for index, row in enumerate(samples):
         expected_t = index / 8.0
         if type(row.get("t")) not in (int, float) or not math.isclose(
@@ -905,6 +1026,23 @@ def markdown(data):
                 for point in ("hip", "knee", "ankle", "toe"))
             lines.append(f"| {row['sample']} | {side} | {lengths} | {changes} |")
     lines += ["", LOWER_CHAIN_LIMITATION + ".",
+              "", "## Authored lower-chain angle geometry (not ISB)", "",
+              "| Sample | Suffix | thigh / shank / foot orientation change from sample 0° | included knee / ankle angle° | included change from sample 0° |",
+              "|---:|:---:|---:|---:|---:|"]
+    for row in data["authored_lower_chain_angle_geometry"]["samples"]:
+        for side in ("l", "r"):
+            side_row = row["sides"][side]
+            orientation = " / ".join(
+                f"{side_row['segment_orientation_change_from_sample0_deg_not_isb'][name]:.5f}"
+                for name in ("thigh", "shank", "foot"))
+            included = " / ".join(
+                f"{side_row['included_point_angles_deg_not_isb'][name]:.5f}"
+                for name in ("knee", "ankle"))
+            change = " / ".join(
+                f"{side_row['included_angle_change_from_sample0_deg_not_isb'][name]:.5f}"
+                for name in ("knee", "ankle"))
+            lines.append(f"| {row['sample']} | {side} | {orientation} | {included} | {change} |")
+    lines += ["", LOWER_CHAIN_ANGLE_LIMITATION + ".",
               "", "## Foot-plant solve residuals", "",
               "Residuals are foot-control head minus its captured rest target after the frozen solve; they are not anatomical ankle-centre errors.", "",
               "| Sample | root correction X/Y/Z mm | l post residual X/Y/Z mm | r post residual X/Y/Z mm | mean post residual X/Y/Z mm |",
@@ -1086,6 +1224,7 @@ def main():
     if (len(captures) != 9 or len(plant_records) != 9
             or len(outcome["benchmarks"]["squat"]["frames"]) != 9):
         raise ValueError("Incomplete authored squat benchmark")
+    lower_chain = lower_chain_trajectory(captures)
     data = {
         "status": "READ_ONLY_AUTHORED_SQUAT_CONTROL_STATE_ANATOMY_NOT_APPROVED",
         "model": "W8", "source_sha256": W8_SHA256,
@@ -1095,7 +1234,8 @@ def main():
         "anatomical_approval": "NOT_GRANTED", "ground_contact_approval": "NOT_GRANTED",
         "samples": captures,
         "skin_control_relative_motion": skin_control_relative_motion(captures),
-        "authored_lower_chain_trajectory": lower_chain_trajectory(captures),
+        "authored_lower_chain_trajectory": lower_chain,
+        "authored_lower_chain_angle_geometry": lower_chain_angle_geometry(lower_chain),
         "corrective_return_to_neutral": {
             "status": "DESCRIPTIVE_SKELETAL_RESET_CORRECTIVE_LIFECYCLE_NOT_ANATOMY",
             "anatomical_approval": "NOT_GRANTED",
@@ -1129,6 +1269,7 @@ def main():
             "The single foot and toe controls do not establish talus, calcaneus or multisegment foot coordination",
             CORRECTIVE_RETURN_LIMITATION,
             LOWER_CHAIN_LIMITATION,
+            LOWER_CHAIN_ANGLE_LIMITATION,
             "Population range-of-motion means are not hard movement limits and no movement is approved",
         ],
     }

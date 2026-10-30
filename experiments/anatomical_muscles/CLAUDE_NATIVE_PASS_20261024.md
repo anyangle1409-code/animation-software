@@ -584,3 +584,44 @@ blend. The MG1 blend is unchanged.
 
 **Files:** `native_20261024/mg2/mg2_left_report.json` (k, radius scale, volume, overlaps and skin crossings per angle)
 and `MG2_left_curl_sheet.jpg`. The MG2 blend is not in git; its SHA256 is in the report.
+
+## MG3: layered length response (added 30 Oct 2026)
+
+`arm_muscle_length_response_blender.py` with `MG_LAYERED=1` (now the default; `MG_LAYERED=0` reproduces MG2).
+
+**Method.**
+
+- The deep bellies (brachialis, triceps medial) respond first, as in MG2.
+- Each superficial belly over them keeps its deep surface on the deep neighbour's **new** outer surface plus the 1.2 mm
+  gap. The pairs are the biceps long and short heads over the brachialis, and the triceps lateral and long heads over
+  the triceps medial.
+- Its outer surface follows by the same area rule, so the volume is still kept.
+
+**Three fixes were needed to close it.**
+
+1. The deep outer surface is looked up with a 3° tolerance. Sector edges coincide, and floating-point rounding put
+   edge points "outside" the deep belly.
+2. The deep outer surface is taken as the maximum over ±1.2 % of the humerus length around each point, because it peaks
+   between the sampled stations.
+3. End-cap centres follow their ring's largest push.
+
+**Left side:**
+
+| Elbow | Muscle–muscle overlapping pairs (MG2 → MG3) | Biceps pushed out by (max) | Triceps lateral / long pushed out by | Volume against rest |
+|---|---|---|---|---|
+| 45° | 508 → **0** | 2.0 mm | 1.5 / 1.5 mm | 0.9997–1.0001 |
+| 90° | 399 → **0** | 8.7 mm | 3.4 / 1.2 mm | 0.9996–1.0001 |
+| 120° | 373 → **0** | 15.2 mm | 1.9 / 1.1 mm | 0.9995–1.0001 |
+| 140° | 344 → **0** | 19.2 mm | 1.5 / 1.2 mm | 0.9994–1.0002 |
+
+**What this shows.**
+
+- The swelling brachialis lifts the biceps outward, up to 19 mm at 140°. That forms the biceps peak.
+- No belly penetrates another at any angle.
+- The cost appears where it physically belongs, at the skin: biceps vertices outside the non-bulging posed skin rise to
+  264 / 272 at 140°. This is the input for a skin response (Work's step 6): a rest-relative corrective driven by the same
+  per-angle length state, not by proximity.
+- The triceps medial head's past-the-elbow extension (MG2) is unchanged.
+
+**Files:** `native_20261024/mg3/mg3_left_report.json` and `MG3_left_curl_sheet.jpg` (lateral view, muscle-only and
+with the skin overlaid at 35 %).

@@ -12,7 +12,9 @@ keeps its DEEP surface while the outer surface takes r_o'^2 = r_i^2 + (r_o^2 - r
 1 / k, so the volume is kept (the kernel's equal-volume rule, belly_axes, applied to the section instead of a
 cylinder) and the belly bulges towards the skin, not into the bone.  (Widening about each belly's own axis - the first
 version - pushed bellies into the bone and their deep neighbours.)  The bellies ride the humerus; the armature binding
-of the tendons does the rest.  Measured per angle: belly volume against rest,
+of the tendons does the rest.  MG_LAYERED=1 (default; MG3): superficial bellies (biceps over brachialis, triceps
+lateral / long over triceps medial) keep their deep surface on the deep neighbour's NEW outer surface plus the gap, and
+take their outer surface by the same area rule - layering instead of interpenetration; MG_LAYERED=0 reproduces MG2.  Measured per angle: belly volume against rest,
 muscle-muscle triangle overlaps, and belly vertices outside the skin with the body posed by ITS OWN runtime rig to the
 same elbow angle (the two skeletons are not linked - their elbow-centre distance is reported; skin crossings are a
 diagnostic of where a skin response would be needed, not a failure of the proxy).  Saves a NEW blend; never the MG1 or
@@ -38,7 +40,10 @@ src, expected, anchors_p, mg1_p, outdir = Path(args[0]), args[1], Path(args[2]),
 SIDE = args[5] if len(args) > 5 else "left"
 SUF = "L" if SIDE == "left" else "R"
 outdir.mkdir(parents=True, exist_ok=True)
-OUT = outdir / f"HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG2_arm_{SIDE}.blend"
+import os
+LAYERED = os.environ.get("MG_LAYERED", "1") == "1"         # MG3: superficial bellies pushed out by their deep neighbours
+TAG = "MG3" if LAYERED else "MG2"
+OUT = outdir / f"HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_{TAG}_arm_{SIDE}.blend"
 if OUT.exists():
     raise ValueError("output blend must be new")
 if hashlib.sha256(src.read_bytes()).hexdigest() != expected:
@@ -57,8 +62,53 @@ def LM(n):
 
 
 GH, EJC = LM(f"scapula_{SIDE}__GH"), LM(f"humerus_{SIDE}__EJC")
-AX = (EJC - GH).normalized()
+AX = (EJC - GH).normalized(); LH_ = (EJC - GH).length
 NPHI = 10                                                   # MG1 section samples per arc (outer, then inner reversed)
+GAP = 0.0012                                                # as MG1
+F_ = Vector((0, -1, 0)); F_ = (F_ - AX * F_.dot(AX)).normalized()
+L_ = Vector((1.0 if GH.x > 0 else -1.0, 0, 0)); L_ = (L_ - AX * L_.dot(AX) - F_ * L_.dot(F_)).normalized()
+DEEP_OF = {"biceps_brachii_long": "brachialis", "biceps_brachii_short": "brachialis",
+           "triceps_lateral": "triceps_medial", "triceps_long": "triceps_medial"}
+
+
+def cyl(p):
+    """(axial t from GH, phi deg (0 anterior, +90 lateral), radius) about the humeral axis"""
+    t = (p - GH).dot(AX); q = p - (GH + AX * t)
+    return t, math.degrees(math.atan2(q.dot(L_), q.dot(F_))), q.length
+
+
+def outer_lookup(pos, nrings):
+    """deep belly's outer radius as a function of (t, phi), from its (new) rings; None outside it"""
+    rings = []
+    for ring in range(nrings):
+        pts = [cyl(pos[ring * 2 * NPHI + j]) for j in range(NPHI)]
+        rings.append((pts[0][0], [(ph, r) for _t, ph, r in pts]))
+    rings.sort(key=lambda x: x[0])
+
+    def at_ring(rr, phi):
+        mid = rr[len(rr) // 2][0]
+        un = lambda a: mid + ((a - mid + 180.0) % 360.0 - 180.0)
+        ph = [un(a) for a, _r in rr]; x = un(phi)
+        lo, hi = min(ph), max(ph)
+        if x < lo - 3.0 or x > hi + 3.0:                     # sector edges coincide (same inset): a superficial
+            return None                                     # edge point at the deep edge's angle must still see it
+        x = min(max(x, lo), hi)
+        for (a0, r0), (a1, r1) in zip(zip(ph, [r for _a, r in rr]), zip(ph[1:], [r for _a, r in rr][1:])):
+            if min(a0, a1) <= x <= max(a0, a1):
+                return r0 if a1 == a0 else r0 + (r1 - r0) * (x - a0) / (a1 - a0)
+        return None
+
+    def f(t, phi):
+        if t < rings[0][0] or t > rings[-1][0]:
+            return None
+        for (ta, ra), (tb, rb) in zip(rings, rings[1:]):
+            if ta <= t <= tb:
+                xa, xb = at_ring(ra, phi), at_ring(rb, phi)
+                if xa is None or xb is None:
+                    return xa if xb is None else xb
+                return xa if tb == ta else xa + (xb - xa) * (t - ta) / (tb - ta)
+        return None
+    return f
 EL, EM = LM(f"humerus_{SIDE}__epicondyle_lateral_skin"), LM(f"humerus_{SIDE}__epicondyle_medial_skin")
 WJC = LM(f"radius_{SIDE}__WJC")
 ELB = (EL - EM).normalized()
@@ -114,19 +164,18 @@ ob_by = {o.name: o for o in MUS}
 for ob in MUS:
     if not ob.data.shape_keys:
         ob.shape_key_add(name="Basis", from_mix=False)
-REP = {"status": "PROXY_LENGTH_RESPONSE_UNREVIEWED", "source": src.name, "source_sha256": expected, "side": SIDE,
+REP = {"status": "PROXY_LENGTH_RESPONSE_UNREVIEWED", "layered": LAYERED, "source": src.name, "source_sha256": expected, "side": SIDE,
        "kernel": "resolve_path / path_length / belly_axes (activation 0)", "evaluate_evaluate_not_used": "refuses unreviewed bindings by design",
        "rest_elbow_flexion_deg": round(REST_ELB, 1), "angles": {}}
 for deg in ANGLES:
     pose_anat(max(deg, REST_ELB))
     T = transforms()
-    rows = {}
+    rows = {}; NEW = {}
     for mid, d in INFO.items():
         L_path = kernel.path_length(kernel.resolve_path(d["anchors"], T))
         L_b = L_path - d["tendon_sum"]
         r = kernel.belly_axes(d["volume"], L_b, 0.0)[0]
         k = L_b / d["L_belly_rest"]; g = r / d["r_rest"]
-        kb = ob_by[mid].shape_key_add(name=f"HGPT_LEN_ELBOW_{deg}", from_mix=False); kb.value = 0.0
         co = d["co"]; nv = len(co) - 2; N2 = 2 * NPHI
         if nv % N2:
             raise RuntimeError("unexpected MG1 vertex layout")
@@ -145,9 +194,45 @@ for deg in ANGLES:
                 new[ii] = pi + shift(pi)
         for ci in (nv, nv + 1):                             # cap centres: mid-section, moved along the axis
             new[ci] = co[ci] + shift(co[ci])
-        for i, p in enumerate(new):
-            kb.data[i].co = p
+        NEW[mid] = {"pos": new, "k": k, "nrings": nv // N2}
         rows[mid] = {"path_m": round(L_path, 4), "belly_length_m": round(L_b, 4), "k": round(k, 4), "radius_scale": round(g, 4)}
+    if LAYERED:                                             # superficial bellies sit on their deep neighbours' new
+        for mid, d in INFO.items():                         # outer surface (+ gap); outer surface by the area rule
+            short = mid.split(".")[2]
+            if short not in DEEP_OF:
+                continue
+            deep = f"hgpt.muscle.{DEEP_OF[short]}.{SUF}"
+            look = outer_lookup(NEW[deep]["pos"], NEW[deep]["nrings"])
+            co, new, k = d["co"], NEW[mid]["pos"], NEW[mid]["k"]
+            nv = len(co) - 2; N2 = 2 * NPHI; pushed = 0; push_max = 0.0; RING_PUSH = {}
+            for ring in range(nv // N2):
+                base = ring * N2; dr_ring = []
+                for j in range(NPHI):
+                    io, ii = base + j, base + N2 - 1 - j
+                    t, ph, ri_new = cyl(new[ii])
+                    win = [look(t + dt * LH_, ph) for dt in (-0.012, -0.006, 0.0, 0.006, 0.012)]   # the deep surface can
+                    win = [w for w in win if w is not None]                                       # peak between stations
+                    rd = max(win) if win else None
+                    if rd is None or rd + GAP <= ri_new:
+                        continue
+                    ri_rest, ro_rest = cyl(co[ii])[2], cyl(co[io])[2]
+                    ri2 = rd + GAP
+                    ro2 = math.sqrt(ri2 * ri2 + (ro_rest * ro_rest - ri_rest * ri_rest) / k)
+                    fi = GH + AX * t; fo = GH + AX * cyl(new[io])[0]
+                    new[ii] = fi + (new[ii] - fi).normalized() * ri2
+                    new[io] = fo + (new[io] - fo).normalized() * ro2
+                    pushed += 1; push_max = max(push_max, ri2 - ri_new); dr_ring.append(ri2 - ri_new)
+                RING_PUSH[ring] = max(dr_ring) if dr_ring else 0.0
+            for ci, ring in ((nv, 0), (nv + 1, nv // N2 - 1)):  # end-cap centres follow their ring's largest push
+                if RING_PUSH.get(ring, 0.0) > 0:
+                    t, _ph, r = cyl(new[ci]); fc = GH + AX * t
+                    if r > 1e-6:
+                        new[ci] = fc + (new[ci] - fc).normalized() * (r + RING_PUSH[ring])
+            rows[mid].update({"layer_pushed_sections_points": pushed, "layer_push_max_mm": round(push_max * 1000, 1)})
+    for mid, d in INFO.items():
+        kb = ob_by[mid].shape_key_add(name=f"HGPT_LEN_ELBOW_{deg}", from_mix=False); kb.value = 0.0
+        for i, p in enumerate(NEW[mid]["pos"]):
+            kb.data[i].co = p
     REP["angles"][str(deg)] = {"muscles": rows}
 
 # ------------------------------------------------------------------ evaluate each angle with its key on
@@ -240,8 +325,8 @@ for deg in ANGLES:
         body.hide_render = not skin
         for o in MUS + TEN:
             o.hide_render = not mus
-        f = outdir / f"mg2_{SIDE}_{deg:03d}_{tag}.png"; sc.render.filepath = str(f); bpy.ops.render.render(write_still=True)
+        f = outdir / f"{TAG.lower()}_{SIDE}_{deg:03d}_{tag}.png"; sc.render.filepath = str(f); bpy.ops.render.render(write_still=True)
         files.setdefault(str(deg), []).append(f.name)
 REP["renders"] = files
-(outdir / f"mg2_{SIDE}_report.json").write_text(json.dumps(REP, indent=1))
+(outdir / f"{TAG.lower()}_{SIDE}_report.json").write_text(json.dumps(REP, indent=1))
 print("DONE", json.dumps({"out": OUT.name, "mg1_unchanged": REP["mg1_unchanged"]}), flush=True)

@@ -1048,7 +1048,9 @@ three hamstrings, adductor magnus, the medial gastrocnemius, soleus, and both gl
 
 ## MG9a: bone-driven positioning of the shoulder proxies through the press (read-only check, added 30 Oct 2026)
 
-**Status: partial. It works through the rack (90°). It does not hold above 120°. Not adopted.**
+**Status: partial. It works through the rack (90°). It does not hold above 120°. Not adopted.** (Superseded for the
+deltoid by MG9b below. The deltoid now slides along its own rest shape and holds to the lockout. The fans keep this
+section's solve.)
 
 MG6a showed that blended bindings cannot follow the press. MG9a tries the bone-driven, volume-preserving positioning
 that MG6a proposed, for the MG4 deltoid and the MG5 fans. The script is `muscle_fibre_sweep_press_blender.py`. It
@@ -1247,3 +1249,50 @@ Face overlaps (MG7 + MG8):
 - `native_20261024/mg10/mg10_{left,right}_report.json`: per-pose k, volume and overlaps, the layering log, the knee
   curves and the contact log.
 - `MG10_{left,right}_squat_sheet.jpg`.
+
+### MG9b: the deltoid slides along its own rest shape (added 30 Oct 2026; now the script's default for the deltoid)
+
+**Idea.** In the humerus' own frame, each deltoid fibre's posed origin moves down roughly along the rest fibre as the
+arm rises: from θ ≈ 150° from the humeral axis at rest to ≈ 40° at the lockout. So the posed fibre is taken from the
+rest fibre itself (`solve_slide`; `MG9_DELTOID=poisson` restores MG9a's solve):
+
+- **Shortening:** the rest fibre from the insertion to its point nearest the posed origin. The sideways offset is left
+  to the origin tendon.
+- **Lengthening** (the posed origin lies beyond the rest origin): the rest fibre, then straight on to the origin. The end
+  section turns from the fibre's tangent onto the extension, the turn fading in over its first 10 mm.
+- **Stations** sit at their rest arc fractions.
+- **Thickness:** the deep surface stays where the rest deep surface is. The outer surface swells by a per-head factor
+  that keeps the head's volume, limited to 2.5×.
+
+**Why it cannot fail the way the earlier schemes did.** The posed deltoid is a subset of its rest shape, carried by the
+humerus and thickened outward. It cannot fold along its fibres, turn inside out, enter the MG1 envelopes (rigid with
+the humerus too), or move one head onto another. At rest it is exact (0.0001 mm).
+
+**Results, left** (right agrees; same reports and sheets as MG9a, regenerated). The fans are MG9a's.
+
+| | Rack 90° | 120° | Lockout 160° |
+|---|---|---|---|
+| Face overlaps, all shoulder muscles + MG1 (MG9a's Poisson deltoid) | **217** (257) | **159** (518) | **93** (1638) |
+| Overlaps involving the deltoid | 76 | 8 | 8 |
+| Deltoid volume, anterior / middle / posterior | 1.11 / 1.04 / 1.02 | 0.87 / 0.87 / 0.99 | 0.77 / 0.59 / 0.99 |
+| Deltoid self-crossing pairs, anterior / middle / posterior | 34 / 89 / 0 | 14 / 47 / 158 | 38 / 32 / 169 |
+
+**Reading.**
+
+- **The deltoid no longer collapses.** It bunches over the upper humerus as the arm rises, and from 120° it barely
+  touches anything.
+- **Volume is short above 120°** for the anterior and middle heads, because the 2.5× outer-thickness limit is reached:
+  the rest shape near the insertion is thin.
+- **The posterior head** lengthens slightly in this press. Its straight extension still crumples at 120° and the
+  lockout (about 160 self-crossing pairs).
+
+**Two variants were measured and not kept:**
+
+- **Displacing the end onto the posed origin with a smooth weight, instead of the straight extension:** the posterior
+  head collapses at the rack (volume 0.19).
+- **Doing the same for the shortening heads' sideways offsets:** they cross each other (114–158 pairs).
+
+**What now limits the press is the fans.**
+
+- Latissimus / teres major: 85–176 face pairs.
+- The pectoral heads lose volume at the lockout (clavicular 0.39, sternocostal 0.60).

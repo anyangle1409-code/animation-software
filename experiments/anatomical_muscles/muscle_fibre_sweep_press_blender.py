@@ -49,7 +49,7 @@ from pathlib import Path
 
 import bpy
 import numpy as np
-from mathutils import Matrix, Vector
+from mathutils import Matrix, Quaternion, Vector
 from mathutils.bvhtree import BVHTree
 
 args = sys.argv[sys.argv.index("--") + 1:]
@@ -130,6 +130,7 @@ _ENV = __import__("os").environ
 THICK = _ENV.get("MG9_THICK", "grid")                       # thickness along the posed sheet normal (grid) or rotated
 TAUT_DEG = float(_ENV.get("MG9_TAUT_DEG", "30"))            # along-fibre rest shape gone after this much joint rotation
 ONE_DELTOID = _ENV.get("MG9_ONE_DELTOID", "1") == "1"       # the three deltoid heads solved as one 36-fibre sheet
+DELTOID_MODE = _ENV.get("MG9_DELTOID", "slide")             # slide (below) or poisson (the fans' solve)
 KIND = {"deltoid_anterior": "deltoid", "deltoid_middle": "deltoid", "deltoid_posterior": "deltoid",
         "latissimus_dorsi": "fan", "teres_major": "fan", "pectoralis_major_clavicular": "fan",
         "pectoralis_major_sternocostal": "fan"}
@@ -405,6 +406,66 @@ def volume(P, F):
     return abs(float(v))
 
 
+def _interp_arc(G, arc, a):
+    """points of polyline rows G (K x 3) at arc positions a (from the row's start), linear"""
+    return np.stack([np.interp(a, arc, G[:, c]) for c in range(3)], 1)
+
+
+def solve_slide(sh, Tm):
+    """the deltoid SLIDES along its own rest shape: in the humerus' frame the posed origin of each fibre moves down
+    roughly along the rest fibre as the arm rises (theta from about 150 deg at rest to about 40 at the lockout), so the
+    posed fibre is the rest fibre's portion from the insertion to the point nearest the posed origin (extended
+    straight to it when it lies beyond the rest origin), its stations at their rest arc fractions, the deep surface
+    where the rest deep surface is, the outer surface swollen by a per-head factor that keeps the head's volume.  The
+    posed deltoid is a subset of its rest shape carried by the humerus and thickened outward: it cannot fold, turn
+    inside out, enter the MG1 envelopes (rigid with the humerus) or move one head onto another"""
+    F_, K = sh["F"], sh["K"]; H = Tm[HUM]; Hi = mat_np(H.inverted()); Hn = mat_np(H)
+    M, I, O = sh["M"][:, ::-1], sh["I"][:, ::-1], sh["O"][:, ::-1]   # rows from the insertion end
+    M1 = np.empty_like(M); I1 = np.empty_like(M); O1 = np.empty_like(M); lam = np.empty(F_)
+    for i in range(F_):
+        og = np.array(Tm.get(sh["ob"][i], Matrix.Identity(4)) @ Vector(sh["M"][i, 0]))
+        oh = Hi[:3, :3] @ og + Hi[:3, 3]                     # the posed origin in the humerus' rest frame
+        arc = arclen(M[i]); A = arc[-1]
+        best = (1e9, A, K - 2, 1.0)                          # nearest point of the rest fibre (arc, segment, param)
+        for k in range(K - 1):
+            a_, b_ = M[i, k], M[i, k + 1]; d = b_ - a_; L2 = float(d @ d)
+            t = float(np.clip((oh - a_) @ d / max(L2, 1e-12), 0.0, 1.0))
+            dist = float(np.linalg.norm(oh - (a_ + d * t)))
+            if dist < best[0]:
+                best = (dist, arc[k] + t * np.sqrt(L2), k, t)
+        ds, a_star, kk, tt = best
+        d_end = M[i, -1] - M[i, -2]                          # beyond the rest origin (the fibre lengthens): on straight
+        beyond = kk == K - 2 and float((oh - M[i, -2]) @ d_end) > float(d_end @ d_end)   # to it from the rest origin;
+        if not beyond:                                       # otherwise truncated where it is nearest (its sideways
+            ds = 0.0                                         # offset is the origin tendon's)
+        p_star = _interp_arc(M[i], arc, np.array([a_star]))[0]
+        Lc = a_star + ds; lam[i] = Lc / A
+        a_pos = arc / A * Lc
+        on = a_pos <= a_star + 1e-12
+        q = np.minimum(a_pos, a_star)
+        M1[i], I1[i], O1[i] = _interp_arc(M[i], arc, q), _interp_arc(I[i], arc, q), _interp_arc(O[i], arc, q)
+        if (~on).any() and ds > 1e-6:                        # the extension: the end section turned from the fibre's
+            dirn = (oh - p_star) / ds                        # tangent onto the extension, the turn fading in over its
+            tan = M[i, kk + 1] - M[i, kk]; tan = tan / max(np.linalg.norm(tan), 1e-12)   # first 10 mm
+            x = min(1.0, ds / 0.010); w = x * x * (3 - 2 * x)
+            Rq = np.array(Quaternion().slerp(Vector(tan).rotation_difference(Vector(dirn)), w).to_matrix())
+            ip, op = _interp_arc(I[i], arc, np.array([a_star]))[0], _interp_arc(O[i], arc, np.array([a_star]))[0]
+            base = p_star + (a_pos[~on] - a_star)[:, None] * dirn
+            M1[i][~on] = base; I1[i][~on] = base + Rq @ (ip - p_star); O1[i][~on] = base + Rq @ (op - p_star)
+    s = np.ones(F_)
+    f0 = 0
+    for m in sh["members"]:                                  # per head: the outer swelling that keeps its volume
+        f1 = f0 + GRID[m]["io"].shape[0]; sl = slice(f0, f1); f0 = f1
+        V0 = volume(REST[m], FACES[m])
+        def vol_at(c):
+            Ob = (I1[sl] + c * (O1[sl] - I1[sl]))[:, ::-1]; return volume(assemble(m, Ob, I1[sl][:, ::-1]), FACES[m])
+        v1, v2 = vol_at(1.0), vol_at(1.5)
+        s[sl] = np.clip(1.0 + 0.5 * (V0 - v1) / (v2 - v1), *S_CLAMP) if abs(v2 - v1) > 1e-12 else 1.0
+    O1 = I1 + s[:, None, None] * (O1 - I1)
+    to_w = lambda G: G @ Hn[:3, :3].T + Hn[:3, 3]
+    return to_w(O1)[:, ::-1], to_w(I1)[:, ::-1], to_w(M1)[:, ::-1], np.ones(F_), s, 0, 0
+
+
 IDENT = {b: Matrix.Identity(4) for b in CHAIN}
 prevM_rest = {m: (GRID[m]["O"] + GRID[m]["I"]) / 2 for m in KIND}
 rep = {"status": "READ_ONLY_CHECK", "input": src.name, "input_sha256": expected, "side": S,
@@ -415,7 +476,7 @@ rep = {"status": "READ_ONLY_CHECK", "input": src.name, "input_sha256": expected,
        "rules": {"head_radius_m": HEAD_R, "cuff_m": CUFF, "gap_m": GAP, "step_deg": STEP_DEG, "slack": SLACK,
                  "thickness_scale_clamp": S_CLAMP, "obstacle_resolves_weight_tolerance": [OBS_ITERS, OBS_W, OBS_TOL],
                  "static_skin_triangles": len(TRIS), "thickness_direction": THICK, "taut_after_joint_rotation_deg": TAUT_DEG,
-                 "deltoid_one_sheet": ONE_DELTOID, "layered_under": UNDER},
+                 "deltoid_one_sheet": ONE_DELTOID, "layered_under": UNDER, "deltoid_mode": DELTOID_MODE},
        "origin_bones": {m: sorted(set(GRID[m]["ob"])) for m in KIND}, "poses": {}}
 
 # ---- renders (as MG6a)
@@ -456,7 +517,10 @@ for key, Tm in STEPS:
     posed = {}
     for u, members in UNITS:
         over = oriented_bvh(posed[UNDER[u]][0], FACES[UNDER[u]]) if u in UNDER else None
-        O1, I1, M1, g, s, n_con, left = solve(SH[u], Tm, over)
+        if u.startswith("deltoid") and DELTOID_MODE == "slide":
+            O1, I1, M1, g, s, n_con, left = solve_slide(SH[u], Tm)
+        else:
+            O1, I1, M1, g, s, n_con, left = solve(SH[u], Tm, over)
         f0 = 0
         for m in members:
             f1 = f0 + GRID[m]["io"].shape[0]; sl = slice(f0, f1); f0 = f1

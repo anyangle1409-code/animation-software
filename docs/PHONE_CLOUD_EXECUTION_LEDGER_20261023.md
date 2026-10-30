@@ -630,3 +630,15 @@ The overnight hourly cloud continuation automation is configured separately; eac
 - This is authored rig-control evidence only: points are not anatomical joint centres, distances are not human segment lengths, X=0 is not a verified sagittal plane, suffixes are not anatomical sides, and no ISB/natural squat/contact/balance/tissue approval follows. Machine record `recovery_20261023/cloud_verification_20261030_run41052860237.json`; method commit `45d49c0f9091a74f42010d265df11be9ee7a5cef`.
 -46 landmarks remain unbound;0/19 motions approved. No source/model/rig/weights/keys/muscles/app/version/merge/deploy change; attachment/highlighting deferred.
 - Next safe task: derive segment-orientation changes and included authored hip/knee/ankle angles from these point trajectories, label them explicitly as control-chain geometry rather than ISB angles, and compare their monotonicity/return behavior to the authored target curve.
+
+
+## 2026-10-30 — W8 lower-chain angle geometry
+
+- Plan `5ab20f7441fe6d5001d4e5304b3a1b9799332d61`; implementation `45fbeed0c8af1e927a3d2c03760d9ce8e67fdb16`. Review found one Important malformed-nested-evidence crash; strict nested mapping guards and zero-length-vector regression added. Re-review: no Critical/Important findings. Local focused33/33, full347/347, compile pass.
+- [Run41112317983](https://github.com/anyangle1409-code/animation-software/actions/runs/41112317983) **SUCCESS7/7**. Jobs: pose `124257413031`, W8 `124257413462`, R120 `124257413495`, localization `124257413514`, V14 `124257413791`, comparison `124258245199`, driver `124260428557`. Logs: localization352/352; pose29/29 +33/33 +19/19 +6/6 +10/10; driver10/10 +20/20 +8/8.
+- Artifact13005270303 independently downloaded/CRC-checked: ZIP `5bdd9043b01a1428caa09f80d606ef1fbbd07e5224e5c60085e3518af0ffa1f1`; JSON `59da56b98cf00979d5259e3ee66444634ea76e1803e85df4949ec3add9d09931`; Markdown `3113297e66e2a8db9bda8738dcf2b123eec3a9280f2f07cad4220661473c10bf`.
+- Sample8: thigh orientation change `85.0125°`, shank `25.0161°`, foot <=`0.000022°`; included knee angle about `72.669°` from rest `177.078°` (change `-104.409°`); included ankle change about `-25.013°`.
+- The authored knee target is `110°`, not the included point-angle change. At sample1 the included knee angle increases about `0.537°` before decreasing, so strict monotonicity from neutral is false.
+- These are unsigned authored point-chain values, not signed ISB coordinates, anatomical ROM, joint centres, limits or natural-movement approval. Machine record `recovery_20261023/cloud_verification_20261030_run41112317983.json`; method commit `31401ca7d2b29cdd5291eb49c0a2ad93bac196b4`.
+-46 landmarks remain unbound;0/19 motions approved. No protected source/model/rig/weights/keys/muscles/app/version/merge/deploy change; attachment/highlighting deferred.
+- Next safe task: return to the elbow/forearm priority and inventory the frozen W8 elbow-flexion/forearm-rotation path with independent radius/ulna limitations, reusing the same strict separation between authored controls, included geometry and ISB coordinates.

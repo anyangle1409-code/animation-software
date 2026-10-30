@@ -305,6 +305,17 @@ The flagged muscles:
     the sheet must unwrap. Six schemes were measured and none holds. Details and next steps are in the pass doc.
   - **Teres major / latissimus fibres reach 2.0× / 1.6×** at the lockout. This needs re-checking on the corrected
     girdle; R41's scapula is about twice as wide as the CT reference.
+- **MG9b (30 Oct; muscle branch 1070c4b6): the deltoid slides along its own rest shape**, and holds to the lockout.
+  - **How:** in the humerus' frame each fibre's posed origin moves down along the rest fibre as the arm rises. The
+    posed fibre is the rest fibre truncated at its point nearest the posed origin (extended straight when it
+    lengthens). The deep surface is kept; the outer surface swells to keep volume.
+  - **Why it is robust:** a subset of the rest shape carried by the humerus cannot fold, turn inside out, hit the arm
+    envelopes or move one head onto another. Rest is exact.
+  - **Overlaps (left), MG9a → MG9b:** rack 257 → 217, 120° 518 → 159, lockout 1638 → 93. The deltoid's own share at
+    the lockout is 8.
+  - **Deltoid volume:** 1.02–1.11 at the rack, 0.59–0.99 at the lockout, where the 2.5× thickness limit is reached.
+  - **Remaining:** the posterior head's extension crumples above 120°; latissimus / teres major overlaps; the pectoral
+    heads lose volume at the lockout (fans still on MG9a's solve).
 - **MG10 (leg length response + knee contact, 30 Oct; muscle branch 2090b65f, revised in 810d68d3 and afe93a9c):**
   - **Length keys by belly length ratio:** each MG7 belly gets keys `HGPT_LEN_K_<100k>` (k 0.85–1.50), following
     MG2's rule. A shape depends only on how long the muscle is, so any movement drives it through the muscle's path
@@ -324,8 +335,8 @@ The flagged muscles:
 - **Muscle layer, next:**
   - the gastrocnemius' femoral heads following the femur (biarticular binding), and review of the vasti's +32 to
     +48 % belly lengthening at 102° (anchors / wrap model);
-  - the deltoid above 120°: a construction that changes curvature (a pose-aware rebuild by MG4's rules in a moving
-    frame, or a volumetric simulation). MG9a's bone-driven positioning covers the press to the rack;
+  - the shoulder fans above 120° (pectoral volume at the lockout, latissimus / teres major contact) and the posterior
+    deltoid's extension; MG9b's sliding deltoid holds to the lockout;
   - a per-pose latissimus / teres major separation pass;
   - the posterior-fold skin driven by the MG5 latissimus / teres volumes (the system-level route for open item 4);
   - rotator cuff and scapular muscles, which need a scapula surface (R41 has landmarks only);

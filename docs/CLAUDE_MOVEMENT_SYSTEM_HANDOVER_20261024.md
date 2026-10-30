@@ -252,9 +252,22 @@ The flagged muscles:
   - The latissimus and teres bellies end at the triceps long head; tendons run on to the humerus.
   - Rest pose only. R41 has no rib-cage surface, so the depth floor is the authored thickness.
   - Sheets: `native_20261024/mg5/MG5_left_axilla_sheet.jpg` and `MG5_right_axilla_sheet.jpg`.
+  - Revised (muscle branch 67578e5c). The teres major and clavicular origins now cross their fibres; before, the
+    sheets crossed themselves.
+    - 0 outside the skin, 0 too shallow, 0 overlaps.
+    - 5 self-crossing face pairs remain at the clavicular head's edge.
+    - Volumes 219 / 53 / 50 / 185 cm³.
+- **MG6a (read-only press check of the bound proxies):** R41's anatomical chain is posed natively through the press
+  (coupled girdle).
+  - Overlaps between envelopes: 6 at the start, 169 at the rack, 314 at the lockout, mostly between the deltoid heads.
+  - The middle deltoid falls to 0.22 of its volume at the lockout.
+  - The fans stretch up to 15.5×.
+  - The bound proxies need a per-pose rebuild for elevation. Its skin has to come from a posed body, which R41's guide
+    skeleton does not drive.
 - **Muscle layer, next:**
-  - a per-pose sweep for arm elevation, for the deltoid and the MG5 fans (proxies bound by blending an origin bone to
-    the humerus cannot follow 160°);
+  - a per-pose sweep for arm elevation, for the deltoid and the MG5 fans. Proxies bound by blending an origin bone into
+    the humerus cannot follow 160° (MG6a measured it). The sweep needs a posed skin: R41's guide skeleton does not
+    drive the body, so the body's own rig has to be posed alongside;
   - the posterior-fold skin driven by the MG5 latissimus / teres volumes (the system-level route for open item 4);
   - rotator cuff and scapular muscles, which need a scapula surface (R41 has landmarks only);
   - skin response;

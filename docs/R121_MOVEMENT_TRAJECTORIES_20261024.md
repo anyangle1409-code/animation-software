@@ -1350,8 +1350,18 @@ little exposed flat face to restore.
 
 The knee keys stay as in T3.
 
-**Phone review sheets for H3** (the changed movements): `REVIEW_H3_curl.jpg`, `REVIEW_H3_deadlift.jpg` and
-`REVIEW_H3_lunge.jpg` (arms at the sides, `V2_TRAJ_LUNGE_ARMS=side`).
+**Phone review sheets for H3:**
+
+- The changed movements: `REVIEW_H3_curl.jpg`, `REVIEW_H3_deadlift.jpg` and `REVIEW_H3_lunge.jpg` (arms at the sides,
+  `V2_TRAJ_LUNGE_ARMS=side`).
+- Added 30 Oct, so every movement has a current sheet: `REVIEW_H3_press.jpg`, `REVIEW_H3_lateral_raise.jpg`,
+  `REVIEW_H3_front_raise.jpg` and `REVIEW_H3_squat.jpg`.
+  - Report: `report_TT_H3_press_raises_squat.json`.
+  - Its numbers equal E8c's: H3 changed only the deep hip key.
+  - Press: 13 folds, 10 intersections at the lockout armpit, 9041 edges stretched over 2×.
+  - Lateral raise: 4 folds, 0 intersections. Front raise: 7 folds, 0 intersections.
+  - Squat: 13 folds, 0 intersections.
+  - Every movement returns to neutral at 0.0 mm.
 
 **Note on the deadlift's first frame.** It shows 403 hand-against-thigh intersections in every candidate (T3 and H3
 alike). The r57 deadlift starts with the arms hanging straight down, through the thighs. By frame 4 they are gone. This

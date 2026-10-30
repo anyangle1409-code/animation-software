@@ -2426,3 +2426,13 @@ H3 is still the current best candidate. Details are in `docs/R121_MOVEMENT_TRAJE
 - Checks: 0 outside the skin, 0 too shallow, 0 overlaps.
 - Volumes 220 / 23 / 22 / 193 cm³.
 - Rest pose only. They are the volumes a muscle-driven posterior-fold skin would use.
+
+**Later (30 Oct): MG5 revised, MG6a, and H3 review sheets.**
+
+- **MG5 revised** (muscle branch 67578e5c). The sheets no longer cross themselves, except for 5 face pairs at the
+  clavicular head's edge. Volumes 219 / 53 / 50 / 185 cm³.
+- **MG6a.** Posing R41's anatomical chain through the press shows the bound proxies cannot follow elevation:
+  - overlaps reach 314 at the lockout;
+  - the middle deltoid falls to 0.22 of its volume;
+  - a per-pose rebuild is needed.
+- **H3 phone sheets** for the press, both raises and the squat are added (`REVIEW_H3_*.jpg`).

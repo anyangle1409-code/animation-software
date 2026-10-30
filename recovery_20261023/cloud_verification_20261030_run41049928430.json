@@ -1,0 +1,107 @@
+{
+  "status": "VERIFIED_NEUTRAL_DRIVER_RESIDUAL_LOCALIZED",
+  "task": "W8 neutral driver residual control localization",
+  "branch": "work/phone-blender-workbench-20261023",
+  "plan_commit": "dbfa58eba9657d93559e4c677b179cdf02cf6857",
+  "implementation_commit": "b99eeae01bd16e1d76d48eac609a0249e60260e6",
+  "workflow_run_id": 41049928430,
+  "workflow_conclusion": "success",
+  "jobs": {
+    "total": 7,
+    "success": 7,
+    "ids": [
+      124043169807,
+      124043170158,
+      124043170174,
+      124043170226,
+      124043170433,
+      124043613648,
+      124045647030
+    ]
+  },
+  "tests": {
+    "localization": "346/346",
+    "pose": [
+      "29/29",
+      "27/27",
+      "19/19",
+      "6/6",
+      "10/10"
+    ],
+    "driver": [
+      "10/10",
+      "20/20",
+      "8/8"
+    ]
+  },
+  "artifact": {
+    "id": 12974836027,
+    "name": "phone-w8-squat-pose-state-41049928430",
+    "github_sha256": "019b4a71664dea6a420d2f01d3bdd1d90e52383137daa117487bf4ebadb54b56",
+    "independently_downloaded_sha256": "019b4a71664dea6a420d2f01d3bdd1d90e52383137daa117487bf4ebadb54b56",
+    "zip_crc": "PASS",
+    "files": {
+      "w8_authored_squat_control_state.json": "f1b99eb109a5ce99cfb9cb5b7596834f1a9a39a18c50a491231ec7a52fcdc849",
+      "w8_authored_squat_control_state.md": "aeb3ff7ac01974472da7b2be556d833432b968cad6ed18e0390a81bf395845af"
+    }
+  },
+  "model_evidence": {
+    "model": "W8",
+    "pose_bone_count": 77,
+    "control_names_sha256": "dd7e89bd0e026837e4dc9e3ddce97a233b632503ddc20e8644aaf822479e2b36",
+    "inventory_stable_across_stages": true,
+    "before_driver_refresh": {
+      "residual_controls": [],
+      "max_translation_mm": 0
+    },
+    "after_driver_refresh": {
+      "residual_control_count": 6,
+      "max_translation_control": "muscle_lat_l",
+      "max_translation_mm": 0.00022302015940987713,
+      "controls": [
+        {
+          "name": "muscle_lat_l",
+          "translation_mm": 0.00022302015940987713
+        },
+        {
+          "name": "muscle_lat_r",
+          "translation_mm": 0.00011920928955078125
+        },
+        {
+          "name": "muscle_pec_l",
+          "translation_mm": 0.0001201947465904182
+        },
+        {
+          "name": "muscle_pec_r",
+          "translation_mm": 0.00012094649937544462
+        },
+        {
+          "name": "muscle_trap_l",
+          "translation_mm": 0.00011920928955078125
+        },
+        {
+          "name": "muscle_trap_r",
+          "translation_mm": 0.00013328003749250113
+        }
+      ],
+      "max_rotation_deg": 0
+    }
+  },
+  "frozen_source_mapping": {
+    "commit": "025d5f28fa7eba2064fba565b1c9b60119cdd2cb",
+    "path": "scripts/original_v1_muscle_line_helpers.py",
+    "blob_sha": "c629f45ddb0bd48ece9f34be992a9ef168e66e38",
+    "driver_call": "original_v1_review_candidate_drives.drive -> original_v1_muscle_line_helpers.drive",
+    "behavior": "recomputes helper pose matrices from carried origin/insertion points, rotation difference, and length-dependent scale"
+  },
+  "ruling": [
+    "The tiny post-refresh aggregate residual is confined to six existing frozen muscle-line helper controls.",
+    "The maximum is 0.000223020 mm on muscle_lat_l; no rotation residual is observed.",
+    "The magnitude and recomposition source are consistent with numerical matrix settling, but repeat-refresh idempotence is not yet measured.",
+    "These existing authored review-helper names are not independently verified anatomical muscle IDs, origins, insertions, side mappings, or approved attachments."
+  ],
+  "limitations": [
+    "No model/driver/helper/source was modified or saved.",
+    "No anatomy, attachment, deformation quality, tissue safety or movement approval is granted."
+  ]
+}

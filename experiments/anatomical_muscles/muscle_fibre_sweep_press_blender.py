@@ -20,6 +20,11 @@ POISSON DEFORMATION of the sheet's mid-surface:
      each clearance never stricter than the node's own at rest, so the rest pose is admissible;
      (c) for the fans, the thorax: no deeper below the STATIC trunk skin (skin with no weight on a bone the press moves;
          the thorax does not move in the press) than the fibre's deepest rest station;
+     (d) optional, off by default (MG9_LAYERS=1): MG5's layering, the outer surface of a deep sheet a gap below its
+         superficial neighbour, solved first (teres major under the latissimus, the clavicular pectoral head under the
+         anterior deltoid, the sternocostal under the clavicular).  It cleared the start pose's overlaps (40 -> 0) but
+         distorted the deep sheets (self-crossings 34 -> 435 at the start; latissimus / teres at the rack 141 -> 160):
+         where the nearest superficial face is its outer surface, the push throws points over the sheet;
   5. the deep surface keeps its rotated offset from the mid-surface and the outer surface takes the thickness change,
      1 / the fibre's stretch, so each fibre strip keeps its volume and a shortening muscle bulges outward (MG2 / MG3's
      rule).
@@ -135,7 +140,9 @@ ARM_OBJ = [C_MUS.objects[f"hgpt.muscle.{m}.{SUF}"] for m in ARMS]
 HUM = f"anat_humerus_{S}"
 DELTOID = ["deltoid_anterior", "deltoid_middle", "deltoid_posterior"]   # in phi order: one continuous sheet
 UNITS = ([("deltoid", DELTOID)] if ONE_DELTOID else [(m, [m]) for m in DELTOID]) + \
-        [(m, [m]) for m in KIND if KIND[m] == "fan"]
+        [(m, [m]) for m in KIND if KIND[m] == "fan"]         # superficial sheets before the ones under them
+UNDER = {"teres_major": "latissimus_dorsi", "pectoralis_major_clavicular": "deltoid_anterior",
+         "pectoralis_major_sternocostal": "pectoralis_major_clavicular"} if _ENV.get("MG9_LAYERS", "0") == "1" else {}
 
 
 def evaluated(o):
@@ -283,8 +290,22 @@ def rotations(sh, Tm):
     return R
 
 
-def violations(sh, Tm, Mp, R):
-    """per node: the deep-surface correction needed (N x 3, zero where clear)"""
+def oriented_bvh(P, faces):
+    sv = sum(np.dot(P[f[0]], np.cross(P[f[k]], P[f[k + 1]])) for f in faces for k in range(1, len(f) - 1))
+    return BVHTree.FromPolygons([Vector(p) for p in P], [f[::-1] for f in faces] if sv < 0 else faces)
+
+
+def penetration(tr, p):
+    """how far p lies inside the (outward-oriented) mesh by its nearest face; <= 0 outside"""
+    loc, nrm, _i, dist = tr.find_nearest(Vector(p), 0.05)
+    if loc is None:
+        return -1.0, None, None
+    return (dist if (Vector(p) - loc).dot(nrm) < 0 else -dist), loc, nrm
+
+
+def violations(sh, Tm, Mp, R, over=None):
+    """per node: the correction needed (N x 3, zero where clear): the deep surface against the head + cuff sphere, the
+    MG1 envelopes and the thorax; with `over` (the posed sheet this one lies under), the outer surface below it"""
     K = sh["K"]
     Ip = Mp + np.einsum("nab,nb->na", R, (sh["I"] - sh["M"]).reshape(-1, 3))
     gh = np.array(Tm[f"anat_scapula_{S}"] @ GH); H = mat_np(Tm[HUM]); Hi = np.linalg.inv(H)
@@ -304,10 +325,17 @@ def violations(sh, Tm, Mp, R):
             dep, n_ = trunk_depth(Ip[n])
             if dep is not None and dep > sh["D"][i] + OBS_TOL:
                 push[n] += np.array(n_) * (dep - sh["D"][i])
+    if over is not None:                                     # under a superficial sheet: the outer surface stays a gap
+        Op = Mp + np.einsum("nab,nb->na", R, (sh["O"] - sh["M"]).reshape(-1, 3))   # below it (never stricter than
+        for n in range(sh["N"]):                             # at rest)
+            pen, loc, nrm = penetration(over, Op[n])
+            allowed = max(sh["pen0"][n], -GAP)               # a gap clear of it, or no deeper than at rest
+            if loc is not None and pen > allowed + OBS_TOL:
+                push[n] += np.array(nrm) * (pen - allowed)   # out through its nearest face
     return push
 
 
-def solve(sh, Tm):
+def solve(sh, Tm, over=None):
     """posed outer / inner / mid grids of a sheet under the pose transforms Tm"""
     F_, K = sh["F"], sh["K"]
     R = rotations(sh, Tm); Rf = R[sh["free"]]
@@ -332,7 +360,7 @@ def solve(sh, Tm):
     x = np.linalg.solve(A, rhs); n_con = 0
     for _ in range(OBS_ITERS):
         Mp = np.empty((sh["N"], 3)); Mp[sh["free"]] = x; Mp[sh["fixed"]] = xfix
-        push = violations(sh, Tm, Mp, R)
+        push = violations(sh, Tm, Mp, R, over)
         hit = [pos[n] for n in np.nonzero(np.linalg.norm(push, axis=1) > OBS_TOL)[0] if n in pos]
         if not hit:
             break
@@ -340,7 +368,7 @@ def solve(sh, Tm):
             W[j] = OBS_W ** 2; T[j] = x[j] + push[sh["free"][j]]
         x = np.linalg.solve(AtA + np.diag(W), Atb + W[:, None] * T); n_con = int((W > 0).sum())
     Mp = np.empty((sh["N"], 3)); Mp[sh["free"]] = x; Mp[sh["fixed"]] = xfix
-    left = int((np.linalg.norm(violations(sh, Tm, Mp, R), axis=1) > 0.002).sum())
+    left = int((np.linalg.norm(violations(sh, Tm, Mp, R, over), axis=1) > 0.002).sum())
     M1 = Mp.reshape(F_, K, 3); R4 = R.reshape(F_, K, 3, 3)
     rot = lambda V: np.einsum("fkab,fkb->fka", R4, V)
     lam = np.array([arclen(M1[i])[-1] for i in range(F_)]) / sh["Lf"]
@@ -387,7 +415,7 @@ rep = {"status": "READ_ONLY_CHECK", "input": src.name, "input_sha256": expected,
        "rules": {"head_radius_m": HEAD_R, "cuff_m": CUFF, "gap_m": GAP, "step_deg": STEP_DEG, "slack": SLACK,
                  "thickness_scale_clamp": S_CLAMP, "obstacle_resolves_weight_tolerance": [OBS_ITERS, OBS_W, OBS_TOL],
                  "static_skin_triangles": len(TRIS), "thickness_direction": THICK, "taut_after_joint_rotation_deg": TAUT_DEG,
-                 "deltoid_one_sheet": ONE_DELTOID},
+                 "deltoid_one_sheet": ONE_DELTOID, "layered_under": UNDER},
        "origin_bones": {m: sorted(set(GRID[m]["ob"])) for m in KIND}, "poses": {}}
 
 # ---- renders (as MG6a)
@@ -419,10 +447,16 @@ hts = sorted(set([REST_HT] + [float(h) for h in np.arange(math.ceil(REST_HT / ST
                  + list(RECORD)))
 STEPS = [("rest", IDENT)] + [(ht, pose_T(ht, RECORD.get(ht, (None, 0.0))[1])) for ht in hts]
 prevM = {m: (GRID[m]["O"] + GRID[m]["I"]) / 2 for m in KIND}; jump = {m: 0.0 for m in KIND}
+for u, members in UNITS:                                     # rest penetration of each layered sheet's outer surface
+    sh = SH[u]                                               # into its superficial neighbour (rest stays admissible)
+    if u in UNDER:
+        tr0 = oriented_bvh(REST[UNDER[u]], FACES[UNDER[u]])
+        sh["pen0"] = np.array([penetration(tr0, p)[0] for p in sh["O"].reshape(-1, 3)])
 for key, Tm in STEPS:
     posed = {}
     for u, members in UNITS:
-        O1, I1, M1, g, s, n_con, left = solve(SH[u], Tm)
+        over = oriented_bvh(posed[UNDER[u]][0], FACES[UNDER[u]]) if u in UNDER else None
+        O1, I1, M1, g, s, n_con, left = solve(SH[u], Tm, over)
         f0 = 0
         for m in members:
             f1 = f0 + GRID[m]["io"].shape[0]; sl = slice(f0, f1); f0 = f1

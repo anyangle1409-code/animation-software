@@ -1130,7 +1130,14 @@ test that therefore reads them backwards. This was measured to have no effect: e
    - a pose-aware rebuild by MG4's own rules in a moving frame: fibres on the posed head, cuff and MG1 floor between
      the posed origin and insertion lines, heads kept in their φ bands, thickness from the rest profile;
    - a volumetric (tetrahedral) simulation.
-2. **A per-pose separation pass** for latissimus / teres major.
+2. **A per-pose separation pass** for latissimus / teres major. Tried (`MG9_LAYERS=1`, off by default): MG5's
+   layering as soft constraints, with each deep sheet's outer surface held a gap below its superficial neighbour,
+   solved first.
+   - It cleared the start pose's overlaps (40 → 0).
+   - It distorted the deep sheets: self-crossings 34 → 435 at the start, and latissimus / teres at the rack
+     141 → 160.
+   - Cause: where the nearest superficial face is that sheet's outer surface, the push throws points over the sheet.
+   - A layering that knows which face is the deep one, as MG3's ring lookup does, is the next try.
 3. **The fan lengths** re-checked on the corrected girdle (c003/c004).
 
 **Sheets.**

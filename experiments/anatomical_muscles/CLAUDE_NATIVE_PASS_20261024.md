@@ -421,3 +421,112 @@ Sources:
   (Otis et al., 1994).
 - [PMC9149620](https://pmc.ncbi.nlm.nih.gov/articles/PMC9149620): the infraspinatus as an abductor or elevator in the
   scapular plane, especially with internal rotation.
+
+## MG1: first belly / tendon envelopes, upper arm (added 30 Oct 2026)
+
+This follows Work's handoff step 3: geometry inside the existing body, on a copy only.
+
+**Script:** `build_arm_muscle_envelopes_blender.py`. It opens the hash-checked experiment copy and builds six muscles
+per side:
+
+- biceps long and short heads;
+- brachialis;
+- triceps long, lateral and medial heads.
+
+Each muscle is a closed belly mesh in `HGPT_EXPERIMENT_MUSCLES`. Its origin and insertion tendons go to the proposed
+anchors and live in `HGPT_EXPERIMENT_TENDONS`. `HGPT_EXPERIMENT_WRAP_GUIDES` is created empty. The script saves a
+**new** suffixed blend and confirms the source hash is unchanged.
+
+**Objects.**
+
+- Every object is named and tagged with its permanent ID (`hgpt_muscle_id`), with status `ENVELOPE_PROXY_UNREVIEWED`.
+- One neutral colour, no activation display.
+- Each object is bound to the anatomical chain (scapula / humerus / radius / ulna) with an armature modifier.
+
+### How the envelopes are sized
+
+**Literature volumes are blocked.** The Holzbaur 2007 volume table could not be read: nmbl.stanford.edu,
+sciencedirect.com, mobl.wordpress.ncsu.edu, Europe PMC and NCBI are all unreachable from this sandbox (proxy 403 / DNS).
+So `tissue.rest_volume_m3` stays **null**. The volumes below are geometry-derived from this body, not reviewed values.
+
+**Sizing rules:**
+
+1. **Cross-sections.** The humeral axis (GH → EJC landmarks) is cut into sections. Each section's arm skin outline is
+   measured by intersecting the arm's skin triangles with the section plane. Points more than 65 mm from the axis are
+   shoulder or torso skin and are dropped.
+2. **Available space.** The space between a humeral radius proxy and the skin, less a 4 mm subcutaneous layer, is split
+   as an upper-arm cross-section is:
+
+   | Compartment | Sector (0° anterior, +90° lateral) | Contents |
+   |---|---|---|
+   | Anterior | −78° to 78° | biceps long head (lateral half) and short head (medial half) superficial, over the brachialis (deep, distal) |
+   | Posterior | 98° to 262° | triceps lateral head (posterolateral) and long head (posteromedial) superficial, over the medial head (deep, distal) |
+
+3. **Deltoid.** A superficial band is kept free for the deltoid on the lateral side of the proximal humerus. The
+   deltoid is not built yet.
+4. **Lofting.** Bellies are lofted over authored axial ranges and taper in polar terms, so a deep band's end stays in
+   its compartment. Every point is kept at least the subcutaneous layer below the body surface. That clamp never goes
+   inside the bone radius: the skin wins only down to the bone, and anything left is reported, not hidden.
+5. **Record.** All fractions, sectors, ranges and thicknesses are authored rules, written into the report.
+
+**The humeral radius proxy** is 11 mm along the shaft, wider at the head and epicondyles. R41 has no bone meshes, only
+an armature.
+
+### Copy-only change
+
+R41's anatomical master is a guide skeleton whose bones do not deform (`use_deform` False). The proxies could not follow
+it, as measured: a 0 mm probe. In the copy only, deform is switched on for the four bones the proxies use. No rest data
+changes, and the body stays driven by the runtime rig (`HGPT_CANONICAL_V4_ORIGINAL`). Both facts are recorded in the
+report.
+
+### Results (left; the right side was built independently from its own anchors)
+
+| Muscle | Belly volume (geometry-derived) | Belly length | Tendons (origin / insertion) |
+|---|---|---|---|
+| Biceps long head | 176 cm³ | 181 mm | 86 / 78 mm |
+| Biceps short head | 159 cm³ | 175 mm | 77 / 87 mm |
+| Brachialis | 143 cm³ | 147 mm | 30 / 39 mm |
+| Triceps lateral head | 185 cm³ | 192 mm | 36 / 45 mm |
+| Triceps long head | 199 cm³ | 204 mm | 25 / 45 mm |
+| Triceps medial head | 99 cm³ | 167 mm | 63 / 8 mm |
+
+**Checks, both sides:**
+
+- 0 vertices outside the skin;
+- 0 shallower than the subcutaneous layer;
+- 0 inside the humeral radius;
+- **0 muscle–muscle triangle overlaps**;
+- source hash unchanged.
+
+**Elbow flexion on the anatomical chain:** the biceps insertion tendon follows the radius (55 mm of travel at 90°, 67 mm
+at 120°).
+
+**Right against left.**
+
+- Runtime suffix `_l`, consistent with the side convention.
+- Volumes are identical except the triceps long head (−0.3 %).
+- Its origin tendon is 25 mm on the left against 36 mm on the right. The axilla depth clamp meets slightly different
+  skin tessellation on the two sides, as already measured on the body.
+
+### Limits and next steps
+
+These are **rest envelopes only**.
+
+- The bellies do not yet shorten or bulge with length (`kernel.belly_axes`).
+- There is no fusiform or pennate surface, and no tendon wrap: the biceps long head through the groove, the triceps over
+  the olecranon.
+- Each envelope fills its compartment of *this* (muscular) body, so absolute volumes are not population values.
+  Coracobrachialis, anconeus and fat beyond 4 mm are not separated.
+
+**Next:**
+
+- length response through Work's kernel (volume-preserving), checked on the path-length sweeps;
+- the deltoid (three heads) and the rotator cuff;
+- then reviewer sign-off.
+
+**Files.**
+
+- In git: `native_20261024/mg1/` holds `mg1_left_report.json`, `mg1_right_report.json` and the phone sheet
+  `MG1_left_arm_sheet.jpg`. The sheet shows skin, muscle + tendon, overlay, and elbow at 90° and 120°.
+- Not in git (no `.blend` files are committed): the experiment blends `HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG1_arm_{left,right}.blend`.
+  Their SHA256 values are in the reports.

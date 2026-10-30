@@ -1,0 +1,235 @@
+{
+ "status": "ENVELOPE_PROXY_UNREVIEWED",
+ "source_sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+ "side": "left",
+ "runtime_suffix_of_side": "r",
+ "copy_only_changes": {
+  "anatomical_master_use_deform_enabled": [
+   "anat_scapula_left",
+   "anat_humerus_left",
+   "anat_radius_left",
+   "anat_ulna_left"
+  ],
+  "body_armature_modifier_objects": [
+   "HGPT_CANONICAL_V4_ORIGINAL"
+  ]
+ },
+ "rules": {
+  "subcutaneous_layer_m": 0.004,
+  "gap_m": 0.0012,
+  "sector_inset_deg": 1.5,
+  "tendon_radius_m": 0.0035,
+  "humeral_radius_m": "11 mm shaft, +12 mm towards the head (s<0.2), +10 mm towards the epicondyles (s>0.8)",
+  "deltoid_reserve": "lateral 10-170 deg: 45 % of the available thickness at s=0.10 fading to 0 at s=0.45",
+  "taper": 0.07,
+  "sections": {
+   "biceps_brachii_long": {
+    "sector_deg": [
+     2,
+     78
+    ],
+    "range_s": [
+     0.22,
+     0.86
+    ],
+    "distal_bone": "radius"
+   },
+   "biceps_brachii_short": {
+    "sector_deg": [
+     -78,
+     -2
+    ],
+    "range_s": [
+     0.24,
+     0.86
+    ],
+    "distal_bone": "radius"
+   },
+   "brachialis": {
+    "sector_deg": [
+     -78,
+     78
+    ],
+    "range_s": [
+     0.45,
+     0.97
+    ],
+    "distal_bone": "ulna"
+   },
+   "triceps_lateral": {
+    "sector_deg": [
+     98,
+     178
+    ],
+    "range_s": [
+     0.18,
+     0.86
+    ],
+    "distal_bone": "ulna"
+   },
+   "triceps_long": {
+    "sector_deg": [
+     182,
+     262
+    ],
+    "range_s": [
+     0.14,
+     0.86
+    ],
+    "distal_bone": "ulna"
+   },
+   "triceps_medial": {
+    "sector_deg": [
+     98,
+     262
+    ],
+    "range_s": [
+     0.38,
+     0.97
+    ],
+    "distal_bone": "ulna"
+   }
+  },
+  "axis": "GH -> EJC landmarks",
+  "s": "fraction of GH -> EJC"
+ },
+ "volume_source": "geometry-derived from this body (NOT reviewed literature volumes: hosts unreachable from the sandbox)",
+ "muscles": {
+  "hgpt.muscle.biceps_brachii_long.L": {
+   "belly_volume_m3": 0.0001761,
+   "belly_volume_cm3": 176.1,
+   "belly_length_m": 0.1812,
+   "tendon_lengths_m": {
+    "origin": 0.0862,
+    "insertion": 0.0784
+   },
+   "kernel_equivalent_radius_m": 0.0176
+  },
+  "hgpt.muscle.biceps_brachii_short.L": {
+   "belly_volume_m3": 0.0001593,
+   "belly_volume_cm3": 159.3,
+   "belly_length_m": 0.1752,
+   "tendon_lengths_m": {
+    "origin": 0.0772,
+    "insertion": 0.0871
+   },
+   "kernel_equivalent_radius_m": 0.017
+  },
+  "hgpt.muscle.brachialis.L": {
+   "belly_volume_m3": 0.000143,
+   "belly_volume_cm3": 143.0,
+   "belly_length_m": 0.147,
+   "tendon_lengths_m": {
+    "origin": 0.0295,
+    "insertion": 0.0388
+   },
+   "kernel_equivalent_radius_m": 0.0176
+  },
+  "hgpt.muscle.triceps_lateral.L": {
+   "belly_volume_m3": 0.0001847,
+   "belly_volume_cm3": 184.7,
+   "belly_length_m": 0.1922,
+   "tendon_lengths_m": {
+    "origin": 0.0362,
+    "insertion": 0.0448
+   },
+   "kernel_equivalent_radius_m": 0.0175
+  },
+  "hgpt.muscle.triceps_long.L": {
+   "belly_volume_m3": 0.0001989,
+   "belly_volume_cm3": 198.9,
+   "belly_length_m": 0.2036,
+   "tendon_lengths_m": {
+    "origin": 0.0246,
+    "insertion": 0.0452
+   },
+   "kernel_equivalent_radius_m": 0.0176
+  },
+  "hgpt.muscle.triceps_medial.L": {
+   "belly_volume_m3": 9.88e-05,
+   "belly_volume_cm3": 98.8,
+   "belly_length_m": 0.1669,
+   "tendon_lengths_m": {
+    "origin": 0.0625,
+    "insertion": 0.0084
+   },
+   "kernel_equivalent_radius_m": 0.0137
+  }
+ },
+ "checks": {
+  "per_muscle": {
+   "hgpt.muscle.biceps_brachii_long.L": {
+    "vertices": 662,
+    "outside_skin": 0,
+    "shallower_than_layer": 0,
+    "min_depth_below_skin_mm": 3.9,
+    "inside_humeral_radius": 0
+   },
+   "hgpt.muscle.biceps_brachii_short.L": {
+    "vertices": 642,
+    "outside_skin": 0,
+    "shallower_than_layer": 0,
+    "min_depth_below_skin_mm": 3.9,
+    "inside_humeral_radius": 0
+   },
+   "hgpt.muscle.brachialis.L": {
+    "vertices": 542,
+    "outside_skin": 0,
+    "shallower_than_layer": 0,
+    "min_depth_below_skin_mm": 15.14,
+    "inside_humeral_radius": 0
+   },
+   "hgpt.muscle.triceps_lateral.L": {
+    "vertices": 702,
+    "outside_skin": 0,
+    "shallower_than_layer": 0,
+    "min_depth_below_skin_mm": 3.91,
+    "inside_humeral_radius": 0
+   },
+   "hgpt.muscle.triceps_long.L": {
+    "vertices": 742,
+    "outside_skin": 0,
+    "shallower_than_layer": 0,
+    "min_depth_below_skin_mm": 3.75,
+    "inside_humeral_radius": 0
+   },
+   "hgpt.muscle.triceps_medial.L": {
+    "vertices": 602,
+    "outside_skin": 0,
+    "shallower_than_layer": 0,
+    "min_depth_below_skin_mm": 17.07,
+    "inside_humeral_radius": 0
+   }
+  },
+  "muscle_muscle_overlap_pairs": {}
+ },
+ "output_blend": "HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG1_arm_left.blend",
+ "output_sha256": "d1e1325bb22dff1334ae0ac3c4dea10f925ed9a55e099626f00c3a9174084f8c",
+ "source_unchanged": true,
+ "renders": {
+  "rest_skin": [
+   "mg1_left_rest_skin_anterior.png",
+   "mg1_left_rest_skin_lateral.png",
+   "mg1_left_rest_skin_posterior.png"
+  ],
+  "rest_muscle": [
+   "mg1_left_rest_muscle_anterior.png",
+   "mg1_left_rest_muscle_lateral.png",
+   "mg1_left_rest_muscle_posterior.png"
+  ],
+  "flex90_muscle": [
+   "mg1_left_flex90_muscle_anterior.png",
+   "mg1_left_flex90_muscle_lateral.png",
+   "mg1_left_flex90_muscle_posterior.png"
+  ],
+  "flex120_muscle": [
+   "mg1_left_flex120_muscle_anterior.png",
+   "mg1_left_flex120_muscle_lateral.png",
+   "mg1_left_flex120_muscle_posterior.png"
+  ]
+ },
+ "flex_probe_moved_mm": {
+  "90": 54.9,
+  "120": 67.2
+ }
+}

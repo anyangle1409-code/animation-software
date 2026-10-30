@@ -52,7 +52,7 @@ z0 = float(R[:, 2].min()); H = float(R[:, 2].max()) - z0
 
 
 def zone(P):
-    """rest-space zone of points (anatomical left = +x)"""
+    """rest-space zone of points (symmetric in x; the rig's _l side lives at -x - docs/ARCHITECTURE.md)"""
     x, y, z = np.abs(P[:, 0]), P[:, 1], (P[:, 2] - z0) / H
     out = np.full(len(P), "other", dtype=object)
     out[(z > 0.62) & (x < 0.10)] = "torso_mid"
@@ -129,7 +129,7 @@ for tag, r121, leg in (("lock_all", True, True), ("lock_no_r121", False, True), 
                 "max_ratio": round(float(ratio[EOK].max()), 2)}
     if st.any():
         mid = 0.5 * (R[E[st, 0]] + R[E[st, 1]])
-        for s, sg in (("left(+x)", 1), ("right(-x)", -1)):
+        for s, sg in (("r(+x)", 1), ("l(-x)", -1)):           # rig sides (lockout_stretch_diag_T3.json said left(+x))
             m_ = np.sign(mid[:, 0]) == sg
             if m_.any():
                 rep[tag][f"stretch_rest_bbox_{s}_m"] = [np.round(mid[m_].min(0), 3).tolist(), np.round(mid[m_].max(0), 3).tolist()]

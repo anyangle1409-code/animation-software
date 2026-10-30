@@ -1,0 +1,77 @@
+{
+ "mode": "abd",
+ "angles_deg": [
+  120,
+  150
+ ],
+ "keys": {
+  "120": {
+   "elevation_deg": {
+    "l": 119.59,
+    "r": 119.59
+   },
+   "folds_gt90_before": 25,
+   "unfold_history": [
+    25
+   ],
+   "contact_history": null,
+   "post_guard_overlaps": null,
+   "crumple_gt35_history": [
+    2767
+   ],
+   "ridge_excess_history_mm": [
+    3.65,
+    2.6,
+    2.01,
+    1.48,
+    1.08,
+    0.99,
+    0.92
+   ],
+   "patched": {
+    "R121_ARM_r_120": 0.9999,
+    "R121_ARM_l_120": 0.9999
+   },
+   "patched_residual_max_mm": 0.001,
+   "folds_gt90_with_key": 25,
+   "max_offset_mm": 7.92,
+   "vertices": 7708,
+   "fit_residual_max_mm": 0.001
+  },
+  "150": {
+   "elevation_deg": {
+    "l": 148.8,
+    "r": 148.8
+   },
+   "folds_gt90_before": 25,
+   "unfold_history": [
+    25
+   ],
+   "contact_history": null,
+   "post_guard_overlaps": null,
+   "crumple_gt35_history": [
+    2893
+   ],
+   "ridge_excess_history_mm": [
+    4.18,
+    4.14,
+    3.53,
+    2.27,
+    1.6,
+    1.45,
+    1.32
+   ],
+   "patched": {
+    "R121_ARM_r_150": 1.0,
+    "R121_ARM_l_150": 1.0
+   },
+   "patched_residual_max_mm": 0.001,
+   "folds_gt90_with_key": 25,
+   "max_offset_mm": 11.08,
+   "vertices": 10224,
+   "fit_residual_max_mm": 0.001
+  }
+ },
+ "ridge_mm": 1.5,
+ "patch": true
+}

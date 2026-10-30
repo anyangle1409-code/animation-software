@@ -260,6 +260,8 @@ The flagged muscles:
 - **Shoulder-girdle width** (a003/R41: AC breadth 481 mm, scapular spine about twice the CT length). Adopting the
   corrected c003/c004 girdle is the owner's call on validated skeletal data. The trapezius-lower verdict, and the
   serratus verdict's dependence on the girdle model, wait on it.
+- **Posterior armpit corner at the lockout:** choose a latissimus / teres major helper (re-binding), a sculpted
+  posterior-fold key, or waiting for muscle-driven skin. The fold mass itself is judged anatomical.
 - **Muscle contract entries:** triceps long (press), trapezius lower (press), infraspinatus and subscapularis
   (press), gluteus medius (squat). Each needs
   either a "variable" entry or functional heads, which would need new permanent IDs.
@@ -283,8 +285,14 @@ The flagged muscles:
    - H3 cut it from 1885 to 1011 intersections (25 at the ~120° frame).
    - The rest lies outside the contact reach or in the groin.
    - 135° is past a conventional deadlift's depth.
-4. **Posterior armpit fold at the lockout:** comes from the skin weights, and part of it is anatomical. Needs a
-   judgement against reference photos.
+4. **Posterior armpit fold at the lockout: judged (30 Oct).** Against the owner's reference photos:
+   - the fold mass (latissimus and teres major) is anatomical and stays;
+   - the pointed corner where it meets the arm is a skinning artifact (+6.3 mm at the 1.5 cm scale, +1.9 mm at rest).
+     It is minor at phone scale.
+   - Pose-ridge relief patched into the arm keys (AX1, AX2), and applied directly at the press, does not remove it. It
+     needs a change of form: a latissimus / teres major helper (re-binding), a sculpted posterior-fold key, or
+     muscle-driven skin. That is an owner decision.
+   - Details are in the trajectories doc's last section. `axilla_fold_diag_blender.py` measures it.
 5. **Lunge.** The benchmark's hanging hands meet the rising front thigh, a test-path artifact. With
    `V2_TRAJ_LUNGE_ARMS=side` (arms at 22°) the lunge has 11 intersections (front groin) and 35 folds.
 6. **Muscle layer:**

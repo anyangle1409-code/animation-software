@@ -93,6 +93,12 @@ HINGE = {"elbow": ("upperarm", "forearm", float(os.environ.get("V2_R121_HINGE_RE
          # the hip joint up to the posed spine_02; abdomen and thigh meet on the bisecting plane
          **({"hinge": (("pelvis", "spine", "hip_crease"), "thigh", float(os.environ.get("V2_R121_HINGE_REACH", "0.26")))}
             if os.environ.get("V2_R121_HIP_CONTACT") == "1" else {})}
+# patch (V2_R121_ARMKEY_PATCH=1): add the posed-space correction to the family's EXISTING key at each angle (that key
+# is fully on at its own pose) instead of authoring new keys - only the pose-ridge relief below runs, the other
+# relaxation steps, the contact and the drive data are left alone
+PATCH = os.environ.get("V2_R121_ARMKEY_PATCH") == "1"
+if PATCH and os.environ.get("V2_R121_ARMKEY_REPLACE") == "1":
+    raise SystemExit("V2_R121_ARMKEY_PATCH and V2_R121_ARMKEY_REPLACE exclude each other")
 if os.environ.get("V2_R121_ARMKEY_REPLACE") == "1":         # re-author: drop this family's keys and drive data first
     for kb in [k for k in me.shape_keys.key_blocks if k.name.startswith(FAMILY[0])]:
         body.shape_key_remove(kb)
@@ -264,6 +270,53 @@ def contact(T, margin=0.0008):
 
 CMODE = os.environ.get("V2_R121_CONTACT_MODE", "plane")    # plane: contact() above; mutual / plane_restore: below
 TRI = np.array([(p.vertices[0], p.vertices[k], p.vertices[k + 1]) for p in me.polygons for k in range(1, len(p.vertices) - 1)])
+
+# pose-ridge relief (V2_R121_ARMKEY_RIDGE_MM > 0): at high arm elevation the skinning pinches the junction skin between
+# the arm and the torso (shoulder_cap / upperarm against latissimus / spine / scapula weights) into a pointed cone where
+# the posterior armpit fold meets the arm.  Relief is measured as each vertex's offset from a Laplacian-smoothed copy
+# of the surface along the normal (V2_R121_ARMKEY_RIDGE_SCALE Laplacian rounds: 60 ~ 1.5 cm, 200 ~ 3 cm); where the pose
+# has RAISED it over its rest value by more than the threshold, the excess is pushed back along the normal (spread over
+# a few rings).  Rest relief - the sculpted muscles - and pose creases are kept.
+RIDGE = float(os.environ.get("V2_R121_ARMKEY_RIDGE_MM", "0")) / 1000.0
+RIDGE_SCALE = int(os.environ.get("V2_R121_ARMKEY_RIDGE_SCALE", "60"))
+if RIDGE > 0:
+    _tw, _aw = gsum("muscle_lat", "spine", "scapula"), gsum("upperarm", "shoulder_cap")
+    RIDGE_W = np.clip(np.minimum(_tw, _aw) / 0.15, 0, 1) * UPPER      # junction skin, faded in over 0-0.15 weight
+
+
+def vnormals(P):
+    fn = np.cross(P[TRI[:, 1]] - P[TRI[:, 0]], P[TRI[:, 2]] - P[TRI[:, 0]])
+    vn = np.zeros_like(P)
+    for k_ in range(3):
+        np.add.at(vn, TRI[:, k_], fn)
+    return vn / np.maximum(np.linalg.norm(vn, axis=1, keepdims=True), 1e-15)
+
+
+def relief(P, rounds=60):
+    """offset of each vertex from a Laplacian-smoothed copy, along the normal (m): <0 crease, >0 ridge"""
+    Q = P.copy()
+    for _ in range(rounds):
+        Q = 0.5 * Q + 0.5 * mean(Q)
+    return np.einsum("ij,ij->i", P - Q, vnormals(P))
+
+
+RELIEF0 = relief(R0, RIDGE_SCALE) if RIDGE > 0 else None
+
+
+def ridge_relief(T):
+    """push pose-made ridges at the arm / torso junction back towards their rest relief (in place); history in mm"""
+    hist = []
+    for _ in range(int(os.environ.get("V2_R121_ARMKEY_RIDGE_ITERS", "6"))):
+        ex = np.clip(relief(T, RIDGE_SCALE) - RELIEF0 - RIDGE, 0, None) * RIDGE_W
+        hist.append(round(float(ex.max()) * 1000, 2))
+        if ex.max() < 1e-4:
+            break
+        d = -ex[:, None] * vnormals(T)
+        for _ in range(max(8, RIDGE_SCALE // 8)):
+            d = 0.5 * d + 0.5 * mean(d)
+        T += d * UPPER[:, None]
+    hist.append(round(float((np.clip(relief(T, RIDGE_SCALE) - RELIEF0 - RIDGE, 0, None) * RIDGE_W).max()) * 1000, 2))
+    return hist
 
 
 def contact_mutual(T, margin=0.0008, iters=int(os.environ.get("V2_R121_CONTACT_ITERS", "6")),
@@ -438,7 +491,8 @@ keys = me.shape_keys.key_blocks
 tmp = body.shape_key_add(name="R121_TMP", from_mix=False); tmp.value = 0.0
 if MODE == "flex" and min(ANGLES) <= r121_drives.START:   # a low forward key needs the family's own, lower start
     rig[r121_drives.FLEX_START_PROP] = float(os.environ.get("V2_R121_FLEX_START", "0"))   # set before authoring
-REP = {"mode": MODE, "angles_deg": ANGLES, "keys": {}}
+REP = {"mode": MODE, "angles_deg": ANGLES, "keys": {}, **({"ridge_mm": RIDGE * 1000, "ridge_scale": RIDGE_SCALE} if RIDGE > 0 else {}),
+       **({"patch": True} if PATCH else {})}
 made = {}
 if MODE == "hinge":                                        # append to the existing hip family
     made = {s_: list(rig.get(f"{FAMILY[1]}_{s_}", [])) for s_ in ("l", "r")}
@@ -460,12 +514,12 @@ for ang in ANGLES:
     P = evaluated()
     T = P.copy(); hist = []
     contact_hist = ({"mutual": contact_mutual, "plane_restore": contact_plane_restore}.get(CMODE, contact)(T)
-                    if CONTACT is not None else None)
+                    if (CONTACT is not None and not PATCH) else None)
     # relax: unfold rounds, then a light Laplacian over the folded area (posed space).  V2_R121_ARMKEY_UNFOLD_DEG < 90
     # also flattens broad creases (the shape-preserving de-crumple below keeps them), e.g. the lower-back fold the
     # skinning makes at the squat bottom
     UT = math.cos(math.radians(float(os.environ.get("V2_R121_ARMKEY_UNFOLD_DEG", "90"))))   # unfold edges past this
-    for rnd in range(int(os.environ.get("V2_R121_ARMKEY_ROUNDS", "8"))):
+    for rnd in range(0 if PATCH else int(os.environ.get("V2_R121_ARMKEY_ROUNDS", "8"))):
         m, nf = folds(T, UT); hist.append(nf)
         if nf == 0:
             break
@@ -478,7 +532,7 @@ for ang in ANGLES:
     CT = math.cos(math.radians(float(os.environ.get("V2_R121_ARMKEY_CRUMPLE_DEG", "35"))))
     # de-crumple: edges past ~35 deg (below the fold test) read as crumpled skin - HC (shrink-free) over them, dilated
     crum = []
-    for rnd in range(int(os.environ.get("V2_R121_ARMKEY_CRUMPLE", "0"))):
+    for rnd in range(0 if PATCH else int(os.environ.get("V2_R121_ARMKEY_CRUMPLE", "0"))):
         m, nc = folds(T, CT); crum.append(nc)
         w = m.astype(float)
         for _ in range(3):
@@ -491,10 +545,10 @@ for ang in ANGLES:
             Q = Pm - w[:, None] * (0.6 * B + 0.4 * mean(B))
         T = Q
     crum.append(folds(T, CT)[1])
-    postguard_hist = post_guard(T) if (CMODE == "plane_restore" and CONTACT is not None) else None
+    postguard_hist = post_guard(T) if (CMODE == "plane_restore" and CONTACT is not None and not PATCH) else None
     # skin slide (optional): tangential relaxation - vertices move only within the surface, which keeps the shape and
     # evens out the stretch the skinning concentrates (armpit / lat skin at full elevation)
-    SL = int(os.environ.get("V2_R121_ARMKEY_SLIDE", "0"))
+    SL = 0 if PATCH else int(os.environ.get("V2_R121_ARMKEY_SLIDE", "0"))
     if SL > 0:
         ws = UPPER.astype(float)
         for _ in range(SL):
@@ -510,7 +564,7 @@ for ang in ANGLES:
     # stretch relief (optional): tangential springs towards the REST edge lengths - unlike the Laplacian slide above,
     # this evens out edge length, not vertex spacing, so the stretch the skinning piles into the armpit at the lockout
     # is shared with the surrounding skin; vertices move only within the surface (shape kept)
-    SR = int(os.environ.get("V2_R121_ARMKEY_STRETCH", "0"))
+    SR = 0 if PATCH else int(os.environ.get("V2_R121_ARMKEY_STRETCH", "0"))
     if SR > 0:
         L0 = np.linalg.norm(R0[E[:, 0]] - R0[E[:, 1]], axis=1)
         ws = UPPER.astype(float)
@@ -528,6 +582,7 @@ for ang in ANGLES:
             F *= Dinv[:, None]
             F -= np.einsum("ij,ij->i", F, vn)[:, None] * vn
             T = T + 0.4 * ws[:, None] * F
+    ridge_hist = ridge_relief(T) if RIDGE > 0 else None
     m90, n90 = folds(T, 0.0)
     hist.append(n90)
     # deformation matrices: posed response to unit rest offsets through a temporary key (1 mm)
@@ -546,14 +601,27 @@ for ang in ANGLES:
     set_key(tmp, Dk); Pk = evaluated(); _, nk = folds(Pk, 0.0)
     resid = float(np.linalg.norm(T - Pk, axis=1).max() * 1000)
     tmp.value = 0.0; set_key(tmp, np.zeros((n, 3)))
+    patched = {}
     for s, sg in (("r", 1.0), ("l", -1.0)):
         side = (np.sign(R0[:, 0]) == sg)
         kname = f"{FAMILY[0]}{s}" if MODE == "combo" else f"{FAMILY[0]}{s}_{int(round(elev[s])) if MODE == 'hinge' else ang}"
+        if PATCH:                                              # add to the existing key, scaled by its value here
+            kb = me.shape_keys.key_blocks[kname]
+            if kb.value < 0.5:
+                raise SystemExit(f"patch: {kname} is at {kb.value:.3f} at its own pose")
+            c_ = np.empty(n * 3); kb.data.foreach_get("co", c_)
+            kb.data.foreach_set("co", (c_.reshape(-1, 3) + Dk * side[:, None] / kb.value).ravel()); me.update()
+            patched[kname] = round(float(kb.value), 4)
+            continue
         kb = body.shape_key_add(name=kname, from_mix=False); kb.value = 0.0
         set_key(kb, Dk * side[:, None])
         made.setdefault(s, []).append(elev[s] if MODE != "combo" else
                                       [float(drives.elevation_deg(rig, s)), float(r121_drives.elbow_flex_deg(rig, s))])
+    if PATCH:                                                  # the patched keys reproduce the target at this pose
+        pose(ang); patch_resid = round(float(np.linalg.norm(T - evaluated(), axis=1).max() * 1000), 3)
     REP["keys"][str(ang)] = {"elevation_deg": elev, "folds_gt90_before": int(folds(P, 0.0)[1]), "unfold_history": hist, "contact_history": contact_hist, "post_guard_overlaps": postguard_hist, "crumple_gt35_history": crum,
+                             "ridge_excess_history_mm": ridge_hist,
+                             **({"patched": patched, "patched_residual_max_mm": patch_resid} if PATCH else {}),
                              "folds_gt90_with_key": nk, "max_offset_mm": round(float(np.linalg.norm(Dk, axis=1).max() * 1000), 2),
                              "vertices": int(len(sel)), "fit_residual_max_mm": round(resid, 3)}
     print("ARMKEY", ang, json.dumps(REP["keys"][str(ang)]), flush=True)
@@ -581,7 +649,7 @@ if MODE == "hinge":
                     c += dv * (o.reshape(-1, 3) - R0)
             kn.data.foreach_set("co", c.ravel())
             REP.setdefault("folded_in", {})[names[k_new]] = {nm: round(v0 - after.get(nm, 0.0), 3) for nm, v0 in before.items()}
-for s in ("l", "r"):
+for s in ("l", "r") if not PATCH else ():                   # a patch leaves the drive data as it is
     rig[f"{FAMILY[1]}_{s}"] = made[s][0] if MODE == "combo" else made[s]
 bench._reset(rig)
 for kb in me.shape_keys.key_blocks:

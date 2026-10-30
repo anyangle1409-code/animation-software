@@ -2399,3 +2399,21 @@ them.
 
 **Later (29 Oct): H3 is now the current best candidate.** It is E8c plus a deep hip key (135°) re-authored with the
 same guarded-restore contact. Deadlift intersections fall from 1885 to 1011, and the other movements are unchanged.
+
+## Update 30 Oct 2026: posterior armpit judged against the reference photos
+
+**The posterior armpit fold at the press lockout**, compared with the owner's reference photos:
+
+- **The fold mass** (latissimus and teres major) is anatomical and stays.
+- **The pointed corner where it meets the arm** is a skinning artifact. Its relief is +6.3 mm at the lockout against
+  +1.9 mm at rest, and the column's skin follows shoulder_cap, latissimus and spine rather than the humerus.
+
+**Tried, not adopted:** pose-ridge relief patched into the arm keys (AX1, AX2), and applied directly at the press. Both
+are now default-off options in `r121_arm_correctives_blender.py`. The relief metric drops, but the corner stays or turns
+into a notch.
+
+**Owner decision:** a latissimus / teres major helper, a sculpted posterior-fold key, or muscle-driven skin.
+
+**New diagnostic:** `axilla_fold_diag_blender.py`.
+
+H3 is still the current best candidate. Details are in `docs/R121_MOVEMENT_TRAJECTORIES_20261024.md` (last section).

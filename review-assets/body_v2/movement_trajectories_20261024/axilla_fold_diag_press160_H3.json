@@ -1,0 +1,497 @@
+{
+ "pose": "press",
+ "ht_deg": 160.0,
+ "girdle_frame": "isb",
+ "smooth_rounds": 60,
+ "sign": "crease depth = vertex offset from a smoothed surface along the normal; <0 crease, >0 ridge / cone",
+ "rest": {
+  "back_side_lat_l": {
+   "min_mm": -2.08,
+   "p1_mm": -1.43,
+   "p99_mm": 3.05,
+   "max_mm": 4.41,
+   "n_crease_gt3mm": 0,
+   "n_ridge_gt3mm": 82
+  },
+  "back_side_lat_r": {
+   "min_mm": -3.56,
+   "p1_mm": -1.52,
+   "p99_mm": 3.11,
+   "max_mm": 4.35,
+   "n_crease_gt3mm": 2,
+   "n_ridge_gt3mm": 96
+  },
+  "axilla_floor_l": {
+   "min_mm": -5.53,
+   "p1_mm": -3.1,
+   "p99_mm": 1.55,
+   "max_mm": 2.04,
+   "n_crease_gt3mm": 43,
+   "n_ridge_gt3mm": 0
+  },
+  "axilla_floor_r": {
+   "min_mm": -5.14,
+   "p1_mm": -3.21,
+   "p99_mm": 1.51,
+   "max_mm": 1.78,
+   "n_crease_gt3mm": 47,
+   "n_ridge_gt3mm": 0
+  },
+  "chest_side_pec_l": {
+   "min_mm": -3.88,
+   "p1_mm": -2.47,
+   "p99_mm": 2.68,
+   "max_mm": 3.6,
+   "n_crease_gt3mm": 36,
+   "n_ridge_gt3mm": 22
+  },
+  "chest_side_pec_r": {
+   "min_mm": -3.85,
+   "p1_mm": -2.34,
+   "p99_mm": 2.61,
+   "max_mm": 3.34,
+   "n_crease_gt3mm": 32,
+   "n_ridge_gt3mm": 17
+  },
+  "upper_arm_l": {
+   "min_mm": -1.81,
+   "p1_mm": -0.81,
+   "p99_mm": 2.22,
+   "max_mm": 2.62,
+   "n_crease_gt3mm": 0,
+   "n_ridge_gt3mm": 0
+  },
+  "upper_arm_r": {
+   "min_mm": -1.85,
+   "p1_mm": -0.8,
+   "p99_mm": 2.22,
+   "max_mm": 2.59,
+   "n_crease_gt3mm": 0,
+   "n_ridge_gt3mm": 0
+  },
+  "deltoid_cap_l": {
+   "min_mm": -7.53,
+   "p1_mm": -2.25,
+   "p99_mm": 3.52,
+   "max_mm": 5.21,
+   "n_crease_gt3mm": 40,
+   "n_ridge_gt3mm": 207
+  },
+  "deltoid_cap_r": {
+   "min_mm": -7.33,
+   "p1_mm": -2.07,
+   "p99_mm": 3.46,
+   "max_mm": 5.49,
+   "n_crease_gt3mm": 32,
+   "n_ridge_gt3mm": 210
+  }
+ },
+ "lock_all": {
+  "back_side_lat_l": {
+   "min_mm": -2.12,
+   "p1_mm": -1.42,
+   "p99_mm": 2.84,
+   "max_mm": 3.32,
+   "n_crease_gt3mm": 0,
+   "n_ridge_gt3mm": 31
+  },
+  "back_side_lat_r": {
+   "min_mm": -2.24,
+   "p1_mm": -1.46,
+   "p99_mm": 2.83,
+   "max_mm": 3.28,
+   "n_crease_gt3mm": 0,
+   "n_ridge_gt3mm": 31
+  },
+  "axilla_floor_l": {
+   "min_mm": -2.8,
+   "p1_mm": -2.02,
+   "p99_mm": 1.63,
+   "max_mm": 1.9,
+   "n_crease_gt3mm": 0,
+   "n_ridge_gt3mm": 0
+  },
+  "axilla_floor_r": {
+   "min_mm": -3.32,
+   "p1_mm": -2.05,
+   "p99_mm": 1.38,
+   "max_mm": 1.7,
+   "n_crease_gt3mm": 5,
+   "n_ridge_gt3mm": 0
+  },
+  "chest_side_pec_l": {
+   "min_mm": -2.99,
+   "p1_mm": -2.05,
+   "p99_mm": 2.31,
+   "max_mm": 3.48,
+   "n_crease_gt3mm": 0,
+   "n_ridge_gt3mm": 9
+  },
+  "chest_side_pec_r": {
+   "min_mm": -3.25,
+   "p1_mm": -1.75,
+   "p99_mm": 2.27,
+   "max_mm": 3.19,
+   "n_crease_gt3mm": 5,
+   "n_ridge_gt3mm": 7
+  },
+  "upper_arm_l": {
+   "min_mm": -1.72,
+   "p1_mm": -0.79,
+   "p99_mm": 2.25,
+   "max_mm": 2.62,
+   "n_crease_gt3mm": 0,
+   "n_ridge_gt3mm": 0
+  },
+  "upper_arm_r": {
+   "min_mm": -1.75,
+   "p1_mm": -0.8,
+   "p99_mm": 2.24,
+   "max_mm": 2.59,
+   "n_crease_gt3mm": 0,
+   "n_ridge_gt3mm": 0
+  },
+  "deltoid_cap_l": {
+   "min_mm": -6.15,
+   "p1_mm": -3.81,
+   "p99_mm": 4.19,
+   "max_mm": 6.29,
+   "n_crease_gt3mm": 224,
+   "n_ridge_gt3mm": 421
+  },
+  "deltoid_cap_r": {
+   "min_mm": -5.97,
+   "p1_mm": -3.68,
+   "p99_mm": 4.14,
+   "max_mm": 6.25,
+   "n_crease_gt3mm": 231,
+   "n_ridge_gt3mm": 365
+  },
+  "junction_l": {
+   "vertices": 13431,
+   "pose_ridge_max_mm": 5.5,
+   "at_rest_xyz": [
+    -0.174,
+    0.109,
+    1.385
+   ],
+   "n_pose_ridge_gt1.5mm": 975,
+   "n_pose_ridge_gt3mm": 269,
+   "n_pose_crease_gt3mm": 176,
+   "pose_crease_min_mm": -9.95
+  },
+  "junction_r": {
+   "vertices": 13476,
+   "pose_ridge_max_mm": 4.56,
+   "at_rest_xyz": [
+    0.167,
+    -0.026,
+    1.419
+   ],
+   "n_pose_ridge_gt1.5mm": 1044,
+   "n_pose_ridge_gt3mm": 257,
+   "n_pose_crease_gt3mm": 212,
+   "pose_crease_min_mm": -6.33
+  },
+  "deepest_crease_r": {
+   "mm": -5.97,
+   "zone": "deltoid_cap",
+   "rest_xyz": [
+    0.292,
+    0.043,
+    1.462
+   ],
+   "posed_xyz": [
+    0.269,
+    0.05,
+    1.576
+   ]
+  },
+  "highest_ridge_r": {
+   "mm": 6.25,
+   "zone": "deltoid_cap",
+   "rest_xyz": [
+    0.176,
+    0.118,
+    1.387
+   ],
+   "posed_xyz": [
+    0.276,
+    -0.018,
+    1.465
+   ]
+  }
+ },
+ "lock_no_r121": {
+  "back_side_lat_l": {
+   "min_mm": -2.1,
+   "p1_mm": -1.43,
+   "p99_mm": 2.89,
+   "max_mm": 3.69,
+   "n_crease_gt3mm": 0,
+   "n_ridge_gt3mm": 53
+  },
+  "back_side_lat_r": {
+   "min_mm": -2.97,
+   "p1_mm": -1.52,
+   "p99_mm": 2.91,
+   "max_mm": 3.75,
+   "n_crease_gt3mm": 0,
+   "n_ridge_gt3mm": 49
+  },
+  "axilla_floor_l": {
+   "min_mm": -3.98,
+   "p1_mm": -2.24,
+   "p99_mm": 1.63,
+   "max_mm": 1.9,
+   "n_crease_gt3mm": 10,
+   "n_ridge_gt3mm": 0
+  },
+  "axilla_floor_r": {
+   "min_mm": -3.88,
+   "p1_mm": -2.24,
+   "p99_mm": 1.38,
+   "max_mm": 1.7,
+   "n_crease_gt3mm": 7,
+   "n_ridge_gt3mm": 0
+  },
+  "chest_side_pec_l": {
+   "min_mm": -3.69,
+   "p1_mm": -2.33,
+   "p99_mm": 2.31,
+   "max_mm": 3.49,
+   "n_crease_gt3mm": 15,
+   "n_ridge_gt3mm": 9
+  },
+  "chest_side_pec_r": {
+   "min_mm": -3.82,
+   "p1_mm": -2.41,
+   "p99_mm": 2.28,
+   "max_mm": 3.19,
+   "n_crease_gt3mm": 19,
+   "n_ridge_gt3mm": 7
+  },
+  "upper_arm_l": {
+   "min_mm": -1.72,
+   "p1_mm": -0.79,
+   "p99_mm": 2.25,
+   "max_mm": 2.62,
+   "n_crease_gt3mm": 0,
+   "n_ridge_gt3mm": 0
+  },
+  "upper_arm_r": {
+   "min_mm": -1.75,
+   "p1_mm": -0.8,
+   "p99_mm": 2.24,
+   "max_mm": 2.59,
+   "n_crease_gt3mm": 0,
+   "n_ridge_gt3mm": 0
+  },
+  "deltoid_cap_l": {
+   "min_mm": -6.8,
+   "p1_mm": -4.05,
+   "p99_mm": 4.31,
+   "max_mm": 6.51,
+   "n_crease_gt3mm": 241,
+   "n_ridge_gt3mm": 417
+  },
+  "deltoid_cap_r": {
+   "min_mm": -6.46,
+   "p1_mm": -4.09,
+   "p99_mm": 4.23,
+   "max_mm": 6.23,
+   "n_crease_gt3mm": 269,
+   "n_ridge_gt3mm": 390
+  },
+  "junction_l": {
+   "vertices": 13431,
+   "pose_ridge_max_mm": 4.82,
+   "at_rest_xyz": [
+    -0.167,
+    -0.021,
+    1.413
+   ],
+   "n_pose_ridge_gt1.5mm": 954,
+   "n_pose_ridge_gt3mm": 254,
+   "n_pose_crease_gt3mm": 221,
+   "pose_crease_min_mm": -8.7
+  },
+  "junction_r": {
+   "vertices": 13476,
+   "pose_ridge_max_mm": 5.09,
+   "at_rest_xyz": [
+    0.172,
+    -0.025,
+    1.444
+   ],
+   "n_pose_ridge_gt1.5mm": 1000,
+   "n_pose_ridge_gt3mm": 251,
+   "n_pose_crease_gt3mm": 220,
+   "pose_crease_min_mm": -8.93
+  },
+  "deepest_crease_r": {
+   "mm": -6.46,
+   "zone": "deltoid_cap",
+   "rest_xyz": [
+    0.296,
+    0.049,
+    1.458
+   ],
+   "posed_xyz": [
+    0.277,
+    0.052,
+    1.575
+   ]
+  },
+  "highest_ridge_r": {
+   "mm": 6.23,
+   "zone": "deltoid_cap",
+   "rest_xyz": [
+    0.178,
+    0.122,
+    1.387
+   ],
+   "posed_xyz": [
+    0.281,
+    -0.019,
+    1.467
+   ]
+  }
+ },
+ "lock_lbs_only": {
+  "back_side_lat_l": {
+   "min_mm": -1.8,
+   "p1_mm": -1.29,
+   "p99_mm": 2.87,
+   "max_mm": 4.17,
+   "n_crease_gt3mm": 0,
+   "n_ridge_gt3mm": 48
+  },
+  "back_side_lat_r": {
+   "min_mm": -3.22,
+   "p1_mm": -1.35,
+   "p99_mm": 2.9,
+   "max_mm": 4.18,
+   "n_crease_gt3mm": 1,
+   "n_ridge_gt3mm": 55
+  },
+  "axilla_floor_l": {
+   "min_mm": -3.14,
+   "p1_mm": -2.37,
+   "p99_mm": 1.26,
+   "max_mm": 1.71,
+   "n_crease_gt3mm": 5,
+   "n_ridge_gt3mm": 0
+  },
+  "axilla_floor_r": {
+   "min_mm": -3.16,
+   "p1_mm": -2.36,
+   "p99_mm": 1.21,
+   "max_mm": 1.41,
+   "n_crease_gt3mm": 2,
+   "n_ridge_gt3mm": 0
+  },
+  "chest_side_pec_l": {
+   "min_mm": -3.65,
+   "p1_mm": -2.44,
+   "p99_mm": 2.34,
+   "max_mm": 3.46,
+   "n_crease_gt3mm": 11,
+   "n_ridge_gt3mm": 9
+  },
+  "chest_side_pec_r": {
+   "min_mm": -3.57,
+   "p1_mm": -2.4,
+   "p99_mm": 2.27,
+   "max_mm": 3.15,
+   "n_crease_gt3mm": 14,
+   "n_ridge_gt3mm": 6
+  },
+  "upper_arm_l": {
+   "min_mm": -1.72,
+   "p1_mm": -0.78,
+   "p99_mm": 2.27,
+   "max_mm": 2.99,
+   "n_crease_gt3mm": 0,
+   "n_ridge_gt3mm": 0
+  },
+  "upper_arm_r": {
+   "min_mm": -1.75,
+   "p1_mm": -0.78,
+   "p99_mm": 2.26,
+   "max_mm": 2.75,
+   "n_crease_gt3mm": 0,
+   "n_ridge_gt3mm": 0
+  },
+  "deltoid_cap_l": {
+   "min_mm": -8.01,
+   "p1_mm": -2.64,
+   "p99_mm": 5.81,
+   "max_mm": 13.96,
+   "n_crease_gt3mm": 81,
+   "n_ridge_gt3mm": 1067
+  },
+  "deltoid_cap_r": {
+   "min_mm": -8.44,
+   "p1_mm": -2.69,
+   "p99_mm": 5.97,
+   "max_mm": 13.73,
+   "n_crease_gt3mm": 89,
+   "n_ridge_gt3mm": 1049
+  },
+  "junction_l": {
+   "vertices": 13431,
+   "pose_ridge_max_mm": 7.26,
+   "at_rest_xyz": [
+    -0.297,
+    0.055,
+    1.461
+   ],
+   "n_pose_ridge_gt1.5mm": 673,
+   "n_pose_ridge_gt3mm": 104,
+   "n_pose_crease_gt3mm": 104,
+   "pose_crease_min_mm": -6.62
+  },
+  "junction_r": {
+   "vertices": 13476,
+   "pose_ridge_max_mm": 6.46,
+   "at_rest_xyz": [
+    0.299,
+    0.061,
+    1.459
+   ],
+   "n_pose_ridge_gt1.5mm": 695,
+   "n_pose_ridge_gt3mm": 80,
+   "n_pose_crease_gt3mm": 103,
+   "pose_crease_min_mm": -6.49
+  },
+  "deepest_crease_r": {
+   "mm": -8.44,
+   "zone": "deltoid_cap",
+   "rest_xyz": [
+    0.296,
+    0.091,
+    1.445
+   ],
+   "posed_xyz": [
+    0.309,
+    0.043,
+    1.541
+   ]
+  },
+  "highest_ridge_r": {
+   "mm": 13.73,
+   "zone": "deltoid_cap",
+   "rest_xyz": [
+    0.299,
+    0.058,
+    1.456
+   ],
+   "posed_xyz": [
+    0.293,
+    0.022,
+    1.558
+   ]
+  }
+ }
+}

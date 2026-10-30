@@ -1356,3 +1356,88 @@ The knee keys stay as in T3.
 **Note on the deadlift's first frame.** It shows 403 hand-against-thigh intersections in every candidate (T3 and H3
 alike). The r57 deadlift starts with the arms hanging straight down, through the thighs. By frame 4 they are gone. This
 is a test-path artifact, like the lunge's.
+
+## Posterior armpit at the press lockout: judgement against the reference photos (30 Oct 2026)
+
+Open item 4 of the handover: "comes from the skin weights, and part of it is anatomical. Needs a judgement against
+reference photos." H3's press lockout (160°, elbows straight, ISB frame) was compared with the owner's front-view
+press reference (lockout panel) and a back-view dumbbell-press photo. Both photos stay in scratch, not in git.
+
+**What the references show.** At the lockout the armpit is an open hollow. The posterior axillary fold (latissimus
+dorsi and teres major) is a thick, rounded column that runs from the side of the chest into the underside of the upper
+arm without a corner. From behind, the outline from the triceps into the latissimus is one smooth curve.
+
+**What H3 shows** (`posterior_axilla_H3_press160_closeups.jpg`: back three-quarter, side, front three-quarter, below):
+
+1. **The posterior fold mass:** present, in the right place, of plausible size. This part is anatomical and stays.
+2. **A pointed corner where that column meets the arm:** a downward-pointing tip on the arm's medial outline in the
+   front three-quarter view, a sharp tip with a crease around it from the side, and a small step in the outline from
+   behind. **This is not anatomical:** the references have no corner there.
+3. Separately, the anterior fold (pectoral edge) carries a few thin streak creases in the front three-quarter view.
+
+At full-body phone scale the corner is barely visible. It shows in close-ups.
+
+**Measurements** (`axilla_fold_diag_blender.py`, new, read-only; report `axilla_fold_diag_press160_H3.json`). The
+diagnostic measures relief: each vertex's offset, along the normal, from a Laplacian-smoothed copy of the surface (60
+rounds ≈ 1.5 cm; positive is a ridge or cone, negative a crease). It reports this per rest-space zone, and as
+pose-made relief (posed minus rest) on the arm–torso junction skin, meaning vertices with at least 0.1 weight on both an
+arm bone (upperarm, shoulder_cap) and a torso bone (muscle_lat, spine, scapula).
+
+- **The tip vertex.** It sits at rest at (0.176, 0.118, 1.387), at the lower edge of the latissimus column.
+  - Its relief is +6.25 mm at the lockout and +1.87 mm at rest (1.5 cm scale).
+  - At larger scales: +15.4 vs +2.9 mm (about 3 cm), and +29.9 vs +6.6 mm (about 5 cm). It is a form a few
+    centimetres across, not a local crumple.
+- **What makes it.** The tip is the plain skinning's.
+  - Within 3 cm of the tip the weights are shoulder_cap 0.49, muscle_lat 0.23, upperarm 0.14, spine_03 0.08,
+    scapula 0.04.
+  - Only `R121_ARM_r_150` moves those vertices at the lockout (at most 2.4 mm, mean 0.3 mm). The neutralised legacy
+    keys are zero there.
+  - Without the R121 keys the tip reads +6.23 mm.
+- **Why there is a corner.** The skin of the column follows mostly shoulder_cap, latissimus and spine. At full
+  elevation it does not follow the humerus, where the latissimus and teres major actually insert, so the column ends
+  against the arm in a corner. The section through the humeral axis and the tip shows it
+  (`posterior_axilla_sections_H3_vs_AX2.png`, red).
+- **Side labels.** The rig's `_r` side lives at +x (docs/ARCHITECTURE.md, "Handedness"). The new diagnostic labels by
+  rig side. `lockout_stretch_diag_blender.py` labelled +x "left"; it now says `r(+x)`. Its committed
+  `lockout_stretch_diag_T3.json` keeps the old labels: there, "left(+x)" is the rig's right.
+
+**Tried: pose-ridge relief, not adopted.** This adds two default-off options to `r121_arm_correctives_blender.py`:
+
+- `V2_R121_ARMKEY_RIDGE_MM` (with `_SCALE` and `_ITERS`) pushes the pose-made relief at the junction skin above the
+  threshold back along the normal, keeping the rest relief.
+- `V2_R121_ARMKEY_PATCH=1` adds the correction to the family's existing key at each angle instead of authoring new
+  keys. Only the ridge step runs; the drive data stay as they are.
+
+| Pose-made relief over 3 mm at the junction (vertices, l / r) | H3 | AX1 (patch abd 120/150, 1.5 cm scale, 1.5 mm) |
+|---|---|---|
+| Press 160 | 269 / 257 | 20 / 12 |
+| Sideways raise 150 | 186 / 197 | 0 / 0 |
+| Sideways raise 120 | 84 / 99 | 0 / 0 |
+| Forward raise 150 | 227 / 209 | 44 / 24 |
+| Tip relief at the press | +6.25 mm | +6.15 mm |
+
+- **AX1:** the metric drops, but the visible corner does not change (`posterior_axilla_relief_H3_vs_AX1.jpg`,
+  `posterior_axilla_abd150_H3_AX1_AX2.jpg`). Offsets were up to 11 mm on 10k vertices, for no visible gain.
+- **AX2** (3 cm scale, 3 mm): the corner is pushed in by about 2 cm. It becomes a notch with a new kink in the section
+  (`posterior_axilla_sections_H3_vs_AX2.png`, blue; `posterior_axilla_press160_H3_vs_AX2.jpg`). That is worse.
+- **Applied directly at the press pose** (a posed-space prototype, no key): at 1.5 cm the tip barely changes and the
+  iteration does not converge (4.0 → 3.0 mm); at 3 cm the side view softens, but the front tip stays.
+
+A filter on relief along the normal can shave or dent this form; it cannot re-route it.
+
+**Default path unchanged:** re-authoring H3's press-rack key without the new options reproduces it exactly (0.0000 mm).
+
+Patch reports: `r121_arm_correctives_abd_patch_report_AX1.json`, `..._AX2.json`.
+
+**Verdict.**
+
+- **The fold mass:** anatomical; keep it.
+- **The corner at its humeral end:** a skinning artifact, minor at phone scale. It needs a change of form, not a
+  filter. The options, all for the owner to decide:
+  1. **A latissimus / teres major helper:** a weight band or helper bone that carries the column's skin towards the
+     humerus above about 120°. It changes the bind, so every arm key needs re-authoring, and P1 showed that even
+     0.08-weight changes disturb the tuned folds.
+  2. **A sculpted, reference-driven target for the posterior fold** at 120–160°, authored as a key in the arm family,
+     as the deep hip key was authored in the deadlift.
+  3. **Muscle-driven skin:** latissimus and teres major envelopes in the muscle layer pushing the skin. This is the
+     system-level route, and depends on the muscle layer's skin response (not built yet).

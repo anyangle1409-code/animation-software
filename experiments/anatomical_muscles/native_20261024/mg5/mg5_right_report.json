@@ -3,6 +3,7 @@
  "input": "HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG4_shoulder_right.blend",
  "input_sha256": "d27891b1bf39b846213d83ec77134a4254dda8c20f629993755c0e203b503558",
  "side": "right",
+ "mode": "axilla",
  "frame": "fan sheets: origin line -> via point on the armpit fold -> insertion line on the humerus",
  "rules": {
   "subcutaneous_layer_m": 0.004,
@@ -21,6 +22,7 @@
      1.415,
      1.375
     ],
+    "via_fibre_fraction": null,
     "thickness_trunk_fold_m": [
      0.006,
      0.016
@@ -41,6 +43,7 @@
      1.385,
      1.405
     ],
+    "via_fibre_fraction": null,
     "thickness_trunk_fold_m": [
      0.02,
      0.022
@@ -64,6 +67,7 @@
      1.445,
      1.395
     ],
+    "via_fibre_fraction": null,
     "thickness_trunk_fold_m": [
      0.01,
      0.018
@@ -88,6 +92,7 @@
      1.455,
      1.48
     ],
+    "via_fibre_fraction": null,
     "thickness_trunk_fold_m": [
      0.01,
      0.014
@@ -459,7 +464,7 @@
   "overlap_pairs_involving_mg5": {}
  },
  "output_blend": "HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG5_axilla_right.blend",
- "output_sha256": "bd4461ce1ce54a0d4e7dea8e53c4c0a18cfc6e2ccf8ad1290093108c99c359cd",
+ "output_sha256": "f6689741ed93db70f71af8531e64d8b621e363bf63eeb99ed1d3eff79c55590d",
  "input_unchanged": true,
  "renders": {
   "muscle": [

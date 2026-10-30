@@ -23,7 +23,15 @@ report counts vertices within 6 mm of a rib guide segment.  All numbers are auth
 anatomy, not fitted.  Permanent IDs, neutral colour, no activation.  Bound to the anatomical chain: origin bone(s) on
 the trunk part, blending to the humerus from the via point to the insertion.  Saves a NEW blend; the input is unchanged.
 
-usage: python3.13 build_axillary_fold_envelopes_blender.py -- MG4.blend MG4_SHA256 anchors.json OUT_DIR [left|right]
+MODE gluteal (MG8, 6th argument): the same fan machinery for gluteus maximus (posterior iliac crest -> sacrum ->
+coccyx, onto the iliotibial-tract end of the gluteal tuberosity line, with twist) and gluteus medius (outer iliac crest
+-> greater trochanter, deep to the maximus), on an MG7 blend with proposed_anchors_lower_<side>.json.  There is no
+armpit fold: the via point is a fixed fraction along the fibre (the belly leaves the buttock / hip surface for the
+femur there), the projection axis is a vertical line inside the body - x = 0 has no
+skin at crotch height, so it is the vertical through HJC - and the insertion lines slide along the femoral mechanical
+axis HJC -> KJC.
+
+usage: python3.13 build_axillary_fold_envelopes_blender.py -- IN.blend IN_SHA256 anchors.json OUT_DIR [left|right] [axilla|gluteal]
 """
 import hashlib
 import json
@@ -39,8 +47,10 @@ args = sys.argv[sys.argv.index("--") + 1:]
 src, expected, anchors_p, outdir = Path(args[0]), args[1], Path(args[2]), Path(args[3])
 SIDE = args[4] if len(args) > 4 else "left"
 SUF = "L" if SIDE == "left" else "R"
+MODE = args[5] if len(args) > 5 else "axilla"
+TAG, RP = {"axilla": ("MG5_axilla", "mg5"), "gluteal": ("MG8_gluteal", "mg8")}[MODE]
 outdir.mkdir(parents=True, exist_ok=True)
-OUT = outdir / f"HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG5_axilla_{SIDE}.blend"
+OUT = outdir / f"HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_{TAG}_{SIDE}.blend"
 if OUT.exists():
     raise ValueError("output blend must be new")
 if hashlib.sha256(src.read_bytes()).hexdigest() != expected:
@@ -63,11 +73,15 @@ def bone(n, end="head"):
     return anat.matrix_world @ (b.head_local if end == "head" else b.tail_local)
 
 
-GH, EJC = LM(f"scapula_{SIDE}__GH"), LM(f"humerus_{SIDE}__EJC")
+if MODE == "axilla":                                        # insertion lines slide along the humerus / the femur
+    GH, EJC = LM(f"scapula_{SIDE}__GH"), LM(f"humerus_{SIDE}__EJC")
+else:
+    GH, EJC = LM(f"hip_bone_{SIDE}__HJC"), LM(f"femur_{SIDE}__KJC")
 AX = (EJC - GH).normalized(); LH = (EJC - GH).length
 lat = 1.0 if GH.x > 0 else -1.0
-SC, AC, AI = LM(f"clavicle_{SIDE}__SC"), LM(f"clavicle_{SIDE}__AC"), LM(f"scapula_{SIDE}__AI")
-ST0, ST1 = bone("anat_sternum"), bone("anat_sternum", "tail")
+if MODE == "axilla":
+    SC, AC, AI = LM(f"clavicle_{SIDE}__SC"), LM(f"clavicle_{SIDE}__AC"), LM(f"scapula_{SIDE}__AI")
+    ST0, ST1 = bone("anat_sternum"), bone("anat_sternum", "tail")
 
 
 def X(x, y, z):                                             # authored for the left side (+x lateral); mirrored
@@ -106,8 +120,16 @@ def y_c(z):
     return _YC[k]
 
 
+def axis_pt(z):
+    """the projection axis: the thorax axis (axilla) or a vertical line inside the pelvis (gluteal)"""
+    if MODE == "gluteal":                                   # the vertical through HJC: inside the body at every height
+        return Vector((GH.x, GH.y, z))                      # the fibres reach (a line 40 mm lateral of the midline lay
+                                                            # between the thighs below 0.92 m and hit the inner thigh)
+    return Vector((0.0, y_c(z), z))
+
+
 def radial_hit(p):
-    c = Vector((0.0, y_c(p.z), p.z)); d = Vector((p.x, p.y - c.y, 0.0))
+    c = axis_pt(p.z); d = Vector((p.x - c.x, p.y - c.y, 0.0))
     if d.length < 1e-6:
         return None
     d.normalize()
@@ -127,7 +149,7 @@ SWEEP = 70                                                  # deg from straight 
 def junction(z, back):
     """where the trunk skin meets the arm skin at height z, on the front (pectoralis) or back (latissimus) fold; below
     the armpit apex (no arm hit within the sweep) the trunk's front- / back-lateral corner at SWEEP deg"""
-    c = Vector((0.0, y_c(z), z)); prev = None
+    c = axis_pt(z); prev = None
     for k in range(0, SWEEP + 1, 2):
         a = math.radians(k)
         d = Vector((lat * math.sin(a), (1.0 if back else -1.0) * math.cos(a), 0.0))
@@ -172,48 +194,76 @@ def polyline(pts, u):
 
 # ---- the four fans (authored for the left side; X() mirrors).  origin(u), insertion s-range (u=0 -> u=1), via height
 #      range, belly thickness (trunk part, fold part), tendon fraction, deep-to list, origin bone(s)
-LAT_ORIGIN = [X(0.015, 0.12, 1.395), X(0.022, 0.12, 1.25), X(0.06, 0.12, 1.12), X(0.10, 0.11, 1.075), X(0.135, 0.09, 1.085)]
-AA_, TS_ = LM(f"scapula_{SIDE}__AA"), LM(f"scapula_{SIDE}__TS")
-_SCN = (AA_ - TS_).cross(AI - TS_).normalized()               # scapular-plane normal
-_TMF = (anchor(f"hgpt.muscle.teres_major.{SUF}", "insertion") - AI).normalized()   # teres fibre direction
-_TMP = _TMF.cross(_SCN).normalized()                         # across the fibres, in the scapular plane
-_TMC = AI + _TMF * 0.022                                     # the dorsal inferior angle, 22 mm up the fibre line
-TM_ORIGIN = [_TMC - _TMP * 0.0175, _TMC + _TMP * 0.0175]
-FANS = {
-    "latissimus_dorsi": {
-        "origin": lambda u: polyline(LAT_ORIGIN, u),
-        "ins_s": (0.20, 0.10), "via_z": (1.415, 1.375), "back": True,
-        "T": (0.006, 0.016), "tendon_t": 0.86, "deep_to": [], "separate_from": ["triceps_long"],
-        "origin_bone": lambda p: "anat_hip_bone_" + SIDE if p.z < 1.09 else min(
-            ("anat_t7", "anat_t8", "anat_t9", "anat_t10", "anat_t11", "anat_t12", "anat_l1", "anat_l2", "anat_l3", "anat_l4", "anat_l5"),
-            key=lambda n: abs(bone(n).z - p.z)),
-        "rule": "origin line: T7 spinous level 15 mm lateral -> T12 -> L3 70 mm lateral -> posterior iliac crest (the belly's "
-                "medial edge; the thoracolumbar aponeurosis medial to it is not modelled); twist: upper fibres insert lowest"},
-    "teres_major": {
-        "origin": lambda u: lerp(TM_ORIGIN[0], TM_ORIGIN[1], u),
-        "ins_s": (0.25, 0.15), "via_z": (1.385, 1.405), "back": True,
-        "T": (0.020, 0.022), "tendon_t": 0.88, "deep_to": ["latissimus_dorsi"], "separate_from": ["triceps_long"],
-        "origin_bone": lambda p: f"anat_scapula_{SIDE}",
-        "rule": "origin: 35 mm across the dorsal inferior angle, perpendicular to the fibres in the scapular plane, centred 22 mm "
-                "from AI along the fibre line (an origin along the lateral border ran parallel to the fibres and folded the "
-                "sheet); deep to the latissimus"},
-    "pectoralis_major_sternocostal": {
-        "origin": lambda u: (sternal(lerp(1.495, 1.33, u / 0.78)) if u <= 0.78 else
-                             lerp(sternal(1.33), X(0.075, -0.10, 1.315), (u - 0.78) / 0.22)),
-        "ins_s": (0.24, 0.12), "via_z": (1.445, 1.395), "back": False,
-        "T": (0.010, 0.018), "tendon_t": 0.90, "deep_to": ["deltoid_anterior", "pectoralis_major_clavicular"],
-        "origin_bone": lambda p: "anat_sternum",
-        "rule": "origin: sternum 15 mm lateral / 13 mm anterior of the guide line, z 1.495 -> 1.33, then along the 6th costal "
-                "cartilage to 75 mm lateral; twist: the lowest fibres insert highest"},
-    "pectoralis_major_clavicular": {
-        "origin": lambda u: lerp(SC, AC, 0.08 + 0.40 * u) + Vector((0, -0.008, 0)),
-        "ins_s": (0.28, 0.18), "via_z": (1.455, 1.48), "back": False,
-        "T": (0.010, 0.014), "tendon_t": 0.90, "deep_to": ["deltoid_anterior"],
-        "origin_bone": lambda p: f"anat_clavicle_{SIDE}",
-        "rule": "origin: anterior clavicle 8 % -> 48 % SC -> AC, 8 mm anterior; inserts most distally (anterior lamina); the "
-                "medial fibres reach the fold lowest, so the fibres run inferolaterally, oblique to the origin line"},
-}
-ORDER = ["latissimus_dorsi", "teres_major", "pectoralis_major_clavicular", "pectoralis_major_sternocostal"]
+if MODE == "axilla":
+    LAT_ORIGIN = [X(0.015, 0.12, 1.395), X(0.022, 0.12, 1.25), X(0.06, 0.12, 1.12), X(0.10, 0.11, 1.075), X(0.135, 0.09, 1.085)]
+    AA_, TS_ = LM(f"scapula_{SIDE}__AA"), LM(f"scapula_{SIDE}__TS")
+    _SCN = (AA_ - TS_).cross(AI - TS_).normalized()               # scapular-plane normal
+    _TMF = (anchor(f"hgpt.muscle.teres_major.{SUF}", "insertion") - AI).normalized()   # teres fibre direction
+    _TMP = _TMF.cross(_SCN).normalized()                         # across the fibres, in the scapular plane
+    _TMC = AI + _TMF * 0.022                                     # the dorsal inferior angle, 22 mm up the fibre line
+    TM_ORIGIN = [_TMC - _TMP * 0.0175, _TMC + _TMP * 0.0175]
+    FANS = {
+        "latissimus_dorsi": {
+            "origin": lambda u: polyline(LAT_ORIGIN, u),
+            "ins_s": (0.20, 0.10), "via_z": (1.415, 1.375), "back": True,
+            "T": (0.006, 0.016), "tendon_t": 0.86, "deep_to": [], "separate_from": ["triceps_long"],
+            "origin_bone": lambda p: "anat_hip_bone_" + SIDE if p.z < 1.09 else min(
+                ("anat_t7", "anat_t8", "anat_t9", "anat_t10", "anat_t11", "anat_t12", "anat_l1", "anat_l2", "anat_l3", "anat_l4", "anat_l5"),
+                key=lambda n: abs(bone(n).z - p.z)),
+            "rule": "origin line: T7 spinous level 15 mm lateral -> T12 -> L3 70 mm lateral -> posterior iliac crest (the belly's "
+                    "medial edge; the thoracolumbar aponeurosis medial to it is not modelled); twist: upper fibres insert lowest"},
+        "teres_major": {
+            "origin": lambda u: lerp(TM_ORIGIN[0], TM_ORIGIN[1], u),
+            "ins_s": (0.25, 0.15), "via_z": (1.385, 1.405), "back": True,
+            "T": (0.020, 0.022), "tendon_t": 0.88, "deep_to": ["latissimus_dorsi"], "separate_from": ["triceps_long"],
+            "origin_bone": lambda p: f"anat_scapula_{SIDE}",
+            "rule": "origin: 35 mm across the dorsal inferior angle, perpendicular to the fibres in the scapular plane, centred 22 mm "
+                    "from AI along the fibre line (an origin along the lateral border ran parallel to the fibres and folded the "
+                    "sheet); deep to the latissimus"},
+        "pectoralis_major_sternocostal": {
+            "origin": lambda u: (sternal(lerp(1.495, 1.33, u / 0.78)) if u <= 0.78 else
+                                 lerp(sternal(1.33), X(0.075, -0.10, 1.315), (u - 0.78) / 0.22)),
+            "ins_s": (0.24, 0.12), "via_z": (1.445, 1.395), "back": False,
+            "T": (0.010, 0.018), "tendon_t": 0.90, "deep_to": ["deltoid_anterior", "pectoralis_major_clavicular"],
+            "origin_bone": lambda p: "anat_sternum",
+            "rule": "origin: sternum 15 mm lateral / 13 mm anterior of the guide line, z 1.495 -> 1.33, then along the 6th costal "
+                    "cartilage to 75 mm lateral; twist: the lowest fibres insert highest"},
+        "pectoralis_major_clavicular": {
+            "origin": lambda u: lerp(SC, AC, 0.08 + 0.40 * u) + Vector((0, -0.008, 0)),
+            "ins_s": (0.28, 0.18), "via_z": (1.455, 1.48), "back": False,
+            "T": (0.010, 0.014), "tendon_t": 0.90, "deep_to": ["deltoid_anterior"],
+            "origin_bone": lambda p: f"anat_clavicle_{SIDE}",
+            "rule": "origin: anterior clavicle 8 % -> 48 % SC -> AC, 8 mm anterior; inserts most distally (anterior lamina); the "
+                    "medial fibres reach the fold lowest, so the fibres run inferolaterally, oblique to the origin line"},
+    }
+    ORDER = ["latissimus_dorsi", "teres_major", "pectoralis_major_clavicular", "pectoralis_major_sternocostal"]
+else:                                                       # MG8: gluteal fans
+    GMX_ORIGIN = [X(0.075, 0.10, 1.055), X(0.040, 0.10, 0.990), X(0.015, 0.09, 0.925)]
+    GMD_ORIGIN = [X(0.115, -0.04, 1.020), X(0.120, 0.00, 1.045), X(0.100, 0.05, 1.050), X(0.075, 0.08, 1.040)]
+    FANS = {
+        "gluteus_maximus": {
+            "origin": lambda u: polyline(GMX_ORIGIN, u),
+            "ins_s": (0.06, 0.26), "via_frac": 0.88,
+            "T": (0.032, 0.040), "tendon_t": 0.92, "deep_to": [],
+            "origin_bone": lambda p: f"anat_hip_bone_{SIDE}" if p.z > 1.0 else "anat_sacrum",
+            "rule": "origin line: posterior iliac crest near PSIS (75 mm lateral, z 1.055) -> lateral sacrum (40 mm, z 0.99) "
+                    "-> coccyx (15 mm, z 0.925); insertion: the gluteal-tuberosity anchor slid along HJC -> KJC from s 0.06 "
+                    "(upper fibres, towards the iliotibial tract) to 0.26 (lower fibres); the belly stays under the skin "
+                    "to 88 % of the fibre (its upper fibres pass superficially over the trochanter; leaving at 72 % ran "
+                    "them through the medius' insertion)"},
+        "gluteus_medius": {
+            "origin": lambda u: polyline(GMD_ORIGIN, u),
+            "ins_s": (0.13, 0.16), "via_frac": 0.80,
+            "T": (0.014, 0.022), "tendon_t": 0.92, "deep_to": ["gluteus_maximus"], "cap_by_spacing": 0.8,
+            "ceil_from_skin": True,
+            "origin_bone": lambda p: f"anat_hip_bone_{SIDE}",
+            "rule": "origin line along the outer iliac crest from behind the ASIS (115 mm lateral, 40 mm anterior) to the "
+                    "posterior gluteal line (75 mm, 80 mm posterior); insertion: the greater-trochanter anchor, s 0.13 -> "
+                    "0.16; deep to the maximus where the maximus lies under the skin (found from the skin inward: cast "
+                    "from the pelvis axis, the maximus's deep insertion part was hit first); leaves the hip surface at "
+                    "80 %; a converging fan, so no thicker than 0.8x its fibre spacing"},
+    }
+    ORDER = ["gluteus_maximus", "gluteus_medius"]
 
 # ---- existing envelopes on this side (MG1 arm + MG4 deltoid)
 C_MUS, C_TEN = bpy.data.collections["HGPT_EXPERIMENT_MUSCLES"], bpy.data.collections["HGPT_EXPERIMENT_TENDONS"]
@@ -222,18 +272,23 @@ dg = bpy.context.evaluated_depsgraph_get()
 EX_BVH = {o.name: BVHTree.FromObject(o, dg) for o in EXIST}
 
 
-RAY = Vector((0.0123, 0.0217, 1.0)).normalized()
+RAYS = [Vector(v).normalized() for v in ((0.0123, 0.0217, 1.0), (1.0, 0.0311, -0.0173), (-0.0257, 1.0, 0.0419))]
+
+
+def _parity(p, tr, ray):
+    n, q = 0, p.copy()
+    for _ in range(64):
+        h = tr.ray_cast(q, ray, 2.0)
+        if h[0] is None:
+            break
+        n += 1; q = h[0] + ray * 1e-5
+    return n % 2 == 1
 
 
 def inside_tree(p, tr):
-    """ray parity: an odd number of crossings along a fixed ray means inside (independent of face orientation)"""
-    n, q = 0, p.copy()
-    for _ in range(64):
-        h = tr.ray_cast(q, RAY, 2.0)
-        if h[0] is None:
-            break
-        n += 1; q = h[0] + RAY * 1e-5
-    return n % 2 == 1
+    """ray parity (an odd number of crossings means inside, independent of face orientation), as the majority of three
+    rays: one fixed ray that grazes an edge miscounts - it stopped gluteal bellies 'inside' the latissimus"""
+    return sum(_parity(p, tr, r) for r in RAYS) >= 2
 
 
 def inside(p, names=None):
@@ -256,26 +311,29 @@ def thickness(spec, t, tv, u, t_end):
 def fibre(spec, u, mid):
     """origin, via (on the fold), insertion and the via's arc fraction for fibre u"""
     O = spec["origin"](u)
-    zv = lerp(spec["via_z"][0], spec["via_z"][1], u)
-    (jp, jn), _k = junction(zv, spec["back"])
-    V = jp - jn * (FAT + 0.006)
-    c = Vector((0.0, y_c(V.z), V.z))
+    ia, ib = ins_line(mid, *spec["ins_s"]); I = lerp(ia, ib, u)
+    if "via_frac" in spec:                                  # no fold: the belly leaves the surface at a fixed fraction
+        V = lerp(O, I, spec["via_frac"])
+    else:
+        zv = lerp(spec["via_z"][0], spec["via_z"][1], u)
+        (jp, jn), _k = junction(zv, spec["back"])
+        V = jp - jn * (FAT + 0.006)
+    c = axis_pt(V.z)
     for _ in range(40):                                     # clear of the arm / deltoid envelopes, towards the trunk
         if inside(V) is None:
             break
         V = V + (c - V).normalized() * 0.002
-    ia, ib = ins_line(mid, *spec["ins_s"]); I = lerp(ia, ib, u)
     l1, l2 = (V - O).length, (I - V).length
     return O, V, I, l1 / (l1 + l2)
 
 
 def axis_dir(p):
     """horizontal unit vector from p towards the thorax axis (inward)"""
-    d = Vector((-p.x, y_c(p.z) - p.y, 0.0))
+    c = axis_pt(p.z); d = Vector((c.x - p.x, c.y - p.y, 0.0))
     return d.normalized() if d.length > 1e-9 else Vector((0, 0, 0))
 
 
-def mid_point(O, V, I, tv, t, T, ceil=None):
+def mid_point(O, V, I, tv, t, T, ceil=None, from_skin=False):
     """mid-surface point at fraction t along the fibre.  ceil: superficial envelopes this muscle lies under - on the
     trunk the radial cast stops at the first of them (less the gap) instead of the skin; across the fold the point
     moves towards the thorax axis until it is clear of them"""
@@ -285,8 +343,16 @@ def mid_point(O, V, I, tv, t, T, ceil=None):
         if h is None:
             return b, "chord"
         hp, hn, r_skin, d = h
-        c = Vector((0.0, y_c(b.z), b.z)); r_top = r_skin - FAT; under = False
+        c = axis_pt(b.z); r_top = r_skin - FAT; under = False
         for tr in (ceil or []):
+            if from_skin:                                   # only a superficial sheet counts: from the skin inward, its
+                h1 = tr.ray_cast(hp - d * 1e-4, -d, FAT + 0.012)     # outer surface within 16 mm, then its inner one
+                if h1[0] is None:
+                    continue
+                h2 = tr.ray_cast(h1[0] - d * 1e-4, -d, 0.08)
+                if h2[0] is not None and (h2[0] - c).length - GAP < r_top:
+                    r_top = (h2[0] - c).length - GAP; under = True
+                continue
             hh = tr.ray_cast(c, d, r_skin)
             if hh[0] is not None and (hh[0] - c).length - GAP < r_top:
                 r_top = (hh[0] - c).length - GAP; under = True
@@ -315,9 +381,14 @@ def grid(spec, mid, t_ends, deep_bvh=None):
         for k in range(NT):
             t = t_ends[i] * k / (NT - 1)
             T = thickness(spec, t, tv, u, t_ends[i])
-            p, md = mid_point(O, V, I, tv, t, T, deep_bvh); modes[md] += 1
+            p, md = mid_point(O, V, I, tv, t, T, deep_bvh, spec.get("ceil_from_skin", False)); modes[md] += 1
             row.append(p); trow.append(T); mrow.append(md)
         Mg.append(row); Tg.append(trow); MD.append(mrow)
+    if spec.get("cap_by_spacing"):                          # a converging fan: no thicker than its fibre spacing allows
+        for i in range(NU):
+            for k in range(NT):
+                sp = [(Mg[i][k] - Mg[j][k]).length for j in (i - 1, i + 1) if 0 <= j < NU]
+                Tg[i][k] = max(T_MIN, min(Tg[i][k], spec["cap_by_spacing"] * min(sp)))
     # Laplacian smoothing of the mid-surface (the radial cast and the snapping are point-wise)
     for _ in range(3):
         new = [[Mg[i][k].copy() for k in range(NT)] for i in range(NU)]
@@ -501,9 +572,10 @@ def tube(name, a, b, r=0.004, n=8):
 
 
 mat_m = bpy.data.materials.get("HGPT_EXPERIMENT_MUSCLE_NEUTRAL"); mat_t = bpy.data.materials.get("HGPT_EXPERIMENT_TENDON_NEUTRAL")
-HUM = f"anat_humerus_{SIDE}"
+HUM = f"anat_humerus_{SIDE}" if MODE == "axilla" else f"anat_femur_{SIDE}"   # the insertion bone
 DEFORM_ON = []
-for bn in ["anat_sternum", f"anat_hip_bone_{SIDE}"] + [f"anat_t{k}" for k in range(7, 13)] + [f"anat_l{k}" for k in range(1, 6)]:
+for bn in (["anat_sternum", f"anat_hip_bone_{SIDE}"] + [f"anat_t{k}" for k in range(7, 13)] + [f"anat_l{k}" for k in range(1, 6)]
+           if MODE == "axilla" else ["anat_sacrum", f"anat_hip_bone_{SIDE}", f"anat_femur_{SIDE}"]):
     if not anat.data.bones[bn].use_deform:                  # copy-only, as MG1 / MG4 did for the limb bones
         anat.data.bones[bn].use_deform = True; DEFORM_ON.append(bn)
 
@@ -517,10 +589,13 @@ def bind(ob, weights):
 
 
 REP = {"status": "ENVELOPE_PROXY_UNREVIEWED", "input": src.name, "input_sha256": expected, "side": SIDE,
-       "frame": "fan sheets: origin line -> via point on the armpit fold -> insertion line on the humerus",
+       "mode": MODE, "frame": ("fan sheets: origin line -> via point on the armpit fold -> insertion line on the humerus"
+                               if MODE == "axilla" else "fan sheets: origin line -> via point at a fixed fibre fraction -> "
+                               "insertion line along the femoral mechanical axis; projection axis: the vertical through HJC"),
        "rules": {"subcutaneous_layer_m": FAT, "gap_m": GAP, "min_thickness_m": T_MIN, "end_thickness_m": T_END,
                  "fibres": NU, "stations": NT,
-                 "fans": {k: {"insertion_s_u0_u1": v["ins_s"], "via_height_m_u0_u1": v["via_z"],
+                 "fans": {k: {"insertion_s_u0_u1": v["ins_s"], "via_height_m_u0_u1": v.get("via_z"),
+                              "via_fibre_fraction": v.get("via_frac"),
                               "thickness_trunk_fold_m": v["T"], "tendon_fraction": v["tendon_t"], "deep_to": v["deep_to"],
                               "separated_from": v["deep_to"] + v.get("separate_from", []),
                               "rule": v["rule"]} for k, v in FANS.items()}},
@@ -671,7 +746,7 @@ for i, a in enumerate(ALL):
         ov = trees[a.name].overlap(trees[b.name])
         if ov:
             pairs[f"{a.name.split('.')[2]} | {b.name.split('.')[2]}"] = len(ov)
-REP["checks"] = {"per_muscle": chk, "overlap_pairs_involving_mg5": pairs}
+REP["checks"] = {"per_muscle": chk, f"overlap_pairs_involving_{RP}": pairs}
 print("CHECKS", json.dumps(REP["checks"]), flush=True)
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT), copy=True)
 REP["output_blend"] = OUT.name; REP["output_sha256"] = hashlib.sha256(OUT.read_bytes()).hexdigest()
@@ -689,7 +764,7 @@ TEN = list(C_TEN.objects); MUSC = list(C_MUS.objects)
 for ob in sc.objects:
     if ob.type == "MESH" and ob is not body and ob not in MUSC and ob not in TEN:
         ob.hide_render = True
-centre = Vector((lat * 0.12, 0.0, 1.30))
+centre = Vector((lat * 0.12, 0.0, 1.30)) if MODE == "axilla" else Vector((lat * 0.10, 0.0, 0.95))
 files = {}
 for tag, skin_on in (("muscle", False), ("skin", True)):
     body.hide_render = not skin_on
@@ -699,8 +774,8 @@ for tag, skin_on in (("muscle", False), ("skin", True)):
                      "posterolateral": (lat * 0.7, 0.7, 0), "posterior": (0, 1, 0)}.items():
         d = Vector(dv).normalized(); cam.location = centre + d * 2.5; cam.rotation_mode = "QUATERNION"
         cam.rotation_quaternion = (-d).to_track_quat("-Z", "Y")
-        f = outdir / f"mg5_{SIDE}_{tag}_{view}.png"; sc.render.filepath = str(f); bpy.ops.render.render(write_still=True)
+        f = outdir / f"{RP}_{SIDE}_{tag}_{view}.png"; sc.render.filepath = str(f); bpy.ops.render.render(write_still=True)
         files.setdefault(tag, []).append(f.name)
 REP["renders"] = files
-(outdir / f"mg5_{SIDE}_report.json").write_text(json.dumps(REP, indent=1))
+(outdir / f"{RP}_{SIDE}_report.json").write_text(json.dumps(REP, indent=1))
 print("DONE", json.dumps({"out": OUT.name, "input_unchanged": REP["input_unchanged"]}), flush=True)

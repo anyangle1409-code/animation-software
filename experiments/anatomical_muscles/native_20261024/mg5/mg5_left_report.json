@@ -3,6 +3,7 @@
  "input": "HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG4_shoulder_left.blend",
  "input_sha256": "028908e7aabb78e1daff73b8e7b2f044928d1086180bc03428c18390a9edc1cf",
  "side": "left",
+ "mode": "axilla",
  "frame": "fan sheets: origin line -> via point on the armpit fold -> insertion line on the humerus",
  "rules": {
   "subcutaneous_layer_m": 0.004,
@@ -21,6 +22,7 @@
      1.415,
      1.375
     ],
+    "via_fibre_fraction": null,
     "thickness_trunk_fold_m": [
      0.006,
      0.016
@@ -41,6 +43,7 @@
      1.385,
      1.405
     ],
+    "via_fibre_fraction": null,
     "thickness_trunk_fold_m": [
      0.02,
      0.022
@@ -64,6 +67,7 @@
      1.445,
      1.395
     ],
+    "via_fibre_fraction": null,
     "thickness_trunk_fold_m": [
      0.01,
      0.018
@@ -88,6 +92,7 @@
      1.455,
      1.48
     ],
+    "via_fibre_fraction": null,
     "thickness_trunk_fold_m": [
      0.01,
      0.014
@@ -278,7 +283,7 @@
    },
    "fibres_still_failing": [],
    "self_crossing_face_pairs_left": 0,
-   "outer_points_pushed_below_superficial": 54,
+   "outer_points_pushed_below_superficial": 53,
    "tendon_length_m": 0.0601
   },
   "hgpt.muscle.pectoralis_major_clavicular.L": {
@@ -460,7 +465,7 @@
   "overlap_pairs_involving_mg5": {}
  },
  "output_blend": "HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG5_axilla_left.blend",
- "output_sha256": "6e928d2f5be420bf7cf9c50411ecb080b161094a7ea333491468d7e52ed9c68f",
+ "output_sha256": "64b9d7d10abb00f4deb1fbab612d79afecdc68e4e25acb43dc668c385abd31f4",
  "input_unchanged": true,
  "renders": {
   "muscle": [

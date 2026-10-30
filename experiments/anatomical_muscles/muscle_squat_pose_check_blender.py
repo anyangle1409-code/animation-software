@@ -1,10 +1,11 @@
-"""Read-only check: how the bound leg muscle ENVELOPE PROXIES (MG7) follow the squat when R41's anatomical leg is posed
+"""Read-only check: how the bound leg muscle ENVELOPE PROXIES (MG7, and the MG8 glutes when present) follow the squat when R41's anatomical leg is posed
 natively - hip flexion about HJC, knee flexion about KJC on the epicondyle axis, ankle dorsiflexion about AJC on the
 malleolar axis, signs fixed by landmark probes (as squat_path_length_check_blender.py; re-implemented, as that script
 runs on import).  Descent (hip, knee, ankle) 5 / 5 / 2 -> 100 / 102 / 17 deg in quarters.
 
 Per pose: face overlaps between the muscles (the thigh bellies ride the femur and the calf bellies the tibia, so they
-meet behind the knee as it flexes); renders (lateral / posterior / medial).  The skin is not posed.  Nothing is saved.
+meet behind the knee as it flexes); for the glutes, which span the hip with a blended binding, volume / rest and the
+edge-length ratio range; renders (lateral / posterior / medial).  The skin is not posed.  Nothing is saved.
 
 usage: python3.13 muscle_squat_pose_check_blender.py -- MG7.blend MG7_SHA256 OUT_DIR [left|right]
 """
@@ -69,7 +70,7 @@ def apply(T):
 
 
 LEG = ("rectus_femoris", "vastus_", "biceps_femoris", "semitendinosus", "semimembranosus", "adductor_magnus",
-       "gastrocnemius", "soleus")
+       "gastrocnemius", "soleus", "gluteus_")
 MUS = [o for o in bpy.data.collections["HGPT_EXPERIMENT_MUSCLES"].objects
        if o.name.endswith(f".{SUF}") and o.name.split(".")[2].startswith(LEG)]
 TEN = [o for o in bpy.data.collections["HGPT_EXPERIMENT_TENDONS"].objects
@@ -83,6 +84,23 @@ sc.display.shading.show_cavity = True; sc.render.resolution_x = 520; sc.render.r
 for ob in sc.objects:
     if ob.type == "MESH" and ob not in MUS and ob not in TEN:
         ob.hide_render = True
+def evaluated(o):
+    dg_ = bpy.context.evaluated_depsgraph_get(); e = o.evaluated_get(dg_); m = e.to_mesh()
+    P = [e.matrix_world @ v.co for v in m.vertices]; e.to_mesh_clear(); return P
+
+
+def volume(P, o):
+    v = 0.0
+    for p_ in o.data.polygons:
+        f = p_.vertices
+        for k_ in range(1, len(f) - 1):
+            v += P[f[0]].dot(P[f[k_]].cross(P[f[k_ + 1]])) / 6.0
+    return abs(v)
+
+
+GLU = [o for o in MUS if o.name.split(".")[2].startswith("gluteus_")]
+REST = {o.name: evaluated(o) for o in GLU}
+EDG = {o.name: [e.vertices[:] for e in o.data.edges] for o in GLU}
 rep = {"status": "READ_ONLY_CHECK", "input": src.name, "input_sha256": expected, "side": S, "probe_signs": SIGN,
        "chain_children_follow": followers, "poses": {}}
 for q in (0.0, 0.25, 0.5, 0.75, 1.0):
@@ -97,8 +115,14 @@ for q in (0.0, 0.25, 0.5, 0.75, 1.0):
             if ov:
                 pairs[f"{x.split('.')[2]} | {y.split('.')[2]}"] = len(ov)
     tag = f"q{int(q * 100):03d}"
+    glu = {}
+    for o in GLU:
+        P, P0 = evaluated(o), REST[o.name]
+        r = [(P[i] - P[j]).length / max((P0[i] - P0[j]).length, 1e-9) for i, j in EDG[o.name]]
+        glu[o.name.split(".")[2]] = {"volume_ratio": round(volume(P, o) / max(volume(P0, o), 1e-12), 3),
+                                     "edge_ratio_min_max": [round(min(r), 3), round(max(r), 3)]}
     rep["poses"][tag] = {"hip_deg": round(h, 1), "knee_deg": round(k, 1), "ankle_deg": round(a, 1),
-                         "overlap_pairs": pairs, "overlap_total": sum(pairs.values())}
+                         "overlap_pairs": pairs, "overlap_total": sum(pairs.values()), "glutes": glu}
     print("POSE", tag, json.dumps(rep["poses"][tag]), flush=True)
     if q in (0.0, 0.5, 1.0):
         centre = Vector((KJC.x, KJC.y + 0.05, KJC.z + 0.05))

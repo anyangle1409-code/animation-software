@@ -973,3 +973,75 @@ Results:
   - sheets: `MG7_left_leg_sheet.jpg`, `MG7_right_leg_sheet.jpg` (anterior / lateral / posterior / medial; muscles,
     then skin at 35 %), and `MG7_left_squat_sheet.jpg`.
 - The blends are not in git; their SHA256 values are in the reports.
+
+## MG8: the glutes, with the MG5 fan builder's gluteal mode (added 30 Oct 2026)
+
+**Script:** `build_axillary_fold_envelopes_blender.py ... gluteal` (6th argument). It runs on an MG7 blend with
+`proposed_anchors_lower_<side>.json` and saves a new MG8 blend with the gluteus maximus and gluteus medius. The
+default (`axilla`) mode reproduces MG5. This was checked twice: once with 0.0 mm vertex difference before the
+inside-test change below, and again with all checks unchanged after it.
+
+**What differs from MG5.**
+
+- **No armpit fold.** The via point is a fixed fraction along the fibre, where the belly leaves the buttock or hip
+  surface for the femur. Gluteus maximus leaves at 88 %: its upper fibres pass superficially over the trochanter, and
+  leaving at 72 % ran them through the medius's insertion. Gluteus medius leaves at 80 %.
+- **The projection axis** is the vertical through HJC. A line 40 mm off the midline lay between the thighs below
+  0.92 m: rays from it hit the inner thigh first and dragged the lower fibre ends medially.
+- **Insertion lines** slide along the femoral mechanical axis HJC → KJC, and the insertion ends are bound to the
+  femur.
+- **Gluteus medius** is a converging fan (a ~12 cm iliac-crest origin to a ~1 cm trochanter insertion):
+  - it is no thicker than 0.8× its fibre spacing;
+  - it counts as lying under the maximus only where the maximus is found from the skin inward (within 16 mm). Cast
+    from the axis outward, the maximus's deep insertion part was hit first, and the medius sank towards the hip
+    joint.
+
+**Inside test (all modes).** The inside test is now the majority of three ray-parity casts.
+
+- A single fixed ray, which isn't mirrored between sides, grazed mesh edges. That stopped gluteal bellies "inside"
+  the latissimus and the teres major, far away, on one side only.
+- **MG5 re-run with it:** vertices move by at most 0.9 mm. Every check is unchanged (0 / 0 / 0; 5 self-crossing face
+  pairs at the clavicular head's edge), and so are the volumes. The `mg5/` reports and sheets are refreshed.
+- **MG7 rebuilt on that MG5:** identical volumes, all checks 0. The `mg7/` reports are refreshed.
+- The MG6a reports still name the earlier MG5 blend (recorded by SHA). The difference is under 1 mm.
+
+**Authored rules** (in the report):
+
+| | Origin line | Insertion (s along HJC → KJC, u 0 → 1) | Thickness (trunk / fold) |
+|---|---|---|---|
+| Gluteus maximus | posterior iliac crest near PSIS (75 mm lateral, z 1.055) → lateral sacrum (40 mm, 0.99) → coccyx (15 mm, 0.925) | gluteal-tuberosity anchor slid from 0.06 (upper fibres, towards the iliotibial tract) to 0.26 | 32 / 40 mm |
+| Gluteus medius | outer iliac crest from behind the ASIS (115 mm lateral, 40 mm anterior) to the posterior gluteal line (75 mm, 80 mm posterior) | greater-trochanter anchor, 0.13 → 0.16 | 14 / 22 mm, capped by fibre spacing |
+
+**Results, both sides:**
+
+- 0 outside the skin, 0 shallower than the layer, 0 self-crossings, 0 overlaps.
+- No fibre shortened.
+- Volumes: maximus 345 / 346 cm³, medius 144 / 144 cm³.
+
+**Squat check** (`muscle_squat_pose_check_blender.py`, now including the glutes and reporting their volume and edge
+stretch):
+
+- The glutes add no overlaps. The only ones are the 92 hamstring–gastrocnemius face pairs behind the knee at 102°
+  (MG7).
+- At hip 100°:
+  - maximus volume 1.017 of rest, edges 0.74–2.09×;
+  - medius volume 1.008, edges 0.66–4.47×, local to where its binding blends from the pelvis to the femur.
+- The bellies stay with the pelvis and stretch over the flexing hip. This is the same limit of a rest-pose binding
+  that MG6a found at the shoulder.
+
+**Limits.**
+
+- Proxies. A real gluteus maximus is larger: the 4 mm subcutaneous layer is thin for the buttock, and the volumes
+  are geometry-derived.
+- The iliotibial tract, the tensor fasciae latae and gluteus minimus are not built.
+- No per-pose response.
+
+**Files.**
+
+- `native_20261024/mg8/`:
+  - reports: `mg8_left_report.json`, `mg8_right_report.json`, `mg8_left_squat_pose_report.json`;
+  - sheets: `MG8_left_gluteal_sheet.jpg`, `MG8_right_gluteal_sheet.jpg`, `MG8_left_squat_sheet.jpg`.
+- The blends are not in git; their SHA256 values are in the reports.
+
+**Status of Work's squat contract.** All 12 muscles now have envelope proxies on both sides: the four quadriceps, the
+three hamstrings, adductor magnus, the medial gastrocnemius, soleus, and both glutes.

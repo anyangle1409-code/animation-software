@@ -1,0 +1,230 @@
+{
+ "status": "ENVELOPE_PROXY_UNREVIEWED",
+ "input": "HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG7_leg_right.blend",
+ "input_sha256": "351a89648d1cf8247637e768dff6173f93c627f5b4894e7afaeaf6acff23ea81",
+ "side": "right",
+ "mode": "gluteal",
+ "frame": "fan sheets: origin line -> via point at a fixed fibre fraction -> insertion line along the femoral mechanical axis; projection axis: the vertical through HJC",
+ "rules": {
+  "subcutaneous_layer_m": 0.004,
+  "gap_m": 0.0012,
+  "min_thickness_m": 0.003,
+  "end_thickness_m": 0.004,
+  "fibres": 11,
+  "stations": 28,
+  "fans": {
+   "gluteus_maximus": {
+    "insertion_s_u0_u1": [
+     0.06,
+     0.26
+    ],
+    "via_height_m_u0_u1": null,
+    "via_fibre_fraction": 0.88,
+    "thickness_trunk_fold_m": [
+     0.032,
+     0.04
+    ],
+    "tendon_fraction": 0.92,
+    "deep_to": [],
+    "separated_from": [],
+    "rule": "origin line: posterior iliac crest near PSIS (75 mm lateral, z 1.055) -> lateral sacrum (40 mm, z 0.99) -> coccyx (15 mm, z 0.925); insertion: the gluteal-tuberosity anchor slid along HJC -> KJC from s 0.06 (upper fibres, towards the iliotibial tract) to 0.26 (lower fibres); the belly stays under the skin to 88 % of the fibre (its upper fibres pass superficially over the trochanter; leaving at 72 % ran them through the medius' insertion)"
+   },
+   "gluteus_medius": {
+    "insertion_s_u0_u1": [
+     0.13,
+     0.16
+    ],
+    "via_height_m_u0_u1": null,
+    "via_fibre_fraction": 0.8,
+    "thickness_trunk_fold_m": [
+     0.014,
+     0.022
+    ],
+    "tendon_fraction": 0.92,
+    "deep_to": [
+     "gluteus_maximus"
+    ],
+    "separated_from": [
+     "gluteus_maximus"
+    ],
+    "rule": "origin line along the outer iliac crest from behind the ASIS (115 mm lateral, 40 mm anterior) to the posterior gluteal line (75 mm, 80 mm posterior); insertion: the greater-trochanter anchor, s 0.13 -> 0.16; deep to the maximus where the maximus lies under the skin (found from the skin inward: cast from the pelvis axis, the maximus's deep insertion part was hit first); leaves the hip surface at 80 %; a converging fan, so no thicker than 0.8x its fibre spacing"
+   }
+  }
+ },
+ "copy_only_changes": {
+  "anatomical_master_use_deform_enabled": [
+   "anat_sacrum"
+  ]
+ },
+ "volume_source": "geometry-derived from this body (no reviewed literature volumes reachable)",
+ "muscles": {
+  "hgpt.muscle.gluteus_maximus.R": {
+   "belly_volume_cm3": 345.9,
+   "belly_volume_m3": 0.0003459,
+   "belly_end_t_per_fibre": [
+    0.92,
+    0.92,
+    0.92,
+    0.92,
+    0.92,
+    0.92,
+    0.92,
+    0.92,
+    0.92,
+    0.92,
+    0.92
+   ],
+   "stopped_by": {},
+   "via_fraction_per_fibre": [
+    0.88,
+    0.88,
+    0.88,
+    0.88,
+    0.88,
+    0.88,
+    0.88,
+    0.88,
+    0.88,
+    0.88,
+    0.88
+   ],
+   "via_points": [
+    [
+     -0.0915,
+     0.006,
+     0.9233
+    ],
+    [
+     -0.088,
+     0.0067,
+     0.8794
+    ],
+    [
+     -0.0855,
+     0.0063,
+     0.8351
+    ]
+   ],
+   "station_modes": {
+    "trunk": 286,
+    "under": 0,
+    "fold": 22,
+    "snapped": 0,
+    "chord": 0
+   },
+   "sections_squeezed_to_min_thickness": 0,
+   "points_left_inside_other_envelopes": {},
+   "face_crossings_left_with_superficial": 0,
+   "vertices_clamped_below_skin_at_end": 4,
+   "fibres_shortened_stations": {},
+   "fibres_still_failing": [],
+   "self_crossing_face_pairs_left": 0,
+   "outer_points_pushed_below_superficial": 0,
+   "tendon_length_m": 0.0287
+  },
+  "hgpt.muscle.gluteus_medius.R": {
+   "belly_volume_cm3": 144.1,
+   "belly_volume_m3": 0.0001441,
+   "belly_end_t_per_fibre": [
+    0.92,
+    0.92,
+    0.92,
+    0.92,
+    0.92,
+    0.92,
+    0.92,
+    0.92,
+    0.92,
+    0.92,
+    0.92
+   ],
+   "stopped_by": {},
+   "via_fraction_per_fibre": [
+    0.8,
+    0.8,
+    0.8,
+    0.8,
+    0.8,
+    0.8,
+    0.8,
+    0.8,
+    0.8,
+    0.8,
+    0.8
+   ],
+   "via_points": [
+    [
+     -0.1481,
+     0.0106,
+     0.9065
+    ],
+    [
+     -0.1475,
+     0.023,
+     0.907
+    ],
+    [
+     -0.1403,
+     0.0348,
+     0.9006
+    ]
+   ],
+   "station_modes": {
+    "trunk": 264,
+    "under": 0,
+    "fold": 44,
+    "snapped": 0,
+    "chord": 0
+   },
+   "sections_squeezed_to_min_thickness": 23,
+   "points_left_inside_other_envelopes": {},
+   "face_crossings_left_with_superficial": 0,
+   "vertices_clamped_below_skin_at_end": 0,
+   "fibres_shortened_stations": {},
+   "fibres_still_failing": [],
+   "self_crossing_face_pairs_left": 0,
+   "outer_points_pushed_below_superficial": 0,
+   "tendon_length_m": 0.0164
+  }
+ },
+ "checks": {
+  "per_muscle": {
+   "hgpt.muscle.gluteus_maximus.R": {
+    "vertices": 616,
+    "outside_skin": 0,
+    "shallower_than_layer": 0,
+    "min_depth_below_skin_mm": 4.0,
+    "within_6mm_of_rib_guide": 0,
+    "self_intersecting_face_pairs": 0
+   },
+   "hgpt.muscle.gluteus_medius.R": {
+    "vertices": 616,
+    "outside_skin": 0,
+    "shallower_than_layer": 0,
+    "min_depth_below_skin_mm": 4.0,
+    "within_6mm_of_rib_guide": 0,
+    "self_intersecting_face_pairs": 0
+   }
+  },
+  "overlap_pairs_involving_mg8": {}
+ },
+ "output_blend": "HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG8_gluteal_right.blend",
+ "output_sha256": "df7b3587c51315973dfd27b8729c9a509a04a9ac558b603d06cabc40f874c83b",
+ "input_unchanged": true,
+ "renders": {
+  "muscle": [
+   "mg8_right_muscle_anterior.png",
+   "mg8_right_muscle_anterolateral.png",
+   "mg8_right_muscle_lateral.png",
+   "mg8_right_muscle_posterolateral.png",
+   "mg8_right_muscle_posterior.png"
+  ],
+  "skin": [
+   "mg8_right_skin_anterior.png",
+   "mg8_right_skin_anterolateral.png",
+   "mg8_right_skin_lateral.png",
+   "mg8_right_skin_posterolateral.png",
+   "mg8_right_skin_posterior.png"
+  ]
+ }
+}

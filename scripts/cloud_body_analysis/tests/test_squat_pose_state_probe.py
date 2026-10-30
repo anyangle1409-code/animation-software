@@ -113,8 +113,14 @@ def report():
         reference_geometry, [(0, 0, 0), (1.001, 0, 0), (2, 0, 0), (3, 0, 0)])
     neutral_skeleton = {
         "pose_bone_count": 77,
+        "control_names_sha256": "b" * 64,
+        "control_state_sha256": "a" * 64,
+        "residual_controls_sha256": hashlib.sha256(json_bytes([])).hexdigest(),
         "max_matrix_basis_rotation_deg_not_anatomical": 0.0,
+        "max_rotation_control": "root",
         "max_matrix_basis_translation_mm": 0.0,
+        "max_translation_control": "root",
+        "controls_over_identity_tolerance": [],
         "all_matrix_basis_identity_within_tolerance": True,
     }
     data["corrective_return_to_neutral"] = {
@@ -152,6 +158,56 @@ def json_bytes(value):
 
 
 class SquatPoseStateProbeTests(unittest.TestCase):
+    def test_skeletal_basis_state_localizes_residual_deterministically(self):
+        class Q:
+            def __init__(self, angle): self.angle = angle
+            def copy(self): return Q(self.angle)
+            def normalize(self): pass
+        class Matrix:
+            def __init__(self, angle, translation):
+                self.angle, self.translation = angle, translation
+            def to_quaternion(self): return Q(self.angle)
+            def to_translation(self): return self.translation
+        bones = [
+            NS(name="z_helper", matrix_basis=Matrix(0.0, (0.0, 0.0, 2e-9))),
+            NS(name="a_helper", matrix_basis=Matrix(0.0, (0.0, 0.0, 2e-9))),
+            NS(name="root", matrix_basis=Matrix(0.0, (0.0, 0.0, 0.0))),
+        ]
+        state = probe.skeletal_basis_state(bones)
+        self.assertEqual(state["max_translation_control"], "a_helper")
+        self.assertEqual([row["name"] for row in state[
+            "controls_over_identity_tolerance"]], ["a_helper", "z_helper"])
+        self.assertFalse(state["all_matrix_basis_identity_within_tolerance"])
+
+    def test_report_rejects_tampered_residual_control_localization(self):
+        data = report()
+        state = data["corrective_return_to_neutral"]["stages"][1]["skeletal_basis"]
+        state["max_matrix_basis_translation_mm"] = 0.1
+        state["max_translation_control"] = "hip_crease_l"
+        state["all_matrix_basis_identity_within_tolerance"] = False
+        self.assertIn("invalid corrective return-to-neutral evidence", probe.validate_report(data))
+        data = report()
+        state = data["corrective_return_to_neutral"]["stages"][1]["skeletal_basis"]
+        state["control_state_sha256"] = "not-a-digest"
+        self.assertIn("invalid corrective return-to-neutral evidence", probe.validate_report(data))
+        data = report()
+        state = data["corrective_return_to_neutral"]["stages"][1]["skeletal_basis"]
+        state["control_names_sha256"] = "c" * 64
+        self.assertIn("invalid corrective return-to-neutral evidence", probe.validate_report(data))
+        data = report()
+        state = data["corrective_return_to_neutral"]["stages"][1]["skeletal_basis"]
+        row = {"name": "invented", "rotation_deg_not_anatomical": 0.0,
+               "translation_mm": 0.1}
+        state["max_matrix_basis_translation_mm"] = 0.1
+        state["max_translation_control"] = "invented"
+        state["all_matrix_basis_identity_within_tolerance"] = False
+        state["controls_over_identity_tolerance"] = [
+            dict(row, name=f"invented_{index:02d}") for index in range(78)]
+        state["max_translation_control"] = "invented_00"
+        state["residual_controls_sha256"] = hashlib.sha256(json_bytes(
+            state["controls_over_identity_tolerance"])).hexdigest()
+        self.assertIn("invalid corrective return-to-neutral evidence", probe.validate_report(data))
+
     def test_geometry_delta_summary_zero_and_nonzero(self):
         zero = probe.geometry_delta_summary(
             [(0, 0, 0), (1, 0, 0)], [(0, 0, 0), (1, 0, 0)])

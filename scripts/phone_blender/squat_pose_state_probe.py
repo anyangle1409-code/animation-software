@@ -114,18 +114,42 @@ def shape_key_state(key_blocks):
 
 
 def skeletal_basis_state(pose_bones):
-    rotations, translations_mm = [], []
+    rows = []
     for bone in pose_bones:
-        rotations.append(q_angle_deg(bone.matrix_basis.to_quaternion()))
+        name = getattr(bone, "name", None)
+        if not isinstance(name, str) or not name:
+            raise ValueError("named pose bones required")
+        rotation = q_angle_deg(bone.matrix_basis.to_quaternion())
         translation = vector3(bone.matrix_basis.to_translation())
-        translations_mm.append(math.sqrt(sum(value * value for value in translation)) * 1000.0)
-    if not rotations:
+        translation_mm = math.sqrt(sum(value * value for value in translation)) * 1000.0
+        rows.append((name, rotation, translation_mm))
+    rows.sort()
+    if not rows or len({name for name, _, _ in rows}) != len(rows):
         raise ValueError("pose bones required")
-    max_rotation, max_translation = max(rotations), max(translations_mm)
+    max_rotation = max(row[1] for row in rows)
+    max_translation = max(row[2] for row in rows)
+    max_rotation_control = min(row[0] for row in rows if row[1] == max_rotation)
+    max_translation_control = min(row[0] for row in rows if row[2] == max_translation)
+    residuals = [
+        {"name": name,
+         "rotation_deg_not_anatomical": rotation,
+         "translation_mm": translation}
+        for name, rotation, translation in rows
+        if rotation > 0.000001 or translation > 0.000001
+    ]
     return {
-        "pose_bone_count": len(rotations),
+        "pose_bone_count": len(rows),
+        "control_names_sha256": hashlib.sha256(json.dumps(
+            [row[0] for row in rows], separators=(",", ":")).encode("utf-8")).hexdigest(),
+        "control_state_sha256": hashlib.sha256(json.dumps(
+            rows, separators=(",", ":")).encode("utf-8")).hexdigest(),
+        "residual_controls_sha256": hashlib.sha256(json.dumps(
+            residuals, separators=(",", ":")).encode("utf-8")).hexdigest(),
         "max_matrix_basis_rotation_deg_not_anatomical": max_rotation,
+        "max_rotation_control": max_rotation_control,
         "max_matrix_basis_translation_mm": max_translation,
+        "max_translation_control": max_translation_control,
+        "controls_over_identity_tolerance": residuals,
         "all_matrix_basis_identity_within_tolerance": (
             max_rotation <= 0.000001 and max_translation <= 0.000001),
     }
@@ -454,18 +478,66 @@ def _valid_geometry_delta(summary):
 
 def _valid_skeletal_basis(state):
     if not isinstance(state, dict) or set(state) != {
-            "pose_bone_count", "max_matrix_basis_rotation_deg_not_anatomical",
-            "max_matrix_basis_translation_mm",
+            "pose_bone_count", "control_names_sha256", "control_state_sha256",
+            "residual_controls_sha256",
+            "max_matrix_basis_rotation_deg_not_anatomical", "max_rotation_control",
+            "max_matrix_basis_translation_mm", "max_translation_control",
+            "controls_over_identity_tolerance",
             "all_matrix_basis_identity_within_tolerance"}:
         return False
     rotation = state["max_matrix_basis_rotation_deg_not_anatomical"]
     translation = state["max_matrix_basis_translation_mm"]
+    digest_values = (state["control_names_sha256"], state["control_state_sha256"],
+                     state["residual_controls_sha256"])
+    residuals = state["controls_over_identity_tolerance"]
     expected = rotation <= 0.000001 and translation <= 0.000001
-    return (type(state["pose_bone_count"]) is int and state["pose_bone_count"] == 77
+    if not (type(state["pose_bone_count"]) is int and state["pose_bone_count"] == 77
+            and all(isinstance(value, str) and len(value) == 64
+                    and all(char in "0123456789abcdef" for char in value)
+                    for value in digest_values)
             and type(rotation) in (int, float) and math.isfinite(rotation)
             and type(translation) in (int, float) and math.isfinite(translation)
             and rotation >= 0.0 and translation >= 0.0
-            and state["all_matrix_basis_identity_within_tolerance"] is expected)
+            and isinstance(state["max_rotation_control"], str)
+            and bool(state["max_rotation_control"])
+            and isinstance(state["max_translation_control"], str)
+            and bool(state["max_translation_control"])
+            and isinstance(residuals, list)
+            and len(residuals) <= state["pose_bone_count"]
+            and state["all_matrix_basis_identity_within_tolerance"] is expected):
+        return False
+    names = []
+    for row in residuals:
+        if (not isinstance(row, dict) or set(row) != {
+                "name", "rotation_deg_not_anatomical", "translation_mm"}
+                or not isinstance(row["name"], str) or not row["name"]
+                or type(row["rotation_deg_not_anatomical"]) not in (int, float)
+                or not math.isfinite(row["rotation_deg_not_anatomical"])
+                or type(row["translation_mm"]) not in (int, float)
+                or not math.isfinite(row["translation_mm"])
+                or row["rotation_deg_not_anatomical"] < 0.0
+                or row["translation_mm"] < 0.0
+                or (row["rotation_deg_not_anatomical"] <= 0.000001
+                    and row["translation_mm"] <= 0.000001)
+                or row["rotation_deg_not_anatomical"] > rotation
+                or row["translation_mm"] > translation):
+            return False
+        names.append(row["name"])
+    if names != sorted(set(names)) or bool(residuals) is expected:
+        return False
+    expected_residual_digest = hashlib.sha256(json.dumps(
+        residuals, separators=(",", ":")).encode("utf-8")).hexdigest()
+    if state["residual_controls_sha256"] != expected_residual_digest:
+        return False
+    if rotation > 0.000001 and not any(
+            row["name"] == state["max_rotation_control"]
+            and row["rotation_deg_not_anatomical"] == rotation for row in residuals):
+        return False
+    if translation > 0.000001 and not any(
+            row["name"] == state["max_translation_control"]
+            and row["translation_mm"] == translation for row in residuals):
+        return False
+    return True
 
 
 def _valid_corrective_return(record, expected_vertex_count):
@@ -489,6 +561,7 @@ def _valid_corrective_return(record, expected_vertex_count):
         return False
     vertex_count = None
     expected_key_count = reference["shape_keys"]["key_count"]
+    control_names_sha256 = None
     for stage, (label, refreshed) in zip(stages, expected):
         if (not isinstance(stage, dict) or set(stage) != {
                 "stage", "neutral_driver_refresh_applied", "skeletal_basis",
@@ -504,6 +577,10 @@ def _valid_corrective_return(record, expected_vertex_count):
         if vertex_count is not None and current != vertex_count:
             return False
         vertex_count = current
+        current_names = stage["skeletal_basis"]["control_names_sha256"]
+        if control_names_sha256 is not None and current_names != control_names_sha256:
+            return False
+        control_names_sha256 = current_names
     return vertex_count == expected_vertex_count
 
 
@@ -693,14 +770,17 @@ def markdown(data):
               "Toe controls remain observed even when their local delta is zero; no multisegment foot anatomy is inferred.",
               "", "## Corrective return-to-neutral lifecycle", "",
               "The frozen benchmark resets the skeletal matrix basis after its final sample. The first row is captured before neutral driver refresh; the second follows one unchanged driver call at neutral.", "",
-              "| Stage | skeletal basis neutral | active shape keys | changed vertices vs sample 0 | max / RMS displacement mm |",
-              "|:---|:---:|---:|---:|---:|"]
+              "| Stage | skeletal basis neutral | residual controls | max translation control / mm | active shape keys | changed vertices vs sample 0 | max / RMS displacement mm |",
+              "|:---|:---:|---:|:---|---:|---:|---:|"]
     for stage in data["corrective_return_to_neutral"]["stages"]:
         shape = stage["shape_keys"]
         geometry = stage["evaluated_geometry_vs_sample0"]
         lines.append(
             f"| {stage['stage']} | "
             f"{stage['skeletal_basis']['all_matrix_basis_identity_within_tolerance']} | "
+            f"{len(stage['skeletal_basis']['controls_over_identity_tolerance'])} | "
+            f"{stage['skeletal_basis']['max_translation_control']} / "
+            f"{stage['skeletal_basis']['max_matrix_basis_translation_mm']:.9f} | "
             f"{len(shape['nonzero_keys'])} | "
             f"{geometry['changed_vertex_count_over_1e-6_mm']} / {geometry['vertex_count']} | "
             f"{geometry['max_displacement_mm']:.6f} / {geometry['rms_displacement_mm']:.6f} |")

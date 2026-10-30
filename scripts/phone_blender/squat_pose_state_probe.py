@@ -470,10 +470,13 @@ def _valid_geometry_delta(summary):
             or summary["change_threshold_mm"] != 0.000001):
         return False
     maximum, rms = summary["max_displacement_mm"], summary["rms_displacement_mm"]
+    threshold = summary["change_threshold_mm"]
     return (type(maximum) in (int, float) and math.isfinite(maximum)
             and type(rms) in (int, float) and math.isfinite(rms)
             and 0.0 <= rms <= maximum + 1e-12
-            and (changed > 0 or maximum <= summary["change_threshold_mm"]))
+            and ((changed == 0 and maximum <= threshold)
+                 or (changed > 0 and maximum > threshold and rms >
+                     threshold * math.sqrt(changed / count))))
 
 
 def _valid_skeletal_basis(state):
@@ -554,20 +557,24 @@ def _valid_corrective_return(record, expected_vertex_count):
         return False
     stages = record.get("stages")
     expected = [
-        ("AFTER_BENCHMARK_SKELETAL_RESET_BEFORE_NEUTRAL_DRIVER_REFRESH", False),
-        ("AFTER_NEUTRAL_DRIVER_REFRESH", True),
+        ("AFTER_BENCHMARK_SKELETAL_RESET_BEFORE_NEUTRAL_DRIVER_REFRESH", False, 0),
+        ("AFTER_NEUTRAL_DRIVER_REFRESH", True, 1),
+        ("AFTER_SECOND_NEUTRAL_DRIVER_REFRESH", True, 2),
     ]
-    if not isinstance(stages, list) or len(stages) != 2:
+    if not isinstance(stages, list) or len(stages) != 3:
         return False
     vertex_count = None
     expected_key_count = reference["shape_keys"]["key_count"]
     control_names_sha256 = None
-    for stage, (label, refreshed) in zip(stages, expected):
+    for stage, (label, refreshed, refresh_count) in zip(stages, expected):
         if (not isinstance(stage, dict) or set(stage) != {
-                "stage", "neutral_driver_refresh_applied", "skeletal_basis",
+                "stage", "neutral_driver_refresh_applied",
+                "neutral_driver_refresh_count", "skeletal_basis",
                 "shape_keys", "evaluated_geometry_vs_sample0"}
                 or stage["stage"] != label
                 or stage["neutral_driver_refresh_applied"] is not refreshed
+                or type(stage["neutral_driver_refresh_count"]) is not int
+                or stage["neutral_driver_refresh_count"] != refresh_count
                 or not _valid_skeletal_basis(stage["skeletal_basis"])
                 or not _valid_shape_key_state(stage["shape_keys"])
                 or stage["shape_keys"]["key_count"] != expected_key_count
@@ -581,6 +588,28 @@ def _valid_corrective_return(record, expected_vertex_count):
         if control_names_sha256 is not None and current_names != control_names_sha256:
             return False
         control_names_sha256 = current_names
+    repeat = record.get("repeat_refresh_comparison")
+    if (not isinstance(repeat, dict) or set(repeat) != {
+            "status", "first_refresh_count", "second_refresh_count",
+            "skeletal_control_state_sha256_equal",
+            "shape_key_all_values_sha256_equal",
+            "evaluated_geometry_first_to_second"}
+            or repeat["status"] !=
+            "DESCRIPTIVE_REPEAT_NEUTRAL_DRIVER_IDEMPOTENCE_NOT_ANATOMY"
+            or type(repeat["first_refresh_count"]) is not int
+            or repeat["first_refresh_count"] != 1
+            or type(repeat["second_refresh_count"]) is not int
+            or repeat["second_refresh_count"] != 2
+            or repeat["skeletal_control_state_sha256_equal"] is not (
+                stages[1]["skeletal_basis"]["control_state_sha256"] ==
+                stages[2]["skeletal_basis"]["control_state_sha256"])
+            or repeat["shape_key_all_values_sha256_equal"] is not (
+                stages[1]["shape_keys"]["all_values_sha256"] ==
+                stages[2]["shape_keys"]["all_values_sha256"])
+            or not _valid_geometry_delta(repeat["evaluated_geometry_first_to_second"])
+            or repeat["evaluated_geometry_first_to_second"]["vertex_count"] !=
+            expected_vertex_count):
+        return False
     return vertex_count == expected_vertex_count
 
 
@@ -784,7 +813,12 @@ def markdown(data):
             f"{len(shape['nonzero_keys'])} | "
             f"{geometry['changed_vertex_count_over_1e-6_mm']} / {geometry['vertex_count']} | "
             f"{geometry['max_displacement_mm']:.6f} / {geometry['rms_displacement_mm']:.6f} |")
-    lines += ["", "This separates skeletal cleanup from corrective-state cleanup. It does not establish anatomical neutral, deformation quality, contact, balance or tissue safety.", ""]
+    repeat = data["corrective_return_to_neutral"]["repeat_refresh_comparison"]
+    repeat_geometry = repeat["evaluated_geometry_first_to_second"]
+    lines += ["", "## Repeated neutral driver refresh", "",
+              f"Skeletal fingerprint equal: **{repeat['skeletal_control_state_sha256_equal']}**; shape-key fingerprint equal: **{repeat['shape_key_all_values_sha256_equal']}**.",
+              f"First-to-second refresh geometry: {repeat_geometry['changed_vertex_count_over_1e-6_mm']} / {repeat_geometry['vertex_count']} vertices above 0.000001 mm; max {repeat_geometry['max_displacement_mm']:.9f} mm; RMS {repeat_geometry['rms_displacement_mm']:.9f} mm.",
+              "", "This separates skeletal cleanup from corrective-state cleanup. It does not establish anatomical neutral, deformation quality, contact, balance or tissue safety.", ""]
     return "\n".join(lines)
 
 
@@ -900,22 +934,28 @@ def main():
     if len(sample0_shape_keys) != 1 or not sample0_vertices:
         raise ValueError("Missing sample-0 return reference")
 
-    def return_stage(label, refreshed):
+    def return_stage(label, refresh_count):
         bpy.context.view_layer.update()
         vertices, _ = bench._evaluated(body)
+        points = [vector3(vertex) for vertex in vertices]
         return {
             "stage": label,
-            "neutral_driver_refresh_applied": refreshed,
+            "neutral_driver_refresh_applied": refresh_count > 0,
+            "neutral_driver_refresh_count": refresh_count,
             "skeletal_basis": skeletal_basis_state(rig.pose.bones),
             "shape_keys": shape_key_state(body.data.shape_keys.key_blocks),
             "evaluated_geometry_vs_sample0": geometry_delta_summary(
-                sample0_vertices, [vector3(vertex) for vertex in vertices]),
-        }
+                sample0_vertices, points),
+        }, points
 
-    before_neutral_driver = return_stage(
-        "AFTER_BENCHMARK_SKELETAL_RESET_BEFORE_NEUTRAL_DRIVER_REFRESH", False)
+    before_neutral_driver, _ = return_stage(
+        "AFTER_BENCHMARK_SKELETAL_RESET_BEFORE_NEUTRAL_DRIVER_REFRESH", 0)
     drives.drive(rig, body)
-    after_neutral_driver = return_stage("AFTER_NEUTRAL_DRIVER_REFRESH", True)
+    after_neutral_driver, first_refresh_vertices = return_stage(
+        "AFTER_NEUTRAL_DRIVER_REFRESH", 1)
+    drives.drive(rig, body)
+    after_second_neutral_driver, second_refresh_vertices = return_stage(
+        "AFTER_SECOND_NEUTRAL_DRIVER_REFRESH", 2)
     after = adapter.rest_signature(rig, body)
     unchanged = digest(source) == W8_SHA256
     if before != after or not unchanged:
@@ -940,7 +980,21 @@ def main():
                 "sample": 0,
                 "shape_keys": sample0_shape_keys[0],
             },
-            "stages": [before_neutral_driver, after_neutral_driver],
+            "stages": [before_neutral_driver, after_neutral_driver,
+                       after_second_neutral_driver],
+            "repeat_refresh_comparison": {
+                "status": "DESCRIPTIVE_REPEAT_NEUTRAL_DRIVER_IDEMPOTENCE_NOT_ANATOMY",
+                "first_refresh_count": 1,
+                "second_refresh_count": 2,
+                "skeletal_control_state_sha256_equal": (
+                    after_neutral_driver["skeletal_basis"]["control_state_sha256"] ==
+                    after_second_neutral_driver["skeletal_basis"]["control_state_sha256"]),
+                "shape_key_all_values_sha256_equal": (
+                    after_neutral_driver["shape_keys"]["all_values_sha256"] ==
+                    after_second_neutral_driver["shape_keys"]["all_values_sha256"]),
+                "evaluated_geometry_first_to_second": geometry_delta_summary(
+                    first_refresh_vertices, second_refresh_vertices),
+            },
         },
         "limitations": [
             "Authored FK controls and world-space control trajectories are not ISB joint-coordinate measurements",

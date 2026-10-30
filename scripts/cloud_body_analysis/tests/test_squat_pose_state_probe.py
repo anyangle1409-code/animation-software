@@ -135,6 +135,7 @@ def report():
             {
                 "stage": "AFTER_BENCHMARK_SKELETAL_RESET_BEFORE_NEUTRAL_DRIVER_REFRESH",
                 "neutral_driver_refresh_applied": False,
+                "neutral_driver_refresh_count": 0,
                 "skeletal_basis": copy.deepcopy(neutral_skeleton),
                 "shape_keys": stale_keys,
                 "evaluated_geometry_vs_sample0": stale_geometry,
@@ -142,11 +143,28 @@ def report():
             {
                 "stage": "AFTER_NEUTRAL_DRIVER_REFRESH",
                 "neutral_driver_refresh_applied": True,
+                "neutral_driver_refresh_count": 1,
+                "skeletal_basis": copy.deepcopy(neutral_skeleton),
+                "shape_keys": baseline_keys,
+                "evaluated_geometry_vs_sample0": neutral_geometry,
+            },
+            {
+                "stage": "AFTER_SECOND_NEUTRAL_DRIVER_REFRESH",
+                "neutral_driver_refresh_applied": True,
+                "neutral_driver_refresh_count": 2,
                 "skeletal_basis": copy.deepcopy(neutral_skeleton),
                 "shape_keys": baseline_keys,
                 "evaluated_geometry_vs_sample0": neutral_geometry,
             },
         ],
+        "repeat_refresh_comparison": {
+            "status": "DESCRIPTIVE_REPEAT_NEUTRAL_DRIVER_IDEMPOTENCE_NOT_ANATOMY",
+            "first_refresh_count": 1,
+            "second_refresh_count": 2,
+            "skeletal_control_state_sha256_equal": True,
+            "shape_key_all_values_sha256_equal": True,
+            "evaluated_geometry_first_to_second": neutral_geometry,
+        },
     }
     data["limitations"] = [probe.CORRECTIVE_RETURN_LIMITATION]
     return data
@@ -208,6 +226,20 @@ class SquatPoseStateProbeTests(unittest.TestCase):
             state["controls_over_identity_tolerance"])).hexdigest()
         self.assertIn("invalid corrective return-to-neutral evidence", probe.validate_report(data))
 
+    def test_report_rejects_tampered_repeat_refresh_comparison(self):
+        data = report()
+        repeat = data["corrective_return_to_neutral"]["repeat_refresh_comparison"]
+        repeat["skeletal_control_state_sha256_equal"] = False
+        self.assertIn("invalid corrective return-to-neutral evidence", probe.validate_report(data))
+        data = report()
+        data["corrective_return_to_neutral"]["stages"][2][
+            "neutral_driver_refresh_count"] = 1
+        self.assertIn("invalid corrective return-to-neutral evidence", probe.validate_report(data))
+        data = report()
+        data["corrective_return_to_neutral"]["repeat_refresh_comparison"][
+            "evaluated_geometry_first_to_second"]["vertex_count"] = 3
+        self.assertIn("invalid corrective return-to-neutral evidence", probe.validate_report(data))
+
     def test_geometry_delta_summary_zero_and_nonzero(self):
         zero = probe.geometry_delta_summary(
             [(0, 0, 0), (1, 0, 0)], [(0, 0, 0), (1, 0, 0)])
@@ -227,6 +259,10 @@ class SquatPoseStateProbeTests(unittest.TestCase):
             probe.geometry_delta_summary([(0, 0, 0)], [(False, 0, 0)])
         with self.assertRaisesRegex(ValueError, "Nonfinite"):
             probe.geometry_delta_summary([(0, 0, 0)], [(float("nan"), 0, 0)])
+        impossible = probe.geometry_delta_summary(
+            [(0, 0, 0), (1, 0, 0)], [(0, 0, 0), (1, 0, 0)])
+        impossible["changed_vertex_count_over_1e-6_mm"] = 1
+        self.assertFalse(probe._valid_geometry_delta(impossible))
 
     def test_shape_key_state_is_deterministic_and_strict(self):
         state = probe.shape_key_state([

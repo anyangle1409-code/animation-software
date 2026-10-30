@@ -135,3 +135,14 @@ Commit `b99eeae01bd16e1d76d48eac609a0249e60260e6` adds strict control-name inven
 Frozen r57 blob `c629f45ddb0bd48ece9f34be992a9ef168e66e38` (`scripts/original_v1_muscle_line_helpers.py`) recomputes each helper pose matrix from carried origin/insertion points, a rotation difference and length-dependent scale. This localizes the matrix recomposition source, but repeat-refresh idempotence remains unmeasured.
 
 Artifact `12974836027`: ZIP `019b4a71664dea6a420d2f01d3bdd1d90e52383137daa117487bf4ebadb54b56`; JSON `f1b99eb109a5ce99cfb9cb5b7596834f1a9a39a18c50a491231ec7a52fcdc849`; Markdown `aeb3ff7ac01974472da7b2be556d833432b968cad6ed18e0390a81bf395845af`. These pre-existing authored review helpers are not verified anatomical muscle IDs, origins, insertions, side mappings or approved attachments.
+
+
+### Repeated neutral driver idempotence
+
+Commit `5d5c7c2d829fa65eb8f3b574c288c11bb590f150` captures a second unchanged driver call at the same neutral pose and directly compares its evaluated geometry with the first refresh. [Run41051228187](https://github.com/anyangle1409-code/animation-software/actions/runs/41051228187) completed SUCCESS7/7.
+
+The complete77-control skeletal fingerprint is identical after refresh counts1 and2 (`489a8183964f9337a1cf0c267ae1a04c9cce2df6b832d80f9bf5378d805db9b1`). The79-key value fingerprint is also identical (`910743d8c37ed133e3ddf43eed2c4cf27dae553052ccc123147c0c142606c547`). Direct first-to-second evaluated geometry comparison finds0/219974 vertices above `0.000001mm`, max `0.0mm`, RMS `0.0mm`.
+
+Therefore the six sub-micron muscle-line helper translations are stable one-time matrix recomposition, not iterative drift across the two measured refreshes. This is runtime idempotence evidence only, not anatomical validation of helper names, origins, insertions, side mapping or attachments.
+
+Artifact12975276249 independently downloaded/CRC-checked: ZIP `138972401995e9b8096421d3fdec2fdf2daf0adcb45030cc6f6c5104c8405f4a`; JSON `420f107f1c8b76e64c6d79cb992038a9b146b011fa51a9bc5c5f81bb125a1ce7`; Markdown `d17bed5fcb9be88a96e6ba7ccd265e4bc64502898b49c55d8871b2084aa35ef6`.

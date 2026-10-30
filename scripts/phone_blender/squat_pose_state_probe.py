@@ -25,6 +25,9 @@ EXPECTED_MODES = {
     "pelvis": "XYZ", "spine_01": "XYZ", "thigh": "XYZ", "shin": "XYZ",
     "foot": "XYZ", "toe": "XYZ",
 }
+CORRECTIVE_RETURN_LIMITATION = (
+    "Skeletal matrix-basis reset and corrective driver refresh are lifecycle "
+    "observations, not proof of anatomical neutral or tissue safety")
 
 
 def digest(path):
@@ -57,6 +60,75 @@ def vector3(value):
     if len(result) != 3:
         raise ValueError("3D vector required")
     return result
+
+
+def geometry_delta_summary(reference_vertices, observed_vertices):
+    """Summarize same-topology evaluated geometry without retaining it in JSON."""
+    if (not isinstance(reference_vertices, (list, tuple))
+            or not isinstance(observed_vertices, (list, tuple))
+            or not reference_vertices
+            or len(reference_vertices) != len(observed_vertices)):
+        raise ValueError("same nonempty vertex topology required")
+    distances_mm = []
+    for reference, observed in zip(reference_vertices, observed_vertices):
+        for point in (reference, observed):
+            if (not isinstance(point, (list, tuple)) or len(point) != 3
+                    or any(type(value) not in (int, float) for value in point)):
+                raise ValueError("strict numerical 3D vector required")
+        a, b = vector3(reference), vector3(observed)
+        distances_mm.append(math.sqrt(sum((x - y) ** 2 for x, y in zip(a, b))) * 1000.0)
+    return {
+        "vertex_count": len(distances_mm),
+        "change_threshold_mm": 0.000001,
+        "changed_vertex_count_over_1e-6_mm": sum(
+            distance > 0.000001 for distance in distances_mm),
+        "max_displacement_mm": max(distances_mm),
+        "rms_displacement_mm": math.sqrt(sum(
+            distance * distance for distance in distances_mm) / len(distances_mm)),
+    }
+
+
+def shape_key_state(key_blocks):
+    """Fingerprint all shape-key values and list active keys deterministically."""
+    rows = []
+    for key in key_blocks:
+        name, value = getattr(key, "name", None), getattr(key, "value", None)
+        if not isinstance(name, str) or not name:
+            raise ValueError("nonempty shape-key name required")
+        if type(value) not in (int, float) or not math.isfinite(value):
+            raise ValueError("finite numerical shape-key value required")
+        rows.append((name, float(value)))
+    rows.sort()
+    if len({name for name, _ in rows}) != len(rows):
+        raise ValueError("duplicate shape-key name")
+    encoded = json.dumps(rows, separators=(",", ":"), ensure_ascii=True).encode("utf-8")
+    active = [
+        {"name": name, "value": value} for name, value in rows if value != 0.0]
+    return {
+        "key_count": len(rows),
+        "all_values_sha256": hashlib.sha256(encoded).hexdigest(),
+        "nonzero_values_sha256": hashlib.sha256(json.dumps(
+            active, separators=(",", ":"), sort_keys=True).encode("utf-8")).hexdigest(),
+        "nonzero_keys": active,
+    }
+
+
+def skeletal_basis_state(pose_bones):
+    rotations, translations_mm = [], []
+    for bone in pose_bones:
+        rotations.append(q_angle_deg(bone.matrix_basis.to_quaternion()))
+        translation = vector3(bone.matrix_basis.to_translation())
+        translations_mm.append(math.sqrt(sum(value * value for value in translation)) * 1000.0)
+    if not rotations:
+        raise ValueError("pose bones required")
+    max_rotation, max_translation = max(rotations), max(translations_mm)
+    return {
+        "pose_bone_count": len(rotations),
+        "max_matrix_basis_rotation_deg_not_anatomical": max_rotation,
+        "max_matrix_basis_translation_mm": max_translation,
+        "all_matrix_basis_identity_within_tolerance": (
+            max_rotation <= 0.000001 and max_translation <= 0.000001),
+    }
 
 
 def bone_record(pose_bones, rig_world, name):
@@ -333,6 +405,108 @@ def _valid_skin_control_relative_motion(record):
     return True
 
 
+def _valid_shape_key_state(state):
+    if not isinstance(state, dict) or set(state) != {
+            "key_count", "all_values_sha256", "nonzero_values_sha256",
+            "nonzero_keys"}:
+        return False
+    count, fingerprint, active = (
+        state["key_count"], state["all_values_sha256"], state["nonzero_keys"])
+    if (type(count) is not int or count <= 0
+            or not isinstance(fingerprint, str) or len(fingerprint) != 64
+            or any(char not in "0123456789abcdef" for char in fingerprint)
+            or not isinstance(active, list) or len(active) > count):
+        return False
+    names = []
+    for row in active:
+        if (not isinstance(row, dict) or set(row) != {"name", "value"}
+                or not isinstance(row["name"], str) or not row["name"]
+                or type(row["value"]) not in (int, float)
+                or not math.isfinite(row["value"]) or row["value"] == 0.0):
+            return False
+        names.append(row["name"])
+    if names != sorted(set(names)):
+        return False
+    expected = hashlib.sha256(json.dumps(
+        active, separators=(",", ":"), sort_keys=True).encode("utf-8")).hexdigest()
+    return state["nonzero_values_sha256"] == expected
+
+
+def _valid_geometry_delta(summary):
+    if not isinstance(summary, dict) or set(summary) != {
+            "vertex_count", "change_threshold_mm",
+            "changed_vertex_count_over_1e-6_mm", "max_displacement_mm",
+            "rms_displacement_mm"}:
+        return False
+    count, changed = summary["vertex_count"], summary[
+        "changed_vertex_count_over_1e-6_mm"]
+    if (type(count) is not int or count <= 0 or type(changed) is not int
+            or not 0 <= changed <= count
+            or type(summary["change_threshold_mm"]) not in (int, float)
+            or summary["change_threshold_mm"] != 0.000001):
+        return False
+    maximum, rms = summary["max_displacement_mm"], summary["rms_displacement_mm"]
+    return (type(maximum) in (int, float) and math.isfinite(maximum)
+            and type(rms) in (int, float) and math.isfinite(rms)
+            and 0.0 <= rms <= maximum + 1e-12
+            and (changed > 0 or maximum <= summary["change_threshold_mm"]))
+
+
+def _valid_skeletal_basis(state):
+    if not isinstance(state, dict) or set(state) != {
+            "pose_bone_count", "max_matrix_basis_rotation_deg_not_anatomical",
+            "max_matrix_basis_translation_mm",
+            "all_matrix_basis_identity_within_tolerance"}:
+        return False
+    rotation = state["max_matrix_basis_rotation_deg_not_anatomical"]
+    translation = state["max_matrix_basis_translation_mm"]
+    expected = rotation <= 0.000001 and translation <= 0.000001
+    return (type(state["pose_bone_count"]) is int and state["pose_bone_count"] == 77
+            and type(rotation) in (int, float) and math.isfinite(rotation)
+            and type(translation) in (int, float) and math.isfinite(translation)
+            and rotation >= 0.0 and translation >= 0.0
+            and state["all_matrix_basis_identity_within_tolerance"] is expected)
+
+
+def _valid_corrective_return(record, expected_vertex_count):
+    if (not isinstance(record, dict)
+            or record.get("status") !=
+            "DESCRIPTIVE_SKELETAL_RESET_CORRECTIVE_LIFECYCLE_NOT_ANATOMY"
+            or record.get("anatomical_approval") != "NOT_GRANTED"
+            or record.get("tissue_safety_claimed") is not False):
+        return False
+    reference = record.get("sample0_reference")
+    if (not isinstance(reference, dict) or set(reference) != {"sample", "shape_keys"}
+            or type(reference["sample"]) is not int or reference["sample"] != 0
+            or not _valid_shape_key_state(reference["shape_keys"])):
+        return False
+    stages = record.get("stages")
+    expected = [
+        ("AFTER_BENCHMARK_SKELETAL_RESET_BEFORE_NEUTRAL_DRIVER_REFRESH", False),
+        ("AFTER_NEUTRAL_DRIVER_REFRESH", True),
+    ]
+    if not isinstance(stages, list) or len(stages) != 2:
+        return False
+    vertex_count = None
+    expected_key_count = reference["shape_keys"]["key_count"]
+    for stage, (label, refreshed) in zip(stages, expected):
+        if (not isinstance(stage, dict) or set(stage) != {
+                "stage", "neutral_driver_refresh_applied", "skeletal_basis",
+                "shape_keys", "evaluated_geometry_vs_sample0"}
+                or stage["stage"] != label
+                or stage["neutral_driver_refresh_applied"] is not refreshed
+                or not _valid_skeletal_basis(stage["skeletal_basis"])
+                or not _valid_shape_key_state(stage["shape_keys"])
+                or stage["shape_keys"]["key_count"] != expected_key_count
+                or not _valid_geometry_delta(stage["evaluated_geometry_vs_sample0"])):
+            return False
+        current = stage["evaluated_geometry_vs_sample0"]["vertex_count"]
+        if vertex_count is not None and current != vertex_count:
+            return False
+        vertex_count = current
+    return vertex_count == expected_vertex_count
+
+
 def validate_report(data):
     errors = []
     if (data.get("status") != "READ_ONLY_AUTHORED_SQUAT_CONTROL_STATE_ANATOMY_NOT_APPROVED"
@@ -358,6 +532,22 @@ def validate_report(data):
             or not _valid_skin_control_relative_motion(relative_motion)
             or relative_motion != expected_relative_motion):
         errors.append("invalid skin/control relative motion")
+    mesh_counts = set()
+    try:
+        for sample in samples:
+            for side in ("l", "r"):
+                mesh_counts.add(sample["foot_skin_lower_envelope"]["sides"][side][
+                    "evaluated_mesh_vertex_count"])
+    except (KeyError, TypeError):
+        pass
+    expected_vertex_count = next(iter(mesh_counts)) if len(mesh_counts) == 1 else None
+    if not _valid_corrective_return(
+            data.get("corrective_return_to_neutral"), expected_vertex_count):
+        errors.append("invalid corrective return-to-neutral evidence")
+    limitations = data.get("limitations")
+    if (not isinstance(limitations, list)
+            or CORRECTIVE_RETURN_LIMITATION not in limitations):
+        errors.append("missing corrective return-to-neutral limitation")
     for index, row in enumerate(samples):
         expected_t = index / 8.0
         if type(row.get("t")) not in (int, float) or not math.isclose(
@@ -500,7 +690,21 @@ def markdown(data):
             f"{millimetres(solve['sides']['r']['post_solve_residual_world_m'])} | "
             f"{millimetres(solve['mean_post_solve_residual_world_m'])} |")
     lines += ["", "The benchmark solves foot orientation and applies one averaged root correction, but this is **NOT verified ground contact** or pressure/balance evidence.",
-              "Toe controls remain observed even when their local delta is zero; no multisegment foot anatomy is inferred.", ""]
+              "Toe controls remain observed even when their local delta is zero; no multisegment foot anatomy is inferred.",
+              "", "## Corrective return-to-neutral lifecycle", "",
+              "The frozen benchmark resets the skeletal matrix basis after its final sample. The first row is captured before neutral driver refresh; the second follows one unchanged driver call at neutral.", "",
+              "| Stage | skeletal basis neutral | active shape keys | changed vertices vs sample 0 | max / RMS displacement mm |",
+              "|:---|:---:|---:|---:|---:|"]
+    for stage in data["corrective_return_to_neutral"]["stages"]:
+        shape = stage["shape_keys"]
+        geometry = stage["evaluated_geometry_vs_sample0"]
+        lines.append(
+            f"| {stage['stage']} | "
+            f"{stage['skeletal_basis']['all_matrix_basis_identity_within_tolerance']} | "
+            f"{len(shape['nonzero_keys'])} | "
+            f"{geometry['changed_vertex_count_over_1e-6_mm']} / {geometry['vertex_count']} | "
+            f"{geometry['max_displacement_mm']:.6f} / {geometry['rms_displacement_mm']:.6f} |")
+    lines += ["", "This separates skeletal cleanup from corrective-state cleanup. It does not establish anatomical neutral, deformation quality, contact, balance or tissue safety.", ""]
     return "\n".join(lines)
 
 
@@ -546,6 +750,8 @@ def main():
     original_plant_feet = bench._plant_feet
     captures = []
     plant_records = []
+    sample0_vertices = []
+    sample0_shape_keys = []
     correction.build_corrected_scene = lambda: result
 
     def tracked_plant_feet(loaded_rig, rest_heads):
@@ -596,6 +802,9 @@ def main():
             },
         }
         captures.append(row)
+        if sample == 0:
+            sample0_vertices.extend(vector3(vertex) for vertex in V)
+            sample0_shape_keys.append(shape_key_state(body.data.shape_keys.key_blocks))
         print("READ_ONLY_SQUAT_CONTROL_CAPTURE", sample, flush=True)
         return original_metric(V0, V, F, dom, rest_floor)
 
@@ -608,6 +817,25 @@ def main():
         bench.frame_metrics = original_metric
         bench._plant_feet = original_plant_feet
         correction.build_corrected_scene = original_build
+    if len(sample0_shape_keys) != 1 or not sample0_vertices:
+        raise ValueError("Missing sample-0 return reference")
+
+    def return_stage(label, refreshed):
+        bpy.context.view_layer.update()
+        vertices, _ = bench._evaluated(body)
+        return {
+            "stage": label,
+            "neutral_driver_refresh_applied": refreshed,
+            "skeletal_basis": skeletal_basis_state(rig.pose.bones),
+            "shape_keys": shape_key_state(body.data.shape_keys.key_blocks),
+            "evaluated_geometry_vs_sample0": geometry_delta_summary(
+                sample0_vertices, [vector3(vertex) for vertex in vertices]),
+        }
+
+    before_neutral_driver = return_stage(
+        "AFTER_BENCHMARK_SKELETAL_RESET_BEFORE_NEUTRAL_DRIVER_REFRESH", False)
+    drives.drive(rig, body)
+    after_neutral_driver = return_stage("AFTER_NEUTRAL_DRIVER_REFRESH", True)
     after = adapter.rest_signature(rig, body)
     unchanged = digest(source) == W8_SHA256
     if before != after or not unchanged:
@@ -624,6 +852,16 @@ def main():
         "anatomical_approval": "NOT_GRANTED", "ground_contact_approval": "NOT_GRANTED",
         "samples": captures,
         "skin_control_relative_motion": skin_control_relative_motion(captures),
+        "corrective_return_to_neutral": {
+            "status": "DESCRIPTIVE_SKELETAL_RESET_CORRECTIVE_LIFECYCLE_NOT_ANATOMY",
+            "anatomical_approval": "NOT_GRANTED",
+            "tissue_safety_claimed": False,
+            "sample0_reference": {
+                "sample": 0,
+                "shape_keys": sample0_shape_keys[0],
+            },
+            "stages": [before_neutral_driver, after_neutral_driver],
+        },
         "limitations": [
             "Authored FK controls and world-space control trajectories are not ISB joint-coordinate measurements",
             "Bone heads are authored rig locations, not independently verified anatomical joint centres",
@@ -631,6 +869,7 @@ def main():
             "Pre/post solve residuals expose authored root-correction behavior, not anatomical foot planting",
             "Foot/toe-dominant lower-envelope skin samples are descriptive geometry, not contact patches",
             "The single foot and toe controls do not establish talus, calcaneus or multisegment foot coordination",
+            CORRECTIVE_RETURN_LIMITATION,
             "Population range-of-motion means are not hard movement limits and no movement is approved",
         ],
     }

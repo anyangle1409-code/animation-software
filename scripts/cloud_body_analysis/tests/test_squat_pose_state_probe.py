@@ -102,6 +102,47 @@ def report():
         "samples": samples,
     }
     data["skin_control_relative_motion"] = probe.skin_control_relative_motion(samples)
+    baseline_keys = probe.shape_key_state([
+        NS(name="Basis", value=0.0), NS(name="HGPT_K1_KNEE_l_110", value=0.0)])
+    stale_keys = probe.shape_key_state([
+        NS(name="Basis", value=0.0), NS(name="HGPT_K1_KNEE_l_110", value=1.0)])
+    reference_geometry = [(0, 0, 0), (1, 0, 0), (2, 0, 0), (3, 0, 0)]
+    neutral_geometry = probe.geometry_delta_summary(
+        reference_geometry, reference_geometry)
+    stale_geometry = probe.geometry_delta_summary(
+        reference_geometry, [(0, 0, 0), (1.001, 0, 0), (2, 0, 0), (3, 0, 0)])
+    neutral_skeleton = {
+        "pose_bone_count": 77,
+        "max_matrix_basis_rotation_deg_not_anatomical": 0.0,
+        "max_matrix_basis_translation_mm": 0.0,
+        "all_matrix_basis_identity_within_tolerance": True,
+    }
+    data["corrective_return_to_neutral"] = {
+        "status": "DESCRIPTIVE_SKELETAL_RESET_CORRECTIVE_LIFECYCLE_NOT_ANATOMY",
+        "anatomical_approval": "NOT_GRANTED",
+        "tissue_safety_claimed": False,
+        "sample0_reference": {
+            "sample": 0,
+            "shape_keys": baseline_keys,
+        },
+        "stages": [
+            {
+                "stage": "AFTER_BENCHMARK_SKELETAL_RESET_BEFORE_NEUTRAL_DRIVER_REFRESH",
+                "neutral_driver_refresh_applied": False,
+                "skeletal_basis": copy.deepcopy(neutral_skeleton),
+                "shape_keys": stale_keys,
+                "evaluated_geometry_vs_sample0": stale_geometry,
+            },
+            {
+                "stage": "AFTER_NEUTRAL_DRIVER_REFRESH",
+                "neutral_driver_refresh_applied": True,
+                "skeletal_basis": copy.deepcopy(neutral_skeleton),
+                "shape_keys": baseline_keys,
+                "evaluated_geometry_vs_sample0": neutral_geometry,
+            },
+        ],
+    }
+    data["limitations"] = [probe.CORRECTIVE_RETURN_LIMITATION]
     return data
 
 
@@ -111,6 +152,75 @@ def json_bytes(value):
 
 
 class SquatPoseStateProbeTests(unittest.TestCase):
+    def test_geometry_delta_summary_zero_and_nonzero(self):
+        zero = probe.geometry_delta_summary(
+            [(0, 0, 0), (1, 0, 0)], [(0, 0, 0), (1, 0, 0)])
+        self.assertEqual(zero["vertex_count"], 2)
+        self.assertEqual(zero["changed_vertex_count_over_1e-6_mm"], 0)
+        self.assertEqual(zero["max_displacement_mm"], 0.0)
+        moved = probe.geometry_delta_summary(
+            [(0, 0, 0), (1, 0, 0)], [(0, 0, 0), (1.003, 0, 0)])
+        self.assertEqual(moved["changed_vertex_count_over_1e-6_mm"], 1)
+        self.assertAlmostEqual(moved["max_displacement_mm"], 3.0)
+        self.assertAlmostEqual(moved["rms_displacement_mm"], 3 / math.sqrt(2))
+
+    def test_geometry_delta_summary_rejects_bad_inputs(self):
+        with self.assertRaisesRegex(ValueError, "topology"):
+            probe.geometry_delta_summary([(0, 0, 0)], [])
+        with self.assertRaisesRegex(ValueError, "numerical|vector|3D"):
+            probe.geometry_delta_summary([(0, 0, 0)], [(False, 0, 0)])
+        with self.assertRaisesRegex(ValueError, "Nonfinite"):
+            probe.geometry_delta_summary([(0, 0, 0)], [(float("nan"), 0, 0)])
+
+    def test_shape_key_state_is_deterministic_and_strict(self):
+        state = probe.shape_key_state([
+            NS(name="B", value=0.5), NS(name="A", value=0.0)])
+        self.assertEqual(state["key_count"], 2)
+        self.assertEqual(state["nonzero_keys"], [{"name": "B", "value": 0.5}])
+        reversed_state = probe.shape_key_state([
+            NS(name="A", value=0.0), NS(name="B", value=0.5)])
+        self.assertEqual(state["all_values_sha256"], reversed_state["all_values_sha256"])
+        with self.assertRaisesRegex(ValueError, "duplicate"):
+            probe.shape_key_state([NS(name="A", value=0), NS(name="A", value=1)])
+        with self.assertRaisesRegex(ValueError, "shape-key value"):
+            probe.shape_key_state([NS(name="A", value=False)])
+
+    def test_report_rejects_tampered_corrective_return_lifecycle(self):
+        data = report()
+        self.assertEqual(probe.validate_report(data), [])
+        data["corrective_return_to_neutral"]["stages"].reverse()
+        self.assertIn("invalid corrective return-to-neutral evidence", probe.validate_report(data))
+        data = report()
+        data["corrective_return_to_neutral"]["stages"][0][
+            "neutral_driver_refresh_applied"] = 0
+        self.assertIn("invalid corrective return-to-neutral evidence", probe.validate_report(data))
+        data = report()
+        data["corrective_return_to_neutral"]["stages"][1]["shape_keys"][
+            "nonzero_keys"] = [{"name": "X", "value": 1.0}]
+        self.assertIn("invalid corrective return-to-neutral evidence", probe.validate_report(data))
+        data = report()
+        data["corrective_return_to_neutral"]["tissue_safety_claimed"] = True
+        self.assertIn("invalid corrective return-to-neutral evidence", probe.validate_report(data))
+        data = report()
+        data["corrective_return_to_neutral"]["stages"][0]["shape_keys"][
+            "key_count"] += 1
+        self.assertIn("invalid corrective return-to-neutral evidence", probe.validate_report(data))
+        data = report()
+        data["corrective_return_to_neutral"]["stages"][0][
+            "evaluated_geometry_vs_sample0"]["vertex_count"] = 3
+        data["corrective_return_to_neutral"]["stages"][1][
+            "evaluated_geometry_vs_sample0"]["vertex_count"] = 3
+        self.assertIn("invalid corrective return-to-neutral evidence", probe.validate_report(data))
+        data = report()
+        data["limitations"] = []
+        self.assertIn("missing corrective return-to-neutral limitation", probe.validate_report(data))
+
+    def test_markdown_separates_skeletal_reset_and_driver_refresh(self):
+        text = probe.markdown(report())
+        self.assertIn("Corrective return-to-neutral lifecycle", text)
+        self.assertIn("before neutral driver refresh", text.lower())
+        self.assertIn("tissue safety", text.lower())
+
     def test_smooth_endpoints_and_midpoint(self):
         self.assertEqual(probe.smooth(0), 0)
         self.assertEqual(probe.smooth(0.5), 0.5)

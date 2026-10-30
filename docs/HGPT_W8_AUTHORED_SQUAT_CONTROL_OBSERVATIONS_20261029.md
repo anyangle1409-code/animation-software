@@ -155,3 +155,12 @@ Commit `21998b58c9c419260395f4f1b4ce5f8c456fb4b2` derives authored hip, knee, an
 Authored chain-length spans are sub-micron: hip→knee <=`0.000484mm`, knee→ankle <=`0.000118mm`, ankle→toe <=`0.000038mm`. At sample8 the hip controls move about `(+248.862mm Y,-399.520mm Z)`; knee controls move `-181.809mm Y,-40.339mm Z` and about `19.478mm` inward. Ankle/toe controls retain the previously verified inward drift: `17.394mm` at sample6 and about `16.402mm` at sample8. Maximum authored X-reflection disagreement is `0.000313mm`.
 
 These are rig-control paths and point distances, not verified anatomical joint centres, human segment lengths, ISB coordinates, anatomical side or sagittal-plane evidence. Artifact12976415258 independently downloaded/CRC-checked: ZIP `4d88652efb6b0db2bf594828c6655010452cc4d1b4ef0a0863a341c951ba09f4`; JSON `031d279cfb5b87d0c83e97c6b6d226e7f0b038e28a7ecde8c8fbd86e7cdf5bb8`; Markdown `c4b473798ae07b88dc7c876faf3f68d72bbbb8e03c8b7d767e6b94dfd8553c07`.
+
+
+### Authored lower-chain angle geometry
+
+Commit `45fbeed0c8af1e927a3d2c03760d9ce8e67fdb16` derives unsigned segment-orientation changes and included point-chain angles. [Run41112317983](https://github.com/anyangle1409-code/animation-software/actions/runs/41112317983) completed SUCCESS7/7.
+
+At sample8, thigh orientation changes `85.0125°`, shank `25.0161°`, and foot at most `0.000022°`. The included knee point angle changes from about `177.078°` to `72.669°` (`-104.409°`), while the authored knee target is `110°`. The included ankle angle changes about `-25.013°`. At sample1 the included knee angle initially increases by about `0.537°`, so strict monotonicity from neutral is false.
+
+The authored target, segment orientation changes and included point angles are distinct measurements. None is a signed ISB coordinate, anatomical ROM value or limit. Artifact13005270303 independently downloaded/CRC-checked: ZIP `5bdd9043b01a1428caa09f80d606ef1fbbd07e5224e5c60085e3518af0ffa1f1`; JSON `59da56b98cf00979d5259e3ee66444634ea76e1803e85df4949ec3add9d09931`; Markdown `3113297e66e2a8db9bda8738dcf2b123eec3a9280f2f07cad4220661473c10bf`.

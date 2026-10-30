@@ -231,23 +231,32 @@
   "footprint_radius_m": 0.01,
   "footprint_band_m": 0.015,
   "calf_points_resolved_out_of_thigh_bellies": true,
+  "volume_kept_by_bulge": "outer surface swollen radially over the contact rings +- 4 (tapered)",
   "moved_vertices_per_key": {
    "80": {
-    "gastrocnemius_medial": 9
+    "gastrocnemius_medial": 9,
+    "gastrocnemius_medial (bulge scale)": 0.005
    },
    "90": {
-    "gastrocnemius_medial": 31
+    "gastrocnemius_medial": 31,
+    "gastrocnemius_medial (bulge scale)": 0.039
    },
    "100": {
     "biceps_femoris_long": 12,
-    "gastrocnemius_medial": 76
+    "gastrocnemius_medial": 76,
+    "biceps_femoris_long (bulge scale)": 0.012,
+    "gastrocnemius_medial (bulge scale)": 0.141
    },
    "110": {
     "biceps_femoris_long": 87,
     "semitendinosus": 8,
     "gastrocnemius_medial": 117,
     "gastrocnemius_medial (resolved out of the thigh)": 7,
-    "soleus (resolved out of the thigh)": 13
+    "soleus (resolved out of the thigh)": 13,
+    "biceps_femoris_long (bulge scale)": 0.192,
+    "semitendinosus (bulge scale)": 0.013,
+    "gastrocnemius_medial (bulge scale)": 0.255,
+    "soleus (bulge scale)": 0.029
    },
    "120": {
     "biceps_femoris_long": 162,
@@ -255,7 +264,12 @@
     "semimembranosus": 26,
     "gastrocnemius_medial": 287,
     "gastrocnemius_medial (resolved out of the thigh)": 34,
-    "soleus (resolved out of the thigh)": 55
+    "soleus (resolved out of the thigh)": 55,
+    "biceps_femoris_long (bulge scale)": 0.553,
+    "semitendinosus (bulge scale)": 0.118,
+    "semimembranosus (bulge scale)": 0.025,
+    "gastrocnemius_medial (bulge scale)": 0.423,
+    "soleus (bulge scale)": 0.117
    },
    "135": {
     "biceps_femoris_long": 289,
@@ -264,7 +278,11 @@
     "gastrocnemius_medial": 454,
     "soleus": 136,
     "gastrocnemius_medial (resolved out of the thigh)": 207,
-    "soleus (resolved out of the thigh)": 292
+    "soleus (resolved out of the thigh)": 292,
+    "biceps_femoris_long (bulge scale)": 1.131,
+    "semitendinosus (bulge scale)": 0.467,
+    "semimembranosus (bulge scale)": 0.145,
+    "gastrocnemius_medial (bulge scale)": 1.034
    }
   }
  },
@@ -728,7 +746,7 @@
     "gastrocnemius_medial": {
      "path_m": 0.5424,
      "belly_k": 1.231,
-     "volume_ratio": 0.9998
+     "volume_ratio": 1.0005
     },
     "soleus": {
      "path_m": 0.3741,
@@ -793,7 +811,7 @@
     "gastrocnemius_medial": {
      "path_m": 0.5412,
      "belly_k": 1.226,
-     "volume_ratio": 0.9903
+     "volume_ratio": 1.0031
     },
     "soleus": {
      "path_m": 0.375,
@@ -838,12 +856,12 @@
     "biceps_femoris_long": {
      "path_m": 0.4225,
      "belly_k": 1.039,
-     "volume_ratio": 0.9925
+     "volume_ratio": 1.0006
     },
     "semitendinosus": {
      "path_m": 0.4498,
      "belly_k": 1.018,
-     "volume_ratio": 1.0002
+     "volume_ratio": 1.0005
     },
     "semimembranosus": {
      "path_m": 0.4352,
@@ -858,12 +876,12 @@
     "gastrocnemius_medial": {
      "path_m": 0.5369,
      "belly_k": 1.204,
-     "volume_ratio": 0.9346
+     "volume_ratio": 1.0091
     },
     "soleus": {
      "path_m": 0.3759,
      "belly_k": 1.056,
-     "volume_ratio": 0.9997
+     "volume_ratio": 1.0003
     }
    },
    "overlaps_keyed": {
@@ -875,6 +893,6 @@
   }
  },
  "output_blend": "HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG10_leg_length_right.blend",
- "output_sha256": "dfbe709ca8e4228c037278f47efa50fb62e4a4aaf782051a24b2a3618c555cef",
+ "output_sha256": "f6d3d44f713aabbca9ba19ccd6a9307405f84fb30ce47ba5c5e7235f1bc3a41c",
  "input_unchanged": true
 }

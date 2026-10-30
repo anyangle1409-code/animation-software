@@ -1225,8 +1225,12 @@ Face overlaps (MG7 + MG8):
 **Volume.**
 
 - Every belly keeps 0.999–1.002 of its volume at every pose with the length keys.
-- With the contact keys, the gastrocnemius keeps 0.99 at 7/8 depth and 0.935 at full depth: the flattening adds no
-  bulge.
+- With the contact keys and their bulge, every belly keeps 1.000–1.009 at every pose. The contact keys give back the
+  volume they take as an outward radial bulge of the outer surface over the contact rings ± 4 (tapered); the points
+  on the plane stay on it.
+- Without the bulge, the gastrocnemius kept 0.935 at full depth.
+- The bulge is moderate on the squat path (gastrocnemius outer thickness +14 % at the 100° key). It is large at the
+  135° key (biceps femoris +113 %), beyond the squat.
 
 - **Calf points still inside a thigh belly** after the flattening go out to its surface plus the gap. This stands in
   for a biarticular binding: MG7 binds the whole gastrocnemius to the tibia, though its heads arise on the femur.
@@ -1235,7 +1239,6 @@ Face overlaps (MG7 + MG8):
 **Open.**
 
 - A biarticular binding of the gastrocnemius' heads, which would replace the stand-in above.
-- The contact flattening needs a volume-keeping bulge.
 - The k values come from the proposed (unreviewed) anchors and the path-length check's wrap model. The vasti's +32 to
   +48 % belly lengthening at 102° is large and needs review, along with the anchors.
 

@@ -308,6 +308,20 @@ def set_k(m, k):
             return
 
 
+def evaluated(o):
+    dg = bpy.context.evaluated_depsgraph_get(); e = o.evaluated_get(dg); me = e.to_mesh()
+    P = [e.matrix_world @ v.co for v in me.vertices]; F = [p.vertices[:] for p in me.polygons]; e.to_mesh_clear()
+    return P, F
+
+
+def volume(P, F):
+    v = 0.0
+    for f in F:
+        for q in range(1, len(f) - 1):
+            v += P[f[0]].dot(P[f[q]].cross(P[f[q + 1]])) / 6.0
+    return abs(v)
+
+
 # ---- contact behind the knee, keyed by knee flexion (the thigh bellies ride the femur and the calf bellies the tibia,
 #      so their contact depends on the knee angle alone): beyond the plane through the knee axis bisecting the knee
 #      angle, posterior of the axis, each side is flattened onto the plane less half the gap (the body's hinge contact),
@@ -317,6 +331,7 @@ def set_k(m, k):
 #      of crossing tissue only missed the semimembranosus / adductor magnus, which the heads reach without either
 #      crossing.)  Then calf points still inside a thigh belly (the gastrocnemius' femoral heads, bound to the tibia,
 #      swing into the thigh at deep flexion) go out to its surface + the gap - a stand-in for a biarticular binding.
+#      The volume the contact takes is given back as an outward bulge of the outer surface around the contact rings.
 KNEE_KEYS, CONTACT_FROM, FOOTPRINT_R, NEAR = (80, 90, 100, 110, 120, 135), 70.0, 0.010, 0.015
 THIGH_M = [m for m in MUS if MUS[m] == "thigh"]; CALF_M = [m for m in MUS if MUS[m] == "calf"]
 
@@ -361,22 +376,57 @@ def contact_positions(knee):
             kd.insert(proj(q), i)
         kd.balance(); return kd, len(pts)
     foot = {"thigh": crossing(CALF_M, -1.0), "calf": crossing(THIGH_M, 1.0)}   # what each side meets
-    out, moved, resolved = {}, {}, {}
+    out, moved, resolved, bulged = {}, {}, {}, {}
     for m in THIGH_M + CALF_M:
         side, kd = (1.0, foot["thigh"]) if m in THIGH_M else (-1.0, foot["calf"])
-        new = []; cnt = 0
-        for q in posed[m]:
+        new = []; cnt = 0; hit = set()
+        for vi, q in enumerate(posed[m]):
             d = q - KJC; dn = side * d.dot(n)
             if d.dot(b) > 0 and dn < GAP / 2 and kd[1] and kd[0].find(proj(q))[2] < FOOTPRINT_R:
-                q = q + n * side * (GAP / 2 - dn); cnt += 1
+                q = q + n * side * (GAP / 2 - dn); cnt += 1; hit.add(vi)
             if m in CALF_M and RESOLVE:                       # the gastrocnemius' femoral heads, bound to the tibia, swing
                 for tm, tr in THIGH_BVH.items():             # into the thigh bellies: out to the surface + the gap
                     loc, nrm, _i, dist = tr.find_nearest(q, 0.03)
                     if loc is not None and (q - loc).dot(nrm) < GAP and _inside(tr, q):
-                        q = loc + nrm * GAP; resolved[m] = resolved.get(m, 0) + 1
+                        q = loc + nrm * GAP; resolved[m] = resolved.get(m, 0) + 1; hit.add(vi)
             new.append(Tti @ q if m in CALF_M else q)
-        out[m] = new; moved[m] = cnt
-    return out, {**moved, **{f"{k} (resolved out of the thigh)": v for k, v in resolved.items()}}
+        out[m], bulged[m] = bulge(m, new, hit); moved[m] = cnt
+    return out, {**moved, **{f"{k} (resolved out of the thigh)": v for k, v in resolved.items()},
+                 **{f"{k} (bulge scale)": v for k, v in bulged.items() if v}}
+
+
+BULGE_RINGS = 4
+
+
+def bulge(m, new, hit):
+    """the volume the contact took, given back as an outward radial bulge of the outer surface over the contact rings
+    (+- BULGE_RINGS, tapered), in the segment's frame; the contact points themselves stay on the plane"""
+    if not hit:
+        return new, 0.0
+    F = [tuple(p.vertices) for p in OBJ[m].data.polygons]
+    P0 = [OBJ[m].matrix_world @ v.co for v in OBJ[m].data.vertices]
+    V0, V1 = volume(P0, F), volume(new, F)
+    if V1 >= V0:
+        return new, 0.0
+    rings = {i // MM for i in hit}
+    wr = {}
+    for r in range(len(new) // MM):
+        dmin = min(abs(r - h) for h in rings)
+        x = max(0.0, 1.0 - dmin / (BULGE_RINGS + 1.0)); wr[r] = x * x * (3 - 2 * x)
+    cand = [(r * MM + j, r * MM + MM - 1 - j, wr[r]) for r in range(len(new) // MM) for j in range(NPHI)
+            if wr[r] > 0 and r * MM + j not in hit]
+
+    def swell(c):
+        out = list(new)
+        for io, ii, w in cand:
+            _t, _ph, ro, fo = cyl(m, new[io]); ri = cyl(m, new[ii])[2]
+            out[io] = fo + (new[io] - fo).normalized() * (ri + (ro - ri) * (1.0 + c * w))
+        return out
+    c1 = 0.1; Vc = volume(swell(c1), F)
+    if Vc <= V1:
+        return new, 0.0
+    c = min(1.5, c1 * (V0 - V1) / (Vc - V1))
+    return swell(c), round(c, 3)
 
 
 CONTACT_LOG = {}
@@ -405,20 +455,6 @@ def set_contact(knee):
 
 
 # ---- check through the squat
-def evaluated(o):
-    dg = bpy.context.evaluated_depsgraph_get(); e = o.evaluated_get(dg); me = e.to_mesh()
-    P = [e.matrix_world @ v.co for v in me.vertices]; F = [p.vertices[:] for p in me.polygons]; e.to_mesh_clear()
-    return P, F
-
-
-def volume(P, F):
-    v = 0.0
-    for f in F:
-        for q in range(1, len(f) - 1):
-            v += P[f[0]].dot(P[f[q]].cross(P[f[q + 1]])) / 6.0
-    return abs(v)
-
-
 LEG = [o for o in bpy.data.collections["HGPT_EXPERIMENT_MUSCLES"].objects if o.name.endswith(f".{SUF}")
        and o.name.split(".")[2] in tuple(MUS) + ("gluteus_maximus", "gluteus_medius")]
 
@@ -451,7 +487,8 @@ rep = {"status": "PROXY_LENGTH_RESPONSE_UNREVIEWED", "input": src.name, "input_s
                    "rule": "posterior of the knee axis, beyond the plane bisecting the knee angle, within the other side's "
                            "footprint: flattened onto it less half the gap, each side in its own bone's rest frame",
                    "footprint_radius_m": FOOTPRINT_R, "footprint_band_m": NEAR,
-                   "calf_points_resolved_out_of_thigh_bellies": RESOLVE, "moved_vertices_per_key": CONTACT_LOG},
+                   "calf_points_resolved_out_of_thigh_bellies": RESOLVE,
+                   "volume_kept_by_bulge": "outer surface swollen radially over the contact rings +- 4 (tapered)", "moved_vertices_per_key": CONTACT_LOG},
        "path_model": "squat path-length check: straight, or the knee / hip cylinder wrap of the proposal's wrap_hint",
        "rest_path_m": {m: round(v, 4) for m, v in L0.items()}, "tendons_m": {m: round(v, 4) for m, v in TS.items()},
        "poses": {}}

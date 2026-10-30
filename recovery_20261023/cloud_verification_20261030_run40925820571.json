@@ -1,0 +1,82 @@
+{
+  "status": "VERIFIED_REPLACEMENT_RUN_SUCCESS",
+  "task": "W8 authored squat foot-control to lower-skin-centroid relative-motion diagnostic post-review hardening",
+  "branch": "work/phone-blender-workbench-20261023",
+  "implementation_commit": "a1b1cf8acaa9272c9d3fa1bb6e0defc54ed3da17",
+  "hardening_commit": "c00bdaa599b4a345e4122fcbde6ba91b364415fa",
+  "workflow_run_id": 40925820571,
+  "workflow_conclusion": "success",
+  "jobs": {
+    "total": 7,
+    "success": 7,
+    "ids": [
+      123630903187,
+      123630903550,
+      123630903781,
+      123630903795,
+      123630903993,
+      123631504556,
+      123633392129
+    ]
+  },
+  "tests": {
+    "localization": "339/339",
+    "pose_state": [
+      "29/29",
+      "20/20",
+      "19/19",
+      "6/6",
+      "10/10"
+    ],
+    "driver": [
+      "10/10",
+      "20/20",
+      "8/8"
+    ]
+  },
+  "artifact": {
+    "id": 12919764698,
+    "name": "phone-w8-squat-pose-state-40925820571",
+    "github_sha256": "99e30076fd39df0c04e5c66e7c58179cb0e1987552ea21fa64538d7e76b404c3",
+    "independently_downloaded_sha256": "99e30076fd39df0c04e5c66e7c58179cb0e1987552ea21fa64538d7e76b404c3",
+    "zip_crc": "PASS",
+    "files": {
+      "w8_authored_squat_control_state.json": "a8c52b51fe9c96f3be25c7bc46b4d0f6cda8ec0c8b275b8097815ec5aed2c561",
+      "w8_authored_squat_control_state.md": "2057ca812292c59591cb10f1979cc1bc2ebf2a6ef6823318b5e450b267295767"
+    }
+  },
+  "model_evidence": {
+    "model": "W8",
+    "source_sha256": "2434afd0daa231ab3a03c873cad4187ffcbc1bab78132375221160b0b0f09e4c",
+    "pinned_r57_source_commit": "025d5f28fa7eba2064fba565b1c9b60119cdd2cb",
+    "source_unchanged": true,
+    "saved_blend": false,
+    "rest_bone_signature_unchanged": true,
+    "status": "DESCRIPTIVE_FOOT_CONTROL_TO_SKIN_LOWER_CENTROID_RELATIVE_MOTION_NOT_CONTACT",
+    "contact_claimed": false,
+    "anatomical_approval": "NOT_GRANTED",
+    "ground_contact_approval": "NOT_GRANTED",
+    "sample6_change_from_sample0_mm": {
+      "l": [
+        9.533495,
+        65.911215,
+        -0.346059
+      ],
+      "r": [
+        -9.533493,
+        65.911244,
+        -0.346046
+      ]
+    },
+    "max_change_norm_mm": 66.598047
+  },
+  "replacement_relation": {
+    "prior_run_id": 40923708948,
+    "note": "Replacement run preserves JSON/model measurements while adding strict type validation and explicit tissue-safety disclaimer to the phone report."
+  },
+  "limitations": [
+    "This is descriptive control-to-evaluated-skin relative motion, not slip, pressure, balance, support, tissue safety, or ground contact.",
+    "Authored bone heads are not independently verified anatomical joint centres.",
+    "No anatomical movement is approved."
+  ]
+}

@@ -146,3 +146,12 @@ The complete77-control skeletal fingerprint is identical after refresh counts1 a
 Therefore the six sub-micron muscle-line helper translations are stable one-time matrix recomposition, not iterative drift across the two measured refreshes. This is runtime idempotence evidence only, not anatomical validation of helper names, origins, insertions, side mapping or attachments.
 
 Artifact12975276249 independently downloaded/CRC-checked: ZIP `138972401995e9b8096421d3fdec2fdf2daf0adcb45030cc6f6c5104c8405f4a`; JSON `420f107f1c8b76e64c6d79cb992038a9b146b011fa51a9bc5c5f81bb125a1ce7`; Markdown `d17bed5fcb9be88a96e6ba7ccd265e4bc64502898b49c55d8871b2084aa35ef6`.
+
+
+### Authored lower-chain trajectories
+
+Commit `21998b58c9c419260395f4f1b4ce5f8c456fb4b2` derives authored hip, knee, ankle and toe control-head paths from the existing nine samples. [Run41052860237](https://github.com/anyangle1409-code/animation-software/actions/runs/41052860237) completed SUCCESS7/7.
+
+Authored chain-length spans are sub-micron: hip→knee <=`0.000484mm`, knee→ankle <=`0.000118mm`, ankle→toe <=`0.000038mm`. At sample8 the hip controls move about `(+248.862mm Y,-399.520mm Z)`; knee controls move `-181.809mm Y,-40.339mm Z` and about `19.478mm` inward. Ankle/toe controls retain the previously verified inward drift: `17.394mm` at sample6 and about `16.402mm` at sample8. Maximum authored X-reflection disagreement is `0.000313mm`.
+
+These are rig-control paths and point distances, not verified anatomical joint centres, human segment lengths, ISB coordinates, anatomical side or sagittal-plane evidence. Artifact12976415258 independently downloaded/CRC-checked: ZIP `4d88652efb6b0db2bf594828c6655010452cc4d1b4ef0a0863a341c951ba09f4`; JSON `031d279cfb5b87d0c83e97c6b6d226e7f0b038e28a7ecde8c8fbd86e7cdf5bb8`; Markdown `c4b473798ae07b88dc7c876faf3f68d72bbbb8e03c8b7d767e6b94dfd8553c07`.

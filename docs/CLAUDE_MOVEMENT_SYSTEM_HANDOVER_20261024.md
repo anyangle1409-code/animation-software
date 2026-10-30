@@ -219,8 +219,21 @@ The flagged muscles:
 - The tendons follow the anatomical chain in elbow flexion.
 - Literature volumes could not be fetched (the hosts are unreachable from the sandbox), so the reviewed
   `rest_volume_m3` stays null.
-- **Next:** the volume-preserving length response (Work's kernel), then the deltoid and the cuff.
 - Sheet: `experiments/anatomical_muscles/native_20261024/mg1/MG1_left_arm_sheet.jpg`.
+
+**MG2, length response (30 Oct):**
+
+- Work's kernel `belly_axes` with activation 0, so positioning only.
+- Stored as per-angle rest-space shape keys: each section keeps its deep surface and its outer surface bulges.
+- Through the curl the biceps shortens to 0.60 and thickens ×1.29 at 140°. Volume is held to 0.9994–1.0001 for every
+  muscle at every angle.
+- Still open:
+  - deep-under-superficial layering (brachialis growing under the biceps; needs a layered or contact response, with
+    the skin response);
+  - the triceps medial head, which lengthens past the elbow instead of wrapping (needs a path-following sweep);
+  - skin crossings under flexion (the skin does not bulge yet).
+- Sheet: `native_20261024/mg2/MG2_left_curl_sheet.jpg`.
+- **Next:** layered response and the deltoid / rotator cuff envelopes.
 
 ## Decisions for the owner
 

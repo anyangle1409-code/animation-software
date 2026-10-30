@@ -1,0 +1,387 @@
+{
+ "status": "ENVELOPE_PROXY_UNREVIEWED",
+ "input": "HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG5_axilla_right.blend",
+ "input_sha256": "bd4461ce1ce54a0d4e7dea8e53c4c0a18cfc6e2ccf8ad1290093108c99c359cd",
+ "side": "right",
+ "runtime_suffix_of_side": "l",
+ "copy_only_changes": {
+  "anatomical_master_use_deform_enabled": [
+   "anat_femur_right",
+   "anat_tibia_right",
+   "anat_fibula_right",
+   "anat_calcaneus_right",
+   "anat_patella_right"
+  ]
+ },
+ "rules": {
+  "subcutaneous_layer_m": 0.004,
+  "gap_m": 0.0012,
+  "sector_inset_deg": 1.5,
+  "tendon_radius_m": 0.004,
+  "station_step_s": 0.012,
+  "nphi": 14,
+  "taper": 0.07,
+  "thigh_line": "shaft: trochanterion - 45 mm medial - 30 mm down -> KJC (the mechanical axis runs through the neck)",
+  "thigh_bone_radius_m": "13.5 mm shaft, +12 mm towards the trochanter (s<0.10), +22 mm towards the condyles (s>0.80)",
+  "calf_line": "KJC -> AJC",
+  "calf_bone_radius_m": "21 mm (tibia + fibula + interosseous), +16 mm towards the plateau (s<0.12), +6 mm towards the malleoli",
+  "medial_reserve": "35 % of the available thickness kept superficial over vastus medialis / adductor magnus for s<0.30, 0 by s=0.55 (sartorius, gracilis, adductors not in the contract)",
+  "sections": {
+   "rectus_femoris": {
+    "segment": "thigh",
+    "sector_deg": [
+     -25,
+     25
+    ],
+    "range_s": [
+     0.06,
+     0.8
+    ],
+    "bones": [
+     "femur",
+     "hip_bone",
+     "tibia"
+    ]
+   },
+   "vastus_intermedius": {
+    "segment": "thigh",
+    "sector_deg": [
+     -60,
+     115
+    ],
+    "range_s": [
+     0.2,
+     0.86
+    ],
+    "bones": [
+     "femur",
+     "femur",
+     "tibia"
+    ]
+   },
+   "vastus_lateralis": {
+    "segment": "thigh",
+    "sector_deg": [
+     25,
+     150
+    ],
+    "range_s": [
+     0.08,
+     0.88
+    ],
+    "bones": [
+     "femur",
+     "femur",
+     "tibia"
+    ]
+   },
+   "vastus_medialis": {
+    "segment": "thigh",
+    "sector_deg": [
+     -80,
+     -25
+    ],
+    "range_s": [
+     0.42,
+     0.93
+    ],
+    "bones": [
+     "femur",
+     "femur",
+     "tibia"
+    ]
+   },
+   "biceps_femoris_long": {
+    "segment": "thigh",
+    "sector_deg": [
+     150,
+     205
+    ],
+    "range_s": [
+     0.14,
+     0.84
+    ],
+    "bones": [
+     "femur",
+     "hip_bone",
+     "fibula"
+    ]
+   },
+   "semitendinosus": {
+    "segment": "thigh",
+    "sector_deg": [
+     205,
+     245
+    ],
+    "range_s": [
+     0.12,
+     0.78
+    ],
+    "bones": [
+     "femur",
+     "hip_bone",
+     "tibia"
+    ]
+   },
+   "semimembranosus": {
+    "segment": "thigh",
+    "sector_deg": [
+     205,
+     258
+    ],
+    "range_s": [
+     0.24,
+     0.88
+    ],
+    "bones": [
+     "femur",
+     "hip_bone",
+     "tibia"
+    ]
+   },
+   "adductor_magnus_hamstring": {
+    "segment": "thigh",
+    "sector_deg": [
+     258,
+     278
+    ],
+    "range_s": [
+     0.16,
+     0.9
+    ],
+    "bones": [
+     "femur",
+     "hip_bone",
+     "femur"
+    ]
+   },
+   "gastrocnemius_medial": {
+    "segment": "calf",
+    "sector_deg": [
+     195,
+     262
+    ],
+    "range_s": [
+     0.03,
+     0.5
+    ],
+    "bones": [
+     "tibia",
+     "femur",
+     "calcaneus"
+    ]
+   },
+   "soleus": {
+    "segment": "calf",
+    "sector_deg": [
+     135,
+     265
+    ],
+    "range_s": [
+     0.14,
+     0.82
+    ],
+    "bones": [
+     "tibia",
+     "tibia",
+     "calcaneus"
+    ]
+   }
+  }
+ },
+ "volume_source": "geometry-derived from this body (no reviewed literature volumes reachable)",
+ "muscles": {
+  "hgpt.muscle.rectus_femoris.R": {
+   "belly_volume_cm3": 488.2,
+   "belly_volume_m3": 0.0004882,
+   "belly_length_m": 0.2334,
+   "tendon_lengths_m": {
+    "origin": 0.152,
+    "insertion": 0.1276
+   }
+  },
+  "hgpt.muscle.vastus_intermedius.R": {
+   "belly_volume_cm3": 442.8,
+   "belly_volume_m3": 0.0004428,
+   "belly_length_m": 0.2082,
+   "tendon_lengths_m": {
+    "origin": 0.0501,
+    "insertion": 0.105
+   }
+  },
+  "hgpt.muscle.vastus_lateralis.R": {
+   "belly_volume_cm3": 865.7,
+   "belly_volume_m3": 0.0008657,
+   "belly_length_m": 0.2523,
+   "tendon_lengths_m": {
+    "origin": 0.0866,
+    "insertion": 0.1059
+   }
+  },
+  "hgpt.muscle.vastus_medialis.R": {
+   "belly_volume_cm3": 294.6,
+   "belly_volume_m3": 0.0002946,
+   "belly_length_m": 0.162,
+   "tendon_lengths_m": {
+    "origin": 0.0704,
+    "insertion": 0.0935
+   }
+  },
+  "hgpt.muscle.biceps_femoris_long.R": {
+   "belly_volume_cm3": 413.3,
+   "belly_volume_m3": 0.0004133,
+   "belly_length_m": 0.2209,
+   "tendon_lengths_m": {
+    "origin": 0.1143,
+    "insertion": 0.1022
+   }
+  },
+  "hgpt.muscle.semitendinosus.R": {
+   "belly_volume_cm3": 243.5,
+   "belly_volume_m3": 0.0002435,
+   "belly_length_m": 0.2097,
+   "tendon_lengths_m": {
+    "origin": 0.0924,
+    "insertion": 0.1563
+   }
+  },
+  "hgpt.muscle.semimembranosus.R": {
+   "belly_volume_cm3": 130.5,
+   "belly_volume_m3": 0.0001305,
+   "belly_length_m": 0.2019,
+   "tendon_lengths_m": {
+    "origin": 0.1251,
+    "insertion": 0.0793
+   }
+  },
+  "hgpt.muscle.adductor_magnus_hamstring.R": {
+   "belly_volume_cm3": 139.2,
+   "belly_volume_m3": 0.0001392,
+   "belly_length_m": 0.2334,
+   "tendon_lengths_m": {
+    "origin": 0.0974,
+    "insertion": 0.0166
+   }
+  },
+  "hgpt.muscle.gastrocnemius_medial.R": {
+   "belly_volume_cm3": 267.1,
+   "belly_volume_m3": 0.0002671,
+   "belly_length_m": 0.2064,
+   "tendon_lengths_m": {
+    "origin": 0.0245,
+    "insertion": 0.267
+   }
+  },
+  "hgpt.muscle.soleus.R": {
+   "belly_volume_cm3": 414.1,
+   "belly_volume_m3": 0.0004141,
+   "belly_length_m": 0.2987,
+   "tendon_lengths_m": {
+    "origin": 0.0613,
+    "insertion": 0.1252
+   }
+  }
+ },
+ "checks": {
+  "per_muscle": {
+   "hgpt.muscle.rectus_femoris.R": {
+    "vertices": 1764,
+    "outside_skin": 0,
+    "shallower_than_layer": 0,
+    "min_depth_below_skin_mm": 3.9,
+    "inside_bone_proxy": 0,
+    "self_intersecting_face_pairs": 0
+   },
+   "hgpt.muscle.vastus_intermedius.R": {
+    "vertices": 1568,
+    "outside_skin": 0,
+    "shallower_than_layer": 0,
+    "min_depth_below_skin_mm": 27.69,
+    "inside_bone_proxy": 0,
+    "self_intersecting_face_pairs": 0
+   },
+   "hgpt.muscle.vastus_lateralis.R": {
+    "vertices": 1904,
+    "outside_skin": 0,
+    "shallower_than_layer": 0,
+    "min_depth_below_skin_mm": 3.9,
+    "inside_bone_proxy": 0,
+    "self_intersecting_face_pairs": 0
+   },
+   "hgpt.muscle.vastus_medialis.R": {
+    "vertices": 1204,
+    "outside_skin": 0,
+    "shallower_than_layer": 0,
+    "min_depth_below_skin_mm": 3.9,
+    "inside_bone_proxy": 0,
+    "self_intersecting_face_pairs": 0
+   },
+   "hgpt.muscle.biceps_femoris_long.R": {
+    "vertices": 1652,
+    "outside_skin": 0,
+    "shallower_than_layer": 0,
+    "min_depth_below_skin_mm": 3.9,
+    "inside_bone_proxy": 0,
+    "self_intersecting_face_pairs": 0
+   },
+   "hgpt.muscle.semitendinosus.R": {
+    "vertices": 1568,
+    "outside_skin": 0,
+    "shallower_than_layer": 0,
+    "min_depth_below_skin_mm": 3.9,
+    "inside_bone_proxy": 0,
+    "self_intersecting_face_pairs": 0
+   },
+   "hgpt.muscle.semimembranosus.R": {
+    "vertices": 1512,
+    "outside_skin": 0,
+    "shallower_than_layer": 0,
+    "min_depth_below_skin_mm": 29.01,
+    "inside_bone_proxy": 0,
+    "self_intersecting_face_pairs": 0
+   },
+   "hgpt.muscle.adductor_magnus_hamstring.R": {
+    "vertices": 1764,
+    "outside_skin": 0,
+    "shallower_than_layer": 0,
+    "min_depth_below_skin_mm": 3.91,
+    "inside_bone_proxy": 0,
+    "self_intersecting_face_pairs": 0
+   },
+   "hgpt.muscle.gastrocnemius_medial.R": {
+    "vertices": 1120,
+    "outside_skin": 0,
+    "shallower_than_layer": 0,
+    "min_depth_below_skin_mm": 3.9,
+    "inside_bone_proxy": 0,
+    "self_intersecting_face_pairs": 0
+   },
+   "hgpt.muscle.soleus.R": {
+    "vertices": 1624,
+    "outside_skin": 0,
+    "shallower_than_layer": 0,
+    "min_depth_below_skin_mm": 3.9,
+    "inside_bone_proxy": 0,
+    "self_intersecting_face_pairs": 0
+   }
+  },
+  "overlap_pairs_involving_mg7": {}
+ },
+ "output_blend": "HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG7_leg_right.blend",
+ "output_sha256": "36a97010fef14bbdf9a251a999c47ba6ccb51e03408fbb16320b25afad6dd717",
+ "input_unchanged": true,
+ "renders": {
+  "muscle": [
+   "mg7_right_muscle_anterior.png",
+   "mg7_right_muscle_lateral.png",
+   "mg7_right_muscle_posterior.png",
+   "mg7_right_muscle_medial.png"
+  ],
+  "skin": [
+   "mg7_right_skin_anterior.png",
+   "mg7_right_skin_lateral.png",
+   "mg7_right_skin_posterior.png",
+   "mg7_right_skin_medial.png"
+  ]
+ }
+}

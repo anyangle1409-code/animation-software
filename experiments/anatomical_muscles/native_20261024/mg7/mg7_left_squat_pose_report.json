@@ -1,0 +1,79 @@
+{
+ "status": "READ_ONLY_CHECK",
+ "input": "HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG7_leg_left.blend",
+ "input_sha256": "e6d60f001097362f272cf02303907c6c2e0e5b8bd00f8a469da6cb33636a004d",
+ "side": "left",
+ "probe_signs": {
+  "hip_flexion": -1.0,
+  "knee_flexion": 1.0,
+  "ankle_dorsiflexion": -1.0
+ },
+ "chain_children_follow": {
+  "anat_femur_left": [
+   "anat_patella_left",
+   "anat_tibia_left",
+   "anat_fibula_left",
+   "anat_talus_left",
+   "anat_calcaneus_left",
+   "anat_navicular_left"
+  ],
+  "anat_tibia_left": [
+   "anat_fibula_left",
+   "anat_talus_left",
+   "anat_calcaneus_left",
+   "anat_navicular_left",
+   "anat_cuboid_left",
+   "anat_medial_cuneiform_left"
+  ],
+  "anat_talus_left": [
+   "anat_calcaneus_left",
+   "anat_navicular_left",
+   "anat_cuboid_left",
+   "anat_medial_cuneiform_left",
+   "anat_intermediate_cuneiform_left",
+   "anat_lateral_cuneiform_left"
+  ]
+ },
+ "poses": {
+  "q000": {
+   "hip_deg": 5.0,
+   "knee_deg": 5.0,
+   "ankle_deg": 2.0,
+   "overlap_pairs": {},
+   "overlap_total": 0
+  },
+  "q025": {
+   "hip_deg": 28.8,
+   "knee_deg": 29.2,
+   "ankle_deg": 5.8,
+   "overlap_pairs": {},
+   "overlap_total": 0
+  },
+  "q050": {
+   "hip_deg": 52.5,
+   "knee_deg": 53.5,
+   "ankle_deg": 9.5,
+   "overlap_pairs": {},
+   "overlap_total": 0
+  },
+  "q075": {
+   "hip_deg": 76.2,
+   "knee_deg": 77.8,
+   "ankle_deg": 13.2,
+   "overlap_pairs": {},
+   "overlap_total": 0
+  },
+  "q100": {
+   "hip_deg": 100.0,
+   "knee_deg": 102.0,
+   "ankle_deg": 17.0,
+   "overlap_pairs": {
+    "biceps_femoris_long | gastrocnemius_medial": 8,
+    "semitendinosus | gastrocnemius_medial": 38,
+    "semimembranosus | gastrocnemius_medial": 46
+   },
+   "overlap_total": 92
+  }
+ },
+ "input_unchanged": true
+}

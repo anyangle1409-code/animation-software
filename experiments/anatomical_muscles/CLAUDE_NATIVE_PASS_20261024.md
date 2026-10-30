@@ -887,3 +887,89 @@ Envelope vertices outside the posed skin, at the lockout (maximum distance):
   - Reports: `native_20261024/mg6a/mg6a_left_press_pose_skin_drives_report.json` and
     `mg6a_left_press_pose_skin_lbs_report.json`.
   - Sheet: `MG6a_left_press_posed_skin_sheet.jpg` (rack and lockout, skin at 45 %).
+
+## MG7: leg muscles for the squat (added 30 Oct 2026)
+
+**Script:** `build_leg_muscle_envelopes_blender.py`. It carries MG1's method to the leg, runs on an MG5 blend
+(hash-checked) and saves a new MG7 blend. It builds the 10 muscles of Work's squat contract that sit around the femur
+and the tibia, on both sides. The glutes (maximus and medius) need cap / fan treatment, as the deltoid did, and are
+not built yet.
+
+**Segments.** Each segment is cut into cross-sections along a bone line. The space between a bone-radius proxy and
+the skin, less the 4 mm layer, is divided into compartment sectors and depth bands (φ: 0 anterior, +90 lateral).
+
+- **Thigh.** The line runs from below the greater trochanter (trochanterion landmark, 45 mm medial and 30 mm down) to
+  KJC. R41's femur bone is the mechanical axis HJC → KJC, which runs medial of the proximal shaft, through the neck.
+  - Bone proxy: 13.5 mm, wider at the trochanter and the condyles.
+- **Calf.** The line runs KJC → AJC.
+  - Bone proxy: 21 mm (tibia, fibula and interosseous membrane), wider at the plateau.
+- **Sections:** the leg's own skin triangles.
+- **Depth clamp:** the trunk and leg skin only. The hands rest on the thighs and are not the thigh's surface.
+
+| Muscle | Sector (°) | Band | s range | Volume L / R (cm³) |
+|---|---|---|---|---|
+| Rectus femoris | −25..25 | outer 55 % | 0.06–0.80 | 488 / 488 |
+| Vastus intermedius | −60..115 | inner 45 % | 0.20–0.86 | 443 / 443 |
+| Vastus lateralis | 25..150 | above the intermedius, full beyond it | 0.08–0.88 | 866 / 866 |
+| Vastus medialis | −80..−25 | above the intermedius, full below it | 0.42–0.93 | 295 / 295 |
+| Biceps femoris long | 150..205 | full | 0.14–0.84 | 413 / 413 |
+| Semitendinosus | 205..245 | outer 50 % | 0.12–0.78 | 244 / 244 |
+| Semimembranosus | 205..258 | inner 50 % | 0.24–0.88 | 131 / 131 |
+| Adductor magnus (hamstring part) | 258..278 | full | 0.16–0.90 | 139 / 139 |
+| Gastrocnemius medial | 195..262 | outer 55 % | 0.03–0.50 (calf) | 267 / 267 |
+| Soleus | 135..265 | inner 45 % under the gastrocnemius, full from s 0.60 | 0.14–0.82 (calf) | 414 / 414 |
+
+**Reserves.**
+
+- Over the proximal vastus medialis and adductor magnus, a superficial medial reserve is left for sartorius,
+  gracilis and the other adductors (not in the contract).
+- The posterolateral calf is left for the lateral gastrocnemius.
+
+**Tendons and binding.** Tendons run to the proposed anchors. Thigh bellies ride the femur and calf bellies the tibia;
+only the tendons cross the hip, knee and ankle. `use_deform` was switched on for the femur, tibia, fibula, calcaneus
+and patella on the copy only.
+
+**Getting the checks to zero:**
+
+- **Sectors.** Two neighbouring sectors overlapped (vastus medialis / adductor magnus). They were separated.
+- **Soleus.** It thickened before the gastrocnemius ended, so its rise now runs s 0.50 → 0.60.
+- **Intermedius floor.** The lateralis and medialis now start above the intermedius's actual tapered outer surface
+  plus the gap.
+  - It is held for 12° beyond its sector edges, feathered over the next 12°.
+  - It takes the largest value over the neighbouring stations.
+  - A narrow feather and single-station sampling had let their inner faces slope through the intermedius's corner
+    (256 face pairs).
+- **End caps** are strips between the outer and inner arcs rather than centroid fans. A fan cuts through the concave
+  side of a wide curved band.
+
+**Results, both sides:** 0 outside the skin, 0 shallower than the layer, 0 inside the bone proxy, 0 self-crossings,
+0 overlaps (with each other and with MG1 / MG4 / MG5). The input blends are unchanged.
+
+**Squat check** (`muscle_squat_pose_check_blender.py`, read-only). R41's anatomical leg is posed natively:
+
+- hip about HJC, knee about the epicondyle axis, ankle about the malleolar axis, with probe-fixed signs;
+- the descent runs 5 / 5 / 2° → 100 / 102 / 17°.
+
+Results:
+
+- 0 overlaps through three-quarter depth (knee 78°).
+- At full depth (knee 102°) the hamstrings meet the medial gastrocnemius behind the knee: biceps femoris 8,
+  semitendinosus 38 and semimembranosus 46 face pairs.
+- That is the thigh–calf contact the skin also has. It needs a contact response (flattening at the interface), not a
+  change of the rest shapes.
+
+**Limits.**
+
+- Proxies.
+- The glutes are not built.
+- The patellar mechanism is represented only by the quadriceps' insertion tendons.
+- No length response through the squat yet (MG2 / MG3's method would carry over).
+- Volumes are geometry-derived.
+
+**Files.**
+
+- `native_20261024/mg7/`:
+  - reports: `mg7_left_report.json`, `mg7_right_report.json`, `mg7_left_squat_pose_report.json`;
+  - sheets: `MG7_left_leg_sheet.jpg`, `MG7_right_leg_sheet.jpg` (anterior / lateral / posterior / medial; muscles,
+    then skin at 35 %), and `MG7_left_squat_sheet.jpg`.
+- The blends are not in git; their SHA256 values are in the reports.

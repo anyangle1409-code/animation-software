@@ -126,3 +126,12 @@ One unchanged neutral driver call clears all 79 shape-key values to the exact sa
 Artifact `12974051212` was independently downloaded and CRC-checked. ZIP SHA256 `8d055ad877948109b09e7679979db7ee197f0c0a9616e83ba3d86c915ec08340`; JSON `877733264ff0ea2b4fb0845aa820fbc035c653d34ee6372cdb5298440b78606e`; Markdown `f8eb7143c586d698cdf29801b792ebe553e49d239c8c84b126c381ff50c25004`. Machine record: `recovery_20261023/cloud_verification_20261030_run41048610295.json`.
 
 This is corrective lifecycle evidence, not anatomical neutral, deformation quality, contact, balance or tissue safety. No source model was modified or saved; no movement is approved.
+
+
+### Residual control localization
+
+Commit `b99eeae01bd16e1d76d48eac609a0249e60260e6` adds strict control-name inventory fingerprints and per-control matrix-basis residuals. [Run41049928430](https://github.com/anyangle1409-code/animation-software/actions/runs/41049928430) completed SUCCESS7/7. Before neutral driver refresh all77 controls are identity. After refresh, only six existing frozen muscle-line helpers exceed `0.000001mm`: `muscle_lat_l/r`, `muscle_pec_l/r`, and `muscle_trap_l/r`. The maximum is `muscle_lat_l = 0.000223020mm`; all six rotation residuals are zero.
+
+Frozen r57 blob `c629f45ddb0bd48ece9f34be992a9ef168e66e38` (`scripts/original_v1_muscle_line_helpers.py`) recomputes each helper pose matrix from carried origin/insertion points, a rotation difference and length-dependent scale. This localizes the matrix recomposition source, but repeat-refresh idempotence remains unmeasured.
+
+Artifact `12974836027`: ZIP `019b4a71664dea6a420d2f01d3bdd1d90e52383137daa117487bf4ebadb54b56`; JSON `f1b99eb109a5ce99cfb9cb5b7596834f1a9a39a18c50a491231ec7a52fcdc849`; Markdown `aeb3ff7ac01974472da7b2be556d833432b968cad6ed18e0390a81bf395845af`. These pre-existing authored review helpers are not verified anatomical muscle IDs, origins, insertions, side mappings or approved attachments.

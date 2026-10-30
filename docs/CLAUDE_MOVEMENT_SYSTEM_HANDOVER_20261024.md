@@ -305,7 +305,7 @@ The flagged muscles:
     the sheet must unwrap. Six schemes were measured and none holds. Details and next steps are in the pass doc.
   - **Teres major / latissimus fibres reach 2.0× / 1.6×** at the lockout. This needs re-checking on the corrected
     girdle; R41's scapula is about twice as wide as the CT reference.
-- **MG10 (leg length response + knee contact, 30 Oct; muscle branch 2090b65f, revised in 810d68d3):**
+- **MG10 (leg length response + knee contact, 30 Oct; muscle branch 2090b65f, revised in 810d68d3 and afe93a9c):**
   - **Length keys by belly length ratio:** each MG7 belly gets keys `HGPT_LEN_K_<100k>` (k 0.85–1.50), following
     MG2's rule. A shape depends only on how long the muscle is, so any movement drives it through the muscle's path
     length.
@@ -314,7 +314,7 @@ The flagged muscles:
   - **Knee contact keys** `HGPT_CONTACT_KNEE_<deg>`, indexed by knee angle alone, flatten each side within the other
     side's footprint.
   - **Squat, both sides:**
-    - volumes 0.999–1.002 at every pose (the gastrocnemius keeps 0.935 at full depth, from the contact flattening);
+    - volumes 1.000–1.009 at every pose: the contact keys give back the volume they take as an outward bulge;
     - overlaps 0–9 up to 7/8 depth;
     - 92 → 8 at full depth. This needed the **length pivot at the belly end that cannot slide**: the end attached
       to the bone the belly rides, else the end with the much shorter tendon, else the centre. With proximal pivots
@@ -322,8 +322,8 @@ The flagged muscles:
     - A biarticular binding of the gastrocnemius's heads is still open; a stand-in resolves them out of the thigh
       beyond 102°.
 - **Muscle layer, next:**
-  - the gastrocnemius' femoral heads following the femur (biarticular binding), a volume-keeping bulge for the knee
-    contact, and review of the vasti's +32 to +48 % belly lengthening at 102° (anchors / wrap model);
+  - the gastrocnemius' femoral heads following the femur (biarticular binding), and review of the vasti's +32 to
+    +48 % belly lengthening at 102° (anchors / wrap model);
   - the deltoid above 120°: a construction that changes curvature (a pose-aware rebuild by MG4's rules in a moving
     frame, or a volumetric simulation). MG9a's bone-driven positioning covers the press to the rack;
   - a per-pose latissimus / teres major separation pass;

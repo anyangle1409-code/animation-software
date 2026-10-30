@@ -17,7 +17,19 @@
   "HGPT_LEN_K_145",
   "HGPT_LEN_K_150"
  ],
- "rule": "stations along the segment axis about the proximal ring x k; deep surface kept; outer r_o'^2 = r_i^2 + (r_o^2 - r_i^2) / k (MG2); rest-space keys keyed by belly length ratio k",
+ "pivot": {
+  "rectus_femoris": "centre",
+  "vastus_intermedius": "proximal",
+  "vastus_lateralis": "proximal",
+  "vastus_medialis": "proximal",
+  "biceps_femoris_long": "centre",
+  "semitendinosus": "centre",
+  "semimembranosus": "centre",
+  "adductor_magnus_hamstring": "distal",
+  "gastrocnemius_medial": "proximal",
+  "soleus": "proximal"
+ },
+ "rule": "stations along the segment axis about the pivot x k; deep surface kept; outer r_o'^2 = r_i^2 + (r_o^2 - r_i^2) / k (MG2); rest-space keys keyed by belly length ratio k",
  "layered": {
   "deep_of": {
    "vastus_lateralis": "vastus_intermedius",
@@ -218,6 +230,7 @@
   "rule": "posterior of the knee axis, beyond the plane bisecting the knee angle, within the other side's footprint: flattened onto it less half the gap, each side in its own bone's rest frame",
   "footprint_radius_m": 0.01,
   "footprint_band_m": 0.015,
+  "calf_points_resolved_out_of_thigh_bellies": true,
   "moved_vertices_per_key": {
    "80": {
     "gastrocnemius_medial": 9
@@ -232,20 +245,26 @@
    "110": {
     "biceps_femoris_long": 87,
     "semitendinosus": 8,
-    "gastrocnemius_medial": 117
+    "gastrocnemius_medial": 117,
+    "gastrocnemius_medial (resolved out of the thigh)": 7,
+    "soleus (resolved out of the thigh)": 13
    },
    "120": {
     "biceps_femoris_long": 162,
     "semitendinosus": 113,
     "semimembranosus": 26,
-    "gastrocnemius_medial": 287
+    "gastrocnemius_medial": 287,
+    "gastrocnemius_medial (resolved out of the thigh)": 34,
+    "soleus (resolved out of the thigh)": 55
    },
    "135": {
     "biceps_femoris_long": 289,
     "semitendinosus": 404,
     "semimembranosus": 166,
     "gastrocnemius_medial": 454,
-    "soleus": 136
+    "soleus": 136,
+    "gastrocnemius_medial (resolved out of the thigh)": 207,
+    "soleus (resolved out of the thigh)": 292
    }
   }
  },
@@ -431,7 +450,7 @@
     "biceps_femoris_long": {
      "path_m": 0.4174,
      "belly_k": 1.013,
-     "volume_ratio": 1.0004
+     "volume_ratio": 1.0003
     },
     "semitendinosus": {
      "path_m": 0.4566,
@@ -504,7 +523,7 @@
     "semimembranosus": {
      "path_m": 0.4189,
      "belly_k": 1.074,
-     "volume_ratio": 1.0005
+     "volume_ratio": 1.0004
     },
     "adductor_magnus_hamstring": {
      "path_m": 0.3809,
@@ -559,7 +578,7 @@
     "biceps_femoris_long": {
      "path_m": 0.4194,
      "belly_k": 1.023,
-     "volume_ratio": 1.0004
+     "volume_ratio": 1.0005
     },
     "semitendinosus": {
      "path_m": 0.462,
@@ -574,7 +593,7 @@
     "adductor_magnus_hamstring": {
      "path_m": 0.3935,
      "belly_k": 1.215,
-     "volume_ratio": 1.0003
+     "volume_ratio": 1.0002
     },
     "gastrocnemius_medial": {
      "path_m": 0.5301,
@@ -604,7 +623,7 @@
     "rectus_femoris": {
      "path_m": 0.5056,
      "belly_k": 1.008,
-     "volume_ratio": 1.0003
+     "volume_ratio": 1.0002
     },
     "vastus_intermedius": {
      "path_m": 0.3758,
@@ -629,7 +648,7 @@
     "semitendinosus": {
      "path_m": 0.4618,
      "belly_k": 1.078,
-     "volume_ratio": 1.0005
+     "volume_ratio": 1.0004
     },
     "semimembranosus": {
      "path_m": 0.4274,
@@ -639,7 +658,7 @@
     "adductor_magnus_hamstring": {
      "path_m": 0.4059,
      "belly_k": 1.269,
-     "volume_ratio": 1.0002
+     "volume_ratio": 1.0004
     },
     "gastrocnemius_medial": {
      "path_m": 0.5363,
@@ -699,7 +718,7 @@
     "semimembranosus": {
      "path_m": 0.4307,
      "belly_k": 1.134,
-     "volume_ratio": 1.0005
+     "volume_ratio": 1.0003
     },
     "adductor_magnus_hamstring": {
      "path_m": 0.4176,
@@ -734,7 +753,7 @@
     "rectus_femoris": {
      "path_m": 0.5075,
      "belly_k": 1.017,
-     "volume_ratio": 1.0005
+     "volume_ratio": 1.0004
     },
     "vastus_intermedius": {
      "path_m": 0.3927,
@@ -759,7 +778,7 @@
     "semitendinosus": {
      "path_m": 0.4555,
      "belly_k": 1.047,
-     "volume_ratio": 1.0
+     "volume_ratio": 1.0001
     },
     "semimembranosus": {
      "path_m": 0.4334,
@@ -769,7 +788,7 @@
     "adductor_magnus_hamstring": {
      "path_m": 0.4282,
      "belly_k": 1.366,
-     "volume_ratio": 1.0003
+     "volume_ratio": 1.0001
     },
     "gastrocnemius_medial": {
      "path_m": 0.5412,
@@ -829,34 +848,33 @@
     "semimembranosus": {
      "path_m": 0.4352,
      "belly_k": 1.156,
-     "volume_ratio": 1.0001
+     "volume_ratio": 1.0
     },
     "adductor_magnus_hamstring": {
      "path_m": 0.4374,
      "belly_k": 1.406,
-     "volume_ratio": 1.0002
+     "volume_ratio": 1.0001
     },
     "gastrocnemius_medial": {
      "path_m": 0.5369,
      "belly_k": 1.204,
-     "volume_ratio": 0.9348
+     "volume_ratio": 0.9346
     },
     "soleus": {
      "path_m": 0.3759,
      "belly_k": 1.056,
-     "volume_ratio": 1.0002
+     "volume_ratio": 0.9997
     }
    },
    "overlaps_keyed": {
-    "vastus_intermedius | vastus_lateralis": 8,
-    "adductor_magnus_hamstring | gastrocnemius_medial": 30
+    "vastus_intermedius | vastus_lateralis": 8
    },
-   "overlaps_keyed_total": 38,
-   "overlaps_length_keys_only_total": 88,
+   "overlaps_keyed_total": 8,
+   "overlaps_length_keys_only_total": 46,
    "overlaps_without_keys_total": 92
   }
  },
  "output_blend": "HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG10_leg_length_right.blend",
- "output_sha256": "c22837409f3a2cd5d9c01d8f1f80dd4ac0f58a0d7deb5547644fd80dfe184cf4",
+ "output_sha256": "dfbe709ca8e4228c037278f47efa50fb62e4a4aaf782051a24b2a3618c555cef",
  "input_unchanged": true
 }

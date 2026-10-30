@@ -1152,12 +1152,26 @@ test that therefore reads them backwards. This was measured to have no effect: e
 - k is the belly length ratio: (path − MG7 tendons) / (rest path − MG7 tendons).
 - MG2's rule is applied in the segment's own cylindrical frame (thigh along the femoral shaft line, calf along
   KJC → AJC, as MG7 built them):
-  - stations move along the axis about the proximal ring by k;
+  - stations move along the axis by k, about the belly's **pivot** (below);
   - the deep surface is kept;
   - the outer surface takes r_o′² = r_i² + (r_o² − r_i²) / k, so volume is kept and the belly bulges towards the skin.
 - Between keys, the two bracketing keys are mixed linearly.
 - **The shape depends only on how long the muscle is.** Any movement drives it through the muscle's path length (the
   kernel's `path_length` at runtime). The squat is only the test.
+
+**Pivot: the belly end that cannot slide.** It follows from MG7's tendon bones and lengths.
+
+1. The end whose tendon attaches to the bone the belly rides: proximal for the vasti and the soleus, distal for the
+   adductor magnus (adductor tubercle).
+2. Otherwise, an end whose tendon is under a third of the other's, since it sits next to the joint: proximal for the
+   gastrocnemius (24 mm heads against a 267 mm Achilles tendon).
+3. Otherwise the centre: rectus femoris and the hamstrings.
+
+Measured alternatives:
+
+- **Every belly pivoting at its proximal ring:** pushes the adductor magnus 41 % down into the gastrocnemius' heads
+  (30 face pairs at full depth).
+- **The gastrocnemius pivoting at its centre:** pushes its heads up into the hamstrings and vastus medialis (273).
 
 **Layered quadriceps (MG3's rule).**
 
@@ -1195,7 +1209,7 @@ Face overlaps (MG7 + MG8):
 | | Without keys | Length keys only | Length + contact keys |
 |---|---|---|---|
 | Up to 7/8 depth | 0 | 0–9 | 0–9 (vastus intermedius / lateralis) |
-| Full depth (knee 102°) | 92 | 88 | **38** (8 intermedius / lateralis, 30 adductor magnus / gastrocnemius) |
+| Full depth (knee 102°) | 92 | 46 | **8** (vastus intermedius / lateralis) |
 
 **Volume.**
 
@@ -1203,11 +1217,13 @@ Face overlaps (MG7 + MG8):
 - With the contact keys, the gastrocnemius keeps 0.99 at 7/8 depth and 0.935 at full depth: the flattening adds no
   bulge.
 
+- **Calf points still inside a thigh belly** after the flattening go out to its surface plus the gap. This stands in
+  for a biarticular binding: MG7 binds the whole gastrocnemius to the tibia, though its heads arise on the femur.
+  It does not act on the squat path (to 102°); it acts in the 110–135° keys.
+
 **Open.**
 
-- **The remaining 30 adductor magnus / gastrocnemius pairs come from the binding.** MG7 binds the whole gastrocnemius
-  to the tibia, but its heads arise on the femur, so at deep flexion they swing into the thigh. The fix is a
-  biarticular origin, with the heads following the femur. That is a re-binding.
+- A biarticular binding of the gastrocnemius' heads, which would replace the stand-in above.
 - The contact flattening needs a volume-keeping bulge.
 - The k values come from the proposed (unreviewed) anchors and the path-length check's wrap model. The vasti's +32 to
   +48 % belly lengthening at 102° is large and needs review, along with the anchors.

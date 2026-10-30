@@ -9,9 +9,14 @@ proximal rings, slide into each other: 21-96 face pairs through the squat.)
 
 For each MG7 belly, in its segment's cylindrical frame as built (thigh along the femoral shaft line SHAFT_TOP -> KJC,
 calf along KJC -> AJC), a rest-space shape key HGPT_LEN_K_<100 k> per k in K_SET: the stations move along the axis
-about the belly's proximal ring by k, and each section keeps its deep surface while the outer surface takes
+by k about the belly's PIVOT, and each section keeps its deep surface while the outer surface takes
 r_o'^2 = r_i^2 + (r_o^2 - r_i^2) / k (section area x 1 / k: the volume is kept and the belly bulges towards the skin,
-not into the bone) - MG2's rule.  The bellies are rigid with one bone (femur or tibia), so the keys hold in any pose.
+not into the bone) - MG2's rule.  The pivot is the belly end that cannot slide: the one whose tendon attaches to the bone the
+belly rides (proximal for the vasti and the soleus, distal for the adductor magnus on the femur's adductor tubercle);
+else the one whose tendon is under a third of the other's, attaching next to the joint (proximal for the
+gastrocnemius: 24 mm heads against a 267 mm Achilles); else the belly's centre (rectus femoris, hamstrings).
+(Pivoting every belly at its proximal ring pushed the adductor magnus 41 % down into the gastrocnemius' heads at full
+depth; pivoting the gastrocnemius at its centre pushed its heads up into the hamstrings.)  The bellies are rigid with one bone (femur or tibia), so the keys hold in any pose.
 Between keys the two bracketing keys are mixed linearly.
 
 Check (after keying): the squat as muscle_squat_pose_check_blender.py (hip 5 -> 100, knee 5 -> 102, ankle 2 -> 17 deg)
@@ -67,6 +72,25 @@ KNEE_AX, ANK_AX = (EL - EM).normalized(), (ML - MMal).normalized()
 SHAFT_TOP = Vector((TROCH.x - lat * 0.045, 0.5 * (HJC.y + TROCH.y), TROCH.z - 0.030))   # as MG7
 SEG = {"thigh": (SHAFT_TOP, KJC), "calf": (KJC, AJC)}
 MUS = {m: v["segment"] for m, v in MG7["rules"]["sections"].items()}
+
+
+def _pivot(m, v):
+    """the belly end that cannot slide: the one whose tendon attaches to the bone the belly rides; else the one whose
+    tendon is under a third of the other's (it attaches next to the joint); else the centre"""
+    belly, ob, ib = v["bones"]                               # bones: belly, origin tendon, insertion tendon
+    t = MG7["muscles"][f"hgpt.muscle.{m}.{SUF}"]["tendon_lengths_m"]
+    if ob == belly:
+        return "proximal"
+    if ib == belly:
+        return "distal"
+    if t["origin"] < t["insertion"] / 3:
+        return "proximal"
+    if t["insertion"] < t["origin"] / 3:
+        return "distal"
+    return "centre"
+
+
+PIVOT = {m: _pivot(m, v) for m, v in MG7["rules"]["sections"].items()}
 OBJ = {m: bpy.data.collections["HGPT_EXPERIMENT_MUSCLES"].objects[f"hgpt.muscle.{m}.{SUF}"] for m in MUS}
 
 
@@ -137,7 +161,9 @@ def key_positions(m, k):
         raise RuntimeError(f"unexpected MG7 layout: {m}")
     p0, p1 = SEG[MUS[m]]; ax = (p1 - p0).normalized()
     t_of = lambda p: (p - p0).dot(ax)
-    t0 = sum((t_of(P[j]) for j in range(MM)), 0.0) / MM              # the proximal ring
+    ta = sum((t_of(P[j]) for j in range(MM)), 0.0) / MM              # proximal ring
+    tb = sum((t_of(P[len(P) - MM + j]) for j in range(MM)), 0.0) / MM   # distal ring
+    t0 = {"proximal": ta, "distal": tb, "centre": 0.5 * (ta + tb)}[PIVOT[m]]
     new = [None] * len(P)
     for ring in range(len(P) // MM):
         b = ring * MM
@@ -289,9 +315,35 @@ def set_k(m, k):
 #      projects onto the plane within FOOTPRINT_R.  (Flattening the whole plane cost the gastrocnemius 8 % of its volume
 #      from 80 deg: its femoral heads lie above the knee axis and cross the plane where nothing meets them.  A footprint
 #      of crossing tissue only missed the semimembranosus / adductor magnus, which the heads reach without either
-#      crossing.)
+#      crossing.)  Then calf points still inside a thigh belly (the gastrocnemius' femoral heads, bound to the tibia,
+#      swing into the thigh at deep flexion) go out to its surface + the gap - a stand-in for a biarticular binding.
 KNEE_KEYS, CONTACT_FROM, FOOTPRINT_R, NEAR = (80, 90, 100, 110, 120, 135), 70.0, 0.010, 0.015
 THIGH_M = [m for m in MUS if MUS[m] == "thigh"]; CALF_M = [m for m in MUS if MUS[m] == "calf"]
+
+
+RESOLVE = __import__("os").environ.get("MG10_RESOLVE", "1") == "1"
+_RAYS = [Vector(v).normalized() for v in ((0.0123, 0.0217, 1.0), (1.0, 0.0311, -0.0173), (-0.0257, 1.0, 0.0419))]
+
+
+def _inside(tr, p):
+    """three-ray parity majority (as the fan builder)"""
+    votes = 0
+    for d in _RAYS:
+        n, o = 0, p.copy()
+        for _ in range(64):
+            hit = tr.ray_cast(o, d, 1.0)
+            if hit[0] is None:
+                break
+            n += 1; o = hit[0] + d * 1e-5
+        votes += n % 2
+    return votes >= 2
+
+
+THIGH_BVH = {}
+for m in [m for m in MUS if MUS[m] == "thigh"]:              # rest = femur frame; faces oriented outward
+    P = [OBJ[m].matrix_world @ v.co for v in OBJ[m].data.vertices]; fs = [tuple(p.vertices) for p in OBJ[m].data.polygons]
+    sv = sum(P[f[0]].dot(P[f[k]].cross(P[f[k + 1]])) for f in fs for k in range(1, len(f) - 1))
+    THIGH_BVH[m] = BVHTree.FromPolygons(P, [f[::-1] for f in fs] if sv < 0 else fs)
 
 
 def contact_positions(knee):
@@ -309,7 +361,7 @@ def contact_positions(knee):
             kd.insert(proj(q), i)
         kd.balance(); return kd, len(pts)
     foot = {"thigh": crossing(CALF_M, -1.0), "calf": crossing(THIGH_M, 1.0)}   # what each side meets
-    out, moved = {}, {}
+    out, moved, resolved = {}, {}, {}
     for m in THIGH_M + CALF_M:
         side, kd = (1.0, foot["thigh"]) if m in THIGH_M else (-1.0, foot["calf"])
         new = []; cnt = 0
@@ -317,9 +369,14 @@ def contact_positions(knee):
             d = q - KJC; dn = side * d.dot(n)
             if d.dot(b) > 0 and dn < GAP / 2 and kd[1] and kd[0].find(proj(q))[2] < FOOTPRINT_R:
                 q = q + n * side * (GAP / 2 - dn); cnt += 1
+            if m in CALF_M and RESOLVE:                       # the gastrocnemius' femoral heads, bound to the tibia, swing
+                for tm, tr in THIGH_BVH.items():             # into the thigh bellies: out to the surface + the gap
+                    loc, nrm, _i, dist = tr.find_nearest(q, 0.03)
+                    if loc is not None and (q - loc).dot(nrm) < GAP and _inside(tr, q):
+                        q = loc + nrm * GAP; resolved[m] = resolved.get(m, 0) + 1
             new.append(Tti @ q if m in CALF_M else q)
         out[m] = new; moved[m] = cnt
-    return out, moved
+    return out, {**moved, **{f"{k} (resolved out of the thigh)": v for k, v in resolved.items()}}
 
 
 CONTACT_LOG = {}
@@ -384,7 +441,8 @@ L0 = {m: path_length(T0, f"hgpt.muscle.{m}.{SUF}") for m in MUS}
 V0 = {m: volume(*evaluated(OBJ[m])) for m in MUS}
 rep = {"status": "PROXY_LENGTH_RESPONSE_UNREVIEWED", "input": src.name, "input_sha256": expected, "side": S,
        "keys": [f"HGPT_LEN_K_{int(round(k * 100)):03d}" for k in K_SET],
-       "rule": "stations along the segment axis about the proximal ring x k; deep surface kept; outer r_o'^2 = r_i^2 + "
+       "pivot": PIVOT,
+       "rule": "stations along the segment axis about the pivot x k; deep surface kept; outer r_o'^2 = r_i^2 + "
                "(r_o^2 - r_i^2) / k (MG2); rest-space keys keyed by belly length ratio k",
        "layered": {"deep_of": DEEP_OF, "per_key": LAYER_LOG,
                    "knee_curves_k": {m: [round(x, 4) for x in v[::5]] for m, v in KCURVE.items()}, "knee_deg": KNEES[:KN_MAX + 1:5],
@@ -392,7 +450,8 @@ rep = {"status": "PROXY_LENGTH_RESPONSE_UNREVIEWED", "input": src.name, "input_s
        "contact": {"keys": [f"HGPT_CONTACT_KNEE_{kn:03d}" for kn in KNEE_KEYS], "from_deg": CONTACT_FROM,
                    "rule": "posterior of the knee axis, beyond the plane bisecting the knee angle, within the other side's "
                            "footprint: flattened onto it less half the gap, each side in its own bone's rest frame",
-                   "footprint_radius_m": FOOTPRINT_R, "footprint_band_m": NEAR, "moved_vertices_per_key": CONTACT_LOG},
+                   "footprint_radius_m": FOOTPRINT_R, "footprint_band_m": NEAR,
+                   "calf_points_resolved_out_of_thigh_bellies": RESOLVE, "moved_vertices_per_key": CONTACT_LOG},
        "path_model": "squat path-length check: straight, or the knee / hip cylinder wrap of the proposal's wrap_hint",
        "rest_path_m": {m: round(v, 4) for m, v in L0.items()}, "tendons_m": {m: round(v, 4) for m, v in TS.items()},
        "poses": {}}

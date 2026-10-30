@@ -291,11 +291,25 @@ The flagged muscles:
   - **All 12 squat-contract muscles now have proxies.**
   - The builder's inside test is now a three-ray majority. A single ray gave false positives. MG5 moved at most
     0.9 mm with unchanged checks, and its reports were refreshed.
+- **MG9a (bone-driven positioning through the press, 30 Oct; muscle branch 233f5d22): partial, not adopted.**
+  - Rotation-blended Poisson deformation of each proxy sheet:
+    - bone-fixed fibre ends; per-station rotations slerped by the authored humerus weight;
+    - the along-fibre rest shape fades as fibres pull taut;
+    - head, cuff, MG1 and thorax obstacles act on the deep surface; volume-preserving thickness;
+    - the three deltoid heads are solved as one sheet; rest round trip 0.0001 mm.
+  - **Through the rack (90°):**
+    - deltoid volume 0.96 / 1.41 / 1.07, against MG6a's blended 0.56 / 0.41;
+    - fans stretch about half as much (sternocostal pectoral 4.1× against 9.0×);
+    - overlaps rise, 257 against 169, mostly a new latissimus / teres major contact.
+  - **Above 120°** the deltoid folds: the glenohumeral joint turns about 107°, more than the cap's own angular span, so
+    the sheet must unwrap. Six schemes were measured and none holds. Details and next steps are in the pass doc.
+  - **Teres major / latissimus fibres reach 2.0× / 1.6×** at the lockout. This needs re-checking on the corrected
+    girdle; R41's scapula is about twice as wide as the CT reference.
 - **Muscle layer, next:**
   - a contact response behind the knee; the squat length response (MG2 / MG3's method);
-  - a per-pose sweep for arm elevation, for the deltoid and the MG5 fans. Proxies bound by blending an origin bone into
-    the humerus cannot follow 160° (MG6a measured it). The sweep needs a posed skin: R41's guide skeleton does not
-    drive the body, so the body's own rig has to be posed alongside;
+  - the deltoid above 120°: a construction that changes curvature (a pose-aware rebuild by MG4's rules in a moving
+    frame, or a volumetric simulation). MG9a's bone-driven positioning covers the press to the rack;
+  - a per-pose latissimus / teres major separation pass;
   - the posterior-fold skin driven by the MG5 latissimus / teres volumes (the system-level route for open item 4);
   - rotator cuff and scapular muscles, which need a scapula surface (R41 has landmarks only);
   - skin response;

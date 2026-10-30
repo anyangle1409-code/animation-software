@@ -2460,3 +2460,13 @@ H3 is still the current best candidate. Details are in `docs/R121_MOVEMENT_TRAJE
 - **Everything else** is identical to H3, which is kept for rollback.
 - **Not adopted:** a 3 cm fairing (too small), and patching the shared 150° key, which opened a pocket at the
   sideways raise.
+
+**Later (30 Oct): MG9a on the muscle branch (233f5d22), partial.**
+
+- **What it is:** bone-driven positioning of the shoulder muscle proxies through the press, by rotation-blended
+  Poisson deformation.
+- **Works through the rack:**
+  - the deltoid keeps its volume (0.96–1.41, against 0.41–0.56 with blended binding);
+  - the fans stretch about half as much.
+- **Fails above 120°:** the deltoid has to unwrap from the head, and six schemes measured all fold it. The next
+  options are recorded in the pass doc.

@@ -55,8 +55,8 @@ FAT = 0.004            # skin + subcutaneous layer kept between muscle and skin 
 GAP = 0.0012           # clearance between neighbouring envelopes (m)
 SECTOR_INSET = 1.5     # deg trimmed from each sector edge
 TENDON_R = 0.0035      # tendon proxy radius (m)
-STEP = 0.02            # station spacing along the humerus (fraction of GH -> EJC)
-NPHI = 10              # samples across a sector
+STEP = 0.012           # station spacing along the humerus (fraction of GH -> EJC)
+NPHI = 14              # samples across a sector
 
 
 def r_bone(s):
@@ -71,10 +71,16 @@ def blend(s, a, b, s0, s1):
 
 
 def deltoid_reserve(s, phi):
-    """fraction of the available thickness left for the deltoid (lateral, proximal; authored)"""
-    if not (10 <= phi <= 170):
+    """fraction of the available thickness left for the deltoid (authored): the deltoid wraps the front, side and back
+    of the proximal arm (phi -40..210 at the top), narrowing to the lateral side (50..130) by s = 0.40; 55 % of the
+    thickness to s = 0.20, none by s = 0.45 (MG4 found the first, lateral-only 45 % reserve squeezed the deltoid)"""
+    a0, a1 = blend(s, -40.0, 50.0, 0.12, 0.40), blend(s, 210.0, 130.0, 0.12, 0.40)
+    x = (phi - a0) % 360.0
+    if x > (a1 - a0):
         return 0.0
-    return blend(s, 0.45, 0.0, 0.10, 0.45)
+    e = min(1.0, min(x, (a1 - a0) - x) / 30.0)              # feathered over 30 deg inside the window edges (a hard
+    e = e * e * (3 - 2 * e)                                 # edge stepped the arm envelopes' outer surface)
+    return blend(s, 0.55, 0.0, 0.20, 0.45) * e
 
 
 MUS = {   # sector (deg, 0 anterior / +90 lateral, increasing), radial band (fraction of available), axial range (s)
@@ -328,8 +334,8 @@ REP = {"status": "ENVELOPE_PROXY_UNREVIEWED", "source_sha256": expected, "side":
        "copy_only_changes": {"anatomical_master_use_deform_enabled": DEFORM_ON, "body_armature_modifier_objects": BODY_ARM_OBJ},
        "rules": {"subcutaneous_layer_m": FAT, "gap_m": GAP, "sector_inset_deg": SECTOR_INSET, "tendon_radius_m": TENDON_R,
                  "humeral_radius_m": "11 mm shaft, +12 mm towards the head (s<0.2), +10 mm towards the epicondyles (s>0.8)",
-                 "deltoid_reserve": "lateral 10-170 deg: 45 % of the available thickness at s=0.10 fading to 0 at s=0.45",
-                 "taper": TAPER, "sections": {m: {"sector_deg": v["sector"], "range_s": v["range"], "distal_bone": v["distal"]} for m, v in MUS.items()},
+                 "deltoid_reserve": "phi -40..210 at s<=0.12 narrowing to 50..130 by s=0.40, feathered over 30 deg inside the edges; 55 % of the available thickness to s=0.20, 0 by s=0.45",
+                 "taper": TAPER, "station_step_s": STEP, "nphi": NPHI, "sections": {m: {"sector_deg": v["sector"], "range_s": v["range"], "distal_bone": v["distal"]} for m, v in MUS.items()},
                  "axis": "GH -> EJC landmarks", "s": "fraction of GH -> EJC"},
        "volume_source": "geometry-derived from this body (NOT reviewed literature volumes: hosts unreachable from the sandbox)",
        "muscles": {}}

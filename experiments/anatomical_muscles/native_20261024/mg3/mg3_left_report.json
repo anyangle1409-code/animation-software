@@ -2,7 +2,7 @@
  "status": "PROXY_LENGTH_RESPONSE_UNREVIEWED",
  "layered": true,
  "source": "HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG1_arm_left.blend",
- "source_sha256": "613e2fcdb89205ac5d4988fd7024382410a247ebe6d12e94a913dc6e16d55abd",
+ "source_sha256": "057b40febbeb9885315bc383104bffc8fbd5f8c4f4b620d0be292954a4fea924",
  "side": "left",
  "kernel": "resolve_path / path_length / belly_axes (activation 0)",
  "evaluate_evaluate_not_used": "refuses unreviewed bindings by design",
@@ -12,25 +12,25 @@
    "muscles": {
     "hgpt.muscle.biceps_brachii_long.L": {
      "path_m": 0.3386,
-     "belly_length_m": 0.174,
+     "belly_length_m": 0.1751,
      "k": 1.0,
      "radius_scale": 1.0,
-     "layer_pushed_sections_points": 4,
-     "layer_push_max_mm": 1.2,
-     "volume_vs_rest": 0.9999,
+     "layer_pushed_sections_points": 0,
+     "layer_push_max_mm": 0.0,
+     "volume_vs_rest": 1.0,
      "vertices_outside_posed_skin": 0,
-     "vertices": 662
+     "vertices": 1514
     },
     "hgpt.muscle.biceps_brachii_short.L": {
      "path_m": 0.3298,
      "belly_length_m": 0.1655,
      "k": 1.0,
      "radius_scale": 1.0,
-     "layer_pushed_sections_points": 7,
-     "layer_push_max_mm": 1.1,
+     "layer_pushed_sections_points": 0,
+     "layer_push_max_mm": 0.0,
      "volume_vs_rest": 0.9998,
      "vertices_outside_posed_skin": 0,
-     "vertices": 642
+     "vertices": 1486
     },
     "hgpt.muscle.brachialis.L": {
      "path_m": 0.1528,
@@ -39,38 +39,38 @@
      "radius_scale": 1.0,
      "volume_vs_rest": 0.9998,
      "vertices_outside_posed_skin": 0,
-     "vertices": 542
+     "vertices": 1234
     },
     "hgpt.muscle.triceps_lateral.L": {
      "path_m": 0.1982,
-     "belly_length_m": 0.1172,
+     "belly_length_m": 0.1183,
      "k": 1.0,
      "radius_scale": 1.0,
      "layer_pushed_sections_points": 0,
      "layer_push_max_mm": 0.0,
      "volume_vs_rest": 0.9999,
      "vertices_outside_posed_skin": 0,
-     "vertices": 702
+     "vertices": 1626
     },
     "hgpt.muscle.triceps_long.L": {
      "path_m": 0.2576,
-     "belly_length_m": 0.1878,
+     "belly_length_m": 0.1881,
      "k": 1.0,
      "radius_scale": 1.0,
      "layer_pushed_sections_points": 0,
      "layer_push_max_mm": 0.0,
-     "volume_vs_rest": 0.9997,
+     "volume_vs_rest": 1.0001,
      "vertices_outside_posed_skin": 0,
-     "vertices": 742
+     "vertices": 1710
     },
     "hgpt.muscle.triceps_medial.L": {
      "path_m": 0.1135,
      "belly_length_m": 0.0426,
      "k": 1.0,
      "radius_scale": 1.0,
-     "volume_vs_rest": 1.0,
+     "volume_vs_rest": 1.0002,
      "vertices_outside_posed_skin": 0,
-     "vertices": 602
+     "vertices": 1402
     }
    },
    "muscle_muscle_overlaps": {},
@@ -80,25 +80,25 @@
    "muscles": {
     "hgpt.muscle.biceps_brachii_long.L": {
      "path_m": 0.3234,
-     "belly_length_m": 0.1588,
-     "k": 0.9127,
-     "radius_scale": 1.0467,
-     "layer_pushed_sections_points": 153,
-     "layer_push_max_mm": 1.8,
-     "volume_vs_rest": 0.9999,
-     "vertices_outside_posed_skin": 22,
-     "vertices": 662
+     "belly_length_m": 0.1599,
+     "k": 0.9133,
+     "radius_scale": 1.0464,
+     "layer_pushed_sections_points": 339,
+     "layer_push_max_mm": 2.0,
+     "volume_vs_rest": 1.0,
+     "vertices_outside_posed_skin": 67,
+     "vertices": 1514
     },
     "hgpt.muscle.biceps_brachii_short.L": {
      "path_m": 0.3126,
      "belly_length_m": 0.1483,
      "k": 0.8962,
      "radius_scale": 1.0563,
-     "layer_pushed_sections_points": 153,
-     "layer_push_max_mm": 2.0,
-     "volume_vs_rest": 0.9998,
-     "vertices_outside_posed_skin": 48,
-     "vertices": 642
+     "layer_pushed_sections_points": 345,
+     "layer_push_max_mm": 2.1,
+     "volume_vs_rest": 0.9997,
+     "vertices_outside_posed_skin": 115,
+     "vertices": 1486
     },
     "hgpt.muscle.brachialis.L": {
      "path_m": 0.1412,
@@ -107,38 +107,38 @@
      "radius_scale": 1.0771,
      "volume_vs_rest": 0.9997,
      "vertices_outside_posed_skin": 0,
-     "vertices": 542
+     "vertices": 1234
     },
     "hgpt.muscle.triceps_lateral.L": {
      "path_m": 0.2131,
-     "belly_length_m": 0.1321,
-     "k": 1.1274,
-     "radius_scale": 0.9418,
-     "layer_pushed_sections_points": 6,
-     "layer_push_max_mm": 1.5,
-     "volume_vs_rest": 1.0,
+     "belly_length_m": 0.1332,
+     "k": 1.1262,
+     "radius_scale": 0.9423,
+     "layer_pushed_sections_points": 8,
+     "layer_push_max_mm": 2.4,
+     "volume_vs_rest": 1.0001,
      "vertices_outside_posed_skin": 0,
-     "vertices": 702
+     "vertices": 1626
     },
     "hgpt.muscle.triceps_long.L": {
      "path_m": 0.2726,
-     "belly_length_m": 0.2028,
-     "k": 1.0797,
+     "belly_length_m": 0.2031,
+     "k": 1.0796,
      "radius_scale": 0.9624,
-     "layer_pushed_sections_points": 6,
-     "layer_push_max_mm": 1.5,
-     "volume_vs_rest": 0.9997,
+     "layer_pushed_sections_points": 4,
+     "layer_push_max_mm": 1.3,
+     "volume_vs_rest": 1.0002,
      "vertices_outside_posed_skin": 0,
-     "vertices": 742
+     "vertices": 1710
     },
     "hgpt.muscle.triceps_medial.L": {
      "path_m": 0.1282,
      "belly_length_m": 0.0573,
      "k": 1.346,
      "radius_scale": 0.8619,
-     "volume_vs_rest": 1.0001,
-     "vertices_outside_posed_skin": 66,
-     "vertices": 602
+     "volume_vs_rest": 1.0002,
+     "vertices_outside_posed_skin": 142,
+     "vertices": 1402
     }
    },
    "muscle_muscle_overlaps": {},
@@ -148,65 +148,65 @@
    "muscles": {
     "hgpt.muscle.biceps_brachii_long.L": {
      "path_m": 0.2959,
-     "belly_length_m": 0.1313,
-     "k": 0.7547,
-     "radius_scale": 1.1511,
-     "layer_pushed_sections_points": 160,
-     "layer_push_max_mm": 8.2,
-     "volume_vs_rest": 0.9999,
-     "vertices_outside_posed_skin": 192,
-     "vertices": 662
+     "belly_length_m": 0.1324,
+     "k": 0.7562,
+     "radius_scale": 1.1499,
+     "layer_pushed_sections_points": 374,
+     "layer_push_max_mm": 8.7,
+     "volume_vs_rest": 1.0001,
+     "vertices_outside_posed_skin": 490,
+     "vertices": 1514
     },
     "hgpt.muscle.biceps_brachii_short.L": {
      "path_m": 0.2846,
      "belly_length_m": 0.1203,
      "k": 0.7272,
      "radius_scale": 1.1727,
-     "layer_pushed_sections_points": 159,
-     "layer_push_max_mm": 8.7,
-     "volume_vs_rest": 0.9998,
-     "vertices_outside_posed_skin": 254,
-     "vertices": 642
+     "layer_pushed_sections_points": 366,
+     "layer_push_max_mm": 8.8,
+     "volume_vs_rest": 0.9997,
+     "vertices_outside_posed_skin": 603,
+     "vertices": 1486
     },
     "hgpt.muscle.brachialis.L": {
      "path_m": 0.1213,
      "belly_length_m": 0.053,
      "k": 0.6273,
      "radius_scale": 1.2626,
-     "volume_vs_rest": 0.9996,
-     "vertices_outside_posed_skin": 68,
-     "vertices": 542
+     "volume_vs_rest": 0.9997,
+     "vertices_outside_posed_skin": 150,
+     "vertices": 1234
     },
     "hgpt.muscle.triceps_lateral.L": {
      "path_m": 0.2203,
-     "belly_length_m": 0.1393,
-     "k": 1.189,
-     "radius_scale": 0.9171,
-     "layer_pushed_sections_points": 8,
-     "layer_push_max_mm": 3.4,
-     "volume_vs_rest": 0.9999,
+     "belly_length_m": 0.1404,
+     "k": 1.1873,
+     "radius_scale": 0.9178,
+     "layer_pushed_sections_points": 14,
+     "layer_push_max_mm": 3.3,
+     "volume_vs_rest": 1.0,
      "vertices_outside_posed_skin": 0,
-     "vertices": 702
+     "vertices": 1626
     },
     "hgpt.muscle.triceps_long.L": {
      "path_m": 0.2797,
-     "belly_length_m": 0.2099,
-     "k": 1.1176,
-     "radius_scale": 0.9459,
+     "belly_length_m": 0.2102,
+     "k": 1.1174,
+     "radius_scale": 0.946,
      "layer_pushed_sections_points": 6,
-     "layer_push_max_mm": 1.2,
-     "volume_vs_rest": 0.9998,
+     "layer_push_max_mm": 1.7,
+     "volume_vs_rest": 1.0002,
      "vertices_outside_posed_skin": 0,
-     "vertices": 742
+     "vertices": 1710
     },
     "hgpt.muscle.triceps_medial.L": {
      "path_m": 0.1354,
      "belly_length_m": 0.0645,
      "k": 1.5168,
      "radius_scale": 0.812,
-     "volume_vs_rest": 1.0001,
-     "vertices_outside_posed_skin": 179,
-     "vertices": 602
+     "volume_vs_rest": 1.0003,
+     "vertices_outside_posed_skin": 414,
+     "vertices": 1402
     }
    },
    "muscle_muscle_overlaps": {},
@@ -216,65 +216,65 @@
    "muscles": {
     "hgpt.muscle.biceps_brachii_long.L": {
      "path_m": 0.2782,
-     "belly_length_m": 0.1136,
-     "k": 0.6525,
-     "radius_scale": 1.238,
-     "layer_pushed_sections_points": 144,
-     "layer_push_max_mm": 14.9,
-     "volume_vs_rest": 1.0,
-     "vertices_outside_posed_skin": 241,
-     "vertices": 662
+     "belly_length_m": 0.1147,
+     "k": 0.6547,
+     "radius_scale": 1.2359,
+     "layer_pushed_sections_points": 332,
+     "layer_push_max_mm": 15.1,
+     "volume_vs_rest": 1.0002,
+     "vertices_outside_posed_skin": 562,
+     "vertices": 1514
     },
     "hgpt.muscle.biceps_brachii_short.L": {
      "path_m": 0.2678,
      "belly_length_m": 0.1035,
      "k": 0.6255,
      "radius_scale": 1.2644,
-     "layer_pushed_sections_points": 143,
-     "layer_push_max_mm": 15.2,
-     "volume_vs_rest": 0.9998,
-     "vertices_outside_posed_skin": 267,
-     "vertices": 642
+     "layer_pushed_sections_points": 332,
+     "layer_push_max_mm": 15.4,
+     "volume_vs_rest": 0.9997,
+     "vertices_outside_posed_skin": 634,
+     "vertices": 1486
     },
     "hgpt.muscle.brachialis.L": {
      "path_m": 0.1087,
      "belly_length_m": 0.0404,
      "k": 0.4781,
      "radius_scale": 1.4462,
-     "volume_vs_rest": 0.9995,
-     "vertices_outside_posed_skin": 188,
-     "vertices": 542
+     "volume_vs_rest": 0.9996,
+     "vertices_outside_posed_skin": 435,
+     "vertices": 1234
     },
     "hgpt.muscle.triceps_lateral.L": {
      "path_m": 0.2186,
-     "belly_length_m": 0.1376,
-     "k": 1.1745,
-     "radius_scale": 0.9227,
-     "layer_pushed_sections_points": 6,
-     "layer_push_max_mm": 1.9,
+     "belly_length_m": 0.1387,
+     "k": 1.1729,
+     "radius_scale": 0.9234,
+     "layer_pushed_sections_points": 14,
+     "layer_push_max_mm": 3.4,
      "volume_vs_rest": 1.0,
-     "vertices_outside_posed_skin": 38,
-     "vertices": 702
+     "vertices_outside_posed_skin": 75,
+     "vertices": 1626
     },
     "hgpt.muscle.triceps_long.L": {
      "path_m": 0.2778,
-     "belly_length_m": 0.208,
-     "k": 1.1073,
-     "radius_scale": 0.9503,
-     "layer_pushed_sections_points": 6,
-     "layer_push_max_mm": 1.1,
-     "volume_vs_rest": 0.9997,
-     "vertices_outside_posed_skin": 12,
-     "vertices": 742
+     "belly_length_m": 0.2083,
+     "k": 1.1071,
+     "radius_scale": 0.9504,
+     "layer_pushed_sections_points": 5,
+     "layer_push_max_mm": 1.6,
+     "volume_vs_rest": 1.0002,
+     "vertices_outside_posed_skin": 28,
+     "vertices": 1710
     },
     "hgpt.muscle.triceps_medial.L": {
      "path_m": 0.1342,
      "belly_length_m": 0.0633,
      "k": 1.4876,
      "radius_scale": 0.8199,
-     "volume_vs_rest": 1.0001,
-     "vertices_outside_posed_skin": 307,
-     "vertices": 602
+     "volume_vs_rest": 1.0003,
+     "vertices_outside_posed_skin": 702,
+     "vertices": 1402
     }
    },
    "muscle_muscle_overlaps": {},
@@ -284,65 +284,65 @@
    "muscles": {
     "hgpt.muscle.biceps_brachii_long.L": {
      "path_m": 0.2697,
-     "belly_length_m": 0.1051,
-     "k": 0.6041,
-     "radius_scale": 1.2866,
-     "layer_pushed_sections_points": 133,
-     "layer_push_max_mm": 18.9,
-     "volume_vs_rest": 1.0002,
-     "vertices_outside_posed_skin": 264,
-     "vertices": 662
+     "belly_length_m": 0.1062,
+     "k": 0.6066,
+     "radius_scale": 1.284,
+     "layer_pushed_sections_points": 304,
+     "layer_push_max_mm": 19.1,
+     "volume_vs_rest": 1.0003,
+     "vertices_outside_posed_skin": 605,
+     "vertices": 1514
     },
     "hgpt.muscle.biceps_brachii_short.L": {
      "path_m": 0.2606,
      "belly_length_m": 0.0963,
      "k": 0.5818,
      "radius_scale": 1.311,
-     "layer_pushed_sections_points": 133,
-     "layer_push_max_mm": 19.2,
-     "volume_vs_rest": 0.9998,
-     "vertices_outside_posed_skin": 272,
-     "vertices": 642
+     "layer_pushed_sections_points": 308,
+     "layer_push_max_mm": 19.5,
+     "volume_vs_rest": 0.9997,
+     "vertices_outside_posed_skin": 645,
+     "vertices": 1486
     },
     "hgpt.muscle.brachialis.L": {
      "path_m": 0.1031,
      "belly_length_m": 0.0348,
      "k": 0.4114,
      "radius_scale": 1.5591,
-     "volume_vs_rest": 0.9994,
-     "vertices_outside_posed_skin": 274,
-     "vertices": 542
+     "volume_vs_rest": 0.9996,
+     "vertices_outside_posed_skin": 621,
+     "vertices": 1234
     },
     "hgpt.muscle.triceps_lateral.L": {
      "path_m": 0.2147,
-     "belly_length_m": 0.1337,
-     "k": 1.1407,
-     "radius_scale": 0.9363,
-     "layer_pushed_sections_points": 6,
-     "layer_push_max_mm": 1.5,
+     "belly_length_m": 0.1348,
+     "k": 1.1394,
+     "radius_scale": 0.9368,
+     "layer_pushed_sections_points": 8,
+     "layer_push_max_mm": 2.6,
      "volume_vs_rest": 1.0,
-     "vertices_outside_posed_skin": 109,
-     "vertices": 702
+     "vertices_outside_posed_skin": 241,
+     "vertices": 1626
     },
     "hgpt.muscle.triceps_long.L": {
      "path_m": 0.2736,
-     "belly_length_m": 0.2038,
-     "k": 1.0851,
+     "belly_length_m": 0.2041,
+     "k": 1.085,
      "radius_scale": 0.96,
-     "layer_pushed_sections_points": 6,
-     "layer_push_max_mm": 1.2,
-     "volume_vs_rest": 0.9997,
-     "vertices_outside_posed_skin": 72,
-     "vertices": 742
+     "layer_pushed_sections_points": 4,
+     "layer_push_max_mm": 1.3,
+     "volume_vs_rest": 1.0002,
+     "vertices_outside_posed_skin": 170,
+     "vertices": 1710
     },
     "hgpt.muscle.triceps_medial.L": {
      "path_m": 0.1307,
      "belly_length_m": 0.0598,
      "k": 1.405,
      "radius_scale": 0.8437,
-     "volume_vs_rest": 1.0001,
-     "vertices_outside_posed_skin": 388,
-     "vertices": 602
+     "volume_vs_rest": 1.0002,
+     "vertices_outside_posed_skin": 910,
+     "vertices": 1402
     }
    },
    "muscle_muscle_overlaps": {},
@@ -350,7 +350,7 @@
   }
  },
  "output_blend": "HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG3_arm_left.blend",
- "output_sha256": "70b8d17a354640f068e56a5fe0f6916db65bd2cb6b41e3362301ba704e01ba35",
+ "output_sha256": "4e0df31d1ddcb8223016dd65663978635c575a55cc615467259a1d333668bd8a",
  "mg1_unchanged": true,
  "renders": {
   "0": [

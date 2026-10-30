@@ -625,3 +625,85 @@ and `MG2_left_curl_sheet.jpg`. The MG2 blend is not in git; its SHA256 is in the
 
 **Files:** `native_20261024/mg3/mg3_left_report.json` and `MG3_left_curl_sheet.jpg` (lateral view, muscle-only and
 with the skin overlaid at 35 %).
+
+## MG4: deltoid envelopes, and the MG1 / MG3 rebuild (added 30 Oct 2026)
+
+**Script:** `build_deltoid_envelopes_blender.py`. It runs on an MG1 blend (hash-checked) and saves a new MG4 blend
+with the anterior, middle and posterior heads. Both sides were built independently.
+
+**Why the frame is a hybrid.** The deltoid runs along the shaft and caps the humeral head, and one frame does not fit
+both parts. A first all-spherical version (rays from GH) cut the shaft-aligned layers obliquely: sections were squeezed
+to the 3 mm minimum at 96–190 points per head, with 174 triangle overlaps against the arm envelopes. Each head is now
+built in two parts:
+
+1. **Along the shaft** (s 0.40 → 0.12 of GH → EJC): cylindrical sections that fill exactly the reserve band MG1 leaves
+   for the deltoid. The inner surface is where MG1's envelopes stop, plus the gap, so there is no overlap by
+   construction.
+2. **Over the head:** a GH-centred spherical frame.
+   - It starts from a 58° cone, whose ring lies wholly above the last shaft ring.
+   - It ends at each head's origin direction (from its proposed anchor) less a 10° aponeurotic margin.
+   - Outer surface: the skin less the 4 mm layer, as a true depth. The rays meet the skin obliquely, so it is clamped by
+     nearest-point depth.
+   - Inner surface: the deepest of the humeral head (24 mm) + a 6 mm rotator-cuff reserve, the shaft proxy, and the
+     MG1 envelopes.
+   - Thickness: up to 24 mm, tapering to the origin.
+
+**Head spans at the top** (φ about the humeral axis; the AC joint lies at about φ 72°, θ 147° from GH):
+
+| Head | Origin | Span at the top |
+|---|---|---|
+| Anterior | lateral third of the clavicle | −45° to 55° |
+| Middle | acromion | 58° to 139° |
+| Posterior | spine of the scapula | 141° to 210° |
+
+All three converge on thirds of φ 70–110° at the deltoid tuberosity.
+
+**Binding.** Each head blends from the humerus (shaft part) to its origin bone (the clavicle for the anterior head, the
+scapula for the others) over the cap. `use_deform` was switched on for the clavicle bone in the copy, as MG1 did for
+four other bones.
+
+**MG1 and MG3 rebuilt to match.**
+
+- **Wider deltoid reserve.** It now covers φ −40° to 210° at the top, narrowing to 50–130° by s 0.40; 55 % of the
+  available thickness to s 0.20, none by 0.45. The first, lateral-only 45 % reserve squeezed the deltoid.
+- **Feathered window.** The reserve window is feathered over 30° inside its edges. A hard edge, then a 15° feather,
+  stepped the arm envelopes' outer surface into a visible staircase.
+- **Finer sampling.** Stations every 1.2 % of the humerus and 14 samples per arc. The sample count is now recorded in
+  the MG1 report, and MG3 reads it from there.
+
+**Results:**
+
+| | Left | Right |
+|---|---|---|
+| MG1 arm envelopes: outside skin / too shallow / inside bone / overlaps | 0 / 0 / 0 / 0 | 0 / 0 / 0 / 0 |
+| MG4 deltoid heads: outside skin / too shallow / inside head or shaft / overlaps (with each other and the arm) | 0 / 0 / 0 / 0 | 0 / 0 / 0 / 0 |
+| Deltoid volumes (anterior / middle / posterior) | 121 / 91 / 60 cm³ | identical |
+| MG3 layered curl: muscle–muscle overlaps at 0–140° | 0 at every angle | 0 at every angle |
+| MG3 volume against rest | 0.9996–1.0003 | 0.9997–1.0004 |
+
+Arm envelope volumes after the rebuild:
+
+| Muscle | Volume |
+|---|---|
+| Biceps long head | 179 cm³ |
+| Biceps short head | 160 cm³ |
+| Brachialis | 145 cm³ |
+| Triceps lateral head | 185 cm³ |
+| Triceps long head | 198 cm³ |
+| Triceps medial head | 100 cm³ |
+
+**Limits.**
+
+- The deltoid's length response in arm elevation is not built. A muscle bound to the scapula-to-humerus blend cannot
+  follow 160° of elevation; this needs a per-pose sweep along the posed path.
+- The cap's top edge is uneven: the heads end at different origin angles, and the cap shows tendon stubs from above.
+- The deltoid is smaller than this body's triceps. Its thickness cap (24 mm) and the 6 mm cuff reserve are authored,
+  not measured.
+- As everywhere, the volumes are geometry-derived, not reviewed.
+
+**Files.**
+
+- `native_20261024/mg4/`: `mg4_left_report.json`, `mg4_right_report.json` and `MG4_left_shoulder_sheet.jpg`
+  (anterior / lateral / posterior / superior, muscle-only and with the skin overlaid at 35 %).
+- `mg1/` and `mg3/`: refreshed reports and sheets, both sides.
+- The blends are not in git; their SHA256 values are in the reports.

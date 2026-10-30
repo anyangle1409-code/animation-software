@@ -63,7 +63,7 @@ def LM(n):
 
 GH, EJC = LM(f"scapula_{SIDE}__GH"), LM(f"humerus_{SIDE}__EJC")
 AX = (EJC - GH).normalized(); LH_ = (EJC - GH).length
-NPHI = 10                                                   # MG1 section samples per arc (outer, then inner reversed)
+NPHI = int(json.loads(Path(args[3]).read_text())["rules"].get("nphi", 10))   # MG1 section samples per arc
 GAP = 0.0012                                                # as MG1
 F_ = Vector((0, -1, 0)); F_ = (F_ - AX * F_.dot(AX)).normalized()
 L_ = Vector((1.0 if GH.x > 0 else -1.0, 0, 0)); L_ = (L_ - AX * L_.dot(AX) - F_ * L_.dot(F_)).normalized()

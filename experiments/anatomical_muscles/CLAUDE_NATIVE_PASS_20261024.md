@@ -1296,3 +1296,19 @@ the humerus too), or move one head onto another. At rest it is exact (0.0001 mm)
 
 - Latissimus / teres major: 85–176 face pairs.
 - The pectoral heads lose volume at the lockout (clavicular 0.39, sternocostal 0.60).
+
+**Two fan schemes were measured after this, and neither was kept.**
+
+- **Sliding the fans in their origin bone's frame (the mirror of the deltoid):** it does not apply.
+  - In that frame the posed insertions lie 6–21 cm off the rest fibres, mostly beyond their ends: the latissimus,
+    teres major and sternocostal head lengthen and swing far.
+  - The clavicular head's insertion sits 7–11 cm to the side.
+- **A taut fan:** each fibre on the trunk (carried by its origin bone) up to a lift-off station, then straight to its
+  insertion. The lift-off is the shortest path whose straight part stays outside the thorax. It faded in from the
+  Poisson solve as the fibres pulled taut.
+  - Sternocostal head: kept its volume (1.02–1.15).
+  - Clavicular head: collapsed to 0.06 at the lockout. Its free part twists and the posed sheet normal flips.
+  - Latissimus and teres major: overshot to 1.2–1.37.
+  - Overlaps rose: rack 217 → 278, 120° 159 → 271, lockout 93 → 138.
+- **What the fans need is not settled.** A twist-aware cross-section (the pectoral fibres unwind at elevation) and a
+  layering that knows the deep face are both candidates. The Poisson fans remain the default.

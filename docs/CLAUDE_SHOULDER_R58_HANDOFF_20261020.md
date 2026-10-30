@@ -2471,7 +2471,7 @@ H3 is still the current best candidate. Details are in `docs/R121_MOVEMENT_TRAJE
 - **Fails above 120°:** the deltoid has to unwrap from the head, and six schemes measured all fold it. The next
   options are recorded in the pass doc.
 
-**Later (30 Oct): MG10 on the muscle branch (2090b65f).** The leg muscles now change shape with their length, keyed by
+**Later (30 Oct): MG10 on the muscle branch (2090b65f, revised in 810d68d3).** The leg muscles now change shape with their length, keyed by
 length ratio so any exercise can drive them. The quadriceps are layered and there is a knee contact.
 
 - **Squat:** volumes are kept to within 0.2 %. Overlaps are 0–9 through the squat and 92 → 8 at full depth, once each belly stretches about the end that cannot slide.

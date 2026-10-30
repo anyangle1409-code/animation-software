@@ -305,7 +305,7 @@ The flagged muscles:
     the sheet must unwrap. Six schemes were measured and none holds. Details and next steps are in the pass doc.
   - **Teres major / latissimus fibres reach 2.0× / 1.6×** at the lockout. This needs re-checking on the corrected
     girdle; R41's scapula is about twice as wide as the CT reference.
-- **MG10 (leg length response + knee contact, 30 Oct; muscle branch 2090b65f, revised in the next commit):**
+- **MG10 (leg length response + knee contact, 30 Oct; muscle branch 2090b65f, revised in 810d68d3):**
   - **Length keys by belly length ratio:** each MG7 belly gets keys `HGPT_LEN_K_<100k>` (k 0.85–1.50), following
     MG2's rule. A shape depends only on how long the muscle is, so any movement drives it through the muscle's path
     length.

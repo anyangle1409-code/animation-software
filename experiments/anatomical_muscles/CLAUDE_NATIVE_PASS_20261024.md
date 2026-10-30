@@ -1045,3 +1045,96 @@ stretch):
 
 **Status of Work's squat contract.** All 12 muscles now have envelope proxies on both sides: the four quadriceps, the
 three hamstrings, adductor magnus, the medial gastrocnemius, soleus, and both glutes.
+
+## MG9a: bone-driven positioning of the shoulder proxies through the press (read-only check, added 30 Oct 2026)
+
+**Status: partial. It works through the rack (90°). It does not hold above 120°. Not adopted.**
+
+MG6a showed that blended bindings cannot follow the press. MG9a tries the bone-driven, volume-preserving positioning
+that MG6a proposed, for the MG4 deltoid and the MG5 fans. The script is `muscle_fibre_sweep_press_blender.py`. It
+runs on the MG8 blends (hash-checked, unchanged) and saves nothing.
+
+**Method kept (the script's defaults):** rotation-blended Poisson deformation of each sheet's mid-surface.
+
+- **Sheets.** Each sheet is F fibres × K stations, with an outer and a deep surface. The three deltoid heads are
+  solved as one 36-fibre sheet, since they are adjacent in φ.
+- **Ends.** Fibre ends are fixed rigidly to their bones: the origin end to its dominant bone, the belly end to the
+  humerus.
+- **Rotations.** Each station gets the origin bone's rotation slerped to the humerus's, weighted by its own rest
+  humerus weight (the binding MG4 and MG5 authored).
+- **Solve.** The mid-surface keeps its rotated rest along-fibre and across-fibre differentials, with the ends held.
+  The along-fibre part fades out as the fibre goes taut:
+  - after 30° of joint rotation (an active muscle pulls taut), or
+  - once the end-to-end chord grows by 15 % of the fibre.
+- **Obstacles.** The deep surface is kept outside three obstacles by least-squares soft constraints, re-solved:
+  - the humeral head + cuff sphere about the posed GH;
+  - the MG1 arm envelopes;
+  - for the fans, the static thorax skin depth.
+  Each clearance is never stricter than the node's own at rest, so the rest pose is admissible.
+- **Thickness.** Thickness runs along the posed sheet normal (the rotated rest normal where the grid degenerates). The
+  deep surface stays; the outer surface takes the thickness change, 1 / the fibre's stretch.
+- **Rest round trip:** ≤ 0.0001 mm. Continuation in 3° steps.
+
+**Results, left** (the right side agrees; reports `native_20261024/mg9a/mg9a_{left,right}_press_sweep_report.json`).
+MG6a's blended binding is in brackets.
+
+| | Rack 90° | Lockout 160° |
+|---|---|---|
+| Face overlaps (with MG1) | 257 [169] | 1638 [314] |
+| Self-crossing face pairs | 163 | 1704 |
+| Deltoid volume: anterior / middle / posterior | 0.96 / 1.41 / 1.07 [0.56 / 0.41 / –] | 0.35 / 0.40 / 0.38 [0.58 / 0.22 / –] |
+| Fans volume: latissimus / teres / clavicular / sternocostal | 1.16 / 1.29 / 0.83 / 1.13 | 1.11 / 1.22 / 0.39 / 0.60 |
+| Largest edge stretch: latissimus / sternocostal | 2.8× / 4.1× [5.6× / 9.0×] | 4.6× / 6.6× [8.4× / 15.5×] |
+| Mean fibre length: deltoid anterior / middle | 0.65 / 0.65 | 0.64 / 0.54 |
+
+**Reading.**
+
+- **Through the rack** the deltoid keeps its volume, where MG6a lost 44–59 %, and the fans stretch about half as much.
+  The middle deltoid overshoots (1.41), because the 1 / stretch thickness rule ignores width changes.
+- **New overlaps at the rack** are mostly latissimus / teres major (141): both stretch, and the deep one meets the
+  superficial one. MG5's separation pass would need to run per pose.
+- **Deltoid shortening agrees with the path-length check.** The contract check gives −32 % / −39 % at the lockout for
+  the anterior / middle heads (anchor paths with the cuff wrap). The sheet's mean fibre lengths are 0.64 / 0.54.
+- **Above 120° the deltoid folds**, and the clavicular / sternocostal pectoral heads lose volume.
+- **Teres major and latissimus fibres reach 2.0× / 1.6×** at the lockout. Those lengths follow from the bone-fixed ends,
+  not the positioning method. They need re-checking on the corrected girdle: R41's scapula is about twice as wide as
+  the CT reference, so its inferior angle is far from the humerus. This is a hypothesis, not measured.
+
+**Why the deltoid fails above 120°.** At the lockout the glenohumeral joint has turned about 107° relative to the
+scapula. That is more than the cap's own angular span (58° → about 140° from the humeral axis). The sheet has to unwrap
+from the head and lie along the arm, which is a genuine change of curvature.
+
+**Six schemes measured.** All were run on the left side through the same press; volumes are at the rack unless
+stated.
+
+1. **Taut string per fibre with the rest offsets carried along it:** turned inside out (anterior deltoid volume 0.03
+   at the rack). The deltoid's rest fibres are meridians of its spherical frame, not shortest paths, so the carried
+   offsets are larger than the fibre spacing. First the frames were built from neighbouring fibres; those degenerated,
+   and a 4 mm path change swung the outer surface 30–58 mm.
+2. **Rotation-blended Poisson keeping the rest shape:** deltoid volumes 0.46 / 0.71 / 0.88, then 0.08–0.20 at the
+   lockout.
+3. **The same, with the rest shape fading as the fibres go taut (kept):** the table above.
+4. **"Membrane" (the across-fibre rest shape fades too):** every sheet loses width (volumes 0.2–0.3 at 60°).
+5. **Great circles about GH (the deltoid re-laid in its own spherical chart):** anterior deltoid volume 0.17 already
+   at 60°. Fixed-radius re-laying cannot unwrap the cap.
+6. **The deltoid rebuilt as taut fibres in every pose, the rest pose included:** 28–37 mm from MG4 at rest, and the
+   three heads collapse onto the same routes (4400 overlaps at rest).
+
+**Also found.** MG1's envelopes are wound inward (negative signed volume). MG4's ray-march used a nearest-face inside
+test that therefore reads them backwards. This was measured to have no effect: every MG4 cap ring is at its full
+24 mm, and the thin rings are the tapered insertion end, as designed. MG9a orients the faces before testing.
+
+**Next.**
+
+1. **The deltoid above 120°** needs a construction that changes curvature. Two options:
+   - a pose-aware rebuild by MG4's own rules in a moving frame: fibres on the posed head, cuff and MG1 floor between
+     the posed origin and insertion lines, heads kept in their φ bands, thickness from the rest profile;
+   - a volumetric (tetrahedral) simulation.
+2. **A per-pose separation pass** for latissimus / teres major.
+3. **The fan lengths** re-checked on the corrected girdle (c003/c004).
+
+**Sheets.**
+
+- `native_20261024/mg9a/MG9a_left_press_sheet.jpg` and `MG9a_right_press_sheet.jpg`: rest, rack and lockout.
+- `MG9a_left_deltoid_closeup_sheet.jpg`: the deltoid alone, heads coloured (anterior red, middle green, posterior
+  blue).

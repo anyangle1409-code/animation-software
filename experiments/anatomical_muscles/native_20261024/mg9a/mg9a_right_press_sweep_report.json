@@ -1,0 +1,1376 @@
+{
+ "status": "READ_ONLY_CHECK",
+ "input": "HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG8_gluteal_right.blend",
+ "input_sha256": "df7b3587c51315973dfd27b8729c9a509a04a9ac558b603d06cabc40f874c83b",
+ "side": "right",
+ "method": "rotation-blended Poisson deformation of each sheet's mid-surface (bone-driven ends; rotations slerped by the rest humerus weight; along-fibre differentials fade as the fibre is pulled taut; head + cuff sphere, MG1 arm envelopes and static thorax as deep-surface constraints; volume-preserving thickness)",
+ "girdle": {
+  "model": {
+   "upward_rotation": 0.33,
+   "posterior_tilt": 0.12,
+   "clavicle_elevation": 0.08,
+   "clavicle_retraction": 0.12
+  },
+  "plane_deg": 30.0,
+  "rest_ht_deg": 1.2
+ },
+ "rules": {
+  "head_radius_m": 0.024,
+  "cuff_m": 0.006,
+  "gap_m": 0.0012,
+  "step_deg": 3.0,
+  "slack": 0.15,
+  "thickness_scale_clamp": [
+   0.4,
+   2.5
+  ],
+  "obstacle_resolves_weight_tolerance": [
+   12,
+   4.0,
+   0.0005
+  ],
+  "static_skin_triangles": 30748,
+  "thickness_direction": "grid",
+  "taut_after_joint_rotation_deg": 30.0,
+  "deltoid_one_sheet": true
+ },
+ "origin_bones": {
+  "deltoid_anterior": [
+   "anat_clavicle_right"
+  ],
+  "deltoid_middle": [
+   "anat_scapula_right"
+  ],
+  "deltoid_posterior": [
+   "anat_scapula_right"
+  ],
+  "latissimus_dorsi": [
+   "anat_hip_bone_right",
+   "anat_l1",
+   "anat_l2",
+   "anat_l3",
+   "anat_l4",
+   "anat_t10",
+   "anat_t11",
+   "anat_t12",
+   "anat_t7",
+   "anat_t8"
+  ],
+  "teres_major": [
+   "anat_scapula_right"
+  ],
+  "pectoralis_major_clavicular": [
+   "anat_clavicle_right"
+  ],
+  "pectoralis_major_sternocostal": [
+   "anat_sternum"
+  ]
+ },
+ "poses": {
+  "rest": {
+   "humerothoracic_deg": 1.2,
+   "muscles": {
+    "deltoid_anterior": {
+     "volume_ratio": 1.0,
+     "fibre_length_ratio_min_mean_max": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "thickness_scale_min_max": [
+      1.0,
+      1.0
+     ],
+     "along_fibre_shape_kept_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "rest_round_trip_max_mm": 0.0001,
+     "sheet_obstacle_constrained_nodes": 0,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "deltoid_middle": {
+     "volume_ratio": 1.0,
+     "fibre_length_ratio_min_mean_max": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "thickness_scale_min_max": [
+      1.0,
+      1.0
+     ],
+     "along_fibre_shape_kept_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "rest_round_trip_max_mm": 0.0001,
+     "sheet_obstacle_constrained_nodes": 0,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "deltoid_posterior": {
+     "volume_ratio": 1.0,
+     "fibre_length_ratio_min_mean_max": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "thickness_scale_min_max": [
+      1.0,
+      1.0
+     ],
+     "along_fibre_shape_kept_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 4,
+     "rest_round_trip_max_mm": 0.0001,
+     "sheet_obstacle_constrained_nodes": 0,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "latissimus_dorsi": {
+     "volume_ratio": 1.0,
+     "fibre_length_ratio_min_mean_max": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "thickness_scale_min_max": [
+      1.0,
+      1.0
+     ],
+     "along_fibre_shape_kept_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "rest_round_trip_max_mm": 0.0001,
+     "sheet_obstacle_constrained_nodes": 0,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "teres_major": {
+     "volume_ratio": 1.0,
+     "fibre_length_ratio_min_mean_max": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "thickness_scale_min_max": [
+      1.0,
+      1.0
+     ],
+     "along_fibre_shape_kept_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "rest_round_trip_max_mm": 0.0,
+     "sheet_obstacle_constrained_nodes": 0,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "pectoralis_major_clavicular": {
+     "volume_ratio": 1.0,
+     "fibre_length_ratio_min_mean_max": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "thickness_scale_min_max": [
+      1.0,
+      1.0
+     ],
+     "along_fibre_shape_kept_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 5,
+     "rest_round_trip_max_mm": 0.0001,
+     "sheet_obstacle_constrained_nodes": 0,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "pectoralis_major_sternocostal": {
+     "volume_ratio": 1.0,
+     "fibre_length_ratio_min_mean_max": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "thickness_scale_min_max": [
+      1.0,
+      1.0
+     ],
+     "along_fibre_shape_kept_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "rest_round_trip_max_mm": 0.0001,
+     "sheet_obstacle_constrained_nodes": 0,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    }
+   },
+   "overlap_pairs": {},
+   "overlap_total": 0,
+   "largest_station_jump_per_step_mm_so_far": {
+    "deltoid_anterior": 0.0,
+    "deltoid_middle": 0.0,
+    "deltoid_posterior": 0.0,
+    "latissimus_dorsi": 0.0,
+    "teres_major": 0.0,
+    "pectoralis_major_clavicular": 0.0,
+    "pectoralis_major_sternocostal": 0.0
+   }
+  },
+  "start": {
+   "humerothoracic_deg": 1.2,
+   "muscles": {
+    "deltoid_anterior": {
+     "volume_ratio": 0.999,
+     "fibre_length_ratio_min_mean_max": [
+      0.992,
+      0.997,
+      1.0
+     ],
+     "edge_ratio_p1_p99": [
+      0.985,
+      1.008
+     ],
+     "edge_ratio_min_max": [
+      0.954,
+      1.016
+     ],
+     "thickness_scale_min_max": [
+      1.0,
+      1.01
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.98,
+      0.99
+     ],
+     "self_intersecting_face_pairs": 0,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 0,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "deltoid_middle": {
+     "volume_ratio": 1.002,
+     "fibre_length_ratio_min_mean_max": [
+      0.989,
+      0.99,
+      0.992
+     ],
+     "edge_ratio_p1_p99": [
+      0.963,
+      1.015
+     ],
+     "edge_ratio_min_max": [
+      0.935,
+      1.028
+     ],
+     "thickness_scale_min_max": [
+      1.01,
+      1.01
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.99,
+      0.99
+     ],
+     "self_intersecting_face_pairs": 0,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 0,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "deltoid_posterior": {
+     "volume_ratio": 0.997,
+     "fibre_length_ratio_min_mean_max": [
+      0.991,
+      0.995,
+      0.999
+     ],
+     "edge_ratio_p1_p99": [
+      0.971,
+      1.031
+     ],
+     "edge_ratio_min_max": [
+      0.846,
+      1.138
+     ],
+     "thickness_scale_min_max": [
+      1.0,
+      1.01
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.98,
+      0.99
+     ],
+     "self_intersecting_face_pairs": 4,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 0,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "latissimus_dorsi": {
+     "volume_ratio": 1.042,
+     "fibre_length_ratio_min_mean_max": [
+      1.009,
+      1.014,
+      1.025
+     ],
+     "edge_ratio_p1_p99": [
+      0.842,
+      1.386
+     ],
+     "edge_ratio_min_max": [
+      0.144,
+      2.235
+     ],
+     "thickness_scale_min_max": [
+      0.98,
+      0.99
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.96,
+      0.99
+     ],
+     "self_intersecting_face_pairs": 5,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 6,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "teres_major": {
+     "volume_ratio": 1.006,
+     "fibre_length_ratio_min_mean_max": [
+      0.997,
+      1.002,
+      1.008
+     ],
+     "edge_ratio_p1_p99": [
+      0.904,
+      1.082
+     ],
+     "edge_ratio_min_max": [
+      0.595,
+      1.164
+     ],
+     "thickness_scale_min_max": [
+      0.99,
+      1.0
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.99,
+      0.99
+     ],
+     "self_intersecting_face_pairs": 0,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 10,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "pectoralis_major_clavicular": {
+     "volume_ratio": 1.012,
+     "fibre_length_ratio_min_mean_max": [
+      1.008,
+      1.048,
+      1.071
+     ],
+     "edge_ratio_p1_p99": [
+      0.385,
+      2.137
+     ],
+     "edge_ratio_min_max": [
+      0.235,
+      4.058
+     ],
+     "thickness_scale_min_max": [
+      0.93,
+      0.99
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.93,
+      0.95
+     ],
+     "self_intersecting_face_pairs": 15,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 30,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 1
+    },
+    "pectoralis_major_sternocostal": {
+     "volume_ratio": 1.041,
+     "fibre_length_ratio_min_mean_max": [
+      1.035,
+      1.045,
+      1.053
+     ],
+     "edge_ratio_p1_p99": [
+      0.942,
+      1.131
+     ],
+     "edge_ratio_min_max": [
+      0.803,
+      1.564
+     ],
+     "thickness_scale_min_max": [
+      0.95,
+      0.97
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.94,
+      0.99
+     ],
+     "self_intersecting_face_pairs": 0,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 7,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    }
+   },
+   "overlap_pairs": {
+    "deltoid_anterior | pectoralis_major_clavicular": 18,
+    "latissimus_dorsi | teres_major": 13
+   },
+   "overlap_total": 31,
+   "largest_station_jump_per_step_mm_so_far": {
+    "deltoid_anterior": 4.06,
+    "deltoid_middle": 4.09,
+    "deltoid_posterior": 4.1,
+    "latissimus_dorsi": 22.33,
+    "teres_major": 3.22,
+    "pectoralis_major_clavicular": 28.15,
+    "pectoralis_major_sternocostal": 13.89
+   }
+  },
+  "ht60": {
+   "humerothoracic_deg": 60.0,
+   "muscles": {
+    "deltoid_anterior": {
+     "volume_ratio": 1.245,
+     "fibre_length_ratio_min_mean_max": [
+      0.704,
+      0.759,
+      0.841
+     ],
+     "edge_ratio_p1_p99": [
+      0.45,
+      1.683
+     ],
+     "edge_ratio_min_max": [
+      0.33,
+      3.059
+     ],
+     "thickness_scale_min_max": [
+      1.19,
+      1.42
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.0,
+      0.0
+     ],
+     "self_intersecting_face_pairs": 7,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 184,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "deltoid_middle": {
+     "volume_ratio": 1.436,
+     "fibre_length_ratio_min_mean_max": [
+      0.725,
+      0.764,
+      0.846
+     ],
+     "edge_ratio_p1_p99": [
+      0.409,
+      2.354
+     ],
+     "edge_ratio_min_max": [
+      0.264,
+      5.164
+     ],
+     "thickness_scale_min_max": [
+      1.18,
+      1.38
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.0,
+      0.0
+     ],
+     "self_intersecting_face_pairs": 8,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 184,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "deltoid_posterior": {
+     "volume_ratio": 1.456,
+     "fibre_length_ratio_min_mean_max": [
+      0.864,
+      0.96,
+      1.032
+     ],
+     "edge_ratio_p1_p99": [
+      0.44,
+      2.711
+     ],
+     "edge_ratio_min_max": [
+      0.343,
+      3.38
+     ],
+     "thickness_scale_min_max": [
+      0.97,
+      1.16
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.0,
+      0.0
+     ],
+     "self_intersecting_face_pairs": 23,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 184,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "latissimus_dorsi": {
+     "volume_ratio": 1.069,
+     "fibre_length_ratio_min_mean_max": [
+      0.993,
+      1.102,
+      1.279
+     ],
+     "edge_ratio_p1_p99": [
+      0.707,
+      2.098
+     ],
+     "edge_ratio_min_max": [
+      0.292,
+      8.033
+     ],
+     "thickness_scale_min_max": [
+      0.78,
+      1.01
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.0,
+      0.0
+     ],
+     "self_intersecting_face_pairs": 11,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 10,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "teres_major": {
+     "volume_ratio": 1.046,
+     "fibre_length_ratio_min_mean_max": [
+      1.12,
+      1.164,
+      1.211
+     ],
+     "edge_ratio_p1_p99": [
+      0.463,
+      2.187
+     ],
+     "edge_ratio_min_max": [
+      0.194,
+      6.656
+     ],
+     "thickness_scale_min_max": [
+      0.83,
+      0.89
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.0,
+      0.0
+     ],
+     "self_intersecting_face_pairs": 32,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 7,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "pectoralis_major_clavicular": {
+     "volume_ratio": 0.935,
+     "fibre_length_ratio_min_mean_max": [
+      0.863,
+      0.966,
+      1.051
+     ],
+     "edge_ratio_p1_p99": [
+      0.685,
+      1.979
+     ],
+     "edge_ratio_min_max": [
+      0.457,
+      5.884
+     ],
+     "thickness_scale_min_max": [
+      0.95,
+      1.16
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.0,
+      0.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 1,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "pectoralis_major_sternocostal": {
+     "volume_ratio": 1.046,
+     "fibre_length_ratio_min_mean_max": [
+      1.152,
+      1.216,
+      1.304
+     ],
+     "edge_ratio_p1_p99": [
+      0.519,
+      3.448
+     ],
+     "edge_ratio_min_max": [
+      0.22,
+      14.412
+     ],
+     "thickness_scale_min_max": [
+      0.77,
+      0.87
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.0,
+      0.0
+     ],
+     "self_intersecting_face_pairs": 11,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 10,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    }
+   },
+   "overlap_pairs": {
+    "deltoid_anterior | deltoid_middle": 17,
+    "deltoid_middle | deltoid_posterior": 14,
+    "deltoid_posterior | triceps_lateral": 42,
+    "latissimus_dorsi | teres_major": 200
+   },
+   "overlap_total": 273,
+   "largest_station_jump_per_step_mm_so_far": {
+    "deltoid_anterior": 10.2,
+    "deltoid_middle": 7.24,
+    "deltoid_posterior": 7.14,
+    "latissimus_dorsi": 28.9,
+    "teres_major": 16.8,
+    "pectoralis_major_clavicular": 43.84,
+    "pectoralis_major_sternocostal": 73.46
+   }
+  },
+  "rack90": {
+   "humerothoracic_deg": 90.0,
+   "muscles": {
+    "deltoid_anterior": {
+     "volume_ratio": 0.955,
+     "fibre_length_ratio_min_mean_max": [
+      0.594,
+      0.654,
+      0.767
+     ],
+     "edge_ratio_p1_p99": [
+      0.317,
+      4.324
+     ],
+     "edge_ratio_min_max": [
+      0.08,
+      8.827
+     ],
+     "thickness_scale_min_max": [
+      1.3,
+      1.68
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.0,
+      0.0
+     ],
+     "self_intersecting_face_pairs": 30,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 214,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "deltoid_middle": {
+     "volume_ratio": 1.418,
+     "fibre_length_ratio_min_mean_max": [
+      0.599,
+      0.649,
+      0.758
+     ],
+     "edge_ratio_p1_p99": [
+      0.232,
+      3.819
+     ],
+     "edge_ratio_min_max": [
+      0.117,
+      7.312
+     ],
+     "thickness_scale_min_max": [
+      1.32,
+      1.67
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.0,
+      0.0
+     ],
+     "self_intersecting_face_pairs": 29,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 214,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "deltoid_posterior": {
+     "volume_ratio": 1.131,
+     "fibre_length_ratio_min_mean_max": [
+      0.839,
+      0.96,
+      1.059
+     ],
+     "edge_ratio_p1_p99": [
+      0.421,
+      2.593
+     ],
+     "edge_ratio_min_max": [
+      0.282,
+      3.473
+     ],
+     "thickness_scale_min_max": [
+      0.94,
+      1.19
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.0,
+      0.0
+     ],
+     "self_intersecting_face_pairs": 81,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 214,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "latissimus_dorsi": {
+     "volume_ratio": 1.118,
+     "fibre_length_ratio_min_mean_max": [
+      1.126,
+      1.285,
+      1.511
+     ],
+     "edge_ratio_p1_p99": [
+      0.674,
+      2.494
+     ],
+     "edge_ratio_min_max": [
+      0.49,
+      7.665
+     ],
+     "thickness_scale_min_max": [
+      0.66,
+      0.89
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.0,
+      0.0
+     ],
+     "self_intersecting_face_pairs": 29,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 10,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "teres_major": {
+     "volume_ratio": 1.071,
+     "fibre_length_ratio_min_mean_max": [
+      1.333,
+      1.413,
+      1.482
+     ],
+     "edge_ratio_p1_p99": [
+      0.44,
+      2.328
+     ],
+     "edge_ratio_min_max": [
+      0.247,
+      6.759
+     ],
+     "thickness_scale_min_max": [
+      0.67,
+      0.75
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.0,
+      0.0
+     ],
+     "self_intersecting_face_pairs": 40,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 6,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "pectoralis_major_clavicular": {
+     "volume_ratio": 0.828,
+     "fibre_length_ratio_min_mean_max": [
+      0.805,
+      0.927,
+      1.034
+     ],
+     "edge_ratio_p1_p99": [
+      0.612,
+      2.039
+     ],
+     "edge_ratio_min_max": [
+      0.463,
+      5.917
+     ],
+     "thickness_scale_min_max": [
+      0.97,
+      1.24
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.0,
+      0.0
+     ],
+     "self_intersecting_face_pairs": 5,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 0,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "pectoralis_major_sternocostal": {
+     "volume_ratio": 0.971,
+     "fibre_length_ratio_min_mean_max": [
+      1.171,
+      1.255,
+      1.402
+     ],
+     "edge_ratio_p1_p99": [
+      0.614,
+      3.819
+     ],
+     "edge_ratio_min_max": [
+      0.351,
+      18.089
+     ],
+     "thickness_scale_min_max": [
+      0.71,
+      0.85
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.0,
+      0.0
+     ],
+     "self_intersecting_face_pairs": 10,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 8,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    }
+   },
+   "overlap_pairs": {
+    "deltoid_anterior | deltoid_middle": 34,
+    "deltoid_anterior | biceps_brachii_long": 28,
+    "deltoid_middle | deltoid_posterior": 12,
+    "deltoid_posterior | triceps_lateral": 34,
+    "latissimus_dorsi | teres_major": 237
+   },
+   "overlap_total": 345,
+   "largest_station_jump_per_step_mm_so_far": {
+    "deltoid_anterior": 10.2,
+    "deltoid_middle": 7.51,
+    "deltoid_posterior": 7.67,
+    "latissimus_dorsi": 32.22,
+    "teres_major": 16.8,
+    "pectoralis_major_clavicular": 43.84,
+    "pectoralis_major_sternocostal": 73.46
+   }
+  },
+  "ht120": {
+   "humerothoracic_deg": 120.0,
+   "muscles": {
+    "deltoid_anterior": {
+     "volume_ratio": 0.267,
+     "fibre_length_ratio_min_mean_max": [
+      0.552,
+      0.592,
+      0.695
+     ],
+     "edge_ratio_p1_p99": [
+      0.22,
+      8.23
+     ],
+     "edge_ratio_min_max": [
+      0.097,
+      19.447
+     ],
+     "thickness_scale_min_max": [
+      1.44,
+      1.81
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.0,
+      0.0
+     ],
+     "self_intersecting_face_pairs": 228,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 278,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "deltoid_middle": {
+     "volume_ratio": 1.02,
+     "fibre_length_ratio_min_mean_max": [
+      0.512,
+      0.562,
+      0.67
+     ],
+     "edge_ratio_p1_p99": [
+      0.167,
+      8.798
+     ],
+     "edge_ratio_min_max": [
+      0.09,
+      15.12
+     ],
+     "thickness_scale_min_max": [
+      1.49,
+      1.95
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.0,
+      0.0
+     ],
+     "self_intersecting_face_pairs": 228,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 278,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "deltoid_posterior": {
+     "volume_ratio": 0.767,
+     "fibre_length_ratio_min_mean_max": [
+      0.834,
+      0.951,
+      1.06
+     ],
+     "edge_ratio_p1_p99": [
+      0.35,
+      2.723
+     ],
+     "edge_ratio_min_max": [
+      0.164,
+      5.222
+     ],
+     "thickness_scale_min_max": [
+      0.94,
+      1.2
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.0,
+      0.0
+     ],
+     "self_intersecting_face_pairs": 147,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 278,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "latissimus_dorsi": {
+     "volume_ratio": 1.16,
+     "fibre_length_ratio_min_mean_max": [
+      1.298,
+      1.469,
+      1.703
+     ],
+     "edge_ratio_p1_p99": [
+      0.622,
+      2.161
+     ],
+     "edge_ratio_min_max": [
+      0.352,
+      7.877
+     ],
+     "thickness_scale_min_max": [
+      0.59,
+      0.77
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.0,
+      0.0
+     ],
+     "self_intersecting_face_pairs": 23,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 11,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "teres_major": {
+     "volume_ratio": 1.107,
+     "fibre_length_ratio_min_mean_max": [
+      1.56,
+      1.683,
+      1.77
+     ],
+     "edge_ratio_p1_p99": [
+      0.496,
+      2.892
+     ],
+     "edge_ratio_min_max": [
+      0.109,
+      6.776
+     ],
+     "thickness_scale_min_max": [
+      0.56,
+      0.64
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.0,
+      0.0
+     ],
+     "self_intersecting_face_pairs": 84,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 10,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "pectoralis_major_clavicular": {
+     "volume_ratio": 0.829,
+     "fibre_length_ratio_min_mean_max": [
+      0.808,
+      0.924,
+      1.029
+     ],
+     "edge_ratio_p1_p99": [
+      0.673,
+      2.3
+     ],
+     "edge_ratio_min_max": [
+      0.292,
+      6.208
+     ],
+     "thickness_scale_min_max": [
+      0.97,
+      1.24
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.0,
+      0.0
+     ],
+     "self_intersecting_face_pairs": 11,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 4,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "pectoralis_major_sternocostal": {
+     "volume_ratio": 0.854,
+     "fibre_length_ratio_min_mean_max": [
+      1.176,
+      1.387,
+      1.607
+     ],
+     "edge_ratio_p1_p99": [
+      0.54,
+      3.826
+     ],
+     "edge_ratio_min_max": [
+      0.175,
+      19.267
+     ],
+     "thickness_scale_min_max": [
+      0.62,
+      0.85
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.0,
+      0.0
+     ],
+     "self_intersecting_face_pairs": 20,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 11,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    }
+   },
+   "overlap_pairs": {
+    "deltoid_anterior | deltoid_middle": 199,
+    "deltoid_anterior | biceps_brachii_long": 84,
+    "deltoid_middle | deltoid_posterior": 15,
+    "deltoid_middle | triceps_lateral": 40,
+    "deltoid_posterior | triceps_lateral": 52,
+    "latissimus_dorsi | teres_major": 201
+   },
+   "overlap_total": 591,
+   "largest_station_jump_per_step_mm_so_far": {
+    "deltoid_anterior": 10.2,
+    "deltoid_middle": 11.68,
+    "deltoid_posterior": 7.67,
+    "latissimus_dorsi": 53.78,
+    "teres_major": 16.8,
+    "pectoralis_major_clavicular": 43.84,
+    "pectoralis_major_sternocostal": 73.46
+   }
+  },
+  "lockout160": {
+   "humerothoracic_deg": 160.0,
+   "muscles": {
+    "deltoid_anterior": {
+     "volume_ratio": 0.308,
+     "fibre_length_ratio_min_mean_max": [
+      0.595,
+      0.636,
+      0.671
+     ],
+     "edge_ratio_p1_p99": [
+      0.304,
+      10.313
+     ],
+     "edge_ratio_min_max": [
+      0.225,
+      21.906
+     ],
+     "thickness_scale_min_max": [
+      1.49,
+      1.68
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.0,
+      0.0
+     ],
+     "self_intersecting_face_pairs": 573,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 322,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 1
+    },
+    "deltoid_middle": {
+     "volume_ratio": 0.338,
+     "fibre_length_ratio_min_mean_max": [
+      0.497,
+      0.534,
+      0.601
+     ],
+     "edge_ratio_p1_p99": [
+      0.24,
+      7.992
+     ],
+     "edge_ratio_min_max": [
+      0.13,
+      13.208
+     ],
+     "thickness_scale_min_max": [
+      1.66,
+      2.01
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.0,
+      0.0
+     ],
+     "self_intersecting_face_pairs": 209,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 322,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 1
+    },
+    "deltoid_posterior": {
+     "volume_ratio": 0.28,
+     "fibre_length_ratio_min_mean_max": [
+      0.879,
+      0.938,
+      1.031
+     ],
+     "edge_ratio_p1_p99": [
+      0.307,
+      3.449
+     ],
+     "edge_ratio_min_max": [
+      0.181,
+      6.749
+     ],
+     "thickness_scale_min_max": [
+      0.97,
+      1.14
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.0,
+      0.0
+     ],
+     "self_intersecting_face_pairs": 245,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 322,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 1
+    },
+    "latissimus_dorsi": {
+     "volume_ratio": 0.979,
+     "fibre_length_ratio_min_mean_max": [
+      1.483,
+      1.604,
+      1.832
+     ],
+     "edge_ratio_p1_p99": [
+      0.534,
+      3.105
+     ],
+     "edge_ratio_min_max": [
+      0.166,
+      13.742
+     ],
+     "thickness_scale_min_max": [
+      0.55,
+      0.67
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.0,
+      0.0
+     ],
+     "self_intersecting_face_pairs": 29,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 18,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "teres_major": {
+     "volume_ratio": 1.197,
+     "fibre_length_ratio_min_mean_max": [
+      1.657,
+      1.88,
+      2.009
+     ],
+     "edge_ratio_p1_p99": [
+      0.514,
+      3.438
+     ],
+     "edge_ratio_min_max": [
+      0.137,
+      6.404
+     ],
+     "thickness_scale_min_max": [
+      0.5,
+      0.6
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.0,
+      0.0
+     ],
+     "self_intersecting_face_pairs": 79,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 2,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "pectoralis_major_clavicular": {
+     "volume_ratio": 0.389,
+     "fibre_length_ratio_min_mean_max": [
+      0.66,
+      0.794,
+      0.934
+     ],
+     "edge_ratio_p1_p99": [
+      0.433,
+      2.351
+     ],
+     "edge_ratio_min_max": [
+      0.14,
+      5.973
+     ],
+     "thickness_scale_min_max": [
+      1.07,
+      1.52
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.0,
+      0.0
+     ],
+     "self_intersecting_face_pairs": 218,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 0,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    },
+    "pectoralis_major_sternocostal": {
+     "volume_ratio": 0.807,
+     "fibre_length_ratio_min_mean_max": [
+      1.255,
+      1.492,
+      1.818
+     ],
+     "edge_ratio_p1_p99": [
+      0.514,
+      5.064
+     ],
+     "edge_ratio_min_max": [
+      0.39,
+      24.298
+     ],
+     "thickness_scale_min_max": [
+      0.55,
+      0.8
+     ],
+     "along_fibre_shape_kept_min_max": [
+      0.0,
+      0.0
+     ],
+     "self_intersecting_face_pairs": 30,
+     "rest_round_trip_max_mm": null,
+     "sheet_obstacle_constrained_nodes": 14,
+     "sheet_nodes_still_over_2mm_into_an_obstacle": 0
+    }
+   },
+   "overlap_pairs": {
+    "deltoid_anterior | deltoid_middle": 409,
+    "deltoid_anterior | pectoralis_major_clavicular": 152,
+    "deltoid_anterior | biceps_brachii_long": 290,
+    "deltoid_anterior | biceps_brachii_short": 16,
+    "deltoid_middle | deltoid_posterior": 263,
+    "deltoid_middle | biceps_brachii_long": 111,
+    "deltoid_middle | triceps_lateral": 162,
+    "deltoid_posterior | triceps_lateral": 58,
+    "latissimus_dorsi | teres_major": 83,
+    "latissimus_dorsi | triceps_long": 12
+   },
+   "overlap_total": 1556,
+   "largest_station_jump_per_step_mm_so_far": {
+    "deltoid_anterior": 10.2,
+    "deltoid_middle": 11.68,
+    "deltoid_posterior": 7.67,
+    "latissimus_dorsi": 123.68,
+    "teres_major": 77.69,
+    "pectoralis_major_clavicular": 43.84,
+    "pectoralis_major_sternocostal": 73.46
+   }
+  }
+ },
+ "input_unchanged": true
+}

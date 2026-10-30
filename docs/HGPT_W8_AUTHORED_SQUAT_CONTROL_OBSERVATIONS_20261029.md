@@ -110,3 +110,19 @@ This decomposition distinguishes two motions that a single planted-foot label wo
 Status is `DESCRIPTIVE_FOOT_CONTROL_TO_SKIN_LOWER_CENTROID_RELATIVE_MOTION_NOT_CONTACT` with `contact_claimed=false`. These are not slip distances because no floor plane or persistent material contact point exists; the lowest-69 membership itself changes across seven sets. They do not establish support, pressure, force, friction, balance, tissue safety, multisegment foot anatomy or anatomical joint centres.
 
 Machine record: `recovery_20261023/cloud_verification_20261029_run40923708948.json`. Historical run `40029398965` remains FAILED overall for the documented read-only docstring false positive; separately verified rig evidence remains valid. Run `40858906795` remains superseded for pre-solve causality. Anatomy/contact/movement approval remains NOT_GRANTED; 46 landmarks remain unbound and 0/19 generic motions approved. No protected source/model/rig/weights/keys/muscles/app/version/merge/deploy change.
+
+
+## Corrective return-to-neutral lifecycle — 2026-10-30
+
+The frozen benchmark calls its skeletal reset after the ninth sample but does not call the optional corrective driver again. Commit `b4e4aaf69f2ff9dcb8a6fc0519616955279cf4cf` measures both stages without changing the frozen r57 source:
+
+1. after benchmark skeletal reset, before neutral driver refresh; and
+2. after one call to the unchanged driver at neutral.
+
+[Run 41048610295](https://github.com/anyangle1409-code/animation-software/actions/runs/41048610295) completed **SUCCESS 7/7**. The first stage has an exact identity matrix basis across all 77 pose bones, but retains eight active terminal squat correctives: bilateral H1 hip keys at 110/135 and bilateral K1 knee keys at 90/110. Relative to sample 0, `206166/219974` evaluated vertices differ above `0.000001mm`, with maximum displacement `65.193636mm` and RMS `8.395539mm`.
+
+One unchanged neutral driver call clears all 79 shape-key values to the exact sample-0 fingerprint. The evaluated geometry then differs from sample 0 by at most `0.000478mm` (RMS `0.0000975mm`). However, the driver call introduces a maximum matrix-basis translation of `0.000223mm`, so the result is not reported as exact skeletal identity. The responsible control has not yet been localized.
+
+Artifact `12974051212` was independently downloaded and CRC-checked. ZIP SHA256 `8d055ad877948109b09e7679979db7ee197f0c0a9616e83ba3d86c915ec08340`; JSON `877733264ff0ea2b4fb0845aa820fbc035c653d34ee6372cdb5298440b78606e`; Markdown `f8eb7143c586d698cdf29801b792ebe553e49d239c8c84b126c381ff50c25004`. Machine record: `recovery_20261023/cloud_verification_20261030_run41048610295.json`.
+
+This is corrective lifecycle evidence, not anatomical neutral, deformation quality, contact, balance or tissue safety. No source model was modified or saved; no movement is approved.

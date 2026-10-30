@@ -2451,3 +2451,12 @@ H3 is still the current best candidate. Details are in `docs/R121_MOVEMENT_TRAJE
 - All checks are zero. Volumes 345 / 144 cm³.
 - All 12 squat-contract muscles now have proxies.
 - The builder's inside test is now a three-ray majority, and the refreshed MG5 reports are unchanged in substance.
+
+**Later (30 Oct): AX6 is the current best candidate.** The posterior armpit corner at the lockout is fixed.
+
+- **What it is:** a new arm key appended at the press lockout's elevation (153°). It is authored there with
+  bi-Laplacian fairing of a 5 cm patch at the corner, and the 150° key is folded in.
+- **Press lockout:** the tip is gone; folds 13 → 8, crumple 489 → 282, intersections 10 → 7.
+- **Everything else** is identical to H3, which is kept for rollback.
+- **Not adopted:** a 3 cm fairing (too small), and patching the shared 150° key, which opened a pocket at the
+  sideways raise.

@@ -143,6 +143,22 @@ if MODE == "combo":                                         # press rack: the ar
         b_ = rig.data.bones[name_]
         RA[name_] = corr.humeral_axial_angle_deg(tuple(b_.tail_local - b_.head_local), tuple(b_.matrix_local.col[0].xyz), 40.0, side_)
     COMBO_ELBOW = float(os.environ.get("V2_R121_COMBO_ELBOW", "90"))
+# press-authored patch (V2_R121_ARMKEY_POSE=press, abd / flex mode): the key angles are press elevations (the girdle's
+# press pose, elbows straight) and V2_R121_ARMKEY_PATCH_KEY names the family's key the correction goes into (it is fully
+# on there) - as the deep hip key was authored in the deadlift
+POSE_PRESS = MODE in ("abd", "flex") and os.environ.get("V2_R121_ARMKEY_POSE") == "press"
+# append (V2_R121_ARMKEY_APPEND=1, abd / flex): add deeper keys to the existing family, named by their measured angle,
+# with the fold-in below - as hinge mode appends to the hip family (a press-authored key above the family's last angle
+# leaves the sideways raise at that angle untouched)
+APPEND = MODE == "hinge" or (MODE in ("abd", "flex") and os.environ.get("V2_R121_ARMKEY_APPEND") == "1")
+PATCH_KEY = os.environ.get("V2_R121_ARMKEY_PATCH_KEY")
+if POSE_PRESS:
+    import build_functional_shoulder_correction_blender as correction
+    import functional_shoulder_correction as corr
+    RA = {}
+    for side_, name_ in correction.HUMERI:
+        b_ = rig.data.bones[name_]
+        RA[name_] = corr.humeral_axial_angle_deg(tuple(b_.tail_local - b_.head_local), tuple(b_.matrix_local.col[0].xyz), 40.0, side_)
 if MODE == "knee":
     bench._reset(rig)
     REST_HEADS = {s_: rig.pose.bones[f"foot_{s_}"].head.copy() for s_ in ("l", "r")}
@@ -156,6 +172,13 @@ if MODE in ("squat", "hinge"):                             # hips, glutes, groin
 
 
 def pose(ang):
+    if POSE_PRESS:                                         # press: girdle + humerus (press plane), elbows straight
+        import shoulder_girdle_candidate as girdle
+        bench._reset(rig); girdle.apply_press_pose(rig, float(ang), RA)
+        for sd in ("r", "l"):
+            fb = rig.pose.bones[f"forearm_{sd}"]; fb.rotation_mode = "XYZ"; fb.rotation_euler = (0.0, 0.0, 0.0)
+        bpy.context.view_layer.update(); drives.drive(rig, body); r121_drives.drive(rig, body); bpy.context.view_layer.update()
+        return
     if MODE == "combo":                                    # press rack: girdle + humerus (press plane) + elbow
         import shoulder_girdle_candidate as girdle
         girdle.apply_press_pose(rig, float(ang), RA)
@@ -301,6 +324,38 @@ def relief(P, rounds=60):
 
 
 RELIEF0 = relief(R0, RIDGE_SCALE) if RIDGE > 0 else None
+
+# fairing (V2_R121_ARMKEY_FAIR_CENTRE "x,y,z", rest space, given for the +x side and mirrored; V2_R121_ARMKEY_FAIR_R m):
+# the posed skin within R of the centre is replaced by the bi-Laplacian (minimum-curvature) surface that meets the skin
+# around it - unlike the relief step above, which only moves along the normal, this can re-route a corner (the pointed
+# tip where the posterior armpit fold meets the arm at the lockout); blended in over the outer 40 % of the radius
+FAIR_C = os.environ.get("V2_R121_ARMKEY_FAIR_CENTRE")
+FAIR_R = float(os.environ.get("V2_R121_ARMKEY_FAIR_R", "0.03"))
+
+
+def fair(T):
+    from scipy.sparse import identity
+    from scipy.sparse.linalg import spsolve
+    c0 = np.array([float(x) for x in FAIR_C.split(",")])
+    Lm = csr_matrix(A.multiply(Dinv[:, None])) - identity(n, format="csr")      # uniform Laplacian (mean - self)
+    B = (Lm @ Lm).tocsr()
+    out = {}
+    for sg in (1.0, -1.0):
+        c = c0 * np.array([sg, 1.0, 1.0])
+        r = np.linalg.norm(R0 - c, axis=1)
+        inner = np.nonzero((r < FAIR_R) & UPPER)[0]
+        if len(inner) < 10:
+            continue
+        known = np.ones(n, bool); known[inner] = False
+        Bi = B[inner]; F = T.copy()
+        rhs = -(Bi[:, known] @ T[known])
+        sol = spsolve(Bi[:, inner].tocsc(), rhs)
+        F[inner] = sol
+        w = np.clip((FAIR_R - r) / (0.4 * FAIR_R), 0.0, 1.0); w = w * w * (3 - 2 * w)
+        mv = np.linalg.norm((F - T) * w[:, None], axis=1)
+        T += (F - T) * w[:, None]
+        out["+x" if sg > 0 else "-x"] = {"vertices": int(len(inner)), "max_move_mm": round(float(mv.max()) * 1000, 2)}
+    return out
 
 
 def ridge_relief(T):
@@ -492,9 +547,11 @@ tmp = body.shape_key_add(name="R121_TMP", from_mix=False); tmp.value = 0.0
 if MODE == "flex" and min(ANGLES) <= r121_drives.START:   # a low forward key needs the family's own, lower start
     rig[r121_drives.FLEX_START_PROP] = float(os.environ.get("V2_R121_FLEX_START", "0"))   # set before authoring
 REP = {"mode": MODE, "angles_deg": ANGLES, "keys": {}, **({"ridge_mm": RIDGE * 1000, "ridge_scale": RIDGE_SCALE} if RIDGE > 0 else {}),
+       **({"fair_centre_rest_m": FAIR_C, "fair_radius_m": FAIR_R} if FAIR_C else {}),
+       **({"pose": "press", "patch_key": PATCH_KEY} if POSE_PRESS else {}),
        **({"patch": True} if PATCH else {})}
 made = {}
-if MODE == "hinge":                                        # append to the existing hip family
+if APPEND:                                                  # append to the existing family
     made = {s_: list(rig.get(f"{FAMILY[1]}_{s_}", [])) for s_ in ("l", "r")}
     above = float(os.environ.get("V2_R121_HINGE_DROP_ABOVE", "1e9"))   # re-author: drop appended keys past this angle
     for s_ in ("l", "r"):
@@ -583,6 +640,7 @@ for ang in ANGLES:
             F -= np.einsum("ij,ij->i", F, vn)[:, None] * vn
             T = T + 0.4 * ws[:, None] * F
     ridge_hist = ridge_relief(T) if RIDGE > 0 else None
+    fair_hist = fair(T) if FAIR_C else None
     m90, n90 = folds(T, 0.0)
     hist.append(n90)
     # deformation matrices: posed response to unit rest offsets through a temporary key (1 mm)
@@ -604,7 +662,7 @@ for ang in ANGLES:
     patched = {}
     for s, sg in (("r", 1.0), ("l", -1.0)):
         side = (np.sign(R0[:, 0]) == sg)
-        kname = f"{FAMILY[0]}{s}" if MODE == "combo" else f"{FAMILY[0]}{s}_{int(round(elev[s])) if MODE == 'hinge' else ang}"
+        kname = f"{FAMILY[0]}{s}" if MODE == "combo" else f"{FAMILY[0]}{s}_{int(round(elev[s])) if APPEND else (PATCH_KEY or ang)}"
         if PATCH:                                              # add to the existing key, scaled by its value here
             kb = me.shape_keys.key_blocks[kname]
             if kb.value < 0.5:
@@ -620,21 +678,23 @@ for ang in ANGLES:
     if PATCH:                                                  # the patched keys reproduce the target at this pose
         pose(ang); patch_resid = round(float(np.linalg.norm(T - evaluated(), axis=1).max() * 1000), 3)
     REP["keys"][str(ang)] = {"elevation_deg": elev, "folds_gt90_before": int(folds(P, 0.0)[1]), "unfold_history": hist, "contact_history": contact_hist, "post_guard_overlaps": postguard_hist, "crumple_gt35_history": crum,
-                             "ridge_excess_history_mm": ridge_hist,
+                             "ridge_excess_history_mm": ridge_hist, "fairing": fair_hist,
                              **({"patched": patched, "patched_residual_max_mm": patch_resid} if PATCH else {}),
                              "folds_gt90_with_key": nk, "max_offset_mm": round(float(np.linalg.norm(Dk, axis=1).max() * 1000), 2),
                              "vertices": int(len(sel)), "fit_residual_max_mm": round(resid, 3)}
     print("ARMKEY", ang, json.dumps(REP["keys"][str(ang)]), flush=True)
 body.shape_key_remove(tmp)
-if MODE == "hinge":
+if APPEND:
     # each appended key was authored with the family's earlier keys at their OLD hat values (the last one fully on
     # beyond its angle); once appended, those earlier keys fade out towards the new angle.  Fold what they lose at the
     # new key's angle into the new key, so the family reproduces the authored pose exactly.
     for s in ("l", "r"):
         names = sorted((kb.name for kb in me.shape_keys.key_blocks if kb.name.startswith(f"{FAMILY[0]}{s}_")),
                        key=lambda n_: int(n_.rsplit("_", 1)[1]))
-        old_pts = (r121_drives.HIP_START,) + tuple(rig.get(f"{FAMILY[1]}_{s}", []))
-        new_pts = (r121_drives.HIP_START,) + tuple(made[s])
+        fam_start = {"abd": r121_drives.START,
+                     "flex": float(rig.get(r121_drives.FLEX_START_PROP, r121_drives.START))}.get(MODE, r121_drives.HIP_START)
+        old_pts = (fam_start,) + tuple(rig.get(f"{FAMILY[1]}_{s}", []))
+        new_pts = (fam_start,) + tuple(made[s])
         n_old = len(old_pts) - 1
         for k_new in range(n_old, len(made[s])):
             a_new = made[s][k_new]

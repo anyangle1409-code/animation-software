@@ -1,0 +1,70 @@
+{
+ "mode": "abd",
+ "angles_deg": [
+  160
+ ],
+ "keys": {
+  "160": {
+   "elevation_deg": {
+    "l": 153.35,
+    "r": 153.35
+   },
+   "folds_gt90_before": 38,
+   "unfold_history": [
+    38,
+    32,
+    29,
+    26,
+    25,
+    25,
+    25,
+    25,
+    33
+   ],
+   "contact_history": null,
+   "post_guard_overlaps": null,
+   "crumple_gt35_history": [
+    3989,
+    3215,
+    3088,
+    3046,
+    2985,
+    2970,
+    2944
+   ],
+   "ridge_excess_history_mm": null,
+   "fairing": {
+    "+x": {
+     "vertices": 2283,
+     "max_move_mm": 35.39
+    },
+    "-x": {
+     "vertices": 2281,
+     "max_move_mm": 29.78
+    }
+   },
+   "folds_gt90_with_key": 33,
+   "max_offset_mm": 42.73,
+   "vertices": 18843,
+   "fit_residual_max_mm": 0.001
+  }
+ },
+ "fair_centre_rest_m": "0.176,0.118,1.387",
+ "fair_radius_m": 0.05,
+ "pose": "press",
+ "patch_key": null,
+ "folded_in": {
+  "R121_ARM_l_153": {
+   "R121_ARM_l_60": 0.0,
+   "R121_ARM_l_90": 0.0,
+   "R121_ARM_l_120": 0.0,
+   "R121_ARM_l_150": 1.0
+  },
+  "R121_ARM_r_153": {
+   "R121_ARM_r_60": 0.0,
+   "R121_ARM_r_90": 0.0,
+   "R121_ARM_r_120": 0.0,
+   "R121_ARM_r_150": 1.0
+  }
+ }
+}

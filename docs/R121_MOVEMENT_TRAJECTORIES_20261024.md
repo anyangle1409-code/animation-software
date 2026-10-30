@@ -1451,3 +1451,71 @@ Patch reports: `r121_arm_correctives_abd_patch_report_AX1.json`, `..._AX2.json`.
      as the deep hip key was authored in the deadlift.
   3. **Muscle-driven skin:** latissimus and teres major envelopes in the muscle layer pushing the skin. This is the
      system-level route, and depends on the muscle layer's skin response (not built yet).
+
+## AX6: the posterior armpit corner fixed by a press-lockout arm key (30 Oct 2026), adopted
+
+This is option 2 of the verdict above: a sculpted posterior-fold key. The sculpting is procedural.
+
+**Fairing** is a new default-off option in `r121_arm_correctives_blender.py`:
+
+- **Settings:** `V2_R121_ARMKEY_FAIR_CENTRE` is a rest-space point, given for the +x side and mirrored for the
+  other; `V2_R121_ARMKEY_FAIR_R` is a radius.
+- **What it does:** the posed skin within that radius is replaced by the bi-Laplacian (minimum-curvature) surface that
+  meets the skin around it, blended in over the outer 40 % of the radius.
+- **Why it works where the relief filter didn't:** it can move vertices in any direction, so it can re-route a corner
+  rather than shave or dent it.
+
+**Steps:**
+
+1. **AX3:** fairing radius 3 cm, authored at the press lockout and patched into the 150° key. The tip only shrinks
+   (relief 6.3 → 5.5 mm); the corner is a ~5 cm form.
+2. **AX4:** radius 5 cm. At the press the tip is gone (2.0 mm) and the front raise is fine. But the 150° key is also
+   fully on at the 150° sideways raise, where the press-made offsets open a pocket in the armpit
+   (`posterior_axilla_AX4_abd150_pocket.jpg`). Not adopted.
+3. **AX5:** radius 5 cm, authored at the sideways-raise pose. It fixes that pose, not the press. Not adopted.
+4. **Why one key can't serve both:** near the vertical, the plane factor can't tell the press lockout from a sideways
+   raise (forward weight 0.04 at the lockout). Elevation can: the lockout measures 153.4°, the sideways family's last
+   key 148.8°.
+5. **AX6:** a new key is appended to the sideways family at the lockout's elevation, `R121_ARM_<s>_153`.
+   - It is authored at the press lockout with the standard steps (unfold, de-crumple) plus the 5 cm fairing.
+   - The 150° key is folded in, so the family reproduces the authored lockout exactly. This is the hip family's
+     append, generalised: the deep hip key was authored the same way, in the deadlift.
+
+**Results, all seven movements** (`report_TT_AX6_all7.json`):
+
+| | H3 | AX6 |
+|---|---|---|
+| Press lockout: folds over 90° | 13 | **8** |
+| Press lockout: crumple over 35° | 489 | **282** |
+| Press lockout: self-intersections | 10 | **7** |
+| Press lockout: edges stretched over 2× / collapsed under 0.5× | 9041 / 5384 | 9011 / 5635 |
+| Tip relief at the lockout (1.5 cm / 3 cm scale) | 6.3 / 15.4 mm | **2.0 / 6.8 mm** |
+| Lateral and front raises, curl, squat, deadlift, lunge | | identical, every metric |
+| Return to neutral | 0.0 mm | 0.0 mm |
+
+**Images.**
+
+- `posterior_axilla_press160_zoom_H3_vs_AX6.jpg`: the tip on the arm's outline is gone in the front view, and the
+  junction is rounder from the side and the back.
+- `posterior_axilla_H3_vs_AX6_press_abd150_flex150.jpg`: the 150° sideways and forward raises are unchanged.
+- `REVIEW_AX6_press.jpg`: phone sheet.
+
+**Command** (on H3, in the reproduction environment):
+
+```
+V2_R121_ARMKEY_MODE=abd V2_R121_ARMKEY_APPEND=1 V2_R121_ARMKEY_POSE=press V2_R121_ARMKEY_ANGLES=160
+V2_R121_ARMKEY_FAIR_CENTRE=0.176,0.118,1.387 V2_R121_ARMKEY_FAIR_R=0.05
+```
+
+- `V2_R121_ARMKEY_POSE=press` authors at the girdle's press pose with the elbows straight.
+- `V2_R121_ARMKEY_APPEND=1` appends to the abd or flex family, with fold-in.
+- `V2_R121_ARMKEY_PATCH_KEY` names the key a press-authored patch goes into.
+- All three are default-off. Without them, authoring reproduces H3's keys exactly (checked earlier: 0.0000 mm).
+- Authoring report: `r121_arm_correctives_abd_append_report_AX6.json`.
+
+**Caveats.**
+
+- A sideways raise beyond about 149° now blends towards a key authored at the press lockout. The test set has none:
+  its raises top out at 90°.
+- The fairing centre is one rest-space point per side, the tip found by `axilla_fold_diag_blender.py`.
+- This is a candidate key. Adopting it for production is the owner's call, like every candidate key here.

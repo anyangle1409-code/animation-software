@@ -17,7 +17,19 @@ summary.
 | `claude/muscle-layer-native-20261024` | Based on Work's muscle experiment. Native R41 inventory, ISB landmark crosswalk, proposed anchors for the upper and lower limbs, path-length checks against the exercise contract. Doc: `experiments/anatomical_muscles/CLAUDE_NATIVE_PASS_20261024.md`. |
 | `claude/v14-recovery-investigation-20261023` / `claude/v14-deterministic-candidate-20261023` | The V14 vertex-count cause and the deterministic build (earlier). |
 
-## Current best candidate: H3 (T3 plus re-authored elbow keys and deep hip key)
+## Current best candidate: AX6 (H3 plus a press-lockout arm key)
+
+**AX6 (30 Oct)** is H3 plus one appended sideways-family key, `R121_ARM_<s>_153`. It is authored at the press lockout
+and faired at the posterior armpit corner. Details are in the trajectories doc's AX6 section.
+
+- At the press lockout:
+  - the pointed corner where the posterior fold meets the arm is gone;
+  - folds 13 → 8, crumple 489 → 282, self-intersections 10 → 7.
+- Every other movement is identical to H3. H3 is kept for rollback.
+- Chain step 11 (on H3): `V2_R121_ARMKEY_MODE=abd V2_R121_ARMKEY_APPEND=1 V2_R121_ARMKEY_POSE=press
+  V2_R121_ARMKEY_ANGLES=160 V2_R121_ARMKEY_FAIR_CENTRE=0.176,0.118,1.387 V2_R121_ARMKEY_FAIR_R=0.05`.
+
+### H3 (T3 plus re-authored elbow keys and deep hip key), the base of AX6
 
 The blend is not in git (no `.blend` files are committed). H3 is rebuilt from R121p by this chain; every step is a
 script in `scripts/body_v2/` and is recorded in the trajectories doc.
@@ -302,8 +314,9 @@ The flagged muscles:
 - **Shoulder-girdle width** (a003/R41: AC breadth 481 mm, scapular spine about twice the CT length). Adopting the
   corrected c003/c004 girdle is the owner's call on validated skeletal data. The trapezius-lower verdict, and the
   serratus verdict's dependence on the girdle model, wait on it.
-- **Posterior armpit corner at the lockout:** choose a latissimus / teres major helper (re-binding), a sculpted
-  posterior-fold key, or waiting for muscle-driven skin. The fold mass itself is judged anatomical.
+- **Posterior armpit corner at the lockout.** AX6 implements the sculpted posterior-fold key, authored at the press
+  lockout. Keep it, or prefer a latissimus / teres major helper (re-binding) or muscle-driven skin later. The fold mass
+  itself is judged anatomical.
 - **Muscle contract entries:** triceps long (press), trapezius lower (press), infraspinatus and subscapularis
   (press), gluteus medius (squat). Each needs
   either a "variable" entry or functional heads, which would need new permanent IDs.
@@ -327,7 +340,9 @@ The flagged muscles:
    - H3 cut it from 1885 to 1011 intersections (25 at the ~120° frame).
    - The rest lies outside the contact reach or in the groin.
    - 135° is past a conventional deadlift's depth.
-4. **Posterior armpit fold at the lockout: judged (30 Oct).** Against the owner's reference photos:
+4. **Posterior armpit fold at the lockout: judged, then fixed in AX6 (30 Oct).** The corner is gone with a
+   press-lockout key (option 2 below). Options 1 and 3 remain for the owner. The judgement against the owner's
+   reference photos:
    - the fold mass (latissimus and teres major) is anatomical and stays;
    - the pointed corner where it meets the arm is a skinning artifact (+6.3 mm at the 1.5 cm scale, +1.9 mm at rest).
      It is minor at phone scale.

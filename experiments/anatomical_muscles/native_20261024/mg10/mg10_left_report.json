@@ -1,0 +1,862 @@
+{
+ "status": "PROXY_LENGTH_RESPONSE_UNREVIEWED",
+ "input": "HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG8_gluteal_left.blend",
+ "input_sha256": "f2a30715553aa8d8514a9a7abb890692a542cb9bcab9e8491acd23f66819a120",
+ "side": "left",
+ "keys": [
+  "HGPT_LEN_K_085",
+  "HGPT_LEN_K_092",
+  "HGPT_LEN_K_105",
+  "HGPT_LEN_K_110",
+  "HGPT_LEN_K_115",
+  "HGPT_LEN_K_120",
+  "HGPT_LEN_K_125",
+  "HGPT_LEN_K_130",
+  "HGPT_LEN_K_135",
+  "HGPT_LEN_K_140",
+  "HGPT_LEN_K_145",
+  "HGPT_LEN_K_150"
+ ],
+ "rule": "stations along the segment axis about the proximal ring x k; deep surface kept; outer r_o'^2 = r_i^2 + (r_o^2 - r_i^2) / k (MG2); rest-space keys keyed by belly length ratio k",
+ "layered": {
+  "deep_of": {
+   "vastus_lateralis": "vastus_intermedius",
+   "vastus_medialis": "vastus_intermedius"
+  },
+  "per_key": {
+   "vastus_lateralis k0.85": {
+    "deep_k": 1.0,
+    "pushed_points": 369,
+    "push_max_mm": 13.91
+   },
+   "vastus_lateralis k0.92": {
+    "deep_k": 1.0,
+    "pushed_points": 371,
+    "push_max_mm": 12.55
+   },
+   "vastus_lateralis k1.05": {
+    "deep_k": 1.063,
+    "pushed_points": 10,
+    "push_max_mm": 6.3
+   },
+   "vastus_lateralis k1.1": {
+    "deep_k": 1.127,
+    "pushed_points": 7,
+    "push_max_mm": 5.98
+   },
+   "vastus_lateralis k1.15": {
+    "deep_k": 1.19,
+    "pushed_points": 16,
+    "push_max_mm": 19.41
+   },
+   "vastus_lateralis k1.2": {
+    "deep_k": 1.253,
+    "pushed_points": 19,
+    "push_max_mm": 20.34
+   },
+   "vastus_lateralis k1.25": {
+    "deep_k": 1.317,
+    "pushed_points": 21,
+    "push_max_mm": 19.67
+   },
+   "vastus_lateralis k1.3": {
+    "deep_k": 1.38,
+    "pushed_points": 23,
+    "push_max_mm": 19.05
+   },
+   "vastus_lateralis k1.35": {
+    "deep_k": 1.443,
+    "pushed_points": 33,
+    "push_max_mm": 18.59
+   },
+   "vastus_lateralis k1.4": {
+    "deep_k": 1.455,
+    "pushed_points": 31,
+    "push_max_mm": 18.52
+   },
+   "vastus_lateralis k1.45": {
+    "deep_k": 1.455,
+    "pushed_points": 31,
+    "push_max_mm": 18.71
+   },
+   "vastus_lateralis k1.5": {
+    "deep_k": 1.455,
+    "pushed_points": 38,
+    "push_max_mm": 18.85
+   },
+   "vastus_medialis k0.85": {
+    "deep_k": 1.0,
+    "pushed_points": 303,
+    "push_max_mm": 27.26
+   },
+   "vastus_medialis k0.92": {
+    "deep_k": 1.0,
+    "pushed_points": 255,
+    "push_max_mm": 26.74
+   },
+   "vastus_medialis k1.05": {
+    "deep_k": 1.043,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "vastus_medialis k1.1": {
+    "deep_k": 1.086,
+    "pushed_points": 8,
+    "push_max_mm": 20.2
+   },
+   "vastus_medialis k1.15": {
+    "deep_k": 1.128,
+    "pushed_points": 8,
+    "push_max_mm": 19.56
+   },
+   "vastus_medialis k1.2": {
+    "deep_k": 1.171,
+    "pushed_points": 6,
+    "push_max_mm": 18.95
+   },
+   "vastus_medialis k1.25": {
+    "deep_k": 1.214,
+    "pushed_points": 15,
+    "push_max_mm": 23.33
+   },
+   "vastus_medialis k1.3": {
+    "deep_k": 1.257,
+    "pushed_points": 15,
+    "push_max_mm": 22.76
+   },
+   "vastus_medialis k1.35": {
+    "deep_k": 1.299,
+    "pushed_points": 15,
+    "push_max_mm": 22.21
+   },
+   "vastus_medialis k1.4": {
+    "deep_k": 1.342,
+    "pushed_points": 24,
+    "push_max_mm": 21.74
+   },
+   "vastus_medialis k1.45": {
+    "deep_k": 1.385,
+    "pushed_points": 24,
+    "push_max_mm": 21.31
+   },
+   "vastus_medialis k1.5": {
+    "deep_k": 1.428,
+    "pushed_points": 24,
+    "push_max_mm": 20.89
+   }
+  },
+  "knee_curves_k": {
+   "vastus_intermedius": [
+    1.0,
+    1.0399,
+    1.0798,
+    1.1197,
+    1.1597,
+    1.1996,
+    1.2395,
+    1.2794,
+    1.3193,
+    1.3592,
+    1.3991,
+    1.439
+   ],
+   "vastus_lateralis": [
+    1.0,
+    1.0315,
+    1.063,
+    1.0946,
+    1.1261,
+    1.1576,
+    1.1891,
+    1.2207,
+    1.2522,
+    1.2837,
+    1.3153,
+    1.3468
+   ],
+   "vastus_medialis": [
+    1.0,
+    1.0466,
+    1.0933,
+    1.1399,
+    1.1866,
+    1.2332,
+    1.2799,
+    1.3265,
+    1.3732,
+    1.4198,
+    1.4665,
+    1.5132
+   ]
+  },
+  "knee_deg": [
+   0,
+   10,
+   20,
+   30,
+   40,
+   50,
+   60,
+   70,
+   80,
+   90,
+   100,
+   110
+  ],
+  "knee_curve_used_to_deg": 114
+ },
+ "contact": {
+  "keys": [
+   "HGPT_CONTACT_KNEE_080",
+   "HGPT_CONTACT_KNEE_090",
+   "HGPT_CONTACT_KNEE_100",
+   "HGPT_CONTACT_KNEE_110",
+   "HGPT_CONTACT_KNEE_120",
+   "HGPT_CONTACT_KNEE_135"
+  ],
+  "from_deg": 70.0,
+  "rule": "posterior of the knee axis, beyond the plane bisecting the knee angle, within the other side's footprint: flattened onto it less half the gap, each side in its own bone's rest frame",
+  "footprint_radius_m": 0.01,
+  "footprint_band_m": 0.015,
+  "moved_vertices_per_key": {
+   "80": {
+    "gastrocnemius_medial": 9
+   },
+   "90": {
+    "gastrocnemius_medial": 31
+   },
+   "100": {
+    "biceps_femoris_long": 12,
+    "gastrocnemius_medial": 76
+   },
+   "110": {
+    "biceps_femoris_long": 87,
+    "semitendinosus": 8,
+    "gastrocnemius_medial": 117
+   },
+   "120": {
+    "biceps_femoris_long": 162,
+    "semitendinosus": 113,
+    "semimembranosus": 26,
+    "gastrocnemius_medial": 287
+   },
+   "135": {
+    "biceps_femoris_long": 289,
+    "semitendinosus": 404,
+    "semimembranosus": 166,
+    "gastrocnemius_medial": 454,
+    "soleus": 136
+   }
+  }
+ },
+ "path_model": "squat path-length check: straight, or the knee / hip cylinder wrap of the proposal's wrap_hint",
+ "rest_path_m": {
+  "rectus_femoris": 0.5038,
+  "vastus_intermedius": 0.33,
+  "vastus_lateralis": 0.4137,
+  "vastus_medialis": 0.3133,
+  "biceps_femoris_long": 0.4148,
+  "semitendinosus": 0.4463,
+  "semimembranosus": 0.404,
+  "adductor_magnus_hamstring": 0.344,
+  "gastrocnemius_medial": 0.4952,
+  "soleus": 0.366
+ },
+ "tendons_m": {
+  "rectus_femoris": 0.2796,
+  "vastus_intermedius": 0.1551,
+  "vastus_lateralis": 0.1925,
+  "vastus_medialis": 0.1639,
+  "biceps_femoris_long": 0.2165,
+  "semitendinosus": 0.2487,
+  "semimembranosus": 0.2044,
+  "adductor_magnus_hamstring": 0.114,
+  "gastrocnemius_medial": 0.2915,
+  "soleus": 0.1865
+ },
+ "poses": {
+  "q0000": {
+   "hip_knee_ankle_deg": [
+    5.0,
+    5.0,
+    2.0
+   ],
+   "muscles": {
+    "rectus_femoris": {
+     "path_m": 0.5045,
+     "belly_k": 1.003,
+     "volume_ratio": 1.0001
+    },
+    "vastus_intermedius": {
+     "path_m": 0.3335,
+     "belly_k": 1.02,
+     "volume_ratio": 1.0004
+    },
+    "vastus_lateralis": {
+     "path_m": 0.4172,
+     "belly_k": 1.016,
+     "volume_ratio": 1.0005
+    },
+    "vastus_medialis": {
+     "path_m": 0.3168,
+     "belly_k": 1.023,
+     "volume_ratio": 1.0005
+    },
+    "biceps_femoris_long": {
+     "path_m": 0.4153,
+     "belly_k": 1.002,
+     "volume_ratio": 1.0001
+    },
+    "semitendinosus": {
+     "path_m": 0.4474,
+     "belly_k": 1.006,
+     "volume_ratio": 1.0002
+    },
+    "semimembranosus": {
+     "path_m": 0.4051,
+     "belly_k": 1.006,
+     "volume_ratio": 1.0002
+    },
+    "adductor_magnus_hamstring": {
+     "path_m": 0.3475,
+     "belly_k": 1.015,
+     "volume_ratio": 1.0004
+    },
+    "gastrocnemius_medial": {
+     "path_m": 0.4943,
+     "belly_k": 0.996,
+     "volume_ratio": 1.0003
+    },
+    "soleus": {
+     "path_m": 0.3674,
+     "belly_k": 1.008,
+     "volume_ratio": 1.0003
+    }
+   },
+   "overlaps_keyed": {},
+   "overlaps_keyed_total": 0,
+   "overlaps_length_keys_only_total": 0,
+   "overlaps_without_keys_total": 0
+  },
+  "q0125": {
+   "hip_knee_ankle_deg": [
+    16.9,
+    17.1,
+    3.9
+   ],
+   "muscles": {
+    "rectus_femoris": {
+     "path_m": 0.5057,
+     "belly_k": 1.009,
+     "volume_ratio": 1.0003
+    },
+    "vastus_intermedius": {
+     "path_m": 0.342,
+     "belly_k": 1.068,
+     "volume_ratio": 1.0004
+    },
+    "vastus_lateralis": {
+     "path_m": 0.4257,
+     "belly_k": 1.054,
+     "volume_ratio": 1.0003
+    },
+    "vastus_medialis": {
+     "path_m": 0.3253,
+     "belly_k": 1.08,
+     "volume_ratio": 1.0007
+    },
+    "biceps_femoris_long": {
+     "path_m": 0.4164,
+     "belly_k": 1.008,
+     "volume_ratio": 1.0002
+    },
+    "semitendinosus": {
+     "path_m": 0.4514,
+     "belly_k": 1.026,
+     "volume_ratio": 1.0005
+    },
+    "semimembranosus": {
+     "path_m": 0.4092,
+     "belly_k": 1.026,
+     "volume_ratio": 1.0005
+    },
+    "adductor_magnus_hamstring": {
+     "path_m": 0.3573,
+     "belly_k": 1.058,
+     "volume_ratio": 1.0002
+    },
+    "gastrocnemius_medial": {
+     "path_m": 0.4899,
+     "belly_k": 0.974,
+     "volume_ratio": 1.0013
+    },
+    "soleus": {
+     "path_m": 0.3686,
+     "belly_k": 1.015,
+     "volume_ratio": 1.0004
+    }
+   },
+   "overlaps_keyed": {},
+   "overlaps_keyed_total": 0,
+   "overlaps_length_keys_only_total": 0,
+   "overlaps_without_keys_total": 0
+  },
+  "q0250": {
+   "hip_knee_ankle_deg": [
+    28.8,
+    29.2,
+    5.8
+   ],
+   "muscles": {
+    "rectus_femoris": {
+     "path_m": 0.5061,
+     "belly_k": 1.011,
+     "volume_ratio": 1.0003
+    },
+    "vastus_intermedius": {
+     "path_m": 0.3504,
+     "belly_k": 1.117,
+     "volume_ratio": 1.0004
+    },
+    "vastus_lateralis": {
+     "path_m": 0.4341,
+     "belly_k": 1.092,
+     "volume_ratio": 1.0005
+    },
+    "vastus_medialis": {
+     "path_m": 0.3337,
+     "belly_k": 1.136,
+     "volume_ratio": 1.0007
+    },
+    "biceps_femoris_long": {
+     "path_m": 0.4174,
+     "belly_k": 1.013,
+     "volume_ratio": 1.0004
+    },
+    "semitendinosus": {
+     "path_m": 0.4566,
+     "belly_k": 1.052,
+     "volume_ratio": 1.0001
+    },
+    "semimembranosus": {
+     "path_m": 0.4141,
+     "belly_k": 1.05,
+     "volume_ratio": 1.0001
+    },
+    "adductor_magnus_hamstring": {
+     "path_m": 0.3686,
+     "belly_k": 1.107,
+     "volume_ratio": 1.0002
+    },
+    "gastrocnemius_medial": {
+     "path_m": 0.4853,
+     "belly_k": 0.951,
+     "volume_ratio": 1.0014
+    },
+    "soleus": {
+     "path_m": 0.3698,
+     "belly_k": 1.021,
+     "volume_ratio": 1.0005
+    }
+   },
+   "overlaps_keyed": {},
+   "overlaps_keyed_total": 0,
+   "overlaps_length_keys_only_total": 0,
+   "overlaps_without_keys_total": 0
+  },
+  "q0375": {
+   "hip_knee_ankle_deg": [
+    40.6,
+    41.4,
+    7.6
+   ],
+   "muscles": {
+    "rectus_femoris": {
+     "path_m": 0.506,
+     "belly_k": 1.01,
+     "volume_ratio": 1.0003
+    },
+    "vastus_intermedius": {
+     "path_m": 0.3589,
+     "belly_k": 1.165,
+     "volume_ratio": 1.0003
+    },
+    "vastus_lateralis": {
+     "path_m": 0.4426,
+     "belly_k": 1.13,
+     "volume_ratio": 1.0009
+    },
+    "vastus_medialis": {
+     "path_m": 0.3422,
+     "belly_k": 1.193,
+     "volume_ratio": 1.0006
+    },
+    "biceps_femoris_long": {
+     "path_m": 0.4185,
+     "belly_k": 1.018,
+     "volume_ratio": 1.0004
+    },
+    "semitendinosus": {
+     "path_m": 0.4603,
+     "belly_k": 1.071,
+     "volume_ratio": 1.0004
+    },
+    "semimembranosus": {
+     "path_m": 0.4189,
+     "belly_k": 1.074,
+     "volume_ratio": 1.0004
+    },
+    "adductor_magnus_hamstring": {
+     "path_m": 0.3809,
+     "belly_k": 1.16,
+     "volume_ratio": 1.0003
+    },
+    "gastrocnemius_medial": {
+     "path_m": 0.481,
+     "belly_k": 0.93,
+     "volume_ratio": 1.0006
+    },
+    "soleus": {
+     "path_m": 0.3709,
+     "belly_k": 1.028,
+     "volume_ratio": 1.0005
+    }
+   },
+   "overlaps_keyed": {
+    "vastus_intermedius | vastus_lateralis": 3
+   },
+   "overlaps_keyed_total": 3,
+   "overlaps_length_keys_only_total": 3,
+   "overlaps_without_keys_total": 0
+  },
+  "q0500": {
+   "hip_knee_ankle_deg": [
+    52.5,
+    53.5,
+    9.5
+   ],
+   "muscles": {
+    "rectus_femoris": {
+     "path_m": 0.5057,
+     "belly_k": 1.009,
+     "volume_ratio": 1.0003
+    },
+    "vastus_intermedius": {
+     "path_m": 0.3673,
+     "belly_k": 1.214,
+     "volume_ratio": 1.0003
+    },
+    "vastus_lateralis": {
+     "path_m": 0.4511,
+     "belly_k": 1.169,
+     "volume_ratio": 1.0009
+    },
+    "vastus_medialis": {
+     "path_m": 0.3506,
+     "belly_k": 1.25,
+     "volume_ratio": 1.0006
+    },
+    "biceps_femoris_long": {
+     "path_m": 0.4194,
+     "belly_k": 1.023,
+     "volume_ratio": 1.0005
+    },
+    "semitendinosus": {
+     "path_m": 0.462,
+     "belly_k": 1.079,
+     "volume_ratio": 1.0004
+    },
+    "semimembranosus": {
+     "path_m": 0.4234,
+     "belly_k": 1.097,
+     "volume_ratio": 1.0002
+    },
+    "adductor_magnus_hamstring": {
+     "path_m": 0.3935,
+     "belly_k": 1.215,
+     "volume_ratio": 1.0002
+    },
+    "gastrocnemius_medial": {
+     "path_m": 0.5301,
+     "belly_k": 1.171,
+     "volume_ratio": 1.0004
+    },
+    "soleus": {
+     "path_m": 0.372,
+     "belly_k": 1.034,
+     "volume_ratio": 1.0004
+    }
+   },
+   "overlaps_keyed": {
+    "vastus_intermedius | vastus_lateralis": 3
+   },
+   "overlaps_keyed_total": 3,
+   "overlaps_length_keys_only_total": 3,
+   "overlaps_without_keys_total": 0
+  },
+  "q0625": {
+   "hip_knee_ankle_deg": [
+    64.4,
+    65.6,
+    11.4
+   ],
+   "muscles": {
+    "rectus_femoris": {
+     "path_m": 0.5056,
+     "belly_k": 1.008,
+     "volume_ratio": 1.0003
+    },
+    "vastus_intermedius": {
+     "path_m": 0.3758,
+     "belly_k": 1.262,
+     "volume_ratio": 1.0003
+    },
+    "vastus_lateralis": {
+     "path_m": 0.4595,
+     "belly_k": 1.207,
+     "volume_ratio": 1.0008
+    },
+    "vastus_medialis": {
+     "path_m": 0.3591,
+     "belly_k": 1.306,
+     "volume_ratio": 1.0008
+    },
+    "biceps_femoris_long": {
+     "path_m": 0.4203,
+     "belly_k": 1.028,
+     "volume_ratio": 1.0004
+    },
+    "semitendinosus": {
+     "path_m": 0.4618,
+     "belly_k": 1.078,
+     "volume_ratio": 1.0005
+    },
+    "semimembranosus": {
+     "path_m": 0.4274,
+     "belly_k": 1.117,
+     "volume_ratio": 1.0004
+    },
+    "adductor_magnus_hamstring": {
+     "path_m": 0.4059,
+     "belly_k": 1.269,
+     "volume_ratio": 1.0002
+    },
+    "gastrocnemius_medial": {
+     "path_m": 0.5363,
+     "belly_k": 1.201,
+     "volume_ratio": 1.0001
+    },
+    "soleus": {
+     "path_m": 0.3731,
+     "belly_k": 1.04,
+     "volume_ratio": 1.0003
+    }
+   },
+   "overlaps_keyed": {
+    "vastus_intermedius | vastus_lateralis": 3
+   },
+   "overlaps_keyed_total": 3,
+   "overlaps_length_keys_only_total": 3,
+   "overlaps_without_keys_total": 0
+  },
+  "q0750": {
+   "hip_knee_ankle_deg": [
+    76.2,
+    77.8,
+    13.2
+   ],
+   "muscles": {
+    "rectus_femoris": {
+     "path_m": 0.5061,
+     "belly_k": 1.01,
+     "volume_ratio": 1.0004
+    },
+    "vastus_intermedius": {
+     "path_m": 0.3843,
+     "belly_k": 1.31,
+     "volume_ratio": 1.0002
+    },
+    "vastus_lateralis": {
+     "path_m": 0.468,
+     "belly_k": 1.245,
+     "volume_ratio": 1.0008
+    },
+    "vastus_medialis": {
+     "path_m": 0.3675,
+     "belly_k": 1.363,
+     "volume_ratio": 1.001
+    },
+    "biceps_femoris_long": {
+     "path_m": 0.4212,
+     "belly_k": 1.032,
+     "volume_ratio": 1.0004
+    },
+    "semitendinosus": {
+     "path_m": 0.4596,
+     "belly_k": 1.067,
+     "volume_ratio": 1.0004
+    },
+    "semimembranosus": {
+     "path_m": 0.4307,
+     "belly_k": 1.134,
+     "volume_ratio": 1.0003
+    },
+    "adductor_magnus_hamstring": {
+     "path_m": 0.4176,
+     "belly_k": 1.32,
+     "volume_ratio": 1.0003
+    },
+    "gastrocnemius_medial": {
+     "path_m": 0.5424,
+     "belly_k": 1.231,
+     "volume_ratio": 0.9999
+    },
+    "soleus": {
+     "path_m": 0.3741,
+     "belly_k": 1.045,
+     "volume_ratio": 1.0002
+    }
+   },
+   "overlaps_keyed": {
+    "vastus_intermedius | vastus_lateralis": 3
+   },
+   "overlaps_keyed_total": 3,
+   "overlaps_length_keys_only_total": 3,
+   "overlaps_without_keys_total": 0
+  },
+  "q0875": {
+   "hip_knee_ankle_deg": [
+    88.1,
+    89.9,
+    15.1
+   ],
+   "muscles": {
+    "rectus_femoris": {
+     "path_m": 0.5075,
+     "belly_k": 1.017,
+     "volume_ratio": 1.0004
+    },
+    "vastus_intermedius": {
+     "path_m": 0.3927,
+     "belly_k": 1.359,
+     "volume_ratio": 1.0002
+    },
+    "vastus_lateralis": {
+     "path_m": 0.4764,
+     "belly_k": 1.283,
+     "volume_ratio": 1.0012
+    },
+    "vastus_medialis": {
+     "path_m": 0.376,
+     "belly_k": 1.419,
+     "volume_ratio": 1.001
+    },
+    "biceps_femoris_long": {
+     "path_m": 0.4219,
+     "belly_k": 1.036,
+     "volume_ratio": 1.0004
+    },
+    "semitendinosus": {
+     "path_m": 0.4555,
+     "belly_k": 1.047,
+     "volume_ratio": 1.0001
+    },
+    "semimembranosus": {
+     "path_m": 0.4334,
+     "belly_k": 1.147,
+     "volume_ratio": 1.0002
+    },
+    "adductor_magnus_hamstring": {
+     "path_m": 0.4282,
+     "belly_k": 1.366,
+     "volume_ratio": 1.0003
+    },
+    "gastrocnemius_medial": {
+     "path_m": 0.5412,
+     "belly_k": 1.226,
+     "volume_ratio": 0.9904
+    },
+    "soleus": {
+     "path_m": 0.375,
+     "belly_k": 1.05,
+     "volume_ratio": 1.0001
+    }
+   },
+   "overlaps_keyed": {
+    "vastus_intermedius | vastus_lateralis": 9
+   },
+   "overlaps_keyed_total": 9,
+   "overlaps_length_keys_only_total": 9,
+   "overlaps_without_keys_total": 0
+  },
+  "q1000": {
+   "hip_knee_ankle_deg": [
+    100.0,
+    102.0,
+    17.0
+   ],
+   "muscles": {
+    "rectus_femoris": {
+     "path_m": 0.5103,
+     "belly_k": 1.029,
+     "volume_ratio": 1.0005
+    },
+    "vastus_intermedius": {
+     "path_m": 0.4012,
+     "belly_k": 1.407,
+     "volume_ratio": 1.0002
+    },
+    "vastus_lateralis": {
+     "path_m": 0.4849,
+     "belly_k": 1.322,
+     "volume_ratio": 1.0013
+    },
+    "vastus_medialis": {
+     "path_m": 0.3844,
+     "belly_k": 1.476,
+     "volume_ratio": 1.0011
+    },
+    "biceps_femoris_long": {
+     "path_m": 0.4225,
+     "belly_k": 1.039,
+     "volume_ratio": 0.9926
+    },
+    "semitendinosus": {
+     "path_m": 0.4498,
+     "belly_k": 1.018,
+     "volume_ratio": 1.0003
+    },
+    "semimembranosus": {
+     "path_m": 0.4352,
+     "belly_k": 1.156,
+     "volume_ratio": 0.9999
+    },
+    "adductor_magnus_hamstring": {
+     "path_m": 0.4374,
+     "belly_k": 1.406,
+     "volume_ratio": 1.0
+    },
+    "gastrocnemius_medial": {
+     "path_m": 0.5369,
+     "belly_k": 1.204,
+     "volume_ratio": 0.9348
+    },
+    "soleus": {
+     "path_m": 0.3759,
+     "belly_k": 1.056,
+     "volume_ratio": 1.0002
+    }
+   },
+   "overlaps_keyed": {
+    "vastus_intermedius | vastus_lateralis": 8,
+    "adductor_magnus_hamstring | gastrocnemius_medial": 30
+   },
+   "overlaps_keyed_total": 38,
+   "overlaps_length_keys_only_total": 88,
+   "overlaps_without_keys_total": 92
+  }
+ },
+ "output_blend": "HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG10_leg_length_left.blend",
+ "output_sha256": "6ac43a94f5f722d9e7927f9ac114e00f35c047f448f2c59a93ee58bb46cbb921",
+ "input_unchanged": true
+}

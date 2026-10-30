@@ -1138,3 +1138,82 @@ test that therefore reads them backwards. This was measured to have no effect: e
 - `native_20261024/mg9a/MG9a_left_press_sheet.jpg` and `MG9a_right_press_sheet.jpg`: rest, rack and lockout.
 - `MG9a_left_deltoid_closeup_sheet.jpg`: the deltoid alone, heads coloured (anterior red, middle green, posterior
   blue).
+
+## MG10: leg length response keyed by belly length, layered quadriceps, knee contact (added 30 Oct 2026)
+
+**Script:** `leg_muscle_length_response_blender.py`.
+
+- **Input:** the MG8 blends (MG7 legs + MG8 glutes), hash-checked and unchanged.
+- **Output:** new copies, `…_MG10_leg_length_<side>.blend`, in the scratch area; not in git.
+
+**Length keys, by length ratio, not by exercise.**
+
+- Each MG7 belly gets rest-space keys `HGPT_LEN_K_<100k>` for k = 0.85, 0.92 and 1.05–1.50 in steps of 0.05.
+- k is the belly length ratio: (path − MG7 tendons) / (rest path − MG7 tendons).
+- MG2's rule is applied in the segment's own cylindrical frame (thigh along the femoral shaft line, calf along
+  KJC → AJC, as MG7 built them):
+  - stations move along the axis about the proximal ring by k;
+  - the deep surface is kept;
+  - the outer surface takes r_o′² = r_i² + (r_o² − r_i²) / k, so volume is kept and the belly bulges towards the skin.
+- Between keys, the two bracketing keys are mixed linearly.
+- **The shape depends only on how long the muscle is.** Any movement drives it through the muscle's path length (the
+  kernel's `path_length` at runtime). The squat is only the test.
+
+**Layered quadriceps (MG3's rule).**
+
+- The vastus lateralis and medialis keep their deep surface on the vastus intermedius's new outer surface plus the
+  gap.
+- All three cross only the knee, so the intermedius's ratio at a given lateralis / medialis ratio is fixed by the knee
+  angle (sampled 0–114° and inverted). The layered keys therefore hold for any movement.
+- The knee-wrap path model's lengths peak at about 114° and fall after it, so only the rising part is used.
+- **Without layering**, the three bellies stretch about different proximal rings and slide into each other: 21–60 face
+  pairs per pose through the squat. **With it:** 3–9 pairs.
+
+**Knee contact keys `HGPT_CONTACT_KNEE_<deg>`** (80, 90, 100, 110, 120, 135°, from 70°).
+
+- They are keyed by knee flexion alone, because the thigh bellies ride the femur and the calf bellies the tibia.
+- Rule: posterior of the knee axis, each side is flattened onto the plane bisecting the knee angle, less half the gap,
+  in its own bone's rest frame. This is the body's hinge contact.
+- Flattening happens only within the other side's **footprint**: that side's tissue within 15 mm of the plane, or
+  beyond it, projected onto the plane within 10 mm.
+- Measured alternatives:
+  - **Whole plane:** costs the gastrocnemius 8 % of its volume from 80°, because its femoral heads lie above the
+    knee axis.
+  - **Footprint of crossing tissue only:** misses the semimembranosus and adductor magnus, which the heads reach
+    without either crossing the plane.
+
+**Results through the squat (hip 5 → 100°, knee 5 → 102°, ankle 2 → 17°, in eighths; left and right identical).**
+
+Belly k at depth:
+
+| Rectus femoris | Vastus intermedius / lateralis / medialis | Biceps femoris / semitendinosus / semimembranosus | Adductor magnus | Gastrocnemius | Soleus |
+|---|---|---|---|---|---|
+| 1.03 | 1.41 / 1.32 / 1.48 | 1.04 / 1.02 / 1.16 | 1.41 | 1.20 | 1.06 |
+
+Face overlaps (MG7 + MG8):
+
+| | Without keys | Length keys only | Length + contact keys |
+|---|---|---|---|
+| Up to 7/8 depth | 0 | 0–9 | 0–9 (vastus intermedius / lateralis) |
+| Full depth (knee 102°) | 92 | 88 | **38** (8 intermedius / lateralis, 30 adductor magnus / gastrocnemius) |
+
+**Volume.**
+
+- Every belly keeps 0.999–1.002 of its volume at every pose with the length keys.
+- With the contact keys, the gastrocnemius keeps 0.99 at 7/8 depth and 0.935 at full depth: the flattening adds no
+  bulge.
+
+**Open.**
+
+- **The remaining 30 adductor magnus / gastrocnemius pairs come from the binding.** MG7 binds the whole gastrocnemius
+  to the tibia, but its heads arise on the femur, so at deep flexion they swing into the thigh. The fix is a
+  biarticular origin, with the heads following the femur. That is a re-binding.
+- The contact flattening needs a volume-keeping bulge.
+- The k values come from the proposed (unreviewed) anchors and the path-length check's wrap model. The vasti's +32 to
+  +48 % belly lengthening at 102° is large and needs review, along with the anchors.
+
+**Files.**
+
+- `native_20261024/mg10/mg10_{left,right}_report.json`: per-pose k, volume and overlaps, the layering log, the knee
+  curves and the contact log.
+- `MG10_{left,right}_squat_sheet.jpg`.

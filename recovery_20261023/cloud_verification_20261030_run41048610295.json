@@ -1,0 +1,98 @@
+{
+  "status": "VERIFIED_NATIVE_CORRECTIVE_RETURN_LIFECYCLE_OBSERVATION",
+  "task": "W8 squat skeletal reset versus corrective neutral refresh",
+  "branch": "work/phone-blender-workbench-20261023",
+  "plan_commit": "eff30a67f77ee34da7d4347def30329686185fbf",
+  "implementation_commit": "b4e4aaf69f2ff9dcb8a6fc0519616955279cf4cf",
+  "workflow_run_id": 41048610295,
+  "workflow_conclusion": "success",
+  "jobs": {
+    "total": 7,
+    "success": 7,
+    "ids": [
+      124038813892,
+      124038814171,
+      124038814295,
+      124038814355,
+      124038814379,
+      124039341556,
+      124041191970
+    ]
+  },
+  "tests": {
+    "localization": "344/344",
+    "pose": [
+      "29/29",
+      "25/25",
+      "19/19",
+      "6/6",
+      "10/10"
+    ],
+    "driver": [
+      "10/10",
+      "20/20",
+      "8/8"
+    ]
+  },
+  "artifact": {
+    "id": 12974051212,
+    "name": "phone-w8-squat-pose-state-41048610295",
+    "github_sha256": "8d055ad877948109b09e7679979db7ee197f0c0a9616e83ba3d86c915ec08340",
+    "independently_downloaded_sha256": "8d055ad877948109b09e7679979db7ee197f0c0a9616e83ba3d86c915ec08340",
+    "zip_crc": "PASS",
+    "files": {
+      "w8_authored_squat_control_state.json": "877733264ff0ea2b4fb0845aa820fbc035c653d34ee6372cdb5298440b78606e",
+      "w8_authored_squat_control_state.md": "f8eb7143c586d698cdf29801b792ebe553e49d239c8c84b126c381ff50c25004"
+    }
+  },
+  "model_evidence": {
+    "model": "W8",
+    "source_sha256": "2434afd0daa231ab3a03c873cad4187ffcbc1bab78132375221160b0b0f09e4c",
+    "pinned_r57_source_commit": "025d5f28fa7eba2064fba565b1c9b60119cdd2cb",
+    "source_unchanged": true,
+    "saved_blend": false,
+    "rest_bone_signature_unchanged": true,
+    "evaluated_vertex_count": 219974,
+    "shape_key_count": 79,
+    "sample0": {
+      "active_shape_keys": 0,
+      "all_values_sha256": "910743d8c37ed133e3ddf43eed2c4cf27dae553052ccc123147c0c142606c547"
+    },
+    "after_benchmark_reset_before_driver_refresh": {
+      "skeletal_basis_identity": true,
+      "active_shape_keys": 8,
+      "active_names": [
+        "HGPT_H1_BAKE_l_110",
+        "HGPT_H1_BAKE_l_135",
+        "HGPT_H1_BAKE_r_110",
+        "HGPT_H1_BAKE_r_135",
+        "HGPT_K1_KNEE_l_110",
+        "HGPT_K1_KNEE_l_90",
+        "HGPT_K1_KNEE_r_110",
+        "HGPT_K1_KNEE_r_90"
+      ],
+      "changed_vertices_over_1e_6_mm": 206166,
+      "max_displacement_mm": 65.19363601249383,
+      "rms_displacement_mm": 8.39553899970079
+    },
+    "after_neutral_driver_refresh": {
+      "active_shape_keys": 0,
+      "shape_key_fingerprint_matches_sample0": true,
+      "changed_vertices_over_1e_6_mm": 199885,
+      "max_displacement_mm": 0.00047829013603043657,
+      "rms_displacement_mm": 0.00009749027167855674,
+      "max_matrix_basis_translation_mm": 0.00022302015940987713,
+      "skeletal_basis_identity_within_1e_6_mm": false
+    }
+  },
+  "ruling": [
+    "The frozen benchmark final skeletal reset does not refresh the optional corrective driver, so terminal H1 hip and K1 knee keys remain stale.",
+    "One unchanged neutral driver call clears all shape keys to the exact sample-0 value fingerprint and reduces evaluated geometry differences to sub-micron scale.",
+    "The neutral driver call also introduces a tiny nonzero matrix-basis translation; the responsible authored/helper control is not yet localized and must not be rounded into an exact-neutral claim."
+  ],
+  "limitations": [
+    "This is corrective lifecycle evidence, not anatomical neutral, deformation quality, contact, balance or tissue safety.",
+    "No model, rig, shape key, driver or blend source was modified or saved.",
+    "No anatomical movement is approved."
+  ]
+}

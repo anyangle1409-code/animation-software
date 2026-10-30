@@ -38,6 +38,7 @@ jobs:
           test "$(git -C _r57 rev-parse HEAD)" = "025d5f28fa7eba2064fba565b1c9b60119cdd2cb"
           python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_pose_state_probe.py -v
           python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_squat_pose_state_probe.py -v
+          python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_forearm_pose_state_probe.py -v
           python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_corrective_edge_isolation.py -v
           python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_adjacent_edge_controls.py -v
           python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_native_control_views.py -v
@@ -60,12 +61,26 @@ jobs:
             --source-dir "${{ runner.temp }}/W8" \
             --r57-root "$GITHUB_WORKSPACE/_r57" \
             --out "$GITHUB_WORKSPACE/phone-squat-pose-probe"
+      - name: Measure frozen W8 authored forearm controls without model save
+        run: |
+          python scripts/phone_blender/forearm_pose_state_probe.py \
+            --source-dir "${{ runner.temp }}/W8" \
+            --r57-root "$GITHUB_WORKSPACE/_r57" \
+            --out "$GITHUB_WORKSPACE/phone-forearm-pose-probe"
       - name: Render frozen native corrective comparisons in a separate process
         run: |
           python scripts/phone_blender/native_control_views.py \
             --snapshots "$GITHUB_WORKSPACE/_phone-control-snapshots" \
             --out "$GITHUB_WORKSPACE/phone-pose-probe/control_views" \
             --include-individual
+      - name: Preserve observed W8 authored forearm-control evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phone-w8-forearm-pose-state-${{ github.run_id }}
+          path: phone-forearm-pose-probe/
+          retention-days: 90
+          if-no-files-found: error
       - name: Preserve evaluated snapshots for independent cloud render replay
         if: always()
         uses: actions/upload-artifact@v4

@@ -208,6 +208,20 @@ The flagged muscles:
 
 **Defect fixed:** the serratus origin rule had placed it inside the thorax.
 
+**MG1, first muscle geometry (30 Oct)**, on new experiment copies of R41 (never the source):
+
+- Upper-arm belly and tendon envelopes: biceps long and short heads, brachialis, triceps long, lateral and medial
+  heads.
+- Both sides built independently, in Work's `HGPT_EXPERIMENT_MUSCLES` / `_TENDONS` collections, tagged with permanent
+  IDs.
+- Sized from this body's own humerus-to-skin space by an upper-arm cross-section rule. Results: 0 outside the skin,
+  0 inside the bone radius, 0 muscle–muscle overlaps, source hash unchanged.
+- The tendons follow the anatomical chain in elbow flexion.
+- Literature volumes could not be fetched (the hosts are unreachable from the sandbox), so the reviewed
+  `rest_volume_m3` stays null.
+- **Next:** the volume-preserving length response (Work's kernel), then the deltoid and the cuff.
+- Sheet: `experiments/anatomical_muscles/native_20261024/mg1/MG1_left_arm_sheet.jpg`.
+
 ## Decisions for the owner
 
 - Adopting the candidate drives and keys (this changes the runtime contract), and replacing the r57 girdle directions.

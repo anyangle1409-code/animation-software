@@ -2417,3 +2417,12 @@ into a notch.
 **New diagnostic:** `axilla_fold_diag_blender.py`.
 
 H3 is still the current best candidate. Details are in `docs/R121_MOVEMENT_TRAJECTORIES_20261024.md` (last section).
+
+**Later (30 Oct): MG5, the armpit-fold muscles.** On `claude/muscle-layer-native-20261024` (7fbb9cab): pectoralis major
+(clavicular and sternocostal heads), latissimus dorsi and teres major, built as fan envelopes on both sides.
+
+- They run from authored origin lines through via points found on the armpit folds to the humeral insertions, and are
+  layered under the deltoid and latissimus.
+- Checks: 0 outside the skin, 0 too shallow, 0 overlaps.
+- Volumes 220 / 23 / 22 / 193 cm³.
+- Rest pose only. They are the volumes a muscle-driven posterior-fold skin would use.

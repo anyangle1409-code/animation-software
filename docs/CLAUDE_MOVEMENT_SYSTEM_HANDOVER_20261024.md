@@ -241,8 +241,21 @@ The flagged muscles:
   - 0 outside the skin or bone, 0 overlaps;
   - volumes 121 / 91 / 60 cm³ (anterior / middle / posterior);
   - sheet: `native_20261024/mg4/MG4_left_shoulder_sheet.jpg`.
+- **MG5 (armpit-fold muscles, both sides, 30 Oct):** pectoralis major (clavicular and sternocostal heads),
+  latissimus dorsi and teres major (`build_axillary_fold_envelopes_blender.py`, muscle branch 7fbb9cab).
+  - Built as fan sheets: from authored origin lines, through via points found on the front and back armpit folds,
+    to the humeral insertion lines, with each muscle's twist. They are cast onto the trunk skin from the thorax axis.
+  - Layered: teres major under the latissimus, the pectoral heads under the anterior deltoid, the sternocostal head
+    under the clavicular.
+  - 0 outside the skin, 0 shallower than the layer, 0 overlaps.
+  - Volumes 220 / 23 / 22 / 193 cm³ (latissimus / teres major / clavicular / sternocostal).
+  - The latissimus and teres bellies end at the triceps long head; tendons run on to the humerus.
+  - Rest pose only. R41 has no rib-cage surface, so the depth floor is the authored thickness.
+  - Sheets: `native_20261024/mg5/MG5_left_axilla_sheet.jpg` and `MG5_right_axilla_sheet.jpg`.
 - **Muscle layer, next:**
-  - a per-pose swept deltoid for arm elevation (proxies bound by blending scapula to humerus cannot follow 160°);
+  - a per-pose sweep for arm elevation, for the deltoid and the MG5 fans (proxies bound by blending an origin bone to
+    the humerus cannot follow 160°);
+  - the posterior-fold skin driven by the MG5 latissimus / teres volumes (the system-level route for open item 4);
   - rotator cuff and scapular muscles, which need a scapula surface (R41 has landmarks only);
   - skin response;
   - reviewer sign-off on the anchors.
@@ -297,6 +310,6 @@ The flagged muscles:
    `V2_TRAJ_LUNGE_ARMS=side` (arms at 22°) the lunge has 11 intersections (front groin) and 35 folds.
 6. **Muscle layer:**
    - a scapulothoracic model with translation;
-   - fibre fans for trapezius, latissimus, pectoralis and serratus;
+   - fibre fans for trapezius and serratus (latissimus, pectoralis and teres major are built as MG5);
    - wrap paths;
    - belly and tendon geometry on an experiment copy.

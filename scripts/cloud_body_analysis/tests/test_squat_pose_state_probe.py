@@ -102,6 +102,7 @@ def report():
         "samples": samples,
     }
     data["skin_control_relative_motion"] = probe.skin_control_relative_motion(samples)
+    data["authored_lower_chain_trajectory"] = probe.lower_chain_trajectory(samples)
     baseline_keys = probe.shape_key_state([
         NS(name="Basis", value=0.0), NS(name="HGPT_K1_KNEE_l_110", value=0.0)])
     stale_keys = probe.shape_key_state([
@@ -166,7 +167,8 @@ def report():
             "evaluated_geometry_first_to_second": neutral_geometry,
         },
     }
-    data["limitations"] = [probe.CORRECTIVE_RETURN_LIMITATION]
+    data["limitations"] = [probe.CORRECTIVE_RETURN_LIMITATION,
+                           probe.LOWER_CHAIN_LIMITATION]
     return data
 
 
@@ -176,6 +178,58 @@ def json_bytes(value):
 
 
 class SquatPoseStateProbeTests(unittest.TestCase):
+    def test_lower_chain_trajectory_uses_sample0_and_authored_points(self):
+        samples = report()["samples"]
+        samples[8]["sides"]["l"]["thigh"][
+            "head_world_m_not_anatomical_joint_centre"] = [0.01, 0.0, 1.0]
+        result = probe.lower_chain_trajectory(samples)
+        self.assertEqual(result["reference_sample"], 0)
+        self.assertIs(result["anatomical_joint_centres_verified"], False)
+        self.assertEqual(result["samples"][0]["sides"]["l"][
+            "change_from_sample0_world_m"]["hip"], [0.0, 0.0, 0.0])
+        self.assertEqual(result["samples"][8]["sides"]["l"][
+            "change_from_sample0_world_m"]["hip"], [0.01, 0.0, 0.0])
+        self.assertAlmostEqual(result["samples"][8]["sides"]["l"][
+            "authored_chain_lengths_m"]["hip_to_knee"], 0.01)
+
+    def test_lower_chain_distances_and_x_reflection_are_independent(self):
+        samples = report()["samples"]
+        controls = {"thigh": ([1, 0, 0], [-1.1, 0, 0]),
+                    "shin": ([1, 3, 0], [-1, 3.2, 0]),
+                    "foot": ([1, 3, 4], [-1, 3, 4.3]),
+                    "toe": ([1, 3, 4.12], [-1.4, 3, 4.12])}
+        for control, (left, right) in controls.items():
+            samples[4]["sides"]["l"][control][
+                "head_world_m_not_anatomical_joint_centre"] = left
+            samples[4]["sides"]["r"][control][
+                "head_world_m_not_anatomical_joint_centre"] = right
+        row = probe.lower_chain_trajectory(samples)["samples"][4]
+        lengths = row["sides"]["l"]["authored_chain_lengths_m"]
+        self.assertEqual(lengths["hip_to_knee"], 3.0)
+        self.assertEqual(lengths["knee_to_ankle"], 4.0)
+        self.assertAlmostEqual(lengths["ankle_to_toe"], 0.12)
+        mirror = row["x_reflection_disagreement_m_not_anatomical_symmetry"]
+        self.assertAlmostEqual(mirror["hip"], 0.1)
+        self.assertAlmostEqual(mirror["knee"], 0.2)
+        self.assertAlmostEqual(mirror["ankle"], 0.3)
+        self.assertAlmostEqual(mirror["toe"], 0.4)
+
+    def test_report_rejects_tampered_lower_chain_trajectory(self):
+        data = report()
+        data["authored_lower_chain_trajectory"]["samples"][4]["sides"]["r"][
+            "change_from_sample0_world_m"]["knee"][1] += 0.01
+        self.assertIn("invalid authored lower-chain trajectory", probe.validate_report(data))
+        data = report()
+        data["authored_lower_chain_trajectory"]["samples"][2][
+            "x_reflection_disagreement_m_not_anatomical_symmetry"]["ankle"] = False
+        self.assertIn("invalid authored lower-chain trajectory", probe.validate_report(data))
+        data = report(); data["limitations"].remove(probe.LOWER_CHAIN_LIMITATION)
+        self.assertIn("missing lower-chain trajectory limitation", probe.validate_report(data))
+        data = report()
+        del data["authored_lower_chain_trajectory"]["samples"][0]["sides"]["l"][
+            "points_world_m_not_anatomical_joint_centres"]
+        self.assertIn("invalid authored lower-chain trajectory", probe.validate_report(data))
+
     def test_skeletal_basis_state_localizes_residual_deterministically(self):
         class Q:
             def __init__(self, angle): self.angle = angle

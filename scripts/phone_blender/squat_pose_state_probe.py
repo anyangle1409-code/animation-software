@@ -28,6 +28,10 @@ EXPECTED_MODES = {
 CORRECTIVE_RETURN_LIMITATION = (
     "Skeletal matrix-basis reset and corrective driver refresh are lifecycle "
     "observations, not proof of anatomical neutral or tissue safety")
+LOWER_CHAIN_LIMITATION = (
+    "Authored hip-knee-ankle-toe control points, lengths and X-reflection "
+    "disagreement are not anatomical joint centres, human segment lengths, "
+    "a verified sagittal plane or anatomical bilateral symmetry")
 
 
 def digest(path):
@@ -307,6 +311,54 @@ def skin_control_relative_motion(samples):
     }
 
 
+def lower_chain_trajectory(samples):
+    """Derive authored lower-chain point motion without anatomical claims."""
+    if (not isinstance(samples, list) or len(samples) != 9
+            or [sample.get("sample") for sample in samples] != list(range(9))):
+        raise ValueError("ordered squat samples 0 through 8 required")
+    controls = {"hip": "thigh", "knee": "shin", "ankle": "foot", "toe": "toe"}
+    segments = {"hip_to_knee": ("hip", "knee"),
+                "knee_to_ankle": ("knee", "ankle"),
+                "ankle_to_toe": ("ankle", "toe")}
+    reference, rows = {}, []
+    for sample in samples:
+        sides = {}
+        for side in ("l", "r"):
+            points = {point: vector3(sample["sides"][side][control][
+                "head_world_m_not_anatomical_joint_centre"])
+                for point, control in controls.items()}
+            if sample["sample"] == 0:
+                reference[side] = points
+            changes = {point: _subtract(value, reference[side][point])
+                       for point, value in points.items()}
+            lengths = {name: math.sqrt(sum(
+                (points[a][axis] - points[b][axis]) ** 2 for axis in range(3)))
+                for name, (a, b) in segments.items()}
+            sides[side] = {
+                "points_world_m_not_anatomical_joint_centres": points,
+                "change_from_sample0_world_m": changes,
+                "authored_chain_lengths_m": lengths,
+            }
+        reflection = {}
+        for point in controls:
+            left, right = sides["l"]["points_world_m_not_anatomical_joint_centres"][point], sides["r"]["points_world_m_not_anatomical_joint_centres"][point]
+            reflected_right = [-right[0], right[1], right[2]]
+            reflection[point] = math.sqrt(sum(
+                (left[axis] - reflected_right[axis]) ** 2 for axis in range(3)))
+        rows.append({
+            "sample": sample["sample"],
+            "sides": sides,
+            "x_reflection_disagreement_m_not_anatomical_symmetry": reflection,
+        })
+    return {
+        "status": "DESCRIPTIVE_AUTHORED_LOWER_CHAIN_TRAJECTORY_NOT_ANATOMY",
+        "anatomical_joint_centres_verified": False,
+        "sagittal_reflection_plane_verified": False,
+        "reference_sample": 0,
+        "samples": rows,
+    }
+
+
 def _valid_vector(value):
     return (isinstance(value, list) and len(value) == 3
             and all(type(x) in (int, float) and math.isfinite(x) for x in value))
@@ -425,6 +477,52 @@ def _valid_skin_control_relative_motion(record):
                         "foot_control_head_minus_lower_centroid_world_m"))
                     or not _valid_vector(relative.get(
                         "change_from_sample0_world_m"))):
+                return False
+    return True
+
+
+def _valid_lower_chain(record):
+    if (not isinstance(record, dict) or set(record) != {
+            "status", "anatomical_joint_centres_verified",
+            "sagittal_reflection_plane_verified", "reference_sample", "samples"}
+            or record["status"] !=
+            "DESCRIPTIVE_AUTHORED_LOWER_CHAIN_TRAJECTORY_NOT_ANATOMY"
+            or record["anatomical_joint_centres_verified"] is not False
+            or record["sagittal_reflection_plane_verified"] is not False
+            or type(record["reference_sample"]) is not int
+            or record["reference_sample"] != 0):
+        return False
+    samples = record["samples"]
+    if (not isinstance(samples, list) or len(samples) != 9
+            or [row.get("sample") for row in samples] != list(range(9))):
+        return False
+    points = {"hip", "knee", "ankle", "toe"}
+    segments = {"hip_to_knee", "knee_to_ankle", "ankle_to_toe"}
+    for row in samples:
+        sides = row.get("sides")
+        mirror = row.get("x_reflection_disagreement_m_not_anatomical_symmetry")
+        if (not isinstance(sides, dict) or set(sides) != {"l", "r"}
+                or not isinstance(mirror, dict) or set(mirror) != points
+                or any(type(value) not in (int, float) or not math.isfinite(value)
+                       or value < 0.0 for value in mirror.values())):
+            return False
+        for side in ("l", "r"):
+            side_row = sides[side]
+            if not isinstance(side_row, dict) or set(side_row) != {
+                    "points_world_m_not_anatomical_joint_centres",
+                    "change_from_sample0_world_m", "authored_chain_lengths_m"}:
+                return False
+            if (set(side_row["points_world_m_not_anatomical_joint_centres"]) != points
+                    or set(side_row["change_from_sample0_world_m"]) != points
+                    or any(not _valid_vector(value) for value in
+                           side_row["points_world_m_not_anatomical_joint_centres"].values())
+                    or any(not _valid_vector(value) for value in
+                           side_row["change_from_sample0_world_m"].values())
+                    or not isinstance(side_row["authored_chain_lengths_m"], dict)
+                    or set(side_row["authored_chain_lengths_m"]) != segments
+                    or any(type(value) not in (int, float) or not math.isfinite(value)
+                           or value < 0.0 for value in
+                           side_row["authored_chain_lengths_m"].values())):
                 return False
     return True
 
@@ -638,6 +736,14 @@ def validate_report(data):
             or not _valid_skin_control_relative_motion(relative_motion)
             or relative_motion != expected_relative_motion):
         errors.append("invalid skin/control relative motion")
+    try:
+        expected_lower_chain = lower_chain_trajectory(samples)
+    except (KeyError, TypeError, ValueError):
+        expected_lower_chain = None
+    lower_chain = data.get("authored_lower_chain_trajectory")
+    if (expected_lower_chain is None or not _valid_lower_chain(lower_chain)
+            or lower_chain != expected_lower_chain):
+        errors.append("invalid authored lower-chain trajectory")
     mesh_counts = set()
     try:
         for sample in samples:
@@ -654,6 +760,8 @@ def validate_report(data):
     if (not isinstance(limitations, list)
             or CORRECTIVE_RETURN_LIMITATION not in limitations):
         errors.append("missing corrective return-to-neutral limitation")
+    if (not isinstance(limitations, list) or LOWER_CHAIN_LIMITATION not in limitations):
+        errors.append("missing lower-chain trajectory limitation")
     for index, row in enumerate(samples):
         expected_t = index / 8.0
         if type(row.get("t")) not in (int, float) or not math.isclose(
@@ -782,6 +890,21 @@ def markdown(data):
                 "change_from_sample0_world_m"])
             lines.append(f"| {row['sample']} | {side} | {vector} | {change} |")
     lines += ["", "This is a geometric cross-reference only, not contact, support, pressure, force, friction, slip, balance, tissue safety or an anatomical joint-centre measurement.",
+              "", "## Authored lower-chain trajectories (not joint centres)", "",
+              "Distances use authored thigh/shin/foot/toe control heads. X-reflection is an unverified rig-space proxy, not anatomical symmetry.", "",
+              "| Sample | Suffix | hip→knee / knee→ankle / ankle→toe mm | hip / knee / ankle / toe change from sample 0 mm |",
+              "|---:|:---:|---:|---:|"]
+    for row in data["authored_lower_chain_trajectory"]["samples"]:
+        for side in ("l", "r"):
+            side_row = row["sides"][side]
+            lengths = " / ".join(f"{side_row['authored_chain_lengths_m'][name] * 1000:.3f}"
+                                 for name in ("hip_to_knee", "knee_to_ankle", "ankle_to_toe"))
+            changes = " / ".join(
+                "/".join(f"{value * 1000:.3f}" for value in
+                         side_row["change_from_sample0_world_m"][point])
+                for point in ("hip", "knee", "ankle", "toe"))
+            lines.append(f"| {row['sample']} | {side} | {lengths} | {changes} |")
+    lines += ["", LOWER_CHAIN_LIMITATION + ".",
               "", "## Foot-plant solve residuals", "",
               "Residuals are foot-control head minus its captured rest target after the frozen solve; they are not anatomical ankle-centre errors.", "",
               "| Sample | root correction X/Y/Z mm | l post residual X/Y/Z mm | r post residual X/Y/Z mm | mean post residual X/Y/Z mm |",
@@ -972,6 +1095,7 @@ def main():
         "anatomical_approval": "NOT_GRANTED", "ground_contact_approval": "NOT_GRANTED",
         "samples": captures,
         "skin_control_relative_motion": skin_control_relative_motion(captures),
+        "authored_lower_chain_trajectory": lower_chain_trajectory(captures),
         "corrective_return_to_neutral": {
             "status": "DESCRIPTIVE_SKELETAL_RESET_CORRECTIVE_LIFECYCLE_NOT_ANATOMY",
             "anatomical_approval": "NOT_GRANTED",
@@ -1004,6 +1128,7 @@ def main():
             "Foot/toe-dominant lower-envelope skin samples are descriptive geometry, not contact patches",
             "The single foot and toe controls do not establish talus, calcaneus or multisegment foot coordination",
             CORRECTIVE_RETURN_LIMITATION,
+            LOWER_CHAIN_LIMITATION,
             "Population range-of-motion means are not hard movement limits and no movement is approved",
         ],
     }

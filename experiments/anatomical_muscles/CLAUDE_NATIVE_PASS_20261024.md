@@ -707,3 +707,95 @@ Arm envelope volumes after the rebuild:
   (anterior / lateral / posterior / superior, muscle-only and with the skin overlaid at 35 %).
 - `mg1/` and `mg3/`: refreshed reports and sheets, both sides.
 - The blends are not in git; their SHA256 values are in the reports.
+
+## MG5: the armpit-fold muscles: pectoralis major, latissimus dorsi, teres major (added 30 Oct 2026)
+
+**Script:** `build_axillary_fold_envelopes_blender.py`. It runs on an MG4 blend (hash-checked) and saves a new MG5 blend
+with four muscles per side:
+
+- `pectoralis_major_clavicular` and `pectoralis_major_sternocostal`;
+- `latissimus_dorsi`;
+- `teres_major`.
+
+These muscles form the two armpit folds. The movement work found a skinning artifact at the posterior fold in the
+press lockout (`docs/R121_MOVEMENT_TRAJECTORIES_20261024.md` on the surface branch). Muscle-driven skin there needs
+these volumes first.
+
+**How a fan is built.** Each muscle is a sheet of 11 fibres × 28 stations. Fibre u runs in three stages:
+
+1. **Origin:** a point O(u) on an authored origin line.
+2. **Via point:** V(u), on its armpit fold. It is where the trunk skin meets the arm skin at the fold's height:
+   - rays from the thorax axis are swept from straight ahead (or behind) towards the side, up to 70°;
+   - V is the last trunk hit before the first arm hit;
+   - it is then pulled towards the trunk until it is clear of the MG1 / MG4 envelopes.
+3. **Insertion:** a point I(u) on a line along the humerus, through the proposed insertion anchor, with each muscle's
+   twist.
+
+Along the fibre:
+
+- **On the trunk** (O → V): the chord is cast radially from the thorax axis onto the trunk skin (arm skin excluded).
+  The mid-surface lies the 4 mm subcutaneous layer plus half the thickness below it. For a deep muscle the cast stops
+  at the superficial muscle instead, less a 1.2 mm gap.
+- **Across the fold** (V → I): the mid-surface follows the chord. Where the chord leaves the skin (the rest armpit is
+  closed) it is snapped below the nearest skin.
+
+The sheet is then built up as follows:
+
+- **Thickening.** It is thickened along its own normal: the skin normal on the trunk, and the grid normal kept
+  continuous across the fold. The grid's own cross product degenerates where fibres start along their origin line, as
+  on the clavicle.
+- **Belly end.** Each fibre's belly ends one station before it would enter another envelope (the MG1 arm envelopes,
+  the MG4 deltoid unless it lies under it, or the fans already built). A tendon proxy runs on to the insertion anchor.
+- **Layering.** The deep muscles are moved towards the thorax axis until no face crosses the superficial one:
+  - teres major under the latissimus;
+  - both pectoral heads under the anterior deltoid;
+  - the sternocostal under the clavicular head.
+- **Final pass.** Every vertex is clamped 4 mm below the skin. A fibre that cannot satisfy both the clamp and the
+  layering is shortened one station and rebuilt.
+
+**Authored rules** (all recorded in the reports):
+
+| Muscle | Origin line | Insertion (s along GH → EJC, u 0 → 1) | Fold height (u 0 → 1) | Thickness (trunk / fold) |
+|---|---|---|---|---|
+| Latissimus dorsi | T7 spinous level 15 mm lateral → T12 → L3 70 mm lateral → posterior iliac crest. This is the belly's medial edge; the thoracolumbar aponeurosis is not modelled. | floor of the sulcus 0.20 → 0.10 (upper fibres lowest) | 1.415 → 1.375 m, back fold | 6 / 16 mm |
+| Teres major | lateral border, AI + 4 % → + 30 % of AI → GH, 12 mm lateral | medial lip 0.25 → 0.15 | 1.385 → 1.405 m, back fold | 20 / 22 mm |
+| Pectoralis major, clavicular | anterior clavicle 8 % → 48 % SC → AC, 8 mm anterior | lateral lip 0.28 → 0.18 (most distal) | 1.495 → 1.45 m, front fold | 10 / 14 mm |
+| Pectoralis major, sternocostal | sternum 15 mm lateral of the guide line, z 1.495 → 1.33, then along the 6th costal cartilage to 75 mm lateral | lateral lip 0.24 → 0.12 (lowest fibres highest) | 1.45 → 1.395 m, front fold | 10 / 18 mm |
+
+**Results:**
+
+| | Left | Right |
+|---|---|---|
+| Outside skin / shallower than the layer | 0 / 0 for every muscle | 0 / 0 |
+| Overlaps (with each other and with MG1 / MG4) | 0 | 0 |
+| Latissimus / teres major / pectoral clavicular / sternocostal (cm³) | 220 / 24 / 22 / 194 | 220 / 23 / 22 / 193 |
+| Within 6 mm of a rib guide segment (latissimus / sternocostal) | 2 / 3 vertices | 2 / 3 |
+| Input blend unchanged | yes | yes |
+
+- **Where the bellies end.** The latissimus and teres major bellies end at the triceps long head, every fibre on both
+  sides. MG1's long-head envelope fills the arm side of the posterior fold (its sections reach 65 mm from the humeral
+  axis), so the fold's bulk is long head on the arm side and latissimus / teres on the trunk side. The tendons
+  (59–68 mm) run on to the humerus.
+- **The pectoral heads** run under the anterior deltoid nearly to the humerus (tendons 16–26 mm).
+- **Copy-only change:** `use_deform` was switched on for the sternum, T7–L5 and the hip bone on the experiment copy,
+  as MG1 and MG4 did for the limb bones. A check confirmed that the evaluated envelopes do not move at rest.
+
+**Limits.**
+
+- **No rib-cage surface.** R41's ribs are guide segments, so the depth floor is the authored thickness. The
+  rib-proximity count is the only check of it.
+- **Teres major is small** (about 23 cm³). It is squeezed between the latissimus and the long head; its thickness
+  profile is authored.
+- **Rest pose only.** No length response in arm elevation, as for the deltoid. A muscle bound from its trunk origin
+  bone to the humerus cannot follow 160° of elevation; this needs the same per-pose sweep. Driving the skin of the
+  posterior fold with these volumes is the next step.
+- **Fold heights are authored**, not found. Serratus anterior, trapezius and the thoracolumbar aponeurosis are not
+  built.
+- **Volumes** are geometry-derived from this body. No reviewed literature values were reachable (see MG1).
+
+**Files.**
+
+- `native_20261024/mg5/`: `mg5_left_report.json`, `mg5_right_report.json`, and `MG5_left_axilla_sheet.jpg` /
+  `MG5_right_axilla_sheet.jpg`. The sheets show anterior, anterolateral, lateral, posterolateral and posterior views:
+  muscles and tendons, then the skin overlaid at 35 %.
+- The blends are not in git; their SHA256 values are in the reports.

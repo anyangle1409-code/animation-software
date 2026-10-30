@@ -1,0 +1,460 @@
+{
+ "status": "ENVELOPE_PROXY_UNREVIEWED",
+ "input": "HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG4_shoulder_left.blend",
+ "input_sha256": "028908e7aabb78e1daff73b8e7b2f044928d1086180bc03428c18390a9edc1cf",
+ "side": "left",
+ "frame": "fan sheets: origin line -> via point on the armpit fold -> insertion line on the humerus",
+ "rules": {
+  "subcutaneous_layer_m": 0.004,
+  "gap_m": 0.0012,
+  "min_thickness_m": 0.003,
+  "end_thickness_m": 0.004,
+  "fibres": 11,
+  "stations": 28,
+  "fans": {
+   "latissimus_dorsi": {
+    "insertion_s_u0_u1": [
+     0.2,
+     0.1
+    ],
+    "via_height_m_u0_u1": [
+     1.415,
+     1.375
+    ],
+    "thickness_trunk_fold_m": [
+     0.006,
+     0.016
+    ],
+    "tendon_fraction": 0.86,
+    "deep_to": [],
+    "separated_from": [
+     "triceps_long"
+    ],
+    "rule": "origin line: T7 spinous level 15 mm lateral -> T12 -> L3 70 mm lateral -> posterior iliac crest (the belly's medial edge; the thoracolumbar aponeurosis medial to it is not modelled); twist: upper fibres insert lowest"
+   },
+   "teres_major": {
+    "insertion_s_u0_u1": [
+     0.25,
+     0.15
+    ],
+    "via_height_m_u0_u1": [
+     1.385,
+     1.405
+    ],
+    "thickness_trunk_fold_m": [
+     0.02,
+     0.022
+    ],
+    "tendon_fraction": 0.88,
+    "deep_to": [
+     "latissimus_dorsi"
+    ],
+    "separated_from": [
+     "latissimus_dorsi",
+     "triceps_long"
+    ],
+    "rule": "origin: dorsal lateral border from AI + 4 % to + 30 % of AI -> GH, 12 mm lateral (anchor rule); deep to the latissimus"
+   },
+   "pectoralis_major_sternocostal": {
+    "insertion_s_u0_u1": [
+     0.24,
+     0.12
+    ],
+    "via_height_m_u0_u1": [
+     1.45,
+     1.395
+    ],
+    "thickness_trunk_fold_m": [
+     0.01,
+     0.018
+    ],
+    "tendon_fraction": 0.9,
+    "deep_to": [
+     "deltoid_anterior",
+     "pectoralis_major_clavicular"
+    ],
+    "separated_from": [
+     "deltoid_anterior",
+     "pectoralis_major_clavicular"
+    ],
+    "rule": "origin: sternum 15 mm lateral / 13 mm anterior of the guide line, z 1.495 -> 1.33, then along the 6th costal cartilage to 75 mm lateral; twist: the lowest fibres insert highest"
+   },
+   "pectoralis_major_clavicular": {
+    "insertion_s_u0_u1": [
+     0.28,
+     0.18
+    ],
+    "via_height_m_u0_u1": [
+     1.495,
+     1.45
+    ],
+    "thickness_trunk_fold_m": [
+     0.01,
+     0.014
+    ],
+    "tendon_fraction": 0.9,
+    "deep_to": [
+     "deltoid_anterior"
+    ],
+    "separated_from": [
+     "deltoid_anterior"
+    ],
+    "rule": "origin: anterior clavicle 8 % -> 48 % SC -> AC, 8 mm anterior; inserts most distally (anterior lamina)"
+   }
+  }
+ },
+ "copy_only_changes": {
+  "anatomical_master_use_deform_enabled": [
+   "anat_sternum",
+   "anat_hip_bone_left",
+   "anat_t7",
+   "anat_t8",
+   "anat_t9",
+   "anat_t10",
+   "anat_t11",
+   "anat_t12",
+   "anat_l1",
+   "anat_l2",
+   "anat_l3",
+   "anat_l4",
+   "anat_l5"
+  ]
+ },
+ "volume_source": "geometry-derived from this body (no reviewed literature volumes reachable)",
+ "muscles": {
+  "hgpt.muscle.latissimus_dorsi.L": {
+   "belly_volume_cm3": 219.8,
+   "belly_volume_m3": 0.0002198,
+   "belly_end_t_per_fibre": [
+    0.733,
+    0.764,
+    0.764,
+    0.764,
+    0.796,
+    0.796,
+    0.796,
+    0.796,
+    0.828,
+    0.828,
+    0.796
+   ],
+   "stopped_by": {
+    "0": "triceps_long",
+    "1": "triceps_long",
+    "2": "triceps_long",
+    "3": "triceps_long",
+    "4": "triceps_long",
+    "5": "triceps_long",
+    "6": "triceps_long",
+    "7": "triceps_long",
+    "8": "triceps_long",
+    "9": "triceps_long",
+    "10": "triceps_long"
+   },
+   "via_fraction_per_fibre": [
+    0.576,
+    0.59,
+    0.609,
+    0.63,
+    0.692,
+    0.732,
+    0.741,
+    0.753,
+    0.759,
+    0.76,
+    0.741
+   ],
+   "via_points": [
+    [
+     0.1522,
+     0.0988,
+     1.4153
+    ],
+    [
+     0.1586,
+     0.0765,
+     1.3981
+    ],
+    [
+     0.154,
+     0.0746,
+     1.377
+    ]
+   ],
+   "station_modes": {
+    "trunk": 264,
+    "under": 0,
+    "fold": 16,
+    "snapped": 27,
+    "chord": 1
+   },
+   "sections_squeezed_to_min_thickness": 2,
+   "points_left_inside_other_envelopes": {},
+   "face_crossings_left_with_superficial": 0,
+   "vertices_clamped_below_skin_at_end": 6,
+   "fibres_shortened_stations": {
+    "10": 1,
+    "6": 1,
+    "7": 1
+   },
+   "fibres_still_failing": [],
+   "outer_points_pushed_below_superficial": 0,
+   "tendon_length_m": 0.068
+  },
+  "hgpt.muscle.teres_major.L": {
+   "belly_volume_cm3": 23.7,
+   "belly_volume_m3": 2.37e-05,
+   "belly_end_t_per_fibre": [
+    0.684,
+    0.684,
+    0.684,
+    0.684,
+    0.684,
+    0.652,
+    0.652,
+    0.652,
+    0.652,
+    0.652,
+    0.619
+   ],
+   "stopped_by": {
+    "0": "triceps_long",
+    "1": "triceps_long",
+    "2": "triceps_long",
+    "3": "triceps_long",
+    "4": "triceps_long",
+    "5": "triceps_long",
+    "6": "triceps_long",
+    "7": "triceps_long",
+    "8": "triceps_long",
+    "9": "triceps_long",
+    "10": "triceps_long"
+   },
+   "via_fraction_per_fibre": [
+    0.564,
+    0.551,
+    0.539,
+    0.527,
+    0.514,
+    0.508,
+    0.438,
+    0.422,
+    0.335,
+    0.321,
+    0.318
+   ],
+   "via_points": [
+    [
+     0.1524,
+     0.0739,
+     1.3872
+    ],
+    [
+     0.1549,
+     0.0752,
+     1.3981
+    ],
+    [
+     0.1458,
+     0.0958,
+     1.4063
+    ]
+   ],
+   "station_modes": {
+    "trunk": 0,
+    "under": 231,
+    "fold": 10,
+    "snapped": 65,
+    "chord": 2
+   },
+   "sections_squeezed_to_min_thickness": 3,
+   "points_left_inside_other_envelopes": {},
+   "face_crossings_left_with_superficial": 0,
+   "vertices_clamped_below_skin_at_end": 0,
+   "fibres_shortened_stations": {
+    "10": 1
+   },
+   "fibres_still_failing": [],
+   "outer_points_pushed_below_superficial": 85,
+   "tendon_length_m": 0.059
+  },
+  "hgpt.muscle.pectoralis_major_clavicular.L": {
+   "belly_volume_cm3": 22.1,
+   "belly_volume_m3": 2.21e-05,
+   "belly_end_t_per_fibre": [
+    0.9,
+    0.9,
+    0.9,
+    0.9,
+    0.9,
+    0.9,
+    0.9,
+    0.9,
+    0.9,
+    0.9,
+    0.9
+   ],
+   "stopped_by": {},
+   "via_fraction_per_fibre": [
+    0.5,
+    0.452,
+    0.478,
+    0.468,
+    0.412,
+    0.398,
+    0.427,
+    0.377,
+    0.377,
+    0.377,
+    0.389
+   ],
+   "via_points": [
+    [
+     0.1717,
+     -0.0281,
+     1.4938
+    ],
+    [
+     0.1524,
+     -0.0374,
+     1.4728
+    ],
+    [
+     0.1457,
+     -0.0415,
+     1.4488
+    ]
+   ],
+   "station_modes": {
+    "trunk": 91,
+    "under": 16,
+    "fold": 161,
+    "snapped": 2,
+    "chord": 38
+   },
+   "sections_squeezed_to_min_thickness": 0,
+   "points_left_inside_other_envelopes": {},
+   "face_crossings_left_with_superficial": 0,
+   "vertices_clamped_below_skin_at_end": 0,
+   "fibres_shortened_stations": {},
+   "fibres_still_failing": [],
+   "outer_points_pushed_below_superficial": 0,
+   "tendon_length_m": 0.0155
+  },
+  "hgpt.muscle.pectoralis_major_sternocostal.L": {
+   "belly_volume_cm3": 193.5,
+   "belly_volume_m3": 0.0001935,
+   "belly_end_t_per_fibre": [
+    0.9,
+    0.9,
+    0.9,
+    0.9,
+    0.9,
+    0.9,
+    0.9,
+    0.9,
+    0.9,
+    0.9,
+    0.9
+   ],
+   "stopped_by": {},
+   "via_fraction_per_fibre": [
+    0.552,
+    0.525,
+    0.522,
+    0.552,
+    0.555,
+    0.541,
+    0.553,
+    0.586,
+    0.59,
+    0.57,
+    0.583
+   ],
+   "via_points": [
+    [
+     0.1457,
+     -0.0415,
+     1.4488
+    ],
+    [
+     0.1402,
+     -0.0549,
+     1.4209
+    ],
+    [
+     0.1544,
+     -0.0371,
+     1.4002
+    ]
+   ],
+   "station_modes": {
+    "trunk": 186,
+    "under": 3,
+    "fold": 68,
+    "snapped": 48,
+    "chord": 3
+   },
+   "sections_squeezed_to_min_thickness": 2,
+   "points_left_inside_other_envelopes": {},
+   "face_crossings_left_with_superficial": 0,
+   "vertices_clamped_below_skin_at_end": 0,
+   "fibres_shortened_stations": {},
+   "fibres_still_failing": [],
+   "outer_points_pushed_below_superficial": 3,
+   "tendon_length_m": 0.0255
+  }
+ },
+ "checks": {
+  "per_muscle": {
+   "hgpt.muscle.latissimus_dorsi.L": {
+    "vertices": 616,
+    "outside_skin": 0,
+    "shallower_than_layer": 0,
+    "min_depth_below_skin_mm": 4.0,
+    "within_6mm_of_rib_guide": 2
+   },
+   "hgpt.muscle.teres_major.L": {
+    "vertices": 616,
+    "outside_skin": 0,
+    "shallower_than_layer": 0,
+    "min_depth_below_skin_mm": 4.0,
+    "within_6mm_of_rib_guide": 0
+   },
+   "hgpt.muscle.pectoralis_major_clavicular.L": {
+    "vertices": 616,
+    "outside_skin": 0,
+    "shallower_than_layer": 0,
+    "min_depth_below_skin_mm": 4.0,
+    "within_6mm_of_rib_guide": 0
+   },
+   "hgpt.muscle.pectoralis_major_sternocostal.L": {
+    "vertices": 616,
+    "outside_skin": 0,
+    "shallower_than_layer": 0,
+    "min_depth_below_skin_mm": 4.0,
+    "within_6mm_of_rib_guide": 3
+   }
+  },
+  "overlap_pairs_involving_mg5": {}
+ },
+ "output_blend": "HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG5_axilla_left.blend",
+ "output_sha256": "c13c84717a7b2462f2acac979844a8161b593a9d5f3082acc614739a792265cf",
+ "input_unchanged": true,
+ "renders": {
+  "muscle": [
+   "mg5_left_muscle_anterior.png",
+   "mg5_left_muscle_anterolateral.png",
+   "mg5_left_muscle_lateral.png",
+   "mg5_left_muscle_posterolateral.png",
+   "mg5_left_muscle_posterior.png"
+  ],
+  "skin": [
+   "mg5_left_skin_anterior.png",
+   "mg5_left_skin_anterolateral.png",
+   "mg5_left_skin_lateral.png",
+   "mg5_left_skin_posterolateral.png",
+   "mg5_left_skin_posterior.png"
+  ]
+ }
+}

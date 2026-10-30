@@ -1104,7 +1104,7 @@ MG6a's blended binding is in brackets.
 scapula. That is more than the cap's own angular span (58° → about 140° from the humeral axis). The sheet has to unwrap
 from the head and lie along the arm, which is a genuine change of curvature.
 
-**Six schemes measured.** All were run on the left side through the same press; volumes are at the rack unless
+**Seven schemes measured.** All were run on the left side through the same press; volumes are at the rack unless
 stated.
 
 1. **Taut string per fibre with the rest offsets carried along it:** turned inside out (anterior deltoid volume 0.03
@@ -1119,6 +1119,10 @@ stated.
    at 60°. Fixed-radius re-laying cannot unwrap the cap.
 6. **The deltoid rebuilt as taut fibres in every pose, the rest pose included:** 28–37 mm from MG4 at rest, and the
    three heads collapse onto the same routes (4400 overlaps at rest).
+7. **The same as one 36-fibre sheet,** so the springs also hold the heads apart, intended to blend in above the
+   rack: 4154 face pairs already at the start. With the 24 mm rest thickness laid along the sheet normal, the
+   offsets of the 36 fibres cross where they converge on the narrow insertion. (Tried after the commit above; the
+   code was not kept.)
 
 **Also found.** MG1's envelopes are wound inward (negative signed volume). MG4's ray-march used a nearest-face inside
 test that therefore reads them backwards. This was measured to have no effect: every MG4 cap ring is at its full

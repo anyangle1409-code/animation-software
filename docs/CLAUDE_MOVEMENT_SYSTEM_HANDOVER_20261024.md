@@ -233,7 +233,19 @@ The flagged muscles:
   - the triceps medial head, which lengthens past the elbow instead of wrapping (needs a path-following sweep);
   - skin crossings under flexion (the skin does not bulge yet).
 - Sheet: `native_20261024/mg2/MG2_left_curl_sheet.jpg`.
-- **Next:** layered response and the deltoid / rotator cuff envelopes.
+- **MG3 (layered response):** superficial bellies ride their deep neighbours' new surface. 0 muscle–muscle overlaps at
+  every curl angle, both sides. The brachialis lifts the biceps up to 19 mm at 140°.
+- **MG4 (deltoid, three heads, both sides):**
+  - built as cylindrical sections along the shaft (inside the band MG1 reserves for it) plus a GH-spherical cap over the
+    head;
+  - 0 outside the skin or bone, 0 overlaps;
+  - volumes 121 / 91 / 60 cm³ (anterior / middle / posterior);
+  - sheet: `native_20261024/mg4/MG4_left_shoulder_sheet.jpg`.
+- **Muscle layer, next:**
+  - a per-pose swept deltoid for arm elevation (proxies bound by blending scapula to humerus cannot follow 160°);
+  - rotator cuff and scapular muscles, which need a scapula surface (R41 has landmarks only);
+  - skin response;
+  - reviewer sign-off on the anchors.
 
 ## Decisions for the owner
 

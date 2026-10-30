@@ -1,0 +1,87 @@
+{
+  "status": "VERIFIED_REPEAT_NEUTRAL_DRIVER_IDEMPOTENT",
+  "task": "W8 repeated neutral driver refresh idempotence",
+  "branch": "work/phone-blender-workbench-20261023",
+  "plan_commit": "ab89c63c64676fbca1cadc4f3fcd2a812b7ebb3f",
+  "implementation_commit": "5d5c7c2d829fa65eb8f3b574c288c11bb590f150",
+  "workflow_run_id": 41051228187,
+  "workflow_conclusion": "success",
+  "jobs": {
+    "total": 7,
+    "success": 7,
+    "ids": [
+      124047495750,
+      124047495935,
+      124047495991,
+      124047496096,
+      124047496150,
+      124047897326,
+      124050455962
+    ]
+  },
+  "tests": {
+    "localization": "347/347",
+    "pose": [
+      "29/29",
+      "28/28",
+      "19/19",
+      "6/6",
+      "10/10"
+    ],
+    "driver": [
+      "10/10",
+      "20/20",
+      "8/8"
+    ]
+  },
+  "artifact": {
+    "id": 12975276249,
+    "name": "phone-w8-squat-pose-state-41051228187",
+    "github_sha256": "138972401995e9b8096421d3fdec2fdf2daf0adcb45030cc6f6c5104c8405f4a",
+    "independently_downloaded_sha256": "138972401995e9b8096421d3fdec2fdf2daf0adcb45030cc6f6c5104c8405f4a",
+    "zip_crc": "PASS",
+    "files": {
+      "w8_authored_squat_control_state.json": "420f107f1c8b76e64c6d79cb992038a9b146b011fa51a9bc5c5f81bb125a1ce7",
+      "w8_authored_squat_control_state.md": "d17bed5fcb9be88a96e6ba7ccd265e4bc64502898b49c55d8871b2084aa35ef6"
+    }
+  },
+  "model_evidence": {
+    "model": "W8",
+    "evaluated_vertex_count": 219974,
+    "first_refresh": {
+      "count": 1,
+      "skeletal_control_state_sha256": "489a8183964f9337a1cf0c267ae1a04c9cce2df6b832d80f9bf5378d805db9b1",
+      "shape_key_all_values_sha256": "910743d8c37ed133e3ddf43eed2c4cf27dae553052ccc123147c0c142606c547"
+    },
+    "second_refresh": {
+      "count": 2,
+      "skeletal_control_state_sha256": "489a8183964f9337a1cf0c267ae1a04c9cce2df6b832d80f9bf5378d805db9b1",
+      "shape_key_all_values_sha256": "910743d8c37ed133e3ddf43eed2c4cf27dae553052ccc123147c0c142606c547"
+    },
+    "equality": {
+      "skeletal_fingerprint": true,
+      "shape_key_fingerprint": true,
+      "changed_vertices_over_1e_6_mm": 0,
+      "max_displacement_mm": 0,
+      "rms_displacement_mm": 0
+    },
+    "stable_residual_controls": [
+      "muscle_lat_l",
+      "muscle_lat_r",
+      "muscle_pec_l",
+      "muscle_pec_r",
+      "muscle_trap_l",
+      "muscle_trap_r"
+    ]
+  },
+  "ruling": [
+    "The first neutral refresh performs stable one-time matrix recomposition on six existing muscle-line helpers.",
+    "A second unchanged refresh produces identical complete skeletal and shape-key fingerprints and zero evaluated-geometry delta.",
+    "No iterative drift is observed across refresh counts one and two.",
+    "This is runtime idempotence evidence, not validation of the helpers as anatomical muscles or attachments."
+  ],
+  "limitations": [
+    "No model, driver, helper, shape key or source blend was modified or saved.",
+    "No anatomy, attachment, tissue safety, deformation quality or movement approval is granted."
+  ]
+}

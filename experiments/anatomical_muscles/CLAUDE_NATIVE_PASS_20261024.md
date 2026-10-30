@@ -750,17 +750,29 @@ The sheet is then built up as follows:
   - teres major under the latissimus;
   - both pectoral heads under the anterior deltoid;
   - the sternocostal under the clavicular head.
-- **Final pass.** Every vertex is clamped 4 mm below the skin. A fibre that cannot satisfy both the clamp and the
-  layering is shortened one station and rebuilt.
+- **Final pass.**
+  - Where the sheet crosses itself (an offset sheet thicker than its bend radius), it is thinned towards 3 mm and
+    smoothed locally.
+  - Every vertex is clamped 4 mm below the skin.
+  - A fibre that cannot satisfy the clamp, the layering and (near its belly end) the self-crossing test is shortened
+    one station and rebuilt.
+  - Neighbouring fibres end within a station of each other.
+  - The build-time overlap tests use Blender's own triangulation, so they agree with the final checks.
 
 **Authored rules** (all recorded in the reports):
 
 | Muscle | Origin line | Insertion (s along GH → EJC, u 0 → 1) | Fold height (u 0 → 1) | Thickness (trunk / fold) |
 |---|---|---|---|---|
 | Latissimus dorsi | T7 spinous level 15 mm lateral → T12 → L3 70 mm lateral → posterior iliac crest. This is the belly's medial edge; the thoracolumbar aponeurosis is not modelled. | floor of the sulcus 0.20 → 0.10 (upper fibres lowest) | 1.415 → 1.375 m, back fold | 6 / 16 mm |
-| Teres major | lateral border, AI + 4 % → + 30 % of AI → GH, 12 mm lateral | medial lip 0.25 → 0.15 | 1.385 → 1.405 m, back fold | 20 / 22 mm |
-| Pectoralis major, clavicular | anterior clavicle 8 % → 48 % SC → AC, 8 mm anterior | lateral lip 0.28 → 0.18 (most distal) | 1.495 → 1.45 m, front fold | 10 / 14 mm |
-| Pectoralis major, sternocostal | sternum 15 mm lateral of the guide line, z 1.495 → 1.33, then along the 6th costal cartilage to 75 mm lateral | lateral lip 0.24 → 0.12 (lowest fibres highest) | 1.45 → 1.395 m, front fold | 10 / 18 mm |
+| Teres major | 35 mm across the dorsal inferior angle, perpendicular to the fibres in the scapular plane, 22 mm from AI along the fibre line | medial lip 0.25 → 0.15 | 1.385 → 1.405 m, back fold | 20 / 22 mm |
+| Pectoralis major, clavicular | anterior clavicle 8 % → 48 % SC → AC, 8 mm anterior | lateral lip 0.28 → 0.18 (most distal) | 1.455 → 1.48 m, front fold (medial fibres lowest) | 10 / 14 mm |
+| Pectoralis major, sternocostal | sternum 15 mm lateral of the guide line, z 1.495 → 1.33, then along the 6th costal cartilage to 75 mm lateral | lateral lip 0.24 → 0.12 (lowest fibres highest) | 1.445 → 1.395 m, front fold | 10 / 18 mm |
+
+**Two origins were revised so they cross the fibres.**
+
+- The teres major origin first ran along the lateral border, and the clavicular head's fibres ran along the clavicle.
+- In both, the origin line ran parallel to the fibres. The grid cells collapsed and the sheets crossed themselves
+  (81 and 320 face pairs at rest).
 
 **Results:**
 
@@ -768,7 +780,8 @@ The sheet is then built up as follows:
 |---|---|---|
 | Outside skin / shallower than the layer | 0 / 0 for every muscle | 0 / 0 |
 | Overlaps (with each other and with MG1 / MG4) | 0 | 0 |
-| Latissimus / teres major / pectoral clavicular / sternocostal (cm³) | 220 / 24 / 22 / 194 | 220 / 23 / 22 / 193 |
+| Self-crossing face pairs | clavicular head 5, others 0 | clavicular head 5, others 0 |
+| Latissimus / teres major / pectoral clavicular / sternocostal (cm³) | 219 / 53 / 50 / 185 | 217 / 53 / 50 / 185 |
 | Within 6 mm of a rib guide segment (latissimus / sternocostal) | 2 / 3 vertices | 2 / 3 |
 | Input blend unchanged | yes | yes |
 
@@ -784,8 +797,10 @@ The sheet is then built up as follows:
 
 - **No rib-cage surface.** R41's ribs are guide segments, so the depth floor is the authored thickness. The
   rib-proximity count is the only check of it.
-- **Teres major is small** (about 23 cm³). It is squeezed between the latissimus and the long head; its thickness
-  profile is authored.
+- **The clavicular head's lateral edge** curls against its own inner surface: 5 face pairs per side, at fibres 8–10,
+  stations 5–8.
+- **Pre-existing self-crossings.** The MG6a check below found them in MG1 / MG4, which never checked self-crossings:
+  triceps long head 13 face pairs, posterior deltoid 4.
 - **Rest pose only.** No length response in arm elevation, as for the deltoid. A muscle bound from its trunk origin
   bone to the humerus cannot follow 160° of elevation; this needs the same per-pose sweep. Driving the skin of the
   posterior fold with these volumes is the next step.
@@ -799,3 +814,39 @@ The sheet is then built up as follows:
   `MG5_right_axilla_sheet.jpg`. The sheets show anterior, anterolateral, lateral, posterolateral and posterior views:
   muscles and tendons, then the skin overlaid at 35 %.
 - The blends are not in git; their SHA256 values are in the reports.
+
+## MG6a: the bound proxies through the press (read-only check, added 30 Oct 2026)
+
+**Script:** `muscle_press_pose_check_blender.py`. It runs on an MG5 blend (hash-checked) and saves nothing.
+
+- **Posing.** R41's anatomical chain is posed natively, re-implementing the coupled girdle of
+  `path_length_direction_check_blender.py`: upward rotation 0.33 e, posterior tilt 0.12 e, clavicle elevation 0.08 e and
+  retraction 0.12 e, with the humerus in a plane 30° anterior of the frontal plane.
+- **The press path:** start → humerothoracic 60° → rack (90°, elbow 90°) → 120° → lockout (160°, elbow 0°).
+- **What it measures:** the envelopes deform with their armature bindings. The skin is not posed, because R41's
+  anatomical master is a guide skeleton, so this checks the envelopes against each other only.
+
+**Results, left side:**
+
+| | Start | Rack 90° | Lockout 160° |
+|---|---|---|---|
+| Face overlaps between muscles | 6 (latissimus / teres) | 169 | 314 |
+| Middle deltoid volume / rest | 0.98 | 0.41 | 0.22 |
+| Anterior deltoid volume / rest | 1.00 | 0.56 | 0.58 |
+| Clavicular pectoral head volume / rest | 1.01 | 0.93 | 0.69 |
+| Latissimus, maximum edge stretch | 1.09× | 5.6× | 8.4× |
+| Sternocostal pectoral head, maximum edge stretch | 1.12× | 9.0× | 15.5× |
+
+- **The overlaps are mostly the deltoid's:** anterior / middle 140 at the rack; middle / posterior 106 and anterior
+  deltoid / clavicular pectoral 118 at the lockout.
+- **The arm envelopes stay rigid** (bound to the humerus; ratio 1.00).
+- **The start pose** turns the rest humerus into the 30° plane, hence its small changes.
+
+**Reading.** As MG4 anticipated, proxies bound by blending an origin bone into the humerus cannot follow elevation:
+the deltoid collapses and the fans over-stretch. The positioning step this needs is a per-pose rebuild. Each MG4 / MG5
+construction would be re-run on the posed landmarks and skin, and stored as shape keys over the binding, driven by
+humerothoracic elevation, as MG2 / MG3 did for the elbow. The skin in those poses has to come from a posed body, which
+R41's guide skeleton does not drive.
+
+**Files:** `native_20261024/mg6a/mg6a_left_press_pose_report.json` and `MG6a_left_press_sheet.jpg` (start, rack and
+lockout; anterior, lateral and posterior).

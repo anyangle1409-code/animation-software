@@ -53,7 +53,7 @@
      "latissimus_dorsi",
      "triceps_long"
     ],
-    "rule": "origin: dorsal lateral border from AI + 4 % to + 30 % of AI -> GH, 12 mm lateral (anchor rule); deep to the latissimus"
+    "rule": "origin: 35 mm across the dorsal inferior angle, perpendicular to the fibres in the scapular plane, centred 22 mm from AI along the fibre line (an origin along the lateral border ran parallel to the fibres and folded the sheet); deep to the latissimus"
    },
    "pectoralis_major_sternocostal": {
     "insertion_s_u0_u1": [
@@ -61,7 +61,7 @@
      0.12
     ],
     "via_height_m_u0_u1": [
-     1.45,
+     1.445,
      1.395
     ],
     "thickness_trunk_fold_m": [
@@ -85,8 +85,8 @@
      0.18
     ],
     "via_height_m_u0_u1": [
-     1.495,
-     1.45
+     1.455,
+     1.48
     ],
     "thickness_trunk_fold_m": [
      0.01,
@@ -99,7 +99,7 @@
     "separated_from": [
      "deltoid_anterior"
     ],
-    "rule": "origin: anterior clavicle 8 % -> 48 % SC -> AC, 8 mm anterior; inserts most distally (anterior lamina)"
+    "rule": "origin: anterior clavicle 8 % -> 48 % SC -> AC, 8 mm anterior; inserts most distally (anterior lamina); the medial fibres reach the fold lowest, so the fibres run inferolaterally, oblique to the origin line"
    }
   }
  },
@@ -123,20 +123,20 @@
  "volume_source": "geometry-derived from this body (no reviewed literature volumes reachable)",
  "muscles": {
   "hgpt.muscle.latissimus_dorsi.L": {
-   "belly_volume_cm3": 219.8,
-   "belly_volume_m3": 0.0002198,
+   "belly_volume_cm3": 219.1,
+   "belly_volume_m3": 0.0002191,
    "belly_end_t_per_fibre": [
+    0.733,
     0.733,
     0.764,
     0.764,
     0.764,
     0.796,
-    0.796,
-    0.796,
+    0.828,
     0.796,
     0.828,
     0.828,
-    0.796
+    0.828
    ],
    "stopped_by": {
     "0": "triceps_long",
@@ -188,34 +188,35 @@
     "snapped": 27,
     "chord": 1
    },
-   "sections_squeezed_to_min_thickness": 2,
+   "sections_squeezed_to_min_thickness": 4,
    "points_left_inside_other_envelopes": {},
    "face_crossings_left_with_superficial": 0,
-   "vertices_clamped_below_skin_at_end": 6,
+   "vertices_clamped_below_skin_at_end": 41,
    "fibres_shortened_stations": {
-    "10": 1,
-    "6": 1,
+    "1": 1,
+    "4": 1,
     "7": 1
    },
    "fibres_still_failing": [],
+   "self_crossing_face_pairs_left": 0,
    "outer_points_pushed_below_superficial": 0,
    "tendon_length_m": 0.068
   },
   "hgpt.muscle.teres_major.L": {
-   "belly_volume_cm3": 23.7,
-   "belly_volume_m3": 2.37e-05,
+   "belly_volume_cm3": 52.9,
+   "belly_volume_m3": 5.29e-05,
    "belly_end_t_per_fibre": [
     0.684,
     0.684,
     0.684,
     0.684,
     0.684,
-    0.652,
-    0.652,
-    0.652,
-    0.652,
-    0.652,
-    0.619
+    0.684,
+    0.684,
+    0.717,
+    0.717,
+    0.684,
+    0.717
    ],
    "stopped_by": {
     "0": "triceps_long",
@@ -231,17 +232,17 @@
     "10": "triceps_long"
    },
    "via_fraction_per_fibre": [
-    0.564,
-    0.551,
-    0.539,
-    0.527,
-    0.514,
-    0.508,
-    0.438,
-    0.422,
-    0.335,
-    0.321,
-    0.318
+    0.561,
+    0.56,
+    0.556,
+    0.562,
+    0.563,
+    0.571,
+    0.523,
+    0.525,
+    0.464,
+    0.467,
+    0.477
    ],
    "via_points": [
     [
@@ -262,25 +263,27 @@
    ],
    "station_modes": {
     "trunk": 0,
-    "under": 231,
-    "fold": 10,
-    "snapped": 65,
-    "chord": 2
+    "under": 252,
+    "fold": 9,
+    "snapped": 47,
+    "chord": 0
    },
-   "sections_squeezed_to_min_thickness": 3,
+   "sections_squeezed_to_min_thickness": 0,
    "points_left_inside_other_envelopes": {},
    "face_crossings_left_with_superficial": 0,
-   "vertices_clamped_below_skin_at_end": 0,
+   "vertices_clamped_below_skin_at_end": 1,
    "fibres_shortened_stations": {
+    "9": 1,
     "10": 1
    },
    "fibres_still_failing": [],
-   "outer_points_pushed_below_superficial": 85,
-   "tendon_length_m": 0.059
+   "self_crossing_face_pairs_left": 0,
+   "outer_points_pushed_below_superficial": 54,
+   "tendon_length_m": 0.0601
   },
   "hgpt.muscle.pectoralis_major_clavicular.L": {
-   "belly_volume_cm3": 22.1,
-   "belly_volume_m3": 2.21e-05,
+   "belly_volume_cm3": 49.7,
+   "belly_volume_m3": 4.97e-05,
    "belly_end_t_per_fibre": [
     0.9,
     0.9,
@@ -296,41 +299,41 @@
    ],
    "stopped_by": {},
    "via_fraction_per_fibre": [
-    0.5,
-    0.452,
-    0.478,
-    0.468,
-    0.412,
-    0.398,
-    0.427,
-    0.377,
-    0.377,
-    0.377,
-    0.389
+    0.497,
+    0.456,
+    0.466,
+    0.445,
+    0.426,
+    0.403,
+    0.382,
+    0.358,
+    0.382,
+    0.313,
+    0.337
    ],
    "via_points": [
     [
-     0.1717,
-     -0.0281,
-     1.4938
-    ],
-    [
-     0.1524,
-     -0.0374,
-     1.4728
-    ],
-    [
      0.1457,
-     -0.0415,
-     1.4488
+     -0.0408,
+     1.4538
+    ],
+    [
+     0.15,
+     -0.0378,
+     1.4675
+    ],
+    [
+     0.1679,
+     -0.0358,
+     1.4809
     ]
    ],
    "station_modes": {
-    "trunk": 91,
-    "under": 16,
-    "fold": 161,
-    "snapped": 2,
-    "chord": 38
+    "trunk": 92,
+    "under": 20,
+    "fold": 168,
+    "snapped": 1,
+    "chord": 27
    },
    "sections_squeezed_to_min_thickness": 0,
    "points_left_inside_other_envelopes": {},
@@ -338,49 +341,50 @@
    "vertices_clamped_below_skin_at_end": 0,
    "fibres_shortened_stations": {},
    "fibres_still_failing": [],
+   "self_crossing_face_pairs_left": 5,
    "outer_points_pushed_below_superficial": 0,
-   "tendon_length_m": 0.0155
+   "tendon_length_m": 0.0161
   },
   "hgpt.muscle.pectoralis_major_sternocostal.L": {
-   "belly_volume_cm3": 193.5,
-   "belly_volume_m3": 0.0001935,
+   "belly_volume_cm3": 185.0,
+   "belly_volume_m3": 0.000185,
    "belly_end_t_per_fibre": [
-    0.9,
-    0.9,
-    0.9,
-    0.9,
-    0.9,
-    0.9,
-    0.9,
-    0.9,
-    0.9,
-    0.9,
-    0.9
+    0.833,
+    0.833,
+    0.8,
+    0.8,
+    0.8,
+    0.8,
+    0.8,
+    0.8,
+    0.767,
+    0.767,
+    0.767
    ],
    "stopped_by": {},
    "via_fraction_per_fibre": [
-    0.552,
+    0.558,
     0.525,
-    0.522,
-    0.552,
-    0.555,
-    0.541,
-    0.553,
-    0.586,
-    0.59,
-    0.57,
+    0.55,
+    0.549,
+    0.531,
+    0.54,
+    0.573,
+    0.565,
+    0.589,
+    0.569,
     0.583
    ],
    "via_points": [
     [
-     0.1457,
-     -0.0415,
-     1.4488
+     0.1456,
+     -0.0423,
+     1.4438
     ],
     [
-     0.1402,
-     -0.0549,
-     1.4209
+     0.1405,
+     -0.0553,
+     1.4184
     ],
     [
      0.1544,
@@ -389,20 +393,33 @@
     ]
    ],
    "station_modes": {
-    "trunk": 186,
+    "trunk": 213,
     "under": 3,
-    "fold": 68,
-    "snapped": 48,
-    "chord": 3
+    "fold": 44,
+    "snapped": 46,
+    "chord": 2
    },
-   "sections_squeezed_to_min_thickness": 2,
+   "sections_squeezed_to_min_thickness": 0,
    "points_left_inside_other_envelopes": {},
    "face_crossings_left_with_superficial": 0,
    "vertices_clamped_below_skin_at_end": 0,
-   "fibres_shortened_stations": {},
+   "fibres_shortened_stations": {
+    "2": 3,
+    "3": 3,
+    "4": 3,
+    "5": 3,
+    "6": 3,
+    "7": 3,
+    "8": 4,
+    "9": 4,
+    "10": 4,
+    "0": 2,
+    "1": 2
+   },
    "fibres_still_failing": [],
-   "outer_points_pushed_below_superficial": 3,
-   "tendon_length_m": 0.0255
+   "self_crossing_face_pairs_left": 0,
+   "outer_points_pushed_below_superficial": 1,
+   "tendon_length_m": 0.0495
   }
  },
  "checks": {
@@ -412,34 +429,38 @@
     "outside_skin": 0,
     "shallower_than_layer": 0,
     "min_depth_below_skin_mm": 4.0,
-    "within_6mm_of_rib_guide": 2
+    "within_6mm_of_rib_guide": 2,
+    "self_intersecting_face_pairs": 0
    },
    "hgpt.muscle.teres_major.L": {
     "vertices": 616,
     "outside_skin": 0,
     "shallower_than_layer": 0,
-    "min_depth_below_skin_mm": 4.0,
-    "within_6mm_of_rib_guide": 0
+    "min_depth_below_skin_mm": 4.5,
+    "within_6mm_of_rib_guide": 0,
+    "self_intersecting_face_pairs": 0
    },
    "hgpt.muscle.pectoralis_major_clavicular.L": {
     "vertices": 616,
     "outside_skin": 0,
     "shallower_than_layer": 0,
     "min_depth_below_skin_mm": 4.0,
-    "within_6mm_of_rib_guide": 0
+    "within_6mm_of_rib_guide": 0,
+    "self_intersecting_face_pairs": 5
    },
    "hgpt.muscle.pectoralis_major_sternocostal.L": {
     "vertices": 616,
     "outside_skin": 0,
     "shallower_than_layer": 0,
     "min_depth_below_skin_mm": 4.0,
-    "within_6mm_of_rib_guide": 3
+    "within_6mm_of_rib_guide": 4,
+    "self_intersecting_face_pairs": 0
    }
   },
   "overlap_pairs_involving_mg5": {}
  },
  "output_blend": "HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG5_axilla_left.blend",
- "output_sha256": "c13c84717a7b2462f2acac979844a8161b593a9d5f3082acc614739a792265cf",
+ "output_sha256": "6e928d2f5be420bf7cf9c50411ecb080b161094a7ea333491468d7e52ed9c68f",
  "input_unchanged": true,
  "renders": {
   "muscle": [

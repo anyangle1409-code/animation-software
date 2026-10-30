@@ -173,7 +173,12 @@ def polyline(pts, u):
 # ---- the four fans (authored for the left side; X() mirrors).  origin(u), insertion s-range (u=0 -> u=1), via height
 #      range, belly thickness (trunk part, fold part), tendon fraction, deep-to list, origin bone(s)
 LAT_ORIGIN = [X(0.015, 0.12, 1.395), X(0.022, 0.12, 1.25), X(0.06, 0.12, 1.12), X(0.10, 0.11, 1.075), X(0.135, 0.09, 1.085)]
-TM_ORIGIN = [AI + (GH - AI) * 0.04 + Vector((lat * 0.012, 0, 0)), AI + (GH - AI) * 0.30 + Vector((lat * 0.012, 0, 0))]
+AA_, TS_ = LM(f"scapula_{SIDE}__AA"), LM(f"scapula_{SIDE}__TS")
+_SCN = (AA_ - TS_).cross(AI - TS_).normalized()               # scapular-plane normal
+_TMF = (anchor(f"hgpt.muscle.teres_major.{SUF}", "insertion") - AI).normalized()   # teres fibre direction
+_TMP = _TMF.cross(_SCN).normalized()                         # across the fibres, in the scapular plane
+_TMC = AI + _TMF * 0.022                                     # the dorsal inferior angle, 22 mm up the fibre line
+TM_ORIGIN = [_TMC - _TMP * 0.0175, _TMC + _TMP * 0.0175]
 FANS = {
     "latissimus_dorsi": {
         "origin": lambda u: polyline(LAT_ORIGIN, u),
@@ -189,22 +194,24 @@ FANS = {
         "ins_s": (0.25, 0.15), "via_z": (1.385, 1.405), "back": True,
         "T": (0.020, 0.022), "tendon_t": 0.88, "deep_to": ["latissimus_dorsi"], "separate_from": ["triceps_long"],
         "origin_bone": lambda p: f"anat_scapula_{SIDE}",
-        "rule": "origin: dorsal lateral border from AI + 4 % to + 30 % of AI -> GH, 12 mm lateral (anchor rule); deep to the "
-                "latissimus"},
+        "rule": "origin: 35 mm across the dorsal inferior angle, perpendicular to the fibres in the scapular plane, centred 22 mm "
+                "from AI along the fibre line (an origin along the lateral border ran parallel to the fibres and folded the "
+                "sheet); deep to the latissimus"},
     "pectoralis_major_sternocostal": {
         "origin": lambda u: (sternal(lerp(1.495, 1.33, u / 0.78)) if u <= 0.78 else
                              lerp(sternal(1.33), X(0.075, -0.10, 1.315), (u - 0.78) / 0.22)),
-        "ins_s": (0.24, 0.12), "via_z": (1.45, 1.395), "back": False,
+        "ins_s": (0.24, 0.12), "via_z": (1.445, 1.395), "back": False,
         "T": (0.010, 0.018), "tendon_t": 0.90, "deep_to": ["deltoid_anterior", "pectoralis_major_clavicular"],
         "origin_bone": lambda p: "anat_sternum",
         "rule": "origin: sternum 15 mm lateral / 13 mm anterior of the guide line, z 1.495 -> 1.33, then along the 6th costal "
                 "cartilage to 75 mm lateral; twist: the lowest fibres insert highest"},
     "pectoralis_major_clavicular": {
         "origin": lambda u: lerp(SC, AC, 0.08 + 0.40 * u) + Vector((0, -0.008, 0)),
-        "ins_s": (0.28, 0.18), "via_z": (1.495, 1.45), "back": False,
+        "ins_s": (0.28, 0.18), "via_z": (1.455, 1.48), "back": False,
         "T": (0.010, 0.014), "tendon_t": 0.90, "deep_to": ["deltoid_anterior"],
         "origin_bone": lambda p: f"anat_clavicle_{SIDE}",
-        "rule": "origin: anterior clavicle 8 % -> 48 % SC -> AC, 8 mm anterior; inserts most distally (anterior lamina)"},
+        "rule": "origin: anterior clavicle 8 % -> 48 % SC -> AC, 8 mm anterior; inserts most distally (anterior lamina); the "
+                "medial fibres reach the fold lowest, so the fibres run inferolaterally, oblique to the origin line"},
 }
 ORDER = ["latissimus_dorsi", "teres_major", "pectoralis_major_clavicular", "pectoralis_major_sternocostal"]
 
@@ -402,16 +409,24 @@ def flat(Og, Ig):
     return [Og[i][k] for i in range(NU) for k in range(NT)] + [Ig[i][k] for i in range(NU) for k in range(NT)]
 
 
+def oriented_faces(verts):
+    """FACES, reversed if their signed volume is negative (as solid() stores them)"""
+    vol = 0.0
+    for f in FACES:
+        vs = [verts[j] for j in f]
+        for q in range(1, len(vs) - 1):
+            vol += vs[0].dot(vs[q].cross(vs[q + 1])) / 6.0
+    return [f[::-1] for f in FACES] if vol < 0 else list(FACES)
+
+
 def tri_bvh(verts):
-    """the solid's quads split along their shorter diagonal (as Blender tessellates them), so the build-time overlap
-    tests agree with the final BVHTree.FromObject check; returns the tree and each triangle's quad"""
-    tris, owner = [], []
-    for fi, (a, b, c, d) in enumerate(FACES):
-        if (verts[a] - verts[c]).length <= (verts[b] - verts[d]).length:
-            tris += [(a, b, c), (a, c, d)]
-        else:
-            tris += [(a, b, d), (b, c, d)]
-        owner += [fi, fi]
+    """the solid triangulated by Blender itself (a temporary mesh's loop triangles, faces oriented as solid() stores
+    them), so the build-time overlap tests agree with the final BVHTree.FromObject check; returns the tree and each
+    triangle's face index"""
+    me = bpy.data.meshes.new("_hgpt_tmp"); me.from_pydata([tuple(v) for v in verts], [], oriented_faces(verts))
+    me.calc_loop_triangles()
+    tris = [tuple(t.vertices) for t in me.loop_triangles]; owner = [t.polygon_index for t in me.loop_triangles]
+    bpy.data.meshes.remove(me)
     return BVHTree.FromPolygons(verts, tris, all_triangles=True), owner
 
 
@@ -434,15 +449,44 @@ def separate(Og, Ig, Ng, trees, iters=60, step=0.001):
     return sum(len(mine.overlap(tr)) for tr in trees)
 
 
+def self_pairs(verts):
+    """face pairs of the solid that cross each other and share no vertex"""
+    tr, owner = tri_bvh(verts)
+    out = set()
+    for a, b in tr.overlap(tr):
+        fa, fb = owner[a], owner[b]
+        if fa < fb and not (set(FACES[fa]) & set(FACES[fb])):
+            out.add((fa, fb))
+    return out
+
+
+def unfold(Og, Ig, Ng, iters=25):
+    """where the solid crosses itself (an offset sheet thicker than its bend radius): thin it towards the minimum and
+    smooth the outer surface locally; returns the face pairs left"""
+    for _ in range(iters):
+        bad = self_pairs(flat(Og, Ig))
+        if not bad:
+            return 0
+        vs = set()
+        for fa, fb in bad:
+            vs.update(FACES[fa]); vs.update(FACES[fb])
+        cells = {divmod(v % (NU * NT), NT) for v in vs}
+        for i, k in cells:
+            Ig[i][k] = Ig[i][k].lerp(Og[i][k] - Ng[i][k] * T_MIN, 0.5)
+            nb = [Og[a][b] for a, b in ((i - 1, k), (i + 1, k), (i, k - 1), (i, k + 1)) if 0 <= a < NU and 0 <= b < NT]
+            Og[i][k] = Og[i][k] * 0.5 + sum(nb, Vector()) * (0.5 / len(nb))
+            nb = [Ig[a][b] for a, b in ((i - 1, k), (i + 1, k), (i, k - 1), (i, k + 1)) if 0 <= a < NU and 0 <= b < NT]
+            Ig[i][k] = Ig[i][k] * 0.5 + sum(nb, Vector()) * (0.5 / len(nb))
+    return len(self_pairs(flat(Og, Ig)))
+
+
 def solid(name, Og, Ig):
-    verts = flat(Og, Ig); faces = list(FACES)
+    verts = flat(Og, Ig); faces = oriented_faces(verts)
     vol = 0.0
     for f in faces:
         vs = [verts[j] for j in f]
         for q in range(1, len(vs) - 1):
             vol += vs[0].dot(vs[q].cross(vs[q + 1])) / 6.0
-    if vol < 0:
-        faces = [f[::-1] for f in faces]
     me = bpy.data.meshes.new(name); me.from_pydata([tuple(v) for v in verts], [], faces); me.validate(); me.update()
     return me, abs(vol)
 
@@ -500,10 +544,17 @@ for m in ORDER:
                 t_ends[i] = spec["tendon_t"] * max(k - 1, 1) / (NT - 1)
                 stops[i] = hit.split(".")[2]
                 break
+    step_t = spec["tendon_t"] / (NT - 1)                     # neighbouring fibres end within a station of each other
+    for _ in range(NU):
+        for i in range(NU):
+            for j in (i - 1, i + 1):
+                if 0 <= j < NU and t_ends[i] > t_ends[j] + step_t:
+                    t_ends[i] = t_ends[j] + step_t
     sep = [EX_BVH[f"hgpt.muscle.{d}.{SUF}"] for d in spec["deep_to"] + spec.get("separate_from", [])]
 
     def finish(t_ends):
         Og, Ig, Mg, F, modes, sq, pu, SQ, Ng = grid(spec, mid, t_ends, deep)
+        unfold(Og, Ig, Ng)
         left_cross = separate(Og, Ig, Ng, sep) if sep else 0
         clamped = 0
         for _round in range(10):                              # alternate: every vertex at least the layer below the
@@ -518,7 +569,13 @@ for m in ORDER:
             if not (sep and n_cl):
                 break
             left_cross = separate(Og, Ig, Ng, sep)
-        bad = set()                                           # fibres that cannot hold both: shortened and rebuilt
+        selfp = unfold(Og, Ig, Ng, iters=10)
+        bad = set()                                           # fibres that cannot hold all three: shortened and rebuilt
+        for fa, fb in self_pairs(flat(Og, Ig)):              # (only crossings near the belly end shorten a fibre)
+            for vi in FACES[fa] + FACES[fb]:
+                i_, k_ = divmod(vi % (NU * NT), NT)
+                if k_ >= NT - 6:
+                    bad.add(i_)
         for i in range(NU):
             if any(depth(g[i][k])[0] < FAT - 1e-4 for g in (Og, Ig) for k in range(NT)):
                 bad.add(i)
@@ -528,11 +585,11 @@ for m in ORDER:
                 for fa, _fb in mine.overlap(tr):
                     for vi in FACES[owner[fa]]:
                         bad.add((vi % (NU * NT)) // NT)
-        return (Og, Ig, Mg, F, modes, sq, pu, Ng, left_cross, clamped), bad
+        return (Og, Ig, Mg, F, modes, sq, pu, Ng, left_cross, clamped, selfp), bad
 
     shortened = {}
     for _attempt in range(5):
-        (Og, Ig, Mg, F, modes, sq, pu, Ng, left_cross, clamped), bad = finish(t_ends)
+        (Og, Ig, Mg, F, modes, sq, pu, Ng, left_cross, clamped, selfp), bad = finish(t_ends)
         if not bad:
             break
         for i in bad:
@@ -570,6 +627,7 @@ for m in ORDER:
                            "points_left_inside_other_envelopes": left_inside,
                            "face_crossings_left_with_superficial": left_cross, "vertices_clamped_below_skin_at_end": clamped,
                            "fibres_shortened_stations": shortened, "fibres_still_failing": sorted(bad),
+                           "self_crossing_face_pairs_left": selfp,
                            "outer_points_pushed_below_superficial": pu, "tendon_length_m": round(tl, 4)}
     print("MUSCLE", mid, json.dumps(REP["muscles"][mid]), flush=True)
     bpy.context.view_layer.update(); dg = bpy.context.evaluated_depsgraph_get()
@@ -598,8 +656,11 @@ for ob in NEW:
                 shallow += 1
         if min(seg_dist(p, a, b) for a, b in RIBS) < 0.006:
             rib += 1
+    tr = BVHTree.FromObject(ob, dg); polys = [set(p_.vertices) for p_ in ob.data.polygons]
+    selfx = sum(1 for a, b in tr.overlap(tr) if a < b and not (polys[a] & polys[b]))
     chk[ob.name] = {"vertices": len(P), "outside_skin": outside, "shallower_than_layer": shallow,
-                    "min_depth_below_skin_mm": round(min_depth * 1000, 2), "within_6mm_of_rib_guide": rib}
+                    "min_depth_below_skin_mm": round(min_depth * 1000, 2), "within_6mm_of_rib_guide": rib,
+                    "self_intersecting_face_pairs": selfx}
 ALL = NEW + EXIST
 trees = {o.name: BVHTree.FromObject(o, dg) for o in ALL}
 pairs = {}

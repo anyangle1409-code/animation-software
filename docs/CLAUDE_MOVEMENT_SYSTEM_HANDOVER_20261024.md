@@ -305,8 +305,22 @@ The flagged muscles:
     the sheet must unwrap. Six schemes were measured and none holds. Details and next steps are in the pass doc.
   - **Teres major / latissimus fibres reach 2.0× / 1.6×** at the lockout. This needs re-checking on the corrected
     girdle; R41's scapula is about twice as wide as the CT reference.
+- **MG10 (leg length response + knee contact, 30 Oct; muscle branch 2090b65f):**
+  - **Length keys by belly length ratio:** each MG7 belly gets keys `HGPT_LEN_K_<100k>` (k 0.85–1.50), following
+    MG2's rule. A shape depends only on how long the muscle is, so any movement drives it through the muscle's path
+    length.
+  - **Layered quadriceps:** the vastus lateralis and medialis are layered on the intermedius (MG3). All three cross
+    only the knee, so this holds for any movement.
+  - **Knee contact keys** `HGPT_CONTACT_KNEE_<deg>`, indexed by knee angle alone, flatten each side within the other
+    side's footprint.
+  - **Squat, both sides:**
+    - volumes 0.999–1.002 at every pose (the gastrocnemius keeps 0.935 at full depth, from the contact flattening);
+    - overlaps 0–9 up to 7/8 depth;
+    - 92 → 38 at full depth. The remainder is the gastrocnemius's femoral heads, which are bound to the tibia; the
+      fix is a biarticular re-binding.
 - **Muscle layer, next:**
-  - a contact response behind the knee; the squat length response (MG2 / MG3's method);
+  - the gastrocnemius' femoral heads following the femur (biarticular re-binding), a volume-keeping bulge for the
+    knee contact, and review of the vasti's +32 to +48 % belly lengthening at 102° (anchors / wrap model);
   - the deltoid above 120°: a construction that changes curvature (a pose-aware rebuild by MG4's rules in a moving
     frame, or a volumetric simulation). MG9a's bone-driven positioning covers the press to the rack;
   - a per-pose latissimus / teres major separation pass;

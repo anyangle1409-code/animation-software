@@ -2470,3 +2470,9 @@ H3 is still the current best candidate. Details are in `docs/R121_MOVEMENT_TRAJE
   - the fans stretch about half as much.
 - **Fails above 120°:** the deltoid has to unwrap from the head, and six schemes measured all fold it. The next
   options are recorded in the pass doc.
+
+**Later (30 Oct): MG10 on the muscle branch (2090b65f).** The leg muscles now change shape with their length, keyed by
+length ratio so any exercise can drive them. The quadriceps are layered and there is a knee contact.
+
+- **Squat:** volumes are kept to within 0.2 %. Overlaps are 0–9 to 7/8 depth and 92 → 38 at full depth.
+- **The remainder** is the gastrocnemius's femoral heads, which are bound to the tibia; that needs a re-binding.

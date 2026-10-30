@@ -271,9 +271,16 @@ The flagged muscles:
   - 0 outside the skin, 0 shallower than the layer, 0 inside the bone proxy, 0 self-crossings, 0 overlaps.
   - Squat check (native leg posing): 0 overlaps to knee 78°. At 102° the hamstrings meet the medial gastrocnemius
     behind the knee (92 face pairs), which needs a contact response.
-  - The glutes are not built yet; they need cap / fan treatment, like the deltoid.
+- **MG8 (glutes, both sides, 30 Oct; muscle branch 466940bc):** gluteus maximus and medius, built by the MG5 fan
+  builder in a new gluteal mode.
+  - 0 outside the skin, 0 shallower than the layer, 0 self-crossings, 0 overlaps.
+  - Volumes 345 / 144 cm³.
+  - Squat: the glutes add no overlaps. The maximus keeps its volume (1.02); its edges stretch up to 2.1× at hip 100°.
+  - **All 12 squat-contract muscles now have proxies.**
+  - The builder's inside test is now a three-ray majority. A single ray gave false positives. MG5 moved at most
+    0.9 mm with unchanged checks, and its reports were refreshed.
 - **Muscle layer, next:**
-  - glutes; a contact response behind the knee; the squat length response (MG2 / MG3's method);
+  - a contact response behind the knee; the squat length response (MG2 / MG3's method);
   - a per-pose sweep for arm elevation, for the deltoid and the MG5 fans. Proxies bound by blending an origin bone into
     the humerus cannot follow 160° (MG6a measured it). The sweep needs a posed skin: R41's guide skeleton does not
     drive the body, so the body's own rig has to be posed alongside;

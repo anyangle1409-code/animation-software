@@ -2444,3 +2444,10 @@ H3 is still the current best candidate. Details are in `docs/R121_MOVEMENT_TRAJE
 - Squat: clean to knee 78°. At 102° the hamstrings and gastrocnemius meet behind the knee; this needs a contact
   response.
 - The glutes are not built yet.
+
+**Later (30 Oct): MG8, the glutes** (muscle branch 466940bc).
+
+- Gluteus maximus and medius on both sides, built by the fan builder in a gluteal mode.
+- All checks are zero. Volumes 345 / 144 cm³.
+- All 12 squat-contract muscles now have proxies.
+- The builder's inside test is now a three-ray majority, and the refreshed MG5 reports are unchanged in substance.

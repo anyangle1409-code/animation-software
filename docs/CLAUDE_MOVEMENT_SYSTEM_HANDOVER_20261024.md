@@ -301,8 +301,9 @@ The flagged muscles:
     - deltoid volume 0.96 / 1.41 / 1.07, against MG6a's blended 0.56 / 0.41;
     - fans stretch about half as much (sternocostal pectoral 4.1× against 9.0×);
     - overlaps rise, 257 against 169, mostly a new latissimus / teres major contact.
-  - **Above 120°** the deltoid folds: the glenohumeral joint turns about 107°, more than the cap's own angular span, so
-    the sheet must unwrap. Six schemes were measured and none holds. Details and next steps are in the pass doc.
+  - **Above 120°** the Poisson deltoid folds: the glenohumeral joint turns about 107°, more than the cap's own angular
+    span, so the sheet must unwrap. Seven schemes were measured; details are in the pass doc. Superseded for the
+    deltoid by MG9b, below.
   - **Teres major / latissimus fibres reach 2.0× / 1.6×** at the lockout. This needs re-checking on the corrected
     girdle; R41's scapula is about twice as wide as the CT reference.
 - **MG9b (30 Oct; muscle branch 1070c4b6): the deltoid slides along its own rest shape**, and holds to the lockout.
@@ -335,9 +336,11 @@ The flagged muscles:
 - **Muscle layer, next:**
   - the gastrocnemius' femoral heads following the femur (biarticular binding), and review of the vasti's +32 to
     +48 % belly lengthening at 102° (anchors / wrap model);
-  - the shoulder fans above 120° (pectoral volume at the lockout, latissimus / teres major contact) and the posterior
-    deltoid's extension; MG9b's sliding deltoid holds to the lockout;
-  - a per-pose latissimus / teres major separation pass;
+  - the shoulder fans above 120°:
+    - pectoral volume at the lockout;
+    - latissimus / teres major contact: a per-pose separation that knows the deep face, as MG3's ring lookup does
+      (the nearest-face version was measured and not kept);
+  - the posterior deltoid's extension above 120°. MG9b's sliding deltoid otherwise holds to the lockout;
   - the posterior-fold skin driven by the MG5 latissimus / teres volumes (the system-level route for open item 4);
   - rotator cuff and scapular muscles, which need a scapula surface (R41 has landmarks only);
   - skin response;

@@ -204,7 +204,7 @@
   "muscle_muscle_overlap_pairs": {}
  },
  "output_blend": "HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG1_arm_right.blend",
- "output_sha256": "7e03470a57e3f9f00e6e074391d72c34df2d3376efa1b5dc6cd2ce56edaa3dd5",
+ "output_sha256": "eeda8a2a9c58fd60f99dac81db2f8a6b40256e5570d95e823ff04d76ac849075",
  "source_unchanged": true,
  "renders": {
   "rest_skin": [

@@ -1,0 +1,130 @@
+{
+  "status": "VERIFIED_AUTHORED_LOWER_CHAIN_TRAJECTORY",
+  "task": "W8 squat authored hip-knee-ankle-toe control trajectory",
+  "branch": "work/phone-blender-workbench-20261023",
+  "plan_commit": "1091414b802e84a10a91d97030a21ce22c44fd30",
+  "implementation_commit": "21998b58c9c419260395f4f1b4ce5f8c456fb4b2",
+  "workflow_run_id": 41052860237,
+  "workflow_conclusion": "success",
+  "jobs": {
+    "total": 7,
+    "success": 7,
+    "ids": [
+      124052960072,
+      124052960091,
+      124052960161,
+      124052960181,
+      124052960347,
+      124053451244,
+      124054781370
+    ]
+  },
+  "tests": {
+    "localization": "350/350",
+    "pose": [
+      "29/29",
+      "31/31",
+      "19/19",
+      "6/6",
+      "10/10"
+    ],
+    "driver": [
+      "10/10",
+      "20/20",
+      "8/8"
+    ]
+  },
+  "artifact": {
+    "id": 12976415258,
+    "name": "phone-w8-squat-pose-state-41052860237",
+    "github_sha256": "4d88652efb6b0db2bf594828c6655010452cc4d1b4ef0a0863a341c951ba09f4",
+    "independently_downloaded_sha256": "4d88652efb6b0db2bf594828c6655010452cc4d1b4ef0a0863a341c951ba09f4",
+    "zip_crc": "PASS",
+    "files": {
+      "w8_authored_squat_control_state.json": "031d279cfb5b87d0c83e97c6b6d226e7f0b038e28a7ecde8c8fbd86e7cdf5bb8",
+      "w8_authored_squat_control_state.md": "c4b473798ae07b88dc7c876faf3f68d72bbbb8e03c8b7d767e6b94dfd8553c07"
+    }
+  },
+  "model_evidence": {
+    "model": "W8",
+    "status": "DESCRIPTIVE_AUTHORED_LOWER_CHAIN_TRAJECTORY_NOT_ANATOMY",
+    "segment_length_span_mm": {
+      "l": {
+        "hip_to_knee": 0.0004837833241708722,
+        "knee_to_ankle": 0.00011765013300646388,
+        "ankle_to_toe": 0.00003815362714476578
+      },
+      "r": {
+        "hip_to_knee": 0.00048035454443606795,
+        "knee_to_ankle": 0.00010963080865167285,
+        "ankle_to_toe": 0.0000351843922601347
+      }
+    },
+    "sample8_change_from_sample0_mm": {
+      "l": {
+        "hip": [
+          -0.0001490116,
+          248.861704,
+          -399.5202184
+        ],
+        "knee": [
+          19.4775313,
+          -181.8093657,
+          -40.3387547
+        ],
+        "ankle": [
+          16.401872,
+          0.0000608,
+          -0.0000373
+        ],
+        "toe": [
+          16.4018571,
+          0.0001043,
+          -0.0000782
+        ]
+      },
+      "r": {
+        "hip": [
+          -0.0001490116,
+          248.8617059,
+          -399.5202184
+        ],
+        "knee": [
+          -19.4777027,
+          -181.8093639,
+          -40.3387547
+        ],
+        "ankle": [
+          -16.4018646,
+          0.0000115,
+          -0.0000149
+        ],
+        "toe": [
+          -16.4018497,
+          0.0000447,
+          -0.000041
+        ]
+      }
+    },
+    "sample6_ankle_inward_mm": {
+      "l": 17.3944681883,
+      "r": -17.3944681883
+    },
+    "max_x_reflection_disagreement_mm": {
+      "hip": 0.0003132789737,
+      "knee": 0.0001868596107,
+      "ankle": 0.0000638624505,
+      "toe": 0.0000745988801
+    }
+  },
+  "ruling": [
+    "Authored point-to-point chain lengths remain rigid to sub-micron numerical variation across the nine samples.",
+    "Runtime suffix trajectories are near X-reflections at sub-micron disagreement.",
+    "Hip/knee paths quantify the frozen squat control motion; ankle/toe paths preserve the previously identified inward foot-control drift.",
+    "No authored point is accepted as an anatomical joint centre and world-X reflection is not a verified anatomical sagittal plane."
+  ],
+  "limitations": [
+    "No ISB joint coordinates, anatomical side mapping, natural squat quality, balance, contact or tissue safety is approved.",
+    "No model, rig, driver, control, mesh, shape key or source blend was modified or saved."
+  ]
+}

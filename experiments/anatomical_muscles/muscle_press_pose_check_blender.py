@@ -1,5 +1,8 @@
 """Read-only check: how the bound muscle ENVELOPE PROXIES (MG1 arm, MG4 deltoid, MG5 armpit-fold fans) follow the
-press when R41's anatomical chain is posed natively.
+press when R41's anatomical chain is posed natively - and, with MG6A_SKIN=1, how they sit under the posed SKIN: the
+body's own rig (HGPT_CANONICAL_V4_ORIGINAL) is retargeted onto the posed chain (each mapped bone gets the same world
+rigid delta as its anatomical bone; sides matched by x: anatomical left = +x = the body rig's _r) and R41's corrective
+drives (original_v1_review_candidate_drives.drive) run; reported per muscle: vertices outside the posed skin.
 
 The chain (clavicle -> scapula -> humerus -> ulna / radius) is posed by rigid rotations about R41's own landmark joint
 centres with the coupled girdle of path_length_direction_check_blender.py (upward rotation 0.33 e, posterior tilt
@@ -11,7 +14,7 @@ master is a guide skeleton; the body follows its own rig), so this measures the 
 Per pose and muscle: belly volume / rest, edge length ratio p1 / p99, self-intersecting face pairs; and face overlaps
 between muscles.  Renders (anterior / lateral / posterior) at each pose.  Nothing is saved to the blend.
 
-usage: python3.13 muscle_press_pose_check_blender.py -- MG5.blend MG5_SHA256 OUT_DIR [left|right]
+usage: python3.13 muscle_press_pose_check_blender.py -- MG5.blend MG5_SHA256 OUT_DIR [left|right] [r57src]
 """
 import hashlib
 import json
@@ -27,6 +30,8 @@ from mathutils.bvhtree import BVHTree
 args = sys.argv[sys.argv.index("--") + 1:]
 src, expected, outdir = Path(args[0]), args[1], Path(args[2])
 S = args[3] if len(args) > 3 else "left"
+SKIN = len(args) > 4
+DRIVES = __import__("os").environ.get("MG6A_DRIVES", "1") == "1"   # R41's corrective drives on the posed skin
 SUF = "L" if S == "left" else "R"
 outdir.mkdir(parents=True, exist_ok=True)
 if hashlib.sha256(src.read_bytes()).hexdigest() != expected:
@@ -84,10 +89,28 @@ def pose_T(ht_deg, elbow_deg):
     return {CHAIN[0]: Tc, CHAIN[1]: ts, CHAIN[2]: Th, CHAIN[3]: Tf, CHAIN[4]: Tf}
 
 
+RIG = next((m.object for m in body.modifiers if m.type == "ARMATURE"), None)
+RS = "r" if lat > 0 else "l"                                  # the body rig's side at the same x
+RETARGET = {CHAIN[0]: f"clavicle_{RS}", CHAIN[1]: f"scapula_{RS}", CHAIN[2]: f"upperarm_{RS}", CHAIN[3]: f"forearm_{RS}"}
+if SKIN:
+    sys.path[:0] = [args[4] + "/scripts", args[4] + "/scripts/anatomy_fit"]
+    import original_v1_review_candidate_drives as drives  # noqa: E402
+
+
 def apply(T):
     for b in CHAIN:
         anat.pose.bones[b].matrix = MW.inverted() @ T[b] @ MW @ anat.data.bones[b].matrix_local
         bpy.context.view_layer.update()
+    if SKIN:                                                  # the body's rig follows, bone by bone (parents first)
+        RW = RIG.matrix_world
+        for ab, rb in RETARGET.items():
+            if rb not in RIG.pose.bones:
+                continue
+            D = T[ab]                                         # world rigid delta of the anatomical bone
+            RIG.pose.bones[rb].matrix = RW.inverted() @ D @ RW @ RIG.data.bones[rb].matrix_local
+            bpy.context.view_layer.update()
+        if DRIVES:
+            drives.drive(RIG, body); bpy.context.view_layer.update()
 
 
 MUS = [o for o in bpy.data.collections["HGPT_EXPERIMENT_MUSCLES"].objects if o.name.endswith(f".{SUF}")]
@@ -123,8 +146,12 @@ cam = bpy.data.objects.new("C", cd); sc.collection.objects.link(cam); sc.camera 
 sc.render.engine = "BLENDER_WORKBENCH"; sc.display.shading.light = "STUDIO"; sc.display.shading.color_type = "MATERIAL"
 sc.display.shading.show_cavity = True; sc.render.resolution_x = 480; sc.render.resolution_y = 560
 for ob in sc.objects:
-    if ob.type == "MESH" and ob not in MUS and ob not in TEN:
+    if ob.type == "MESH" and ob not in MUS and ob not in TEN and not (SKIN and ob is body):
         ob.hide_render = True
+if SKIN:
+    from mathutils.bvhtree import BVHTree as _B
+    skin_mat = bpy.data.materials.new("REVIEW_SKIN"); skin_mat.diffuse_color = (0.80, 0.68, 0.58, 1)
+    body.data.materials.clear(); body.data.materials.append(skin_mat)
 for tag, ht, elb in POSES:
     apply(pose_T(ht, elb))
     per, trees = {}, {}
@@ -145,9 +172,23 @@ for tag, ht, elb in POSES:
             ov = trees[a].overlap(trees[b])
             if ov:
                 pairs[f"{a.split('.')[2]} | {b.split('.')[2]}"] = len(ov)
+    if SKIN:                                                  # vertices outside the posed skin
+        dg_ = bpy.context.evaluated_depsgraph_get(); be = body.evaluated_get(dg_); bm_ = be.to_mesh()
+        BV = [be.matrix_world @ v.co for v in bm_.vertices]
+        BT = [(p.vertices[0], p.vertices[k], p.vertices[k + 1]) for p in bm_.polygons for k in range(1, len(p.vertices) - 1)]
+        be.to_mesh_clear(); SB = _B.FromPolygons(BV, BT, all_triangles=True)
+        for o in MUS:
+            P, F = evaluated(o); n_out = 0; worst = 0.0
+            for p in P:
+                loc, nrm, _i, dist = SB.find_nearest(Vector(p))
+                if loc is not None and (Vector(p) - loc).dot(nrm) > 0:
+                    n_out += 1; worst = max(worst, dist)
+            per[o.name.split(".")[2]]["outside_posed_skin"] = n_out
+            per[o.name.split(".")[2]]["outside_posed_skin_max_mm"] = round(worst * 1000, 1)
     rep["poses"][tag] = {"humerothoracic_deg": round(ht, 1), "elbow_deg": round(elb, 1), "muscles": per,
                          "overlap_pairs": pairs, "overlap_total": sum(pairs.values())}
-    print("POSE", tag, json.dumps({"overlap_total": rep["poses"][tag]["overlap_total"],
+    print("POSE", tag, json.dumps({"outside_skin": {k: v.get("outside_posed_skin") for k, v in per.items() if v.get("outside_posed_skin")},
+                                   "overlap_total": rep["poses"][tag]["overlap_total"],
                                    "worst_volume": min((v["volume_ratio"], k) for k, v in per.items()),
                                    "worst_stretch": max((v["edge_ratio_min_max"][1], k) for k, v in per.items()),
                                    "self": sum(v["self_intersecting_face_pairs"] for v in per.values())}), flush=True)
@@ -156,8 +197,15 @@ for tag, ht, elb in POSES:
     for view, dv in {"anterior": (0, -1, 0), "lateral": (lat, 0, 0), "posterior": (0, 1, 0)}.items():
         d = Vector(dv); cam.location = centre + d * 2.5; cam.rotation_mode = "QUATERNION"
         cam.rotation_quaternion = (-d).to_track_quat("-Z", "Y")
-        sc.render.filepath = str(outdir / f"mg6a_{S}_{tag}_{view}.png"); bpy.ops.render.render(write_still=True)
+        for layer in (("muscle", "skin") if SKIN else ("muscle",)):
+            if SKIN:
+                body.hide_render = layer == "muscle"
+                for o in MUS + TEN:
+                    o.hide_render = layer == "skin"
+            sc.render.filepath = str(outdir / f"mg6a_{S}_{tag}_{view}{'' if layer == 'muscle' else '_skin'}.png")
+            bpy.ops.render.render(write_still=True)
 apply(pose_T(REST_HT, REST_ELB))
 rep["input_unchanged"] = hashlib.sha256(src.read_bytes()).hexdigest() == expected
-(outdir / f"mg6a_{S}_press_pose_report.json").write_text(json.dumps(rep, indent=1))
+rep["posed_skin"] = SKIN; rep["skin_corrective_drives"] = DRIVES if SKIN else None
+(outdir / f"mg6a_{S}_press_pose{'_skin' if SKIN else ''}_report.json").write_text(json.dumps(rep, indent=1))
 print("DONE", flush=True)

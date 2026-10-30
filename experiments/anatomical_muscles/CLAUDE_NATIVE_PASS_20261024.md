@@ -850,3 +850,40 @@ R41's guide skeleton does not drive.
 
 **Files:** `native_20261024/mg6a/mg6a_left_press_pose_report.json` and `MG6a_left_press_sheet.jpg` (start, rack and
 lockout; anterior, lateral and posterior).
+
+**MG6a with the posed skin** (`muscle_press_pose_check_blender.py ... r57src`, read-only).
+
+- **Setup.** The body's own rig (`HGPT_CANONICAL_V4_ORIGINAL`) is retargeted onto the posed anatomical chain: each
+  mapped bone gets the same world rigid delta. Sides are matched by x, since anatomical left = +x = the body rig's
+  `_r`.
+- **Retarget check.** The rig's upper arm then coincides with the anatomical humerus (head identical; tail within
+  10 mm, because the bone lengths differ). R41's corrective drives do not move these bones.
+- **Skin weights.** The skin beside the biceps is 93 % `upperarm_r`.
+
+Envelope vertices outside the posed skin, at the lockout (maximum distance):
+
+| | R41 drives on (its correctives) | Plain skinning (`MG6A_DRIVES=0`) |
+|---|---|---|
+| Biceps long head | 701 (33 mm) | 210 |
+| Triceps lateral head | 485 (36 mm) | 261 |
+| Deltoid anterior / middle / posterior | 441 / 305 / 319 | 372 / 343 / 331 |
+| Teres major | 596 (99 mm) | 616 |
+| Clavicular / sternocostal pectoral | 188 / 96 | 154 / 42 |
+
+- **At the rack** (elbow 90°, plain skinning) the brachialis has 388 vertices outside the collapsed elbow crease.
+  R41's elbow keys bring that to 20.
+- **Reading.**
+  - R41's posed skin is not a reliable container at elevation. Its shoulder correctives were authored for its own
+    (r57) press path and push the upper-arm skin inward by up to about 30 mm here, and plain skinning collapses at
+    the shoulder and elbow.
+  - A per-pose rebuild that clamps the muscles to this skin would copy its faults. The positioning step should
+    instead be bone-driven and volume-preserving:
+    - the deltoid wrapped on the posed humeral head and cuff;
+    - the fans run from the posed origin lines to the posed insertion lines over a thorax proxy;
+    - each section scaled by the length change.
+  - The skin would then follow the muscles. This is the system-level route the movement work also points to (the
+    posterior armpit corner).
+- **Files.**
+  - Reports: `native_20261024/mg6a/mg6a_left_press_pose_skin_drives_report.json` and
+    `mg6a_left_press_pose_skin_lbs_report.json`.
+  - Sheet: `MG6a_left_press_posed_skin_sheet.jpg` (rack and lockout, skin at 45 %).

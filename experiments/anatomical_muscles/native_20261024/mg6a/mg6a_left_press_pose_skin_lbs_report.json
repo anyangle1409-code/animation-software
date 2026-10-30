@@ -1,0 +1,990 @@
+{
+ "status": "READ_ONLY_CHECK",
+ "input": "HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG5_axilla_left.blend",
+ "input_sha256": "6e928d2f5be420bf7cf9c50411ecb080b161094a7ea333491468d7e52ed9c68f",
+ "side": "left",
+ "girdle": {
+  "model": {
+   "upward_rotation": 0.33,
+   "posterior_tilt": 0.12,
+   "clavicle_elevation": 0.08,
+   "clavicle_retraction": 0.12
+  },
+  "plane_deg": 30.0,
+  "rest_ht_deg": 1.2,
+  "rest_elbow_deg": 1.6
+ },
+ "poses": {
+  "rest": {
+   "humerothoracic_deg": 1.2,
+   "elbow_deg": 1.6,
+   "muscles": {
+    "biceps_brachii_long": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 0,
+     "outside_posed_skin_max_mm": 0.0
+    },
+    "biceps_brachii_short": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 0,
+     "outside_posed_skin_max_mm": 0.0
+    },
+    "brachialis": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 0,
+     "outside_posed_skin_max_mm": 0.0
+    },
+    "triceps_lateral": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 0,
+     "outside_posed_skin_max_mm": 0.0
+    },
+    "triceps_long": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 13,
+     "outside_posed_skin": 0,
+     "outside_posed_skin_max_mm": 0.0
+    },
+    "triceps_medial": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 0,
+     "outside_posed_skin_max_mm": 0.0
+    },
+    "deltoid_anterior": {
+     "volume_ratio": 0.999,
+     "edge_ratio_p1_p99": [
+      0.975,
+      1.005
+     ],
+     "edge_ratio_min_max": [
+      0.971,
+      1.01
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 0,
+     "outside_posed_skin_max_mm": 0.0
+    },
+    "deltoid_middle": {
+     "volume_ratio": 0.979,
+     "edge_ratio_p1_p99": [
+      0.96,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      0.958,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 0,
+     "outside_posed_skin_max_mm": 0.0
+    },
+    "deltoid_posterior": {
+     "volume_ratio": 0.984,
+     "edge_ratio_p1_p99": [
+      0.974,
+      1.005
+     ],
+     "edge_ratio_min_max": [
+      0.969,
+      1.006
+     ],
+     "self_intersecting_face_pairs": 4,
+     "outside_posed_skin": 0,
+     "outside_posed_skin_max_mm": 0.0
+    },
+    "latissimus_dorsi": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      0.985,
+      1.032
+     ],
+     "edge_ratio_min_max": [
+      0.961,
+      1.091
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 0,
+     "outside_posed_skin_max_mm": 0.0
+    },
+    "teres_major": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      0.976,
+      1.02
+     ],
+     "edge_ratio_min_max": [
+      0.891,
+      1.047
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 0,
+     "outside_posed_skin_max_mm": 0.0
+    },
+    "pectoralis_major_clavicular": {
+     "volume_ratio": 1.008,
+     "edge_ratio_p1_p99": [
+      0.994,
+      1.021
+     ],
+     "edge_ratio_min_max": [
+      0.988,
+      1.023
+     ],
+     "self_intersecting_face_pairs": 5,
+     "outside_posed_skin": 0,
+     "outside_posed_skin_max_mm": 0.0
+    },
+    "pectoralis_major_sternocostal": {
+     "volume_ratio": 1.001,
+     "edge_ratio_p1_p99": [
+      0.979,
+      1.053
+     ],
+     "edge_ratio_min_max": [
+      0.948,
+      1.121
+     ],
+     "self_intersecting_face_pairs": 3,
+     "outside_posed_skin": 0,
+     "outside_posed_skin_max_mm": 0.0
+    }
+   },
+   "overlap_pairs": {
+    "latissimus_dorsi | teres_major": 6
+   },
+   "overlap_total": 6
+  },
+  "ht60": {
+   "humerothoracic_deg": 60.0,
+   "elbow_deg": 45.0,
+   "muscles": {
+    "biceps_brachii_long": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 45,
+     "outside_posed_skin_max_mm": 3.5
+    },
+    "biceps_brachii_short": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 38,
+     "outside_posed_skin_max_mm": 3.7
+    },
+    "brachialis": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 0,
+     "outside_posed_skin_max_mm": 0.0
+    },
+    "triceps_lateral": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      0.999,
+      1.001
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 82,
+     "outside_posed_skin_max_mm": 42.9
+    },
+    "triceps_long": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 13,
+     "outside_posed_skin": 0,
+     "outside_posed_skin_max_mm": 0.0
+    },
+    "triceps_medial": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 0,
+     "outside_posed_skin_max_mm": 0.0
+    },
+    "deltoid_anterior": {
+     "volume_ratio": 0.671,
+     "edge_ratio_p1_p99": [
+      0.314,
+      1.029
+     ],
+     "edge_ratio_min_max": [
+      0.154,
+      1.114
+     ],
+     "self_intersecting_face_pairs": 18,
+     "outside_posed_skin": 140,
+     "outside_posed_skin_max_mm": 31.5
+    },
+    "deltoid_middle": {
+     "volume_ratio": 0.594,
+     "edge_ratio_p1_p99": [
+      0.191,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      0.128,
+      1.012
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 97,
+     "outside_posed_skin_max_mm": 25.5
+    },
+    "deltoid_posterior": {
+     "volume_ratio": 1.012,
+     "edge_ratio_p1_p99": [
+      0.843,
+      1.321
+     ],
+     "edge_ratio_min_max": [
+      0.71,
+      1.377
+     ],
+     "self_intersecting_face_pairs": 2,
+     "outside_posed_skin": 75,
+     "outside_posed_skin_max_mm": 25.0
+    },
+    "latissimus_dorsi": {
+     "volume_ratio": 1.008,
+     "edge_ratio_p1_p99": [
+      0.967,
+      2.588
+     ],
+     "edge_ratio_min_max": [
+      0.717,
+      4.036
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 0,
+     "outside_posed_skin_max_mm": 0.0
+    },
+    "teres_major": {
+     "volume_ratio": 1.041,
+     "edge_ratio_p1_p99": [
+      0.881,
+      1.859
+     ],
+     "edge_ratio_min_max": [
+      0.482,
+      2.305
+     ],
+     "self_intersecting_face_pairs": 10,
+     "outside_posed_skin": 448,
+     "outside_posed_skin_max_mm": 28.5
+    },
+    "pectoralis_major_clavicular": {
+     "volume_ratio": 0.998,
+     "edge_ratio_p1_p99": [
+      0.912,
+      1.424
+     ],
+     "edge_ratio_min_max": [
+      0.735,
+      1.877
+     ],
+     "self_intersecting_face_pairs": 5,
+     "outside_posed_skin": 66,
+     "outside_posed_skin_max_mm": 34.3
+    },
+    "pectoralis_major_sternocostal": {
+     "volume_ratio": 1.012,
+     "edge_ratio_p1_p99": [
+      0.796,
+      3.226
+     ],
+     "edge_ratio_min_max": [
+      0.588,
+      6.119
+     ],
+     "self_intersecting_face_pairs": 6,
+     "outside_posed_skin": 0,
+     "outside_posed_skin_max_mm": 0.0
+    }
+   },
+   "overlap_pairs": {
+    "deltoid_anterior | deltoid_middle": 76,
+    "deltoid_anterior | pectoralis_major_clavicular": 29,
+    "latissimus_dorsi | teres_major": 8
+   },
+   "overlap_total": 113
+  },
+  "rack90": {
+   "humerothoracic_deg": 90.0,
+   "elbow_deg": 90.0,
+   "muscles": {
+    "biceps_brachii_long": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 254,
+     "outside_posed_skin_max_mm": 40.3
+    },
+    "biceps_brachii_short": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 161,
+     "outside_posed_skin_max_mm": 29.0
+    },
+    "brachialis": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 388,
+     "outside_posed_skin_max_mm": 38.6
+    },
+    "triceps_lateral": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 184,
+     "outside_posed_skin_max_mm": 43.8
+    },
+    "triceps_long": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 12,
+     "outside_posed_skin": 52,
+     "outside_posed_skin_max_mm": 39.0
+    },
+    "triceps_medial": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 85,
+     "outside_posed_skin_max_mm": 36.7
+    },
+    "deltoid_anterior": {
+     "volume_ratio": 0.562,
+     "edge_ratio_p1_p99": [
+      0.479,
+      1.08
+     ],
+     "edge_ratio_min_max": [
+      0.346,
+      1.222
+     ],
+     "self_intersecting_face_pairs": 155,
+     "outside_posed_skin": 377,
+     "outside_posed_skin_max_mm": 29.3
+    },
+    "deltoid_middle": {
+     "volume_ratio": 0.412,
+     "edge_ratio_p1_p99": [
+      0.214,
+      1.016
+     ],
+     "edge_ratio_min_max": [
+      0.092,
+      1.03
+     ],
+     "self_intersecting_face_pairs": 115,
+     "outside_posed_skin": 250,
+     "outside_posed_skin_max_mm": 27.4
+    },
+    "deltoid_posterior": {
+     "volume_ratio": 0.956,
+     "edge_ratio_p1_p99": [
+      0.749,
+      1.458
+     ],
+     "edge_ratio_min_max": [
+      0.504,
+      1.561
+     ],
+     "self_intersecting_face_pairs": 28,
+     "outside_posed_skin": 151,
+     "outside_posed_skin_max_mm": 22.0
+    },
+    "latissimus_dorsi": {
+     "volume_ratio": 1.014,
+     "edge_ratio_p1_p99": [
+      0.95,
+      3.445
+     ],
+     "edge_ratio_min_max": [
+      0.847,
+      5.551
+     ],
+     "self_intersecting_face_pairs": 6,
+     "outside_posed_skin": 0,
+     "outside_posed_skin_max_mm": 0.0
+    },
+    "teres_major": {
+     "volume_ratio": 1.071,
+     "edge_ratio_p1_p99": [
+      0.881,
+      2.568
+     ],
+     "edge_ratio_min_max": [
+      0.439,
+      3.113
+     ],
+     "self_intersecting_face_pairs": 10,
+     "outside_posed_skin": 592,
+     "outside_posed_skin_max_mm": 53.7
+    },
+    "pectoralis_major_clavicular": {
+     "volume_ratio": 0.925,
+     "edge_ratio_p1_p99": [
+      0.821,
+      1.728
+     ],
+     "edge_ratio_min_max": [
+      0.551,
+      2.324
+     ],
+     "self_intersecting_face_pairs": 5,
+     "outside_posed_skin": 127,
+     "outside_posed_skin_max_mm": 34.8
+    },
+    "pectoralis_major_sternocostal": {
+     "volume_ratio": 1.01,
+     "edge_ratio_p1_p99": [
+      0.733,
+      4.465
+     ],
+     "edge_ratio_min_max": [
+      0.466,
+      8.953
+     ],
+     "self_intersecting_face_pairs": 16,
+     "outside_posed_skin": 0,
+     "outside_posed_skin_max_mm": 0.0
+    }
+   },
+   "overlap_pairs": {
+    "deltoid_anterior | deltoid_middle": 140,
+    "deltoid_anterior | pectoralis_major_clavicular": 29
+   },
+   "overlap_total": 169
+  },
+  "ht120": {
+   "humerothoracic_deg": 120.0,
+   "elbow_deg": 45.0,
+   "muscles": {
+    "biceps_brachii_long": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 194,
+     "outside_posed_skin_max_mm": 38.4
+    },
+    "biceps_brachii_short": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      0.999,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 53,
+     "outside_posed_skin_max_mm": 27.8
+    },
+    "brachialis": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 0,
+     "outside_posed_skin_max_mm": 0.0
+    },
+    "triceps_lateral": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.001
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 270,
+     "outside_posed_skin_max_mm": 41.9
+    },
+    "triceps_long": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 13,
+     "outside_posed_skin": 118,
+     "outside_posed_skin_max_mm": 40.6
+    },
+    "triceps_medial": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 0,
+     "outside_posed_skin_max_mm": 0.0
+    },
+    "deltoid_anterior": {
+     "volume_ratio": 0.523,
+     "edge_ratio_p1_p99": [
+      0.63,
+      1.177
+     ],
+     "edge_ratio_min_max": [
+      0.535,
+      1.315
+     ],
+     "self_intersecting_face_pairs": 97,
+     "outside_posed_skin": 370,
+     "outside_posed_skin_max_mm": 25.4
+    },
+    "deltoid_middle": {
+     "volume_ratio": 0.278,
+     "edge_ratio_p1_p99": [
+      0.36,
+      1.061
+     ],
+     "edge_ratio_min_max": [
+      0.174,
+      1.093
+     ],
+     "self_intersecting_face_pairs": 182,
+     "outside_posed_skin": 359,
+     "outside_posed_skin_max_mm": 26.4
+    },
+    "deltoid_posterior": {
+     "volume_ratio": 0.873,
+     "edge_ratio_p1_p99": [
+      0.639,
+      1.579
+     ],
+     "edge_ratio_min_max": [
+      0.299,
+      1.71
+     ],
+     "self_intersecting_face_pairs": 67,
+     "outside_posed_skin": 284,
+     "outside_posed_skin_max_mm": 23.2
+    },
+    "latissimus_dorsi": {
+     "volume_ratio": 1.019,
+     "edge_ratio_p1_p99": [
+      0.924,
+      4.241
+     ],
+     "edge_ratio_min_max": [
+      0.704,
+      6.95
+     ],
+     "self_intersecting_face_pairs": 8,
+     "outside_posed_skin": 0,
+     "outside_posed_skin_max_mm": 0.0
+    },
+    "teres_major": {
+     "volume_ratio": 1.101,
+     "edge_ratio_p1_p99": [
+      0.832,
+      3.125
+     ],
+     "edge_ratio_min_max": [
+      0.534,
+      4.297
+     ],
+     "self_intersecting_face_pairs": 10,
+     "outside_posed_skin": 608,
+     "outside_posed_skin_max_mm": 79.7
+    },
+    "pectoralis_major_clavicular": {
+     "volume_ratio": 0.826,
+     "edge_ratio_p1_p99": [
+      0.688,
+      2.046
+     ],
+     "edge_ratio_min_max": [
+      0.383,
+      2.721
+     ],
+     "self_intersecting_face_pairs": 5,
+     "outside_posed_skin": 179,
+     "outside_posed_skin_max_mm": 32.0
+    },
+    "pectoralis_major_sternocostal": {
+     "volume_ratio": 1.004,
+     "edge_ratio_p1_p99": [
+      0.582,
+      5.754
+     ],
+     "edge_ratio_min_max": [
+      0.372,
+      11.854
+     ],
+     "self_intersecting_face_pairs": 31,
+     "outside_posed_skin": 17,
+     "outside_posed_skin_max_mm": 5.3
+    }
+   },
+   "overlap_pairs": {
+    "deltoid_anterior | deltoid_middle": 156,
+    "deltoid_anterior | pectoralis_major_clavicular": 31,
+    "deltoid_middle | deltoid_posterior": 76
+   },
+   "overlap_total": 263
+  },
+  "lockout160": {
+   "humerothoracic_deg": 160.0,
+   "elbow_deg": 0.0,
+   "muscles": {
+    "biceps_brachii_long": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 210,
+     "outside_posed_skin_max_mm": 40.4
+    },
+    "biceps_brachii_short": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 45,
+     "outside_posed_skin_max_mm": 38.5
+    },
+    "brachialis": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 0,
+     "outside_posed_skin_max_mm": 0.0
+    },
+    "triceps_lateral": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 261,
+     "outside_posed_skin_max_mm": 42.9
+    },
+    "triceps_long": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 13,
+     "outside_posed_skin": 177,
+     "outside_posed_skin_max_mm": 39.6
+    },
+    "triceps_medial": {
+     "volume_ratio": 1.0,
+     "edge_ratio_p1_p99": [
+      1.0,
+      1.0
+     ],
+     "edge_ratio_min_max": [
+      1.0,
+      1.0
+     ],
+     "self_intersecting_face_pairs": 0,
+     "outside_posed_skin": 7,
+     "outside_posed_skin_max_mm": 36.8
+    },
+    "deltoid_anterior": {
+     "volume_ratio": 0.579,
+     "edge_ratio_p1_p99": [
+      0.677,
+      1.432
+     ],
+     "edge_ratio_min_max": [
+      0.309,
+      1.489
+     ],
+     "self_intersecting_face_pairs": 60,
+     "outside_posed_skin": 372,
+     "outside_posed_skin_max_mm": 18.9
+    },
+    "deltoid_middle": {
+     "volume_ratio": 0.217,
+     "edge_ratio_p1_p99": [
+      0.641,
+      1.513
+     ],
+     "edge_ratio_min_max": [
+      0.456,
+      1.56
+     ],
+     "self_intersecting_face_pairs": 64,
+     "outside_posed_skin": 343,
+     "outside_posed_skin_max_mm": 20.5
+    },
+    "deltoid_posterior": {
+     "volume_ratio": 0.783,
+     "edge_ratio_p1_p99": [
+      0.569,
+      1.805
+     ],
+     "edge_ratio_min_max": [
+      0.298,
+      1.942
+     ],
+     "self_intersecting_face_pairs": 87,
+     "outside_posed_skin": 331,
+     "outside_posed_skin_max_mm": 20.8
+    },
+    "latissimus_dorsi": {
+     "volume_ratio": 1.021,
+     "edge_ratio_p1_p99": [
+      0.899,
+      5.128
+     ],
+     "edge_ratio_min_max": [
+      0.45,
+      8.418
+     ],
+     "self_intersecting_face_pairs": 20,
+     "outside_posed_skin": 0,
+     "outside_posed_skin_max_mm": 0.0
+    },
+    "teres_major": {
+     "volume_ratio": 1.138,
+     "edge_ratio_p1_p99": [
+      0.817,
+      3.963
+     ],
+     "edge_ratio_min_max": [
+      0.668,
+      5.683
+     ],
+     "self_intersecting_face_pairs": 5,
+     "outside_posed_skin": 616,
+     "outside_posed_skin_max_mm": 114.9
+    },
+    "pectoralis_major_clavicular": {
+     "volume_ratio": 0.688,
+     "edge_ratio_p1_p99": [
+      0.491,
+      2.407
+     ],
+     "edge_ratio_min_max": [
+      0.311,
+      3.201
+     ],
+     "self_intersecting_face_pairs": 15,
+     "outside_posed_skin": 154,
+     "outside_posed_skin_max_mm": 31.6
+    },
+    "pectoralis_major_sternocostal": {
+     "volume_ratio": 0.994,
+     "edge_ratio_p1_p99": [
+      0.438,
+      7.417
+     ],
+     "edge_ratio_min_max": [
+      0.142,
+      15.524
+     ],
+     "self_intersecting_face_pairs": 121,
+     "outside_posed_skin": 42,
+     "outside_posed_skin_max_mm": 20.7
+    }
+   },
+   "overlap_pairs": {
+    "triceps_lateral | deltoid_middle": 38,
+    "deltoid_anterior | deltoid_middle": 52,
+    "deltoid_anterior | pectoralis_major_clavicular": 118,
+    "deltoid_middle | deltoid_posterior": 106
+   },
+   "overlap_total": 314
+  }
+ },
+ "input_unchanged": true,
+ "posed_skin": true,
+ "skin_corrective_drives": false
+}

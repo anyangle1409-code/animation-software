@@ -530,3 +530,57 @@ These are **rest envelopes only**.
   `MG1_left_arm_sheet.jpg`. The sheet shows skin, muscle + tendon, overlay, and elbow at 90° and 120°.
 - Not in git (no `.blend` files are committed): the experiment blends `HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG1_arm_{left,right}.blend`.
   Their SHA256 values are in the reports.
+
+## MG2: length response through the curl (added 30 Oct 2026)
+
+**Script:** `arm_muscle_length_response_blender.py`. It runs on the MG1 left blend (hash-checked) and saves a new MG2
+blend. The MG1 blend is unchanged.
+
+**Method.**
+
+1. Per elbow angle, the anatomical chain is posed natively.
+2. Each muscle's path comes from its proposed anchors via `kernel.resolve_path` / `kernel.path_length`.
+3. Belly length = path − the MG1 tendon lengths.
+4. `kernel.belly_axes` is used with activation 0: positioning only, no activation display. `evaluate.evaluate` is not
+   used, because it refuses unreviewed bindings by design.
+5. The response is stored per angle as a rest-space shape key, `HGPT_LEN_ELBOW_<deg>`, in the humeral axis's
+   cylindrical frame:
+   - stations move along the axis about the belly's proximal end by k = L / L_rest;
+   - each section keeps its deep surface;
+   - the outer surface takes r_o′² = r_i² + (r_o² − r_i²) / k, so the section area scales by 1 / k and the volume is
+     kept;
+   - the belly bulges towards the skin, not into the bone.
+
+**Two first-version faults were found and fixed.**
+
+- Widening about each belly's own axis pushed the bellies into the bone and their deep neighbours: brachialis against
+  triceps medial reached 380 overlapping triangle pairs.
+- Belly ends weighted to the forearm double-counted the length change, so brachialis volume went ×1.51. The bellies now
+  ride the humerus, and only the tendons cross the elbow. MG1 was rebuilt with that binding: checks unchanged, the
+  report updated.
+
+**Left side:**
+
+| Elbow | Biceps long, k / radius | Brachialis, k / radius | Triceps lateral / long / medial, k | Volume range against rest | Overlapping pairs |
+|---|---|---|---|---|---|
+| 45° | 0.91 / ×1.05 | 0.86 / ×1.08 | 1.13 / 1.08 / 1.35 | 0.9997–1.0001 | biceps–brachialis 302 + 206 |
+| 90° | 0.75 / ×1.15 | 0.63 / ×1.26 | 1.19 / 1.12 / 1.52 | 0.9996–1.0001 | biceps–brachialis 188 + 194; triceps lat–med 17 |
+| 140° | 0.60 / ×1.29 | 0.41 / ×1.56 | 1.14 / 1.09 / 1.41 | 0.9994–1.0001 | biceps–brachialis 164 + 180 |
+
+**What this shows.**
+
+- **Volume is conserved for every muscle at every angle.** The biceps visibly shortens and thickens through the curl
+  (`MG2_left_curl_sheet.jpg`, lateral view, muscle-only and with the skin overlaid at 35 %).
+- **The remaining overlaps are deep-under-superficial layering:** the growing brachialis under the biceps. Each belly
+  responds alone. A layered or contact response is needed, pushing the superficial belly out by the deep one's
+  growth. It belongs with Work's step 6 (skin response).
+- **The triceps medial head is a known limit.** Its single representative origin point lies inside its own belly range,
+  and it lengthens 35–50 %. A straight proxy riding the humerus can only lengthen axially, so it extends past the elbow
+  instead of wrapping around it. It needs a belly swept along the posed path (per-frame loft) or an elbow wrap guide.
+  This is flagged, not hidden.
+- **Skin crossings rise with flexion** (biceps 280–330 vertices at 140°). The body is posed by its own runtime rig, which
+  does not bulge, and the two skeletons' elbow centres differ by 11–17 mm. This diagnoses where a skin response is
+  needed. It is not a proxy failure.
+
+**Files:** `native_20261024/mg2/mg2_left_report.json` (k, radius scale, volume, overlaps and skin crossings per angle)
+and `MG2_left_curl_sheet.jpg`. The MG2 blend is not in git; its SHA256 is in the report.

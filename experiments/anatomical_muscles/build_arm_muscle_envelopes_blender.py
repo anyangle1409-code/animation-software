@@ -343,7 +343,8 @@ for m, spec in MUS.items():
     ob["hgpt_muscle_id"] = mid; ob["hgpt_status"] = "ENVELOPE_PROXY_UNREVIEWED"; ob["hgpt_activation_display"] = False
     distal = RAD if spec["distal"] == "radius" else ULN
     prox_bone = SCA if PROP[mid]["anchors"][0]["bone"] == SCA else HUM
-    bind(ob, arm_weights(distal))
+    bind(ob, lambda p: {HUM: 1.0})          # bellies ride the humerus; only the tendons cross the elbow (a belly
+    #                                         end weighted to the forearm double-counts with the length response)
     tendons = {}
     for role, c in (("origin", c0), ("insertion", c1)):
         tm, tl = tube(f"{mid}.tendon_{role}", c, anchors[role]); tm.materials.append(mat_t)

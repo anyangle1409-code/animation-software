@@ -1,0 +1,115 @@
+{
+  "status": "VERIFIED_AUTHORED_LOWER_CHAIN_ANGLE_GEOMETRY",
+  "task": "W8 squat authored lower-chain orientation and included-angle geometry",
+  "branch": "work/phone-blender-workbench-20261023",
+  "plan_commit": "5ab20f7441fe6d5001d4e5304b3a1b9799332d61",
+  "implementation_commit": "45fbeed0c8af1e927a3d2c03760d9ce8e67fdb16",
+  "workflow_run_id": 41112317983,
+  "workflow_conclusion": "success",
+  "jobs": {
+    "total": 7,
+    "success": 7,
+    "ids": [
+      124257413031,
+      124257413462,
+      124257413495,
+      124257413514,
+      124257413791,
+      124258245199,
+      124260428557
+    ]
+  },
+  "tests": {
+    "localization": "352/352",
+    "pose": [
+      "29/29",
+      "33/33",
+      "19/19",
+      "6/6",
+      "10/10"
+    ],
+    "driver": [
+      "10/10",
+      "20/20",
+      "8/8"
+    ]
+  },
+  "artifact": {
+    "id": 13005270303,
+    "name": "phone-w8-squat-pose-state-41112317983",
+    "github_sha256": "5bdd9043b01a1428caa09f80d606ef1fbbd07e5224e5c60085e3518af0ffa1f1",
+    "independently_downloaded_sha256": "5bdd9043b01a1428caa09f80d606ef1fbbd07e5224e5c60085e3518af0ffa1f1",
+    "zip_crc": "PASS",
+    "files": {
+      "w8_authored_squat_control_state.json": "59da56b98cf00979d5259e3ee66444634ea76e1803e85df4949ec3add9d09931",
+      "w8_authored_squat_control_state.md": "3113297e66e2a8db9bda8738dcf2b123eec3a9280f2f07cad4220661473c10bf"
+    }
+  },
+  "model_evidence": {
+    "model": "W8",
+    "status": "DESCRIPTIVE_AUTHORED_LOWER_CHAIN_ANGLE_GEOMETRY_NOT_ISB",
+    "sample0": {
+      "included_knee_deg": {
+        "l": 177.0776084213,
+        "r": 177.0776083532
+      },
+      "included_ankle_deg": {
+        "l": 112.7031405114,
+        "r": 112.7031396158
+      }
+    },
+    "sample1": {
+      "authored_knee_target_deg": 4.7265625,
+      "included_knee_change_deg": {
+        "l": 0.5365309224,
+        "r": 0.5365300375
+      }
+    },
+    "sample8": {
+      "authored_knee_target_deg": 110,
+      "orientation_change_deg": {
+        "l": {
+          "thigh": 85.0124965355,
+          "shank": 25.0161160733,
+          "foot": 0.00002195045
+        },
+        "r": {
+          "thigh": 85.0124961284,
+          "shank": 25.0161111081,
+          "foot": 0.00001543891
+        }
+      },
+      "included_angle_deg": {
+        "l": {
+          "knee": 72.668550368,
+          "ankle": 87.690245847
+        },
+        "r": {
+          "knee": 72.6685551665,
+          "ankle": 87.6902434142
+        }
+      },
+      "included_change_deg": {
+        "l": {
+          "knee": -104.4090580534,
+          "ankle": -25.0128946644
+        },
+        "r": {
+          "knee": -104.4090531866,
+          "ankle": -25.0128962016
+        }
+      }
+    }
+  },
+  "ruling": [
+    "The authored 110-degree knee target is not equal to the included hip-knee-ankle point-angle change.",
+    "Thigh and shank orientation changes sum approximately to the authored control rotation while included geometry also reflects the non-180-degree rest configuration.",
+    "The foot direction remains flat to approximately 0.000022 degrees while ankle included-angle change follows the shank/foot relationship.",
+    "Included knee angle is not strictly monotone from sample0 because sample1 increases about 0.537 degrees before descending.",
+    "No value is an ISB coordinate, signed joint rotation, anatomical ROM measurement or safety limit."
+  ],
+  "limitations": [
+    "Runtime suffixes are not anatomical sides and point-chain geometry does not verify joint centres or a sagittal plane.",
+    "No source/model/rig/driver/mesh/key/muscle/app/version/merge/deploy change was made."
+  ]
+}

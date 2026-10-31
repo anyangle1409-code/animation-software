@@ -336,9 +336,29 @@ The flagged muscles:
       everywhere, the adductor magnus stretched 41 % down into the gastrocnemius.
     - A biarticular binding of the gastrocnemius's heads is still open; a stand-in resolves them out of the thigh
       beyond 102°.
+- **MG11 / MG11b (brachioradialis, arm length keys, elbow contact; 31 Oct; muscle branch 3475c65d):**
+  - **MG11:** the brachioradialis (`hgpt.muscle.brachioradialis.{L,R}`), built with MG7's compartment method:
+    - 86.7 cm³, inside the skin and its layer, clear of the bone proxy, no overlaps;
+    - simplification: its belly starts just below the elbow, and the origin tendon crosses the joint.
+  - **MG11b length keys:** MG1's arm bellies and the brachioradialis are keyed by belly length ratio (k 0.35–1.55),
+    with MG10's pivot rule.
+  - **MG11b layering:** biceps on brachialis, triceps lateral and long heads on the medial head.
+  - **MG11b elbow contact keys** `HGPT_CONTACT_ELBOW_<deg>` (70–150°), indexed by elbow angle alone:
+    - each side's slab is compressed off the plane bisecting the elbow, keeping the bellies' order;
+    - the field is smoothed, the volume given back sideways, and the biceps re-laid on the brachialis.
+  - **Through the R121 curl (both sides):**
+    - overlaps at 122.5 / 130 / 140° fall from 364 / 474 / 613 (no keys) to 4 / 8 / 4;
+    - volumes 0.997–1.001 to 105°, at least 0.88 at 140° (biceps long head).
+    - MG10's flatten-and-push, carried over, made 140° worse (1440 overlaps, folded brachioradialis).
+  - **Limits:**
+    - 140° shapes are blocky;
+    - the brachioradialis belly shrinks towards the wrist, leaving the gap at the elbow to its origin "tendon";
+    - MG10 and MG11b keys are in separate copies of MG8.
 - **Muscle layer, next:**
   - the gastrocnemius' femoral heads following the femur (biarticular binding), and review of the vasti's +32 to
     +48 % belly lengthening at 102° (anchors / wrap model);
+  - one copy carrying both MG10's leg keys and MG11b's arm keys; a two-segment brachioradialis belly bent round the
+    lateral epicondyle (closes the elbow gap at flexion); smoother 140° shapes;
   - the shoulder fans above 120°:
     - pectoral volume at the lockout;
     - latissimus / teres major contact: a per-pose separation that knows the deep face, as MG3's ring lookup does

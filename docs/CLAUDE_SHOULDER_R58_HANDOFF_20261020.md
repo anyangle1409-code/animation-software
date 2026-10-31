@@ -2484,3 +2484,14 @@ thickness limit allows.
 - **Overlaps at the lockout:** 1638 → 93.
 - **What remains in the shoulder muscle layer:** the fans, that is the latissimus / teres major contact and the
   pectoral volume at the lockout. The posterior deltoid now keeps its rest length and stays clean.
+
+**Later (31 Oct): MG11 / MG11b on the muscle branch (3475c65d).** The forearm now has a brachioradialis muscle
+proxy. The arm muscle proxies (biceps, brachialis, triceps, brachioradialis) change shape with their length, keyed by
+length ratio so any exercise can drive them, with layering and an elbow contact keyed by elbow angle.
+
+- **Curl, both sides:** overlaps at 122.5 / 130 / 140° fall from 364 / 474 / 613 to 4 / 8 / 4. Volumes are kept
+  within 0.3 % to 105° and at least 0.88 at 140°.
+- **Still open:**
+  - the 140° shapes are blocky;
+  - the brachioradialis belly needs a part above the elbow;
+  - the leg (MG10) and arm (MG11b) keys are still in separate copies.

@@ -34,3 +34,21 @@ The next source/topology-pinned audit samples **four pre-existing diagnostic elb
 - No production merge, deploy, source `.blend` overwrite, anatomical approval, muscle highlight implementation or new ROM hard-limit interpretation.
 
 This audit has made no changes to model source, tests, scripts, application code or CI. It records the status of the run and identifies the outstanding integrity gate.
+
+## Follow-up: actual row-edge artifact integrity and numeric replay — VERIFIED 31 October
+
+This supersedes the previous 'not independently downloaded' boundary for **artifact 13038846838 only**. Directly downloaded `github-actions-artifact-13038846838.zip` from GitHub, compared entire ZIP SHA-256 to its published digest, tested ZIP member CRCs, parsed `w8_row_pinned_edges.json`, independently recomputed 36 endpoint-pair distances and neutral ratios over four fixed edges × nine frame samples. ZIP hash **MATCH**, CRC **PASS**, 36/36 endpoint lengths and ratios **PASS**. The independent replay is mathematical consistency, not independent Blender rerendering or full source geometry reproduction.
+
+- ZIP SHA-256 `3d8acb2940bb13876b1b836b543bac080e1ccd6761459f09530ae739694200af`.
+- Row edge JSON SHA-256 `d304c222e88ed11b2c5975fa4f40730ee484cd77740bfc1aa4582bcecd6d8ddf`; Markdown `b2d89dfa8a4bfa251e6f1d9cf6a941e90d5144f7930fab765a32a20239feb638`.
+- Co-packaged control JSON `eae29117f09652b4c17c84d555643ce4be70b1157daa8868bd4fbb63b904d5f2`; control Markdown `1975bb3935cce0dc060455eab0d7df5150427838b27a0d36d8cb24a6b494a048`, both identical to previously pinned hashes.
+- Exact nine integer sample indices 0–8 and equal per-frame topology hash `64dfbe701c5a76fc8a942c0e7d2e98612c8bf2a0d7ab2722c9ca83b4450b56a6`; declared vertex count 219974. Full source topology was checked by the cloud audit, not independently reconstructed from this ZIP.
+- Correct input W8 model source SHA-256 `2434afd0daa231ab3a03c873cad4187ffcbc1bab78132375221160b0b0f09e4c`. Explicit model source unchanged, no source save, keys cleared, evaluated **plain neutral** reference, no anatomy approval.
+- Four neutral lengths in mm: 6.11620219, 6.05572108, 3.55422175, 3.52834558.
+- Ratio minima/maxima along the nine frame sequence (ordered edge pairs below): (0.688494,1.000015), (0.687031,1.000020), (0.750282,1.359863), (0.747508,1.363682).
+- At sample 4, last two edges expand to approximately 1.359863 and 1.363682 times neutral; at sample 7 first two edges reduce to approximately 0.688494 and 0.687031. These are individual **mesh-edge geometry** ratios and must not be called skin strain, localized defect causes or human safety limits.
+- Edge IDs: [15645,53019], [17185,44317], [29237,71026], [32352,71428].
+
+The four-edge diagnostic is therefore **verified as a consistent report of the pinned plain-row snapshots**. It does *not* establish correct anatomical left/right, full elbow coverage, absence of skin intersections, the proper role of separate radius/ulna, driven corrective behavior, or return-to-neutral. Existing model gates stay blocked.
+
+Next independent task: design an explicit multi-ring elbow-region sampling plan from source anatomy/mesh (coverage and provenance mandatory), and a paired *driven-corrective* native replay for the same exact source IDs and frames. Do not use the four edges as a representative population or approve anatomical safety.

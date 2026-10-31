@@ -9,6 +9,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from forearm_pose_state_probe import (W8_SHA256, R57_SHA, digest, verify_r57_root,
     control_record, _valid_control, _finite, _number, _vector, smooth)
+import row_pinned_edges as pinned_edges
 
 CONTROLS = ('upperarm', 'forearm', 'hand')
 FLAGS = ('collapse_lt_0_1', 'stretch_gt_2', 'self_intersecting_pairs')
@@ -166,6 +167,15 @@ def main():
     if 'hgpt_cap_fraction_ramp' in rig or press_extension._PATH['name']!='v4':
         raise ValueError('Pinned benchmark variant changed')
     captures=[]
+    edge_reference=[None]
+    edge_samples=[]
+    source_vertex_count=len(body.data.vertices)
+    source_faces=[tuple(poly.vertices) for poly in body.data.polygons]
+    def setup_edges(loaded):
+        if any(k.value!=0. for k in body.data.shape_keys.key_blocks[1:]):
+            raise ValueError('Neutral edge reference has active corrective keys')
+        vertices,faces=bench._evaluated(body)
+        edge_reference[0]=pinned_edges.reference(vertices,faces,source_vertex_count,source_faces)
     def capture(loaded):
         if any(k.value!=0. for k in body.data.shape_keys.key_blocks[1:]):
             raise ValueError('Plain benchmark unexpectedly activated corrective keys')
@@ -174,10 +184,12 @@ def main():
             records={n:control_record(loaded['runtime'].pose.bones,rig.matrix_world,f'{n}_{side}') for n in CONTROLS}
             sides[side]={'controls':records,'included_control_elbow_angle_deg_not_anatomical':included_elbow_angle_deg(records)}
         captures.append(sides)
+        vertices,faces=bench._evaluated(body)
+        edge_samples.append(pinned_edges.snapshot(vertices,faces,edge_reference[0],len(captures)-1))
         print('READ_ONLY_ROW_ELBOW_CAPTURE',len(captures)-1,flush=True)
     original=correction.build_corrected_scene
     correction.build_corrected_scene=lambda:result
-    try:outcome=bench.run(only=['bent_over_row'],post_pose=capture)
+    try:outcome=bench.run(only=['bent_over_row'],setup=setup_edges,post_pose=capture)
     finally:correction.build_corrected_scene=original
     frames=outcome.get('benchmarks',{}).get('bent_over_row',{}).get('frames',[])
     if len(frames)!=9 or len(captures)!=9:raise ValueError('Incomplete row observation')
@@ -193,9 +205,12 @@ def main():
             'whole_body_benchmark_flags_not_elbow_local':{k:frame[k] for k in FLAGS},'sides':sides})
     errors=validate_report(data)
     if errors:raise ValueError('Invalid native row evidence: '+'; '.join(errors))
+    edge_data=pinned_edges.report(edge_reference[0],edge_samples)
     args.out.mkdir(parents=True,exist_ok=False)
     (args.out/'w8_row_elbow_pose_state.json').write_text(json.dumps(data,indent=2)+'\n',encoding='utf-8')
     (args.out/'w8_row_elbow_pose_state.md').write_text(markdown(data),encoding='utf-8')
+    (args.out/'w8_row_pinned_edges.json').write_text(json.dumps(edge_data,indent=2)+'\n',encoding='utf-8')
+    (args.out/'w8_row_pinned_edges.md').write_text(pinned_edges.markdown(edge_data),encoding='utf-8')
     print('W8_ROW_ELBOW_POSE_STATE_WRITTEN',len(captures),flush=True)
 
 

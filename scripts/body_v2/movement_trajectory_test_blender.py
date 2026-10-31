@@ -66,6 +66,14 @@ USE_R121 = os.environ.get("V2_TRAJ_R121", "1") == "1"
 GIRDLE = os.environ.get("V2_TRAJ_GIRDLE", "r57")           # r57: apply_corrected_pose; candidate: shoulder_girdle_candidate
 NF = int(os.environ.get("V2_TRAJ_FRAMES", "17"))           # frames per trajectory (odd: the turning point is sampled)
 RENDER = os.environ.get("V2_TRAJ_RENDER", "1") == "1"
+ANIM = os.environ.get("V2_TRAJ_ANIM", "0") == "1"           # render EVERY frame from fixed cameras (MP4 frames):
+ANIM_VIEWS = [v for v in os.environ.get("V2_TRAJ_ANIM_VIEWS", "front,side,back").split(",") if v]   # <out>/anim/
+ANIM_W, ANIM_H = (int(x) for x in os.environ.get("V2_TRAJ_ANIM_RES", "480x854").split("x"))         # <mv>_<view>_<i>.png
+METRICS = os.environ.get("V2_TRAJ_METRICS", "1") == "1"      # 0: skip the per-frame metrics (animation-only runs)
+BAKE_GLB = os.environ.get("V2_TRAJ_BAKE_GLB", "")           # path: export rig + body as a GLB with one animation per
+# movement (bones and the driven shape-key weights baked per test frame); a REVIEW CANDIDATE, nothing is saved to a blend
+BAKE_FPS = int(os.environ.get("V2_TRAJ_BAKE_FPS", "24"))
+BAKE = {}
 PLANT = os.environ.get("V2_TRAJ_PLANT", "1") == "1"
 SQUAT_ARMS = os.environ.get("V2_TRAJ_SQUAT_ARMS", "hang")   # hang (r57 path) or forward (counterbalance cue)      # per-leg foot plant in the squat (the r57 path plants the mean only)
 LUNGE_ARMS = os.environ.get("V2_TRAJ_LUNGE_ARMS", "bench")  # bench (r57 path: the hanging hands meet the rising front thigh)
@@ -91,6 +99,22 @@ FA_REWEIGHT = os.environ.get("V2_TRAJ_FA_REWEIGHT", "0") == "1"   # CANDIDATE: f
 if FA_REWEIGHT:                                                  # crease (forearm_twist_candidate; in memory only)
     import forearm_twist_candidate as fatw
     FA_REWEIGHTED = fatw.reweight(rig, body)
+PRUNE4 = os.environ.get("V2_TRAJ_PRUNE4", "0") == "1"        # APP CHECK: keep each vertex's 4 largest deform weights,
+if PRUNE4:                                                       # renormalised - what glTF / three.js play (in memory)
+    _def = {b.name for b in rig.data.bones if b.use_deform}
+    _gi = {g.index: g for g in body.vertex_groups if g.name in _def}
+    PRUNED = 0
+    for v in body.data.vertices:
+        ws = sorted(((g.weight, g.group) for g in v.groups if g.group in _gi and g.weight > 0.0), reverse=True)
+        if len(ws) > 4:
+            keep = ws[:4]; tot = sum(w for w, _ in keep)
+            for w, gi in ws[4:]:
+                _gi[gi].remove([v.index])
+            for w, gi in keep:
+                _gi[gi].add([v.index], w / tot, "REPLACE")
+            PRUNED += 1
+    print("PRUNE4 vertices", PRUNED, flush=True)
+SAVE_POS = os.environ.get("V2_TRAJ_SAVE_POS", "0") == "1"     # <out>/positions_<movement>.npy (float32, frames x n x 3)
 K1_WRIST = os.environ.get("V2_TRAJ_K1_WRIST_REBUILD", "0")      # CANDIDATE: re-author the K1 wrist keys on this surface
 if K1_WRIST in ("1", "noguard"):                                 # (they date from before the R121 rebuild); in memory only
     import build_original_knee_contact_corrective_blender as k1
@@ -548,6 +572,67 @@ MOVE_FN = {"press": press, "curl": curl, "squat": squat,
            "lunge": lambda u: lunge(u)}
 
 
+KEY_DIAG = os.environ.get("V2_TRAJ_KEY_DIAG", "0") == "1"   # per frame: which shape keys push the arm root outward,
+# and the arm-root girth with and without keys (diagnosis: corrective keys vs skinning vs bones; read-only)
+if KEY_DIAG:
+    _B0 = np.empty(n * 3); me.shape_keys.key_blocks[0].data.foreach_get("co", _B0); _B0 = _B0.reshape(-1, 3)
+    _KD = {}
+    for s_ in ("l", "r"):
+        ub = rig.data.bones[f"upperarm_{s_}"]; h_ = np.array(rig.matrix_world @ ub.head_local)
+        t_ = np.array(rig.matrix_world @ ub.tail_local); L_ = np.linalg.norm(t_ - h_); ax_ = (t_ - h_) / L_
+        rel = R - h_; along = rel @ ax_ / L_; rad = rel - np.outer(rel @ ax_, ax_); rr = np.linalg.norm(rad, axis=1)
+        root = (along > -0.15) & (along < 0.45) & (rr < 0.11) & (np.abs(R[:, 0]) > 0.12)   # the arm root, rest space
+        ring = root & (np.abs(along - 0.30) < 0.04)          # a girth ring 30 % down the humerus
+        out_dir = np.where(rr[:, None] > 1e-6, rad / np.maximum(rr, 1e-6)[:, None], 0.0)
+        arm = (rr < 0.11) & (gw(f"upperarm_{s_}", f"upperarm_tw_{s_}") >= 0.5)   # skin that follows the humerus
+        bins = {round(b, 1): np.where(arm & (np.abs(along - b) < 0.04))[0] for b in np.arange(-0.1, 0.95, 0.1)}
+        _KD[s_] = dict(h=h_, L=L_, root=np.where(root)[0], ring=np.where(ring)[0], out=out_dir, rr=rr, bins=bins)
+
+
+def key_diag():
+    """rest-space attribution: per active key, the mean outward (from the humerus axis) offset x value over the arm
+    root, mm; and the posed girth ring's mean radius relative to its humerus, with keys and with every key at 0"""
+    kbs = me.shape_keys.key_blocks; res = {}
+    acts = [(kb.name, kb.value) for kb in kbs[1:] if abs(kb.value) > 0.01 and not kb.mute]
+    tmp = np.empty(n * 3)
+    for s_ in ("l", "r"):
+        d_ = _KD[s_]; idx = d_["root"]; contrib = []
+        for name, val in acts:
+            kbs[name].data.foreach_get("co", tmp); off = (tmp.reshape(-1, 3)[idx] - _B0[idx]) * val
+            o = (off * d_["out"][idx]).sum(1)
+            if np.abs(o).max() > 0.0005:
+                contrib.append((name, round(float(val), 3), round(float(o.mean() * 1000), 2), round(float(o.max() * 1000), 1)))
+        contrib.sort(key=lambda c: -c[3])
+        res[s_] = {"keys_outward_mean_max_mm": contrib[:8]}
+    def girth(P):
+        g = {}
+        for s_ in ("l", "r"):
+            pb = rig.pose.bones[f"upperarm_{s_}"]; h_ = np.array(rig.matrix_world @ pb.head); t_ = np.array(rig.matrix_world @ pb.tail)
+            ax_ = (t_ - h_) / np.linalg.norm(t_ - h_)
+            def rad(ix):
+                rel = P[ix] - h_
+                return float(np.linalg.norm(rel - np.outer(rel @ ax_, ax_), axis=1).mean() * 1000) if len(ix) else 0.0
+            g[s_] = rad(_KD[s_]["ring"]) / 1000.0
+            g[s_ + "_profile"] = {b: round(rad(ix), 1) for b, ix in _KD[s_]["bins"].items()}
+        return g
+    P1 = evaluated(); g1 = girth(P1)
+    vals = [kb.value for kb in kbs]
+    for kb in kbs[1:]:
+        kb.value = 0.0
+    g0 = girth(evaluated())
+    for kb, v in zip(kbs, vals):
+        kb.value = v
+    bpy.context.view_layer.update()
+    for s_ in ("l", "r"):
+        r0 = float(_KD[s_]["rr"][_KD[s_]["ring"]].mean())
+        res[s_].update(ring_radius_rest_mm=round(r0 * 1000, 1), ring_radius_posed_mm=round(g1[s_] * 1000, 1),
+                       ring_radius_lbs_only_mm=round(g0[s_] * 1000, 1),
+                       profile_rest_mm={b: round(float(_KD[s_]["rr"][ix].mean() * 1000), 1) if len(ix) else 0.0
+                                        for b, ix in _KD[s_]["bins"].items()},
+                       profile_posed_mm=g1[s_ + "_profile"], profile_lbs_only_mm=g0[s_ + "_profile"])
+    return res
+
+
 DIAG_GROUPS = os.environ.get("V2_TRAJ_DIAG_GROUPS", "0") == "1"
 if DIAG_GROUPS:
     _gn = {g.index: g.name for g in body.vertex_groups}
@@ -604,31 +689,17 @@ REP = {"source": SRC.name, "r121_drives": USE_R121, "press_girdle": GIRDLE, "upp
        "girdle_frame": os.environ.get("V2_GIRDLE_FRAME", "plane35"), "squat_arms": SQUAT_ARMS, "lunge_arms": LUNGE_ARMS,
        "frames_per_trajectory": NF, "vertices": n,
        "regions": {k: int(v.sum()) for k, v in REG.items()}, "mirror_partners": int(MOK.sum()), "movements": {}}
-FRAMES = {}
-for mv in MOVES:
-    rows = []; Ps = []
-    for i in range(NF):
-        u = i / (NF - 1); TWIST.update(l=0.0, r=0.0)
-        pose = MOVE_FN[mv](u); finish_pose()
-        P = evaluated(); Ps.append(P)
-        m = metrics(P); m.update(pose); m["u"] = round(u, 4)
-        if UA_TWIST:
-            m["upper_arm_twist_deg"] = {k: round(math.degrees(v), 1) for k, v in TWIST.items()}
-            if TW_DIAG:
-                m["upper_arm_twist_raw_elev_pf"] = {k: [round(x, 2) for x in v] for k, v in TW_DIAG.items()}
-        rows.append(m)
-        print("TRAJ", mv, i, json.dumps({k: m[k] for k in ("edges_gt90", "edges_gt35", "self_intersections", "asymmetry_p95_mm")}), flush=True)
-    ret = float(np.linalg.norm(Ps[-1] - Ps[0], axis=1).max() * 1000)
-    peak = {k: max(r[k] for r in rows) for k in rows[0] if isinstance(rows[0][k], (int, float)) and not k.startswith(("u", "depth"))}
-    REP["movements"][mv] = {"frames": rows, "return_to_neutral_max_mm": round(ret, 4), "peaks": peak}
-    if mv == "grip":
-        REP["movements"][mv]["thumb_search"] = {"collapse_rule": GRIP_COLLAPSE, "fist_collapse_faces": dict(GRIP_BASE),
-                                                "solution": {k: list(v[0]) + [v[1]] for k, v in bench._THUMB_CACHE.get("solution", {}).items()}}
-    FRAMES[mv] = [0, NF // 4, NF // 2, (3 * NF) // 4]
-    (OUT / "trajectory_report.json").write_text(json.dumps(REP, indent=1))
+# ------------------------------------------------------------------ renders (workbench, cavity; review only)
+VIEWS = {"front": ((0, -1, 0), 0.635, 2.45), "side": ((1, 0, 0), 0.635, 2.45), "back": ((0, 1, 0), 0.635, 2.45),
+         "back_upper": ((0, 1, 0), 0.80, 1.05), "front_upper": ((0, -1, 0), 0.80, 1.05),
+         "side_upper": ((1, 0, 0), 0.80, 1.05)}   # view: (camera direction, centre height / H, ortho scale m)
+_RSET = {}
 
-# ------------------------------------------------------------------ phone review sheets (workbench, cavity)
-if RENDER:
+
+def setup_render():
+    """camera, floor and the review material, once (other meshes hidden; nothing is saved)"""
+    if _RSET:
+        return _RSET
     sc = bpy.context.scene
     for ob in sc.objects:
         if ob.type in ("MESH", "CURVE") and ob is not body:
@@ -639,6 +710,70 @@ if RENDER:
     me.materials.clear(); me.materials.append(mat)
     sc.render.engine = "BLENDER_WORKBENCH"; sc.display.shading.light = "STUDIO"; sc.display.shading.color_type = "MATERIAL"
     sc.display.shading.show_cavity = True; sc.render.resolution_x = 560; sc.render.resolution_y = 1000
+    _RSET.update(sc=sc, cam=cam, cd=cd)
+    if ANIM:                                                 # light ground, display colours, a floor at the rest
+        if sc.world is None:                                 # sole height (cameras 7 deg above it), so contact reads
+            sc.world = bpy.data.worlds.new("REVIEW_ONLY")
+        sc.world.color = (0.86, 0.88, 0.88); sc.view_settings.view_transform = "Standard"
+        mat.diffuse_color = (0.80, 0.60, 0.48, 1)
+        fm = bpy.data.meshes.new("FLOOR_REVIEW_ONLY"); a = 1.2
+        fm.from_pydata([(-a, -a, z0), (a, -a, z0), (a, a, z0), (-a, a, z0)], [], [(0, 1, 2, 3)])
+        fo = bpy.data.objects.new("FLOOR_REVIEW_ONLY", fm); sc.collection.objects.link(fo)
+        fmat = bpy.data.materials.new("FLOOR_REVIEW_ONLY"); fmat.diffuse_color = (.80, .82, .84, 1); fm.materials.append(fmat)
+        sc.display.shading.show_shadows = True
+    return _RSET
+
+
+def render_views(mv, i, views, out_dir, res):
+    """render the current (posed, driven) frame from fixed cameras: identical for every model and frame"""
+    r = setup_render(); sc, cam, cd = r["sc"], r["cam"], r["cd"]
+    out_dir.mkdir(parents=True, exist_ok=True)
+    sc.render.resolution_x, sc.render.resolution_y = res
+    for view in views:
+        dv, hc, scale = VIEWS[view]
+        dvec = Vector(dv) + Vector((0.0, 0.0, 0.12)); dvec.normalize(); centre = Vector((0.0, 0.0, z0 + hc * H))
+        cam.location = centre + dvec * 4; cam.rotation_mode = "QUATERNION"; cd.ortho_scale = scale
+        cam.rotation_quaternion = (-dvec).to_track_quat("-Z", "Y")
+        sc.render.filepath = str(out_dir / f"{mv}_{view}_{i:03d}.png"); bpy.ops.render.render(write_still=True)
+
+
+FRAMES = {}
+for mv in MOVES:
+    rows = []; Ps = []
+    for i in range(NF):
+        u = i / (NF - 1); TWIST.update(l=0.0, r=0.0)
+        pose = MOVE_FN[mv](u); finish_pose()
+        P = evaluated(); Ps.append(P)
+        m = metrics(P) if METRICS else {}; m.update(pose); m["u"] = round(u, 4)
+        if KEY_DIAG:
+            m["key_diag"] = key_diag()
+        if BAKE_GLB:
+            BAKE.setdefault(mv, []).append((
+                {pb.name: pb.matrix_basis.copy() for pb in rig.pose.bones},
+                [kb.value for kb in me.shape_keys.key_blocks]))
+        if ANIM:
+            render_views(mv, i, ANIM_VIEWS, OUT / "anim", (ANIM_W, ANIM_H))
+        if UA_TWIST:
+            m["upper_arm_twist_deg"] = {k: round(math.degrees(v), 1) for k, v in TWIST.items()}
+            if TW_DIAG:
+                m["upper_arm_twist_raw_elev_pf"] = {k: [round(x, 2) for x in v] for k, v in TW_DIAG.items()}
+        rows.append(m)
+        print("TRAJ", mv, i, json.dumps({k: m.get(k) for k in ("edges_gt90", "edges_gt35", "self_intersections", "asymmetry_p95_mm")}), flush=True)
+    if SAVE_POS:
+        np.save(OUT / f"positions_{mv}.npy", np.stack(Ps).astype(np.float32))
+    ret = float(np.linalg.norm(Ps[-1] - Ps[0], axis=1).max() * 1000)
+    peak = {k: max(r.get(k, 0) for r in rows) for k in rows[0] if isinstance(rows[0][k], (int, float)) and not k.startswith(("u", "depth"))}
+    REP["movements"][mv] = {"frames": rows, "return_to_neutral_max_mm": round(ret, 4), "peaks": peak}
+    if mv == "grip":
+        REP["movements"][mv]["thumb_search"] = {"collapse_rule": GRIP_COLLAPSE, "fist_collapse_faces": dict(GRIP_BASE),
+                                                "solution": {k: list(v[0]) + [v[1]] for k, v in bench._THUMB_CACHE.get("solution", {}).items()}}
+    FRAMES[mv] = [0, NF // 4, NF // 2, (3 * NF) // 4]
+    (OUT / "trajectory_report.json").write_text(json.dumps(REP, indent=1))
+
+# ------------------------------------------------------------------ phone review sheets (workbench, cavity)
+if RENDER:
+    r_ = setup_render(); sc, cam, cd = r_["sc"], r_["cam"], r_["cd"]
+    sc.render.resolution_x = 560; sc.render.resolution_y = 1000; cd.ortho_scale = 2.05
     files = {}
     for mv in MOVES:
         for fi in FRAMES[mv]:
@@ -651,4 +786,8 @@ if RENDER:
                 files.setdefault((mv, view), []).append(str(f))
     bench._reset(rig)
     (OUT / "frames_index.json").write_text(json.dumps({"frames": FRAMES, "frames_per_trajectory": NF}))
+if BAKE_GLB:
+    import glb_bake_export                                    # noqa: E402
+    GLB_REPORT = glb_bake_export.export(rig, body, BAKE, Path(BAKE_GLB), fps=BAKE_FPS, source=SRC, report=REP)
+    print("GLB", json.dumps(GLB_REPORT)[:400], flush=True)
 print("TRAJECTORY done", flush=True)

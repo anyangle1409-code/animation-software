@@ -665,3 +665,13 @@ The overnight hourly cloud continuation automation is configured separately; eac
 - Machine record: `recovery_20261023/cloud_verification_20261031_run41151053374.json`. This supersedes the pending hardened-run status, not the valid historical native evidence.
 - Next: observe elbow bending in the unchanged frozen bent-over-row path; account for coupled shoulder motion. No standalone frozen elbow-flexion benchmark exists. Dirty-checkout detection remains deferred hardening; no evidence of dirty pinned source in these fresh cloud jobs.
 - No approved visual correction or anatomical approval follows:46 landmarks unbound;0/19 generic motions approved. Original models and all protected assets remain unchanged.
+
+
+## 2026-10-31 — coupled row elbow-control probe — native validation pending
+
+- Implemented `scripts/phone_blender/row_elbow_pose_state_probe.py` and12 focused regression tests at `36872968457c49b06027d0c49491e9f5f0e3e6a1`. Reuses pinned W8/r57 and existing control-record validation; no model save.
+- Captures nine bilateral upperarm/forearm/hand head/tail/quaternion observations on the unchanged frozen `bent_over_row` path. Included elbow angle is independently derived from the three head positions and revalidated; authored target, local quaternion magnitude and unsigned point-chain geometry remain separate.
+- Test-first RED was missing-module error; focused12/12 and full378/378 GREEN. Compile/diff checks and workflow YAML/wiring checks pass. Fresh-context review found no Critical/Important issue.
+- Separate native output/artifact `phone-w8-row-elbow-pose-state-<run>`; [run41189500502](https://github.com/anyangle1409-code/animation-software/actions/runs/41189500502) is IN_PROGRESS. Do not mark native findings verified until it passes and the artifact is independently CRC/SHA256 checked and replayed.
+- Ruling: row includes coupled shoulder/elbow motion; existing whole-body flags are not elbow-local skin metrics. Elbow-region geometry acceptance needs a separately pinned region contract, so this increment does not invent one.
+- No return-to-neutral, independent radius/ulna, anatomical laterality/ISB/ROM/contact/safety/movement approval.46 landmarks remain unbound;0/19 generic motions approved. Protected model/rig/weights/keys/muscles/app/version unchanged; no merge/deploy.

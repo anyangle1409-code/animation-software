@@ -41,6 +41,8 @@ summary.
   - deadlift folds 68 → 44;
   - row folds 20 → 7.
 - Table, notes and phone sheets (`REVIEW_C1_*.jpg`) are in the trajectories doc's C1 section.
+- Phone review page (private, owner's account): https://claude.ai/artifact/Qj6KWhBDzBt39uaLv4HhUi - the table,
+  the external-rotation and wrist close-ups, and all twenty sheets in one page.
 - **Adopting C1 changes the bind and the runtime contract.** That is the owner's call; AX6 remains the current best
   until then.
 

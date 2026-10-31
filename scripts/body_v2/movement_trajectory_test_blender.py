@@ -723,6 +723,40 @@ VIEWS = {"front": ((0, -1, 0), 0.635, 2.45), "side": ((1, 0, 0), 0.635, 2.45), "
          # horizontal body (push-up): wide frames near the floor
          "side_wide": ((1, 0, 0), 0.30, 3.6), "front_wide": ((0, -1, 0), 0.30, 3.6),
          "side_low": ((1, 0, 0), 0.22, 1.6)}   # view: (camera direction, centre height / H, ortho scale m)
+# framed per movement from the SKELETON (bone heads and tails at neutral and at the turning point), rounded to 5 cm -
+# fixed for every frame of the movement and identical for any model on this rig: (direction, focus bones or None = the
+# whole skeleton with a margin, ortho scale for focus views)
+AUTO_VIEWS = {"front_fit": ((0, -1, 0), None, None), "side_fit": ((1, 0, 0), None, None), "back_fit": ((0, 1, 0), None, None),
+              "back_top": ((0, 0.55, 0.85), ("upperarm_l", "upperarm_r", "spine_03"), 1.15),
+              "side_shoulder": ((1, 0, 0), ("upperarm_l", "upperarm_r", "clavicle_l", "clavicle_r"), 1.0),
+              "front_shoulder": ((0, -1, 0), ("upperarm_l", "upperarm_r", "clavicle_l", "clavicle_r"), 1.0)}
+CAM_FIT = {}
+
+
+def fit_cameras(mv, views):
+    """per-movement camera centres / scales from the skeleton at u = 0 and the turning point (u = 0.5)"""
+    pts = []
+    for u in (0.0, 0.5):
+        TWIST.update(l=0.0, r=0.0); MOVE_FN[mv](u); finish_pose()
+        for pb in rig.pose.bones:
+            pts.append(np.array(rig.matrix_world @ pb.head)); pts.append(np.array(rig.matrix_world @ pb.tail))
+        if u == 0.5:
+            focus = {pb.name: np.array(rig.matrix_world @ pb.head) for pb in rig.pose.bones}
+    P_ = np.array(pts); lo_, hi_ = P_.min(0), P_.max(0); lo_[2] = min(lo_[2], z0)
+    aspect = ANIM_W / ANIM_H
+    for v in views:
+        if v not in AUTO_VIEWS:
+            continue
+        dv, fb, sc_ = AUTO_VIEWS[v]; d_ = np.array(dv, float); d_ /= np.linalg.norm(d_)
+        if fb is None:                                  # whole skeleton + margin (skin ~ 0.15 m beyond the bones)
+            c = (lo_ + hi_) / 2; ext = hi_ - lo_ + 0.30
+            horiz = ext[1] if abs(d_[0]) > 0.5 else ext[0]
+            sc_ = max(ext[2], horiz / aspect) * 1.08
+        else:
+            c = np.mean([focus[b] for b in fb if b in focus], 0)
+        c = np.round(c / 0.05) * 0.05; sc_ = float(np.ceil(sc_ / 0.05) * 0.05)
+        CAM_FIT.setdefault(mv, {})[v] = (Vector(c.tolist()), sc_)
+
 _RSET = {}
 
 
@@ -746,7 +780,7 @@ def setup_render():
             sc.world = bpy.data.worlds.new("REVIEW_ONLY")
         sc.world.color = (0.86, 0.88, 0.88); sc.view_settings.view_transform = "Standard"
         mat.diffuse_color = (0.80, 0.60, 0.48, 1)
-        fm = bpy.data.meshes.new("FLOOR_REVIEW_ONLY"); a = 1.2
+        fm = bpy.data.meshes.new("FLOOR_REVIEW_ONLY"); a = 3.0
         fm.from_pydata([(-a, -a, z0), (a, -a, z0), (a, a, z0), (-a, a, z0)], [], [(0, 1, 2, 3)])
         fo = bpy.data.objects.new("FLOOR_REVIEW_ONLY", fm); sc.collection.objects.link(fo)
         fmat = bpy.data.materials.new("FLOOR_REVIEW_ONLY"); fmat.diffuse_color = (.80, .82, .84, 1); fm.materials.append(fmat)
@@ -760,8 +794,12 @@ def render_views(mv, i, views, out_dir, res):
     out_dir.mkdir(parents=True, exist_ok=True)
     sc.render.resolution_x, sc.render.resolution_y = res
     for view in views:
-        dv, hc, scale = VIEWS[view]
-        dvec = Vector(dv) + Vector((0.0, 0.0, 0.12)); dvec.normalize(); centre = Vector((0.0, 0.0, z0 + hc * H))
+        if view in AUTO_VIEWS:
+            dvec = Vector(AUTO_VIEWS[view][0]) + Vector((0.0, 0.0, 0.12)); dvec.normalize()
+            centre, scale = CAM_FIT[mv][view]
+        else:
+            dv, hc, scale = VIEWS[view]
+            dvec = Vector(dv) + Vector((0.0, 0.0, 0.12)); dvec.normalize(); centre = Vector((0.0, 0.0, z0 + hc * H))
         cam.location = centre + dvec * 4; cam.rotation_mode = "QUATERNION"; cd.ortho_scale = scale
         cam.rotation_quaternion = (-dvec).to_track_quat("-Z", "Y")
         sc.render.filepath = str(out_dir / f"{mv}_{view}_{i:03d}.png"); bpy.ops.render.render(write_still=True)
@@ -783,6 +821,9 @@ if SAVE_POS in ("1", "bones"):                                   # the full bind
 FRAMES = {}
 for mv in MOVES:
     rows = []; Ps = []; DEFORM_MATS = []
+    if ANIM and any(v in AUTO_VIEWS for v in ANIM_VIEWS):
+        fit_cameras(mv, ANIM_VIEWS)
+        print("CAMERAS", mv, {v: ([round(x, 2) for x in c], s_) for v, (c, s_) in CAM_FIT[mv].items()}, flush=True)
     for i in range(NF):
         u = i / (NF - 1); TWIST.update(l=0.0, r=0.0)
         pose = MOVE_FN[mv](u); finish_pose()

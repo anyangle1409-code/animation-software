@@ -13,8 +13,9 @@ What the GLB holds
     drive rules are the candidate's runtime contract, documented separately).
 
 Returns a report (also written next to the GLB as <name>.json): sha256, bytes, joints, morph targets, animations,
-the source blend, and how many vertices had more than 4 bone influences (glTF / three.js play at most 4; the exporter
-keeps the 4 largest and renormalises).
+the source blend, and how many vertices had more than 8 bone influences (exported as two joint sets, JOINTS_0/1 and
+WEIGHTS_0/1; the exporter keeps the 8 largest and renormalises).  Engines must play 8 influences: Babylon.js does
+natively, three.js with the shader patch in glb_playback/page.html.
 """
 from __future__ import annotations
 
@@ -32,15 +33,21 @@ def _clear_drivers(idb):
             ad.drivers.remove(d)
 
 
-def _influences(body, rig):
+INFLUENCES = 8   # two glTF joint sets: the top-8 cut stays within 0.38 mm of the full binding (only 519 vertices use
+                 # 9-10); 4 (one set, stock three.js) breaks the press lockout - see docs/CLAUDE_APP_READY_LEDGER_20261031.md
+
+
+def _influences(body, rig, limit=INFLUENCES):
     deform = {b.name for b in rig.data.bones if b.use_deform}
     idx = {g.index for g in body.vertex_groups if g.name in deform}
     over = 0; worst = 0; lost = 0.0
     for v in body.data.vertices:
         ws = sorted((g.weight for g in v.groups if g.group in idx and g.weight > 1e-6), reverse=True)
-        if len(ws) > 4:
-            over += 1; worst = max(worst, len(ws)); lost = max(lost, sum(ws[4:]) / max(sum(ws), 1e-9))
-    return {"vertices_over_4_influences": over, "max_influences": worst, "max_weight_share_dropped": round(lost, 4)}
+        worst = max(worst, len(ws))
+        if len(ws) > limit:
+            over += 1; lost = max(lost, sum(ws[limit:]) / max(sum(ws), 1e-9))
+    return {"influences_exported": limit, f"vertices_over_{limit}_influences": over, "max_influences": worst,
+            "max_weight_share_dropped": round(lost, 4)}
 
 
 def export(rig, body, bake, out: Path, fps=24, source=None, report=None):
@@ -87,7 +94,7 @@ def export(rig, body, bake, out: Path, fps=24, source=None, report=None):
                 export_animation_mode="NLA_TRACKS", export_force_sampling=True, export_frame_step=1,
                 export_def_bones=True, export_rest_position_armature=True, export_anim_slide_to_zero=True,
                 export_morph=True, export_morph_normal=False, export_morph_animation=True, export_try_sparse_sk=True,
-                export_skins=True, export_all_influences=False, export_influence_nb=4, export_yup=True, export_apply=False,
+                export_skins=True, export_all_influences=False, export_influence_nb=INFLUENCES, export_yup=True, export_apply=False,
                 export_texcoords=True, export_normals=True, export_materials="EXPORT", export_cameras=False,
                 export_lights=False, export_extras=False, export_optimize_animation_size=False)
     valid = {p.identifier for p in bpy.ops.export_scene.gltf.get_rna_type().properties}

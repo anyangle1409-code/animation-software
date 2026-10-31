@@ -47,9 +47,14 @@ skin, and the skin crumples front and back.
 
 **Still visible on C1, and next to fix:**
 
-- crinkling under the collarbones (front close-up);
-- a lump behind the arm (side close-up);
-- 9011 armpit edges stretched more than 2× at lockout.
+- **Crinkling across the upper chest and a sharp V-ridge from the sternum to the shoulders** (front close-up).
+  - It is identical with every shape key off, so it comes from the skinning.
+  - A chest relief-restore patch to the lockout key is being built.
+- **The armpit skin** has 9011 edges stretched more than 2× at lockout.
+
+The rounded mass behind the arm in the side close-up is not on that list. It is the posterior armpit fold
+(latissimus and teres major). It was judged anatomical against the owner's reference photos on 30 Oct and is kept;
+only its pointed corner was an artifact, and that was fixed in AX6.
 
 **Reproduce:** run `scripts/body_v2/movement_trajectory_test_blender.py` with `V2_TRAJ_ANIM=1 V2_TRAJ_FRAMES=49`, then
 `anim_compose.py` and `encode_mp4_blender.py`. The environments are in `press_metrics.json`.

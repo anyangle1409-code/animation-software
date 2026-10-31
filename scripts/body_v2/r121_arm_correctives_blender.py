@@ -389,6 +389,43 @@ def fair(T):
     return out
 
 
+# chest relief restore (V2_R121_ARMKEY_RELIEF_MM > 0, with V2_R121_ARMKEY_POSE=press / PATCH): at the press lockout the
+# skinning crinkles the pectoral skin and pulls a sharp V-ridge from the sternum to the shoulders (identical with every
+# shape key off, so it is the skinning).  At each scale in V2_R121_ARMKEY_RELIEF_SCALES (Laplacian rounds), where the
+# pose has made the relief LARGER than at rest (new ridges and creases) by more than the deadband, the excess is pushed
+# back along the normal; relief the pose reduced (a stretched muscle flattening) is left alone.  Region: the front of
+# the chest between the nipple line and the clavicles, faded in over 2 cm.
+RELIEF_MM = float(os.environ.get("V2_R121_ARMKEY_RELIEF_MM", "0")) / 1000.0
+RELIEF_SCALES = [int(x) for x in os.environ.get("V2_R121_ARMKEY_RELIEF_SCALES", "20,60").split(",")]
+if RELIEF_MM > 0:
+    _sp = np.array(rig.matrix_world @ rig.data.bones["spine_03"].head_local) if "spine_03" in rig.data.bones else R0.mean(0)
+    _fz = (R0[:, 2] - z0) / H
+
+    def _ramp(x, a, b):
+        t = np.clip((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t)
+    RELIEF_W = (_ramp(_fz, 0.69, 0.71) * (1 - _ramp(_fz, 0.82, 0.84)) * (1 - _ramp(np.abs(R0[:, 0]), 0.17, 0.19))
+                * (1 - _ramp(R0[:, 1], _sp[1] - 0.02, _sp[1])) * UPPER)
+    RELIEF_R0 = {sc: relief(R0, sc) for sc in RELIEF_SCALES}
+
+
+def relief_restore(T):
+    hist = {}
+    for sc in RELIEF_SCALES:
+        h = []
+        for _ in range(int(os.environ.get("V2_R121_ARMKEY_RELIEF_ITERS", "6"))):
+            r_ = relief(T, sc); r0 = RELIEF_R0[sc]
+            ex = np.where(np.abs(r_) > np.abs(r0) + RELIEF_MM, r_ - np.sign(r_) * (np.abs(r0) + RELIEF_MM), 0.0) * RELIEF_W
+            h.append(round(float(np.abs(ex).max()) * 1000, 2))
+            if np.abs(ex).max() < 1e-4:
+                break
+            d = -ex[:, None] * vnormals(T)
+            for _ in range(max(4, sc // 10)):
+                d = 0.5 * d + 0.5 * mean(d)
+            T += d * UPPER[:, None]
+        hist[str(sc)] = h
+    return hist
+
+
 def ridge_relief(T):
     """push pose-made ridges at the arm / torso junction back towards their rest relief (in place); history in mm"""
     hist = []
@@ -675,6 +712,7 @@ for ang in ANGLES:
             T = T + 0.4 * ws[:, None] * F
     ridge_hist = ridge_relief(T) if RIDGE > 0 else None
     fair_hist = fair(T) if FAIR_C else None
+    relief_hist = relief_restore(T) if RELIEF_MM > 0 else None
     m90, n90 = folds(T, 0.0)
     hist.append(n90)
     # deformation matrices: posed response to unit rest offsets through a temporary key (1 mm)
@@ -712,7 +750,7 @@ for ang in ANGLES:
     if PATCH:                                                  # the patched keys reproduce the target at this pose
         pose(ang); patch_resid = round(float(np.linalg.norm(T - evaluated(), axis=1).max() * 1000), 3)
     REP["keys"][str(ang)] = {"elevation_deg": elev, "folds_gt90_before": int(folds(P, 0.0)[1]), "unfold_history": hist, "contact_history": contact_hist, "post_guard_overlaps": postguard_hist, "crumple_gt35_history": crum,
-                             "ridge_excess_history_mm": ridge_hist, "fairing": fair_hist,
+                             "ridge_excess_history_mm": ridge_hist, "fairing": fair_hist, "chest_relief_excess_mm": relief_hist,
                              **({"patched": patched, "patched_residual_max_mm": patch_resid} if PATCH else {}),
                              "folds_gt90_with_key": nk, "max_offset_mm": round(float(np.linalg.norm(Dk, axis=1).max() * 1000), 2),
                              "vertices": int(len(sel)), "fit_residual_max_mm": round(resid, 3)}

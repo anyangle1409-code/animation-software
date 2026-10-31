@@ -23,6 +23,56 @@ scene.add(new THREE.HemisphereLight(0xffffff, 0x8a8f8c, 1.6));
 const key = new THREE.DirectionalLight(0xffffff, 1.8); key.position.set(1.5, 3, 3); scene.add(key);
 const cam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.01, 50);
 
+// 8 bone influences: the GLB carries a second joint set (JOINTS_1 / WEIGHTS_1, loaded as joints_1 / weights_1).  Stock
+// three.js skins with 4; this patch adds the other 4 to the position and normal skinning (GPU) - the same rule as Blender.
+const SKIN8_POS = `#ifdef USE_SKINNING
+  vec4 skinVertex = bindMatrix * vec4( transformed, 1.0 );
+  vec4 skinned = vec4( 0.0 );
+  skinned += boneMatX * skinVertex * skinWeight.x; skinned += boneMatY * skinVertex * skinWeight.y;
+  skinned += boneMatZ * skinVertex * skinWeight.z; skinned += boneMatW * skinVertex * skinWeight.w;
+  skinned += boneMatX1 * skinVertex * weights_1.x; skinned += boneMatY1 * skinVertex * weights_1.y;
+  skinned += boneMatZ1 * skinVertex * weights_1.z; skinned += boneMatW1 * skinVertex * weights_1.w;
+  transformed = ( bindMatrixInverse * skinned ).xyz;
+#endif`;
+const SKIN8_NRM = `#ifdef USE_SKINNING
+  mat4 skinMatrix = mat4( 0.0 );
+  skinMatrix += skinWeight.x * boneMatX; skinMatrix += skinWeight.y * boneMatY;
+  skinMatrix += skinWeight.z * boneMatZ; skinMatrix += skinWeight.w * boneMatW;
+  skinMatrix += weights_1.x * boneMatX1; skinMatrix += weights_1.y * boneMatY1;
+  skinMatrix += weights_1.z * boneMatZ1; skinMatrix += weights_1.w * boneMatW1;
+  skinMatrix = bindMatrixInverse * skinMatrix * bindMatrix;
+  objectNormal = vec4( skinMatrix * vec4( objectNormal, 0.0 ) ).xyz;
+#endif`;
+function patchSkin8(mat) {
+  mat.onBeforeCompile = (sh) => {
+    sh.vertexShader = sh.vertexShader
+      .replace("#include <skinning_pars_vertex>", "#include <skinning_pars_vertex>\nattribute vec4 joints_1;\nattribute vec4 weights_1;")
+      .replace("#include <skinbase_vertex>", "#include <skinbase_vertex>\n#ifdef USE_SKINNING\nmat4 boneMatX1 = getBoneMatrix( joints_1.x ); mat4 boneMatY1 = getBoneMatrix( joints_1.y );\nmat4 boneMatZ1 = getBoneMatrix( joints_1.z ); mat4 boneMatW1 = getBoneMatrix( joints_1.w );\n#endif")
+      .replace("#include <skinnormal_vertex>", SKIN8_NRM)
+      .replace("#include <skinning_vertex>", SKIN8_POS);
+  };
+  mat.customProgramCacheKey = () => "skin8";
+  mat.needsUpdate = true;
+}
+const _b = new THREE.Vector3(), _t = new THREE.Vector3(), _m = new THREE.Matrix4();
+function vertexPosition8(mesh, i, out) {           // morphs, then 8-influence skinning (CPU; same rule as the shader)
+  const g = mesh.geometry, pos = g.attributes.position; _b.fromBufferAttribute(pos, i);
+  const mp = g.morphAttributes.position, inf = mesh.morphTargetInfluences;
+  if (mp && inf) for (let k = 0; k < mp.length; k++) if (inf[k]) _b.addScaledVector(_t.fromBufferAttribute(mp[k], i), inf[k]);
+  _b.applyMatrix4(mesh.bindMatrix); out.set(0, 0, 0);
+  const sets = [[g.attributes.skinIndex, g.attributes.skinWeight], [g.attributes.joints_1, g.attributes.weights_1]];
+  for (const [J, Wt] of sets) {
+    if (!J || !Wt) continue;
+    for (let c = 0; c < 4; c++) {
+      const w = Wt.getComponent(i, c); if (!w) continue;
+      const bi = J.getComponent(i, c);
+      _m.multiplyMatrices(mesh.skeleton.bones[bi].matrixWorld, mesh.skeleton.boneInverses[bi]);
+      out.addScaledVector(_t.copy(_b).applyMatrix4(_m), w);
+    }
+  }
+  return out.applyMatrix4(mesh.bindMatrixInverse);
+}
+
 window.loadModel = async (url) => {
   const t0 = performance.now();
   const gltf = await new GLTFLoader().loadAsync(url);
@@ -32,10 +82,23 @@ window.loadModel = async (url) => {
   gltf.scene.traverse(o => { if (o.isSkinnedMesh && !mesh) mesh = o; if (o.isBone) bones++; });
   window.M = { gltf, mesh, mixer: new THREE.AnimationMixer(gltf.scene) };
   const g = mesh.geometry;
+  const has8 = !!(g.attributes.joints_1 && g.attributes.weights_1);
+  if (has8) {
+    // GLTFLoader renormalises the FIRST joint set to sum 1 on load (mesh.normalizeSkinWeights); with two sets that is
+    // wrong.  The second set is untouched and both summed to 1 in the file, so set 1 is restored exactly by (1 - sum2).
+    const W0 = g.attributes.skinWeight, W1 = g.attributes.weights_1;
+    for (let i = 0; i < W0.count; i++) {
+      const s2 = W1.getX(i) + W1.getY(i) + W1.getZ(i) + W1.getW(i), k = 1 - s2;
+      W0.setXYZW(i, W0.getX(i) * k, W0.getY(i) * k, W0.getZ(i) * k, W0.getW(i) * k);
+    }
+    W0.needsUpdate = true;
+    patchSkin8(mesh.material);
+  }
+  window.M.has8 = has8;
   return {
     load_ms: Math.round(t1 - t0), skinned_meshes: 1, bones, skin_joints: mesh.skeleton.bones.length,
     vertices: g.attributes.position.count, triangles: g.index ? g.index.count / 3 : g.attributes.position.count / 3,
-    morph_targets: (g.morphAttributes.position || []).length,
+    morph_targets: (g.morphAttributes.position || []).length, influences: has8 ? 8 : 4,
     clips: gltf.animations.map(a => ({ name: a.name, duration: +a.duration.toFixed(4), tracks: a.tracks.length })),
   };
 };
@@ -57,7 +120,10 @@ window.frame = (clipName, t, sample, view) => {
   if (sample) {
     const v = new THREE.Vector3(), pts = [];
     const n = mesh.geometry.attributes.position.count, step = Math.max(1, Math.floor(n / sample));
-    for (let i = 0; i < n; i += step) { mesh.getVertexPosition(i, v); v.applyMatrix4(mesh.matrixWorld); pts.push(v.x, v.y, v.z); }
+    for (let i = 0; i < n; i += step) {
+      if (window.M.has8) vertexPosition8(mesh, i, v); else mesh.getVertexPosition(i, v);
+      v.applyMatrix4(mesh.matrixWorld); pts.push(v.x, v.y, v.z);
+    }
     out.points = pts;
   }
   return out;

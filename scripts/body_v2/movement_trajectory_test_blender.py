@@ -99,21 +99,23 @@ FA_REWEIGHT = os.environ.get("V2_TRAJ_FA_REWEIGHT", "0") == "1"   # CANDIDATE: f
 if FA_REWEIGHT:                                                  # crease (forearm_twist_candidate; in memory only)
     import forearm_twist_candidate as fatw
     FA_REWEIGHTED = fatw.reweight(rig, body)
-PRUNE4 = os.environ.get("V2_TRAJ_PRUNE4", "0") == "1"        # APP CHECK: keep each vertex's 4 largest deform weights,
-if PRUNE4:                                                       # renormalised - what glTF / three.js play (in memory)
+PRUNE_N = int(os.environ.get("V2_TRAJ_PRUNE", "4" if os.environ.get("V2_TRAJ_PRUNE4", "0") == "1" else "0"))
+PRUNE4 = PRUNE_N > 0                                             # APP CHECK: keep each vertex's N largest deform weights,
+if PRUNE4:                                                       # renormalised (4: one glTF joint set, what stock three.js
+                                                                 # plays; 8: two joint sets) - in memory
     _def = {b.name for b in rig.data.bones if b.use_deform}
     _gi = {g.index: g for g in body.vertex_groups if g.name in _def}
     PRUNED = 0
     for v in body.data.vertices:
         ws = sorted(((g.weight, g.group) for g in v.groups if g.group in _gi and g.weight > 0.0), reverse=True)
-        if len(ws) > 4:
-            keep = ws[:4]; tot = sum(w for w, _ in keep)
-            for w, gi in ws[4:]:
+        if len(ws) > PRUNE_N:
+            keep = ws[:PRUNE_N]; tot = sum(w for w, _ in keep)
+            for w, gi in ws[PRUNE_N:]:
                 _gi[gi].remove([v.index])
             for w, gi in keep:
                 _gi[gi].add([v.index], w / tot, "REPLACE")
             PRUNED += 1
-    print("PRUNE4 vertices", PRUNED, flush=True)
+    print("PRUNE", PRUNE_N, "vertices", PRUNED, flush=True)
 SAVE_POS = os.environ.get("V2_TRAJ_SAVE_POS", "0")            # 1: <out>/positions_<movement>.npy (frames x n x 3);
 # bones: only <out>/deform_<movement>.npy (frames x deform bones x 3 x 4, world deform matrices) and <out>/binding.npz
 # (rest positions, deform weights) - the training data for fit_app_binding.py; 1 also writes those

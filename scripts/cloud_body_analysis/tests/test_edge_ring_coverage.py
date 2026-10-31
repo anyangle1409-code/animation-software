@@ -1,6 +1,6 @@
 """Synthetic tests for read-only mesh ring coverage."""
 import unittest
-from scripts.cloud_body_analysis.edge_ring_coverage import describe
+from scripts.cloud_body_analysis.edge_ring_coverage import describe, measure_ring_edges
 
 V = [(0,0,0), (1,0,0), (1,1,0), (0,1,0), (2,0,0)]
 T = [(0,1,2), (0,2,3), (1,4,2)]
@@ -39,6 +39,32 @@ class RingTests(unittest.TestCase):
                 describe(V,T,S,depth)
     def test_missing_seeds(self):
         with self.assertRaises(ValueError): describe(V,T,[])
+
+
+    def test_expanded_edge_measurements(self):
+        region = describe(V,T,S,1)
+        posed = list(V)
+        posed[4] = (3,0,0)
+        measured = measure_ring_edges(V,posed,T,region["regions"][0],region["topology_sha256"])
+        self.assertEqual(measured["edge_count"], 7)
+        self.assertEqual(measured["min_ratio"], 1)
+        self.assertGreater(measured["max_ratio"], 1)
+        self.assertFalse(measured["anatomical_region_certified"])
+    def test_measurement_rejects_stale_membership(self):
+        region = describe(V,T,S,1)
+        bad = dict(region["regions"][0])
+        bad["rings"] = [{"ring":0,"vertex_ids":[0,1]},{"ring":1,"vertex_ids":[2]}]
+        with self.assertRaises(ValueError):
+            measure_ring_edges(V,V,T,bad,region["topology_sha256"])
+    def test_measurement_rejects_stale_topology(self):
+        region = describe(V,T,S,1)
+        with self.assertRaises(ValueError):
+            measure_ring_edges(V,V,T,region["regions"][0],"0"*64)
+    def test_measurement_rejects_nonfinite_pose(self):
+        region = describe(V,T,S,1)
+        with self.assertRaises(ValueError):
+            measure_ring_edges(V,[(float("nan"),0,0)]+V[1:],T,
+                               region["regions"][0],region["topology_sha256"])
 
 if __name__ == "__main__":
     unittest.main()

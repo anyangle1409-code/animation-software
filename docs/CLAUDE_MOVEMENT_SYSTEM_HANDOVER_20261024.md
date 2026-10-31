@@ -444,8 +444,10 @@ The flagged muscles:
        - Standing row: folds 20 → 7.
        - Bent-over row: 126 → 57 pairs, folds 72 → 27.
        - Authored movements identical.
-       - The blend is `W3` = W2 + the extension keys. The push-up's remaining shoulder fault is at its top, not in
-         extension.
+       - The blend is `W3` = W2 + the extension keys.
+     - **The push-up's shoulder fault is the benchmark's.** It poses no shoulder girdle. With the coupled girdle
+       (`V2_TRAJ_PUSHUP_GIRDLE=1`) and the thorax-frame plane factor, W3's push-up has at most 53 pairs (forearm
+       crease, thumb base) and 46 folds. It was 1029 / 323 on AX6.
    - Until then, any exercise that turns the humerus more than about 15° off the authored paths creaks at the
      shoulder: band external / internal rotation, the overhead triceps extension, face pulls, and so on.
    - New harness movements: `external_rotation`, `overhead_extension` and `pulldown`.

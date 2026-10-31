@@ -1882,3 +1882,24 @@ backward displacement.
   latissimus. The right side has 2.
 
 **Report:** `report_TT_W3_ext_family.json`, `r121_arm_correctives_ext_report_W3.json`.
+
+**The push-up's shoulder fault is the test path's (31 Oct).**
+
+- **The cause.** The r57 benchmark poses the push-up's arms with no shoulder-girdle motion, but every shoulder key was
+  authored with the coupled girdle.
+- **The option.** `V2_TRAJ_PUSHUP_GIRDLE=1` applies the coupled girdle for the arms' measured elevation after the
+  benchmark pose, and re-aims each humerus along its benchmark direction (forearm and hand follow).
+- **On W3:**
+
+  | Push-up, per frame (top → bottom) | Self-intersections | Folds over 90° |
+  |---|---|---|
+  | Benchmark (no girdle) | 336 319 294 271 186 80 29 23 23 | 101 104 82 102 87 98 73 49 46 |
+  | + coupled girdle | 33 24 19 50 53 23 25 23 23 | 41 40 28 43 41 58 65 49 46 |
+  | + coupled girdle, thorax-frame plane factor | 33 24 19 50 53 23 23 23 23 | 35 32 16 32 27 17 11 27 46 |
+
+- **What remains (at most 53 pairs)** is the forearm's own crease at full wrist extension (25) and the thumb base
+  against the index metacarpal (12 per side). There is no shoulder left in it.
+- Since G4, the push-up's peak folds have fallen 323 → 46. The wrist keys and the girdle did most of it; the
+  plane-factor fix, the rest.
+
+Report: `report_TT_W3_pushup_girdle_pf_thorax.json`.

@@ -432,6 +432,30 @@ BENCH_CARRY = float(os.environ.get("V2_TRAJ_BENCH_CARRY", "0"))   # extra arm ca
 #   and the extending humerus meet the hips, thighs and the trunk's side
 
 
+PUSHUP_GIRDLE = os.environ.get("V2_TRAJ_PUSHUP_GIRDLE", "0") == "1"   # the benchmark's push-up moves no shoulder
+#   girdle; with this the coupled girdle for each arm's measured elevation is applied and the humerus re-aimed along
+#   its benchmark direction (forearm and hand follow), as every shoulder key was authored
+
+
+def _with_girdle(out):
+    if not PUSHUP_GIRDLE:
+        return out
+    import functional_original_coupled_motion as motion
+    from mathutils import Matrix
+    dirs = {s_: (rig.pose.bones[f"upperarm_{s_}"].tail - rig.pose.bones[f"upperarm_{s_}"].head).normalized() for s_ in ("l", "r")}
+    e = sum(drives.elevation_deg(rig, s_) for s_ in ("l", "r")) / 2.0
+    for s_ in ("l", "r"):                                    # the girdle is set from its rest (the benchmark set none)
+        for nm in ("clavicle", "scapula"):
+            rig.pose.bones[f"{nm}_{s_}"].matrix_basis.identity()
+    bpy.context.view_layer.update()
+    girdle.apply_girdle(rig, motion.pose_profile(min(max(e, 0.0), 160.0)))
+    for s_ in ("l", "r"):
+        ub = rig.pose.bones[f"upperarm_{s_}"]; piv = ub.head.copy(); cur = (ub.tail - ub.head).normalized()
+        ub.matrix = Matrix.Translation(piv) @ cur.rotation_difference(dirs[s_]).to_matrix().to_4x4() @ Matrix.Translation(-piv) @ ub.matrix
+        bpy.context.view_layer.update()
+    return {**(out or {}), "girdle_elevation_deg": round(e, 1)}
+
+
 def _bench(fn, u, carry=False):
     """an r57 benchmark pose at t = 0 -> 1 -> 0 (its numbers rounded into the frame record)"""
     out = fn(1.0 - abs(2.0 * u - 1.0)) or {}
@@ -451,7 +475,7 @@ MOVE_FN = {"press": press, "curl": curl, "squat": squat,
            "trunk_rotation": lambda u: _bench(lambda t: bench.pose_trunk_rotation(rig, body, t), u, carry=True),
            "single_leg_stance": lambda u: _bench(lambda t: bench.pose_single_leg(rig, body, t), u, carry=True),
            "calf_raise": lambda u: _bench(lambda t: bench.pose_calf_raise(rig, body, t), u),
-           "push_up": lambda u: _bench(lambda t: bench.pose_pushup(rig, body, t), u),
+           "push_up": lambda u: _bench(lambda t: _with_girdle(bench.pose_pushup(rig, body, t)), u),
            "forearm_rotation": lambda u: _bench(lambda t: bench.pose_forearm_rotation(rig, body, t), u),
            "wrist_circuit": lambda u: _bench(lambda t: bench.pose_wrist(rig, body, t), u),
            "grip": lambda u: _bench(lambda t: bench.pose_grip(rig, body, t), u),

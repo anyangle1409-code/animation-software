@@ -1684,3 +1684,36 @@ swing).
   - `external_rotation_60_AX6_vs_twist_candidate.jpg`: AX6's deltoid and back-of-arm crinkles and pectoral-edge nub
     are gone.
   - Phone sheets: `REVIEW_G2_{external_rotation,overhead_extension,press}_twist_candidate.jpg`.
+
+## G3: band internal rotation and a standing row (31 Oct 2026)
+
+Two more exercises that no key was authored for, run on AX6 and on the G2 twist candidate. Both are on request in the
+harness.
+
+- **`internal_rotation`:** as `external_rotation`, turned inwards to 45° (`V2_TRAJ_IR_DEG`).
+- **`row`:** from the standing carriage, the humerus goes back and a little out to 50° (`V2_TRAJ_ROW_EXT`) while the
+  elbows bend to 100°. The plane is set by `V2_TRAJ_ROW_PLANE`, default −70°.
+
+| Peak | AX6 | AX6 + twist candidate |
+|---|---|---|
+| Internal rotation 45°: shoulder self-intersections | 36 | **0** |
+| Internal rotation 45°: folds over 90° (shoulder) | 50 (42) | **9 (2)** |
+| Internal rotation 45°: edges over 2× | 472 | **99** |
+| Internal rotation 45°: hand / hand pairs | 930 | 931 |
+| Row: self-intersections | **0** | 0 (identical: no excess twist) |
+| Row: folds over 90° (shoulder) | 20 (20) | 20 (20) |
+| Row: edges over 2× | 941 | 941 |
+| Return to neutral | 0.0 mm | 0.0 mm |
+
+- **Internal rotation shows the same gap as external rotation**, at a smaller scale. The twist candidate clears it:
+  the band's lower edge is −5°, so the inward twist beyond that goes to the twist bone.
+- **The hand / hand pairs are the two hands meeting in front of the abdomen.** That is the test path's contact: both
+  arms turn together, where the exercise is done one arm at a time. They are not a skin fault (from about 38°).
+- **The row generalises** once the elbows stay a little out.
+  - With the plane at −90°, the humerus has no outward component and its inner side passes through the side of the
+    trunk: 1385 shoulder / shoulder pairs at 50°. The same with the R121 keys off, so it is the test path, not the keys.
+  - At −70°: 0 pairs, folds at most 20. At −50°: 0 pairs, folds at most 5.
+  - The arm-extension region therefore needs no keys of its own at a row's range.
+
+**Files:** `REVIEW_G3_internal_rotation_{AX6,twist_candidate}.jpg`, `REVIEW_G3_row_AX6.jpg`,
+`report_TT_G3_AX6_ir_row.json` and `report_TT_G3_twist_candidate_ir_row.json`.

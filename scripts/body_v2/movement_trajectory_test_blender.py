@@ -15,7 +15,9 @@ Trajectories (each starts and ends at neutral, so return-to-neutral is measured)
            then the elbows bend overhead to V2_TRAJ_OHE_ELBOW (130; forearms behind the head), or the arms are pulled
            down to V2_TRAJ_PULL_HT (50 deg) with the elbows bending to V2_TRAJ_PULL_ELBOW (130).
   external_rotation (on request) - arms at the sides, elbows at 90, humeral external rotation 0 -> V2_TRAJ_ER_DEG (60)
-           -> 0: axial rotation alone.
+           -> 0: axial rotation alone.  internal_rotation: the same inwards to V2_TRAJ_IR_DEG (45).
+  row (on request) - standing row: the humerus extends behind the trunk to V2_TRAJ_ROW_EXT (50 deg) with the elbows
+           bending to V2_TRAJ_ROW_ELBOW (100).
 V2_TRAJ_GIRDLE=candidate uses shoulder_girdle_candidate.apply_press_pose (corrected girdle directions) for the press.
 r57 drives (correctives, helpers) always run; the R121 candidate drives run unless V2_TRAJ_R121=0.
 
@@ -273,15 +275,39 @@ def turn_humeri(deg):
         bpy.context.view_layer.update(); TWIST[s_] = math.radians(sg * deg)
 
 
-def external_rotation(u):
-    """the rotator-cuff staple: upper arms at the sides (16 deg carriage, as the curl), elbows at 90, the humerus turned
-    outwards about its own axis to ER_TOP (60) and back - humeral axial rotation alone, which no key is indexed by"""
-    p = 1.0 - abs(2.0 * u - 1.0); er = ER_TOP * bench.smooth(p)
+def _rotation_at_side(u, top):
+    p = 1.0 - abs(2.0 * u - 1.0); er = top * bench.smooth(p)
     bench._reset(rig)
     for sd, sg in (("r", -1.0), ("l", 1.0)):
         pb = rig.pose.bones[f"upperarm_{sd}"]; pb.rotation_mode = "XYZ"; pb.rotation_euler = (0.0, 0.0, math.radians(sg * 16.0))
     bpy.context.view_layer.update(); elbows(90.0); turn_humeri(er)
     return {"external_rotation_deg": round(er, 2), "elbow_flexion_deg": 90.0}
+
+
+def external_rotation(u):
+    """the rotator-cuff staple: upper arms at the sides (16 deg carriage, as the curl), elbows at 90, the humerus turned
+    outwards about its own axis to ER_TOP (60) and back - humeral axial rotation alone, which no key is indexed by"""
+    return _rotation_at_side(u, ER_TOP)
+
+
+IR_TOP = float(os.environ.get("V2_TRAJ_IR_DEG", "45"))
+ROW_EXT, ROW_ELBOW = float(os.environ.get("V2_TRAJ_ROW_EXT", "50")), float(os.environ.get("V2_TRAJ_ROW_ELBOW", "100"))
+ROW_PLANE = float(os.environ.get("V2_TRAJ_ROW_PLANE", "-70"))   # -90: straight back, the humerus then has no outward
+#                                                          component and its inner side passes through the trunk's side
+
+
+def internal_rotation(u):
+    """as external_rotation, turned inwards to IR_TOP (45; the forearm reaches the abdomen not far beyond)"""
+    return _rotation_at_side(u, -IR_TOP)
+
+
+def row(u):
+    """standing row: from the standing carriage the humerus goes back and a little out (plane ROW_PLANE, -70) to ROW_EXT
+    (50) while the elbows bend to ROW_ELBOW (100), and back - a region no arm key was authored in (the raises go
+    forwards and sideways)"""
+    p = 1.0 - abs(2.0 * u - 1.0); k = bench.smooth(p); e = HT0 + (ROW_EXT - HT0) * k; pl = ROW_PLANE * k
+    bench._reset(rig); girdle.apply_arm_pose(rig, e, pl); elbows(ROW_ELBOW * k)   # from the standing carriage
+    return {"humeral_extension_deg": round(e, 2), "plane_deg": round(pl, 1), "elbow_flexion_deg": round(ROW_ELBOW * k, 2)}
 
 
 def overhead_extension(u):
@@ -380,7 +406,7 @@ def raise_in_plane(plane_deg, top=90.0):
 MOVE_FN = {"press": press, "curl": curl, "squat": squat,
            "lateral_raise": raise_in_plane(0.0), "front_raise": raise_in_plane(90.0),
            "deadlift": lambda u: deadlift(u), "overhead_extension": overhead_extension, "pulldown": pulldown,
-           "external_rotation": external_rotation,
+           "external_rotation": external_rotation, "internal_rotation": internal_rotation, "row": row,
            "lunge": lambda u: lunge(u)}
 
 

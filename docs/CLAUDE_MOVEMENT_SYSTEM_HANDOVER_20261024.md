@@ -417,6 +417,11 @@ The flagged muscles:
 0. **Humeral axial rotation (G1 / G2).** It needs the upper-arm twist bones above, an owner decision.
    - Still open with them: the overhead extension at 130° elbow (about 120 shoulder and 250 elbow-region pairs). It
      needs a key authored in that posture, or a twist-aware elbow contact.
+   - **G3:** band internal rotation shows the same gap (shoulder 36 pairs and 42 folds at 45°), and the candidate
+     clears it.
+   - **A standing row generalises** with the elbows a little out: 0 pairs, folds at most 20.
+   - Exercises tested beyond the authored seven: pulldown, row, overhead extension, external rotation and internal
+     rotation.
    - Until then, any exercise that turns the humerus more than about 15° off the authored paths creaks at the
      shoulder: band external / internal rotation, the overhead triceps extension, face pulls, and so on.
    - New harness movements: `external_rotation`, `overhead_extension` and `pulldown`.

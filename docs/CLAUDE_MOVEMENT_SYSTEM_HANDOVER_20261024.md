@@ -422,6 +422,15 @@ The flagged muscles:
    - **A standing row generalises** with the elbows a little out: 0 pairs, folds at most 20.
    - Exercises tested beyond the authored seven: pulldown, row, overhead extension, external rotation and internal
      rotation.
+   - **G4:** the rest of the r57 benchmark.
+     - **Clean on AX6:** calf raise; walk and trunk rotation with 16° arm carriage (the benchmark's 4° lets the hands
+       meet the thighs). Single-leg stance has 6 pairs at the hip crease.
+     - **Forearm rotation (elbow 90°) was a real fault** (546 crease pairs at 34° pronation). The **forearm crease
+       reweight candidate** (`scripts/body_v2/forearm_twist_candidate.py`) clears it at every angle, and leaves the
+       curl identical and the press within float noise. It is a bind change, so owner decision.
+     - **Wrist keys** date from before R121 and need re-authoring the R121 way: push-up and wrist circuit wrist crease.
+       The old builder halves the push-up's pairs but doubles its creases.
+     - **Shoulder extension** (bent-over row's end, push-up bottom) has no keys: shoulder cap against the upper back.
    - Until then, any exercise that turns the humerus more than about 15° off the authored paths creaks at the
      shoulder: band external / internal rotation, the overhead triceps extension, face pulls, and so on.
    - New harness movements: `external_rotation`, `overhead_extension` and `pulldown`.

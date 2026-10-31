@@ -1717,3 +1717,75 @@ harness.
 
 **Files:** `REVIEW_G3_internal_rotation_{AX6,twist_candidate}.jpg`, `REVIEW_G3_row_AX6.jpg`,
 `report_TT_G3_AX6_ir_row.json` and `report_TT_G3_twist_candidate_ir_row.json`.
+
+## G4: the rest of the r57 movement benchmark on AX6, and a forearm-rotation candidate (31 Oct 2026)
+
+The trajectory harness now runs the r57 benchmark's other poses as authored there, on request: `bent_over_row`,
+`walk_stride`, `trunk_rotation`, `single_leg_stance`, `calf_raise`, `push_up`, `forearm_rotation`, `wrist_circuit`
+and `grip`.
+
+- `grip` does not run on this body: the r57 thumb solver finds no placement ("no thumb placement within the pair
+  limit").
+- `V2_TRAJ_DIAG_GROUPS=1` records the dominant vertex groups of each frame's crossing triangle pairs, to separate
+  test-path contact from skin faults.
+
+**AX6, peak self-intersections; with the benchmark's 4° arm carriage, then 16° (`V2_TRAJ_BENCH_CARRY=16`).**
+
+| Movement | 4° carriage | 16° carriage | What remains |
+|---|---|---|---|
+| Calf raise | **0** | n/a | 0 |
+| Walk stride | 174 (thumbs / thigh) | **0** | 0 |
+| Trunk rotation | 834 (upper arm / trunk side, forearm / hip) | **0** | 0 |
+| Single-leg stance | 166 (thumbs / thigh) | **6** | the lifted leg's hip crease (pelvis / hip-crease helper, 6 pairs) |
+| Bent-over row | 1986 (upper arm through the trunk side) | **126** | shoulder cap / upper back at full extension, shoulder-cap self-contact |
+| Push-up | 1029 | n/a | wrist crease (forearm / metacarpals, 258), shoulder cap / pectoral / upper back (about 260) |
+| Wrist circuit | 373 | n/a | wrist crease in flexion and extension, thumb base / forearm in radial deviation |
+| Forearm rotation (elbow 90°) | **546** at 34° pronation (128 at 11°) | n/a | see below |
+
+- **Most of the benchmark failures are test-path contact.** The benchmark's 4° carriage lets the hanging hands meet the
+  thighs and hips, and its row swings the humerus straight back through the side of the trunk (as G3 found at plane
+  −90°). With 16° carriage, the walk and trunk rotation are clean and the single-leg stance nearly so.
+
+**Forearm rotation: a real fault, and a candidate fix.** All crossing pairs are proximal-forearm (`forearm_tw0`) skin
+against upper-arm skin in the elbow crease.
+
+- **The rig's rule.** The forearm bone takes the full pronation, `forearm_tw0` keeps 0 % and `forearm_tw1` 50 %. So
+  the elbow band itself does not turn.
+- **Why the crease breaks.** Crease vertices also carry `tw1` / `forearm` weight, so they turn a few degrees and cross
+  the crease the elbow keys were authored for. With the keys off, the elbow at 90° has about 1050 crossings at any
+  rotation; with them, 0 at neutral.
+- **`scripts/body_v2/forearm_twist_candidate.py`** (`V2_TRAJ_FA_REWEIGHT=1`, in memory) moves each forearm vertex's
+  `tw1` / `forearm` weight onto `tw0` near the elbow: all of it below 15 % of the forearm, a smoothstep to none at 40 %.
+  Anatomically the skin by the elbow barely turns, since the radial head spins in place.
+
+| Forearm rotation, AX6 → candidate | Pronation 11° | 34° | 69° | Supination 59° | 82° |
+|---|---|---|---|---|---|
+| Self-intersections | 128 → **0** | 546 → **0** | 503 → **0** | 110 → **0** | 46 → **0** |
+| Elbow folds over 90° | 7 → 4 | 9 → 4 | 11 → 4 | 0 → 5 | 0 → 5 |
+| Forearm minimum section, posed / rest | 0.94 → 0.94 | 0.93 → 0.94 | 0.90 → 0.93 | 0.91 → 0.94 | 0.89 → 0.93 |
+
+- **Authored movements are unchanged.** With the forearm at neutral rotation, `forearm`, `tw0` and `tw1` pose
+  identically:
+  - curl identical, every frame;
+  - press within float noise (±1 edge in 3 frames).
+- With the upper-arm twist candidate (G2) also on, the other eight benchmark movements are identical to AX6.
+
+**Wrist (measured, not adopted).** The K1 wrist keys (`HGPT_K1_WRIST_60/80/100`, dorsal crease) date from before the
+R121 rebuild, unlike the elbow and knee keys that H3 re-authored.
+
+- **Re-authored in memory with the K1 builder** (`V2_TRAJ_K1_WRIST_REBUILD=noguard`):
+  - push-up 1029 → 489 crossings, but creases over 35° 900 → 1817 and stretched edges 964 → 1355 (up to 16 mm
+    flattening);
+  - wrist circuit 373 → 319.
+- The palmar crease (flexion) and the thumb base (radial deviation) have no keys at all.
+- **Needed:** wrist keys authored the R121 way (contact, unfold, de-crumple, as the elbow's), covering flexion,
+  extension and deviation.
+
+**Also open: the arm behind the body.** The bent-over row's full extension and the push-up's bottom both show the
+shoulder cap meeting the upper back and folding on itself. No key family covers shoulder extension; the raises go
+forwards and sideways. G3's standing row is clean to 50° with the elbows out, so this is the deeper extension with
+horizontal abduction.
+
+**Reports:** `report_TT_G4_AX6_bench9.json`, `report_TT_G4_AX6_bench_carry16.json`,
+`report_TT_G4_candidates_bench8.json`, `report_TT_G4_forearm_reweight.json` and
+`report_TT_G4_k1_wrist_rebuilt_noguard.json`.

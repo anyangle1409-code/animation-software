@@ -16,6 +16,8 @@ Trajectories (each starts and ends at neutral, so return-to-neutral is measured)
            down to V2_TRAJ_PULL_HT (50 deg) with the elbows bending to V2_TRAJ_PULL_ELBOW (130).
   external_rotation (on request) - arms at the sides, elbows at 90, humeral external rotation 0 -> V2_TRAJ_ER_DEG (60)
            -> 0: axial rotation alone.  internal_rotation: the same inwards to V2_TRAJ_IR_DEG (45).
+  bent_over_row / walk_stride / trunk_rotation / single_leg_stance / calf_raise / push_up / forearm_rotation /
+           wrist_circuit / grip (on request) - the rest of the r57 movement benchmark's poses, as authored there.
   row (on request) - standing row: the humerus extends behind the trunk to V2_TRAJ_ROW_EXT (50 deg) with the elbows
            bending to V2_TRAJ_ROW_ELBOW (100).
 V2_TRAJ_GIRDLE=candidate uses shoulder_girdle_candidate.apply_press_pose (corrected girdle directions) for the press.
@@ -83,6 +85,23 @@ TW_CFG = {"end": float(os.environ.get("V2_TRAJ_UA_TWIST_END", "0.85")),
 if UA_TWIST:
     import upperarm_twist_candidate as uatw                   # in memory only: nothing is saved
     uatw.install(rig, body, **TW_CFG)
+FA_REWEIGHT = os.environ.get("V2_TRAJ_FA_REWEIGHT", "0") == "1"   # CANDIDATE: forearm rotation kept out of the elbow
+if FA_REWEIGHT:                                                  # crease (forearm_twist_candidate; in memory only)
+    import forearm_twist_candidate as fatw
+    FA_REWEIGHTED = fatw.reweight(rig, body)
+K1_WRIST = os.environ.get("V2_TRAJ_K1_WRIST_REBUILD", "0")      # CANDIDATE: re-author the K1 wrist keys on this surface
+if K1_WRIST in ("1", "noguard"):                                 # (they date from before the R121 rebuild); in memory only
+    import build_original_knee_contact_corrective_blender as k1
+    for kb in [kb for kb in me.shape_keys.key_blocks if kb.name.startswith(k1.HINGES["wrist"]["prefix"])]:
+        body.shape_key_remove(kb)
+    if K1_WRIST == "noguard":
+        k1.HINGES["wrist"] = {k: v for k, v in k1.HINGES["wrist"].items() if k != "guard"}
+    _ev = bench._evaluated                                      # the K1 builder assumes triangles; this surface has quads
+    bench._evaluated = lambda o: (lambda VF: (VF[0], [(f[0], f[i], f[i + 1]) for f in VF[1] for i in range(1, len(f) - 1)]))(_ev(o))
+    k1.bench._evaluated = bench._evaluated
+    K1_WRIST_LOG = k1.build({"body": body, "runtime": rig}, "wrist")
+    bench._evaluated = k1.bench._evaluated = _ev
+    bench._reset(rig)
 TWIST = {"l": 0.0, "r": 0.0}                                  # rad: the axial rotation the test path added (path mode),
 TW_DIAG = {}                                                  # then the twist the drive used
 
@@ -403,11 +422,46 @@ def raise_in_plane(plane_deg, top=90.0):
     return fn
 
 
+def _clavicle_basis():
+    import build_functional_original_coupled_motion_blender as coupled
+    return coupled.clavicle_basis
+
+
+BENCH_CARRY = float(os.environ.get("V2_TRAJ_BENCH_CARRY", "0"))   # extra arm carriage (deg, about the thorax's AP
+#   axis) on the benchmark's row / trunk rotation / walk / single-leg poses: its 4 deg (row: none) lets the hanging hands
+#   and the extending humerus meet the hips, thighs and the trunk's side
+
+
+def _bench(fn, u, carry=False):
+    """an r57 benchmark pose at t = 0 -> 1 -> 0 (its numbers rounded into the frame record)"""
+    out = fn(1.0 - abs(2.0 * u - 1.0)) or {}
+    if carry and BENCH_CARRY:
+        bench._carry_arms(rig, BENCH_CARRY)
+    return {k: (round(float(v), 2) if isinstance(v, (int, float)) else v) for k, v in out.items()
+            if isinstance(v, (int, float, str))}
+
+
 MOVE_FN = {"press": press, "curl": curl, "squat": squat,
            "lateral_raise": raise_in_plane(0.0), "front_raise": raise_in_plane(90.0),
            "deadlift": lambda u: deadlift(u), "overhead_extension": overhead_extension, "pulldown": pulldown,
            "external_rotation": external_rotation, "internal_rotation": internal_rotation, "row": row,
+           # the rest of the r57 movement benchmark, as authored there (out and back here)
+           "bent_over_row": lambda u: _bench(lambda t: bench.pose_row(rig, t, REST_HEADS, _clavicle_basis()), u, carry=True),
+           "walk_stride": lambda u: _bench(lambda t: bench.pose_walk(rig, body, t), u, carry=True),
+           "trunk_rotation": lambda u: _bench(lambda t: bench.pose_trunk_rotation(rig, body, t), u, carry=True),
+           "single_leg_stance": lambda u: _bench(lambda t: bench.pose_single_leg(rig, body, t), u, carry=True),
+           "calf_raise": lambda u: _bench(lambda t: bench.pose_calf_raise(rig, body, t), u),
+           "push_up": lambda u: _bench(lambda t: bench.pose_pushup(rig, body, t), u),
+           "forearm_rotation": lambda u: _bench(lambda t: bench.pose_forearm_rotation(rig, body, t), u),
+           "wrist_circuit": lambda u: _bench(lambda t: bench.pose_wrist(rig, body, t), u),
+           "grip": lambda u: _bench(lambda t: bench.pose_grip(rig, body, t), u),
            "lunge": lambda u: lunge(u)}
+
+
+DIAG_GROUPS = os.environ.get("V2_TRAJ_DIAG_GROUPS", "0") == "1"
+if DIAG_GROUPS:
+    _gn = {g.index: g.name for g in body.vertex_groups}
+    DOMG = [(_gn[max(v.groups, key=lambda e: e.weight).group] if len(v.groups) else "none") for v in me.vertices]
 
 
 def metrics(P):
@@ -436,6 +490,12 @@ def metrics(P):
         k = "|".join(sorted((TREG[i], TREG[j])))
         reg_pairs[k] = reg_pairs.get(k, 0) + 1
     out["self_intersections_by_region"] = dict(sorted(reg_pairs.items(), key=lambda t: -t[1])[:6])
+    if DIAG_GROUPS and len(pairs):                              # (diagnostics) dominant vertex group of each crossing
+        cnt = {}                                                # triangle pair, as "group a | group b"
+        for i, j in pairs:
+            k = "|".join(sorted((DOMG[TRI[i][0]], DOMG[TRI[j][0]])))
+            cnt[k] = cnt.get(k, 0) + 1
+        out["self_intersections_by_group"] = dict(sorted(cnt.items(), key=lambda t: -t[1])[:8])
     # symmetry
     Pm = P[MIR] * np.array([-1.0, 1.0, 1.0])
     asym = np.linalg.norm(P - Pm, axis=1)[MOK] * 1000
@@ -449,6 +509,8 @@ def metrics(P):
 
 REP = {"source": SRC.name, "r121_drives": USE_R121, "press_girdle": GIRDLE, "upper_arm_twist_prototype": UA_TWIST,
        "upper_arm_twist": {"source": TW_SOURCE, **TW_CFG, "helpers": "swing" if HELPER_SWING else "full"} if UA_TWIST else None,
+       "forearm_crease_reweight": {"t0": fatw.T0, "t1": fatw.T1, "vertices": FA_REWEIGHTED} if FA_REWEIGHT else None,
+       "k1_wrist_rebuilt": K1_WRIST_LOG if K1_WRIST in ("1", "noguard") else None,
        "girdle_frame": os.environ.get("V2_GIRDLE_FRAME", "plane35"), "squat_arms": SQUAT_ARMS, "lunge_arms": LUNGE_ARMS,
        "frames_per_trajectory": NF, "vertices": n,
        "regions": {k: int(v.sum()) for k, v in REG.items()}, "mirror_partners": int(MOK.sum()), "movements": {}}

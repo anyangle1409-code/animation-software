@@ -50,14 +50,11 @@ This is the model Work's phone reviews show.
 
 | 31 Oct | **App integration candidate GLB** (`review-assets/body_v2/visual_evidence/app_candidate_20261031/`, 23.9 MB). It is the C1 app LOD: 52,195 vertices, 8 influences, 31 clip-morph components and press/curl/squat clips. **PT-App's own `check-glb-preview.mjs` passes it with no gaps.** It plays in three.js r170 within 0.047 mm of the Blender LOD, and the LOD is within 0.013 mm of the full model at every checked frame. Measured on the way: the full-resolution GLB (52.9 MB) cannot play on a phone, because three.js keeps all 140 morphs as one roughly 780 MB GPU texture, and PT-App rejects sparse accessors. | `app_lod.py`, `glb_playback/`, its README |
 
+| 31 Oct | **Curl and squat before/after** (real animation, stills, per-frame metrics). Curl peak 1663 → 2 self-intersections, folds 200 → 17. Squat 1308 → 0, folds 1146 → 13, hips 555 → 0. **Latest phone artifact:** `claude-phone-evidence-41244308985` (run 41244308985, 27.4 MB): press, curl and squat media plus the app GLB. | `review-assets/body_v2/visual_evidence/` |
+
 ## In progress
 
-- **App-safe 4-influence binding** (`fit_app_binding.py`). Per vertex, among the bones it already uses, the fit picks
-  the 4-bone subset and non-negative weights that best reproduce the full binding over every training pose from all 20
-  movements.
-  - Validation: the `V2_TRAJ_WEIGHTS4` metrics must match the full binding on every movement.
-- **Curl and squat** before/after animations, then **GLB playback** in three.js. Playback is tested in headless
-  Chromium (`scripts/body_v2/glb_playback/`), and the GLB is checked with PT-App's preflight.
+- **Bent-over row and push-up** (priority movements 4 and 5): the same before/after animation, then fixes.
 
 ## Remaining (in order)
 

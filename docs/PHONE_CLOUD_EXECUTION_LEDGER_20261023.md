@@ -675,3 +675,14 @@ The overnight hourly cloud continuation automation is configured separately; eac
 - Separate native output/artifact `phone-w8-row-elbow-pose-state-<run>`; [run41189500502](https://github.com/anyangle1409-code/animation-software/actions/runs/41189500502) is IN_PROGRESS. Do not mark native findings verified until it passes and the artifact is independently CRC/SHA256 checked and replayed.
 - Ruling: row includes coupled shoulder/elbow motion; existing whole-body flags are not elbow-local skin metrics. Elbow-region geometry acceptance needs a separately pinned region contract, so this increment does not invent one.
 - No return-to-neutral, independent radius/ulna, anatomical laterality/ISB/ROM/contact/safety/movement approval.46 landmarks remain unbound;0/19 generic motions approved. Protected model/rig/weights/keys/muscles/app/version unchanged; no merge/deploy.
+
+
+## 2026-10-31 — coupled row elbow-control native evidence verified
+
+- [Run41189500502](https://github.com/anyangle1409-code/animation-software/actions/runs/41189500502) at `36872968457c49b06027d0c49491e9f5f0e3e6a1` completed SUCCESS7/7. Report378/378; row12/12; other pose29/29+33/33+14/14+19/19+6/6+10/10; driver10/10+20/20+8/8.
+- Artifact13038775565 independently downloaded and CRC-checked. ZIP SHA256 matched GitHub `ea7e2950fa936e2bfa8f51c1fdf78f9938b4495d403095678fad90429807ae2d`; JSON `eae29117f09652b4c17c84d555643ce4be70b1157daa8868bd4fbb63b904d5f2`; Markdown `1975bb3935cce0dc060455eab0d7df5150427838b27a0d36d8cb24a6b494a048`. Strict native validation and byte-exact Markdown replay pass.
+- Forearm local rotation follows elbow target0→100deg within0.00001256deg. The independently derived included control angle moves about179.0260→80.5222deg (decrease98.5038deg); maximum bilateral disagreement <0.000027deg. Shoulder-only samples0–4 change included angle <0.000009deg. These are authored controls and unsigned point geometry, not anatomical ROM or ISB coordinates.
+- Whole-body benchmark flags at sample0:0collapse/0stretch/2687intersecting pairs; sample8:31/1146/1748. Counts are not elbow-local and cannot all be treated as newly introduced. Corrective keys were verified zero at every callback; driven corrective skin and return-to-neutral remain untested.
+- Method [HGPT_W8_ROW_ELBOW_CONTROL_EVIDENCE_20261031.md](HGPT_W8_ROW_ELBOW_CONTROL_EVIDENCE_20261031.md); machine record `recovery_20261023/cloud_verification_20261031_run41189500502.json`. This supersedes the pending status above.
+- Next: measure the same four source/topology-pinned mesh edges already defined by `scripts/phone_blender/elbow_edge_endpoint_audit.py` over the row path. They are diagnostic edges, not a certified complete elbow region; keep plain vs driven corrective measurements separate.
+-46 landmarks remain unbound;0/19 generic motions approved. No source/model/rig/rest/weights/stored-keys/muscles/app/version/merge/deploy change or approved visual correction.

@@ -1,0 +1,197 @@
+{
+  "verified_on": "2026-10-31",
+  "run_id": 41189500502,
+  "implementation_commit": "36872968457c49b06027d0c49491e9f5f0e3e6a1",
+  "run_conclusion": "success",
+  "jobs_passed": 7,
+  "artifact_id": 13038775565,
+  "zip_sha256": "ea7e2950fa936e2bfa8f51c1fdf78f9938b4495d403095678fad90429807ae2d",
+  "independently_downloaded": true,
+  "zip_crc_passed": true,
+  "native_validator_passed": true,
+  "exact_markdown_replay_passed": true,
+  "member_sha256": {
+    "w8_row_elbow_pose_state.json": "eae29117f09652b4c17c84d555643ce4be70b1157daa8868bd4fbb63b904d5f2",
+    "w8_row_elbow_pose_state.md": "1975bb3935cce0dc060455eab0d7df5150427838b27a0d36d8cb24a6b494a048"
+  },
+  "cloud_test_counts": {
+    "localization": 378,
+    "row_focused": 12,
+    "other_pose": [
+      29,
+      33,
+      14,
+      19,
+      6,
+      10
+    ],
+    "driver": [
+      10,
+      20,
+      8
+    ]
+  },
+  "source_sha256": "2434afd0daa231ab3a03c873cad4187ffcbc1bab78132375221160b0b0f09e4c",
+  "pinned_r57_source_commit": "025d5f28fa7eba2064fba565b1c9b60119cdd2cb",
+  "source_unchanged": true,
+  "saved_blend": false,
+  "limitations": [
+    "The row is a coupled shoulder/elbow path, not an isolated elbow-flexion test",
+    "Authored suffixes are rig labels, not verified anatomical laterality",
+    "Bone heads are authored control points, not anatomical joint centres",
+    "Included point angles and local rotations are not signed ISB coordinates or anatomical ROM",
+    "Whole-body benchmark flags are not elbow-local deformation measurements or tissue-safety evidence",
+    "The plain benchmark clears shape keys and does not test driven corrective skin",
+    "The path ends flexed and does not test return to neutral"
+  ],
+  "anatomical_motion_approved": false,
+  "return_to_neutral_tested": false,
+  "landmarks_unbound": 46,
+  "generic_motions_approved": 0,
+  "samples_summary": [
+    {
+      "sample": 0,
+      "target": {
+        "elbow_flexion": 0.0,
+        "shoulder_flexion_signed": 0.0
+      },
+      "included_control_angles_deg_not_anatomical": {
+        "l": 179.0260139967488,
+        "r": 179.02603802142733
+      },
+      "whole_body_flags_not_elbow_local": {
+        "collapse_lt_0_1": 0,
+        "stretch_gt_2": 0,
+        "self_intersecting_pairs": 2687
+      }
+    },
+    {
+      "sample": 1,
+      "target": {
+        "elbow_flexion": 0.0,
+        "shoulder_flexion_signed": 7.03125
+      },
+      "included_control_angles_deg_not_anatomical": {
+        "l": 179.0260159826887,
+        "r": 179.026034280876
+      },
+      "whole_body_flags_not_elbow_local": {
+        "collapse_lt_0_1": 0,
+        "stretch_gt_2": 0,
+        "self_intersecting_pairs": 1116
+      }
+    },
+    {
+      "sample": 2,
+      "target": {
+        "elbow_flexion": 0.0,
+        "shoulder_flexion_signed": 22.5
+      },
+      "included_control_angles_deg_not_anatomical": {
+        "l": 179.02601173267138,
+        "r": 179.02603850500464
+      },
+      "whole_body_flags_not_elbow_local": {
+        "collapse_lt_0_1": 0,
+        "stretch_gt_2": 29,
+        "self_intersecting_pairs": 880
+      }
+    },
+    {
+      "sample": 3,
+      "target": {
+        "elbow_flexion": 0.0,
+        "shoulder_flexion_signed": 37.96875
+      },
+      "included_control_angles_deg_not_anatomical": {
+        "l": 179.0260162724891,
+        "r": 179.02603603277612
+      },
+      "whole_body_flags_not_elbow_local": {
+        "collapse_lt_0_1": 1,
+        "stretch_gt_2": 337,
+        "self_intersecting_pairs": 958
+      }
+    },
+    {
+      "sample": 4,
+      "target": {
+        "elbow_flexion": 0.0,
+        "shoulder_flexion_signed": 45.0
+      },
+      "included_control_angles_deg_not_anatomical": {
+        "l": 179.0260198468362,
+        "r": 179.02604015922074
+      },
+      "whole_body_flags_not_elbow_local": {
+        "collapse_lt_0_1": 4,
+        "stretch_gt_2": 1044,
+        "self_intersecting_pairs": 829
+      }
+    },
+    {
+      "sample": 5,
+      "target": {
+        "elbow_flexion": 15.625,
+        "shoulder_flexion_signed": 31.71875
+      },
+      "included_control_angles_deg_not_anatomical": {
+        "l": 164.87435986795705,
+        "r": 164.87437354687162
+      },
+      "whole_body_flags_not_elbow_local": {
+        "collapse_lt_0_1": 2,
+        "stretch_gt_2": 959,
+        "self_intersecting_pairs": 1032
+      }
+    },
+    {
+      "sample": 6,
+      "target": {
+        "elbow_flexion": 50.0,
+        "shoulder_flexion_signed": 2.5
+      },
+      "included_control_angles_deg_not_anatomical": {
+        "l": 130.51619467173967,
+        "r": 130.5162081969362
+      },
+      "whole_body_flags_not_elbow_local": {
+        "collapse_lt_0_1": 0,
+        "stretch_gt_2": 925,
+        "self_intersecting_pairs": 1124
+      }
+    },
+    {
+      "sample": 7,
+      "target": {
+        "elbow_flexion": 84.375,
+        "shoulder_flexion_signed": -26.71875
+      },
+      "included_control_angles_deg_not_anatomical": {
+        "l": 96.14558846253858,
+        "r": 96.14561073994798
+      },
+      "whole_body_flags_not_elbow_local": {
+        "collapse_lt_0_1": 34,
+        "stretch_gt_2": 954,
+        "self_intersecting_pairs": 1653
+      }
+    },
+    {
+      "sample": 8,
+      "target": {
+        "elbow_flexion": 100.0,
+        "shoulder_flexion_signed": -40.0
+      },
+      "included_control_angles_deg_not_anatomical": {
+        "l": 80.52221638622106,
+        "r": 80.52223179434006
+      },
+      "whole_body_flags_not_elbow_local": {
+        "collapse_lt_0_1": 31,
+        "stretch_gt_2": 1146,
+        "self_intersecting_pairs": 1748
+      }
+    }
+  ]
+}

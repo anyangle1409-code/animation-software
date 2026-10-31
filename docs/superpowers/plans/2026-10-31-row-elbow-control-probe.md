@@ -23,11 +23,13 @@
 ### Task 1: Native row-control evidence
 Files: scripts/phone_blender/row_elbow_pose_state_probe.py; scripts/cloud_body_analysis/tests/test_row_elbow_pose_state_probe.py; .github/workflows/phone-blender-workbench.yml.
 Interfaces: authored_targets(t), included_elbow_angle_deg(controls), validate_report(data), markdown(data); output w8_row_elbow_pose_state.json/.md and separate phone-w8-row-elbow-pose-state artifact.
-- [ ] Write synthetic tests with hand-derived targets [0,0,0,0,0,15.625,50,84.375,100], right-angle/asymmetric points, invalid/degenerate evidence and tampered metrics. Observe RED missing module.
-- [ ] Implement native capture via frozen bench.run(only=['bent_over_row']) with before/after source and rest signatures. Derive included angle from upperarm head, forearm head and hand head.
-- [ ] Run focused and full report-only suites, compile and diff checks.
-- [ ] Add focused tests, isolated probe step and dedicated artifact upload to existing pose job; keep existing steps intact.
-- [ ] Fresh-context review; address Important/Critical findings test-first. Commit to existing isolated cloud lane and verify seven jobs plus independent artifact CRC/SHA256 and report replay.
-- [ ] Record native findings and next task in method, machine record and ledger. No model improvement or anatomical approval claim.
+- [x] Write synthetic tests with hand-derived targets [0,0,0,0,0,15.625,50,84.375,100], right-angle/asymmetric points, invalid/degenerate evidence and tampered metrics. Observe RED missing module.
+- [x] Implement native capture via frozen bench.run(only=['bent_over_row']) with before/after source and rest signatures. Derive included angle from upperarm head, forearm head and hand head.
+- [x] Run focused and full report-only suites, compile and diff checks.
+- [x] Add focused tests, isolated probe step and dedicated artifact upload to existing pose job; keep existing steps intact.
+- [x] Fresh-context review; address Important/Critical findings test-first. Commit to existing isolated cloud lane and verify seven jobs plus independent artifact CRC/SHA256 and report replay.
+- [x] Record native findings and next task in method, machine record and ledger. No model improvement or anatomical approval claim.
 
 Ruling: this increment captures control geometry and existing whole-body flags only; elbow-local skin measurements require a separately pinned region/vertex contract and are not invented here. User has already requested autonomous continuation without design check-ins.
+
+Completion: run41189500502 SUCCESS7/7; independent artifact CRC/SHA256/validator/Markdown replay passed. Full report tests378/378. Native method and machine record saved; final ledger commit records completion.

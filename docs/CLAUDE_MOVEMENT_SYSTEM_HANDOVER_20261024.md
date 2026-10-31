@@ -17,6 +17,33 @@ summary.
 | `claude/muscle-layer-native-20261024` | Based on Work's muscle experiment. Native R41 inventory, ISB landmark crosswalk, proposed anchors for the upper and lower limbs, path-length checks against the exercise contract. Doc: `experiments/anatomical_muscles/CLAUDE_NATIVE_PASS_20261024.md`. |
 | `claude/v14-recovery-investigation-20261023` / `claude/v14-deterministic-candidate-20261023` | The V14 vertex-count cause and the deterministic build (earlier). |
 
+## Proposed next candidate: C1 (31 Oct; owner decision)
+
+**C1** = AX6 + wrist keys (W2) + shoulder-extension keys (W3), with three runtime candidates:
+
+- upper-arm twist bones (G2);
+- forearm crease reweight (G4);
+- thorax-frame plane factor (W2).
+
+**Across twenty movements** (the seven authored ones plus thirteen it was not authored for), compared with AX6:
+
+- **Identical** where nothing changed: press, curl, squat, both raises, lunge, pulldown, walk, trunk rotation,
+  single-leg stance, calf raise.
+- **Fixed:**
+  - band external rotation 864 → 0;
+  - forearm rotation 546 → 0;
+  - wrist circuit 373 → 8;
+  - push-up 1029 → 53 (with the girdle the benchmark lacked).
+- **Improved:**
+  - overhead extension 538 → 383 (folds 170 → 67);
+  - internal rotation folds 50 → 9;
+  - bent-over row 126 → 57;
+  - deadlift folds 68 → 44;
+  - row folds 20 → 7.
+- Table, notes and phone sheets (`REVIEW_C1_*.jpg`) are in the trajectories doc's C1 section.
+- **Adopting C1 changes the bind and the runtime contract.** That is the owner's call; AX6 remains the current best
+  until then.
+
 ## Current best candidate: AX6 (H3 plus a press-lockout arm key)
 
 **AX6 (30 Oct)** is H3 plus one appended sideways-family key, `R121_ARM_<s>_153`. It is authored at the press lockout

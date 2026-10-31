@@ -1903,3 +1903,73 @@ backward displacement.
   plane-factor fix, the rest.
 
 Report: `report_TT_W3_pushup_girdle_pf_thorax.json`.
+
+## C1: the consolidated candidate, all twenty movements (31 Oct 2026)
+
+**C1** is the W3 blend (AX6 + wrist keys + shoulder-extension keys) with the three runtime candidates on:
+
+- the upper-arm twist bones (G2);
+- the forearm crease reweight (G4);
+- the thorax-frame plane factor (W2).
+
+**Test path:** squat arms forward; 16° arm carriage on the benchmark's row, walk, trunk-rotation and single-leg poses;
+the coupled girdle on the push-up. Reproduce with:
+
+```
+V2_TRAJ_UA_TWIST=1 V2_TRAJ_FA_REWEIGHT=1 V2_R121_PF_FRAME=thorax V2_TRAJ_PUSHUP_GIRDLE=1
+V2_TRAJ_BENCH_CARRY=16 V2_TRAJ_SQUAT_ARMS=forward
+```
+
+on W3 with the ISB girdle frame and candidate press girdle.
+
+| Movement | AX6: peak self-intersections | C1 | AX6: folds over 90° | C1 | AX6: edges over 2× | C1 |
+|---|---|---|---|---|---|---|
+| Press | 7 | 7 | 8 | 8 | 9011 | 9011 |
+| Curl | 0 | 0 | 9 | 9 | 96 | 96 |
+| Squat | 0 | 0 | 13 | 13 | 4096 | 4096 |
+| Lateral raise | 0 | 0 | 4 | 4 | 1970 | 1970 |
+| Front raise | 0 | 0 | 7 | 7 | 2277 | 2277 |
+| Deadlift | 1011 | 998 | 68 | **44** | 1980 | 1990 |
+| Lunge | 169 | 169 | 50 | 50 | 1895 | 1895 |
+| Pulldown | 7 | 7 | 9 | 9 | 9011 | 9011 |
+| Row (standing) | 0 | 0 | 20 | **7** | 941 | 946 |
+| Overhead extension | 538 | **383** | 170 | **67** | 9832 | 9741 |
+| External rotation | 864 | **0** | 126 | **10** | 566 | **82** |
+| Internal rotation | 966 | 931 | 50 | **9** | 472 | **99** |
+| Bent-over row | 126 | **57** | 72 | **27** | 626 | 630 |
+| Walk stride | 0 | 0 | 6 | 6 | 377 | 376 |
+| Trunk rotation | 0 | 0 | 14 | 14 | 124 | 128 |
+| Single-leg stance | 6 | 6 | 35 | 35 | 1848 | 1848 |
+| Calf raise | 0 | 0 | 47 | 47 | 22 | 22 |
+| Push-up | 1029 | **53** | 323 | **46** | 964 | 999 |
+| Forearm rotation | 546 | **0** | 60 | 53 | 29 | 29 |
+| Wrist circuit | 373 | **8** | 269 | **81** | 199 | **99** |
+
+**Notes.**
+
+- **Baselines for the AX6 column:** the same test path, except the push-up, whose AX6 figure is the benchmark's (no
+  girdle).
+- **Return to neutral:** every movement 0.0 mm, except the push-up at 0.31 mm, from the benchmark's own push-up solver
+  state.
+- **What remains, by region:**
+
+  | Movement | Remaining pairs | What they are |
+  |---|---|---|
+  | Deadlift | 998 | Abdomen against thigh at 135° hip flexion (open item 3; past a conventional deadlift's depth) |
+  | Lunge | 169 | The benchmark's hanging hands against the front thigh (test path; `V2_TRAJ_LUNGE_ARMS=side` clears it) |
+  | Internal rotation | 931 | The two hands' fingers meeting in front (test path: both arms turn together) |
+  | Overhead extension | 383 | Elbow at 130° with the arm overhead under a 59° turn, plus shoulder cap (open) |
+  | Bent-over row | 57 | Left shoulder cap against the upper back at full extension |
+  | Push-up | 53 | Forearm crease at full wrist extension, thumb base |
+  | Wrist circuit | 8 | Ulnar deviation |
+
+- **The calf raise, forearm rotation and wrist circuit's 45 shoulder folds** are the benchmark's arms hanging at 4°
+  carriage, the same at rest.
+
+**Phone sheets:** `REVIEW_C1_<movement>.jpg` (20). **Report:** `report_TT_C1_all20.json`.
+
+**What C1 would need to become the reference (owner decisions):**
+
+- **Bind:** the two twist bones and the forearm weights.
+- **Runtime contract:** the twist and extension drives, and the plane-factor frame.
+- **Keys:** the wrist and extension keys, as candidates like every key here.

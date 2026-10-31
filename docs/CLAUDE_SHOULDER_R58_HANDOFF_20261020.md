@@ -2524,3 +2524,12 @@ external rotation + 5°.
 - **Plane factor:** `r121_drives.plane_factor` reads the arm in world space, so a tilted trunk (push-up plank,
   deadlift) misreads the plane. A thorax-frame candidate (`V2_R121_PF_FRAME=thorax`) improves the deadlift's shoulder
   folds 49 → 25. Details: the trajectories doc's W2 section.
+
+**Later (31 Oct): C1, the consolidated candidate.** AX6 + wrist keys + shoulder-extension keys + upper-arm twist bones +
+forearm crease reweight + thorax-frame plane factor, run through twenty movements.
+
+- **Unchanged where nothing changed.**
+- **Fixed:** external rotation 864 → 0, forearm rotation 546 → 0, wrist circuit 373 → 8, push-up 1029 → 53.
+- **Improved:** overhead extension, internal rotation, bent-over row and the deadlift's shoulder folds.
+- **Owner decision:** it changes the bind and the runtime contract.
+- Details are in the trajectories doc's C1 section; phone sheets are `REVIEW_C1_*.jpg`.

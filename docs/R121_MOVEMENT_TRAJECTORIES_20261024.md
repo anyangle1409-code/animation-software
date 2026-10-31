@@ -1988,7 +1988,7 @@ movements are added to the harness on request; both are skin tests, with the fee
 | On W3 | Peak self-intersections | Folds over 90° (hip / knee) | Hip creases over 35° | Edges over 2× | Return |
 |---|---|---|---|---|---|
 | Hip abduction to 35° | **0** | 0 (0 / 0) | 68 → 80 | 442 → 843 (inner thigh, groin) | 0.0 mm |
-| Sumo squat | **0** | 14 (1 / 13) | n/a | 4011 (the plain squat: 4096) | 0.0 mm |
+| Sumo squat | **0** | 14 (1 / 13) | n/a | 4394 (the plain squat: 4096) | 0.0 mm |
 
 **Both generalise.** The flexion-indexed hip keys and the knee contact keys hold with the thighs abducted and turned
 out. The abduction's stretch (inner thigh, groin) doubles by 35°. That matters for a textured skin, not for the shape.

@@ -2507,3 +2507,12 @@ pulldown, overhead triceps extension, and band external rotation.
   by the swing alone. External rotation then scores as at rest, with 0 self-intersections, and the press and curl are
   unchanged. Adoption changes the runtime contract and the bind, which is the owner's call.
 - Details: the trajectories doc's G1 section.
+
+**Later (31 Oct): G2, the twist drive.** `upperarm_twist_candidate.py` reads the twist from the pose (swing / twist
+split) and passes on only the part outside the band the authored paths use. That band runs from −5° to the press's own
+external rotation + 5°.
+
+- **Authored movements:** press, curl, lateral raise and deadlift identical at every frame; the rest within float
+  noise.
+- **Band external rotation:** 864 → 0.
+- **Overhead extension:** 538 → 383. It is still open at 130° elbow.

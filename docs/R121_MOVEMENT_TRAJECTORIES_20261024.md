@@ -1615,3 +1615,72 @@ saved).
 V2_GIRDLE_FRAME=isb V2_TRAJ_GIRDLE=candidate [V2_TRAJ_UA_TWIST=1 V2_TRAJ_UA_TWIST_END=0.85] python3.13
 movement_trajectory_test_blender.py -- AX6.blend r57src OUT external_rotation overhead_extension pulldown
 ```
+
+## G2: a twist drive that needs no knowledge of the test path (31 Oct 2026)
+
+G1's prototype was told the twist by the test path. A runtime drive has to read it from the pose.
+`scripts/body_v2/upperarm_twist_candidate.py` (new; in memory, nothing saved) is that drive. The harness uses it with
+`V2_TRAJ_UA_TWIST=1`.
+
+**Rule.**
+
+1. **Twist bones.** `install()` adds `upperarm_tw_{l,r}`, children of the upper arms on the same line. Each upper-arm
+   weight is split w·f / w·(1 − f), where f is a smoothstep of the position along the arm, 0 at the shoulder and 1 at
+   85 %.
+2. **Pose twist.** `drive()` reads the twist part of the upper arm's pose rotation: the swing / twist split about its
+   own long axis, q = swing · twist.
+3. **The band the authored paths use.** Only the twist outside this band goes to the twist bone:
+   - from −5°;
+   - up to the press path's own twist at this elevation + 5°. That twist is measured, keyed by measured elevation, and
+     weighted out towards forward raises (plane factor 0.3 → 0.6).
+   - A C1 ramp is used, exactly zero inside the band.
+4. **Drive.** The twist bone counter-rotates by that twist, and the r57 helpers are driven with it taken off the
+   humerus.
+
+**Why a band.**
+
+- **Taking all of the pose twist (measured):** the raises, curl and squat stay identical, since they carry none. But
+  everything authored on the press path changes, because the press carries 21–35° of external rotation and its keys
+  were authored with it in the skin.
+  - press: 7 → 17;
+  - pulldown at 50° / 130°: 0 → 342, the elbow contact keys meeting skin turned 10°.
+- **Subtracting the press twist weighted by plane:** fails. The press's measured plane factor is 0.04–0.27, too close
+  to a sideways raise's 0 to tell them apart.
+- **The band** needs no such distinction. Every authored path lies inside it.
+
+**Results, all ten movements** (`report_TT_G2_twist_candidate_all10.json`; AX6, ISB frame, candidate press girdle,
+squat arms forward, lunge as the AX6 review).
+
+| | AX6 | AX6 + twist candidate |
+|---|---|---|
+| Press, curl, lateral raise, deadlift | | **identical**, every metric, every frame (twist 0.0°) |
+| Squat, front raise, lunge | | identical peaks; ±1 edge at a threshold in a few frames (float noise from the split weights) |
+| Pulldown | 7 / 9 folds | identical |
+| External rotation 60°: self-intersections | 864 | **0** at every frame |
+| External rotation 60°: folds over 90° (shoulder) | 126 (119) | **10 (3)**, rest: 8 (1) |
+| External rotation 60°: edges over 2× | 566 | **82**, rest: 58 |
+| Overhead extension (59° excess twist): self-intersections | 538 | **383**: shoulder 114–135; 248 elbow-region pairs at 130° |
+| Overhead extension: folds over 90° | 170 | **67** |
+| Return to neutral | 0.0 mm | 0.0 mm |
+
+**Twist profile, measured** (G1 / G2 runs):
+
+- **Linear to 85 %:** external rotation clean; overhead elbow at 130° 156 + 352 pairs.
+- **Linear to 50–65 %:** elbow clean; shoulder 316–350 overhead.
+- **Smoothstep to 70 %:** shoulder 279–308 overhead.
+- **Smoothstep to 85 % (kept):** gentle at both ends.
+
+**Still open: the overhead extension at deep elbow flexion.** The shoulder holds about 120 pairs under a 59°
+forearms-back turn at full elevation, and the elbow region about 250 at 130°. With the arm overhead the elbow keys
+(authored hanging) meet a turned biceps. A key authored in that posture, or a twist-aware elbow contact, would be the
+next step.
+
+**For the owner:** the candidate adds two deform bones and a drive (swing / twist split, band table, helpers on the
+swing).
+
+- Authored content is unchanged, within float noise.
+- A movement that turns the humerus beyond the authored band, such as band external rotation, becomes as clean as rest.
+- Images:
+  - `external_rotation_60_AX6_vs_twist_candidate.jpg`: AX6's deltoid and back-of-arm crinkles and pectoral-edge nub
+    are gone.
+  - Phone sheets: `REVIEW_G2_{external_rotation,overhead_extension,press}_twist_candidate.jpg`.

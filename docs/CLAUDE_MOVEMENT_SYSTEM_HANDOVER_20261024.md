@@ -391,11 +391,18 @@ The flagged muscles:
 - **Upper-arm twist bones (G1, 31 Oct).** Humeral axial rotation is not handled by any key or helper.
   - On AX6, band external rotation (arms at the sides, elbows 90°) breaks the shoulder from about 19°: 864
     self-intersections at 60°. The overhead triceps extension's forearms-behind-the-head turn (64°) gives 538.
-  - A prototype makes external rotation as clean as rest (0 self-intersections, folds as at rest) and leaves the
-    press and curl unchanged. It has two parts: one twist bone per side, with the upper-arm weights split, and the
-    r57 helpers driven by the swing alone.
-  - Adopting it adds two deform bones and a swing / twist split to the drive (runtime contract and bind).
-  - Details: the trajectories doc's G1 section.
+  - **G2 candidate** (`scripts/body_v2/upperarm_twist_candidate.py`, in memory):
+    - one twist bone per side, with the upper-arm weights split (smoothstep to 85 % of the arm);
+    - a drive that reads the twist from the pose and passes on only the part outside the band the authored paths
+      already use (−5° to the press's own twist + 5°);
+    - the r57 helpers driven by the swing alone.
+  - **Results:**
+    - external rotation as clean as rest (864 → 0 self-intersections);
+    - overhead extension 538 → 383;
+    - press, curl, lateral raise and deadlift identical at every frame; the other authored movements within float
+      noise.
+  - Adopting it adds two deform bones and that drive (runtime contract and bind).
+  - Details: the trajectories doc's G1 / G2 sections.
 - **Muscle contract entries:** triceps long (press), trapezius lower (press), infraspinatus and subscapularis
   (press), gluteus medius (squat). Each needs
   either a "variable" entry or functional heads, which would need new permanent IDs.
@@ -407,7 +414,9 @@ The flagged muscles:
 
 ## Open, unblocked (in rough priority)
 
-0. **Humeral axial rotation (G1).** It needs the upper-arm twist bones above, an owner decision.
+0. **Humeral axial rotation (G1 / G2).** It needs the upper-arm twist bones above, an owner decision.
+   - Still open with them: the overhead extension at 130° elbow (about 120 shoulder and 250 elbow-region pairs). It
+     needs a key authored in that posture, or a twist-aware elbow contact.
    - Until then, any exercise that turns the humerus more than about 15° off the authored paths creaks at the
      shoulder: band external / internal rotation, the overhead triceps extension, face pulls, and so on.
    - New harness movements: `external_rotation`, `overhead_extension` and `pulldown`.

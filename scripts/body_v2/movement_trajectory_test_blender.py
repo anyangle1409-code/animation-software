@@ -70,37 +70,19 @@ body = bpy.data.objects["HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"]
 rig = bpy.data.objects["HGPT_CANONICAL_V4_ORIGINAL"]
 me = body.data
 n = len(me.vertices)
-UA_TWIST = os.environ.get("V2_TRAJ_UA_TWIST", "0") == "1"
+UA_TWIST = os.environ.get("V2_TRAJ_UA_TWIST", "0") == "1"   # CANDIDATE upper-arm twist bones (upperarm_twist_candidate)
 HELPER_SWING = os.environ.get("V2_TRAJ_UA_TWIST_HELPERS", "swing") == "swing"
-TW_A, TW_P = float(os.environ.get("V2_TRAJ_UA_TWIST_START", "0")), float(os.environ.get("V2_TRAJ_UA_TWIST_POW", "1"))
-TW_E = float(os.environ.get("V2_TRAJ_UA_TWIST_END", "1"))
+TW_SOURCE = os.environ.get("V2_TRAJ_UA_TWIST_SOURCE", "band")   # band: the candidate's runtime rule (the pose's twist
+#   outside the band the authored paths use); path: the axial rotation the test path itself added (diagnostics)
+TW_CFG = {"end": float(os.environ.get("V2_TRAJ_UA_TWIST_END", "0.85")),
+          "start": float(os.environ.get("V2_TRAJ_UA_TWIST_START", "0")),
+          "power": float(os.environ.get("V2_TRAJ_UA_TWIST_POW", "1")),
+          "shape": os.environ.get("V2_TRAJ_UA_TWIST_SHAPE", "smooth")}
 if UA_TWIST:
-    # PROTOTYPE, in memory only (nothing is saved): an upper-arm twist bone per side, a child of the upper arm on the
-    # same line, deforming the upper-arm skin by the fraction (1 - f) of its upper-arm weight, f = 0 at the shoulder ->
-    # 1 at the elbow (f = ((t / L - START) / (END - START)) ** POW, clamped).  Counter-rotated by a humeral axial rotation the test path adds (turn_humeri /
-    # turn_forearms_back), it keeps the shoulder-end skin on the swing alone and spreads the twist down the arm.
-    bpy.context.view_layer.objects.active = rig; bpy.ops.object.mode_set(mode="EDIT")
-    for s_ in ("l", "r"):
-        up = rig.data.edit_bones[f"upperarm_{s_}"]; eb = rig.data.edit_bones.new(f"upperarm_tw_{s_}")
-        eb.head, eb.tail, eb.roll = up.head.copy(), up.tail.copy(), up.roll; eb.parent = up; eb.use_deform = True
-    bpy.ops.object.mode_set(mode="OBJECT")
-    MWr = rig.matrix_world; MWb = body.matrix_world
-    for s_ in ("l", "r"):
-        b = rig.data.bones[f"upperarm_{s_}"]; h = MWr @ b.head_local; t = MWr @ b.tail_local; L = (t - h).length; ax = (t - h) / L
-        src = body.vertex_groups[f"upperarm_{s_}"]; dst = body.vertex_groups.new(name=f"upperarm_tw_{s_}")
-        for v in me.vertices:
-            for g in v.groups:
-                if g.group == src.index and g.weight > 0.0:
-                    f = min(1.0, max(0.0, ((MWb @ v.co - h).dot(ax) / L - TW_A) / (TW_E - TW_A))) ** TW_P; w = g.weight
-                    src.add([v.index], w * f, "REPLACE"); dst.add([v.index], w * (1.0 - f), "REPLACE")
-TWIST = {"l": 0.0, "r": 0.0}                                  # world twist (rad) the test path added about each humerus
-
-
-def set_twist():
-    if UA_TWIST:
-        for s_ in ("l", "r"):
-            tb = rig.pose.bones[f"upperarm_tw_{s_}"]; tb.rotation_mode = "XYZ"; tb.rotation_euler = (0.0, -TWIST[s_], 0.0)
-        bpy.context.view_layer.update()
+    import upperarm_twist_candidate as uatw                   # in memory only: nothing is saved
+    uatw.install(rig, body, **TW_CFG)
+TWIST = {"l": 0.0, "r": 0.0}                                  # rad: the axial rotation the test path added (path mode),
+TW_DIAG = {}                                                  # then the twist the drive used
 
 
 dg = bpy.context.evaluated_depsgraph_get()
@@ -196,21 +178,12 @@ for side, name in correction.HUMERI:
 REST_HEADS = {s: rig.pose.bones[f"foot_{s}"].head.copy() for s in ("l", "r")}
 
 
-def _twist_upperarms(sign):
-    from mathutils import Matrix
-    for s_ in ("l", "r"):
-        if TWIST[s_]:
-            ub = rig.pose.bones[f"upperarm_{s_}"]; d = (ub.tail - ub.head).normalized(); piv = ub.head.copy()
-            ub.matrix = Matrix.Translation(piv) @ Matrix.Rotation(sign * TWIST[s_], 4, d) @ Matrix.Translation(-piv) @ ub.matrix
-            bpy.context.view_layer.update()
-
-
 def finish_pose():
     bpy.context.view_layer.update()
-    if UA_TWIST and HELPER_SWING:                                # prototype: the r57 helpers (deltoid, cap, armpit, muscle
-        _twist_upperarms(-1.0)                                   # lines) driven by the swing alone - the twist the test
-        drives.drive(rig, body)                                  # path added is taken off the humerus while they are
-        _twist_upperarms(1.0)                                    # driven, then put back (they hang off the girdle)
+    if UA_TWIST:
+        tw, diag = uatw.drive(rig, body, drives.drive, twist=dict(TWIST) if TW_SOURCE == "path" else None,
+                              helpers_swing=HELPER_SWING)
+        TWIST.update(tw); TW_DIAG.clear(); TW_DIAG.update(diag)
     else:
         drives.drive(rig, body)
     if USE_R121:
@@ -281,7 +254,6 @@ def turn_forearms_back(frac):
         ang = math.atan2(mv.cross(want).dot(d), mv.dot(want)) * frac; piv = ub.head.copy()
         ub.matrix = Matrix.Translation(piv) @ Matrix.Rotation(ang, 4, d) @ Matrix.Translation(-piv) @ ub.matrix
         bpy.context.view_layer.update(); out[s_] = round(math.degrees(ang), 1); TWIST[s_] = ang
-    set_twist()
     return out
 
 
@@ -299,7 +271,6 @@ def turn_humeri(deg):
         sg = 1.0 if ((probe @ h0) - h0).x * lat > 0 else -1.0
         ub.matrix = Matrix.Translation(piv) @ Matrix.Rotation(math.radians(sg * deg), 4, d) @ Matrix.Translation(-piv) @ ub.matrix
         bpy.context.view_layer.update(); TWIST[s_] = math.radians(sg * deg)
-    set_twist()
 
 
 def external_rotation(u):
@@ -451,6 +422,7 @@ def metrics(P):
 
 
 REP = {"source": SRC.name, "r121_drives": USE_R121, "press_girdle": GIRDLE, "upper_arm_twist_prototype": UA_TWIST,
+       "upper_arm_twist": {"source": TW_SOURCE, **TW_CFG, "helpers": "swing" if HELPER_SWING else "full"} if UA_TWIST else None,
        "girdle_frame": os.environ.get("V2_GIRDLE_FRAME", "plane35"), "squat_arms": SQUAT_ARMS, "lunge_arms": LUNGE_ARMS,
        "frames_per_trajectory": NF, "vertices": n,
        "regions": {k: int(v.sum()) for k, v in REG.items()}, "mirror_partners": int(MOK.sum()), "movements": {}}
@@ -462,6 +434,10 @@ for mv in MOVES:
         pose = MOVE_FN[mv](u); finish_pose()
         P = evaluated(); Ps.append(P)
         m = metrics(P); m.update(pose); m["u"] = round(u, 4)
+        if UA_TWIST:
+            m["upper_arm_twist_deg"] = {k: round(math.degrees(v), 1) for k, v in TWIST.items()}
+            if TW_DIAG:
+                m["upper_arm_twist_raw_elev_pf"] = {k: [round(x, 2) for x in v] for k, v in TW_DIAG.items()}
         rows.append(m)
         print("TRAJ", mv, i, json.dumps({k: m[k] for k in ("edges_gt90", "edges_gt35", "self_intersections", "asymmetry_p95_mm")}), flush=True)
     ret = float(np.linalg.norm(Ps[-1] - Ps[0], axis=1).max() * 1000)

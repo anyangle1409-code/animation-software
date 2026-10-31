@@ -60,7 +60,11 @@ def main():
             d.text((16, 14), f"{a.title or a.move} \u00b7 {v.replace('_', ' ')}", font=ft, fill=INK)
             d.rectangle((0, title_h, Ws, title_h + lab_h), fill=BAND)
             for c, (label, adir, frames) in enumerate(models):
-                d.text((lw + c * cw + 10, title_h + 8), label, font=fv, fill=INK)
+                t_ = label
+                while fv.getlength(t_) > cw - 20 and len(t_) > 4:      # fit the column
+                    t_ = t_[:-2]
+                t_ = t_ if t_ == label else t_.rstrip(" ,(") + "\u2026"
+                d.text((lw + c * cw + 10, title_h + 8), t_, font=fv, fill=INK)
             y = title_h + lab_h
             for r, i in enumerate(rows):
                 d.text((12, y + ch // 2), rl[r] if r < len(rl) else str(i), font=fv, fill=INK)

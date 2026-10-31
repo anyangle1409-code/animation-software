@@ -13,6 +13,20 @@ The media are published as a GitHub Actions artifact by `.github/workflows/claud
 **Status:** these are candidates, not approved models. W8, V14, R120, ORIGINAL_v1, PT-App and `PT_MODEL_VERSION 1.0`
 are unchanged.
 
+## Index (31 Oct 2026)
+
+| Folder | What |
+|---|---|
+| `press_20261031/` | Shoulder press, before vs C1. Peak self-intersections 4934 → **7**, folds 4666 → **8**. |
+| `curl_20261031/` | Biceps curl to 140°, before vs C1. Self-intersections 1663 → **2**, folds 200 → **17** (elbow 194 → 14). |
+| `squat_20261031/` | Squat, before vs C1. Self-intersections 1308 → **0**, folds 1146 → **13**: hips 555 → **0**, knees 129 → 13. |
+| `app_candidate_20261031/` | The app integration candidate GLB. It passes PT-App's own preflight and plays in three.js; see its README. |
+
+**Before** is the R120 surface with the r57 drives: the original r57 shoulder path for the press, and no R121
+correctives. **After** is candidate C1. Both run through the same harness and the same fixed cameras. Every clip
+returns to neutral exactly (0.0 mm). The curl and squat use the same path for both models: arms at the standing
+carriage for the curl, arms forward for the squat.
+
 ## press_20261031: shoulder press, before vs after
 
 - **Before:** the R120 surface with the original r57 shoulder path and drives. This is the model in the existing phone

@@ -1326,6 +1326,39 @@ the humerus too), or move one head onto another. At rest it is exact (0.0001 mm)
 - **What the fans need is not settled.** A twist-aware cross-section (the pectoral fibres unwind at elevation) and a
   layering that knows the deep face are both candidates. The Poisson fans remain the default.
 
+**MG9c (31 Oct): two thickness variants for the fans, measured and not kept.** Both are kept as switches, off by default.
+
+- **`MG9_SRULE=area`:** each node's thickness scale is rest / posed mid-surface area, so a fan that closes across its
+  fibres thickens as well as one that shortens. The default is 1 / fibre stretch.
+- **`MG9_NORMAL=grid`:** the thickness is set along the posed sheet's own normal wherever it is defined. The default
+  uses it only where it agrees with the rotated rest normal.
+- **Diagnostics:** `MG9_DIAG_TWIST`, `MG9_DIAG_NORMAL` and `MG9_FANCOL` (fans coloured).
+
+| Left, volume / self-crossings | Rack 90° | 120° | Lockout 160° |
+|---|---|---|---|
+| Default: latissimus / teres major | 1.16 / 1.29 | 1.16 / 1.28 | 1.11 / 1.22 |
+| Default: clavicular / sternocostal pectoral | 0.83 / 1.13 | 0.83 / 0.97 | 0.39 (216) / 0.60 |
+| Area rule: latissimus / teres major | 1.00 / 1.12 | 0.94 / 1.13 | 1.02 / 1.27 |
+| Area rule: clavicular / sternocostal | 0.94 / 0.99 | 0.92 / 0.98 | **0.14 (217)** / 0.86 |
+| Overlaps, default → area rule | 221 → 236 | 161 → 247 | 94 → 203 |
+
+**Reading.**
+
+- **The area rule** keeps the sternocostal head and the latissimus within a few per cent to 120°. But it raises the
+  overlaps, and does not save the clavicular head at the lockout.
+- **The grid normal** changes little. The clavicular head at the lockout keeps 0.44 (length rule) or 0.28 (area rule),
+  with about 300 self-crossings.
+- **The cause is the mid-surface, not the thickness.** At the lockout the clavicular head's normal disagrees with the
+  rotated one at 49 nodes, all at stations 0–7 next to the clavicle, and 24 nodes degenerate there:
+  - the fibres turn from lateral to upward and come to run almost along their origin line;
+  - so the sheet near the clavicle closes to a ribbon and the Poisson solve folds it.
+  - In life the head bunches into a rope there. A fan that may narrow to a strand at its origin would need a
+    cross-section that is not a fixed-width sheet: a fibre bundle with per-station section, MG1-style.
+- **The twist is in.** MG5 built the anatomical twist ("the lowest fibres insert highest"; latissimus "upper fibres
+  insert lowest"). Measured as the angle between the origin and insertion edges, it goes:
+  - sternocostal: 30° at rest, 110° at the lockout;
+  - latissimus: 88° at rest, 38–72° at elevation.
+
 ## MG11: the brachioradialis (added 31 Oct 2026)
 
 **Script:** `build_forearm_muscle_envelopes_blender.py`. It carries MG7's compartment method to the forearm and

@@ -131,6 +131,11 @@ THICK = _ENV.get("MG9_THICK", "grid")                       # thickness along th
 TAUT_DEG = float(_ENV.get("MG9_TAUT_DEG", "30"))            # along-fibre rest shape gone after this much joint rotation
 ONE_DELTOID = _ENV.get("MG9_ONE_DELTOID", "1") == "1"       # the three deltoid heads solved as one 36-fibre sheet
 DELTOID_MODE = _ENV.get("MG9_DELTOID", "slide")             # slide (below) or poisson (the fans' solve)
+NORMAL_RULE = _ENV.get("MG9_NORMAL", "agree")              # thickness direction: grid normal where it agrees with the
+                                                            # rotated rest normal (agree), or wherever defined (grid)
+SRULE = _ENV.get("MG9_SRULE", "length")                     # fan thickness: 1 / fibre stretch (length) or rest / posed
+                                                            # mid-surface area at each node (area: a fan that closes
+                                                            # across its fibres thickens too)
 EXTEND = _ENV.get("MG9_SLIDE_EXTEND", "0") == "1"           # a lengthening deltoid fibre extends straight to its origin
                                                             # (off: it keeps its rest length; the origin tendon spans the
                                                             # gap - the extension crumpled the posterior head above 120)
@@ -339,6 +344,16 @@ def violations(sh, Tm, Mp, R, over=None):
     return push
 
 
+def node_area(G):
+    """mid-surface area carried by each grid node (F x K): each quad's area shared among its four corners"""
+    a = 0.5 * np.linalg.norm(np.cross(G[1:, 1:] - G[:-1, :-1], G[:-1, 1:] - G[1:, :-1]), axis=2)
+    A = np.zeros(G.shape[:2])
+    for di in (0, 1):
+        for dk in (0, 1):
+            A[di:di + a.shape[0], dk:dk + a.shape[1]] += a / 4.0
+    return A
+
+
 def solve(sh, Tm, over=None):
     """posed outer / inner / mid grids of a sheet under the pose transforms Tm"""
     F_, K = sh["F"], sh["K"]
@@ -377,19 +392,31 @@ def solve(sh, Tm, over=None):
     rot = lambda V: np.einsum("fkab,fkb->fka", R4, V)
     lam = np.array([arclen(M1[i])[-1] for i in range(F_)]) / sh["Lf"]
     s = np.clip(1.0 / lam, *S_CLAMP)
+    if SRULE == "area" and F_ > 1:
+        s = np.clip(node_area(sh["M"]) / np.maximum(node_area(M1), 1e-12), *S_CLAMP)
+        for _ in range(2):                                   # light smoothing over the grid
+            sp = np.pad(s, 1, mode="edge"); s = 0.5 * s + 0.125 * (sp[:-2, 1:-1] + sp[2:, 1:-1] + sp[1:-1, :-2] + sp[1:-1, 2:])
     if THICK == "rot":
         I1 = M1 + rot(sh["I"] - sh["M"])
-        O1 = I1 + s[:, None, None] * rot(sh["O"] - sh["I"])
+        O1 = I1 + (s[..., None] if s.ndim == 2 else s[:, None, None]) * rot(sh["O"] - sh["I"])
         return O1, I1, M1, g, s, n_con, left
     n0 = sh["n0"]; nr = rot(n0)                              # thickness along the POSED sheet normal; where the grid
     ng, cond = sheet_normals(M1); ng = ng * sh["sgn"][..., None]   # degenerates, the rotated rest normal
     wgt = np.clip((cond - 0.15) / 0.25, 0.0, 1.0); wgt = wgt * wgt * (3 - 2 * wgt)
-    wgt = np.where(np.sum(ng * nr, axis=2) > 0, wgt, 0.0)
+    if NORMAL_RULE == "grid":                                # the sheet's own normal wherever it is defined; the
+        ag = np.sign(np.sum(ng * nr, axis=2)); ag[ag == 0] = 1.0  # rotated rest normal only where the grid degenerates,
+        nr = nr * ag[..., None]                              # turned to the sheet's side (a sheet that hinges more than
+    else:                                                    # 90 deg about its origin line keeps its true side)
+        wgt = np.where(np.sum(ng * nr, axis=2) > 0, wgt, 0.0)
     nn = wgt[..., None] * ng + (1 - wgt[..., None]) * nr; nn /= np.maximum(np.linalg.norm(nn, axis=2, keepdims=True), 1e-12)
+    if _ENV.get("MG9_DIAG_NORMAL"):
+        flip = np.sum(ng * nr, axis=2) <= 0
+        print("NORMAL", sh["members"][0], "nodes", flip.size, "grid_normal_against_rotated", int(flip.sum()),
+              "by_station", [int(x) for x in flip.sum(axis=0)], "degenerate(cond<0.15)", int((cond < 0.15).sum()), flush=True)
     di, do = sh["I"] - sh["M"], sh["O"] - sh["I"]
     dn, tn = np.sum(di * n0, 2), np.sum(do * n0, 2)
     I1 = M1 + rot(di - dn[..., None] * n0) + dn[..., None] * nn
-    O1 = I1 + rot(do - tn[..., None] * n0) + (s[:, None] * tn)[..., None] * nn
+    O1 = I1 + rot(do - tn[..., None] * n0) + ((s if s.ndim == 2 else s[:, None]) * tn)[..., None] * nn
     return O1, I1, M1, g, s, n_con, left
 
 
@@ -480,7 +507,8 @@ rep = {"status": "READ_ONLY_CHECK", "input": src.name, "input_sha256": expected,
        "rules": {"head_radius_m": HEAD_R, "cuff_m": CUFF, "gap_m": GAP, "step_deg": STEP_DEG, "slack": SLACK,
                  "thickness_scale_clamp": S_CLAMP, "obstacle_resolves_weight_tolerance": [OBS_ITERS, OBS_W, OBS_TOL],
                  "static_skin_triangles": len(TRIS), "thickness_direction": THICK, "taut_after_joint_rotation_deg": TAUT_DEG,
-                 "deltoid_one_sheet": ONE_DELTOID, "layered_under": UNDER, "deltoid_mode": DELTOID_MODE},
+                 "deltoid_one_sheet": ONE_DELTOID, "layered_under": UNDER, "deltoid_mode": DELTOID_MODE,
+                 "fan_thickness_rule": SRULE, "thickness_normal_rule": NORMAL_RULE},
        "origin_bones": {m: sorted(set(GRID[m]["ob"])) for m in KIND}, "poses": {}}
 
 # ---- renders (as MG6a)
@@ -533,6 +561,20 @@ for key, Tm in STEPS:
     tag = "rest" if key == "rest" else RECORD.get(key, (None,))[0]
     if tag is None:
         continue
+    if _ENV.get("MG9_DIAG_TWIST"):
+        for m in KIND:
+            if KIND[m] != "fan":
+                continue
+            M1 = posed[m][1]; M0 = prevM_rest[m]
+            def tw(G):
+                fd = G[:, -1].mean(0) - G[:, 0].mean(0); fd /= np.linalg.norm(fd)
+                pr = lambda v: v - fd * np.dot(v, fd)
+                a_, b_ = pr(G[-1, 0] - G[0, 0]), pr(G[-1, -1] - G[0, -1])
+                c = np.dot(a_, b_) / max(np.linalg.norm(a_) * np.linalg.norm(b_), 1e-12)
+                return round(math.degrees(math.acos(max(-1.0, min(1.0, c)))), 1)
+            w = np.linalg.norm(M1[-1] - M1[0], axis=1) / np.maximum(np.linalg.norm(M0[-1] - M0[0], axis=1), 1e-9)
+            print("TWIST", tag, m, "twist_deg", tw(M0), "->", tw(M1), "width_ratio_min_at_station", round(float(w.min()), 3),
+                  int(w.argmin()), "of", len(w), flush=True)
     ht = REST_HT if key == "rest" else key
     apply(Tm)
     per, trees = {}, {}
@@ -582,6 +624,13 @@ for key, Tm in STEPS:
             mt = bpy.data.materials.new("DBG_" + nm); mt.diffuse_color = col
             OBJ["deltoid_" + nm].data.materials.clear(); OBJ["deltoid_" + nm].data.materials.append(mt)
         cd.ortho_scale = 0.30; centre = np.array(Tm[HUM] @ (GH + (EJC - GH) * 0.2)); centre = Vector(centre)
+    if _ENV.get("MG9_FANCOL"):                                # (diagnostics) the fans coloured, the rest grey
+        for nm, col in (("latissimus_dorsi", (0.3, 0.45, 0.9, 1)), ("teres_major", (0.35, 0.75, 0.35, 1)),
+                        ("pectoralis_major_clavicular", (0.9, 0.6, 0.2, 1)),
+                        ("pectoralis_major_sternocostal", (0.85, 0.3, 0.3, 1))):
+            if "DBGF_" + nm not in bpy.data.materials:
+                mt = bpy.data.materials.new("DBGF_" + nm); mt.diffuse_color = col
+                OBJ[nm].data.materials.clear(); OBJ[nm].data.materials.append(mt)
     for view, dv in {"anterior": (0, -1, 0), "lateral": (lat, 0, 0), "posterior": (0, 1, 0)}.items():
         d = Vector(dv); cam.location = centre + d * 2.5; cam.rotation_mode = "QUATERNION"
         cam.rotation_quaternion = (-d).to_track_quat("-Z", "Y")

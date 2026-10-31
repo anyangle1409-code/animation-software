@@ -50,12 +50,44 @@ def _influences(body, rig, limit=INFLUENCES):
             "max_weight_share_dropped": round(lost, 4)}
 
 
-def export(rig, body, bake, out: Path, fps=24, source=None, report=None):
+def share_sparse_base(path: Path):
+    """Give every sparse accessor that has no bufferView (glTF 2.0: then its base is all zeros) ONE shared zero-filled
+    bufferView as its base.  Still valid glTF and the same data, for intake checks that require a bufferView on every
+    accessor (PT-App's check-glb-preview.mjs); dense morph targets would be ~590 MB, this adds one base (~4 MB)."""
+    import struct
+    b = path.read_bytes()
+    jl = struct.unpack("<I", b[12:16])[0]; g = json.loads(b[20:20 + jl])
+    bl = struct.unpack("<I", b[20 + jl:24 + jl])[0]; bin_ = bytearray(b[28 + jl:28 + jl + bl])
+    sizes = {"SCALAR": 1, "VEC2": 2, "VEC3": 3, "VEC4": 4}; comp = {5126: 4, 5125: 4, 5123: 2, 5121: 1, 5122: 2, 5120: 1}
+    todo = [a for a in g["accessors"] if "sparse" in a and "bufferView" not in a]
+    if not todo:
+        return 0
+    need = max(a["count"] * sizes[a["type"]] * comp[a["componentType"]] for a in todo)
+    off = len(bin_) + (-len(bin_)) % 4
+    bin_ += b"\0" * (off - len(bin_) + need)
+    g["bufferViews"].append({"buffer": 0, "byteOffset": off, "byteLength": need}); vi = len(g["bufferViews"]) - 1
+    for a in todo:
+        a["bufferView"] = vi
+    bin_ += b"\0" * ((-len(bin_)) % 4); g["buffers"][0]["byteLength"] = len(bin_)
+    js = json.dumps(g, separators=(",", ":")).encode(); js += b" " * ((-len(js)) % 4)
+    total = 12 + 8 + len(js) + 8 + len(bin_)
+    path.write_bytes(struct.pack("<III", 0x46546C67, 2, total) + struct.pack("<II", len(js), 0x4E4F534A) + js
+                     + struct.pack("<II", len(bin_), 0x004E4942) + bytes(bin_))
+    return len(todo)
+
+
+def export(rig, body, bake, out: Path, fps=24, source=None, report=None, lod_ratio=None, lod_tol_mm=0.05):
     sc = bpy.context.scene
-    key = body.data.shape_keys
     infl = _influences(body, rig)
-    for idb in (rig, key, body):
+    for idb in (rig, body.data.shape_keys, body):
         _clear_drivers(idb)
+    lod_rep = None
+    if lod_ratio:                                   # app LOD: decimated mesh, top-8 weights, clip-morph components
+        import app_lod
+        lo, comp_w, lod_rep = app_lod.build(rig, body, bake, ratio=lod_ratio, tol_mm=lod_tol_mm)
+        bake = {mv: [(mats, [0.0] + comp_w[mv][f]) for f, (mats, _) in enumerate(frames)] for mv, frames in bake.items()}
+        body.hide_set(True); body.hide_render = True; body = lo
+    key = body.data.shape_keys
     for idb in (rig, key):
         ad = idb.animation_data_create()
         for tr in list(ad.nla_tracks):
@@ -93,12 +125,14 @@ def export(rig, body, bake, out: Path, fps=24, source=None, report=None):
     opts = dict(filepath=str(out), export_format="GLB", use_selection=True, export_animations=True,
                 export_animation_mode="NLA_TRACKS", export_force_sampling=True, export_frame_step=1,
                 export_def_bones=True, export_rest_position_armature=True, export_anim_slide_to_zero=True,
-                export_morph=True, export_morph_normal=False, export_morph_animation=True, export_try_sparse_sk=True,
+                export_morph=True, export_morph_normal=False, export_morph_animation=True,
+                export_try_sparse_sk=not lod_ratio, export_try_omit_sparse_sk=False,
                 export_skins=True, export_all_influences=False, export_influence_nb=INFLUENCES, export_yup=True, export_apply=False,
                 export_texcoords=True, export_normals=True, export_materials="EXPORT", export_cameras=False,
                 export_lights=False, export_extras=False, export_optimize_animation_size=False)
     valid = {p.identifier for p in bpy.ops.export_scene.gltf.get_rna_type().properties}
     bpy.ops.export_scene.gltf(**{k: v for k, v in opts.items() if k in valid})
+    shared = 0 if lod_ratio else share_sparse_base(out)
     data = out.read_bytes()
     rep = {"glb": out.name, "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest(),
            "source_blend": str(source.name) if source else None,
@@ -107,8 +141,8 @@ def export(rig, body, bake, out: Path, fps=24, source=None, report=None):
            "joints": [b.name for b in rig.data.bones if b.use_deform],
            "morph_targets": [kb.name for kb in key.key_blocks[1:]],
            "animations": [{"name": mv, "frames": n, "fps": fps} for mv, n in names],
-           "skin_influences": infl,
+           "skin_influences": infl, "sparse_morphs_given_shared_zero_base": shared, "app_lod": lod_rep,
            "vertices": len(body.data.vertices), "polygons": len(body.data.polygons),
            "harness": {k: v for k, v in (report or {}).items() if k not in ("movements", "regions")}}
     out.with_suffix(".json").write_text(json.dumps(rep, indent=1))
-    return {k: rep[k] for k in ("glb", "bytes", "sha256", "animations", "skin_influences")}
+    return {k: rep[k] for k in ("glb", "bytes", "sha256", "animations", "skin_influences", "app_lod")}

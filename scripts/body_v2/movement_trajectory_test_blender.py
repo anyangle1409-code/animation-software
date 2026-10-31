@@ -832,6 +832,8 @@ if RENDER:
     (OUT / "frames_index.json").write_text(json.dumps({"frames": FRAMES, "frames_per_trajectory": NF}))
 if BAKE_GLB:
     import glb_bake_export                                    # noqa: E402
-    GLB_REPORT = glb_bake_export.export(rig, body, BAKE, Path(BAKE_GLB), fps=BAKE_FPS, source=SRC, report=REP)
+    _lod = float(os.environ.get("V2_TRAJ_BAKE_LOD", "0")) or None     # app LOD decimate ratio (app_lod.py)
+    GLB_REPORT = glb_bake_export.export(rig, body, BAKE, Path(BAKE_GLB), fps=BAKE_FPS, source=SRC, report=REP,
+                                        lod_ratio=_lod, lod_tol_mm=float(os.environ.get("V2_TRAJ_BAKE_LOD_TOL_MM", "0.05")))
     print("GLB", json.dumps(GLB_REPORT)[:400], flush=True)
 print("TRAJECTORY done", flush=True)

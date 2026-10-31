@@ -2477,11 +2477,10 @@ length ratio so any exercise can drive them. The quadriceps are layered and ther
 - **Squat:** volumes are kept to within 0.2 %. Overlaps are 0–9 through the squat and 92 → 8 at full depth, once each belly stretches about the end that cannot slide.
 - **Still open:** a biarticular binding of the gastrocnemius heads (a stand-in covers flexion beyond 102°).
 
-**Later (30 Oct): MG9b on the muscle branch (1070c4b6).** The deltoid muscle proxy now holds to the press lockout. It
+**Later (30 Oct): MG9b on the muscle branch (1070c4b6, revised in ac5237dd).** The deltoid muscle proxy now holds to the press lockout. It
 slides along its own rest shape as the arm rises and bunches over the upper humerus, keeping its volume where the
 thickness limit allows.
 
 - **Overlaps at the lockout:** 1638 → 93.
-- **What remains in the shoulder muscle layer:**
-  - the fans: latissimus / teres major contact, and pectoral volume at the lockout;
-  - the posterior deltoid's extension above 120°.
+- **What remains in the shoulder muscle layer:** the fans, that is the latissimus / teres major contact and the
+  pectoral volume at the lockout. The posterior deltoid now keeps its rest length and stays clean.

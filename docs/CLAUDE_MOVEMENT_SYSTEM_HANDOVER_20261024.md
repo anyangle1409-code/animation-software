@@ -306,17 +306,18 @@ The flagged muscles:
     deltoid by MG9b, below.
   - **Teres major / latissimus fibres reach 2.0× / 1.6×** at the lockout. This needs re-checking on the corrected
     girdle; R41's scapula is about twice as wide as the CT reference.
-- **MG9b (30 Oct; muscle branch 1070c4b6): the deltoid slides along its own rest shape**, and holds to the lockout.
+- **MG9b (30 Oct; muscle branch 1070c4b6, revised in ac5237dd): the deltoid slides along its own rest shape**, and
+  holds to the lockout.
   - **How:** in the humerus' frame each fibre's posed origin moves down along the rest fibre as the arm rises. The
-    posed fibre is the rest fibre truncated at its point nearest the posed origin (extended straight when it
-    lengthens). The deep surface is kept; the outer surface swells to keep volume.
+    posed fibre is the rest fibre truncated at its point nearest the posed origin; a lengthening fibre keeps its rest
+    length and the origin tendon spans the gap. The deep surface is kept; the outer surface swells to keep volume.
   - **Why it is robust:** a subset of the rest shape carried by the humerus cannot fold, turn inside out, hit the arm
     envelopes or move one head onto another. Rest is exact.
-  - **Overlaps (left), MG9a → MG9b:** rack 257 → 217, 120° 518 → 159, lockout 1638 → 93. The deltoid's own share at
-    the lockout is 8.
+  - **Overlaps (left), MG9a → MG9b:** rack 257 → 221, 120° 518 → 161, lockout 1638 → 94. The deltoid's own share at
+    the lockout is 9.
   - **Deltoid volume:** 1.02–1.11 at the rack, 0.59–0.99 at the lockout, where the 2.5× thickness limit is reached.
-  - **Remaining:** the posterior head's extension crumples above 120°; latissimus / teres major overlaps; the pectoral
-    heads lose volume at the lockout (fans still on MG9a's solve).
+  - **Remaining:** latissimus / teres major overlaps, and the pectoral heads losing volume at the lockout. The fans
+    are still on MG9a's solve; a slide in their origin frame and a taut fan were both measured and not kept.
 - **MG10 (leg length response + knee contact, 30 Oct; muscle branch 2090b65f, revised in 810d68d3 and afe93a9c):**
   - **Length keys by belly length ratio:** each MG7 belly gets keys `HGPT_LEN_K_<100k>` (k 0.85–1.50), following
     MG2's rule. A shape depends only on how long the muscle is, so any movement drives it through the muscle's path
@@ -340,7 +341,7 @@ The flagged muscles:
     - pectoral volume at the lockout;
     - latissimus / teres major contact: a per-pose separation that knows the deep face, as MG3's ring lookup does
       (the nearest-face version was measured and not kept);
-  - the posterior deltoid's extension above 120°. MG9b's sliding deltoid otherwise holds to the lockout;
+  - (MG9b's sliding deltoid holds to the lockout, the posterior head included);
   - the posterior-fold skin driven by the MG5 latissimus / teres volumes (the system-level route for open item 4);
   - rotator cuff and scapular muscles, which need a scapula surface (R41 has landmarks only);
   - skin response;

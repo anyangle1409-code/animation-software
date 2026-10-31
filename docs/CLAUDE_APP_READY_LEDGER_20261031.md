@@ -54,9 +54,12 @@ This is the model Work's phone reviews show.
 
 | 31 Oct | **PT-App reversible integration candidate:** branch `claude/body-v2-glb-candidate-20261031` in `anyangle1409-code/PT-App`. It is based on GPT's `chatgpt/model-glb-intake-gates-20261031` and modifies none of their files. It adds `model-candidates/body-v2-c1/CANDIDATE.json` (SHA-256, the exact 79 joint and 31 morph names, the engine requirements), a README and `tests/glb-candidate-body-v2-c1.test.mjs`. That test runs their unchanged `check-glb-preview.mjs` on the real GLB with the exact names: **3 of 3 pass**, and it skips without the file. Their 15 intake tests still pass. The binary is gitignored, and there is no PR. | PT-App commit `8dff242` |
 
+| 31 Oct | **Bent-over row and push-up before/after** (real animation, stills, metrics; skeleton-fitted cameras). Row 1394 → 57 self-intersections and 272 → 34 folds. Push-up 2483 → 53 and 430 → 49. **Latest phone artifact:** `claude-phone-evidence-41251733616` (run 41251733616, 38.1 MB). It holds press, curl, squat, row and push-up, plus the app GLB. | `review-assets/body_v2/visual_evidence/` |
+
 ## In progress
 
-- **Bent-over row and push-up** (priority movements 4 and 5): the same before/after animation, then fixes.
+- **Lunge (arms at the sides) and walking stride** (priority 6): before/after animation rendering. After that comes
+  grip and forearm rotation (priority 7).
 
 ## Remaining (in order)
 

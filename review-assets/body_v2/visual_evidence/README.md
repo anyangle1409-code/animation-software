@@ -20,6 +20,8 @@ are unchanged.
 | `press_20261031/` | Shoulder press, before vs C1. Peak self-intersections 4934 → **7**, folds 4666 → **8**. |
 | `curl_20261031/` | Biceps curl to 140°, before vs C1. Self-intersections 1663 → **2**, folds 200 → **17** (elbow 194 → 14). |
 | `squat_20261031/` | Squat, before vs C1. Self-intersections 1308 → **0**, folds 1146 → **13**: hips 555 → **0**, knees 129 → 13. |
+| `bent_over_row_20261031/` | Bent-over row, before vs C1. Self-intersections 1394 → **57**, folds 272 → **34** (elbow 162 → 11). |
+| `push_up_20261031/` | Push-up, before vs C1. Self-intersections 2483 → **53**, folds 430 → **49** (elbow 169 → 11). |
 | `app_candidate_20261031/` | The app integration candidate GLB. It passes PT-App's own preflight and plays in three.js; see its README. |
 
 **Before** is the R120 surface with the r57 drives: the original r57 shoulder path for the press, and no R121

@@ -512,6 +512,24 @@ def _bench(fn, u, carry=False):
             if isinstance(v, (int, float, str))}
 
 
+GRIP_COLLAPSE = os.environ.get("V2_TRAJ_GRIP_COLLAPSE", "fist")   # the grip's thumb search (r57 _solve_thumb) accepts a
+# placement only with no collapsed hand face; on this surface the closed fist alone collapses 20-23 palmar-knuckle faces
+# per hand (80 deg MCP flexion; 0 at 40 deg), so every placement was rejected and the grip never ran.  fist: the thumb may
+# not ADD collapse beyond the fist's own (measured with the fingers closed, thumb at rest); strict: the r57 rule.
+GRIP_BASE = {}
+if GRIP_COLLAPSE == "fist":
+    _solve0, _coll0 = bench._solve_thumb, bench._hand_collapse
+
+    def _solve_thumb_vs_fist(rig_, s, signs, body_=None):
+        base = GRIP_BASE[s] = _coll0(body_, s) if body_ is not None else 0
+        bench._hand_collapse = lambda b, s_: max(0, _coll0(b, s_) - base)
+        try:
+            return _solve0(rig_, s, signs, body_)
+        finally:
+            bench._hand_collapse = _coll0
+    bench._solve_thumb = _solve_thumb_vs_fist
+
+
 MOVE_FN = {"press": press, "curl": curl, "squat": squat,
            "lateral_raise": raise_in_plane(0.0), "front_raise": raise_in_plane(90.0),
            "deadlift": lambda u: deadlift(u), "overhead_extension": overhead_extension, "pulldown": pulldown,
@@ -603,6 +621,9 @@ for mv in MOVES:
     ret = float(np.linalg.norm(Ps[-1] - Ps[0], axis=1).max() * 1000)
     peak = {k: max(r[k] for r in rows) for k in rows[0] if isinstance(rows[0][k], (int, float)) and not k.startswith(("u", "depth"))}
     REP["movements"][mv] = {"frames": rows, "return_to_neutral_max_mm": round(ret, 4), "peaks": peak}
+    if mv == "grip":
+        REP["movements"][mv]["thumb_search"] = {"collapse_rule": GRIP_COLLAPSE, "fist_collapse_faces": dict(GRIP_BASE),
+                                                "solution": {k: list(v[0]) + [v[1]] for k, v in bench._THUMB_CACHE.get("solution", {}).items()}}
     FRAMES[mv] = [0, NF // 4, NF // 2, (3 * NF) // 4]
     (OUT / "trajectory_report.json").write_text(json.dumps(REP, indent=1))
 

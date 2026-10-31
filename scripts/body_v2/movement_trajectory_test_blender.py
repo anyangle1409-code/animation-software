@@ -572,11 +572,23 @@ if GRIP_COLLAPSE == "fist":
     def _solve_thumb_vs_fist(rig_, s, signs, body_=None):
         base = GRIP_BASE[s] = _coll0(body_, s) if body_ is not None else 0
         bench._hand_collapse = lambda b, s_: max(0, _coll0(b, s_) - base)
+        lim0 = bench.THUMB_OPPOSITION["max_pairs"]
         try:
-            return _solve0(rig_, s, signs, body_)
+            for lim in (lim0, 10, 20, 40, 80):              # the r57 limit (5 thumb / finger pairs) first, then relaxed
+                bench.THUMB_OPPOSITION["max_pairs"] = lim
+                try:
+                    out = _solve0(rig_, s, signs, body_)
+                    GRIP_BASE[s + "_pair_limit_used"] = lim
+                    return out
+                except RuntimeError:
+                    continue
+            raise RuntimeError("no thumb placement even at 80 thumb / finger pairs")
         finally:
-            bench._hand_collapse = _coll0
+            bench._hand_collapse = _coll0; bench.THUMB_OPPOSITION["max_pairs"] = lim0
     bench._solve_thumb = _solve_thumb_vs_fist
+GRIP_THUMB = os.environ.get("V2_TRAJ_GRIP_THUMB", "")           # json: load the solved thumb placement if the file exists
+if GRIP_THUMB and Path(GRIP_THUMB).exists():                    # (same thumb path for every model), else save it there
+    bench._THUMB_CACHE["solution"] = {k: (tuple(v[0]), v[1]) for k, v in json.loads(Path(GRIP_THUMB).read_text()).items()}
 
 
 MOVE_FN = {"press": press, "curl": curl, "squat": squat,
@@ -730,7 +742,7 @@ AUTO_VIEWS = {"front_fit": ((0, -1, 0), None, None), "side_fit": ((1, 0, 0), Non
               "back_top": ((0, 0.55, 0.85), ("upperarm_l", "upperarm_r", "spine_03"), 1.15),
               "side_shoulder": ((1, 0, 0), ("upperarm_l", "upperarm_r", "clavicle_l", "clavicle_r"), 1.0),
               "front_shoulder": ((0, -1, 0), ("upperarm_l", "upperarm_r", "clavicle_l", "clavicle_r"), 1.0),
-              "hands_front": ((0, -1, 0), ("hand_l", "hand_r"), 0.85),
+              "hands_front": ((0, -1, 0), ("hand_l", "hand_r"), 1.3),
               "hand_l_side": ((1, 0, 0), ("hand_l", "forearm_l"), 0.6)}
 CAM_FIT = {}
 
@@ -856,6 +868,8 @@ for mv in MOVES:
     ret = float(np.linalg.norm(Ps[-1] - Ps[0], axis=1).max() * 1000)
     peak = {k: max(r.get(k, 0) for r in rows) for k in rows[0] if isinstance(rows[0][k], (int, float)) and not k.startswith(("u", "depth"))}
     REP["movements"][mv] = {"frames": rows, "return_to_neutral_max_mm": round(ret, 4), "peaks": peak}
+    if mv == "grip" and GRIP_THUMB and not Path(GRIP_THUMB).exists() and "solution" in bench._THUMB_CACHE:
+        Path(GRIP_THUMB).write_text(json.dumps({k: [list(v[0]), v[1]] for k, v in bench._THUMB_CACHE["solution"].items()}))
     if mv == "grip":
         REP["movements"][mv]["thumb_search"] = {"collapse_rule": GRIP_COLLAPSE, "fist_collapse_faces": dict(GRIP_BASE),
                                                 "solution": {k: list(v[0]) + [v[1]] for k, v in bench._THUMB_CACHE.get("solution", {}).items()}}

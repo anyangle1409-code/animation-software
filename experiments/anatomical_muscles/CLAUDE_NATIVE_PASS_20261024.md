@@ -1482,8 +1482,23 @@ Belly k at 140°:
   close it. That needs a two-segment envelope, which this ring scheme does not have.
 - **Shoulder kept at rest.** Contact and layering are computed with the shoulder at rest. A curl with the shoulder
   flexed changes the biceps' k, but not the elbow contact geometry.
-- **Separate copies.** MG10 (legs) and MG11b (arms) both start from MG8, so their keys are in separate copies. Merging
-  them into one copy is a later step.
+- **Separate copies (resolved).** MG10 (legs) and MG11b (arms) both started from MG8. The MG11 → MG11b chain has been
+  re-run on the MG10 copies (below).
+
+**One copy with every key (31 Oct).**
+
+- **The chain:** MG11 → MG11b re-run on the MG10 blends gives one copy per side with all of the keys:
+  - the 10 leg bellies: `HGPT_LEN_K` ×12 and `HGPT_CONTACT_KNEE` ×6;
+  - the 7 arm bellies: `HGPT_LEN_K` ×24 and `HGPT_CONTACT_ELBOW` ×9.
+- **What the copy holds:** 26 muscle objects per side.
+  - Unkeyed: the deltoid heads, pectoral heads, latissimus, teres major and glutes. These are positioned by MG9's solve
+    (a read-only check), not by keys.
+- **Results** are identical to MG11 / MG11b on MG8: the same brachioradialis, no new overlaps, and the same per-pose
+  curl numbers.
+- **The combined copies, sha256:**
+  - left: `…_MG11b_arm_length_left.blend`, `7f7eeea17f39d687a41dc73aec3b45084d26fde944ced2edcb0cce57b37ed9e4`;
+  - right: `…_MG11b_arm_length_right.blend`, `b296310844f5861a5628e8b945d948d2b77f5e03d575eb2a91846420934a8583`.
+- **Inputs:** the MG10 copies, unchanged.
 
 **Files.**
 

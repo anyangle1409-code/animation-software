@@ -729,7 +729,9 @@ VIEWS = {"front": ((0, -1, 0), 0.635, 2.45), "side": ((1, 0, 0), 0.635, 2.45), "
 AUTO_VIEWS = {"front_fit": ((0, -1, 0), None, None), "side_fit": ((1, 0, 0), None, None), "back_fit": ((0, 1, 0), None, None),
               "back_top": ((0, 0.55, 0.85), ("upperarm_l", "upperarm_r", "spine_03"), 1.15),
               "side_shoulder": ((1, 0, 0), ("upperarm_l", "upperarm_r", "clavicle_l", "clavicle_r"), 1.0),
-              "front_shoulder": ((0, -1, 0), ("upperarm_l", "upperarm_r", "clavicle_l", "clavicle_r"), 1.0)}
+              "front_shoulder": ((0, -1, 0), ("upperarm_l", "upperarm_r", "clavicle_l", "clavicle_r"), 1.0),
+              "hands_front": ((0, -1, 0), ("hand_l", "hand_r"), 0.85),
+              "hand_l_side": ((1, 0, 0), ("hand_l", "forearm_l"), 0.6)}
 CAM_FIT = {}
 
 

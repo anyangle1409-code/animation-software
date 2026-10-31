@@ -133,6 +133,33 @@ def export(rig, body, bake, out: Path, fps=24, source=None, report=None, lod_rat
     valid = {p.identifier for p in bpy.ops.export_scene.gltf.get_rna_type().properties}
     bpy.ops.export_scene.gltf(**{k: v for k, v in opts.items() if k in valid})
     shared = 0 if lod_ratio else share_sparse_base(out)
+    if lod_ratio:                                   # the LOD evaluated in Blender at each clip's first / middle / last
+        import numpy as np                          # frame + the LOD -> full mapping (exact fidelity checks)
+        mp = lod_rep.pop("_map"); keep = dict(mp)
+        dg = bpy.context.evaluated_depsgraph_get()
+        for idb in (rig, key):                      # the NLA tracks would override the state set below
+            idb.animation_data.use_nla = False
+        for mv, frames in bake.items():
+            for f in sorted({0, (len(frames) - 1) // 2, len(frames) - 1}):
+                mats, vals = frames[f]
+                for pb in rig.pose.bones:
+                    pb.matrix_basis = mats[pb.name]
+                for kb, v in zip(key.key_blocks, vals):
+                    if kb != key.reference_key:
+                        kb.value = v
+                bpy.context.view_layer.update()
+                ev = body.evaluated_get(dg); m_ = ev.to_mesh(); P = np.empty(len(m_.vertices) * 3)
+                m_.vertices.foreach_get("co", P); ev.to_mesh_clear()
+                Mw = np.array(body.matrix_world); P = P.reshape(-1, 3) @ Mw[:3, :3].T + Mw[:3, 3]
+                keep[f"{mv}_{f}"] = P.astype(np.float32)
+                keep[f"pose_{mv}_{f}"] = np.array([list(pb.matrix.translation) for pb in rig.pose.bones], np.float32)
+        np.savez_compressed(out.with_suffix(".lodcheck.npz"), **keep)
+        for idb in (rig, key):
+            idb.animation_data.use_nla = True
+        for pb in rig.pose.bones:
+            pb.matrix_basis.identity()
+        for kb in key.key_blocks[1:]:
+            kb.value = 0.0
     data = out.read_bytes()
     rep = {"glb": out.name, "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest(),
            "source_blend": str(source.name) if source else None,

@@ -830,6 +830,19 @@ if RENDER:
                 files.setdefault((mv, view), []).append(str(f))
     bench._reset(rig)
     (OUT / "frames_index.json").write_text(json.dumps({"frames": FRAMES, "frames_per_trajectory": NF}))
+if BAKE and os.environ.get("V2_TRAJ_BAKE_SELFCHECK", "0") == "1":   # does the recorded state reproduce each frame?
+    for mv_, frames_ in BAKE.items():
+        Ps_ = np.load(OUT / f"positions_{mv_}.npy") if (OUT / f"positions_{mv_}.npy").exists() else None
+        for f_ in sorted({0, (len(frames_) - 1) // 2, len(frames_) - 1}):
+            mats_, vals_ = frames_[f_]
+            for pb in rig.pose.bones:
+                pb.matrix_basis = mats_[pb.name]
+            for kb, v in zip(me.shape_keys.key_blocks, vals_):
+                kb.value = v
+            Pr = evaluated()
+            d_ = float(np.linalg.norm(Pr - Ps_[f_], axis=1).max() * 1000) if Ps_ is not None else None
+            print("BAKE_SELFCHECK", mv_, f_, "max_mm", None if d_ is None else round(d_, 3),
+                  "object", [round(x, 4) for x in rig.matrix_world.translation], flush=True)
 if BAKE_GLB:
     import glb_bake_export                                    # noqa: E402
     _lod = float(os.environ.get("V2_TRAJ_BAKE_LOD", "0")) or None     # app LOD decimate ratio (app_lod.py)

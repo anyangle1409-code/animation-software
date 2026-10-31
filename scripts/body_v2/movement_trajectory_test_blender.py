@@ -11,6 +11,11 @@ Trajectories (each starts and ends at neutral, so return-to-neutral is measured)
            generalise.
   deadlift / lunge (on request) - the r57 benchmark poses (deadlift: solved hip hinge with soft knees; lunge: one leg
            forward, asymmetric by design, so its asymmetry numbers are not meaningful).
+  overhead_extension / pulldown (on request) - combinations no key was authored at: arms up the press path to 160 deg,
+           then the elbows bend overhead to V2_TRAJ_OHE_ELBOW (130; forearms behind the head), or the arms are pulled
+           down to V2_TRAJ_PULL_HT (50 deg) with the elbows bending to V2_TRAJ_PULL_ELBOW (130).
+  external_rotation (on request) - arms at the sides, elbows at 90, humeral external rotation 0 -> V2_TRAJ_ER_DEG (60)
+           -> 0: axial rotation alone.
 V2_TRAJ_GIRDLE=candidate uses shoulder_girdle_candidate.apply_press_pose (corrected girdle directions) for the press.
 r57 drives (correctives, helpers) always run; the R121 candidate drives run unless V2_TRAJ_R121=0.
 
@@ -65,6 +70,39 @@ body = bpy.data.objects["HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE"]
 rig = bpy.data.objects["HGPT_CANONICAL_V4_ORIGINAL"]
 me = body.data
 n = len(me.vertices)
+UA_TWIST = os.environ.get("V2_TRAJ_UA_TWIST", "0") == "1"
+HELPER_SWING = os.environ.get("V2_TRAJ_UA_TWIST_HELPERS", "swing") == "swing"
+TW_A, TW_P = float(os.environ.get("V2_TRAJ_UA_TWIST_START", "0")), float(os.environ.get("V2_TRAJ_UA_TWIST_POW", "1"))
+TW_E = float(os.environ.get("V2_TRAJ_UA_TWIST_END", "1"))
+if UA_TWIST:
+    # PROTOTYPE, in memory only (nothing is saved): an upper-arm twist bone per side, a child of the upper arm on the
+    # same line, deforming the upper-arm skin by the fraction (1 - f) of its upper-arm weight, f = 0 at the shoulder ->
+    # 1 at the elbow (f = ((t / L - START) / (END - START)) ** POW, clamped).  Counter-rotated by a humeral axial rotation the test path adds (turn_humeri /
+    # turn_forearms_back), it keeps the shoulder-end skin on the swing alone and spreads the twist down the arm.
+    bpy.context.view_layer.objects.active = rig; bpy.ops.object.mode_set(mode="EDIT")
+    for s_ in ("l", "r"):
+        up = rig.data.edit_bones[f"upperarm_{s_}"]; eb = rig.data.edit_bones.new(f"upperarm_tw_{s_}")
+        eb.head, eb.tail, eb.roll = up.head.copy(), up.tail.copy(), up.roll; eb.parent = up; eb.use_deform = True
+    bpy.ops.object.mode_set(mode="OBJECT")
+    MWr = rig.matrix_world; MWb = body.matrix_world
+    for s_ in ("l", "r"):
+        b = rig.data.bones[f"upperarm_{s_}"]; h = MWr @ b.head_local; t = MWr @ b.tail_local; L = (t - h).length; ax = (t - h) / L
+        src = body.vertex_groups[f"upperarm_{s_}"]; dst = body.vertex_groups.new(name=f"upperarm_tw_{s_}")
+        for v in me.vertices:
+            for g in v.groups:
+                if g.group == src.index and g.weight > 0.0:
+                    f = min(1.0, max(0.0, ((MWb @ v.co - h).dot(ax) / L - TW_A) / (TW_E - TW_A))) ** TW_P; w = g.weight
+                    src.add([v.index], w * f, "REPLACE"); dst.add([v.index], w * (1.0 - f), "REPLACE")
+TWIST = {"l": 0.0, "r": 0.0}                                  # world twist (rad) the test path added about each humerus
+
+
+def set_twist():
+    if UA_TWIST:
+        for s_ in ("l", "r"):
+            tb = rig.pose.bones[f"upperarm_tw_{s_}"]; tb.rotation_mode = "XYZ"; tb.rotation_euler = (0.0, -TWIST[s_], 0.0)
+        bpy.context.view_layer.update()
+
+
 dg = bpy.context.evaluated_depsgraph_get()
 
 # ------------------------------------------------------------------ rest data
@@ -158,8 +196,23 @@ for side, name in correction.HUMERI:
 REST_HEADS = {s: rig.pose.bones[f"foot_{s}"].head.copy() for s in ("l", "r")}
 
 
+def _twist_upperarms(sign):
+    from mathutils import Matrix
+    for s_ in ("l", "r"):
+        if TWIST[s_]:
+            ub = rig.pose.bones[f"upperarm_{s_}"]; d = (ub.tail - ub.head).normalized(); piv = ub.head.copy()
+            ub.matrix = Matrix.Translation(piv) @ Matrix.Rotation(sign * TWIST[s_], 4, d) @ Matrix.Translation(-piv) @ ub.matrix
+            bpy.context.view_layer.update()
+
+
 def finish_pose():
-    bpy.context.view_layer.update(); drives.drive(rig, body)
+    bpy.context.view_layer.update()
+    if UA_TWIST and HELPER_SWING:                                # prototype: the r57 helpers (deltoid, cap, armpit, muscle
+        _twist_upperarms(-1.0)                                   # lines) driven by the swing alone - the twist the test
+        drives.drive(rig, body)                                  # path added is taken off the humerus while they are
+        _twist_upperarms(1.0)                                    # driven, then put back (they hang off the girdle)
+    else:
+        drives.drive(rig, body)
     if USE_R121:
         r121_drives.drive(rig, body)
     else:
@@ -188,6 +241,108 @@ def press(u):
     else:
         correction.apply_corrected_pose(RESULT, ht)
     elbows(elb)
+    return {"humerothoracic_target_deg": round(ht, 2), "elbow_flexion_deg": round(elb, 2)}
+
+
+def press_pose(ht, elb):
+    """the press's shoulder (girdle + humeral axial rotation for this humerothoracic elevation), then the elbows"""
+    bench._reset(rig)
+    if GIRDLE == "candidate":
+        girdle.apply_press_pose(rig, ht, RESULT["humeral_rest_axial_deg"])
+    else:
+        correction.apply_corrected_pose(RESULT, ht)
+    elbows(elb)
+
+
+OHE_ELBOW = float(os.environ.get("V2_TRAJ_OHE_ELBOW", "130"))
+PULL_HT, PULL_ELBOW = float(os.environ.get("V2_TRAJ_PULL_HT", "50")), float(os.environ.get("V2_TRAJ_PULL_ELBOW", "130"))
+
+
+OHE_PATH = os.environ.get("V2_TRAJ_OHE_PATH", "front")      # front: up the forward-raise path (elbows forwards);
+                                                           # press: the press path, the humerus then turned about its
+                                                           # axis so the forearms still go back (V2_TRAJ_OHE_BACK)
+OHE_BACK = os.environ.get("V2_TRAJ_OHE_BACK", "1") == "1"
+
+
+def turn_forearms_back(frac):
+    """turn each humerus about its own axis (by frac of the needed angle) so that elbow flexion carries the forearm
+    backwards (+y), behind the head, instead of in the press's flexion plane (medially, hands into each other)"""
+    from mathutils import Matrix
+    out = {}
+    for s_ in ("l", "r"):
+        ub, fb = rig.pose.bones[f"upperarm_{s_}"], rig.pose.bones[f"forearm_{s_}"]
+        e0 = fb.rotation_euler.copy(); fb.rotation_mode = "XYZ"
+        t0 = fb.tail.copy(); fb.rotation_euler = (e0.x - math.radians(10.0), e0.y, e0.z); bpy.context.view_layer.update()
+        mv = fb.tail - t0; fb.rotation_euler = e0; bpy.context.view_layer.update()
+        d = (ub.tail - ub.head).normalized(); mv = mv - d * mv.dot(d); want = Vector((0.0, 1.0, 0.0)); want = want - d * want.dot(d)
+        if mv.length < 1e-9 or want.length < 1e-9:
+            continue
+        mv.normalize(); want.normalize()
+        ang = math.atan2(mv.cross(want).dot(d), mv.dot(want)) * frac; piv = ub.head.copy()
+        ub.matrix = Matrix.Translation(piv) @ Matrix.Rotation(ang, 4, d) @ Matrix.Translation(-piv) @ ub.matrix
+        bpy.context.view_layer.update(); out[s_] = round(math.degrees(ang), 1); TWIST[s_] = ang
+    set_twist()
+    return out
+
+
+ER_TOP = float(os.environ.get("V2_TRAJ_ER_DEG", "60"))
+
+
+def turn_humeri(deg):
+    """humeral axial rotation by deg on both sides, + = external (with the elbow bent, the hand swings outwards)"""
+    from mathutils import Matrix
+    for s_ in ("l", "r"):
+        ub, fb = rig.pose.bones[f"upperarm_{s_}"], rig.pose.bones[f"forearm_{s_}"]
+        d = (ub.tail - ub.head).normalized(); piv = ub.head.copy(); h0 = fb.tail.copy()
+        lat = 1.0 if ub.head.x > 0 else -1.0
+        probe = Matrix.Translation(piv) @ Matrix.Rotation(math.radians(5.0), 4, d) @ Matrix.Translation(-piv)
+        sg = 1.0 if ((probe @ h0) - h0).x * lat > 0 else -1.0
+        ub.matrix = Matrix.Translation(piv) @ Matrix.Rotation(math.radians(sg * deg), 4, d) @ Matrix.Translation(-piv) @ ub.matrix
+        bpy.context.view_layer.update(); TWIST[s_] = math.radians(sg * deg)
+    set_twist()
+
+
+def external_rotation(u):
+    """the rotator-cuff staple: upper arms at the sides (16 deg carriage, as the curl), elbows at 90, the humerus turned
+    outwards about its own axis to ER_TOP (60) and back - humeral axial rotation alone, which no key is indexed by"""
+    p = 1.0 - abs(2.0 * u - 1.0); er = ER_TOP * bench.smooth(p)
+    bench._reset(rig)
+    for sd, sg in (("r", -1.0), ("l", 1.0)):
+        pb = rig.pose.bones[f"upperarm_{sd}"]; pb.rotation_mode = "XYZ"; pb.rotation_euler = (0.0, 0.0, math.radians(sg * 16.0))
+    bpy.context.view_layer.update(); elbows(90.0); turn_humeri(er)
+    return {"external_rotation_deg": round(er, 2), "elbow_flexion_deg": 90.0}
+
+
+def overhead_extension(u):
+    """overhead triceps extension: straight arms up to 160 deg (OHE_PATH: the forward-raise path, elbows forwards, by
+    default; or the press path), then the elbows bend to
+    OHE_ELBOW with the arm held overhead and back.  With OHE_BACK the humerus turns about its own axis as the elbow
+    starts to bend, so the forearms go back behind the head as in the exercise, not into each other.  The overhead
+    shoulder keys and the elbow keys are on together, a combination neither was authored at."""
+    p = 1.0 - abs(2.0 * u - 1.0)
+    if p <= 0.5:
+        k = bench.smooth(p / 0.5); ht, elb = HT0 + (160.0 - HT0) * k, 0.0
+    else:
+        k = bench.smooth((p - 0.5) / 0.5); ht, elb = 160.0, OHE_ELBOW * k
+    if OHE_PATH == "front":
+        bench._reset(rig); girdle.apply_arm_pose(rig, ht, 90.0)
+    else:
+        press_pose(ht, 0.0)
+    turned = turn_forearms_back(min(1.0, 2.0 * bench.smooth(max(0.0, (p - 0.5) / 0.5)))) if OHE_BACK else {}
+    elbows(elb)
+    return {"humerothoracic_target_deg": round(ht, 2), "elbow_flexion_deg": round(elb, 2), "humeral_turn_deg": turned}
+
+
+def pulldown(u):
+    """lat pulldown / pull-up: straight arms up the press path to 160 deg, then pulled down to PULL_HT with the elbows
+    bending to PULL_ELBOW (hands by the shoulders), and back - deeper elbow flexion at lower elevation than the press's
+    rack (90 / 90)"""
+    p = 1.0 - abs(2.0 * u - 1.0)
+    if p <= 0.5:
+        k = bench.smooth(p / 0.5); ht, elb = HT0 + (160.0 - HT0) * k, 0.0
+    else:
+        k = bench.smooth((p - 0.5) / 0.5); ht, elb = 160.0 - (160.0 - PULL_HT) * k, PULL_ELBOW * k
+    press_pose(ht, elb)
     return {"humerothoracic_target_deg": round(ht, 2), "elbow_flexion_deg": round(elb, 2)}
 
 
@@ -253,7 +408,8 @@ def raise_in_plane(plane_deg, top=90.0):
 
 MOVE_FN = {"press": press, "curl": curl, "squat": squat,
            "lateral_raise": raise_in_plane(0.0), "front_raise": raise_in_plane(90.0),
-           "deadlift": lambda u: deadlift(u),
+           "deadlift": lambda u: deadlift(u), "overhead_extension": overhead_extension, "pulldown": pulldown,
+           "external_rotation": external_rotation,
            "lunge": lambda u: lunge(u)}
 
 
@@ -294,7 +450,7 @@ def metrics(P):
     return out
 
 
-REP = {"source": SRC.name, "r121_drives": USE_R121, "press_girdle": GIRDLE,
+REP = {"source": SRC.name, "r121_drives": USE_R121, "press_girdle": GIRDLE, "upper_arm_twist_prototype": UA_TWIST,
        "girdle_frame": os.environ.get("V2_GIRDLE_FRAME", "plane35"), "squat_arms": SQUAT_ARMS, "lunge_arms": LUNGE_ARMS,
        "frames_per_trajectory": NF, "vertices": n,
        "regions": {k: int(v.sum()) for k, v in REG.items()}, "mirror_partners": int(MOK.sum()), "movements": {}}
@@ -302,7 +458,7 @@ FRAMES = {}
 for mv in MOVES:
     rows = []; Ps = []
     for i in range(NF):
-        u = i / (NF - 1)
+        u = i / (NF - 1); TWIST.update(l=0.0, r=0.0)
         pose = MOVE_FN[mv](u); finish_pose()
         P = evaluated(); Ps.append(P)
         m = metrics(P); m.update(pose); m["u"] = round(u, 4)
@@ -329,7 +485,7 @@ if RENDER:
     files = {}
     for mv in MOVES:
         for fi in FRAMES[mv]:
-            MOVE_FN[mv](fi / (NF - 1)); finish_pose()
+            TWIST.update(l=0.0, r=0.0); MOVE_FN[mv](fi / (NF - 1)); finish_pose()
             centre = Vector((0.0, 0.0, z0 + 0.52 * H))
             for view, dv in {"front": (0, -1, 0), "side": (1, 0, 0), "back": (0, 1, 0)}.items():
                 dvec = Vector(dv); cam.location = centre + dvec * 4; cam.rotation_mode = "QUATERNION"

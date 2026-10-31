@@ -2495,3 +2495,15 @@ length ratio so any exercise can drive them, with layering and an elbow contact 
   - the 140° shapes are blocky;
   - the brachioradialis belly needs a part above the elbow;
   - the leg (MG10) and arm (MG11b) keys are still in separate copies.
+
+**Later (31 Oct): G1, humeral axial rotation.** Three exercises were tested that no key was authored for: lat
+pulldown, overhead triceps extension, and band external rotation.
+
+- **The pulldown generalises.**
+- **Humeral axial rotation does not.** Band external rotation breaks the shoulder from about 19° (864
+  self-intersections at 60°). It is pure skinning twist: the keys don't change it, and the r57 deltoid / cap / armpit
+  helpers take the twist with the swing.
+- **A prototype fixes it:** an upper-arm twist bone per side, with the upper-arm weights split, and the helpers driven
+  by the swing alone. External rotation then scores as at rest, with 0 self-intersections, and the press and curl are
+  unchanged. Adoption changes the runtime contract and the bind, which is the owner's call.
+- Details: the trajectories doc's G1 section.

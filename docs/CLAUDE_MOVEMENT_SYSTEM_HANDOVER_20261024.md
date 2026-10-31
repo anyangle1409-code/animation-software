@@ -353,12 +353,15 @@ The flagged muscles:
   - **Limits:**
     - 140° shapes are blocky;
     - the brachioradialis belly shrinks towards the wrist, leaving the gap at the elbow to its origin "tendon";
-    - MG10 and MG11b keys are in separate copies of MG8.
+    - MG10 and MG11b keys were in separate copies of MG8; they are now combined into one copy (muscle branch 461881fc).
 - **Muscle layer, next:**
   - the gastrocnemius' femoral heads following the femur (biarticular binding), and review of the vasti's +32 to
     +48 % belly lengthening at 102° (anchors / wrap model);
-  - one copy carrying both MG10's leg keys and MG11b's arm keys; a two-segment brachioradialis belly bent round the
-    lateral epicondyle (closes the elbow gap at flexion); smoother 140° shapes;
+  - a two-segment brachioradialis belly bent round the lateral epicondyle (closes the elbow gap at flexion); smoother
+    140° shapes;
+  - the shoulder fans at the lockout (MG9c: the clavicular pectoral head's mid-surface folds next to the clavicle,
+    where its fibres come to run along the origin line; an area-based thickness and the sheet's own normal were
+    measured and not kept). They need a fibre-bundle cross-section that may narrow to a strand;
   - the shoulder fans above 120°:
     - pectoral volume at the lockout;
     - latissimus / teres major contact: a per-pose separation that knows the deep face, as MG3's ring lookup does
@@ -385,6 +388,14 @@ The flagged muscles:
 - **Posterior armpit corner at the lockout.** AX6 implements the sculpted posterior-fold key, authored at the press
   lockout. Keep it, or prefer a latissimus / teres major helper (re-binding) or muscle-driven skin later. The fold mass
   itself is judged anatomical.
+- **Upper-arm twist bones (G1, 31 Oct).** Humeral axial rotation is not handled by any key or helper.
+  - On AX6, band external rotation (arms at the sides, elbows 90°) breaks the shoulder from about 19°: 864
+    self-intersections at 60°. The overhead triceps extension's forearms-behind-the-head turn (64°) gives 538.
+  - A prototype makes external rotation as clean as rest (0 self-intersections, folds as at rest) and leaves the
+    press and curl unchanged. It has two parts: one twist bone per side, with the upper-arm weights split, and the
+    r57 helpers driven by the swing alone.
+  - Adopting it adds two deform bones and a swing / twist split to the drive (runtime contract and bind).
+  - Details: the trajectories doc's G1 section.
 - **Muscle contract entries:** triceps long (press), trapezius lower (press), infraspinatus and subscapularis
   (press), gluteus medius (squat). Each needs
   either a "variable" entry or functional heads, which would need new permanent IDs.
@@ -396,6 +407,11 @@ The flagged muscles:
 
 ## Open, unblocked (in rough priority)
 
+0. **Humeral axial rotation (G1).** It needs the upper-arm twist bones above, an owner decision.
+   - Until then, any exercise that turns the humerus more than about 15° off the authored paths creaks at the
+     shoulder: band external / internal rotation, the overhead triceps extension, face pulls, and so on.
+   - New harness movements: `external_rotation`, `overhead_extension` and `pulldown`.
+   - **The pulldown generalises:** 0 self-intersections from 143° down to 50° elevation with the elbow at 130°.
 1. **Press-lockout armpit stretch:** 9041 edges over 2×.
    - It is the skinning's: there are 11,421 with no corrective keys (`lockout_stretch_diag_blender.py`).
    - The shaded shape is right; it matters once a skin texture is used.

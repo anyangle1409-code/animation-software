@@ -1519,3 +1519,99 @@ V2_R121_ARMKEY_FAIR_CENTRE=0.176,0.118,1.387 V2_R121_ARMKEY_FAIR_R=0.05
   its raises top out at 90°.
 - The fairing centre is one rest-space point per side, the tip found by `axilla_fold_diag_blender.py`.
 - This is a candidate key. Adopting it for production is the owner's call, like every candidate key here.
+
+## G1: three exercises the keys were not authored for, and humeral axial rotation (31 Oct 2026)
+
+**Purpose.** To test the movement system as a system, on exercises that combine joint angles no key was authored at.
+The trajectory harness gains three movements, run only on request; the default set is unchanged:
+
+- **`pulldown`** (lat pulldown / pull-up): straight arms up the press path to 160°, then pulled down to 50°
+  elevation with the elbows bending to 130°. That is deeper elbow flexion at lower elevation than the press rack
+  (90 / 90).
+- **`overhead_extension`** (overhead triceps extension): straight arms up to 160°, then the elbows bend to 130° with
+  the arms overhead and the forearms going back behind the head.
+- **`external_rotation`** (the rotator-cuff staple with a band): arms at the sides (16° carriage), elbows at 90°,
+  humeral external rotation 0 → 60° → 0. This is axial rotation alone.
+
+AX6, ISB girdle frame, candidate press girdle, as the other reviews.
+
+**Results on AX6.**
+
+| | Peak self-intersections | Peak folds over 90° | Return to neutral |
+|---|---|---|---|
+| Pulldown | 7 (the 160° frame, as the press lockout); **0** from 143° down to 50° / 130° | 9 | 0.0 mm |
+| External rotation | **864** at 60° (104 already at 19°), all shoulder / shoulder | 126 (shoulder 119) | 0.0 mm |
+| Overhead extension | **538** shoulder / shoulder with the forearms turned back | 170 | 0.0 mm |
+
+- **The pulldown generalises.** The elevation-indexed shoulder keys and the angle-indexed elbow keys combine without
+  new faults.
+- **Humeral axial rotation does not generalise.** No key or helper is indexed by it, and the upper arm's skin twists
+  as one piece: the candy-wrapper of linear blend skinning in the shoulder blend zone.
+  - With the R121 keys switched off, the shoulder numbers are identical (104 / 280 / 618 / 864). The keys neither
+    cause nor fix it.
+  - The r57 helpers also see the twist. The deltoid helper takes 50 % of the upper arm's full rotation relative to the
+    scapula, twist included, and the shoulder-cap, armpit and muscle-line helpers follow the upper arm too.
+- **The overhead extension needs axial rotation as well.** Along either the press path or the forward-raise path, the
+  rig reaches 160° with the elbow's flexion plane turned medially: the girdle's scapular rotation is inherited by the
+  minimal-rotation arm aim. So the forearms fold into each other above the head (hand / hand 610–1372). Turning them
+  back behind the head takes 64–66° of humeral axial rotation, which breaks the shoulder as above.
+  - Fixing the path alone does not help. The forward-raise path is clean at 160° with straight elbows (0
+    self-intersections, 3 folds).
+
+**Prototype: upper-arm twist bones, helpers on the swing alone** (`V2_TRAJ_UA_TWIST=1`, in memory only; nothing is
+saved).
+
+- **Twist bones.** One per side, a child of the upper arm on the same line, deforming the upper-arm skin by
+  (1 − f) of its upper-arm weight:
+  - f runs from 0 at the shoulder to 1 at 85 % of the upper arm (`V2_TRAJ_UA_TWIST_END=0.85`), so the twist is
+    complete before the elbow crease;
+  - counter-rotated by the axial rotation the path adds, the bone keeps the shoulder-end skin on the swing alone and
+    spreads the twist down the arm.
+- **Helpers.** The r57 helpers are driven with that twist taken off the humerus (`V2_TRAJ_UA_TWIST_HELPERS=swing`).
+
+| AX6 → prototype | ER 19° | ER 30° | ER 51° | ER 60° |
+|---|---|---|---|---|
+| Self-intersections | 104 → **0** | 280 → **0** | 618 → **0** | 864 → **0** |
+| Folds over 90° (shoulder) | 49 (42) → 8 (1) | 55 (48) → 8 (1) | 79 (72) → 8 (1) | 126 (119) → 8 (1) |
+| Edges over 2× | 70 → 57 | 158 → 60 | 417 → 73 | 566 → 92 |
+
+- **External rotation becomes as clean as rest:** 8 folds and 1 shoulder fold at rest.
+- **Overhead extension (64° turn), shoulder self-intersections:** 538 → 89–115.
+  - At 130° the forearms reach the head and neck (elbow / other 350). That is the test path's contact, not the
+    shoulder.
+- **Every authored movement is unchanged.** On the authored paths the added twist is zero, and the twist bone then
+  moves with the upper arm.
+  - Press: identical, every metric, every frame.
+  - Curl: one collapsed edge different (float noise from the split weights).
+  - Pulldown: identical to AX6.
+- **Measured alternatives:**
+  - Twist bones with the helpers still on the full rotation: 864 → 342 at 60°.
+  - Ending the twist at the elbow, or concentrating it distally (start 0.3–0.4, power 1.5–2): 63–550 elbow-crease
+    intersections at 10–30°, because the forearm turns fully while the distal upper arm lags.
+
+**What adoption would need (owner decision; it changes the runtime contract and the bind):**
+
+1. Two new deform bones, `upperarm_tw_{l,r}`, with the upper-arm weights split as above.
+2. A swing / twist split in the drive. The twist is measured as the humerus' axial rotation relative to the authored
+   path's axial rotation at that elevation and plane:
+   - the press's external-rotation curve;
+   - the raises' minimal-rotation aim.
+   The twist bone counter-rotates by it, and the helpers see the swing alone.
+3. Authored poses then give zero twist, so every existing key stays valid. That was checked on the press and the
+   curl.
+
+**Files** (`review-assets/body_v2/movement_trajectories_20261024/`):
+
+- `external_rotation_60_AX6_vs_twist_proto.jpg`. AX6 shows crinkles over the deltoid and the back of the arm and a
+  nub at the pectoral / armpit edge; the prototype is smooth.
+- Phone sheets: `REVIEW_G1_external_rotation_{AX6,twist_proto}.jpg`, `REVIEW_G1_pulldown.jpg` and
+  `REVIEW_G1_overhead_extension_{AX6,twist_proto}.jpg`.
+- Reports: `report_TT_G1_AX6_external_rotation.json`, `report_TT_G1_AX6_overhead_extension.json`,
+  `report_TT_G1_twist_proto_ohe_er_pulldown.json` and `report_TT_G1_twist_proto_press_curl.json`.
+
+**Command:**
+
+```
+V2_GIRDLE_FRAME=isb V2_TRAJ_GIRDLE=candidate [V2_TRAJ_UA_TWIST=1 V2_TRAJ_UA_TWIST_END=0.85] python3.13
+movement_trajectory_test_blender.py -- AX6.blend r57src OUT external_rotation overhead_extension pulldown
+```

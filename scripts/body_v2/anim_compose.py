@@ -44,7 +44,7 @@ def main():
         rep = d / "trajectory_report.json"
         frames = json.loads(rep.read_text())["movements"][a.move]["frames"] if rep.exists() else []
         models.append((label, d / "anim", frames))
-    nf = len(sorted(models[0][1].glob(f"{a.move}_{views[0]}_*.png")))
+    nf = len(sorted(models[0][1].glob(f"{a.move}_{views[0]}_[0-9][0-9][0-9].png")))
     if not nf:
         raise SystemExit(f"no frames for {a.move} in {models[0][1]}")
     cw, ch = Image.open(models[0][1] / f"{a.move}_{views[0]}_000.png").size

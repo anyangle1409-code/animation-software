@@ -1,0 +1,47 @@
+name: claude-visual-evidence
+
+# Publishes Claude's committed review media (real Blender-rendered MP4s and before/after stills of the Body v2
+# candidate) as a downloadable artifact for phone review.  Read-only: it renders nothing, changes nothing and deploys
+# nothing; the media are produced locally by scripts/body_v2/movement_trajectory_test_blender.py (V2_TRAJ_ANIM=1),
+# anim_compose.py and encode_mp4_blender.py, and committed under review-assets/body_v2/visual_evidence/.
+
+on:
+  push:
+    branches: [claude/r120-surface-candidate-20261023]
+    paths:
+      - review-assets/body_v2/visual_evidence/**
+      - .github/workflows/claude-visual-evidence.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check the media and write a checksum manifest
+        run: |
+          set -euo pipefail
+          cd review-assets/body_v2/visual_evidence
+          python3 - <<'PY'
+          import json, pathlib, sys
+          bad = []
+          for p in sorted(pathlib.Path(".").rglob("*.mp4")):
+              head = p.read_bytes()[:12]
+              ok = head[4:8] == b"ftyp" and p.stat().st_size > 50_000
+              print(f"{'ok ' if ok else 'BAD'} {p} {p.stat().st_size} bytes")
+              if not ok:
+                  bad.append(str(p))
+          if bad:
+              sys.exit(f"not MP4 files: {bad}")
+          PY
+          find . -type f ! -name SHA256SUMS.txt | sort | xargs sha256sum > SHA256SUMS.txt
+          cat SHA256SUMS.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: claude-phone-evidence-${{ github.run_id }}
+          path: review-assets/body_v2/visual_evidence/
+          retention-days: 30
+          if-no-files-found: error

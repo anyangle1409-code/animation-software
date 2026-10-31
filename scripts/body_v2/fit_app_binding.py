@@ -42,7 +42,8 @@ def solve_subsets(G, h, yy, combos):
     Gs = G[:, combos[:, :, None], combos[:, None, :]]                        # (n,c,s,s)
     hs = h[:, combos]                                                        # (n,c,s)
     K = np.zeros((n, c, s + 1, s + 1)); K[..., :s, :s] = 2 * Gs; K[..., :s, s] = 1; K[..., s, :s] = 1
-    K[..., :s, :s] += np.eye(s) * 1e-12
+    ridge = 1e-7 * np.einsum("ncii->nc", Gs) / s + 1e-12                      # scale-relative: bones that move alike
+    K[..., :s, :s] += np.eye(s) * (2 * ridge)[..., None, None]               # in every pose are otherwise singular
     rhs = np.concatenate([2 * hs, np.ones((n, c, 1))], -1)
     sol = np.linalg.solve(K, rhs[..., None])[..., 0]
     w = sol[..., :s]

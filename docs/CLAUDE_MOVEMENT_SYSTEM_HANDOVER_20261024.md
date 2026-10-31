@@ -103,12 +103,14 @@ for the rows the deep hip key touches).
 - squat self-intersections 1282, heel lift 11 mm;
 - rest pose 1929 self-intersections.
 
-**Phone review sheets:**
+**Phone review sheets, current best (AX6)**, all in `review-assets/body_v2/movement_trajectories_20261024/`:
 
-- `REVIEW_L4_press.jpg`, `REVIEW_L4_curl.jpg`, `REVIEW_L4_lateral_raise.jpg`, `REVIEW_L4_front_raise.jpg`. The arm
-  and shoulder keys behind these sheets are the same as T3's, except the front raise's start.
-- `REVIEW_T3_squat.jpg`. The squat is unchanged in H3.
-- **H3:** `REVIEW_H3_curl.jpg`, `REVIEW_H3_deadlift.jpg`, `REVIEW_H3_lunge.jpg` (arms at the sides).
+- **Press:** `REVIEW_AX6_press.jpg`.
+- **The other six movements** are identical to H3 on every metric, so H3's sheets show AX6:
+  - `REVIEW_H3_curl.jpg`, `REVIEW_H3_squat.jpg`;
+  - `REVIEW_H3_lateral_raise.jpg`, `REVIEW_H3_front_raise.jpg`;
+  - `REVIEW_H3_deadlift.jpg`, `REVIEW_H3_lunge.jpg` (arms at the sides).
+- Earlier stages' sheets (`REVIEW_L4_*`, `REVIEW_T3_*`, `REVIEW_K1_*`, `REVIEW_I11_*`) are kept for comparison.
 - **Close-ups:**
   - `elbow120_140_T3_vs_E8.jpg` (the elbow fix);
   - `press_rack_T3_vs_E8c.jpg`;

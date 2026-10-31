@@ -41,6 +41,7 @@ jobs:
           python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_forearm_pose_state_probe.py -v
           python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_row_elbow_pose_state_probe.py -v
           python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_row_pinned_edges.py -v
+          python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_edge_ring_coverage.py -v
           python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_corrective_edge_isolation.py -v
           python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_adjacent_edge_controls.py -v
           python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_native_control_views.py -v

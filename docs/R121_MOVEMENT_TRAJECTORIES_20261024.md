@@ -1789,3 +1789,61 @@ horizontal abduction.
 **Reports:** `report_TT_G4_AX6_bench9.json`, `report_TT_G4_AX6_bench_carry16.json`,
 `report_TT_G4_candidates_bench8.json`, `report_TT_G4_forearm_reweight.json` and
 `report_TT_G4_k1_wrist_rebuilt_noguard.json`.
+
+## W2: wrist keys authored the R121 way, and a plane-factor bug (31 Oct 2026)
+
+**Wrist keys.** `r121_arm_correctives_blender.py` gains two hinge modes, `wrist` (extension, the dorsal crease) and
+`wristflex` (flexion, the palmar crease). `r121_drives.py` gains the families that drive them: `R121_WRIST_<s>_<deg>`
+and `R121_WFLEX_<s>_<deg>`, hats from 20° on the signed wrist angle, read as the K1 hinge reading (swing about the
+hand's local Z, twist removed).
+
+- **Recipe:** the elbow's, unchanged.
+  - Pose: standing carriage, elbows at 90°, wrists bent.
+  - Contact: plane contact, then restore, then post-guard. Footprint 4 mm, slab 30 mm, reach 8 cm.
+  - Relaxation: unfold, then de-crumple (6 rounds at 21°).
+  - Mapping: through each vertex's deformation matrix to rest space.
+- **What changes for the wrist:**
+  - only the fingers' phalanges are held, because the palm, back of the hand and thumb base are the crease's distal
+    side;
+  - the hinge axis is the hand's local Z.
+- They are authored on top of the old K1 wrist keys, as the elbow keys were on K1's elbow keys.
+- **Chain step on AX6** (blend `W2`, in the scratch area, not in git):
+  1. `V2_R121_ARMKEY_MODE=wrist V2_R121_ARMKEY_ANGLES=45,70,90,100 V2_R121_HINGE_REACH=0.08 V2_R121_CONTACT_MODE=plane_restore
+     V2_R121_POSTGUARD_ROUNDS=3 V2_R121_CONTACT_FOOTPRINT=0.004 V2_R121_CONTACT_FOOTPRINT_SLAB=0.030` (crumple 6 at 21°);
+  2. then the same with `V2_R121_ARMKEY_MODE=wristflex V2_R121_ARMKEY_ANGLES=45,70`.
+- **Authoring:** keys at measured 45 / 70 / 90 / 100° extension and 45 / 70° flexion.
+  - Folds over 90° at those poses: 303 / 400 / 435 / 440 → 32–37, and 112 / 214 → 32.
+  - Largest rest offset: 27 mm.
+
+| AX6 → W2 | Peak self-intersections | Folds over 90° | Edges over 35° | Edges over 2× |
+|---|---|---|---|---|
+| Wrist circuit | 373 → **8** (ulnar deviation only) | 269 → **81** | 909 → 642 | 199 → 99 |
+| Wrist circuit, extension 68° frame | 373 → **0** | 269 → 51 (the rest level) | | |
+| Wrist circuit, flexion 74° frame | 319 → **0** | 159 → 51 | | |
+| Push-up | 1029 → **336** | 323 → 104 | 900 → 615 | 964 → 808 |
+| Press, curl, squat, both raises, deadlift, lunge | | **identical**, every metric, every frame | | |
+
+- **Better than re-authoring with the old K1 builder** (G4: push-up 489 pairs, but creases over 35° doubled to 1817).
+- **The push-up's remainder is shoulder.** It is shoulder-cap self-contact, plus contact with the upper back,
+  pectoral and latissimus, worst at the top (arms at 57° flexion relative to the trunk). The thumb base adds about 20
+  pairs at the bottom.
+  - The benchmark poses the push-up's arms without the shoulder girdle, so part of this is the test path.
+- **Images:** `wrist_AX6_vs_W2_closeups.jpg` (extension 70 / 95°, flexion 70°; lateral / top / medial). AX6
+  pinches the dorsal crease into a notch; W2's crease is smooth.
+
+**Plane-factor bug (candidate fix, switch `V2_R121_PF_FRAME=thorax`; the default `world` reproduces AX6).**
+
+- **The bug.** `r121_drives.plane_factor` compares the upper arm with its rest direction in world space, not in the
+  thorax's frame. With the trunk tilted, it misreads the plane. In the push-up's plank, an arm flexed 57° forwards
+  reads plane factor 0, a sideways raise, so the sideways family drives a forward-flexed shoulder.
+- **The fix.** The thorax-frame reading changes nothing when the trunk is upright (raises, press, curl), so it
+  generalises the authored rule.
+
+| On W2, world → thorax plane factor | Self-intersections | Folds over 90° (shoulder) | Edges over 35° |
+|---|---|---|---|
+| Push-up | 336 → 309 | 104 (89) → 114 (80) | 615 → 590 |
+| Deadlift | 1011 → 998 | 68 (49) → **44 (25)** | 801 → 738 |
+| Squat (arms forward), bent-over row (16° carriage) | identical | identical | identical |
+
+**Reports:** `report_TT_W2_wrist_pushup_curl.json`, `report_TT_W2_all7.json`, `report_TT_W2_pf_thorax.json`,
+`r121_arm_correctives_wrist_report_W2.json` and `r121_arm_correctives_wristflex_report_W2.json`.

@@ -428,8 +428,17 @@ The flagged muscles:
      - **Forearm rotation (elbow 90°) was a real fault** (546 crease pairs at 34° pronation). The **forearm crease
        reweight candidate** (`scripts/body_v2/forearm_twist_candidate.py`) clears it at every angle, and leaves the
        curl identical and the press within float noise. It is a bind change, so owner decision.
-     - **Wrist keys** date from before R121 and need re-authoring the R121 way: push-up and wrist circuit wrist crease.
-       The old builder halves the push-up's pairs but doubles its creases.
+     - **Wrist keys, done (W2, 31 Oct).** The authoring tool's new `wrist` / `wristflex` modes and the
+       `R121_WRIST` / `R121_WFLEX` drive families:
+       - wrist circuit 373 → 8;
+       - push-up 1029 → 336 (the remainder is shoulder);
+       - the seven authored movements identical at every frame.
+       - The blend is `W2` = AX6 + the wrist keys, a candidate. Recipe and images are in the trajectories doc's W2
+         section.
+     - **Plane-factor bug.** `r121_drives.plane_factor` reads the arm in world space, so a tilted trunk misreads the
+       plane: the push-up's plank reads as a sideways raise. A thorax-frame reading (`V2_R121_PF_FRAME=thorax`)
+       changes nothing upright and improves the deadlift (shoulder folds 49 → 25) and the push-up. Adopting it changes
+       how the deadlift / push-up drive the keys.
      - **Shoulder extension** (bent-over row's end, push-up bottom) has no keys: shoulder cap against the upper back.
    - Until then, any exercise that turns the humerus more than about 15° off the authored paths creaks at the
      shoulder: band external / internal rotation, the overhead triceps extension, face pulls, and so on.

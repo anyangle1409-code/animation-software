@@ -43,7 +43,10 @@ z0 = float(R0[:, 2].min()); H = float(R0[:, 2].max()) - z0
 GN = [g.name for g in body.vertex_groups]
 hold_g = {i for i, g in enumerate(GN) if any(k in g for k in ("hand", "thumb", "index", "middle", "ring", "pinky",
                                                             "metacarpal", "foot", "toe", "ball"))}
-HOLD = np.zeros(n, bool)
+if os.environ.get("V2_R121_ARMKEY_MODE") in ("wrist", "wristflex"):   # wrist keys: only the fingers (phalanges) and feet are held -
+    hold_g = {i for i, g in enumerate(GN) if g.startswith(("thumb_02", "thumb_03", "index_", "middle_", "ring_", "pinky_",
+                                                             "foot", "toe", "ball"))}   # the palm, back of the hand and
+HOLD = np.zeros(n, bool)                                     # thumb base by the wrist are the crease's distal side
 for v in me.vertices:
     HOLD[v.index] = sum(g.weight for g in v.groups if g.group in hold_g) > 0.3
 UPPER = ((R0[:, 2] - z0) / H > 0.62) & ~HOLD                  # the corrections stay on the upper body
@@ -86,9 +89,14 @@ FAMILY = {"abd": (r121_drives.PREFIX, r121_drives.PROP), "flex": (r121_drives.FL
           "squat": (r121_drives.HIP_PREFIX, r121_drives.HIP_PROP), "hinge": (r121_drives.HIP_PREFIX, r121_drives.HIP_PROP),
           "elbow": (r121_drives.ELBOW_PREFIX, r121_drives.ELBOW_PROP),
           "knee": (r121_drives.KNEE_PREFIX, r121_drives.KNEE_PROP),
-          "combo": (r121_drives.COMBO_PREFIX, r121_drives.COMBO_PROP)}[MODE]
+          "combo": (r121_drives.COMBO_PREFIX, r121_drives.COMBO_PROP),
+          "wrist": (r121_drives.WRIST_PREFIX, r121_drives.WRIST_PROP),
+          "wristflex": (r121_drives.WFLEX_PREFIX, r121_drives.WFLEX_PROP)}[MODE]
 HINGE = {"elbow": ("upperarm", "forearm", float(os.environ.get("V2_R121_HINGE_REACH", "0.16"))),
          "knee": ("thigh", "shin", float(os.environ.get("V2_R121_HINGE_REACH", "0.18"))),   # upper bone, lower bone, reach (m)
+         # wrist (extension, the dorsal crease): forearm against hand; the hand's skin groups are listed in DISTAL_G
+         "wrist": ("forearm", "hand", float(os.environ.get("V2_R121_HINGE_REACH", "0.08"))),
+         "wristflex": ("forearm", "hand", float(os.environ.get("V2_R121_HINGE_REACH", "0.08"))),   # the palmar crease
          # hip (hinge mode, V2_R121_HIP_CONTACT=1): the trunk side is the pelvis / spine-weighted skin, its axis runs from
          # the hip joint up to the posed spine_02; abdomen and thigh meet on the bisecting plane
          **({"hinge": (("pelvis", "spine", "hip_crease"), "thigh", float(os.environ.get("V2_R121_HINGE_REACH", "0.26")))}
@@ -121,9 +129,12 @@ def gsum(*keys):
 
 CONTACT = None
 ARMGIRDLE = os.environ.get("V2_R121_ARMKEY_GIRDLE", "0") == "1"   # author abd / flex keys with the candidate girdle
+DISTAL_G = {"wrist": ("hand", "metacarpal", "thumb_01"),   # the distal side's skin groups where more than the lower bone's
+            "wristflex": ("hand", "metacarpal", "thumb_01")}
+HINGE_AXIS = {"wrist": "z", "wristflex": "z"}               # the lower bone's local hinge axis (default x)
 if MODE in HINGE:                                           # the limb within reach of each hinge; hands / feet held
     ub_, lb_, reach = HINGE[MODE]
-    wu, wf = (gsum(*ub_) if isinstance(ub_, tuple) else gsum(ub_)), gsum(lb_)
+    wu, wf = (gsum(*ub_) if isinstance(ub_, tuple) else gsum(ub_)), gsum(*DISTAL_G.get(MODE, (lb_,)))
     near = np.zeros(n, bool)
     for s_ in ("l", "r"):
         e_ = np.array(rig.data.bones[f"{lb_}_{s_}"].head_local)
@@ -193,6 +204,15 @@ def pose(ang):
             fb = rig.pose.bones[f"forearm_{sd}"]; fb.rotation_mode = "XYZ"; fb.rotation_euler = (math.radians(-ang), 0.0, 0.0)
         bpy.context.view_layer.update(); drives.drive(rig, body); r121_drives.drive(rig, body); bpy.context.view_layer.update()
         return
+    if MODE in ("wrist", "wristflex"):                     # standing carriage, elbows at 90, wrists extended (K1's
+        import build_original_knee_contact_corrective_blender as k1_    # signed hand rotation about its local Z)
+        bench._reset(rig)
+        for sd, sg in (("r", -1.0), ("l", 1.0)):
+            pb = rig.pose.bones[f"upperarm_{sd}"]; pb.rotation_mode = "XYZ"; pb.rotation_euler = (0.0, 0.0, math.radians(sg * 16.0))
+            fb = rig.pose.bones[f"forearm_{sd}"]; fb.rotation_mode = "XYZ"; fb.rotation_euler = (math.radians(-90.0), 0.0, 0.0)
+            bench._rot(rig.pose.bones[f"hand_{sd}"], z=k1_._sign(k1_.HINGES["wrist"], sd) * ang * (-1.0 if MODE == "wristflex" else 1.0))
+        bpy.context.view_layer.update(); drives.drive(rig, body); r121_drives.drive(rig, body); bpy.context.view_layer.update()
+        return
     if MODE == "hinge":
         bench.pose_deadlift(rig, ang / 100.0, REST_HEADS)
         bpy.context.view_layer.update(); drives.drive(rig, body); r121_drives.drive(rig, body); bpy.context.view_layer.update()
@@ -258,7 +278,7 @@ def contact(T, margin=0.0008):
         cf = fo_side & inner & (h > -margin)                   # forearm skin on the upper-arm side
         if FOOT > 0 and cu.any() and cf.any():                 # mutual footprint: each side is flattened only where
             from scipy.spatial import cKDTree                  # the other side actually reaches the plane, so the
-            hx_ = np.array(fb.x_axis.normalized())             # wider biceps is not cut flat beyond the forearm
+            hx_ = np.array(getattr(fb, f"{HINGE_AXIS.get(MODE, 'x')}_axis").normalized())   # (wider biceps: not cut flat beyond the forearm)
             uv = np.c_[r @ hx_, r @ b]
             near_u = up_side & inner & (h < margin + FOOT_SLAB)
             near_f = fo_side & inner & (h > -margin - FOOT_SLAB)
@@ -275,7 +295,7 @@ def contact(T, margin=0.0008):
                 t = g[lip] / SOFT
                 D[lip] += np.outer(-sg * g[lip] * (1.0 - t) ** 2, nb)
         if BULGE > 0:                                          # displaced tissue bulges out at the contact's edges
-            hx = np.array(fb.x_axis.normalized())              # hinge (flexion) axis
+            hx = np.array(getattr(fb, f"{HINGE_AXIS.get(MODE, 'x')}_axis").normalized())   # hinge (flexion) axis
             ex_ = r @ hx                                       # signed distance from the limb's mid-plane
             half = max(float(np.percentile(np.abs(ex_[cu | cf]), 95)), 1e-3) if (cu | cf).any() else 1.0
             for cm, hh in ((cu, h), (cf, h)):
@@ -483,7 +503,9 @@ def contact_plane_restore(T, margin=0.0008, rest_sep=float(os.environ.get("V2_R1
     moved = np.linalg.norm(T - T0, axis=1) > 1e-7
     t = np.zeros(n)
     distal = gsum(*{"elbow": ("forearm", "hand", "thumb", "index", "middle", "ring", "pinky", "metacarpal"),
-                    "hinge": ("thigh", "shin", "foot", "toe", "ball")}.get(MODE, ("shin", "foot", "toe", "ball"))) > 0.5
+                    "hinge": ("thigh", "shin", "foot", "toe", "ball"),
+                    "wrist": ("hand", "thumb", "index", "middle", "ring", "pinky", "metacarpal"),
+                    "wristflex": ("hand", "thumb", "index", "middle", "ring", "pinky", "metacarpal")}.get(MODE, ("shin", "foot", "toe", "ball"))) > 0.5
     for s_ in ("r", "l"):
         lbn = HINGE[MODE][1]
         side = np.sign(R0[:, 0]) == (1.0 if rig.data.bones[f"{lbn}_{s_}"].head_local.x > 0 else -1.0)
@@ -566,7 +588,8 @@ if APPEND:                                                  # append to the exis
 for ang in ANGLES:
     pose(ang)
     measure = {"squat": r121_drives.hip_flex_deg, "hinge": r121_drives.hip_flex_deg, "elbow": r121_drives.elbow_flex_deg,
-               "knee": r121_drives.knee_flex_deg}.get(MODE, drives.elevation_deg)
+               "knee": r121_drives.knee_flex_deg, "wrist": r121_drives.wrist_ext_deg,
+               "wristflex": lambda r_, s_: -r121_drives.wrist_ext_deg(r_, s_)}.get(MODE, drives.elevation_deg)
     elev = {s: round(float(measure(rig, s)), 2) for s in ("l", "r")}
     P = evaluated()
     T = P.copy(); hist = []
@@ -713,7 +736,8 @@ for s in ("l", "r") if not PATCH else ():                   # a patch leaves the
     rig[f"{FAMILY[1]}_{s}"] = made[s][0] if MODE == "combo" else made[s]
 bench._reset(rig)
 for kb in me.shape_keys.key_blocks:
-    if kb.name.startswith(("R121_ARM_", "R121_FLEX_", "R121_HIP_", "R121_ELBOW_", "R121_KNEE_", "R121_COMBO_", "R121_REST_")):
+    if kb.name.startswith(("R121_ARM_", "R121_FLEX_", "R121_HIP_", "R121_ELBOW_", "R121_KNEE_", "R121_COMBO_", "R121_REST_",
+                           "R121_WRIST_", "R121_WFLEX_")):
         kb.value = 0.0
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT / "body_v2_r121_arms.blend"), copy=True)
 (OUT / f"r121_arm_correctives_{MODE}_report.json").write_text(json.dumps(REP, indent=1))

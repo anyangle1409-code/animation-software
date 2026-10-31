@@ -2516,3 +2516,11 @@ external rotation + 5°.
   noise.
 - **Band external rotation:** 864 → 0.
 - **Overhead extension:** 538 → 383. It is still open at 130° elbow.
+
+**Later (31 Oct): W2 wrist keys and a plane-factor bug.**
+
+- **Wrist keys:** authored the R121 way (new `wrist` / `wristflex` modes). Wrist circuit 373 → 8, push-up
+  1029 → 336, authored movements identical.
+- **Plane factor:** `r121_drives.plane_factor` reads the arm in world space, so a tilted trunk (push-up plank,
+  deadlift) misreads the plane. A thorax-frame candidate (`V2_R121_PF_FRAME=thorax`) improves the deadlift's shoulder
+  folds 49 → 25. Details: the trajectories doc's W2 section.

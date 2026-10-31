@@ -211,7 +211,7 @@ def finish_pose():
         r121_drives.drive(rig, body)
     else:
         for kb in me.shape_keys.key_blocks:
-            if kb.name.startswith(("R121_ARM_", "R121_FLEX_", "R121_HIP_", "R121_ELBOW_", "R121_KNEE_", "R121_COMBO_", "R121_REST_")):
+            if kb.name.startswith(("R121_ARM_", "R121_FLEX_", "R121_HIP_", "R121_ELBOW_", "R121_KNEE_", "R121_COMBO_", "R121_REST_", "R121_WRIST_", "R121_WFLEX_")):
                 kb.value = 0.0
     bpy.context.view_layer.update()
 

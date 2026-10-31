@@ -2,7 +2,7 @@
 after the r57 original_v1_review_candidate_drives.drive(rig, body).  No-op on a blend without the keys.
 
 Keys R121_ARM_<s>_<deg> (authored in a sideways raise) and R121_FLEX_<s>_<deg> (forward raise, residual on top,
-weighted by plane_factor), R121_HIP_<s>_<pct> (squat depth, hats on hip_flex_deg) R121_ELBOW_<s>_<deg> (hats on elbow_flex_deg) and R121_KNEE_<s>_<pct> (squat depth, hats on knee_flex_deg): piecewise-linear hats on the humerothoracic elevation (drives.elevation_deg, as drive_s1)
+weighted by plane_factor), R121_HIP_<s>_<pct> (squat depth, hats on hip_flex_deg) R121_ELBOW_<s>_<deg> (hats on elbow_flex_deg) and R121_KNEE_<s>_<pct> (squat depth, hats on knee_flex_deg), R121_WRIST_<s>_<deg> (wrist extension, hats on wrist_ext_deg), R121_WFLEX_<s>_<deg> (wrist flexion): piecewise-linear hats on the humerothoracic elevation (drives.elevation_deg, as drive_s1)
 through the elevations measured when each key was authored (rig["hgpt_r121_arm_angles_<s>"]), 0 below START.
 CANDIDATE ONLY - not part of the runtime contract.
 """
@@ -29,6 +29,12 @@ HANDCONTACT_FADE = 8.0
 COMBO_PREFIX = "R121_COMBO_"
 COMBO_PROP = "hgpt_r121_combo"        # per side: [elevation, elbow] the combination key was authored at
 COMBO_HALF = 45.0
+PF_FRAME = __import__("os").environ.get("V2_R121_PF_FRAME", "world")   # world (as authored, AX6) or thorax (candidate)
+WRIST_PREFIX = "R121_WRIST_"          # wrist extension (dorsal crease), hats on wrist_ext_deg (K1's signed hinge reading)
+WRIST_PROP = "hgpt_r121_wrist_angles"
+WRIST_START = 20.0
+WFLEX_PREFIX = "R121_WFLEX_"          # wrist flexion (palmar crease), hats on -wrist_ext_deg
+WFLEX_PROP = "hgpt_r121_wflex_angles"
 
 
 def knee_flex_deg(rig, s):
@@ -63,11 +69,21 @@ def plane_factor(rig, s):
     relative to its rest direction (the rest arm already slants forward a little)"""
     pb = rig.pose.bones[f"upperarm_{s}"]; b = rig.data.bones[f"upperarm_{s}"]
     u = (pb.tail - pb.head).normalized(); r = (b.tail_local - b.head_local).normalized()
+    if PF_FRAME == "thorax":                                # read the arm in the thorax's frame: with the trunk tilted
+        t = rig.pose.bones["spine_03"]                      # (push-up plank, row / deadlift hinge) the world reading
+        Rt = t.matrix.to_3x3() @ rig.data.bones["spine_03"].matrix_local.to_3x3().inverted()   # calls a forward-flexed
+        u = (Rt.inverted() @ u).normalized()                # arm sideways (plane factor 0 in the push-up)
     d = u - r
     lat = abs(d.x); fwd = max(-d.y, 0.0)
     if lat + fwd < 1e-6:
         return 0.0
     return fwd * fwd / (lat * lat + fwd * fwd)
+
+
+def wrist_ext_deg(rig, s):
+    """wrist extension (+) / flexion (-), deg: the K1 hinge reading (swing about the hand's local Z, twist removed)"""
+    import build_original_knee_contact_corrective_blender as k1
+    return k1.hinge_angle_deg(rig, "wrist", s)
 
 
 def _hats(names, pts, e):
@@ -103,7 +119,11 @@ def drive(rig, body):
         for prefix, prop, gain, ang, start in ((PREFIX, PROP, 1.0, e, START), (FLEX_PREFIX, FLEX_PROP, pf, e, flex_start),
                                                (HIP_PREFIX, HIP_PROP, 1.0, hf, HIP_START),
                                                (ELBOW_PREFIX, ELBOW_PROP, 1.0, elbow_flex_deg(rig, s), ELBOW_START),
-                                               (KNEE_PREFIX, KNEE_PROP, 1.0, knee_flex_deg(rig, s), KNEE_START)):
+                                               (KNEE_PREFIX, KNEE_PROP, 1.0, knee_flex_deg(rig, s), KNEE_START),
+                                               (WRIST_PREFIX, WRIST_PROP, 1.0,
+                                                wrist_ext_deg(rig, s) if f"{WRIST_PROP}_{s}" in rig else 0.0, WRIST_START),
+                                               (WFLEX_PREFIX, WFLEX_PROP, 1.0,
+                                                -wrist_ext_deg(rig, s) if f"{WFLEX_PROP}_{s}" in rig else 0.0, WRIST_START)):
             names = sorted((kb.name for kb in keys if kb.name.startswith(f"{prefix}{s}_")), key=lambda n: int(n.rsplit("_", 1)[1]))
             if not names or f"{prop}_{s}" not in rig:
                 continue

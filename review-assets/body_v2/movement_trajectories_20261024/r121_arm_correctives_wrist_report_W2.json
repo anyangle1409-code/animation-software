@@ -1,0 +1,221 @@
+{
+ "mode": "wrist",
+ "angles_deg": [
+  45,
+  70,
+  90,
+  100
+ ],
+ "keys": {
+  "45": {
+   "elevation_deg": {
+    "l": 45.0,
+    "r": 45.0
+   },
+   "folds_gt90_before": 303,
+   "unfold_history": [
+    285,
+    32,
+    32,
+    32,
+    32,
+    32,
+    32,
+    32,
+    32
+   ],
+   "contact_history": {
+    "contact": {
+     "r": 97,
+     "l": 99
+    },
+    "moved": 1021,
+    "triangle_guard_overlaps": [
+     0
+    ],
+    "restored_full": 359,
+    "restored_part": 198,
+    "kept": 464
+   },
+   "post_guard_overlaps": [
+    [
+     0
+    ]
+   ],
+   "crumple_gt35_history": [
+    3428,
+    3272,
+    3229,
+    3208,
+    3192,
+    3183,
+    3174
+   ],
+   "ridge_excess_history_mm": null,
+   "fairing": null,
+   "folds_gt90_with_key": 32,
+   "max_offset_mm": 5.66,
+   "vertices": 2767,
+   "fit_residual_max_mm": 0.0
+  },
+  "70": {
+   "elevation_deg": {
+    "l": 70.0,
+    "r": 70.0
+   },
+   "folds_gt90_before": 400,
+   "unfold_history": [
+    342,
+    33,
+    33,
+    32,
+    32,
+    32,
+    32,
+    32,
+    32
+   ],
+   "contact_history": {
+    "contact": {
+     "r": 254,
+     "l": 240
+    },
+    "moved": 1372,
+    "triangle_guard_overlaps": [
+     262,
+     16,
+     0
+    ],
+    "restored_full": 371,
+    "restored_part": 137,
+    "kept": 864
+   },
+   "post_guard_overlaps": [
+    [
+     0
+    ]
+   ],
+   "crumple_gt35_history": [
+    3571,
+    3440,
+    3414,
+    3400,
+    3391,
+    3383,
+    3378
+   ],
+   "ridge_excess_history_mm": null,
+   "fairing": null,
+   "folds_gt90_with_key": 32,
+   "max_offset_mm": 23.32,
+   "vertices": 2993,
+   "fit_residual_max_mm": 0.001
+  },
+  "90": {
+   "elevation_deg": {
+    "l": 90.0,
+    "r": 90.0
+   },
+   "folds_gt90_before": 435,
+   "unfold_history": [
+    322,
+    48,
+    39,
+    47,
+    33,
+    32,
+    32,
+    32,
+    32
+   ],
+   "contact_history": {
+    "contact": {
+     "r": 392,
+     "l": 374
+    },
+    "moved": 1731,
+    "triangle_guard_overlaps": [
+     379,
+     177,
+     0
+    ],
+    "restored_full": 386,
+    "restored_part": 108,
+    "kept": 1237
+   },
+   "post_guard_overlaps": [
+    [
+     0
+    ]
+   ],
+   "crumple_gt35_history": [
+    3763,
+    3568,
+    3506,
+    3489,
+    3479,
+    3477,
+    3471
+   ],
+   "ridge_excess_history_mm": null,
+   "fairing": null,
+   "folds_gt90_with_key": 32,
+   "max_offset_mm": 23.81,
+   "vertices": 3549,
+   "fit_residual_max_mm": 0.001
+  },
+  "100": {
+   "elevation_deg": {
+    "l": 100.0,
+    "r": 100.0
+   },
+   "folds_gt90_before": 440,
+   "unfold_history": [
+    327,
+    57,
+    63,
+    47,
+    45,
+    54,
+    48,
+    42,
+    37
+   ],
+   "contact_history": {
+    "contact": {
+     "r": 481,
+     "l": 484
+    },
+    "moved": 2048,
+    "triangle_guard_overlaps": [
+     341,
+     228,
+     0
+    ],
+    "restored_full": 500,
+    "restored_part": 110,
+    "kept": 1438
+   },
+   "post_guard_overlaps": [
+    [
+     0
+    ]
+   ],
+   "crumple_gt35_history": [
+    3874,
+    3623,
+    3555,
+    3533,
+    3513,
+    3510,
+    3493
+   ],
+   "ridge_excess_history_mm": null,
+   "fairing": null,
+   "folds_gt90_with_key": 37,
+   "max_offset_mm": 26.61,
+   "vertices": 3895,
+   "fit_residual_max_mm": 0.001
+  }
+ }
+}

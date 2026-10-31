@@ -39,6 +39,7 @@ jobs:
           python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_pose_state_probe.py -v
           python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_squat_pose_state_probe.py -v
           python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_forearm_pose_state_probe.py -v
+          python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_row_elbow_pose_state_probe.py -v
           python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_corrective_edge_isolation.py -v
           python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_adjacent_edge_controls.py -v
           python -m unittest discover -s scripts/cloud_body_analysis/tests -p test_native_control_views.py -v
@@ -67,6 +68,20 @@ jobs:
             --source-dir "${{ runner.temp }}/W8" \
             --r57-root "$GITHUB_WORKSPACE/_r57" \
             --out "$GITHUB_WORKSPACE/phone-forearm-pose-probe"
+      - name: Measure frozen W8 coupled row elbow controls without model save
+        run: |
+          python scripts/phone_blender/row_elbow_pose_state_probe.py \
+            --source-dir "${{ runner.temp }}/W8" \
+            --r57-root "$GITHUB_WORKSPACE/_r57" \
+            --out "$GITHUB_WORKSPACE/phone-row-elbow-pose-probe"
+      - name: Preserve observed W8 coupled row elbow-control evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phone-w8-row-elbow-pose-state-${{ github.run_id }}
+          path: phone-row-elbow-pose-probe/
+          retention-days: 90
+          if-no-files-found: error
       - name: Render frozen native corrective comparisons in a separate process
         run: |
           python scripts/phone_blender/native_control_views.py \

@@ -66,3 +66,49 @@ def describe(vertices, triangles, seeds, max_ring=3):
             "vertex_count": len(points), "ring_depth": max_ring,
             "anatomical_region_certified": False, "anatomical_side_certified": False,
             "movement_approved": False, "regions": regions}
+
+
+def measure_ring_edges(reference_vertices, posed_vertices, triangles, region, topology_sha256):
+    """Measure selected within-ring triangle edges without anatomical inference.
+
+    Coordinates must be expressed in the same length unit; returned ratios are
+    dimensionless. The caller must authenticate source identity and validate
+    evaluated mesh topology independently.
+    """
+    if not isinstance(region, dict) or not isinstance(region.get("rings"), list):
+        raise ValueError("invalid region")
+    base = describe(reference_vertices, triangles,
+                    [{"name": region.get("name"),
+                      "vertex_ids": region.get("seed_vertex_ids")}],
+                    len(region["rings"]) - 1)
+    if base["topology_sha256"] != topology_sha256:
+        raise ValueError("topology fingerprint mismatch")
+    if base["regions"][0]["rings"] != region["rings"]:
+        raise ValueError("region membership mismatch")
+    if not isinstance(posed_vertices, (list, tuple)) or len(posed_vertices) != len(reference_vertices):
+        raise ValueError("posed vertex count mismatch")
+    posed = []
+    for p in posed_vertices:
+        if (not isinstance(p, (list, tuple)) or len(p) != 3 or
+            any(type(x) not in (int, float) or not math.isfinite(x) for x in p)):
+            raise ValueError("invalid posed coordinate")
+        posed.append(tuple(float(x) for x in p))
+    allowed = {i for ring in region["rings"] for i in ring["vertex_ids"]}
+    edges = set()
+    for face in triangles:
+        for a, b in ((face[0],face[1]),(face[1],face[2]),(face[2],face[0])):
+            if a in allowed and b in allowed:
+                edges.add(tuple(sorted((a,b))))
+    if not edges:
+        raise ValueError("no selected region edges")
+    output = []
+    for a,b in sorted(edges):
+        rest = math.dist(reference_vertices[a], reference_vertices[b])
+        moved = math.dist(posed[a], posed[b])
+        if not math.isfinite(rest) or rest <= 1e-12 or not math.isfinite(moved):
+            raise ValueError("degenerate selected edge")
+        output.append({"vertex_ids":[a,b], "ratio":moved/rest})
+    ratios = sorted(x["ratio"] for x in output)
+    return {"status":STATUS,"anatomical_region_certified":False,
+            "edge_count":len(output),"ratios":output,
+            "min_ratio":ratios[0],"max_ratio":ratios[-1]}

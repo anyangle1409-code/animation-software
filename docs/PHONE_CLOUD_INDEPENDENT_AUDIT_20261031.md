@@ -52,3 +52,18 @@ This supersedes the previous 'not independently downloaded' boundary for **artif
 The four-edge diagnostic is therefore **verified as a consistent report of the pinned plain-row snapshots**. It does *not* establish correct anatomical left/right, full elbow coverage, absence of skin intersections, the proper role of separate radius/ulna, driven corrective behavior, or return-to-neutral. Existing model gates stay blocked.
 
 Next independent task: design an explicit multi-ring elbow-region sampling plan from source anatomy/mesh (coverage and provenance mandatory), and a paired *driven-corrective* native replay for the same exact source IDs and frames. Do not use the four edges as a representative population or approve anatomical safety.
+
+
+## Independent phone-image recovery and review — 31 October
+
+The latest workflow run 41190343127 publishes `phone-visual-review-41190343127` artifact 13037998996. Independently downloaded and checked ZIP SHA256: `70645fc5ffc86aacd9241734c810aca839a90c71fd670456e0d118534c73b93e` (matches GitHub), ZIP CRC PASS. Archive includes:
+- `phone_review_shoulder_press_back_full_body.jpg`
+- `phone_review_shoulder_press_back_upper_torso.jpg`
+- `phone_review_squat_side_full_body.jpg`
+- `phone_review_manifest.json`
+
+These are side-by-side W8/V14/R120 **existing Blender diagnostic PNG-derived JPEG sheets** with pinned image provenance to original run39937882229. They show real preserved geometry and diagnostic overlays at discrete poses; the run does **not** produce a corrected model, reviewed anatomy, or a real-time motion video. An iPhone-friendly local MP4 slideshow was created from the three authentic contact sheets for owner review; its moving timeline is only slide display, not Blender animation interpolation.
+
+**Visual-review priorities:** back-view axial shoulders/scapula/axilla for start, sample6 and sample8; compare left-right symmetry and mesh bulges/indentations as candidate observations. Squat side-view inspect pelvis-groin, hip and knee, shin/foot and floor, with diagnosis guarded by unknown side/landmark calibration. Do not mark W8/V14/R120 anatomically accepted from these images.
+
+**Next safe work:** prepare calibrated orientation/landmark evidence, larger elbow region surface coverage and separately pinned driven-corrective comparisons, then actual multi-frame Blender motion/video on a distinct experimental artifact if cloud workflow supports it. Preserve all source inputs. No merge/deploy.

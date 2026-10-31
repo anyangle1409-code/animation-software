@@ -1973,3 +1973,24 @@ on W3 with the ISB girdle frame and candidate press girdle.
 - **Bind:** the two twist bones and the forearm weights.
 - **Runtime contract:** the twist and extension drives, and the plane-factor frame.
 - **Keys:** the wrist and extension keys, as candidates like every key here.
+
+## G5: the hips off their authored path, abduction and a sumo squat (31 Oct 2026)
+
+The hip keys are indexed by hip flexion alone: `hip_flex_deg`, the unsigned angle between the thigh and its rest
+direction carried by the pelvis. So a sideways or turned-out thigh is a combination they were not authored for. Two
+movements are added to the harness on request; both are skin tests, with the feet not planted.
+
+- **`hip_abduction`:** standing, arms 45° out sideways, both legs abducted to 35° (`V2_TRAJ_HIP_ABD_DEG`). With the
+  arms hanging, the legs swing into the hands: about 2000 hand / forearm against thigh pairs, test path only.
+- **`sumo_squat`:** the benchmark squat with the thighs abducted 25° and turned out 25° (`V2_TRAJ_SUMO_ABD`,
+  `V2_TRAJ_SUMO_ER`), arms forward.
+
+| On W3 | Peak self-intersections | Folds over 90° (hip / knee) | Hip creases over 35° | Edges over 2× | Return |
+|---|---|---|---|---|---|
+| Hip abduction to 35° | **0** | 0 (0 / 0) | 68 → 80 | 442 → 843 (inner thigh, groin) | 0.0 mm |
+| Sumo squat | **0** | 14 (1 / 13) | n/a | 4011 (the plain squat: 4096) | 0.0 mm |
+
+**Both generalise.** The flexion-indexed hip keys and the knee contact keys hold with the thighs abducted and turned
+out. The abduction's stretch (inner thigh, groin) doubles by 35°. That matters for a textured skin, not for the shape.
+
+Reports: `report_TT_G5_W3_hip_abduction.json`, `report_TT_G5_W3_sumo_squat.json`.

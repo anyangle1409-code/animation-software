@@ -444,6 +444,8 @@ The flagged muscles:
 0. **Humeral axial rotation (G1 / G2).** It needs the upper-arm twist bones above, an owner decision.
    - Still open with them: the overhead extension at 130° elbow (about 120 shoulder and 250 elbow-region pairs). It
      needs a key authored in that posture, or a twist-aware elbow contact.
+   - **G5:** hip abduction to 35° and a sumo squat (thighs abducted and turned out 25°) are clean on W3 (0 pairs). The
+     flexion-indexed hip and knee keys generalise.
    - **G3:** band internal rotation shows the same gap (shoulder 36 pairs and 42 folds at 45°), and the candidate
      clears it.
    - **A standing row generalises** with the elbows a little out: 0 pairs, folds at most 20.

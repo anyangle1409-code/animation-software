@@ -18,6 +18,8 @@ Trajectories (each starts and ends at neutral, so return-to-neutral is measured)
            -> 0: axial rotation alone.  internal_rotation: the same inwards to V2_TRAJ_IR_DEG (45).
   bent_over_row / walk_stride / trunk_rotation / single_leg_stance / calf_raise / push_up / forearm_rotation /
            wrist_circuit / grip (on request) - the rest of the r57 movement benchmark's poses, as authored there.
+  hip_abduction / sumo_squat (on request) - both legs abducted to V2_TRAJ_HIP_ABD_DEG (35); the squat with the thighs
+           abducted V2_TRAJ_SUMO_ABD (25) and turned out V2_TRAJ_SUMO_ER (25).  Skin tests: the feet are not planted.
   row (on request) - standing row: the humerus extends behind the trunk to V2_TRAJ_ROW_EXT (50 deg) with the elbows
            bending to V2_TRAJ_ROW_ELBOW (100).
 V2_TRAJ_GIRDLE=candidate uses shoulder_girdle_candidate.apply_press_pose (corrected girdle directions) for the press.
@@ -422,6 +424,51 @@ def raise_in_plane(plane_deg, top=90.0):
     return fn
 
 
+HIP_ABD = float(os.environ.get("V2_TRAJ_HIP_ABD_DEG", "35"))
+SUMO_ABD, SUMO_ER = float(os.environ.get("V2_TRAJ_SUMO_ABD", "25")), float(os.environ.get("V2_TRAJ_SUMO_ER", "25"))
+
+
+def _turn_thighs(abd, er=0.0):
+    """each thigh abducted by abd (about the pelvis's anterior-posterior axis through its hip; the foot moves outwards)
+    and turned outwards about its own axis by er (the knee points outwards)"""
+    from mathutils import Matrix
+    pel = rig.pose.bones["pelvis"]
+    ap = (pel.matrix.to_3x3() @ rig.data.bones["pelvis"].matrix_local.to_3x3().inverted()) @ Vector((0.0, 1.0, 0.0))
+    for s_ in ("l", "r"):
+        th = rig.pose.bones[f"thigh_{s_}"]; hip = th.head.copy(); lat = 1.0 if hip.x > 0 else -1.0
+        t0 = th.tail.copy(); probe = Matrix.Translation(hip) @ Matrix.Rotation(math.radians(5.0), 4, ap) @ Matrix.Translation(-hip)
+        sg = 1.0 if ((probe @ t0) - t0).x * lat > 0 else -1.0
+        th.matrix = Matrix.Translation(hip) @ Matrix.Rotation(math.radians(sg * abd), 4, ap) @ Matrix.Translation(-hip) @ th.matrix
+        bpy.context.view_layer.update()
+        if er:
+            d = (th.tail - th.head).normalized(); kn = th.tail.copy(); fwd = Vector((0.0, -1.0, 0.0))
+            pr = Matrix.Translation(hip) @ Matrix.Rotation(math.radians(5.0), 4, d) @ Matrix.Translation(-hip)
+            sh = rig.pose.bones[f"shin_{s_}"]; kp = sh.tail.copy()   # with the knee bent, the shin swings outwards
+            sg2 = 1.0 if ((pr @ kp) - kp).x * lat > 0 else -1.0
+            th.matrix = Matrix.Translation(hip) @ Matrix.Rotation(math.radians(sg2 * er), 4, d) @ Matrix.Translation(-hip) @ th.matrix
+            bpy.context.view_layer.update()
+
+
+def hip_abduction(u):
+    """standing, arms 45 deg out sideways, both legs abducted to HIP_ABD (35) and back, knees straight (a skin test: the
+    feet leave the floor)"""
+    p = 1.0 - abs(2.0 * u - 1.0); a = HIP_ABD * bench.smooth(p)
+    bench._reset(rig); girdle.apply_arm_pose(rig, 45.0, 0.0)   # arms out sideways: the legs swing into hanging hands
+    _turn_thighs(a)
+    return {"hip_abduction_deg": round(a, 2)}
+
+
+def sumo_squat(u):
+    """the benchmark squat with the thighs abducted SUMO_ABD (25) and turned out SUMO_ER (25) - knees out over a wide
+    stance (a skin test: the feet are not re-planted)"""
+    p = 1.0 - abs(2.0 * u - 1.0); k = bench.smooth(p)
+    out = bench.pose_squat(rig, p, REST_HEADS)
+    _turn_thighs(SUMO_ABD * k, SUMO_ER * k)
+    if SQUAT_ARMS == "forward":
+        girdle.apply_arm_pose(rig, 16.0 + 74.0 * bench.smooth(min(1.0, p / 0.6)), 90.0, reset=False)
+    return {k_: round(float(v), 2) for k_, v in out.items()} | {"depth": round(p, 3), "hip_abduction_deg": round(SUMO_ABD * k, 2)}
+
+
 def _clavicle_basis():
     import build_functional_original_coupled_motion_blender as coupled
     return coupled.clavicle_basis
@@ -469,6 +516,7 @@ MOVE_FN = {"press": press, "curl": curl, "squat": squat,
            "lateral_raise": raise_in_plane(0.0), "front_raise": raise_in_plane(90.0),
            "deadlift": lambda u: deadlift(u), "overhead_extension": overhead_extension, "pulldown": pulldown,
            "external_rotation": external_rotation, "internal_rotation": internal_rotation, "row": row,
+           "hip_abduction": hip_abduction, "sumo_squat": sumo_squat,
            # the rest of the r57 movement benchmark, as authored there (out and back here)
            "bent_over_row": lambda u: _bench(lambda t: bench.pose_row(rig, t, REST_HEADS, _clavicle_basis()), u, carry=True),
            "walk_stride": lambda u: _bench(lambda t: bench.pose_walk(rig, body, t), u, carry=True),

@@ -1,0 +1,51 @@
+{
+ "glb": "hgpt_body_v2_C1_app_lod.glb",
+ "bytes": 23863328,
+ "engine": "three@0.170.0 WebGL (headless Chromium, SwiftShader)",
+ "load_ms": 174,
+ "skinned_meshes": 1,
+ "bones": 79,
+ "skin_joints": 79,
+ "vertices": 52195,
+ "triangles": 104370,
+ "morph_targets": 31,
+ "influences": 8,
+ "clips": [
+  {
+   "name": "press",
+   "duration": 2,
+   "tracks": 238
+  },
+  {
+   "name": "curl",
+   "duration": 2,
+   "tracks": 238
+  },
+  {
+   "name": "squat",
+   "duration": 2,
+   "tracks": 238
+  }
+ ],
+ "playback": {
+  "press": {
+   "frames": 33,
+   "render_ms_median": 0.3,
+   "render_ms_p95": 1.4,
+   "render_ms_max": 169.4
+  },
+  "curl": {
+   "frames": 33,
+   "render_ms_median": 0.2,
+   "render_ms_p95": 1.6,
+   "render_ms_max": 2
+  },
+  "squat": {
+   "frames": 33,
+   "render_ms_median": 0.2,
+   "render_ms_p95": 0.7,
+   "render_ms_max": 0.8
+  }
+ },
+ "console": []
+}

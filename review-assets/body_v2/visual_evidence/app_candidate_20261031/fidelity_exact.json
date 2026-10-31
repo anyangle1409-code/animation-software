@@ -1,0 +1,77 @@
+{
+ "press": {
+  "0": {
+   "lod_vs_full_max_mm": 0.004,
+   "lod_vs_full_p99_mm": 0.0,
+   "lod_vs_full_mean_mm": 0.0001,
+   "three_vs_blender_lod_max_mm": 0.007,
+   "three_vs_blender_lod_p99_mm": 0.0012
+  },
+  "16": {
+   "lod_vs_full_max_mm": 0.005,
+   "lod_vs_full_p99_mm": 0.001,
+   "lod_vs_full_mean_mm": 0.0001,
+   "fit_target_vs_harness_max_mm": 0.001,
+   "lod_vs_fit_target_max_mm": 0.005,
+   "three_vs_blender_lod_max_mm": 0.047,
+   "three_vs_blender_lod_p99_mm": 0.0086
+  },
+  "32": {
+   "lod_vs_full_max_mm": 0.004,
+   "lod_vs_full_p99_mm": 0.0,
+   "lod_vs_full_mean_mm": 0.0001,
+   "three_vs_blender_lod_max_mm": 0.007,
+   "three_vs_blender_lod_p99_mm": 0.0012
+  }
+ },
+ "curl": {
+  "0": {
+   "lod_vs_full_max_mm": 0.013,
+   "lod_vs_full_p99_mm": 0.001,
+   "lod_vs_full_mean_mm": 0.0001,
+   "three_vs_blender_lod_max_mm": 0.01,
+   "three_vs_blender_lod_p99_mm": 0.0014
+  },
+  "16": {
+   "lod_vs_full_max_mm": 0.009,
+   "lod_vs_full_p99_mm": 0.002,
+   "lod_vs_full_mean_mm": 0.0002,
+   "fit_target_vs_harness_max_mm": 0.0,
+   "lod_vs_fit_target_max_mm": 0.009,
+   "three_vs_blender_lod_max_mm": 0.016,
+   "three_vs_blender_lod_p99_mm": 0.0015
+  },
+  "32": {
+   "lod_vs_full_max_mm": 0.013,
+   "lod_vs_full_p99_mm": 0.001,
+   "lod_vs_full_mean_mm": 0.0001,
+   "three_vs_blender_lod_max_mm": 0.01,
+   "three_vs_blender_lod_p99_mm": 0.0014
+  }
+ },
+ "squat": {
+  "0": {
+   "lod_vs_full_max_mm": 0.001,
+   "lod_vs_full_p99_mm": 0.0,
+   "lod_vs_full_mean_mm": 0.0001,
+   "three_vs_blender_lod_max_mm": 0.003,
+   "three_vs_blender_lod_p99_mm": 0.0006
+  },
+  "16": {
+   "lod_vs_full_max_mm": 0.005,
+   "lod_vs_full_p99_mm": 0.002,
+   "lod_vs_full_mean_mm": 0.0002,
+   "fit_target_vs_harness_max_mm": 0.0,
+   "lod_vs_fit_target_max_mm": 0.005,
+   "three_vs_blender_lod_max_mm": 0.034,
+   "three_vs_blender_lod_p99_mm": 0.0091
+  },
+  "32": {
+   "lod_vs_full_max_mm": 0.001,
+   "lod_vs_full_p99_mm": 0.0,
+   "lod_vs_full_mean_mm": 0.0001,
+   "three_vs_blender_lod_max_mm": 0.003,
+   "three_vs_blender_lod_p99_mm": 0.0006
+  }
+ }
+}

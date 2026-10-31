@@ -48,6 +48,8 @@ This is the model Work's phone reviews show.
 | 31 Oct | **4 influences are not enough; 8 are.** Even the fitted 4-influence binding breaks the press lockout (7 → 202 self-intersections, 8 → 1209 folds) and the squat (0 → 85, 13 → 864). On this fine mesh (3 to 5 mm edges), a 1 to 2 mm error that differs between neighbouring vertices creases the skin. Keeping the 8 largest weights stays within 0.38 mm of the full binding (only 519 vertices use 9 or 10). **App requirement: 8 bone influences (glTF JOINTS_0/1 + WEIGHTS_0/1).** Babylon.js plays this natively; three.js with the shader patch in `glb_playback/page.html`. | `V2_TRAJ_WEIGHTS4`, numpy top-8 check |
 | 31 Oct | **Press lockout attribution.** At C1's lockout only the `R121_ARM_*_153` keys are active (S1/S3/S5/S7/SHOULDER/C1 off). The mass behind the arm in the side view is the posterior armpit fold, judged anatomical on 30 Oct and kept. The V on the upper chest follows the clavicles elevating, which is expected overhead. A chest relief-restore patch (W4) changed nothing visible and no metric, so it is **not adopted** (default-off option). | `V2_TRAJ_MUTE_KEYS`, `W4` |
 
+| 31 Oct | **App integration candidate GLB** (`review-assets/body_v2/visual_evidence/app_candidate_20261031/`, 23.9 MB). It is the C1 app LOD: 52,195 vertices, 8 influences, 31 clip-morph components and press/curl/squat clips. **PT-App's own `check-glb-preview.mjs` passes it with no gaps.** It plays in three.js r170 within 0.047 mm of the Blender LOD, and the LOD is within 0.013 mm of the full model at every checked frame. Measured on the way: the full-resolution GLB (52.9 MB) cannot play on a phone, because three.js keeps all 140 morphs as one roughly 780 MB GPU texture, and PT-App rejects sparse accessors. | `app_lod.py`, `glb_playback/`, its README |
+
 ## In progress
 
 - **App-safe 4-influence binding** (`fit_app_binding.py`). Per vertex, among the bones it already uses, the fit picks
@@ -66,11 +68,11 @@ This is the model Work's phone reviews show.
    asymmetric. Push-up remains (forearm crease and thumb base).
 3. **Hips/groin, knees, feet:** run the same before/after animation for the squat, lunge and walk; fix what the
    frames show.
-4. **GLB:**
-   - final export with the fitted binding;
-   - PT-App preflight;
-   - three.js playback and fidelity against Blender;
-   - an app LOD. 347,917 vertices is heavy for a phone.
+4. **GLB, remaining:**
+   - real iPhone playback and performance (the timings so far are from a software renderer);
+   - PT-App shadow viewer integration (GPT lane; needs the 8-influence patch and signed morph weights);
+   - more clips (row, push-up, lunge, walk, grip);
+   - the runtime drive contract for unbaked exercises (owner decision).
 
 ## Blocked / owner decisions
 

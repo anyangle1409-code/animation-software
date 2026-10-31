@@ -1325,3 +1325,168 @@ the humerus too), or move one head onto another. At rest it is exact (0.0001 mm)
   Sliding the clavicular head would leave its belly about 8 cm short of its origin.
 - **What the fans need is not settled.** A twist-aware cross-section (the pectoral fibres unwind at elevation) and a
   layering that knows the deep face are both candidates. The Poisson fans remain the default.
+
+## MG11: the brachioradialis (added 31 Oct 2026)
+
+**Script:** `build_forearm_muscle_envelopes_blender.py`. It carries MG7's compartment method to the forearm and
+completes the curl's elbow flexors.
+
+- **Input:** the MG8 blends, hash-checked and unchanged.
+- **Output:** new copies, `…_MG11_forearm_<side>.blend`, in the scratch area; not in git.
+- **ID:** `hgpt.muscle.brachioradialis.{L,R}`, permanent. Neutral colour, no activation.
+
+**How it is built.**
+
+- **Sections.** The forearm is cut into sections along EJC → WJC.
+- **Compartment.** It lies between a two-bone proxy and the skin, less the 4 mm subcutaneous layer. The proxy is
+  radius + ulna + interosseous membrane: 12 mm, plus 8 mm towards the elbow.
+- **Band.** The belly takes the outer 60 % of a 70° sector centred on the radius, from s 0.04 to 0.55, tapered at both
+  ends.
+- **Sector direction.** The sector is centred on the radius's direction as measured in R41's rest pose (30.8° from the
+  frontal reference at mid-forearm; the rest forearm is near mid-prone), not on an assumed one.
+- **Tendons.** They run to the proposed (unreviewed) anchors: origin on the lateral supracondylar ridge (87 mm) and
+  insertion at the radial styloid (110 mm).
+- **Simplification (recorded).** The real belly begins on the supracondylar ridge above the elbow. Here it begins just
+  below the elbow and its origin tendon crosses the joint, so the belly rides one bone (the radius) and a length key can
+  drive it.
+
+**Checks, both sides.**
+
+- Belly 86.7 cm³, 133 mm long.
+- 0 points outside the skin; 0 shallower than the layer (at least 3.9 mm below the skin).
+- 0 inside the bone proxy; 0 self-intersections; 0 overlaps with any other envelope.
+
+**Files.** `native_20261024/mg11/mg11_{left,right}_report.json` and `MG11_{left,right}_brachioradialis_sheet.jpg`
+(muscle and skin, anterior / lateral / posterior).
+
+## MG11b: arm length keys by belly length, layered, and elbow contact (added 31 Oct 2026)
+
+**Script:** `arm_muscle_length_keys_blender.py`. It does for the arm what MG10 did for the leg.
+
+- **Input:** the MG11 blends, hash-checked and unchanged.
+- **Output:** new copies, `…_MG11b_arm_length_<side>.blend`, in the scratch area; not in git.
+- **Muscles:** MG1's biceps (two heads), brachialis and triceps (three heads), plus MG11's brachioradialis.
+
+**Length keys `HGPT_LEN_K_<100k>`** for k = 0.35–1.55 in 0.05 steps.
+
+- The rule is MG2's and MG10's: in the belly's segment frame, stations move by k about the pivot, the deep surface is
+  kept and the outer surface takes r_o′² = r_i² + (r_o² − r_i²) / k.
+- k comes from Work's kernel path length (`resolve_path` / `path_length`, straight between the proposed anchors, as in
+  MG2).
+- The range reaches 0.35 because the brachialis reaches 0.41 at 140°. The first range (0.55–1.30) clamped it, and the
+  layering then mismatched.
+- **Pivots, by MG10's rule:**
+  - brachialis and triceps lateral / medial: proximal (anchored on the humerus they ride);
+  - brachioradialis: distal (insertion on the radius);
+  - biceps heads and triceps long head: centre (both tendons long).
+- **The brachioradialis counts its origin tendon as belly**, because it stands in for belly above the elbow:
+  k = (path − insertion tendon) / (rest path − insertion tendon). It is 0.43 at 140°, close to a constant 4.5 cm
+  moment-arm estimate (0.49).
+- **Measured alternatives:**
+  - With both of its tendons fixed, the brachioradialis's k fell to 0.05.
+  - A 22 mm anterior elbow wrap, of the squat check's kind, took the long way round in the deep-flexion hairpin
+    (k 1.09 at 120°).
+
+**Layering (MG3's rule).**
+
+- The biceps heads lie on the brachialis, and the triceps lateral and long heads on the medial head.
+- The deep neighbour's ratio is read off elbow-only curves (0–150°, shoulder at rest, inverted on their monotonic
+  part).
+- This is exact for the one-joint pair (triceps lateral / medial). For the biceps and the triceps long head it is an
+  approximation when the shoulder moves, and is recorded as such.
+
+**Elbow contact keys `HGPT_CONTACT_ELBOW_<deg>`** (70–150° in 10° steps, from 60°).
+
+- They are keyed by elbow flexion alone, so any movement that bends the elbow drives them.
+- Each key is computed on the length-keyed shapes at its angle (shoulder at rest) and stored as a correction, so it
+  adds to the length keys.
+- On this body the 70–100° keys are zero; contact begins at about 105°.
+
+The method is new; MG10's flatten-and-push did not carry over (below). In order:
+
+1. **Compression.** On the flexion side, x is the distance from the plane bisecting the elbow angle. Where the other
+   side's tissue lies in the same column (projected within 10 mm, fading out by 20 mm), each side's slab is compressed
+   linearly onto [gap / 2, 25 mm]. The slab runs from its deepest point in the column (read over an 8 mm disc) to 25 mm
+   beyond the plane. The map is monotonic along x, so the bellies of one side keep their order (the biceps stays on
+   the brachialis) while both sides clear the plane.
+2. **Smoothing.** The displacement field is smoothed over each surface: 8 passes, never below what the contact needs.
+3. **Volume give-back, sideways.**
+   - Each compressed ring is stretched across the contact direction (along axis × n) until its cross-section area is
+     back. No point's distance from the plane changes.
+   - The stretch is at most 2.6 and is smoothed along the belly.
+   - The biceps heads and the brachioradialis stretch only on the side away from their neighbour: the long head
+     laterally, the short head medially, the brachioradialis away from the short head. The brachialis stretches both
+     ways.
+4. **Re-layering.** The biceps heads are re-laid on the brachialis's corrected outer surface plus the gap (MG3).
+   - Off the contact, the outer surface lifts with the inner one.
+   - On the contact, the outer surface only clears the inner one.
+
+**Results through the R121 curl** (its 17 frames, 0 → 140° in 17.5° steps, plus 90° and 130°; left and right
+identical).
+
+Face overlaps among the arm bellies and with the deltoid:
+
+| Elbow | Without keys | Length keys only | Length + contact keys |
+|---|---|---|---|
+| 0–35° | 0 | 0 | 0 |
+| 52.5–87.5° | 0–56 | 4–12 | 4–12 (biceps long head / anterior deltoid) |
+| 90–105° | 86–197 | 0 | 0 |
+| 122.5° | 364 | 176 | **4** |
+| 130° | 474 | 346 | **8** |
+| 140° | 613 | 541 | **4** (biceps short head / brachialis) |
+
+Belly k at 140°:
+
+| Biceps long / short | Brachialis | Triceps long / lateral / medial | Brachioradialis |
+|---|---|---|---|
+| 0.61 / 0.58 | 0.41 | 1.09 / 1.14 / 1.41 | 0.43 |
+
+**Volume.**
+
+- Every belly keeps 0.997–1.001 to 105°.
+- With contact:
+
+  | Elbow | Lowest belly |
+  |---|---|
+  | 122.5° | 0.98 |
+  | 130° | 0.96 |
+  | 140° | 0.88 (biceps long head) |
+
+  At 140° the rest are: brachialis 0.94, brachioradialis 0.93, biceps short head 1.00, triceps 1.00.
+- The deepest contact at 140° is 35 mm into the other side (biceps). That is real: the end of elbow flexion is limited
+  by soft tissue.
+
+**Measured alternatives (left, 120–140°):**
+
+- **MG10's flatten-and-push, carried over.**
+  - Overlaps at 140°: 541 with the length keys only, **1440** with contact.
+  - The brachioradialis folded: 808 points were pushed to the nearest upper-arm surface, a different direction for each
+    point.
+  - The radial bulge then swelled the brachialis into the biceps.
+- **Compression with no volume give-back.**
+  - Overlaps 118 at 140°.
+  - Volumes 0.55 (brachioradialis), 0.73 (brachialis), 0.75 (biceps long head).
+- **Two-sided sideways stretch for the biceps.** The heads spread into each other: 257 overlaps between long and short
+  head at 140°.
+- **Without re-layering.** Overlaps at 140°: 118 biceps short / brachialis.
+- **Without smoothing, stretch up to 3.** Volumes at least 0.91, overlaps 32 at 140°, but with blade-like spikes at the
+  most stretched rings.
+- The other give-back modes are kept for comparison: `MG11B_VOLUME=radial` (MG10's bulge) and `none`.
+
+**Limits.**
+
+- **140° shapes are blocky.** The biceps shows ring-wise steps (layering and compression act per section), and the
+  brachioradialis is a flattened slab.
+- **Gap at the elbow.** With its distal pivot, the brachioradialis belly shrinks towards the wrist, leaving the gap at
+  the elbow to its origin "tendon". A belly that continues above the elbow, bent around the lateral epicondyle, would
+  close it. That needs a two-segment envelope, which this ring scheme does not have.
+- **Shoulder kept at rest.** Contact and layering are computed with the shoulder at rest. A curl with the shoulder
+  flexed changes the biceps' k, but not the elbow contact geometry.
+- **Separate copies.** MG10 (legs) and MG11b (arms) both start from MG8, so their keys are in separate copies. Merging
+  them into one copy is a later step.
+
+**Files.**
+
+- `native_20261024/mg11/mg11b_{left,right}_report.json`: per-pose k, volume and overlaps (without keys, length keys
+  only, length + contact), the layering log, the elbow curves and the contact log.
+- `MG11b_{left,right}_curl_sheet.jpg`: lateral and medial at 0, 90, 122.5 and 140°.

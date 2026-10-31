@@ -1,0 +1,1281 @@
+{
+ "status": "PROXY_LENGTH_RESPONSE_UNREVIEWED",
+ "input": "HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG11_forearm_left.blend",
+ "input_sha256": "49884b6c554c833d216f1b9a618fb88e5d7f23acb6b4b8cc20997572d098a3a6",
+ "side": "left",
+ "keys": [
+  "HGPT_LEN_K_035",
+  "HGPT_LEN_K_040",
+  "HGPT_LEN_K_045",
+  "HGPT_LEN_K_050",
+  "HGPT_LEN_K_055",
+  "HGPT_LEN_K_060",
+  "HGPT_LEN_K_065",
+  "HGPT_LEN_K_070",
+  "HGPT_LEN_K_075",
+  "HGPT_LEN_K_080",
+  "HGPT_LEN_K_085",
+  "HGPT_LEN_K_090",
+  "HGPT_LEN_K_095",
+  "HGPT_LEN_K_105",
+  "HGPT_LEN_K_110",
+  "HGPT_LEN_K_115",
+  "HGPT_LEN_K_120",
+  "HGPT_LEN_K_125",
+  "HGPT_LEN_K_130",
+  "HGPT_LEN_K_135",
+  "HGPT_LEN_K_140",
+  "HGPT_LEN_K_145",
+  "HGPT_LEN_K_150",
+  "HGPT_LEN_K_155"
+ ],
+ "pivot": {
+  "biceps_brachii_long": "centre",
+  "biceps_brachii_short": "centre",
+  "brachialis": "proximal",
+  "triceps_long": "centre",
+  "triceps_lateral": "proximal",
+  "triceps_medial": "proximal",
+  "brachioradialis": "distal"
+ },
+ "rule": "stations along the segment axis about the pivot x k; deep surface kept; outer r_o'^2 = r_i^2 + (r_o^2 - r_i^2) / k (MG2); rest-space keys keyed by belly length ratio k",
+ "path_model": "Work's kernel: resolve_path / path_length (straight between the proposed anchors), as MG2; the brachioradialis's origin tendon counted as belly",
+ "layered": {
+  "deep_of": {
+   "biceps_brachii_long": "brachialis",
+   "biceps_brachii_short": "brachialis",
+   "triceps_lateral": "triceps_medial",
+   "triceps_long": "triceps_medial"
+  },
+  "per_key": {
+   "biceps_brachii_long k0.35": {
+    "deep_k": 0.393,
+    "pushed_points": 667,
+    "push_max_mm": 41.4
+   },
+   "biceps_brachii_long k0.4": {
+    "deep_k": 0.393,
+    "pushed_points": 579,
+    "push_max_mm": 41.32
+   },
+   "biceps_brachii_long k0.45": {
+    "deep_k": 0.393,
+    "pushed_points": 519,
+    "push_max_mm": 41.08
+   },
+   "biceps_brachii_long k0.5": {
+    "deep_k": 0.393,
+    "pushed_points": 467,
+    "push_max_mm": 40.51
+   },
+   "biceps_brachii_long k0.55": {
+    "deep_k": 0.393,
+    "pushed_points": 420,
+    "push_max_mm": 39.78
+   },
+   "biceps_brachii_long k0.6": {
+    "deep_k": 0.403,
+    "pushed_points": 392,
+    "push_max_mm": 38.05
+   },
+   "biceps_brachii_long k0.65": {
+    "deep_k": 0.471,
+    "pushed_points": 417,
+    "push_max_mm": 30.53
+   },
+   "biceps_brachii_long k0.7": {
+    "deep_k": 0.544,
+    "pushed_points": 436,
+    "push_max_mm": 23.32
+   },
+   "biceps_brachii_long k0.75": {
+    "deep_k": 0.618,
+    "pushed_points": 444,
+    "push_max_mm": 17.06
+   },
+   "biceps_brachii_long k0.8": {
+    "deep_k": 0.692,
+    "pushed_points": 435,
+    "push_max_mm": 11.6
+   },
+   "biceps_brachii_long k0.85": {
+    "deep_k": 0.767,
+    "pushed_points": 418,
+    "push_max_mm": 7.03
+   },
+   "biceps_brachii_long k0.9": {
+    "deep_k": 0.842,
+    "pushed_points": 404,
+    "push_max_mm": 4.72
+   },
+   "biceps_brachii_long k0.95": {
+    "deep_k": 0.918,
+    "pushed_points": 245,
+    "push_max_mm": 0.89
+   },
+   "biceps_brachii_long k1.05": {
+    "deep_k": 1.0,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "biceps_brachii_long k1.1": {
+    "deep_k": 1.0,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "biceps_brachii_long k1.15": {
+    "deep_k": 1.0,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "biceps_brachii_long k1.2": {
+    "deep_k": 1.0,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "biceps_brachii_long k1.25": {
+    "deep_k": 1.0,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "biceps_brachii_long k1.3": {
+    "deep_k": 1.0,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "biceps_brachii_long k1.35": {
+    "deep_k": 1.0,
+    "pushed_points": 1,
+    "push_max_mm": 0.03
+   },
+   "biceps_brachii_long k1.4": {
+    "deep_k": 1.0,
+    "pushed_points": 2,
+    "push_max_mm": 0.3
+   },
+   "biceps_brachii_long k1.45": {
+    "deep_k": 1.0,
+    "pushed_points": 3,
+    "push_max_mm": 0.3
+   },
+   "biceps_brachii_long k1.5": {
+    "deep_k": 1.0,
+    "pushed_points": 3,
+    "push_max_mm": 0.33
+   },
+   "biceps_brachii_long k1.55": {
+    "deep_k": 1.0,
+    "pushed_points": 1,
+    "push_max_mm": 0.33
+   },
+   "biceps_brachii_short k0.35": {
+    "deep_k": 0.393,
+    "pushed_points": 672,
+    "push_max_mm": 41.49
+   },
+   "biceps_brachii_short k0.4": {
+    "deep_k": 0.393,
+    "pushed_points": 587,
+    "push_max_mm": 41.34
+   },
+   "biceps_brachii_short k0.45": {
+    "deep_k": 0.393,
+    "pushed_points": 528,
+    "push_max_mm": 41.45
+   },
+   "biceps_brachii_short k0.5": {
+    "deep_k": 0.393,
+    "pushed_points": 472,
+    "push_max_mm": 40.97
+   },
+   "biceps_brachii_short k0.55": {
+    "deep_k": 0.393,
+    "pushed_points": 425,
+    "push_max_mm": 40.2
+   },
+   "biceps_brachii_short k0.6": {
+    "deep_k": 0.439,
+    "pushed_points": 430,
+    "push_max_mm": 36.05
+   },
+   "biceps_brachii_short k0.65": {
+    "deep_k": 0.515,
+    "pushed_points": 453,
+    "push_max_mm": 28.93
+   },
+   "biceps_brachii_short k0.7": {
+    "deep_k": 0.588,
+    "pushed_points": 466,
+    "push_max_mm": 22.07
+   },
+   "biceps_brachii_short k0.75": {
+    "deep_k": 0.66,
+    "pushed_points": 455,
+    "push_max_mm": 15.89
+   },
+   "biceps_brachii_short k0.8": {
+    "deep_k": 0.73,
+    "pushed_points": 441,
+    "push_max_mm": 10.6
+   },
+   "biceps_brachii_short k0.85": {
+    "deep_k": 0.799,
+    "pushed_points": 430,
+    "push_max_mm": 6.78
+   },
+   "biceps_brachii_short k0.9": {
+    "deep_k": 0.867,
+    "pushed_points": 407,
+    "push_max_mm": 2.91
+   },
+   "biceps_brachii_short k0.95": {
+    "deep_k": 0.934,
+    "pushed_points": 127,
+    "push_max_mm": 0.91
+   },
+   "biceps_brachii_short k1.05": {
+    "deep_k": 1.0,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "biceps_brachii_short k1.1": {
+    "deep_k": 1.0,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "biceps_brachii_short k1.15": {
+    "deep_k": 1.0,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "biceps_brachii_short k1.2": {
+    "deep_k": 1.0,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "biceps_brachii_short k1.25": {
+    "deep_k": 1.0,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "biceps_brachii_short k1.3": {
+    "deep_k": 1.0,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "biceps_brachii_short k1.35": {
+    "deep_k": 1.0,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "biceps_brachii_short k1.4": {
+    "deep_k": 1.0,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "biceps_brachii_short k1.45": {
+    "deep_k": 1.0,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "biceps_brachii_short k1.5": {
+    "deep_k": 1.0,
+    "pushed_points": 1,
+    "push_max_mm": 0.0
+   },
+   "biceps_brachii_short k1.55": {
+    "deep_k": 1.0,
+    "pushed_points": 1,
+    "push_max_mm": 0.0
+   },
+   "triceps_long k0.35": {
+    "deep_k": 1.0,
+    "pushed_points": 359,
+    "push_max_mm": 17.33
+   },
+   "triceps_long k0.4": {
+    "deep_k": 1.0,
+    "pushed_points": 321,
+    "push_max_mm": 16.99
+   },
+   "triceps_long k0.45": {
+    "deep_k": 1.0,
+    "pushed_points": 286,
+    "push_max_mm": 16.26
+   },
+   "triceps_long k0.5": {
+    "deep_k": 1.0,
+    "pushed_points": 246,
+    "push_max_mm": 15.11
+   },
+   "triceps_long k0.55": {
+    "deep_k": 1.0,
+    "pushed_points": 222,
+    "push_max_mm": 13.68
+   },
+   "triceps_long k0.6": {
+    "deep_k": 1.0,
+    "pushed_points": 188,
+    "push_max_mm": 11.72
+   },
+   "triceps_long k0.65": {
+    "deep_k": 1.0,
+    "pushed_points": 162,
+    "push_max_mm": 9.59
+   },
+   "triceps_long k0.7": {
+    "deep_k": 1.0,
+    "pushed_points": 129,
+    "push_max_mm": 7.98
+   },
+   "triceps_long k0.75": {
+    "deep_k": 1.0,
+    "pushed_points": 100,
+    "push_max_mm": 7.06
+   },
+   "triceps_long k0.8": {
+    "deep_k": 1.0,
+    "pushed_points": 70,
+    "push_max_mm": 5.18
+   },
+   "triceps_long k0.85": {
+    "deep_k": 1.0,
+    "pushed_points": 27,
+    "push_max_mm": 2.86
+   },
+   "triceps_long k0.9": {
+    "deep_k": 1.0,
+    "pushed_points": 6,
+    "push_max_mm": 2.31
+   },
+   "triceps_long k0.95": {
+    "deep_k": 1.0,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "triceps_long k1.05": {
+    "deep_k": 1.218,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "triceps_long k1.1": {
+    "deep_k": 1.435,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "triceps_long k1.15": {
+    "deep_k": 1.52,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "triceps_long k1.2": {
+    "deep_k": 1.52,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "triceps_long k1.25": {
+    "deep_k": 1.52,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "triceps_long k1.3": {
+    "deep_k": 1.52,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "triceps_long k1.35": {
+    "deep_k": 1.52,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "triceps_long k1.4": {
+    "deep_k": 1.52,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "triceps_long k1.45": {
+    "deep_k": 1.52,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "triceps_long k1.5": {
+    "deep_k": 1.52,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "triceps_long k1.55": {
+    "deep_k": 1.52,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "triceps_lateral k0.35": {
+    "deep_k": 1.0,
+    "pushed_points": 14,
+    "push_max_mm": 0.71
+   },
+   "triceps_lateral k0.4": {
+    "deep_k": 1.0,
+    "pushed_points": 110,
+    "push_max_mm": 5.45
+   },
+   "triceps_lateral k0.45": {
+    "deep_k": 1.0,
+    "pushed_points": 172,
+    "push_max_mm": 6.12
+   },
+   "triceps_lateral k0.5": {
+    "deep_k": 1.0,
+    "pushed_points": 219,
+    "push_max_mm": 5.97
+   },
+   "triceps_lateral k0.55": {
+    "deep_k": 1.0,
+    "pushed_points": 262,
+    "push_max_mm": 5.48
+   },
+   "triceps_lateral k0.6": {
+    "deep_k": 1.0,
+    "pushed_points": 285,
+    "push_max_mm": 5.04
+   },
+   "triceps_lateral k0.65": {
+    "deep_k": 1.0,
+    "pushed_points": 308,
+    "push_max_mm": 4.39
+   },
+   "triceps_lateral k0.7": {
+    "deep_k": 1.0,
+    "pushed_points": 332,
+    "push_max_mm": 3.55
+   },
+   "triceps_lateral k0.75": {
+    "deep_k": 1.0,
+    "pushed_points": 336,
+    "push_max_mm": 2.71
+   },
+   "triceps_lateral k0.8": {
+    "deep_k": 1.0,
+    "pushed_points": 335,
+    "push_max_mm": 1.93
+   },
+   "triceps_lateral k0.85": {
+    "deep_k": 1.0,
+    "pushed_points": 320,
+    "push_max_mm": 1.19
+   },
+   "triceps_lateral k0.9": {
+    "deep_k": 1.0,
+    "pushed_points": 126,
+    "push_max_mm": 0.46
+   },
+   "triceps_lateral k0.95": {
+    "deep_k": 1.0,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "triceps_lateral k1.05": {
+    "deep_k": 1.138,
+    "pushed_points": 0,
+    "push_max_mm": 0.0
+   },
+   "triceps_lateral k1.1": {
+    "deep_k": 1.275,
+    "pushed_points": 8,
+    "push_max_mm": 1.24
+   },
+   "triceps_lateral k1.15": {
+    "deep_k": 1.411,
+    "pushed_points": 10,
+    "push_max_mm": 3.53
+   },
+   "triceps_lateral k1.2": {
+    "deep_k": 1.52,
+    "pushed_points": 17,
+    "push_max_mm": 3.45
+   },
+   "triceps_lateral k1.25": {
+    "deep_k": 1.52,
+    "pushed_points": 27,
+    "push_max_mm": 5.7
+   },
+   "triceps_lateral k1.3": {
+    "deep_k": 1.52,
+    "pushed_points": 38,
+    "push_max_mm": 5.7
+   },
+   "triceps_lateral k1.35": {
+    "deep_k": 1.52,
+    "pushed_points": 46,
+    "push_max_mm": 7.67
+   },
+   "triceps_lateral k1.4": {
+    "deep_k": 1.52,
+    "pushed_points": 52,
+    "push_max_mm": 7.67
+   },
+   "triceps_lateral k1.45": {
+    "deep_k": 1.52,
+    "pushed_points": 60,
+    "push_max_mm": 8.95
+   },
+   "triceps_lateral k1.5": {
+    "deep_k": 1.52,
+    "pushed_points": 66,
+    "push_max_mm": 8.95
+   },
+   "triceps_lateral k1.55": {
+    "deep_k": 1.52,
+    "pushed_points": 66,
+    "push_max_mm": 9.63
+   }
+  },
+  "elbow_curves_k": {
+   "biceps_brachii_long": [
+    1.0,
+    0.9745,
+    0.9277,
+    0.8651,
+    0.7932,
+    0.72,
+    0.6547,
+    0.6066
+   ],
+   "biceps_brachii_short": [
+    1.0,
+    0.9672,
+    0.9125,
+    0.843,
+    0.7659,
+    0.6901,
+    0.6255,
+    0.5818
+   ],
+   "brachialis": [
+    1.0,
+    0.9567,
+    0.8838,
+    0.7894,
+    0.6822,
+    0.5737,
+    0.4781,
+    0.4114
+   ],
+   "triceps_long": [
+    1.0,
+    1.0367,
+    1.0719,
+    1.0987,
+    1.1143,
+    1.1172,
+    1.1071,
+    1.085
+   ],
+   "triceps_lateral": [
+    1.0,
+    1.0582,
+    1.1141,
+    1.1567,
+    1.1819,
+    1.1875,
+    1.1729,
+    1.1394
+   ],
+   "triceps_medial": [
+    1.0,
+    1.1605,
+    1.3131,
+    1.4295,
+    1.5003,
+    1.5201,
+    1.4876,
+    1.405
+   ],
+   "brachioradialis": [
+    1.0,
+    0.9814,
+    0.9325,
+    0.8566,
+    0.7592,
+    0.6481,
+    0.5347,
+    0.4342
+   ]
+  },
+  "elbow_deg": [
+   0,
+   20,
+   40,
+   60,
+   80,
+   100,
+   120,
+   140
+  ],
+  "approximation": "the biceps heads and the triceps long head also cross the shoulder: their deep neighbour's ratio is read with the shoulder at rest"
+ },
+ "rest_path_m": {
+  "biceps_brachii_long": 0.3386,
+  "biceps_brachii_short": 0.3298,
+  "brachialis": 0.1528,
+  "triceps_long": 0.2576,
+  "triceps_lateral": 0.1982,
+  "triceps_medial": 0.1135,
+  "brachioradialis": 0.3249
+ },
+ "tendons_m": {
+  "biceps_brachii_long": 0.1635,
+  "biceps_brachii_short": 0.1643,
+  "brachialis": 0.0683,
+  "triceps_long": 0.0695,
+  "triceps_lateral": 0.0799,
+  "triceps_medial": 0.0709,
+  "brachioradialis": 0.1102
+ },
+ "rest_elbow_deg": 1.6,
+ "contact": {
+  "keys": [
+   "HGPT_CONTACT_ELBOW_070",
+   "HGPT_CONTACT_ELBOW_080",
+   "HGPT_CONTACT_ELBOW_090",
+   "HGPT_CONTACT_ELBOW_100",
+   "HGPT_CONTACT_ELBOW_110",
+   "HGPT_CONTACT_ELBOW_120",
+   "HGPT_CONTACT_ELBOW_130",
+   "HGPT_CONTACT_ELBOW_140",
+   "HGPT_CONTACT_ELBOW_150"
+  ],
+  "from_deg": 60.0,
+  "footprint_radius_m": 0.01,
+  "smoothing_radius_m": 0.008,
+  "zone_m": 0.025,
+  "bulge_rings": 4,
+  "computed_on": "the length-keyed shapes at each key's elbow angle (shoulder at rest); stored as a correction",
+  "per_key": {
+   "70": {},
+   "80": {},
+   "90": {},
+   "100": {},
+   "110": {
+    "biceps_brachii_long": {
+     "moved": 88,
+     "max_mm": 6.2,
+     "volume_give_back": "side1",
+     "scale": 1.115,
+     "relayered_points": 283
+    },
+    "biceps_brachii_short": {
+     "moved": 96,
+     "max_mm": 6.8,
+     "volume_give_back": "side1",
+     "scale": 1.1,
+     "relayered_points": 282
+    },
+    "brachialis": {
+     "moved": 35,
+     "max_mm": 0.7,
+     "volume_give_back": "side1",
+     "scale": 1.007
+    },
+    "brachioradialis": {
+     "moved": 64,
+     "max_mm": 1.8,
+     "volume_give_back": "side1",
+     "scale": 1.044
+    }
+   },
+   "120": {
+    "biceps_brachii_long": {
+     "moved": 286,
+     "max_mm": 15.1,
+     "volume_give_back": "side1",
+     "scale": 1.419,
+     "relayered_points": 331
+    },
+    "biceps_brachii_short": {
+     "moved": 208,
+     "max_mm": 16.0,
+     "volume_give_back": "side1",
+     "scale": 1.261,
+     "relayered_points": 399
+    },
+    "brachialis": {
+     "moved": 132,
+     "max_mm": 4.6,
+     "volume_give_back": "side1",
+     "scale": 1.074
+    },
+    "brachioradialis": {
+     "moved": 236,
+     "max_mm": 9.1,
+     "volume_give_back": "side1",
+     "scale": 1.346
+    }
+   },
+   "130": {
+    "biceps_brachii_long": {
+     "moved": 594,
+     "max_mm": 24.5,
+     "volume_give_back": "side1",
+     "scale": 2.071,
+     "relayered_points": 398
+    },
+    "biceps_brachii_short": {
+     "moved": 258,
+     "max_mm": 25.6,
+     "volume_give_back": "side1",
+     "scale": 1.403,
+     "relayered_points": 388
+    },
+    "brachialis": {
+     "moved": 237,
+     "max_mm": 11.5,
+     "volume_give_back": "side1",
+     "scale": 1.391
+    },
+    "brachioradialis": {
+     "moved": 522,
+     "max_mm": 18.5,
+     "volume_give_back": "side1",
+     "scale": 2.147
+    }
+   },
+   "140": {
+    "biceps_brachii_long": {
+     "moved": 840,
+     "max_mm": 35.1,
+     "volume_give_back": "side1",
+     "scale": 2.594,
+     "relayered_points": 391
+    },
+    "biceps_brachii_short": {
+     "moved": 281,
+     "max_mm": 36.3,
+     "volume_give_back": "side1",
+     "scale": 1.52,
+     "relayered_points": 328
+    },
+    "brachialis": {
+     "moved": 418,
+     "max_mm": 20.7,
+     "volume_give_back": "side1",
+     "scale": 2.545
+    },
+    "brachioradialis": {
+     "moved": 912,
+     "max_mm": 29.3,
+     "volume_give_back": "side1",
+     "scale": 2.6
+    }
+   },
+   "150": {
+    "biceps_brachii_long": {
+     "moved": 994,
+     "max_mm": 47.1,
+     "volume_give_back": "side1",
+     "scale": 2.6,
+     "relayered_points": 391
+    },
+    "biceps_brachii_short": {
+     "moved": 290,
+     "max_mm": 48.4,
+     "volume_give_back": "side1",
+     "scale": 1.65,
+     "relayered_points": 274
+    },
+    "brachialis": {
+     "moved": 633,
+     "max_mm": 30.9,
+     "volume_give_back": "side1",
+     "scale": 2.254
+    },
+    "brachioradialis": {
+     "moved": 1183,
+     "max_mm": 41.1,
+     "volume_give_back": "side1",
+     "scale": 2.6
+    }
+   }
+  }
+ },
+ "poses": {
+  "0.0": {
+   "muscles": {
+    "biceps_brachii_long": {
+     "belly_k": 1.0,
+     "volume_ratio": 1.0
+    },
+    "biceps_brachii_short": {
+     "belly_k": 1.0,
+     "volume_ratio": 1.0
+    },
+    "brachialis": {
+     "belly_k": 1.0,
+     "volume_ratio": 1.0
+    },
+    "triceps_long": {
+     "belly_k": 1.0,
+     "volume_ratio": 1.0
+    },
+    "triceps_lateral": {
+     "belly_k": 1.0,
+     "volume_ratio": 1.0
+    },
+    "triceps_medial": {
+     "belly_k": 1.0,
+     "volume_ratio": 1.0
+    },
+    "brachioradialis": {
+     "belly_k": 1.0,
+     "volume_ratio": 1.0
+    }
+   },
+   "overlaps_keyed": {},
+   "overlaps_keyed_total": 0,
+   "overlaps_length_keys_only_total": 0,
+   "overlaps_length_keys_only": {},
+   "overlaps_without_keys_total": 0,
+   "overlaps_without_keys": {}
+  },
+  "17.5": {
+   "muscles": {
+    "biceps_brachii_long": {
+     "belly_k": 0.979,
+     "volume_ratio": 1.0006
+    },
+    "biceps_brachii_short": {
+     "belly_k": 0.973,
+     "volume_ratio": 1.0005
+    },
+    "brachialis": {
+     "belly_k": 0.964,
+     "volume_ratio": 1.0004
+    },
+    "triceps_long": {
+     "belly_k": 1.032,
+     "volume_ratio": 1.0005
+    },
+    "triceps_lateral": {
+     "belly_k": 1.051,
+     "volume_ratio": 1.0
+    },
+    "triceps_medial": {
+     "belly_k": 1.14,
+     "volume_ratio": 1.0002
+    },
+    "brachioradialis": {
+     "belly_k": 0.985,
+     "volume_ratio": 1.0004
+    }
+   },
+   "overlaps_keyed": {},
+   "overlaps_keyed_total": 0,
+   "overlaps_length_keys_only_total": 0,
+   "overlaps_length_keys_only": {},
+   "overlaps_without_keys_total": 0,
+   "overlaps_without_keys": {}
+  },
+  "35.0": {
+   "muscles": {
+    "biceps_brachii_long": {
+     "belly_k": 0.941,
+     "volume_ratio": 1.0003
+    },
+    "biceps_brachii_short": {
+     "belly_k": 0.928,
+     "volume_ratio": 1.0005
+    },
+    "brachialis": {
+     "belly_k": 0.904,
+     "volume_ratio": 1.0001
+    },
+    "triceps_long": {
+     "belly_k": 1.064,
+     "volume_ratio": 1.0004
+    },
+    "triceps_lateral": {
+     "belly_k": 1.101,
+     "volume_ratio": 1.0002
+    },
+    "triceps_medial": {
+     "belly_k": 1.278,
+     "volume_ratio": 1.0002
+    },
+    "brachioradialis": {
+     "belly_k": 0.947,
+     "volume_ratio": 1.0001
+    }
+   },
+   "overlaps_keyed": {},
+   "overlaps_keyed_total": 0,
+   "overlaps_length_keys_only_total": 0,
+   "overlaps_length_keys_only": {},
+   "overlaps_without_keys_total": 0,
+   "overlaps_without_keys": {}
+  },
+  "52.5": {
+   "muscles": {
+    "biceps_brachii_long": {
+     "belly_k": 0.89,
+     "volume_ratio": 1.0005
+    },
+    "biceps_brachii_short": {
+     "belly_k": 0.87,
+     "volume_ratio": 1.0007
+    },
+    "brachialis": {
+     "belly_k": 0.827,
+     "volume_ratio": 1.0006
+    },
+    "triceps_long": {
+     "belly_k": 1.09,
+     "volume_ratio": 1.0004
+    },
+    "triceps_lateral": {
+     "belly_k": 1.143,
+     "volume_ratio": 1.0002
+    },
+    "triceps_medial": {
+     "belly_k": 1.391,
+     "volume_ratio": 1.0003
+    },
+    "brachioradialis": {
+     "belly_k": 0.888,
+     "volume_ratio": 1.0003
+    }
+   },
+   "overlaps_keyed": {
+    "biceps_brachii_long | deltoid_anterior": 8
+   },
+   "overlaps_keyed_total": 8,
+   "overlaps_length_keys_only_total": 8,
+   "overlaps_length_keys_only": {
+    "biceps_brachii_long | deltoid_anterior": 8
+   },
+   "overlaps_without_keys_total": 0,
+   "overlaps_without_keys": {}
+  },
+  "70.0": {
+   "muscles": {
+    "biceps_brachii_long": {
+     "belly_k": 0.83,
+     "volume_ratio": 1.001
+    },
+    "biceps_brachii_short": {
+     "belly_k": 0.805,
+     "volume_ratio": 1.0003
+    },
+    "brachialis": {
+     "belly_k": 0.737,
+     "volume_ratio": 1.0006
+    },
+    "triceps_long": {
+     "belly_k": 1.108,
+     "volume_ratio": 1.0003
+    },
+    "triceps_lateral": {
+     "belly_k": 1.172,
+     "volume_ratio": 1.0004
+    },
+    "triceps_medial": {
+     "belly_k": 1.471,
+     "volume_ratio": 1.0002
+    },
+    "brachioradialis": {
+     "belly_k": 0.81,
+     "volume_ratio": 1.0005
+    }
+   },
+   "overlaps_keyed": {
+    "biceps_brachii_long | deltoid_anterior": 12
+   },
+   "overlaps_keyed_total": 12,
+   "overlaps_length_keys_only_total": 12,
+   "overlaps_length_keys_only": {
+    "biceps_brachii_long | deltoid_anterior": 12
+   },
+   "overlaps_without_keys_total": 24,
+   "overlaps_without_keys": {
+    "brachialis | brachioradialis": 24
+   }
+  },
+  "87.5": {
+   "muscles": {
+    "biceps_brachii_long": {
+     "belly_k": 0.765,
+     "volume_ratio": 1.0013
+    },
+    "biceps_brachii_short": {
+     "belly_k": 0.737,
+     "volume_ratio": 1.0011
+    },
+    "brachialis": {
+     "belly_k": 0.641,
+     "volume_ratio": 1.0006
+    },
+    "triceps_long": {
+     "belly_k": 1.117,
+     "volume_ratio": 1.0004
+    },
+    "triceps_lateral": {
+     "belly_k": 1.186,
+     "volume_ratio": 1.0003
+    },
+    "triceps_medial": {
+     "belly_k": 1.514,
+     "volume_ratio": 1.0001
+    },
+    "brachioradialis": {
+     "belly_k": 0.719,
+     "volume_ratio": 1.0007
+    }
+   },
+   "overlaps_keyed": {
+    "biceps_brachii_long | deltoid_anterior": 4
+   },
+   "overlaps_keyed_total": 4,
+   "overlaps_length_keys_only_total": 4,
+   "overlaps_length_keys_only": {
+    "biceps_brachii_long | deltoid_anterior": 4
+   },
+   "overlaps_without_keys_total": 56,
+   "overlaps_without_keys": {
+    "brachialis | brachioradialis": 56
+   }
+  },
+  "90.0": {
+   "muscles": {
+    "biceps_brachii_long": {
+     "belly_k": 0.756,
+     "volume_ratio": 1.0009
+    },
+    "biceps_brachii_short": {
+     "belly_k": 0.727,
+     "volume_ratio": 1.0014
+    },
+    "brachialis": {
+     "belly_k": 0.627,
+     "volume_ratio": 1.0011
+    },
+    "triceps_long": {
+     "belly_k": 1.117,
+     "volume_ratio": 1.0005
+    },
+    "triceps_lateral": {
+     "belly_k": 1.187,
+     "volume_ratio": 1.0003
+    },
+    "triceps_medial": {
+     "belly_k": 1.517,
+     "volume_ratio": 1.0002
+    },
+    "brachioradialis": {
+     "belly_k": 0.705,
+     "volume_ratio": 1.0006
+    }
+   },
+   "overlaps_keyed": {},
+   "overlaps_keyed_total": 0,
+   "overlaps_length_keys_only_total": 0,
+   "overlaps_length_keys_only": {},
+   "overlaps_without_keys_total": 86,
+   "overlaps_without_keys": {
+    "biceps_brachii_long | brachioradialis": 26,
+    "brachialis | brachioradialis": 60
+   }
+  },
+  "105.0": {
+   "muscles": {
+    "biceps_brachii_long": {
+     "belly_k": 0.703,
+     "volume_ratio": 0.9971
+    },
+    "biceps_brachii_short": {
+     "belly_k": 0.672,
+     "volume_ratio": 0.9968
+    },
+    "brachialis": {
+     "belly_k": 0.548,
+     "volume_ratio": 0.9997
+    },
+    "triceps_long": {
+     "belly_k": 1.116,
+     "volume_ratio": 1.0004
+    },
+    "triceps_lateral": {
+     "belly_k": 1.186,
+     "volume_ratio": 1.0003
+    },
+    "triceps_medial": {
+     "belly_k": 1.517,
+     "volume_ratio": 1.0003
+    },
+    "brachioradialis": {
+     "belly_k": 0.619,
+     "volume_ratio": 0.9987
+    }
+   },
+   "overlaps_keyed": {},
+   "overlaps_keyed_total": 0,
+   "overlaps_length_keys_only_total": 0,
+   "overlaps_length_keys_only": {},
+   "overlaps_without_keys_total": 197,
+   "overlaps_without_keys": {
+    "biceps_brachii_long | brachioradialis": 76,
+    "biceps_brachii_short | brachioradialis": 12,
+    "brachialis | brachioradialis": 109
+   }
+  },
+  "122.5": {
+   "muscles": {
+    "biceps_brachii_long": {
+     "belly_k": 0.648,
+     "volume_ratio": 0.9706
+    },
+    "biceps_brachii_short": {
+     "belly_k": 0.619,
+     "volume_ratio": 0.9801
+    },
+    "brachialis": {
+     "belly_k": 0.468,
+     "volume_ratio": 0.9889
+    },
+    "triceps_long": {
+     "belly_k": 1.105,
+     "volume_ratio": 1.0002
+    },
+    "triceps_lateral": {
+     "belly_k": 1.17,
+     "volume_ratio": 1.0005
+    },
+    "triceps_medial": {
+     "belly_k": 1.48,
+     "volume_ratio": 1.0003
+    },
+    "brachioradialis": {
+     "belly_k": 0.521,
+     "volume_ratio": 0.9806
+    }
+   },
+   "overlaps_keyed": {
+    "biceps_brachii_short | brachialis": 4
+   },
+   "overlaps_keyed_total": 4,
+   "overlaps_length_keys_only_total": 176,
+   "overlaps_length_keys_only": {
+    "biceps_brachii_long | brachioradialis": 114,
+    "biceps_brachii_short | brachialis": 4,
+    "biceps_brachii_short | brachioradialis": 58
+   },
+   "overlaps_without_keys_total": 364,
+   "overlaps_without_keys": {
+    "biceps_brachii_long | brachioradialis": 146,
+    "biceps_brachii_short | brachioradialis": 24,
+    "brachialis | brachioradialis": 150,
+    "triceps_medial | brachioradialis": 44
+   }
+  },
+  "130.0": {
+   "muscles": {
+    "biceps_brachii_long": {
+     "belly_k": 0.628,
+     "volume_ratio": 0.9479
+    },
+    "biceps_brachii_short": {
+     "belly_k": 0.601,
+     "volume_ratio": 0.979
+    },
+    "brachialis": {
+     "belly_k": 0.44,
+     "volume_ratio": 0.9691
+    },
+    "triceps_long": {
+     "belly_k": 1.097,
+     "volume_ratio": 1.0001
+    },
+    "triceps_lateral": {
+     "belly_k": 1.158,
+     "volume_ratio": 1.0003
+    },
+    "triceps_medial": {
+     "belly_k": 1.452,
+     "volume_ratio": 1.0001
+    },
+    "brachioradialis": {
+     "belly_k": 0.482,
+     "volume_ratio": 0.9608
+    }
+   },
+   "overlaps_keyed": {
+    "biceps_brachii_long | brachialis": 8
+   },
+   "overlaps_keyed_total": 8,
+   "overlaps_length_keys_only_total": 346,
+   "overlaps_length_keys_only": {
+    "biceps_brachii_long | brachioradialis": 182,
+    "biceps_brachii_short | brachioradialis": 82,
+    "brachialis | brachioradialis": 82
+   },
+   "overlaps_without_keys_total": 474,
+   "overlaps_without_keys": {
+    "biceps_brachii_long | brachioradialis": 216,
+    "biceps_brachii_short | brachioradialis": 26,
+    "brachialis | brachioradialis": 166,
+    "triceps_medial | brachioradialis": 66
+   }
+  },
+  "140.0": {
+   "muscles": {
+    "biceps_brachii_long": {
+     "belly_k": 0.607,
+     "volume_ratio": 0.8773
+    },
+    "biceps_brachii_short": {
+     "belly_k": 0.582,
+     "volume_ratio": 0.9997
+    },
+    "brachialis": {
+     "belly_k": 0.411,
+     "volume_ratio": 0.9366
+    },
+    "triceps_long": {
+     "belly_k": 1.085,
+     "volume_ratio": 1.0004
+    },
+    "triceps_lateral": {
+     "belly_k": 1.139,
+     "volume_ratio": 1.0003
+    },
+    "triceps_medial": {
+     "belly_k": 1.405,
+     "volume_ratio": 1.0001
+    },
+    "brachioradialis": {
+     "belly_k": 0.434,
+     "volume_ratio": 0.9281
+    }
+   },
+   "overlaps_keyed": {
+    "biceps_brachii_short | brachialis": 4
+   },
+   "overlaps_keyed_total": 4,
+   "overlaps_length_keys_only_total": 541,
+   "overlaps_length_keys_only": {
+    "biceps_brachii_long | brachioradialis": 341,
+    "biceps_brachii_short | brachialis": 4,
+    "biceps_brachii_short | brachioradialis": 44,
+    "brachialis | brachioradialis": 152
+   },
+   "overlaps_without_keys_total": 613,
+   "overlaps_without_keys": {
+    "biceps_brachii_long | brachioradialis": 264,
+    "biceps_brachii_short | brachioradialis": 34,
+    "brachialis | brachioradialis": 180,
+    "triceps_lateral | brachioradialis": 12,
+    "triceps_medial | brachioradialis": 123
+   }
+  }
+ },
+ "output_blend": "HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG11b_arm_length_left.blend",
+ "output_sha256": "1d1af1f80bbf82ac994d7bca2fe53a95d7f1438bc4612bb4ea5480e97c3d4c5c",
+ "input_unchanged": true
+}

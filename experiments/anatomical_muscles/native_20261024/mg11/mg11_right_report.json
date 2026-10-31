@@ -1,0 +1,82 @@
+{
+ "status": "ENVELOPE_PROXY_UNREVIEWED",
+ "input": "HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG8_gluteal_right.blend",
+ "input_sha256": "df7b3587c51315973dfd27b8729c9a509a04a9ac558b603d06cabc40f874c83b",
+ "side": "right",
+ "runtime_suffix_of_side": "l",
+ "copy_only_changes": {
+  "anatomical_master_use_deform_enabled": []
+ },
+ "rules": {
+  "subcutaneous_layer_m": 0.004,
+  "gap_m": 0.0012,
+  "sector_inset_deg": 1.5,
+  "tendon_radius_m": 0.0035,
+  "station_step_s": 0.012,
+  "nphi": 14,
+  "taper": 0.07,
+  "forearm_line": "EJC -> WJC",
+  "forearm_bone_radius_m": "12 mm (radius + ulna + interosseous), +8 mm towards the elbow (s<0.15)",
+  "radius_direction_phi_deg": 30.8,
+  "sections": {
+   "brachioradialis": {
+    "segment": "forearm",
+    "sector_deg": [
+     -4.2,
+     65.8
+    ],
+    "band_inner_fraction": 0.4,
+    "range_s": [
+     0.04,
+     0.55
+    ],
+    "bones": [
+     "radius",
+     "humerus",
+     "radius"
+    ]
+   }
+  },
+  "simplification": "belly below the elbow only; the origin tendon crosses the joint"
+ },
+ "volume_source": "geometry-derived from this body (no reviewed literature volumes reachable)",
+ "muscles": {
+  "hgpt.muscle.brachioradialis.R": {
+   "belly_volume_cm3": 86.7,
+   "belly_volume_m3": 8.67e-05,
+   "belly_length_m": 0.1334,
+   "tendon_lengths_m": {
+    "origin": 0.0872,
+    "insertion": 0.1102
+   }
+  }
+ },
+ "checks": {
+  "per_muscle": {
+   "hgpt.muscle.brachioradialis.R": {
+    "vertices": 1204,
+    "outside_skin": 0,
+    "shallower_than_layer": 0,
+    "min_depth_below_skin_mm": 3.9,
+    "inside_bone_proxy": 0,
+    "self_intersecting_face_pairs": 0
+   }
+  },
+  "overlap_pairs": {}
+ },
+ "output_blend": "HomeGymPT_ORIGINAL_v1_MUSCLE_LAYER_EXPERIMENT_MG11_forearm_right.blend",
+ "output_sha256": "48e0f57c0cc4833d983ce54916c49f79a4abf214f747bd0853312892f2b41348",
+ "input_unchanged": true,
+ "renders": {
+  "muscle": [
+   "mg11_right_muscle_anterior.png",
+   "mg11_right_muscle_lateral.png",
+   "mg11_right_muscle_posterior.png"
+  ],
+  "skin": [
+   "mg11_right_skin_anterior.png",
+   "mg11_right_skin_lateral.png",
+   "mg11_right_skin_posterior.png"
+  ]
+ }
+}

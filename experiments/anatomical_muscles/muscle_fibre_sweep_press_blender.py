@@ -131,6 +131,9 @@ THICK = _ENV.get("MG9_THICK", "grid")                       # thickness along th
 TAUT_DEG = float(_ENV.get("MG9_TAUT_DEG", "30"))            # along-fibre rest shape gone after this much joint rotation
 ONE_DELTOID = _ENV.get("MG9_ONE_DELTOID", "1") == "1"       # the three deltoid heads solved as one 36-fibre sheet
 DELTOID_MODE = _ENV.get("MG9_DELTOID", "slide")             # slide (below) or poisson (the fans' solve)
+EXTEND = _ENV.get("MG9_SLIDE_EXTEND", "0") == "1"           # a lengthening deltoid fibre extends straight to its origin
+                                                            # (off: it keeps its rest length; the origin tendon spans the
+                                                            # gap - the extension crumpled the posterior head above 120)
 KIND = {"deltoid_anterior": "deltoid", "deltoid_middle": "deltoid", "deltoid_posterior": "deltoid",
         "latissimus_dorsi": "fan", "teres_major": "fan", "pectoralis_major_clavicular": "fan",
         "pectoralis_major_sternocostal": "fan"}
@@ -414,8 +417,9 @@ def _interp_arc(G, arc, a):
 def solve_slide(sh, Tm):
     """the deltoid SLIDES along its own rest shape: in the humerus' frame the posed origin of each fibre moves down
     roughly along the rest fibre as the arm rises (theta from about 150 deg at rest to about 40 at the lockout), so the
-    posed fibre is the rest fibre's portion from the insertion to the point nearest the posed origin (extended
-    straight to it when it lies beyond the rest origin), its stations at their rest arc fractions, the deep surface
+    posed fibre is the rest fibre's portion from the insertion to the point nearest the posed origin (the whole rest
+    fibre when the origin lies beyond its rest position - the origin tendon spans the gap; MG9_SLIDE_EXTEND=1 extends
+    it straight instead), its stations at their rest arc fractions, the deep surface
     where the rest deep surface is, the outer surface swollen by a per-head factor that keeps the head's volume.  The
     posed deltoid is a subset of its rest shape carried by the humerus and thickened outward: it cannot fold, turn
     inside out, enter the MG1 envelopes (rigid with the humerus) or move one head onto another"""
@@ -436,7 +440,7 @@ def solve_slide(sh, Tm):
         ds, a_star, kk, tt = best
         d_end = M[i, -1] - M[i, -2]                          # beyond the rest origin (the fibre lengthens): on straight
         beyond = kk == K - 2 and float((oh - M[i, -2]) @ d_end) > float(d_end @ d_end)   # to it from the rest origin;
-        if not beyond:                                       # otherwise truncated where it is nearest (its sideways
+        if not beyond or not EXTEND:                         # otherwise truncated where it is nearest (its sideways
             ds = 0.0                                         # offset is the origin tendon's)
         p_star = _interp_arc(M[i], arc, np.array([a_star]))[0]
         Lc = a_star + ds; lam[i] = Lc / A

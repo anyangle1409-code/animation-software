@@ -1258,8 +1258,10 @@ rest fibre itself (`solve_slide`; `MG9_DELTOID=poisson` restores MG9a's solve):
 
 - **Shortening:** the rest fibre from the insertion to its point nearest the posed origin. The sideways offset is left
   to the origin tendon.
-- **Lengthening** (the posed origin lies beyond the rest origin): the rest fibre, then straight on to the origin. The end
-  section turns from the fibre's tangent onto the extension, the turn fading in over its first 10 mm.
+- **Lengthening** (the posed origin lies beyond the rest origin): the whole rest fibre. The origin tendon spans the
+  gap; in this press the posterior head lengthens 5–15 %.
+  - `MG9_SLIDE_EXTEND=1` instead runs straight on to the origin, the end section turning onto the extension. That
+    crumpled the posterior head above 120°: about 160 self-crossing pairs, against 16–22 without it.
 - **Stations** sit at their rest arc fractions.
 - **Thickness:** the deep surface stays where the rest deep surface is. The outer surface swells by a per-head factor
   that keeps the head's volume, limited to 2.5×.
@@ -1272,10 +1274,10 @@ the humerus too), or move one head onto another. At rest it is exact (0.0001 mm)
 
 | | Rack 90° | 120° | Lockout 160° |
 |---|---|---|---|
-| Face overlaps, all shoulder muscles + MG1 (MG9a's Poisson deltoid) | **217** (257) | **159** (518) | **93** (1638) |
-| Overlaps involving the deltoid | 76 | 8 | 8 |
-| Deltoid volume, anterior / middle / posterior | 1.11 / 1.04 / 1.02 | 0.87 / 0.87 / 0.99 | 0.77 / 0.59 / 0.99 |
-| Deltoid self-crossing pairs, anterior / middle / posterior | 34 / 89 / 0 | 14 / 47 / 158 | 38 / 32 / 169 |
+| Face overlaps, all shoulder muscles + MG1 (MG9a's Poisson deltoid) | **221** (257) | **161** (518) | **94** (1638) |
+| Overlaps involving the deltoid | 80 | 13 | 9 |
+| Deltoid volume, anterior / middle / posterior | 1.11 / 1.04 / 1.00 | 0.87 / 0.87 / 0.99 | 0.77 / 0.59 / 0.99 |
+| Deltoid self-crossing pairs, anterior / middle / posterior | 34 / 89 / 36 | 14 / 47 / 16 | 38 / 32 / 22 |
 
 **Reading.**
 
@@ -1283,8 +1285,8 @@ the humerus too), or move one head onto another. At rest it is exact (0.0001 mm)
   touches anything.
 - **Volume is short above 120°** for the anterior and middle heads, because the 2.5× outer-thickness limit is reached:
   the rest shape near the insertion is thin.
-- **The posterior head** lengthens slightly in this press. Its straight extension still crumples at 120° and the
-  lockout (about 160 self-crossing pairs).
+- **The posterior head** lengthens slightly in this press. It keeps its rest length and stays clean through the
+  lockout.
 
 **Two variants were measured and not kept:**
 

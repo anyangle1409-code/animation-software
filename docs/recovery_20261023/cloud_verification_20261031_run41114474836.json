@@ -1,0 +1,63 @@
+{
+  "verified_on": "2026-10-31",
+  "run_id": 41114474836,
+  "head_sha": "eef58e56a95f3576777e0c83d7a0e91cb20d7240",
+  "run_conclusion": "success",
+  "jobs_passed": 7,
+  "artifact_id": 13005761946,
+  "independently_downloaded": true,
+  "zip_crc_passed": true,
+  "zip_sha256": "93fc680728196671473816f2a033a851a7758f20583280594881f0468b62e945",
+  "member_sha256": {
+    "w8_forearm_pose_state.json": "994c1c38a48f8bf87f9e0292356d883bb80f215b400f79f5d19c23abc01e51f7",
+    "w8_forearm_pose_state.md": "5cb49fcddd81eea1595f9064fb947e74c194c329c751647194d7ea2dd56f2102"
+  },
+  "native_report_validation_passed": true,
+  "markdown_exact_replay_passed": true,
+  "cloud_test_counts": {
+    "localization": 365,
+    "forearm_focused": 13,
+    "pose_other": [
+      29,
+      33,
+      19,
+      6,
+      10
+    ],
+    "driver": [
+      10,
+      20,
+      8
+    ]
+  },
+  "observations": {
+    "authored_pronation_target_deg_not_isb": 68.8,
+    "authored_supination_target_magnitude_deg_not_isb": 82.4,
+    "helper_tw0_max_magnitude_error_deg": 2.4637e-05,
+    "helper_tw1_max_magnitude_error_deg": 6.476e-06,
+    "hand_local_angle_max_deg": 0.0,
+    "rounded_skin_slice_radius_ratio_range": [
+      0.91,
+      0.96
+    ]
+  },
+  "source_unchanged": true,
+  "saved_blend": false,
+  "limitations": [
+    "Authored suffixes l/r are rig labels, not independently verified anatomical laterality",
+    "A single forearm control and two twist helpers do not establish independent radius and ulna motion",
+    "Local control rotations are not signed ISB joint coordinates or anatomical range of motion",
+    "Population movement means describe the frozen authored target and are not hard joint limits",
+    "Evaluated forearm slice-radius ratios are geometric skinning proxies, not tissue safety or muscle continuity",
+    "The plain frozen benchmark clears shape keys and its slice-radius metric is not driven corrective-skin evidence",
+    "The path ends at authored supination and does not test return to neutral"
+  ],
+  "anatomy_approved": false,
+  "return_to_neutral_tested": false,
+  "independent_radius_ulna_controls_verified": false,
+  "notes": [
+    "This record verifies existing implementation eef58e5; it does not claim new anatomical correction.",
+    "Other artifact digests are metadata only unless separately recorded as downloaded.",
+    "Strict JSON integer sample-ID hardening is separately verified and does not change native observations."
+  ]
+}

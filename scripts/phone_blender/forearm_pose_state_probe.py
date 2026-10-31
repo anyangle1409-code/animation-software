@@ -178,6 +178,8 @@ def validate_report(data):
     samples = data.get("samples")
     if (not isinstance(samples, list) or len(samples) != 9
             or any(not isinstance(row, dict) for row in samples)
+            or any(type(row.get("sample")) is not int
+                   for row in samples if isinstance(row, dict))
             or [row.get("sample") for row in samples if isinstance(row, dict)] != list(range(9))):
         errors.append("samples 0 through 8 required")
         if not isinstance(samples, list):

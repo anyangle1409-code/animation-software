@@ -81,6 +81,13 @@ def report():
 
 
 class ForearmPoseStateProbeTests(unittest.TestCase):
+    def test_sample_ids_require_json_integers(self):
+        for sample, invalid in ((0, False), (1, True), (2, 2.0)):
+            with self.subTest(sample=sample, invalid=invalid):
+                data = report()
+                data["samples"][sample]["sample"] = invalid
+                self.assertIn("samples 0 through 8 required", probe.validate_report(data))
+
     def test_valid_native_report_contract(self):
         self.assertEqual(probe.validate_report(report()), [])
 

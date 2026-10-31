@@ -6,7 +6,7 @@ User rejected the visible W8/V14/R120 shoulder/axilla and joint deformation as u
 ## What was added
 - `scripts/cloud_body_analysis/edge_ring_coverage.py` selects deterministic connected mesh-topology rings around *existing exact vertex-ID edge pairs*. It validates all positions, faces, edge presence, degenerate geometry, seed identity and ring depth, returning a face-order topology fingerprint.
 - `scripts/cloud_body_analysis/tests/test_edge_ring_coverage.py` has ten synthetic regression cases for topology, IDs, nonfinite coordinates, duplicates, degenerate edges, repeatability, ring membership and approval flags.
-- A separate equivalent prototype was executed locally with **10/10 tests passing**. The committed version has not yet been independently executed in the full repository environment or GitHub Actions. Treat this code as staged for CI, not cloud verified.
+- An equivalent checkout of the committed helper and test cases was executed in the isolated chat runtime with Python unittest discovery: **10/10 tests PASS**. This establishes synthetic behavior in that local execution only. No full-repository integration run or GitHub Actions cloud validation is claimed.
 
 ## Integration requirements before measuring real W8
 1. Load the immutable W8 reconstructed model identified by SHA256 `2434afd0daa231ab3a03c873cad4187ffcbc1bab78132375221160b0b0f09e4c`, without modifying or saving it.

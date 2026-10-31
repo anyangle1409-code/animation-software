@@ -56,10 +56,11 @@ This is the model Work's phone reviews show.
 
 | 31 Oct | **Bent-over row and push-up before/after** (real animation, stills, metrics; skeleton-fitted cameras). Row 1394 → 57 self-intersections and 272 → 34 folds. Push-up 2483 → 53 and 430 → 49. **Latest phone artifact:** `claude-phone-evidence-41251733616` (run 41251733616, 38.1 MB). It holds press, curl, squat, row and push-up, plus the app GLB. | `review-assets/body_v2/visual_evidence/` |
 
+| 31 Oct | **Lunge (arms at the sides) and walking stride before/after.** Lunge 824 → 11 self-intersections and 327 → 38 folds (knees 50 → 2). Walk 182 → 0 and 31 → 6. No floor penetration. | `review-assets/body_v2/visual_evidence/` |
+
 ## In progress
 
-- **Lunge (arms at the sides) and walking stride** (priority 6): before/after animation rendering. After that comes
-  grip and forearm rotation (priority 7).
+- **Grip and forearm rotation** (priority 7): before/after animation rendering, with hand-focused cameras.
 
 ## Remaining (in order)
 

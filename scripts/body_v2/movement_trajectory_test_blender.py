@@ -114,7 +114,23 @@ if PRUNE4:                                                       # renormalised 
                 _gi[gi].add([v.index], w / tot, "REPLACE")
             PRUNED += 1
     print("PRUNE4 vertices", PRUNED, flush=True)
-SAVE_POS = os.environ.get("V2_TRAJ_SAVE_POS", "0") == "1"     # <out>/positions_<movement>.npy (float32, frames x n x 3)
+SAVE_POS = os.environ.get("V2_TRAJ_SAVE_POS", "0")            # 1: <out>/positions_<movement>.npy (frames x n x 3);
+# bones: only <out>/deform_<movement>.npy (frames x deform bones x 3 x 4, world deform matrices) and <out>/binding.npz
+# (rest positions, deform weights) - the training data for fit_app_binding.py; 1 also writes those
+WEIGHTS4 = os.environ.get("V2_TRAJ_WEIGHTS4", "")               # APP BINDING: apply a fitted 4-influence binding (npz from
+if WEIGHTS4:                                                     # fit_app_binding.py) in memory, replacing deform weights
+    _z = np.load(WEIGHTS4, allow_pickle=False)
+    _names = [str(x) for x in _z["bones"]]; _bi = _z["bone_idx"]; _bw = _z["weights"]
+    _vg = {nm: body.vertex_groups.get(nm) or body.vertex_groups.new(name=nm) for nm in _names}
+    _dset = set(_names)
+    for g in body.vertex_groups:
+        if g.name in _dset:
+            g.remove(list(range(len(me.vertices))))
+    for vi in range(len(me.vertices)):
+        for k in range(_bi.shape[1]):
+            if _bw[vi, k] > 0.0:
+                _vg[_names[_bi[vi, k]]].add([vi], float(_bw[vi, k]), "REPLACE")
+    print("WEIGHTS4 applied", WEIGHTS4, flush=True)
 K1_WRIST = os.environ.get("V2_TRAJ_K1_WRIST_REBUILD", "0")      # CANDIDATE: re-author the K1 wrist keys on this surface
 if K1_WRIST in ("1", "noguard"):                                 # (they date from before the R121 rebuild); in memory only
     import build_original_knee_contact_corrective_blender as k1
@@ -737,9 +753,22 @@ def render_views(mv, i, views, out_dir, res):
         sc.render.filepath = str(out_dir / f"{mv}_{view}_{i:03d}.png"); bpy.ops.render.render(write_still=True)
 
 
+DEFORM_NAMES = [b.name for b in rig.data.bones if b.use_deform]
+if SAVE_POS in ("1", "bones"):                                   # the full binding the fit reproduces (world rest space)
+    _gidx = {g.index: g.name for g in body.vertex_groups}; _dn = {nm: i for i, nm in enumerate(DEFORM_NAMES)}
+    _vi, _bj, _ww = [], [], []
+    for v in me.vertices:
+        for g in v.groups:
+            nm = _gidx.get(g.group)
+            if nm in _dn and g.weight > 0.0:
+                _vi.append(v.index); _bj.append(_dn[nm]); _ww.append(g.weight)
+    _B0w = np.empty(n * 3); me.shape_keys.key_blocks[0].data.foreach_get("co", _B0w)
+    _B0w = _B0w.reshape(-1, 3) @ np.array(body.matrix_world)[:3, :3].T + np.array(body.matrix_world)[:3, 3]
+    np.savez_compressed(OUT / "binding.npz", rest=_B0w, vi=np.array(_vi, np.int32), bj=np.array(_bj, np.int32),
+                        w=np.array(_ww, np.float32), bones=np.array(DEFORM_NAMES))
 FRAMES = {}
 for mv in MOVES:
-    rows = []; Ps = []
+    rows = []; Ps = []; DEFORM_MATS = []
     for i in range(NF):
         u = i / (NF - 1); TWIST.update(l=0.0, r=0.0)
         pose = MOVE_FN[mv](u); finish_pose()
@@ -747,6 +776,10 @@ for mv in MOVES:
         m = metrics(P) if METRICS else {}; m.update(pose); m["u"] = round(u, 4)
         if KEY_DIAG:
             m["key_diag"] = key_diag()
+        if SAVE_POS in ("1", "bones"):
+            DEFORM_MATS.append(np.array([[list(r) for r in (rig.matrix_world @ rig.pose.bones[b].matrix
+                                          @ rig.data.bones[b].matrix_local.inverted() @ rig.matrix_world.inverted())][:3]
+                                         for b in DEFORM_NAMES]))
         if BAKE_GLB:
             BAKE.setdefault(mv, []).append((
                 {pb.name: pb.matrix_basis.copy() for pb in rig.pose.bones},
@@ -759,8 +792,10 @@ for mv in MOVES:
                 m["upper_arm_twist_raw_elev_pf"] = {k: [round(x, 2) for x in v] for k, v in TW_DIAG.items()}
         rows.append(m)
         print("TRAJ", mv, i, json.dumps({k: m.get(k) for k in ("edges_gt90", "edges_gt35", "self_intersections", "asymmetry_p95_mm")}), flush=True)
-    if SAVE_POS:
+    if SAVE_POS == "1":
         np.save(OUT / f"positions_{mv}.npy", np.stack(Ps).astype(np.float32))
+    if SAVE_POS in ("1", "bones"):
+        np.save(OUT / f"deform_{mv}.npy", np.stack(DEFORM_MATS).astype(np.float64))
     ret = float(np.linalg.norm(Ps[-1] - Ps[0], axis=1).max() * 1000)
     peak = {k: max(r.get(k, 0) for r in rows) for k in rows[0] if isinstance(rows[0][k], (int, float)) and not k.startswith(("u", "depth"))}
     REP["movements"][mv] = {"frames": rows, "return_to_neutral_max_mm": round(ret, 4), "peaks": peak}

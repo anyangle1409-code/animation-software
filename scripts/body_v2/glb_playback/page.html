@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>GLB playback test</title>
+<style>html,body{margin:0;background:#dde1e0}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"./three.module.js","three/addons/":"./addons/"}}</script>
+</head>
+<body>
+<script type="module">
+// Review-only playback test: loads the candidate GLB with three.js (the WebGL engine a first-party viewer would use),
+// plays each clip frame by frame, renders it, times it and reads back CPU-skinned vertex positions for comparison
+// with Blender. Driven by run_playback.mjs; results go to window.RESULT.
+import * as THREE from "three";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+
+const P = new URLSearchParams(location.search);
+const W = +(P.get("w") || 540), H = +(P.get("h") || 960);
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setSize(W, H); renderer.setPixelRatio(1); document.body.appendChild(renderer.domElement);
+const scene = new THREE.Scene(); scene.background = new THREE.Color(0xdde1e0);
+scene.add(new THREE.HemisphereLight(0xffffff, 0x8a8f8c, 1.6));
+const key = new THREE.DirectionalLight(0xffffff, 1.8); key.position.set(1.5, 3, 3); scene.add(key);
+const cam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.01, 50);
+
+window.loadModel = async (url) => {
+  const t0 = performance.now();
+  const gltf = await new GLTFLoader().loadAsync(url);
+  const t1 = performance.now();
+  scene.add(gltf.scene);
+  let mesh = null, bones = 0;
+  gltf.scene.traverse(o => { if (o.isSkinnedMesh && !mesh) mesh = o; if (o.isBone) bones++; });
+  window.M = { gltf, mesh, mixer: new THREE.AnimationMixer(gltf.scene) };
+  const g = mesh.geometry;
+  return {
+    load_ms: Math.round(t1 - t0), skinned_meshes: 1, bones, skin_joints: mesh.skeleton.bones.length,
+    vertices: g.attributes.position.count, triangles: g.index ? g.index.count / 3 : g.attributes.position.count / 3,
+    morph_targets: (g.morphAttributes.position || []).length,
+    clips: gltf.animations.map(a => ({ name: a.name, duration: +a.duration.toFixed(4), tracks: a.tracks.length })),
+  };
+};
+
+window.frame = (clipName, t, sample, view) => {
+  const { gltf, mesh, mixer } = window.M;
+  const clip = gltf.animations.find(a => a.name === clipName);
+  mixer.stopAllAction(); const act = mixer.clipAction(clip); act.play(); mixer.setTime(t);
+  gltf.scene.updateMatrixWorld(true);
+  // fixed orthographic camera, framed on the rest height (same for every frame and clip)
+  const hgt = 1.82, cz = 0.635 * hgt, sc = 2.45;
+  cam.top = sc / 2; cam.bottom = -sc / 2; cam.right = sc / 2 * W / H; cam.left = -cam.right;
+  const dir = { front: [0, 0.12, 1], back: [0, 0.12, -1], side: [1, 0.12, 0] }[view || "front"];
+  const d = new THREE.Vector3(...dir).normalize();
+  cam.position.set(d.x * 4, cz + d.y * 4, d.z * 4); cam.lookAt(0, cz, 0); cam.updateProjectionMatrix();
+  const gl = renderer.getContext();
+  const r0 = performance.now(); renderer.render(scene, cam); gl.finish(); const r1 = performance.now();
+  const out = { t, render_ms: +(r1 - r0).toFixed(2) };
+  if (sample) {
+    const v = new THREE.Vector3(), pts = [];
+    const n = mesh.geometry.attributes.position.count, step = Math.max(1, Math.floor(n / sample));
+    for (let i = 0; i < n; i += step) { mesh.getVertexPosition(i, v); v.applyMatrix4(mesh.matrixWorld); pts.push(v.x, v.y, v.z); }
+    out.points = pts;
+  }
+  return out;
+};
+window.READY = true;
+</script>
+</body>
+</html>

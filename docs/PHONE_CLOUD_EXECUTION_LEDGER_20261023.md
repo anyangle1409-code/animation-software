@@ -656,3 +656,12 @@ The overnight hourly cloud continuation automation is configured separately; eac
 - Method: [HGPT_W8_FOREARM_AUTHORED_PATH_20261031.md](HGPT_W8_FOREARM_AUTHORED_PATH_20261031.md). Machine record: `recovery_20261023/cloud_verification_20261031_run41114474836.json`.
 - Ruling: the frozen benchmark has no standalone elbow-flexion path; next elbow-bending observation should use existing bent-over-row path and explicitly retain its coupled shoulder/elbow scope. Do not invent or mislabel an isolated frozen benchmark.
 -46 landmarks remain unbound;0/19 generic motions approved. No protected source/model/rig/weight/key/muscle/app/version/merge/deploy change; attachment/highlighting deferred.
+
+
+## 2026-10-31 — hardened forearm replay complete
+
+- [Run41151053374](https://github.com/anyangle1409-code/animation-software/actions/runs/41151053374) at `dd70e5df241abfcd3c195e07076e922e02759ec8` completed SUCCESS7/7. Localization366/366; pose29/29+33/33+14/14+19/19+6/6+10/10; driver10/10+20/20+8/8.
+- Artifact13022863341 independently downloaded and CRC-checked; ZIP SHA256 equals GitHub `b3c3b1e8528db9c4ecd2a448b9f62dd5eb49e883da8b5f6055e6015aa0d6529e`. Forearm JSON/Markdown are byte-identical to run41114474836, with the hashes recorded above; strict native validator and exact Markdown replay pass.
+- Machine record: `recovery_20261023/cloud_verification_20261031_run41151053374.json`. This supersedes the pending hardened-run status, not the valid historical native evidence.
+- Next: observe elbow bending in the unchanged frozen bent-over-row path; account for coupled shoulder motion. No standalone frozen elbow-flexion benchmark exists. Dirty-checkout detection remains deferred hardening; no evidence of dirty pinned source in these fresh cloud jobs.
+- No approved visual correction or anatomical approval follows:46 landmarks unbound;0/19 generic motions approved. Original models and all protected assets remain unchanged.

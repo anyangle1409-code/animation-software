@@ -1,0 +1,80 @@
+{
+  "verified_on": "2026-10-31",
+  "run_id": 41151053374,
+  "head_sha": "dd70e5df241abfcd3c195e07076e922e02759ec8",
+  "artifact_id": 13022863341,
+  "zip_sha256": "b3c3b1e8528db9c4ecd2a448b9f62dd5eb49e883da8b5f6055e6015aa0d6529e",
+  "zip_crc_passed": true,
+  "independently_downloaded": true,
+  "member_sha256": {
+    "w8_forearm_pose_state.json": "994c1c38a48f8bf87f9e0292356d883bb80f215b400f79f5d19c23abc01e51f7",
+    "w8_forearm_pose_state.md": "5cb49fcddd81eea1595f9064fb947e74c194c329c751647194d7ea2dd56f2102"
+  },
+  "members_byte_identical_to_run": 41114474836,
+  "native_validation_passed": true,
+  "exact_markdown_replay_passed": true,
+  "cloud_test_counts": {
+    "localization": 366,
+    "forearm_focused": 14,
+    "pose_other": [
+      29,
+      33,
+      19,
+      6,
+      10
+    ],
+    "driver": [
+      10,
+      20,
+      8
+    ]
+  },
+  "anatomy_approved": false,
+  "saved_blend": false,
+  "source_model_unchanged": true,
+  "landmarks_unbound": 46,
+  "generic_motions_approved": 0,
+  "notes": [
+    "Strict JSON sample-ID hardening did not change native measurements.",
+    "Fresh-context review found no Critical/Important native evidence issue.",
+    "Dirty-pinned-checkout detection remains deferred; cloud uses a fresh pinned checkout."
+  ],
+  "run_conclusion": "success",
+  "jobs": [
+    {
+      "id": 124387397446,
+      "name": "pose-state-w8",
+      "conclusion": "success"
+    },
+    {
+      "id": 124387397676,
+      "name": "localize-native-movement-failures",
+      "conclusion": "success"
+    },
+    {
+      "id": 124387397682,
+      "name": "inspect (W8, 12487119841)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124387397792,
+      "name": "inspect (V14, 12487932177)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124387397846,
+      "name": "inspect (R120, 12488550235)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124387698683,
+      "name": "compare-rest-audits",
+      "conclusion": "success"
+    },
+    {
+      "id": 124389749389,
+      "name": "verify-actual-shoulder-driver-math",
+      "conclusion": "success"
+    }
+  ]
+}

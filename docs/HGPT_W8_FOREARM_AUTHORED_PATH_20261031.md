@@ -19,7 +19,7 @@ Artifact `13005761946` was independently downloaded, ZIP CRC-checked and matched
 
 A fresh-context review found no Critical/Important native evidence error. Review noted that the pinned-source check validates Git HEAD but not working-tree cleanliness; dirty-checkout hardening remains deferred. The cloud workflow uses a fresh checkout of the pinned commit, and no dirty source affected this report.
 
-A strict-schema gap allowed sample IDs `false`, `true`, and `2.0` to compare equal to integer IDs. A new regression failed in all three cases before a type check fixed it. The focused suite is now 14/14 and the existing native report and rendered Markdown remain unchanged. The full report-only suite passed 366/366 locally. Replacement cloud run 41151053374 is pending; do not claim the hardened implementation cloud-verified until it passes.
+A strict-schema gap allowed sample IDs `false`, `true`, and `2.0` to compare equal to integer IDs. A new regression failed in all three cases before a type check fixed it. The focused suite is now 14/14 and the existing native report and rendered Markdown remain unchanged. The full report-only suite passed 366/366 locally and in replacement cloud run 41151053374. That run passed all seven jobs; its forearm artifact 13022863341 passed independent CRC/SHA256 checks and native validation. JSON and Markdown are byte-identical to run41114474836. The hardened forearm focused suite passed 14/14. Final evidence: `recovery_20261023/cloud_verification_20261031_run41151053374.json`.
 
 ## Next task
 

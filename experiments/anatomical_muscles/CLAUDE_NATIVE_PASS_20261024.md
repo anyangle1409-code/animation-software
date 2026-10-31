@@ -1312,5 +1312,16 @@ the humerus too), or move one head onto another. At rest it is exact (0.0001 mm)
   - Clavicular head: collapsed to 0.06 at the lockout. Its free part twists and the posed sheet normal flips.
   - Latissimus and teres major: overshot to 1.2–1.37.
   - Overlaps rose: rack 217 → 278, 120° 159 → 271, lockout 93 → 138.
+- **Why the deltoid's slide does not carry over.** In the humerus frame the deltoid's posed origins lie a median
+  14–35 mm off their rest fibres (rack → lockout). For the fans:
+
+  | Fan | Median distance off the rest fibre |
+  |---|---|
+  | Clavicular pectoral head (closest) | 76–86 mm |
+  | Sternocostal head | 168–231 mm |
+  | Teres major | 170–248 mm |
+  | Latissimus | 323–425 mm |
+
+  Sliding the clavicular head would leave its belly about 8 cm short of its origin.
 - **What the fans need is not settled.** A twist-aware cross-section (the pectoral fibres unwind at elevation) and a
   layering that knows the deep face are both candidates. The Poisson fans remain the default.

@@ -42,6 +42,9 @@ This is the model Work's phone reviews show.
 | 31 Oct | **App fidelity finding.** glTF/three.js play only 4 bone influences per vertex. 127,551 vertices have 5 to 10. Keeping the largest 4, as the exporter does, breaks the model: press lockout 7 → 791 self-intersections and 8 → 3062 folds; squat 0 → 1203 and 13 → 3600; up to 48 mm vertex error. | `V2_TRAJ_PRUNE4` |
 | 31 Oct | **GLB export path.** The rig and body are exported with no helpers and no reference skeletons. All 141 shape keys go out as sparse morph targets, and each movement's bones and driven morph weights are baked per frame. Test export: 45.5 MB with one 9-frame clip. | `glb_bake_export.py` |
 
+| 31 Oct | **Phone evidence published.** The press before/after (2 MP4s, 6 stills, per-frame metrics) is GitHub Actions artifact `claude-phone-evidence-41237436783` (run 41237436783, commit `8da657db`, 6.9 MB). | `review-assets/body_v2/visual_evidence/README.md` |
+| 31 Oct | **App-safe binding fit, first pass.** The fit used 180 training poses (20 movements × 9 frames). Error is measured between the full binding and the fitted 4-influence binding, in linear blend skinning: the max is 2.7 to 10 mm and 99% of vertices are within 0.1 to 2.3 mm on every movement. The top-4 cut gave 48 mm. With lunge, pulldown and walk held out, the fit still matched them (p99 0.6 to 1.5 mm). Trunk rotation did not: held out it gave 71 mm, because no other movement twists the spine. So the final fit trains on all 20 movements (trunk rotation: max 13 mm, p99 1.9 mm). A dedicated range-of-motion sweep is needed before calling the binding reusable. | `fit_app_binding.py`; report in the scratch area |
+
 ## In progress
 
 - **App-safe 4-influence binding** (`fit_app_binding.py`). Per vertex, among the bones it already uses, the fit picks

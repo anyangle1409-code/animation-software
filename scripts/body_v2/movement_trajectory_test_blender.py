@@ -255,7 +255,14 @@ def finish_pose():
         for kb in me.shape_keys.key_blocks:
             if kb.name.startswith(("R121_ARM_", "R121_FLEX_", "R121_HIP_", "R121_ELBOW_", "R121_KNEE_", "R121_COMBO_", "R121_REST_", "R121_WRIST_", "R121_WFLEX_", "R121_EXT_")):
                 kb.value = 0.0
+    if MUTE_KEYS:                                            # diagnosis: these key families off after the drives ran
+        for kb in me.shape_keys.key_blocks[1:]:
+            if MUTE_KEYS == ("*",) or kb.name.startswith(MUTE_KEYS):
+                kb.value = 0.0
     bpy.context.view_layer.update()
+
+
+MUTE_KEYS = tuple(x for x in os.environ.get("V2_TRAJ_MUTE_KEYS", "").split(",") if x)   # prefixes, or * for all
 
 
 def elbows(deg):

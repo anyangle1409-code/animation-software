@@ -686,3 +686,13 @@ The overnight hourly cloud continuation automation is configured separately; eac
 - Method [HGPT_W8_ROW_ELBOW_CONTROL_EVIDENCE_20261031.md](HGPT_W8_ROW_ELBOW_CONTROL_EVIDENCE_20261031.md); machine record `recovery_20261023/cloud_verification_20261031_run41189500502.json`. This supersedes the pending status above.
 - Next: measure the same four source/topology-pinned mesh edges already defined by `scripts/phone_blender/elbow_edge_endpoint_audit.py` over the row path. They are diagnostic edges, not a certified complete elbow region; keep plain vs driven corrective measurements separate.
 -46 landmarks remain unbound;0/19 generic motions approved. No source/model/rig/rest/weights/stored-keys/muscles/app/version/merge/deploy change or approved visual correction.
+
+
+## 2026-10-31 — four pinned row mesh-edge trajectories — native validation pending
+
+- Implementation `c995fd23c44b435dbd17564307237e5f14d8438c`: pure helper `scripts/phone_blender/row_pinned_edges.py`,14 focused tests, and native row setup/post_pose integration. New `w8_row_pinned_edges.json/.md` share the existing row artifact; original control report construction is unchanged.
+- Uses the exact four historical names/vertex pairs from `elbow_edge_endpoint_audit.py`. Verifies original-source and evaluated full ordered polygon/count correspondence, edge presence, and per-frame topology fingerprint stability. Captures evaluated plain neutral reference and nine endpoint-coordinate/length/ratio records; all corrective values must stay zero.
+- Test-first RED missing module; Blender iterable-vector regression RED then GREEN; tiny negative length/ratio regressions RED then GREEN. Focused14/14, full392/392, compile/diff and workflow checks pass. Fresh review found no Critical/Important issue before the additional numeric-sign hardening.
+- [Run41190343127](https://github.com/anyangle1409-code/animation-software/actions/runs/41190343127) is IN_PROGRESS. Native data remains pending until jobs complete and artifact CRC/SHA256/validator/Markdown replay are independently checked.
+- Explicit evaluated-neutral-before-row reference; historical press ratios use a different reference and are not declared numerically comparable. Four diagnostic mesh edges are not a complete or anatomically certified elbow region, tissue strain, safety, muscle continuity or movement approval.
+- No source/model/rig/rest/weights/stored-keys/muscles/app/version/merge/deploy change.46 landmarks unbound;0/19 generic motions approved.

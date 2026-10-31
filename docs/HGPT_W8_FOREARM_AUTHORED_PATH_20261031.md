@@ -19,10 +19,10 @@ Artifact `13005761946` was independently downloaded, ZIP CRC-checked and matched
 
 A fresh-context review found no Critical/Important native evidence error. Review noted that the pinned-source check validates Git HEAD but not working-tree cleanliness; dirty-checkout hardening remains deferred. The cloud workflow uses a fresh checkout of the pinned commit, and no dirty source affected this report.
 
-A strict-schema gap allowed sample IDs `false`, `true`, and `2.0` to compare equal to integer IDs. A new regression failed in all three cases before a type check fixed it. The focused suite is now 14/14 and the existing native report and rendered Markdown remain unchanged. The full report-only suite and a replacement cloud run must also pass before claiming the hardened implementation fully verified.
+A strict-schema gap allowed sample IDs `false`, `true`, and `2.0` to compare equal to integer IDs. A new regression failed in all three cases before a type check fixed it. The focused suite is now 14/14 and the existing native report and rendered Markdown remain unchanged. The full report-only suite passed 366/366 locally. Replacement cloud run 41151053374 is pending; do not claim the hardened implementation cloud-verified until it passes.
 
 ## Next task
 
-Capture the frozen elbow-flexion benchmark separately from forearm rotation, recording the authored upperarm/forearm/hand controls and evaluated elbow-region geometry. Use the existing source hashes and nine-sample discipline; keep target fields, unsigned control geometry and anatomical joint coordinates distinct. Do not add radius/ulna controls, change weights, attach muscles or approve anatomy from this evidence.
+The frozen benchmark has no standalone elbow-flexion path. Use its existing bent-over-row path for the next elbow-bending observation, recording authored upperarm/forearm/hand controls and evaluated elbow-region geometry; it combines shoulder and elbow motion and must not be described as an isolated elbow test. Use the existing source hashes and nine-sample discipline; keep target fields, unsigned control geometry and anatomical joint coordinates distinct. Do not add radius/ulna controls, change weights, attach muscles or approve anatomy from this evidence.
 
 All protected model/rig/weight/shape-key/muscle/application assets and PT_MODEL_VERSION 1.0 remain unchanged. 46 landmarks remain unbound and 0/19 generic motions are approved.

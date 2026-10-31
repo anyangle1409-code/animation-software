@@ -1847,3 +1847,38 @@ hand's local Z, twist removed).
 
 **Reports:** `report_TT_W2_wrist_pushup_curl.json`, `report_TT_W2_all7.json`, `report_TT_W2_pf_thorax.json`,
 `r121_arm_correctives_wrist_report_W2.json` and `r121_arm_correctives_wristflex_report_W2.json`.
+
+## W3: a shoulder-extension key family, for the arm behind the trunk (31 Oct 2026)
+
+**Why.** No key family covered the arm behind the trunk: the sideways and forward families were authored in the
+frontal and sagittal raises. A row's end drove the sideways keys at its elevation, because the plane factor ignores
+backward displacement.
+
+**What.**
+
+- **Authoring mode `ext`** (`r121_arm_correctives_blender.py`): the coupled girdle with the humerus behind the trunk,
+  plane −70° (`V2_R121_EXT_PLANE`), elbows straight. The rest of the recipe is the raise keys' (unfold, de-crumple),
+  and the keys are `R121_EXT_<s>_<deg>`, hats on the elevation.
+- **Drive** (`r121_drives.ext_factor`): the backward share of the upper arm's displacement from rest, read in the
+  thorax's frame and smoothstepped.
+  - The extension family is weighted by it, and the sideways and forward families fade out by it.
+  - It acts only once the family exists on the rig (`hgpt_r121_ext_angles_<s>`), so AX6 and W2 are unchanged.
+- **Chain step on W2** (blend `W3`, in the scratch area): `V2_R121_ARMKEY_MODE=ext V2_R121_ARMKEY_ANGLES=25,45`
+  (crumple 6 at 21°).
+  - The keys measure 33.6° and 53.5° elevation.
+  - Folds over 90° at those poses: 69 / 65 → 25.
+
+| W2 → W3 | Self-intersections | Folds over 90° (shoulder) | Edges over 35° |
+|---|---|---|---|
+| Standing row (G3, plane −70°, to 50° / elbow 100°) | 0 → 0 | 20 (20) → **7 (2)** | 525 → **295** |
+| Bent-over row (benchmark, 16° carriage) | 126 → **57** | 72 (72) → **27 (27)** | 586 → **348** |
+| Push-up | 336 → 336 | 104 → 104 | 615 → 616 |
+| Press, curl, squat, front raise, deadlift, lunge | | **identical**, every metric, every frame | |
+| Lateral raise | | one collapsed edge in one frame | |
+
+- **The push-up is untouched.** Its arms are not behind the trunk. Its remaining shoulder-cap fault, at the top
+  (57° flexion relative to the trunk, in the plank), is not an extension one.
+- **The bent-over row's remaining 57 pairs are mostly the left side:** shoulder cap against the upper back, and the
+  latissimus. The right side has 2.
+
+**Report:** `report_TT_W3_ext_family.json`, `r121_arm_correctives_ext_report_W3.json`.

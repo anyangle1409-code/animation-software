@@ -91,7 +91,13 @@ FAMILY = {"abd": (r121_drives.PREFIX, r121_drives.PROP), "flex": (r121_drives.FL
           "knee": (r121_drives.KNEE_PREFIX, r121_drives.KNEE_PROP),
           "combo": (r121_drives.COMBO_PREFIX, r121_drives.COMBO_PROP),
           "wrist": (r121_drives.WRIST_PREFIX, r121_drives.WRIST_PROP),
-          "wristflex": (r121_drives.WFLEX_PREFIX, r121_drives.WFLEX_PROP)}[MODE]
+          "wristflex": (r121_drives.WFLEX_PREFIX, r121_drives.WFLEX_PROP),
+          "ext": (r121_drives.EXT_PREFIX, r121_drives.EXT_PROP)}[MODE]
+EXT_PLANE = float(os.environ.get("V2_R121_EXT_PLANE", "-70"))   # ext: the arm behind the trunk and a little out (row)
+if MODE == "ext":                                           # the drive weighs the families by ext_factor once this exists
+    for s_ in ("l", "r"):
+        if f"{FAMILY[1]}_{s_}" not in rig:
+            rig[f"{FAMILY[1]}_{s_}"] = []
 HINGE = {"elbow": ("upperarm", "forearm", float(os.environ.get("V2_R121_HINGE_REACH", "0.16"))),
          "knee": ("thigh", "shin", float(os.environ.get("V2_R121_HINGE_REACH", "0.18"))),   # upper bone, lower bone, reach (m)
          # wrist (extension, the dorsal crease): forearm against hand; the hand's skin groups are listed in DISTAL_G
@@ -219,6 +225,11 @@ def pose(ang):
         return
     if MODE in ("squat", "knee"):
         bench.pose_squat(rig, ang / 100.0, REST_HEADS)
+        bpy.context.view_layer.update(); drives.drive(rig, body); r121_drives.drive(rig, body); bpy.context.view_layer.update()
+        return
+    if MODE == "ext":                                      # coupled girdle + humerus behind the trunk (plane EXT_PLANE)
+        import shoulder_girdle_candidate as girdle
+        girdle.apply_arm_pose(rig, float(ang), EXT_PLANE)
         bpy.context.view_layer.update(); drives.drive(rig, body); r121_drives.drive(rig, body); bpy.context.view_layer.update()
         return
     if ARMGIRDLE:                                           # coupled girdle + humerus in the frontal / sagittal plane
@@ -737,7 +748,7 @@ for s in ("l", "r") if not PATCH else ():                   # a patch leaves the
 bench._reset(rig)
 for kb in me.shape_keys.key_blocks:
     if kb.name.startswith(("R121_ARM_", "R121_FLEX_", "R121_HIP_", "R121_ELBOW_", "R121_KNEE_", "R121_COMBO_", "R121_REST_",
-                           "R121_WRIST_", "R121_WFLEX_")):
+                           "R121_WRIST_", "R121_WFLEX_", "R121_EXT_")):
         kb.value = 0.0
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT / "body_v2_r121_arms.blend"), copy=True)
 (OUT / f"r121_arm_correctives_{MODE}_report.json").write_text(json.dumps(REP, indent=1))

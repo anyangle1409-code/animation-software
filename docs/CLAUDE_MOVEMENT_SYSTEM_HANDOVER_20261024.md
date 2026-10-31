@@ -439,7 +439,13 @@ The flagged muscles:
        plane: the push-up's plank reads as a sideways raise. A thorax-frame reading (`V2_R121_PF_FRAME=thorax`)
        changes nothing upright and improves the deadlift (shoulder folds 49 → 25) and the push-up. Adopting it changes
        how the deadlift / push-up drive the keys.
-     - **Shoulder extension** (bent-over row's end, push-up bottom) has no keys: shoulder cap against the upper back.
+     - **Shoulder extension, done (W3).** `ext` authoring mode and the `R121_EXT` family, weighted by
+       `ext_factor` (thorax frame).
+       - Standing row: folds 20 → 7.
+       - Bent-over row: 126 → 57 pairs, folds 72 → 27.
+       - Authored movements identical.
+       - The blend is `W3` = W2 + the extension keys. The push-up's remaining shoulder fault is at its top, not in
+         extension.
    - Until then, any exercise that turns the humerus more than about 15° off the authored paths creaks at the
      shoulder: band external / internal rotation, the overhead triceps extension, face pulls, and so on.
    - New harness movements: `external_rotation`, `overhead_extension` and `pulldown`.

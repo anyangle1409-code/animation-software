@@ -2,7 +2,7 @@
 after the r57 original_v1_review_candidate_drives.drive(rig, body).  No-op on a blend without the keys.
 
 Keys R121_ARM_<s>_<deg> (authored in a sideways raise) and R121_FLEX_<s>_<deg> (forward raise, residual on top,
-weighted by plane_factor), R121_HIP_<s>_<pct> (squat depth, hats on hip_flex_deg) R121_ELBOW_<s>_<deg> (hats on elbow_flex_deg) and R121_KNEE_<s>_<pct> (squat depth, hats on knee_flex_deg), R121_WRIST_<s>_<deg> (wrist extension, hats on wrist_ext_deg), R121_WFLEX_<s>_<deg> (wrist flexion): piecewise-linear hats on the humerothoracic elevation (drives.elevation_deg, as drive_s1)
+weighted by plane_factor), R121_HIP_<s>_<pct> (squat depth, hats on hip_flex_deg) R121_ELBOW_<s>_<deg> (hats on elbow_flex_deg) and R121_KNEE_<s>_<pct> (squat depth, hats on knee_flex_deg), R121_WRIST_<s>_<deg> (wrist extension, hats on wrist_ext_deg), R121_WFLEX_<s>_<deg> (wrist flexion), R121_EXT_<s>_<deg> (shoulder extension, weighted by ext_factor; the sideways and forward families fade out by it): piecewise-linear hats on the humerothoracic elevation (drives.elevation_deg, as drive_s1)
 through the elevations measured when each key was authored (rig["hgpt_r121_arm_angles_<s>"]), 0 below START.
 CANDIDATE ONLY - not part of the runtime contract.
 """
@@ -33,6 +33,8 @@ PF_FRAME = __import__("os").environ.get("V2_R121_PF_FRAME", "world")   # world (
 WRIST_PREFIX = "R121_WRIST_"          # wrist extension (dorsal crease), hats on wrist_ext_deg (K1's signed hinge reading)
 WRIST_PROP = "hgpt_r121_wrist_angles"
 WRIST_START = 20.0
+EXT_PREFIX = "R121_EXT_"              # shoulder extension (arm behind the trunk), residual family weighted by ext_factor
+EXT_PROP = "hgpt_r121_ext_angles"     # (present on the rig only once the family exists: the other families are untouched)
 WFLEX_PREFIX = "R121_WFLEX_"          # wrist flexion (palmar crease), hats on -wrist_ext_deg
 WFLEX_PROP = "hgpt_r121_wflex_angles"
 
@@ -80,6 +82,21 @@ def plane_factor(rig, s):
     return fwd * fwd / (lat * lat + fwd * fwd)
 
 
+def ext_factor(rig, s):
+    """0 for an arm raised forwards or sideways, 1 for one straight behind the trunk: the backward share of the upper arm's
+    displacement from its rest direction, read in the thorax's frame (smoothstep of bwd^2 / |d|^2)"""
+    pb = rig.pose.bones[f"upperarm_{s}"]; b = rig.data.bones[f"upperarm_{s}"]
+    u = (pb.tail - pb.head).normalized(); r = (b.tail_local - b.head_local).normalized()
+    t = rig.pose.bones["spine_03"]
+    Rt = t.matrix.to_3x3() @ rig.data.bones["spine_03"].matrix_local.to_3x3().inverted()
+    d = (Rt.inverted() @ u).normalized() - r
+    bwd = max(d.y, 0.0); den = d.x * d.x + d.y * d.y
+    if den < 1e-8:
+        return 0.0
+    x = bwd * bwd / den
+    return x * x * (3.0 - 2.0 * x)
+
+
 def wrist_ext_deg(rig, s):
     """wrist extension (+) / flexion (-), deg: the K1 hinge reading (swing about the hand's local Z, twist removed)"""
     import build_original_knee_contact_corrective_blender as k1
@@ -114,9 +131,11 @@ def drive(rig, body):
     for s in ("l", "r"):
         e = drives.elevation_deg(rig, s)
         pf = plane_factor(rig, s)
+        xf = ext_factor(rig, s) if f"{EXT_PROP}_{s}" in rig else 0.0   # behind the trunk: the extension family takes over
         hf = hip_flex_deg(rig, s)
         flex_start = float(rig.get(FLEX_START_PROP, START))  # own start once a low forward key exists (see FLEX_START_PROP)
-        for prefix, prop, gain, ang, start in ((PREFIX, PROP, 1.0, e, START), (FLEX_PREFIX, FLEX_PROP, pf, e, flex_start),
+        for prefix, prop, gain, ang, start in ((PREFIX, PROP, 1.0 - xf, e, START), (FLEX_PREFIX, FLEX_PROP, pf * (1.0 - xf), e, flex_start),
+                                               (EXT_PREFIX, EXT_PROP, xf, e, START),
                                                (HIP_PREFIX, HIP_PROP, 1.0, hf, HIP_START),
                                                (ELBOW_PREFIX, ELBOW_PROP, 1.0, elbow_flex_deg(rig, s), ELBOW_START),
                                                (KNEE_PREFIX, KNEE_PROP, 1.0, knee_flex_deg(rig, s), KNEE_START),

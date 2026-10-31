@@ -717,7 +717,12 @@ REP = {"source": SRC.name, "r121_drives": USE_R121, "press_girdle": GIRDLE, "upp
 # ------------------------------------------------------------------ renders (workbench, cavity; review only)
 VIEWS = {"front": ((0, -1, 0), 0.635, 2.45), "side": ((1, 0, 0), 0.635, 2.45), "back": ((0, 1, 0), 0.635, 2.45),
          "back_upper": ((0, 1, 0), 0.80, 1.05), "front_upper": ((0, -1, 0), 0.80, 1.05),
-         "side_upper": ((1, 0, 0), 0.80, 1.05)}   # view: (camera direction, centre height / H, ortho scale m)
+         "side_upper": ((1, 0, 0), 0.80, 1.05),
+         # hinged trunk (bent-over row): the shoulders sit near mid-height
+         "back_mid": ((0, 1, 0), 0.52, 1.3), "side_mid": ((1, 0, 0), 0.52, 1.3),
+         # horizontal body (push-up): wide frames near the floor
+         "side_wide": ((1, 0, 0), 0.30, 3.6), "front_wide": ((0, -1, 0), 0.30, 3.6),
+         "side_low": ((1, 0, 0), 0.22, 1.6)}   # view: (camera direction, centre height / H, ortho scale m)
 _RSET = {}
 
 

@@ -2046,3 +2046,107 @@ python3.13 r121_arm_correctives_blender.py -- W3/body_v2_r121_arms.blend <r57src
 
 At the authoring pose: 21,468 vertices move by more than 0.1 mm, by at most 1.63 mm (p99 0.55 mm). The patched keys
 reproduce the target within 0.001 mm. Folds there are unchanged at 33.
+
+## W6–W9: the owner's areas, judged against the real-body notes (1 Nov 2026)
+
+The owner asked for four areas to be fixed: the upper-arm ripples at the press lockout, the thin lines at the front
+armpit, the closed-fist creases and the row's posterior shoulder fold. They also asked that the fixes follow how a real
+body's skin and muscle deform. Those notes are in `REAL_BODY_DEFORMATION_REFERENCE_20261101.md`. Every step below is a
+patch of a copy, measured on the same harness against W5 (C1 environment, 17 frames). The source blends are untouched.
+
+### W6: delta mush on the arm skin (rejected)
+
+W5 left the arm skin alone. W6 ran a second guarded pass on the arm skin only (`V2_R121_ARMKEY_MUSH_ARMS=only`,
+above `MUSH_ARM_FZ` of stature).
+
+| Variant | Roughness p95 / p99 | Press edges > 35° | Overhead extension folds / edges > 35° | Verdict |
+|---|---|---|---|---|
+| W5 | 0.059 / 0.104 mm | 318 | 67 / 766 | reference |
+| W6 a70 (arm skin above 0.70, guard 25°) | 0.059 / 0.107 | 325 | 69 / 794 | rejected |
+| W6 g45 (guard 45°) | 0.060 / 0.110 | 329 | 70 / 779 | rejected |
+
+Neither changed the upper-arm ripples visibly in the lockout close-ups, and both added folds to the overhead
+extension. So the arm ripples are not fine noise that smoothing can remove. Their cause is still open.
+
+### W7: fairing the front armpit fold (accepted step)
+
+**Reference:** at full elevation the anterior axillary fold is one rounded ridge, softened by the pectoralis minor
+slip beneath it. The model showed two or three thin parallel lines at each front armpit.
+
+**Method** (`V2_R121_ARMKEY_FAIR_CENTRE`, `FAIR_R`, default off): within the radius of a rest-space centre, the posed
+skin is replaced by the bi-Laplacian (minimum-curvature) surface that meets the skin around it. The result is blended
+in over the outer 40 % of the radius, and mirrored for the other side.
+
+- **Centre:** (0.178, −0.035, 1.43) m, the front armpit fold.
+- **Patch:** into `R121_ARM_<s>_153` at the press pose.
+
+| Variant | Press SI / folds / edges > 35° / > 2× / < 0.5× | Overhead extension SI / folds / edges > 35° | Verdict |
+|---|---|---|---|
+| W5 | 7 / 8 / 318 / 8995 / 5686 | 381 / 67 / 766 | reference |
+| W7 f40 (4 cm; ≈ 970 vertices a side, up to 6.8 mm) | 7 / 8 / 309 / 8984 / 5701 | 380 / 67 / 751 | better, but the lines stay |
+| **W7 f60** (6 cm; ≈ 2,430 vertices a side, up to 19 mm) | **7 / 8 / 309 / 8814 / 6008** | **365 / 59 / 698** | **accepted** |
+
+- **Visual:** in W7 f60 the lines merge into one smooth fold.
+- **Roughness:** p95 0.058, p99 0.103 mm.
+- **Cost:** 322 more collapsed edges on the press (5686 → 6008). These are the fold's own skin, which shortens as the
+  fold rounds.
+- **Unchanged:** the pulldown matches the press; the lateral raise, curl and squat are identical.
+
+### W8: the pec's lower mass thins at full elevation (accepted step)
+
+**Reference:** with the arm raised, "the lower mass of the pec thins, and the lower border becomes harder to
+distinguish" (Proko). The thickness is kept near the armpit. The model kept the full, round standing pec with a crisp
+lower border.
+
+**Method** (`V2_R121_ARMKEY_PEC_THIN`, `PEC_SCALE`, `PEC_FINE`, `PEC_FZ`, `PEC_XMAX`, default off):
+
+1. The posed large-scale bulge is measured along the normal, as relief over `PEC_SCALE` Laplacian rounds.
+2. It is reduced by the given fraction.
+3. **Region:** the front of the chest from just below the pec's lower border up to 0.745 of stature. It fades out
+   towards the armpit (|x| 0.13 → 0.17 m), where the mass keeps its thickness.
+4. Only bulge is reduced; no crease is deepened. The displacement field is smoothed before it is applied.
+
+| Variant | Mean move in region / max | Metrics vs its base | Verdict |
+|---|---|---|---|
+| W8 p40 (40 %, 150 rounds) | 0.6 / 1.7 mm | neutral | rejected: too small to see |
+| W8 p50 s1000 (50 %, 1000 rounds) | 3.4 / 7.2 mm | neutral | rejected: flatter pec, but new wood-grain ripples. Halving only the raised half of the fine ripples rectified them |
+| **W8c: p50 s1000, bulge measured on a 30-round smoothed copy (band-limited), on W7 f60** | **3.3 / 6.9 mm** | **neutral vs W7 f60**. Press edges > 2× 8814 → 8816; overhead extension edges > 35° 698 → 697 | **accepted** |
+
+- **Visual:** in W8c the pecs are flatter at lockout and the lower border is softer. That matches the reference.
+- **Roughness:** p95 0.060, p99 0.104 mm (W5: 0.059 / 0.104).
+
+### W9: closed-fist skin contact (accepted step)
+
+**Reference:** at the palm's flexion creases the folded skin presses flat against itself; it does not pass through.
+C1 / W5 had 155 skin-through-skin pairs at the closed fist:
+
+- the thumb MCP crease, 19 per hand;
+- the ring knuckle against the palm, 12 per hand;
+- smaller knuckle creases.
+
+**Method** (`V2_TRAJ_AUTHOR_CONTACT=grip` in the harness; `add_grip_contact_keys_blender.py` adds the keys to a copy):
+
+1. At the closed fist, every pair of overlapping hand triangles (pairs that share a vertex excluded) is found.
+2. Each triangle's corners that lie behind the other triangle's plane are pushed out along its normal, to 0.4 mm
+   clear.
+3. The push spreads one ring and is damped (0.8), with the best iteration kept. The loop stops when the count rises
+   twice.
+4. The result is solved back to rest space as a shape key per hand, `R121_GRIP_<s>`. It is driven by the measured
+   finger curl (`hgpt_r121_grip_curl_<s>`, 230° at the fist, smoothstep from half-closed).
+
+**Result:**
+
+- **Pairs:** 155 → 56 at the closed fist; while closing, 43 / 75 / 121 → 16 / 34 / 51.
+- **Moves:** 406 vertices, at most 3.8 mm.
+- **Every other grip metric is identical:** folds 6, edges over 35° 373, edges over 2× 511, edges under 0.5× 1,300,
+  asymmetry 1.27 mm.
+- **Other movements:** the push-up, forearm rotation, curl and bent-over row are identical. The key stays off there.
+- **First attempt (rejected):** undamped, it diverged (155 → 50 → 368 pairs, 14 mm moves).
+- **Second pass on W9 (`--accumulate`):** the count rose from 56 at the first push, so no step was kept. The 56 left
+  are the deepest crossings, where pushing one side out drives it into a third surface. They need a different method.
+
+### Rows remaining
+
+- **Upper-arm ripples at the lockout:** not fixed. The cause is open.
+- **Fist:** 56 pairs left (the deep crossings).
+- **Row posterior-shoulder fold:** 57 pairs at the top of the pull, not visible in the close-ups. Not yet treated.

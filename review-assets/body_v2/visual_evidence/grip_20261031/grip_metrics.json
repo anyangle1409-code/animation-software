@@ -1,0 +1,559 @@
+{
+ "movement": "grip",
+ "frames": 33,
+ "thumb": "r57 skeleton-only solution, same for both models (grip_thumb_solution.json)",
+ "per_frame": {
+  "before": {
+   "self_intersections": [
+    1325,
+    1325,
+    1325,
+    1325,
+    1325,
+    1325,
+    1325,
+    1331,
+    1374,
+    1429,
+    1460,
+    1473,
+    1670,
+    1783,
+    1942,
+    2028,
+    2055,
+    2028,
+    1942,
+    1783,
+    1670,
+    1473,
+    1460,
+    1429,
+    1374,
+    1331,
+    1325,
+    1325,
+    1325,
+    1325,
+    1325,
+    1325,
+    1325
+   ],
+   "edges_gt90": [
+    228,
+    228,
+    228,
+    228,
+    228,
+    228,
+    228,
+    228,
+    228,
+    228,
+    228,
+    228,
+    228,
+    228,
+    228,
+    228,
+    228,
+    228,
+    228,
+    228,
+    228,
+    228,
+    228,
+    228,
+    228,
+    228,
+    228,
+    228,
+    228,
+    228,
+    228,
+    228,
+    228
+   ],
+   "elbow_gt90": [
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125
+   ],
+   "self_intersections_by_region": [
+    {
+     "elbow|elbow": 1048,
+     "shoulder|shoulder": 277
+    },
+    {
+     "elbow|elbow": 1048,
+     "shoulder|shoulder": 277
+    },
+    {
+     "elbow|elbow": 1048,
+     "shoulder|shoulder": 277
+    },
+    {
+     "elbow|elbow": 1048,
+     "shoulder|shoulder": 277
+    },
+    {
+     "elbow|elbow": 1048,
+     "shoulder|shoulder": 277
+    },
+    {
+     "elbow|elbow": 1048,
+     "shoulder|shoulder": 277
+    },
+    {
+     "elbow|elbow": 1048,
+     "shoulder|shoulder": 277
+    },
+    {
+     "elbow|elbow": 1048,
+     "shoulder|shoulder": 277,
+     "hand_foot|hand_foot": 6
+    },
+    {
+     "elbow|elbow": 1048,
+     "shoulder|shoulder": 277,
+     "hand_foot|hand_foot": 49
+    },
+    {
+     "elbow|elbow": 1048,
+     "shoulder|shoulder": 277,
+     "hand_foot|hand_foot": 104
+    },
+    {
+     "elbow|elbow": 1048,
+     "shoulder|shoulder": 277,
+     "hand_foot|hand_foot": 135
+    },
+    {
+     "elbow|elbow": 1048,
+     "shoulder|shoulder": 277,
+     "hand_foot|hand_foot": 148
+    },
+    {
+     "elbow|elbow": 1048,
+     "hand_foot|hand_foot": 345,
+     "shoulder|shoulder": 277
+    },
+    {
+     "elbow|elbow": 1048,
+     "hand_foot|hand_foot": 458,
+     "shoulder|shoulder": 277
+    },
+    {
+     "elbow|elbow": 1048,
+     "hand_foot|hand_foot": 617,
+     "shoulder|shoulder": 277
+    },
+    {
+     "elbow|elbow": 1048,
+     "hand_foot|hand_foot": 703,
+     "shoulder|shoulder": 277
+    },
+    {
+     "elbow|elbow": 1048,
+     "hand_foot|hand_foot": 730,
+     "shoulder|shoulder": 277
+    },
+    {
+     "elbow|elbow": 1048,
+     "hand_foot|hand_foot": 703,
+     "shoulder|shoulder": 277
+    },
+    {
+     "elbow|elbow": 1048,
+     "hand_foot|hand_foot": 617,
+     "shoulder|shoulder": 277
+    },
+    {
+     "elbow|elbow": 1048,
+     "hand_foot|hand_foot": 458,
+     "shoulder|shoulder": 277
+    },
+    {
+     "elbow|elbow": 1048,
+     "hand_foot|hand_foot": 345,
+     "shoulder|shoulder": 277
+    },
+    {
+     "elbow|elbow": 1048,
+     "shoulder|shoulder": 277,
+     "hand_foot|hand_foot": 148
+    },
+    {
+     "elbow|elbow": 1048,
+     "shoulder|shoulder": 277,
+     "hand_foot|hand_foot": 135
+    },
+    {
+     "elbow|elbow": 1048,
+     "shoulder|shoulder": 277,
+     "hand_foot|hand_foot": 104
+    },
+    {
+     "elbow|elbow": 1048,
+     "shoulder|shoulder": 277,
+     "hand_foot|hand_foot": 49
+    },
+    {
+     "elbow|elbow": 1048,
+     "shoulder|shoulder": 277,
+     "hand_foot|hand_foot": 6
+    },
+    {
+     "elbow|elbow": 1048,
+     "shoulder|shoulder": 277
+    },
+    {
+     "elbow|elbow": 1048,
+     "shoulder|shoulder": 277
+    },
+    {
+     "elbow|elbow": 1048,
+     "shoulder|shoulder": 277
+    },
+    {
+     "elbow|elbow": 1048,
+     "shoulder|shoulder": 277
+    },
+    {
+     "elbow|elbow": 1048,
+     "shoulder|shoulder": 277
+    },
+    {
+     "elbow|elbow": 1048,
+     "shoulder|shoulder": 277
+    },
+    {
+     "elbow|elbow": 1048,
+     "shoulder|shoulder": 277
+    }
+   ]
+  },
+  "after": {
+   "self_intersections": [
+    250,
+    250,
+    250,
+    250,
+    250,
+    250,
+    250,
+    256,
+    299,
+    354,
+    385,
+    398,
+    595,
+    708,
+    867,
+    953,
+    980,
+    953,
+    867,
+    708,
+    595,
+    398,
+    385,
+    354,
+    299,
+    256,
+    250,
+    250,
+    250,
+    250,
+    250,
+    250,
+    250
+   ],
+   "edges_gt90": [
+    75,
+    75,
+    75,
+    75,
+    75,
+    75,
+    75,
+    75,
+    75,
+    75,
+    75,
+    75,
+    75,
+    75,
+    75,
+    75,
+    75,
+    75,
+    75,
+    75,
+    75,
+    75,
+    75,
+    75,
+    75,
+    75,
+    75,
+    75,
+    75,
+    75,
+    75,
+    75,
+    75
+   ],
+   "elbow_gt90": [
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5
+   ],
+   "self_intersections_by_region": [
+    {
+     "shoulder|shoulder": 250
+    },
+    {
+     "shoulder|shoulder": 250
+    },
+    {
+     "shoulder|shoulder": 250
+    },
+    {
+     "shoulder|shoulder": 250
+    },
+    {
+     "shoulder|shoulder": 250
+    },
+    {
+     "shoulder|shoulder": 250
+    },
+    {
+     "shoulder|shoulder": 250
+    },
+    {
+     "shoulder|shoulder": 250,
+     "hand_foot|hand_foot": 6
+    },
+    {
+     "shoulder|shoulder": 250,
+     "hand_foot|hand_foot": 49
+    },
+    {
+     "shoulder|shoulder": 250,
+     "hand_foot|hand_foot": 104
+    },
+    {
+     "shoulder|shoulder": 250,
+     "hand_foot|hand_foot": 135
+    },
+    {
+     "shoulder|shoulder": 250,
+     "hand_foot|hand_foot": 148
+    },
+    {
+     "hand_foot|hand_foot": 345,
+     "shoulder|shoulder": 250
+    },
+    {
+     "hand_foot|hand_foot": 458,
+     "shoulder|shoulder": 250
+    },
+    {
+     "hand_foot|hand_foot": 617,
+     "shoulder|shoulder": 250
+    },
+    {
+     "hand_foot|hand_foot": 703,
+     "shoulder|shoulder": 250
+    },
+    {
+     "hand_foot|hand_foot": 730,
+     "shoulder|shoulder": 250
+    },
+    {
+     "hand_foot|hand_foot": 703,
+     "shoulder|shoulder": 250
+    },
+    {
+     "hand_foot|hand_foot": 617,
+     "shoulder|shoulder": 250
+    },
+    {
+     "hand_foot|hand_foot": 458,
+     "shoulder|shoulder": 250
+    },
+    {
+     "hand_foot|hand_foot": 345,
+     "shoulder|shoulder": 250
+    },
+    {
+     "shoulder|shoulder": 250,
+     "hand_foot|hand_foot": 148
+    },
+    {
+     "shoulder|shoulder": 250,
+     "hand_foot|hand_foot": 135
+    },
+    {
+     "shoulder|shoulder": 250,
+     "hand_foot|hand_foot": 104
+    },
+    {
+     "shoulder|shoulder": 250,
+     "hand_foot|hand_foot": 49
+    },
+    {
+     "shoulder|shoulder": 250,
+     "hand_foot|hand_foot": 6
+    },
+    {
+     "shoulder|shoulder": 250
+    },
+    {
+     "shoulder|shoulder": 250
+    },
+    {
+     "shoulder|shoulder": 250
+    },
+    {
+     "shoulder|shoulder": 250
+    },
+    {
+     "shoulder|shoulder": 250
+    },
+    {
+     "shoulder|shoulder": 250
+    },
+    {
+     "shoulder|shoulder": 250
+    }
+   ]
+  }
+ },
+ "before_peak": {
+  "self_intersections": 2055,
+  "edges_gt90": 228,
+  "elbow_gt90": 125
+ },
+ "before_return_mm": 0.0,
+ "before_thumb_search": {
+  "collapse_rule": "fist",
+  "fist_collapse_faces": {},
+  "solution": {
+   "l": [
+    15.0,
+    -30.0,
+    45.0,
+    {
+     "thumb_finger_pairs": 0,
+     "tip_to_target_mm": 38.0
+    }
+   ],
+   "r": [
+    15.0,
+    30.0,
+    -45.0,
+    {
+     "thumb_finger_pairs": 0,
+     "tip_to_target_mm": 38.0
+    }
+   ]
+  }
+ },
+ "after_peak": {
+  "self_intersections": 980,
+  "edges_gt90": 75,
+  "elbow_gt90": 5
+ },
+ "after_return_mm": 0.0,
+ "after_thumb_search": {
+  "collapse_rule": "fist",
+  "fist_collapse_faces": {
+   "l": 20,
+   "l_pair_limit_used": "skeleton-only (no mesh placement within 80 pairs)",
+   "r": 23,
+   "r_pair_limit_used": "skeleton-only (no mesh placement within 80 pairs)"
+  },
+  "solution": {
+   "l": [
+    15.0,
+    -30.0,
+    45.0,
+    {
+     "thumb_finger_pairs": 0,
+     "tip_to_target_mm": 38.0
+    }
+   ],
+   "r": [
+    15.0,
+    30.0,
+    -45.0,
+    {
+     "thumb_finger_pairs": 0,
+     "tip_to_target_mm": 38.0
+    }
+   ]
+  }
+ }
+}

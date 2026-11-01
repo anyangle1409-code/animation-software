@@ -25,6 +25,7 @@ are unchanged.
 | `lunge_20261031/` | Lunge (arms at the sides), before vs C1. Self-intersections 824 → **11**, folds 327 → **38** (knees 50 → 2). |
 | `walk_stride_20261031/` | Walking stride, before vs C1. Self-intersections 182 → **0**, folds 31 → **6**. |
 | `forearm_rotation_20261031/` | Forearm rotation, before vs C1. Self-intersections 1894 → **0**, elbow folds 131 → **5**. |
+| `grip_20261031/` | Grip (closed fist), before vs C1. Self-intersections 2055 → **980** (elbow 1048 → 0; the remaining hand and shoulder contacts are explained in its README). |
 | `app_candidate_20261031/` | The app integration candidate GLB. It passes PT-App's own preflight and plays in three.js; see its README. |
 
 **Before** is the R120 surface with the r57 drives: the original r57 shoulder path for the press, and no R121

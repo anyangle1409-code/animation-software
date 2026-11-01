@@ -1,5 +1,8 @@
 # App integration candidate v2: `hgpt_body_v2_C1_app_lod_v2.glb` (1 Nov 2026)
 
+**Superseded on 1 Nov 2026 by `../app_candidate_v3_20261101/`** (model W5, 9 clips). This v2 binary is no longer in
+the working tree; get it from commit `37536ebb` (same path). Its checks below are unchanged.
+
 **Status: REVIEW CANDIDATE.** This is not a production asset.
 
 - It is not merged into PT-App, and `PT_MODEL_VERSION 1.0` is unchanged.

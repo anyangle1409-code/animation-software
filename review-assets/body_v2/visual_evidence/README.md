@@ -27,7 +27,8 @@ are unchanged.
 | `forearm_rotation_20261031/` | Forearm rotation, before vs C1. Self-intersections 1894 → **0**, elbow folds 131 → **5**. |
 | `grip_20261031/` | Grip (closed fist; re-rendered 1 Nov with a mesh-checked thumb and, for C1, the coupled girdle), before vs C1. Self-intersections 1480 → **155** (hand creases only), folds 228 → **6**. |
 | `press_lockout_w5_20261101/` | Press lockout chest ripples, C1 vs candidate W5 (guarded delta mush on the lockout key). Lockout roughness p95 0.076 → **0.059 mm**; peak self-intersections and folds unchanged (7 / 8). |
-| `app_candidate_v2_20261101/` | **The app integration candidate GLB, v2** (1 Nov): 8 clips (press, curl, squat, row, push-up, lunge, walk, forearm rotation). It passes PT-App's own preflight with no gaps and plays in three.js within 0.047 mm of Blender; see its README. |
+| `app_candidate_v3_20261101/` | **The app integration candidate GLB, v3** (1 Nov): model W5 (C1 + smoothed lockout chest), 9 clips (v2's eight + grip). PT-App's preflight passes with no gaps; three.js within 0.048 mm of Blender; see its README. |
+| `app_candidate_v2_20261101/` | v2 (C1, 8 clips), superseded by v3. README and checks kept; binary in git history (commit `37536ebb`). |
 | `app_candidate_20261031/` | v1 (3 clips), superseded by v2. Its README and checks are kept; the binary is in git history (commit `80b91b02`). |
 
 **Before** is the R120 surface with the r57 drives: the original r57 shoulder path for the press, and no R121

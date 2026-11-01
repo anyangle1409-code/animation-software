@@ -1,0 +1,227 @@
+{
+ "press": {
+  "0": {
+   "lod_vs_full_max_mm": 0.016,
+   "lod_vs_full_p99_mm": 0.001,
+   "lod_vs_full_mean_mm": 0.0002,
+   "three_vs_blender_lod_max_mm": 0.008,
+   "three_vs_blender_lod_p99_mm": 0.0013
+  },
+  "16": {
+   "lod_vs_full_max_mm": 0.005,
+   "lod_vs_full_p99_mm": 0.001,
+   "lod_vs_full_mean_mm": 0.0002,
+   "fit_target_vs_harness_max_mm": 0.001,
+   "lod_vs_fit_target_max_mm": 0.005,
+   "three_vs_blender_lod_max_mm": 0.048,
+   "three_vs_blender_lod_p99_mm": 0.0086
+  },
+  "32": {
+   "lod_vs_full_max_mm": 0.016,
+   "lod_vs_full_p99_mm": 0.001,
+   "lod_vs_full_mean_mm": 0.0002,
+   "three_vs_blender_lod_max_mm": 0.008,
+   "three_vs_blender_lod_p99_mm": 0.0013
+  }
+ },
+ "curl": {
+  "0": {
+   "lod_vs_full_max_mm": 0.01,
+   "lod_vs_full_p99_mm": 0.001,
+   "lod_vs_full_mean_mm": 0.0002,
+   "three_vs_blender_lod_max_mm": 0.01,
+   "three_vs_blender_lod_p99_mm": 0.0014
+  },
+  "16": {
+   "lod_vs_full_max_mm": 0.014,
+   "lod_vs_full_p99_mm": 0.002,
+   "lod_vs_full_mean_mm": 0.0002,
+   "fit_target_vs_harness_max_mm": 0.0,
+   "lod_vs_fit_target_max_mm": 0.014,
+   "three_vs_blender_lod_max_mm": 0.015,
+   "three_vs_blender_lod_p99_mm": 0.0016
+  },
+  "32": {
+   "lod_vs_full_max_mm": 0.01,
+   "lod_vs_full_p99_mm": 0.001,
+   "lod_vs_full_mean_mm": 0.0002,
+   "three_vs_blender_lod_max_mm": 0.01,
+   "three_vs_blender_lod_p99_mm": 0.0014
+  }
+ },
+ "squat": {
+  "0": {
+   "lod_vs_full_max_mm": 0.005,
+   "lod_vs_full_p99_mm": 0.001,
+   "lod_vs_full_mean_mm": 0.0001,
+   "three_vs_blender_lod_max_mm": 0.003,
+   "three_vs_blender_lod_p99_mm": 0.0007
+  },
+  "16": {
+   "lod_vs_full_max_mm": 0.005,
+   "lod_vs_full_p99_mm": 0.002,
+   "lod_vs_full_mean_mm": 0.0003,
+   "fit_target_vs_harness_max_mm": 0.0,
+   "lod_vs_fit_target_max_mm": 0.005,
+   "three_vs_blender_lod_max_mm": 0.034,
+   "three_vs_blender_lod_p99_mm": 0.0092
+  },
+  "32": {
+   "lod_vs_full_max_mm": 0.005,
+   "lod_vs_full_p99_mm": 0.001,
+   "lod_vs_full_mean_mm": 0.0001,
+   "three_vs_blender_lod_max_mm": 0.003,
+   "three_vs_blender_lod_p99_mm": 0.0007
+  }
+ },
+ "bent_over_row": {
+  "0": {
+   "lod_vs_full_max_mm": 0.035,
+   "lod_vs_full_p99_mm": 0.001,
+   "lod_vs_full_mean_mm": 0.0002,
+   "three_vs_blender_lod_max_mm": 0.009,
+   "three_vs_blender_lod_p99_mm": 0.0011
+  },
+  "16": {
+   "lod_vs_full_max_mm": 0.004,
+   "lod_vs_full_p99_mm": 0.001,
+   "lod_vs_full_mean_mm": 0.0002,
+   "fit_target_vs_harness_max_mm": 0.0,
+   "lod_vs_fit_target_max_mm": 0.004,
+   "three_vs_blender_lod_max_mm": 0.025,
+   "three_vs_blender_lod_p99_mm": 0.005
+  },
+  "32": {
+   "lod_vs_full_max_mm": 0.035,
+   "lod_vs_full_p99_mm": 0.001,
+   "lod_vs_full_mean_mm": 0.0002,
+   "three_vs_blender_lod_max_mm": 0.009,
+   "three_vs_blender_lod_p99_mm": 0.0011
+  }
+ },
+ "push_up": {
+  "0": {
+   "lod_vs_full_max_mm": 0.005,
+   "lod_vs_full_p99_mm": 0.001,
+   "lod_vs_full_mean_mm": 0.0003,
+   "three_vs_blender_lod_max_mm": 0.026,
+   "three_vs_blender_lod_p99_mm": 0.0044
+  },
+  "16": {
+   "lod_vs_full_max_mm": 0.007,
+   "lod_vs_full_p99_mm": 0.001,
+   "lod_vs_full_mean_mm": 0.0002,
+   "fit_target_vs_harness_max_mm": 0.001,
+   "lod_vs_fit_target_max_mm": 0.007,
+   "three_vs_blender_lod_max_mm": 0.011,
+   "three_vs_blender_lod_p99_mm": 0.0007
+  },
+  "32": {
+   "lod_vs_full_max_mm": 0.005,
+   "lod_vs_full_p99_mm": 0.001,
+   "lod_vs_full_mean_mm": 0.0002,
+   "three_vs_blender_lod_max_mm": 0.026,
+   "three_vs_blender_lod_p99_mm": 0.0044
+  }
+ },
+ "lunge": {
+  "0": {
+   "lod_vs_full_max_mm": 0.016,
+   "lod_vs_full_p99_mm": 0.001,
+   "lod_vs_full_mean_mm": 0.0002,
+   "three_vs_blender_lod_max_mm": 0.016,
+   "three_vs_blender_lod_p99_mm": 0.0018
+  },
+  "16": {
+   "lod_vs_full_max_mm": 0.003,
+   "lod_vs_full_p99_mm": 0.001,
+   "lod_vs_full_mean_mm": 0.0002,
+   "fit_target_vs_harness_max_mm": 0.0,
+   "lod_vs_fit_target_max_mm": 0.003,
+   "three_vs_blender_lod_max_mm": 0.037,
+   "three_vs_blender_lod_p99_mm": 0.0032
+  },
+  "32": {
+   "lod_vs_full_max_mm": 0.016,
+   "lod_vs_full_p99_mm": 0.001,
+   "lod_vs_full_mean_mm": 0.0002,
+   "three_vs_blender_lod_max_mm": 0.016,
+   "three_vs_blender_lod_p99_mm": 0.0018
+  }
+ },
+ "walk_stride": {
+  "0": {
+   "lod_vs_full_max_mm": 0.019,
+   "lod_vs_full_p99_mm": 0.002,
+   "lod_vs_full_mean_mm": 0.0003,
+   "three_vs_blender_lod_max_mm": 0.017,
+   "three_vs_blender_lod_p99_mm": 0.0025
+  },
+  "16": {
+   "lod_vs_full_max_mm": 0.024,
+   "lod_vs_full_p99_mm": 0.003,
+   "lod_vs_full_mean_mm": 0.0003,
+   "fit_target_vs_harness_max_mm": 0.0,
+   "lod_vs_fit_target_max_mm": 0.024,
+   "three_vs_blender_lod_max_mm": 0.01,
+   "three_vs_blender_lod_p99_mm": 0.0023
+  },
+  "32": {
+   "lod_vs_full_max_mm": 0.019,
+   "lod_vs_full_p99_mm": 0.002,
+   "lod_vs_full_mean_mm": 0.0003,
+   "three_vs_blender_lod_max_mm": 0.017,
+   "three_vs_blender_lod_p99_mm": 0.0025
+  }
+ },
+ "forearm_rotation": {
+  "0": {
+   "lod_vs_full_max_mm": 0.004,
+   "lod_vs_full_p99_mm": 0.001,
+   "lod_vs_full_mean_mm": 0.0001,
+   "three_vs_blender_lod_max_mm": 0.012,
+   "three_vs_blender_lod_p99_mm": 0.0011
+  },
+  "16": {
+   "lod_vs_full_max_mm": 0.025,
+   "lod_vs_full_p99_mm": 0.004,
+   "lod_vs_full_mean_mm": 0.0003,
+   "fit_target_vs_harness_max_mm": 0.0,
+   "lod_vs_fit_target_max_mm": 0.025,
+   "three_vs_blender_lod_max_mm": 0.013,
+   "three_vs_blender_lod_p99_mm": 0.0011
+  },
+  "32": {
+   "lod_vs_full_max_mm": 0.004,
+   "lod_vs_full_p99_mm": 0.001,
+   "lod_vs_full_mean_mm": 0.0001,
+   "three_vs_blender_lod_max_mm": 0.012,
+   "three_vs_blender_lod_p99_mm": 0.0011
+  }
+ },
+ "grip": {
+  "0": {
+   "lod_vs_full_max_mm": 0.018,
+   "lod_vs_full_p99_mm": 0.001,
+   "lod_vs_full_mean_mm": 0.0002,
+   "three_vs_blender_lod_max_mm": 0.021,
+   "three_vs_blender_lod_p99_mm": 0.0038
+  },
+  "16": {
+   "lod_vs_full_max_mm": 0.011,
+   "lod_vs_full_p99_mm": 0.001,
+   "lod_vs_full_mean_mm": 0.0002,
+   "fit_target_vs_harness_max_mm": 0.0,
+   "lod_vs_fit_target_max_mm": 0.011,
+   "three_vs_blender_lod_max_mm": 0.021,
+   "three_vs_blender_lod_p99_mm": 0.004
+  },
+  "32": {
+   "lod_vs_full_max_mm": 0.018,
+   "lod_vs_full_p99_mm": 0.001,
+   "lod_vs_full_mean_mm": 0.0002,
+   "three_vs_blender_lod_max_mm": 0.021,
+   "three_vs_blender_lod_p99_mm": 0.0038
+  }
+ }
+}

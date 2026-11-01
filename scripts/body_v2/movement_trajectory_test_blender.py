@@ -574,7 +574,7 @@ if GRIP_COLLAPSE == "fist":
         bench._hand_collapse = lambda b, s_: max(0, _coll0(b, s_) - base)
         lim0 = bench.THUMB_OPPOSITION["max_pairs"]
         try:
-            for lim in (lim0, 10, 20, 40, 80):              # the r57 limit (5 thumb / finger pairs) first, then relaxed
+            for lim in (() if os.environ.get("V2_TRAJ_GRIP_SKELETON_THUMB") == "1" else (lim0, 10, 20, 40, 80)):              # the r57 limit (5 thumb / finger pairs) first, then relaxed
                 bench.THUMB_OPPOSITION["max_pairs"] = lim
                 try:
                     out = _solve0(rig_, s, signs, body_)
@@ -582,7 +582,11 @@ if GRIP_COLLAPSE == "fist":
                     return out
                 except RuntimeError:
                     continue
-            raise RuntimeError("no thumb placement even at 80 thumb / finger pairs")
+            # no placement satisfies the mesh rules (the thumb's own MCP / IP flexion already collapses a few crease faces
+            # in every candidate): use the r57 SKELETON-only solution (closest tip, bony clearance) - independent of the
+            # mesh under test, so every model plays the same thumb; its skin contacts are measured, not hidden
+            GRIP_BASE[s + "_pair_limit_used"] = "skeleton-only (no mesh placement within 80 pairs)"
+            return _solve0(rig_, s, signs, None)
         finally:
             bench._hand_collapse = _coll0; bench.THUMB_OPPOSITION["max_pairs"] = lim0
     bench._solve_thumb = _solve_thumb_vs_fist

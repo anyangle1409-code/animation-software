@@ -68,12 +68,14 @@ This is the model Work's phone reviews show.
 
 | 1 Nov | **Press lockout chest ripples: candidate W5.** The guarded delta-mush patch of the lockout key smooths the skinning's wood-grain ripples on the pectorals and chest sides. Lockout roughness p95 0.076 → 0.059 mm (rest 0.066). Press peaks are unchanged over 49 frames: self-intersections 7, folds 8, edges over 35° 361. Pulldown is the same. Overhead extension: self-intersections 383 → 381, folds 67 = 67. Lateral raise, curl and squat are identical. Nine earlier variants were rejected for measured regressions (trajectories doc, W5). The armpit V-lines (pose creases) and the upper-arm ripples remain. | `press_lockout_w5_20261101/` |
 
+| 1 Nov | **App candidate GLB v3: model W5, 9 clips (grip added).** 37.9 MB, 52 shared clip-morph components. **PT-App's preflight passes with no gaps.** three.js r170 matches Blender within 0.048 mm, and the LOD matches the full model within 0.035 mm (grip within 0.021 mm). PT-App candidate branch updated to v3 (commit `2d23cfd`): the opt-in test passes 3 of 3, and their 15 intake tests still pass. The phone playback page now serves v3. v2's binary leaves the working tree (history `37536ebb`). | `app_candidate_v3_20261101/` |
+
 **Latest phone artifact (1 Nov):** `claude-phone-evidence-41281753372` (run 41281753372, commit `4cd0db86`, 56.9 MB): all
 nine movement sets (walk and grip re-rendered) and app GLB v2.
 
 ## In progress
 
-- App GLB v3 from W5 with 9 clips (the grip added): bake, playback, fidelity and preflight (`chain_glb9.sh`).
+- Nothing is running. The next items are below.
 
 ## Remaining (in order)
 
@@ -90,7 +92,6 @@ nine movement sets (walk and grip re-rendered) and app GLB v2.
 4. **GLB, remaining:**
    - real iPhone playback and performance (page ready; needs the owner's phone);
    - PT-App shadow viewer integration (GPT lane; needs the 8-influence patch and signed morph weights);
-   - a grip clip (now that the grip is clean apart from the fist creases);
    - the runtime drive contract for unbaked exercises (owner decision). GPT's read-only exercise-motion contract
      (`chatgpt/exercise-motion-contract-intake-20261031`) expects `ExerciseDefinition` packets with phases and tempo;
      the GLB's clips are review trajectories, not packets.
@@ -109,7 +110,8 @@ nine movement sets (walk and grip re-rendered) and app GLB v2.
 1. Read this file, then `docs/R121_MOVEMENT_TRAJECTORIES_20261024.md` (C1).
 2. Blends are in the session scratch area and are not in git. They are rebuilt by the `chain_*.sh` recipes documented
    in the trajectories doc.
-3. The harness environment for C1 is:
+3. The current best candidate is **W5** (blend `W5`, built from `W3` by the recipe in the trajectories doc, section W5).
+   The harness environment for C1 / W5 is:
 
    ```
    V2_GIRDLE_FRAME=isb V2_TRAJ_GIRDLE=candidate V2_TRAJ_UA_TWIST=1 V2_TRAJ_FA_REWEIGHT=1 V2_R121_PF_FRAME=thorax

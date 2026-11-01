@@ -543,15 +543,23 @@ if PEC_THIN > 0:
              * (1 - _pramp(np.abs(R0[:, 0]), _pxm, _pxm + 0.04)) * (1 - _pramp(gsum("upperarm", "forearm"), 0.1, 0.3)) * UPPER)
 
 
+PEC_FINE = int(os.environ.get("V2_R121_ARMKEY_PEC_FINE", "30"))   # band limit: the bulge is measured on a copy smoothed
+# by this many rounds first (W8 s1000 measured it on the raw surface: halving only the raised half of the fine ripples
+# put new wood-grain texture on the chest)
+
+
 def pec_thin(T):
-    r_ = relief(T, PEC_SCALE)
+    Q_ = T.copy()
+    for _ in range(PEC_FINE):
+        Q_ = 0.5 * Q_ + 0.5 * mean(Q_)
+    r_ = relief(Q_, PEC_SCALE)
     d = -PEC_THIN * np.clip(r_, 0, None) * PEC_W
     D = d[:, None] * vnormals(T)
     for _ in range(6):                                          # a smooth field, no new edges
         D = 0.5 * D + 0.5 * mean(D)
     T += D
     mv = np.linalg.norm(D, axis=1)
-    return {"fraction": PEC_THIN, "scale_rounds": PEC_SCALE, "region_vertices": int((PEC_W > 0.5).sum()),
+    return {"fraction": PEC_THIN, "scale_rounds": PEC_SCALE, "fine_rounds": PEC_FINE, "region_vertices": int((PEC_W > 0.5).sum()),
             "max_move_mm": round(float(mv.max()) * 1000, 2), "mean_move_in_region_mm": round(float(mv[PEC_W > 0.5].mean()) * 1000, 2)}
 
 

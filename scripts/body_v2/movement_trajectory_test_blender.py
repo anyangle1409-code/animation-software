@@ -881,7 +881,9 @@ if AUTHOR == "grip":
     tri_reg = TRI[REGV[TRI].all(1)]
     MOVE_FN["grip"](0.5); finish_pose()
     P0 = evaluated()
-    D = np.zeros_like(P0); margin = 0.0004; hist = []
+    D = np.zeros_like(P0); margin = 0.0004; hist = []; best = (10 ** 9, D.copy())
+    # (first run: three spreading rounds per step and no damping overshot - pairs 155 -> 50 by step 6, then back up to
+    # 368 with 14 mm moves - so: one spreading round, steps damped to 0.8, the best step kept, stop once pairs rise twice)
     for it_ in range(int(os.environ.get("V2_TRAJ_AUTHOR_ITERS", "30"))):
         Pc = P0 + D
         bvh_ = _BVH.FromPolygons([Vector(p) for p in Pc], tri_reg.tolist(), all_triangles=True)
@@ -891,7 +893,9 @@ if AUTHOR == "grip":
             ta_, tb_ = tri_reg[pr[:, 0]], tri_reg[pr[:, 1]]
             pr = pr[~(ta_[:, :, None] == tb_[:, None, :]).any(axis=(1, 2))]
         hist.append(int(len(pr)))
-        if not len(pr):
+        if len(pr) < best[0]:
+            best = (int(len(pr)), D.copy())
+        if not len(pr) or (len(hist) >= 3 and hist[-1] > hist[-2] > hist[-3]):
             break
         step = np.zeros_like(P0); cnt = np.zeros(n)
         for a_, b_ in pr:
@@ -905,9 +909,9 @@ if AUTHOR == "grip":
                     if -0.006 < d_ < margin:                    # behind the other face, by a contact-sized depth
                         step[v] += nn * 0.5 * (margin - d_); cnt[v] += 1
         step[cnt > 0] /= cnt[cnt > 0, None]
-        for _ in range(3):                                      # spread over a few rings of the hand skin
-            step = np.where(REGV[:, None], 0.6 * step + 0.4 * (_A @ step) * _Di[:, None], 0.0)
-        D += step
+        step = np.where(REGV[:, None], 0.6 * step + 0.4 * (_A @ step) * _Di[:, None], 0.0)   # one ring
+        D += 0.8 * step
+    D = best[1]
     T_ = P0 + D
     sel = np.nonzero(np.linalg.norm(D, axis=1) > 1e-7)[0]
     B0 = np.empty(n * 3); me.shape_keys.key_blocks[0].data.foreach_get("co", B0); B0 = B0.reshape(-1, 3)
@@ -930,7 +934,7 @@ if AUTHOR == "grip":
     curl = {s_: round(float(r121_drives.finger_curl_deg(rig, s_)), 2) for s_ in ("l", "r")}
     np.savez_compressed(OUT / "grip_contact_keys.npz", l=Dk * (np.sign(B0[:, 0]) == lx)[:, None],
                         r=Dk * (np.sign(B0[:, 0]) == -lx)[:, None])
-    info = {"pairs_history": hist, "vertices": int(len(sel)), "max_offset_mm": round(float(np.linalg.norm(Dk, axis=1).max() * 1000), 2),
+    info = {"pairs_history": hist, "pairs_kept": best[0], "vertices": int(len(sel)), "max_offset_mm": round(float(np.linalg.norm(Dk, axis=1).max() * 1000), 2),
             "posed_max_move_mm": round(float(np.linalg.norm(D, axis=1).max() * 1000), 2), "fit_residual_max_mm": round(resid, 4),
             "finger_curl_deg": curl, "margin_mm": margin * 1000}
     (OUT / "grip_contact_keys.json").write_text(json.dumps(info, indent=1))

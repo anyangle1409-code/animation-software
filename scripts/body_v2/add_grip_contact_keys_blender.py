@@ -12,6 +12,8 @@ import bpy
 import numpy as np
 
 a = sys.argv[sys.argv.index("--") + 1:]
+ACC = "--accumulate" in a                       # add onto existing R121_GRIP_<s> keys (a second authoring pass made on
+a = [x for x in a if x != "--accumulate"]       # a blend that already has them; its drive data is kept)
 SRC, NPZ, JS, OUT = Path(a[0]), Path(a[1]), Path(a[2]), Path(a[3])
 if OUT.exists() or OUT.resolve() == SRC.resolve():
     raise SystemExit("output must be a new file")
@@ -25,6 +27,11 @@ d = np.load(NPZ); info = json.loads(JS.read_text())
 B0 = np.empty(n * 3); me.shape_keys.key_blocks[0].data.foreach_get("co", B0); B0 = B0.reshape(-1, 3)
 for s in ("l", "r"):
     name = f"{r121_drives.GRIP_PREFIX}{s}"
+    if ACC:
+        kb = me.shape_keys.key_blocks[name]          # the pass was authored with this key fully on at the fist
+        c = np.empty(n * 3); kb.data.foreach_get("co", c)
+        kb.data.foreach_set("co", (c.reshape(-1, 3) + d[s]).ravel())
+        continue
     if name in me.shape_keys.key_blocks:
         raise SystemExit(f"{name} already exists in the source")
     kb = body.shape_key_add(name=name, from_mix=False); kb.value = 0.0

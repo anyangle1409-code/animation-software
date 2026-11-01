@@ -1,7 +1,8 @@
 {
  "movement": "grip",
  "frames": 33,
- "thumb": "r57 skeleton-only solution, same for both models (grip_thumb_solution.json)",
+ "thumb": "mesh-checked (C1 left hand, r57 limit 5 thumb-finger pairs), mirrored to the right; the same for both models",
+ "c1_arm_pose_girdle": "V2_TRAJ_GRIP_GIRDLE=1",
  "per_frame": {
   "before": {
    "self_intersections": [
@@ -12,25 +13,25 @@
     1325,
     1325,
     1325,
-    1331,
-    1374,
+    1329,
+    1333,
+    1344,
+    1368,
+    1382,
+    1400,
     1429,
-    1460,
-    1473,
-    1670,
-    1783,
-    1942,
-    2028,
-    2055,
-    2028,
-    1942,
-    1783,
-    1670,
-    1473,
-    1460,
+    1446,
+    1459,
+    1480,
+    1459,
+    1446,
     1429,
-    1374,
-    1331,
+    1400,
+    1382,
+    1368,
+    1344,
+    1333,
+    1329,
     1325,
     1325,
     1325,
@@ -74,6 +75,41 @@
     228,
     228
    ],
+   "shoulder_gt90": [
+    101,
+    101,
+    101,
+    101,
+    101,
+    101,
+    101,
+    101,
+    101,
+    101,
+    101,
+    101,
+    101,
+    101,
+    101,
+    101,
+    101,
+    101,
+    101,
+    101,
+    101,
+    101,
+    101,
+    101,
+    101,
+    101,
+    101,
+    101,
+    101,
+    101,
+    101,
+    101,
+    101
+   ],
    "elbow_gt90": [
     125,
     125,
@@ -109,230 +145,147 @@
     125,
     125
    ],
-   "self_intersections_by_region": [
-    {
-     "elbow|elbow": 1048,
-     "shoulder|shoulder": 277
-    },
-    {
-     "elbow|elbow": 1048,
-     "shoulder|shoulder": 277
-    },
-    {
-     "elbow|elbow": 1048,
-     "shoulder|shoulder": 277
-    },
-    {
-     "elbow|elbow": 1048,
-     "shoulder|shoulder": 277
-    },
-    {
-     "elbow|elbow": 1048,
-     "shoulder|shoulder": 277
-    },
-    {
-     "elbow|elbow": 1048,
-     "shoulder|shoulder": 277
-    },
-    {
-     "elbow|elbow": 1048,
-     "shoulder|shoulder": 277
-    },
-    {
-     "elbow|elbow": 1048,
-     "shoulder|shoulder": 277,
-     "hand_foot|hand_foot": 6
-    },
-    {
-     "elbow|elbow": 1048,
-     "shoulder|shoulder": 277,
-     "hand_foot|hand_foot": 49
-    },
-    {
-     "elbow|elbow": 1048,
-     "shoulder|shoulder": 277,
-     "hand_foot|hand_foot": 104
-    },
-    {
-     "elbow|elbow": 1048,
-     "shoulder|shoulder": 277,
-     "hand_foot|hand_foot": 135
-    },
-    {
-     "elbow|elbow": 1048,
-     "shoulder|shoulder": 277,
-     "hand_foot|hand_foot": 148
-    },
-    {
-     "elbow|elbow": 1048,
-     "hand_foot|hand_foot": 345,
-     "shoulder|shoulder": 277
-    },
-    {
-     "elbow|elbow": 1048,
-     "hand_foot|hand_foot": 458,
-     "shoulder|shoulder": 277
-    },
-    {
-     "elbow|elbow": 1048,
-     "hand_foot|hand_foot": 617,
-     "shoulder|shoulder": 277
-    },
-    {
-     "elbow|elbow": 1048,
-     "hand_foot|hand_foot": 703,
-     "shoulder|shoulder": 277
-    },
-    {
-     "elbow|elbow": 1048,
-     "hand_foot|hand_foot": 730,
-     "shoulder|shoulder": 277
-    },
-    {
-     "elbow|elbow": 1048,
-     "hand_foot|hand_foot": 703,
-     "shoulder|shoulder": 277
-    },
-    {
-     "elbow|elbow": 1048,
-     "hand_foot|hand_foot": 617,
-     "shoulder|shoulder": 277
-    },
-    {
-     "elbow|elbow": 1048,
-     "hand_foot|hand_foot": 458,
-     "shoulder|shoulder": 277
-    },
-    {
-     "elbow|elbow": 1048,
-     "hand_foot|hand_foot": 345,
-     "shoulder|shoulder": 277
-    },
-    {
-     "elbow|elbow": 1048,
-     "shoulder|shoulder": 277,
-     "hand_foot|hand_foot": 148
-    },
-    {
-     "elbow|elbow": 1048,
-     "shoulder|shoulder": 277,
-     "hand_foot|hand_foot": 135
-    },
-    {
-     "elbow|elbow": 1048,
-     "shoulder|shoulder": 277,
-     "hand_foot|hand_foot": 104
-    },
-    {
-     "elbow|elbow": 1048,
-     "shoulder|shoulder": 277,
-     "hand_foot|hand_foot": 49
-    },
-    {
-     "elbow|elbow": 1048,
-     "shoulder|shoulder": 277,
-     "hand_foot|hand_foot": 6
-    },
-    {
-     "elbow|elbow": 1048,
-     "shoulder|shoulder": 277
-    },
-    {
-     "elbow|elbow": 1048,
-     "shoulder|shoulder": 277
-    },
-    {
-     "elbow|elbow": 1048,
-     "shoulder|shoulder": 277
-    },
-    {
-     "elbow|elbow": 1048,
-     "shoulder|shoulder": 277
-    },
-    {
-     "elbow|elbow": 1048,
-     "shoulder|shoulder": 277
-    },
-    {
-     "elbow|elbow": 1048,
-     "shoulder|shoulder": 277
-    },
-    {
-     "elbow|elbow": 1048,
-     "shoulder|shoulder": 277
-    }
+   "edges_stretch_gt2": [
+    430,
+    430,
+    430,
+    430,
+    430,
+    430,
+    430,
+    430,
+    430,
+    430,
+    430,
+    430,
+    430,
+    430,
+    430,
+    430,
+    430,
+    430,
+    430,
+    430,
+    430,
+    430,
+    430,
+    430,
+    430,
+    430,
+    430,
+    430,
+    430,
+    430,
+    430,
+    430,
+    430
    ]
   },
   "after": {
    "self_intersections": [
-    250,
-    250,
-    250,
-    250,
-    250,
-    250,
-    250,
-    256,
-    299,
-    354,
-    385,
-    398,
-    595,
-    708,
-    867,
-    953,
-    980,
-    953,
-    867,
-    708,
-    595,
-    398,
-    385,
-    354,
-    299,
-    256,
-    250,
-    250,
-    250,
-    250,
-    250,
-    250,
-    250
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    4,
+    8,
+    19,
+    43,
+    57,
+    75,
+    104,
+    121,
+    134,
+    155,
+    134,
+    121,
+    104,
+    75,
+    57,
+    43,
+    19,
+    8,
+    4,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
    ],
    "edges_gt90": [
-    75,
-    75,
-    75,
-    75,
-    75,
-    75,
-    75,
-    75,
-    75,
-    75,
-    75,
-    75,
-    75,
-    75,
-    75,
-    75,
-    75,
-    75,
-    75,
-    75,
-    75,
-    75,
-    75,
-    75,
-    75,
-    75,
-    75,
-    75,
-    75,
-    75,
-    75,
-    75,
-    75
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6
+   ],
+   "shoulder_gt90": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
    ],
    "elbow_gt90": [
     5,
@@ -369,191 +322,65 @@
     5,
     5
    ],
-   "self_intersections_by_region": [
-    {
-     "shoulder|shoulder": 250
-    },
-    {
-     "shoulder|shoulder": 250
-    },
-    {
-     "shoulder|shoulder": 250
-    },
-    {
-     "shoulder|shoulder": 250
-    },
-    {
-     "shoulder|shoulder": 250
-    },
-    {
-     "shoulder|shoulder": 250
-    },
-    {
-     "shoulder|shoulder": 250
-    },
-    {
-     "shoulder|shoulder": 250,
-     "hand_foot|hand_foot": 6
-    },
-    {
-     "shoulder|shoulder": 250,
-     "hand_foot|hand_foot": 49
-    },
-    {
-     "shoulder|shoulder": 250,
-     "hand_foot|hand_foot": 104
-    },
-    {
-     "shoulder|shoulder": 250,
-     "hand_foot|hand_foot": 135
-    },
-    {
-     "shoulder|shoulder": 250,
-     "hand_foot|hand_foot": 148
-    },
-    {
-     "hand_foot|hand_foot": 345,
-     "shoulder|shoulder": 250
-    },
-    {
-     "hand_foot|hand_foot": 458,
-     "shoulder|shoulder": 250
-    },
-    {
-     "hand_foot|hand_foot": 617,
-     "shoulder|shoulder": 250
-    },
-    {
-     "hand_foot|hand_foot": 703,
-     "shoulder|shoulder": 250
-    },
-    {
-     "hand_foot|hand_foot": 730,
-     "shoulder|shoulder": 250
-    },
-    {
-     "hand_foot|hand_foot": 703,
-     "shoulder|shoulder": 250
-    },
-    {
-     "hand_foot|hand_foot": 617,
-     "shoulder|shoulder": 250
-    },
-    {
-     "hand_foot|hand_foot": 458,
-     "shoulder|shoulder": 250
-    },
-    {
-     "hand_foot|hand_foot": 345,
-     "shoulder|shoulder": 250
-    },
-    {
-     "shoulder|shoulder": 250,
-     "hand_foot|hand_foot": 148
-    },
-    {
-     "shoulder|shoulder": 250,
-     "hand_foot|hand_foot": 135
-    },
-    {
-     "shoulder|shoulder": 250,
-     "hand_foot|hand_foot": 104
-    },
-    {
-     "shoulder|shoulder": 250,
-     "hand_foot|hand_foot": 49
-    },
-    {
-     "shoulder|shoulder": 250,
-     "hand_foot|hand_foot": 6
-    },
-    {
-     "shoulder|shoulder": 250
-    },
-    {
-     "shoulder|shoulder": 250
-    },
-    {
-     "shoulder|shoulder": 250
-    },
-    {
-     "shoulder|shoulder": 250
-    },
-    {
-     "shoulder|shoulder": 250
-    },
-    {
-     "shoulder|shoulder": 250
-    },
-    {
-     "shoulder|shoulder": 250
-    }
+   "edges_stretch_gt2": [
+    511,
+    511,
+    511,
+    511,
+    511,
+    511,
+    511,
+    511,
+    511,
+    511,
+    511,
+    511,
+    511,
+    511,
+    511,
+    511,
+    511,
+    511,
+    511,
+    511,
+    511,
+    511,
+    511,
+    511,
+    511,
+    511,
+    511,
+    511,
+    511,
+    511,
+    511,
+    511,
+    511
    ]
   }
  },
  "before_peak": {
-  "self_intersections": 2055,
+  "self_intersections": 1480,
   "edges_gt90": 228,
-  "elbow_gt90": 125
+  "shoulder_gt90": 101,
+  "elbow_gt90": 125,
+  "edges_stretch_gt2": 430
  },
  "before_return_mm": 0.0,
- "before_thumb_search": {
-  "collapse_rule": "fist",
-  "fist_collapse_faces": {},
-  "solution": {
-   "l": [
-    15.0,
-    -30.0,
-    45.0,
-    {
-     "thumb_finger_pairs": 0,
-     "tip_to_target_mm": 38.0
-    }
-   ],
-   "r": [
-    15.0,
-    30.0,
-    -45.0,
-    {
-     "thumb_finger_pairs": 0,
-     "tip_to_target_mm": 38.0
-    }
-   ]
-  }
+ "before_by_region_at_peak": {
+  "elbow|elbow": 1048,
+  "shoulder|shoulder": 277,
+  "hand_foot|hand_foot": 155
  },
  "after_peak": {
-  "self_intersections": 980,
-  "edges_gt90": 75,
-  "elbow_gt90": 5
+  "self_intersections": 155,
+  "edges_gt90": 6,
+  "shoulder_gt90": 1,
+  "elbow_gt90": 5,
+  "edges_stretch_gt2": 511
  },
  "after_return_mm": 0.0,
- "after_thumb_search": {
-  "collapse_rule": "fist",
-  "fist_collapse_faces": {
-   "l": 20,
-   "l_pair_limit_used": "skeleton-only (no mesh placement within 80 pairs)",
-   "r": 23,
-   "r_pair_limit_used": "skeleton-only (no mesh placement within 80 pairs)"
-  },
-  "solution": {
-   "l": [
-    15.0,
-    -30.0,
-    45.0,
-    {
-     "thumb_finger_pairs": 0,
-     "tip_to_target_mm": 38.0
-    }
-   ],
-   "r": [
-    15.0,
-    30.0,
-    -45.0,
-    {
-     "thumb_finger_pairs": 0,
-     "tip_to_target_mm": 38.0
-    }
-   ]
-  }
+ "after_by_region_at_peak": {
+  "hand_foot|hand_foot": 155
  }
 }

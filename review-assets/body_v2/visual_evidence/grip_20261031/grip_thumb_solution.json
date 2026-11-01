@@ -1,1 +1,1 @@
-{"l": [[15.0, -30.0, 45.0], {"thumb_finger_pairs": 0, "tip_to_target_mm": 38.0}], "r": [[15.0, 30.0, -45.0], {"thumb_finger_pairs": 0, "tip_to_target_mm": 38.0}]}
+{"l": [[0.0, -15.0, 0.0], {"source": "mesh-checked (r57 limit 5)"}], "r": [[0.0, 15.0, -0.0], {"source": "mirror of l"}]}

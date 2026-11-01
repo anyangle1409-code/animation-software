@@ -60,27 +60,34 @@ This is the model Work's phone reviews show.
 
 | 1 Nov | **Forearm rotation and grip before/after; all 7 priority movements are covered.** Forearm rotation 1894 → 0 self-intersections (elbow folds 131 → 5). Grip 2055 → 980: the elbow's 1048 pairs are gone. The 730 fist and palm pairs are the same in both models, and about 250 shoulder pairs come from the grip's girdle-free arm pose. Both grip models play the same skeleton-only thumb, because no mesh-checked placement exists on this surface. **Latest phone artifact:** `claude-phone-evidence-41260002901` (run 41260002901, 49.7 MB). It holds all nine movement sets plus the app GLB. | `review-assets/body_v2/visual_evidence/README.md` |
 
+| 1 Nov | **App candidate GLB v2:** 8 clips (press, curl, squat, row, push-up, lunge, walk, forearm rotation), 36.5 MB, 50 shared clip-morph components. **PT-App's preflight passes with no gaps.** three.js r170 matches Blender within 0.047 mm, and the LOD matches the full model within 0.033 mm. The review camera now fits each clip, and the last frame is clamped. PT-App candidate branch updated to v2 (commit `ae477ee`); the opt-in test passes 3 of 3 and their 15 intake tests still pass. v1's binary leaves the working tree (history `80b91b02`). | `review-assets/body_v2/visual_evidence/app_candidate_v2_20261101/` |
+| 1 Nov | **Walk fixed: the gait cycle plays forward and loops.** It had played forward and then backwards (out-and-back sampling of a whole cycle). Re-rendered: before 182 → C1 **0** self-intersections (knee against knee in both swing phases), folds 33 → 6. | `walk_stride_20261031/` |
+| 1 Nov | **Grip fixed (test path):** the thumb search's baseline now includes the thumb's own MCP/IP flexion, so a mesh-checked placement exists (left hand within r57's limit of 5, mirrored to the right). C1 holds the arms with the coupled girdle (`V2_TRAJ_GRIP_GIRDLE=1`). Before 1480 → C1 **155** self-intersections (hand creases only; shoulders 250 → 0), folds 228 → 6. | `grip_20261031/` |
+| 1 Nov | **Bent-over row, left shoulder (57 pairs vs 2), diagnosed:** strict mirror pairing (position, normal and dominant bone) shows the weights there are symmetric (mean difference 0.03) and the bone transforms are mirror-exact. With every shape key off, the left still has 45 pairs, so the keys are not the cause. The rest mesh differs by up to 3.6 mm between sides in that fold (posterior deltoid against the upper back, 120 to 146 mm behind the shoulder line). The row's retraction closes the fold, and the left side crosses where the right just touches. Close-up renders show no visible tear, only the same soft fold with fine crinkles on both sides. Low priority; a row-pose contact key is the fix if wanted. | `V2_TRAJ_DIAG_GROUPS`, `post_shoulder_l/r` views |
+| 1 Nov | **Phone playback page (owner's device check):** a private claude.ai artifact plays GLB v2 on a phone with the 8-influence patch, checks its SHA-256, measures every clip's frame rate, and saves each run to a test log Claude can read back. Verified in headless Chromium; not yet run on an iPhone. | https://claude.ai/artifact/2kJqHzwh7RKy3i2pwbcgGU |
+
 ## In progress
 
 - Nothing is running. The next items are below.
 
 ## Remaining (in order)
 
-0. **Hand:** the closed-fist palm and knuckle contact (730 pairs, the same in both models). It needs MCP-indexed knuckle
-   and palm correctives, and the grip test needs the coupled girdle for its arm pose (as `V2_TRAJ_PUSHUP_GIRDLE` did).
+0. **Owner:** run the phone playback page on an iPhone (Run the test). Its results land in the artifact's test log.
+1. **Hand:** the closed-fist creases (155 pairs, the same in both models: thumb MCP 19 per hand, ring knuckle against
+   the palm 12 per hand). They need MCP-indexed knuckle correctives.
 
-1. **C1 press lockout, still visible:**
+2. **C1 press lockout, still visible:**
    - crinkling under the clavicles (front close-up);
    - a lump behind the arm (side close-up).
-2. **Bent-over row:** 57 pairs on the left shoulder at full extension (the right side has 2), so the cause is
-   asymmetric. Push-up remains (forearm crease and thumb base).
-3. **Hips/groin, knees, feet:** run the same before/after animation for the squat, lunge and walk; fix what the
-   frames show.
+3. **Bent-over row:** the left posterior-shoulder fold (57 pairs, diagnosed above; not visible in close-ups). Optional
+   row-pose contact key. Push-up remains (forearm crease and thumb base).
 4. **GLB, remaining:**
-   - real iPhone playback and performance (the timings so far are from a software renderer);
+   - real iPhone playback and performance (page ready; needs the owner's phone);
    - PT-App shadow viewer integration (GPT lane; needs the 8-influence patch and signed morph weights);
-   - more clips (row, push-up, lunge, walk, grip);
-   - the runtime drive contract for unbaked exercises (owner decision).
+   - a grip clip (now that the grip is clean apart from the fist creases);
+   - the runtime drive contract for unbaked exercises (owner decision). GPT's read-only exercise-motion contract
+     (`chatgpt/exercise-motion-contract-intake-20261031`) expects `ExerciseDefinition` packets with phases and tempo;
+     the GLB's clips are review trajectories, not packets.
 
 ## Blocked / owner decisions
 
@@ -90,6 +97,9 @@ This is the model Work's phone reviews show.
 
 ## Resume point
 
+0. Hips/groin, knees and feet were covered by the squat, lunge and walk before/after (hips 555 → 0, knees 129 → 13,
+   lunge knees 50 → 2, walk knees 26 → 0); no further fault was visible in those frames.
+
 1. Read this file, then `docs/R121_MOVEMENT_TRAJECTORIES_20261024.md` (C1).
 2. Blends are in the session scratch area and are not in git. They are rebuilt by the `chain_*.sh` recipes documented
    in the trajectories doc.
@@ -97,5 +107,5 @@ This is the model Work's phone reviews show.
 
    ```
    V2_GIRDLE_FRAME=isb V2_TRAJ_GIRDLE=candidate V2_TRAJ_UA_TWIST=1 V2_TRAJ_FA_REWEIGHT=1 V2_R121_PF_FRAME=thorax
-   V2_TRAJ_PUSHUP_GIRDLE=1 V2_TRAJ_BENCH_CARRY=16 V2_TRAJ_SQUAT_ARMS=forward
+   V2_TRAJ_PUSHUP_GIRDLE=1 V2_TRAJ_GRIP_GIRDLE=1 V2_TRAJ_BENCH_CARRY=16 V2_TRAJ_SQUAT_ARMS=forward
    ```

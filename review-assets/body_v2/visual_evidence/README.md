@@ -25,7 +25,7 @@ are unchanged.
 | `lunge_20261031/` | Lunge (arms at the sides), before vs C1. Self-intersections 824 → **11**, folds 327 → **38** (knees 50 → 2). |
 | `walk_stride_20261031/` | Walking stride (one gait cycle, played forward and looping; re-rendered 1 Nov), before vs C1. Self-intersections 182 → **0**, folds 33 → **6** (knees 26 → 0). |
 | `forearm_rotation_20261031/` | Forearm rotation, before vs C1. Self-intersections 1894 → **0**, elbow folds 131 → **5**. |
-| `grip_20261031/` | Grip (closed fist), before vs C1. Self-intersections 2055 → **980** (elbow 1048 → 0; the remaining hand and shoulder contacts are explained in its README). |
+| `grip_20261031/` | Grip (closed fist; re-rendered 1 Nov with a mesh-checked thumb and, for C1, the coupled girdle), before vs C1. Self-intersections 1480 → **155** (hand creases only), folds 228 → **6**. |
 | `app_candidate_v2_20261101/` | **The app integration candidate GLB, v2** (1 Nov): 8 clips (press, curl, squat, row, push-up, lunge, walk, forearm rotation). It passes PT-App's own preflight with no gaps and plays in three.js within 0.047 mm of Blender; see its README. |
 | `app_candidate_20261031/` | v1 (3 clips), superseded by v2. Its README and checks are kept; the binary is in git history (commit `80b91b02`). |
 

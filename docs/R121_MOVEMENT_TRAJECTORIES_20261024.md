@@ -1994,3 +1994,55 @@ movements are added to the harness on request; both are skin tests, with the fee
 out. The abduction's stretch (inner thigh, groin) doubles by 35°. That matters for a textured skin, not for the shape.
 
 Reports: `report_TT_G5_W3_hip_abduction.json`, `report_TT_G5_W3_sumo_squat.json`.
+
+## W5: press-lockout chest ripples, a guarded delta-mush patch (1 Nov 2026)
+
+**The fault.** At C1's press lockout, fine wood-grain ripples run across both pectorals and the front of the arms.
+They come from the skinning: with every shape key off they are the same. W4's relief-restore at 20 / 60 Laplacian
+rounds was too coarse to touch them, and was not adopted.
+
+**The method** (`r121_arm_correctives_blender.py`, `V2_R121_ARMKEY_MUSH`, default off): a delta-mush pass is patched
+into the lockout key `R121_ARM_<s>_153`, at the press pose (`V2_R121_ARMKEY_POSE=press`, `PATCH`).
+
+1. The posed surface is smoothed (8 rounds).
+2. Each vertex keeps its place along the smoothed surface.
+3. Only its height above the smoothed surface, measured along the smoothed normal (which neighbours share), is
+   replaced by the rest surface's own height at that point.
+
+So ripples finer than the smoothing scale go, and the sculpted rest relief and the correctives' larger shape stay.
+
+**What was tried, on the same harness (C1 environment, 17 frames), against C1 (W3):**
+
+| Variant | Lockout roughness p95 (rest 0.066 mm) | Press: self-int. / folds / edges > 35° | Overhead extension folds | Verdict |
+|---|---|---|---|---|
+| C1 (W3) | 0.076 mm | 7 / 8 / 309 | 67 | reference |
+| Full delta mush (tangential detail too) | n/a | authoring pose folds 33 → 1391 | n/a | rejected: the fixed-neighbour frames rotate differently on stretched skin |
+| Normal detail, smoothed spacing | 0.064 | 0 / 6 / 309 | 60 (self-int. 383 → 398) | rejected: vertices re-spaced, stretched edges 9011 → 10978 |
+| Along each vertex's own normal | 0.066 | 25 / 35 / 384 | 74 | rejected: noisy normals push neighbours apart |
+| Along the smoothed normal | 0.065 | 11 / 17 / 317 | 72 | rejected: the armpit creases were undone |
+| + 0.4 mm cap | 0.070 | 11 / 12 / 382 | 72 | rejected |
+| + crease guard 30°, 2 rings | 0.066 | 7 / 8 / 365 | 71 | rejected: a step at the guard's edge |
+| + taper 2 to 5 rings | 0.065 | 7 / 8 / 338 | 70 | rejected |
+| + torso only (arm skin left alone) | 0.060 | 7 / 8 / 320 | 69 | rejected |
+| **+ guard 25°, taper 2 to 6 rings (W5)** | **0.059** (p99 0.131 → 0.104) | **7 / 8 / 318** | **67** | **candidate** |
+
+**W5 against C1, every metric:**
+
+- **Press and pulldown:** peak self-intersections and folds are identical, frame by frame. Edges over 2× improve
+  (9011 → 8995). Edges over 35° rise by 9 (309 → 318) on the press and are unchanged on the pulldown. Edges under
+  0.5× rise by 51 (5635 → 5686).
+- **Overhead extension:** peak self-intersections 383 → 381; peak folds unchanged at 67 (one frame 61 → 62); edges
+  over 35° 768 → 766.
+- **Lateral raise, curl, squat:** identical in every metric (the key is off there).
+
+**Recipe:**
+
+```
+V2_R121_ARMKEY_MODE=abd V2_R121_ARMKEY_POSE=press V2_R121_ARMKEY_PATCH=1 V2_R121_ARMKEY_PATCH_KEY=153
+V2_R121_ARMKEY_ANGLES=160 V2_R121_ARMKEY_MUSH=8 V2_R121_ARMKEY_MUSH_MODE=snormal V2_R121_ARMKEY_MUSH_CREASE_DEG=25
+V2_R121_ARMKEY_MUSH_CREASE_RINGS=2,6 V2_R121_ARMKEY_MUSH_ARMS=0
+python3.13 r121_arm_correctives_blender.py -- W3/body_v2_r121_arms.blend <r57src> W5
+```
+
+At the authoring pose: 21,468 vertices move by more than 0.1 mm, by at most 1.63 mm (p99 0.55 mm). The patched keys
+reproduce the target within 0.001 mm. Folds there are unchanged at 33.

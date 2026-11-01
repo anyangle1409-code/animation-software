@@ -66,6 +66,9 @@ This is the model Work's phone reviews show.
 | 1 Nov | **Bent-over row, left shoulder (57 pairs vs 2), diagnosed:** strict mirror pairing (position, normal and dominant bone) shows the weights there are symmetric (mean difference 0.03) and the bone transforms are mirror-exact. With every shape key off, the left still has 45 pairs, so the keys are not the cause. The rest mesh differs by up to 3.6 mm between sides in that fold (posterior deltoid against the upper back, 120 to 146 mm behind the shoulder line). The row's retraction closes the fold, and the left side crosses where the right just touches. Close-up renders show no visible tear, only the same soft fold with fine crinkles on both sides. Low priority; a row-pose contact key is the fix if wanted. | `V2_TRAJ_DIAG_GROUPS`, `post_shoulder_l/r` views |
 | 1 Nov | **Phone playback page (owner's device check):** a private claude.ai artifact plays GLB v2 on a phone with the 8-influence patch, checks its SHA-256, measures every clip's frame rate, and saves each run to a test log Claude can read back. Verified in headless Chromium; not yet run on an iPhone. | https://claude.ai/artifact/2kJqHzwh7RKy3i2pwbcgGU |
 
+**Latest phone artifact (1 Nov):** `claude-phone-evidence-41281753372` (run 41281753372, commit `4cd0db86`, 56.9 MB): all
+nine movement sets (walk and grip re-rendered) and app GLB v2.
+
 ## In progress
 
 - Nothing is running. The next items are below.

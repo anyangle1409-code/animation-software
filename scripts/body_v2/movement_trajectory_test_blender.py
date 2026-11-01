@@ -255,7 +255,7 @@ def finish_pose():
         r121_drives.drive(rig, body)
     else:
         for kb in me.shape_keys.key_blocks:
-            if kb.name.startswith(("R121_ARM_", "R121_FLEX_", "R121_HIP_", "R121_ELBOW_", "R121_KNEE_", "R121_COMBO_", "R121_REST_", "R121_WRIST_", "R121_WFLEX_", "R121_EXT_")):
+            if kb.name.startswith(("R121_ARM_", "R121_FLEX_", "R121_HIP_", "R121_ELBOW_", "R121_KNEE_", "R121_COMBO_", "R121_REST_", "R121_WRIST_", "R121_WFLEX_", "R121_EXT_", "R121_GRIP_")):
                 kb.value = 0.0
     if MUTE_KEYS:                                            # diagnosis: these key families off after the drives ran
         for kb in me.shape_keys.key_blocks[1:]:
@@ -862,6 +862,81 @@ if SAVE_POS in ("1", "bones"):                                   # the full bind
     _B0w = _B0w.reshape(-1, 3) @ np.array(body.matrix_world)[:3, :3].T + np.array(body.matrix_world)[:3, 3]
     np.savez_compressed(OUT / "binding.npz", rest=_B0w, vi=np.array(_vi, np.int32), bj=np.array(_bj, np.int32),
                         w=np.array(_ww, np.float32), bones=np.array(DEFORM_NAMES))
+AUTHOR = os.environ.get("V2_TRAJ_AUTHOR_CONTACT", "")   # "grip": author the closed fist's skin contact as rest-space
+# offsets for R121_GRIP_<s> and write <OUT>/grip_contact_keys.npz (+ .json) - nothing is saved into the blend here (the
+# harness changes weights in memory, e.g. V2_TRAJ_FA_REWEIGHT); add_grip_contact_keys_blender.py adds them to a copy.
+# Real fist (docs/REAL_BODY_DEFORMATION_REFERENCE_20261101.md): the skin folds at the palmar creases and the folded
+# sides press flat against each other - they meet, they do not pass through.  At the fist (grip u = 0.5, every drive on),
+# the hand's intersecting triangle pairs push each other's penetrating corners out along the other face's normal to a
+# 0.4 mm margin (half each), the step smoothed over the hand skin, iterated until no pair is left; then the posed offset
+# is taken back to rest through each vertex's measured deformation matrix (three probe offsets) with two fixed-point
+# passes, as the R121 keys are.
+if AUTHOR == "grip":
+    from mathutils.bvhtree import BVHTree as _BVH
+    from scipy.sparse import csr_matrix as _csr
+    _A = _csr((np.ones(2 * len(EV)), (np.r_[EV[:, 0], EV[:, 1]], np.r_[EV[:, 1], EV[:, 0]])), shape=(n, n))
+    _Di = 1.0 / np.maximum(np.asarray(_A.sum(1)).ravel(), 1)
+    _handw = gw("hand", "thumb", "index", "middle", "ring", "pinky", "metacarpal")
+    REGV = _handw > 0.5
+    tri_reg = TRI[REGV[TRI].all(1)]
+    MOVE_FN["grip"](0.5); finish_pose()
+    P0 = evaluated()
+    D = np.zeros_like(P0); margin = 0.0004; hist = []
+    for it_ in range(int(os.environ.get("V2_TRAJ_AUTHOR_ITERS", "30"))):
+        Pc = P0 + D
+        bvh_ = _BVH.FromPolygons([Vector(p) for p in Pc], tri_reg.tolist(), all_triangles=True)
+        pr = np.array(bvh_.overlap(bvh_), dtype=np.int64).reshape(-1, 2)
+        if len(pr):
+            pr = pr[pr[:, 0] < pr[:, 1]]
+            ta_, tb_ = tri_reg[pr[:, 0]], tri_reg[pr[:, 1]]
+            pr = pr[~(ta_[:, :, None] == tb_[:, None, :]).any(axis=(1, 2))]
+        hist.append(int(len(pr)))
+        if not len(pr):
+            break
+        step = np.zeros_like(P0); cnt = np.zeros(n)
+        for a_, b_ in pr:
+            for x_, y_ in ((tri_reg[a_], tri_reg[b_]), (tri_reg[b_], tri_reg[a_])):
+                q = Pc[y_]; nn = np.cross(q[1] - q[0], q[2] - q[0]); ln = np.linalg.norm(nn)
+                if ln < 1e-12:
+                    continue
+                nn /= ln
+                for v in x_:
+                    d_ = float(np.dot(Pc[v] - q[0], nn))
+                    if -0.006 < d_ < margin:                    # behind the other face, by a contact-sized depth
+                        step[v] += nn * 0.5 * (margin - d_); cnt[v] += 1
+        step[cnt > 0] /= cnt[cnt > 0, None]
+        for _ in range(3):                                      # spread over a few rings of the hand skin
+            step = np.where(REGV[:, None], 0.6 * step + 0.4 * (_A @ step) * _Di[:, None], 0.0)
+        D += step
+    T_ = P0 + D
+    sel = np.nonzero(np.linalg.norm(D, axis=1) > 1e-7)[0]
+    B0 = np.empty(n * 3); me.shape_keys.key_blocks[0].data.foreach_get("co", B0); B0 = B0.reshape(-1, 3)
+    tmp = body.shape_key_add(name="TMP_GRIP_PROBE", from_mix=False); tmp.value = 1.0
+
+    def _setk(d):
+        tmp.data.foreach_set("co", (B0 + d).ravel()); me.update()
+    M = np.zeros((n, 3, 3))
+    for j in range(3):
+        d = np.zeros((n, 3)); d[:, j] = 1e-3; _setk(d)
+        M[:, :, j] = (evaluated() - P0) / 1e-3
+    Dk = np.zeros((n, 3))
+    Dk[sel] = np.linalg.solve(M[sel], D[sel][:, :, None])[:, :, 0]
+    for _ in range(2):
+        _setk(Dk); r_ = T_ - evaluated()
+        Dk[sel] += np.linalg.solve(M[sel], r_[sel][:, :, None])[:, :, 0]
+    _setk(Dk); resid = float(np.linalg.norm(T_ - evaluated(), axis=1).max() * 1000)
+    body.shape_key_remove(tmp)
+    lx = 1.0 if rig.data.bones["hand_l"].head_local.x > 0 else -1.0
+    curl = {s_: round(float(r121_drives.finger_curl_deg(rig, s_)), 2) for s_ in ("l", "r")}
+    np.savez_compressed(OUT / "grip_contact_keys.npz", l=Dk * (np.sign(B0[:, 0]) == lx)[:, None],
+                        r=Dk * (np.sign(B0[:, 0]) == -lx)[:, None])
+    info = {"pairs_history": hist, "vertices": int(len(sel)), "max_offset_mm": round(float(np.linalg.norm(Dk, axis=1).max() * 1000), 2),
+            "posed_max_move_mm": round(float(np.linalg.norm(D, axis=1).max() * 1000), 2), "fit_residual_max_mm": round(resid, 4),
+            "finger_curl_deg": curl, "margin_mm": margin * 1000}
+    (OUT / "grip_contact_keys.json").write_text(json.dumps(info, indent=1))
+    print("AUTHOR grip", json.dumps(info), flush=True)
+    sys.exit(0)
+
 FRAMES = {}
 for mv in MOVES:
     rows = []; Ps = []; DEFORM_MATS = []

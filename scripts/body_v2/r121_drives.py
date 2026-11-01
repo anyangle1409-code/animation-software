@@ -36,6 +36,8 @@ WRIST_START = 20.0
 EXT_PREFIX = "R121_EXT_"              # shoulder extension (arm behind the trunk), residual family weighted by ext_factor
 EXT_PROP = "hgpt_r121_ext_angles"     # (present on the rig only once the family exists: the other families are untouched)
 WFLEX_PREFIX = "R121_WFLEX_"          # wrist flexion (palmar crease), hats on -wrist_ext_deg
+GRIP_PREFIX = "R121_GRIP_"            # closed-fist skin contact (palm creases meet, not pass through), one key per side,
+GRIP_PROP = "hgpt_r121_grip_curl"     # driven by finger_curl_deg: 0 below half the authored curl, smoothstep to 1 at it
 WFLEX_PROP = "hgpt_r121_wflex_angles"
 
 
@@ -103,6 +105,20 @@ def wrist_ext_deg(rig, s):
     return k1.hinge_angle_deg(rig, "wrist", s)
 
 
+def finger_curl_deg(rig, s):
+    """mean over the four fingers of the summed MCP + PIP + DIP flexion (deg; each joint's local rotation angle)"""
+    import math
+    tot = []
+    for f in ("index", "middle", "ring", "pinky"):
+        a = 0.0
+        for k in ("01", "02", "03"):
+            nm = f"{f}_{k}_{s}"
+            if nm in rig.pose.bones:
+                a += math.degrees(rig.pose.bones[nm].matrix_basis.to_quaternion().angle)
+        tot.append(a)
+    return sum(tot) / len(tot)
+
+
 def _hats(names, pts, e):
     out = []
     for i, name in enumerate(names):
@@ -154,6 +170,12 @@ def drive(rig, body):
             e0, b0 = rig[f"{COMBO_PROP}_{s}"]
             tri = lambda x, c: max(0.0, 1.0 - abs(x - c) / COMBO_HALF)
             keys[kn].value = tri(e, e0) * tri(elbow_flex_deg(rig, s), b0)
+        # closed-fist skin contact: off below half the authored finger curl, smoothstep to 1 at it
+        kn = f"{GRIP_PREFIX}{s}"
+        if kn in keys and f"{GRIP_PROP}_{s}" in rig:
+            c1 = float(rig[f"{GRIP_PROP}_{s}"])
+            x = min(max((finger_curl_deg(rig, s) - 0.5 * c1) / max(0.5 * c1, 1e-6), 0.0), 1.0)
+            keys[kn].value = x * x * (3 - 2 * x)
         # transient hand-on-thigh contact: full at the rest elevation, gone HANDCONTACT_FADE degrees above it
         kn = f"{HANDCONTACT_PREFIX}{s}"
         if kn in keys and f"{HANDCONTACT_PROP}_{s}" in rig:

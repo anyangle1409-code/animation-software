@@ -728,6 +728,13 @@ def metrics(P):
             k = "|".join(sorted((DOMG[TRI[i][0]], DOMG[TRI[j][0]])))
             cnt[k] = cnt.get(k, 0) + 1
         out["self_intersections_by_group"] = dict(sorted(cnt.items(), key=lambda t: -t[1])[:8])
+        cen = (P[TRI[pairs[:, 0]]].mean(axis=1) + P[TRI[pairs[:, 1]]].mean(axis=1)) / 2.0   # where they are, per side
+        out["self_intersections_where_mm"] = {
+            sd: {"n": int(m_.sum()), "centroid": [round(float(x) * 1000, 1) for x in cen[m_].mean(axis=0)]}
+            for sd, m_ in (("x>0", cen[:, 0] > 0), ("x<0", cen[:, 0] <= 0)) if m_.any()}
+    if DIAG_GROUPS:                                             # (diagnostics) the shape keys active on this frame
+        act = [(kb.name, kb.value) for kb in me.shape_keys.key_blocks[1:] if abs(kb.value) > 0.02]
+        out["active_keys"] = {k: round(v, 3) for k, v in sorted(act, key=lambda t: -abs(t[1]))[:16]}
     # symmetry
     Pm = P[MIR] * np.array([-1.0, 1.0, 1.0])
     asym = np.linalg.norm(P - Pm, axis=1)[MOK] * 1000

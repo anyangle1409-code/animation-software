@@ -121,9 +121,11 @@ window.fitClip = (clipName) => {
 window.frame = (clipName, t, sample, view) => {
   const { gltf, mesh, mixer } = window.M;
   const clip = gltf.animations.find(a => a.name === clipName);
-  mixer.stopAllAction(); const act = mixer.clipAction(clip); act.play(); mixer.setTime(t);
+  // LoopOnce + clamp: t = duration shows the clip's LAST key (with the default LoopRepeat it wraps to the first)
+  mixer.stopAllAction(); const act = mixer.clipAction(clip); act.setLoop(THREE.LoopOnce, 1); act.clampWhenFinished = true;
+  act.play(); mixer.setTime(t);
   gltf.scene.updateMatrixWorld(true);
-  // fixed orthographic camera, framed on the rest height (same for every frame and clip)
+  // orthographic camera fitted to the clip (fitClip; fixed for all of its frames), else framed on the rest height
   const dir = { front: [0, 0.12, 1], back: [0, 0.12, -1], side: [1, 0.12, 0] }[view || "front"];
   const d = new THREE.Vector3(...dir).normalize();
   const f = FIT[clipName], c = f ? f.c : new THREE.Vector3(0, 0.635 * 1.82, 0);

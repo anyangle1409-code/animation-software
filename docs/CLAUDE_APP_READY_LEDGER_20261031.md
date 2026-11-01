@@ -70,8 +70,8 @@ This is the model Work's phone reviews show.
 
 | 1 Nov | **App candidate GLB v3: model W5, 9 clips (grip added).** 37.9 MB, 52 shared clip-morph components. **PT-App's preflight passes with no gaps.** three.js r170 matches Blender within 0.048 mm, and the LOD matches the full model within 0.035 mm (grip within 0.021 mm). PT-App candidate branch updated to v3 (commit `2d23cfd`): the opt-in test passes 3 of 3, and their 15 intake tests still pass. The phone playback page now serves v3. v2's binary leaves the working tree (history `37536ebb`). | `app_candidate_v3_20261101/` |
 
-**Latest phone artifact (1 Nov):** `claude-phone-evidence-41281753372` (run 41281753372, commit `4cd0db86`, 56.9 MB): all
-nine movement sets (walk and grip re-rendered) and app GLB v2.
+**Latest phone artifact (1 Nov):** `claude-phone-evidence-41303518619` (run 41303518619, commit `be3b46eb`, 61.6 MB): all
+nine movement sets, the press lockout C1 vs W5 comparison, and app GLB v3.
 
 ## In progress
 

@@ -522,6 +522,39 @@ def mush(T):
             "p99_move_mm": round(float(np.percentile(mv[MUSH_W > 0.5], 99)) * 1000, 3)}
 
 
+# pectoral thinning at full elevation (V2_R121_ARMKEY_PEC_THIN = f > 0, press pose / PATCH): with the arm overhead the
+# pec's lower mass thins and its lower border fades, while it keeps its thickness near the armpit (Proko, "How to draw
+# pecs - form"; docs/REAL_BODY_DEFORMATION_REFERENCE_20261101.md).  The posed large-scale bulge (relief over
+# V2_R121_ARMKEY_PEC_SCALE Laplacian rounds, along the normal) is reduced by the fraction f over the pec's skin
+# (the front of the chest at rest - the muscle_pec helper weights only cover the insertion near the armpit), from just
+# below the pec's lower border (z ~ 1.33 m, fz 0.717 on W3: the 17 mm step) to V2_R121_ARMKEY_PEC_FZ of stature, faded
+# out over 0.03 above it, and faded towards the armpit (|x| > V2_R121_ARMKEY_PEC_XMAX m) where the mass keeps its
+# thickness; only bulge is reduced, never a crease deepened.
+PEC_THIN = float(os.environ.get("V2_R121_ARMKEY_PEC_THIN", "0"))
+PEC_SCALE = int(os.environ.get("V2_R121_ARMKEY_PEC_SCALE", "150"))
+if PEC_THIN > 0:
+    def _pramp(x, a, b):
+        t = np.clip((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t)
+    _pfz = (R0[:, 2] - z0) / H
+    _pfz0 = float(os.environ.get("V2_R121_ARMKEY_PEC_FZ", "0.745"))
+    _pxm = float(os.environ.get("V2_R121_ARMKEY_PEC_XMAX", "0.13"))
+    _front = 1 - _pramp(R0[:, 1], -0.06, -0.03)                # the front of the chest (-y forward)
+    PEC_W = (_front * _pramp(_pfz, 0.700, 0.712) * (1 - _pramp(_pfz, _pfz0, _pfz0 + 0.03))
+             * (1 - _pramp(np.abs(R0[:, 0]), _pxm, _pxm + 0.04)) * (1 - _pramp(gsum("upperarm", "forearm"), 0.1, 0.3)) * UPPER)
+
+
+def pec_thin(T):
+    r_ = relief(T, PEC_SCALE)
+    d = -PEC_THIN * np.clip(r_, 0, None) * PEC_W
+    D = d[:, None] * vnormals(T)
+    for _ in range(6):                                          # a smooth field, no new edges
+        D = 0.5 * D + 0.5 * mean(D)
+    T += D
+    mv = np.linalg.norm(D, axis=1)
+    return {"fraction": PEC_THIN, "scale_rounds": PEC_SCALE, "region_vertices": int((PEC_W > 0.5).sum()),
+            "max_move_mm": round(float(mv.max()) * 1000, 2), "mean_move_in_region_mm": round(float(mv[PEC_W > 0.5].mean()) * 1000, 2)}
+
+
 def ridge_relief(T):
     """push pose-made ridges at the arm / torso junction back towards their rest relief (in place); history in mm"""
     hist = []
@@ -809,6 +842,7 @@ for ang in ANGLES:
     ridge_hist = ridge_relief(T) if RIDGE > 0 else None
     fair_hist = fair(T) if FAIR_C else None
     relief_hist = relief_restore(T) if RELIEF_MM > 0 else None
+    pec_hist = pec_thin(T) if PEC_THIN > 0 else None
     mush_hist = mush(T) if MUSH > 0 else None
     m90, n90 = folds(T, 0.0)
     hist.append(n90)
@@ -848,7 +882,7 @@ for ang in ANGLES:
         pose(ang); patch_resid = round(float(np.linalg.norm(T - evaluated(), axis=1).max() * 1000), 3)
     REP["keys"][str(ang)] = {"elevation_deg": elev, "folds_gt90_before": int(folds(P, 0.0)[1]), "unfold_history": hist, "contact_history": contact_hist, "post_guard_overlaps": postguard_hist, "crumple_gt35_history": crum,
                              "ridge_excess_history_mm": ridge_hist, "fairing": fair_hist, "chest_relief_excess_mm": relief_hist,
-                             "delta_mush": mush_hist,
+                             "delta_mush": mush_hist, "pec_thin": pec_hist,
                              **({"patched": patched, "patched_residual_max_mm": patch_resid} if PATCH else {}),
                              "folds_gt90_with_key": nk, "max_offset_mm": round(float(np.linalg.norm(Dk, axis=1).max() * 1000), 2),
                              "vertices": int(len(sel)), "fit_residual_max_mm": round(resid, 3)}

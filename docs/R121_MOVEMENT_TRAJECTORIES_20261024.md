@@ -2054,7 +2054,7 @@ armpit, the closed-fist creases and the row's posterior shoulder fold. They also
 body's skin and muscle deform. Those notes are in `REAL_BODY_DEFORMATION_REFERENCE_20261101.md`. Every step below is a
 patch of a copy, measured on the same harness against W5 (C1 environment, 17 frames). The source blends are untouched.
 
-### W6: delta mush on the arm skin (rejected)
+### W6: delta mush on the arm skin (rejected; the cause was found later, see W6c below)
 
 W5 left the arm skin alone. W6 ran a second guarded pass on the arm skin only (`V2_R121_ARMKEY_MUSH_ARMS=only`,
 above `MUSH_ARM_FZ` of stature).
@@ -2092,7 +2092,7 @@ in over the outer 40 % of the radius, and mirrored for the other side.
   fold rounds.
 - **Unchanged:** the pulldown matches the press; the lateral raise, curl and squat are identical.
 
-### W8: the pec's lower mass thins at full elevation (W8c withdrawn after the W10 renders; W8d under test)
+### W8: the pec's lower mass thins at full elevation (W8c withdrawn after the W10 renders; W8f accepted step)
 
 **Reference:** with the arm raised, "the lower mass of the pec thins, and the lower border becomes harder to
 distinguish" (Proko). The thickness is kept near the armpit. The model kept the full, round standing pec with a crisp
@@ -2118,7 +2118,26 @@ lower border.
 - **Roughness:** p95 0.060, p99 0.104 mm (W5: 0.059 / 0.104). The whole-upper-body percentile does not catch a
   texture this local.
 - **Likely cause:** the 3–7 mm push went along the posed skin's own vertex normals, and those carry its fine ripples.
-- **W8d** (`V2_R121_ARMKEY_PEC_NORMAL=smooth`, `PEC_DSMOOTH`) pushes along the band-limited copy's normals instead.
+- **W8d** (`V2_R121_ARMKEY_PEC_NORMAL=smooth`, `PEC_DSMOOTH=20`) pushes along the band-limited copy's normals instead.
+
+**Measuring the texture directly** (`pec_hf_probe`): fine relief on the lower pec (3,514 vertices), at the authoring
+pose of the lockout key, as p95 of the high-frequency part of the normal Laplacian:
+
+| Step | Lower-pec fine relief p95 / p99 | Front armpit | Verdict |
+|---|---|---|---|
+| W5 = W7 (the pec is untouched by W7) | 0.084 / 0.139 mm | W5: thin lines; W7: one softer fold | reference |
+| W8c (posed normals) | 0.128 / 0.182 | as W7 | withdrawn |
+| W8d (smoothed normals, field smoothed 20 rounds) | 0.123 / 0.174 | as W7 | rejected: the texture stays |
+| W8e = W8d + the W5 mush recipe again, whole torso | 0.085 / 0.140 | thin streaks back along the faired fold | rejected |
+| **W8f = W8d + the W5 mush recipe on the pec region only** (`V2_R121_ARMKEY_MUSH_REGION=pec`) | **0.085 / 0.138** | **as W7** | **accepted step** |
+
+- **Cause:** the added field itself is smooth (its Laplacian is p95 0.036 mm in W8d). The posed skin under it is not
+  evenly spaced, and flattening it changes how that unevenness shows.
+- **Why a second mush pass works:** it puts back the rest skin's own fine relief over a smoothed surface, whatever
+  made the posed relief. That is the same reason W5 works.
+- **W8f vs W7, 17-frame harness:** neutral. Press edges > 2× 8814 → 8811, overhead extension edges > 35° 698 → 697.
+  The lateral raise, curl and squat are identical.
+- **W8f move:** the pec stays thinned by up to 6.7 mm. The second pass moves 1,394 vertices by at most 0.28 mm.
 
 ### W9: closed-fist skin contact (accepted step)
 

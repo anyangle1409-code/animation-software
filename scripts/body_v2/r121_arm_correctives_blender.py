@@ -451,6 +451,9 @@ MUSH_CAP = float(os.environ.get("V2_R121_ARMKEY_MUSH_CAP_MM", "0")) / 1000.0
 # pose (faded in over the next ring) - the ripples sit on otherwise flat skin, the folds the capped band still added
 # (W5 m8 c0.4: press lockout folds 8 -> 12, edges > 35 deg 309 -> 382) were in the creases
 MUSH_CREASE = float(os.environ.get("V2_R121_ARMKEY_MUSH_CREASE_DEG", "0"))
+# taper (V2_R121_ARMKEY_MUSH_CREASE_RINGS "a,b"): no correction within a rings of a crease, full beyond b, smoothstep
+# between (the 2-ring cut with one half ring, W5 m8 g30, left a step: edges > 35 deg 309 -> 365)
+MUSH_RINGS = [int(x) for x in os.environ.get("V2_R121_ARMKEY_MUSH_CREASE_RINGS", "2,3").split(",")]
 
 
 def _mush_smooth(P, k):
@@ -497,16 +500,19 @@ def mush(T):
     if MUSH_CREASE > 0:                                       # 1 on flat skin, 0 within two rings of a crease
         a_, b_, c_ = T[FA[:, 0]], T[FA[:, 1]], T[FA[:, 2]]
         fn_ = np.cross(b_ - a_, c_ - a_); fn_ /= np.maximum(np.linalg.norm(fn_, axis=1, keepdims=True), 1e-15)
-        cr = np.zeros(n); e_ = EF[np.einsum("ij,ij->i", fn_[EF[:, 2]], fn_[EF[:, 3]]) < math.cos(math.radians(MUSH_CREASE))]
-        cr[e_[:, 0]] = 1.0; cr[e_[:, 1]] = 1.0
-        for _ in range(2):
-            cr = np.maximum(cr, ((A @ cr) * Dinv > 0).astype(float))
-        cr = np.maximum(cr, 0.5 * ((A @ cr) * Dinv > 0))      # half weight on the next ring
-        w_ *= 1.0 - cr
+        hit = np.zeros(n, bool); e_ = EF[np.einsum("ij,ij->i", fn_[EF[:, 2]], fn_[EF[:, 3]]) < math.cos(math.radians(MUSH_CREASE))]
+        hit[e_[:, 0]] = True; hit[e_[:, 1]] = True
+        ring = np.where(hit, 0, 99)                           # ring distance to the nearest crease vertex
+        for r_ in range(1, MUSH_RINGS[1] + 1):
+            nxt = ((A @ (ring < r_).astype(float)) > 0) & (ring == 99)
+            ring[nxt] = r_
+        lo_, hi_ = MUSH_RINGS
+        t_ = np.clip((ring - lo_) / max(hi_ - lo_, 1), 0, 1)
+        w_ *= t_ * t_ * (3 - 2 * t_)
     d *= w_[:, None]
     T += d
     mv = np.linalg.norm(d, axis=1)
-    return {"rounds": MUSH, "mode": MUSH_MODE, "cap_mm": MUSH_CAP * 1000, "crease_guard_deg": MUSH_CREASE, "moved_over_0.1mm": int((mv > 1e-4).sum()), "max_move_mm": round(float(mv.max()) * 1000, 2),
+    return {"rounds": MUSH, "mode": MUSH_MODE, "cap_mm": MUSH_CAP * 1000, "crease_guard_deg": MUSH_CREASE, "crease_rings": MUSH_RINGS, "moved_over_0.1mm": int((mv > 1e-4).sum()), "max_move_mm": round(float(mv.max()) * 1000, 2),
             "p99_move_mm": round(float(np.percentile(mv[MUSH_W > 0.5], 99)) * 1000, 3)}
 
 

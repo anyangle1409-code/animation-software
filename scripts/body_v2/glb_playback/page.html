@@ -103,17 +103,34 @@ window.loadModel = async (url) => {
   };
 };
 
+// camera fitted per clip: the union of the skinned bounds at the clip's start and middle (three r151+ skins the box),
+// fixed for every frame of that clip
+const FIT = {};
+window.fitClip = (clipName) => {
+  const { gltf, mesh, mixer } = window.M;
+  const clip = gltf.animations.find(a => a.name === clipName), box = new THREE.Box3();
+  for (const t of [0, clip.duration / 2]) {
+    mixer.stopAllAction(); mixer.clipAction(clip).play(); mixer.setTime(t); gltf.scene.updateMatrixWorld(true);
+    mesh.computeBoundingBox(); box.union(mesh.boundingBox.clone().applyMatrix4(mesh.matrixWorld));
+  }
+  const c = box.getCenter(new THREE.Vector3()), sz = box.getSize(new THREE.Vector3());
+  FIT[clipName] = { c, sz };
+  return { centre: c.toArray().map(x => +x.toFixed(3)), size: sz.toArray().map(x => +x.toFixed(3)) };
+};
+
 window.frame = (clipName, t, sample, view) => {
   const { gltf, mesh, mixer } = window.M;
   const clip = gltf.animations.find(a => a.name === clipName);
   mixer.stopAllAction(); const act = mixer.clipAction(clip); act.play(); mixer.setTime(t);
   gltf.scene.updateMatrixWorld(true);
   // fixed orthographic camera, framed on the rest height (same for every frame and clip)
-  const hgt = 1.82, cz = 0.635 * hgt, sc = 2.45;
-  cam.top = sc / 2; cam.bottom = -sc / 2; cam.right = sc / 2 * W / H; cam.left = -cam.right;
   const dir = { front: [0, 0.12, 1], back: [0, 0.12, -1], side: [1, 0.12, 0] }[view || "front"];
   const d = new THREE.Vector3(...dir).normalize();
-  cam.position.set(d.x * 4, cz + d.y * 4, d.z * 4); cam.lookAt(0, cz, 0); cam.updateProjectionMatrix();
+  const f = FIT[clipName], c = f ? f.c : new THREE.Vector3(0, 0.635 * 1.82, 0);
+  const horiz = f ? (Math.abs(d.x) > 0.5 ? f.sz.z : f.sz.x) : 1.0, vert = f ? f.sz.y : 2.3;
+  const sc = Math.max(vert, horiz * H / W) * 1.12;
+  cam.top = sc / 2; cam.bottom = -sc / 2; cam.right = sc / 2 * W / H; cam.left = -cam.right;
+  cam.position.set(c.x + d.x * 4, c.y + d.y * 4, c.z + d.z * 4); cam.lookAt(c); cam.updateProjectionMatrix();
   const gl = renderer.getContext();
   const r0 = performance.now(); renderer.render(scene, cam); gl.finish(); const r1 = performance.now();
   const out = { t, render_ms: +(r1 - r0).toFixed(2) };

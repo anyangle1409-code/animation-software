@@ -41,6 +41,7 @@ await page.waitForFunction(() => window.READY === true, null, { timeout: 60000 }
 const info = await page.evaluate(() => window.loadModel("/model.glb"));
 const report = { glb: basename(glb), bytes: readFileSync(glb).length, engine: "three@0.170.0 WebGL (headless Chromium, SwiftShader)", ...info, playback: {} };
 for (const clip of info.clips) {
+  const fit = await page.evaluate((c) => window.fitClip(c), clip.name);
   const n = Math.round(clip.duration * fps) + 1, times = [];
   const keyFrames = [0, Math.floor((n - 1) / 2), n - 1];
   for (let i = 0; i < n; i++) {
@@ -54,7 +55,7 @@ for (const clip of info.clips) {
     }
   }
   const s = [...times].sort((a, b) => a - b);
-  report.playback[clip.name] = { frames: n, render_ms_median: s[Math.floor(s.length / 2)], render_ms_p95: s[Math.floor(s.length * 0.95)], render_ms_max: s[s.length - 1] };
+  report.playback[clip.name] = { camera_fit: fit, frames: n, render_ms_median: s[Math.floor(s.length / 2)], render_ms_p95: s[Math.floor(s.length * 0.95)], render_ms_max: s[s.length - 1] };
 }
 report.console = logs.slice(0, 20);
 writeFileSync(join(outDir, "playback_report.json"), JSON.stringify(report, null, 1));

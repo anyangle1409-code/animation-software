@@ -556,9 +556,14 @@ def _with_girdle(out, enabled=None):
     return {**(out or {}), "girdle_elevation_deg": round(e, 1)}
 
 
-def _bench(fn, u, carry=False):
-    """an r57 benchmark pose at t = 0 -> 1 -> 0 (its numbers rounded into the frame record)"""
-    out = fn(1.0 - abs(2.0 * u - 1.0)) or {}
+WALK_CYCLE = os.environ.get("V2_TRAJ_WALK_CYCLE", "forward")   # forward: the r57 stride is a whole gait cycle (its t = 0
+# and t = 1 are the same heel strike), so the walk plays it once, forward, and loops; outback (runs before 1 Nov 2026):
+# t = 0 -> 1 -> 0 like the other movements, i.e. the cycle forward and then the same cycle walked backwards
+
+
+def _bench(fn, u, carry=False, cyclic=False):
+    """an r57 benchmark pose at t = 0 -> 1 -> 0, or t = 0 -> 1 for a cyclic one (its numbers rounded into the record)"""
+    out = fn(u if cyclic else 1.0 - abs(2.0 * u - 1.0)) or {}
     if carry and BENCH_CARRY:
         bench._carry_arms(rig, BENCH_CARRY)
     return {k: (round(float(v), 2) if isinstance(v, (int, float)) else v) for k, v in out.items()
@@ -574,6 +579,12 @@ if GRIP_COLLAPSE == "fist":
     _solve0, _coll0 = bench._solve_thumb, bench._hand_collapse
 
     def _solve_thumb_vs_fist(rig_, s, signs, body_=None):
+        # the baseline is the closed fist WITH the thumb's own MCP / IP flexion (the search applies it before every
+        # candidate; measured without it, its few crease faces counted as "added" collapse and every placement failed)
+        pb_ = rig_.pose.bones
+        bench._rot(pb_[f"thumb_02_{s}"], z=signs[f"thumb_02_{s}"] * bench.THUMB_OPPOSITION["mcp_deg"])
+        bench._rot(pb_[f"thumb_03_{s}"], z=signs[f"thumb_03_{s}"] * bench.THUMB_OPPOSITION["ip_deg"])
+        bpy.context.view_layer.update()
         base = GRIP_BASE[s] = _coll0(body_, s) if body_ is not None else 0
         bench._hand_collapse = lambda b, s_: max(0, _coll0(b, s_) - base)
         lim0 = bench.THUMB_OPPOSITION["max_pairs"]
@@ -606,7 +617,8 @@ MOVE_FN = {"press": press, "curl": curl, "squat": squat,
            "hip_abduction": hip_abduction, "sumo_squat": sumo_squat,
            # the rest of the r57 movement benchmark, as authored there (out and back here)
            "bent_over_row": lambda u: _bench(lambda t: bench.pose_row(rig, t, REST_HEADS, _clavicle_basis()), u, carry=True),
-           "walk_stride": lambda u: _bench(lambda t: bench.pose_walk(rig, body, t), u, carry=True),
+           "walk_stride": lambda u: _bench(lambda t: bench.pose_walk(rig, body, t), u, carry=True,
+                                           cyclic=WALK_CYCLE == "forward"),
            "trunk_rotation": lambda u: _bench(lambda t: bench.pose_trunk_rotation(rig, body, t), u, carry=True),
            "single_leg_stance": lambda u: _bench(lambda t: bench.pose_single_leg(rig, body, t), u, carry=True),
            "calf_raise": lambda u: _bench(lambda t: bench.pose_calf_raise(rig, body, t), u),

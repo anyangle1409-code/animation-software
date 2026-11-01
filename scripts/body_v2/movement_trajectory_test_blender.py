@@ -770,7 +770,10 @@ AUTO_VIEWS = {"front_fit": ((0, -1, 0), None, None), "side_fit": ((1, 0, 0), Non
               "side_shoulder": ((1, 0, 0), ("upperarm_l", "upperarm_r", "clavicle_l", "clavicle_r"), 1.0),
               "front_shoulder": ((0, -1, 0), ("upperarm_l", "upperarm_r", "clavicle_l", "clavicle_r"), 1.0),
               "hands_front": ((0, -1, 0), ("hand_l", "hand_r"), 1.3),
-              "hand_l_side": ((1, 0, 0), ("hand_l", "forearm_l"), 0.6)}
+              "hand_l_side": ((1, 0, 0), ("hand_l", "forearm_l"), 0.6),
+              # the posterior shoulders close up, from behind / above / outside (mirror pair; left is -x)
+              "post_shoulder_l": ((-0.5, 0.6, 0.62), ("upperarm_l", "scapula_l"), 0.5),
+              "post_shoulder_r": ((0.5, 0.6, 0.62), ("upperarm_r", "scapula_r"), 0.5)}
 CAM_FIT = {}
 
 

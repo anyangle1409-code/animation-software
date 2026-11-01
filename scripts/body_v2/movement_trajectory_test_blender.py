@@ -732,6 +732,12 @@ def metrics(P):
         out["self_intersections_where_mm"] = {
             sd: {"n": int(m_.sum()), "centroid": [round(float(x) * 1000, 1) for x in cen[m_].mean(axis=0)]}
             for sd, m_ in (("x>0", cen[:, 0] > 0), ("x<0", cen[:, 0] <= 0)) if m_.any()}
+    if DIAG_GROUPS and (d < 0.0).any():                         # (diagnostics) dominant vertex group of each fold edge
+        fe = np.nonzero(d < 0.0)[0]; cnt = {}
+        for e_ in fe:
+            k = DOMG[int(EF[e_, 0])]
+            cnt[k] = cnt.get(k, 0) + 1
+        out["folds_gt90_by_group"] = dict(sorted(cnt.items(), key=lambda t: -t[1])[:8])
     if DIAG_GROUPS:                                             # (diagnostics) the shape keys active on this frame
         act = [(kb.name, kb.value) for kb in me.shape_keys.key_blocks[1:] if abs(kb.value) > 0.02]
         out["active_keys"] = {k: round(v, 3) for k, v in sorted(act, key=lambda t: -abs(t[1]))[:16]}

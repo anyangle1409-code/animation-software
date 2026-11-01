@@ -548,18 +548,25 @@ PEC_FINE = int(os.environ.get("V2_R121_ARMKEY_PEC_FINE", "30"))   # band limit: 
 # put new wood-grain texture on the chest)
 
 
+PEC_NORMAL = os.environ.get("V2_R121_ARMKEY_PEC_NORMAL", "raw")   # "smooth": push along the band-limited copy's
+# normals; "raw" (W8c) used the posed skin's own normals, which carry its fine ripples, so the 3-7 mm push came out
+# with a fine wrinkle texture on the lower pec in the renders
+PEC_DSMOOTH = int(os.environ.get("V2_R121_ARMKEY_PEC_DSMOOTH", "6"))
+
+
 def pec_thin(T):
     Q_ = T.copy()
     for _ in range(PEC_FINE):
         Q_ = 0.5 * Q_ + 0.5 * mean(Q_)
     r_ = relief(Q_, PEC_SCALE)
     d = -PEC_THIN * np.clip(r_, 0, None) * PEC_W
-    D = d[:, None] * vnormals(T)
-    for _ in range(6):                                          # a smooth field, no new edges
+    D = d[:, None] * vnormals(Q_ if PEC_NORMAL == "smooth" else T)
+    for _ in range(PEC_DSMOOTH):                                # a smooth field, no new edges
         D = 0.5 * D + 0.5 * mean(D)
     T += D
     mv = np.linalg.norm(D, axis=1)
-    return {"fraction": PEC_THIN, "scale_rounds": PEC_SCALE, "fine_rounds": PEC_FINE, "region_vertices": int((PEC_W > 0.5).sum()),
+    return {"fraction": PEC_THIN, "scale_rounds": PEC_SCALE, "fine_rounds": PEC_FINE, "normal": PEC_NORMAL,
+            "d_smooth_rounds": PEC_DSMOOTH, "region_vertices": int((PEC_W > 0.5).sum()),
             "max_move_mm": round(float(mv.max()) * 1000, 2), "mean_move_in_region_mm": round(float(mv[PEC_W > 0.5].mean()) * 1000, 2)}
 
 

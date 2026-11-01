@@ -2068,6 +2068,53 @@ above `MUSH_ARM_FZ` of stature).
 Neither changed the upper-arm ripples visibly in the lockout close-ups, and both added folds to the overhead
 extension. So the arm ripples are not fine noise that smoothing can remove. Their cause is still open.
 
+### W6c / W6d: the upper-arm ripples, found and reduced (W6d accepted step)
+
+**What the ripples are** (`lockout_roughness_diag_blender.py` with `V2_ROUGH_ARM`, `V2_ROUGH_FAMILIES` and
+`V2_ROUGH_CLOSE`; `ua_band_probe`):
+
+- **Not fine noise.** The upper arm's fine relief is lower at the lockout than at rest:
+
+  | Upper-arm fine relief, p95 / p99 | |
+  |---|---|
+  | Rest | 0.068 / 0.127 mm |
+  | Lockout, plain skinning | 0.062 / 0.105 mm |
+  | Lockout, with the R121 arm key | 0.056 / 0.093 mm |
+
+  The legacy HGPT_S1 / S3 / S5 / S7 keys add nothing measurable.
+- **Visible as transverse bands, 2–3 cm apart, across the triceps.** The 1,200-px close-up from behind shows them, and
+  they are there with plain skinning too.
+- **Cause:** the upper arm has no twist bones in the blend. Its skin is weighted to `upperarm` and `shoulder_cap`, and
+  the handover between them is uneven along the arm: the mean `upperarm` weight goes 0.60 → 0.28 → 0.50 between 23 %
+  and 38 % of the humerus. At the lockout the two bones are far apart. Between 25 % and 50 % of the arm the posterior
+  skin gains about 0.5 mm of medium-scale relief; past 60 % it is the same as at rest.
+- **Why W6 failed:** its 8-round smoothing is finer than these bands. Re-weighting would change every pose and
+  invalidate the keys authored on these weights.
+
+**W6c** (`V2_R121_ARMKEY_MUSH_ARMS=band`, `MUSH_ARM_S`): the W5 delta-mush method at 30 rounds, without a crease guard,
+over the upper-arm band between 15 % and 65 % of the humerus. It is patched at the lockout.
+
+- **Visual:** in the close-up from behind, the bands on the triceps are clearly softer.
+- **Regression:** the press and pulldown are unchanged or slightly better. **The overhead extension gets worse:** folds
+  59 → 64, edges over 35° 697 → 741. A narrower band (0.15–0.45) and a wider one (0.02–0.65) give the same five extra
+  folds. Rejected.
+- **Where the folds come from** (`V2_TRAJ_DIAG_GROUPS`, now with folds by vertex group): they are in the shoulder cap.
+  They appear on frames 6–10, where the elbow is at 65–130° and the C1 runtime's upper-arm twist bone
+  (`upperarm_twist_candidate`, 0 on every authored path) turns 59°. The patch was authored at the straight-elbow
+  lockout and does not fit there.
+
+**W6d** (`V2_R121_ARMKEY_PATCH_NEWKEY=R121_ARMBAND`, default gate 20–50°): the same correction in its own key,
+`R121_ARMBAND_<s>`. `r121_drives` drives it as the lockout key's value times a smoothstep that fades it out between
+20° and 50° of elbow flexion. Near lockout the press holds the elbow at 0–14° and the pulldown at 0–20°.
+
+**W6d against W8f, its base, every metric:**
+
+- **Press and pulldown:** identical to W6c, so the improvement is kept. Edges over 2× 8811 → 8798.
+- **Overhead extension, lateral raise, curl, squat:** identical to W8f.
+
+**Not fixed:** the mottled skin on the inner arm next to the armpit. It is mostly weighted to the torso, so a mush
+reaching up to 2 % of the humerus does not reach it.
+
 ### W7: fairing the front armpit fold (accepted step)
 
 **Reference:** at full elevation the anterior axillary fold is one rounded ridge, softened by the pectoralis minor
@@ -2171,6 +2218,7 @@ C1 / W5 had 155 skin-through-skin pairs at the closed fist:
 
 ### Rows remaining
 
-- **Upper-arm ripples at the lockout:** not fixed. The cause is open.
+- **Upper-arm ripples at the lockout:** reduced by W6d (the transverse bands). The inner-arm mottling by the armpit
+  remains.
 - **Fist:** 56 pairs left (the deep crossings).
 - **Row posterior-shoulder fold:** 57 pairs at the top of the pull, not visible in the close-ups. Not yet treated.

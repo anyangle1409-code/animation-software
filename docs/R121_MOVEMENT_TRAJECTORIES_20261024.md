@@ -2024,7 +2024,7 @@ So ripples finer than the smoothing scale go, and the sculpted rest relief and t
 | + crease guard 30°, 2 rings | 0.066 | 7 / 8 / 365 | 71 | rejected: a step at the guard's edge |
 | + taper 2 to 5 rings | 0.065 | 7 / 8 / 338 | 70 | rejected |
 | + torso only (arm skin left alone) | 0.060 | 7 / 8 / 320 | 69 | rejected |
-| **+ guard 25°, taper 2 to 6 rings (W5)** | **0.059** (p99 0.131 → 0.104) | **7 / 8 / 318** | **67** | **candidate** |
+| **+ guard 25°, taper 2 to 6 rings (W5)** | **0.059** (p99 0.125 → 0.104) | **7 / 8 / 318** | **67** | **candidate** |
 
 **W5 against C1, every metric:**
 

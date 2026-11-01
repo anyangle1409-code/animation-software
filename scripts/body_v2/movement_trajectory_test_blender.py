@@ -533,8 +533,12 @@ PUSHUP_GIRDLE = os.environ.get("V2_TRAJ_PUSHUP_GIRDLE", "0") == "1"   # the benc
 #   its benchmark direction (forearm and hand follow), as every shoulder key was authored
 
 
-def _with_girdle(out):
-    if not PUSHUP_GIRDLE:
+GRIP_GIRDLE = os.environ.get("V2_TRAJ_GRIP_GIRDLE", "0") == "1"   # the benchmark's grip holds the arms forward 45 deg
+# with no shoulder-girdle motion (shoulder keys were authored with the coupled girdle): same option as the push-up's
+
+
+def _with_girdle(out, enabled=None):
+    if not (PUSHUP_GIRDLE if enabled is None else enabled):
         return out
     import functional_original_coupled_motion as motion
     from mathutils import Matrix
@@ -609,7 +613,7 @@ MOVE_FN = {"press": press, "curl": curl, "squat": squat,
            "push_up": lambda u: _bench(lambda t: _with_girdle(bench.pose_pushup(rig, body, t)), u),
            "forearm_rotation": lambda u: _bench(lambda t: bench.pose_forearm_rotation(rig, body, t), u),
            "wrist_circuit": lambda u: _bench(lambda t: bench.pose_wrist(rig, body, t), u),
-           "grip": lambda u: _bench(lambda t: bench.pose_grip(rig, body, t), u),
+           "grip": lambda u: _bench(lambda t: _with_girdle(bench.pose_grip(rig, body, t), GRIP_GIRDLE), u),
            "lunge": lambda u: lunge(u)}
 
 

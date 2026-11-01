@@ -434,6 +434,10 @@ def relief_restore(T):
 # Region: the upper body between 0.64 and 0.87 of stature (chest, shoulders, upper back, arm roots), faded in over
 # ~0.03 of stature; hands / feet held.
 MUSH = int(os.environ.get("V2_R121_ARMKEY_MUSH", "0"))
+# full: the rest detail's tangential components too (tried first: on the stretched pectoral skin the fixed-neighbour
+# frames rotate differently and the tangential detail misplaced vertices by up to 4.6 mm - lockout folds 33 -> 1391);
+# normal: only the detail along the normal, the smoothed surface's own tangential spacing kept
+MUSH_MODE = os.environ.get("V2_R121_ARMKEY_MUSH_MODE", "normal")
 
 
 def _mush_smooth(P, k):
@@ -464,11 +468,13 @@ if MUSH > 0:
 
 def mush(T):
     Ts = _mush_smooth(T, MUSH); t, b, nn = _mush_frames(Ts)
-    tgt = Ts + MUSH_DET[:, 0:1] * t + MUSH_DET[:, 1:2] * b + MUSH_DET[:, 2:3] * nn
+    tgt = Ts + MUSH_DET[:, 2:3] * nn
+    if MUSH_MODE == "full":
+        tgt += MUSH_DET[:, 0:1] * t + MUSH_DET[:, 1:2] * b
     d = (tgt - T) * MUSH_W[:, None]
     T += d
     mv = np.linalg.norm(d, axis=1)
-    return {"rounds": MUSH, "moved_over_0.1mm": int((mv > 1e-4).sum()), "max_move_mm": round(float(mv.max()) * 1000, 2),
+    return {"rounds": MUSH, "mode": MUSH_MODE, "moved_over_0.1mm": int((mv > 1e-4).sum()), "max_move_mm": round(float(mv.max()) * 1000, 2),
             "p99_move_mm": round(float(np.percentile(mv[MUSH_W > 0.5], 99)) * 1000, 3)}
 
 

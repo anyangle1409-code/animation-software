@@ -443,6 +443,10 @@ MUSH = int(os.environ.get("V2_R121_ARMKEY_MUSH", "0"))
 # snormal (default): each vertex keeps its tangential place relative to the smoothed surface and only its height above
 # that surface (along the SMOOTHED normal, consistent between neighbours) is replaced by the rest relief's
 MUSH_MODE = os.environ.get("V2_R121_ARMKEY_MUSH_MODE", "snormal")
+# ripple band (V2_R121_ARMKEY_MUSH_CAP_MM = c > 0; snormal mode): a height change up to c is applied in full, it fades
+# to nothing at 3c - ripples are small, while larger differences from the rest relief are pose creases the correctives
+# shaped on purpose (uncapped snormal, W5 m8: press lockout folds 8 -> 17 at the armpit creases)
+MUSH_CAP = float(os.environ.get("V2_R121_ARMKEY_MUSH_CAP_MM", "0")) / 1000.0
 
 
 def _mush_smooth(P, k):
@@ -480,11 +484,15 @@ def mush(T):
     if MUSH_MODE == "normal":
         nT = vnormals(T); d = np.einsum("ij,ij->i", d, nT)[:, None] * nT
     elif MUSH_MODE == "snormal":
-        d = (MUSH_DET[:, 2] - np.einsum("ij,ij->i", T - Ts, nn))[:, None] * nn
+        dl = MUSH_DET[:, 2] - np.einsum("ij,ij->i", T - Ts, nn)
+        if MUSH_CAP > 0:
+            a_ = np.abs(dl)
+            dl = np.where(a_ <= MUSH_CAP, dl, np.sign(dl) * MUSH_CAP * np.clip((3 * MUSH_CAP - a_) / (2 * MUSH_CAP), 0, 1))
+        d = dl[:, None] * nn
     d *= MUSH_W[:, None]
     T += d
     mv = np.linalg.norm(d, axis=1)
-    return {"rounds": MUSH, "mode": MUSH_MODE, "moved_over_0.1mm": int((mv > 1e-4).sum()), "max_move_mm": round(float(mv.max()) * 1000, 2),
+    return {"rounds": MUSH, "mode": MUSH_MODE, "cap_mm": MUSH_CAP * 1000, "moved_over_0.1mm": int((mv > 1e-4).sum()), "max_move_mm": round(float(mv.max()) * 1000, 2),
             "p99_move_mm": round(float(np.percentile(mv[MUSH_W > 0.5], 99)) * 1000, 3)}
 
 

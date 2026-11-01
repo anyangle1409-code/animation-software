@@ -484,6 +484,11 @@ if MUSH > 0:
     elif os.environ.get("V2_R121_ARMKEY_MUSH_ARMS") == "only":    # the arm skin only, above V2_R121_ARMKEY_MUSH_ARM_FZ
         _afz = float(os.environ.get("V2_R121_ARMKEY_MUSH_ARM_FZ", "0.70"))   # of stature at rest (away from the
         MUSH_W *= _armw * _mramp(_fzm, _afz, _afz + 0.03)                 # elbow, which flexes in other poses)
+    if os.environ.get("V2_R121_ARMKEY_MUSH_REGION") == "pec":     # only the pec-thinning region (the same geometry
+        _pfz0m = float(os.environ.get("V2_R121_ARMKEY_PEC_FZ", "0.745"))   # as PEC_W below): a second pass after the
+        _pxmm = float(os.environ.get("V2_R121_ARMKEY_PEC_XMAX", "0.13"))  # thinning, which leaves the faired armpit alone
+        MUSH_W *= ((1 - _mramp(R0[:, 1], -0.06, -0.03)) * _mramp(_fzm, 0.695, 0.707) * (1 - _mramp(_fzm, _pfz0m, _pfz0m + 0.03))
+                   * (1 - _mramp(np.abs(R0[:, 0]), _pxmm, _pxmm + 0.04)))
     _Rs = _mush_smooth(R0, MUSH); _tr, _br, _nr = _mush_frames(_Rs); _dR = R0 - _Rs
     MUSH_DET = np.c_[np.einsum("ij,ij->i", _dR, _tr), np.einsum("ij,ij->i", _dR, _br), np.einsum("ij,ij->i", _dR, _nr)]
 

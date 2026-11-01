@@ -66,12 +66,14 @@ This is the model Work's phone reviews show.
 | 1 Nov | **Bent-over row, left shoulder (57 pairs vs 2), diagnosed:** strict mirror pairing (position, normal and dominant bone) shows the weights there are symmetric (mean difference 0.03) and the bone transforms are mirror-exact. With every shape key off, the left still has 45 pairs, so the keys are not the cause. The rest mesh differs by up to 3.6 mm between sides in that fold (posterior deltoid against the upper back, 120 to 146 mm behind the shoulder line). The row's retraction closes the fold, and the left side crosses where the right just touches. Close-up renders show no visible tear, only the same soft fold with fine crinkles on both sides. Low priority; a row-pose contact key is the fix if wanted. | `V2_TRAJ_DIAG_GROUPS`, `post_shoulder_l/r` views |
 | 1 Nov | **Phone playback page (owner's device check):** a private claude.ai artifact plays GLB v2 on a phone with the 8-influence patch, checks its SHA-256, measures every clip's frame rate, and saves each run to a test log Claude can read back. Verified in headless Chromium; not yet run on an iPhone. | https://claude.ai/artifact/2kJqHzwh7RKy3i2pwbcgGU |
 
+| 1 Nov | **Press lockout chest ripples: candidate W5.** The guarded delta-mush patch of the lockout key smooths the skinning's wood-grain ripples on the pectorals and chest sides. Lockout roughness p95 0.076 → 0.059 mm (rest 0.066). Press peaks are unchanged over 49 frames: self-intersections 7, folds 8, edges over 35° 361. Pulldown is the same. Overhead extension: self-intersections 383 → 381, folds 67 = 67. Lateral raise, curl and squat are identical. Nine earlier variants were rejected for measured regressions (trajectories doc, W5). The armpit V-lines (pose creases) and the upper-arm ripples remain. | `press_lockout_w5_20261101/` |
+
 **Latest phone artifact (1 Nov):** `claude-phone-evidence-41281753372` (run 41281753372, commit `4cd0db86`, 56.9 MB): all
 nine movement sets (walk and grip re-rendered) and app GLB v2.
 
 ## In progress
 
-- Nothing is running. The next items are below.
+- App GLB v3 from W5 with 9 clips (the grip added): bake, playback, fidelity and preflight (`chain_glb9.sh`).
 
 ## Remaining (in order)
 
@@ -79,9 +81,10 @@ nine movement sets (walk and grip re-rendered) and app GLB v2.
 1. **Hand:** the closed-fist creases (155 pairs, the same in both models: thumb MCP 19 per hand, ring knuckle against
    the palm 12 per hand). They need MCP-indexed knuckle correctives.
 
-2. **C1 press lockout, still visible:**
-   - crinkling under the clavicles (front close-up);
-   - a lump behind the arm (side close-up).
+2. **C1 press lockout, still visible** (the chest ripples are fixed in candidate W5; what is left):
+   - the V-lines from the sternum to the armpits (pose creases; the W5 guard leaves them alone on purpose);
+   - fine ripples on the upper arms (W5 leaves the arm skin alone; including it raised overhead-extension folds);
+   - the lump behind the arm (side close-up), judged anatomical on 30 Oct.
 3. **Bent-over row:** the left posterior-shoulder fold (57 pairs, diagnosed above; not visible in close-ups). Optional
    row-pose contact key. Push-up remains (forearm crease and thumb base).
 4. **GLB, remaining:**

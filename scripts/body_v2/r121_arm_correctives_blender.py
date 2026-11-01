@@ -481,6 +481,20 @@ if MUSH > 0:
     _armw = _mramp(gsum("upperarm", "forearm"), 0.3, 0.7)
     if os.environ.get("V2_R121_ARMKEY_MUSH_ARMS", "1") == "0":   # torso and shoulders only: skin weighted mainly to
         MUSH_W *= 1 - _armw                                         # the upper arm / forearm is left alone
+    elif os.environ.get("V2_R121_ARMKEY_MUSH_ARMS") == "band":    # a band of the upper arm between the fractions
+        # V2_R121_ARMKEY_MUSH_ARM_S "s0,s1" of the humerus (0 shoulder, 1 elbow, rest pose).  There the upperarm /
+        # shoulder_cap weights hand over unevenly, and at the lockout the skin gains 2-3 cm transverse bands
+        # (W6 note in docs/R121_MOVEMENT_TRAJECTORIES_20261024.md); use with more MUSH rounds than the chest pass
+        _s0, _s1 = (float(x) for x in os.environ.get("V2_R121_ARMKEY_MUSH_ARM_S", "0.15,0.65").split(","))
+        _band = np.zeros(n)
+        for _sd in ("l", "r"):
+            _b = rig.data.bones[f"upperarm_{_sd}"]
+            _h, _t = np.array(_b.head_local), np.array(_b.tail_local); _L = np.linalg.norm(_t - _h); _ax = (_t - _h) / _L
+            _sv = (R0 - _h) @ _ax / _L
+            _rr = np.linalg.norm(R0 - _h - np.outer((R0 - _h) @ _ax, _ax), axis=1)
+            _band += (_mramp(_sv, _s0 - 0.06, _s0) * (1 - _mramp(_sv, _s1, _s1 + 0.06)) * (1 - _mramp(_rr, 0.065, 0.085))
+                      * _mramp(gsum(f"upperarm_{_sd}"), 0.15, 0.35))
+        MUSH_W *= np.clip(_band, 0, 1)
     elif os.environ.get("V2_R121_ARMKEY_MUSH_ARMS") == "only":    # the arm skin only, above V2_R121_ARMKEY_MUSH_ARM_FZ
         _afz = float(os.environ.get("V2_R121_ARMKEY_MUSH_ARM_FZ", "0.70"))   # of stature at rest (away from the
         MUSH_W *= _armw * _mramp(_fzm, _afz, _afz + 0.03)                 # elbow, which flexes in other poses)

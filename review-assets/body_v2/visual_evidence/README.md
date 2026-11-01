@@ -26,7 +26,8 @@ are unchanged.
 | `walk_stride_20261031/` | Walking stride, before vs C1. Self-intersections 182 → **0**, folds 31 → **6**. |
 | `forearm_rotation_20261031/` | Forearm rotation, before vs C1. Self-intersections 1894 → **0**, elbow folds 131 → **5**. |
 | `grip_20261031/` | Grip (closed fist), before vs C1. Self-intersections 2055 → **980** (elbow 1048 → 0; the remaining hand and shoulder contacts are explained in its README). |
-| `app_candidate_20261031/` | The app integration candidate GLB. It passes PT-App's own preflight and plays in three.js; see its README. |
+| `app_candidate_v2_20261101/` | **The app integration candidate GLB, v2** (1 Nov): 8 clips (press, curl, squat, row, push-up, lunge, walk, forearm rotation). It passes PT-App's own preflight with no gaps and plays in three.js within 0.047 mm of Blender; see its README. |
+| `app_candidate_20261031/` | v1 (3 clips), superseded by v2. Its README and checks are kept; the binary is in git history (commit `80b91b02`). |
 
 **Before** is the R120 surface with the r57 drives: the original r57 shoulder path for the press, and no R121
 correctives. **After** is candidate C1. Both run through the same harness and the same fixed cameras. Every clip

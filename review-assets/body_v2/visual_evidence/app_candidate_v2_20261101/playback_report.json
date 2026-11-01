@@ -1,0 +1,202 @@
+{
+ "glb": "hgpt_body_v2_C1_app_lod_v2.glb",
+ "bytes": 36517140,
+ "engine": "three@0.170.0 WebGL (headless Chromium, SwiftShader)",
+ "load_ms": 222,
+ "skinned_meshes": 1,
+ "bones": 79,
+ "skin_joints": 79,
+ "vertices": 52195,
+ "triangles": 104370,
+ "morph_targets": 50,
+ "influences": 8,
+ "clips": [
+  {
+   "name": "press",
+   "duration": 2,
+   "tracks": 238
+  },
+  {
+   "name": "curl",
+   "duration": 2,
+   "tracks": 238
+  },
+  {
+   "name": "squat",
+   "duration": 2,
+   "tracks": 238
+  },
+  {
+   "name": "bent_over_row",
+   "duration": 2,
+   "tracks": 238
+  },
+  {
+   "name": "push_up",
+   "duration": 2,
+   "tracks": 238
+  },
+  {
+   "name": "lunge",
+   "duration": 2,
+   "tracks": 238
+  },
+  {
+   "name": "walk_stride",
+   "duration": 2,
+   "tracks": 238
+  },
+  {
+   "name": "forearm_rotation",
+   "duration": 2,
+   "tracks": 238
+  }
+ ],
+ "playback": {
+  "press": {
+   "camera_fit": {
+    "centre": [
+     0,
+     1.119,
+     0.023
+    ],
+    "size": [
+     0.923,
+     2.242,
+     0.421
+    ]
+   },
+   "frames": 33,
+   "render_ms_median": 0.3,
+   "render_ms_p95": 0.7,
+   "render_ms_max": 216.8
+  },
+  "curl": {
+   "camera_fit": {
+    "centre": [
+     0,
+     0.927,
+     0.027
+    ],
+    "size": [
+     0.872,
+     1.856,
+     0.426
+    ]
+   },
+   "frames": 33,
+   "render_ms_median": 0.2,
+   "render_ms_p95": 1.4,
+   "render_ms_max": 2.2
+  },
+  "squat": {
+   "camera_fit": {
+    "centre": [
+     0,
+     0.927,
+     0.13
+    ],
+    "size": [
+     0.644,
+     1.856,
+     0.985
+    ]
+   },
+   "frames": 33,
+   "render_ms_median": 0.2,
+   "render_ms_p95": 0.6,
+   "render_ms_max": 0.8
+  },
+  "bent_over_row": {
+   "camera_fit": {
+    "centre": [
+     0,
+     0.927,
+     0.317
+    ],
+    "size": [
+     0.867,
+     1.856,
+     1.005
+    ]
+   },
+   "frames": 33,
+   "render_ms_median": 0.2,
+   "render_ms_p95": 0.4,
+   "render_ms_max": 0.5
+  },
+  "push_up": {
+   "camera_fit": {
+    "centre": [
+     0,
+     0.383,
+     0.918
+    ],
+    "size": [
+     0.626,
+     0.767,
+     1.86
+    ]
+   },
+   "frames": 33,
+   "render_ms_median": 0.2,
+   "render_ms_p95": 0.4,
+   "render_ms_max": 0.7
+  },
+  "lunge": {
+   "camera_fit": {
+    "centre": [
+     0,
+     0.928,
+     0.032
+    ],
+    "size": [
+     1.04,
+     1.856,
+     1.27
+    ]
+   },
+   "frames": 33,
+   "render_ms_median": 0.2,
+   "render_ms_p95": 0.5,
+   "render_ms_max": 0.7
+  },
+  "walk_stride": {
+   "camera_fit": {
+    "centre": [
+     0,
+     0.925,
+     0.048
+    ],
+    "size": [
+     0.955,
+     1.85,
+     1.04
+    ]
+   },
+   "frames": 33,
+   "render_ms_median": 0.2,
+   "render_ms_p95": 0.6,
+   "render_ms_max": 0.8
+  },
+  "forearm_rotation": {
+   "camera_fit": {
+    "centre": [
+     0,
+     0.927,
+     0.122
+    ],
+    "size": [
+     0.633,
+     1.856,
+     0.616
+    ]
+   },
+   "frames": 33,
+   "render_ms_median": 0.2,
+   "render_ms_p95": 0.5,
+   "render_ms_max": 3.5
+  }
+ },
+ "console": []
+}

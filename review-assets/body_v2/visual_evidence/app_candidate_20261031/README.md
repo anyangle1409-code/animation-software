@@ -1,5 +1,9 @@
 # App integration candidate: `hgpt_body_v2_C1_app_lod.glb` (31 Oct 2026)
 
+**Superseded on 1 Nov 2026 by `../app_candidate_v2_20261101/`** (8 clips, the walk looping forward). This v1 binary
+is no longer in the working tree, so the phone artifact carries only one GLB. Get it from commit `80b91b02` (same
+path). Its checks below are unchanged.
+
 **Status: REVIEW CANDIDATE.** This is not a production asset.
 
 - It is not merged into PT-App, and `PT_MODEL_VERSION 1.0` is unchanged.

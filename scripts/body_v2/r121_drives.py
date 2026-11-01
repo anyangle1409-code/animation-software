@@ -39,6 +39,10 @@ WFLEX_PREFIX = "R121_WFLEX_"          # wrist flexion (palmar crease), hats on -
 GRIP_PREFIX = "R121_GRIP_"            # closed-fist skin contact (palm creases meet, not pass through), one key per side,
 GRIP_PROP = "hgpt_r121_grip_curl"     # driven by finger_curl_deg: 0 below half the authored curl, smoothstep to 1 at it
 WFLEX_PROP = "hgpt_r121_wflex_angles"
+ARMBAND_PREFIX = "R121_ARMBAND_"      # a lockout patch kept in its own key: it follows R121_ARM_<s>_<parent> and fades out
+ARMBAND_PROP = "hgpt_r121_armband"    # with elbow flexion ([parent angle, e0, e1]: full below e0 deg, off above e1); the
+# upper-arm band mush is authored at the straight-elbow lockout and does not fit where the forearm is turned back
+# (an overhead extension's upper-arm twist)
 
 
 def knee_flex_deg(rig, s):
@@ -176,6 +180,13 @@ def drive(rig, body):
             c1 = float(rig[f"{GRIP_PROP}_{s}"])
             x = min(max((finger_curl_deg(rig, s) - 0.5 * c1) / max(0.5 * c1, 1e-6), 0.0), 1.0)
             keys[kn].value = x * x * (3 - 2 * x)
+        # lockout patch in its own key: the parent key's value, faded out with elbow flexion
+        kn = f"{ARMBAND_PREFIX}{s}"
+        if kn in keys and f"{ARMBAND_PROP}_{s}" in rig:
+            pa, e0_, e1_ = rig[f"{ARMBAND_PROP}_{s}"]
+            par = keys.get(f"{PREFIX}{s}_{int(pa)}")
+            x = min(max((elbow_flex_deg(rig, s) - e0_) / max(e1_ - e0_, 1e-6), 0.0), 1.0)
+            keys[kn].value = (par.value if par is not None else 0.0) * (1.0 - x * x * (3 - 2 * x))
         # transient hand-on-thigh contact: full at the rest elevation, gone HANDCONTACT_FADE degrees above it
         kn = f"{HANDCONTACT_PREFIX}{s}"
         if kn in keys and f"{HANDCONTACT_PROP}_{s}" in rig:

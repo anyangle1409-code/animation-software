@@ -438,9 +438,11 @@ MUSH = int(os.environ.get("V2_R121_ARMKEY_MUSH", "0"))
 # frames rotate differently and the tangential detail misplaced vertices by up to 4.6 mm - lockout folds 33 -> 1391);
 # smoothtan: only the detail along the normal, the smoothed surface's tangential spacing kept (W5 m8: ripples gone, but
 # the re-spaced vertices stretched / collapsed more edges at the lockout: > 2x 9011 -> 10978, < 0.5x 5635 -> 7169);
-# normal (default): the target as smoothtan, but each vertex moves only along its posed normal - the bumps go, the
-# vertex spacing stays as the skinning and keys left it
-MUSH_MODE = os.environ.get("V2_R121_ARMKEY_MUSH_MODE", "normal")
+# normal: the target as smoothtan, but each vertex moves only along its own posed normal (W5 m8: the noisy normals
+# push neighbours apart - press lockout self-intersections 7 -> 25, folds 8 -> 35; not adopted);
+# snormal (default): each vertex keeps its tangential place relative to the smoothed surface and only its height above
+# that surface (along the SMOOTHED normal, consistent between neighbours) is replaced by the rest relief's
+MUSH_MODE = os.environ.get("V2_R121_ARMKEY_MUSH_MODE", "snormal")
 
 
 def _mush_smooth(P, k):
@@ -477,6 +479,8 @@ def mush(T):
     d = tgt - T
     if MUSH_MODE == "normal":
         nT = vnormals(T); d = np.einsum("ij,ij->i", d, nT)[:, None] * nT
+    elif MUSH_MODE == "snormal":
+        d = (MUSH_DET[:, 2] - np.einsum("ij,ij->i", T - Ts, nn))[:, None] * nn
     d *= MUSH_W[:, None]
     T += d
     mv = np.linalg.norm(d, axis=1)

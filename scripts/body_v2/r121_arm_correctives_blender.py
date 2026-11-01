@@ -426,6 +426,52 @@ def relief_restore(T):
     return hist
 
 
+# delta mush (V2_R121_ARMKEY_MUSH = Laplacian rounds, 0 = off; with V2_R121_ARMKEY_POSE=press / PATCH): at the press lockout
+# the skinning leaves fine ripples across the stretched pectoral / shoulder skin (identical with every key off).  The
+# posed surface is smoothed, and the REST surface's own fine relief (rest minus its smoothed copy, carried in a local
+# frame - normal plus a tangent to a fixed neighbour - of the smoothed surface) is added back: skinning noise finer than
+# the smoothing scale goes, the sculpted relief stays, and shape above that scale (the correctives) is untouched.
+# Region: the upper body between 0.64 and 0.87 of stature (chest, shoulders, upper back, arm roots), faded in over
+# ~0.03 of stature; hands / feet held.
+MUSH = int(os.environ.get("V2_R121_ARMKEY_MUSH", "0"))
+
+
+def _mush_smooth(P, k):
+    Q = P.copy()
+    for _ in range(k):
+        Q = 0.5 * Q + 0.5 * mean(Q)
+    return Q
+
+
+def _mush_frames(Q):
+    nn = vnormals(Q)
+    e = Q[_MUSH_NB] - Q
+    t = e - np.einsum("ij,ij->i", e, nn)[:, None] * nn
+    t /= np.maximum(np.linalg.norm(t, axis=1, keepdims=True), 1e-15)
+    return t, np.cross(nn, t), nn
+
+
+if MUSH > 0:
+    _MUSH_NB = A.indices[A.indptr[:-1]]                          # one fixed neighbour per vertex (tangent reference)
+    _fzm = (R0[:, 2] - z0) / H
+
+    def _mramp(x, a, b):
+        t = np.clip((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t)
+    MUSH_W = _mramp(_fzm, 0.64, 0.68) * (1 - _mramp(_fzm, 0.84, 0.87)) * UPPER
+    _Rs = _mush_smooth(R0, MUSH); _tr, _br, _nr = _mush_frames(_Rs); _dR = R0 - _Rs
+    MUSH_DET = np.c_[np.einsum("ij,ij->i", _dR, _tr), np.einsum("ij,ij->i", _dR, _br), np.einsum("ij,ij->i", _dR, _nr)]
+
+
+def mush(T):
+    Ts = _mush_smooth(T, MUSH); t, b, nn = _mush_frames(Ts)
+    tgt = Ts + MUSH_DET[:, 0:1] * t + MUSH_DET[:, 1:2] * b + MUSH_DET[:, 2:3] * nn
+    d = (tgt - T) * MUSH_W[:, None]
+    T += d
+    mv = np.linalg.norm(d, axis=1)
+    return {"rounds": MUSH, "moved_over_0.1mm": int((mv > 1e-4).sum()), "max_move_mm": round(float(mv.max()) * 1000, 2),
+            "p99_move_mm": round(float(np.percentile(mv[MUSH_W > 0.5], 99)) * 1000, 3)}
+
+
 def ridge_relief(T):
     """push pose-made ridges at the arm / torso junction back towards their rest relief (in place); history in mm"""
     hist = []
@@ -619,7 +665,7 @@ if MODE == "flex" and min(ANGLES) <= r121_drives.START:   # a low forward key ne
 REP = {"mode": MODE, "angles_deg": ANGLES, "keys": {}, **({"ridge_mm": RIDGE * 1000, "ridge_scale": RIDGE_SCALE} if RIDGE > 0 else {}),
        **({"fair_centre_rest_m": FAIR_C, "fair_radius_m": FAIR_R} if FAIR_C else {}),
        **({"pose": "press", "patch_key": PATCH_KEY} if POSE_PRESS else {}),
-       **({"patch": True} if PATCH else {})}
+       **({"patch": True} if PATCH else {}), **({"mush_rounds": MUSH} if MUSH > 0 else {})}
 made = {}
 if APPEND:                                                  # append to the existing family
     made = {s_: list(rig.get(f"{FAMILY[1]}_{s_}", [])) for s_ in ("l", "r")}
@@ -713,6 +759,7 @@ for ang in ANGLES:
     ridge_hist = ridge_relief(T) if RIDGE > 0 else None
     fair_hist = fair(T) if FAIR_C else None
     relief_hist = relief_restore(T) if RELIEF_MM > 0 else None
+    mush_hist = mush(T) if MUSH > 0 else None
     m90, n90 = folds(T, 0.0)
     hist.append(n90)
     # deformation matrices: posed response to unit rest offsets through a temporary key (1 mm)
@@ -751,6 +798,7 @@ for ang in ANGLES:
         pose(ang); patch_resid = round(float(np.linalg.norm(T - evaluated(), axis=1).max() * 1000), 3)
     REP["keys"][str(ang)] = {"elevation_deg": elev, "folds_gt90_before": int(folds(P, 0.0)[1]), "unfold_history": hist, "contact_history": contact_hist, "post_guard_overlaps": postguard_hist, "crumple_gt35_history": crum,
                              "ridge_excess_history_mm": ridge_hist, "fairing": fair_hist, "chest_relief_excess_mm": relief_hist,
+                             "delta_mush": mush_hist,
                              **({"patched": patched, "patched_residual_max_mm": patch_resid} if PATCH else {}),
                              "folds_gt90_with_key": nk, "max_offset_mm": round(float(np.linalg.norm(Dk, axis=1).max() * 1000), 2),
                              "vertices": int(len(sel)), "fit_residual_max_mm": round(resid, 3)}

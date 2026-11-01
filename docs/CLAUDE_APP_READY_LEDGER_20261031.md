@@ -70,6 +70,8 @@ This is the model Work's phone reviews show.
 
 | 1 Nov | **App candidate GLB v3: model W5, 9 clips (grip added).** 37.9 MB, 52 shared clip-morph components. **PT-App's preflight passes with no gaps.** three.js r170 matches Blender within 0.048 mm, and the LOD matches the full model within 0.035 mm (grip within 0.021 mm). PT-App candidate branch updated to v3 (commit `2d23cfd`): the opt-in test passes 3 of 3, and their 15 intake tests still pass. The phone playback page now serves v3. v2's binary leaves the working tree (history `37536ebb`). | `app_candidate_v3_20261101/` |
 
+| 1 Nov | **Real iPhone playback measured (owner's phone).** GLB v3 on iOS 18.7 (Apple GPU, WebGL2, 402×874 @3x, canvas 740×926 at pixel ratio 2), in the phone playback page. **All 9 clips at 56 fps median**, slowest 5% of frames 19 to 21 ms, **no frame over 34 ms**. Download 3.0 s, model build 27 ms, first frame 512 ms. 8 influences active; checksum matches. | phone playback page, test log |
+
 **Latest phone artifact (1 Nov):** `claude-phone-evidence-41303518619` (run 41303518619, commit `be3b46eb`, 61.6 MB): all
 nine movement sets, the press lockout C1 vs W5 comparison, and app GLB v3.
 
@@ -79,7 +81,6 @@ nine movement sets, the press lockout C1 vs W5 comparison, and app GLB v3.
 
 ## Remaining (in order)
 
-0. **Owner:** run the phone playback page on an iPhone (Run the test). Its results land in the artifact's test log.
 1. **Hand:** the closed-fist creases (155 pairs, the same in both models: thumb MCP 19 per hand, ring knuckle against
    the palm 12 per hand). They need MCP-indexed knuckle correctives.
 
@@ -90,7 +91,7 @@ nine movement sets, the press lockout C1 vs W5 comparison, and app GLB v3.
 3. **Bent-over row:** the left posterior-shoulder fold (57 pairs, diagnosed above; not visible in close-ups). Optional
    row-pose contact key. Push-up remains (forearm crease and thumb base).
 4. **GLB, remaining:**
-   - real iPhone playback and performance (page ready; needs the owner's phone);
+   - real iPhone playback: done for GLB v3 (56 fps on every clip); older iPhones untested;
    - PT-App shadow viewer integration (GPT lane; needs the 8-influence patch and signed morph weights);
    - the runtime drive contract for unbaked exercises (owner decision). GPT's read-only exercise-motion contract
      (`chatgpt/exercise-motion-contract-intake-20261031`) expects `ExerciseDefinition` packets with phases and tempo;

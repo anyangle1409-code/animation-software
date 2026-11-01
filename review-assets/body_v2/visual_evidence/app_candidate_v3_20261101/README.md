@@ -29,6 +29,15 @@ keep the phone artifact small; it stays in git history at commit `37536ebb`.
 
 `fidelity_exact.json` gives these per clip and frame.
 
+**On a real iPhone (owner's phone, 1 Nov 2026).** The phone playback page uses the same 8-influence patch. On iOS 18.7
+(Apple GPU, WebGL2, 402×874 @3x, canvas 740×926 at pixel ratio 2):
+
+- **all 9 clips at 56 fps median;**
+- slowest 5% of frames 19 to 21 ms;
+- no frame over 34 ms;
+- download 3.0 s, model build 27 ms, first frame 512 ms;
+- checksum verified on the device.
+
 ## Clip names and the app's exercise contract
 
 The clip names are the movement-benchmark names. They satisfy the id pattern in GPT's read-only intake gate
@@ -61,8 +70,8 @@ They are **review clips, not exercise definitions**. Each is a 2-second out-and-
 
 ## Limits, stated plainly
 
-- **Timings:** the render timings in `playback_report.json` are from a software renderer (SwiftShader). They are not an
-  iPhone measurement. Real device playback and performance checks have not been done.
+- **Timings:** the render timings in `playback_report.json` are from a software renderer (SwiftShader). The iPhone
+  numbers above are from one recent iPhone; older devices are untested.
 - **New exercises:** the clips are baked. A new exercise needs the full key set (141 correctives) and the drive rules.
   That runtime contract is an owner decision, not part of this file.
 - **What the checks prove:** fidelity to the Blender candidate. The candidate's anatomy and movement are reviewed

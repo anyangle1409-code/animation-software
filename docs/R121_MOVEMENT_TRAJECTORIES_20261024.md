@@ -2092,7 +2092,7 @@ in over the outer 40 % of the radius, and mirrored for the other side.
   fold rounds.
 - **Unchanged:** the pulldown matches the press; the lateral raise, curl and squat are identical.
 
-### W8: the pec's lower mass thins at full elevation (accepted step)
+### W8: the pec's lower mass thins at full elevation (W8c withdrawn after the W10 renders; W8d under test)
 
 **Reference:** with the arm raised, "the lower mass of the pec thins, and the lower border becomes harder to
 distinguish" (Proko). The thickness is kept near the armpit. The model kept the full, round standing pec with a crisp
@@ -2110,10 +2110,15 @@ lower border.
 |---|---|---|---|
 | W8 p40 (40 %, 150 rounds) | 0.6 / 1.7 mm | neutral | rejected: too small to see |
 | W8 p50 s1000 (50 %, 1000 rounds) | 3.4 / 7.2 mm | neutral | rejected: flatter pec, but new wood-grain ripples. Halving only the raised half of the fine ripples rectified them |
-| **W8c: p50 s1000, bulge measured on a 30-round smoothed copy (band-limited), on W7 f60** | **3.3 / 6.9 mm** | **neutral vs W7 f60**. Press edges > 2× 8814 → 8816; overhead extension edges > 35° 698 → 697 | **accepted** |
+| W8c: p50 s1000, bulge measured on a 30-round smoothed copy (band-limited), on W7 f60 | 3.3 / 6.9 mm | neutral vs W7 f60. Press edges > 2× 8814 → 8816; overhead extension edges > 35° 698 → 697 | **withdrawn**: fine wrinkle texture on the lower outer pec in the renders |
 
-- **Visual:** in W8c the pecs are flatter at lockout and the lower border is softer. That matches the reference.
-- **Roughness:** p95 0.060, p99 0.104 mm (W5: 0.059 / 0.104).
+- **Visual:** in W8c the pecs are flatter at lockout and the lower border is softer, which matches the reference.
+- **But:** the close-ups of the W10 press video (W5 vs W10, identical cameras) show a fine wrinkle texture on the lower
+  outer pec. W5 does not have it. The same texture is in the authoring-pose render, where it was missed at first.
+- **Roughness:** p95 0.060, p99 0.104 mm (W5: 0.059 / 0.104). The whole-upper-body percentile does not catch a
+  texture this local.
+- **Likely cause:** the 3–7 mm push went along the posed skin's own vertex normals, and those carry its fine ripples.
+- **W8d** (`V2_R121_ARMKEY_PEC_NORMAL=smooth`, `PEC_DSMOOTH`) pushes along the band-limited copy's normals instead.
 
 ### W9: closed-fist skin contact (accepted step)
 

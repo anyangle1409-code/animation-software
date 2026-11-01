@@ -58,11 +58,16 @@ This is the model Work's phone reviews show.
 
 | 31 Oct | **Lunge (arms at the sides) and walking stride before/after.** Lunge 824 → 11 self-intersections and 327 → 38 folds (knees 50 → 2). Walk 182 → 0 and 31 → 6. No floor penetration. | `review-assets/body_v2/visual_evidence/` |
 
+| 1 Nov | **Forearm rotation and grip before/after; all 7 priority movements are covered.** Forearm rotation 1894 → 0 self-intersections (elbow folds 131 → 5). Grip 2055 → 980: the elbow's 1048 pairs are gone. The 730 fist and palm pairs are the same in both models, and about 250 shoulder pairs come from the grip's girdle-free arm pose. Both grip models play the same skeleton-only thumb, because no mesh-checked placement exists on this surface. **Latest phone artifact:** `claude-phone-evidence-41260002901` (run 41260002901, 49.7 MB). It holds all nine movement sets plus the app GLB. | `review-assets/body_v2/visual_evidence/README.md` |
+
 ## In progress
 
-- **Grip and forearm rotation** (priority 7): before/after animation rendering, with hand-focused cameras.
+- Nothing is running. The next items are below.
 
 ## Remaining (in order)
+
+0. **Hand:** the closed-fist palm and knuckle contact (730 pairs, the same in both models). It needs MCP-indexed knuckle
+   and palm correctives, and the grip test needs the coupled girdle for its arm pose (as `V2_TRAJ_PUSHUP_GIRDLE` did).
 
 1. **C1 press lockout, still visible:**
    - crinkling under the clavicles (front close-up);

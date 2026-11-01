@@ -436,7 +436,10 @@ def relief_restore(T):
 MUSH = int(os.environ.get("V2_R121_ARMKEY_MUSH", "0"))
 # full: the rest detail's tangential components too (tried first: on the stretched pectoral skin the fixed-neighbour
 # frames rotate differently and the tangential detail misplaced vertices by up to 4.6 mm - lockout folds 33 -> 1391);
-# normal: only the detail along the normal, the smoothed surface's own tangential spacing kept
+# smoothtan: only the detail along the normal, the smoothed surface's tangential spacing kept (W5 m8: ripples gone, but
+# the re-spaced vertices stretched / collapsed more edges at the lockout: > 2x 9011 -> 10978, < 0.5x 5635 -> 7169);
+# normal (default): the target as smoothtan, but each vertex moves only along its posed normal - the bumps go, the
+# vertex spacing stays as the skinning and keys left it
 MUSH_MODE = os.environ.get("V2_R121_ARMKEY_MUSH_MODE", "normal")
 
 
@@ -471,7 +474,10 @@ def mush(T):
     tgt = Ts + MUSH_DET[:, 2:3] * nn
     if MUSH_MODE == "full":
         tgt += MUSH_DET[:, 0:1] * t + MUSH_DET[:, 1:2] * b
-    d = (tgt - T) * MUSH_W[:, None]
+    d = tgt - T
+    if MUSH_MODE == "normal":
+        nT = vnormals(T); d = np.einsum("ij,ij->i", d, nT)[:, None] * nT
+    d *= MUSH_W[:, None]
     T += d
     mv = np.linalg.norm(d, axis=1)
     return {"rounds": MUSH, "mode": MUSH_MODE, "moved_over_0.1mm": int((mv > 1e-4).sum()), "max_move_mm": round(float(mv.max()) * 1000, 2),

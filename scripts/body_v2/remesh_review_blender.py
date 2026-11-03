@@ -44,6 +44,24 @@ for o in list(bpy.data.objects):
 bpy.context.view_layer.objects.active = new; new.select_set(True)
 me.remesh_voxel_size = VOX; me.remesh_voxel_adaptivity = 0.0
 bpy.ops.object.voxel_remesh()
+import bmesh  # noqa: E402
+bm = bmesh.new(); bm.from_mesh(new.data); bm.verts.ensure_lookup_table()   # keep the outer skin only: drop the
+seen = [False] * len(bm.verts); best = []                                    # small closed bubbles the voxeliser
+for v0 in bm.verts:                                                          # makes where the source overlaps itself
+    if seen[v0.index]:
+        continue
+    st, comp = [v0], []; seen[v0.index] = True
+    while st:
+        v = st.pop(); comp.append(v)
+        for e in v.link_edges:
+            o = e.other_vert(v)
+            if not seen[o.index]:
+                seen[o.index] = True; st.append(o)
+    if len(comp) > len(best):
+        best = comp
+keepset = set(v.index for v in best)
+bmesh.ops.delete(bm, geom=[v for v in bm.verts if v.index not in keepset], context="VERTS")
+bm.to_mesh(new.data); bm.free()
 if RELAX:
     m = new.modifiers.new("RELAX", "LAPLACIANSMOOTH"); m.iterations = RELAX; m.lambda_factor = 0.4
     m.use_volume_preserve = True

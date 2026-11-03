@@ -1,0 +1,20 @@
+{
+ "blend": "mpfb_candidate.blend",
+ "sex": "female",
+ "cm": {
+  "height": 168.2,
+  "biacromial_breadth_approx": 35.8,
+  "bideltoid_breadth": 48.9,
+  "chest_circumference": 94.8,
+  "underbust_circumference": 72.1,
+  "waist_circumference": 69.7,
+  "hip_circumference": 94.4,
+  "hip_breadth": 36.2,
+  "upper_arm_circumference": 29.5,
+  "thigh_circumference": 54.4,
+  "calf_circumference": 36.4,
+  "inseam_crotch_height": 78.7,
+  "shoulder_hip_ratio_bideltoid": 1.351,
+  "shoulder_hip_ratio_biacromial": 0.989
+ }
+}

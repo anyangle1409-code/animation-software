@@ -37,6 +37,7 @@ DELT_MM = float(os.environ.get("V2_SHAPE_DELT_MM", "16"))
 TRAP_MM = float(os.environ.get("V2_SHAPE_TRAP_MM", "14"))
 SMOOTH = int(os.environ.get("V2_SHAPE_SMOOTH", "12"))
 RELAX = int(os.environ.get("V2_SHAPE_RELAX", "0"))             # tangential relaxation rounds in the moved region
+# (diagnostic only: sliding vertices under the shape keys' offsets breaks the correctives - S1b, press folds 8 -> 317)
 DETAIL = float(os.environ.get("V2_SHAPE_DETAIL", "1.0"))       # fine relief kept where the skin moved (1 = all)
 YRAMP = [float(x) for x in os.environ.get("V2_SHAPE_TRAP_YRAMP", "0.09,0.04").split(",")]   # trapezius front fade (m
 # in front of the GH centre: full lowering behind -YRAMP[1], none in front of -YRAMP[0])
@@ -106,11 +107,12 @@ for _ in range(RELAX):
     nP = vnormals(P); L = (A @ P) * Dinv[:, None] - P
     L -= np.einsum("ij,ij->i", L, nP)[:, None] * nP
     P = P + 0.5 * wm[:, None] * L
-if DETAIL < 1.0:
-    Q = P.copy()
-    for _ in range(3):
+if DETAIL < 1.0:                       # along the normal only: no vertex slides within the surface (S1b's tangential
+    Q = P.copy()                        # relaxation re-parametrised the skin under the shape keys' offsets: press folds
+    for _ in range(3):                  # 8 -> 317)
         Q = 0.5 * Q + 0.5 * (A @ Q) * Dinv[:, None]
-    P = Q + (1.0 - (1.0 - DETAIL) * wm)[:, None] * (P - Q)
+    nP = vnormals(P); h = np.einsum("ij,ij->i", P - Q, nP)
+    P = P - ((1.0 - DETAIL) * wm * h)[:, None] * nP
 D = P - R
 rep.update({"relax_rounds": RELAX, "detail_kept": DETAIL, "trap_front_fade_m": YRAMP})
 mv = np.linalg.norm(D, axis=1)

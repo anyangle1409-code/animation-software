@@ -2222,3 +2222,27 @@ C1 / W5 had 155 skin-through-skin pairs at the closed fist:
   remains.
 - **Fist:** 56 pairs left (the deep crossings).
 - **Row posterior-shoulder fold:** 57 pairs at the top of the pull, not visible in the close-ups. Not yet treated.
+
+## W11: the combined candidate after the owner's areas (3 Nov 2026)
+
+**W11** = W5 + W7 f60 (front-armpit fairing) + W8f (pec thinning, with a pec-only second mush) + W6d
+(`R121_ARMBAND_<s>`, the elbow-gated upper-arm band) + the W9 fist contact keys (`R121_GRIP_<s>`).
+
+- **Blend:** `W11`, from `W6c_d_gate_on_8f` by `add_grip_contact_keys_blender.py` with the W9 authoring
+  (`GRIPAUTH/grip_contact_keys.npz`).
+- **Unchanged:** the source blends (W3 = C1, W5) are left as they were.
+
+**Against W5, the published candidate** (17-frame harness, C1 environment; `REG_W11`, `REG_H11`, `REG_H5L`):
+
+| Movement | Change |
+|---|---|
+| Press | Self-intersections 7 = 7, folds 8 = 8. Edges over 35° 318 → 309, edges over 2× 8995 → 8798. **Edges under 0.5× 5686 → 6007 (worse)** |
+| Pulldown | As the press, edges over 35° 338 = 338 |
+| Overhead extension | Self-intersections 381 → 365, folds 67 → 59, edges over 35° 766 → 697, edges over 2× 9739 → 9675. **Edges under 0.5× 9065 → 9327 (worse)** |
+| Grip | Self-intersections **155 → 56**. Every other metric is identical |
+| Lateral raise, curl, squat, push-up, forearm rotation, bent-over row, lunge, walk | Identical in every metric |
+
+- **The one metric that gets worse:** collapsed edges (under half their rest length), up by about 300. They come from
+  W7: the faired front-armpit fold's skin shortens as the fold rounds. Skin in a fold is compressed, so this is
+  expected, but the count is reported as it is.
+- **Renders:** `review-assets/body_v2/visual_evidence/shoulder_w11_20261103/`, W5 vs W11 with identical cameras.

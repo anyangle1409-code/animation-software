@@ -22,6 +22,8 @@ movement from the skeleton, and every frame is a real Blender render.
 
 - `press_w5_vs_w11.mp4`: the shoulder press, 49 frames, out and back twice. The stills
   `STILLS_press_front.jpg`, `_side.jpg` and `_back.jpg` show neutral, rack, lockout and return.
+- `pulldown_w5_vs_w11.mp4` and `overhead_extension_w5_vs_w11.mp4`: the same close-ups for the other two overhead
+  movements. Their stills are `STILLS_<movement>_<view>.jpg`.
 - `grip_w5_vs_w11.mp4`: closing the fist. The stills are `STILLS_grip_hands_front.jpg` and `STILLS_grip_hand_side.jpg`.
   The hand in C1 and W5 is the same, so the left column is labelled "C1 / W5".
 
@@ -36,6 +38,9 @@ movement from the skeleton, and every frame is a real Blender render.
 The full table is in `docs/R121_MOVEMENT_TRAJECTORIES_20261024.md`, section W11.
 
 **Still visible:**
+
+- the overhead extension's top: wood-grain ripples across the pecs, in W5 and W11 alike. The lockout key is on there,
+  but the arms are turned;
 
 - the mottled skin on the inner arm by the armpit;
 - fine radial lines in the armpit hollow (side view);

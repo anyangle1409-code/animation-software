@@ -160,7 +160,12 @@ for name, (h, t, lat, w) in Rg.items():
     ratio = smooth_grid(ratio, 2, 2)
     if trunk:                                                  # chest band (upper half, front): heavier angular smoothing
         ratio[NT // 2:] = smooth_grid(ratio[NT // 2:], 0, 6)
-    ratio = 1 + STR * (ratio - 1)
+    # fade the change to nothing at the region ends: the trunk's top (neck base / upper trapezius, where the two
+    # bodies differ most; IND1 grew a collar there) and bottom, and each limb's joint ends (the neighbour region blends)
+    tc = (np.arange(NT) + 0.5) / NT
+    rmp = lambda v, lo, hi: np.clip((v - lo) / (hi - lo), 0, 1) ** 2 * (3 - 2 * np.clip((v - lo) / (hi - lo), 0, 1))
+    fade = (rmp(tc, 0.03, 0.12) * (1 - rmp(tc, 0.78, 0.90))) if trunk else (rmp(tc, 0.0, 0.12) * (1 - rmp(tc, 0.88, 1.0)))
+    ratio = 1 + STR * (ratio - 1) * fade[:, None]
     tt, ang, rad, ax_, L = coords(V, h, t, lat, trunk)
     cen = np.array(own[name]["centre"])
     ti = np.clip(tt * NT - 0.5, 0, NT - 1.001); i0 = np.floor(ti).astype(int); ft = ti - i0

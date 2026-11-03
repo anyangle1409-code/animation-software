@@ -75,9 +75,44 @@ This is the model Work's phone reviews show.
 **Latest phone artifact (1 Nov):** `claude-phone-evidence-41303518619` (run 41303518619, commit `be3b46eb`, 61.6 MB): all
 nine movement sets, the press lockout C1 vs W5 comparison, and app GLB v3.
 
+## 3 Nov 2026 (owner brief: full anatomical model improvement)
+
+**Runner check:**
+
+- The repository is public, so standard GitHub-hosted runners are free and do not use the included minutes.
+- `claude-body-v2-checks` run 41635410746 succeeded on `ubuntu-latest` (runner `GitHub Actions 1000006835`, hosted
+  pool) in 16 s.
+- `claude-visual-evidence` runs since then have all succeeded. Nothing is blocked.
+- PT-App was not pushed this session, so that no workflows start in the private repository.
+
+**Completed and verified:**
+
+| Item | Evidence |
+|---|---|
+| **W11** = W5 + W7 front-armpit fairing + W8f pec thinning + W6d elbow-gated upper-arm band key + W9 fist contact keys. Against W5: overhead extension folds 67 → 59 and self-intersections 381 → 365; grip 155 → 56; press edges over 35° 318 → 309; 9 movements identical. **Worse:** collapsed edges about +300 (the faired armpit fold) | `shoulder_w11_20261103/` (press, pulldown, overhead extension, upper arm from behind, grip videos) |
+| Comparison set: R41 (older slim) / W5 / W11, standing + press rack / intermediate / near lockout / lockout, front / side / back / three-quarter, identical skeleton motion and cameras | `comparison_r41_w5_w11_20261103/` |
+| Silhouette proportions against the owner's reference (not stored). Waist, upper arm, knee, calf and ankle match. **Shoulders are high and square** (the line starts about 4 cm higher, 0.31 vs 0.25 of height wide at 0.80); the lower thigh is about 11 % thin | comparison README |
+| Anatomical defect list | `docs/ANATOMICAL_DEFECT_LIST_20261103.md` |
+| CI on the free runner: byte-compile + the drive-rule unit test (37 checks) | `.github/workflows/claude-body-v2-checks.yml` |
+| W12a: armpit-hollow fairing (4.5 cm at (0.21, −0.015, 1.39)) in the 153 key. Overhead extension folds 59 → 51, self-intersections 365 → 338; the hollow is visibly smoother. **Worse:** collapsed edges +10 / +40 | ROUGH and REG W12_a45 (scratch) |
+
+**Under test:**
+
+- **W12c** = W12a + the W5 mush and W7 fairing at the 120 / 150 press poses, in gated keys `R121_ARMBAND120/150_<s>`
+  (elbow fade 50–70°, forward-raise fade at plane factor 0.3–0.6).
+- **S1b:** the shoulder rest-shape candidate with relaxation, detail attenuation and a wide trapezius fade.
+
+**Failed and rejected today (all kept in the record):**
+
+| Variant | What happened |
+|---|---|
+| W12b (the same patch, ungated, in the 120 / 150 keys) | Overhead extension folds 59 → 73, collapsed +195; squat collapsed +86. **Visually it is a large improvement at 125°**: the pec ripples are gone and the notch is softened. That is why W12c exists |
+| S1 (shoulder reshape 16 / 14 mm) | The silhouette moved halfway to the reference (0.836 level 0.240 → 0.199), but the deltoid cap's relief packed into crinkles and a crease appeared where the trapezius lowering stopped |
+| R41 renders as the "older approved" press look | R41_SOURCE lacks the R47 / R52 dense press correctives. It collapses on either girdle path (up to 1,710 crossings). The approved older look is in `review-assets/shoulder_r59/` (R52 at the R47 marked pose) |
+
 ## In progress
 
-- Nothing is running. The next items are below.
+- W12c and S1b are running (see above).
 
 ## Remaining (in order)
 
@@ -99,6 +134,11 @@ nine movement sets, the press lockout C1 vs W5 comparison, and app GLB v3.
 
 ## Blocked / owner decisions
 
+- **Shoulder joint spacing (skeleton, frozen):** the GH centres are 0.236 of stature apart, against a typical
+  0.21–0.22. After the mesh fix the outer shoulder width is still about 5 % over the reference unless the joints move
+  about 2 cm each side.
+- **Head and face:** the model is a mannequin. A face, ears and hair are a separate package.
+
 - **Adopting C1** changes the bind (twist bones, weights) and the runtime contract (drives). That is the owner's
   decision. AX6 stays the reference until then.
 - **Production:** model release, PT-App integration and deployment all need owner approval.
@@ -111,7 +151,9 @@ nine movement sets, the press lockout C1 vs W5 comparison, and app GLB v3.
 1. Read this file, then `docs/R121_MOVEMENT_TRAJECTORIES_20261024.md` (C1).
 2. Blends are in the session scratch area and are not in git. They are rebuilt by the `chain_*.sh` recipes documented
    in the trajectories doc.
-3. The current best candidate is **W5** (blend `W5`, built from `W3` by the recipe in the trajectories doc, section W5).
+3. The current best candidate is **W11** (blend `W11`, recipe in the trajectories doc, section W11). The published
+   app GLB (v3) is still W5. W12a is accepted as a step on top of W11. W12c and S1b were under test on 3 Nov
+   (`run_w12c.sh`, `run_s1.sh` in the scratch area; recipes in this file and the trajectories doc).
    The harness environment for C1 / W5 is:
 
    ```

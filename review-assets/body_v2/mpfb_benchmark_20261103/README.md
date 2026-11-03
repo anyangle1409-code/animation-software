@@ -113,3 +113,14 @@ Measured from front-view silhouettes as fractions of figure height. The pack's o
   - spinal groove with the erector columns, lat and lower-trapezius borders.
 - **Renders:** `renders_M10_defined/` (including `upper_closeups.jpg`) and `comparison_W12c_STa_M10_no_photos.jpg`.
 - **Status:** it remains an MPFB benchmark, **not approved** and not production.
+
+## Update: M11, wider and more defined (owner, 3 Nov: "better but still needs better definition; the reference is also wider")
+
+- **Wider:**
+  - original shoulder breadth restored (+0.1);
+  - wider ribcage (`torso-scale-horiz` 0.25), lats 1.8, V-taper 0.4;
+  - upper arm and deltoid fuller;
+  - thighs fuller;
+  - arms hanging 12° out.
+- **Definition:** strength 2× (up to about 9 mm in), with serratus digitations, the external oblique border, grooves between the three deltoid heads and the infraspinatus/teres border added.
+- **Renders:** `renders_M11_defined/` and `comparison_W12c_STa_M11_no_photos.jpg`. **Not approved.**

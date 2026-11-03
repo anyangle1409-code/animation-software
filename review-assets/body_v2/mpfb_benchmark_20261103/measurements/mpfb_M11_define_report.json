@@ -1,0 +1,8 @@
+{
+ "source": "mpfb_candidate.blend",
+ "def_scale": 2.0,
+ "vertices": 214050,
+ "max_in_mm": -9.34,
+ "max_out_mm": 6.31,
+ "moved_over_0.5mm": 18993
+}

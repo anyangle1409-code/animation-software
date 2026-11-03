@@ -128,6 +128,15 @@ line_xz(back, (0.020, pel[2] + 0.02), (0.020, sp3[2] + 0.08), 1.6 * K, 0.012)
 line_xz(back, (abs(gh[0]) - 0.06, gh[2] - 0.15), (0.075, pel[2] + 0.07), -2.0 * K, 0.008)
 line_xz(back, (0.02, sp3[2]), (0.11, gh[2] - 0.05), -1.5 * K, 0.008)
 line_xz(back, (0.075, gh[2] - 0.02), (0.095, gh[2] - 0.16), -1.4 * K, 0.007)
+# --- added 3 Nov (owner: "better definition"): serratus digitations, external oblique border, deltoid head separations,
+# infraspinatus / teres border
+sideF = trunk & (np.abs(N[:, 0]) > 0.35) & (N[:, 1] < 0.35)
+for k_ in range(3):
+    zc = znip - 0.035 - 0.028 * k_
+    line_xz(sideF, (abs(gh[0]) - 0.075, zc + 0.012), (abs(gh[0]) - 0.105, zc - 0.012), -1.8 * K, 0.005)
+line_xz(trunk & (N[:, 1] < 0.2), (0.115, zx - 0.01), (0.120, pel[2] + 0.06), -1.8 * K, 0.008)
+line_xz(back, (abs(gh[0]) - 0.075, gh[2] - 0.05), (abs(gh[0]) - 0.02, gh[2] - 0.11), -1.6 * K, 0.007)
+limb("upperarm_{}", lambda s: G.get(f"upperarm_{s}", np.zeros(n)) > 0.3, [(0.02, 0.36, 50, 8, -1.6), (0.02, 0.36, -45, 8, -1.6)])
 # smooth the field a little (no faceting on the subdivided mesh), then displace along the normals
 E = np.empty(len(me.edges) * 2, np.int32); me.edges.foreach_get("vertices", E); E = E.reshape(-1, 2)
 A = csr_matrix((np.ones(2 * len(E)), (np.r_[E[:, 0], E[:, 1]], np.r_[E[:, 1], E[:, 0]])), shape=(n, n))

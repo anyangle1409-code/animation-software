@@ -1,0 +1,180 @@
+{
+ "pose": {
+  "elbow_l": 12.0,
+  "elbow_r": 12.0,
+  "ankle_x_l": 0.11,
+  "ankle_x_r": -0.11
+ },
+ "shape_keys_on": {
+  "Basis": 1.0,
+  "$md-$ca-$ma-$yn": 0.99,
+  "$md-universal-$ma-$yn-$av$mu-$av$wg": 0.019,
+  "$md-universal-$ma-$yn-max$mu-$av$wg": 0.971,
+  "$md-$ma-$yn-max$mu-$av$wg-max$hg": 0.175,
+  "torso-vshape-incr": 0.15,
+  "torso-muscle-pectoral-incr": 1.0,
+  "torso-muscle-dorsi-incr": 1.0,
+  "measure-shoulder-dist-decr": 0.35,
+  "measure-waist-circ-incr": 1.0,
+  "l-upperarm-shoulder-muscle-incr": 1.0,
+  "r-upperarm-shoulder-muscle-incr": 1.0,
+  "l-upperarm-muscle-incr": 1.0,
+  "r-upperarm-muscle-incr": 1.0,
+  "l-lowerarm-muscle-incr": 1.0,
+  "r-lowerarm-muscle-incr": 1.0,
+  "measure-upperarm-circ-incr": 0.8,
+  "l-upperleg-muscle-incr": 1.0,
+  "r-upperleg-muscle-incr": 1.0,
+  "l-lowerleg-muscle-incr": 0.8,
+  "r-lowerleg-muscle-incr": 0.8,
+  "measure-thigh-circ-incr": 0.35,
+  "measure-knee-circ-incr": 0.5,
+  "stomach-pregnant-decr": 0.4,
+  "hip-scale-horiz-decr": 0.45,
+  "measure-neck-circ-incr": 0.4,
+  "measure-neck-height-incr": 0.7,
+  "torso-scale-depth-incr": 0.35,
+  "l-upperleg-fat-decr": 0.5,
+  "r-upperleg-fat-decr": 0.5,
+  "buttocks-volume-decr": 0.2
+ },
+ "provenance": "MPFB 2.0.18 + bundled MakeHuman CC0 assets; experimental benchmark, not production",
+ "params": {
+  "macros": {
+   "gender": 1.0,
+   "age": 0.5,
+   "muscle": 1.0,
+   "weight": 0.5,
+   "proportions": 0.5,
+   "height": 0.6,
+   "african": 0.0,
+   "asian": 0.0,
+   "caucasian": 1.0
+  },
+  "targets": {
+   "torso/torso-vshape-incr": 0.15,
+   "torso/torso-muscle-pectoral-incr": 1.0,
+   "torso/torso-muscle-dorsi-incr": 1.0,
+   "torso/measure-shoulder-dist-incr": -0.35,
+   "torso/measure-waist-circ-incr": 1.0,
+   "arms/upperarm-shoulder-muscle-incr": 1.0,
+   "arms/upperarm-muscle-incr": 1.0,
+   "arms/lowerarm-muscle-incr": 1.0,
+   "arms/measure-upperarm-circ-incr": 0.8,
+   "legs/upperleg-muscle-incr": 1.0,
+   "legs/lowerleg-muscle-incr": 0.8,
+   "legs/measure-thigh-circ-incr": 0.35,
+   "legs/measure-knee-circ-incr": 0.5,
+   "stomach/stomach-pregnant-decr": 0.4,
+   "hip/hip-scale-horiz-decr": 0.45,
+   "neck/measure-neck-circ-incr": 0.4,
+   "neck/measure-neck-height-incr": 0.7,
+   "torso/torso-scale-depth-incr": 0.35,
+   "legs/upperleg-fat-decr": 0.5,
+   "buttocks/buttocks-volume-decr": 0.2
+  },
+  "stature_m": 1.856,
+  "subdivide": 1,
+  "stand": {
+   "abduction_deg": 10,
+   "plane_deg": 15,
+   "elbow_deg": 12,
+   "curl": 1.0,
+   "ankle_gap_m": 0.22
+  }
+ },
+ "targets_loaded": {
+  "torso/torso-vshape-incr.target.gz": 0.15,
+  "torso/torso-muscle-pectoral-incr.target.gz": 1.0,
+  "torso/torso-muscle-dorsi-incr.target.gz": 1.0,
+  "torso/measure-shoulder-dist-decr.target.gz": 0.35,
+  "torso/measure-waist-circ-incr.target.gz": 1.0,
+  "arms/l-upperarm-shoulder-muscle-incr.target.gz": 1.0,
+  "arms/r-upperarm-shoulder-muscle-incr.target.gz": 1.0,
+  "arms/l-upperarm-muscle-incr.target.gz": 1.0,
+  "arms/r-upperarm-muscle-incr.target.gz": 1.0,
+  "arms/l-lowerarm-muscle-incr.target.gz": 1.0,
+  "arms/r-lowerarm-muscle-incr.target.gz": 1.0,
+  "arms/measure-upperarm-circ-incr.target.gz": 0.8,
+  "legs/l-upperleg-muscle-incr.target.gz": 1.0,
+  "legs/r-upperleg-muscle-incr.target.gz": 1.0,
+  "legs/l-lowerleg-muscle-incr.target.gz": 0.8,
+  "legs/r-lowerleg-muscle-incr.target.gz": 0.8,
+  "legs/measure-thigh-circ-incr.target.gz": 0.35,
+  "legs/measure-knee-circ-incr.target.gz": 0.5,
+  "stomach/stomach-pregnant-decr.target.gz": 0.4,
+  "hip/hip-scale-horiz-decr.target.gz": 0.45,
+  "neck/measure-neck-circ-incr.target.gz": 0.4,
+  "neck/measure-neck-height-incr.target.gz": 0.7,
+  "torso/torso-scale-depth-incr.target.gz": 0.35,
+  "legs/l-upperleg-fat-decr.target.gz": 0.5,
+  "legs/r-upperleg-fat-decr.target.gz": 0.5,
+  "buttocks/buttocks-volume-decr.target.gz": 0.2
+ },
+ "native_stature_m": 1.8946,
+ "scale_applied": 0.97962,
+ "stature_m": 1.8629,
+ "levels_fraction_of_stature": {
+  "0.80": {
+   "width_all_m": 0.5244,
+   "width_trunk_m": 0.3483,
+   "depth_trunk_m": 0.2314
+  },
+  "0.75": {
+   "width_all_m": 0.5502,
+   "width_trunk_m": 0.3191,
+   "depth_trunk_m": 0.2801
+  },
+  "0.72": {
+   "width_all_m": 0.5579,
+   "width_trunk_m": 0.3484,
+   "depth_trunk_m": 0.2681
+  },
+  "0.65": {
+   "width_all_m": 0.5667,
+   "width_trunk_m": 0.2768,
+   "depth_trunk_m": 0.252
+  },
+  "0.60": {
+   "width_all_m": 0.5886,
+   "width_trunk_m": 0.2971,
+   "depth_trunk_m": 0.2279
+  },
+  "0.55": {
+   "width_all_m": 0.5905,
+   "width_trunk_m": 0.3048,
+   "depth_trunk_m": 0.2171
+  },
+  "0.52": {
+   "width_all_m": 0.6042,
+   "width_trunk_m": 0.3104,
+   "depth_trunk_m": 0.198
+  },
+  "0.48": {
+   "width_all_m": 0.6201,
+   "width_trunk_m": 0.346,
+   "depth_trunk_m": 0.1818
+  },
+  "0.37": {
+   "width_all_m": 0.3274,
+   "width_trunk_m": 0.3274,
+   "depth_trunk_m": 0.1754
+  },
+  "0.28": {
+   "width_all_m": 0.3417,
+   "width_trunk_m": 0.3417,
+   "depth_trunk_m": 0.1388
+  },
+  "0.20": {
+   "width_all_m": 0.3051,
+   "width_trunk_m": 0.3051,
+   "depth_trunk_m": 0.1465
+  },
+  "0.06": {
+   "width_all_m": 0.2914,
+   "width_trunk_m": 0.2914,
+   "depth_trunk_m": 0.0927
+  }
+ },
+ "vertices": 53514
+}

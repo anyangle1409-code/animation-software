@@ -301,6 +301,43 @@ def press_pose(ht, elb):
     elbows(elb)
 
 
+# stand: the basic relaxed standing pose (owner, 3 Nov: "All I want for now is the basic standing pose").  The press's
+# frame 0 is a test carriage (arms 16 deg out, elbows straight, hands open and flat); the reference stands with the arms
+# hanging close to the body, elbows a little bent, palms to the thighs and the fingers gently curled.  Static at every
+# frame.  V2_TRAJ_STAND_HT (humerothoracic deg, through the candidate girdle), V2_TRAJ_STAND_ELBOW (deg),
+# V2_TRAJ_STAND_CURL (scale of the relaxed finger curl, 0 = flat hands as before)
+STAND_HT = float(os.environ.get("V2_TRAJ_STAND_HT", "8"))
+STAND_ELBOW = float(os.environ.get("V2_TRAJ_STAND_ELBOW", "12"))
+STAND_CURL = float(os.environ.get("V2_TRAJ_STAND_CURL", "1"))
+STAND_FINGERS = {"index": (12, 18, 8), "middle": (15, 22, 10), "ring": (18, 26, 12), "pinky": (22, 30, 14)}  # MCP, PIP, DIP
+STAND_THUMB = {"thumb_02": 8, "thumb_03": 10}
+_STAND_SIGNS = {}
+
+
+def stand(u):
+    bench._reset(rig)
+    if not _STAND_SIGNS:                                            # palmar signs measured at rest (palms face the body)
+        for s_ in ("l", "r"):
+            for d_ in STAND_FINGERS:
+                for j_ in ("01", "02", "03"):
+                    nm = f"{d_}_{j_}_{s_}"; _STAND_SIGNS[nm] = bench._palmar_sign(rig, rig.pose.bones[nm])
+            for t_ in STAND_THUMB:
+                nm = f"{t_}_{s_}"; _STAND_SIGNS[nm] = bench._palmar_sign(rig, rig.pose.bones[nm])
+    if GIRDLE == "candidate":
+        girdle.apply_press_pose(rig, STAND_HT, RESULT["humeral_rest_axial_deg"])
+    else:
+        correction.apply_corrected_pose(RESULT, STAND_HT)
+    elbows(STAND_ELBOW)
+    for s_ in ("l", "r"):
+        for d_, degs in STAND_FINGERS.items():
+            for j_, deg in zip(("01", "02", "03"), degs):
+                nm = f"{d_}_{j_}_{s_}"; bench._rot(rig.pose.bones[nm], z=_STAND_SIGNS[nm] * deg * STAND_CURL)
+        for t_, deg in STAND_THUMB.items():
+            nm = f"{t_}_{s_}"; bench._rot(rig.pose.bones[nm], z=_STAND_SIGNS[nm] * deg * STAND_CURL)
+    bpy.context.view_layer.update()
+    return {"humerothoracic_target_deg": STAND_HT, "elbow_flexion_deg": STAND_ELBOW, "finger_curl_scale": STAND_CURL}
+
+
 OHE_ELBOW = float(os.environ.get("V2_TRAJ_OHE_ELBOW", "130"))
 PULL_HT, PULL_ELBOW = float(os.environ.get("V2_TRAJ_PULL_HT", "50")), float(os.environ.get("V2_TRAJ_PULL_ELBOW", "130"))
 
@@ -612,7 +649,7 @@ if GRIP_THUMB and Path(GRIP_THUMB).exists():                    # (same thumb pa
     bench._THUMB_CACHE["solution"] = {k: (tuple(v[0]), v[1]) for k, v in json.loads(Path(GRIP_THUMB).read_text()).items()}
 
 
-MOVE_FN = {"press": press, "curl": curl, "squat": squat,
+MOVE_FN = {"press": press, "curl": curl, "squat": squat, "stand": stand,
            "lateral_raise": raise_in_plane(0.0), "front_raise": raise_in_plane(90.0),
            "deadlift": lambda u: deadlift(u), "overhead_extension": overhead_extension, "pulldown": pulldown,
            "external_rotation": external_rotation, "internal_rotation": internal_rotation, "row": row,

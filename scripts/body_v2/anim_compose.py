@@ -45,6 +45,7 @@ def main():
         frames = json.loads(rep.read_text())["movements"][a.move]["frames"] if rep.exists() else []
         models.append((label, d / "anim", frames))
     nf = len(sorted(models[0][1].glob(f"{a.move}_{views[0]}_[0-9][0-9][0-9].png")))
+    nf_all = len(models[0][2]) or nf                       # the trajectory's frame count (stills runs render a subset)
     if not nf:
         raise SystemExit(f"no frames for {a.move} in {models[0][1]}")
     cw, ch = Image.open(models[0][1] / f"{a.move}_{views[0]}_000.png").size
@@ -68,7 +69,7 @@ def main():
             y = title_h + lab_h
             for r, i in enumerate(rows):
                 d.text((12, y + ch // 2), rl[r] if r < len(rl) else str(i), font=fv, fill=INK)
-                d.text((12, y + ch // 2 + 24), f"frame {i + 1}/{nf}", font=fv, fill=MUTED)
+                d.text((12, y + ch // 2 + 24), f"frame {i + 1}/{nf_all}", font=fv, fill=MUTED)
                 for c, (label, adir, frames) in enumerate(models):
                     im.paste(Image.open(adir / f"{a.move}_{v}_{i:03d}.png").convert("RGB"), (lw + c * cw, y))
                     if frames and i < len(frames) and "self_intersections" in frames[i]:

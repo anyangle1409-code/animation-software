@@ -68,6 +68,8 @@ NF = int(os.environ.get("V2_TRAJ_FRAMES", "17"))           # frames per trajecto
 RENDER = os.environ.get("V2_TRAJ_RENDER", "1") == "1"
 ANIM = os.environ.get("V2_TRAJ_ANIM", "0") == "1"           # render EVERY frame from fixed cameras (MP4 frames):
 ANIM_VIEWS = [v for v in os.environ.get("V2_TRAJ_ANIM_VIEWS", "front,side,back").split(",") if v]   # <out>/anim/
+ANIM_ONLY = {int(x) for x in os.environ.get("V2_TRAJ_ANIM_ONLY", "").split(",") if x.strip()}   # stills: render only
+# these frame indices (e.g. 0,4,7,8 of a 17-frame press = start, rack, near lockout, lockout); empty = every frame
 ANIM_W, ANIM_H = (int(x) for x in os.environ.get("V2_TRAJ_ANIM_RES", "480x854").split("x"))         # <mv>_<view>_<i>.png
 METRICS = os.environ.get("V2_TRAJ_METRICS", "1") == "1"      # 0: skip the per-frame metrics (animation-only runs)
 BAKE_GLB = os.environ.get("V2_TRAJ_BAKE_GLB", "")           # path: export rig + body as a GLB with one animation per
@@ -763,6 +765,8 @@ REP = {"source": SRC.name, "r121_drives": USE_R121, "press_girdle": GIRDLE, "upp
 VIEWS = {"front": ((0, -1, 0), 0.635, 2.45), "side": ((1, 0, 0), 0.635, 2.45), "back": ((0, 1, 0), 0.635, 2.45),
          "back_upper": ((0, 1, 0), 0.80, 1.05), "front_upper": ((0, -1, 0), 0.80, 1.05),
          "side_upper": ((1, 0, 0), 0.80, 1.05),
+         # three-quarter front (camera to the front-right, 45 deg): whole body and shoulders
+         "front34": ((0.7071, -0.7071, 0), 0.635, 2.45), "front34_upper": ((0.7071, -0.7071, 0), 0.80, 1.05),
          # hinged trunk (bent-over row): the shoulders sit near mid-height
          "back_mid": ((0, 1, 0), 0.52, 1.3), "side_mid": ((1, 0, 0), 0.52, 1.3),
          # horizontal body (push-up): wide frames near the floor
@@ -971,7 +975,7 @@ for mv in MOVES:
             BAKE.setdefault(mv, []).append((
                 {pb.name: pb.matrix_basis.copy() for pb in rig.pose.bones},
                 [kb.value for kb in me.shape_keys.key_blocks]))
-        if ANIM:
+        if ANIM and (not ANIM_ONLY or i in ANIM_ONLY):
             render_views(mv, i, ANIM_VIEWS, OUT / "anim", (ANIM_W, ANIM_H))
         if UA_TWIST:
             m["upper_arm_twist_deg"] = {k: round(math.degrees(v), 1) for k, v in TWIST.items()}

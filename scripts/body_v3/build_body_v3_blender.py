@@ -160,25 +160,25 @@ sc = lambda key: float(SC.get(key, 1.0))
 # ------------------------------------------------------------------ the body (male defaults; params can scale regions)
 H = P("stature_m", 1.856)
 # ---- trunk core (the muscles below sit ON these, protruding 0.5-2.5 cm, as on a lean athlete)
-ell("ribcage", [0, 0.025, 1.360], Rxyz(rx=-6), np.array([0.158, 0.112, 0.185]) * [sc("chest_w"), sc("chest_d"), 1], k=0.04)
+ell("ribcage", [0, 0.022, 1.360], Rxyz(rx=-6), np.array([0.158, 0.124, 0.185]) * [sc("chest_w"), sc("chest_d"), 1], k=0.04)
 ell("girdle", [0, 0.035, 1.462], I3, np.array([0.185, 0.085, 0.070]) * [sc("shoulder_w"), 1, 1], k=0.04)
 ell("abdomen", [0, 0.008, 1.130], I3, np.array([0.135, 0.098, 0.150]) * [sc("waist_w"), sc("waist_d"), 1], k=0.05)
 ell("pelvis", [0, 0.015, 0.955], I3, np.array([0.172, 0.108, 0.112]) * [sc("hip_w"), 1, 1], k=0.05)
 ell("lower_belly", [0, -0.035, 1.010], Rxyz(rx=12), [0.100, 0.055, 0.075], k=0.04)
-ell("sacrum", [0, 0.082, 0.975], I3, [0.060, 0.028, 0.060], k=0.04)
+ell("sacrum", [0, 0.090, 0.965], Rxyz(rx=-20), [0.060, 0.030, 0.065], k=0.045)
 for s in (-1.0, 1.0):
     # ---- back: latissimus (V taper from the armpit), erectors, scapular mass, trapezius sheets
     lw = sc("lats")
-    ell("lat", MX(s, [0.135, 0.068, 1.300]), MR(s, Rxyz(ry=18)), [0.045 * lw, 0.062, 0.135], k=0.035)
+    ell("lat", MX(s, [0.135, 0.075, 1.300]), MR(s, Rxyz(ry=18)), [0.045 * lw, 0.062, 0.135], k=0.035)
     cone("erector", MX(s, [0.034, 0.092, 0.990]), MX(s, [0.032, 0.100, 1.340]), 0.030, 0.022, k=0.025)
-    ell("scapular", MX(s, [0.100, 0.100, 1.405]), MR(s, Rxyz(rz=-10)), [0.058, 0.030, 0.060], k=0.04)
+    ell("scapular", MX(s, [0.100, 0.116, 1.405]), MR(s, Rxyz(rz=-10)), [0.058, 0.030, 0.060], k=0.04)
     ell("teres", MX(s, [0.165, 0.085, 1.385]), MR(s, Rxyz(ry=-30)), [0.040, 0.030, 0.022], k=0.02)
     ell("trap_upper", MX(s, [0.095, 0.058, 1.560]), MR(s, Rxyz(ry=36)), [0.100 * sc("traps"), 0.048, 0.028], k=0.03)
-    ell("trap_mid", MX(s, [0.055, 0.098, 1.445]), MR(s, Rxyz(rz=-25)), [0.070, 0.032, 0.090], k=0.04)
+    ell("trap_mid", MX(s, [0.055, 0.112, 1.445]), MR(s, Rxyz(rz=-25)), [0.070, 0.032, 0.090], k=0.04)
     # ---- chest: pectoralis major (crisp lower border: small k), its tendon to the humerus
     pk = P("pec_k", 0.012); pw = sc("pecs")
-    ell("pec", MX(s, [0.090, -0.064, 1.400]), MR(s, Rxyz(ry=-12, rz=24)), [0.100 * pw, 0.019 * pw, 0.064], k=pk)
-    ell("pec_upper", MX(s, [0.080, -0.055, 1.455]), MR(s, Rxyz(ry=-6, rz=22)), [0.090, 0.030, 0.045], k=0.04)   # clavicular head blends up to the clavicle
+    ell("pec", MX(s, [0.090, -0.074, 1.400]), MR(s, Rxyz(ry=-12, rz=24)), [0.100 * pw, 0.019 * pw, 0.064], k=pk)
+    ell("pec_upper", MX(s, [0.080, -0.064, 1.455]), MR(s, Rxyz(ry=-6, rz=22)), [0.090, 0.030, 0.045], k=0.04)   # clavicular head blends up to the clavicle
     cone("pec_tendon", MX(s, [0.150, -0.045, 1.425]), at(f"upperarm_{'l' if s < 0 else 'r'}", 0.17, 0.0, 0.010), 0.026, 0.016, k=0.025)
     # ---- side: serratus digitations, external obliques
     ell("oblique", MX(s, [0.118, -0.002, 1.095]), MR(s, Rxyz(ry=8)), [0.030, 0.070, 0.075], k=0.035)
@@ -186,7 +186,7 @@ for s in (-1.0, 1.0):
     ell("rectus_sheath", MX(s, [0.034, -0.068, 1.150]), Rxyz(rx=-4), [0.040, 0.026 * sc("abs"), 0.175], k=0.03)
     # ---- glutes
     gw = sc("glutes")
-    ell("glute_max", MX(s, [0.070, 0.056, 0.900]), MR(s, Rxyz(rx=10, rz=-15)), [0.068, 0.050 * gw, 0.086], k=0.06)
+    ell("glute_max", MX(s, [0.068, 0.080, 0.895]), MR(s, Rxyz(rx=12, rz=-15)), [0.070, 0.058 * gw, 0.088], k=0.05)
     ell("glute_med", MX(s, [0.128, 0.035, 0.985]), MR(s, Rxyz(rz=10)), [0.045, 0.055, 0.060], k=0.035)
     ell("masseter", MX(s, [0.052, -0.010, 1.665]), MR(s, Rxyz(ry=10)), [0.016, 0.026, 0.030], k=0.02)
 # ---- neck + head
@@ -354,7 +354,6 @@ for s_ in (-1, 1):
     groove("lat_border", "back", [(s_ * 0.165, 1.330), (s_ * 0.120, 1.180), (s_ * 0.075, 1.060)], 0.022, 0.0022 * GD, 0.015)
 for s_ in (-1, 1):                                                # legs: quadriceps / hamstring / calf separations
     groove("quad_lat", "front", [(s_ * 0.128, 0.80), (s_ * 0.136, 0.70), (s_ * 0.132, 0.62)], 0.016, 0.0017 * GD, 0.010)
-    groove("quad_med", "front", [(s_ * 0.068, 0.86), (s_ * 0.072, 0.72), (s_ * 0.064, 0.64)], 0.014, 0.0014 * GD, 0.010)
     groove("vmo", "front", [(s_ * 0.058, 0.64), (s_ * 0.075, 0.585), (s_ * 0.098, 0.565)], 0.013, 0.0016 * GD, 0.010)
     groove("patella_top", "front", [(s_ * 0.078, 0.555), (s_ * 0.106, 0.555)], 0.010, 0.0011 * GD, 0.008)
     groove("hamstring_split", "back", [(s_ * 0.092, 0.74), (s_ * 0.094, 0.66), (s_ * 0.092, 0.60)], 0.014, 0.0016 * GD, 0.010)

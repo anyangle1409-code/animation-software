@@ -68,6 +68,13 @@
    "sha256": "a4b4820cc350642e80400100ff00f7ce91fb9ec912ae33278b59c79f05881dc5",
    "in_git": false,
    "received": "2026-11-03"
+  },
+  {
+   "name": "Home Gym PT Male Reference, Option 5: Athletic - Stronger (front, 3/4 front, side, 3/4 back, back + shoulder/chest, arm, torso/abs, thigh, calf, back/shoulder details)",
+   "sha256": "922eb209363cd417b6eb95bdd49cdd07639f0f847b2d9c9c7207ffd8b61a0214",
+   "in_git": false,
+   "received": "2026-11-03",
+   "role": "PRIMARY appearance reference (owner, 3 Nov)"
   }
  ],
  "results": [

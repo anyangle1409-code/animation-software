@@ -21,7 +21,15 @@
  },
  "landmarks_rest_m": {},
  "regions": {},
- "references": [],
+ "references": [
+  {
+   "name": "Home Gym PT Female Reference, Option 4: Athletic (Balanced), selected; includes owner's guide proportions (height ~1.68 m adjustable, shoulder width 37-40 cm, bust 84-92 cm, waist 64-72 cm, hip 90-98 cm, shoulder:hip 0.95-1.00, leg length 47-50 % of height)",
+   "sha256": "e031a656ac742f3fc6185213dde738274d57b1817adad19d9f281cbed28915f3",
+   "in_git": false,
+   "received": "2026-11-03",
+   "role": "PRIMARY appearance reference (owner, 3 Nov)"
+  }
+ ],
  "results": [],
  "expected_differences_to_validate": [
   "biacromial width relative to stature",

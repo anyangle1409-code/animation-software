@@ -98,3 +98,18 @@ Measured from front-view silhouettes as fractions of figure height. The pack's o
 | Awaiting the owner | **Visual approval of M9's shape** (or direction for M10); the stature choice (1856 / 1820 / 1750); whether limb lengths follow the canonical skeleton or a revision |
 | Blocked | Laptop access (no Remote Control folder); `fit/proportions.py` not on this branch (no ANSUR run); `makehumancommunity.org` downloads blocked (not needed) |
 | Not started, by instruction | Independent production mesh, rigging, exercises, shoulder press, female model |
+
+## Update: M10, more muscle mass and definition (owner request, 3 Nov)
+
+- **Mass:** MPFB muscle targets were pushed past MakeHuman's 1.0 maximum, to 1.4–1.6 on the pecs, lats, deltoids, arms, quads and calves (settings in `mpfb_M10_params.json`). Chest depth, upper arm, thigh and neck are also fuller.
+- **Definition:** `scripts/mpfb_experimental/define_mpfb_candidate.py` (rendered at strength 1.4×). It is a procedural relief of up to about 6.5 mm on the posed, subdivided copy, displaced along the surface normals and placed from the rig's bones:
+  - linea alba, three abdominal intersections and the outer ab borders;
+  - inguinal lines;
+  - sternal groove, lower pec border and pec mass;
+  - pec–deltoid groove and deltoid insertion;
+  - biceps–triceps grooves;
+  - quad separations and the inner-knee teardrop;
+  - calf heads and the soleus line;
+  - spinal groove with the erector columns, lat and lower-trapezius borders.
+- **Renders:** `renders_M10_defined/` (including `upper_closeups.jpg`) and `comparison_W12c_STa_M10_no_photos.jpg`.
+- **Status:** it remains an MPFB benchmark, **not approved** and not production.

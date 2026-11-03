@@ -68,3 +68,48 @@ README.
   or to move to a muscle and tissue layer.
 - **Muscle layer:** the experimental proxies (MG1–MG12) are envelopes for analysis and highlighting. They are not
   validated anatomical muscles and do not drive the skin yet.
+
+## 5. Results of 3 Nov and the next-stage plan
+
+**Accepted today:**
+
+- **W12a:** armpit-hollow fairing.
+- **W12c:** the press fixes at 120° / 150° in gated keys.
+
+Together they are candidate **W12c** (evidence: `press_w12c_20261103/`). Against W11: overhead extension folds
+59 → 51; the intermediate-press pec ripples and front-armpit notch are visibly reduced; the other movements are
+identical. Worse: collapsed edges +11 / +40.
+
+**Rejected today (all in the record):**
+
+- **W12b:** ungated. It hurt the overhead extension and the squat.
+- **S1:** shoulder reshape without detail control. It packed the cap relief into crinkles.
+- **S1b:** tangential relaxation. It slid vertices under the shape keys; press folds 8 → 317.
+- **S1c:** 12 / 12 mm reshape.
+  - Better: the silhouette is lower and cleaner, and collapsed edges are down about 600–760.
+  - Worse: folds +1 (press), +4 (overhead extension), +4 (squat); edges over 35° +86 to +148.
+  - Not accepted under the no-relaxed-tests rule.
+- **S1d:** 8 / 8 mm on W12c. Under test.
+
+**Why the shoulder reshape is hard, and the plan:**
+
+- **The problem:** every shoulder corrective is a per-vertex offset authored on the current rest shape. Changing the
+  rest shape by more than a few millimetres moves the skin under those offsets, so they fit slightly worse in the
+  poses they were authored for.
+- **Next step 1 (shape):** apply the reshape, then re-patch the affected keys on the new shape at their own poses:
+  - the lockout family 120 / 150 / 153;
+  - the forward-raise family;
+  - the squat-arms pose.
+
+  The patch uses the same unfold and guarded-mush recipe that produced W5. Then the full regression. This is the
+  standard way to change a shape under correctives, and it should let the silhouette reach the reference (0.25 at
+  80 % of height) without the fold regressions.
+- **Next step 2 (shape):** the lower-thigh widening (about 11 %) and the leg-join stitch strip (§1.3 / §1.4), with the
+  same rest-shape method. These lie away from the shoulder keys, so the risk is lower.
+- **Next step 3 (owner decision):** the shoulder-joint spacing (skeleton). Moving the GH centres in by about 2 cm each
+  side would bring the outer width to the reference. It needs approval, because the skeleton is frozen.
+- **Next step 4 (foundation):** index the shoulder correctives by upper-arm twist as well as elevation, plane and
+  elbow. Today's gates (`R121_ARMBAND*`) protect paths a fix was not authored for. Twist-aware keys would let one
+  fix serve the press, the overhead extension and future exercises.
+- **Next step 5 (app):** bake app GLB v4 from the accepted candidate. Check it with three.js playback, Blender
+  fidelity and PT-App's preflight, run locally. No push to PT-App without the owner.

@@ -1,0 +1,50 @@
+{
+ "macros": {
+  "gender": 1.0,
+  "age": 0.5,
+  "muscle": 1.0,
+  "weight": 0.5,
+  "proportions": 0.5,
+  "height": 0.6,
+  "african": 0.0,
+  "asian": 0.0,
+  "caucasian": 1.0
+ },
+ "targets": {
+  "torso/torso-vshape-incr": 0.2,
+  "torso/torso-muscle-pectoral-incr": 2.0,
+  "torso/torso-muscle-dorsi-incr": 1.8,
+  "torso/measure-shoulder-dist-incr": 0.1,
+  "torso/measure-waist-circ-incr": 1.5,
+  "arms/upperarm-shoulder-muscle-incr": 1.8,
+  "arms/upperarm-muscle-incr": 1.6,
+  "arms/lowerarm-muscle-incr": 2.0,
+  "arms/measure-upperarm-circ-incr": 1.0,
+  "legs/upperleg-muscle-incr": 2.0,
+  "legs/lowerleg-muscle-incr": 1.6,
+  "legs/measure-thigh-circ-incr": 0.6,
+  "legs/measure-knee-circ-incr": 0.5,
+  "stomach/stomach-pregnant-decr": 0.2,
+  "hip/hip-scale-horiz-decr": 0.35,
+  "neck/measure-neck-circ-incr": 0.6,
+  "neck/measure-neck-height-incr": 0.7,
+  "torso/torso-scale-depth-incr": 0.6,
+  "legs/upperleg-fat-decr": 0.8,
+  "buttocks/buttocks-volume-decr": 0.3,
+  "legs/measure-calf-circ-incr": 0.5,
+  "torso/torso-scale-horiz-incr": 0.25,
+  "torso/measure-bust-circ-incr": 0.4,
+  "arms/lowerarm-scale-horiz-incr": 0.4,
+  "arms/lowerarm-scale-depth-incr": 0.3,
+  "legs/upperleg-scale-horiz-incr": 0.0
+ },
+ "stature_m": 1.856,
+ "subdivide": 2,
+ "stand": {
+  "abduction_deg": 12,
+  "plane_deg": 15,
+  "elbow_deg": 12,
+  "curl": 1.0,
+  "ankle_gap_m": 0.15
+ }
+}

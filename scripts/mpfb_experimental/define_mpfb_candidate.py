@@ -92,10 +92,10 @@ for s_ in (1,):
 line_xz(front, (0.125, pel[2] + 0.04), (0.035, pel[2] - 0.07), -2.2 * K, 0.007)   # inguinal ("Adonis") line
 # --- chest: sternal groove, lower pectoral border with the pectoral mass above it, deltopectoral groove
 line_xz(front, (0, znip - 0.04), (0, clav[2] - 0.05), -2.2 * K, 0.007)
-xb = np.clip(ax, 0.015, 0.17); zb = znip - 0.045 + 0.075 * ((xb - 0.015) / 0.155) ** 1.6
+xb = np.clip(ax, 0.015, 0.17); zb = znip - 0.050 + float(os.environ.get('V2_PEC_RISE', '0.075')) * ((xb - 0.015) / 0.155) ** 1.6
 pm = front & (ax < 0.17)
 D[:] += pm * -3.0 * K * gauss(z - zb, 0.0075)
-D[:] += pm * 2.0 * K * gauss(z - (zb + 0.04), 0.022) * (1 - ramp(ax, 0.13, 0.17))
+D[:] += pm * float(os.environ.get('V2_PEC_MASS', '2.0')) * K * gauss(z - (zb + 0.04), 0.022) * (1 - ramp(ax, 0.13, 0.17))
 gh = B["upperarm_l"][0]
 line_xz(trunk | (armw > 0), (abs(clav[0]) + 0.10, clav[2] - 0.035), (abs(gh[0]) - 0.025, gh[2] - 0.10), -2.6 * K, 0.007)
 
@@ -137,6 +137,11 @@ for k_ in range(3):
 line_xz(trunk & (N[:, 1] < 0.2), (0.115, zx - 0.01), (0.120, pel[2] + 0.06), -1.8 * K, 0.008)
 line_xz(back, (abs(gh[0]) - 0.075, gh[2] - 0.05), (abs(gh[0]) - 0.02, gh[2] - 0.11), -1.6 * K, 0.007)
 limb("upperarm_{}", lambda s: G.get(f"upperarm_{s}", np.zeros(n)) > 0.3, [(0.02, 0.36, 50, 8, -1.6), (0.02, 0.36, -45, 8, -1.6)])
+# --- added (owner: biceps-to-forearm transition, legs): brachioradialis / extensor mass on the upper forearm, the
+# biceps' lower end tapering into the elbow crease, quadriceps (vastus lateralis) mass, patella outline
+limb("lowerarm_{}", lambda s: G.get(f"lowerarm_{s}", np.zeros(n)) > 0.3, [(0.0, 0.45, 40, 30, 2.2), (0.0, 0.45, 120, 28, 1.4), (0.05, 0.6, 90, 9, -1.2)])
+limb("upperarm_{}", lambda s: G.get(f"upperarm_{s}", np.zeros(n)) > 0.3, [(0.55, 0.85, 95, 30, 1.6), (0.88, 1.0, 95, 40, -1.6)])
+limb("thigh_{}", lambda s: G.get(f"thigh_{s}", np.zeros(n)) > 0.4, [(0.25, 0.80, 15, 25, 2.2), (0.10, 0.60, 95, 30, 1.6), (0.92, 1.02, 90, 50, -1.5)])
 # smooth the field a little (no faceting on the subdivided mesh), then displace along the normals
 E = np.empty(len(me.edges) * 2, np.int32); me.edges.foreach_get("vertices", E); E = E.reshape(-1, 2)
 A = csr_matrix((np.ones(2 * len(E)), (np.r_[E[:, 0], E[:, 1]], np.r_[E[:, 1], E[:, 0]])), shape=(n, n))

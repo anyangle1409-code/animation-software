@@ -124,3 +124,15 @@ Measured from front-view silhouettes as fractions of figure height. The pack's o
   - arms hanging 12° out.
 - **Definition:** strength 2× (up to about 9 mm in), with serratus digitations, the external oblique border, grooves between the three deltoid heads and the infraspinatus/teres border added.
 - **Renders:** `renders_M11_defined/` and `comparison_W12c_STa_M11_no_photos.jpg`. **Not approved.**
+
+## Update: M13 (owner, 3 Nov: waist, legs, torso and pecs, definition, biceps-to-forearm, thigh gap)
+
+- **Waist:** smaller V-taper (0.2) and wider waist (1.5).
+- **Torso and pecs:** pecs 2.0; chest depth 0.6; bust 0.4; the lower pec border flatter and squarer, with more pec mass.
+- **Arms:** forearm muscle 2.0 and wider/deeper. The relief adds brachioradialis/extensor mass and tapers the biceps into the elbow crease.
+- **Legs:**
+  - quads 2.0 and fuller thighs, without the upper-thigh flare M12 had;
+  - narrower hips, less buttock volume;
+  - ankles 0.15 m apart, which closes the gap between the thighs;
+  - vastus lateralis mass and a patella outline added.
+- **Definition:** strength 2.3×. Committed views are in `renders_M13_defined/` and `comparison_W12c_STa_M13_no_photos.jpg`; M12 was not committed. **Not approved.**

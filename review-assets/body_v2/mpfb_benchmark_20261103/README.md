@@ -149,3 +149,15 @@ The reference pecs are broad and fairly flat: full high under the clavicle, with
   - border rise 0.075 → 0.03 m, so the line is flatter.
 - **Run with:** `V2_DEF=2.3 V2_PEC_RISE=0.03 V2_PEC_MASS=0.8 V2_PEC_UPPER=2.5 V2_PEC_FLATTEN=1.5`.
 - **Renders:** `renders_M14_defined/` (`chest_M13_vs_M14.jpg`) and `comparison_W12c_STa_M14_no_photos.jpg`. **Not approved.**
+
+## Chest iterations M15 to M17 (owner, 3 Nov: "still needs updating")
+
+`chest_iterations/chest_M14_M15_M16_M17.jpg` shows the front, 3/4 and side upper body. All three use the M15 MPFB settings (`mpfb_M15_params.json`: pecs 1.2, bust −0.4, front chest 0.7):
+
+| Run | Relief settings | Result |
+|---|---|---|
+| M15 | `V2_PEC_SHELF=2.5` with M14's other relief settings | A straight horizontal border line: boxy, artificial |
+| M16 | Shelf 2.0, curved border (lowest under the nipple, rising to the sternum and armpit) | The border sits below the MakeHuman pec volume, so it reads as a sagging fold. Rejected |
+| M17 | No shelf; upper fill 3.5, lower flatten 2.8, nipples flattened 2.5 | Slightly flatter than M14, still rounded |
+
+**Finding:** MakeHuman's pectoral volume is rounded and breast-like. Normal-direction relief either barely changes it or creates false folds. The flat, broad, sharp-bordered pecs in the photographs need a sculpted pectoral form. That belongs in the independent first-party mesh, after the owner decides how to proceed. **Not approved.**

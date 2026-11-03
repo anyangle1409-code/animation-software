@@ -101,6 +101,37 @@ D[:] += pm * float(os.environ.get('V2_PEC_UPPER', '0.0')) * K * gauss(z - (clav[
 # flatten the lower pectoral bulge (inferior to the nipple line, above the border): negative mass there
 D[:] += pm * -float(os.environ.get('V2_PEC_FLATTEN', '0.0')) * K * gauss(z - (zb + 0.012), 0.012) * (1 - ramp(ax, 0.12, 0.16)) * (1 - ramp(ax, 0.13, 0.17))
 gh = B["upperarm_l"][0]
+# pectoral shelf (owner 3 Nov: chest still not like the reference): a sharp lower border with the pectoral edge standing
+# proud just above it (undercut shadow), carried laterally into the armpit; the MakeHuman nipple flattened; a soft
+# infraclavicular line where the pectoral starts under the clavicle
+NIP = float(os.environ.get("V2_NIPPLE_FLAT", "0.0"))          # flatten the MakeHuman nipple bump (mm)
+if NIP > 0:
+    for sg_ in (1.0, -1.0):
+        cand = np.nonzero(front & (np.sign(x) == sg_) & (np.abs(z - znip) < 0.05) & (ax > 0.06) & (ax < 0.14))[0]
+        if len(cand):
+            pn = W[cand[np.argmin(y[cand])]]
+            D[:] += front * -NIP * K / 2.3 * gauss(np.linalg.norm(W - pn, axis=1), 0.010)
+SH = float(os.environ.get("V2_PEC_SHELF", "0.0"))
+if SH > 0:
+    pw = front & (ax < 0.19)
+    # lower border as in the photographs: lowest just below / outside the nipple (x_low), rising gently to the sternum
+    # and sweeping up into the armpit
+    xb2 = np.clip(ax, 0.015, 0.19)
+    nz = []
+    for sg_ in (1.0, -1.0):
+        cand = np.nonzero(front & (np.sign(x) == sg_) & (np.abs(z - znip) < 0.05) & (ax > 0.06) & (ax < 0.14))[0]
+        nz.append(W[cand[np.argmin(y[cand])]] if len(cand) else np.array([0.10, 0, znip]))
+    xlow = float(np.mean([abs(p_[0]) for p_ in nz])) + 0.005; zlow = float(np.mean([p_[2] for p_ in nz])) - float(os.environ.get("V2_PEC_DROP", "0.028"))
+    zb2 = np.where(xb2 < xlow, zlow + 0.016 * ((xlow - xb2) / (xlow - 0.015)) ** 2, zlow + 0.065 * ((xb2 - xlow) / (0.19 - xlow)) ** 2)
+    dz = z - zb2
+    D[:] += pw * -SH * 1.4 * K * gauss(dz + 0.002, 0.0055)                         # deep, narrow border
+    D[:] += pw * SH * 1.0 * K * gauss(dz - 0.012, 0.009) * (1 - ramp(ax, 0.17, 0.19))   # edge standing proud above it
+    for sg_ in (1.0, -1.0):                                                        # nipples: flatten the bump
+        cand = np.nonzero(front & (np.sign(x) == sg_) & (np.abs(z - znip) < 0.05) & (ax > 0.06) & (ax < 0.14))[0]
+        if len(cand):
+            pn = W[cand[np.argmin(y[cand])]]
+            D[:] += front * -SH * 0.9 * K * gauss(np.linalg.norm(W - pn, axis=1), 0.009)
+    line_xz(front, (0.03, clav[2] - 0.03), (abs(gh[0]) - 0.07, clav[2] - 0.035), -SH * 0.5 * K, 0.006)
 line_xz(trunk | (armw > 0), (abs(clav[0]) + 0.10, clav[2] - 0.035), (abs(gh[0]) - 0.025, gh[2] - 0.10), -2.6 * K, 0.007)
 
 

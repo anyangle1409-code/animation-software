@@ -4,12 +4,12 @@
 
 - **Pack:** the owner's Option 5 pack (male "Athletic – Stronger", female "Athletic – Stronger"; the female sheet used for the views is Option 4). The pack images are not in git.
 - **Male and female:** built **independently**. The female is MakeHuman's own female body type (gender 0) with her own settings, **not a scaled male**.
-- **Views:**  and  hold the front, 3/4 front, side, 3/4 back and back views, upper-body close-ups, and arms-out front and back (30°). All renders are barefoot.
-- **Settings:**  per model. Rebuild with ; the definition pass is :
-  - male: ;
-  - female: ;
-  - add  for the arms-out views.
-- **Measurements:** , stand pose. Circumferences are convex-hull slices, which approximate a tape measure, so they read slightly high over concave areas. Limb circumferences are measured perpendicular to the bone (left side). Biacromial is approximated from the rig's clavicle ends.
+- **Views:** `male/` and `female/` hold the front, 3/4 front, side, 3/4 back and back views, upper-body close-ups, and arms-out front and back (30°). All renders are barefoot.
+- **Settings:** `params.json` per model. Rebuild with `scripts/mpfb_experimental/build_mpfb_candidate.py`; the definition pass is `define_mpfb_candidate.py`:
+  - male: `V2_DEF=2.3 V2_PEC_RISE=0.03 V2_PEC_MASS=0 V2_PEC_UPPER=3.5 V2_PEC_FLATTEN=2.8 V2_NIPPLE_FLAT=2.5`;
+  - female: `V2_SEX=female V2_DEF=1.6`;
+  - add `V2_ARMS_OUT=30` for the arms-out views.
+- **Measurements:** `scripts/mpfb_experimental/measure_guide.py`, stand pose. Circumferences are convex-hull slices, which approximate a tape measure, so they read slightly high over concave areas. Limb circumferences are measured perpendicular to the bone (left side). Biacromial is approximated from the rig's clavicle ends.
 
 ## Male (target height 1.82 m)
 

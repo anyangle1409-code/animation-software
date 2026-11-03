@@ -1,0 +1,20 @@
+{
+ "measurements_cm": {
+  "chest": 113.4,
+  "waist": 80.9,
+  "hip": 95.2,
+  "upper_arm": 46.5,
+  "forearm": 28.2,
+  "thigh": 64.6,
+  "calf": 40.0,
+  "bideltoid": 61.9
+ },
+ "voxel_mm": 3.0,
+ "primitives": 185,
+ "vertices": 322354,
+ "faces": 644732,
+ "stature_m": 1.8554,
+ "params": {
+  "stature_m": 1.856
+ }
+}

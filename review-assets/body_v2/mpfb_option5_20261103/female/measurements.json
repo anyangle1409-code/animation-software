@@ -3,18 +3,18 @@
  "sex": "female",
  "cm": {
   "height": 168.2,
-  "biacromial_breadth_approx": 35.8,
-  "bideltoid_breadth": 48.9,
-  "chest_circumference": 94.8,
-  "underbust_circumference": 72.1,
-  "waist_circumference": 69.7,
-  "hip_circumference": 94.4,
-  "hip_breadth": 36.2,
-  "upper_arm_circumference": 29.5,
-  "thigh_circumference": 54.4,
-  "calf_circumference": 36.4,
+  "biacromial_breadth_approx": 37.4,
+  "bideltoid_breadth": 50.0,
+  "chest_circumference": 91.0,
+  "underbust_circumference": 71.2,
+  "waist_circumference": 68.2,
+  "hip_circumference": 93.9,
+  "hip_breadth": 36.3,
+  "upper_arm_circumference": 27.4,
+  "thigh_circumference": 55.2,
+  "calf_circumference": 34.6,
   "inseam_crotch_height": 78.7,
-  "shoulder_hip_ratio_bideltoid": 1.351,
-  "shoulder_hip_ratio_biacromial": 0.989
+  "shoulder_hip_ratio_bideltoid": 1.377,
+  "shoulder_hip_ratio_biacromial": 1.03
  }
 }

@@ -2,18 +2,18 @@
  "blend": "mpfb_candidate.blend",
  "sex": "male",
  "cm": {
-  "height": 182.6,
-  "biacromial_breadth_approx": 44.3,
-  "bideltoid_breadth": 59.6,
-  "chest_circumference": 109.1,
-  "waist_circumference": 84.0,
-  "hip_circumference": 98.9,
-  "hip_breadth": 38.7,
-  "upper_arm_circumference": 36.3,
-  "thigh_circumference": 59.3,
-  "calf_circumference": 39.6,
-  "inseam_crotch_height": 89.0,
-  "shoulder_hip_ratio_bideltoid": 1.54,
-  "shoulder_hip_ratio_biacromial": 1.145
+  "height": 182.7,
+  "biacromial_breadth_approx": 46.0,
+  "bideltoid_breadth": 61.0,
+  "chest_circumference": 109.5,
+  "waist_circumference": 81.5,
+  "hip_circumference": 102.1,
+  "hip_breadth": 39.8,
+  "upper_arm_circumference": 36.4,
+  "thigh_circumference": 61.0,
+  "calf_circumference": 40.1,
+  "inseam_crotch_height": 86.2,
+  "shoulder_hip_ratio_bideltoid": 1.533,
+  "shoulder_hip_ratio_biacromial": 1.156
  }
 }

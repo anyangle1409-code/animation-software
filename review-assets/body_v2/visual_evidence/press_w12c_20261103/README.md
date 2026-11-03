@@ -14,6 +14,9 @@
    - Without the gates (W12b) the same patch put 14 folds into the overhead extension, whose arms rise in the forward
      plane, and changed the squat.
 
+**Video:** `press_w11_vs_w12c.mp4`. The shoulder press out and back twice, 49 rendered frames, front / side / back
+close-ups of the shoulders, with W11 above and W12c below.
+
 **Stills:** `STILLS_press_<view>.jpg` show the rack (90°), intermediate (125°), near lockout (149°) and lockout (160°),
 from three-quarter, front, side and back. Skeleton motion and cameras are identical in both columns.
 

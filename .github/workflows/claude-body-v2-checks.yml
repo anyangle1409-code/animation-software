@@ -1,0 +1,34 @@
+name: claude-body-v2-checks
+
+# Fast checks of Claude's Body v2 candidate scripts on a standard GitHub-hosted runner (free for this public repository).
+# Read-only: no Blender, no assets, nothing published or deployed. It byte-compiles every scripts/body_v2 script and
+# unit-tests the R121_ARMBAND / R121_GRIP drive rules (scripts/body_v2/tests/test_r121_drive_gates.py, stubs for bpy).
+
+on:
+  push:
+    branches: [claude/r120-surface-candidate-20261023]
+    paths:
+      - scripts/body_v2/**
+      - .github/workflows/claude-body-v2-checks.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Report the runner
+        run: |
+          echo "runner: $RUNNER_NAME ($RUNNER_OS, $RUNNER_ARCH), environment: $RUNNER_ENVIRONMENT"
+          python --version
+      - name: Byte-compile every Body v2 script
+        run: python -m compileall -q scripts/body_v2
+      - name: Drive-rule unit test (R121_ARMBAND elbow gate, R121_GRIP finger-curl gate)
+        run: python scripts/body_v2/tests/test_r121_drive_gates.py

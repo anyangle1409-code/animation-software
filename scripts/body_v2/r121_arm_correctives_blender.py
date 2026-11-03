@@ -171,6 +171,7 @@ APPEND = MODE == "hinge" or (MODE in ("abd", "flex") and os.environ.get("V2_R121
 PATCH_KEY = os.environ.get("V2_R121_ARMKEY_PATCH_KEY")
 PATCH_NEWKEY = os.environ.get("V2_R121_ARMKEY_PATCH_NEWKEY", "")   # e.g. R121_ARMBAND: the patch goes to its own key
 PATCH_GATE = [float(x) for x in os.environ.get("V2_R121_ARMKEY_NEWKEY_ELBOW_GATE", "20,50").split(",")]   # (see r121_drives)
+PATCH_GATE += [float(x) for x in os.environ.get("V2_R121_ARMKEY_NEWKEY_PF_GATE", "").split(",") if x.strip()]   # pf0,pf1
 if POSE_PRESS:
     import build_functional_shoulder_correction_blender as correction
     import functional_shoulder_correction as corr
@@ -907,14 +908,15 @@ for ang in ANGLES:
             if kb.value < 0.5:
                 raise SystemExit(f"patch: {kname} is at {kb.value:.3f} at its own pose")
             if PATCH_NEWKEY:                                   # or to a key of its own that follows it (r121_drives
-                nm = f"{PATCH_NEWKEY}_{s}"                     # ARMBAND), gated by elbow flexion
+                tag_ = "" if len(ANGLES) == 1 else str(PATCH_KEY or ang)   # ARMBAND), gated by elbow flexion
+                nm = f"{PATCH_NEWKEY}{tag_}_{s}"
                 if nm in me.shape_keys.key_blocks:
                     nkb = me.shape_keys.key_blocks[nm]
                 else:
                     nkb = body.shape_key_add(name=nm, from_mix=False); nkb.value = 0.0
                 c_ = np.empty(n * 3); nkb.data.foreach_get("co", c_)
                 nkb.data.foreach_set("co", (c_.reshape(-1, 3) + Dk * side[:, None] / kb.value).ravel()); me.update()
-                rig[f"{r121_drives.ARMBAND_PROP}_{s}"] = [float(PATCH_KEY), *PATCH_GATE]
+                rig[f"{r121_drives.ARMBAND_PROP}{tag_}_{s}"] = [float(PATCH_KEY or ang), *PATCH_GATE]
                 patched[nm] = round(float(kb.value), 4)
                 continue
             c_ = np.empty(n * 3); kb.data.foreach_get("co", c_)
@@ -965,7 +967,7 @@ for s in ("l", "r") if not PATCH else ():                   # a patch leaves the
 bench._reset(rig)
 for kb in me.shape_keys.key_blocks:
     if kb.name.startswith(("R121_ARM_", "R121_FLEX_", "R121_HIP_", "R121_ELBOW_", "R121_KNEE_", "R121_COMBO_", "R121_REST_",
-                           "R121_WRIST_", "R121_WFLEX_", "R121_EXT_", "R121_ARMBAND_", "R121_GRIP_")):
+                           "R121_WRIST_", "R121_WFLEX_", "R121_EXT_", "R121_ARMBAND", "R121_GRIP_")):
         kb.value = 0.0
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT / "body_v2_r121_arms.blend"), copy=True)
 (OUT / f"r121_arm_correctives_{MODE}_report.json").write_text(json.dumps(REP, indent=1))

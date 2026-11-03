@@ -180,13 +180,27 @@ def drive(rig, body):
             c1 = float(rig[f"{GRIP_PROP}_{s}"])
             x = min(max((finger_curl_deg(rig, s) - 0.5 * c1) / max(0.5 * c1, 1e-6), 0.0), 1.0)
             keys[kn].value = x * x * (3 - 2 * x)
-        # lockout patch in its own key: the parent key's value, faded out with elbow flexion
-        kn = f"{ARMBAND_PREFIX}{s}"
-        if kn in keys and f"{ARMBAND_PROP}_{s}" in rig:
-            pa, e0_, e1_ = rig[f"{ARMBAND_PROP}_{s}"]
-            par = keys.get(f"{PREFIX}{s}_{int(pa)}")
-            x = min(max((elbow_flex_deg(rig, s) - e0_) / max(e1_ - e0_, 1e-6), 0.0), 1.0)
-            keys[kn].value = (par.value if par is not None else 0.0) * (1.0 - x * x * (3 - 2 * x))
+        # press patches in keys of their own: R121_ARMBAND_<s> (rig data hgpt_r121_armband_<s>) and
+        # R121_ARMBAND<tag>_<s> (hgpt_r121_armband<tag>_<s>), each = its parent key's value, faded out with elbow
+        # flexion [parent, e0, e1] and optionally towards forward raises [.., pf0, pf1] (plane factor)
+        el = None
+        for kb in keys:
+            if not (kb.name.startswith(ARMBAND_PREFIX[:-1]) and kb.name.endswith(f"_{s}")):
+                continue
+            tag = kb.name[len(ARMBAND_PREFIX) - 1:-2]
+            prop = f"{ARMBAND_PROP}{tag}_{s}"
+            if prop not in rig:
+                continue
+            g = list(rig[prop])
+            par = keys.get(f"{PREFIX}{s}_{int(g[0])}")
+            if el is None:
+                el = elbow_flex_deg(rig, s)
+            x = min(max((el - g[1]) / max(g[2] - g[1], 1e-6), 0.0), 1.0)
+            v = (par.value if par is not None else 0.0) * (1.0 - x * x * (3 - 2 * x))
+            if len(g) >= 5:
+                y = min(max((pf - g[3]) / max(g[4] - g[3], 1e-6), 0.0), 1.0)
+                v *= 1.0 - y * y * (3 - 2 * y)
+            kb.value = v
         # transient hand-on-thigh contact: full at the rest elevation, gone HANDCONTACT_FADE degrees above it
         kn = f"{HANDCONTACT_PREFIX}{s}"
         if kn in keys and f"{HANDCONTACT_PROP}_{s}" in rig:

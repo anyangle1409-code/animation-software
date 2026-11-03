@@ -74,6 +74,20 @@ for curl, want in ((0.0, 0.0), (115.0, 0.0), (172.5, 0.5), (230.0, 1.0), (300.0,
     R.drive(rig, body)
     check(f"GRIP at finger curl {curl}", kb["R121_GRIP_l"].value, want)
 
+# several gated keys with their own parents (R121_ARMBAND<tag>_<s>) and a plane-factor fade towards forward raises
+PF = {"v": 0.0}
+R.plane_factor = lambda rig, s: PF["v"]
+rig3 = {f"{R.PROP}_l": [120.0, 150.0, 153.35], f"{R.ARMBAND_PROP}120_l": [120.0, 20.0, 50.0, 0.3, 0.6],
+        f"{R.ARMBAND_PROP}150_l": [150.0, 20.0, 50.0, 0.3, 0.6]}
+body3, kb3 = body_with("R121_ARM_l_120", "R121_ARM_l_150", "R121_ARM_l_153", "R121_ARMBAND120_l", "R121_ARMBAND150_l")
+for elev, elbow, pf in ((120.0, 0.0, 0.0), (135.0, 0.0, 0.1), (135.0, 35.0, 0.1), (150.0, 0.0, 0.45), (150.0, 0.0, 0.9)):
+    STATE.update(elev=elev, elbow=elbow); PF["v"] = pf
+    R.drive(rig3, body3)
+    for k in ("120", "150"):
+        want = kb3[f"R121_ARM_l_{k}"].value * (1 - smooth((elbow - 20) / 30)) * (1 - smooth((pf - 0.3) / 0.3))
+        check(f"ARMBAND{k} at elevation {elev}, elbow {elbow}, plane factor {pf}", kb3[f"R121_ARMBAND{k}_l"].value, want)
+R.plane_factor = lambda rig, s: 0.0
+
 # a blend without the new keys (or without their rig data) is left alone
 body2, kb2 = body_with("R121_ARM_l_153", "R121_ARMBAND_l")
 STATE.update(elev=153.35, elbow=0.0)

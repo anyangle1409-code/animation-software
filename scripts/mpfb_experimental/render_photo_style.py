@@ -28,7 +28,7 @@ sc.cycles.device = "CPU"; sc.view_settings.view_transform = "AgX" if "AgX" in [i
 sc.render.resolution_x, sc.render.resolution_y = 720, 1280
 m = bpy.data.materials.new("SKIN_REVIEW_ONLY"); m.use_nodes = True
 bsdf = m.node_tree.nodes.get("Principled BSDF")
-bsdf.inputs["Base Color"].default_value = (0.62, 0.40, 0.29, 1)
+bsdf.inputs["Base Color"].default_value = (0.45, 0.26, 0.17, 1)
 bsdf.inputs["Roughness"].default_value = 0.42
 for nm, v in (("Subsurface Weight", 0.12), ("Subsurface Scale", 0.01), ("Specular IOR Level", 0.45)):
     if nm in bsdf.inputs:
@@ -41,7 +41,7 @@ for o in bpy.data.objects:
 if sc.world is None:
     sc.world = bpy.data.worlds.new("W")
 sc.world.use_nodes = True; bg = sc.world.node_tree.nodes.get("Background")
-bg.inputs["Color"].default_value = (0.11, 0.11, 0.115, 1); bg.inputs["Strength"].default_value = 1.0
+bg.inputs["Color"].default_value = (0.11, 0.11, 0.115, 1); bg.inputs["Strength"].default_value = 0.4
 import numpy as np  # noqa: E402
 dg = bpy.context.evaluated_depsgraph_get(); ev = body.evaluated_get(dg); me = ev.to_mesh()
 V = np.array([body.matrix_world @ v.co for v in me.vertices]); ev.to_mesh_clear()
@@ -50,7 +50,7 @@ fm = bpy.data.meshes.new("BACKDROP"); s = 6.0
 fm.from_pydata([(-s, -s, z0), (s, -s, z0), (s, s, z0), (-s, s, z0), (-s, s, z0 + 4), (s, s, z0 + 4)], [], [(0, 1, 2, 3), (3, 2, 5, 4)])
 fo = bpy.data.objects.new("BACKDROP", fm); sc.collection.objects.link(fo)
 fmat = bpy.data.materials.new("BACKDROP"); fmat.use_nodes = True
-fmat.node_tree.nodes["Principled BSDF"].inputs["Base Color"].default_value = (0.20, 0.20, 0.21, 1)
+fmat.node_tree.nodes["Principled BSDF"].inputs["Base Color"].default_value = (0.09, 0.09, 0.095, 1)
 fmat.node_tree.nodes["Principled BSDF"].inputs["Roughness"].default_value = 0.9
 fm.materials.append(fmat)
 
@@ -70,10 +70,10 @@ for v in VIEWS:
     for o in [o for o in sc.objects if o.type == "LIGHT"]:
         bpy.data.objects.remove(o, do_unlink=True)
     fwd = Vector((dx, dy, 0)); side = Vector((-dy, dx, 0))
-    area("KEY", tuple(Vector((0, 0, cz + 0.9)) + fwd * 3.2 + side * 2.0), 900, 2.0, (0, 0, cz))
-    area("FILL", tuple(Vector((0, 0, cz)) + fwd * 3.5 - side * 2.5), 260, 3.0, (0, 0, cz))
-    area("RIM_L", tuple(Vector((0, 0, cz + 0.6)) - fwd * 2.5 + side * 2.0), 650, 1.2, (0, 0, cz))
-    area("RIM_R", tuple(Vector((0, 0, cz + 0.6)) - fwd * 2.5 - side * 2.0), 650, 1.2, (0, 0, cz))
+    area("KEY", tuple(Vector((0, 0, cz + 1.2)) + fwd * 2.4 + side * 2.6), 260, 1.2, (0, 0, cz))
+    area("FILL", tuple(Vector((0, 0, cz)) + fwd * 3.5 - side * 2.5), 45, 3.0, (0, 0, cz))
+    area("RIM_L", tuple(Vector((0, 0, cz + 0.6)) - fwd * 2.5 + side * 2.0), 180, 1.0, (0, 0, cz))
+    area("RIM_R", tuple(Vector((0, 0, cz + 0.6)) - fwd * 2.5 - side * 2.0), 180, 1.0, (0, 0, cz))
     dist = H * 3.0
     cam.location = Vector((0, 0, z0 + 0.55 * H)) + fwd * dist
     cam.rotation_mode = "QUATERNION"; cam.rotation_quaternion = (Vector((0, 0, z0 + 0.52 * H)) - cam.location).to_track_quat("-Z", "Y")

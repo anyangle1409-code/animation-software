@@ -26,6 +26,17 @@ rig = [o for o in bpy.data.objects if o.type == "ARMATURE"][0]
 body = max((o for o in bpy.data.objects if o.type == "MESH" and "FLOOR" not in o.name), key=lambda o: len(o.data.vertices))
 for o in bpy.data.objects:
     o.hide_render = o.type == "MESH" and o is not body and "FLOOR" not in o.name
+AO = float(os.environ.get("V2_ARMS_OUT", "0"))               # arms-out views: humeri at AO deg in the frontal plane
+if AO > 0:
+    import math
+    from mathutils import Matrix
+    W2A = rig.matrix_world.to_3x3().inverted()
+    for sd in ("l", "r"):
+        ua = rig.pose.bones[f"upperarm_{sd}"]; lat = 1.0 if (rig.matrix_world @ ua.head).x > 0 else -1.0
+        e = math.radians(AO); tgt = (W2A @ Vector((lat * math.sin(e), 0.0, -math.cos(e)))).normalized()
+        cur = (ua.tail - ua.head).normalized(); piv = ua.head.copy()
+        ua.matrix = Matrix.Translation(piv) @ cur.rotation_difference(tgt).to_matrix().to_4x4() @ Matrix.Translation(-piv) @ ua.matrix
+        bpy.context.view_layer.update()
 sub = body.modifiers.get("SUBDIV_REVIEW")
 if sub:
     sub.levels = sub.render_levels = 2
@@ -90,10 +101,11 @@ for s_ in (1,):
     line_xz(front, (0.072, zx), (0.060, zn - 0.04), -2.6 * K, 0.0065)
     line_xz(front, (0.060, zn - 0.04), (0.035, pel[2] - 0.05), -2.0 * K, 0.006)
 line_xz(front, (0.125, pel[2] + 0.04), (0.035, pel[2] - 0.07), -2.2 * K, 0.007)   # inguinal ("Adonis") line
+FEMALE = os.environ.get('V2_SEX', 'male') == 'female'
 # --- chest: sternal groove, lower pectoral border with the pectoral mass above it, deltopectoral groove
-line_xz(front, (0, znip - 0.04), (0, clav[2] - 0.05), -2.2 * K, 0.007)
+line_xz(front & (not FEMALE), (0, znip - 0.04), (0, clav[2] - 0.05), -2.2 * K, 0.007)
 xb = np.clip(ax, 0.015, 0.17); zb = znip - 0.050 + float(os.environ.get('V2_PEC_RISE', '0.075')) * ((xb - 0.015) / 0.155) ** 1.6
-pm = front & (ax < 0.17)
+pm = front & (ax < 0.17) & (not FEMALE)   # the male pectoral features only
 D[:] += pm * -3.0 * K * gauss(z - zb, 0.0075)
 D[:] += pm * float(os.environ.get('V2_PEC_MASS', '2.0')) * K * gauss(z - (zb + 0.04), 0.022)
 # upper (clavicular) pectoral fill: flat, broad chest rather than a low, rounded mass (owner 3 Nov: "chest too puffy")
@@ -193,7 +205,7 @@ z0 = float(W[:, 2].min()); H = float(W[:, 2].max() - z0)
 VIEWS = {"front": ((0, -1, 0), 0.635, 2.45), "side": ((1, 0, 0), 0.635, 2.45), "back": ((0, 1, 0), 0.635, 2.45),
          "front34": ((0.7071, -0.7071, 0), 0.635, 2.45), "front_upper": ((0, -1, 0), 0.80, 1.05),
          "side_upper": ((1, 0, 0), 0.80, 1.05), "back_upper": ((0, 1, 0), 0.80, 1.05),
-         "front34_upper": ((0.7071, -0.7071, 0), 0.80, 1.05)}
+         "front34_upper": ((0.7071, -0.7071, 0), 0.80, 1.05), "back34": ((0.7071, 0.7071, 0), 0.635, 2.45)}
 sc.render.resolution_x, sc.render.resolution_y = int(os.environ.get("V2_RES_X", "720")), int(os.environ.get("V2_RES_Y", "1280"))
 for view, (dv, hc, scale) in VIEWS.items():
     dvec = Vec(dv) + Vec((0.0, 0.0, 0.12)); dvec.normalize(); centre = Vec((0.0, 0.0, z0 + hc * H))

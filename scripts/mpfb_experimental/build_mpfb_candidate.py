@@ -190,13 +190,34 @@ fmat = bpy.data.materials.new("FLOOR_REVIEW_ONLY"); fmat.diffuse_color = (.80, .
 VIEWS = {"front": ((0, -1, 0), 0.635, 2.45), "side": ((1, 0, 0), 0.635, 2.45), "back": ((0, 1, 0), 0.635, 2.45),
          "front34": ((0.7071, -0.7071, 0), 0.635, 2.45), "front_upper": ((0, -1, 0), 0.80, 1.05),
          "side_upper": ((1, 0, 0), 0.80, 1.05), "back_upper": ((0, 1, 0), 0.80, 1.05),
-         "front34_upper": ((0.7071, -0.7071, 0), 0.80, 1.05)}
+         "front34_upper": ((0.7071, -0.7071, 0), 0.80, 1.05), "back34": ((0.7071, 0.7071, 0), 0.635, 2.45)}
 sc.render.resolution_x, sc.render.resolution_y = 720, 1280
 for view, (dv, hc, scale) in VIEWS.items():
     dvec = Vector(dv) + Vector((0.0, 0.0, 0.12)); dvec.normalize(); centre = Vector((0.0, 0.0, z0 + hc * H))
     cam.location = centre + dvec * 4; cam.rotation_mode = "QUATERNION"; cd.ortho_scale = scale * H / 1.856
     cam.rotation_quaternion = (-dvec).to_track_quat("-Z", "Y")
     sc.render.filepath = str(OUT / f"stand_{view}_000.png"); bpy.ops.render.render(write_still=True)
+# arms-out views (owner pack, Option 5): both humeri at P["arms_out_deg"] from the body in the frontal plane
+if P.get("arms_out_deg"):
+    for side in ("l", "r"):
+        ua = pb[f"upperarm_{side}"]; lat = 1.0 if wpos(ua.head).x > 0 else -1.0
+        e = math.radians(P["arms_out_deg"]); swing_to(ua, Vector((lat * math.sin(e), 0.0, -math.cos(e))))
+    bpy.context.view_layer.update()
+    for view in ("front", "back"):
+        dv, hc, scale = VIEWS[view]
+        dvec = Vector(dv) + Vector((0.0, 0.0, 0.12)); dvec.normalize(); centre = Vector((0.0, 0.0, z0 + hc * H))
+        cam.location = centre + dvec * 4; cam.rotation_mode = "QUATERNION"; cd.ortho_scale = scale * H / 1.856
+        cam.rotation_quaternion = (-dvec).to_track_quat("-Z", "Y")
+        sc.render.filepath = str(OUT / f"armsout_{view}_000.png"); bpy.ops.render.render(write_still=True)
+    bpy.ops.wm.save_as_mainfile(filepath=str(OUT / "mpfb_candidate_armsout.blend"), copy=True)
+    for side, ang in (("l", None), ("r", None)):
+        pass
+    import importlib as _il  # re-pose the stand arms for the saved stand file below
+    for side in ("l", "r"):
+        ua = pb[f"upperarm_{side}"]; lat = 1.0 if wpos(ua.head).x > 0 else -1.0
+        e, p_ = math.radians(st.get("abduction_deg", 8)), math.radians(st.get("plane_deg", 15))
+        swing_to(ua, Vector((lat * math.sin(e) * math.cos(p_), -math.sin(e) * math.sin(p_), -math.cos(e))))
+    bpy.context.view_layer.update()
 # measurements (stand pose, world metres): stature, and per-level front / side extents of the TRUNK skin (arm, hand
 # and leg vertices excluded by rig weights)
 GN = {g.index: g.name for g in h.vertex_groups}

@@ -1,0 +1,48 @@
+{
+ "trunk": {
+  "ratio_min": 0.806,
+  "ratio_max": 1.208,
+  "ratio_mean": 0.968
+ },
+ "upperarm_l": {
+  "ratio_min": 0.804,
+  "ratio_max": 1.298,
+  "ratio_mean": 0.98
+ },
+ "forearm_l": {
+  "ratio_min": 0.813,
+  "ratio_max": 1.0,
+  "ratio_mean": 0.965
+ },
+ "thigh_l": {
+  "ratio_min": 0.8,
+  "ratio_max": 1.3,
+  "ratio_mean": 0.992
+ },
+ "shin_l": {
+  "ratio_min": 0.8,
+  "ratio_max": 1.295,
+  "ratio_mean": 0.982
+ },
+ "upperarm_r": {
+  "ratio_min": 0.804,
+  "ratio_max": 1.298,
+  "ratio_mean": 0.981
+ },
+ "forearm_r": {
+  "ratio_min": 0.813,
+  "ratio_max": 1.0,
+  "ratio_mean": 0.965
+ },
+ "thigh_r": {
+  "ratio_min": 0.8,
+  "ratio_max": 1.3,
+  "ratio_mean": 0.992
+ },
+ "shin_r": {
+  "ratio_min": 0.8,
+  "ratio_max": 1.296,
+  "ratio_mean": 0.983
+ },
+ "max_move_mm": 37.6
+}

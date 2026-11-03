@@ -304,11 +304,12 @@ def press_pose(ht, elb):
 # stand: the basic relaxed standing pose (owner, 3 Nov: "All I want for now is the basic standing pose").  The press's
 # frame 0 is a test carriage (arms 16 deg out, elbows straight, hands open and flat); the reference stands with the arms
 # hanging close to the body, elbows a little bent, palms to the thighs and the fingers gently curled.  Static at every
-# frame.  V2_TRAJ_STAND_HT (humerothoracic deg, through the candidate girdle), V2_TRAJ_STAND_ELBOW (deg),
+# frame.  V2_TRAJ_STAND_HT (humerothoracic deg, through the candidate girdle), V2_TRAJ_STAND_PLANE, V2_TRAJ_STAND_ELBOW (deg),
 # V2_TRAJ_STAND_CURL (scale of the relaxed finger curl, 0 = flat hands as before)
 STAND_HT = float(os.environ.get("V2_TRAJ_STAND_HT", "8"))
 STAND_ELBOW = float(os.environ.get("V2_TRAJ_STAND_ELBOW", "12"))
 STAND_CURL = float(os.environ.get("V2_TRAJ_STAND_CURL", "1"))
+STAND_PLANE = float(os.environ.get("V2_TRAJ_STAND_PLANE", "15"))   # deg forward of the frontal plane
 STAND_FINGERS = {"index": (20, 30, 12), "middle": (25, 35, 15), "ring": (30, 40, 18), "pinky": (35, 45, 20)}  # MCP, PIP, DIP
 STAND_THUMB = {"thumb_02": 10, "thumb_03": 15}
 _STAND_SIGNS = {}
@@ -323,10 +324,10 @@ def stand(u):
                     nm = f"{d_}_{j_}_{s_}"; _STAND_SIGNS[nm] = bench._palmar_sign(rig, rig.pose.bones[nm])
             for t_ in STAND_THUMB:
                 nm = f"{t_}_{s_}"; _STAND_SIGNS[nm] = bench._palmar_sign(rig, rig.pose.bones[nm])
-    if GIRDLE == "candidate":
-        girdle.apply_press_pose(rig, STAND_HT, RESULT["humeral_rest_axial_deg"])
-    else:
-        correction.apply_corrected_pose(RESULT, STAND_HT)
+    # the coupled girdle for this elevation, the humerus a little forward of the frontal plane and NOT turned about its
+    # axis (the press pose turns it so the palms face forward, the hanging-arm stance keeps the palms to the thighs)
+    import shoulder_girdle_candidate as girdle_c
+    girdle_c.apply_arm_pose(rig, STAND_HT, STAND_PLANE)
     elbows(STAND_ELBOW)
     for s_ in ("l", "r"):
         for d_, degs in STAND_FINGERS.items():

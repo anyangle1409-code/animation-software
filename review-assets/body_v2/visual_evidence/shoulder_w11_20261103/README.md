@@ -24,6 +24,8 @@ movement from the skeleton, and every frame is a real Blender render.
   `STILLS_press_front.jpg`, `_side.jpg` and `_back.jpg` show neutral, rack, lockout and return.
 - `pulldown_w5_vs_w11.mp4` and `overhead_extension_w5_vs_w11.mp4`: the same close-ups for the other two overhead
   movements. Their stills are `STILLS_<movement>_<view>.jpg`.
+- `press_upper_arm_back_w5_vs_w11.mp4` and `STILLS_press_upper_arm_back.jpg`: the left upper arm from behind through
+  the press, the view that shows the triceps bands. W11's bands are softer, but one is still visible at lockout.
 - `grip_w5_vs_w11.mp4`: closing the fist. The stills are `STILLS_grip_hands_front.jpg` and `STILLS_grip_hand_side.jpg`.
   The hand in C1 and W5 is the same, so the left column is labelled "C1 / W5".
 

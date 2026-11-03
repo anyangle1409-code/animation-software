@@ -96,11 +96,22 @@ nine movement sets, the press lockout C1 vs W5 comparison, and app GLB v3.
 | CI on the free runner: byte-compile + the drive-rule unit test (37 checks) | `.github/workflows/claude-body-v2-checks.yml` |
 | W12a: armpit-hollow fairing (4.5 cm at (0.21, −0.015, 1.39)) in the 153 key. Overhead extension folds 59 → 51, self-intersections 365 → 338; the hollow is visibly smoother. **Worse:** collapsed edges +10 / +40 | ROUGH and REG W12_a45 (scratch) |
 
-**Under test:**
+**Accepted later on 3 Nov:**
 
 - **W12c** = W12a + the W5 mush and W7 fairing at the 120 / 150 press poses, in gated keys `R121_ARMBAND120/150_<s>`
   (elbow fade 50–70°, forward-raise fade at plane factor 0.3–0.6).
-- **S1b:** the shoulder rest-shape candidate with relaxation, detail attenuation and a wide trapezius fade.
+  - Better: overhead extension folds 59 → 51 vs W11; the intermediate-press pec ripples and front-armpit notch are
+    visibly reduced.
+  - Unchanged: the lateral raise, curl and squat are identical.
+  - Worse: collapsed edges +11 / +40.
+  - Evidence: `press_w12c_20261103/`.
+- **Shoulder rest reshape (S1, S1b, S1c, S1d): none accepted.**
+  - What it achieves: it does lower and slim the shoulders toward the reference. S1c brought the silhouette at 0.836
+    of height from 0.240 to 0.199.
+  - Why it is not accepted: every variant raises folds somewhere (S1c press +1, overhead +4, squat +4; S1d overhead
+    +7). S1b's tangential relaxation broke the keys entirely (press folds 8 → 317).
+  - Cause: the shoulder correctives are per-vertex offsets authored on the old shape.
+  - Next: reshape, then re-patch the affected keys on the new shape.
 
 **Failed and rejected today (all kept in the record):**
 
@@ -112,7 +123,8 @@ nine movement sets, the press lockout C1 vs W5 comparison, and app GLB v3.
 
 ## In progress
 
-- W12c and S1b are running (see above).
+- App GLB v4 from W12c is being baked (playback, fidelity and PT-App preflight run locally; no PT-App push).
+- The W12c press close-up video is being rendered.
 
 ## Remaining (in order)
 
@@ -152,8 +164,11 @@ nine movement sets, the press lockout C1 vs W5 comparison, and app GLB v3.
 2. Blends are in the session scratch area and are not in git. They are rebuilt by the `chain_*.sh` recipes documented
    in the trajectories doc.
 3. The current best candidate is **W11** (blend `W11`, recipe in the trajectories doc, section W11). The published
-   app GLB (v3) is still W5. W12a is accepted as a step on top of W11. W12c and S1b were under test on 3 Nov
-   (`run_w12c.sh`, `run_s1.sh` in the scratch area; recipes in this file and the trajectories doc).
+   app GLB (v3) is still W5.
+   - **Best candidate as of 3 Nov:** W12c = W11 + W12a + the gated 120 / 150 keys.
+   - **Recipes:** `run_w12.sh a45 0.045 0.21,-0.015,1.39` then `run_w12c.sh`.
+   - **Shoulder reshape:** the tool is `scripts/body_v2/rest_reshape_shoulders_blender.py`. The settings tried are
+     recorded above; it needs the key re-patch next.
    The harness environment for C1 / W5 is:
 
    ```

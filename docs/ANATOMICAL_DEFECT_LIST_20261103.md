@@ -89,7 +89,10 @@ identical. Worse: collapsed edges +11 / +40.
   - Better: the silhouette is lower and cleaner, and collapsed edges are down about 600–760.
   - Worse: folds +1 (press), +4 (overhead extension), +4 (squat); edges over 35° +86 to +148.
   - Not accepted under the no-relaxed-tests rule.
-- **S1d:** 8 / 8 mm on W12c. Under test.
+- **S1d:** 8 / 8 mm on W12c.
+  - Worse: overhead extension folds 51 → 58; the press near-lockout frame (149°) goes from 0 to 6 folds.
+  - Better: collapsed edges down everywhere.
+  - Rejected. Even a gentle reshape needs the keys re-patched, which is next step 1.
 
 **Why the shoulder reshape is hard, and the plan:**
 

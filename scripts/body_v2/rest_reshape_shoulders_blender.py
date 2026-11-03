@@ -36,6 +36,10 @@ SRC, OUT = Path(a[0]), Path(a[1])
 DELT_MM = float(os.environ.get("V2_SHAPE_DELT_MM", "16"))
 TRAP_MM = float(os.environ.get("V2_SHAPE_TRAP_MM", "14"))
 SMOOTH = int(os.environ.get("V2_SHAPE_SMOOTH", "12"))
+RELAX = int(os.environ.get("V2_SHAPE_RELAX", "0"))             # tangential relaxation rounds in the moved region
+DETAIL = float(os.environ.get("V2_SHAPE_DETAIL", "1.0"))       # fine relief kept where the skin moved (1 = all)
+YRAMP = [float(x) for x in os.environ.get("V2_SHAPE_TRAP_YRAMP", "0.09,0.04").split(",")]   # trapezius front fade (m
+# in front of the GH centre: full lowering behind -YRAMP[1], none in front of -YRAMP[0])
 out_blend = OUT / "body_v2_r121_arms.blend"
 if out_blend.exists():
     raise SystemExit(f"{out_blend} exists; refusing to overwrite")
@@ -85,13 +89,30 @@ for s in ("l", "r"):
     w_x = ramp(ax, 0.06, 0.11) * (1 - ramp(ax, abs(gh[0]) - 0.03, abs(gh[0]) + 0.01))
     w_z = ramp(R[:, 2], gh[2] - 0.01, gh[2] + 0.03)
     w_up = ramp(N[:, 2], 0.25, 0.6)
-    w_y = ramp(R[:, 1], gh[1] - 0.09, gh[1] - 0.04)          # not the front of the chest
+    w_y = ramp(R[:, 1], gh[1] - YRAMP[0], gh[1] - YRAMP[1])  # not the front of the chest
     w_tr = w_x * w_z * w_up * w_y * side
     D[:, 2] += -(TRAP_MM / 1000.0) * w_tr
     rep["sides"][s] = {"gh_centre_m": [round(float(x), 4) for x in gh], "lateral_point_skin_mm": round(float(np.abs(R[i_lat, 0] - gh[0]) * 1000), 1),
                        "cap_vertices": int((w_cap > 0.05).sum()), "trap_vertices": int((w_tr > 0.05).sum())}
 for _ in range(SMOOTH):
     D = 0.5 * D + 0.5 * (A @ D) * Dinv[:, None]
+# S1 (16 / 14 mm, no relax) packed the cap's sculpted fine relief ~30 % tighter (visible crinkles): optionally even out
+# the spacing in the moved region by sliding vertices within the surface, and attenuate its finest relief
+wm = np.clip(np.linalg.norm(D, axis=1) / 0.002, 0, 1)
+for _ in range(SMOOTH // 2):
+    wm = np.maximum(wm, 0.85 * (A @ wm) * Dinv)
+P = R + D
+for _ in range(RELAX):
+    nP = vnormals(P); L = (A @ P) * Dinv[:, None] - P
+    L -= np.einsum("ij,ij->i", L, nP)[:, None] * nP
+    P = P + 0.5 * wm[:, None] * L
+if DETAIL < 1.0:
+    Q = P.copy()
+    for _ in range(3):
+        Q = 0.5 * Q + 0.5 * (A @ Q) * Dinv[:, None]
+    P = Q + (1.0 - (1.0 - DETAIL) * wm)[:, None] * (P - Q)
+D = P - R
+rep.update({"relax_rounds": RELAX, "detail_kept": DETAIL, "trap_front_fade_m": YRAMP})
 mv = np.linalg.norm(D, axis=1)
 rep["moved_over_1mm"] = int((mv > 1e-3).sum()); rep["max_move_mm"] = round(float(mv.max()) * 1000, 2)
 

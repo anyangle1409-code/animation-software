@@ -309,8 +309,8 @@ def press_pose(ht, elb):
 STAND_HT = float(os.environ.get("V2_TRAJ_STAND_HT", "8"))
 STAND_ELBOW = float(os.environ.get("V2_TRAJ_STAND_ELBOW", "12"))
 STAND_CURL = float(os.environ.get("V2_TRAJ_STAND_CURL", "1"))
-STAND_FINGERS = {"index": (12, 18, 8), "middle": (15, 22, 10), "ring": (18, 26, 12), "pinky": (22, 30, 14)}  # MCP, PIP, DIP
-STAND_THUMB = {"thumb_02": 8, "thumb_03": 10}
+STAND_FINGERS = {"index": (20, 30, 12), "middle": (25, 35, 15), "ring": (30, 40, 18), "pinky": (35, 45, 20)}  # MCP, PIP, DIP
+STAND_THUMB = {"thumb_02": 10, "thumb_03": 15}
 _STAND_SIGNS = {}
 
 

@@ -842,6 +842,8 @@ for ang in ANGLES:
     T = P.copy(); hist = []
     if DUMP_POSED:                                             # reference dump only (see ref_target)
         Path(DUMP_POSED).mkdir(parents=True, exist_ok=True); np.save(Path(DUMP_POSED) / _posed_name(ang), P)
+        if not (Path(DUMP_POSED) / "topology.npz").exists():
+            np.savez(Path(DUMP_POSED) / "topology.npz", FA=FA, EF=EF, E=E, UPPER=UPPER)
         print("ARMKEY_DUMP", ang, elev, flush=True); continue
     contact_hist = ({"mutual": contact_mutual, "plane_restore": contact_plane_restore}.get(CMODE, contact)(T)
                     if (CONTACT is not None and not PATCH) else None)

@@ -4,16 +4,16 @@
  "cm": {
   "height": 182.7,
   "biacromial_breadth_approx": 46.0,
-  "bideltoid_breadth": 61.0,
-  "chest_circumference": 109.5,
-  "waist_circumference": 81.5,
-  "hip_circumference": 102.1,
-  "hip_breadth": 39.8,
-  "upper_arm_circumference": 36.4,
-  "thigh_circumference": 61.0,
-  "calf_circumference": 40.1,
-  "inseam_crotch_height": 86.2,
-  "shoulder_hip_ratio_bideltoid": 1.533,
-  "shoulder_hip_ratio_biacromial": 1.156
+  "bideltoid_breadth": 63.0,
+  "chest_circumference": 114.1,
+  "waist_circumference": 82.6,
+  "hip_circumference": 104.2,
+  "hip_breadth": 40.7,
+  "upper_arm_circumference": 44.1,
+  "thigh_circumference": 64.9,
+  "calf_circumference": 42.0,
+  "inseam_crotch_height": 86.1,
+  "shoulder_hip_ratio_bideltoid": 1.548,
+  "shoulder_hip_ratio_biacromial": 1.13
  }
 }

@@ -56,3 +56,26 @@
 - **Male inseam:** MPFB's leg lengths are shortened here. A production model takes its limb lengths from the canonical skeleton.
 - **Female definition:** the generic pass with the pectoral features off. Female-specific detail is still to come.
 - **Approval:** both await owner review.
+
+## v8: match the photos (owner, 3 Nov: "both need more fixing"; when the photos and guide numbers disagree, the photos win; all areas)
+
+- **Male:**
+  - deltoids, arms and forearms bigger;
+  - quads, calves and glutes fuller;
+  - chest and lats more;
+  - definition 2.8.
+- **Female:**
+  - the thin-upper-arm narrowing removed, replaced by deltoid and arm muscle;
+  - stronger quads, calves and glutes;
+  - definition 2.6.
+- **Male measurements (cm):**
+  - chest 114.1, waist 82.6, hips 104.2;
+  - upper arm 44.1, thigh 64.9, calf 42.0;
+  - inseam 86.1, shoulder width ≈46.0.
+- **Female measurements (cm):**
+  - bust 93.5, underbust 71.3, waist 68.2, hips 96.9;
+  - upper arm 29.1, thigh 58.8, calf 38.5;
+  - inseam 78.7, shoulder width ≈37.4.
+- Several girths are now above the guide ranges, as the owner chose.
+- Bald heads: MPFB's bundled assets include no hair.
+- `params.json` / `measurements.json` hold v8. **Not approved.**

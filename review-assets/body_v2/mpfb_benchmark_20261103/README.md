@@ -136,3 +136,16 @@ Measured from front-view silhouettes as fractions of figure height. The pack's o
   - ankles 0.15 m apart, which closes the gap between the thighs;
   - vastus lateralis mass and a patella outline added.
 - **Definition:** strength 2.3×. Committed views are in `renders_M13_defined/` and `comparison_W12c_STa_M13_no_photos.jpg`; M12 was not committed. **Not approved.**
+
+## Update: M14, chest less puffy (owner, 3 Nov: "chest is too puffy; refer to the reference")
+
+The reference pecs are broad and fairly flat: full high under the clavicle, with a crisp, nearly horizontal lower border.
+
+- **MPFB settings:** pectoral muscle 2.0 → 1.0; bust −0.2; front chest +0.4; chest depth 0.6 → 0.4.
+- **Relief:**
+  - low pec mass 3.0 → 0.8 mm;
+  - new upper (clavicular) fill of 2.5 mm;
+  - new flattening of 1.5 mm above the border;
+  - border rise 0.075 → 0.03 m, so the line is flatter.
+- **Run with:** `V2_DEF=2.3 V2_PEC_RISE=0.03 V2_PEC_MASS=0.8 V2_PEC_UPPER=2.5 V2_PEC_FLATTEN=1.5`.
+- **Renders:** `renders_M14_defined/` (`chest_M13_vs_M14.jpg`) and `comparison_W12c_STa_M14_no_photos.jpg`. **Not approved.**

@@ -95,7 +95,11 @@ line_xz(front, (0, znip - 0.04), (0, clav[2] - 0.05), -2.2 * K, 0.007)
 xb = np.clip(ax, 0.015, 0.17); zb = znip - 0.050 + float(os.environ.get('V2_PEC_RISE', '0.075')) * ((xb - 0.015) / 0.155) ** 1.6
 pm = front & (ax < 0.17)
 D[:] += pm * -3.0 * K * gauss(z - zb, 0.0075)
-D[:] += pm * float(os.environ.get('V2_PEC_MASS', '2.0')) * K * gauss(z - (zb + 0.04), 0.022) * (1 - ramp(ax, 0.13, 0.17))
+D[:] += pm * float(os.environ.get('V2_PEC_MASS', '2.0')) * K * gauss(z - (zb + 0.04), 0.022)
+# upper (clavicular) pectoral fill: flat, broad chest rather than a low, rounded mass (owner 3 Nov: "chest too puffy")
+D[:] += pm * float(os.environ.get('V2_PEC_UPPER', '0.0')) * K * gauss(z - (clav[2] - 0.075), 0.03) * (1 - ramp(ax, 0.12, 0.17)) * ramp(ax, 0.01, 0.03)
+# flatten the lower pectoral bulge (inferior to the nipple line, above the border): negative mass there
+D[:] += pm * -float(os.environ.get('V2_PEC_FLATTEN', '0.0')) * K * gauss(z - (zb + 0.012), 0.012) * (1 - ramp(ax, 0.12, 0.16)) * (1 - ramp(ax, 0.13, 0.17))
 gh = B["upperarm_l"][0]
 line_xz(trunk | (armw > 0), (abs(clav[0]) + 0.10, clav[2] - 0.035), (abs(gh[0]) - 0.025, gh[2] - 0.10), -2.6 * K, 0.007)
 

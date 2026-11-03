@@ -779,7 +779,10 @@ AUTO_VIEWS = {"front_fit": ((0, -1, 0), None, None), "side_fit": ((1, 0, 0), Non
               "hand_l_side": ((1, 0, 0), ("hand_l", "forearm_l"), 0.6),
               # the posterior shoulders close up, from behind / above / outside (mirror pair; left is -x)
               "post_shoulder_l": ((-0.5, 0.6, 0.62), ("upperarm_l", "scapula_l"), 0.5),
-              "post_shoulder_r": ((0.5, 0.6, 0.62), ("upperarm_r", "scapula_r"), 0.5)}
+              "post_shoulder_r": ((0.5, 0.6, 0.62), ("upperarm_r", "scapula_r"), 0.5),
+              # the left upper arm from behind, centred between the shoulder and the elbow at the turning point
+              # (the triceps bands at the press lockout)
+              "arm_back_l": ((0, 1, 0), ("upperarm_l", "forearm_l"), 0.5)}
 CAM_FIT = {}
 
 

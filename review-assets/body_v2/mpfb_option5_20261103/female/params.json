@@ -9,7 +9,7 @@
   "african": 0.0,
   "asian": 0.0,
   "caucasian": 1.0,
-  "cupsize": 0.3
+  "cupsize": 0.45
  },
  "targets": {
   "arms/upperarm-muscle-incr": 0.9,
@@ -22,7 +22,7 @@
   "buttocks/buttocks-volume-incr": 0.9,
   "torso/measure-shoulder-dist-incr": 0.9,
   "torso/measure-underbust-circ-incr": 1.9,
-  "torso/measure-bust-circ-incr": -1.7,
+  "torso/measure-bust-circ-incr": -0.9,
   "arms/measure-upperarm-circ-incr": -0.3,
   "legs/measure-calf-circ-incr": 0.1,
   "arms/upperarm-fat-decr": 1.0,

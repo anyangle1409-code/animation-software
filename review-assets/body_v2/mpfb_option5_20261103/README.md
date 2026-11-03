@@ -79,3 +79,16 @@
 - Several girths are now above the guide ranges, as the owner chose.
 - Bald heads: MPFB's bundled assets include no hair.
 - `params.json` / `measurements.json` hold v8. **Not approved.**
+
+## v10: more definition (owner, 3 Nov: "still need more definition")
+
+- **Relief strength:** male 2.8 → 3.6, female 2.6 → 3.3.
+- **New relief (`V2_DEF_EXTRA`):**
+  - gluteal fold and hamstring split;
+  - triceps horseshoe and rear deltoid;
+  - upper trapezius mass;
+  - erector columns, the oblique ridge, the inner calf head.
+- **Fixed after v9:** soft scapular lines (v9 drew "V" marks on the back); a gentler female elbow crease and forearm relief.
+- **Female settings:** breast-size control 0.45, bust −0.9, nipples flattened 1.5. Bust measures 96.6 cm (photo-matched).
+- **Male:** same body as v8.
+- **Renders:** `upper_closeups.jpg` per model. **Not approved.**

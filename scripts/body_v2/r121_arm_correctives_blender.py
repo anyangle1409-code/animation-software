@@ -774,6 +774,39 @@ def contact_plane_restore(T, margin=0.0008, rest_sep=float(os.environ.get("V2_R1
             "restored_part": int(((t > 0) & (t <= 0.99) & moved).sum()), "kept": int(((t == 0) & moved).sum())}
 
 
+# reference re-patch (V2_R121_ARMKEY_REF_POSED=<dir>, with PATCH): after a rest-shape change (rest_reshape_shoulders),
+# the change reaches each pose through the skinning's blended transforms, which vary sharply where the weights hand
+# over at high elevation (cap / armpit) - the reshape's posed change then carries high-frequency differences between
+# neighbours (S1c / S1d: new folds).  At each key's own pose the target is the REFERENCE model's posed surface (dumped
+# from the un-reshaped candidate with V2_R121_ARMKEY_DUMP_POSED=<dir>, same mode / pose / angles) plus the posed change
+# Laplacian-smoothed V2_R121_ARMKEY_REF_SMOOTH rounds: every validated corrective of the reference is kept, the reshape
+# stays (its smooth part), its fold-making part goes.  Upper body only.
+DUMP_POSED = os.environ.get("V2_R121_ARMKEY_DUMP_POSED")
+REF_POSED = os.environ.get("V2_R121_ARMKEY_REF_POSED")
+REF_SMOOTH = int(os.environ.get("V2_R121_ARMKEY_REF_SMOOTH", "20"))
+if REF_POSED and not PATCH:
+    raise SystemExit("V2_R121_ARMKEY_REF_POSED needs V2_R121_ARMKEY_PATCH=1")
+
+
+def _posed_name(ang):
+    return f"posed_{MODE}_{'press' if POSE_PRESS else 'std'}_{ang}.npy"
+
+
+def ref_target(T, ang):
+    Pref = np.load(Path(REF_POSED) / _posed_name(ang))
+    Q = T - Pref
+    Qs = Q.copy()
+    for _ in range(REF_SMOOTH):
+        Qs = 0.5 * Qs + 0.5 * mean(Qs)
+    before = int(folds(T, 0.0)[1])
+    T[:] = np.where(UPPER[:, None], Pref + Qs, T)
+    q, dq = np.linalg.norm(Q, axis=1), np.linalg.norm(Qs - Q, axis=1)
+    return {"smooth_rounds": REF_SMOOTH, "reference_folds_gt90": int(folds(Pref, 0.0)[1]), "folds_gt90_before": before,
+            "folds_gt90_target": int(folds(T, 0.0)[1]), "posed_change_max_mm": round(float(q.max()) * 1000, 2),
+            "smoothing_change_max_mm": round(float(dq[UPPER].max()) * 1000, 2),
+            "moved_over_0.1mm": int((dq[UPPER] > 1e-4).sum())}
+
+
 def set_key(kb, d):
     kb.data.foreach_set("co", (R0 + d).ravel()); me.update()
 
@@ -807,6 +840,9 @@ for ang in ANGLES:
     elev = {s: round(float(measure(rig, s)), 2) for s in ("l", "r")}
     P = evaluated()
     T = P.copy(); hist = []
+    if DUMP_POSED:                                             # reference dump only (see ref_target)
+        Path(DUMP_POSED).mkdir(parents=True, exist_ok=True); np.save(Path(DUMP_POSED) / _posed_name(ang), P)
+        print("ARMKEY_DUMP", ang, elev, flush=True); continue
     contact_hist = ({"mutual": contact_mutual, "plane_restore": contact_plane_restore}.get(CMODE, contact)(T)
                     if (CONTACT is not None and not PATCH) else None)
     # relax: unfold rounds, then a light Laplacian over the folded area (posed space).  V2_R121_ARMKEY_UNFOLD_DEG < 90
@@ -876,6 +912,7 @@ for ang in ANGLES:
             F *= Dinv[:, None]
             F -= np.einsum("ij,ij->i", F, vn)[:, None] * vn
             T = T + 0.4 * ws[:, None] * F
+    ref_hist = ref_target(T, ang) if REF_POSED else None
     ridge_hist = ridge_relief(T) if RIDGE > 0 else None
     fair_hist = fair(T) if FAIR_C else None
     relief_hist = relief_restore(T) if RELIEF_MM > 0 else None
@@ -931,11 +968,13 @@ for ang in ANGLES:
         pose(ang); patch_resid = round(float(np.linalg.norm(T - evaluated(), axis=1).max() * 1000), 3)
     REP["keys"][str(ang)] = {"elevation_deg": elev, "folds_gt90_before": int(folds(P, 0.0)[1]), "unfold_history": hist, "contact_history": contact_hist, "post_guard_overlaps": postguard_hist, "crumple_gt35_history": crum,
                              "ridge_excess_history_mm": ridge_hist, "fairing": fair_hist, "chest_relief_excess_mm": relief_hist,
-                             "delta_mush": mush_hist, "pec_thin": pec_hist,
+                             "delta_mush": mush_hist, "pec_thin": pec_hist, "reference_repatch": ref_hist,
                              **({"patched": patched, "patched_residual_max_mm": patch_resid} if PATCH else {}),
                              "folds_gt90_with_key": nk, "max_offset_mm": round(float(np.linalg.norm(Dk, axis=1).max() * 1000), 2),
                              "vertices": int(len(sel)), "fit_residual_max_mm": round(resid, 3)}
     print("ARMKEY", ang, json.dumps(REP["keys"][str(ang)]), flush=True)
+if DUMP_POSED:                                               # nothing is saved
+    print("R121_ARMKEYS dump done", flush=True); raise SystemExit(0)
 body.shape_key_remove(tmp)
 if APPEND:
     # each appended key was authored with the family's earlier keys at their OLD hat values (the last one fully on

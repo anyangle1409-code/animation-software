@@ -4,8 +4,16 @@
  "sex": "male",
  "label": "Home Gym PT male, Body v2 (athletic adult male)",
  "status": "candidate",
- "current_candidate": "W12c (branch claude/r120-surface-candidate-20261023)",
- "owner_approvals": [],
+ "current_candidate": "first-party reshape of Body v2 to the approved M13/M14 proportions (in progress)",
+ "owner_approvals": [
+  {
+   "date": "2026-11-03",
+   "by": "owner",
+   "what": "proportions_target",
+   "detail": "MPFB benchmark M13/M14 legs, waist, width and arms as the proportion target; chest excluded; not appearance or production approval",
+   "evidence": "review-assets/body_v2/mpfb_benchmark_20261103/"
+  }
+ ],
  "base_mesh": {
   "origin": "Body v2 sculpt on the ORIGINAL_v1 surface (R119 rebuilt legs, R121 arm correctives, C1 girdle path, W5-W12c corrective patches)",
   "derived_from": null

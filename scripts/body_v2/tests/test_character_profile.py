@@ -36,7 +36,8 @@ ids = [c["id"] for c in m["characters"]]
 check("manifest lists the male and the female", {"hgpt_male_v2", "hgpt_female_v2"} <= set(ids))
 check("default character is the male", m["default_character"] == "hgpt_male_v2")
 male, female = cp.load("hgpt_male_v2"), cp.load("hgpt_female_v2")
-check("male is a candidate, not approved", male["status"] == "candidate" and not male["owner_approvals"])
+check("male is a candidate, no appearance / movement / production approval", male["status"] == "candidate" and
+      not {a["what"] for a in male["owner_approvals"]} & {"appearance", "movement", "production"})
 check("female is not started", female["status"] == "not_started" and not female["owner_approvals"])
 check("no character is production-ready", all(cp.load(i)["status"] != "production_ready" for i in ids))
 check("male Blender names unchanged", cp.blender_names("hgpt_male_v2") ==

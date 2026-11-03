@@ -10,4 +10,4 @@ Only the owner adds entries below. Claude records the evidence that was reviewed
 
 | Date | Approved by | What (appearance / movement / production) | Candidate | Evidence | Notes |
 |---|---|---|---|---|---|
-| | | | | | |
+| 2026-11-03 | owner | Proportions TARGET only (not appearance, not production): the MPFB benchmark M13/M14 legs, waist, width and arms; chest excluded (to be sculpted in the first-party model). The owner chose option 1: "use MPFB for overall proportions only" | MPFB benchmark M13/M14 (experimental, not production geometry) | review-assets/body_v2/mpfb_benchmark_20261103/ | The independent first-party mesh still needs its own visual approval |

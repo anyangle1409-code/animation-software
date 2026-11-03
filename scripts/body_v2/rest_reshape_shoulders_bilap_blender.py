@@ -11,6 +11,7 @@ an edge:
     (a smooth bell across that span, peak midway);
   * deltoid: skin around the most lateral point of the cap (within V2_BILAP_CAP_R m), moved inwards by up to
     V2_BILAP_DELT_MM, a little downwards (V2_BILAP_DELT_DOWN, fraction);
+  * optional acromion (V2_BILAP_ACRO_MM > 0): skin around the highest point straight above the joint, lowered;
   * fixed (no motion): everything farther than V2_BILAP_R m from the joint centre, the midline (|x| < 4.5 cm: neck,
     sternum, spine) and the head above the jaw;
   * the rest of the ball is free.
@@ -39,6 +40,7 @@ DELT = float(os.environ.get("V2_BILAP_DELT_MM", "14")) / 1000.0
 DOWN = float(os.environ.get("V2_BILAP_DELT_DOWN", "0.3"))
 RAD = float(os.environ.get("V2_BILAP_R", "0.22"))
 CAP_R = float(os.environ.get("V2_BILAP_CAP_R", "0.035"))
+ACRO = float(os.environ.get("V2_BILAP_ACRO_MM", "0")) / 1000.0   # optional: the top of the shoulder over the joint, lowered
 out_blend = OUT / "body_v2_r121_arms.blend"
 if out_blend.exists():
     raise SystemExit(f"{out_blend} exists; refusing to overwrite")
@@ -72,7 +74,7 @@ inv = body.matrix_world.inverted()
 N = vnormals(R)
 D = np.zeros_like(R)
 known = np.zeros(n, bool)
-rep = {"source": SRC.name, "character": character_profile.load()["id"], "trap_mm": TRAP * 1000, "delt_mm": DELT * 1000,
+rep = {"source": SRC.name, "character": character_profile.load()["id"], "trap_mm": TRAP * 1000, "delt_mm": DELT * 1000, "acro_mm": ACRO * 1000,
        "delt_down": DOWN, "radius_m": RAD, "cap_handle_r_m": CAP_R, "sides": {}}
 for s in ("l", "r"):
     c = np.array(inv @ (rig.matrix_world @ rig.data.bones[f"upperarm_{s}"].head_local)); sg = np.sign(c[0])
@@ -95,7 +97,15 @@ for s in ("l", "r"):
     w = 1.0 - ramp(dl, 0.0, CAP_R)                                   # full at the point, 0 at the handle's rim
     D[ch, 0] = -sg * DELT * (0.35 + 0.65 * w[ch])
     D[ch, 2] = -DOWN * DELT * (0.35 + 0.65 * w[ch])
-    known |= fixed | th | ch
+    # optional acromion handle: skin within CAP_R of the highest point straight above the joint centre
+    ah = np.zeros(n, bool)
+    if ACRO > 0:
+        up = np.nonzero(side & (np.abs(R[:, 0] - c[0]) < 0.02) & (np.abs(R[:, 1] - c[1]) < 0.03) & (R[:, 2] > c[2]))[0]
+        pu = R[up[np.argmax(R[up, 2])]]
+        du = np.linalg.norm(R - pu, axis=1)
+        ah = side & (du < CAP_R) & ~fixed & ~ch & ~th
+        D[ah, 2] = -ACRO * (0.35 + 0.65 * (1.0 - ramp(du[ah], 0.0, CAP_R)))
+    known |= fixed | th | ch | ah
     rep["sides"][s] = {"gh_centre_m": [round(float(x), 4) for x in c], "lateral_point_skin_mm": round(float(abs(pl[0] - c[0])) * 1000, 1),
                        "trap_handle_vertices": int(th.sum()), "cap_handle_vertices": int(ch.sum()),
                        "fixed_in_side": int(fixed.sum())}

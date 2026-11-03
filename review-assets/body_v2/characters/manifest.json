@@ -1,0 +1,17 @@
+{
+ "schema": "hgpt-character-manifest/1",
+ "note": "Characters built on the shared exercise-animation system. See docs/CHARACTER_ARCHITECTURE_MALE_FEMALE_20261103.md. Neither character is production-ready; production (PT_MODEL_VERSION 1.0) is unchanged.",
+ "shared": {
+  "bone_names": "src/rig/boneNames.ts",
+  "frozen_reference_rig": "src/rig/skeleton.ts (canonical 1.75 m male rig, frozen)",
+  "exercise_definitions": "src/exercises (joint targets in degrees on canonical bones)",
+  "corrective_drive_rules": "scripts/body_v2/r121_drives.py",
+  "movement_harness": "scripts/body_v2/movement_trajectory_test_blender.py",
+  "profile_loader": "scripts/body_v2/character_profile.py"
+ },
+ "default_character": "hgpt_male_v2",
+ "characters": [
+  {"id": "hgpt_male_v2", "sex": "male", "profile": "hgpt_male_v2/profile.json", "approval": "hgpt_male_v2/APPROVAL.md", "status": "candidate", "priority": 1},
+  {"id": "hgpt_female_v2", "sex": "female", "profile": "hgpt_female_v2/profile.json", "approval": "hgpt_female_v2/APPROVAL.md", "status": "not_started", "priority": 2}
+ ]
+}

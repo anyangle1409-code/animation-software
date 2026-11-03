@@ -1,0 +1,71 @@
+{
+ "schema": "hgpt-character-profile/1",
+ "id": "hgpt_male_v2",
+ "sex": "male",
+ "label": "Home Gym PT male, Body v2 (athletic adult male)",
+ "status": "candidate",
+ "current_candidate": "W12c (branch claude/r120-surface-candidate-20261023)",
+ "owner_approvals": [],
+ "base_mesh": {
+  "origin": "Body v2 sculpt on the ORIGINAL_v1 surface (R119 rebuilt legs, R121 arm correctives, C1 girdle path, W5-W12c corrective patches)",
+  "derived_from": null
+ },
+ "blender": {
+  "body_object": "HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE",
+  "rig_object": "HGPT_CANONICAL_V4_ORIGINAL"
+ },
+ "skeleton": {
+  "bone_names": "canonical",
+  "fit": "canonical rig (frozen; the reference rig itself)",
+  "app_rig_height_m": 1.75,
+  "mesh_stature_m": 1.855,
+  "mesh_stature_source": "GLB v3 (W5) bounding box, head top to sole"
+ },
+ "landmarks_rest_m": {
+  "gh_centre_l": [
+   -0.2189,
+   0.0678,
+   1.4705
+  ],
+  "gh_centre_r": [
+   0.2189,
+   0.0678,
+   1.4705
+  ],
+  "gh_spacing_over_stature": 0.236,
+  "note": "GH centres are the rig's upperarm_<s> heads in the body's object frame (rest_reshape_shoulders report, 3 Nov); spacing over the 1.855 m mesh stature"
+ },
+ "regions": {
+  "legs_v2_blender.py": {
+   "V2_LEGS_CUT": 0.45
+  },
+  "rest_reshape_shoulders_blender.py": {
+   "delt_fade_m": [
+    0.09,
+    0.14
+   ],
+   "trap_neck_abs_x_m": [
+    0.06,
+    0.11
+   ],
+   "trap_front_fade_m": [
+    0.09,
+    0.04
+   ]
+  }
+ },
+ "references": [
+  {
+   "name": "Home Gym PT character reference sheet (athletic adult male; front, 3/4, side, back, close-ups)",
+   "sha256": "a4b4820cc350642e80400100ff00f7ce91fb9ec912ae33278b59c79f05881dc5",
+   "in_git": false,
+   "received": "2026-11-03"
+  }
+ ],
+ "results": [
+  "review-assets/body_v2/visual_evidence/comparison_r41_w5_w11_20261103/",
+  "review-assets/body_v2/visual_evidence/shoulder_w11_20261103/",
+  "review-assets/body_v2/visual_evidence/press_w12c_20261103/",
+  "docs/ANATOMICAL_DEFECT_LIST_20261103.md"
+ ]
+}

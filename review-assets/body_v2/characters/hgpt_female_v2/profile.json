@@ -1,0 +1,34 @@
+{
+ "schema": "hgpt-character-profile/1",
+ "id": "hgpt_female_v2",
+ "sex": "female",
+ "label": "Home Gym PT female, Body v2 (not started)",
+ "status": "not_started",
+ "current_candidate": null,
+ "owner_approvals": [],
+ "base_mesh": {
+  "origin": "to be built independently from her own reference sheet: her own sculpt or fitted base mesh, never the male mesh scaled",
+  "derived_from": null
+ },
+ "blender": {
+  "body_object": null,
+  "rig_object": null
+ },
+ "skeleton": {
+  "bone_names": "canonical",
+  "fit": "own fit to her proportions (bone lengths, joint centres, pelvis); canonical names, hierarchy and joint conventions",
+  "mesh_stature_m": null
+ },
+ "landmarks_rest_m": {},
+ "regions": {},
+ "references": [],
+ "results": [],
+ "expected_differences_to_validate": [
+  "biacromial width relative to stature",
+  "pelvis width and shape, Q angle (squat and lunge knee tracking)",
+  "elbow carrying angle (curl and press path)",
+  "ribcage size; joint range",
+  "breast tissue: its own corrective family for press, fly, push-up and row",
+  "fat distribution and muscle relief"
+ ]
+}

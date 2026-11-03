@@ -121,6 +121,27 @@ nine movement sets, the press lockout C1 vs W5 comparison, and app GLB v3.
 | S1 (shoulder reshape 16 / 14 mm) | The silhouette moved halfway to the reference (0.836 level 0.240 → 0.199), but the deltoid cap's relief packed into crinkles and a crease appeared where the trapezius lowering stopped |
 | R41 renders as the "older approved" press look | R41_SOURCE lacks the R47 / R52 dense press correctives. It collapses on either girdle path (up to 1,710 crossings). The approved older look is in `review-assets/shoulder_r59/` (R52 at the R47 marked pose) |
 
+### Male and female characters (owner requirement, 3 Nov)
+
+- **Design:** `docs/CHARACTER_ARCHITECTURE_MALE_FEMALE_20261103.md`.
+  - Shared between the two models: canonical bone names, exercise definitions in joint angles, corrective drive rules,
+    the test harness and its thresholds.
+  - Per character: skeleton fit, weights, corrective keys, landmark and region profile, references, results, approval.
+- **Scaffolding:**
+  - `review-assets/body_v2/characters/` holds the manifest plus a profile and approval record per character.
+  - `scripts/body_v2/character_profile.py` validates them: owner approval is required before any approved or
+    production-ready state, a character cannot be a scaled copy of another, and bone names must be canonical.
+  - Its unit test (28 checks) runs on the free-runner check workflow.
+- **Status:**
+  - Male: `candidate` (W12c), **not approved**.
+  - Female: `not_started`. Her work starts after the male appearance approval unless the owner says otherwise.
+  - Neither is production-ready.
+- **Not done yet (incremental):**
+  - 36 hard-coded male object names remain in older scripts. They move to the profile when each script is next touched;
+    the default profile is the male, so behaviour is unchanged.
+  - Body-relative resolution of the absolute-metre exercise fields (hand and foot widths, IK targets) is designed, not
+    built.
+
 ## In progress
 
 - App GLB v4 from W12c is being baked (playback, fidelity and PT-App preflight run locally; no PT-App push).

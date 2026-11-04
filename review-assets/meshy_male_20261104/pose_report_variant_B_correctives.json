@@ -1,0 +1,122 @@
+{
+ "stand": {
+  "correctives": {
+   "elevation_deg": 8.0,
+   "plane_deg": 10.0,
+   "gate": 1.0,
+   "CORR_SH_MID": 0.0,
+   "CORR_SH_TOP": 0.0
+  },
+  "self_intersections": 1046,
+  "self_intersections_by_height_band": {
+   "head_neck": 0,
+   "shoulder_axilla": 1046,
+   "hip_groin": 0,
+   "legs_feet": 0
+  },
+  "edge_stretch_p99": 1.079,
+  "edge_stretch_max": 2.49,
+  "edge_compress_p1": 0.806,
+  "volume_change_pct": -1.49
+ },
+ "press_bottom": {
+  "correctives": {
+   "elevation_deg": 55.0,
+   "plane_deg": 40.0,
+   "gate": 1.0,
+   "CORR_SH_MID": 0.0,
+   "CORR_SH_TOP": 0.0
+  },
+  "self_intersections": 325,
+  "self_intersections_by_height_band": {
+   "head_neck": 0,
+   "shoulder_axilla": 325,
+   "hip_groin": 0,
+   "legs_feet": 0
+  },
+  "edge_stretch_p99": 1.563,
+  "edge_stretch_max": 6.72,
+  "edge_compress_p1": 0.709,
+  "volume_change_pct": 2.45
+ },
+ "press_mid": {
+  "correctives": {
+   "elevation_deg": 105.0,
+   "plane_deg": 30.0,
+   "gate": 1.0,
+   "CORR_SH_MID": 1.0,
+   "CORR_SH_TOP": 0.0
+  },
+  "self_intersections": 2,
+  "self_intersections_by_height_band": {
+   "head_neck": 0,
+   "shoulder_axilla": 2,
+   "hip_groin": 0,
+   "legs_feet": 0
+  },
+  "edge_stretch_p99": 2.29,
+  "edge_stretch_max": 14.5,
+  "edge_compress_p1": 0.669,
+  "volume_change_pct": 6.4
+ },
+ "press_top": {
+  "correctives": {
+   "elevation_deg": 170.0,
+   "plane_deg": 15.0,
+   "gate": 1.0,
+   "CORR_SH_MID": 0.0,
+   "CORR_SH_TOP": 1.0
+  },
+  "self_intersections": 320,
+  "self_intersections_by_height_band": {
+   "head_neck": 0,
+   "shoulder_axilla": 320,
+   "hip_groin": 0,
+   "legs_feet": 0
+  },
+  "edge_stretch_p99": 3.003,
+  "edge_stretch_max": 21.9,
+  "edge_compress_p1": 0.54,
+  "volume_change_pct": 6.82
+ },
+ "curl": {
+  "correctives": {
+   "elevation_deg": 5.0,
+   "plane_deg": 5.0,
+   "gate": 1.0,
+   "CORR_SH_MID": 0.0,
+   "CORR_SH_TOP": 0.0
+  },
+  "self_intersections": 1735,
+  "self_intersections_by_height_band": {
+   "head_neck": 0,
+   "shoulder_axilla": 1735,
+   "hip_groin": 0,
+   "legs_feet": 0
+  },
+  "edge_stretch_p99": 1.315,
+  "edge_stretch_max": 3.13,
+  "edge_compress_p1": 0.622,
+  "volume_change_pct": -2.22
+ },
+ "squat": {
+  "correctives": {
+   "elevation_deg": 80.0,
+   "plane_deg": 85.0,
+   "gate": 0.0,
+   "CORR_SH_MID": 0.0,
+   "CORR_SH_TOP": 0.0
+  },
+  "self_intersections": 1674,
+  "self_intersections_by_height_band": {
+   "head_neck": 0,
+   "shoulder_axilla": 894,
+   "hip_groin": 497,
+   "legs_feet": 283
+  },
+  "edge_stretch_p99": 2.021,
+  "edge_stretch_max": 17.76,
+  "edge_compress_p1": 0.497,
+  "volume_change_pct": -8.06
+ }
+}

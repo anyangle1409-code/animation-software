@@ -28,6 +28,10 @@ ONLY = a[2].split(",") if len(a) > 2 else None
 bpy.ops.wm.open_mainfile(filepath=str(SRC))
 rig = bpy.data.objects["MESHY_RIG"]; body = bpy.data.objects["MESHY_BODY"]
 pb = rig.pose.bones; MW = rig.matrix_world; W2A = MW.to_3x3().inverted(); wp = lambda v: MW @ v
+import os  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from shoulder_pose_lib import apply_correctives  # noqa: E402
+CORR = os.environ.get("CORRECTIVES", "1") != "0"     # drive CORR_SH_* keys by humerus elevation when the mesh has them
 
 
 def subtree(root):
@@ -124,6 +128,7 @@ for name, fn in RAW.items():
     for n, m in rest.items():
         pb[n].matrix_basis = m
     bpy.context.view_layer.update(); fn(); bpy.context.view_layer.update()
+    corr = apply_correctives(rig, body) if CORR else {}
     V, T, E = evaluated()
     if name == "squat":                                           # feet back on the floor
         dz = V[:, 2].min(); rig.location.z -= dz; bpy.context.view_layer.update(); V, T, E = evaluated()
@@ -136,7 +141,7 @@ for name, fn in RAW.items():
         for lab, cond in (("head_neck", lambda p: (p[:, 2] - z0) / H > 0.83), ("shoulder_axilla", lambda p: ((p[:, 2] - z0) / H > 0.62) & ((p[:, 2] - z0) / H <= 0.83)),
                           ("hip_groin", lambda p: ((p[:, 2] - z0) / H > 0.35) & ((p[:, 2] - z0) / H <= 0.62)), ("legs_feet", lambda p: (p[:, 2] - z0) / H <= 0.35)):
             reg[lab] = int(cond(locs).sum())
-    REP[name] = {"self_intersections": n_hit, "self_intersections_by_height_band": reg,
+    REP[name] = {"correctives": corr, "self_intersections": n_hit, "self_intersections_by_height_band": reg,
                  "edge_stretch_p99": round(float(np.percentile(r[em], 99)), 3) if em.any() else None,
                  "edge_stretch_max": round(float(r[em].max()), 2) if em.any() else None,
                  "edge_compress_p1": round(float(np.percentile(r[em], 1)), 3) if em.any() else None,

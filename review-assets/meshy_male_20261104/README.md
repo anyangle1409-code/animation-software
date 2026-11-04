@@ -107,3 +107,55 @@ The numbers are self-intersecting triangle pairs (`pose_report_variant_*.json`).
 - Narrowing further (C) makes standing and the press top worse.
 - **The fold at the back of the shoulder at the press top, and the shoulder-top crumple, remain in every variant.** They come from linear skinning, not from where the joint is.
 - **Conclusion:** a small joint correction (B) is worth adopting for this mesh if the owner approves. The shoulder problems still need corrective shapes and helper-bone weights.
+
+## Shoulder corrective shapes on variant B (owner approved B, 4 Nov)
+
+Script: `scripts/meshy/meshy_shoulder_correctives_blender.py`. Shared posing and the drive rule: `scripts/meshy/shoulder_pose_lib.py`. Like the rest of this experiment, it runs only on the variant-B rig copy.
+
+**Method.** Two shape keys are built:
+
+| Key | Built at | Drive (humerus elevation) |
+|---|---|---|
+| `CORR_SH_MID` | press mid, 105° | rises from 55° to a peak at 105°, falls to 0 at 170° |
+| `CORR_SH_TOP` | press top, 170° | 0 at 105°, rising to 1 at 170° |
+
+Building each key:
+- The skinning **displacement field** (posed minus rest) is smoothed: 150 passes, then 30 more on the correction.
+- The correction applies **only where the skinning blends bones** (one minus the largest bone weight), inside the shoulder region, feathered over 80 rings.
+- It is brought back to the rest pose by inverting each vertex's blended skinning matrix.
+
+Both keys **fade out once the arm is raised more than 45–75° forwards**: they were built for press-plane elevation, and a straight-forward raise needs its own key. Correction size: p99 9–11 mm, max 11–15 mm.
+
+**Approaches tried and rejected** (renders sent in the conversation):
+1. **Delta Mush detail re-attached in surface frames:** the frames flip, causing torn spikes. Press mid went 40 → 1,459 intersections.
+2. **The same, re-attached in the skinning rotation:** crinkles on the latissimus and armpit, where the blended rotation is close to singular.
+3. **Displacement smoothing over the whole shoulder:** distorts the raised arm.
+4. **The blend-zone mask with a light feather:** noise from the bone-heat weights shows through as crinkles.
+
+**Results** (`pose_report_variant_B_correctives.json`):
+
+| Pose | B without | B with correctives | Edge stretch p99 | Volume change |
+|---|---|---|---|---|
+| Stand / press bottom / curl | 1,046 / 325 / 1,735 | unchanged (keys off) | unchanged | unchanged |
+| Press mid (105°) | 40 | **2** | 2.35 → 2.29 | +6.9 → +6.4 % |
+| Press top (170°) | 304 | 320 | 3.09 → 3.00 | +7.9 → +6.8 % |
+| Squat (arms forwards 80°) | 1,674 | 1,674 (gated off) | — | — |
+
+In-between press angles (`press_sweep_variant_B_correctives.json`):
+
+| Elevation | 80° | 90° | 120° | 135° | 150° |
+|---|---|---|---|---|---|
+| Without | 219 | 168 | 128 | 194 | 241 |
+| With | 184 | 28 | 46 | 114 | 238 |
+
+**Visual verification** (front / back / side close-ups):
+- **Press mid:** the shoulder-top crumple is **gone** in the front and side views, and the deltoid outline is clean.
+- **Press top:** the armpit and latissimus seams are softer in the front and side views. **The large fold at the back of the shoulder (rear deltoid / triceps root, back view) is NOT fixed.** It is tissue folding onto itself, which a smoothing corrective cannot unfold.
+
+The 150° press frame barely improves for the same reason.
+
+**What remains for the press top:**
+- weights for the helper bones (`shoulder_cap`, `muscle_trap`, `muscle_lat`) so they carry the rear-deltoid mass up over the acromion; or
+- a sculpted or volume-targeted key at 170°, as the R121 lockout family did.
+
+The deformation gate is therefore **still open** for the press top and the squat. Correctives for a forward raise, the squat (groin, back of knee) and the curl contact are also still to do.

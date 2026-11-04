@@ -1,0 +1,57 @@
+{
+ "80": {
+  "without": 219,
+  "with": 184,
+  "keys": {
+   "elevation_deg": 80.0,
+   "plane_deg": 34.6,
+   "gate": 1.0,
+   "CORR_SH_MID": 0.5,
+   "CORR_SH_TOP": 0.0
+  }
+ },
+ "90": {
+  "without": 168,
+  "with": 28,
+  "keys": {
+   "elevation_deg": 90.0,
+   "plane_deg": 32.4,
+   "gate": 1.0,
+   "CORR_SH_MID": 0.784,
+   "CORR_SH_TOP": 0.0
+  }
+ },
+ "120": {
+  "without": 128,
+  "with": 46,
+  "keys": {
+   "elevation_deg": 120.0,
+   "plane_deg": 25.9,
+   "gate": 1.0,
+   "CORR_SH_MID": 0.865,
+   "CORR_SH_TOP": 0.135
+  }
+ },
+ "135": {
+  "without": 194,
+  "with": 114,
+  "keys": {
+   "elevation_deg": 135.0,
+   "plane_deg": 22.6,
+   "gate": 1.0,
+   "CORR_SH_MID": 0.558,
+   "CORR_SH_TOP": 0.442
+  }
+ },
+ "150": {
+  "without": 241,
+  "with": 238,
+  "keys": {
+   "elevation_deg": 150.0,
+   "plane_deg": 19.3,
+   "gate": 1.0,
+   "CORR_SH_MID": 0.226,
+   "CORR_SH_TOP": 0.774
+  }
+ }
+}

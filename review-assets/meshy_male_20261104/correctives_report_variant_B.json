@@ -1,0 +1,17 @@
+{
+ "iterations": 150,
+ "frame": "disp",
+ "mask": "blend",
+ "CORR_SH_MID": {
+  "elevation_deg": 105,
+  "max_correction_mm": 11.1,
+  "p99_correction_mm": 9.1,
+  "masked_vertices": 34122
+ },
+ "CORR_SH_TOP": {
+  "elevation_deg": 170,
+  "max_correction_mm": 15.2,
+  "p99_correction_mm": 11.1,
+  "masked_vertices": 34122
+ }
+}

@@ -162,7 +162,7 @@ H = P("stature_m", 1.856)
 # ---- trunk core (the muscles below sit ON these, protruding 0.5-2.5 cm, as on a lean athlete)
 ell("ribcage", [0, 0.022, 1.360], Rxyz(rx=-6), np.array([0.158, 0.124, 0.185]) * [sc("chest_w"), sc("chest_d"), 1], k=0.04)
 ell("girdle", [0, 0.035, 1.462], I3, np.array([0.185, 0.085, 0.070]) * [sc("shoulder_w"), 1, 1], k=0.04)
-ell("abdomen", [0, 0.008, 1.130], I3, np.array([0.135, 0.098, 0.150]) * [sc("waist_w"), sc("waist_d"), 1], k=0.05)
+ell("abdomen", [0, P("abdomen_y", -0.012), 1.130], I3, np.array([0.135, 0.098, 0.150]) * [sc("waist_w"), sc("waist_d"), 1], k=0.05)
 ell("pelvis", [0, 0.015, 0.955], I3, np.array([0.172, 0.108, 0.112]) * [sc("hip_w"), 1, 1], k=0.05)
 ell("lower_belly", [0, -0.035, 1.010], Rxyz(rx=12), [0.100, 0.055, 0.075], k=0.04)
 ell("sacrum", [0, 0.090, 0.965], Rxyz(rx=-20), [0.060, 0.030, 0.065], k=0.045)
@@ -170,14 +170,14 @@ for s in (-1.0, 1.0):
     # ---- back: latissimus (V taper from the armpit), erectors, scapular mass, trapezius sheets
     lw = sc("lats")
     ell("lat", MX(s, [0.135, 0.075, 1.300]), MR(s, Rxyz(ry=18)), [0.045 * lw, 0.062, 0.135], k=0.035)
-    cone("erector", MX(s, [0.034, 0.092, 0.990]), MX(s, [0.032, 0.100, 1.340]), 0.030, 0.022, k=0.025)
+    cone("erector", MX(s, [0.034, P("lumbar_y", 0.072), 1.000]), MX(s, [0.032, 0.100, 1.340]), 0.030, 0.022, k=0.025)
     ell("scapular", MX(s, [0.100, 0.116, 1.405]), MR(s, Rxyz(rz=-10)), [0.058, 0.030, 0.060], k=0.04)
     ell("teres", MX(s, [0.165, 0.085, 1.385]), MR(s, Rxyz(ry=-30)), [0.040, 0.030, 0.022], k=0.02)
     ell("trap_upper", MX(s, [0.095, 0.058, 1.560]), MR(s, Rxyz(ry=36)), [0.100 * sc("traps"), 0.048, 0.028], k=0.03)
     ell("trap_mid", MX(s, [0.055, 0.112, 1.445]), MR(s, Rxyz(rz=-25)), [0.070, 0.032, 0.090], k=0.04)
     # ---- chest: pectoralis major (crisp lower border: small k), its tendon to the humerus
     pk = P("pec_k", 0.012); pw = sc("pecs")
-    ell("pec", MX(s, [0.090, -0.074, 1.400]), MR(s, Rxyz(ry=-12, rz=24)), [0.100 * pw, 0.019 * pw, 0.064], k=pk)
+    ell("pec", MX(s, [0.090, -0.077, 1.400]), MR(s, Rxyz(ry=-12, rz=24)), [0.102 * pw, 0.020 * pw, 0.066], k=pk)
     ell("pec_upper", MX(s, [0.080, -0.064, 1.455]), MR(s, Rxyz(ry=-6, rz=22)), [0.090, 0.030, 0.045], k=0.04)   # clavicular head blends up to the clavicle
     cone("pec_tendon", MX(s, [0.150, -0.045, 1.425]), at(f"upperarm_{'l' if s < 0 else 'r'}", 0.17, 0.0, 0.010), 0.026, 0.016, k=0.025)
     # ---- side: serratus digitations, external obliques
@@ -186,7 +186,7 @@ for s in (-1.0, 1.0):
     ell("rectus_sheath", MX(s, [0.034, -0.068, 1.150]), Rxyz(rx=-4), [0.040, 0.026 * sc("abs"), 0.175], k=0.03)
     # ---- glutes
     gw = sc("glutes")
-    ell("glute_max", MX(s, [0.068, 0.080, 0.895]), MR(s, Rxyz(rx=12, rz=-15)), [0.070, 0.058 * gw, 0.088], k=0.05)
+    ell("glute_max", MX(s, [0.066, 0.090, 0.895]), MR(s, Rxyz(rx=12, rz=-15)), [0.072, 0.058 * gw, 0.088], k=0.07)
     ell("glute_med", MX(s, [0.128, 0.035, 0.985]), MR(s, Rxyz(rz=10)), [0.045, 0.055, 0.060], k=0.035)
     ell("masseter", MX(s, [0.052, -0.010, 1.665]), MR(s, Rxyz(ry=10)), [0.016, 0.026, 0.030], k=0.02)
 # ---- neck + head
@@ -196,7 +196,7 @@ for s in (-1.0, 1.0):
     cone("scm", MX(s, [0.055, 0.035, 1.690]), MX(s, [0.016, -0.045, 1.495]), 0.016, 0.013, k=0.015)
     cone("clavicle", MX(s, [0.018, -0.032, 1.500]), MX(s, [0.168, 0.025, 1.518]), 0.011, 0.011, k=0.02)
 ell("cranium", [0, 0.030, 1.750], Rxyz(rx=-8), [0.078, 0.100, 0.106], k=0.02)
-ell("jaw", [0, -0.028, 1.668], Rxyz(rx=-18), [0.056, 0.060, 0.048], k=0.025)
+ell("jaw", [0, -0.028, 1.668], Rxyz(rx=-18), [0.051, 0.058, 0.048], k=0.025)
 ell("chin", [0, -0.080, 1.640], I3, [0.024, 0.020, 0.020], k=0.02)
 ell("face", [0, -0.060, 1.715], I3, [0.062, 0.050, 0.060], k=0.03)
 cone("nose", [0, -0.097, 1.736], [0, -0.113, 1.700], 0.007, 0.011, k=0.012)
@@ -210,13 +210,25 @@ for s in (-1.0, 1.0):
     ell("eyeball", MX(s, [0.033, -0.087, 1.736]), I3, [0.0125, 0.0125, 0.0125], k=0.005)
     ell("lip", MX(s, [0.008, -0.094, 1.667]), I3, [0.017, 0.008, 0.0065], k=0.008)
 ell("lip_low", [0, -0.092, 1.654], I3, [0.019, 0.008, 0.0065], k=0.008)
+HF = float(P("head_forward", 0.03))                         # head + upper neck forward (reference side view)
+HEADP = {"cranium", "jaw", "chin", "face", "nose", "nose_wing", "brow", "cheek", "ear", "eye_socket", "eyeball", "lip", "lip_low",
+         "masseter", "scm"}
+for i_, (kind, prm, k, op, blo, bhi, name) in enumerate(PRIMS):
+    if name in HEADP or name == "neck":
+        dv = np.array([0, -HF, 0])
+        if kind == "cone":
+            w1 = 1.0 if name != "neck" else 0.0; w2 = 1.0 if name != "scm" else 0.0
+            prm = (prm[0] + dv * w1, prm[1] + dv * w2, prm[2], prm[3])
+        else:
+            prm = (prm[0] + dv,) + tuple(prm[1:])
+        PRIMS[i_] = (kind, prm, k, op, blo + np.minimum(dv, 0), bhi + np.maximum(dv, 0), name)
 # ---- arms
 for sd in ("l", "r"):
     ua, fa, hd = f"upperarm_{sd}", f"forearm_{sd}", f"hand_{sd}"
     Rua, Rfa = basis(ua), basis(fa); aw = sc("arms")
     gh = J[ua][0]
     cone("humerus", at(ua, 0.02), at(ua, 0.98), 0.044, 0.034, k=0.02)
-    ell("shoulder_joint", gh + np.array([0, -0.01, 0.01]), I3, [0.050, 0.055, 0.050], k=0.045)
+    ell("shoulder_joint", gh + np.array([0, -0.01, -0.014]), I3, [0.048, 0.054, 0.044], k=0.045)
     cone("axilla_front", [np.sign(gh[0]) * 0.140, -0.035, 1.415], at(ua, 0.20, -0.010, 0.012), 0.032, 0.026, k=0.035)
     cone("axilla_back", [np.sign(gh[0]) * 0.140, 0.075, 1.400], at(ua, 0.22, -0.010, -0.020), 0.034, 0.026, k=0.035)
     # deltoid: three heads around the humeral head, tapering to the insertion (~45 % down the humerus)
@@ -224,7 +236,7 @@ for sd in ("l", "r"):
     ell("delt_ant", at(ua, 0.17, 0.010, 0.040), Rua @ Rxyz(rx=-8), [0.032 * dw, 0.030 * dw, 0.090], k=0.012)
     ell("delt_lat", at(ua, 0.20, 0.046 * P("delt_lat_offset", 1.0), 0.002), Rua, [0.032 * dw, 0.042 * dw, 0.092], k=0.012)
     ell("delt_post", at(ua, 0.17, 0.012, -0.040), Rua @ Rxyz(rx=8), [0.032 * dw, 0.030 * dw, 0.088], k=0.012)
-    ell("delt_cap", at(ua, 0.05, 0.030, 0.0), Rua, [0.040 * dw, 0.048 * dw, 0.045], k=0.02)
+    ell("delt_cap", at(ua, 0.09, 0.030, 0.0), Rua, [0.038 * dw, 0.046 * dw, 0.045], k=0.025)
     ell("biceps", at(ua, 0.60, 0.004, 0.030), Rua, [0.031 * aw, 0.034 * aw, 0.092], k=0.012)
     ell("brachialis", at(ua, 0.76, 0.024, 0.012), Rua, [0.024, 0.024, 0.065], k=0.012)
     ell("triceps_long", at(ua, 0.45, -0.012, -0.034), Rua, [0.030 * aw, 0.034 * aw, 0.105], k=0.012)
@@ -260,10 +272,10 @@ for sd in ("l", "r"):
     cone("femur", at(th, 0.00, 0.010, 0.0), at(th, 0.97), 0.070 * lw, 0.054, k=0.03)
     ell("lower_thigh", at(th, 0.80, 0.004, 0.010), Rth, [0.052 * lw, 0.050 * lw, 0.090], k=0.035)
     ell("trochanter", at(th, 0.08, 0.060, 0.0), Rth, [0.040, 0.055, 0.080], k=0.045)
-    ell("rectus_fem", at(th, 0.45, 0.004, 0.050), Rth, [0.036 * lw, 0.032 * lw, 0.175], k=0.014)
-    ell("vastus_lat", at(th, 0.55, 0.052, 0.008), Rth, [0.040 * lw, 0.046 * lw, 0.190], k=0.016)
+    ell("rectus_fem", at(th, 0.45, 0.004, 0.062), Rth, [0.037 * lw, 0.038 * lw, 0.180], k=0.016)
+    ell("vastus_lat", at(th, 0.50, 0.058, 0.008), Rth, [0.044 * lw, 0.048 * lw, 0.200], k=0.018)
     ell("vastus_med", at(th, 0.80, -0.032, 0.018), Rth @ Rxyz(ry=-10), [0.030 * lw, 0.028 * lw, 0.070], k=0.02)
-    ell("adductors", at(th, 0.25, -0.050, 0.004), Rth @ Rxyz(ry=12), [0.040 * lw, 0.046 * lw, 0.130], k=0.02)
+    ell("adductors", at(th, 0.22, -0.054, 0.004), Rth @ Rxyz(ry=12), [0.046 * lw, 0.050 * lw, 0.135], k=0.025)
     ell("hamstring_lat", at(th, 0.50, 0.022, -0.048), Rth, [0.034 * lw, 0.036 * lw, 0.170], k=0.014)
     ell("hamstring_med", at(th, 0.50, -0.022, -0.048), Rth, [0.034 * lw, 0.036 * lw, 0.165], k=0.014)
     cone("sartorius", at(th, 0.02, 0.040, 0.060), at(th, 0.92, -0.040, 0.004), 0.011, 0.010, k=0.012)
@@ -271,8 +283,8 @@ for sd in ("l", "r"):
     ell("patella", at(sh, 0.0, 0.0, 0.040), Rsh, [0.024, 0.012, 0.028], k=0.012)
     cone("tibia", at(sh, 0.05), at(sh, 0.96), 0.046, 0.030, k=0.025)
     cw = sc("calves") * 1.08
-    ell("gastroc_med", at(sh, 0.28, -0.020, -0.040), Rsh, [0.040 * cw, 0.040 * cw, 0.105], k=0.015)
-    ell("gastroc_lat", at(sh, 0.26, 0.022, -0.036), Rsh, [0.035 * cw, 0.035 * cw, 0.090], k=0.015)
+    ell("gastroc_med", at(sh, 0.28, -0.020, -0.050), Rsh, [0.040 * cw, 0.040 * cw, 0.105], k=0.015)
+    ell("gastroc_lat", at(sh, 0.26, 0.022, -0.045), Rsh, [0.035 * cw, 0.035 * cw, 0.090], k=0.015)
     ell("soleus", at(sh, 0.48, 0.0, -0.020), Rsh, [0.050, 0.036, 0.140], k=0.03)
     ell("tib_ant", at(sh, 0.32, 0.020, 0.030), Rsh, [0.018, 0.016, 0.110], k=0.012)
     cone("achilles", at(sh, 0.62, 0.0, -0.028), at(sh, 0.97, 0.0, -0.034), 0.016, 0.011, k=0.012)
@@ -353,7 +365,6 @@ for s_ in (-1, 1):
         groove("serratus", "front", [(s_ * 0.150, z_ + 0.012), (s_ * 0.128, z_ - 0.010)], 0.008, 0.0020 * GD, 0.006)
     groove("lat_border", "back", [(s_ * 0.165, 1.330), (s_ * 0.120, 1.180), (s_ * 0.075, 1.060)], 0.022, 0.0022 * GD, 0.015)
 for s_ in (-1, 1):                                                # legs: quadriceps / hamstring / calf separations
-    groove("quad_lat", "front", [(s_ * 0.128, 0.80), (s_ * 0.136, 0.70), (s_ * 0.132, 0.62)], 0.016, 0.0017 * GD, 0.010)
     groove("vmo", "front", [(s_ * 0.058, 0.64), (s_ * 0.075, 0.585), (s_ * 0.098, 0.565)], 0.013, 0.0016 * GD, 0.010)
     groove("patella_top", "front", [(s_ * 0.078, 0.555), (s_ * 0.106, 0.555)], 0.010, 0.0011 * GD, 0.008)
     groove("hamstring_split", "back", [(s_ * 0.092, 0.74), (s_ * 0.094, 0.66), (s_ * 0.092, 0.60)], 0.014, 0.0016 * GD, 0.010)

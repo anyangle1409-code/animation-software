@@ -25,7 +25,7 @@ bpy.ops.wm.open_mainfile(filepath=str(SRC))
 rig = [o for o in bpy.data.objects if o.type == "ARMATURE"][0]
 body = max((o for o in bpy.data.objects if o.type == "MESH" and "FLOOR" not in o.name), key=lambda o: len(o.data.vertices))
 for o in bpy.data.objects:
-    o.hide_render = o.type == "MESH" and o is not body and "FLOOR" not in o.name
+    o.hide_render = o.type == "MESH" and o is not body and "FLOOR" not in o.name and not o.name.endswith("_REVIEW")
 AO = float(os.environ.get("V2_ARMS_OUT", "0"))               # arms-out views: humeri at AO deg in the frontal plane
 if AO > 0:
     import math

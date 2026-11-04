@@ -73,6 +73,14 @@ for name, w in P.get("targets", {}).items():
         TargetService.load_target(h, f, weight=float(w)); loaded[os.path.relpath(f, troot)] = float(w)
 rig = HumanService.add_builtin_rig(h, P.get("rig", "game_engine"))
 bpy.context.view_layer.update()
+EYES = P.get("eyes_mhclo") or os.environ.get("MH_EYES_MHCLO")   # MakeHuman CC0 eyes (makehuman repo data/eyes)
+if EYES:
+    try:
+        eo = HumanService.add_mhclo_asset(EYES, h, asset_type="Eyes", subdiv_levels=0, material_type="MAKESKIN")
+        eo.name = "EYES_REVIEW"; print("EYES added", eo.name, flush=True)
+    except Exception as ex:  # noqa: BLE001
+        print("EYES failed", repr(ex), flush=True)
+    bpy.context.view_layer.update()
 
 
 def evaluated():

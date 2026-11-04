@@ -53,8 +53,6 @@ vb = ob.vertex_groups.new(name="BROW_REVIEW"); vb.add(np.nonzero(br)[0].tolist()
 def hair_sys(name, group, count, length, children, mat_color, rough=0.35):
     mod = ob.modifiers.new(name, "PARTICLE_SYSTEM"); ps = mod.particle_system; st = ps.settings
     st.type = "HAIR"; st.count = count; st.hair_length = length; st.use_advanced_hair = True
-    st.normal_factor = 0.35; st.tangent_factor = 0.0
-    st.object_align_factor = (0.0, 0.012, 0.012) if name.startswith("HAIR") else (0.0, 0.0, 0.0)   # combed up and back
     st.emit_from = "FACE"; st.use_emit_random = True
     ps.vertex_group_density = group
     for k_, v_ in (("child_type", "INTERPOLATED"), ("rendered_child_count", children), ("child_percent", max(1, children // 4)),
@@ -83,8 +81,7 @@ def hair_sys(name, group, count, length, children, mat_color, rough=0.35):
 # the skin material slot stays first; hair materials after it
 if not ob.data.materials:
     ob.data.materials.append(bpy.data.materials.new("SKIN_PLACEHOLDER"))
-hair_sys("HAIR_REVIEW", "HAIR_REVIEW", 14000, 0.022, 40, 0.97, 0.45)
-hair_sys("BROW_REVIEW", "BROW_REVIEW", 700, 0.006, 4, 0.97, 0.5)
+hair_sys("HAIR_REVIEW", "HAIR_REVIEW", 20000, 0.013, 30, 0.95, 0.45)
 # trunks: shell of the skin between 0.405 H and 0.565 H (arms and hands excluded)
 arm = gw("upperarm", "lowerarm", "hand", "thumb", "index", "middle", "ring", "pinky") > 0.3
 keep = (f > 0.405) & (f < 0.565) & ~arm
@@ -100,5 +97,12 @@ sol = to.modifiers.new("THICK", "SOLIDIFY"); sol.thickness = 0.002
 fm = bpy.data.materials.new("TRUNKS_FABRIC"); fm.use_nodes = True
 b = fm.node_tree.nodes["Principled BSDF"]; b.inputs["Base Color"].default_value = (0.045, 0.045, 0.05, 1); b.inputs["Roughness"].default_value = 0.85
 tm.materials.append(fm)
+eyes = bpy.data.objects.get("EYES_REVIEW")
+if eyes is not None:                                   # the eyes sat proud of the defined / subdivided lids: seat them
+    eyes.hide_render = False
+    dg = bpy.context.evaluated_depsgraph_get(); em = bpy.data.meshes.new_from_object(eyes.evaluated_get(dg), depsgraph=dg)
+    eo2 = bpy.data.objects.new("EYES_REVIEW", em); eo2.matrix_world = eyes.matrix_world.copy()
+    bpy.data.objects.remove(eyes, do_unlink=True); eo2.name = "EYES_REVIEW"
+    bpy.context.scene.collection.objects.link(eo2); eo2.location.y += 0.006
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT))
 print("DRESS hair_verts", int(hair.sum()), "brow_verts", int(br.sum()), flush=True)

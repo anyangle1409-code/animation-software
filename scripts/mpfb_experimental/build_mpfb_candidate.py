@@ -200,13 +200,29 @@ VIEWS = {"front": ((0, -1, 0), 0.635, 2.45), "side": ((1, 0, 0), 0.635, 2.45), "
          "side_upper": ((1, 0, 0), 0.80, 1.05), "back_upper": ((0, 1, 0), 0.80, 1.05),
          "front34_upper": ((0.7071, -0.7071, 0), 0.80, 1.05), "back34": ((0.7071, 0.7071, 0), 0.635, 2.45)}
 sc.render.resolution_x, sc.render.resolution_y = 720, 1280
-for view, (dv, hc, scale) in VIEWS.items():
+FAST = bool(os.environ.get("MPFB_FAST"))                       # fitting loops: no renders, also write V as npz
+if FAST:
+    _dg = bpy.context.evaluated_depsgraph_get(); _em = bpy.data.meshes.new_from_object(h.evaluated_get(_dg), depsgraph=_dg)
+    _em.calc_loop_triangles()   # new_from_object keeps the vertex-group weights (to_mesh() did not)
+    _F = np.empty(len(_em.loop_triangles) * 3, np.int32); _em.loop_triangles.foreach_get("vertices", _F)
+    _GN = {g.index: g.name for g in h.vertex_groups}; _reg = np.zeros(len(V), np.int8)   # 0 trunk, 1 arm, 2 leg
+    for _v in _em.vertices:
+        _w = {}
+        for _g in _v.groups:
+            _nm = _GN.get(_g.group, "")
+            _k = 1 if any(k in _nm for k in ("upperarm", "lowerarm", "hand", "thumb", "index", "middle", "ring", "pinky")) else (
+                2 if any(k in _nm for k in ("thigh", "calf", "foot", "ball")) else 0)
+            _w[_k] = _w.get(_k, 0) + _g.weight
+        _reg[_v.index] = 1 if _w.get(1, 0) > 0.5 else (2 if _w.get(2, 0) > 0.5 else 0)   # 'body'/'Left' etc. are not bones
+    bpy.data.meshes.remove(_em)
+    np.savez_compressed(OUT / "mesh.npz", V=V.astype(np.float32), F=_F.reshape(-1, 3), R=_reg)
+for view, (dv, hc, scale) in ({} if FAST else VIEWS).items():
     dvec = Vector(dv) + Vector((0.0, 0.0, 0.12)); dvec.normalize(); centre = Vector((0.0, 0.0, z0 + hc * H))
     cam.location = centre + dvec * 4; cam.rotation_mode = "QUATERNION"; cd.ortho_scale = scale * H / 1.856
     cam.rotation_quaternion = (-dvec).to_track_quat("-Z", "Y")
     sc.render.filepath = str(OUT / f"stand_{view}_000.png"); bpy.ops.render.render(write_still=True)
 # arms-out views (owner pack, Option 5): both humeri at P["arms_out_deg"] from the body in the frontal plane
-if P.get("arms_out_deg"):
+if P.get("arms_out_deg") and not FAST:
     for side in ("l", "r"):
         ua = pb[f"upperarm_{side}"]; lat = 1.0 if wpos(ua.head).x > 0 else -1.0
         e = math.radians(P["arms_out_deg"]); swing_to(ua, Vector((lat * math.sin(e), 0.0, -math.cos(e))))

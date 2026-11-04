@@ -37,7 +37,7 @@ The rules for the fit:
 | Ankle | 23 mm |
 | Wrist | 23–24 mm; the canonical forearm is about 2 cm longer than the mesh's |
 | Crotch height | mesh 0.774 m vs W12c 0.790 m: hip region compatible |
-| **Shoulder (GH) spacing** | canonical 438 mm; the mesh's shoulders are visibly narrower (width at 1.47 m: 0.565 m incl. deltoids). The canonical GH sits a few cm lateral of the mesh's natural joint. This is the same mismatch found with the MPFB bodies. **A skeleton revision would need owner approval; none was made.** |
+| Shoulder (GH) joint | **Corrected 4 Nov:** a direct measurement of this mesh's shoulder (acromion top, deltoid, shoulder-slice centre) puts its joint about 4 mm medial, 18 mm posterior and 19 mm above the canonical GH. The canonical spacing is **not** 4–5 cm too wide for this mesh; that finding came from a poor arm-axis estimate. The 438 vs 384 mm mismatch applies to the MPFB bodies, not to this mesh. |
 
 ## Deformation tests (`pose_report.json`)
 
@@ -90,3 +90,20 @@ The rules for the fit:
 2. Corrective shapes for the shoulder (press mid / top) and the squat (groin, back of knee), rebuilt like the earlier R121 families.
 3. Helper-bone weights (shoulder_cap, muscle_*, hip_crease) and the 4-influence limit.
 4. An owner decision on the shoulder-joint (GH) spacing: whether to revise the skeleton.
+
+## Skeleton experiment: moving the shoulder joints (owner request, 4 Nov)
+
+`GH_DELTA` in `bind_meshy_blender.py` moves a **copy** of the canonical rig: the whole arm moves rigidly (arm bone lengths unchanged), and the clavicle's end and the shoulder fans follow. The canonical skeleton itself is unchanged.
+
+| Variant | Shoulder joint moved by | Stand | Press bottom | Press mid | Press top | Curl | Squat |
+|---|---|---|---|---|---|---|---|
+| A | current skeleton | 1,052 | 327 | 112 | 323 | 1,646 | 1,735 |
+| B | to the measured joint: 4 mm in, 18 mm back, 19 mm up | 1,046 | 325 | **40** | 304 | 1,735 | 1,674 |
+| C | narrower: 25 mm in, plus B's back / up | 1,347 | 319 | 97 | 385 | 1,860 | 1,638 |
+
+The numbers are self-intersecting triangle pairs (`pose_report_variant_*.json`).
+
+- Variant B's wrist lands 4 mm from the mesh's wrist (A: 23 mm). Its press mid-arc improves (112 → 40); the other poses barely change.
+- Narrowing further (C) makes standing and the press top worse.
+- **The fold at the back of the shoulder at the press top, and the shoulder-top crumple, remain in every variant.** They come from linear skinning, not from where the joint is.
+- **Conclusion:** a small joint correction (B) is worth adopting for this mesh if the owner approves. The shoulder problems still need corrective shapes and helper-bone weights.

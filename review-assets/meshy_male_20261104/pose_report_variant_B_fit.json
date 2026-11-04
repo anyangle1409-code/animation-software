@@ -1,0 +1,80 @@
+{
+ "stand": {
+  "self_intersections": 1046,
+  "self_intersections_by_height_band": {
+   "head_neck": 0,
+   "shoulder_axilla": 1046,
+   "hip_groin": 0,
+   "legs_feet": 0
+  },
+  "edge_stretch_p99": 1.079,
+  "edge_stretch_max": 2.49,
+  "edge_compress_p1": 0.806,
+  "volume_change_pct": -1.49
+ },
+ "press_bottom": {
+  "self_intersections": 325,
+  "self_intersections_by_height_band": {
+   "head_neck": 0,
+   "shoulder_axilla": 325,
+   "hip_groin": 0,
+   "legs_feet": 0
+  },
+  "edge_stretch_p99": 1.563,
+  "edge_stretch_max": 6.72,
+  "edge_compress_p1": 0.709,
+  "volume_change_pct": 2.45
+ },
+ "press_mid": {
+  "self_intersections": 40,
+  "self_intersections_by_height_band": {
+   "head_neck": 0,
+   "shoulder_axilla": 40,
+   "hip_groin": 0,
+   "legs_feet": 0
+  },
+  "edge_stretch_p99": 2.353,
+  "edge_stretch_max": 15.26,
+  "edge_compress_p1": 0.656,
+  "volume_change_pct": 6.88
+ },
+ "press_top": {
+  "self_intersections": 304,
+  "self_intersections_by_height_band": {
+   "head_neck": 0,
+   "shoulder_axilla": 304,
+   "hip_groin": 0,
+   "legs_feet": 0
+  },
+  "edge_stretch_p99": 3.091,
+  "edge_stretch_max": 22.93,
+  "edge_compress_p1": 0.551,
+  "volume_change_pct": 7.86
+ },
+ "curl": {
+  "self_intersections": 1735,
+  "self_intersections_by_height_band": {
+   "head_neck": 0,
+   "shoulder_axilla": 1735,
+   "hip_groin": 0,
+   "legs_feet": 0
+  },
+  "edge_stretch_p99": 1.315,
+  "edge_stretch_max": 3.13,
+  "edge_compress_p1": 0.622,
+  "volume_change_pct": -2.22
+ },
+ "squat": {
+  "self_intersections": 1674,
+  "self_intersections_by_height_band": {
+   "head_neck": 0,
+   "shoulder_axilla": 894,
+   "hip_groin": 497,
+   "legs_feet": 283
+  },
+  "edge_stretch_p99": 2.021,
+  "edge_stretch_max": 17.76,
+  "edge_compress_p1": 0.497,
+  "volume_change_pct": -8.06
+ }
+}

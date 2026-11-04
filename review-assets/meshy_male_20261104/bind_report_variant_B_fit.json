@@ -1,0 +1,24 @@
+{
+ "gh_delta_m_in_fwd_up": [
+  0.004,
+  -0.018,
+  0.019
+ ],
+ "upperarm_l_deg": 23.8,
+ "forearm_l_deg": 11.7,
+ "gh_l_off_arm_axis_mm": 218.5,
+ "wrist_l_residual_mm": 3.9,
+ "thigh_l_deg": 4.5,
+ "knee_l_residual_mm": 32.0,
+ "ankle_l_residual_mm": 22.9,
+ "upperarm_r_deg": 23.6,
+ "forearm_r_deg": 11.5,
+ "gh_r_off_arm_axis_mm": 217.7,
+ "wrist_r_residual_mm": 3.3,
+ "thigh_r_deg": 4.7,
+ "knee_r_residual_mm": 24.3,
+ "ankle_r_residual_mm": 23.1,
+ "unweighted_vertices": 0,
+ "vertices": 115330,
+ "groups": 64
+}

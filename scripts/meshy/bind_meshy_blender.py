@@ -42,6 +42,23 @@ bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
 mesh.select_set(False)
 V = np.array([v.co[:] for v in mesh.data.vertices]); z0 = V[:, 2].min(); mesh.location.z -= z0; bpy.context.view_layer.update()
 V[:, 2] -= z0
+import os  # noqa: E402
+GHD = [float(x) for x in os.environ.get("GH_DELTA", "0,0,0").split(",")]   # EXPERIMENT: move each shoulder joint (m):
+if any(GHD):                                                               # dx inwards (+ = narrower), dy forwards (+), dz up
+    bpy.context.view_layer.objects.active = rig; bpy.ops.object.mode_set(mode="EDIT"); eb = rig.data.edit_bones
+    for sd in ("l", "r"):
+        lat = 1.0 if eb[f"upperarm_{sd}"].head.x > 0 else -1.0
+        d = Vector((-lat * GHD[0], -GHD[1], GHD[2]))
+        arm_bones = [b for b in eb if b.name.endswith("_" + sd) and any(k in b.name for k in (
+            "upperarm", "forearm", "hand", "thumb", "index", "middle", "ring", "pinky", "metacarpal", "shoulder_cap"))]
+        for b in arm_bones:                    # the whole arm moves rigidly: arm bone lengths are unchanged
+            b.use_connect = False; b.head += d; b.tail += d
+        cl = eb[f"clavicle_{sd}"]; cl.tail += d             # the clavicle ends at the moved joint (its length changes)
+        sp = eb[f"scapula_{sd}"]; sp.head += d * 0.6; sp.tail += d * 0.6
+        for nm in (f"muscle_lat_{sd}", f"muscle_pec_{sd}", f"muscle_trap_{sd}"):   # the fans' arm ends follow the joint
+            if nm in eb:
+                eb[nm].tail += d
+    bpy.ops.object.mode_set(mode="OBJECT")
 pb = rig.pose.bones; MW = rig.matrix_world; W2A = MW.to_3x3().inverted(); wp = lambda v: MW @ v
 
 
@@ -65,7 +82,7 @@ def aim_rigid(names, bone, target_w):
     return math.degrees(ang)
 
 
-fitlog = {}
+fitlog = {"gh_delta_m_in_fwd_up": GHD}
 for sd in ("l", "r"):
     arm = LMK[f"arm_{sd}"]; CL = [Vector(q) for q in LMK[f"arm_{sd}_centerline"]]
     wrist = Vector(arm["wrist"]); gh = wp(pb[f"upperarm_{sd}"].head)

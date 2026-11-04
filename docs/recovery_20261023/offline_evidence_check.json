@@ -1,0 +1,228 @@
+{
+ "r41_input": {
+  "path": "ORIGINAL_V1_WORK/anatomy/candidates/codex_review_r41_20261017/HGPT_ORIGINAL_V1_REVIEW_R41_CODEX.blend",
+  "sha256": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e",
+  "bytes": 5294269,
+  "commit": "025d5f28fa7eba2064fba565b1c9b60119cdd2cb"
+ },
+ "archived_evidence_sha256": {
+  "draft_v13s_standing/body_v2_offsets.npz": "5d74fc0c490c6b001430d730e778b7d4b6a81b0a8721a252031cd461807322aa",
+  "draft_v13s_standing/body_v2_report.json": "bc0873fb5f8d0fe8cac1c16d41515d6260b367a1009c9d1a7bbae6314818e69a",
+  "draft_v13s_standing/skeleton_edits.json": "c58b76975ec50418b97aca4dbe2cbdbd069bf0dae87521a063dda96fe2ce04e4",
+  "draft_v14a_legs/legs_v2_report.json": "43c33acd3d1f1f359af6029f08219b90f3f171f626324102216b29b44b81daaa",
+  "draft_v14b_torso/legs_v2_report.json": "b3ade547d6137ba2e75ff8a339f286b28ac4654607d1b2432970ac5145dc7237"
+ },
+ "archived_review_renders_sha256": {
+  "draft_v13s_standing/skin_stand_back.jpg": "696cf793097d8446aa71c2e2611445209e304dadded7ac6ab10287d20a70f4cc",
+  "draft_v13s_standing/skin_stand_front.jpg": "a6e22df26ad20598c15fdcc15dfcfddf284648be307ca6a828e82d6f7da35722",
+  "draft_v13s_standing/skin_stand_front34.jpg": "009d8d09507dfbc3d31552a0591628c74ba2a52ebec4383d812d338422dadba3",
+  "draft_v13s_standing/skin_stand_side.jpg": "62ae5018bcec74bcb7bd9bc6a76d49bebe0fdf454ad121b159ff3b9ff7cd320b",
+  "draft_v14a_legs/before_after_legs.jpg": "43aa6eb3e173a0328aabd939944967bfcbf82790bc754c3d42d9b6566c85d45e",
+  "draft_v14a_legs/grey_legs_front_side_back.jpg": "a85cf2c83a86b4a7601a66cbfef22718f3f356eca5ad25398fed8c287011944d",
+  "draft_v14a_legs/skin_feet_back.jpg": "8a2afbd56584b7fd4bcb51fd9c9e2a7149951904e6457b9177ef49dd65419455",
+  "draft_v14a_legs/skin_feet_front.jpg": "91092e733932984733e0070ed3dfa50d6d3b77716b9ecf2f7e5fc48993f3d0db",
+  "draft_v14a_legs/skin_feet_front34.jpg": "403227666ebc6eb4464fa556862b619170e2add2710a5643fcf38af6032336bf",
+  "draft_v14a_legs/skin_feet_side.jpg": "78459e3672b1320c982889101c21874cb1d349d467d214cd06f206ac5f7d81f8",
+  "draft_v14a_legs/skin_legs_back.jpg": "7380d3c36a961f4f737297ba4d185f25acc297b6d736671ffa29a73653d252b6",
+  "draft_v14a_legs/skin_legs_front.jpg": "d7d00418886c09f2f7954bc6fba1bf1448a25cb8021da6f56adde173e1460772",
+  "draft_v14a_legs/skin_legs_front34.jpg": "b200b28ef3034079ff2262d9761a009166f7d9a001935d8f3bcd3a9b1a76644c",
+  "draft_v14a_legs/skin_legs_side.jpg": "4d13735d9cbd7addfb4a3e397e4cca8fd8ef84e9771189940ac3d317975f0ccd",
+  "draft_v14a_legs/skin_stand_back.jpg": "df5dfa5bc614d5a5a332ed679d78cae9cf7f5615f09a695dd6c7eab93b1a3ffc",
+  "draft_v14a_legs/skin_stand_front.jpg": "b1fa91dcdb7316ab5e55cf2a09ae45fcc169358e1bda13b02e1abcb94efa224d",
+  "draft_v14a_legs/skin_stand_front34.jpg": "185fd065ce8ffa8066faeec0e9ca9727ad1220d546928cdd5e711f041a77a9f4",
+  "draft_v14a_legs/skin_stand_side.jpg": "dfd5dae79adeaff5b7137714f1647acfad6eba9c01edfa1872cb596f58eeb9fb",
+  "draft_v14b_torso/skin_legs_back.jpg": "3687c7b26dd57f2a477678ad30feea430cc94fb1182e27efc221350ba9d093da",
+  "draft_v14b_torso/skin_legs_front.jpg": "9f762e54234d15ede6e3c13163d72cf276a8e4a7893f83715c83095b968f66ba",
+  "draft_v14b_torso/skin_legs_side.jpg": "3d2dd1d1620b515b81003fd66d4260569a3044b7f2155424ec83af51af2f4d19",
+  "draft_v14b_torso/skin_stand_back.jpg": "2753f9ffb7c92e4eb3fc312c03878f0f22d5d05c63913f365e49a6d424c41f30",
+  "draft_v14b_torso/skin_stand_front.jpg": "ae16022322c3ebfcbfea08d451c9a6bcbc9d3b67ec0f6c163e96f26db2d057b8",
+  "draft_v14b_torso/skin_stand_front34.jpg": "ce9b0dba2f663e12300167fd66d0c34a4a719628a9363abfa39e679d61e83b6a",
+  "draft_v14b_torso/skin_stand_side.jpg": "ac05d78b121617fdf358aa6c9209c40ba9efcce940b37e7c5d93a64259461c2f",
+  "draft_v14b_torso/skin_torso_back.jpg": "baf1c97598c76dfa0b69209612692c07a47e6aab536a70d115b182c5e011f5a1",
+  "draft_v14b_torso/skin_torso_front.jpg": "c9c1bca777371745be3af142d1e9d01f246bf7573934c8895cd432ea19117346"
+ },
+ "expected_for_blend_check": {
+  "v13s_w8": {
+   "body_vertices": 219974,
+   "vertex_groups": null,
+   "shape_keys": null
+  },
+  "draft_v14a_legs": {
+   "body_vertices": 238067,
+   "vertex_groups": 77,
+   "shape_keys": 79,
+   "stature_m": 1.8562,
+   "feet_vertices_each": 26877,
+   "foot_length_mm": 289.6,
+   "torso_relief": false,
+   "note": "v14a = legs/feet only (no torso relief)"
+  },
+  "draft_v14b_torso": {
+   "body_vertices": 238067,
+   "vertex_groups": 77,
+   "shape_keys": 79,
+   "stature_m": 1.8562,
+   "feet_vertices_each": 26877,
+   "foot_length_mm": 289.6,
+   "torso_relief": true,
+   "note": "v14b = v14a + torso relief + hip fill; this is what 'default settings' of legs_v2_blender.py produce"
+  }
+ },
+ "w8_screenshots_pinned_by_pr124": {
+  "full_w8.jpeg": {
+   "sha256": "b9f92d67a2948a5776ccb6375af94058c142017ffb73a548fb243e7613a12438",
+   "file_present_in_any_repo": false
+  },
+  "arm_front.jpeg": {
+   "sha256": "93bac98ed25e79391f37aee2d57fcc9f05070fc7230a1b10eedebdc4f8d33a8d",
+   "file_present_in_any_repo": false
+  },
+  "legs_front.jpeg": {
+   "sha256": "e7405219a10e066529880e63b5bc0d5f84e6545c84a970260b54269d27516d9f",
+   "file_present_in_any_repo": false
+  },
+  "feet_side.jpeg": {
+   "sha256": "6894aeb202655d6d9865cd8e25a4da95b6424ace5f5c6863b6ee0137910acd99",
+   "file_present_in_any_repo": false
+  }
+ },
+ "checks": [
+  {
+   "check": "R41 input SHA256 equals the hash pinned in PR #124",
+   "result": "PASS",
+   "detail": "4c44b1fe14aeefd9a976f45baada60b4b81aaaa7cd736a300ca7cede2b0aaf2e"
+  },
+  {
+   "check": "R41 input size",
+   "result": "PASS",
+   "detail": 5294269
+  },
+  {
+   "check": "v13s refine: 21,600 -> 219,974 vertices",
+   "result": "PASS",
+   "detail": [
+    21600,
+    219974
+   ]
+  },
+  {
+   "check": "v13s offsets array rows == refined vertex count",
+   "result": "PASS",
+   "detail": [
+    219974,
+    3
+   ]
+  },
+  {
+   "check": "v13s offsets are finite",
+   "result": "PASS",
+   "detail": "finite"
+  },
+  {
+   "check": "v13s largest offset magnitude plausible (< 200 mm)",
+   "result": "PASS",
+   "detail": "104.29 mm"
+  },
+  {
+   "check": "v13s standing-pose self-intersections v2 == 0",
+   "result": "PASS",
+   "detail": {
+    "v1": 2,
+    "v2": 0
+   }
+  },
+  {
+   "check": "v13s left/right symmetry <= 0.02 mm",
+   "result": "PASS",
+   "detail": 0.0117
+  },
+  {
+   "check": "draft_v14a_legs: vertex groups 77, shape keys 79",
+   "result": "PASS",
+   "detail": [
+    77,
+    79
+   ]
+  },
+  {
+   "check": "draft_v14a_legs: 219,974 -> 238,067 vertices",
+   "result": "PASS",
+   "detail": [
+    219974,
+    238067
+   ]
+  },
+  {
+   "check": "draft_v14a_legs: stature 1.8562 m before and after",
+   "result": "PASS",
+   "detail": [
+    1.8562,
+    1.8562
+   ]
+  },
+  {
+   "check": "draft_v14a_legs: new meshes manifold and consistently wound",
+   "result": "PASS",
+   "detail": [
+    0,
+    0
+   ]
+  },
+  {
+   "check": "draft_v14a_legs: both feet 26,877 vertices, 289.6 mm",
+   "result": "PASS",
+   "detail": {
+    "verts": 26877,
+    "join_loop": 276,
+    "length_mm": 289.6,
+    "breadth_mm": 106.0
+   }
+  },
+  {
+   "check": "draft_v14b_torso: vertex groups 77, shape keys 79",
+   "result": "PASS",
+   "detail": [
+    77,
+    79
+   ]
+  },
+  {
+   "check": "draft_v14b_torso: 219,974 -> 238,067 vertices",
+   "result": "PASS",
+   "detail": [
+    219974,
+    238067
+   ]
+  },
+  {
+   "check": "draft_v14b_torso: stature 1.8562 m before and after",
+   "result": "PASS",
+   "detail": [
+    1.8562,
+    1.8562
+   ]
+  },
+  {
+   "check": "draft_v14b_torso: new meshes manifold and consistently wound",
+   "result": "PASS",
+   "detail": [
+    0,
+    0
+   ]
+  },
+  {
+   "check": "draft_v14b_torso: both feet 26,877 vertices, 289.6 mm",
+   "result": "PASS",
+   "detail": {
+    "verts": 26877,
+    "join_loop": 276,
+    "length_mm": 289.6,
+    "breadth_mm": 106.0
+   }
+  }
+ ],
+ "summary": {
+  "pass": 18,
+  "fail": 0
+ }
+}

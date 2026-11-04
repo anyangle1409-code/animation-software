@@ -1,0 +1,2263 @@
+{
+ "derived_from": "PR #124 head 7c820d6 (experiments/anatomical_muscles), registry_seed.json + exercise_contracts.json",
+ "purpose": "work order for attaching registered muscles to the isolated experimental copy, shoulders then arms",
+ "invented_data": "none: every field is copied or counted from the PR #124 files; no anchors, landmarks or coordinates were authored",
+ "records": 42,
+ "by_region": {
+  "shoulder": 14,
+  "arm": 14,
+  "scapula": 14
+ },
+ "records_used_by_an_exercise_contract": 30,
+ "exercise_phases_compiled_ok": "12/12",
+ "compile_detail": [
+  {
+   "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+   "phase": "setup",
+   "exit": 0,
+   "json_ok": true
+  },
+  {
+   "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+   "phase": "concentric",
+   "exit": 0,
+   "json_ok": true
+  },
+  {
+   "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+   "phase": "top_hold",
+   "exit": 0,
+   "json_ok": true
+  },
+  {
+   "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+   "phase": "eccentric",
+   "exit": 0,
+   "json_ok": true
+  },
+  {
+   "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+   "phase": "rack",
+   "exit": 0,
+   "json_ok": true
+  },
+  {
+   "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+   "phase": "press",
+   "exit": 0,
+   "json_ok": true
+  },
+  {
+   "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+   "phase": "overhead_hold",
+   "exit": 0,
+   "json_ok": true
+  },
+  {
+   "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+   "phase": "lower",
+   "exit": 0,
+   "json_ok": true
+  },
+  {
+   "exercise": "hgpt.exercise.squat.bodyweight.v1",
+   "phase": "stand",
+   "exit": 0,
+   "json_ok": true
+  },
+  {
+   "exercise": "hgpt.exercise.squat.bodyweight.v1",
+   "phase": "descent",
+   "exit": 0,
+   "json_ok": true
+  },
+  {
+   "exercise": "hgpt.exercise.squat.bodyweight.v1",
+   "phase": "bottom_hold",
+   "exit": 0,
+   "json_ok": true
+  },
+  {
+   "exercise": "hgpt.exercise.squat.bodyweight.v1",
+   "phase": "ascent",
+   "exit": 0,
+   "json_ok": true
+  }
+ ],
+ "worklist": [
+  {
+   "id": "hgpt.muscle.deltoid_anterior.L",
+   "region": "shoulder",
+   "pilot": true,
+   "depth": "superficial",
+   "origin": "lateral clavicle",
+   "insertion": "deltoid tuberosity, humerus",
+   "joints_crossed": [
+    "glenohumeral"
+   ],
+   "neighbors": [
+    "hgpt.muscle.deltoid_middle.L",
+    "hgpt.muscle.pectoralis_major_clavicular.L",
+    "hgpt.muscle.pectoralis_major_sternocostal.L",
+    "hgpt.muscle.supraspinatus.L"
+   ],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "rack",
+     "role": "agonist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "press",
+     "role": "agonist",
+     "length_change": "shortening",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "overhead_hold",
+     "role": "agonist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "lower",
+     "role": "agonist",
+     "length_change": "lengthening",
+     "skin_response": "region_mask_capped_blend"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.deltoid_anterior.R",
+   "region": "shoulder",
+   "pilot": true,
+   "depth": "superficial",
+   "origin": "lateral clavicle",
+   "insertion": "deltoid tuberosity, humerus",
+   "joints_crossed": [
+    "glenohumeral"
+   ],
+   "neighbors": [
+    "hgpt.muscle.deltoid_middle.R",
+    "hgpt.muscle.pectoralis_major_clavicular.R",
+    "hgpt.muscle.pectoralis_major_sternocostal.R",
+    "hgpt.muscle.supraspinatus.R"
+   ],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "rack",
+     "role": "agonist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "press",
+     "role": "agonist",
+     "length_change": "shortening",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "overhead_hold",
+     "role": "agonist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "lower",
+     "role": "agonist",
+     "length_change": "lengthening",
+     "skin_response": "region_mask_capped_blend"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.deltoid_middle.L",
+   "region": "shoulder",
+   "pilot": true,
+   "depth": "superficial",
+   "origin": "acromion",
+   "insertion": "deltoid tuberosity, humerus",
+   "joints_crossed": [
+    "glenohumeral"
+   ],
+   "neighbors": [
+    "hgpt.muscle.deltoid_anterior.L",
+    "hgpt.muscle.supraspinatus.L"
+   ],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "rack",
+     "role": "agonist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "press",
+     "role": "agonist",
+     "length_change": "shortening",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "overhead_hold",
+     "role": "agonist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "lower",
+     "role": "agonist",
+     "length_change": "lengthening",
+     "skin_response": "region_mask_capped_blend"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.deltoid_middle.R",
+   "region": "shoulder",
+   "pilot": true,
+   "depth": "superficial",
+   "origin": "acromion",
+   "insertion": "deltoid tuberosity, humerus",
+   "joints_crossed": [
+    "glenohumeral"
+   ],
+   "neighbors": [
+    "hgpt.muscle.deltoid_anterior.R",
+    "hgpt.muscle.supraspinatus.R"
+   ],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "rack",
+     "role": "agonist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "press",
+     "role": "agonist",
+     "length_change": "shortening",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "overhead_hold",
+     "role": "agonist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "lower",
+     "role": "agonist",
+     "length_change": "lengthening",
+     "skin_response": "region_mask_capped_blend"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.deltoid_posterior.L",
+   "region": "shoulder",
+   "pilot": true,
+   "depth": "superficial",
+   "origin": "scapular spine",
+   "insertion": "deltoid tuberosity, humerus",
+   "joints_crossed": [
+    "glenohumeral"
+   ],
+   "neighbors": [],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.deltoid_posterior.R",
+   "region": "shoulder",
+   "pilot": true,
+   "depth": "superficial",
+   "origin": "scapular spine",
+   "insertion": "deltoid tuberosity, humerus",
+   "joints_crossed": [
+    "glenohumeral"
+   ],
+   "neighbors": [],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.infraspinatus.L",
+   "region": "shoulder",
+   "pilot": true,
+   "depth": "deep",
+   "origin": "infraspinous fossa",
+   "insertion": "greater tubercle, humerus",
+   "joints_crossed": [
+    "glenohumeral"
+   ],
+   "neighbors": [
+    "hgpt.muscle.subscapularis.L",
+    "hgpt.muscle.supraspinatus.L",
+    "hgpt.muscle.teres_minor.L"
+   ],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "setup",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "concentric",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "top_hold",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "eccentric",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "rack",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "press",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "overhead_hold",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "lower",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.infraspinatus.R",
+   "region": "shoulder",
+   "pilot": true,
+   "depth": "deep",
+   "origin": "infraspinous fossa",
+   "insertion": "greater tubercle, humerus",
+   "joints_crossed": [
+    "glenohumeral"
+   ],
+   "neighbors": [
+    "hgpt.muscle.subscapularis.R",
+    "hgpt.muscle.supraspinatus.R",
+    "hgpt.muscle.teres_minor.R"
+   ],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "setup",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "concentric",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "top_hold",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "eccentric",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "rack",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "press",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "overhead_hold",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "lower",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.subscapularis.L",
+   "region": "shoulder",
+   "pilot": true,
+   "depth": "deep",
+   "origin": "subscapular fossa",
+   "insertion": "lesser tubercle, humerus",
+   "joints_crossed": [
+    "glenohumeral"
+   ],
+   "neighbors": [
+    "hgpt.muscle.infraspinatus.L",
+    "hgpt.muscle.supraspinatus.L",
+    "hgpt.muscle.teres_minor.L"
+   ],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "setup",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "concentric",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "top_hold",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "eccentric",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "rack",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "press",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "overhead_hold",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "lower",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.subscapularis.R",
+   "region": "shoulder",
+   "pilot": true,
+   "depth": "deep",
+   "origin": "subscapular fossa",
+   "insertion": "lesser tubercle, humerus",
+   "joints_crossed": [
+    "glenohumeral"
+   ],
+   "neighbors": [
+    "hgpt.muscle.infraspinatus.R",
+    "hgpt.muscle.supraspinatus.R",
+    "hgpt.muscle.teres_minor.R"
+   ],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "setup",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "concentric",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "top_hold",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "eccentric",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "rack",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "press",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "overhead_hold",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "lower",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.supraspinatus.L",
+   "region": "shoulder",
+   "pilot": true,
+   "depth": "deep",
+   "origin": "supraspinous fossa",
+   "insertion": "greater tubercle, humerus",
+   "joints_crossed": [
+    "glenohumeral"
+   ],
+   "neighbors": [
+    "hgpt.muscle.deltoid_anterior.L",
+    "hgpt.muscle.deltoid_middle.L",
+    "hgpt.muscle.infraspinatus.L",
+    "hgpt.muscle.subscapularis.L",
+    "hgpt.muscle.teres_minor.L"
+   ],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "rack",
+     "role": "synergist",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "press",
+     "role": "synergist",
+     "length_change": "variable",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "overhead_hold",
+     "role": "synergist",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "lower",
+     "role": "synergist",
+     "length_change": "variable",
+     "skin_response": "no_direct_skin_transfer"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.supraspinatus.R",
+   "region": "shoulder",
+   "pilot": true,
+   "depth": "deep",
+   "origin": "supraspinous fossa",
+   "insertion": "greater tubercle, humerus",
+   "joints_crossed": [
+    "glenohumeral"
+   ],
+   "neighbors": [
+    "hgpt.muscle.deltoid_anterior.R",
+    "hgpt.muscle.deltoid_middle.R",
+    "hgpt.muscle.infraspinatus.R",
+    "hgpt.muscle.subscapularis.R",
+    "hgpt.muscle.teres_minor.R"
+   ],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "rack",
+     "role": "synergist",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "press",
+     "role": "synergist",
+     "length_change": "variable",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "overhead_hold",
+     "role": "synergist",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "lower",
+     "role": "synergist",
+     "length_change": "variable",
+     "skin_response": "no_direct_skin_transfer"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.teres_minor.L",
+   "region": "shoulder",
+   "pilot": true,
+   "depth": "deep",
+   "origin": "lateral scapular border",
+   "insertion": "greater tubercle, humerus",
+   "joints_crossed": [
+    "glenohumeral"
+   ],
+   "neighbors": [
+    "hgpt.muscle.infraspinatus.L",
+    "hgpt.muscle.subscapularis.L",
+    "hgpt.muscle.supraspinatus.L"
+   ],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "rack",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "press",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "overhead_hold",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "lower",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.teres_minor.R",
+   "region": "shoulder",
+   "pilot": true,
+   "depth": "deep",
+   "origin": "lateral scapular border",
+   "insertion": "greater tubercle, humerus",
+   "joints_crossed": [
+    "glenohumeral"
+   ],
+   "neighbors": [
+    "hgpt.muscle.infraspinatus.R",
+    "hgpt.muscle.subscapularis.R",
+    "hgpt.muscle.supraspinatus.R"
+   ],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "rack",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "press",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "overhead_hold",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "lower",
+     "role": "stabilizer",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.biceps_brachii_long.L",
+   "region": "arm",
+   "pilot": true,
+   "depth": "superficial",
+   "origin": "supraglenoid region, scapula",
+   "insertion": "radial tuberosity and bicipital aponeurosis",
+   "joints_crossed": [
+    "shoulder",
+    "elbow",
+    "radioulnar"
+   ],
+   "neighbors": [],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "setup",
+     "role": "agonist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "concentric",
+     "role": "agonist",
+     "length_change": "shortening",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "top_hold",
+     "role": "agonist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "eccentric",
+     "role": "agonist",
+     "length_change": "lengthening",
+     "skin_response": "region_mask_capped_blend"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.biceps_brachii_long.R",
+   "region": "arm",
+   "pilot": true,
+   "depth": "superficial",
+   "origin": "supraglenoid region, scapula",
+   "insertion": "radial tuberosity and bicipital aponeurosis",
+   "joints_crossed": [
+    "shoulder",
+    "elbow",
+    "radioulnar"
+   ],
+   "neighbors": [],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "setup",
+     "role": "agonist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "concentric",
+     "role": "agonist",
+     "length_change": "shortening",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "top_hold",
+     "role": "agonist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "eccentric",
+     "role": "agonist",
+     "length_change": "lengthening",
+     "skin_response": "region_mask_capped_blend"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.biceps_brachii_short.L",
+   "region": "arm",
+   "pilot": false,
+   "depth": "superficial",
+   "origin": "coracoid process, scapula",
+   "insertion": "radial tuberosity and bicipital aponeurosis",
+   "joints_crossed": [
+    "shoulder",
+    "elbow",
+    "radioulnar"
+   ],
+   "neighbors": [],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "setup",
+     "role": "agonist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "concentric",
+     "role": "agonist",
+     "length_change": "shortening",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "top_hold",
+     "role": "agonist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "eccentric",
+     "role": "agonist",
+     "length_change": "lengthening",
+     "skin_response": "region_mask_capped_blend"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.biceps_brachii_short.R",
+   "region": "arm",
+   "pilot": false,
+   "depth": "superficial",
+   "origin": "coracoid process, scapula",
+   "insertion": "radial tuberosity and bicipital aponeurosis",
+   "joints_crossed": [
+    "shoulder",
+    "elbow",
+    "radioulnar"
+   ],
+   "neighbors": [],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "setup",
+     "role": "agonist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "concentric",
+     "role": "agonist",
+     "length_change": "shortening",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "top_hold",
+     "role": "agonist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "eccentric",
+     "role": "agonist",
+     "length_change": "lengthening",
+     "skin_response": "region_mask_capped_blend"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.brachialis.L",
+   "region": "arm",
+   "pilot": false,
+   "depth": "deep",
+   "origin": "anterior distal humerus",
+   "insertion": "ulnar tuberosity",
+   "joints_crossed": [
+    "elbow"
+   ],
+   "neighbors": [],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "setup",
+     "role": "synergist",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "concentric",
+     "role": "synergist",
+     "length_change": "shortening",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "top_hold",
+     "role": "synergist",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "eccentric",
+     "role": "synergist",
+     "length_change": "lengthening",
+     "skin_response": "no_direct_skin_transfer"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.brachialis.R",
+   "region": "arm",
+   "pilot": false,
+   "depth": "deep",
+   "origin": "anterior distal humerus",
+   "insertion": "ulnar tuberosity",
+   "joints_crossed": [
+    "elbow"
+   ],
+   "neighbors": [],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "setup",
+     "role": "synergist",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "concentric",
+     "role": "synergist",
+     "length_change": "shortening",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "top_hold",
+     "role": "synergist",
+     "length_change": "near_isometric",
+     "skin_response": "no_direct_skin_transfer"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "eccentric",
+     "role": "synergist",
+     "length_change": "lengthening",
+     "skin_response": "no_direct_skin_transfer"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.brachioradialis.L",
+   "region": "arm",
+   "pilot": false,
+   "depth": "superficial",
+   "origin": "lateral supracondylar ridge, humerus",
+   "insertion": "distal lateral radius",
+   "joints_crossed": [
+    "elbow"
+   ],
+   "neighbors": [],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "setup",
+     "role": "synergist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "concentric",
+     "role": "synergist",
+     "length_change": "shortening",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "top_hold",
+     "role": "synergist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "eccentric",
+     "role": "synergist",
+     "length_change": "lengthening",
+     "skin_response": "region_mask_capped_blend"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.brachioradialis.R",
+   "region": "arm",
+   "pilot": false,
+   "depth": "superficial",
+   "origin": "lateral supracondylar ridge, humerus",
+   "insertion": "distal lateral radius",
+   "joints_crossed": [
+    "elbow"
+   ],
+   "neighbors": [],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "setup",
+     "role": "synergist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "concentric",
+     "role": "synergist",
+     "length_change": "shortening",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "top_hold",
+     "role": "synergist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "eccentric",
+     "role": "synergist",
+     "length_change": "lengthening",
+     "skin_response": "region_mask_capped_blend"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.triceps_lateral.L",
+   "region": "arm",
+   "pilot": false,
+   "depth": "superficial",
+   "origin": "posterior humerus superior to radial groove",
+   "insertion": "olecranon, ulna",
+   "joints_crossed": [
+    "elbow"
+   ],
+   "neighbors": [],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "rack",
+     "role": "agonist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "press",
+     "role": "agonist",
+     "length_change": "shortening",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "overhead_hold",
+     "role": "agonist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "lower",
+     "role": "agonist",
+     "length_change": "lengthening",
+     "skin_response": "region_mask_capped_blend"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.triceps_lateral.R",
+   "region": "arm",
+   "pilot": false,
+   "depth": "superficial",
+   "origin": "posterior humerus superior to radial groove",
+   "insertion": "olecranon, ulna",
+   "joints_crossed": [
+    "elbow"
+   ],
+   "neighbors": [],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "rack",
+     "role": "agonist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "press",
+     "role": "agonist",
+     "length_change": "shortening",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "overhead_hold",
+     "role": "agonist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "lower",
+     "role": "agonist",
+     "length_change": "lengthening",
+     "skin_response": "region_mask_capped_blend"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.triceps_long.L",
+   "region": "arm",
+   "pilot": true,
+   "depth": "superficial",
+   "origin": "infraglenoid tubercle, scapula",
+   "insertion": "olecranon, ulna",
+   "joints_crossed": [
+    "shoulder",
+    "elbow"
+   ],
+   "neighbors": [
+    "hgpt.muscle.latissimus_dorsi.L",
+    "hgpt.muscle.teres_major.L"
+   ],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "setup",
+     "role": "antagonist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "concentric",
+     "role": "antagonist",
+     "length_change": "lengthening",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "top_hold",
+     "role": "antagonist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "eccentric",
+     "role": "antagonist",
+     "length_change": "shortening",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "rack",
+     "role": "agonist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "press",
+     "role": "agonist",
+     "length_change": "shortening",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "overhead_hold",
+     "role": "agonist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "lower",
+     "role": "agonist",
+     "length_change": "lengthening",
+     "skin_response": "region_mask_capped_blend"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.triceps_long.R",
+   "region": "arm",
+   "pilot": true,
+   "depth": "superficial",
+   "origin": "infraglenoid tubercle, scapula",
+   "insertion": "olecranon, ulna",
+   "joints_crossed": [
+    "shoulder",
+    "elbow"
+   ],
+   "neighbors": [
+    "hgpt.muscle.latissimus_dorsi.R",
+    "hgpt.muscle.teres_major.R"
+   ],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "setup",
+     "role": "antagonist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "concentric",
+     "role": "antagonist",
+     "length_change": "lengthening",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "top_hold",
+     "role": "antagonist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.biceps_curl.bilateral.v1",
+     "phase": "eccentric",
+     "role": "antagonist",
+     "length_change": "shortening",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "rack",
+     "role": "agonist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "press",
+     "role": "agonist",
+     "length_change": "shortening",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "overhead_hold",
+     "role": "agonist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "lower",
+     "role": "agonist",
+     "length_change": "lengthening",
+     "skin_response": "region_mask_capped_blend"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.triceps_medial.L",
+   "region": "arm",
+   "pilot": false,
+   "depth": "deep",
+   "origin": "posterior humerus inferior to radial groove",
+   "insertion": "olecranon, ulna",
+   "joints_crossed": [
+    "elbow"
+   ],
+   "neighbors": [],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.triceps_medial.R",
+   "region": "arm",
+   "pilot": false,
+   "depth": "deep",
+   "origin": "posterior humerus inferior to radial groove",
+   "insertion": "olecranon, ulna",
+   "joints_crossed": [
+    "elbow"
+   ],
+   "neighbors": [],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.levator_scapulae.L",
+   "region": "scapula",
+   "pilot": true,
+   "depth": "deep",
+   "origin": "upper cervical transverse processes",
+   "insertion": "superior medial scapular border",
+   "joints_crossed": [
+    "scapulothoracic"
+   ],
+   "neighbors": [],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.levator_scapulae.R",
+   "region": "scapula",
+   "pilot": true,
+   "depth": "deep",
+   "origin": "upper cervical transverse processes",
+   "insertion": "superior medial scapular border",
+   "joints_crossed": [
+    "scapulothoracic"
+   ],
+   "neighbors": [],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.rhomboid_major.L",
+   "region": "scapula",
+   "pilot": true,
+   "depth": "deep",
+   "origin": "upper thoracic spinous processes",
+   "insertion": "medial scapular border inferior to spine",
+   "joints_crossed": [
+    "scapulothoracic"
+   ],
+   "neighbors": [],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.rhomboid_major.R",
+   "region": "scapula",
+   "pilot": true,
+   "depth": "deep",
+   "origin": "upper thoracic spinous processes",
+   "insertion": "medial scapular border inferior to spine",
+   "joints_crossed": [
+    "scapulothoracic"
+   ],
+   "neighbors": [],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.rhomboid_minor.L",
+   "region": "scapula",
+   "pilot": true,
+   "depth": "deep",
+   "origin": "lower cervical/upper thoracic spine",
+   "insertion": "medial scapular border at root of spine",
+   "joints_crossed": [
+    "scapulothoracic"
+   ],
+   "neighbors": [],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.rhomboid_minor.R",
+   "region": "scapula",
+   "pilot": true,
+   "depth": "deep",
+   "origin": "lower cervical/upper thoracic spine",
+   "insertion": "medial scapular border at root of spine",
+   "joints_crossed": [
+    "scapulothoracic"
+   ],
+   "neighbors": [],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.serratus_anterior.L",
+   "region": "scapula",
+   "pilot": true,
+   "depth": "intermediate",
+   "origin": "upper lateral ribs",
+   "insertion": "anterior surface of scapular medial border",
+   "joints_crossed": [
+    "scapulothoracic"
+   ],
+   "neighbors": [
+    "hgpt.muscle.trapezius_lower.L",
+    "hgpt.muscle.trapezius_upper.L"
+   ],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "rack",
+     "role": "synergist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "press",
+     "role": "synergist",
+     "length_change": "shortening",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "overhead_hold",
+     "role": "synergist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "lower",
+     "role": "synergist",
+     "length_change": "lengthening",
+     "skin_response": "region_mask_capped_blend"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.serratus_anterior.R",
+   "region": "scapula",
+   "pilot": true,
+   "depth": "intermediate",
+   "origin": "upper lateral ribs",
+   "insertion": "anterior surface of scapular medial border",
+   "joints_crossed": [
+    "scapulothoracic"
+   ],
+   "neighbors": [
+    "hgpt.muscle.trapezius_lower.R",
+    "hgpt.muscle.trapezius_upper.R"
+   ],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "rack",
+     "role": "synergist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "press",
+     "role": "synergist",
+     "length_change": "shortening",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "overhead_hold",
+     "role": "synergist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "lower",
+     "role": "synergist",
+     "length_change": "lengthening",
+     "skin_response": "region_mask_capped_blend"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.trapezius_lower.L",
+   "region": "scapula",
+   "pilot": true,
+   "depth": "superficial",
+   "origin": "middle/lower thoracic spine",
+   "insertion": "medial scapular spine",
+   "joints_crossed": [
+    "scapulothoracic"
+   ],
+   "neighbors": [
+    "hgpt.muscle.serratus_anterior.L",
+    "hgpt.muscle.trapezius_upper.L"
+   ],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "rack",
+     "role": "synergist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "press",
+     "role": "synergist",
+     "length_change": "shortening",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "overhead_hold",
+     "role": "synergist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "lower",
+     "role": "synergist",
+     "length_change": "lengthening",
+     "skin_response": "region_mask_capped_blend"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.trapezius_lower.R",
+   "region": "scapula",
+   "pilot": true,
+   "depth": "superficial",
+   "origin": "middle/lower thoracic spine",
+   "insertion": "medial scapular spine",
+   "joints_crossed": [
+    "scapulothoracic"
+   ],
+   "neighbors": [
+    "hgpt.muscle.serratus_anterior.R",
+    "hgpt.muscle.trapezius_upper.R"
+   ],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "rack",
+     "role": "synergist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "press",
+     "role": "synergist",
+     "length_change": "shortening",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "overhead_hold",
+     "role": "synergist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "lower",
+     "role": "synergist",
+     "length_change": "lengthening",
+     "skin_response": "region_mask_capped_blend"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.trapezius_middle.L",
+   "region": "scapula",
+   "pilot": true,
+   "depth": "superficial",
+   "origin": "upper thoracic spine",
+   "insertion": "acromion and scapular spine",
+   "joints_crossed": [
+    "scapulothoracic"
+   ],
+   "neighbors": [],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.trapezius_middle.R",
+   "region": "scapula",
+   "pilot": true,
+   "depth": "superficial",
+   "origin": "upper thoracic spine",
+   "insertion": "acromion and scapular spine",
+   "joints_crossed": [
+    "scapulothoracic"
+   ],
+   "neighbors": [],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.trapezius_upper.L",
+   "region": "scapula",
+   "pilot": true,
+   "depth": "superficial",
+   "origin": "occiput and posterior cervical line",
+   "insertion": "lateral clavicle",
+   "joints_crossed": [
+    "scapuloclavicular"
+   ],
+   "neighbors": [
+    "hgpt.muscle.serratus_anterior.L",
+    "hgpt.muscle.trapezius_lower.L"
+   ],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "rack",
+     "role": "synergist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "press",
+     "role": "synergist",
+     "length_change": "shortening",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "overhead_hold",
+     "role": "synergist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "lower",
+     "role": "synergist",
+     "length_change": "lengthening",
+     "skin_response": "region_mask_capped_blend"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  },
+  {
+   "id": "hgpt.muscle.trapezius_upper.R",
+   "region": "scapula",
+   "pilot": true,
+   "depth": "superficial",
+   "origin": "occiput and posterior cervical line",
+   "insertion": "lateral clavicle",
+   "joints_crossed": [
+    "scapuloclavicular"
+   ],
+   "neighbors": [
+    "hgpt.muscle.serratus_anterior.R",
+    "hgpt.muscle.trapezius_lower.R"
+   ],
+   "binding_status": "UNRESOLVED - needs native rig inventory + reviewed landmarks",
+   "path_status": "unresolved",
+   "tissue_rest_volume_m3": null,
+   "used_by_exercise_phases": [
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "rack",
+     "role": "synergist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "press",
+     "role": "synergist",
+     "length_change": "shortening",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "overhead_hold",
+     "role": "synergist",
+     "length_change": "near_isometric",
+     "skin_response": "region_mask_capped_blend"
+    },
+    {
+     "exercise": "hgpt.exercise.shoulder_press.bilateral.v1",
+     "phase": "lower",
+     "role": "synergist",
+     "length_change": "lengthening",
+     "skin_response": "region_mask_capped_blend"
+    }
+   ],
+   "required_before_attachment": [
+    "anchors[bone, local_m] from reviewed landmarks",
+    "source_sha256",
+    "anatomical_side mapping (F-SIDE-001)",
+    "review.reviewer + evidence",
+    "wrap_reviewed",
+    "direct_skin_weight=false for deep muscle",
+    "skin_mask (superficial only)"
+   ]
+  }
+ ]
+}

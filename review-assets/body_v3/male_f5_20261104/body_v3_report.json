@@ -1,0 +1,34 @@
+{
+ "measurements_cm": {
+  "chest": 115.8,
+  "waist": 80.8,
+  "hip": 105.3,
+  "upper_arm": 43.9,
+  "forearm": 30.8,
+  "thigh": 70.2,
+  "calf": 42.2,
+  "bideltoid": 58.2
+ },
+ "voxel_mm": 3.0,
+ "primitives": 193,
+ "vertices": 343765,
+ "faces": 687546,
+ "stature_m": 1.8607,
+ "params": {
+  "stature_m": 1.856,
+  "arms_out_deg": 8,
+  "elbow_deg": 6,
+  "head_forward": 0.012,
+  "delt_lat_offset": 0.6,
+  "scale": {
+   "delts": 0.9,
+   "neck": 1.1,
+   "traps": 1.3,
+   "shoulder_w": 0.92,
+   "thighs": 1.08,
+   "calves": 1.12,
+   "forearms": 1.15,
+   "arms": 1.08
+  }
+ }
+}

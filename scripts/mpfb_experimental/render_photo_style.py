@@ -17,7 +17,7 @@ sc = bpy.context.scene
 body = bpy.data.objects.get("MPFB_DEFINED_REVIEW") or max((o for o in sc.objects if o.type == "MESH" and "FLOOR" not in o.name),
                                                           key=lambda o: len(o.data.vertices))
 for o in sc.objects:
-    if o.type == "MESH" and o is not body:
+    if o.type == "MESH" and o is not body and not o.name.endswith("_REVIEW"):   # review dressing stays visible
         o.hide_render = True
 sc.render.engine = "CYCLES"; sc.cycles.samples = SAMPLES; sc.cycles.use_denoising = True
 try:
@@ -26,6 +26,10 @@ except Exception:
     pass
 sc.cycles.device = "CPU"; sc.view_settings.view_transform = "AgX" if "AgX" in [i.identifier for i in sc.view_settings.bl_rna.properties["view_transform"].enum_items] else "Filmic"
 sc.render.resolution_x, sc.render.resolution_y = 720, 1280
+try:
+    sc.view_settings.look = _LOOK = __import__("os").environ.get("PHOTO_LOOK", "AgX - Punchy")
+except TypeError:
+    pass
 m = bpy.data.materials.new("SKIN_REVIEW_ONLY"); m.use_nodes = True
 bsdf = m.node_tree.nodes.get("Principled BSDF")
 import os as _os
@@ -38,9 +42,12 @@ nt.links.new(nz.outputs["Fac"], bp.inputs["Height"]); nt.links.new(bp.outputs["N
 for nm, v in (("Subsurface Weight", 0.12), ("Subsurface Scale", 0.01), ("Specular IOR Level", 0.45)):
     if nm in bsdf.inputs:
         bsdf.inputs[nm].default_value = v
-body.data.materials.clear(); body.data.materials.append(m)
+if body.data.materials:
+    body.data.materials[0] = m          # skin in slot 0; dressing materials (hair) keep their slots
+else:
+    body.data.materials.append(m)
 for o in bpy.data.objects:
-    if o.type == "MESH" and o is not body:
+    if o.type == "MESH" and o is not body and not o.name.endswith("_REVIEW"):
         o.hide_render = True
 # grey backdrop
 if sc.world is None:

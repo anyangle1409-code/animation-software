@@ -167,9 +167,11 @@ for it in range(ITERS):
     fs, rx = [], []
     for f in map(float, LV):
         t, p = TG[f], P[f]
-        if f >= 0.44 and "torso_w" in t and "torso_w" in p:
+        if f < 0.56:                      # the reference wears shorts up to ~0.56 H: no width target there
+            continue
+        if "torso_w" in t and "torso_w" in p:
             fs.append(f); rx.append(t["torso_w"] / p["torso_w"])
-        elif f >= 0.44 and "total_w" in t and "total_w" in p:
+        elif "total_w" in t and "total_w" in p:
             fs.append(f); rx.append(t["total_w"] / p["total_w"])
     sx = smooth_curve(fs, np.clip(rx, 0.86, 1.12))
     fs2, fr_, bk_ = [], [], []
@@ -199,7 +201,7 @@ for it in range(ITERS):
     fsl, rl, lf, lb = [], [], [], []
     for f in map(float, LV):
         t, p = TG[f], P[f]
-        if f < 0.43 and "leg_w" in t and "leg_w_l" in p:
+        if f < 0.37 and "leg_w" in t and "leg_w_l" in p:     # above ~0.37 H the hands beside the thighs join the outline
             fsl.append(f); rl.append(t["leg_w"] / np.mean([p["leg_w_l"], p["leg_w_r"]]))
             if "front" in t:
                 lf.append(t["front"] - np.mean([p["leg_front_l"], p["leg_front_r"]])); lb.append(t["back"] - np.mean([p["leg_back_l"], p["leg_back_r"]]))
@@ -208,7 +210,7 @@ for it in range(ITERS):
     if fsl:
         sl_, dLF, dLB = smooth_curve(fsl, np.clip(rl, 0.85, 1.2)), smooth_curve(fsl, np.clip(lf, -0.04, 0.04)), smooth_curve(fsl, np.clip(lb, -0.04, 0.04))
         for sd, sg in (("l", 1), ("r", -1)):
-            q = (LEG > 0.05) & (np.sign(X[:, 0]) == sg) & (f_ < 0.47)
+            q = (LEG > 0.05) & (np.sign(X[:, 0]) == sg) & (f_ < 0.42)
             cxs = np.array([P[float(f)].get("leg_cx_" + sd, np.nan) for f in LV]); okc = np.isfinite(cxs)
             cx = np.interp(f_[q], LV[okc], cxs[okc])
             fr2 = np.array([P[float(f)].get("leg_front_" + sd, np.nan) for f in LV]); bk2 = np.array([P[float(f)].get("leg_back_" + sd, np.nan) for f in LV])
@@ -216,7 +218,7 @@ for it in range(ITERS):
             mid14 = -np.median(X[(np.abs(f_ - 0.14) < 0.004) & (LEG > 0.5) & (X[:, 0] > 0), 1])
             u2 = np.clip(((-X[q, 1] - mid14) - pb2) / np.maximum(pf2 - pb2, 0.02), -0.2, 1.2)
             dyf = dLB(f_[q]) + (dLF(f_[q]) - dLB(f_[q])) * u2
-            w_ = LEG[q] * np.clip((0.47 - f_[q]) / 0.05, 0, 1)
+            w_ = LEG[q] * np.clip((0.40 - f_[q]) / 0.05, 0, 1)
             D[q, 0] += w_ * (X[q, 0] - cx) * (sl_(f_[q]) - 1); D[q, 1] += -w_ * dyf
     for _ in range(25):
         D = 0.5 * D + 0.5 * (A @ D) * Dinv[:, None]

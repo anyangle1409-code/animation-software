@@ -51,7 +51,7 @@ import numpy as np  # noqa: E402
 dg = bpy.context.evaluated_depsgraph_get(); ev = body.evaluated_get(dg); me = ev.to_mesh()
 V = np.array([body.matrix_world @ v.co for v in me.vertices]); ev.to_mesh_clear()
 z0, z1 = V[:, 2].min(), V[:, 2].max(); H = z1 - z0
-fm = bpy.data.meshes.new("BACKDROP"); s = 6.0
+fm = bpy.data.meshes.new("BACKDROP"); s = 16.0
 fm.from_pydata([(-s, -s, z0), (s, -s, z0), (s, s, z0), (-s, s, z0), (-s, s, z0 + 4), (s, s, z0 + 4)], [], [(0, 1, 2, 3), (3, 2, 5, 4)])
 fo = bpy.data.objects.new("BACKDROP", fm); sc.collection.objects.link(fo)
 fmat = bpy.data.materials.new("BACKDROP"); fmat.use_nodes = True
@@ -76,6 +76,7 @@ for v in VIEWS:
     for o in [o for o in sc.objects if o.type == "LIGHT"]:
         bpy.data.objects.remove(o, do_unlink=True)
     fwd = Vector((dx, dy, 0)); side = Vector((-dy, dx, 0))
+    fo.rotation_euler = (0.0, 0.0, math.atan2(dx, -dy))       # the wall always behind the figure, facing the camera
     area("KEY", tuple(Vector((0, 0, cz + 1.2)) + fwd * 2.4 + side * 2.6), 260, 1.2, (0, 0, cz))
     area("FILL", tuple(Vector((0, 0, cz)) + fwd * 3.5 - side * 2.5), 45, 3.0, (0, 0, cz))
     area("RIM_L", tuple(Vector((0, 0, cz + 0.6)) - fwd * 2.5 + side * 2.0), 180, 1.0, (0, 0, cz))

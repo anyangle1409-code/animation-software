@@ -1,0 +1,29 @@
+{
+ "full": {
+  "triangles": 230672,
+  "vertices": 115330,
+  "influences_max": 11,
+  "influences_over_4": 21767
+ },
+ "60000": {
+  "triangles": 60000,
+  "vertices": 29994,
+  "deviation_mm_p95": 0.14,
+  "deviation_mm_max": 0.63,
+  "glb_bytes": 1704768
+ },
+ "40000": {
+  "triangles": 40000,
+  "vertices": 19994,
+  "deviation_mm_p95": 0.2,
+  "deviation_mm_max": 1.27,
+  "glb_bytes": 1144764
+ },
+ "25000": {
+  "triangles": 25000,
+  "vertices": 12494,
+  "deviation_mm_p95": 0.3,
+  "deviation_mm_max": 1.1,
+  "glb_bytes": 724764
+ }
+}

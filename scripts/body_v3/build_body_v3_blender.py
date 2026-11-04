@@ -225,6 +225,7 @@ for i_, (kind, prm, k, op, blo, bhi, name) in enumerate(PRIMS):
 # ---- arms
 for sd in ("l", "r"):
     ua, fa, hd = f"upperarm_{sd}", f"forearm_{sd}", f"hand_{sd}"
+    J[f"forearm_full_{sd}"] = (J[fa][0], J[f"forearm_tw1_{sd}"][1]); ff = f"forearm_full_{sd}"   # elbow -> wrist
     Rua, Rfa = basis(ua), basis(fa); aw = sc("arms")
     gh = J[ua][0]
     cone("humerus", at(ua, 0.02), at(ua, 0.98), 0.044, 0.034, k=0.02)
@@ -246,9 +247,10 @@ for sd in ("l", "r"):
     ell("olecranon", at(fa, 0.02, 0.0, -0.030), I3, [0.015, 0.015, 0.016], k=0.012)
     # forearm: brachioradialis / extensors (lateral-front), flexors (medial-front), tapering to a flat wrist
     fw = sc("forearms")
-    ell("brachioradialis", at(fa, 0.22, 0.022, 0.012), Rfa, [0.026 * fw, 0.026 * fw, 0.080], k=0.012)
-    ell("extensors", at(fa, 0.30, 0.020, -0.012), Rfa, [0.024 * fw, 0.022 * fw, 0.085], k=0.012)
-    ell("flexors", at(fa, 0.28, -0.018, 0.010), Rfa, [0.026 * fw, 0.026 * fw, 0.090], k=0.012)
+    Rff = basis(ff)
+    ell("brachioradialis", at(ff, 0.20, 0.024, 0.012), Rff, [0.027 * fw, 0.027 * fw, 0.095], k=0.014)
+    ell("extensors", at(ff, 0.32, 0.020, -0.013), Rff, [0.026 * fw, 0.023 * fw, 0.105], k=0.014)
+    ell("flexors", at(ff, 0.28, -0.019, 0.010), Rff, [0.028 * fw, 0.027 * fw, 0.110], k=0.014)
     cone("forearm_core", at(fa, 0.05), J[f"forearm_tw1_{sd}"][1], 0.030, 0.021, k=0.02)
     wr = J[f"forearm_tw1_{sd}"][1]
     ell("wrist", wr, Rfa, [0.029, 0.019, 0.022], k=0.012)
@@ -279,7 +281,7 @@ for sd in ("l", "r"):
     ell("hamstring_lat", at(th, 0.50, 0.022, -0.048), Rth, [0.034 * lw, 0.036 * lw, 0.170], k=0.014)
     ell("hamstring_med", at(th, 0.50, -0.022, -0.048), Rth, [0.034 * lw, 0.036 * lw, 0.165], k=0.014)
     cone("sartorius", at(th, 0.02, 0.040, 0.060), at(th, 0.92, -0.040, 0.004), 0.011, 0.010, k=0.012)
-    ell("knee", at(sh, 0.0), Rsh, [0.055, 0.052, 0.060], k=0.025)
+    ell("knee", at(sh, 0.0), Rsh, [0.050, 0.051, 0.058], k=0.025)
     ell("patella", at(sh, 0.0, 0.0, 0.040), Rsh, [0.024, 0.012, 0.028], k=0.012)
     cone("tibia", at(sh, 0.05), at(sh, 0.96), 0.046, 0.030, k=0.025)
     cw = sc("calves") * 1.08

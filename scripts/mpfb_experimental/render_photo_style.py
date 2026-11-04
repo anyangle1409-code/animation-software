@@ -28,8 +28,13 @@ sc.cycles.device = "CPU"; sc.view_settings.view_transform = "AgX" if "AgX" in [i
 sc.render.resolution_x, sc.render.resolution_y = 720, 1280
 m = bpy.data.materials.new("SKIN_REVIEW_ONLY"); m.use_nodes = True
 bsdf = m.node_tree.nodes.get("Principled BSDF")
-bsdf.inputs["Base Color"].default_value = (0.45, 0.26, 0.17, 1)
-bsdf.inputs["Roughness"].default_value = 0.42
+import os as _os
+bsdf.inputs["Base Color"].default_value = tuple(float(v) for v in _os.environ.get("PHOTO_SKIN", "0.36,0.19,0.11").split(",")) + (1,)
+bsdf.inputs["Roughness"].default_value = 0.5
+nt = m.node_tree                                   # fine skin texture: procedural noise bump (render only)
+nz = nt.nodes.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = 900.0; nz.inputs["Detail"].default_value = 6.0
+bp = nt.nodes.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 0.06; bp.inputs["Distance"].default_value = 0.0004
+nt.links.new(nz.outputs["Fac"], bp.inputs["Height"]); nt.links.new(bp.outputs["Normal"], bsdf.inputs["Normal"])
 for nm, v in (("Subsurface Weight", 0.12), ("Subsurface Scale", 0.01), ("Specular IOR Level", 0.45)):
     if nm in bsdf.inputs:
         bsdf.inputs[nm].default_value = v
@@ -63,8 +68,9 @@ def area(name, loc, energy, size, target):
 
 
 cz = z0 + 0.6 * H
-cd = bpy.data.cameras.new("PC"); cd.lens = 70; cam = bpy.data.objects.new("PC", cd); sc.collection.objects.link(cam); sc.camera = cam
-DIRS = {"front": (0, -1), "front34": (0.7071, -0.7071), "side": (1, 0), "back34": (0.7071, 0.7071), "back": (0, 1)}
+cd = bpy.data.cameras.new("PC"); import os; cd.lens = float(os.environ.get("PHOTO_LENS", "70")); cam = bpy.data.objects.new("PC", cd); sc.collection.objects.link(cam); sc.camera = cam
+DIRS = {"front": (0, -1), "front34": (0.7071, -0.7071), "side": (1, 0), "back34": (0.7071, 0.7071), "back": (0, 1),
+        "side_l": (-1, 0), "front34_l": (-0.7071, -0.7071), "back34_l": (-0.7071, 0.7071)}   # _l: the left side, as the owner's reference sheet
 for v in VIEWS:
     dx, dy = DIRS[v]
     for o in [o for o in sc.objects if o.type == "LIGHT"]:
@@ -74,7 +80,7 @@ for v in VIEWS:
     area("FILL", tuple(Vector((0, 0, cz)) + fwd * 3.5 - side * 2.5), 45, 3.0, (0, 0, cz))
     area("RIM_L", tuple(Vector((0, 0, cz + 0.6)) - fwd * 2.5 + side * 2.0), 180, 1.0, (0, 0, cz))
     area("RIM_R", tuple(Vector((0, 0, cz + 0.6)) - fwd * 2.5 - side * 2.0), 180, 1.0, (0, 0, cz))
-    dist = H * 3.0
+    dist = H * float(os.environ.get("PHOTO_DIST", "3.0"))
     cam.location = Vector((0, 0, z0 + 0.55 * H)) + fwd * dist
     cam.rotation_mode = "QUATERNION"; cam.rotation_quaternion = (Vector((0, 0, z0 + 0.52 * H)) - cam.location).to_track_quat("-Z", "Y")
     sc.render.filepath = str(OUT / f"photo_{v}.png"); bpy.ops.render.render(write_still=True)

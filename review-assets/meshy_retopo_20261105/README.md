@@ -719,3 +719,42 @@ Deviation from the source: |dev| mean 0.06 mm. 410 vertices are more than 2 mm o
    - in the standing pose the palms face forward and the fingers splay, because the pose doesn't rotate the forearm inward. This is a pose-setup issue.
 6. **Feet:** toes slightly softer and up to 2.4 mm inside the source.
 7. **Arms:** about 1.6 % slimmer than the source at mid-upper-arm and 1 % at the forearm.
+
+## SC1: standing-model cleanup pass (07b → 07c), presented for approval
+
+**Checkpoint:** `HGPT_Male_Rig_07c_StandingCleanup_WIP_PROXY.blend` (`e9448c68…`), read-only. 07b and every earlier checkpoint are unchanged. Scripts: `standing_cleanup_blender.py`, plus `densify_project_blender.py … face`. Every rest-pose edit is also applied to all corrective shape keys.
+
+**Changes:**
+1. **Upper-back midline.**
+   - Correction: the earlier report said 07b was 2–6 mm deeper than the source. It was not. The approved source itself has a spinal crease only 1–2 mm wide and about 8 mm deep; a coarse probe had missed its floor.
+   - The crease is now a broad, rounded groove (about 4 mm deep over ±5 mm): a deliberate departure from the source artefact. The back muscles beside it are unchanged.
+2. **Sternum, neck and jaw.** The sternum line is softened, with a few small notches left at the top, as in the source. The neck/trapezius crinkles and the jaw line are reduced by targeted volume-preserving smoothing.
+3. **Pelvis: neutral nude base form.** The source wears modelled shorts, so there is no anatomical reference under them.
+   - Made symmetric from the cleaner side.
+   - A simple smooth genital mass, without detail.
+   - The left-side "flap" was a deep crease where the genital mass met the inner thigh. It is filled into a smooth junction (vertices up to 47 mm).
+   - The hip-side lines from the shorts seams are softened.
+   - Fitted shorts can go on top later.
+4. **Arms: unchanged.** The surface lies 0.04–0.16 mm from the source. The 1.6 % girth gap is the convex-hull tape riding over the source's raised veins, not missing volume.
+5. **Hands and feet:** brought out to the source where they sat inside it (122 hand and 15 foot vertices), except where fingers or toes would cross.
+6. **Face:** a second subdivision level on the face only. Brows, eyes, lids and lips are crisper. 56,677 vertices in total.
+
+**07c verification** (anatomical elbow hinge):
+
+| Check | Result |
+|---|---|
+| Stand / curl / press bottom / mid / top | 0 / 0 / 0 / 0 / 0 pairs |
+| Squat | 745 pairs (07b: 757), known hip/knee contact |
+| Arms-down and curl contact | 0 |
+| Raised range | 3 pairs at most |
+| Sweep 0→170→0 | Max 6 intersections, 5 folded faces, 5.76 mm/°, symmetric |
+| Chest lift at 105° | 13 mm, unchanged |
+
+Proportions against the source: everything is within 1.2 %, height −0.4 mm.
+
+**Known remaining items (not corrected):**
+- The hands are at the original resolution (a wrist density step in flat shading only).
+- The standing presentation pose shows the palms forward, because the pose does not rotate the forearm inward.
+- Small marks remain at the nostril base, the front hairline and the top of the right shoulder.
+- The thighs around the filled groin crease are up to about 4.5 mm off the source.
+- More "new sharp edges" are counted in the back-fold zone in the diagnostics (2 → 10). There are no intersections there.

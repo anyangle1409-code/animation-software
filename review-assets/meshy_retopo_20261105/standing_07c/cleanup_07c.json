@@ -1,0 +1,167 @@
+{
+ "cleanup": {
+  "method": "Standing-model cleanup on the bound body (rest geometry) - writes a NEW file. Proportions and the corrective keys\nare preserved: every rest-position edit is applied to every shape-key layer as well (key deltas unchanged).\n\nZones are in rest space (metres; the body faces -y, +x is the character's left). Steps, in order:\n  1. MIDLINE (upper back: spine groove; front: sternum). Measured per vertex: the body follows the approved source\n     there, and the SOURCE itself carries a spinal crease only 1-2 mm wide and ~8 mm deep (e.g. 136.8 mm at the midline\n     vs 144.5 mm 6 mm to the side, z 1.34 m) and a fine sternal line; at the source's density they read as fine lines,\n     at the body's density as a dark slit and a notched seam. (A first profile probe with a +-2.5 mm window read the\n     crease walls and wrongly suggested the body was deeper than the source.) A volume-preserving Taubin smoothing\n     (lambda/mu) in a band that fades from the midline to BAND rounds the crease into a broad, shallower groove (about\n     4 mm over +-5 mm) - a deliberate departure from the source artefact; the back / chest muscles beyond the band are\n     untouched.\n  2. CRINKLES (neck-to-trapezius transition, under the jaw back to its angle): small-scale ridges are measured as the\n     umbrella vector along the normal; 20 Taubin passes in box zones (fading at the edges), concentrated on the\n     crinkling vertices (above the zone's 70th percentile, plus one ring), remove the 1-2 edge scale wrinkles without\n     changing the neck volume (Taubin does not shrink). Runs after the pelvis step (it needs box_weight).\n  3. PELVIS - neutral anatomical nude base form (the source wears modelled shorts, so there is no anatomical reference\n     under them): the pelvis zone is made symmetric from its cleaner side (the side whose genital zone has the lower\n     umbrella energy is the master; the other side takes the mirrored master surface, blended at the zone edge; up to 45 mm - with 20 mm the protruding flap on the left was skipped); the\n     genital mass (within 55 mm of the midline, in front of y = -50 mm, reaching the thigh junction where the flap sat) is reduced to a simple smooth volume (up\n     to 60 Taubin passes, fewer if skin would cross - volume kept, fold / flap removed, no detail);\n     the perineum / lower gluteal fold and the hard vertical lines at the hip sides (the source's shorts side seams) get\n     16 lighter passes; the deep crease where the genital mass meets the inner thigh (the 'flap') is filled - concave\n     vertices only move outward - for a neutral junction (symmetric weights on the mirrored surface keep it symmetric; mirroring once more afterwards made\n     skin cross - 40 rest pairs - and was dropped). (A first pass with 10 passes\n     around a centre on the pubic mound left the flap in place.)\n  4. FULLNESS (hands, feet): vertices lying more than 0.7 mm inside the source are put on it along their normal\n     (within 4 mm) - the measured thinness of the hands (0.8 mm mean, 2.6 mm p5 inside) and toes.\n     A vertex whose move would make touching fingers / toes cross is left where it was.\n  Guards: rest self-intersections not increased (a step that adds some is undone), drivers kept.",
+  "steps": {
+   "1_midline": {
+    "spine": {
+     "taubin_passes": 30,
+     "band_crinkle_mm_before_after": [
+      0.592,
+      0.493
+     ]
+    },
+    "sternum": {
+     "taubin_passes": 14,
+     "band_crinkle_mm_before_after": [
+      0.685,
+      0.622
+     ]
+    },
+    "rest_intersections_after": 0,
+    "moved_vertices": 912,
+    "max_move_mm": 4.13
+   },
+   "3_pelvis_neutral_form": {
+    "master_side": "right (-x)",
+    "genital_umbrella_mm_left_right": [
+     1.247,
+     0.968
+    ],
+    "genital_umbrella_mm_after_symmetry_after_form": [
+     1.136,
+     0.554
+    ],
+    "genital_taubin_passes": 60,
+    "perineum_hip_side_passes": 16,
+    "groin_crease_fill_passes": 25,
+    "pelvis_asymmetry_mm_mean_max": [
+     1.86,
+     11.94
+    ],
+    "rest_intersections_after": 0,
+    "moved_vertices": 2286,
+    "max_move_mm": 47.22
+   },
+   "2_crinkles": {
+    "neck_trapezius": {
+     "vertices": 1859,
+     "crinkle_vertices": 558,
+     "crinkle_mm_before_after": [
+      0.228,
+      0.207
+     ]
+    },
+    "under_jaw_to_angle": {
+     "vertices": 2008,
+     "crinkle_vertices": 603,
+     "crinkle_mm_before_after": [
+      0.26,
+      0.213
+     ]
+    },
+    "rest_intersections_after": 0,
+    "moved_vertices": 3591,
+    "max_move_mm": 4.97
+   },
+   "4_hands_feet_fullness": {
+    "hands": {
+     "vertices": 1566,
+     "moved_to_source": 122
+    },
+    "feet": {
+     "vertices": 2834,
+     "moved_to_source": 15
+    },
+    "reverted_where_skin_would_cross": 10,
+    "rest_intersections_after": 0,
+    "moved_vertices": 127,
+    "max_move_mm": 3.96
+   }
+  },
+  "rest_intersections_before": 0,
+  "drivers_before_after": [
+   13,
+   13
+  ],
+  "out": "try_clean9.blend"
+ },
+ "face_densify": {
+  "method": "Restore muscle definition from the approved source: one level of subdivision, new vertices on the source - NEW file.\n\nAudit (muscle_relief_audit_blender.py + identical-light renders, round MD1): the current body keeps the source's muscle\nVOLUME and belly contours (30 mm scale: 91-101 % of the relief, correlation 0.94-0.99) and lies on the source at its\nvertices, but its 20-25 mm quads span the 10 mm wide separations between muscles: the abdominal tendinous lines,\nlinea alba, serratus digitations, deltoid/biceps and brachialis grooves fall between vertex rows (abdomen 15 mm-scale\ngroove depth 0.7 mm vs 1.6 mm in the source). Faceting in flat shading had been reading as definition.\n\nHere (bound rig file, so weights, shape keys and drivers carry over):\n  * every edge outside the hands is cut once (bmesh subdivide_edges, grid fill: a quad becomes 4 quads; the hands\n    carry no muscle definition and their tightly packed fingers crossed each other when cut, so hand faces are kept;\n    one ring of forearm faces at each wrist takes the transition pattern); bone weights and every shape-key\n    layer are interpolated by bmesh; at most 4 influences are kept per new vertex;\n  * every NEW vertex is put on the approved source surface by a ray along its own normal (within SNAP_MAX), accepting\n    only a surface facing the same way (never the opposite wall of a narrow gap: armpit, crotch, fingers); every\n    shape-key layer is moved by the same offset, so the corrective deltas are kept. Original vertices are not moved;\n  * symmetry guard: where a new vertex's snap differs from its mirror twin's by more than 2.5 mm, both take the\n    smaller snap (a one-sided feature is a source defect, e.g. the pit at the right acromioclavicular region that\n    folded when the clavicle lifted in 07a; muscle definition is bilateral);\n  * a snapped vertex on a face whose triangles then intersect other skin is put back to its interpolated position;\n    interpolated midpoints that still cross a neighbouring finger (tightly packed fingers) are tucked in along their\n    own normal in 0.25 mm steps (at most 2 mm);\n  * posed fold guard: posed through the standard arm poses and the sweep posture, intersecting faces within 4 edges\n    of each other are local folds of a source detail the skinning cannot carry (07a: a 1 cm crease in front of the\n    right clavicle at 55-105 deg); snapped new vertices there return to the interpolated position;\n  * guards: manifold, no n-gons, rest self-intersections not increased, drivers kept.\nProportions cannot change: every vertex is either an original vertex or a point of the approved source surface.\n\nWith a 5th argument \"face\" only the face (front of the head above the jaw line) is subdivided - a second level there\nfor the eyes, lids, lips and nose; the edges on its border are not cut, so the border faces take the transition pattern.",
+  "vertices_before_after": [
+   48086,
+   56677
+  ],
+  "faces_before_after": [
+   48180,
+   56954
+  ],
+  "new_vertices": 8591,
+  "snapped": 8588,
+  "snap_max_mm": 7.54,
+  "snaps_reverted": 119,
+  "asymmetric_snaps_equalised": 14,
+  "finger_midpoints_tucked_steps": 0,
+  "ngons": 0,
+  "non_manifold_edges": 0,
+  "rest_intersecting_vertices_before_after": [
+   0,
+   0
+  ],
+  "posed_fold_guard_reverted": 0,
+  "posed_fold_guard_left_per_pose": [
+   [
+    8,
+    10,
+    170,
+    0
+   ],
+   [
+    55,
+    40,
+    70,
+    0
+   ],
+   [
+    105,
+    30,
+    115,
+    0
+   ],
+   [
+    170,
+    15,
+    175,
+    0
+   ],
+   [
+    17.5,
+    10,
+    40,
+    0
+   ],
+   [
+    90,
+    30,
+    175,
+    0
+   ],
+   [
+    135,
+    30,
+    175,
+    0
+   ],
+   [
+    170,
+    30,
+    175,
+    0
+   ]
+  ],
+  "drivers_before_after": [
+   13,
+   13
+  ],
+  "out": "try_face.blend"
+ }
+}

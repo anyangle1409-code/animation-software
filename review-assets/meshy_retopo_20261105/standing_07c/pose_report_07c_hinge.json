@@ -1,0 +1,97 @@
+{
+ "stand": {
+  "correctives": {
+   "elevation_deg": 8.0,
+   "plane_deg": 10.0,
+   "gate": 1.0,
+   "CORR_SH_MID": 0.0,
+   "CORR_SH_TOP": 0.0
+  },
+  "self_intersections": 0,
+  "self_intersections_by_height_band": {},
+  "edge_stretch_p99": 1.212,
+  "edge_stretch_max": 1.43,
+  "edge_compress_p1": 0.844,
+  "volume_change_pct": -0.44
+ },
+ "press_bottom": {
+  "correctives": {
+   "elevation_deg": 55.0,
+   "plane_deg": 40.0,
+   "gate": 1.0,
+   "CORR_SH_MID": 0.0,
+   "CORR_SH_TOP": 0.0
+  },
+  "self_intersections": 0,
+  "self_intersections_by_height_band": {},
+  "edge_stretch_p99": 2.041,
+  "edge_stretch_max": 3.44,
+  "edge_compress_p1": 0.594,
+  "volume_change_pct": 2.08
+ },
+ "press_mid": {
+  "correctives": {
+   "elevation_deg": 105.0,
+   "plane_deg": 30.0,
+   "gate": 1.0,
+   "CORR_SH_MID": 1.0,
+   "CORR_SH_TOP": 0.0
+  },
+  "self_intersections": 0,
+  "self_intersections_by_height_band": {},
+  "edge_stretch_p99": 3.362,
+  "edge_stretch_max": 5.77,
+  "edge_compress_p1": 0.636,
+  "volume_change_pct": 5.01
+ },
+ "press_top": {
+  "correctives": {
+   "elevation_deg": 170.0,
+   "plane_deg": 15.0,
+   "gate": 1.0,
+   "CORR_SH_MID": 0.0,
+   "CORR_SH_TOP": 1.0
+  },
+  "self_intersections": 0,
+  "self_intersections_by_height_band": {},
+  "edge_stretch_p99": 4.422,
+  "edge_stretch_max": 7.93,
+  "edge_compress_p1": 0.426,
+  "volume_change_pct": 4.57
+ },
+ "curl": {
+  "correctives": {
+   "elevation_deg": 5.0,
+   "plane_deg": 5.0,
+   "gate": 1.0,
+   "CORR_SH_MID": 0.0,
+   "CORR_SH_TOP": 0.0
+  },
+  "self_intersections": 0,
+  "self_intersections_by_height_band": {},
+  "edge_stretch_p99": 1.326,
+  "edge_stretch_max": 1.71,
+  "edge_compress_p1": 0.426,
+  "volume_change_pct": -2.5
+ },
+ "squat": {
+  "correctives": {
+   "elevation_deg": 80.0,
+   "plane_deg": 85.0,
+   "gate": 0.0,
+   "CORR_SH_MID": 0.0,
+   "CORR_SH_TOP": 0.0
+  },
+  "self_intersections": 745,
+  "self_intersections_by_height_band": {
+   "head_neck": 0,
+   "shoulder_axilla": 68,
+   "hip_groin": 466,
+   "legs_feet": 211
+  },
+  "edge_stretch_p99": 1.969,
+  "edge_stretch_max": 6.06,
+  "edge_compress_p1": 0.532,
+  "volume_change_pct": -7.94
+ }
+}

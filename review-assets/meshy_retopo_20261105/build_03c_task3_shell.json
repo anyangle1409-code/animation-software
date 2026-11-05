@@ -1,0 +1,14 @@
+{
+ "out": "HGPT_Male_Retopo_03c_TorsoHeadShell_WIP_PROXY.blend (not in git)",
+ "object": "HGPT_Male_Task3_Shell",
+ "half_vertices": 1910,
+ "half_faces": 1774,
+ "non_quads": 0,
+ "edge_length_mm_p5_median_p95": [
+  7.3,
+  13.6,
+  26.2
+ ],
+ "rows": 61,
+ "columns": 34
+}

@@ -10,7 +10,11 @@ Poses (rigid world-space rotations of canonical bone subtrees; bone lengths neve
 Per pose: self-intersecting triangle pairs (non-adjacent), edge stretch / compression percentiles in the moving
 region, signed volume change, min arm-trunk gap, renders front / side / back (Workbench clay, ortho).
 
-usage: python3.13 meshy_pose_test_blender.py -- <meshy_bound.blend> <out dir> [poses comma list]
+With the optional 4th argument "hinge" the arms are posed with an anatomical elbow (shoulder_pose_lib.arm_pose
+hinge=True: humeral axial rotation, then flexion about the elbow hinge only). Without it (all results up to AX3) the
+press poses bend the elbow 56-71 deg outside its hinge plane, sideways into the biceps.
+
+usage: python3.13 meshy_pose_test_blender.py -- <meshy_bound.blend> <out dir> [poses comma list] [hinge]
 """
 import json
 import math
@@ -25,6 +29,8 @@ from mathutils.bvhtree import BVHTree
 a = sys.argv[sys.argv.index("--") + 1:]
 SRC, OUT = Path(a[0]), Path(a[1]); OUT.mkdir(parents=True, exist_ok=True)
 ONLY = a[2].split(",") if len(a) > 2 else None
+HINGE = len(a) > 3 and a[3] == "hinge"
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 bpy.ops.wm.open_mainfile(filepath=str(SRC))
 rig = bpy.data.objects["MESHY_RIG"]; body = bpy.data.objects["MESHY_BODY"]
 pb = rig.pose.bones; MW = rig.matrix_world; W2A = MW.to_3x3().inverted(); wp = lambda v: MW @ v
@@ -52,6 +58,9 @@ def aim(root, bone, target_w):
 
 
 def arm_pose(sd, elev, fwd, elbow, clav):
+    if HINGE:                                                       # anatomical elbow: shared hinge-correct pose
+        from shoulder_pose_lib import arm_pose as lib_arm_pose     # (humeral axial rotation, flexion about the hinge)
+        lib_arm_pose(rig, sd, elev, fwd, elbow, clav, hinge=True); return
     lat = 1.0 if wp(pb[f"upperarm_{sd}"].head).x > 0 else -1.0
     if clav:
         rot_rigid(subtree(f"clavicle_{sd}"), wp(pb[f"clavicle_{sd}"].head), Vector((0, -lat, 0)), clav)

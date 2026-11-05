@@ -30,9 +30,18 @@ def aim(rig, root, bone, target_w):
         rot_rigid(rig, subtree(rig, root), wp(b.head), ax, math.degrees(cur.angle(tgt)))
 
 
-def arm_pose(rig, sd, elev, fwd, elbow, clav):
+def arm_pose(rig, sd, elev, fwd, elbow, clav, hinge=False):
+    """Arm pose. hinge=False (default, all results up to round AX3): the upper arm is aimed with the smallest
+    rotation and the forearm is aimed at its target directly - the elbow may then bend outside its hinge plane.
+    hinge=True: the elbow flexes only about its hinge plane (measured at rest). Above 30 deg elevation the humerus is
+    first turned about its own axis (axial rotation) so that the hinge plane contains the target forearm direction
+    (towards the ceiling, as in a press); at or below 30 deg the rest humeral rotation is kept."""
     pb, _, _, wp = _ctx(rig)
     lat = 1.0 if wp(pb[f"upperarm_{sd}"].head).x > 0 else -1.0
+    if hinge:
+        U0 = pb[f"upperarm_{sd}"].matrix.to_3x3(); f0 = (wp(pb[f"forearm_{sd}"].tail) - wp(pb[f"forearm_{sd}"].head)).normalized()
+        y0 = (wp(pb[f"upperarm_{sd}"].tail) - wp(pb[f"upperarm_{sd}"].head)).normalized()
+        hl = (rig.matrix_world.to_3x3() @ U0).inverted() @ (f0 - y0 * f0.dot(y0)).normalized()   # hinge direction, humerus frame
     if clav:
         rot_rigid(rig, subtree(rig, f"clavicle_{sd}"), wp(pb[f"clavicle_{sd}"].head), Vector((0, -lat, 0)), clav)
     e, p_ = math.radians(elev), math.radians(fwd)
@@ -40,6 +49,13 @@ def arm_pose(rig, sd, elev, fwd, elbow, clav):
     u = (wp(pb[f"upperarm_{sd}"].tail) - wp(pb[f"upperarm_{sd}"].head)).normalized()
     ref = Vector((0, 0, 1)) if elev > 30 else Vector((0, -1, 0))
     w = ref - u * ref.dot(u); w = w.normalized() if w.length > 1e-4 else Vector((0, -1, 0))
+    if hinge:
+        h = (rig.matrix_world.to_3x3() @ pb[f"upperarm_{sd}"].matrix.to_3x3() @ hl); h = (h - u * h.dot(u)).normalized()
+        if elev <= 30:                                             # arm down (curl, stand): keep the rest humeral
+            w = h                                                  # rotation, flex about the hinge as bound
+        ang = math.degrees(h.angle(w)); ax = h.cross(w)
+        if ang > 1e-3 and ax.length > 1e-9:
+            rot_rigid(rig, subtree(rig, f"upperarm_{sd}"), wp(pb[f"upperarm_{sd}"].head), u if ax.dot(u) > 0 else -u, ang)
     fl = math.radians(180 - elbow); fdir = u * math.cos(fl) + w * math.sin(fl)
     aim(rig, f"forearm_{sd}", f"forearm_{sd}", fdir)
     aim(rig, f"hand_{sd}", f"hand_{sd}", fdir)

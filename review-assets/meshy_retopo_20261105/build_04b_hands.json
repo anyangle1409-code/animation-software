@@ -1,0 +1,131 @@
+{
+ "method": "Task 4 (part 2): hands and fingers on the open 32-vertex wrist rings - designed loops, no auto-remesh.\n\nPer side (each hand measured on its own; the source is not mirror-symmetric):\n  * HAND FRAME: principal axes of the source hand beyond the wrist ring: L (wrist -> fingertips), Wd (across the\n    knuckles, oriented so the thumb is on the -Wd side), N (dorsal, the thumb lies on the palmar -N side).\n  * FINGERS: the source fingers touch along their length (the Meshy surface fuses them), so each finger's centre line is\n    traced from the THICKNESS RIDGES of the hand (dorsal ray hit to palmar exit, sampled across the hand) and the\n    grooves between ridges are the separating planes. Each finger is an 8-vertex tube (4 dorsal, 4 palmar), with three\n    loops at each of the PIP and DIP joints and a 3-quad fingertip cap; side vertices stop just short of the groove\n    plane so neighbouring fingers stay separate surfaces.\n  * PALM: 32-vertex rings from the wrist ring to the knuckle ring. The knuckle ring is made of the fingers' base rings\n    (16 dorsal + 16 palmar vertices, with one web quad between neighbouring fingers). Intermediate rings are cuts of the\n    source between the wrist plane and the knuckle plane; their vertices are placed by arc length around the whole cut\n    (from its radial extreme, dorsal side first), blending the wrist ring's spacing into the knuckle ring's.\n  * THUMB: an 8-edge opening (a 2 x 2 block of palm quads, the vertex nearest the thumb axis removed) on the\n    thenar side, between the palm rings at the thumb's base; the thumb tube follows the measured thumb axis (slice\n    centroids), loops at the MCP and IP joints, 3-quad tip cap.",
+ "sides": {
+  "right": {
+   "hand_length": 0.1971,
+   "L": [
+    0.4028,
+    -0.173,
+    -0.8988
+   ],
+   "Wd": [
+    -0.346,
+    0.8804,
+    -0.3245
+   ],
+   "N": [
+    0.8474,
+    0.4417,
+    0.2948
+   ],
+   "thumb_crotch_s": 0.0729,
+   "wrist_ulnar_side_w": 0.0244,
+   "wrist_split_check": "ok",
+   "thumb_axis_offset_from_opening_mm": 3.6,
+   "fingers": [
+    {
+     "base_s": 0.1059,
+     "tip_s": 0.1795,
+     "length_mm": 78.8
+    },
+    {
+     "base_s": 0.1232,
+     "tip_s": 0.1962,
+     "length_mm": 76.4
+    },
+    {
+     "base_s": 0.1232,
+     "tip_s": 0.1872,
+     "length_mm": 66.1
+    },
+    {
+     "base_s": 0.1158,
+     "tip_s": 0.1597,
+     "length_mm": 44.8
+    }
+   ],
+   "webs_s": [
+    0.1059,
+    0.1232,
+    0.1158
+   ],
+   "palm_rings": 8,
+   "thumb_hole_rows": [
+    2,
+    3,
+    4
+   ],
+   "thumb_length_mm": 80.2,
+   "finger_loops": 13,
+   "thumb_loops": 11
+  },
+  "left": {
+   "hand_length": 0.2343,
+   "L": [
+    -0.4482,
+    -0.2589,
+    -0.8556
+   ],
+   "Wd": [
+    0.3054,
+    0.8552,
+    -0.4188
+   ],
+   "N": [
+    -0.8401,
+    0.449,
+    0.3043
+   ],
+   "thumb_crotch_s": 0.1148,
+   "wrist_ulnar_side_w": 0.0295,
+   "wrist_split_check": "ok",
+   "thumb_axis_offset_from_opening_mm": 4.7,
+   "fingers": [
+    {
+     "base_s": 0.1435,
+     "tip_s": 0.2191,
+     "length_mm": 79.5
+    },
+    {
+     "base_s": 0.164,
+     "tip_s": 0.2334,
+     "length_mm": 71.7
+    },
+    {
+     "base_s": 0.164,
+     "tip_s": 0.2222,
+     "length_mm": 60.0
+    },
+    {
+     "base_s": 0.1494,
+     "tip_s": 0.192,
+     "length_mm": 43.5
+    }
+   ],
+   "webs_s": [
+    0.1435,
+    0.164,
+    0.1494
+   ],
+   "palm_rings": 11,
+   "thumb_hole_rows": [
+    5,
+    6,
+    7
+   ],
+   "thumb_length_mm": 86.2,
+   "finger_loops": 13,
+   "thumb_loops": 11
+  }
+ },
+ "out": "work/HGPT_Male_Retopo_04b_ArmsHands_WIP_PROXY.blend",
+ "faces": 8380,
+ "non_quads": 0,
+ "boundary_edges": 66,
+ "new_vertices": 1502,
+ "hand_edge_mm_min_p5_p50": [
+  0.52,
+  3.26,
+  7.77
+ ]
+}

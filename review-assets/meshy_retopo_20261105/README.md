@@ -269,3 +269,35 @@ So the shell's Mirror + Shrinkwrap is **applied** in a full-body object, `HGPT_M
 - The armpit hollow seen from below has stretched, crowded quads where the cap meets the lats and pecs; it needs a hand-placed pass before the raised-arm tests.
 - The left side uses the same procedure; the left-specific asymmetry check is not done yet.
 - Hands and fingers are next.
+
+## 04b: hands and fingers (5 Nov)
+
+**Checkpoint:** `HGPT_Male_Retopo_04b_ArmsHands_WIP_PROXY.blend` (`1df4e6f9…`), built from 04a by `scripts/retopology/build_task4_hands.py`. Read-only; 04a is unchanged.
+
+**What the source hand looks like:** relaxed, slightly cupped, thumb forward. **The Meshy surface fuses neighbouring fingers along their length** (a cut across the fingers gives one loop, not four), so fingers cannot be traced as separate tubes directly.
+
+**Method (designed loops, no auto-remesh):**
+- **Hand frame** from the principal axes of the source hand beyond the wrist ring: L (to the fingertips), Wd (across the knuckles, thumb on the −Wd side) and N (dorsal).
+- **Fingers from thickness ridges.** The hand's thickness (dorsal hit to palmar exit) is sampled across the hand every 1.5 mm. Each finger is a ridge; the grooves between ridges are the separating planes. Ridges are tracked from a reference cut with four clear ridges, then fitted as smooth centre lines. The web of each finger is where its groove fades.
+- **Finger tubes** of 8 vertices (4 dorsal, 4 palmar). Loops are placed at 0 / 14 / 28 / 36 / 42 / 48 / 60 / 67 / 72 / 77 / 86 / 93 % from the web to the tip, which gives 3 loops at the PIP joint and 3 at the DIP joint. A 3-quad cap closes the fingertip, so there are no poles on the tip. Side vertices stop at 90 % of the distance to the groove plane (72 % at the web), so neighbouring fingers stay separate surfaces. The outer sides of the index and little fingers are capped at 1.25 × the inner spacing.
+- **Palm:** 32-vertex rings from the arm's wrist ring to a knuckle ring made of the four finger base rings (16 dorsal + 16 palmar vertices), with one web quad between each pair of fingers. Each intermediate ring is a cut of the source by a plane that turns from the wrist-ring plane to perpendicular to the hand axis. Vertices are placed by arc length around the whole cut, blending the wrist ring's spacing into the knuckle ring's.
+- **Thumb:**
+  - An 8-edge opening is cut in the palm (a 2 × 2 block of quads, the middle vertex removed), on the palm rows spanning the thumb base up to the crotch. It is placed where its centre is nearest the thumb axis.
+  - The thumb axis is measured from cuts perpendicular to it.
+  - The thumb tube has 8 vertices with loops at the MCP and IP joints, two loops wrapping the thenar mound, and a 3-quad tip cap.
+  - The opening's vertex order is matched to the first thumb loop (best cyclic shift and direction), so the thumb root is not twisted.
+- Every hand vertex is tagged (`t4_part`: 1 palm, 10–13 fingers, 20 thumb root, 21 thumb) for the later weight pass.
+
+**Measured (`audit_04b_hands.json`, `hand_metrics_04b.json`):**
+- 8,380 faces, 100 % quads, 1 component, no non-manifold, wire or loose elements.
+- **Open edges: only the pelvis (66).** Head, arms and hands are closed.
+- 132 three-edge and 128 five-edge vertices.
+- Source hand to cage: median 0.76 / 0.69 mm (right / left), p95 3.3 / 2.9 mm, max 7.9 / 7.7 mm (at the fused finger grooves, where the cage deliberately leaves a gap).
+- Hand faces: 718 right, 814 left. Aspect p50 1.9 / 2.0, p95 4.4 / 4.0. Poor quads 53 / 51, mostly in the thumb root and at the finger webs.
+- Longest hand edges are 40–46 mm, in the palm rows around the thumb opening.
+
+**Still open (first pass):**
+- The palm rows around the thumb opening are coarse; the thenar mound is covered by a few long quads.
+- The thumb root has 2 very sharp quads (minimum angle under 2°).
+- With 8 vertices around, fingers are smooth tubes: knuckle bumps and nails are left to the normal map from the real source.
+- The fingers stop at 90 % of the groove; check that they do not stick together at the deformation tests.

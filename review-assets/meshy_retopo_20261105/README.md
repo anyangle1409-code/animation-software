@@ -492,3 +492,29 @@ A separate measurement records the tissue cover over the humeral head: the neare
 2. An anatomical scapula motion that doesn't distort the back.
 3. 4 remaining fold-defect edges at the armpit apex.
 4. A 26 mm pocket left at the floor of the right armpit vault.
+
+## SH2 (in progress): pocket fit, scapula glide, corrective attempts, skeleton check
+
+- **Mesh 05d** `HGPT_Male_Retopo_05d_ArmpitPocket_WIP_PROXY.blend` (`de8c60a5…`): 05c plus `armpit_pocket_fit.py`.
+  - Shoulder fit p95 / max: right 8.1 / 26.4 → 4.5 / 9.0 mm; left 6.5 / 10.8 → 4.8 / 10.1 mm.
+  - 0 self-intersections; 4 fold-defect edges remain.
+  - A second fold-repair pass was **rejected**: it reduced the defects 4 → 3 but worsened the fit (left max 24 mm).
+- **Rig 06e:** 05d bound and shaped as 06c (`e6bd6be7…` bind, `18d00939…` weights).
+- **Rig 06f** `HGPT_Male_Rig_06f_ScapulaGlide_WIP_PROXY.blend` (`e6b498a2…`): 06e plus a **scapula glide helper** (`add_scapula_glide_blender.py`).
+  - A separate deforming bone per side, driven by arm elevation (ROTATION_DIFF against a reference bone), rotating 0.6 × elevation/3 and lifting 15 mm at 170°.
+  - It takes weight only from the spine share, over the shoulder blade, never on the arm or the armpit walls.
+  - Visible upward rotation of the shoulder-blade relief, no hump, zone metrics unchanged.
+  - A first version whose region reached the posterior armpit wall caused front-fold collisions and was narrowed.
+- **Corrective shapes:** edge-length solve (`build_shoulder_correctives_blender.py`), all variants **rejected** (reports `correctives_*_REJECTED.json`):
+  - raw solve: shards at 170°;
+  - smoothed displacement: correction washed out;
+  - uniform scale-back: keys shrunk to 5–13 %;
+  - smoothed local scale-back: fins and serrations.
+  - The 90° key improves the metrics (deltoid 0.80 → 0.90, back-fold stretch 2.59 → 2.23) but replaces the crease with serrations.
+- **Skeleton check (06f):** all bone lengths are canonical except the clavicles (−6.0 / −1.3 mm, from the joint move) and the non-deforming muscle guide lines.
+  - The shoulder joint is 49 mm under the lateral and upper deltoid, centred front-to-back.
+  - The joint's position relative to the acromioclavicular joint is canonical.
+  - The test motion is within the `src/rig/humanoid.ts` limits: abduction ≤ 180°, clavicle elevation 25° at its limit, elbow 5° of flexion.
+- **Owner's observation (the "flying squirrel" web, 105°):** confirmed by measurement and **identified as a weights cause**. Upper-arm weight reaches down the side of the trunk to **253–273 mm below the shoulder joint**: 134–156 trunk vertices more than 120 mm below it in 06a–06f, and 06b's smoothing added about 90 more trunk vertices with arm weight. In a real raised arm the trunk skin below the axillary folds stays with the ribcage. This also explains the armpit-floor and back-fold stretch numbers the corrective attempts were fighting.
+  - Next: limit upper-arm influence on the trunk to the axillary fold region.
+- **Continuous sweep (preliminary, 06f; `sweep_animation_06f_PRELIMINARY.json`):** the summary flags up to 126 intersecting pairs within 0.25 m of the shoulders at some frames, elbow included angle down to 148°, and wrist deviation up to 23°. These are **not yet investigated**; they may be test-rig effects (the hands and forearms near the head at 170°) and must be checked before any sign-off.

@@ -1,0 +1,11 @@
+V bones compared 77 new bones ['arm_ref_l', 'arm_ref_r', 'scap_glide_l', 'scap_glide_r']
+V length changes > 0.5 mm: [('muscle_trap_l', 212.1, 247.4), ('muscle_trap_r', 212.1, 243.9), ('muscle_lat_l', 207.8, 226.0), ('muscle_lat_r', 207.8, 224.6), ('muscle_pec_r', 212.1, 201.8), ('clavicle_r', 189.1, 183.1), ('muscle_pec_l', 210.0, 204.4), ('clavicle_l', 189.1, 187.8)]
+V max other length change mm 0.0
+V r GH [0.2179, 0.0328, 1.4411] depth under skin (lat/up/front/back mm) [49.2, 48.3, 89.1, 88.3]
+V r GH relative to acromion (AC) mm: lateral 16.5, below 50.8, front -9.6 clavicle length mm 183.1 (canonical 189.1)
+V l GH [-0.2227, 0.0344, 1.4401] depth under skin (lat/up/front/back mm) [49.3, 48.3, 89.1, 88.3]
+V l GH relative to acromion (AC) mm: lateral 16.5, below 50.8, front -9.6 clavicle length mm 187.8 (canonical 189.1)
+V proportion upperarm_l length/stature 0.1614
+V proportion forearm_l length/stature 0.1579
+V proportion thigh_l length/stature 0.2237
+V proportion shin_l length/stature 0.2317

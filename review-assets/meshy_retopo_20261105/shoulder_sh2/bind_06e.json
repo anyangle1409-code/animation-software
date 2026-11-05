@@ -1,0 +1,88 @@
+{
+ "method": "Phase 2: bind the manual-retopology male (05a, geometry-proxy fit) to the canonical Home Gym PT skeleton.\n\n* The canonical rig comes from the earlier Meshy bind (MESHY_RIG: canonical bone lengths and joint definitions, A-pose\n  rest, at the canonical stature 1.856 m). It is scaled UNIFORMLY to the model's 1.82 m (proportions unchanged) and\n  moved front-back so its trunk sits in the retopology trunk.\n* Limbs are aimed rigidly (whole subtrees rotate about the joint; no bone length changes) at joints MEASURED on this\n  mesh; arms and legs as two-bone chains (end on the measured wrist / ankle as far as the canonical lengths reach,\n  elbow / knee on the side of the measured one) and stored on it by the builders: elbow / wrist (TASK4_ARMS), hand frame and finger / thumb tips (t4_part\n  tags), knee / ankle / ball / toe tip (TASK5_LEGS).\n* GH_FIT=clearance (environment): each shoulder joint is first moved to the measured one - GH_CLEAR (5 cm) under the\n  lateral and upper deltoid surface of the source, centred front-back - by moving the whole arm rigidly (lengths\n  unchanged); the clavicle's lateral end moves with it and the scapula by 60 % (as bind_meshy_blender.py GH_DELTA). Residuals between the canonical joints and the measured ones are\n  reported, not hidden.\n* Weights: Blender bone-heat, then rule-based clean-up driven by the builders' part tags:\n    - each finger's vertices only follow that finger's chain, its metacarpal and the hand;\n    - thumb root / thumb only the thumb chain, the index metacarpal and the hand; palm only hand-region bones;\n    - foot only shin / foot / toe, toes only foot / toe;\n    - no left / right bleed (vertices off the midline never follow the other side's bones);\n    - any vertex bone-heat left unweighted takes its nearest weighted neighbour's weights;\n    - at most 4 influences per vertex, normalised.\n  Output objects are named MESHY_RIG / MESHY_BODY so scripts/meshy/meshy_pose_test_blender.py runs on it unchanged.",
+ "rig_source": "meshy_bound.blend",
+ "scale": 0.9806,
+ "trunk_shift_y_m": 0.0034,
+ "gh_moved_mm_xyz": {
+  "right": [
+   7.2,
+   -54.6,
+   -19.6
+  ],
+  "left": [
+   -12.0,
+   -53.0,
+   -20.5
+  ]
+ },
+ "elbow_centroid_offset_mm": {
+  "right": 34.1,
+  "left": 21.7
+ },
+ "gh_target": {
+  "right": [
+   0.2179,
+   0.0328,
+   1.4411
+  ],
+  "left": [
+   -0.2227,
+   0.0344,
+   1.4401
+  ]
+ },
+ "fit": {
+  "right": {
+   "elbow_vs_measured_mm": 5.8,
+   "wrist_residual_mm": 10.2,
+   "wrist_beyond_narrowest_cut_mm": 9.7,
+   "hand_deg": 21.9,
+   "hand_roll_deg": -21.3,
+   "index_deg": 16.6,
+   "index_tip_residual_mm": 18.3,
+   "middle_deg": 19.2,
+   "middle_tip_residual_mm": 10.2,
+   "ring_deg": 20.9,
+   "ring_tip_residual_mm": 7.7,
+   "pinky_deg": 27.2,
+   "pinky_tip_residual_mm": 3.1,
+   "thumb_deg": 24.0,
+   "thumb_tip_residual_mm": 6.9,
+   "knee_vs_measured_mm": 29.3,
+   "ankle_residual_mm": 15.9,
+   "foot_deg": 10.9,
+   "toe_deg": 2.6,
+   "ball_residual_mm": 5.3
+  },
+  "left": {
+   "elbow_vs_measured_mm": 9.7,
+   "wrist_residual_mm": 50.1,
+   "wrist_beyond_narrowest_cut_mm": 49.9,
+   "hand_deg": 12.6,
+   "hand_roll_deg": 21.1,
+   "index_deg": 15.2,
+   "index_tip_residual_mm": 22.4,
+   "middle_deg": 17.8,
+   "middle_tip_residual_mm": 16.8,
+   "ring_deg": 21.7,
+   "ring_tip_residual_mm": 15.7,
+   "pinky_deg": 31.3,
+   "pinky_tip_residual_mm": 12.3,
+   "thumb_deg": 22.5,
+   "thumb_tip_residual_mm": 1.3,
+   "knee_vs_measured_mm": 18.5,
+   "ankle_residual_mm": 16.7,
+   "foot_deg": 5.0,
+   "toe_deg": 2.8,
+   "ball_residual_mm": 8.1
+  }
+ },
+ "bone_heat_unweighted_vertices": 0,
+ "vertices_filled_from_neighbours": 0,
+ "vertices": 13148,
+ "vertices_changed_by_rules": 1157,
+ "still_unweighted": 0,
+ "max_influences": 4,
+ "deform_groups": 64,
+ "out": "HGPT_Male_Rig_06e_Bind_WIP_PROXY.blend"
+}

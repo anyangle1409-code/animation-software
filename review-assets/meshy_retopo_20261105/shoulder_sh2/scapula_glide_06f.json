@@ -1,0 +1,38 @@
+{
+ "method": "Scapular glide helper (controlled mechanism) on the bound retopology - writes a NEW file.\n\nWhy: with the existing girdle the skin over the shoulder blade does not show the scapula's upward rotation, but\nrotating the scapula bone itself drags its bone-heat weights over the whole upper back (hump), and re-weighting the\ngirdle bones (06d) was worse. This adds a separate helper that touches nothing else:\n  * arm_ref_<s>   non-deforming reference bone at the shoulder joint, pointing straight down, child of spine_03.\n                  ROTATION_DIFF(upperarm, arm_ref) is the arm's elevation relative to the trunk.\n  * scap_glide_<s> deforming helper, child of spine_03, pivot near the root of the scapular spine (superomedial\n                  corner) on the back surface, its long axis along the back-surface normal. Driven by the elevation\n                  e above the rest elevation e0: rotation about its axis = ROT_K * (e - e0) / 3 (the scapula's upward\n                  rotation is about one third of arm elevation; ROT_K is the share the skin follows), lift UP_M at\n                  170 deg.\n  * weights: only over the shoulder blade on the back (ellipse SCAP_C / SCAP_AX with a FADE fall-off, back-facing\n    surfaces, faded to zero by |x| = X_MAX so the posterior armpit wall never slides, never on skin with upper-arm weight) and ONLY taken from the spine bones' share of each vertex (spine_01..03). Upper arm, clavicle, scapula,\n    deltoid and armpit weights are not changed.\nDrivers use simple expressions (no scripts), so they evaluate in background renders; for GLB export the helper's\nmotion is baked like any bone.",
+ "rot_k": 0.6,
+ "lift_m": 0.015,
+ "sides": {
+  "r": {
+   "pivot": [
+    0.08,
+    0.1531,
+    1.4311
+   ],
+   "normal": [
+    0.493,
+    0.869,
+    -0.027
+   ],
+   "rest_elevation_deg": 17.5,
+   "rot_sign": 1.0,
+   "glide_vertices": 122
+  },
+  "l": {
+   "pivot": [
+    -0.08,
+    0.1548,
+    1.4301
+   ],
+   "normal": [
+    -0.473,
+    0.881,
+    0.011
+   ],
+   "rest_elevation_deg": 18.5,
+   "rot_sign": -1.0,
+   "glide_vertices": 121
+  }
+ },
+ "out": "try_glide_0.6.blend"
+}

@@ -1,0 +1,98 @@
+{
+ "method": "Shoulder corrective shape keys from an edge-length (elastic) solve - writes a NEW file.\n\nFor each side and each key elevation (90, 135, 170 deg; the arm raised in the scapular plane, elbow straight, the\nclavicle lifting 25 deg at 170 - the motion of shoulder_pose_lib.arm_pose) the posed skin of the shoulder region is\nsolved, not smoothed:\n  * every edge is pulled towards a TARGET length: its posed length clamped to [rest x (1 - MAX_COMP), rest x (1 +\n    MAX_STRETCH)] - stretch above the limit is redistributed to neighbouring skin, bunching below it is released,\n    edges inside the limits keep their posed length (shape detail is kept);\n  * VOLUME guard: no vertex may end closer to its dominant bone's segment than it was at rest (x VOL_K), so the\n    solve can neither collapse the deltoid nor sink the armpit;\n  * the region is the skin within R_OUT of the posed shoulder joint on that side; the solved displacement fades from\n    1 inside R_IN to 0 at R_OUT, so the boundary is untouched.\nThe posed-space displacement is converted to rest space with each vertex's own skinning transform (the inverse of\nthe weighted bone matrices) and stored as shape key CORR_<side>_<elev>. Each key is driven by the arm's elevation\nrelative to the trunk (ROTATION_DIFF upper arm vs arm_ref, from the scapula-glide file) with a tent function that\npeaks at its elevation and is zero at the neighbouring keys (the 170 key stays on above 170). Every key is checked\nfor new self-intersections at its pose; affected vertices are scaled back until none remain.",
+ "params": {
+  "max_stretch": 0.35,
+  "max_comp": 0.15,
+  "vol_k": 0.97,
+  "r_in": 0.15,
+  "r_out": 0.22,
+  "iters": 250
+ },
+ "keys": {
+  "CORR_R_090": {
+   "moved_vertices": 722,
+   "max_move_mm": 23.6,
+   "stretch_p99_before_after": [
+    2.45,
+    2.14
+   ],
+   "compress_p1_before_after": [
+    0.71,
+    0.68
+   ],
+   "intersection_scaled_vertices": 57
+  },
+  "CORR_R_135": {
+   "moved_vertices": 876,
+   "max_move_mm": 39.0,
+   "stretch_p99_before_after": [
+    2.72,
+    2.82
+   ],
+   "compress_p1_before_after": [
+    0.6,
+    0.67
+   ],
+   "intersection_scaled_vertices": 86
+  },
+  "CORR_R_170": {
+   "moved_vertices": 895,
+   "max_move_mm": 41.5,
+   "stretch_p99_before_after": [
+    2.99,
+    3.21
+   ],
+   "compress_p1_before_after": [
+    0.56,
+    0.61
+   ],
+   "intersection_scaled_vertices": 149
+  },
+  "CORR_L_090": {
+   "moved_vertices": 719,
+   "max_move_mm": 20.8,
+   "stretch_p99_before_after": [
+    2.48,
+    2.11
+   ],
+   "compress_p1_before_after": [
+    0.72,
+    0.71
+   ],
+   "intersection_scaled_vertices": 49
+  },
+  "CORR_L_135": {
+   "moved_vertices": 881,
+   "max_move_mm": 30.1,
+   "stretch_p99_before_after": [
+    2.8,
+    2.68
+   ],
+   "compress_p1_before_after": [
+    0.62,
+    0.71
+   ],
+   "intersection_scaled_vertices": 84
+  },
+  "CORR_L_170": {
+   "moved_vertices": 901,
+   "max_move_mm": 32.7,
+   "stretch_p99_before_after": [
+    2.9,
+    3.06
+   ],
+   "compress_p1_before_after": [
+    0.57,
+    0.63
+   ],
+   "intersection_scaled_vertices": 151
+  }
+ },
+ "drive_r": {
+  "rotation_diff_rest_rad": 0.3062
+ },
+ "drive_l": {
+  "rotation_diff_rest_rad": 0.3226
+ },
+ "out": "try_corr.blend"
+}

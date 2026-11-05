@@ -1,0 +1,79 @@
+{
+ "method": "Close the remaining armpit pocket (source points inside the cage) - writes a NEW checkpoint.\n\narmpit_vault_fit.py moves cage vertices into the axillary vault along their own normals; where no vertex normal points\ninto a pocket (the floor of the right vault) a pocket remains. Here every source point within RADIUS of the shoulder\nthat lies INSIDE the cage and further than GAP from it pulls its nearest cage vertex towards it: each vertex moves a\nfraction STEP towards the mean of the points it is nearest to, then the moved vertices and their neighbours get a\ntangential relax (umbrella with the normal component removed) so the quads spread over the new surface. A round is\nkept only if it creates no self-intersection and no fold defect (cage fold > 50 deg sharper than the source); the\nloop ends when the pocket stops shrinking. Then the fold defects are re-checked over the shoulders.",
+ "in": "HGPT_Male_Retopo_05c_ShoulderArmpitFit_WIP_PROXY.blend",
+ "sides": {
+  "right": {
+   "history_points_maxmm": [
+    [
+     926,
+     26.4
+    ],
+    [
+     450,
+     18.5
+    ],
+    [
+     356,
+     13.8
+    ],
+    [
+     278,
+     11.2
+    ],
+    [
+     199,
+     10.0
+    ],
+    [
+     158,
+     8.8
+    ],
+    [
+     118,
+     7.9
+    ],
+    [
+     93,
+     7.3
+    ],
+    [
+     54,
+     6.9
+    ],
+    [
+     44,
+     6.7
+    ],
+    [
+     12,
+     6.3
+    ],
+    [
+     13,
+     6.4
+    ]
+   ]
+  },
+  "left": {
+   "history_points_maxmm": [
+    [
+     651,
+     10.8
+    ],
+    [
+     209,
+     8.0
+    ],
+    [
+     "rejected",
+     1
+    ]
+   ]
+  }
+ },
+ "self_intersections_before": 0,
+ "fold_defects_before": 4,
+ "self_intersections_after": 0,
+ "fold_defects_after": 4,
+ "out": "try_05d_p.blend"
+}

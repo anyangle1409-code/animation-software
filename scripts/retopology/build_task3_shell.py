@@ -52,12 +52,12 @@ NSEG = 33                                     # segments per half loop (odd: the
 COL_STEP = 180.0 / NSEG
 THETAS = [round(i * COL_STEP, 4) for i in range(NSEG + 1)]
 JF, JB = 11, 22                               # arm-socket edge columns (front / back)
-JFACE = 9                                     # face-opening edge column
+JFACE = 10                                    # face-opening edge column (cheekbone)
 JE0, JE1 = 15, 21                             # ear-opening edge columns
 X_CUT = 0.19                                  # arm-root line (m from the midline)
 SOCK_FADE = 0.06
 OPEN_PELVIS_Z = 0.915                         # above the gluteal cleft; pelvis / glutes = Task 5
-FACE_EDGE_DEG = 9 * COL_STEP                  # 49.1 deg
+FACE_EDGE_DEG = JFACE * COL_STEP              # 54.5 deg
 EAR_DEG = (80.0, 116.0)
 # jaw border measured on the source (theta deg -> z m), where horizontal rays jump from the neck onto the jaw
 JAW_BORDER = [(0, 1.578), (10, 1.580), (20, 1.582), (30, 1.586), (40, 1.590), (50, 1.592), (60, 1.598), (70, 1.598), (80, 1.602)]
@@ -73,13 +73,15 @@ trap = [("m", (TRAP_LO, TRAP_HI, i / 8, 1.44)) for i in range(1, 9)]            
 NECK_HI = ("jl",)
 neck = [("m", (TRAP_HI, NECK_HI, i / 5, 1.50)) for i in range(1, 6)]               # neck + underside of jaw: 5 loops
 JAW_ROW = neck[-1]                                                                 # t = 1: the jaw loop itself
-head_lo = [("m", (NECK_HI, ("h", 1.614), 0.5, 1.55)), ("h", 1.614), ("h", 1.627)]
-EAR_ROWS = [("h", z) for z in (1.640, 1.655, 1.670, 1.685, 1.700, 1.715)]          # 1.640 / 1.715 = ear bounds
-BROW_ROW = ("h", 1.715)
-cranium = [("s", e) for e in (18, 30, 42)]
-ROWS = torso + sock + trap + neck + head_lo + EAR_ROWS + cranium
-I_JAW = ROWS.index(JAW_ROW); I_BROW = ROWS.index(BROW_ROW)
-I_EAR0 = ROWS.index(("h", 1.640)); I_EAR1 = I_BROW
+# head: ~8 mm loops from the jaw to the forehead (the face is filled inside these by build_task3_face.py)
+HEAD_Z = [1.610, 1.618, 1.626, 1.634, 1.641, 1.649, 1.657, 1.665, 1.673, 1.681, 1.689, 1.697, 1.705, 1.713, 1.722]
+head = [("m", (NECK_HI, ("h", HEAD_Z[0]), 0.5, 1.55))] + [("h", z) for z in HEAD_Z]
+EAR_LO, EAR_HI = ("h", 1.641), ("h", 1.713)                                        # ear-opening bounds
+cranium = [("s", e) for e in (20, 27, 34, 42)]
+FACE_TOP = ("s", 27)                                                               # forehead, ~1.743 m
+ROWS = torso + sock + trap + neck + head + cranium
+I_JAW = ROWS.index(JAW_ROW); I_BROW = ROWS.index(FACE_TOP)
+I_EAR0 = ROWS.index(EAR_LO); I_EAR1 = ROWS.index(EAR_HI)
 
 
 def centre_y(z):
@@ -262,10 +264,14 @@ if os.environ.get("TASK3_DIAG"):
 
 # ================================================================ mesh
 bm = bmesh.new(); vid = {}
+# loop / column identity of every vertex (kept through the Mirror modifier; used by build_task3_face.py). The layers
+# are created before any vertex: adding a layer later invalidates existing BMVert references.
+bm.verts.layers.int.new("t3_row"); bm.verts.layers.int.new("t3_col")
+L_ROW = bm.verts.layers.int["t3_row"]; L_COL = bm.verts.layers.int["t3_col"]
 for i in range(len(ROWS)):
     for j in range(NSEG + 1):
         if not is_hole_vert(i, j):
-            vid[i, j] = bm.verts.new(Vector(P[i, j]))
+            vid[i, j] = bm.verts.new(Vector(P[i, j])); vid[i, j][L_ROW] = i; vid[i, j][L_COL] = j
 for i in range(len(ROWS) - 1):
     for j in range(NSEG):
         q = [(i, j), (i, j + 1), (i + 1, j + 1), (i + 1, j)]
@@ -299,13 +305,14 @@ for r in range(NR + 1):
         h = bvh.ray_cast(HEAD_C, d.normalized())[0]
         if c == 0:
             h.x = 0.0
-        cap[r, c] = bm.verts.new(h)
+        cap[r, c] = bm.verts.new(h); cap[r, c][L_ROW] = -2; cap[r, c][L_COL] = -1
 for r in range(NR):
     for c in range(NC):
         bm.faces.new([cap[r, c], cap[r, c + 1], cap[r + 1, c + 1], cap[r + 1, c]])
 for v in [v for v in bm.verts if not v.link_faces]:
     bm.verts.remove(v)
 bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+# loop / column identity of every vertex (kept through the Mirror modifier), used by build_task3_face.py
 # on-surface relax (the retopology "relax" pass): interior vertices move halfway to their neighbours' average and are
 # re-projected onto the source; opening boundaries and midline (mirror-seam) vertices stay fixed - the midline
 # vertices are already spaced by arc length along the midline curve, and relaxing them can collapse two of them in the
@@ -349,7 +356,7 @@ sw = ob.modifiers.new("Manual_Surface_Projection", "SHRINKWRAP"); sw.target = SR
 DESIGN = {"segments_per_half_loop": NSEG, "rows": len(ROWS), "row_spec": [list(map(str, r)) for r in ROWS],
           "x_cut": X_CUT, "socket_rows_z": [round(row_z(ROWS[i]), 4) for i in SOCK_ROWS],
           "socket_edges_raw_deg": RAW_EDGES, "socket_edges_deg": [EDGE[i] for i in SOCK_ROWS],
-          "face_edge_deg": FACE_EDGE_DEG, "ear_deg": EAR_DEG, "jaw_border": JAW_BORDER, "skull_base_z": SKULL_BASE_Z,
+          "face_edge_deg": FACE_EDGE_DEG, "face_rows": [I_JAW, I_BROW], "face_cols": [0, JFACE], "ear_rows": [I_EAR0, I_EAR1], "ear_deg": EAR_DEG, "jaw_border": JAW_BORDER, "skull_base_z": SKULL_BASE_Z,
           "crown_cap": CAP, "open_pelvis_z": OPEN_PELVIS_Z, "source": SRC.name, "source_is_geometry_proxy": True}
 ob["TASK3_SHELL_DESIGN"] = json.dumps(DESIGN); ob["PROXY_SOURCE_ONLY"] = True
 bpy.data.objects["HGPT_Male_Body_WIP"].hide_render = True

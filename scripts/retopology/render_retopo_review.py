@@ -8,6 +8,7 @@ close-ups: face, back shoulder, armpit (front-lateral), side neck.
 usage: python3.13 render_retopo_review.py -- <wip .blend> <out dir> [prefix] [source object name] [body object name]
 """
 import math
+import os
 import sys
 from pathlib import Path
 
@@ -31,7 +32,7 @@ cage = bpy.data.objects.new("REVIEW_CAGE", ev); sc.collection.objects.link(cage)
 body.hide_render = True
 # wire overlay: a wireframe-modified copy, pushed 1.5 mm outwards
 wire = bpy.data.objects.new("REVIEW_WIRE", ev.copy()); sc.collection.objects.link(wire); wire.matrix_world = body.matrix_world
-wm = wire.modifiers.new("W", "WIREFRAME"); wm.thickness = 0.0016; wm.offset = 1.0; wm.use_replace = True; wm.use_even_offset = False
+wm = wire.modifiers.new("W", "WIREFRAME"); wm.thickness = float(os.environ.get("REVIEW_WIRE_MM", "1.6")) * 0.001; wm.offset = 1.0; wm.use_replace = True; wm.use_even_offset = False
 dsp = wire.modifiers.new("D", "DISPLACE"); dsp.strength = 0.0015; dsp.mid_level = 0.0
 mats = {}
 for nm, col in (("clay", (0.70, 0.67, 0.63, 1)), ("wire", (0.02, 0.55, 0.58, 1)), ("tint", (0.30, 0.72, 0.74, 1))):
@@ -64,4 +65,10 @@ shot("face", (0.35, -1, 0.05), (0.0, -0.05, 1.68), 0.34, (900, 900))
 shot("back_shoulder", (0.35, 1, 0.25), (0.14, 0.03, 1.45), 0.55, (900, 900))
 shot("armpit", (1, -0.6, -0.15), (0.17, 0.0, 1.38), 0.50, (900, 900))
 shot("neck_side", (1, 0, 0), (0, 0, 1.55), 0.45, (900, 900))
+if os.environ.get("REVIEW_FACE"):                   # face close-ups: front, three-quarter, side, eye, mouth
+    shot("face_front", (0, -1, 0), (-0.006, 0, 1.665), 0.22, (1000, 1000))
+    shot("face_34", (0.6, -0.8, 0.05), (0.0, -0.03, 1.665), 0.22, (1000, 1000))
+    shot("face_side", (1, 0, 0), (0, -0.05, 1.665), 0.22, (1000, 1000))
+    shot("eye_r", (0.15, -1, 0), (0.019, 0, 1.694), 0.07, (1000, 700))
+    shot("mouth", (0, -1, 0), (-0.007, 0, 1.628), 0.08, (1000, 700))
 print("RENDERED", PFX, OUT)

@@ -1,0 +1,52 @@
+{
+ "out": "HGPT_Male_Retopo_03f_TorsoHead_FaceLayout_Relaxed_WIP_PROXY.blend (not in git)",
+ "object": "HGPT_Male_Task3_Body",
+ "faces_added": 624,
+ "new_vertices": 587,
+ "vertices": 4578,
+ "faces": 4454,
+ "non_quads": 0,
+ "min_edge_mm": 0.63,
+ "layout": {
+  "right": {
+   "eye_rect_rows": [
+    11,
+    14
+   ],
+   "eye_rect_cols": [
+    1,
+    7
+   ],
+   "eye_ring_vertices": 18,
+   "mouth_rect_rows": [
+    2,
+    7
+   ],
+   "mouth_rect_cols": [
+    0,
+    5
+   ],
+   "mouth_half_ring_vertices": 16
+  },
+  "left": {
+   "eye_rect_rows": [
+    11,
+    14
+   ],
+   "eye_rect_cols": [
+    1,
+    7
+   ],
+   "eye_ring_vertices": 18,
+   "mouth_rect_rows": [
+    2,
+    7
+   ],
+   "mouth_rect_cols": [
+    0,
+    5
+   ],
+   "mouth_half_ring_vertices": 16
+  }
+ }
+}

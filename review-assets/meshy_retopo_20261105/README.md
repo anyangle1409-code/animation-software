@@ -86,3 +86,51 @@ The geometry, `.blend` files and renders are **not** in git (licence and public 
 3. **Left side:** apply the mirror, then relax and inspect the left side on its own.
 4. **Review against the 105° and 170° shoulder poses:** this needs the arm (Task 4) and the rig.
 5. **Re-verify** everything against the real source once the five part ZIPs arrive.
+
+## Update: face loop system (03d → 03f, 5 Nov)
+
+**New checkpoints** (new files; nothing earlier is overwritten):
+
+| Checkpoint | SHA-256 | What it adds |
+|---|---|---|
+| `HGPT_Male_Retopo_03d_TorsoHeadShell_DenseHead_WIP_PROXY.blend` | `06d52e04…` | The shell with ~8 mm head loops; face opening widened to the cheekbone (54.5°) and the forehead loop (~1.743 m); every vertex tagged with its loop and column (`t3_row`, `t3_col`). |
+| `HGPT_Male_Retopo_03e_TorsoHead_FaceLayout_WIP_PROXY.blend` | `3f5376c6…` | The face layout, first version. |
+| `HGPT_Male_Retopo_03f_TorsoHead_FaceLayout_Relaxed_WIP_PROXY.blend` | `e24d800d…` | **Current.** The face layout plus a head-wide on-surface relax. |
+
+### Finding: the face is not centred on the body's midline
+Measured on the proxy, the face midline runs from x −4 mm at the chin to −8.5 mm at the nasal bridge:
+- nose tip at x −6.5 mm;
+- inner eye corners at +3 and −20 mm;
+- mouth corners at +20 and −35 mm.
+
+So the shell's Mirror + Shrinkwrap is **applied** in a full-body object, `HGPT_Male_Task3_Body`. The face is then built across the whole face, around its own measured midline. The scaffold's eye and mouth guide rings were not used for positions: they sit at the temple (eye ring centre x ≈ 60 mm) and about 3 cm behind the lips. Their loop plan was kept.
+
+### Face design (`scripts/retopology/build_task3_face.py`)
+- **Half-face grid:** each half-face is a grid between the shell's face-opening boundary (jaw loop, forehead loop, cheekbone column) and a designed midline chain (chin, lips, philtrum, nose, glabella, forehead). The chain follows the measured midline.
+- **Eyes:** a 6 × 3-cell rectangle per eye is replaced by 3 concentric rings, ending on the measured eyelid opening:
+  - inner corner (3, 1693) mm, outer corner (35, 1695) mm;
+  - upper lid (16, 1698.5) mm, lower lid (19, 1691) mm;
+  - left eye mirrored about the face midline.
+
+  The rings map to the lids by distance along the outline, and the opening is closed by a grid (the sculpt's lids).
+- **Mouth:** a half-rectangle on each side of the midline is replaced by 3 half-rings ending on the lip border:
+  - corners (20, 1628.5) and (−35, 1628.5) mm;
+  - upper border 1637 mm, lower border 1617 mm.
+
+  The lips are closed by a grid whose middle row is the lip line (1627.5 mm).
+- **Symmetry:** the topology is identical on both sides (the left side reuses the right side's rectangle indices).
+
+### Measured result (`audit_03f_face_layout.json`)
+- **Openings:** only the pelvis, both arm sockets and both ears; the face is closed.
+- **Topology:** 4,454 faces, 100 % quads, 1 component; 0 non-manifold, wire or loose elements.
+- **Poles:** 16 three-edge and 12 five-edge vertices, at the corners of the eye and mouth rectangles and the crown grid.
+- **Shape capture** after one subdivision and projection: median 0.22 mm, p95 2.7 mm.
+- **Poor quads:** 82 of 4,454 (1.8 %): crown 0, trapezius 9, socket 10, torso 17, head/neck 46.
+- **Sharp corners:** 9 quads have a corner under 15° (worst 6.1°), all at the eye and mouth corners, mostly on the asymmetric left side.
+
+### Still open (Task 3 not complete)
+1. **Nose:** loops around the nostrils and the nose tip. At the current density the tip and wings poke through.
+2. **Eye corners:** a cleaner closing grid, with its middle row on the lid line; the left-eye outline measured on the left eye itself rather than mirrored.
+3. **Ears:** separate ear meshes, or caps over the ear openings.
+4. **Hair:** a separate layer (the sculpted front hair tuft currently pokes through the scalp cage).
+5. **Re-verification** against the real source (the five part ZIPs are still missing).

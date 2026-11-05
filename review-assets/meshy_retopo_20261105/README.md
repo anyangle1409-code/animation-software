@@ -518,3 +518,54 @@ A separate measurement records the tissue cover over the humeral head: the neare
 - **Owner's observation (the "flying squirrel" web, 105°):** confirmed by measurement and **identified as a weights cause**. Upper-arm weight reaches down the side of the trunk to **253–273 mm below the shoulder joint**: 134–156 trunk vertices more than 120 mm below it in 06a–06f, and 06b's smoothing added about 90 more trunk vertices with arm weight. In a real raised arm the trunk skin below the axillary folds stays with the ribcage. This also explains the armpit-floor and back-fold stretch numbers the corrective attempts were fighting.
   - Next: limit upper-arm influence on the trunk to the axillary fold region.
 - **Continuous sweep (preliminary, 06f; `sweep_animation_06f_PRELIMINARY.json`):** the summary flags up to 126 intersecting pairs within 0.25 m of the shoulders at some frames, elbow included angle down to 148°, and wrist deviation up to 23°. These are **not yet investigated**; they may be test-rig effects (the hands and forearms near the head at 170°) and must be checked before any sign-off.
+
+## AX2: the armpit "batwing" — root cause and anatomical correction (rig 06g)
+
+**The owner's finding:** at 90–105° a triangular sheet of skin runs from the upper arm down the side of the ribcage. **Investigated before any further correctives** (`batwing_probe.py` measurements, recorded below).
+
+| Question | Measurement (06f, right side) | Verdict |
+|---|---|---|
+| Excess surface area at rest? | The cage follows the source over the side chest and armpit (shoulder fit p95 4.5 mm, max 9 mm after 05d) | **No.** The sheet is created by deformation, not by extra rest geometry. |
+| Does the arm's topology reach too far down the trunk? | The seam between the torso and the 04a shoulder cap runs down to **178 mm** below the shoulder joint; 247 cap vertices lie on the chest wall medial of the arm root | **Yes**, a contributing topology cause. The axillary folds leave the chest wall about 100–130 mm below the joint. |
+| Do weights pull the chest wall up with the arm? | Upper-arm weight on the trunk: mean 0.19–0.20 at 60–180 mm below the joint (max 0.69), 0.06 down to 300 mm. **Scapula weight 0.42–0.53 on the lateral chest wall** (serratus region), 0.33 down to 300 mm. | **Yes, the main cause.** |
+| Effect | At 105°, chest-wall skin 140–180 mm below the joint moves **80 mm** on average (max 163); 180–300 mm below moves 42 mm | The batwing |
+
+**Correction (06g, `axillary_fold_weights_blender.py`)**, rig `HGPT_Male_Rig_06g_AxillaryContour_WIP_PROXY.blend` (`62600bac…`), from 06f:
+- **Anatomical axillary contour in the weights.** The anterior fold (lower border of pectoralis major) leaves the chest wall 110 mm below the joint. The apex of the hollow is 90 mm below; the posterior fold (latissimus dorsi plus teres major) is 130 mm below.
+- On the trunk side of the arm root and below that line (30 mm fade), skin no longer follows the upper arm. Lateral chest-wall skin in front of the posterior axillary line no longer follows the scapula either.
+- The removed weight goes to the vertex's own spine bones.
+- Untouched: the arm, the deltoid, the two folds, the upper pectoral and latissimus, and the back over the shoulder blade. Deltoid cover and volume are unchanged (cover 30.6 / 22.4 mm at 90 / 135°; volume ratio 0.80 at 90°).
+- No smoothing and no corrective shapes.
+
+**Result:**
+
+| Trunk skin below the joint | 06f motion at 90° / 105° | 06g motion at 90° / 105° |
+|---|---|---|
+| 100–140 mm (fold ends) | 49 / 58 mm | 38 / 46 mm |
+| 140–180 mm | 67 / 80 mm | 38 / 44 mm |
+| 180–300 mm (ribcage) | 36 / 42 mm | **11 / 13 mm** |
+
+- Upper-arm weight at 180–300 mm below the joint: 0.06 → 0.00.
+- **Visual (front / back / underside sheets at 0 / 45 / 90 / 105 / 135 / 170°):**
+  - the ribcage stays vertical under the arm instead of flaring out into a sheet;
+  - the lower border of the pectoral reads as the front fold;
+  - the latissimus flares less;
+  - a hollow forms under the arm.
+- The stretch now concentrates in the hollow and the back fold (p95 3.8–4.3 at 90–105°), where real skin unfolds.
+
+**Continuous sweep, rest → 170° → rest, 61 frames** (`shoulder_sweep_animation_blender.py`, MP4 and GIF in the evidence folder; `sweep_animation_06b/06f/06g.json`):
+- The first run reported 126 intersections, a 148° elbow, a 23° wrist and 163 mm/° jumps. All of these were **test artifacts**: frame 0 was left unposed while frame 1 straightened the arm and re-aimed the hand. The sweep now starts from the measured rest elevation, keeps the rest elbow bend and the rest wrist orientation.
+- Corrected figures: intersections ≤ 4 (06g) / 3 (06f) / 1 (06b); identical going up and coming down; largest frame-to-frame jump 5.8 mm per degree (smooth). The elbow and wrist stay at their rest angles.
+
+**Regression found (not hidden):** with the arm brought **closer to the body than the rest pose**, the inner upper arm now presses into the latissimus. 06f hid this because the chest wall moved away with the arm.
+- Intersecting pairs at 17.5° (rest) / 12° / 8° / 5° from vertical: 0 / 0 / 34 / 258, all upper arm against latissimus or scapula skin.
+- Standard poses: stand (8°) 0 → 17, curl (5°) 216 → 347; press and squat unchanged.
+- This is real contact on a body with this much latissimus. It needs an adduction contact or compression corrective, driven only below the rest elevation: the next item.
+
+**Still open:**
+1. The adduction contact above.
+2. The torso/arm topology seam is still 178 mm below the joint, so the cap loops on the chest wall don't follow the fold contours; a fairly sharp crease shows on the inner arm at the hollow wall at 135°. A local re-loop along the fold contours is the topology fix.
+3. Front/back fold sharpness at full elevation.
+4. The scapula glide's visual effect is subtle.
+
+Nothing has been sent to production or marked approved.

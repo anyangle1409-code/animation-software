@@ -1,0 +1,21 @@
+{
+ "method": "Anatomical axillary boundary for the upper-arm weights (fixes the \"batwing\") - writes a NEW file.\n\nCause found (see review README, AX2): the upper arm carries weight on the side of the ribcage down to ~30 cm below the\nshoulder joint (mean 0.19-0.20 at 6-18 cm), and the Task-4 shoulder cap's loops start on the chest wall up to 18 cm\nbelow the joint. Raising the arm lifts the chest wall (80 mm average at 105 deg, 14-18 cm below the joint), which reads\nas a triangular sheet of skin from the arm to the ribs.\n\nIn a real body the skin of the chest wall below the axilla stays with the ribcage; only the two axillary folds and the\naxillary hollow between them go with the arm:\n  * anterior fold = lower border of pectoralis major, leaving the chest wall about FRONT_Z below the joint;\n  * posterior fold = latissimus dorsi + teres major, leaving the chest / back wall about BACK_Z below the joint;\n  * the hollow (apex of the axilla) between them, about APEX_Z below the joint.\nHere, for vertices on the trunk side of the arm root (medial of the shoulder joint by more than MEDIAL), the upper arm's\nweight is limited by that contour: full (unchanged) above it, fading to zero over FADE below it, zero further down.\nThe weight taken from the upper arm goes to the vertex's other (trunk) bones in their existing proportions, or to\nspine_03 if it has none. The arm itself (lateral of the arm root) and everything above the contour are untouched, so\nthe deltoid, the folds and the upper pectoral / latissimus keep their weights. At most 4 influences, normalised.",
+ "params": {
+  "front_z": 0.11,
+  "apex_z": 0.09,
+  "back_z": 0.13,
+  "medial": 0.025,
+  "fade": 0.03
+ },
+ "sides": {
+  "r": {
+   "vertices_changed": 200,
+   "arm_weight_moved_to_trunk": 24.1
+  },
+  "l": {
+   "vertices_changed": 199,
+   "arm_weight_moved_to_trunk": 23.84
+  }
+ },
+ "out": "try_axfold.blend"
+}

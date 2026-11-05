@@ -1,7 +1,8 @@
 """Continuous shoulder movement test: both arms 0 -> 170 -> 0 deg on a bound retopology file (read-only on the input).
 
-Each frame sets the elevation e(t) = 170 * (1 - cos(2 pi t)) / 2 (smooth start / stop), arm raised in the scapular
-plane, elbow straight (175 deg), clavicle lifting 25 deg at 170 (shoulder_pose_lib.arm_pose); helpers and corrective
+Each frame goes from the REST pose (its measured arm elevation and elbow bend) to 170 deg and back with a smooth
+cosine profile; the arm moves into the scapular plane (30 deg forwards), the elbow keeps its rest bend, the clavicle
+lifts 25 deg at 170 (shoulder_pose_lib.arm_pose). Frame 0 and the last frame are the untouched rest pose; helpers and corrective
 shapes on the file run through their own drivers. Per frame, measured on the evaluated mesh:
   * self-intersecting triangle pairs within 0.25 m of either shoulder joint (rest), folded faces there;
   * elbow included angle and wrist deviation (forearm vs hand direction), both arms - must stay constant;
@@ -67,13 +68,24 @@ def angle(u, v):
     return math.degrees(math.acos(max(-1.0, min(1.0, u.normalized().dot(v.normalized())))))
 
 
+# the sweep starts at the REST pose: its elevation and elbow bend are measured and kept (no jump at frame 0)
+REST_EL, REST_ELBOW = {}, {}
+for sd in ("l", "r"):
+    ua = wp(pb[f"upperarm_{sd}"].tail) - wp(pb[f"upperarm_{sd}"].head); fa = wp(pb[f"forearm_tw1_{sd}"].tail) - wp(pb[f"forearm_{sd}"].head)
+    REST_EL[sd] = math.degrees(math.acos(max(-1, min(1, -ua.normalized().z)))); REST_ELBOW[sd] = 180 - angle(ua, fa)
 frames = []; Vprev = None; eprev = None
 for f in range(NF):
-    t = f / (NF - 1); e = 170.0 * (1 - math.cos(2 * math.pi * t)) / 2
-    rest_restore(rig, rest)
-    if e > 1e-3:
+    t = f / (NF - 1); s_ = (1 - math.cos(2 * math.pi * t)) / 2
+    rest_restore(rig, rest); e = 170.0 * s_
+    if f > 0 and f < NF - 1:
         for sd in ("l", "r"):
-            arm_pose(rig, sd, e, 30, 175, 25.0 * e / 170.0)
+            e_sd = REST_EL[sd] + (170.0 - REST_EL[sd]) * s_; e = e_sd
+            rel = pb[f"forearm_tw1_{sd}"].matrix.inverted() @ pb[f"hand_{sd}"].matrix     # keep the rest wrist
+            arm_pose(rig, sd, e_sd, 30 * s_, REST_ELBOW[sd], 25.0 * e_sd / 170.0 * s_)
+            M_h = pb[f"forearm_tw1_{sd}"].matrix @ rel; kids = {c.name: pb[f"hand_{sd}"].matrix.inverted() @ c.matrix for c in pb[f"hand_{sd}"].children_recursive}
+            pb[f"hand_{sd}"].matrix = M_h; bpy.context.view_layer.update()
+            for n, mrel in kids.items():
+                pb[n].matrix = pb[f"hand_{sd}"].matrix @ mrel; bpy.context.view_layer.update()
     bpy.context.view_layer.update(); V, T = evaluated()
     bvh = BVHTree.FromPolygons([tuple(p) for p in V], [tuple(x) for x in T], all_triangles=True); Ts = [set(x) for x in T]; hits = 0
     for i, j in bvh.overlap(bvh):

@@ -14,9 +14,15 @@ Here (bound rig file, so weights, shape keys and drivers carry over):
   * every NEW vertex is put on the approved source surface by a ray along its own normal (within SNAP_MAX), accepting
     only a surface facing the same way (never the opposite wall of a narrow gap: armpit, crotch, fingers); every
     shape-key layer is moved by the same offset, so the corrective deltas are kept. Original vertices are not moved;
+  * symmetry guard: where a new vertex's snap differs from its mirror twin's by more than 2.5 mm, both take the
+    smaller snap (a one-sided feature is a source defect, e.g. the pit at the right acromioclavicular region that
+    folded when the clavicle lifted in 07a; muscle definition is bilateral);
   * a snapped vertex on a face whose triangles then intersect other skin is put back to its interpolated position;
     interpolated midpoints that still cross a neighbouring finger (tightly packed fingers) are tucked in along their
     own normal in 0.25 mm steps (at most 2 mm);
+  * posed fold guard: posed through the standard arm poses and the sweep posture, intersecting faces within 4 edges
+    of each other are local folds of a source detail the skinning cannot carry (07a: a 1 cm crease in front of the
+    right clavicle at 55-105 deg); snapped new vertices there return to the interpolated position;
   * guards: manifold, no n-gons, rest self-intersections not increased, drivers kept.
 Proportions cannot change: every vertex is either an original vertex or a point of the approved source surface.
 
@@ -81,6 +87,30 @@ for v in new:
         for L in SK:
             v[L] = v[L] + off
         v.co = best[0]; v[SNX], v[SNY], v[SNZ] = off; snapped += 1; dmax = max(dmax, off.length)
+# symmetry guard: muscle definition is bilateral; a feature on one side only (e.g. the pit in the source at the right
+# acromioclavicular region, which folded when the clavicle lifted) is a source defect, not anatomy. Where a new vertex's
+# snap differs from its mirror twin's (mirrored offset) by more than ASYM, both take the smaller of the two snaps.
+from mathutils.kdtree import KDTree  # noqa: E402
+ASYM = 0.0025; kd = KDTree(len(new))
+for k, v in enumerate(new):
+    kd.insert(v.co - Vector((v[SNX], v[SNY], v[SNZ])), k)
+kd.balance(); sym_fixed = 0; done = set()
+for k, v in enumerate(new):
+    if k in done:
+        continue
+    o = Vector((v[SNX], v[SNY], v[SNZ])); p0 = v.co - o
+    co, k2, dist = kd.find(Vector((-p0.x, p0.y, p0.z)))
+    if k2 is None or dist > 0.003 or k2 == k:
+        continue
+    w = new[k2]; o2 = Vector((w[SNX], w[SNY], w[SNZ])); o2m = Vector((-o2.x, o2.y, o2.z))
+    if (o - o2m).length > ASYM:
+        use = o if o.length <= o2.length else o2m              # the smaller snap, applied to both (mirrored)
+        for vv, oo, nn in ((v, o, use), (w, o2, Vector((-use.x, use.y, use.z)))):
+            dlt = nn - oo; vv.co = vv.co + dlt; vv[SNX], vv[SNY], vv[SNZ] = nn
+            for L in SK:
+                vv[L] = vv[L] + dlt
+        sym_fixed += 2
+    done |= {k, k2}
 reverted = 0
 for _ in range(30):
     iv = intersect_verts()
@@ -103,16 +133,74 @@ for _ in range(8):                                             # interpolated mi
             v[L] = v[L] + d
 left = intersect_verts(); inter1 = len(left)
 print("LEFT", sorted((round(v.co.x, 3), round(v.co.y, 3), round(v.co.z, 3), bool(v[ISNEW])) for v in left)[:20], flush=True)
+SNX2, SNY2, SNZ2 = (bm.verts.layers.float.new(n) for n in ("_snx2", "_sny2", "_snz2"))
+for v in bm.verts:
+    v[SNX2], v[SNY2], v[SNZ2] = v[SNX], v[SNY], v[SNZ]
 for nm in ("_snx", "_sny", "_snz"):
     bm.verts.layers.float.remove(bm.verts.layers.float[nm])
+SNX2, SNY2, SNZ2 = (bm.verts.layers.float[n] for n in ("_snx2", "_sny2", "_snz2"))
 bm.normal_update()
 ngons = sum(1 for f in bm.faces if len(f.verts) > 4); nonman = sum(1 for e in bm.edges if not e.is_manifold and not e.is_boundary)
 rep = {"method": __doc__.split("usage")[0].strip(), "vertices_before_after": [nv0, len(bm.verts)], "faces_before_after": [nf0, len(bm.faces)],
-       "new_vertices": len(new), "snapped": snapped, "snap_max_mm": round(dmax * 1000, 2), "snaps_reverted": reverted, "finger_midpoints_tucked_steps": tucked,
+       "new_vertices": len(new), "snapped": snapped, "snap_max_mm": round(dmax * 1000, 2), "snaps_reverted": reverted, "asymmetric_snaps_equalised": sym_fixed, "finger_midpoints_tucked_steps": tucked,
        "ngons": ngons, "non_manifold_edges": nonman, "rest_intersecting_vertices_before_after": [inter0, inter1]}
 if ngons or nonman or inter1 > inter0:
     rep["status"] = "REJECTED by guard"; REP.write_text(json.dumps(rep, indent=1)); print("DENSE", json.dumps({k: v for k, v in rep.items() if k != "method"})); sys.exit(1)
 bm.to_mesh(me); me.update()
+# posed fold guard: a source detail the skinning cannot carry without the skin folding through itself is not imported.
+# The body is posed through the standard arm poses (anatomical elbow) and the sweep posture; intersecting triangle
+# pairs within FOLD_HOPS edges of each other are local folds (contacts between body parts are further apart and are
+# left to the contact correctives); snapped new vertices on their faces return to the interpolated position.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "meshy"))
+from shoulder_pose_lib import arm_pose  # noqa: E402
+rig = bpy.data.objects["MESHY_RIG"]; FOLD_HOPS = 4
+POSES = [(8, 10, 170, 0, True), (55, 40, 70, 8, True), (105, 30, 115, 15, True), (170, 15, 175, 25, True), (17.5, 10, 40, 0, True),
+         (90, 30, 175, 13.2, False), (135, 30, 175, 19.9, False), (170, 30, 175, 25, False)]
+fold_reverted = 0; fold_log = []
+for el, fw, elb, clv, hg in POSES:
+    for _ in range(6):
+        for pbn in rig.pose.bones:
+            pbn.matrix_basis.identity()
+        bpy.context.view_layer.update()
+        for sd_ in ("l", "r"):
+            arm_pose(rig, sd_, el, fw, elb, clv, hinge=hg)
+        bpy.context.view_layer.update(); dg = bpy.context.evaluated_depsgraph_get()
+        mm = bpy.data.meshes.new_from_object(body.evaluated_get(dg), depsgraph=dg); mm.calc_loop_triangles()
+        PV = [v.co.copy() for v in mm.vertices]; PT = [tuple(t.vertices) for t in mm.loop_triangles]; bpy.data.meshes.remove(mm)
+        bb = BVHTree.FromPolygons(PV, PT, all_triangles=True); bm.verts.ensure_lookup_table(); bad = set()
+        for i, j in bb.overlap(bb):
+            if i >= j or set(PT[i]) & set(PT[j]):
+                continue
+            seen = {PT[i][0]: 0}; q = [PT[i][0]]; tgt = set(PT[j]); near = False
+            while q:
+                x = q.pop(0)
+                if x in tgt:
+                    near = True; break
+                if seen[x] >= FOLD_HOPS:
+                    continue
+                for e in bm.verts[x].link_edges:
+                    y = e.other_vert(bm.verts[x]).index
+                    if y not in seen:
+                        seen[y] = seen[x] + 1; q.append(y)
+            if near:
+                for t in (PT[i], PT[j]):
+                    for vi in t:
+                        for f in bm.verts[vi].link_faces:
+                            bad |= {w for w in f.verts if w[SNX2] or w[SNY2] or w[SNZ2]}
+        if not bad:
+            break
+        for v in bad:
+            off = Vector((v[SNX2], v[SNY2], v[SNZ2])); v[SNX2] = v[SNY2] = v[SNZ2] = 0.0; v.co = v.co - off; fold_reverted += 1
+            for L in SK:
+                v[L] = v[L] - off
+        bm.to_mesh(me); me.update()
+    fold_log.append([el, fw, elb, len(bad)])
+for pbn in rig.pose.bones:
+    pbn.matrix_basis.identity()
+bpy.context.view_layer.update()
+for nm in ("_snx2", "_sny2", "_snz2"):
+    me.attributes.remove(me.attributes[nm])
+rep["posed_fold_guard_reverted"] = fold_reverted; rep["posed_fold_guard_left_per_pose"] = fold_log
 isnew = [False] * len(me.vertices)
 for i, at in enumerate(me.attributes["_isnew"].data):
     isnew[i] = bool(at.value)

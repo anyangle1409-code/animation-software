@@ -60,6 +60,14 @@ for f in P:
 TRI = np.array(TRI); TS = [set(t) for t in TRI]
 if not me.shape_keys:
     body.shape_key_add(name="Basis", from_mix=False)
+REMOVED = []                                                     # rebuilding on a changed mesh: old elbow keys go first
+for kb_ in list(me.shape_keys.key_blocks):
+    if kb_.name.startswith("ELBOW_"):
+        try:
+            kb_.driver_remove("value")
+        except TypeError:
+            pass
+        REMOVED.append(kb_.name); body.shape_key_remove(kb_)
 
 
 def evaluated():
@@ -108,7 +116,7 @@ def smooth_field(delta, region):
     return nd
 
 
-rest = rest_capture(rig); rep = {"method": __doc__.split("usage")[0].strip(), "start_deg": START, "keys_deg": FLEX_KEYS, "sides": {"l": {}, "r": {}}}
+rest = rest_capture(rig); rep = {"method": __doc__.split("usage")[0].strip(), "start_deg": START, "keys_deg": FLEX_KEYS, "replaced_keys": REMOVED, "sides": {"l": {}, "r": {}}}
 REST_EL = {}
 for sd in ("l", "r"):
     u = (rig.matrix_world @ pb[f"upperarm_{sd}"].tail - rig.matrix_world @ pb[f"upperarm_{sd}"].head).normalized()

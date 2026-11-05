@@ -1,0 +1,60 @@
+{
+ "out": "work/HGPT_Male_Retopo_04a_Arms_ToWrist_WIP_PROXY.blend",
+ "faces": 6848,
+ "non_quads": 0,
+ "boundary_edges": 130,
+ "min_edge_mm": 1.17,
+ "edge_mm_p5_p50_p95": [
+  5.0,
+  12.4,
+  25.9
+ ],
+ "sides": {
+  "right": {
+   "shoulder_joint": [
+    0.2381,
+    0.0559,
+    1.42
+   ],
+   "elbow": [
+    0.3046,
+    0.0431,
+    1.1547
+   ],
+   "wrist": [
+    0.4809,
+    -0.039,
+    0.9636
+   ],
+   "socket_loop_vertices": 64,
+   "A0_axis_t": 0.48,
+   "cap_rings": 12,
+   "arm_ring_vertices": 32,
+   "arm_rings": 20,
+   "wrist_ring_open": true
+  },
+  "left": {
+   "shoulder_joint": [
+    -0.2262,
+    0.0621,
+    1.42
+   ],
+   "elbow": [
+    -0.3169,
+    0.0338,
+    1.1518
+   ],
+   "wrist": [
+    -0.4594,
+    -0.0203,
+    0.9817
+   ],
+   "socket_loop_vertices": 64,
+   "A0_axis_t": 0.45,
+   "cap_rings": 12,
+   "arm_ring_vertices": 32,
+   "arm_rings": 17,
+   "wrist_ring_open": true
+  }
+ }
+}

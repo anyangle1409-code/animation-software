@@ -71,6 +71,12 @@ if os.environ.get("REVIEW_FACE"):                   # face close-ups: front, thr
     shot("face_side", (1, 0, 0), (0, -0.05, 1.665), 0.22, (1000, 1000))
     shot("eye_r", (0.15, -1, 0), (0.019, 0, 1.694), 0.07, (1000, 700))
     shot("mouth", (0, -1, 0), (-0.007, 0, 1.628), 0.08, (1000, 700))
+if os.environ.get("REVIEW_ARMS"):                   # arms: right arm front / back / lateral, elbow, armpit from below
+    shot("arm_front", (0, -1, 0), (0.33, 0, 1.18), 0.55, (800, 1000))
+    shot("arm_back", (0, 1, 0), (0.33, 0, 1.18), 0.55, (800, 1000))
+    shot("arm_lateral", (1, -0.25, 0), (0.33, 0.02, 1.18), 0.55, (800, 1000))
+    shot("armpit_low", (0.6, -0.3, -0.75), (0.24, 0.03, 1.30), 0.30, (900, 900))
+    shot("arm_l_front", (0, -1, 0), (-0.33, 0, 1.18), 0.55, (800, 1000))
 if os.environ.get("REVIEW_EARS"):                   # ears: right / left side, back three-quarter
     shot("ear_r", (1, 0, 0), (0.08, 0.0, 1.677), 0.12, (900, 900))
     shot("ear_l", (-1, 0, 0), (-0.08, 0.0, 1.677), 0.12, (900, 900))

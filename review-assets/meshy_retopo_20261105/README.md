@@ -242,3 +242,30 @@ So the shell's Mirror + Shrinkwrap is **applied** in a full-body object, `HGPT_M
 - The ear is a relief seen from the side: the gap behind the ear (the undercut) is not modelled, so from behind it reads as a solid block.
 - The helix rim still pokes through the cage in places.
 - A dedicated ear mesh with the undercut remains a refinement item.
+
+## 04a: arms to the wrist (5 Nov)
+
+**Checkpoint:** `HGPT_Male_Retopo_04a_Arms_ToWrist_WIP_PROXY.blend` (`c530dad4…`), built from 03j by `scripts/retopology/build_task4_arms.py`. Read-only; 03j is unchanged.
+
+**Method (designed loops, no auto-remesh):**
+- **Measured arm axes.** The `LM_*` arm landmarks sit about 5 cm off the arm, so the axes are fitted to slice centroids of the source instead: upper arm z 1.18–1.33, forearm z 0.99–1.10; shoulder joint at z 1.42, elbow at the closest approach of the two lines, wrist at the narrowest slice.
+- **Shoulder cap.** The 64-vertex socket loop is walked and mapped into the arm frame. 12 rings run from the socket to the arm, traced as meridians by fan rays from an origin inside the deltoid (offset 3.5 cm medially, 3 cm along the arm, checked inside by ray parity). The first 4 rings are tilted so the armpit side sits lower (the 105° / 170° raise needs those loops). A 4:2 all-quad transition halves 64 → 32 vertices early, avoiding thin quads.
+- **Arm.** 32-vertex rings: every 2 cm on the upper arm and forearm, 6 rings over ±4 cm at the elbow with smoothly blended axes. The wrist ring is left open for the hand.
+- **Guarded relax** (6 iterations): torso vertices fixed; no vertex may move more than 1 cm further from its arm axis or cross towards the body (x·side > 0.12).
+
+**Measured (`build_04a_arms.json`, `audit_04a_arms.json`):**
+- 6,848 faces, 100 % quads, 1 component, no non-manifold or wire edges.
+- Open edges: pelvis (66) and the two 32-edge wrist rings, as planned. The sockets are closed.
+- 92 three-edge and 96 five-edge vertices.
+- Arm and cap fit to the source: median 0.6 mm, p95 2.4 mm. The 39 mm maximum is at the open wrist, where the hand is not built yet.
+- Arm: 1,480 faces, 23 poor. Shoulder cap: 667 faces, 119 poor (aspect p95 4.07), concentrated in the armpit hollow.
+- Minimum edge 1.17 mm; edge length p5 / p50 / p95 = 5.0 / 12.4 / 25.9 mm.
+
+**Visual:**
+- The deltoid is covered front, back and from the side, with loops following the cap.
+- The elbow and forearm loops are even.
+
+**Still open:**
+- The armpit hollow seen from below has stretched, crowded quads where the cap meets the lats and pecs; it needs a hand-placed pass before the raised-arm tests.
+- The left side uses the same procedure; the left-specific asymmetry check is not done yet.
+- Hands and fingers are next.

@@ -1,0 +1,44 @@
+{
+ "method": "Spread the trunk-to-arm weight change evenly over the first cap rings of the axilla - writes a NEW file.\n\nMeasured on 06h (right side, trunk-facing half of the cap, below the shoulder joint): at 135 deg the rungs between cap\nrings 0-1 / 1-2 / 2-3 stretch x7.6 / x10.5 / x6.0, while rings 5 and up stretch x2 or less. Ring 0 is the torso's socket\nrim (trunk-weighted), by ring 2 the skin is almost fully arm-weighted, so the whole raise is taken by one or two rows of\nthe vault - the sharp crease on the inner arm. Real axillary skin stretches progressively across the hollow.\n\nHere the bone weights of the trunk-facing cap vertices in rings 1..K-1 are relaxed (harmonic / Laplace, all edges, ITERS\nJacobi steps) between FIXED boundaries: ring 0 (the torso rim - and so the whole chest wall below it - keeps its\nweights, nothing is taken from the ribcage, so the batwing chest lift cannot return), ring K and every lateral\n(deltoid-side) vertex. The result is an even weight gradient in ring index across rings 0..K. At most 4 influences.",
+ "params": {
+  "K": 5,
+  "iters": 200
+ },
+ "sides": {
+  "r": {
+   "relaxed_vertices": 110,
+   "upperarm_weight_by_ring_before": {
+    "1": 0.31,
+    "2": 0.426,
+    "3": 0.585,
+    "4": 0.676
+   },
+   "upperarm_weight_by_ring_after": {
+    "1": 0.288,
+    "2": 0.382,
+    "3": 0.529,
+    "4": 0.643
+   },
+   "ring0_mean": 0.207,
+   "ringK_mean": 0.718
+  },
+  "l": {
+   "relaxed_vertices": 107,
+   "upperarm_weight_by_ring_before": {
+    "1": 0.276,
+    "2": 0.389,
+    "3": 0.548,
+    "4": 0.644
+   },
+   "upperarm_weight_by_ring_after": {
+    "1": 0.263,
+    "2": 0.352,
+    "3": 0.502,
+    "4": 0.623
+   },
+   "ring0_mean": 0.184,
+   "ringK_mean": 0.688
+  }
+ },
+ "out": "try_relax.blend"
+}

@@ -1,0 +1,25 @@
+{
+ "method": "Arms-down contact correction (upper arm against latissimus / chest wall) - writes a NEW file.\n\nSince the axillary contour weights (06g) the chest wall no longer moves away with the arm, so bringing the arm closer\nto the body than its rest angle (17.5 deg from vertical) pushes inner-arm skin into the latissimus: 0 / 34 / 258\nintersecting pairs at 12 / 8 / 5 deg. That is real tissue contact, not a weighting error, so it is corrected as contact:\n  * pose: both arms at E_KEY deg from vertical (10 deg forwards, elbow at its rest bend) - the arms-down limit;\n  * parts: a vertex belongs to the ARM if its dominant bone is the upper arm / forearm, else to the TRUNK;\n  * for every arm vertex inside the trunk surface (and every trunk vertex inside the arm surface) near the shoulder,\n    the penetration depth is measured against the other part's nearest face; both sides move half the depth (+ GAP)\n    along that face's normal, so the two surfaces meet at a shared contact surface (mutual flattening); repeated ITERS\n    times, then the displacement is spread a few rings into the neighbourhood with decay so no dent or ridge forms;\n  * the posed-space displacement is converted to rest space with each vertex's skinning transform (shape key\n    CONTACT_ADD_<S>) and driven by the arm's elevation: 0 at and above E_ON (3 deg below the rest angle), 1 at E_KEY,\n    held at 1 below. Above E_ON the key is exactly zero, so the raised-arm range (45-170 deg) cannot change.",
+ "e_key_deg": 4.0,
+ "sides": {
+  "r": {
+   "intersections_at_key_pose_before_after": [
+    132,
+    90
+   ],
+   "moved_vertices": 646,
+   "max_move_mm": 29.9,
+   "drive_on_deg": 14.0
+  },
+  "l": {
+   "intersections_at_key_pose_before_after": [
+    144,
+    54
+   ],
+   "moved_vertices": 646,
+   "max_move_mm": 29.9,
+   "drive_on_deg": 15.1
+  }
+ },
+ "out": "try_contact.blend"
+}

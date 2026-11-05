@@ -1,0 +1,5 @@
+{"rung_stretch_135deg_right_trunk_side_max": {"rings": ["0-1", "1-2", "2-3", "3-4", "4-5", "5-6"], "06h": [7.56, 10.46, 5.95, 4.90, 3.19, 2.45], "06i": [4.33, 6.22, 5.22, 5.88, 6.13, 2.45]},
+ "rung_stretch_170deg_right_trunk_side_max": {"06h": [8.74, 11.75, 6.81, 5.52, 3.60, 2.58], "06i": [4.67, 6.81, 5.70, 6.63, 6.96, 2.58]},
+ "armpit_dome_depth_below_joint_mm_source_vs_retopo_downfacing_probe": {"y_offsets_mm": [-40, -20, 0, 20, 40], "source_r": [79, 79, 85, 98, 164], "retopo_r": [84, 153, 109, 164, 168], "source_l": [78, 78, 85, 97, 163], "retopo_l": [93, 159, 170, 157, 168]},
+ "vault_ring_depth_below_joint_mm_and_distance_to_source_right": {"ring1": {"depth": [89, 172], "dist_mean_mm": 0.6}, "ring2": {"depth": [81, 173], "dist_mean_mm": 2.3}, "ring3": {"depth": [113, 180], "dist_mean_mm": 0.4}},
+ "batwing_probe_06h_vs_06i_105deg_mean_max_mm": {"band_100_140": [[46, 128], [47, 123]], "band_140_180": [[44, 141], [42, 116]], "band_180_300": [[13, 59], [13, 59]]}}

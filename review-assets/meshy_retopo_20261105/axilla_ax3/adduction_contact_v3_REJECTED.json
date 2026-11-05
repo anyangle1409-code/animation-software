@@ -1,0 +1,25 @@
+{
+ "method": "Arms-down contact correction (upper arm against latissimus / chest wall) - writes a NEW file.\n\nSince the axillary contour weights (06g) the chest wall no longer moves away with the arm, so bringing the arm closer\nto the body than its rest angle (17.5 deg from vertical) pushes inner-arm skin into the latissimus: 0 / 34 / 258\nintersecting pairs at 12 / 8 / 5 deg. That is real tissue contact, not a weighting error, so it is corrected as contact:\n  * pose: both arms at E_KEY deg from vertical (10 deg forwards, elbow at its rest bend) - the arms-down limit;\n  * contact is taken ONLY from triangle pairs that really intersect (non-adjacent, facing each other) near the shoulder:\n    each vertex of one triangle that lies behind the other triangle's plane is pushed out along that normal by half\n    the depth (+ GAP), and vice versa, so both skins meet at a shared contact surface (mutual flattening); repeated up to\n    ITERS times until no pair intersects. (A first version split the mesh into arm / trunk by dominant bone and pushed\n    every vertex 'inside' the other part: next to the part border, where both are one continuous surface, that found\n    false contacts and tore notches into the front axillary fold - rejected.)\n  * the displacement is spread a few rings into the neighbourhood with decay and the correction field is smoothed\n    SMOOTH times over the patch (the field, not the surface), so no dent or ridge forms;\n  * the posed-space displacement is converted to rest space with each vertex's skinning transform (shape key\n    CONTACT_ADD_<S>) and driven by the arm's elevation: 0 at and above E_ON (3 deg below the rest angle), 1 at E_KEY,\n    held at 1 below. Above E_ON the key is exactly zero, so the raised-arm range (45-170 deg) cannot change.",
+ "e_key_deg": 4.0,
+ "sides": {
+  "r": {
+   "intersections_at_key_pose_before_after": [
+    182,
+    146
+   ],
+   "moved_vertices": 138,
+   "max_move_mm": 1.4,
+   "drive_on_deg": 14.0
+  },
+  "l": {
+   "intersections_at_key_pose_before_after": [
+    154,
+    146
+   ],
+   "moved_vertices": 141,
+   "max_move_mm": 2.1,
+   "drive_on_deg": 15.1
+  }
+ },
+ "out": "try_contact3.blend"
+}

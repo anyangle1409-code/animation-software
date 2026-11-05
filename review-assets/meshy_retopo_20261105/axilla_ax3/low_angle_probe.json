@@ -1,0 +1,8 @@
+{"what": "shoulder-region self-intersecting triangle pairs (within 0.25 m of either rest shoulder joint), both arms posed with shoulder_pose_lib.arm_pose(elevation, forward, elbow included, clavicle 25*e/170 above 20 deg)",
+ "poses": ["17.5/10/170 (rest)", "12/10/170", "8/10/170", "5/10/170", "5/5/40 (curl start)", "8/10/40", "45/30/175", "90/30/175", "135/30/175", "170/30/175"],
+ "06g": [0, 0, 17, 129, 281, 166, 1, 0, 0, 2],
+ "06h": [0, 0, 0, 0, 150, 149, 1, 0, 0, 2],
+ "06i": [0, 0, 0, 0, 150, 149, 1, 0, 0, 2],
+ "curl_pose_pairs_by_part_06h": {"5/5/40": {"forearm-upperarm": 202, "upperarm-upperarm": 15, "trunk-upperarm": 0}, "06g_5/5/40": {"forearm-upperarm": 202, "trunk-upperarm": 119, "upperarm-upperarm": 24}},
+ "press_bottom_pairs_by_part_06i": {"forearm-upperarm": 107},
+ "note": "remaining curl / press_bottom pairs are the elbow fold (forearm against biceps), present unchanged at the rest elevation; not a shoulder contact"}

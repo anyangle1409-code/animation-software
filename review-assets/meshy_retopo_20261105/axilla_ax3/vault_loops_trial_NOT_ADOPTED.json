@@ -1,0 +1,29 @@
+{
+ "method": "Add edge loops across the armpit vault where the skin takes the raise - writes a NEW file (bound rig file).\n\nMeasured on 06h: the vault between the chest wall and the inner arm (80-170 mm below the shoulder joint, both walls of\nthe gap between arm and chest) is lined by only cap rings 0-2, on the source surface (mean 0.1-2.3 mm) but with tall\nquads; at 135 deg the rungs between rings 0-1 / 1-2 stretch x7.6 / x10.5 (ring 5 and up: x2). The gaps 0-1 and 1-2\nare clean closed strips of 64 quads per side (each quad has exactly two rungs), so a loop can be cut through each\nwithout poles or n-gons:\n  * the rung edges of each gap are subdivided CUTS times (bmesh subdivide_edges, quad-ring split; the 16 'fan' quads per\n    side in gap 1-2 that reduce the ring from 64 to 48 have two rungs meeting at a corner and are split with the corner\n    pattern INNER_VERT - three quads - not a straight cut, which gave n-gons); bone weights and shape-key layers are\n    interpolated by bmesh;\n  * the new vertices are labelled as cap (torso-shell / hand / leg tags cleared) and put on the source surface by a ray\n    along their own normal (within SNAP_MAX), accepting only a surface facing the same way - nearest-point snapping\n    jumped to the opposite wall of the narrow arm/chest gap (10 rest intersections); every shape-key layer is moved by\n    the same offset, so key deltas are kept; a snapped vertex on a face whose triangles then intersect other skin is put back to\n    its interpolated position (on the rung chord, < 1 cm from the surface);\n  * guards: only quads in the gaps, manifold, no n-gons, rest self-intersections not increased, drivers kept.\nRun on a bound file (MESHY_RIG / MESHY_BODY); the source surface is appended from the retopology checkpoint given.",
+ "cuts": {
+  "0": 1,
+  "1": 2
+ },
+ "sides": {
+  "r": {
+   "new_vertices": 256,
+   "snap_mm_max": 9.9
+  },
+  "l": {
+   "new_vertices": 256,
+   "snap_mm_max": 11.3
+  }
+ },
+ "snaps_reverted": 11,
+ "vertices_before": 13148,
+ "vertices_after": 13660,
+ "ngons": 0,
+ "non_manifold_edges": 0,
+ "rest_self_intersections_before": 0,
+ "rest_self_intersections_after": 0,
+ "drivers_before_after": [
+  2,
+  2
+ ],
+ "out": "try_loops3.blend"
+}

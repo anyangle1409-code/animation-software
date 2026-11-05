@@ -569,3 +569,90 @@ A separate measurement records the tissue cover over the humeral head: the neare
 4. The scapula glide's visual effect is subtle.
 
 Nothing has been sent to production or marked approved.
+
+## AX3: arms-down contact, axillary ring gradient, vault-loop trial (rigs 06h, 06i)
+
+All changes are made from **06g** (`62600bac…`, preserved, read-only). New versions:
+- `HGPT_Male_Rig_06h_AdductionContact_WIP_PROXY.blend` (`f42a428c…`)
+- `HGPT_Male_Rig_06i_AxillaryRingRelax_WIP_PROXY.blend` (`27cd2c43…`), the **current candidate**
+
+Both are read-only. The numbers are in `axilla_ax3/`. Renders, MP4 and GIF are in the local evidence folder only (no Meshy-derived renders in git).
+
+### 1. Arms-down contact (06h, `build_adduction_contact_blender.py`)
+
+**Cause:** since 06g the chest wall stays with the ribcage. An arm brought closer to the body than its rest angle (17.5° from vertical) therefore meets the latissimus. This is real tissue contact, so it is corrected as contact.
+
+**Method:**
+- Collision-driven mutual flattening at 4° from vertical. Only truly intersecting, facing, non-adjacent triangle pairs are moved, each side by half the depth.
+- Solve and smooth-the-correction-field rounds alternate.
+- The posed displacement is inverse-skinned into one shape key per side (`CONTACT_ADD_R/L`).
+- A driver on the arm's elevation keeps the key at **exactly 0 above 14.5°**, so the raised range cannot change. It ramps to 1 at 4° and is held there below.
+
+| Shoulder-region pairs | 17.5° | 12° | 8° | 5° | curl start (5°, elbow 40) | 45° | 90° | 135° | 170° |
+|---|---|---|---|---|---|---|---|---|---|
+| 06g | 0 | 0 | 17 | 129 | 281 | 1 | 0 | 0 | 2 |
+| **06h / 06i** | 0 | 0 | **0** | **0** | 150 | 1 | 0 | 0 | 2 |
+
+**Standard poses** (`pose_report_*.json`): stand 17 → **0**; curl 347 → 216; press_bottom 107 → 107; press_mid 0; press_top 1 → 2 (hip/groin band).
+- The remaining curl and press_bottom pairs are all **forearm against biceps at the elbow fold**: 202 and 107 pairs. Arm-to-trunk pairs are 0.
+- This elbow contact is unchanged at the rest elevation and is an **open elbow item, not a shoulder one**.
+
+**Renders** (stand 8° and 5°; front, back, underside, back-side): identical in shape to 06g, with no dents or notches.
+
+**Rejected versions:**
+- **v1** split the mesh into arm and trunk by dominant bone. Next to the part border, where both are one surface, it found false contacts and tore notches into the front axillary fold.
+- **v2** excluded the border. It was clean, but the real contacts lie 3–10 edges apart across that border, so it removed almost nothing (17 pairs left at 8°).
+- **v3** was collision-driven with a border mask. Again it removed almost nothing.
+
+### 2. The inner-arm crease at 135° and the low seam (06i, `axillary_ring_relax_blender.py`)
+
+**Investigation:**
+- **Topology placement is not the cause.** The trunk-side cap rings lie on the source (mean 0.1–2.3 mm). Rings 1–2 already reach 81–90 mm below the joint, matching the source's armpit dome (78–98 mm below it).
+  - The rings run up the chest wall of the narrow arm/chest gap to the vault top, then down the inner arm. So no ring can be slid onto the fold contour without leaving the source surface (`relay_axillary_loops.py`: "no ring reaches the contour").
+- **The cause is a weight step across too few rows.** Ring 0 (the torso rim) is trunk-weighted, and by ring 2 the skin is mostly arm.
+  - At 135° the rungs between rings 0–1 / 1–2 / 2–3 stretch **×7.6 / ×10.5 / ×6.0**, while ring 5 and up stretch ×2 or less.
+  - One or two rows take the whole raise: that is the crease. The "seam sits too low" impression comes from this step showing as a line at the bottom of the vault.
+
+**Fix:** the weights of the trunk-facing cap vertices in rings 1–4 are relaxed (Laplace) between fixed boundaries:
+- ring 0, the torso rim, so the **chest wall keeps its weights**;
+- ring 5;
+- the deltoid side.
+
+No smoothing of the surface and no corrective shape.
+
+| | 06h | 06i |
+|---|---|---|
+| Rung stretch at 135°, rings 0-1 … 4-5 (max) | ×7.6 / 10.5 / 6.0 / 4.9 / 3.2 | ×4.3 / 6.2 / 5.2 / 5.9 / 6.1 |
+| New sharp edges, armpit zone, 45 / 90 / 105 / 135 / 170° | 5 / 4 / 5 / 7 / 8 | 0 / 1 / 1 / 1 / 4 |
+| Back-fold stretch p95 at 135 / 170° | 4.99 / 5.43 | 4.27 / 4.71 |
+| Scapula zone stretch p95 at 135 / 170° | 5.02 / 5.44 | 3.45 / 3.85 |
+| Deltoid volume ratio at 90 / 135° | 0.80 / 0.56 | 0.80 / 0.56 (unchanged) |
+| Trunk band 180–300 mm below the joint at 105° (batwing check) | 13 mm | 13 mm (unchanged) |
+| Continuous sweep 0→170→0: max pairs / folded / jump | 4 / 6 / 5.8 mm per ° | **3 / 3** / 5.8 mm per ° |
+
+**Cross-sections (sagittal, 30 mm medial of the joint):** 06g shows a spike (a flap folding out at the front fold) at 90, 135 and 170°. **It is gone in 06i.** The coronal slice through the apex at 170° shows a Z-fold in 06g and a smooth line in 06i.
+
+**Not adopted:**
+- **`insert_vault_loops_blender.py`** adds three new rings across the vault (+256 vertices per side). It passes every guard: 0 n-gons, 0 rest intersections, drivers kept, ≤ 4 influences.
+  - But extra rows do not lower the strain: a quad stretched ×6 splits into two quads stretched ×6.
+  - The corner-pattern quads of the 64→48 ring transition crumple into small shards on the front vault at 135–170°.
+- **`arm_tube_weights_blender.py`** (inner-arm ownership): no visible gain, and armpit stretch rose.
+- **`axillary_floor_gradient_blender.py`**: reached the chest wall and brought the batwing back (140–180 mm band up to 192 mm).
+
+### 3. Anatomical check (no photographic references available in this session; criteria from standard surface anatomy)
+
+| Region | Expected | 06i | Verdict |
+|---|---|---|---|
+| Pectoral edge (anterior fold) | Lower border of pectoralis major forms one continuous fold from the chest to the arm. Taut at 90–135°, flattening at full elevation; no skin folding over it. | Front-fold zone: 0 intersections and 0 new sharp edges at 45–170°; stretch p95 1.2–2.2 (low). The flap spike at the fold edge is removed. A softer kink remains in the front coronal slice at about 105 mm below the joint at 90–135°. | Plausible; slightly angular at 90–135° |
+| Latissimus / teres major (posterior fold) | Lower than the front fold at rest. Becomes a firm ridge running up the arm at 90–170°, visible from the back. | Contour 130 mm (back) vs 110 mm (front). Ridge visible in the back renders at 105–170°. Stretch p95 4.3–4.7 at 135–170°: real skin slides over the latissimus here, which linear skinning cannot do. | Plausible shape; strain high |
+| Ribcage | Stays put; only spine and girdle motion moves the side of the chest. No lift with the arm. | 180–300 mm band moves 13 mm at 105° (06c-era batwing: 42 mm). Upper-arm weight there is 0.00. | Plausible |
+| Armpit hollow | A dome between the folds, deepest around 90°, shallow but still concave at 135–170°. | Hollow present at 0–105°. At 135–170° the coronal apex slice is almost straight (flat), not concave. | **Deviation**: the fossa is too flat at full elevation |
+
+### Status and open items
+
+1. Elbow-fold contact in the curl and the press bottom: forearm against biceps, 216 and 107 pairs. A separate elbow corrective is needed.
+2. Flat axillary fossa at 135–170°. A small slightly-concave fossa shape on the trunk side, driven above 120°, is the candidate fix (a shape key, on top of correct weights).
+3. Posterior-fold strain ×4–5 at 135–170° (skin sliding not modelled).
+4. Slight angularity of the anterior fold at 90–135°.
+
+**Nothing is marked complete; 06i is the current candidate for the owner's visual review.**

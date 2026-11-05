@@ -1,0 +1,28 @@
+{
+ "method": "Repair cage folds the source does not have (topology / layout defects) - writes a NEW checkpoint.\n\nFor every interior edge, compare the cage's fold angle (between its two quads) with the SOURCE's fold angle at the same\nplace (source normals nearest the two quad centres). An edge whose cage fold exceeds the source fold by more than\nEXCESS_DEG is a layout defect (quads folded into a fin where the real surface is smooth), not anatomy. Those edges'\nvertices plus a one-ring margin are re-laid: moved towards their neighbours' average (unfold), then projected back\nonto the source along the vertex normal (not to the nearest point, which inside a fold can be the opposite wall);\nrepeat while the count falls and keep the best state. Optional region filter (4th argument). Real creases (where the source itself folds)\nare left alone, so this is not a cosmetic smoothing pass. Reports the defect edges by region before and after.",
+ "in": "HGPT_Male_Retopo_05b_FullBody_Untangled_WIP_PROXY.blend",
+ "excess_deg": 50.0,
+ "defect_edges_before": 17,
+ "by_region_before": {
+  "shoulder_armpit": 17
+ },
+ "defect_edges_after": 4,
+ "by_region_after": {
+  "shoulder_armpit": 4
+ },
+ "history": [
+  17,
+  15,
+  15,
+  11,
+  4,
+  6,
+  8,
+  6,
+  5
+ ],
+ "vertices_moved_over_0p5mm": 70,
+ "max_move_mm": 23.66,
+ "self_intersections_after": 0,
+ "out": "try_05c.blend"
+}

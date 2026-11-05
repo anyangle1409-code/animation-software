@@ -1,0 +1,30 @@
+{
+ "method": "Anatomical shoulder-girdle weights (scapula, clavicle) on the bound retopology - writes a NEW file.\n\nBone-heat gives the scapula and clavicle bones weight over large parts of the back and neck, so a real scapulohumeral\nrhythm (scapular upward rotation, clavicle elevation / retraction) drags the whole upper back into a hump. Here the two\ngirdle bones get geometric, anatomically placed influence regions on the REST mesh (per side, relative to the joints):\n  scapula   posterior surface over the scapula: an ellipse centred SCAP_C (x from the midline, z below the shoulder\n            joint) with semi-axes SCAP_AX, full weight inside, fading to zero over FADE outside; only surfaces facing\n            backwards (rest normal y > 0.2) and not the arm itself.\n  clavicle  a band around the clavicle line (sternoclavicular -> acromioclavicular joint) of radius CLAV_R, fading\n            over FADE; top and front of the shoulder (trapezius edge, supraclavicular hollow).\nFor each vertex the girdle weight g is placed first; the remaining (1 - g) is shared by the vertex's other bones in\ntheir existing proportions (upper-arm weights are kept: g never takes weight from the upper arm). The previous\nscapula / clavicle weights outside these regions are removed (given back to the vertex's other bones). At most 4\ninfluences, normalised.",
+ "params": {
+  "scap_c": [
+   0.115,
+   -0.075
+  ],
+  "scap_ax": [
+   0.055,
+   0.095
+  ],
+  "clav_r": 0.035,
+  "fade": 0.04
+ },
+ "sides": {
+  "r": {
+   "scapula_full_weight_vertices": 90,
+   "scapula_region_vertices": 275,
+   "clavicle_region_vertices": 157,
+   "vertices_changed": 1429
+  },
+  "l": {
+   "scapula_full_weight_vertices": 89,
+   "scapula_region_vertices": 268,
+   "clavicle_region_vertices": 154,
+   "vertices_changed": 1509
+  }
+ },
+ "out": "try_6d.blend"
+}

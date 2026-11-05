@@ -6,7 +6,10 @@
 * Limbs are aimed rigidly (whole subtrees rotate about the joint; no bone length changes) at joints MEASURED on this
   mesh; arms and legs as two-bone chains (end on the measured wrist / ankle as far as the canonical lengths reach,
   elbow / knee on the side of the measured one) and stored on it by the builders: elbow / wrist (TASK4_ARMS), hand frame and finger / thumb tips (t4_part
-  tags), knee / ankle / ball / toe tip (TASK5_LEGS). Residuals between the canonical joints and the measured ones are
+  tags), knee / ankle / ball / toe tip (TASK5_LEGS).
+* GH_FIT=clearance (environment): each shoulder joint is first moved to the measured one - GH_CLEAR (5 cm) under the
+  lateral and upper deltoid surface of the source, centred front-back - by moving the whole arm rigidly (lengths
+  unchanged); the clavicle's lateral end moves with it and the scapula by 60 % (as bind_meshy_blender.py GH_DELTA). Residuals between the canonical joints and the measured ones are
   reported, not hidden.
 * Weights: Blender bone-heat, then rule-based clean-up driven by the builders' part tags:
     - each finger's vertices only follow that finger's chain, its metacarpal and the hand;
@@ -21,6 +24,7 @@ usage: python3.13 bind_retopo_blender.py -- <retopo .blend (05a)> <meshy_bound.b
 """
 import json
 import math
+import os
 import sys
 from collections import deque
 from pathlib import Path
@@ -35,6 +39,7 @@ RETOPO, RIGSRC, OUT, REP = Path(a[0]), Path(a[1]), Path(a[2]), Path(a[3])
 if OUT.exists():
     raise FileExistsError(f"will not overwrite {OUT}")
 STATURE = 1.82
+GH_CLEAR = 0.050   # shoulder joint depth under the lateral / upper deltoid surface (GH_FIT=clearance)
 bpy.ops.wm.open_mainfile(filepath=str(RETOPO), load_ui=False)
 body_src = bpy.data.objects["HGPT_Male_Task3_Body"]
 ARMS = json.loads(body_src["TASK4_ARMS"]); HANDS = json.loads(body_src["TASK4_HANDS"])["sides"]; LEGS = json.loads(body_src["TASK5_LEGS"])
@@ -44,6 +49,29 @@ sc = bpy.context.scene
 rig = next(o for o in dst.objects if o.name.startswith("MESHY_RIG")); glb = next(o for o in dst.objects if o.name.startswith("MESHY_BODY"))
 sc.collection.objects.link(rig)
 body = body_src.copy(); body.data = body_src.data.copy(); body.name = "MESHY_BODY_RETOPO"; sc.collection.objects.link(body)
+GH_FIT = os.environ.get("GH_FIT", "canonical")      # "clearance": move each shoulder joint to the measured one
+GH_TARGET = {}; ELBOW_POLE = {}; rep_pole = {}
+if GH_FIT == "clearance":
+    from mathutils.bvhtree import BVHTree
+    srcp = bpy.data.objects["HGPT_SOURCE_PROXY_Mesh_0"]
+    sbvh = BVHTree.FromPolygons([v.co.copy() for v in srcp.data.vertices], [tuple(p_.vertices) for p_ in srcp.data.polygons])
+
+    def _dist(p_, d_):
+        h_ = sbvh.ray_cast(Vector(p_), Vector(d_), 0.4); return (h_[0] - Vector(p_)).length if h_[0] else 0.4
+    for side_, s_ in (("right", 1), ("left", -1)):
+        A_ = ARMS[side_]; G_ = np.array(A_["shoulder_joint"]); E_ = np.array(A_["elbow"]); d_ = (G_ - E_) / np.linalg.norm(G_ - E_)
+        p_ = G_ + d_ * ((1.43 - G_[2]) / d_[2])       # start on the measured upper-arm line
+        for _ in range(40):                           # GH_CLEAR under the lateral and upper deltoid, centred front-back
+            p_[0] += s_ * (_dist(p_, (s_, 0, 0)) - GH_CLEAR) * 0.5; p_[2] += (_dist(p_, (0, 0, 1)) - GH_CLEAR) * 0.5
+            p_[1] += (_dist(p_, (0, 1, 0)) - _dist(p_, (0, -1, 0))) * 0.25
+        GH_TARGET[side_] = p_
+        # elbow bend direction measured on the source: the arm's centroid at elbow level, off the straight
+        # shoulder -> wrist line (the rest arm is slightly flexed); used as the two-bone pole
+        Wr_ = np.array(A_["wrist"]); ln = Wr_ - p_; Lln = np.linalg.norm(ln); ln /= Lln
+        SVp = np.array([v.co[:] for v in srcp.data.vertices]); t_ = (SVp - p_) @ ln; off = (SVp - p_) - np.outer(t_, ln)
+        sel = (np.abs(t_ - 0.5 * Lln) < 0.012) & (np.linalg.norm(off, axis=1) < 0.08) & (SVp[:, 0] * s_ > 0.2)
+        ELBOW_POLE[side_] = off[sel].mean(0)
+        rep_pole[side_] = round(float(np.linalg.norm(ELBOW_POLE[side_])) * 1000, 1)
 for o in list(sc.objects):
     if o not in (rig, body):
         bpy.data.objects.remove(o, do_unlink=True)
@@ -72,6 +100,22 @@ bpy.context.view_layer.update()
 bpy.context.view_layer.objects.active = rig; rig.select_set(True)
 bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
 rep.update(scale=round(k, 5), trunk_shift_y_m=round(dy, 4))
+if GH_TARGET:
+    bpy.ops.object.mode_set(mode="EDIT"); eb = rig.data.edit_bones; moved = {}
+    for sd, side_ in (("r", "right"), ("l", "left")):
+        d = Vector(GH_TARGET[side_]) - eb[f"upperarm_{sd}"].head; moved[side_] = [round(x * 1000, 1) for x in d]
+        arm = [b for b in eb if b.name.endswith("_" + sd) and any(k in b.name for k in (
+            "upperarm", "forearm", "hand", "thumb", "index", "middle", "ring", "pinky", "metacarpal", "shoulder_cap"))]
+        for b in arm:                                  # the whole arm moves rigidly: arm bone lengths unchanged
+            b.use_connect = False; b.head += d; b.tail += d
+        eb[f"clavicle_{sd}"].tail += d                 # the clavicle ends at the moved joint region (AC follows the joint)
+        eb[f"scapula_{sd}"].head += d * 0.6; eb[f"scapula_{sd}"].tail += d * 0.6
+        for nm in (f"muscle_lat_{sd}", f"muscle_pec_{sd}", f"muscle_trap_{sd}"):
+            if nm in eb:
+                eb[nm].tail += d
+    bpy.ops.object.mode_set(mode="OBJECT"); rep["gh_moved_mm_xyz"] = moved
+    rep["elbow_centroid_offset_mm"] = rep_pole
+    rep["gh_target"] = {k_: [round(float(x), 4) for x in v_] for k_, v_ in GH_TARGET.items()}
 pb = rig.pose.bones; MW = rig.matrix_world; W2A = MW.to_3x3().inverted(); wp = lambda v: MW @ v
 for p in pb:
     p.matrix_basis = Matrix()
@@ -104,13 +148,19 @@ def roll_to(root, axis_w, cur_w, tgt_w, piv_w):
     rot_rigid(subtree(root), piv_w, Matrix.Rotation(sgn * ang, 3, ax)); return round(math.degrees(sgn * ang), 1)
 
 
-def two_bone(upper, lower, end_w, mid_w):
+def two_bone(upper, lower, end_w, mid_w, end_bone=None, pole=None, max_bend=None):
     """aim upper / lower so the chain ends as near end_w as the canonical lengths allow, the middle joint on the side of
     the measured one (mid_w); returns the middle joint actually used"""
-    H = wp(pb[upper].head); a_ = (wp(pb[upper].tail) - H).length; b_ = (wp(pb[lower].tail) - wp(pb[lower].head)).length
+    H = wp(pb[upper].head); a_ = (wp(pb[upper].tail) - H).length
+    b_ = ((wp(pb[end_bone].head) if end_bone else wp(pb[lower].tail)) - wp(pb[lower].head)).length   # whole lower segment
     T = Vector(end_w); M = Vector(mid_w); d = min((T - H).length, a_ + b_ - 1e-4); u = (T - H).normalized()
     x = (a_ * a_ - b_ * b_ + d * d) / (2 * d); r = math.sqrt(max(a_ * a_ - x * x, 0.0))
-    v = (M - H) - u * (M - H).dot(u); v = v.normalized() if v.length > 1e-6 else Vector((0, 0, 0))
+    v = (M - H) - u * (M - H).dot(u)
+    if pole is not None:                                  # anatomical bend direction (elbow apex points backwards)
+        v = Vector(pole) - u * Vector(pole).dot(u)
+    v = v.normalized() if v.length > 1e-6 else Vector((0, 0, 0))
+    if pole is not None and max_bend is not None:          # bend no further than the mesh shows; the chain end then
+        r = min(r, max_bend); x = math.sqrt(max(a_ * a_ - r * r, 0.0))   # lands past the target along the lower segment
     J = H + u * x + v * r
     aim(upper, upper, J); aim(lower, lower, T)
     return J
@@ -127,9 +177,17 @@ fit = {}
 for sd, sg, side in (("r", 1, "right"), ("l", -1, "left")):
     A = ARMS[side]; H = HANDS[side]; G = LEGS[side]; f = {}
     E, Wr = Vector(A["elbow"]), Vector(A["wrist"])
-    two_bone(f"upperarm_{sd}", f"forearm_{sd}", Wr, E)
+    # arms follow the measured centre lines: the upper arm ends where its canonical length meets the measured
+    # upper-arm axis (through the measured shoulder-line point and elbow); the forearm runs parallel to the measured
+    # forearm axis (elbow -> wrist). Joint positions that result are reported against the measurements.
+    H_ = wp(pb[f"upperarm_{sd}"].head); a_ = (wp(pb[f"upperarm_{sd}"].tail) - H_).length
+    P0_ = Vector(A["shoulder_joint"]); du = (E - P0_).normalized(); w_ = P0_ - H_
+    bq = 2 * du.dot(w_); cq = w_.dot(w_) - a_ * a_; disc = max(bq * bq - 4 * cq, 0.0); tq = (-bq + math.sqrt(disc)) / 2
+    aim(f"upperarm_{sd}", f"upperarm_{sd}", P0_ + du * tq)
+    el_ = wp(pb[f"forearm_{sd}"].head); aim(f"forearm_{sd}", f"forearm_{sd}", el_ + (Wr - E).normalized())
     f["elbow_vs_measured_mm"] = round((wp(pb[f"forearm_{sd}"].head) - E).length * 1000, 1)
     f["wrist_residual_mm"] = round((wp(pb[f"hand_{sd}"].head) - Wr).length * 1000, 1)
+    f["wrist_beyond_narrowest_cut_mm"] = round((wp(pb[f"hand_{sd}"].head) - Wr).dot((Wr - wp(pb[f"forearm_{sd}"].head)).normalized()) * 1000, 1)
     L, Wd = Vector(H["L"]), Vector(H["Wd"])
     hh = wp(pb[f"hand_{sd}"].head)
     mm = pb[f"metacarpal_middle_{sd}"]

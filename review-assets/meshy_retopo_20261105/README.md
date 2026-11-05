@@ -449,3 +449,46 @@ These are exactly the brief's priority areas. Next: shoulder weight shaping (smo
 - The **rear-deltoid notch at 170° is gone**; the back of the shoulder is one smooth mass.
 - The crease along the underside of the arm at 90–105° is slightly reduced but still present. It follows the seam between the shoulder cap and the torso in the 04a topology, so it needs a corrective or a local re-loop rather than more weight smoothing.
 - The stretch p99 is set by about 30–75 edges of the armpit floor, about 14 cm below the joint, which stretch past 2×. Correctives and denser armpit loops are the next steps there.
+
+## Shoulder and armpit 0–170°: diagnosis, cause attribution and fixes (SH1)
+
+**Scope:** the owner's request. Evaluate the shoulder and armpit through 0–170° from the front, back and side (plus a view under the armpit), and find the **cause** of each problem: topology, weights, joint placement, or missing corrective deformation. The current checkpoints are preserved: every step below is a new file.
+
+**Tool:** `scripts/meshy/shoulder_diagnostics_blender.py`. It splits each side into six zones on the rest mesh: deltoid, front armpit fold (pectoral), back armpit fold (latissimus/teres), armpit floor, clavicle/trapezius and scapula. For each elevation it measures, per zone:
+- self-intersections and folded faces;
+- crease sharpness, and new edges sharper than 60°;
+- edge stretch p95 and compression p5 (pinching);
+- deltoid enclosed volume.
+
+Two motions are tested:
+- `lib`: the existing test motion. The clavicle lifts 25° at 170°, and the scapula rides on it.
+- `rhythm`: an anatomical scapulohumeral rhythm. The clavicle elevates by 0.15 × the arm elevation and retracts by 0.10 ×; the scapula rotates upward by elevation/3.
+
+A separate measurement records the tissue cover over the humeral head: the nearest skin to the joint, and the thickness along the top arc. All reports are in `shoulder_sh1/`.
+
+### Findings and causes
+
+| Problem (as seen) | Evidence | Cause | Action |
+|---|---|---|---|
+| Deltoid flattens and loses volume as the arm rises | The canonical shoulder joint sat only **16–27 mm under the skin** at the back and top, at rest; a real humeral head (≈24 mm radius) needs ~50 mm. Cover at 135°: 10 mm. The joint was **55 mm too far back and 20 mm too high** for this body; it was inherited from the earlier GLB fit, whose arms were posed differently. | **Joint placement** | **Fixed (06c).** The joint is moved to 50 mm under the lateral and upper deltoid of the source, centred front-to-back. The whole arm moves rigidly (no bone length change); the clavicle end follows, and the scapula moves 60 %. Deltoid cover at 90 / 135°: 11.9 / 10.0 → 31.5 / 31.1 mm; enclosed volume at 90°: 0.70 → 0.80. |
+| Arm fit after the joint move | The two-bone arm fit used only the first of the two forearm bones, which folded the elbow. The narrowest forearm cut also lies proximal to the true wrist. | Fitting method (my error) | **Fixed.** Arms follow the measured centre lines: the upper arm meets the measured upper-arm axis at its canonical length, and the forearm runs parallel to the measured forearm axis. Right elbow 6 mm from the measured one, left 10 mm. Fingertips 3–22 mm. The left "wrist" residual of 50 mm is a bad left-wrist estimate: the left hand hangs differently, and its fingertips match within 12–22 mm. |
+| Crease at the armpit apex (fin) | Cage folds of 136–170° at the apex, where the **source is smooth** (2–11°) | **Topology** (cap quads folded at the cap/socket junction) | **Fixed (05c)** with `repair_cage_folds.py`: unfold, then project along the normal, only where the cage folds more than 50° sharper than the source. Shoulder defect edges 17 → 4; no self-intersections. |
+| Armpit floor flat and over-stretched | **892 source points inside the cage**, up to 44–49 mm: the axillary vault in the source's rest pose is a hollow that the 04a cap **bridged** | **Topology** | **Fixed (05c)** with `armpit_vault_fit.py`: armpit vertices carried into the vault along their normals, with a tangential relax. Shoulder coverage p95 / max: right 25.4 / 43.6 → **8.1 / 26.4 mm**, left 28.6 / 49.2 → **6.5 / 10.8 mm**. 0 self-intersections. Armpit stretch p95 at 90°: 3.30 → 2.49; at 170°: 4.97 → 3.79. |
+| Crease along the front armpit fold at 90–105° | At rest the **source itself** turns 124–142° there: the skin is tucked into the fold in the arms-down pose | **Missing corrective deformation.** Linear skinning cannot unfold a tuck. | **Open.** Correctives at 90 / 135 / 170°. |
+| Back armpit fold (latissimus/teres) stretched about 3.5× at 170° | Concentrated stretch in the back-fold zone | Weights plus the rest-pose tuck. A corrective is needed. | **Open.** |
+| Trapezius bunches beside the neck at 135–170° | Clavicle/trapezius zone compression p5 0.68 | Joint motion (the clavicle rotates alone) plus weights | **Open**, tied to the next item. |
+| **The scapula does not rotate upward** with the `lib` motion | The anatomical rhythm on bone-heat weights drags the whole upper back into a hump and a horizontal ridge (renders) | **Weights** (bone-heat spreads scapula/clavicle weight over the back) | Tried geometric anatomical girdle weights (`girdle_weights_blender.py`, candidate 06d): **worse**. At 170° with the rhythm, self-intersections rose (deltoid 9, clavicle/trapezius 18), sharp edges multiplied and deltoid volume fell to 0.27. **Rejected**; the result is kept in `girdle_weights_06d_REJECTED.json` and the 06d diagnostics. Scapular upward rotation needs a different mechanism (a sliding helper or corrective), not reweighting. |
+
+### Current best state
+
+- **Mesh:** `HGPT_Male_Retopo_05c_ShoulderArmpitFit_WIP_PROXY.blend` (`cc14d29c…`), from 05b: the fold repair plus the armpit vault fit. 0 rest self-intersections.
+- **Rig:** `rig/HGPT_Male_Rig_06c_GHFit_ShoulderWeights_WIP_PROXY.blend` (`10d522d6…`). Bind (`8437c988…`, `GH_FIT=clearance`), then the same shoulder weight shaping as 06b.
+- **`lib` motion, 45–170°, all six zones:** 0 self-intersections, folded faces ≤ 1 per zone. Deltoid cover 31–36 mm through 135°. Rest proportions unchanged (0° renders are identical).
+
+**Comparison sheets** (rows: 06b baseline, 06c, 06c with the anatomical rhythm; columns: front, back, side, under the armpit) at 0 / 45 / 90 / 105 / 135 / 170°: `evidence/06c/shoulder_cmp_*.png`. These are working evidence; renders are not committed.
+
+**The shoulder area is NOT declared complete.** Still open:
+1. Correctives for the front-fold tuck, the back-fold stretch and the trapezius bunching.
+2. An anatomical scapula motion that doesn't distort the back.
+3. 4 remaining fold-defect edges at the armpit apex.
+4. A 26 mm pocket left at the floor of the right armpit vault.

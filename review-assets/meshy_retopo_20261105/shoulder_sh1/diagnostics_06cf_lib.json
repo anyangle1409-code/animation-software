@@ -1,0 +1,855 @@
+{
+ "mode": "lib",
+ "rest": {
+  "r": {
+   "deltoid": {
+    "vertices": 135,
+    "dihedral_p99": 30.1,
+    "edges_sharper_60": 1
+   },
+   "front_fold": {
+    "vertices": 164,
+    "dihedral_p99": 72.2,
+    "edges_sharper_60": 6
+   },
+   "back_fold": {
+    "vertices": 178,
+    "dihedral_p99": 73.0,
+    "edges_sharper_60": 6
+   },
+   "armpit": {
+    "vertices": 51,
+    "dihedral_p99": 114.7,
+    "edges_sharper_60": 3
+   },
+   "clavicle_trap": {
+    "vertices": 311,
+    "dihedral_p99": 37.1,
+    "edges_sharper_60": 0
+   },
+   "scapula": {
+    "vertices": 200,
+    "dihedral_p99": 73.9,
+    "edges_sharper_60": 6
+   }
+  },
+  "l": {
+   "deltoid": {
+    "vertices": 134,
+    "dihedral_p99": 30.2,
+    "edges_sharper_60": 0
+   },
+   "front_fold": {
+    "vertices": 166,
+    "dihedral_p99": 57.2,
+    "edges_sharper_60": 2
+   },
+   "back_fold": {
+    "vertices": 167,
+    "dihedral_p99": 72.9,
+    "edges_sharper_60": 4
+   },
+   "armpit": {
+    "vertices": 54,
+    "dihedral_p99": 114.8,
+    "edges_sharper_60": 4
+   },
+   "clavicle_trap": {
+    "vertices": 314,
+    "dihedral_p99": 44.6,
+    "edges_sharper_60": 0
+   },
+   "scapula": {
+    "vertices": 203,
+    "dihedral_p99": 73.3,
+    "edges_sharper_60": 5
+   }
+  }
+ },
+ "0": {
+  "motion": {},
+  "r": {
+   "deltoid": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 30.1,
+    "edges_sharper_60": 1,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.0,
+    "stretch_max": 1.0,
+    "compress_p5": 1.0,
+    "volume_ratio": 1.0
+   },
+   "front_fold": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 72.2,
+    "edges_sharper_60": 6,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.0,
+    "stretch_max": 1.0,
+    "compress_p5": 1.0
+   },
+   "back_fold": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 73.0,
+    "edges_sharper_60": 6,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.0,
+    "stretch_max": 1.0,
+    "compress_p5": 1.0
+   },
+   "armpit": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 114.7,
+    "edges_sharper_60": 3,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.0,
+    "stretch_max": 1.0,
+    "compress_p5": 1.0
+   },
+   "clavicle_trap": {
+    "intersections": 0,
+    "folded": 1,
+    "dihedral_p99": 37.1,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.0,
+    "stretch_max": 1.0,
+    "compress_p5": 1.0
+   },
+   "scapula": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 73.9,
+    "edges_sharper_60": 6,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.0,
+    "stretch_max": 1.0,
+    "compress_p5": 1.0
+   },
+   "gh_moved_mm": 0.0
+  },
+  "l": {
+   "deltoid": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 30.2,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.0,
+    "stretch_max": 1.0,
+    "compress_p5": 1.0,
+    "volume_ratio": 1.0
+   },
+   "front_fold": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 57.2,
+    "edges_sharper_60": 2,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.0,
+    "stretch_max": 1.0,
+    "compress_p5": 1.0
+   },
+   "back_fold": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 72.9,
+    "edges_sharper_60": 4,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.0,
+    "stretch_max": 1.0,
+    "compress_p5": 1.0
+   },
+   "armpit": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 114.8,
+    "edges_sharper_60": 4,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.0,
+    "stretch_max": 1.0,
+    "compress_p5": 1.0
+   },
+   "clavicle_trap": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 44.6,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.0,
+    "stretch_max": 1.0,
+    "compress_p5": 1.0
+   },
+   "scapula": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 73.3,
+    "edges_sharper_60": 5,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.0,
+    "stretch_max": 1.0,
+    "compress_p5": 1.0
+   },
+   "gh_moved_mm": 0.0
+  }
+ },
+ "45": {
+  "motion": {},
+  "r": {
+   "deltoid": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 31.9,
+    "edges_sharper_60": 1,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.21,
+    "stretch_max": 1.44,
+    "compress_p5": 0.83,
+    "volume_ratio": 0.964
+   },
+   "front_fold": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 68.3,
+    "edges_sharper_60": 6,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.08,
+    "stretch_max": 1.44,
+    "compress_p5": 0.85
+   },
+   "back_fold": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 43.3,
+    "edges_sharper_60": 2,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.67,
+    "stretch_max": 2.36,
+    "compress_p5": 0.98
+   },
+   "armpit": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 87.5,
+    "edges_sharper_60": 2,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.64,
+    "stretch_max": 2.23,
+    "compress_p5": 0.92
+   },
+   "clavicle_trap": {
+    "intersections": 2,
+    "folded": 1,
+    "dihedral_p99": 45.0,
+    "edges_sharper_60": 1,
+    "new_sharp_edges": 1,
+    "stretch_p95": 1.06,
+    "stretch_max": 1.38,
+    "compress_p5": 0.89
+   },
+   "scapula": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 42.9,
+    "edges_sharper_60": 2,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.49,
+    "stretch_max": 2.36,
+    "compress_p5": 0.98
+   },
+   "gh_moved_mm": 23.1
+  },
+  "l": {
+   "deltoid": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 31.4,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.19,
+    "stretch_max": 1.44,
+    "compress_p5": 0.85,
+    "volume_ratio": 0.968
+   },
+   "front_fold": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 55.8,
+    "edges_sharper_60": 1,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.08,
+    "stretch_max": 1.44,
+    "compress_p5": 0.86
+   },
+   "back_fold": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 47.5,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.62,
+    "stretch_max": 2.23,
+    "compress_p5": 0.98
+   },
+   "armpit": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 93.9,
+    "edges_sharper_60": 4,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.56,
+    "stretch_max": 1.92,
+    "compress_p5": 0.95
+   },
+   "clavicle_trap": {
+    "intersections": 0,
+    "folded": 1,
+    "dihedral_p99": 52.4,
+    "edges_sharper_60": 4,
+    "new_sharp_edges": 4,
+    "stretch_p95": 1.05,
+    "stretch_max": 1.31,
+    "compress_p5": 0.89
+   },
+   "scapula": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 49.7,
+    "edges_sharper_60": 1,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.48,
+    "stretch_max": 2.23,
+    "compress_p5": 0.99
+   },
+   "gh_moved_mm": 23.7
+  }
+ },
+ "90": {
+  "motion": {},
+  "r": {
+   "deltoid": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 28.6,
+    "edges_sharper_60": 1,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.32,
+    "stretch_max": 1.91,
+    "compress_p5": 0.69,
+    "volume_ratio": 0.805
+   },
+   "front_fold": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 61.7,
+    "edges_sharper_60": 4,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.35,
+    "stretch_max": 2.14,
+    "compress_p5": 0.8
+   },
+   "back_fold": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 36.7,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 2.63,
+    "stretch_max": 4.02,
+    "compress_p5": 0.9
+   },
+   "armpit": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 52.7,
+    "edges_sharper_60": 1,
+    "new_sharp_edges": 0,
+    "stretch_p95": 2.49,
+    "stretch_max": 3.98,
+    "compress_p5": 0.86
+   },
+   "clavicle_trap": {
+    "intersections": 0,
+    "folded": 1,
+    "dihedral_p99": 51.4,
+    "edges_sharper_60": 3,
+    "new_sharp_edges": 3,
+    "stretch_p95": 1.13,
+    "stretch_max": 1.73,
+    "compress_p5": 0.79
+   },
+   "scapula": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 37.4,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 2.04,
+    "stretch_max": 4.02,
+    "compress_p5": 0.96
+   },
+   "gh_moved_mm": 46.2
+  },
+  "l": {
+   "deltoid": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 29.4,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.31,
+    "stretch_max": 1.89,
+    "compress_p5": 0.71,
+    "volume_ratio": 0.812
+   },
+   "front_fold": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 49.9,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.39,
+    "stretch_max": 2.14,
+    "compress_p5": 0.81
+   },
+   "back_fold": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 32.4,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 2.57,
+    "stretch_max": 3.96,
+    "compress_p5": 0.91
+   },
+   "armpit": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 66.8,
+    "edges_sharper_60": 3,
+    "new_sharp_edges": 1,
+    "stretch_p95": 2.59,
+    "stretch_max": 3.39,
+    "compress_p5": 0.85
+   },
+   "clavicle_trap": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 51.5,
+    "edges_sharper_60": 4,
+    "new_sharp_edges": 4,
+    "stretch_p95": 1.13,
+    "stretch_max": 1.67,
+    "compress_p5": 0.8
+   },
+   "scapula": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 42.4,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 2.21,
+    "stretch_max": 3.96,
+    "compress_p5": 0.96
+   },
+   "gh_moved_mm": 47.3
+  }
+ },
+ "105": {
+  "motion": {},
+  "r": {
+   "deltoid": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 30.1,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.33,
+    "stretch_max": 2.02,
+    "compress_p5": 0.63,
+    "volume_ratio": 0.731
+   },
+   "front_fold": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 52.7,
+    "edges_sharper_60": 1,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.46,
+    "stretch_max": 2.48,
+    "compress_p5": 0.75
+   },
+   "back_fold": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 32.4,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 2.9,
+    "stretch_max": 4.47,
+    "compress_p5": 0.86
+   },
+   "armpit": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 46.2,
+    "edges_sharper_60": 1,
+    "new_sharp_edges": 0,
+    "stretch_p95": 2.85,
+    "stretch_max": 4.49,
+    "compress_p5": 0.84
+   },
+   "clavicle_trap": {
+    "intersections": 0,
+    "folded": 1,
+    "dihedral_p99": 58.0,
+    "edges_sharper_60": 5,
+    "new_sharp_edges": 5,
+    "stretch_p95": 1.16,
+    "stretch_max": 1.79,
+    "compress_p5": 0.76
+   },
+   "scapula": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 35.5,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 2.27,
+    "stretch_max": 4.47,
+    "compress_p5": 0.93
+   },
+   "gh_moved_mm": 53.9
+  },
+  "l": {
+   "deltoid": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 27.8,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.31,
+    "stretch_max": 2.0,
+    "compress_p5": 0.65,
+    "volume_ratio": 0.738
+   },
+   "front_fold": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 44.6,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.5,
+    "stretch_max": 2.48,
+    "compress_p5": 0.76
+   },
+   "back_fold": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 32.3,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 2.85,
+    "stretch_max": 4.46,
+    "compress_p5": 0.87
+   },
+   "armpit": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 69.3,
+    "edges_sharper_60": 3,
+    "new_sharp_edges": 2,
+    "stretch_p95": 2.92,
+    "stretch_max": 3.83,
+    "compress_p5": 0.82
+   },
+   "clavicle_trap": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 52.2,
+    "edges_sharper_60": 4,
+    "new_sharp_edges": 4,
+    "stretch_p95": 1.15,
+    "stretch_max": 1.75,
+    "compress_p5": 0.77
+   },
+   "scapula": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 41.4,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 2.43,
+    "stretch_max": 4.46,
+    "compress_p5": 0.94
+   },
+   "gh_moved_mm": 55.2
+  }
+ },
+ "135": {
+  "motion": {},
+  "r": {
+   "deltoid": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 34.3,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.28,
+    "stretch_max": 2.17,
+    "compress_p5": 0.53,
+    "volume_ratio": 0.569
+   },
+   "front_fold": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 41.1,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.72,
+    "stretch_max": 3.17,
+    "compress_p5": 0.63
+   },
+   "back_fold": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 32.3,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 3.32,
+    "stretch_max": 5.2,
+    "compress_p5": 0.73
+   },
+   "armpit": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 40.9,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 3.45,
+    "stretch_max": 5.36,
+    "compress_p5": 0.87
+   },
+   "clavicle_trap": {
+    "intersections": 0,
+    "folded": 1,
+    "dihedral_p99": 53.9,
+    "edges_sharper_60": 5,
+    "new_sharp_edges": 5,
+    "stretch_p95": 1.21,
+    "stretch_max": 1.8,
+    "compress_p5": 0.7
+   },
+   "scapula": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 33.6,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 2.58,
+    "stretch_max": 5.2,
+    "compress_p5": 0.85
+   },
+   "gh_moved_mm": 69.1
+  },
+  "l": {
+   "deltoid": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 33.2,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.29,
+    "stretch_max": 2.17,
+    "compress_p5": 0.55,
+    "volume_ratio": 0.577
+   },
+   "front_fold": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 37.7,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.69,
+    "stretch_max": 3.19,
+    "compress_p5": 0.65
+   },
+   "back_fold": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 31.2,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 3.23,
+    "stretch_max": 5.28,
+    "compress_p5": 0.75
+   },
+   "armpit": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 76.6,
+    "edges_sharper_60": 5,
+    "new_sharp_edges": 5,
+    "stretch_p95": 3.47,
+    "stretch_max": 4.55,
+    "compress_p5": 0.8
+   },
+   "clavicle_trap": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 55.4,
+    "edges_sharper_60": 5,
+    "new_sharp_edges": 5,
+    "stretch_p95": 1.19,
+    "stretch_max": 1.8,
+    "compress_p5": 0.72
+   },
+   "scapula": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 39.9,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 2.76,
+    "stretch_max": 5.28,
+    "compress_p5": 0.88
+   },
+   "gh_moved_mm": 70.8
+  }
+ },
+ "170": {
+  "motion": {},
+  "r": {
+   "deltoid": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 61.1,
+    "edges_sharper_60": 3,
+    "new_sharp_edges": 3,
+    "stretch_p95": 1.23,
+    "stretch_max": 2.3,
+    "compress_p5": 0.4,
+    "volume_ratio": 0.387
+   },
+   "front_fold": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 43.4,
+    "edges_sharper_60": 1,
+    "new_sharp_edges": 1,
+    "stretch_p95": 1.95,
+    "stretch_max": 4.02,
+    "compress_p5": 0.53
+   },
+   "back_fold": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 40.5,
+    "edges_sharper_60": 1,
+    "new_sharp_edges": 1,
+    "stretch_p95": 3.49,
+    "stretch_max": 5.64,
+    "compress_p5": 0.55
+   },
+   "armpit": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 46.9,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 3.79,
+    "stretch_max": 6.0,
+    "compress_p5": 0.83
+   },
+   "clavicle_trap": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 54.2,
+    "edges_sharper_60": 3,
+    "new_sharp_edges": 3,
+    "stretch_p95": 1.3,
+    "stretch_max": 1.68,
+    "compress_p5": 0.68
+   },
+   "scapula": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 39.1,
+    "edges_sharper_60": 1,
+    "new_sharp_edges": 1,
+    "stretch_p95": 2.83,
+    "stretch_max": 5.64,
+    "compress_p5": 0.72
+   },
+   "gh_moved_mm": 86.8
+  },
+  "l": {
+   "deltoid": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 60.4,
+    "edges_sharper_60": 3,
+    "new_sharp_edges": 3,
+    "stretch_p95": 1.28,
+    "stretch_max": 2.32,
+    "compress_p5": 0.41,
+    "volume_ratio": 0.396
+   },
+   "front_fold": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 41.2,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 1.93,
+    "stretch_max": 4.04,
+    "compress_p5": 0.54
+   },
+   "back_fold": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 34.7,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 3.41,
+    "stretch_max": 5.83,
+    "compress_p5": 0.59
+   },
+   "armpit": {
+    "intersections": 0,
+    "folded": 1,
+    "dihedral_p99": 98.4,
+    "edges_sharper_60": 6,
+    "new_sharp_edges": 6,
+    "stretch_p95": 3.88,
+    "stretch_max": 5.09,
+    "compress_p5": 0.74
+   },
+   "clavicle_trap": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 56.3,
+    "edges_sharper_60": 4,
+    "new_sharp_edges": 4,
+    "stretch_p95": 1.28,
+    "stretch_max": 1.72,
+    "compress_p5": 0.7
+   },
+   "scapula": {
+    "intersections": 0,
+    "folded": 0,
+    "dihedral_p99": 40.0,
+    "edges_sharper_60": 0,
+    "new_sharp_edges": 0,
+    "stretch_p95": 2.9,
+    "stretch_max": 5.83,
+    "compress_p5": 0.74
+   },
+   "gh_moved_mm": 88.9
+  }
+ }
+}

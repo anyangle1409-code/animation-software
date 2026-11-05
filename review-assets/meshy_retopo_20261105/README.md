@@ -221,3 +221,24 @@ So the shell's Mirror + Shrinkwrap is **applied** in a full-body object, `HGPT_M
   - ears are not built; hair is not on its own layer;
   - left-side asymmetry refinement;
   - re-verification against the real source.
+
+## 03j: ears closed, first pass (5 Nov)
+
+**Checkpoint:** `HGPT_Male_Retopo_03j_TorsoHead_FaceEars_WIP_PROXY.blend` (`8f0c2008…`), built from 03i by `scripts/retopology/build_task3_ears.py`.
+
+**Method:** each ear opening (6 × 9 cells) is filled with:
+- 3 concentric rings of 30 vertices (the helix band);
+- a 6 × 9 grid filled from the four sides of the innermost ring (bowl and antihelix);
+- projection onto the source by sideways rays from outside the head, then a light relax.
+
+**Measured (`audit_03j_face_ears.json`):**
+- 4,768 faces, 100 % quads, 1 component.
+- **Open edges: only the pelvis (66) and the two arm sockets (128). The head is closed.**
+- 28 three-edge and 24 five-edge vertices (the ear grid adds 8 corner poles per ear).
+- Shape capture: median 0.23 mm, p95 3.0 mm.
+- Poor quads: 156; head / neck 120, mostly thin ear-ring quads.
+
+**Limitations (first pass):**
+- The ear is a relief seen from the side: the gap behind the ear (the undercut) is not modelled, so from behind it reads as a solid block.
+- The helix rim still pokes through the cage in places.
+- A dedicated ear mesh with the undercut remains a refinement item.

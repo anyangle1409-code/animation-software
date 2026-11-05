@@ -1,0 +1,34 @@
+{
+ "ear_rows": [
+  54,
+  63
+ ],
+ "ear_cols": [
+  15,
+  21
+ ],
+ "sides": {
+  "right": {
+   "grid": [
+    6,
+    9
+   ],
+   "new_vertices": 130,
+   "rings": 3,
+   "faces": 144
+  },
+  "left": {
+   "grid": [
+    6,
+    9
+   ],
+   "new_vertices": 130,
+   "rings": 3,
+   "faces": 144
+  }
+ },
+ "out": "HGPT_Male_Retopo_03j_TorsoHead_FaceEars_WIP_PROXY.blend (not in git)",
+ "faces": 4768,
+ "non_quads": 0,
+ "boundary_edges": 194
+}

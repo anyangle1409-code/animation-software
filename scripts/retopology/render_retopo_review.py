@@ -71,4 +71,8 @@ if os.environ.get("REVIEW_FACE"):                   # face close-ups: front, thr
     shot("face_side", (1, 0, 0), (0, -0.05, 1.665), 0.22, (1000, 1000))
     shot("eye_r", (0.15, -1, 0), (0.019, 0, 1.694), 0.07, (1000, 700))
     shot("mouth", (0, -1, 0), (-0.007, 0, 1.628), 0.08, (1000, 700))
+if os.environ.get("REVIEW_EARS"):                   # ears: right / left side, back three-quarter
+    shot("ear_r", (1, 0, 0), (0.08, 0.0, 1.677), 0.12, (900, 900))
+    shot("ear_l", (-1, 0, 0), (-0.08, 0.0, 1.677), 0.12, (900, 900))
+    shot("ear_back", (0.6, 0.8, 0.0), (0.06, 0.02, 1.677), 0.16, (900, 900))
 print("RENDERED", PFX, OUT)

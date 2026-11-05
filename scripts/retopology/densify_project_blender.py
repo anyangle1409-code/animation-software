@@ -26,7 +26,10 @@ Here (bound rig file, so weights, shape keys and drivers carry over):
   * guards: manifold, no n-gons, rest self-intersections not increased, drivers kept.
 Proportions cannot change: every vertex is either an original vertex or a point of the approved source surface.
 
-usage: python3.13 densify_project_blender.py -- <bound .blend> <retopo checkpoint with source proxy> <out NEW .blend> <report .json>
+With a 5th argument "face" only the face (front of the head above the jaw line) is subdivided - a second level there
+for the eyes, lids, lips and nose; the edges on its border are not cut, so the border faces take the transition pattern.
+
+usage: python3.13 densify_project_blender.py -- <bound .blend> <retopo checkpoint with source proxy> <out NEW .blend> <report .json> [face]
 """
 import json
 import sys
@@ -71,7 +74,14 @@ def intersect_verts():
 nv0, nf0 = len(bm.verts), len(bm.faces); inter0 = len(intersect_verts())
 L4 = bm.verts.layers.int["t4_part"]                            # the hands carry no muscle definition and their packed
 hand_faces = {f for f in bm.faces if all(v[L4] > 0 for v in f.verts)}   # fingers cross when cut: kept as they are
-cut = [e for e in bm.edges if not any(f in hand_faces for f in e.link_faces)]
+REGION = a[4] if len(a) > 4 else "body"
+if REGION == "face":                                           # second level on the face only (eyes, lids, lips, nose):
+    def in_face(v):                                            # front of the head, above the jaw line
+        return v.co.z > 1.615 and v.co.y < -0.035 and abs(v.co.x) < 0.085
+    face_faces = {f for f in bm.faces if all(in_face(v) for v in f.verts)}
+    cut = [e for e in bm.edges if e.link_faces and all(f in face_faces for f in e.link_faces)]
+else:
+    cut = [e for e in bm.edges if not any(f in hand_faces for f in e.link_faces)]
 res = bmesh.ops.subdivide_edges(bm, edges=cut, cuts=1, use_grid_fill=True, quad_corner_type="INNER_VERT")
 new = [g for g in res["geom_inner"] + res["geom_split"] if isinstance(g, bmesh.types.BMVert)]
 new = list({v for v in new})

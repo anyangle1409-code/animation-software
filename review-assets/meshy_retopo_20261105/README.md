@@ -428,3 +428,24 @@ Both arms are raised in the scapular plane, elbows straight, the clavicle liftin
 - 135–170°: the side of the chest and the armpit skin are strongly stretched, and the rear deltoid notches in.
 
 These are exactly the brief's priority areas. Next: shoulder weight shaping (smoothing and falloff between clavicle, scapula, upper arm and spine_03), then correctives at 90/135/170.
+
+## 06b: shoulder weight shaping (Phase 3, step 1)
+
+**File:** `rig/HGPT_Male_Rig_06b_ShoulderWeights_WIP_PROXY.blend` (`1ee7efc9…`), made from 06a by `scripts/meshy/shoulder_weight_shaping_blender.py` with 30 passes and a 0.20 m radius. The file is a copy of the trial `try_ws_30_0.20.blend`.
+
+**Method:** around each shoulder joint, the weights of {clavicle, scapula, upper arm, spine_02, spine_03} are smoothed over the mesh graph. The smoothing fades out at the edge of the region. The upper arm beyond 16 cm from the joint is untouched, and each vertex's total for those bones is preserved. About 650 vertices changed per side.
+
+**Sweep, 06a → 06b** (`shoulder_sweep_06b.json`; a wider variant, 80 passes / 0.24 m, is kept for reference in `*_variant_80_024.json`):
+
+| Raise | Self-intersections | Folded faces | Stretch p99 |
+|---|---|---|---|
+| 45° | 0 → 3 | 4 → 3 | 1.29 → 1.29 |
+| 90° | 2 → 0 | 4 → 2 | 2.31 → 2.35 |
+| 105° | 2 → 0 | 4 → 1 | 2.62 → 2.72 |
+| 135° | 1 → 0 | 3 → 0 | 3.21 → 3.27 |
+| 170° | **35 → 1** | 6 → 0 | 3.69 → 3.78 |
+
+**Visual (evidence `06b_shoulder_compare.png`):**
+- The **rear-deltoid notch at 170° is gone**; the back of the shoulder is one smooth mass.
+- The crease along the underside of the arm at 90–105° is slightly reduced but still present. It follows the seam between the shoulder cap and the torso in the 04a topology, so it needs a corrective or a local re-loop rather than more weight smoothing.
+- The stretch p99 is set by about 30–75 edges of the armpit floor, about 14 cm below the joint, which stretch past 2×. Correctives and denser armpit loops are the next steps there.

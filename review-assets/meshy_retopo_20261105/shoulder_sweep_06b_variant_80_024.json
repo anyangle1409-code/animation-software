@@ -1,0 +1,44 @@
+{
+ "0": {
+  "self_intersections_shoulder": 0,
+  "folded_faces_shoulder": 5,
+  "edge_stretch_p99": 1.0,
+  "edge_stretch_max": 1.0,
+  "edge_compress_p1": 1.0
+ },
+ "45": {
+  "self_intersections_shoulder": 0,
+  "folded_faces_shoulder": 3,
+  "edge_stretch_p99": 1.287,
+  "edge_stretch_max": 1.51,
+  "edge_compress_p1": 0.86
+ },
+ "90": {
+  "self_intersections_shoulder": 0,
+  "folded_faces_shoulder": 1,
+  "edge_stretch_p99": 2.348,
+  "edge_stretch_max": 3.87,
+  "edge_compress_p1": 0.767
+ },
+ "105": {
+  "self_intersections_shoulder": 0,
+  "folded_faces_shoulder": 1,
+  "edge_stretch_p99": 2.672,
+  "edge_stretch_max": 4.68,
+  "edge_compress_p1": 0.725
+ },
+ "135": {
+  "self_intersections_shoulder": 0,
+  "folded_faces_shoulder": 1,
+  "edge_stretch_p99": 3.283,
+  "edge_stretch_max": 6.14,
+  "edge_compress_p1": 0.604
+ },
+ "170": {
+  "self_intersections_shoulder": 1,
+  "folded_faces_shoulder": 1,
+  "edge_stretch_p99": 3.821,
+  "edge_stretch_max": 7.48,
+  "edge_compress_p1": 0.461
+ }
+}

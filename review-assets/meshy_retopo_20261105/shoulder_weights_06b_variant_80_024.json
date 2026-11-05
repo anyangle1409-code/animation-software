@@ -1,0 +1,16 @@
+{
+ "method": "Phase 3: shoulder weight shaping on the bound retopology (MESHY_RIG / MESHY_BODY) - writes a NEW file.\n\nBone-heat weights change abruptly between the trunk bones and the upper arm around the shoulder, which concentrates\nthe stretch of a raised arm in a narrow band (front armpit crease, chest-side / armpit over-stretch). Here the weights\nof the shoulder bone set (clavicle, scapula, upper arm, spine_02, spine_03 of that side) are smoothed over the mesh\ngraph (umbrella average, ITER passes) for vertices within RADIUS of the shoulder joint, with a falloff so the\nsmoothing fades out at the region's edge. Vertices far down the arm (beyond ARM_KEEP from the joint along the upper\narm) keep their weights, so the elbow and below are untouched. Other bones' weights are not changed; each vertex's\ntotal stays the same; at most 4 influences, normalised.",
+ "iterations": 80,
+ "radius_m": 0.24,
+ "sides": {
+  "r": {
+   "region_vertices": 1028,
+   "vertices_changed": 963
+  },
+  "l": {
+   "region_vertices": 1051,
+   "vertices_changed": 956
+  }
+ },
+ "out": "try_ws_80_0.24.blend"
+}

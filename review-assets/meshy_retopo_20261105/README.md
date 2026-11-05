@@ -188,3 +188,36 @@ So the shell's Mirror + Shrinkwrap is **applied** in a full-body object, `HGPT_M
 - 03f remains the best face. The scripts at commit `999b04ec` reproduce 03f/03g; the current scripts reproduce 03h.
 - Three rounds of procedural face construction have not reached production-quality eyes and nose.
 - The method decision is with the owner.
+
+## 03i: closed-eye lid loops and smoothed rings (5 Nov) — current best face
+
+**Owner decision:** keep building the face procedurally; no template wrap. **Checkpoint:** `HGPT_Male_Retopo_03i_TorsoHead_FaceLidLoops_WIP_PROXY.blend` (`849c8fec…`), built from the 03d shell. The shell script's head loops are restored to the 03d values.
+
+**What changed:**
+- **Eyes, closed-eye lid topology:**
+  - a lid-line chain of 8 vertices;
+  - a lid-margin ring of 18 vertices: the inner and outer eye corners, plus 8 vertices on the upper lid and 8 on the lower lid, evenly spaced on the measured lids;
+  - one quad spans each eye corner, so the lid line ends in a three-edge vertex;
+  - upper and lower strips of quads close the eye along the lid line (no grid inside the opening);
+  - 3 rings blend out to the grid rectangle.
+- **Ring smoothing (eyes, nose, mouth):** the rings are smoothed in 2D (each vertex moves towards the average of its ring and radial neighbours; outlines fixed), blended 70/30 with the straight blend, and kept at least 1.2 mm apart. This removes the spokes and the box look.
+- **Grid around the eyes:** grid vertices next to the eye rings may now relax (front-ray projection), which removes the crumples at the rectangle corners.
+- **Nose:** 2 rings plus the profile-built fill.
+
+**Measured (`audit_03i_face_lid_loops.json`):**
+- 4,480 faces, 100 % quads, closed face, 1 component; 0 non-manifold, wire or loose elements.
+- 20 three-edge and 16 five-edge vertices, at the rectangle corners and lid-line ends.
+- **Shortest edge 1.17 mm.**
+- Shape capture: median 0.22 mm, p95 2.7 mm.
+- **Poor quads: 117** (03f 84, 03g 132, 03h 143); head / neck 81.
+- **13 quads have a corner under 15°** (worst 4.1°), almost all in the nostril-sill strip under the nose (z 1647–1654 mm).
+
+**Visual:**
+- Round, concentric loops around both eyes, a rounded loop around the nose base and nostril wings, and round mouth loops, blending into the grid.
+- **Still open:**
+  - the nose tip and nostrils show through the cage (it is coarse: 3 columns per side); one subdivision captures the shape;
+  - the nostril-sill strip has sharp quads;
+  - the cage dips under the jaw edge below the chin in places;
+  - ears are not built; hair is not on its own layer;
+  - left-side asymmetry refinement;
+  - re-verification against the real source.

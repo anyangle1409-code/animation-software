@@ -1,0 +1,246 @@
+{
+ "blend": "HGPT_Male_Retopo_03i_TorsoHead_FaceLidLoops_WIP_PROXY.blend (not in git)",
+ "object": "HGPT_Male_Task3_Body",
+ "source": "HGPT_SOURCE_PROXY_Mesh_0",
+ "half": {
+  "vertices": 4604,
+  "faces": 4480,
+  "face_sizes": {
+   "4": 4480
+  },
+  "wire_edges": 0,
+  "loose_vertices": 0,
+  "non_manifold_edges": 0,
+  "boundary_edges": {
+   "mirror_seam": 0,
+   "open_pelvis": 66,
+   "arm_socket": 128,
+   "ear_opening": 60
+  },
+  "boundary_loops": [
+   {
+    "label": "open_pelvis",
+    "edges": 66,
+    "centre": [
+     0.001,
+     -0.004,
+     0.915
+    ],
+    "z_range": [
+     0.912,
+     0.916
+    ]
+   },
+   {
+    "label": "arm_socket",
+    "edges": 64,
+    "centre": [
+     0.172,
+     0.046,
+     1.388
+    ],
+    "z_range": [
+     1.264,
+     1.512
+    ]
+   },
+   {
+    "label": "ear_opening",
+    "edges": 30,
+    "centre": [
+     0.07,
+     0.014,
+     1.677
+    ],
+    "z_range": [
+     1.641,
+     1.713
+    ]
+   },
+   {
+    "label": "arm_socket",
+    "edges": 64,
+    "centre": [
+     -0.173,
+     0.047,
+     1.388
+    ],
+    "z_range": [
+     1.262,
+     1.513
+    ]
+   },
+   {
+    "label": "ear_opening",
+    "edges": 30,
+    "centre": [
+     -0.079,
+     0.014,
+     1.676
+    ],
+    "z_range": [
+     1.639,
+     1.712
+    ]
+   }
+  ],
+  "interior_valence": {
+   "3": 20,
+   "4": 4314,
+   "5": 16
+  },
+  "components": 1
+ },
+ "mirrored": {
+  "vertices": 4604,
+  "faces": 4480,
+  "face_sizes": {
+   "4": 4480
+  },
+  "wire_edges": 0,
+  "loose_vertices": 0,
+  "non_manifold_edges": 0,
+  "boundary_edges": {
+   "open_pelvis": 66,
+   "arm_socket": 128,
+   "ear_opening": 60
+  },
+  "boundary_loops": [
+   {
+    "label": "open_pelvis",
+    "edges": 66,
+    "centre": [
+     0.001,
+     -0.004,
+     0.915
+    ],
+    "z_range": [
+     0.912,
+     0.916
+    ]
+   },
+   {
+    "label": "arm_socket",
+    "edges": 64,
+    "centre": [
+     0.172,
+     0.046,
+     1.388
+    ],
+    "z_range": [
+     1.264,
+     1.512
+    ]
+   },
+   {
+    "label": "ear_opening",
+    "edges": 30,
+    "centre": [
+     0.07,
+     0.014,
+     1.677
+    ],
+    "z_range": [
+     1.641,
+     1.713
+    ]
+   },
+   {
+    "label": "arm_socket",
+    "edges": 64,
+    "centre": [
+     -0.173,
+     0.047,
+     1.388
+    ],
+    "z_range": [
+     1.262,
+     1.513
+    ]
+   },
+   {
+    "label": "ear_opening",
+    "edges": 30,
+    "centre": [
+     -0.079,
+     0.014,
+     1.676
+    ],
+    "z_range": [
+     1.639,
+     1.712
+    ]
+   }
+  ],
+  "interior_valence": {
+   "3": 20,
+   "4": 4314,
+   "5": 16
+  },
+  "components": 1
+ },
+ "quad_quality": {
+  "crown": {
+   "faces": 429,
+   "aspect_p50": 1.32,
+   "aspect_p95": 1.81,
+   "aspect_max": 2.39,
+   "min_angle_p5": 70.9,
+   "min_angle_min": 50.0,
+   "max_angle_max": 143.1,
+   "poor_quads(aspect>4|angle<30|>150)": 0
+  },
+  "head_neck": {
+   "faces": 1545,
+   "aspect_p50": 1.3,
+   "aspect_p95": 3.07,
+   "aspect_max": 12.18,
+   "min_angle_p5": 34.9,
+   "min_angle_min": 4.1,
+   "max_angle_max": 176.9,
+   "poor_quads(aspect>4|angle<30|>150)": 81
+  },
+  "socket_band": {
+   "faces": 808,
+   "aspect_p50": 1.47,
+   "aspect_p95": 2.06,
+   "aspect_max": 3.48,
+   "min_angle_p5": 44.2,
+   "min_angle_min": 22.9,
+   "max_angle_max": 157.2,
+   "poor_quads(aspect>4|angle<30|>150)": 10
+  },
+  "torso": {
+   "faces": 1090,
+   "aspect_p50": 1.84,
+   "aspect_p95": 2.48,
+   "aspect_max": 3.65,
+   "min_angle_p5": 38.8,
+   "min_angle_min": 20.5,
+   "max_angle_max": 158.5,
+   "poor_quads(aspect>4|angle<30|>150)": 17
+  },
+  "trapezius_band": {
+   "faces": 608,
+   "aspect_p50": 1.28,
+   "aspect_p95": 2.09,
+   "aspect_max": 3.64,
+   "min_angle_p5": 44.2,
+   "min_angle_min": 23.5,
+   "max_angle_max": 155.1,
+   "poor_quads(aspect>4|angle<30|>150)": 9
+  }
+ },
+ "shape_capture_raw_cage": {
+  "samples": 6097,
+  "median_mm": 0.63,
+  "p95_mm": 5.17,
+  "max_mm": 10.91
+ },
+ "shape_capture_subdivided_projected": {
+  "samples": 6813,
+  "median_mm": 0.22,
+  "p95_mm": 2.71,
+  "max_mm": 7.68
+ }
+}

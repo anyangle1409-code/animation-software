@@ -49,7 +49,7 @@ EYE_LC = (-35 * MM, 1.6945)
 # alar base, subnasale.  Nostril wings measured at x +10 / -25 mm (midline -7.5), nostril base z 1.648
 NOSE = {"dorsum": 1.6700, "alar_top": (12 * MM, 1.6660), "alar_lat": (17.5 * MM, 1.6550), "alar_base": (15 * MM, 1.6490),
         "subnasale": 1.6455}
-NOSE_RINGS = 1                                                                # the nose base sits only ~5 mm above the shared mouth row
+NOSE_RINGS = 2                                                                # with ring smoothing + spacing (1 ring read as a box)
 NOSE_MARGIN = (4.0 * MM, 3.0 * MM)
 MOUTH = {"corner": (20 * MM, 1.6285), "upper_mid": 1.6370, "lower_mid": 1.6170, "stomion": 1.6275}
 EYE_RINGS = 3                                                                 # rings between the rectangle and the fissure
@@ -253,49 +253,51 @@ def build_side(side, layout=None):
                 continue
             faces.append([gv[qq] for qq in q])
 
-    # ---- eye: rectangle loop -> rings -> fissure -> closing grid
-    w, h = ce1 - ce0, re1 - re0
+    # ---- eye: closed-eye lid topology
+    #   lid line (K-1 vertices) between the eye corners; ring 1 = lid margin: inner corner, K-1 upper-lid vertices,
+    #   outer corner, K-1 lower-lid vertices (equal arc length on the measured lids); one quad spans each eye corner
+    #   (corner, first upper, lid-line end, first lower) so the lid line ends in a 3-valent vertex; upper and lower
+    #   strips run along the lid line; EYE_RINGS rings blend from the lid margin out to the grid rectangle.
+    w, h = ce1 - ce0, re1 - re0; K = w + h; j0 = h // 2
     rect = ([(re0, c) for c in range(ce0, ce1)] + [(r, ce1) for r in range(re0, re1)] +
-            [(re1, c) for c in range(ce1, ce0, -1)] + [(r, ce0) for r in range(re1, re0, -1)])      # closed, CCW (right side)
-    rect2 = [G[k] for k in rect]
-    # fissure correspondence by arc length: bottom side -> lower lid (25-75 %), lateral side -> around the outer
-    # corner, top side -> upper lid, medial side -> around the inner corner
-    low, upp = arc(ei, el, eo), arc(eo, eu, ei)
-    ring_c = np.vstack([low, upp[1:]]); Llow = along(low)[1][-1]; Lupp = along(upp)[1][-1]
-    anchors = [0.25 * Llow, 0.75 * Llow, Llow + 0.25 * Lupp, Llow + 0.75 * Lupp, Llow + Lupp + 0.25 * Llow]
-    ring_ext = np.vstack([ring_c, low[1:]])                                   # wrap past the inner corner
-    inner = map_sides(ring_ext, anchors, [w, h, w, h])
-    rings = [[gv[k] for k in rect]]
+            [(re1, c) for c in range(ce1, ce0, -1)] + [(r, ce0) for r in range(re1, re0, -1)])      # medial-bottom first
+    rect2 = [G[k] for k in rect]; n = len(rect); assert n == 2 * K
+    low_c, upp_c = along(arc(ei, el, eo)), along(arc(ei, eu, eo))
+    lowp = [at(low_c, low_c[1][-1] * i / K) for i in range(K + 1)]            # 0 = inner corner, K = outer corner
+    uppp = [at(upp_c, upp_c[1][-1] * i / K) for i in range(K + 1)]
+    cin, cout = V(("eye", side, "cin"), *ei), V(("eye", side, "cout"), *eo)
+    U = [cin] + [V(("eye", side, "u", i), *uppp[i]) for i in range(1, K)] + [cout]
+    Lo = [cin] + [V(("eye", side, "l", i), *lowp[i]) for i in range(1, K)] + [cout]
+    Ld = {i: V(("eye", side, "lid", i), *(0.5 * (uppp[i] + lowp[i]))) for i in range(1, K)}
+    faces.append([cin, U[1], Ld[1], Lo[1]]); faces.append([cout, Lo[K - 1], Ld[K - 1], U[K - 1]])
+    for i in range(1, K - 1):
+        faces.append([U[i], U[i + 1], Ld[i + 1], Ld[i]]); faces.append([Lo[i], Ld[i], Ld[i + 1], Lo[i + 1]])
+    # ring 1 in rectangle order: lower[j0..K], upper[K-1..1], inner corner, lower[1..j0-1]
+    seq = [("l", i) for i in range(j0, K + 1)] + [("u", i) for i in range(K - 1, 0, -1)] + [("l", 0)] + [("l", i) for i in range(1, j0)]
+    r1v = [Lo[i] if t_ == "l" else U[i] for t_, i in seq]; r1p = [lowp[i] if t_ == "l" else uppp[i] for t_, i in seq]
+    assert len(r1v) == n
+    rings = [r1v]
+    # intermediate rings: start from the blend, then 2D harmonic smoothing (each vertex -> mean of its ring and
+    # radial neighbours; lid margin and rectangle fixed) so the rings come out round and evenly spaced, no spokes
+    RP = np.zeros((EYE_RINGS + 2, n, 2)); RP[0] = np.array(r1p); RP[-1] = np.array(rect2)
     for k in range(1, EYE_RINGS + 1):
-        t = k / (EYE_RINGS + 1)                                               # evenly spaced (tightening collapsed the corners)
-        rings.append([V(("eye", side, k, i), *((1 - t) * rect2[i] + t * inner[i])) for i in range(len(rect))])
-    rings.append([V(("eye", side, "fiss", i), *inner[i]) for i in range(len(rect))])
-    n = len(rect)
+        t = k / (EYE_RINGS + 1); RP[k] = (1 - t) * RP[0] + t * RP[-1]
+    RL = RP.copy()
+    for _ in range(400):
+        RP[1:-1] = 0.25 * (np.roll(RP[1:-1], 1, axis=1) + np.roll(RP[1:-1], -1, axis=1) + RP[:-2] + RP[2:])
+    RP = 0.7 * RP + 0.3 * RL                                                  # keep ring spacing near the lid corners
+    for k in range(1, EYE_RINGS + 1):                                         # rings move outwards, >= 1.2 mm apart
+        for i in range(n):
+            d = RP[k, i] - RP[k - 1, i]; out = RP[k - 1, i] - ec
+            out = out / max(np.linalg.norm(out), 1e-9)
+            if np.dot(d, out) < 0.0012:
+                RP[k, i] = RP[k, i] + (0.0012 - np.dot(d, out)) * out
+    for k in range(1, EYE_RINGS + 1):
+        rings.append([V(("eye", side, k, i), *RP[k, i]) for i in range(n)])
+    rings.append([gv[k] for k in rect])
     for a_, b_ in zip(rings[:-1], rings[1:]):
         for i in range(n):
             faces.append([a_[i], a_[(i + 1) % n], b_[(i + 1) % n], b_[i]])
-    # closing grid inside the fissure (w x h): sides are the four arcs matching the rectangle sides
-    fis = rings[-1]; fis2 = inner
-    Bv = fis[0:w + 1]; Rv = fis[w:w + h + 1]; Tv = list(reversed(fis[w + h:2 * w + h + 1])); Lv = list(reversed(fis[2 * w + h:] + [fis[0]]))
-    B2 = [fis2[i] for i in range(0, w + 1)]; R2 = [fis2[i] for i in range(w, w + h + 1)]
-    T2 = list(reversed([fis2[i] for i in range(w + h, 2 * w + h + 1)])); L2 = list(reversed([fis2[i % n] for i in range(2 * w + h, n + 1)]))
-    eg = {}
-    for r in range(h + 1):
-        for c in range(w + 1):
-            if r == 0:
-                eg[r, c] = Bv[c]
-            elif r == h:
-                eg[r, c] = Tv[c]
-            elif c == 0:
-                eg[r, c] = Lv[r]
-            elif c == w:
-                eg[r, c] = Rv[r]
-            else:
-                p = coons(idx_fn(B2), idx_fn(T2), idx_fn(L2), idx_fn(R2), c / w, r / h)
-                eg[r, c] = V(("lid", side, r, c), *p)
-    for r in range(h):
-        for c in range(w):
-            faces.append([eg[r, c], eg[r, c + 1], eg[r + 1, c + 1], eg[r + 1, c]])
 
     # ---- midline features (mouth, nose): half-rectangle -> half-rings -> feature outline -> closing grid
     def midline_feature(tag, r0, r1, cw, outline, fr_top, fr_bot, nrings, top_pt, bot_pt, profile_origin=None):
@@ -309,10 +311,28 @@ def build_side(side, layout=None):
         minner = map_sides(outline, [0.0, fr_top * Lo, fr_bot * Lo, Lo], [wm, hm, wm]) + [bot_pt]
         minner[0] = top_pt
         mr = [[gv[k] for k in mrect]]
+        # half-rings: blend, then 2D harmonic smoothing (rect and outline fixed; the two midline ends slide only along
+        # the midline) and a minimum outward spacing, so the loops come out round instead of following the box
+        nm_ = len(mrect); RP = np.zeros((nrings + 2, nm_, 2)); RP[0] = np.array(mrect2); RP[-1] = np.array(minner)
+        for k in range(1, nrings + 1):
+            t = k / (nrings + 1); RP[k] = (1 - t) * RP[0] + t * RP[-1]
+        RL = RP.copy()
+        for _ in range(300):
+            inner_ = RP[1:-1].copy()
+            sm = 0.25 * (np.roll(inner_, 1, axis=1) + np.roll(inner_, -1, axis=1) + RP[:-2] + RP[2:])
+            sm[:, 0] = RL[1:-1, 0]; sm[:, -1] = RL[1:-1, -1]                    # midline ends stay on the linear blend
+            RP[1:-1] = sm
+        RP = 0.7 * RP + 0.3 * RL
+        ctr = 0.5 * (top_pt + bot_pt)
+        for k in range(1, nrings + 1):
+            for i in range(1, nm_ - 1):
+                d = RP[k - 1, i] - RP[k, i]; inw = ctr - RP[k - 1, i]; inw = inw / max(np.linalg.norm(inw), 1e-9)
+                if np.dot(d, -inw) < 0.0012 and np.dot(RP[k, i] - RP[k - 1, i], inw) < 0.0012:
+                    RP[k, i] = RP[k - 1, i] + 0.0012 * inw + (RP[k, i] - RP[k - 1, i]) - np.dot(RP[k, i] - RP[k - 1, i], inw) * inw
         for k in range(1, nrings + 1):
             t = k / (nrings + 1); ring = []
             for i in range(len(mrect)):
-                p = (1 - t) * mrect2[i] + t * minner[i]
+                p = RP[k, i]
                 key = ("mid_" + tag, "top", k) if i == 0 else (("mid_" + tag, "bot", k) if i == len(mrect) - 1 else (tag, side, k, i))
                 if i in (0, len(mrect) - 1):
                     p = np.array([mid_x(p[1]), p[1]])
@@ -382,7 +402,7 @@ def build_side(side, layout=None):
     nose_c = np.vstack([n_up, n_lo[1:]]); Lnu = along(n_up)[1][-1]; Lnc = along(nose_c)[1][-1]
     n_n = midline_feature("n", rn0, rn1, cn, nose_c, 0.75 * Lnu / Lnc, (Lnu + 0.35 * (Lnc - Lnu)) / Lnc, NOSE_RINGS, nd, ns,
                           profile_origin=(mid_x(1.652), -0.085, 1.652))
-    return faces, {"eye_rect_rows": [re0, re1], "eye_rect_cols": [ce0, ce1], "eye_ring_vertices": len(rect),
+    return faces, {"eye_rect_rows": [re0, re1], "eye_rect_cols": [ce0, ce1], "eye_ring_vertices": n, "lid_segments": K,
                    "mouth_rect_rows": [rm0, rm1], "mouth_rect_cols": [0, cm], "mouth_half_ring_vertices": n_m,
                    "nose_rect_rows": [rn0, rn1], "nose_rect_cols": [0, cn], "nose_half_ring_vertices": n_n}
 
@@ -402,7 +422,7 @@ bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
 newv = set(nv.values()); # fixed in both relax passes: midline chain, feature outlines (eyelid line, vermilion, nose outline) and the designed
 # rings themselves (nearest-surface relax collapsed neighbouring rings into the nose-lip and eye-corner creases)
 fixedkeys = {v for k, v in nv.items() if k[0] in ("mid", "mid_m", "mid_n", "rim", "eye", "m", "n", "n_fill")}
-_ring = {v for k, v in nv.items() if k[0] in ("eye", "m", "n", "rim")}
+_ring = {v for k, v in nv.items() if k[0] in ("m", "n", "rim")}      # eye-rectangle grid vertices may relax
 fixedkeys |= {v for k, v in nv.items() if k[0] == "g" and any(e.other_vert(v) in _ring for e in v.link_edges)}  # rectangle outlines
 for _ in range(6):
     upd = {}

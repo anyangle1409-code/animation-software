@@ -1,0 +1,72 @@
+{
+ "out": "HGPT_Male_Retopo_03i_TorsoHead_FaceLidLoops_WIP_PROXY.blend (not in git)",
+ "object": "HGPT_Male_Task3_Body",
+ "faces_added": 650,
+ "new_vertices": 613,
+ "vertices": 4604,
+ "faces": 4480,
+ "non_quads": 0,
+ "min_edge_mm": 1.17,
+ "layout": {
+  "right": {
+   "eye_rect_rows": [
+    11,
+    14
+   ],
+   "eye_rect_cols": [
+    1,
+    7
+   ],
+   "eye_ring_vertices": 18,
+   "lid_segments": 9,
+   "mouth_rect_rows": [
+    2,
+    7
+   ],
+   "mouth_rect_cols": [
+    0,
+    5
+   ],
+   "mouth_half_ring_vertices": 16,
+   "nose_rect_rows": [
+    7,
+    11
+   ],
+   "nose_rect_cols": [
+    0,
+    3
+   ],
+   "nose_half_ring_vertices": 11
+  },
+  "left": {
+   "eye_rect_rows": [
+    11,
+    14
+   ],
+   "eye_rect_cols": [
+    1,
+    7
+   ],
+   "eye_ring_vertices": 18,
+   "lid_segments": 9,
+   "mouth_rect_rows": [
+    2,
+    7
+   ],
+   "mouth_rect_cols": [
+    0,
+    5
+   ],
+   "mouth_half_ring_vertices": 16,
+   "nose_rect_rows": [
+    7,
+    11
+   ],
+   "nose_rect_cols": [
+    0,
+    3
+   ],
+   "nose_half_ring_vertices": 11
+  }
+ }
+}

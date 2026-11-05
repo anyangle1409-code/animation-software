@@ -124,8 +124,8 @@ So the shell's Mirror + Shrinkwrap is **applied** in a full-body object, `HGPT_M
 - **Openings:** only the pelvis, both arm sockets and both ears; the face is closed.
 - **Topology:** 4,454 faces, 100 % quads, 1 component; 0 non-manifold, wire or loose elements.
 - **Poles:** 16 three-edge and 12 five-edge vertices, at the corners of the eye and mouth rectangles and the crown grid.
-- **Shape capture** after one subdivision and projection: median 0.22 mm, p95 2.7 mm.
-- **Poor quads:** 82 of 4,454 (1.8 %): crown 0, trapezius 9, socket 10, torso 17, head/neck 46.
+- **Shape capture** after one subdivision and projection: median 0.23 mm, p95 2.7 mm.
+- **Poor quads:** 84 of 4,454 (1.9 %): crown 0, trapezius 9, socket 10, torso 17, head/neck 48.
 - **Sharp corners:** 9 quads have a corner under 15° (worst 6.1°), all at the eye and mouth corners, mostly on the asymmetric left side.
 
 ### Still open (Task 3 not complete)

@@ -301,3 +301,51 @@ So the shell's Mirror + Shrinkwrap is **applied** in a full-body object, `HGPT_M
 - The thumb root has 2 very sharp quads (minimum angle under 2°).
 - With 8 vertices around, fingers are smooth tubes: knuckle bumps and nails are left to the normal map from the real source.
 - The fingers stop at 90 % of the groove; check that they do not stick together at the deformation tests.
+
+## 05a: pelvis, legs and feet; the whole body is closed (5 Nov)
+
+**Checkpoint:** `HGPT_Male_Retopo_05a_FullBody_Closed_WIP_PROXY.blend` (`9e49fa35…`), built from 04b by `scripts/retopology/build_task5_legs.py`. Read-only; 04b is unchanged.
+
+**Method (designed loops, no auto-remesh):**
+- **Hips.** Three horizontal loops below the pelvis opening (z 0.897 / 0.879 / 0.862). Each is a cut of the source, with the hands excluded, split at the midline. Each half has 33 edges at the opening's arc-length fractions, so the torso columns run on.
+- **Crotch.** A 7-edge strip along the midline under the crotch, from the front midline vertex to the back midline vertex, traced by rays fanned in the midline plane. Both legs share it, so each leg's first ring is 33 + 7 = 40 edges.
+- **Legs (each side measured on its own).** Joints are found from the cross-sections:
+  - knee: the narrowest cut between thigh and calf, z 0.52;
+  - ankle: the narrowest cut above the malleoli, z 0.15;
+  - forefoot line: centroids of cuts across the foot.
+
+  The centre line is the thigh line, a rounded knee corner, the shank line, a rounded ankle corner and the forefoot line. 40-vertex rings run perpendicular to it, with vertices placed by rays from the centre line. Ring spacing: thigh 2.5 cm, knee 1.75 cm, shank 2.5 cm, ankle and heel 0.9 cm (19 rings sweep round the heel), foot 1.8 cm.
+
+  The ring frame is carried along the curve, so the front of the shin becomes the top of the foot. The first 4 rings blend from the crotch ring's vertex angles to even angles. Inner-thigh vertices never cross the midline; the source thighs nearly touch down to z 0.74.
+- **Foot and toes.** The foot rings stop at the toe bases (74 % of heel-to-toe-tip length). The source toes touch each other, so they cannot be cut apart. Three concentric loops and a 14 × 6 grid, projected horizontally along the heel-to-toe-tip direction, cover the toes like a mitten. All quads.
+- Every new vertex is tagged (`t5_part`: 1 hips, 2 crotch, 3 thigh, 4 knee, 5 shank, 6 ankle and heel, 7 foot, 8 toes) for the weight pass.
+
+**Measured (`audit_05a_full_body.json`, `leg_metrics_05a.json`):**
+- **Whole body: 13,148 vertices, 13,146 faces, 100 % quads, 1 component, 0 open edges, 0 non-manifold / wire / loose elements.**
+- 140 three-edge, 128 five-edge and 2 six-edge vertices.
+
+| Region | Source to cage median (mm) | p95 (mm) | Max (mm) |
+|---|---|---|---|
+| Thigh and knee | 0.49 | 2.0 | 7.5 |
+| Shank | 0.23 | 0.93 | 2.0 |
+| Hips and crotch | 1.7 | 10.4 | 18.3 |
+| Ankle, foot and toes | 0.57 | 7.8 | 16.0 |
+
+- The hips and crotch figures are high because of the shorts' hem step and the crotch seam bulge. The ankle, foot and toes figures are high because of the gaps between the toes.
+
+| Region | Faces | Poor quads | Aspect p95 |
+|---|---|---|---|
+| Knee | 720 | 0 | 2.8 |
+| Thigh | 720 | 33 | 3.9 |
+| Ankle and heel | 1,520 | 32 | 2.8 |
+| Shank | 880 | 126 | 5.2 |
+| Foot | 320 | 77 | 6.9 |
+| Toes | 408 | 140 | 19.8 |
+
+- Shank quads are long: 2.5 cm ring spacing against about 7 mm around.
+
+**Still open (first pass):**
+- **Toes:** a mitten cap with crumpled quads at the tips. The toes need a dedicated pass, at least a separate big toe, with the toe-bend loop placed at the joint.
+- **Crotch and groin:** they follow the **shorts** in the proxy, including the seam bulge and hem step. The body under the shorts is not in the source, so a proper groin and gluteal fold need the real source, or a separate clothing layer with the body sculpted beneath.
+- **Shank:** ring spacing could be 2 cm for squarer quads.
+- The inner thighs stop 3 mm short of the midline where the source thighs touch.

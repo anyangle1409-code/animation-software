@@ -1,0 +1,133 @@
+{
+ "method": "Task 5: pelvis, groin, glutes, legs and feet from the 66-edge pelvis opening - designed loops, no auto-remesh.\n\n  * HIPS: horizontal loops below the pelvis opening (z = 0.915) down to the last level where the body is one loop\n    (just above the crotch). Each loop is a cut of the source, split at the midline (x = 0), and each half carries 33\n    edges placed at the same arc-length fractions as the opening, so the columns run on from the torso.\n  * CROTCH: a 7-edge midline strip under the crotch from the front midline vertex of the last hip loop to the back\n    midline vertex, traced by rays fanned in the midline plane. Both legs share it, so each leg's first ring is\n    33 (its half of the hip loop) + 7 = 40 edges.\n  * LEGS (each side measured on its own): joints from the cross-sections (knee = narrowest cut between thigh and\n    calf, ankle = narrowest cut above the malleoli); a centre line made of the thigh line (upper-thigh centroid -> knee), a rounded corner at the\n    knee, the shank line, a rounded corner at the ankle and the measured forefoot line (slice centroids). 40-vertex\n    rings perpendicular to it (denser at the knee and ankle), vertices placed by rays from the centre line; ring\n    angles are carried along the curve (parallel transport) so the front of the leg becomes the top of the foot.\n    The first rings blend from the crotch ring's vertex angles to even angles. Inner-thigh vertices never cross the\n    midline (the source thighs nearly touch).\n  * FOOT: dense bend rings sweep over the heel; the foot rings end at the toe bases (74 % of the heel -> toe-tip\n    length; the source toes touch, so they cannot be cut apart); three concentric loops and a 14 x 6 Coons grid, projected horizontally along heel -> toe tip (the\n    toes lie flat and point that way, not along the sloping, out-turned forefoot axis), cover the toes (all quads). Toes are not separated (left to the normal map; documented).",
+ "hip_z": [
+  0.897,
+  0.879,
+  0.862
+ ],
+ "crotch_strip_z": [
+  0.8533,
+  0.8536,
+  0.8563,
+  0.8586,
+  0.8593,
+  0.835
+ ],
+ "right": {
+  "knee": [
+   0.1524,
+   0.0379,
+   0.52
+  ],
+  "ankle_joint_level": [
+   0.1736,
+   0.0617,
+   0.15
+  ],
+  "ankle_corner": [
+   0.1666,
+   0.0631,
+   0.075
+  ],
+  "toe_tip": [
+   0.2088,
+   -0.1412,
+   0.0151
+  ],
+  "heel": [
+   0.1723,
+   0.1165,
+   0.0137
+  ],
+  "thigh_dir": [
+   0.145,
+   0.186,
+   -0.972
+  ],
+  "shank_dir": [
+   0.057,
+   0.064,
+   -0.996
+  ],
+  "foot_dir": [
+   0.296,
+   -0.909,
+   -0.293
+  ],
+  "centre_line_m": 0.881,
+  "leg_rings": 55,
+  "rings_by_region": {
+   "thigh": 9,
+   "knee": 9,
+   "shank": 11,
+   "ankle": 19,
+   "foot": 4,
+   "toes": 3
+  },
+  "foot_rings_end_before_tip_mm": 63.6
+ },
+ "left": {
+  "knee": [
+   -0.1411,
+   0.0377,
+   0.52
+  ],
+  "ankle_joint_level": [
+   -0.1642,
+   0.0623,
+   0.155
+  ],
+  "ankle_corner": [
+   -0.1692,
+   0.0676,
+   0.0749
+  ],
+  "toe_tip": [
+   -0.1952,
+   -0.1437,
+   0.0127
+  ],
+  "heel": [
+   -0.1618,
+   0.1181,
+   0.0135
+  ],
+  "thigh_dir": [
+   -0.14,
+   0.206,
+   -0.968
+  ],
+  "shank_dir": [
+   -0.063,
+   0.067,
+   -0.996
+  ],
+  "foot_dir": [
+   -0.128,
+   -0.945,
+   -0.302
+  ],
+  "centre_line_m": 0.886,
+  "leg_rings": 55,
+  "rings_by_region": {
+   "thigh": 9,
+   "knee": 9,
+   "shank": 11,
+   "ankle": 19,
+   "foot": 4,
+   "toes": 3
+  },
+  "foot_rings_end_before_tip_mm": 65.5
+ },
+ "out": "work/HGPT_Male_Retopo_05a_FullBody_Closed_WIP_PROXY.blend",
+ "faces": 13146,
+ "non_quads": 0,
+ "boundary_edges": 0,
+ "new_vertices": 4734,
+ "edge_mm_min_p5_p50_p95": [
+  0.29,
+  4.62,
+  11.73,
+  25.82
+ ]
+}

@@ -1,0 +1,109 @@
+{
+ "blend": "work/HGPT_Male_Retopo_05a_FullBody_Closed_WIP_PROXY.blend",
+ "object": "HGPT_Male_Task3_Body",
+ "source": "HGPT_SOURCE_PROXY_Mesh_0",
+ "half": {
+  "vertices": 13148,
+  "faces": 13146,
+  "face_sizes": {
+   "4": 13146
+  },
+  "wire_edges": 0,
+  "loose_vertices": 0,
+  "non_manifold_edges": 0,
+  "boundary_edges": {
+   "mirror_seam": 0
+  },
+  "boundary_loops": [],
+  "interior_valence": {
+   "3": 140,
+   "4": 12878,
+   "5": 128,
+   "6": 2
+  },
+  "components": 1
+ },
+ "mirrored": {
+  "vertices": 13148,
+  "faces": 13146,
+  "face_sizes": {
+   "4": 13146
+  },
+  "wire_edges": 0,
+  "loose_vertices": 0,
+  "non_manifold_edges": 0,
+  "boundary_edges": {},
+  "boundary_loops": [],
+  "interior_valence": {
+   "3": 140,
+   "4": 12878,
+   "5": 128,
+   "6": 2
+  },
+  "components": 1
+ },
+ "quad_quality": {
+  "crown": {
+   "faces": 429,
+   "aspect_p50": 1.32,
+   "aspect_p95": 1.81,
+   "aspect_max": 2.39,
+   "min_angle_p5": 70.9,
+   "min_angle_min": 50.0,
+   "max_angle_max": 143.1,
+   "poor_quads(aspect>4|angle<30|>150)": 0
+  },
+  "head_neck": {
+   "faces": 1833,
+   "aspect_p50": 1.34,
+   "aspect_p95": 3.23,
+   "aspect_max": 12.18,
+   "min_angle_p5": 32.0,
+   "min_angle_min": 1.8,
+   "max_angle_max": 176.9,
+   "poor_quads(aspect>4|angle<30|>150)": 120
+  },
+  "socket_band": {
+   "faces": 1434,
+   "aspect_p50": 1.47,
+   "aspect_p95": 2.9,
+   "aspect_max": 15.13,
+   "min_angle_p5": 25.6,
+   "min_angle_min": 1.2,
+   "max_angle_max": 177.3,
+   "poor_quads(aspect>4|angle<30|>150)": 142
+  },
+  "torso": {
+   "faces": 8798,
+   "aspect_p50": 1.85,
+   "aspect_p95": 4.15,
+   "aspect_max": 282.55,
+   "min_angle_p5": 50.4,
+   "min_angle_min": 0.5,
+   "max_angle_max": 176.3,
+   "poor_quads(aspect>4|angle<30|>150)": 571
+  },
+  "trapezius_band": {
+   "faces": 652,
+   "aspect_p50": 1.31,
+   "aspect_p95": 2.2,
+   "aspect_max": 5.29,
+   "min_angle_p5": 43.8,
+   "min_angle_min": 10.9,
+   "max_angle_max": 170.9,
+   "poor_quads(aspect>4|angle<30|>150)": 16
+  }
+ },
+ "shape_capture_raw_cage": {
+  "samples": 10465,
+  "median_mm": 0.66,
+  "p95_mm": 6.09,
+  "max_mm": 29.94
+ },
+ "shape_capture_subdivided_projected": {
+  "samples": 10483,
+  "median_mm": 0.24,
+  "p95_mm": 3.54,
+  "max_mm": 29.97
+ }
+}

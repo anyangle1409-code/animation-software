@@ -169,3 +169,22 @@ So the shell's Mirror + Shrinkwrap is **applied** in a full-body object, `HGPT_M
 - Eyes: one quad loop per lid (upper and lower lid rings meeting at the eye corners) instead of a closing grid, plus a higher ring count (24 or more).
 - Nose: a nose patch with loops around the nostril wings, built from the nose's own side profile (it projects 12 mm in front of the lip) rather than front-projected cells.
 - Re-checking both against the real source.
+
+## Experiment 03h: lid-line head row and profile-built nose (5 Nov) — rejected
+
+**Checkpoint, kept for the record:** `HGPT_Male_Retopo_03h_EXPERIMENT_EyeRows_NoseProfile_WIP_PROXY.blend`.
+
+**Changes tried:**
+- **Head loops** re-spaced to 1.682 / 1.694 / 1.706 m, so the eye rectangle spans 2 rows and its closing grid's middle row lies on the lid line.
+- **Nose rows** placed along the traced side profile (base of the nose → underside → tip → bridge), with the side columns swept by rays from inside the nose root.
+
+**Result:** (`audit_03h_experiment.json`)
+- 4,394 quads, closed face, 1 component.
+- **143 poor quads.**
+- **The eyes got visibly worse:** the 24 mm-tall rectangle around a 7.5 mm opening turns the rings into spokes at the eye corners.
+- **The nose still reads as a box.**
+
+**Conclusion:**
+- 03f remains the best face. The scripts at commit `999b04ec` reproduce 03f/03g; the current scripts reproduce 03h.
+- Three rounds of procedural face construction have not reached production-quality eyes and nose.
+- The method decision is with the owner.

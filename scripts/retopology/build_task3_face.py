@@ -103,6 +103,23 @@ def V(key, x, z):
     return nv[key]
 
 
+def V3(key, p):
+    if key not in nv:
+        nv[key] = bm.verts.new(Vector(p))
+    return nv[key]
+
+
+def sweep_hits(O, d0, d1, n=300):
+    """surface points hit by rays from O swept (slerp) from direction d0 to d1"""
+    d0, d1 = d0.normalized(), d1.normalized(); om = d0.angle(d1); out = []
+    for t in np.linspace(0, 1, n):
+        d = (math.sin((1 - t) * om) * d0 + math.sin(t * om) * d1) / max(math.sin(om), 1e-9) if om > 1e-6 else d0
+        h = bvh.ray_cast(O, d)[0]
+        if h is not None:
+            out.append(h)
+    return out
+
+
 def coons(B, T, L, Rr, u, v):
     """2D Coons patch; B, T run along u (0..1), L, Rr along v; corners shared"""
     return ((1 - v) * B(u) + v * T(u) + (1 - u) * L(v) + u * Rr(v)
@@ -281,7 +298,7 @@ def build_side(side, layout=None):
             faces.append([eg[r, c], eg[r, c + 1], eg[r + 1, c + 1], eg[r + 1, c]])
 
     # ---- midline features (mouth, nose): half-rectangle -> half-rings -> feature outline -> closing grid
-    def midline_feature(tag, r0, r1, cw, outline, fr_top, fr_bot, nrings, top_pt, bot_pt):
+    def midline_feature(tag, r0, r1, cw, outline, fr_top, fr_bot, nrings, top_pt, bot_pt, profile_origin=None):
         """outline runs from top_pt (on the midline) round the lateral side to bot_pt (on the midline); the
         rectangle's top side maps to the outline up to fr_top of its length, the lateral side around the extreme,
         the bottom side from fr_bot.  The closing grid's midline column is shared with the other side."""
@@ -311,6 +328,32 @@ def build_side(side, layout=None):
         T2 = vm2[0:wm + 1]; R2 = list(reversed(vm2[wm:wm + hm + 1])); B2 = list(reversed(vm2[wm + hm:]))
         L2 = [np.array([mid_x(z), z]) for z in np.linspace(bot_pt[1], top_pt[1], hm + 1)]
         lg = {}
+        if profile_origin is not None:
+            # profile fill (nose): rows evenly spaced along the sagittal profile (base -> underside -> tip -> bridge),
+            # columns swept by rays from a point inside the nose root towards the outline - captures the underside
+            O = Vector(profile_origin); b3, t3 = Bv[0].co, Tv[0].co
+            prof = sweep_hits(O, b3 - O, t3 - O); prof = [b3] + prof + [t3]
+            Pp = np.array([q[:] for q in prof]); sl = np.r_[0, np.cumsum(np.linalg.norm(np.diff(Pp, axis=0), axis=1))]
+            for r in range(hm + 1):
+                for c in range(wm + 1):
+                    if r == 0:
+                        lg[r, c] = Bv[c]
+                    elif r == hm:
+                        lg[r, c] = Tv[c]
+                    elif c == wm:
+                        lg[r, c] = Rv[r]
+                    elif c == 0:
+                        sp = r / hm * sl[-1]; pm = Vector([np.interp(sp, sl, Pp[:, d]) for d in range(3)]); pm.x = mid_x(pm.z)
+                        lg[r, c] = V3(("mid_" + tag, "fill", r), pm)
+            for r in range(1, hm):
+                d0 = lg[r, 0].co - O; d1 = lg[r, wm].co - O
+                hits = sweep_hits(O, d0, d1, 4 * wm + 1)
+                for c in range(1, wm):
+                    lg[r, c] = V3((tag + "_fill", side, r, c), hits[min(round(c / wm * (len(hits) - 1)), len(hits) - 1)])
+            for r in range(hm):
+                for c in range(wm):
+                    faces.append([lg[r, c], lg[r, c + 1], lg[r + 1, c + 1], lg[r + 1, c]])
+            return len(mrect)
         for r in range(hm + 1):
             for c in range(wm + 1):
                 if r == 0:
@@ -337,7 +380,8 @@ def build_side(side, layout=None):
     rel = lambda q: np.array([mid_x(q[1]) + sg * q[0], q[1]])
     n_up = arc(nd, rel(NOSE["alar_top"]), rel(NOSE["alar_lat"])); n_lo = arc(rel(NOSE["alar_lat"]), rel(NOSE["alar_base"]), ns)
     nose_c = np.vstack([n_up, n_lo[1:]]); Lnu = along(n_up)[1][-1]; Lnc = along(nose_c)[1][-1]
-    n_n = midline_feature("n", rn0, rn1, cn, nose_c, 0.75 * Lnu / Lnc, (Lnu + 0.35 * (Lnc - Lnu)) / Lnc, NOSE_RINGS, nd, ns)
+    n_n = midline_feature("n", rn0, rn1, cn, nose_c, 0.75 * Lnu / Lnc, (Lnu + 0.35 * (Lnc - Lnu)) / Lnc, NOSE_RINGS, nd, ns,
+                          profile_origin=(mid_x(1.652), -0.085, 1.652))
     return faces, {"eye_rect_rows": [re0, re1], "eye_rect_cols": [ce0, ce1], "eye_ring_vertices": len(rect),
                    "mouth_rect_rows": [rm0, rm1], "mouth_rect_cols": [0, cm], "mouth_half_ring_vertices": n_m,
                    "nose_rect_rows": [rn0, rn1], "nose_rect_cols": [0, cn], "nose_half_ring_vertices": n_n}
@@ -357,7 +401,7 @@ bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
 # light on-surface relax of the new face vertices (front-ray re-projection); boundary / midline / features fixed
 newv = set(nv.values()); # fixed in both relax passes: midline chain, feature outlines (eyelid line, vermilion, nose outline) and the designed
 # rings themselves (nearest-surface relax collapsed neighbouring rings into the nose-lip and eye-corner creases)
-fixedkeys = {v for k, v in nv.items() if k[0] in ("mid", "mid_m", "mid_n", "rim", "eye", "m", "n")}
+fixedkeys = {v for k, v in nv.items() if k[0] in ("mid", "mid_m", "mid_n", "rim", "eye", "m", "n", "n_fill")}
 _ring = {v for k, v in nv.items() if k[0] in ("eye", "m", "n", "rim")}
 fixedkeys |= {v for k, v in nv.items() if k[0] == "g" and any(e.other_vert(v) in _ring for e in v.link_edges)}  # rectangle outlines
 for _ in range(6):

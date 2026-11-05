@@ -74,9 +74,10 @@ NECK_HI = ("jl",)
 neck = [("m", (TRAP_HI, NECK_HI, i / 5, 1.50)) for i in range(1, 6)]               # neck + underside of jaw: 5 loops
 JAW_ROW = neck[-1]                                                                 # t = 1: the jaw loop itself
 # head: ~8 mm loops from the jaw to the forehead (the face is filled inside these by build_task3_face.py)
-HEAD_Z = [1.610, 1.618, 1.626, 1.634, 1.641, 1.649, 1.657, 1.665, 1.673, 1.681, 1.689, 1.697, 1.705, 1.713, 1.722]
+# 1.682 / 1.694 / 1.706 bracket the eyes: 1.694 is the lid line, so the eye's closing row continues this head loop
+HEAD_Z = [1.610, 1.618, 1.626, 1.634, 1.641, 1.649, 1.657, 1.665, 1.673, 1.682, 1.694, 1.706, 1.714, 1.722]
 head = [("m", (NECK_HI, ("h", HEAD_Z[0]), 0.5, 1.55))] + [("h", z) for z in HEAD_Z]
-EAR_LO, EAR_HI = ("h", 1.641), ("h", 1.713)                                        # ear-opening bounds
+EAR_LO, EAR_HI = ("h", 1.641), ("h", 1.714)                                        # ear-opening bounds
 cranium = [("s", e) for e in (20, 27, 34, 42)]
 FACE_TOP = ("s", 27)                                                               # forehead, ~1.743 m
 ROWS = torso + sock + trap + neck + head + cranium

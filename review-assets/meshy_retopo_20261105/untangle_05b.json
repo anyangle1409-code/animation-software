@@ -1,0 +1,27 @@
+{
+ "method": "Remove self-intersections of the closed retopology body (rest pose) - local, on-surface, topology unchanged.\n\nLoop: find non-adjacent intersecting triangle pairs; take their vertices plus a one-ring margin; move each to the\naverage of its edge neighbours (umbrella), then back onto the source surface (nearest point), unless the nearest\npoint is more than SNAP_MAX from the smoothed point (fused fingers / toes, where the nearest surface can belong to the\nneighbouring digit) - those stay at the smoothed point. Repeat while the count falls. Vertices of the hand tagged as\nfingers / thumb (t4_part >= 10) are smoothed without snapping. Reports the count by region before and after.",
+ "in": "HGPT_Male_Retopo_05a_FullBody_Closed_WIP_PROXY.blend",
+ "intersecting_pairs_before": 676,
+ "by_region_before": {
+  "palm": 34,
+  "fingers_thumb": 38,
+  "ankle_heel_foot": 212,
+  "toes": 152,
+  "hips_legs": 24,
+  "torso_arms": 26,
+  "head_neck": 190
+ },
+ "intersecting_pairs_after": 0,
+ "by_region_after": {},
+ "rounds": 4,
+ "history": [
+  676,
+  330,
+  188,
+  36,
+  0
+ ],
+ "vertices_moved_over_0p5mm": 487,
+ "max_move_mm": 53.28,
+ "out": "try_05b_u.blend"
+}

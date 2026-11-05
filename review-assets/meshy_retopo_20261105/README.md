@@ -349,3 +349,82 @@ So the shell's Mirror + Shrinkwrap is **applied** in a full-body object, `HGPT_M
 - **Crotch and groin:** they follow the **shorts** in the proxy, including the seam bulge and hem step. The body under the shorts is not in the source, so a proper groin and gluteal fold need the real source, or a separate clothing layer with the body sculpted beneath.
 - **Shank:** ring spacing could be 2 cm for squarer quads.
 - The inner thighs stop 3 mm short of the midline where the source thighs touch.
+
+## 05b: rest-pose self-intersections removed (5 Nov)
+
+**Checkpoint:** `HGPT_Male_Retopo_05b_FullBody_Untangled_WIP_PROXY.blend` (`48796bf6…`), made from 05a by `scripts/retopology/untangle_retopo.py`. The report names the trial file `try_05b_u.blend`; 05b is a byte copy of it. The topology is unchanged.
+
+**Why:** before testing deformation, the rest mesh itself was checked for surfaces passing through each other. It had 676 intersecting triangle pairs:
+
+| Region | Pairs |
+|---|---|
+| Ankle and heel | 212 (the bend rings cross over the front of the ankle) |
+| Head | 190 (ears and face) |
+| Toes | 152 |
+| Palm and fingers | 72 |
+| Hips | 24 |
+| Torso and arms | 26 |
+
+**Method:** for the intersecting faces' vertices plus a one-ring margin, move each vertex towards its neighbours' average, then back onto the source surface. A vertex is not snapped when the nearest surface is more than 3 mm away, which happens at fused fingers and toes. Repeat while the count falls.
+
+**Result:** 676 → 330 → 188 → 36 → **0** in 4 rounds. 487 vertices moved more than 0.5 mm.
+- The large moves (up to 53 mm) are all toe-cap vertices, pulled back from crumpled tips.
+- Toes: aspect p95 19.8 → 8.6; fit to source p95 7.8 → 8.9 mm.
+- Hands and legs: fit unchanged.
+
+## 06a: canonical skeleton fitted and bound (Phase 2, first pass)
+
+**File:** `rig/HGPT_Male_Rig_06a_Bind_WIP_PROXY.blend` (`7db29d99…`), made from 05b by `scripts/meshy/bind_retopo_blender.py`. The objects are named `MESHY_RIG` and `MESHY_BODY`, so the existing pose tests run unchanged.
+
+**Skeleton:**
+- The canonical rig (77 bones, from the earlier Meshy bind) is scaled **uniformly** to 1.82 m (× 0.9806), so its proportions are unchanged. Its trunk is aligned front-to-back with the retopology trunk (+3.4 mm).
+- The earlier GLB bind could not be reused directly: the proxy body is posed differently, with surface gaps up to 49 mm.
+- No bone length is changed. Limbs are aimed rigidly at joints measured on this mesh:
+  - arms and legs as two-bone chains that end on the measured wrist or ankle, with the elbow or knee on the side of the measured one;
+  - the hand is aimed along the measured hand axis and rolled to the knuckle line;
+  - each finger and thumb is aimed at its tip, taken from the part tags;
+  - the foot is aimed at the ball, and the toe at the toe tip.
+
+**Residuals (right / left):**
+
+| Joint | Right (mm) | Left (mm) |
+|---|---|---|
+| Wrist | 1 | 31 |
+| Ankle | 16 | 17 |
+| Ball of the foot | 5 | 8 |
+| Fingertips | 0–13 | 1–6 |
+| Thumb tip | 0 | 14 |
+
+- **Elbow:** the canonical elbow is 68 / 56 mm from the elbow first estimated on the mesh. That estimate came from the closest approach of two fitted lines. The skeleton render shows the canonical elbow inside the mesh's elbow region, so the canonical lengths are kept and the estimate is treated as unreliable.
+- **Knee:** 29 / 19 mm from the measured cut, within the knee region.
+- **Toe bone:** the canonical toe bone runs past the toe tips. It pivots at the ball, so it is harmless.
+
+**Weights:**
+- Bone-heat automatic weights, then clean-up rules driven by the builders' part tags:
+  - fingers follow only their own chain, metacarpal and the hand;
+  - thumb and palm are restricted the same way;
+  - foot and toes follow only the leg-end bones;
+  - no left/right bleed;
+  - at most 4 influences, normalised.
+- 1,185 vertices changed by the rules. 0 left unweighted. 64 deform groups.
+
+**Rest-pose check:** 0 self-intersections.
+
+### Phase 3 baseline: shoulder elevation sweep (`scripts/meshy/retopo_shoulder_sweep_blender.py`, `shoulder_sweep_06a.json`)
+
+Both arms are raised in the scapular plane, elbows straight, the clavicle lifting in proportion (25° at 170°). Measured in the shoulder region; **no corrective shapes yet**.
+
+| Raise | Self-intersections | Folded faces | Edge stretch p99 / max | Compression p1 |
+|---|---|---|---|---|
+| 0° | 0 | 5 | 1.00 / 1.00 | 1.00 |
+| 45° | 0 | 4 | 1.29 / 1.47 | 0.88 |
+| 90° | 2 | 4 | 2.31 / 3.13 | 0.72 |
+| 105° | 2 | 4 | 2.62 / 3.63 | 0.68 |
+| 135° | 1 | 3 | 3.21 / 4.49 | 0.60 |
+| 170° | 35 | 6 | 3.69 / 5.16 | 0.46 |
+
+**Seen in the renders:**
+- 90–105°: a crease along the front armpit fold on the arm side.
+- 135–170°: the side of the chest and the armpit skin are strongly stretched, and the rear deltoid notches in.
+
+These are exactly the brief's priority areas. Next: shoulder weight shaping (smoothing and falloff between clavicle, scapula, upper arm and spine_03), then correctives at 90/135/170.

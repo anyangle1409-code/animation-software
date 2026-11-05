@@ -1,0 +1,1 @@
+vertices 48086  |dev| mean 0.06 mm  p95 0.00 mm  max 15.80 mm  >2mm 410  >5mm 219

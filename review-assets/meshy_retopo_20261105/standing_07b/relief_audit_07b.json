@@ -1,0 +1,456 @@
+{
+ "method": "Muscle-definition audit: is the definition in the GEOMETRY? Current body vs the approved source surface (read-only).\n\nProbes: 60,000 points uniform on the SOURCE surface, and for each the nearest point on the current surface (probing at\ncurrent vertices would hide a coarse face cutting across a groove between them, because the vertices lie on the\nsource by construction). At every probe the local 'relief' of each surface is measured at muscle scale:\nrelief_R(p) = (p - mean of the surface points within radius R) along the local PCA normal. Positive = bulge (muscle\nbelly), negative = groove (separation between muscles). Both surfaces are sampled densely and area-uniformly - a coarse\nface of the current body therefore counts as flat, which is what it is - so the measure depends neither on vertex\ncount nor on shading or lighting.\n\nPer region (dominant bone of the nearest current vertex; trunk split into chest / abdomen / upper back / lower back /\npelvis by height and front/back):\n  * signed distance of the current surface from the source (+ outside, - inside): filled grooves or lost volume;\n  * relief amplitude ratio current/source (std of relief; 1.0 = all definition kept) and correlation, at R = 15 mm\n    (grooves: abdominal lines, deltoid/biceps separation) and R = 30 mm (muscle bellies);\n  * groove depth: mean of the 10 % deepest source grooves vs the current surface at the same probes.",
+ "vertices_current": 48086,
+ "vertices_source": 169017,
+ "probes": 60000,
+ "regions": {
+  "abdomen": {
+   "probes": 1764,
+   "signed_dist_mm_mean_p5_p95": [
+    0.05,
+    -0.39,
+    0.86
+   ],
+   "R15": {
+    "relief_std_mm_source": 0.76,
+    "relief_std_mm_current": 0.66,
+    "amplitude_ratio": 0.87,
+    "correlation": 0.85,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -1.65,
+     -1.24
+    ]
+   },
+   "R30": {
+    "relief_std_mm_source": 1.89,
+    "relief_std_mm_current": 1.69,
+    "amplitude_ratio": 0.89,
+    "correlation": 0.96,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -3.54,
+     -2.9
+    ]
+   }
+  },
+  "biceps_front": {
+   "probes": 1983,
+   "signed_dist_mm_mean_p5_p95": [
+    -0.16,
+    -0.76,
+    0.39
+   ],
+   "R15": {
+    "relief_std_mm_source": 0.82,
+    "relief_std_mm_current": 0.78,
+    "amplitude_ratio": 0.95,
+    "correlation": 0.92,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -1.49,
+     -1.32
+    ]
+   },
+   "R30": {
+    "relief_std_mm_source": 2.69,
+    "relief_std_mm_current": 2.63,
+    "amplitude_ratio": 0.98,
+    "correlation": 0.99,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -5.18,
+     -4.99
+    ]
+   }
+  },
+  "calf": {
+   "probes": 8596,
+   "signed_dist_mm_mean_p5_p95": [
+    -0.06,
+    -0.23,
+    0.08
+   ],
+   "R15": {
+    "relief_std_mm_source": 0.52,
+    "relief_std_mm_current": 0.51,
+    "amplitude_ratio": 0.97,
+    "correlation": 0.99,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -0.65,
+     -0.6
+    ]
+   },
+   "R30": {
+    "relief_std_mm_source": 1.46,
+    "relief_std_mm_current": 1.44,
+    "amplitude_ratio": 0.98,
+    "correlation": 1.0,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -1.2,
+     -1.12
+    ]
+   }
+  },
+  "chest": {
+   "probes": 4054,
+   "signed_dist_mm_mean_p5_p95": [
+    -0.08,
+    -0.42,
+    0.34
+   ],
+   "R15": {
+    "relief_std_mm_source": 0.84,
+    "relief_std_mm_current": 0.79,
+    "amplitude_ratio": 0.94,
+    "correlation": 0.97,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -1.87,
+     -1.71
+    ]
+   },
+   "R30": {
+    "relief_std_mm_source": 2.24,
+    "relief_std_mm_current": 2.16,
+    "amplitude_ratio": 0.96,
+    "correlation": 0.99,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -4.53,
+     -4.27
+    ]
+   }
+  },
+  "deltoid": {
+   "probes": 2628,
+   "signed_dist_mm_mean_p5_p95": [
+    -0.08,
+    -0.62,
+    0.75
+   ],
+   "R15": {
+    "relief_std_mm_source": 0.89,
+    "relief_std_mm_current": 0.9,
+    "amplitude_ratio": 1.02,
+    "correlation": 0.93,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -2.09,
+     -1.95
+    ]
+   },
+   "R30": {
+    "relief_std_mm_source": 2.86,
+    "relief_std_mm_current": 2.94,
+    "amplitude_ratio": 1.03,
+    "correlation": 0.99,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -6.79,
+     -7.14
+    ]
+   }
+  },
+  "foot": {
+   "probes": 3538,
+   "signed_dist_mm_mean_p5_p95": [
+    -0.52,
+    -2.43,
+    0.13
+   ],
+   "R15": {
+    "relief_std_mm_source": 1.0,
+    "relief_std_mm_current": 1.31,
+    "amplitude_ratio": 1.3,
+    "correlation": 0.83,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -0.73,
+     -0.31
+    ]
+   },
+   "R30": {
+    "relief_std_mm_source": 2.85,
+    "relief_std_mm_current": 2.8,
+    "amplitude_ratio": 0.98,
+    "correlation": 0.9,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -0.34,
+     -0.11
+    ]
+   }
+  },
+  "forearm": {
+   "probes": 4610,
+   "signed_dist_mm_mean_p5_p95": [
+    -0.07,
+    -0.43,
+    0.18
+   ],
+   "R15": {
+    "relief_std_mm_source": 0.51,
+    "relief_std_mm_current": 0.46,
+    "amplitude_ratio": 0.9,
+    "correlation": 0.94,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -0.3,
+     -0.19
+    ]
+   },
+   "R30": {
+    "relief_std_mm_source": 1.19,
+    "relief_std_mm_current": 1.16,
+    "amplitude_ratio": 0.97,
+    "correlation": 0.99,
+    "deepest10pct_groove_mm_source_vs_current": [
+     0.16,
+     0.26
+    ]
+   }
+  },
+  "hand": {
+   "probes": 1809,
+   "signed_dist_mm_mean_p5_p95": [
+    -0.8,
+    -2.56,
+    0.42
+   ],
+   "R15": {
+    "relief_std_mm_source": 1.62,
+    "relief_std_mm_current": 1.58,
+    "amplitude_ratio": 0.97,
+    "correlation": 0.9,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -1.29,
+     -0.24
+    ]
+   },
+   "R30": {
+    "relief_std_mm_source": 3.04,
+    "relief_std_mm_current": 2.95,
+    "amplitude_ratio": 0.97,
+    "correlation": 0.9,
+    "deepest10pct_groove_mm_source_vs_current": [
+     0.13,
+     0.38
+    ]
+   }
+  },
+  "head": {
+   "probes": 4017,
+   "signed_dist_mm_mean_p5_p95": [
+    -0.0,
+    -0.27,
+    0.25
+   ],
+   "R15": {
+    "relief_std_mm_source": 1.12,
+    "relief_std_mm_current": 1.12,
+    "amplitude_ratio": 1.0,
+    "correlation": 0.94,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -1.82,
+     -1.93
+    ]
+   },
+   "R30": {
+    "relief_std_mm_source": 2.47,
+    "relief_std_mm_current": 2.4,
+    "amplitude_ratio": 0.97,
+    "correlation": 0.99,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -3.24,
+     -3.14
+    ]
+   }
+  },
+  "lower_back": {
+   "probes": 2386,
+   "signed_dist_mm_mean_p5_p95": [
+    0.07,
+    -0.39,
+    0.82
+   ],
+   "R15": {
+    "relief_std_mm_source": 0.81,
+    "relief_std_mm_current": 0.79,
+    "amplitude_ratio": 0.97,
+    "correlation": 0.85,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -1.88,
+     -1.64
+    ]
+   },
+   "R30": {
+    "relief_std_mm_source": 2.23,
+    "relief_std_mm_current": 2.18,
+    "amplitude_ratio": 0.98,
+    "correlation": 0.96,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -5.07,
+     -4.75
+    ]
+   }
+  },
+  "neck": {
+   "probes": 494,
+   "signed_dist_mm_mean_p5_p95": [
+    0.01,
+    -0.1,
+    0.12
+   ],
+   "R15": {
+    "relief_std_mm_source": 0.78,
+    "relief_std_mm_current": 0.73,
+    "amplitude_ratio": 0.94,
+    "correlation": 0.99,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -1.68,
+     -1.54
+    ]
+   },
+   "R30": {
+    "relief_std_mm_source": 1.97,
+    "relief_std_mm_current": 1.89,
+    "amplitude_ratio": 0.96,
+    "correlation": 1.0,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -4.21,
+     -4.07
+    ]
+   }
+  },
+  "other:metacarpal": {
+   "probes": 787,
+   "signed_dist_mm_mean_p5_p95": [
+    -0.39,
+    -1.85,
+    0.69
+   ],
+   "R15": {
+    "relief_std_mm_source": 0.86,
+    "relief_std_mm_current": 0.81,
+    "amplitude_ratio": 0.94,
+    "correlation": 0.81,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -0.79,
+     -0.44
+    ]
+   },
+   "R30": {
+    "relief_std_mm_source": 2.48,
+    "relief_std_mm_current": 2.46,
+    "amplitude_ratio": 0.99,
+    "correlation": 0.97,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -1.28,
+     -0.92
+    ]
+   }
+  },
+  "pelvis_glutes": {
+   "probes": 123,
+   "signed_dist_mm_mean_p5_p95": [
+    -0.09,
+    -0.26,
+    0.13
+   ],
+   "R15": {
+    "relief_std_mm_source": 0.49,
+    "relief_std_mm_current": 0.46,
+    "amplitude_ratio": 0.95,
+    "correlation": 0.98,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -0.85,
+     -0.68
+    ]
+   },
+   "R30": {
+    "relief_std_mm_source": 1.56,
+    "relief_std_mm_current": 1.51,
+    "amplitude_ratio": 0.96,
+    "correlation": 1.0,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -2.09,
+     -1.9
+    ]
+   }
+  },
+  "thigh": {
+   "probes": 14638,
+   "signed_dist_mm_mean_p5_p95": [
+    0.02,
+    -0.61,
+    0.74
+   ],
+   "R15": {
+    "relief_std_mm_source": 0.74,
+    "relief_std_mm_current": 0.73,
+    "amplitude_ratio": 0.98,
+    "correlation": 0.71,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -1.47,
+     -1.06
+    ]
+   },
+   "R30": {
+    "relief_std_mm_source": 1.85,
+    "relief_std_mm_current": 1.89,
+    "amplitude_ratio": 1.02,
+    "correlation": 0.89,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -3.15,
+     -2.9
+    ]
+   }
+  },
+  "triceps_back": {
+   "probes": 2142,
+   "signed_dist_mm_mean_p5_p95": [
+    -0.04,
+    -0.38,
+    0.31
+   ],
+   "R15": {
+    "relief_std_mm_source": 0.71,
+    "relief_std_mm_current": 0.72,
+    "amplitude_ratio": 1.02,
+    "correlation": 0.93,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -1.18,
+     -1.16
+    ]
+   },
+   "R30": {
+    "relief_std_mm_source": 1.89,
+    "relief_std_mm_current": 1.91,
+    "amplitude_ratio": 1.01,
+    "correlation": 0.99,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -2.72,
+     -2.83
+    ]
+   }
+  },
+  "upper_back": {
+   "probes": 6431,
+   "signed_dist_mm_mean_p5_p95": [
+    -0.03,
+    -0.41,
+    0.43
+   ],
+   "R15": {
+    "relief_std_mm_source": 0.91,
+    "relief_std_mm_current": 0.94,
+    "amplitude_ratio": 1.04,
+    "correlation": 0.94,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -2.14,
+     -2.12
+    ]
+   },
+   "R30": {
+    "relief_std_mm_source": 2.63,
+    "relief_std_mm_current": 2.72,
+    "amplitude_ratio": 1.03,
+    "correlation": 0.98,
+    "deepest10pct_groove_mm_source_vs_current": [
+     -5.51,
+     -5.74
+    ]
+   }
+  }
+ }
+}

@@ -656,3 +656,66 @@ No smoothing of the surface and no corrective shape.
 4. Slight angularity of the anterior fold at 90–135°.
 
 **Nothing is marked complete; 06i is the current candidate for the owner's visual review.**
+
+## MD1 / ST: muscle definition restored (07a → 07b) and the standing-model review
+
+**Checkpoints, all read-only:**
+- 06j `HGPT_Male_Rig_06j_ElbowContact_WIP_PROXY` (`3b16e5cf…`): elbow contact keys, anatomical hinge posing.
+- 07a `…_07a_DefinitionRestore` (`2146a8f7…`): superseded by 07b.
+- **07b `…_07b_DefinitionRestore_FoldRelief` (`5592268…`): latest verified checkpoint.**
+
+Earlier checkpoints are unchanged. Deformation development is paused at the owner's request.
+
+**Why the body looked like a mannequin** (`muscle_relief_audit_blender.py`, renders under identical lighting):
+- Muscle volume was intact.
+- The 20–25 mm quads stepped over the source's roughly 10 mm separations between muscles.
+- Flat-shading facets had passed for definition.
+
+**The restore** (`densify_project_blender.py`):
+- One subdivision level everywhere except the hands; each new vertex is placed onto the approved source.
+- A symmetry guard and a posed fold guard decide what is not imported.
+- Abdominal groove depth: 43 % → 76 % of the source (15 mm scale), 60 % → 82 % (30 mm scale).
+- Chest, arms and back relief correlate 0.92–0.99 with the source.
+- 48,086 vertices.
+
+**07b deformation verification** (anatomical elbow hinge):
+
+| Check | Result |
+|---|---|
+| Stand / curl / press bottom / press middle / press top | 0 / 0 / 0 / 0 / 0 pairs |
+| Squat | Known hip, groin and knee contact, unchanged |
+| Arms-down and curl contact | 0 |
+| Shoulder sweep 0→170→0 | Max 4 intersections, 5 folded faces, 5.76 mm/°, symmetric up and down |
+| Chest lift at 105° | 13 mm, unchanged |
+
+**Proportions vs the approved source** (`proportion_compare_blender.py`, shared rest pose, tape-measure girths at the same planes; `standing_07b/proportions_07b.json`):
+
+| Measurement | Difference |
+|---|---|
+| Height | −0.4 mm |
+| Shoulder breadth | −1.8 mm |
+| Hip breadth | −3.8 mm |
+| Chest girth | −1.7 mm |
+| Waist girth (at 1080 mm) | +3.2 mm |
+| Hip girth | −1.5 mm |
+| Thigh girth | −3 / −6 mm |
+| Calf girth | −0.8 mm |
+| Neck girth | −4 mm |
+| Upper-arm girth | **−6 mm (−1.6 %)** |
+| Forearm girth | −3.5 mm (−1 %) |
+
+Deviation from the source: |dev| mean 0.06 mm. 410 vertices are more than 2 mm off: the shorts region, the hands and the toes.
+
+**Visual defects found in the standing review** (not corrected; awaiting the owner's review):
+1. **Upper-back midline:** a narrow dark slit along the thoracic spine, at rest and standing. The source has a broad, smooth groove instead.
+2. **Sternum and neck base:**
+   - the midline sternal line is sharper and slightly notched compared with the source;
+   - small crinkle lines at the neck/trapezius junction and under the jaw.
+3. **Pelvis:** the source wears modelled shorts, so the genital and gluteal anatomy under them has no source reference. The current shape is improvised and crude, with a fold and flap on the left. Flatter patches in flat shading mark where the shorts surface was too far away to snap to. This needs a decision: anatomical underwear/shorts or a nude anatomical form.
+4. **Head and face:** visibly softer than the source (eyelids, lips, the hair sculpt). The face was retopologised at lower density and isn't densified.
+5. **Hands:**
+   - not densified, so there's a resolution step at the wrist in flat shading (not visible when smooth);
+   - 0.8 mm mean inside the source (up to 2.6 mm);
+   - in the standing pose the palms face forward and the fingers splay, because the pose doesn't rotate the forearm inward. This is a pose-setup issue.
+6. **Feet:** toes slightly softer and up to 2.4 mm inside the source.
+7. **Arms:** about 1.6 % slimmer than the source at mid-upper-arm and 1 % at the forearm.

@@ -42,9 +42,18 @@ MIDLINE = [(1.578, 0.0), (1.600, -4.2 * MM), (1.620, -6.1 * MM), (1.640, -6.1 * 
            (1.700, -8.5 * MM), (1.725, -6.0 * MM), (1.745, 0.0)]             # face midline x(z), measured
 EYE_R = {"inner": (3 * MM, 1.6930), "outer": (35 * MM, 1.6950), "upper": (16 * MM, 1.6985), "lower": (19 * MM, 1.6910)}
 EYE_C = (19 * MM, 1.6945)                                                     # ring centre (right eye)
+# left eye measured on its own (the face is asymmetric; mirroring the right eye folded quads at its corners)
+EYE_L = {"inner": (-20 * MM, 1.6925), "outer": (-50 * MM, 1.6955), "upper": (-34 * MM, 1.6990), "lower": (-36 * MM, 1.6910)}
+EYE_LC = (-35 * MM, 1.6945)
+# nose outline relative to the face midline (alar groove / nose base): dorsum top, alar top, alar lateral point,
+# alar base, subnasale.  Nostril wings measured at x +10 / -25 mm (midline -7.5), nostril base z 1.648
+NOSE = {"dorsum": 1.6700, "alar_top": (12 * MM, 1.6660), "alar_lat": (17.5 * MM, 1.6550), "alar_base": (15 * MM, 1.6490),
+        "subnasale": 1.6455}
+NOSE_RINGS = 1                                                                # the nose base sits only ~5 mm above the shared mouth row
+NOSE_MARGIN = (4.0 * MM, 3.0 * MM)
 MOUTH = {"corner": (20 * MM, 1.6285), "upper_mid": 1.6370, "lower_mid": 1.6170, "stomion": 1.6275}
 EYE_RINGS = 3                                                                 # rings between the rectangle and the fissure
-MOUTH_RINGS = 3
+MOUTH_RINGS = 2                                                               # 2: the philtrum (8.5 mm) also carries the nose rings
 EYE_MARGIN = (5.0 * MM, 5.0 * MM)                                             # rectangle beyond the fissure (x, z)
 MOUTH_MARGIN = (5.0 * MM, 3.5 * MM)
 
@@ -124,7 +133,10 @@ def build_side(side, layout=None):
     # ---- feature curves for this side (left side mirrored about the face midline)
     def mir(p):
         x, z = p; return (x if side > 0 else 2 * mid_x(z) - x, z)
-    ec = np.array(mir(EYE_C)); ei, eo, eu, el = (np.array(mir(EYE_R[k])) for k in ("inner", "outer", "upper", "lower"))
+    if side > 0:
+        ec = np.array(EYE_C); ei, eo, eu, el = (np.array(EYE_R[k]) for k in ("inner", "outer", "upper", "lower"))
+    else:
+        ec = np.array(EYE_LC); ei, eo, eu, el = (np.array(EYE_L[k]) for k in ("inner", "outer", "upper", "lower"))
     # fissure as a closed polygon (upper lid inner->outer, lower lid outer->inner), smooth quadratic arcs
     def arc(p0, pm, p1, n=40):
         t = np.linspace(0, 1, n)[:, None]; return (1 - t) ** 2 * p0 + 2 * (1 - t) * t * (2 * pm - 0.5 * (p0 + p1)) + t ** 2 * p1
@@ -179,12 +191,22 @@ def build_side(side, layout=None):
     cm = min(c for c in range(F + 1) if cols_xm[c] >= mcorner[0] * sg + MOUTH_MARGIN[0])
     if layout:
         rm0, rm1 = layout["mouth_rect_rows"]; cm = layout["mouth_rect_cols"][1]
+    rn0 = rm1                                                     # nose rectangle sits on the mouth rectangle's top row
+    rn1 = min(r for r in range(R + 1) if rows_z[r] >= NOSE["dorsum"] + NOSE_MARGIN[1])
+    cols_xn = [np.mean([gx(r, c) for r in range(rn0, rn1 + 1)]) for c in range(F + 1)]
+    cn = min(c for c in range(F + 1) if cols_xn[c] >= (mid_x(NOSE["alar_lat"][1]) * sg + NOSE["alar_lat"][0] + NOSE_MARGIN[0]))
+    if layout:
+        rn0, rn1 = layout["nose_rect_rows"]; cn = layout["nose_rect_cols"][1]
+    assert rn1 <= re0 or cn <= ce0, f"nose {rn0}-{rn1}x{cn} and eye {re0}-{re1}x{ce0}-{ce1} rectangles overlap"
     hole = set()
     for r in range(re0 + 1, re1):
         for c in range(ce0 + 1, ce1):
             hole.add((r, c))
     for r in range(rm0 + 1, rm1):
         for c in range(0, cm):
+            hole.add((r, c))
+    for r in range(rn0 + 1, rn1):
+        for c in range(0, cn):
             hole.add((r, c))
 
     # ---- grid vertices (boundary = existing shell vertices; midline shared between the sides)
@@ -209,7 +231,8 @@ def build_side(side, layout=None):
             q = [(r, c), (r, c + 1), (r + 1, c + 1), (r + 1, c)]
             inside_eye = all(re0 <= qq[0] <= re1 and ce0 <= qq[1] <= ce1 for qq in q)
             inside_mouth = all(rm0 <= qq[0] <= rm1 and 0 <= qq[1] <= cm for qq in q)
-            if inside_eye or inside_mouth or not all(qq in gv for qq in q):
+            inside_nose = all(rn0 <= qq[0] <= rn1 and 0 <= qq[1] <= cn for qq in q)
+            if inside_eye or inside_mouth or inside_nose or not all(qq in gv for qq in q):
                 continue
             faces.append([gv[qq] for qq in q])
 
@@ -227,7 +250,7 @@ def build_side(side, layout=None):
     inner = map_sides(ring_ext, anchors, [w, h, w, h])
     rings = [[gv[k] for k in rect]]
     for k in range(1, EYE_RINGS + 1):
-        t = k / (EYE_RINGS + 1); t = 1 - (1 - t) ** 1.35                     # rings tighten towards the lid margin
+        t = k / (EYE_RINGS + 1)                                               # evenly spaced (tightening collapsed the corners)
         rings.append([V(("eye", side, k, i), *((1 - t) * rect2[i] + t * inner[i])) for i in range(len(rect))])
     rings.append([V(("eye", side, "fiss", i), *inner[i]) for i in range(len(rect))])
     n = len(rect)
@@ -257,60 +280,67 @@ def build_side(side, layout=None):
         for c in range(w):
             faces.append([eg[r, c], eg[r, c + 1], eg[r + 1, c + 1], eg[r + 1, c]])
 
-    # ---- mouth: half-rectangle -> half-rings -> vermilion -> lips grid (middle row = stomion)
-    wm, hm = cm, rm1 - rm0
-    mrect = [(rm1, c) for c in range(0, cm)] + [(r, cm) for r in range(rm1, rm0, -1)] + [(rm0, c) for c in range(cm, -1, -1)]
-    mrect2 = [G[k] for k in mrect]
-    # vermilion correspondence by arc length: top side -> upper border to 70 %, lateral side -> around the corner,
-    # bottom side -> lower border from 30 %
+    # ---- midline features (mouth, nose): half-rectangle -> half-rings -> feature outline -> closing grid
+    def midline_feature(tag, r0, r1, cw, outline, fr_top, fr_bot, nrings, top_pt, bot_pt):
+        """outline runs from top_pt (on the midline) round the lateral side to bot_pt (on the midline); the
+        rectangle's top side maps to the outline up to fr_top of its length, the lateral side around the extreme,
+        the bottom side from fr_bot.  The closing grid's midline column is shared with the other side."""
+        wm, hm = cw, r1 - r0
+        mrect = [(r1, c) for c in range(0, cw)] + [(r, cw) for r in range(r1, r0, -1)] + [(r0, c) for c in range(cw, -1, -1)]
+        mrect2 = [G[k] for k in mrect]
+        Lo = along(outline)[1][-1]
+        minner = map_sides(outline, [0.0, fr_top * Lo, fr_bot * Lo, Lo], [wm, hm, wm]) + [bot_pt]
+        minner[0] = top_pt
+        mr = [[gv[k] for k in mrect]]
+        for k in range(1, nrings + 1):
+            t = k / (nrings + 1); ring = []
+            for i in range(len(mrect)):
+                p = (1 - t) * mrect2[i] + t * minner[i]
+                key = ("mid_" + tag, "top", k) if i == 0 else (("mid_" + tag, "bot", k) if i == len(mrect) - 1 else (tag, side, k, i))
+                if i in (0, len(mrect) - 1):
+                    p = np.array([mid_x(p[1]), p[1]])
+                ring.append(V(key, *p))
+            mr.append(ring)
+        mr.append([V(("mid_" + tag, "top", "rim") if i == 0 else (("mid_" + tag, "bot", "rim") if i == len(mrect) - 1 else ("rim", tag, side, i)),
+                     *minner[i]) for i in range(len(mrect))])
+        for a_, b_ in zip(mr[:-1], mr[1:]):
+            for i in range(len(mrect) - 1):
+                faces.append([a_[i], a_[i + 1], b_[i + 1], b_[i]])
+        vm, vm2 = mr[-1], minner
+        Tv = vm[0:wm + 1]; Rv = list(reversed(vm[wm:wm + hm + 1])); Bv = list(reversed(vm[wm + hm:]))
+        T2 = vm2[0:wm + 1]; R2 = list(reversed(vm2[wm:wm + hm + 1])); B2 = list(reversed(vm2[wm + hm:]))
+        L2 = [np.array([mid_x(z), z]) for z in np.linspace(bot_pt[1], top_pt[1], hm + 1)]
+        lg = {}
+        for r in range(hm + 1):
+            for c in range(wm + 1):
+                if r == 0:
+                    lg[r, c] = Bv[c]
+                elif r == hm:
+                    lg[r, c] = Tv[c]
+                elif c == wm:
+                    lg[r, c] = Rv[r]
+                elif c == 0:
+                    lg[r, c] = V(("mid_" + tag, "fill", r), *L2[r])
+                else:
+                    lg[r, c] = V((tag + "_fill", side, r, c), *coons(idx_fn(B2), idx_fn(T2), idx_fn(L2), idx_fn(R2), c / wm, r / hm))
+        for r in range(hm):
+            for c in range(wm):
+                faces.append([lg[r, c], lg[r, c + 1], lg[r + 1, c + 1], lg[r + 1, c]])
+        return len(mrect)
+
+    # mouth: vermilion border (upper arc to the corner, lower arc back); lips grid middle row = stomion
     up_v = arc(mu, 0.5 * (mu + mcorner) + np.array([0, 0.0015]), mcorner); lo_v = arc(mcorner, 0.5 * (ml + mcorner) - np.array([0, 0.0015]), ml)
-    Lu, Ll = along(up_v)[1][-1], along(lo_v)[1][-1]
-    minner = map_sides(np.vstack([up_v, lo_v[1:]]), [0.0, 0.7 * Lu, Lu + 0.3 * Ll, Lu + Ll], [wm, hm, wm]) + [ml]
-    minner[0] = mu
-    mr = [[gv[k] for k in mrect]]
-    for k in range(1, MOUTH_RINGS + 1):
-        t = k / (MOUTH_RINGS + 1)
-        ring = []
-        for i in range(len(mrect)):
-            p = (1 - t) * mrect2[i] + t * minner[i]
-            key = ("mid_m", "top", k) if i == 0 else (("mid_m", "bot", k) if i == len(mrect) - 1 else ("mouth", side, k, i))
-            if i in (0, len(mrect) - 1):
-                p = np.array([mid_x(p[1]), p[1]])
-            ring.append(V(key, *p))
-        mr.append(ring)
-    ring = []
-    for i in range(len(mrect)):
-        key = ("mid_m", "top", "verm") if i == 0 else (("mid_m", "bot", "verm") if i == len(mrect) - 1 else ("verm", side, i))
-        ring.append(V(key, *minner[i]))
-    mr.append(ring)
-    nm = len(mrect)
-    for a_, b_ in zip(mr[:-1], mr[1:]):
-        for i in range(nm - 1):
-            faces.append([a_[i], a_[i + 1], b_[i + 1], b_[i]])
-    # lips grid: sides = vermilion top arc (wm), lateral arc (hm), bottom arc (wm), midline (hm)
-    vm = mr[-1]; vm2 = minner
-    Tv = vm[0:wm + 1]; Rv = vm[wm:wm + hm + 1]; Bv = list(reversed(vm[wm + hm:]))
-    T2 = vm2[0:wm + 1]; R2 = list(reversed(vm2[wm:wm + hm + 1])); B2 = list(reversed(vm2[wm + hm:]))
-    Rv = list(reversed(Rv))                                                   # bottom -> top
-    L2 = [np.array([mid_x(z), z]) for z in np.linspace(ml[1], mu[1], hm + 1)]
-    lg = {}
-    for r in range(hm + 1):
-        for c in range(wm + 1):
-            if r == 0:
-                lg[r, c] = Bv[c]
-            elif r == hm:
-                lg[r, c] = Tv[c]
-            elif c == wm:
-                lg[r, c] = Rv[r]
-            elif c == 0:
-                lg[r, c] = V(("mid_m", "lip", r), *L2[r])
-            else:
-                lg[r, c] = V(("lip", side, r, c), *coons(idx_fn(B2), idx_fn(T2), idx_fn(L2), idx_fn(R2), c / wm, r / hm))
-    for r in range(hm):
-        for c in range(wm):
-            faces.append([lg[r, c], lg[r, c + 1], lg[r + 1, c + 1], lg[r + 1, c]])
+    Lu = along(up_v)[1][-1]; verm_c = np.vstack([up_v, lo_v[1:]]); Lv_ = along(verm_c)[1][-1]
+    n_m = midline_feature("m", rm0, rm1, cm, verm_c, 0.7 * Lu / Lv_, (Lu + 0.3 * (Lv_ - Lu)) / Lv_, MOUTH_RINGS, mu, ml)
+    # nose: dorsum -> alar top -> alar lateral point -> alar base -> subnasale (alar-groove loops)
+    nd = np.array([mid_x(NOSE["dorsum"]), NOSE["dorsum"]]); ns = np.array([mid_x(NOSE["subnasale"]), NOSE["subnasale"]])
+    rel = lambda q: np.array([mid_x(q[1]) + sg * q[0], q[1]])
+    n_up = arc(nd, rel(NOSE["alar_top"]), rel(NOSE["alar_lat"])); n_lo = arc(rel(NOSE["alar_lat"]), rel(NOSE["alar_base"]), ns)
+    nose_c = np.vstack([n_up, n_lo[1:]]); Lnu = along(n_up)[1][-1]; Lnc = along(nose_c)[1][-1]
+    n_n = midline_feature("n", rn0, rn1, cn, nose_c, 0.75 * Lnu / Lnc, (Lnu + 0.35 * (Lnc - Lnu)) / Lnc, NOSE_RINGS, nd, ns)
     return faces, {"eye_rect_rows": [re0, re1], "eye_rect_cols": [ce0, ce1], "eye_ring_vertices": len(rect),
-                   "mouth_rect_rows": [rm0, rm1], "mouth_rect_cols": [0, cm], "mouth_half_ring_vertices": len(mrect)}
+                   "mouth_rect_rows": [rm0, rm1], "mouth_rect_cols": [0, cm], "mouth_half_ring_vertices": n_m,
+                   "nose_rect_rows": [rn0, rn1], "nose_rect_cols": [0, cn], "nose_half_ring_vertices": n_n}
 
 
 info = {}
@@ -325,7 +355,11 @@ for f in allf:
         bm.faces.new(f); made += 1
 bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
 # light on-surface relax of the new face vertices (front-ray re-projection); boundary / midline / features fixed
-newv = set(nv.values()); fixedkeys = {v for k, v in nv.items() if k[0] in ("mid", "mid_m") or k[0] in ("verm",) or (k[0] == "eye" and k[2] == "fiss")}
+newv = set(nv.values()); # fixed in both relax passes: midline chain, feature outlines (eyelid line, vermilion, nose outline) and the designed
+# rings themselves (nearest-surface relax collapsed neighbouring rings into the nose-lip and eye-corner creases)
+fixedkeys = {v for k, v in nv.items() if k[0] in ("mid", "mid_m", "mid_n", "rim", "eye", "m", "n")}
+_ring = {v for k, v in nv.items() if k[0] in ("eye", "m", "n", "rim")}
+fixedkeys |= {v for k, v in nv.items() if k[0] == "g" and any(e.other_vert(v) in _ring for e in v.link_edges)}  # rectangle outlines
 for _ in range(6):
     upd = {}
     for v in newv - fixedkeys:
@@ -345,7 +379,8 @@ for _ in range(10):
             continue
         nb = [e.other_vert(v) for e in v.link_edges]
         avg = sum((w.co for w in nb), Vector()) / len(nb); p = v.co.lerp(avg, 0.35)
-        h = bvh.find_nearest(p)[0]
+        in_face = abs(p.x) < 0.07 and p.y < -0.05 and 1.585 < p.z < 1.745
+        h = front_hit(p.x, p.z) if in_face else bvh.find_nearest(p)[0]   # face: front rays, as built (no crease snapping)
         if abs(h.x) > EAR_X and 1.63 < h.z < 1.72 and abs(h.x) > abs(v.co.x) + 0.002:
             continue                                      # never slide onto the ear
         upd[v] = h
@@ -353,10 +388,15 @@ for _ in range(10):
         v.co = h
 bm.to_mesh(me); me.update()
 body["TASK3_FACE_DESIGN"] = json.dumps({"midline": MIDLINE, "eye_right": EYE_R, "eye_centre": EYE_C, "mouth": MOUTH,
-                                        "eye_rings": EYE_RINGS, "mouth_rings": MOUTH_RINGS, "layout": info, "source_is_geometry_proxy": True})
+                                        "eye_left": EYE_L, "nose": NOSE, "eye_rings": EYE_RINGS, "mouth_rings": MOUTH_RINGS, "nose_rings": NOSE_RINGS, "layout": info, "source_is_geometry_proxy": True})
 body["PROXY_SOURCE_ONLY"] = True; body["TASK3_SHELL_DESIGN"] = SHELL["TASK3_SHELL_DESIGN"]
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT), check_existing=False)
 L = np.array([e.calc_length() for e in bm.edges])
+import os  # noqa: E402
+if os.environ.get("FACE_DIAG"):
+    inv = {v: k for k, v in nv.items()}
+    for e in sorted(bm.edges, key=lambda e: e.calc_length())[:8]:
+        print("DIAG %.2f mm" % (e.calc_length() * 1000), [inv.get(v, ("shell",)) for v in e.verts], [round(c * 1000, 1) for c in e.verts[0].co])
 rep = {"out": str(OUT), "object": body.name, "faces_added": made, "new_vertices": len(nv), "vertices": len(bm.verts), "faces": len(bm.faces),
        "non_quads": sum(len(f.verts) != 4 for f in bm.faces), "min_edge_mm": round(float(L.min()) * 1000, 2), "layout": info}
 REP.write_text(json.dumps(rep, indent=1)); print("FACE", json.dumps(rep))

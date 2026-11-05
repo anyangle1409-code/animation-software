@@ -134,3 +134,38 @@ So the shell's Mirror + Shrinkwrap is **applied** in a full-body object, `HGPT_M
 3. **Ears:** separate ear meshes, or caps over the ear openings.
 4. **Hair:** a separate layer (the sculpted front hair tuft currently pokes through the scalp cage).
 5. **Re-verification** against the real source (the five part ZIPs are still missing).
+
+## Update: nose loops and left-eye outline (03g, 5 Nov) — mixed result
+
+**Checkpoint:** `HGPT_Male_Retopo_03g_TorsoHead_FaceNose_WIP_PROXY.blend` (`8173ad55…`), a new file. 03f is kept for comparison.
+
+**What changed:**
+- **Mouth and nose share one builder.** For each, a half-rectangle at the midline is replaced by half-rings down to the measured outline, closed by a grid.
+- **Nose outline, relative to the face midline:**
+  - top of the nasal bridge at z 1670 mm;
+  - top of the nostril wing at (12, 1666) mm;
+  - widest point of the wing at (17.5, 1655) mm;
+  - base of the wing at (15, 1649) mm;
+  - base of the nose (subnasale) at z 1645.5 mm.
+- **Left eye** measured on its own: inner corner (−20, 1692.5), outer corner (−50, 1695.5), upper lid (−34, 1699), lower lid (−36, 1691) mm.
+- **Rings:** the eye, nose and mouth rings are now held fixed by the relax passes (relaxing collapsed neighbouring rings into the nose–lip and eye-corner creases). The relax inside the face projects along the front direction. Eye rings are evenly spaced.
+
+**Measured (`audit_03g_face_nose.json`):**
+- 4,464 faces, 100 % quads, closed face, 1 component.
+- 20 three-edge and 16 five-edge vertices, all at rectangle corners.
+- **Shortest edge 1.5 mm** (03f: 0.6 mm; the trial without fixed rings: 0.1 mm).
+- Shape capture: median 0.22 mm, p95 2.7 mm.
+- **Poor quads: 132**, of which head / neck 96. This is up from 84 in 03f, because the fixed ring quads are thinner.
+- The worst corner (2.3°) is in the nostril-sill strip under the nose.
+
+**Visual verdict:**
+- **03g is not yet better than 03f.**
+- The nose half-rectangle reads as a box, and the nose tip still pokes through the cage.
+- The eye-closing grid and the inner rings crinkle inside the 7.5 mm eye opening.
+- Under the chin, the cage dips below the surface in places.
+- **The eye and nose regions are not production quality in either checkpoint.**
+
+**What it needs:**
+- Eyes: one quad loop per lid (upper and lower lid rings meeting at the eye corners) instead of a closing grid, plus a higher ring count (24 or more).
+- Nose: a nose patch with loops around the nostril wings, built from the nose's own side profile (it projects 12 mm in front of the lip) rather than front-projected cells.
+- Re-checking both against the real source.

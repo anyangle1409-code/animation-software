@@ -1,0 +1,36 @@
+{
+ "in": "HGPT_Female_F10d_Rig_WIP.blend",
+ "breast_region_vertices": 2219,
+ "helpers": {
+  "breast_r": {
+   "head": [
+    0.0883,
+    -0.04,
+    1.2244
+   ],
+   "front": [
+    0.0607,
+    -0.1748,
+    1.1969
+   ]
+  },
+  "breast_l": {
+   "head": [
+    -0.0878,
+    -0.0403,
+    1.2251
+   ],
+   "front": [
+    -0.0607,
+    -0.1747,
+    1.1969
+   ]
+  }
+ },
+ "arm_share_moved_to_ribcage": {
+  "mean": 0.094,
+  "max": 0.445
+ },
+ "bra_weights": "re-transferred from the body (POLYINTERP_NEAREST), <= 4 influences, normalised",
+ "out": "<scratchpad>/f10/F10e_try3.blend"
+}

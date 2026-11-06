@@ -1,0 +1,168 @@
+{
+ "in": "F10e_try3.blend",
+ "breast_vertices": 2219,
+ "breast_weight_share_arm_girdle": {
+  "mean": 0.104,
+  "p95": 0.519,
+  "max": 0.924,
+  "vertices_over_0.2": 465
+ },
+ "glenohumeral_only": true,
+ "elevations": {
+  "0": {
+   "breast_core_edge_stretch": {
+    "p95": 1.0,
+    "max": 1.0,
+    "p5": 1.0
+   },
+   "breast_edge_stretch": {
+    "p95": 1.109,
+    "max": 2.332,
+    "p5": 0.936
+   },
+   "breast_left_centroid_shift_in_sternum_frame_mm": 2.6,
+   "breast_right_centroid_shift_in_sternum_frame_mm": 2.3,
+   "skin_outside_bra_vertices": 76,
+   "bra_band_off_skin_mm": {
+    "p95": 4.02,
+    "max": 7.74,
+    "floating_over_6mm": 5
+   },
+   "bra_cups_off_skin_mm": {
+    "p95": 4.53,
+    "max": 7.34,
+    "floating_over_6mm": 1
+   },
+   "bra_straps_off_skin_mm": {
+    "p95": 3.97,
+    "max": 5.67,
+    "floating_over_6mm": 0
+   },
+   "chest_self_intersections": 322
+  },
+  "45": {
+   "breast_core_edge_stretch": {
+    "p95": 1.0,
+    "max": 1.0,
+    "p5": 1.0
+   },
+   "breast_edge_stretch": {
+    "p95": 1.152,
+    "max": 1.823,
+    "p5": 0.982
+   },
+   "breast_left_centroid_shift_in_sternum_frame_mm": 2.1,
+   "breast_right_centroid_shift_in_sternum_frame_mm": 1.8,
+   "skin_outside_bra_vertices": 5,
+   "bra_band_off_skin_mm": {
+    "p95": 4.02,
+    "max": 7.74,
+    "floating_over_6mm": 5
+   },
+   "bra_cups_off_skin_mm": {
+    "p95": 4.53,
+    "max": 7.34,
+    "floating_over_6mm": 1
+   },
+   "bra_straps_off_skin_mm": {
+    "p95": 3.97,
+    "max": 5.67,
+    "floating_over_6mm": 0
+   },
+   "chest_self_intersections": 0
+  },
+  "90": {
+   "breast_core_edge_stretch": {
+    "p95": 1.0,
+    "max": 1.0,
+    "p5": 1.0
+   },
+   "breast_edge_stretch": {
+    "p95": 1.606,
+    "max": 4.691,
+    "p5": 0.935
+   },
+   "breast_left_centroid_shift_in_sternum_frame_mm": 6.4,
+   "breast_right_centroid_shift_in_sternum_frame_mm": 5.7,
+   "skin_outside_bra_vertices": 29,
+   "bra_band_off_skin_mm": {
+    "p95": 4.02,
+    "max": 7.74,
+    "floating_over_6mm": 5
+   },
+   "bra_cups_off_skin_mm": {
+    "p95": 4.53,
+    "max": 7.34,
+    "floating_over_6mm": 1
+   },
+   "bra_straps_off_skin_mm": {
+    "p95": 3.97,
+    "max": 5.67,
+    "floating_over_6mm": 0
+   },
+   "chest_self_intersections": 53
+  },
+  "135": {
+   "breast_core_edge_stretch": {
+    "p95": 1.0,
+    "max": 1.0,
+    "p5": 1.0
+   },
+   "breast_edge_stretch": {
+    "p95": 1.973,
+    "max": 7.015,
+    "p5": 0.887
+   },
+   "breast_left_centroid_shift_in_sternum_frame_mm": 9.8,
+   "breast_right_centroid_shift_in_sternum_frame_mm": 8.7,
+   "skin_outside_bra_vertices": 34,
+   "bra_band_off_skin_mm": {
+    "p95": 4.02,
+    "max": 7.74,
+    "floating_over_6mm": 5
+   },
+   "bra_cups_off_skin_mm": {
+    "p95": 4.53,
+    "max": 7.34,
+    "floating_over_6mm": 1
+   },
+   "bra_straps_off_skin_mm": {
+    "p95": 3.97,
+    "max": 5.67,
+    "floating_over_6mm": 0
+   },
+   "chest_self_intersections": 97
+  },
+  "170": {
+   "breast_core_edge_stretch": {
+    "p95": 1.0,
+    "max": 1.0,
+    "p5": 1.0
+   },
+   "breast_edge_stretch": {
+    "p95": 2.194,
+    "max": 8.123,
+    "p5": 0.85
+   },
+   "breast_left_centroid_shift_in_sternum_frame_mm": 11.4,
+   "breast_right_centroid_shift_in_sternum_frame_mm": 10.2,
+   "skin_outside_bra_vertices": 24,
+   "bra_band_off_skin_mm": {
+    "p95": 4.02,
+    "max": 7.74,
+    "floating_over_6mm": 5
+   },
+   "bra_cups_off_skin_mm": {
+    "p95": 4.53,
+    "max": 7.34,
+    "floating_over_6mm": 1
+   },
+   "bra_straps_off_skin_mm": {
+    "p95": 3.97,
+    "max": 5.67,
+    "floating_over_6mm": 0
+   },
+   "chest_self_intersections": 106
+  }
+ }
+}

@@ -8,7 +8,8 @@ from the source albedo onto the new meshes; the source uses its own albedo).
 Sets (argument 3):
   rest     source vs new model in the shared A-pose (the source has no rig): front, back, left, right, 3/4 front, 3/4 rear
   stand    new model in the natural standing pose: the same six views
-  close    close-ups in the natural pose: face (front, 3/4), hands, feet, pelvis (front, back), shoulders (front, back)
+  close    close-ups in the natural pose: face (front, 3/4, side), hands, feet, pelvis, shoulders, armpits, ponytail,
+           bra (front, back), shorts (side)
   nude     the body without the removable bra / shorts (clay only): front, back, side, 3/4
   wire     topology diagnostics (Workbench, flat shading + wire): front, back, face, hand, foot
 
@@ -139,6 +140,13 @@ elif SET in ("stand", "close"):
             shot(f"close_{mode}_shoulders_back", (0, 1, 0.1), (0, 0, 1.25), 0.55, sq)
             shot(f"close_{mode}_pelvis_front", (0, -1, 0), (0, 0, 0.86), 0.50, sq)
             shot(f"close_{mode}_pelvis_back", (0, 1, 0), (0, 0, 0.86), 0.50, sq)
+            shot(f"close_{mode}_armpit_r", (0.55, -0.8, -0.15), (0.16, -0.02, 1.19), 0.26, sq)
+            shot(f"close_{mode}_armpit_l", (-0.55, -0.8, -0.15), (-0.16, -0.02, 1.19), 0.26, sq)
+            shot(f"close_{mode}_ponytail_back", (0, 1, 0.05), (0, 0.06, 1.45), 0.42, sq)
+            shot(f"close_{mode}_ponytail_side", (1, 0.1, 0.05), (0, 0.04, 1.45), 0.42, sq)
+            shot(f"close_{mode}_bra_front", (0, -1, 0.1), (0, -0.04, 1.2), 0.40, sq)
+            shot(f"close_{mode}_bra_back", (0, 1, 0.2), (0, 0.02, 1.25), 0.42, sq)
+            shot(f"close_{mode}_shorts_side", (1, -0.3, 0), (0, 0, 0.86), 0.45, sq)
             for s_, sg in (("r", 1), ("l", -1)):
                 hb = rig.pose.bones.get(f"hand_{s_}") if rig else None
                 hc = (rig.matrix_world @ hb.head) if hb else Vector((sg * 0.25, -0.02, 0.80))

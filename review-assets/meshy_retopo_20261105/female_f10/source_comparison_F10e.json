@@ -1,0 +1,97 @@
+{
+ "models": [
+  "source",
+  "new_clothed",
+  "new_body"
+ ],
+ "source": {
+  "height_m": 1.68,
+  "bust_cm": 94.7,
+  "underbust_cm": 72.9,
+  "waist_cm": 63.4,
+  "hips_cm": 99.5,
+  "thigh_cm": 54.6,
+  "calf_cm": 35.0,
+  "upper_arm_cm": 30.6,
+  "shoulder_breadth_deltoids_cm": 45.3,
+  "hip_width_cm": 37.1
+ },
+ "new_clothed": {
+  "height_m": 1.6794,
+  "bust_cm": 94.8,
+  "underbust_cm": 73.0,
+  "waist_cm": 63.5,
+  "hips_cm": 99.4,
+  "thigh_cm": 54.5,
+  "calf_cm": 35.0,
+  "upper_arm_cm": 30.6,
+  "shoulder_breadth_deltoids_cm": 45.3,
+  "hip_width_cm": 36.8
+ },
+ "new_body": {
+  "height_m": 1.6445,
+  "bust_cm": 93.6,
+  "underbust_cm": 71.6,
+  "waist_cm": 63.5,
+  "hips_cm": 97.9,
+  "thigh_cm": 54.5,
+  "calf_cm": 35.0,
+  "upper_arm_cm": 30.6,
+  "shoulder_breadth_deltoids_cm": 45.3,
+  "hip_width_cm": 36.8
+ },
+ "new_clothed_vs_source_pct": {
+  "height_m": -0.04,
+  "bust_cm": 0.11,
+  "underbust_cm": 0.14,
+  "waist_cm": 0.16,
+  "hips_cm": -0.1,
+  "thigh_cm": -0.18,
+  "calf_cm": 0.0,
+  "upper_arm_cm": 0.0,
+  "shoulder_breadth_deltoids_cm": 0.0,
+  "hip_width_cm": -0.81
+ },
+ "deviation_new_to_source": {
+  "feet": {
+   "n": 6461,
+   "p50_mm": 0.0,
+   "p95_mm": 0.0,
+   "p99_mm": 0.0,
+   "max_mm": 0.0
+  },
+  "hands": {
+   "n": 6544,
+   "p50_mm": 0.0,
+   "p95_mm": 2.5,
+   "p99_mm": 7.95,
+   "max_mm": 19.14
+  },
+  "head_back_hair": {
+   "n": 2858,
+   "p50_mm": 0.21,
+   "p95_mm": 0.74,
+   "p99_mm": 1.04,
+   "max_mm": 1.6
+  },
+  "head_neck": {
+   "n": 8656,
+   "p50_mm": 0.0,
+   "p95_mm": 0.06,
+   "p99_mm": 0.46,
+   "max_mm": 10.3
+  },
+  "trunk_limbs": {
+   "n": 33622,
+   "p50_mm": 0.0,
+   "p95_mm": 0.6,
+   "p99_mm": 0.96,
+   "max_mm": 76.48
+  }
+ },
+ "coverage_source_to_new_mm": {
+  "p50": 0.21,
+  "p95": 3.53,
+  "p99": 9.81
+ }
+}

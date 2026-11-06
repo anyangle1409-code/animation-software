@@ -1,0 +1,48 @@
+{
+ "in": "HGPT_Female_F09b_TexFix_WIP.blend",
+ "HGPT_Female_Body": {
+  "vertices": 50090,
+  "faces": 50088,
+  "quads": 50088,
+  "triangles": 0,
+  "ngons": 0,
+  "boundary_edges": 0,
+  "non_manifold_edges": 0,
+  "parts": 1,
+  "self_intersecting_face_pairs": 233,
+  "self_intersections_by_region": {
+   "hands": 215,
+   "armpits": 18
+  }
+ },
+ "HGPT_Female_Bra": {
+  "vertices": 2214,
+  "faces": 1917,
+  "quads": 1917,
+  "triangles": 0,
+  "ngons": 0,
+  "boundary_edges": 594,
+  "non_manifold_edges": 0,
+  "parts": 1
+ },
+ "HGPT_Female_Shorts": {
+  "vertices": 1982,
+  "faces": 1826,
+  "quads": 1826,
+  "triangles": 0,
+  "ngons": 0,
+  "boundary_edges": 312,
+  "non_manifold_edges": 0,
+  "parts": 1
+ },
+ "HGPT_Female_Ponytail": {
+  "vertices": 3542,
+  "faces": 6233,
+  "quads": 854,
+  "triangles": 5379,
+  "ngons": 0,
+  "boundary_edges": 201,
+  "non_manifold_edges": 3,
+  "parts": 1
+ }
+}

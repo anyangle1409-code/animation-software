@@ -758,3 +758,38 @@ Proportions against the source: everything is within 1.2 %, height −0.4 mm.
 - Small marks remain at the nostril base, the front hairline and the top of the right shoulder.
 - The thighs around the filled groin crease are up to about 4.5 mm off the source.
 - More "new sharp edges" are counted in the back-fold zone in the diagnostics (2 → 10). There are no intersections there.
+
+## F00 — Female source baseline (6 Nov, read-only, before any work)
+
+The male standing model 07c was approved by the owner on 6 Nov and is locked (see `review-assets/body_v2/characters/hgpt_male_v2/APPROVAL.md`, which also lists the non-blocking polish items). Female work starts from her own source. Nothing from the male mesh or topology is reused.
+
+**Source, verified against the supplied SHA-256 checksums** (neither file is in git; licensed Meshy source):
+
+| File | Bytes | SHA-256 |
+|---|---|---|
+| `HGPT_Meshy_Female_Pro_1.68m_Clean_Unrigged.glb` | 32,370,660 | `de8ab078f2510c18bf3b05e82d3840583138f3c3feb6407fda7f24cfd6bf885b` |
+| `HGPT_Meshy_Female_Pro_1.68m_Clean_Unrigged.blend` (rejoined from two parts with the supplied script) | 61,311,365 | `4b53bebe89ca28fb84a1458fcb34da5d4ca78bda0c03f50d2bf39d8e468fc782` |
+
+**Geometry.** One mesh, `Mesh_0`, 514,566 triangles. The `.blend` mesh is welded: 257,175 vertices, watertight (0 boundary edges), one component. The GLB holds the same positions split at 800 UV islands (283,437 vertices). The figure is 1.680 m tall, feet at z = 0, facing −y (the male's convention). A-pose with the arms about 22° from vertical. Textures are 4096²/2048²/4096². No rig, shape keys or vertex groups. The sports bra and shorts are fused into the body surface. Ponytail. Barefoot.
+
+**Measurements vs the owner's Option 4 guide** (`female_f00/female_source_measurements.json`, made by `scripts/meshy/female_source_baseline_blender.py`). Girths use the tape-measure method, the convex hull of the trunk's own section. The bust is measured with the arms excluded and the bra included.
+
+| Measure | Source | Guide |
+|---|---|---|
+| Height | 1.680 m | ≈ 1.68 m |
+| Bust (z 1.196) | 94.6 cm | 84–92 cm |
+| Waist (z 1.045) | 63.4 cm | 64–72 cm |
+| Hips (z 0.82) | 99.5 cm | 90–98 cm |
+| Leg length, trochanter level to floor | 47.3 % | 47–50 % |
+| Shoulder breadth across the deltoid caps | 42.7 cm | 37–40 cm* |
+| Shoulder : hip width (37.9 cm) | 1.13 | 0.95–1.00* |
+
+\* The guide's shoulder width is probably biacromial, measured bone to bone. A breadth across the deltoid caps on the skin is normally 3–5 cm wider, so these two rows are not like for like. They will be re-measured on the fitted skeleton (acromion landmarks).
+
+**Observations.** Bust and hips are slightly over the guide, partly because of the fused clothing. The waist is just under it. Muscle definition is softer than on the reference sheet.
+
+An earlier run of this script was wrong in four places, all now fixed:
+- the bust included the arms;
+- a ponytail sliver gave a 0.3 cm waist;
+- the shoulder breadth included the A-pose arms;
+- crotch height was used in place of hip height.

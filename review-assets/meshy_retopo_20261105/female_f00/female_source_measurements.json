@@ -1,0 +1,45 @@
+{
+ "height_m": 1.68,
+ "vertices": 257175,
+ "bust_girth_cm": 94.6,
+ "bust_level_m": 1.196,
+ "bust_arm_exclusion_x_m": 0.145,
+ "waist_girth_cm": 63.4,
+ "waist_level_m": 1.045,
+ "hip_girth_cm": 99.5,
+ "hip_level_m": 0.82,
+ "hip_width_cm": 37.9,
+ "trochanter_level_m": 0.795,
+ "leg_length_hip_to_floor_pct": 47.3,
+ "shoulder_breadth_deltoid_caps_cm": 42.7,
+ "shoulder_top_level_m": 1.357,
+ "crotch_height_m": 0.698,
+ "shoulder_to_hip_ratio": 1.127,
+ "guide": {
+  "height_m": 1.68,
+  "shoulder_width_cm": [
+   37,
+   40
+  ],
+  "bust_cm": [
+   84,
+   92
+  ],
+  "waist_cm": [
+   64,
+   72
+  ],
+  "hip_cm": [
+   90,
+   98
+  ],
+  "shoulder_hip_ratio": [
+   0.95,
+   1.0
+  ],
+  "leg_length_pct": [
+   47,
+   50
+  ]
+ }
+}

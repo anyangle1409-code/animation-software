@@ -11,7 +11,21 @@
  },
  "default_character": "hgpt_male_v2",
  "characters": [
-  {"id": "hgpt_male_v2", "sex": "male", "profile": "hgpt_male_v2/profile.json", "approval": "hgpt_male_v2/APPROVAL.md", "status": "candidate", "priority": 1},
-  {"id": "hgpt_female_v2", "sex": "female", "profile": "hgpt_female_v2/profile.json", "approval": "hgpt_female_v2/APPROVAL.md", "status": "not_started", "priority": 2}
+  {
+   "id": "hgpt_male_v2",
+   "sex": "male",
+   "profile": "hgpt_male_v2/profile.json",
+   "approval": "hgpt_male_v2/APPROVAL.md",
+   "status": "approved_appearance",
+   "priority": 1
+  },
+  {
+   "id": "hgpt_female_v2",
+   "sex": "female",
+   "profile": "hgpt_female_v2/profile.json",
+   "approval": "hgpt_female_v2/APPROVAL.md",
+   "status": "in_development",
+   "priority": 2
+  }
  ]
 }

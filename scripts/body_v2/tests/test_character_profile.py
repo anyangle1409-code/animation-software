@@ -36,9 +36,13 @@ ids = [c["id"] for c in m["characters"]]
 check("manifest lists the male and the female", {"hgpt_male_v2", "hgpt_female_v2"} <= set(ids))
 check("default character is the male", m["default_character"] == "hgpt_male_v2")
 male, female = cp.load("hgpt_male_v2"), cp.load("hgpt_female_v2")
-check("male is a candidate, no appearance / movement / production approval", male["status"] == "candidate" and
-      not {a["what"] for a in male["owner_approvals"]} & {"appearance", "movement", "production"})
-check("female is not started", female["status"] == "not_started" and not female["owner_approvals"])
+male_what = {a["what"] for a in male["owner_approvals"]}
+check("male appearance approved by the owner (07c, 6 Nov), no movement / production approval",
+      male["status"] == "approved_appearance" and "appearance" in male_what and not male_what & {"movement", "production"})
+check("male 07c standing checkpoint recorded as locked", male["approved_standing_checkpoint"]["locked"] is True and
+      male["approved_standing_checkpoint"]["sha256"].startswith("e9448c68"))
+check("female in development, no approvals", female["status"] == "in_development" and not female["owner_approvals"])
+check("female base mesh is her own source, not derived from the male", female["base_mesh"]["derived_from"] is None)
 check("no character is production-ready", all(cp.load(i)["status"] != "production_ready" for i in ids))
 check("male Blender names unchanged", cp.blender_names("hgpt_male_v2") ==
       ("HGPT_ORIGINAL_V1_BODY_O4_CANDIDATE", "HGPT_CANONICAL_V4_ORIGINAL"))

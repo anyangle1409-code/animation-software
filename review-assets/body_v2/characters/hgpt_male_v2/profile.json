@@ -3,8 +3,8 @@
  "id": "hgpt_male_v2",
  "sex": "male",
  "label": "Home Gym PT male, Body v2 (athletic adult male)",
- "status": "candidate",
- "current_candidate": "first-party reshape of Body v2 to the approved M13/M14 proportions (in progress)",
+ "status": "approved_appearance",
+ "current_candidate": "Meshy Pro male retopology + rig, checkpoint 07c (HGPT_Male_Rig_07c_StandingCleanup_WIP_PROXY.blend), approved standing appearance; locked",
  "owner_approvals": [
   {
    "date": "2026-11-03",
@@ -12,6 +12,14 @@
    "what": "proportions_target",
    "detail": "MPFB benchmark M13/M14 legs, waist, width and arms as the proportion target; chest excluded; not appearance or production approval",
    "evidence": "review-assets/body_v2/mpfb_benchmark_20261103/"
+  },
+  {
+   "date": "2026-11-06",
+   "by": "owner",
+   "what": "appearance",
+   "detail": "Standing appearance only: \"Male standing model 07c is approved as the base male standing character for Home Gym PT. Lock 07c as the approved male standing checkpoint. Do not overwrite it. Do not resume movement development yet.\" Not movement or production approval.",
+   "candidate": "HGPT_Male_Rig_07c_StandingCleanup_WIP_PROXY.blend sha256 e9448c688d2ae83bc35c18678a353449e226c638298feef1482f123ac74b55a0 (56,677 vertices, read-only, not in git)",
+   "evidence": "review-assets/meshy_retopo_20261105/README.md (SC1, standing review), review-assets/meshy_retopo_20261105/standing_07c/"
   }
  ],
  "base_mesh": {
@@ -82,5 +90,19 @@
   "review-assets/body_v2/visual_evidence/shoulder_w11_20261103/",
   "review-assets/body_v2/visual_evidence/press_w12c_20261103/",
   "docs/ANATOMICAL_DEFECT_LIST_20261103.md"
+ ],
+ "approved_standing_checkpoint": {
+  "file": "HGPT_Male_Rig_07c_StandingCleanup_WIP_PROXY.blend",
+  "sha256": "e9448c688d2ae83bc35c18678a353449e226c638298feef1482f123ac74b55a0",
+  "locked": true,
+  "body_object": "MESHY_BODY",
+  "rig_object": "MESHY_RIG",
+  "note": "Locked: never overwritten; later work saves new versioned checkpoints. 'blender' above still names the canonical source rig that bind_meshy_blender.py copies into MESHY_RIG."
+ },
+ "future_polish_non_blocking": [
+  "hands detail / presentation pose",
+  "small nostril / hairline / right-shoulder marks",
+  "optional fitted shorts / presentation clothing layer",
+  "any later visual refinements after both standing models are approved"
  ]
 }

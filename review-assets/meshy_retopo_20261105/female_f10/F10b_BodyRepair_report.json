@@ -1,0 +1,105 @@
+{
+ "in": "F10a_bra.blend",
+ "intersections_before": 233,
+ "covered_vertices": 4043,
+ "region_vertices": {
+  "hands": 5682,
+  "armpits": 4458,
+  "covered": 4043,
+  "margin": 1972
+ },
+ "extra_lowpass_vertices": 3040,
+ "covered_depth_clamped": 441,
+ "pleat_seed_vertices": 56,
+ "pleat_patch_vertices": 315,
+ "thumb_junction_patch_vertices": 327,
+ "thumb_left_collar_radius_mm": 6.1,
+ "thumb_right_collar_radius_mm": 12.0,
+ "palm_vertices_pushed_out_of_thumb": 41,
+ "hand_fold_vertices": 1663,
+ "thumb_left_collar_radius_mm_before_after": [
+  5.4,
+  5.4
+ ],
+ "thumb_right_collar_radius_mm_before_after": [
+  16.2,
+  16.2
+ ],
+ "hand_crease_seed_vertices": [
+  150,
+  80,
+  65
+ ],
+ "hand_crease_smoothed_vertices": 626,
+ "hand_crease_moved_mm_p95_max": [
+  9.63,
+  17.57
+ ],
+ "untangle_rounds": [
+  166,
+  131,
+  119,
+  105,
+  97,
+  90,
+  86,
+  82,
+  77,
+  72,
+  71,
+  63,
+  61,
+  59,
+  59,
+  52,
+  52,
+  52,
+  54,
+  52,
+  52,
+  50,
+  50,
+  50,
+  50,
+  48,
+  48,
+  48,
+  48,
+  48,
+  48
+ ],
+ "intersections_after": 52,
+ "intersections_after_by_region": {
+  "hand": 52
+ },
+ "moved_mm": {
+  "hands": [
+   0.41,
+   8.86,
+   15.79
+  ],
+  "armpits": [
+   3.77,
+   10.33,
+   26.48
+  ],
+  "covered": [
+   3.06,
+   9.88,
+   29.44
+  ],
+  "margin": [
+   1.94,
+   7.51,
+   21.49
+  ],
+  "rest": [
+   0.0,
+   0.09,
+   16.75
+  ]
+ },
+ "HGPT_Female_Bra_vertices_off_source_fixed": 0,
+ "HGPT_Female_Shorts_vertices_off_source_fixed": 0,
+ "out": "<scratchpad>/f10/F10b_try22.blend"
+}

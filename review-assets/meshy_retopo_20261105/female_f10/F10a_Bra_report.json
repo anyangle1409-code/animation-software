@@ -1,0 +1,42 @@
+{
+ "in": "HGPT_Female_F09b_TexFix_WIP.blend",
+ "faces_before": 1917,
+ "seam_vertices_welded": 77,
+ "strap_left": {
+  "from": [
+   0.089,
+   -0.023,
+   1.346
+  ],
+  "to": [
+   0.037,
+   0.071,
+   1.358
+  ],
+  "length_mm": 181.1
+ },
+ "strap_right": {
+  "from": [
+   -0.089,
+   -0.023,
+   1.346
+  ],
+  "to": [
+   -0.037,
+   0.071,
+   1.358
+  ],
+  "length_mm": 183.2
+ },
+ "shoulder_strap_faces_added": 156,
+ "flap_faces_removed": 4,
+ "loose_faces_removed": 0,
+ "faces_after": 2147,
+ "half_faces": 1009,
+ "strap_faces_front_above_1_28": {
+  "left": 72,
+  "right": 72
+ },
+ "boundary_vertices": 620,
+ "out": "<scratchpad>/f10/F10a_bra.blend"
+}

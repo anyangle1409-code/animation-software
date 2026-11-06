@@ -7,13 +7,13 @@ Method (as the male densify_project_blender.py, without a rig at this stage):
     (never the opposite wall of a narrow gap: armpit, crotch, between fingers / toes);
   * symmetry guard: where a new vertex's snap differs from its mirror twin's by more than SYM_MM, both keep the smaller
     offset (her source is symmetric to < 1 mm almost everywhere; a one-sided offset is a source defect);
-  * with "face" the front of the head (above the jaw) is cut a second time: eyes, lids, lips, nose;
+  * the front of the head (above the jaw) is cut a second time (eyes, lids, lips, nose) unless "noface" is given;
   * original vertices are not moved: proportions cannot change (every vertex is an original cage vertex or a point
     of her source surface).
-The cage's chords that cut under the surface (nose tip, under the chin, the bra band's lower lip) are lifted because
+A lift pass first puts any cage vertex left under the surface back on it. The cage's chords that cut under the surface (nose tip, under the chin, the bra band's lower lip) are lifted because
 the new mid-edge / mid-face vertices land on the surface.
 
-usage: python3.13 densify_f_blender.py -- <in .blend> <out NEW .blend> <report .json> [face]
+usage: python3.13 densify_f_blender.py -- <in .blend> <out NEW .blend> <report .json> [noface]
 """
 import json
 import sys
@@ -27,7 +27,7 @@ from mathutils.bvhtree import BVHTree
 from mathutils.kdtree import KDTree
 
 a = sys.argv[sys.argv.index("--") + 1:]
-IN, OUT, REP = Path(a[0]), Path(a[1]), Path(a[2]); FACE = len(a) > 3 and a[3] == "face"
+IN, OUT, REP = Path(a[0]), Path(a[1]), Path(a[2]); FACE = not (len(a) > 3 and a[3] == "noface")
 if OUT.exists():
     raise FileExistsError(f"will not overwrite {OUT}")
 bpy.ops.wm.open_mainfile(filepath=str(IN), load_ui=False)
@@ -87,7 +87,15 @@ def level(bm, edges, tag):
 
 
 bm = bmesh.new(); bm.from_mesh(body.data); bm.normal_update()
-info = [level(bm, list(bm.edges), "whole body")]
+# lift pass: cage vertices left under her surface (crumpled thumb roots smoothed by the untangle step) go onto the
+# nearest same-facing surface along their normal; vertices already on the surface do not move
+lifted = 0
+for v in bm.verts:
+    h = snap(v.co.copy(), v.normal.copy())
+    if h is not None and (h - v.co).length > 0.0003:
+        v.co = h; lifted += 1
+bm.normal_update()
+info = [{"level": "lift", "vertices_lifted": lifted}, level(bm, list(bm.edges), "whole body")]
 if FACE:
     fe = [e for e in bm.edges if all(face_region(v) for v in e.verts)]
     info.append(level(bm, fe, "face (second level)"))

@@ -49,16 +49,13 @@ TOE_RINGS = (0.88, 0.72, 0.52)      # concentric loops over the toes (scale of t
 
 
 def toe_envelope(sg, base_ring):
-    """closed toe envelope: her source forefoot ahead of the last foot ring, voxel-remeshed (4 mm)"""
+    """closed toe envelope: the convex hull of her source forefoot ahead of the last foot ring (bridges the gaps
+    between her toes; the cap then snaps to her real toe surface where it lies within 3 mm of the hull)"""
+    from scipy.spatial import ConvexHull
     cl = np.mean(base_ring, axis=0)
-    keep = [f for f in ST if all(SV[i, 2] < 0.07 and SV[i, 0] * sg > 0.05 and SV[i, 1] < cl[1] + 0.02 for i in f)]
-    me_ = bpy.data.meshes.new("toe_env"); me_.from_pydata(SV.tolist(), [], [list(f) for f in keep]); me_.update()
-    ob_ = bpy.data.objects.new("toe_env", me_); bpy.context.scene.collection.objects.link(ob_)
-    rm = ob_.modifiers.new("R", "REMESH"); rm.mode = "VOXEL"; rm.voxel_size = 0.004; rm.adaptivity = 0.0
-    sm = ob_.modifiers.new("S", "SMOOTH"); sm.iterations = 2; sm.factor = 0.5
-    dg = bpy.context.evaluated_depsgraph_get(); oe = ob_.evaluated_get(dg); m = oe.to_mesh()
-    t = BVHTree.FromPolygons([v.co.copy() for v in m.vertices], [tuple(q.vertices) for q in m.polygons]); oe.to_mesh_clear()
-    bpy.data.objects.remove(ob_); return t
+    P = SV[(SV[:, 2] < 0.07) & (SV[:, 0] * sg > 0.05) & (SV[:, 1] < cl[1] + 0.005) & (np.abs(SV[:, 0] - cl[0]) < 0.09)]
+    hull = ConvexHull(P)
+    return BVHTree.FromPolygons([Vector(q) for q in P], [tuple(s_) for s_ in hull.simplices])
 
 
 def ray(o, d, dist=0.2):
@@ -268,13 +265,16 @@ for sg in (1, -1):
     cl = np.mean(rings[-1], axis=0); base_ring = list(rings[-1])
     # FEMALE: her toes are separate (the male's touched): rays along the foot axis ran into the gaps between them and
     # the cap crumpled. The cap is projected (forward rays, as the male) onto a closed TOE ENVELOPE: her forefoot
-    # (source, z < 0.07 m, ahead of the last foot ring) voxel-remeshed at 4 mm, which fills the narrow gaps between the
-    # toes. Individual toes are therefore not separated in the geometry (left to the colour / normal detail).
+    # (source, z < 0.07 m, ahead of the last foot ring) as its convex hull, which bridges the gaps between the toes;
+    # each cap point then snaps to her real toe surface where that lies within 3 mm. Individual toes are therefore not separated in the geometry (left to the colour / normal detail).
     env_b = toe_envelope(sg, base_ring)
 
     def fwd(p):
         h = env_b.ray_cast(Vector(p - tdir * 0.04), Vector(tdir), 0.12)
-        return np.array(h[0][:]) if h[0] is not None else p
+        if h[0] is None:
+            return p
+        q = h[0]; n = bvh.find_nearest(q)
+        return np.array((n[0] if n[0] is not None and n[3] < 0.003 else q)[:])
     for f_ in TOE_RINGS:
         rings.append([fwd(cl + (p - cl) * f_) for p in base_ring])
         reg_of.append("toes")

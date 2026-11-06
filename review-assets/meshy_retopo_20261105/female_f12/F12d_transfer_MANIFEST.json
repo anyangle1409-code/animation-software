@@ -1,0 +1,435 @@
+{
+ "package": "HGPT Female F12d handover to ChatGPT Work",
+ "date": "2026-11-06",
+ "status": "WIP candidate - NOT approved by the owner",
+ "github": {
+  "repo": "anyangle1409-code/animation-software",
+  "claude_branch": "claude/home-gym-pt-animation-txux66",
+  "f12d_commit": "3bee9e1f1f6f8ca8fe21bcbec0ef892974cb14ca",
+  "work_handoff_branch": "chatgpt/f12d-work-handoff-20261106"
+ },
+ "f12d_blend": {
+  "file": "HGPT_Female_F12d_ChestShorts_WIP.blend",
+  "bytes": 151227275,
+  "sha256": "89df9517421d983e0de812efd2d18a660e19bd6fa0284cdc45945b19affa3b6c",
+  "chunk_bytes": 23000000,
+  "parts": [
+   {
+    "zip": "HGPT_F12d_blend_part01of07.zip",
+    "zip_bytes": 10199720,
+    "zip_sha256": "e1b47dce68d5beede7ba5fb42912be350ef3f4482047d9afd3f3745206088949",
+    "member": "HGPT_Female_F12d_ChestShorts_WIP.blend.part01of07",
+    "member_bytes": 23000000,
+    "member_sha256": "0956d7ecaed36851bea235ddbb6b66b21f9077cda7b40e0a21e681f52d1f69d6"
+   },
+   {
+    "zip": "HGPT_F12d_blend_part02of07.zip",
+    "zip_bytes": 11036532,
+    "zip_sha256": "ad68dc350ecfb1bba6f27a60597e590f0684e47dc1198ef6c4cc30eb6f297e63",
+    "member": "HGPT_Female_F12d_ChestShorts_WIP.blend.part02of07",
+    "member_bytes": 23000000,
+    "member_sha256": "aacb9a128752f6c7a30bd836d4364295c74fe9e94bf413a84444f09ecaf0b5f4"
+   },
+   {
+    "zip": "HGPT_F12d_blend_part03of07.zip",
+    "zip_bytes": 11234688,
+    "zip_sha256": "9d32abece0b8e0579f0db77b791539bdaeafef22c0d6b9d2c424231e7e2e0bc0",
+    "member": "HGPT_Female_F12d_ChestShorts_WIP.blend.part03of07",
+    "member_bytes": 23000000,
+    "member_sha256": "380b65504d078e405658a7d89799d1d16d482d546a025cab480ebf68b877fce9"
+   },
+   {
+    "zip": "HGPT_F12d_blend_part04of07.zip",
+    "zip_bytes": 11286473,
+    "zip_sha256": "db1d55cb5ff0339c3c1ad6e2cade565aecca4dc6d7deb39ab3317bf183a94ef7",
+    "member": "HGPT_Female_F12d_ChestShorts_WIP.blend.part04of07",
+    "member_bytes": 23000000,
+    "member_sha256": "35105567e80b76bf289e7f00aab2515aafd18ce42189c1118d85887dfa695a8f"
+   },
+   {
+    "zip": "HGPT_F12d_blend_part05of07.zip",
+    "zip_bytes": 11135736,
+    "zip_sha256": "4d17a723b0d69b40bc3cb666e5752f0cbc9adc1169f8a56467c4e17a514dcd48",
+    "member": "HGPT_Female_F12d_ChestShorts_WIP.blend.part05of07",
+    "member_bytes": 23000000,
+    "member_sha256": "7b541f99a4ce96571f5263f1a1e21fcae53f8bbba1db3f9d536ae723a1c18b39"
+   },
+   {
+    "zip": "HGPT_F12d_blend_part06of07.zip",
+    "zip_bytes": 22937840,
+    "zip_sha256": "746a8423b5737ee95f34b746d633e6124f45258cdcb0af53b378e771b96d4f13",
+    "member": "HGPT_Female_F12d_ChestShorts_WIP.blend.part06of07",
+    "member_bytes": 23000000,
+    "member_sha256": "369cdd0edd5b5f33240a5608f9f7bdf4cd30c342988ddd00b08fb675be777587"
+   },
+   {
+    "zip": "HGPT_F12d_blend_part07of07.zip",
+    "zip_bytes": 13120622,
+    "zip_sha256": "208786385b95530500d1e08bdb03666256c4f75f4bef9b49430eee0017cd4001",
+    "member": "HGPT_Female_F12d_ChestShorts_WIP.blend.part07of07",
+    "member_bytes": 13227275,
+    "member_sha256": "50b0152be258016f41bc10f1cac55110929d78d3a6e98a02e20f26e93e4ddb8d"
+   }
+  ]
+ },
+ "f12d_blender_check": {
+  "blender": "5.2.1 LTS",
+  "objects": {
+   "HGPT_Female_Body": {
+    "type": "MESH",
+    "parent": "HGPT_FEMALE_RIG",
+    "modifiers": [
+     [
+      "ARMATURE",
+      "Armature",
+      "HGPT_FEMALE_RIG"
+     ]
+    ],
+    "vertices": 50090,
+    "faces": 50088,
+    "vertex_groups": 67,
+    "materials": [
+     "HGPT_Female_Body_mat"
+    ],
+    "uv_layers": [
+     "UVMap"
+    ],
+    "color_attributes": [],
+    "shape_keys": 0,
+    "weight_sum_min_max": [
+     1.0,
+     1.5875
+    ],
+    "unweighted_vertices": 0
+   },
+   "HGPT_Female_Bra": {
+    "type": "MESH",
+    "parent": "HGPT_FEMALE_RIG",
+    "modifiers": [
+     [
+      "ARMATURE",
+      "Armature",
+      "HGPT_FEMALE_RIG"
+     ],
+     [
+      "SOLIDIFY",
+      "Fabric_Thickness",
+      null
+     ]
+    ],
+    "vertices": 2541,
+    "faces": 2147,
+    "vertex_groups": 67,
+    "materials": [
+     "HGPT_Female_Bra_mat"
+    ],
+    "uv_layers": [
+     "UVMap"
+    ],
+    "color_attributes": [],
+    "shape_keys": 0,
+    "weight_sum_min_max": [
+     0.9782,
+     1.5873
+    ],
+    "unweighted_vertices": 0
+   },
+   "HGPT_Female_Ponytail": {
+    "type": "MESH",
+    "parent": "HGPT_FEMALE_RIG",
+    "modifiers": [
+     [
+      "ARMATURE",
+      "Armature",
+      "HGPT_FEMALE_RIG"
+     ]
+    ],
+    "vertices": 3539,
+    "faces": 6233,
+    "vertex_groups": 1,
+    "materials": [
+     "HGPT_Female_Ponytail_mat"
+    ],
+    "uv_layers": [
+     "UVMap"
+    ],
+    "color_attributes": [],
+    "shape_keys": 0,
+    "weight_sum_min_max": [
+     1.0,
+     1.0
+    ],
+    "unweighted_vertices": 0
+   },
+   "HGPT_FEMALE_RIG": {
+    "type": "ARMATURE",
+    "parent": null,
+    "modifiers": [],
+    "bones": 69,
+    "deform_bones": 66
+   },
+   "HGPT_Female_Shell": {
+    "type": "MESH",
+    "parent": null,
+    "modifiers": [
+     [
+      "MIRROR",
+      "Manual_Symmetry",
+      null
+     ],
+     [
+      "SHRINKWRAP",
+      "Manual_Surface_Projection",
+      null
+     ]
+    ],
+    "vertices": 1734,
+    "faces": 1593,
+    "vertex_groups": 1,
+    "materials": [],
+    "uv_layers": [],
+    "color_attributes": [],
+    "shape_keys": 0,
+    "weight_sum_min_max": [
+     0.0,
+     1.0
+    ],
+    "unweighted_vertices": 8
+   },
+   "HGPT_Female_Shorts": {
+    "type": "MESH",
+    "parent": "HGPT_FEMALE_RIG",
+    "modifiers": [
+     [
+      "ARMATURE",
+      "Armature",
+      "HGPT_FEMALE_RIG"
+     ],
+     [
+      "SOLIDIFY",
+      "Fabric_Thickness",
+      null
+     ]
+    ],
+    "vertices": 2075,
+    "faces": 1939,
+    "vertex_groups": 66,
+    "materials": [
+     "HGPT_Female_Shorts_mat"
+    ],
+    "uv_layers": [
+     "UVMap"
+    ],
+    "color_attributes": [],
+    "shape_keys": 0,
+    "weight_sum_min_max": [
+     0.9999,
+     1.0
+    ],
+    "unweighted_vertices": 0
+   },
+   "HGPT_FEMALE_SOURCE_BODY_TARGET": {
+    "type": "MESH",
+    "parent": null,
+    "modifiers": [],
+    "vertices": 257175,
+    "faces": 295565,
+    "vertex_groups": 0,
+    "materials": [],
+    "uv_layers": [],
+    "color_attributes": [],
+    "shape_keys": 0
+   },
+   "HGPT_FEMALE_SOURCE_Mesh_0": {
+    "type": "MESH",
+    "parent": null,
+    "modifiers": [],
+    "vertices": 257175,
+    "faces": 514566,
+    "vertex_groups": 0,
+    "materials": [],
+    "uv_layers": [
+     "UVMap"
+    ],
+    "color_attributes": [],
+    "shape_keys": 0
+   },
+   "HGPT_FEMALE_SOURCE_TEXTURED": {
+    "type": "MESH",
+    "parent": null,
+    "modifiers": [],
+    "vertices": 257175,
+    "faces": 514566,
+    "vertex_groups": 0,
+    "materials": [
+     "Material_0"
+    ],
+    "uv_layers": [
+     "UVMap"
+    ],
+    "color_attributes": [],
+    "shape_keys": 0
+   }
+  },
+  "images": {
+   "HGPT_Female_Body_albedo": {
+    "size": [
+     4096,
+     4096
+    ],
+    "packed": true,
+    "packed_bytes": 11287734,
+    "filepath": "",
+    "source": "FILE"
+   },
+   "HGPT_Female_Bra_albedo": {
+    "size": [
+     2048,
+     2048
+    ],
+    "packed": true,
+    "packed_bytes": 1879490,
+    "filepath": "",
+    "source": "FILE"
+   },
+   "HGPT_Female_Ponytail_albedo": {
+    "size": [
+     2048,
+     2048
+    ],
+    "packed": true,
+    "packed_bytes": 4048200,
+    "filepath": "",
+    "source": "FILE"
+   },
+   "HGPT_Female_Shorts_albedo": {
+    "size": [
+     2048,
+     2048
+    ],
+    "packed": true,
+    "packed_bytes": 2376145,
+    "filepath": "",
+    "source": "FILE"
+   },
+   "Image_0": {
+    "size": [
+     4096,
+     4096
+    ],
+    "packed": true,
+    "packed_bytes": 8993930,
+    "filepath": "",
+    "source": "FILE"
+   },
+   "Image_1": {
+    "size": [
+     2048,
+     2048
+    ],
+    "packed": true,
+    "packed_bytes": 1339535,
+    "filepath": "",
+    "source": "FILE"
+   },
+   "Image_2": {
+    "size": [
+     4096,
+     4096
+    ],
+    "packed": true,
+    "packed_bytes": 6790703,
+    "filepath": "",
+    "source": "FILE"
+   }
+  },
+  "all_images_packed": true,
+  "linked_libraries": [],
+  "note_external_paths": "blend_paths() lists the original source .blend only as a weak reference of appended data; nothing is linked and all images are packed - the file is self-contained."
+ },
+ "other_checkpoints_not_in_this_package": [
+  {
+   "file": "HGPT_Female_F09a_Textured_WIP.blend",
+   "sha256": "97dc0808430d0c1e73aaf5abd17fbc38709ce549d03c32334b3b6ec59a1ce3c6",
+   "claude_scratch_path": "hgpt_ws/female/retopo/HGPT_Female_F09a_Textured_WIP.blend"
+  },
+  {
+   "file": "HGPT_Female_F09b_TexFix_WIP.blend",
+   "sha256": "bf67fc71928b49d89380680f2e5dcde966848378dd9d60a84d81c30fef33883e",
+   "claude_scratch_path": "hgpt_ws/female/retopo/HGPT_Female_F09b_TexFix_WIP.blend"
+  },
+  {
+   "file": "HGPT_Female_F10b_BodyRepair_WIP.blend",
+   "sha256": "b9b81dec8209c52d87c5499d462a7d3e4f14dcf6163b16a7274608466fe05de2",
+   "claude_scratch_path": "hgpt_ws/female/retopo/HGPT_Female_F10b_BodyRepair_WIP.blend"
+  },
+  {
+   "file": "HGPT_Female_F10c_Finish_WIP.blend",
+   "sha256": "cab739f93eee33d36e04e8188ca6a8ffd31286ccc0979b3631773a0a2cf5caf1",
+   "claude_scratch_path": "hgpt_ws/female/retopo/HGPT_Female_F10c_Finish_WIP.blend"
+  },
+  {
+   "file": "HGPT_Female_F10d_Rig_WIP.blend",
+   "sha256": "e12668070f7db4a45c553e4d43e4b12cb9039ef8306d26e716732a64f78bd8eb",
+   "claude_scratch_path": "hgpt_ws/female/retopo/HGPT_Female_F10d_Rig_WIP.blend"
+  },
+  {
+   "file": "HGPT_Female_F10e_BreastRig_WIP.blend",
+   "sha256": "b1ea217c4e6f0a598367c7df2c754ffa36db2e11b05503341d79cd6eeae0555d",
+   "claude_scratch_path": "hgpt_ws/female/retopo/HGPT_Female_F10e_BreastRig_WIP.blend"
+  },
+  {
+   "file": "HGPT_Female_F11a_ChestGroin_WIP.blend",
+   "sha256": "eafbc941aa2c92f99ceba9858e2cdc7aa9e562e882268f69324129a9a46c0573",
+   "claude_scratch_path": "hgpt_ws/female/retopo/HGPT_Female_F11a_ChestGroin_WIP.blend"
+  },
+  {
+   "file": "HGPT_Female_F12a_ChestShorts_WIP.blend",
+   "sha256": "ab44efb05ce1838ce201152c7b104e7beef403fa547fcebd0b057b41bfc404b3",
+   "claude_scratch_path": "hgpt_ws/female/retopo/HGPT_Female_F12a_ChestShorts_WIP.blend"
+  },
+  {
+   "file": "HGPT_Female_Retopo_F01a_Shell_WIP.blend",
+   "sha256": "3dbce7307d5356dd4559936adf2d251635e68975d0551d84347b047e78496866",
+   "claude_scratch_path": "hgpt_ws/female/retopo/HGPT_Female_Retopo_F01a_Shell_WIP.blend"
+  },
+  {
+   "file": "HGPT_Female_Retopo_F04a_Legs_WIP.blend",
+   "sha256": "2d1f2488e176074c08894195ab01f4dc47d02e838c35f0f02dbe441f13a5552d",
+   "claude_scratch_path": "hgpt_ws/female/retopo/HGPT_Female_Retopo_F04a_Legs_WIP.blend"
+  },
+  {
+   "file": "HGPT_Female_Retopo_F06f_Untangle_WIP.blend",
+   "sha256": "fd3577487f523e7926bdb475aa378a7da1522f39f32f9f4483ffb301e8e12355",
+   "claude_scratch_path": "hgpt_ws/female/retopo/HGPT_Female_Retopo_F06f_Untangle_WIP.blend"
+  },
+  {
+   "file": "HGPT_Female_Retopo_F07b_Ponytail_WIP.blend",
+   "sha256": "137a0b02805ed1ffd6f2c6a8e82f69b0d3b6356eaa4809ca46df527f481ec1d0",
+   "claude_scratch_path": "hgpt_ws/female/retopo/HGPT_Female_Retopo_F07b_Ponytail_WIP.blend"
+  },
+  {
+   "file": "HGPT_Female_Rig_F08c_Hems_WIP.blend",
+   "sha256": "b82049b9541668b66887533000c6a85e0c327c2e16b946913efd3629c1e3f3c9",
+   "claude_scratch_path": "hgpt_ws/female/retopo/HGPT_Female_Rig_F08c_Hems_WIP.blend"
+  },
+  {
+   "file": "HGPT_Meshy_Female_Pro_1.68m_Clean_Unrigged.blend",
+   "sha256": "4b53bebe89ca28fb84a1458fcb34da5d4ca78bda0c03f50d2bf39d8e468fc782",
+   "claude_scratch_path": "female_in/src/HGPT_Meshy_Female_Pro_1.68m_Clean_Unrigged.blend"
+  },
+  {
+   "file": "HGPT_Meshy_Female_Pro_1.68m_Clean_Unrigged.glb",
+   "sha256": "de8ab078f2510c18bf3b05e82d3840583138f3c3feb6407fda7f24cfd6bf885b",
+   "claude_scratch_path": "female_in/glb/HGPT_Meshy_Female_Pro_1.68m_Clean_Unrigged.glb"
+  },
+  {
+   "file": "HGPT_Male_Rig_07c_StandingCleanup_WIP_PROXY.blend",
+   "sha256": "e9448c688d2ae83bc35c18678a353449e226c638298feef1482f123ac74b55a0",
+   "claude_scratch_path": "./hgpt_ws/manual_retopology/rig/HGPT_Male_Rig_07c_StandingCleanup_WIP_PROXY.blend"
+  }
+ ],
+ "superseded_deleted": [
+  "F12b and F12c (gusset trials with broken shorts weights; never reviewed)"
+ ]
+}

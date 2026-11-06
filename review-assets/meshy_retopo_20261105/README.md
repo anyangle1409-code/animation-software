@@ -974,3 +974,55 @@ Review sheets are kept in the session scratchpad (`sheets_F09b/`):
 - `04` close-ups;
 - `05` body without clothing;
 - `06` topology wireframes.
+
+## F10 – F11a — Female standing corrections (6 Nov): candidate for the owner's visual approval
+
+**Status: CANDIDATE, not approved.**
+- No exercise animation and no shoulder-deformation development has started.
+- Male 07c is untouched.
+- Every step is saved as a new, read-only file in the session workspace `hgpt_ws/female/retopo/`. Licensed geometry is never committed.
+
+### Checkpoints
+
+| Checkpoint | Scope | Script |
+|---|---|---|
+| F10a | Bra rebuilt symmetrically from its complete left half, both front straps and the over-shoulder strap segments added, flap into the armpit removed | `fix_bra_f_blender.py` |
+| `HGPT_Female_F10b_BodyRepair_WIP.blend` (`b9b81dec…`) | Armpits repaired, hands repaired, body under the garments rebuilt | `repair_body_f_blender.py` |
+| `HGPT_Female_F10c_Finish_WIP.blend` (`cab739f9…`) | Toes, textures, ponytail, garment weights re-transferred from the skin | `finish_f10c_blender.py` |
+| `HGPT_Female_F10d_Rig_WIP.blend` (`e1266807…`) | Rig contract check: 63/63 canonical bones; bone roll aligned to the male in the parent frame (`metacarpal_index_r` was flipped by 173°); left thumb joint moved inside the hand | `rig_contract_f_blender.py` |
+| `HGPT_Female_F10e_BreastRig_WIP.blend` (`b1ea217c…`) | Her own breast weights and the `breast_l` / `breast_r` helpers (see `docs/FEMALE_CHEST_BRA_MOVEMENT_REQUIREMENTS_20261106.md`) | `breast_rig_f_blender.py` |
+| **`HGPT_Female_F11a_ChestGroin_WIP.blend` (`eafbc941…`) — the candidate** | Chest and groin rebuild, garment fit | `chest_groin_f_blender.py` |
+
+### F11a changes
+
+- **Chest:** two breast forms with a soft sternal valley, replacing the merged shelf.
+  - The midline is eased back towards a sternum line, at most 30 mm, with a cosine fall-off over 55 mm.
+  - The pinched notch at the top of the sternum is filled, and the upper poles are smoothed.
+  - The bra's centre front is eased towards the sternum while the cups stay full.
+- **Groin:**
+  - The crumpled crotch tab is replaced by a smooth saddle (biharmonic membrane), and webbing below her source's crotch line is lifted.
+  - The inner-thigh and glute-to-thigh junctions are smoothed, with a conservative 3 mm mons. No genital detail is modelled.
+- **Clothing fit:**
+  - 15 mm bands either side of every garment hem are smoothed, which removes the inset staircase lines.
+  - Skin clearance under the fabric ramps from 0 at the hem to 1.4 mm.
+  - The shorts are lightly smoothed (the stepped waistband is gone) and their crotch is refitted.
+  - Skin through the fabric: shorts 2, bra 0 vertices at rest; shorts 2, bra 3 in the standing pose.
+  - Shorts off the skin: p95 4.1 mm, max 4.9 mm.
+  - Bra off the skin: p95 9.9 mm, max 21.8 mm, where the sports bra spans the cleavage.
+  - A lofted shorts gusset was tried and rejected. Her source's inner thighs touch below the crotch, as the body now does.
+
+### Measurements
+
+- **Body topology:** 50,090 vertices, all quads, closed. 52 self-intersecting face pairs (all hands, at the thumb collars), against 233 in F09b.
+- **Proportions against her source:** within ±0.2%, except hip width (−0.8%).
+
+### Remaining
+
+- **Thumbs:** the thumb bases still pinch where they meet the hand. This needs a thumb re-topology.
+- **Upper back:** a faint Y mark under the ponytail.
+- **Chest:** a faint line on the upper chest along the old bra neckline. The sternal valley is conservative.
+- **Groin:** soft lines where the inner thighs meet.
+- **Bra straps:** small knots where the strap segments join on the shoulders.
+- **Ponytail:** still decimated triangles.
+
+Review sheets are in the session scratchpad, `sheets_F11a/`.

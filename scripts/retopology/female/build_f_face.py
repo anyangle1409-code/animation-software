@@ -1,0 +1,474 @@
+"""FEMALE face: fill the face opening of her shell (build_f_shell.py) with a designed quad face, both sides.
+
+Same loop system as the male face (scripts/retopology/build_task3_face.py: half-face Coons grid between the jaw loop,
+the forehead loop and the cheekbone column; closed-eye lid topology with rings out to a grid rectangle; mouth and
+nose half-rings on the midline), with HER landmarks, measured on her source (F00):
+  * midline: her face is symmetric about x = -0.5 mm from chin to hairline (mirror-correlation of a 0.5 mm front
+    depth map, fretopo/face_depth.py);
+  * nose and mouth: curvature map of the front depth map (alar groove, nostril base, lip line, vermilion);
+  * eyes: her eye region is a smooth hollow with no lid crease in the geometry (depth within 1 mm over z 1.503-1.519),
+    so the closed-eye lid line follows her PAINTED eyes (textured front render, 0.1 mm grid), mirrored about the
+    midline (the painted eyes differ by ~2 mm, the geometry is symmetric);
+  * side profile (front rays on the midline): chin 1.416-1.437, lower lip 1.446-1.452, upper lip 1.458-1.464,
+    subnasale 1.4725, nose tip 1.485 (y -0.127), nasion 1.524, brow 1.536, hairline ~1.587.
+Female-specific: her jaw line slants steeply, so the midline chain is placed from her landmarks (anchor rows between
+lip, mouth and nose features, even above; the male copied the side column's row heights), and the mouth / nose
+rectangles pick rows by their height near the midline.
+
+usage: python3.13 build_f_face.py -- <shell checkpoint .blend (F01a)> <out NEW .blend> <report .json>
+"""
+import json
+import math
+import sys
+from pathlib import Path
+
+import bpy
+import bmesh  # noqa: E402
+import numpy as np
+from mathutils import Vector
+from mathutils.bvhtree import BVHTree
+
+a = sys.argv[sys.argv.index("--") + 1:]
+IN, OUT, REP = Path(a[0]), Path(a[1]), Path(a[2])
+if OUT.exists():
+    raise FileExistsError(f"will not overwrite {OUT}")
+bpy.ops.wm.open_mainfile(filepath=str(IN), load_ui=False)
+SRC = bpy.data.objects["HGPT_FEMALE_SOURCE_BODY_TARGET"]; SHELL = bpy.data.objects["HGPT_Female_Shell"]
+SV = np.array([v.co[:] for v in SRC.data.vertices]); bvh = BVHTree.FromPolygons([tuple(v) for v in SV], [tuple(p.vertices) for p in SRC.data.polygons])
+D = json.loads(SHELL["TASK3_SHELL_DESIGN"])
+I_JAW, I_TOP = D["face_rows"]; FCOL = D["face_cols"][1]; NSEG = D["segments_per_half_loop"]
+
+# ================================================================ design record (metres)
+MM = 0.001
+MIDLINE = [(1.400, 0.0), (1.430, -0.5 * MM), (1.580, -0.5 * MM), (1.610, 0.0)]   # face midline x(z), measured
+# eyes (closed): lid line from her painted eyes; +x eye measured, -x eye mirrored about the midline
+EYE_R = {"inner": (14 * MM, 1.5135), "outer": (44 * MM, 1.5170), "upper": (29 * MM, 1.5205), "lower": (30 * MM, 1.5105)}
+EYE_C = (29.5 * MM, 1.5150)
+EYE_L = {k: (-1.0 * MM - x, z) for k, (x, z) in EYE_R.items()}
+EYE_LC = (-1.0 * MM - EYE_C[0], EYE_C[1])
+# nose outline relative to the face midline: dorsum top, alar-groove top, alar lateral point, alar base, subnasale
+NOSE = {"dorsum": 1.4940, "alar_top": (11 * MM, 1.4895), "alar_lat": (16.5 * MM, 1.4810), "alar_base": (14 * MM, 1.4765),
+        "subnasale": 1.4725}
+NOSE_RINGS = 2
+NOSE_MARGIN = (4.0 * MM, 2.5 * MM)
+MOUTH = {"corner": (23.5 * MM, 1.4545), "upper_mid": 1.4605, "lower_mid": 1.4410, "stomion": 1.4530}
+EYE_RINGS = 3
+MOUTH_RINGS = 2
+EYE_MARGIN = (5.0 * MM, 4.0 * MM)
+MOUTH_MARGIN = (5.0 * MM, 3.5 * MM)
+NOSE_PROFILE_ORIGIN_Z, NOSE_PROFILE_ORIGIN_Y = 1.483, -0.095               # inside her nose root (tip y -0.127)
+
+
+def mid_x(z):
+    return float(np.interp(z, [p[0] for p in MIDLINE], [p[1] for p in MIDLINE]))
+
+
+def front_hit(x, z):
+    h = bvh.ray_cast(Vector((x, -0.40, z)), Vector((0, 1, 0)))[0]
+    if h is None:
+        raise RuntimeError(f"no surface in front at x {x} z {z}")
+    return h
+
+
+# ================================================================ full mesh from the shell (apply Mirror + Shrinkwrap)
+dg = bpy.context.evaluated_depsgraph_get()
+me = bpy.data.meshes.new_from_object(SHELL.evaluated_get(dg), depsgraph=dg); me.name = "HGPT_Female_Body"
+body = bpy.data.objects.new("HGPT_Female_Body", me); bpy.data.collections["BODY_PRODUCTION"].objects.link(body)
+SHELL.hide_render = True; SHELL.hide_viewport = True
+bm = bmesh.new(); bm.from_mesh(me)
+LR = bm.verts.layers.int["t3_row"]; LC = bm.verts.layers.int["t3_col"]
+SHV = {}
+for v in bm.verts:
+    side = 0 if v[LC] in (0, NSEG) else (1 if v.co.x > 0 else -1)
+    SHV[(v[LR], v[LC], side)] = v
+
+
+def shell_v(r, c, side):
+    return SHV[(r, c, 0 if c in (0, NSEG) else side)]
+
+
+R = I_TOP - I_JAW; F = FCOL                                 # half-face grid: R rows x F columns of cells
+# midline chain (shared by both sides): z follows the side column's loop heights, x follows the measured midline
+zs_side = [0.5 * (shell_v(I_JAW + r, F, 1).co.z + shell_v(I_JAW + r, F, -1).co.z) for r in range(R + 1)]
+z_bot, z_top = shell_v(I_JAW, 0, 1).co.z, shell_v(I_TOP, 0, 1).co.z
+# her steep jaw: the midline chain is placed from HER landmarks (rows between the features, not on them), piecewise
+# even between anchor rows: 1 just below the lower lip, 4 just above the upper lip (3 rows across the mouth), 7 just
+# above the nose top (3 rows across the nose), even from there to the forehead loop
+ANCH = {0: z_bot, 1: MOUTH["lower_mid"] - 0.0045, 4: MOUTH["upper_mid"] + 0.0055, 7: NOSE["dorsum"] + 0.0045, R: z_top}
+zs_mid = [float(np.interp(r, sorted(ANCH), [ANCH[k] for k in sorted(ANCH)])) for r in range(R + 1)]
+for r in range(1, R):                                       # keep the chain monotonic between its fixed ends
+    zs_mid[r] = min(max(zs_mid[r], zs_mid[r - 1] + 0.003), z_top - 0.003 * (R - r))
+MID2 = [(mid_x(z), z) for z in zs_mid]
+nv = {}                                                     # new vertices by key
+
+
+def V(key, x, z):
+    if key not in nv:
+        nv[key] = bm.verts.new(front_hit(x, z))
+    return nv[key]
+
+
+def V3(key, p):
+    if key not in nv:
+        nv[key] = bm.verts.new(Vector(p))
+    return nv[key]
+
+
+def sweep_hits(O, d0, d1, n=300):
+    """surface points hit by rays from O swept (slerp) from direction d0 to d1"""
+    d0, d1 = d0.normalized(), d1.normalized(); om = d0.angle(d1); out = []
+    for t in np.linspace(0, 1, n):
+        d = (math.sin((1 - t) * om) * d0 + math.sin(t * om) * d1) / max(math.sin(om), 1e-9) if om > 1e-6 else d0
+        h = bvh.ray_cast(O, d)[0]
+        if h is not None:
+            out.append(h)
+    return out
+
+
+def coons(B, T, L, Rr, u, v):
+    """2D Coons patch; B, T run along u (0..1), L, Rr along v; corners shared"""
+    return ((1 - v) * B(u) + v * T(u) + (1 - u) * L(v) + u * Rr(v)
+            - ((1 - u) * (1 - v) * B(0) + u * (1 - v) * B(1) + (1 - u) * v * T(0) + u * v * T(1)))
+
+
+def poly_fn(pts):
+    P = np.array(pts, float); s = np.r_[0, np.cumsum(np.linalg.norm(np.diff(P, axis=0), axis=1))]; s /= s[-1]
+    return lambda t: np.array([np.interp(t, s, P[:, 0]), np.interp(t, s, P[:, 1])])
+
+
+def idx_fn(pts):
+    """polyline indexed by vertex count (uniform in index, not arc length) - keeps grid lines on boundary vertices"""
+    P = np.array(pts, float); n = len(P) - 1
+    return lambda t: P[min(int(round(t * n)), n)] if abs(t * n - round(t * n)) < 1e-9 else P[int(t * n)] + (t * n - int(t * n)) * (P[min(int(t * n) + 1, n)] - P[int(t * n)])
+
+
+def build_side(side, layout=None):
+    sg = 1.0 if side > 0 else -1.0
+    xz = lambda v: np.array([v.co.x, v.co.z])
+    Bp = [xz(shell_v(I_JAW, c, side)) for c in range(F + 1)]
+    Tp = [xz(shell_v(I_TOP, c, side)) for c in range(F + 1)]
+    Rp = [xz(shell_v(I_JAW + r, F, side)) for r in range(R + 1)]
+    Lp = [np.array(p) for p in MID2]; Lp[0] = Bp[0]; Lp[-1] = Tp[0]
+    Bf, Tf, Lf, Rf = idx_fn(Bp), idx_fn(Tp), idx_fn(Lp), idx_fn(Rp)
+    G = {(r, c): coons(Bf, Tf, Lf, Rf, c / F, r / R) for r in range(R + 1) for c in range(F + 1)}
+
+    # ---- feature curves for this side (left side mirrored about the face midline)
+    def mir(p):
+        x, z = p; return (x if side > 0 else 2 * mid_x(z) - x, z)
+    if side > 0:
+        ec = np.array(EYE_C); ei, eo, eu, el = (np.array(EYE_R[k]) for k in ("inner", "outer", "upper", "lower"))
+    else:
+        ec = np.array(EYE_LC); ei, eo, eu, el = (np.array(EYE_L[k]) for k in ("inner", "outer", "upper", "lower"))
+    # fissure as a closed polygon (upper lid inner->outer, lower lid outer->inner), smooth quadratic arcs
+    def arc(p0, pm, p1, n=40):
+        t = np.linspace(0, 1, n)[:, None]; return (1 - t) ** 2 * p0 + 2 * (1 - t) * t * (2 * pm - 0.5 * (p0 + p1)) + t ** 2 * p1
+    fiss = np.vstack([arc(ei, eu, eo), arc(eo, el, ei)[1:]])
+    mc = np.array([mid_x(MOUTH["stomion"]), MOUTH["stomion"]]); mcorner = np.array(mir(MOUTH["corner"]))
+    mu = np.array([mid_x(MOUTH["upper_mid"]), MOUTH["upper_mid"]]); ml = np.array([mid_x(MOUTH["lower_mid"]), MOUTH["lower_mid"]])
+    verm = np.vstack([arc(mu, 0.5 * (mu + mcorner) + np.array([0, 0.0015]), mcorner), arc(mcorner, 0.5 * (ml + mcorner) - np.array([0, 0.0015]), ml)[1:]])
+
+    def ray_curve(curve, centre, ang):
+        """point of a closed / open curve hit by the ray from centre at angle ang (2D)"""
+        d = np.array([math.cos(ang), math.sin(ang)]); best = None
+        for p0, p1 in zip(curve[:-1], curve[1:]):
+            e = p1 - p0; M = np.array([[d[0], -e[0]], [d[1], -e[1]]])
+            if abs(np.linalg.det(M)) < 1e-12:
+                continue
+            s_, t_ = np.linalg.solve(M, p0 - centre)
+            if s_ > 0 and -1e-9 <= t_ <= 1 + 1e-9 and (best is None or s_ < best[0]):
+                best = (s_, p0 + t_ * e)
+        if best is None:                    # ray along the curve's end (e.g. the midline): closest point by angle
+            ang_c = np.arctan2(curve[:, 1] - centre[1], curve[:, 0] - centre[0])
+            k = int(np.argmin(np.abs((ang_c - ang + np.pi) % (2 * np.pi) - np.pi))); return curve[k].copy()
+        return best[1]
+
+    def along(curve):
+        P_ = np.asarray(curve, float); sl = np.r_[0, np.cumsum(np.linalg.norm(np.diff(P_, axis=0), axis=1))]
+        return P_, sl
+
+    def at(curve_sl, s_):
+        P_, sl = curve_sl; return np.array([np.interp(s_, sl, P_[:, 0]), np.interp(s_, sl, P_[:, 1])])
+
+    def map_sides(curve, anchors, counts):
+        """points along a curve: segment k runs from arc length anchors[k] to anchors[k+1] in counts[k] equal steps"""
+        cs = along(curve); out = []
+        for k, n_ in enumerate(counts):
+            s0, s1 = anchors[k], anchors[k + 1]
+            out += [at(cs, s0 + (s1 - s0) * i / n_) for i in range(n_)]
+        return out
+
+    # ---- choose the eye rectangle and mouth half-rectangle in grid indices
+    gx = lambda r, c: G[r, c][0] * sg; gz = lambda r, c: G[r, c][1]
+    xs_e = sorted([ei[0] * sg, eo[0] * sg]); zs_e = (min(el[1], ei[1], eo[1]), eu[1])
+    rows_z = [np.mean([gz(r, c) for c in range(F + 1)]) for r in range(R + 1)]
+    re0 = max(r for r in range(R + 1) if rows_z[r] <= zs_e[0] - EYE_MARGIN[1]); re1 = min(r for r in range(R + 1) if rows_z[r] >= zs_e[1] + EYE_MARGIN[1])
+    cols_x = [np.mean([gx(r, c) for r in range(re0, re1 + 1)]) for c in range(F + 1)]
+    ce0 = max(1, max(c for c in range(F + 1) if cols_x[c] <= xs_e[0] - EYE_MARGIN[0] * 0.4))
+    ce1 = min(F - 1, min(c for c in range(F + 1) if cols_x[c] >= xs_e[1] + EYE_MARGIN[0]))
+    if layout:
+        re0, re1 = layout["eye_rect_rows"]; ce0, ce1 = layout["eye_rect_cols"]
+    # her rows slope up from the chin to the cheekbone: the midline features (mouth, nose) pick rows by their height
+    # near the midline (first 4 columns), not the mean across the face
+    rows_zm = [np.mean([gz(r, c) for c in range(4)]) for r in range(R + 1)]
+    rm0 = max(r for r in range(R + 1) if rows_zm[r] <= MOUTH["lower_mid"] - MOUTH_MARGIN[1])
+    rm1 = min(r for r in range(R + 1) if rows_zm[r] >= MOUTH["upper_mid"] + MOUTH_MARGIN[1])
+    cols_xm = [np.mean([gx(r, c) for r in range(rm0, rm1 + 1)]) for c in range(F + 1)]
+    cm = min(c for c in range(F + 1) if cols_xm[c] >= mcorner[0] * sg + MOUTH_MARGIN[0])
+    if layout:
+        rm0, rm1 = layout["mouth_rect_rows"]; cm = layout["mouth_rect_cols"][1]
+    rn0 = rm1                                                     # nose rectangle sits on the mouth rectangle's top row
+    rn1 = min(r for r in range(R + 1) if G[r, 0][1] >= NOSE["dorsum"] + NOSE_MARGIN[1])
+    cols_xn = [np.mean([gx(r, c) for r in range(rn0, rn1 + 1)]) for c in range(F + 1)]
+    cn = min(c for c in range(F + 1) if cols_xn[c] >= (mid_x(NOSE["alar_lat"][1]) * sg + NOSE["alar_lat"][0] + NOSE_MARGIN[0]))
+    if layout:
+        rn0, rn1 = layout["nose_rect_rows"]; cn = layout["nose_rect_cols"][1]
+    assert rn1 <= re0 or cn <= ce0, f"nose {rn0}-{rn1}x{cn} and eye {re0}-{re1}x{ce0}-{ce1} rectangles overlap"
+    hole = set()
+    for r in range(re0 + 1, re1):
+        for c in range(ce0 + 1, ce1):
+            hole.add((r, c))
+    for r in range(rm0 + 1, rm1):
+        for c in range(0, cm):
+            hole.add((r, c))
+    for r in range(rn0 + 1, rn1):
+        for c in range(0, cn):
+            hole.add((r, c))
+
+    # ---- grid vertices (boundary = existing shell vertices; midline shared between the sides)
+    gv = {}
+    for r in range(R + 1):
+        for c in range(F + 1):
+            if (r, c) in hole:
+                continue
+            if r == 0:
+                gv[r, c] = shell_v(I_JAW, c, side)
+            elif r == R:
+                gv[r, c] = shell_v(I_TOP, c, side)
+            elif c == F:
+                gv[r, c] = shell_v(I_JAW + r, F, side)
+            elif c == 0:
+                gv[r, c] = V(("mid", r), *G[r, 0])
+            else:
+                gv[r, c] = V(("g", side, r, c), *G[r, c])
+    faces = []
+    for r in range(R):
+        for c in range(F):
+            q = [(r, c), (r, c + 1), (r + 1, c + 1), (r + 1, c)]
+            inside_eye = all(re0 <= qq[0] <= re1 and ce0 <= qq[1] <= ce1 for qq in q)
+            inside_mouth = all(rm0 <= qq[0] <= rm1 and 0 <= qq[1] <= cm for qq in q)
+            inside_nose = all(rn0 <= qq[0] <= rn1 and 0 <= qq[1] <= cn for qq in q)
+            if inside_eye or inside_mouth or inside_nose or not all(qq in gv for qq in q):
+                continue
+            faces.append([gv[qq] for qq in q])
+
+    # ---- eye: closed-eye lid topology
+    #   lid line (K-1 vertices) between the eye corners; ring 1 = lid margin: inner corner, K-1 upper-lid vertices,
+    #   outer corner, K-1 lower-lid vertices (equal arc length on the measured lids); one quad spans each eye corner
+    #   (corner, first upper, lid-line end, first lower) so the lid line ends in a 3-valent vertex; upper and lower
+    #   strips run along the lid line; EYE_RINGS rings blend from the lid margin out to the grid rectangle.
+    w, h = ce1 - ce0, re1 - re0; K = w + h; j0 = h // 2
+    rect = ([(re0, c) for c in range(ce0, ce1)] + [(r, ce1) for r in range(re0, re1)] +
+            [(re1, c) for c in range(ce1, ce0, -1)] + [(r, ce0) for r in range(re1, re0, -1)])      # medial-bottom first
+    rect2 = [G[k] for k in rect]; n = len(rect); assert n == 2 * K
+    low_c, upp_c = along(arc(ei, el, eo)), along(arc(ei, eu, eo))
+    lowp = [at(low_c, low_c[1][-1] * i / K) for i in range(K + 1)]            # 0 = inner corner, K = outer corner
+    uppp = [at(upp_c, upp_c[1][-1] * i / K) for i in range(K + 1)]
+    cin, cout = V(("eye", side, "cin"), *ei), V(("eye", side, "cout"), *eo)
+    U = [cin] + [V(("eye", side, "u", i), *uppp[i]) for i in range(1, K)] + [cout]
+    Lo = [cin] + [V(("eye", side, "l", i), *lowp[i]) for i in range(1, K)] + [cout]
+    Ld = {i: V(("eye", side, "lid", i), *(0.5 * (uppp[i] + lowp[i]))) for i in range(1, K)}
+    faces.append([cin, U[1], Ld[1], Lo[1]]); faces.append([cout, Lo[K - 1], Ld[K - 1], U[K - 1]])
+    for i in range(1, K - 1):
+        faces.append([U[i], U[i + 1], Ld[i + 1], Ld[i]]); faces.append([Lo[i], Ld[i], Ld[i + 1], Lo[i + 1]])
+    # ring 1 in rectangle order: lower[j0..K], upper[K-1..1], inner corner, lower[1..j0-1]
+    seq = [("l", i) for i in range(j0, K + 1)] + [("u", i) for i in range(K - 1, 0, -1)] + [("l", 0)] + [("l", i) for i in range(1, j0)]
+    r1v = [Lo[i] if t_ == "l" else U[i] for t_, i in seq]; r1p = [lowp[i] if t_ == "l" else uppp[i] for t_, i in seq]
+    assert len(r1v) == n
+    rings = [r1v]
+    # intermediate rings: start from the blend, then 2D harmonic smoothing (each vertex -> mean of its ring and
+    # radial neighbours; lid margin and rectangle fixed) so the rings come out round and evenly spaced, no spokes
+    RP = np.zeros((EYE_RINGS + 2, n, 2)); RP[0] = np.array(r1p); RP[-1] = np.array(rect2)
+    for k in range(1, EYE_RINGS + 1):
+        t = k / (EYE_RINGS + 1); RP[k] = (1 - t) * RP[0] + t * RP[-1]
+    RL = RP.copy()
+    for _ in range(400):
+        RP[1:-1] = 0.25 * (np.roll(RP[1:-1], 1, axis=1) + np.roll(RP[1:-1], -1, axis=1) + RP[:-2] + RP[2:])
+    RP = 0.7 * RP + 0.3 * RL                                                  # keep ring spacing near the lid corners
+    for k in range(1, EYE_RINGS + 1):                                         # rings move outwards, >= 1.2 mm apart
+        for i in range(n):
+            d = RP[k, i] - RP[k - 1, i]; out = RP[k - 1, i] - ec
+            out = out / max(np.linalg.norm(out), 1e-9)
+            if np.dot(d, out) < 0.0012:
+                RP[k, i] = RP[k, i] + (0.0012 - np.dot(d, out)) * out
+    for k in range(1, EYE_RINGS + 1):
+        rings.append([V(("eye", side, k, i), *RP[k, i]) for i in range(n)])
+    rings.append([gv[k] for k in rect])
+    for a_, b_ in zip(rings[:-1], rings[1:]):
+        for i in range(n):
+            faces.append([a_[i], a_[(i + 1) % n], b_[(i + 1) % n], b_[i]])
+
+    # ---- midline features (mouth, nose): half-rectangle -> half-rings -> feature outline -> closing grid
+    def midline_feature(tag, r0, r1, cw, outline, fr_top, fr_bot, nrings, top_pt, bot_pt, profile_origin=None):
+        """outline runs from top_pt (on the midline) round the lateral side to bot_pt (on the midline); the
+        rectangle's top side maps to the outline up to fr_top of its length, the lateral side around the extreme,
+        the bottom side from fr_bot.  The closing grid's midline column is shared with the other side."""
+        wm, hm = cw, r1 - r0
+        mrect = [(r1, c) for c in range(0, cw)] + [(r, cw) for r in range(r1, r0, -1)] + [(r0, c) for c in range(cw, -1, -1)]
+        mrect2 = [G[k] for k in mrect]
+        Lo = along(outline)[1][-1]
+        minner = map_sides(outline, [0.0, fr_top * Lo, fr_bot * Lo, Lo], [wm, hm, wm]) + [bot_pt]
+        minner[0] = top_pt
+        mr = [[gv[k] for k in mrect]]
+        # half-rings: blend, then 2D harmonic smoothing (rect and outline fixed; the two midline ends slide only along
+        # the midline) and a minimum outward spacing, so the loops come out round instead of following the box
+        nm_ = len(mrect); RP = np.zeros((nrings + 2, nm_, 2)); RP[0] = np.array(mrect2); RP[-1] = np.array(minner)
+        for k in range(1, nrings + 1):
+            t = k / (nrings + 1); RP[k] = (1 - t) * RP[0] + t * RP[-1]
+        RL = RP.copy()
+        for _ in range(300):
+            inner_ = RP[1:-1].copy()
+            sm = 0.25 * (np.roll(inner_, 1, axis=1) + np.roll(inner_, -1, axis=1) + RP[:-2] + RP[2:])
+            sm[:, 0] = RL[1:-1, 0]; sm[:, -1] = RL[1:-1, -1]                    # midline ends stay on the linear blend
+            RP[1:-1] = sm
+        RP = 0.7 * RP + 0.3 * RL
+        ctr = 0.5 * (top_pt + bot_pt)
+        for k in range(1, nrings + 1):
+            for i in range(1, nm_ - 1):
+                d = RP[k - 1, i] - RP[k, i]; inw = ctr - RP[k - 1, i]; inw = inw / max(np.linalg.norm(inw), 1e-9)
+                if np.dot(d, -inw) < 0.0012 and np.dot(RP[k, i] - RP[k - 1, i], inw) < 0.0012:
+                    RP[k, i] = RP[k - 1, i] + 0.0012 * inw + (RP[k, i] - RP[k - 1, i]) - np.dot(RP[k, i] - RP[k - 1, i], inw) * inw
+        for k in range(1, nrings + 1):
+            t = k / (nrings + 1); ring = []
+            for i in range(len(mrect)):
+                p = RP[k, i]
+                key = ("mid_" + tag, "top", k) if i == 0 else (("mid_" + tag, "bot", k) if i == len(mrect) - 1 else (tag, side, k, i))
+                if i in (0, len(mrect) - 1):
+                    p = np.array([mid_x(p[1]), p[1]])
+                ring.append(V(key, *p))
+            mr.append(ring)
+        mr.append([V(("mid_" + tag, "top", "rim") if i == 0 else (("mid_" + tag, "bot", "rim") if i == len(mrect) - 1 else ("rim", tag, side, i)),
+                     *minner[i]) for i in range(len(mrect))])
+        for a_, b_ in zip(mr[:-1], mr[1:]):
+            for i in range(len(mrect) - 1):
+                faces.append([a_[i], a_[i + 1], b_[i + 1], b_[i]])
+        vm, vm2 = mr[-1], minner
+        Tv = vm[0:wm + 1]; Rv = list(reversed(vm[wm:wm + hm + 1])); Bv = list(reversed(vm[wm + hm:]))
+        T2 = vm2[0:wm + 1]; R2 = list(reversed(vm2[wm:wm + hm + 1])); B2 = list(reversed(vm2[wm + hm:]))
+        L2 = [np.array([mid_x(z), z]) for z in np.linspace(bot_pt[1], top_pt[1], hm + 1)]
+        lg = {}
+        if profile_origin is not None:
+            # profile fill (nose): rows evenly spaced along the sagittal profile (base -> underside -> tip -> bridge),
+            # columns swept by rays from a point inside the nose root towards the outline - captures the underside
+            O = Vector(profile_origin); b3, t3 = Bv[0].co, Tv[0].co
+            prof = sweep_hits(O, b3 - O, t3 - O); prof = [b3] + prof + [t3]
+            Pp = np.array([q[:] for q in prof]); sl = np.r_[0, np.cumsum(np.linalg.norm(np.diff(Pp, axis=0), axis=1))]
+            for r in range(hm + 1):
+                for c in range(wm + 1):
+                    if r == 0:
+                        lg[r, c] = Bv[c]
+                    elif r == hm:
+                        lg[r, c] = Tv[c]
+                    elif c == wm:
+                        lg[r, c] = Rv[r]
+                    elif c == 0:
+                        sp = r / hm * sl[-1]; pm = Vector([np.interp(sp, sl, Pp[:, d]) for d in range(3)]); pm.x = mid_x(pm.z)
+                        lg[r, c] = V3(("mid_" + tag, "fill", r), pm)
+            for r in range(1, hm):
+                d0 = lg[r, 0].co - O; d1 = lg[r, wm].co - O
+                hits = sweep_hits(O, d0, d1, 4 * wm + 1)
+                for c in range(1, wm):
+                    lg[r, c] = V3((tag + "_fill", side, r, c), hits[min(round(c / wm * (len(hits) - 1)), len(hits) - 1)])
+            for r in range(hm):
+                for c in range(wm):
+                    faces.append([lg[r, c], lg[r, c + 1], lg[r + 1, c + 1], lg[r + 1, c]])
+            return len(mrect)
+        for r in range(hm + 1):
+            for c in range(wm + 1):
+                if r == 0:
+                    lg[r, c] = Bv[c]
+                elif r == hm:
+                    lg[r, c] = Tv[c]
+                elif c == wm:
+                    lg[r, c] = Rv[r]
+                elif c == 0:
+                    lg[r, c] = V(("mid_" + tag, "fill", r), *L2[r])
+                else:
+                    lg[r, c] = V((tag + "_fill", side, r, c), *coons(idx_fn(B2), idx_fn(T2), idx_fn(L2), idx_fn(R2), c / wm, r / hm))
+        for r in range(hm):
+            for c in range(wm):
+                faces.append([lg[r, c], lg[r, c + 1], lg[r + 1, c + 1], lg[r + 1, c]])
+        return len(mrect)
+
+    # mouth: vermilion border (upper arc to the corner, lower arc back); lips grid middle row = stomion
+    up_v = arc(mu, 0.5 * (mu + mcorner) + np.array([0, 0.0015]), mcorner); lo_v = arc(mcorner, 0.5 * (ml + mcorner) - np.array([0, 0.0015]), ml)
+    Lu = along(up_v)[1][-1]; verm_c = np.vstack([up_v, lo_v[1:]]); Lv_ = along(verm_c)[1][-1]
+    n_m = midline_feature("m", rm0, rm1, cm, verm_c, 0.7 * Lu / Lv_, (Lu + 0.3 * (Lv_ - Lu)) / Lv_, MOUTH_RINGS, mu, ml)
+    # nose: dorsum -> alar top -> alar lateral point -> alar base -> subnasale (alar-groove loops)
+    nd = np.array([mid_x(NOSE["dorsum"]), NOSE["dorsum"]]); ns = np.array([mid_x(NOSE["subnasale"]), NOSE["subnasale"]])
+    rel = lambda q: np.array([mid_x(q[1]) + sg * q[0], q[1]])
+    n_up = arc(nd, rel(NOSE["alar_top"]), rel(NOSE["alar_lat"])); n_lo = arc(rel(NOSE["alar_lat"]), rel(NOSE["alar_base"]), ns)
+    nose_c = np.vstack([n_up, n_lo[1:]]); Lnu = along(n_up)[1][-1]; Lnc = along(nose_c)[1][-1]
+    n_n = midline_feature("n", rn0, rn1, cn, nose_c, 0.75 * Lnu / Lnc, (Lnu + 0.35 * (Lnc - Lnu)) / Lnc, NOSE_RINGS, nd, ns,
+                          profile_origin=(mid_x(NOSE_PROFILE_ORIGIN_Z), NOSE_PROFILE_ORIGIN_Y, NOSE_PROFILE_ORIGIN_Z))
+    return faces, {"eye_rect_rows": [re0, re1], "eye_rect_cols": [ce0, ce1], "eye_ring_vertices": n, "lid_segments": K,
+                   "mouth_rect_rows": [rm0, rm1], "mouth_rect_cols": [0, cm], "mouth_half_ring_vertices": n_m,
+                   "nose_rect_rows": [rn0, rn1], "nose_rect_cols": [0, cn], "nose_half_ring_vertices": n_n}
+
+
+info = {}
+allf = []
+f_, inf = build_side(1); allf += f_; info["right"] = inf                     # right side picks the layout
+f_, inf = build_side(-1, inf); allf += f_; info["left"] = inf                  # left side uses the same (symmetric topology)
+made = 0
+for f in allf:
+    if len(set(f)) < 4:
+        raise RuntimeError("degenerate face in the face patch")
+    if bm.faces.get(f) is None:
+        bm.faces.new(f); made += 1
+bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+# light on-surface relax of the new face vertices (front-ray re-projection); boundary / midline / features fixed
+newv = set(nv.values()); # fixed in both relax passes: midline chain, feature outlines (eyelid line, vermilion, nose outline) and the designed
+# rings themselves (nearest-surface relax collapsed neighbouring rings into the nose-lip and eye-corner creases)
+fixedkeys = {v for k, v in nv.items() if k[0] in ("mid", "mid_m", "mid_n", "rim", "eye", "m", "n", "n_fill")}
+_ring = {v for k, v in nv.items() if k[0] in ("m", "n", "rim")}      # eye-rectangle grid vertices may relax
+fixedkeys |= {v for k, v in nv.items() if k[0] == "g" and any(e.other_vert(v) in _ring for e in v.link_edges)}  # rectangle outlines
+for _ in range(6):
+    upd = {}
+    for v in newv - fixedkeys:
+        nb = [e.other_vert(v) for e in v.link_edges]
+        avg = sum((w.co for w in nb), Vector()) / len(nb); p = v.co.lerp(avg, 0.4)
+        upd[v] = front_hit(p.x, p.z)
+    for v, p in upd.items():
+        v.co = p
+# final relax across the whole head / neck (z > 1.50): smooths the junctions where loop systems meet (jaw angle,
+# forehead-temple corner, eye / mouth corners). Fixed: opening boundaries, eyelid line, vermilion line, face midline.
+fixed2 = {v for v in bm.verts if v.is_boundary} | fixedkeys | {v for v in bm.verts if v.co.z <= 1.40}
+EAR_X = 0.062
+for _ in range(10):
+    upd = {}
+    for v in bm.verts:
+        if v in fixed2:
+            continue
+        nb = [e.other_vert(v) for e in v.link_edges]
+        avg = sum((w.co for w in nb), Vector()) / len(nb); p = v.co.lerp(avg, 0.35)
+        in_face = abs(p.x) < 0.065 and p.y < -0.06 and 1.415 < p.z < 1.585
+        h = front_hit(p.x, p.z) if in_face else bvh.find_nearest(p)[0]   # face: front rays, as built (no crease snapping)
+        if abs(h.x) > EAR_X and 1.465 < h.z < 1.545 and abs(h.x) > abs(v.co.x) + 0.002:
+            continue                                      # never slide onto the ear
+        upd[v] = h
+    for v, h in upd.items():
+        v.co = h
+bm.to_mesh(me); me.update()
+body["TASK3_FACE_DESIGN"] = json.dumps({"midline": MIDLINE, "eye_right": EYE_R, "eye_centre": EYE_C, "mouth": MOUTH,
+                                        "eye_left": EYE_L, "nose": NOSE, "eye_rings": EYE_RINGS, "mouth_rings": MOUTH_RINGS, "nose_rings": NOSE_RINGS, "layout": info})
+body["TASK3_SHELL_DESIGN"] = SHELL["TASK3_SHELL_DESIGN"]
+bpy.ops.wm.save_as_mainfile(filepath=str(OUT), check_existing=False)
+L = np.array([e.calc_length() for e in bm.edges])
+import os  # noqa: E402
+if os.environ.get("FACE_DIAG"):
+    inv = {v: k for k, v in nv.items()}
+    for e in sorted(bm.edges, key=lambda e: e.calc_length())[:8]:
+        print("DIAG %.2f mm" % (e.calc_length() * 1000), [inv.get(v, ("shell",)) for v in e.verts], [round(c * 1000, 1) for c in e.verts[0].co])
+rep = {"out": str(OUT), "object": body.name, "faces_added": made, "new_vertices": len(nv), "vertices": len(bm.verts), "faces": len(bm.faces),
+       "non_quads": sum(len(f.verts) != 4 for f in bm.faces), "min_edge_mm": round(float(L.min()) * 1000, 2), "layout": info}
+REP.write_text(json.dumps(rep, indent=1)); print("FACE", json.dumps(rep))

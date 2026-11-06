@@ -145,8 +145,8 @@ OUTER = _outer_layer()
 
 # Covered faces: the fused sports bra and shorts are a garment layer lying over the skin INSIDE the source, so nearest-
 # surface snapping can land on the hidden skin under the fabric (the cage then disappears under the visible surface).
-# A face is covered when a ray from its centre along its normal hits the source again within 6 mm (hits on her
-# ponytail do not count: the back skin under it is the body surface).
+# A face is covered when a ray from its centre along its normal hits, within 6 mm, a surface facing the same way
+# (hits on her ponytail do not count: the back skin under it is the body surface).
 def _covered():
     me_ = SRC_FULL.data; n = len(me_.polygons)
     C = np.zeros(n * 3); N = np.zeros(n * 3)
@@ -154,7 +154,9 @@ def _covered():
     C = C.reshape(-1, 3); N = N.reshape(-1, 3); out = np.zeros(n, bool)
     for i in range(n):
         d = Vector(N[i]); h = bvh.ray_cast(Vector(C[i]) + d * 0.0002, d, 0.006)
-        out[i] = h[0] is not None and not OUTER[list(ST[h[2]])].any()   # covered by fabric, not by her ponytail
+        # covered by fabric: the surface above faces the SAME way (the fused garment's outer side); across the gap
+        # between her arm and her torso (or between her thighs) the two surfaces face each other and nothing is removed
+        out[i] = h[0] is not None and h[1].dot(d) > 0.3 and not OUTER[list(ST[h[2]])].any()
     return out
 
 
@@ -178,8 +180,11 @@ class _Ray:
         if first[0] is None:
             return first
         best = first; t = first[3]
+        # the bra's centre panel spans her cleavage 3-4 cm in front of the skin: forward rays at bra height take the
+        # outermost layer within 45 mm (the body form follows the fitted wear, owner's decision 6 Nov)
+        gap = 0.045 if (d.y < -0.85 and 1.10 < o.z < 1.30) else 0.015
         while True:
-            h = bvh_ray.ray_cast(o + d * (t + 0.0003), d, 0.015)
+            h = bvh_ray.ray_cast(o + d * (t + 0.0003), d, gap)
             if h[0] is None:
                 return best
             t = t + 0.0003 + h[3]; best = (h[0], h[1], h[2], t)
@@ -223,16 +228,22 @@ HEAD_C = Vector((0.0, centre_y(1.53), 1.53))  # head centre: body axis at the to
 CAP = {"rows_front_back": 17, "half_columns": 8}
 Z_ARMPIT = 1.210                              # arms separate from the trunk below this (sections, 2 cm)
 torso = [("h", float(z)) for z in np.round(np.linspace(OPEN_PELVIS_Z, 1.188, 10), 4)]
-sock = [("h", float(z)) for z in np.round(np.linspace(1.212, 1.336, 17), 4)]       # armpit .. top of the shoulder, 7.75 mm
+sock = [("h", float(z)) for z in np.round(np.linspace(1.212, 1.336, 18), 4)]       # armpit .. top of the shoulder, 7.3 mm
+# (18 loops: with the trapezius rows that also meet the arm, the socket loop has 64 vertices: a multiple of 4 for
+# the arm's 4:2 transition, and 32-vertex arm rings, as the hand (4 fingers x 8) needs)
 TRAP_LO, TRAP_HI = ("h", 1.336), ("h", 1.372)
 trap = [("m", (TRAP_LO, TRAP_HI, i / 6, 1.30)) for i in range(1, 7)]              # trapezius / neck base: 6 loops
 NECK_HI = ("jl",)
-neck = [("m", (TRAP_HI, NECK_HI, i / 4, 1.34)) for i in range(1, 5)]               # neck + underside of jaw: 4 loops
+neck = [("m", (TRAP_HI, NECK_HI, i / 7, 1.34)) for i in range(1, 8)]               # neck + underside of jaw: 7 loops
+                                                                                   # (her chin underside is ~5 cm long)
 JAW_ROW = neck[-1]
-HEAD_Z = [float(z) for z in np.round(np.arange(1.488, 1.5521, 0.008), 4)]          # 8 mm loops, jaw .. just above the
+HEAD_Z = [float(z) for z in np.round(np.linspace(1.496, 1.552, 11), 4)]          # 8 mm loops, jaw .. just above the
                                                                                    # head centre (cranium loops above)
-head = [("m", (NECK_HI, ("h", HEAD_Z[0]), 0.5, 1.43))] + [("h", z) for z in HEAD_Z]
-EAR_LO, EAR_HI = JAW_ROW, ("h", 1.536)        # her ear z 1.475-1.535: the jaw loop (1.468-1.476 there) is its lower edge
+# her jaw line slants steeply (1.420 m at the chin, 1.468 m beside the ear): three meridian rows between the jaw loop
+# and the first head loop, so the lower face (mouth, nose) has rows; behind the ear they stay >= 4 mm apart
+head = [("m", (NECK_HI, ("h", HEAD_Z[0]), t, 1.43)) for t in (0.25, 0.5, 0.75)] + [("h", z) for z in HEAD_Z]
+EAR_LO, EAR_HI = JAW_ROW, ("h", min(HEAD_Z, key=lambda z: abs(z - 1.536)))   # her ear z 1.475-1.535: the jaw loop
+                                                                                   # (1.468-1.476 there) is its lower edge
 EAR_DEG = (float(os.environ.get("F_EAR_D0", "88")), float(os.environ.get("F_EAR_D1", "124")))   # her ear: lateral,
                                                                                    # just behind the head axis
 FACE_EDGE_DEG = JFACE * COL_STEP

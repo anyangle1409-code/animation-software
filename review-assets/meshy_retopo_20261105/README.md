@@ -874,3 +874,103 @@ All six steps run on her own source. Each builder is a female script in `scripts
 - the ponytail mesh;
 - the skeleton fitted to her proportions;
 - the standing review.
+
+## F09b — Female standing model completion (6 Nov): candidate for the owner's visual approval
+
+**Status: CANDIDATE, not approved.** Male 07c is untouched. Nothing was merged into production.
+
+**Candidate:** `HGPT_Female_F09b_TexFix_WIP.blend` (read-only, SHA-256 `bf67fc71928b49d89380680f2e5dcde966848378dd9d60a84d81c30fef33883e`). It lives in the session workspace `hgpt_ws/female/retopo/`, because licensed geometry and `.blend` files are never committed.
+
+**Chain:** every step was written to a new file, and earlier checkpoints are locked:
+
+F04a → F03d hands → F04d legs → F05c untangle → F06a densify → F06b untangle → F06c fit-out → F06d untangle → F06e hands outside → F06f untangle → F07a clothing → F07b ponytail → F08a skeleton → F08b bind and stand pose → F08c hems → F09a bake → F09b texture fix.
+
+Reports for each step are in `female_f09a/`.
+
+### Geometry and topology
+- **Body:** 50,090 vertices and 50,088 quads, with 0 non-quads and 0 boundary edges (closed).
+  - Self-intersecting face pairs: 754, almost all in the hands (palm 672, fingers 82).
+- **Deviation of the visible clothed surface from her source:**
+  - head, hands and feet: p95 0 mm;
+  - back hair: p95 0.42 mm;
+  - trunk and limbs: p95 0.6 mm, p99 2.4 mm.
+  - Coverage from her source to the new surface: p95 3.7 mm (`source_comparison.json`).
+- **Nose, chin and bra band:** the parts that sat under the surface (F04a) were fitted out in F06c–F06f.
+- **Separate, removable garments:**
+  - bra: 1,917 faces;
+  - shorts: 1,826 faces.
+  - Both have Solidify 1.2 mm, hems straightened along her surface, and a 0.6 mm lift.
+- **Ponytail:** a separate mesh of 3,547 vertices and 6,236 faces (a decimated copy of her source hair).
+- **Textures:** baked from her source albedo, then cleaned up in F09b:
+  - 119,704 fabric-coloured texels repainted on uncovered skin;
+  - black ponytail texels filled;
+  - skin-coloured hem bands on the garments set to the fabric colour.
+
+### Proportions vs source (clothed; tape-measure sections at the same heights)
+
+| Measure | New | Source |
+|---|---|---|
+| Height | 1.680 m | 1.680 m |
+| Bust | 94.9 cm | 94.7 cm |
+| Underbust | 72.8 cm | 72.9 cm |
+| Waist | 63.5 cm | 63.4 cm |
+| Hips | 99.3 cm | 99.5 cm |
+| Thigh | 54.5 cm | 54.6 cm |
+| Calf | 35.0 cm | 35.0 cm |
+| Upper arm | 30.5 cm | 30.6 cm |
+| Deltoid breadth | 45.3 cm | 45.3 cm |
+
+Hip width differs by −1.1 %. Without the garments, the body measures bust 93.6 cm and hips 97.6 cm.
+
+### Clothing assumptions (no evidence in the source)
+- The source has its garments fused to the skin, so it gives no evidence of the body underneath.
+- Under the garments, the body is the garment shape inset by 3 mm, with light Taubin smoothing.
+- The breasts keep the supported bra shape.
+- No nipples, genital or other anatomical detail was invented.
+
+### Skeleton
+- Fitted to her own measured joints, not scaled from the male.
+- 67 bones (64 deform), with canonical names, hierarchy and roll (`canonical_rig_conventions.json`).
+- **Joint positions:**
+
+  | Joint | Position (m) |
+  |---|---|
+  | Shoulder (GH) | (±0.167, 0.011, 1.32) |
+  | Elbow | z 1.030 |
+  | Wrist | z 0.847 |
+  | Hip | (±0.091, −0.031, 0.855) |
+  | Knee | z 0.4325 |
+  | Ankle | z 0.0925 |
+
+- **Segment lengths:** upper arm 320.8 mm, forearm 221.4 mm, thigh 429.7 mm, shin 342.6 mm.
+- **Limb bones vs the soft-tissue centre line:** 2–4°. The thigh is 6.6–8°, which is expected from the medial femoral head.
+- **Bind:** 0 unweighted vertices, at most 4 influences.
+- **Natural standing pose:** arms 10° from vertical and 6° forward, elbows bent 12°.
+- No exercise animation and no shoulder-deformation work.
+
+### Remaining defects (visible in the sheets; not hidden by shading)
+1. **Body under the garments:**
+   - raised ridges where the strap and band edges were (front shoulders, upper back);
+   - staircase steps at the old garment boundary in the wireframe;
+   - a front-chest crease.
+2. **Hands:**
+   - thumb-web chord faces (up to 17 mm from the source);
+   - a dark crease line on the back of each hand;
+   - self-intersections in the palms and between fingers;
+   - the `thumb_01_l` joint sits marginally outside the body.
+3. **Front-armpit chord faces** (up to 15 mm from the source).
+4. **Toes:** joined, not individually separated.
+5. **Ponytail:**
+   - made of decimated triangles, with a streaky, glossy look and dark folds;
+   - a loose strand shard beside the face in the side view.
+6. **Bra:** the front band shows a light patch of baked texture at centre front.
+7. **Rig:** the male helper and corrective bones are deferred.
+
+Review sheets are kept in the session scratchpad (`sheets_F09b/`):
+
+- `01` natural stand (texture and clay);
+- `02` source vs new, same cameras;
+- `03` Option 4 reference vs new;
+- `04` close-ups;
+- `05` body without clothing;
+- `06` topology wireframes.

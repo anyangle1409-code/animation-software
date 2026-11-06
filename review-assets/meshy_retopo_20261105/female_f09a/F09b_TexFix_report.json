@@ -1,0 +1,10 @@
+{
+ "in": "HGPT_Female_F09a_Textured_WIP.blend",
+ "faces_repainted": 1409,
+ "texels_repainted": 119704,
+ "ponytail_fragment_faces_removed": 3,
+ "ponytail_black_texels_filled": 1341737,
+ "HGPT_Female_Bra_texels_set_to_fabric": 22193,
+ "HGPT_Female_Shorts_texels_set_to_fabric": 104,
+ "out": "/tmp/claude-0/-home-user-animation-software/b0b01a8a-22fb-52cd-85ad-39c74496ecb2/scratchpad/hgpt_ws/female/retopo/HGPT_Female_F09b_TexFix_WIP.blend"
+}

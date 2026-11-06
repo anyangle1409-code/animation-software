@@ -1,0 +1,20 @@
+{
+ "in": "HGPT_Female_Rig_F08b_Bound_WIP.blend",
+ "HGPT_Female_Bra": {
+  "boundary_vertices": 594,
+  "moved_mm_p50_p95_max": [
+   0.8,
+   5.18,
+   18.39
+  ]
+ },
+ "HGPT_Female_Shorts": {
+  "boundary_vertices": 312,
+  "moved_mm_p50_p95_max": [
+   0.6,
+   6.62,
+   27.58
+  ]
+ },
+ "out": "HGPT_Female_Rig_F08c_Hems_WIP.blend"
+}

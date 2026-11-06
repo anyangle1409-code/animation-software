@@ -1,0 +1,31 @@
+{
+ "in": "HGPT_Female_Retopo_F06f_Untangle_WIP.blend",
+ "thresholds": {
+  "value_max": 0.45,
+  "saturation_max": 0.3
+ },
+ "holes_filled_faces": 2,
+ "islands_dropped_faces": 76,
+ "garments": {
+  "HGPT_Female_Bra": {
+   "faces": 1917,
+   "vertices": 2214
+  },
+  "HGPT_Female_Shorts": {
+   "faces": 1826,
+   "vertices": 1982
+  }
+ },
+ "under_garment_vertices": 4196,
+ "evidence_hidden_skin_vertices": 5,
+ "assumed_inset_vertices": 4191,
+ "hidden_skin_depth_mm_p10_p50_p90": [
+  1.29,
+  3.46,
+  28.0
+ ],
+ "inset_used_mm": 3.0,
+ "clearance_pushed_vertices": 968,
+ "body_intersecting_pairs": 808,
+ "out": "HGPT_Female_Retopo_F07a_Clothing_WIP.blend"
+}

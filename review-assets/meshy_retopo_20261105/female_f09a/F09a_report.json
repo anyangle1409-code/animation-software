@@ -1,0 +1,26 @@
+{
+ "in": "HGPT_Female_Rig_F08c_Hems_WIP.blend",
+ "bakes": {
+  "HGPT_Female_Body": {
+   "resolution": 4096,
+   "uv": "smart project",
+   "faces": 50088
+  },
+  "HGPT_Female_Bra": {
+   "resolution": 2048,
+   "uv": "smart project",
+   "faces": 1917
+  },
+  "HGPT_Female_Shorts": {
+   "resolution": 2048,
+   "uv": "smart project",
+   "faces": 1826
+  },
+  "HGPT_Female_Ponytail": {
+   "resolution": 2048,
+   "uv": "smart project",
+   "faces": 6236
+  }
+ },
+ "out": "HGPT_Female_F09a_Textured_WIP.blend"
+}

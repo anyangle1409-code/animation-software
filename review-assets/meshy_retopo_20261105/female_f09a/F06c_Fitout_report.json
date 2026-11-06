@@ -1,0 +1,7 @@
+{
+ "in": "HGPT_Female_Retopo_F06b_Untangle_WIP.blend",
+ "toe_cap_vertices_projected": 1554,
+ "hand_foot_vertices_inside_moved_out": 7149,
+ "hand_foot_vertices_still_inside_after_relax": 6779,
+ "out": "HGPT_Female_Retopo_F06c_Fitout_WIP.blend"
+}

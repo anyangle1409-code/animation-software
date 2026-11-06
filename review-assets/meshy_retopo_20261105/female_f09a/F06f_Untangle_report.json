@@ -1,0 +1,41 @@
+{
+ "method": "FEMALE (same method as scripts/retopology/untangle_retopo.py, her projection target: her source minus the hanging\nponytail and fabric-covered skin). Remove self-intersections of the closed retopology body (rest pose) - local, on-surface, topology unchanged.\n\nLoop: find non-adjacent intersecting triangle pairs; take their vertices plus a one-ring margin; move each to the\naverage of its edge neighbours (umbrella), then back onto the source surface (nearest point), unless the nearest\npoint is more than SNAP_MAX from the smoothed point (fused fingers / toes, where the nearest surface can belong to the\nneighbouring digit) - those stay at the smoothed point. Repeat while the count falls. Vertices of the hand tagged as\nfingers / thumb (t4_part >= 10) are smoothed without snapping. Reports the count by region before and after.",
+ "in": "HGPT_Female_Retopo_F06e_HandsOut_WIP.blend",
+ "intersecting_pairs_before": 2448,
+ "by_region_before": {
+  "palm": 1497,
+  "torso_arms": 22,
+  "fingers_thumb": 929
+ },
+ "intersecting_pairs_after": 754,
+ "by_region_after": {
+  "palm": 672,
+  "fingers_thumb": 82
+ },
+ "rounds": 19,
+ "history": [
+  2448,
+  1414,
+  1138,
+  1032,
+  956,
+  880,
+  824,
+  816,
+  800,
+  796,
+  798,
+  782,
+  778,
+  776,
+  754,
+  766,
+  768,
+  760,
+  760,
+  778
+ ],
+ "vertices_moved_over_0p5mm": 457,
+ "max_move_mm": 12.78,
+ "out": "HGPT_Female_Retopo_F06f_Untangle_WIP.blend"
+}

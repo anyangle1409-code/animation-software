@@ -1,0 +1,18 @@
+{
+ "in": "HGPT_Female_Retopo_F07a_Clothing_WIP.blend",
+ "hair_source_faces": 255536,
+ "vertices": 3547,
+ "faces": 6236,
+ "quads": 854,
+ "triangles": 5382,
+ "z_range": [
+  1.298,
+  1.68
+ ],
+ "boundary_edges": 210,
+ "distance_to_hair_mm_p50_p95": [
+  0.17,
+  0.46
+ ],
+ "out": "HGPT_Female_Retopo_F07b_Ponytail_WIP.blend"
+}

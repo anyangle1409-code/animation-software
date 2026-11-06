@@ -1,0 +1,27 @@
+{
+ "in": "HGPT_Female_Rig_F08a_Skeleton_WIP.blend",
+ "deform_bones": 64,
+ "weights": {
+  "unweighted_vertices": 0,
+  "filled_from_neighbours": 0,
+  "max_influences": 4
+ },
+ "self_intersections_rest": {
+  "hands": 788,
+  "trunk_arms": 128,
+  "head": 2
+ },
+ "self_intersections_pose": {
+  "hands": 788,
+  "trunk_arms": 132,
+  "head": 2
+ },
+ "pose": {
+  "arm_from_vertical_deg": 10.0,
+  "arm_forward_deg": 6.0,
+  "elbow_flex_deg": 12.0
+ },
+ "skin_through_garments_vertices_pose": 4508,
+ "min_hand_forearm_to_hip_thigh_mm_pose": null,
+ "out": "HGPT_Female_Rig_F08b_Bound_WIP.blend"
+}

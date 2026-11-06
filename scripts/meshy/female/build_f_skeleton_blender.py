@@ -10,7 +10,7 @@ Her joints (rest = her A-pose):
   * ankle: talocrural level = the widest ankle section (malleoli) between 0.04 and 0.11 m, centred in that section;
   * knee: her narrowest leg section (leg builder record), centred;
   * hip: her thigh line (upper-thigh centroid -> knee) at the hip-joint height = her crotch + 0.06 m (greater
-    trochanter level; documented estimate), |x| clamped to 0.075-0.10 m;
+    trochanter level; documented estimate); |x| = 0.237 x her widest hip width (Harrington-style pelvis-width rule);
   * ball / toe: 72 % of her heel -> toe-tip length at the foot's mid height / the toe tip;
   * spine: pelvis head 0.06 m above the hip joints, C7 at her neck base (trapezius-top loop 1.372 m), skull base at her
     occiput (1.478 m), head top at her vertex; the intermediate spine joints divide pelvis -> C7 at the canonical
@@ -56,7 +56,7 @@ H = float(BV[:, 2].max())
 U = lambda v: v / np.linalg.norm(v)
 
 
-def section(z, xmin, xmax, pts=SV, slab=0.004):
+def section(z, xmin, xmax, pts=BV, slab=0.004):          # her body (no ponytail)
     s = pts[(np.abs(pts[:, 2] - z) < slab) & (pts[:, 0] >= xmin) & (pts[:, 0] <= xmax)]
     return s
 
@@ -90,7 +90,10 @@ for side, sg in (("r", 1.0), ("l", -1.0)):
     crotch = float(np.mean(LEGS["crotch_strip_z"])); zh = crotch + 0.06
     s = section(0.75, 0.0, 0.3) if sg > 0 else section(0.75, -0.3, 0.0)
     ut = s.mean(0); d = U(ut - knee); hip = knee + d * ((zh - knee[2]) / d[2])
-    hip[0] = sg * float(np.clip(abs(hip[0]), 0.075, 0.10)); hip[1] = mid_y(zh, -0.12, 0.12) if False else hip[1]
+    # hip-joint centre width: 0.237 x her widest hip width at the trochanter level (Harrington-style pelvis-width
+    # rule; the thigh-line extrapolation alone is unreliable this close to the joint)
+    hs = BV[(np.abs(BV[:, 2] - zh + 0.05) < 0.03) & (np.abs(BV[:, 0]) < 0.25)]; hipw = float(np.ptp(hs[:, 0]))   # not her hands
+    hip[0] = sg * 0.237 * hipw
     fl = tip - heel; ball = heel + fl * 0.72; ball[2] = 0.025; toe = tip.copy(); toe[2] = max(tip[2], 0.012)
     J.update({f"hip_{side}": hip, f"knee_{side}": knee, f"ankle_{side}": ankle, f"ball_{side}": ball, f"toe_{side}": toe})
 # symmetrise legs (her source is symmetric): average |x|, y, z
@@ -144,7 +147,7 @@ for side, sg in (("r", 1.0), ("l", -1.0)):
         if not len(pts):
             continue
         c = pts.mean(0); d = U(np.linalg.svd(pts - c)[2][0]); d = d if d @ (c - w) > 0 else -d
-        t = (pts - c) @ d; base = c + d * t.min(); tipp = c + d * t.max()
+        t = (pts - c) @ d; base = c + d * (t.min() + 0.004); tipp = c + d * t.max()
         fingers.append((np.linalg.norm(base - thr.mean(0)), base, tipp))
     fingers.sort(key=lambda q: q[0])
     for name, (_, base, tipp) in zip(FING, fingers):
@@ -152,10 +155,30 @@ for side, sg in (("r", 1.0), ("l", -1.0)):
         J[f"{name}_mc_{side}"] = w + (base - w) * 0.25
         J[f"{name}_k_{side}"] = base; J[f"{name}_p_{side}"] = base + dd * 0.45 * Lf; J[f"{name}_d_{side}"] = base + dd * 0.75 * Lf; J[f"{name}_t_{side}"] = tipp
     c = th.mean(0); d = U(np.linalg.svd(th - c)[2][0]); d = d if d @ (c - w) > 0 else -d
-    t = (th - c) @ d; b0 = c + d * t.min(); tt = c + d * t.max(); Lt = np.linalg.norm(tt - b0)
+    t = (th - c) @ d; b0 = c + d * (t.min() + 0.004); tt = c + d * t.max(); Lt = np.linalg.norm(tt - b0)
     J[f"thumb_0_{side}"] = b0; J[f"thumb_1_{side}"] = b0 + d * 0.40 * Lt; J[f"thumb_2_{side}"] = b0 + d * 0.72 * Lt; J[f"thumb_3_{side}"] = tt
     hd = U(J[f"middle_k_{side}"] - w) if f"middle_k_{side}" in J else U(w - J[f"elbow_{side}"])
     J[f"hand_t_{side}"] = w + hd * 0.016
+# ---------------- joints that ended on / outside her surface (finger and thumb bases of tight hands): 6 mm inside
+_bb = BVHTree.FromPolygons([Vector(p) for p in BV], [tuple(p.vertices) for p in body.data.polygons])
+
+
+def _inside(p):
+    o = Vector(p); cnt = 0; d = Vector((0.31, 0.53, 0.79)).normalized(); t = 0.0
+    while True:
+        h = _bb.ray_cast(o + d * (t + 1e-5), d)
+        if h[0] is None:
+            return cnt % 2 == 1
+        cnt += 1; t = (h[0] - o).length
+
+
+MOVED_IN = []
+for k_ in list(J):
+    if k_ in ("root", "head_top") or k_.endswith("_t_l") or k_.endswith("_t_r") or k_.startswith("thumb_3") or k_.startswith("toe_"):
+        continue
+    if not _inside(J[k_]):
+        q, nn, _, _ = _bb.find_nearest(Vector(J[k_]))
+        J[k_] = np.array((q - nn * 0.006)[:]); MOVED_IN.append(k_)
 # ---------------- bones
 B = {}  # name -> (head, tail, parent)
 def bone(n, h, t, p):
@@ -198,10 +221,13 @@ with bpy.context.temp_override(active_object=rig, object=rig, selected_objects=[
                 e.align_roll(z.normalized())
     bpy.ops.object.mode_set(mode="OBJECT")
 # ---------------- checks
-def inside(p):
+body_bvh = BVHTree.FromPolygons([Vector(p) for p in BV], [tuple(p.vertices) for p in body.data.polygons])
+
+
+def inside(p):                                       # parity on her closed retopologised body
     o = Vector(p); cnt = 0; d = Vector((0.31, 0.53, 0.79)).normalized(); t = 0.0
     while True:
-        h = bvh.ray_cast(o + d * (t + 1e-5), d)
+        h = body_bvh.ray_cast(o + d * (t + 1e-5), d)
         if h[0] is None:
             return cnt % 2 == 1
         cnt += 1; t = (h[0] - o).length
@@ -214,12 +240,12 @@ for n, (h, t, p) in B.items():
     if n in ("root",) or n.endswith("_top"):
         continue
     checks[n] = {"head_inside": inside(h), "length_mm": round(float(np.linalg.norm(t - h)) * 1000, 1)}
-rep["joints_outside_body"] = [n for n, c in checks.items() if not c["head_inside"]]
+rep["joints_outside_body"] = [n for n, c in checks.items() if not c["head_inside"]]; rep["joints_moved_inside"] = MOVED_IN
 sym = []
 for n in B:
     if n.endswith("_l") and n[:-2] + "_r" in B:
-        hl, hr = B[n][0], B[n[:-2] + "_r"][0]; sym.append(float(np.linalg.norm(hl - np.array([-hr[0], hr[1], hr[2]]))))
-rep["symmetry_max_mm"] = round(max(sym) * 1000, 2)
+        hl, hr = B[n][0], B[n[:-2] + "_r"][0]; sym.append((float(np.linalg.norm(hl - np.array([-hr[0], hr[1], hr[2]]))), n[:-2]))
+rep["symmetry_max_mm"] = round(max(sym)[0] * 1000, 2); rep["symmetry_worst"] = [(b, round(d * 1000, 1)) for d, b in sorted(sym)[-5:]]
 # limb bones along her limb centre lines: bone direction vs centroid line of body vertices near the bone
 align = {}
 for n in ("upperarm_r", "forearm_r", "thigh_r", "shin_r", "upperarm_l", "forearm_l", "thigh_l", "shin_l"):
@@ -239,4 +265,4 @@ rep["shoulder_breadth_GH_mm"] = round(2 * gx * 1000, 1); rep["hip_joint_breadth_
 rig["SKELETON_FIT"] = json.dumps({k: v for k, v in rep.items() if k not in ("bone_checks",)})
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT), check_existing=False)
 rep["out"] = str(OUT); REP.write_text(json.dumps(rep, indent=1))
-print("SKELETON", json.dumps({k: rep[k] for k in ("bones", "joints_outside_body", "symmetry_max_mm", "limb_alignment", "segment_lengths_mm", "shoulder_breadth_GH_mm", "hip_joint_breadth_mm", "convention_missing")}))
+print("SKELETON", json.dumps({k: rep[k] for k in ("bones", "joints_outside_body", "joints_moved_inside", "symmetry_max_mm", "symmetry_worst", "limb_alignment", "segment_lengths_mm", "shoulder_breadth_GH_mm", "hip_joint_breadth_mm", "convention_missing")}))

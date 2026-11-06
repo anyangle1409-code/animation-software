@@ -52,10 +52,10 @@ def face_region(v):
 
 
 def level(bm, edges, tag):
-    old = set(bm.verts)
+    n0 = len(bm.verts)                                  # subdivide_edges appends the new vertices at the end
     bmesh.ops.subdivide_edges(bm, edges=edges, cuts=1, use_grid_fill=True)
-    bm.normal_update()
-    new = [v for v in bm.verts if v not in old]
+    bm.normal_update(); bm.verts.ensure_lookup_table()
+    new = [bm.verts[i] for i in range(n0, len(bm.verts))]
     off = {}
     for v in new:
         h = snap(v.co.copy(), v.normal.copy())

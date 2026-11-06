@@ -1,0 +1,31 @@
+{
+ "in": "HGPT_Female_Retopo_F05c_Untangle_WIP.blend",
+ "levels": [
+  {
+   "level": "lift",
+   "vertices_lifted": 59
+  },
+  {
+   "level": "whole body",
+   "new_vertices": 37566,
+   "snapped": 35329,
+   "symmetry_guarded": 14,
+   "offset_mm_p50_p95_max": [
+    0.15,
+    0.97,
+    5.73
+   ]
+  }
+ ],
+ "vertices": 50090,
+ "faces": 50088,
+ "non_quads": 0,
+ "boundary_edges": 0,
+ "intersecting_pairs": 748,
+ "edge_mm_p5_p50_p95": [
+  1.89,
+  4.7,
+  12.99
+ ],
+ "out": "HGPT_Female_Retopo_F06a_Densify_WIP.blend"
+}

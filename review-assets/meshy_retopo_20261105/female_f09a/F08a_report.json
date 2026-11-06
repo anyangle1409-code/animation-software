@@ -1,0 +1,783 @@
+{
+ "in": "HGPT_Female_Retopo_F07b_Ponytail_WIP.blend",
+ "height_m": 1.6447,
+ "bones": 67,
+ "convention_missing": [
+  "arm_ref_l",
+  "arm_ref_r",
+  "hip_crease_l",
+  "hip_crease_r",
+  "muscle_lat_l",
+  "muscle_lat_r",
+  "muscle_pec_l",
+  "muscle_pec_r",
+  "muscle_trap_l",
+  "muscle_trap_r",
+  "scap_glide_l",
+  "scap_glide_r",
+  "shoulder_cap_l",
+  "shoulder_cap_r"
+ ],
+ "joints": {
+  "hip_r": [
+   0.091,
+   -0.0305,
+   0.8552
+  ],
+  "knee_r": [
+   0.1492,
+   0.0207,
+   0.4325
+  ],
+  "ankle_r": [
+   0.1876,
+   0.0379,
+   0.0925
+  ],
+  "ball_r": [
+   0.205,
+   -0.0936,
+   0.025
+  ],
+  "toe_r": [
+   0.2089,
+   -0.1605,
+   0.012
+  ],
+  "hip_l": [
+   -0.091,
+   -0.0305,
+   0.8552
+  ],
+  "knee_l": [
+   -0.1492,
+   0.0207,
+   0.4325
+  ],
+  "ankle_l": [
+   -0.1876,
+   0.0379,
+   0.0925
+  ],
+  "ball_l": [
+   -0.205,
+   -0.0936,
+   0.025
+  ],
+  "toe_l": [
+   -0.2089,
+   -0.1605,
+   0.012
+  ],
+  "root": [
+   0.0,
+   -0.0068,
+   0.0
+  ],
+  "pelvis": [
+   0.0,
+   -0.0068,
+   0.9152
+  ],
+  "spine_01": [
+   0.0,
+   -0.0398,
+   0.9869
+  ],
+  "spine_02": [
+   0.0,
+   -0.0478,
+   1.0952
+  ],
+  "spine_03": [
+   0.0,
+   -0.0398,
+   1.2208
+  ],
+  "neck": [
+   0.0,
+   0.0187,
+   1.372
+  ],
+  "head": [
+   0.0,
+   -0.0388,
+   1.478
+  ],
+  "head_top": [
+   0.0,
+   -0.0179,
+   1.6447
+  ],
+  "sc_r": [
+   0.015,
+   -0.0212,
+   1.345
+  ],
+  "ac_r": [
+   0.1242,
+   0.0105,
+   1.343
+  ],
+  "scap_r": [
+   0.132,
+   0.0455,
+   1.33
+  ],
+  "scap_tail_r": [
+   0.092,
+   0.0775,
+   1.235
+  ],
+  "gh_r": [
+   0.167,
+   0.0105,
+   1.32
+  ],
+  "elbow_r": [
+   0.2999,
+   -0.0205,
+   1.0297
+  ],
+  "wrist_r": [
+   0.4197,
+   -0.0576,
+   0.8472
+  ],
+  "fmid_r": [
+   0.3598,
+   -0.0391,
+   0.9385
+  ],
+  "sc_l": [
+   -0.015,
+   -0.0212,
+   1.345
+  ],
+  "ac_l": [
+   -0.1242,
+   0.0105,
+   1.343
+  ],
+  "scap_l": [
+   -0.132,
+   0.0455,
+   1.33
+  ],
+  "scap_tail_l": [
+   -0.092,
+   0.0775,
+   1.235
+  ],
+  "gh_l": [
+   -0.167,
+   0.0105,
+   1.32
+  ],
+  "elbow_l": [
+   -0.2999,
+   -0.0205,
+   1.0297
+  ],
+  "wrist_l": [
+   -0.4197,
+   -0.0576,
+   0.8472
+  ],
+  "fmid_l": [
+   -0.3598,
+   -0.0391,
+   0.9385
+  ],
+  "index_mc_r": [
+   0.4222,
+   -0.0603,
+   0.8502
+  ],
+  "index_k_r": [
+   0.4233,
+   -0.0669,
+   0.8562
+  ],
+  "index_p_r": [
+   0.438,
+   -0.0737,
+   0.7865
+  ],
+  "index_d_r": [
+   0.4435,
+   -0.0775,
+   0.7382
+  ],
+  "index_t_r": [
+   0.4481,
+   -0.0806,
+   0.698
+  ],
+  "middle_mc_r": [
+   0.4231,
+   -0.0554,
+   0.8312
+  ],
+  "middle_k_r": [
+   0.4333,
+   -0.0486,
+   0.7831
+  ],
+  "middle_p_r": [
+   0.4328,
+   -0.0529,
+   0.7472
+  ],
+  "middle_d_r": [
+   0.4324,
+   -0.0558,
+   0.7232
+  ],
+  "middle_t_r": [
+   0.432,
+   -0.0582,
+   0.7033
+  ],
+  "ring_mc_r": [
+   0.4262,
+   -0.0676,
+   0.8271
+  ],
+  "ring_k_r": [
+   0.4458,
+   -0.0976,
+   0.7665
+  ],
+  "ring_p_r": [
+   0.4517,
+   -0.1017,
+   0.744
+  ],
+  "ring_d_r": [
+   0.4557,
+   -0.1044,
+   0.729
+  ],
+  "ring_t_r": [
+   0.4591,
+   -0.1066,
+   0.7165
+  ],
+  "pinky_mc_r": [
+   0.4202,
+   -0.0504,
+   0.8327
+  ],
+  "pinky_k_r": [
+   0.4216,
+   -0.0286,
+   0.7892
+  ],
+  "pinky_p_r": [
+   0.4221,
+   -0.0265,
+   0.7605
+  ],
+  "pinky_d_r": [
+   0.4224,
+   -0.0252,
+   0.7414
+  ],
+  "pinky_t_r": [
+   0.4226,
+   -0.024,
+   0.7255
+  ],
+  "thumb_0_r": [
+   0.4199,
+   -0.0863,
+   0.8518
+  ],
+  "thumb_1_r": [
+   0.4181,
+   -0.1106,
+   0.8215
+  ],
+  "thumb_2_r": [
+   0.4168,
+   -0.1301,
+   0.7973
+  ],
+  "thumb_3_r": [
+   0.4156,
+   -0.1471,
+   0.7761
+  ],
+  "hand_t_r": [
+   0.423,
+   -0.0555,
+   0.8317
+  ],
+  "index_mc_l": [
+   -0.4208,
+   -0.0616,
+   0.8479
+  ],
+  "index_k_l": [
+   -0.4241,
+   -0.0733,
+   0.85
+  ],
+  "index_p_l": [
+   -0.4362,
+   -0.0762,
+   0.7817
+  ],
+  "index_d_l": [
+   -0.4443,
+   -0.0782,
+   0.7361
+  ],
+  "index_t_l": [
+   -0.4511,
+   -0.0798,
+   0.6981
+  ],
+  "middle_mc_l": [
+   -0.4232,
+   -0.0554,
+   0.8314
+  ],
+  "middle_k_l": [
+   -0.4338,
+   -0.0487,
+   0.7839
+  ],
+  "middle_p_l": [
+   -0.4335,
+   -0.0529,
+   0.7478
+  ],
+  "middle_d_l": [
+   -0.4333,
+   -0.0558,
+   0.7236
+  ],
+  "middle_t_l": [
+   -0.4331,
+   -0.0582,
+   0.7035
+  ],
+  "ring_mc_l": [
+   -0.4263,
+   -0.0677,
+   0.8273
+  ],
+  "ring_k_l": [
+   -0.4463,
+   -0.0977,
+   0.7675
+  ],
+  "ring_p_l": [
+   -0.4525,
+   -0.1017,
+   0.7446
+  ],
+  "ring_d_l": [
+   -0.4566,
+   -0.1044,
+   0.7294
+  ],
+  "ring_t_l": [
+   -0.46,
+   -0.1066,
+   0.7167
+  ],
+  "pinky_mc_l": [
+   -0.4203,
+   -0.0505,
+   0.8331
+  ],
+  "pinky_k_l": [
+   -0.422,
+   -0.0289,
+   0.7907
+  ],
+  "pinky_p_l": [
+   -0.4226,
+   -0.0265,
+   0.7616
+  ],
+  "pinky_d_l": [
+   -0.4231,
+   -0.025,
+   0.7422
+  ],
+  "pinky_t_l": [
+   -0.4234,
+   -0.0237,
+   0.7261
+  ],
+  "thumb_0_l": [
+   -0.4089,
+   -0.093,
+   0.844
+  ],
+  "thumb_1_l": [
+   -0.4142,
+   -0.1127,
+   0.817
+  ],
+  "thumb_2_l": [
+   -0.4168,
+   -0.1313,
+   0.7954
+  ],
+  "thumb_3_l": [
+   -0.419,
+   -0.1475,
+   0.7766
+  ],
+  "hand_t_l": [
+   -0.4231,
+   -0.0555,
+   0.8318
+  ]
+ },
+ "joints_outside_body": [
+  "thumb_01_l"
+ ],
+ "joints_moved_inside": [
+  "index_k_r",
+  "thumb_0_l"
+ ],
+ "symmetry_max_mm": 14.98,
+ "symmetry_worst": [
+  [
+   "metacarpal_index",
+   2.9
+  ],
+  [
+   "index_02",
+   5.8
+  ],
+  [
+   "thumb_02",
+   6.4
+  ],
+  [
+   "index_01",
+   9.0
+  ],
+  [
+   "thumb_01",
+   15.0
+  ]
+ ],
+ "limb_alignment": {
+  "upperarm_r": {
+   "angle_to_centroid_line_deg": 2.2,
+   "max_offset_mm": 29.7
+  },
+  "forearm_r": {
+   "angle_to_centroid_line_deg": 3.6,
+   "max_offset_mm": 6.2
+  },
+  "thigh_r": {
+   "angle_to_centroid_line_deg": 8.0,
+   "max_offset_mm": 23.9
+  },
+  "shin_r": {
+   "angle_to_centroid_line_deg": 2.5,
+   "max_offset_mm": 8.7
+  },
+  "upperarm_l": {
+   "angle_to_centroid_line_deg": 3.8,
+   "max_offset_mm": 39.9
+  },
+  "forearm_l": {
+   "angle_to_centroid_line_deg": 2.5,
+   "max_offset_mm": 8.8
+  },
+  "thigh_l": {
+   "angle_to_centroid_line_deg": 6.6,
+   "max_offset_mm": 15.5
+  },
+  "shin_l": {
+   "angle_to_centroid_line_deg": 3.2,
+   "max_offset_mm": 30.1
+  }
+ },
+ "bone_checks": {
+  "pelvis": {
+   "head_inside": true,
+   "length_mm": 79.0
+  },
+  "spine_01": {
+   "head_inside": true,
+   "length_mm": 108.6
+  },
+  "spine_02": {
+   "head_inside": true,
+   "length_mm": 125.9
+  },
+  "spine_03": {
+   "head_inside": true,
+   "length_mm": 162.1
+  },
+  "neck": {
+   "head_inside": true,
+   "length_mm": 120.6
+  },
+  "head": {
+   "head_inside": true,
+   "length_mm": 168.0
+  },
+  "clavicle_l": {
+   "head_inside": true,
+   "length_mm": 113.7
+  },
+  "scapula_l": {
+   "head_inside": true,
+   "length_mm": 107.9
+  },
+  "upperarm_l": {
+   "head_inside": true,
+   "length_mm": 320.8
+  },
+  "forearm_l": {
+   "head_inside": true,
+   "length_mm": 110.7
+  },
+  "forearm_tw0_l": {
+   "head_inside": true,
+   "length_mm": 110.7
+  },
+  "forearm_tw1_l": {
+   "head_inside": true,
+   "length_mm": 110.7
+  },
+  "hand_l": {
+   "head_inside": true,
+   "length_mm": 16.0
+  },
+  "metacarpal_index_l": {
+   "head_inside": true,
+   "length_mm": 12.4
+  },
+  "index_01_l": {
+   "head_inside": true,
+   "length_mm": 69.5
+  },
+  "index_02_l": {
+   "head_inside": true,
+   "length_mm": 46.3
+  },
+  "index_03_l": {
+   "head_inside": true,
+   "length_mm": 38.6
+  },
+  "metacarpal_middle_l": {
+   "head_inside": true,
+   "length_mm": 49.1
+  },
+  "middle_01_l": {
+   "head_inside": true,
+   "length_mm": 36.4
+  },
+  "middle_02_l": {
+   "head_inside": true,
+   "length_mm": 24.3
+  },
+  "middle_03_l": {
+   "head_inside": true,
+   "length_mm": 20.2
+  },
+  "metacarpal_ring_l": {
+   "head_inside": true,
+   "length_mm": 69.8
+  },
+  "ring_01_l": {
+   "head_inside": true,
+   "length_mm": 24.0
+  },
+  "ring_02_l": {
+   "head_inside": true,
+   "length_mm": 16.0
+  },
+  "ring_03_l": {
+   "head_inside": true,
+   "length_mm": 13.4
+  },
+  "metacarpal_pinky_l": {
+   "head_inside": true,
+   "length_mm": 47.7
+  },
+  "pinky_01_l": {
+   "head_inside": true,
+   "length_mm": 29.1
+  },
+  "pinky_02_l": {
+   "head_inside": true,
+   "length_mm": 19.4
+  },
+  "pinky_03_l": {
+   "head_inside": true,
+   "length_mm": 16.2
+  },
+  "thumb_01_l": {
+   "head_inside": false,
+   "length_mm": 33.9
+  },
+  "thumb_02_l": {
+   "head_inside": true,
+   "length_mm": 28.5
+  },
+  "thumb_03_l": {
+   "head_inside": true,
+   "length_mm": 25.0
+  },
+  "thigh_l": {
+   "head_inside": true,
+   "length_mm": 429.7
+  },
+  "shin_l": {
+   "head_inside": true,
+   "length_mm": 342.6
+  },
+  "foot_l": {
+   "head_inside": true,
+   "length_mm": 148.8
+  },
+  "toe_l": {
+   "head_inside": true,
+   "length_mm": 68.3
+  },
+  "clavicle_r": {
+   "head_inside": true,
+   "length_mm": 113.7
+  },
+  "scapula_r": {
+   "head_inside": true,
+   "length_mm": 107.9
+  },
+  "upperarm_r": {
+   "head_inside": true,
+   "length_mm": 320.8
+  },
+  "forearm_r": {
+   "head_inside": true,
+   "length_mm": 110.7
+  },
+  "forearm_tw0_r": {
+   "head_inside": true,
+   "length_mm": 110.7
+  },
+  "forearm_tw1_r": {
+   "head_inside": true,
+   "length_mm": 110.7
+  },
+  "hand_r": {
+   "head_inside": true,
+   "length_mm": 16.0
+  },
+  "metacarpal_index_r": {
+   "head_inside": true,
+   "length_mm": 9.0
+  },
+  "index_01_r": {
+   "head_inside": true,
+   "length_mm": 71.5
+  },
+  "index_02_r": {
+   "head_inside": true,
+   "length_mm": 48.7
+  },
+  "index_03_r": {
+   "head_inside": true,
+   "length_mm": 40.6
+  },
+  "metacarpal_middle_r": {
+   "head_inside": true,
+   "length_mm": 49.6
+  },
+  "middle_01_r": {
+   "head_inside": true,
+   "length_mm": 36.2
+  },
+  "middle_02_r": {
+   "head_inside": true,
+   "length_mm": 24.1
+  },
+  "middle_03_r": {
+   "head_inside": true,
+   "length_mm": 20.1
+  },
+  "metacarpal_ring_r": {
+   "head_inside": true,
+   "length_mm": 70.4
+  },
+  "ring_01_r": {
+   "head_inside": true,
+   "length_mm": 23.6
+  },
+  "ring_02_r": {
+   "head_inside": true,
+   "length_mm": 15.8
+  },
+  "ring_03_r": {
+   "head_inside": true,
+   "length_mm": 13.1
+  },
+  "metacarpal_pinky_r": {
+   "head_inside": true,
+   "length_mm": 48.7
+  },
+  "pinky_01_r": {
+   "head_inside": true,
+   "length_mm": 28.8
+  },
+  "pinky_02_r": {
+   "head_inside": true,
+   "length_mm": 19.2
+  },
+  "pinky_03_r": {
+   "head_inside": true,
+   "length_mm": 16.0
+  },
+  "thumb_01_r": {
+   "head_inside": true,
+   "length_mm": 38.9
+  },
+  "thumb_02_r": {
+   "head_inside": true,
+   "length_mm": 31.1
+  },
+  "thumb_03_r": {
+   "head_inside": true,
+   "length_mm": 27.2
+  },
+  "thigh_r": {
+   "head_inside": true,
+   "length_mm": 429.7
+  },
+  "shin_r": {
+   "head_inside": true,
+   "length_mm": 342.6
+  },
+  "foot_r": {
+   "head_inside": true,
+   "length_mm": 148.8
+  },
+  "toe_r": {
+   "head_inside": true,
+   "length_mm": 68.3
+  }
+ },
+ "segment_lengths_mm": {
+  "upperarm_r": 320.8,
+  "thigh_r": 429.7,
+  "shin_r": 342.6,
+  "clavicle_r": 113.7,
+  "forearm_total_r": 221.4
+ },
+ "shoulder_breadth_GH_mm": 333.9,
+ "hip_joint_breadth_mm": 182.1,
+ "out": "HGPT_Female_Rig_F08a_Skeleton_WIP.blend"
+}

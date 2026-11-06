@@ -1,0 +1,896 @@
+{
+"source": "approved male 07c rig (read-only): canonical names, hierarchy, deform/connect flags and bone Z-axis directions; no positions",
+"bones": [
+{
+"name": "root",
+"parent": null,
+"deform": false,
+"connect": false,
+"roll_z": [
+0.0,
+-1.0,
+0.0
+]
+},
+{
+"name": "pelvis",
+"parent": "root",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.0,
+-1.0,
+-0.0
+]
+},
+{
+"name": "spine_01",
+"parent": "pelvis",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.0,
+-1.0,
+0.0
+]
+},
+{
+"name": "spine_02",
+"parent": "spine_01",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.0,
+-1.0,
+-0.0
+]
+},
+{
+"name": "spine_03",
+"parent": "spine_02",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.0,
+-0.988,
+0.156
+]
+},
+{
+"name": "clavicle_l",
+"parent": "spine_03",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.103,
+-0.107,
+0.989
+]
+},
+{
+"name": "scapula_l",
+"parent": "clavicle_l",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.273,
+0.861,
+0.429
+]
+},
+{
+"name": "upperarm_l",
+"parent": "scapula_l",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.065,
+0.998,
+-0.02
+]
+},
+{
+"name": "forearm_l",
+"parent": "upperarm_l",
+"deform": true,
+"connect": false,
+"roll_z": [
+-0.086,
+0.968,
+-0.236
+]
+},
+{
+"name": "forearm_tw0_l",
+"parent": "forearm_l",
+"deform": false,
+"connect": false,
+"roll_z": [
+-0.086,
+0.968,
+-0.236
+]
+},
+{
+"name": "forearm_tw1_l",
+"parent": "forearm_l",
+"deform": true,
+"connect": false,
+"roll_z": [
+-0.086,
+0.968,
+-0.236
+]
+},
+{
+"name": "hand_l",
+"parent": "forearm_l",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.264,
+0.91,
+-0.319
+]
+},
+{
+"name": "metacarpal_index_l",
+"parent": "hand_l",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.147,
+0.833,
+-0.533
+]
+},
+{
+"name": "index_01_l",
+"parent": "metacarpal_index_l",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.179,
+0.858,
+-0.481
+]
+},
+{
+"name": "index_02_l",
+"parent": "index_01_l",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.179,
+0.858,
+-0.481
+]
+},
+{
+"name": "index_03_l",
+"parent": "index_02_l",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.179,
+0.858,
+-0.481
+]
+},
+{
+"name": "metacarpal_middle_l",
+"parent": "hand_l",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.229,
+0.892,
+-0.39
+]
+},
+{
+"name": "middle_01_l",
+"parent": "metacarpal_middle_l",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.19,
+0.843,
+-0.504
+]
+},
+{
+"name": "middle_02_l",
+"parent": "middle_01_l",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.19,
+0.843,
+-0.504
+]
+},
+{
+"name": "middle_03_l",
+"parent": "middle_02_l",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.19,
+0.843,
+-0.504
+]
+},
+{
+"name": "metacarpal_pinky_l",
+"parent": "hand_l",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.381,
+0.924,
+-0.036
+]
+},
+{
+"name": "pinky_01_l",
+"parent": "metacarpal_pinky_l",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.242,
+0.818,
+-0.522
+]
+},
+{
+"name": "pinky_02_l",
+"parent": "pinky_01_l",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.242,
+0.818,
+-0.522
+]
+},
+{
+"name": "pinky_03_l",
+"parent": "pinky_02_l",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.242,
+0.818,
+-0.522
+]
+},
+{
+"name": "metacarpal_ring_l",
+"parent": "hand_l",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.303,
+0.923,
+-0.236
+]
+},
+{
+"name": "ring_01_l",
+"parent": "metacarpal_ring_l",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.212,
+0.838,
+-0.504
+]
+},
+{
+"name": "ring_02_l",
+"parent": "ring_01_l",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.212,
+0.838,
+-0.504
+]
+},
+{
+"name": "ring_03_l",
+"parent": "ring_02_l",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.212,
+0.838,
+-0.504
+]
+},
+{
+"name": "thumb_01_l",
+"parent": "hand_l",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.91,
+-0.215,
+-0.353
+]
+},
+{
+"name": "thumb_02_l",
+"parent": "thumb_01_l",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.91,
+-0.215,
+-0.353
+]
+},
+{
+"name": "thumb_03_l",
+"parent": "thumb_02_l",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.91,
+-0.215,
+-0.353
+]
+},
+{
+"name": "shoulder_cap_l",
+"parent": "scapula_l",
+"deform": false,
+"connect": false,
+"roll_z": [
+0.017,
+0.986,
+-0.165
+]
+},
+{
+"name": "muscle_lat_l",
+"parent": "scapula_l",
+"deform": false,
+"connect": false,
+"roll_z": [
+0.778,
+-0.573,
+0.259
+]
+},
+{
+"name": "clavicle_r",
+"parent": "spine_03",
+"deform": true,
+"connect": false,
+"roll_z": [
+-0.111,
+-0.115,
+0.987
+]
+},
+{
+"name": "scapula_r",
+"parent": "clavicle_r",
+"deform": true,
+"connect": false,
+"roll_z": [
+-0.273,
+0.861,
+0.429
+]
+},
+{
+"name": "upperarm_r",
+"parent": "scapula_r",
+"deform": true,
+"connect": false,
+"roll_z": [
+-0.077,
+0.997,
+0.014
+]
+},
+{
+"name": "forearm_r",
+"parent": "upperarm_r",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.134,
+0.949,
+-0.284
+]
+},
+{
+"name": "forearm_tw0_r",
+"parent": "forearm_r",
+"deform": false,
+"connect": false,
+"roll_z": [
+0.134,
+0.949,
+-0.284
+]
+},
+{
+"name": "forearm_tw1_r",
+"parent": "forearm_r",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.134,
+0.949,
+-0.284
+]
+},
+{
+"name": "hand_r",
+"parent": "forearm_r",
+"deform": true,
+"connect": false,
+"roll_z": [
+-0.3,
+0.928,
+-0.223
+]
+},
+{
+"name": "metacarpal_index_r",
+"parent": "hand_r",
+"deform": true,
+"connect": false,
+"roll_z": [
+-0.194,
+0.872,
+-0.449
+]
+},
+{
+"name": "index_01_r",
+"parent": "metacarpal_index_r",
+"deform": true,
+"connect": false,
+"roll_z": [
+-0.191,
+0.868,
+-0.459
+]
+},
+{
+"name": "index_02_r",
+"parent": "index_01_r",
+"deform": true,
+"connect": false,
+"roll_z": [
+-0.191,
+0.868,
+-0.459
+]
+},
+{
+"name": "index_03_r",
+"parent": "index_02_r",
+"deform": true,
+"connect": false,
+"roll_z": [
+-0.191,
+0.868,
+-0.459
+]
+},
+{
+"name": "metacarpal_middle_r",
+"parent": "hand_r",
+"deform": true,
+"connect": false,
+"roll_z": [
+-0.268,
+0.917,
+-0.297
+]
+},
+{
+"name": "middle_01_r",
+"parent": "metacarpal_middle_r",
+"deform": true,
+"connect": false,
+"roll_z": [
+-0.198,
+0.851,
+-0.486
+]
+},
+{
+"name": "middle_02_r",
+"parent": "middle_01_r",
+"deform": true,
+"connect": false,
+"roll_z": [
+-0.198,
+0.851,
+-0.486
+]
+},
+{
+"name": "middle_03_r",
+"parent": "middle_02_r",
+"deform": true,
+"connect": false,
+"roll_z": [
+-0.198,
+0.851,
+-0.486
+]
+},
+{
+"name": "metacarpal_pinky_r",
+"parent": "hand_r",
+"deform": true,
+"connect": false,
+"roll_z": [
+-0.401,
+0.914,
+0.066
+]
+},
+{
+"name": "pinky_01_r",
+"parent": "metacarpal_pinky_r",
+"deform": true,
+"connect": false,
+"roll_z": [
+-0.264,
+0.843,
+-0.468
+]
+},
+{
+"name": "pinky_02_r",
+"parent": "pinky_01_r",
+"deform": true,
+"connect": false,
+"roll_z": [
+-0.264,
+0.843,
+-0.468
+]
+},
+{
+"name": "pinky_03_r",
+"parent": "pinky_02_r",
+"deform": true,
+"connect": false,
+"roll_z": [
+-0.264,
+0.843,
+-0.468
+]
+},
+{
+"name": "metacarpal_ring_r",
+"parent": "hand_r",
+"deform": true,
+"connect": false,
+"roll_z": [
+-0.334,
+0.933,
+-0.137
+]
+},
+{
+"name": "ring_01_r",
+"parent": "metacarpal_ring_r",
+"deform": true,
+"connect": false,
+"roll_z": [
+-0.229,
+0.854,
+-0.468
+]
+},
+{
+"name": "ring_02_r",
+"parent": "ring_01_r",
+"deform": true,
+"connect": false,
+"roll_z": [
+-0.229,
+0.854,
+-0.468
+]
+},
+{
+"name": "ring_03_r",
+"parent": "ring_02_r",
+"deform": true,
+"connect": false,
+"roll_z": [
+-0.229,
+0.854,
+-0.468
+]
+},
+{
+"name": "thumb_01_r",
+"parent": "hand_r",
+"deform": true,
+"connect": false,
+"roll_z": [
+-0.927,
+-0.213,
+-0.307
+]
+},
+{
+"name": "thumb_02_r",
+"parent": "thumb_01_r",
+"deform": true,
+"connect": false,
+"roll_z": [
+-0.927,
+-0.213,
+-0.307
+]
+},
+{
+"name": "thumb_03_r",
+"parent": "thumb_02_r",
+"deform": true,
+"connect": false,
+"roll_z": [
+-0.927,
+-0.213,
+-0.307
+]
+},
+{
+"name": "shoulder_cap_r",
+"parent": "scapula_r",
+"deform": false,
+"connect": false,
+"roll_z": [
+-0.017,
+0.986,
+-0.165
+]
+},
+{
+"name": "muscle_lat_r",
+"parent": "scapula_r",
+"deform": false,
+"connect": false,
+"roll_z": [
+-0.784,
+-0.581,
+0.22
+]
+},
+{
+"name": "neck",
+"parent": "spine_03",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.0,
+-1.0,
+0.0
+]
+},
+{
+"name": "head",
+"parent": "neck",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.0,
+-1.0,
+0.0
+]
+},
+{
+"name": "muscle_trap_l",
+"parent": "neck",
+"deform": false,
+"connect": false,
+"roll_z": [
+-0.627,
+0.5,
+0.598
+]
+},
+{
+"name": "muscle_trap_r",
+"parent": "neck",
+"deform": false,
+"connect": false,
+"roll_z": [
+0.637,
+0.503,
+0.584
+]
+},
+{
+"name": "muscle_pec_l",
+"parent": "spine_03",
+"deform": false,
+"connect": false,
+"roll_z": [
+-0.006,
+0.007,
+1.0
+]
+},
+{
+"name": "muscle_pec_r",
+"parent": "spine_03",
+"deform": false,
+"connect": false,
+"roll_z": [
+0.002,
+0.003,
+1.0
+]
+},
+{
+"name": "arm_ref_r",
+"parent": "spine_03",
+"deform": false,
+"connect": false,
+"roll_z": [
+0.0,
+1.0,
+-0.0
+]
+},
+{
+"name": "scap_glide_r",
+"parent": "spine_03",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.013,
+0.023,
+1.0
+]
+},
+{
+"name": "arm_ref_l",
+"parent": "spine_03",
+"deform": false,
+"connect": false,
+"roll_z": [
+0.0,
+1.0,
+-0.0
+]
+},
+{
+"name": "scap_glide_l",
+"parent": "spine_03",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.005,
+-0.01,
+1.0
+]
+},
+{
+"name": "thigh_l",
+"parent": "pelvis",
+"deform": true,
+"connect": false,
+"roll_z": [
+-0.016,
+0.994,
+0.11
+]
+},
+{
+"name": "shin_l",
+"parent": "thigh_l",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.002,
+0.996,
+0.09
+]
+},
+{
+"name": "foot_l",
+"parent": "shin_l",
+"deform": true,
+"connect": false,
+"roll_z": [
+-0.086,
+0.445,
+-0.891
+]
+},
+{
+"name": "toe_l",
+"parent": "foot_l",
+"deform": true,
+"connect": false,
+"roll_z": [
+-0.113,
+0.205,
+-0.972
+]
+},
+{
+"name": "thigh_r",
+"parent": "pelvis",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.017,
+0.995,
+0.103
+]
+},
+{
+"name": "shin_r",
+"parent": "thigh_r",
+"deform": true,
+"connect": false,
+"roll_z": [
+-0.002,
+0.996,
+0.086
+]
+},
+{
+"name": "foot_r",
+"parent": "shin_r",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.08,
+0.464,
+-0.882
+]
+},
+{
+"name": "toe_r",
+"parent": "foot_r",
+"deform": true,
+"connect": false,
+"roll_z": [
+0.144,
+0.176,
+-0.974
+]
+},
+{
+"name": "hip_crease_l",
+"parent": "pelvis",
+"deform": false,
+"connect": false,
+"roll_z": [
+-0.0,
+1.0,
+-0.0
+]
+},
+{
+"name": "hip_crease_r",
+"parent": "pelvis",
+"deform": false,
+"connect": false,
+"roll_z": [
+-0.0,
+1.0,
+-0.0
+]
+}
+]
+}

@@ -1,0 +1,137 @@
+{
+ "method": "FEMALE pelvis, glutes, legs and feet from her shell's pelvis opening - designed loops, no auto-remesh.\n\nSame method as the male (scripts/retopology/build_task5_legs.py: hip loops split at the midline with the opening's\ncolumn fractions, a midline crotch strip shared by both legs, measured leg centre lines with rounded knee / ankle\ncorners, rings perpendicular to the line, heel-sweep foot rings, toe loops and a Coons grid), with HER landmarks from\nsections of her source:\n  * pelvis opening 0.960 m (above her gluteal cleft); her body is one loop down to 0.800 m and two legs from 0.780 m\n    (crotch ~0.79 m; the shorts' inseam hem is lower, ~0.70 m): hip loops every 2.2 cm from 0.938 to 0.806 m;\n  * crotch strip vertices stay above 0.775 m;\n  * knee = narrowest leg section at 0.38-0.54 m, ankle = narrowest at 0.09-0.20 m, upper-thigh centroid 0.72-0.775 m.",
+ "hip_z": [
+  0.938,
+  0.916,
+  0.894,
+  0.872,
+  0.85,
+  0.828,
+  0.806
+ ],
+ "crotch_strip_z": [
+  0.7957,
+  0.7931,
+  0.7933,
+  0.7946,
+  0.7961,
+  0.7983
+ ],
+ "right": {
+  "knee": [
+   0.1524,
+   0.0192,
+   0.435
+  ],
+  "ankle_joint_level": [
+   0.187,
+   0.0299,
+   0.13
+  ],
+  "ankle_corner": [
+   0.1942,
+   0.0327,
+   0.0469
+  ],
+  "toe_tip": [
+   0.2089,
+   -0.1606,
+   0.0109
+  ],
+  "heel": [
+   0.1951,
+   0.0785,
+   0.0138
+  ],
+  "thigh_dir": [
+   0.159,
+   0.097,
+   -0.982
+  ],
+  "shank_dir": [
+   0.113,
+   0.035,
+   -0.993
+  ],
+  "foot_dir": [
+   0.097,
+   -0.979,
+   -0.18
+  ],
+  "centre_line_m": 0.832,
+  "leg_rings": 52,
+  "rings_by_region": {
+   "thigh": 10,
+   "knee": 9,
+   "shank": 9,
+   "ankle": 18,
+   "foot": 3,
+   "toes": 3
+  },
+  "foot_rings_end_before_tip_mm": 61.3
+ },
+ "left": {
+  "knee": [
+   -0.1461,
+   0.0223,
+   0.43
+  ],
+  "ankle_joint_level": [
+   -0.1852,
+   0.0313,
+   0.13
+  ],
+  "ankle_corner": [
+   -0.1933,
+   0.0335,
+   0.0494
+  ],
+  "toe_tip": [
+   -0.2088,
+   -0.1604,
+   0.0106
+  ],
+  "heel": [
+   -0.1951,
+   0.0785,
+   0.014
+  ],
+  "thigh_dir": [
+   -0.149,
+   0.103,
+   -0.983
+  ],
+  "shank_dir": [
+   -0.129,
+   0.03,
+   -0.991
+  ],
+  "foot_dir": [
+   -0.104,
+   -0.976,
+   -0.191
+  ],
+  "centre_line_m": 0.832,
+  "leg_rings": 51,
+  "rings_by_region": {
+   "thigh": 10,
+   "knee": 9,
+   "shank": 8,
+   "ankle": 18,
+   "foot": 3,
+   "toes": 3
+  },
+  "foot_rings_end_before_tip_mm": 61.2
+ },
+ "out": "HGPT_Female_Retopo_F04d_Legs_WIP.blend",
+ "faces": 12522,
+ "non_quads": 0,
+ "boundary_edges": 0,
+ "new_vertices": 4718,
+ "edge_mm_min_p5_p50_p95": [
+  0.78,
+  3.74,
+  10.28,
+  26.21
+ ]
+}

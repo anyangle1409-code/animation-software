@@ -1,0 +1,145 @@
+{
+ "method": "FEMALE hands (same method as the male, scripts/retopology/build_task4_hands.py, on HER source hands): hands and fingers on the open 32-vertex wrist rings - designed loops, no auto-remesh.\n\nPer side (each hand measured on its own; the source is not mirror-symmetric):\n  * HAND FRAME: principal axes of the source hand beyond the wrist ring: L (wrist -> fingertips), Wd (across the\n    knuckles, oriented so the thumb is on the -Wd side), N (dorsal, the thumb lies on the palmar -N side).\n  * FINGERS: the source fingers touch along their length (the Meshy surface fuses them), so each finger's centre line is\n    traced from the THICKNESS RIDGES of the hand (dorsal ray hit to palmar exit, sampled across the hand) and the\n    grooves between ridges are the separating planes. Each finger is an 8-vertex tube (4 dorsal, 4 palmar), with three\n    loops at each of the PIP and DIP joints and a 3-quad fingertip cap; side vertices stop just short of the groove\n    plane so neighbouring fingers stay separate surfaces.\n  * PALM: 32-vertex rings from the wrist ring to the knuckle ring. The knuckle ring is made of the fingers' base rings\n    (16 dorsal + 16 palmar vertices, with one web quad between neighbouring fingers). Intermediate rings are cuts of the\n    source between the wrist plane and the knuckle plane; their vertices are placed by arc length around the whole cut\n    (from its radial extreme, dorsal side first), blending the wrist ring's spacing into the knuckle ring's.\n  * THUMB: an 8-edge opening (a 2 x 2 block of palm quads, the vertex nearest the thumb axis removed) on the\n    thenar side, between the palm rings at the thumb's base; the thumb tube follows the measured thumb axis (slice\n    centroids), loops at the MCP and IP joints, 3-quad tip cap.",
+ "sides": {
+  "right": {
+   "thumb_traced_from_tip": true,
+   "thumb_path_slices": 13,
+   "thumb_tip": [
+    0.4189,
+    -0.1512,
+    0.782
+   ],
+   "hand_length": 0.1336,
+   "L": [
+    0.2027,
+    0.42,
+    -0.8846
+   ],
+   "Wd": [
+    -0.1714,
+    0.9046,
+    0.3903
+   ],
+   "N": [
+    -0.9641,
+    -0.0725,
+    -0.2553
+   ],
+   "thumb_crotch_s": 0.0041,
+   "wrist_ulnar_side_w": 0.0177,
+   "wrist_split_check": "ok",
+   "thumb_axis_offset_from_opening_mm": 10.5,
+   "fingers": [
+    {
+     "base_s": 0.0618,
+     "tip_s": 0.1062,
+     "length_mm": 53.9
+    },
+    {
+     "base_s": 0.0618,
+     "tip_s": 0.1298,
+     "length_mm": 82.8
+    },
+    {
+     "base_s": 0.0651,
+     "tip_s": 0.1323,
+     "length_mm": 81.7
+    },
+    {
+     "base_s": 0.0651,
+     "tip_s": 0.1251,
+     "length_mm": 65.2
+    }
+   ],
+   "webs_s": [
+    0.0618,
+    0.0618,
+    0.0651
+   ],
+   "palm_rings": 8,
+   "thumb_hole_rows": [
+    1,
+    2,
+    3
+   ],
+   "thumb_length_mm": 133.9,
+   "finger_loops": 13,
+   "thumb_loops": 11
+  },
+  "left": {
+   "thumb_traced_from_tip": true,
+   "thumb_path_slices": 13,
+   "thumb_tip": [
+    -0.4194,
+    -0.151,
+    0.782
+   ],
+   "hand_length": 0.1212,
+   "L": [
+    -0.185,
+    0.4972,
+    -0.8477
+   ],
+   "Wd": [
+    0.1966,
+    0.8639,
+    0.4637
+   ],
+   "N": [
+    0.9629,
+    -0.0809,
+    -0.2576
+   ],
+   "thumb_crotch_s": -0.0081,
+   "wrist_ulnar_side_w": 0.0154,
+   "wrist_split_check": "ok",
+   "thumb_axis_offset_from_opening_mm": 11.9,
+   "fingers": [
+    {
+     "base_s": 0.0503,
+     "tip_s": 0.0903,
+     "length_mm": 51.6
+    },
+    {
+     "base_s": 0.0503,
+     "tip_s": 0.1154,
+     "length_mm": 84.3
+    },
+    {
+     "base_s": 0.0576,
+     "tip_s": 0.1201,
+     "length_mm": 80.4
+    },
+    {
+     "base_s": 0.0576,
+     "tip_s": 0.116,
+     "length_mm": 65.2
+    }
+   ],
+   "webs_s": [
+    0.0503,
+    0.0503,
+    0.0576
+   ],
+   "palm_rings": 8,
+   "thumb_hole_rows": [
+    1,
+    2,
+    3
+   ],
+   "thumb_length_mm": 126.7,
+   "finger_loops": 13,
+   "thumb_loops": 11
+  }
+ },
+ "out": "HGPT_Female_Retopo_F03d_Hands_WIP.blend",
+ "faces": 7772,
+ "non_quads": 0,
+ "boundary_edges": 66,
+ "new_vertices": 1406,
+ "hand_edge_mm_min_p5_p50": [
+  0.02,
+  3.21,
+  7.05
+ ]
+}

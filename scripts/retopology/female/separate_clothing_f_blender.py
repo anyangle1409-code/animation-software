@@ -14,8 +14,8 @@ vertices: Meshy Pro albedo, Image_0).
    a. EVIDENCE: Meshy fused the garments as a layer over a skin surface that partly continues under the fabric. Where a
       ray from a garment vertex inward along -normal meets, within REACH, a surface of her FULL source that faces
       outward (the hidden skin), the body vertex takes that point (cleavage: REACH_GORE, the centre panel spans it).
-   b. ELSEWHERE: the vertex is inset by the median depth measured in (a) (fabric thickness + ease), never less than
-      MIN_INSET.
+   b. ELSEWHERE: the vertex is inset by the median depth measured in (a) (fabric thickness + ease), clamped to
+      MIN_INSET..MAX_INSET (1.5-3 mm: sports-bra / shorts fabric + ease; conservative, documented).
    c. A few Taubin smoothing passes inside the garment region (hem ridges, band lips and strap edges are fabric, not
       anatomy), tapered over the first ring outside it; then every body vertex is kept at least CLEAR behind the
       garment surface.
@@ -40,10 +40,12 @@ a = sys.argv[sys.argv.index("--") + 1:]
 IN, COL, OUT, REP = Path(a[0]), Path(a[1]), Path(a[2]), Path(a[3])
 if OUT.exists():
     raise FileExistsError(f"will not overwrite {OUT}")
-V_MAX, S_MAX = 0.32, 0.40
+V_MAX, S_MAX = 0.45, 0.30          # her albedo is bimodal: fabric value 0.2-0.3, sat < 0.2; skin 0.75-0.85, sat 0.3-0.5
 HOLE_FACES, ISLAND_FACES = 400, 150
-GARMENT_T = 0.0012; REACH = 0.010; REACH_GORE = 0.045; MIN_INSET = 0.0015; CLEAR = 0.0012
-TAUBIN = (12, 0.5, -0.53)
+GARMENT_T = 0.0012; REACH = 0.004; REACH_GORE = 0.045; MIN_INSET = 0.0015; MAX_INSET = 0.003; CLEAR = 0.0012
+# (a first run with REACH 10 mm found 'hidden skin' 6.7-9.4 mm deep at only 149 vertices: band lips / garment
+# thickness, not skin; an 8 mm inset would have taken ~5 cm off her bust and hip girths)
+TAUBIN = (6, 0.5, -0.53)
 
 bpy.ops.wm.open_mainfile(filepath=str(IN), load_ui=False)
 SRC = bpy.data.objects["HGPT_FEMALE_SOURCE_Mesh_0"]; body = bpy.data.objects["HGPT_Female_Body"]
@@ -126,7 +128,7 @@ for i in gvert:
     else:
         inset_needed.append(i)
 d_med = float(np.median(depth)) if depth else 0.003
-inset = max(d_med, MIN_INSET)
+inset = float(np.clip(d_med, MIN_INSET, MAX_INSET))
 for i, q in ev.items():
     bm.verts[i].co = q
 for i in inset_needed:

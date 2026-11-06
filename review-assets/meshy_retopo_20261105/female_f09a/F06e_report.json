@@ -1,0 +1,11 @@
+{
+ "in": "HGPT_Female_Retopo_F06d_Untangle_WIP.blend",
+ "region_vertices": 14244,
+ "moved_out": 404,
+ "move_mm_p50_p95_max": [
+  4.0,
+  11.42,
+  18.43
+ ],
+ "out": "HGPT_Female_Retopo_F06e_HandsOut_WIP.blend"
+}

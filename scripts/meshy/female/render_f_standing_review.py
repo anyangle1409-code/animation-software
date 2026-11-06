@@ -44,7 +44,7 @@ except Exception:
     sc.cycles.use_denoising = False
 sc.view_settings.view_transform = "AgX" if "AgX" in [i.name for i in type(sc.view_settings).bl_rna.properties["view_transform"].enum_items] else "Filmic"
 sc.render.film_transparent = False
-w = bpy.data.worlds.new("W"); sc.world = w; w.use_nodes = True; w.node_tree.nodes["Background"].inputs[0].default_value = (0.32, 0.33, 0.35, 1); w.node_tree.nodes["Background"].inputs[1].default_value = 0.6
+w = bpy.data.worlds.new("W"); sc.world = w; w.use_nodes = True; w.node_tree.nodes["Background"].inputs[0].default_value = (0.32, 0.33, 0.35, 1); w.node_tree.nodes["Background"].inputs[1].default_value = 0.35
 
 
 def clay(name, col, rough=0.55, sss=0.0):
@@ -86,9 +86,9 @@ def place_lights(view_dir):
     for lo in LIGHTS:
         bpy.data.objects.remove(lo)
     LIGHTS.clear(); d = Vector(view_dir).normalized(); side = d.cross(Vector((0, 0, 1))).normalized()
-    LIGHTS.append(light("key", 0, 900, 1.6, tuple(Vector((0, 0, 1.3)) + (d * 2.6 + side * 1.8 + Vector((0, 0, 1.2))))))
-    LIGHTS.append(light("fill", 0, 300, 2.5, tuple(Vector((0, 0, 1.0)) + (d * 3.0 - side * 2.4))))
-    LIGHTS.append(light("rim", 0, 600, 1.2, tuple(Vector((0, 0, 1.4)) + (-d * 2.6 + side * 0.6 + Vector((0, 0, 1.0))))))
+    LIGHTS.append(light("key", 0, 260, 1.6, tuple(Vector((0, 0, 1.3)) + (d * 2.6 + side * 1.8 + Vector((0, 0, 1.2))))))
+    LIGHTS.append(light("fill", 0, 90, 2.5, tuple(Vector((0, 0, 1.0)) + (d * 3.0 - side * 2.4))))
+    LIGHTS.append(light("rim", 0, 160, 1.2, tuple(Vector((0, 0, 1.4)) + (-d * 2.6 + side * 0.6 + Vector((0, 0, 1.0))))))
 
 
 def shot(name, view, centre, scale, res=(RES, int(RES * 1.6))):

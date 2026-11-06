@@ -793,3 +793,49 @@ An earlier run of this script was wrong in four places, all now fixed:
 - a ponytail sliver gave a 0.3 cm waist;
 - the shoulder breadth included the A-pose arms;
 - crotch height was used in place of hip height.
+
+## F01a — Female head / neck / torso shell (6 Nov, work in progress)
+
+The owner chose to **keep the fitted athletic wear**: the sports bra and shorts are part of her body form, as supplied.
+
+The builder is `scripts/retopology/female/build_f_shell.py`. It follows the same loop convention as the male, so the two characters share topology conventions, but it is built on her own surface. Every height and border is measured on her source, and nothing comes from the male mesh or from scaling. The convention:
+- half body plus a Mirror modifier;
+- horizontal torso loops;
+- socket, face, ear and pelvis openings;
+- meridian bands;
+- a Coons cap on the crown.
+
+Her own values:
+
+| Feature | Value |
+|---|---|
+| Pelvis opening | 0.960 m, above her gluteal cleft |
+| Armpit | 1.21 m |
+| Socket loops | 1.212–1.336 m, every 7.75 mm |
+| Arm-root line | x = 0.152 m |
+| Trapezius / neck base | 1.336–1.372 m |
+| Jaw border | 1.420 m at the chin, rising to 1.468 m at 80°; read from radius profiles taken from a fixed neck axis |
+| Occiput | 1.478 m |
+| Head loops | 1.488–1.552 m, every 8 mm |
+| Head centre | (0, −0.019, 1.53) |
+| Ear | 1.475–1.535 m, 88–124°; the jaw loop is its lower edge |
+
+Female-specific handling:
+- **Body axis:** taken from the large section loop that crosses the midline and holds the front-most point. This ignores the ponytail and the thin centre-front fin of the bra.
+- **Placement rays:** use her surface without the ponytail and take the outermost layer within 15 mm. The fused bra and shorts lie over the skin inside the source, so the first hit would otherwise be the hidden skin.
+- **Snapping and projection:** nearest-surface queries also drop covered faces (fabric lying over skin within 6 mm).
+- **Crown:** the cap is built without the ponytail tie, giving a smooth scalp dome under it. The ponytail will get its own mesh.
+
+Result:
+- 1,527 vertices per half, all quads, 51 rows × 34 columns.
+- Edge length p5 / median / p95: 6.1 / 10.6 / 27.4 mm. The shortest edge is 2.8 mm, in the throat where the face columns converge, as on the male.
+- Report: `female_f01a/shell_report.json`. The checkpoint file is read-only and not in git.
+
+Still to do, in order:
+- the face loop system and ears;
+- the arms from her sockets, and the hands;
+- the pelvis, legs and feet;
+- the ponytail as its own mesh;
+- densify / projection, including the strip under the bra band's lip;
+- skeleton fit;
+- the standing review.

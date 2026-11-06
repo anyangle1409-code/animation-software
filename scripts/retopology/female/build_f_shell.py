@@ -104,39 +104,94 @@ def _r(z, th, cy=None):
 # ================================================================ body-only projection target
 # Her ponytail hangs just behind her head, neck and upper back, and the sports bra has a thin centre-front fin in front
 # of the cleavage: nearest-surface snapping (on-surface relax, the Mirror + Shrinkwrap projection of the left half) can
-# land on them.  A vertex is an OUTER LAYER when a horizontal ray from it towards the body axis ENTERS another surface
-# (a hit whose normal faces the ray, more than 4 mm away) before reaching the axis - skin vertices are already inside
-# the body, so their rays only leave surfaces: ponytail = such vertices behind the axis (y > axis + 4 cm, |x| < 0.10 m, 1.00 < z < 1.60;
-# the tie on the crown is kept so the scalp stays closed), fin = such vertices in front (|x| < 0.03 m, 1.10 < z < 1.28).
-# Faces touching them are left out of the target.  The source itself is not changed.
+# land on them, and placement rays from inside the body must not stop on the skin under the fused garments.  (A ray
+# test does not work for the ponytail: the fused bra and shorts are layered over the skin inside the source.)
+# Section-loop membership instead: in 2 mm horizontal slabs, 1.00 < z < 1.60, each vertex takes the label of the
+# nearest point of the section loops at the slab centre; vertices nearest a loop that is NOT a body / arm loop are an
+# outer layer: ponytail loops (centre > 12 mm behind her back / head surface, |x| < 0.10 m; where its tip lies on her
+# back it stays) and the bra fin (span < 6 cm, crossing the
+# midline, in front).  The tie on the crown (z > 1.60) is kept so the scalp stays closed.  Faces touching an outer-layer
+# vertex are left out of the target; the source itself is not changed.
+from scipy.spatial import cKDTree  # noqa: E402
+
+
 def _outer_layer():
     out = np.zeros(len(SV), bool)
-    for i, (x, y, z) in enumerate(SV):
-        hair = abs(x) < 0.10 and 1.00 < z < 1.60
-        fin = abs(x) < 0.03 and 1.10 < z < 1.28
-        if not (hair or fin):
+    for z in np.arange(1.001, 1.600, 0.002):
+        sel = np.where(np.abs(SV[:, 2] - z) <= 0.001)[0]
+        if not len(sel):
             continue
-        cy = centre_y(round(z / 0.004) * 0.004)
-        if (hair and y < cy + 0.04) or (fin and not hair and y > cy - 0.04):
+        L = _section_loops(float(z)); cy = centre_y(round(z / 0.004) * 0.004)
+        body = [l for l in L if l[:, 0].min() < 0 < l[:, 0].max() and np.ptp(l[:, 0]) > 0.06]
+        bl = min(body, key=lambda l: l[:, 1].min()); bm_ = bl[np.abs(bl[:, 0]) < 0.05]
+        back_y = float(bm_[:, 1].max()) if len(bm_) else cy + 0.1
+        pts = []; lab = []
+        for l in L:
+            c = l.mean(0); span = np.ptp(l[:, 0])
+            crosses = l[:, 0].min() < 0 < l[:, 0].max()
+            hair = abs(c[0]) < 0.10 and c[1] > back_y + 0.012 and l is not bl   # well behind her back / head
+            fin = False   # the bra's centre-front fin IS her front surface between the breasts (removing it opens a hole)
+            pts.append(l); lab += [hair or fin] * len(l)
+        if not pts:
             continue
-        p = Vector((x, y, z)); d = Vector((0.0, cy, z)) - p; L = d.length; d.normalize(); t = 0.0005
-        while t < L - 0.004:                      # outer layer: the ray ENTERS a surface (normal facing it) > 4 mm away
-            h, n, _, dist = bvh.ray_cast(p + d * t, d, L - t)
-            if h is None:
-                break
-            t += dist + 0.0003
-            if n.dot(d) < 0 and t > 0.004:
-                out[i] = True; break
+        d, k = cKDTree(np.vstack(pts)).query(SV[sel, :2]); lab = np.array(lab)
+        db, _ = cKDTree(bl).query(SV[sel, :2])              # on her body loop (back skin under a touching ponytail)
+        out[sel] = lab[k] & (d < 0.004) & (db > 0.002)
     return out
 
 
 OUTER = _outer_layer()
-_keep = [f for f in ST if not OUTER[list(f)].any()]
+
+
+# Covered faces: the fused sports bra and shorts are a garment layer lying over the skin INSIDE the source, so nearest-
+# surface snapping can land on the hidden skin under the fabric (the cage then disappears under the visible surface).
+# A face is covered when a ray from its centre along its normal hits the source again within 6 mm (hits on her
+# ponytail do not count: the back skin under it is the body surface).
+def _covered():
+    me_ = SRC_FULL.data; n = len(me_.polygons)
+    C = np.zeros(n * 3); N = np.zeros(n * 3)
+    me_.polygons.foreach_get("center", C); me_.polygons.foreach_get("normal", N)
+    C = C.reshape(-1, 3); N = N.reshape(-1, 3); out = np.zeros(n, bool)
+    for i in range(n):
+        d = Vector(N[i]); h = bvh.ray_cast(Vector(C[i]) + d * 0.0002, d, 0.006)
+        out[i] = h[0] is not None and not OUTER[list(ST[h[2]])].any()   # covered by fabric, not by her ponytail
+    return out
+
+
+COVERED = _covered()
+_keep = [f for k, f in enumerate(ST) if not OUTER[list(f)].any() and not COVERED[k]]
 _bme = bpy.data.meshes.new("HGPT_FEMALE_SOURCE_BODY_TARGET"); _bme.from_pydata(SV.tolist(), [], _keep); _bme.update()
 SRC = bpy.data.objects.new("HGPT_FEMALE_SOURCE_BODY_TARGET", _bme); bpy.context.scene.collection.objects.link(SRC)
 SRC.hide_render = True; SRC["NOTE"] = "projection target only: her source minus the hanging ponytail and the bra fin"
-bvh = BVHTree.FromPolygons([tuple(v) for v in SV], _keep)
-print("TARGET outer-layer vertices", int(OUTER.sum()), "faces kept", len(_keep), "of", len(ST))
+bvh = BVHTree.FromPolygons([tuple(v) for v in SV], _keep)        # nearest-surface queries (relax, projection)
+_ray_faces = [f for f in ST if not OUTER[list(f)].any()]
+bvh_ray = BVHTree.FromPolygons([tuple(v) for v in SV], _ray_faces)  # placement rays: her surface minus the ponytail
+
+
+class _Ray:
+    """placement ray from inside the body: the OUTERMOST hit of the first cluster of layers (hits less than 15 mm
+    apart), so a ray lands on the fabric of the fused bra / shorts, not on the skin layer under it"""
+
+    @staticmethod
+    def ray_cast(o, d, dist=10.0):
+        d = Vector(d).normalized(); first = bvh_ray.ray_cast(o, d, dist)
+        if first[0] is None:
+            return first
+        best = first; t = first[3]
+        while True:
+            h = bvh_ray.ray_cast(o + d * (t + 0.0003), d, 0.015)
+            if h[0] is None:
+                return best
+            t = t + 0.0003 + h[3]; best = (h[0], h[1], h[2], t)
+
+
+ray = _Ray()
+# crown target: her head surface without the ponytail TIE that rises from the crown (faces wholly above z 1.625 and
+# behind y 0.015).  Cap rays that miss there keep their smooth Coons-patch position: a clean scalp dome under the tie;
+# her ponytail gets its own mesh over it.
+_TIE = lambda f: all(SV[i, 2] > 1.625 and SV[i, 1] > 0.015 for i in f)
+bvh_crown = BVHTree.FromPolygons([tuple(v) for v in SV], [f for f in _ray_faces if not _TIE(f)])
+print("TARGET outer-layer vertices", int(OUTER.sum()), "covered faces", int(COVERED.sum()), "faces kept", len(_keep), "of", len(ST))
 
 
 # ================================================================ design record (all values measured on her surface)
@@ -176,7 +231,7 @@ neck = [("m", (TRAP_HI, NECK_HI, i / 4, 1.34)) for i in range(1, 5)]            
 JAW_ROW = neck[-1]
 HEAD_Z = [float(z) for z in np.round(np.arange(1.488, 1.5521, 0.008), 4)]          # 8 mm loops, jaw .. just above the
                                                                                    # head centre (cranium loops above)
-head = [("m", (NECK_HI, ("h", HEAD_Z[0]), 0.5, 1.38))] + [("h", z) for z in HEAD_Z]
+head = [("m", (NECK_HI, ("h", HEAD_Z[0]), 0.5, 1.43))] + [("h", z) for z in HEAD_Z]
 EAR_LO, EAR_HI = JAW_ROW, ("h", 1.536)        # her ear z 1.475-1.535: the jaw loop (1.468-1.476 there) is its lower edge
 EAR_DEG = (float(os.environ.get("F_EAR_D0", "88")), float(os.environ.get("F_EAR_D1", "124")))   # her ear: lateral,
                                                                                    # just behind the head axis
@@ -189,7 +244,7 @@ I_EAR0 = ROWS.index(EAR_LO); I_EAR1 = ROWS.index(EAR_HI)
 
 
 def hray(z, th):
-    t = math.radians(th); h = bvh.ray_cast(Vector((0.0, centre_y(z), z)), Vector((math.sin(t), -math.cos(t), 0.0)))[0]
+    t = math.radians(th); h = ray.ray_cast(Vector((0.0, centre_y(z), z)), Vector((math.sin(t), -math.cos(t), 0.0)))[0]
     if h is None:
         raise RuntimeError(f"no surface at z {z} theta {th}")
     return h
@@ -219,7 +274,7 @@ def meridian(lo, hi, oz, th):
         e2 = nrm.cross(e1).normalized(); tot = (p0 - A).angle(p1 - A)
         pts = [p0]
         for al in np.linspace(0.0, tot, 241)[1:-1]:
-            h = bvh.ray_cast(A, e1 * math.cos(al) + e2 * math.sin(al))[0]
+            h = ray.ray_cast(A, e1 * math.cos(al) + e2 * math.sin(al))[0]
             if h is not None:
                 pts.append(h)
         pts.append(p1); P_ = np.array(pts)
@@ -235,7 +290,7 @@ def place(row, th):
         return hray(jaw_z(th), th)
     if k == "s":
         e = math.radians(row[1]); t = math.radians(th)
-        h = bvh.ray_cast(HEAD_C, Vector((math.sin(t) * math.cos(e), -math.cos(t) * math.cos(e), math.sin(e))))[0]
+        h = ray.ray_cast(HEAD_C, Vector((math.sin(t) * math.cos(e), -math.cos(t) * math.cos(e), math.sin(e))))[0]
         return h
     if k == "m":
         lo, hi, frac, oz = row[1]
@@ -382,7 +437,7 @@ assert NC + NR + NC == NSEG
 ring = [Vector(P[top, j]) for j in range(NSEG + 1)]
 Bc, Rt, Tc = ring[0:NC + 1], ring[NC:NC + NR + 1], list(reversed(ring[NC + NR:NSEG + 1]))
 a_f = math.atan2(ring[0].z - HEAD_C.z, -(ring[0].y - HEAD_C.y)); a_b = math.atan2(ring[NSEG].z - HEAD_C.z, -(ring[NSEG].y - HEAD_C.y))
-fine = [bvh.ray_cast(HEAD_C, Vector((0.0, -math.cos(al), math.sin(al))))[0] for al in np.linspace(a_f, a_b, 400)]
+fine = [bvh_crown.ray_cast(HEAD_C, Vector((0.0, -math.cos(al), math.sin(al))))[0] for al in np.linspace(a_f, a_b, 400)]
 F_ = np.array([ring[0]] + [p for p in fine if p is not None] + [ring[NSEG]])
 s_ = np.r_[0, np.cumsum(np.linalg.norm(np.diff(F_, axis=0), axis=1))]
 Lt = [Vector([np.interp(u * s_[-1], s_, F_[:, d]) for d in range(3)]) for u in np.linspace(0, 1, NR + 1)]
@@ -401,10 +456,13 @@ for r in range(NR + 1):
         d = (Pc - HEAD_C)
         if c == 0:
             d.x = 0.0
-        h = bvh.ray_cast(HEAD_C, d.normalized())[0]
+        h = bvh_crown.ray_cast(HEAD_C, d.normalized())[0]
+        tie = h is None
+        if tie:                                   # over the ponytail tie: the smooth scalp dome (Coons point)
+            h = Pc.copy()
         if c == 0:
             h.x = 0.0
-        cap[r, c] = bm.verts.new(h); cap[r, c][L_ROW] = -2; cap[r, c][L_COL] = -1
+        cap[r, c] = bm.verts.new(h); cap[r, c][L_ROW] = -3 if tie else -2; cap[r, c][L_COL] = -1
 for r in range(NR):
     for c in range(NC):
         bm.faces.new([cap[r, c], cap[r, c + 1], cap[r + 1, c + 1], cap[r + 1, c]])
@@ -434,7 +492,16 @@ for _ in range(RELAX_IT):
                 continue
         avg = sum((w.co for w in nb), Vector()) / len(nb)
         p_ = v.co.lerp(avg, RELAX_W)
-        h = bvh.find_nearest(p_)[0]
+        if v[L_ROW] == -3:                       # cap over the ponytail tie: relaxed on the dome, not projected
+            if p_.x >= 0.001:
+                new[v] = p_
+            continue
+        if v[L_ROW] == -2:                       # rest of the cap: her scalp without the tie
+            h, _, _, dd = bvh_crown.find_nearest(p_)
+            if dd > 0.004:
+                h = p_
+        else:
+            h = bvh.find_nearest(p_)[0]
         if h.x < 0.001:                          # never drift onto / across the mirror plane
             continue
         if h.x > X_CUT + 0.012 and 1.19 < h.z < 1.40:  # never let a torso vertex snap onto the arm
@@ -442,6 +509,7 @@ for _ in range(RELAX_IT):
         new[v] = h
     for v, h in new.items():
         v.co = h
+TIE_IDX = [v.index for v in bm.verts if v[L_ROW] == -3]
 me = bpy.data.meshes.new("HGPT_Female_Shell"); bm.to_mesh(me); bm.free()
 for v in me.vertices:
     if abs(v.co.x) < 1e-4:
@@ -451,7 +519,11 @@ bpy.data.collections["BODY_PRODUCTION"].objects.link(ob)
 mir = ob.modifiers.new("Manual_Symmetry", "MIRROR"); mir.use_clip = True; mir.use_mirror_merge = True; mir.merge_threshold = 0.0005
 # the source is not mirror-symmetric (head centre 4-5.5 mm towards -x, wider on -x): as in the owner's scaffold, the
 # mirrored half is projected onto the real left side of the source after the Mirror modifier
+vg = ob.vertex_groups.new(name="PROJECT"); vg.add(list(range(len(me.vertices))), 1.0, "REPLACE")
+if TIE_IDX:
+    vg.add(TIE_IDX, 0.0, "REPLACE")             # the scalp dome under the ponytail tie is not projected onto the tie
 sw = ob.modifiers.new("Manual_Surface_Projection", "SHRINKWRAP"); sw.target = SRC; sw.wrap_method = "NEAREST_SURFACEPOINT"; sw.offset = 0.0
+sw.vertex_group = "PROJECT"
 DESIGN = {"segments_per_half_loop": NSEG, "rows": len(ROWS), "row_spec": [list(map(str, r)) for r in ROWS],
           "x_cut": X_CUT, "socket_rows_z": [round(row_z(ROWS[i]), 4) for i in SOCK_ROWS],
           "socket_edges_raw_deg": RAW_EDGES, "socket_edges_deg": [EDGE[i] for i in SOCK_ROWS],

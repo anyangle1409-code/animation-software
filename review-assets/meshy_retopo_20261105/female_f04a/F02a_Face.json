@@ -1,0 +1,72 @@
+{
+ "out": "(not in git)",
+ "object": "HGPT_Female_Body",
+ "faces_added": 606,
+ "new_vertices": 571,
+ "vertices": 3920,
+ "faces": 3792,
+ "non_quads": 0,
+ "min_edge_mm": 1.21,
+ "layout": {
+  "right": {
+   "eye_rect_rows": [
+    7,
+    10
+   ],
+   "eye_rect_cols": [
+    1,
+    8
+   ],
+   "eye_ring_vertices": 20,
+   "lid_segments": 10,
+   "mouth_rect_rows": [
+    1,
+    4
+   ],
+   "mouth_rect_cols": [
+    0,
+    5
+   ],
+   "mouth_half_ring_vertices": 14,
+   "nose_rect_rows": [
+    4,
+    7
+   ],
+   "nose_rect_cols": [
+    0,
+    3
+   ],
+   "nose_half_ring_vertices": 10
+  },
+  "left": {
+   "eye_rect_rows": [
+    7,
+    10
+   ],
+   "eye_rect_cols": [
+    1,
+    8
+   ],
+   "eye_ring_vertices": 20,
+   "lid_segments": 10,
+   "mouth_rect_rows": [
+    1,
+    4
+   ],
+   "mouth_rect_cols": [
+    0,
+    5
+   ],
+   "mouth_half_ring_vertices": 14,
+   "nose_rect_rows": [
+    4,
+    7
+   ],
+   "nose_rect_cols": [
+    0,
+    3
+   ],
+   "nose_half_ring_vertices": 10
+  }
+ }
+}

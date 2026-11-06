@@ -1,0 +1,80 @@
+{
+ "out": "(not in git)",
+ "faces": 6336,
+ "non_quads": 0,
+ "boundary_edges": 130,
+ "min_edge_mm": 1.21,
+ "edge_mm_p5_p50_p95": [
+  4.1,
+  9.8,
+  25.7
+ ],
+ "sides": {
+  "right": {
+   "shoulder_joint": [
+    0.1668,
+    0.009,
+    1.3
+   ],
+   "elbow": [
+    0.3,
+    -0.0212,
+    1.0309
+   ],
+   "wrist": [
+    0.4181,
+    -0.0611,
+    0.8503
+   ],
+   "socket_loop_vertices": 64,
+   "A0_axis_t": 0.29,
+   "cap_rings": 12,
+   "arm_ring_vertices": 32,
+   "arm_rings": 20,
+   "wrist_ring_open": true,
+   "elbow_check": {
+    "line_angle_deg": 15.8,
+    "closest_approach_elbow": [
+     0.2401,
+     0.0083,
+     1.1232
+    ],
+    "elbow_method": "0.56 of joint-to-wrist on the centroid path",
+    "surface_narrowing_z": 1.02
+   }
+  },
+  "left": {
+   "shoulder_joint": [
+    -0.1562,
+    0.0302,
+    1.3
+   ],
+   "elbow": [
+    -0.2999,
+    -0.0199,
+    1.0286
+   ],
+   "wrist": [
+    -0.4213,
+    -0.0542,
+    0.8442
+   ],
+   "socket_loop_vertices": 64,
+   "A0_axis_t": 0.29,
+   "cap_rings": 12,
+   "arm_ring_vertices": 32,
+   "arm_rings": 21,
+   "wrist_ring_open": true,
+   "elbow_check": {
+    "line_angle_deg": 7.5,
+    "closest_approach_elbow": [
+     -0.2408,
+     -0.0018,
+     1.122
+    ],
+    "elbow_method": "0.56 of joint-to-wrist on the centroid path",
+    "surface_narrowing_z": 1.019
+   }
+  }
+ }
+}

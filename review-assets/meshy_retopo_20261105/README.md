@@ -839,3 +839,38 @@ Still to do, in order:
 - densify / projection, including the strip under the bra band's lip;
 - skeleton fit;
 - the standing review.
+
+## F04a — Female full-body cage (6 Nov, work in progress)
+
+All six steps run on her own source. Each builder is a female script in `scripts/retopology/female/` that follows the male loop conventions, with every landmark measured on her:
+
+| Step | Script | What is hers |
+|---|---|---|
+| F01b shell | `build_f_shell.py` | three meridian rows between her steeply slanting jaw and the head loops (1.496 m upward); 7 under-chin rows; 18 socket loops, giving a 64-vertex socket and 32-vertex arm rings |
+| F02a face | `build_f_face.py` | landmarks below; midline rows placed from her landmarks; mouth and nose rows chosen near the midline |
+| F02b ears | `build_f_ears.py` | same method as the male, on her ear opening |
+| F03a arms | `build_f_arms.py` | arm selection x > 0.155 m; upper arm fitted at 1.12–1.22, forearm at 0.92–1.01; shoulder joint at z 1.30; wrist search 0.84–0.93; elbow placed by proportion (below) |
+| F03b hands | `build_f_hands.py` | same method, on her hands |
+| F04a legs | `build_f_legs.py` | crotch ≈ 0.79 m (the shorts' inseam hem is lower, ≈ 0.70 m); hip loops 0.938–0.806 m; knee search 0.38–0.54, ankle 0.09–0.20 |
+
+**Face landmarks (F02a):**
+- Midline at x = −0.5 mm: her face is symmetric, unlike the male's.
+- Nose and mouth read from a curvature map of a 0.5 mm front depth map:
+  - alae at ±16.5 mm, alar groove top at z 1.490, subnasale 1.4725, nose tip 1.485;
+  - lip line 1.453, mouth corners at ±23.5 mm, upper vermilion 1.4605, lower 1.441.
+- **Eyes:** her eye region is a smooth hollow with no lid crease in the geometry, so the closed-lid line follows her painted eyes. On the +x side: inner corner 14 mm, outer 44 mm, z 1.5105–1.5205. The −x side is mirrored.
+
+**Elbow (F03a):** her A-pose arm is almost straight, so the male's line-intersection method put the elbow only 0.19 m below the shoulder joint. The elbow is placed instead at 0.56 of the shoulder-joint-to-wrist length, along her measured centroid path. This gives z ≈ 1.03, which matches the surface narrowing at 1.02.
+
+**Projection target:** her source without the hanging ponytail. Fabric-covered skin is left out only where the layer above faces the same way, as fused fabric does; the arm–torso and thigh gaps keep both surfaces. Forward rays at bra height follow the bra's centre panel.
+
+**Result:** 12,330 quads, 0 non-quads, 0 boundary edges; closed from head to toes.
+- Checkpoint `HGPT_Female_Retopo_F04a_Legs_WIP.blend` (`2d1f2488e176…`), read-only, not in git.
+- Reports: `female_f04a/`.
+
+**Next:**
+- crossing / untangle check;
+- densify / projection: the nose tip, the under-chin band and the bra-band lip still cut under the surface;
+- the ponytail mesh;
+- the skeleton fitted to her proportions;
+- the standing review.

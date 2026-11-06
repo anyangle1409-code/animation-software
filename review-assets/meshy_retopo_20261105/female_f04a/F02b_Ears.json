@@ -1,0 +1,34 @@
+{
+ "ear_rows": [
+  40,
+  51
+ ],
+ "ear_cols": [
+  15,
+  21
+ ],
+ "sides": {
+  "right": {
+   "grid": [
+    6,
+    11
+   ],
+   "new_vertices": 152,
+   "rings": 3,
+   "faces": 168
+  },
+  "left": {
+   "grid": [
+    6,
+    11
+   ],
+   "new_vertices": 152,
+   "rings": 3,
+   "faces": 168
+  }
+ },
+ "out": "(not in git)",
+ "faces": 4128,
+ "non_quads": 0,
+ "boundary_edges": 194
+}

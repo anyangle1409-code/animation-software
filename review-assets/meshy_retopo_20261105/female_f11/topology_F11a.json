@@ -1,0 +1,47 @@
+{
+ "in": "HGPT_Female_F11a_ChestGroin_WIP.blend",
+ "HGPT_Female_Body": {
+  "vertices": 50090,
+  "faces": 50088,
+  "quads": 50088,
+  "triangles": 0,
+  "ngons": 0,
+  "boundary_edges": 0,
+  "non_manifold_edges": 0,
+  "parts": 1,
+  "self_intersecting_face_pairs": 52,
+  "self_intersections_by_region": {
+   "hands": 52
+  }
+ },
+ "HGPT_Female_Bra": {
+  "vertices": 2541,
+  "faces": 2147,
+  "quads": 2144,
+  "triangles": 1,
+  "ngons": 2,
+  "boundary_edges": 784,
+  "non_manifold_edges": 1,
+  "parts": 3
+ },
+ "HGPT_Female_Shorts": {
+  "vertices": 1982,
+  "faces": 1826,
+  "quads": 1826,
+  "triangles": 0,
+  "ngons": 0,
+  "boundary_edges": 312,
+  "non_manifold_edges": 0,
+  "parts": 1
+ },
+ "HGPT_Female_Ponytail": {
+  "vertices": 3539,
+  "faces": 6233,
+  "quads": 854,
+  "triangles": 5379,
+  "ngons": 0,
+  "boundary_edges": 201,
+  "non_manifold_edges": 0,
+  "parts": 1
+ }
+}

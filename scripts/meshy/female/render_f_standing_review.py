@@ -11,6 +11,7 @@ Sets (argument 3):
   close    close-ups in the natural pose: face (front, 3/4, side), hands, feet, pelvis, shoulders, armpits, ponytail,
            bra (front, back), shorts (side)
   nude     the body without the removable bra / shorts (clay only): front, back, side, 3/4
+  anat     anatomy close-ups (chest, armpits, groin, pelvis, upper thighs): clothed tex + clay, and the body alone
   wire     topology diagnostics (Workbench, flat shading + wire): front, back, face, hand, foot
 
 usage: python3.13 render_f_standing_review.py -- <final .blend> <out dir> <set> [clay|tex|both] [res]
@@ -154,6 +155,21 @@ elif SET in ("stand", "close"):
                 shot(f"close_{mode}_hand_{s_}_out", (sg, -0.25, 0.05), hc, 0.22, sq)
                 shot(f"close_{mode}_hand_{s_}_front", (0, -1, 0.05), hc, 0.22, sq)
                 shot(f"close_{mode}_foot_{s_}", (sg * 0.45, -0.8, 0.45), (sg * 0.13, -0.05, 0.05), 0.26, sq)
+elif SET == "anat":
+    # F11 anatomy close-ups: chest, armpits, groin, pelvis, upper thighs - clothed (tex, clay) and the body under the
+    # garments (clay)
+    pose(True); sq = (RES, RES)
+    SH = [("chest_front", (0, -1, 0.05), (0, -0.05, 1.2), 0.40), ("chest_q34", (0.6, -0.8, 0.05), (0.03, -0.05, 1.2), 0.40),
+          ("armpit_r", (0.55, -0.8, -0.15), (0.16, -0.02, 1.19), 0.26), ("armpit_l", (-0.55, -0.8, -0.15), (-0.16, -0.02, 1.19), 0.26),
+          ("groin_front", (0, -1, 0), (0, -0.02, 0.80), 0.32), ("groin_back", (0, 1, 0), (0, 0.02, 0.80), 0.32),
+          ("groin_under", (0, -0.6, -1), (0, 0, 0.78), 0.28), ("pelvis_side", (1, -0.1, 0), (0, 0, 0.86), 0.42),
+          ("thighs_front", (0.3, -1, 0), (0, -0.03, 0.70), 0.42)]
+    for mode, objs in (("tex", NEW), ("clay", NEW), ("nude", [OB["HGPT_Female_Body"], OB["HGPT_Female_Ponytail"]])):
+        for o in sc.objects:
+            o.hide_render = o not in objs
+        set_mode("tex" if mode == "tex" else "clay", objs)
+        for nm, vd, ctr, scl in SH:
+            shot(f"anat_{mode}_{nm}", vd, ctr, scl, sq)
 elif SET == "nude":
     pose(True)
     objs = [OB["HGPT_Female_Body"], OB["HGPT_Female_Ponytail"]]

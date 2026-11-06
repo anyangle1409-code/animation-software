@@ -1,0 +1,66 @@
+{
+ "in": "HGPT_Female_F10e_BreastRig_WIP.blend",
+ "chest": {
+  "zone_vertices": 3566,
+  "sternum_line": {
+   "top": [
+    1.329,
+    -0.061
+   ],
+   "bottom": [
+    1.074,
+    -0.135
+   ],
+   "bow_mm": 25.0
+  },
+  "valley_depth_mm_max": 30.0,
+  "separation_half_width_mm": 55.0
+ },
+ "groin_web_vertices_lifted": 37,
+ "source_crotch_line_z_min_max": [
+  0.788,
+  0.837
+ ],
+ "groin": {
+  "crotch_vertices": 285,
+  "junction_vertices": 1168,
+  "moved_mm_p50_p95_max": [
+   0.33,
+   14.75,
+   51.71
+  ],
+  "mons_mm": 3.0
+ },
+ "bra_gore_vertices_eased": 129,
+ "bra_gore_moved_mm_max": 13.7,
+ "hem_band_vertices_smoothed": 2865,
+ "fit_skin_vertices_pushed_under_fabric": 38,
+ "torso_self_intersections_untangle_rounds": [
+  0
+ ],
+ "HGPT_Female_Bra_refit": {
+  "taubin_iterations": 4,
+  "pulled_to_skin": 0,
+  "pushed_out": 564
+ },
+ "HGPT_Female_Shorts_refit": {
+  "taubin_iterations": 10,
+  "pulled_to_skin": 89,
+  "pushed_out": 31
+ },
+ "crotch_vertices_lifted_inside_gusset": 0,
+ "HGPT_Female_Bra_off_skin_mm": {
+  "p50": 3.14,
+  "p95": 9.86,
+  "max": 21.79,
+  "over_6mm": 174
+ },
+ "HGPT_Female_Shorts_off_skin_mm": {
+  "p50": 3.65,
+  "p95": 4.05,
+  "max": 4.92,
+  "over_6mm": 0
+ },
+ "body_moved_mm_max": 46.7,
+ "out": "<scratchpad>/hgpt_ws/female/retopo/HGPT_Female_F11a_ChestGroin_WIP.blend"
+}

@@ -1,6 +1,6 @@
 # HGPT dual-character transfer receipt — 2026-11-06
 
-Status: Model ZIP uploads inspected and hashed in ChatGPT file container; original male and latest female F12d are recoverable. Female F11a rollback **INCOMPLETE — part06of07 absent**. Blender 5.2.x fresh-open checks still needed in Work. This is a receipt, not approval of Female V1 or a declaration that Work already has the assets.
+Status: Model ZIP uploads inspected and hashed in ChatGPT file container; original male and latest female F12d are recoverable. Female F11a rollback **COMPLETE — part06of07 received, all seven parts reconstructed and final SHA-256 verified**. Blender 5.2.x fresh-open checks still needed in Work. This is a receipt, not approval of Female V1 or a declaration that Work already has the assets.
 
 ## Male 07c — RECEIVED / HASH VERIFIED
 - Uploaded: `HGPT_Male07c_package.zip`, 15,103,690 bytes; ZIP integrity passed (no corrupt entries).
@@ -18,12 +18,12 @@ Status: Model ZIP uploads inspected and hashed in ChatGPT file container; origin
 - All eight F12d transfer ZIPs available in this ChatGPT conversation; 7 model parts reassembled exactly. See `docs/WORK_F12D_TRANSFER_RECEIPT_20261106.md`.
 - Female F12d remains **NOT APPROVED** for structural V1, clothing nor appearance. Main outstanding issues include shorts gusset and fabric/body clearance, bra construction/strap attachments, thumbs/hands and ponytail. Female exercise animation still paused.
 
-## Female F11a rollback — PARTIAL TRANSFER ONLY
-- Received `HGPT_F11a_START_HERE.zip`, and part ZIPs **01, 02, 03, 04, 05, 07**.
-- All six received part ZIP SHA-256, embedded part SHA-256 and byte lengths matched the `MANIFEST.json` exactly.
-- **MISSING UPLOAD:** `HGPT_F11a_blend_part06of07.zip`. The complete female rollback file CANNOT be reassembled until this is provided.
-- Expected reconstructed file `HGPT_Female_F11a_ChestGroin_WIP.blend`, **151,331,378 bytes**; SHA-256 `eafbc941aa2c92f99ceba9858e2cdc7aa9e562e882268f69324129a9a46c0573`.
-- Do not label F11a transferred or verified as a complete file. This is a *nonblocking* backup gap for development on verified F12d, but a blocker to relying on F11a rollback.
+## Female F11a rollback — COMPLETE / HASH VERIFIED
+- Received all eight required ZIPs: `HGPT_F11a_START_HERE.zip` plus **parts 01 through 07**, including the initially missing part06.
+- Independently checked every ZIP file's exact length and SHA-256 against the supplied `MANIFEST.json`, and then each extracted part's exact byte length and SHA-256; **all seven passed**.
+- Independently reassembled the full checkpoint as `/mnt/data/HGPT_Female_F11a_ChestGroin_WIP.blend`, **151,331,378 bytes**; SHA-256 **`eafbc941aa2c92f99ceba9858e2cdc7aa9e562e882268f69324129a9a46c0573`**, an exact match.
+- ZIP reconstruction succeeded without changing F12d, Male 07c or original part ZIPs. This is a **verified rollback**, not an owner-approved standing V1.
+- Fresh open in Blender 5.2.x still needs to be performed in Work; this ChatGPT container lacks Blender.
 - The START_HERE `MANIFEST.json` uses the property `f12d_blend` despite referring to F11a; this naming typo does not affect stored expected F11a file hashes.
 
 ## Immediate Work execution gate
@@ -32,7 +32,7 @@ Status: Model ZIP uploads inspected and hashed in ChatGPT file container; origin
 3. Store untouched reference copies and hashes. Work only on copies under its own branch, never on Claude's branch or approved male checkpoint. Keep licensed assets private.
 4. Male lane: verify structural 07c and package as an immutable approved standing reference; identify missing source for materials/UVs and reserve full presentation V1 for later separate owner approval. **Do not** refit male skeleton or start male exercises.
 5. Female lane: continue F12d **standing model corrections** and produce review renders; no comprehensive animation/deformation projects or production merges. Owner alone grants Female V1 approval.
-6. Obtain F11a part06 ZIP and verify complete rollback when it is uploaded; do not block initial F12d work waiting for it.
+6. F11a rollback transfer is complete; independently open F11a in Blender 5.2.x and maintain it read-only as a rollback from the current F12d candidate.
 7. Never archive/delete source attempts before having two independently verified durable backups; record commercial licence provenance for the original Meshy generation conditions.
 
 ## Source GitHub context

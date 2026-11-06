@@ -104,8 +104,9 @@ def _r(z, th, cy=None):
 # ================================================================ body-only projection target
 # Her ponytail hangs just behind her head, neck and upper back, and the sports bra has a thin centre-front fin in front
 # of the cleavage: nearest-surface snapping (on-surface relax, the Mirror + Shrinkwrap projection of the left half) can
-# land on them.  A vertex is an OUTER LAYER when a horizontal ray from it towards the body axis crosses another surface
-# before reaching the axis: ponytail = such vertices behind the axis (y > axis + 4 cm, |x| < 0.10 m, 1.00 < z < 1.60;
+# land on them.  A vertex is an OUTER LAYER when a horizontal ray from it towards the body axis ENTERS another surface
+# (a hit whose normal faces the ray, more than 4 mm away) before reaching the axis - skin vertices are already inside
+# the body, so their rays only leave surfaces: ponytail = such vertices behind the axis (y > axis + 4 cm, |x| < 0.10 m, 1.00 < z < 1.60;
 # the tie on the crown is kept so the scalp stays closed), fin = such vertices in front (|x| < 0.03 m, 1.10 < z < 1.28).
 # Faces touching them are left out of the target.  The source itself is not changed.
 def _outer_layer():
@@ -118,9 +119,14 @@ def _outer_layer():
         cy = centre_y(round(z / 0.004) * 0.004)
         if (hair and y < cy + 0.04) or (fin and not hair and y > cy - 0.04):
             continue
-        p = Vector((x, y, z)); d = Vector((0.0, cy, z)) - p; L = d.length; d.normalize()
-        h = bvh.ray_cast(p + d * 0.0005, d, L - 0.004)[0]
-        out[i] = h is not None
+        p = Vector((x, y, z)); d = Vector((0.0, cy, z)) - p; L = d.length; d.normalize(); t = 0.0005
+        while t < L - 0.004:                      # outer layer: the ray ENTERS a surface (normal facing it) > 4 mm away
+            h, n, _, dist = bvh.ray_cast(p + d * t, d, L - t)
+            if h is None:
+                break
+            t += dist + 0.0003
+            if n.dot(d) < 0 and t > 0.004:
+                out[i] = True; break
     return out
 
 

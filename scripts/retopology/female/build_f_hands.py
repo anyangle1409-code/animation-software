@@ -150,6 +150,36 @@ for sg in (1.0, -1.0):
     if loc(th_c[0][1])[2] > 0:
         N = -N
     s_crotch = th_c[0][0]
+    # FEMALE: her thumb points FORWARD from the palm (tip at y ~ -0.15 m), not along the hand axis, so slices across
+    # the hand axis cut it lengthwise and the male thumb axis ran down the index finger. The thumb is traced from its
+    # tip instead: tip = her most forward hand point 3-10 cm below the wrist; slices
+    # perpendicular to the current thumb direction march back from the tip, each time the loop nearest the previous
+    # centre, until the loop merges with the palm (perimeter > 1.7 x the running median), ends, or 5 cm of thumb (tip ->
+    # web) are traced. The crotch is where
+    # the march stops; the thumb opening on the palm rings is placed there.
+    cand = H[(H[:, 2] > Wc[2] - 0.10) & (H[:, 2] < Wc[2] - 0.03)]   # her thumb tips: 3-10 cm below the wrist, above
+                                                                      # her fingertips (~0.78 vs 0.70-0.72 m)
+    tipT0 = cand[np.argmin(cand[:, 1])]                  # her thumbs point forward (-y) in the source pose
+    u = unit(tipT0 - (Wc + L * 0.45 * hand_len)); path = []; per = []; prev = tipT0 - u * 0.004
+    for k in range(1, 40):
+        o = tipT0 - u * (0.004 * k)
+        lps_ = [q for q in slice_loops(o, u, HT) if np.linalg.norm(q.mean(0) - prev) < 0.015]
+        if not lps_:
+            if path:
+                break
+            continue
+        q = min(lps_, key=lambda q: np.linalg.norm(q.mean(0) - prev)); pq = perim(q)
+        if len(per) >= 3 and pq > 1.7 * float(np.median(per)):
+            break
+        path.append(q.mean(0)); per.append(pq); prev = path[-1]
+        if np.linalg.norm(np.diff(np.array(path), axis=0), axis=1).sum() > 0.050 if len(path) > 1 else False:
+            break                                        # her free thumb (tip -> web) is ~5 cm; beyond is the thenar pad
+        if len(path) >= 3:
+            u = unit(path[-3] - path[-1]) if np.linalg.norm(path[-3] - path[-1]) > 1e-6 else u
+    THUMB_PATH = np.array(path[::-1]) if len(path) >= 4 else None
+    if THUMB_PATH is not None:
+        s_crotch = float((THUMB_PATH[0] - Wc) @ L)
+        R.update(thumb_traced_from_tip=True, thumb_path_slices=len(path), thumb_tip=np.round(tipT0, 4).tolist())
     R.update(hand_length=round(hand_len, 4), L=L.round(4).tolist(), Wd=Wd.round(4).tolist(), N=N.round(4).tolist(), thumb_crotch_s=round(s_crotch, 4))
 
     # ---- thickness map (dorsal hit, palmar exit from inside) and finger ridges
@@ -301,7 +331,10 @@ for sg in (1.0, -1.0):
             print("PALM", side, "s %.3f u %.2f" % (s, u), "ring s %.3f..%.3f" % (rs.min(), rs.max()), "loops", len(lps), "perim %.0f" % (1000 * perim(Q)))
     rings.append([bm.verts.new(p) for p in KP])
     # thumb opening: at the middle hole row, the vertex nearest the thumb axis
-    TC = np.array([c for _, c in th_c]); td = np.linalg.svd(TC - TC.mean(0))[2][0]
+    TC = np.array([c for _, c in th_c])
+    if THUMB_PATH is not None:
+        TC = THUMB_PATH
+    td = np.linalg.svd(TC - TC.mean(0))[2][0]
     td = td if td @ (TC[-1] - TC[0]) > 0 else -td
     def line_d(p):
         v = p - TC[0]; return float(np.linalg.norm(v - (v @ td) * td))

@@ -14,6 +14,14 @@ The body there was clean; the garment was the cause. Rebuilt here (same object, 
   * WEIGHTS copied from the skin vertex each garment vertex was made from (the fabric moves exactly with the skin);
     UVs on the fabric colour (uniform fabric).
 
+KNOWN DEFECTS (found in F12 validation; kept as run so F12a stays reproducible - corrected downstream by
+gusset_shorts_f_blender.py, which makes F12d):
+  * the leg openings were raised to the SOURCE's crotch line, which sits above the body's crotch underside, so these
+    shorts have no crotch panel (bare skin from y -0.06 to +0.06);
+  * WEIGHTS: `so.data = newme` swaps the mesh datablock, and vertex-group names live on the mesh, so the new shorts
+    kept only 3 group names and most weights point at groups that do not exist - invisible at rest, but the shorts
+    lift 30-67 mm off the skin at 45-90 deg hip flexion.
+
 usage: python3.13 rebuild_shorts_f_blender.py -- <in .blend> <out NEW .blend> <report .json>
 """
 import json

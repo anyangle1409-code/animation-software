@@ -1,0 +1,24 @@
+{
+ "in": "HGPT_Female_F12a_ChestShorts_WIP.blend",
+ "faces_before": 1762,
+ "front_hem_vertices": 13,
+ "back_hem_vertices": 10,
+ "gusset_vertices": 169,
+ "weights": {
+  "groups": 66,
+  "rule": "nearest skin point, top 4, normalised"
+ },
+ "faces_after": 1939,
+ "non_manifold_edges": 0,
+ "boundary_loops_vertices": 295,
+ "off_skin_mm": {
+  "p50": 3.57,
+  "p95": 4.44,
+  "max": 11.99
+ },
+ "gusset_off_skin_mm": {
+  "p50": 3.0,
+  "max": 7.31
+ },
+ "out": "<scratchpad>/hgpt_ws/female/retopo/HGPT_Female_F12d_ChestShorts_WIP.blend"
+}

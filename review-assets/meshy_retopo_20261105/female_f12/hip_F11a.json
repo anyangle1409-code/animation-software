@@ -1,0 +1,33 @@
+{
+ "in": "HGPT_Female_F11a_ChestGroin_WIP.blend",
+ "structural_only": true,
+ "poses": {
+  "hip0_knee0": {
+   "skin_outside_shorts": 1,
+   "shorts_off_skin_mm": {
+    "p95": 4.05,
+    "max": 4.92
+   },
+   "shorts_vertices_over_10mm": 0,
+   "groin_self_intersections": 0
+  },
+  "hip45_knee60": {
+   "skin_outside_shorts": 1,
+   "shorts_off_skin_mm": {
+    "p95": 3.93,
+    "max": 4.65
+   },
+   "shorts_vertices_over_10mm": 0,
+   "groin_self_intersections": 0
+  },
+  "hip90_knee90": {
+   "skin_outside_shorts": 23,
+   "shorts_off_skin_mm": {
+    "p95": 3.78,
+    "max": 5.83
+   },
+   "shorts_vertices_over_10mm": 0,
+   "groin_self_intersections": 0
+  }
+ }
+}

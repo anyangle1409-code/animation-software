@@ -1026,3 +1026,83 @@ Review sheets are kept in the session scratchpad (`sheets_F09b/`):
 - **Ponytail:** still decimated triangles.
 
 Review sheets are in the session scratchpad, `sheets_F11a/`.
+
+## F12 — Female chest and shorts corrections (6 Nov): candidate F12d for the owner's review
+
+The owner withheld approval of F11a for two areas: the breasts still read as one mass (especially clothed), and the
+shorts had a pointed protrusion at the crotch. **Nothing here is approved, no V1 checkpoint was made, F11a and
+every earlier checkpoint and Male 07c are untouched, and exercise animation remains paused.**
+
+**Causes (geometry inspected, body and garments separately).**
+* *Chest:* the body already had two breast forms with a ~30 mm sternal valley (sections at z 1.20). The bra followed
+  her source's fused fabric: a near-flat shelf across both breasts, with the cleavage hidden behind it. The F11a bra
+  dipped only ~13 mm at the centre, so the clothed chest read as one mass.
+* *Shorts:* the protrusion was in the garment, not the body. The F07a–F11a shorts were cut from the body by
+  albedo and ended at the crotch in two flaps, a slit, a pointed front tab and a thin spike underneath.
+
+**What changed (scripts in `scripts/retopology/female/`; checkpoints are local only, read-only).**
+
+| Checkpoint | Script | Change |
+|---|---|---|
+| F12a `…F12a_ChestShorts_WIP` (`ab44efb0…`) | `rebuild_shorts_f_blender.py`, `bra_cups_f_blender.py` | Shorts rebuilt from body faces: waistband from the old top hem, leg-opening planes fitted to the clean old hems, no tab, slit or spike. Bra front eased onto the body's sternal valley (gore 3.5 mm over the sternum, smoothstep out to the unchanged outer cups), so it reads as two supported cups. Skin texels just outside the hems cleaned. |
+| F12b, F12c | `gusset_shorts_f_blender.py` (earlier states) | Superseded intermediates, never reviewed, deleted for disk space. Their shorts weights were wrong (below). |
+| **F12d `…F12d_ChestShorts_WIP` (`89df9517…`)** | `gusset_shorts_f_blender.py` | Crotch gusset plus a full rebuild of the shorts weights. |
+
+The F12d gusset is a regular quad grid joined to the F12a front and back crotch hems:
+* it is laid by rays from inside the pelvis and relaxed as a collision-constrained membrane, so it spans the
+  inguinal creases instead of following them;
+* each vertex keeps its x position, tapering to 55 % of the hem width under the crotch;
+* it sits ≥ 3 mm over the skin, and the rest of the shorts ≥ 1.8 mm;
+* the shorts' weights come from the nearest skin point (top 4 influences, normalised).
+
+Defects found in F12a during validation and fixed in F12d (both are documented in the F12a script):
+1. its leg openings were raised to the *source's* crotch line, so it had **no crotch panel** (bare skin from y −0.06
+   to +0.06);
+2. swapping the shorts' mesh datablock lost the vertex-group names, so the **weights pointed at missing groups**.
+   This was invisible at rest, but the shorts lifted 30–67 mm off the skin at 45–90° hip flexion.
+
+Four attempts to re-cut the shorts down to the body's crotch line were rejected. They gave a hanging flap, a string
+or folded hems, because the crotch underside is only ~2 cm wide between the creases.
+
+**Validation (F12d; `female_f12/*.json`).**
+
+Standing pose:
+* 0 skin vertices outside the shorts (F11a: 1).
+* Shorts off the skin: p50 3.6, p95 4.4, max 12.0 mm; 4 vertices over 10 mm.
+* Shorts: 1 part, 0 non-manifold edges.
+* Body: unchanged from F11a (50,090 vertices, all quads, closed, 52 self-intersecting pairs, all in the hands).
+* Proportions within ±0.3 % of the source, clothed.
+
+Limited hip-flexion check (`scripts/meshy/female/hip_flexion_clearance_f_blender.py`; structural only, no pelvis tilt, no correctives):
+
+| Pose | Skin outside shorts | Shorts off skin p95 / max (mm) | Groin self-intersections |
+|---|---|---|---|
+| standing | 0 (F11a 1) | 4.4 / 12.0 | 0 |
+| hip 45 / knee 60 | 0 (F11a 1) | 4.1 / 11.9 | 0 |
+| hip 90 / knee 90 | 12 (F11a 23) | 3.8 / 10.9 | 0 |
+
+Limited arm-elevation check (`chest_bra_elevation_test_f_blender.py`, glenohumeral only):
+* Unchanged from F10e: breast core stretch 1.00 at all elevations; centroid shift 2.6 / 2.1 / 6.4 / 9.8 / 11.4 mm at
+  0 / 45 / 90 / 135 / 170°.
+* Skin outside the bra: 81 / 2 / 27 / 29 / 20 (F10e: 76 / 5 / 29 / 34 / 24).
+* The bra cups now span part of the sternal valley: 70 cup vertices are more than 6 mm off the skin (max 9.3 mm;
+  F10e: 1).
+
+**Remaining (not hidden).**
+* Small corner tips where the gusset edges meet the leg openings, visible in the front and back views.
+* The shorts waistband keeps the source's raised elastic band, with small steps.
+* The bra has 3 parts and 1 non-manifold edge.
+* Elsewhere: the thumb bases and hand self-intersections, the strap knots at the shoulders, and the ponytail's
+  triangles.
+
+**Review sheets** (renders are local only) are produced by `review_chest_shorts_f_blender.py`,
+`chest_sections_f_blender.py` + `chest_sections_draw.py` and `make_f12_sheets.py`:
+1. chest with and without the bra (front, 3/4, side, sternum);
+2. shorts (front, back, side, from below);
+3. shorts and body separately;
+4. clearance diagnostic;
+5. chest sections;
+6. hip-flexion check;
+7. arm-elevation check.
+
+Sheets 1–5 compare F11a with F12d.

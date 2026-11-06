@@ -1,0 +1,14 @@
+{
+ "in": "s2.blend",
+ "zone_vertices": 342,
+ "eased": 254,
+ "moved_mm_max": 18.0,
+ "pushed_to_gap_min": 536,
+ "bra_off_skin_mm": {
+  "p50": 3.14,
+  "p95": 5.34,
+  "max": 9.31
+ },
+ "hem_skin_texels_cleaned": 43524,
+ "out": "<scratchpad>/hgpt_ws/female/retopo/HGPT_Female_F12a_ChestShorts_WIP.blend"
+}

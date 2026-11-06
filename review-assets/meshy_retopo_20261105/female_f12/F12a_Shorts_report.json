@@ -1,0 +1,25 @@
+{
+ "in": "HGPT_Female_F11a_ChestGroin_WIP.blend",
+ "old_faces": 1826,
+ "leg_plane_z_a_b_c": {
+  "left": [
+   0.7758,
+   0.2341,
+   -0.1122
+  ],
+  "right": [
+   0.7763,
+   0.2295,
+   -0.111
+  ]
+ },
+ "coverage_faces": 1762,
+ "new_vertices": 1906,
+ "new_faces": 1762,
+ "off_skin_mm": {
+  "p50": 3.58,
+  "p95": 4.08,
+  "max": 11.99
+ },
+ "out": "<scratchpad>/f12/s2.blend"
+}

@@ -1,0 +1,50 @@
+{
+ "in": "HGPT_Female_F10b_BodyRepair_WIP.blend",
+ "toes": {
+  "vertices": 1554,
+  "moved_mm_p50_p95_max": [
+   0.28,
+   2.33,
+   5.65
+  ]
+ },
+ "hem_clearance_vertices_pushed": 275,
+ "posed_skin_through_garment_before": {
+  "HGPT_Female_Bra": 58,
+  "HGPT_Female_Shorts": 0
+ },
+ "posed_skin_through_garment_after": {
+  "HGPT_Female_Bra": 11,
+  "HGPT_Female_Shorts": 0
+ },
+ "hand_line_texels": 8810,
+ "body_texture": {
+  "faces_repainted": 2290,
+  "texels_repainted": 224160
+ },
+ "HGPT_Female_Bra_outlier_texels_set_to_fabric": 9399,
+ "HGPT_Female_Bra_fabric_rgb": [
+  0.224,
+  0.22,
+  0.247
+ ],
+ "HGPT_Female_Shorts_outlier_texels_set_to_fabric": 274,
+ "HGPT_Female_Shorts_fabric_rgb": [
+  0.22,
+  0.216,
+  0.243
+ ],
+ "ponytail_components": [
+  6233
+ ],
+ "ponytail_loose_faces_removed": 0,
+ "ponytail_boundary_vertices_relaxed": 201,
+ "ponytail_light_texels_set_to_hair": 22069,
+ "ponytail_dark_texels_lifted": 40658,
+ "ponytail_material": {
+  "roughness": 0.62,
+  "specular": 0.3,
+  "coat": 0.0
+ },
+ "out": "<scratchpad>/hgpt_ws/female/retopo/HGPT_Female_F10c_Finish_WIP.blend"
+}

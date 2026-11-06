@@ -1,0 +1,104 @@
+{
+ "in": "HGPT_Female_F10c_Finish_WIP.blend",
+ "skeleton_id": "hgpt_canonical_v3",
+ "contract": {
+  "canonical_bones": 63,
+  "missing": [],
+  "wrong_parent": [],
+  "character_helpers_present": [
+   "forearm_tw0_l",
+   "forearm_tw0_r",
+   "forearm_tw1_l",
+   "forearm_tw1_r"
+  ],
+  "deform_flag_mismatch": [],
+  "male_only_helpers_not_copied": [
+   "arm_ref_l",
+   "arm_ref_r",
+   "hip_crease_l",
+   "hip_crease_r",
+   "muscle_lat_l",
+   "muscle_lat_r",
+   "muscle_pec_l",
+   "muscle_pec_r",
+   "muscle_trap_l",
+   "muscle_trap_r",
+   "scap_glide_l",
+   "scap_glide_r",
+   "shoulder_cap_l",
+   "shoulder_cap_r"
+  ]
+ },
+ "roll_parent_frame_deviation_before_deg": {
+  "max": 173.4,
+  "over_10": {
+   "clavicle_l": 11.1,
+   "thumb_01_l": 18.3,
+   "index_01_l": 11.4,
+   "index_02_l": 11.4,
+   "index_03_l": 11.4,
+   "middle_01_l": 13.4,
+   "middle_02_l": 13.4,
+   "middle_03_l": 13.4,
+   "clavicle_r": 11.0,
+   "metacarpal_index_r": 173.4,
+   "index_01_r": 19.6,
+   "index_02_r": 17.8,
+   "index_03_r": 17.8,
+   "middle_01_r": 12.3,
+   "middle_02_r": 12.3,
+   "middle_03_r": 12.3
+  }
+ },
+ "roll_parent_frame_deviation_after_deg": {
+  "max": 0.0,
+  "over_2": {}
+ },
+ "joints_outside_before": [
+  "thumb_01_l"
+ ],
+ "joints_moved": {
+  "thumb_01_l": {
+   "from": [
+    -0.4089,
+    -0.093,
+    0.844
+   ],
+   "to": [
+    -0.4078,
+    -0.0817,
+    0.8356
+   ],
+   "moved_mm": 14.1,
+   "depth_mm": 3.9
+  }
+ },
+ "joints_outside_after": [],
+ "bind": {
+  "HGPT_Female_Body": {
+   "vertices": 50090,
+   "unweighted": 0,
+   "max_influences": 4,
+   "weight_sum_off_by_2pct": 0
+  },
+  "HGPT_Female_Bra": {
+   "vertices": 2541,
+   "unweighted": 0,
+   "max_influences": 4,
+   "weight_sum_off_by_2pct": 0
+  },
+  "HGPT_Female_Shorts": {
+   "vertices": 1982,
+   "unweighted": 0,
+   "max_influences": 4,
+   "weight_sum_off_by_2pct": 0
+  },
+  "HGPT_Female_Ponytail": {
+   "vertices": 3539,
+   "unweighted": 0,
+   "max_influences": 1,
+   "weight_sum_off_by_2pct": 0
+  }
+ },
+ "out": "<scratchpad>/hgpt_ws/female/retopo/HGPT_Female_F10d_Rig_WIP.blend"
+}

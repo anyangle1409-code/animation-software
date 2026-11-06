@@ -1,0 +1,1139 @@
+{
+ "source": "approved male 07c rig (read-only): each bone rest frame expressed in its parent bone frame (bone Y = head->tail, Z = roll axis); orientation only, no positions",
+ "bones": [
+  {
+   "name": "root",
+   "parent": null,
+   "local_y": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "local_z": [
+    0.0,
+    -1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "pelvis",
+   "parent": "root",
+   "local_y": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "local_z": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "spine_01",
+   "parent": "pelvis",
+   "local_y": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "local_z": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "spine_02",
+   "parent": "spine_01",
+   "local_y": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "local_z": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "spine_03",
+   "parent": "spine_02",
+   "local_y": [
+    0.0,
+    0.98777,
+    -0.15593
+   ],
+   "local_z": [
+    0.0,
+    0.15593,
+    0.98777
+   ]
+  },
+  {
+   "name": "clavicle_l",
+   "parent": "spine_03",
+   "local_y": [
+    -0.99348,
+    0.11213,
+    -0.02057
+   ],
+   "local_z": [
+    0.10298,
+    0.96013,
+    0.25988
+   ]
+  },
+  {
+   "name": "scapula_l",
+   "parent": "clavicle_l",
+   "local_y": [
+    0.22965,
+    -0.49034,
+    -0.84073
+   ],
+   "local_z": [
+    0.9125,
+    -0.19198,
+    0.36123
+   ]
+  },
+  {
+   "name": "upperarm_l",
+   "parent": "scapula_l",
+   "local_y": [
+    -0.5297,
+    0.69078,
+    -0.49219
+   ],
+   "local_z": [
+    -0.35952,
+    0.34272,
+    0.86792
+   ]
+  },
+  {
+   "name": "forearm_l",
+   "parent": "upperarm_l",
+   "local_y": [
+    -0.34473,
+    0.90122,
+    -0.26262
+   ],
+   "local_z": [
+    -0.0744,
+    0.25266,
+    0.96469
+   ]
+  },
+  {
+   "name": "forearm_tw0_l",
+   "parent": "forearm_l",
+   "local_y": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "local_z": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "forearm_tw1_l",
+   "parent": "forearm_l",
+   "local_y": [
+    -0.0006,
+    1.0,
+    0.00073
+   ],
+   "local_z": [
+    0.0,
+    -0.00073,
+    1.0
+   ]
+  },
+  {
+   "name": "hand_l",
+   "parent": "forearm_l",
+   "local_y": [
+    0.23451,
+    0.96993,
+    0.0651
+   ],
+   "local_z": [
+    0.32884,
+    -0.14217,
+    0.93362
+   ]
+  },
+  {
+   "name": "metacarpal_index_l",
+   "parent": "hand_l",
+   "local_y": [
+    -0.00029,
+    0.96744,
+    -0.25311
+   ],
+   "local_z": [
+    0.00026,
+    0.25311,
+    0.96744
+   ]
+  },
+  {
+   "name": "index_01_l",
+   "parent": "metacarpal_index_l",
+   "local_y": [
+    0.19468,
+    0.9787,
+    0.06518
+   ],
+   "local_z": [
+    0.00062,
+    -0.06658,
+    0.99778
+   ]
+  },
+  {
+   "name": "index_02_l",
+   "parent": "index_01_l",
+   "local_y": [
+    0.00182,
+    1.0,
+    -0.0019
+   ],
+   "local_z": [
+    0.0,
+    0.0019,
+    1.0
+   ]
+  },
+  {
+   "name": "index_03_l",
+   "parent": "index_02_l",
+   "local_y": [
+    -0.00104,
+    0.99999,
+    0.00302
+   ],
+   "local_z": [
+    0.0,
+    -0.00302,
+    1.0
+   ]
+  },
+  {
+   "name": "metacarpal_middle_l",
+   "parent": "hand_l",
+   "local_y": [
+    0.00011,
+    0.99673,
+    -0.08079
+   ],
+   "local_z": [
+    0.00059,
+    0.08079,
+    0.99673
+   ]
+  },
+  {
+   "name": "middle_01_l",
+   "parent": "metacarpal_middle_l",
+   "local_y": [
+    0.22295,
+    0.96628,
+    -0.1288
+   ],
+   "local_z": [
+    0.02319,
+    0.12683,
+    0.99165
+   ]
+  },
+  {
+   "name": "middle_02_l",
+   "parent": "middle_01_l",
+   "local_y": [
+    -0.00159,
+    1.0,
+    -0.00011
+   ],
+   "local_z": [
+    0.0,
+    0.00011,
+    1.0
+   ]
+  },
+  {
+   "name": "middle_03_l",
+   "parent": "middle_02_l",
+   "local_y": [
+    0.00253,
+    1.0,
+    -0.00099
+   ],
+   "local_z": [
+    0.0,
+    0.00099,
+    1.0
+   ]
+  },
+  {
+   "name": "metacarpal_pinky_l",
+   "parent": "hand_l",
+   "local_y": [
+    -0.00073,
+    0.95296,
+    0.30311
+   ],
+   "local_z": [
+    -0.00044,
+    -0.30311,
+    0.95296
+   ]
+  },
+  {
+   "name": "pinky_01_l",
+   "parent": "metacarpal_pinky_l",
+   "local_y": [
+    0.47015,
+    0.74648,
+    -0.47089
+   ],
+   "local_z": [
+    0.08578,
+    0.49236,
+    0.86616
+   ]
+  },
+  {
+   "name": "pinky_02_l",
+   "parent": "pinky_01_l",
+   "local_y": [
+    0.00089,
+    1.0,
+    0.00149
+   ],
+   "local_z": [
+    0.0,
+    -0.00149,
+    1.0
+   ]
+  },
+  {
+   "name": "pinky_03_l",
+   "parent": "pinky_02_l",
+   "local_y": [
+    -0.00092,
+    0.99999,
+    0.00353
+   ],
+   "local_z": [
+    0.0,
+    -0.00353,
+    0.99999
+   ]
+  },
+  {
+   "name": "metacarpal_ring_l",
+   "parent": "hand_l",
+   "local_y": [
+    1e-05,
+    0.99562,
+    0.0935
+   ],
+   "local_z": [
+    0.00063,
+    -0.0935,
+    0.99562
+   ]
+  },
+  {
+   "name": "ring_01_l",
+   "parent": "metacarpal_ring_l",
+   "local_y": [
+    0.30377,
+    0.90814,
+    -0.2881
+   ],
+   "local_z": [
+    0.04401,
+    0.28869,
+    0.95641
+   ]
+  },
+  {
+   "name": "ring_02_l",
+   "parent": "ring_01_l",
+   "local_y": [
+    0.00012,
+    1.0,
+    -0.00136
+   ],
+   "local_z": [
+    0.0,
+    0.00136,
+    1.0
+   ]
+  },
+  {
+   "name": "ring_03_l",
+   "parent": "ring_02_l",
+   "local_y": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "local_z": [
+    0.0,
+    -0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "thumb_01_l",
+   "parent": "hand_l",
+   "local_y": [
+    0.15061,
+    0.56127,
+    -0.81382
+   ],
+   "local_z": [
+    0.98691,
+    -0.03731,
+    0.15691
+   ]
+  },
+  {
+   "name": "thumb_02_l",
+   "parent": "thumb_01_l",
+   "local_y": [
+    0.00029,
+    1.0,
+    0.00091
+   ],
+   "local_z": [
+    -0.0,
+    -0.00091,
+    1.0
+   ]
+  },
+  {
+   "name": "thumb_03_l",
+   "parent": "thumb_02_l",
+   "local_y": [
+    0.00158,
+    1.0,
+    -0.00174
+   ],
+   "local_z": [
+    0.0,
+    0.00174,
+    1.0
+   ]
+  },
+  {
+   "name": "shoulder_cap_l",
+   "parent": "scapula_l",
+   "local_y": [
+    -0.18803,
+    0.80481,
+    -0.56297
+   ],
+   "local_z": [
+    -0.43631,
+    0.44508,
+    0.78201
+   ]
+  },
+  {
+   "name": "muscle_lat_l",
+   "parent": "scapula_l",
+   "local_y": [
+    -0.13726,
+    -0.90754,
+    -0.39691
+   ],
+   "local_z": [
+    0.98267,
+    -0.07436,
+    -0.1698
+   ]
+  },
+  {
+   "name": "clavicle_r",
+   "parent": "spine_03",
+   "local_y": [
+    0.99288,
+    0.11851,
+    -0.0117
+   ],
+   "local_z": [
+    -0.11109,
+    0.95712,
+    0.26754
+   ]
+  },
+  {
+   "name": "scapula_r",
+   "parent": "clavicle_r",
+   "local_y": [
+    -0.21944,
+    -0.49784,
+    -0.83905
+   ],
+   "local_z": [
+    -0.91413,
+    -0.19558,
+    0.35512
+   ]
+  },
+  {
+   "name": "upperarm_r",
+   "parent": "scapula_r",
+   "local_y": [
+    0.52739,
+    0.71514,
+    -0.45873
+   ],
+   "local_z": [
+    0.33908,
+    0.3179,
+    0.88542
+   ]
+  },
+  {
+   "name": "forearm_r",
+   "parent": "upperarm_r",
+   "local_y": [
+    0.39081,
+    0.84706,
+    -0.36022
+   ],
+   "local_z": [
+    0.11095,
+    0.34514,
+    0.93197
+   ]
+  },
+  {
+   "name": "forearm_tw0_r",
+   "parent": "forearm_r",
+   "local_y": [
+    0.0,
+    1.0,
+    -0.0
+   ],
+   "local_z": [
+    0.0,
+    -0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "forearm_tw1_r",
+   "parent": "forearm_r",
+   "local_y": [
+    6e-05,
+    1.0,
+    0.00066
+   ],
+   "local_z": [
+    -0.0,
+    -0.00066,
+    1.0
+   ]
+  },
+  {
+   "name": "hand_r",
+   "parent": "forearm_r",
+   "local_y": [
+    -0.32714,
+    0.91928,
+    0.21886
+   ],
+   "local_z": [
+    -0.28766,
+    -0.31749,
+    0.90358
+   ]
+  },
+  {
+   "name": "metacarpal_index_r",
+   "parent": "hand_r",
+   "local_y": [
+    0.00179,
+    0.96702,
+    -0.25469
+   ],
+   "local_z": [
+    9e-05,
+    0.25469,
+    0.96702
+   ]
+  },
+  {
+   "name": "index_01_r",
+   "parent": "metacarpal_index_r",
+   "local_y": [
+    -0.14724,
+    0.98904,
+    -0.01088
+   ],
+   "local_z": [
+    -0.00211,
+    0.01069,
+    0.99994
+   ]
+  },
+  {
+   "name": "index_02_r",
+   "parent": "index_01_r",
+   "local_y": [
+    0.00107,
+    1.0,
+    -0.0011
+   ],
+   "local_z": [
+    0.0,
+    0.0011,
+    1.0
+   ]
+  },
+  {
+   "name": "index_03_r",
+   "parent": "index_02_r",
+   "local_y": [
+    0.00039,
+    0.99999,
+    0.00466
+   ],
+   "local_z": [
+    -0.0,
+    -0.00466,
+    0.99999
+   ]
+  },
+  {
+   "name": "metacarpal_middle_r",
+   "parent": "hand_r",
+   "local_y": [
+    0.00123,
+    0.99674,
+    -0.08069
+   ],
+   "local_z": [
+    0.0003,
+    0.08069,
+    0.99674
+   ]
+  },
+  {
+   "name": "middle_01_r",
+   "parent": "metacarpal_middle_r",
+   "local_y": [
+    -0.15861,
+    0.96431,
+    -0.212
+   ],
+   "local_z": [
+    -0.0235,
+    0.21097,
+    0.97721
+   ]
+  },
+  {
+   "name": "middle_02_r",
+   "parent": "middle_01_r",
+   "local_y": [
+    0.00137,
+    1.0,
+    -0.00045
+   ],
+   "local_z": [
+    0.0,
+    0.00045,
+    1.0
+   ]
+  },
+  {
+   "name": "middle_03_r",
+   "parent": "middle_02_r",
+   "local_y": [
+    -0.00295,
+    1.0,
+    0.00063
+   ],
+   "local_z": [
+    -0.0,
+    -0.00063,
+    1.0
+   ]
+  },
+  {
+   "name": "metacarpal_pinky_r",
+   "parent": "hand_r",
+   "local_y": [
+    0.00103,
+    0.95317,
+    0.30244
+   ],
+   "local_z": [
+    -0.0007,
+    -0.30244,
+    0.95317
+   ]
+  },
+  {
+   "name": "pinky_01_r",
+   "parent": "metacarpal_pinky_r",
+   "local_y": [
+    -0.36701,
+    0.77422,
+    -0.51564
+   ],
+   "local_z": [
+    -0.07717,
+    0.52708,
+    0.84631
+   ]
+  },
+  {
+   "name": "pinky_02_r",
+   "parent": "pinky_01_r",
+   "local_y": [
+    -0.00075,
+    1.0,
+    -0.00186
+   ],
+   "local_z": [
+    -0.0,
+    0.00186,
+    1.0
+   ]
+  },
+  {
+   "name": "pinky_03_r",
+   "parent": "pinky_02_r",
+   "local_y": [
+    -0.00018,
+    1.0,
+    -0.00202
+   ],
+   "local_z": [
+    -0.0,
+    0.00202,
+    1.0
+   ]
+  },
+  {
+   "name": "metacarpal_ring_r",
+   "parent": "hand_r",
+   "local_y": [
+    0.00255,
+    0.99571,
+    0.09247
+   ],
+   "local_z": [
+    -0.00036,
+    -0.09247,
+    0.99572
+   ]
+  },
+  {
+   "name": "ring_01_r",
+   "parent": "metacarpal_ring_r",
+   "local_y": [
+    -0.23088,
+    0.90828,
+    -0.3489
+   ],
+   "local_z": [
+    -0.04385,
+    0.34851,
+    0.93628
+   ]
+  },
+  {
+   "name": "ring_02_r",
+   "parent": "ring_01_r",
+   "local_y": [
+    0.00013,
+    1.0,
+    -0.00094
+   ],
+   "local_z": [
+    0.0,
+    0.00094,
+    1.0
+   ]
+  },
+  {
+   "name": "ring_03_r",
+   "parent": "ring_02_r",
+   "local_y": [
+    0.00105,
+    1.0,
+    0.00289
+   ],
+   "local_z": [
+    -0.0,
+    -0.00289,
+    1.0
+   ]
+  },
+  {
+   "name": "thumb_01_r",
+   "parent": "hand_r",
+   "local_y": [
+    -0.15123,
+    0.49918,
+    -0.8532
+   ],
+   "local_z": [
+    -0.9879,
+    -0.04635,
+    0.148
+   ]
+  },
+  {
+   "name": "thumb_02_r",
+   "parent": "thumb_01_r",
+   "local_y": [
+    0.00282,
+    0.99999,
+    0.00355
+   ],
+   "local_z": [
+    -1e-05,
+    -0.00355,
+    0.99999
+   ]
+  },
+  {
+   "name": "thumb_03_r",
+   "parent": "thumb_02_r",
+   "local_y": [
+    -0.00211,
+    0.99999,
+    -0.00378
+   ],
+   "local_z": [
+    -0.0,
+    0.00378,
+    0.99999
+   ]
+  },
+  {
+   "name": "shoulder_cap_r",
+   "parent": "scapula_r",
+   "local_y": [
+    0.18748,
+    0.80589,
+    -0.56159
+   ],
+   "local_z": [
+    0.43557,
+    0.44424,
+    0.7829
+   ]
+  },
+  {
+   "name": "muscle_lat_r",
+   "parent": "scapula_r",
+   "local_y": [
+    0.1165,
+    -0.90978,
+    -0.39841
+   ],
+   "local_z": [
+    -0.98056,
+    -0.04159,
+    -0.19176
+   ]
+  },
+  {
+   "name": "neck",
+   "parent": "spine_03",
+   "local_y": [
+    0.0,
+    0.98777,
+    0.15593
+   ],
+   "local_z": [
+    0.0,
+    -0.15593,
+    0.98777
+   ]
+  },
+  {
+   "name": "head",
+   "parent": "neck",
+   "local_y": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "local_z": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "muscle_trap_l",
+   "parent": "neck",
+   "local_y": [
+    -0.77901,
+    -0.49966,
+    0.37879
+   ],
+   "local_z": [
+    -0.62658,
+    0.5979,
+    -0.49991
+   ]
+  },
+  {
+   "name": "muscle_trap_r",
+   "parent": "neck",
+   "local_y": [
+    0.77068,
+    -0.50326,
+    0.39088
+   ],
+   "local_z": [
+    0.63674,
+    0.58425,
+    -0.5032
+   ]
+  },
+  {
+   "name": "muscle_pec_l",
+   "parent": "spine_03",
+   "local_y": [
+    -0.98452,
+    0.02006,
+    -0.17409
+   ],
+   "local_z": [
+    -0.0062,
+    0.98882,
+    0.14898
+   ]
+  },
+  {
+   "name": "muscle_pec_r",
+   "parent": "spine_03",
+   "local_y": [
+    0.98552,
+    0.0235,
+    -0.16793
+   ],
+   "local_z": [
+    0.00249,
+    0.98824,
+    0.15288
+   ]
+  },
+  {
+   "name": "arm_ref_r",
+   "parent": "spine_03",
+   "local_y": [
+    0.0,
+    -0.98777,
+    -0.15593
+   ],
+   "local_z": [
+    0.0,
+    0.15593,
+    -0.98777
+   ]
+  },
+  {
+   "name": "scap_glide_r",
+   "parent": "spine_03",
+   "local_y": [
+    -0.49245,
+    -0.10849,
+    0.86355
+   ],
+   "local_z": [
+    0.01353,
+    0.99113,
+    0.13223
+   ]
+  },
+  {
+   "name": "arm_ref_l",
+   "parent": "spine_03",
+   "local_y": [
+    0.0,
+    -0.98777,
+    -0.15593
+   ],
+   "local_z": [
+    0.0,
+    0.15593,
+    -0.98777
+   ]
+  },
+  {
+   "name": "scap_glide_l",
+   "parent": "spine_03",
+   "local_y": [
+    0.47303,
+    -0.14726,
+    0.86865
+   ],
+   "local_z": [
+    0.00445,
+    0.98632,
+    0.16479
+   ]
+  },
+  {
+   "name": "thigh_l",
+   "parent": "pelvis",
+   "local_y": [
+    -0.1159,
+    -0.98737,
+    -0.10804
+   ],
+   "local_z": [
+    -0.01592,
+    0.11061,
+    -0.99374
+   ]
+  },
+  {
+   "name": "shin_l",
+   "parent": "thigh_l",
+   "local_y": [
+    0.02369,
+    0.99953,
+    -0.01939
+   ],
+   "local_z": [
+    0.02021,
+    0.01891,
+    0.99962
+   ]
+  },
+  {
+   "name": "foot_l",
+   "parent": "shin_l",
+   "local_y": [
+    -0.08401,
+    0.36187,
+    -0.92844
+   ],
+   "local_z": [
+    -0.00103,
+    0.9317,
+    0.36323
+   ]
+  },
+  {
+   "name": "toe_l",
+   "parent": "foot_l",
+   "local_y": [
+    -0.03199,
+    0.96713,
+    -0.25228
+   ],
+   "local_z": [
+    0.00024,
+    0.25242,
+    0.96762
+   ]
+  },
+  {
+   "name": "thigh_r",
+   "parent": "pelvis",
+   "local_y": [
+    0.11418,
+    -0.98835,
+    -0.10068
+   ],
+   "local_z": [
+    0.01696,
+    0.10326,
+    -0.99451
+   ]
+  },
+  {
+   "name": "shin_r",
+   "parent": "thigh_r",
+   "local_y": [
+    -0.02628,
+    0.99954,
+    -0.01536
+   ],
+   "local_z": [
+    -0.0208,
+    0.01482,
+    0.99967
+   ]
+  },
+  {
+   "name": "foot_r",
+   "parent": "shin_r",
+   "local_y": [
+    0.18793,
+    0.37971,
+    -0.90581
+   ],
+   "local_z": [
+    -0.00026,
+    0.92227,
+    0.38656
+   ]
+  },
+  {
+   "name": "toe_r",
+   "parent": "foot_r",
+   "local_y": [
+    -0.04347,
+    0.95132,
+    -0.30513
+   ],
+   "local_z": [
+    -9e-05,
+    0.30541,
+    0.95222
+   ]
+  },
+  {
+   "name": "hip_crease_l",
+   "parent": "pelvis",
+   "local_y": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "local_z": [
+    0.0,
+    0.0,
+    -1.0
+   ]
+  },
+  {
+   "name": "hip_crease_r",
+   "parent": "pelvis",
+   "local_y": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "local_z": [
+    0.0,
+    0.0,
+    -1.0
+   ]
+  }
+ ]
+}
